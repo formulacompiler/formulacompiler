@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>peo</Author>
+  <LastAuthor>peo</LastAuthor>
+  <Created>2006-03-21T14:57:31Z</Created>
+  <LastSaved>2006-03-21T16:20:20Z</LastSaved>
+  <Company>arrenbrecht.ch</Company>
+  <Version>11.6568</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>16230</WindowHeight>
+  <WindowWidth>28620</WindowWidth>
+  <WindowTopX>120</WindowTopX>
+  <WindowTopY>60</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+ </Styles>
+ <Names>
+  <NamedRange ss:Name="IA" ss:RefersTo="=Sheet1!R4C2"/>
+  <NamedRange ss:Name="IB" ss:RefersTo="=Sheet1!R8C2"/>
+  <NamedRange ss:Name="IC" ss:RefersTo="=Sheet1!R9C2"/>
+  <NamedRange ss:Name="Range" ss:RefersTo="=Sheet1!R6C2:R11C2"/>
+  <NamedRange ss:Name="Result" ss:RefersTo="=Sheet1!R2C2"/>
+ </Names>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="2" ss:ExpandedRowCount="11" x:FullColumns="1"
+   x:FullRows="1">
+   <Row ss:Index="2">
+    <Cell><Data ss:Type="String">Result</Data></Cell>
+    <Cell ss:Formula="=INDEX(Range,A)"><Data ss:Type="Error">#NAME?</Data><NamedCell
+      ss:Name="Result"/></Cell>
+   </Row>
+   <Row ss:Index="4">
+    <Cell><Data ss:Type="String">Index (A)</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data><NamedCell ss:Name="IA"/></Cell>
+   </Row>
+   <Row ss:Index="6">
+    <Cell><Data ss:Type="String">Range</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data><NamedCell ss:Name="Range"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">6</Data><NamedCell ss:Name="Range"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">B</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data><NamedCell ss:Name="IB"/><NamedCell
+      ss:Name="Range"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">C</Data></Cell>
+    <Cell><Data ss:Type="Number">8</Data><NamedCell ss:Name="IC"/><NamedCell
+      ss:Name="Range"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">9</Data><NamedCell ss:Name="Range"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">10</Data><NamedCell ss:Name="Range"/></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Selected/>
+   <DisplayFormulas/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>3</ActiveRow>
+     <ActiveCol>1</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Sheet2">
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Sheet3">
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

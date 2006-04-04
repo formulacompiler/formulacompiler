@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="sej" default="build" basedir="." xmlns:cs="antlib:com.puppycrawl.tools.checkstyle">
+	<description>Builds, tests, and runs the project SEJ.</description>
+
+	<property name="Name" value="SEJ" />
+	<property name="name" value="sej" />
+	<property name="dist.version" value="0.3.2" />
+
+	<property name="src.dir" location="${basedir}/src" />
+	<property name="lib.dir" location="${basedir}/lib" />
+	<property name="conf.dir" location="${basedir}/conf" />
+	<property name="doc.dir" location="${basedir}/doc" />
+	<property name="src.classes.dir" location="${src.dir}/classes" />
+	<property name="src.classes.gen.dir" location="${src.dir}/classes-gen" />
+	<property name="src.test-unit.dir" location="${src.dir}/test-unit" />
+	<property name="src.test-system.dir" location="${src.dir}/test-system" />
+	<property name="src.examples.dir" location="${src.dir}/examples" />
+	<property name="src.doc.dir" location="${src.dir}/doc" />
+
+	<!-- Targets -->
+
+	<property name="build.dir" location="${basedir}/build" />
+	<property name="build.classes.dir" location="${build.dir}/classes" />
+	<property name="build.classes14.dir" location="${build.dir}/classes14" />
+	<property name="build.test-unit.dir" location="${build.dir}/test-unit" />
+	<property name="build.test-unit14.dir" location="${build.dir}/test-unit14" />
+	<property name="build.test-system.dir" location="${build.dir}/test-system" />
+	<property name="build.test-system14.dir" location="${build.dir}/test-system14" />
+	<property name="build.examples.dir" location="${build.dir}/examples" />
+	<property name="dist.dir" location="${basedir}/dist" />
+
+	<property name="jar.file" location="${build.dir}/${name}.jar" />
+	<property name="jar14.file" location="${build.dir}/${name}-jre1.4.jar" />
+	<property name="jar.runtime.file" location="${build.dir}/${name}-runtime.jar" />
+	<property name="jar14.runtime.file" location="${build.dir}/${name}-runtime-jre1.4.jar" />
+	<!-- <property name="jar.manifest" location="${src.classes.dir}/manifest.mf" /> -->
+
+	<property name="javadoc.dir" location="${doc.dir}/javadoc" />
+	<property name="javadoc.packages" value="sej.*" />
+
+	<path id="build.classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+		<fileset dir="${lib.dir}/build-only" includes="**/*.jar" />
+	</path>
+	<property name="build.classpath" refid="build.classpath" />
+
+	<path id="lib.classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+	</path>
+	<property name="lib.classpath" refid="lib.classpath" />
+
+	<property file="build.conf" />
+
+	<!-- ================================================================= -->
+	<!-- prepare:                                                          -->
+	<!-- Sets up directories and such for compilation                      -->
+	<!-- ================================================================= -->
+
+	<target name="prepare">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.classes.dir}" />
+		<mkdir dir="${build.classes14.dir}" />
+
+		<path id="run.classpath">
+			<pathelement location="${conf.dir}" />
+			<pathelement location="${build.classes.dir}" />
+			<fileset dir="${lib.dir}" includes="**/*.jar" />
+		</path>
+		<property name="run.classpath" refid="run.classpath" />
+
+		<path id="test.classpath">
+			<pathelement location="${build.test-unit.dir}" />
+			<pathelement location="${build.test-system.dir}" />
+			<path refid="run.classpath" />
+		</path>
+		<property name="test.classpath" refid="test.classpath" />
+
+		<path id="examples.classpath">
+			<pathelement location="${build.examples.dir}" />
+			<path refid="run.classpath" />
+		</path>
+		<property name="examples.classpath" refid="examples.classpath" />
+
+		<tstamp>
+			<format property="timestamp" pattern="yyyy/MM/dd HH:mm:ss z" locale="en" />
+		</tstamp>
+		<property name="dist.version.long" value="${dist.version} [${timestamp}]" />
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- generate:                                                         -->
+	<!-- Generates source code                                             -->
+	<!-- ================================================================= -->
+
+	<taskdef classname="JFlex.anttask.JFlexTask" name="jflex" classpath="${build.classpath}" />
+	<taskdef classname="java_cup.AntTask" name="cup" classpath="${build.classpath}" />
+
+	<target name="lex" depends="prepare">
+		<jflex file="${src.classes.dir}/sej/loader/excel/ExcelExpressionScanner.lex" destdir="${src.classes.gen.dir}" />
+	</target>
+
+	<target name="cup" depends="prepare, lex">
+		<cup file="${src.classes.dir}/sej/loader/excel/ExcelExpressionParser.cup" dir="${src.classes.gen.dir}/sej/loader/excel" />
+	</target>
+
+	<target name="generate" depends="lex, cup">
+		<mkdir dir="${src.classes.gen.dir}" />
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- compile:                                                          -->
+	<!-- Compiles the source code                                          -->
+	<!-- ================================================================= -->
+
+	<target name="compile" depends="prepare, generate" description="Compiles the source code">
+
+		<javac srcdir="${src.classes.dir}:${src.classes.gen.dir}" destdir="${build.classes.dir}" classpath="${build.classpath}" debug="true" deprecation="on">
+			<include name="sej/**" />
+		</javac>
+
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- build:                                                            -->
+	<!-- The default target                                                -->
+	<!-- ================================================================= -->
+
+	<target name="build" depends="jar,compile-tests,compile-examples" description="Builds the library target (default)">
+
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- validate:                                                         -->
+	<!-- Validates source code                                             -->
+	<!-- ================================================================= -->
+
+	<target name="validate" depends="prepare, dependencies, style" description="Validates source">
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- dependencies:                                                     -->
+	<!-- Checks component dependencies                                     -->
+	<!-- ================================================================= -->
+
+	<path id="macker.classpath">
+		<fileset dir="J:/macker-0.4.2/lib" />
+		<fileset dir="J:/macker-0.4.2/build" />
+	</path>
+
+	<taskdef name="macker" classname="net.innig.macker.ant.MackerAntTask" classpathref="macker.classpath" />
+
+	<target name="dependencies" depends="prepare, compile">
+		<macker>
+			<rules dir="${src.dir}" includes="macker-rules.xml" />
+			<classes dir="${build.classes.dir}">
+				<include name="**/*.class" />
+				<exclude name="**/CUP*.class" />
+			</classes>
+		</macker>
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- style:                                                            -->
+	<!-- Runs checkstyle                                                   -->
+	<!-- ================================================================= -->
+
+	<target name="style" depends="prepare" description="Runs checkstyle">
+		<cs:checkstyle config="${src.dir}\checkstyle-config.xml">
+			<property key="checkstyle.header.file" file="${src.dir}\copyright-header.txt" />
+			<fileset dir="${src.classes.dir}">
+				<include name="**/*.java" />
+			</fileset>
+			<fileset dir="${src.test-unit.dir}">
+				<include name="**/*.java" />
+			</fileset>
+			<fileset dir="${src.test-system.dir}">
+				<include name="**/*.java" />
+			</fileset>
+			<fileset dir="${src.examples.dir}">
+				<include name="**/*.java" />
+			</fileset>
+		</cs:checkstyle>
+	</target>
+
+
+
+	<!-- ================================================================= -->
+	<!-- jar:                                                              -->
+	<!-- Creates jar file                                                  -->
+	<!-- ================================================================= -->
+
+	<target name="jar" depends="validate, compile" description="Creates a jar file">
+
+		<delete file="${jar.file}" />
+		<jar jarfile="${jar.file}" compress="true">
+			<fileset dir="${build.classes.dir}" />
+		</jar>
+
+		<delete file="${jar.runtime.file}" />
+		<jar jarfile="${jar.runtime.file}" compress="true">
+			<fileset dir="${build.classes.dir}">
+				<include name="sej/Engine*.class" />
+				<include name="sej/CallFrame.class" />
+				<include name="sej/describable/*.class" />
+				<include name="sej/engine/Runtime_v1.class" />
+				<include name="sej/engine/bytecode/*.class" />
+				<include name="sej/engine/standard/*.class" />
+			</fileset>
+		</jar>
+
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- jar14:                                                            -->
+	<!-- Build retrofitted version                                         -->
+	<!-- ================================================================= -->
+
+	<target name="jar14" depends="jar" description="Retrofits the compiled code for Java 1.4">
+
+		<delete file="${jar14.file}" />
+		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${build.classpath}" failonerror="yes">
+			<arg value="-srcjar" />
+			<arg file="${jar.file}" />
+			<arg value="-srcjar" />
+			<arg file="${lib.dir}/build-only/retrotranslator-runtime-1.0.2.jar" />
+			<arg value="-destjar" />
+			<arg file="${jar14.file}" />
+			<arg value="-stripsign" />
+			<arg value="-lazy" />
+			<arg value="-verify" />
+			<arg value="-classpath" />
+			<arg value="${jar14.file}" />
+			<arg value="-classpath" />
+			<arg value="${lib.classpath}" />
+			<arg value="-classpath" />
+			<arg value="${lib.dir}/build-only/backport-util-concurrent.jar" />
+			<arg value="-classpath" />
+			<arg value="${java14.home.dir}/lib/rt.jar" />
+		</java>
+
+		<delete file="${jar14.runtime.file}" />
+		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${build.classpath}" failonerror="yes">
+			<arg value="-srcjar" />
+			<arg file="${jar.runtime.file}" />
+			<arg value="-srcjar" />
+			<arg file="${lib.dir}/build-only/retrotranslator-runtime-1.0.2.jar" />
+			<arg value="-destjar" />
+			<arg file="${jar14.runtime.file}" />
+			<arg value="-stripsign" />
+			<arg value="-lazy" />
+			<arg value="-verify" />
+			<arg value="-classpath" />
+			<arg value="${jar14.runtime.file}" />
+			<arg value="-classpath" />
+			<arg value="${lib.dir}/build-only/backport-util-concurrent.jar" />
+			<arg value="-classpath" />
+			<arg value="${java14.home.dir}/lib/rt.jar" />
+			<arg value="-classpath" />
+			<arg file="${java14.home.dir}/lib/rt.jar" />
+		</java>
+
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- test:                                                             -->
+	<!-- Runs JUnit test suites                                            -->
+	<!-- ================================================================= -->
+
+	<target name="compile-tests" depends="prepare, compile">
+
+		<mkdir dir="${build.test-unit.dir}" />
+		<mkdir dir="${build.test-system.dir}" />
+
+		<javac srcdir="${src.test-unit.dir}" destdir="${build.test-unit.dir}" classpath="${test.classpath}" debug="true" deprecation="on">
+			<include name="sej/**" />
+		</javac>
+		<javac srcdir="${src.test-system.dir}" destdir="${build.test-system.dir}" classpath="${test.classpath}" debug="true" deprecation="on">
+			<include name="sej/**" />
+		</javac>
+	</target>
+
+	<target name="test" depends="compile-tests" description="Runs JUnit test suites">
+
+		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${test.classpath}" />
+
+		<junit printsummary="yes" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir=".">
+
+			<formatter type="plain" usefile="no" />
+			<classpath refid="test.classpath" />
+
+			<batchtest>
+				<fileset dir="${build.test-unit.dir}">
+					<include name="**/*Test.class" />
+					<exclude name="**/Abstract*" />
+				</fileset>
+				<fileset dir="${build.test-system.dir}">
+					<include name="**/*.class" />
+					<exclude name="**/Abstract*" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- test14:                                                           -->
+	<!-- Runs JUnit test suites using JRE 1.4                              -->
+	<!-- ================================================================= -->
+
+	<target name="compile-tests14" depends="compile-tests">
+
+		<mkdir dir="${build.test-unit14.dir}" />
+		<mkdir dir="${build.test-system14.dir}" />
+
+		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${build.classpath}" failonerror="yes">
+			<arg value="-srcdir" />
+			<arg path="${build.test-unit.dir}" />
+			<arg value="-destdir" />
+			<arg path="${build.test-unit14.dir}" />
+			<arg value="-stripsign" />
+			<arg value="-lazy" />
+		</java>
+
+		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${build.classpath}" failonerror="yes">
+			<arg value="-srcdir" />
+			<arg path="${build.test-system.dir}" />
+			<arg value="-destdir" />
+			<arg path="${build.test-system14.dir}" />
+			<arg value="-stripsign" />
+			<arg value="-lazy" />
+		</java>
+	</target>
+
+	<target name="test14" depends="prepare, jar14, compile-tests14" description="Runs JUnit test suites">
+
+		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${test.classpath14}" />
+
+		<junit printsummary="yes" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" jvm="${java14.home.dir}\bin\java" dir=".">
+
+			<formatter type="plain" usefile="no" />
+			<classpath>
+				<path refid="build.classpath" />
+				<pathelement path="${build.test-unit14.dir}" />
+				<pathelement path="${build.test-system14.dir}" />
+				<pathelement location="${jar14.file}" />
+			</classpath>
+
+			<batchtest>
+				<fileset dir="${build.test-unit14.dir}">
+					<include name="**/*Test.class" />
+					<exclude name="**/Abstract*" />
+				</fileset>
+				<fileset dir="${build.test-system14.dir}">
+					<include name="**/*Test.class" />
+					<exclude name="**/Abstract*" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- examples:                                                         -->
+	<!-- Compiles examples                                                 -->
+	<!-- ================================================================= -->
+
+	<target name="compile-examples" depends="prepare, compile">
+
+		<mkdir dir="${build.examples.dir}" />
+
+		<javac srcdir="${src.examples.dir}" destdir="${build.examples.dir}" classpath="${examples.classpath}" debug="true" deprecation="on">
+			<include name="**" />
+		</javac>
+	</target>
+
+	<target name="examples" depends="compile-examples" description="Compiles examples">
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- javadoc:                                                          -->
+	<!-- Generates javadoc                                                 -->
+	<!-- ================================================================= -->
+
+	<target name="javadoc" description="Builds javadoc" depends="prepare, doc">
+
+		<property name="javadoc.title" value="${Name} API ${dist.version.long}" />
+		<delete dir="${javadoc.dir}" />
+		<mkdir dir="${javadoc.dir}" />
+		<javadoc sourcepath="${src.classes.dir}" destdir="${javadoc.dir}" packagenames="${javadoc.packages}" public="true" windowtitle="${javadoc.title}" use="true">
+			<classpath refid="build.classpath" />
+			<link href="http://java.sun.com/j2se/1.5/docs/api/" />
+		</javadoc>
+		<copy todir="${javadoc.dir}">
+			<fileset dir="${src.classes.dir}">
+				<include name="**/*.gif" />
+				<include name="**/*.jpeg" />
+				<include name="**/*.jpg" />
+				<include name="**/*.png" />
+				<include name="**/*.pdf" />
+				<include name="**/*.svg" />
+			</fileset>
+		</copy>
+
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- doc:                                                              -->
+	<!-- Generates documentation                                           -->
+	<!-- ================================================================= -->
+
+	<target name="doc" description="Builds documentation" depends="prepare, examples">
+
+		<delete dir="${doc.dir}" />
+		<mkdir dir="${doc.dir}" />
+		<copy todir="${doc.dir}">
+			<fileset dir="${src.doc.dir}">
+				<include name="**/*.gif" />
+				<include name="**/*.jpeg" />
+				<include name="**/*.jpg" />
+				<include name="**/*.png" />
+				<include name="**/*.pdf" />
+				<include name="**/*.svg" />
+				<include name="**/*.html" />
+				<include name="**/*.htm" />
+				<include name="**/*.css" />
+			</fileset>
+		</copy>
+
+		<java classname="ch.arrenbrecht.jcite.JCite" classpath="${build.classpath}" failonerror="yes">
+			<arg value="-sp" />
+			<arg path="${src.examples.dir}" />
+			<arg value="-sp" />
+			<arg path="${src.test-system.dir}" />
+			<arg value="-i" />
+			<arg file="${src.doc.dir}/design.htm" />
+			<arg value="-o" />
+			<arg file="${doc.dir}/design.htm" />
+		</java>
+
+		<replace dir="${doc.dir}">
+			<include name="**/*.htm" />
+			<replacetoken>
+				<![CDATA[<a href="../index.htm">arrenbrecht.ch</a>]]>
+			</replacetoken>
+			<replacevalue>
+				<![CDATA[<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a>]]>
+			</replacevalue>
+		</replace>
+
+		<replace dir="${doc.dir}">
+			<include name="**/*.htm" />
+			<replacetoken>
+				<![CDATA[<a href="../../index.htm">arrenbrecht.ch</a>]]>
+			</replacetoken>
+			<replacevalue>
+				<![CDATA[<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a>]]>
+			</replacevalue>
+		</replace>
+
+		<replace dir="${doc.dir}">
+			<include name="**/*.htm" />
+			<replacetoken>
+				<![CDATA[<a href="../../../index.htm">arrenbrecht.ch</a>]]>
+			</replacetoken>
+			<replacevalue>
+				<![CDATA[<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a>]]>
+			</replacevalue>
+		</replace>
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- clean:                                                            -->
+	<!-- Removes all build files                                           -->
+	<!-- ================================================================= -->
+
+	<target name="clean" description="Removes all build files">
+		<delete dir="${doc.dir}" />
+		<delete dir="${build.classes.dir}" />
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+		<delete dir="${src.classes.gen.dir}" />
+		<mkdir dir="${src.classes.gen.dir}" />
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- dist:                                                             -->
+	<!-- Package distribution version                                      -->
+	<!-- ================================================================= -->
+
+	<target name="dist" depends="clean,compile,validate,jar,doc,javadoc,test,jar14,test14,examples" description="Builds distribution">
+		<echo>Bundling dist: ${dist.version.long}</echo>
+		<property name="dist.name" value="${name}-${dist.version}" />
+		<property name="dist.file" value="${dist.dir}/${dist.name}" />
+
+		<property name="dist.tmp.dir" value="${dist.dir}/tmp" />
+		<property name="dist.staging.dir" value="${dist.tmp.dir}/${dist.name}" />
+
+		<!-- binary -->
+		<delete dir="${dist.tmp.dir}" />
+		<mkdir dir="${dist.staging.dir}" />
+		<copy todir="${dist.staging.dir}">
+			<fileset dir="${basedir}">
+				<include name="lib/*" />
+				<include name="build/*.jar" />
+				<include name="*.html" />
+				<include name="*.css" />
+				<include name="doc/**" />
+				<exclude name="**/.DS_Store" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.staging.dir}" overwrite="yes">
+			<filterset>
+				<filter token="dist.version" value="${dist.version}" />
+				<filter token="dist.version.long" value="${dist.version.long}" />
+			</filterset>
+			<fileset dir="${basedir}" includes="README.html" />
+		</copy>
+		<tar basedir="${dist.tmp.dir}" destfile="${dist.file}-bin.tar.gz" compression="gzip" longfile="gnu" />
+		<zip basedir="${dist.tmp.dir}" destfile="${dist.file}-bin.zip" filesonly="no" />
+
+		<!-- source -->
+		<delete dir="${dist.tmp.dir}" />
+		<mkdir dir="${dist.staging.dir}" />
+		<copy todir="${dist.staging.dir}">
+			<fileset dir="${basedir}">
+				<include name="lib/*" />
+				<include name="lib/build-only/*" />
+				<include name="*.html" />
+				<include name="*.css" />
+				<include name="src/**" />
+				<include name="build.xml" />
+				<exclude name="**/.DS_Store" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.staging.dir}" overwrite="yes">
+			<filterset>
+				<filter token="dist.version" value="${dist.version}" />
+				<filter token="dist.version.long" value="${dist.version.long}" />
+			</filterset>
+			<fileset dir="${basedir}" includes="README.html" />
+		</copy>
+		<tar basedir="${dist.tmp.dir}" destfile="${dist.file}-src.tar.gz" compression="gzip" longfile="gnu" />
+		<zip basedir="${dist.tmp.dir}" destfile="${dist.file}-src.zip" filesonly="no" />
+
+		<delete dir="${dist.tmp.dir}" />
+	</target>
+
+</project>

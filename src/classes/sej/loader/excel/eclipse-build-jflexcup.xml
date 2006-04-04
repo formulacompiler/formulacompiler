@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ExcelExpressionParser" default="all">
+
+	<taskdef classname="JFlex.anttask.JFlexTask" name="jflex" />
+	<taskdef classname="java_cup.AntTask" name="cup" />
+
+	<target name="lex">
+		<jflex file="classes/sej/loader/excel/ExcelExpressionScanner.lex"
+			destdir="classes-gen"/>
+	</target>
+
+	<target name="cup">
+		<cup file="classes/sej/loader/excel/ExcelExpressionParser.cup" dir="classes-gen/sej/loader/excel/" />
+	</target>
+
+	<target name="all" depends="lex,cup">
+	</target>
+
+</project>
