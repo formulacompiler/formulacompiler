@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Release Notes - arrenbrecht.ch</title>
+    <style type="text/css" media="screen">
+        @import "../style.css";
+	
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+	
+</head>
+<body>
+    <div class="all">
+        <div class="nav">
+            <p class="nav">
+<a href="../index.htm">arrenbrecht.ch</a> &gt;
+<a href="index.htm">SEJ</a> &gt;
+
+
+			</p>
+        </div>
+        <div class="title">
+            <p class="nofirefox">
+                This site displays best on <a href="http://www.mozilla.com/">Firefox</a>.</p>
+            <h1>
+                Release Notes</h1>
+        </div>
+        
+        
+        <div class="content">
+        
+
+<h2>Release 0.3.1</h2>
+<p>This minor release changes the name <tt>Compiler.NameSpace</tt> to <tt>Compiler.Section</tt>. Since we are no longer binding by name, the term <em>NameSpace</em> is no longer appropriate.</p>
+<p>In addition <tt>Compiler.getRootNameSpace()</tt> has been shortened to <tt>Compiler.getRoot()</tt>.</p>
+
+<h2>Release 0.3.0</h2>
+<p>This is the first release with the new API based on <a href="tutorial/binding.htm">binding cells to native types</a>. The interpreter has been dropped and replaced by a byte code compiler producing very fast code.</p>
+
+<h3>Limitations</h3>
+<ul class="spaced">
+<li>Excel .xml support is still limited.</li>
+<li>OpenOffice Calc ist not supported at all yet.</li>
+<li>SEJ currently supports only the basic numeric operators (<tt>+</tt>, <tt>-</tt>, <tt>*</tt>, <tt>/</tt>, <tt>%</tt>, <tt>^</tt>), <tt>SUM</tt>, <tt>MIN</tt>, <tt>MAX</tt>, <tt>AVERAGE</tt>, <tt>PRODUCT</tt>, <tt>IF</tt>, <tt>ROUND</tt>. A good overview of the supported functionality can be gained from this <a href="dist/Tests.xls">file of test cases</a>.</li>
+<li>Subsections of varying width or height are not handled by the compiler yet. Support for <a href="tutorial/binding.htm#BindRepeatingSections">defining them</a> is already in place.</li>
+<li><tt>IF</tt> is only supported for arguments that are direct comparisons, not arbitrary boolean expressions.</li>
+<li>You cannot bind to rightmost or bottommost cells that have no value (because Excel does not save them).</li>
+<li>Only <tt>double</tt>- and <tt>Date</tt>- valued computations are supported. In particular, there is no support for <tt>null</tt>.</li>
+<li>The compiler cannot handle <a href="tutorial/binding.htm#BindByName">parametrized outputs</a> yet.</li>
+<li>The interactive demo is broken (because of the missing parametrized outputs).</li>
+</ul>        </div>
+        <div class="footer">
+<p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
+<br/>Last updated on 28.03.2006.</p>        </div>
+    </div>
+</body>
+</html>

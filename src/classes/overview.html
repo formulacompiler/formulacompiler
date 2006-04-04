@@ -1,0 +1,34 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body>
+
+The Spreadsheet Engine for Java (SEJ, for short) makes it
+possible to use computations defined in spreadsheet files within
+normal Java applications 
+(see the <a href="design.html">Design Document</a> for a quick example).
+The original spreadsheet files can be created, for example, in 
+<a href="http://office.microsoft.com/">Microsoft Excel</a> or 
+<a href="http://www.openoffice.org/">OpenOffice Calc</a>.
+SEJ read the spreadsheet files using the {@link sej.SpreadsheetLoader} 
+and builds corresponding Java-based formula evaluation engines
+using a {@link sej.Compiler}. Such an {@link sej.Engine} computes output values
+given a set of input values defined by a {@link sej.Computation}. For example, 
+compute the value of the cell B3 given the values of the cells B1 and B2 
+as inputs.</p>
+
+<p>For overviews, tutorials, examples, guides, and tool documentation, please see:</p>
+<ul>
+    <li><a href="design.html">Design Document</a></li>
+    <li><a href="install.html">Installation Notes</a></li>
+</ul>
+
+@see sej.SpreadsheetLoader
+@see sej.Compiler
+@see sej.Engine
+@see sej.Computation
+
+</body>
+</html>

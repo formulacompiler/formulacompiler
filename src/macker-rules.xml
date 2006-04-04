@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<macker>    
+    <ruleset name="Dependencies">
+        <var name="base" value="sej" />
+        
+		<pattern name="all"					class="${base}.**" />        
+        <pattern name="api"					class="${base}.*" />
+        <pattern name="describable"			class="${base}.describable.*" />
+
+        <pattern name="core">
+        	<include class="${base}.*" />
+        	<include class="${base}.engine.*" />
+        	<include class="${base}.describable.*" />
+        </pattern>
+
+        <pattern name="expr"				class="${base}.engine.expressions.**" />
+        <pattern name="model"				class="${base}.model.**" />
+
+        <pattern name="loader"				class="${base}.loader.**" />
+        <pattern name="loader-only"			class="${base}.loader.*" />
+        <pattern name="loader-excel"		class="${base}.loader.excel.**" />
+
+        <pattern name="compiler"			class="${base}.engine.compiler.*" />
+        <pattern name="compiler-def"		class="${base}.engine.compiler.definition.*" />
+        <pattern name="compiler-model"		class="${base}.engine.compiler.model.*" />
+        <pattern name="compiler-model-comp"	class="${base}.engine.compiler.model.compiler.*" />
+        <pattern name="compiler-model-opt"	class="${base}.engine.compiler.model.optimizer.*" />
+        
+        <pattern name="engine-standard"		class="${base}.engine.standard.*" />
+        <pattern name="compiler-standard"	class="${base}.engine.standard.compiler.*" />
+        <pattern name="engine-bytecode"		class="${base}.engine.bytecode.*" />
+        <pattern name="compiler-bytecode"	class="${base}.engine.bytecode.compiler.*" />
+
+
+        <access-rule>
+            <message>sej</message>
+            <deny>
+            	<from pattern="api" />
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="api" />
+                	<exclude pattern="describable" />
+                </to>
+            </deny>
+        </access-rule>
+        
+        
+        <access-rule>
+            <message>sej.describable</message>
+            <deny>
+            	<from pattern="describable" />
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="describable" />
+                </to>
+            </deny>
+        </access-rule>
+        
+        
+        <access-rule>
+            <message>sej.expr</message>
+            <deny>
+            	<from pattern="expr" />
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="expr" />
+                	<exclude pattern="core" />
+                </to>
+            </deny>
+        </access-rule>
+        
+        
+        <access-rule>
+            <message>sej.model</message>
+            <deny>
+            	<from pattern="model" />
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="model" />
+                	<exclude pattern="core" />
+                	<exclude pattern="expr" />
+                </to>
+            </deny>
+        </access-rule>
+        
+        <access-rule>
+            <message>sej.loader</message>
+            <deny>
+            	<from pattern="loader" />
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="loader" />
+                	<exclude pattern="core" />
+                	<exclude pattern="expr" />
+                	<exclude pattern="model" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+        <access-rule>
+            <message>sej.engine.compiler</message>
+            <deny>
+            	<from pattern="compiler" />
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="compiler" />
+                	<exclude pattern="core" />
+                	<exclude pattern="expr" />
+                	<exclude pattern="model" />
+                	<exclude pattern="compiler-def" />
+                </to>
+            </deny>
+        </access-rule>
+
+        <access-rule>
+            <message>sej.engine.compiler.definition</message>
+            <deny>
+            	<from pattern="compiler-def" />
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="compiler-def" />
+                	<exclude pattern="core" />
+                	<exclude pattern="expr" />
+                	<exclude pattern="model" />
+                </to>
+            </deny>
+        </access-rule>
+
+        <access-rule>
+            <message>sej.engine.compiler.model</message>
+            <deny>
+            	<from pattern="compiler-model" />
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="compiler-model" />
+                	<exclude pattern="core" />
+                	<exclude pattern="expr" />
+                </to>
+            </deny>
+        </access-rule>
+
+        <access-rule>
+            <message>sej.engine.compiler.model.compiler</message>
+            <deny>
+            	<from pattern="compiler-model-comp" />
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="compiler-model-comp" />
+                	<exclude pattern="core" />
+                	<exclude pattern="expr" />
+                	<exclude pattern="compiler-model" />
+                	<exclude pattern="compiler-model-opt" />
+                	<exclude pattern="compiler-def" />
+                	<exclude pattern="model" />
+                </to>
+            </deny>
+        </access-rule>
+
+        <access-rule>
+            <message>sej.engine.compiler.model.optimizer</message>
+            <deny>
+            	<from pattern="compiler-model-opt" />
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="compiler-model-opt" />
+                	<exclude pattern="core" />
+                	<exclude pattern="expr" />
+                	<exclude pattern="compiler-model" />
+                </to>
+            </deny>
+        </access-rule>
+
+        
+        <access-rule>
+            <message>sej.engine.standard</message>
+            <deny>
+            	<from pattern="engine-standard" />
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="engine-standard" />
+                	<exclude pattern="core" />
+                	<exclude pattern="engine-bytecode" />
+                </to>
+            </deny>
+        </access-rule>
+        
+        <access-rule>
+            <message>sej.engine.standard.compiler</message>
+            <deny>
+            	<from pattern="compiler-standard" />
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="compiler-standard" />
+                	<exclude pattern="core" />
+                	<exclude pattern="engine-standard" />
+                	<exclude pattern="engine-bytecode" />
+                	<exclude pattern="compiler-bytecode" />
+                </to>
+            </deny>
+        </access-rule>
+        
+
+        <access-rule>
+            <message>sej.engine.bytecode</message>
+            <deny>
+            	<from pattern="engine-bytecode" />
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="engine-bytecode" />
+                	<exclude pattern="core" />
+                </to>
+            </deny>
+        </access-rule>
+        
+        <access-rule>
+            <message>sej.engine.bytecode.compiler</message>
+            <deny>
+            	<from pattern="compiler-bytecode" />
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="compiler-bytecode" />
+                	<exclude pattern="engine-bytecode" />
+                	<exclude pattern="core" />
+                	<exclude pattern="expr" />
+                	<exclude pattern="compiler" />
+                	<exclude pattern="compiler-model" />
+                	<exclude pattern="compiler-model-comp" />
+                </to>
+            </deny>
+        </access-rule>
+        
+    </ruleset>
+</macker>
