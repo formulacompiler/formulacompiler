@@ -5,12 +5,19 @@
 	<taskdef classname="java_cup.AntTask" name="cup" />
 
 	<target name="lex">
-		<jflex file="classes/sej/loader/excel/ExcelExpressionScanner.lex"
+		<jflex file="classes/sej/loader/excel/ExcelExpressionScannerA1.lex"
+			destdir="classes-gen"/>
+		<jflex file="classes/sej/loader/excel/ExcelExpressionScannerR1C1.lex"
 			destdir="classes-gen"/>
 	</target>
 
 	<target name="cup">
-		<cup file="classes/sej/loader/excel/ExcelExpressionParser.cup" dir="classes-gen/sej/loader/excel/" />
+		<cup file="classes/sej/loader/excel/ExcelExpressionParser.cup" 
+			dir="classes-gen/sej/loader/excel/" 
+			parser="GeneratedParser" 
+			symbols="GeneratedSymbols"
+			nopositions="true"
+		/>
 	</target>
 
 	<target name="all" depends="lex,cup">

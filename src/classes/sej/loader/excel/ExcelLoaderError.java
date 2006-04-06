@@ -20,28 +20,27 @@
  */
 package sej.loader.excel;
 
-public class ExcelExpressionError extends ExcelLoaderError
+public class ExcelLoaderError extends RuntimeException
 {
 
-	private static String addPositionInfoTo( String _message, String _source, int _atPosition )
+	public ExcelLoaderError()
 	{
-		final String sourceBeforeError = _source.substring( 0, _atPosition );
-		final String sourceAfterError = _source.substring( _atPosition );
-
-		StringBuilder result = new StringBuilder( _message );
-		result.append( " in '" ).append( sourceBeforeError ).append( "*?*" ).append( sourceAfterError ).append( "'; error location indicated by '*?*'." );
-		return result.toString();
+		super();
 	}
 
-
-	public ExcelExpressionError(Exception _originalError, String _source, int _atPosition)
+	public ExcelLoaderError(String _message, Throwable _cause)
 	{
-		super( addPositionInfoTo( _originalError.getMessage(), _source, _atPosition ), _originalError );
+		super( _message, _cause );
 	}
 
-	public ExcelExpressionError(String _message, String _source, int _atPosition)
+	public ExcelLoaderError(String _message)
 	{
-		super( addPositionInfoTo( _message, _source, _atPosition ) );
+		super( _message );
+	}
+
+	public ExcelLoaderError(Throwable _cause)
+	{
+		super( _cause );
 	}
 
 }

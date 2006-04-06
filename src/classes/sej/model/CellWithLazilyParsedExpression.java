@@ -117,4 +117,10 @@ public class CellWithLazilyParsedExpression extends CellInstance
 		_to.newLine();
 	}
 
+
+	public CellRefFormat getCellRefFormat()
+	{
+		return getRow().getSheet().getWorkbook().getCellRefFormat();
+	}
+
 }

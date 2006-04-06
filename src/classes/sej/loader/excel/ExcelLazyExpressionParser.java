@@ -20,12 +20,17 @@
  */
 package sej.loader.excel;
 
+import java.io.IOException;
+
+import sej.describable.AbstractDescribable;
+import sej.describable.DescriptionBuilder;
 import sej.engine.expressions.ExpressionNode;
 import sej.model.CellInstance;
 import sej.model.CellWithLazilyParsedExpression;
 import sej.model.LazyExpressionParser;
 
-public class ExcelLazyExpressionParser implements LazyExpressionParser
+
+public class ExcelLazyExpressionParser extends AbstractDescribable implements LazyExpressionParser
 {
 	private CellInstance cell;
 	private String expressionText;
@@ -38,18 +43,17 @@ public class ExcelLazyExpressionParser implements LazyExpressionParser
 	}
 
 
-	public ExpressionNode parseExpression( CellWithLazilyParsedExpression _cell )
+	public ExpressionNode parseExpression( CellWithLazilyParsedExpression _cell ) throws ExcelLoaderError
 	{
-		try {
-			return new ExcelExpressionParser( this.cell ).parseText( this.expressionText );
-		}
-		catch (Exception e) {
+		return new ExcelExpressionParser( this.cell ).parseText( this.expressionText, _cell.getCellRefFormat() );
+	}
 
-			System.out.println( e.getMessage() );
-			e.printStackTrace();
-			
-			throw new ExcelExpressionError( e );
-		}
+
+	@Override
+	public void describeTo( DescriptionBuilder _to ) throws IOException
+	{
+		_to.append( "src=" );
+		_to.append( this.expressionText );
 	}
 
 

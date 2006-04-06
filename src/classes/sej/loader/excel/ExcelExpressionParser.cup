@@ -10,9 +10,17 @@ import sej.model.*;
 parser code {:
 	ExcelExpressionParser excelParser;
 	ExpressionNode rootNode;
+
+	@Override
+	public void syntax_error( Symbol _cur_token )
+	{
+		done_parsing();
+		throw new RuntimeException( "Unsupported expression element" );
+	}
+	
 :}
 
-terminal PLUS, MINUS, TIMES, DIV, EXP, PERCENT, CONCAT, COMMA, COLON, DOLLAR;
+terminal PLUS, MINUS, TIMES, DIV, EXP, PERCENT, CONCAT, COMMA, COLON;
 terminal LPAREN, RPAREN, LBRACK, RBRACK;
 terminal EQUAL, NOTEQUAL, GREATER, GREATEROREQUAL, LESS, LESSOREQUAL;
 terminal IF, AND, OR, NOT;
@@ -21,16 +29,21 @@ terminal MATCH, INDEX, ROUND;
 terminal Integer INT;
 terminal Double DBL;
 terminal String STRING;
-terminal String IDENT;
+terminal String NAME;
+terminal String SHEET;
+terminal String CELLA1;
+terminal String CELLR1C1;
+terminal String COL;
+terminal String ROW;
 
 non terminal expr_root;
 non terminal ExpressionNode expr;
+non terminal ExpressionNode cellexpr;
 non terminal ExpressionNode optexpr;
 non terminal ExpressionNode arg;
 non terminal ExpressionNode optarg;
 non terminal ExpressionNode rangeexpr;
 non terminal CellIndex cell;
-non terminal CellIndex cellcoords;
 non terminal CellRange range;
 non terminal Integer rel;
 non terminal Collection rangeexprlist;
@@ -45,12 +58,65 @@ precedence left PERCENT;
 
 
 expr_root ::=
+
 		expr:e
 				{: this.parser.rootNode = e; :}
+
+	;
+	
+	
+cell ::=
+
+		CELLA1:c
+				{: RESULT = this.parser.excelParser.parseCellRefA1( c ); :}
+
+	|	CELLR1C1:c
+				{: RESULT = this.parser.excelParser.parseCellRefR1C1( c ); :}
+
+	;
+	
+	
+range ::=
+
+		cell:a COLON cell:b
+				{: RESULT = new CellRange( a, b ); :}
+				
+	|	COL:a
+				{: RESULT = this.parser.excelParser.parseVectorRefCol( a, a ); :}
+
+	|	COL:a COLON COL:b
+				{: RESULT = this.parser.excelParser.parseVectorRefCol( a, b ); :}
+
+	|	ROW:a
+				{: RESULT = this.parser.excelParser.parseVectorRefRow( a, a ); :}
+
+	|	ROW:a COLON ROW:b
+				{: RESULT = this.parser.excelParser.parseVectorRefRow( a, b ); :}
+
+	;
+
+	
+cellexpr ::=
+
+		expr:e
+				{: RESULT = this.parser.excelParser.makeCellExpr( e ); :}
+
+	;
+	
+	
+rangeexpr ::=
+
+		range:r
+				{: RESULT = this.parser.excelParser.newNodeForReference( r ); :}
+				
+	|	expr:e
+				{: RESULT = this.parser.excelParser.makeRangeExpr( e ); :}
+
 	;
 	
 	
 expr ::=
+
 		INT:n				
 				{: RESULT = new ExpressionNodeForConstantValue( new Double(n) ); :}
 				
@@ -60,83 +126,80 @@ expr ::=
 	|	STRING:s
 				{: RESULT = new ExpressionNodeForConstantValue( this.parser.excelParser.stripFirstAndLastCharOf( s )); :}
 				
-	|	cell:r
-				{: RESULT = this.parser.excelParser.newNodeForReference( r ); :}
+	|	NAME:n
+				{: RESULT = this.parser.excelParser.newNodeForReference( this.parser.excelParser.parseNamedRef( n )); :}
 				
-	|   MINUS expr:e
+	|	cell:c
+				{: RESULT = this.parser.excelParser.newNodeForReference( c ); :}
+				
+	|   MINUS cellexpr:e
 				{: RESULT = new ExpressionNodeForOperator( Operator.MINUS, e ); :}
 				
-	|	expr:l CONCAT expr:r
-				{: RESULT = new ExpressionNodeForOperator( Operator.CONCAT, l, r ); :}
-
-	|	expr:l PLUS expr:r
-				{: RESULT = new ExpressionNodeForOperator( Operator.PLUS, l, r ); :}
-
-	|	expr:l MINUS expr:r
-				{: RESULT = new ExpressionNodeForOperator( Operator.MINUS, l, r ); :}
-
-	|	expr:l TIMES expr:r
-				{: RESULT = new ExpressionNodeForOperator( Operator.TIMES, l, r ); :}
-				
-	|	expr:l DIV expr:r
-				{: RESULT = new ExpressionNodeForOperator( Operator.DIV, l, r ); :}
-				
-	|	expr:l EXP expr:r
-				{: RESULT = new ExpressionNodeForOperator( Operator.EXP, l, r ); :}
-				
-	|	expr:e PERCENT
-				{: RESULT = new ExpressionNodeForOperator( Operator.PERCENT, e ); :}
-				
-	|	expr:l EQUAL expr:r
-				{: RESULT = new ExpressionNodeForOperator( Operator.EQUAL, l, r ); :}
-
-	|	expr:l NOTEQUAL expr:r
-				{: RESULT = new ExpressionNodeForOperator( Operator.NOTEQUAL, l, r ); :}
-
-	|	expr:l LESS expr:r
-				{: RESULT = new ExpressionNodeForOperator( Operator.LESS, l, r ); :}
-
-	|	expr:l LESSOREQUAL expr:r
-				{: RESULT = new ExpressionNodeForOperator( Operator.LESSOREQUAL, l, r ); :}
-
-	|	expr:l GREATER expr:r
-				{: RESULT = new ExpressionNodeForOperator( Operator.GREATER, l, r ); :}
-
-	|	expr:l GREATEROREQUAL expr:r
-				{: RESULT = new ExpressionNodeForOperator( Operator.GREATEROREQUAL, l, r ); :}
-
-	|	LPAREN expr:e RPAREN
+	|   PLUS cellexpr:e
 				{: RESULT = e; :}
 				
-	|	IF LPAREN expr:test COMMA expr:t COMMA expr:f RPAREN
+	|	cellexpr:l CONCAT cellexpr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.CONCAT, l, r ); :}
+
+	|	cellexpr:l PLUS cellexpr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.PLUS, l, r ); :}
+
+	|	cellexpr:l MINUS cellexpr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.MINUS, l, r ); :}
+
+	|	cellexpr:l TIMES cellexpr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.TIMES, l, r ); :}
+				
+	|	cellexpr:l DIV cellexpr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.DIV, l, r ); :}
+				
+	|	cellexpr:l EXP cellexpr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.EXP, l, r ); :}
+				
+	|	cellexpr:e PERCENT
+				{: RESULT = new ExpressionNodeForOperator( Operator.PERCENT, e ); :}
+				
+	|	cellexpr:l EQUAL cellexpr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.EQUAL, l, r ); :}
+
+	|	cellexpr:l NOTEQUAL cellexpr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.NOTEQUAL, l, r ); :}
+
+	|	cellexpr:l LESS cellexpr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.LESS, l, r ); :}
+
+	|	cellexpr:l LESSOREQUAL cellexpr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.LESSOREQUAL, l, r ); :}
+
+	|	cellexpr:l GREATER cellexpr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.GREATER, l, r ); :}
+
+	|	cellexpr:l GREATEROREQUAL cellexpr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.GREATEROREQUAL, l, r ); :}
+
+	|	IF LPAREN cellexpr:test COMMA cellexpr:t COMMA cellexpr:f RPAREN
 				{: RESULT = new ExpressionNodeForIf( test, t, f ); :}
 				
-	|	NOT LPAREN expr:arg RPAREN
+	|	NOT LPAREN cellexpr:arg RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.NOT, arg ); :}
+				
+	|	LPAREN cellexpr:e RPAREN
+				{: RESULT = e; :}
 				
 	|	agg:a LPAREN rangeexprlist:l RPAREN
 				{: RESULT = new ExpressionNodeForAggregator( a, l ); :}
-				
-	|	MATCH LPAREN expr:lookupvalue COMMA rangeexpr:array optarg:matchtype RPAREN
+
+	|	MATCH LPAREN cellexpr:lookupvalue COMMA rangeexpr:array optarg:matchtype RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.MATCH, lookupvalue, array, matchtype ); :}
 				
 	|	INDEX LPAREN rangeexpr:array arg:rownum optarg:colnum RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.INDEX, array, rownum, colnum ); :}
 	
-	|	ROUND LPAREN expr:val COMMA expr:prec RPAREN
-				{: RESULT = new ExpressionNodeForFunction( Function.ROUND, val, prec ); :}			
-	;
-	
-	
-optexpr ::=
-
-				{: RESULT = null; :}
-
-	|	expr:e
-				{: RESULT = e; :}
+	|	ROUND LPAREN cellexpr:val COMMA cellexpr:prec RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.ROUND, val, prec ); :}	
 				
 	;
-	
+
 	
 arg ::=
 
@@ -154,61 +217,18 @@ optarg ::=
 				{: RESULT = a; :}
 	
 	;
-	
 
-cell ::=
 
-		IDENT:i
-				{: RESULT = this.parser.excelParser.parseIdentIntoCellRef( i ); :}
+optexpr ::=
+
+				{: RESULT = null; :}
+
+	|	cellexpr:e
+				{: RESULT = e; :}
 				
-	|	cellcoords:c
-				{: RESULT = c; :}
-		
 	;
 	
 	
-cellcoords ::=
-	
-		IDENT:ir rel:c
-				{: RESULT = this.parser.excelParser.parseIdentIntoCellIndex( ir, null, null, c ); :}
-		
-	|	IDENT:ir rel:r IDENT:ic
-				{: RESULT = this.parser.excelParser.parseIdentIntoCellIndex( ir, r, ic, null ); :}
-		
-	|	IDENT:ir rel:r IDENT:ic rel:c
-				{: RESULT = this.parser.excelParser.parseIdentIntoCellIndex( ir, r, ic, c ); :}
-				
-	|	DOLLAR IDENT:cell
-				{: RESULT = this.parser.excelParser.parseIdentIntoCellIndex( cell ); :}
-				
-	|	DOLLAR IDENT:col DOLLAR INT:row
-				{: RESULT = this.parser.excelParser.parseIdentIntoCellIndexColRow( col, row ); :}
-				
-	|	IDENT:col DOLLAR INT:row
-				{: RESULT = this.parser.excelParser.parseIdentIntoCellIndexColRow( col, row ); :}
-				
-	;
-				
-
-range ::=
-	
-		cell:a COLON cell:b
-				{: RESULT = new CellRange( (CellIndex)a, (CellIndex)b ); :}
-				
-	;
-
-	
-rel ::=
-
-		LBRACK INT:i RBRACK
-				{: RESULT = i; :}
-				
-	|	LBRACK MINUS INT:i RBRACK
-				{: RESULT = -i; :}
-				
-	;
-
-
 agg ::=
 
 		SUM
@@ -243,14 +263,4 @@ rangeexprlist ::=
 	|	rangeexprlist:l COMMA rangeexpr:r
 				{: RESULT = l; l.add( r ); :}
 	
-	;
-	
-rangeexpr ::=
-
-		range:r
-				{: RESULT = this.parser.excelParser.newNodeForReference( r ); :}
-
-	|	expr:e
-				{: RESULT = e; :}
-
 	;

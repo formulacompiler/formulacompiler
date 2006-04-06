@@ -250,4 +250,10 @@ public class Workbook extends AbstractDescribable implements Spreadsheet
 		}
 	}
 
+
+	public CellRefFormat getCellRefFormat()
+	{
+		return CellRefFormat.A1; // TODO Change this for Excel!
+	}
+
 }
