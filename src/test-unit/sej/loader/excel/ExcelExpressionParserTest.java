@@ -23,12 +23,14 @@ package sej.loader.excel;
 import sej.engine.expressions.ExpressionNode;
 import sej.model.CellIndex;
 import sej.model.CellInstance;
+import sej.model.CellRefFormat;
 import sej.model.CellWithConstant;
 import sej.model.ExpressionNodeForCell;
 import sej.model.Row;
 import sej.model.Sheet;
 import sej.model.Workbook;
 import junit.framework.TestCase;
+
 
 public class ExcelExpressionParserTest extends TestCase
 {
@@ -45,34 +47,66 @@ public class ExcelExpressionParserTest extends TestCase
 
 	public void testRC() throws Exception
 	{
-		assertRef( "B2", "RC" );
-		assertRef( "A1", "R1C1" );
-		assertRef( "A2", "RC1" );
-		assertRef( "B1", "R1C" );
-		assertRef( "C2", "RC[1]" );
-		assertRef( "A2", "RC[-1]" );
-		assertRef( "A1", "R[-1]C[-1]" );
-		assertRef( "B1", "R[-1]C" );
+		assertRefR1C1( "B2", "RC" );
+		assertRefR1C1( "A1", "R1C1" );
+		assertRefR1C1( "A2", "RC1" );
+		assertRefR1C1( "B1", "R1C" );
+		assertRefR1C1( "C2", "RC[1]" );
+		assertRefR1C1( "A2", "RC[-1]" );
+		assertRefR1C1( "A1", "R[-1]C[-1]" );
+		assertRefR1C1( "B1", "R[-1]C" );
 	}
 
 
 	public void testAbs() throws Exception
 	{
-		assertRef( "B2", "B2" );
-		assertRef( "D4", "D4" );
-		assertRef( "D4", "$D$4" );
-		assertRef( "D4", "$D4" );
-		assertRef( "D4", "D$4" );
+		assertRefA1( "B2", "B2" );
+		assertRefA1( "D4", "D4" );
+		assertRefA1( "D4", "$D$4" );
+		assertRefA1( "D4", "$D4" );
+		assertRefA1( "D4", "D$4" );
 	}
 
 
-	private void assertRef( String _canonicalName, String _ref ) throws Exception
+	public void testUnsupported() throws Exception
 	{
-		ExpressionNode parsed = this.parser.parseText( _ref );
+		assertErr( "2 + SOMEFUNC(A2)",
+				"Unsupported expression element in '2 + SOMEFUNC*?*(A2)'; error location indicated by '*?*'." );
+	}
+
+
+	private void assertRefA1( String _canonicalName, String _ref ) throws Exception
+	{
+		assertRef( _canonicalName, _ref, CellRefFormat.A1 );
+	}
+
+
+	private void assertRefR1C1( String _canonicalName, String _ref ) throws Exception
+	{
+		assertRef( _canonicalName, _ref, CellRefFormat.R1C1 );
+	}
+
+
+	private void assertRef( String _canonicalName, String _ref, final CellRefFormat _format )
+	{
+		ExpressionNode parsed = this.parser.parseText( _ref, _format );
 		ExpressionNodeForCell node = (ExpressionNodeForCell) parsed;
 		CellIndex ref = node.getCellIndex();
 		String actual = Sheet.getCanonicalNameForCellIndex( ref.columnIndex, ref.rowIndex );
 		assertEquals( _canonicalName, actual );
 	}
+
+
+	private void assertErr( final String _ref, final String _msg ) throws Exception
+	{
+		try {
+			this.parser.parseText( _ref, CellRefFormat.A1 );
+			fail( "Expected exception: " + _msg );
+		}
+		catch (ExcelExpressionError e) {
+			assertEquals( _msg, e.getMessage() );
+		}
+	}
+
 
 }

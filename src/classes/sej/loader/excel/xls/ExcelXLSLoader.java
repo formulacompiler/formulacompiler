@@ -28,10 +28,10 @@ import java.util.Locale;
 import sej.Spreadsheet;
 import sej.SpreadsheetLoader;
 import sej.engine.Runtime_v1;
-import sej.loader.excel.ExcelExpressionError;
 import sej.loader.excel.ExcelLazyExpressionParser;
-import sej.model.CellInstance;
+import sej.loader.excel.ExcelLoaderError;
 import sej.model.CellIndex;
+import sej.model.CellInstance;
 import sej.model.CellRange;
 import sej.model.CellWithConstant;
 import sej.model.CellWithLazilyParsedExpression;
@@ -86,7 +86,7 @@ public class ExcelXLSLoader implements SpreadsheetLoader.FileLoader
 			xlsWorkbook = jxl.Workbook.getWorkbook( _file, xlsSettings );
 		}
 		catch (jxl.read.biff.BiffException e) {
-			throw new ExcelExpressionError( e );
+			throw new ExcelLoaderError( e );
 		}
 		jxl.Sheet xlsSheet = xlsWorkbook.getSheet( 0 );
 
@@ -134,7 +134,7 @@ public class ExcelXLSLoader implements SpreadsheetLoader.FileLoader
 				exprCell.setExpressionParser( new ExcelLazyExpressionParser( exprCell, xlsFormulaCell.getFormula() ) );
 			}
 			catch (jxl.biff.formula.FormulaException e) {
-				throw new ExcelExpressionError( e );
+				throw new ExcelLoaderError( e );
 			}
 			if (xlsFormulaCell instanceof NumberFormulaCell) {
 				NumberFormulaCell xlsNumFormulaCell = ((NumberFormulaCell) xlsFormulaCell);

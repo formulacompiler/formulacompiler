@@ -22,12 +22,13 @@ package sej.loader.excel;
 
 import java.io.StringReader;
 
+import sej.ModelError;
 import sej.Settings;
-import sej.ModelError.CellRangeNotUniDimensional;
 import sej.engine.expressions.ExpressionNode;
-import sej.model.CellInstance;
 import sej.model.CellIndex;
+import sej.model.CellInstance;
 import sej.model.CellRange;
+import sej.model.CellRefFormat;
 import sej.model.ExpressionNodeForCell;
 import sej.model.ExpressionNodeForRange;
 import sej.model.Reference;
@@ -41,6 +42,9 @@ class ExcelExpressionParser
 	Sheet sheet;
 	CellInstance cell;
 
+	private String source;
+	private ExcelExpressionScanner scanner;
+
 
 	public ExcelExpressionParser(CellInstance _cell)
 	{
@@ -50,20 +54,43 @@ class ExcelExpressionParser
 	}
 
 
-	public ExpressionNode parseText( String _text ) throws Exception
+	public ExpressionNode parseText( String _text, CellRefFormat _cellRefFormat )
 	{
-
 		if (Settings.isDebugLogEnabled()) {
 			System.out.print( "Parse: " );
 			System.out.println( _text );
 		}
 
-		StringReader reader = new StringReader( _text );
-		Yylex lexer = new Yylex( reader );
-		parser p = new parser( lexer );
-		p.excelParser = this;
-		p.parse();
-		return p.rootNode;
+		this.source = _text;
+		final StringReader reader = new StringReader( _text );
+
+		switch (_cellRefFormat) {
+		case A1:
+			this.scanner = new GeneratedScannerA1( reader );
+			break;
+		case R1C1:
+			this.scanner = new GeneratedScannerR1C1( reader );
+		}
+		this.scanner.setSource( _text );
+		
+		final GeneratedParser parser = new GeneratedParser( this.scanner );
+		parser.excelParser = this;
+		try {
+			if (Settings.isDebugParserEnabled()) {
+				parser.debug_parse();
+			}
+			else {
+				parser.parse();
+			}
+		}
+		catch (ExcelExpressionError e) {
+			throw e;
+		}
+		catch (Exception e) {
+			throw new ExcelExpressionError( e, this.source, this.scanner.charsRead() );
+		}
+
+		return parser.rootNode;
 	}
 
 
@@ -73,62 +100,35 @@ class ExcelExpressionParser
 	}
 
 
-	Reference parseIdentIntoRef( String _ident )
+	Reference parseNamedRef( String _ident )
 	{
-		Reference result = this.workbook.getNamedRef( _ident );
-		if (null == result) {
-			result = parseIdentIntoCellIndex( _ident );
-		}
-		return result;
+		return this.workbook.getNamedRef( _ident );
 	}
 
 
-	public CellIndex parseIdentIntoCellRef( String _ident ) throws CellRangeNotUniDimensional
+	CellIndex parseCellRefA1( String _ref )
 	{
-		Reference ref = this.workbook.getNamedRef( _ident );
-		if (null == ref) {
-			return parseIdentIntoCellIndex( _ident );
-		}
-		else if (ref instanceof CellIndex) {
-			return (CellIndex) ref;
-		}
-		else {
-			return ((CellRange) ref).getCellIndexRelativeTo( this.cell.getCellIndex() );
-		}
+		return this.sheet.getCellIndexForCanonicalNameA1( _ref );
 	}
 
 
-	CellIndex parseIdentIntoCellIndex( String _ident )
+	CellIndex parseCellRefR1C1( String _ref )
 	{
-		return this.workbook.getCellIndex( this.sheet, _ident, this.cell.getCellIndex() );
+		return this.sheet.getCellIndexForCanonicalNameR1C1( _ref, this.cell.getCellIndex() );
 	}
 
 
-	CellIndex parseIdentIntoCellIndex( String _ir, Integer _r, String _ic, Integer _c )
+	CellRange parseVectorRefCol( String _first, String _second ) throws ModelError
 	{
-		int rowIndex = this.cell.getRow().getRowIndex();
-		int columnIndex = this.cell.getColumnIndex();
-
-		if (null != _r && null != _c) {
-			rowIndex += _r;
-			columnIndex += _c;
-		}
-		else if (null != _ic) {
-			rowIndex += _r;
-			columnIndex = Sheet.parseRCIndex( columnIndex + 1, _ic, 1 ) - 1;
-		}
-		else {
-			rowIndex = Sheet.parseRCIndex( rowIndex + 1, _ir, 1 ) - 1;
-			columnIndex += _c;
-		}
-
-		return new CellIndex( this.sheet.getSheetIndex(), columnIndex, rowIndex );
+		// TODO parseVectorRefCol
+		throw new ModelError.UnsupportedExpression( "Vectors are not supported yet." );
 	}
 
 
-	public CellIndex parseIdentIntoCellIndexColRow( String _col, Integer _row )
+	CellRange parseVectorRefRow( String _first, String _second ) throws ModelError
 	{
-		return parseIdentIntoCellIndex( _col + _row );
+		// TODO parseVectorRefRow
+		throw new ModelError.UnsupportedExpression( "Vectors are not supported yet." );
 	}
 
 
@@ -140,7 +140,25 @@ class ExcelExpressionParser
 		else if (_ref instanceof CellRange) {
 			return new ExpressionNodeForRange( (CellRange) _ref );
 		}
-		throw new ExcelExpressionError( "Reference not valid." );
+		throw new ExcelExpressionError( "Reference not valid.", this.source, this.scanner.charsRead() );
+	}
+
+
+	ExpressionNode makeCellExpr( ExpressionNode _node ) throws ModelError
+	{
+		if (_node instanceof ExpressionNodeForRange) {
+			final ExpressionNodeForRange rangeNode = (ExpressionNodeForRange) _node;
+			final CellRange range = rangeNode.getRange();
+			final CellIndex cell = range.getCellIndexRelativeTo( this.cell.getCellIndex() );
+			return new ExpressionNodeForCell( cell );
+		}
+		return _node;
+	}
+
+
+	ExpressionNode makeRangeExpr( ExpressionNode _node )
+	{
+		return _node;
 	}
 
 

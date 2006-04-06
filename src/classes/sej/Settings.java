@@ -27,8 +27,9 @@ package sej;
  */
 public class Settings
 {
-	public static boolean debugLogEnabled = false;
+	private static boolean debugLogEnabled = false;
 	private static String debugIndentation = "";
+	private static boolean debugParserEnabled = false;
 
 
 	/**
@@ -70,6 +71,18 @@ public class Settings
 	public static void debugOutdent()
 	{
 		debugIndentation = debugIndentation.substring( 2 );
+	}
+
+
+	public static boolean isDebugParserEnabled()
+	{
+		return debugParserEnabled;
+	}
+
+
+	public static void setDebugParserEnabled( boolean _debugParserEnabled )
+	{
+		debugParserEnabled = _debugParserEnabled;
 	}
 
 

@@ -100,7 +100,12 @@
 	</target>
 
 	<target name="cup" depends="prepare, lex">
-		<cup file="${src.classes.dir}/sej/loader/excel/ExcelExpressionParser.cup" dir="${src.classes.gen.dir}/sej/loader/excel" />
+		<cup file="${src.classes.dir}/sej/loader/excel/ExcelExpressionParser.cup" dir="${src.classes.gen.dir}/sej/loader/excel" 
+			parser="GeneratedParser" 
+			symbols="GeneratedSymbols"
+			nopositions="true"
+			nosummary="true"
+		/>
 	</target>
 
 	<target name="generate" depends="lex, cup">
@@ -200,8 +205,10 @@
 		<jar jarfile="${jar.runtime.file}" compress="true">
 			<fileset dir="${build.classes.dir}">
 				<include name="sej/Engine*.class" />
+				<!--
 				<include name="sej/CallFrame.class" />
 				<include name="sej/describable/*.class" />
+				-->
 				<include name="sej/engine/Runtime_v1.class" />
 				<include name="sej/engine/bytecode/*.class" />
 				<include name="sej/engine/standard/*.class" />

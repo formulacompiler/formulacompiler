@@ -23,7 +23,6 @@ package sej.model;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
@@ -34,7 +33,6 @@ public class Sheet extends AbstractDescribable
 	private final Workbook workbook;
 	private final int sheetIndex;
 	private final List<Row> rows = new ArrayList<Row>();
-	private final Pattern rcStyle = Pattern.compile( "R[\\[\\]\\-1-9]*C[\\[\\]\\-1-9]*" );
 
 
 	public Sheet(Workbook _workbook)
@@ -113,26 +111,43 @@ public class Sheet extends AbstractDescribable
 
 	public CellIndex getCellIndexForCanonicalName( String _canonicalName, CellIndex _relativeTo )
 	{
+		return getCellIndexForCanonicalName( _canonicalName, _relativeTo, getWorkbook().getCellRefFormat() );
+	}
+
+
+	public CellIndex getCellIndexForCanonicalName( String _canonicalName, CellIndex _relativeTo, CellRefFormat _format )
+	{
+		switch (_format) {
+		case A1:
+			return getCellIndexForCanonicalNameA1( _canonicalName );
+		case R1C1:
+			return getCellIndexForCanonicalNameR1C1( _canonicalName, _relativeTo );
+		}
+		return null;
+	}
+
+
+	public CellIndex getCellIndexForCanonicalNameA1( String _canonicalName )
+	{
 		int colIndex = 0;
 		int rowIndex = 0;
-
-		if (this.rcStyle.matcher( _canonicalName ).matches()) {
-			rowIndex = parseRCIndex( _relativeTo.rowIndex + 1, _canonicalName, 1 );
-			colIndex = parseRCIndex( _relativeTo.columnIndex + 1, _canonicalName, _canonicalName.indexOf( 'C' ) + 1 );
-		}
-
-		else {
-			for (int iCh = 0; iCh < _canonicalName.length(); iCh++) {
-				char ch = _canonicalName.charAt( iCh );
-				if ((ch >= 'A') && (ch <= 'Z')) {
-					colIndex = 26 * colIndex + Character.getNumericValue( ch ) - 9;
-				}
-				else {
-					rowIndex = 10 * rowIndex + Character.getNumericValue( ch );
-				}
+		for (int iCh = 0; iCh < _canonicalName.length(); iCh++) {
+			char ch = _canonicalName.charAt( iCh );
+			if ((ch >= 'A') && (ch <= 'Z')) {
+				colIndex = 26 * colIndex + Character.getNumericValue( ch ) - 9;
+			}
+			else if ((ch >= '0') && (ch <= '9')) {
+				rowIndex = 10 * rowIndex + Character.getNumericValue( ch );
 			}
 		}
+		return new CellIndex( getSheetIndex(), colIndex - 1, rowIndex - 1 );
+	}
 
+
+	public CellIndex getCellIndexForCanonicalNameR1C1( String _canonicalName, CellIndex _relativeTo )
+	{
+		final int rowIndex = parseRCIndex( _relativeTo.rowIndex + 1, _canonicalName, 1 );
+		final int colIndex = parseRCIndex( _relativeTo.columnIndex + 1, _canonicalName, _canonicalName.indexOf( 'C' ) + 1 );
 		return new CellIndex( getSheetIndex(), colIndex - 1, rowIndex - 1 );
 	}
 

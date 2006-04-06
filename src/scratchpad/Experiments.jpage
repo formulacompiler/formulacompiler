@@ -1,0 +1,7 @@
+sej.loader.excel.xls.ExcelXLSLoader.register();
+sej.Settings.setDebugLogEnabled(true);
+sej.Settings.setDebugParserEnabled(true);
+
+sej.model.Workbook sheet = (sej.model.Workbook) sej.SpreadsheetLoader.loadFromFile( "D:/temp/book3.xls" );
+
+System.out.println( sheet.describe() );
