@@ -31,9 +31,10 @@ import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
 import sej.engine.expressions.Aggregator.Aggregation;
 
+
 public abstract class ExpressionNode extends AbstractDescribable implements Evaluatable, Serializable
 {
-	private static final long serialVersionUID = 1L; 
+	private static final long serialVersionUID = 1L;
 	private List<ExpressionNode> arguments = new ArrayList<ExpressionNode>();
 
 
@@ -66,6 +67,12 @@ public abstract class ExpressionNode extends AbstractDescribable implements Eval
 	}
 
 
+	public void addArgument( ExpressionNode _arg )
+	{
+		this.arguments.add( _arg );
+	}
+
+
 	public Object evaluate( EvaluationContext _context ) throws EvaluationFailed, InvocationTargetException
 	{
 		throw new EvaluationFailed();
@@ -83,8 +90,8 @@ public abstract class ExpressionNode extends AbstractDescribable implements Eval
 	}
 
 
-	protected Object evaluateArgument( EvaluationContext _context, int iArgument )
-			throws EvaluationFailed, InvocationTargetException
+	protected Object evaluateArgument( EvaluationContext _context, int iArgument ) throws EvaluationFailed,
+			InvocationTargetException
 	{
 		ExpressionNode arg = getArguments().get( iArgument );
 		if (null == arg) return null;
@@ -92,16 +99,16 @@ public abstract class ExpressionNode extends AbstractDescribable implements Eval
 	}
 
 
-	public void aggregateInto( EvaluationContext _context, Aggregation _aggregation )
-			throws EvaluationFailed, InvocationTargetException
+	public void aggregateInto( EvaluationContext _context, Aggregation _aggregation ) throws EvaluationFailed,
+			InvocationTargetException
 	{
 		_aggregation.aggregate( evaluate( _context ) );
 	}
 
 
 	public abstract ExpressionNode cloneWithoutArguments();
-	
-	
+
+
 	@Override
 	public Object clone()
 	{
@@ -132,7 +139,7 @@ public abstract class ExpressionNode extends AbstractDescribable implements Eval
 			_d.append( "( " );
 			describeArgumentTo( _d, 0 );
 			for (int iArg = 1; iArg < getArguments().size(); iArg++) {
-				_d.append( "; " );
+				_d.append( ", " );
 				describeArgumentTo( _d, iArg );
 			}
 			_d.append( " )" );

@@ -140,7 +140,7 @@ class ExcelExpressionParser
 		else if (_ref instanceof CellRange) {
 			return new ExpressionNodeForRange( (CellRange) _ref );
 		}
-		throw new ExcelExpressionError( "Reference not valid.", this.source, this.scanner.charsRead() );
+		throw new ExcelExpressionError( "Undefined name or unsupported function encountered", this.source, this.scanner.charsRead() );
 	}
 
 

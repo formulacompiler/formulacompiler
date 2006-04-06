@@ -23,6 +23,7 @@ package sej.loader.excel;
 import sej.engine.expressions.ExpressionNode;
 import sej.model.CellIndex;
 import sej.model.CellInstance;
+import sej.model.CellRange;
 import sej.model.CellRefFormat;
 import sej.model.CellWithConstant;
 import sej.model.ExpressionNodeForCell;
@@ -38,11 +39,27 @@ public class ExcelExpressionParserTest extends TestCase
 	Sheet sheet = new Sheet( this.workbook );
 	Row row1 = new Row( this.sheet );
 	CellInstance cell11 = new CellWithConstant( this.row1, 123 );
-	CellInstance cell21 = new CellWithConstant( this.row1, 123 );
+	CellInstance cell12 = new CellWithConstant( this.row1, 123 );
 	Row row2 = new Row( this.sheet );
-	CellInstance cell12 = new CellWithConstant( this.row2, 123 );
+	CellInstance cell21 = new CellWithConstant( this.row2, 123 );
 	CellInstance cell22 = new CellWithConstant( this.row2, 123 );
 	ExcelExpressionParser parser = new ExcelExpressionParser( this.cell22 );
+
+
+	@Override
+	protected void setUp() throws Exception
+	{
+		super.setUp();
+		this.workbook.getNameMap().put( "_A1_", this.cell11.getCellIndex() );
+		this.workbook.getNameMap().put( "_B1_", this.cell12.getCellIndex() );
+		this.workbook.getNameMap().put( "_A2_", this.cell21.getCellIndex() );
+		this.workbook.getNameMap().put( "_B2_", this.cell22.getCellIndex() );
+		this.workbook.getNameMap().put( "_A_", new CellRange( this.cell11.getCellIndex(), this.cell21.getCellIndex() ) );
+		this.workbook.getNameMap().put( "_B_", new CellRange( this.cell12.getCellIndex(), this.cell22.getCellIndex() ) );
+		this.workbook.getNameMap().put( "_1_", new CellRange( this.cell11.getCellIndex(), this.cell12.getCellIndex() ) );
+		this.workbook.getNameMap().put( "_2_", new CellRange( this.cell21.getCellIndex(), this.cell22.getCellIndex() ) );
+		this.workbook.getNameMap().put( "_ALL_", new CellRange( this.cell11.getCellIndex(), this.cell22.getCellIndex() ) );
+	}
 
 
 	public void testRC() throws Exception
@@ -68,10 +85,59 @@ public class ExcelExpressionParserTest extends TestCase
 	}
 
 
+	public void testCellRefs() throws Exception
+	{
+		assertParsableA1( "((((A1 + B1) + B2) + A2) + B2)", "A1 + _1_ + _2_ + _A_ + _B_" );
+		assertParsableR1C1( "((((A1 + B1) + B2) + A2) + B2)", "R1C1 + _1_ + _2_ + _A_ + _B_" );
+		assertParsableR1C1( "((((A1 + C3) + A2) + B1) + A1)", "R1C1 + R[1]C[1] + RC1 + R1C + R[-1]C[-1]" );
+	}
+
+
+	public void testOperators()
+	{
+		assertParsableA1( "((((A1 + (-B1)) + B2) - B3) - (-B4))", "A1 + -B1 + +B2 - +B3 - -B4" );
+		assertParsableA1( "(A1 + (A2 * A3))", "A1 + A2 * A3" );
+	}
+
+
+	public void testCellAndRangeMixes() throws Exception
+	{
+		assertParsableA1( "SUM( A1:B2, C5, A1:B5 A2:E8, (A1 + A2) )", "SUM( A1:B2, C5, A1:B5 A2:E8, A1+A2 )" );
+		assertParsableA1( "(SUM( A1:B1, A2:B2 A1:A2, B1:B2, A1:B2 ) + B2)", "SUM( _1_, _2_ _A_, _B_, _ALL_ ) + _2_" );
+	}
+
+
+	public void testOldStyleFunctions() throws Exception
+	{
+		assertParsableA1( "((1.0 + ROUND( A1, 2.0 )) + 2.0)", "1 + @ROUND(A1,2) + 2" );
+		assertParsableA1( "((1.0 + ROUND( A1, 2.0 )) + 2.0)", "1 + ROUND(A1,2) + 2" );
+	}
+
+
 	public void testUnsupported() throws Exception
 	{
 		assertErr( "2 + SOMEFUNC(A2)",
-				"Unsupported expression element in '2 + SOMEFUNC*?*(A2)'; error location indicated by '*?*'." );
+				"Undefined name or unsupported function encountered in '2 + SOMEFUNC*?*(A2)'; error location indicated by '*?*'." );
+	}
+
+
+	private void assertParsableA1( String _expected, String _string )
+	{
+		assertParsable( _expected, _string, CellRefFormat.A1 );
+	}
+
+
+	private void assertParsableR1C1( String _expected, String _string )
+	{
+		assertParsable( _expected, _string, CellRefFormat.R1C1 );
+	}
+
+
+	private void assertParsable( String _expected, String _expr, CellRefFormat _format )
+	{
+		final ExpressionNode node = this.parser.parseText( _expr, _format );
+		final String actual = node.describe();
+		assertEquals( _expected, actual );
 	}
 
 
@@ -87,7 +153,7 @@ public class ExcelExpressionParserTest extends TestCase
 	}
 
 
-	private void assertRef( String _canonicalName, String _ref, final CellRefFormat _format )
+	private void assertRef( String _canonicalName, String _ref, CellRefFormat _format )
 	{
 		ExpressionNode parsed = this.parser.parseText( _ref, _format );
 		ExpressionNodeForCell node = (ExpressionNodeForCell) parsed;
@@ -97,7 +163,7 @@ public class ExcelExpressionParserTest extends TestCase
 	}
 
 
-	private void assertErr( final String _ref, final String _msg ) throws Exception
+	private void assertErr( String _ref, String _msg ) throws Exception
 	{
 		try {
 			this.parser.parseText( _ref, CellRefFormat.A1 );

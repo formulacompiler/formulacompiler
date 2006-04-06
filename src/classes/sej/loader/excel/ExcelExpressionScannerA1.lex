@@ -40,7 +40,8 @@ import java_cup.runtime.Symbol;
 
 %state YYSTRING
 
-ALPHA	= [A-Za-z\_]
+ALPHA	= [A-Za-z]
+IDENT	= {ALPHA} | {DIGIT} | "_"
 DIGIT	= [0-9]
 SYMBOL	= [\$\!\%\^\&\*\#\_\=\+\;\#\~\@\/\?\.\,\<\>\|\:\-\[\]\\]
 SPACE	= [\n\ \t\b\012]
@@ -54,7 +55,11 @@ CELL	= {ABS}? {ALPHA} {ALPHA}? {ABS}? {INT}
 SHEET	= {QUOTE}? ({ALPHA} | {DIGIT} | {SPACE} | {SYMBOL})+ {QUOTE}? "!" 
 		| {QUOTE} ({ALPHA} | {DIGIT} | {SPACE} | {SYMBOL} | "(" | ")")+ {QUOTE} "!"
 
-NAME	= {ALPHA} {ALPHA} ({ALPHA} | {DIGIT})*
+NAME	= {ALPHA} {ALPHA} {IDENT}*
+		| "_" {IDENT}*
+		| {ALPHA} "_" {IDENT}*
+
+FN		= "@"?
 
 
 %%
@@ -81,20 +86,21 @@ NAME	= {ALPHA} {ALPHA} ({ALPHA} | {DIGIT})*
 "<="		{ return new Symbol( GeneratedSymbols.LESSOREQUAL, "<=" ); }
 "<>"		{ return new Symbol( GeneratedSymbols.NOTEQUAL, "<>" ); }
 
-"IF"		{ return new Symbol( GeneratedSymbols.IF, "IF" ); }
-"AND"		{ return new Symbol( GeneratedSymbols.AND, "AND" ); }
-"OR"		{ return new Symbol( GeneratedSymbols.OR, "OR" ); }
-"NOT"		{ return new Symbol( GeneratedSymbols.NOT, "NOT" ); }
-"SUM"		{ return new Symbol( GeneratedSymbols.SUM, "SUM" ); }
-"PRODUCT"	{ return new Symbol( GeneratedSymbols.PRODUCT, "PRODUCT" ); }
-"AVERAGE"	{ return new Symbol( GeneratedSymbols.AVERAGE, "AVERAGE" ); }
-"MIN"		{ return new Symbol( GeneratedSymbols.MIN, "MIN" ); }
-"MAX"		{ return new Symbol( GeneratedSymbols.MAX, "MAX" ); }
-"MATCH"		{ return new Symbol( GeneratedSymbols.MATCH, "MATCH" ); }
-"INDEX"		{ return new Symbol( GeneratedSymbols.INDEX, "INDEX" ); }
-"ROUND"		{ return new Symbol( GeneratedSymbols.ROUND, "ROUND" ); }
-"TRUE"		{ return new Symbol( GeneratedSymbols.INT, new Integer(1) ); }
-"FALSE"		{ return new Symbol( GeneratedSymbols.INT, new Integer(0) ); }
+{FN} "IF"		{ return new Symbol( GeneratedSymbols.IF, "IF" ); }
+{FN} "AND"		{ return new Symbol( GeneratedSymbols.AND, "AND" ); }
+{FN} "OR"		{ return new Symbol( GeneratedSymbols.OR, "OR" ); }
+{FN} "NOT"		{ return new Symbol( GeneratedSymbols.NOT, "NOT" ); }
+{FN} "SUM"		{ return new Symbol( GeneratedSymbols.SUM, "SUM" ); }
+{FN} "PRODUCT"	{ return new Symbol( GeneratedSymbols.PRODUCT, "PRODUCT" ); }
+{FN} "AVERAGE"	{ return new Symbol( GeneratedSymbols.AVERAGE, "AVERAGE" ); }
+{FN} "MIN"		{ return new Symbol( GeneratedSymbols.MIN, "MIN" ); }
+{FN} "MAX"		{ return new Symbol( GeneratedSymbols.MAX, "MAX" ); }
+{FN} "MATCH"	{ return new Symbol( GeneratedSymbols.MATCH, "MATCH" ); }
+{FN} "INDEX"	{ return new Symbol( GeneratedSymbols.INDEX, "INDEX" ); }
+{FN} "ROUND"	{ return new Symbol( GeneratedSymbols.ROUND, "ROUND" ); }
+
+{FN} "TRUE"		{ return new Symbol( GeneratedSymbols.INT, new Integer(1) ); }
+{FN} "FALSE"	{ return new Symbol( GeneratedSymbols.INT, new Integer(0) ); }
 
 {CELL}		{ return new Symbol( GeneratedSymbols.CELLA1, yytext() ); }
 {SHEET}		{ return new Symbol( GeneratedSymbols.SHEET, yytext() ); }
