@@ -5,18 +5,21 @@ import java.io.IOException;
 import sej.Engine;
 import sej.EngineBuilder;
 import sej.ModelError;
+import sej.Settings;
 import sej.engine.standard.compiler.StandardCompiler;
 import sej.loader.excel.xls.ExcelXLSLoader;
 import junit.framework.TestCase;
 
+
 public class DebugTest extends TestCase
 {
-	
+
 	static {
 		ExcelXLSLoader.register();
 		StandardCompiler.registerAsDefault();
+		Settings.setDebugLogEnabled( true );
 	}
-	
+
 
 	public void testDebugCase() throws IOException, ModelError
 	{
@@ -28,30 +31,35 @@ public class DebugTest extends TestCase
 		final Inputs inputs = new Inputs();
 		final Outputs outputs = (Outputs) engine.newComputation( inputs );
 
-		assertEquals( 100.0, outputs.getResult(), 0.00001 );
+		assertEquals( 10.0, outputs.getResult(), 0.00001 );
 	}
 
 
 	public static final class Inputs
 	{
-		public double getIA()
+		public boolean getIA()
 		{
-			return 5;
+			return true;
 		}
 
-		public double getIB()
+		public boolean getIB()
 		{
-			return 20.0;
+			return false;
 		}
 
-		public double getIC()
+		public boolean getIC()
 		{
-			return 30.0;
+			return false;
+		}
+
+		public double getID()
+		{
+			return 20;
 		}
 	}
 
 
-	public static interface Outputs 
+	public static interface Outputs
 	{
 		double getResult();
 	}

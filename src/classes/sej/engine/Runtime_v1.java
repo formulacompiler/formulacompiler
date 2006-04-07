@@ -22,6 +22,7 @@ package sej.engine;
 
 import java.util.Date;
 
+
 public final class Runtime_v1
 {
 
@@ -61,6 +62,18 @@ public final class Runtime_v1
 	public static double stdROUND( final double _val, final double _maxFrac )
 	{
 		return round( _val, (int) _maxFrac );
+	}
+
+
+	public static double booleanToExcel( final boolean _val )
+	{
+		return _val ? 1.0 : 0.0;
+	}
+
+
+	public static boolean booleanFromExcel( final double _val )
+	{
+		return (_val != 0);
 	}
 
 

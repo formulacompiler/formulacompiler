@@ -30,6 +30,7 @@ public class Settings
 	private static boolean debugLogEnabled = false;
 	private static String debugIndentation = "";
 	private static boolean debugParserEnabled = false;
+	private static boolean debugCompilationEnabled = false;
 
 
 	/**
@@ -85,5 +86,16 @@ public class Settings
 		debugParserEnabled = _debugParserEnabled;
 	}
 
+
+	public static boolean isDebugCompilationEnabled()
+	{
+		return debugCompilationEnabled ;
+	}
+
+
+	public static void setDebugCompilationEnabled( boolean _debugCompilationEnabled )
+	{
+		debugCompilationEnabled = _debugCompilationEnabled;
+	}
 
 }

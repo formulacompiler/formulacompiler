@@ -104,6 +104,13 @@ public class GeneratedEngine implements Engine, Outputs
 		boolean a = false, b = false, c = false;
 		return (a && b) ? 1.0 : 0.0;
 	}
+	
+	
+	final double getBoolIf()
+	{
+		double a = 0;
+		return (a != 0)? 1 : 0;
+	}
 
 
 	final double getRewrittenAndIf()

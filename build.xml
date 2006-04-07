@@ -96,7 +96,8 @@
 	<taskdef classname="java_cup.AntTask" name="cup" classpath="${build.classpath}" />
 
 	<target name="lex" depends="prepare">
-		<jflex file="${src.classes.dir}/sej/loader/excel/ExcelExpressionScanner.lex" destdir="${src.classes.gen.dir}" />
+		<jflex file="${src.classes.dir}/sej/loader/excel/ExcelExpressionScannerA1.lex" destdir="${src.classes.gen.dir}" />
+		<jflex file="${src.classes.dir}/sej/loader/excel/ExcelExpressionScannerR1C1.lex" destdir="${src.classes.gen.dir}" />
 	</target>
 
 	<target name="cup" depends="prepare, lex">
@@ -299,10 +300,12 @@
 				<fileset dir="${build.test-unit.dir}">
 					<include name="**/*Test.class" />
 					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
 				</fileset>
 				<fileset dir="${build.test-system.dir}">
-					<include name="**/*.class" />
+					<include name="**/*Test*.class" />
 					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
 				</fileset>
 			</batchtest>
 
@@ -357,10 +360,12 @@
 				<fileset dir="${build.test-unit14.dir}">
 					<include name="**/*Test.class" />
 					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
 				</fileset>
 				<fileset dir="${build.test-system14.dir}">
-					<include name="**/*Test.class" />
+					<include name="**/*Test*.class" />
 					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
 				</fileset>
 			</batchtest>
 

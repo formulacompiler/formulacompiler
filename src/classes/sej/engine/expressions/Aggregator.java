@@ -356,6 +356,7 @@ public enum Aggregator {
 			public Anding()
 			{
 				super();
+				this.result = true;
 			}
 
 
