@@ -205,6 +205,10 @@ public abstract class ByteCodeMethodCompiler
 			mv().visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.Runtime.getInternalName(), "dateToExcel",
 					"(Ljava/util/Date;)D" );
 		}
+		else if (Boolean.TYPE == contextClass) {
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.Runtime.getInternalName(), "booleanToExcel",
+					"(Z)D" );
+		}
 	}
 
 
@@ -315,65 +319,240 @@ public abstract class ByteCodeMethodCompiler
 	{
 		final Label notMet = mv().newLabel();
 		final Label done = mv().newLabel();
-		
-		compileTest( _node.getArguments().get(0), false, notMet );
+
+		new TestCompilerBranchingWhenFalse( _node.getArguments().get( 0 ), notMet ).compile();
 
 		compileExpr( _node.getArguments().get( 1 ) );
 
 		mv().visitJumpInsn( Opcodes.GOTO, done );
 		mv().mark( notMet );
-		
+
 		compileExpr( _node.getArguments().get( 2 ) );
-		
+
 		mv().mark( done );
 	}
-	
-	
-	private void compileTest( ExpressionNode _node, boolean _branchWhenResultIs, Label _branchTo ) throws ModelError
+
+
+	private abstract class TestCompiler
 	{
-		unsupported( _node );
+		protected ExpressionNode node;
+		protected Label branchTo;
+
+		public TestCompiler(ExpressionNode _node, Label _branchTo)
+		{
+			super();
+			this.node = _node;
+			this.branchTo = _branchTo;
+		}
+
+		void compile() throws ModelError
+		{
+			if (this.node instanceof ExpressionNodeForOperator) {
+				final ExpressionNodeForOperator opNode = (ExpressionNodeForOperator) this.node;
+				final Operator operator = opNode.getOperator();
+
+				switch (operator) {
+
+				case AND:
+					compileAnd();
+					return;
+
+				case OR:
+					compileOr();
+					return;
+
+				case EQUAL:
+				case NOTEQUAL:
+				case GREATER:
+				case GREATEROREQUAL:
+				case LESS:
+				case LESSOREQUAL:
+					compileExpr( this.node.getArguments().get( 0 ) );
+					compileExpr( this.node.getArguments().get( 1 ) );
+					compileComparison( operator );
+					return;
+
+				}
+			}
+
+			else if (this.node instanceof ExpressionNodeForAggregator) {
+				final ExpressionNodeForAggregator aggNode = (ExpressionNodeForAggregator) this.node;
+				final Aggregator aggregator = aggNode.getAggregator();
+
+				switch (aggregator) {
+				case AND:
+					compileAnd();
+					return;
+				case OR:
+					compileOr();
+					return;
+				}
+			}
+
+			compileValue();
+		}
+
+		protected abstract void compileAnd() throws ModelError;
+		protected abstract void compileOr() throws ModelError;
+		protected abstract void compileComparison( Operator _comparison ) throws ModelError;
+
+		protected void compileComparison( int _ifOpcode, int _comparisonOpcode ) 
+		{
+			mv().visitInsn( _comparisonOpcode );
+			mv().visitJumpInsn( _ifOpcode, this.branchTo );
+		}
+
+		void compileValue() throws ModelError
+		{
+			compileExpr( this.node );
+			mv().push( 0.0D );
+			compileComparison( Operator.NOTEQUAL );
+		}
+
+		protected abstract void compileBooleanTest() throws ModelError;
 	}
 
 
-	private boolean compileDirectIf( ExpressionNodeForIf _node ) throws ModelError
+	private class TestCompilerBranchingWhenFalse extends TestCompiler
 	{
-		final ExpressionNode firstArg = _node.getArguments().get( 0 );
-		if (firstArg instanceof ExpressionNodeForOperator) {
-			final ExpressionNodeForOperator firstOp = (ExpressionNodeForOperator) firstArg;
-			final Operator operator = firstOp.getOperator();
 
-			int compOpcode = Opcodes.DCMPL;
-			int testOpcode;
-			if (Operator.EQUAL == operator) testOpcode = Opcodes.IFNE;
-			else if (Operator.NOTEQUAL == operator) testOpcode = Opcodes.IFEQ;
-			else if (Operator.GREATER == operator) testOpcode = Opcodes.IFLE;
-			else if (Operator.GREATEROREQUAL == operator) testOpcode = Opcodes.IFLT;
-			else if (Operator.LESS == operator) {
-				testOpcode = Opcodes.IFGE;
-				compOpcode = Opcodes.DCMPG;
-			}
-			else if (Operator.LESSOREQUAL == operator) {
-				testOpcode = Opcodes.IFGT;
-				compOpcode = Opcodes.DCMPG;
-			}
-			else return false;
-
-			compileExpr( firstArg.getArguments().get( 0 ) );
-			compileExpr( firstArg.getArguments().get( 1 ) );
-
-			Label notMet = new Label();
-			Label done = new Label();
-			mv().visitInsn( compOpcode );
-			mv().visitJumpInsn( testOpcode, notMet );
-			compileExpr( _node.getArguments().get( 1 ) );
-			mv().visitJumpInsn( Opcodes.GOTO, done );
-			mv().visitLabel( notMet );
-			compileExpr( _node.getArguments().get( 2 ) );
-			mv().visitLabel( done );
-
-			return true;
+		public TestCompilerBranchingWhenFalse(ExpressionNode _node, Label _branchTo)
+		{
+			super( _node, _branchTo );
 		}
-		return false;
+
+		@Override
+		protected void compileComparison( Operator _comparison ) throws ModelError
+		{
+			switch (_comparison) {
+
+			case EQUAL:
+				compileComparison( Opcodes.IFNE, Opcodes.DCMPL );
+				return;
+
+			case NOTEQUAL:
+				compileComparison( Opcodes.IFEQ, Opcodes.DCMPL );
+				return;
+
+			case GREATER:
+				compileComparison( Opcodes.IFLE, Opcodes.DCMPL );
+				return;
+
+			case GREATEROREQUAL:
+				compileComparison( Opcodes.IFLT, Opcodes.DCMPL );
+				return;
+
+			case LESS:
+				compileComparison( Opcodes.IFGE, Opcodes.DCMPG );
+				return;
+
+			case LESSOREQUAL:
+				compileComparison( Opcodes.IFGT, Opcodes.DCMPG );
+				return;
+
+			}
+		}
+
+		@Override
+		protected void compileOr() throws ModelError
+		{
+			final Label met = mv().newLabel();
+			final int nArg = this.node.getArguments().size();
+			int iArg = 0;
+			while (iArg < nArg - 1) {
+				final ExpressionNode arg = this.node.getArguments().get( iArg );
+				new TestCompilerBranchingWhenTrue( arg, met ).compile();
+				iArg++;
+			}
+			final ExpressionNode lastArg = this.node.getArguments().get( iArg );
+			new TestCompilerBranchingWhenFalse( lastArg, this.branchTo ).compile();
+			mv().mark( met );
+		}
+
+		@Override
+		protected void compileAnd() throws ModelError
+		{
+			for (ExpressionNode arg : this.node.getArguments()) {
+				new TestCompilerBranchingWhenFalse( arg, this.branchTo ).compile();
+			}
+		}
+
+		@Override
+		protected void compileBooleanTest() throws ModelError
+		{
+			mv().visitJumpInsn( Opcodes.IFEQ, this.branchTo );
+		}
+	}
+
+	private class TestCompilerBranchingWhenTrue extends TestCompiler
+	{
+
+		public TestCompilerBranchingWhenTrue(ExpressionNode _node, Label _branchTo)
+		{
+			super( _node, _branchTo );
+		}
+
+		@Override
+		protected void compileComparison( Operator _comparison ) throws ModelError
+		{
+			switch (_comparison) {
+
+			case EQUAL:
+				compileComparison( Opcodes.IFEQ, Opcodes.DCMPL );
+				return;
+
+			case NOTEQUAL:
+				compileComparison( Opcodes.IFNE, Opcodes.DCMPL );
+				return;
+
+			case GREATER:
+				compileComparison( Opcodes.IFGT, Opcodes.DCMPG );
+				return;
+
+			case GREATEROREQUAL:
+				compileComparison( Opcodes.IFGE, Opcodes.DCMPG );
+				return;
+
+			case LESS:
+				compileComparison( Opcodes.IFLT, Opcodes.DCMPL );
+				return;
+
+			case LESSOREQUAL:
+				compileComparison( Opcodes.IFLE, Opcodes.DCMPL );
+				return;
+
+			}
+		}
+
+		@Override
+		protected void compileOr() throws ModelError
+		{
+			for (ExpressionNode arg : this.node.getArguments()) {
+				new TestCompilerBranchingWhenTrue( arg, this.branchTo ).compile();
+			}
+		}
+
+		@Override
+		protected void compileAnd() throws ModelError
+		{
+			final Label notMet = mv().newLabel();
+			final int nArg = this.node.getArguments().size();
+			int iArg = 0;
+			while (iArg < nArg - 1) {
+				final ExpressionNode arg = this.node.getArguments().get( iArg );
+				new TestCompilerBranchingWhenFalse( arg, notMet ).compile();
+				iArg++;
+			}
+			final ExpressionNode lastArg = this.node.getArguments().get( iArg );
+			new TestCompilerBranchingWhenTrue( lastArg, this.branchTo ).compile();
+			mv().mark( notMet );
+		}
+
+		@Override
+		protected void compileBooleanTest() throws ModelError
+		{
+			mv().visitJumpInsn( Opcodes.IFNE, this.branchTo );
+		}
 	}
 
 

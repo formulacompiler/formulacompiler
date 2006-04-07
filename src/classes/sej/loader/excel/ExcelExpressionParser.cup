@@ -9,6 +9,7 @@ import sej.engine.expressions.*;
 import sej.model.*;
 
 parser code {:
+
 	ExcelExpressionParser excelParser;
 	ExpressionNode rootNode;
 
@@ -54,8 +55,8 @@ non terminal ExpressionNode optarg;
 non terminal ExpressionNode rangeexpr;
 non terminal CellIndex cell;
 non terminal CellRange range;
-non terminal ExpressionNodeForRangeUnion rangeunion;
-non terminal ExpressionNodeForRangeIntersection rangeintersection;
+non terminal ExpressionNode rangeunion;
+non terminal ExpressionNode rangeintersection;
 non terminal Aggregator agg;
 
 precedence left EQUAL, NOTEQUAL, GREATER, GREATEROREQUAL, LESS, LESSOREQUAL;
@@ -188,7 +189,7 @@ expr ::=
 				{: RESULT = cell( e ); :}  // interestingly, you may not parenthesize ranges
 				
 	|	agg:a LPAREN rangeunion:l RPAREN
-				{: RESULT = new ExpressionNodeForAggregator( a, l ); :}
+				{: RESULT = new ExpressionNodeForAggregator( a, l.getArguments() ); :}
 				
 	|	MATCH LPAREN expr:lookupvalue COMMA rangeexpr:array optarg:matchtype RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.MATCH, cell( lookupvalue ), array, matchtype ); :}
@@ -270,9 +271,11 @@ rangeunion ::=
 rangeintersection ::=
 
 		rangeexpr:r
-				{: RESULT = new ExpressionNodeForRangeIntersection( r ); :}
+				{: RESULT = r; :}
 				
 	|	rangeintersection:i rangeexpr:r
-				{: RESULT = i; i.addArgument( r ); :}
+				{: RESULT = (i instanceof ExpressionNodeForRangeIntersection)? i : new ExpressionNodeForRangeIntersection( i ); 
+				   RESULT.addArgument( r ); 
+				 :}
 
 	;

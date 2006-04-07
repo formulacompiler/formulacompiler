@@ -86,7 +86,7 @@ public class ByteCodeCompiler extends WorkbookCompiler
 
 		final byte[] classBytes = this.root.getClassBytes();
 
-		if (Settings.isDebugLogEnabled()) dumpClassBytes( classBytes );
+		if (Settings.isDebugCompilationEnabled()) dumpClassBytes( classBytes );
 
 		return classBytes;
 	}

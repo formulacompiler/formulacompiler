@@ -248,8 +248,12 @@ public class FormulaEvaluationTestSuite extends TestSuite
 									new Class[] { Integer.TYPE } ), iInput ) );
 						}
 						else if (inputValue instanceof Date) {
-							root.defineInputCell( inputValueCell.getCellIndex(), new CallFrame( Inputs.class.getMethod(
+							root.defineInputCell( inputReferenceCellIndex, new CallFrame( Inputs.class.getMethod(
 									"getDate", new Class[] { Integer.TYPE } ), iInput ) );
+						}
+						else if (inputValue instanceof Boolean) {
+							root.defineInputCell( inputReferenceCellIndex, new CallFrame( Inputs.class.getMethod(
+									"getBoolean", new Class[] { Integer.TYPE } ), iInput ) );
 						}
 						else {
 							fail( "Input cell type not supported" );
@@ -298,6 +302,11 @@ public class FormulaEvaluationTestSuite extends TestSuite
 			public Date getDate( int _index )
 			{
 				return (Date) this.values[ _index ];
+			}
+
+			public boolean getBoolean( int _index )
+			{
+				return (Boolean) this.values[ _index ];
 			}
 
 		}
