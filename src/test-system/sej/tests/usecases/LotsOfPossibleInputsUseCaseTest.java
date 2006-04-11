@@ -79,6 +79,8 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 			final Class outputs = Outputs.class;
 			_root.defineOutputCell( _model.getCell( "A" ), new CallFrame( outputs.getMethod( "getA" ) ) );
 			_root.defineOutputCell( _model.getCell( "B" ), new CallFrame( outputs.getMethod( "getB" ) ) );
+			_root.defineOutputCell( _model.getCell( "ISOK" ), new CallFrame( outputs.getMethod( "isOK" ) ) );
+			_root.defineOutputCell( _model.getCell( "WHEN" ), new CallFrame( outputs.getMethod( "when" ) ) );
 		}
 
 
@@ -87,8 +89,17 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 			final Inputs inputs = new Inputs( 13, 14 );
 			final Outputs outputs = (Outputs) _engine.newComputation( inputs );
 
+			assertEquals( true, outputs.isOK() );
 			assertEquals( 127, outputs.getA(), 0.0001 );
 			assertEquals( 247, outputs.getB(), 0.0001 );
+
+			final Calendar cal = Calendar.getInstance();
+			cal.clear();
+			cal.set( 1994, 7 - 1, 31 );
+
+			final Date expectedDate = cal.getTime();
+			final Date actualDate = outputs.when();
+			assertTrue( expectedDate.equals( actualDate ) );
 		}
 
 
@@ -186,6 +197,9 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 		{
 			return getA() + getB();
 		}
+
+		public abstract boolean isOK();
+		public abstract Date when();
 	}
 
 

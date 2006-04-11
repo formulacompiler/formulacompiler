@@ -453,32 +453,20 @@
 
 		<replace dir="${doc.dir}">
 			<include name="**/*.htm" />
-			<replacetoken>
-				<![CDATA[<a href="../index.htm">arrenbrecht.ch</a>]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a>]]>
-			</replacevalue>
+			<replacetoken><![CDATA[<a href="../index.htm">arrenbrecht.ch</a>]]></replacetoken>
+			<replacevalue><![CDATA[<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a>]]></replacevalue>
 		</replace>
 
 		<replace dir="${doc.dir}">
 			<include name="**/*.htm" />
-			<replacetoken>
-				<![CDATA[<a href="../../index.htm">arrenbrecht.ch</a>]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a>]]>
-			</replacevalue>
+			<replacetoken><![CDATA[<a href="../../index.htm">arrenbrecht.ch</a>]]></replacetoken>
+			<replacevalue><![CDATA[<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a>]]></replacevalue>
 		</replace>
 
 		<replace dir="${doc.dir}">
 			<include name="**/*.htm" />
-			<replacetoken>
-				<![CDATA[<a href="../../../index.htm">arrenbrecht.ch</a>]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a>]]>
-			</replacevalue>
+			<replacetoken><![CDATA[<a href="../../../index.htm">arrenbrecht.ch</a>]]></replacetoken>
+			<replacevalue><![CDATA[<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a>]]></replacevalue>
 		</replace>
 	</target>
 
@@ -494,6 +482,7 @@
 		<delete dir="${dist.dir}" />
 		<delete dir="${src.classes.gen.dir}" />
 		<mkdir dir="${src.classes.gen.dir}" />
+		<mkdir dir="${build.dir}/dev" />  <!-- make Eclipse happy -->
 	</target>
 
 	<!-- ================================================================= -->
@@ -543,6 +532,7 @@
 				<include name="*.css" />
 				<include name="src/**" />
 				<include name="build.xml" />
+				<include name="build.conf" />
 				<exclude name="**/.DS_Store" />
 			</fileset>
 		</copy>

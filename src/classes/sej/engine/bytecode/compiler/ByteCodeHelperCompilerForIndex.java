@@ -102,6 +102,7 @@ public class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 				"[D", null, null );
 		fv.visitEnd();
 
+		// TODO Finish compileStaticArrayField
 		// ... new double[ n ]
 		final MethodVisitor ci = null; // TODO getSection().classInit();
 		ci.visitIntInsn( Opcodes.BIPUSH, n );

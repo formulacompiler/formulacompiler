@@ -22,6 +22,7 @@ package sej.engine.bytecode.compiler;
 
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.List;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
@@ -44,6 +45,7 @@ import sej.engine.expressions.ExpressionNodeForConstantValue;
 import sej.engine.expressions.ExpressionNodeForFunction;
 import sej.engine.expressions.ExpressionNodeForIf;
 import sej.engine.expressions.ExpressionNodeForOperator;
+import sej.engine.expressions.Function;
 import sej.engine.expressions.Operator;
 
 
@@ -389,17 +391,42 @@ public abstract class ByteCodeMethodCompiler
 				}
 			}
 
+			if (this.node instanceof ExpressionNodeForFunction) {
+				final ExpressionNodeForFunction fnNode = (ExpressionNodeForFunction) this.node;
+				final Function fn = fnNode.getFunction();
+
+				switch (fn) {
+
+				case NOT:
+					compileNot();
+					return;
+
+				}
+			}
+
 			compileValue();
 		}
 
+		protected abstract TestCompiler newInverseCompiler( ExpressionNode _node, Label _branchTo );
 		protected abstract void compileAnd() throws ModelError;
 		protected abstract void compileOr() throws ModelError;
 		protected abstract void compileComparison( Operator _comparison ) throws ModelError;
 
-		protected void compileComparison( int _ifOpcode, int _comparisonOpcode ) 
+		protected void compileComparison( int _ifOpcode, int _comparisonOpcode )
 		{
 			mv().visitInsn( _comparisonOpcode );
 			mv().visitJumpInsn( _ifOpcode, this.branchTo );
+		}
+
+		private void compileNot() throws ModelError
+		{
+			final List<ExpressionNode> args = this.node.getArguments();
+			if (0 < args.size()) {
+				newInverseCompiler( args.get( 0 ), this.branchTo ).compile();
+			}
+			else {
+				unsupported( this.node );
+			}
 		}
 
 		void compileValue() throws ModelError
@@ -451,6 +478,12 @@ public abstract class ByteCodeMethodCompiler
 				return;
 
 			}
+		}
+
+		@Override
+		protected TestCompiler newInverseCompiler( ExpressionNode _node, Label _branchTo )
+		{
+			return new TestCompilerBranchingWhenTrue( _node, _branchTo );
 		}
 
 		@Override
@@ -522,6 +555,12 @@ public abstract class ByteCodeMethodCompiler
 				return;
 
 			}
+		}
+
+		@Override
+		protected TestCompiler newInverseCompiler( ExpressionNode _node, Label _branchTo )
+		{
+			return new TestCompilerBranchingWhenFalse( _node, _branchTo );
 		}
 
 		@Override

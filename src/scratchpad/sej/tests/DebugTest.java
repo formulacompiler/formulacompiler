@@ -31,7 +31,7 @@ public class DebugTest extends TestCase
 		final Inputs inputs = new Inputs();
 		final Outputs outputs = (Outputs) engine.newComputation( inputs );
 
-		assertEquals( 10.0, outputs.getResult(), 0.00001 );
+		assertEquals( 100.0, outputs.getResult(), 0.00001 );
 	}
 
 
@@ -44,7 +44,7 @@ public class DebugTest extends TestCase
 
 		public boolean getIB()
 		{
-			return false;
+			return true;
 		}
 
 		public boolean getIC()

@@ -189,10 +189,10 @@ root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">mode
 </span><span class="j-def">root.defineOutputCell</span><span class="j-sym">( </span><span class="j-def">model.getCell</span><span class="j-sym">( </span><span class="j-num">0</span><span class="j-def">, </span><span class="j-num">1</span><span class="j-def">, </span><span class="j-num">2 </span><span class="j-sym">)</span><span class="j-def">, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">Outputs.</span><span class="j-key">class</span><span class="j-def">.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getResult&#34; </span><span class="j-sym">) ) )</span><span class="j-def">;
 
 </span><span class="j-cmt">// Write the engine out to its serialized form, then drop the reference to it.
-</span><span class="j-def">File engineSerializationFile = </span><span class="j-key">new </span><span class="j-def">File</span><span class="j-sym">( </span><span class="j-str">&#34;examples/data/Engine.ser&#34; </span><span class="j-sym">)</span><span class="j-def">;
+</span><span class="j-def">File engineSerializationFile = </span><span class="j-key">new </span><span class="j-def">File</span><span class="j-sym">( </span><span class="j-str">&#34;/temp/Engine.ser&#34; </span><span class="j-sym">)</span><span class="j-def">;
 OutputStream outStream = </span><span class="j-key">new </span><span class="j-def">FileOutputStream</span><span class="j-sym">( </span><span class="j-def">engineSerializationFile </span><span class="j-sym">)</span><span class="j-def">;
 </span><span class="j-key">try </span><span class="j-sym">{
-  </span><span class="j-def">EngineFactory.saveTo</span><span class="j-sym">( </span><span class="j-def">compiler, outStream </span><span class="j-sym">)</span><span class="j-def">;
+  </span><span class="j-def">compiler.saveTo</span><span class="j-sym">( </span><span class="j-def">outStream </span><span class="j-sym">)</span><span class="j-def">;
 </span><span class="j-sym">}
 </span><span class="j-key">finally </span><span class="j-sym">{
   </span><span class="j-def">outStream.close</span><span class="j-sym">()</span><span class="j-def">;
@@ -219,7 +219,7 @@ System.out.printf</span><span class="j-sym">( </span><span class="j-str">&#34;Re
 <p>Test-driven development should ensure that all supported features are clearly documented and verified by tests. The infrastructure to add tests in a consistent way is not defined yet.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 28.03.2006.</p>        </div>
+<br/>Last updated on 11.04.2006.</p>        </div>
     </div>
 </body>
 </html>
