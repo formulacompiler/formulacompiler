@@ -48,7 +48,7 @@ public class BasicUsageDemo
 		// ---- BasicUsage
 		// ---- Construction
 		// Load and parse the spreadsheet file into memory.
-		Spreadsheet model = SpreadsheetLoader.loadFromFile( "examples/data/Test.xls" );
+		Spreadsheet model = SpreadsheetLoader.loadFromFile( "examples/testdata/sej/Test.xls" );
 
 		// Create an engine builder for the loaded spreadsheet file.
 		// Pass to it the input and output types.

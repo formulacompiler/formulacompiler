@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Current Limitations - arrenbrecht.ch</title>
+    <style type="text/css" media="screen">
+        @import "../style.css";
+	
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+	
+</head>
+<body>
+    <div class="all">
+        <div class="nav">
+            <p class="nav">
+<a href="../index.htm">arrenbrecht.ch</a> &gt;
+<a href="index.htm">SEJ</a> &gt;
+
+
+			</p>
+        </div>
+        <div class="title">
+            <p class="nofirefox">
+                This site displays best on <a href="http://www.mozilla.com/">Firefox</a>.</p>
+            <h1>
+                Current Limitations</h1>
+        </div>
+        
+        
+        <div class="content">
+        
+<p>This document describes the current limitations of SEJ as of <a href="releasenotes.htm">release 0.3.2</a>. In this early release, many things are still incomplete or missing entirely.</p>
+
+<h3>Spreadsheet Formats</h3>
+<ul class="spaced">
+<li>Excel .xml support is not part of the test suite right now and, therefore, probably broken.</li>
+<li>OpenOffice Calc spreadsheet loader is not done at all.</li>
+<li>The Excel .xls loader does not yet handle:</li>
+<ul compact class="compact">
+<li>references to other sheets</li>
+<li>labels in formulas</li>
+</ul>
+</ul>
+
+<h3>Excel Functionality</h3>
+<ul class="spaced">
+<li>SEJ currently supports only the basic numeric operators (<tt>+</tt>, <tt>-</tt>, <tt>*</tt>, <tt>/</tt>, <tt>%</tt>, <tt>^</tt>), <tt>SUM</tt>, <tt>MIN</tt>, <tt>MAX</tt>, <tt>AVERAGE</tt>, <tt>PRODUCT</tt>, <tt>IF</tt>, <tt>ROUND</tt>. A good overview of the supported functionality can be gained from this <a href="dist/Tests.xls">file of test cases</a>.</li>
+<li>Range intersections are parsed but not evaluated correctly.</li>
+<li>You cannot bind to rightmost or bottommost cells that have no value (because Excel does not save them).</li>
+</ul>
+
+<h3>Interfacing with Java</h3>
+<ul class="spaced">
+<li>Subsections of varying width or height, while they can be <a href="tutorial/binding.htm#BindRepeatingSections">defined</a>, are not handled by the compiler yet.</li>
+<li>Only <tt>double</tt>-, <tt>Date</tt>-, and <tt>boolean</tt>-valued computations are supported. In particular, there is no support for <tt>String</tt>, <tt>BigDecimal</tt>, and <tt>null</tt> yet.</li>
+<li>The compiler cannot handle <a href="tutorial/binding.htm#BindByName">parametrized outputs</a> yet.</li>
+</ul>
+
+<h3>Engine Persistence</h3>
+<ul class="spaced">
+<li>The engines stored by SEJ are not yet in the definitive format. It is currently just a single class file's contents, with minimal versioning information. This will change to a more robust format in the future.</li>
+</ul>
+
+<h3>Miscellaneous</h3>
+<ul class="spaced">
+<li>The interactive demo is broken (because of the missing parametrized outputs).</li>
+</ul>        </div>
+        <div class="footer">
+<p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
+<br/>Last updated on 11.04.2006.</p>        </div>
+    </div>
+</body>
+</html>

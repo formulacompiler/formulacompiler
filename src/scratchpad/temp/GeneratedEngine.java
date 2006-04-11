@@ -51,6 +51,11 @@ public class GeneratedEngine implements Engine, Outputs
 		return getA() + getB();
 	}
 
+	public final boolean getBool()
+	{
+		return Runtime_v1.booleanFromExcel( getA() );
+	}
+
 	public final Iterable<Outputs> getDetails()
 	{
 		// TODO Auto-generated method stub
@@ -104,12 +109,12 @@ public class GeneratedEngine implements Engine, Outputs
 		boolean a = false, b = false, c = false;
 		return (a && b) ? 1.0 : 0.0;
 	}
-	
-	
+
+
 	final double getBoolIf()
 	{
 		double a = 0;
-		return (a != 0)? 1 : 0;
+		return (a != 0) ? 1 : 0;
 	}
 
 

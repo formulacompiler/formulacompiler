@@ -74,7 +74,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 	{
 		Workbook workbook;
 		try {
-			workbook = (Workbook) SpreadsheetLoader.loadFromFile( "src/test-system/data/" + _fileName );
+			workbook = (Workbook) SpreadsheetLoader.loadFromFile( "src/test-system/testdata/sej/" + _fileName );
 		}
 		catch (Exception e) {
 			e.fillInStackTrace();

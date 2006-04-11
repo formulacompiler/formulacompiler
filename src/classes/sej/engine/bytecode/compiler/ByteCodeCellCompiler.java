@@ -20,19 +20,23 @@
  */
 package sej.engine.bytecode.compiler;
 
-import org.objectweb.asm.Label;
+import java.lang.reflect.Method;
+
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 
 import sej.CallFrame;
 import sej.ModelError;
+import sej.ModelError.UnsupportedDataType;
 import sej.engine.compiler.model.CellModel;
 import sej.engine.expressions.ExpressionNode;
+
 
 final class ByteCodeCellCompiler extends ByteCodeMethodCompiler
 {
 	private final ByteCodeCellComputation cellComputation;
-	
+
 
 	public ByteCodeCellCompiler(ByteCodeCellComputation _computation)
 	{
@@ -66,19 +70,22 @@ final class ByteCodeCellCompiler extends ByteCodeMethodCompiler
 	}
 
 
-	private void compileOutputGetter()
+	private void compileOutputGetter() throws ModelError
 	{
 		final CellModel cell = this.cellComputation.getCell();
 		for (CallFrame callFrame : cell.getCallsToImplement()) {
 
 			if (callFrame.getHead() != callFrame) throw new IllegalArgumentException();
 
+			final Method method = callFrame.getMethod();
+			final Class returnClass = method.getReturnType();
+			final Type returnType = Type.getReturnType( method );
+
 			if (0 == callFrame.getArgs().length) {
 				MethodVisitor mv = this.cellComputation.getSection().cw().visitMethod(
-						Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL, callFrame.getMethod().getName(), "()D", null, null );
+						Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL, method.getName(), "()" + returnType.getDescriptor(), null,
+						null );
 				mv.visitCode();
-				Label l0 = new Label();
-				mv.visitLabel( l0 );
 
 				compileRef( mv, this.cellComputation );
 
@@ -87,11 +94,25 @@ final class ByteCodeCellCompiler extends ByteCodeMethodCompiler
 					mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.Runtime.getInternalName(), "round", "(DI)D" );
 				}
 
-				mv.visitInsn( Opcodes.DRETURN );
-				Label l1 = new Label();
-				mv.visitLabel( l1 );
-				mv.visitLocalVariable( "this", this.cellComputation.getSection().engine.getDescriptor(), null, l0, l1, 0 );
-				mv.visitMaxs( 2, 1 );
+				if (Double.TYPE == returnClass) {
+					mv.visitInsn( Opcodes.DRETURN );
+				}
+				else if (java.util.Date.class == returnClass) {
+					mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.Runtime.getInternalName(), "dateFromExcel",
+							"(D)Ljava/util/Date;" );
+					mv.visitInsn( Opcodes.ARETURN );
+				}
+				else if (Boolean.TYPE == returnClass) {
+					mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.Runtime.getInternalName(),
+							"booleanFromExcel", "(D)Z" );
+					mv.visitInsn( Opcodes.IRETURN );
+				}
+				else {
+					throw new ModelError.UnsupportedDataType( "Output type for '"
+							+ callFrame.toString() + "' is not supported" );
+				}
+
+				mv.visitMaxs( 0, 0 );
 				mv.visitEnd();
 			}
 			else throw new IllegalArgumentException();

@@ -5,6 +5,7 @@
     <title>SEJ Developer's Journal - arrenbrecht.ch</title>
     <style type="text/css" media="screen">
         @import "../style.css";
+	
     </style>
     <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
 	
@@ -30,6 +31,192 @@
         <div class="content">
         
 <p>This is an unstructured journal regarding the development of SEJ. I use it to keep track of ideas, goals and discussion notes.</p>
+
+<h2>April 7, 2006</h2>
+<p>Release 0.3.2 is nearing completion. I just got all the tests running again and can do a complete build, including a version of SEJ for Java 1.4 which also passes all tests. Yay! Here's the news:</p>
+<ul compact class="compact">
+<li><tt>sej-runtime.jar</tt> actually works now</li>
+<li>More robust formula parsing</li>
+<li>Better formula error reporting</li>
+<li><tt>IF</tt> fully supported, including <tt>AND</tt> and <tt>OR</tt></li>
+<li>Java 1.4 compatibility</li>
+<li>Dropped <tt>Engine.Computation</tt></li>
+</ul>
+<p>Before I release, I shall have to test it manually again, and write a dedicated page about current limitations. Missing right now are, in particular:</p>
+<ul compact class="compact">
+<li><tt>NOT</tt> - this will be easy, I think: just call the inverse test compiler</li>
+<li>Range intersection</li>
+<li>Vectors</li>
+<li>Excel XML</li>
+<li>OOCalc</li>
+<li>Sections</li>
+</ul>
+<p>By the way, the <tt>IF</tt> logic described below was not fully correct. But I was on the right track. It works like a charm now.</p>
+
+<h3>Next Steps (Revisited)</h3>
+<ul class="spaced">
+<li>Implement <tt>NOT</tt>.</li>
+<li>Implement support for <tt>BigDecimal</tt>. This might be possible without full type inference by simply substituting <tt>BigDecimal</tt> for <tt>double</tt> everywhere.</li>
+<li>Write an outline of the type inference strategy so implications on the API can be caught.</li>
+<li>Decide on how serialized engines will be stored for both maximum load performance and maximum robustness when SEJ evolves.</li>
+</ul>
+
+<h2>April 6, 2006</h2>
+<p>I'll have to try the following:</p>
+<pre>public abstract class Output {
+  public abstract Output newComputation( Input input );
+  // ...
+}</pre>
+
+<p>and then</p>
+<pre>Output engine = (Output) compiler.compileNewEngine();
+Output output = engine.newComputation( input );</pre>
+
+<p>But it is hacky! I should introduce a factory object here. Making this factory customizable would allow users to write APIs that completely decouple them from SEJ's internals, once they get an instantiated engine.</p>
+<p>On the topic of Excel formula parsing, I have now gotten the grammar right, I think. I split the lexer into two versions, one for A1-style cell references (for Excel's .xls format as returned by JExcelAPI), and another for R1C1-style references (for Excel's .xml format). This allows me to much better recognize cell references versus names. And it cleared up the parsing code quite a bit.</p>
+<p>Robert told me in more detail about his problems with SEJ. I have written a very long reply, which I will use as the basis for a better exposition of SEJ's design decisions. In summary, I believe he is right that I should not have dived headlong into Java 5 for not very strong reasons. Apart from that, though, I still believe SEJ's design to be very sound.</p>
+
+<h2>April 4, 2006</h2>
+<p>Got feedback from Robert Zachajewicz of <a href="http://www.together.at/">together.at</a> on SEJ yesterday. He said that for his needs, SEJ was too strongly tied to particular Java versions and could not be isolated enough from the rest of his application for his liking. I have asked him to elaborate, since I do not yet see the full merit of his point.</p>
+<p>Nevertheless, it got me thinking about this myself (it's always good to get criticism you can take constructively). I realized I can drop the requirement that the ouptut type be a descendant class of <tt>Engine.Computation</tt>, and, in fact, a class at all. It can be an interface too. I can then drop the <tt>Engine.Computation</tt> class entirely. This further reduces the noise introduced by SEJ into your own types.</p>
+<p>One aspect where he is right is in the planned design of the system tests. The byte code produced from SEJ's generated Java source by the Java compiler is compared to the byte code SEJ produces directly (using ASM). This is, admittedly, highly version specific. It is, however, only an issue for running SEJ's own system tests, not for using it. I intend to do it do ensure that the two generators (source code and byte code) in SEJ actually produce the same output. This should raise the confidence that the source output can be used to gain insight by users of SEJ when something in a byte code computation does not seem to work.</p>
+<p>While I knew I had tested SEJ against the JRE 1.4 before, I started reading about <tt>-target jsr14</tt> some more. And indeed this option is not officially supported by Sun. So I now use <a href="http://retrotranslator.sourceforge.net/">Retrotranslator</a> to generate 1.4 compatible .jars.</p>
+
+<h2>March 30, 2006</h2>
+
+<h3>Cells, Ranges and Names</h3>
+<p>Excel ranges and names are tricky. Here are some examples:</p><dt><tt>=SUM(2:5)</tt></dt><dd>sums the entire rows 2 through 5.</dd><dt><tt>=SUM(B:D)</tt></dt><dd>sums the entire columns B through D.</dd><dt><tt>=SUM(namedrange)</tt></dt><dd>sums the named range.</dd><dt><tt>=namedrange</tt></dt><dd>is an error, unless the range is unidimensional and the referencing cell is in a parallel range to the named one. However, in such a cell, <tt>=SUM(namedrange)</tt> still sums the entire range, not just the unidimensional cut through a possibly multidimensional range.</dd>
+<p>The last rule deserves an example:</p>
+<pre>Income  Expense  Profit
+  $100      $80  =Income-Expense =&gt; $180
+  $200     $160  =Income-Expense =&gt; $360</pre>
+
+<p>will work if column A is named <em>Income</em> and column B is named <em>Expense</em>. However</p>
+<pre>IncomeA  IncomeB  Wrong!                  Expected
+   $100     $200  =SUM(Incomes) =&gt; $600!      $300
+   $120     $180  =SUM(Incomes) =&gt; $600!      $300</pre>
+
+<p>will not work as expected if <em>Incomes</em> is defined as A2:B3. If you simply define column A2:A3 as <em>IncomeA</em> and column B2:B3 as <em>IncomeB</em> and write:</p>
+<pre>IncomeA  IncomeB  Wrong!                          Expected
+   $100     $200  =SUM(IncomeA;IncomeB) =&gt; $600!      $300
+   $120     $180  =SUM(IncomeA;IncomeB) =&gt; $600!      $300</pre>
+
+<p>it is still wrong. This, however, works:</p>
+<pre>IncomeA  IncomeB  Correct                   Expected
+   $100     $200  =IncomeA+IncomeB =&gt; $300      $300
+   $120     $180  =IncomeA+IncomeB =&gt; $300      $300</pre>
+
+<p>This can become rather pathological because the seemingly scalar functions <tt>AND</tt> and <tt>OR</tt> are actually aggregators, whereas <tt>NOT</tt> is scalar:</p>
+<pre>One    Two   Surprise!                 Expected
+TRUE   TRUE  =AND(One;Two) =&gt; FALSE!!  TRUE
+FALSE  TRUE  =AND(One;Two) =&gt; FALSE    FALSE</pre>
+
+<p>What's worse, there is, as far as I know, no scalar equivalent for <tt>AND</tt> and <tt>OR</tt>, as <tt>+</tt> is for <tt>SUM</tt>.</p>
+<p>All this leads to some complicated rules for cell and range parsing in Excel expressions. While researching this, I came up with the following web links:</p>
+<ul compact class="compact">
+<li><a href="http://ewbi.blogs.com/develops/2004/12/excel_formula_p.html">A JavaScript online parser</a></li>
+<li><a href="http://www.codecomments.com/archive285-2005-7-538549.html">Attempt at a BNF grammar</a></li>
+<li><a href="http://www.mcs.vuw.ac.nz/~db/FishBrainWiki?Excel">Another one</a></li>
+<li><a href="http://chacocanyon.com/smm/readings/referenceoperators.shtml">Overview of Excel operators</a></li>
+</ul>
+<p>Here's a few points worth noting:</p>
+<ul class="spaced">
+<li>For some other reason Excel uses a space (or multiple spaces) as the range intersection operator. While not as ambiguous as the comma, it does require some consideration.</li>
+<li>Don't forget that Excel still allows functions to be preceded with an <em>@</em>.</li>
+<li>Don't forget that array constants (surrounded by braces <tt>{}</tt>) can contain rows, which are delimited with semicolons <tt>;</tt>.</li>
+<li>The text either side of a colon are not always cell references. Sometimes they are numbers (eg. <tt>$25:26</tt>).</li>
+<li>A plus is not always a plus, sometimes it’s a unary operator, sometimes a binary operator, sometimes the significant figure in scientific notation. eg. <tt>12E+20</tt>.</li>
+</ul>
+<p>My current attempt at a BNF grammar looks like what follows. Note the possible ambiguity where <tt>name</tt> occurs in multiple places.</p>
+<pre>expr ::=
+    cell
+  | expr + expr
+  ...
+  | SUM( ranges ).
+
+ranges ::=
+    range {"," range}.
+
+range ::=
+    name
+  | coords ":" coords
+  | col ":" col
+  | row ":" row.
+
+cell ::=
+    name
+  | coords.
+
+coords ::=
+  | col row
+  | "R" {index} "C" {index}.
+
+index ::=
+    &lt;integer&gt;
+  | "[" &lt;integer&gt; "]".
+
+col ::= ident.
+row ::= &lt;integer&gt;.
+name ::= ident.</pre>
+
+
+<h3>Compiling <tt>IF</tt></h3>
+<p>It took me a while to figure out how to compile <tt>IF</tt> statements the way the Java compiler does. While I haven't gotten around to implementing it yet, I believe the trick is to have two modes for compilation. I call them <em>branch-false</em> and <em>branch-true</em>. In <em>branch-false</em>, the test branches to a supplied label if the condition is false, otherwise falls through. <em>branch-true</em> reverses this. The reversal is used when compiling <tt>OR</tt> in <em>branch-false</em> (and, conversely, <tt>AND</tt> in <em>branch-true</em>).</p>
+<p><em>branch-false</em> does:</p>
+<pre>void compileOr( Node a, Node b, Label branch ) {
+  Label otherTest = newLabel();
+  BRANCH_TRUE.compileTest( a, otherTest );
+  mark( otherTest );
+  compileTest( b, branch );
+}
+void compileAnd( Node a, Node b, Label branch ) {
+  compileTest( a, branch );
+  compileTest( b, branch );
+}</pre>
+
+<p><em>branch-true</em> does:</p>
+<pre>void compileOr( Node a, Node b, Label branch ) {
+  compileTest( a, branch );
+  compileTest( b, branch );
+}
+void compileAnd( Node a, Node b, Label branch ) {
+  Label notMet = newLabel();
+  BRANCH_FALSE.compileTest( a, notMet );
+  compileTest( b, branch );
+  mark( notMet );
+}</pre>
+
+<p>The initial call is:</p>
+<pre>void compileIf( Node test, Node iftrue, Node iffalse ) {
+  Label notMet = newLabel();
+  Label done = newLabel();
+  BRANCH_FALSE.compileTest( test, notMet );
+  compileExpr( iftrue );
+  compileGoto( done );
+  mark( notMet );
+  compileExpr( iffalse );
+  mark( done );
+}</pre>
+
+
+<h2>March 29, 2006</h2>
+<p>When you use an input method that may throw a checked exception, you really have to declare that exception on each and every output method. This is because you cannot know all the places where the author of the spreadsheet is going to use that input. Therefore, SEJ should really check that all output methods declare the union of all the declared exceptions of all the input methods. Since this affects the API, I should implement this check early on.</p>
+<p>To support internal caching of multiply referenced values, a computation should support a <tt>reset()</tt> method, which you have to call prior to reusing a computation with modified inputs.</p>
+<p>To minimize the dependencies of compiled engines, I should move the <tt>saveTo()</tt> functionality from the <tt>EngineFactory</tt> to the <tt>Compiler</tt>. That way, compiled engines don't even need interface to the compiler.</p>
+<p>I just manually tested release 0.3.1. Had to tweak it a bit so all of the documentation gets properly included. The runtime-only .jar also did not work at all. Shall release this in 0.3.2. Lesson learned: always install and test a release.</p>
+
+<h3>Next Steps</h3>
+<ul class="spaced">
+<li>Implement full boolean expression support for <tt>IF</tt>, including <tt>AND</tt> and <tt>OR</tt>.</li>
+<li>Implement support for <tt>BigDecimal</tt>. This might be possible without full type inference by simply substituting <tt>BigDecimal</tt> for <tt>double</tt> everywhere.</li>
+<li>Write an outline of the type inference strategy so implications on the API can be caught.</li>
+<li>Decide on how serialized engines will be stored for both maximum load performance and maximum robustness when SEJ evolves.</li>
+</ul>
+
+<h3>Suggestions</h3>
+<ul class="spaced">
+<li>Do a simple writer that generates an Excel worksheet based on an SEJ model. This is for applications that create the SEJ models themselves given legacy data or formulas defined in a custom UI. They can then write out a template spreadsheet for when users want to switch to spreadsheet mode.</li>
+</ul>
 
 <h2>March 21, 2006</h2>
 <p>Everything is up and running again except for:</p>
@@ -118,7 +305,7 @@
 <p>SEJ does not handle sums over nested bands properly. The user must model intermediate sums for every non-leaf band. I shall accept this as a known limitation for the moment and have <a href="doc/bands.html">documented</a> it.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 21.03.2006.</p>        </div>
+<br/>Last updated on 11.04.2006.</p>        </div>
     </div>
 </body>
 </html>

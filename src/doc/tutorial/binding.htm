@@ -36,7 +36,7 @@
 <p>Input cells of a spreadsheet are bound to methods of plain Java interfaces or classes.</p>
 
 <h3>Inputs</h3>
-<p>To bind spreadsheet cells to variable input values, you must have an interface (or a class) defining getters for your input values. This is typically a static local interface (or class), defined explicitly for this purpose:</p>
+<p>To bind spreadsheet cells to variable input values, you must have an interface or a class defining getters for your input values. This is typically a static inner type, defined explicitly for this purpose:</p>
 <pre class="java"><span class="j-key">public static interface </span><span class="j-def">Input
 </span><span class="j-sym">{
   </span><span class="j-typ">double </span><span class="j-def">getSomeValue</span><span class="j-sym">()</span><span class="j-def">;
@@ -45,12 +45,12 @@
   String getName</span><span class="j-sym">()</span><span class="j-def">;
 </span><span class="j-sym">}</span></pre>
 <p>In order for the interface to be accessible to the generated engine, it must be <tt>public</tt>. This is because the engine is not loaded by the same class loader as your own classes (read <a href="http://www.artima.com/insidejvm/ed2/security2.html">why this matters</a>).</p>
-<p>This interface (or class) you provide to the compiler when you construct it:</p>
+<p>This type you provide to the compiler when you construct it:</p>
 <pre class="java"><span class="j-def">Class input = Input.</span><span class="j-key">class</span><span class="j-def">;
 Class output = Output.</span><span class="j-key">class</span><span class="j-def">;
 Compiler compiler = CompilerFactory.newDefaultCompiler</span><span class="j-sym">( </span><span class="j-def">spreadsheet, input, output </span><span class="j-sym">)</span><span class="j-def">;
 Compiler.Section root = compiler.getRoot</span><span class="j-sym">()</span><span class="j-def">;</span></pre>
-<p>You then tell the compiler which cells bind to which getter methods on your interface:</p>
+<p>You then tell the compiler which cells bind to which getter methods on your type:</p>
 <pre class="java"><span class="j-def">cell = spreadsheet.getCell</span><span class="j-sym">( </span><span class="j-str">&#34;SOME_VALUE&#34; </span><span class="j-sym">)</span><span class="j-def">;
 method = input.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getSomeValue&#34; </span><span class="j-sym">)</span><span class="j-def">;
 root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">cell, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">method </span><span class="j-sym">) )</span><span class="j-def">;
@@ -69,24 +69,19 @@ chainedMethod = String.</span><span class="j-key">class</span><span class="j-def
 root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">cell, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">method </span><span class="j-sym">)</span><span class="j-def">.chain</span><span class="j-sym">( </span><span class="j-def">chainedMethod </span><span class="j-sym">) )</span><span class="j-def">;</span></pre>
 
 <h3>Outputs</h3>
-<p>Outputs that the spreadsheet computes are bound to methods of a special abstract class you define. This class is subclassed by the generated computation engine, which overrides all methods bound to output cells so they perform the computation specified in the spreadsheet.</p>
-<p>Your abstract output base class must subclass <tt>Engine.Computation</tt> and is typically a static local class:</p>
-<pre class="java"><span class="j-key">public static abstract class </span><span class="j-def">Output </span><span class="j-key">extends </span><span class="j-def">Engine.Computation
+<p>Outputs that the spreadsheet computes are bound to methods of an interface or a dedicated abstract class you define. This type is implemented or subclassed by the generated computation engine, which overrides all methods bound to output cells so they perform the computation specified in the spreadsheet.</p>
+<p>Your output type is typically a static inner type. In order for it to be accessible to the generated computation, it must be <tt>public</tt>.</p>
+<pre class="java"><span class="j-key">public static interface </span><span class="j-def">Output
 </span><span class="j-sym">{
-  </span><span class="j-key">public </span><span class="j-def">Output</span><span class="j-sym">(</span><span class="j-def">Object _input</span><span class="j-sym">)
-  {
-    </span><span class="j-key">super</span><span class="j-sym">( </span><span class="j-def">_input </span><span class="j-sym">)</span><span class="j-def">;
-  </span><span class="j-sym">}
-  </span><span class="j-key">public abstract </span><span class="j-typ">double </span><span class="j-def">getResult</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-key">public abstract </span><span class="j-typ">double </span><span class="j-def">getCoefficient</span><span class="j-sym">()</span><span class="j-def">;
+  </span><span class="j-typ">double </span><span class="j-def">getResult</span><span class="j-sym">()</span><span class="j-def">;
+  </span><span class="j-typ">double </span><span class="j-def">getCoefficient</span><span class="j-sym">()</span><span class="j-def">;
 </span><span class="j-sym">}</span></pre>
-<p>Propagating the inherited constructor is mandatory. In order for the output class to be accessible to the generated computation, it must be <tt>public</tt>.</p>
-<p>Like the input interface (or class), you also pass it to the compiler constructor:</p>
+<p>Like the input type, you also pass it to the compiler constructor:</p>
 <pre class="java"><span class="j-def">Class input = Input.</span><span class="j-key">class</span><span class="j-def">;
 Class output = Output.</span><span class="j-key">class</span><span class="j-def">;
 Compiler compiler = CompilerFactory.newDefaultCompiler</span><span class="j-sym">( </span><span class="j-def">spreadsheet, input, output </span><span class="j-sym">)</span><span class="j-def">;
 Compiler.Section root = compiler.getRoot</span><span class="j-sym">()</span><span class="j-def">;</span></pre>
-<p>Now that the class is in place, we can bind output cells to it:</p>
+<p>Now that the type is in place, we can bind output cells to it:</p>
 <pre class="java"><span class="j-def">cell = spreadsheet.getCell</span><span class="j-sym">( </span><span class="j-str">&#34;RESULT&#34; </span><span class="j-sym">)</span><span class="j-def">;
 method = output.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getResult&#34; </span><span class="j-sym">)</span><span class="j-def">;
 root.defineOutputCell</span><span class="j-sym">( </span><span class="j-def">cell, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">method </span><span class="j-sym">) )</span><span class="j-def">;
@@ -96,14 +91,15 @@ method = output.getMethod</span><span class="j-sym">( </span><span class="j-str"
 root.defineOutputCell</span><span class="j-sym">( </span><span class="j-def">cell, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">method </span><span class="j-sym">) )</span><span class="j-def">;</span></pre>
 
 <h3>Defaults</h3>
-<p>If you supply implementations for your output methods, they serve as defaults in case they are not bound to an output cell of the spreadsheet. This is mainly useful when outputs are bound generically (by cell name, for instance). Since the input object is passed to the output class in its constructor, you can even access input values when computing default outputs, as well as, of course, other output methods. To simplify using input values, you can properly type the constructor:</p>
-<pre class="java"><span class="j-key">public static abstract class </span><span class="j-def">OutputWithDefault </span><span class="j-key">extends </span><span class="j-def">Engine.Computation
+<p>If you supply implementations for your output methods, they serve as defaults in case they are not bound to an output cell of the spreadsheet. This is mainly useful when outputs are bound generically (by cell name, for instance).</p>
+<p>To access input values when computing default output values, you can define a constructor that takes the input type as its sole parameter. SEJ then automatically calls that constructor with the current inputs. You can also access other output values by calling their corresponding methods, of course.</p>
+<pre class="java"><span class="j-key">public static abstract class </span><span class="j-def">OutputWithDefault 
 </span><span class="j-sym">{
   </span><span class="j-key">private final </span><span class="j-def">Input input;
 
   </span><span class="j-key">public </span><span class="j-def">OutputWithDefault</span><span class="j-sym">(</span><span class="j-def">Input _input</span><span class="j-sym">)
   {
-    </span><span class="j-key">super</span><span class="j-sym">( </span><span class="j-def">_input </span><span class="j-sym">)</span><span class="j-def">;
+    </span><span class="j-key">super</span><span class="j-sym">()</span><span class="j-def">;
     </span><span class="j-key">this</span><span class="j-def">.input = _input;
   </span><span class="j-sym">}
 
@@ -139,12 +135,8 @@ root.defineOutputCell</span><span class="j-sym">( </span><span class="j-def">cel
 
 <h3>Outputs</h3>
 <p>To bind output values by name, you use an analogous construct:</p>
-<pre class="java"><span class="j-key">public static abstract class </span><span class="j-def">Output </span><span class="j-key">extends </span><span class="j-def">Engine.Computation
+<pre class="java"><span class="j-key">public static abstract class </span><span class="j-def">Output
 </span><span class="j-sym">{
-  </span><span class="j-key">public </span><span class="j-def">Output</span><span class="j-sym">(</span><span class="j-def">Object _input</span><span class="j-sym">)
-  {
-    </span><span class="j-key">super</span><span class="j-sym">( </span><span class="j-def">_input </span><span class="j-sym">)</span><span class="j-def">;
-  </span><span class="j-sym">}
   </span><span class="j-key">public </span><span class="j-typ">double </span><span class="j-def">getOutput</span><span class="j-sym">( </span><span class="j-def">String _name </span><span class="j-sym">)
   {
     </span><span class="j-key">return </span><span class="j-num">0</span><span class="j-def">;
@@ -257,27 +249,19 @@ root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">cell
   </span><span class="j-typ">double </span><span class="j-def">getOther</span><span class="j-sym">()</span><span class="j-def">;
 </span><span class="j-sym">}</span></pre>
 <p>To achieve this, the simplest approach is to simply make your output class implement both of the target interfaces:</p>
-<pre class="java"><span class="j-key">public static abstract class </span><span class="j-def">Output </span><span class="j-key">extends </span><span class="j-def">Engine.Computation </span><span class="j-key">implements </span><span class="j-def">OutputA, OutputB
+<pre class="java"><span class="j-key">public static interface </span><span class="j-def">Output </span><span class="j-key">extends </span><span class="j-def">OutputA, OutputB
 </span><span class="j-sym">{
-  </span><span class="j-key">public </span><span class="j-def">Output</span><span class="j-sym">(</span><span class="j-def">Object _input</span><span class="j-sym">)
-  {
-    </span><span class="j-key">super</span><span class="j-sym">( </span><span class="j-def">_input </span><span class="j-sym">)</span><span class="j-def">;
-  </span><span class="j-sym">}
-}</span></pre>
+  </span><span class="j-cmt">// no own content
+</span><span class="j-sym">}</span></pre>
 <p>You can then use your computation's output with both targets. However, this only works if name clashes are acceptable, that is, <tt>OutputA.getResult()</tt> maps to the same spreadsheet cell as <tt>OutputB.getResult()</tt>.</p>
 
 <h5>Disambiguation</h5>
 <p>If this is not the case, you have to do a little more work. You define your output class as follows:</p>
-<pre class="java"><span class="j-key">public static abstract class </span><span class="j-def">Output2 </span><span class="j-key">extends </span><span class="j-def">Engine.Computation
+<pre class="java"><span class="j-key">public static interface </span><span class="j-def">Output2 
 </span><span class="j-sym">{
-  </span><span class="j-key">public </span><span class="j-def">Output2</span><span class="j-sym">(</span><span class="j-def">Object _input</span><span class="j-sym">)
-  {
-    </span><span class="j-key">super</span><span class="j-sym">( </span><span class="j-def">_input </span><span class="j-sym">)</span><span class="j-def">;
-  </span><span class="j-sym">}
-
-  </span><span class="j-key">public abstract </span><span class="j-typ">double </span><span class="j-def">getResultA</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-key">public abstract </span><span class="j-typ">double </span><span class="j-def">getResultB</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-key">public abstract </span><span class="j-typ">double </span><span class="j-def">getOtherB</span><span class="j-sym">()</span><span class="j-def">;
+  </span><span class="j-typ">double </span><span class="j-def">getResultA</span><span class="j-sym">()</span><span class="j-def">;
+  </span><span class="j-typ">double </span><span class="j-def">getResultB</span><span class="j-sym">()</span><span class="j-def">;
+  </span><span class="j-typ">double </span><span class="j-def">getOtherB</span><span class="j-sym">()</span><span class="j-def">;
 </span><span class="j-sym">}</span></pre>
 <p>Then, you define wrappers which implement the proper interfaces:</p>
 <pre class="java"><span class="j-key">public static class </span><span class="j-def">OutputAImpl </span><span class="j-key">implements </span><span class="j-def">OutputA
@@ -294,7 +278,6 @@ root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">cell
   {
     </span><span class="j-key">return this</span><span class="j-def">.output.getResultA</span><span class="j-sym">()</span><span class="j-def">;
   </span><span class="j-sym">}
-
 }</span></pre>
 <p>and</p>
 <pre class="java"><span class="j-key">public static class </span><span class="j-def">OutputBImpl </span><span class="j-key">implements </span><span class="j-def">OutputB
@@ -316,19 +299,14 @@ root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">cell
   {
     </span><span class="j-key">return this</span><span class="j-def">.output.getOtherB</span><span class="j-sym">()</span><span class="j-def">;
   </span><span class="j-sym">}
-
 }</span></pre>
 
 <h5>Note</h5>
 <p>SEJ does not support the following idiom:</p>
-<pre class="java"><span class="j-key">public static abstract class </span><span class="j-def">Output3 </span><span class="j-key">extends </span><span class="j-def">Engine.Computation
+<pre class="java"><span class="j-key">public static interface </span><span class="j-def">Output3
 </span><span class="j-sym">{
-  </span><span class="j-key">public </span><span class="j-def">Output3</span><span class="j-sym">(</span><span class="j-def">Object _input</span><span class="j-sym">)
-  {
-    </span><span class="j-key">super</span><span class="j-sym">( </span><span class="j-def">_input </span><span class="j-sym">)</span><span class="j-def">;
-  </span><span class="j-sym">}
-  </span><span class="j-key">public abstract </span><span class="j-def">OutputA getA</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-key">public abstract </span><span class="j-def">OutputB getB</span><span class="j-sym">()</span><span class="j-def">;
+  </span><span class="j-def">OutputA getA</span><span class="j-sym">()</span><span class="j-def">;
+  OutputB getB</span><span class="j-sym">()</span><span class="j-def">;
 </span><span class="j-sym">}</span></pre>
 <p>as it did for inputs. This is because for outputs, it is SEJ's responsibility to implement this interface. It only supports the approach with the least black box magic.</p>
 
@@ -368,15 +346,10 @@ valueGetter = CustomerCategory.</span><span class="j-key">class</span><span clas
 <h3>Outputs</h3>
 <p>Let's assume a spreadsheet is used to update next year's discount percentage and credit limit for each customer category based on this year's input. The sheet computes the outputs for all of the categories simultaneously because there may be dependencies between the categories. As above, the number of categories is not fixed at compile-time. You cannot use bands to model this sheet because you do not want to force the user to use the same computation model for every category.</p>
 <p>The input model for this sheet can be implemented as described above. How do you specify the outputs? You have to use parametrized accessors for each value separately:</p>
-<pre class="java"><span class="j-key">public static abstract class </span><span class="j-def">Output </span><span class="j-key">extends </span><span class="j-def">Engine.Computation
+<pre class="java"><span class="j-key">public static interface </span><span class="j-def">Output 
 </span><span class="j-sym">{
-  </span><span class="j-key">public </span><span class="j-def">Output</span><span class="j-sym">(</span><span class="j-def">Object _input</span><span class="j-sym">)
-  {
-    </span><span class="j-key">super</span><span class="j-sym">( </span><span class="j-def">_input </span><span class="j-sym">)</span><span class="j-def">;
-  </span><span class="j-sym">}
-
-  </span><span class="j-key">abstract </span><span class="j-typ">double </span><span class="j-def">getNewDiscount</span><span class="j-sym">( </span><span class="j-typ">int </span><span class="j-def">_iCC </span><span class="j-sym">)</span><span class="j-def">;
-  </span><span class="j-key">abstract </span><span class="j-typ">double </span><span class="j-def">getNewCreditLimit</span><span class="j-sym">( </span><span class="j-typ">int </span><span class="j-def">_iCC </span><span class="j-sym">)</span><span class="j-def">;
+  </span><span class="j-typ">double </span><span class="j-def">getNewDiscount</span><span class="j-sym">( </span><span class="j-typ">int </span><span class="j-def">_iCC </span><span class="j-sym">)</span><span class="j-def">;
+  </span><span class="j-typ">double </span><span class="j-def">getNewCreditLimit</span><span class="j-sym">( </span><span class="j-typ">int </span><span class="j-def">_iCC </span><span class="j-sym">)</span><span class="j-def">;
 </span><span class="j-sym">}</span></pre>
 <p>which you bind as follows:</p>
 <pre class="java"><span class="j-def">outputGetter = output.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getNewDiscount&#34;</span><span class="j-def">, Integer.TYPE </span><span class="j-sym">)</span><span class="j-def">;
@@ -393,19 +366,14 @@ valueGetter = CustomerCategory.</span><span class="j-key">class</span><span clas
   </span><span class="j-sym">}
 }</span></pre>
 <p>You might think that the following interface definition would be much nicer:</p>
-<pre class="java"><span class="j-key">public static abstract class </span><span class="j-def">Output2 </span><span class="j-key">extends </span><span class="j-def">Engine.Computation
+<pre class="java"><span class="j-key">public static interface </span><span class="j-def">Output2
 </span><span class="j-sym">{
-  </span><span class="j-key">public </span><span class="j-def">Output2</span><span class="j-sym">(</span><span class="j-def">Object _input</span><span class="j-sym">)
-  {
-    </span><span class="j-key">super</span><span class="j-sym">( </span><span class="j-def">_input </span><span class="j-sym">)</span><span class="j-def">;
-  </span><span class="j-sym">}
+  </span><span class="j-def">CC getCC</span><span class="j-sym">( </span><span class="j-typ">int </span><span class="j-def">_iCC </span><span class="j-sym">)</span><span class="j-def">;
 
-  </span><span class="j-key">public abstract </span><span class="j-def">CC getCC</span><span class="j-sym">( </span><span class="j-typ">int </span><span class="j-def">_iCC </span><span class="j-sym">)</span><span class="j-def">;
-
-  </span><span class="j-key">public abstract class </span><span class="j-def">CC
+  </span><span class="j-key">public interface </span><span class="j-def">CC
   </span><span class="j-sym">{
-    </span><span class="j-key">abstract </span><span class="j-typ">double </span><span class="j-def">getNewDiscount</span><span class="j-sym">()</span><span class="j-def">;
-    </span><span class="j-key">abstract </span><span class="j-typ">double </span><span class="j-def">getNewCreditLimit</span><span class="j-sym">()</span><span class="j-def">;
+    </span><span class="j-typ">double </span><span class="j-def">getNewDiscount</span><span class="j-sym">()</span><span class="j-def">;
+    </span><span class="j-typ">double </span><span class="j-def">getNewCreditLimit</span><span class="j-sym">()</span><span class="j-def">;
   </span><span class="j-sym">}
 }</span></pre>
 <p>I agree. Unfortunately, SEJ does not directly support it (again a consequence of keeping the black box magic in SEJ at a minimum). You are, however, free to put such a façade on top of the original interface:</p>
@@ -482,34 +450,24 @@ orders.defineInputCell</span><span class="j-sym">( </span><span class="j-def">ce
 
 <h3>Input/Output</h3>
 <p>In the second example above, you are also interested in output values that are repeated. The input is structured as it was for pure inputs:</p>
-<pre class="java"><span class="j-key">interface </span><span class="j-def">Input2
+<pre class="java"><span class="j-key">public interface </span><span class="j-def">Input2
 </span><span class="j-sym">{
   </span><span class="j-typ">double </span><span class="j-def">getTotalBonusAmount</span><span class="j-sym">()</span><span class="j-def">;
   Iterable&lt;Employee&gt; getEmployees</span><span class="j-sym">()</span><span class="j-def">;
 
-  </span><span class="j-key">interface </span><span class="j-def">Employee
+  </span><span class="j-key">public interface </span><span class="j-def">Employee
   </span><span class="j-sym">{
     </span><span class="j-typ">double </span><span class="j-def">getBaseSalaryAmount</span><span class="j-sym">()</span><span class="j-def">;
   </span><span class="j-sym">}
 }</span></pre>
 <p>To define the outputs for each employee, your output interface must have a corresponding method returning an appropriate <tt>Iterable</tt>:</p>
-<pre class="java"><span class="j-key">public static abstract class </span><span class="j-def">Output </span><span class="j-key">extends </span><span class="j-def">Engine.Computation
+<pre class="java"><span class="j-key">public static interface </span><span class="j-def">Output 
 </span><span class="j-sym">{
-  </span><span class="j-key">public </span><span class="j-def">Output</span><span class="j-sym">(</span><span class="j-def">Input2 _input</span><span class="j-sym">)
-  {
-    </span><span class="j-key">super</span><span class="j-sym">( </span><span class="j-def">_input </span><span class="j-sym">)</span><span class="j-def">;
-  </span><span class="j-sym">}
+  </span><span class="j-def">Iterable&lt;Employee&gt; getEmployees</span><span class="j-sym">()</span><span class="j-def">;
 
-  </span><span class="j-key">public abstract </span><span class="j-def">Iterable&lt;Employee&gt; getEmployees</span><span class="j-sym">()</span><span class="j-def">;
-
-  </span><span class="j-key">public abstract class </span><span class="j-def">Employee </span><span class="j-key">extends </span><span class="j-def">Engine.Computation
+  </span><span class="j-key">public interface </span><span class="j-def">Employee
   </span><span class="j-sym">{
-    </span><span class="j-key">public </span><span class="j-def">Employee</span><span class="j-sym">(</span><span class="j-def">Input2.Employee _input</span><span class="j-sym">)
-    {
-      </span><span class="j-key">super</span><span class="j-sym">( </span><span class="j-def">_input </span><span class="j-sym">)</span><span class="j-def">;
-    </span><span class="j-sym">}
-
-    </span><span class="j-key">public abstract </span><span class="j-typ">double </span><span class="j-def">getBonusAmount</span><span class="j-sym">()</span><span class="j-def">;
+    </span><span class="j-typ">double </span><span class="j-def">getBonusAmount</span><span class="j-sym">()</span><span class="j-def">;
   </span><span class="j-sym">}
 }</span></pre>
 <p>With this definition you can write:</p>
@@ -526,7 +484,7 @@ employees.defineOutputCell</span><span class="j-sym">( </span><span class="j-def
 <p>With this, SEJ is going to implement the iterator as well as the computation of employee outputs for you. Behind the scenes, it generates descendants of both <tt>Output</tt> and <tt>Output.Employee</tt> for this.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 28.03.2006.</p>        </div>
+<br/>Last updated on 11.04.2006.</p>        </div>
     </div>
 </body>
 </html>

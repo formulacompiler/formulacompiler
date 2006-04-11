@@ -71,7 +71,7 @@ abstract class AbstractUseCaseTest extends TestCase
 			Class _outputs ) throws IOException, ModelError, SecurityException, NoSuchMethodException,
 			InvocationTargetException
 	{
-		Spreadsheet model = SpreadsheetLoader.loadFromFile( "src/test-system/data/usecases/"
+		Spreadsheet model = SpreadsheetLoader.loadFromFile( "src/test-system/testdata/sej/usecases/"
 				+ _sheetFileName + _extension );
 		assertNotNull( "Model is null", model );
 		runUseCase( model, _useCase, CompilerFactory.newDefaultCompiler( model, _inputs, _outputs ) );
