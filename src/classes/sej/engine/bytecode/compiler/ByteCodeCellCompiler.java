@@ -45,9 +45,9 @@ final class ByteCodeCellCompiler extends ByteCodeMethodCompiler
 	}
 
 
-	public ByteCodeCellCompiler(ByteCodeCellComputation _computation) throws ModelError
+	public ByteCodeCellCompiler(ByteCodeCellComputation _computation) 
 	{
-		super( _computation.getSection(), _computation.getMethodName(), _computation.getCell().getType() );
+		super( _computation.getSection(), _computation.getMethodName() );
 		this.cellComputation = _computation;
 	}
 

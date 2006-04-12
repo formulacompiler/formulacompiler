@@ -30,6 +30,9 @@ public class Inputs implements InputInterface
 	private double one;
 	private double two;
 	private double three;
+	private BigDecimal bigOne;
+	private BigDecimal bigTwo;
+	private BigDecimal bigThree;
 	private final Collection<Inputs> details = new ArrayList<Inputs>();
 
 	public Inputs(final double _one, final double _two, final double _three)
@@ -54,6 +57,15 @@ public class Inputs implements InputInterface
 		if (_values.length > 2) this.three = _values[ 2 ];
 	}
 
+	public Inputs(BigDecimal[] _values)
+	{
+		super();
+		if (null == _values) return;
+		if (_values.length > 0) this.bigOne = _values[ 0 ];
+		if (_values.length > 1) this.bigTwo = _values[ 1 ];
+		if (_values.length > 2) this.bigThree = _values[ 2 ];
+	}
+
 	public double getOne()
 	{
 		return this.one;
@@ -67,6 +79,21 @@ public class Inputs implements InputInterface
 	public double getThree()
 	{
 		return this.three;
+	}
+
+	public BigDecimal getBigOne()
+	{
+		return this.bigOne;
+	}
+
+	public BigDecimal getBigTwo()
+	{
+		return this.bigTwo;
+	}
+
+	public BigDecimal getBigThree()
+	{
+		return this.bigThree;
 	}
 
 	public Collection<Inputs> getDetails()

@@ -43,6 +43,7 @@ final class ByteCodeSectionCompiler
 	private final Map<CellModel, ByteCodeCellComputation> cellComputations = new HashMap<CellModel, ByteCodeCellComputation>();
 	private final ClassWriter cw = new ClassWriter( true );
 	private final SectionModel model;
+	private final ByteCodeNumericType numericType;
 
 	private int getterId;
 
@@ -52,12 +53,13 @@ final class ByteCodeSectionCompiler
 	Type engine;
 
 
-	ByteCodeSectionCompiler(ByteCodeCompiler _compiler, SectionModel _model)
+	ByteCodeSectionCompiler(ByteCodeCompiler _compiler, SectionModel _model) throws ModelError
 	{
 		super();
 		this.modelCompiler = _compiler;
 		this.parentSectionCompiler = null;
 		this.model = _model;
+		this.numericType = ByteCodeNumericType.typeFor( _compiler.getNumericType() );
 		initialize();
 	}
 
@@ -68,6 +70,7 @@ final class ByteCodeSectionCompiler
 		this.modelCompiler = _parent.getModelCompiler();
 		this.parentSectionCompiler = _parent;
 		this.model = _model;
+		this.numericType = _parent.getNumericType();
 		_parent.subSectionCompilers.put( _model, this );
 		initialize();
 	}
@@ -90,6 +93,11 @@ final class ByteCodeSectionCompiler
 	ByteCodeCompiler getModelCompiler()
 	{
 		return this.modelCompiler;
+	}
+
+	public ByteCodeNumericType getNumericType()
+	{
+		return this.numericType;
 	}
 
 	ByteCodeSectionCompiler getParentSectionCompiler()

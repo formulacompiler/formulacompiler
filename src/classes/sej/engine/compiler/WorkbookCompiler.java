@@ -24,10 +24,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import sej.CallFrame;
 import sej.Compiler;
 import sej.ModelError;
-import sej.Orientation;
+import sej.NumericType;
 import sej.Spreadsheet;
 import sej.engine.compiler.definition.EngineDefinition;
 import sej.model.Workbook;
@@ -38,6 +37,7 @@ public abstract class WorkbookCompiler implements Compiler
 	protected final EngineDefinition definition;
 	protected final Class inputs;
 	protected final Class outputs;
+	protected NumericType numericType = NumericType.DOUBLE;
 
 
 	public WorkbookCompiler(Spreadsheet _model, Class _inputs, Class _outputs)
@@ -67,22 +67,15 @@ public abstract class WorkbookCompiler implements Compiler
 	}
 
 
-	public void defineInputCell( Spreadsheet.Cell _cell, CallFrame _callChain ) throws ModelError
+	public NumericType getNumericType()
 	{
-		this.definition.defineInputCell( _cell, _callChain );
+		return this.numericType;
 	}
 
 
-	public void defineOutputCell( Spreadsheet.Cell _cell, CallFrame _call ) throws ModelError
+	public void setNumericType( NumericType _numericType )
 	{
-		this.definition.defineOutputCell( _cell, _call );
-	}
-	
-	
-	public Compiler.Section defineRepeatingSection( Spreadsheet.Range _range, Orientation _orientation,
-			CallFrame _inputCallChainReturningIterable, CallFrame _outputCallToImplementIterable ) throws ModelError
-	{
-		return this.definition.defineRepeatingSection( _range, _orientation, _inputCallChainReturningIterable, _outputCallToImplementIterable );
+		this.numericType = _numericType;
 	}
 
 

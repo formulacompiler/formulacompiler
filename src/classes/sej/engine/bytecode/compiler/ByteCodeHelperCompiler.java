@@ -20,15 +20,13 @@
  */
 package sej.engine.bytecode.compiler;
 
-import sej.ModelError;
-import sej.engine.compiler.ValueType;
 
 public abstract class ByteCodeHelperCompiler extends ByteCodeMethodCompiler
 {
 
-	public ByteCodeHelperCompiler(ByteCodeSectionCompiler _section, ValueType _valueType) throws ModelError
+	public ByteCodeHelperCompiler(ByteCodeSectionCompiler _section) 
 	{
-		super( _section, _section.getNewGetterName(), _valueType );
+		super( _section, _section.getNewGetterName() );
 	}
 
 }

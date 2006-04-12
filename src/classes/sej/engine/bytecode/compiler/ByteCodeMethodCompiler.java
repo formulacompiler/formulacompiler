@@ -34,7 +34,6 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 import sej.CallFrame;
 import sej.ModelError;
 import sej.engine.Runtime_v1;
-import sej.engine.compiler.ValueType;
 import sej.engine.compiler.model.CellModel;
 import sej.engine.compiler.model.ExpressionNodeForCellModel;
 import sej.engine.compiler.model.ExpressionNodeForParentSectionModel;
@@ -54,16 +53,14 @@ public abstract class ByteCodeMethodCompiler
 {
 	private final ByteCodeSectionCompiler section;
 	private final String methodName;
-	private final ByteCodeValueType returnType;
 	private final GeneratorAdapter mv;
 
 
-	public ByteCodeMethodCompiler(ByteCodeSectionCompiler _section, String _methodName, ValueType _returnType) throws ModelError
+	public ByteCodeMethodCompiler(ByteCodeSectionCompiler _section, String _methodName)
 	{
 		super();
 		this.section = _section;
 		this.methodName = _methodName;
-		this.returnType = ByteCodeValueType.typeFor( _returnType );
 		this.mv = newAdapter();
 	}
 
@@ -71,7 +68,7 @@ public abstract class ByteCodeMethodCompiler
 	private GeneratorAdapter newAdapter()
 	{
 		final String name = getMethodName();
-		final String signature = "()" + this.returnType.getDescriptor();
+		final String signature = "()" + getNumericType().getDescriptor();
 		final int access = Opcodes.ACC_FINAL;
 		return new GeneratorAdapter( cw().visitMethod( access, name, signature, null, null ), access, name, signature );
 	}
@@ -80,6 +77,12 @@ public abstract class ByteCodeMethodCompiler
 	public ByteCodeSectionCompiler getSection()
 	{
 		return this.section;
+	}
+
+
+	public ByteCodeNumericType getNumericType()
+	{
+		return getSection().getNumericType();
 	}
 
 
@@ -117,7 +120,7 @@ public abstract class ByteCodeMethodCompiler
 
 	private void endCompilation()
 	{
-		mv().visitInsn( this.returnType.getReturnOpcode() );
+		mv().visitInsn( getNumericType().getReturnOpcode() );
 		mv().endMethod();
 		mv().visitEnd();
 	}
@@ -128,13 +131,14 @@ public abstract class ByteCodeMethodCompiler
 
 	protected void compileRef( MethodVisitor _mv, ByteCodeCellComputation _cell )
 	{
-		compileRef( _mv, _cell.getMethodName(), _cell.getType() );
+		compileRef( _mv, _cell.getMethodName() );
 	}
 
-	protected void compileRef( MethodVisitor _mv, String _getterName, ByteCodeValueType _type )
+	protected void compileRef( MethodVisitor _mv, String _getterName )
 	{
 		_mv.visitVarInsn( Opcodes.ALOAD, 0 );
-		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, getSection().engine.getInternalName(), _getterName, "()" + _type.getDescriptor() );
+		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, getSection().engine.getInternalName(), _getterName, "()"
+				+ getNumericType().getDescriptor() );
 	}
 
 
@@ -187,6 +191,7 @@ public abstract class ByteCodeMethodCompiler
 			throw new ModelError.UnsupportedDataType( "The data type "
 					+ _constantValue.getClass().getName() + " is not supported for constant " + _constantValue.toString() );
 		}
+		getNumericType().compileConversionFromDouble( mv() );
 	}
 
 
@@ -290,7 +295,7 @@ public abstract class ByteCodeMethodCompiler
 
 	private void compileOperator( Operator _operator, int _numberOfArguments ) throws ModelError
 	{
-		this.returnType.compile( mv(), _operator, _numberOfArguments );
+		getNumericType().compile( mv(), _operator, _numberOfArguments );
 	}
 
 
@@ -674,7 +679,7 @@ public abstract class ByteCodeMethodCompiler
 	private void compileHelpedExpr( ByteCodeHelperCompiler _compiler ) throws ModelError
 	{
 		_compiler.compile();
-		compileRef( mv(), _compiler.getMethodName(), ByteCodeValueType.BC_DOUBLE ); // TODO
+		compileRef( mv(), _compiler.getMethodName() );
 	}
 
 

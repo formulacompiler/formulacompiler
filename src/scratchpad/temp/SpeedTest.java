@@ -20,6 +20,9 @@
  */
 package temp;
 
+import java.math.BigDecimal;
+
+
 public class SpeedTest
 {
 	private static final int MAXROUNDS = 10000000;
@@ -34,14 +37,19 @@ public class SpeedTest
 
 	private void run( String[] _args )
 	{
-		test( new AccumulatorTest() );
-		test( new DirectSumTest() );
-		test( new ValuePassingTest() );
-		test( new ObjectPassingTest() );
-		test( new ThisIsExternallyCheckedStackTest() );
-		test( new ThisIsAutoCheckedStackTest() );
-		test( new InnerStackTest() );
-		test( new CheckedStackTest() );
+		test( new DoubleTest() );
+		test( new ScaledLongTest() );
+		test( new ScaledIntTest() );
+		test( new BigDecimalTest() );
+
+		// test( new AccumulatorTest() );
+		// test( new DirectSumTest() );
+		// test( new ValuePassingTest() );
+		// test( new ObjectPassingTest() );
+		// test( new ThisIsExternallyCheckedStackTest() );
+		// test( new ThisIsAutoCheckedStackTest() );
+		// test( new InnerStackTest() );
+		// test( new CheckedStackTest() );
 	}
 
 
@@ -50,24 +58,129 @@ public class SpeedTest
 		System.gc();
 		final long startTime = System.nanoTime();
 		for (int iRound = 0; iRound < MAXROUNDS; iRound++) {
-			double result = _test.run( 1.0, 2.0, 3.0 );
-			if (10.0 != result) throw new RuntimeException( "Wrong result" );
+			_test.run();
 		}
+		final long gcStartTime = System.nanoTime();
 		System.gc();
-		final long runTime = System.nanoTime() - startTime;
+		final long endTime = System.nanoTime();
+		final long gcTime = endTime - gcStartTime;
+		final long runTime = endTime - startTime;
 		final long ms = runTime / 1000000;
-		System.out.printf( "%50s: %12d ms\n", _test.getClass().getName(), ms );
+		final long gcms = gcTime / 1000000;
+		System.out.printf( "%50s: %12d ms (%12d gc)\n", _test.getClass().getName(), ms, gcms );
 	}
 
 
-	private abstract class Test
+
+	private static abstract class Test
+	{
+		public abstract void run();
+	}
+
+
+	private static abstract class TestDoubleInput extends Test
 	{
 		public abstract double run( double _d1, double _d2, double _d3 );
 
+		@Override
+		public void run()
+		{
+			double result = run( 1.0, 2.0, 3.0 );
+			if (10.0 != result) throw new RuntimeException( "Wrong result" );
+		}
 	}
 
 
-	private final class AccumulatorTest extends Test
+	private static final class DoubleTest extends Test
+	{
+
+		@Override
+		public void run()
+		{
+			double result = getA() + getA() * getB();
+			// if (result != 132.8322) throw new RuntimeException( "Wrong double" );
+		}
+
+		private double getA()
+		{
+			return 123.45;
+		}
+
+		private double getB()
+		{
+			return 0.076;
+		}
+	}
+
+
+	private static final class ScaledLongTest extends Test
+	{
+
+		@Override
+		public void run()
+		{
+			long result = getA() + getA() * getB() / 10000L;
+			// if (result != 1328322L) throw new RuntimeException( "Wrong scaled long" );
+		}
+
+		private long getA()
+		{
+			return 1234500;
+		}
+
+		private long getB()
+		{
+			return 760;
+		}
+	}
+
+
+	private static final class ScaledIntTest extends Test
+	{
+
+		@Override
+		public void run()
+		{
+			int result = getA() + getA() * getB() / 10000;
+			// if (result != 1328322) throw new RuntimeException( "Wrong scaled int" );
+		}
+
+		private int getA()
+		{
+			return 1234500;
+		}
+
+		private int getB()
+		{
+			return 760;
+		}
+	}
+
+
+	private static final class BigDecimalTest extends Test
+	{
+		private static final BigDecimal VALUE = BigDecimal.valueOf( 123.45 );
+		private static final BigDecimal FACTOR = BigDecimal.valueOf( 0.076 );
+
+		@Override
+		public void run()
+		{
+			BigDecimal result = getA().add( getA().multiply( getB() ) );
+		}
+
+		private BigDecimal getA()
+		{
+			return VALUE;
+		}
+
+		private BigDecimal getB()
+		{
+			return FACTOR;
+		}
+	}
+
+
+	private static final class AccumulatorTest extends TestDoubleInput
 	{
 		@Override
 		public double run( double _d1, double _d2, double _d3 )
@@ -82,7 +195,7 @@ public class SpeedTest
 	}
 
 
-	private final class DirectSumTest extends Test
+	private static final class DirectSumTest extends TestDoubleInput
 	{
 		@Override
 		public double run( double _d1, double _d2, double _d3 )
@@ -92,7 +205,7 @@ public class SpeedTest
 	}
 
 
-	private class ValuePassingTest extends Test
+	private static class ValuePassingTest extends TestDoubleInput
 	{
 
 		@Override
@@ -126,7 +239,7 @@ public class SpeedTest
 	}
 
 
-	private class ObjectPassingTest extends Test
+	private static class ObjectPassingTest extends TestDoubleInput
 	{
 
 		@Override
@@ -159,7 +272,7 @@ public class SpeedTest
 	}
 
 
-	private class ThisIsExternallyCheckedStackTest extends Test
+	private static class ThisIsExternallyCheckedStackTest extends TestDoubleInput
 	{
 		private static final int MAX_STACK_SIZE = 50;
 		private static final byte TYPE_DOUBLE = 0;
@@ -281,7 +394,7 @@ public class SpeedTest
 	}
 
 
-	private class ThisIsAutoCheckedStackTest extends Test
+	private static class ThisIsAutoCheckedStackTest extends TestDoubleInput
 	{
 		private static final int MAX_STACK_SIZE = 50;
 		private static final byte TYPE_DOUBLE = 0;
@@ -370,7 +483,7 @@ public class SpeedTest
 	}
 
 
-	private class InnerStackTest extends Test
+	private static class InnerStackTest extends TestDoubleInput
 	{
 		private final Stack stack = new Stack();
 
@@ -467,7 +580,7 @@ public class SpeedTest
 	}
 
 
-	private class CheckedStackTest extends Test
+	private static class CheckedStackTest extends TestDoubleInput
 	{
 		private final Stack stack = newStack();
 

@@ -28,7 +28,6 @@ import java.util.Collection;
 
 import sej.CallFrame;
 import sej.describable.DescriptionBuilder;
-import sej.engine.compiler.ValueType;
 import sej.engine.expressions.ExpressionNode;
 
 public class CellModel extends ElementModel
@@ -41,7 +40,6 @@ public class CellModel extends ElementModel
 	private Object constantValue;
 	private ExpressionNode expression;
 	private int maxFractionalDigits = UNLIMITED;
-	private ValueType type = ValueType.DOUBLE;
 	private int referenceCount = 0;
 
 
@@ -143,18 +141,6 @@ public class CellModel extends ElementModel
 			}
 			this.maxFractionalDigits = maxFrac;
 		}
-	}
-
-
-	public ValueType getType()
-	{
-		return this.type;
-	}
-
-
-	public void setType( ValueType _type )
-	{
-		this.type = _type;
 	}
 
 

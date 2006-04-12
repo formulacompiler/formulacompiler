@@ -25,6 +25,7 @@ import java.text.NumberFormat;
 import sej.Compiler;
 import sej.ModelError;
 import sej.Orientation;
+import sej.Compiler.Section;
 import sej.ModelError.SectionExtentNotCovered;
 import sej.engine.compiler.definition.EngineDefinition;
 import sej.engine.compiler.model.CellModel;
@@ -75,12 +76,13 @@ public class EngineModelCompilerTest extends AbstractTestBase
 		CellInstance io1 = new CellWithConstant( r1, 7.0 );
 
 		EngineDefinition def = new EngineDefinition( workbook );
-		def.defineInputCell( i1.getCellIndex(), getInput( "getOne" ) );
-		def.defineInputCell( i2.getCellIndex(), getInput( "getTwo" ) );
-		def.defineInputCell( io1.getCellIndex(), getInput( "getThree" ) );
-		def.defineOutputCell( o1.getCellIndex(), getOutput( "getA" ) );
-		def.defineOutputCell( o2.getCellIndex(), getOutput( "getB" ) );
-		def.defineOutputCell( io1.getCellIndex(), getOutput( "getC" ) );
+		Section rootDef = def.getRoot();
+		rootDef.defineInputCell( i1.getCellIndex(), getInput( "getOne" ) );
+		rootDef.defineInputCell( i2.getCellIndex(), getInput( "getTwo" ) );
+		rootDef.defineInputCell( io1.getCellIndex(), getInput( "getThree" ) );
+		rootDef.defineOutputCell( o1.getCellIndex(), getOutput( "getA" ) );
+		rootDef.defineOutputCell( o2.getCellIndex(), getOutput( "getB" ) );
+		rootDef.defineOutputCell( io1.getCellIndex(), getOutput( "getC" ) );
 
 		EngineModelCompiler compiler = new EngineModelCompiler( def );
 		EngineModel model = compiler.buildNewModel();
@@ -158,7 +160,7 @@ public class EngineModelCompilerTest extends AbstractTestBase
 		WorksheetBuilderWithBands bld = new WorksheetBuilderWithBands( sheet );
 
 		EngineDefinition def = new EngineDefinition( workbook );
-		bld.defineCompiler( def );
+		bld.defineCompiler( def.getRoot() );
 
 		EngineModelCompiler compiler = new EngineModelCompiler( def );
 		EngineModel model = compiler.buildNewModel();
@@ -202,7 +204,7 @@ public class EngineModelCompilerTest extends AbstractTestBase
 		WorksheetBuilderWithBands bld = new WorksheetBuilderWithBands( sheet );
 
 		EngineDefinition def = new EngineDefinition( workbook );
-		bld.defineRange( def );
+		bld.defineRange( def.getRoot() );
 		bld.details.defineOutputCell( bld.r1c4.getCellIndex(), getInput( "getOne" ) );
 
 		EngineModelCompiler compiler = new EngineModelCompiler( def );
@@ -245,9 +247,10 @@ public class EngineModelCompilerTest extends AbstractTestBase
 		CellInstance o1 = new CellWithLazilyParsedExpression( r1, sum( refRange( i1, i1 ) ) );
 
 		EngineDefinition def = new EngineDefinition( workbook );
-		Compiler.Section inputsDef = def.defineRepeatingSection( rng( i1, i1 ), Orientation.HORIZONTAL,
+		Section rootDef = def.getRoot();
+		Compiler.Section inputsDef = rootDef.defineRepeatingSection( rng( i1, i1 ), Orientation.HORIZONTAL,
 				getInput( "getDetails" ), null );
-		Compiler.Section outputsDef = def.defineRepeatingSection( rng( o1, o1 ), Orientation.HORIZONTAL,
+		Compiler.Section outputsDef = rootDef.defineRepeatingSection( rng( o1, o1 ), Orientation.HORIZONTAL,
 				getInput( "getDetails" ), getOutput( "getDetails" ) );
 		inputsDef.defineInputCell( i1.getCellIndex(), getInput( "getOne" ) );
 		outputsDef.defineOutputCell( o1.getCellIndex(), getOutput( "getA" ) );
@@ -284,13 +287,14 @@ public class EngineModelCompilerTest extends AbstractTestBase
 		CellInstance o2 = new CellWithLazilyParsedExpression( r1, sum( refRange( i1, i1 ) ) );
 
 		EngineDefinition def = new EngineDefinition( workbook );
-		Compiler.Section outerDef = def.defineRepeatingSection( rng( i1, x1 ), Orientation.HORIZONTAL,
+		Section rootDef = def.getRoot();
+		Compiler.Section outerDef = rootDef.defineRepeatingSection( rng( i1, x1 ), Orientation.HORIZONTAL,
 				getInput( "getDetails" ), null );
 		Compiler.Section innerDef = outerDef.defineRepeatingSection( rng( i1, i1 ), Orientation.VERTICAL,
 				getInput( "getSubDetails" ), null );
 		innerDef.defineInputCell( i1.getCellIndex(), getInput( "getOne" ) );
-		def.defineOutputCell( o1.getCellIndex(), getOutput( "getA" ) );
-		def.defineOutputCell( o2.getCellIndex(), getOutput( "getB" ) );
+		rootDef.defineOutputCell( o1.getCellIndex(), getOutput( "getA" ) );
+		rootDef.defineOutputCell( o2.getCellIndex(), getOutput( "getB" ) );
 
 		EngineModelCompiler compiler = new EngineModelCompiler( def );
 		EngineModel model = compiler.buildNewModel();
@@ -356,8 +360,9 @@ public class EngineModelCompilerTest extends AbstractTestBase
 			throws ModelError, SecurityException, NoSuchMethodException
 	{
 		EngineDefinition def = new EngineDefinition( workbook );
-		def.defineRepeatingSection( rng, Orientation.HORIZONTAL, getInput( "getDetails"), null );
-		def.defineOutputCell( output.getCellIndex(), getOutput( "getResult" ));
+		Section rootDef = def.getRoot();
+		rootDef.defineRepeatingSection( rng, Orientation.HORIZONTAL, getInput( "getDetails"), null );
+		rootDef.defineOutputCell( output.getCellIndex(), getOutput( "getResult" ));
 		EngineModelCompiler compiler = new EngineModelCompiler( def );
 		try {
 			compiler.buildNewModel();
