@@ -20,6 +20,7 @@
  */
 package sej.engine.bytecode.compiler;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -27,19 +28,22 @@ import sej.CallFrame;
 import sej.ModelError;
 import sej.engine.compiler.model.CellModel;
 
+
 final class ByteCodeCellComputation
 {
 	private final ByteCodeSectionCompiler section;
 	private final CellModel cell;
 	private final String methodName;
+	private final ByteCodeValueType type;
 
 
-	ByteCodeCellComputation(ByteCodeSectionCompiler _section, CellModel _cell)
+	ByteCodeCellComputation(ByteCodeSectionCompiler _section, CellModel _cell) throws ModelError
 	{
 		super();
 		this.section = _section;
 		this.cell = _cell;
 		this.methodName = _section.getNewGetterName();
+		this.type = ByteCodeValueType.typeFor( _cell.getType() );
 		_section.addCellComputation( _cell, this );
 	}
 
@@ -57,6 +61,11 @@ final class ByteCodeCellComputation
 	public String getMethodName()
 	{
 		return this.methodName;
+	}
+
+	public ByteCodeValueType getType() 
+	{
+		return this.type;
 	}
 
 
@@ -89,6 +98,7 @@ final class ByteCodeCellComputation
 		if (Double.TYPE == returnType) return;
 		if (Boolean.TYPE == returnType) return;
 		if (Date.class == returnType) return;
+		if (BigDecimal.class == returnType) return;
 		throw new ModelError.UnsupportedDataType( "The "
 				+ _usage + " method " + _frame + " has an unsupported return type " + returnType );
 
@@ -97,7 +107,7 @@ final class ByteCodeCellComputation
 
 	public void compile() throws ModelError
 	{
-		new ByteCodeCellCompiler(this).compile();
+		new ByteCodeCellCompiler( this ).compile();
 	}
 
 }

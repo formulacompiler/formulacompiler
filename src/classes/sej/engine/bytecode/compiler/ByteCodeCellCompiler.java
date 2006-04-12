@@ -21,6 +21,8 @@
 package sej.engine.bytecode.compiler;
 
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.util.Date;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -28,7 +30,7 @@ import org.objectweb.asm.Type;
 
 import sej.CallFrame;
 import sej.ModelError;
-import sej.ModelError.UnsupportedDataType;
+import sej.Settings;
 import sej.engine.compiler.model.CellModel;
 import sej.engine.expressions.ExpressionNode;
 
@@ -38,9 +40,14 @@ final class ByteCodeCellCompiler extends ByteCodeMethodCompiler
 	private final ByteCodeCellComputation cellComputation;
 
 
-	public ByteCodeCellCompiler(ByteCodeCellComputation _computation)
+	static {
+		Settings.setDebugCompilationEnabled( true );
+	}
+
+
+	public ByteCodeCellCompiler(ByteCodeCellComputation _computation) throws ModelError
 	{
-		super( _computation.getSection(), _computation.getMethodName() );
+		super( _computation.getSection(), _computation.getMethodName(), _computation.getCell().getType() );
 		this.cellComputation = _computation;
 	}
 
@@ -91,19 +98,22 @@ final class ByteCodeCellCompiler extends ByteCodeMethodCompiler
 
 				if (CellModel.UNLIMITED != cell.getMaxFractionalDigits()) {
 					mv.visitLdcInsn( cell.getMaxFractionalDigits() );
-					mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.Runtime.getInternalName(), "round", "(DI)D" );
+					mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(), "round", "(DI)D" );
 				}
 
 				if (Double.TYPE == returnClass) {
 					mv.visitInsn( Opcodes.DRETURN );
 				}
-				else if (java.util.Date.class == returnClass) {
-					mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.Runtime.getInternalName(), "dateFromExcel",
+				else if (BigDecimal.class == returnClass) {
+					mv.visitInsn( Opcodes.ARETURN );
+				}
+				else if (Date.class == returnClass) {
+					mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(), "dateFromExcel",
 							"(D)Ljava/util/Date;" );
 					mv.visitInsn( Opcodes.ARETURN );
 				}
 				else if (Boolean.TYPE == returnClass) {
-					mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.Runtime.getInternalName(),
+					mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(),
 							"booleanFromExcel", "(D)Z" );
 					mv.visitInsn( Opcodes.IRETURN );
 				}

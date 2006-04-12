@@ -174,11 +174,11 @@ final class ByteCodeSectionCompiler
 		String[] interfaces;
 		if (getOutputs().isInterface()) {
 			parentClass = "java/lang/Object";
-			interfaces = new String[] { ByteCodeCompiler.EngineInterface.getInternalName(), this.outputs.getInternalName() };
+			interfaces = new String[] { ByteCodeCompiler.ENGINE_INTF.getInternalName(), this.outputs.getInternalName() };
 		}
 		else {
 			parentClass = this.outputs.getInternalName();
-			interfaces = new String[] { ByteCodeCompiler.EngineInterface.getInternalName() };
+			interfaces = new String[] { ByteCodeCompiler.ENGINE_INTF.getInternalName() };
 		}
 		cw().visit( Opcodes.V1_4, Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL, this.engine.getInternalName(), null,
 				parentClass, interfaces );
@@ -188,7 +188,7 @@ final class ByteCodeSectionCompiler
 	private void buildInputMember()
 	{
 		if (!hasInputs()) throw new IllegalStateException();
-		FieldVisitor fv = cw().visitField( Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL, ByteCodeCompiler.InputsMemberName,
+		FieldVisitor fv = cw().visitField( Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL, ByteCodeCompiler.INPUTS_MEMBER_NAME,
 				this.inputs.getDescriptor(), null, null );
 		fv.visitEnd();
 	}
@@ -196,7 +196,7 @@ final class ByteCodeSectionCompiler
 	private void storeInputs( MethodVisitor _mv )
 	{
 		if (!hasInputs()) throw new IllegalStateException();
-		_mv.visitFieldInsn( Opcodes.PUTFIELD, this.engine.getInternalName(), ByteCodeCompiler.InputsMemberName,
+		_mv.visitFieldInsn( Opcodes.PUTFIELD, this.engine.getInternalName(), ByteCodeCompiler.INPUTS_MEMBER_NAME,
 				this.inputs.getDescriptor() );
 	}
 

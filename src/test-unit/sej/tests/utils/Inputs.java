@@ -20,8 +20,10 @@
  */
 package sej.tests.utils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+
 
 public class Inputs implements InputInterface
 {
@@ -101,10 +103,30 @@ public class Inputs implements InputInterface
 	{
 		return null;
 	}
-	
+
 	public System getUnsupported()
 	{
 		return null;
+	}
+
+	public double getDoubleA()
+	{
+		return 370.35;
+	}
+
+	public double getDoubleB()
+	{
+		return 3.0;
+	}
+
+	public BigDecimal getBigDecimalA()
+	{
+		return BigDecimal.valueOf( 37035, 2 );
+	}
+
+	public BigDecimal getBigDecimalB()
+	{
+		return BigDecimal.valueOf( 3 );
 	}
 
 

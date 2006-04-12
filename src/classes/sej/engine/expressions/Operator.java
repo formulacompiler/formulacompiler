@@ -20,12 +20,6 @@
  */
 package sej.engine.expressions;
 
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
-
-import sej.ModelError;
-import sej.ModelError.UnsupportedOperator;
-
 
 public enum Operator {
 
@@ -47,12 +41,6 @@ public enum Operator {
 		public Object evaluate( Object... _args )
 		{
 			return _args[ 0 ];
-		}
-
-		@Override
-		public void compileTo( MethodVisitor _mv ) throws UnsupportedOperator
-		{
-			// NOOP :)
 		}
 	},
 
@@ -96,12 +84,6 @@ public enum Operator {
 		}
 
 		@Override
-		protected int getOpcode()
-		{
-			return Opcodes.DADD;
-		}
-
-		@Override
 		public Object evaluate( Object _a, Object _b )
 		{
 			return Util.valueToDoubleOrZero( _a ) + Util.valueToDoubleOrZero( _b );
@@ -133,12 +115,6 @@ public enum Operator {
 		}
 
 		@Override
-		protected int getOpcode()
-		{
-			return Opcodes.DSUB;
-		}
-
-		@Override
 		public Object evaluate( Object _a )
 		{
 			return -Util.valueToDoubleOrZero( _a );
@@ -163,12 +139,6 @@ public enum Operator {
 		public String getSymbol()
 		{
 			return "*";
-		}
-
-		@Override
-		protected int getOpcode()
-		{
-			return Opcodes.DMUL;
 		}
 
 		@Override
@@ -201,12 +171,6 @@ public enum Operator {
 		public String getSymbol()
 		{
 			return "/";
-		}
-
-		@Override
-		protected int getOpcode()
-		{
-			return Opcodes.DDIV;
 		}
 
 		@Override
@@ -259,13 +223,6 @@ public enum Operator {
 		public Object evaluate( Object _a )
 		{
 			return Util.valueToDoubleOrZero( _a ) / 100;
-		}
-
-		@Override
-		public void compileTo( MethodVisitor _mv ) throws UnsupportedOperator
-		{
-			_mv.visitLdcInsn( 100.0 );
-			_mv.visitInsn( Opcodes.DDIV );
 		}
 	},
 
@@ -408,12 +365,6 @@ public enum Operator {
 		{
 			return compare( _a, _b ) <= 0 ? _a : _b;
 		}
-
-		@Override
-		public void compileTo( MethodVisitor _mv ) throws UnsupportedOperator
-		{
-			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, RUNTIME, "min", "(DD)D" );
-		}
 	},
 
 	MAX {
@@ -433,12 +384,6 @@ public enum Operator {
 		public Object evaluate( Object _a, Object _b )
 		{
 			return compare( _a, _b ) >= 0 ? _a : _b;
-		}
-
-		@Override
-		public void compileTo( MethodVisitor _mv ) throws UnsupportedOperator
-		{
-			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, RUNTIME, "max", "(DD)D" );
 		}
 	},
 
@@ -460,12 +405,6 @@ public enum Operator {
 		{
 			return Util.valueToBoolean( _a, false ) && Util.valueToBoolean( _b, false );
 		}
-
-		@Override
-		public void compileTo( MethodVisitor _mv ) throws UnsupportedOperator
-		{
-			_mv.visitInsn( Opcodes.IAND );
-		}
 	},
 
 	OR {
@@ -485,12 +424,6 @@ public enum Operator {
 		public Object evaluate( Object _a, Object _b )
 		{
 			return Util.valueToBoolean( _a, false ) || Util.valueToBoolean( _b, false );
-		}
-
-		@Override
-		public void compileTo( MethodVisitor _mv ) throws UnsupportedOperator
-		{
-			_mv.visitInsn( Opcodes.IOR );
 		}
 	};
 
@@ -544,21 +477,6 @@ public enum Operator {
 	public Object evaluate( Object... _args )
 	{
 		return null;
-	}
-
-
-	public void compileTo( MethodVisitor _mv ) throws UnsupportedOperator
-	{
-		final int opcode = getOpcode();
-		if (0 <= opcode) {
-			_mv.visitInsn( opcode );
-		}
-		else throw new ModelError.UnsupportedOperator( "The operator " + getSymbol() + " is not supported." );
-	}
-
-	protected int getOpcode()
-	{
-		return -1;
 	}
 
 }

@@ -27,6 +27,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import sej.ModelError;
+import sej.engine.compiler.ValueType;
 import sej.engine.expressions.ExpressionNode;
 import sej.engine.expressions.ExpressionNodeForConstantValue;
 import sej.engine.expressions.ExpressionNodeForFunction;
@@ -38,9 +39,9 @@ public class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 	private final ExpressionNodeForFunction node;
 
 
-	public ByteCodeHelperCompilerForIndex(ByteCodeSectionCompiler _section, ExpressionNodeForFunction _node)
+	public ByteCodeHelperCompilerForIndex(ByteCodeSectionCompiler _section, ExpressionNodeForFunction _node) throws ModelError
 	{
-		super( _section );
+		super( _section, ValueType.DOUBLE ); // TODO
 		this.node = _node;
 	}
 
