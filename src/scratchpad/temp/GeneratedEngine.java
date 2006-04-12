@@ -1,5 +1,6 @@
 package temp;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import sej.Engine;
@@ -98,6 +99,11 @@ public class GeneratedEngine implements Engine, Outputs
 		return sum / n;
 	}
 
+	final double getExp()
+	{
+		return Math.pow( getA(), getB() );
+	}
+
 	final double getIf()
 	{
 		return getA() > getB() ? 1.0 : 0.0;
@@ -168,6 +174,22 @@ public class GeneratedEngine implements Engine, Outputs
 	private double getEnumd( TestEnum _two )
 	{
 		return 0;
+	}
+
+
+	final BigDecimal getBigAdd()
+	{
+		return BigDecimal.ONE.add( BigDecimal.TEN );
+	}
+
+	final BigDecimal getBigPercent()
+	{
+		return BigDecimal.ONE.movePointLeft( 2 );
+	}
+
+	final BigDecimal getBigExp()
+	{
+		return BigDecimal.ONE.pow( BigDecimal.TEN.intValue() );
 	}
 
 

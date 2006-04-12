@@ -24,6 +24,7 @@ import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import org.objectweb.asm.Type;
 
@@ -42,9 +43,11 @@ import sej.engine.compiler.model.compiler.EngineModelCompiler;
 
 public class ByteCodeCompiler extends WorkbookCompiler
 {
-	static final Type EngineInterface = Type.getType( Engine.class );
-	static final String InputsMemberName = "inputs";
-	static final Type Runtime = Type.getType( Runtime_v1.class );
+	static final Type ENGINE_INTF = Type.getType( Engine.class );
+	static final String INPUTS_MEMBER_NAME = "inputs";
+	static final Type RUNTIME = Type.getType( Runtime_v1.class );
+	static final Type MATH = Type.getType( Math.class );
+	static final Type BIGDECIMAL = Type.getType( BigDecimal.class );
 
 	private ByteCodeSectionCompiler root;
 
@@ -79,10 +82,22 @@ public class ByteCodeCompiler extends WorkbookCompiler
 		final EngineModelCompiler modelCompiler = new EngineModelCompiler( getDefinition() );
 		final EngineModel model = modelCompiler.compileNewModel();
 
-		this.root = new ByteCodeSectionCompiler( this, model.getRoot() );
+		return compileNewEngineClassBytes( model );
+	}
 
-		model.traverse( new ElementCreator( this ) );
-		model.traverse( new ElementCompiler( this ) );
+
+	Engine compileNewEngine( final EngineModel _model ) throws ModelError
+	{
+		return newEngineFromClassBytes( compileNewEngineClassBytes(_model) );
+	}
+
+
+	byte[] compileNewEngineClassBytes( final EngineModel _model ) throws ModelError
+	{
+		this.root = new ByteCodeSectionCompiler( this, _model.getRoot() );
+
+		_model.traverse( new ElementCreator( this ) );
+		_model.traverse( new ElementCompiler( this ) );
 
 		final byte[] classBytes = this.root.getClassBytes();
 

@@ -24,6 +24,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import sej.ModelError;
+import sej.engine.compiler.ValueType;
 import sej.engine.compiler.model.ExpressionNodeForSubSectionModel;
 import sej.engine.expressions.Aggregator;
 import sej.engine.expressions.ExpressionNode;
@@ -35,9 +36,9 @@ final class ByteCodeHelperCompilerForAverage extends ByteCodeHelperCompiler
 	private final ExpressionNodeForAggregator node;
 
 
-	public ByteCodeHelperCompilerForAverage(ByteCodeSectionCompiler _section, ExpressionNodeForAggregator _node)
+	public ByteCodeHelperCompilerForAverage(ByteCodeSectionCompiler _section, ExpressionNodeForAggregator _node) throws ModelError
 	{
-		super( _section );
+		super( _section, ValueType.DOUBLE ); // TODO 
 		this.node = _node;
 	}
 

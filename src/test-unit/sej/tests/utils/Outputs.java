@@ -20,6 +20,8 @@
  */
 package sej.tests.utils;
 
+import java.math.BigDecimal;
+
 public interface Outputs
 {
 	double getResult();
@@ -29,4 +31,7 @@ public interface Outputs
 	Iterable<Outputs> getDetails();
 	Double getDoubleObj();
 	System getUnsupported();
+	BigDecimal getBigDecimalA();
+	BigDecimal getBigDecimalB();
+	BigDecimal getBigDecimalC();
 }

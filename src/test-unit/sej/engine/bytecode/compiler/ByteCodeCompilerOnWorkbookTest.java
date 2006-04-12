@@ -46,7 +46,7 @@ import sej.tests.utils.Outputs;
 import sej.tests.utils.WorksheetBuilderWithBands;
 
 
-public class ByteCodeCompilerTest extends AbstractTestBase
+public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 {
 	protected Workbook workbook;
 	protected Sheet sheet;
@@ -70,7 +70,7 @@ public class ByteCodeCompilerTest extends AbstractTestBase
 	}
 
 
-	public void testInputIsOutput() throws ModelError, SecurityException, NoSuchMethodException
+	public void testInputIsOutput() throws ModelError, NoSuchMethodException
 	{
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
 
@@ -79,7 +79,7 @@ public class ByteCodeCompilerTest extends AbstractTestBase
 	}
 
 
-	public void testParametrizedInput() throws ModelError, SecurityException, NoSuchMethodException
+	public void testParametrizedInput() throws ModelError, NoSuchMethodException
 	{
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
 
@@ -97,7 +97,7 @@ public class ByteCodeCompilerTest extends AbstractTestBase
 	}
 
 
-	public void testChainedInput() throws ModelError, SecurityException, NoSuchMethodException
+	public void testChainedInput() throws ModelError, NoSuchMethodException
 	{
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
 
@@ -115,7 +115,7 @@ public class ByteCodeCompilerTest extends AbstractTestBase
 	}
 
 
-	public void testInputInterface() throws SecurityException, ModelError, NoSuchMethodException
+	public void testInputInterface() throws ModelError, NoSuchMethodException
 	{
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
 
@@ -176,7 +176,7 @@ public class ByteCodeCompilerTest extends AbstractTestBase
 	}
 
 
-	public void testInputThrowingDeclaredException() throws SecurityException, ModelError, NoSuchMethodException
+	public void testInputThrowingDeclaredException() throws ModelError, NoSuchMethodException
 	{
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
 
@@ -275,9 +275,8 @@ public class ByteCodeCompilerTest extends AbstractTestBase
 	}
 
 
-
 	// TODO xtest
-	public void xtestDoubleObj() throws ModelError, SecurityException, NoSuchMethodException
+	public void xtestDoubleObj() throws ModelError, NoSuchMethodException
 	{
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
 
@@ -297,7 +296,7 @@ public class ByteCodeCompilerTest extends AbstractTestBase
 
 
 	// TODO xtest
-	public void xtestDoubleObjToDoubleObj() throws ModelError, SecurityException, NoSuchMethodException
+	public void xtestDoubleObjToDoubleObj() throws ModelError, NoSuchMethodException
 	{
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
 
@@ -315,7 +314,7 @@ public class ByteCodeCompilerTest extends AbstractTestBase
 
 
 	// TODO xtest
-	public void xtestDoubleNull() throws ModelError, SecurityException, NoSuchMethodException
+	public void xtestDoubleNull() throws ModelError, NoSuchMethodException
 	{
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
 
@@ -332,7 +331,7 @@ public class ByteCodeCompilerTest extends AbstractTestBase
 	}
 
 
-	public void testUnsupportedInputType() throws ModelError, SecurityException, NoSuchMethodException
+	public void testUnsupportedInputType() throws ModelError, NoSuchMethodException
 	{
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
 
@@ -350,7 +349,7 @@ public class ByteCodeCompilerTest extends AbstractTestBase
 	}
 
 
-	public void testUnsupportedOutputType() throws ModelError, SecurityException, NoSuchMethodException
+	public void testUnsupportedOutputType() throws ModelError, NoSuchMethodException
 	{
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
 
@@ -368,7 +367,7 @@ public class ByteCodeCompilerTest extends AbstractTestBase
 	}
 
 
-	public void testAddingConstants() throws ModelError, SecurityException, NoSuchMethodException
+	public void testAddingConstants() throws ModelError, NoSuchMethodException
 	{
 		CellInstance a = new CellWithConstant( this.row, 123.0 );
 		CellInstance b = new CellWithConstant( this.row, 456.0 );
@@ -381,7 +380,7 @@ public class ByteCodeCompilerTest extends AbstractTestBase
 	}
 
 
-	public void testSums() throws ModelError, SecurityException, NoSuchMethodException
+	public void testSums() throws ModelError, NoSuchMethodException
 	{
 		CellInstance a = new CellWithConstant( this.row, 123.0 );
 		CellInstance b = new CellWithConstant( this.row, 456.0 );
@@ -394,7 +393,7 @@ public class ByteCodeCompilerTest extends AbstractTestBase
 	}
 
 
-	public void testMins() throws ModelError, SecurityException, NoSuchMethodException
+	public void testMins() throws ModelError, NoSuchMethodException
 	{
 		CellInstance a = new CellWithConstant( this.row, 123.0 );
 		CellInstance b = new CellWithConstant( this.row, 456.0 );
@@ -409,7 +408,7 @@ public class ByteCodeCompilerTest extends AbstractTestBase
 	}
 
 
-	public void testMaxs() throws ModelError, SecurityException, NoSuchMethodException
+	public void testMaxs() throws ModelError, NoSuchMethodException
 	{
 		CellInstance a = new CellWithConstant( this.row, 123.0 );
 		CellInstance b = new CellWithConstant( this.row, 456.0 );
@@ -426,16 +425,16 @@ public class ByteCodeCompilerTest extends AbstractTestBase
 
 	/**
 	 * <pre>
-	 *      a = 1 
-	 *      b = 2 
-	 *      c = 3 
-	 *      d = 1 + 3 = 4 
-	 *      e = c + d = 7 
-	 *      f = (a + b) + e = 10 
-	 *      r = a * f = 10
+	 *       a = 1 
+	 *       b = 2 
+	 *       c = 3 
+	 *       d = 1 + 3 = 4 
+	 *       e = c + d = 7 
+	 *       f = (a + b) + e = 10 
+	 *       r = a * f = 10
 	 * </pre>
 	 */
-	public void testSubExprs() throws ModelError, SecurityException, NoSuchMethodException
+	public void testSubExprs() throws ModelError, NoSuchMethodException
 	{
 		CellInstance a = new CellWithConstant( this.row, 1.0 );
 		CellInstance b = new CellWithConstant( this.row, 2.0 );
@@ -457,7 +456,7 @@ public class ByteCodeCompilerTest extends AbstractTestBase
 	}
 
 
-	public void testEmptyCells() throws ModelError, SecurityException, NoSuchMethodException
+	public void testEmptyCells() throws ModelError, NoSuchMethodException
 	{
 		CellInstance a = new CellWithConstant( this.row, 1.0 );
 		this.formula.setExpression( new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForCell( a ),
@@ -474,10 +473,10 @@ public class ByteCodeCompilerTest extends AbstractTestBase
 	 * Then provide input values for the range A2:B3 (the fixed numbers) which extend it by one row:
 	 * 
 	 * <pre>
-	 *      SUM(C2:C3) 0.5
-	 *      4.0 5.0 SUM(A2:B2)*B$1 
-	 *      6.0 7.0 SUM(A3:B3)*B$1 
-	 *      8.0 9.0 SUM(A4:B4)*B$1
+	 *       SUM(C2:C3) 0.5
+	 *       4.0 5.0 SUM(A2:B2)*B$1 
+	 *       6.0 7.0 SUM(A3:B3)*B$1 
+	 *       8.0 9.0 SUM(A4:B4)*B$1
 	 * </pre>
 	 * 
 	 * @throws ModelError
@@ -507,7 +506,7 @@ public class ByteCodeCompilerTest extends AbstractTestBase
 
 
 	private void assertResult( double _expected, CellInstance[] _inputs, double[] _values ) throws ModelError,
-			SecurityException, NoSuchMethodException
+			NoSuchMethodException
 	{
 		Compiler compiler = CompilerFactory.newDefaultCompiler( this.workbook, Inputs.class, Outputs.class );
 		setupCompiler( compiler.getRoot(), _inputs );

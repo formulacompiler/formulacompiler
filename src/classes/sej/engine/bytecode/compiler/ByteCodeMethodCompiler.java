@@ -34,6 +34,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 import sej.CallFrame;
 import sej.ModelError;
 import sej.engine.Runtime_v1;
+import sej.engine.compiler.ValueType;
 import sej.engine.compiler.model.CellModel;
 import sej.engine.compiler.model.ExpressionNodeForCellModel;
 import sej.engine.compiler.model.ExpressionNodeForParentSectionModel;
@@ -53,16 +54,26 @@ public abstract class ByteCodeMethodCompiler
 {
 	private final ByteCodeSectionCompiler section;
 	private final String methodName;
+	private final ByteCodeValueType returnType;
 	private final GeneratorAdapter mv;
 
 
-	public ByteCodeMethodCompiler(ByteCodeSectionCompiler _section, String _methodName)
+	public ByteCodeMethodCompiler(ByteCodeSectionCompiler _section, String _methodName, ValueType _returnType) throws ModelError
 	{
 		super();
 		this.section = _section;
 		this.methodName = _methodName;
-		this.mv = new GeneratorAdapter( cw().visitMethod( Opcodes.ACC_FINAL, getMethodName(), "()D", null, null ),
-				Opcodes.ACC_FINAL, getMethodName(), "()D" );
+		this.returnType = ByteCodeValueType.typeFor( _returnType );
+		this.mv = newAdapter();
+	}
+
+
+	private GeneratorAdapter newAdapter()
+	{
+		final String name = getMethodName();
+		final String signature = "()" + this.returnType.getDescriptor();
+		final int access = Opcodes.ACC_FINAL;
+		return new GeneratorAdapter( cw().visitMethod( access, name, signature, null, null ), access, name, signature );
 	}
 
 
@@ -106,7 +117,7 @@ public abstract class ByteCodeMethodCompiler
 
 	private void endCompilation()
 	{
-		mv().visitInsn( Opcodes.DRETURN );
+		mv().visitInsn( this.returnType.getReturnOpcode() );
 		mv().endMethod();
 		mv().visitEnd();
 	}
@@ -117,13 +128,13 @@ public abstract class ByteCodeMethodCompiler
 
 	protected void compileRef( MethodVisitor _mv, ByteCodeCellComputation _cell )
 	{
-		compileRef( _mv, _cell.getMethodName() );
+		compileRef( _mv, _cell.getMethodName(), _cell.getType() );
 	}
 
-	protected void compileRef( MethodVisitor _mv, String _getterName )
+	protected void compileRef( MethodVisitor _mv, String _getterName, ByteCodeValueType _type )
 	{
 		_mv.visitVarInsn( Opcodes.ALOAD, 0 );
-		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, getSection().engine.getInternalName(), _getterName, "()D" );
+		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, getSection().engine.getInternalName(), _getterName, "()" + _type.getDescriptor() );
 	}
 
 
@@ -184,7 +195,7 @@ public abstract class ByteCodeMethodCompiler
 		final CallFrame[] frames = _callChainToCall.getFrames();
 
 		mv().loadThis();
-		mv().getField( getSection().engine, ByteCodeCompiler.InputsMemberName, getSection().inputs );
+		mv().getField( getSection().engine, ByteCodeCompiler.INPUTS_MEMBER_NAME, getSection().inputs );
 
 		Class contextClass = getSection().getInputs();
 		for (CallFrame frame : frames) {
@@ -204,11 +215,11 @@ public abstract class ByteCodeMethodCompiler
 		}
 
 		if (java.util.Date.class == contextClass) {
-			mv().visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.Runtime.getInternalName(), "dateToExcel",
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(), "dateToExcel",
 					"(Ljava/util/Date;)D" );
 		}
 		else if (Boolean.TYPE == contextClass) {
-			mv().visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.Runtime.getInternalName(), "booleanToExcel",
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(), "booleanToExcel",
 					"(Z)D" );
 		}
 	}
@@ -279,12 +290,7 @@ public abstract class ByteCodeMethodCompiler
 
 	private void compileOperator( Operator _operator, int _numberOfArguments ) throws ModelError
 	{
-		if (Operator.MINUS == _operator && 1 == _numberOfArguments) {
-			mv().visitInsn( Opcodes.DNEG );
-		}
-		else {
-			_operator.compileTo( mv() );
-		}
+		this.returnType.compile( mv(), _operator, _numberOfArguments );
 	}
 
 
@@ -312,7 +318,7 @@ public abstract class ByteCodeMethodCompiler
 		for (ExpressionNode arg : _node.getArguments()) {
 			compileExpr( arg );
 		}
-		mv().visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.Runtime.getInternalName(),
+		mv().visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(),
 				"std" + _node.getFunction().getName(), "(" + args.substring( 0, _node.getArguments().size() ) + ")D" );
 	}
 
@@ -668,7 +674,7 @@ public abstract class ByteCodeMethodCompiler
 	private void compileHelpedExpr( ByteCodeHelperCompiler _compiler ) throws ModelError
 	{
 		_compiler.compile();
-		compileRef( mv(), _compiler.getMethodName() );
+		compileRef( mv(), _compiler.getMethodName(), ByteCodeValueType.BC_DOUBLE ); // TODO
 	}
 
 
@@ -676,7 +682,7 @@ public abstract class ByteCodeMethodCompiler
 	{
 		mv().dup2();
 		mv().push( _message );
-		mv().visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.Runtime.getInternalName(), "logDouble",
+		mv().visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(), "logDouble",
 				"(DLjava/lang/String;)V" );
 	}
 
