@@ -88,7 +88,7 @@ public class ByteCodeCompiler extends WorkbookCompiler
 
 	Engine compileNewEngine( final EngineModel _model ) throws ModelError
 	{
-		return newEngineFromClassBytes( compileNewEngineClassBytes(_model) );
+		return newEngineFromClassBytes( compileNewEngineClassBytes( _model ) );
 	}
 
 

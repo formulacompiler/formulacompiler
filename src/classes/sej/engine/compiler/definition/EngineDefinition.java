@@ -25,16 +25,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sej.CallFrame;
 import sej.Compiler;
-import sej.ModelError;
-import sej.Orientation;
 import sej.Spreadsheet;
 import sej.engine.expressions.EvaluationModelProvider;
 import sej.model.CellIndex;
 import sej.model.Workbook;
 
-public class EngineDefinition implements Compiler.Section, EvaluationModelProvider
+public class EngineDefinition implements EvaluationModelProvider
 {
 	protected final Workbook workbook;
 	protected final SectionDefinition root = new SectionDefinition( this );
@@ -91,22 +88,4 @@ public class EngineDefinition implements Compiler.Section, EvaluationModelProvid
 		return this.root.getSectionFor( _index );
 	}
 
-
-	public void defineInputCell( Spreadsheet.Cell _cell, CallFrame _callChain ) throws ModelError
-	{
-		this.root.defineInputCell( _cell, _callChain );
-	}
-
-
-	public void defineOutputCell( Spreadsheet.Cell _cell, CallFrame _call ) throws ModelError
-	{
-		this.root.defineOutputCell( _cell, _call );
-	}
-
-	
-	public Compiler.Section defineRepeatingSection( Spreadsheet.Range _range, Orientation _orientation, CallFrame _inputCallChainReturningIterable, CallFrame _outputCallToImplementIterable ) throws ModelError
-	{
-		return this.root.defineRepeatingSection( _range, _orientation, _inputCallChainReturningIterable, _outputCallToImplementIterable );
-	}
-	
 }

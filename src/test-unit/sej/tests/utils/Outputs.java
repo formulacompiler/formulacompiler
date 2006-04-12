@@ -34,4 +34,5 @@ public interface Outputs
 	BigDecimal getBigDecimalA();
 	BigDecimal getBigDecimalB();
 	BigDecimal getBigDecimalC();
+	BigDecimal getBigResult();
 }

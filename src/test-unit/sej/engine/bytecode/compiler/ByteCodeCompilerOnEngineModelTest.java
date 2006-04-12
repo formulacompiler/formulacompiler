@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import sej.CallFrame;
 import sej.Engine;
 import sej.ModelError;
-import sej.engine.compiler.ValueType;
+import sej.NumericType;
 import sej.engine.compiler.model.CellModel;
 import sej.engine.compiler.model.EngineModel;
 import sej.engine.compiler.model.ExpressionNodeForCellModel;
@@ -68,10 +68,6 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
 		r.makeOutput( new CallFrame( Outputs.class.getMethod( "getResult" ) ) );
 
-		a.setType( ValueType.DOUBLE );
-		b.setType( ValueType.DOUBLE );
-		r.setType( ValueType.DOUBLE );
-
 		assertDoubleResult( _expectedResult, engineModel );
 	}
 
@@ -87,9 +83,6 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
 		r.makeOutput( new CallFrame( Outputs.class.getMethod( "getResult" ) ) );
-
-		a.setType( ValueType.DOUBLE );
-		r.setType( ValueType.DOUBLE );
 
 		assertDoubleResult( _expectedResult, engineModel );
 	}
@@ -121,10 +114,6 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getBigDecimalB" ) ) );
 		r.makeOutput( new CallFrame( Outputs.class.getMethod( "getBigDecimalA" ) ) );
 
-		a.setType( ValueType.BIGDECIMAL );
-		b.setType( ValueType.BIGDECIMAL );
-		r.setType( ValueType.BIGDECIMAL );
-
 		assertBigDecimalResult( _expectedResult, engineModel );
 	}
 
@@ -141,16 +130,15 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getBigDecimalA" ) ) );
 		r.makeOutput( new CallFrame( Outputs.class.getMethod( "getBigDecimalA" ) ) );
 
-		a.setType( ValueType.BIGDECIMAL );
-		r.setType( ValueType.BIGDECIMAL );
-
 		assertBigDecimalResult( _expectedResult, engineModel );
 	}
 
 
-	private void assertBigDecimalResult( final double _expectedResult, final EngineModel _engineModel ) throws ModelError
+	private void assertBigDecimalResult( final double _expectedResult, final EngineModel _engineModel )
+			throws ModelError
 	{
 		final ByteCodeCompiler compiler = new ByteCodeCompiler( null, Inputs.class, Outputs.class );
+		compiler.setNumericType( NumericType.BIGDECIMAL );
 		final Engine engine = compiler.compileNewEngine( _engineModel );
 		final Outputs outputs = (Outputs) engine.newComputation( new Inputs() );
 		final BigDecimal v = outputs.getBigDecimalA();

@@ -5,3 +5,22 @@ sej.Settings.setDebugParserEnabled(true);
 sej.model.Workbook sheet = (sej.model.Workbook) sej.SpreadsheetLoader.loadFromFile( "D:/temp/book3.xls" );
 
 System.out.println( sheet.describe() );
+
+
+long a = 1234500L;
+long b = (a * a / 10000) / a;
+b
+
+long b = (a * a / 10000) / (a * 10000);
+
+
+double a = 1234500;
+double b = (a * a / 10000) * 10000 / a;
+b
+(double) 1234500.0
+
+
+int a = 1234500;
+int b = a * a;
+b
+(int) -723140080

@@ -34,16 +34,14 @@ final class ByteCodeCellComputation
 	private final ByteCodeSectionCompiler section;
 	private final CellModel cell;
 	private final String methodName;
-	private final ByteCodeValueType type;
 
 
-	ByteCodeCellComputation(ByteCodeSectionCompiler _section, CellModel _cell) throws ModelError
+	ByteCodeCellComputation(ByteCodeSectionCompiler _section, CellModel _cell)
 	{
 		super();
 		this.section = _section;
 		this.cell = _cell;
 		this.methodName = _section.getNewGetterName();
-		this.type = ByteCodeValueType.typeFor( _cell.getType() );
 		_section.addCellComputation( _cell, this );
 	}
 
@@ -63,12 +61,7 @@ final class ByteCodeCellComputation
 		return this.methodName;
 	}
 
-	public ByteCodeValueType getType() 
-	{
-		return this.type;
-	}
-
-
+	
 	public void validate() throws ModelError
 	{
 		validateInputType();

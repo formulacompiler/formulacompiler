@@ -23,6 +23,7 @@ package sej.engine.compiler.definition;
 import sej.Compiler;
 import sej.ModelError;
 import sej.Orientation;
+import sej.Compiler.Section;
 import sej.model.CellInstance;
 import sej.model.CellRange;
 import sej.model.CellWithLazilyParsedExpression;
@@ -54,7 +55,7 @@ public class EngineDefinitionTest extends AbstractTestBase
 	public void testInputMethodReuse() throws ModelError, SecurityException, NoSuchMethodException
 	{
 		WorksheetBuilderWithBands dyn = new WorksheetBuilderWithBands( this.sheet );
-		EngineDefinition def = new EngineDefinition( this.workbook );
+		Section def = new EngineDefinition( this.workbook ).getRoot();
 
 		def.defineInputCell( dyn.r1c1.getCellIndex(), getInput( "getOne" ) );
 		def.defineInputCell( dyn.r1c2.getCellIndex(), getInput( "getOne" ) );
@@ -64,7 +65,7 @@ public class EngineDefinitionTest extends AbstractTestBase
 	public void testNoDuplicateInputCells() throws ModelError, SecurityException, NoSuchMethodException
 	{
 		WorksheetBuilderWithBands dyn = new WorksheetBuilderWithBands( this.sheet );
-		EngineDefinition def = new EngineDefinition( this.workbook );
+		Section def = new EngineDefinition( this.workbook ).getRoot();
 
 		def.defineInputCell( dyn.r1c1.getCellIndex(), getInput( "getOne" ) );
 		try {
@@ -80,7 +81,7 @@ public class EngineDefinitionTest extends AbstractTestBase
 	public void testOutputCellReuse() throws ModelError, SecurityException, NoSuchMethodException
 	{
 		WorksheetBuilderWithBands dyn = new WorksheetBuilderWithBands( this.sheet );
-		EngineDefinition def = new EngineDefinition( this.workbook );
+		Section def = new EngineDefinition( this.workbook ).getRoot();
 
 		def.defineOutputCell( dyn.r1c1.getCellIndex(), getOutput( "getA" ) );
 		def.defineOutputCell( dyn.r1c1.getCellIndex(), getOutput( "getB" ) );
@@ -90,7 +91,7 @@ public class EngineDefinitionTest extends AbstractTestBase
 	public void testNoDuplicateOutputMethods() throws ModelError, SecurityException, NoSuchMethodException
 	{
 		WorksheetBuilderWithBands dyn = new WorksheetBuilderWithBands( this.sheet );
-		EngineDefinition def = new EngineDefinition( this.workbook );
+		Section def = new EngineDefinition( this.workbook ).getRoot();
 
 		def.defineOutputCell( dyn.r1c1.getCellIndex(), getOutput( "getResult" ) );
 		try {
@@ -107,7 +108,7 @@ public class EngineDefinitionTest extends AbstractTestBase
 	public void testNoMixedBands() throws ModelError, NoSuchMethodException
 	{
 		WorksheetBuilderWithBands dyn = new WorksheetBuilderWithBands( this.sheet );
-		EngineDefinition def = new EngineDefinition( this.workbook );
+		Section def = new EngineDefinition( this.workbook ).getRoot();
 
 		CellRange vert = new CellRange( dyn.r1c1.getCellIndex(), dyn.r1c1.getCellIndex() );
 		def.defineRepeatingSection( vert, Orientation.VERTICAL, getInput( "getDetails" ), null );
@@ -126,7 +127,7 @@ public class EngineDefinitionTest extends AbstractTestBase
 	public void testNoOverlappingVerticalBands() throws ModelError, NoSuchMethodException
 	{
 		WorksheetBuilderWithBands dyn = new WorksheetBuilderWithBands( this.sheet );
-		EngineDefinition def = new EngineDefinition( this.workbook );
+		Section def = new EngineDefinition( this.workbook ).getRoot();
 
 		Orientation orientation = Orientation.VERTICAL;
 		CellRange one = new CellRange( dyn.r2c2.getCellIndex(), dyn.r3c3.getCellIndex() );
@@ -148,7 +149,7 @@ public class EngineDefinitionTest extends AbstractTestBase
 	public void testNoOverlappingHorizontalBands() throws ModelError, NoSuchMethodException
 	{
 		WorksheetBuilderWithBands dyn = new WorksheetBuilderWithBands( this.sheet );
-		EngineDefinition def = new EngineDefinition( this.workbook );
+		Section def = new EngineDefinition( this.workbook ).getRoot();
 
 		Orientation orientation = Orientation.HORIZONTAL;
 		CellRange one = new CellRange( dyn.r2c2.getCellIndex(), dyn.r3c3.getCellIndex() );
@@ -167,7 +168,7 @@ public class EngineDefinitionTest extends AbstractTestBase
 	}
 
 
-	private void acceptBand( EngineDefinition _def, CellInstance _from, CellInstance _to, Orientation _orientation )
+	private void acceptBand( Section _def, CellInstance _from, CellInstance _to, Orientation _orientation )
 			throws ModelError, NoSuchMethodException
 	{
 		CellRange two = new CellRange( _from.getCellIndex(), _to.getCellIndex() );
@@ -175,7 +176,7 @@ public class EngineDefinitionTest extends AbstractTestBase
 	}
 
 
-	private void failForBand( EngineDefinition _def, CellInstance _from, CellInstance _to, Orientation _orientation )
+	private void failForBand( Section _def, CellInstance _from, CellInstance _to, Orientation _orientation )
 			throws ModelError, NoSuchMethodException
 	{
 		CellRange two = new CellRange( _from.getCellIndex(), _to.getCellIndex() );
@@ -192,7 +193,7 @@ public class EngineDefinitionTest extends AbstractTestBase
 	public void testAllowDisjointHorizontalBands() throws ModelError, NoSuchMethodException
 	{
 		WorksheetBuilderWithBands dyn = new WorksheetBuilderWithBands( this.sheet );
-		EngineDefinition def = new EngineDefinition( this.workbook );
+		Section def = new EngineDefinition( this.workbook ).getRoot();
 
 		CellRange one = new CellRange( dyn.r1c1.getCellIndex(), dyn.r2c1.getCellIndex() );
 		def.defineRepeatingSection( one, Orientation.HORIZONTAL, getInput( "getDetails" ), null );
@@ -205,7 +206,7 @@ public class EngineDefinitionTest extends AbstractTestBase
 	public void testAllowDisjointVerticalBands() throws ModelError, NoSuchMethodException
 	{
 		WorksheetBuilderWithBands dyn = new WorksheetBuilderWithBands( this.sheet );
-		EngineDefinition def = new EngineDefinition( this.workbook );
+		Section def = new EngineDefinition( this.workbook ).getRoot();
 
 		CellRange one = new CellRange( dyn.r1c1.getCellIndex(), dyn.r1c2.getCellIndex() );
 		def.defineRepeatingSection( one, Orientation.VERTICAL, getInput( "getDetails" ), null );
@@ -218,7 +219,7 @@ public class EngineDefinitionTest extends AbstractTestBase
 	public void testNoDefsOutsideBand() throws ModelError, NoSuchMethodException
 	{
 		WorksheetBuilderWithBands dyn = new WorksheetBuilderWithBands( this.sheet );
-		EngineDefinition def = new EngineDefinition( this.workbook );
+		Section def = new EngineDefinition( this.workbook ).getRoot();
 
 		CellRange one = new CellRange( dyn.r2c2.getCellIndex(), dyn.r3c3.getCellIndex() );
 		Compiler.Section band = def.defineRepeatingSection( one, Orientation.VERTICAL, getInput( "getDetails" ), null );

@@ -20,11 +20,14 @@
  */
 package sej.engine.bytecode.compiler;
 
+import java.math.BigDecimal;
+
 import sej.CallFrame;
 import sej.Compiler;
 import sej.CompilerFactory;
 import sej.Engine;
 import sej.ModelError;
+import sej.NumericType;
 import sej.Compiler.Section;
 import sej.engine.expressions.Aggregator;
 import sej.engine.expressions.ExpressionNodeForAggregator;
@@ -423,15 +426,28 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 	}
 
 
+	public void testBigDecimal() throws ModelError, NoSuchMethodException
+	{
+		CellInstance a = new CellWithConstant( this.row, 123.0 );
+		CellInstance b = new CellWithConstant( this.row, 456.0 );
+		this.formula.setExpression( new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForCell( a ),
+				new ExpressionNodeForCell( b ) ) );
+
+		assertBigResult( 579.0, null, null );
+		assertBigResult( 345.0, new CellInstance[] { b }, new double[] { 222.0 } );
+		assertBigResult( 3.0, new CellInstance[] { a, b }, new double[] { 1.0, 2.0 } );
+	}
+
+
 	/**
 	 * <pre>
-	 *       a = 1 
-	 *       b = 2 
-	 *       c = 3 
-	 *       d = 1 + 3 = 4 
-	 *       e = c + d = 7 
-	 *       f = (a + b) + e = 10 
-	 *       r = a * f = 10
+	 *            a = 1 
+	 *            b = 2 
+	 *            c = 3 
+	 *            d = 1 + 3 = 4 
+	 *            e = c + d = 7 
+	 *            f = (a + b) + e = 10 
+	 *            r = a * f = 10
 	 * </pre>
 	 */
 	public void testSubExprs() throws ModelError, NoSuchMethodException
@@ -473,10 +489,10 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 	 * Then provide input values for the range A2:B3 (the fixed numbers) which extend it by one row:
 	 * 
 	 * <pre>
-	 *       SUM(C2:C3) 0.5
-	 *       4.0 5.0 SUM(A2:B2)*B$1 
-	 *       6.0 7.0 SUM(A3:B3)*B$1 
-	 *       8.0 9.0 SUM(A4:B4)*B$1
+	 *            SUM(C2:C3) 0.5
+	 *            4.0 5.0 SUM(A2:B2)*B$1 
+	 *            6.0 7.0 SUM(A3:B3)*B$1 
+	 *            8.0 9.0 SUM(A4:B4)*B$1
 	 * </pre>
 	 * 
 	 * @throws ModelError
@@ -514,8 +530,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 		assertEngineResult( _expected, engine, _values );
 	}
 
-
-	private void setupCompiler( Compiler.Section _root, CellInstance[] _inputs ) throws ModelError, SecurityException,
+	private void setupCompiler( Compiler.Section _root, CellInstance[] _inputs ) throws ModelError,
 			NoSuchMethodException
 	{
 		_root.defineOutputCell( this.formula.getCellIndex(), getOutput( "getResult" ) );
@@ -528,12 +543,49 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 		}
 	}
 
-
 	private void assertEngineResult( double _expected, Engine _engine, double[] _values )
 	{
 		Outputs outputs = (Outputs) _engine.newComputation( new Inputs( _values ) );
 		double result = outputs.getResult();
 		assertEquals( outputs.getClass().getName(), _expected, result );
+	}
+
+
+	private void assertBigResult( double _expected, CellInstance[] _inputs, double[] _values ) throws ModelError,
+			NoSuchMethodException
+	{
+		Compiler compiler = CompilerFactory.newDefaultCompiler( this.workbook, Inputs.class, Outputs.class );
+		compiler.setNumericType( NumericType.BIGDECIMAL );
+		setupBigCompiler( compiler.getRoot(), _inputs );
+		Engine engine = compiler.compileNewEngine();
+		assertBigEngineResult( _expected, engine, _values );
+	}
+
+	private void setupBigCompiler( Compiler.Section _root, CellInstance[] _inputs ) throws ModelError,
+			NoSuchMethodException
+	{
+		_root.defineOutputCell( this.formula.getCellIndex(), getOutput( "getBigResult" ) );
+		int index = 0;
+		if (null != _inputs) {
+			for (CellInstance input : _inputs) {
+				_root.defineInputCell( input.getCellIndex(), getInput( new String[] { "getBigOne", "getBigTwo",
+						"getBigThree" }[ index++ ] ) );
+			}
+		}
+	}
+
+	private void assertBigEngineResult( double _expected, Engine _engine, double[] _values )
+	{
+		BigDecimal[] values = null;
+		if (null != _values) {
+			values = new BigDecimal[ _values.length ];
+			for (int i = 0; i < _values.length; i++) {
+				values[ i ] = BigDecimal.valueOf( _values[ i ] );
+			}
+		}
+		Outputs outputs = (Outputs) _engine.newComputation( new Inputs( values ) );
+		BigDecimal result = outputs.getBigResult();
+		assertTrue( 0 == result.compareTo( BigDecimal.valueOf( _expected ) ) );
 	}
 
 }

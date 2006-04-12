@@ -65,6 +65,17 @@ public interface Compiler
 
 
 	/**
+	 * Sets the numeric type to be used by all numeric computations done by engines compiled with
+	 * this compiler.
+	 * 
+	 * @param _type The numeric type to be used. Must not be <code>null</code>. For financial
+	 *        computations, use {@link NumericType#BIGDECIMAL} or {@link NumericType#CURRENCY},
+	 *        rather than the default {@link NumericType#DOUBLE}.
+	 */
+	public void setNumericType( NumericType _type );
+
+
+	/**
 	 * Constructs a computation engine which has the defined input cells as input parameters (see
 	 * {@code defineInputCell()}) and can compute the values of the defined output cells (see
 	 * {@code defineOutputCell()}).
@@ -190,4 +201,5 @@ public interface Compiler
 
 
 	}
+
 }

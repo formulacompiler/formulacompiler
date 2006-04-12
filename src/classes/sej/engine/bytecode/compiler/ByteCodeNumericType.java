@@ -7,21 +7,59 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.ModelError;
-import sej.ModelError.UnsupportedDataType;
-import sej.engine.compiler.ValueType;
+import sej.NumericType;
 import sej.engine.expressions.Operator;
 
 
-public enum ByteCodeValueType {
+public abstract class ByteCodeNumericType
+{
 
+	ByteCodeNumericType()
+	{
+		super();
+	}
 
-	BC_DOUBLE {
-
-		@Override
-		public ValueType getValueType()
-		{
-			return ValueType.DOUBLE;
+	public static ByteCodeNumericType typeFor( NumericType _type ) throws ModelError
+	{
+		if (Double.TYPE == _type.getValueType()) {
+			return new DoubleType();
 		}
+		else if (BigDecimal.class == _type.getValueType()) {
+			return new BigDecimalType( _type.getScale() );
+		}
+		else {
+			throw new ModelError.UnsupportedDataType( "Unsupported numeric type for byte code compilation." );
+		}
+	}
+
+
+	public abstract Type getType();
+	public abstract int getReturnOpcode();
+
+	public String getDescriptor()
+	{
+		return getType().getDescriptor();
+	}
+
+	public void compile( GeneratorAdapter _adapter, Operator _operator, int _numberOfArguments ) throws ModelError
+	{
+		switch (_operator) {
+
+		case NOOP:
+			return;
+
+		default:
+			throw new ModelError.UnsupportedOperator( "The operator '"
+					+ _operator.getSymbol() + "' is not supported here." );
+		}
+	}
+
+	public abstract void compileConversionFromDouble( GeneratorAdapter _mv );
+
+	
+
+	static final class DoubleType extends ByteCodeNumericType
+	{
 
 		@Override
 		public Type getType()
@@ -29,12 +67,14 @@ public enum ByteCodeValueType {
 			return Type.DOUBLE_TYPE;
 		}
 
+		
 		@Override
 		public int getReturnOpcode()
 		{
 			return Opcodes.DRETURN;
 		}
 
+		
 		@Override
 		public void compile( GeneratorAdapter _mv, Operator _operator, int _numberOfArguments ) throws ModelError
 		{
@@ -83,29 +123,46 @@ public enum ByteCodeValueType {
 			}
 		}
 
-	},
-
-
-	BC_BIGDECIMAL {
-
+		
 		@Override
-		public ValueType getValueType()
+		public void compileConversionFromDouble( GeneratorAdapter _mv )
 		{
-			return ValueType.BIGDECIMAL;
+			// Already is a double.
 		}
 
+	}
+
+
+	static final class BigDecimalType extends ByteCodeNumericType
+	{
+		private static final String BNAME = ByteCodeCompiler.BIGDECIMAL.getInternalName();
+		private static final String B = ByteCodeCompiler.BIGDECIMAL.getDescriptor();
+		private static final String V2B = "()" + B;
+		private static final String I2B = "(I)" + B;
+		private static final String D2B = "(D)" + B;
+		private static final String B2B = "(" + B + ")" + B;
+
+
+		public BigDecimalType(int _scale)
+		{
+			super();
+		}
+
+		
 		@Override
 		public Type getType()
 		{
 			return Type.getType( BigDecimal.class );
 		}
 
+		
 		@Override
 		public int getReturnOpcode()
 		{
 			return Opcodes.ARETURN;
 		}
 
+		
 		@Override
 		public void compile( GeneratorAdapter _mv, Operator _operator, int _numberOfArguments ) throws ModelError
 		{
@@ -155,54 +212,13 @@ public enum ByteCodeValueType {
 			}
 		}
 
-	};
-
-
-	static final String BNAME = ByteCodeCompiler.BIGDECIMAL.getInternalName();
-	static final String B = ByteCodeCompiler.BIGDECIMAL.getDescriptor();
-	static final String V2B = "()" + B;
-	static final String I2B = "(I)" + B;
-	static final String B2B = "(" + B + ")" + B;
-	static final String BB2B = "(" + B + B + ")" + B;
-
-
-	public abstract ValueType getValueType();
-	public abstract Type getType();
-	public abstract int getReturnOpcode();
-
-
-	public String getDescriptor()
-	{
-		return getType().getDescriptor();
-	}
-
-
-	public static ByteCodeValueType typeFor( ValueType _type ) throws ModelError
-	{
-		switch (_type) {
-
-		case DOUBLE:
-			return BC_DOUBLE;
-
-		case BIGDECIMAL:
-			return BC_BIGDECIMAL;
-
+		
+		@Override
+		public void compileConversionFromDouble( GeneratorAdapter _mv )
+		{
+			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, BNAME, "valueOf", D2B );
 		}
-		throw new UnsupportedDataType( "Unsupported value type for byte code compilation." );
-	}
-
-
-	public void compile( GeneratorAdapter _adapter, Operator _operator, int _numberOfArguments ) throws ModelError
-	{
-		switch (_operator) {
-
-		case NOOP:
-			return;
-
-		default:
-			throw new ModelError.UnsupportedOperator( "The operator '"
-					+ _operator.getSymbol() + "' is not supported here." );
-		}
+		
 	}
 
 }
