@@ -20,7 +20,6 @@
  */
 package sej.engine.expressions;
 
-import java.lang.reflect.InvocationTargetException;
 
 
 public class ExpressionNodeForIf extends ExpressionNodeForFunction
@@ -47,7 +46,7 @@ public class ExpressionNodeForIf extends ExpressionNodeForFunction
 
 
 	@Override
-	public Object evaluate( EvaluationContext _context ) throws EvaluationFailed, InvocationTargetException
+	public Object doEvaluate( EvaluationContext _context ) throws EvaluationFailed
 	{
 		Object test = evaluateArgument( _context, 0 );
 		int iArgToReturn = 2;

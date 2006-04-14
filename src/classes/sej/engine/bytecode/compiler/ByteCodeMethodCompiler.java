@@ -21,7 +21,6 @@
 package sej.engine.bytecode.compiler;
 
 import java.lang.reflect.Method;
-import java.util.Date;
 import java.util.List;
 
 import org.objectweb.asm.ClassWriter;
@@ -33,7 +32,6 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.CallFrame;
 import sej.ModelError;
-import sej.engine.Runtime_v1;
 import sej.engine.compiler.model.CellModel;
 import sej.engine.compiler.model.ExpressionNodeForCellModel;
 import sej.engine.compiler.model.ExpressionNodeForParentSectionModel;
@@ -69,7 +67,7 @@ public abstract class ByteCodeMethodCompiler
 	{
 		final String name = getMethodName();
 		final String signature = "()" + getNumericType().getDescriptor();
-		final int access = Opcodes.ACC_FINAL;
+		final int access = Opcodes.ACC_FINAL | Opcodes.ACC_PRIVATE;
 		return new GeneratorAdapter( cw().visitMethod( access, name, signature, null, null ), access, name, signature );
 	}
 
@@ -171,27 +169,7 @@ public abstract class ByteCodeMethodCompiler
 
 	protected void compileConst( Object _constantValue ) throws ModelError
 	{
-		if (null == _constantValue) {
-			mv().visitInsn( Opcodes.DCONST_0 );
-		}
-		else if (_constantValue instanceof Number) {
-			double val = ((Number) _constantValue).doubleValue();
-			mv().push( val );
-		}
-		else if (_constantValue instanceof Boolean) {
-			double val = ((Boolean) _constantValue) ? 1 : 0;
-			mv().push( val );
-		}
-		else if (_constantValue instanceof Date) {
-			Date date = (Date) _constantValue;
-			double val = Runtime_v1.dateToExcel( date );
-			mv().push( val );
-		}
-		else {
-			throw new ModelError.UnsupportedDataType( "The data type "
-					+ _constantValue.getClass().getName() + " is not supported for constant " + _constantValue.toString() );
-		}
-		getNumericType().compileConversionFromDouble( mv() );
+		getNumericType().compileConst( mv(), _constantValue );
 	}
 
 

@@ -29,6 +29,8 @@ import sej.ModelError;
 import sej.NumericType;
 import sej.Spreadsheet;
 import sej.engine.compiler.definition.EngineDefinition;
+import sej.engine.compiler.model.EngineModel;
+import sej.engine.compiler.model.compiler.EngineModelCompiler;
 import sej.model.Workbook;
 
 
@@ -37,15 +39,16 @@ public abstract class WorkbookCompiler implements Compiler
 	protected final EngineDefinition definition;
 	protected final Class inputs;
 	protected final Class outputs;
-	protected NumericType numericType = NumericType.DOUBLE;
+	protected final NumericType numericType;
 
 
-	public WorkbookCompiler(Spreadsheet _model, Class _inputs, Class _outputs)
+	public WorkbookCompiler(Spreadsheet _model, Class _inputs, Class _outputs, NumericType _numericType)
 	{
 		super();
 		this.definition = new EngineDefinition( (Workbook) _model );
 		this.inputs = _inputs;
 		this.outputs = _outputs;
+		this.numericType = _numericType;
 	}
 
 
@@ -73,9 +76,9 @@ public abstract class WorkbookCompiler implements Compiler
 	}
 
 
-	public void setNumericType( NumericType _numericType )
+	protected EngineModel compileEngineModel() throws ModelError
 	{
-		this.numericType = _numericType;
+		return new EngineModelCompiler( getDefinition(), getNumericType() ).compileNewModel();
 	}
 
 

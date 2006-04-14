@@ -47,6 +47,16 @@ public abstract class CompilerFactory
 
 
 	/**
+	 * Like {@link #newDefaultCompiler(Spreadsheet, Class, Class, NumericType)} where the numeric
+	 * type is set to the default, {@link NumericType#DOUBLE}.
+	 */
+	public static Compiler newDefaultCompiler( Spreadsheet _model, Class _inputs, Class _outputs )
+	{
+		return newDefaultCompiler( _model, _inputs, _outputs, NumericType.DOUBLE );
+	}
+
+
+	/**
 	 * Returns a new compiler constructed by the default compiler factory. You can set the default
 	 * using {@code setDefaultFactory}.
 	 * 
@@ -60,16 +70,20 @@ public abstract class CompilerFactory
 	 * @param _outputs is a public class or interface to which output cells can later be bound (see
 	 *        {@link Compiler.Section#defineOutputCell(Spreadsheet.Cell, CallFrame)}). Can be a
 	 *        public static inner class.
+	 * @param _numericType The numeric type to be used by all numeric computations by engines
+	 *        compiled with this compiler. Must not be <code>null</code>. For financial
+	 *        computations, use {@link NumericType#BIGDECIMAL} or {@link NumericType#CURRENCY}.
 	 * @return The newly constructed compiler.
 	 */
-	public static Compiler newDefaultCompiler( Spreadsheet _model, Class _inputs, Class _outputs )
+	public static Compiler newDefaultCompiler( Spreadsheet _model, Class _inputs, Class _outputs,
+			NumericType _numericType )
 	{
 		if (null == defaultFactory) throw new NullPointerException( "CompilerFactory.defaultFactory is empty" );
-		return defaultFactory.newCompiler( _model, _inputs, _outputs );
+		return defaultFactory.newCompiler( _model, _inputs, _outputs, _numericType );
 	}
 
 
-	protected abstract Compiler newCompiler( Spreadsheet _model, Class _inputs, Class _outputs );
+	protected abstract Compiler newCompiler( Spreadsheet _model, Class _inputs, Class _outputs, NumericType _numericType );
 
 
 }

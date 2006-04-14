@@ -24,3 +24,10 @@ int a = 1234500;
 int b = a * a;
 b
 (int) -723140080
+
+
+
+java.math.BigDecimal one = new java.math.BigDecimal( "1" );
+java.math.BigDecimal three = new java.math.BigDecimal( "3" );
+java.math.BigDecimal third = one.divide(three);
+third

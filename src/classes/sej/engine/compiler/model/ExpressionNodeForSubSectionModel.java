@@ -23,8 +23,6 @@ package sej.engine.compiler.model;
 import java.io.IOException;
 
 import sej.describable.DescriptionBuilder;
-import sej.engine.expressions.EvaluationContext;
-import sej.engine.expressions.EvaluationFailed;
 import sej.engine.expressions.ExpressionNode;
 
 public class ExpressionNodeForSubSectionModel extends ExpressionNodeForSectionModel
@@ -34,13 +32,6 @@ public class ExpressionNodeForSubSectionModel extends ExpressionNodeForSectionMo
 	public ExpressionNodeForSubSectionModel(SectionModel _innerSectionModel)
 	{
 		super( _innerSectionModel );
-	}
-
-
-	@Override
-	public Object evaluate( EvaluationContext _context ) throws EvaluationFailed
-	{
-		throw new EvaluationFailed();
 	}
 
 

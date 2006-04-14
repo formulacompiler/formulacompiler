@@ -342,6 +342,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 		Section root = compiler.getRoot();
 
 		root.defineInputCell( this.formula.getCellIndex(), new CallFrame( Inputs.class.getMethod( "getUnsupported" ) ) );
+		root.defineOutputCell( this.formula.getCellIndex(), new CallFrame( Outputs.class.getMethod( "getResult" ) ) );
 		try {
 			compiler.compileNewEngine();
 			fail();
@@ -441,13 +442,13 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 
 	/**
 	 * <pre>
-	 *            a = 1 
-	 *            b = 2 
-	 *            c = 3 
-	 *            d = 1 + 3 = 4 
-	 *            e = c + d = 7 
-	 *            f = (a + b) + e = 10 
-	 *            r = a * f = 10
+	 *             a = 1 
+	 *             b = 2 
+	 *             c = 3 
+	 *             d = 1 + 3 = 4 
+	 *             e = c + d = 7 
+	 *             f = (a + b) + e = 10 
+	 *             r = a * f = 10
 	 * </pre>
 	 */
 	public void testSubExprs() throws ModelError, NoSuchMethodException
@@ -489,10 +490,10 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 	 * Then provide input values for the range A2:B3 (the fixed numbers) which extend it by one row:
 	 * 
 	 * <pre>
-	 *            SUM(C2:C3) 0.5
-	 *            4.0 5.0 SUM(A2:B2)*B$1 
-	 *            6.0 7.0 SUM(A3:B3)*B$1 
-	 *            8.0 9.0 SUM(A4:B4)*B$1
+	 *             SUM(C2:C3) 0.5
+	 *             4.0 5.0 SUM(A2:B2)*B$1 
+	 *             6.0 7.0 SUM(A3:B3)*B$1 
+	 *             8.0 9.0 SUM(A4:B4)*B$1
 	 * </pre>
 	 * 
 	 * @throws ModelError
@@ -554,8 +555,8 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 	private void assertBigResult( double _expected, CellInstance[] _inputs, double[] _values ) throws ModelError,
 			NoSuchMethodException
 	{
-		Compiler compiler = CompilerFactory.newDefaultCompiler( this.workbook, Inputs.class, Outputs.class );
-		compiler.setNumericType( NumericType.BIGDECIMAL );
+		Compiler compiler = CompilerFactory.newDefaultCompiler( this.workbook, Inputs.class, Outputs.class,
+				NumericType.BIGDECIMAL );
 		setupBigCompiler( compiler.getRoot(), _inputs );
 		Engine engine = compiler.compileNewEngine();
 		assertBigEngineResult( _expected, engine, _values );

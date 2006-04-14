@@ -21,7 +21,6 @@
 package sej.engine.expressions;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 import sej.describable.DescriptionBuilder;
@@ -59,7 +58,7 @@ public class ExpressionNodeForFunction extends ExpressionNode
 
 
 	@Override
-	public Object evaluate( EvaluationContext _context ) throws EvaluationFailed, InvocationTargetException
+	public Object doEvaluate( EvaluationContext _context ) throws EvaluationFailed
 	{
 		switch (getArguments().size()) {
 

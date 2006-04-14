@@ -31,6 +31,7 @@ import org.objectweb.asm.Type;
 import sej.CompilerFactory;
 import sej.Engine;
 import sej.ModelError;
+import sej.NumericType;
 import sej.Settings;
 import sej.Spreadsheet;
 import sej.engine.Runtime_v1;
@@ -38,7 +39,6 @@ import sej.engine.bytecode.ByteCodeEngineFactory;
 import sej.engine.bytecode.ByteCodeEngineLoader;
 import sej.engine.compiler.WorkbookCompiler;
 import sej.engine.compiler.model.EngineModel;
-import sej.engine.compiler.model.compiler.EngineModelCompiler;
 
 
 public class ByteCodeCompiler extends WorkbookCompiler
@@ -59,9 +59,9 @@ public class ByteCodeCompiler extends WorkbookCompiler
 	}
 
 
-	public ByteCodeCompiler(Spreadsheet _model, Class _inputs, Class _outputs)
+	public ByteCodeCompiler(Spreadsheet _model, Class _inputs, Class _outputs, NumericType _numericType)
 	{
-		super( _model, _inputs, _outputs );
+		super( _model, _inputs, _outputs, _numericType );
 	}
 
 
@@ -79,10 +79,7 @@ public class ByteCodeCompiler extends WorkbookCompiler
 
 	byte[] compileNewEngineClassBytes() throws ModelError
 	{
-		final EngineModelCompiler modelCompiler = new EngineModelCompiler( getDefinition() );
-		final EngineModel model = modelCompiler.compileNewModel();
-
-		return compileNewEngineClassBytes( model );
+		return compileNewEngineClassBytes( compileEngineModel() );
 	}
 
 
@@ -124,7 +121,6 @@ public class ByteCodeCompiler extends WorkbookCompiler
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		// System.exit( -1 );
 	}
 
 

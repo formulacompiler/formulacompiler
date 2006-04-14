@@ -90,7 +90,7 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 
 	private void assertDoubleResult( final double _expectedResult, final EngineModel _engineModel ) throws ModelError
 	{
-		final ByteCodeCompiler compiler = new ByteCodeCompiler( null, Inputs.class, Outputs.class );
+		final ByteCodeCompiler compiler = new ByteCodeCompiler( null, Inputs.class, Outputs.class, NumericType.DOUBLE );
 		final Engine engine = compiler.compileNewEngine( _engineModel );
 		final Outputs outputs = (Outputs) engine.newComputation( new Inputs() );
 
@@ -137,8 +137,7 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 	private void assertBigDecimalResult( final double _expectedResult, final EngineModel _engineModel )
 			throws ModelError
 	{
-		final ByteCodeCompiler compiler = new ByteCodeCompiler( null, Inputs.class, Outputs.class );
-		compiler.setNumericType( NumericType.BIGDECIMAL );
+		final ByteCodeCompiler compiler = new ByteCodeCompiler( null, Inputs.class, Outputs.class, NumericType.BIGDECIMAL );
 		final Engine engine = compiler.compileNewEngine( _engineModel );
 		final Outputs outputs = (Outputs) engine.newComputation( new Inputs() );
 		final BigDecimal v = outputs.getBigDecimalA();
