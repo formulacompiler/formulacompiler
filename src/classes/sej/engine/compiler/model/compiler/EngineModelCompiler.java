@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import sej.ModelError;
+import sej.NumericType;
 import sej.engine.compiler.definition.EngineDefinition;
 import sej.engine.compiler.definition.InputCellDefinition;
 import sej.engine.compiler.definition.SectionDefinition;
@@ -36,25 +37,34 @@ import sej.engine.compiler.model.optimizer.ConstantSubExpressionEliminator;
 import sej.engine.compiler.model.optimizer.IntermediateResultsInliner;
 import sej.model.CellIndex;
 
+
 public class EngineModelCompiler
 {
 	private final EngineDefinition engineDef;
+	private final NumericType numericType;
 	private final Map<CellIndex, CellModel> cellModels = new HashMap<CellIndex, CellModel>();
 	private final Map<SectionDefinition, SectionModelCompiler> sectionCompilers = new HashMap<SectionDefinition, SectionModelCompiler>();
 	private final Map<SectionModel, SectionModelCompiler> sectionCompilersByModel = new HashMap<SectionModel, SectionModelCompiler>();
 	private EngineModel engineModel;
 
 
-	public EngineModelCompiler(EngineDefinition _definition)
+	public EngineModelCompiler(EngineDefinition _definition, NumericType _numericType)
 	{
 		super();
 		this.engineDef = _definition;
+		this.numericType = _numericType;
 	}
 
 
 	public EngineDefinition getEngineDef()
 	{
 		return this.engineDef;
+	}
+
+
+	private NumericType getNumericType()
+	{
+		return this.numericType;
 	}
 
 
@@ -89,8 +99,10 @@ public class EngineModelCompiler
 		}
 		for (Entry<CellIndex, InputCellDefinition> inputEntry : getEngineDef().getInputs().entrySet()) {
 			InputCellDefinition inputDef = inputEntry.getValue();
-			CellModel model = getOrCreateCellModel( inputDef.getIndex() );
-			model.makeInput( inputDef.getCallChainToCall() );
+			CellModel model = getCellModel( inputDef.getIndex() );
+			if (null != model) {
+				model.makeInput( inputDef.getCallChainToCall() );
+			}
 		}
 	}
 
@@ -150,7 +162,7 @@ public class EngineModelCompiler
 
 	void addSectionModelCompiler( SectionModelCompiler _compiler )
 	{
-		this.sectionCompilers.put(  _compiler.getSectionDef(), _compiler );
+		this.sectionCompilers.put( _compiler.getSectionDef(), _compiler );
 		this.sectionCompilersByModel.put( _compiler.getSectionModel(), _compiler );
 	}
 
@@ -164,7 +176,7 @@ public class EngineModelCompiler
 
 	private void eliminateConstantSubExpressions() throws ModelError
 	{
-		this.engineModel.traverse( new ConstantSubExpressionEliminator() );
+		this.engineModel.traverse( new ConstantSubExpressionEliminator( getNumericType() ) );
 	}
 
 

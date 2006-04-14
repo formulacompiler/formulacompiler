@@ -28,6 +28,7 @@ import sej.engine.compiler.model.CellModel;
 import sej.engine.compiler.model.EngineModel;
 import sej.engine.compiler.model.ExpressionNodeForCellModel;
 import sej.engine.expressions.ExpressionNode;
+import sej.engine.expressions.ExpressionNodeForConstantValue;
 
 final public class IntermediateResultsInliner extends AbstractEngineModelVisitor
 {
@@ -77,7 +78,12 @@ final public class IntermediateResultsInliner extends AbstractEngineModelVisitor
 			CellModel cellModel = cellNode.getCellModel();
 			if (!isInlineable( cellModel )) return result;
 			result = cellModel.getExpression();
-			cellModel.setExpression( null );
+			if (null == result) {
+				result = new ExpressionNodeForConstantValue( cellModel.getConstantValue() );
+			}
+			else {
+				cellModel.setExpression( null );
+			}
 		}
 		inlineIntermediateResultsIntoArgsOf( result );
 		return result;
@@ -86,7 +92,9 @@ final public class IntermediateResultsInliner extends AbstractEngineModelVisitor
 
 	private void inlineIntermediateResultsIntoArgsOf( ExpressionNode _expr )
 	{
-		if (null == _expr) throw new IllegalArgumentException();
+		if (null == _expr) {
+			throw new IllegalArgumentException();
+		}
 		List<ExpressionNode> args = _expr.getArguments();
 		if (args.size() > 0) {
 			ExpressionNode[] sourceArgs = args.toArray( new ExpressionNode[ args.size() ] );

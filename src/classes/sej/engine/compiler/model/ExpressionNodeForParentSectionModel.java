@@ -21,7 +21,6 @@
 package sej.engine.compiler.model;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 import sej.describable.DescriptionBuilder;
 import sej.engine.expressions.EvaluationContext;
@@ -39,7 +38,7 @@ public class ExpressionNodeForParentSectionModel extends ExpressionNodeForSectio
 
 
 	@Override
-	public Object evaluate( EvaluationContext _context ) throws EvaluationFailed, InvocationTargetException
+	public Object doEvaluate( EvaluationContext _context ) throws EvaluationFailed
 	{
 		return evaluateArgument( _context, 0 );
 	}

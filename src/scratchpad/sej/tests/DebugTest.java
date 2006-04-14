@@ -1,10 +1,12 @@
 package sej.tests;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import sej.Engine;
 import sej.EngineBuilder;
 import sej.ModelError;
+import sej.NumericType;
 import sej.Settings;
 import sej.engine.standard.compiler.StandardCompiler;
 import sej.loader.excel.xls.ExcelXLSLoader;
@@ -23,45 +25,46 @@ public class DebugTest extends TestCase
 
 	public void testDebugCase() throws IOException, ModelError
 	{
-		final EngineBuilder builder = new EngineBuilder( Inputs.class, Outputs.class );
+		final EngineBuilder builder = new EngineBuilder( Inputs.class, Outputs.class, NumericType.BIGDECIMAL );
 		builder.loadSpreadsheet( "src/scratchpad/data/DebugCase.xls" );
 		builder.bindCellsByName();
 		final Engine engine = builder.buildEngine();
 
 		final Inputs inputs = new Inputs();
 		final Outputs outputs = (Outputs) engine.newComputation( inputs );
+		final BigDecimal result = outputs.getResult();
 
-		assertEquals( 100.0, outputs.getResult(), 0.00001 );
+		assertEquals( "2", result.toPlainString() );
 	}
 
 
 	public static final class Inputs
 	{
-		public boolean getIA()
+		public BigDecimal getIA()
 		{
-			return true;
+			return new BigDecimal( "1" );
 		}
 
-		public boolean getIB()
+		public BigDecimal getIB()
 		{
-			return true;
+			return new BigDecimal( "2" );
 		}
 
-		public boolean getIC()
+		public BigDecimal getIC()
 		{
-			return false;
+			return new BigDecimal( "3" );
 		}
 
-		public double getID()
+		public BigDecimal getID()
 		{
-			return 20;
+			return new BigDecimal( "4" );
 		}
 	}
 
 
 	public static interface Outputs
 	{
-		double getResult();
+		BigDecimal getResult();
 	}
 
 }

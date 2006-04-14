@@ -41,7 +41,7 @@ public class ExpressionNodeForConstantValue extends ExpressionNode
 
 
 	@Override
-	public Object evaluate( EvaluationContext _context ) throws EvaluationFailed
+	public Object doEvaluate( EvaluationContext _context )
 	{
 		return this.value;
 	}

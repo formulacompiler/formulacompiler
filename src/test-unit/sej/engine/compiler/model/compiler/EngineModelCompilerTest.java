@@ -24,6 +24,7 @@ import java.text.NumberFormat;
 
 import sej.Compiler;
 import sej.ModelError;
+import sej.NumericType;
 import sej.Orientation;
 import sej.Compiler.Section;
 import sej.ModelError.SectionExtentNotCovered;
@@ -84,7 +85,7 @@ public class EngineModelCompilerTest extends AbstractTestBase
 		rootDef.defineOutputCell( o2.getCellIndex(), getOutput( "getB" ) );
 		rootDef.defineOutputCell( io1.getCellIndex(), getOutput( "getC" ) );
 
-		EngineModelCompiler compiler = new EngineModelCompiler( def );
+		EngineModelCompiler compiler = new EngineModelCompiler( def, NumericType.DOUBLE );
 		EngineModel model = compiler.buildNewModel();
 		model.traverse( new ReferenceCounter() );
 		SectionModel root = model.getRoot();
@@ -147,7 +148,7 @@ public class EngineModelCompilerTest extends AbstractTestBase
 		assertEquals( CellModel.UNLIMITED, io1m.getMaxFractionalDigits() );
 		assertEquals( 7.0, (Double) io1m.getConstantValue(), 0.1 );
 
-		assertEquals( 8, root.getCells().size() );
+		assertEquals( 7, root.getCells().size() );
 	}
 
 
@@ -162,7 +163,7 @@ public class EngineModelCompilerTest extends AbstractTestBase
 		EngineDefinition def = new EngineDefinition( workbook );
 		bld.defineCompiler( def.getRoot() );
 
-		EngineModelCompiler compiler = new EngineModelCompiler( def );
+		EngineModelCompiler compiler = new EngineModelCompiler( def, NumericType.DOUBLE );
 		EngineModel model = compiler.buildNewModel();
 		SectionModel root = model.getRoot();
 
@@ -207,7 +208,7 @@ public class EngineModelCompilerTest extends AbstractTestBase
 		bld.defineRange( def.getRoot() );
 		bld.details.defineOutputCell( bld.r1c4.getCellIndex(), getInput( "getOne" ) );
 
-		EngineModelCompiler compiler = new EngineModelCompiler( def );
+		EngineModelCompiler compiler = new EngineModelCompiler( def, NumericType.DOUBLE );
 		EngineModel model = compiler.buildNewModel();
 		SectionModel root = model.getRoot();
 
@@ -255,7 +256,7 @@ public class EngineModelCompilerTest extends AbstractTestBase
 		inputsDef.defineInputCell( i1.getCellIndex(), getInput( "getOne" ) );
 		outputsDef.defineOutputCell( o1.getCellIndex(), getOutput( "getA" ) );
 
-		EngineModelCompiler compiler = new EngineModelCompiler( def );
+		EngineModelCompiler compiler = new EngineModelCompiler( def, NumericType.DOUBLE );
 		EngineModel model = compiler.buildNewModel();
 		SectionModel root = model.getRoot();
 
@@ -296,7 +297,7 @@ public class EngineModelCompilerTest extends AbstractTestBase
 		rootDef.defineOutputCell( o1.getCellIndex(), getOutput( "getA" ) );
 		rootDef.defineOutputCell( o2.getCellIndex(), getOutput( "getB" ) );
 
-		EngineModelCompiler compiler = new EngineModelCompiler( def );
+		EngineModelCompiler compiler = new EngineModelCompiler( def, NumericType.DOUBLE );
 		EngineModel model = compiler.buildNewModel();
 		SectionModel root = model.getRoot();
 
@@ -363,7 +364,7 @@ public class EngineModelCompilerTest extends AbstractTestBase
 		Section rootDef = def.getRoot();
 		rootDef.defineRepeatingSection( rng, Orientation.HORIZONTAL, getInput( "getDetails"), null );
 		rootDef.defineOutputCell( output.getCellIndex(), getOutput( "getResult" ));
-		EngineModelCompiler compiler = new EngineModelCompiler( def );
+		EngineModelCompiler compiler = new EngineModelCompiler( def, NumericType.DOUBLE );
 		try {
 			compiler.buildNewModel();
 			fail( "Definition for " + output + " accepted even though it does not cover the full range." );

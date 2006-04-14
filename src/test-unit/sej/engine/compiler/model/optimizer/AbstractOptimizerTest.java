@@ -20,6 +20,8 @@
  */
 package sej.engine.compiler.model.optimizer;
 
+import java.math.BigDecimal;
+
 import sej.engine.compiler.model.CellModel;
 import sej.engine.compiler.model.EngineModel;
 import sej.engine.compiler.model.ExpressionNodeForCellModel;
@@ -89,6 +91,14 @@ public abstract class AbstractOptimizerTest extends AbstractTestBase
 	{
 		Double actual = (Double) _constCell.getConstantValue();
 		assertEquals( _expected, actual, 0.01 );
+	}
+
+
+	protected void assertBigConst( String _expected, CellModel _constCell )
+	{
+		BigDecimal value = (BigDecimal) _constCell.getConstantValue();
+		String actual = value.toPlainString();
+		assertEquals( _expected, actual );
 	}
 
 

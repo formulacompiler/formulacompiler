@@ -21,7 +21,6 @@
 package sej.engine.expressions;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 import sej.describable.DescriptionBuilder;
@@ -80,7 +79,7 @@ public class ExpressionNodeForAggregator extends ExpressionNode
 
 
 	@Override
-	public Object evaluate( EvaluationContext _context ) throws EvaluationFailed, InvocationTargetException
+	public Object doEvaluate( EvaluationContext _context ) throws EvaluationFailed
 	{
 		Aggregation aggregation = newAggregation();
 		for (ExpressionNode arg : getArguments()) {

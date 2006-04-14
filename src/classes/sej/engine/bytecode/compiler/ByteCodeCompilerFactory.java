@@ -22,6 +22,7 @@ package sej.engine.bytecode.compiler;
 
 import sej.Compiler;
 import sej.CompilerFactory;
+import sej.NumericType;
 import sej.Spreadsheet;
 
 
@@ -29,9 +30,9 @@ public final class ByteCodeCompilerFactory extends CompilerFactory
 {
 
 	@Override
-	public Compiler newCompiler( Spreadsheet _model, Class _inputs, Class _outputs )
+	public Compiler newCompiler( Spreadsheet _model, Class _inputs, Class _outputs, NumericType _numericType )
 	{
-		return new ByteCodeCompiler( _model, _inputs, _outputs );
+		return new ByteCodeCompiler( _model, _inputs, _outputs, _numericType );
 	}
 
 }

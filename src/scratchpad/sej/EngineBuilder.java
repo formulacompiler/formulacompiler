@@ -10,16 +10,24 @@ import sej.Spreadsheet.Cell;
 public class EngineBuilder
 {
 	private final SectionContext root;
+	private final NumericType numericType;
 	private Spreadsheet spreadsheet;
 	private Compiler compiler;
 	SectionContext current;
 
 
-	public EngineBuilder(Class _inputs, Class _outputs)
+	public EngineBuilder(Class _inputs, Class _outputs, NumericType _numericType)
 	{
 		super();
 		this.root = new SectionContext( _inputs, _outputs );
 		this.current = this.root;
+		this.numericType = _numericType;
+	}
+
+
+	public EngineBuilder(Class _inputs, Class _outputs)
+	{
+		this( _inputs, _outputs, NumericType.DOUBLE );
 	}
 
 
@@ -45,7 +53,8 @@ public class EngineBuilder
 	public Compiler getCompiler()
 	{
 		if (null == this.compiler) {
-			setCompiler( CompilerFactory.newDefaultCompiler( getSpreadsheet(), this.root.inputs, this.root.outputs ) );
+			setCompiler( CompilerFactory.newDefaultCompiler( getSpreadsheet(), this.root.inputs, this.root.outputs,
+					this.numericType ) );
 		}
 		return this.compiler;
 	}

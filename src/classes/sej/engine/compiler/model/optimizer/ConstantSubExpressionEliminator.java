@@ -23,6 +23,8 @@ package sej.engine.compiler.model.optimizer;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import sej.ModelError;
+import sej.NumericType;
 import sej.engine.compiler.model.AbstractEngineModelVisitor;
 import sej.engine.compiler.model.CellModel;
 import sej.engine.compiler.model.ExpressionNodeForSectionModel;
@@ -34,18 +36,37 @@ import sej.engine.expressions.ExpressionNode;
 import sej.engine.expressions.ExpressionNodeForAggregator;
 import sej.engine.expressions.ExpressionNodeForConstantValue;
 import sej.engine.expressions.ExpressionNodeForRangeValue;
+import sej.engine.expressions.InterpretedNumericType;
 import sej.engine.expressions.Aggregator.Aggregation;
+
 
 final public class ConstantSubExpressionEliminator extends AbstractEngineModelVisitor
 {
 	private final EvaluationContext constantEvaluationContext = null;
+	private final InterpretedNumericType numericType;
+
+
+	public ConstantSubExpressionEliminator(NumericType _numericType) throws ModelError
+	{
+		super();
+		this.numericType = InterpretedNumericType.typeFor( _numericType );
+	}
+
+
+	public InterpretedNumericType getNumericType()
+	{
+		return this.numericType;
+	}
 
 
 	@Override
 	public boolean visit( CellModel _cell )
 	{
 		ExpressionNode sourceExpr = _cell.getExpression();
-		if (null != sourceExpr) {
+		if (null == sourceExpr) {
+			// _cell.setConstantValue( )
+		}
+		else {
 			Object optimizedResult = eliminateConstantsFrom( sourceExpr, _cell.getSection() );
 			if (optimizedResult instanceof ExpressionNode) {
 				ExpressionNode optimizedExpr = (ExpressionNode) optimizedResult;
@@ -64,12 +85,7 @@ final public class ConstantSubExpressionEliminator extends AbstractEngineModelVi
 	{
 		if (null == _expr) return null;
 		Object constantValue;
-		try {
-			constantValue = _expr.tryToEvaluate( this.constantEvaluationContext );
-		}
-		catch (InvocationTargetException e) {
-			return new EvaluationFailed();
-		}
+		constantValue = _expr.tryToEvaluate( this.constantEvaluationContext );
 		if (constantValue instanceof EvaluationFailed) {
 			SectionModel section = _section;
 			if (_expr instanceof ExpressionNodeForSectionModel) {

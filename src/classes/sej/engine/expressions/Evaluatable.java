@@ -24,12 +24,6 @@ import java.lang.reflect.InvocationTargetException;
 
 public interface Evaluatable
 {
-
-	
-	public Object evaluate( EvaluationContext _context ) throws EvaluationFailed, InvocationTargetException;
-
-
-	public Object tryToEvaluate( EvaluationContext _context ) throws InvocationTargetException;
-
-	
+	Object evaluate( EvaluationContext _context ) throws EvaluationFailed, InvocationTargetException;
+	Object tryToEvaluate( EvaluationContext _context ) throws InvocationTargetException;
 }

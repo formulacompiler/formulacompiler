@@ -20,15 +20,16 @@
  */
 package sej.engine.standard.compiler;
 
+import sej.NumericType;
 import sej.Spreadsheet;
 import sej.engine.bytecode.compiler.ByteCodeCompiler;
 
 public class StandardCompiler extends ByteCodeCompiler
 {
 
-	public StandardCompiler(Spreadsheet _model, Class _inputs, Class _outputs)
+	public StandardCompiler(Spreadsheet _model, Class _inputs, Class _outputs, NumericType _numericType)
 	{
-		super( _model, _inputs, _outputs );
+		super( _model, _inputs, _outputs, _numericType );
 	}
 
 }

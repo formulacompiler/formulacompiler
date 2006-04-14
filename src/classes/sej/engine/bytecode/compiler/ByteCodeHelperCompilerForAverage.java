@@ -35,9 +35,9 @@ final class ByteCodeHelperCompilerForAverage extends ByteCodeHelperCompiler
 	private final ExpressionNodeForAggregator node;
 
 
-	public ByteCodeHelperCompilerForAverage(ByteCodeSectionCompiler _section, ExpressionNodeForAggregator _node) 
+	public ByteCodeHelperCompilerForAverage(ByteCodeSectionCompiler _section, ExpressionNodeForAggregator _node)
 	{
-		super( _section ); 
+		super( _section );
 		this.node = _node;
 	}
 
@@ -46,25 +46,25 @@ final class ByteCodeHelperCompilerForAverage extends ByteCodeHelperCompiler
 	protected void compileBody() throws ModelError
 	{
 		final int varN = mv().newLocal( Type.INT_TYPE );
-		final int varSum = mv().newLocal( Type.DOUBLE_TYPE );
+		final int varSum = mv().newLocal( getNumericType().getType() );
 
 		if (this.node.getPartialAggregation() instanceof Aggregator.DoubleValuedCountingAggregation) {
 			Aggregator.DoubleValuedCountingAggregation partialAverage = (Aggregator.DoubleValuedCountingAggregation) this.node
 					.getPartialAggregation();
 			compileConst( partialAverage.getAccumulator() );
-			mv().visitVarInsn( Opcodes.DSTORE, varSum );
+			mv().storeLocal( varSum );
 			mv().push( partialAverage.getCount() );
-			mv().visitVarInsn( Opcodes.ISTORE, varN );
+			mv().storeLocal( varN );
 		}
 		else {
-			mv().visitInsn( Opcodes.DCONST_0 );
-			mv().visitVarInsn( Opcodes.DSTORE, varSum );
+			mv().visitInsn( Opcodes.DCONST_0 ); // TODO
+			mv().storeLocal( varSum );
 			mv().visitInsn( Opcodes.ICONST_0 );
-			mv().visitVarInsn( Opcodes.ISTORE, varN );
+			mv().storeLocal( varN );
 		}
 
 		for (ExpressionNode arg : this.node.getArguments()) {
-			mv().visitVarInsn( Opcodes.DLOAD, varSum );
+			mv().loadLocal( varSum );
 
 			if (arg instanceof ExpressionNodeForSubSectionModel) {
 				unsupported( arg );
@@ -74,12 +74,12 @@ final class ByteCodeHelperCompilerForAverage extends ByteCodeHelperCompiler
 			}
 
 			mv().visitInsn( Opcodes.DADD );
-			mv().visitVarInsn( Opcodes.DSTORE, varSum );
-			mv().visitIincInsn( varN, 1 );
+			mv().storeLocal( varSum );
+			mv().iinc( varN, 1 );
 		}
 
-		mv().visitVarInsn( Opcodes.DLOAD, varSum );
-		mv().visitVarInsn( Opcodes.ILOAD, varN );
+		mv().loadLocal( varSum );
+		mv().loadLocal( varN );
 		mv().visitInsn( Opcodes.I2D );
 		mv().visitInsn( Opcodes.DDIV );
 	}

@@ -21,7 +21,6 @@
 package sej.engine.expressions;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 import sej.describable.DescriptionBuilder;
 import sej.engine.expressions.Aggregator.Aggregation;
@@ -45,7 +44,7 @@ public class ExpressionNodeForRangeValue extends ExpressionNode
 
 
 	@Override
-	public Object evaluate( EvaluationContext _context ) throws EvaluationFailed, InvocationTargetException
+	public Object doEvaluate( EvaluationContext _context ) throws EvaluationFailed
 	{
 		RangeValue result = (RangeValue) getRangeValue().clone();
 		for (ExpressionNode arg : getArguments()) {
@@ -56,7 +55,7 @@ public class ExpressionNodeForRangeValue extends ExpressionNode
 
 
 	@Override
-	public void aggregateInto( EvaluationContext _context, Aggregation _aggregation ) throws EvaluationFailed, InvocationTargetException
+	public void aggregateInto( EvaluationContext _context, Aggregation _aggregation ) throws EvaluationFailed
 	{
 		for (ExpressionNode arg : getArguments()) {
 			arg.aggregateInto( _context, _aggregation );

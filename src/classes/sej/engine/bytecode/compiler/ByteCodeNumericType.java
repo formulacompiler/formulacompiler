@@ -1,6 +1,7 @@
 package sej.engine.bytecode.compiler;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -8,6 +9,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.ModelError;
 import sej.NumericType;
+import sej.engine.Runtime_v1;
 import sej.engine.expressions.Operator;
 
 
@@ -41,7 +43,15 @@ public abstract class ByteCodeNumericType
 		return getType().getDescriptor();
 	}
 
-	public void compile( GeneratorAdapter _adapter, Operator _operator, int _numberOfArguments ) throws ModelError
+	public String getRoundMethodSignature()
+	{
+		final String descriptor = getDescriptor();
+		return "(" + descriptor + "I)" + descriptor;
+	}
+
+
+
+	public void compile( GeneratorAdapter _mv, Operator _operator, int _numberOfArguments ) throws ModelError
 	{
 		switch (_operator) {
 
@@ -54,9 +64,34 @@ public abstract class ByteCodeNumericType
 		}
 	}
 
+	public void compileConst( GeneratorAdapter _mv, Object _constantValue ) throws ModelError
+	{
+		if (null == _constantValue) {
+			_mv.visitInsn( Opcodes.DCONST_0 );
+		}
+		else if (_constantValue instanceof Number) {
+			double val = ((Number) _constantValue).doubleValue();
+			_mv.push( val );
+		}
+		else if (_constantValue instanceof Boolean) {
+			double val = ((Boolean) _constantValue) ? 1 : 0;
+			_mv.push( val );
+		}
+		else if (_constantValue instanceof Date) {
+			Date date = (Date) _constantValue;
+			double val = Runtime_v1.dateToExcel( date );
+			_mv.push( val );
+		}
+		else {
+			throw new ModelError.UnsupportedDataType( "The data type "
+					+ _constantValue.getClass().getName() + " is not supported for constant " + _constantValue.toString() );
+		}
+		compileConversionFromDouble( _mv );
+	}
+
 	public abstract void compileConversionFromDouble( GeneratorAdapter _mv );
 
-	
+
 
 	static final class DoubleType extends ByteCodeNumericType
 	{
@@ -67,14 +102,14 @@ public abstract class ByteCodeNumericType
 			return Type.DOUBLE_TYPE;
 		}
 
-		
+
 		@Override
 		public int getReturnOpcode()
 		{
 			return Opcodes.DRETURN;
 		}
 
-		
+
 		@Override
 		public void compile( GeneratorAdapter _mv, Operator _operator, int _numberOfArguments ) throws ModelError
 		{
@@ -123,7 +158,7 @@ public abstract class ByteCodeNumericType
 			}
 		}
 
-		
+
 		@Override
 		public void compileConversionFromDouble( GeneratorAdapter _mv )
 		{
@@ -140,6 +175,7 @@ public abstract class ByteCodeNumericType
 		private static final String V2B = "()" + B;
 		private static final String I2B = "(I)" + B;
 		private static final String D2B = "(D)" + B;
+		private static final String S2B = "(Ljava/lang/String;)" + B;
 		private static final String B2B = "(" + B + ")" + B;
 
 
@@ -148,21 +184,21 @@ public abstract class ByteCodeNumericType
 			super();
 		}
 
-		
+
 		@Override
 		public Type getType()
 		{
 			return Type.getType( BigDecimal.class );
 		}
 
-		
+
 		@Override
 		public int getReturnOpcode()
 		{
 			return Opcodes.ARETURN;
 		}
 
-		
+
 		@Override
 		public void compile( GeneratorAdapter _mv, Operator _operator, int _numberOfArguments ) throws ModelError
 		{
@@ -212,13 +248,34 @@ public abstract class ByteCodeNumericType
 			}
 		}
 
-		
+
+		@Override
+		public void compileConst( GeneratorAdapter _mv, Object _constantValue ) throws ModelError
+		{
+			if (null == _constantValue) {
+				_mv.visitFieldInsn( Opcodes.GETSTATIC, BNAME, "ZERO", B );
+			}
+			else if (_constantValue instanceof Number) {
+				String val = _constantValue.toString();
+				_mv.push( val );
+				_mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(), "newBigDecimal", S2B );
+			}
+			else if (_constantValue instanceof Boolean) {
+				_mv.visitFieldInsn( Opcodes.GETSTATIC, BNAME, ((Boolean) _constantValue) ? "ONE" : "ZERO", B );
+			}
+			else {
+				super.compileConst( _mv, _constantValue );
+			}
+		}
+
+
 		@Override
 		public void compileConversionFromDouble( GeneratorAdapter _mv )
 		{
 			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, BNAME, "valueOf", D2B );
 		}
-		
+
 	}
+
 
 }

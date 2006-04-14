@@ -192,6 +192,16 @@ public class GeneratedEngine implements Engine, Outputs
 		return BigDecimal.ONE.pow( BigDecimal.TEN.intValue() );
 	}
 
+	final BigDecimal getBigZero()
+	{
+		return BigDecimal.ZERO;
+	}
+
+	final BigDecimal getBigConst()
+	{
+		return new BigDecimal( "123" );
+	}
+
 
 	private final static double[] getStaticIndex_Consts = new double[] { 0, 1, 2, 3, 4, 0, 6 };
 
@@ -211,5 +221,29 @@ public class GeneratedEngine implements Engine, Outputs
 			return (i >= 0 && i < getStaticIndex_Consts.length) ? getStaticIndex_Consts[ i ] : 0;
 		}
 
+	}
+
+	public BigDecimal getBigDecimalA()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public BigDecimal getBigDecimalB()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public BigDecimal getBigDecimalC()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public BigDecimal getBigResult()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

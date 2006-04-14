@@ -20,6 +20,8 @@
  */
 package sej.engine;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 
 
@@ -56,6 +58,18 @@ public final class Runtime_v1
 		else {
 			return Math.floor( _val * shift + 0.5 ) / shift;
 		}
+	}
+
+
+	public static BigDecimal round( final BigDecimal _val, final int _maxFrac )
+	{
+		return _val.setScale( _maxFrac, RoundingMode.HALF_UP );
+	}
+
+
+	public static BigDecimal newBigDecimal( final String _value )
+	{
+		return new BigDecimal( _value );
 	}
 
 

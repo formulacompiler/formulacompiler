@@ -98,7 +98,7 @@ final class ByteCodeCellCompiler extends ByteCodeMethodCompiler
 
 				if (CellModel.UNLIMITED != cell.getMaxFractionalDigits()) {
 					mv.visitLdcInsn( cell.getMaxFractionalDigits() );
-					mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(), "round", "(DI)D" );
+					mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(), "round", getNumericType().getRoundMethodSignature() );
 				}
 
 				if (Double.TYPE == returnClass) {
