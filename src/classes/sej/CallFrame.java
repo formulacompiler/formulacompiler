@@ -30,7 +30,7 @@ import sej.describable.DescriptionBuilder;
 
 /**
  * Represents a call to a method including the argument values for all of the method's parameters.
- * Can optionally represent a chain of calls.
+ * Can optionally represent a chain of calls. This class is immutable.
  * 
  * @author peo
  */
@@ -73,7 +73,6 @@ public final class CallFrame extends AbstractDescribable
 	 */
 	public static boolean canChain( final Class _context, final Method _method )
 	{
-
 		return _method.getDeclaringClass().isAssignableFrom( _context );
 	}
 
@@ -126,7 +125,10 @@ public final class CallFrame extends AbstractDescribable
 	 */
 	public Object[] getArgs()
 	{
-		return this.args;
+		assert (null != this.args);
+		Object[] result = new Object[ this.args.length ];
+		System.arraycopy( this.args, 0, result, 0, this.args.length );
+		return result;
 	}
 
 
