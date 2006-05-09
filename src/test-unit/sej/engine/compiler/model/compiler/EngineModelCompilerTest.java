@@ -33,11 +33,11 @@ import sej.engine.compiler.model.CellModel;
 import sej.engine.compiler.model.EngineModel;
 import sej.engine.compiler.model.SectionModel;
 import sej.engine.compiler.model.optimizer.ReferenceCounter;
-import sej.engine.expressions.Aggregator;
-import sej.engine.expressions.ExpressionNode;
-import sej.engine.expressions.ExpressionNodeForAggregator;
-import sej.engine.expressions.ExpressionNodeForOperator;
-import sej.engine.expressions.Operator;
+import sej.expressions.Aggregator;
+import sej.expressions.ExpressionNode;
+import sej.expressions.ExpressionNodeForAggregator;
+import sej.expressions.ExpressionNodeForOperator;
+import sej.expressions.Operator;
 import sej.model.CellIndex;
 import sej.model.CellInstance;
 import sej.model.CellRange;
@@ -187,7 +187,7 @@ public class EngineModelCompilerTest extends AbstractTestBase
 		CellModel i3 = range.getCells().get( 3 );
 
 		assertEquals( "SUM( getDetails().D2 )", result.getExpression().describe() );
-		assertEquals( "(SUM( {getOne(),getTwo(),getThree()} ) * ..B1)", x1.getExpression().describe() );
+		assertEquals( "(SUM( getOne(), getTwo(), getThree() ) * ..B1)", x1.getExpression().describe() );
 
 		assertEquals( "D2", x1.getName() );
 		assertEquals( "getOne()", i1.getName() );
@@ -234,7 +234,7 @@ public class EngineModelCompilerTest extends AbstractTestBase
 		assertEquals( "getTwo()", i2.getName() );
 		assertEquals( "getThree()", i3.getName() );
 
-		assertEquals( "(SUM( {getOne(),getTwo(),getThree()} ) * ..B1)", o1.getExpression().describe() );
+		assertEquals( "(SUM( getOne(), getTwo(), getThree() ) * ..B1)", o1.getExpression().describe() );
 	}
 
 

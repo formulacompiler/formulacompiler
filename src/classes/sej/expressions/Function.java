@@ -18,13 +18,52 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.engine.expressions;
+package sej.expressions;
 
-import sej.Spreadsheet;
+public enum Function {
 
-public interface EvaluationModelProvider
-{
 
-	public Spreadsheet getModel();
-	
+	IF {
+		@Override
+		public String getName()
+		{
+			return "IF";
+		}
+	},
+
+	NOT {
+		@Override
+		public String getName()
+		{
+			return "NOT";
+		}
+	},
+
+	ROUND {
+		@Override
+		public String getName()
+		{
+			return "ROUND";
+		}
+	},
+
+	MATCH {
+		@Override
+		public String getName()
+		{
+			return "MATCH";
+		}
+	},
+
+	INDEX {
+		@Override
+		public String getName()
+		{
+			return "INDEX";
+		}
+	};
+
+
+	public abstract String getName();
+
 }

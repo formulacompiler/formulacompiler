@@ -18,22 +18,26 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.engine.expressions;
+package sej.engine.compiler.model.util;
+
+import java.math.BigDecimal;
 
 
 public class Util
 {
 
-	public static Object valueToString( Object _arg )
+	public static String valueToString( Object _arg )
 	{
-		if (_arg instanceof Double) {
-			final Double d = (Double) _arg;
-			final long l = d.longValue();
-			if (l == d.doubleValue()) {
-				return String.valueOf( l );
+		if (null == _arg) {
+			return "";
+		}
+		else if (_arg instanceof Number) {
+			String result = _arg.toString();
+			if (result.endsWith( ".0" )) {
+				return result.substring( 0, result.length() - 2 );
 			}
 			else {
-				return _arg.toString();
+				return result;
 			}
 		}
 		else {
@@ -90,6 +94,21 @@ public class Util
 		if (_value instanceof Number) return (0 != ((Number) _value).intValue());
 		if (_value instanceof String) return Boolean.parseBoolean( (String) _value );
 		return _ifNull;
+	}
+
+
+	private static BigDecimal valueToBigDecimal( Object _value, BigDecimal _ifNull )
+	{
+		if (_value instanceof BigDecimal) return (BigDecimal) _value;
+		if (_value instanceof Double) return BigDecimal.valueOf( (Double) _value );
+		if (_value instanceof String) return new BigDecimal( (String) _value );
+		return _ifNull;
+	}
+
+
+	public static BigDecimal valueToBigDecimalOrZero( Object _value )
+	{
+		return valueToBigDecimal( _value, BigDecimal.ZERO );
 	}
 
 

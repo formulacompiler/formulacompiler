@@ -24,7 +24,7 @@ import sej.engine.compiler.model.AbstractEngineModelVisitor;
 import sej.engine.compiler.model.CellModel;
 import sej.engine.compiler.model.ExpressionNodeForCellModel;
 import sej.engine.compiler.model.ExpressionNodeForParentSectionModel;
-import sej.engine.expressions.ExpressionNode;
+import sej.expressions.ExpressionNode;
 
 public final class ReferenceCounter extends AbstractEngineModelVisitor
 {

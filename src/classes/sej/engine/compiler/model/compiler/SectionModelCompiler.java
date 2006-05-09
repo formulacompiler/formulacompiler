@@ -20,6 +20,8 @@
  */
 package sej.engine.compiler.model.compiler;
 
+import java.util.Collection;
+
 import sej.ModelError;
 import sej.engine.compiler.definition.CellDefinition;
 import sej.engine.compiler.definition.EngineDefinition;
@@ -27,16 +29,20 @@ import sej.engine.compiler.definition.InputCellDefinition;
 import sej.engine.compiler.definition.SectionDefinition;
 import sej.engine.compiler.model.CellModel;
 import sej.engine.compiler.model.ExpressionNodeForCellModel;
+import sej.engine.compiler.model.ExpressionNodeForRangeValue;
 import sej.engine.compiler.model.SectionModel;
-import sej.engine.expressions.ExpressionNode;
-import sej.engine.expressions.ExpressionNodeForRangeValue;
-import sej.model.CellInstance;
+import sej.engine.compiler.model.util.InterpretedNumericType;
+import sej.expressions.ExpressionNode;
+import sej.expressions.ExpressionNodeForConstantValue;
 import sej.model.CellIndex;
+import sej.model.CellInstance;
 import sej.model.CellRange;
 import sej.model.CellWithConstant;
 import sej.model.CellWithLazilyParsedExpression;
 import sej.model.ExpressionNodeForCell;
 import sej.model.ExpressionNodeForRange;
+import sej.model.ExpressionNodeForRangeShape;
+
 
 public class SectionModelCompiler
 {
@@ -74,6 +80,12 @@ public class SectionModelCompiler
 	public SectionModel getSectionModel()
 	{
 		return this.sectionModel;
+	}
+
+
+	private InterpretedNumericType getNumericType()
+	{
+		return this.compiler.getNumericType();
 	}
 
 
@@ -157,42 +169,58 @@ public class SectionModelCompiler
 
 	private void buildCellModel( CellModel _cellModel, CellWithConstant _cell )
 	{
-		_cellModel.setConstantValue( _cell.getValue() );
+		_cellModel.setConstantValue( getNumericType().adjustConstantValue( _cell.getValue() ) );
 	}
 
 
 	private void buildCellModel( CellModel _cellModel, CellWithLazilyParsedExpression _cell ) throws ModelError
 	{
 		ExpressionNode exprDef = _cell.getExpression();
-		ExpressionNode exprModel = buildExpressionModel( exprDef );
+		ExpressionNode exprModel = (ExpressionNode) buildExpressionModel( exprDef );
 		_cellModel.setExpression( exprModel );
 	}
 
 
-	private ExpressionNode buildExpressionModel( ExpressionNode _exprDef ) throws ModelError
+	@SuppressWarnings("unchecked")
+	private Object buildExpressionModel( ExpressionNode _exprDef ) throws ModelError
 	{
 		if (null == _exprDef) {
 			return null;
 		}
-
+		else if (_exprDef instanceof ExpressionNodeForConstantValue) {
+			final ExpressionNodeForConstantValue cst = (ExpressionNodeForConstantValue) _exprDef;
+			return new ExpressionNodeForConstantValue( getNumericType().adjustConstantValue( cst.getValue() ) );
+		}
 		else if (_exprDef instanceof ExpressionNodeForCell) {
-			CellIndex cell = ((ExpressionNodeForCell) _exprDef).getCellIndex();
+			final CellIndex cell = ((ExpressionNodeForCell) _exprDef).getCellIndex();
 			return buildExpressionModel( cell );
 		}
-		/*
-		 * else if (_exprDef instanceof ExpressionNodeForAggregator) { return buildExpressionModel(
-		 * (ExpressionNodeForAggregator) _exprDef ); }
-		 */
-		else if (_exprDef instanceof ExpressionNodeForRange) {
-			CellRange range = ((ExpressionNodeForRange) _exprDef).getRange();
+		else if (_exprDef instanceof ExpressionNodeForRangeShape) {
+			final CellRange range = ((ExpressionNodeForRange) _exprDef.getArguments().get( 0 )).getRange();
 			return buildExpressionModel( range );
 		}
-
+		else if (_exprDef instanceof ExpressionNodeForRange) {
+			final CellRange range = ((ExpressionNodeForRange) _exprDef).getRange();
+			final ExpressionNode rangeNode = buildExpressionModel( range );
+			if (rangeNode instanceof ExpressionNodeForRangeValue) {
+				return rangeNode.getArguments();
+			}
+			else {
+				return rangeNode;
+			}
+		}
 		else {
-			ExpressionNode result = _exprDef.cloneWithoutArguments();
+			final ExpressionNode result = _exprDef.cloneWithoutArguments();
 			for (ExpressionNode _arg : _exprDef.getArguments()) {
-				ExpressionNode arg = buildExpressionModel( _arg );
-				result.getArguments().add( arg );
+				final Object argOrArgs = buildExpressionModel( _arg );
+				if (argOrArgs instanceof ExpressionNode) {
+					final ExpressionNode arg = (ExpressionNode) argOrArgs;
+					result.getArguments().add( arg );
+				}
+				else {
+					final Collection<ExpressionNode> args = (Collection<ExpressionNode>) argOrArgs;
+					result.getArguments().addAll( args );
+				}
 			}
 			return result;
 		}
@@ -206,8 +234,7 @@ public class SectionModelCompiler
 			return buildExpressionModelForContainedCell( _cellIndex );
 		}
 		else {
-			ExpressionNode cellNode = sectionPath.getSectionCompiler().buildExpressionModelForContainedCell(
-					_cellIndex );
+			ExpressionNode cellNode = sectionPath.getSectionCompiler().buildExpressionModelForContainedCell( _cellIndex );
 			ExpressionNode targetNode = sectionPath.getTargetNode();
 			targetNode.getArguments().add( cellNode );
 			return sectionPath.getRootNode();

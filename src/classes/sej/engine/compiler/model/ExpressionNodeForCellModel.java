@@ -23,9 +23,7 @@ package sej.engine.compiler.model;
 import java.io.IOException;
 
 import sej.describable.DescriptionBuilder;
-import sej.engine.expressions.EvaluationContext;
-import sej.engine.expressions.EvaluationFailed;
-import sej.engine.expressions.ExpressionNode;
+import sej.expressions.ExpressionNode;
 
 
 public class ExpressionNodeForCellModel extends ExpressionNode
@@ -50,31 +48,6 @@ public class ExpressionNodeForCellModel extends ExpressionNode
 	{
 		if (_cellModel == this.cellModel) return;
 		this.cellModel = _cellModel;
-	}
-
-
-	@Override
-	public Object doEvaluate( EvaluationContext _context ) throws EvaluationFailed
-	{
-		if (null == this.cellModel) {
-			return null;
-		}
-
-		if (this.cellModel.isInput()) {
-			throw new EvaluationFailed();
-		}
-
-		Object constantValue = this.cellModel.getConstantValue();
-		if (null != constantValue) {
-			return constantValue;
-		}
-
-		ExpressionNode expr = this.cellModel.getExpression();
-		if (null != expr) {
-			return expr.evaluate( _context );
-		}
-
-		return null;
 	}
 
 

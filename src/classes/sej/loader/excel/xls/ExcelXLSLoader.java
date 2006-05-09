@@ -27,7 +27,7 @@ import java.util.Locale;
 
 import sej.Spreadsheet;
 import sej.SpreadsheetLoader;
-import sej.engine.Runtime_v1;
+import sej.engine.RuntimeDouble_v1;
 import sej.loader.excel.ExcelLazyExpressionParser;
 import sej.loader.excel.ExcelLoaderError;
 import sej.model.CellIndex;
@@ -154,7 +154,7 @@ public class ExcelXLSLoader implements SpreadsheetLoader.FileLoader
 		}
 		else if (CellType.DATE == xlsType) {
 			DateCell xlsDateCell = (jxl.DateCell) _xlsCell;
-			new CellWithConstant( _row, Runtime_v1.dateToExcel( xlsDateCell.getDate() ) );
+			new CellWithConstant( _row, RuntimeDouble_v1.dateToExcel( xlsDateCell.getDate() ) );
 		}
 		else if (jxl.CellType.LABEL == xlsType) {
 			new CellWithConstant( _row, ((jxl.LabelCell) _xlsCell).getString() );

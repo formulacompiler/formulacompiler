@@ -23,7 +23,7 @@ package sej.model;
 import java.io.IOException;
 
 import sej.describable.DescriptionBuilder;
-import sej.engine.expressions.ExpressionNode;
+import sej.expressions.ExpressionNode;
 
 public class ExpressionNodeForRange extends ExpressionNode
 {

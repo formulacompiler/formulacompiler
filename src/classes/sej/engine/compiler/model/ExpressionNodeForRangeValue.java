@@ -18,12 +18,54 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.engine.expressions;
+package sej.engine.compiler.model;
 
-import java.lang.reflect.InvocationTargetException;
+import java.io.IOException;
 
-public interface Evaluatable
+import sej.describable.DescriptionBuilder;
+import sej.expressions.ExpressionNode;
+
+public class ExpressionNodeForRangeValue extends ExpressionNode
 {
-	Object evaluate( EvaluationContext _context ) throws EvaluationFailed, InvocationTargetException;
-	Object tryToEvaluate( EvaluationContext _context ) throws InvocationTargetException;
+	private RangeValue rangeValue;
+
+
+	public ExpressionNodeForRangeValue(RangeValue _rangeValue)
+	{
+		super();
+		this.rangeValue = _rangeValue;
+	}
+
+
+	public RangeValue getRangeValue()
+	{
+		return this.rangeValue;
+	}
+
+
+	@Override
+	public ExpressionNode cloneWithoutArguments()
+	{
+		return new ExpressionNodeForRangeValue( (RangeValue) getRangeValue().clone() );
+	}
+
+
+	@Override
+	public void describeTo( DescriptionBuilder _to ) throws IOException
+	{
+		if (getArguments().size() == 1) {
+			getArguments().get( 0 ).describeTo( _to );
+		}
+		else {
+			_to.append( '{' );
+			boolean isFirst = true;
+			for (ExpressionNode arg : getArguments()) {
+				if (isFirst) isFirst = false;
+				else _to.append( ',' );
+				arg.describeTo( _to );
+			}
+			_to.append( '}' );
+		}
+	}
+
 }

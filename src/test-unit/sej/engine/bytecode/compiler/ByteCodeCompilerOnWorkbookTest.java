@@ -29,11 +29,11 @@ import sej.Engine;
 import sej.ModelError;
 import sej.NumericType;
 import sej.Compiler.Section;
-import sej.engine.expressions.Aggregator;
-import sej.engine.expressions.ExpressionNodeForAggregator;
-import sej.engine.expressions.ExpressionNodeForConstantValue;
-import sej.engine.expressions.ExpressionNodeForOperator;
-import sej.engine.expressions.Operator;
+import sej.expressions.Aggregator;
+import sej.expressions.ExpressionNodeForAggregator;
+import sej.expressions.ExpressionNodeForConstantValue;
+import sej.expressions.ExpressionNodeForOperator;
+import sej.expressions.Operator;
 import sej.model.CellIndex;
 import sej.model.CellInstance;
 import sej.model.CellWithConstant;
@@ -556,7 +556,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 			NoSuchMethodException
 	{
 		Compiler compiler = CompilerFactory.newDefaultCompiler( this.workbook, Inputs.class, Outputs.class,
-				NumericType.BIGDECIMAL );
+				NumericType.BIGDECIMAL8 );
 		setupBigCompiler( compiler.getRoot(), _inputs );
 		Engine engine = compiler.compileNewEngine();
 		assertBigEngineResult( _expected, engine, _values );

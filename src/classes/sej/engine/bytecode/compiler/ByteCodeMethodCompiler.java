@@ -35,16 +35,17 @@ import sej.ModelError;
 import sej.engine.compiler.model.CellModel;
 import sej.engine.compiler.model.ExpressionNodeForCellModel;
 import sej.engine.compiler.model.ExpressionNodeForParentSectionModel;
+import sej.engine.compiler.model.ExpressionNodeForPartialAggregation;
 import sej.engine.compiler.model.ExpressionNodeForSubSectionModel;
-import sej.engine.expressions.Aggregator;
-import sej.engine.expressions.ExpressionNode;
-import sej.engine.expressions.ExpressionNodeForAggregator;
-import sej.engine.expressions.ExpressionNodeForConstantValue;
-import sej.engine.expressions.ExpressionNodeForFunction;
-import sej.engine.expressions.ExpressionNodeForIf;
-import sej.engine.expressions.ExpressionNodeForOperator;
-import sej.engine.expressions.Function;
-import sej.engine.expressions.Operator;
+import sej.expressions.Aggregator;
+import sej.expressions.ExpressionNode;
+import sej.expressions.ExpressionNodeForAggregator;
+import sej.expressions.ExpressionNodeForConstantValue;
+import sej.expressions.ExpressionNodeForFunction;
+import sej.expressions.ExpressionNodeForIf;
+import sej.expressions.ExpressionNodeForOperator;
+import sej.expressions.Function;
+import sej.expressions.Operator;
 
 
 public abstract class ByteCodeMethodCompiler
@@ -81,6 +82,12 @@ public abstract class ByteCodeMethodCompiler
 	public ByteCodeNumericType getNumericType()
 	{
 		return getSection().getNumericType();
+	}
+
+
+	protected Type getRuntimeType()
+	{
+		return getNumericType().getRuntimeType();
 	}
 
 
@@ -198,12 +205,11 @@ public abstract class ByteCodeMethodCompiler
 		}
 
 		if (java.util.Date.class == contextClass) {
-			mv().visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(), "dateToExcel",
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "dateToExcel",
 					"(Ljava/util/Date;)D" );
 		}
 		else if (Boolean.TYPE == contextClass) {
-			mv().visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(), "booleanToExcel",
-					"(Z)D" );
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "booleanToExcel", "(Z)" + getNumericType().getDescriptor() );
 		}
 	}
 
@@ -281,28 +287,35 @@ public abstract class ByteCodeMethodCompiler
 	{
 		switch (_node.getFunction()) {
 
-		case ROUND:
-			compileStdFunction( _node );
-			break;
+			case ROUND:
+				compileStdFunction( _node );
+				break;
 
-		// TODO case INDEX:
-		// compileHelpedExpr( new ByteCodeHelperCompilerForIndex( getSection(), _node ) );
-		// break;
+			// TODO case INDEX:
+			// compileHelpedExpr( new ByteCodeHelperCompilerForIndex( getSection(), _node ) );
+			// break;
 
-		default:
-			unsupported( _node );
+			default:
+				unsupported( _node );
 		}
 	}
 
 
 	private void compileStdFunction( ExpressionNodeForFunction _node ) throws ModelError
 	{
-		final String args = "DDDDDDDDD";
+		final StringBuilder typeBuilder = new StringBuilder();
+		typeBuilder.append( "(" );
+
 		for (ExpressionNode arg : _node.getArguments()) {
 			compileExpr( arg );
+			typeBuilder.append( getNumericType().getDescriptor() );
 		}
-		mv().visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(),
-				"std" + _node.getFunction().getName(), "(" + args.substring( 0, _node.getArguments().size() ) + ")D" );
+
+		typeBuilder.append( ")" );
+		typeBuilder.append( getNumericType().getDescriptor() );
+
+		mv().visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(),
+				"std" + _node.getFunction().getName(), typeBuilder.toString() );
 	}
 
 
@@ -344,24 +357,24 @@ public abstract class ByteCodeMethodCompiler
 
 				switch (operator) {
 
-				case AND:
-					compileAnd();
-					return;
+					case AND:
+						compileAnd();
+						return;
 
-				case OR:
-					compileOr();
-					return;
+					case OR:
+						compileOr();
+						return;
 
-				case EQUAL:
-				case NOTEQUAL:
-				case GREATER:
-				case GREATEROREQUAL:
-				case LESS:
-				case LESSOREQUAL:
-					compileExpr( this.node.getArguments().get( 0 ) );
-					compileExpr( this.node.getArguments().get( 1 ) );
-					compileComparison( operator );
-					return;
+					case EQUAL:
+					case NOTEQUAL:
+					case GREATER:
+					case GREATEROREQUAL:
+					case LESS:
+					case LESSOREQUAL:
+						compileExpr( this.node.getArguments().get( 0 ) );
+						compileExpr( this.node.getArguments().get( 1 ) );
+						compileComparison( operator );
+						return;
 
 				}
 			}
@@ -371,12 +384,12 @@ public abstract class ByteCodeMethodCompiler
 				final Aggregator aggregator = aggNode.getAggregator();
 
 				switch (aggregator) {
-				case AND:
-					compileAnd();
-					return;
-				case OR:
-					compileOr();
-					return;
+					case AND:
+						compileAnd();
+						return;
+					case OR:
+						compileOr();
+						return;
 				}
 			}
 
@@ -386,9 +399,9 @@ public abstract class ByteCodeMethodCompiler
 
 				switch (fn) {
 
-				case NOT:
-					compileNot();
-					return;
+					case NOT:
+						compileNot();
+						return;
 
 				}
 			}
@@ -403,7 +416,7 @@ public abstract class ByteCodeMethodCompiler
 
 		protected void compileComparison( int _ifOpcode, int _comparisonOpcode )
 		{
-			mv().visitInsn( _comparisonOpcode );
+			getNumericType().compileComparison( mv(), _comparisonOpcode );
 			mv().visitJumpInsn( _ifOpcode, this.branchTo );
 		}
 
@@ -421,7 +434,7 @@ public abstract class ByteCodeMethodCompiler
 		void compileValue() throws ModelError
 		{
 			compileExpr( this.node );
-			mv().push( 0.0D );
+			getNumericType().compileZero( mv() );
 			compileComparison( Operator.NOTEQUAL );
 		}
 
@@ -442,29 +455,29 @@ public abstract class ByteCodeMethodCompiler
 		{
 			switch (_comparison) {
 
-			case EQUAL:
-				compileComparison( Opcodes.IFNE, Opcodes.DCMPL );
-				return;
+				case EQUAL:
+					compileComparison( Opcodes.IFNE, Opcodes.DCMPL );
+					return;
 
-			case NOTEQUAL:
-				compileComparison( Opcodes.IFEQ, Opcodes.DCMPL );
-				return;
+				case NOTEQUAL:
+					compileComparison( Opcodes.IFEQ, Opcodes.DCMPL );
+					return;
 
-			case GREATER:
-				compileComparison( Opcodes.IFLE, Opcodes.DCMPL );
-				return;
+				case GREATER:
+					compileComparison( Opcodes.IFLE, Opcodes.DCMPL );
+					return;
 
-			case GREATEROREQUAL:
-				compileComparison( Opcodes.IFLT, Opcodes.DCMPL );
-				return;
+				case GREATEROREQUAL:
+					compileComparison( Opcodes.IFLT, Opcodes.DCMPL );
+					return;
 
-			case LESS:
-				compileComparison( Opcodes.IFGE, Opcodes.DCMPG );
-				return;
+				case LESS:
+					compileComparison( Opcodes.IFGE, Opcodes.DCMPG );
+					return;
 
-			case LESSOREQUAL:
-				compileComparison( Opcodes.IFGT, Opcodes.DCMPG );
-				return;
+				case LESSOREQUAL:
+					compileComparison( Opcodes.IFGT, Opcodes.DCMPG );
+					return;
 
 			}
 		}
@@ -506,6 +519,7 @@ public abstract class ByteCodeMethodCompiler
 		}
 	}
 
+
 	private class TestCompilerBranchingWhenTrue extends TestCompiler
 	{
 
@@ -519,29 +533,29 @@ public abstract class ByteCodeMethodCompiler
 		{
 			switch (_comparison) {
 
-			case EQUAL:
-				compileComparison( Opcodes.IFEQ, Opcodes.DCMPL );
-				return;
+				case EQUAL:
+					compileComparison( Opcodes.IFEQ, Opcodes.DCMPL );
+					return;
 
-			case NOTEQUAL:
-				compileComparison( Opcodes.IFNE, Opcodes.DCMPL );
-				return;
+				case NOTEQUAL:
+					compileComparison( Opcodes.IFNE, Opcodes.DCMPL );
+					return;
 
-			case GREATER:
-				compileComparison( Opcodes.IFGT, Opcodes.DCMPG );
-				return;
+				case GREATER:
+					compileComparison( Opcodes.IFGT, Opcodes.DCMPG );
+					return;
 
-			case GREATEROREQUAL:
-				compileComparison( Opcodes.IFGE, Opcodes.DCMPG );
-				return;
+				case GREATEROREQUAL:
+					compileComparison( Opcodes.IFGE, Opcodes.DCMPG );
+					return;
 
-			case LESS:
-				compileComparison( Opcodes.IFLT, Opcodes.DCMPL );
-				return;
+				case LESS:
+					compileComparison( Opcodes.IFLT, Opcodes.DCMPL );
+					return;
 
-			case LESSOREQUAL:
-				compileComparison( Opcodes.IFLE, Opcodes.DCMPL );
-				return;
+				case LESSOREQUAL:
+					compileComparison( Opcodes.IFLE, Opcodes.DCMPL );
+					return;
 
 			}
 		}
@@ -590,12 +604,12 @@ public abstract class ByteCodeMethodCompiler
 
 		switch (aggregator) {
 
-		case AVERAGE:
-			compileHelpedExpr( new ByteCodeHelperCompilerForAverage( getSection(), _node ) );
-			break;
+			case AVERAGE:
+				compileHelpedExpr( new ByteCodeHelperCompilerForAverage( getSection(), _node ) );
+				break;
 
-		default:
-			compileMapReduceAggregator( _node );
+			default:
+				compileMapReduceAggregator( _node );
 
 		}
 	}
@@ -605,24 +619,30 @@ public abstract class ByteCodeMethodCompiler
 	{
 		final Aggregator aggregator = _node.getAggregator();
 		final Operator reductor = aggregator.getReductor();
-		if (null == reductor) unsupported( _node );
+		compileMapReduceAggregator( _node, reductor );
+	}
 
+
+	protected void compileMapReduceAggregator( ExpressionNodeForAggregator _node, final Operator _reductor ) throws ModelError
+	{
+		if (null == _reductor) unsupported( _node );
 		boolean first = true;
 		for (ExpressionNode arg : _node.getArguments()) {
 			if (arg instanceof ExpressionNodeForSubSectionModel) {
 				ExpressionNodeForSubSectionModel subArg = (ExpressionNodeForSubSectionModel) arg;
-				compileIteration( reductor, subArg );
+				compileIteration( _reductor, subArg );
 			}
 			else {
 				compileExpr( arg );
 			}
 			if (first) first = false;
-			else compileOperator( reductor, 2 );
+			else compileOperator( _reductor, 2 );
 		}
-		Aggregator.Aggregation aggregation = _node.getPartialAggregation();
-		if (null != aggregation) {
-			compileConst( aggregation.getResult() );
-			compileOperator( reductor, 2 );
+
+		if (_node instanceof ExpressionNodeForPartialAggregation) {
+			ExpressionNodeForPartialAggregation partialAggNode = (ExpressionNodeForPartialAggregation) _node;
+			compileConst( partialAggNode.getPartialAggregation().accumulator );
+			compileOperator( _reductor, 2 );
 		}
 	}
 
@@ -665,7 +685,7 @@ public abstract class ByteCodeMethodCompiler
 	{
 		mv().dup2();
 		mv().push( _message );
-		mv().visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(), "logDouble",
+		mv().visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "logDouble",
 				"(DLjava/lang/String;)V" );
 	}
 

@@ -23,9 +23,7 @@ package sej.engine.compiler.model;
 import java.io.IOException;
 
 import sej.describable.DescriptionBuilder;
-import sej.engine.expressions.EvaluationContext;
-import sej.engine.expressions.EvaluationFailed;
-import sej.engine.expressions.ExpressionNode;
+import sej.expressions.ExpressionNode;
 
 public class ExpressionNodeForParentSectionModel extends ExpressionNodeForSectionModel
 {
@@ -34,13 +32,6 @@ public class ExpressionNodeForParentSectionModel extends ExpressionNodeForSectio
 	public ExpressionNodeForParentSectionModel(SectionModel _outerSectionModel)
 	{
 		super( _outerSectionModel );
-	}
-
-
-	@Override
-	public Object doEvaluate( EvaluationContext _context ) throws EvaluationFailed
-	{
-		return evaluateArgument( _context, 0 );
 	}
 
 

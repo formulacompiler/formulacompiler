@@ -27,8 +27,8 @@ import sej.engine.compiler.model.AbstractEngineModelVisitor;
 import sej.engine.compiler.model.CellModel;
 import sej.engine.compiler.model.EngineModel;
 import sej.engine.compiler.model.ExpressionNodeForCellModel;
-import sej.engine.expressions.ExpressionNode;
-import sej.engine.expressions.ExpressionNodeForConstantValue;
+import sej.expressions.ExpressionNode;
+import sej.expressions.ExpressionNodeForConstantValue;
 
 final public class IntermediateResultsInliner extends AbstractEngineModelVisitor
 {

@@ -21,13 +21,10 @@
 package sej.model;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 import sej.describable.Describable;
 import sej.describable.DescriptionBuilder;
-import sej.engine.expressions.EvaluationContext;
-import sej.engine.expressions.EvaluationFailed;
-import sej.engine.expressions.ExpressionNode;
+import sej.expressions.ExpressionNode;
 
 
 public class CellWithLazilyParsedExpression extends CellInstance
@@ -75,13 +72,6 @@ public class CellWithLazilyParsedExpression extends CellInstance
 	public void setExpressionParser( LazyExpressionParser _expressionParser )
 	{
 		this.expressionParser = _expressionParser;
-	}
-
-
-	@Override
-	protected Object innerEvaluate( EvaluationContext _context ) throws EvaluationFailed, InvocationTargetException
-	{
-		return getExpression().evaluate( _context );
 	}
 
 

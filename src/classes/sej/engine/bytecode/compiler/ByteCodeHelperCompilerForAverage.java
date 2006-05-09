@@ -24,10 +24,12 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import sej.ModelError;
+import sej.engine.compiler.model.ExpressionNodeForPartialAggregation;
 import sej.engine.compiler.model.ExpressionNodeForSubSectionModel;
-import sej.engine.expressions.Aggregator;
-import sej.engine.expressions.ExpressionNode;
-import sej.engine.expressions.ExpressionNodeForAggregator;
+import sej.engine.compiler.model.Aggregation.NonNullCountingAggregation;
+import sej.expressions.ExpressionNode;
+import sej.expressions.ExpressionNodeForAggregator;
+import sej.expressions.Operator;
 
 
 final class ByteCodeHelperCompilerForAverage extends ByteCodeHelperCompiler
@@ -45,26 +47,45 @@ final class ByteCodeHelperCompilerForAverage extends ByteCodeHelperCompiler
 	@Override
 	protected void compileBody() throws ModelError
 	{
-		final int varN = mv().newLocal( Type.INT_TYPE );
-		final int varSum = mv().newLocal( getNumericType().getType() );
+		compileMapReduceAggregator( this.node, Operator.PLUS );
+		int divisor = this.node.getArguments().size();
+		if (this.node instanceof ExpressionNodeForPartialAggregation) {
+			final ExpressionNodeForPartialAggregation partialAggNode = (ExpressionNodeForPartialAggregation) this.node;
+			final NonNullCountingAggregation partialAverage = (NonNullCountingAggregation) partialAggNode.getPartialAggregation();
+			divisor += partialAverage.numberOfNonNullArguments; 
+		}
+		compileConst( divisor );
+		getNumericType().compile( mv(), Operator.DIV, 2 );
+	}
 
-		if (this.node.getPartialAggregation() instanceof Aggregator.DoubleValuedCountingAggregation) {
-			Aggregator.DoubleValuedCountingAggregation partialAverage = (Aggregator.DoubleValuedCountingAggregation) this.node
-					.getPartialAggregation();
-			compileConst( partialAverage.getAccumulator() );
-			mv().storeLocal( varSum );
-			mv().push( partialAverage.getCount() );
+
+	/**
+	 * The following is a sketch of what we will need to support dynamic sections.
+	 *  
+	 * @throws ModelError
+	 */
+	void compileBodyFuture() throws ModelError
+	{
+		final int varN = mv().newLocal( Type.LONG_TYPE );
+		//final int varSum = mv().newLocal( getNumericType().getType() );
+		
+		if (this.node instanceof ExpressionNodeForPartialAggregation) {
+			final ExpressionNodeForPartialAggregation partialAggNode = (ExpressionNodeForPartialAggregation) this.node;
+			final NonNullCountingAggregation partialAverage = (NonNullCountingAggregation) partialAggNode.getPartialAggregation();
+			mv().push( partialAverage.numberOfNonNullArguments );
 			mv().storeLocal( varN );
+			compileConst( partialAverage.accumulator );
+			//mv().storeLocal( varSum );
 		}
 		else {
-			mv().visitInsn( Opcodes.DCONST_0 ); // TODO
-			mv().storeLocal( varSum );
-			mv().visitInsn( Opcodes.ICONST_0 );
+			mv().visitInsn( Opcodes.LCONST_0 );
 			mv().storeLocal( varN );
+			getNumericType().compileZero( mv() );
+			//mv().storeLocal( varSum );
 		}
 
 		for (ExpressionNode arg : this.node.getArguments()) {
-			mv().loadLocal( varSum );
+			//mv().loadLocal( varSum );
 
 			if (arg instanceof ExpressionNodeForSubSectionModel) {
 				unsupported( arg );
@@ -72,16 +93,17 @@ final class ByteCodeHelperCompilerForAverage extends ByteCodeHelperCompiler
 			else {
 				compileExpr( arg );
 			}
+			
+			getNumericType().compile( mv(), Operator.PLUS, 2 );
 
-			mv().visitInsn( Opcodes.DADD );
-			mv().storeLocal( varSum );
+			//mv().storeLocal( varSum );
 			mv().iinc( varN, 1 );
 		}
 
-		mv().loadLocal( varSum );
+		//mv().loadLocal( varSum );
 		mv().loadLocal( varN );
-		mv().visitInsn( Opcodes.I2D );
-		mv().visitInsn( Opcodes.DDIV );
+		getNumericType().compileFromLong( mv() );
+		getNumericType().compile( mv(), Operator.DIV, 2 );
 	}
 
 

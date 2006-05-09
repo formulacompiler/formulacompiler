@@ -25,7 +25,7 @@ import sej.engine.compiler.definition.SectionDefinition;
 import sej.engine.compiler.model.ExpressionNodeForSubSectionModel;
 import sej.engine.compiler.model.ExpressionNodeForParentSectionModel;
 import sej.engine.compiler.model.SectionModel;
-import sej.engine.expressions.ExpressionNode;
+import sej.expressions.ExpressionNode;
 import sej.model.CellIndex;
 import sej.model.CellRange;
 

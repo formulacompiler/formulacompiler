@@ -24,7 +24,7 @@ import java.io.StringReader;
 
 import sej.ModelError;
 import sej.Settings;
-import sej.engine.expressions.ExpressionNode;
+import sej.expressions.ExpressionNode;
 import sej.model.CellIndex;
 import sej.model.CellInstance;
 import sej.model.CellRange;

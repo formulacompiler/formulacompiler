@@ -28,14 +28,13 @@ import sej.engine.compiler.model.ExpressionNodeForCellModel;
 import sej.engine.compiler.model.ExpressionNodeForParentSectionModel;
 import sej.engine.compiler.model.ExpressionNodeForSubSectionModel;
 import sej.engine.compiler.model.SectionModel;
-import sej.engine.expressions.Aggregator;
-import sej.engine.expressions.ExpressionNode;
-import sej.engine.expressions.ExpressionNodeForAggregator;
-import sej.engine.expressions.ExpressionNodeForConstantValue;
-import sej.engine.expressions.ExpressionNodeForOperator;
-import sej.engine.expressions.ExpressionNodeForRangeValue;
-import sej.engine.expressions.Operator;
-import sej.engine.expressions.RangeValue;
+import sej.engine.compiler.model.util.Util;
+import sej.expressions.Aggregator;
+import sej.expressions.ExpressionNode;
+import sej.expressions.ExpressionNodeForAggregator;
+import sej.expressions.ExpressionNodeForConstantValue;
+import sej.expressions.ExpressionNodeForOperator;
+import sej.expressions.Operator;
 import sej.tests.utils.AbstractTestBase;
 
 public abstract class AbstractOptimizerTest extends AbstractTestBase
@@ -90,6 +89,7 @@ public abstract class AbstractOptimizerTest extends AbstractTestBase
 	protected static void assertConst( double _expected, CellModel _constCell )
 	{
 		Double actual = (Double) _constCell.getConstantValue();
+		assertNotNull( Double.toString( _expected ), actual );
 		assertEquals( _expected, actual, 0.01 );
 	}
 
@@ -97,13 +97,15 @@ public abstract class AbstractOptimizerTest extends AbstractTestBase
 	protected void assertBigConst( String _expected, CellModel _constCell )
 	{
 		BigDecimal value = (BigDecimal) _constCell.getConstantValue();
-		String actual = value.toPlainString();
+		assertNotNull( _expected, value );
+		String actual = Util.valueToString( value );
 		assertEquals( _expected, actual );
 	}
 
 
 	protected static void assertExpr( String _expected, CellModel _exprCell )
 	{
+		assertNotNull( _expected, _exprCell.getExpression() );
 		String actual = _exprCell.getExpression().describe();
 		assertEquals( _expected, actual );
 	}
@@ -153,11 +155,7 @@ public abstract class AbstractOptimizerTest extends AbstractTestBase
 
 	protected ExpressionNode sum( ExpressionNode... _args )
 	{
-		RangeValue val = new RangeValue( 0, 0, _args.length );
-		ExpressionNodeForRangeValue rng = new ExpressionNodeForRangeValue( val );
-		for (ExpressionNode arg : _args)
-			rng.getArguments().add( arg );
-		return new ExpressionNodeForAggregator( Aggregator.SUM, rng );
+		return new ExpressionNodeForAggregator( Aggregator.SUM, _args );
 	}
 
 

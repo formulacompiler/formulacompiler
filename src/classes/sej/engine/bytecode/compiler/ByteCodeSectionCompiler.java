@@ -53,7 +53,7 @@ final class ByteCodeSectionCompiler
 	Type engine;
 
 
-	ByteCodeSectionCompiler(ByteCodeCompiler _compiler, SectionModel _model) throws ModelError
+	ByteCodeSectionCompiler(ByteCodeCompiler _compiler, SectionModel _model) 
 	{
 		super();
 		this.modelCompiler = _compiler;

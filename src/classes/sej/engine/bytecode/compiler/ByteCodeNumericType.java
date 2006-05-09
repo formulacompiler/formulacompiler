@@ -9,34 +9,41 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.ModelError;
 import sej.NumericType;
-import sej.engine.Runtime_v1;
-import sej.engine.expressions.Operator;
+import sej.engine.RuntimeBigDecimal_v1;
+import sej.engine.RuntimeDouble_v1;
+import sej.expressions.Operator;
 
 
 public abstract class ByteCodeNumericType
 {
+	static ByteCodeNumericType DOUBLE_TYPE = new DoubleType();
+	static ByteCodeNumericType BIGDECIMAL_8_TYPE = new BigDecimalType( 8 );
+
 
 	ByteCodeNumericType()
 	{
 		super();
 	}
 
-	public static ByteCodeNumericType typeFor( NumericType _type ) throws ModelError
+	public static ByteCodeNumericType typeFor( NumericType _type )
 	{
 		if (Double.TYPE == _type.getValueType()) {
-			return new DoubleType();
+			return DOUBLE_TYPE;
 		}
 		else if (BigDecimal.class == _type.getValueType()) {
+			if (8 == _type.getScale()) return BIGDECIMAL_8_TYPE;
 			return new BigDecimalType( _type.getScale() );
 		}
 		else {
-			throw new ModelError.UnsupportedDataType( "Unsupported numeric type for byte code compilation." );
+			throw new IllegalArgumentException( "Unsupported numeric type for byte code compilation." );
 		}
 	}
 
 
 	public abstract Type getType();
 	public abstract int getReturnOpcode();
+	public abstract Type getRuntimeType();
+
 
 	public String getDescriptor()
 	{
@@ -50,47 +57,30 @@ public abstract class ByteCodeNumericType
 	}
 
 
-
 	public void compile( GeneratorAdapter _mv, Operator _operator, int _numberOfArguments ) throws ModelError
 	{
 		switch (_operator) {
 
-		case NOOP:
-			return;
+			case NOOP:
+				return;
 
-		default:
-			throw new ModelError.UnsupportedOperator( "The operator '"
-					+ _operator.getSymbol() + "' is not supported here." );
+			default:
+				throw new ModelError.UnsupportedOperator( "The operator '"
+						+ _operator.getSymbol() + "' is not supported here." );
 		}
 	}
 
 	public void compileConst( GeneratorAdapter _mv, Object _constantValue ) throws ModelError
 	{
-		if (null == _constantValue) {
-			_mv.visitInsn( Opcodes.DCONST_0 );
-		}
-		else if (_constantValue instanceof Number) {
-			double val = ((Number) _constantValue).doubleValue();
-			_mv.push( val );
-		}
-		else if (_constantValue instanceof Boolean) {
-			double val = ((Boolean) _constantValue) ? 1 : 0;
-			_mv.push( val );
-		}
-		else if (_constantValue instanceof Date) {
-			Date date = (Date) _constantValue;
-			double val = Runtime_v1.dateToExcel( date );
-			_mv.push( val );
-		}
-		else {
-			throw new ModelError.UnsupportedDataType( "The data type "
-					+ _constantValue.getClass().getName() + " is not supported for constant " + _constantValue.toString() );
-		}
-		compileConversionFromDouble( _mv );
+		throw new ModelError.UnsupportedDataType( "The data type "
+				+ _constantValue.getClass().getName() + " is not supported for constant " + _constantValue.toString() );
 	}
 
-	public abstract void compileConversionFromDouble( GeneratorAdapter _mv );
+	public abstract void compileZero( GeneratorAdapter _mv );
 
+	public abstract void compileComparison( GeneratorAdapter _mv, int _comparisonOpcode );
+
+	public abstract void compileFromLong( GeneratorAdapter _mv );
 
 
 	static final class DoubleType extends ByteCodeNumericType
@@ -110,59 +100,107 @@ public abstract class ByteCodeNumericType
 		}
 
 
+		private static final Type RUNTIME_TYPE = Type.getType( RuntimeDouble_v1.class );
+
+		@Override
+		public Type getRuntimeType()
+		{
+			return RUNTIME_TYPE;
+		}
+
+
 		@Override
 		public void compile( GeneratorAdapter _mv, Operator _operator, int _numberOfArguments ) throws ModelError
 		{
 			switch (_operator) {
 
-			case PLUS:
-				_mv.visitInsn( Opcodes.DADD );
-				break;
+				case PLUS:
+					_mv.visitInsn( Opcodes.DADD );
+					break;
 
-			case MINUS:
-				if (1 == _numberOfArguments) {
-					_mv.visitInsn( Opcodes.DNEG );
-				}
-				else {
-					_mv.visitInsn( Opcodes.DSUB );
-				}
-				break;
+				case MINUS:
+					if (1 == _numberOfArguments) {
+						_mv.visitInsn( Opcodes.DNEG );
+					}
+					else {
+						_mv.visitInsn( Opcodes.DSUB );
+					}
+					break;
 
-			case TIMES:
-				_mv.visitInsn( Opcodes.DMUL );
-				break;
+				case TIMES:
+					_mv.visitInsn( Opcodes.DMUL );
+					break;
 
-			case DIV:
-				_mv.visitInsn( Opcodes.DDIV );
-				break;
+				case DIV:
+					_mv.visitInsn( Opcodes.DDIV );
+					break;
 
-			case PERCENT:
-				_mv.visitLdcInsn( 100.0 );
-				_mv.visitInsn( Opcodes.DDIV );
-				break;
+				case PERCENT:
+					_mv.visitLdcInsn( 100.0 );
+					_mv.visitInsn( Opcodes.DDIV );
+					break;
 
-			case EXP:
-				_mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.MATH.getInternalName(), "pow", "(DD)D" );
-				break;
+				case EXP:
+					_mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.MATH.getInternalName(), "pow", "(DD)D" );
+					break;
 
-			case MIN:
-				_mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(), "min", "(DD)D" );
-				break;
+				case MIN:
+					_mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "min", "(DD)D" );
+					break;
 
-			case MAX:
-				_mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(), "max", "(DD)D" );
-				break;
+				case MAX:
+					_mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "max", "(DD)D" );
+					break;
 
-			default:
-				super.compile( _mv, _operator, _numberOfArguments );
+				default:
+					super.compile( _mv, _operator, _numberOfArguments );
 			}
 		}
 
 
 		@Override
-		public void compileConversionFromDouble( GeneratorAdapter _mv )
+		public void compileConst( GeneratorAdapter _mv, Object _constantValue ) throws ModelError
 		{
-			// Already is a double.
+			if (null == _constantValue) {
+				_mv.visitInsn( Opcodes.DCONST_0 );
+			}
+			else if (_constantValue instanceof Number) {
+				double val = ((Number) _constantValue).doubleValue();
+				_mv.push( val );
+			}
+			else if (_constantValue instanceof Boolean) {
+				double val = ((Boolean) _constantValue) ? 1 : 0;
+				_mv.push( val );
+			}
+			else if (_constantValue instanceof Date) {
+				Date date = (Date) _constantValue;
+				double val = RuntimeDouble_v1.dateToExcel( date );
+				_mv.push( val );
+			}
+			else {
+				super.compileConst( _mv, _constantValue );
+			}
+		}
+
+
+		@Override
+		public void compileZero( GeneratorAdapter _mv )
+		{
+			_mv.push( 0.0D );
+		}
+
+
+		@Override
+		public void compileComparison( GeneratorAdapter _mv, int _comparisonOpcode )
+		{
+			_mv.visitInsn( _comparisonOpcode );
+		}
+
+
+		@Override
+		public void compileFromLong( GeneratorAdapter _mv )
+		{
+			_mv.visitInsn( Opcodes.I2D );
 		}
 
 	}
@@ -173,8 +211,9 @@ public abstract class ByteCodeNumericType
 		private static final String BNAME = ByteCodeCompiler.BIGDECIMAL.getInternalName();
 		private static final String B = ByteCodeCompiler.BIGDECIMAL.getDescriptor();
 		private static final String V2B = "()" + B;
-		private static final String I2B = "(I)" + B;
-		private static final String D2B = "(D)" + B;
+		private static final String I2B = "(" + Type.INT_TYPE.getDescriptor() + ")" + B;
+		private static final String D2B = "(" + Type.DOUBLE_TYPE.getDescriptor() + ")" + B;
+		private static final String L2B = "(" + Type.LONG_TYPE.getDescriptor() + ")" + B;
 		private static final String S2B = "(Ljava/lang/String;)" + B;
 		private static final String B2B = "(" + B + ")" + B;
 
@@ -199,52 +238,61 @@ public abstract class ByteCodeNumericType
 		}
 
 
+		private static final Type RUNTIME_TYPE = Type.getType( RuntimeBigDecimal_v1.class );
+
+		@Override
+		public Type getRuntimeType()
+		{
+			return RUNTIME_TYPE;
+		}
+
+
 		@Override
 		public void compile( GeneratorAdapter _mv, Operator _operator, int _numberOfArguments ) throws ModelError
 		{
 			switch (_operator) {
 
-			case PLUS:
-				_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "add", B2B );
-				break;
+				case PLUS:
+					_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "add", B2B );
+					break;
 
-			case MINUS:
-				if (1 == _numberOfArguments) {
-					_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "negate", V2B );
-				}
-				else {
-					_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "subtract", B2B );
-				}
-				break;
+				case MINUS:
+					if (1 == _numberOfArguments) {
+						_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "negate", V2B );
+					}
+					else {
+						_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "subtract", B2B );
+					}
+					break;
 
-			case TIMES:
-				_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "multiply", B2B );
-				break;
+				case TIMES:
+					_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "multiply", B2B );
+					break;
 
-			case DIV:
-				_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "divide", B2B );
-				break;
+				case DIV:
+					_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "divide", B2B );
+					break;
 
-			case PERCENT:
-				_mv.push( 2 );
-				_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "movePointLeft", I2B );
-				break;
+				case PERCENT:
+					_mv.push( 2 );
+					_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "movePointLeft", I2B );
+					break;
 
-			case EXP:
-				_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "intValue", "()I" );
-				_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "pow", I2B );
-				break;
+				case EXP:
+					_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "intValue", "()I" );
+					_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "pow", I2B );
+					break;
 
-			case MIN:
-				_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "min", B2B );
-				break;
+				case MIN:
+					_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "min", B2B );
+					break;
 
-			case MAX:
-				_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "max", B2B );
-				break;
+				case MAX:
+					_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "max", B2B );
+					break;
 
-			default:
-				super.compile( _mv, _operator, _numberOfArguments );
+				default:
+					super.compile( _mv, _operator, _numberOfArguments );
 			}
 		}
 
@@ -258,24 +306,46 @@ public abstract class ByteCodeNumericType
 			else if (_constantValue instanceof Number) {
 				String val = _constantValue.toString();
 				_mv.push( val );
-				_mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(), "newBigDecimal", S2B );
+				_mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "newBigDecimal", S2B );
 			}
 			else if (_constantValue instanceof Boolean) {
 				_mv.visitFieldInsn( Opcodes.GETSTATIC, BNAME, ((Boolean) _constantValue) ? "ONE" : "ZERO", B );
+			}
+			else if (_constantValue instanceof Date) {
+				DOUBLE_TYPE.compileConst( _mv, _constantValue );
+				compileConversionFromDouble( _mv );
 			}
 			else {
 				super.compileConst( _mv, _constantValue );
 			}
 		}
 
-
-		@Override
-		public void compileConversionFromDouble( GeneratorAdapter _mv )
+		private void compileConversionFromDouble( GeneratorAdapter _mv )
 		{
 			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, BNAME, "valueOf", D2B );
 		}
 
-	}
 
+		@Override
+		public void compileZero( GeneratorAdapter _mv )
+		{
+			_mv.visitFieldInsn( Opcodes.GETSTATIC, BNAME, "ZERO", B );
+		}
+
+
+		@Override
+		public void compileComparison( GeneratorAdapter _mv, int _comparisonOpcode )
+		{
+			_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "compareTo", "(" + B + ")I" );
+		}
+
+
+		@Override
+		public void compileFromLong( GeneratorAdapter _mv )
+		{
+			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "newBigDecimal", L2B );
+		}
+
+	}
 
 }

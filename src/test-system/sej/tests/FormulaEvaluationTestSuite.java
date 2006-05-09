@@ -32,9 +32,9 @@ import sej.NumericType;
 import sej.Settings;
 import sej.SpreadsheetLoader;
 import sej.engine.bytecode.compiler.ByteCodeCompiler;
-import sej.engine.expressions.ExpressionNode;
-import sej.engine.expressions.Util;
+import sej.engine.compiler.model.util.Util;
 import sej.engine.standard.compiler.StandardCompiler;
+import sej.expressions.ExpressionNode;
 import sej.loader.excel.xls.ExcelXLSLoader;
 import sej.loader.excel.xml.ExcelXMLLoader;
 import sej.model.CellIndex;
@@ -128,7 +128,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 	private void addTests( TestSuite _suite, Workbook _workbook, int _formulaRow, int _valueRow, boolean _useInputs )
 	{
 		_suite.addTest( new DoubleTestCase( _workbook, _formulaRow, _valueRow, _useInputs ) );
-		// _suite.addTest( new BigDecimalTestCase( _workbook, _formulaRow, _valueRow, _useInputs ) );
+		_suite.addTest( new BigDecimalTestCase( _workbook, _formulaRow, _valueRow, _useInputs ) );
 	}
 
 
@@ -409,7 +409,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 
 		public BigDecimalTestCase(Workbook _workbook, int _formulaRow, int _inputRow, boolean _useInputs)
 		{
-			super( _workbook, _formulaRow, _inputRow, _useInputs, NumericType.BIGDECIMAL );
+			super( _workbook, _formulaRow, _inputRow, _useInputs, NumericType.BIGDECIMAL8 );
 		}
 
 		@Override

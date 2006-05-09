@@ -24,7 +24,7 @@ import java.io.IOException;
 
 import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
-import sej.engine.expressions.ExpressionNode;
+import sej.expressions.ExpressionNode;
 import sej.model.CellInstance;
 import sej.model.CellWithLazilyParsedExpression;
 import sej.model.LazyExpressionParser;

@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 
 public class SpeedTest
 {
-	private static final int MAXROUNDS = 10000000;
+	private static final int MAXROUNDS = 100000000;
 	private static final boolean DEBUG = false;
 
 
@@ -38,9 +38,11 @@ public class SpeedTest
 	private void run( String[] _args )
 	{
 		test( new DoubleTest() );
-		test( new ScaledLongTest() );
-		test( new ScaledIntTest() );
-		test( new BigDecimalTest() );
+		test( new PrefixDoubleTest() );
+		
+		// test( new ScaledLongTest() );
+		// test( new ScaledIntTest() );
+		// test( new BigDecimalTest() );
 
 		// test( new AccumulatorTest() );
 		// test( new DirectSumTest() );
@@ -71,7 +73,6 @@ public class SpeedTest
 	}
 
 
-
 	private static abstract class Test
 	{
 		public abstract void run();
@@ -98,6 +99,44 @@ public class SpeedTest
 		public void run()
 		{
 			double result = getA() + getA() * getB();
+			// if (result != 132.8322) throw new RuntimeException( "Wrong double" );
+		}
+
+		private double getA()
+		{
+			return 123.45;
+		}
+
+		private double getB()
+		{
+			return 0.076;
+		}
+	}
+	
+	
+	private static final class DoubleRuntime
+	{
+
+		public static double opTIMES( double _a, double _b )
+		{
+			return _a * _b;
+		}
+
+		public static double opPLUS( double _a, double _b )
+		{
+			return _a + _b;
+		}
+		
+	}
+
+
+	private static final class PrefixDoubleTest extends Test
+	{
+
+		@Override
+		public void run()
+		{
+			double result = DoubleRuntime.opPLUS( getA(), DoubleRuntime.opTIMES( getA(), getB() ) );
 			// if (result != 132.8322) throw new RuntimeException( "Wrong double" );
 		}
 

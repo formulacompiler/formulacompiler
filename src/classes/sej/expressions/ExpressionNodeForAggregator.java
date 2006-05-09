@@ -18,13 +18,51 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.engine.expressions;
+package sej.expressions;
 
-import java.lang.reflect.InvocationTargetException;
+import java.io.IOException;
+import java.util.Collection;
 
-public interface EvaluationContext
+import sej.describable.DescriptionBuilder;
+
+public class ExpressionNodeForAggregator extends ExpressionNode
 {
-	public Object getInputValue( int _inputID ) throws InvocationTargetException;
-	public Object getBand( int _bandID );
-	public EvaluationContext stepBack( int _backSteps );
+	private final Aggregator aggregator;
+
+
+	public ExpressionNodeForAggregator(Aggregator _aggregator, ExpressionNode... _args)
+	{
+		super( _args );
+		this.aggregator = _aggregator;
+	}
+
+
+	public ExpressionNodeForAggregator(Aggregator _aggregator, Collection _args)
+	{
+		super( _args );
+		this.aggregator = _aggregator;
+	}
+
+
+	public Aggregator getAggregator()
+	{
+		return this.aggregator;
+	}
+
+
+	@Override
+	public ExpressionNode cloneWithoutArguments()
+	{
+		return new ExpressionNodeForAggregator( this.aggregator );
+	}
+
+
+	@Override
+	public void describeTo( DescriptionBuilder _to ) throws IOException
+	{
+		_to.append( this.aggregator.getName() );
+		describeArgumentListTo( _to );
+	}
+
+
 }
