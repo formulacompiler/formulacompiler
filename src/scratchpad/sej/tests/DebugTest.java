@@ -25,7 +25,7 @@ public class DebugTest extends TestCase
 
 	public void testDebugCase() throws IOException, ModelError
 	{
-		final EngineBuilder builder = new EngineBuilder( Inputs.class, Outputs.class, NumericType.BIGDECIMAL );
+		final EngineBuilder builder = new EngineBuilder( Inputs.class, Outputs.class, NumericType.BIGDECIMAL8 );
 		builder.loadSpreadsheet( "src/scratchpad/data/DebugCase.xls" );
 		builder.bindCellsByName();
 		final Engine engine = builder.buildEngine();
@@ -34,7 +34,7 @@ public class DebugTest extends TestCase
 		final Outputs outputs = (Outputs) engine.newComputation( inputs );
 		final BigDecimal result = outputs.getResult();
 
-		assertEquals( "2", result.toPlainString() );
+		assertEquals( "10.5", result.toPlainString() );
 	}
 
 
@@ -47,7 +47,7 @@ public class DebugTest extends TestCase
 
 		public BigDecimal getIB()
 		{
-			return new BigDecimal( "2" );
+			return new BigDecimal( "20" );
 		}
 
 		public BigDecimal getIC()

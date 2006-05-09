@@ -18,43 +18,66 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.engine.expressions;
+package sej.expressions;
+
+import java.io.IOException;
+
+import sej.describable.DescriptionBuilder;
 
 
-
-public class ExpressionNodeForIf extends ExpressionNodeForFunction
+public class ExpressionNodeForOperator extends ExpressionNode
 {
+	private final Operator operator;
 
 
-	public ExpressionNodeForIf()
+	public ExpressionNodeForOperator(Operator _operator, ExpressionNode... _args)
 	{
-		super( Function.IF );
+		super();
+		this.operator = _operator;
+		for (ExpressionNode arg : _args) {
+			getArguments().add( arg );
+		}
 	}
 
 
-	public ExpressionNodeForIf(ExpressionNode _test, ExpressionNode _true, ExpressionNode _false)
+	public Operator getOperator()
 	{
-		super( Function.IF, _test, _true, _false );
+		return this.operator;
 	}
 
 
 	@Override
 	public ExpressionNode cloneWithoutArguments()
 	{
-		return new ExpressionNodeForIf();
+		return new ExpressionNodeForOperator( this.operator );
 	}
 
 
 	@Override
-	public Object doEvaluate( EvaluationContext _context ) throws EvaluationFailed
+	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
-		Object test = evaluateArgument( _context, 0 );
-		int iArgToReturn = 2;
-		if ((test instanceof Boolean) && (Boolean) test) {
-			iArgToReturn = 1;
-		}
-		return evaluateArgument( _context, iArgToReturn );
-	}
+		switch (getArguments().size()) {
 
+		case 0:
+			_to.append( this.operator.getSymbol() );
+			break;
+		case 1:
+			_to.append( "(" );
+			if (this.operator.isPrefix()) _to.append( this.operator.getSymbol() );
+			describeArgumentTo( _to, 0 );
+			if (!this.operator.isPrefix()) _to.append( this.operator.getSymbol() );
+			_to.append( ")" );
+			break;
+		case 2:
+			_to.append( "(" );
+			describeArgumentTo( _to, 0 );
+			_to.append( " " );
+			_to.append( this.operator.getSymbol() );
+			_to.append( " " );
+			describeArgumentTo( _to, 1 );
+			_to.append( ")" );
+			break;
+		}
+	}
 
 }

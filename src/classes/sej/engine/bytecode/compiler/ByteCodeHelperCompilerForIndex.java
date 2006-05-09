@@ -27,11 +27,11 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import sej.ModelError;
-import sej.engine.expressions.ExpressionNode;
-import sej.engine.expressions.ExpressionNodeForConstantValue;
-import sej.engine.expressions.ExpressionNodeForFunction;
-import sej.engine.expressions.ExpressionNodeForRangeValue;
-import sej.engine.expressions.Util;
+import sej.engine.compiler.model.ExpressionNodeForRangeValue;
+import sej.engine.compiler.model.util.Util;
+import sej.expressions.ExpressionNode;
+import sej.expressions.ExpressionNodeForConstantValue;
+import sej.expressions.ExpressionNodeForFunction;
 
 public class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 {

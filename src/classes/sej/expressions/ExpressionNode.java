@@ -18,25 +18,20 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.engine.expressions;
+package sej.expressions;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
-import sej.engine.expressions.Aggregator.Aggregation;
 
 
-public abstract class ExpressionNode extends AbstractDescribable implements Evaluatable, Serializable
+public abstract class ExpressionNode extends AbstractDescribable
 {
-	private static final long serialVersionUID = 1L;
-
 	private List<ExpressionNode> arguments = new ArrayList<ExpressionNode>();
-	private EvaluationStrategy evaluationStrategy = DO_IT_MYSELF;
 
 
 	protected ExpressionNode()
@@ -71,49 +66,6 @@ public abstract class ExpressionNode extends AbstractDescribable implements Eval
 	public void addArgument( ExpressionNode _arg )
 	{
 		this.arguments.add( _arg );
-	}
-
-
-	public final Object evaluate( EvaluationContext _context ) throws EvaluationFailed
-	{
-		return this.evaluationStrategy.evaluate( this, _context );
-	}
-
-
-	public final Object tryToEvaluate( EvaluationContext _context )
-	{
-		try {
-			return evaluate( _context );
-		}
-		catch (EvaluationFailed e) {
-			return e;
-		}
-	}
-
-
-	final Object evaluateMyself( ExpressionNode _this, EvaluationContext _context ) throws EvaluationFailed
-	{
-		return doEvaluate( _context );
-	}
-
-
-	protected Object doEvaluate( EvaluationContext _context ) throws EvaluationFailed
-	{
-		throw new EvaluationFailed();
-	}
-
-
-	protected Object evaluateArgument( EvaluationContext _context, int iArgument ) throws EvaluationFailed
-	{
-		ExpressionNode arg = getArguments().get( iArgument );
-		if (null == arg) return null;
-		return arg.evaluate( _context );
-	}
-
-
-	public void aggregateInto( EvaluationContext _context, Aggregation _aggregation ) throws EvaluationFailed
-	{
-		_aggregation.aggregate( evaluate( _context ) );
 	}
 
 
@@ -167,16 +119,5 @@ public abstract class ExpressionNode extends AbstractDescribable implements Eval
 			describeArgumentListTo( _d );
 		}
 	}
-
-
-	private static final EvaluationStrategy DO_IT_MYSELF = new EvaluationStrategy()
-	{
-
-		public Object evaluate( ExpressionNode _node, EvaluationContext _context ) throws EvaluationFailed
-		{
-			return _node.evaluateMyself( _node, _context );
-		}
-
-	};
 
 }

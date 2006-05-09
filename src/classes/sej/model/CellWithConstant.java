@@ -21,8 +21,7 @@
 package sej.model;
 
 import sej.describable.DescriptionBuilder;
-import sej.engine.expressions.EvaluationContext;
-import sej.engine.expressions.ExpressionNode;
+import sej.expressions.ExpressionNode;
 
 
 public class CellWithConstant extends CellInstance
@@ -54,13 +53,6 @@ public class CellWithConstant extends CellInstance
 	public ExpressionNode getExpression()
 	{
 		return null;
-	}
-
-
-	@Override
-	protected Object innerEvaluate( EvaluationContext _context )
-	{
-		return getValue();
 	}
 
 

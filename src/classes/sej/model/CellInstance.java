@@ -21,14 +21,11 @@
 package sej.model;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.text.NumberFormat;
 
 import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
-import sej.engine.expressions.EvaluationContext;
-import sej.engine.expressions.EvaluationFailed;
-import sej.engine.expressions.ExpressionNode;
+import sej.expressions.ExpressionNode;
 
 
 public abstract class CellInstance extends AbstractDescribable
@@ -74,15 +71,6 @@ public abstract class CellInstance extends AbstractDescribable
 
 
 	public abstract Object getValue();
-
-
-	final Object evaluate( EvaluationContext _context ) throws EvaluationFailed, InvocationTargetException
-	{
-		return this.innerEvaluate( _context );
-	}
-
-
-	protected abstract Object innerEvaluate( EvaluationContext _context ) throws EvaluationFailed, InvocationTargetException;
 
 
 	public String getCanonicalName()

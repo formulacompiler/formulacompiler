@@ -18,11 +18,50 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.engine.expressions;
+package sej.expressions;
 
-public final class EvaluationFailed extends Exception
+import java.io.IOException;
+import java.util.Collection;
+
+import sej.describable.DescriptionBuilder;
+
+public class ExpressionNodeForFunction extends ExpressionNode
 {
-	
-	/* Internal exception */
-	
+	private final Function function;
+
+
+	public ExpressionNodeForFunction(Function _function, ExpressionNode... _args)
+	{
+		super( _args );
+		this.function = _function;
+	}
+
+
+	public ExpressionNodeForFunction(Function _function, Collection _args)
+	{
+		super( _args );
+		this.function = _function;
+	}
+
+
+	public Function getFunction()
+	{
+		return this.function;
+	}
+
+
+	@Override
+	public ExpressionNode cloneWithoutArguments()
+	{
+		return new ExpressionNodeForFunction( this.function );
+	}
+
+
+	@Override
+	public void describeTo( DescriptionBuilder _to ) throws IOException
+	{
+		_to.append( this.function.getName() );
+		describeArgumentListTo( _to );
+	}
+
 }

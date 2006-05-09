@@ -28,20 +28,21 @@ import sej.ModelError;
 import sej.NumericType;
 import sej.engine.compiler.definition.EngineDefinition;
 import sej.engine.compiler.definition.InputCellDefinition;
-import sej.engine.compiler.definition.SectionDefinition;
 import sej.engine.compiler.definition.OutputCellDefinition;
+import sej.engine.compiler.definition.SectionDefinition;
 import sej.engine.compiler.model.CellModel;
 import sej.engine.compiler.model.EngineModel;
 import sej.engine.compiler.model.SectionModel;
 import sej.engine.compiler.model.optimizer.ConstantSubExpressionEliminator;
 import sej.engine.compiler.model.optimizer.IntermediateResultsInliner;
+import sej.engine.compiler.model.util.InterpretedNumericType;
 import sej.model.CellIndex;
 
 
 public class EngineModelCompiler
 {
 	private final EngineDefinition engineDef;
-	private final NumericType numericType;
+	private final InterpretedNumericType numericType;
 	private final Map<CellIndex, CellModel> cellModels = new HashMap<CellIndex, CellModel>();
 	private final Map<SectionDefinition, SectionModelCompiler> sectionCompilers = new HashMap<SectionDefinition, SectionModelCompiler>();
 	private final Map<SectionModel, SectionModelCompiler> sectionCompilersByModel = new HashMap<SectionModel, SectionModelCompiler>();
@@ -52,7 +53,7 @@ public class EngineModelCompiler
 	{
 		super();
 		this.engineDef = _definition;
-		this.numericType = _numericType;
+		this.numericType = InterpretedNumericType.typeFor( _numericType );
 	}
 
 
@@ -62,7 +63,7 @@ public class EngineModelCompiler
 	}
 
 
-	private NumericType getNumericType()
+	InterpretedNumericType getNumericType()
 	{
 		return this.numericType;
 	}

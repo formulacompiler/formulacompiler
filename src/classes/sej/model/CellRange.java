@@ -27,7 +27,7 @@ import sej.Orientation;
 import sej.Spreadsheet;
 import sej.ModelError.CellRangeNotUniDimensional;
 import sej.describable.DescriptionBuilder;
-import sej.engine.expressions.RangeValue;
+import sej.engine.compiler.model.RangeValue;
 
 public class CellRange extends Reference implements Spreadsheet.Range, Iterable<CellIndex>
 {
@@ -106,7 +106,7 @@ public class CellRange extends Reference implements Spreadsheet.Range, Iterable<
 		private int firstColumn, iColumn, lastColumn;
 
 
-		private CellIndexRangeIterator()
+		CellIndexRangeIterator()
 		{
 			int firstSheet = getFrom().sheetIndex;
 			this.lastSheet = getTo().sheetIndex;

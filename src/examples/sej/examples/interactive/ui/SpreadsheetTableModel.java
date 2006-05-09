@@ -20,8 +20,8 @@
  */
 package sej.examples.interactive.ui;
 
-import sej.engine.expressions.ExpressionNode;
 import sej.examples.interactive.controller.MainWindowController.SpreadsheetModel;
+import sej.expressions.ExpressionNode;
 import sej.model.CellInstance;
 import sej.model.Row;
 import sej.model.Sheet;

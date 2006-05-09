@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import sej.Engine;
+import sej.engine.RuntimeDouble_v1;
 import sej.engine.Runtime_v1;
 import sej.tests.utils.InputInterface;
 import sej.tests.utils.Inputs;
@@ -54,7 +55,7 @@ public class GeneratedEngine implements Engine, Outputs
 
 	public final boolean getBool()
 	{
-		return Runtime_v1.booleanFromExcel( getA() );
+		return RuntimeDouble_v1.booleanFromExcel( getA() );
 	}
 
 	public final Iterable<Outputs> getDetails()
@@ -70,7 +71,7 @@ public class GeneratedEngine implements Engine, Outputs
 
 	final double getMin()
 	{
-		return Runtime_v1.min( getA(), getB() );
+		return RuntimeDouble_v1.min( getA(), getB() );
 	}
 
 	final double getSum()
@@ -133,6 +134,18 @@ public class GeneratedEngine implements Engine, Outputs
 		}
 		return 0.0;
 	}
+	
+	
+	final BigDecimal getBigAndIf()
+	{
+		return (getBigDecimalA().equals( getBigDecimalB() )) ? getBigDecimalA() : getBigDecimalB();
+	}
+
+
+	final BigDecimal getBigAndIf2()
+	{
+		return (getBigDecimalA().compareTo( getBigDecimalB() ) > 0) ? getBigDecimalA() : getBigDecimalB();
+	}
 
 
 	private InputInterface ii;
@@ -146,13 +159,13 @@ public class GeneratedEngine implements Engine, Outputs
 	final double getDate()
 	{
 		Date date = null;
-		return Runtime_v1.dateToExcel( date );
+		return RuntimeDouble_v1.dateToExcel( date );
 	}
 
 
 	final double getWithPrec()
 	{
-		return Runtime_v1.round( getSum(), 2 );
+		return RuntimeDouble_v1.round( getSum(), 2 );
 	}
 
 	public Double getDoubleObj()
@@ -201,7 +214,7 @@ public class GeneratedEngine implements Engine, Outputs
 	{
 		return new BigDecimal( "123" );
 	}
-
+	
 
 	private final static double[] getStaticIndex_Consts = new double[] { 0, 1, 2, 3, 4, 0, 6 };
 

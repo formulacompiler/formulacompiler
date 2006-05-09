@@ -27,11 +27,10 @@ import java.util.Map;
 
 import sej.Compiler;
 import sej.Spreadsheet;
-import sej.engine.expressions.EvaluationModelProvider;
 import sej.model.CellIndex;
 import sej.model.Workbook;
 
-public class EngineDefinition implements EvaluationModelProvider
+public class EngineDefinition
 {
 	protected final Workbook workbook;
 	protected final SectionDefinition root = new SectionDefinition( this );

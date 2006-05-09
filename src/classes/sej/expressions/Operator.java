@@ -18,7 +18,7 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.engine.expressions;
+package sej.expressions;
 
 
 public enum Operator {
@@ -36,12 +36,6 @@ public enum Operator {
 		{
 			return "";
 		}
-
-		@Override
-		public Object evaluate( Object... _args )
-		{
-			return _args[ 0 ];
-		}
 	},
 
 
@@ -56,16 +50,6 @@ public enum Operator {
 		public String getSymbol()
 		{
 			return "&";
-		}
-
-		@Override
-		public Object evaluate( Object... _args )
-		{
-			StringBuilder result = new StringBuilder();
-			for (Object a : _args) {
-				result.append( Util.valueToString( a ) );
-			}
-			return result.toString();
 		}
 	},
 
@@ -82,22 +66,6 @@ public enum Operator {
 		{
 			return "+";
 		}
-
-		@Override
-		public Object evaluate( Object _a, Object _b )
-		{
-			return Util.valueToDoubleOrZero( _a ) + Util.valueToDoubleOrZero( _b );
-		}
-
-		@Override
-		public Object evaluate( Object... _args )
-		{
-			double result = 0;
-			for (Object a : _args) {
-				result += Util.valueToDoubleOrZero( a );
-			}
-			return result;
-		}
 	},
 
 
@@ -112,18 +80,6 @@ public enum Operator {
 		public String getSymbol()
 		{
 			return "-";
-		}
-
-		@Override
-		public Object evaluate( Object _a )
-		{
-			return -Util.valueToDoubleOrZero( _a );
-		}
-
-		@Override
-		public Object evaluate( Object _a, Object _b )
-		{
-			return Util.valueToDoubleOrZero( _a ) - Util.valueToDoubleOrZero( _b );
 		}
 	},
 
@@ -140,24 +96,6 @@ public enum Operator {
 		{
 			return "*";
 		}
-
-		@Override
-		public Object evaluate( Object _a, Object _b )
-		{
-			return Util.valueToDoubleOrZero( _a ) * Util.valueToDoubleOrZero( _b );
-		}
-
-		@Override
-		public Object evaluate( Object... _args )
-		{
-			double result = 1;
-			for (Object a : _args) {
-				if (null != a) {
-					result *= Util.valueToDouble( a, 1.0 );
-				}
-			}
-			return result;
-		}
 	},
 
 	DIV {
@@ -172,12 +110,6 @@ public enum Operator {
 		{
 			return "/";
 		}
-
-		@Override
-		public Object evaluate( Object _a, Object _b )
-		{
-			return Util.valueToDoubleOrZero( _a ) / Util.valueToDoubleOrZero( _b );
-		}
 	},
 
 	EXP {
@@ -191,12 +123,6 @@ public enum Operator {
 		public String getSymbol()
 		{
 			return "^";
-		}
-
-		@Override
-		public Object evaluate( Object _a, Object _b )
-		{
-			return Math.pow( Util.valueToDoubleOrZero( _a ), Util.valueToDoubleOrZero( _b ) );
 		}
 	},
 
@@ -218,12 +144,6 @@ public enum Operator {
 		{
 			return false;
 		}
-
-		@Override
-		public Object evaluate( Object _a )
-		{
-			return Util.valueToDoubleOrZero( _a ) / 100;
-		}
 	},
 
 	EQUAL {
@@ -237,12 +157,6 @@ public enum Operator {
 		public String getSymbol()
 		{
 			return "=";
-		}
-
-		@Override
-		public Object evaluate( Object _a, Object _b )
-		{
-			return _a.equals( _b );
 		}
 	},
 
@@ -258,12 +172,6 @@ public enum Operator {
 		{
 			return "<>";
 		}
-
-		@Override
-		public Object evaluate( Object _a, Object _b )
-		{
-			return !_a.equals( _b );
-		}
 	},
 
 	LESS {
@@ -277,13 +185,6 @@ public enum Operator {
 		public String getSymbol()
 		{
 			return "<";
-		}
-
-		@Override
-		@SuppressWarnings("unchecked")
-		public Object evaluate( Object _a, Object _b )
-		{
-			return compare( _a, _b ) < 0;
 		}
 	},
 
@@ -299,12 +200,6 @@ public enum Operator {
 		{
 			return "<=";
 		}
-
-		@Override
-		public Object evaluate( Object _a, Object _b )
-		{
-			return compare( _a, _b ) <= 0;
-		}
 	},
 
 	GREATER {
@@ -318,12 +213,6 @@ public enum Operator {
 		public String getSymbol()
 		{
 			return ">";
-		}
-
-		@Override
-		public Object evaluate( Object _a, Object _b )
-		{
-			return compare( _a, _b ) > 0;
 		}
 	},
 
@@ -339,12 +228,6 @@ public enum Operator {
 		{
 			return ">=";
 		}
-
-		@Override
-		public Object evaluate( Object _a, Object _b )
-		{
-			return compare( _a, _b ) >= 0;
-		}
 	},
 
 	MIN {
@@ -358,12 +241,6 @@ public enum Operator {
 		public String getSymbol()
 		{
 			return getName();
-		}
-
-		@Override
-		public Object evaluate( Object _a, Object _b )
-		{
-			return compare( _a, _b ) <= 0 ? _a : _b;
 		}
 	},
 
@@ -379,12 +256,6 @@ public enum Operator {
 		{
 			return getName();
 		}
-
-		@Override
-		public Object evaluate( Object _a, Object _b )
-		{
-			return compare( _a, _b ) >= 0 ? _a : _b;
-		}
 	},
 
 	AND {
@@ -398,12 +269,6 @@ public enum Operator {
 		public String getSymbol()
 		{
 			return getName();
-		}
-
-		@Override
-		public Object evaluate( Object _a, Object _b )
-		{
-			return Util.valueToBoolean( _a, false ) && Util.valueToBoolean( _b, false );
 		}
 	},
 
@@ -419,16 +284,8 @@ public enum Operator {
 		{
 			return getName();
 		}
-
-		@Override
-		public Object evaluate( Object _a, Object _b )
-		{
-			return Util.valueToBoolean( _a, false ) || Util.valueToBoolean( _b, false );
-		}
 	};
 
-
-	public static final String RUNTIME = "sej/engine/Runtime_v1";
 
 	public abstract String getName();
 
@@ -438,45 +295,6 @@ public enum Operator {
 	public boolean isPrefix()
 	{
 		return true;
-	}
-
-
-	@SuppressWarnings("unchecked")
-	protected int compare( Object _a, Object _b )
-	{
-		if ((_a instanceof Comparable) && (_b instanceof Comparable)) {
-			Comparable a = (Comparable) _a;
-			Comparable b = (Comparable) _b;
-			return a.compareTo( b );
-		}
-		return 0;
-	}
-
-
-	public Object evaluate()
-	{
-		Object[] args = null;
-		return evaluate( args );
-	}
-
-	public Object evaluate( Object _a )
-	{
-		return evaluate( new Object[] { _a } );
-	}
-
-	public Object evaluate( Object _a, Object _b )
-	{
-		return evaluate( new Object[] { _a, _b } );
-	}
-
-	public Object evaluate( Object _a, Object _b, Object _c )
-	{
-		return evaluate( new Object[] { _a, _b, _c } );
-	}
-
-	public Object evaluate( Object... _args )
-	{
-		return null;
 	}
 
 }

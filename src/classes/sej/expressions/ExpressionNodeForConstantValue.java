@@ -18,44 +18,46 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.model;
-
-import java.io.IOException;
+package sej.expressions;
 
 import sej.describable.DescriptionBuilder;
-import sej.expressions.ExpressionNode;
 
 
-public class ExpressionNodeForRangeUnion extends ExpressionNode
+public class ExpressionNodeForConstantValue extends ExpressionNode
 {
+	private Object value;
 
-	public ExpressionNodeForRangeUnion(ExpressionNode _firstArg)
+
+	public ExpressionNodeForConstantValue(Object _value)
 	{
-		super();
-		addArgument( _firstArg );
+		this.value = _value;
 	}
 
 
-	public ExpressionNodeForRangeUnion()
+	public Object getValue()
 	{
-		super();
+		return this.value;
 	}
 
 
 	@Override
 	public ExpressionNode cloneWithoutArguments()
 	{
-		return new ExpressionNodeForRangeUnion();
+		return new ExpressionNodeForConstantValue( this.value );
 	}
+
 
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void describeTo( DescriptionBuilder _to )
 	{
-		describeArgumentTo( _to, 0 );
-		for (int iArg = 1; iArg < getArguments().size(); iArg++) {
-			_to.append( ", " );
-			describeArgumentTo( _to, iArg );
+		if (this.value instanceof String) {
+			_to.append('"');
+			_to.append(this.value);
+			_to.append('"');
+		}
+		else {
+			_to.append( this.value );
 		}
 	}
-
+	
 }

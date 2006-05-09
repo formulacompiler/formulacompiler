@@ -72,7 +72,7 @@ public abstract class CompilerFactory
 	 *        public static inner class.
 	 * @param _numericType The numeric type to be used by all numeric computations by engines
 	 *        compiled with this compiler. Must not be <code>null</code>. For financial
-	 *        computations, use {@link NumericType#BIGDECIMAL} or {@link NumericType#CURRENCY}.
+	 *        computations, use {@link NumericType#BIGDECIMAL8} or {@link NumericType#CURRENCY}.
 	 * @return The newly constructed compiler.
 	 */
 	public static Compiler newDefaultCompiler( Spreadsheet _model, Class _inputs, Class _outputs,

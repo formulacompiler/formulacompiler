@@ -20,7 +20,7 @@
  */
 package sej.model;
 
-import sej.engine.expressions.ExpressionNode;
+import sej.expressions.ExpressionNode;
 
 
 public interface LazyExpressionParser 

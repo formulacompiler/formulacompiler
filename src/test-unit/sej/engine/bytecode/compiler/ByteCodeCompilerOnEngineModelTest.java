@@ -10,8 +10,8 @@ import sej.engine.compiler.model.CellModel;
 import sej.engine.compiler.model.EngineModel;
 import sej.engine.compiler.model.ExpressionNodeForCellModel;
 import sej.engine.compiler.model.SectionModel;
-import sej.engine.expressions.ExpressionNodeForOperator;
-import sej.engine.expressions.Operator;
+import sej.expressions.ExpressionNodeForOperator;
+import sej.expressions.Operator;
 import sej.tests.utils.Inputs;
 import sej.tests.utils.Outputs;
 import junit.framework.TestCase;
@@ -137,7 +137,7 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 	private void assertBigDecimalResult( final double _expectedResult, final EngineModel _engineModel )
 			throws ModelError
 	{
-		final ByteCodeCompiler compiler = new ByteCodeCompiler( null, Inputs.class, Outputs.class, NumericType.BIGDECIMAL );
+		final ByteCodeCompiler compiler = new ByteCodeCompiler( null, Inputs.class, Outputs.class, NumericType.BIGDECIMAL8 );
 		final Engine engine = compiler.compileNewEngine( _engineModel );
 		final Outputs outputs = (Outputs) engine.newComputation( new Inputs() );
 		final BigDecimal v = outputs.getBigDecimalA();

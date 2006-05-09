@@ -18,44 +18,29 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.model;
+package sej.expressions;
 
-import java.io.IOException;
-
-import sej.describable.DescriptionBuilder;
-import sej.expressions.ExpressionNode;
-
-
-public class ExpressionNodeForRangeUnion extends ExpressionNode
+public class ExpressionNodeForIf extends ExpressionNodeForFunction
 {
 
-	public ExpressionNodeForRangeUnion(ExpressionNode _firstArg)
+
+	public ExpressionNodeForIf()
 	{
-		super();
-		addArgument( _firstArg );
+		super( Function.IF );
 	}
 
 
-	public ExpressionNodeForRangeUnion()
+	public ExpressionNodeForIf(ExpressionNode _test, ExpressionNode _true, ExpressionNode _false)
 	{
-		super();
+		super( Function.IF, _test, _true, _false );
 	}
 
 
 	@Override
 	public ExpressionNode cloneWithoutArguments()
 	{
-		return new ExpressionNodeForRangeUnion();
+		return new ExpressionNodeForIf();
 	}
 
-	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
-	{
-		describeArgumentTo( _to, 0 );
-		for (int iArg = 1; iArg < getArguments().size(); iArg++) {
-			_to.append( ", " );
-			describeArgumentTo( _to, iArg );
-		}
-	}
 
 }

@@ -34,7 +34,6 @@ import sej.ModelError;
 import sej.NumericType;
 import sej.Settings;
 import sej.Spreadsheet;
-import sej.engine.Runtime_v1;
 import sej.engine.bytecode.ByteCodeEngineFactory;
 import sej.engine.bytecode.ByteCodeEngineLoader;
 import sej.engine.compiler.WorkbookCompiler;
@@ -45,7 +44,6 @@ public class ByteCodeCompiler extends WorkbookCompiler
 {
 	static final Type ENGINE_INTF = Type.getType( Engine.class );
 	static final String INPUTS_MEMBER_NAME = "inputs";
-	static final Type RUNTIME = Type.getType( Runtime_v1.class );
 	static final Type MATH = Type.getType( Math.class );
 	static final Type BIGDECIMAL = Type.getType( BigDecimal.class );
 

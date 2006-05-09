@@ -7,7 +7,7 @@ public final class NumericType
 {
 	public static final int UNDEFINED_SCALE = Integer.MAX_VALUE;
 	public static final NumericType DOUBLE = newInstance( Double.TYPE );
-	public static final NumericType BIGDECIMAL = newInstance( BigDecimal.class );
+	public static final NumericType BIGDECIMAL8 = newInstance( BigDecimal.class, 8 );
 	public static final NumericType LONG = newInstance( Long.TYPE );
 	public static final NumericType CURRENCY = newInstance( Long.TYPE, 4 );
 

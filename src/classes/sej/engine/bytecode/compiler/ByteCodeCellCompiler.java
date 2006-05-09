@@ -32,7 +32,7 @@ import sej.CallFrame;
 import sej.ModelError;
 import sej.Settings;
 import sej.engine.compiler.model.CellModel;
-import sej.engine.expressions.ExpressionNode;
+import sej.expressions.ExpressionNode;
 
 
 final class ByteCodeCellCompiler extends ByteCodeMethodCompiler
@@ -45,7 +45,7 @@ final class ByteCodeCellCompiler extends ByteCodeMethodCompiler
 	}
 
 
-	public ByteCodeCellCompiler(ByteCodeCellComputation _computation) 
+	public ByteCodeCellCompiler(ByteCodeCellComputation _computation)
 	{
 		super( _computation.getSection(), _computation.getMethodName() );
 		this.cellComputation = _computation;
@@ -98,7 +98,8 @@ final class ByteCodeCellCompiler extends ByteCodeMethodCompiler
 
 				if (CellModel.UNLIMITED != cell.getMaxFractionalDigits()) {
 					mv.visitLdcInsn( cell.getMaxFractionalDigits() );
-					mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(), "round", getNumericType().getRoundMethodSignature() );
+					mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "round", getNumericType()
+							.getRoundMethodSignature() );
 				}
 
 				if (Double.TYPE == returnClass) {
@@ -108,13 +109,13 @@ final class ByteCodeCellCompiler extends ByteCodeMethodCompiler
 					mv.visitInsn( Opcodes.ARETURN );
 				}
 				else if (Date.class == returnClass) {
-					mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(), "dateFromExcel",
-							"(D)Ljava/util/Date;" );
+					mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "dateFromExcel", "("
+							+ getNumericType().getDescriptor() + ")Ljava/util/Date;" );
 					mv.visitInsn( Opcodes.ARETURN );
 				}
 				else if (Boolean.TYPE == returnClass) {
-					mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.RUNTIME.getInternalName(),
-							"booleanFromExcel", "(D)Z" );
+					mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "booleanFromExcel", "("
+							+ getNumericType().getDescriptor() + ")Z" );
 					mv.visitInsn( Opcodes.IRETURN );
 				}
 				else {
