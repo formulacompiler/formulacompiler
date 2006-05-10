@@ -30,6 +30,7 @@ import sej.engine.compiler.definition.SectionDefinition;
 import sej.engine.compiler.model.CellModel;
 import sej.engine.compiler.model.ExpressionNodeForCellModel;
 import sej.engine.compiler.model.ExpressionNodeForRangeValue;
+import sej.engine.compiler.model.RangeValue;
 import sej.engine.compiler.model.SectionModel;
 import sej.engine.compiler.model.util.InterpretedNumericType;
 import sej.expressions.ExpressionNode;
@@ -267,7 +268,12 @@ public class SectionModelCompiler
 
 	private ExpressionNode buildExpressionModelForContainedRange( CellRange _range ) throws ModelError
 	{
-		ExpressionNode result = new ExpressionNodeForRangeValue( _range.getRangeValue() );
+
+		final int sheets = _range.getTo().sheetIndex - _range.getFrom().sheetIndex + 1;
+		final int rows = _range.getTo().rowIndex - _range.getFrom().rowIndex + 1;
+		final int cols = _range.getTo().columnIndex - _range.getFrom().columnIndex + 1;
+		final RangeValue rangeValue = new RangeValue( sheets, rows, cols );
+		ExpressionNode result = new ExpressionNodeForRangeValue( rangeValue );
 		for (CellIndex element : _range) {
 			ExpressionNode elementNode = buildExpressionModel( element );
 			result.getArguments().add( elementNode );

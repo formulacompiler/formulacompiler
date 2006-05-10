@@ -29,8 +29,6 @@ import sej.ModelError;
 import sej.NumericType;
 import sej.Spreadsheet;
 import sej.engine.compiler.definition.EngineDefinition;
-import sej.engine.compiler.model.EngineModel;
-import sej.engine.compiler.model.compiler.EngineModelCompiler;
 import sej.model.Workbook;
 
 
@@ -73,12 +71,6 @@ public abstract class WorkbookCompiler implements Compiler
 	public NumericType getNumericType()
 	{
 		return this.numericType;
-	}
-
-
-	protected EngineModel compileEngineModel() throws ModelError
-	{
-		return new EngineModelCompiler( getDefinition(), getNumericType() ).compileNewModel();
 	}
 
 

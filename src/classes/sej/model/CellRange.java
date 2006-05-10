@@ -27,7 +27,6 @@ import sej.Orientation;
 import sej.Spreadsheet;
 import sej.ModelError.CellRangeNotUniDimensional;
 import sej.describable.DescriptionBuilder;
-import sej.engine.compiler.model.RangeValue;
 
 public class CellRange extends Reference implements Spreadsheet.Range, Iterable<CellIndex>
 {
@@ -83,13 +82,6 @@ public class CellRange extends Reference implements Spreadsheet.Range, Iterable<
 		assert _from.columnIndex <= _to.columnIndex;
 		this.from = _from;
 		this.to = _to;
-	}
-
-
-	public RangeValue getRangeValue()
-	{
-		return new RangeValue( this.to.sheetIndex - this.from.sheetIndex + 1, this.to.rowIndex - this.from.rowIndex + 1,
-				this.to.columnIndex - this.from.columnIndex + 1 );
 	}
 
 

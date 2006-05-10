@@ -4,7 +4,7 @@
 
 	<property name="Name" value="SEJ" />
 	<property name="name" value="sej" />
-	<property name="dist.version" value="0.3.2" />
+	<property name="dist.version" value="0.4.0" />
 
 	<property name="src.dir" location="${basedir}/src" />
 	<property name="lib.dir" location="${basedir}/lib" />
@@ -12,6 +12,7 @@
 	<property name="doc.dir" location="${basedir}/doc" />
 	<property name="src.classes.dir" location="${src.dir}/classes" />
 	<property name="src.classes.gen.dir" location="${src.dir}/classes-gen" />
+	<property name="src.classes14.dir" location="${src.dir}/classes14" />
 	<property name="src.test-unit.dir" location="${src.dir}/test-unit" />
 	<property name="src.test-system.dir" location="${src.dir}/test-system" />
 	<property name="src.examples.dir" location="${src.dir}/examples" />
@@ -124,6 +125,10 @@
 			<include name="sej/**" />
 		</javac>
 
+		<javac srcdir="${src.classes14.dir}" destdir="${build.classes14.dir}" classpath="${build.classpath}" debug="true" deprecation="on">
+			<include name="net/sf/retrotranslator/**" />
+		</javac>
+
 	</target>
 
 	<!-- ================================================================= -->
@@ -199,7 +204,9 @@
 
 		<delete file="${jar.file}" />
 		<jar jarfile="${jar.file}" compress="true">
-			<fileset dir="${build.classes.dir}" />
+			<fileset dir="${build.classes.dir}" >
+				<exclude name="net/sf/retrotranslator/**"/>
+			</fileset>
 		</jar>
 
 		<delete file="${jar.runtime.file}" />
@@ -210,9 +217,10 @@
 				<include name="sej/CallFrame.class" />
 				<include name="sej/describable/*.class" />
 				-->
-				<include name="sej/engine/Runtime_v1.class" />
+				<include name="sej/engine/Runtime*_v1.class" />
 				<include name="sej/engine/bytecode/*.class" />
 				<include name="sej/engine/standard/*.class" />
+				<exclude name="net/sf/retrotranslator/**"/>
 			</fileset>
 		</jar>
 
@@ -226,11 +234,13 @@
 	<target name="jar14" depends="jar" description="Retrofits the compiled code for Java 1.4">
 
 		<delete file="${jar14.file}" />
-		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${build.classpath}" failonerror="yes">
+		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${build.classpath}:${build.classes14.dir}" failonerror="yes">
 			<arg value="-srcjar" />
 			<arg file="${jar.file}" />
 			<arg value="-srcjar" />
-			<arg file="${lib.dir}/build-only/retrotranslator-runtime-1.0.2.jar" />
+			<arg file="${lib.dir}/build-only/retrotranslator-runtime-1.0.4.jar" />
+			<arg value="-srcdir" />
+			<arg file="${build.classes14.dir}" />
 			<arg value="-destjar" />
 			<arg file="${jar14.file}" />
 			<arg value="-stripsign" />
@@ -247,11 +257,13 @@
 		</java>
 
 		<delete file="${jar14.runtime.file}" />
-		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${build.classpath}" failonerror="yes">
+		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${build.classpath}:${build.classes14.dir}" failonerror="yes">
 			<arg value="-srcjar" />
 			<arg file="${jar.runtime.file}" />
 			<arg value="-srcjar" />
-			<arg file="${lib.dir}/build-only/retrotranslator-runtime-1.0.2.jar" />
+			<arg file="${lib.dir}/build-only/retrotranslator-runtime-1.0.4.jar" />
+			<arg value="-srcdir" />
+			<arg file="${build.classes14.dir}" />
 			<arg value="-destjar" />
 			<arg file="${jar14.runtime.file}" />
 			<arg value="-stripsign" />
@@ -263,8 +275,6 @@
 			<arg value="${lib.dir}/build-only/backport-util-concurrent.jar" />
 			<arg value="-classpath" />
 			<arg value="${java14.home.dir}/lib/rt.jar" />
-			<arg value="-classpath" />
-			<arg file="${java14.home.dir}/lib/rt.jar" />
 		</java>
 
 	</target>
@@ -323,7 +333,7 @@
 		<mkdir dir="${build.test-unit14.dir}" />
 		<mkdir dir="${build.test-system14.dir}" />
 
-		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${build.classpath}" failonerror="yes">
+		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${build.classpath}:${build.classes14.dir}" failonerror="yes">
 			<arg value="-srcdir" />
 			<arg path="${build.test-unit.dir}" />
 			<arg value="-destdir" />
@@ -332,7 +342,7 @@
 			<arg value="-lazy" />
 		</java>
 
-		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${build.classpath}" failonerror="yes">
+		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${build.classpath}:${build.classes14.dir}" failonerror="yes">
 			<arg value="-srcdir" />
 			<arg path="${build.test-system.dir}" />
 			<arg value="-destdir" />
@@ -467,6 +477,12 @@
 			<include name="**/*.htm" />
 			<replacetoken><![CDATA[<a href="../../../index.htm">arrenbrecht.ch</a>]]></replacetoken>
 			<replacevalue><![CDATA[<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a>]]></replacevalue>
+		</replace>
+
+		<replace dir="${doc.dir}">
+			<include name="**/*.htm" />
+			<replacetoken><![CDATA[<a href="dist/]]></replacetoken>
+			<replacevalue><![CDATA[<a href="../dist/]]></replacevalue>
 		</replace>
 	</target>
 

@@ -138,7 +138,7 @@ public class Inputs implements InputInterface
 
 	public double getDoubleA()
 	{
-		return 370.35;
+		return 100.34;
 	}
 
 	public double getDoubleB()
@@ -148,7 +148,7 @@ public class Inputs implements InputInterface
 
 	public BigDecimal getBigDecimalA()
 	{
-		return BigDecimal.valueOf( 37035, 2 );
+		return BigDecimal.valueOf( 10034, 2 );
 	}
 
 	public BigDecimal getBigDecimalB()

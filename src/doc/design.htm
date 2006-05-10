@@ -1,7 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>SEJ Design Document - arrenbrecht.ch</title>
     <style type="text/css" media="screen">
         @import "../style.css";
@@ -9,6 +9,8 @@
     </style>
     <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
 	
+	<link rel="shortcut icon" href="../favicon.ico" />
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.arrenbrecht.ch/sej/rss.xml" />
 </head>
 <body>
     <div class="all">
@@ -41,31 +43,31 @@
 <p>The Spreadsheet Engine for Java (SEJ, for short) makes it possible to use computations defined in spreadsheet files within normal Java applications. The original spreadsheet files can be created, for example, in <a href="http://office.microsoft.com/">Microsoft Excel</a> or <a href="http://www.openoffice.org/">OpenOffice Calc</a>. SEJ reads the spreadsheet files and builds corresponding Java-based formula evaluation engines. Such an engine computes output values given a set of input values. For example, compute the value of the cell <em>B3</em> given the values of the cells <em>B1</em> and <em>B2</em> as inputs.</p>
 <p>The following code example should help clarify this process:</p>
 <pre class="java"><span class="j-cmt">// Load and parse the spreadsheet file into memory.
-</span><span class="j-def">Spreadsheet model = SpreadsheetLoader.loadFromFile</span><span class="j-sym">( </span><span class="j-str">&#34;examples/data/Test.xls&#34; </span><span class="j-sym">)</span><span class="j-def">;
+</span>Spreadsheet model = SpreadsheetLoader.loadFromFile<span class="j-sym">( </span><span class="j-str">&#34;examples/testdata/sej/Test.xls&#34; </span><span class="j-sym">)</span>;
 
-</span><span class="j-cmt">// Create an engine builder for the loaded spreadsheet file.
+<span class="j-cmt">// Create an engine builder for the loaded spreadsheet file.
 // Pass to it the input and output types.
-</span><span class="j-def">Compiler compiler = CompilerFactory.newDefaultCompiler</span><span class="j-sym">( </span><span class="j-def">model, Inputs.class, Outputs.</span><span class="j-key">class </span><span class="j-sym">)</span><span class="j-def">;
+</span>Compiler compiler = CompilerFactory.newDefaultCompiler<span class="j-sym">( </span>model, Inputs.class, Outputs.<span class="j-key">class </span><span class="j-sym">)</span>;
 
-</span><span class="j-cmt">// Define which of the cells will be variable inputs to the engine.
+<span class="j-cmt">// Define which of the cells will be variable inputs to the engine.
 // All inputs are bound to a method that will be called to obtain their value.
-</span><span class="j-def">Compiler.Section root = compiler.getRoot</span><span class="j-sym">()</span><span class="j-def">;
-root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">model.getCell</span><span class="j-sym">( </span><span class="j-num">0</span><span class="j-def">, </span><span class="j-num">1</span><span class="j-def">, </span><span class="j-num">0 </span><span class="j-sym">)</span><span class="j-def">, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">Inputs.</span><span class="j-key">class</span><span class="j-def">.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getA&#34; </span><span class="j-sym">) ) )</span><span class="j-def">;
-root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">model.getCell</span><span class="j-sym">( </span><span class="j-num">0</span><span class="j-def">, </span><span class="j-num">1</span><span class="j-def">, </span><span class="j-num">1 </span><span class="j-sym">)</span><span class="j-def">, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">Inputs.</span><span class="j-key">class</span><span class="j-def">.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getB&#34; </span><span class="j-sym">) ) )</span><span class="j-def">;
+</span>Compiler.Section root = compiler.getRoot<span class="j-sym">()</span>;
+root.defineInputCell<span class="j-sym">( </span>model.getCell<span class="j-sym">( </span><span class="j-num">0</span>, <span class="j-num">1</span>, <span class="j-num">0 </span><span class="j-sym">)</span>, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>Inputs.<span class="j-key">class</span>.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getA&#34; </span><span class="j-sym">) ) )</span>;
+root.defineInputCell<span class="j-sym">( </span>model.getCell<span class="j-sym">( </span><span class="j-num">0</span>, <span class="j-num">1</span>, <span class="j-num">1 </span><span class="j-sym">)</span>, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>Inputs.<span class="j-key">class</span>.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getB&#34; </span><span class="j-sym">) ) )</span>;
 
-</span><span class="j-cmt">// Define which of the cells will be computable outputs of the engine.
+<span class="j-cmt">// Define which of the cells will be computable outputs of the engine.
 // Outputs are bound to prototype methods that are implemented by the engine.
-</span><span class="j-def">root.defineOutputCell</span><span class="j-sym">( </span><span class="j-def">model.getCell</span><span class="j-sym">( </span><span class="j-num">0</span><span class="j-def">, </span><span class="j-num">1</span><span class="j-def">, </span><span class="j-num">2 </span><span class="j-sym">)</span><span class="j-def">, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">Outputs.</span><span class="j-key">class</span><span class="j-def">.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getResult&#34; </span><span class="j-sym">) ) )</span><span class="j-def">;
+</span>root.defineOutputCell<span class="j-sym">( </span>model.getCell<span class="j-sym">( </span><span class="j-num">0</span>, <span class="j-num">1</span>, <span class="j-num">2 </span><span class="j-sym">)</span>, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>Outputs.<span class="j-key">class</span>.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getResult&#34; </span><span class="j-sym">) ) )</span>;
 
-</span><span class="j-cmt">// Build an engine for the given spreadsheet, inputs, and outputs.
-</span><span class="j-def">Engine engine = compiler.compileNewEngine</span><span class="j-sym">()</span><span class="j-def">;
+<span class="j-cmt">// Build an engine for the given spreadsheet, inputs, and outputs.
+</span>Engine engine = compiler.compileNewEngine<span class="j-sym">()</span>;
 
-</span><span class="j-cmt">// Compute an actual output value for a given set of actual input values.
-</span><span class="j-def">Inputs inputs = </span><span class="j-key">new </span><span class="j-def">Inputs</span><span class="j-sym">( </span><span class="j-num">4</span><span class="j-def">, </span><span class="j-num">40 </span><span class="j-sym">)</span><span class="j-def">;
-Outputs outputs = </span><span class="j-sym">(</span><span class="j-def">Outputs</span><span class="j-sym">) </span><span class="j-def">engine.newComputation</span><span class="j-sym">( </span><span class="j-def">inputs </span><span class="j-sym">)</span><span class="j-def">;
-</span><span class="j-typ">double </span><span class="j-def">result = outputs.getResult</span><span class="j-sym">()</span><span class="j-def">;
+<span class="j-cmt">// Compute an actual output value for a given set of actual input values.
+</span>Inputs inputs = <span class="j-key">new </span>Inputs<span class="j-sym">( </span><span class="j-num">4</span>, <span class="j-num">40 </span><span class="j-sym">)</span>;
+Outputs outputs = <span class="j-sym">(</span>Outputs<span class="j-sym">) </span>engine.newComputation<span class="j-sym">( </span>inputs <span class="j-sym">)</span>;
+<span class="j-typ">double </span>result = outputs.getResult<span class="j-sym">()</span>;
 
-System.out.printf</span><span class="j-sym">( </span><span class="j-str">&#34;Result is: %f&#34;</span><span class="j-def">, result </span><span class="j-sym">)</span><span class="j-def">;</span></pre>
+System.out.printf<span class="j-sym">( </span><span class="j-str">&#34;Result is: %f&#34;</span>, result <span class="j-sym">)</span>;</pre>
 
 
 <h2>Design Goals</h2>
@@ -114,7 +116,7 @@ System.out.printf</span><span class="j-sym">( </span><span class="j-str">&#34;Re
 
 <h2>Design</h2>
 <p>Derived from the design goals above is a clear separation of phases and concerns into individual components:</p>
-<p><img src="DependencyOverview.gif" alt="Component Diagram"></p><dt>Core</dt><dd>Comprises the common definitions for all of SEJ. For example, the interfaces Engine and Computation, as well as an implementation of the core spreadsheet functions (like addition, multiplication, NPV, etc.).</dd><dt>Expressions</dt><dd>A syntax tree representation of the formulas found in a spreadsheet with support for direct evaluation and constant folding. Actual computation of core spreadsheet functions is delegated to the core component.</dd><dt>Model</dt><dd>An in-memory representation of a spreadsheet which is constructed by loaders and consumed by engine builders. It thus decouples the engine builders from the various spreadsheet formats supported by SEJ. Cell formulas are represented by expression trees with special nodes denoting cell references. Parsing of cell formulas into expression trees can be done lazily so that only the formulas actually used by an engine builder are parsed.</dd><dt>Loader Excel</dt><dd>Common base for the different Microsoft Excel spreadsheet file loaders (.xls and .xml). Implements lazy parsing of Excel formulas into SEJ's expression trees. The expression parser is generated using the open-source JFlex and CUP components.</dd><dt>Loader Excel XLS</dt><dd>Loads spreadsheet files in Microsoft Excel's native .xls format into an SEJ spreadsheet model. Uses the open-source JExcelAPI library to parse the .xls format.</dd><dt>Loader Excel XML</dt><dd>Loads spreadsheet files in Microsoft Excel's .xml format into an SEJ spreadsheet model. Uses the open-source JDOM library to parse the XML file into a DOM.</dd><dt>Loader OpenOffice</dt><dd>Envisioned loader(s) for the OpenOffice spreadsheet file format(s).</dd><dt>Standard Engine</dt><dd>Expression evaluation engine that computes formulas using the evaluation support built into SEJ's expression trees. It is thus a runtime interpreter. <b>Dropped!</b></dd><dt>Standard Compiler</dt><dd>Builds an interpreted evaluation engine given a spreadsheet model. <b>Dropped!</b></dd><dt>Byte Code Engine</dt><dd>Expression evaluation engine that computes formulas using native Java byte code methods. Some computations of core spreadsheet functions are delegated to the Runtime component. This implementation of an engine is very fast and space efficient. It also has very few dependencies on other components. It is, therefore, an ideal choice for heavily used server-side computations.</dd><dt>Byte Code Compiler</dt><dd>Builds a compiled evaluation engine given a spreadsheet model. Uses the open-source ASM library to generate the new engine class and the methods which compute the spreadsheet formulas. The generated class file can be used directly to build an instance of an engine, or else stored somewhere for later instantiation. It is even possible to build the engine in a separate configuration program and then install only the generated class file with its minimal dependencies in a server application.</dd>
+<p><img src="DependencyOverview.gif" alt="Component Diagram" /></p><dt>Core</dt><dd>Comprises the common definitions for all of SEJ. For example, the interfaces Engine and Computation, as well as an implementation of the core spreadsheet functions (like addition, multiplication, NPV, etc.).</dd><dt>Expressions</dt><dd>A syntax tree representation of the formulas found in a spreadsheet with support for direct evaluation and constant folding. Actual computation of core spreadsheet functions is delegated to the core component.</dd><dt>Model</dt><dd>An in-memory representation of a spreadsheet which is constructed by loaders and consumed by engine builders. It thus decouples the engine builders from the various spreadsheet formats supported by SEJ. Cell formulas are represented by expression trees with special nodes denoting cell references. Parsing of cell formulas into expression trees can be done lazily so that only the formulas actually used by an engine builder are parsed.</dd><dt>Loader Excel</dt><dd>Common base for the different Microsoft Excel spreadsheet file loaders (.xls and .xml). Implements lazy parsing of Excel formulas into SEJ's expression trees. The expression parser is generated using the open-source JFlex and CUP components.</dd><dt>Loader Excel XLS</dt><dd>Loads spreadsheet files in Microsoft Excel's native .xls format into an SEJ spreadsheet model. Uses the open-source JExcelAPI library to parse the .xls format.</dd><dt>Loader Excel XML</dt><dd>Loads spreadsheet files in Microsoft Excel's .xml format into an SEJ spreadsheet model. Uses the open-source JDOM library to parse the XML file into a DOM.</dd><dt>Loader OpenOffice</dt><dd>Envisioned loader(s) for the OpenOffice spreadsheet file format(s).</dd><dt>Standard Engine</dt><dd>Expression evaluation engine that computes formulas using the evaluation support built into SEJ's expression trees. It is thus a runtime interpreter. <b>Dropped!</b></dd><dt>Standard Compiler</dt><dd>Builds an interpreted evaluation engine given a spreadsheet model. <b>Dropped!</b></dd><dt>Byte Code Engine</dt><dd>Expression evaluation engine that computes formulas using native Java byte code methods. Some computations of core spreadsheet functions are delegated to the Runtime component. This implementation of an engine is very fast and space efficient. It also has very few dependencies on other components. It is, therefore, an ideal choice for heavily used server-side computations.</dd><dt>Byte Code Compiler</dt><dd>Builds a compiled evaluation engine given a spreadsheet model. Uses the open-source ASM library to generate the new engine class and the methods which compute the spreadsheet formulas. The generated class file can be used directly to build an instance of an engine, or else stored somewhere for later instantiation. It is even possible to build the engine in a separate configuration program and then install only the generated class file with its minimal dependencies in a server application.</dd>
 
 <h2>Realization of Design Goals</h2>
 <p>How are the design goals addressed by this design?</p>
@@ -123,19 +125,19 @@ System.out.printf</span><span class="j-sym">( </span><span class="j-str">&#34;Re
 <p>The design decouples the engines and engine builders completely from the physical representation of spreadsheets in files. This makes it fairly straightforward and inexpensive to add new formats. Use of JFlex/CUP to generate the formula expression parsers makes supporting new expression syntaxes fairly easy.</p>
 <p>SEJ has a simple workbook loader registry. Once appropriate loaders are registered, a spreadsheet file can be opened with a generic call. The loaders look at the file's extension to determine the appropriate one to use.</p>
 <pre class="java"><span class="j-cmt">// Register the Microsoft Excel loaders.
-</span><span class="j-def">ExcelXLSLoader.register</span><span class="j-sym">()</span><span class="j-def">;
-ExcelXMLLoader.register</span><span class="j-sym">()</span><span class="j-def">;
+</span>ExcelXLSLoader.register<span class="j-sym">()</span>;
+ExcelXMLLoader.register<span class="j-sym">()</span>;
 
-</span><span class="j-cmt">// Load and parse the spreadsheet files into memory.
-</span><span class="j-def">Spreadsheet model1 = SpreadsheetLoader.loadFromFile</span><span class="j-sym">( </span><span class="j-str">&#34;Test.xls&#34; </span><span class="j-sym">)</span><span class="j-def">;
-Spreadsheet model2 = SpreadsheetLoader.loadFromFile</span><span class="j-sym">( </span><span class="j-str">&#34;Test.xml&#34; </span><span class="j-sym">)</span><span class="j-def">;</span></pre>
+<span class="j-cmt">// Load and parse the spreadsheet files into memory.
+</span>Spreadsheet model1 = SpreadsheetLoader.loadFromFile<span class="j-sym">( </span><span class="j-str">&#34;Test.xls&#34; </span><span class="j-sym">)</span>;
+Spreadsheet model2 = SpreadsheetLoader.loadFromFile<span class="j-sym">( </span><span class="j-str">&#34;Test.xml&#34; </span><span class="j-sym">)</span>;</pre>
 
 <h3>High Performance Computation</h3>
 <p>The separation of the Engine and Computation interfaces allows the concurrent use of an engine across multiple threads. Each thread simply creates its own computations on the central engine. Engines are thus fully thread-safe and non-blocking.</p>
 <pre class="java"><span class="j-cmt">// Compute an actual output value for a given set of actual input values.
-</span><span class="j-def">Inputs inputs = </span><span class="j-key">new </span><span class="j-def">Inputs</span><span class="j-sym">( </span><span class="j-num">4</span><span class="j-def">, </span><span class="j-num">40 </span><span class="j-sym">)</span><span class="j-def">;
-Outputs outputs = </span><span class="j-sym">(</span><span class="j-def">Outputs</span><span class="j-sym">) </span><span class="j-def">engine.newComputation</span><span class="j-sym">( </span><span class="j-def">inputs </span><span class="j-sym">)</span><span class="j-def">;
-</span><span class="j-typ">double </span><span class="j-def">result = outputs.getResult</span><span class="j-sym">()</span><span class="j-def">;</span></pre>
+</span>Inputs inputs = <span class="j-key">new </span>Inputs<span class="j-sym">( </span><span class="j-num">4</span>, <span class="j-num">40 </span><span class="j-sym">)</span>;
+Outputs outputs = <span class="j-sym">(</span>Outputs<span class="j-sym">) </span>engine.newComputation<span class="j-sym">( </span>inputs <span class="j-sym">)</span>;
+<span class="j-typ">double </span>result = outputs.getResult<span class="j-sym">()</span>;</pre>
 <p>The byte code engine is extremely fast as all necessary expressions from the spreadsheet model - after constant folding - have been compiled to native Java byte code. A byte code engine depends neither on the spreadsheet model nor on anything else except for SEJ's runtime classes.</p>
 
 <h3>High Performance Engine Construction</h3>
@@ -146,24 +148,24 @@ Outputs outputs = </span><span class="j-sym">(</span><span class="j-def">Outputs
 <li>Construct an engine (or multiple different engines) from the model for a given set of inputs from which the engine is to be able to compute a given set of outputs.</li>
 </ol>
 <pre class="java"><span class="j-cmt">// Load and parse the spreadsheet file into memory.
-</span><span class="j-def">Spreadsheet model = SpreadsheetLoader.loadFromFile</span><span class="j-sym">( </span><span class="j-str">&#34;examples/data/Test.xls&#34; </span><span class="j-sym">)</span><span class="j-def">;
+</span>Spreadsheet model = SpreadsheetLoader.loadFromFile<span class="j-sym">( </span><span class="j-str">&#34;examples/testdata/sej/Test.xls&#34; </span><span class="j-sym">)</span>;
 
-</span><span class="j-cmt">// Create an engine builder for the loaded spreadsheet file.
+<span class="j-cmt">// Create an engine builder for the loaded spreadsheet file.
 // Pass to it the input and output types.
-</span><span class="j-def">Compiler compiler = CompilerFactory.newDefaultCompiler</span><span class="j-sym">( </span><span class="j-def">model, Inputs.class, Outputs.</span><span class="j-key">class </span><span class="j-sym">)</span><span class="j-def">;
+</span>Compiler compiler = CompilerFactory.newDefaultCompiler<span class="j-sym">( </span>model, Inputs.class, Outputs.<span class="j-key">class </span><span class="j-sym">)</span>;
 
-</span><span class="j-cmt">// Define which of the cells will be variable inputs to the engine.
+<span class="j-cmt">// Define which of the cells will be variable inputs to the engine.
 // All inputs are bound to a method that will be called to obtain their value.
-</span><span class="j-def">Compiler.Section root = compiler.getRoot</span><span class="j-sym">()</span><span class="j-def">;
-root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">model.getCell</span><span class="j-sym">( </span><span class="j-num">0</span><span class="j-def">, </span><span class="j-num">1</span><span class="j-def">, </span><span class="j-num">0 </span><span class="j-sym">)</span><span class="j-def">, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">Inputs.</span><span class="j-key">class</span><span class="j-def">.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getA&#34; </span><span class="j-sym">) ) )</span><span class="j-def">;
-root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">model.getCell</span><span class="j-sym">( </span><span class="j-num">0</span><span class="j-def">, </span><span class="j-num">1</span><span class="j-def">, </span><span class="j-num">1 </span><span class="j-sym">)</span><span class="j-def">, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">Inputs.</span><span class="j-key">class</span><span class="j-def">.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getB&#34; </span><span class="j-sym">) ) )</span><span class="j-def">;
+</span>Compiler.Section root = compiler.getRoot<span class="j-sym">()</span>;
+root.defineInputCell<span class="j-sym">( </span>model.getCell<span class="j-sym">( </span><span class="j-num">0</span>, <span class="j-num">1</span>, <span class="j-num">0 </span><span class="j-sym">)</span>, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>Inputs.<span class="j-key">class</span>.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getA&#34; </span><span class="j-sym">) ) )</span>;
+root.defineInputCell<span class="j-sym">( </span>model.getCell<span class="j-sym">( </span><span class="j-num">0</span>, <span class="j-num">1</span>, <span class="j-num">1 </span><span class="j-sym">)</span>, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>Inputs.<span class="j-key">class</span>.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getB&#34; </span><span class="j-sym">) ) )</span>;
 
-</span><span class="j-cmt">// Define which of the cells will be computable outputs of the engine.
+<span class="j-cmt">// Define which of the cells will be computable outputs of the engine.
 // Outputs are bound to prototype methods that are implemented by the engine.
-</span><span class="j-def">root.defineOutputCell</span><span class="j-sym">( </span><span class="j-def">model.getCell</span><span class="j-sym">( </span><span class="j-num">0</span><span class="j-def">, </span><span class="j-num">1</span><span class="j-def">, </span><span class="j-num">2 </span><span class="j-sym">)</span><span class="j-def">, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">Outputs.</span><span class="j-key">class</span><span class="j-def">.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getResult&#34; </span><span class="j-sym">) ) )</span><span class="j-def">;
+</span>root.defineOutputCell<span class="j-sym">( </span>model.getCell<span class="j-sym">( </span><span class="j-num">0</span>, <span class="j-num">1</span>, <span class="j-num">2 </span><span class="j-sym">)</span>, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>Outputs.<span class="j-key">class</span>.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getResult&#34; </span><span class="j-sym">) ) )</span>;
 
-</span><span class="j-cmt">// Build an engine for the given spreadsheet, inputs, and outputs.
-</span><span class="j-def">Engine engine = compiler.compileNewEngine</span><span class="j-sym">()</span><span class="j-def">;</span></pre>
+<span class="j-cmt">// Build an engine for the given spreadsheet, inputs, and outputs.
+</span>Engine engine = compiler.compileNewEngine<span class="j-sym">()</span>;</pre>
 <p>SEJ's spreadsheet model should be designed so as to allow loaders to instantiate parts of the model lazily. This will in principle allow engines to be constructed efficiently which access only a small part of an otherwise large spreadsheet. The true need for this is not totally clear at the moment, however, because I expect users to write dedicated spreadsheets that supply computations to business applications. Currently, lazy parsing of expressions is already implemented and thus verified. Lazy instantiation of individual sheets, rows, and cells is not yet implemented and may still require some interface changes affecting both loaders and engine builders.</p>
 <p>Use of JFlex/CUP should ensure efficient expression parsers.</p>
 <p>Construction of an engine from an SEJ model is fairly straightforward and thus fairly cheap.</p>
@@ -172,42 +174,42 @@ root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">mode
 <p>First of all, an engine, once compiled, does not depend on the original spreadsheet file, its internal model, or the compiler used to compile the engine. It also does not have any dependencies on third party libraries. So if an engine can be serialized to persistent storage, it can be deserialized again with little cost and no external dependencies. It is therefore a possible and, indeed, recommended scenario that applications should take spreadsheet files as input during configuration and compile the necessary computation engines from them. They should then store the engines somewhere for use later on at run-time. In addition to improving the production server's memory footprint and performance, this will also minimize the security risk introduced by the access to arbitrary, user-supplied spreadsheet files. This access can be delegated to an offline configuration editor, instead of being part of the production server.</p>
 <p>Here's the general outline of such an approach. First, the configuration, which compiles an engine and stores it somewhere (a file in this example):</p>
 <pre class="java"><span class="j-cmt">// Load and parse the spreadsheet file into memory.
-</span><span class="j-def">Spreadsheet model = SpreadsheetLoader.loadFromFile</span><span class="j-sym">( </span><span class="j-str">&#34;examples/data/Test.xls&#34; </span><span class="j-sym">)</span><span class="j-def">;
+</span>Spreadsheet model = SpreadsheetLoader.loadFromFile<span class="j-sym">( </span><span class="j-str">&#34;examples/testdata/sej/Test.xls&#34; </span><span class="j-sym">)</span>;
 
-</span><span class="j-cmt">// Create an engine builder for the loaded spreadsheet file.
+<span class="j-cmt">// Create an engine builder for the loaded spreadsheet file.
 // Pass to it the input and output types.
-</span><span class="j-def">Compiler compiler = CompilerFactory.newDefaultCompiler</span><span class="j-sym">( </span><span class="j-def">model, Inputs.class, Outputs.</span><span class="j-key">class </span><span class="j-sym">)</span><span class="j-def">;
+</span>Compiler compiler = CompilerFactory.newDefaultCompiler<span class="j-sym">( </span>model, Inputs.class, Outputs.<span class="j-key">class </span><span class="j-sym">)</span>;
 
-</span><span class="j-cmt">// Define which of the cells will be variable inputs to the engine.
+<span class="j-cmt">// Define which of the cells will be variable inputs to the engine.
 // All inputs are bound to a method that will be called to obtain their value.
-</span><span class="j-def">Compiler.Section root = compiler.getRoot</span><span class="j-sym">()</span><span class="j-def">;
-root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">model.getCell</span><span class="j-sym">( </span><span class="j-num">0</span><span class="j-def">, </span><span class="j-num">1</span><span class="j-def">, </span><span class="j-num">0 </span><span class="j-sym">)</span><span class="j-def">, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">Inputs.</span><span class="j-key">class</span><span class="j-def">.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getA&#34; </span><span class="j-sym">) ) )</span><span class="j-def">;
-root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">model.getCell</span><span class="j-sym">( </span><span class="j-num">0</span><span class="j-def">, </span><span class="j-num">1</span><span class="j-def">, </span><span class="j-num">1 </span><span class="j-sym">)</span><span class="j-def">, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">Inputs.</span><span class="j-key">class</span><span class="j-def">.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getB&#34; </span><span class="j-sym">) ) )</span><span class="j-def">;
+</span>Compiler.Section root = compiler.getRoot<span class="j-sym">()</span>;
+root.defineInputCell<span class="j-sym">( </span>model.getCell<span class="j-sym">( </span><span class="j-num">0</span>, <span class="j-num">1</span>, <span class="j-num">0 </span><span class="j-sym">)</span>, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>Inputs.<span class="j-key">class</span>.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getA&#34; </span><span class="j-sym">) ) )</span>;
+root.defineInputCell<span class="j-sym">( </span>model.getCell<span class="j-sym">( </span><span class="j-num">0</span>, <span class="j-num">1</span>, <span class="j-num">1 </span><span class="j-sym">)</span>, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>Inputs.<span class="j-key">class</span>.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getB&#34; </span><span class="j-sym">) ) )</span>;
 
-</span><span class="j-cmt">// Define which of the cells will be computable outputs of the engine.
+<span class="j-cmt">// Define which of the cells will be computable outputs of the engine.
 // Outputs are bound to prototype methods that are implemented by the engine.
-</span><span class="j-def">root.defineOutputCell</span><span class="j-sym">( </span><span class="j-def">model.getCell</span><span class="j-sym">( </span><span class="j-num">0</span><span class="j-def">, </span><span class="j-num">1</span><span class="j-def">, </span><span class="j-num">2 </span><span class="j-sym">)</span><span class="j-def">, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">Outputs.</span><span class="j-key">class</span><span class="j-def">.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getResult&#34; </span><span class="j-sym">) ) )</span><span class="j-def">;
+</span>root.defineOutputCell<span class="j-sym">( </span>model.getCell<span class="j-sym">( </span><span class="j-num">0</span>, <span class="j-num">1</span>, <span class="j-num">2 </span><span class="j-sym">)</span>, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>Outputs.<span class="j-key">class</span>.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getResult&#34; </span><span class="j-sym">) ) )</span>;
 
-</span><span class="j-cmt">// Write the engine out to its serialized form, then drop the reference to it.
-</span><span class="j-def">File engineSerializationFile = </span><span class="j-key">new </span><span class="j-def">File</span><span class="j-sym">( </span><span class="j-str">&#34;/temp/Engine.ser&#34; </span><span class="j-sym">)</span><span class="j-def">;
-OutputStream outStream = </span><span class="j-key">new </span><span class="j-def">FileOutputStream</span><span class="j-sym">( </span><span class="j-def">engineSerializationFile </span><span class="j-sym">)</span><span class="j-def">;
-</span><span class="j-key">try </span><span class="j-sym">{
-  </span><span class="j-def">compiler.saveTo</span><span class="j-sym">( </span><span class="j-def">outStream </span><span class="j-sym">)</span><span class="j-def">;
-</span><span class="j-sym">}
+<span class="j-cmt">// Write the engine out to its serialized form, then drop the reference to it.
+</span>File engineSerializationFile = <span class="j-key">new </span>File<span class="j-sym">( </span><span class="j-str">&#34;/temp/Engine.ser&#34; </span><span class="j-sym">)</span>;
+OutputStream outStream = <span class="j-key">new </span>FileOutputStream<span class="j-sym">( </span>engineSerializationFile <span class="j-sym">)</span>;
+<span class="j-key">try </span><span class="j-sym">{
+  </span>compiler.saveTo<span class="j-sym">( </span>outStream <span class="j-sym">)</span>;
+<span class="j-sym">}
 </span><span class="j-key">finally </span><span class="j-sym">{
-  </span><span class="j-def">outStream.close</span><span class="j-sym">()</span><span class="j-def">;
-</span><span class="j-sym">}</span></pre>
+  </span>outStream.close<span class="j-sym">()</span>;
+<span class="j-sym">}</span></pre>
 <p>Second, the code that would run in a production server:</p>
 <pre class="java"><span class="j-cmt">// Instantiate an engine from the serialized form.
-</span><span class="j-def">InputStream inStream = </span><span class="j-key">new </span><span class="j-def">FileInputStream</span><span class="j-sym">( </span><span class="j-def">engineSerializationFile </span><span class="j-sym">)</span><span class="j-def">;
-Engine engine = EngineFactory.loadFrom</span><span class="j-sym">( </span><span class="j-def">inStream </span><span class="j-sym">)</span><span class="j-def">;
+</span>InputStream inStream = <span class="j-key">new </span>FileInputStream<span class="j-sym">( </span>engineSerializationFile <span class="j-sym">)</span>;
+Engine engine = EngineFactory.loadFrom<span class="j-sym">( </span>inStream <span class="j-sym">)</span>;
 
-</span><span class="j-cmt">// Compute an actual output value for a given set of actual input values.
-</span><span class="j-def">Inputs inputs = </span><span class="j-key">new </span><span class="j-def">Inputs</span><span class="j-sym">( </span><span class="j-num">4</span><span class="j-def">, </span><span class="j-num">40 </span><span class="j-sym">)</span><span class="j-def">;
-Outputs outputs = </span><span class="j-sym">(</span><span class="j-def">Outputs</span><span class="j-sym">) </span><span class="j-def">engine.newComputation</span><span class="j-sym">( </span><span class="j-def">inputs </span><span class="j-sym">)</span><span class="j-def">;
-</span><span class="j-typ">double </span><span class="j-def">result = outputs.getResult</span><span class="j-sym">()</span><span class="j-def">;
+<span class="j-cmt">// Compute an actual output value for a given set of actual input values.
+</span>Inputs inputs = <span class="j-key">new </span>Inputs<span class="j-sym">( </span><span class="j-num">4</span>, <span class="j-num">40 </span><span class="j-sym">)</span>;
+Outputs outputs = <span class="j-sym">(</span>Outputs<span class="j-sym">) </span>engine.newComputation<span class="j-sym">( </span>inputs <span class="j-sym">)</span>;
+<span class="j-typ">double </span>result = outputs.getResult<span class="j-sym">()</span>;
 
-System.out.printf</span><span class="j-sym">( </span><span class="j-str">&#34;Result is: %f&#34;</span><span class="j-def">, result </span><span class="j-sym">)</span><span class="j-def">;</span></pre>
+System.out.printf<span class="j-sym">( </span><span class="j-str">&#34;Result is: %f&#34;</span>, result <span class="j-sym">)</span>;</pre>
 <p>Note that the production server must have called StandardEngine.register() somewhere so the EngineFactory knows what type of engine to instantiate.</p>
 <p>The byte code engine is really a Java class generated at run-time. Its serialization is, therefore, simply the byte array that would be stored in the .class file. Note, however, that this byte array can be stored anywhere, it need not be an actual .class file somewhere on your classpath. Instantiation of a byte code engine from external storage is, therefore, exactly what a class loader does.</p>
 
@@ -219,7 +221,7 @@ System.out.printf</span><span class="j-sym">( </span><span class="j-str">&#34;Re
 <p>Test-driven development should ensure that all supported features are clearly documented and verified by tests. The infrastructure to add tests in a consistent way is not defined yet.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 11.04.2006.</p>        </div>
+<br/>Last updated on 10.05.2006.</p>        </div>
     </div>
 </body>
 </html>

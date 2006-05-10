@@ -581,12 +581,12 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 		if (null != _values) {
 			values = new BigDecimal[ _values.length ];
 			for (int i = 0; i < _values.length; i++) {
-				values[ i ] = BigDecimal.valueOf( _values[ i ] );
+				values[ i ] = BigDecimal.valueOf( _values[ i ] ); 
 			}
 		}
 		Outputs outputs = (Outputs) _engine.newComputation( new Inputs( values ) );
 		BigDecimal result = outputs.getBigResult();
-		assertTrue( 0 == result.compareTo( BigDecimal.valueOf( _expected ) ) );
+		assertTrue( 0 == result.compareTo( BigDecimal.valueOf( _expected ) ) ); 
 	}
 
 }

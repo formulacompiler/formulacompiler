@@ -409,7 +409,8 @@ public class FormulaEvaluationTestSuite extends TestSuite
 
 		public BigDecimalTestCase(Workbook _workbook, int _formulaRow, int _inputRow, boolean _useInputs)
 		{
-			super( _workbook, _formulaRow, _inputRow, _useInputs, NumericType.BIGDECIMAL8 );
+			// Use BigDecimal9 here so it is compatible with Excel's double.
+			super( _workbook, _formulaRow, _inputRow, _useInputs, NumericType.BIGDECIMAL9 );
 		}
 
 		@Override
@@ -435,8 +436,12 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		{
 			final Outputs computation = (Outputs) _computation;
 			final BigDecimal actual = computation.getNumber();
-			assertTrue( "Expected: " + _expected.toString() + ", but was: " + actual.toString(), 0 == BigDecimal.valueOf(
-					(Double) _expected ).compareTo( actual ) );
+			
+			// BigDecimal.valueOf( (Double) _expected ) is not precise on JRE 1.4!
+			final BigDecimal expected = new BigDecimal( _expected.toString() ); 
+			
+			final boolean isOK = (0 == expected.compareTo( actual ));
+			assertTrue( "Expected: " + expected.toString() + ", but was: " + actual.toString(), isOK );
 		}
 
 		public static class Inputs extends FormulaEvaluationTestCase.Inputs

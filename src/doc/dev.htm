@@ -1,7 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>SEJ Developer's Journal - arrenbrecht.ch</title>
     <style type="text/css" media="screen">
         @import "../style.css";
@@ -9,6 +9,8 @@
     </style>
     <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
 	
+	<link rel="shortcut icon" href="../favicon.ico" />
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.arrenbrecht.ch/sej/rss.xml" />
 </head>
 <body>
     <div class="all">
@@ -32,6 +34,101 @@
         
 <p>This is an unstructured journal regarding the development of SEJ. I use it to keep track of ideas, goals and discussion notes.</p>
 
+<h2>Next Steps</h2>
+<ul class="spaced">
+<li>Implement support for scaled <tt>long</tt>.</li>
+<li>Implement sharing of constant values for expensive types (<tt>BigDecimal</tt>, for instance).</li>
+<li>Implement internal caching of multiply referenced values.</li>
+<li>Implement <tt>INDEX</tt> and <tt>MATCH</tt> again.</li>
+<li>Decide on how serialized byte code engines will be stored for both maximum load performance and maximum robustness when SEJ evolves.</li>
+<li>Implement Java source code generation and hybrid tests. This will naturally surface the exception and partial implementation of interfaces problem.</li>
+</ul>
+
+<h2>May 9, 2006</h2>
+<p>Scaled <tt>BigDecimal</tt> support is finally up and running with all tests green, both on JRE 1.4 and 1.5. Quite a refactoring session that was. I shall soon release it as version 0.4.0.</p>
+<p>I had to extend Retrotranslator slightly to support some JRE 1.5 additions to <tt>BigDecimal</tt>. Retrotranslator's great design made this very simple.</p>
+
+<h2>April 29, 2006</h2>
+<p>I am working on the BigDecimal constant folder now. It irks me that I have to duplicate a lot of code in the interpreter and the byte code compiler. So I did some tests. Up to Java 5, code such as</p>
+<pre>double result = getA1() + getA2() * getA3();</pre>
+
+<p>is more than twice as fast as</p>
+<pre>double result = Runtime.opPlus( getA1(), Runtime.opTimes( getA2(), getA3() ) );</pre>
+
+<p>Starting with the Java 6 beta, however, both perform identically. This indicates (as another test already did), that the JVM from Java 6 inlines much more aggressively.</p>
+<p>This indicates that in the longer run, I can get away with a scheme where the byte code compiler uses a fairly straightforward scheme of compiling expressions to static support methods in a runtime class, which are also used by the interpreter, in an equally generic fashion. What this adds, of course, is a much increased dependency of the generated engines on the runtime class.</p>
+
+<h2>April 13, 2006</h2>
+<p>Just realized that if alternative numeric types are to be supported properly, all the constant folding performed by SEJ will have to be carried out using the alternative types, too. So, for the moment, I shall simply disable constant folding for <tt>BigDecimal</tt>.</p>
+
+<h2>April 12, 2006</h2>
+
+<h3>Type Inference</h3>
+<p>I've started working on the type annotation algorithm. A key problem seems to be when there is a difference between the <em>expected type</em> (what the outside computation wants) and the <em>inner type</em> (what the value is). Consider, for instance:</p>
+<pre>BigDecimal getResult1() { return getA().multiply( BigDecimal.TEN ); }
+int getResult2() { return getA() + 4; }</pre>
+
+<p>What should <tt>getA()</tt> return? The obvious answer is, of course, the most precise of all the expected types. So it's <tt>BigDecimal</tt> here.</p>
+
+<h5>Speed Test</h5>
+<p>Consider, however, the following timings for the repeated execution of the formula <tt>x = p + p * f</tt> where <tt>p = 123.45</tt> and <tt>f = 0.076</tt> (yes, I know this can be made more efficient). I coded this formula using <tt>double</tt>, <tt>BigDecimal</tt> and both an <tt>int</tt> and a <tt>long</tt> scaled by 10'000 (the latter is thus equivalent to the <tt>Currency</tt> type found in COM and Delphi).</p>
+<ul compact class="compact">
+<li><tt>double</tt>: 150 ms</li>
+<li><tt>int</tt>: 200 ms</li>
+<li><tt>long</tt>: 550 ms</li>
+<li><tt>BigDecimal</tt>: 5500 ms</li>
+</ul>
+<p>Times vary, but the relations are fairly stable. So <tt>double</tt> is the fastest on my machine (Intel Centrino Core Duo), closely followed by the scaled <tt>int</tt>. Both are probably not suitable for financial computations, however. Of the remaining two, the scaled <tt>long</tt> still beats <tt>BigDecimal</tt> by a factor of 8 to 10. And it might be enough for many financial applications. Particularly so if you can control the scaling factor.</p>
+<p>So choosing a faster type can make a huge difference. Can SEJ do this?</p>
+
+<h5>Multiple Versions</h5>
+<p>If <tt>getA()</tt> is an input cell, we might simply generate <em>n</em> instances of <tt>getA()</tt>, one for each desired type, with appropriate conversions:</p>
+<pre>BigDecimal getA_Big() { return BigDecimal.valueOf( this.inputs.getA() ); }
+int getA_Int() { return this.inputs.getA(); }</pre>
+
+<p>where</p>
+<pre>interface Inputs {
+  int getA();
+}</pre>
+
+<p>Let's now consider that <tt>getA()</tt> is not an input. It then is an intermediate result (that is, a non-input cell that is referenced by multiple other cells). Do we generate multiple instances of the subexpression, one for each desired type? This would be:</p>
+<pre>BigDecimal getA_Big() { return getB()_Big.add( BigDecimal.valueOf( 20 )); }
+int getA_Int() { return getB()_Int + 20; }</pre>
+
+<p>assuming <tt>getB()</tt> is an input like <tt>getA()</tt> was above. This seems worthwile because we can now compute <tt>int getResult2()</tt> at full <tt>int</tt> speed.</p>
+
+<h5>Caching</h5>
+<p>What if, however, <tt>getA()</tt> were an expensive subexpression? Like a sum over a large dynamic section? Would it not be better to compute it once and cache the result? Like:</p>
+<pre>BigDecimal computeA() { return /*compute the sum*/; }
+BigDecimal getA_Big() {
+  if (!isCached_A) {
+    cache_A = computeA();
+    isCached_A = true;
+  }
+  return cache_A;
+}
+int getA_Int() { return getA_Big().intValue(); }</pre>
+
+
+<h5>Overflows</h5>
+<p>What if all the summed cells where <tt>int</tt> themselves? Should we not sum them as <tt>int</tt>s then? What if the sum overflows?</p>
+
+<h5>Decision</h5>
+<p>SEJ must make decisions. The question is: Can you affect them and, if so, how?</p>
+<p>In view of the overflow problem, I have decided that SEJ will not try to be clever about inferring fast types. Every simple addition of input values already forces escalation to a bigger and slower type, so without hints from outside, SEJ would have to infer slow types for nearly everything very quickly. Who could give the hints? The programmers cannot, because they do not know the computations performed by the sheet. So it would have to be the sheet designers. I cannot imagine them caring about and being able to specify overflow conditions.</p>
+<p>What the programmers can tell SEJ is the general class of computation they are dealing with. So I will let them specify the type being used for all numeric computations by a particular engine. The choices will probably be:</p>
+<ul compact class="compact">
+<li><tt>double</tt></li>
+<li><tt>long</tt>, with fixed, definable scale</li>
+<li><tt>int</tt>, with fixed, definable scale</li>
+<li><tt>BigDecimal</tt>, with optional minimum scale</li>
+</ul>
+<p>The responsibility for this choice, and for communicating its consequences to the sheet designers, thus rests fully with the programmers. But it does allow them to generate engines suited for precise financial or very fast pure integer computations.</p>
+
+<h2>April 11, 2006</h2>
+<p>Release 0.3.2 is out the door. Now I can turn to supporting <tt>BigDecimal</tt>.</p>
+<p>I realized that SEJ should ensure that all abstract methods on the output type are bound when generating an engine.</p>
+
 <h2>April 7, 2006</h2>
 <p>Release 0.3.2 is nearing completion. I just got all the tests running again and can do a complete build, including a version of SEJ for Java 1.4 which also passes all tests. Yay! Here's the news:</p>
 <ul compact class="compact">
@@ -52,14 +149,6 @@
 <li>Sections</li>
 </ul>
 <p>By the way, the <tt>IF</tt> logic described below was not fully correct. But I was on the right track. It works like a charm now.</p>
-
-<h3>Next Steps (Revisited)</h3>
-<ul class="spaced">
-<li>Implement <tt>NOT</tt>.</li>
-<li>Implement support for <tt>BigDecimal</tt>. This might be possible without full type inference by simply substituting <tt>BigDecimal</tt> for <tt>double</tt> everywhere.</li>
-<li>Write an outline of the type inference strategy so implications on the API can be caught.</li>
-<li>Decide on how serialized engines will be stored for both maximum load performance and maximum robustness when SEJ evolves.</li>
-</ul>
 
 <h2>April 6, 2006</h2>
 <p>I'll have to try the following:</p>
@@ -305,7 +394,7 @@ void compileAnd( Node a, Node b, Label branch ) {
 <p>SEJ does not handle sums over nested bands properly. The user must model intermediate sums for every non-leaf band. I shall accept this as a known limitation for the moment and have <a href="doc/bands.html">documented</a> it.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 11.04.2006.</p>        </div>
+<br/>Last updated on 10.05.2006.</p>        </div>
     </div>
 </body>
 </html>
