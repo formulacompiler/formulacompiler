@@ -39,7 +39,7 @@ public class RangeValue implements Iterable<Object>, Cloneable
 		this.numberOfColumns = _numberOfColumns;
 	}
 
-
+	
 	public int getNumberOfSheets()
 	{
 		return this.numberOfSheets;

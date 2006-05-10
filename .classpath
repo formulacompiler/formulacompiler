@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src/classes"/>
 	<classpathentry kind="src" path="src/classes-gen"/>
+	<classpathentry kind="src" path="src/classes14"/>
 	<classpathentry kind="src" path="src/test-unit"/>
 	<classpathentry kind="src" path="src/test-system"/>
 	<classpathentry kind="src" path="src/examples"/>

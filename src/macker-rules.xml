@@ -14,7 +14,7 @@
         	<include class="${base}.describable.*" />
         </pattern>
 
-        <pattern name="expr"				class="${base}.engine.expressions.**" />
+        <pattern name="expr"				class="${base}.expressions.**" />
         <pattern name="model"				class="${base}.model.**" />
 
         <pattern name="loader"				class="${base}.loader.**" />
@@ -24,8 +24,9 @@
         <pattern name="compiler"			class="${base}.engine.compiler.*" />
         <pattern name="compiler-def"		class="${base}.engine.compiler.definition.*" />
         <pattern name="compiler-model"		class="${base}.engine.compiler.model.*" />
+        <pattern name="compiler-model-util"	class="${base}.engine.compiler.model.util.*" />
         <pattern name="compiler-model-comp"	class="${base}.engine.compiler.model.compiler.*" />
-        <pattern name="compiler-model-opt"	class="${base}.engine.compiler.model.optimizer.*" />
+        <pattern name="compiler-model-opt"	class="${base}.engine.compiler.model.optimizer.**" />
         
         <pattern name="engine-standard"		class="${base}.engine.standard.*" />
         <pattern name="compiler-standard"	class="${base}.engine.standard.compiler.*" />
@@ -142,6 +143,20 @@
         </access-rule>
 
         <access-rule>
+            <message>sej.engine.compiler.model.util</message>
+            <deny>
+            	<from pattern="compiler-model-util" />
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="compiler-model-util" />
+                	<exclude pattern="compiler-model" />
+                	<exclude pattern="core" />
+                	<exclude pattern="expr" />
+                </to>
+            </deny>
+        </access-rule>
+
+        <access-rule>
             <message>sej.engine.compiler.model.compiler</message>
             <deny>
             	<from pattern="compiler-model-comp" />
@@ -151,6 +166,7 @@
                 	<exclude pattern="core" />
                 	<exclude pattern="expr" />
                 	<exclude pattern="compiler-model" />
+                	<exclude pattern="compiler-model-util" />
                 	<exclude pattern="compiler-model-opt" />
                 	<exclude pattern="compiler-def" />
                 	<exclude pattern="model" />
@@ -168,6 +184,7 @@
                 	<exclude pattern="core" />
                 	<exclude pattern="expr" />
                 	<exclude pattern="compiler-model" />
+                	<exclude pattern="compiler-model-util" />
                 </to>
             </deny>
         </access-rule>
@@ -227,6 +244,7 @@
                 	<exclude pattern="compiler" />
                 	<exclude pattern="compiler-model" />
                 	<exclude pattern="compiler-model-comp" />
+                	<exclude pattern="compiler-model-util" />
                 </to>
             </deny>
         </access-rule>

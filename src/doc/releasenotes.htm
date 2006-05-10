@@ -1,7 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>Release Notes - arrenbrecht.ch</title>
     <style type="text/css" media="screen">
         @import "../style.css";
@@ -9,6 +9,8 @@
     </style>
     <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
 	
+	<link rel="shortcut icon" href="../favicon.ico" />
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.arrenbrecht.ch/sej/rss.xml" />
 </head>
 <body>
     <div class="all">
@@ -31,6 +33,21 @@
         <div class="content">
         
 <p>The list of <a href="limitations.htm">current limitations</a> is now a separate document.</p>
+
+<h2>Release 0.4.0</h2>
+<p>Features:</p>
+<ul class="spaced">
+<li>Implemented <a href="tutorial/numeric_type.htm"><tt>BigDecimal</tt> support</a>.</li>
+</ul>
+<p>Improvements:</p>
+<ul class="spaced">
+<li>Removed ASM dependency from the base <tt>Operator</tt> class.</li>
+<li>Removed general expression interpreter support. Introduced special constant folder support instead (much faster).</li>
+</ul>
+<p>Fixes:</p>
+<ul class="spaced">
+<li>Exponentiation (<tt>A1^A2</tt>) and taking a percentage (<tt>A1%</tt>) now work when applied to input cells. Added this to the test suite.</li>
+</ul>
 
 <h2>Release 0.3.2</h2>
 <p>This release has two major areas: fixing the last release and improvements.</p>
@@ -56,7 +73,7 @@
 <p>This is the first release with the new API based on <a href="tutorial/binding.htm">binding cells to native types</a>. The interpreter has been dropped and replaced by a byte code compiler producing very fast code.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 11.04.2006.</p>        </div>
+<br/>Last updated on 10.05.2006.</p>        </div>
     </div>
 </body>
 </html>

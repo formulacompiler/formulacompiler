@@ -1,7 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>Binding Data in SEJ - arrenbrecht.ch</title>
     <style type="text/css" media="screen">
         @import "../../style.css";
@@ -9,6 +9,8 @@
     </style>
     <link rel="stylesheet" type="text/css" media="print" href="../../printstyle.css" />
 	
+	<link rel="shortcut icon" href="../../favicon.ico" />
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.arrenbrecht.ch/sej/rss.xml" />
 </head>
 <body>
     <div class="all">
@@ -37,141 +39,141 @@
 
 <h3>Inputs</h3>
 <p>To bind spreadsheet cells to variable input values, you must have an interface or a class defining getters for your input values. This is typically a static inner type, defined explicitly for this purpose:</p>
-<pre class="java"><span class="j-key">public static interface </span><span class="j-def">Input
-</span><span class="j-sym">{
-  </span><span class="j-typ">double </span><span class="j-def">getSomeValue</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-typ">double </span><span class="j-def">getAnotherValue</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-typ">double </span><span class="j-def">getValueForYear</span><span class="j-sym">( </span><span class="j-typ">int </span><span class="j-def">year </span><span class="j-sym">)</span><span class="j-def">;
-  String getName</span><span class="j-sym">()</span><span class="j-def">;
-</span><span class="j-sym">}</span></pre>
+<pre class="java"><span class="j-key">public static interface </span>Input
+<span class="j-sym">{
+  </span><span class="j-typ">double </span>getSomeValue<span class="j-sym">()</span>;
+  <span class="j-typ">double </span>getAnotherValue<span class="j-sym">()</span>;
+  <span class="j-typ">double </span>getValueForYear<span class="j-sym">( </span><span class="j-typ">int </span>year <span class="j-sym">)</span>;
+  String getName<span class="j-sym">()</span>;
+<span class="j-sym">}</span></pre>
 <p>In order for the interface to be accessible to the generated engine, it must be <tt>public</tt>. This is because the engine is not loaded by the same class loader as your own classes (read <a href="http://www.artima.com/insidejvm/ed2/security2.html">why this matters</a>).</p>
 <p>This type you provide to the compiler when you construct it:</p>
-<pre class="java"><span class="j-def">Class input = Input.</span><span class="j-key">class</span><span class="j-def">;
-Class output = Output.</span><span class="j-key">class</span><span class="j-def">;
-Compiler compiler = CompilerFactory.newDefaultCompiler</span><span class="j-sym">( </span><span class="j-def">spreadsheet, input, output </span><span class="j-sym">)</span><span class="j-def">;
-Compiler.Section root = compiler.getRoot</span><span class="j-sym">()</span><span class="j-def">;</span></pre>
+<pre class="java">Class input = Input.<span class="j-key">class</span>;
+Class output = Output.<span class="j-key">class</span>;
+Compiler compiler = CompilerFactory.newDefaultCompiler<span class="j-sym">( </span>spreadsheet, input, output <span class="j-sym">)</span>;
+Compiler.Section root = compiler.getRoot<span class="j-sym">()</span>;</pre>
 <p>You then tell the compiler which cells bind to which getter methods on your type:</p>
-<pre class="java"><span class="j-def">cell = spreadsheet.getCell</span><span class="j-sym">( </span><span class="j-str">&#34;SOME_VALUE&#34; </span><span class="j-sym">)</span><span class="j-def">;
-method = input.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getSomeValue&#34; </span><span class="j-sym">)</span><span class="j-def">;
-root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">cell, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">method </span><span class="j-sym">) )</span><span class="j-def">;
+<pre class="java">cell = spreadsheet.getCell<span class="j-sym">( </span><span class="j-str">&#34;SOME_VALUE&#34; </span><span class="j-sym">)</span>;
+method = input.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getSomeValue&#34; </span><span class="j-sym">)</span>;
+root.defineInputCell<span class="j-sym">( </span>cell, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>method <span class="j-sym">) )</span>;
 
-cell = spreadsheet.getCell</span><span class="j-sym">( </span><span class="j-str">&#34;OTHER_VALUE&#34; </span><span class="j-sym">)</span><span class="j-def">;
-method = input.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getAnotherValue&#34; </span><span class="j-sym">)</span><span class="j-def">;
-root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">cell, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">method </span><span class="j-sym">) )</span><span class="j-def">;</span></pre>
+cell = spreadsheet.getCell<span class="j-sym">( </span><span class="j-str">&#34;OTHER_VALUE&#34; </span><span class="j-sym">)</span>;
+method = input.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getAnotherValue&#34; </span><span class="j-sym">)</span>;
+root.defineInputCell<span class="j-sym">( </span>cell, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>method <span class="j-sym">) )</span>;</pre>
 <p>You can also bind to parametrized methods. The arguments to the method are, however, determined at compile-time of the engine:</p>
-<pre class="java"><span class="j-def">cell = spreadsheet.getCell</span><span class="j-sym">( </span><span class="j-str">&#34;YEAR_1994&#34; </span><span class="j-sym">)</span><span class="j-def">;
-method = input.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getValueForYear&#34;</span><span class="j-def">, Integer.TYPE </span><span class="j-sym">)</span><span class="j-def">;
-root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">cell, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">method, </span><span class="j-num">1994 </span><span class="j-sym">) )</span><span class="j-def">;</span></pre>
+<pre class="java">cell = spreadsheet.getCell<span class="j-sym">( </span><span class="j-str">&#34;YEAR_1994&#34; </span><span class="j-sym">)</span>;
+method = input.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getValueForYear&#34;</span>, Integer.TYPE <span class="j-sym">)</span>;
+root.defineInputCell<span class="j-sym">( </span>cell, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>method, <span class="j-num">1994 </span><span class="j-sym">) )</span>;</pre>
 <p>You can even chain calls:</p>
-<pre class="java"><span class="j-def">cell = spreadsheet.getCell</span><span class="j-sym">( </span><span class="j-str">&#34;NAME_LENGTH&#34; </span><span class="j-sym">)</span><span class="j-def">;
-method = input.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getName&#34; </span><span class="j-sym">)</span><span class="j-def">;
-chainedMethod = String.</span><span class="j-key">class</span><span class="j-def">.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;length&#34; </span><span class="j-sym">)</span><span class="j-def">;
-root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">cell, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">method </span><span class="j-sym">)</span><span class="j-def">.chain</span><span class="j-sym">( </span><span class="j-def">chainedMethod </span><span class="j-sym">) )</span><span class="j-def">;</span></pre>
+<pre class="java">cell = spreadsheet.getCell<span class="j-sym">( </span><span class="j-str">&#34;NAME_LENGTH&#34; </span><span class="j-sym">)</span>;
+method = input.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getName&#34; </span><span class="j-sym">)</span>;
+chainedMethod = String.<span class="j-key">class</span>.getMethod<span class="j-sym">( </span><span class="j-str">&#34;length&#34; </span><span class="j-sym">)</span>;
+root.defineInputCell<span class="j-sym">( </span>cell, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>method <span class="j-sym">)</span>.chain<span class="j-sym">( </span>chainedMethod <span class="j-sym">) )</span>;</pre>
 
 <h3>Outputs</h3>
 <p>Outputs that the spreadsheet computes are bound to methods of an interface or a dedicated abstract class you define. This type is implemented or subclassed by the generated computation engine, which overrides all methods bound to output cells so they perform the computation specified in the spreadsheet.</p>
 <p>Your output type is typically a static inner type. In order for it to be accessible to the generated computation, it must be <tt>public</tt>.</p>
-<pre class="java"><span class="j-key">public static interface </span><span class="j-def">Output
-</span><span class="j-sym">{
-  </span><span class="j-typ">double </span><span class="j-def">getResult</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-typ">double </span><span class="j-def">getCoefficient</span><span class="j-sym">()</span><span class="j-def">;
-</span><span class="j-sym">}</span></pre>
+<pre class="java"><span class="j-key">public static interface </span>Output
+<span class="j-sym">{
+  </span><span class="j-typ">double </span>getResult<span class="j-sym">()</span>;
+  <span class="j-typ">double </span>getCoefficient<span class="j-sym">()</span>;
+<span class="j-sym">}</span></pre>
 <p>Like the input type, you also pass it to the compiler constructor:</p>
-<pre class="java"><span class="j-def">Class input = Input.</span><span class="j-key">class</span><span class="j-def">;
-Class output = Output.</span><span class="j-key">class</span><span class="j-def">;
-Compiler compiler = CompilerFactory.newDefaultCompiler</span><span class="j-sym">( </span><span class="j-def">spreadsheet, input, output </span><span class="j-sym">)</span><span class="j-def">;
-Compiler.Section root = compiler.getRoot</span><span class="j-sym">()</span><span class="j-def">;</span></pre>
+<pre class="java">Class input = Input.<span class="j-key">class</span>;
+Class output = Output.<span class="j-key">class</span>;
+Compiler compiler = CompilerFactory.newDefaultCompiler<span class="j-sym">( </span>spreadsheet, input, output <span class="j-sym">)</span>;
+Compiler.Section root = compiler.getRoot<span class="j-sym">()</span>;</pre>
 <p>Now that the type is in place, we can bind output cells to it:</p>
-<pre class="java"><span class="j-def">cell = spreadsheet.getCell</span><span class="j-sym">( </span><span class="j-str">&#34;RESULT&#34; </span><span class="j-sym">)</span><span class="j-def">;
-method = output.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getResult&#34; </span><span class="j-sym">)</span><span class="j-def">;
-root.defineOutputCell</span><span class="j-sym">( </span><span class="j-def">cell, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">method </span><span class="j-sym">) )</span><span class="j-def">;
+<pre class="java">cell = spreadsheet.getCell<span class="j-sym">( </span><span class="j-str">&#34;RESULT&#34; </span><span class="j-sym">)</span>;
+method = output.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getResult&#34; </span><span class="j-sym">)</span>;
+root.defineOutputCell<span class="j-sym">( </span>cell, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>method <span class="j-sym">) )</span>;
 
-cell = spreadsheet.getCell</span><span class="j-sym">( </span><span class="j-str">&#34;COEFF&#34; </span><span class="j-sym">)</span><span class="j-def">;
-method = output.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getCoefficient&#34; </span><span class="j-sym">)</span><span class="j-def">;
-root.defineOutputCell</span><span class="j-sym">( </span><span class="j-def">cell, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">method </span><span class="j-sym">) )</span><span class="j-def">;</span></pre>
+cell = spreadsheet.getCell<span class="j-sym">( </span><span class="j-str">&#34;COEFF&#34; </span><span class="j-sym">)</span>;
+method = output.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getCoefficient&#34; </span><span class="j-sym">)</span>;
+root.defineOutputCell<span class="j-sym">( </span>cell, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>method <span class="j-sym">) )</span>;</pre>
 
 <h3>Defaults</h3>
 <p>If you supply implementations for your output methods, they serve as defaults in case they are not bound to an output cell of the spreadsheet. This is mainly useful when outputs are bound generically (by cell name, for instance).</p>
 <p>To access input values when computing default output values, you can define a constructor that takes the input type as its sole parameter. SEJ then automatically calls that constructor with the current inputs. You can also access other output values by calling their corresponding methods, of course.</p>
-<pre class="java"><span class="j-key">public static abstract class </span><span class="j-def">OutputWithDefault 
-</span><span class="j-sym">{
-  </span><span class="j-key">private final </span><span class="j-def">Input input;
+<pre class="java"><span class="j-key">public static abstract class </span>OutputWithDefault 
+<span class="j-sym">{
+  </span><span class="j-key">private final </span>Input input;
 
-  </span><span class="j-key">public </span><span class="j-def">OutputWithDefault</span><span class="j-sym">(</span><span class="j-def">Input _input</span><span class="j-sym">)
+  <span class="j-key">public </span>OutputWithDefault<span class="j-sym">(</span>Input _input<span class="j-sym">)
   {
-    </span><span class="j-key">super</span><span class="j-sym">()</span><span class="j-def">;
-    </span><span class="j-key">this</span><span class="j-def">.input = _input;
-  </span><span class="j-sym">}
+    </span><span class="j-key">super</span><span class="j-sym">()</span>;
+    <span class="j-key">this</span>.input = _input;
+  <span class="j-sym">}
 
-  </span><span class="j-key">public abstract </span><span class="j-typ">double </span><span class="j-def">getResult</span><span class="j-sym">()</span><span class="j-def">;
+  </span><span class="j-key">public abstract </span><span class="j-typ">double </span>getResult<span class="j-sym">()</span>;
 
-  </span><span class="j-key">public </span><span class="j-typ">double </span><span class="j-def">getCoefficient</span><span class="j-sym">()
+  <span class="j-key">public </span><span class="j-typ">double </span>getCoefficient<span class="j-sym">()
   {
-    </span><span class="j-key">return this</span><span class="j-def">.input.getSomeValue</span><span class="j-sym">() </span><span class="j-def">* </span><span class="j-num">0.02</span><span class="j-def">;
-  </span><span class="j-sym">}
+    </span><span class="j-key">return this</span>.input.getSomeValue<span class="j-sym">() </span>* <span class="j-num">0.02</span>;
+  <span class="j-sym">}
 }</span></pre>
 
 <h2><a name="BindByName">Binding By Name</a></h2>
 
 <h3>Inputs</h3>
 <p>If you have a generic system where the set of possible input values cannot be determined at compile-time, you have to resort to some sort of late binding, or binding by name. You can achieve this by binding cells to parametrized calls to a single dispatch method (or multiple ones - it's your choice). The input interface might be:</p>
-<pre class="java"><span class="j-key">public static interface </span><span class="j-def">Input
-</span><span class="j-sym">{
-  </span><span class="j-typ">double </span><span class="j-def">getInput</span><span class="j-sym">( </span><span class="j-def">String _name </span><span class="j-sym">)</span><span class="j-def">;
-</span><span class="j-sym">}</span></pre>
+<pre class="java"><span class="j-key">public static interface </span>Input
+<span class="j-sym">{
+  </span><span class="j-typ">double </span>getInput<span class="j-sym">( </span>String _name <span class="j-sym">)</span>;
+<span class="j-sym">}</span></pre>
 <p>With this interface, you could, for instance, bind cells by name as follows:</p>
-<pre class="java"><span class="j-key">final </span><span class="j-def">Method inputMethod = input.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getInput&#34;</span><span class="j-def">, String.</span><span class="j-key">class </span><span class="j-sym">)</span><span class="j-def">;
-</span><span class="j-key">for </span><span class="j-sym">(</span><span class="j-def">Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames</span><span class="j-sym">()) {
-  </span><span class="j-key">if </span><span class="j-sym">(</span><span class="j-def">def </span><span class="j-key">instanceof </span><span class="j-def">Spreadsheet.CellNameDefinition</span><span class="j-sym">) {
-    </span><span class="j-key">final </span><span class="j-def">Spreadsheet.CellNameDefinition cellDef = </span><span class="j-sym">(</span><span class="j-def">Spreadsheet.CellNameDefinition</span><span class="j-sym">) </span><span class="j-def">def;
-    </span><span class="j-key">final </span><span class="j-def">String name = cellDef.getName</span><span class="j-sym">()</span><span class="j-def">;
-    </span><span class="j-key">if </span><span class="j-sym">(</span><span class="j-chr">'I' </span><span class="j-def">== name.charAt</span><span class="j-sym">( </span><span class="j-num">0 </span><span class="j-sym">)) {
-      </span><span class="j-key">final </span><span class="j-def">Spreadsheet.Cell cell = cellDef.getCell</span><span class="j-sym">()</span><span class="j-def">;
-      root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">cell, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">inputMethod, name </span><span class="j-sym">) )</span><span class="j-def">;
-    </span><span class="j-sym">}
+<pre class="java"><span class="j-key">final </span>Method inputMethod = input.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getInput&#34;</span>, String.<span class="j-key">class </span><span class="j-sym">)</span>;
+<span class="j-key">for </span><span class="j-sym">(</span>Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames<span class="j-sym">()) {
+  </span><span class="j-key">if </span><span class="j-sym">(</span>def <span class="j-key">instanceof </span>Spreadsheet.CellNameDefinition<span class="j-sym">) {
+    </span><span class="j-key">final </span>Spreadsheet.CellNameDefinition cellDef = <span class="j-sym">(</span>Spreadsheet.CellNameDefinition<span class="j-sym">) </span>def;
+    <span class="j-key">final </span>String name = cellDef.getName<span class="j-sym">()</span>;
+    <span class="j-key">if </span><span class="j-sym">(</span><span class="j-chr">'I' </span>== name.charAt<span class="j-sym">( </span><span class="j-num">0 </span><span class="j-sym">)) {
+      </span><span class="j-key">final </span>Spreadsheet.Cell cell = cellDef.getCell<span class="j-sym">()</span>;
+      root.defineInputCell<span class="j-sym">( </span>cell, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>inputMethod, name <span class="j-sym">) )</span>;
+    <span class="j-sym">}
   }
 }</span></pre>
 <p>In the implementation of <tt>getInput()</tt> you are free to look up the actual value of the input cell in any way that seems fit.</p>
 
 <h3>Outputs</h3>
 <p>To bind output values by name, you use an analogous construct:</p>
-<pre class="java"><span class="j-key">public static abstract class </span><span class="j-def">Output
-</span><span class="j-sym">{
-  </span><span class="j-key">public </span><span class="j-typ">double </span><span class="j-def">getOutput</span><span class="j-sym">( </span><span class="j-def">String _name </span><span class="j-sym">)
+<pre class="java"><span class="j-key">public static abstract class </span>Output
+<span class="j-sym">{
+  </span><span class="j-key">public </span><span class="j-typ">double </span>getOutput<span class="j-sym">( </span>String _name <span class="j-sym">)
   {
-    </span><span class="j-key">return </span><span class="j-num">0</span><span class="j-def">;
-  </span><span class="j-sym">}
+    </span><span class="j-key">return </span><span class="j-num">0</span>;
+  <span class="j-sym">}
 }</span></pre>
 <p>and:</p>
-<pre class="java"><span class="j-key">final </span><span class="j-def">Method outputMethod = output.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getOutput&#34;</span><span class="j-def">, String.</span><span class="j-key">class </span><span class="j-sym">)</span><span class="j-def">;
-</span><span class="j-key">for </span><span class="j-sym">(</span><span class="j-def">Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames</span><span class="j-sym">()) {
-  </span><span class="j-key">if </span><span class="j-sym">(</span><span class="j-def">def </span><span class="j-key">instanceof </span><span class="j-def">Spreadsheet.CellNameDefinition</span><span class="j-sym">) {
-    </span><span class="j-key">final </span><span class="j-def">Spreadsheet.CellNameDefinition cellDef = </span><span class="j-sym">(</span><span class="j-def">Spreadsheet.CellNameDefinition</span><span class="j-sym">) </span><span class="j-def">def;
-    </span><span class="j-key">final </span><span class="j-def">String name = cellDef.getName</span><span class="j-sym">()</span><span class="j-def">;
-    </span><span class="j-key">if </span><span class="j-sym">(</span><span class="j-chr">'O' </span><span class="j-def">== name.charAt</span><span class="j-sym">( </span><span class="j-num">0 </span><span class="j-sym">)) {
-      </span><span class="j-key">final </span><span class="j-def">Spreadsheet.Cell cell = cellDef.getCell</span><span class="j-sym">()</span><span class="j-def">;
-      root.defineOutputCell</span><span class="j-sym">( </span><span class="j-def">cell, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">outputMethod, name </span><span class="j-sym">) )</span><span class="j-def">;
-    </span><span class="j-sym">}
+<pre class="java"><span class="j-key">final </span>Method outputMethod = output.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getOutput&#34;</span>, String.<span class="j-key">class </span><span class="j-sym">)</span>;
+<span class="j-key">for </span><span class="j-sym">(</span>Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames<span class="j-sym">()) {
+  </span><span class="j-key">if </span><span class="j-sym">(</span>def <span class="j-key">instanceof </span>Spreadsheet.CellNameDefinition<span class="j-sym">) {
+    </span><span class="j-key">final </span>Spreadsheet.CellNameDefinition cellDef = <span class="j-sym">(</span>Spreadsheet.CellNameDefinition<span class="j-sym">) </span>def;
+    <span class="j-key">final </span>String name = cellDef.getName<span class="j-sym">()</span>;
+    <span class="j-key">if </span><span class="j-sym">(</span><span class="j-chr">'O' </span>== name.charAt<span class="j-sym">( </span><span class="j-num">0 </span><span class="j-sym">)) {
+      </span><span class="j-key">final </span>Spreadsheet.Cell cell = cellDef.getCell<span class="j-sym">()</span>;
+      root.defineOutputCell<span class="j-sym">( </span>cell, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>outputMethod, name <span class="j-sym">) )</span>;
+    <span class="j-sym">}
   }
 }</span></pre>
 <p>SEJ must generate code that implements this by-name lookup for you to make this work. Here's how SEJ goes about it:</p>
-<pre class="java"><span class="j-def">@Override
-</span><span class="j-key">public final </span><span class="j-typ">double </span><span class="j-def">getOutput</span><span class="j-sym">( </span><span class="j-def">String _name </span><span class="j-sym">)
+<pre class="java">@Override
+<span class="j-key">public final </span><span class="j-typ">double </span>getOutput<span class="j-sym">( </span>String _name <span class="j-sym">)
 {
-  </span><span class="j-key">if </span><span class="j-sym">(</span><span class="j-def">_name.equals</span><span class="j-sym">( </span><span class="j-str">&#34;O_Result&#34; </span><span class="j-sym">)) </span><span class="j-key">return </span><span class="j-def">getOutput__1</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-key">if </span><span class="j-sym">(</span><span class="j-def">_name.equals</span><span class="j-sym">( </span><span class="j-str">&#34;O_Coeff&#34; </span><span class="j-sym">)) </span><span class="j-key">return </span><span class="j-def">getOutput__2</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-cmt">// ... other bound outputs
-  </span><span class="j-key">return super</span><span class="j-def">.getOutput</span><span class="j-sym">( </span><span class="j-def">_name </span><span class="j-sym">)</span><span class="j-def">;
+  </span><span class="j-key">if </span><span class="j-sym">(</span>_name.equals<span class="j-sym">( </span><span class="j-str">&#34;O_Result&#34; </span><span class="j-sym">)) </span><span class="j-key">return </span>getOutput__1<span class="j-sym">()</span>;
+  <span class="j-key">if </span><span class="j-sym">(</span>_name.equals<span class="j-sym">( </span><span class="j-str">&#34;O_Coeff&#34; </span><span class="j-sym">)) </span><span class="j-key">return </span>getOutput__2<span class="j-sym">()</span>;
+  <span class="j-cmt">// ... other bound outputs
+  </span><span class="j-key">return super</span>.getOutput<span class="j-sym">( </span>_name <span class="j-sym">)</span>;
+<span class="j-sym">}
+
+</span><span class="j-key">private final </span><span class="j-typ">double </span>getOutput__1<span class="j-sym">()
+{
+  </span><span class="j-key">return </span><span class="j-num">0</span>; <span class="j-cmt">// generated computation for cell O_Result
 </span><span class="j-sym">}
 
-</span><span class="j-key">private final </span><span class="j-typ">double </span><span class="j-def">getOutput__1</span><span class="j-sym">()
+</span><span class="j-key">private final </span><span class="j-typ">double </span>getOutput__2<span class="j-sym">()
 {
-  </span><span class="j-key">return </span><span class="j-num">0</span><span class="j-def">; </span><span class="j-cmt">// generated computation for cell O_Result
-</span><span class="j-sym">}
-
-</span><span class="j-key">private final </span><span class="j-typ">double </span><span class="j-def">getOutput__2</span><span class="j-sym">()
-{
-  </span><span class="j-key">return </span><span class="j-num">0</span><span class="j-def">; </span><span class="j-cmt">// generated computation for cell O_Coeff
+  </span><span class="j-key">return </span><span class="j-num">0</span>; <span class="j-cmt">// generated computation for cell O_Coeff
 </span><span class="j-sym">}</span></pre>
 <p>So this obviously works only for index types that properly implement <tt>equals()</tt>.</p>
 
@@ -189,125 +191,125 @@ double v = o.getValue();</pre>
 <h3>Inputs</h3>
 <p>To feed information to a computation from various sources, each with its own interface, you need to define a wrapper that gives access to the source interfaces.</p>
 <p>Consider these two source interfaces:</p>
-<pre class="java"><span class="j-key">public static interface </span><span class="j-def">InputA
-</span><span class="j-sym">{
-  </span><span class="j-typ">double </span><span class="j-def">getValue</span><span class="j-sym">()</span><span class="j-def">;
-</span><span class="j-sym">}
+<pre class="java"><span class="j-key">public static interface </span>InputA
+<span class="j-sym">{
+  </span><span class="j-typ">double </span>getValue<span class="j-sym">()</span>;
+<span class="j-sym">}
 
-</span><span class="j-key">public static interface </span><span class="j-def">InputB
-</span><span class="j-sym">{
-  </span><span class="j-typ">double </span><span class="j-def">getValue</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-typ">double </span><span class="j-def">getOther</span><span class="j-sym">()</span><span class="j-def">;
-</span><span class="j-sym">}</span></pre>
+</span><span class="j-key">public static interface </span>InputB
+<span class="j-sym">{
+  </span><span class="j-typ">double </span>getValue<span class="j-sym">()</span>;
+  <span class="j-typ">double </span>getOther<span class="j-sym">()</span>;
+<span class="j-sym">}</span></pre>
 <p>The wrapper is a class with accessor properties returning instances the two source interfaces:</p>
-<pre class="java"><span class="j-key">public static final class </span><span class="j-def">Input
-</span><span class="j-sym">{
-  </span><span class="j-key">private final </span><span class="j-def">InputA a;
-  </span><span class="j-key">private final </span><span class="j-def">InputB b;
+<pre class="java"><span class="j-key">public static final class </span>Input
+<span class="j-sym">{
+  </span><span class="j-key">private final </span>InputA a;
+  <span class="j-key">private final </span>InputB b;
 
-  </span><span class="j-key">public </span><span class="j-def">Input</span><span class="j-sym">(</span><span class="j-def">InputA _a, InputB _b</span><span class="j-sym">)
+  <span class="j-key">public </span>Input<span class="j-sym">(</span>InputA _a, InputB _b<span class="j-sym">)
   {
-    </span><span class="j-key">super</span><span class="j-sym">()</span><span class="j-def">;
-    </span><span class="j-key">this</span><span class="j-def">.a = _a;
-    </span><span class="j-key">this</span><span class="j-def">.b = _b;
-  </span><span class="j-sym">}
+    </span><span class="j-key">super</span><span class="j-sym">()</span>;
+    <span class="j-key">this</span>.a = _a;
+    <span class="j-key">this</span>.b = _b;
+  <span class="j-sym">}
 
-  </span><span class="j-key">public </span><span class="j-def">InputA getA</span><span class="j-sym">()
+  </span><span class="j-key">public </span>InputA getA<span class="j-sym">()
   {
-    </span><span class="j-key">return this</span><span class="j-def">.a;
-  </span><span class="j-sym">}
+    </span><span class="j-key">return this</span>.a;
+  <span class="j-sym">}
 
-  </span><span class="j-key">public </span><span class="j-def">InputB getB</span><span class="j-sym">()
+  </span><span class="j-key">public </span>InputB getB<span class="j-sym">()
   {
-    </span><span class="j-key">return this</span><span class="j-def">.b;
-  </span><span class="j-sym">}
+    </span><span class="j-key">return this</span>.b;
+  <span class="j-sym">}
 }</span></pre>
 <p>You then bind cells to elements of a particular source interface by using a <em>call chain</em>. SEJ allows you to bind cells to the result of calling a chain of methods:</p>
-<pre class="java"><span class="j-def">cell = spreadsheet.getCell</span><span class="j-sym">( </span><span class="j-str">&#34;A_VALUE&#34; </span><span class="j-sym">)</span><span class="j-def">;
-intfGetter = input.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getA&#34; </span><span class="j-sym">)</span><span class="j-def">;
-valueGetter = String.</span><span class="j-key">class</span><span class="j-def">.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getValue&#34; </span><span class="j-sym">)</span><span class="j-def">;
-root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">cell, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">intfGetter </span><span class="j-sym">)</span><span class="j-def">.chain</span><span class="j-sym">( </span><span class="j-def">valueGetter </span><span class="j-sym">) )</span><span class="j-def">;
+<pre class="java">cell = spreadsheet.getCell<span class="j-sym">( </span><span class="j-str">&#34;A_VALUE&#34; </span><span class="j-sym">)</span>;
+intfGetter = input.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getA&#34; </span><span class="j-sym">)</span>;
+valueGetter = String.<span class="j-key">class</span>.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getValue&#34; </span><span class="j-sym">)</span>;
+root.defineInputCell<span class="j-sym">( </span>cell, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>intfGetter <span class="j-sym">)</span>.chain<span class="j-sym">( </span>valueGetter <span class="j-sym">) )</span>;
 
-cell = spreadsheet.getCell</span><span class="j-sym">( </span><span class="j-str">&#34;B_VALUE&#34; </span><span class="j-sym">)</span><span class="j-def">;
-intfGetter = input.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getB&#34; </span><span class="j-sym">)</span><span class="j-def">;
-valueGetter = String.</span><span class="j-key">class</span><span class="j-def">.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getValue&#34; </span><span class="j-sym">)</span><span class="j-def">;
-root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">cell, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">intfGetter </span><span class="j-sym">)</span><span class="j-def">.chain</span><span class="j-sym">( </span><span class="j-def">valueGetter </span><span class="j-sym">) )</span><span class="j-def">;</span></pre>
+cell = spreadsheet.getCell<span class="j-sym">( </span><span class="j-str">&#34;B_VALUE&#34; </span><span class="j-sym">)</span>;
+intfGetter = input.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getB&#34; </span><span class="j-sym">)</span>;
+valueGetter = String.<span class="j-key">class</span>.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getValue&#34; </span><span class="j-sym">)</span>;
+root.defineInputCell<span class="j-sym">( </span>cell, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>intfGetter <span class="j-sym">)</span>.chain<span class="j-sym">( </span>valueGetter <span class="j-sym">) )</span>;</pre>
 
 <h5>Note</h5>
 <p>SEJ does not support multiple input interfaces directly because this would add a part of the application logic to SEJ that does not need to be customizable by spreadsheets. Therefore, it is better to leave this logic outside of SEJ. This gives you full control over it and avoids adding more black box behaviour than necessary.</p>
 
 <h3>Outputs</h3>
 <p>Assume a computation in a sheet must supply output values for two different interfaces:</p>
-<pre class="java"><span class="j-key">public static interface </span><span class="j-def">OutputA
-</span><span class="j-sym">{
-  </span><span class="j-typ">double </span><span class="j-def">getResult</span><span class="j-sym">()</span><span class="j-def">;
-</span><span class="j-sym">}
+<pre class="java"><span class="j-key">public static interface </span>OutputA
+<span class="j-sym">{
+  </span><span class="j-typ">double </span>getResult<span class="j-sym">()</span>;
+<span class="j-sym">}
 
-</span><span class="j-key">public static interface </span><span class="j-def">OutputB
-</span><span class="j-sym">{
-  </span><span class="j-typ">double </span><span class="j-def">getResult</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-typ">double </span><span class="j-def">getOther</span><span class="j-sym">()</span><span class="j-def">;
-</span><span class="j-sym">}</span></pre>
+</span><span class="j-key">public static interface </span>OutputB
+<span class="j-sym">{
+  </span><span class="j-typ">double </span>getResult<span class="j-sym">()</span>;
+  <span class="j-typ">double </span>getOther<span class="j-sym">()</span>;
+<span class="j-sym">}</span></pre>
 <p>To achieve this, the simplest approach is to simply make your output class implement both of the target interfaces:</p>
-<pre class="java"><span class="j-key">public static interface </span><span class="j-def">Output </span><span class="j-key">extends </span><span class="j-def">OutputA, OutputB
-</span><span class="j-sym">{
+<pre class="java"><span class="j-key">public static interface </span>Output <span class="j-key">extends </span>OutputA, OutputB
+<span class="j-sym">{
   </span><span class="j-cmt">// no own content
 </span><span class="j-sym">}</span></pre>
 <p>You can then use your computation's output with both targets. However, this only works if name clashes are acceptable, that is, <tt>OutputA.getResult()</tt> maps to the same spreadsheet cell as <tt>OutputB.getResult()</tt>.</p>
 
 <h5>Disambiguation</h5>
 <p>If this is not the case, you have to do a little more work. You define your output class as follows:</p>
-<pre class="java"><span class="j-key">public static interface </span><span class="j-def">Output2 
-</span><span class="j-sym">{
-  </span><span class="j-typ">double </span><span class="j-def">getResultA</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-typ">double </span><span class="j-def">getResultB</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-typ">double </span><span class="j-def">getOtherB</span><span class="j-sym">()</span><span class="j-def">;
-</span><span class="j-sym">}</span></pre>
+<pre class="java"><span class="j-key">public static interface </span>Output2 
+<span class="j-sym">{
+  </span><span class="j-typ">double </span>getResultA<span class="j-sym">()</span>;
+  <span class="j-typ">double </span>getResultB<span class="j-sym">()</span>;
+  <span class="j-typ">double </span>getOtherB<span class="j-sym">()</span>;
+<span class="j-sym">}</span></pre>
 <p>Then, you define wrappers which implement the proper interfaces:</p>
-<pre class="java"><span class="j-key">public static class </span><span class="j-def">OutputAImpl </span><span class="j-key">implements </span><span class="j-def">OutputA
-</span><span class="j-sym">{
-  </span><span class="j-key">private final </span><span class="j-def">Output2 output;
+<pre class="java"><span class="j-key">public static class </span>OutputAImpl <span class="j-key">implements </span>OutputA
+<span class="j-sym">{
+  </span><span class="j-key">private final </span>Output2 output;
 
-  </span><span class="j-key">public </span><span class="j-def">OutputAImpl</span><span class="j-sym">(</span><span class="j-def">Output2 _output</span><span class="j-sym">)
+  <span class="j-key">public </span>OutputAImpl<span class="j-sym">(</span>Output2 _output<span class="j-sym">)
   {
-    </span><span class="j-key">super</span><span class="j-sym">()</span><span class="j-def">;
-    </span><span class="j-key">this</span><span class="j-def">.output = _output;
-  </span><span class="j-sym">}
+    </span><span class="j-key">super</span><span class="j-sym">()</span>;
+    <span class="j-key">this</span>.output = _output;
+  <span class="j-sym">}
 
-  </span><span class="j-key">public </span><span class="j-typ">double </span><span class="j-def">getResult</span><span class="j-sym">()
+  </span><span class="j-key">public </span><span class="j-typ">double </span>getResult<span class="j-sym">()
   {
-    </span><span class="j-key">return this</span><span class="j-def">.output.getResultA</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-sym">}
+    </span><span class="j-key">return this</span>.output.getResultA<span class="j-sym">()</span>;
+  <span class="j-sym">}
 }</span></pre>
 <p>and</p>
-<pre class="java"><span class="j-key">public static class </span><span class="j-def">OutputBImpl </span><span class="j-key">implements </span><span class="j-def">OutputB
-</span><span class="j-sym">{
-  </span><span class="j-key">private final </span><span class="j-def">Output2 output;
+<pre class="java"><span class="j-key">public static class </span>OutputBImpl <span class="j-key">implements </span>OutputB
+<span class="j-sym">{
+  </span><span class="j-key">private final </span>Output2 output;
 
-  </span><span class="j-key">public </span><span class="j-def">OutputBImpl</span><span class="j-sym">(</span><span class="j-def">Output2 _output</span><span class="j-sym">)
+  <span class="j-key">public </span>OutputBImpl<span class="j-sym">(</span>Output2 _output<span class="j-sym">)
   {
-    </span><span class="j-key">super</span><span class="j-sym">()</span><span class="j-def">;
-    </span><span class="j-key">this</span><span class="j-def">.output = _output;
-  </span><span class="j-sym">}
+    </span><span class="j-key">super</span><span class="j-sym">()</span>;
+    <span class="j-key">this</span>.output = _output;
+  <span class="j-sym">}
 
-  </span><span class="j-key">public </span><span class="j-typ">double </span><span class="j-def">getResult</span><span class="j-sym">()
+  </span><span class="j-key">public </span><span class="j-typ">double </span>getResult<span class="j-sym">()
   {
-    </span><span class="j-key">return this</span><span class="j-def">.output.getResultB</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-sym">}
+    </span><span class="j-key">return this</span>.output.getResultB<span class="j-sym">()</span>;
+  <span class="j-sym">}
 
-  </span><span class="j-key">public </span><span class="j-typ">double </span><span class="j-def">getOther</span><span class="j-sym">()
+  </span><span class="j-key">public </span><span class="j-typ">double </span>getOther<span class="j-sym">()
   {
-    </span><span class="j-key">return this</span><span class="j-def">.output.getOtherB</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-sym">}
+    </span><span class="j-key">return this</span>.output.getOtherB<span class="j-sym">()</span>;
+  <span class="j-sym">}
 }</span></pre>
 
 <h5>Note</h5>
 <p>SEJ does not support the following idiom:</p>
-<pre class="java"><span class="j-key">public static interface </span><span class="j-def">Output3
-</span><span class="j-sym">{
-  </span><span class="j-def">OutputA getA</span><span class="j-sym">()</span><span class="j-def">;
-  OutputB getB</span><span class="j-sym">()</span><span class="j-def">;
-</span><span class="j-sym">}</span></pre>
+<pre class="java"><span class="j-key">public static interface </span>Output3
+<span class="j-sym">{
+  </span>OutputA getA<span class="j-sym">()</span>;
+  OutputB getB<span class="j-sym">()</span>;
+<span class="j-sym">}</span></pre>
 <p>as it did for inputs. This is because for outputs, it is SEJ's responsibility to implement this interface. It only supports the approach with the least black box magic.</p>
 
 <h2><a name="BindMultipleInstances">Multiple Interface Instances</a></h2>
@@ -316,29 +318,29 @@ root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">cell
 <h3>Inputs</h3>
 <p>Let's assume you have <em>n</em> separate customer categories. You want to bind all cells named after the pattern <em>CC_DISCOUNT_&lt;n&gt;</em> to the discount percentage associated with the customer category <em>&lt;n&gt;</em>. Here's how you go about it.</p>
 <p>Let's assume the following customer interface:</p>
-<pre class="java"><span class="j-key">public static interface </span><span class="j-def">CustomerCategory
-</span><span class="j-sym">{
+<pre class="java"><span class="j-key">public static interface </span>CustomerCategory
+<span class="j-sym">{
   </span><span class="j-cmt">// ...
-  </span><span class="j-typ">double </span><span class="j-def">getDiscount</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-cmt">// ...
+  </span><span class="j-typ">double </span>getDiscount<span class="j-sym">()</span>;
+  <span class="j-cmt">// ...
 </span><span class="j-sym">}</span></pre>
 <p>First, you define an accessor for the customer categories on the main input interface:</p>
-<pre class="java"><span class="j-key">public static interface </span><span class="j-def">Input
-</span><span class="j-sym">{
-  </span><span class="j-def">CustomerCategory getCC</span><span class="j-sym">( </span><span class="j-typ">int </span><span class="j-def">_iCC </span><span class="j-sym">)</span><span class="j-def">;
-</span><span class="j-sym">}</span></pre>
+<pre class="java"><span class="j-key">public static interface </span>Input
+<span class="j-sym">{
+  </span>CustomerCategory getCC<span class="j-sym">( </span><span class="j-typ">int </span>_iCC <span class="j-sym">)</span>;
+<span class="j-sym">}</span></pre>
 <p>Then, you bind input cells in a loop:</p>
-<pre class="java"><span class="j-def">intfGetter = input.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getCC&#34;</span><span class="j-def">, Integer.TYPE </span><span class="j-sym">)</span><span class="j-def">;
-valueGetter = CustomerCategory.</span><span class="j-key">class</span><span class="j-def">.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getDiscount&#34; </span><span class="j-sym">)</span><span class="j-def">;
-</span><span class="j-key">for </span><span class="j-sym">(</span><span class="j-def">Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames</span><span class="j-sym">()) {
-  </span><span class="j-key">if </span><span class="j-sym">(</span><span class="j-def">def </span><span class="j-key">instanceof </span><span class="j-def">Spreadsheet.CellNameDefinition</span><span class="j-sym">) {
-    </span><span class="j-key">final </span><span class="j-def">Spreadsheet.CellNameDefinition cellDef = </span><span class="j-sym">(</span><span class="j-def">Spreadsheet.CellNameDefinition</span><span class="j-sym">) </span><span class="j-def">def;
-    </span><span class="j-key">final </span><span class="j-def">Spreadsheet.Cell cell = cellDef.getCell</span><span class="j-sym">()</span><span class="j-def">;
-    </span><span class="j-key">final </span><span class="j-def">String name = cellDef.getName</span><span class="j-sym">()</span><span class="j-def">;
-    </span><span class="j-key">if </span><span class="j-sym">(</span><span class="j-def">name.startsWith</span><span class="j-sym">( </span><span class="j-str">&#34;CC_DISCOUNT_&#34; </span><span class="j-sym">)) {
-      </span><span class="j-key">final </span><span class="j-typ">int </span><span class="j-def">iCC = Integer.parseInt</span><span class="j-sym">( </span><span class="j-def">name.substring</span><span class="j-sym">( </span><span class="j-str">&#34;CC_DISCOUNT_&#34;</span><span class="j-def">.length</span><span class="j-sym">() ) )</span><span class="j-def">;
-      root.defineInputCell</span><span class="j-sym">( </span><span class="j-def">cell, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">intfGetter, iCC </span><span class="j-sym">)</span><span class="j-def">.chain</span><span class="j-sym">( </span><span class="j-def">valueGetter </span><span class="j-sym">) )</span><span class="j-def">;
-    </span><span class="j-sym">}
+<pre class="java">intfGetter = input.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getCC&#34;</span>, Integer.TYPE <span class="j-sym">)</span>;
+valueGetter = CustomerCategory.<span class="j-key">class</span>.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getDiscount&#34; </span><span class="j-sym">)</span>;
+<span class="j-key">for </span><span class="j-sym">(</span>Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames<span class="j-sym">()) {
+  </span><span class="j-key">if </span><span class="j-sym">(</span>def <span class="j-key">instanceof </span>Spreadsheet.CellNameDefinition<span class="j-sym">) {
+    </span><span class="j-key">final </span>Spreadsheet.CellNameDefinition cellDef = <span class="j-sym">(</span>Spreadsheet.CellNameDefinition<span class="j-sym">) </span>def;
+    <span class="j-key">final </span>Spreadsheet.Cell cell = cellDef.getCell<span class="j-sym">()</span>;
+    <span class="j-key">final </span>String name = cellDef.getName<span class="j-sym">()</span>;
+    <span class="j-key">if </span><span class="j-sym">(</span>name.startsWith<span class="j-sym">( </span><span class="j-str">&#34;CC_DISCOUNT_&#34; </span><span class="j-sym">)) {
+      </span><span class="j-key">final </span><span class="j-typ">int </span>iCC = Integer.parseInt<span class="j-sym">( </span>name.substring<span class="j-sym">( </span><span class="j-str">&#34;CC_DISCOUNT_&#34;</span>.length<span class="j-sym">() ) )</span>;
+      root.defineInputCell<span class="j-sym">( </span>cell, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>intfGetter, iCC <span class="j-sym">)</span>.chain<span class="j-sym">( </span>valueGetter <span class="j-sym">) )</span>;
+    <span class="j-sym">}
   }
 }</span></pre>
 <p>The key here is to use a call chain that supplies the proper index argument to the customer category accessor.</p>
@@ -346,76 +348,76 @@ valueGetter = CustomerCategory.</span><span class="j-key">class</span><span clas
 <h3>Outputs</h3>
 <p>Let's assume a spreadsheet is used to update next year's discount percentage and credit limit for each customer category based on this year's input. The sheet computes the outputs for all of the categories simultaneously because there may be dependencies between the categories. As above, the number of categories is not fixed at compile-time. You cannot use bands to model this sheet because you do not want to force the user to use the same computation model for every category.</p>
 <p>The input model for this sheet can be implemented as described above. How do you specify the outputs? You have to use parametrized accessors for each value separately:</p>
-<pre class="java"><span class="j-key">public static interface </span><span class="j-def">Output 
-</span><span class="j-sym">{
-  </span><span class="j-typ">double </span><span class="j-def">getNewDiscount</span><span class="j-sym">( </span><span class="j-typ">int </span><span class="j-def">_iCC </span><span class="j-sym">)</span><span class="j-def">;
-  </span><span class="j-typ">double </span><span class="j-def">getNewCreditLimit</span><span class="j-sym">( </span><span class="j-typ">int </span><span class="j-def">_iCC </span><span class="j-sym">)</span><span class="j-def">;
-</span><span class="j-sym">}</span></pre>
+<pre class="java"><span class="j-key">public static interface </span>Output 
+<span class="j-sym">{
+  </span><span class="j-typ">double </span>getNewDiscount<span class="j-sym">( </span><span class="j-typ">int </span>_iCC <span class="j-sym">)</span>;
+  <span class="j-typ">double </span>getNewCreditLimit<span class="j-sym">( </span><span class="j-typ">int </span>_iCC <span class="j-sym">)</span>;
+<span class="j-sym">}</span></pre>
 <p>which you bind as follows:</p>
-<pre class="java"><span class="j-def">outputGetter = output.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getNewDiscount&#34;</span><span class="j-def">, Integer.TYPE </span><span class="j-sym">)</span><span class="j-def">;
-</span><span class="j-key">for </span><span class="j-sym">(</span><span class="j-def">Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames</span><span class="j-sym">()) {
-  </span><span class="j-key">if </span><span class="j-sym">(</span><span class="j-def">def </span><span class="j-key">instanceof </span><span class="j-def">Spreadsheet.CellNameDefinition</span><span class="j-sym">) {
-    </span><span class="j-key">final </span><span class="j-def">Spreadsheet.CellNameDefinition cellDef = </span><span class="j-sym">(</span><span class="j-def">Spreadsheet.CellNameDefinition</span><span class="j-sym">) </span><span class="j-def">def;
-    </span><span class="j-key">final </span><span class="j-def">Spreadsheet.Cell cell = cellDef.getCell</span><span class="j-sym">()</span><span class="j-def">;
-    </span><span class="j-key">final </span><span class="j-def">String name = cellDef.getName</span><span class="j-sym">()</span><span class="j-def">;
-    </span><span class="j-key">if </span><span class="j-sym">(</span><span class="j-def">name.startsWith</span><span class="j-sym">( </span><span class="j-str">&#34;CC_NEWDISCOUNT_&#34; </span><span class="j-sym">)) {
-      </span><span class="j-key">final </span><span class="j-typ">int </span><span class="j-def">iCC = Integer.parseInt</span><span class="j-sym">( </span><span class="j-def">name.substring</span><span class="j-sym">( </span><span class="j-str">&#34;CC_NEWDISCOUNT_&#34;</span><span class="j-def">.length</span><span class="j-sym">() ) )</span><span class="j-def">;
-      root.defineOutputCell</span><span class="j-sym">( </span><span class="j-def">cell, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">outputGetter, iCC </span><span class="j-sym">) )</span><span class="j-def">;
-    </span><span class="j-sym">}
+<pre class="java">outputGetter = output.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getNewDiscount&#34;</span>, Integer.TYPE <span class="j-sym">)</span>;
+<span class="j-key">for </span><span class="j-sym">(</span>Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames<span class="j-sym">()) {
+  </span><span class="j-key">if </span><span class="j-sym">(</span>def <span class="j-key">instanceof </span>Spreadsheet.CellNameDefinition<span class="j-sym">) {
+    </span><span class="j-key">final </span>Spreadsheet.CellNameDefinition cellDef = <span class="j-sym">(</span>Spreadsheet.CellNameDefinition<span class="j-sym">) </span>def;
+    <span class="j-key">final </span>Spreadsheet.Cell cell = cellDef.getCell<span class="j-sym">()</span>;
+    <span class="j-key">final </span>String name = cellDef.getName<span class="j-sym">()</span>;
+    <span class="j-key">if </span><span class="j-sym">(</span>name.startsWith<span class="j-sym">( </span><span class="j-str">&#34;CC_NEWDISCOUNT_&#34; </span><span class="j-sym">)) {
+      </span><span class="j-key">final </span><span class="j-typ">int </span>iCC = Integer.parseInt<span class="j-sym">( </span>name.substring<span class="j-sym">( </span><span class="j-str">&#34;CC_NEWDISCOUNT_&#34;</span>.length<span class="j-sym">() ) )</span>;
+      root.defineOutputCell<span class="j-sym">( </span>cell, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>outputGetter, iCC <span class="j-sym">) )</span>;
+    <span class="j-sym">}
     </span><span class="j-cmt">// ... dito for CreditLimit
   </span><span class="j-sym">}
 }</span></pre>
 <p>You might think that the following interface definition would be much nicer:</p>
-<pre class="java"><span class="j-key">public static interface </span><span class="j-def">Output2
-</span><span class="j-sym">{
-  </span><span class="j-def">CC getCC</span><span class="j-sym">( </span><span class="j-typ">int </span><span class="j-def">_iCC </span><span class="j-sym">)</span><span class="j-def">;
+<pre class="java"><span class="j-key">public static interface </span>Output2
+<span class="j-sym">{
+  </span>CC getCC<span class="j-sym">( </span><span class="j-typ">int </span>_iCC <span class="j-sym">)</span>;
 
-  </span><span class="j-key">public interface </span><span class="j-def">CC
-  </span><span class="j-sym">{
-    </span><span class="j-typ">double </span><span class="j-def">getNewDiscount</span><span class="j-sym">()</span><span class="j-def">;
-    </span><span class="j-typ">double </span><span class="j-def">getNewCreditLimit</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-sym">}
+  <span class="j-key">public interface </span>CC
+  <span class="j-sym">{
+    </span><span class="j-typ">double </span>getNewDiscount<span class="j-sym">()</span>;
+    <span class="j-typ">double </span>getNewCreditLimit<span class="j-sym">()</span>;
+  <span class="j-sym">}
 }</span></pre>
 <p>I agree. Unfortunately, SEJ does not directly support it (again a consequence of keeping the black box magic in SEJ at a minimum). You are, however, free to put such a façade on top of the original interface:</p>
-<pre class="java"><span class="j-key">public static class </span><span class="j-def">OutputFacade
-</span><span class="j-sym">{
-  </span><span class="j-key">final </span><span class="j-def">Output output;
+<pre class="java"><span class="j-key">public static class </span>OutputFacade
+<span class="j-sym">{
+  </span><span class="j-key">final </span>Output output;
 
-  </span><span class="j-key">public </span><span class="j-def">OutputFacade</span><span class="j-sym">(</span><span class="j-def">Output _output</span><span class="j-sym">)
+  <span class="j-key">public </span>OutputFacade<span class="j-sym">(</span>Output _output<span class="j-sym">)
   {
-    </span><span class="j-key">super</span><span class="j-sym">()</span><span class="j-def">;
-    </span><span class="j-key">this</span><span class="j-def">.output = _output;
-  </span><span class="j-sym">}
+    </span><span class="j-key">super</span><span class="j-sym">()</span>;
+    <span class="j-key">this</span>.output = _output;
+  <span class="j-sym">}
 
-  </span><span class="j-key">public </span><span class="j-def">Output getOutput</span><span class="j-sym">()
+  </span><span class="j-key">public </span>Output getOutput<span class="j-sym">()
   {
-    </span><span class="j-key">return this</span><span class="j-def">.output;
-  </span><span class="j-sym">}
+    </span><span class="j-key">return this</span>.output;
+  <span class="j-sym">}
 
-  </span><span class="j-key">public </span><span class="j-def">CC getCC</span><span class="j-sym">( </span><span class="j-typ">int </span><span class="j-def">n </span><span class="j-sym">)
+  </span><span class="j-key">public </span>CC getCC<span class="j-sym">( </span><span class="j-typ">int </span>n <span class="j-sym">)
   {
-    </span><span class="j-key">return new </span><span class="j-def">CC</span><span class="j-sym">( </span><span class="j-def">n </span><span class="j-sym">)</span><span class="j-def">;
-  </span><span class="j-sym">}
+    </span><span class="j-key">return new </span>CC<span class="j-sym">( </span>n <span class="j-sym">)</span>;
+  <span class="j-sym">}
 
-  </span><span class="j-key">private class </span><span class="j-def">CC
-  </span><span class="j-sym">{
-    </span><span class="j-key">private </span><span class="j-typ">int </span><span class="j-def">iCC;
+  </span><span class="j-key">private class </span>CC
+  <span class="j-sym">{
+    </span><span class="j-key">private </span><span class="j-typ">int </span>iCC;
     
-    </span><span class="j-key">public </span><span class="j-def">CC</span><span class="j-sym">(</span><span class="j-typ">int </span><span class="j-def">_iCC</span><span class="j-sym">)
+    <span class="j-key">public </span>CC<span class="j-sym">(</span><span class="j-typ">int </span>_iCC<span class="j-sym">)
     {
-      </span><span class="j-key">super</span><span class="j-sym">()</span><span class="j-def">;
-      </span><span class="j-key">this</span><span class="j-def">.iCC = _iCC;
-    </span><span class="j-sym">}
+      </span><span class="j-key">super</span><span class="j-sym">()</span>;
+      <span class="j-key">this</span>.iCC = _iCC;
+    <span class="j-sym">}
     
-    </span><span class="j-key">public </span><span class="j-typ">double </span><span class="j-def">getNewDiscount</span><span class="j-sym">()
+    </span><span class="j-key">public </span><span class="j-typ">double </span>getNewDiscount<span class="j-sym">()
     {
-      </span><span class="j-key">return </span><span class="j-def">getOutput</span><span class="j-sym">()</span><span class="j-def">.getNewDiscount</span><span class="j-sym">( </span><span class="j-key">this</span><span class="j-def">.iCC </span><span class="j-sym">)</span><span class="j-def">;
-    </span><span class="j-sym">}
+      </span><span class="j-key">return </span>getOutput<span class="j-sym">()</span>.getNewDiscount<span class="j-sym">( </span><span class="j-key">this</span>.iCC <span class="j-sym">)</span>;
+    <span class="j-sym">}
     
-    </span><span class="j-key">public </span><span class="j-typ">double </span><span class="j-def">getNewCreditLimit</span><span class="j-sym">()
+    </span><span class="j-key">public </span><span class="j-typ">double </span>getNewCreditLimit<span class="j-sym">()
     {
-      </span><span class="j-key">return </span><span class="j-def">getOutput</span><span class="j-sym">()</span><span class="j-def">.getNewCreditLimit</span><span class="j-sym">( </span><span class="j-key">this</span><span class="j-def">.iCC </span><span class="j-sym">)</span><span class="j-def">;
-    </span><span class="j-sym">}
+      </span><span class="j-key">return </span>getOutput<span class="j-sym">()</span>.getNewCreditLimit<span class="j-sym">( </span><span class="j-key">this</span>.iCC <span class="j-sym">)</span>;
+    <span class="j-sym">}
   }
 }</span></pre>
 <p>You might for example need to do this if you have to feed the sheet's output to some other system that expects its input in the above form. The façade would then have to implement the other system's input interfaces, of course.</p>
@@ -429,62 +431,62 @@ valueGetter = CustomerCategory.</span><span class="j-key">class</span><span clas
 
 <h3>Input-only</h3>
 <p>The first example provides only input to some computation. To tell SEJ how many and which order totals there are, you need an input interface method with an <tt>Iterable</tt> or <tt>array</tt> result:</p>
-<pre class="java"><span class="j-key">public static interface </span><span class="j-def">Order
-</span><span class="j-sym">{
-  </span><span class="j-typ">double </span><span class="j-def">getTotal</span><span class="j-sym">()</span><span class="j-def">;
-</span><span class="j-sym">}
+<pre class="java"><span class="j-key">public static interface </span>Order
+<span class="j-sym">{
+  </span><span class="j-typ">double </span>getTotal<span class="j-sym">()</span>;
+<span class="j-sym">}
 
-</span><span class="j-key">public static interface </span><span class="j-def">Input
-</span><span class="j-sym">{
-  </span><span class="j-def">Order</span><span class="j-sym">[] </span><span class="j-def">getOrders</span><span class="j-sym">()</span><span class="j-def">;
-</span><span class="j-sym">}</span></pre>
+</span><span class="j-key">public static interface </span>Input
+<span class="j-sym">{
+  </span>Order<span class="j-sym">[] </span>getOrders<span class="j-sym">()</span>;
+<span class="j-sym">}</span></pre>
 <p>Then you bind the section to it:</p>
-<pre class="java"><span class="j-def">range = spreadsheet.getRange</span><span class="j-sym">( </span><span class="j-str">&#34;ORDERS&#34; </span><span class="j-sym">)</span><span class="j-def">;
-inputMethod = input.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getOrders&#34; </span><span class="j-sym">)</span><span class="j-def">;
+<pre class="java">range = spreadsheet.getRange<span class="j-sym">( </span><span class="j-str">&#34;ORDERS&#34; </span><span class="j-sym">)</span>;
+inputMethod = input.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getOrders&#34; </span><span class="j-sym">)</span>;
 Compiler.Section orders;
-orders = root.defineRepeatingSection</span><span class="j-sym">( </span><span class="j-def">range, Orientation.VERTICAL, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">inputMethod </span><span class="j-sym">)</span><span class="j-def">, </span><span class="j-key">null </span><span class="j-sym">)</span><span class="j-def">;</span></pre>
+orders = root.defineRepeatingSection<span class="j-sym">( </span>range, Orientation.VERTICAL, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>inputMethod <span class="j-sym">)</span>, <span class="j-key">null </span><span class="j-sym">)</span>;</pre>
 <p>Within the section, you bind the input cell for the order total:</p>
-<pre class="java"><span class="j-def">cell = spreadsheet.getCell</span><span class="j-sym">( </span><span class="j-str">&#34;ORDER_TOTAL&#34; </span><span class="j-sym">)</span><span class="j-def">;
-method = Order.</span><span class="j-key">class</span><span class="j-def">.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getTotal&#34; </span><span class="j-sym">)</span><span class="j-def">;
-orders.defineInputCell</span><span class="j-sym">( </span><span class="j-def">cell, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">method </span><span class="j-sym">) )</span><span class="j-def">;</span></pre>
+<pre class="java">cell = spreadsheet.getCell<span class="j-sym">( </span><span class="j-str">&#34;ORDER_TOTAL&#34; </span><span class="j-sym">)</span>;
+method = Order.<span class="j-key">class</span>.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getTotal&#34; </span><span class="j-sym">)</span>;
+orders.defineInputCell<span class="j-sym">( </span>cell, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>method <span class="j-sym">) )</span>;</pre>
 
 <h3>Input/Output</h3>
 <p>In the second example above, you are also interested in output values that are repeated. The input is structured as it was for pure inputs:</p>
-<pre class="java"><span class="j-key">public interface </span><span class="j-def">Input2
-</span><span class="j-sym">{
-  </span><span class="j-typ">double </span><span class="j-def">getTotalBonusAmount</span><span class="j-sym">()</span><span class="j-def">;
-  Iterable&lt;Employee&gt; getEmployees</span><span class="j-sym">()</span><span class="j-def">;
+<pre class="java"><span class="j-key">public interface </span>Input2
+<span class="j-sym">{
+  </span><span class="j-typ">double </span>getTotalBonusAmount<span class="j-sym">()</span>;
+  Iterable&lt;Employee&gt; getEmployees<span class="j-sym">()</span>;
 
-  </span><span class="j-key">public interface </span><span class="j-def">Employee
-  </span><span class="j-sym">{
-    </span><span class="j-typ">double </span><span class="j-def">getBaseSalaryAmount</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-sym">}
+  <span class="j-key">public interface </span>Employee
+  <span class="j-sym">{
+    </span><span class="j-typ">double </span>getBaseSalaryAmount<span class="j-sym">()</span>;
+  <span class="j-sym">}
 }</span></pre>
 <p>To define the outputs for each employee, your output interface must have a corresponding method returning an appropriate <tt>Iterable</tt>:</p>
-<pre class="java"><span class="j-key">public static interface </span><span class="j-def">Output 
-</span><span class="j-sym">{
-  </span><span class="j-def">Iterable&lt;Employee&gt; getEmployees</span><span class="j-sym">()</span><span class="j-def">;
+<pre class="java"><span class="j-key">public static interface </span>Output 
+<span class="j-sym">{
+  </span>Iterable&lt;Employee&gt; getEmployees<span class="j-sym">()</span>;
 
-  </span><span class="j-key">public interface </span><span class="j-def">Employee
-  </span><span class="j-sym">{
-    </span><span class="j-typ">double </span><span class="j-def">getBonusAmount</span><span class="j-sym">()</span><span class="j-def">;
-  </span><span class="j-sym">}
+  <span class="j-key">public interface </span>Employee
+  <span class="j-sym">{
+    </span><span class="j-typ">double </span>getBonusAmount<span class="j-sym">()</span>;
+  <span class="j-sym">}
 }</span></pre>
 <p>With this definition you can write:</p>
-<pre class="java"><span class="j-def">range = spreadsheet.getRange</span><span class="j-sym">( </span><span class="j-str">&#34;EMPLOYEES&#34; </span><span class="j-sym">)</span><span class="j-def">;
-inputMethod = Input2.</span><span class="j-key">class</span><span class="j-def">.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getEmployees&#34; </span><span class="j-sym">)</span><span class="j-def">;
-outputMethod = Output.</span><span class="j-key">class</span><span class="j-def">.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getEmployees&#34; </span><span class="j-sym">)</span><span class="j-def">;
+<pre class="java">range = spreadsheet.getRange<span class="j-sym">( </span><span class="j-str">&#34;EMPLOYEES&#34; </span><span class="j-sym">)</span>;
+inputMethod = Input2.<span class="j-key">class</span>.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getEmployees&#34; </span><span class="j-sym">)</span>;
+outputMethod = Output.<span class="j-key">class</span>.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getEmployees&#34; </span><span class="j-sym">)</span>;
 Compiler.Section employees;
-employees = root.defineRepeatingSection</span><span class="j-sym">( </span><span class="j-def">range, Orientation.VERTICAL, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">inputMethod </span><span class="j-sym">)</span><span class="j-def">,
-    </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">outputMethod </span><span class="j-sym">) )</span><span class="j-def">;</span></pre>
+employees = root.defineRepeatingSection<span class="j-sym">( </span>range, Orientation.VERTICAL, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>inputMethod <span class="j-sym">)</span>,
+    <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>outputMethod <span class="j-sym">) )</span>;</pre>
 <p>This binds the repeating section to the output as well as the input specification, allowing:</p>
-<pre class="java"><span class="j-def">cell = spreadsheet.getCell</span><span class="j-sym">( </span><span class="j-str">&#34;BONUS_AMOUNT&#34; </span><span class="j-sym">)</span><span class="j-def">;
-method = Output.Employee.</span><span class="j-key">class</span><span class="j-def">.getMethod</span><span class="j-sym">( </span><span class="j-str">&#34;getBonusAmount&#34; </span><span class="j-sym">)</span><span class="j-def">;
-employees.defineOutputCell</span><span class="j-sym">( </span><span class="j-def">cell, </span><span class="j-key">new </span><span class="j-def">CallFrame</span><span class="j-sym">( </span><span class="j-def">method </span><span class="j-sym">) )</span><span class="j-def">;</span></pre>
+<pre class="java">cell = spreadsheet.getCell<span class="j-sym">( </span><span class="j-str">&#34;BONUS_AMOUNT&#34; </span><span class="j-sym">)</span>;
+method = Output.Employee.<span class="j-key">class</span>.getMethod<span class="j-sym">( </span><span class="j-str">&#34;getBonusAmount&#34; </span><span class="j-sym">)</span>;
+employees.defineOutputCell<span class="j-sym">( </span>cell, <span class="j-key">new </span>CallFrame<span class="j-sym">( </span>method <span class="j-sym">) )</span>;</pre>
 <p>With this, SEJ is going to implement the iterator as well as the computation of employee outputs for you. Behind the scenes, it generates descendants of both <tt>Output</tt> and <tt>Output.Employee</tt> for this.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 11.04.2006.</p>        </div>
+<br/>Last updated on 10.05.2006.</p>        </div>
     </div>
 </body>
 </html>

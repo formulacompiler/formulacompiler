@@ -46,7 +46,7 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 	}
 
 
-	private static final class LotsOfPossibleInputsUseCase implements UseCase
+	static final class LotsOfPossibleInputsUseCase implements UseCase
 	{
 
 

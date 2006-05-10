@@ -38,6 +38,7 @@ import sej.engine.bytecode.ByteCodeEngineFactory;
 import sej.engine.bytecode.ByteCodeEngineLoader;
 import sej.engine.compiler.WorkbookCompiler;
 import sej.engine.compiler.model.EngineModel;
+import sej.engine.compiler.model.compiler.EngineModelCompiler;
 
 
 public class ByteCodeCompiler extends WorkbookCompiler
@@ -80,6 +81,10 @@ public class ByteCodeCompiler extends WorkbookCompiler
 		return compileNewEngineClassBytes( compileEngineModel() );
 	}
 
+	protected EngineModel compileEngineModel() throws ModelError
+	{
+		return new EngineModelCompiler( getDefinition(), getNumericType() ).compileNewModel();
+	}
 
 	Engine compileNewEngine( final EngineModel _model ) throws ModelError
 	{
@@ -175,5 +180,6 @@ public class ByteCodeCompiler extends WorkbookCompiler
 	{
 		return this.root;
 	}
+
 
 }

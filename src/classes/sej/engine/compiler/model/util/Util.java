@@ -22,6 +22,8 @@ package sej.engine.compiler.model.util;
 
 import java.math.BigDecimal;
 
+import sej.engine.RuntimeBigDecimal_v1;
+
 
 public class Util
 {
@@ -100,7 +102,7 @@ public class Util
 	private static BigDecimal valueToBigDecimal( Object _value, BigDecimal _ifNull )
 	{
 		if (_value instanceof BigDecimal) return (BigDecimal) _value;
-		if (_value instanceof Double) return BigDecimal.valueOf( (Double) _value );
+		if (_value instanceof Double) return new BigDecimal( (Double) _value );  // TODO BigDecimal.valueOf for JRE 5
 		if (_value instanceof String) return new BigDecimal( (String) _value );
 		return _ifNull;
 	}
@@ -108,7 +110,7 @@ public class Util
 
 	public static BigDecimal valueToBigDecimalOrZero( Object _value )
 	{
-		return valueToBigDecimal( _value, BigDecimal.ZERO );
+		return valueToBigDecimal( _value, RuntimeBigDecimal_v1.ZERO );
 	}
 
 
