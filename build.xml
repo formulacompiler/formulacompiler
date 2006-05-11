@@ -297,14 +297,19 @@
 		</javac>
 	</target>
 
-	<target name="test" depends="compile-tests" description="Runs JUnit test suites">
+	<target name="test" depends="prepare, jar, compile-tests" description="Runs JUnit test suites">
 
-		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${test.classpath}" />
+		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${lib.classpath}" />
 
-		<junit printsummary="yes" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir=".">
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir=".">
 
 			<formatter type="plain" usefile="no" />
-			<classpath refid="test.classpath" />
+			<classpath>
+				<path refid="build.classpath" />
+				<pathelement path="${build.test-unit.dir}" />
+				<pathelement path="${build.test-system.dir}" />
+				<pathelement location="${jar.file}" />
+			</classpath>
 
 			<batchtest>
 				<fileset dir="${build.test-unit.dir}">
@@ -314,6 +319,26 @@
 				</fileset>
 				<fileset dir="${build.test-system.dir}">
 					<include name="**/*Test*.class" />
+					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
+					<exclude name="**/*DeserializationTest.class" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir=".">
+
+			<formatter type="plain" usefile="no" />
+			<classpath>
+				<path refid="build.classpath" />
+				<pathelement path="${build.test-system.dir}" />
+				<pathelement location="${jar.runtime.file}" />
+			</classpath>
+
+			<batchtest>
+				<fileset dir="${build.test-system.dir}">
+					<include name="**/*DeserializationTest.class" />
 					<exclude name="**/Abstract*" />
 					<exclude name="**/*$*" />
 				</fileset>
@@ -356,7 +381,7 @@
 
 		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${test.classpath14}" />
 
-		<junit printsummary="yes" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" jvm="${java14.home.dir}\bin\java" dir=".">
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" jvm="${java14.home.dir}\bin\java" dir=".">
 
 			<formatter type="plain" usefile="no" />
 			<classpath>
@@ -374,6 +399,26 @@
 				</fileset>
 				<fileset dir="${build.test-system14.dir}">
 					<include name="**/*Test*.class" />
+					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
+					<exclude name="**/*DeserializationTest.class" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" jvm="${java14.home.dir}\bin\java" dir=".">
+
+			<formatter type="plain" usefile="no" />
+			<classpath>
+				<path refid="build.classpath" />
+				<pathelement path="${build.test-system14.dir}" />
+				<pathelement location="${jar14.runtime.file}" />
+			</classpath>
+
+			<batchtest>
+				<fileset dir="${build.test-system.dir}">
+					<include name="**/*DeserializationTest.class" />
 					<exclude name="**/Abstract*" />
 					<exclude name="**/*$*" />
 				</fileset>
