@@ -18,25 +18,21 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.engine.compiler.model.optimizer.expreval;
+package sej.engine.compiler.model.util;
 
 import sej.NumericType;
-import sej.expressions.ExpressionNodeForOperator;
-import sej.expressions.Operator;
+import junit.framework.TestCase;
 
-public class DoubleInterpreterTest extends AbstractExpressionInterpreterTest
+public class ScaledLongTypeTest extends TestCase
 {
-	
-	@Override
-	protected NumericType getNumType()
-	{
-		return NumericType.DOUBLE;
-	}
 
-	
-	public void testDoubleOnlyOperators()
+	public void testScaledLongToDouble()
 	{
-		assertEval( "5", new ExpressionNodeForOperator( Operator.EXP, cst("25"), cst("0.5") ) );
+		final NumericType num2 = NumericType.getInstance( Long.TYPE, 2 );
+		final ScaledLongType dec2 = new ScaledLongType( (NumericType.ScaledLongType) num2 );
+
+		assertEquals( 123.45, dec2.scaledLongToDouble( 12345 ), 0.00001 );
+		assertEquals( -123.45, dec2.scaledLongToDouble( -12345 ), 0.00001 );
 	}
 
 }

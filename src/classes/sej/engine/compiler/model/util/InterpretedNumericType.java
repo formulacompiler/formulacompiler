@@ -30,19 +30,25 @@ import sej.expressions.Operator;
 
 public abstract class InterpretedNumericType
 {
+	private final NumericType num;
 
-	InterpretedNumericType()
+
+	InterpretedNumericType( NumericType _type )
 	{
 		super();
+		this.num = _type;
 	}
 
 	public static InterpretedNumericType typeFor( NumericType _type )
 	{
 		if (Double.TYPE == _type.getValueType()) {
-			return new DoubleType();
+			return new DoubleType( _type );
 		}
 		else if (BigDecimal.class == _type.getValueType()) {
-			return new BigDecimalType( _type.getScale(), _type.getRoundingMode() );
+			return new BigDecimalType( _type );
+		}
+		else if (Long.TYPE == _type.getValueType()) {
+			return new ScaledLongType( (NumericType.AbstractLongType) _type );
 		}
 		else {
 			throw new IllegalArgumentException( "Unsupported numeric type for run-time interpretation." );
@@ -56,7 +62,18 @@ public abstract class InterpretedNumericType
 
 	public boolean toBoolean( Object _value )
 	{
-		return Util.valueToBoolean( _value, false );
+		return valueToBoolean( _value, false );
+	}
+
+
+	public String toString( Object _value )
+	{
+		if (_value == null) return "";
+		if (_value instanceof Number) {
+			Number number = (Number) _value;
+			return this.num.valueToConciseString( number );
+		}
+		return _value.toString();
 	}
 
 
@@ -74,7 +91,7 @@ public abstract class InterpretedNumericType
 			case CONCAT: {
 				StringBuilder result = new StringBuilder();
 				for (Object arg : _args) {
-					result.append( Util.valueToString( arg ) );
+					result.append( toString( arg ) );
 				}
 				return result.toString();
 			}
@@ -106,8 +123,8 @@ public abstract class InterpretedNumericType
 					case 2:
 						Object a = _args[ 0 ];
 						Object b = _args[ 1 ];
-						if (null == a) return (0 == Util.valueToIntOrZero( b ));
-						if (null == b) return (0 == Util.valueToIntOrZero( a ));
+						if (null == a) return (0 == valueToIntOrZero( b ));
+						if (null == b) return (0 == valueToIntOrZero( a ));
 						return a.equals( b );
 				}
 			}
@@ -117,8 +134,8 @@ public abstract class InterpretedNumericType
 					case 2:
 						Object a = _args[ 0 ];
 						Object b = _args[ 1 ];
-						if (null == a) return (0 != Util.valueToIntOrZero( b ));
-						if (null == b) return (0 != Util.valueToIntOrZero( a ));
+						if (null == a) return (0 != valueToIntOrZero( b ));
+						if (null == b) return (0 != valueToIntOrZero( a ));
 						return !a.equals( b );
 				}
 			}
@@ -211,15 +228,15 @@ public abstract class InterpretedNumericType
 
 	private Object evalIndex( RangeValue _range, Object _index )
 	{
-		int index = Util.valueToIntOrZero( _index );
+		int index = valueToIntOrZero( _index );
 		return _range.get( index - 1 );
 	}
 
 
 	private Object evalIndex( RangeValue _range, Object _rowIndex, Object _colIndex )
 	{
-		int iRow = Util.valueToIntOrOne( _rowIndex ) - 1;
-		int iCol = Util.valueToIntOrOne( _colIndex ) - 1;
+		int iRow = valueToIntOrOne( _rowIndex ) - 1;
+		int iCol = valueToIntOrOne( _colIndex ) - 1;
 		int iValue;
 		if (iRow < 0) iRow = 0;
 		if (iCol < 0) iCol = 0;
@@ -262,5 +279,30 @@ public abstract class InterpretedNumericType
 		}
 	}
 
+
+	protected int valueToInt( Object _value, int _ifNull )
+	{
+		if (_value instanceof Number) return ((Number) _value).intValue();
+		if (_value instanceof String) return Integer.valueOf( (String) _value );
+		return _ifNull;
+	}
+
+	protected final int valueToIntOrZero( Object _value )
+	{
+		return valueToInt( _value, 0 );
+	}
+
+	protected final int valueToIntOrOne( Object _value )
+	{
+		return valueToInt( _value, 1 );
+	}
+
+	protected boolean valueToBoolean( Object _value, boolean _ifNull )
+	{
+		if (_value instanceof Boolean) return (Boolean) _value;
+		if (_value instanceof Number) return (0 != ((Number) _value).intValue());
+		if (_value instanceof String) return Boolean.parseBoolean( (String) _value );
+		return _ifNull;
+	}
 
 }

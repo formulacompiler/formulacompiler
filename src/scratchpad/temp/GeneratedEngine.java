@@ -14,7 +14,7 @@ import sej.tests.utils.Outputs;
 public class GeneratedEngine implements Engine, Outputs
 {
 	private final Inputs inputs;
-
+	
 	private GeneratedEngine(Inputs _inputs)
 	{
 		super();

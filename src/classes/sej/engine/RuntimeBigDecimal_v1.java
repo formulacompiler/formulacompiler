@@ -71,9 +71,9 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 	}
 
 
-	private static BigDecimal MSINADAY = new BigDecimal( msInADay );
-	private static BigDecimal NONLEAPDAY = new BigDecimal( nonLeapDay );
-	private static BigDecimal UTCOFFSETDAYS = new BigDecimal( utcOffsetDays );
+	private static BigDecimal MSINADAY = new BigDecimal( MS_PER_DAY );
+	private static BigDecimal NONLEAPDAY = new BigDecimal( NON_LEAP_DAY );
+	private static BigDecimal UTCOFFSETDAYS = new BigDecimal( UTC_OFFSET_DAYS );
 
 
 	public static Date dateFromExcel( final BigDecimal _excel )
@@ -84,7 +84,7 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 	public static BigDecimal dateToExcel( final Date _date )
 	{
 		final long utcValue = _date.getTime();
-		final boolean time = (utcValue < msInADay);
+		final boolean time = (utcValue < MS_PER_DAY);
 
 		// Convert this to the number of days, plus fractions of a day since
 		// 01 Jan 1970

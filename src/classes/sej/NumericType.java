@@ -337,7 +337,7 @@ public abstract class NumericType
 		}
 
 		public abstract long one();
-
+		
 		public abstract long parse( String _value );
 
 		public abstract String format( long _value );
@@ -417,7 +417,7 @@ public abstract class NumericType
 	 */
 	public static final class ScaledLongType extends AbstractLongType
 	{
-		private static long[] scalingFactors = new long[] { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000,
+		private static long[] SCALING_FACTORS = new long[] { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000,
 				100000000, 1000000000, 10000000000L, 100000000000L, 1000000000000L, 10000000000000L, 100000000000000L,
 				1000000000000000L, 10000000000000000L, 100000000000000000L, 1000000000000000000L };
 
@@ -426,10 +426,10 @@ public abstract class NumericType
 		protected ScaledLongType(int _scale)
 		{
 			super( _scale, BigDecimal.ROUND_DOWN );
-			if (_scale < 1 || _scale >= scalingFactors.length) {
+			if (_scale < 1 || _scale >= SCALING_FACTORS.length) {
 				throw new IllegalArgumentException( "Scale is out of range" );
 			}
-			this.scalingFactor = scalingFactors[ _scale ];
+			this.scalingFactor = SCALING_FACTORS[ _scale ];
 		}
 
 		@Override
@@ -457,7 +457,7 @@ public abstract class NumericType
 				}
 				else {
 					assert scaleOfDigits < scaleOfResult;
-					final long rescalingFactor = scalingFactors[ scaleOfResult - scaleOfDigits ];
+					final long rescalingFactor = SCALING_FACTORS[ scaleOfResult - scaleOfDigits ];
 					return unscaled * rescalingFactor;
 				}
 			}

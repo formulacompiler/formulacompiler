@@ -28,7 +28,6 @@ import org.objectweb.asm.Opcodes;
 
 import sej.ModelError;
 import sej.engine.compiler.model.ExpressionNodeForRangeValue;
-import sej.engine.compiler.model.util.Util;
 import sej.expressions.ExpressionNode;
 import sej.expressions.ExpressionNodeForConstantValue;
 import sej.expressions.ExpressionNodeForFunction;
@@ -115,7 +114,7 @@ public class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 			ci.visitIntInsn( Opcodes.BIPUSH, i++ );
 			if (val instanceof ExpressionNodeForConstantValue) {
 				ExpressionNodeForConstantValue constVal = (ExpressionNodeForConstantValue) val;
-				ci.visitLdcInsn( Util.valueToDoubleOrZero( constVal.getValue() ) );
+				// ci.visitLdcInsn( Util.valueToDoubleOrZero( constVal.getValue() ) );
 			}
 			else {
 				ci.visitInsn( Opcodes.DCONST_0 );

@@ -18,35 +18,17 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.engine;
+package sej.engine.compiler.model.optimizer.expreval;
 
-import junit.framework.TestCase;
+import sej.NumericType;
 
-public class RuntimeTest extends TestCase
+public class ScaledLongInterpreterTest extends AbstractExpressionInterpreterTest
 {
-
-
-	public void testRound()
+	
+	@Override
+	protected NumericType getNumType()
 	{
-		assertEquals( 1.22, RuntimeDouble_v1.round( 1.224, 2 ) );
-		assertEquals( 1.23, RuntimeDouble_v1.round( 1.225, 2 ) );
-		assertEquals( 1.23, RuntimeDouble_v1.round( 1.229, 2 ) );
-		assertEquals( 1.23, RuntimeDouble_v1.round( 1.230, 2 ) );
-		assertEquals( 1.23, RuntimeDouble_v1.round( 1.234, 2 ) );
-		assertEquals( 1.24, RuntimeDouble_v1.round( 1.235, 2 ) );
-		assertEquals( 1.24, RuntimeDouble_v1.round( 1.239999, 2 ) );
-
-		assertEquals( 1.2, RuntimeDouble_v1.round( 1.234, 1 ) );
-		assertEquals( 1.3, RuntimeDouble_v1.round( 1.25, 1 ) );
-
-		assertEquals( 1.0, RuntimeDouble_v1.round( 1.4, 0 ) );
-		assertEquals( 2.0, RuntimeDouble_v1.round( 1.5, 0 ) );
-
-		assertEquals( 10.0, RuntimeDouble_v1.round( 14, -1 ) );
-		assertEquals( 20.0, RuntimeDouble_v1.round( 15, -1 ) );
-
-		assertEquals( -12.01, RuntimeDouble_v1.round( -12.005, 2 ) );
+		return NumericType.LONG4;
 	}
-
 
 }

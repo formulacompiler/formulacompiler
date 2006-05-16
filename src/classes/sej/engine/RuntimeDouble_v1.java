@@ -81,18 +81,18 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		// called the 29th Feb, 1900 - but in actual fact this was not a leap year.
 		// Therefore for values less than 61 in the 1900 date system,
 		// add one to the numeric value
-		if (!basedOn1904 && !time && numValue < nonLeapDay) {
+		if (!BASED_ON_1904 && !time && numValue < NON_LEAP_DAY) {
 			numValue += 1;
 		}
 	
 		// Convert this to the number of days since 01 Jan 1970
-		int offsetDays = basedOn1904 ? utcOffsetDays1904 : utcOffsetDays;
+		int offsetDays = BASED_ON_1904 ? UTC_OFFSET_DAYS_1904 : UTC_OFFSET_DAYS;
 		double utcDays = numValue - offsetDays;
 	
 		// Convert this into utc by multiplying by the number of milliseconds
 		// in a day. Use the round function prior to ms conversion due
 		// to a rounding feature of Excel (contributed by Jurgen
-		long utcValue = Math.round( utcDays * secondsInADay ) * msInASecond;
+		long utcValue = Math.round( utcDays * SECS_PER_DAY ) * MS_PER_SEC;
 	
 		return new Date( utcValue );
 	}
@@ -100,20 +100,20 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	public static double dateToExcel( final Date _date )
 	{
 		final long utcValue = _date.getTime();
-		final boolean time = (utcValue < msInADay);
+		final boolean time = (utcValue < MS_PER_DAY);
 	
 		// Convert this to the number of days, plus fractions of a day since
 		// 01 Jan 1970
-		final double utcDays = (double) utcValue / (double) msInADay;
+		final double utcDays = (double) utcValue / (double) MS_PER_DAY;
 	
 		// Add in the offset to get the number of days since 01 Jan 1900
-		double value = utcDays + utcOffsetDays;
+		double value = utcDays + UTC_OFFSET_DAYS;
 	
 		// Work round a bug in excel. Excel seems to think there is a date
 		// called the 29th Feb, 1900 - but this was not a leap year.
 		// Therefore for values less than 61, we must subtract 1. Only do
 		// this for full dates, not times
-		if (!time && value < nonLeapDay) {
+		if (!time && value < NON_LEAP_DAY) {
 			value -= 1;
 		}
 	

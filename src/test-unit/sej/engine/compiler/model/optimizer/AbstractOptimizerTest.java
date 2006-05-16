@@ -22,13 +22,13 @@ package sej.engine.compiler.model.optimizer;
 
 import java.math.BigDecimal;
 
+import sej.NumericType;
 import sej.engine.compiler.model.CellModel;
 import sej.engine.compiler.model.EngineModel;
 import sej.engine.compiler.model.ExpressionNodeForCellModel;
 import sej.engine.compiler.model.ExpressionNodeForParentSectionModel;
 import sej.engine.compiler.model.ExpressionNodeForSubSectionModel;
 import sej.engine.compiler.model.SectionModel;
-import sej.engine.compiler.model.util.Util;
 import sej.expressions.Aggregator;
 import sej.expressions.ExpressionNode;
 import sej.expressions.ExpressionNodeForAggregator;
@@ -98,7 +98,7 @@ public abstract class AbstractOptimizerTest extends AbstractTestBase
 	{
 		BigDecimal value = (BigDecimal) _constCell.getConstantValue();
 		assertNotNull( _expected, value );
-		String actual = Util.valueToString( value );
+		String actual = NumericType.BIGDECIMAL8.valueToConciseString( value );
 		assertEquals( _expected, actual );
 	}
 
