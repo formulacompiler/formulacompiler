@@ -25,12 +25,12 @@ public abstract class Runtime_v1
 
 	// ---- Excel date conversion; copied from JExcelAPI (DateRecord.java)
 	
-	static final long secondsInADay = 24 * 60 * 60;
-	static final long msInASecond = 1000;
-	static final long msInADay = secondsInADay * msInASecond;
-	static final int nonLeapDay = 61;
-	static final int utcOffsetDays = 25569;
-	static final int utcOffsetDays1904 = 24107;
-	static final boolean basedOn1904 = false;
+	static final long SECS_PER_DAY = 24 * 60 * 60;
+	static final long MS_PER_SEC = 1000;
+	static final long MS_PER_DAY = SECS_PER_DAY * MS_PER_SEC;
+	static final int NON_LEAP_DAY = 61;
+	static final int UTC_OFFSET_DAYS = 25569;
+	static final int UTC_OFFSET_DAYS_1904 = 24107;
+	static final boolean BASED_ON_1904 = false;
 
 }

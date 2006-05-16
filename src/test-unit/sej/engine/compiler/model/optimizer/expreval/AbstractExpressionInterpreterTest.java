@@ -20,6 +20,7 @@
  */
 package sej.engine.compiler.model.optimizer.expreval;
 
+import sej.NumericType;
 import sej.engine.compiler.model.ExpressionNodeForRangeValue;
 import sej.engine.compiler.model.RangeValue;
 import sej.engine.compiler.model.util.InterpretedNumericType;
@@ -162,6 +163,10 @@ public abstract class AbstractExpressionInterpreterTest extends TestCase
 		assertEval( "0", new ExpressionNodeForFunction( Function.ROUND, cst( null ), cst( "0" ) ) );
 		assertEval( "0", new ExpressionNodeForFunction( Function.ROUND, cst( null ), cst( null ) ) );
 		assertEval( "1", new ExpressionNodeForFunction( Function.ROUND, cst( "1.2" ), cst( null ) ) );
+		assertEval( "12345.7", new ExpressionNodeForFunction( Function.ROUND, cst( "12345.678" ), cst( "1" ) ) );
+		assertEval( "12350", new ExpressionNodeForFunction( Function.ROUND, cst( "12345.678" ), cst( "-1" ) ) );
+		assertEval( "-12345.7", new ExpressionNodeForFunction( Function.ROUND, cst( "-12345.678" ), cst( "1" ) ) );
+		assertEval( "-12350", new ExpressionNodeForFunction( Function.ROUND, cst( "-12345.678" ), cst( "-1" ) ) );
 	}
 
 
@@ -267,9 +272,27 @@ public abstract class AbstractExpressionInterpreterTest extends TestCase
 	}
 
 
-	protected abstract InterpretedNumericType getType();
-	protected abstract Object valueFromString( String _string );
-	protected abstract String valueToString( Object _value );
+	protected abstract NumericType getNumType();
+
+	
+	protected final InterpretedNumericType getType()
+	{
+		return InterpretedNumericType.typeFor( getNumType() );
+	}
+	
+	protected final Object valueFromString( String _string )
+	{
+		return getNumType().valueOf( _string );
+	}
+	
+	protected final String valueToString( Object _value )
+	{
+		if (_value instanceof Number) {
+			Number number = (Number) _value;
+			return getNumType().valueToConciseString( number );
+		}
+		return _value.toString();
+	}
 
 	protected ExpressionNodeForConstantValue cst( String _asString )
 	{

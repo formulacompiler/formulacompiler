@@ -32,7 +32,6 @@ import sej.NumericType;
 import sej.Settings;
 import sej.SpreadsheetLoader;
 import sej.engine.bytecode.compiler.ByteCodeCompiler;
-import sej.engine.compiler.model.util.Util;
 import sej.engine.standard.compiler.StandardCompiler;
 import sej.expressions.ExpressionNode;
 import sej.loader.excel.xls.ExcelXLSLoader;
@@ -250,7 +249,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 			Inputs inputs = null;
 			if (this.useInputs) {
 				final CellInstance nInputCell = this.inputRow.getCellOrNull( INPUTCOUNT_COL );
-				final int nInput = (null == nInputCell) ? 0 : Util.valueToIntOrZero( nInputCell.getValue() );
+				final int nInput = (null == nInputCell) ? 0 : valueToIntOrZero( nInputCell.getValue() );
 				inputs = newInputs( nInput );
 				for (int iInput = 0; iInput < nInput; iInput++) {
 					final int iCell = iInput + FIRST_INPUT_COL;
@@ -299,6 +298,20 @@ public class FormulaEvaluationTestSuite extends TestSuite
 			catch (VerifyError e) {
 				throw e;
 			}
+		}
+
+
+		public static int valueToInt( Object _value, int _ifNull )
+		{
+			if (_value instanceof Number) return ((Number) _value).intValue();
+			if (_value instanceof String) return Integer.valueOf( (String) _value );
+			return _ifNull;
+		}
+
+
+		public static int valueToIntOrZero( Object _value )
+		{
+			return valueToInt( _value, 0 );
 		}
 
 

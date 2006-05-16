@@ -20,10 +20,7 @@
  */
 package sej.engine.compiler.model.optimizer.expreval;
 
-import java.math.BigDecimal;
-
 import sej.NumericType;
-import sej.engine.compiler.model.util.InterpretedNumericType;
 import sej.expressions.Aggregator;
 import sej.expressions.ExpressionNodeForAggregator;
 import sej.expressions.ExpressionNodeForOperator;
@@ -31,29 +28,11 @@ import sej.expressions.Operator;
 
 public class BigDecimalInterpreterTest extends AbstractExpressionInterpreterTest
 {
-
+	
 	@Override
-	protected Object valueFromString( String _string )
+	protected NumericType getNumType()
 	{
-		return new BigDecimal( _string );
-	}
-
-	@Override
-	protected String valueToString( Object _value )
-	{
-		if (_value instanceof BigDecimal) {
-			BigDecimal big = (BigDecimal) _value;
-			return big.toPlainString();
-		}
-		else {
-			return _value.toString();
-		}
-	}
-
-	@Override
-	protected InterpretedNumericType getType()
-	{
-		return InterpretedNumericType.typeFor( NumericType.BIGDECIMAL8 );
+		return NumericType.BIGDECIMAL8;
 	}
 
 	@Override

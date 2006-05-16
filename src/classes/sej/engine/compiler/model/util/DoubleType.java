@@ -20,12 +20,19 @@
  */
 package sej.engine.compiler.model.util;
 
+import sej.NumericType;
 import sej.engine.RuntimeDouble_v1;
 import sej.expressions.Function;
 import sej.expressions.Operator;
 
 final class DoubleType extends InterpretedNumericType
 {
+
+	public DoubleType(NumericType _type)
+	{
+		super( _type );
+	}
+
 
 	@Override
 	public Object adjustConstantValue( Object _value )
@@ -41,7 +48,7 @@ final class DoubleType extends InterpretedNumericType
 			case PLUS: {
 				double result = 0.0;
 				for (Object arg : _args) {
-					result += Util.valueToDoubleOrZero( arg );
+					result += valueToDoubleOrZero( arg );
 				}
 				return result;
 			}
@@ -49,16 +56,16 @@ final class DoubleType extends InterpretedNumericType
 			case MINUS: {
 				switch (_args.length) {
 					case 1:
-						return -Util.valueToDoubleOrZero( _args[ 0 ] );
+						return -valueToDoubleOrZero( _args[ 0 ] );
 					case 2:
-						return Util.valueToDoubleOrZero( _args[ 0 ] ) - Util.valueToDoubleOrZero( _args[ 1 ] );
+						return valueToDoubleOrZero( _args[ 0 ] ) - valueToDoubleOrZero( _args[ 1 ] );
 				}
 			}
 
 			case TIMES: {
 				double result = 1.0;
 				for (Object arg : _args) {
-					result *= Util.valueToDoubleOrZero( arg );
+					result *= valueToDoubleOrZero( arg );
 				}
 				return result;
 			}
@@ -66,21 +73,21 @@ final class DoubleType extends InterpretedNumericType
 			case DIV: {
 				switch (_args.length) {
 					case 2:
-						return Util.valueToDoubleOrZero( _args[ 0 ] ) / Util.valueToDoubleOrZero( _args[ 1 ] );
+						return valueToDoubleOrZero( _args[ 0 ] ) / valueToDoubleOrZero( _args[ 1 ] );
 				}
 			}
 
 			case EXP: {
 				switch (_args.length) {
 					case 2:
-						return Math.pow( Util.valueToDoubleOrZero( _args[ 0 ] ), Util.valueToDoubleOrZero( _args[ 1 ] ) );
+						return Math.pow( valueToDoubleOrZero( _args[ 0 ] ), valueToDoubleOrZero( _args[ 1 ] ) );
 				}
 			}
 
 			case PERCENT: {
 				switch (_args.length) {
 					case 1:
-						return Util.valueToDoubleOrZero( _args[ 0 ] ) / 100;
+						return valueToDoubleOrZero( _args[ 0 ] ) / 100;
 				}
 			}
 
@@ -98,8 +105,8 @@ final class DoubleType extends InterpretedNumericType
 			case ROUND: {
 				switch (cardinality) {
 					case 2:
-						double val = Util.valueToDoubleOrZero( _args[ 0 ] );
-						int maxFrac = Util.valueToIntOrZero( _args[ 1 ] );
+						double val = valueToDoubleOrZero( _args[ 0 ] );
+						int maxFrac = valueToIntOrZero( _args[ 1 ] );
 						return RuntimeDouble_v1.round( val, maxFrac );
 				}
 			}
@@ -109,7 +116,7 @@ final class DoubleType extends InterpretedNumericType
 					case 2:
 						return (double) InterpretedNumericType.match( _args[ 0 ], _args[ 1 ], 1 ) + 1;
 					case 3:
-						return (double) InterpretedNumericType.match( _args[ 0 ], _args[ 1 ], Util.valueToIntOrOne( _args[ 2 ] ) ) + 1;
+						return (double) InterpretedNumericType.match( _args[ 0 ], _args[ 1 ], valueToIntOrOne( _args[ 2 ] ) ) + 1;
 				}
 			}
 
@@ -120,9 +127,22 @@ final class DoubleType extends InterpretedNumericType
 	@Override
 	protected int compare( Object _a, Object _b )
 	{
-		double a = Util.valueToDoubleOrZero( _a );
-		double b = Util.valueToDoubleOrZero( _b );
+		double a = valueToDoubleOrZero( _a );
+		double b = valueToDoubleOrZero( _b );
 		return Double.compare( a, b );
+	}
+
+
+	private double valueToDouble( Object _value, double _ifNull )
+	{
+		if (_value instanceof Number) return ((Number) _value).doubleValue();
+		if (_value instanceof String) return Double.valueOf( (String) _value );
+		return _ifNull;
+	}
+
+	private double valueToDoubleOrZero( Object _value )
+	{
+		return valueToDouble( _value, 0.0 );
 	}
 
 }

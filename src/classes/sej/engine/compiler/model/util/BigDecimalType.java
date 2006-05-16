@@ -32,11 +32,12 @@ final class BigDecimalType extends InterpretedNumericType
 	private final int scale;
 	private final int roundingMode;
 
-	public BigDecimalType(int _scale, int _roundingMode)
+
+	public BigDecimalType(NumericType _type)
 	{
-		super();
-		this.scale = _scale;
-		this.roundingMode = _roundingMode;
+		super( _type );
+		this.scale = _type.getScale();
+		this.roundingMode = _type.getRoundingMode();
 	}
 
 
@@ -78,7 +79,7 @@ final class BigDecimalType extends InterpretedNumericType
 			case PLUS: {
 				BigDecimal result = RuntimeBigDecimal_v1.ZERO;
 				for (Object arg : _args) {
-					result = result.add( Util.valueToBigDecimalOrZero( arg ) );
+					result = result.add( valueToBigDecimalOrZero( arg ) );
 				}
 				return result;
 			}
@@ -86,17 +87,16 @@ final class BigDecimalType extends InterpretedNumericType
 			case MINUS: {
 				switch (_args.length) {
 					case 1:
-						return Util.valueToBigDecimalOrZero( _args[ 0 ] ).negate();
+						return valueToBigDecimalOrZero( _args[ 0 ] ).negate();
 					case 2:
-						return Util.valueToBigDecimalOrZero( _args[ 0 ] )
-								.subtract( Util.valueToBigDecimalOrZero( _args[ 1 ] ) );
+						return valueToBigDecimalOrZero( _args[ 0 ] ).subtract( valueToBigDecimalOrZero( _args[ 1 ] ) );
 				}
 			}
 
 			case TIMES: {
 				BigDecimal result = RuntimeBigDecimal_v1.ONE;
 				for (Object arg : _args) {
-					result = adjustScale( result.multiply( Util.valueToBigDecimalOrZero( arg ) ) );
+					result = adjustScale( result.multiply( valueToBigDecimalOrZero( arg ) ) );
 				}
 				return result;
 			}
@@ -104,7 +104,7 @@ final class BigDecimalType extends InterpretedNumericType
 			case DIV: {
 				switch (_args.length) {
 					case 2:
-						return Util.valueToBigDecimalOrZero( _args[ 0 ] ).divide( Util.valueToBigDecimalOrZero( _args[ 1 ] ),
+						return valueToBigDecimalOrZero( _args[ 0 ] ).divide( valueToBigDecimalOrZero( _args[ 1 ] ),
 								this.scale, this.roundingMode );
 				}
 			}
@@ -112,15 +112,14 @@ final class BigDecimalType extends InterpretedNumericType
 			case EXP: {
 				switch (_args.length) {
 					case 2:
-						return adjustScale( Util.valueToBigDecimalOrZero( _args[ 0 ] ).pow(
-								Util.valueToIntOrZero( _args[ 1 ] ) ) );
+						return adjustScale( valueToBigDecimalOrZero( _args[ 0 ] ).pow( valueToIntOrZero( _args[ 1 ] ) ) );
 				}
 			}
 
 			case PERCENT: {
 				switch (_args.length) {
 					case 1:
-						return adjustScale( Util.valueToBigDecimalOrZero( _args[ 0 ] ).movePointLeft( 2 ) );
+						return adjustScale( valueToBigDecimalOrZero( _args[ 0 ] ).movePointLeft( 2 ) );
 				}
 			}
 
@@ -139,8 +138,8 @@ final class BigDecimalType extends InterpretedNumericType
 			case ROUND: {
 				switch (cardinality) {
 					case 2:
-						BigDecimal val = Util.valueToBigDecimalOrZero( _args[ 0 ] );
-						int maxFrac = Util.valueToIntOrZero( _args[ 1 ] );
+						BigDecimal val = valueToBigDecimalOrZero( _args[ 0 ] );
+						int maxFrac = valueToIntOrZero( _args[ 1 ] );
 						return adjustScale( RuntimeBigDecimal_v1.round( val, maxFrac ) );
 				}
 			}
@@ -151,8 +150,8 @@ final class BigDecimalType extends InterpretedNumericType
 						return adjustScale( BigDecimal
 								.valueOf( InterpretedNumericType.match( _args[ 0 ], _args[ 1 ], 1 ) + 1 ) );
 					case 3:
-						return adjustScale( BigDecimal.valueOf( InterpretedNumericType.match( _args[ 0 ], _args[ 1 ], Util
-								.valueToIntOrOne( _args[ 2 ] ) ) + 1 ) );
+						return adjustScale( BigDecimal.valueOf( InterpretedNumericType.match( _args[ 0 ], _args[ 1 ],
+								valueToIntOrOne( _args[ 2 ] ) ) + 1 ) );
 				}
 			}
 
@@ -164,9 +163,25 @@ final class BigDecimalType extends InterpretedNumericType
 	@Override
 	protected int compare( Object _a, Object _b )
 	{
-		BigDecimal a = Util.valueToBigDecimalOrZero( _a );
-		BigDecimal b = Util.valueToBigDecimalOrZero( _b );
+		BigDecimal a = valueToBigDecimalOrZero( _a );
+		BigDecimal b = valueToBigDecimalOrZero( _b );
 		return a.compareTo( b );
+	}
+
+
+	private BigDecimal valueToBigDecimal( Object _value, BigDecimal _ifNull )
+	{
+		BigDecimal result;
+		if (_value instanceof BigDecimal) result = (BigDecimal) _value;
+		else if (_value instanceof Double) result = BigDecimal.valueOf( (Double) _value );
+		else if (_value instanceof String) result = new BigDecimal( (String) _value );
+		else result = _ifNull;
+		return adjustScale( result );
+	}
+
+	public BigDecimal valueToBigDecimalOrZero( Object _value )
+	{
+		return valueToBigDecimal( _value, RuntimeBigDecimal_v1.ZERO );
 	}
 
 }
