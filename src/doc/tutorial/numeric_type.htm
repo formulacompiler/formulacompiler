@@ -32,8 +32,8 @@
         
         <div class="content">
         
-<p>Besides the default <tt>double</tt>, SEJ supports a number of alternative numeric types you can choose from for the computations performed by generated engines. This is because <tt>double</tt> is not precise enough for financial applications. The choices are:</p><dt><a href="#double"><tt>double</tt></a></dt><dd>is the default. It is what Excel and other spreadsheet applications use internally, so this choice is consistent with how the original spreadsheet behaves.</dd><dt><a href="#BigDecimal"><tt>BigDecimal</tt></a></dt><dd>can be used with either its internal scaling, or using a fixed scale. With a fixed scale, this type is a good choice for financial applications which must be able to cope with very high values.</dd><dt><tt>long</tt></dt><dd>can be used either as an integer type, or using a fixed scale. With a fixed scale of 4 decimal places, this type corresponds to the <tt>currency</tt> type found in Microsoft COM and Borland Delphi.
-<br/><em>Support for <tt>long</tt> is not implemented yet!</em></dd>
+<p>Besides the default <tt>double</tt>, SEJ supports a number of alternative numeric types you can choose from for the computations performed by generated engines. This is because <tt>double</tt> is not precise enough for financial applications. The choices are:</p><dt><a href="#double"><tt>double</tt></a></dt><dd>is the default. It is what Excel and other spreadsheet applications use internally, so this choice is consistent with how the original spreadsheet behaves.</dd><dt><a href="#BigDecimal"><tt>BigDecimal</tt></a></dt><dd>can be used with either its internal scaling, or using a fixed scale. With a fixed scale, this type is a good choice for financial applications which must be able to cope with very high values.</dd><dt><a href="#long"><tt>long</tt></a></dt><dd>can be used either as an integer type, or using a fixed scale. With a fixed scale of 4 decimal places, this type corresponds to the <tt>currency</tt> type found in Microsoft COM and Borland Delphi.</dd>
+<p>Note that the choice of numeric type <a href="#GlobalSetting">affects the entire engine</a> compiled by a given compiler, not just individual cells.</p>
 
 <h2><a name="double">Using <tt>double</tt></a></h2>
 <p>Since <tt>double</tt> is the default, you can simply use the default compiler constructor, without specifying the type. If you want to give the type explicitly, call:</p>
@@ -53,7 +53,7 @@ Compiler compiler = CompilerFactory.newDefaultCompiler<span class="j-sym">( </sp
 <span class="j-sym">{
   </span><span class="j-hl">double</span> getResult<span class="j-sym">()</span>;
 <span class="j-sym">}</span></pre>
-<p>In this example, we divide <em>InputA</em> by <em>InputB</em>, ie. <tt>1/6</tt>. The result is returned with <tt>double</tt>'s precision:</p>
+<p>In this example, we divide <em>InputA</em> by <em>InputB</em>, ie. 1/6. The result is returned with <tt>double</tt>'s precision:</p>
 <pre class="java">Input i = <span class="j-key">new </span>Input<span class="j-sym">()</span>;
 Output o = <span class="j-sym">(</span>Output<span class="j-sym">) </span>engine.newComputation<span class="j-sym">( </span>i <span class="j-sym">)</span>;
 assertEquals<span class="j-sym">( </span><span class="j-hl"><span class="j-str">&#34;0.16666666666666666&#34;</span></span>, String.valueOf<span class="j-sym">( </span>o.getResult<span class="j-sym">()) )</span>;</pre>
@@ -75,7 +75,7 @@ Compiler compiler = CompilerFactory.newDefaultCompiler<span class="j-sym">( </sp
 <span class="j-sym">{
   </span><span class="j-hl">BigDecimal</span> getResult<span class="j-sym">()</span>;
 <span class="j-sym">}</span></pre>
-<p>We again compute <tt>1/6</tt>. The result is returned with the increased precision we demanded, rounded up:</p>
+<p>We again compute 1/6. The result is returned with the increased precision we demanded, rounded up:</p>
 <pre class="java">Input i = <span class="j-key">new </span>Input<span class="j-sym">( </span><span class="j-num">6 </span><span class="j-sym">)</span>;
 Output o = <span class="j-sym">(</span>Output<span class="j-sym">) </span>engine.newComputation<span class="j-sym">( </span>i <span class="j-sym">)</span>;
 assertEquals<span class="j-sym">( </span><span class="j-hl"><span class="j-str">&#34;0.16666666666666666667&#34;</span></span>, o.getResult<span class="j-sym">()</span>.toPlainString<span class="j-sym">() )</span>;</pre>
@@ -84,11 +84,11 @@ assertEquals<span class="j-sym">( </span><span class="j-hl"><span class="j-str">
 <p>A good choice for financial applications is the predefined type <tt>BIGDECIMAL8</tt>. This type has a fixed scale of 8 and rounds halves up:</p>
 <pre class="java">NumericType type = <span class="j-hl">NumericType.BIGDECIMAL8</span>;
 Compiler compiler = CompilerFactory.newDefaultCompiler<span class="j-sym">( </span>sheet, inp, outp, type <span class="j-sym">)</span>;</pre>
-<p>We again compute <tt>1/6</tt>. The result is returned with the defined 8 decimals after the point, rounded up since the last <tt>6</tt> is higher than a half:</p>
+<p>We again compute 1/6. The result is returned with the defined 8 decimals after the point, rounded up since the last <tt>6</tt> is higher than a half:</p>
 <pre class="java">Input i = <span class="j-key">new </span>Input<span class="j-sym">( </span><span class="j-num">6 </span><span class="j-sym">)</span>;
 Output o = <span class="j-sym">(</span>Output<span class="j-sym">) </span>engine.newComputation<span class="j-sym">( </span>i <span class="j-sym">)</span>;
 assertEquals<span class="j-sym">( </span><span class="j-hl"><span class="j-str">&#34;0.16666667&#34;</span></span>, o.getResult<span class="j-sym">()</span>.toPlainString<span class="j-sym">() )</span>;</pre>
-<p>If, instead, we compute <tt>1/3</tt>, we get a result that is rounded down since the last <tt>3</tt> is less than a half:</p>
+<p>If, instead, we compute 1/3, we get a result that is rounded down since the last <tt>3</tt> is less than a half:</p>
 <pre class="java">Input i = <span class="j-key">new </span>Input<span class="j-sym">( </span><span class="j-hl">3</span> <span class="j-sym">)</span>;
 Output o = <span class="j-sym">(</span>Output<span class="j-sym">) </span>engine.newComputation<span class="j-sym">( </span>i <span class="j-sym">)</span>;
 assertEquals<span class="j-sym">( </span><span class="j-hl"><span class="j-str">&#34;0.33333333&#34;</span></span>, o.getResult<span class="j-sym">()</span>.toPlainString<span class="j-sym">() )</span>;</pre>
@@ -97,11 +97,11 @@ assertEquals<span class="j-sym">( </span><span class="j-hl"><span class="j-str">
 <p>Let's use a <tt>BigDecimal</tt> without a fixed scale:</p>
 <pre class="java">NumericType type = <span class="j-hl">NumericType.getInstance<span class="j-sym">( </span>BigDecimal.<span class="j-key">class </span><span class="j-sym">)</span>;</span>
 Compiler compiler = CompilerFactory.newDefaultCompiler<span class="j-sym">( </span>sheet, inp, outp, type <span class="j-sym">)</span>;</pre>
-<p>With this beast, you have to be very careful about the computations your users specify in the spreadsheets. This is because <tt>BigDecimal</tt> will fail for non-representable fractions. The value of <tt>1/4</tt> can be computed ok:</p>
+<p>With this beast, you have to be very careful about the computations your users specify in the spreadsheets. This is because <tt>BigDecimal</tt> will fail for non-representable fractions. The value of 1/4 can be computed ok:</p>
 <pre class="java">Input i = <span class="j-key">new </span>Input<span class="j-sym">( </span><span class="j-num">4 </span><span class="j-sym">)</span>;
 Output o = <span class="j-sym">(</span>Output<span class="j-sym">) </span>engine.newComputation<span class="j-sym">( </span>i <span class="j-sym">)</span>;
 assertEquals<span class="j-sym">( </span><span class="j-hl"><span class="j-str">&#34;0.25&#34;</span></span>, o.getResult<span class="j-sym">()</span>.toPlainString<span class="j-sym">() )</span>;</pre>
-<p>But <tt>1/3</tt> does not have a finite decimal representation, so <tt>BigDecimal</tt> faults:</p>
+<p>But 1/3 does not have a finite decimal representation, so <tt>BigDecimal</tt> faults:</p>
 <pre class="java"><span class="j-key">try </span><span class="j-sym">{
   </span>Input i = <span class="j-key">new </span>Input<span class="j-sym">( </span><span class="j-hl">3</span> <span class="j-sym">)</span>;
   Output o = <span class="j-sym">(</span>Output<span class="j-sym">) </span>engine.newComputation<span class="j-sym">( </span>i <span class="j-sym">)</span>;
@@ -110,10 +110,71 @@ assertEquals<span class="j-sym">( </span><span class="j-hl"><span class="j-str">
 <span class="j-sym">}
 </span><span class="j-key">catch </span><span class="j-sym">(</span><span class="j-hl">ArithmeticException e</span><span class="j-sym">) {
   </span>assertEquals<span class="j-sym">( </span><span class="j-str">&#34;Non-terminating decimal expansion; no exact representable decimal result.&#34;</span>, e.getMessage<span class="j-sym">() )</span>;
-<span class="j-sym">}</span></pre>        </div>
+<span class="j-sym">}</span></pre>
+
+<h2><a name="long">Using scaled <tt>long</tt></a></h2>
+<p>The <tt>long</tt> type can be used either as an integer type, or in scaled mode. In scaled mode, it is still a long, but interpreted as if the <em>n</em> rightmost digits were decimal places. In this example, we choose 3 digits after the decimal point. Note that as of release 0.4.1, scaled long does not support rounding modes. It always truncates.</p>
+<pre class="java">NumericType type = <span class="j-hl">NumericType.getInstance<span class="j-sym">( </span>Long.TYPE, <span class="j-num">3 </span><span class="j-sym">)</span></span>;
+Compiler compiler = CompilerFactory.newDefaultCompiler<span class="j-sym">( </span>sheet, inp, outp, type <span class="j-sym">)</span>;</pre>
+<p>All our numeric inputs and outputs must now be declared as <tt>long</tt>. Note how we must take care to feed properly scaled values as input.</p>
+<pre class="java"><span class="j-key">public static class </span>Input
+<span class="j-sym">{
+  </span><span class="j-key">private static final </span><span class="j-typ">long </span>SCALING_FACTOR = <span class="j-num">1000</span>;  <span class="j-cmt">// corresponds to scale 3
+  </span><span class="j-key">public </span>Input<span class="j-sym">(</span><span class="j-typ">int </span>b<span class="j-sym">)  { </span><span class="j-key">this</span>.b = b; <span class="j-sym">}
+  </span><span class="j-key">public </span><span class="j-hl">long</span> getA<span class="j-sym">()  { </span><span class="j-key">return </span><span class="j-num">1 </span>* SCALING_FACTOR; <span class="j-sym">}
+  </span><span class="j-key">public </span><span class="j-hl">long</span> getB<span class="j-sym">()  { </span><span class="j-key">return this</span>.b * SCALING_FACTOR; <span class="j-sym">}
+  </span><span class="j-key">private final </span><span class="j-typ">int </span>b;
+<span class="j-sym">}
+
+</span><span class="j-key">public static interface </span>Output
+<span class="j-sym">{
+  </span><span class="j-hl">long</span> getResult<span class="j-sym">()</span>;
+<span class="j-sym">}</span></pre>
+<p>We again compute 1/6. The result is again a scaled <tt>long</tt> (so <tt>166L</tt> is the scaled <tt>long</tt> equivalent of 0.166). We get 0.166 and not 0.167 because the scaled long always truncates results (this is how <tt>long</tt> itself works in Java):</p>
+<pre class="java">Input i = <span class="j-key">new </span>Input<span class="j-sym">( </span><span class="j-num">6 </span><span class="j-sym">)</span>;
+Output o = <span class="j-sym">(</span>Output<span class="j-sym">) </span>engine.newComputation<span class="j-sym">( </span>i <span class="j-sym">)</span>;
+assertEquals<span class="j-sym">( </span><span class="j-hl">166L</span>, o.getResult<span class="j-sym">() )</span>;</pre>
+
+<h3>Predefined <tt>LONG4</tt></h3>
+<p>A good choice for financial applications is the predefined type <tt>LONG4</tt>. This type has a fixed scale of 4 and behaves much like the <em>currency</em> type found in Microsoft COM and Borland Delphi.</p>
+<pre class="java">NumericType type = <span class="j-hl">NumericType.LONG4</span>;
+Compiler compiler = CompilerFactory.newDefaultCompiler<span class="j-sym">( </span>sheet, inp, outp, type <span class="j-sym">)</span>;</pre>
+<p>We again compute 1/6. The result is returned with the defined 4 decimals after the point, truncated:</p>
+<pre class="java">Input i = <span class="j-key">new </span>Input<span class="j-sym">( </span><span class="j-num">6 </span><span class="j-sym">)</span>;
+Output o = <span class="j-sym">(</span>Output<span class="j-sym">) </span>engine.newComputation<span class="j-sym">( </span>i <span class="j-sym">)</span>;
+assertEquals<span class="j-sym">( </span><span class="j-hl">1666L</span>, o.getResult<span class="j-sym">() )</span>;</pre>
+
+<h3>Unscaled <tt>long</tt></h3>
+<p>Let's use a <tt>long</tt> without decimal places:</p>
+<pre class="java">NumericType type = <span class="j-hl">NumericType.LONG;</span>
+Compiler compiler = CompilerFactory.newDefaultCompiler<span class="j-sym">( </span>sheet, inp, outp, type <span class="j-sym">)</span>;</pre>
+<p>If we compute 1/4 here, we simply get 0:</p>
+<pre class="java">Input i = <span class="j-key">new </span>Input<span class="j-sym">( </span><span class="j-num">4 </span><span class="j-sym">)</span>;
+Output o = <span class="j-sym">(</span>Output<span class="j-sym">) </span>engine.newComputation<span class="j-sym">( </span>i <span class="j-sym">)</span>;
+assertEquals<span class="j-sym">( </span><span class="j-hl">0</span>, o.getResult<span class="j-sym">() )</span>;</pre>
+
+<h2><a name="GlobalSetting">Numeric Type Is A Global Setting</a></h2>
+<p>Why is the numeric type set once per compiler, and not individually, per input or output cell? After all, consider a computation where we have as input the integer lengths of the three sides of a block in millimetres, and the price per millimetre cubed. We want the total price. So, typically:</p>
+<pre>total := (width * height * depth) * price_per_mm3;</pre>
+
+<p>Since all of the dimensions are integer, we might code this as:</p>
+<pre>long width, height, depth;
+BigDecimal total, price_per_mm3;</pre>
+
+<p>This would ensure that the two multiplications computing the volume would run at <tt>long</tt>-speed. Is this correct? It depends. If you can be sure that the volume will always fit into the <tt>long</tt> range, then yes. But even if this were so, once you use SEJ to outsource this computation to a spreadsheet, you lose control over the exact way the computation is performed. It could, for instance, be changed by one user to:</p>
+<pre>total := (width / 1000) * (height / 1000) * (depth / 1000) * price_per_m3;</pre>
+
+<p>where <tt>price_per_m3</tt> is looked up in a table. What should SEJ choose as the data type for the intermediate divisions? Hmm.</p>
+<p>An even simpler change, building a slight oversize into the computation, would be:</p>
+<pre>total := ((width + 2) * (height + 2) * (depth + 2)) * price_per_mm3;</pre>
+
+<p>So you - the programmer - may have been sure before that the volume would always fit into a <tt>long</tt>. But how can SEJ be sure that the slightly larger volume computed above will still fit? It cannot.</p>
+<p>In view of these overflow and precision problems, SEJ does not try to be clever about inferring fast types. Every simple addition of input values already forces escalation to a bigger and slower type, so without hints from outside, SEJ would have to infer slow types for nearly everything very quickly. Who could give the hints? You, the programmer, cannot, because you do not know the computations performed by the sheets defined by users later on. So it would have to be the sheet designers. I cannot imagine them caring about and being able to specify overflow conditions.</p>
+<p>What you can tell SEJ is the general class of computation you are dealing with. You simply specify the type being used for all numeric computations by a particular engine.</p>
+<p>The responsibility for this choice, and for communicating its consequences to the sheet designers, rests fully with you, the programmer. But it does allow you to generate engines suited for precise financial or very fast pure integer computations.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 10.05.2006.</p>        </div>
+<br/>Last updated on 17.05.2006.</p>        </div>
     </div>
 </body>
 </html>

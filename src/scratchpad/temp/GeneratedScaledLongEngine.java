@@ -1,7 +1,7 @@
 package temp;
 
 import sej.Engine;
-import sej.engine.RuntimeLong_v1;
+import sej.runtime.RuntimeLong_v1;
 
 
 public final class GeneratedScaledLongEngine implements Engine, ScaledLongOutputs
@@ -45,6 +45,11 @@ public final class GeneratedScaledLongEngine implements Engine, ScaledLongOutput
 	private long get2()
 	{
 		return this.inputs.getB();
+	}
+	
+	private long get3()
+	{
+		return 0;
 	}
 
 

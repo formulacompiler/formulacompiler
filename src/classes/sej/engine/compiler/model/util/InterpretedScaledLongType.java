@@ -24,21 +24,21 @@ import java.math.BigDecimal;
 
 import sej.NumericType;
 import sej.NumericType.AbstractLongType;
-import sej.engine.RuntimeLong_v1;
 import sej.expressions.Function;
 import sej.expressions.Operator;
+import sej.runtime.RuntimeLong_v1;
 
-final class ScaledLongType extends InterpretedNumericType
+final class InterpretedScaledLongType extends InterpretedNumericType
 {
 	private final NumericType.AbstractLongType num;
-	private final RuntimeLong_v1 runtime;
+	private final RuntimeLong_v1.Context runtimeCx;
 
 
-	public ScaledLongType(AbstractLongType _type)
+	public InterpretedScaledLongType(AbstractLongType _type)
 	{
 		super( _type );
 		this.num = _type;
-		this.runtime = new RuntimeLong_v1( _type.getScale() );
+		this.runtimeCx = new RuntimeLong_v1.Context( _type.getScale() );
 	}
 
 
@@ -188,7 +188,7 @@ final class ScaledLongType extends InterpretedNumericType
 					case 2:
 						long val = valueToScaledLongOrZero( _args[ 0 ] );
 						int maxFrac = (int) (valueToScaledLongOrZero( _args[ 1 ] ) / this.num.one());
-						return this.runtime.round( val, maxFrac );
+						return RuntimeLong_v1.round( val, maxFrac, this.runtimeCx );
 				}
 			}
 

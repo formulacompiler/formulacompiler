@@ -20,15 +20,25 @@
  */
 package sej.tests.serialization;
 
-import java.math.BigDecimal;
-
-// ---- Outputs
-
-public interface Outputs
+public class ScaledLongDeserializationTest extends AbstractDeserializationTest
 {
-	double getResult();
-	long getResult_Long4();
-	BigDecimal getResult_Big();
-}
 
-// ---- Outputs
+	@Override
+	protected String getTypeSuffix()
+	{
+		return "_Long4";
+	}
+
+	@Override
+	protected Number getResult( Outputs _outputs )
+	{
+		return _outputs.getResult_Long4();
+	}
+
+	@Override
+	protected String numberToString( Number _arg )
+	{
+		return trimTrailingZeroes( Double.toString( _arg.doubleValue() / 10000.0 ));
+	}
+
+}

@@ -128,6 +128,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 	{
 		_suite.addTest( new DoubleTestCase( _workbook, _formulaRow, _valueRow, _useInputs ) );
 		_suite.addTest( new BigDecimalTestCase( _workbook, _formulaRow, _valueRow, _useInputs ) );
+		_suite.addTest( new ScaledLongTestCase( _workbook, _formulaRow, _valueRow, _useInputs ) );
 	}
 
 
@@ -212,7 +213,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		protected abstract Class getInputs();
 		protected abstract Class getOutputs();
 		protected abstract Inputs newInputs( int _input );
-		protected abstract void assertNumber( Object _expected, Object _computation );
+		protected abstract void assertNumber( double _expected, Object _computation );
 
 
 		@Override
@@ -286,7 +287,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 				final Outputs computation = (Outputs) engine.newComputation( inputs );
 
 				if (expected instanceof Double) {
-					assertNumber( expected, computation );
+					assertNumber( (Double) expected, computation );
 				}
 				else if (expected instanceof Date) {
 					final Date actual = computation.getDate();
@@ -352,6 +353,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 
 		}
 
+
 		public static interface Outputs
 		{
 			Date getDate();
@@ -387,12 +389,13 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		}
 
 		@Override
-		protected void assertNumber( Object _expected, Object _computation )
+		protected void assertNumber( double _expected, Object _computation )
 		{
 			Outputs computation = (Outputs) _computation;
 			final double actual = computation.getNumber();
-			assertEquals( (Double) _expected, actual, 0.00000001 );
+			assertEquals( _expected, actual, 0.00000001 );
 		}
+
 
 		public static class Inputs extends FormulaEvaluationTestCase.Inputs
 		{
@@ -445,17 +448,18 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		}
 
 		@Override
-		protected void assertNumber( Object _expected, Object _computation )
+		protected void assertNumber( double _expected, Object _computation )
 		{
 			final Outputs computation = (Outputs) _computation;
 			final BigDecimal actual = computation.getNumber();
-			
-			// BigDecimal.valueOf( (Double) _expected ) is not precise on JRE 1.4!
-			final BigDecimal expected = new BigDecimal( _expected.toString() ); 
-			
+
+			// BigDecimal.valueOf( _expected ) is not precise on JRE 1.4!
+			final BigDecimal expected = new BigDecimal( Double.toString( _expected ) );
+
 			final boolean isOK = (0 == expected.compareTo( actual ));
 			assertTrue( "Expected: " + expected.toString() + ", but was: " + actual.toString(), isOK );
 		}
+
 
 		public static class Inputs extends FormulaEvaluationTestCase.Inputs
 		{
@@ -474,6 +478,65 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		public static interface Outputs extends FormulaEvaluationTestCase.Outputs
 		{
 			BigDecimal getNumber();
+		}
+
+
+	}
+
+
+	private static class ScaledLongTestCase extends FormulaEvaluationTestCase
+	{
+
+		public ScaledLongTestCase(Workbook _workbook, int _formulaRow, int _inputRow, boolean _useInputs)
+		{
+			super( _workbook, _formulaRow, _inputRow, _useInputs, NumericType.LONG4 );
+		}
+
+		@Override
+		protected Class getInputs()
+		{
+			return Inputs.class;
+		}
+
+		@Override
+		protected Class getOutputs()
+		{
+			return Outputs.class;
+		}
+
+		@Override
+		protected Inputs newInputs( int _numberOfValues )
+		{
+			return new Inputs( _numberOfValues );
+		}
+
+		@Override
+		protected void assertNumber( double _expected, Object _computation )
+		{
+			final Outputs computation = (Outputs) _computation;
+			final long actual = computation.getNumber();
+			final long expected = ((Long) NumericType.LONG4.valueOf( _expected )).longValue();
+			assertEquals( expected, actual );
+		}
+
+
+		public static class Inputs extends FormulaEvaluationTestCase.Inputs
+		{
+			public Inputs(int _numberOfValues)
+			{
+				super( _numberOfValues );
+			}
+
+			public long getNumber( int _index )
+			{
+				return ((Long) NumericType.LONG4.valueOf( getDouble( _index ) )).longValue();
+			}
+		}
+
+
+		public static interface Outputs extends FormulaEvaluationTestCase.Outputs
+		{
+			long getNumber();
 		}
 
 

@@ -36,13 +36,23 @@
 
 <h2>Next Steps</h2>
 <ul class="spaced">
-<li>Implement support for scaled <tt>long</tt>.</li>
 <li>Implement sharing of constant values for expensive types (<tt>BigDecimal</tt>, for instance).</li>
 <li>Implement internal caching of multiply referenced values.</li>
 <li>Implement <tt>INDEX</tt> and <tt>MATCH</tt> again.</li>
 <li>Decide on how serialized byte code engines will be stored for both maximum load performance and maximum robustness when SEJ evolves.</li>
 <li>Implement Java source code generation and hybrid tests. This will naturally surface the exception and partial implementation of interfaces problem.</li>
 </ul>
+
+<h2>May 17, 2006</h2>
+<p><em>Correction:</em> <tt>BigDecimal</tt> was ok in 0.4.0, after all. The compiler inserted the rescaling directly into the code instead of handing it off to the runtime.</p>
+<p>Scaled long is up and running now, passing all tests. Instead of making the runtime an instance, I had to add support for adding a last argument with runtime context information to the static runtime methods. This is because otherwise I would have had to know that I would need the runtime instance later on <b>before</b> compiling an expression's arguments (because the JVM expects the instance for a virtual call on the stack first, not last). That would have greatly complicated the compiler's design. The context argument I can conveniently push last, where required.</p>
+
+<h2>May 16, 2006</h2>
+<p>Scaled <tt>long</tt> support is coming along nicely now. The one big change that's still missing is to provide the engines with an <em>instance</em> of the runtime. Before, it was sufficient to give them static access. The reason is the runtime must know about things like the scale and rounding mode and it is far simpler to embed this in the runtime once and for all instead of passing it around all the time.</p>
+<p>This made me realize that the current <tt>BigDecimal</tt> operations defined in the runtime do not enforce the fixed scale. I shall fix this for 0.4.1.</p>
+
+<h2>May 11, 2006</h2>
+<p>Since I continually broke the runtime jar, I have now included dedicated runtime tests in the automated build. This also tests engine serialization and deserialization. Yes!</p>
 
 <h2>May 9, 2006</h2>
 <p>Scaled <tt>BigDecimal</tt> support is finally up and running with all tests green, both on JRE 1.4 and 1.5. Quite a refactoring session that was. I shall soon release it as version 0.4.0.</p>
@@ -394,7 +404,7 @@ void compileAnd( Node a, Node b, Label branch ) {
 <p>SEJ does not handle sums over nested bands properly. The user must model intermediate sums for every non-leaf band. I shall accept this as a known limitation for the moment and have <a href="doc/bands.html">documented</a> it.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 10.05.2006.</p>        </div>
+<br/>Last updated on 17.05.2006.</p>        </div>
     </div>
 </body>
 </html>

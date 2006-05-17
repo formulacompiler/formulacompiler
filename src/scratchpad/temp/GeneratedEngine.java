@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import sej.Engine;
-import sej.engine.RuntimeDouble_v1;
-import sej.engine.Runtime_v1;
+import sej.runtime.RuntimeDouble_v1;
+import sej.runtime.Runtime_v1;
 import sej.tests.utils.InputInterface;
 import sej.tests.utils.Inputs;
 import sej.tests.utils.Outputs;

@@ -42,13 +42,13 @@ public abstract class InterpretedNumericType
 	public static InterpretedNumericType typeFor( NumericType _type )
 	{
 		if (Double.TYPE == _type.getValueType()) {
-			return new DoubleType( _type );
+			return new InterpretedDoubleType( _type );
 		}
 		else if (BigDecimal.class == _type.getValueType()) {
-			return new BigDecimalType( _type );
+			return new InterpretedBigDecimalType( _type );
 		}
 		else if (Long.TYPE == _type.getValueType()) {
-			return new ScaledLongType( (NumericType.AbstractLongType) _type );
+			return new InterpretedScaledLongType( (NumericType.AbstractLongType) _type );
 		}
 		else {
 			throw new IllegalArgumentException( "Unsupported numeric type for run-time interpretation." );

@@ -1,7 +1,6 @@
 package sej.tests;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
 import sej.Engine;
 import sej.EngineBuilder;
@@ -10,6 +9,7 @@ import sej.NumericType;
 import sej.Settings;
 import sej.engine.standard.compiler.StandardCompiler;
 import sej.loader.excel.xls.ExcelXLSLoader;
+import sej.runtime.RuntimeDouble_v1;
 import junit.framework.TestCase;
 
 
@@ -25,46 +25,53 @@ public class DebugTest extends TestCase
 
 	public void testDebugCase() throws IOException, ModelError
 	{
-		final EngineBuilder builder = new EngineBuilder( Inputs.class, Outputs.class, NumericType.BIGDECIMAL8 );
+		final EngineBuilder builder = new EngineBuilder( Inputs.class, Outputs.class, NumericType.LONG4 );
 		builder.loadSpreadsheet( "src/scratchpad/data/DebugCase.xls" );
 		builder.bindCellsByName();
 		final Engine engine = builder.buildEngine();
 
 		final Inputs inputs = new Inputs();
 		final Outputs outputs = (Outputs) engine.newComputation( inputs );
-		final BigDecimal result = outputs.getResult();
+		final long result = outputs.getResult();
+		
+		final long x = inputs.getIB() * 10000L;
+		final long y = x / inputs.getIC();
+		final long z = inputs.getIA() - y;
+		
+		final long exp = (long) (RuntimeDouble_v1.round( 9.666666667, 2 ) * 10000 );
+		
 
-		assertEquals( "10.5", result.toPlainString() );
+		assertEquals( 96666L, result );
 	}
 
 
 	public static final class Inputs
 	{
-		public BigDecimal getIA()
+		public long getIA()
 		{
-			return new BigDecimal( "1" );
+			return 100000L;
 		}
 
-		public BigDecimal getIB()
+		public long getIB()
 		{
-			return new BigDecimal( "20" );
+			return 10000L;
 		}
 
-		public BigDecimal getIC()
+		public long getIC()
 		{
-			return new BigDecimal( "3" );
+			return 30000L;
 		}
 
-		public BigDecimal getID()
+		public long getID()
 		{
-			return new BigDecimal( "4" );
+			return 0;
 		}
 	}
 
 
 	public static interface Outputs
 	{
-		BigDecimal getResult();
+		long getResult();
 	}
 
 }

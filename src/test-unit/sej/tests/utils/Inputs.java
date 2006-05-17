@@ -156,6 +156,17 @@ public class Inputs implements InputInterface
 		return BigDecimal.valueOf( 3 );
 	}
 
+	
+	public long getScaledLongA()
+	{
+		return 1003400L;
+	}
+
+	public long getScaledLongB()
+	{
+		return 30000L;
+	}
+
 
 	public class Inner
 	{

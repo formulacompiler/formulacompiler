@@ -23,17 +23,17 @@ package sej.engine.compiler.model.util;
 import java.math.BigDecimal;
 
 import sej.NumericType;
-import sej.engine.RuntimeBigDecimal_v1;
 import sej.expressions.Function;
 import sej.expressions.Operator;
+import sej.runtime.RuntimeBigDecimal_v1;
 
-final class BigDecimalType extends InterpretedNumericType
+final class InterpretedBigDecimalType extends InterpretedNumericType
 {
 	private final int scale;
 	private final int roundingMode;
 
 
-	public BigDecimalType(NumericType _type)
+	public InterpretedBigDecimalType(NumericType _type)
 	{
 		super( _type );
 		this.scale = _type.getScale();

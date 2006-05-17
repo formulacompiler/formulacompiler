@@ -1,0 +1,94 @@
+digraph "SEJ Component Overview" {
+	fontname = "Helvetica";
+
+	node [ shape = box, fontname = "Helvetica" ];
+	edge [ fontname = "Helvetica" ];
+	
+	subgraph input {
+					node [style = filled, color = lightblue ];
+		xls			[ label = "Excel .xls File", shape=octagon ];
+		xml			[ label = "Excel .xml File", shape=octagon ];
+		ods			[ label = "OpenOffice .ods File", shape=octagon ];
+	}
+	
+	subgraph cluster_config {
+					label = "Configuration Application Compiling & Saving Engine";
+					style = filled;
+					color = lightblue;
+					
+		{ 			node [ style = filled, fillcolor = lightpink ];
+		comp 		[ label = "SEJ Sourcecode Compiler" ];
+		}
+		{ 			node [ style = filled, fillcolor = yellowgreen ];
+		ext			[ label = "CUP\nJExcelAPI\nJDOM" ];
+		javac		[ label = "Java Compiler" ];
+		}
+		{ 			node [ style = filled, color=lightgoldenrod, shape=octagon ];
+		srceng		[ label = "Java Source (.java)" ];
+		}
+		
+		{ rank = same; comp; ext; }
+	}
+					
+
+	subgraph ser {
+					node [style = filled, color = lightblue ];
+
+		{ 			node [ style = filled, color=lightgoldenrod, shape=octagon ];
+		srceng		[ label = "Java Source (.java)" ];
+		clseng		[ label = "Java Class (.class)" ];
+		}
+		{ 			node [ style = filled, fillcolor = yellowgreen ];
+		javac		[ label = "Java Compiler" ];
+		}
+		
+	}
+
+	subgraph cluster_runtime {
+					label = "Application Loading & Using Engine";
+					style = filled;
+					color = lightblue;
+					
+		{ 			node [ style = filled, fillcolor = lightpink ];
+		run			[ label = "SEJ Runtime" ];
+		}
+		{ 			node [ style = filled, fillcolor = lightgoldenrod ];
+		bceng		[ label = "Engine Instance" ];
+		calc		[ label = "Computation Instance" ];
+		}
+
+		inp			[ label = "Input Instance" ];
+		outp		[ label = "Output Interface", style = dotted ];
+		
+		{ 			node [ style = filled, fillcolor = white ];
+		java		[ label = "Java Class Loader" ];
+		}
+
+		{ rank = same; calc; inp; outp; }
+	}
+
+	{ 				edge [ label = "input to" ];
+	xls -> comp;
+	xml -> comp;
+	ods -> comp;
+	srceng -> javac;
+	clseng -> java;
+	inp -> calc;
+	}
+	
+	{ 				edge [ label = "builds a" ];
+	comp -> srceng;
+	javac -> clseng;
+	java -> bceng -> calc;
+	}
+
+	{ 				edge [ label = "implements", style=dotted ];
+	calc -> outp;
+	}
+	
+	{ 				edge [ style = dotted, label = "uses" ];
+	comp -> ext;
+	calc -> run;
+	}
+
+}
