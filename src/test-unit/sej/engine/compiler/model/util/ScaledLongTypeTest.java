@@ -29,7 +29,7 @@ public class ScaledLongTypeTest extends TestCase
 	public void testScaledLongToDouble()
 	{
 		final NumericType num2 = NumericType.getInstance( Long.TYPE, 2 );
-		final ScaledLongType dec2 = new ScaledLongType( (NumericType.ScaledLongType) num2 );
+		final InterpretedScaledLongType dec2 = new InterpretedScaledLongType( (NumericType.ScaledLongType) num2 );
 
 		assertEquals( 123.45, dec2.scaledLongToDouble( 12345 ), 0.00001 );
 		assertEquals( -123.45, dec2.scaledLongToDouble( -12345 ), 0.00001 );

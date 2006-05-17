@@ -21,7 +21,6 @@
 package sej.engine.bytecode.compiler;
 
 import java.lang.reflect.Method;
-import java.math.BigDecimal;
 import java.util.Date;
 
 import org.objectweb.asm.MethodVisitor;
@@ -98,24 +97,18 @@ final class ByteCodeCellCompiler extends ByteCodeMethodCompiler
 
 				if (CellModel.UNLIMITED != cell.getMaxFractionalDigits()) {
 					mv.visitLdcInsn( cell.getMaxFractionalDigits() );
-					mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "round", getNumericType()
-							.getRoundMethodSignature() );
+					getNumericType().compileRound( mv );
 				}
-
-				if (Double.TYPE == returnClass) {
-					mv.visitInsn( Opcodes.DRETURN );
-				}
-				else if (BigDecimal.class == returnClass) {
-					mv.visitInsn( Opcodes.ARETURN );
+				
+				if (returnClass == getNumericType().getNumericType().getValueType()) {
+					mv.visitInsn( getNumericType().getReturnOpcode());
 				}
 				else if (Date.class == returnClass) {
-					mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "dateFromExcel", "("
-							+ getNumericType().getDescriptor() + ")Ljava/util/Date;" );
+					getNumericType().compileDateFromExcel( mv );
 					mv.visitInsn( Opcodes.ARETURN );
 				}
 				else if (Boolean.TYPE == returnClass) {
-					mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "booleanFromExcel", "("
-							+ getNumericType().getDescriptor() + ")Z" );
+					getNumericType().compileBooleanFromExcel( mv );
 					mv.visitInsn( Opcodes.IRETURN );
 				}
 				else {

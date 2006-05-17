@@ -21,14 +21,14 @@
 package sej.engine.compiler.model.util;
 
 import sej.NumericType;
-import sej.engine.RuntimeDouble_v1;
 import sej.expressions.Function;
 import sej.expressions.Operator;
+import sej.runtime.RuntimeDouble_v1;
 
-final class DoubleType extends InterpretedNumericType
+final class InterpretedDoubleType extends InterpretedNumericType
 {
 
-	public DoubleType(NumericType _type)
+	public InterpretedDoubleType(NumericType _type)
 	{
 		super( _type );
 	}

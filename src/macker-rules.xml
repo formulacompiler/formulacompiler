@@ -7,10 +7,11 @@
 		<pattern name="all"					class="${base}.**" />        
         <pattern name="api"					class="${base}.*" />
         <pattern name="describable"			class="${base}.describable.*" />
+        <pattern name="runtime"				class="${base}.runtime.*" />
 
         <pattern name="core">
         	<include class="${base}.*" />
-        	<include class="${base}.engine.*" />
+        	<include class="${base}.runtime.*" />
         	<include class="${base}.describable.*" />
         </pattern>
 
@@ -42,6 +43,7 @@
                 	<include pattern="all" />
                 	<exclude pattern="api" />
                 	<exclude pattern="describable" />
+                	<exclude pattern="runtime" />
                 </to>
             </deny>
         </access-rule>
@@ -54,6 +56,18 @@
                 <to>
                 	<include pattern="all" />
                 	<exclude pattern="describable" />
+                </to>
+            </deny>
+        </access-rule>
+        
+        
+        <access-rule>
+            <message>sej.runtime</message>
+            <deny>
+            	<from pattern="runtime" />
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="runtime" />
                 </to>
             </deny>
         </access-rule>

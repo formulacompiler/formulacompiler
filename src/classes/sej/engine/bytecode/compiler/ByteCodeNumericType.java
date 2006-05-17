@@ -21,46 +21,58 @@
 package sej.engine.bytecode.compiler;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.ModelError;
 import sej.NumericType;
-import sej.engine.RuntimeBigDecimal_v1;
-import sej.engine.RuntimeDouble_v1;
+import sej.expressions.Function;
 import sej.expressions.Operator;
 
 
-public abstract class ByteCodeNumericType
+abstract class ByteCodeNumericType
 {
-	static ByteCodeNumericType DOUBLE_TYPE = new DoubleType();
-	static ByteCodeNumericType BIGDECIMAL_8_TYPE = new BigDecimalType( 8, BigDecimal.ROUND_HALF_UP );
-	static ByteCodeNumericType BIGDECIMAL_9_TYPE = new BigDecimalType( 9, BigDecimal.ROUND_HALF_UP );
+	private final NumericType num;
+	private final ByteCodeSectionCompiler compiler;
 
 
-	ByteCodeNumericType()
+	ByteCodeNumericType(NumericType _type, ByteCodeSectionCompiler _compiler)
 	{
 		super();
+		this.num = _type;
+		this.compiler = _compiler;
 	}
 
-	public static ByteCodeNumericType typeFor( NumericType _type )
+	public static ByteCodeNumericType typeFor( NumericType _type, ByteCodeSectionCompiler _compiler )
 	{
 		if (Double.TYPE == _type.getValueType()) {
-			return DOUBLE_TYPE;
+			return new ByteCodeDoubleType( _type, _compiler );
+		}
+		else if (Long.TYPE == _type.getValueType()) {
+			return new ByteCodeScaledLongType( _type, _compiler );
 		}
 		else if (BigDecimal.class == _type.getValueType()) {
-			if (8 == _type.getScale() && _type.getRoundingMode() == BigDecimal.ROUND_HALF_UP) return BIGDECIMAL_8_TYPE;
-			if (9 == _type.getScale() && _type.getRoundingMode() == BigDecimal.ROUND_HALF_UP) return BIGDECIMAL_9_TYPE;
-			return new BigDecimalType( _type.getScale(), _type.getRoundingMode() );
+			return new ByteCodeBigDecimalType( _type, _compiler );
 		}
 		else {
 			throw new IllegalArgumentException( "Unsupported numeric type for byte code compilation." );
 		}
 	}
 
+
+	public NumericType getNumericType()
+	{
+		return this.num;
+	}
+
+	public ByteCodeSectionCompiler getCompiler()
+	{
+		return this.compiler;
+	}
 
 	public abstract Type getType();
 	public abstract int getReturnOpcode();
@@ -72,12 +84,24 @@ public abstract class ByteCodeNumericType
 		return getType().getDescriptor();
 	}
 
-	public String getRoundMethodSignature()
+
+	protected abstract String getRoundMethodSignature();
+
+
+	protected void compileRuntimeMethod( MethodVisitor _mv, String _methodName, String _methodSig )
 	{
-		final String descriptor = getDescriptor();
-		return "(" + descriptor + "I)" + descriptor;
+		_mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), _methodName, _methodSig );
 	}
 
+	public boolean buildStaticMembers( ClassWriter _writer )
+	{
+		return false;
+	}
+
+	public void compileStaticInitialization( GeneratorAdapter _ma, Type _engineType )
+	{
+		// overridable placeholder
+	}
 
 	public void compile( GeneratorAdapter _mv, Operator _operator, int _numberOfArguments ) throws ModelError
 	{
@@ -102,316 +126,34 @@ public abstract class ByteCodeNumericType
 
 	public abstract void compileComparison( GeneratorAdapter _mv, int _comparisonOpcode );
 
-	public abstract void compileFromLong( GeneratorAdapter _mv );
-
-
-	static final class DoubleType extends ByteCodeNumericType
+	public void compileStdFunction( GeneratorAdapter _mv, Function _function, String _argumentDescriptor )
 	{
-
-		@Override
-		public Type getType()
-		{
-			return Type.DOUBLE_TYPE;
-		}
-
-
-		@Override
-		public int getReturnOpcode()
-		{
-			return Opcodes.DRETURN;
-		}
-
-
-		private static final Type RUNTIME_TYPE = Type.getType( RuntimeDouble_v1.class );
-
-		@Override
-		public Type getRuntimeType()
-		{
-			return RUNTIME_TYPE;
-		}
-
-
-		@Override
-		public void compile( GeneratorAdapter _mv, Operator _operator, int _numberOfArguments ) throws ModelError
-		{
-			switch (_operator) {
-
-				case PLUS:
-					_mv.visitInsn( Opcodes.DADD );
-					break;
-
-				case MINUS:
-					if (1 == _numberOfArguments) {
-						_mv.visitInsn( Opcodes.DNEG );
-					}
-					else {
-						_mv.visitInsn( Opcodes.DSUB );
-					}
-					break;
-
-				case TIMES:
-					_mv.visitInsn( Opcodes.DMUL );
-					break;
-
-				case DIV:
-					_mv.visitInsn( Opcodes.DDIV );
-					break;
-
-				case PERCENT:
-					_mv.visitLdcInsn( 100.0 );
-					_mv.visitInsn( Opcodes.DDIV );
-					break;
-
-				case EXP:
-					_mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeCompiler.MATH.getInternalName(), "pow", "(DD)D" );
-					break;
-
-				case MIN:
-					_mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "min", "(DD)D" );
-					break;
-
-				case MAX:
-					_mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "max", "(DD)D" );
-					break;
-
-				default:
-					super.compile( _mv, _operator, _numberOfArguments );
-			}
-		}
-
-
-		@Override
-		public void compileConst( GeneratorAdapter _mv, Object _constantValue ) throws ModelError
-		{
-			if (null == _constantValue) {
-				_mv.visitInsn( Opcodes.DCONST_0 );
-			}
-			else if (_constantValue instanceof Number) {
-				double val = ((Number) _constantValue).doubleValue();
-				_mv.push( val );
-			}
-			else if (_constantValue instanceof Boolean) {
-				double val = ((Boolean) _constantValue) ? 1 : 0;
-				_mv.push( val );
-			}
-			else if (_constantValue instanceof Date) {
-				Date date = (Date) _constantValue;
-				double val = RuntimeDouble_v1.dateToExcel( date );
-				_mv.push( val );
-			}
-			else {
-				super.compileConst( _mv, _constantValue );
-			}
-		}
-
-
-		@Override
-		public void compileZero( GeneratorAdapter _mv )
-		{
-			_mv.push( 0.0D );
-		}
-
-
-		@Override
-		public void compileComparison( GeneratorAdapter _mv, int _comparisonOpcode )
-		{
-			_mv.visitInsn( _comparisonOpcode );
-		}
-
-
-		@Override
-		public void compileFromLong( GeneratorAdapter _mv )
-		{
-			_mv.visitInsn( Opcodes.I2D );
-		}
-
+		compileRuntimeMethod( _mv, "std" + _function.getName(), "(" + _argumentDescriptor + ")" + getDescriptor() );
 	}
 
-
-	static final class BigDecimalType extends ByteCodeNumericType
+	public void compileRound( MethodVisitor _mv )
 	{
-		private static final String BNAME = ByteCodeCompiler.BIGDECIMAL.getInternalName();
-		private static final String B = ByteCodeCompiler.BIGDECIMAL.getDescriptor();
-		private static final String V2B = "()" + B;
-		private static final String I2B = "(" + Type.INT_TYPE.getDescriptor() + ")" + B;
-		private static final String D2B = "(" + Type.DOUBLE_TYPE.getDescriptor() + ")" + B;
-		private static final String L2B = "(" + Type.LONG_TYPE.getDescriptor() + ")" + B;
-		private static final String S2B = "(Ljava/lang/String;)" + B;
-		private static final String B2B = "(" + B + ")" + B;
-		private static final String BB2B = "(" + B + B + ")" + B;
-		private static final String BII2B = "(" + B + "II)" + B;
-		private final int scale;
-		private final int roundingMode;
+		compileRuntimeMethod( _mv, "round", getRoundMethodSignature() );
+	}
 
+	public void compileDateToExcel( MethodVisitor _mv )
+	{
+		compileRuntimeMethod( _mv, "dateToExcel", "(Ljava/util/Date;)" + getDescriptor() );
+	}
 
-		public BigDecimalType(int _scale, int _roundingMode)
-		{
-			super();
-			this.scale = _scale;
-			this.roundingMode = _roundingMode;
-		}
+	public void compileDateFromExcel( MethodVisitor _mv )
+	{
+		compileRuntimeMethod( _mv, "dateFromExcel", "(" + getDescriptor() + ")Ljava/util/Date;" );
+	}
 
+	public void compileBooleanToExcel( MethodVisitor _mv )
+	{
+		compileRuntimeMethod( _mv, "booleanToExcel", "(Z)" + getDescriptor() );
+	}
 
-		@Override
-		public Type getType()
-		{
-			return Type.getType( BigDecimal.class );
-		}
-
-
-		@Override
-		public int getReturnOpcode()
-		{
-			return Opcodes.ARETURN;
-		}
-
-
-		private static final Type RUNTIME_TYPE = Type.getType( RuntimeBigDecimal_v1.class );
-
-		@Override
-		public Type getRuntimeType()
-		{
-			return RUNTIME_TYPE;
-		}
-
-
-		@Override
-		public void compile( GeneratorAdapter _mv, Operator _operator, int _numberOfArguments ) throws ModelError
-		{
-			switch (_operator) {
-
-				case PLUS:
-					_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "add", B2B );
-					break;
-
-				case MINUS:
-					if (1 == _numberOfArguments) {
-						_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "negate", V2B );
-					}
-					else {
-						_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "subtract", B2B );
-					}
-					break;
-
-				case TIMES:
-					_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "multiply", B2B );
-					compileScaleAdjustment( _mv );
-					break;
-
-				case DIV:
-					if (isScaled()) {
-						_mv.push( this.scale );
-						_mv.push( this.roundingMode );
-						_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "divide", BII2B );
-					}
-					else {
-						_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "divide", B2B );
-					}
-					break;
-
-				case PERCENT:
-					_mv.push( 2 );
-					_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "movePointLeft", I2B );
-					compileScaleAdjustment( _mv );
-					break;
-
-				case EXP:
-					_mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "pow", BB2B );
-					compileScaleAdjustment( _mv );
-					break;
-
-				case MIN:
-					_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "min", B2B );
-					break;
-
-				case MAX:
-					_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "max", B2B );
-					break;
-
-				default:
-					super.compile( _mv, _operator, _numberOfArguments );
-			}
-		}
-
-
-		@Override
-		public void compileConst( GeneratorAdapter _mv, Object _constantValue ) throws ModelError
-		{
-			if (null == _constantValue) {
-				compileZero( _mv );
-			}
-			else if (_constantValue instanceof Number) {
-				String val = _constantValue.toString();
-				_mv.push( val );
-				_mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "newBigDecimal", S2B );
-				compileScaleAdjustment( _mv );
-			}
-			else if (_constantValue instanceof Boolean) {
-				_mv.visitFieldInsn( Opcodes.GETSTATIC, BNAME, ((Boolean) _constantValue) ? "ONE" : "ZERO", B );
-				compileScaleAdjustment( _mv );
-			}
-			else if (_constantValue instanceof Date) {
-				DOUBLE_TYPE.compileConst( _mv, _constantValue );
-				compileFromDouble( _mv );
-				compileScaleAdjustment( _mv );
-			}
-			else {
-				super.compileConst( _mv, _constantValue );
-			}
-		}
-
-
-		@Override
-		public void compileZero( GeneratorAdapter _mv )
-		{
-			final String jreVersion = System.getProperty( "java.version" );
-			if (jreVersion.startsWith( "1.4." )) {
-				_mv.push( 0L );
-				_mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "newBigDecimal", L2B );
-			}
-			else {
-				_mv.visitFieldInsn( Opcodes.GETSTATIC, BNAME, "ZERO", B );
-			}
-			compileScaleAdjustment( _mv );
-		}
-
-
-		@Override
-		public void compileComparison( GeneratorAdapter _mv, int _comparisonOpcode )
-		{
-			_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "compareTo", "(" + B + ")I" );
-		}
-
-
-		@Override
-		public void compileFromLong( GeneratorAdapter _mv )
-		{
-			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "newBigDecimal", L2B );
-			compileScaleAdjustment( _mv );
-		}
-
-
-		private void compileFromDouble( GeneratorAdapter _mv )
-		{
-			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "newBigDecimal", D2B );
-		}
-
-
-		public void compileScaleAdjustment( GeneratorAdapter _mv )
-		{
-			if (isScaled()) {
-				_mv.push( this.scale );
-				_mv.push( this.roundingMode );
-				_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "setScale", "(II)" + B );
-			}
-		}
-
-
-		private boolean isScaled()
-		{
-			return NumericType.UNDEFINED_SCALE != this.scale;
-		}
-
+	public void compileBooleanFromExcel( MethodVisitor _mv )
+	{
+		compileRuntimeMethod( _mv, "booleanFromExcel", "(" + getDescriptor() + ")Z" );
 	}
 
 }

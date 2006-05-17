@@ -46,6 +46,16 @@ public final class Inputs
 		return Double.parseDouble( this.b );
 	}
 	
+	public long getA_Long4()
+	{
+		return (long) (getA() * 10000);
+	}
+
+	public long getB_Long4()
+	{
+		return (long) (getB() * 10000);
+	}
+	
 	public BigDecimal getA_Big()
 	{
 		return new BigDecimal( this.a );

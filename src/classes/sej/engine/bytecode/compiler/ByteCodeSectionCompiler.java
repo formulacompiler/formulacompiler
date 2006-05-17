@@ -29,6 +29,7 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.ModelError;
 import sej.engine.compiler.model.CellModel;
@@ -53,13 +54,13 @@ final class ByteCodeSectionCompiler
 	Type engine;
 
 
-	ByteCodeSectionCompiler(ByteCodeCompiler _compiler, SectionModel _model) 
+	ByteCodeSectionCompiler(ByteCodeCompiler _compiler, SectionModel _model)
 	{
 		super();
 		this.modelCompiler = _compiler;
 		this.parentSectionCompiler = null;
 		this.model = _model;
-		this.numericType = ByteCodeNumericType.typeFor( _compiler.getNumericType() );
+		this.numericType = ByteCodeNumericType.typeFor( _compiler.getNumericType(), this );
 		initialize();
 	}
 
@@ -154,6 +155,9 @@ final class ByteCodeSectionCompiler
 	void beginCompilation() throws ModelError
 	{
 		initializeClass();
+		if (getNumericType().buildStaticMembers( cw() )) {
+			buildStaticInitializer();
+		}
 		if (hasInputs()) buildInputMember();
 		buildAnonymousConstructor();
 		buildConstructorWithInputs();
@@ -193,6 +197,16 @@ final class ByteCodeSectionCompiler
 		cw().visitSource( null, null );
 	}
 
+	private void buildStaticInitializer()
+	{
+		MethodVisitor mv = cw().visitMethod( Opcodes.ACC_STATIC, "<clinit>", "()V", null, null );
+		GeneratorAdapter ma = new GeneratorAdapter( mv, Opcodes.ACC_PUBLIC, "<init>", "()V" );
+		ma.visitCode();
+		getNumericType().compileStaticInitialization( ma, this.engine );
+		ma.visitInsn( Opcodes.RETURN );
+		ma.visitMaxs( 0, 0 );
+		ma.visitEnd();
+	}
 	private void buildInputMember()
 	{
 		if (!hasInputs()) throw new IllegalStateException();

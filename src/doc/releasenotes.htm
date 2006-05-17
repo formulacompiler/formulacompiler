@@ -34,10 +34,22 @@
         
 <p>The list of <a href="limitations.htm">current limitations</a> is now a separate document.</p>
 
+<h2>Release 0.4.1</h2>
+<p>Features:</p>
+<ul class="spaced">
+<li>Implemented <a href="tutorial/numeric_type.htm#long">scaled <tt>long</tt> support</a>.</li>
+</ul>
+<p>Improvements:</p>
+<ul class="spaced">
+<li><tt>sej.NumericType</tt> now has support routines for value conversions.</li>
+<li><tt>sej.runtime</tt> is a new package holding the runtime support classes. They used to be in <tt>sej.engine</tt>.</li>
+<li>Added automated tests for serialization and deserialization of engines, as well as the use of the runtime-only jar for deserialization.</li>
+</ul>
+
 <h2>Release 0.4.0</h2>
 <p>Features:</p>
 <ul class="spaced">
-<li>Implemented <a href="tutorial/numeric_type.htm"><tt>BigDecimal</tt> support</a>.</li>
+<li>Implemented <a href="tutorial/numeric_type.htm#BigDecimal"><tt>BigDecimal</tt> support</a>.</li>
 </ul>
 <p>Improvements:</p>
 <ul class="spaced">
@@ -73,7 +85,7 @@
 <p>This is the first release with the new API based on <a href="tutorial/binding.htm">binding cells to native types</a>. The interpreter has been dropped and replaced by a byte code compiler producing very fast code.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 10.05.2006.</p>        </div>
+<br/>Last updated on 17.05.2006.</p>        </div>
     </div>
 </body>
 </html>

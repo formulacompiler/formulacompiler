@@ -21,7 +21,7 @@
 package sej.engine.bytecode.compiler;
 
 
-public abstract class ByteCodeHelperCompiler extends ByteCodeMethodCompiler
+abstract class ByteCodeHelperCompiler extends ByteCodeMethodCompiler
 {
 
 	public ByteCodeHelperCompiler(ByteCodeSectionCompiler _section) 

@@ -20,6 +20,7 @@
  */
 package sej.engine;
 
+import sej.runtime.RuntimeDouble_v1;
 import junit.framework.TestCase;
 
 public class RuntimeDoubleTest extends TestCase

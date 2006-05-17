@@ -35,4 +35,8 @@ public interface Outputs
 	BigDecimal getBigDecimalB();
 	BigDecimal getBigDecimalC();
 	BigDecimal getBigResult();
+	long getScaledLongA();
+	long getScaledLongB();
+	long getScaledLongC();
+	long getScaledLongResult();
 }

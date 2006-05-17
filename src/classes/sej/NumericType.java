@@ -22,6 +22,8 @@ package sej;
 
 import java.math.BigDecimal;
 
+import sej.runtime.RuntimeDouble_v1;
+
 
 /**
  * Immutable class representing the type to be used by the numeric computations of generated
@@ -162,6 +164,15 @@ public abstract class NumericType
 
 
 	/**
+	 * Converts a number to this type. Null is returned as null.
+	 */
+	public Number valueOf( Number _value )
+	{
+		if (null == _value) return null;
+		return convertFromNumber( _value );
+	}
+
+	/**
 	 * Parses a string into a value. Null and the empty string return zero (see {@link #getZero()}).
 	 */
 	public final Number valueOf( String _value )
@@ -197,7 +208,7 @@ public abstract class NumericType
 	}
 
 
-	private String trimTrailingZerosAndPoint( String _string )
+	protected String trimTrailingZerosAndPoint( String _string )
 	{
 		String result = _string;
 		if (result.contains( "." )) {
@@ -211,6 +222,7 @@ public abstract class NumericType
 	}
 
 
+	protected abstract Number convertFromNumber( Number _value );
 	protected abstract Number convertFromString( String _value );
 	protected abstract String convertToString( Number _value );
 
@@ -248,6 +260,13 @@ public abstract class NumericType
 		}
 
 		@Override
+		protected Number convertFromNumber( Number _value )
+		{
+			if (_value instanceof Double) return _value;
+			return _value.doubleValue();
+		}
+
+		@Override
 		protected Number convertFromString( String _value )
 		{
 			return Double.valueOf( _value );
@@ -278,13 +297,23 @@ public abstract class NumericType
 		@Override
 		public Number getZero()
 		{
-			return BigDecimal.ZERO;
+			return BigDecimal.valueOf( 0 ); // BigDecimal.ZERO is not available in JRE 1.4
 		}
 
 		@Override
 		public Number getOne()
 		{
-			return BigDecimal.ONE;
+			return BigDecimal.valueOf( 1 ); // BigDecimal.ONE is not available in JRE 1.4
+		}
+
+		@Override
+		protected Number convertFromNumber( Number _value )
+		{
+			if (_value instanceof BigDecimal) return _value;
+			if (_value instanceof Long) return BigDecimal.valueOf( _value.longValue() );
+			if (_value instanceof Integer) return BigDecimal.valueOf( _value.longValue() );
+			if (_value instanceof Byte) return BigDecimal.valueOf( _value.longValue() );
+			return BigDecimal.valueOf( _value.doubleValue() );
 		}
 
 		@Override
@@ -337,7 +366,7 @@ public abstract class NumericType
 		}
 
 		public abstract long one();
-		
+
 		public abstract long parse( String _value );
 
 		public abstract String format( long _value );
@@ -356,6 +385,13 @@ public abstract class NumericType
 		}
 
 		@Override
+		protected Number convertFromNumber( Number _value )
+		{
+			if (_value instanceof Long) return _value;
+			return _value.longValue();
+		}
+
+		@Override
 		protected final Number convertFromString( String _value )
 		{
 			return Long.valueOf( parse( _value ) );
@@ -364,7 +400,7 @@ public abstract class NumericType
 		@Override
 		protected final String convertToString( Number _value )
 		{
-			return format( (Long) _value );
+			return format( _value.longValue() );
 		}
 
 	}
@@ -380,7 +416,7 @@ public abstract class NumericType
 
 		protected LongType()
 		{
-			super( UNDEFINED_SCALE, BigDecimal.ROUND_DOWN );
+			super( 0, BigDecimal.ROUND_DOWN );
 		}
 
 		@Override
@@ -392,7 +428,7 @@ public abstract class NumericType
 		@Override
 		public long parse( String _value )
 		{
-			return Long.parseLong( _value );
+			return Long.parseLong( trimTrailingZerosAndPoint( _value ) );
 		}
 
 		@Override
@@ -478,6 +514,13 @@ public abstract class NumericType
 			final String whole = digits.substring( 0, len - getScale() );
 			final String fract = digits.substring( len - getScale() );
 			return sign + whole + '.' + fract;
+		}
+
+		@Override
+		protected Number convertFromNumber( Number _value )
+		{
+			if (_value instanceof Long) return _value;
+			return (long) (RuntimeDouble_v1.round( _value.doubleValue(), getScale() ) * one());
 		}
 
 	}

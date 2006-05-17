@@ -48,7 +48,7 @@ import sej.expressions.Function;
 import sej.expressions.Operator;
 
 
-public abstract class ByteCodeMethodCompiler
+abstract class ByteCodeMethodCompiler
 {
 	private final ByteCodeSectionCompiler section;
 	private final String methodName;
@@ -205,11 +205,10 @@ public abstract class ByteCodeMethodCompiler
 		}
 
 		if (java.util.Date.class == contextClass) {
-			mv().visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "dateToExcel",
-					"(Ljava/util/Date;)D" );
+			getNumericType().compileDateToExcel( mv() );
 		}
 		else if (Boolean.TYPE == contextClass) {
-			mv().visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "booleanToExcel", "(Z)" + getNumericType().getDescriptor() );
+			getNumericType().compileBooleanToExcel( mv() );
 		}
 	}
 
@@ -303,19 +302,12 @@ public abstract class ByteCodeMethodCompiler
 
 	private void compileStdFunction( ExpressionNodeForFunction _node ) throws ModelError
 	{
-		final StringBuilder typeBuilder = new StringBuilder();
-		typeBuilder.append( "(" );
-
+		final StringBuilder argTypeBuilder = new StringBuilder();
 		for (ExpressionNode arg : _node.getArguments()) {
 			compileExpr( arg );
-			typeBuilder.append( getNumericType().getDescriptor() );
+			argTypeBuilder.append( getNumericType().getDescriptor() );
 		}
-
-		typeBuilder.append( ")" );
-		typeBuilder.append( getNumericType().getDescriptor() );
-
-		mv().visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(),
-				"std" + _node.getFunction().getName(), typeBuilder.toString() );
+		getNumericType().compileStdFunction( mv(), _node.getFunction(), argTypeBuilder.toString() );
 	}
 
 

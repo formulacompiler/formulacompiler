@@ -32,7 +32,7 @@ import sej.expressions.ExpressionNode;
 import sej.expressions.ExpressionNodeForConstantValue;
 import sej.expressions.ExpressionNodeForFunction;
 
-public class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
+class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 {
 	private final ExpressionNodeForFunction node;
 

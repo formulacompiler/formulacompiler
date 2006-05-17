@@ -65,9 +65,16 @@ public abstract class AbstractTestBase extends TestCase
 	protected abstract Number getResult( Outputs _outputs );
 
 
-	private String numberToString( Number _arg )
+	protected String numberToString( Number _arg )
 	{
 		String result = _arg.toString();
+		result = trimTrailingZeroes( result );
+		return result;
+	}
+
+
+	protected String trimTrailingZeroes( String result )
+	{
 		if (result.contains( "." )) {
 			while (result.endsWith( "0" ))
 				result = result.substring( 0, result.length() - 1 );

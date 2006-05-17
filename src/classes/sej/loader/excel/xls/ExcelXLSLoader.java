@@ -27,7 +27,6 @@ import java.util.Locale;
 
 import sej.Spreadsheet;
 import sej.SpreadsheetLoader;
-import sej.engine.RuntimeDouble_v1;
 import sej.loader.excel.ExcelLazyExpressionParser;
 import sej.loader.excel.ExcelLoaderError;
 import sej.model.CellIndex;
@@ -38,6 +37,7 @@ import sej.model.CellWithLazilyParsedExpression;
 import sej.model.Row;
 import sej.model.Sheet;
 import sej.model.Workbook;
+import sej.runtime.RuntimeDouble_v1;
 
 import jxl.CellType;
 import jxl.DateCell;

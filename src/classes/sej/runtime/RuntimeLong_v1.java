@@ -18,7 +18,7 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.engine;
+package sej.runtime;
 
 
 public final class RuntimeLong_v1 extends Runtime_v1
@@ -34,36 +34,60 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		}
 	}
 
-	private final int scale;
-	private final long one;
 
-	public RuntimeLong_v1(final int _scale)
+	public static final class Context
 	{
-		super();
-		this.scale = _scale;
-		if (_scale < 1 || _scale >= ONE_AT_SCALE.length) {
-			throw new IllegalArgumentException( "Scale is out of range" );
+		final int scale;
+		final long one;
+		final double oneAsDouble;
+
+		public Context(final int _scale)
+		{
+			super();
+			this.scale = _scale;
+			if (_scale < 0 || _scale >= ONE_AT_SCALE.length) {
+				throw new IllegalArgumentException( "Scale is out of range" );
+			}
+			this.one = ONE_AT_SCALE[ _scale ];
+			this.oneAsDouble = this.one;
 		}
-		this.one = ONE_AT_SCALE[ _scale ];
+
+		double toDouble( long _value )
+		{
+			if (this.scale == 0) return _value;
+			return _value / this.oneAsDouble;
+		}
+
+		long fromDouble( double _value )
+		{
+			if (this.scale == 0) return (long) _value;
+			return (long) (_value * this.oneAsDouble);
+		}
 	}
 
-	public long max( final long a, final long b )
+
+	public static long max( final long a, final long b )
 	{
 		return a >= b ? a : b;
 	}
 
-	public long min( final long a, final long b )
+	public static long min( final long a, final long b )
 	{
 		return a <= b ? a : b;
 	}
 
-	public long round( final long _val, final int _maxFrac )
+	public static long pow( final long x, final long n, Context _cx )
 	{
-		if (_val == 0 || _maxFrac >= this.scale) {
+		return _cx.fromDouble( Math.pow( _cx.toDouble( x ), _cx.toDouble( n ) ) );
+	}
+
+	public static long round( final long _val, final int _maxFrac, Context _cx )
+	{
+		if (_val == 0 || _maxFrac >= _cx.scale) {
 			return _val;
 		}
 		else {
-			final int truncateAt = this.scale - _maxFrac;
+			final int truncateAt = _cx.scale - _maxFrac;
 			final long shiftFactor = ONE_AT_SCALE[ truncateAt ];
 			final long roundingCorrection = HALF_AT_SCALE[ truncateAt ];
 			if (_val >= 0) {
@@ -81,20 +105,21 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		}
 	}
 
-	public long stdROUND( final long _val, final long _maxFrac )
+	public static long stdROUND( final long _val, final long _maxFrac, Context _cx )
 	{
-		return round( _val, (int) _maxFrac );
+		if (_cx.scale == 0) return round( _val, (int) _maxFrac, _cx );
+		return round( _val, (int) (_maxFrac / _cx.one), _cx );
 	}
 
 
-	public boolean booleanFromExcel( final long _val )
+	public static boolean booleanFromExcel( final long _val )
 	{
 		return (_val != 0);
 	}
 
-	public long booleanToExcel( final boolean _val )
+	public static long booleanToExcel( final boolean _val, Context _cx )
 	{
-		return _val ? this.one : 0;
+		return _val ? _cx.one : 0;
 	}
 
 }

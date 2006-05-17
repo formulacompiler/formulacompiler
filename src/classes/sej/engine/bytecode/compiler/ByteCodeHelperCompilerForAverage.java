@@ -102,8 +102,7 @@ final class ByteCodeHelperCompilerForAverage extends ByteCodeHelperCompiler
 
 		//mv().loadLocal( varSum );
 		mv().loadLocal( varN );
-		getNumericType().compileFromLong( mv() );
-		getNumericType().compile( mv(), Operator.DIV, 2 );
+		// getNumericType().compileDivByUnscaledLong( mv() );
 	}
 
 

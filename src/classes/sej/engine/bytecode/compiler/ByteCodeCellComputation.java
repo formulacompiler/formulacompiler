@@ -89,12 +89,12 @@ final class ByteCodeCellComputation
 	{
 		final Class returnType = _frame.getMethod().getReturnType();
 		if (Double.TYPE == returnType) return;
+		if (Long.TYPE == returnType) return;
 		if (Boolean.TYPE == returnType) return;
 		if (Date.class == returnType) return;
 		if (BigDecimal.class == returnType) return;
 		throw new ModelError.UnsupportedDataType( "The "
 				+ _usage + " method " + _frame + " has an unsupported return type " + returnType );
-
 	}
 
 

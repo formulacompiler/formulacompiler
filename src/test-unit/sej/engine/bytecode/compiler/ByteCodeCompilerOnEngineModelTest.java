@@ -62,6 +62,7 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 	{
 		assertDoubleOperator( _operator, _expectedResult );
 		assertBigDecimalOperator( _operator, _expectedResult );
+		assertScaledLongOperator( _operator, _expectedResult );
 	}
 
 
@@ -70,6 +71,7 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 	{
 		assertDoubleUnaryOperator( _operator, _expectedResult );
 		assertBigDecimalUnaryOperator( _operator, _expectedResult );
+		assertScaledLongUnaryOperator( _operator, _expectedResult );
 	}
 
 
@@ -157,12 +159,63 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 	private void assertBigDecimalResult( final double _expectedResult, final EngineModel _engineModel )
 			throws ModelError
 	{
-		final ByteCodeCompiler compiler = new ByteCodeCompiler( null, Inputs.class, Outputs.class, NumericType.BIGDECIMAL8 );
+		final ByteCodeCompiler compiler = new ByteCodeCompiler( null, Inputs.class, Outputs.class,
+				NumericType.BIGDECIMAL8 );
 		final Engine engine = compiler.compileNewEngine( _engineModel );
 		final Outputs outputs = (Outputs) engine.newComputation( new Inputs() );
 		final BigDecimal v = outputs.getBigDecimalA();
 		final double d = v.doubleValue();
 		assertEquals( _expectedResult, d, 0.000001 );
+	}
+
+
+	private void assertScaledLongOperator( final Operator _operator, final double _expectedResult )
+			throws NoSuchMethodException, ModelError
+	{
+		final EngineModel engineModel = new EngineModel();
+		final SectionModel rootModel = engineModel.getRoot();
+		final CellModel a = new CellModel( rootModel, "a" );
+		final CellModel b = new CellModel( rootModel, "b" );
+		final CellModel r = new CellModel( rootModel, "r" );
+		r.setExpression( new ExpressionNodeForOperator( _operator, new ExpressionNodeForCellModel( a ),
+				new ExpressionNodeForCellModel( b ) ) );
+
+		a.makeInput( new CallFrame( Inputs.class.getMethod( "getScaledLongA" ) ) );
+		b.makeInput( new CallFrame( Inputs.class.getMethod( "getScaledLongB" ) ) );
+		r.makeOutput( new CallFrame( Outputs.class.getMethod( "getScaledLongA" ) ) );
+
+		assertScaledLongResult( _expectedResult, engineModel );
+	}
+
+
+	private void assertScaledLongUnaryOperator( final Operator _operator, final double _expectedResult )
+			throws NoSuchMethodException, ModelError
+	{
+		final EngineModel engineModel = new EngineModel();
+		final SectionModel rootModel = engineModel.getRoot();
+		final CellModel a = new CellModel( rootModel, "a" );
+		final CellModel r = new CellModel( rootModel, "r" );
+		r.setExpression( new ExpressionNodeForOperator( _operator, new ExpressionNodeForCellModel( a ) ) );
+
+		a.makeInput( new CallFrame( Inputs.class.getMethod( "getScaledLongA" ) ) );
+		r.makeOutput( new CallFrame( Outputs.class.getMethod( "getScaledLongA" ) ) );
+
+		assertScaledLongResult( _expectedResult, engineModel );
+	}
+
+
+	private void assertScaledLongResult( final double _expectedResult, final EngineModel _engineModel )
+			throws ModelError
+	{
+		final ByteCodeCompiler compiler = new ByteCodeCompiler( null, Inputs.class, Outputs.class, NumericType.LONG4 );
+		final Engine engine = compiler.compileNewEngine( _engineModel );
+		final Outputs outputs = (Outputs) engine.newComputation( new Inputs() );
+		final long actual = outputs.getScaledLongA();
+		final long expected = NumericType.LONG4.valueOf( _expectedResult ).longValue();
+		final long diff = actual - expected;
+		if (diff > 1 || diff < -1) { // accept difference in the last decimal due to rounding problems with division
+			assertEquals( expected, actual );
+		}
 	}
 
 }

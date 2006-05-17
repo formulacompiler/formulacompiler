@@ -1,0 +1,77 @@
+digraph "SEJ Component Overview" {
+	fontname = "Helvetica";
+
+	node [ shape = box, fontname = "Helvetica" ];
+	edge [ fontname = "Helvetica" ];
+	
+	subgraph input {
+					node [style = filled, color = lightblue ];
+		xls			[ label = "Excel .xls File", shape=octagon ];
+		xml			[ label = "Excel .xml File", shape=octagon ];
+		ods			[ label = "OpenOffice .ods File", shape=octagon ];
+	}
+	
+	subgraph cluster_config {
+					label = "Configuration Application Compiling & Saving Engine";
+					style = filled;
+					color = lightblue;
+					
+		{ 			node [ style = filled, fillcolor = lightpink ];
+		comp 		[ label = "SEJ Bytecode Compiler" ];
+		}
+		{ 			node [ style = filled, fillcolor = yellowgreen ];
+		ext			[ label = "CUP\nJExcelAPI\nJDOM\nASM" ];
+		}
+		
+		{ rank = same; comp; ext; }
+	}
+					
+
+	subgraph ser {
+					node [style = filled, color=lightgoldenrod, shape=octagon ];
+		bcser		[ label = "SEJ Serizalization (.ser)" ];
+	}
+
+	subgraph cluster_runtime {
+					label = "Application Loading & Using Engine";
+					style = filled;
+					color = lightblue;
+					
+		{ 			node [ style = filled, fillcolor = lightpink ];
+		bcload		[ label = "SEJ Engine Loader", style = filled, fillcolor = lightpink ];
+		run			[ label = "SEJ Runtime" ];
+		}
+		{ 			node [ style = filled, fillcolor = lightgoldenrod ];
+		bceng		[ label = "Engine Instance" ];
+		calc		[ label = "Computation Instance" ];
+		}
+
+		inp			[ label = "Input Instance" ];
+		outp		[ label = "Output Interface", style = dotted ];
+
+		{ rank = same; calc; inp; outp; }
+	}
+
+	{ 				edge [ label = "input to" ];
+	xls -> comp;
+	xml -> comp;
+	ods -> comp;
+	bcser -> bcload;
+	inp -> calc;
+	}
+	
+	{ 				edge [ label = "builds a" ];
+	comp -> bcser;
+	bcload -> bceng -> calc;
+	}
+
+	{ 				edge [ label = "implements", style=dotted ];
+	calc -> outp;
+	}
+
+	{ 				edge [ style = dotted, label = "uses" ];
+	comp -> ext;
+	calc -> run;
+	}
+
+}
