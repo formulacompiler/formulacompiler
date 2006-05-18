@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 
 public class SpeedTest
 {
-	private static final int MAXROUNDS = 100000000;
+	private static final int MAXROUNDS = 10000000;
 	private static final boolean DEBUG = false;
 
 
@@ -37,21 +37,25 @@ public class SpeedTest
 
 	private void run( String[] _args )
 	{
-		test( new DoubleTest() );
-		test( new PrefixDoubleTest() );
+		if (true) test( new BigDecimalStaticTest() );
+		if (true) test( new BigDecimalFromLongTest() );
+		if (true) test( new BigDecimalFromStringTest() );
 		
-		// test( new ScaledLongTest() );
-		// test( new ScaledIntTest() );
-		// test( new BigDecimalTest() );
+		if (false) test( new DoubleTest() );
+		if (false) test( new PrefixDoubleTest() );
+		
+		if (false) test( new ScaledLongTest() );
+		if (false) test( new ScaledIntTest() );
+		if (false) test( new BigDecimalTest() );
 
-		// test( new AccumulatorTest() );
-		// test( new DirectSumTest() );
-		// test( new ValuePassingTest() );
-		// test( new ObjectPassingTest() );
-		// test( new ThisIsExternallyCheckedStackTest() );
-		// test( new ThisIsAutoCheckedStackTest() );
-		// test( new InnerStackTest() );
-		// test( new CheckedStackTest() );
+		if (false) test( new AccumulatorTest() );
+		if (false) test( new DirectSumTest() );
+		if (false) test( new ValuePassingTest() );
+		if (false) test( new ObjectPassingTest() );
+		if (false) test( new ThisIsExternallyCheckedStackTest() );
+		if (false) test( new ThisIsAutoCheckedStackTest() );
+		if (false) test( new InnerStackTest() );
+		if (false) test( new CheckedStackTest() );
 	}
 
 
@@ -92,6 +96,51 @@ public class SpeedTest
 	}
 
 
+	private static final class BigDecimalFromLongTest extends Test
+	{
+
+		@Override
+		public void run()
+		{
+			BigDecimal x = BigDecimal.valueOf( 100 );
+			BigDecimal y = BigDecimal.valueOf( 3141, 3 );
+			BigDecimal z = x.multiply( y );
+			z.setScale( 8, BigDecimal.ROUND_HALF_UP );
+		}
+
+	}
+	
+	
+	private static final class BigDecimalFromStringTest extends Test
+	{
+
+		@Override
+		public void run()
+		{
+			BigDecimal x = new BigDecimal( "100" );
+			BigDecimal y = new BigDecimal( "3.141" );
+			BigDecimal z = x.multiply( y );
+			z.setScale( 8, BigDecimal.ROUND_HALF_UP );
+		}
+
+	}
+	
+	
+	private static final class BigDecimalStaticTest extends Test
+	{
+		private static BigDecimal x = new BigDecimal( "100" );
+		private static BigDecimal y = new BigDecimal( "3.141" );
+
+		@Override
+		public void run()
+		{
+			BigDecimal z = x.multiply( y );
+			z.setScale( 8, BigDecimal.ROUND_HALF_UP );
+		}
+
+	}
+	
+	
 	private static final class DoubleTest extends Test
 	{
 

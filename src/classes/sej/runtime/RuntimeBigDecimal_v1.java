@@ -35,16 +35,6 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return new BigDecimal( _value );
 	}
 
-	public static BigDecimal newBigDecimal( final long _value )
-	{
-		return BigDecimal.valueOf( _value );
-	}
-
-	public static BigDecimal newBigDecimal( final double _value )
-	{
-		return BigDecimal.valueOf( _value );
-	}
-
 	public static BigDecimal round( final BigDecimal _val, final int _maxFrac )
 	{
 		return _val.setScale( _maxFrac, BigDecimal.ROUND_HALF_UP );

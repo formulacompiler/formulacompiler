@@ -1,6 +1,7 @@
 package sej.tests;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import sej.Engine;
 import sej.EngineBuilder;
@@ -9,11 +10,10 @@ import sej.NumericType;
 import sej.Settings;
 import sej.engine.standard.compiler.StandardCompiler;
 import sej.loader.excel.xls.ExcelXLSLoader;
-import sej.runtime.RuntimeDouble_v1;
 import junit.framework.TestCase;
 
 
-public class DebugTest extends TestCase
+public class DebugTestBigDecimal extends TestCase
 {
 
 	static {
@@ -25,53 +25,46 @@ public class DebugTest extends TestCase
 
 	public void testDebugCase() throws IOException, ModelError
 	{
-		final EngineBuilder builder = new EngineBuilder( Inputs.class, Outputs.class, NumericType.LONG4 );
+		final EngineBuilder builder = new EngineBuilder( Inputs.class, Outputs.class, NumericType.BIGDECIMAL8 );
 		builder.loadSpreadsheet( "src/scratchpad/data/DebugCase.xls" );
 		builder.bindCellsByName();
 		final Engine engine = builder.buildEngine();
 
 		final Inputs inputs = new Inputs();
 		final Outputs outputs = (Outputs) engine.newComputation( inputs );
-		final long result = outputs.getResult();
+		final BigDecimal result = outputs.getResult();
 		
-		final long x = inputs.getIB() * 10000L;
-		final long y = x / inputs.getIC();
-		final long z = inputs.getIA() - y;
-		
-		final long exp = (long) (RuntimeDouble_v1.round( 9.666666667, 2 ) * 10000 );
-		
-
-		assertEquals( 96666L, result );
+		assertEquals( "8000.00000000", result.toPlainString() );
 	}
 
 
 	public static final class Inputs
 	{
-		public long getIA()
+		public BigDecimal getIA()
 		{
-			return 100000L;
+			return BigDecimal.valueOf( 10 );
 		}
 
-		public long getIB()
+		public BigDecimal getIB()
 		{
-			return 10000L;
+			return BigDecimal.valueOf( 10 );
 		}
 
-		public long getIC()
+		public BigDecimal getIC()
 		{
-			return 30000L;
+			return BigDecimal.valueOf( 10 );
 		}
 
-		public long getID()
+		public BigDecimal getID()
 		{
-			return 0;
+			return BigDecimal.ZERO;
 		}
 	}
 
 
 	public static interface Outputs
 	{
-		long getResult();
+		BigDecimal getResult();
 	}
 
 }
