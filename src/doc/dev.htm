@@ -36,16 +36,43 @@
 
 <h2>Next Steps</h2>
 <ul class="spaced">
-<li>Implement sharing of constant values for expensive types (<tt>BigDecimal</tt>, for instance).</li>
-<li>Implement internal caching of multiply referenced values.</li>
+<li>Implement parametrized outputs.</li>
 <li>Implement <tt>INDEX</tt> and <tt>MATCH</tt> again.</li>
 <li>Decide on how serialized byte code engines will be stored for both maximum load performance and maximum robustness when SEJ evolves.</li>
 <li>Implement Java source code generation and hybrid tests. This will naturally surface the exception and partial implementation of interfaces problem.</li>
 </ul>
 
+<h2>May 18, 2006</h2>
+
+<h3>Test First</h3>
+<p>I have implemented <a href="tutorial/caching.htm">caching of values</a>. This has been an elevating experience of test-first and documentation-first development.</p>
+<ul class="spaced">
+<li>I first wrote some notes here in the developer's journal.</li>
+<li>Then I started the new topic in the tutorial and began documenting the feature, drawing on the notes I had first developed here.</li>
+<li>Interleaved with the documentation I also wrote the new test cases which I immediately cited again into the documentation.</li>
+</ul>
+<p>This took about 3 hours. In the end, I had finished documentation and use-case tests before having written a single line of production code.</p>
+<ul class="spaced">
+<li>I then implemented the feature in about 1:45 h. When the use-case tests ran green, I extended my large spreadsheet-driven test suite to test both caching and non-caching versions. It ran green immediately.</li>
+</ul>
+<p>So cool!</p>
+
+<h3>Constant Sharing</h3>
+<p>I started looking at sharing of constant values for expensive types (<tt>BigDecimal</tt>, for instance). First, I checked that ASM properly combines equal values in the constant pool - it does.</p>
+<p>Then I checked the speed of <tt>BigDecimal</tt> construction using three different approaches:</p>
+<ul compact class="compact">
+<li><tt>new BigDecimal( String )</tt></li>
+<li><tt>BigDecimal.valueOf( long, scale )</tt></li>
+<li>preconstructed in a <tt>private static final BigDecimal</tt></li>
+</ul>
+<p>The preconstructed case was, of course, fastest. The interesting part is that - for constants whose digits fit into a <tt>long</tt>, which should be most of them - the difference to <tt>BigDecimal.valueOf</tt> is not that big. For smaller test runs, it amounts to about 16%. For larger runs it gets closer to 30%. Construction using strings (which SEJ usess right now) is by far the slowest, being about 4 times slower than <tt>valueOf( long )</tt>.</p>
+<p><em>Aside:</em> Java 6 is already measurably faster than Java 5 on this test.</p>
+<p>I have thus changed SEJ so it generates preallocated <tt>BigDecimal</tt> constants using <tt>valueOf( long )</tt> wherever possible. On the JRE 1.4 I had, unfortunately, had to resort to <tt>new BigDecimal( String )</tt> for values that already were bigdecimals, because the JRE 1.4 does not support <tt>BigDecimal.precision()</tt>.</p>
+
 <h2>May 17, 2006</h2>
 <p><em>Correction:</em> <tt>BigDecimal</tt> was ok in 0.4.0, after all. The compiler inserted the rescaling directly into the code instead of handing it off to the runtime.</p>
 <p>Scaled long is up and running now, passing all tests. Instead of making the runtime an instance, I had to add support for adding a last argument with runtime context information to the static runtime methods. This is because otherwise I would have had to know that I would need the runtime instance later on <b>before</b> compiling an expression's arguments (because the JVM expects the instance for a virtual call on the stack first, not last). That would have greatly complicated the compiler's design. The context argument I can conveniently push last, where required.</p>
+<p>Release 0.4.1 is out.</p>
 
 <h2>May 16, 2006</h2>
 <p>Scaled <tt>long</tt> support is coming along nicely now. The one big change that's still missing is to provide the engines with an <em>instance</em> of the runtime. Before, it was sufficient to give them static access. The reason is the runtime must know about things like the scale and rounding mode and it is far simpler to embed this in the runtime once and for all instead of passing it around all the time.</p>
@@ -404,7 +431,7 @@ void compileAnd( Node a, Node b, Label branch ) {
 <p>SEJ does not handle sums over nested bands properly. The user must model intermediate sums for every non-leaf band. I shall accept this as a known limitation for the moment and have <a href="doc/bands.html">documented</a> it.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 17.05.2006.</p>        </div>
+<br/>Last updated on 18.05.2006.</p>        </div>
     </div>
 </body>
 </html>

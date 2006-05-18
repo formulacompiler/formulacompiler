@@ -32,6 +32,7 @@ import sej.CompilerFactory;
 import sej.Engine;
 import sej.ModelError;
 import sej.NumericType;
+import sej.Resettable;
 import sej.Settings;
 import sej.Spreadsheet;
 import sej.engine.bytecode.ByteCodeEngineFactory;
@@ -136,6 +137,12 @@ public class ByteCodeCompiler extends WorkbookCompiler
 	Class getOutputs()
 	{
 		return this.outputs;
+	}
+
+
+	boolean canCache()
+	{
+		return Resettable.class.isAssignableFrom( this.outputs );
 	}
 
 

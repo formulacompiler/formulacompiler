@@ -33,7 +33,7 @@ public class DebugTestLong extends TestCase
 		final Outputs outputs = (Outputs) engine.newComputation( inputs );
 		final long result = outputs.getResult();
 		
-		assertEquals( 80000000L, result );
+		assertEquals( 620000L, result );
 	}
 
 

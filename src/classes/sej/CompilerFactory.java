@@ -61,18 +61,20 @@ public abstract class CompilerFactory
 	 * using {@code setDefaultFactory}.
 	 * 
 	 * @param _model is the spreadsheet model to be used as input for constructing the engine. It can
-	 *        be obtained loading it from an existing spreadsheet file using
-	 *        {@link SpreadsheetLoader#loadFromFile(String)}, or by constructing a
-	 *        {@link sej.model.Workbook} from scratch.
+	 *           be obtained loading it from an existing spreadsheet file using
+	 *           {@link SpreadsheetLoader#loadFromFile(String)}, or by constructing a
+	 *           {@link sej.model.Workbook} from scratch.
 	 * @param _inputs is a public class or interface to which input cells can later be bound (see
-	 *        {@link Compiler.Section#defineInputCell(Spreadsheet.Cell, CallFrame)}). Can be a
-	 *        public static inner class.
+	 *           {@link Compiler.Section#defineInputCell(Spreadsheet.Cell, CallFrame)}). Can be a
+	 *           public static inner class.
 	 * @param _outputs is a public class or interface to which output cells can later be bound (see
-	 *        {@link Compiler.Section#defineOutputCell(Spreadsheet.Cell, CallFrame)}). Can be a
-	 *        public static inner class.
+	 *           {@link Compiler.Section#defineOutputCell(Spreadsheet.Cell, CallFrame)}). Can be a
+	 *           public static inner class. If you make this class or interface implement
+	 *           {@link Resettable}, the compiled engine will support internal caching of values.
+	 *           Otherwise it will be essentially stateless.
 	 * @param _numericType The numeric type to be used by all numeric computations by engines
-	 *        compiled with this compiler. Must not be <code>null</code>. For financial
-	 *        computations, use {@link NumericType#BIGDECIMAL8} or {@link NumericType#CURRENCY}.
+	 *           compiled with this compiler. Must not be <code>null</code>. For financial
+	 *           computations, use {@link NumericType#BIGDECIMAL8} or {@link NumericType#CURRENCY}.
 	 * @return The newly constructed compiler.
 	 */
 	public static Compiler newDefaultCompiler( Spreadsheet _model, Class _inputs, Class _outputs,

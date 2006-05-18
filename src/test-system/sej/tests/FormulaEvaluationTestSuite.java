@@ -29,6 +29,7 @@ import sej.Compiler;
 import sej.Engine;
 import sej.ModelError;
 import sej.NumericType;
+import sej.Resettable;
 import sej.Settings;
 import sej.SpreadsheetLoader;
 import sej.engine.bytecode.compiler.ByteCodeCompiler;
@@ -92,7 +93,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		if (debugRow >= 0) {
 			int debugFormulaRow = getNamedRow( workbook, "DEBUGFORMULA" );
 			if (debugFormulaRow < 0) debugFormulaRow = debugRow;
-			fileSuite.addTest( new DoubleTestCase( workbook, debugFormulaRow, debugRow, true ) );
+			fileSuite.addTest( new DoubleTestCase( workbook, debugFormulaRow, debugRow, true, false ) );
 		}
 		else {
 			Sheet sheet = workbook.getSheets().get( 0 );
@@ -126,9 +127,16 @@ public class FormulaEvaluationTestSuite extends TestSuite
 
 	private void addTests( TestSuite _suite, Workbook _workbook, int _formulaRow, int _valueRow, boolean _useInputs )
 	{
-		_suite.addTest( new DoubleTestCase( _workbook, _formulaRow, _valueRow, _useInputs ) );
-		_suite.addTest( new BigDecimalTestCase( _workbook, _formulaRow, _valueRow, _useInputs ) );
-		_suite.addTest( new ScaledLongTestCase( _workbook, _formulaRow, _valueRow, _useInputs ) );
+		addTests( _suite, _workbook, _formulaRow, _valueRow, _useInputs, false );
+		addTests( _suite, _workbook, _formulaRow, _valueRow, _useInputs, true );
+	}
+
+	private void addTests( TestSuite _suite, Workbook _workbook, int _formulaRow, int _valueRow, boolean _useInputs,
+			boolean _cachingEnabled )
+	{
+		_suite.addTest( new DoubleTestCase( _workbook, _formulaRow, _valueRow, _useInputs, _cachingEnabled ) );
+		_suite.addTest( new BigDecimalTestCase( _workbook, _formulaRow, _valueRow, _useInputs, _cachingEnabled ) );
+		_suite.addTest( new ScaledLongTestCase( _workbook, _formulaRow, _valueRow, _useInputs, _cachingEnabled ) );
 	}
 
 
@@ -176,10 +184,11 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		Row formulaRow, inputRow;
 		NumericType numericType;
 		boolean useInputs;
+		boolean cachingEnabled;
 
 
 		public FormulaEvaluationTestCase(Workbook _workbook, int _formulaRow, int _inputRow, boolean _useInputs,
-				NumericType _numericType)
+				boolean _cachingEnabled, NumericType _numericType)
 		{
 			super( null );
 			Sheet sheet = _workbook.getSheets().get( 0 );
@@ -187,6 +196,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 			this.formulaRow = sheet.getRows().get( _formulaRow );
 			this.inputRow = sheet.getRows().get( _inputRow );
 			this.useInputs = _useInputs;
+			this.cachingEnabled = _cachingEnabled;
 			this.numericType = _numericType;
 
 			CellInstance cell = this.formulaRow.getCells().get( 2 );
@@ -202,6 +212,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 				name = name + " " + (_inputRow - _formulaRow);
 			}
 			if (_useInputs) name = name + " with inputs";
+			if (_cachingEnabled) name = name + " with caching";
 			name = name + " as " + _numericType.toString();
 			name = name.replace( '(', '[' ).replace( ')', ']' );
 			this.setName( name );
@@ -219,11 +230,13 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		@Override
 		protected void runTest() throws Throwable
 		{
+			final Class outputs = getOutputs();
 			if (this.useInputs) {
-				runUsing( new ByteCodeCompiler( this.workbook, getInputs(), getOutputs(), this.numericType ) );
+				assertEquals( this.cachingEnabled, Resettable.class.isAssignableFrom( outputs ) );
+				runUsing( new ByteCodeCompiler( this.workbook, getInputs(), outputs, this.numericType ) );
 			}
 			else {
-				runUsing( new ByteCodeCompiler( this.workbook, null, getOutputs(), this.numericType ) );
+				runUsing( new ByteCodeCompiler( this.workbook, null, outputs, this.numericType ) );
 			}
 		}
 
@@ -352,22 +365,22 @@ public class FormulaEvaluationTestSuite extends TestSuite
 			}
 
 		}
-
-
+		
 		public static interface Outputs
 		{
 			Date getDate();
 		}
-
+		
 	}
 
 
 	private static class DoubleTestCase extends FormulaEvaluationTestCase
 	{
 
-		public DoubleTestCase(Workbook _workbook, int _formulaRow, int _inputRow, boolean _useInputs)
+		public DoubleTestCase(Workbook _workbook, int _formulaRow, int _inputRow, boolean _useInputs,
+				boolean _cachingEnabled)
 		{
-			super( _workbook, _formulaRow, _inputRow, _useInputs, NumericType.DOUBLE );
+			super( _workbook, _formulaRow, _inputRow, _useInputs, _cachingEnabled, NumericType.DOUBLE );
 		}
 
 		@Override
@@ -379,6 +392,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		@Override
 		protected Class getOutputs()
 		{
+			if (this.cachingEnabled) return CachingOutputs.class;
 			return Outputs.class;
 		}
 
@@ -416,6 +430,10 @@ public class FormulaEvaluationTestSuite extends TestSuite
 			double getNumber();
 		}
 
+		public static interface CachingOutputs extends Outputs, Resettable
+		{
+			// Nothing new here.
+		}
 
 	}
 
@@ -423,10 +441,11 @@ public class FormulaEvaluationTestSuite extends TestSuite
 	private static class BigDecimalTestCase extends FormulaEvaluationTestCase
 	{
 
-		public BigDecimalTestCase(Workbook _workbook, int _formulaRow, int _inputRow, boolean _useInputs)
+		public BigDecimalTestCase(Workbook _workbook, int _formulaRow, int _inputRow, boolean _useInputs,
+				boolean _cachingEnabled)
 		{
 			// Use BigDecimal9 here so it is compatible with Excel's double.
-			super( _workbook, _formulaRow, _inputRow, _useInputs, NumericType.BIGDECIMAL9 );
+			super( _workbook, _formulaRow, _inputRow, _useInputs, _cachingEnabled, NumericType.BIGDECIMAL9 );
 		}
 
 		@Override
@@ -438,6 +457,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		@Override
 		protected Class getOutputs()
 		{
+			if (this.cachingEnabled) return CachingOutputs.class;
 			return Outputs.class;
 		}
 
@@ -480,6 +500,10 @@ public class FormulaEvaluationTestSuite extends TestSuite
 			BigDecimal getNumber();
 		}
 
+		public static interface CachingOutputs extends Outputs, Resettable
+		{
+			// Nothing new here.
+		}
 
 	}
 
@@ -487,9 +511,10 @@ public class FormulaEvaluationTestSuite extends TestSuite
 	private static class ScaledLongTestCase extends FormulaEvaluationTestCase
 	{
 
-		public ScaledLongTestCase(Workbook _workbook, int _formulaRow, int _inputRow, boolean _useInputs)
+		public ScaledLongTestCase(Workbook _workbook, int _formulaRow, int _inputRow, boolean _useInputs,
+				boolean _cachingEnabled)
 		{
-			super( _workbook, _formulaRow, _inputRow, _useInputs, NumericType.LONG4 );
+			super( _workbook, _formulaRow, _inputRow, _useInputs, _cachingEnabled, NumericType.LONG4 );
 		}
 
 		@Override
@@ -501,6 +526,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		@Override
 		protected Class getOutputs()
 		{
+			if (this.cachingEnabled) return CachingOutputs.class;
 			return Outputs.class;
 		}
 
@@ -539,6 +565,10 @@ public class FormulaEvaluationTestSuite extends TestSuite
 			long getNumber();
 		}
 
+		public static interface CachingOutputs extends Outputs, Resettable
+		{
+			// Nothing new here.
+		}
 
 	}
 

@@ -34,6 +34,16 @@
         
 <p>The list of <a href="limitations.htm">current limitations</a> is now a separate document.</p>
 
+<h2>Release 0.4.2</h2>
+<p>Features:</p>
+<ul class="spaced">
+<li>You can now generate engines that support <a href="tutorial/caching.htm">internal caching</a> of inputs, outputs and multiply referenced intermediate values.</li>
+</ul>
+<p>Improvements:</p>
+<ul class="spaced">
+<li>The <tt>BigDecimal</tt> numeric type now generates vastly more efficient constant values. They are preconstructed in <tt>private static final BigDecimal</tt> fields, using <tt>BigDecimal.valueOf( long, int )</tt> wherever possible.</li>
+</ul>
+
 <h2>Release 0.4.1</h2>
 <p>Features:</p>
 <ul class="spaced">
@@ -85,7 +95,7 @@
 <p>This is the first release with the new API based on <a href="tutorial/binding.htm">binding cells to native types</a>. The interpreter has been dropped and replaced by a byte code compiler producing very fast code.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 17.05.2006.</p>        </div>
+<br/>Last updated on 18.05.2006.</p>        </div>
     </div>
 </body>
 </html>

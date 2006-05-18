@@ -1,12 +1,10 @@
 package temp;
 
 import sej.Engine;
-import sej.runtime.RuntimeLong_v1;
 
 
 public final class GeneratedScaledLongEngine implements Engine, ScaledLongOutputs
 {
-	private static final RuntimeLong_v1 runtime = new RuntimeLong_v1( 2 );
 	private final ScaledLongInputs inputs;
 
 	private GeneratedScaledLongEngine(ScaledLongInputs _inputs)
@@ -29,7 +27,7 @@ public final class GeneratedScaledLongEngine implements Engine, ScaledLongOutput
 
 	public long getResult()
 	{
-		return runtime.round( get0(), 1 );
+		return get3() + get3();
 	}
 
 	private long get0()
@@ -47,9 +45,16 @@ public final class GeneratedScaledLongEngine implements Engine, ScaledLongOutput
 		return this.inputs.getB();
 	}
 	
+	private boolean have3;
+	private long cache3;
+	
 	private long get3()
 	{
-		return 0;
+		if (!this.have3) {
+			this.cache3 = get0() + get0();
+			this.have3 = true;
+		}
+		return this.cache3;
 	}
 
 

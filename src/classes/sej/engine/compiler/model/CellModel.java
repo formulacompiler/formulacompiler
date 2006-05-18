@@ -162,6 +162,12 @@ public class CellModel extends ElementModel
 	}
 
 
+	public boolean isCachingCandidate()
+	{
+		return (getReferenceCount() > 1 || isInput() || isOutput());
+	}
+
+
 	@Override
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
