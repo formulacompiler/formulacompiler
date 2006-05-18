@@ -120,7 +120,7 @@ final class ByteCodeBigDecimalType extends ByteCodeNumericType
 	{
 		String result = this.constantPool.get( _value );
 		if (result == null) {
-			result = "C_" + Integer.toString( this.constantPool.size() );
+			result = "C$" + Integer.toString( this.constantPool.size() );
 			this.classWriter.visitField( Opcodes.ACC_STATIC + Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL, result, B, null,
 					null ).visitEnd();
 			try {

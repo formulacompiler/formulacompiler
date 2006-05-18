@@ -23,9 +23,11 @@ package sej.engine.bytecode.compiler;
 import java.lang.reflect.Method;
 import java.util.Date;
 
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.CallFrame;
 import sej.ModelError;
@@ -61,18 +63,92 @@ final class ByteCodeCellCompiler extends ByteCodeMethodCompiler
 		}
 
 		if (cell.isInput()) {
-			compileInput( cell.getCallChainToCall() );
+			if (shouldCache( cell )) {
+				compileCacheBegin();
+				compileInput( cell.getCallChainToCall() );
+				compileCacheEnd();
+			}
+			else {
+				compileInput( cell.getCallChainToCall() );
+			}
 		}
 		else {
 			final ExpressionNode cellExpr = cell.getExpression();
 			if (null != cellExpr) {
-				compileExpr( cellExpr );
+				if (shouldCache( cell )) {
+					compileCacheBegin();
+					compileExpr( cellExpr );
+					compileCacheEnd();
+				}
+				else {
+					compileExpr( cellExpr );
+				}
 			}
 			else {
 				final Object constantValue = cell.getConstantValue();
 				compileConst( constantValue );
 			}
 		}
+	}
+
+
+	private boolean shouldCache( CellModel _cell )
+	{
+		return getSection().getModelCompiler().canCache() && _cell.isCachingCandidate();
+	}
+
+
+	private String cachedIndicatorName = "h$" + getMethodName();
+	private String cacheName = "c$" + getMethodName();
+	private Label skipCachedComputation;
+
+
+	private void compileCacheBegin()
+	{
+		// private boolean h$<x>
+		cw().visitField( Opcodes.ACC_PRIVATE, this.cachedIndicatorName, Type.BOOLEAN_TYPE.getDescriptor(), null, null )
+				.visitEnd();
+
+		// private <type> c$<x>
+		cw().visitField( Opcodes.ACC_PRIVATE, this.cacheName, getNumericType().getDescriptor(), null, null ).visitEnd();
+
+		// if (!h$<x>) {
+		this.skipCachedComputation = mv().newLabel();
+		mv().loadThis();
+		mv().getField( getEngineType(), this.cachedIndicatorName, Type.BOOLEAN_TYPE );
+		mv().visitJumpInsn( Opcodes.IFNE, this.skipCachedComputation );
+
+		// c$<x> = ...
+		mv().loadThis();
+	}
+
+
+	private void compileCacheEnd()
+	{
+		final String cachedIndicatorName = "h$" + getMethodName();
+		final String cacheName = "c$" + getMethodName();
+
+		// this and computed value is on stack, so
+		// c$<x> = <value>;
+		mv().putField( getEngineType(), cacheName, getNumericType().getType() );
+
+		// h$<x> = true;
+		mv().loadThis();
+		mv().push( true );
+		mv().putField( getEngineType(), cachedIndicatorName, Type.BOOLEAN_TYPE );
+
+		// }
+		// return c$<x>;
+		mv().mark( this.skipCachedComputation );
+		mv().loadThis();
+		mv().getField( getEngineType(), cacheName, getNumericType().getType() );
+
+		// In reset(), do:
+		// h$<x> = false;
+		GeneratorAdapter r = getSection().getResetter();
+		r.loadThis();
+		r.push( false );
+		r.putField( getEngineType(), cachedIndicatorName, Type.BOOLEAN_TYPE );
 	}
 
 
@@ -99,9 +175,9 @@ final class ByteCodeCellCompiler extends ByteCodeMethodCompiler
 					mv.visitLdcInsn( cell.getMaxFractionalDigits() );
 					getNumericType().compileRound( mv );
 				}
-				
+
 				if (returnClass == getNumericType().getNumericType().getValueType()) {
-					mv.visitInsn( getNumericType().getReturnOpcode());
+					mv.visitInsn( getNumericType().getReturnOpcode() );
 				}
 				else if (Date.class == returnClass) {
 					getNumericType().compileDateFromExcel( mv );
@@ -123,5 +199,10 @@ final class ByteCodeCellCompiler extends ByteCodeMethodCompiler
 		}
 	}
 
+
+	private Type getEngineType()
+	{
+		return getSection().engine;
+	}
 
 }

@@ -162,6 +162,9 @@ final class ByteCodeSectionCompiler
 		buildAnonymousConstructor();
 		buildConstructorWithInputs();
 		buildNewEngine();
+		if (getModelCompiler().canCache()) {
+			buildReset();
+		}
 	}
 
 	void compileAccessTo( ByteCodeSectionCompiler _subCompiler )
@@ -171,6 +174,7 @@ final class ByteCodeSectionCompiler
 
 	void endCompilation()
 	{
+		finalizeReset();
 		finalizeStaticInitializer();
 		finalizeClass();
 	}
@@ -204,7 +208,7 @@ final class ByteCodeSectionCompiler
 	private void buildStaticInitializer()
 	{
 		MethodVisitor mv = cw().visitMethod( Opcodes.ACC_STATIC, "<clinit>", "()V", null, null );
-		GeneratorAdapter ma = new GeneratorAdapter( mv, Opcodes.ACC_PUBLIC, "<init>", "()V" );
+		GeneratorAdapter ma = new GeneratorAdapter( mv, Opcodes.ACC_STATIC, "<clinit>", "()V" );
 		ma.visitCode();
 		getNumericType().compileStaticInitialization( ma, this.engine );
 		this.initializer = ma;
@@ -221,7 +225,35 @@ final class ByteCodeSectionCompiler
 			this.initializer = null;
 		}
 	}
+	
+	
+	private GeneratorAdapter resetter;
+	
+	private void buildReset()
+	{
+		MethodVisitor mv = cw().visitMethod( Opcodes.ACC_PUBLIC, "reset", "()V", null, null );
+		GeneratorAdapter ma = new GeneratorAdapter( mv, Opcodes.ACC_PUBLIC, "reset", "()V" );
+		ma.visitCode();
+		this.resetter = ma;
+	}
+	
+	private void finalizeReset()
+	{
+		if (this.resetter != null) {
+			GeneratorAdapter ma = this.resetter;
+			ma.visitInsn( Opcodes.RETURN );
+			ma.visitMaxs( 0, 0 );
+			ma.visitEnd();
+			this.resetter = null;
+		}
+	}
+	
+	GeneratorAdapter getResetter() {
+		assert null != this.resetter : "Resetter is null";
+		return this.resetter;
+	}
 
+	
 	private void buildInputMember()
 	{
 		if (!hasInputs()) throw new IllegalStateException();
