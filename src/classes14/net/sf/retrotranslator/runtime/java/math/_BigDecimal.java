@@ -60,4 +60,9 @@ public final class _BigDecimal
 		return x.setScale( _newScale, _roundingMode );
 	}
 
+	public static int precision( final BigDecimal x )
+	{
+		throw new UnsupportedOperationException( "BigDecimal.precision() not supported on JRE 1.4" );
+	}
+
 }

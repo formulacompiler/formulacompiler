@@ -98,7 +98,12 @@ abstract class ByteCodeNumericType
 		return false;
 	}
 
-	public void compileStaticInitialization( GeneratorAdapter _ma, Type _engineType )
+	public void compileStaticInitialization( GeneratorAdapter _mv, Type _engineType )
+	{
+		// overridable placeholder
+	}
+
+	public void finalizeStaticInitialization( GeneratorAdapter _mv, Type _engineType )
 	{
 		// overridable placeholder
 	}

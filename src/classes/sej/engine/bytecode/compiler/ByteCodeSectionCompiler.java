@@ -171,6 +171,7 @@ final class ByteCodeSectionCompiler
 
 	void endCompilation()
 	{
+		finalizeStaticInitializer();
 		finalizeClass();
 	}
 
@@ -197,16 +198,30 @@ final class ByteCodeSectionCompiler
 		cw().visitSource( null, null );
 	}
 
+
+	private GeneratorAdapter initializer;
+
 	private void buildStaticInitializer()
 	{
 		MethodVisitor mv = cw().visitMethod( Opcodes.ACC_STATIC, "<clinit>", "()V", null, null );
 		GeneratorAdapter ma = new GeneratorAdapter( mv, Opcodes.ACC_PUBLIC, "<init>", "()V" );
 		ma.visitCode();
 		getNumericType().compileStaticInitialization( ma, this.engine );
-		ma.visitInsn( Opcodes.RETURN );
-		ma.visitMaxs( 0, 0 );
-		ma.visitEnd();
+		this.initializer = ma;
 	}
+
+	private void finalizeStaticInitializer()
+	{
+		if (this.initializer != null) {
+			GeneratorAdapter ma = this.initializer;
+			getNumericType().finalizeStaticInitialization( ma, this.engine );
+			ma.visitInsn( Opcodes.RETURN );
+			ma.visitMaxs( 0, 0 );
+			ma.visitEnd();
+			this.initializer = null;
+		}
+	}
+
 	private void buildInputMember()
 	{
 		if (!hasInputs()) throw new IllegalStateException();

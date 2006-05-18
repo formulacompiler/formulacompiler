@@ -22,7 +22,11 @@ package sej.engine.bytecode.compiler;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
@@ -31,22 +35,23 @@ import sej.ModelError;
 import sej.NumericType;
 import sej.expressions.Operator;
 import sej.runtime.RuntimeBigDecimal_v1;
+import sej.runtime.RuntimeDouble_v1;
 
 final class ByteCodeBigDecimalType extends ByteCodeNumericType
 {
+	private static final boolean JRE14 = System.getProperty( "java.version" ).startsWith( "1.4." );
 	private static final String BNAME = ByteCodeCompiler.BIGDECIMAL.getInternalName();
 	private static final String B = ByteCodeCompiler.BIGDECIMAL.getDescriptor();
 	private static final String V2B = "()" + B;
 	private static final String I2B = "(" + Type.INT_TYPE.getDescriptor() + ")" + B;
-	private static final String D2B = "(" + Type.DOUBLE_TYPE.getDescriptor() + ")" + B;
 	private static final String L2B = "(" + Type.LONG_TYPE.getDescriptor() + ")" + B;
+	private static final String LI2B = "(" + Type.LONG_TYPE.getDescriptor() + "I)" + B;
 	private static final String S2B = "(Ljava/lang/String;)" + B;
 	private static final String B2B = "(" + B + ")" + B;
 	private static final String BB2B = "(" + B + B + ")" + B;
 	private static final String BII2B = "(" + B + "II)" + B;
 	private final int scale;
 	private final int roundingMode;
-	private final ByteCodeNumericType doubleType;
 
 
 	public ByteCodeBigDecimalType(NumericType _type, ByteCodeSectionCompiler _compiler)
@@ -54,7 +59,6 @@ final class ByteCodeBigDecimalType extends ByteCodeNumericType
 		super( _type, _compiler );
 		this.scale = _type.getScale();
 		this.roundingMode = _type.getRoundingMode();
-		this.doubleType = ByteCodeNumericType.typeFor( NumericType.DOUBLE, _compiler );
 	}
 
 
@@ -78,6 +82,80 @@ final class ByteCodeBigDecimalType extends ByteCodeNumericType
 	public Type getRuntimeType()
 	{
 		return RUNTIME_TYPE;
+	}
+
+
+	private Type classType;
+	private ClassWriter classWriter;
+	private GeneratorAdapter classInitializer;
+	private Map<String, String> constantPool = new HashMap<String, String>();
+
+	@Override
+	public boolean buildStaticMembers( ClassWriter _writer )
+	{
+		this.classWriter = _writer;
+		return true; // Not defined yet, but we might. So make sure we get a class initializer.
+	}
+
+	@Override
+	public void compileStaticInitialization( GeneratorAdapter _mv, Type _engineType )
+	{
+		this.classInitializer = _mv;
+		this.classType = _engineType;
+	}
+
+	@Override
+	public void finalizeStaticInitialization( GeneratorAdapter _mv, Type _engineType )
+	{
+		this.classInitializer = null;
+		this.classWriter = null;
+		this.classType = null;
+	}
+
+
+	/** The max value of a long is 9,223,372,036,854,775,807, so its max precision is 6 * 3 = 18. */
+	private static final int MAX_LONG_PREC = 18;
+
+	private String defineOrReuseStaticConstant( String _value )
+	{
+		String result = this.constantPool.get( _value );
+		if (result == null) {
+			result = "C_" + Integer.toString( this.constantPool.size() );
+			this.classWriter.visitField( Opcodes.ACC_STATIC + Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL, result, B, null,
+					null ).visitEnd();
+			try {
+				final long longValue = Long.parseLong( _value );
+				this.classInitializer.push( longValue );
+				this.classInitializer.visitMethodInsn( Opcodes.INVOKESTATIC, BNAME, "valueOf", L2B );
+				compileScaleAdjustment( this.classInitializer );
+			}
+			catch (NumberFormatException e) {
+				final BigDecimal bigValue = new BigDecimal( _value );
+				if (!JRE14 && bigValue.precision() <= MAX_LONG_PREC) { // JRE 1.4 cannot handle precision()
+					final long longValue = bigValue.unscaledValue().longValue();
+					this.classInitializer.push( longValue );
+					this.classInitializer.push( bigValue.scale() );
+					this.classInitializer.visitMethodInsn( Opcodes.INVOKESTATIC, BNAME, "valueOf", LI2B );
+					if (bigValue.scale() != this.scale) {
+						compileScaleAdjustment( this.classInitializer );
+					}
+				}
+				else {
+					this.classInitializer.push( _value );
+					compileRuntimeMethod( this.classInitializer, "newBigDecimal", S2B );
+					compileScaleAdjustment( this.classInitializer );
+				}
+			}
+			this.classInitializer.visitFieldInsn( Opcodes.PUTSTATIC, this.classType.getInternalName(), result, B );
+			this.constantPool.put( _value, result );
+		}
+		return result;
+	}
+
+	private void compileStaticConstant( MethodVisitor _mv, String _value )
+	{
+		final String constName = defineOrReuseStaticConstant( _value );
+		_mv.visitFieldInsn( Opcodes.GETSTATIC, getCompiler().engine.getInternalName(), constName, B );
 	}
 
 
@@ -148,17 +226,19 @@ final class ByteCodeBigDecimalType extends ByteCodeNumericType
 		}
 		else if (_constantValue instanceof Number) {
 			String val = _constantValue.toString();
-			_mv.push( val );
-			compileRuntimeMethod( _mv, "newBigDecimal", S2B );
-			compileScaleAdjustment( _mv );
+			compileStaticConstant( _mv, val );
 		}
 		else if (_constantValue instanceof Boolean) {
-			_mv.visitFieldInsn( Opcodes.GETSTATIC, BNAME, ((Boolean) _constantValue) ? "ONE" : "ZERO", B );
-			compileScaleAdjustment( _mv );
+			if ((Boolean) _constantValue) {
+				compileStaticConstant( _mv, "1" );
+			}
+			else {
+				compileStaticConstant( _mv, "0" );
+			}
 		}
 		else if (_constantValue instanceof Date) {
-			this.doubleType.compileConst( _mv, _constantValue );
-			compileFromDouble( _mv );
+			final double dbl = RuntimeDouble_v1.dateToExcel( (Date) _constantValue );
+			compileStaticConstant( _mv, Double.toString( dbl ) );
 		}
 		else {
 			super.compileConst( _mv, _constantValue );
@@ -169,16 +249,7 @@ final class ByteCodeBigDecimalType extends ByteCodeNumericType
 	@Override
 	public void compileZero( GeneratorAdapter _mv )
 	{
-		final String jreVersion = System.getProperty( "java.version" );
-		if (jreVersion.startsWith( "1.4." )) {
-			_mv.push( 0L );
-			compileRuntimeMethod( _mv, "newBigDecimal", L2B );
-			compileScaleAdjustment( _mv );
-		}
-		else {
-			_mv.visitFieldInsn( Opcodes.GETSTATIC, BNAME, "ZERO", B );
-			compileScaleAdjustment( _mv );
-		}
+		compileStaticConstant( _mv, "0" );
 	}
 
 
@@ -187,20 +258,13 @@ final class ByteCodeBigDecimalType extends ByteCodeNumericType
 	{
 		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "compareTo", "(" + B + ")I" );
 	}
-	
-	
+
+
 	@Override
 	protected String getRoundMethodSignature()
 	{
 		final String d = getDescriptor();
 		return "(" + d + "I)" + d;
-	}
-
-
-	private void compileFromDouble( GeneratorAdapter _mv )
-	{
-		compileRuntimeMethod( _mv, "newBigDecimal", D2B );
-		compileScaleAdjustment( _mv );
 	}
 
 
