@@ -20,38 +20,35 @@
  */
 package sej.tutorials;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 
 import sej.CallFrame;
-import sej.Compiler;
-import sej.CompilerFactory;
-import sej.ModelError;
+import sej.EngineBuilder;
+import sej.SEJ;
 import sej.Spreadsheet;
-import sej.SpreadsheetLoader;
+import sej.SpreadsheetBinder;
 
 
 public class BindingToMultipleInstances
 {
 
 
-	public void bindingToMultipleInputs() throws IOException, ModelError, NoSuchMethodException
+	public void bindingToMultipleInputs() throws Exception
 	{
-		Spreadsheet spreadsheet = SpreadsheetLoader
-				.loadFromFile( "src/test-system/data/tutorials/BindingToMultipleInputs.xls" );
+		final String path = "src/test-system/data/tutorials/BindingToMultipleInputs.xls";
 
-		// ---- createCompiler
-		Class input = Input.class;
-		Class output = Output.class;
-		Compiler compiler = CompilerFactory.newDefaultCompiler( spreadsheet, input, output );
-		Compiler.Section root = compiler.getRoot();
-		// ---- createCompiler
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.loadSpreadsheet( path );
+		builder.setInputClass( Input.class );
+		builder.setOutputClass( Output.class );
+		Spreadsheet spreadsheet = builder.getSpreadsheet();
+		SpreadsheetBinder.Section binder = builder.getRootBinder();
 
 		Method intfGetter, valueGetter;
 
 		// ---- bindInputs
-		intfGetter = input.getMethod( "getCC", Integer.TYPE );
-		valueGetter = CustomerCategory.class.getMethod( "getDiscount" );
+		intfGetter = Input.class.getMethod( /**/"getCC", Integer.TYPE/**/ );
+		valueGetter = CustomerCategory.class.getMethod( /**/"getDiscount"/**/ );
 		for (Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames()) {
 			if (def instanceof Spreadsheet.CellNameDefinition) {
 				final Spreadsheet.CellNameDefinition cellDef = (Spreadsheet.CellNameDefinition) def;
@@ -59,7 +56,7 @@ public class BindingToMultipleInstances
 				final String name = cellDef.getName();
 				if (name.startsWith( "CC_DISCOUNT_" )) {
 					final int iCC = Integer.parseInt( name.substring( "CC_DISCOUNT_".length() ) );
-					root.defineInputCell( cell, new CallFrame( intfGetter, iCC ).chain( valueGetter ) );
+					binder.defineInputCell( cell, new CallFrame( intfGetter, /**/iCC/**/ )./**/chain/**/( valueGetter ) );
 				}
 			}
 		}
@@ -68,7 +65,7 @@ public class BindingToMultipleInstances
 		Method outputGetter;
 
 		// ---- bindOutputs
-		outputGetter = output.getMethod( "getNewDiscount", Integer.TYPE );
+		outputGetter = Output.class.getMethod( /**/"getNewDiscount", Integer.TYPE/**/ );
 		for (Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames()) {
 			if (def instanceof Spreadsheet.CellNameDefinition) {
 				final Spreadsheet.CellNameDefinition cellDef = (Spreadsheet.CellNameDefinition) def;
@@ -76,7 +73,7 @@ public class BindingToMultipleInstances
 				final String name = cellDef.getName();
 				if (name.startsWith( "CC_NEWDISCOUNT_" )) {
 					final int iCC = Integer.parseInt( name.substring( "CC_NEWDISCOUNT_".length() ) );
-					root.defineOutputCell( cell, new CallFrame( outputGetter, iCC ) );
+					binder.defineOutputCell( cell, new CallFrame( outputGetter, /**/iCC/**/ ) );
 				}
 				// ... dito for CreditLimit
 			}
@@ -142,16 +139,16 @@ public class BindingToMultipleInstances
 			return this.output;
 		}
 
-		public CC getCC( int n )
+		public CC getCC( /**/int n/**/ )
 		{
-			return new CC( n );
+			return new CC( /**/n/**/ );
 		}
 
 		private class CC
 		{
 			private int iCC;
 			
-			public CC(int _iCC)
+			public CC(/**/int _iCC/**/)
 			{
 				super();
 				this.iCC = _iCC;
@@ -159,12 +156,12 @@ public class BindingToMultipleInstances
 			
 			public double getNewDiscount()
 			{
-				return getOutput().getNewDiscount( this.iCC );
+				return getOutput().getNewDiscount( /**/this.iCC/**/ );
 			}
 			
 			public double getNewCreditLimit()
 			{
-				return getOutput().getNewCreditLimit( this.iCC );
+				return getOutput().getNewCreditLimit( /**/this.iCC/**/ );
 			}
 		}
 	}

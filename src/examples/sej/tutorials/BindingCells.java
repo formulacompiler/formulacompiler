@@ -20,65 +20,67 @@
  */
 package sej.tutorials;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 
 import sej.CallFrame;
-import sej.Compiler;
-import sej.CompilerFactory;
-import sej.ModelError;
+import sej.EngineBuilder;
+import sej.SEJ;
 import sej.Spreadsheet;
-import sej.SpreadsheetLoader;
+import sej.SpreadsheetBinder;
 
 
 public class BindingCells
 {
 
-	public void bindingCells() throws IOException, ModelError, NoSuchMethodException
+	public void bindingCells() throws Exception
 	{
-		Spreadsheet spreadsheet = SpreadsheetLoader.loadFromFile( "src/test-system/data/tutorials/BindingCells.xls" );
+		final String path = "src/test-system/data/tutorials/BindingCells.xls";
 
-		// ---- createCompiler
-		Class input = Input.class;
-		Class output = Output.class;
-		Compiler compiler = CompilerFactory.newDefaultCompiler( spreadsheet, input, output );
-		Compiler.Section root = compiler.getRoot();
-		// ---- createCompiler
+		// ---- setupBuilder
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.loadSpreadsheet( path );
+		/* -in- */builder.setInputClass( Input.class );/* -in- */
+		/* -out- */builder.setOutputClass( Output.class );/* -out- */
+		// ---- setupBuilder
+		// ---- getBinder
+		Spreadsheet spreadsheet = builder.getSpreadsheet();
+		SpreadsheetBinder.Section binder = builder./**/getRootBinder/**/();
+		// ---- getBinder
 
 		Method method, chainedMethod;
 		Spreadsheet.Cell cell;
 
 		// ---- bindPlainInputs
-		cell = spreadsheet.getCell( "SOME_VALUE" );
-		method = input.getMethod( "getSomeValue" );
-		root.defineInputCell( cell, new CallFrame( method ) );
+		cell = spreadsheet./**/getCell/**/( "SOME_VALUE" );
+		method = Input.class./**/getMethod/**/( "getSomeValue" );
+		binder./**/defineInputCell/**/( cell, new CallFrame( method ) );
 
 		cell = spreadsheet.getCell( "OTHER_VALUE" );
-		method = input.getMethod( "getAnotherValue" );
-		root.defineInputCell( cell, new CallFrame( method ) );
+		method = Input.class.getMethod( "getAnotherValue" );
+		binder.defineInputCell( cell, new CallFrame( method ) );
 		// ---- bindPlainInputs
 
 		// ---- bindParamInputs
 		cell = spreadsheet.getCell( "YEAR_1994" );
-		method = input.getMethod( "getValueForYear", Integer.TYPE );
-		root.defineInputCell( cell, new CallFrame( method, 1994 ) );
+		method = Input.class.getMethod( "getValueForYear", /**/Integer.TYPE/**/ );
+		binder.defineInputCell( cell, new CallFrame( method, /**/1994/**/ ) );
 		// ---- bindParamInputs
 
 		// ---- bindChainedInputs
 		cell = spreadsheet.getCell( "NAME_LENGTH" );
-		method = input.getMethod( "getName" );
+		method = Input.class.getMethod( "getName" );
 		chainedMethod = String.class.getMethod( "length" );
-		root.defineInputCell( cell, new CallFrame( method ).chain( chainedMethod ) );
+		binder.defineInputCell( cell, new CallFrame( method )/**/.chain/**/( chainedMethod ) );
 		// ---- bindChainedInputs
 
 		// ---- bindPlainOutputs
 		cell = spreadsheet.getCell( "RESULT" );
-		method = output.getMethod( "getResult" );
-		root.defineOutputCell( cell, new CallFrame( method ) );
+		method = Output.class.getMethod( "getResult" );
+		binder.defineOutputCell( cell, new CallFrame( method ) );
 
 		cell = spreadsheet.getCell( "COEFF" );
-		method = output.getMethod( "getCoefficient" );
-		root.defineOutputCell( cell, new CallFrame( method ) );
+		method = Output.class.getMethod( "getCoefficient" );
+		binder.defineOutputCell( cell, new CallFrame( method ) );
 		// ---- bindPlainOutputs
 	}
 

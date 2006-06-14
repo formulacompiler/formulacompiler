@@ -20,46 +20,43 @@
  */
 package sej.tutorials;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 
 import sej.CallFrame;
-import sej.Compiler;
-import sej.CompilerFactory;
-import sej.ModelError;
+import sej.EngineBuilder;
+import sej.SEJ;
 import sej.Spreadsheet;
-import sej.SpreadsheetLoader;
+import sej.SpreadsheetBinder;
 
 
 public class BindingToMultipleInterfaces
 {
 
 
-	public void bindingToMultipleInputs() throws IOException, ModelError, NoSuchMethodException
+	public void bindingToMultipleInputs() throws Exception
 	{
-		Spreadsheet spreadsheet = SpreadsheetLoader
-				.loadFromFile( "src/test-system/data/tutorials/BindingToMultipleInputs.xls" );
+		final String path = "src/test-system/data/tutorials/BindingToMultipleInputs.xls";
 
-		// ---- createCompiler
-		Class input = Input.class;
-		Class output = Output.class;
-		Compiler compiler = CompilerFactory.newDefaultCompiler( spreadsheet, input, output );
-		Compiler.Section root = compiler.getRoot();
-		// ---- createCompiler
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.loadSpreadsheet( path );
+		builder.setInputClass( Input.class );
+		builder.setOutputClass( Output.class );
+		Spreadsheet spreadsheet = builder.getSpreadsheet();
+		SpreadsheetBinder.Section binder = builder.getRootBinder();
 
 		Spreadsheet.Cell cell;
 		Method intfGetter, valueGetter;
 
 		// ---- bindInputs
 		cell = spreadsheet.getCell( "A_VALUE" );
-		intfGetter = input.getMethod( "getA" );
+		intfGetter = Input.class.getMethod( /**/"getA"/**/ );
 		valueGetter = String.class.getMethod( "getValue" );
-		root.defineInputCell( cell, new CallFrame( intfGetter ).chain( valueGetter ) );
+		binder.defineInputCell( cell, new CallFrame( intfGetter )./**/chain/**/( valueGetter ) );
 
 		cell = spreadsheet.getCell( "B_VALUE" );
-		intfGetter = input.getMethod( "getB" );
+		intfGetter = Input.class.getMethod( /**/"getB"/**/ );
 		valueGetter = String.class.getMethod( "getValue" );
-		root.defineInputCell( cell, new CallFrame( intfGetter ).chain( valueGetter ) );
+		binder.defineInputCell( cell, new CallFrame( intfGetter )./**/chain/**/( valueGetter ) );
 		// ---- bindInputs
 
 	}
@@ -136,7 +133,7 @@ public class BindingToMultipleInterfaces
 	// ---- Output2
 
 	// ---- Output2A
-	public static class OutputAImpl implements OutputA
+	public static class OutputAImpl implements /**/OutputA/**/
 	{
 		private final Output2 output;
 
@@ -148,13 +145,13 @@ public class BindingToMultipleInterfaces
 
 		public double getResult()
 		{
-			return this.output.getResultA();
+			return this.output./**/getResultA/**/();
 		}
 	}
 	// ---- Output2A
 
 	// ---- Output2B
-	public static class OutputBImpl implements OutputB
+	public static class OutputBImpl implements /**/OutputB/**/
 	{
 		private final Output2 output;
 
@@ -166,7 +163,7 @@ public class BindingToMultipleInterfaces
 
 		public double getResult()
 		{
-			return this.output.getResultB();
+			return this.output./**/getResultB/**/();
 		}
 
 		public double getOther()

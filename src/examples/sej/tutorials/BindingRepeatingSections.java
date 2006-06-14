@@ -20,62 +20,61 @@
  */
 package sej.tutorials;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 
 import sej.CallFrame;
-import sej.Compiler;
-import sej.CompilerFactory;
-import sej.ModelError;
+import sej.EngineBuilder;
 import sej.Orientation;
+import sej.SEJ;
 import sej.Spreadsheet;
-import sej.SpreadsheetLoader;
+import sej.SpreadsheetBinder;
 
 
 public class BindingRepeatingSections
 {
 
-	public void bindingRepeatingSections() throws IOException, ModelError, NoSuchMethodException
+	public void bindingRepeatingSections() throws Exception
 	{
-		Spreadsheet spreadsheet = SpreadsheetLoader.loadFromFile( "src/test-system/data/tutorials/BindingCells.xls" );
+		final String path = "src/test-system/data/tutorials/BindingCells.xls";
 
-		// ---- createCompiler
-		Class input = Input.class;
-		Class output = Output.class;
-		Compiler compiler = CompilerFactory.newDefaultCompiler( spreadsheet, input, output );
-		Compiler.Section root = compiler.getRoot();
-		// ---- createCompiler
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.loadSpreadsheet( path );
+		builder.setInputClass( Input.class );
+		builder.setOutputClass( Output.class );
+		Spreadsheet spreadsheet = builder.getSpreadsheet();
+		SpreadsheetBinder.Section binder = builder.getRootBinder();
 
 		Method method, inputMethod, outputMethod;
 		Spreadsheet.Range range;
 		Spreadsheet.Cell cell;
 
 		// ---- bindInputSection
+		/**/SpreadsheetBinder.Section orders;/**/
 		range = spreadsheet.getRange( "ORDERS" );
-		inputMethod = input.getMethod( "getOrders" );
-		Compiler.Section orders;
-		orders = root.defineRepeatingSection( range, Orientation.VERTICAL, new CallFrame( inputMethod ), null );
+		inputMethod = Input.class.getMethod( /**/"getOrders"/**/ );
+		orders = binder./**/defineRepeatingSection/**/( range, Orientation.VERTICAL, new CallFrame( inputMethod ),
+				/**/Order.class/**/, null, null );
 		// ---- bindInputSection
 
 		// ---- bindInputCell
 		cell = spreadsheet.getCell( "ORDER_TOTAL" );
-		method = Order.class.getMethod( "getTotal" );
-		orders.defineInputCell( cell, new CallFrame( method ) );
+		method = /**/Order.class/**/.getMethod( "getTotal" );
+		/**/orders/**/.defineInputCell( cell, new CallFrame( method ) );
 		// ---- bindInputCell
 
 		// ---- bindIOSection
+		SpreadsheetBinder.Section employees;
 		range = spreadsheet.getRange( "EMPLOYEES" );
-		inputMethod = Input2.class.getMethod( "getEmployees" );
-		outputMethod = Output.class.getMethod( "getEmployees" );
-		Compiler.Section employees;
-		employees = root.defineRepeatingSection( range, Orientation.VERTICAL, new CallFrame( inputMethod ),
-				new CallFrame( outputMethod ) );
+		inputMethod = /**/Input2.class/**/.getMethod( "getEmployees" );
+		outputMethod = /**/Output.class/**/.getMethod( "getEmployees" );
+		employees = binder.defineRepeatingSection( range, Orientation.VERTICAL, new CallFrame( inputMethod ),
+				/**/Input2.Employee.class/**/, new CallFrame( outputMethod ), /**/Output.Employee.class/**/ );
 		// ---- bindIOSection
-		
+
 		// ---- bindOutputCell
 		cell = spreadsheet.getCell( "BONUS_AMOUNT" );
-		method = Output.Employee.class.getMethod( "getBonusAmount" );
-		employees.defineOutputCell( cell, new CallFrame( method ) );
+		method = /**/Output.Employee.class/**/.getMethod( "getBonusAmount" );
+		/**/employees/**/.defineOutputCell( cell, new CallFrame( method ) );
 		// ---- bindOutputCell
 
 	}
@@ -91,6 +90,7 @@ public class BindingRepeatingSections
 	{
 		Order[] getOrders();
 	}
+
 	// ---- Input
 
 
@@ -105,11 +105,12 @@ public class BindingRepeatingSections
 			double getBaseSalaryAmount();
 		}
 	}
+
 	// ---- Input2
 
 
 	// ---- Output
-	public static interface Output 
+	public static interface Output
 	{
 		Iterable<Employee> getEmployees();
 
