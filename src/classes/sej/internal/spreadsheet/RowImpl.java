@@ -95,6 +95,21 @@ public class RowImpl extends AbstractDescribable implements Spreadsheet.Row
 	}
 
 
+	public void trim()
+	{
+		boolean canRemove = true;
+		for (int i = getCellList().size() - 1; i >= 0; i--) {
+			CellInstance cell = getCellList().get( i );
+			if (canRemove) {
+				if (cell == null) {
+					getCellList().remove( i );
+				}
+				else canRemove = false;
+			}
+		}
+	}
+	
+
 	@Override
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
@@ -111,5 +126,6 @@ public class RowImpl extends AbstractDescribable implements Spreadsheet.Row
 		_to.outdent();
 		_to.appendLine( "</row>" );
 	}
+
 
 }

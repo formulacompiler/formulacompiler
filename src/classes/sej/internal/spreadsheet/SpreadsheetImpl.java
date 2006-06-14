@@ -233,6 +233,28 @@ public class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
 	}
 
 
+	public CellRefFormat getCellRefFormat()
+	{
+		return CellRefFormat.A1; // TODO Change this for Excel!
+	}
+
+
+	public void trim()
+	{
+		boolean canRemove = true;
+		for (int i = getSheetList().size() - 1; i >= 0; i--) {
+			SheetImpl sheet = getSheetList().get( i );
+			sheet.trim();
+			if (canRemove) {
+				if (sheet.getRowList().size() == 0) {
+					getSheetList().remove( i );
+				}
+				else canRemove = false;
+			}
+		}
+	}
+
+
 	@Override
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
@@ -263,12 +285,6 @@ public class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
 			}
 			_to.appendLine( "</names>" );
 		}
-	}
-
-
-	public CellRefFormat getCellRefFormat()
-	{
-		return CellRefFormat.A1; // TODO Change this for Excel!
 	}
 
 

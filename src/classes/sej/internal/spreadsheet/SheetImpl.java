@@ -192,6 +192,22 @@ public class SheetImpl extends AbstractDescribable implements Spreadsheet.Sheet
 	}
 
 
+	public void trim()
+	{
+		boolean canRemove = true;
+		for (int i = getRowList().size() - 1; i >= 0; i--) {
+			RowImpl row = getRowList().get( i );
+			row.trim();
+			if (canRemove) {
+				if (row.getCellList().size() == 0) {
+					getRowList().remove( i );
+				}
+				else canRemove = false;
+			}
+		}
+	}
+
+
 	@Override
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
