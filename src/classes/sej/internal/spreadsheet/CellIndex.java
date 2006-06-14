@@ -21,13 +21,12 @@
 package sej.internal.spreadsheet;
 
 import sej.Orientation;
+import sej.Spreadsheet.Cell;
 import sej.describable.DescriptionBuilder;
 
-public class CellIndex extends Reference
+public class CellIndex extends Reference implements Cell
 {
-	public static final CellIndex TOP_LEFT = new CellIndex( 0, 0, 0 );
-	public static final CellIndex BOTTOM_RIGHT = new CellIndex( Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE );
-
+	public final SpreadsheetImpl spreadsheet;
 	public final int sheetIndex;
 	public final int columnIndex;
 	public final int rowIndex;
@@ -36,9 +35,10 @@ public class CellIndex extends Reference
 	public final boolean isRowIndexAbsolute;
 
 
-	public CellIndex(int _sheetIndex, int _columnIndex, boolean _columnIndexAbsolute, int _rowIndex,
-			boolean _rowIndexAbsolute)
+	public CellIndex(SpreadsheetImpl _spreadsheet, int _sheetIndex, int _columnIndex, boolean _columnIndexAbsolute,
+			int _rowIndex, boolean _rowIndexAbsolute)
 	{
+		this.spreadsheet = _spreadsheet;
 		this.sheetIndex = _sheetIndex;
 		this.columnIndex = _columnIndex;
 		this.rowIndex = _rowIndex;
@@ -48,9 +48,20 @@ public class CellIndex extends Reference
 	}
 
 
-	public CellIndex(int _sheetIndex, int _columnIndex, int _rowIndex)
+	public CellIndex(SpreadsheetImpl _spreadsheet, int _sheetIndex, int _columnIndex, int _rowIndex)
 	{
-		this( _sheetIndex, _columnIndex, false, _rowIndex, false );
+		this( _spreadsheet, _sheetIndex, _columnIndex, false, _rowIndex, false );
+	}
+
+
+	public static final CellIndex getTopLeft( SpreadsheetImpl _spreadsheet )
+	{
+		return new CellIndex( _spreadsheet, 0, 0, 0 );
+	}
+
+	public static final CellIndex getBottomRight( SpreadsheetImpl _spreadsheet )
+	{
+		return new CellIndex( _spreadsheet, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE );
 	}
 
 
@@ -62,8 +73,9 @@ public class CellIndex extends Reference
 
 	public boolean equals( CellIndex _other )
 	{
-		return this.sheetIndex == _other.sheetIndex
-				&& this.rowIndex == _other.rowIndex && this.columnIndex == _other.columnIndex;
+		return this.spreadsheet == _other.spreadsheet
+				&& this.sheetIndex == _other.sheetIndex && this.rowIndex == _other.rowIndex
+				&& this.columnIndex == _other.columnIndex;
 	}
 
 
@@ -85,15 +97,15 @@ public class CellIndex extends Reference
 	}
 
 
-	public SheetImpl getSheet( SpreadsheetImpl _workbook )
+	public SheetImpl getSheet()
 	{
-		return _workbook.getSheetList().get( this.sheetIndex );
+		return this.spreadsheet.getSheetList().get( this.sheetIndex );
 	}
 
 
-	public RowImpl getRow( SpreadsheetImpl _workbook )
+	public RowImpl getRow()
 	{
-		SheetImpl sheet = getSheet( _workbook );
+		SheetImpl sheet = getSheet();
 		if (this.rowIndex < sheet.getRowList().size()) {
 			return sheet.getRowList().get( this.rowIndex );
 		}
@@ -103,9 +115,9 @@ public class CellIndex extends Reference
 	}
 
 
-	public CellInstance getCell( SpreadsheetImpl _workbook )
+	public CellInstance getCell()
 	{
-		RowImpl row = getRow( _workbook );
+		RowImpl row = getRow();
 		if (null != row && this.columnIndex < row.getCellList().size()) {
 			return row.getCellList().get( this.columnIndex );
 		}
@@ -113,15 +125,27 @@ public class CellIndex extends Reference
 			return null;
 		}
 	}
-	
-	
+
+
+	public Object getConstantValue()
+	{
+		final CellInstance cell = getCell();
+		if (cell instanceof CellWithConstant) {
+			return ((CellWithConstant) cell).getValue();
+		}
+		else {
+			return null;
+		}
+	}
+
+
 	public int getIndex( Orientation _orientation )
 	{
 		switch (_orientation) {
-		case HORIZONTAL:
-			return this.columnIndex;
-		case VERTICAL:
-			return this.rowIndex;
+			case HORIZONTAL:
+				return this.columnIndex;
+			case VERTICAL:
+				return this.rowIndex;
 		}
 		assert false;
 		return -1;
@@ -131,10 +155,10 @@ public class CellIndex extends Reference
 	public CellIndex setIndex( Orientation _orientation, int _index )
 	{
 		switch (_orientation) {
-		case HORIZONTAL:
-			return new CellIndex( this.sheetIndex, _index, this.rowIndex );
-		case VERTICAL:
-			return new CellIndex( this.sheetIndex, this.columnIndex, _index );
+			case HORIZONTAL:
+				return new CellIndex( this.spreadsheet, this.sheetIndex, _index, this.rowIndex );
+			case VERTICAL:
+				return new CellIndex( this.spreadsheet, this.sheetIndex, this.columnIndex, _index );
 		}
 		assert false;
 		return null;
@@ -143,7 +167,8 @@ public class CellIndex extends Reference
 
 	public CellIndex getAbsoluteIndex( boolean _columnAbsolute, boolean _rowAbsolute )
 	{
-		return new CellIndex( this.sheetIndex, this.columnIndex, _columnAbsolute, this.rowIndex, _rowAbsolute );
+		return new CellIndex( this.spreadsheet, this.sheetIndex, this.columnIndex, _columnAbsolute, this.rowIndex,
+				_rowAbsolute );
 	}
 
 

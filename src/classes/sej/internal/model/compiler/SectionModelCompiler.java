@@ -103,7 +103,7 @@ public class SectionModelCompiler
 
 	public CellModel createCellModel( CellIndex _cellIndex, boolean _isInput ) throws CompilerError
 	{
-		final CellInstance cell = getCell( _cellIndex );
+		final CellInstance cell = _cellIndex.getCell();
 		final boolean nonNull = (null != cell);
 		if (nonNull || _isInput) {
 			final CellModel result = new CellModel( this.sectionModel, _cellIndex.toString() );
@@ -317,12 +317,6 @@ public class SectionModelCompiler
 			result.buildStepsTo( _cell );
 		}
 		return result;
-	}
-
-
-	private CellInstance getCell( CellIndex _cellIndex )
-	{
-		return _cellIndex.getCell( this.engineDef.getWorkbook() );
 	}
 
 

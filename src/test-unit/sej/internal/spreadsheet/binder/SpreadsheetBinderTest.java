@@ -67,16 +67,16 @@ public class SpreadsheetBinderTest extends AbstractTestBase
 
 	public void testInputMethodReuse() throws Exception
 	{
-		this.def.defineInputCell( this.dyn.r1c1.getCellImpl(), getInput( "getOne" ) );
-		this.def.defineInputCell( this.dyn.r1c2.getCellImpl(), getInput( "getOne" ) );
+		this.def.defineInputCell( this.dyn.r1c1.getCellIndex(), getInput( "getOne" ) );
+		this.def.defineInputCell( this.dyn.r1c2.getCellIndex(), getInput( "getOne" ) );
 	}
 
 
 	public void testNoDuplicateInputCells() throws Exception
 	{
-		this.def.defineInputCell( this.dyn.r1c1.getCellImpl(), getInput( "getOne" ) );
+		this.def.defineInputCell( this.dyn.r1c1.getCellIndex(), getInput( "getOne" ) );
 		try {
-			this.def.defineInputCell( this.dyn.r1c1.getCellImpl(), getInput( "getTwo" ) );
+			this.def.defineInputCell( this.dyn.r1c1.getCellIndex(), getInput( "getTwo" ) );
 			fail();
 		}
 		catch (CompilerError.DuplicateDefinition e) {
@@ -87,16 +87,16 @@ public class SpreadsheetBinderTest extends AbstractTestBase
 
 	public void testOutputCellReuse() throws Exception
 	{
-		this.def.defineOutputCell( this.dyn.r1c1.getCellImpl(), getOutput( "getA" ) );
-		this.def.defineOutputCell( this.dyn.r1c1.getCellImpl(), getOutput( "getB" ) );
+		this.def.defineOutputCell( this.dyn.r1c1.getCellIndex(), getOutput( "getA" ) );
+		this.def.defineOutputCell( this.dyn.r1c1.getCellIndex(), getOutput( "getB" ) );
 	}
 
 
 	public void testNoDuplicateOutputMethods() throws Exception
 	{
-		this.def.defineOutputCell( this.dyn.r1c1.getCellImpl(), getOutput( "getResult" ) );
+		this.def.defineOutputCell( this.dyn.r1c1.getCellIndex(), getOutput( "getResult" ) );
 		try {
-			this.def.defineOutputCell( this.dyn.r1c2.getCellImpl(), getOutput( "getResult" ) );
+			this.def.defineOutputCell( this.dyn.r1c2.getCellIndex(), getOutput( "getResult" ) );
 			fail();
 		}
 		catch (CompilerError.DuplicateDefinition e) {
@@ -219,7 +219,7 @@ public class SpreadsheetBinderTest extends AbstractTestBase
 	private void failForOutsideDef( Section _band, CellInstance _cell ) throws Exception
 	{
 		try {
-			_band.defineInputCell( _cell.getCellImpl(), getInput( "getOne" ) );
+			_band.defineInputCell( _cell.getCellIndex(), getInput( "getOne" ) );
 			fail( "Definition for " + _cell.getCellIndex() + " accepted, but was not in band" );
 		}
 		catch (CompilerError.NotInSection e) {

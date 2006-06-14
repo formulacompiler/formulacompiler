@@ -74,18 +74,18 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 		CellInstance x3 = new CellWithLazilyParsedExpression( r1, plus( ref( x2 ), ref( x1 ) ) );
 		new CellWithConstant( r1, 5.0 ); // unused
 		CellInstance o2 = new CellWithLazilyParsedExpression( r1, plus( plus( plus( ref( i1 ), ref( x1 ) ), ref( x3 ) ),
-				ix( 100, 100 ) ) );
+				ix( workbook, 100, 100 ) ) );
 		o2.setNumberFormat( format );
 		CellInstance io1 = new CellWithConstant( r1, 7.0 );
 
 		SpreadsheetBinder def = newBinder( workbook );
 		Section rootDef = def.getRoot();
-		rootDef.defineInputCell( i1.getCellImpl(), getInput( "getOne" ) );
-		rootDef.defineInputCell( i2.getCellImpl(), getInput( "getTwo" ) );
-		rootDef.defineInputCell( io1.getCellImpl(), getInput( "getThree" ) );
-		rootDef.defineOutputCell( o1.getCellImpl(), getOutput( "getA" ) );
-		rootDef.defineOutputCell( o2.getCellImpl(), getOutput( "getB" ) );
-		rootDef.defineOutputCell( io1.getCellImpl(), getOutput( "getC" ) );
+		rootDef.defineInputCell( i1.getCellIndex(), getInput( "getOne" ) );
+		rootDef.defineInputCell( i2.getCellIndex(), getInput( "getTwo" ) );
+		rootDef.defineInputCell( io1.getCellIndex(), getInput( "getThree" ) );
+		rootDef.defineOutputCell( o1.getCellIndex(), getOutput( "getA" ) );
+		rootDef.defineOutputCell( o2.getCellIndex(), getOutput( "getB" ) );
+		rootDef.defineOutputCell( io1.getCellIndex(), getOutput( "getC" ) );
 
 		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), NumericType.DOUBLE );
 		ComputationModel model = compiler.buildNewModel();
@@ -209,7 +209,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 
 		SpreadsheetBinder def = newBinder( workbook );
 		bld.defineRange( def.getRoot() );
-		bld.details.defineOutputCell( bld.r1c4.getCellImpl(), getInput( "getOne" ) );
+		bld.details.defineOutputCell( bld.r1c4.getCellIndex(), getInput( "getOne" ) );
 
 		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), NumericType.DOUBLE );
 		ComputationModel model = compiler.buildNewModel();
@@ -256,8 +256,8 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 				getInput( "getDetails" ), Inputs.class, null, null );
 		SpreadsheetBinder.Section outputsDef = rootDef.defineRepeatingSection( rng( o1, o1 ), Orientation.HORIZONTAL,
 				getInput( "getDetails" ), Inputs.class, getOutput( "getDetails" ), Outputs.class );
-		inputsDef.defineInputCell( i1.getCellImpl(), getInput( "getOne" ) );
-		outputsDef.defineOutputCell( o1.getCellImpl(), getOutput( "getA" ) );
+		inputsDef.defineInputCell( i1.getCellIndex(), getInput( "getOne" ) );
+		outputsDef.defineOutputCell( o1.getCellIndex(), getOutput( "getA" ) );
 
 		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), NumericType.DOUBLE );
 		ComputationModel model = compiler.buildNewModel();
@@ -296,9 +296,9 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 				getInput( "getDetails" ), Inputs.class, null, null );
 		SpreadsheetBinder.Section innerDef = outerDef.defineRepeatingSection( rng( i1, i1 ), Orientation.VERTICAL,
 				getInput( "getSubDetails" ), Inputs.class, null, null );
-		innerDef.defineInputCell( i1.getCellImpl(), getInput( "getOne" ) );
-		rootDef.defineOutputCell( o1.getCellImpl(), getOutput( "getA" ) );
-		rootDef.defineOutputCell( o2.getCellImpl(), getOutput( "getB" ) );
+		innerDef.defineInputCell( i1.getCellIndex(), getInput( "getOne" ) );
+		rootDef.defineOutputCell( o1.getCellIndex(), getOutput( "getA" ) );
+		rootDef.defineOutputCell( o2.getCellIndex(), getOutput( "getB" ) );
 
 		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), NumericType.DOUBLE );
 		ComputationModel model = compiler.buildNewModel();
@@ -367,7 +367,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 		SpreadsheetBinder def = newBinder( workbook );
 		Section rootDef = def.getRoot();
 		rootDef.defineRepeatingSection( rng, Orientation.HORIZONTAL, getInput( "getDetails" ), Inputs.class, null, null );
-		rootDef.defineOutputCell( output.getCellImpl(), getOutput( "getResult" ) );
+		rootDef.defineOutputCell( output.getCellIndex(), getOutput( "getResult" ) );
 
 		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), NumericType.DOUBLE );
 		try {
@@ -404,9 +404,9 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 	}
 
 
-	private ExpressionNode ix( int _col, int _row )
+	private ExpressionNode ix( SpreadsheetImpl _s, int _col, int _row )
 	{
-		return new ExpressionNodeForCell( new CellIndex( 0, _col, _row ) );
+		return new ExpressionNodeForCell( new CellIndex( _s, 0, _col, _row ) );
 	}
 
 

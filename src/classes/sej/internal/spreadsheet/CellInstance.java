@@ -85,16 +85,10 @@ public abstract class CellInstance extends AbstractDescribable
 		int iRow = this.row.getRowIndex();
 		SheetImpl sheet = this.row.getSheet();
 		int iSheet = sheet.getSheetIndex();
-		return new CellIndex( iSheet, iCol, iRow );
+		return new CellIndex( sheet.getSpreadsheet(), iSheet, iCol, iRow );
 	}
 	
 	
-	public CellImpl getCellImpl()
-	{
-		return new CellImpl( this );
-	}
-
-
 	protected void copyTo( CellInstance _other )
 	{
 		_other.numberFormat = this.numberFormat;

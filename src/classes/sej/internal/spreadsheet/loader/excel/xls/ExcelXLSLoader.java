@@ -170,14 +170,14 @@ public class ExcelXLSLoader implements SpreadsheetLoader
 			if (1 == xlsRange.length) {
 				jxl.Cell xlsStart = xlsRange[ 0 ].getTopLeft();
 				jxl.Cell xlsEnd = xlsRange[ 0 ].getBottomRight();
-				CellIndex start = new CellIndex( 0, xlsStart.getColumn(), xlsStart.getRow() );
+				CellIndex start = new CellIndex( _workbook, 0, xlsStart.getColumn(), xlsStart.getRow() );
 				if ((xlsStart.getColumn() == xlsEnd.getColumn()) && (xlsStart.getRow() == xlsEnd.getRow())) {
-					_workbook.defineName( name, start );
+					_workbook.addToNameMap( name, start );
 				}
 				else {
-					CellIndex end = new CellIndex( 0, xlsEnd.getColumn(), xlsEnd.getRow() );
+					CellIndex end = new CellIndex( _workbook, 0, xlsEnd.getColumn(), xlsEnd.getRow() );
 					CellRange range = new CellRange( start, end );
-					_workbook.defineName( name, range );
+					_workbook.addToNameMap( name, range );
 				}
 			}
 		}

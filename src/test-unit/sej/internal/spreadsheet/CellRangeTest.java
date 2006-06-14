@@ -40,6 +40,12 @@ public class CellRangeTest extends TestCase
 			}
 		}
 	}
+	
+	
+	protected CellIndex newCellIndex( int _c, int _r )
+	{
+		return new CellIndex( this.workbook, 0, _c, _r );
+	}
 
 
 	public void testRangeIterator()
@@ -55,12 +61,12 @@ public class CellRangeTest extends TestCase
 
 	private void assertIteration( int _fromCol, int _fromRow, int _toCol, int _toRow, String _expected )
 	{
-		CellIndex start = new CellIndex( 0, _fromCol, _fromRow );
-		CellIndex end = new CellIndex( 0, _toCol, _toRow );
+		CellIndex start = newCellIndex( _fromCol, _fromRow );
+		CellIndex end = newCellIndex( _toCol, _toRow );
 		CellRange range = new CellRange( start, end );
 		StringBuilder cells = new StringBuilder();
 		for (CellIndex ix : range) {
-			CellInstance cell = ix.getCell( this.workbook );
+			CellInstance cell = ix.getCell();
 			if (null != cell) cells.append( cell.getCanonicalName() );
 			else cells.append( "__" );
 		}
@@ -71,27 +77,27 @@ public class CellRangeTest extends TestCase
 	public void testCellIndexRelativeTo() throws Exception
 	{
 		{
-			CellRange rng = new CellRange( new CellIndex( 0, 3, 3 ), new CellIndex( 0, 3, 5 ) );
+			CellRange rng = new CellRange( newCellIndex( 3, 3 ), newCellIndex( 3, 5 ) );
 
-			assertEquals( "D4", rng.getCellIndexRelativeTo( new CellIndex( 0, 2, 3 ) ).toString() );
-			assertEquals( "D5", rng.getCellIndexRelativeTo( new CellIndex( 0, 2, 4 ) ).toString() );
-			assertEquals( "D6", rng.getCellIndexRelativeTo( new CellIndex( 0, 2, 5 ) ).toString() );
-			assertEquals( "D6", rng.getCellIndexRelativeTo( new CellIndex( 0, 0, 5 ) ).toString() );
+			assertEquals( "D4", rng.getCellIndexRelativeTo( newCellIndex( 2, 3 ) ).toString() );
+			assertEquals( "D5", rng.getCellIndexRelativeTo( newCellIndex( 2, 4 ) ).toString() );
+			assertEquals( "D6", rng.getCellIndexRelativeTo( newCellIndex( 2, 5 ) ).toString() );
+			assertEquals( "D6", rng.getCellIndexRelativeTo( newCellIndex( 0, 5 ) ).toString() );
 		}
 
 		{
-			CellRange rng = new CellRange( new CellIndex( 0, 3, 3 ), new CellIndex( 0, 5, 3 ) );
+			CellRange rng = new CellRange( newCellIndex( 3, 3 ), newCellIndex( 5, 3 ) );
 
-			assertEquals( "D4", rng.getCellIndexRelativeTo( new CellIndex( 0, 3, 1 ) ).toString() );
-			assertEquals( "E4", rng.getCellIndexRelativeTo( new CellIndex( 0, 4, 1 ) ).toString() );
-			assertEquals( "F4", rng.getCellIndexRelativeTo( new CellIndex( 0, 5, 1 ) ).toString() );
-			assertEquals( "F4", rng.getCellIndexRelativeTo( new CellIndex( 0, 5, 2 ) ).toString() );
+			assertEquals( "D4", rng.getCellIndexRelativeTo( newCellIndex( 3, 1 ) ).toString() );
+			assertEquals( "E4", rng.getCellIndexRelativeTo( newCellIndex( 4, 1 ) ).toString() );
+			assertEquals( "F4", rng.getCellIndexRelativeTo( newCellIndex( 5, 1 ) ).toString() );
+			assertEquals( "F4", rng.getCellIndexRelativeTo( newCellIndex( 5, 2 ) ).toString() );
 		}
 
 		{
-			CellRange rng = new CellRange( new CellIndex( 0, 3, 3 ), new CellIndex( 0, 5, 5 ) );
+			CellRange rng = new CellRange( newCellIndex( 3, 3 ), newCellIndex( 5, 5 ) );
 			try {
-				rng.getCellIndexRelativeTo( new CellIndex( 0, 3, 1 ) );
+				rng.getCellIndexRelativeTo( newCellIndex( 3, 1 ) );
 				fail();
 			}
 			catch (SpreadsheetError.CellRangeNotUniDimensional e) {

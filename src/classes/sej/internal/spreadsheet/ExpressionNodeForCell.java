@@ -49,9 +49,9 @@ public class ExpressionNodeForCell extends ExpressionNode
 	}
 
 
-	public CellInstance getCell( SpreadsheetImpl _workbook )
+	public CellInstance getCell()
 	{
-		return this.cellIndex.getCell( _workbook );
+		return this.cellIndex.getCell();
 	}
 
 

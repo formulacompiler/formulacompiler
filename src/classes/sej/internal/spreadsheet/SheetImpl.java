@@ -148,7 +148,7 @@ public class SheetImpl extends AbstractDescribable implements Spreadsheet.Sheet
 				rowIndex = 10 * rowIndex + Character.getNumericValue( ch );
 			}
 		}
-		return new CellIndex( getSheetIndex(), colIndex - 1, rowIndex - 1 );
+		return new CellIndex( getSpreadsheet(), getSheetIndex(), colIndex - 1, rowIndex - 1 );
 	}
 
 
@@ -156,7 +156,7 @@ public class SheetImpl extends AbstractDescribable implements Spreadsheet.Sheet
 	{
 		final int rowIndex = parseRCIndex( _relativeTo.rowIndex + 1, _canonicalName, 1 );
 		final int colIndex = parseRCIndex( _relativeTo.columnIndex + 1, _canonicalName, _canonicalName.indexOf( 'C' ) + 1 );
-		return new CellIndex( getSheetIndex(), colIndex - 1, rowIndex - 1 );
+		return new CellIndex( getSpreadsheet(), getSheetIndex(), colIndex - 1, rowIndex - 1 );
 	}
 
 
