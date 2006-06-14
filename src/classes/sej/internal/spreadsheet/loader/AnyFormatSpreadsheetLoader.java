@@ -33,8 +33,6 @@ import sej.internal.spreadsheet.loader.excel.xls.ExcelXLSLoader;
  * Central dispatcher for the loaders for the various spreadsheet file formats supported by SEJ. You
  * must first register the loaders you want to be active using their {@code register()} method.
  * 
- * @see sej.internal.spreadsheet.loader.excel.xls.ExcelXLSLoader
- * @see sej.internal.spreadsheet.loader.excel.xml.ExcelXMLLoader
  * @author peo
  */
 public final class AnyFormatSpreadsheetLoader
