@@ -30,7 +30,7 @@ import sej.NumericType;
 import sej.Spreadsheet;
 import sej.SpreadsheetLoader;
 import sej.engine.bytecode.compiler.ByteCodeCompiler;
-import sej.loader.excel.xls.ExcelXLSLoader;
+import sej.spreadsheet.loader.excel.xls.ExcelXLSLoader;
 import junit.framework.TestCase;
 
 public class UsingScaledLong extends TestCase
@@ -51,7 +51,7 @@ public class UsingScaledLong extends TestCase
 		Class inp = Input.class;
 		Class outp = Output.class;
 		// ---- buildCompiler
-		NumericType type = /* hl */NumericType.getInstance( Long.TYPE, 3 )/* hl */;
+		NumericType type = /**/NumericType.getInstance( Long.TYPE, 3 )/**/;
 		Compiler compiler = CompilerFactory.newDefaultCompiler( sheet, inp, outp, type );
 		// ---- buildCompiler
 
@@ -76,7 +76,7 @@ public class UsingScaledLong extends TestCase
 		// ---- checkResult
 		Input i = new Input( 6 );
 		Output o = (Output) engine.newComputation( i );
-		assertEquals( /* hl */166L/* hl */, o.getResult() );
+		assertEquals( /**/166L/**/, o.getResult() );
 		// ---- checkResult
 	}
 
@@ -89,7 +89,7 @@ public class UsingScaledLong extends TestCase
 		Class inp = Input.class;
 		Class outp = Output.class;
 		// ---- buildCompiler4
-		NumericType type = /* hl */NumericType.LONG4/* hl */;
+		NumericType type = /**/NumericType.LONG4/**/;
 		Compiler compiler = CompilerFactory.newDefaultCompiler( sheet, inp, outp, type );
 		// ---- buildCompiler4
 
@@ -114,7 +114,7 @@ public class UsingScaledLong extends TestCase
 		// ---- checkResult4
 		Input i = new Input( 6 );
 		Output o = (Output) engine.newComputation( i );
-		assertEquals( /* hl */1666L/* hl */, o.getResult() );
+		assertEquals( /**/1666L/**/, o.getResult() );
 		// ---- checkResult4
 		
 	}
@@ -128,7 +128,7 @@ public class UsingScaledLong extends TestCase
 		Class inp = Input.class;
 		Class outp = Output.class;
 		// ---- buildCompiler0
-		NumericType type = /* hl */NumericType.LONG;/* hl */
+		NumericType type = /**/NumericType.LONG;/**/
 		Compiler compiler = CompilerFactory.newDefaultCompiler( sheet, inp, outp, type );
 		// ---- buildCompiler0
 
@@ -153,7 +153,7 @@ public class UsingScaledLong extends TestCase
 		// ---- checkResult0
 		Input i = new Input( 4 );
 		Output o = (Output) engine.newComputation( i );
-		assertEquals( /* hl */0/* hl */, o.getResult() );
+		assertEquals( /**/0/**/, o.getResult() );
 		// ---- checkResult0
 
 	}
@@ -164,14 +164,14 @@ public class UsingScaledLong extends TestCase
 	{
 		private static final long SCALING_FACTOR = 1000;  // corresponds to scale 3
 		public Input(int b)  { this.b = b; }
-		public /* hl */long/* hl */ getA()  { return 1 * SCALING_FACTOR; }
-		public /* hl */long/* hl */ getB()  { return this.b * SCALING_FACTOR; }
+		public /**/long/**/ getA()  { return 1 * SCALING_FACTOR; }
+		public /**/long/**/ getB()  { return this.b * SCALING_FACTOR; }
 		private final int b;
 	}
 
 	public static interface Output
 	{
-		/* hl */long/* hl */ getResult();
+		/**/long/**/ getResult();
 	}
 	// ---- IO
 

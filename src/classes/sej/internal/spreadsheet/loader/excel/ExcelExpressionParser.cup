@@ -1,0 +1,289 @@
+package sej.internal.spreadsheet.loader.excel;
+
+import java.util.Collection;
+import java.util.ArrayList;
+import java_cup.runtime.*;
+import sej.api.*;
+import sej.api.expressions.*;
+import sej.internal.spreadsheet.*;
+
+parser code {:
+
+	ExcelExpressionParser excelParser;
+	ExpressionNode rootNode;
+
+	@Override
+	public void syntax_error( Symbol _cur_token )
+	{
+		done_parsing();
+		throw new RuntimeException( "Unsupported expression element" );
+	}
+	
+:}
+
+action code {:
+
+	private ExpressionNode cell( ExpressionNode _node ) throws SpreadsheetError
+	{
+		return this.parser.excelParser.makeCellExpr( _node );
+	}
+
+:}
+
+terminal PLUS, MINUS, TIMES, DIV, EXP, PERCENT, CONCAT, COMMA, COLON;
+terminal LPAREN, RPAREN, LBRACK, RBRACK;
+terminal EQUAL, NOTEQUAL, GREATER, GREATEROREQUAL, LESS, LESSOREQUAL;
+terminal IF, AND, OR, NOT;
+terminal SUM, PRODUCT, AVERAGE, MIN, MAX;
+terminal MATCH, INDEX, ROUND;
+terminal Integer INT;
+terminal Double DBL;
+terminal String STRING;
+terminal String NAME;
+terminal String SHEET;
+terminal String CELLA1;
+terminal String CELLR1C1;
+terminal String COL;
+terminal String ROW;
+
+non terminal expr_root;
+non terminal ExpressionNode expr;
+non terminal ExpressionNode optexpr;
+non terminal ExpressionNode arg;
+non terminal ExpressionNode optarg;
+non terminal ExpressionNode rangeexpr;
+non terminal ExpressionNode shapedrangeexpr;
+non terminal CellIndex cell;
+non terminal CellRange range;
+non terminal ExpressionNode rangeunion;
+non terminal ExpressionNode rangeintersection;
+non terminal Aggregator agg;
+
+precedence left EQUAL, NOTEQUAL, GREATER, GREATEROREQUAL, LESS, LESSOREQUAL;
+precedence left CONCAT;
+precedence left PLUS, MINUS;
+precedence left TIMES, DIV;
+precedence left EXP;
+precedence left PERCENT;
+
+
+expr_root ::=
+
+		expr:e
+				{: this.parser.rootNode = e; :}
+
+	;
+	
+	
+cell ::=
+
+		CELLA1:c
+				{: RESULT = this.parser.excelParser.parseCellRefA1( c ); :}
+
+	|	CELLR1C1:c
+				{: RESULT = this.parser.excelParser.parseCellRefR1C1( c ); :}
+
+	;
+	
+	
+range ::=
+
+		cell:a COLON cell:b
+				{: RESULT = new CellRange( a, b ); :}
+				
+	|	COL:a
+				{: RESULT = this.parser.excelParser.parseVectorRefCol( a, a ); :}
+
+	|	COL:a COLON COL:b
+				{: RESULT = this.parser.excelParser.parseVectorRefCol( a, b ); :}
+
+	|	ROW:a
+				{: RESULT = this.parser.excelParser.parseVectorRefRow( a, a ); :}
+
+	|	ROW:a COLON ROW:b
+				{: RESULT = this.parser.excelParser.parseVectorRefRow( a, b ); :}
+
+	;
+
+	
+rangeexpr ::=
+
+		range:r
+				{: RESULT = this.parser.excelParser.newNodeForReference( r ); :}
+	
+	|	expr:e
+				{: RESULT = this.parser.excelParser.makeRangeExpr( e ); :}
+
+	;
+	
+	
+shapedrangeexpr ::=
+
+		rangeexpr:r
+				{: RESULT = new ExpressionNodeForRangeShape( r ); :}
+				
+	;
+
+	
+expr ::=
+
+		INT:n				
+				{: RESULT = new ExpressionNodeForConstantValue( new Double(n) ); :}
+				
+	|	DBL:n				
+				{: RESULT = new ExpressionNodeForConstantValue( n ); :}
+				
+	|	STRING:s
+				{: RESULT = new ExpressionNodeForConstantValue( this.parser.excelParser.stripFirstAndLastCharOf( s )); :}
+				
+	|	NAME:n
+				{: RESULT = this.parser.excelParser.newNodeForReference( this.parser.excelParser.parseNamedRef( n )); :}
+				
+	|	cell:c
+				{: RESULT = this.parser.excelParser.newNodeForReference( c ); :}
+				
+	|   MINUS expr:e
+				{: RESULT = new ExpressionNodeForOperator( Operator.MINUS, cell( e )); :}
+				
+	|   PLUS expr:e
+				{: RESULT = cell( e ); :}
+
+	|	expr:l CONCAT expr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.CONCAT, cell( l ), cell( r ) ); :}
+
+	|	expr:l PLUS expr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.PLUS, cell( l ), cell( r ) ); :}
+
+	|	expr:l MINUS expr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.MINUS, cell( l ), cell( r ) ); :}
+
+	|	expr:l TIMES expr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.TIMES, cell( l ), cell( r ) ); :}
+				
+	|	expr:l DIV expr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.DIV, cell( l ), cell( r ) ); :}
+				
+	|	expr:l EXP expr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.EXP, cell( l ), cell( r ) ); :}
+				
+	|	expr:e PERCENT
+				{: RESULT = new ExpressionNodeForOperator( Operator.PERCENT, cell( e ) ); :}
+				
+	|	expr:l EQUAL expr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.EQUAL, cell( l ), cell( r ) ); :}
+
+	|	expr:l NOTEQUAL expr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.NOTEQUAL, cell( l ), cell( r ) ); :}
+
+	|	expr:l LESS expr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.LESS, cell( l ), cell( r ) ); :}
+
+	|	expr:l LESSOREQUAL expr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.LESSOREQUAL, cell( l ), cell( r ) ); :}
+
+	|	expr:l GREATER expr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.GREATER, cell( l ), cell( r ) ); :}
+
+	|	expr:l GREATEROREQUAL expr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.GREATEROREQUAL, cell( l ), cell( r ) ); :}
+
+	|	IF LPAREN expr:test COMMA expr:t COMMA expr:f RPAREN
+				{: RESULT = new ExpressionNodeForIf( cell( test ), cell( t ), cell( f )); :}
+				
+	|	NOT LPAREN expr:arg RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.NOT, cell( arg )); :}
+				
+	|	LPAREN expr:e RPAREN
+				{: RESULT = cell( e ); :}  // interestingly, you may not parenthesize ranges
+				
+	|	agg:a LPAREN rangeunion:l RPAREN
+				{: RESULT = new ExpressionNodeForAggregator( a, l.getArguments() ); :}
+				
+	|	MATCH LPAREN expr:lookupvalue COMMA shapedrangeexpr:array optarg:matchtype RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.MATCH, cell( lookupvalue ), array, matchtype ); :}
+				
+	|	INDEX LPAREN shapedrangeexpr:array arg:rownum optarg:colnum RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.INDEX, array, rownum, colnum ); :}
+	
+	|	ROUND LPAREN expr:val COMMA expr:prec RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.ROUND, cell( val ), cell( prec )); :}	
+				
+	;
+
+	
+arg ::=
+
+		COMMA optexpr:e
+				{: RESULT = e; :}
+	
+	;
+	
+	
+optarg ::=
+
+				{: RESULT = null; :}
+				
+	|	arg:a
+				{: RESULT = a; :}
+	
+	;
+
+
+optexpr ::=
+
+				{: RESULT = null; :}
+
+	|	expr:e
+				{: RESULT = cell( e ); :}
+				
+	;
+	
+	
+agg ::=
+
+		SUM
+				{: RESULT = Aggregator.SUM; :}
+				
+	| 	PRODUCT
+				{: RESULT = Aggregator.PRODUCT; :}
+				
+	| 	AVERAGE
+				{: RESULT = Aggregator.AVERAGE; :}
+				
+	| 	MIN
+				{: RESULT = Aggregator.MIN; :}
+				
+	| 	MAX
+				{: RESULT = Aggregator.MAX; :}
+				
+	| 	AND
+				{: RESULT = Aggregator.AND; :}
+				
+	| 	OR
+				{: RESULT = Aggregator.OR; :}
+				
+	;
+	
+	
+rangeunion ::=
+
+		rangeintersection:r
+				{: RESULT = new ExpressionNodeForRangeUnion( r ); :}
+				
+	|	rangeunion:u COMMA rangeintersection:r
+				{: RESULT = u; u.addArgument( r ); :}
+	
+	;
+	
+	
+rangeintersection ::=
+
+		rangeexpr:r
+				{: RESULT = r; :}
+				
+	|	rangeintersection:i rangeexpr:r
+				{: RESULT = (i instanceof ExpressionNodeForRangeIntersection)? i : new ExpressionNodeForRangeIntersection( i ); 
+				   RESULT.addArgument( r ); 
+				 :}
+
+	;

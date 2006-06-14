@@ -3,15 +3,14 @@ package temp;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import sej.Engine;
-import sej.runtime.RuntimeDouble_v1;
-import sej.runtime.Runtime_v1;
+import sej.Computation;
+import sej.internal.runtime.RuntimeDouble_v1;
 import sej.tests.utils.InputInterface;
 import sej.tests.utils.Inputs;
 import sej.tests.utils.Outputs;
 
 
-public class GeneratedEngine implements Engine, Outputs
+public class GeneratedEngine extends Outputs implements Computation
 {
 	private final Inputs inputs;
 	

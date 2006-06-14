@@ -23,17 +23,14 @@ package sej.tutorials;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import sej.CallFrame;
-import sej.Compiler;
-import sej.CompilerFactory;
 import sej.Engine;
-import sej.ModelError;
 import sej.NumericType;
-import sej.Resettable;
-import sej.Spreadsheet;
-import sej.SpreadsheetLoader;
-import sej.engine.bytecode.compiler.ByteCodeCompiler;
-import sej.loader.excel.xls.ExcelXLSLoader;
+import sej.api.CallFrame;
+import sej.api.CompilerError;
+import sej.api.Resettable;
+import sej.api.Spreadsheet;
+import sej.api.SpreadsheetLoader;
+import sej.internal.spreadsheet.loader.excel.xls.ExcelXLSLoader;
 import junit.framework.TestCase;
 
 public class Caching extends TestCase
@@ -54,13 +51,13 @@ public class Caching extends TestCase
 		Input input = new Input();
 		PlainOutput output = (PlainOutput) engine.newComputation( input );
 
-		input.setSide( /* hl */"10"/* hl */);
-		assertEquals( /* hl */"100"/* hl */, output.getArea().toPlainString() );
-		assertEquals( /* hl */"1000"/* hl */, output.getVolume().toPlainString() );
+		input.setSide( /**/"10"/**/);
+		assertEquals( /**/"100"/**/, output.getArea().toPlainString() );
+		assertEquals( /**/"1000"/**/, output.getVolume().toPlainString() );
 
-		input.setSide( /* hl */"5"/* hl */);
-		assertEquals( /* hl */"25"/* hl */, output.getArea().toPlainString() );
-		assertEquals( /* hl */"125"/* hl */, output.getVolume().toPlainString() );
+		input.setSide( /**/"5"/**/);
+		assertEquals( /**/"25"/**/, output.getArea().toPlainString() );
+		assertEquals( /**/"125"/**/, output.getVolume().toPlainString() );
 		// ---- noCache
 	}
 
@@ -89,15 +86,15 @@ public class Caching extends TestCase
 		assertEquals( "1000", output.getVolume().toPlainString() );
 
 		input.setSide( "5" );
-		assertEquals( /* hl */"100"/* hl */, output.getArea().toPlainString() );
-		assertEquals( /* hl */"1000"/* hl */, output.getVolume().toPlainString() );
+		assertEquals( /**/"100"/**/, output.getArea().toPlainString() );
+		assertEquals( /**/"1000"/**/, output.getVolume().toPlainString() );
 		// ---- cache
 
 		// ---- reset
 		input.setSide( "5" );
-		/* hl */output.reset();/* hl */
-		assertEquals( /* hl */"25"/* hl */, output.getArea().toPlainString() );
-		assertEquals( /* hl */"125"/* hl */, output.getVolume().toPlainString() );
+		/**/output.reset();/**/
+		assertEquals( /**/"25"/**/, output.getArea().toPlainString() );
+		assertEquals( /**/"125"/**/, output.getVolume().toPlainString() );
 		// ---- reset
 	}
 
@@ -203,7 +200,7 @@ public class Caching extends TestCase
 
 
 	// ---- CachingOutput
-	public static interface CachingOutput /* hl */extends Resettable/* hl */
+	public static interface CachingOutput /**/extends Resettable/**/
 	{
 		BigDecimal getArea();
 		BigDecimal getVolume();
@@ -211,7 +208,7 @@ public class Caching extends TestCase
 	// ---- CachingOutput
 
 
-	private Engine compile( Class _outputClass ) throws IOException, ModelError, NoSuchMethodException
+	private Engine compile( Class _outputClass ) throws IOException, CompilerError, NoSuchMethodException
 	{
 		Spreadsheet sheet = SpreadsheetLoader.loadFromFile( path );
 		Class inp = Input.class;

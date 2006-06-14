@@ -1,9 +1,9 @@
 package temp;
 
-import sej.Engine;
+import sej.Computation;
 
 
-public final class GeneratedScaledLongEngine implements Engine, ScaledLongOutputs
+public final class GeneratedScaledLongEngine implements Computation, ScaledLongOutputs
 {
 	private final ScaledLongInputs inputs;
 

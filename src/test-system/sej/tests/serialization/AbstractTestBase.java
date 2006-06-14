@@ -20,24 +20,25 @@
  */
 package sej.tests.serialization;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
 import sej.Engine;
-import sej.EngineFactory;
+import sej.SEJRuntime;
 import junit.framework.TestCase;
 
 public abstract class AbstractTestBase extends TestCase
 {
 	private static final String ENGINE_PATH = "build/Engine";
-	private static final String ENGINE_EXT = ".sej";
+	private static final String ENGINE_EXT = ".jar";
 
 
 	protected void deserializeAndTest() throws Exception
 	{
-		InputStream inStream = new FileInputStream( getEngineFile() );
-		Engine engine = EngineFactory.loadFrom( inStream );
+		InputStream inStream = new BufferedInputStream( new FileInputStream( getEngineFile() ));
+		Engine engine = SEJRuntime.loadEngine( inStream );
 
 		computeAndTestResult( engine );
 	}
@@ -55,7 +56,7 @@ public abstract class AbstractTestBase extends TestCase
 	protected void computeAndTestResult( Engine _engine )
 	{
 		Inputs inputs = new Inputs( "4", "40" );
-		Outputs outputs = (Outputs) _engine.newComputation( inputs );
+		Outputs outputs = (Outputs) _engine.getComputationFactory().newInstance( inputs );
 		String result = numberToString( getResult( outputs ) );
 
 		assertEquals( "160", result );

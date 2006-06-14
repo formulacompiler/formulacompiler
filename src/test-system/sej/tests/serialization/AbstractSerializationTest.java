@@ -20,26 +20,20 @@
  */
 package sej.tests.serialization;
 
+import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
-import sej.CallFrame;
-import sej.Compiler;
-import sej.CompilerFactory;
+import sej.EngineBuilder;
 import sej.NumericType;
-import sej.Spreadsheet;
-import sej.SpreadsheetLoader;
-import sej.engine.standard.compiler.StandardCompiler;
-import sej.loader.excel.xls.ExcelXLSLoader;
+import sej.SaveableEngine;
+import sej.api.CallFrame;
+import sej.api.Spreadsheet;
+import sej.api.SpreadsheetBinder.Section;
+import sej.internal.EngineBuilderImpl;
 
 public abstract class AbstractSerializationTest extends AbstractTestBase
 {
-
-	static {
-		ExcelXLSLoader.register();
-		StandardCompiler.registerAsDefault();
-	}
-
 
 	public void testSerialization() throws Exception
 	{
@@ -50,32 +44,39 @@ public abstract class AbstractSerializationTest extends AbstractTestBase
 
 	private void serializeAndTest() throws Exception
 	{
-		Spreadsheet model = SpreadsheetLoader.loadFromFile( "src/test-system/testdata/sej/serialization/SerializationTest.xls" );
-		Compiler compiler = CompilerFactory.newDefaultCompiler( model, Inputs.class, Outputs.class, getNumericType() );
-		Compiler.Section root = compiler.getRoot();
-		root.defineInputCell( model.getCell( 0, 1, 0 ), new CallFrame( Inputs.class.getMethod( "getA" + getTypeSuffix() ) ) );
-		root.defineInputCell( model.getCell( 0, 1, 1 ), new CallFrame( Inputs.class.getMethod( "getB" + getTypeSuffix() ) ) );
-		root.defineOutputCell( model.getCell( 0, 1, 2 ), new CallFrame( Outputs.class.getMethod( "getResult" + getTypeSuffix() ) ) );
+		final Class<Inputs> inp = Inputs.class;
+		final Class<Outputs> outp = Outputs.class;
+		final EngineBuilder builder = new EngineBuilderImpl();
+		builder.loadSpreadsheet( "src/test-system/testdata/sej/serialization/SerializationTest.xls" );
+		builder.setInputClass( inp );
+		builder.setOutputClass( outp );
+		builder.setNumericType( getNumericType() );
 
-		computeAndTestResult( compiler.compileNewEngine() );
-		
-		serialize( compiler );
+		final Section bnd = builder.getRootBinder();
+		final Spreadsheet sheet = builder.getSpreadsheet();
+		bnd.defineInputCell( sheet.getCell( 0, 1, 0 ), new CallFrame( inp.getMethod( "getA" + getTypeSuffix() ) ) );
+		bnd.defineInputCell( sheet.getCell( 0, 1, 1 ), new CallFrame( inp.getMethod( "getB" + getTypeSuffix() ) ) );
+		bnd.defineOutputCell( sheet.getCell( 0, 1, 2 ), new CallFrame( outp.getMethod( "getResult" + getTypeSuffix() ) ) );
+
+		final SaveableEngine engine = builder.compile();
+		computeAndTestResult( engine );
+		serialize( engine );
 	}
 
 
 	protected abstract NumericType getNumericType();
 
 
-	private void serialize( Compiler _compiler ) throws Exception
+	private void serialize( SaveableEngine _engine ) throws Exception
 	{
-		OutputStream outStream = new FileOutputStream( getEngineFile() );
+		OutputStream outStream = new BufferedOutputStream( new FileOutputStream( getEngineFile() ));
 		try {
-			_compiler.saveTo( outStream );
+			_engine.saveTo( outStream );
 		}
 		finally {
 			outStream.close();
 		}
 	}
 
-	
+
 }

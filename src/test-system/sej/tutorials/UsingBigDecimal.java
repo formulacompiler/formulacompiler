@@ -31,7 +31,7 @@ import sej.NumericType;
 import sej.Spreadsheet;
 import sej.SpreadsheetLoader;
 import sej.engine.bytecode.compiler.ByteCodeCompiler;
-import sej.loader.excel.xls.ExcelXLSLoader;
+import sej.spreadsheet.loader.excel.xls.ExcelXLSLoader;
 import junit.framework.TestCase;
 
 public class UsingBigDecimal extends TestCase
@@ -52,7 +52,7 @@ public class UsingBigDecimal extends TestCase
 		Class inp = Input.class;
 		Class outp = Output.class;
 		// ---- buildCompiler
-		NumericType type = /* hl */NumericType.getInstance( BigDecimal.class, 20, BigDecimal.ROUND_UP )/* hl */;
+		NumericType type = /**/NumericType.getInstance( BigDecimal.class, 20, BigDecimal.ROUND_UP )/**/;
 		Compiler compiler = CompilerFactory.newDefaultCompiler( sheet, inp, outp, type );
 		// ---- buildCompiler
 
@@ -77,7 +77,7 @@ public class UsingBigDecimal extends TestCase
 		// ---- checkResult
 		Input i = new Input( 6 );
 		Output o = (Output) engine.newComputation( i );
-		assertEquals( /* hl */"0.16666666666666666667"/* hl */, o.getResult().toPlainString() );
+		assertEquals( /**/"0.16666666666666666667"/**/, o.getResult().toPlainString() );
 		// ---- checkResult
 	}
 
@@ -90,7 +90,7 @@ public class UsingBigDecimal extends TestCase
 		Class inp = Input.class;
 		Class outp = Output.class;
 		// ---- buildCompiler8
-		NumericType type = /* hl */NumericType.BIGDECIMAL8/* hl */;
+		NumericType type = /**/NumericType.BIGDECIMAL8/**/;
 		Compiler compiler = CompilerFactory.newDefaultCompiler( sheet, inp, outp, type );
 		// ---- buildCompiler8
 
@@ -116,15 +116,15 @@ public class UsingBigDecimal extends TestCase
 			// ---- checkResult8a
 			Input i = new Input( 6 );
 			Output o = (Output) engine.newComputation( i );
-			assertEquals( /* hl */"0.16666667"/* hl */, o.getResult().toPlainString() );
+			assertEquals( /**/"0.16666667"/**/, o.getResult().toPlainString() );
 			// ---- checkResult8a
 		}
 
 		{
 			// ---- checkResult8b
-			Input i = new Input( /* hl */3/* hl */ );
+			Input i = new Input( /**/3/**/ );
 			Output o = (Output) engine.newComputation( i );
-			assertEquals( /* hl */"0.33333333"/* hl */, o.getResult().toPlainString() );
+			assertEquals( /**/"0.33333333"/**/, o.getResult().toPlainString() );
 			// ---- checkResult8b
 		}
 	}
@@ -138,7 +138,7 @@ public class UsingBigDecimal extends TestCase
 		Class inp = Input.class;
 		Class outp = Output.class;
 		// ---- buildCompilerN
-		NumericType type = /* hl */NumericType.getInstance( BigDecimal.class );/* hl */
+		NumericType type = /**/NumericType.getInstance( BigDecimal.class );/**/
 		Compiler compiler = CompilerFactory.newDefaultCompiler( sheet, inp, outp, type );
 		// ---- buildCompilerN
 
@@ -164,18 +164,18 @@ public class UsingBigDecimal extends TestCase
 			// ---- checkResultNa
 			Input i = new Input( 4 );
 			Output o = (Output) engine.newComputation( i );
-			assertEquals( /* hl */"0.25"/* hl */, o.getResult().toPlainString() );
+			assertEquals( /**/"0.25"/**/, o.getResult().toPlainString() );
 			// ---- checkResultNa
 		}
 
 		// ---- checkResultNb
 		try {
-			Input i = new Input( /* hl */3/* hl */ );
+			Input i = new Input( /**/3/**/ );
 			Output o = (Output) engine.newComputation( i );
 			o.getResult();
 			fail( "ArithmeticException expected" );
 		}
-		catch (/* hl */ArithmeticException e/* hl */) {
+		catch (/**/ArithmeticException e/**/) {
 			assertEquals( "Non-terminating decimal expansion; no exact representable decimal result.", e.getMessage() );
 		}
 		// ---- checkResultNb
@@ -186,14 +186,14 @@ public class UsingBigDecimal extends TestCase
 	public static class Input
 	{
 		public Input(int b)  { this.b = b; }
-		public /* hl */BigDecimal/* hl */ getA()  { return BigDecimal.valueOf( 1 ); }
-		public /* hl */BigDecimal/* hl */ getB()  { return BigDecimal.valueOf( this.b ); }
+		public /**/BigDecimal/**/ getA()  { return BigDecimal.valueOf( 1 ); }
+		public /**/BigDecimal/**/ getB()  { return BigDecimal.valueOf( this.b ); }
 		private final int b;
 	}
 
 	public static interface Output
 	{
-		/* hl */BigDecimal/* hl */ getResult();
+		/**/BigDecimal/**/ getResult();
 	}
 	// ---- IO
 
