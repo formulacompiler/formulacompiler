@@ -26,10 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sej.CallFrame;
-import sej.Engine;
 import sej.SpreadsheetBinder.Section;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.loader.SpreadsheetLoader;
+import sej.runtime.Engine;
 
 import jxl.Workbook;
 

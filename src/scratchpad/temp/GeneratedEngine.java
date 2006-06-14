@@ -3,8 +3,8 @@ package temp;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import sej.Computation;
 import sej.internal.runtime.RuntimeDouble_v1;
+import sej.runtime.Computation;
 import sej.tests.utils.InputInterface;
 import sej.tests.utils.Inputs;
 import sej.tests.utils.Outputs;

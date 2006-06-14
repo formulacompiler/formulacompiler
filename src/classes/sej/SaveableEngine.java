@@ -3,6 +3,8 @@ package sej;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import sej.runtime.Engine;
+
 public interface SaveableEngine extends Engine
 {
 

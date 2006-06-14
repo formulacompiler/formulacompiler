@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
+import sej.runtime.EngineError;
+
 
 
 public interface EngineBuilder

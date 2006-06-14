@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import sej.Engine;
-import sej.EngineError;
-import sej.internal.EngineLoader;
+import sej.internal.runtime.EngineLoader;
+import sej.runtime.Engine;
+import sej.runtime.EngineError;
 
 public final class ByteCodeEngineLoader implements EngineLoader
 {

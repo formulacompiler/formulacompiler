@@ -20,10 +20,10 @@
  */
 package sej.tutorials;
 
-import sej.Engine;
 import sej.EngineBuilder;
 import sej.NumericType;
 import sej.SEJ;
+import sej.runtime.Engine;
 import junit.framework.TestCase;
 
 public class UsingDouble extends TestCase

@@ -25,8 +25,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import sej.Engine;
-import sej.SEJRuntime;
+import sej.runtime.Engine;
+import sej.runtime.SEJRuntime;
 
 /**
  * Shows how an engine serialized by a 1.5 configuration application can be loaded into and used by

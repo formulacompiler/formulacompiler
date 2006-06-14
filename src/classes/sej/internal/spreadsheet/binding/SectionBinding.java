@@ -29,11 +29,11 @@ import java.util.TreeSet;
 import sej.CallFrame;
 import sej.CompilerError;
 import sej.Orientation;
-import sej.Resettable;
 import sej.Spreadsheet;
 import sej.internal.Util;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellRange;
+import sej.runtime.Resettable;
 
 public class SectionBinding extends ElementBinding implements Comparable<SectionBinding>
 {

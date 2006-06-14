@@ -30,16 +30,16 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Type;
 
 import sej.CompilerError;
-import sej.Engine;
-import sej.EngineError;
-import sej.Resettable;
 import sej.SaveableEngine;
-import sej.internal.AbstractEngineCompiler;
 import sej.internal.Settings;
 import sej.internal.bytecode.runtime.ByteCodeEngine;
+import sej.internal.engine.compiler.AbstractEngineCompiler;
 import sej.internal.model.AbstractComputationModelVisitor;
 import sej.internal.model.CellModel;
 import sej.internal.model.SectionModel;
+import sej.runtime.Engine;
+import sej.runtime.EngineError;
+import sej.runtime.Resettable;
 
 
 public class ByteCodeEngineCompiler extends AbstractEngineCompiler

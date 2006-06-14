@@ -1,7 +1,7 @@
 package temp;
 
-import sej.Computation;
-import sej.ComputationFactory;
+import sej.runtime.Computation;
+import sej.runtime.ComputationFactory;
 
 public class GeneratedFactory implements ComputationFactory, MyFactory
 {

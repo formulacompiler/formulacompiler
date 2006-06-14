@@ -1,4 +1,4 @@
-package sej;
+package sej.runtime;
 
 public interface ComputationFactory
 {

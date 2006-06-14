@@ -24,8 +24,6 @@ import java.math.BigDecimal;
 
 import sej.CallFrame;
 import sej.CompilerError;
-import sej.Engine;
-import sej.EngineError;
 import sej.NumericType;
 import sej.SEJ;
 import sej.SpreadsheetBinder;
@@ -43,6 +41,8 @@ import sej.internal.spreadsheet.ExpressionNodeForCell;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
+import sej.runtime.Engine;
+import sej.runtime.EngineError;
 import sej.tests.utils.AbstractTestBase;
 import sej.tests.utils.InputInterface;
 import sej.tests.utils.Inputs;

@@ -3,9 +3,9 @@ package sej.internal.bytecode.runtime;
 import java.util.HashMap;
 import java.util.Map;
 
-import sej.ComputationFactory;
-import sej.Engine;
-import sej.EngineError;
+import sej.runtime.ComputationFactory;
+import sej.runtime.Engine;
+import sej.runtime.EngineError;
 
 public class ByteCodeEngine extends ClassLoader implements Engine
 {

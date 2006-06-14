@@ -1,4 +1,4 @@
-package sej.internal;
+package sej.internal.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,7 +8,6 @@ import java.lang.reflect.Modifier;
 
 import sej.CompilerError;
 import sej.EngineBuilder;
-import sej.EngineError;
 import sej.NumericType;
 import sej.SEJ;
 import sej.SaveableEngine;
@@ -18,6 +17,7 @@ import sej.SpreadsheetBinding;
 import sej.SpreadsheetByNameBinder;
 import sej.SpreadsheetError;
 import sej.SpreadsheetNameCreator;
+import sej.runtime.EngineError;
 
 
 public class EngineBuilderImpl implements EngineBuilder

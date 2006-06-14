@@ -29,7 +29,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 final class ByteCodeFactoryCompiler extends ByteCodeClassCompiler
 {
-	private static final Type sejFactoryType = Type.getType( sej.ComputationFactory.class );
+	private static final Type sejFactoryType = Type.getType( sej.runtime.ComputationFactory.class );
 	private static final Type factoryType = Type.getType( "L" + ByteCodeEngineCompiler.GEN_FACTORY_PATH + ";" );
 	private final Class userFactoryClass;
 	private final Method userFactoryMethod;

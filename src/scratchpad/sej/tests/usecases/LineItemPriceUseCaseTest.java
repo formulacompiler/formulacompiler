@@ -5,9 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import sej.CallFrame;
 import sej.Compiler;
-import sej.Engine;
 import sej.ModelError;
 import sej.Spreadsheet;
+import sej.runtime.Engine;
 
 public class LineItemPriceUseCaseTest extends AbstractUseCaseTest
 {

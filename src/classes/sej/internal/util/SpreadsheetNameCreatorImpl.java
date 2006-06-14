@@ -1,4 +1,4 @@
-package sej.internal.spreadsheet.namer;
+package sej.internal.util;
 
 import sej.Spreadsheet;
 import sej.SpreadsheetNameCreator;

@@ -25,8 +25,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import sej.Engine;
-import sej.SEJRuntime;
+import sej.runtime.Engine;
+import sej.runtime.SEJRuntime;
 import junit.framework.TestCase;
 
 public abstract class AbstractTestBase extends TestCase

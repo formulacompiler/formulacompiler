@@ -3,15 +3,15 @@ package sej.internal.spreadsheet.compiler;
 import java.lang.reflect.Method;
 
 import sej.CompilerError;
-import sej.EngineError;
 import sej.NumericType;
 import sej.SaveableEngine;
 import sej.SpreadsheetBinding;
 import sej.SpreadsheetCompiler;
-import sej.internal.AbstractEngineCompiler;
-import sej.internal.EngineCompiler;
+import sej.internal.engine.compiler.AbstractEngineCompiler;
+import sej.internal.engine.compiler.EngineCompiler;
 import sej.internal.model.ComputationModel;
 import sej.internal.model.compiler.ComputationModelCompiler;
+import sej.runtime.EngineError;
 
 
 public class SpreadsheetCompilerImpl implements SpreadsheetCompiler

@@ -3,13 +3,13 @@ package sej.tests;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import sej.Engine;
 import sej.EngineBuilder;
 import sej.ModelError;
 import sej.NumericType;
 import sej.Settings;
 import sej.engine.standard.compiler.StandardCompiler;
 import sej.loader.excel.xls.ExcelXLSLoader;
+import sej.runtime.Engine;
 import junit.framework.TestCase;
 
 

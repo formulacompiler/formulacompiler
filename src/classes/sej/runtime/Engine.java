@@ -1,7 +1,7 @@
-package sej;
+package sej.runtime;
 
-import sej.internal.EngineBuilderImpl;
-import sej.internal.EngineLoader;
+import sej.internal.runtime.EngineLoader;
+import sej.internal.util.EngineBuilderImpl;
 
 /**
  * API to a computation engine. You normally use a {@link EngineBuilderImpl} to build one from a given

@@ -1,4 +1,4 @@
-package sej;
+package sej.runtime;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,17 +8,17 @@ import sej.internal.bytecode.runtime.ByteCodeEngineLoader;
 public class SEJRuntime
 {
 	
-	/* 
-	 * Package visible so there will be no subclasses.
+	/**
+	 * Not supposed to be instantiated!
 	 */
-	SEJRuntime()
+	protected SEJRuntime()
 	{
 		super();
 	}
 
 	/**
 	 * Returns a new engine deserialized by a registered engine loader (see {@code register()}) - it
-	 * must have been saved using {@link SaveableEngine#saveTo(java.io.OutputStream)}.
+	 * must have been saved using {@link sej.SaveableEngine#saveTo(java.io.OutputStream)}.
 	 * 
 	 * @param _stream is an input stream which must support the {@link InputStream#mark(int)}
 	 *           operation.

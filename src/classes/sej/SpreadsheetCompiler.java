@@ -2,6 +2,8 @@ package sej;
 
 import java.lang.reflect.Method;
 
+import sej.runtime.EngineError;
+
 
 public interface SpreadsheetCompiler
 {

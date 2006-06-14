@@ -28,11 +28,11 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import sej.Engine;
 import sej.EngineBuilder;
 import sej.SEJ;
-import sej.SEJRuntime;
 import sej.SaveableEngine;
+import sej.runtime.Engine;
+import sej.runtime.SEJRuntime;
 
 public class EngineSerializationDemo
 {

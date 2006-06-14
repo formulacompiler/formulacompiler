@@ -18,37 +18,27 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal;
+package sej.runtime;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import sej.Engine;
-import sej.EngineError;
-import sej.SaveableEngine;
-
-
+// The following comment is a source code citation marker for JCite. Please leave it as is.
+// ---- resettable
 /**
- * Interface for deserializing instances of the {@link Engine} class. Use an engine's
- * {@code register()} method to register it for use by
- * {@link sej.SEJRuntime#loadEngine(InputStream)}.
+ * Interface that must be implemented by an output class (or extended by an output interface) of
+ * computations that need internal caching of values.
  * 
  * @author peo
  */
-public interface EngineLoader
+public interface Resettable
 {
 
 	/**
-	 * Loads an engine. It must have been saved using
-	 * {@link SaveableEngine#saveTo(java.io.OutputStream)}.
-	 * 
-	 * @param _stream is an input stream which must support the {@link InputStream#mark(int)}
-	 *           operation.
-	 * @return The loaded engine.
-	 * 
-	 * @throws IOException
-	 * @throws EngineError
+	 * Clears all internal caches of the computation so it can be reused with changed input values.
+	 * You do not need to implement this method yourself. As long as you declare it, SEJ will
+	 * implement it for you. If you do implement it, SEJ will call it prior to resetting the
+	 * computation.
 	 */
-	public Engine loadEngineData( InputStream _stream ) throws IOException, EngineError;
+	void reset();
 
 }
+// ---- resettable
+// The comment above is a source code citation marker for JCite. Please leave it as is.

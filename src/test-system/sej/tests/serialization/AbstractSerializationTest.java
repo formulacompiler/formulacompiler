@@ -27,10 +27,10 @@ import java.io.OutputStream;
 import sej.CallFrame;
 import sej.EngineBuilder;
 import sej.NumericType;
+import sej.SEJ;
 import sej.SaveableEngine;
 import sej.Spreadsheet;
 import sej.SpreadsheetBinder.Section;
-import sej.internal.EngineBuilderImpl;
 
 public abstract class AbstractSerializationTest extends AbstractTestBase
 {
@@ -46,7 +46,7 @@ public abstract class AbstractSerializationTest extends AbstractTestBase
 	{
 		final Class<Inputs> inp = Inputs.class;
 		final Class<Outputs> outp = Outputs.class;
-		final EngineBuilder builder = new EngineBuilderImpl();
+		final EngineBuilder builder = SEJ.newEngineBuilder();
 		builder.loadSpreadsheet( "src/test-system/testdata/sej/serialization/SerializationTest.xls" );
 		builder.setInputClass( inp );
 		builder.setOutputClass( outp );

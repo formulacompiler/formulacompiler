@@ -1,6 +1,6 @@
 package temp;
 
-import sej.Computation;
+import sej.runtime.Computation;
 
 public final class GeneratedComputation implements Computation, MyComputation
 {
