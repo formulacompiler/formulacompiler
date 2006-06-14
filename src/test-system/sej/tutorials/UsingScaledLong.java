@@ -20,63 +20,34 @@
  */
 package sej.tutorials;
 
-import java.lang.reflect.Method;
-
-import sej.CallFrame;
-import sej.Compiler;
-import sej.CompilerFactory;
 import sej.Engine;
+import sej.EngineBuilder;
 import sej.NumericType;
-import sej.Spreadsheet;
-import sej.SpreadsheetLoader;
-import sej.engine.bytecode.compiler.ByteCodeCompiler;
-import sej.spreadsheet.loader.excel.xls.ExcelXLSLoader;
+import sej.SEJ;
 import junit.framework.TestCase;
 
 public class UsingScaledLong extends TestCase
 {
 	private static final String PATH = "src/test-system/testdata/sej/tutorials/UsingNumericTypes.xls";
 
-	static {
-		ByteCodeCompiler.registerAsDefault();
-		ExcelXLSLoader.register();
-	}
-
 
 	public void testUsingScaledLong() throws Exception
 	{
 		String path = PATH;
 
-		Spreadsheet sheet = SpreadsheetLoader.loadFromFile( path );
-		Class inp = Input.class;
-		Class outp = Output.class;
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.loadSpreadsheet( path );
+		builder.setFactoryClass( Factory.class );
 		// ---- buildCompiler
-		NumericType type = /**/NumericType.getInstance( Long.TYPE, 3 )/**/;
-		Compiler compiler = CompilerFactory.newDefaultCompiler( sheet, inp, outp, type );
+		builder.setNumericType( /**/SEJ.getNumericType( Long.TYPE, 3 )/**/ );
 		// ---- buildCompiler
-
-		Compiler.Section root = compiler.getRoot();
-		Method method;
-		Spreadsheet.Cell cell;
-
-		cell = sheet.getCell( "InputA" );
-		method = inp.getMethod( "getA" );
-		root.defineInputCell( cell, new CallFrame( method ) );
-
-		cell = sheet.getCell( "InputB" );
-		method = inp.getMethod( "getB" );
-		root.defineInputCell( cell, new CallFrame( method ) );
-
-		cell = sheet.getCell( "Result" );
-		method = outp.getMethod( "getResult" );
-		root.defineOutputCell( cell, new CallFrame( method ) );
-
-		Engine engine = compiler.compileNewEngine();
+		builder.bindAllByName();
+		Engine engine = builder.compile();
+		Factory factory = (Factory) engine.getComputationFactory();
 
 		// ---- checkResult
-		Input i = new Input( 6 );
-		Output o = (Output) engine.newComputation( i );
-		assertEquals( /**/166L/**/, o.getResult() );
+		Output output = factory.newInstance( new Input( 6 ) );
+		assertEquals( /**/166L/**/, output.getResult() );
 		// ---- checkResult
 	}
 
@@ -85,38 +56,20 @@ public class UsingScaledLong extends TestCase
 	{
 		String path = PATH;
 
-		Spreadsheet sheet = SpreadsheetLoader.loadFromFile( path );
-		Class inp = Input.class;
-		Class outp = Output.class;
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.loadSpreadsheet( path );
+		builder.setFactoryClass( Factory.class );
 		// ---- buildCompiler4
-		NumericType type = /**/NumericType.LONG4/**/;
-		Compiler compiler = CompilerFactory.newDefaultCompiler( sheet, inp, outp, type );
+		builder.setNumericType( /**/NumericType.LONG4/**/ );
 		// ---- buildCompiler4
-
-		Compiler.Section root = compiler.getRoot();
-		Method method;
-		Spreadsheet.Cell cell;
-
-		cell = sheet.getCell( "InputA" );
-		method = inp.getMethod( "getA" );
-		root.defineInputCell( cell, new CallFrame( method ) );
-
-		cell = sheet.getCell( "InputB" );
-		method = inp.getMethod( "getB" );
-		root.defineInputCell( cell, new CallFrame( method ) );
-
-		cell = sheet.getCell( "Result" );
-		method = outp.getMethod( "getResult" );
-		root.defineOutputCell( cell, new CallFrame( method ) );
-
-		Engine engine = compiler.compileNewEngine();
+		builder.bindAllByName();
+		Engine engine = builder.compile();
+		Factory factory = (Factory) engine.getComputationFactory();
 
 		// ---- checkResult4
-		Input i = new Input( 6 );
-		Output o = (Output) engine.newComputation( i );
-		assertEquals( /**/1666L/**/, o.getResult() );
+		Output output = factory.newInstance( new Input( 6 ) );
+		assertEquals( /**/1666L/**/, output.getResult() );
 		// ---- checkResult4
-		
 	}
 
 
@@ -124,36 +77,19 @@ public class UsingScaledLong extends TestCase
 	{
 		String path = PATH;
 
-		Spreadsheet sheet = SpreadsheetLoader.loadFromFile( path );
-		Class inp = Input.class;
-		Class outp = Output.class;
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.loadSpreadsheet( path );
+		builder.setFactoryClass( Factory.class );
 		// ---- buildCompiler0
-		NumericType type = /**/NumericType.LONG;/**/
-		Compiler compiler = CompilerFactory.newDefaultCompiler( sheet, inp, outp, type );
+		builder.setNumericType( /**/NumericType.LONG/**/ );
 		// ---- buildCompiler0
-
-		Compiler.Section root = compiler.getRoot();
-		Method method;
-		Spreadsheet.Cell cell;
-
-		cell = sheet.getCell( "InputA" );
-		method = inp.getMethod( "getA" );
-		root.defineInputCell( cell, new CallFrame( method ) );
-
-		cell = sheet.getCell( "InputB" );
-		method = inp.getMethod( "getB" );
-		root.defineInputCell( cell, new CallFrame( method ) );
-
-		cell = sheet.getCell( "Result" );
-		method = outp.getMethod( "getResult" );
-		root.defineOutputCell( cell, new CallFrame( method ) );
-
-		Engine engine = compiler.compileNewEngine();
+		builder.bindAllByName();
+		Engine engine = builder.compile();
+		Factory factory = (Factory) engine.getComputationFactory();
 
 		// ---- checkResult0
-		Input i = new Input( 4 );
-		Output o = (Output) engine.newComputation( i );
-		assertEquals( /**/0/**/, o.getResult() );
+		Output output = factory.newInstance( new Input( 6 ) );
+		assertEquals( /**/0L/**/, output.getResult() );
 		// ---- checkResult0
 
 	}
@@ -175,5 +111,9 @@ public class UsingScaledLong extends TestCase
 	}
 	// ---- IO
 
+	public static interface Factory
+	{
+		Output newInstance( Input _input );
+	}
 
 }

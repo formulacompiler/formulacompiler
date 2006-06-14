@@ -20,64 +20,36 @@
  */
 package sej.tutorials;
 
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 
-import sej.CallFrame;
-import sej.Compiler;
-import sej.CompilerFactory;
 import sej.Engine;
+import sej.EngineBuilder;
 import sej.NumericType;
-import sej.Spreadsheet;
-import sej.SpreadsheetLoader;
-import sej.engine.bytecode.compiler.ByteCodeCompiler;
-import sej.spreadsheet.loader.excel.xls.ExcelXLSLoader;
+import sej.SEJ;
 import junit.framework.TestCase;
 
 public class UsingBigDecimal extends TestCase
 {
 	private static final String PATH = "src/test-system/testdata/sej/tutorials/UsingNumericTypes.xls";
 
-	static {
-		ByteCodeCompiler.registerAsDefault();
-		ExcelXLSLoader.register();
-	}
-
 
 	public void testUsingBigDecimal() throws Exception
 	{
 		String path = PATH;
 
-		Spreadsheet sheet = SpreadsheetLoader.loadFromFile( path );
-		Class inp = Input.class;
-		Class outp = Output.class;
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.loadSpreadsheet( path );
+		builder.setFactoryClass( Factory.class );
 		// ---- buildCompiler
-		NumericType type = /**/NumericType.getInstance( BigDecimal.class, 20, BigDecimal.ROUND_UP )/**/;
-		Compiler compiler = CompilerFactory.newDefaultCompiler( sheet, inp, outp, type );
+		builder.setNumericType( /**/SEJ.getNumericType( BigDecimal.class, 20, BigDecimal.ROUND_UP )/**/ );
 		// ---- buildCompiler
-
-		Compiler.Section root = compiler.getRoot();
-		Method method;
-		Spreadsheet.Cell cell;
-
-		cell = sheet.getCell( "InputA" );
-		method = inp.getMethod( "getA" );
-		root.defineInputCell( cell, new CallFrame( method ) );
-
-		cell = sheet.getCell( "InputB" );
-		method = inp.getMethod( "getB" );
-		root.defineInputCell( cell, new CallFrame( method ) );
-
-		cell = sheet.getCell( "Result" );
-		method = outp.getMethod( "getResult" );
-		root.defineOutputCell( cell, new CallFrame( method ) );
-
-		Engine engine = compiler.compileNewEngine();
+		builder.bindAllByName();
+		Engine engine = builder.compile();
+		Factory factory = (Factory) engine.getComputationFactory();
 
 		// ---- checkResult
-		Input i = new Input( 6 );
-		Output o = (Output) engine.newComputation( i );
-		assertEquals( /**/"0.16666666666666666667"/**/, o.getResult().toPlainString() );
+		Output output = factory.newInstance( new Input( 6 ) );
+		assertEquals( /**/"0.16666666666666666667"/**/, output.getResult().toPlainString() );
 		// ---- checkResult
 	}
 
@@ -86,45 +58,27 @@ public class UsingBigDecimal extends TestCase
 	{
 		String path = PATH;
 
-		Spreadsheet sheet = SpreadsheetLoader.loadFromFile( path );
-		Class inp = Input.class;
-		Class outp = Output.class;
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.loadSpreadsheet( path );
+		builder.setFactoryClass( Factory.class );
 		// ---- buildCompiler8
-		NumericType type = /**/NumericType.BIGDECIMAL8/**/;
-		Compiler compiler = CompilerFactory.newDefaultCompiler( sheet, inp, outp, type );
+		builder.setNumericType( /**/NumericType.BIGDECIMAL8/**/ );
 		// ---- buildCompiler8
-
-		Compiler.Section root = compiler.getRoot();
-		Method method;
-		Spreadsheet.Cell cell;
-
-		cell = sheet.getCell( "InputA" );
-		method = inp.getMethod( "getA" );
-		root.defineInputCell( cell, new CallFrame( method ) );
-
-		cell = sheet.getCell( "InputB" );
-		method = inp.getMethod( "getB" );
-		root.defineInputCell( cell, new CallFrame( method ) );
-
-		cell = sheet.getCell( "Result" );
-		method = outp.getMethod( "getResult" );
-		root.defineOutputCell( cell, new CallFrame( method ) );
-
-		Engine engine = compiler.compileNewEngine();
+		builder.bindAllByName();
+		Engine engine = builder.compile();
+		Factory factory = (Factory) engine.getComputationFactory();
 
 		{
 			// ---- checkResult8a
-			Input i = new Input( 6 );
-			Output o = (Output) engine.newComputation( i );
-			assertEquals( /**/"0.16666667"/**/, o.getResult().toPlainString() );
+			Output output = factory.newInstance( new Input( 6 ) );
+			assertEquals( /**/"0.16666667"/**/, output.getResult().toPlainString() );
 			// ---- checkResult8a
 		}
 
 		{
 			// ---- checkResult8b
-			Input i = new Input( /**/3/**/ );
-			Output o = (Output) engine.newComputation( i );
-			assertEquals( /**/"0.33333333"/**/, o.getResult().toPlainString() );
+			Output output = factory.newInstance( new Input( /**/3/**/ ) );
+			assertEquals( /**/"0.33333333"/**/, output.getResult().toPlainString() );
 			// ---- checkResult8b
 		}
 	}
@@ -134,45 +88,27 @@ public class UsingBigDecimal extends TestCase
 	{
 		String path = PATH;
 
-		Spreadsheet sheet = SpreadsheetLoader.loadFromFile( path );
-		Class inp = Input.class;
-		Class outp = Output.class;
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.loadSpreadsheet( path );
+		builder.setFactoryClass( Factory.class );
 		// ---- buildCompilerN
-		NumericType type = /**/NumericType.getInstance( BigDecimal.class );/**/
-		Compiler compiler = CompilerFactory.newDefaultCompiler( sheet, inp, outp, type );
+		builder.setNumericType( /**/SEJ.getNumericType( BigDecimal.class )/**/ );
 		// ---- buildCompilerN
-
-		Compiler.Section root = compiler.getRoot();
-		Method method;
-		Spreadsheet.Cell cell;
-
-		cell = sheet.getCell( "InputA" );
-		method = inp.getMethod( "getA" );
-		root.defineInputCell( cell, new CallFrame( method ) );
-
-		cell = sheet.getCell( "InputB" );
-		method = inp.getMethod( "getB" );
-		root.defineInputCell( cell, new CallFrame( method ) );
-
-		cell = sheet.getCell( "Result" );
-		method = outp.getMethod( "getResult" );
-		root.defineOutputCell( cell, new CallFrame( method ) );
-
-		Engine engine = compiler.compileNewEngine();
+		builder.bindAllByName();
+		Engine engine = builder.compile();
+		Factory factory = (Factory) engine.getComputationFactory();
 
 		{
 			// ---- checkResultNa
-			Input i = new Input( 4 );
-			Output o = (Output) engine.newComputation( i );
-			assertEquals( /**/"0.25"/**/, o.getResult().toPlainString() );
+			Output output = factory.newInstance( new Input( /**/4/**/ ) );
+			assertEquals( /**/"0.25"/**/, output.getResult().toPlainString() );
 			// ---- checkResultNa
 		}
 
 		// ---- checkResultNb
 		try {
-			Input i = new Input( /**/3/**/ );
-			Output o = (Output) engine.newComputation( i );
-			o.getResult();
+			Output output = factory.newInstance( new Input( /**/3/**/ ) );
+			output.getResult();
 			fail( "ArithmeticException expected" );
 		}
 		catch (/**/ArithmeticException e/**/) {
@@ -196,6 +132,11 @@ public class UsingBigDecimal extends TestCase
 		/**/BigDecimal/**/ getResult();
 	}
 	// ---- IO
+
+	public static interface Factory
+	{
+		Output newInstance( Input _input );
+	}
 
 
 }

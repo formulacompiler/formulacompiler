@@ -20,62 +20,32 @@
  */
 package sej.tutorials;
 
-import java.lang.reflect.Method;
-
-import sej.CallFrame;
-import sej.Compiler;
-import sej.CompilerFactory;
 import sej.Engine;
+import sej.EngineBuilder;
 import sej.NumericType;
-import sej.Spreadsheet;
-import sej.SpreadsheetLoader;
-import sej.engine.bytecode.compiler.ByteCodeCompiler;
-import sej.spreadsheet.loader.excel.xls.ExcelXLSLoader;
+import sej.SEJ;
 import junit.framework.TestCase;
 
 public class UsingDouble extends TestCase
 {
 	
-	static {
-		ByteCodeCompiler.registerAsDefault();
-		ExcelXLSLoader.register();
-	}
-	
-
 	public void testUsingDouble() throws Exception
 	{
 		String path = "src/test-system/testdata/sej/tutorials/UsingNumericTypes.xls";
 		
 		// ---- buildCompiler
-		Spreadsheet sheet = SpreadsheetLoader.loadFromFile( path );
-		Class inp = Input.class;
-		Class outp = Output.class;
-		NumericType type = /**/NumericType.DOUBLE/**/;
-		Compiler compiler = CompilerFactory.newDefaultCompiler( sheet, inp, outp, type );
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.loadSpreadsheet( path );
+		builder.setFactoryClass( Factory.class );
+		/**/builder.setNumericType( NumericType.DOUBLE );/**/
+		builder.bindAllByName();
+		Engine engine = builder.compile();
+		Factory factory = (Factory) engine.getComputationFactory();
 		// ---- buildCompiler
 
-		Compiler.Section root = compiler.getRoot();
-		Method method;
-		Spreadsheet.Cell cell;
-
-		cell = sheet.getCell( "InputA" );
-		method = inp.getMethod( "getA" );
-		root.defineInputCell( cell, new CallFrame( method ) );
-
-		cell = sheet.getCell( "InputB" );
-		method = inp.getMethod( "getB" );
-		root.defineInputCell( cell, new CallFrame( method ) );
-
-		cell = sheet.getCell( "Result" );
-		method = outp.getMethod( "getResult" );
-		root.defineOutputCell( cell, new CallFrame( method ) );
-		
-		Engine engine = compiler.compileNewEngine();
-
 		// ---- checkResult
-		Input i = new Input();
-		Output o = (Output) engine.newComputation( i );
-		assertEquals( /**/"0.16666666666666666"/**/, String.valueOf( o.getResult()) );
+		Output output = factory.newInstance( new Input() );
+		assertEquals( /**/"0.16666666666666666"/**/, String.valueOf( output.getResult()) );
 		// ---- checkResult
 	}
 
@@ -86,10 +56,15 @@ public class UsingDouble extends TestCase
 		public /**/double/**/ getA() { return 1.0; }
 		public /**/double/**/ getB() { return 6.0; }
 	}
-
+	
 	public static interface Output
 	{
 		/**/double/**/ getResult();
+	}
+
+	public static interface Factory
+	{
+		Output newInstance( Input _input );
 	}
 	// ---- IO
 
