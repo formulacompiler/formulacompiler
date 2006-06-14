@@ -20,9 +20,9 @@
  */
 package sej.examples;
 
-import sej.Engine;
 import sej.EngineBuilder;
 import sej.SEJ;
+import sej.runtime.Engine;
 
 public class BasicUsageDemo
 {

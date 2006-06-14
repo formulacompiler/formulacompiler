@@ -6,12 +6,12 @@ import java.lang.reflect.InvocationTargetException;
 import sej.Band;
 import sej.BandElement;
 import sej.CompilerNameSpace;
-import sej.Computation;
-import sej.Engine;
 import sej.ModelError;
 import sej.Orientation;
 import sej.Spreadsheet;
 import sej.ValueType;
+import sej.runtime.Computation;
+import sej.runtime.Engine;
 import sej.tests.usecases.AbstractUseCaseTest;
 
 public class BonusPerEmployeeUseCaseTest extends AbstractUseCaseTest

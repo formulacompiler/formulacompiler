@@ -22,6 +22,8 @@ package sej;
 
 import java.lang.reflect.Method;
 
+import sej.runtime.SEJError;
+
 
 public class CompilerError extends SEJError
 {

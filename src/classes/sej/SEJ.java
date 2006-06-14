@@ -8,15 +8,17 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 
-import sej.internal.EngineBuilderImpl;
 import sej.internal.NumericTypeImpl;
 import sej.internal.Util;
 import sej.internal.bytecode.compiler.ByteCodeEngineCompiler;
 import sej.internal.spreadsheet.binder.SpreadsheetBinderImpl;
-import sej.internal.spreadsheet.binder.SpreadsheetByNameBinderImpl;
 import sej.internal.spreadsheet.compiler.SpreadsheetCompilerImpl;
 import sej.internal.spreadsheet.loader.AnyFormatSpreadsheetLoader;
-import sej.internal.spreadsheet.namer.SpreadsheetNameCreatorImpl;
+import sej.internal.util.EngineBuilderImpl;
+import sej.internal.util.SpreadsheetByNameBinderImpl;
+import sej.internal.util.SpreadsheetNameCreatorImpl;
+import sej.runtime.EngineError;
+import sej.runtime.SEJRuntime;
 
 public class SEJ extends SEJRuntime
 {

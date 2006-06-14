@@ -23,8 +23,6 @@ package sej.internal.bytecode.compiler;
 import java.math.BigDecimal;
 
 import sej.CallFrame;
-import sej.ComputationFactory;
-import sej.Engine;
 import sej.NumericType;
 import sej.expressions.ExpressionNodeForOperator;
 import sej.expressions.Operator;
@@ -32,6 +30,8 @@ import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.SectionModel;
+import sej.runtime.ComputationFactory;
+import sej.runtime.Engine;
 import sej.tests.utils.Inputs;
 import sej.tests.utils.Outputs;
 import junit.framework.TestCase;

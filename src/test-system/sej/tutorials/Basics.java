@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
-import sej.Engine;
 import sej.EngineBuilder;
 import sej.SEJ;
-import sej.SEJError;
+import sej.runtime.Engine;
+import sej.runtime.SEJError;
 import junit.framework.TestCase;
 
 public class Basics extends TestCase

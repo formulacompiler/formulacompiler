@@ -20,11 +20,11 @@
  */
 package sej.tests.usecases;
 
-import sej.Engine;
 import sej.EngineBuilder;
+import sej.SEJ;
 import sej.Spreadsheet;
 import sej.SpreadsheetBinder;
-import sej.internal.EngineBuilderImpl;
+import sej.runtime.Engine;
 import junit.framework.TestCase;
 
 abstract class AbstractUseCaseTest extends TestCase
@@ -49,7 +49,7 @@ abstract class AbstractUseCaseTest extends TestCase
 	private final void runUseCase( String _sheetFileName, UseCase _useCase, String _extension, Class _inputs,
 			Class _outputs ) throws Exception
 	{
-		EngineBuilder builder = new EngineBuilderImpl();
+		EngineBuilder builder = SEJ.newEngineBuilder();
 		builder.loadSpreadsheet( "src/test-system/testdata/sej/usecases/" + _sheetFileName + _extension );
 		builder.setInputClass( _inputs );
 		builder.setOutputClass( _outputs );

@@ -28,9 +28,9 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 import sej.CallFrame;
-import sej.Engine;
 import sej.Spreadsheet;
 import sej.SpreadsheetBinder;
+import sej.runtime.Engine;
 
 
 public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest

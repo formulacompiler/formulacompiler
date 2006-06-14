@@ -26,9 +26,7 @@ import java.util.Date;
 import java.util.List;
 
 import sej.CallFrame;
-import sej.Engine;
 import sej.NumericType;
-import sej.Resettable;
 import sej.SEJ;
 import sej.SpreadsheetBinder;
 import sej.expressions.ExpressionNode;
@@ -39,6 +37,8 @@ import sej.internal.spreadsheet.Reference;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
+import sej.runtime.Engine;
+import sej.runtime.Resettable;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 

@@ -3,8 +3,8 @@ package sej.internal.spreadsheet.loader.excel;
 import java.util.Collection;
 import java.util.ArrayList;
 import java_cup.runtime.*;
-import sej.api.*;
-import sej.api.expressions.*;
+import sej.*;
+import sej.expressions.*;
 import sej.internal.spreadsheet.*;
 
 parser code {:

@@ -4,67 +4,58 @@
     <ruleset name="Dependencies">
         <var name="base" value="sej" />
         
-		<pattern name="all"					class="${base}.**" />        
-        <pattern name="api"					class="${base}.*" />
+		<pattern name="all"					class="${base}.**" />
+
         <pattern name="describable"			class="${base}.describable.*" />
         <pattern name="runtime"				class="${base}.runtime.*" />
+        <pattern name="expressions"			class="${base}.expressions.*" />
+        <pattern name="api"					class="${base}.*" />
 
-        <pattern name="core">
-        	<include class="${base}.*" />
-        	<include class="${base}.runtime.*" />
-        	<include class="${base}.describable.*" />
-        </pattern>
 
-        <pattern name="expr"				class="${base}.expressions.**" />
-        <pattern name="model"				class="${base}.model.**" />
+		<pattern name="int"					class="${base}.internal.*" />
+        <pattern name="int.runtime"			class="${base}.internal.runtime.*" />
+		<pattern name="int-all"				class="${base}.internal.**" />
+		<pattern name="int-sub">
+			<include pattern="int-all" />
+			<exclude pattern="int" />
+			<exclude pattern="int.runtime" />
+		</pattern>
+		
+        <pattern name="int.bytecode.compiler"	class="${base}.internal.bytecode.compiler.**" />
+        <pattern name="int.bytecode.runtime"	class="${base}.internal.bytecode.runtime.*" />
 
-        <pattern name="loader"				class="${base}.loader.**" />
-        <pattern name="loader-only"			class="${base}.loader.*" />
-        <pattern name="loader-excel"		class="${base}.loader.excel.**" />
-
-        <pattern name="compiler"			class="${base}.engine.compiler.*" />
-        <pattern name="compiler-def"		class="${base}.engine.compiler.definition.*" />
-        <pattern name="compiler-model"		class="${base}.engine.compiler.model.*" />
-        <pattern name="compiler-model-util"	class="${base}.engine.compiler.model.util.*" />
-        <pattern name="compiler-model-comp"	class="${base}.engine.compiler.model.compiler.*" />
-        <pattern name="compiler-model-opt"	class="${base}.engine.compiler.model.optimizer.**" />
+        <pattern name="int.engine"			class="${base}.internal.engine.*" />
+        <pattern name="int.engine-all"		class="${base}.internal.engine.**" />
+        <pattern name="int.engine.compiler"	class="${base}.internal.engine.compiler.*" />
         
-        <pattern name="engine-standard"		class="${base}.engine.standard.*" />
-        <pattern name="compiler-standard"	class="${base}.engine.standard.compiler.*" />
-        <pattern name="engine-bytecode"		class="${base}.engine.bytecode.*" />
-        <pattern name="compiler-bytecode"	class="${base}.engine.bytecode.compiler.*" />
+        <pattern name="int.model"			class="${base}.internal.model.*" />
+        <pattern name="int.model-all"		class="${base}.internal.model.**" />
+        <pattern name="int.model.compiler"	class="${base}.internal.model.compiler.**" />
+        <pattern name="int.model.optimizer"	class="${base}.internal.model.optimizer.**" />
+        <pattern name="int.model.util"		class="${base}.internal.model.util.*" />
+
+        <pattern name="int.sheet"			class="${base}.internal.spreadsheet.*" />
+        <pattern name="int.sheet-all"		class="${base}.internal.spreadsheet.**" />
+        <pattern name="int.sheet.binder"	class="${base}.internal.spreadsheet.binder.*" />
+        <pattern name="int.sheet.binding"	class="${base}.internal.spreadsheet.binding.*" />
+        <pattern name="int.sheet.compiler"	class="${base}.internal.spreadsheet.compiler.*" />
+        <pattern name="int.sheet.loader"	class="${base}.internal.spreadsheet.loader.*" />
+        <pattern name="int.sheet.excel-all"	class="${base}.internal.spreadsheet.loader.excel.**" />
+        <pattern name="int.sheet.namer"		class="${base}.internal.spreadsheet.namer.*" />
+
+        <pattern name="int.util"			class="${base}.internal.util.*" />
 
 
-        <access-rule>
-            <message>sej</message>
-            <deny>
-            	<from pattern="api" />
-                <to>
-                	<include pattern="all" />
-                	<exclude pattern="api" />
-                	<exclude pattern="describable" />
-                	<exclude pattern="runtime" />
-                </to>
-            </deny>
-        </access-rule>
-        
-        
-        <access-rule>
-            <message>sej.describable</message>
-            <deny>
-            	<from pattern="describable" />
-                <to>
-                	<include pattern="all" />
-                	<exclude pattern="describable" />
-                </to>
-            </deny>
-        </access-rule>
-        
-        
+		<!--========================================== Runtime -->
+
+
         <access-rule>
             <message>sej.runtime</message>
             <deny>
-            	<from pattern="runtime" />
+            	<from> 
+            		<include pattern="runtime" />
+            		<exclude class="sej.runtime.SEJRuntime" />
+            	</from>
                 <to>
                 	<include pattern="all" />
                 	<exclude pattern="runtime" />
@@ -74,194 +65,459 @@
         
         
         <access-rule>
-            <message>sej.expr</message>
+            <message>sej.runtime.SEJRuntime</message>
             <deny>
-            	<from pattern="expr" />
+            	<from> 
+            		<include class="sej.runtime.SEJRuntime" />
+            	</from>
                 <to>
                 	<include pattern="all" />
-                	<exclude pattern="expr" />
-                	<exclude pattern="core" />
+                	<exclude pattern="runtime" />
+                	<exclude class="${base}.internal.bytecode.runtime.ByteCodeEngineLoader" />
+                </to>
+            </deny>
+        </access-rule>
+       
+       
+        <access-rule>
+            <message>sej.internal.runtime</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.runtime" />
+            	</from>
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="runtime" />
+                	<exclude pattern="int.runtime" />
+                </to>
+            </deny>
+        </access-rule>
+       
+       
+        <access-rule>
+            <message>sej.internal.bytecode.runtime</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.bytecode.runtime" />
+            	</from>
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="runtime" />
+                	<exclude pattern="int.runtime" />
+                	<exclude pattern="int.bytecode.runtime" />
+                </to>
+            </deny>
+        </access-rule>
+       
+
+		<!--========================================== API -->
+
+
+        <access-rule>
+            <message>sej.describable</message>
+            <deny>
+            	<from> 
+            		<include pattern="describable" />
+            	</from>
+                <to>
+                	<include pattern="all" />
+                	<exclude pattern="describable" />
                 </to>
             </deny>
         </access-rule>
         
         
         <access-rule>
-            <message>sej.model</message>
+            <message>sej.expressions</message>
             <deny>
-            	<from pattern="model" />
+            	<from> 
+            		<include pattern="expressions" />
+            	</from>
                 <to>
                 	<include pattern="all" />
-                	<exclude pattern="model" />
-                	<exclude pattern="core" />
-                	<exclude pattern="expr" />
+                	<exclude pattern="describable" />
+                	<exclude pattern="expressions" />
                 </to>
             </deny>
         </access-rule>
         
-        <access-rule>
-            <message>sej.loader</message>
-            <deny>
-            	<from pattern="loader" />
-                <to>
-                	<include pattern="all" />
-                	<exclude pattern="loader" />
-                	<exclude pattern="core" />
-                	<exclude pattern="expr" />
-                	<exclude pattern="model" />
-                </to>
-            </deny>
-        </access-rule>
-
-
-        <access-rule>
-            <message>sej.engine.compiler</message>
-            <deny>
-            	<from pattern="compiler" />
-                <to>
-                	<include pattern="all" />
-                	<exclude pattern="compiler" />
-                	<exclude pattern="core" />
-                	<exclude pattern="expr" />
-                	<exclude pattern="model" />
-                	<exclude pattern="compiler-def" />
-                </to>
-            </deny>
-        </access-rule>
-
-        <access-rule>
-            <message>sej.engine.compiler.definition</message>
-            <deny>
-            	<from pattern="compiler-def" />
-                <to>
-                	<include pattern="all" />
-                	<exclude pattern="compiler-def" />
-                	<exclude pattern="core" />
-                	<exclude pattern="expr" />
-                	<exclude pattern="model" />
-                </to>
-            </deny>
-        </access-rule>
-
-        <access-rule>
-            <message>sej.engine.compiler.model</message>
-            <deny>
-            	<from pattern="compiler-model" />
-                <to>
-                	<include pattern="all" />
-                	<exclude pattern="compiler-model" />
-                	<exclude pattern="core" />
-                	<exclude pattern="expr" />
-                </to>
-            </deny>
-        </access-rule>
-
-        <access-rule>
-            <message>sej.engine.compiler.model.util</message>
-            <deny>
-            	<from pattern="compiler-model-util" />
-                <to>
-                	<include pattern="all" />
-                	<exclude pattern="compiler-model-util" />
-                	<exclude pattern="compiler-model" />
-                	<exclude pattern="core" />
-                	<exclude pattern="expr" />
-                </to>
-            </deny>
-        </access-rule>
-
-        <access-rule>
-            <message>sej.engine.compiler.model.compiler</message>
-            <deny>
-            	<from pattern="compiler-model-comp" />
-                <to>
-                	<include pattern="all" />
-                	<exclude pattern="compiler-model-comp" />
-                	<exclude pattern="core" />
-                	<exclude pattern="expr" />
-                	<exclude pattern="compiler-model" />
-                	<exclude pattern="compiler-model-util" />
-                	<exclude pattern="compiler-model-opt" />
-                	<exclude pattern="compiler-def" />
-                	<exclude pattern="model" />
-                </to>
-            </deny>
-        </access-rule>
-
-        <access-rule>
-            <message>sej.engine.compiler.model.optimizer</message>
-            <deny>
-            	<from pattern="compiler-model-opt" />
-                <to>
-                	<include pattern="all" />
-                	<exclude pattern="compiler-model-opt" />
-                	<exclude pattern="core" />
-                	<exclude pattern="expr" />
-                	<exclude pattern="compiler-model" />
-                	<exclude pattern="compiler-model-util" />
-                </to>
-            </deny>
-        </access-rule>
-
         
         <access-rule>
-            <message>sej.engine.standard</message>
+            <message>sej</message>
             <deny>
-            	<from pattern="engine-standard" />
+            	<from> 
+            		<include pattern="api" />
+            		<exclude class="sej.SEJ" />
+            	</from>
                 <to>
                 	<include pattern="all" />
-                	<exclude pattern="engine-standard" />
-                	<exclude pattern="core" />
-                	<exclude pattern="engine-bytecode" />
+                	<exclude pattern="describable" />
+                	<exclude pattern="expressions" />
+                	<exclude pattern="runtime" />
+                	<exclude pattern="api" />
                 </to>
             </deny>
         </access-rule>
-        
-        <access-rule>
-            <message>sej.engine.standard.compiler</message>
-            <deny>
-            	<from pattern="compiler-standard" />
-                <to>
-                	<include pattern="all" />
-                	<exclude pattern="compiler-standard" />
-                	<exclude pattern="core" />
-                	<exclude pattern="engine-standard" />
-                	<exclude pattern="engine-bytecode" />
-                	<exclude pattern="compiler-bytecode" />
-                </to>
-            </deny>
-        </access-rule>
-        
+
 
         <access-rule>
-            <message>sej.engine.bytecode</message>
+            <message>sej.SEJ</message>
             <deny>
-            	<from pattern="engine-bytecode" />
+            	<from> 
+            		<include class="sej.SEJ" />
+            	</from>
                 <to>
-                	<include pattern="all" />
-                	<exclude pattern="engine-bytecode" />
-                	<exclude pattern="core" />
+                	<include pattern="int-all" />
+                	<exclude class="${base}.internal.NumericTypeImpl" />
+                	<exclude class="${base}.internal.Util" />
+                	<exclude class="${base}.internal.bytecode.compiler.ByteCodeEngineCompiler" />
+                	<exclude class="${base}.internal.spreadsheet.binder.SpreadsheetBinderImpl" />
+                	<exclude class="${base}.internal.spreadsheet.compiler.SpreadsheetCompilerImpl" />
+                	<exclude class="${base}.internal.spreadsheet.loader.AnyFormatSpreadsheetLoader" />
+                	<exclude class="${base}.internal.util.EngineBuilderImpl" />
+                	<exclude class="${base}.internal.util.SpreadsheetByNameBinderImpl" />
+                	<exclude class="${base}.internal.util.SpreadsheetNameCreatorImpl" />
                 </to>
             </deny>
         </access-rule>
-        
+       
+
+		<!--========================================== Internals -->
+
+
         <access-rule>
-            <message>sej.engine.bytecode.compiler</message>
+            <message>sej.internal</message>
             <deny>
-            	<from pattern="compiler-bytecode" />
+            	<from> 
+            		<include pattern="int" />
+            	</from>
                 <to>
-                	<include pattern="all" />
-                	<exclude pattern="compiler-bytecode" />
-                	<exclude pattern="engine-bytecode" />
-                	<exclude pattern="core" />
-                	<exclude pattern="expr" />
-                	<exclude pattern="compiler" />
-                	<exclude pattern="compiler-model" />
-                	<exclude pattern="compiler-model-comp" />
-                	<exclude pattern="compiler-model-util" />
+                	<include pattern="int-all" />
+                	<exclude pattern="int" />
+                	<exclude pattern="int.runtime" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+		<!--========================================== Engine -->
+		
+		
+        <access-rule>
+            <message>sej.internal.engine.**</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.engine-all" />
+                	<exclude pattern="int.engine.compiler" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                	<exclude pattern="int.engine-all" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+        <access-rule>
+            <message>sej.internal.engine.compiler</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.engine.compiler" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                	<exclude pattern="int.engine.compiler" />
+                	<exclude pattern="int.model" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+		<!--========================================== Model -->
+		
+		
+        <access-rule>
+            <message>sej.internal.model.**</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.model-all" />
+                	<exclude pattern="int.model.compiler" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                	<exclude pattern="int.model-all" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+        <access-rule>
+            <message>sej.internal.model</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.model" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                	<exclude pattern="int.model" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+        <access-rule>
+            <message>sej.internal.model.util</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.model.util" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                	<exclude pattern="int.model" />
+                	<exclude pattern="int.model.util" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+        <access-rule>
+            <message>sej.internal.model.compiler</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.model.compiler" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                	<exclude pattern="int.model" />
+                	<exclude pattern="int.model.util" />
+                	<exclude pattern="int.model.compiler" />
+                	<exclude pattern="int.model.optimizer" />
+                	<exclude pattern="int.sheet" />
+                	<exclude pattern="int.sheet.binding" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+        <access-rule>
+            <message>sej.internal.model.optimizer</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.model.optimizer" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                	<exclude pattern="int.model" />
+                	<exclude pattern="int.model.util" />
+                	<exclude pattern="int.model.optimizer" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+		<!--========================================== Bytecode -->
+		
+		
+        <access-rule>
+            <message>sej.internal.bytecode.compiler</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.bytecode.compiler" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                	<exclude pattern="int.engine.compiler" />
+                	<exclude pattern="int.model" />
+                	<exclude pattern="int.bytecode.runtime" />
+                	<exclude pattern="int.bytecode.compiler" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+		<!--========================================== Sheet -->
+
+
+        <access-rule>
+            <message>sej.internal.spreadsheet.**</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.sheet-all" />
+                	<exclude pattern="int.sheet.compiler" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                	<exclude pattern="int.sheet-all" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+        <access-rule>
+            <message>sej.internal.spreadsheet</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.sheet" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                	<exclude pattern="int.sheet" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+        <access-rule>
+            <message>sej.internal.spreadsheet.binder</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.sheet.binder" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                	<exclude pattern="int.sheet" />
+                	<exclude pattern="int.sheet.binding" />
+                	<exclude pattern="int.sheet.binder" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+        <access-rule>
+            <message>sej.internal.spreadsheet.binding</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.sheet.binding" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                	<exclude pattern="int.sheet" />
+                	<exclude pattern="int.sheet.binding" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+        <access-rule>
+            <message>sej.internal.spreadsheet.compiler</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.sheet.compiler" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                	<exclude pattern="int.model.compiler" />
+                	<exclude pattern="int.engine.compiler" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+        <access-rule>
+            <message>sej.internal.spreadsheet.loader</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.sheet.loader" />
+            		<exclude class="${base}.internal.spreadsheet.loader.AnyFormatSpreadsheetLoader" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                	<exclude pattern="int.sheet" />
+                	<exclude pattern="int.sheet.loader" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+        <access-rule>
+            <message>sej.internal.spreadsheet.loader.AnyFormatSpreadsheetLoader</message>
+            <deny>
+            	<from> 
+            		<include class="${base}.internal.spreadsheet.loader.AnyFormatSpreadsheetLoader" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                	<exclude pattern="int.sheet" />
+                	<exclude pattern="int.sheet.loader" />
+                	<exclude class="${base}.internal.spreadsheet.loader.excel.xls.ExcelXLSLoader" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+        <access-rule>
+            <message>sej.internal.spreadsheet.loader.excel.**</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.sheet.excel-all" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                	<exclude pattern="int.sheet" />
+                	<exclude pattern="int.sheet.loader" />
+            		<exclude pattern="int.sheet.excel-all" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+		<!--========================================== Util -->
+
+
+        <access-rule>
+            <message>sej.internal.util</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.util" />
+            	</from>
+                <to>
+                	<include pattern="int-all" />
+                	<exclude pattern="int.util" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+		<!--========================================== Tests -->
+
+
+        <access-rule>
+            <message>System tests, tutorials, examples</message>
+            <deny>
+            	<from> 
+            		<include class="${base}.tests.**" />
+            		<include class="${base}.tutorials.**" />
+            		<include class="${base}.examples.**" />
+            		<exclude class="${base}.tests.FormulaEvaluationTestSuite*" />
+            	</from>
+                <to>
+                	<include pattern="int-all" />
                 </to>
             </deny>
         </access-rule>
         
+        
+        <pattern name="runtime-tests">
+       		<include class="${base}.tests.serialization.*Deserialization*" />
+       		<include class="${base}.tests.serialization.AbstractTestBase" />
+       		<include class="${base}.tests.serialization.Inputs" />
+       		<include class="${base}.tests.serialization.Outputs" />
+       	</pattern>
+
+        <access-rule>
+            <message>Runtime-only tests</message>
+            <deny>
+            	<from> 
+            		<include pattern="runtime-tests" />
+            	</from>
+                <to>
+					<include pattern="all" />
+                	<exclude pattern="runtime" />
+                	<exclude pattern="runtime-tests" />
+                </to>
+            </deny>
+        </access-rule>
+
+
     </ruleset>
 </macker>

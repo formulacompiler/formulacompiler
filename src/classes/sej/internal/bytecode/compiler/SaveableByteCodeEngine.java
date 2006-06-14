@@ -8,9 +8,9 @@ import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import sej.EngineError;
 import sej.SaveableEngine;
 import sej.internal.bytecode.runtime.ByteCodeEngine;
+import sej.runtime.EngineError;
 
 /**
  * Only the compiler generates saveable engines. The loader does not. This is so the runtime does

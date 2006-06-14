@@ -20,6 +20,8 @@
  */
 package sej;
 
+import sej.runtime.SEJError;
+
 
 public class SpreadsheetError extends SEJError
 {

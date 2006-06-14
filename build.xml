@@ -20,6 +20,9 @@
 
 	<!-- Targets -->
 
+	<property name="javac.source" value="1.5" />
+	<property name="javac.target" value="1.5" />
+
 	<property name="build.dir" location="${basedir}/build" />
 	<property name="build.classes.dir" location="${build.dir}/classes" />
 	<property name="build.classes14.dir" location="${build.dir}/classes14" />
@@ -97,12 +100,12 @@
 	<taskdef classname="java_cup.AntTask" name="cup" classpath="${build.classpath}" />
 
 	<target name="lex" depends="prepare">
-		<jflex file="${src.classes.dir}/sej/loader/excel/ExcelExpressionScannerA1.lex" destdir="${src.classes.gen.dir}" />
-		<jflex file="${src.classes.dir}/sej/loader/excel/ExcelExpressionScannerR1C1.lex" destdir="${src.classes.gen.dir}" />
+		<jflex file="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerA1.lex" destdir="${src.classes.gen.dir}" />
+		<jflex file="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerR1C1.lex" destdir="${src.classes.gen.dir}" />
 	</target>
 
 	<target name="cup" depends="prepare, lex">
-		<cup file="${src.classes.dir}/sej/loader/excel/ExcelExpressionParser.cup" dir="${src.classes.gen.dir}/sej/loader/excel" 
+		<cup file="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionParser.cup" dir="${src.classes.gen.dir}/sej/internal/spreadsheet/loader/excel" 
 			parser="GeneratedParser" 
 			symbols="GeneratedSymbols"
 			nopositions="true"
@@ -121,11 +124,11 @@
 
 	<target name="compile" depends="prepare, generate" description="Compiles the source code">
 
-		<javac srcdir="${src.classes.dir}:${src.classes.gen.dir}" destdir="${build.classes.dir}" classpath="${build.classpath}" debug="true" deprecation="on">
+		<javac srcdir="${src.classes.dir}:${src.classes.gen.dir}" destdir="${build.classes.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/**" />
 		</javac>
 
-		<javac srcdir="${src.classes14.dir}" destdir="${build.classes14.dir}" classpath="${build.classpath}" debug="true" deprecation="on">
+		<javac srcdir="${src.classes14.dir}" destdir="${build.classes14.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="1.4" target="1.4">
 			<include name="net/sf/retrotranslator/**" />
 		</javac>
 
@@ -160,12 +163,18 @@
 
 	<taskdef name="macker" classname="net.innig.macker.ant.MackerAntTask" classpathref="macker.classpath" />
 
-	<target name="dependencies" depends="prepare, compile">
+	<target name="dependencies" depends="prepare, compile, compile-tests, compile-examples">
 		<macker>
 			<rules dir="${src.dir}" includes="macker-rules.xml" />
 			<classes dir="${build.classes.dir}">
 				<include name="**/*.class" />
 				<exclude name="**/CUP*.class" />
+			</classes>
+			<classes dir="${build.test-system.dir}">
+				<include name="**/*.class" />
+			</classes>
+			<classes dir="${build.examples.dir}">
+				<include name="**/*.class" />
 			</classes>
 		</macker>
 	</target>
@@ -289,10 +298,10 @@
 		<mkdir dir="${build.test-unit.dir}" />
 		<mkdir dir="${build.test-system.dir}" />
 
-		<javac srcdir="${src.test-unit.dir}" destdir="${build.test-unit.dir}" classpath="${test.classpath}" debug="true" deprecation="on">
+		<javac srcdir="${src.test-unit.dir}" destdir="${build.test-unit.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/**" />
 		</javac>
-		<javac srcdir="${src.test-system.dir}" destdir="${build.test-system.dir}" classpath="${test.classpath}" debug="true" deprecation="on">
+		<javac srcdir="${src.test-system.dir}" destdir="${build.test-system.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/**" />
 		</javac>
 	</target>
@@ -437,7 +446,7 @@
 
 		<mkdir dir="${build.examples.dir}" />
 
-		<javac srcdir="${src.examples.dir}" destdir="${build.examples.dir}" classpath="${examples.classpath}" debug="true" deprecation="on">
+		<javac srcdir="${src.examples.dir}" destdir="${build.examples.dir}" classpath="${examples.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="**" />
 		</javac>
 	</target>
@@ -505,24 +514,6 @@
 			<arg value="-o" />
 			<arg file="${doc.dir}/design.htm" />
 		</java>
-
-		<replace dir="${doc.dir}">
-			<include name="**/*.htm" />
-			<replacetoken><![CDATA[<a href="../index.htm">arrenbrecht.ch</a>]]></replacetoken>
-			<replacevalue><![CDATA[<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a>]]></replacevalue>
-		</replace>
-
-		<replace dir="${doc.dir}">
-			<include name="**/*.htm" />
-			<replacetoken><![CDATA[<a href="../../index.htm">arrenbrecht.ch</a>]]></replacetoken>
-			<replacevalue><![CDATA[<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a>]]></replacevalue>
-		</replace>
-
-		<replace dir="${doc.dir}">
-			<include name="**/*.htm" />
-			<replacetoken><![CDATA[<a href="../../../index.htm">arrenbrecht.ch</a>]]></replacetoken>
-			<replacevalue><![CDATA[<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a>]]></replacevalue>
-		</replace>
 
 		<replace dir="${doc.dir}">
 			<include name="**/*.htm" />
