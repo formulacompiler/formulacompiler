@@ -20,36 +20,29 @@
  */
 package sej.tutorials;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import sej.CallFrame;
-import sej.CompilerError;
-import sej.Engine;
-import sej.NumericType;
+import sej.ComputationFactory;
+import sej.EngineBuilder;
 import sej.Resettable;
-import sej.Spreadsheet;
-import sej.internal.spreadsheet.loader.SpreadsheetLoader;
-import sej.internal.spreadsheet.loader.excel.xls.ExcelXLSLoader;
+import sej.SEJ;
+import sej.SEJError;
 import junit.framework.TestCase;
 
 public class Caching extends TestCase
 {
 	private static final String path = "src/test-system/testdata/sej/tutorials/Caching.xls";
 
-	static {
-		ByteCodeCompiler.registerAsDefault();
-		ExcelXLSLoader.register();
-	}
-
 
 	public void testNoCachingWithModifiedInputs() throws Exception
 	{
-		Engine engine = compile( PlainOutput.class );
+		ComputationFactory factory = compile( PlainOutput.class );
 
 		// ---- noCache
 		Input input = new Input();
-		PlainOutput output = (PlainOutput) engine.newComputation( input );
+		PlainOutput output = (PlainOutput) factory.newInstance( input );
 
 		input.setSide( /**/"10"/**/);
 		assertEquals( /**/"100"/**/, output.getArea().toPlainString() );
@@ -75,11 +68,11 @@ public class Caching extends TestCase
 
 	public void testCachingWithModifiedInputs() throws Exception
 	{
-		Engine engine = compile( CachingOutput.class );
+		ComputationFactory factory = compile( CachingOutput.class );
 
 		// ---- cache
 		Input input = new Input();
-		CachingOutput output = (CachingOutput) engine.newComputation( input );
+		CachingOutput output = (CachingOutput) factory.newInstance( input );
 
 		input.setSide( "10" );
 		assertEquals( "100", output.getArea().toPlainString() );
@@ -148,22 +141,22 @@ public class Caching extends TestCase
 	
 	public void testSpeed() throws Exception
 	{
-		Engine plainEngine = compile( PlainOutput.class );
-		Engine cachingEngine = compile( CachingPlainOutput.class );
+		ComputationFactory plainFactory = compile( PlainOutput.class );
+		ComputationFactory cachingFactory = compile( CachingPlainOutput.class );
 		Input input = new Input(); 
 
 		// ---- timing
-		input.setSide( "123456789123456789" );
-		long plainTime = time( plainEngine, input );
-		long cachingTime = time( cachingEngine, input );
+		input.setSide( "123456789123456789123456789123456789" );
+		long plainTime = time( plainFactory, input );
+		long cachingTime = time( cachingFactory, input );
 		assertTrue( "Caching is at least twice as fast", cachingTime * 2 < plainTime );
 		// ---- timing
 	}
 
 
-	private long time( Engine _engine, Input _input )
+	private long time( ComputationFactory _factory, Input _input )
 	{
-		PlainOutput output = (PlainOutput) _engine.newComputation( _input );
+		PlainOutput output = (PlainOutput) _factory.newInstance( _input );
 		// ---- timed
 		long startTime = System.nanoTime(); 
 		output.getArea();
@@ -208,19 +201,15 @@ public class Caching extends TestCase
 	// ---- CachingOutput
 
 
-	private Engine compile( Class _outputClass ) throws IOException, CompilerError, NoSuchMethodException
+	private ComputationFactory compile( Class _outputClass ) throws FileNotFoundException, IOException, SEJError 
 	{
-		Spreadsheet sheet = SpreadsheetLoader.loadFromFile( path );
-		Class inp = Input.class;
-		Class outp = _outputClass;
-		Compiler compiler = CompilerFactory.newDefaultCompiler( sheet, inp, outp, NumericType.getInstance(
-				BigDecimal.class, 0, BigDecimal.ROUND_HALF_UP ) );
-		Compiler.Section root = compiler.getRoot();
-		root.defineInputCell( sheet.getCell( "Side" ), new CallFrame( inp.getMethod( "getSide" ) ) );
-		root.defineOutputCell( sheet.getCell( "Area" ), new CallFrame( outp.getMethod( "getArea" ) ) );
-		root.defineOutputCell( sheet.getCell( "Volume" ), new CallFrame( outp.getMethod( "getVolume" ) ) );
-		Engine engine = compiler.compileNewEngine();
-		return engine;
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.loadSpreadsheet( path );
+		builder.setInputClass( Input.class );
+		builder.setOutputClass( _outputClass );
+		builder.setNumericType( SEJ.getNumericType( BigDecimal.class, 0, BigDecimal.ROUND_HALF_UP ) );
+		builder.bindAllByName();
+		return builder.compile().getComputationFactory();
 	}
 
 }

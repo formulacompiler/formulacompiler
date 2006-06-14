@@ -84,7 +84,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 			for (Method m : this.contextMethods) {
 				if (m.getDeclaringClass() != Object.class) {
 					final int mods = m.getModifiers();
-					if (!Modifier.isFinal( mods ) && !Modifier.isStatic( mods )) {
+					if (!Modifier.isFinal( mods ) && !Modifier.isStatic( mods ) && !m.getName().equals( "reset" )) {
 						bindThisMethodToNamedCell( m );
 					}
 				}
