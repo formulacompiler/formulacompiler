@@ -37,6 +37,7 @@ import sej.internal.engine.compiler.AbstractEngineCompiler;
 import sej.internal.model.AbstractComputationModelVisitor;
 import sej.internal.model.CellModel;
 import sej.internal.model.SectionModel;
+import sej.runtime.Computation;
 import sej.runtime.Engine;
 import sej.runtime.EngineError;
 import sej.runtime.Resettable;
@@ -75,6 +76,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 	static final String GEN_ROOT_PATH = "sej/gen/" + GEN_ROOT_NAME;
 	
 	static final Type ENGINE_INTF = Type.getType( Engine.class );
+	static final Type COMPUTATION_INTF = Type.getType( Computation.class );
 	static final String INPUTS_MEMBER_NAME = "inputs";
 	static final Type MATH = Type.getType( Math.class );
 	static final Type BIGDECIMAL = Type.getType( BigDecimal.class );
