@@ -20,55 +20,53 @@
  */
 package sej.tutorials;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 
 import sej.CallFrame;
-import sej.Compiler;
-import sej.CompilerFactory;
-import sej.ModelError;
+import sej.EngineBuilder;
+import sej.SEJ;
 import sej.Spreadsheet;
-import sej.SpreadsheetLoader;
+import sej.SpreadsheetBinder;
 
 
 public class BindingByName
 {
 
 
-	public void bindingByName() throws IOException, ModelError, NoSuchMethodException
+	public void bindingByName() throws Exception
 	{
-		Spreadsheet spreadsheet = SpreadsheetLoader.loadFromFile( "src/test-system/data/tutorials/BindingByName.xls" );
-
-		// ---- createCompiler
-		Class input = Input.class;
-		Class output = Output.class;
-		Compiler compiler = CompilerFactory.newDefaultCompiler( spreadsheet, input, output );
-		Compiler.Section root = compiler.getRoot();
-		// ---- createCompiler
+		final String path = "src/test-system/data/tutorials/BindingByName.xls";
+		
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.loadSpreadsheet( path );
+		builder.setInputClass( Input.class );
+		builder.setOutputClass( Output.class );
+		Spreadsheet spreadsheet = builder.getSpreadsheet();
+		SpreadsheetBinder.Section binder = builder.getRootBinder();
 
 		// ---- bindNamedInputs
-		final Method inputMethod = input.getMethod( "getInput", String.class );
-		for (Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames()) {
+		final Method inputMethod = Input.class./**/getMethod( "getInput", String.class )/**/;
+		for (Spreadsheet.NameDefinition def : /**/spreadsheet.getDefinedNames()/**/) {
 			if (def instanceof Spreadsheet.CellNameDefinition) {
 				final Spreadsheet.CellNameDefinition cellDef = (Spreadsheet.CellNameDefinition) def;
-				final String name = cellDef.getName();
+				final String /**/name = cellDef.getName()/**/;
 				if ('I' == name.charAt( 0 )) {
 					final Spreadsheet.Cell cell = cellDef.getCell();
-					root.defineInputCell( cell, new CallFrame( inputMethod, name ) );
+					binder.defineInputCell( cell, /**/new CallFrame( inputMethod, name )/**/ );
 				}
 			}
 		}
 		// ---- bindNamedInputs
 
 		// ---- bindNamedOutputs
-		final Method outputMethod = output.getMethod( "getOutput", String.class );
-		for (Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames()) {
+		final Method outputMethod = Output.class./**/getMethod( "getOutput", String.class )/**/;
+		for (Spreadsheet.NameDefinition def : /**/spreadsheet.getDefinedNames()/**/) {
 			if (def instanceof Spreadsheet.CellNameDefinition) {
 				final Spreadsheet.CellNameDefinition cellDef = (Spreadsheet.CellNameDefinition) def;
-				final String name = cellDef.getName();
+				final String /**/name = cellDef.getName()/**/;
 				if ('O' == name.charAt( 0 )) {
 					final Spreadsheet.Cell cell = cellDef.getCell();
-					root.defineOutputCell( cell, new CallFrame( outputMethod, name ) );
+					binder.defineOutputCell( cell, /**/new CallFrame( outputMethod, name )/**/ );
 				}
 			}
 		}
@@ -80,7 +78,7 @@ public class BindingByName
 	// ---- Input
 	public static interface Input
 	{
-		double getInput( String _name );
+		double getInput( /**/String _name/**/ );
 	}
 	// ---- Input
 
@@ -88,7 +86,7 @@ public class BindingByName
 	// ---- Output
 	public static abstract class Output
 	{
-		public double getOutput( String _name )
+		public double getOutput( /**/String _name/**/ )
 		{
 			return 0;
 		}
@@ -103,20 +101,20 @@ public class BindingByName
 		@Override
 		public final double getOutput( String _name )
 		{
-			if (_name.equals( "O_Result" )) return getOutput__1();
-			if (_name.equals( "O_Coeff" )) return getOutput__2();
+			if (_name.equals( "ORESULT" )) return getOutput__1();
+			if (_name.equals( "OCOEFF" )) return getOutput__2();
 			// ... other bound outputs
 			return super.getOutput( _name );
 		}
 
 		private final double getOutput__1()
 		{
-			return 0; // generated computation for cell O_Result
+			return 0; // generated computation for cell ORESULT
 		}
 
 		private final double getOutput__2()
 		{
-			return 0; // generated computation for cell O_Coeff
+			return 0; // generated computation for cell OCOEFF
 		}
 		// ---- GeneratedGetter
 
