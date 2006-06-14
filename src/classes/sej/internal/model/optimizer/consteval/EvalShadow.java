@@ -22,8 +22,8 @@ package sej.internal.model.optimizer.consteval;
 
 import java.util.List;
 
-import sej.api.expressions.ExpressionNode;
-import sej.api.expressions.ExpressionNodeForConstantValue;
+import sej.expressions.ExpressionNode;
+import sej.expressions.ExpressionNodeForConstantValue;
 import sej.internal.ExpressionNodeShadow;
 import sej.internal.model.util.InterpretedNumericType;
 

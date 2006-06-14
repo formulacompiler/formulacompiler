@@ -23,13 +23,13 @@ package sej.tutorials;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import sej.CallFrame;
+import sej.CompilerError;
 import sej.Engine;
 import sej.NumericType;
-import sej.api.CallFrame;
-import sej.api.CompilerError;
-import sej.api.Resettable;
-import sej.api.Spreadsheet;
-import sej.api.SpreadsheetLoader;
+import sej.Resettable;
+import sej.Spreadsheet;
+import sej.internal.spreadsheet.loader.SpreadsheetLoader;
 import sej.internal.spreadsheet.loader.excel.xls.ExcelXLSLoader;
 import junit.framework.TestCase;
 

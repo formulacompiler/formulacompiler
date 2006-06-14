@@ -20,77 +20,53 @@
  */
 package sej.examples;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import sej.CallFrame;
-import sej.Compiler;
-import sej.CompilerFactory;
 import sej.Engine;
-import sej.EngineFactory;
-import sej.ModelError;
-import sej.Spreadsheet;
-import sej.SpreadsheetLoader;
-import sej.engine.standard.compiler.StandardCompiler;
-import sej.loader.excel.xls.ExcelXLSLoader;
+import sej.EngineBuilder;
+import sej.SEJ;
+import sej.SEJRuntime;
+import sej.SaveableEngine;
 
 public class EngineSerializationDemo
 {
 
-	static {
-		ExcelXLSLoader.register();
-		StandardCompiler.registerAsDefault();
-	}
-
-
-	public static void main( String[] args ) throws ModelError, IOException, NoSuchMethodException,
-			ClassNotFoundException, InstantiationException, IllegalAccessException
+	public static void main( String[] args ) throws Exception
 	{
 		// ---- Serialization
-		// Load and parse the spreadsheet file into memory.
-		Spreadsheet model = SpreadsheetLoader.loadFromFile( "examples/testdata/sej/Test.xls" );
-
-		// Create an engine builder for the loaded spreadsheet file.
-		// Pass to it the input and output types.
-		Compiler compiler = CompilerFactory.newDefaultCompiler( model, Inputs.class, Outputs.class );
-
-		// Define which of the cells will be variable inputs to the engine.
-		// All inputs are bound to a method that will be called to obtain their value.
-		Compiler.Section root = compiler.getRoot();
-		root.defineInputCell( model.getCell( 0, 1, 0 ), new CallFrame( Inputs.class.getMethod( "getA" ) ) );
-		root.defineInputCell( model.getCell( 0, 1, 1 ), new CallFrame( Inputs.class.getMethod( "getB" ) ) );
-
-		// Define which of the cells will be computable outputs of the engine.
-		// Outputs are bound to prototype methods that are implemented by the engine.
-		root.defineOutputCell( model.getCell( 0, 1, 2 ), new CallFrame( Outputs.class.getMethod( "getResult" ) ) );
+		// Build an engine for the given spreadsheet, inputs, and outputs.
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.loadSpreadsheet( "examples/testdata/sej/Test.xls" );
+		builder.setFactoryClass( Factory.class );
+		builder.bindAllByName();
+		SaveableEngine compiledEngine = builder.compile();
 
 		// Write the engine out to its serialized form, then drop the reference to it.
-		File engineSerializationFile = new File( "/temp/Engine.ser" );
-		OutputStream outStream = new FileOutputStream( engineSerializationFile );
+		File engineSerializationFile = new File( "/temp/Engine.jar" );
+		OutputStream outStream = new BufferedOutputStream( new FileOutputStream( engineSerializationFile ) );
 		try {
-			compiler.saveTo( outStream );
+			compiledEngine.saveTo( outStream );
 		}
 		finally {
 			outStream.close();
 		}
 		// ---- Serialization
 
-		// The model and compiler are collectable now.
-		model = null;
-		compiler = null;
-
 		// ---- Deserialization
 		// Instantiate an engine from the serialized form.
-		InputStream inStream = new FileInputStream( engineSerializationFile );
-		Engine engine = EngineFactory.loadFrom( inStream );
+		InputStream inStream = new BufferedInputStream( new FileInputStream( engineSerializationFile ) );
+		Engine loadedEngine = SEJRuntime.loadEngine( inStream );
+		Factory factory = (Factory) loadedEngine.getComputationFactory();
 
 		// Compute an actual output value for a given set of actual input values.
 		Inputs inputs = new Inputs( 4, 40 );
-		Outputs outputs = (Outputs) engine.newComputation( inputs );
+		Outputs outputs = factory.newInstance( inputs );
 		double result = outputs.getResult();
 
 		System.out.printf( "Result is: %f", result );

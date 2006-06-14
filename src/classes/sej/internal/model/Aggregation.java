@@ -22,8 +22,8 @@ package sej.internal.model;
 
 import java.io.IOException;
 
-import sej.api.AbstractDescribable;
-import sej.api.DescriptionBuilder;
+import sej.describable.AbstractDescribable;
+import sej.describable.DescriptionBuilder;
 
 public class Aggregation extends AbstractDescribable
 {

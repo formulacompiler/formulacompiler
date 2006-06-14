@@ -24,8 +24,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import sej.api.CompilerError;
-import sej.api.DescriptionBuilder;
+import sej.CompilerError;
+import sej.describable.DescriptionBuilder;
 
 public class SectionModel extends ElementModel
 {

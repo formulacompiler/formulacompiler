@@ -2,10 +2,10 @@ package sej.internal;
 
 import java.lang.reflect.Method;
 
+import sej.CompilerError;
 import sej.EngineError;
 import sej.NumericType;
 import sej.SaveableEngine;
-import sej.api.CompilerError;
 import sej.internal.model.ComputationModel;
 
 public abstract class AbstractEngineCompiler implements EngineCompiler

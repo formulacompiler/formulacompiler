@@ -5,9 +5,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import sej.api.Spreadsheet;
-import sej.api.SpreadsheetError;
-import sej.api.SpreadsheetLoader;
+import sej.Spreadsheet;
+import sej.SpreadsheetError;
 import sej.internal.spreadsheet.loader.excel.xls.ExcelXLSLoader;
 
 /**

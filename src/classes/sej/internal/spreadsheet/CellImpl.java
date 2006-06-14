@@ -2,10 +2,10 @@ package sej.internal.spreadsheet;
 
 import java.io.IOException;
 
-import sej.api.AbstractDescribable;
-import sej.api.DescriptionBuilder;
-import sej.api.Spreadsheet.Cell;
-import sej.api.Spreadsheet.Row;
+import sej.Spreadsheet.Cell;
+import sej.Spreadsheet.Row;
+import sej.describable.AbstractDescribable;
+import sej.describable.DescriptionBuilder;
 
 public class CellImpl extends AbstractDescribable implements Cell
 {
@@ -19,7 +19,6 @@ public class CellImpl extends AbstractDescribable implements Cell
 		this.cellIndex = _cellIndex;
 		this.row = _cellIndex.getRow( _spreadsheet );
 		this.cell = _cellIndex.getCell( _spreadsheet );
-
 	}
 
 	public CellImpl(CellInstance _instance)
@@ -28,6 +27,14 @@ public class CellImpl extends AbstractDescribable implements Cell
 		this.cellIndex = _instance.getCellIndex();
 		this.row = _instance.getRow();
 		this.cell = _instance;
+	}
+
+	public CellImpl(RowImpl _row, CellIndex _cellIndex)
+	{
+		super();
+		this.cellIndex = _cellIndex;
+		this.row = _row;
+		this.cell = null;
 	}
 
 	public Object getConstantValue()

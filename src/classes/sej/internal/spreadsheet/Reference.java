@@ -20,7 +20,7 @@
  */
 package sej.internal.spreadsheet;
 
-import sej.api.AbstractDescribable;
+import sej.describable.AbstractDescribable;
 
 public abstract class Reference extends AbstractDescribable
 {

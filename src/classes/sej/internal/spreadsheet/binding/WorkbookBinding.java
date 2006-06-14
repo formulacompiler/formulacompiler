@@ -25,9 +25,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sej.api.CompilerError;
-import sej.api.Spreadsheet;
-import sej.api.SpreadsheetBinding;
+import sej.CompilerError;
+import sej.Spreadsheet;
+import sej.SpreadsheetBinding;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.SpreadsheetImpl;
 

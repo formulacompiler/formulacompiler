@@ -20,8 +20,8 @@
  */
 package sej.internal.spreadsheet;
 
-import sej.api.DescriptionBuilder;
-import sej.api.Orientation;
+import sej.Orientation;
+import sej.describable.DescriptionBuilder;
 
 public class CellIndex extends Reference
 {

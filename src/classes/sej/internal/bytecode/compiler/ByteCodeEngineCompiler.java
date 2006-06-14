@@ -29,11 +29,11 @@ import java.util.HashMap;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Type;
 
+import sej.CompilerError;
 import sej.Engine;
 import sej.EngineError;
+import sej.Resettable;
 import sej.SaveableEngine;
-import sej.api.CompilerError;
-import sej.api.Resettable;
 import sej.internal.AbstractEngineCompiler;
 import sej.internal.Settings;
 import sej.internal.bytecode.runtime.ByteCodeEngine;

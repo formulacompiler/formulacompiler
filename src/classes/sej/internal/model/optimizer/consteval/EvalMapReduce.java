@@ -20,8 +20,8 @@
  */
 package sej.internal.model.optimizer.consteval;
 
-import sej.api.expressions.ExpressionNodeForAggregator;
-import sej.api.expressions.Operator;
+import sej.expressions.ExpressionNodeForAggregator;
+import sej.expressions.Operator;
 import sej.internal.model.Aggregation;
 import sej.internal.model.util.InterpretedNumericType;
 

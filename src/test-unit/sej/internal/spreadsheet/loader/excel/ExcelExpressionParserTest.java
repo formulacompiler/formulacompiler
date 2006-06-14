@@ -20,7 +20,7 @@
  */
 package sej.internal.spreadsheet.loader.excel;
 
-import sej.api.expressions.ExpressionNode;
+import sej.expressions.ExpressionNode;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellRange;

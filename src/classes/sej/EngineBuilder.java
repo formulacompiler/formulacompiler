@@ -5,11 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
-import sej.api.CompilerError;
-import sej.api.Spreadsheet;
-import sej.api.SpreadsheetBinder;
-import sej.api.SpreadsheetByNameBinder;
-import sej.api.SpreadsheetError;
 
 
 public interface EngineBuilder

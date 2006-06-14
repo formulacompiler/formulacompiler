@@ -26,10 +26,10 @@ import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-import sej.api.CompilerError;
-import sej.api.expressions.ExpressionNode;
-import sej.api.expressions.ExpressionNodeForConstantValue;
-import sej.api.expressions.ExpressionNodeForFunction;
+import sej.CompilerError;
+import sej.expressions.ExpressionNode;
+import sej.expressions.ExpressionNodeForConstantValue;
+import sej.expressions.ExpressionNodeForFunction;
 import sej.internal.model.ExpressionNodeForRangeValue;
 
 class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler

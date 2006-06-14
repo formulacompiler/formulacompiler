@@ -23,9 +23,9 @@ package sej.internal.spreadsheet;
 import java.io.IOException;
 import java.text.NumberFormat;
 
-import sej.api.AbstractDescribable;
-import sej.api.DescriptionBuilder;
-import sej.api.expressions.ExpressionNode;
+import sej.describable.AbstractDescribable;
+import sej.describable.DescriptionBuilder;
+import sej.expressions.ExpressionNode;
 
 
 public abstract class CellInstance extends AbstractDescribable

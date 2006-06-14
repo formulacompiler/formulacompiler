@@ -24,10 +24,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import sej.api.AbstractDescribable;
-import sej.api.DescriptionBuilder;
-import sej.api.Spreadsheet;
-import sej.api.Spreadsheet.Cell;
+import sej.Spreadsheet;
+import sej.Spreadsheet.Cell;
+import sej.describable.AbstractDescribable;
+import sej.describable.DescriptionBuilder;
 
 public class RowImpl extends AbstractDescribable implements Spreadsheet.Row
 {
@@ -52,9 +52,18 @@ public class RowImpl extends AbstractDescribable implements Spreadsheet.Row
 
 	public Cell[] getCells()
 	{
+		final int sheetIndex = getSheet().getSheetIndex();
+		final int rowIndex = getRowIndex();
+
 		final Cell[] result = new Cell[ this.cells.size() ];
 		for (int i = 0; i < this.cells.size(); i++) {
-			result[ i ] = new CellImpl( this.cells.get( i ) );
+			final CellInstance cellInst = this.cells.get( i );
+			if (cellInst == null) {
+				result[ i ] = new CellImpl( this, new CellIndex( sheetIndex, i, rowIndex ) );
+			}
+			else {
+				result[ i ] = new CellImpl( cellInst );
+			}
 		}
 		return result;
 	}

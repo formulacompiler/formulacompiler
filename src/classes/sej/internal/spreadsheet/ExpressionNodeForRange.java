@@ -22,8 +22,8 @@ package sej.internal.spreadsheet;
 
 import java.io.IOException;
 
-import sej.api.DescriptionBuilder;
-import sej.api.expressions.ExpressionNode;
+import sej.describable.DescriptionBuilder;
+import sej.expressions.ExpressionNode;
 
 public class ExpressionNodeForRange extends ExpressionNode
 {

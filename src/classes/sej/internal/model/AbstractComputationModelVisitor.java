@@ -20,7 +20,7 @@
  */
 package sej.internal.model;
 
-import sej.api.CompilerError;
+import sej.CompilerError;
 
 public abstract class AbstractComputationModelVisitor implements ComputationModelVisitor
 {

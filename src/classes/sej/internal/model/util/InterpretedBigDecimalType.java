@@ -23,8 +23,8 @@ package sej.internal.model.util;
 import java.math.BigDecimal;
 
 import sej.NumericType;
-import sej.api.expressions.Function;
-import sej.api.expressions.Operator;
+import sej.expressions.Function;
+import sej.expressions.Operator;
 import sej.internal.runtime.RuntimeBigDecimal_v1;
 
 final class InterpretedBigDecimalType extends InterpretedNumericType

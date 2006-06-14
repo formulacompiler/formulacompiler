@@ -22,8 +22,8 @@ package sej.internal.model;
 
 import java.io.IOException;
 
-import sej.api.DescriptionBuilder;
-import sej.api.expressions.ExpressionNode;
+import sej.describable.DescriptionBuilder;
+import sej.expressions.ExpressionNode;
 
 public class ExpressionNodeForParentSectionModel extends ExpressionNodeForSectionModel
 {

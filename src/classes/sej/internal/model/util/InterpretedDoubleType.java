@@ -21,8 +21,8 @@
 package sej.internal.model.util;
 
 import sej.NumericType;
-import sej.api.expressions.Function;
-import sej.api.expressions.Operator;
+import sej.expressions.Function;
+import sej.expressions.Operator;
 import sej.internal.runtime.RuntimeDouble_v1;
 
 final class InterpretedDoubleType extends InterpretedNumericType

@@ -22,9 +22,9 @@ package sej.internal.spreadsheet;
 
 import java.io.IOException;
 
-import sej.api.Describable;
-import sej.api.DescriptionBuilder;
-import sej.api.expressions.ExpressionNode;
+import sej.describable.Describable;
+import sej.describable.DescriptionBuilder;
+import sej.expressions.ExpressionNode;
 
 
 public class CellWithLazilyParsedExpression extends CellInstance

@@ -20,9 +20,9 @@
  */
 package sej.internal.model.optimizer.consteval;
 
-import sej.api.expressions.ExpressionNode;
-import sej.api.expressions.ExpressionNodeForOperator;
-import sej.api.expressions.Operator;
+import sej.expressions.ExpressionNode;
+import sej.expressions.ExpressionNodeForOperator;
+import sej.expressions.Operator;
 import sej.internal.model.util.InterpretedNumericType;
 
 public class EvalOperator extends EvalShadow

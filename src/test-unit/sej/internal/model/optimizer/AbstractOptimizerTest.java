@@ -23,12 +23,12 @@ package sej.internal.model.optimizer;
 import java.math.BigDecimal;
 
 import sej.NumericType;
-import sej.api.expressions.Aggregator;
-import sej.api.expressions.ExpressionNode;
-import sej.api.expressions.ExpressionNodeForAggregator;
-import sej.api.expressions.ExpressionNodeForConstantValue;
-import sej.api.expressions.ExpressionNodeForOperator;
-import sej.api.expressions.Operator;
+import sej.expressions.Aggregator;
+import sej.expressions.ExpressionNode;
+import sej.expressions.ExpressionNodeForAggregator;
+import sej.expressions.ExpressionNodeForConstantValue;
+import sej.expressions.ExpressionNodeForOperator;
+import sej.expressions.Operator;
 import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;
 import sej.internal.model.ExpressionNodeForCellModel;

@@ -2,12 +2,12 @@ package sej.internal.spreadsheet.compiler;
 
 import java.lang.reflect.Method;
 
+import sej.CompilerError;
 import sej.EngineError;
 import sej.NumericType;
 import sej.SaveableEngine;
-import sej.api.CompilerError;
-import sej.api.SpreadsheetBinding;
-import sej.api.SpreadsheetCompiler;
+import sej.SpreadsheetBinding;
+import sej.SpreadsheetCompiler;
 import sej.internal.AbstractEngineCompiler;
 import sej.internal.EngineCompiler;
 import sej.internal.model.ComputationModel;
@@ -26,7 +26,7 @@ public class SpreadsheetCompilerImpl implements SpreadsheetCompiler
 	{
 		super();
 
-		assert _config.binding != null : "Binding must not be null";
+		_config.validate();
 
 		this.binding = _config.binding;
 		this.numericType = _config.numericType;

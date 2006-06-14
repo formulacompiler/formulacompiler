@@ -20,12 +20,12 @@
  */
 package sej.internal.spreadsheet.binder;
 
+import sej.CompilerError;
+import sej.Orientation;
 import sej.SEJ;
-import sej.api.CompilerError;
-import sej.api.Orientation;
-import sej.api.SpreadsheetBinder;
-import sej.api.SpreadsheetBinder.Config;
-import sej.api.SpreadsheetBinder.Section;
+import sej.SpreadsheetBinder;
+import sej.SpreadsheetBinder.Config;
+import sej.SpreadsheetBinder.Section;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellRange;
 import sej.internal.spreadsheet.CellWithLazilyParsedExpression;

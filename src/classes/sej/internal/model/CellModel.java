@@ -26,9 +26,9 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import sej.api.CallFrame;
-import sej.api.DescriptionBuilder;
-import sej.api.expressions.ExpressionNode;
+import sej.CallFrame;
+import sej.describable.DescriptionBuilder;
+import sej.expressions.ExpressionNode;
 
 public class CellModel extends ElementModel
 {

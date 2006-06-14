@@ -20,8 +20,8 @@
  */
 package sej.internal.model.optimizer.consteval;
 
-import sej.api.expressions.ExpressionNode;
-import sej.api.expressions.ExpressionNodeForConstantValue;
+import sej.expressions.ExpressionNode;
+import sej.expressions.ExpressionNodeForConstantValue;
 import sej.internal.model.util.InterpretedNumericType;
 
 public class EvalConstantValue extends EvalShadow

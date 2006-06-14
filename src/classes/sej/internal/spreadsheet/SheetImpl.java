@@ -24,10 +24,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import sej.api.AbstractDescribable;
-import sej.api.DescriptionBuilder;
-import sej.api.Spreadsheet;
-import sej.api.Spreadsheet.Row;
+import sej.Spreadsheet;
+import sej.Spreadsheet.Row;
+import sej.describable.AbstractDescribable;
+import sej.describable.DescriptionBuilder;
 
 
 public class SheetImpl extends AbstractDescribable implements Spreadsheet.Sheet

@@ -5,14 +5,14 @@ import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
 
-import sej.api.CallFrame;
-import sej.api.CompilerError;
-import sej.api.Spreadsheet;
-import sej.api.SpreadsheetBinder;
-import sej.api.SpreadsheetByNameBinder;
-import sej.api.Spreadsheet.Cell;
-import sej.api.Spreadsheet.CellNameDefinition;
-import sej.api.Spreadsheet.NameDefinition;
+import sej.CallFrame;
+import sej.CompilerError;
+import sej.Spreadsheet;
+import sej.SpreadsheetBinder;
+import sej.SpreadsheetByNameBinder;
+import sej.Spreadsheet.Cell;
+import sej.Spreadsheet.CellNameDefinition;
+import sej.Spreadsheet.NameDefinition;
 
 
 /**

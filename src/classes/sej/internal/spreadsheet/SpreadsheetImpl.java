@@ -28,10 +28,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import sej.api.AbstractDescribable;
-import sej.api.DescriptionBuilder;
-import sej.api.Spreadsheet;
-import sej.api.SpreadsheetError;
+import sej.Spreadsheet;
+import sej.SpreadsheetError;
+import sej.describable.AbstractDescribable;
+import sej.describable.DescriptionBuilder;
 
 
 /**

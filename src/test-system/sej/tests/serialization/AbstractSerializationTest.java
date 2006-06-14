@@ -24,12 +24,12 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
+import sej.CallFrame;
 import sej.EngineBuilder;
 import sej.NumericType;
 import sej.SaveableEngine;
-import sej.api.CallFrame;
-import sej.api.Spreadsheet;
-import sej.api.SpreadsheetBinder.Section;
+import sej.Spreadsheet;
+import sej.SpreadsheetBinder.Section;
 import sej.internal.EngineBuilderImpl;
 
 public abstract class AbstractSerializationTest extends AbstractTestBase

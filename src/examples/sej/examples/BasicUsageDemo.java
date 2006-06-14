@@ -20,81 +20,56 @@
  */
 package sej.examples;
 
-import java.io.IOException;
-
-import sej.CallFrame;
-import sej.Compiler;
-import sej.CompilerFactory;
 import sej.Engine;
-import sej.ModelError;
-import sej.Spreadsheet;
-import sej.SpreadsheetLoader;
-import sej.engine.standard.compiler.StandardCompiler;
-import sej.loader.excel.xls.ExcelXLSLoader;
-import sej.loader.excel.xml.ExcelXMLLoader;
+import sej.EngineBuilder;
+import sej.SEJ;
 
 public class BasicUsageDemo
 {
 
-	static {
-		ExcelXLSLoader.register();
-		StandardCompiler.registerAsDefault();
-	}
 
-
-	public static void main( String[] args ) throws IOException, ModelError, NoSuchMethodException
+	public static void main( String[] args ) throws Exception
 	{
 
 		// ---- BasicUsage
 		// ---- Construction
+		// Get an engine builder (represents SEJ's simplified API).
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		
 		// Load and parse the spreadsheet file into memory.
-		Spreadsheet model = SpreadsheetLoader.loadFromFile( "examples/testdata/sej/Test.xls" );
-
-		// Create an engine builder for the loaded spreadsheet file.
-		// Pass to it the input and output types.
-		Compiler compiler = CompilerFactory.newDefaultCompiler( model, Inputs.class, Outputs.class );
-
-		// Define which of the cells will be variable inputs to the engine.
-		// All inputs are bound to a method that will be called to obtain their value.
-		Compiler.Section root = compiler.getRoot();
-		root.defineInputCell( model.getCell( 0, 1, 0 ), new CallFrame( Inputs.class.getMethod( "getA" ) ) );
-		root.defineInputCell( model.getCell( 0, 1, 1 ), new CallFrame( Inputs.class.getMethod( "getB" ) ) );
-
-		// Define which of the cells will be computable outputs of the engine.
-		// Outputs are bound to prototype methods that are implemented by the engine.
-		root.defineOutputCell( model.getCell( 0, 1, 2 ), new CallFrame( Outputs.class.getMethod( "getResult" ) ) );
+		builder.loadSpreadsheet( "src/examples/testdata/sej/Test.xls" );
+		
+		// Set the factory interface to implement. This interface defines the method
+		// Outputs newInstance( Inputs _inputs ), from which SEJ derives the input
+		// and output interfaces.
+		builder.setFactoryClass( Factory.class );
+		
+		// Define which cells will be variable inputs to the engine, and which will be
+		// computable outputs, by cell name. All cells whose name correspond to a method
+		// on the output interface will be outputs, and similarly for inputs.
+		// Inputs are bound to your input methods that will be called to obtain their value.
+		// Outputs are bound to your output methods that are implemented by the engine.
+		builder.bindAllByName();
 
 		// Build an engine for the given spreadsheet, inputs, and outputs.
-		Engine engine = compiler.compileNewEngine();
+		Engine engine = builder.compile();
+		
+		// Get the factory instance from the compiled engine.
+		Factory factory = (Factory) engine.getComputationFactory();
 		// ---- Construction
 
 		// ---- Computation
 		// Compute an actual output value for a given set of actual input values.
+		// This code is not dependent on SEJ. It is a simple instance of the strategy 
+		// pattern.
 		Inputs inputs = new Inputs( 4, 40 );
-		Outputs outputs = (Outputs) engine.newComputation( inputs );
+		Outputs outputs = factory.newInstance( inputs );
 		double result = outputs.getResult();
 		// ---- Computation
 
 		System.out.printf( "Result is: %f", result );
 		// ---- BasicUsage
 
-	}
-
-
-	public static void samples() throws IOException
-	{
-		// ---- LoaderRegistry
-		// Register the Microsoft Excel loaders.
-		ExcelXLSLoader.register();
-		ExcelXMLLoader.register();
-
-		// Load and parse the spreadsheet files into memory.
-		Spreadsheet model1 = SpreadsheetLoader.loadFromFile( "Test.xls" );
-		Spreadsheet model2 = SpreadsheetLoader.loadFromFile( "Test.xml" );
-		// ---- LoaderRegistry
-
-		if (model1 == model2)
-		; // skip warnings
 	}
 
 
