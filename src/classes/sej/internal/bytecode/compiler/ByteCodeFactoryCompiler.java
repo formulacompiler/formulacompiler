@@ -80,7 +80,7 @@ final class ByteCodeFactoryCompiler extends ByteCodeClassCompiler
 
 	private void buildComputationFactoryMethod()
 	{
-		final GeneratorAdapter mv = newMethod( "newInstance", "(Ljava/lang/Object;)Lsej/Computation;" );
+		final GeneratorAdapter mv = newMethod( "newInstance", "(Ljava/lang/Object;)" + ByteCodeEngineCompiler.COMPUTATION_INTF.getDescriptor() );
 		mv.newInstance( ByteCodeSectionCompiler.engine );
 		mv.dup();
 		mv.loadArg( 0 );
