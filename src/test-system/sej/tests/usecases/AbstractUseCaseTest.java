@@ -20,47 +20,26 @@
  */
 package sej.tests.usecases;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-
-import sej.Compiler;
-import sej.CompilerFactory;
 import sej.Engine;
-import sej.ModelError;
-import sej.Settings;
-import sej.Spreadsheet;
-import sej.SpreadsheetLoader;
-import sej.engine.standard.compiler.StandardCompiler;
-import sej.loader.excel.xls.ExcelXLSLoader;
-import sej.loader.excel.xml.ExcelXMLLoader;
+import sej.EngineBuilder;
+import sej.api.Spreadsheet;
+import sej.api.SpreadsheetBinder;
+import sej.internal.EngineBuilderImpl;
 import junit.framework.TestCase;
 
 abstract class AbstractUseCaseTest extends TestCase
 {
 
 
-	static {
-		Settings.setDebugLogEnabled( true );
-		ExcelXLSLoader.register();
-		ExcelXMLLoader.register();
-		StandardCompiler.registerAsDefault();
-	}
-
-
 	protected interface UseCase
 	{
-
-		public void defineEngine( Spreadsheet _model, Compiler.Section _root ) throws ModelError, SecurityException,
-				NoSuchMethodException;
-
-
-		public void useEngine( Engine _engine ) throws InvocationTargetException;
-
+		public void defineEngine( Spreadsheet _model, SpreadsheetBinder.Section _root ) throws Exception;
+		public void useEngine( Engine _engine ) throws Exception;
 	}
 
 
 	protected final void runUseCase( String _sheetFileName, UseCase _useCase, Class _inputs, Class _outputs )
-			throws IOException, ModelError, SecurityException, NoSuchMethodException, InvocationTargetException
+			throws Exception
 	{
 		runUseCase( _sheetFileName, _useCase, ".xls", _inputs, _outputs );
 		// runUseCase( _sheetFileName, _useCase, ".xml" );
@@ -68,21 +47,20 @@ abstract class AbstractUseCaseTest extends TestCase
 
 
 	private final void runUseCase( String _sheetFileName, UseCase _useCase, String _extension, Class _inputs,
-			Class _outputs ) throws IOException, ModelError, SecurityException, NoSuchMethodException,
-			InvocationTargetException
+			Class _outputs ) throws Exception
 	{
-		Spreadsheet model = SpreadsheetLoader.loadFromFile( "src/test-system/testdata/sej/usecases/"
-				+ _sheetFileName + _extension );
-		assertNotNull( "Model is null", model );
-		runUseCase( model, _useCase, CompilerFactory.newDefaultCompiler( model, _inputs, _outputs ) );
+		EngineBuilder builder = new EngineBuilderImpl();
+		builder.loadSpreadsheet( "src/test-system/testdata/sej/usecases/" + _sheetFileName + _extension );
+		builder.setInputClass( _inputs );
+		builder.setOutputClass( _outputs );
+		runUseCase( _useCase, builder );
 	}
 
 
-	private final void runUseCase( Spreadsheet _model, UseCase _useCase, Compiler _compiler ) throws ModelError,
-			SecurityException, NoSuchMethodException, InvocationTargetException
+	private final void runUseCase( UseCase _useCase, EngineBuilder _builder ) throws Exception
 	{
-		_useCase.defineEngine( _model, _compiler.getRoot() );
-		Engine engine = _compiler.compileNewEngine();
+		_useCase.defineEngine( _builder.getSpreadsheet(), _builder.getRootBinder() );
+		Engine engine = _builder.compile();
 		_useCase.useEngine( engine );
 	}
 

@@ -20,8 +20,6 @@
  */
 package sej.tests.usecases;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,18 +27,16 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-import sej.CallFrame;
 import sej.Engine;
-import sej.ModelError;
-import sej.Spreadsheet;
-import sej.Compiler;
+import sej.api.CallFrame;
+import sej.api.Spreadsheet;
+import sej.api.SpreadsheetBinder;
 
 
 public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 {
 
-	public void testLotsOfPossibleInputs() throws IOException, ModelError, SecurityException, NoSuchMethodException,
-			InvocationTargetException
+	public void testLotsOfPossibleInputs() throws Exception
 	{
 		runUseCase( "LotsOfPossibleInputs1", new LotsOfPossibleInputsUseCase(), Inputs.class, Outputs.class );
 	}
@@ -50,8 +46,7 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 	{
 
 
-		public void defineEngine( Spreadsheet _model, Compiler.Section _root ) throws ModelError, SecurityException,
-				NoSuchMethodException
+		public void defineEngine( Spreadsheet _model, SpreadsheetBinder.Section _root ) throws Exception
 		{
 			final Class inputs = Inputs.class;
 			final Method[] methods = inputs.getMethods();
@@ -87,7 +82,7 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 		public void useEngine( Engine _engine )
 		{
 			final Inputs inputs = new Inputs( 13, 14 );
-			final Outputs outputs = (Outputs) _engine.newComputation( inputs );
+			final Outputs outputs = (Outputs) _engine.getComputationFactory().newInstance( inputs );
 
 			assertEquals( true, outputs.isOK() );
 			assertEquals( 127, outputs.getA(), 0.0001 );

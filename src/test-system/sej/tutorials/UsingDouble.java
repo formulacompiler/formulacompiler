@@ -30,7 +30,7 @@ import sej.NumericType;
 import sej.Spreadsheet;
 import sej.SpreadsheetLoader;
 import sej.engine.bytecode.compiler.ByteCodeCompiler;
-import sej.loader.excel.xls.ExcelXLSLoader;
+import sej.spreadsheet.loader.excel.xls.ExcelXLSLoader;
 import junit.framework.TestCase;
 
 public class UsingDouble extends TestCase
@@ -50,7 +50,7 @@ public class UsingDouble extends TestCase
 		Spreadsheet sheet = SpreadsheetLoader.loadFromFile( path );
 		Class inp = Input.class;
 		Class outp = Output.class;
-		NumericType type = /* hl */NumericType.DOUBLE/* hl */;
+		NumericType type = /**/NumericType.DOUBLE/**/;
 		Compiler compiler = CompilerFactory.newDefaultCompiler( sheet, inp, outp, type );
 		// ---- buildCompiler
 
@@ -75,7 +75,7 @@ public class UsingDouble extends TestCase
 		// ---- checkResult
 		Input i = new Input();
 		Output o = (Output) engine.newComputation( i );
-		assertEquals( /* hl */"0.16666666666666666"/* hl */, String.valueOf( o.getResult()) );
+		assertEquals( /**/"0.16666666666666666"/**/, String.valueOf( o.getResult()) );
 		// ---- checkResult
 	}
 
@@ -83,13 +83,13 @@ public class UsingDouble extends TestCase
 	// ---- IO
 	public static class Input
 	{
-		public /* hl */double/* hl */ getA() { return 1.0; }
-		public /* hl */double/* hl */ getB() { return 6.0; }
+		public /**/double/**/ getA() { return 1.0; }
+		public /**/double/**/ getB() { return 6.0; }
 	}
 
 	public static interface Output
 	{
-		/* hl */double/* hl */ getResult();
+		/**/double/**/ getResult();
 	}
 	// ---- IO
 

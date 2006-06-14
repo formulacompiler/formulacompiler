@@ -20,14 +20,9 @@
  */
 package sej.tests.serialization;
 
-import sej.engine.standard.StandardEngineFactory;
 
 public abstract class AbstractDeserializationTest extends AbstractTestBase
 {
-
-	static {
-		StandardEngineFactory.register();
-	}
 	
 	public void testDeserialization() throws Exception
 	{

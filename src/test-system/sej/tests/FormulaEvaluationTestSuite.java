@@ -20,29 +20,26 @@
  */
 package sej.tests;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import sej.CallFrame;
-import sej.Compiler;
 import sej.Engine;
-import sej.ModelError;
 import sej.NumericType;
-import sej.Resettable;
-import sej.Settings;
-import sej.SpreadsheetLoader;
-import sej.engine.bytecode.compiler.ByteCodeCompiler;
-import sej.engine.standard.compiler.StandardCompiler;
-import sej.expressions.ExpressionNode;
-import sej.loader.excel.xls.ExcelXLSLoader;
-import sej.loader.excel.xml.ExcelXMLLoader;
-import sej.model.CellIndex;
-import sej.model.CellInstance;
-import sej.model.Reference;
-import sej.model.Row;
-import sej.model.Sheet;
-import sej.model.Workbook;
+import sej.SEJ;
+import sej.api.CallFrame;
+import sej.api.Resettable;
+import sej.api.SpreadsheetBinder;
+import sej.api.expressions.ExpressionNode;
+import sej.internal.Settings;
+import sej.internal.spreadsheet.CellImpl;
+import sej.internal.spreadsheet.CellIndex;
+import sej.internal.spreadsheet.CellInstance;
+import sej.internal.spreadsheet.Reference;
+import sej.internal.spreadsheet.RowImpl;
+import sej.internal.spreadsheet.SheetImpl;
+import sej.internal.spreadsheet.SpreadsheetImpl;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
@@ -57,14 +54,6 @@ public class FormulaEvaluationTestSuite extends TestSuite
 	private static final int FIRST_INPUT_COL = 4;
 
 
-	static {
-		Settings.setDebugLogEnabled( true );
-		ExcelXLSLoader.register();
-		ExcelXMLLoader.register();
-		StandardCompiler.registerAsDefault();
-	}
-
-
 	public FormulaEvaluationTestSuite()
 	{
 		addTestsIn( "Tests.xls" );
@@ -74,9 +63,9 @@ public class FormulaEvaluationTestSuite extends TestSuite
 
 	private void addTestsIn( String _fileName )
 	{
-		Workbook workbook;
+		SpreadsheetImpl workbook;
 		try {
-			workbook = (Workbook) SpreadsheetLoader.loadFromFile( "src/test-system/testdata/sej/" + _fileName );
+			workbook = (SpreadsheetImpl) SEJ.loadSpreadsheet( new File( "src/test-system/testdata/sej/" + _fileName ) );
 		}
 		catch (Exception e) {
 			e.fillInStackTrace();
@@ -96,9 +85,9 @@ public class FormulaEvaluationTestSuite extends TestSuite
 			fileSuite.addTest( new DoubleTestCase( workbook, debugFormulaRow, debugRow, true, false ) );
 		}
 		else {
-			Sheet sheet = workbook.getSheets().get( 0 );
-			for (int iRow = FIRST_TEST_ROW; iRow < sheet.getRows().size(); iRow++) {
-				Row row = sheet.getRows().get( iRow );
+			SheetImpl sheet = workbook.getSheetList().get( 0 );
+			for (int iRow = FIRST_TEST_ROW; iRow < sheet.getRowList().size(); iRow++) {
+				RowImpl row = sheet.getRowList().get( iRow );
 				if (isRowEmpty( row )) {
 					formulaRow = -1;
 				}
@@ -125,14 +114,15 @@ public class FormulaEvaluationTestSuite extends TestSuite
 	}
 
 
-	private void addTests( TestSuite _suite, Workbook _workbook, int _formulaRow, int _valueRow, boolean _useInputs )
+	private void addTests( TestSuite _suite, SpreadsheetImpl _workbook, int _formulaRow, int _valueRow,
+			boolean _useInputs )
 	{
 		addTests( _suite, _workbook, _formulaRow, _valueRow, _useInputs, false );
 		addTests( _suite, _workbook, _formulaRow, _valueRow, _useInputs, true );
 	}
 
-	private void addTests( TestSuite _suite, Workbook _workbook, int _formulaRow, int _valueRow, boolean _useInputs,
-			boolean _cachingEnabled )
+	private void addTests( TestSuite _suite, SpreadsheetImpl _workbook, int _formulaRow, int _valueRow,
+			boolean _useInputs, boolean _cachingEnabled )
 	{
 		_suite.addTest( new DoubleTestCase( _workbook, _formulaRow, _valueRow, _useInputs, _cachingEnabled ) );
 		_suite.addTest( new BigDecimalTestCase( _workbook, _formulaRow, _valueRow, _useInputs, _cachingEnabled ) );
@@ -140,15 +130,15 @@ public class FormulaEvaluationTestSuite extends TestSuite
 	}
 
 
-	private boolean isRowEmpty( Row _row )
+	private boolean isRowEmpty( RowImpl _row )
 	{
 		return isRowEmptyStartingWith( _row, 0 );
 	}
 
-	private boolean isRowEmptyStartingWith( Row _row, int _col )
+	private boolean isRowEmptyStartingWith( RowImpl _row, int _col )
 	{
 		if (null == _row) return true;
-		final List<CellInstance> cells = _row.getCells();
+		final List<CellInstance> cells = _row.getCellList();
 		final int size = cells.size();
 		if (size <= _col) return true;
 		for (int i = _col; i < size; i++) {
@@ -161,7 +151,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 	}
 
 
-	private int getNamedRow( Workbook _workbook, String _name )
+	private int getNamedRow( SpreadsheetImpl _workbook, String _name )
 	{
 		Reference namedRef = _workbook.getNameMap().get( _name );
 		if (namedRef instanceof CellIndex) {
@@ -180,26 +170,27 @@ public class FormulaEvaluationTestSuite extends TestSuite
 
 	private static abstract class FormulaEvaluationTestCase extends TestCase
 	{
-		Workbook workbook;
-		Row formulaRow, inputRow;
+		SpreadsheetImpl workbook;
+		RowImpl formulaRow, inputRow;
 		NumericType numericType;
 		boolean useInputs;
 		boolean cachingEnabled;
+		Object expected;
 
 
-		public FormulaEvaluationTestCase(Workbook _workbook, int _formulaRow, int _inputRow, boolean _useInputs,
+		public FormulaEvaluationTestCase(SpreadsheetImpl _workbook, int _formulaRow, int _inputRow, boolean _useInputs,
 				boolean _cachingEnabled, NumericType _numericType)
 		{
 			super( null );
-			Sheet sheet = _workbook.getSheets().get( 0 );
+			SheetImpl sheet = _workbook.getSheetList().get( 0 );
 			this.workbook = _workbook;
-			this.formulaRow = sheet.getRows().get( _formulaRow );
-			this.inputRow = sheet.getRows().get( _inputRow );
+			this.formulaRow = sheet.getRowList().get( _formulaRow );
+			this.inputRow = sheet.getRowList().get( _inputRow );
 			this.useInputs = _useInputs;
 			this.cachingEnabled = _cachingEnabled;
 			this.numericType = _numericType;
 
-			CellInstance cell = this.formulaRow.getCells().get( 2 );
+			CellInstance cell = this.formulaRow.getCellList().get( 2 );
 			ExpressionNode expr = cell.getExpression();
 			String name = "R" + (_inputRow + 1);
 			if (null != expr) {
@@ -221,8 +212,8 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		}
 
 
-		protected abstract Class getInputs();
-		protected abstract Class getOutputs();
+		protected abstract Class getInputClass();
+		protected abstract Class getOutputClass();
 		protected abstract Inputs newInputs( int _input );
 		protected abstract void assertNumber( double _expected, Object _computation );
 
@@ -230,22 +221,23 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		@Override
 		protected void runTest() throws Throwable
 		{
-			final Class outputs = getOutputs();
-			if (this.useInputs) {
-				assertEquals( this.cachingEnabled, Resettable.class.isAssignableFrom( outputs ) );
-				runUsing( new ByteCodeCompiler( this.workbook, getInputs(), outputs, this.numericType ) );
-			}
-			else {
-				runUsing( new ByteCodeCompiler( this.workbook, null, outputs, this.numericType ) );
-			}
+			final Class inputClass = getInputClass();
+			final Class outputClass = getOutputClass();
+			assertEquals( this.cachingEnabled, Resettable.class.isAssignableFrom( outputClass ) );
+
+			final SpreadsheetBinder binder = SEJ.newSpreadsheetBinder( this.workbook, inputClass, outputClass );
+
+			Inputs inputs = setupBinder( binder );
+
+			runUsing( SEJ.compileEngine( binder.getBinding(), this.numericType ), inputs );
 		}
 
 
-		private void runUsing( Compiler _compiler ) throws ModelError, SecurityException, NoSuchMethodException
+		private Inputs setupBinder( SpreadsheetBinder _binder ) throws Exception
 		{
-			final Compiler.Section root = _compiler.getRoot();
+			final SpreadsheetBinder.Section root = _binder.getRoot();
 			final CellInstance outputCell = this.formulaRow.getCellOrNull( ACTUAL_COL );
-			final Object expected = this.inputRow.getCellOrNull( EXPECTED_COL ).getValue();
+			this.expected = this.inputRow.getCellOrNull( EXPECTED_COL ).getValue();
 
 			if (null != outputCell.getExpression()) {
 				if (Settings.isDebugLogEnabled()) {
@@ -254,10 +246,10 @@ public class FormulaEvaluationTestSuite extends TestSuite
 				}
 			}
 
-			if (expected instanceof Double) root.defineOutputCell( outputCell.getCellIndex(), new CallFrame( getOutputs()
-					.getMethod( "getNumber" ) ) );
-			else if (expected instanceof Date) root.defineOutputCell( outputCell.getCellIndex(), new CallFrame(
-					getOutputs().getMethod( "getDate" ) ) );
+			if (this.expected instanceof Double) root.defineOutputCell( outputCell.getCellImpl(), new CallFrame(
+					getOutputClass().getMethod( "getNumber" ) ) );
+			else if (this.expected instanceof Date) root.defineOutputCell( outputCell.getCellImpl(), new CallFrame(
+					getOutputClass().getMethod( "getDate" ) ) );
 			else fail( "Output cell type not supported" );
 
 			Inputs inputs = null;
@@ -269,23 +261,24 @@ public class FormulaEvaluationTestSuite extends TestSuite
 					final int iCell = iInput + FIRST_INPUT_COL;
 					final CellInstance inputValueCell = this.inputRow.getCellOrNull( iCell );
 					if (null == inputValueCell || null == inputValueCell.getExpression()) {
-						final CellIndex inputReferenceCellIndex = this.formulaRow.getCellIndex( iCell );
+						final CellImpl inputReferenceCellIndex = new CellImpl( this.workbook, this.formulaRow
+								.getCellIndex( iCell ) );
 						final Object inputValue = (null == inputValueCell) ? null : inputValueCell.getValue();
 						if (null == inputValue) {
-							root.defineInputCell( inputReferenceCellIndex, new CallFrame( getInputs().getMethod( "getNumber",
-									new Class[] { Integer.TYPE } ), iInput ) );
+							root.defineInputCell( inputReferenceCellIndex, new CallFrame( getInputClass().getMethod(
+									"getNumber", new Class[] { Integer.TYPE } ), iInput ) );
 						}
 						else if (inputValue instanceof Double) {
-							root.defineInputCell( inputReferenceCellIndex, new CallFrame( getInputs().getMethod( "getNumber",
-									new Class[] { Integer.TYPE } ), iInput ) );
+							root.defineInputCell( inputReferenceCellIndex, new CallFrame( getInputClass().getMethod(
+									"getNumber", new Class[] { Integer.TYPE } ), iInput ) );
 						}
 						else if (inputValue instanceof Date) {
-							root.defineInputCell( inputReferenceCellIndex, new CallFrame( getInputs().getMethod( "getDate",
-									new Class[] { Integer.TYPE } ), iInput ) );
+							root.defineInputCell( inputReferenceCellIndex, new CallFrame( getInputClass().getMethod(
+									"getDate", new Class[] { Integer.TYPE } ), iInput ) );
 						}
 						else if (inputValue instanceof Boolean) {
-							root.defineInputCell( inputReferenceCellIndex, new CallFrame( getInputs().getMethod( "getBoolean",
-									new Class[] { Integer.TYPE } ), iInput ) );
+							root.defineInputCell( inputReferenceCellIndex, new CallFrame( getInputClass().getMethod(
+									"getBoolean", new Class[] { Integer.TYPE } ), iInput ) );
 						}
 						else {
 							fail( "Input cell type not supported" );
@@ -295,16 +288,21 @@ public class FormulaEvaluationTestSuite extends TestSuite
 				}
 			}
 
-			try {
-				final Engine engine = _compiler.compileNewEngine();
-				final Outputs computation = (Outputs) engine.newComputation( inputs );
+			return inputs;
+		}
 
-				if (expected instanceof Double) {
-					assertNumber( (Double) expected, computation );
+
+		private void runUsing( Engine _engine, Inputs _inputs ) throws Exception
+		{
+			try {
+				final Outputs computation = (Outputs) _engine.getComputationFactory().newInstance( _inputs );
+
+				if (this.expected instanceof Double) {
+					assertNumber( (Double) this.expected, computation );
 				}
-				else if (expected instanceof Date) {
+				else if (this.expected instanceof Date) {
 					final Date actual = computation.getDate();
-					assertEquals( expected, actual );
+					assertEquals( this.expected, actual );
 				}
 				else fail( "Output comparison not implemented" );
 
@@ -365,32 +363,35 @@ public class FormulaEvaluationTestSuite extends TestSuite
 			}
 
 		}
-		
-		public static interface Outputs
+
+		public static class Outputs
 		{
-			Date getDate();
+			Date getDate()
+			{
+				throw new AbstractMethodError( "getDate()" );
+			}
 		}
-		
+
 	}
 
 
 	private static class DoubleTestCase extends FormulaEvaluationTestCase
 	{
 
-		public DoubleTestCase(Workbook _workbook, int _formulaRow, int _inputRow, boolean _useInputs,
+		public DoubleTestCase(SpreadsheetImpl _workbook, int _formulaRow, int _inputRow, boolean _useInputs,
 				boolean _cachingEnabled)
 		{
 			super( _workbook, _formulaRow, _inputRow, _useInputs, _cachingEnabled, NumericType.DOUBLE );
 		}
 
 		@Override
-		protected Class getInputs()
+		protected Class getInputClass()
 		{
 			return Inputs.class;
 		}
 
 		@Override
-		protected Class getOutputs()
+		protected Class getOutputClass()
 		{
 			if (this.cachingEnabled) return CachingOutputs.class;
 			return Outputs.class;
@@ -425,12 +426,15 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		}
 
 
-		public static interface Outputs extends FormulaEvaluationTestCase.Outputs
+		public static class Outputs extends FormulaEvaluationTestCase.Outputs
 		{
-			double getNumber();
+			public double getNumber()
+			{
+				throw new AbstractMethodError( "getNumber()" );
+			}
 		}
 
-		public static interface CachingOutputs extends Outputs, Resettable
+		public static abstract class CachingOutputs extends Outputs implements Resettable
 		{
 			// Nothing new here.
 		}
@@ -441,7 +445,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 	private static class BigDecimalTestCase extends FormulaEvaluationTestCase
 	{
 
-		public BigDecimalTestCase(Workbook _workbook, int _formulaRow, int _inputRow, boolean _useInputs,
+		public BigDecimalTestCase(SpreadsheetImpl _workbook, int _formulaRow, int _inputRow, boolean _useInputs,
 				boolean _cachingEnabled)
 		{
 			// Use BigDecimal9 here so it is compatible with Excel's double.
@@ -449,13 +453,13 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		}
 
 		@Override
-		protected Class getInputs()
+		protected Class getInputClass()
 		{
 			return Inputs.class;
 		}
 
 		@Override
-		protected Class getOutputs()
+		protected Class getOutputClass()
 		{
 			if (this.cachingEnabled) return CachingOutputs.class;
 			return Outputs.class;
@@ -495,12 +499,15 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		}
 
 
-		public static interface Outputs extends FormulaEvaluationTestCase.Outputs
+		public static class Outputs extends FormulaEvaluationTestCase.Outputs
 		{
-			BigDecimal getNumber();
+			public BigDecimal getNumber()
+			{
+				throw new AbstractMethodError( "getNumber()" );
+			}
 		}
 
-		public static interface CachingOutputs extends Outputs, Resettable
+		public static abstract class CachingOutputs extends Outputs implements Resettable
 		{
 			// Nothing new here.
 		}
@@ -511,20 +518,20 @@ public class FormulaEvaluationTestSuite extends TestSuite
 	private static class ScaledLongTestCase extends FormulaEvaluationTestCase
 	{
 
-		public ScaledLongTestCase(Workbook _workbook, int _formulaRow, int _inputRow, boolean _useInputs,
+		public ScaledLongTestCase(SpreadsheetImpl _workbook, int _formulaRow, int _inputRow, boolean _useInputs,
 				boolean _cachingEnabled)
 		{
 			super( _workbook, _formulaRow, _inputRow, _useInputs, _cachingEnabled, NumericType.LONG4 );
 		}
 
 		@Override
-		protected Class getInputs()
+		protected Class getInputClass()
 		{
 			return Inputs.class;
 		}
 
 		@Override
-		protected Class getOutputs()
+		protected Class getOutputClass()
 		{
 			if (this.cachingEnabled) return CachingOutputs.class;
 			return Outputs.class;
@@ -560,12 +567,15 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		}
 
 
-		public static interface Outputs extends FormulaEvaluationTestCase.Outputs
+		public static class Outputs extends FormulaEvaluationTestCase.Outputs
 		{
-			long getNumber();
+			public long getNumber()
+			{
+				throw new AbstractMethodError( "getNumber()" );
+			}
 		}
 
-		public static interface CachingOutputs extends Outputs, Resettable
+		public static abstract class CachingOutputs extends Outputs implements Resettable
 		{
 			// Nothing new here.
 		}

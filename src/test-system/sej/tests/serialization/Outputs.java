@@ -24,11 +24,22 @@ import java.math.BigDecimal;
 
 // ---- Outputs
 
-public interface Outputs
+public class Outputs
 {
-	double getResult();
-	long getResult_Long4();
-	BigDecimal getResult_Big();
+	public double getResult()
+	{
+		throw new AbstractMethodError( "getResult" );
+	}
+	
+	public long getResult_Long4()
+	{
+		throw new AbstractMethodError( "getResult_Long4" );
+	}
+	
+	public BigDecimal getResult_Big()
+	{
+		throw new AbstractMethodError( "getResult_Big" );
+	}
 }
 
 // ---- Outputs
