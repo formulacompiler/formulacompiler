@@ -20,6 +20,7 @@
  */
 package sej.api;
 
+import sej.describable.DescriptionBuilder;
 import junit.framework.TestCase;
 
 public class DescriptionTest extends TestCase

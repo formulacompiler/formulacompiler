@@ -20,7 +20,7 @@
  */
 package sej.internal.spreadsheet.binding;
 
-import sej.api.CompilerError;
+import sej.CompilerError;
 import sej.internal.spreadsheet.Reference;
 
 public class ElementBinding

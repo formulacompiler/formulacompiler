@@ -1,9 +1,9 @@
 package sej.internal.spreadsheet.namer;
 
-import sej.api.Spreadsheet;
-import sej.api.SpreadsheetNameCreator;
-import sej.api.Spreadsheet.Cell;
-import sej.api.Spreadsheet.Sheet;
+import sej.Spreadsheet;
+import sej.SpreadsheetNameCreator;
+import sej.Spreadsheet.Cell;
+import sej.Spreadsheet.Sheet;
 
 public final class SpreadsheetNameCreatorImpl implements SpreadsheetNameCreator
 {

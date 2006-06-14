@@ -26,12 +26,12 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import sej.api.CallFrame;
-import sej.api.CompilerError;
-import sej.api.Orientation;
-import sej.api.Resettable;
-import sej.api.Spreadsheet;
-import sej.api.Util;
+import sej.CallFrame;
+import sej.CompilerError;
+import sej.Orientation;
+import sej.Resettable;
+import sej.Spreadsheet;
+import sej.internal.Util;
 import sej.internal.spreadsheet.CellImpl;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellRange;

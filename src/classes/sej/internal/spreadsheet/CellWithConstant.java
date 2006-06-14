@@ -20,8 +20,8 @@
  */
 package sej.internal.spreadsheet;
 
-import sej.api.DescriptionBuilder;
-import sej.api.expressions.ExpressionNode;
+import sej.describable.DescriptionBuilder;
+import sej.expressions.ExpressionNode;
 
 
 public class CellWithConstant extends CellInstance

@@ -10,7 +10,7 @@ import java.util.zip.ZipInputStream;
 
 import sej.Engine;
 import sej.EngineError;
-import sej.api.EngineLoader;
+import sej.internal.EngineLoader;
 
 public final class ByteCodeEngineLoader implements EngineLoader
 {

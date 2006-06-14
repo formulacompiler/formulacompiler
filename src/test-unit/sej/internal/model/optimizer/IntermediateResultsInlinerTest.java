@@ -20,8 +20,8 @@
  */
 package sej.internal.model.optimizer;
 
+import sej.CompilerError;
 import sej.NumericType;
-import sej.api.CompilerError;
 import sej.internal.model.CellModel;
 
 public class IntermediateResultsInlinerTest extends AbstractOptimizerTest

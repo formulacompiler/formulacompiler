@@ -20,7 +20,7 @@
  */
 package sej.internal.model.optimizer.consteval;
 
-import sej.api.expressions.ExpressionNode;
+import sej.expressions.ExpressionNode;
 
 public class EvalNonFoldable extends EvalShadow
 {

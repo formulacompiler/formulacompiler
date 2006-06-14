@@ -22,9 +22,9 @@ package sej.internal.spreadsheet.loader.excel;
 
 import java.io.StringReader;
 
-import sej.api.CompilerError;
-import sej.api.SpreadsheetError;
-import sej.api.expressions.ExpressionNode;
+import sej.CompilerError;
+import sej.SpreadsheetError;
+import sej.expressions.ExpressionNode;
 import sej.internal.Settings;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;

@@ -8,17 +8,9 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 
-import sej.api.CompilerError;
-import sej.api.Spreadsheet;
-import sej.api.SpreadsheetBinder;
-import sej.api.SpreadsheetBinding;
-import sej.api.SpreadsheetBuilder;
-import sej.api.SpreadsheetByNameBinder;
-import sej.api.SpreadsheetCompiler;
-import sej.api.SpreadsheetError;
-import sej.api.SpreadsheetNameCreator;
 import sej.internal.EngineBuilderImpl;
 import sej.internal.NumericTypeImpl;
+import sej.internal.Util;
 import sej.internal.bytecode.compiler.ByteCodeEngineCompiler;
 import sej.internal.spreadsheet.binder.SpreadsheetBinderImpl;
 import sej.internal.spreadsheet.binder.SpreadsheetByNameBinderImpl;
@@ -152,6 +144,40 @@ public class SEJ extends SEJRuntime
 	public static NumericType getNumericType( Class _valueType, int _scale )
 	{
 		return getNumericType( _valueType, _scale, BigDecimal.ROUND_DOWN );
+	}
+
+
+	// ------------------------------------------------ Util access for config records
+
+	
+	static void validateIsAccessible( Class _class, String _role )
+	{
+		Util.validateIsAccessible( _class, _role );
+	}
+
+	static void validateIsAccessible( Method _method, String _role )
+	{
+		Util.validateIsAccessible( _method, _role );
+	}
+
+	static void validateIsImplementable( Class _class, String _role )
+	{
+		Util.validateIsImplementable( _class, _role );
+	}
+
+	static void validateIsImplementable( Method _method, String _role )
+	{
+		Util.validateIsImplementable( _method, _role );
+	}
+
+	static void validateCallable( Class _class, Method _method )
+	{
+		Util.validateCallable( _class, _method );
+	}
+
+	static void validateFactory( Class _factoryClass, Method _factoryMethod, Class _inputClass, Class _outputClass )
+	{
+		Util.validateFactory( _factoryClass, _factoryMethod, _inputClass, _outputClass );
 	}
 
 }

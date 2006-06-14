@@ -24,9 +24,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import sej.CompilerError;
 import sej.NumericType;
-import sej.api.CompilerError;
-import sej.api.SpreadsheetBinding;
+import sej.SpreadsheetBinding;
 import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;
 import sej.internal.model.SectionModel;

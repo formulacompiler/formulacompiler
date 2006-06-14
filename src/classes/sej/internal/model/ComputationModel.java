@@ -22,9 +22,9 @@ package sej.internal.model;
 
 import java.io.IOException;
 
-import sej.api.AbstractDescribable;
-import sej.api.CompilerError;
-import sej.api.DescriptionBuilder;
+import sej.CompilerError;
+import sej.describable.AbstractDescribable;
+import sej.describable.DescriptionBuilder;
 
 public class ComputationModel extends AbstractDescribable
 {

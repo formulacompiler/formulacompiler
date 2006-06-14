@@ -23,8 +23,8 @@ package sej.internal.bytecode.compiler;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import sej.api.CallFrame;
-import sej.api.CompilerError;
+import sej.CallFrame;
+import sej.CompilerError;
 import sej.internal.model.CellModel;
 
 

@@ -27,10 +27,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.StringTokenizer;
 
+import sej.CallFrame;
 import sej.Engine;
-import sej.api.CallFrame;
-import sej.api.Spreadsheet;
-import sej.api.SpreadsheetBinder;
+import sej.Spreadsheet;
+import sej.SpreadsheetBinder;
 
 
 public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest

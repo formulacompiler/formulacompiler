@@ -20,7 +20,7 @@
  */
 package sej.internal.spreadsheet.binding;
 
-import sej.api.CompilerError;
+import sej.CompilerError;
 import sej.internal.spreadsheet.CellIndex;
 
 public class CellBinding extends ElementBinding

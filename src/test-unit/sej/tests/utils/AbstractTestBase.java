@@ -20,7 +20,7 @@
  */
 package sej.tests.utils;
 
-import sej.api.CallFrame;
+import sej.CallFrame;
 import junit.framework.TestCase;
 
 public abstract class AbstractTestBase extends TestCase

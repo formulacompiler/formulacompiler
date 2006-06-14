@@ -20,7 +20,7 @@
  */
 package sej.internal.model.optimizer;
 
-import sej.api.expressions.ExpressionNode;
+import sej.expressions.ExpressionNode;
 import sej.internal.model.AbstractComputationModelVisitor;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;

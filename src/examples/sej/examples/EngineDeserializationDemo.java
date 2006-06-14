@@ -20,14 +20,13 @@
  */
 package sej.examples;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 import sej.Engine;
-import sej.EngineFactory;
-import sej.engine.standard.StandardEngineFactory;
+import sej.SEJRuntime;
 
 /**
  * Shows how an engine serialized by a 1.5 configuration application can be loaded into and used by
@@ -38,25 +37,20 @@ import sej.engine.standard.StandardEngineFactory;
 public class EngineDeserializationDemo
 {
 
-	static {
-		StandardEngineFactory.register();
-	}
-
-
-	public static void main( String[] args ) throws IOException, ClassNotFoundException, InstantiationException,
-			IllegalAccessException
+	public static void main( String[] args ) throws Exception
 	{
 		// Instantiate an engine from the serialized form.
-		File engineSerializationFile = new File( "/temp/Engine.ser" );
-		InputStream inStream = new FileInputStream( engineSerializationFile );
-		Engine engine = EngineFactory.loadFrom( inStream );
+		File engineSerializationFile = new File( "/temp/Engine.jar" );
+		InputStream inStream = new BufferedInputStream( new FileInputStream( engineSerializationFile ) );
+		Engine loadedEngine = SEJRuntime.loadEngine( inStream );
+		Factory factory = (Factory) loadedEngine.getComputationFactory();
 
 		// Compute an actual output value for a given set of actual input values.
 		Inputs inputs = new Inputs( 4, 40 );
-		Outputs outputs = (Outputs) engine.newComputation( inputs );
+		Outputs outputs = factory.newInstance( inputs );
 		double result = outputs.getResult();
 
-		System.out.printf( "Result is: %f", new Object[] { result } );
+		System.out.printf( "Result is: %f", result );
 	}
 
 }

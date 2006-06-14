@@ -22,8 +22,8 @@ package sej.tests.usecases;
 
 import sej.Engine;
 import sej.EngineBuilder;
-import sej.api.Spreadsheet;
-import sej.api.SpreadsheetBinder;
+import sej.Spreadsheet;
+import sej.SpreadsheetBinder;
 import sej.internal.EngineBuilderImpl;
 import junit.framework.TestCase;
 

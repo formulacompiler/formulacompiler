@@ -22,10 +22,10 @@ package sej.internal.model;
 
 import java.io.IOException;
 
-import sej.api.DescriptionBuilder;
-import sej.api.expressions.Aggregator;
-import sej.api.expressions.ExpressionNode;
-import sej.api.expressions.ExpressionNodeForAggregator;
+import sej.describable.DescriptionBuilder;
+import sej.expressions.Aggregator;
+import sej.expressions.ExpressionNode;
+import sej.expressions.ExpressionNodeForAggregator;
 
 public class ExpressionNodeForPartialAggregation extends ExpressionNodeForAggregator
 {

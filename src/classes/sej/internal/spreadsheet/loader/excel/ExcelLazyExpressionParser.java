@@ -22,9 +22,9 @@ package sej.internal.spreadsheet.loader.excel;
 
 import java.io.IOException;
 
-import sej.api.AbstractDescribable;
-import sej.api.DescriptionBuilder;
-import sej.api.expressions.ExpressionNode;
+import sej.describable.AbstractDescribable;
+import sej.describable.DescriptionBuilder;
+import sej.expressions.ExpressionNode;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellWithLazilyParsedExpression;
 import sej.internal.spreadsheet.LazyExpressionParser;

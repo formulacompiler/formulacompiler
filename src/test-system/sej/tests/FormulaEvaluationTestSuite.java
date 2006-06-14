@@ -25,13 +25,13 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import sej.CallFrame;
 import sej.Engine;
 import sej.NumericType;
+import sej.Resettable;
 import sej.SEJ;
-import sej.api.CallFrame;
-import sej.api.Resettable;
-import sej.api.SpreadsheetBinder;
-import sej.api.expressions.ExpressionNode;
+import sej.SpreadsheetBinder;
+import sej.expressions.ExpressionNode;
 import sej.internal.Settings;
 import sej.internal.spreadsheet.CellImpl;
 import sej.internal.spreadsheet.CellIndex;

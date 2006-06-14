@@ -1,13 +1,13 @@
 package sej.internal.spreadsheet.binder;
 
-import sej.api.CallFrame;
-import sej.api.CompilerError;
-import sej.api.Orientation;
-import sej.api.Spreadsheet;
-import sej.api.SpreadsheetBinder;
-import sej.api.SpreadsheetBinding;
-import sej.api.Spreadsheet.Cell;
-import sej.api.Spreadsheet.Range;
+import sej.CallFrame;
+import sej.CompilerError;
+import sej.Orientation;
+import sej.Spreadsheet;
+import sej.SpreadsheetBinder;
+import sej.SpreadsheetBinding;
+import sej.Spreadsheet.Cell;
+import sej.Spreadsheet.Range;
 import sej.internal.spreadsheet.SpreadsheetImpl;
 import sej.internal.spreadsheet.binding.SectionBinding;
 import sej.internal.spreadsheet.binding.WorkbookBinding;

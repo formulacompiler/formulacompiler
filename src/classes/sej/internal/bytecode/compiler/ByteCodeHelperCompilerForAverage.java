@@ -23,10 +23,10 @@ package sej.internal.bytecode.compiler;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import sej.api.CompilerError;
-import sej.api.expressions.ExpressionNode;
-import sej.api.expressions.ExpressionNodeForAggregator;
-import sej.api.expressions.Operator;
+import sej.CompilerError;
+import sej.expressions.ExpressionNode;
+import sej.expressions.ExpressionNodeForAggregator;
+import sej.expressions.Operator;
 import sej.internal.model.ExpressionNodeForPartialAggregation;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.Aggregation.NonNullCountingAggregation;

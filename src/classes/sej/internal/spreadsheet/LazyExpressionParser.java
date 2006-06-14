@@ -20,7 +20,7 @@
  */
 package sej.internal.spreadsheet;
 
-import sej.api.expressions.ExpressionNode;
+import sej.expressions.ExpressionNode;
 
 
 public interface LazyExpressionParser 

@@ -23,7 +23,7 @@ package sej.internal;
 import java.util.ArrayList;
 import java.util.List;
 
-import sej.api.expressions.ExpressionNode;
+import sej.expressions.ExpressionNode;
 
 public abstract class ExpressionNodeShadow
 {

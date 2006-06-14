@@ -20,8 +20,8 @@
  */
 package sej.internal.spreadsheet.binding;
 
-import sej.api.CallFrame;
-import sej.api.CompilerError;
+import sej.CallFrame;
+import sej.CompilerError;
 import sej.internal.spreadsheet.CellIndex;
 
 public class InputCellBinding extends CellBinding

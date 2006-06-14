@@ -29,9 +29,9 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
-import sej.api.CallFrame;
-import sej.api.CompilerError;
-import sej.api.expressions.ExpressionNode;
+import sej.CallFrame;
+import sej.CompilerError;
+import sej.expressions.ExpressionNode;
 import sej.internal.model.CellModel;
 
 
