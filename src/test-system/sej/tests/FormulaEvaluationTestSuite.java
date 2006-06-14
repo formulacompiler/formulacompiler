@@ -33,7 +33,6 @@ import sej.SEJ;
 import sej.SpreadsheetBinder;
 import sej.expressions.ExpressionNode;
 import sej.internal.Settings;
-import sej.internal.spreadsheet.CellImpl;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.Reference;
@@ -246,9 +245,9 @@ public class FormulaEvaluationTestSuite extends TestSuite
 				}
 			}
 
-			if (this.expected instanceof Double) root.defineOutputCell( outputCell.getCellImpl(), new CallFrame(
+			if (this.expected instanceof Double) root.defineOutputCell( outputCell.getCellIndex(), new CallFrame(
 					getOutputClass().getMethod( "getNumber" ) ) );
-			else if (this.expected instanceof Date) root.defineOutputCell( outputCell.getCellImpl(), new CallFrame(
+			else if (this.expected instanceof Date) root.defineOutputCell( outputCell.getCellIndex(), new CallFrame(
 					getOutputClass().getMethod( "getDate" ) ) );
 			else fail( "Output cell type not supported" );
 
@@ -261,8 +260,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 					final int iCell = iInput + FIRST_INPUT_COL;
 					final CellInstance inputValueCell = this.inputRow.getCellOrNull( iCell );
 					if (null == inputValueCell || null == inputValueCell.getExpression()) {
-						final CellImpl inputReferenceCellIndex = new CellImpl( this.workbook, this.formulaRow
-								.getCellIndex( iCell ) );
+						final CellIndex inputReferenceCellIndex = this.formulaRow.getCellIndex( iCell );
 						final Object inputValue = (null == inputValueCell) ? null : inputValueCell.getValue();
 						if (null == inputValue) {
 							root.defineInputCell( inputReferenceCellIndex, new CallFrame( getInputClass().getMethod(

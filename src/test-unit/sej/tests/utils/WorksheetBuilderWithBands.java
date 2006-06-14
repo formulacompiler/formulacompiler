@@ -123,7 +123,7 @@ public class WorksheetBuilderWithBands
 	public void defineWorkbook( SpreadsheetBinder.Section _root ) throws CompilerError
 	{
 		try {
-			_root.defineOutputCell( formula.getCellImpl(), new CallFrame( Outputs.class.getMethod( "getResult" ) ) );
+			_root.defineOutputCell( formula.getCellIndex(), new CallFrame( Outputs.class.getMethod( "getResult" ) ) );
 			defineRange( _root );
 		}
 		catch (SecurityException e) {
@@ -142,9 +142,9 @@ public class WorksheetBuilderWithBands
 		CellRange rng = new CellRange( r1c1.getCellIndex(), r4c4.getCellIndex() );
 		details = _root.defineRepeatingSection( rng, Orientation.VERTICAL, new CallFrame( Inputs.class
 				.getMethod( "getDetails" ) ), Inputs.class, null, null );
-		details.defineInputCell( r1c1.getCellImpl(), new CallFrame( Inputs.class.getMethod( "getOne" ) ) );
-		details.defineInputCell( r1c2.getCellImpl(), new CallFrame( Inputs.class.getMethod( "getTwo" ) ) );
-		details.defineInputCell( r1c3.getCellImpl(), new CallFrame( Inputs.class.getMethod( "getThree" ) ) );
+		details.defineInputCell( r1c1.getCellIndex(), new CallFrame( Inputs.class.getMethod( "getOne" ) ) );
+		details.defineInputCell( r1c2.getCellIndex(), new CallFrame( Inputs.class.getMethod( "getTwo" ) ) );
+		details.defineInputCell( r1c3.getCellIndex(), new CallFrame( Inputs.class.getMethod( "getThree" ) ) );
 	}
 
 

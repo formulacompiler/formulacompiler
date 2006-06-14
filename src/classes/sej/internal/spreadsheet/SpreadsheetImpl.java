@@ -51,7 +51,7 @@ public class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
 	}
 
 
-	public void defineName( String _name, Reference _ref )
+	public void addToNameMap( String _name, Reference _ref )
 	{
 		this.names.put( _name.toUpperCase(), _ref );
 	}
@@ -96,7 +96,7 @@ public class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
 
 				public Spreadsheet.Cell getCell()
 				{
-					return new CellImpl( SpreadsheetImpl.this, cell );
+					return cell;
 				}
 
 				public String getName()
@@ -130,13 +130,13 @@ public class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
 
 	public void defineName( String _name, Cell _cell )
 	{
-		this.names.put( _name.toUpperCase(), ((CellImpl) _cell).getCellIndex() );
+		this.names.put( _name.toUpperCase(), (CellIndex) _cell );
 	}
 
 
 	public Spreadsheet.Cell getCell( int _sheetIndex, int _columnIndex, int _rowIndex )
 	{
-		return new CellImpl( this, new CellIndex( _sheetIndex, _columnIndex, _rowIndex ) );
+		return new CellIndex( this, _sheetIndex, _columnIndex, _rowIndex );
 	}
 
 
@@ -147,7 +147,7 @@ public class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
 			throw new SpreadsheetError.NameNotFound( "The name '" + _cellName + "' is not defined in this workbook." );
 		}
 		else if (ref instanceof CellIndex) {
-			return new CellImpl( this, (CellIndex) ref );
+			return (CellIndex) ref;
 		}
 		else {
 			throw new IllegalArgumentException( "The name '" + _cellName + "' is bound to a range, not a cell." );
@@ -216,7 +216,7 @@ public class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
 
 	CellInstance getWorkbookCell( SheetImpl _defaultSheet, String _cellNameOrCanonicalName, CellIndex _relativeTo )
 	{
-		return getCellIndex( _defaultSheet, _cellNameOrCanonicalName, _relativeTo ).getCell( this );
+		return getCellIndex( _defaultSheet, _cellNameOrCanonicalName, _relativeTo ).getCell();
 	}
 
 
@@ -229,7 +229,7 @@ public class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
 	 */
 	CellInstance getWorkbookCell( String _cellNameOrCanonicalName )
 	{
-		return getCellIndex( _cellNameOrCanonicalName ).getCell( this );
+		return getCellIndex( _cellNameOrCanonicalName ).getCell();
 	}
 
 

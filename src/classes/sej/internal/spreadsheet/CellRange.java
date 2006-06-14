@@ -31,8 +31,6 @@ import sej.describable.DescriptionBuilder;
 
 public class CellRange extends Reference implements Spreadsheet.Range, Iterable<CellIndex>
 {
-	public static final CellRange ENTIRE_SHEET = new CellRange( CellIndex.TOP_LEFT, CellIndex.BOTTOM_RIGHT );
-
 	private CellIndex from;
 	private CellIndex to;
 
@@ -40,15 +38,22 @@ public class CellRange extends Reference implements Spreadsheet.Range, Iterable<
 	public CellRange(CellIndex _from, CellIndex _to)
 	{
 		super();
+		if (_from.spreadsheet != _to.spreadsheet)
+			throw new IllegalArgumentException( "From and to not from same spreadsheet for range" );
 		setFromTo( _from, _to );
 	}
-
 
 	public CellRange(SheetImpl _sheet, String _fromCellNameOrCanonicalName, String _toCellNameOrCanonicalName,
 			CellIndex _relativeTo)
 	{
 		this( _sheet.getCellIndexForCanonicalName( _fromCellNameOrCanonicalName, _relativeTo ), _sheet
 				.getCellIndexForCanonicalName( _toCellNameOrCanonicalName, _relativeTo ) );
+	}
+
+
+	public static final CellRange getEntireSheet( SpreadsheetImpl _spreadsheet )
+	{
+		return new CellRange( CellIndex.getTopLeft( _spreadsheet ), CellIndex.getBottomRight( _spreadsheet ) );
 	}
 
 
@@ -132,7 +137,7 @@ public class CellRange extends Reference implements Spreadsheet.Range, Iterable<
 				}
 			}
 			if ((this.iColumn <= this.lastColumn) && (this.iRow <= this.lastRow) && (this.iSheet <= this.lastSheet)) {
-				return new CellIndex( this.iSheet, this.iColumn, this.iRow );
+				return new CellIndex( CellRange.this.from.spreadsheet, this.iSheet, this.iColumn, this.iRow );
 			}
 			else {
 				throw new NoSuchElementException();
@@ -160,10 +165,10 @@ public class CellRange extends Reference implements Spreadsheet.Range, Iterable<
 	public CellIndex getCellIndexRelativeTo( CellIndex _cell ) throws SpreadsheetError
 	{
 		if (this.from.columnIndex == this.to.columnIndex) {
-			return new CellIndex( _cell.sheetIndex, this.from.columnIndex, _cell.rowIndex );
+			return new CellIndex( this.from.spreadsheet, _cell.sheetIndex, this.from.columnIndex, _cell.rowIndex );
 		}
 		else if (this.from.rowIndex == this.to.rowIndex) {
-			return new CellIndex( _cell.sheetIndex, _cell.columnIndex, this.from.rowIndex );
+			return new CellIndex( this.from.spreadsheet, _cell.sheetIndex, _cell.columnIndex, this.from.rowIndex );
 		}
 		throw new SpreadsheetError.CellRangeNotUniDimensional( "Range "
 				+ this + " cannot be used to specify a relative cell for " + _cell );

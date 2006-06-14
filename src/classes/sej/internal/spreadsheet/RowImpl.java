@@ -52,6 +52,7 @@ public class RowImpl extends AbstractDescribable implements Spreadsheet.Row
 
 	public Cell[] getCells()
 	{
+		final SpreadsheetImpl spreadsheet = getSheet().getSpreadsheet();
 		final int sheetIndex = getSheet().getSheetIndex();
 		final int rowIndex = getRowIndex();
 
@@ -59,10 +60,10 @@ public class RowImpl extends AbstractDescribable implements Spreadsheet.Row
 		for (int i = 0; i < this.cells.size(); i++) {
 			final CellInstance cellInst = this.cells.get( i );
 			if (cellInst == null) {
-				result[ i ] = new CellImpl( this, new CellIndex( sheetIndex, i, rowIndex ) );
+				result[ i ] = new CellIndex( spreadsheet, sheetIndex, i, rowIndex );
 			}
 			else {
-				result[ i ] = new CellImpl( cellInst );
+				result[ i ] = cellInst.getCellIndex();
 			}
 		}
 		return result;
@@ -90,7 +91,7 @@ public class RowImpl extends AbstractDescribable implements Spreadsheet.Row
 
 	public CellIndex getCellIndex( int _columnIndex )
 	{
-		return new CellIndex( getSheet().getSheetIndex(), _columnIndex, getRowIndex() );
+		return new CellIndex( getSheet().getSpreadsheet(), getSheet().getSheetIndex(), _columnIndex, getRowIndex() );
 	}
 
 

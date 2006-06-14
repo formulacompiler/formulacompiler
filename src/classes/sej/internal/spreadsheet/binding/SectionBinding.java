@@ -32,7 +32,6 @@ import sej.Orientation;
 import sej.Resettable;
 import sej.Spreadsheet;
 import sej.internal.Util;
-import sej.internal.spreadsheet.CellImpl;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellRange;
 
@@ -69,13 +68,13 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	}
 
 
-	public SectionBinding(WorkbookBinding _engine, Class _inputClass, Class _outputClass)
+	public SectionBinding(WorkbookBinding _workbook, Class _inputClass, Class _outputClass)
 	{
 		super( null );
-		this.workbook = _engine;
+		this.workbook = _workbook;
 		this.callChainToCall = null;
 		this.callToImplement = null;
-		this.range = CellRange.ENTIRE_SHEET;
+		this.range = CellRange.getEntireSheet( _workbook.getWorkbook() );
 		this.orientation = Orientation.VERTICAL;
 		this.inputClass = _inputClass;
 		this.outputClass = _outputClass;
@@ -136,7 +135,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	public void defineInputCell( Spreadsheet.Cell _cell, CallFrame _callChainToCall ) throws CompilerError
 	{
 		validateAccessible( _callChainToCall );
-		final CellIndex cellIndex = ((CellImpl) _cell).getCellIndex();
+		final CellIndex cellIndex = (CellIndex) _cell;
 		if (this.inputs.containsKey( cellIndex )) {
 			throw new CompilerError.DuplicateDefinition( "Input cell '" + cellIndex.toString() + "' is already defined" );
 		}
@@ -152,7 +151,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 		if (this.outputs.containsKey( _call )) {
 			throw new CompilerError.DuplicateDefinition( "Output method '" + _call.toString() + "' is already defined" );
 		}
-		final CellIndex cellIndex = ((CellImpl) _cell).getCellIndex();
+		final CellIndex cellIndex = (CellIndex) _cell;
 		final OutputCellBinding def = new OutputCellBinding( this, _call, cellIndex );
 		this.outputs.put( _call, def );
 		this.workbook.getOutputs().add( def );
