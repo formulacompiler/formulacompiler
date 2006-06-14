@@ -96,6 +96,8 @@ public class ExcelXLSLoader implements SpreadsheetLoader
 
 		loadRows( xlsSheet, sheet );
 		loadNames( xlsWorkbook, workbook );
+		
+		workbook.trim();
 
 		return workbook;
 	}
