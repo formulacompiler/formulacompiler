@@ -8,19 +8,20 @@
 
         <pattern name="describable"			class="${base}.describable.*" />
         <pattern name="runtime"				class="${base}.runtime.*" />
-        <pattern name="expressions"			class="${base}.expressions.*" />
         <pattern name="api"					class="${base}.*" />
 
 
 		<pattern name="int"					class="${base}.internal.*" />
         <pattern name="int.runtime"			class="${base}.internal.runtime.*" />
+        <pattern name="int.expr"			class="${base}.internal.expressions.*" />
 		<pattern name="int-all"				class="${base}.internal.**" />
 		<pattern name="int-sub">
 			<include pattern="int-all" />
 			<exclude pattern="int" />
 			<exclude pattern="int.runtime" />
+			<exclude pattern="int.expr" />
 		</pattern>
-		
+
         <pattern name="int.bytecode.compiler"	class="${base}.internal.bytecode.compiler.**" />
         <pattern name="int.bytecode.runtime"	class="${base}.internal.bytecode.runtime.*" />
 
@@ -128,21 +129,6 @@
         
         
         <access-rule>
-            <message>sej.expressions</message>
-            <deny>
-            	<from> 
-            		<include pattern="expressions" />
-            	</from>
-                <to>
-                	<include pattern="all" />
-                	<exclude pattern="describable" />
-                	<exclude pattern="expressions" />
-                </to>
-            </deny>
-        </access-rule>
-        
-        
-        <access-rule>
             <message>sej</message>
             <deny>
             	<from> 
@@ -152,7 +138,6 @@
                 <to>
                 	<include pattern="all" />
                 	<exclude pattern="describable" />
-                	<exclude pattern="expressions" />
                 	<exclude pattern="runtime" />
                 	<exclude pattern="api" />
                 </to>
@@ -195,11 +180,25 @@
                 	<include pattern="int-all" />
                 	<exclude pattern="int" />
                 	<exclude pattern="int.runtime" />
+                	<exclude pattern="int.expr" />
                 </to>
             </deny>
         </access-rule>
 
 
+        <access-rule>
+            <message>sej.internal.expressions</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.expr" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                </to>
+            </deny>
+        </access-rule>
+        
+        
 		<!--========================================== Engine -->
 		
 		

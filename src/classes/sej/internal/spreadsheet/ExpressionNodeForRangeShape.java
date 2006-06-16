@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 import sej.describable.DescriptionBuilder;
-import sej.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNode;
 
 public class ExpressionNodeForRangeShape extends ExpressionNode
 {

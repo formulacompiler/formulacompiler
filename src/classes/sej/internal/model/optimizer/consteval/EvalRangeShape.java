@@ -20,7 +20,7 @@
  */
 package sej.internal.model.optimizer.consteval;
 
-import sej.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.ExpressionNodeForRangeValue;
 import sej.internal.model.RangeValue;
 import sej.internal.model.util.InterpretedNumericType;

@@ -28,7 +28,7 @@ import java.util.Collection;
 
 import sej.CallFrame;
 import sej.describable.DescriptionBuilder;
-import sej.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNode;
 
 public class CellModel extends ElementModel
 {

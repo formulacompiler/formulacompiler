@@ -18,66 +18,46 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.expressions;
-
-import java.io.IOException;
+package sej.internal.expressions;
 
 import sej.describable.DescriptionBuilder;
 
 
-public class ExpressionNodeForOperator extends ExpressionNode
+public class ExpressionNodeForConstantValue extends ExpressionNode
 {
-	private final Operator operator;
+	private Object value;
 
 
-	public ExpressionNodeForOperator(Operator _operator, ExpressionNode... _args)
+	public ExpressionNodeForConstantValue(Object _value)
 	{
-		super();
-		this.operator = _operator;
-		for (ExpressionNode arg : _args) {
-			getArguments().add( arg );
-		}
+		this.value = _value;
 	}
 
 
-	public Operator getOperator()
+	public Object getValue()
 	{
-		return this.operator;
+		return this.value;
 	}
 
 
 	@Override
 	public ExpressionNode cloneWithoutArguments()
 	{
-		return new ExpressionNodeForOperator( this.operator );
+		return new ExpressionNodeForConstantValue( this.value );
 	}
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void describeTo( DescriptionBuilder _to )
 	{
-		switch (getArguments().size()) {
-
-		case 0:
-			_to.append( this.operator.getSymbol() );
-			break;
-		case 1:
-			_to.append( "(" );
-			if (this.operator.isPrefix()) _to.append( this.operator.getSymbol() );
-			describeArgumentTo( _to, 0 );
-			if (!this.operator.isPrefix()) _to.append( this.operator.getSymbol() );
-			_to.append( ")" );
-			break;
-		case 2:
-			_to.append( "(" );
-			describeArgumentTo( _to, 0 );
-			_to.append( " " );
-			_to.append( this.operator.getSymbol() );
-			_to.append( " " );
-			describeArgumentTo( _to, 1 );
-			_to.append( ")" );
-			break;
+		if (this.value instanceof String) {
+			_to.append('"');
+			_to.append(this.value);
+			_to.append('"');
+		}
+		else {
+			_to.append( this.value );
 		}
 	}
-
+	
 }

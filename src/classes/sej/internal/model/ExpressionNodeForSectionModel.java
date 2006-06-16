@@ -20,7 +20,7 @@
  */
 package sej.internal.model;
 
-import sej.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNode;
 
 public abstract class ExpressionNodeForSectionModel extends ExpressionNode
 {

@@ -21,7 +21,7 @@
 package sej.internal.model.optimizer;
 
 import sej.NumericType;
-import sej.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.AbstractComputationModelVisitor;
 import sej.internal.model.CellModel;
 import sej.internal.model.SectionModel;

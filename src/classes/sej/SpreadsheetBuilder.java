@@ -22,26 +22,32 @@ package sej;
 
 import java.util.Date;
 
-import sej.expressions.ExpressionNode;
-import sej.expressions.Operator;
-
 public interface SpreadsheetBuilder
 {
 	public Spreadsheet getSpreadsheet();
 	public void newPage();
 	public void newRow();
-	public void newCell( ExpressionNode _expr );
+	public void newCell( ExprNode _expr );
 	public void newCell( Number _const );
 	public void newCell( String _const );
 	public void newCell( Date _const );
 	public void newCell( boolean _const );
 	public void nameCell( String _string );
 	public CellRef currentCell();
-	public ExpressionNode ref( CellRef _cell );
-	public ExpressionNode op( Operator _op, ExpressionNode... _args );
+	public ExprNode ref( CellRef _cell );
+	public ExprNode cst( Object _constantValue );
+	public ExprNode op( Operator _op, ExprNode... _args );
+	public ExprNode fun( Function _fun, ExprNode... _args );
+	public ExprNode agg( Aggregator _fun, ExprNode... _args );
+	public ExprNode iff( ExprNode _test, ExprNode _ifTrue, ExprNode _ifFalse );
+	
+	public static interface ExprNode
+	{
+		// opaque
+	}
 	
 	public static interface CellRef 
 	{
-		// marker
+		// opaque
 	}
 }

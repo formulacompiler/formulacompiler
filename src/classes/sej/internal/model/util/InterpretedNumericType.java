@@ -22,9 +22,9 @@ package sej.internal.model.util;
 
 import java.math.BigDecimal;
 
+import sej.Function;
 import sej.NumericType;
-import sej.expressions.Function;
-import sej.expressions.Operator;
+import sej.Operator;
 import sej.internal.NumericTypeImpl;
 import sej.internal.model.RangeValue;
 

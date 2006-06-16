@@ -23,7 +23,7 @@ package sej.internal.spreadsheet;
 import java.io.IOException;
 
 import sej.describable.DescriptionBuilder;
-import sej.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNode;
 
 
 public class ExpressionNodeForRangeUnion extends ExpressionNode

@@ -18,50 +18,30 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.expressions;
+package sej.internal.expressions;
 
-import java.io.IOException;
-import java.util.Collection;
+import sej.Function;
 
-import sej.describable.DescriptionBuilder;
-
-public class ExpressionNodeForAggregator extends ExpressionNode
+public class ExpressionNodeForIf extends ExpressionNodeForFunction
 {
-	private final Aggregator aggregator;
 
 
-	public ExpressionNodeForAggregator(Aggregator _aggregator, ExpressionNode... _args)
+	public ExpressionNodeForIf()
 	{
-		super( _args );
-		this.aggregator = _aggregator;
+		super( Function.INTERNAL_IF );
 	}
 
 
-	public ExpressionNodeForAggregator(Aggregator _aggregator, Collection _args)
+	public ExpressionNodeForIf(ExpressionNode _test, ExpressionNode _true, ExpressionNode _false)
 	{
-		super( _args );
-		this.aggregator = _aggregator;
-	}
-
-
-	public Aggregator getAggregator()
-	{
-		return this.aggregator;
+		super( Function.INTERNAL_IF, _test, _true, _false );
 	}
 
 
 	@Override
 	public ExpressionNode cloneWithoutArguments()
 	{
-		return new ExpressionNodeForAggregator( this.aggregator );
-	}
-
-
-	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
-	{
-		_to.append( this.aggregator.getName() );
-		describeArgumentListTo( _to );
+		return new ExpressionNodeForIf();
 	}
 
 

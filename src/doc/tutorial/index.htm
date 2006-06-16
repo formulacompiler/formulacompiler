@@ -4,27 +4,22 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>SEJ Tutorial - arrenbrecht.ch</title>
     <style type="text/css" media="screen">
-        @import "../../style.css";
+        @import "../style.css";
 	
     </style>
-    <link rel="stylesheet" type="text/css" media="print" href="../../printstyle.css" />
-	
-	<link rel="shortcut icon" href="../../favicon.ico" />
-	<link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.arrenbrecht.ch/sej/rss.xml" />
+    <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
 </head>
 <body>
     <div class="all">
         <div class="nav">
             <p class="nav">
-<a href="../../index.htm">arrenbrecht.ch</a> &gt;
+<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a> &gt;
 <a href="../index.htm">SEJ</a> &gt;
 <a href="index.htm">Tutorial</a> &gt;
 
 			</p>
         </div>
         <div class="title">
-            <p class="nofirefox">
-                This site displays best on <a href="http://www.mozilla.com/">Firefox</a>.</p>
             <h1>
                 SEJ Tutorial</h1>
         </div>
@@ -32,10 +27,10 @@
         
         <div class="content">
         
-<p>A first draft of a tutorial for the Spreadsheet Engine for Java (SEJ). The tutorial is organized as a collection of use cases, which I mean to extend as new questions and examples crop up.</p><dt><a href="binding.htm">Binding Data</a></dt><dd>How to bind the input and output cells of a spreadsheet to methods of plain Java interfaces or classes.</dd><dt><a href="numeric_type.htm">Numeric Types</a></dt><dd>How to make an engine use, for instance, <tt>BigDecimal</tt> instead of <tt>Double</tt> for all numeric computations - great for financial applications.</dd><dt><a href="caching.htm">Caching Of Values</a></dt><dd>How to make an engine cache input values and the values of multiply referenced cells internally.</dd>        </div>
+<p>This is the tutorial for the Spreadsheet Engine for Java (SEJ). It is organized as a collection of use cases, which I mean to extend as new questions and examples crop up.</p><dt><a href="reason.htm">The Reason</a></dt><dd>To demonstrate the raison d'être for SEJ, I introduce a simple example: an order entry application where the line item rebate is made customizable. The shortcomings of this solution are overcome in the topic below, which introduces SEJ.</dd><dt><a href="basics.htm">The Basics</a></dt><dd>Line item pricing revisited: a simple case study that introduces the main concepts of SEJ.</dd><dt><a href="numeric_type.htm">Numeric Types</a></dt><dd>How to make an engine use, for instance, <tt>BigDecimal</tt> instead of <tt>Double</tt> for all numeric computations - great for financial applications.</dd><dt><a href="caching.htm">Caching Of Values</a></dt><dd>How to make an engine cache input values and intermediate cell values internally.</dd><dt><a href="lowlevel.htm">Lower Level API</a></dt><dd>The introduction above introduces <tt>EngineBuilder</tt>, which makes the typical use cases for SEJ very simple to set up. This topic introduces the more powerful, but also more complex, lower level API SEJ offers.</dd><dt><a href="binding.htm">Advanced Binding</a></dt><dd>Advanced use cases concerning the binding of the input and output cells of a spreadsheet to the methods of your Java interfaces or classes (topics include: parametrized binding, binding to multiple interfaces or instances, repeating sections).</dd>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 18.05.2006.</p>        </div>
+<br/>Last updated on 14.06.2006.</p>        </div>
     </div>
 </body>
 </html>

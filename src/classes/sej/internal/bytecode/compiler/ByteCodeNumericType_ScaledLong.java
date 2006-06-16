@@ -30,9 +30,9 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.CompilerError;
+import sej.Function;
 import sej.NumericType;
-import sej.expressions.Function;
-import sej.expressions.Operator;
+import sej.Operator;
 import sej.internal.NumericTypeImpl;
 import sej.internal.runtime.RuntimeDouble_v1;
 import sej.internal.runtime.RuntimeLong_v1;

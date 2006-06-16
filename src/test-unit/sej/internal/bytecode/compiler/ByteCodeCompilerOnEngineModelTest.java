@@ -24,8 +24,8 @@ import java.math.BigDecimal;
 
 import sej.CallFrame;
 import sej.NumericType;
-import sej.expressions.ExpressionNodeForOperator;
-import sej.expressions.Operator;
+import sej.Operator;
+import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;
 import sej.internal.model.ExpressionNodeForCellModel;

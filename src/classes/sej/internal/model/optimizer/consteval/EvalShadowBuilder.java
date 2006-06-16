@@ -20,14 +20,14 @@
  */
 package sej.internal.model.optimizer.consteval;
 
-import sej.expressions.Aggregator;
-import sej.expressions.ExpressionNode;
-import sej.expressions.ExpressionNodeForAggregator;
-import sej.expressions.ExpressionNodeForConstantValue;
-import sej.expressions.ExpressionNodeForFunction;
-import sej.expressions.ExpressionNodeForOperator;
-import sej.expressions.Operator;
-import sej.internal.ExpressionNodeShadow;
+import sej.Aggregator;
+import sej.Operator;
+import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForAggregator;
+import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.ExpressionNodeForFunction;
+import sej.internal.expressions.ExpressionNodeForOperator;
+import sej.internal.expressions.ExpressionNodeShadow;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
 import sej.internal.model.ExpressionNodeForRangeValue;

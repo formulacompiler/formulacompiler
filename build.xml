@@ -509,13 +509,16 @@
 
 		<java classname="ch.arrenbrecht.jcite.JCite" classpath="${build.classpath}" failonerror="yes">
 			<arg value="-sp" />
+			<arg path="${src.classes.dir}" />
+			<arg value="-sp" />
 			<arg path="${src.examples.dir}" />
 			<arg value="-sp" />
 			<arg path="${src.test-system.dir}" />
+			<arg value="-r" />
 			<arg value="-i" />
-			<arg file="${src.doc.dir}/design.htm" />
+			<arg file="${src.doc.dir}/*.htm" />
 			<arg value="-o" />
-			<arg file="${doc.dir}/design.htm" />
+			<arg file="${doc.dir}" />
 		</java>
 
 		<replace dir="${doc.dir}">
