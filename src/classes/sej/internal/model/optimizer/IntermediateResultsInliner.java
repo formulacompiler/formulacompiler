@@ -23,8 +23,8 @@ package sej.internal.model.optimizer;
 import java.util.List;
 
 import sej.CompilerError;
-import sej.expressions.ExpressionNode;
-import sej.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.model.AbstractComputationModelVisitor;
 import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;

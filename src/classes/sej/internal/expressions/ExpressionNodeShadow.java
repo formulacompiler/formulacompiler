@@ -18,46 +18,46 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.expressions;
+package sej.internal.expressions;
 
-import sej.describable.DescriptionBuilder;
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class ExpressionNodeForConstantValue extends ExpressionNode
+public abstract class ExpressionNodeShadow
 {
-	private Object value;
+	private final ExpressionNode node;
+	private final List<ExpressionNodeShadow> arguments = new ArrayList<ExpressionNodeShadow>();
 
-
-	public ExpressionNodeForConstantValue(Object _value)
+	public ExpressionNodeShadow(ExpressionNode _node)
 	{
-		this.value = _value;
+		super();
+		this.node = _node;
 	}
 
-
-	public Object getValue()
+	public ExpressionNode getNode()
 	{
-		return this.value;
+		return this.node;
 	}
 
-
-	@Override
-	public ExpressionNode cloneWithoutArguments()
+	public List<ExpressionNodeShadow> getArguments()
 	{
-		return new ExpressionNodeForConstantValue( this.value );
+		return this.arguments;
 	}
 
-
-	@Override
-	public void describeTo( DescriptionBuilder _to )
+	public static ExpressionNodeShadow shadow( ExpressionNode _node, Builder _builder )
 	{
-		if (this.value instanceof String) {
-			_to.append('"');
-			_to.append(this.value);
-			_to.append('"');
+		final ExpressionNodeShadow result = _builder.shadow( _node );
+		final List<ExpressionNodeShadow> resultArgs = result.getArguments();
+		for (ExpressionNode argNode : _node.getArguments()) {
+			resultArgs.add( shadow( argNode, _builder ) );
 		}
-		else {
-			_to.append( this.value );
-		}
+		return result;
 	}
-	
+
+	public static interface Builder
+	{
+		ExpressionNodeShadow shadow( ExpressionNode _node );
+	}
+
 }

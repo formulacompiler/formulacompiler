@@ -24,7 +24,7 @@ import java.io.IOException;
 
 import sej.describable.Describable;
 import sej.describable.DescriptionBuilder;
-import sej.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNode;
 
 
 public class CellWithLazilyParsedExpression extends CellInstance

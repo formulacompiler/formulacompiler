@@ -21,7 +21,7 @@
 package sej.internal.spreadsheet;
 
 import sej.describable.DescriptionBuilder;
-import sej.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNode;
 
 
 public class CellWithConstant extends CellInstance

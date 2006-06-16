@@ -31,7 +31,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.CallFrame;
 import sej.CompilerError;
-import sej.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.CellModel;
 
 

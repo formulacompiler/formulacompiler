@@ -22,18 +22,18 @@ package sej.internal.model.compiler;
 
 import java.text.NumberFormat;
 
+import sej.Aggregator;
 import sej.CompilerError;
 import sej.NumericType;
+import sej.Operator;
 import sej.Orientation;
 import sej.SEJ;
 import sej.SpreadsheetBinder;
 import sej.CompilerError.SectionExtentNotCovered;
 import sej.SpreadsheetBinder.Section;
-import sej.expressions.Aggregator;
-import sej.expressions.ExpressionNode;
-import sej.expressions.ExpressionNodeForAggregator;
-import sej.expressions.ExpressionNodeForOperator;
-import sej.expressions.Operator;
+import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForAggregator;
+import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;
 import sej.internal.model.SectionModel;

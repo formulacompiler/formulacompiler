@@ -22,13 +22,13 @@ package sej.internal.model.optimizer;
 
 import java.math.BigDecimal;
 
+import sej.Aggregator;
 import sej.NumericType;
-import sej.expressions.Aggregator;
-import sej.expressions.ExpressionNode;
-import sej.expressions.ExpressionNodeForAggregator;
-import sej.expressions.ExpressionNodeForConstantValue;
-import sej.expressions.ExpressionNodeForOperator;
-import sej.expressions.Operator;
+import sej.Operator;
+import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForAggregator;
+import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;
 import sej.internal.model.ExpressionNodeForCellModel;

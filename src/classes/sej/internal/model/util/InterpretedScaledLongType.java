@@ -22,8 +22,8 @@ package sej.internal.model.util;
 
 import java.math.BigDecimal;
 
-import sej.expressions.Function;
-import sej.expressions.Operator;
+import sej.Function;
+import sej.Operator;
 import sej.internal.NumericTypeImpl;
 import sej.internal.NumericTypeImpl.AbstractLongType;
 import sej.internal.runtime.RuntimeLong_v1;

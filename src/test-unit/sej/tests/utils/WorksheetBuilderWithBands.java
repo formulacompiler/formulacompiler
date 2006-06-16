@@ -21,17 +21,17 @@
 package sej.tests.utils;
 
 
+import sej.Aggregator;
 import sej.CallFrame;
 import sej.CompilerError;
+import sej.Operator;
 import sej.Orientation;
 import sej.SEJ;
 import sej.SpreadsheetBinder;
 import sej.CompilerError.SectionOverlap;
-import sej.expressions.Aggregator;
-import sej.expressions.ExpressionNode;
-import sej.expressions.ExpressionNodeForAggregator;
-import sej.expressions.ExpressionNodeForOperator;
-import sej.expressions.Operator;
+import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForAggregator;
+import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellRange;

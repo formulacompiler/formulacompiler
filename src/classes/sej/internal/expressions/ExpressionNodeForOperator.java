@@ -18,50 +18,67 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.expressions;
+package sej.internal.expressions;
 
 import java.io.IOException;
-import java.util.Collection;
 
+import sej.Operator;
 import sej.describable.DescriptionBuilder;
 
-public class ExpressionNodeForFunction extends ExpressionNode
+
+public class ExpressionNodeForOperator extends ExpressionNode
 {
-	private final Function function;
+	private final Operator operator;
 
 
-	public ExpressionNodeForFunction(Function _function, ExpressionNode... _args)
+	public ExpressionNodeForOperator(Operator _operator, ExpressionNode... _args)
 	{
-		super( _args );
-		this.function = _function;
+		super();
+		this.operator = _operator;
+		for (ExpressionNode arg : _args) {
+			getArguments().add( arg );
+		}
 	}
 
 
-	public ExpressionNodeForFunction(Function _function, Collection _args)
+	public Operator getOperator()
 	{
-		super( _args );
-		this.function = _function;
-	}
-
-
-	public Function getFunction()
-	{
-		return this.function;
+		return this.operator;
 	}
 
 
 	@Override
 	public ExpressionNode cloneWithoutArguments()
 	{
-		return new ExpressionNodeForFunction( this.function );
+		return new ExpressionNodeForOperator( this.operator );
 	}
 
 
 	@Override
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
-		_to.append( this.function.getName() );
-		describeArgumentListTo( _to );
+		switch (getArguments().size()) {
+
+		case 0:
+			_to.append( this.operator.getSymbol() );
+			break;
+		case 1:
+			_to.append( "(" );
+			if (this.operator.isPrefix()) _to.append( this.operator.getSymbol() );
+			describeArgumentTo( _to, 0 );
+			if (!this.operator.isPrefix()) _to.append( this.operator.getSymbol() );
+			_to.append( ")" );
+			break;
+		case 2:
+			_to.append( "(" );
+			describeArgumentTo( _to, 0 );
+			_to.append( " " );
+			_to.append( this.operator.getSymbol() );
+			_to.append( " " );
+			describeArgumentTo( _to, 1 );
+			_to.append( ")" );
+			break;
+		}
 	}
 
 }

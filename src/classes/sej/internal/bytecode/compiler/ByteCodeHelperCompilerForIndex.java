@@ -27,9 +27,9 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import sej.CompilerError;
-import sej.expressions.ExpressionNode;
-import sej.expressions.ExpressionNodeForConstantValue;
-import sej.expressions.ExpressionNodeForFunction;
+import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.model.ExpressionNodeForRangeValue;
 
 class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler

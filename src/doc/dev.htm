@@ -4,27 +4,22 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>SEJ Developer's Journal - arrenbrecht.ch</title>
     <style type="text/css" media="screen">
-        @import "../style.css";
+        @import "style.css";
 	
     </style>
-    <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
-	
-	<link rel="shortcut icon" href="../favicon.ico" />
-	<link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.arrenbrecht.ch/sej/rss.xml" />
+    <link rel="stylesheet" type="text/css" media="print" href="printstyle.css" />
 </head>
 <body>
     <div class="all">
         <div class="nav">
             <p class="nav">
-<a href="../index.htm">arrenbrecht.ch</a> &gt;
+<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a> &gt;
 <a href="index.htm">SEJ</a> &gt;
 
 
 			</p>
         </div>
         <div class="title">
-            <p class="nofirefox">
-                This site displays best on <a href="http://www.mozilla.com/">Firefox</a>.</p>
             <h1>
                 SEJ Developer's Journal</h1>
         </div>
@@ -35,12 +30,83 @@
 <p>This is an unstructured journal regarding the development of SEJ. I use it to keep track of ideas, goals and discussion notes.</p>
 
 <h2>Next Steps</h2>
+
+<h3>Issues</h3>
 <ul class="spaced">
+<li>Check that BigDecimal input values are always properly rescaled.</li>
+<li>Allow different numeric input and output types and automatically convert them to the internal numeric type used in computations. This makes input and output interfaces reusable for computations with different internal numeric types, as well as being more convenient.</li>
+<li>When there is a more precise numeric type in an input interface with respect to the internal numeric type, raise an error with a clear message. Dito when there is a less precise type in an output interface. Add a compiler option that allows this with silent truncation of values.</li>
+<li>Support AND, OR, and relational operators outside of IF.</li>
+<li>Include sej_src.jar and sej_doc.jar in releases.</li>
+<li>Check if using getResource() for test data etc. is better than file system access.</li>
+<li>Check whether it would make sense to replace JDOM with something built into the JRE. Be careful to not break JRE 1.4 compatibility. It seems that using either a SAX or a DOM parser from javax.xml.parsers would be ideal.</li>
+<li>Try moving the precision() dependency into a separate class which can be retrotranslated with warnings turned off.</li>
+<li>Implement support for multiple sheets.</li>
+<li>Write a samle that automatically sets cell names given row headers (first sheet only).</li>
+<li>Implement simple spreadsheet writer given an SEJ spreadsheet model. Should be supported by all the loaders. This allows Abacus to convert UI-defined computations to spreadsheets easily. If possible, support a template for this conversion.</li>
+<li>Give access to SEJ's internal model from .ser files. Write a simple converter from this to a spreadsheet model, which can then be written out to a spreadsheet as per the todo above. This will make it possible to analyze a given .ser file using a simple tool.</li>
 <li>Implement parametrized outputs.</li>
 <li>Implement <tt>INDEX</tt> and <tt>MATCH</tt> again.</li>
 <li>Decide on how serialized byte code engines will be stored for both maximum load performance and maximum robustness when SEJ evolves.</li>
 <li>Implement Java source code generation and hybrid tests. This will naturally surface the exception and partial implementation of interfaces problem.</li>
 </ul>
+
+<h3>Tests and Ideas</h3>
+<ul class="spaced">
+<li>Test generation of an engine with 80'000 rows and a few columns which does a lookup into this table.</li>
+</ul>
+
+<h2>May 26, 2006</h2>
+<p>I am working on an introductory example for SEJ for the tutorial (because I need this to streamline the docs and tests for binding and support for multiple data types in the interface). This prompted me to resume work on the simple cell binder. What this thing really needs to do is the following:</p>
+<ul class="spaced">
+<li>Scan the output interface. For every method returning a type SEJ can handle, try to find a correspondingly named cell (<em>GetXY</em> or just <em>XY</em>). If found, bind it. If not, check if the method is abstract. If so, raise an error.</li>
+<li>Scan the remaining unbound cell names. For every name, check the input interface for a corresponding method. If found, bind the cell to it. If not, raise an error. This can be restricted to scan only a subset of names following a given name pattern, for example, all starting with <em>I_</em>.</li>
+</ul>
+<p>For both inputs and outputs, I could extend this so parametrized methods can be bound. For example: <em>I_TURNOVER_2</em> would be bound to <tt>getTurnover( int yearsBack )</tt>.</p>
+
+<h2>May 24, 2006</h2>
+
+<h3>Automatic Conversion of Numeric Types</h3>
+<p>I discussed with Marcel and Igor that SEJ should allow different numeric input and output types and automatically convert them to the internal numeric type used in computations. This would make input and output interfaces reusable for computations with different internal numeric types, as well as being more convenient. For example:</p>
+<pre>public interface Input {
+  double getRate();
+  int getNumberOfItems();
+  long getPrice();
+}</pre>
+
+<p>should be usable with both <tt>double</tt>, <tt>BigDecimal</tt> and scaled <tt>long</tt> engines. This is not so easy:</p>
+<ul class="spaced">
+<li>You must be aware that for scaled <tt>long</tt> and <tt>BigDecimal</tt>, the <tt>double</tt> returned by <tt>getRate()</tt> might be truncated.</li>
+<li>The <tt>long</tt> returned by <tt>getPrice()</tt> is hard to interpret. In a scaled <tt>long</tt> engine, it should be treated as an <em>already scaled</em> long. Otherwise, there is no way an application can pass properly scaled longs into such an engine. For other engines, however, the <tt>long</tt> would more naturally be interpreted as a true integer type, especially since there is currently no way to tell them the implicit scaling to assume.</li>
+</ul>
+<p>With Java 5, we might try to circumvent the latter problem using annotations. But a goal of SEJ is JRE 1.4 compatibility. With annotations, we might have something like:</p>
+<pre>public interface Input {
+  double getRate();
+  int getNumberOfItems();
+  @ScaledLong(4) long getPrice();
+}</pre>
+
+<p>For the moment, I shall therefore support only the following automatic input conversions:</p>
+<ul compact class="compact">
+<li><tt>byte</tt>, treated as a true integer value</li>
+<li><tt>int</tt>, treated as a true integer value</li>
+<li><tt>double</tt>, truncated to fit the internal type</li>
+<li><tt>BigDecimal</tt>, truncated to fit the internal type</li>
+</ul>
+<p>Overflows are raised as errors.</p>
+<p>On the output side, I shall support:</p>
+<ul compact class="compact">
+<li><tt>byte</tt>, truncates the internal value</li>
+<li><tt>int</tt>, truncates the internal value</li>
+<li><tt>double</tt>, possibly loses precision vis-a-vis the internal value</li>
+<li><tt>BigDecimal</tt>, always exact</li>
+</ul>
+<p>Again, overflows are raised as errors.</p>
+
+<h2>May 23, 2006</h2>
+<p>Had a meeting with Marcel, Igor, Markus and Dani of Abacus today. Lots of new todos. Nevertheless, SEJ is now ready for integration into Abacus Lohn. A conversation with Markus revealed that the currently supported range of Excel functionality will go a very long way.</p>
+<p>The .ser file format should really be a .jar. Add an option for whether you want it compressed or not. It contains the generated .class files, and a .xml file representing the internal format of SEJ engines. This makes analyzing .ser files possible using standard tools.</p>
+<p>Checked out goal seeking in Excel (as prompted to by Markus). This is purely a menu option, so adding this to SEJ is not really realistic. Maybe as a layer around SEJ. But then, applications can currently do that themselves.</p>
 
 <h2>May 18, 2006</h2>
 
@@ -431,7 +497,7 @@ void compileAnd( Node a, Node b, Label branch ) {
 <p>SEJ does not handle sums over nested bands properly. The user must model intermediate sums for every non-leaf band. I shall accept this as a known limitation for the moment and have <a href="doc/bands.html">documented</a> it.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 18.05.2006.</p>        </div>
+<br/>Last updated on 14.06.2006.</p>        </div>
     </div>
 </body>
 </html>

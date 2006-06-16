@@ -31,6 +31,7 @@ import sej.internal.spreadsheet.loader.SpreadsheetLoader;
  * supported by SEJ.
  * 
  * @see SpreadsheetLoader
+ * @see SpreadsheetBuilder
  * @see SpreadsheetCompiler
  * 
  * @author peo

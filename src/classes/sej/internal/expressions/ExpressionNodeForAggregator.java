@@ -18,55 +18,52 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.expressions;
+package sej.internal.expressions;
 
-public enum Function {
+import java.io.IOException;
+import java.util.Collection;
 
+import sej.Aggregator;
+import sej.describable.DescriptionBuilder;
 
-	/**
-	 * Internal function for IF. Used by {@link ExpressionNodeForIf}.
-	 */
-	INTERNAL_IF {
-		@Override
-		public String getName()
-		{
-			return "IF";
-		}
-	},
-
-	NOT {
-		@Override
-		public String getName()
-		{
-			return "NOT";
-		}
-	},
-
-	ROUND {
-		@Override
-		public String getName()
-		{
-			return "ROUND";
-		}
-	},
-
-	MATCH {
-		@Override
-		public String getName()
-		{
-			return "MATCH";
-		}
-	},
-
-	INDEX {
-		@Override
-		public String getName()
-		{
-			return "INDEX";
-		}
-	};
+public class ExpressionNodeForAggregator extends ExpressionNode
+{
+	private final Aggregator aggregator;
 
 
-	public abstract String getName();
+	public ExpressionNodeForAggregator(Aggregator _aggregator, ExpressionNode... _args)
+	{
+		super( _args );
+		this.aggregator = _aggregator;
+	}
+
+
+	public ExpressionNodeForAggregator(Aggregator _aggregator, Collection _args)
+	{
+		super( _args );
+		this.aggregator = _aggregator;
+	}
+
+
+	public Aggregator getAggregator()
+	{
+		return this.aggregator;
+	}
+
+
+	@Override
+	public ExpressionNode cloneWithoutArguments()
+	{
+		return new ExpressionNodeForAggregator( this.aggregator );
+	}
+
+
+	@Override
+	public void describeTo( DescriptionBuilder _to ) throws IOException
+	{
+		_to.append( this.aggregator.getName() );
+		describeArgumentListTo( _to );
+	}
+
 
 }

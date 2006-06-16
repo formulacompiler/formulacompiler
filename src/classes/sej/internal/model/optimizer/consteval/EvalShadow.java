@@ -22,9 +22,9 @@ package sej.internal.model.optimizer.consteval;
 
 import java.util.List;
 
-import sej.expressions.ExpressionNode;
-import sej.expressions.ExpressionNodeForConstantValue;
-import sej.internal.ExpressionNodeShadow;
+import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.ExpressionNodeShadow;
 import sej.internal.model.util.InterpretedNumericType;
 
 public abstract class EvalShadow extends ExpressionNodeShadow

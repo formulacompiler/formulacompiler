@@ -29,9 +29,9 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.CompilerError;
+import sej.Function;
 import sej.NumericType;
-import sej.expressions.Function;
-import sej.expressions.Operator;
+import sej.Operator;
 
 
 abstract class ByteCodeNumericType

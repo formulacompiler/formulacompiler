@@ -20,9 +20,9 @@
  */
 package sej.internal.model.util;
 
+import sej.Function;
 import sej.NumericType;
-import sej.expressions.Function;
-import sej.expressions.Operator;
+import sej.Operator;
 import sej.internal.runtime.RuntimeDouble_v1;
 
 final class InterpretedDoubleType extends InterpretedNumericType

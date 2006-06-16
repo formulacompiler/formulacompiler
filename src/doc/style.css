@@ -175,20 +175,21 @@ div.content h4, div.content h5
 	width: 9em;
 	overflow: hidden;
 	margin-top: 0;
-	font-size: medium;
+	font-size: small;
 	font-weight: normal;
+	font-style: italic;
 	text-align: right;
 }
 
 div.content > h4, div.content > h5
 {
-	margin-left: -11em;
-	width: 10em;
+	margin-left: -9em;
+	width: 8em;
 }
 
 div.content h4 
 {
-	font-style: italic;
+	font-weight: bold;
 }
 
 

@@ -21,7 +21,7 @@
 package sej.internal.model.compiler;
 
 import sej.CompilerError;
-import sej.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.SectionModel;

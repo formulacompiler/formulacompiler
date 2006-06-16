@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.ArrayList;
 import java_cup.runtime.*;
 import sej.*;
-import sej.expressions.*;
+import sej.internal.expressions.*;
 import sej.internal.spreadsheet.*;
 
 parser code {:

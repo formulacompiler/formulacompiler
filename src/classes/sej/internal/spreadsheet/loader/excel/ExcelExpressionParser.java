@@ -24,8 +24,8 @@ import java.io.StringReader;
 
 import sej.CompilerError;
 import sej.SpreadsheetError;
-import sej.expressions.ExpressionNode;
 import sej.internal.Settings;
+import sej.internal.expressions.ExpressionNode;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellRange;

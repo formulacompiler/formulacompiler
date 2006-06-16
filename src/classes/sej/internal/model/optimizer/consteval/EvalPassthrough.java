@@ -20,7 +20,7 @@
  */
 package sej.internal.model.optimizer.consteval;
 
-import sej.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNode;
 
 public class EvalPassthrough extends EvalShadow
 {

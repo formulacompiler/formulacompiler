@@ -18,47 +18,51 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal;
+package sej.internal.expressions;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.util.Collection;
 
-import sej.expressions.ExpressionNode;
+import sej.Function;
+import sej.describable.DescriptionBuilder;
 
-public abstract class ExpressionNodeShadow
+public class ExpressionNodeForFunction extends ExpressionNode
 {
-	private final ExpressionNode node;
-	private final List<ExpressionNodeShadow> arguments = new ArrayList<ExpressionNodeShadow>();
+	private final Function function;
 
-	public ExpressionNodeShadow(ExpressionNode _node)
+
+	public ExpressionNodeForFunction(Function _function, ExpressionNode... _args)
 	{
-		super();
-		this.node = _node;
+		super( _args );
+		this.function = _function;
 	}
 
-	public ExpressionNode getNode()
+
+	public ExpressionNodeForFunction(Function _function, Collection _args)
 	{
-		return this.node;
+		super( _args );
+		this.function = _function;
 	}
 
-	public List<ExpressionNodeShadow> getArguments()
+
+	public Function getFunction()
 	{
-		return this.arguments;
+		return this.function;
 	}
 
-	public static ExpressionNodeShadow shadow( ExpressionNode _node, Builder _builder )
+
+	@Override
+	public ExpressionNode cloneWithoutArguments()
 	{
-		final ExpressionNodeShadow result = _builder.shadow( _node );
-		final List<ExpressionNodeShadow> resultArgs = result.getArguments();
-		for (ExpressionNode argNode : _node.getArguments()) {
-			resultArgs.add( shadow( argNode, _builder ) );
-		}
-		return result;
+		return new ExpressionNodeForFunction( this.function );
 	}
 
-	public static interface Builder
+
+	@Override
+	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
-		ExpressionNodeShadow shadow( ExpressionNode _node );
+		_to.append( this.function.getName() );
+		describeArgumentListTo( _to );
 	}
 
 }

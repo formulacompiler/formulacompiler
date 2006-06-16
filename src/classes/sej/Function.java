@@ -18,29 +18,55 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.expressions;
+package sej;
 
-public class ExpressionNodeForIf extends ExpressionNodeForFunction
-{
-
-
-	public ExpressionNodeForIf()
-	{
-		super( Function.INTERNAL_IF );
-	}
+public enum Function {
 
 
-	public ExpressionNodeForIf(ExpressionNode _test, ExpressionNode _true, ExpressionNode _false)
-	{
-		super( Function.INTERNAL_IF, _test, _true, _false );
-	}
+	/**
+	 * Internal function for IF. Used by {@link ExpressionNodeForIf}.
+	 */
+	INTERNAL_IF {
+		@Override
+		public String getName()
+		{
+			return "IF";
+		}
+	},
+
+	NOT {
+		@Override
+		public String getName()
+		{
+			return "NOT";
+		}
+	},
+
+	ROUND {
+		@Override
+		public String getName()
+		{
+			return "ROUND";
+		}
+	},
+
+	MATCH {
+		@Override
+		public String getName()
+		{
+			return "MATCH";
+		}
+	},
+
+	INDEX {
+		@Override
+		public String getName()
+		{
+			return "INDEX";
+		}
+	};
 
 
-	@Override
-	public ExpressionNode cloneWithoutArguments()
-	{
-		return new ExpressionNodeForIf();
-	}
-
+	public abstract String getName();
 
 }

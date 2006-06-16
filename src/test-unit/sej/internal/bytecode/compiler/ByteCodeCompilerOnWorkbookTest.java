@@ -22,17 +22,17 @@ package sej.internal.bytecode.compiler;
 
 import java.math.BigDecimal;
 
+import sej.Aggregator;
 import sej.CallFrame;
 import sej.CompilerError;
 import sej.NumericType;
+import sej.Operator;
 import sej.SEJ;
 import sej.SpreadsheetBinder;
 import sej.SpreadsheetCompiler;
-import sej.expressions.Aggregator;
-import sej.expressions.ExpressionNodeForAggregator;
-import sej.expressions.ExpressionNodeForConstantValue;
-import sej.expressions.ExpressionNodeForOperator;
-import sej.expressions.Operator;
+import sej.internal.expressions.ExpressionNodeForAggregator;
+import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellWithConstant;
