@@ -39,7 +39,6 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
-import sej.internal.expressions.ExpressionNodeForIf;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
@@ -245,14 +244,14 @@ abstract class ByteCodeSectionMethodCompiler
 			compileOperator( node );
 		}
 
-		else if (_node instanceof ExpressionNodeForIf) { // must be before functions!
-			final ExpressionNodeForIf node = (ExpressionNodeForIf) _node;
-			compileIf( node );
-		}
-
 		else if (_node instanceof ExpressionNodeForFunction) {
 			final ExpressionNodeForFunction node = (ExpressionNodeForFunction) _node;
-			compileFunction( node );
+			if (node.getFunction() == Function.IF) {
+				compileIf( node );
+			}
+			else {
+				compileFunction( node );
+			}
 		}
 
 		else if (_node instanceof ExpressionNodeForAggregator) {
@@ -311,7 +310,7 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	private void compileIf( ExpressionNodeForIf _node ) throws CompilerError
+	private void compileIf( ExpressionNodeForFunction _node ) throws CompilerError
 	{
 		final Label notMet = mv().newLabel();
 		final Label done = mv().newLabel();
@@ -615,7 +614,8 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	protected void compileMapReduceAggregator( ExpressionNodeForAggregator _node, final Operator _reductor ) throws CompilerError
+	protected void compileMapReduceAggregator( ExpressionNodeForAggregator _node, final Operator _reductor )
+			throws CompilerError
 	{
 		if (null == _reductor) unsupported( _node );
 		boolean first = true;

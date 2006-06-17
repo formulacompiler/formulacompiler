@@ -23,10 +23,7 @@ package sej;
 public enum Function {
 
 
-	/**
-	 * Internal function for IF. Used by {@link ExpressionNodeForIf}.
-	 */
-	INTERNAL_IF {
+	IF {
 		@Override
 		public String getName()
 		{

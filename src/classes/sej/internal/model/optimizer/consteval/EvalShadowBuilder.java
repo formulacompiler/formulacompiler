@@ -70,7 +70,7 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 	private ExpressionNodeShadow newEvalFunction( ExpressionNodeForFunction _node )
 	{
 		switch (_node.getFunction()) {
-			case INTERNAL_IF:
+			case IF:
 				return new EvalIf( _node, this.type );
 		}
 		return new EvalFunction( _node, this.type );

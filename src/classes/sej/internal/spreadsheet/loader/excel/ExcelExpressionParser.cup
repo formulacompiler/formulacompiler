@@ -188,7 +188,7 @@ expr ::=
 				{: RESULT = new ExpressionNodeForOperator( Operator.GREATEROREQUAL, cell( l ), cell( r ) ); :}
 
 	|	IF LPAREN expr:test COMMA expr:t COMMA expr:f RPAREN
-				{: RESULT = new ExpressionNodeForIf( cell( test ), cell( t ), cell( f )); :}
+				{: RESULT = new ExpressionNodeForFunction( Function.IF, cell( test ), cell( t ), cell( f )); :}
 				
 	|	NOT LPAREN expr:arg RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.NOT, cell( arg )); :}
