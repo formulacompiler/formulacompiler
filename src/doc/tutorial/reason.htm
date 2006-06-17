@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Life before SEJ - arrenbrecht.ch</title>
+    <style type="text/css" media="screen">
+        @import "../style.css";
+	
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+</head>
+<body>
+    <div class="all">
+        <div class="nav">
+            <p class="nav">
+<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a> &gt;
+<a href="../index.htm">SEJ</a> &gt;
+<a href="index.htm">Tutorial</a> &gt;
+
+			</p>
+        </div>
+        <div class="title">
+            <h1>
+                Life before SEJ</h1>
+        </div>
+        
+        
+        <div class="content">
+        
+<p>Let's assume we are doing a typical order processing application. This application needs to compute a rebate for every line item entered. The rebate computation is currently hard-wired as follows:</p>
+<p>[jc:sej.tutorials.Basics:---- computeStatic]</p>
+<p>Customers, however, have long been clamoring for a more flexible rebating scheme. Problem is, no two customers want it done the same way. So, in essence, we need to be able to replace the rebate computation with a specific version <em>for nearly each customer</em>!</p>
+<p>Management decides that it is too expensive to accommodate all customers, but they do want to make an effort for some key accounts.</p>
+
+<h5>Note</h5>
+<p><em>All sample code in this document has been cited from automated tests in <tt>src/test-system/sej/tutorials/Basics.java</tt> using <a href="http://www.arrenbrecht.ch/jcite/">JCite</a>.</em></p>
+
+<h2>Strategy Pattern</h2>
+<p>We duly refactor the application to make the rebate computation replaceable by introducing a <em>rebate computation strategy</em>:</p>
+<p>[jc:sej.tutorials.Basics:---- Strategy; strip; strip ---- Factory]</p>
+<p>With this, the rebate computation on the line item becomes:</p>
+<p>[jc:sej.tutorials.Basics:---- computeStrategy]</p>
+<p>To properly decouple the computations from changes to the line item model, we define an interface, <tt>RebateInputs</tt>, through which the computations access the line item:</p>
+<p>[jc:sej.tutorials.Basics:---- RebateInputs]</p>
+<p>which is implemented by a simple adaptor class accessing the actual line item in question.</p>
+<p>Now we write the specific implementations of <tt>RebateComputation</tt> for the standard case and our two key accounts and, depending on the program settings, register the appropriate one for use by <tt>newInstance</tt> above during startup. Here's the standard implementation:</p>
+<p>[jc:sej.tutorials.Basics:---- StandardStrategy]</p>
+
+<h2>External Customization</h2>
+<p>With the decoupling in place, we realize that we could even open up rebate customization to selected distribution partners. Those, in fact, whom we trust to write Java code to our rebate computation interface specs.</p>
+<p>Alas, there are hardly any of those. Still, the few there are now can:</p>
+<ul compact class="compact">
+<li>write their own implementation of the <tt>RebateComputation</tt> class,</li>
+<li>compile it, and</li>
+<li>register the resulting .class file with our application.</li>
+</ul>
+<p>All we need to do is add a little magic that makes <tt>newInstance</tt> load and use the registered .class file.</p>
+
+<h2>Not Good Enough!</h2>
+<p>This, however, still leaves the majority of our customers dissatisfied, with hardly a distributor capable of helping them. And we have opened up a potential security hole in that the system now loads and runs customer-supplied class files.</p>
+<p>This kind of problem is where SEJ really shines. In the next section, I show you how to make an application customizable using computation defined in spreadsheets - something even savvy users know how to do!</p>
+<p><a href="basics.htm">Next: SEJ to the rescue!</a></p>        </div>
+        <div class="footer">
+<p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
+<br/>Last updated on 14.06.2006.</p>        </div>
+    </div>
+</body>
+</html>

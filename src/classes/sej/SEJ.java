@@ -32,6 +32,7 @@ import sej.internal.NumericTypeImpl;
 import sej.internal.Util;
 import sej.internal.bytecode.compiler.ByteCodeEngineCompiler;
 import sej.internal.spreadsheet.binder.SpreadsheetBinderImpl;
+import sej.internal.spreadsheet.builder.SpreadsheetBuilderImpl;
 import sej.internal.spreadsheet.compiler.SpreadsheetCompilerImpl;
 import sej.internal.spreadsheet.loader.AnyFormatSpreadsheetLoader;
 import sej.internal.util.EngineBuilderImpl;
@@ -73,7 +74,7 @@ public class SEJ extends SEJRuntime
 
 	public static SpreadsheetBuilder newSpreadsheetBuilder()
 	{
-		return null;
+		return new SpreadsheetBuilderImpl();
 	}
 
 	

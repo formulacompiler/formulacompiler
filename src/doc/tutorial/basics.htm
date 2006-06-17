@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>The Basics of SEJ - arrenbrecht.ch</title>
+    <style type="text/css" media="screen">
+        @import "../style.css";
+	
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+</head>
+<body>
+    <div class="all">
+        <div class="nav">
+            <p class="nav">
+<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a> &gt;
+<a href="../index.htm">SEJ</a> &gt;
+<a href="index.htm">Tutorial</a> &gt;
+
+			</p>
+        </div>
+        <div class="title">
+            <h1>
+                The Basics of SEJ</h1>
+        </div>
+        
+        
+        <div class="content">
+        
+<p>SEJ (<em>S</em>preadsheet <em>E</em>ngine for <em>J</em>ava) makes it possible to use computations defined in spreadsheet files within Java applications. SEJ reads the spreadsheet files and compiles Java-based formula evaluation engines from them. Such an engine computes output values given a set of input values. For example, compute the value of the cell <em>B3</em> given the values of the cells <em>B1</em> and <em>B2</em> as inputs. The original spreadsheet files can be created, for example, in <a href="http://office.microsoft.com/">Microsoft Excel</a> or <a href="http://www.openoffice.org/">OpenOffice Calc</a>.</p>
+
+<h5>Note</h5>
+<p><em>All sample code in this document has been cited from automated tests in <tt>src/test-system/sej/tutorials/Basics.java</tt> using <a href="http://www.arrenbrecht.ch/jcite/">JCite</a>.</em></p>
+
+<h2>Line Item Rebate Revisited</h2>
+<p>SEJ lets us solve the <a href="reason.htm">problem of the customizable line item rebate</a> very elegantly. We can enable the distributors - and also the more savvy customers - to customize the rebate computation in Microsoft Excel, or OpenOffice Calc.</p>
+<p>Here's the default rebate computation from the example, but now expressed as a spreadsheet:</p>
+<pre>   A                 B
+1  CustomerRebate    3%
+2  ArticleRebate     2%
+3
+4  Rebate            =MAX(B1:B2)</pre>
+
+<p>And here's one variant some specific customer might want to use (the best category gets combined rebates):</p>
+<pre>   A                 B
+1  CustomerRebate    3%
+2  ArticleRebate     2%
+3  CustomerCategory  1
+4
+5  Rebate            =IF(B3=1;SUM(B1:B2);MAX(B1:B2))</pre>
+
+<p>SEJ's job is to turn these sheets into valid rebate computation strategy classes for our application.</p>
+
+<h2>What SEJ Needs To Know</h2>
+<p>SEJ builds a compiled Java class for each computation by analyzing the corresponding spreadsheet, just like the Java compiler does for our hand-written Java source code. So, in a way, a spreadsheet is source code to SEJ.</p>
+<p>And, just like the Java compiler, SEJ needs to know about</p>
+<ul class="spaced">
+<li><tt>RebateInputs</tt>, the input interface, in order to resolve references to input values,</li>
+<li><tt>RebateComputation</tt>, the output interface (or, in this case, abstract class), in order to know what the API of the generated computation should be, and</li>
+<li><tt>RebateComputationFactory</tt>, the computation factory interface, so it can generate a compatible factory for us.</li>
+</ul>
+<p>In addition, SEJ must be able to determine</p>
+<ul compact class="compact">
+<li>where the spreadsheet formulas reference input values, and</li>
+<li>which formulas should serve as which output method implementations.</li>
+</ul>
+
+<h2>Convention Over Configuration</h2>
+<p>While all these elements can be specified to SEJ in great detail, it is far simpler to follow a few natural conventions. If we do, SEJ can figure out almost all of the details by itself.</p>
+
+<h5>Factory for input/output</h5>
+<p>If our strategy interface has only a single method with exactly one parameter, then SEJ infers the input and output interfaces from the method signature automatically. In our line item rebate example, the factory interface satisfies these rules:</p>
+<p>[jc:sej.tutorials.Basics:---- Factory]</p>
+
+<h5>Cell names for references</h5>
+<p>If our spreadsheet contains user-defined cell names (the names you can enter in the box in the upper right of the formula toolbar in Excel), then SEJ automatically uses them to resolve input and output references, as follows:</p>
+<ul class="spaced">
+<li>For every abstract method on the output interface, SEJ looks for a cell named like the method, which is used to implement the method. That is, the cell's value or formula is compiled as the body of the output method. If there is no such cell, an error is raised.</li>
+<li>For every non-abstract output method, SEJ does the same as above, only it is no error of there is no matching cell.</li>
+<li>For all remaining cell names, SEJ looks for a matching method on the input interface. If found, it binds the cell to it. That is, instead of using the value or formula specified in the spreadsheet to compile the computation of the cell's value, it compiles a call to the input method instead. If there is no such input method, an error is raised.</li>
+<li>When matching a cell name <em>XY</em> to a method, SEJ always considers both <tt>xy()</tt> and <tt>getXY()</tt> as method names. The match is <em>not</em> case-sensitive.</li>
+</ul>
+
+<h5>Row titles for cell names</h5>
+<p>For many users, entering an managing cell names is not straightforward, at least in Microsoft Excel. Neither are the names obvious when looking at a spreadsheet.</p>
+<p>SEJ therefore can use row titles instead of cell names to resolve references. Row titles are simply string values in column <em>A</em> of a spreadsheet, with the cell they name right next to it in column <em>B</em>. If a spreadsheet contains no named cells, SEJ automatically assumes row titles.</p>
+
+<h5>Example</h5>
+<p>Our example from above satisfies all of these criteria:</p>
+<pre>   A                 B
+1  CustomerRebate    3%
+2  ArticleRebate     2%
+3
+4  Rebate            =MAX(B1:B2)</pre>
+
+<p>SEJ will automatically infer the following bindings:</p>
+<ul compact class="compact">
+<li><em>CustomerRebate</em> identifies cell <em>B1</em>, which is mapped to the input method <tt>double getCustomerRebate()</tt>,</li>
+<li><em>ArticleRebate</em> identifies cell <em>B2</em>, which is mapped to the input method <tt>double getArticleRebate()</tt>, and</li>
+<li><em>Rebate</em> identifies cell <em>B3</em>, which implements the output method <tt>double getRebate()</tt>.</li>
+</ul>
+
+<h2>Compiling The Factory</h2>
+<p>Since we follow SEJ's conventions, the final setup of SEJ's spreadsheet compiler becomes very simple:</p>
+<p>[jc:sej.tutorials.Basics:---- CompileFactory]</p>
+<p>SEJ compiles a complete factory and strategy implementation to our specs, so using it is child's play now:</p>
+<p>[jc:sej.tutorials.Basics:---- UseCompiledFactory]</p>
+
+<h2>Outlook</h2>
+<p>This example showed a simple but complete case study of how SEJ can be incorporated into a typical line-of-business application. SEJ is quite a bit more powerful than just this, though. Read on.</p>
+<p><a href="index.htm">Back: Tutorial Index</a></p>        </div>
+        <div class="footer">
+<p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
+<br/>Last updated on 14.06.2006.</p>        </div>
+    </div>
+</body>
+</html>

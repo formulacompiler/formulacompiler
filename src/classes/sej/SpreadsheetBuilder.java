@@ -25,21 +25,32 @@ import java.util.Date;
 public interface SpreadsheetBuilder
 {
 	public Spreadsheet getSpreadsheet();
-	public void newPage();
+
+	public void newSheet();
+	
 	public void newRow();
+	
+	public void newCell( Constant _const );
 	public void newCell( ExprNode _expr );
-	public void newCell( Number _const );
-	public void newCell( String _const );
-	public void newCell( Date _const );
-	public void newCell( boolean _const );
-	public void nameCell( String _string );
+	public void nameCell( String _name );
 	public CellRef currentCell();
+
+	public Constant cst( Number _const );
+	public Constant cst( String _const );
+	public Constant cst( Date _const );
+	public Constant cst( boolean _const );
+	
 	public ExprNode ref( CellRef _cell );
-	public ExprNode cst( Object _constantValue );
+	public ExprNode ref( Constant _const );
 	public ExprNode op( Operator _op, ExprNode... _args );
 	public ExprNode fun( Function _fun, ExprNode... _args );
 	public ExprNode agg( Aggregator _fun, ExprNode... _args );
 	public ExprNode iff( ExprNode _test, ExprNode _ifTrue, ExprNode _ifFalse );
+	
+	public static interface Constant
+	{
+		// opaque
+	}
 	
 	public static interface ExprNode
 	{

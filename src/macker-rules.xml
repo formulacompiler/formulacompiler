@@ -157,6 +157,7 @@
                 	<exclude class="${base}.internal.Util" />
                 	<exclude class="${base}.internal.bytecode.compiler.ByteCodeEngineCompiler" />
                 	<exclude class="${base}.internal.spreadsheet.binder.SpreadsheetBinderImpl" />
+                	<exclude class="${base}.internal.spreadsheet.builder.SpreadsheetBuilderImpl" />
                 	<exclude class="${base}.internal.spreadsheet.compiler.SpreadsheetCompilerImpl" />
                 	<exclude class="${base}.internal.spreadsheet.loader.AnyFormatSpreadsheetLoader" />
                 	<exclude class="${base}.internal.util.EngineBuilderImpl" />

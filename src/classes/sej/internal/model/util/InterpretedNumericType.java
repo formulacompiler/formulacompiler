@@ -195,7 +195,7 @@ public abstract class InterpretedNumericType
 		final int cardinality = _args.length;
 		switch (_function) {
 
-			case INTERNAL_IF: { // short-circuit eval
+			case IF: { // short-circuit eval
 				switch (cardinality) {
 					case 2:
 						return toBoolean( _args[ 0 ] ) ? _args[ 1 ] : false;
