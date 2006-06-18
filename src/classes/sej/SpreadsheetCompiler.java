@@ -25,16 +25,59 @@ import java.lang.reflect.Method;
 import sej.runtime.EngineError;
 
 
+/**
+ * Lets you compile a bound spreadsheet to a Java byte-code computation engine. The compiled engine
+ * can then be used immediately or saved to persistent storage for later use.
+ * 
+ * @author peo
+ * 
+ * @see EngineBuilder
+ */
 public interface SpreadsheetCompiler
 {
 
+	/**
+	 * Configuration data for new instances of {@link sej.SpreadsheetCompiler}.
+	 * 
+	 * @author peo
+	 * 
+	 * @see SEJ#newSpreadsheetCompiler(sej.SpreadsheetCompiler.Config)
+	 */
 	public static class Config
 	{
+
+		/**
+		 * The spreadsheet binding to use as input, which also identifies the spreadsheet to use.
+		 */
 		public SpreadsheetBinding binding;
+
+		/**
+		 * The numeric type to use for all internal computations.
+		 */
 		public NumericType numericType = NumericType.DEFAULT;
+
+		/**
+		 * Specifies either a class from which to descend the generated computation factory, or an
+		 * interface which the generated factory should implement. Can be left {@code null}. If set,
+		 * must be {@code public}, and have at most a single abstract method, which must then be the
+		 * {@link #factoryMethod}.
+		 */
 		public Class factoryClass = null;
+
+		/**
+		 * The method of the {@link #factoryClass} which SEJ should implement to return new
+		 * computation instances. Must be specified if and only if a factory class is specified,
+		 * otherwise leave it {@code null}. Must be {@code public}, and have a single parameter of
+		 * the {@link sej.SpreadsheetBinder.Config#inputClass} of the spreadsheet binding, and return
+		 * the {@link sej.SpreadsheetBinder.Config#outputClass} of the spreadsheet binding.
+		 */
 		public Method factoryMethod = null;
 
+		/**
+		 * Validates the configuration.
+		 * 
+		 * @throws IllegalArgumentException
+		 */
 		public void validate()
 		{
 			if (this.binding == null) throw new IllegalArgumentException( "binding is null" );
@@ -45,6 +88,17 @@ public interface SpreadsheetCompiler
 		}
 	}
 
+
+	/**
+	 * Compiles the engine.
+	 * 
+	 * @return the compiled engine, ready to be used immediately, or saved to persistent storage for
+	 *         later use.
+	 * 
+	 * @throws CompilerError
+	 * @throws EngineError
+	 */
 	public SaveableEngine compile() throws CompilerError, EngineError;
+
 
 }

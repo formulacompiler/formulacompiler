@@ -145,12 +145,7 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 		return new ExprNodeImpl( new ExpressionNodeForAggregator( _agg, nodesOf( _args ) ) );
 	}
 
-	public ExprNode iff( ExprNode _test, ExprNode _ifTrue, ExprNode _ifFalse )
-	{
-		return new ExprNodeImpl( new ExpressionNodeForFunction( Function.IF, nodeOf( _test ), nodeOf( _ifTrue ), nodeOf( _ifFalse ) ) );
-	}
-
-
+	
 	private Object valueOf( Constant _const )
 	{
 		return ((ConstantImpl) _const).value;

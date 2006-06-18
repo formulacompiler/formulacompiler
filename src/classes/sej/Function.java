@@ -20,6 +20,14 @@
  */
 package sej;
 
+
+/**
+ * Lists all the functions supported by SEJ.
+ * 
+ * @author peo
+ * 
+ * @see SpreadsheetBuilder#fun(Function, sej.SpreadsheetBuilder.ExprNode[])
+ */
 public enum Function {
 
 

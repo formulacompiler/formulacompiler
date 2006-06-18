@@ -21,6 +21,13 @@
 package sej;
 
 
+/**
+ * Lists all the aggregation operators supported by SEJ.
+ * 
+ * @author peo
+ * 
+ * @see SpreadsheetBuilder#agg(Aggregator, sej.SpreadsheetBuilder.ExprNode[])
+ */
 public enum Aggregator {
 
 	SUM {
@@ -35,7 +42,7 @@ public enum Aggregator {
 		{
 			return true;
 		}
-		
+
 		@Override
 		public Operator getReductor()
 		{
@@ -167,7 +174,7 @@ public enum Aggregator {
 	public abstract String getName();
 	public abstract boolean isOrderOfArgumentsIrrelevant();
 	public abstract Operator getReductor();
-	
+
 	public boolean isPartialAggregationSupported()
 	{
 		return isOrderOfArgumentsIrrelevant();

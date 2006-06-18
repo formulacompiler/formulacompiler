@@ -28,14 +28,30 @@ package sej;
  */
 public interface SpreadsheetNameCreator
 {
+	
+	
+	/**
+	 * Configuration data for new instances of {@link sej.SpreadsheetNameCreator}.
+	 * 
+	 * @author peo
+	 */
 	public static class Config
 	{
+		
+		/**
+		 * The sheet of the spreadsheet representation in which to name cells.
+		 */
 		public Spreadsheet.Sheet sheet;
 
+		/**
+		 * Validates the configuration.
+		 * @throws IllegalArgumentException
+		 */
 		public void validate()
 		{
 			if (this.sheet == null) throw new IllegalArgumentException( "sheet is null" );
 		}
+		
 	}
 
 

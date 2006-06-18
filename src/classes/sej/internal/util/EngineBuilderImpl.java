@@ -284,12 +284,14 @@ public class EngineBuilderImpl implements EngineBuilder
 
 	public void bindAllByName() throws CompilerError
 	{
+		// ---- bindAllByName
 		if (!areAnyNamesDefined()) {
 			createCellNamesFromRowTitles();
 		}
 		SpreadsheetByNameBinder bn = getByNameBinder();
 		bn.outputs().bindAllMethodsToNamedCells();
 		bn.inputs().bindAllNamedCellsToMethods();
+		// ---- bindAllByName
 	}
 
 

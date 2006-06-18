@@ -26,7 +26,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 import sej.EngineBuilder;
+import sej.Operator;
 import sej.SEJ;
+import sej.Spreadsheet;
+import sej.SpreadsheetBuilder;
 import sej.runtime.Engine;
 import sej.runtime.SEJError;
 import junit.framework.TestCase;
@@ -265,6 +268,62 @@ public class Basics extends TestCase
 	}
 
 	// ---- CompileFactory
+
+
+	// ------------------------------------------------ Build Own Sheet
+
+
+	// ---- UseOwnUIFactory
+	public void testOwnUI() throws Exception
+	{
+		LineItem item = new StrategyLineItem();
+		/**/RebateComputation.factory = compileFactoryFromOwnUI();/**/
+		double rebate = item.computeRebate();
+		assertEquals( 0.15, rebate, 0.00001 );
+	}
+	// ---- UseOwnUIFactory
+
+
+	// ---- OwnUIFactory
+	private RebateComputationFactory compileFactoryFromOwnUI() throws SEJError
+	{
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder./**/setSpreadsheet( buildSpreadsheet() )/**/;  // instead of loadSpreadsheet()
+		builder.setFactoryClass( RebateComputationFactory.class );
+		builder.bindAllByName();
+		Engine engine = builder.compile();
+		return (RebateComputationFactory) engine.getComputationFactory();
+	}
+
+	// ---- OwnUIFactory
+
+	// ---- OwnUISheet
+	private Spreadsheet buildSpreadsheet()
+	{
+		SpreadsheetBuilder b = SEJ./**/newSpreadsheetBuilder/**/();
+
+		b./**/newCell/**/( b./**/cst( "CustomerRebate" )/**/ );
+		b.newCell( b./**/cst( 0.1 )/**/ );
+		// -- defCalc
+		/* -hlCalc- */SpreadsheetBuilder.CellRef cr = b.currentCell();/* -hlCalc- */
+		// -- defCalc
+
+		b./**/newRow/**/();
+		b.newCell( b.cst( "ArticleRebate" ) );
+		b.newCell( b.cst( 0.05 ) );
+		// -- defCalc
+		/* -hlCalc- */SpreadsheetBuilder.CellRef ar = b.currentCell();/* -hlCalc- */
+
+		b.newRow();
+		b.newRow();
+		b.newCell( b.cst( "Rebate" ) );
+		b.newCell( /* -hlCalc- */b.op( Operator.PLUS, b.ref( cr ), b.ref( ar ) )/* -hlCalc- */ );
+		// -- defCalc
+
+		return b./**/getSpreadsheet/**/();
+	}
+
+	// ---- OwnUISheet
 
 
 	// ------------------------------------------------ Base classes

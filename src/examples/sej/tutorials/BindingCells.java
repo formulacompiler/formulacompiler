@@ -43,7 +43,7 @@ public class BindingCells
 		/* -out- */builder.setOutputClass( Output.class );/* -out- */
 		// ---- setupBuilder
 		// ---- getBinder
-		Spreadsheet spreadsheet = builder.getSpreadsheet();
+		Spreadsheet spreadsheet = builder./**/getSpreadsheet()/**/;
 		SpreadsheetBinder.Section binder = builder./**/getRootBinder/**/();
 		// ---- getBinder
 

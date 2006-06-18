@@ -25,9 +25,29 @@ import java.io.OutputStream;
 
 import sej.runtime.Engine;
 
+
+/**
+ * Defines the {@link #saveTo(OutputStream)} method for engines returned by an engine compiler. This
+ * allows you to save a compiled engine to persistent storage and then later re-instatiate it using
+ * {@link sej.runtime.SEJRuntime#loadEngine(java.io.InputStream)}.
+ * 
+ * The {@link sej.runtime.Engine} interface does not have save support so as not to burden the
+ * run-time-only support with it.
+ * 
+ * @author peo
+ */
 public interface SaveableEngine extends Engine
 {
 
+	/**
+	 * Saves a compiled engine to a stream. You can later re-instantiate the engine from the stream
+	 * using {@link sej.runtime.SEJRuntime#loadEngine(java.io.InputStream)}. The engine is saved in
+	 * the format of a compressed .jar file containing .class entries for all the classes generated
+	 * by SEJ.
+	 * 
+	 * @param _stream to save the engine to.
+	 * @throws IOException
+	 */
 	public void saveTo( OutputStream _stream ) throws IOException;
 
 }

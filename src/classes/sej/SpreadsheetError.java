@@ -23,6 +23,11 @@ package sej;
 import sej.runtime.SEJError;
 
 
+/**
+ * Base class for all spreadsheet-related errors thrown by SEJ.
+ * 
+ * @author peo
+ */
 public class SpreadsheetError extends SEJError
 {
 
@@ -37,6 +42,11 @@ public class SpreadsheetError extends SEJError
 	}
 
 
+	/**
+	 * You attempted to access a cell or range by a name which is not defined.
+	 * 
+	 * @author peo
+	 */
 	public static class NameNotFound extends RuntimeException
 	{
 
@@ -53,6 +63,12 @@ public class SpreadsheetError extends SEJError
 	}
 
 
+	/**
+	 * When a formula gives a range name in a place where a single cell is expected, then the range
+	 * must be unidimensional. This means it is either only one row high or one column wide.
+	 * 
+	 * @author peo
+	 */
 	public static class CellRangeNotUniDimensional extends SpreadsheetError
 	{
 

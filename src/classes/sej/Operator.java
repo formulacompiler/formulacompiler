@@ -21,6 +21,13 @@
 package sej;
 
 
+/**
+ * Lists all the expression operators supported by SEJ.
+ * 
+ * @author peo
+ * 
+ * @see SpreadsheetBuilder#op(Operator, sej.SpreadsheetBuilder.ExprNode[])
+ */
 public enum Operator {
 
 

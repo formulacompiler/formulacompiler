@@ -24,15 +24,20 @@ package sej;
  * Defines the bindings of spreadsheet cells and sections to Java elements.
  * 
  * @author peo
+ * 
+ * @see EngineBuilder#getRootBinder()
+ * @see SEJ#newSpreadsheetBinder(Spreadsheet, Class, Class)
  */
 public interface SpreadsheetBinder
 {
 
 
 	/**
-	 * Parameters to a new instance of a spreadsheet binder.
+	 * Configuration data for new instances of {@link sej.SpreadsheetBinder}.
 	 * 
 	 * @author peo
+	 * 
+	 * @see SEJ#newSpreadsheetBinder(sej.SpreadsheetBinder.Config)
 	 */
 	public static class Config
 	{
@@ -81,7 +86,7 @@ public interface SpreadsheetBinder
 	 * Finalizes and returns the binding built by this class.
 	 * 
 	 * @return The finalized binding.
-	 * @throws CompilerError 
+	 * @throws CompilerError
 	 */
 	public SpreadsheetBinding getBinding() throws CompilerError;
 
@@ -96,10 +101,13 @@ public interface SpreadsheetBinder
 
 	/**
 	 * Represents both the container for the definitions of global spreadsheet cells and instances of
-	 * horizontal or vertical <a href="{@docRoot}/../tutorial/binding.htm#BindRepeatingSections">sections</a>
-	 * within a spreadsheet.
+	 * horizontal or vertical sections within a spreadsheet. See the tutorial for details on <a
+	 * href="{@docRoot}/../tutorial/binding.htm#BindRepeatingSections">sections</a>.
 	 * 
 	 * @author peo
+	 * 
+	 * @see SpreadsheetBinder#getRoot()
+	 * @see EngineBuilder#getRootBinder()
 	 */
 	public static interface Section
 	{

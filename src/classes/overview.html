@@ -5,30 +5,27 @@
 
 <body>
 
-The Spreadsheet Engine for Java (SEJ, for short) makes it
-possible to use computations defined in spreadsheet files within
-normal Java applications 
-(see the <a href="design.html">Design Document</a> for a quick example).
-The original spreadsheet files can be created, for example, in 
-<a href="http://office.microsoft.com/">Microsoft Excel</a> or 
-<a href="http://www.openoffice.org/">OpenOffice Calc</a>.
-SEJ read the spreadsheet files using the {@link sej.SpreadsheetLoader} 
-and builds corresponding Java-based formula evaluation engines
-using a {@link sej.Compiler}. Such an {@link sej.Engine} computes output values
-given a set of input values defined by a {@link sej.Computation}. For example, 
-compute the value of the cell B3 given the values of the cells B1 and B2 
-as inputs.</p>
+The Spreadsheet Engine for Java (SEJ, for short) makes it possible to use computations defined in
+spreadsheet files within normal Java applications. The original spreadsheet files can be created,
+for example, in
+<a href="http://office.microsoft.com/">Microsoft Excel</a>
+or
+<a href="http://www.openoffice.org/">OpenOffice Calc</a>
+. SEJ reads the spreadsheet files and builds corresponding Java-based formula evaluation engines
+using a {@link sej.EngineBuilder}, or the lower-level API defined in the package {@link sej}. A
+compiled {@link sej.runtime.Engine} computes output values given a set of input values. For example,
+compute the value of the cell B3 given the values of the cells B1 and B2 as inputs.
+</p>
 
-<p>For overviews, tutorials, examples, guides, and tool documentation, please see:</p>
+<p>For overviews, tutorials, examples, guides, and tool documentation, please see the:</p>
 <ul>
-    <li><a href="design.html">Design Document</a></li>
-    <li><a href="install.html">Installation Notes</a></li>
+	<li><a href="../index.htm" target="window">Full Documentation</a></li>
 </ul>
 
-@see sej.SpreadsheetLoader
-@see sej.Compiler
-@see sej.Engine
-@see sej.Computation
+@see sej.EngineBuilder
+@see sej.runtime.Engine
+@see sej.runtime.ComputationFactory
+@see sej.runtime.Computation
 
 </body>
 </html>
