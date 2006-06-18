@@ -46,6 +46,13 @@
 		<fileset dir="${lib.dir}/build-only" includes="**/*.jar" />
 	</path>
 	<property name="build.classpath" refid="build.classpath" />
+	
+	<path id="cite.path">
+		<dirset dir="${src.classes.dir}"/>
+		<dirset dir="${src.test-system.dir}"/>
+		<dirset dir="${src.examples.dir}"/>
+	</path>
+	<property name="src.cite.path" refid="cite.path" />
 
 	<path id="lib.classpath">
 		<fileset dir="${lib.dir}" includes="**/*.jar" />
@@ -184,6 +191,12 @@
 	<!-- ================================================================= -->
 
 	<target name="style" depends="prepare" description="Runs checkstyle">
+		<cs:checkstyle config="${src.dir}\checkstyle-config-apionly.xml">
+			<fileset dir="${src.classes.dir}">
+				<include name="**/*.java" />
+				<exclude name="sej/internal/**/*.java" />
+			</fileset>
+		</cs:checkstyle>
 		<cs:checkstyle config="${src.dir}\checkstyle-config.xml">
 			<property key="checkstyle.header.file" file="${src.dir}\copyright-header.txt" />
 			<fileset dir="${src.classes.dir}">
@@ -466,6 +479,9 @@
 			windowtitle="${javadoc.title}" 
 			use="true"
 			packagenames="sej,sej.runtime,sej.describable,sej.expressions"
+			additionalParam="-tagletPath ${lib.dir}/build-only/java2html.jar;${lib.dir}/build-only/jcite.jar -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${src.cite.path}"
+			stylesheetfile="${src.doc.dir}/plainstyle/style.css"
+			overview="${src.classes.dir}/overview.html"
 		>
 			<classpath refid="build.classpath" />
 			<link href="http://java.sun.com/j2se/1.5/docs/api/" />

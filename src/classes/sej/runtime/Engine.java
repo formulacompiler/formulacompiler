@@ -20,18 +20,16 @@
  */
 package sej.runtime;
 
-import sej.internal.runtime.EngineLoader;
-import sej.internal.util.EngineBuilderImpl;
 
 /**
- * API to a computation engine. You normally use a {@link EngineBuilderImpl} to build one from a given
- * spreadsheet file, or else instantiate one constructed earlier from persistent storage using an
- * {@link EngineLoader}. An engine can return a computation factory, from which you instantiate
- * individual computations, and it can be saved to and loaded from persistent storage without
- * requiring access to the original spreadsheet file.
+ * API to a computation engine. You normally use a {@link sej.EngineBuilder} to build one from a
+ * given spreadsheet file, or else instantiate one constructed earlier from persistent storage using
+ * {@link SEJRuntime#loadEngine(java.io.InputStream)}, without requiring access to the original
+ * spreadsheet file. An engine manages a computation factory, from which you instantiate individual
+ * computations.
  * 
  * @author peo
- * @see EngineBuilderImpl
+ * @see sej.EngineBuilder
  * @see #getComputationFactory()
  */
 public interface Engine

@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Building Your Own Spreadsheet - arrenbrecht.ch</title>
+    <style type="text/css" media="screen">
+        @import "../style.css";
+	
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+</head>
+<body>
+    <div class="all">
+        <div class="nav">
+            <p class="nav">
+<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a> &gt;
+<a href="../index.htm">SEJ</a> &gt;
+<a href="index.htm">Tutorial</a> &gt;
+
+			</p>
+        </div>
+        <div class="title">
+            <h1>
+                Building Your Own Spreadsheet</h1>
+        </div>
+        
+        
+        <div class="content">
+        
+<p><span class="when">Note: All the sample code in this document has been cited by <a href="http://www.arrenbrecht.ch/jcite/">JCite</a> from source code that is checked for syntactic and semantic correctness during release builds.</span></p>
+
+<h2>Why Build Your Own?</h2>
+<p>Consider again the main example for SEJ, the <a href="reason.htm">order line item rebate computation</a>. We solved the problem of allowing distributors and customers to customize the computation by letting them specify their own computations <a href="basics.htm">as spreadsheets</a>, such as this one:</p>
+<pre>   A                 B
+1  CustomerRebate    3%
+2  ArticleRebate     2%
+3
+4  Rebate            =B1+B2</pre>
+
+<p>Maybe many of your users must define their own, typically very simple, custom computations. Maybe there are a great many points in your application, where they want to do this (not just the line item rebate). In such a case you may want to offer your users a simple UI for defining straightforward custom computations (like, for instance, one liners), but still allow them to switch to a spreadsheet for more complex cases. Users thus might be able to define, right in your UI, the following formula:</p>
+<pre>Rebate = CustomerRebate + ArticleRebate</pre>
+
+<p>How can you implement this? Remember that we already factored out the actual computation as a <em>strategy</em>. So a straightforward approach is to implement a new strategy, which is effectively an interpreter for the simple one-line formulas (or whatever your UI allows users to specify).</p>
+<p>If you expect these computations to be used heavily in your application, however, it may be worthwhile to harness SEJ to generate true byte-code computations for these formulas, instead of interpreting them. A side benefit of this approach will be that you can give users switching from a simple formula to a full blown spreadsheet a head start by letting SEJ generate a template spreadsheet implementing the initial formula.</p>
+
+<h2>How To Build Your Own</h2>
+<p>SEJ's compiler takes an internal representation of a spreadsheet as input. Normally, you load this from an actual spreadsheet file. With the <a href="../javadoc/sej/SpreadsheetBuilder.html"><tt>SpreadsheetBuilder</tt></a>, however, you can build one in memory from scratch. I'll first show you how to define the spreadsheet with only the two input cells:</p>
+<p>[jc:sej.tutorials.Basics:---- OwnUISheet; omit -- defCalc]</p>
+<p>The method <tt>b.cst()</tt> is a factory method for constant values. It accepts all the types of constant value that SEJ supports, for example <tt>String</tt> and <tt>Number</tt>.</p>
+<p>Of particular interest is how to build calculated cells, <tt>B1+B2</tt> in this example. Here's the same method again, showing how the calculated cell is defined:</p>
+<p>[jc:sej.tutorials.Basics:---- OwnUISheet; highlight -hlCalc-; strip -- defCalc; strip]</p>
+<p>The <tt>currentCell()</tt> method returns a reference to the cell defined just before it. These references can be used later on in formulas to reference other cells.</p>
+<p>The part <tt>b.op( Operator.PLUS, ... )</tt> defines the last cell as one performing an addition, which is one of the supported <a href="../javadoc/sej/Operator.html">operators</a>. Its arguments are references to the two cells defined above. There is also <tt>fun()</tt> for <a href="../javadoc/sej/Function.html">functions</a>, and <tt>agg()</tt> for <a href="../javadoc/sej/Aggregator.html">aggregators</a>.</p>        </div>
+        <div class="footer">
+<p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
+<br/>Last updated on 17.06.2006.</p>        </div>
+    </div>
+</body>
+</html>

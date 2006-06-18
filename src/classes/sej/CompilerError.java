@@ -25,6 +25,13 @@ import java.lang.reflect.Method;
 import sej.runtime.SEJError;
 
 
+/**
+ * Defines all the errors raised by the spreadsheet compiler of SEJ.
+ * 
+ * @see sej.SpreadsheetCompiler
+ * 
+ * @author peo
+ */
 public class CompilerError extends SEJError
 {
 
@@ -39,6 +46,11 @@ public class CompilerError extends SEJError
 	}
 
 
+	/**
+	 * Indicates that a required named element was not found.
+	 * 
+	 * @author peo
+	 */
 	public static class NameNotFound extends RuntimeException
 	{
 
@@ -55,17 +67,13 @@ public class CompilerError extends SEJError
 	}
 
 
-	public static class CellRangeNotUniDimensional extends CompilerError
-	{
 
-		public CellRangeNotUniDimensional(String _message)
-		{
-			super( _message );
-		}
-
-	}
-
-
+	/**
+	 * You attempted to define an element twice. For example, you give two different input
+	 * definitions for the same cell.
+	 * 
+	 * @author peo
+	 */
 	public static class DuplicateDefinition extends CompilerError
 	{
 
@@ -77,6 +85,12 @@ public class CompilerError extends SEJError
 	}
 
 
+	/**
+	 * You attempted to define an input or output cell or range within a section, but the cell or
+	 * range is not fully contained with said section.
+	 * 
+	 * @author peo
+	 */
 	public static class NotInSection extends CompilerError
 	{
 
@@ -90,6 +104,12 @@ public class CompilerError extends SEJError
 	}
 
 
+	/**
+	 * You are compiling a spreadsheet with an aggregate function over a range that overlaps, but
+	 * does not exactly match the variable extent of a section.
+	 * 
+	 * @author peo
+	 */
 	public static class SectionExtentNotCovered extends CompilerError
 	{
 
@@ -102,6 +122,11 @@ public class CompilerError extends SEJError
 	}
 
 
+	/**
+	 * You attempted to nest sections of the same variable dimension.
+	 * 
+	 * @author peo
+	 */
 	public static class SectionOrientation extends CompilerError
 	{
 
@@ -113,6 +138,11 @@ public class CompilerError extends SEJError
 	}
 
 
+	/**
+	 * You attempted to define a section that overlaps another.
+	 * 
+	 * @author peo
+	 */
 	public static class SectionOverlap extends CompilerError
 	{
 
@@ -124,6 +154,11 @@ public class CompilerError extends SEJError
 	}
 
 
+	/**
+	 * You attempted to compile a spreadsheet containing an expression with an unsupported operator.
+	 * 
+	 * @author peo
+	 */
 	public static class UnsupportedOperator extends CompilerError
 	{
 
@@ -135,6 +170,11 @@ public class CompilerError extends SEJError
 	}
 
 
+	/**
+	 * You attempted to compile a spreadsheet containing an unsupported expression.
+	 * 
+	 * @author peo
+	 */
 	public static class UnsupportedExpression extends CompilerError
 	{
 
@@ -146,6 +186,13 @@ public class CompilerError extends SEJError
 	}
 
 
+	/**
+	 * You attempted to bind a spreadsheet cell to a method with an unsupported return type, or an
+	 * unsupported parameter type; or you attempted to compile a spreadsheet with an unsupported
+	 * constant value in a cell referenced by the computation.
+	 * 
+	 * @author peo
+	 */
 	public static class UnsupportedDataType extends CompilerError
 	{
 
@@ -157,6 +204,12 @@ public class CompilerError extends SEJError
 	}
 
 
+	/**
+	 * You specified a factory or output class with no suitable constructor for SEJ to call. Note
+	 * that the constructors must be {@code public}.
+	 * 
+	 * @author peo
+	 */
 	public static class ConstructorMissing extends CompilerError
 	{
 
@@ -168,6 +221,11 @@ public class CompilerError extends SEJError
 	}
 
 
+	/**
+	 * You specified a factory type with no suitable factory method.
+	 * 
+	 * @author peo
+	 */
 	public static final class FactoryMethodMissing extends CompilerError
 	{
 
@@ -187,12 +245,18 @@ public class CompilerError extends SEJError
 	}
 
 
+	/**
+	 * You did not bind all of the abstract methods of the output type to cells.
+	 * 
+	 * @author peo
+	 */
 	public static final class MethodNotImplemented extends CompilerError
 	{
 
 		public MethodNotImplemented(Method _m)
 		{
-			super( "The abstract method '" + _m + "' is not implemented; you should bind it to an element (cell or section)" );
+			super( "The abstract method '"
+					+ _m + "' is not implemented; you should bind it to an element (cell or section)" );
 		}
 
 	}

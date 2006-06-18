@@ -20,12 +20,41 @@
  */
 package sej;
 
+
+/**
+ * Represents the association of spreadsheet cells and ranges to methods of the application's input
+ * and output types. Used as input to the spreadsheet compiler.
+ * 
+ * @author peo
+ * 
+ * @see SpreadsheetBinder#getBinding()
+ * @see SpreadsheetCompiler.Config#binding
+ */
 public interface SpreadsheetBinding
 {
 
+	/**
+	 * Returns the spreadsheet whose cells are bound by this instance.
+	 * 
+	 * @see SpreadsheetBinder.Config#spreadsheet
+	 */
 	Spreadsheet getSpreadsheet();
 
+
+	/**
+	 * Returns the type to which input cells and ranges were bound.
+	 * 
+	 * @see SpreadsheetBinder.Config#inputClass
+	 */
 	Class getInputClass();
+
+
+	/**
+	 * Returns the type to which output cells and ranges were bound.
+	 * 
+	 * @see SpreadsheetBinder.Config#outputClass
+	 */
 	Class getOutputClass();
+
 
 }

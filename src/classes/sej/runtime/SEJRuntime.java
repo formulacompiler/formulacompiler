@@ -25,9 +25,16 @@ import java.io.InputStream;
 
 import sej.internal.bytecode.runtime.ByteCodeEngineLoader;
 
+
+/**
+ * Static class defining factory methods for run-time-only elements of SEJ. This class is extended
+ * by {@link sej.SEJ} which provides factory methods for compile-time elements.
+ * 
+ * @author peo
+ */
 public class SEJRuntime
 {
-	
+
 	/**
 	 * Not supposed to be instantiated!
 	 */

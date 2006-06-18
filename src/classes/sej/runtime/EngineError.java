@@ -20,6 +20,12 @@
  */
 package sej.runtime;
 
+
+/**
+ * Base class for all exceptions thrown by the run-time engine support of SEJ.
+ * 
+ * @author peo
+ */
 public class EngineError extends SEJError
 {
 
@@ -39,6 +45,12 @@ public class EngineError extends SEJError
 	}
 
 
+	/**
+	 * SEJ could not find an appropriate engine loader for the stream you provided to
+	 * {@link sej.runtime.SEJRuntime#loadEngine(java.io.InputStream)}.
+	 * 
+	 * @author peo
+	 */
 	public static final class UnsupportedSerializationFormat extends EngineError
 	{
 

@@ -20,6 +20,13 @@
  */
 package sej;
 
+
+/**
+ * Lists the two possible options for the variable extend of a section.
+ * 
+ * @see sej.SpreadsheetBinder.Section#defineRepeatingSection(sej.Spreadsheet.Range, Orientation, CallFrame, Class, CallFrame, Class)
+ * @author peo
+ */
 public enum Orientation {
 	VERTICAL, HORIZONTAL
 }

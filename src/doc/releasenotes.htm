@@ -30,28 +30,43 @@
 <p>The list of <a href="limitations.htm">current limitations</a> is now a separate document.</p>
 
 <h2>Release 0.5.0</h2>
-<p>MISSING STILL!</p>
-<ul compact class="compact">
-<li>API redesign</li>
-<li><tt>EngineBuilder</tt></li>
+
+<h3>New Features</h3>
+<ul class="spaced">
+<li>The new <tt>EngineBuilder</tt> supports the <a href="tutorial/basics.htm">most typical use-case</a> out of the box. The <tt>SpreadsheetByNameBinder</tt> and <tt>SpreadsheetNameCreator</tt> give more fine-grained control over this. This use-case is used to provide the motivation for using SEJ in the tutorial.</li>
+<li>Separated the concept of a computation engine (collection of computation classes) from the concept of a computation factory. Engine is now the thing being loaded and saved. Factory creates now computation instances. The factory can be forced to implement an application-specific interface or base class, which makes SEJ even more non-intrusive on application code (see use-case above).</li>
+<li>Saved engines are now normal .jar files, which can be inspected like any other .jar file. The generated classes are normal .class entries in the .jar file.</li>
+<li>The new <tt>SpreadsheetBuilder</tt> supports <a href="tutorial/buildsheet.htm">constructing spreadsheets in memory</a>.</li>
+</ul>
+
+<h3>Improvements</h3>
+<ul class="spaced">
+<li>I have reorganized the packages. Everything internal is now in <tt>sej.internal</tt>. Everything need for the loading and running of compiled engines is in <tt>sej.runtime</tt>, <tt>sej.internal.runtime</tt>, and <tt>sej.internal.bytecode.runtime</tt>.</li>
+<li>I have rigorously trimmed the API again. Every non-trivial entity is now represented by an interface in the API, not a class. The central class <tt>sej.SEJ</tt> provides factory methods for all of these.</li>
+<li>The fairly monolithic low-level interface <tt>sej.Compiler</tt> has been broken up to reflect the processing chain: <tt>sej.Spreadsheet</tt>, <tt>sej.SpreadsheetBinder</tt>, <tt>sej.SpreadsheetBinding</tt>, <tt>sej.SpreadsheetCompiler</tt>. Most of these components have a consistent instantiation protocol with a factory method in <tt>sej.SEJ</tt> and a configuration class called <tt>XY.Config</tt> which supplies parameters to new instances. This is in preparation of being able to expose the internal computation model as a lightweight alternative to the spreadsheet model.</li>
+<li>New base error class, <tt>sej.runtime.SEJError</tt>, from which all others are derived. Better separation of errors into <tt>sej.SpreadsheetError</tt>, <tt>sej.CompilerError</tt>, and <tt>sej.runtime.EngineError</tt>.</li>
 </ul>
 
 <h2>Release 0.4.2</h2>
-<p>Features:</p>
+
+<h3>New Features</h3>
 <ul class="spaced">
 <li>You can now generate engines that support <a href="tutorial/caching.htm">internal caching</a> of inputs, outputs and multiply referenced intermediate values.</li>
 </ul>
-<p>Improvements:</p>
+
+<h3>Improvements</h3>
 <ul class="spaced">
 <li>The <tt>BigDecimal</tt> numeric type now generates vastly more efficient constant values. They are preconstructed in <tt>private static final BigDecimal</tt> fields, using <tt>BigDecimal.valueOf( long, int )</tt> wherever possible.</li>
 </ul>
 
 <h2>Release 0.4.1</h2>
-<p>Features:</p>
+
+<h3>New Features</h3>
 <ul class="spaced">
 <li>Implemented <a href="tutorial/numeric_type.htm#long">scaled <tt>long</tt> support</a>.</li>
 </ul>
-<p>Improvements:</p>
+
+<h3>Improvements</h3>
 <ul class="spaced">
 <li><tt>sej.NumericType</tt> now has support routines for value conversions.</li>
 <li><tt>sej.runtime</tt> is a new package holding the runtime support classes. They used to be in <tt>sej.engine</tt>.</li>
@@ -59,16 +74,19 @@
 </ul>
 
 <h2>Release 0.4.0</h2>
-<p>Features:</p>
+
+<h3>New Features</h3>
 <ul class="spaced">
 <li>Implemented <a href="tutorial/numeric_type.htm#BigDecimal"><tt>BigDecimal</tt> support</a>.</li>
 </ul>
-<p>Improvements:</p>
+
+<h3>Improvements</h3>
 <ul class="spaced">
 <li>Removed ASM dependency from the base <tt>Operator</tt> class.</li>
 <li>Removed general expression interpreter support. Introduced special constant folder support instead (much faster).</li>
 </ul>
-<p>Fixes:</p>
+
+<h3>Fixes</h3>
 <ul class="spaced">
 <li>Exponentiation (<tt>A1^A2</tt>) and taking a percentage (<tt>A1%</tt>) now work when applied to input cells. Added this to the test suite.</li>
 </ul>
@@ -97,7 +115,7 @@
 <p>This is the first release with the new API based on <a href="tutorial/binding.htm">binding cells to native types</a>. The interpreter has been dropped and replaced by a byte code compiler producing very fast code.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 14.06.2006.</p>        </div>
+<br/>Last updated on 18.06.2006.</p>        </div>
     </div>
 </body>
 </html>

@@ -31,7 +31,7 @@
 
 <h3>Spreadsheet Formats</h3>
 <ul class="spaced">
-<li>Excel .xml support is not part of the test suite right now and, therefore, probably broken.</li>
+<li>Excel .xml support is missing (parked for resurrection in an earlier version).</li>
 <li>OpenOffice Calc spreadsheet loader is not done at all.</li>
 <li>The Excel .xls loader does not yet handle:</li>
 <ul compact class="compact">
@@ -67,7 +67,7 @@
 
 <h3>Engine Persistence</h3>
 <ul class="spaced">
-<li>The engines stored by SEJ are not yet in the definitive format. It is currently just a single class file's contents, with minimal versioning information. This will change to a more robust format in the future.</li>
+<li>The engines stored by SEJ are not quite in the definitive format yet. It is currently a standard .jar file's contents, with no versioning information. I will improve this so the .jar contains an XML description of the computation which could be used to recompile the engine. And maybe some sort of signature to guarantee that the loaded .jar is actually one produced by SEJ in the first place.</li>
 </ul>
 
 <h3>Miscellaneous</h3>
@@ -76,7 +76,7 @@
 </ul>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 14.06.2006.</p>        </div>
+<br/>Last updated on 17.06.2006.</p>        </div>
     </div>
 </body>
 </html>

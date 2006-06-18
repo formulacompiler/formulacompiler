@@ -20,6 +20,12 @@
  */
 package sej.runtime;
 
+
+/**
+ * Base class for all exceptions thrown by SEJ.
+ * 
+ * @author peo
+ */
 public class SEJError extends Exception
 {
 
@@ -42,5 +48,5 @@ public class SEJError extends Exception
 	{
 		super( _cause );
 	}
-	
+
 }
