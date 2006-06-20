@@ -21,7 +21,7 @@
 package sej.internal.model.optimizer;
 
 import sej.CompilerError;
-import sej.NumericType;
+import sej.SEJ;
 import sej.internal.model.CellModel;
 
 public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
@@ -31,7 +31,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 	@SuppressWarnings("unqualified-field-access")
 	public void testConstantCells() throws CompilerError
 	{
-		model.traverse( new ConstantSubExpressionEliminator( NumericType.DOUBLE ) );
+		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -47,7 +47,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 	@SuppressWarnings("unqualified-field-access")
 	public void testConstantCellsBigDecimal() throws CompilerError
 	{
-		model.traverse( new ConstantSubExpressionEliminator( NumericType.BIGDECIMAL8 ) );
+		model.traverse( new ConstantSubExpressionEliminator( SEJ.BIGDECIMAL8 ) );
 
 		// assertBigConst( "1", constCell ); -- still double because model was constructed that way
 		// assertBigConst( "3", constExpr );
@@ -65,7 +65,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 	{
 		makeConstCellInput();
 
-		model.traverse( new ConstantSubExpressionEliminator( NumericType.DOUBLE ) );
+		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -86,7 +86,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		CellModel sumOverInputsAndConsts = new CellModel( root, "SumOverInputsAndConsts" );
 		sumOverInputsAndConsts.setExpression( sum( ref( constCell ), ref( constExpr ), ref( constSum ) ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( NumericType.DOUBLE ) );
+		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 
 		assertExpr( "SUM{5.0}( getOne() )", sumOverInputsAndConsts );
 	}
@@ -100,7 +100,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		CellModel sumOverBand = new CellModel( root, "SumOverBand" );
 		sumOverBand.setExpression( sum( inner( band, ref( bandExpr ) ) ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( NumericType.DOUBLE ) );
+		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 
 		assertExpr( "SUM( Band.10.0 )", sumOverBand );
 	}

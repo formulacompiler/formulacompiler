@@ -417,7 +417,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 
 	private Engine newEngine() throws CompilerError, EngineError
 	{
-		return newEngine( NumericType.DEFAULT );
+		return newEngine( SEJ.DEFAULT_NUMERIC_TYPE );
 	}
 
 	private Engine newEngine( NumericType _type ) throws CompilerError, EngineError
@@ -477,7 +477,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 	{
 		makeBinderFor( Inputs.class, Outputs.class );
 		setupBigBinder( _inputs );
-		assertBigEngineResult( _expected, newEngine( NumericType.BIGDECIMAL8 ), _values );
+		assertBigEngineResult( _expected, newEngine( SEJ.BIGDECIMAL8 ), _values );
 	}
 
 	private void setupBigBinder( CellInstance[] _inputs ) throws Exception

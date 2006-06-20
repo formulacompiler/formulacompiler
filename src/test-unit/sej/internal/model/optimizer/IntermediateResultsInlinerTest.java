@@ -21,7 +21,7 @@
 package sej.internal.model.optimizer;
 
 import sej.CompilerError;
-import sej.NumericType;
+import sej.SEJ;
 import sej.internal.model.CellModel;
 
 public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
@@ -37,7 +37,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		otherRef.setExpression( plus( ref( bandRefSum ), outer( this.root, ref( constCell ) ) ) );
 		otherRef.makeOutput( getOutput( "getA" ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( NumericType.DOUBLE ) );
+		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 		model.traverse( new IntermediateResultsInliner() );
 
 		assertConst( 1.0, constCell );
@@ -62,7 +62,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		otherRef.setExpression( ref( constRefSum ) );
 		otherRef.makeOutput( getOutput( "getB" ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( NumericType.DOUBLE ) );
+		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 		model.traverse( new IntermediateResultsInliner() );
 
 		assertConst( 1.0, constCell );
@@ -86,7 +86,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		otherRef.setExpression( ref( bandRefSum ) );
 		otherRef.makeOutput( getOutput( "getA" ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( NumericType.DOUBLE ) );
+		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 		model.traverse( new IntermediateResultsInliner() );
 
 		assertConst( 1.0, constCell );
@@ -111,7 +111,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		sum.setExpression( sum( inner( band, ref( bandRefSum ) ) ) );
 		sum.makeOutput( getOutput( "getA" ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( NumericType.DOUBLE ) );
+		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 		model.traverse( new IntermediateResultsInliner() );
 
 		assertConst( 1.0, constCell );
@@ -139,7 +139,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		CellModel otherRef = new CellModel( this.band, "OtherRef " );
 		otherRef.setExpression( ref( bandRefSum ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( NumericType.DOUBLE ) );
+		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 		model.traverse( new IntermediateResultsInliner() );
 
 		assertConst( 1.0, constCell );
@@ -168,7 +168,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		otherRef.setExpression( ref( bandRefSum ) );
 		otherRef.makeOutput( getOutput( "getB" ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( NumericType.DOUBLE ) );
+		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 		model.traverse( new IntermediateResultsInliner() );
 
 		assertConst( 1.0, constCell );
@@ -194,7 +194,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		sum.setExpression( sum( inner( band, ref( bandRefSum ) ) ) );
 		sum.makeOutput( getOutput( "getB" ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( NumericType.DOUBLE ) );
+		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 		model.traverse( new IntermediateResultsInliner() );
 
 		assertConst( 1.0, constCell );

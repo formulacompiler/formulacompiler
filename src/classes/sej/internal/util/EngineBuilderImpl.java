@@ -43,7 +43,7 @@ import sej.runtime.EngineError;
 public class EngineBuilderImpl implements EngineBuilder
 {
 	private Spreadsheet spreadsheet;
-	private NumericType numericType = NumericType.DEFAULT;
+	private NumericType numericType = SEJ.DEFAULT_NUMERIC_TYPE;
 	private Class inputClass;
 	private Class outputClass;
 	private Class factoryClass;

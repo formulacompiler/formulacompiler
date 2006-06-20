@@ -21,10 +21,11 @@
 package sej.internal;
 
 import sej.NumericType;
+import sej.SEJ;
 
 public class BigDecimalTypeTest extends AbstractNumericTypeTest
 {
-	private final NumericType type = NumericType.BIGDECIMAL8;
+	private final NumericType type = SEJ.BIGDECIMAL8;
 	
 	@Override
 	protected NumericType getType()

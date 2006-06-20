@@ -4,11 +4,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import sej.EngineBuilder;
-import sej.ModelError;
-import sej.NumericType;
-import sej.Settings;
-import sej.engine.standard.compiler.StandardCompiler;
-import sej.loader.excel.xls.ExcelXLSLoader;
+import sej.SEJ;
+import sej.internal.Settings;
+import sej.internal.spreadsheet.loader.excel.xls.ExcelXLSLoader;
 import sej.runtime.Engine;
 import junit.framework.TestCase;
 
@@ -25,7 +23,7 @@ public class DebugTestBigDecimal extends TestCase
 
 	public void testDebugCase() throws IOException, ModelError
 	{
-		final EngineBuilder builder = new EngineBuilder( Inputs.class, Outputs.class, NumericType.BIGDECIMAL8 );
+		final EngineBuilder builder = new EngineBuilder( Inputs.class, Outputs.class, SEJ.BIGDECIMAL8 );
 		builder.loadSpreadsheet( "src/scratchpad/data/DebugCase.xls" );
 		builder.bindCellsByName();
 		final Engine engine = builder.buildEngine();

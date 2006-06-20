@@ -21,10 +21,11 @@
 package sej.internal;
 
 import sej.NumericType;
+import sej.SEJ;
 
 public class LongTypeTest extends AbstractNumericTypeTest
 {
-	private final NumericType type = NumericType.LONG;
+	private final NumericType type = SEJ.LONG;
 	
 	@Override
 	protected NumericType getType()

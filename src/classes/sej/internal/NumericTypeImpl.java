@@ -20,8 +20,12 @@
  */
 package sej.internal;
 
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Date;
 
+import sej.CompilerError;
 import sej.NumericType;
 import sej.internal.runtime.RuntimeDouble_v1;
 
@@ -96,29 +100,17 @@ public abstract class NumericTypeImpl implements NumericType
 	}
 
 
-	/**
-	 * Returns the number 0.
-	 */
 	public abstract Number getZero();
 
-	/**
-	 * Returns the number 1.
-	 */
 	public abstract Number getOne();
 
 
-	/**
-	 * Converts a number to this type. Null is returned as null.
-	 */
 	public Number valueOf( Number _value )
 	{
 		if (null == _value) return null;
 		return convertFromNumber( _value );
 	}
 
-	/**
-	 * Parses a string into a value. Null and the empty string return zero (see {@link #getZero()}).
-	 */
 	public final Number valueOf( String _value )
 	{
 		if (null == _value) return getZero();
@@ -126,19 +118,12 @@ public abstract class NumericTypeImpl implements NumericType
 		return convertFromString( _value );
 	}
 
-	/**
-	 * Returns the value as a string in its canonical representation. Null returns the empty string.
-	 */
 	public final String valueToString( Number _value )
 	{
 		if (null == _value) return "";
 		return convertToString( _value );
 	}
 
-	/**
-	 * Returns the value as a string with no superfluous leading or trailing zeroes and decimal
-	 * point. Null returns the empty string.
-	 */
 	public final String valueToConciseString( Number _value )
 	{
 		if (null == _value) return "";
@@ -148,27 +133,35 @@ public abstract class NumericTypeImpl implements NumericType
 
 	protected String convertToConciseString( Number _value )
 	{
-		return trimTrailingZerosAndPoint( valueToString( _value ) );
-	}
-
-
-	protected String trimTrailingZerosAndPoint( String _string )
-	{
-		String result = _string;
-		if (result.contains( "." )) {
-			int l = result.length();
-			while ('0' == result.charAt( l - 1 ))
-				l--;
-			if ('.' == result.charAt( l - 1 )) l--;
-			result = result.substring( 0, l );
-		}
-		return result;
+		return Util.trimTrailingZerosAndPoint( valueToString( _value ) );
 	}
 
 
 	protected abstract Number convertFromNumber( Number _value );
 	protected abstract Number convertFromString( String _value );
 	protected abstract String convertToString( Number _value );
+
+
+	public void validateReturnTypeForCell( Method _method ) throws CompilerError
+	{
+		final Class returnType = _method.getReturnType();
+
+		if (Byte.TYPE == returnType || Byte.class == returnType) return;
+		if (Short.TYPE == returnType || Short.class == returnType) return;
+		if (Integer.TYPE == returnType || Integer.class == returnType) return;
+		if (Long.TYPE == returnType || Long.class == returnType) return;
+		
+		if (Float.TYPE == returnType || Float.class == returnType) return;
+		if (Double.TYPE == returnType || Double.class == returnType) return;
+		
+		if (Boolean.TYPE == returnType || Boolean.class == returnType) return;
+		if (Date.class == returnType) return;
+		
+		if (BigInteger.class == returnType) return;
+		if (BigDecimal.class == returnType) return;
+		
+		throw new CompilerError.UnsupportedDataType( "The method " + _method + " has an unsupported return type" );
+	}
 
 
 	@Override
@@ -372,7 +365,7 @@ public abstract class NumericTypeImpl implements NumericType
 		@Override
 		public long parse( String _value )
 		{
-			return Long.parseLong( trimTrailingZerosAndPoint( _value ) );
+			return Long.parseLong( Util.trimTrailingZerosAndPoint( _value ) );
 		}
 
 		@Override

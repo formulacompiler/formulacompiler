@@ -20,6 +20,8 @@
  */
 package sej.internal.bytecode.compiler;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 import org.objectweb.asm.Opcodes;
@@ -30,6 +32,7 @@ import sej.CompilerError;
 import sej.NumericType;
 import sej.Operator;
 import sej.internal.runtime.RuntimeDouble_v1;
+import sej.runtime.ScaledLong;
 
 final class ByteCodeNumericType_Double extends ByteCodeNumericType
 {
@@ -95,7 +98,7 @@ final class ByteCodeNumericType_Double extends ByteCodeNumericType
 				break;
 
 			case EXP:
-				_mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeEngineCompiler.MATH.getInternalName(), "pow", "(DD)D" );
+				_mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeEngineCompiler.MATH_CLASS.getInternalName(), "pow", "(DD)D" );
 				break;
 
 			case MIN:
@@ -128,7 +131,7 @@ final class ByteCodeNumericType_Double extends ByteCodeNumericType
 		}
 		else if (_constantValue instanceof Date) {
 			Date date = (Date) _constantValue;
-			double val = RuntimeDouble_v1.dateToExcel( date );
+			double val = RuntimeDouble_v1.dateToNum( date );
 			_mv.push( val );
 		}
 		else {
@@ -149,12 +152,95 @@ final class ByteCodeNumericType_Double extends ByteCodeNumericType
 	{
 		_mv.visitInsn( _comparisonOpcode );
 	}
-	
-	
+
+
 	@Override
 	protected String getRoundMethodSignature()
 	{
 		return "(DI)D";
 	}
+
+
+	@Override
+	protected boolean compileToNum( GeneratorAdapter _mv, Class _returnType )
+	{
+		if (_returnType == Double.TYPE) {
+			// just pass it on
+		}
+
+		else if (_returnType == Long.TYPE) {
+			_mv.visitInsn( Opcodes.L2D );
+		}
+		else if (_returnType == Integer.TYPE) {
+			_mv.visitInsn( Opcodes.I2D );
+		}
+		else if (_returnType == Short.TYPE) {
+			_mv.visitInsn( Opcodes.I2D );
+		}
+		else if (_returnType == Byte.TYPE) {
+			_mv.visitInsn( Opcodes.I2D );
+		}
+		else if (_returnType == Float.TYPE) {
+			_mv.visitInsn( Opcodes.F2D );
+		}
+
+		else if (Number.class.isAssignableFrom( _returnType )) {
+			compileRuntimeMethod( _mv, "numberToNum", "(" + N + ")D" );
+		}
+
+		else {
+			return false;
+		}
+		return true;
+	}
+
+
+	@Override
+	protected boolean compileReturnFromNum( GeneratorAdapter _mv, Class _returnType )
+	{
+		if (_returnType == Double.TYPE) {
+			_mv.visitInsn( getReturnOpcode() );
+		}
+
+		else if (returnBoxedType( _mv, _returnType, Double.TYPE, Double.class ))
+		;
+		else if (returnDualType( _mv, _returnType, Integer.TYPE, Integer.class, Opcodes.IRETURN, Opcodes.D2I ))
+		;
+		else if (returnDualType( _mv, _returnType, Long.TYPE, Long.class, Opcodes.LRETURN, Opcodes.D2L ))
+		;
+		else if (returnDualType( _mv, _returnType, Short.TYPE, Short.class, Opcodes.IRETURN, Opcodes.D2I, Opcodes.I2S ))
+		;
+		else if (returnDualType( _mv, _returnType, Byte.TYPE, Byte.class, Opcodes.IRETURN, Opcodes.D2I, Opcodes.I2B ))
+		;
+		else if (returnDualType( _mv, _returnType, Float.TYPE, Float.class, Opcodes.FRETURN, Opcodes.D2F ))
+		;
+		else if (returnBoxedType( _mv, _returnType, Double.TYPE, BigDecimal.class ))
+		;
+		else if (returnBoxedType( _mv, _returnType, Long.TYPE, BigInteger.class, Opcodes.D2L ))
+		;
+
+		else {
+			return false;
+		}
+		return true;
+	}
+
+	
+	@Override
+	protected boolean compileToNum( GeneratorAdapter _mv, ScaledLong _scale )
+	{
+		_mv.push( ScaledLong.ONE[ _scale.value() ] );
+		compileRuntimeMethod( _mv, "fromScaledLong", "(JJ)D" );
+		return true;
+	}
+
+	@Override
+	protected boolean compileFromNum( GeneratorAdapter _mv, ScaledLong _scale )
+	{
+		_mv.push( ScaledLong.ONE[ _scale.value() ] );
+		compileRuntimeMethod( _mv, "toScaledLong", "(DJ)J" );
+		return true;
+	}
+
 
 }

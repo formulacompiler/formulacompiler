@@ -24,6 +24,7 @@ import java.lang.reflect.Method;
 
 import sej.CompilerError;
 import sej.NumericType;
+import sej.SEJ;
 import sej.SaveableEngine;
 import sej.internal.Util;
 import sej.internal.model.ComputationModel;
@@ -35,7 +36,7 @@ public interface EngineCompiler
 	public static class Config
 	{
 		public ComputationModel model;
-		public NumericType numericType = NumericType.DEFAULT;
+		public NumericType numericType = SEJ.DEFAULT_NUMERIC_TYPE;
 		public Class factoryClass;
 		public Method factoryMethod;
 

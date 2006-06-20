@@ -23,7 +23,6 @@ package sej.tutorials;
 import java.math.BigDecimal;
 
 import sej.EngineBuilder;
-import sej.NumericType;
 import sej.SEJ;
 import sej.runtime.Engine;
 import junit.framework.TestCase;
@@ -49,7 +48,7 @@ public class UsingBigDecimal extends TestCase
 
 		// ---- checkResult
 		Output output = factory.newInstance( new Input( 6 ) );
-		assertEquals( /**/"0.16666666666666666667"/**/, output.getResult().toPlainString() );
+		assertEquals( /**/"1.16666666666666666667"/**/, output.getResult().toPlainString() );
 		// ---- checkResult
 	}
 
@@ -62,7 +61,7 @@ public class UsingBigDecimal extends TestCase
 		builder.loadSpreadsheet( path );
 		builder.setFactoryClass( Factory.class );
 		// ---- buildCompiler8
-		builder.setNumericType( /**/NumericType.BIGDECIMAL8/**/ );
+		builder.setNumericType( /**/SEJ.BIGDECIMAL8/**/ );
 		// ---- buildCompiler8
 		builder.bindAllByName();
 		Engine engine = builder.compile();
@@ -71,14 +70,14 @@ public class UsingBigDecimal extends TestCase
 		{
 			// ---- checkResult8a
 			Output output = factory.newInstance( new Input( 6 ) );
-			assertEquals( /**/"0.16666667"/**/, output.getResult().toPlainString() );
+			assertEquals( /**/"1.16666667"/**/, output.getResult().toPlainString() );
 			// ---- checkResult8a
 		}
 
 		{
 			// ---- checkResult8b
 			Output output = factory.newInstance( new Input( /**/3/**/ ) );
-			assertEquals( /**/"0.33333333"/**/, output.getResult().toPlainString() );
+			assertEquals( /**/"1.33333333"/**/, output.getResult().toPlainString() );
 			// ---- checkResult8b
 		}
 	}
@@ -101,7 +100,7 @@ public class UsingBigDecimal extends TestCase
 		{
 			// ---- checkResultNa
 			Output output = factory.newInstance( new Input( /**/4/**/ ) );
-			assertEquals( /**/"0.25"/**/, output.getResult().toPlainString() );
+			assertEquals( /**/"1.25"/**/, output.getResult().toPlainString() );
 			// ---- checkResultNa
 		}
 

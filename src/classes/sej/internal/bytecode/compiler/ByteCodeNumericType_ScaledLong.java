@@ -20,6 +20,8 @@
  */
 package sej.internal.bytecode.compiler;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 import org.objectweb.asm.ClassWriter;
@@ -36,18 +38,23 @@ import sej.Operator;
 import sej.internal.NumericTypeImpl;
 import sej.internal.runtime.RuntimeDouble_v1;
 import sej.internal.runtime.RuntimeLong_v1;
+import sej.runtime.ScaledLong;
 
 final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 {
+	private static final Type DOUBLE_CLASS = Type.getType( Double.class );
+	private static final Type FLOAT_CLASS = Type.getType( Float.class );
 	private static final Type RUNTIME_TYPE = Type.getType( RuntimeLong_v1.class );
 	private static final Type RUNTIME_CONTEXT_TYPE = Type.getType( RuntimeLong_v1.Context.class );
 	private static final String RUNTIME_CONTEXT_NAME = "runtimeContext";
 	private static final String JJ_J = "(JJ)J";
 	private static final String JJx_J = "(JJ" + RUNTIME_CONTEXT_TYPE.getDescriptor() + ")J";
 	private static final String JIx_J = "(JI" + RUNTIME_CONTEXT_TYPE.getDescriptor() + ")J";
-	private static final String Dx_J = "(Ljava/util/Date;I" + RUNTIME_CONTEXT_TYPE.getDescriptor() + ")J";
-	private static final String Jx_D = "(JI" + RUNTIME_CONTEXT_TYPE.getDescriptor() + ")Ljava/util/Date;";
+	private static final String Dtx_J = "(Ljava/util/Date;" + RUNTIME_CONTEXT_TYPE.getDescriptor() + ")J";
+	private static final String Jx_Dt = "(J" + RUNTIME_CONTEXT_TYPE.getDescriptor() + ")Ljava/util/Date;";
 	private static final String Zx_J = "(Z" + RUNTIME_CONTEXT_TYPE.getDescriptor() + ")J";
+	private static final String Dx_J = "(D" + RUNTIME_CONTEXT_TYPE.getDescriptor() + ")J";
+	private static final String Jx_D = "(J" + RUNTIME_CONTEXT_TYPE.getDescriptor() + ")D";
 
 	private final NumericType num;
 	private final long one;
@@ -193,7 +200,7 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 		else if (_constantValue instanceof Date) {
 			Date date = (Date) _constantValue;
 			// TODO Native scaled long implementation of dateToExcel?
-			long val = this.num.valueOf( RuntimeDouble_v1.dateToExcel( date ) ).longValue();
+			long val = this.num.valueOf( RuntimeDouble_v1.dateToNum( date ) ).longValue();
 			_mv.push( val );
 		}
 		else {
@@ -247,21 +254,210 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 
 
 	@Override
-	void compileDateToExcel( MethodVisitor _mv )
+	void compileDateToNum( MethodVisitor _mv )
 	{
-		compileRuntimeMethodWithContext( _mv, "dateToExcel", Dx_J );
+		compileRuntimeMethodWithContext( _mv, "dateToNum", Dtx_J );
 	}
 
 	@Override
-	void compileDateFromExcel( MethodVisitor _mv )
+	void compileDateFromNum( MethodVisitor _mv )
 	{
-		compileRuntimeMethodWithContext( _mv, "dateFromExcel", Jx_D );
+		compileRuntimeMethodWithContext( _mv, "dateFromNum", Jx_Dt );
 	}
 
 	@Override
-	void compileBooleanToExcel( MethodVisitor _mv )
+	void compileBooleanToNum( MethodVisitor _mv )
 	{
-		compileRuntimeMethodWithContext( _mv, "booleanToExcel", Zx_J );
+		compileRuntimeMethodWithContext( _mv, "booleanToNum", Zx_J );
+	}
+
+
+	@Override
+	protected boolean compileToNum( GeneratorAdapter _mv, Class _returnType )
+	{
+		if (_returnType == Long.TYPE) {
+			scaleUp( _mv );
+		}
+
+		else if (_returnType == Integer.TYPE) {
+			_mv.visitInsn( Opcodes.I2L );
+			scaleUp( _mv );
+		}
+
+		else if (_returnType == Short.TYPE) {
+			_mv.visitInsn( Opcodes.I2L );
+			scaleUp( _mv );
+		}
+		else if (_returnType == Byte.TYPE) {
+			_mv.visitInsn( Opcodes.I2L );
+			scaleUp( _mv );
+		}
+
+		else if (_returnType == Double.TYPE) {
+			if (getScale() == 0) {
+				_mv.visitInsn( Opcodes.D2L );
+			}
+			else {
+				compileRuntimeMethodWithContext( _mv, "fromDouble", Dx_J );
+			}
+		}
+		else if (_returnType == Double.class) {
+			compileRuntimeMethodWithContext( _mv, "fromBoxedDouble", "(" + N + RUNTIME_CONTEXT_TYPE.getDescriptor() + ")J" );
+		}
+
+		else if (_returnType == Float.TYPE) {
+			if (getScale() == 0) {
+				_mv.visitInsn( Opcodes.F2L );
+			}
+			else {
+				_mv.visitInsn( Opcodes.F2D );
+				compileRuntimeMethodWithContext( _mv, "fromDouble", Dx_J );
+			}
+		}
+		else if (_returnType == Float.class) {
+			compileRuntimeMethodWithContext( _mv, "fromBoxedDouble", "(" + N + RUNTIME_CONTEXT_TYPE.getDescriptor() + ")J" );
+		}
+
+		else if (_returnType == BigDecimal.class) {
+			compileRuntimeMethodWithContext( _mv, "fromBigDecimal", "("
+					+ ByteCodeEngineCompiler.BIGDECIMAL_CLASS.getDescriptor() + RUNTIME_CONTEXT_TYPE.getDescriptor() + ")J" );
+		}
+
+		else if (Number.class.isAssignableFrom( _returnType )) {
+			compileRuntimeMethodWithContext( _mv, "fromNumber", "(" + N + RUNTIME_CONTEXT_TYPE.getDescriptor() + ")J" );
+		}
+
+		else {
+			return false;
+		}
+		return true;
+	}
+
+	private void scaleUp( GeneratorAdapter _mv )
+	{
+		if (getScale() > 0) {
+			_mv.push( this.one );
+			_mv.visitInsn( Opcodes.LMUL );
+		}
+	}
+
+
+	@Override
+	protected boolean compileReturnFromNum( GeneratorAdapter _mv, Class _returnType )
+	{
+
+		if (returnScaledDownDualType( _mv, _returnType, Long.TYPE, Long.class, Opcodes.LRETURN ))
+		;
+		else if (returnScaledDownDualType( _mv, _returnType, Integer.TYPE, Integer.class, Opcodes.IRETURN, Opcodes.L2I ))
+		;
+		else if (returnScaledDownDualType( _mv, _returnType, Short.TYPE, Short.class, Opcodes.IRETURN, Opcodes.L2I,
+				Opcodes.I2S ))
+		;
+		else if (returnScaledDownDualType( _mv, _returnType, Byte.TYPE, Byte.class, Opcodes.IRETURN, Opcodes.L2I,
+				Opcodes.I2B ))
+		;
+
+		else if (_returnType == Double.TYPE || _returnType == Double.class) {
+			if (getScale() == 0) {
+				_mv.visitInsn( Opcodes.L2D );
+			}
+			else {
+				compileRuntimeMethodWithContext( _mv, "toDouble", Jx_D );
+			}
+
+			if (_returnType == Double.TYPE) {
+				_mv.visitInsn( Opcodes.DRETURN );
+			}
+			else {
+				_mv.visitMethodInsn( Opcodes.INVOKESTATIC, DOUBLE_CLASS.getInternalName(), "valueOf", "(D)"
+						+ DOUBLE_CLASS.getDescriptor() );
+				_mv.visitInsn( Opcodes.ARETURN );
+			}
+		}
+
+		else if (_returnType == Float.TYPE || _returnType == Float.class) {
+			if (getScale() == 0) {
+				_mv.visitInsn( Opcodes.L2F );
+			}
+			else {
+				compileRuntimeMethodWithContext( _mv, "toDouble", Jx_D );
+				_mv.visitInsn( Opcodes.D2F );
+			}
+
+			if (_returnType == Float.TYPE) {
+				_mv.visitInsn( Opcodes.FRETURN );
+			}
+			else {
+				_mv.visitMethodInsn( Opcodes.INVOKESTATIC, FLOAT_CLASS.getInternalName(), "valueOf", "(F)"
+						+ FLOAT_CLASS.getDescriptor() );
+				_mv.visitInsn( Opcodes.ARETURN );
+			}
+		}
+
+		else if (_returnType == BigInteger.class) {
+			scaleDown( _mv );
+			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeEngineCompiler.BIGINTEGER_CLASS.getInternalName(),
+					"valueOf", "(J)" + ByteCodeEngineCompiler.BIGINTEGER_CLASS.getDescriptor() );
+			_mv.visitInsn( Opcodes.ARETURN );
+		}
+
+		else if (_returnType == BigDecimal.class) {
+			compileRuntimeMethodWithContext( _mv, "toBigDecimal", "(J"
+					+ RUNTIME_CONTEXT_TYPE.getDescriptor() + ")" + ByteCodeEngineCompiler.BIGDECIMAL_CLASS.getDescriptor() );
+			_mv.visitInsn( Opcodes.ARETURN );
+		}
+
+		else {
+			return false;
+		}
+		return true;
+	}
+
+	private boolean returnScaledDownDualType( GeneratorAdapter _mv, Class _returnType, Class _unboxed, Class _boxed,
+			int _returnOpcode, int... _conversionOpcodes )
+	{
+		if (_returnType == _unboxed || _returnType == _boxed) {
+			scaleDown( _mv );
+			return returnDualType( _mv, _returnType, _unboxed, _boxed, _returnOpcode, _conversionOpcodes );
+		}
+		return false;
+	}
+
+	private void scaleDown( GeneratorAdapter _mv )
+	{
+		if (getScale() > 0) {
+			_mv.push( this.one );
+			_mv.visitInsn( Opcodes.LDIV );
+		}
+	}
+
+
+	@Override
+	protected boolean compileToNum( GeneratorAdapter _mv, ScaledLong _scale )
+	{
+		compileScaleCorrection( _mv, _scale.value(), getScale() );
+		return true;
+	}
+
+	@Override
+	protected boolean compileFromNum( GeneratorAdapter _mv, ScaledLong _scale )
+	{
+		compileScaleCorrection( _mv, getScale(), _scale.value() );
+		return true;
+	}
+
+	private void compileScaleCorrection( GeneratorAdapter _mv, int _have, int _want )
+	{
+		if (_have > _want) {
+			long correct = ScaledLong.ONE[ _have ] / ScaledLong.ONE[ _want ];
+			_mv.push( correct );
+			_mv.visitInsn( Opcodes.LDIV );
+		}
+		else if (_have < _want) {
+			long correct = ScaledLong.ONE[ _want ] / ScaledLong.ONE[ _have ];
+			_mv.push( correct );
+			_mv.visitInsn( Opcodes.LMUL );
+		}
 	}
 
 }

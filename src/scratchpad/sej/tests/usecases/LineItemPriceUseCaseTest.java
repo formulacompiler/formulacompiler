@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import sej.CallFrame;
-import sej.Compiler;
-import sej.ModelError;
 import sej.Spreadsheet;
 import sej.runtime.Engine;
 

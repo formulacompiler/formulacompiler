@@ -21,9 +21,10 @@
 package sej.tutorials;
 
 import sej.EngineBuilder;
-import sej.NumericType;
 import sej.SEJ;
+import sej.runtime.ComputationFactory;
 import sej.runtime.Engine;
+import sej.runtime.ScaledLong;
 import junit.framework.TestCase;
 
 public class UsingScaledLong extends TestCase
@@ -47,7 +48,7 @@ public class UsingScaledLong extends TestCase
 
 		// ---- checkResult
 		Output output = factory.newInstance( new Input( 6 ) );
-		assertEquals( /**/166L/**/, output.getResult() );
+		assertEquals( /**/1166L/**/, output.getResult() );
 		// ---- checkResult
 	}
 
@@ -58,17 +59,18 @@ public class UsingScaledLong extends TestCase
 
 		EngineBuilder builder = SEJ.newEngineBuilder();
 		builder.loadSpreadsheet( path );
-		builder.setFactoryClass( Factory.class );
+		builder.setInputClass( Input.class );
+		builder.setOutputClass( Output4.class );
 		// ---- buildCompiler4
-		builder.setNumericType( /**/NumericType.LONG4/**/ );
+		builder.setNumericType( /**/SEJ.LONG4/**/ );
 		// ---- buildCompiler4
 		builder.bindAllByName();
 		Engine engine = builder.compile();
-		Factory factory = (Factory) engine.getComputationFactory();
+		ComputationFactory factory = engine.getComputationFactory();
 
 		// ---- checkResult4
-		Output output = factory.newInstance( new Input( 6 ) );
-		assertEquals( /**/1666L/**/, output.getResult() );
+		Output4 output = (Output4) factory.newInstance( new Input4( 6 ) );
+		assertEquals( /**/11666L/**/, output.getResult() );
 		// ---- checkResult4
 	}
 
@@ -79,17 +81,18 @@ public class UsingScaledLong extends TestCase
 
 		EngineBuilder builder = SEJ.newEngineBuilder();
 		builder.loadSpreadsheet( path );
-		builder.setFactoryClass( Factory.class );
+		builder.setInputClass( Input.class );
+		builder.setOutputClass( Output0.class );
 		// ---- buildCompiler0
-		builder.setNumericType( /**/NumericType.LONG/**/ );
+		builder.setNumericType( /**/SEJ.LONG/**/ );
 		// ---- buildCompiler0
 		builder.bindAllByName();
 		Engine engine = builder.compile();
-		Factory factory = (Factory) engine.getComputationFactory();
+		ComputationFactory factory = engine.getComputationFactory();
 
 		// ---- checkResult0
-		Output output = factory.newInstance( new Input( 6 ) );
-		assertEquals( /**/0L/**/, output.getResult() );
+		Output0 output = (Output0) factory.newInstance( new Input0( 6 ) );
+		assertEquals( /**/1L/**/, output.getResult() );
 		// ---- checkResult0
 
 	}
@@ -98,13 +101,13 @@ public class UsingScaledLong extends TestCase
 	// ---- IO
 	public static class Input
 	{
-		private static final long SCALING_FACTOR = 1000;  // corresponds to scale 3
 		public Input(int b)  { this.b = b; }
-		public /**/long/**/ getA()  { return 1 * SCALING_FACTOR; }
-		public /**/long/**/ getB()  { return this.b * SCALING_FACTOR; }
+		public /**/long/**/ getA()  { return 1; } // will be scaled by SEJ 
+		public /**/@ScaledLong(3) long/**/ getB()  { return this.b * ScaledLong.ONE[ 3 ]; }
 		private final int b;
 	}
 
+	/**/@ScaledLong(3)/**/
 	public static interface Output
 	{
 		/**/long/**/ getResult();
@@ -114,6 +117,38 @@ public class UsingScaledLong extends TestCase
 	public static interface Factory
 	{
 		Output newInstance( Input _input );
+	}
+	
+	
+	/**/@ScaledLong(4)/**/
+	public static class Input4 extends Input
+	{
+		public Input4(int _b)
+		{
+			super( _b );
+		}
+	}
+
+	/**/@ScaledLong(4)/**/
+	public static interface Output4
+	{
+		/**/long/**/ getResult();
+	}
+
+	
+	/**/@ScaledLong(0)/**/
+	public static class Input0 extends Input
+	{
+		public Input0(int _b)
+		{
+			super( _b );
+		}
+	}
+
+	/**/@ScaledLong(0)/**/
+	public static interface Output0
+	{
+		/**/long/**/ getResult();
 	}
 
 }

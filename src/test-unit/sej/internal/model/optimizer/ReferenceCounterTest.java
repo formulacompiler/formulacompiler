@@ -21,7 +21,7 @@
 package sej.internal.model.optimizer;
 
 import sej.CompilerError;
-import sej.NumericType;
+import sej.SEJ;
 import sej.internal.model.CellModel;
 
 
@@ -90,7 +90,7 @@ public class ReferenceCounterTest extends AbstractOptimizerTest
 		makeConstCellInput();
 		bandRefSum.makeOutput( getOutput( "getA" ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( NumericType.DOUBLE ) );
+		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 		model.traverse( new ReferenceCounter() );
 
 		assertRefs( 1, constCell );

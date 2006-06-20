@@ -22,6 +22,8 @@ package sej.tests.serialization;
 
 import java.math.BigDecimal;
 
+import sej.runtime.ScaledLong;
+
 // ---- Outputs
 
 public class Outputs
@@ -30,12 +32,13 @@ public class Outputs
 	{
 		throw new AbstractMethodError( "getResult" );
 	}
-	
+
+	@ScaledLong(4)
 	public long getResult_Long4()
 	{
 		throw new AbstractMethodError( "getResult_Long4" );
 	}
-	
+
 	public BigDecimal getResult_Big()
 	{
 		throw new AbstractMethodError( "getResult_Big" );

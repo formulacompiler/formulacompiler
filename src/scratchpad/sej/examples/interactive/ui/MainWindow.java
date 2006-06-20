@@ -28,7 +28,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-import sej.ModelError;
 import sej.examples.interactive.controller.MainWindowController;
 
 

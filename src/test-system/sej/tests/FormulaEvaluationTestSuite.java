@@ -39,6 +39,7 @@ import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
 import sej.runtime.Engine;
 import sej.runtime.Resettable;
+import sej.runtime.ScaledLong;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
@@ -379,7 +380,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		public DoubleTestCase(SpreadsheetImpl _workbook, int _formulaRow, int _inputRow, boolean _useInputs,
 				boolean _cachingEnabled)
 		{
-			super( _workbook, _formulaRow, _inputRow, _useInputs, _cachingEnabled, NumericType.DOUBLE );
+			super( _workbook, _formulaRow, _inputRow, _useInputs, _cachingEnabled, SEJ.DOUBLE );
 		}
 
 		@Override
@@ -447,7 +448,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 				boolean _cachingEnabled)
 		{
 			// Use BigDecimal9 here so it is compatible with Excel's double.
-			super( _workbook, _formulaRow, _inputRow, _useInputs, _cachingEnabled, NumericType.BIGDECIMAL9 );
+			super( _workbook, _formulaRow, _inputRow, _useInputs, _cachingEnabled, SEJ.BIGDECIMAL9 );
 		}
 
 		@Override
@@ -519,7 +520,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		public ScaledLongTestCase(SpreadsheetImpl _workbook, int _formulaRow, int _inputRow, boolean _useInputs,
 				boolean _cachingEnabled)
 		{
-			super( _workbook, _formulaRow, _inputRow, _useInputs, _cachingEnabled, NumericType.LONG4 );
+			super( _workbook, _formulaRow, _inputRow, _useInputs, _cachingEnabled, SEJ.LONG4 );
 		}
 
 		@Override
@@ -546,11 +547,12 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		{
 			final Outputs computation = (Outputs) _computation;
 			final long actual = computation.getNumber();
-			final long expected = ((Long) NumericType.LONG4.valueOf( _expected )).longValue();
+			final long expected = ((Long) SEJ.LONG4.valueOf( _expected )).longValue();
 			assertEquals( expected, actual );
 		}
 
 
+		@ScaledLong(4)
 		public static class Inputs extends FormulaEvaluationTestCase.Inputs
 		{
 			public Inputs(int _numberOfValues)
@@ -560,11 +562,12 @@ public class FormulaEvaluationTestSuite extends TestSuite
 
 			public long getNumber( int _index )
 			{
-				return ((Long) NumericType.LONG4.valueOf( getDouble( _index ) )).longValue();
+				return ((Long) SEJ.LONG4.valueOf( getDouble( _index ) )).longValue();
 			}
 		}
 
 
+		@ScaledLong(4)
 		public static class Outputs extends FormulaEvaluationTestCase.Outputs
 		{
 			public long getNumber()

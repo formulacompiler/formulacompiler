@@ -21,10 +21,11 @@
 package sej.internal;
 
 import sej.NumericType;
+import sej.SEJ;
 
 public class DoubleTypeTest extends AbstractNumericTypeTest
 {
-	private final NumericType type = NumericType.DOUBLE;
+	private final NumericType type = SEJ.DOUBLE;
 	
 	@Override
 	protected NumericType getType()

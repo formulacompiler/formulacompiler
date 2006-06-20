@@ -22,12 +22,15 @@ package sej.tests.utils;
 
 import java.math.BigDecimal;
 
+import sej.runtime.ScaledLong;
+
 /**
  * Used to be an interface, but since SEJ checks that the output is fully implemented, I had to
  * revert to this class here.
  * 
  * @author peo
  */
+@ScaledLong(4)
 public class Outputs implements OutputInterface
 {
 	public double getResult()

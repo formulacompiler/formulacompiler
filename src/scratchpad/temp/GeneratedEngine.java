@@ -54,7 +54,7 @@ public class GeneratedEngine extends Outputs implements Computation
 
 	public final boolean getBool()
 	{
-		return RuntimeDouble_v1.booleanFromExcel( getA() );
+		return RuntimeDouble_v1.booleanFromNum( getA() );
 	}
 
 	public final Iterable<Outputs> getDetails()
@@ -158,7 +158,7 @@ public class GeneratedEngine extends Outputs implements Computation
 	final double getDate()
 	{
 		Date date = null;
-		return RuntimeDouble_v1.dateToExcel( date );
+		return RuntimeDouble_v1.dateToNum( date );
 	}
 
 

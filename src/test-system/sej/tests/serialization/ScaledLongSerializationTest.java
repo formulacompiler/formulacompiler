@@ -21,6 +21,7 @@
 package sej.tests.serialization;
 
 import sej.NumericType;
+import sej.SEJ;
 
 public final class ScaledLongSerializationTest extends AbstractSerializationTest
 {
@@ -28,7 +29,7 @@ public final class ScaledLongSerializationTest extends AbstractSerializationTest
 	@Override
 	protected NumericType getNumericType()
 	{
-		return NumericType.LONG4;
+		return SEJ.LONG4;
 	}
 
 	@Override

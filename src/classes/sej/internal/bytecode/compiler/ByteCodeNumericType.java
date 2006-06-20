@@ -20,7 +20,9 @@
  */
 package sej.internal.bytecode.compiler;
 
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
@@ -32,18 +34,30 @@ import sej.CompilerError;
 import sej.Function;
 import sej.NumericType;
 import sej.Operator;
+import sej.internal.NumericTypeImpl;
+import sej.runtime.ScaledLong;
 
 
 abstract class ByteCodeNumericType
 {
-	private final NumericType num;
+	protected static final Type BOOLEAN_CLASS = Type.getType( Boolean.class );
+	protected static final Type BOOLEAN_TYPE = Type.BOOLEAN_TYPE;
+	protected static final String BOOL2Z = "(" + BOOLEAN_CLASS.getDescriptor() + ")" + BOOLEAN_TYPE.getDescriptor();
+	protected final static Type LONG_CLASS = Type.getType( Long.class );
+	protected final static Type LONG_TYPE = Type.LONG_TYPE;
+	protected static final String J2LONG = "(" + LONG_TYPE.getDescriptor() + ")" + LONG_CLASS.getDescriptor();
+	protected static final String LONG2J = "(" + LONG_CLASS.getDescriptor() + ")" + LONG_TYPE.getDescriptor();
+	protected final static Type NUMBER_CLASS = Type.getType( Number.class );
+	protected final static String N = NUMBER_CLASS.getDescriptor();
+
+	private final NumericTypeImpl num;
 	private final ByteCodeSectionCompiler compiler;
 
 
 	ByteCodeNumericType(NumericType _type, ByteCodeSectionCompiler _compiler)
 	{
 		super();
-		this.num = _type;
+		this.num = (NumericTypeImpl) _type;
 		this.compiler = _compiler;
 	}
 
@@ -64,7 +78,7 @@ abstract class ByteCodeNumericType
 	}
 
 
-	NumericType getNumericType()
+	NumericTypeImpl getNumericType()
 	{
 		return this.num;
 	}
@@ -141,24 +155,166 @@ abstract class ByteCodeNumericType
 		compileRuntimeMethod( _mv, "round", getRoundMethodSignature() );
 	}
 
-	void compileDateToExcel( MethodVisitor _mv )
+
+	public final void compileToNum( GeneratorAdapter _mv, Method _method ) throws CompilerError
 	{
-		compileRuntimeMethod( _mv, "dateToExcel", "(Ljava/util/Date;)" + getDescriptor() );
+		final Class returnType = _method.getReturnType();
+
+		if (java.util.Date.class == returnType) {
+			compileDateToNum( _mv );
+		}
+
+		else if (Boolean.TYPE == returnType) {
+			compileBooleanToNum( _mv );
+		}
+		else if (Boolean.class == returnType) {
+			compileRuntimeMethod( _mv, "unboxBoolean", BOOL2Z );
+			compileBooleanToNum( _mv );
+		}
+
+		else {
+			if (returnType == Long.TYPE || returnType == Long.class) {
+				final ScaledLong scale = getScaleOf( _method );
+				if (scale != null && scale.value() != 0) {
+					if (returnType == Long.class) {
+						compileRuntimeMethod( _mv, "unboxLong", LONG2J );
+					}
+					if (!compileToNum( _mv, scale )) {
+						throw new CompilerError.UnsupportedDataType( "Scaled long return type of input '"
+								+ _method + "' is not supported" );
+					}
+					return;
+				}
+			}
+			if (!compileToNum( _mv, returnType )) {
+				throw new CompilerError.UnsupportedDataType( "Return type of input '" + _method + "' is not supported" );
+			}
+		}
 	}
 
-	void compileDateFromExcel( MethodVisitor _mv )
+	protected abstract boolean compileToNum( GeneratorAdapter _mv, Class _returnType );
+
+	protected boolean compileToNum( GeneratorAdapter _mv, ScaledLong _scale )
 	{
-		compileRuntimeMethod( _mv, "dateFromExcel", "(" + getDescriptor() + ")Ljava/util/Date;" );
+		return false;
 	}
 
-	void compileBooleanToExcel( MethodVisitor _mv )
+
+	public final void compileReturnFromNum( GeneratorAdapter _mv, Method _method ) throws CompilerError
 	{
-		compileRuntimeMethod( _mv, "booleanToExcel", "(Z)" + getDescriptor() );
+		final Class returnType = _method.getReturnType();
+
+		if (Date.class == returnType) {
+			compileDateFromNum( _mv );
+			_mv.visitInsn( Opcodes.ARETURN );
+		}
+		else if (Boolean.TYPE == returnType) {
+			compileBooleanFromNum( _mv );
+			_mv.visitInsn( Opcodes.IRETURN );
+		}
+		else if (Boolean.class == returnType) {
+			compileBooleanFromNum( _mv );
+			returnBoxedType( _mv, returnType, Boolean.TYPE, Boolean.class );
+		}
+
+		else {
+			if (returnType == Long.TYPE || returnType == Long.class) {
+				final ScaledLong scale = getScaleOf( _method );
+				if (scale != null && scale.value() != 0) {
+					if (compileFromNum( _mv, scale )) {
+						if (returnType == Long.class) {
+							_mv.visitMethodInsn( Opcodes.INVOKESTATIC, LONG_CLASS.getInternalName(), "valueOf", J2LONG );
+							_mv.visitInsn( Opcodes.ARETURN );
+						}
+						else {
+							_mv.visitInsn( Opcodes.LRETURN );
+						}
+					}
+					else {
+						throw new CompilerError.UnsupportedDataType( "Scaled long return type of output '"
+								+ _method + "' is not supported" );
+					}
+					return;
+				}
+			}
+			if (!compileReturnFromNum( _mv, returnType )) {
+				throw new CompilerError.UnsupportedDataType( "Return type of output '" + _method + "' is not supported" );
+			}
+		}
 	}
 
-	void compileBooleanFromExcel( MethodVisitor _mv )
+	protected abstract boolean compileReturnFromNum( GeneratorAdapter _mv, Class _returnType );
+
+	protected boolean compileFromNum( GeneratorAdapter _mv, ScaledLong _scale )
 	{
-		compileRuntimeMethod( _mv, "booleanFromExcel", "(" + getDescriptor() + ")Z" );
+		return false;
+	}
+
+	protected final boolean returnBoxedType( MethodVisitor _mv, Class _returnType, Class _unboxed, Class _boxed,
+			int... _conversionOpcodes )
+	{
+		if (_returnType == _boxed) {
+			convertUnboxed( _mv, _conversionOpcodes );
+			final Type unboxedType = Type.getType( _unboxed );
+			final Type boxedType = Type.getType( _boxed );
+			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, boxedType.getInternalName(), "valueOf", "("
+					+ unboxedType.getDescriptor() + ")" + boxedType.getDescriptor() );
+			_mv.visitInsn( Opcodes.ARETURN );
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	protected boolean returnDualType( MethodVisitor _mv, Class _returnType, Class _unboxed, Class _boxed,
+			int _returnOpcode, int... _conversionOpcodes )
+	{
+		if (_returnType == _unboxed) {
+			convertUnboxed( _mv, _conversionOpcodes );
+			_mv.visitInsn( _returnOpcode );
+			return true;
+		}
+		else {
+			return returnBoxedType( _mv, _returnType, _unboxed, _boxed, _conversionOpcodes );
+		}
+	}
+
+	protected final void convertUnboxed( MethodVisitor _mv, int... _conversionOpcodes )
+	{
+		for (int conv : _conversionOpcodes) {
+			_mv.visitInsn( conv );
+		}
+	}
+
+
+	private ScaledLong getScaleOf( Method _method )
+	{
+		final ScaledLong typeScale = _method.getDeclaringClass().getAnnotation( ScaledLong.class );
+		final ScaledLong mtdScale = _method.getAnnotation( ScaledLong.class );
+		final ScaledLong scale = (mtdScale != null) ? mtdScale : typeScale;
+		return scale;
+	}
+
+
+	void compileDateToNum( MethodVisitor _mv )
+	{
+		compileRuntimeMethod( _mv, "dateToNum", "(Ljava/util/Date;)" + getDescriptor() );
+	}
+
+	void compileDateFromNum( MethodVisitor _mv )
+	{
+		compileRuntimeMethod( _mv, "dateFromNum", "(" + getDescriptor() + ")Ljava/util/Date;" );
+	}
+
+	void compileBooleanToNum( MethodVisitor _mv )
+	{
+		compileRuntimeMethod( _mv, "booleanToNum", "(Z)" + getDescriptor() );
+	}
+
+	void compileBooleanFromNum( MethodVisitor _mv )
+	{
+		compileRuntimeMethod( _mv, "booleanFromNum", "(" + getDescriptor() + ")Z" );
 	}
 
 }

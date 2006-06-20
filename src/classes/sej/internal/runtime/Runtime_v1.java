@@ -24,7 +24,7 @@ public abstract class Runtime_v1
 {
 
 	// ---- Excel date conversion; copied from JExcelAPI (DateRecord.java)
-	
+
 	static final long SECS_PER_DAY = 24 * 60 * 60;
 	static final long MS_PER_SEC = 1000;
 	static final long MS_PER_DAY = SECS_PER_DAY * MS_PER_SEC;
@@ -32,5 +32,16 @@ public abstract class Runtime_v1
 	static final int UTC_OFFSET_DAYS = 25569;
 	static final int UTC_OFFSET_DAYS_1904 = 24107;
 	static final boolean BASED_ON_1904 = false;
+
+
+	public static boolean unboxBoolean( Boolean _boxed )
+	{
+		return (_boxed == null) ? false : _boxed;
+	}
+
+	public static long unboxLong( Long _boxed )
+	{
+		return (_boxed == null) ? 0L : _boxed;
+	}
 
 }
