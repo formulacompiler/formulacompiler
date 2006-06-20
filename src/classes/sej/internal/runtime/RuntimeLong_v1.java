@@ -23,12 +23,12 @@ package sej.internal.runtime;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import sej.runtime.ScaledLong;
+import sej.runtime.ScaledLongSupport;
 
 
 public final class RuntimeLong_v1 extends Runtime_v1
 {
-	public static long[] ONE_AT_SCALE = ScaledLong.ONE;
+	public static long[] ONE_AT_SCALE = ScaledLongSupport.ONE;
 	public static long[] HALF_AT_SCALE = new long[ ONE_AT_SCALE.length ];
 
 	static {
@@ -120,7 +120,7 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		public BigDecimal toBigDecimal( long _value )
 		{
 			if (_value == 0) {
-				return BigDecimal.ZERO;
+				return RuntimeBigDecimal_v1.ZERO;
 			}
 			else if (this.scale == 0) {
 				return BigDecimal.valueOf( _value );

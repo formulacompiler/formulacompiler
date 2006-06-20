@@ -39,6 +39,7 @@ import sej.internal.NumericTypeImpl;
 import sej.internal.runtime.RuntimeDouble_v1;
 import sej.internal.runtime.RuntimeLong_v1;
 import sej.runtime.ScaledLong;
+import sej.runtime.ScaledLongSupport;
 
 final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 {
@@ -449,12 +450,12 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 	private void compileScaleCorrection( GeneratorAdapter _mv, int _have, int _want )
 	{
 		if (_have > _want) {
-			long correct = ScaledLong.ONE[ _have ] / ScaledLong.ONE[ _want ];
+			long correct = ScaledLongSupport.ONE[ _have ] / ScaledLongSupport.ONE[ _want ];
 			_mv.push( correct );
 			_mv.visitInsn( Opcodes.LDIV );
 		}
 		else if (_have < _want) {
-			long correct = ScaledLong.ONE[ _want ] / ScaledLong.ONE[ _have ];
+			long correct = ScaledLongSupport.ONE[ _want ] / ScaledLongSupport.ONE[ _have ];
 			_mv.push( correct );
 			_mv.visitInsn( Opcodes.LMUL );
 		}
