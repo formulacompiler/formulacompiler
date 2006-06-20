@@ -34,53 +34,60 @@
 <h2><a name="double">Using <tt>double</tt></a></h2>
 <p>Since <tt>double</tt> is the default, you can simply use the default engine builder, without specifying the type. If you want to give the type explicitly, use:</p>
 <p>[jc:sej.tutorials.UsingDouble:---- buildCompiler]</p>
-<p>When using <tt>double</tt>, all our numeric inputs and outputs must be declared as <tt>double</tt> as well:</p>
+<p>When using <tt>double</tt>, the natural type for our numeric inputs and outputs is, of course, <tt>double</tt> as well. Other types are converted by SEJ to a <tt>double</tt> prior to using them in the computation.</p>
 <p>[jc:sej.tutorials.UsingDouble:---- IO]</p>
-<p>In this example, we divide <em>InputA</em> by <em>InputB</em>, ie. 1/6. The result is returned with <tt>double</tt>'s precision:</p>
+<p>In this example, we divide <em>InputA</em> by <em>InputB</em> and add <em>InputA</em>, ie. 1 + 1/6. The result is returned with <tt>double</tt>'s precision:</p>
 <p>[jc:sej.tutorials.UsingDouble:---- checkResult]</p>
 
 <h2><a name="BigDecimal">Using <tt>BigDecimal</tt></a></h2>
 <p>As I explained before, <tt>BigDecimal</tt> can be used with an arbitrary, fixed scale and defined rounding mode. In this example, we choose greater precision than <tt>double</tt> offers (namely 20 decimals after the point) and always round up. We only need to change one line compared to the builder setup for the <a href="#double"><tt>double</tt> example</a>:</p>
 <p>[jc:sej.tutorials.UsingBigDecimal:---- buildCompiler]</p>
-<p>All our numeric inputs and outputs must now be declared as <tt>BigDecimal</tt>:</p>
+<p>The natural type for our numeric inputs and outputs is now <tt>BigDecimal</tt>. Again, other types are converted by SEJ to a <tt>BigDecimal</tt> prior to using them in the computation.</p>
 <p>[jc:sej.tutorials.UsingBigDecimal:---- IO]</p>
-<p>We again compute 1/6. The result is returned with the increased precision we demanded, rounded up:</p>
+<p>We again compute 1 + 1/6. The result is returned with the increased precision we demanded, rounded up:</p>
 <p>[jc:sej.tutorials.UsingBigDecimal:---- checkResult]</p>
 
 <h3>Predefined <tt>BIGDECIMAL8</tt></h3>
 <p>A good choice for financial applications is the predefined type <tt>BIGDECIMAL8</tt>. This type has a fixed scale of 8 and rounds halves up:</p>
 <p>[jc:sej.tutorials.UsingBigDecimal:---- buildCompiler8]</p>
-<p>We again compute 1/6. The result is returned with the defined 8 decimals after the point, rounded up since the last <tt>6</tt> is higher than a half:</p>
+<p>We again compute 1 + 1/6. The result is returned with the defined 8 decimals after the point, rounded up since the last <tt>6</tt> is higher than a half:</p>
 <p>[jc:sej.tutorials.UsingBigDecimal:---- checkResult8a]</p>
-<p>If, instead, we compute 1/3, we get a result that is rounded down since the last <tt>3</tt> is less than a half:</p>
+<p>If, instead, we compute 1 + 1/3, we get a result that is rounded down since the last <tt>3</tt> is less than a half:</p>
 <p>[jc:sej.tutorials.UsingBigDecimal:---- checkResult8b]</p>
 
 <h3>Unscaled <tt>BigDecimal</tt></h3>
 <p>Let's use a <tt>BigDecimal</tt> without a fixed scale:</p>
 <p>[jc:sej.tutorials.UsingBigDecimal:---- buildCompilerN]</p>
-<p>With this beast, you have to be very careful about the computations your users specify in the spreadsheets. This is because <tt>BigDecimal</tt> will fail for non-representable fractions. The value of 1/4 can be computed ok:</p>
+<p>With this beast, you have to be very careful about the computations your users specify in the spreadsheets. This is because <tt>BigDecimal</tt> will fail for non-representable fractions. The value of 1 + 1/4 can be computed ok:</p>
 <p>[jc:sej.tutorials.UsingBigDecimal:---- checkResultNa]</p>
-<p>But 1/3 does not have a finite decimal representation, so <tt>BigDecimal</tt> faults:</p>
+<p>But 1 + 1/3 does not have a finite decimal representation, so <tt>BigDecimal</tt> faults:</p>
 <p>[jc:sej.tutorials.UsingBigDecimal:---- checkResultNb]</p>
 
 <h2><a name="long">Using scaled <tt>long</tt></a></h2>
 <p>The <tt>long</tt> type can be used either as an integer type, or in scaled mode. In scaled mode, it is still a long, but interpreted as if the <em>n</em> rightmost digits were decimal places. In this example, we choose 3 digits after the decimal point. Note that as of release 0.4.1, scaled long does not support rounding modes. It always truncates. Again, we only need to change one line compared to the builder setup for the <a href="#double"><tt>double</tt> example</a>:</p>
 <p>[jc:sej.tutorials.UsingScaledLong:---- buildCompiler]</p>
-<p>All our numeric inputs and outputs must now be declared as <tt>long</tt>. Note how we must take care to feed properly scaled values as input.</p>
+<p>The natural type for our numeric inputs and outputs is now <tt>long</tt>. But we have a problem here: <tt>long</tt> is not normally scaled. So SEJ needs a way to differentiate between values that are normal, unscaled <tt>long</tt> values, and values that are scaled.</p>
+<p>SEJ does not simply assume all <tt>long</tt> values to be scaled. This would be unexpected behaviour. And it would prohibit using the same interface for engines of different numeric types. For example, you could have a base interface you use for both scaled and unscaled <tt>long</tt> computations, which has a <tt>long getNumberOfItems()</tt> method.</p>
+<p>There are two ways you can tell SEJ that a <tt>long</tt> is already scaled:</p>
+<ul class="spaced">
+<li>Use the annotation <tt>@ScaledLong</tt> on the input or output method.</li>
+<li>Use the annotation <tt>@ScaledLong</tt> on the entire input or output type. This sets the default for all <tt>long</tt> return types of method of the type that don't override the scale themselves.</li>
+</ul>
+<p>Since scaled long support depends on annotations, you cannot use it in SEJ's Java 1.4 compatibility mode.</p>
 <p>[jc:sej.tutorials.UsingScaledLong:---- IO]</p>
-<p>We again compute 1/6. The result is a scaled <tt>long</tt> (so <tt>166L</tt> is the scaled <tt>long</tt> equivalent of 0.166). We get 0.166 and not 0.167 because the scaled long always truncates results (this is how <tt>long</tt> itself works in Java):</p>
+<p>We again compute 1 + 1/6. The result is a scaled <tt>long</tt> (so <tt>1166L</tt> is the scaled <tt>long</tt> equivalent of 1.166). We get 1.166 and not 1.167 because the scaled long always truncates results (this is how <tt>long</tt> itself works in Java):</p>
 <p>[jc:sej.tutorials.UsingScaledLong:---- checkResult]</p>
 
 <h3>Predefined <tt>LONG4</tt></h3>
-<p>A good choice for financial applications is the predefined type <tt>LONG4</tt>. This type has a fixed scale of 4 and behaves much like the <em>currency</em> type found in Microsoft COM and Borland Delphi.</p>
+<p>A good choice for financial applications is the predefined type <tt>LONG4</tt>. This type has a fixed scale of 4 and behaves much like the <em>currency</em> type found in Microsoft COM and Borland Delphi. To use it, we need to switch to a version of the output interface with proper scaling (<tt>Input4</tt> and <tt>Output4</tt> specify <tt>@ScaledLong(4)</tt>).</p>
 <p>[jc:sej.tutorials.UsingScaledLong:---- buildCompiler4]</p>
-<p>We again compute 1/6. The result is returned with the defined 4 decimals after the point, truncated:</p>
+<p>We again compute 1 + 1/6. The result is returned with the defined 4 decimals after the point, truncated:</p>
 <p>[jc:sej.tutorials.UsingScaledLong:---- checkResult4]</p>
 
 <h3>Unscaled <tt>long</tt></h3>
-<p>Let's use a <tt>long</tt> without decimal places:</p>
+<p>Let's use a <tt>long</tt> without decimal places (<tt>Input0</tt> and <tt>Output0</tt> specify <tt>@ScaledLong(0)</tt>):</p>
 <p>[jc:sej.tutorials.UsingScaledLong:---- buildCompiler0]</p>
-<p>If we compute 1/6 here, we simply get 0:</p>
+<p>If we compute 1 + 1/6 here, we simply get 0:</p>
 <p>[jc:sej.tutorials.UsingScaledLong:---- checkResult0]</p>
 
 <h2><a name="GlobalSetting">Numeric Type Is A Global Setting</a></h2>
@@ -104,7 +111,7 @@ BigDecimal total, price_per_mm3;</pre>
 <p>The responsibility for this choice, and for communicating its consequences to the sheet designers, rests fully with you, the programmer. But it does allow you to generate engines suited for precise financial or very fast pure integer computations.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 14.06.2006.</p>        </div>
+<br/>Last updated on 20.06.2006.</p>        </div>
     </div>
 </body>
 </html>

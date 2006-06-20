@@ -24,7 +24,6 @@ import java.text.NumberFormat;
 
 import sej.Aggregator;
 import sej.CompilerError;
-import sej.NumericType;
 import sej.Operator;
 import sej.Orientation;
 import sej.SEJ;
@@ -87,7 +86,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 		rootDef.defineOutputCell( o2.getCellIndex(), getOutput( "getB" ) );
 		rootDef.defineOutputCell( io1.getCellIndex(), getOutput( "getC" ) );
 
-		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), NumericType.DOUBLE );
+		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), SEJ.DOUBLE );
 		ComputationModel model = compiler.buildNewModel();
 
 		model.traverse( new ReferenceCounter() );
@@ -166,7 +165,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 		SpreadsheetBinder def = newBinder( workbook );
 		bld.defineWorkbook( def.getRoot() );
 
-		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), NumericType.DOUBLE );
+		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), SEJ.DOUBLE );
 		ComputationModel model = compiler.buildNewModel();
 		SectionModel root = model.getRoot();
 
@@ -211,7 +210,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 		bld.defineRange( def.getRoot() );
 		bld.details.defineOutputCell( bld.r1c4.getCellIndex(), getInput( "getOne" ) );
 
-		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), NumericType.DOUBLE );
+		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), SEJ.DOUBLE );
 		ComputationModel model = compiler.buildNewModel();
 		SectionModel root = model.getRoot();
 
@@ -259,7 +258,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 		inputsDef.defineInputCell( i1.getCellIndex(), getInput( "getOne" ) );
 		outputsDef.defineOutputCell( o1.getCellIndex(), getOutput( "getA" ) );
 
-		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), NumericType.DOUBLE );
+		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), SEJ.DOUBLE );
 		ComputationModel model = compiler.buildNewModel();
 		SectionModel root = model.getRoot();
 
@@ -300,7 +299,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 		rootDef.defineOutputCell( o1.getCellIndex(), getOutput( "getA" ) );
 		rootDef.defineOutputCell( o2.getCellIndex(), getOutput( "getB" ) );
 
-		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), NumericType.DOUBLE );
+		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), SEJ.DOUBLE );
 		ComputationModel model = compiler.buildNewModel();
 		SectionModel root = model.getRoot();
 
@@ -369,7 +368,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 		rootDef.defineRepeatingSection( rng, Orientation.HORIZONTAL, getInput( "getDetails" ), Inputs.class, null, null );
 		rootDef.defineOutputCell( output.getCellIndex(), getOutput( "getResult" ) );
 
-		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), NumericType.DOUBLE );
+		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), SEJ.DOUBLE );
 		try {
 			compiler.buildNewModel();
 			fail( "Definition for " + output + " accepted even though it does not cover the full range." );

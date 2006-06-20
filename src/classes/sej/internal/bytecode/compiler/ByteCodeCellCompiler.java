@@ -21,7 +21,6 @@
 package sej.internal.bytecode.compiler;
 
 import java.lang.reflect.Method;
-import java.util.Date;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -154,13 +153,14 @@ final class ByteCodeCellCompiler extends ByteCodeSectionMethodCompiler
 			if (callFrame.getHead() != callFrame) throw new IllegalArgumentException();
 
 			final Method method = callFrame.getMethod();
-			final Class returnClass = method.getReturnType();
 			final Type returnType = Type.getReturnType( method );
 
 			if (0 == callFrame.getArgs().length) {
-				MethodVisitor mv = this.cellComputation.getSection().cw().visitMethod(
-						Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL, method.getName(), "()" + returnType.getDescriptor(), null,
-						null );
+				final int access = Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL;
+				final String name = method.getName();
+				final String sig = "()" + returnType.getDescriptor();
+				MethodVisitor mtd = this.cellComputation.getSection().cw().visitMethod( access, name, sig, null, null );
+				GeneratorAdapter mv = new GeneratorAdapter( mtd, access, name, sig );
 				mv.visitCode();
 
 				compileRef( mv, this.cellComputation );
@@ -170,21 +170,7 @@ final class ByteCodeCellCompiler extends ByteCodeSectionMethodCompiler
 					getNumericType().compileRound( mv );
 				}
 
-				if (returnClass == getNumericType().getNumericType().getValueType()) {
-					mv.visitInsn( getNumericType().getReturnOpcode() );
-				}
-				else if (Date.class == returnClass) {
-					getNumericType().compileDateFromExcel( mv );
-					mv.visitInsn( Opcodes.ARETURN );
-				}
-				else if (Boolean.TYPE == returnClass) {
-					getNumericType().compileBooleanFromExcel( mv );
-					mv.visitInsn( Opcodes.IRETURN );
-				}
-				else {
-					throw new CompilerError.UnsupportedDataType( "Output type for '"
-							+ callFrame.toString() + "' is not supported" );
-				}
+				getNumericType().compileReturnFromNum( mv, method );
 
 				mv.visitMaxs( 0, 0 );
 				mv.visitEnd();

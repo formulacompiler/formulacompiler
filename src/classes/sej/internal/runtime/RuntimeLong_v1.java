@@ -20,12 +20,15 @@
  */
 package sej.internal.runtime;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
+import sej.runtime.ScaledLong;
+
 
 public final class RuntimeLong_v1 extends Runtime_v1
 {
-	public static long[] ONE_AT_SCALE = new long[] { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000,
-			1000000000, 10000000000L, 100000000000L, 1000000000000L, 10000000000000L, 100000000000000L, 1000000000000000L,
-			10000000000000000L, 100000000000000000L, 1000000000000000000L };
+	public static long[] ONE_AT_SCALE = ScaledLong.ONE;
 	public static long[] HALF_AT_SCALE = new long[ ONE_AT_SCALE.length ];
 
 	static {
@@ -54,15 +57,79 @@ public final class RuntimeLong_v1 extends Runtime_v1
 
 		double toDouble( long _value )
 		{
-			if (this.scale == 0) return _value;
-			return _value / this.oneAsDouble;
+			if (_value == 0) {
+				return 0.0;
+			}
+			else if (this.scale == 0) {
+				return _value;
+			}
+			else {
+				return _value / this.oneAsDouble;
+			}
 		}
 
 		long fromDouble( double _value )
 		{
-			if (this.scale == 0) return (long) _value;
-			return (long) (_value * this.oneAsDouble);
+			if (_value == 0.0) {
+				return 0L;
+			}
+			else if (this.scale == 0) {
+				return (long) _value;
+			}
+			else {
+				return (long) (_value * this.oneAsDouble);
+			}
 		}
+
+		long fromBoxedDouble( Number _value )
+		{
+			if (_value == null) {
+				return 0L;
+			}
+			else {
+				return fromDouble( _value.doubleValue() );
+			}
+		}
+
+		long fromNumber( Number _value )
+		{
+			if (_value == null) {
+				return 0L;
+			}
+			else if (this.scale == 0) {
+				return _value.longValue();
+			}
+			else {
+				return _value.longValue() * this.one;
+			}
+		}
+
+		long fromBigDecimal( BigDecimal _value )
+		{
+			if (_value == null) {
+				return 0L;
+			}
+			else if (this.scale == 0) {
+				return _value.longValue();
+			}
+			else {
+				return RuntimeBigDecimal_v1.toScaledLong( _value, this.scale );
+			}
+		}
+
+		public BigDecimal toBigDecimal( long _value )
+		{
+			if (_value == 0) {
+				return BigDecimal.ZERO;
+			}
+			else if (this.scale == 0) {
+				return BigDecimal.valueOf( _value );
+			}
+			else {
+				return RuntimeBigDecimal_v1.fromScaledLong( _value, this.scale );
+			}
+		}
+
 	}
 
 
@@ -112,14 +179,54 @@ public final class RuntimeLong_v1 extends Runtime_v1
 	}
 
 
-	public static boolean booleanFromExcel( final long _val )
+	public static boolean booleanFromNum( final long _val )
 	{
 		return (_val != 0);
 	}
 
-	public static long booleanToExcel( final boolean _val, Context _cx )
+	public static long booleanToNum( final boolean _val, Context _cx )
 	{
 		return _val ? _cx.one : 0;
+	}
+
+	public static Date dateFromNum( final long _val, Context _cx )
+	{
+		return RuntimeDouble_v1.dateFromNum( toDouble( _val, _cx ) );
+	}
+
+	public static long dateToNum( final Date _val, Context _cx )
+	{
+		return fromDouble( RuntimeDouble_v1.dateToNum( _val ), _cx );
+	}
+
+	public static long fromNumber( Number _val, Context _cx )
+	{
+		return _cx.fromNumber( _val );
+	}
+
+	public static long fromDouble( double _val, Context _cx )
+	{
+		return _cx.fromDouble( _val );
+	}
+
+	public static long fromBoxedDouble( Number _val, Context _cx )
+	{
+		return _cx.fromBoxedDouble( _val );
+	}
+
+	public static double toDouble( long _val, Context _cx )
+	{
+		return _cx.toDouble( _val );
+	}
+
+	public static long fromBigDecimal( BigDecimal _val, Context _cx )
+	{
+		return _cx.fromBigDecimal( _val );
+	}
+
+	public static BigDecimal toBigDecimal( long _val, Context _cx )
+	{
+		return _cx.toBigDecimal( _val );
 	}
 
 }

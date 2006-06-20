@@ -20,9 +20,6 @@
  */
 package sej.internal.bytecode.compiler;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import sej.CallFrame;
 import sej.CompilerError;
 import sej.internal.model.CellModel;
@@ -70,7 +67,7 @@ final class ByteCodeCellComputation
 	private void validateInputType() throws CompilerError
 	{
 		if (this.cell.isInput()) {
-			validateReturnTypeOf( this.cell.getCallChainToCall(), "input" );
+			getSection().getNumericType().getNumericType().validateReturnTypeForCell( this.cell.getCallChainToCall().getMethod() );
 		}
 	}
 
@@ -80,22 +77,9 @@ final class ByteCodeCellComputation
 			if (frame.getHead() != frame) {
 				throw new CompilerError.UnsupportedDataType( "The output method " + frame + " cannot be chained." );
 			}
-			validateReturnTypeOf( frame, "output" );
+			getSection().getNumericType().getNumericType().validateReturnTypeForCell( frame.getMethod() );
 		}
 	}
-
-	private void validateReturnTypeOf( CallFrame _frame, String _usage ) throws CompilerError
-	{
-		final Class returnType = _frame.getMethod().getReturnType();
-		if (Double.TYPE == returnType) return;
-		if (Long.TYPE == returnType) return;
-		if (Boolean.TYPE == returnType) return;
-		if (Date.class == returnType) return;
-		if (BigDecimal.class == returnType) return;
-		throw new CompilerError.UnsupportedDataType( "The "
-				+ _usage + " method " + _frame + " has an unsupported return type " + returnType );
-	}
-
 
 	void compile() throws CompilerError
 	{

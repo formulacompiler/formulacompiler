@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.HashMap;
 
 import org.objectweb.asm.ClassWriter;
@@ -78,8 +79,9 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 	static final Type ENGINE_INTF = Type.getType( Engine.class );
 	static final Type COMPUTATION_INTF = Type.getType( Computation.class );
 	static final String INPUTS_MEMBER_NAME = "inputs";
-	static final Type MATH = Type.getType( Math.class );
-	static final Type BIGDECIMAL = Type.getType( BigDecimal.class );
+	static final Type MATH_CLASS = Type.getType( Math.class );
+	static final Type BIGDECIMAL_CLASS = Type.getType( BigDecimal.class );
+	static final Type BIGINTEGER_CLASS = Type.getType( BigInteger.class );
 
 	private final boolean canCache;
 

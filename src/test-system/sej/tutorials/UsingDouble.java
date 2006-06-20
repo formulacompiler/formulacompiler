@@ -21,7 +21,6 @@
 package sej.tutorials;
 
 import sej.EngineBuilder;
-import sej.NumericType;
 import sej.SEJ;
 import sej.runtime.Engine;
 import junit.framework.TestCase;
@@ -37,7 +36,7 @@ public class UsingDouble extends TestCase
 		EngineBuilder builder = SEJ.newEngineBuilder();
 		builder.loadSpreadsheet( path );
 		builder.setFactoryClass( Factory.class );
-		/**/builder.setNumericType( NumericType.DOUBLE );/**/
+		/**/builder.setNumericType( SEJ.DOUBLE );/**/
 		builder.bindAllByName();
 		Engine engine = builder.compile();
 		Factory factory = (Factory) engine.getComputationFactory();
@@ -45,7 +44,7 @@ public class UsingDouble extends TestCase
 
 		// ---- checkResult
 		Output output = factory.newInstance( new Input() );
-		assertEquals( /**/"0.16666666666666666"/**/, String.valueOf( output.getResult()) );
+		assertEquals( /**/"1.1666666666666667"/**/, String.valueOf( output.getResult()) );
 		// ---- checkResult
 	}
 
@@ -67,6 +66,5 @@ public class UsingDouble extends TestCase
 		Output newInstance( Input _input );
 	}
 	// ---- IO
-
 
 }

@@ -43,7 +43,6 @@ import sej.Spreadsheet.NameDefinition;
  */
 public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 {
-
 	private final SpreadsheetBinder binder;
 	private final CellBinderImpl inputBinder;
 	private final CellBinderImpl outputBinder;
@@ -149,7 +148,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 			final String cellName = _def.getName();
 			if (!bindThisNamedCellToMethod( cellName, _def ) && !bindThisNamedCellToMethod( "get" + cellName, _def )) {
 				throw new CompilerError.NameNotFound( "There is no input method named either '"
-						+ cellName + "' or 'get" + cellName + "' with no parameters" );
+						+ cellName + "' or 'get" + cellName + "' with no parameters (case is irrelevant)" );
 			}
 		}
 

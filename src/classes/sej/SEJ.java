@@ -309,6 +309,47 @@ public class SEJ extends SEJRuntime
 	}
 
 
+	/**
+	 * Default type, consistent with the type used internally by Excel and other spreadsheet
+	 * applications.
+	 */
+	public static final NumericType DOUBLE = getNumericType( Double.TYPE );
+
+	/**
+	 * BigDecimal with a fixed scale of 8 and using {@link BigDecimal#ROUND_HALF_UP}. A good choice
+	 * for financial applications.
+	 */
+	public static final NumericType BIGDECIMAL8 = getNumericType( BigDecimal.class, 8, BigDecimal.ROUND_HALF_UP );
+
+	/**
+	 * BigDecimal with a fixed scale of 9 and using {@link BigDecimal#ROUND_HALF_UP}. This type has
+	 * the same precision as {@link #DOUBLE} for the automated tests.
+	 */
+	public static final NumericType BIGDECIMAL9 = getNumericType( BigDecimal.class, 9, BigDecimal.ROUND_HALF_UP );
+
+	/**
+	 * Unscaled {@code long} for fast, strictly integer computations.
+	 */
+	public static final NumericType LONG = getNumericType( Long.TYPE, 0 );
+
+	/**
+	 * {@code long} scaled to 4 decimal places for fast, fixed point computations (similar to the
+	 * currency type found in Microsoft COM and Borland Delphi).
+	 */
+	public static final NumericType LONG4 = getNumericType( Long.TYPE, 4 );
+
+	/**
+	 * Scaled {@code long} with 4 decimal places. Corresponds to the Currency type found in Microsoft
+	 * COM and Borland Delphi.
+	 */
+	public static final NumericType CURRENCY = LONG4;
+
+	/**
+	 * Default type used when no explicit type is specified.
+	 */
+	public static final NumericType DEFAULT_NUMERIC_TYPE = DOUBLE;
+
+	
 	// ------------------------------------------------ Util access for config records
 
 

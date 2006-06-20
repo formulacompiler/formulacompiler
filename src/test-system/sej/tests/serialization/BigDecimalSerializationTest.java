@@ -21,6 +21,7 @@
 package sej.tests.serialization;
 
 import sej.NumericType;
+import sej.SEJ;
 
 public final class BigDecimalSerializationTest extends AbstractSerializationTest
 {
@@ -28,7 +29,7 @@ public final class BigDecimalSerializationTest extends AbstractSerializationTest
 	@Override
 	protected NumericType getNumericType()
 	{
-		return NumericType.BIGDECIMAL8;
+		return SEJ.BIGDECIMAL8;
 	}
 
 	@Override

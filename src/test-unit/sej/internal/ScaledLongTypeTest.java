@@ -21,11 +21,12 @@
 package sej.internal;
 
 import sej.NumericType;
+import sej.SEJ;
 
 
 public class ScaledLongTypeTest extends AbstractNumericTypeTest
 {
-	private final NumericType type = NumericType.LONG4;
+	private final NumericType type = SEJ.LONG4;
 
 	@Override
 	protected NumericType getType()

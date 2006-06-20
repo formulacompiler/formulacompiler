@@ -54,7 +54,7 @@ public interface SpreadsheetCompiler
 		/**
 		 * The numeric type to use for all internal computations.
 		 */
-		public NumericType numericType = NumericType.DEFAULT;
+		public NumericType numericType = SEJ.DEFAULT_NUMERIC_TYPE;
 
 		/**
 		 * Specifies either a class from which to descend the generated computation factory, or an

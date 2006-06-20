@@ -21,6 +21,7 @@
 package sej.internal.runtime;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 
@@ -32,7 +33,12 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 
 	public static BigDecimal newBigDecimal( final String _value )
 	{
-		return new BigDecimal( _value );
+		return (_value == null) ? ZERO : new BigDecimal( _value );
+	}
+
+	public static BigDecimal newBigDecimal( final BigInteger _value )
+	{
+		return (_value == null) ? ZERO : new BigDecimal( _value );
 	}
 
 	public static BigDecimal round( final BigDecimal _val, final int _maxFrac )
@@ -44,37 +50,64 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 	{
 		return round( _val, _maxFrac.intValue() );
 	}
-	
+
 	public static BigDecimal pow( final BigDecimal x, final BigDecimal n )
 	{
 		return x.pow( n.intValue() );
 	}
 
 
-	public static boolean booleanFromExcel( final BigDecimal _val )
+	public static boolean booleanFromNum( final BigDecimal _val )
 	{
 		return (_val.compareTo( ZERO ) != 0);
 	}
 
-	public static BigDecimal booleanToExcel( final boolean _val )
+	public static BigDecimal booleanToNum( final boolean _val )
 	{
 		return _val ? ONE : ZERO;
 	}
 
 
+	public static long numberToLong( final Number _val )
+	{
+		return (_val == null) ? 0L : _val.longValue();
+	}
+
+	public static double numberToDouble( final Number _val )
+	{
+		return (_val == null) ? 0.0 : _val.doubleValue();
+	}
+
+
+	public static BigDecimal fromScaledLong( long _scaled, int _scale )
+	{
+		return BigDecimal.valueOf( _scaled, _scale );
+	}
+
+	public static long toScaledLong( BigDecimal _value, int _scale )
+	{
+		return toScaledLong( _value, _scale, BigDecimal.ROUND_DOWN );
+	}
+
+	public static long toScaledLong( BigDecimal _value, int _scale, int _roundingMode )
+	{
+		return _value.setScale( _scale, _roundingMode ).movePointRight( _scale ).longValue();
+	}
+
+	
 	private static BigDecimal MSINADAY = new BigDecimal( MS_PER_DAY );
 	private static BigDecimal NONLEAPDAY = new BigDecimal( NON_LEAP_DAY );
 	private static BigDecimal UTCOFFSETDAYS = new BigDecimal( UTC_OFFSET_DAYS );
 
 
-	public static Date dateFromExcel( final BigDecimal _excel )
+	public static Date dateFromNum( final BigDecimal _excel )
 	{
-		return RuntimeDouble_v1.dateFromExcel( _excel.doubleValue() );
+		return RuntimeDouble_v1.dateFromNum( _excel.doubleValue() );
 	}
 
-	public static BigDecimal dateToExcel( final Date _date )
+	public static BigDecimal dateToNum( final Date _date )
 	{
-		final long utcValue = _date.getTime();
+		final long utcValue = (_date == null) ? 0 : _date.getTime();
 		final boolean time = (utcValue < MS_PER_DAY);
 
 		// Convert this to the number of days, plus fractions of a day since
@@ -84,7 +117,7 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		// Add in the offset to get the number of days since 01 Jan 1900
 		BigDecimal value = utcDays.add( UTCOFFSETDAYS );
 
-		// Work round a bug in excel. Excel seems to think there is a date
+		// Work round a bug in Excel. Excel seems to think there is a date
 		// called the 29th Feb, 1900 - but this was not a leap year.
 		// Therefore for values less than 61, we must subtract 1. Only do
 		// this for full dates, not times

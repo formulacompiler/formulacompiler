@@ -38,6 +38,20 @@ public final class Util
 		super();
 	}
 
+	
+	public static String trimTrailingZerosAndPoint( String _string )
+	{
+		String result = _string;
+		if (result.contains( "." )) {
+			int l = result.length();
+			while ('0' == result.charAt( l - 1 ))
+				l--;
+			if ('.' == result.charAt( l - 1 )) l--;
+			result = result.substring( 0, l );
+		}
+		return result;
+	}
+
 
 	public static void validateIsAccessible( Class _class, String _role )
 	{

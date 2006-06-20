@@ -23,8 +23,8 @@ package sej.internal.model.optimizer;
 import java.math.BigDecimal;
 
 import sej.Aggregator;
-import sej.NumericType;
 import sej.Operator;
+import sej.SEJ;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
@@ -100,7 +100,7 @@ public abstract class AbstractOptimizerTest extends AbstractTestBase
 	{
 		BigDecimal value = (BigDecimal) _constCell.getConstantValue();
 		assertNotNull( _expected, value );
-		String actual = NumericType.BIGDECIMAL8.valueToConciseString( value );
+		String actual = SEJ.BIGDECIMAL8.valueToConciseString( value );
 		assertEquals( _expected, actual );
 	}
 

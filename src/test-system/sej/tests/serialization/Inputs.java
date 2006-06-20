@@ -22,8 +22,9 @@ package sej.tests.serialization;
 
 import java.math.BigDecimal;
 
-// ---- Inputs
+import sej.runtime.ScaledLong;
 
+// ---- Inputs
 public final class Inputs
 {
 	final String a;
@@ -45,17 +46,19 @@ public final class Inputs
 	{
 		return Double.parseDouble( this.b );
 	}
-	
+
+	@ScaledLong(4)
 	public long getA_Long4()
 	{
-		return (long) (getA() * 10000);
+		return (long) (getA() * ScaledLong.ONE[ 4 ]);
 	}
 
+	@ScaledLong(4)
 	public long getB_Long4()
 	{
-		return (long) (getB() * 10000);
+		return (long) (getB() * ScaledLong.ONE[ 4 ]);
 	}
-	
+
 	public BigDecimal getA_Big()
 	{
 		return new BigDecimal( this.a );
@@ -65,7 +68,6 @@ public final class Inputs
 	{
 		return new BigDecimal( this.b );
 	}
-	
-}
 
+}
 // ---- Inputs

@@ -22,8 +22,6 @@ package sej.internal;
 
 import java.lang.reflect.Method;
 
-import sej.internal.Util;
-
 import junit.framework.TestCase;
 
 public class UtilTest extends TestCase

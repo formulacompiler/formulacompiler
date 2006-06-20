@@ -179,7 +179,7 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	protected void compileInput( CallFrame _callChainToCall )
+	protected void compileInput( CallFrame _callChainToCall ) throws CompilerError
 	{
 		final CallFrame[] frames = _callChainToCall.getFrames();
 
@@ -202,13 +202,8 @@ abstract class ByteCodeSectionMethodCompiler
 
 			contextClass = method.getReturnType();
 		}
-
-		if (java.util.Date.class == contextClass) {
-			getNumericType().compileDateToExcel( mv() );
-		}
-		else if (Boolean.TYPE == contextClass) {
-			getNumericType().compileBooleanToExcel( mv() );
-		}
+		
+		getNumericType().compileToNum( mv(), _callChainToCall.getMethod() );
 	}
 
 

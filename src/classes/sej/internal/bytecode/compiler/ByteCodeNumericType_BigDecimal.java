@@ -21,11 +21,13 @@
 package sej.internal.bytecode.compiler;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -36,20 +38,24 @@ import sej.NumericType;
 import sej.Operator;
 import sej.internal.runtime.RuntimeBigDecimal_v1;
 import sej.internal.runtime.RuntimeDouble_v1;
+import sej.runtime.ScaledLong;
 
 final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 {
 	private static final boolean JRE14 = System.getProperty( "java.version" ).startsWith( "1.4." );
-	private static final String BNAME = ByteCodeEngineCompiler.BIGDECIMAL.getInternalName();
-	private static final String B = ByteCodeEngineCompiler.BIGDECIMAL.getDescriptor();
+	private static final String BNAME = ByteCodeEngineCompiler.BIGDECIMAL_CLASS.getInternalName();
+	private static final String B = ByteCodeEngineCompiler.BIGDECIMAL_CLASS.getDescriptor();
 	private static final String V2B = "()" + B;
 	private static final String I2B = "(" + Type.INT_TYPE.getDescriptor() + ")" + B;
 	private static final String L2B = "(" + Type.LONG_TYPE.getDescriptor() + ")" + B;
 	private static final String LI2B = "(" + Type.LONG_TYPE.getDescriptor() + "I)" + B;
+	private static final String D2B = "(" + Type.DOUBLE_TYPE.getDescriptor() + ")" + B;
 	private static final String S2B = "(Ljava/lang/String;)" + B;
-	private static final String B2B = "(" + B + ")" + B;
+	private static final String B2B = ("(" + B + ")") + B;
 	private static final String BB2B = "(" + B + B + ")" + B;
 	private static final String BII2B = "(" + B + "II)" + B;
+	private static final String N2L = "(" + N + ")" + Type.LONG_TYPE.getDescriptor();
+	private static final String N2D = "(" + N + ")" + Type.DOUBLE_TYPE.getDescriptor();
 	private final int scale;
 	private final int roundingMode;
 
@@ -131,7 +137,8 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 			}
 			catch (NumberFormatException e) {
 				final BigDecimal bigValue = new BigDecimal( _value );
-				if (!JRE14 && bigValue.precision() <= MAX_LONG_PREC) { // JRE 1.4 cannot handle precision()
+				if (!JRE14 && bigValue.precision() <= MAX_LONG_PREC) { // JRE 1.4 cannot handle
+					// precision()
 					final long longValue = bigValue.unscaledValue().longValue();
 					this.classInitializer.push( longValue );
 					this.classInitializer.push( bigValue.scale() );
@@ -237,7 +244,7 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 			}
 		}
 		else if (_constantValue instanceof Date) {
-			final double dbl = RuntimeDouble_v1.dateToExcel( (Date) _constantValue );
+			final double dbl = RuntimeDouble_v1.dateToNum( (Date) _constantValue );
 			compileStaticConstant( _mv, Double.toString( dbl ) );
 		}
 		else {
@@ -277,10 +284,148 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 		}
 	}
 
-
 	private boolean isScaled()
 	{
 		return NumericType.UNDEFINED_SCALE != this.scale;
+	}
+
+
+	@Override
+	protected boolean compileToNum( GeneratorAdapter _mv, Class _returnType )
+	{
+		if (_returnType == BigDecimal.class) {
+			final Label notNull = _mv.newLabel();
+			_mv.dup();
+			_mv.ifNonNull( notNull );
+			_mv.pop();
+			_mv.getStatic( RUNTIME_TYPE, "ZERO", ByteCodeEngineCompiler.BIGDECIMAL_CLASS );
+			_mv.mark( notNull );
+		}
+
+		else if (toNumViaLong( _mv, _returnType, Long.TYPE, Long.class ))
+		;
+		else if (toNumViaLong( _mv, _returnType, Integer.TYPE, Integer.class, Opcodes.I2L ))
+		;
+		else if (toNumViaLong( _mv, _returnType, Short.TYPE, Short.class, Opcodes.I2L ))
+		;
+		else if (toNumViaLong( _mv, _returnType, Byte.TYPE, Byte.class, Opcodes.I2L ))
+		;
+		else if (toNumViaDouble( _mv, _returnType, Double.TYPE, Double.class ))
+		;
+		else if (toNumViaDouble( _mv, _returnType, Float.TYPE, Float.class, Opcodes.F2D ))
+		;
+
+		else if (_returnType == BigInteger.class) {
+			compileRuntimeMethod( _mv, "newBigDecimal", "(" + ByteCodeEngineCompiler.BIGINTEGER_CLASS.getDescriptor() + ")" + B );
+		}
+
+		else {
+			return false;
+		}
+	
+		compileScaleAdjustment( _mv );
+		return true;
+	}
+
+	private boolean toNumViaLong( GeneratorAdapter _mv, Class _returnType, Class _unboxed, Class _boxed,
+			int... _conversionOpcodes )
+	{
+		return toNumVia( _mv, _returnType, _unboxed, _boxed, L2B, "numberToLong", N2L, _conversionOpcodes );
+	}
+
+	private boolean toNumViaDouble( GeneratorAdapter _mv, Class _returnType, Class _unboxed, Class _boxed,
+			int... _conversionOpcodes )
+	{
+		return toNumVia( _mv, _returnType, _unboxed, _boxed, D2B, "numberToDouble", N2D, _conversionOpcodes );
+	}
+
+	private boolean toNumVia( GeneratorAdapter _mv, Class _returnType, Class _unboxed, Class _boxed, String _valueOfSig,
+			String _numberConverterName, String _numberConverterSig, int... _conversionOpcodes )
+	{
+		if (_returnType == _unboxed) {
+			convertUnboxed( _mv, _conversionOpcodes );
+			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, BNAME, "valueOf", _valueOfSig );
+		}
+		else if (_returnType == _boxed) {
+			compileRuntimeMethod( _mv, _numberConverterName, _numberConverterSig );
+			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, BNAME, "valueOf", _valueOfSig );
+		}
+		else {
+			return false;
+		}
+		return true;
+	}
+
+
+	@Override
+	protected boolean compileReturnFromNum( GeneratorAdapter _mv, Class _returnType )
+	{
+		if (_returnType == BigDecimal.class) {
+			_mv.visitInsn( getReturnOpcode() );
+		}
+
+		else if (returnDualType( _mv, _returnType, Long.TYPE, Long.class, Opcodes.LRETURN, "longValue" ))
+		;
+		else if (returnDualType( _mv, _returnType, Integer.TYPE, Integer.class, Opcodes.IRETURN, "intValue" ))
+		;
+		else if (returnDualType( _mv, _returnType, Short.TYPE, Short.class, Opcodes.IRETURN, "shortValue" ))
+		;
+		else if (returnDualType( _mv, _returnType, Byte.TYPE, Byte.class, Opcodes.IRETURN, "byteValue" ))
+		;
+		else if (returnDualType( _mv, _returnType, Double.TYPE, Double.class, Opcodes.DRETURN, "doubleValue" ))
+		;
+		else if (returnDualType( _mv, _returnType, Float.TYPE, Float.class, Opcodes.FRETURN, "floatValue" ))
+		;
+
+		else if (_returnType == BigInteger.class) {
+			_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "toBigInteger", "()"
+					+ ByteCodeEngineCompiler.BIGINTEGER_CLASS.getDescriptor() );
+			_mv.visitInsn( Opcodes.ARETURN );
+		}
+
+		else {
+			return false;
+		}
+		return true;
+	}
+
+	private boolean returnDualType( MethodVisitor _mv, Class _returnType, Class _unboxed, Class _boxed,
+			int _returnOpcode, String _valueGetterName )
+	{
+		if (_returnType == _unboxed) {
+			final String valueGetterSig = "()" + Type.getType( _unboxed ).getDescriptor();
+			_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, _valueGetterName, valueGetterSig );
+			_mv.visitInsn( _returnOpcode );
+		}
+		else if (_returnType == _boxed) {
+			final String valueGetterSig = "()" + Type.getType( _unboxed ).getDescriptor();
+			_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, _valueGetterName, valueGetterSig );
+			returnBoxedType( _mv, _returnType, _unboxed, _boxed );
+		}
+
+		else {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	@Override
+	protected boolean compileToNum( GeneratorAdapter _mv, ScaledLong _scale )
+	{
+		_mv.push( _scale.value() );
+		compileRuntimeMethod( _mv, "fromScaledLong", "(JI)" + B );
+		compileScaleAdjustment( _mv );
+		return true;
+	}
+
+	@Override
+	protected boolean compileFromNum( GeneratorAdapter _mv, ScaledLong _scale )
+	{
+		_mv.push( _scale.value() );
+		_mv.push( getNumericType().getRoundingMode() );
+		compileRuntimeMethod( _mv, "toScaledLong", "(" + B + "II)J" );
+		return true;
 	}
 
 }

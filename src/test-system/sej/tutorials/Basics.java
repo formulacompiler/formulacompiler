@@ -96,7 +96,7 @@ public class Basics extends TestCase
 	// ---- RebateInputs
 	public static interface RebateInputs
 	{
-		double getCustomerCategory(); // TODO : Make this "int"
+		int getCustomerCategory(); 
 		int getArticleCategory();
 		double getCustomerRebate();
 		double getArticleRebate();
@@ -126,7 +126,7 @@ public class Basics extends TestCase
 			return this.item.getOrder().getCustomer().getStandardRebate();
 		}
 
-		public double getCustomerCategory()
+		public int getCustomerCategory()
 		{
 			return this.item.getOrder().getCustomer().getCategory();
 		}

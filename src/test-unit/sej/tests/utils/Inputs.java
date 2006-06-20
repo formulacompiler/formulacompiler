@@ -24,7 +24,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import sej.runtime.ScaledLong;
 
+
+@ScaledLong(4)
 public class Inputs implements InputInterface
 {
 	private double one;

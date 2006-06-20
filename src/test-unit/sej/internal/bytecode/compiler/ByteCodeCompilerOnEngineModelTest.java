@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import sej.CallFrame;
 import sej.NumericType;
 import sej.Operator;
+import sej.SEJ;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;
@@ -112,7 +113,7 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 	private void assertDoubleResult( final double _expectedResult, final ComputationModel _engineModel )
 			throws Exception
 	{
-		final Outputs outputs = newOutputs( _engineModel, NumericType.DOUBLE );
+		final Outputs outputs = newOutputs( _engineModel, SEJ.DOUBLE );
 		final double d = outputs.getResult();
 		assertEquals( _expectedResult, d, 0.000001 );
 	}
@@ -156,7 +157,7 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 	private void assertBigDecimalResult( final double _expectedResult, final ComputationModel _engineModel )
 			throws Exception
 	{
-		final Outputs outputs = newOutputs( _engineModel, NumericType.BIGDECIMAL8 );
+		final Outputs outputs = newOutputs( _engineModel, SEJ.BIGDECIMAL8 );
 		final BigDecimal v = outputs.getBigDecimalA();
 		final double d = v.doubleValue();
 		assertEquals( _expectedResult, d, 0.000001 );
@@ -201,9 +202,9 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 	private void assertScaledLongResult( final double _expectedResult, final ComputationModel _engineModel )
 			throws Exception
 	{
-		final Outputs outputs = newOutputs( _engineModel, NumericType.LONG4 );
+		final Outputs outputs = newOutputs( _engineModel, SEJ.LONG4 );
 		final long actual = outputs.getScaledLongA();
-		final long expected = NumericType.LONG4.valueOf( _expectedResult ).longValue();
+		final long expected = SEJ.LONG4.valueOf( _expectedResult ).longValue();
 		final long diff = actual - expected;
 		if (diff > 1 || diff < -1) { // accept difference in the last decimal due to rounding
 												// problems with division
