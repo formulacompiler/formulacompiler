@@ -1,0 +1,107 @@
+﻿
+pre.jc
+{
+	margin: 1.5em 1.5em 1.5em 1.5em;
+	color: firebrick;
+}
+
+
+/* Java */
+
+pre.java
+	{
+	margin: 1.5em 1.5em 1.5em 1.5em;
+	background-color: cornsilk;
+	}
+
+tt.java
+	{
+	margin: 1.5em 1.5em 1.5em 1.5em;
+	background-color: cornsilk;
+	}
+
+span.j-bkg /* background */
+{
+}
+
+span.j-lin /* line numbers */
+{
+}
+
+span.j-blk /* block comment */
+{
+	color: green;
+	font-style: italic;
+}
+
+span.j-cmt /* line comment */
+{
+	color: green;
+	font-style: italic;
+}
+
+span.j-key /* keyword */
+{
+	/* font-weight:bold; */
+	color: maroon;
+}
+
+span.j-str /* string constants */
+{
+	color: blue;
+}
+
+span.j-chr /* char constants */
+{
+	color: blue;
+}
+
+span.j-num /* number constants */
+{
+}
+
+span.j-sym /* symbols, punctuation */
+{
+}
+
+span.j-typ /* primitive types */
+{
+	color: maroon;
+}
+
+span.j-def /* default; all the rest */
+{
+}
+
+span.j-jdoc /* javadoc */
+{
+	color: steelblue;
+}
+
+span.j-jdoc-key /* javadoc keyword */
+{
+	color: steelblue;
+	font-weight: bold;
+}
+
+span.j-jdoc-html /* javadoc html tag */
+{
+	color: steelblue;
+	font-style: italic;
+}
+
+span.j-jdoc-link /* javadoc link */
+{
+	color: steelblue;
+	font-style: italic;
+}
+
+span.j-undef /* undefined */
+{
+}
+
+span.j-hl /* highlight */
+{
+	text-decoration: none;
+	background-color: yellow;
+}
