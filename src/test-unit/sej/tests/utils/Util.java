@@ -18,27 +18,22 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.runtime;
+package sej.tests.utils;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+public class Util
+{
 
-/**
- * Indicates to SEJ that a {@code long} value is scaled.
- * 
- * <p>
- * See the <a href="../../tutorial/numeric_type.htm#long">tutorial</a> for details.
- * 
- * @author peo
- * 
- * @see ScaledLongSupport
- */
-@Retention(RetentionPolicy.RUNTIME)
-public @interface ScaledLong {
-
-	/**
-	 * Indicates the scale used in the number.
-	 */
-	int value();
+	public static String trimTrailingZerosAndPoint( String _string )
+	{
+		String result = _string;
+		if (result.contains( "." )) {
+			int l = result.length();
+			while ('0' == result.charAt( l - 1 ))
+				l--;
+			if ('.' == result.charAt( l - 1 )) l--;
+			result = result.substring( 0, l );
+		}
+		return result;
+	}
 
 }

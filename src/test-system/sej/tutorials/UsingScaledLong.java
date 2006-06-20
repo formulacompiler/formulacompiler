@@ -25,6 +25,7 @@ import sej.SEJ;
 import sej.runtime.ComputationFactory;
 import sej.runtime.Engine;
 import sej.runtime.ScaledLong;
+import sej.runtime.ScaledLongSupport;
 import junit.framework.TestCase;
 
 public class UsingScaledLong extends TestCase
@@ -103,7 +104,7 @@ public class UsingScaledLong extends TestCase
 	{
 		public Input(int b)  { this.b = b; }
 		public /**/long/**/ getA()  { return 1; } // will be scaled by SEJ 
-		public /**/@ScaledLong(3) long/**/ getB()  { return this.b * ScaledLong.ONE[ 3 ]; }
+		public /**/@ScaledLong(3) long/**/ getB()  { return ScaledLongSupport.scale( this.b, 3 ); }
 		private final int b;
 	}
 

@@ -33,6 +33,7 @@ import sej.NumericType;
 import sej.Operator;
 import sej.internal.runtime.RuntimeDouble_v1;
 import sej.runtime.ScaledLong;
+import sej.runtime.ScaledLongSupport;
 
 final class ByteCodeNumericType_Double extends ByteCodeNumericType
 {
@@ -229,7 +230,7 @@ final class ByteCodeNumericType_Double extends ByteCodeNumericType
 	@Override
 	protected boolean compileToNum( GeneratorAdapter _mv, ScaledLong _scale )
 	{
-		_mv.push( ScaledLong.ONE[ _scale.value() ] );
+		_mv.push( ScaledLongSupport.ONE[ _scale.value() ] );
 		compileRuntimeMethod( _mv, "fromScaledLong", "(JJ)D" );
 		return true;
 	}
@@ -237,7 +238,7 @@ final class ByteCodeNumericType_Double extends ByteCodeNumericType
 	@Override
 	protected boolean compileFromNum( GeneratorAdapter _mv, ScaledLong _scale )
 	{
-		_mv.push( ScaledLong.ONE[ _scale.value() ] );
+		_mv.push( ScaledLongSupport.ONE[ _scale.value() ] );
 		compileRuntimeMethod( _mv, "toScaledLong", "(DJ)J" );
 		return true;
 	}

@@ -73,7 +73,7 @@
 <li>Use the annotation <tt>@ScaledLong</tt> on the input or output method.</li>
 <li>Use the annotation <tt>@ScaledLong</tt> on the entire input or output type. This sets the default for all <tt>long</tt> return types of method of the type that don't override the scale themselves.</li>
 </ul>
-<p>Since scaled long support depends on annotations, you cannot use it in SEJ's Java 1.4 compatibility mode.</p>
+<p>Since scaled long support depends on annotations, you cannot (I think) declare them in SEJ's Java 1.4 compatibility mode. But generated engines should run perfectly well on Java 1.4.</p>
 <p>[jc:sej.tutorials.UsingScaledLong:---- IO]</p>
 <p>We again compute 1 + 1/6. The result is a scaled <tt>long</tt> (so <tt>1166L</tt> is the scaled <tt>long</tt> equivalent of 1.166). We get 1.166 and not 1.167 because the scaled long always truncates results (this is how <tt>long</tt> itself works in Java):</p>
 <p>[jc:sej.tutorials.UsingScaledLong:---- checkResult]</p>

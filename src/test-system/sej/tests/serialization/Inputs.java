@@ -23,6 +23,7 @@ package sej.tests.serialization;
 import java.math.BigDecimal;
 
 import sej.runtime.ScaledLong;
+import sej.runtime.ScaledLongSupport;
 
 // ---- Inputs
 public final class Inputs
@@ -50,13 +51,13 @@ public final class Inputs
 	@ScaledLong(4)
 	public long getA_Long4()
 	{
-		return (long) (getA() * ScaledLong.ONE[ 4 ]);
+		return ScaledLongSupport.scale( (long) getA(), 4 );
 	}
 
 	@ScaledLong(4)
 	public long getB_Long4()
 	{
-		return (long) (getB() * ScaledLong.ONE[ 4 ]);
+		return ScaledLongSupport.scale( (long) getB(), 4 );
 	}
 
 	public BigDecimal getA_Big()
