@@ -33,18 +33,19 @@
 
 <h3>New Features</h3>
 <ul class="spaced">
-<li>The new <tt>EngineBuilder</tt> supports the <a href="tutorial/basics.htm">most typical use-case</a> out of the box. The <tt>SpreadsheetByNameBinder</tt> and <tt>SpreadsheetNameCreator</tt> give more fine-grained control over this. This use-case is used to provide the motivation for using SEJ in the tutorial.</li>
-<li>Separated the concept of a computation engine (collection of computation classes) from the concept of a computation factory. Engine is now the thing being loaded and saved. Factory creates now computation instances. The factory can be forced to implement an application-specific interface or base class, which makes SEJ even more non-intrusive on application code (see use-case above).</li>
+<li>The new <a href="javadoc/sej/EngineBuilder.html"><tt>EngineBuilder</tt></a> supports the <a href="tutorial/basics.htm">most typical use-case</a> out of the box. The <tt>SpreadsheetByNameBinder</tt> and <tt>SpreadsheetNameCreator</tt> give more fine-grained control over this. This use-case is used to provide the motivation for using SEJ in the tutorial.</li>
+<li>Separated the concept of a computation engine (collection of computation classes) from the concept of a computation factory. <a href="javadoc/sej/runtime/Engine.html">Engine</a> is now the thing being loaded and <a href="javadoc/sej/SaveableEngine.html">saved</a>. <a href="javadoc/sej/runtime/ComputationFactory.html">Factory</a> creates now computation instances. The factory can be forced to implement an application-specific interface or base class, which makes SEJ even more non-intrusive on application code (see use-case above).</li>
+<li>SEJ now converts between its internal numeric type and basically all numeric Java types in the input and output method result types. To support this, scaled <tt>long</tt> values in the interface must now be <a href="tutorial/numeric_type.htm#long">annotated with <tt>@ScaledLong</tt></a>. (While already tested fairly rigorously, the full documentation for this feature is still missing.)</li>
 <li>Saved engines are now normal .jar files, which can be inspected like any other .jar file. The generated classes are normal .class entries in the .jar file.</li>
-<li>The new <tt>SpreadsheetBuilder</tt> supports <a href="tutorial/buildsheet.htm">constructing spreadsheets in memory</a>.</li>
+<li>The new <a href="javadoc/sej/SpreadsheetBuilder.html"><tt>SpreadsheetBuilder</tt></a> supports <a href="tutorial/buildsheet.htm">constructing spreadsheets in memory</a>.</li>
 </ul>
 
 <h3>Improvements</h3>
 <ul class="spaced">
-<li>I have reorganized the packages. Everything internal is now in <tt>sej.internal</tt>. Everything need for the loading and running of compiled engines is in <tt>sej.runtime</tt>, <tt>sej.internal.runtime</tt>, and <tt>sej.internal.bytecode.runtime</tt>.</li>
-<li>I have rigorously trimmed the API again. Every non-trivial entity is now represented by an interface in the API, not a class. The central class <tt>sej.SEJ</tt> provides factory methods for all of these.</li>
-<li>The fairly monolithic low-level interface <tt>sej.Compiler</tt> has been broken up to reflect the processing chain: <tt>sej.Spreadsheet</tt>, <tt>sej.SpreadsheetBinder</tt>, <tt>sej.SpreadsheetBinding</tt>, <tt>sej.SpreadsheetCompiler</tt>. Most of these components have a consistent instantiation protocol with a factory method in <tt>sej.SEJ</tt> and a configuration class called <tt>XY.Config</tt> which supplies parameters to new instances. This is in preparation of being able to expose the internal computation model as a lightweight alternative to the spreadsheet model.</li>
-<li>New base error class, <tt>sej.runtime.SEJError</tt>, from which all others are derived. Better separation of errors into <tt>sej.SpreadsheetError</tt>, <tt>sej.CompilerError</tt>, and <tt>sej.runtime.EngineError</tt>.</li>
+<li>I have reorganized the packages. Everything internal is now in <tt>sej.internal</tt>. Everything need for the loading and running of compiled engines is in <a href="javadoc/sej/runtime/package-summary.html"><tt>sej.runtime</tt></a>, <tt>sej.internal.runtime</tt>, and <tt>sej.internal.bytecode.runtime</tt>. The compile-time public API is in <a href="javadoc/sej/package-summary.html"><tt>sej</tt></a>.</li>
+<li>I have rigorously trimmed the API again. Every non-trivial entity is now represented by an interface in the API, not a class. The central class <a href="javadoc/sej/SEJ.html"><tt>sej.SEJ</tt></a> provides factory methods for all of these.</li>
+<li>The fairly monolithic low-level interface <tt>sej.Compiler</tt> has been broken up to reflect the processing chain: <a href="javadoc/sej/Spreadsheet.html"><tt>sej.Spreadsheet</tt></a>, <a href="javadoc/sej/SpreadsheetBinder.html"><tt>sej.SpreadsheetBinder</tt></a>, <a href="javadoc/sej/SpreadsheetBinding.html"><tt>sej.SpreadsheetBinding</tt></a>, <a href="javadoc/sej/SpreadsheetCompiler.html"><tt>sej.SpreadsheetCompiler</tt></a>. Most of these components have a consistent instantiation protocol with a factory method in <tt>sej.SEJ</tt> and a configuration class called <tt>XY.Config</tt> which supplies parameters to new instances. This is in preparation of being able to expose the internal computation model as a lightweight alternative to the spreadsheet model.</li>
+<li>New base error class, <a href="javadoc/sej/runtime/SEJError.html"><tt>sej.runtime.SEJError</tt></a>, from which all others are derived. Better separation of errors into <a href="javadoc/sej/SpreadsheetError.html"><tt>sej.SpreadsheetError</tt></a>, <a href="javadoc/sej/CompilerError.html"><tt>sej.CompilerError</tt></a>, and <a href="javadoc/sej/runtime/EngineError.html"><tt>sej.runtime.EngineError</tt></a>.</li>
 </ul>
 
 <h2>Release 0.4.2</h2>
@@ -115,7 +116,7 @@
 <p>This is the first release with the new API based on <a href="tutorial/binding.htm">binding cells to native types</a>. The interpreter has been dropped and replaced by a byte code compiler producing very fast code.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 18.06.2006.</p>        </div>
+<br/>Last updated on 20.06.2006.</p>        </div>
     </div>
 </body>
 </html>
