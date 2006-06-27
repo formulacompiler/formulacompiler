@@ -57,9 +57,7 @@ CELL	= {ROW} {COL}
 SHEET	= {QUOTE}? ({ALPHA} | {DIGIT} | {SPACE} | {SYMBOL})+ {QUOTE}? "!" 
 		| {QUOTE} ({ALPHA} | {DIGIT} | {SPACE} | {SYMBOL} | "(" | ")")+ {QUOTE} "!"
 
-NAME	= {ALPHA} {ALPHA} {IDENT}*
-		| "_" {IDENT}*
-		| {ALPHA} "_" {IDENT}*
+NAME	= ({ALPHA} | "_") {IDENT}*
 
 FN		= "@"?
 

@@ -4,7 +4,7 @@
 
 	<property name="Name" value="SEJ" />
 	<property name="name" value="sej" />
-	<property name="dist.version" value="0.5.1" />
+	<property name="dist.version" value="0.5.3" />
 
 	<property name="src.dir" location="${basedir}/src" />
 	<property name="lib.dir" location="${basedir}/lib" />
@@ -37,6 +37,8 @@
 	<property name="jar14.file" location="${build.dir}/${name}-jre1.4.jar" />
 	<property name="jar.runtime.file" location="${build.dir}/${name}-runtime.jar" />
 	<property name="jar14.runtime.file" location="${build.dir}/${name}-runtime-jre1.4.jar" />
+	<property name="jar.src.file" location="${build.dir}/${name}-src.jar" />
+	<property name="jar.doc.file" location="${build.dir}/${name}-doc.jar" />
 	<!-- <property name="jar.manifest" location="${src.classes.dir}/manifest.mf" /> -->
 
 	<property name="javadoc.dir" location="${doc.dir}/javadoc" />
@@ -292,6 +294,32 @@
 			<arg value="-classpath" />
 			<arg value="${java14.home.dir}/lib/rt.jar" />
 		</java>
+
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- srcjar:                                                           -->
+	<!-- Create jar file with source code                                  -->
+	<!-- ================================================================= -->
+
+	<target name="srcjar" depends="prepare, validate, javadoc" description="Creates a jar file with the product source code in it">
+
+		<delete file="${jar.src.file}" />
+		<jar jarfile="${jar.src.file}" compress="true">
+			<fileset dir="${src.classes.dir}" >
+				<include name="**/*.java"/>
+				<exclude name="net/sf/retrotranslator/**"/>
+			</fileset>
+			<fileset dir="${src.classes.gen.dir}" >
+				<include name="**/*.java"/>
+			</fileset>
+		</jar>
+
+		<delete file="${jar.doc.file}" />
+		<jar jarfile="${jar.doc.file}" compress="true">
+			<fileset dir="${javadoc.dir}" >
+			</fileset>
+		</jar>
 
 	</target>
 
@@ -564,7 +592,7 @@
 	<!-- Package distribution version                                      -->
 	<!-- ================================================================= -->
 
-	<target name="dist" depends="clean,compile,validate,jar,doc,javadoc,test,jar14,test14,examples" description="Builds distribution">
+	<target name="dist" depends="clean,compile,validate,jar,doc,javadoc,test,jar14,test14,examples,srcjar" description="Builds distribution">
 		<echo>Bundling dist: ${dist.version.long}</echo>
 		<property name="dist.name" value="${name}-${dist.version}" />
 		<property name="dist.file" value="${dist.dir}/${dist.name}" />
@@ -579,6 +607,8 @@
 			<fileset dir="${basedir}">
 				<include name="lib/*" />
 				<include name="build/*.jar" />
+				<exclude name="build/sej-src.jar" />
+				<exclude name="build/sej-doc.jar" />
 				<include name="*.html" />
 				<include name="*.css" />
 				<include name="doc/**" />
@@ -592,7 +622,7 @@
 			</filterset>
 			<fileset dir="${basedir}" includes="README.html" />
 		</copy>
-		<tar basedir="${dist.tmp.dir}" destfile="${dist.file}-bin.tar.gz" compression="gzip" longfile="gnu" />
+		<!-- tar basedir="${dist.tmp.dir}" destfile="${dist.file}-bin.tar.gz" compression="gzip" longfile="gnu" / -->
 		<zip basedir="${dist.tmp.dir}" destfile="${dist.file}-bin.zip" filesonly="no" />
 
 		<!-- source -->
@@ -617,8 +647,25 @@
 			</filterset>
 			<fileset dir="${basedir}" includes="README.html" />
 		</copy>
-		<tar basedir="${dist.tmp.dir}" destfile="${dist.file}-src.tar.gz" compression="gzip" longfile="gnu" />
+		<!-- tar basedir="${dist.tmp.dir}" destfile="${dist.file}-src.tar.gz" compression="gzip" longfile="gnu" / -->
 		<zip basedir="${dist.tmp.dir}" destfile="${dist.file}-src.zip" filesonly="no" />
+
+		<delete dir="${dist.tmp.dir}" />
+
+		<!-- zipped source -->
+		<delete dir="${dist.tmp.dir}" />
+		<mkdir dir="${dist.staging.dir}" />
+		<copy todir="${dist.staging.dir}">
+			<fileset dir="${basedir}">
+				<include name="build/sej-src.jar" />
+				<include name="build/sej-doc.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.staging.dir}" overwrite="yes">
+			<fileset dir="${basedir}" includes="LICENSE.html" />
+		</copy>
+		<!-- tar basedir="${dist.tmp.dir}" destfile="${dist.file}-srcjar.tar.gz" compression="gzip" longfile="gnu" / -->
+		<zip basedir="${dist.tmp.dir}" destfile="${dist.file}-srcjar.zip" filesonly="no" />
 
 		<delete dir="${dist.tmp.dir}" />
 	</target>
