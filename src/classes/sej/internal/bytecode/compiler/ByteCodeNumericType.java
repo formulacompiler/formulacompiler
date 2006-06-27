@@ -30,7 +30,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.Function;
 import sej.NumericType;
 import sej.Operator;
@@ -122,7 +122,7 @@ abstract class ByteCodeNumericType
 		// overridable placeholder
 	}
 
-	void compile( GeneratorAdapter _mv, Operator _operator, int _numberOfArguments ) throws CompilerError
+	void compile( GeneratorAdapter _mv, Operator _operator, int _numberOfArguments ) throws CompilerException
 	{
 		switch (_operator) {
 
@@ -130,14 +130,14 @@ abstract class ByteCodeNumericType
 				return;
 
 			default:
-				throw new CompilerError.UnsupportedOperator( "The operator '"
+				throw new CompilerException.UnsupportedOperator( "The operator '"
 						+ _operator.getSymbol() + "' is not supported here." );
 		}
 	}
 
-	void compileConst( GeneratorAdapter _mv, Object _constantValue ) throws CompilerError
+	void compileConst( GeneratorAdapter _mv, Object _constantValue ) throws CompilerException
 	{
-		throw new CompilerError.UnsupportedDataType( "The data type "
+		throw new CompilerException.UnsupportedDataType( "The data type "
 				+ _constantValue.getClass().getName() + " is not supported for constant " + _constantValue.toString() );
 	}
 
@@ -156,7 +156,7 @@ abstract class ByteCodeNumericType
 	}
 
 
-	public final void compileToNum( GeneratorAdapter _mv, Method _method ) throws CompilerError
+	public final void compileToNum( GeneratorAdapter _mv, Method _method ) throws CompilerException
 	{
 		final Class returnType = _method.getReturnType();
 
@@ -180,14 +180,14 @@ abstract class ByteCodeNumericType
 						compileRuntimeMethod( _mv, "unboxLong", LONG2J );
 					}
 					if (!compileToNum( _mv, scale )) {
-						throw new CompilerError.UnsupportedDataType( "Scaled long return type of input '"
+						throw new CompilerException.UnsupportedDataType( "Scaled long return type of input '"
 								+ _method + "' is not supported" );
 					}
 					return;
 				}
 			}
 			if (!compileToNum( _mv, returnType )) {
-				throw new CompilerError.UnsupportedDataType( "Return type of input '" + _method + "' is not supported" );
+				throw new CompilerException.UnsupportedDataType( "Return type of input '" + _method + "' is not supported" );
 			}
 		}
 	}
@@ -200,7 +200,7 @@ abstract class ByteCodeNumericType
 	}
 
 
-	public final void compileReturnFromNum( GeneratorAdapter _mv, Method _method ) throws CompilerError
+	public final void compileReturnFromNum( GeneratorAdapter _mv, Method _method ) throws CompilerException
 	{
 		final Class returnType = _method.getReturnType();
 
@@ -231,14 +231,14 @@ abstract class ByteCodeNumericType
 						}
 					}
 					else {
-						throw new CompilerError.UnsupportedDataType( "Scaled long return type of output '"
+						throw new CompilerException.UnsupportedDataType( "Scaled long return type of output '"
 								+ _method + "' is not supported" );
 					}
 					return;
 				}
 			}
 			if (!compileReturnFromNum( _mv, returnType )) {
-				throw new CompilerError.UnsupportedDataType( "Return type of output '" + _method + "' is not supported" );
+				throw new CompilerException.UnsupportedDataType( "Return type of output '" + _method + "' is not supported" );
 			}
 		}
 	}

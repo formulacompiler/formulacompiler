@@ -30,12 +30,12 @@ import java.util.zip.ZipInputStream;
 
 import sej.internal.runtime.EngineLoader;
 import sej.runtime.Engine;
-import sej.runtime.EngineError;
+import sej.runtime.EngineException;
 
 public final class ByteCodeEngineLoader implements EngineLoader
 {
 
-	public Engine loadEngineData( InputStream _stream ) throws IOException, EngineError
+	public Engine loadEngineData( InputStream _stream ) throws IOException, EngineException
 	{
 		final Map<String, byte[]> classNamesAndBytes = new HashMap<String, byte[]>();
 

@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.Spreadsheet;
 import sej.SpreadsheetBinding;
 import sej.internal.spreadsheet.CellIndex;
@@ -107,7 +107,7 @@ public class WorkbookBinding implements SpreadsheetBinding
 	}
 
 
-	public void validate() throws CompilerError
+	public void validate() throws CompilerException
 	{
 		this.root.validate();
 	}

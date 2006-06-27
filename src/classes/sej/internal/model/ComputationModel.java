@@ -22,7 +22,7 @@ package sej.internal.model;
 
 import java.io.IOException;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
 
@@ -57,7 +57,7 @@ public class ComputationModel extends AbstractDescribable
 	}
 
 
-	public boolean traverse( ComputationModelVisitor _visitor ) throws CompilerError
+	public boolean traverse( ComputationModelVisitor _visitor ) throws CompilerException
 	{
 		return _visitor.visit( this ) && this.root.traverse( _visitor ) && _visitor.visited( this );
 	}

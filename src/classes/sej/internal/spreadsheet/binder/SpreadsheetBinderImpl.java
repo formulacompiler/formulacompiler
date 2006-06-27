@@ -21,7 +21,7 @@
 package sej.internal.spreadsheet.binder;
 
 import sej.CallFrame;
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.Orientation;
 import sej.Spreadsheet;
 import sej.SpreadsheetBinder;
@@ -54,7 +54,7 @@ public final class SpreadsheetBinderImpl implements SpreadsheetBinder
 	}
 
 
-	public SpreadsheetBinding getBinding() throws CompilerError
+	public SpreadsheetBinding getBinding() throws CompilerException
 	{
 		this.binding.validate();
 		return this.binding;
@@ -80,19 +80,19 @@ public final class SpreadsheetBinderImpl implements SpreadsheetBinder
 			this.sectionBinding = _binding;
 		}
 
-		public void defineInputCell( Cell _cell, CallFrame _callChainToCall ) throws CompilerError
+		public void defineInputCell( Cell _cell, CallFrame _callChainToCall ) throws CompilerException
 		{
 			this.sectionBinding.defineInputCell( _cell, _callChainToCall );
 		}
 
-		public void defineOutputCell( Cell _cell, CallFrame _call ) throws CompilerError
+		public void defineOutputCell( Cell _cell, CallFrame _call ) throws CompilerException
 		{
 			this.sectionBinding.defineOutputCell( _cell, _call );
 		}
 
 		public SpreadsheetBinder.Section defineRepeatingSection( Range _range, Orientation _orientation,
 				CallFrame _inputCallChainReturningIterable, Class _inputClass, CallFrame _outputCallToImplementIterable,
-				Class _outputClass ) throws CompilerError
+				Class _outputClass ) throws CompilerException
 		{
 			return new SectionBinderImpl( this.sectionBinding.defineRepeatingSection( _range, _orientation,
 					_inputCallChainReturningIterable, _inputClass, _outputCallToImplementIterable, _outputClass ) );

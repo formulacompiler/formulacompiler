@@ -20,19 +20,19 @@
  */
 package sej.internal.model;
 
-import sej.CompilerError;
+import sej.CompilerException;
 
 public interface ComputationModelVisitor
 {
 	
-	boolean visit( ComputationModel _model ) throws CompilerError;
+	boolean visit( ComputationModel _model ) throws CompilerException;
 
-	boolean visited( ComputationModel _model ) throws CompilerError;
+	boolean visited( ComputationModel _model ) throws CompilerException;
 
-	boolean visit( SectionModel _section ) throws CompilerError;
+	boolean visit( SectionModel _section ) throws CompilerException;
 
-	boolean visited( SectionModel _section ) throws CompilerError;
+	boolean visited( SectionModel _section ) throws CompilerException;
 
-	boolean visit( CellModel _cell ) throws CompilerError;
+	boolean visit( CellModel _cell ) throws CompilerException;
 
 }

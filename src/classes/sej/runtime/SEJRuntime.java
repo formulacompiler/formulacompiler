@@ -52,9 +52,9 @@ public class SEJRuntime
 	 * @return The loaded engine.
 	 * 
 	 * @throws IOException
-	 * @throws EngineError
+	 * @throws EngineException
 	 */
-	public static Engine loadEngine( InputStream _stream ) throws IOException, EngineError
+	public static Engine loadEngine( InputStream _stream ) throws IOException, EngineException
 	{
 		if (!_stream.markSupported()) throw new IllegalArgumentException( "mark() is not supported by input stream" );
 		return new ByteCodeEngineLoader().loadEngineData( _stream );

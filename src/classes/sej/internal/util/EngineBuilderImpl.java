@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.EngineBuilder;
 import sej.NumericType;
 import sej.SEJ;
@@ -35,9 +35,9 @@ import sej.Spreadsheet;
 import sej.SpreadsheetBinder;
 import sej.SpreadsheetBinding;
 import sej.SpreadsheetByNameBinder;
-import sej.SpreadsheetError;
+import sej.SpreadsheetException;
 import sej.SpreadsheetNameCreator;
-import sej.runtime.EngineError;
+import sej.runtime.EngineException;
 
 
 public class EngineBuilderImpl implements EngineBuilder
@@ -81,13 +81,13 @@ public class EngineBuilderImpl implements EngineBuilder
 	}
 
 
-	public void loadSpreadsheet( File _file ) throws FileNotFoundException, IOException, SpreadsheetError
+	public void loadSpreadsheet( File _file ) throws FileNotFoundException, IOException, SpreadsheetException
 	{
 		setSpreadsheet( SEJ.loadSpreadsheet( _file ) );
 	}
 
 
-	public void loadSpreadsheet( String _fileName ) throws FileNotFoundException, IOException, SpreadsheetError
+	public void loadSpreadsheet( String _fileName ) throws FileNotFoundException, IOException, SpreadsheetException
 	{
 		loadSpreadsheet( new File( _fileName ) );
 	}
@@ -140,7 +140,7 @@ public class EngineBuilderImpl implements EngineBuilder
 		this.factoryMethod = _factoryMethod;
 	}
 
-	protected void configureClasses() throws CompilerError
+	protected void configureClasses() throws CompilerException
 	{
 		if (this.factoryMethod != null) {
 			if (this.factoryClass == null) {
@@ -167,9 +167,9 @@ public class EngineBuilderImpl implements EngineBuilder
 	 * Look for a method with a signature "(any)any". Return the first abstract one, or else the last
 	 * one that matches.
 	 * 
-	 * @throws CompilerError
+	 * @throws CompilerException
 	 */
-	private Method determineFactoryMethod( Class _factoryClass ) throws CompilerError
+	private Method determineFactoryMethod( Class _factoryClass ) throws CompilerException
 	{
 		final Method[] methods = _factoryClass.getMethods();
 		Method candidate = null;
@@ -185,17 +185,17 @@ public class EngineBuilderImpl implements EngineBuilder
 			}
 		}
 		if (candidate != null) return candidate;
-		throw new CompilerError.FactoryMethodMissing( _factoryClass );
+		throw new CompilerException.FactoryMethodMissing( _factoryClass );
 	}
 
 	/**
 	 * Look for a method with the signature "(input)output". Return the first abstract one, or else
 	 * the last one that matches. Fail if none found.
 	 * 
-	 * @throws CompilerError
+	 * @throws CompilerException
 	 */
 	private Method determineFactoryMethod( Class _factoryClass, Class _inputClass, Class _outputClass )
-			throws CompilerError
+			throws CompilerException
 	{
 		final Method[] methods = _factoryClass.getMethods();
 		Method candidate = null;
@@ -214,7 +214,7 @@ public class EngineBuilderImpl implements EngineBuilder
 			}
 		}
 		if (candidate != null) return candidate;
-		throw new CompilerError.FactoryMethodMissing( _factoryClass, _inputClass, _outputClass );
+		throw new CompilerException.FactoryMethodMissing( _factoryClass, _inputClass, _outputClass );
 	}
 
 
@@ -247,13 +247,13 @@ public class EngineBuilderImpl implements EngineBuilder
 	// ------------------------------------------------ Binding
 
 
-	protected SpreadsheetBinder getBinder() throws CompilerError
+	protected SpreadsheetBinder getBinder() throws CompilerException
 	{
 		if (this.binder == null) this.binder = makeBinder();
 		return this.binder;
 	}
 
-	private SpreadsheetBinder makeBinder() throws CompilerError
+	private SpreadsheetBinder makeBinder() throws CompilerException
 	{
 		configureClasses();
 		validateClasses();
@@ -265,24 +265,24 @@ public class EngineBuilderImpl implements EngineBuilder
 		if (this.binder != null) throw new IllegalStateException( "Binder already exists" );
 	}
 
-	public SpreadsheetBinder.Section getRootBinder() throws CompilerError
+	public SpreadsheetBinder.Section getRootBinder() throws CompilerException
 	{
 		return getBinder().getRoot();
 	}
 
-	public SpreadsheetByNameBinder getByNameBinder() throws CompilerError
+	public SpreadsheetByNameBinder getByNameBinder() throws CompilerException
 	{
 		if (this.byNameBinder == null) this.byNameBinder = makeByNameBinder();
 		return this.byNameBinder;
 	}
 
-	private SpreadsheetByNameBinder makeByNameBinder() throws CompilerError
+	private SpreadsheetByNameBinder makeByNameBinder() throws CompilerException
 	{
 		return SEJ.newSpreadsheetByNameBinder( getBinder() );
 	}
 
 
-	public void bindAllByName() throws CompilerError
+	public void bindAllByName() throws CompilerException
 	{
 		// ---- bindAllByName
 		if (!areAnyNamesDefined()) {
@@ -298,7 +298,7 @@ public class EngineBuilderImpl implements EngineBuilder
 	// ------------------------------------------------ Compilation
 
 
-	public SaveableEngine compile() throws CompilerError, EngineError
+	public SaveableEngine compile() throws CompilerException, EngineException
 	{
 		final SpreadsheetBinding binding = getBinder().getBinding();
 		return SEJ.compileEngine( binding, this.numericType, this.factoryClass, this.factoryMethod );

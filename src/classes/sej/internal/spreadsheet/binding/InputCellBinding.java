@@ -21,7 +21,7 @@
 package sej.internal.spreadsheet.binding;
 
 import sej.CallFrame;
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.internal.spreadsheet.CellIndex;
 
 public class InputCellBinding extends CellBinding
@@ -30,7 +30,7 @@ public class InputCellBinding extends CellBinding
 
 	
 	public InputCellBinding(SectionBinding _space, CallFrame _callChainToCall, CellIndex _index)
-			throws CompilerError
+			throws CompilerException
 	{
 		super( _space, _index );
 		this.callChainToCall = _callChainToCall;

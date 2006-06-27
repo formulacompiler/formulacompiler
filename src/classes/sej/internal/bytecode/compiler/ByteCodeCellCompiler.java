@@ -29,7 +29,7 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.CallFrame;
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.CellModel;
 
@@ -47,7 +47,7 @@ final class ByteCodeCellCompiler extends ByteCodeSectionMethodCompiler
 
 
 	@Override
-	protected void compileBody() throws CompilerError
+	protected void compileBody() throws CompilerException
 	{
 		final CellModel cell = this.cellComputation.getCell();
 
@@ -145,7 +145,7 @@ final class ByteCodeCellCompiler extends ByteCodeSectionMethodCompiler
 	}
 
 
-	private void compileOutputGetter() throws CompilerError
+	private void compileOutputGetter() throws CompilerException
 	{
 		final CellModel cell = this.cellComputation.getCell();
 		for (CallFrame callFrame : cell.getCallsToImplement()) {

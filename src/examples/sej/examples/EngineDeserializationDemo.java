@@ -43,7 +43,7 @@ public class EngineDeserializationDemo
 		File engineSerializationFile = new File( "/temp/Engine.jar" );
 		InputStream inStream = new BufferedInputStream( new FileInputStream( engineSerializationFile ) );
 		Engine loadedEngine = SEJRuntime.loadEngine( inStream );
-		Factory factory = (Factory) loadedEngine.getComputationFactory();
+		OutputFactory factory = (OutputFactory) loadedEngine.getComputationFactory();
 
 		// Compute an actual output value for a given set of actual input values.
 		Inputs inputs = new Inputs( 4, 40 );

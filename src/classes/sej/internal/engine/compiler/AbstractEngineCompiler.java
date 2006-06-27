@@ -22,11 +22,11 @@ package sej.internal.engine.compiler;
 
 import java.lang.reflect.Method;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.NumericType;
 import sej.SaveableEngine;
 import sej.internal.model.ComputationModel;
-import sej.runtime.EngineError;
+import sej.runtime.EngineException;
 
 public abstract class AbstractEngineCompiler implements EngineCompiler
 {
@@ -91,7 +91,7 @@ public abstract class AbstractEngineCompiler implements EngineCompiler
 	}
 
 
-	public abstract SaveableEngine compile() throws CompilerError, EngineError;
+	public abstract SaveableEngine compile() throws CompilerException, EngineException;
 
 
 }

@@ -43,7 +43,7 @@ public class EngineSerializationDemo
 		// Build an engine for the given spreadsheet, inputs, and outputs.
 		EngineBuilder builder = SEJ.newEngineBuilder();
 		builder.loadSpreadsheet( "examples/testdata/sej/Test.xls" );
-		builder.setFactoryClass( Factory.class );
+		builder.setFactoryClass( OutputFactory.class );
 		builder.bindAllByName();
 		SaveableEngine compiledEngine = builder.compile();
 
@@ -62,7 +62,7 @@ public class EngineSerializationDemo
 		// Instantiate an engine from the serialized form.
 		InputStream inStream = new BufferedInputStream( new FileInputStream( engineSerializationFile ) );
 		Engine loadedEngine = SEJRuntime.loadEngine( inStream );
-		Factory factory = (Factory) loadedEngine.getComputationFactory();
+		OutputFactory factory = (OutputFactory) loadedEngine.getComputationFactory();
 
 		// Compute an actual output value for a given set of actual input values.
 		Inputs inputs = new Inputs( 4, 40 );

@@ -20,7 +20,7 @@
  */
 package sej.internal.spreadsheet;
 
-import sej.SpreadsheetError;
+import sej.SpreadsheetException;
 import junit.framework.TestCase;
 
 public class CellRangeTest extends TestCase
@@ -100,7 +100,7 @@ public class CellRangeTest extends TestCase
 				rng.getCellIndexRelativeTo( newCellIndex( 3, 1 ) );
 				fail();
 			}
-			catch (SpreadsheetError.CellRangeNotUniDimensional e) {
+			catch (SpreadsheetException.CellRangeNotUniDimensional e) {
 				// expected
 			}
 		}

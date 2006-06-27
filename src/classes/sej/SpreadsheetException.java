@@ -20,7 +20,7 @@
  */
 package sej;
 
-import sej.runtime.SEJError;
+import sej.runtime.SEJException;
 
 
 /**
@@ -28,15 +28,15 @@ import sej.runtime.SEJError;
  * 
  * @author peo
  */
-public class SpreadsheetError extends SEJError
+public class SpreadsheetException extends SEJException
 {
 
-	public SpreadsheetError(String _message)
+	public SpreadsheetException(String _message)
 	{
 		super( _message );
 	}
 
-	public SpreadsheetError(String _message, Throwable _cause)
+	public SpreadsheetException(String _message, Throwable _cause)
 	{
 		super( _message, _cause );
 	}
@@ -69,7 +69,7 @@ public class SpreadsheetError extends SEJError
 	 * 
 	 * @author peo
 	 */
-	public static class CellRangeNotUniDimensional extends SpreadsheetError
+	public static class CellRangeNotUniDimensional extends SpreadsheetException
 	{
 
 		public CellRangeNotUniDimensional(String _message)

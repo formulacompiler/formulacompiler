@@ -25,7 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
-import sej.runtime.EngineError;
+import sej.runtime.EngineException;
 
 
 /**
@@ -79,11 +79,11 @@ public interface EngineBuilder
 	 * 
 	 * @throws FileNotFoundException
 	 * @throws IOException
-	 * @throws SpreadsheetError
+	 * @throws SpreadsheetException
 	 * 
 	 * @see #setSpreadsheet(Spreadsheet)
 	 */
-	public void loadSpreadsheet( File _file ) throws FileNotFoundException, IOException, SpreadsheetError;
+	public void loadSpreadsheet( File _file ) throws FileNotFoundException, IOException, SpreadsheetException;
 
 	/**
 	 * Loads the input spreadsheet from a file.
@@ -92,11 +92,11 @@ public interface EngineBuilder
 	 * 
 	 * @throws FileNotFoundException
 	 * @throws IOException
-	 * @throws SpreadsheetError
+	 * @throws SpreadsheetException
 	 * 
 	 * @see #setSpreadsheet(Spreadsheet)
 	 */
-	public void loadSpreadsheet( String _fileName ) throws FileNotFoundException, IOException, SpreadsheetError;
+	public void loadSpreadsheet( String _fileName ) throws FileNotFoundException, IOException, SpreadsheetException;
 
 
 	/**
@@ -205,9 +205,9 @@ public interface EngineBuilder
 	 * 
 	 * @return the root section binder.
 	 * 
-	 * @throws CompilerError
+	 * @throws CompilerException
 	 */
-	public SpreadsheetBinder.Section getRootBinder() throws CompilerError;
+	public SpreadsheetBinder.Section getRootBinder() throws CompilerException;
 
 
 	/**
@@ -217,9 +217,9 @@ public interface EngineBuilder
 	 * 
 	 * @return the binder.
 	 * 
-	 * @throws CompilerError
+	 * @throws CompilerException
 	 */
-	public SpreadsheetByNameBinder getByNameBinder() throws CompilerError;
+	public SpreadsheetByNameBinder getByNameBinder() throws CompilerException;
 
 
 	/**
@@ -229,9 +229,9 @@ public interface EngineBuilder
 	 * <p>
 	 * See the <a href="../../tutorial/basics.htm#Convention">tutorial</a> for details.
 	 * 
-	 * @throws CompilerError
+	 * @throws CompilerException
 	 */
-	public void bindAllByName() throws CompilerError;
+	public void bindAllByName() throws CompilerException;
 
 
 	/**
@@ -244,8 +244,8 @@ public interface EngineBuilder
 	 * 
 	 * @return the compiled engine, ready to be used immediately, or saved to persistent storage for later use.
 	 * 
-	 * @throws CompilerError
-	 * @throws EngineError
+	 * @throws CompilerException
+	 * @throws EngineException
 	 * 
 	 * @see #loadSpreadsheet(File)
 	 * @see #setInputClass(Class)
@@ -253,6 +253,6 @@ public interface EngineBuilder
 	 * @see #setFactoryClass(Class)
 	 * @see #bindAllByName()
 	 */
-	public SaveableEngine compile() throws CompilerError, EngineError;
+	public SaveableEngine compile() throws CompilerException, EngineException;
 
 }

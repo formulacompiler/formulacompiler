@@ -31,7 +31,7 @@ import sej.SEJ;
 import sej.Spreadsheet;
 import sej.SpreadsheetBuilder;
 import sej.runtime.Engine;
-import sej.runtime.SEJError;
+import sej.runtime.SEJException;
 import junit.framework.TestCase;
 
 public class Basics extends TestCase
@@ -257,7 +257,7 @@ public class Basics extends TestCase
 
 
 	// ---- CompileFactory
-	private RebateComputationFactory compileFactoryFromSpreadsheet() throws FileNotFoundException, IOException, SEJError
+	private RebateComputationFactory compileFactoryFromSpreadsheet() throws FileNotFoundException, IOException, SEJException
 	{
 		EngineBuilder builder = /**/SEJ.newEngineBuilder()/**/;
 		builder./**/loadSpreadsheet/**/( SHEETNAME );
@@ -285,7 +285,7 @@ public class Basics extends TestCase
 
 
 	// ---- OwnUIFactory
-	private RebateComputationFactory compileFactoryFromOwnUI() throws SEJError
+	private RebateComputationFactory compileFactoryFromOwnUI() throws SEJException
 	{
 		EngineBuilder builder = SEJ.newEngineBuilder();
 		builder./**/setSpreadsheet( buildSpreadsheet() )/**/;  // instead of loadSpreadsheet()

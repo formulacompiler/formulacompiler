@@ -25,7 +25,7 @@ import java.util.Map;
 
 import sej.runtime.ComputationFactory;
 import sej.runtime.Engine;
-import sej.runtime.EngineError;
+import sej.runtime.EngineException;
 
 public class ByteCodeEngine extends ClassLoader implements Engine
 {
@@ -37,7 +37,7 @@ public class ByteCodeEngine extends ClassLoader implements Engine
 	private final ComputationFactory factory;
 
 
-	public ByteCodeEngine(Map<String, byte[]> _classNamesAndBytes) throws EngineError
+	public ByteCodeEngine(Map<String, byte[]> _classNamesAndBytes) throws EngineException
 	{
 		super();
 		assert _classNamesAndBytes != null;
@@ -47,13 +47,13 @@ public class ByteCodeEngine extends ClassLoader implements Engine
 			this.factory = (ComputationFactory) this.factoryClass.newInstance();
 		}
 		catch (ClassNotFoundException e) {
-			throw new EngineError( e );
+			throw new EngineException( e );
 		}
 		catch (InstantiationException e) {
-			throw new EngineError( e );
+			throw new EngineException( e );
 		}
 		catch (IllegalAccessException e) {
-			throw new EngineError( e );
+			throw new EngineException( e );
 		}
 	}
 

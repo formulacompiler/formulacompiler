@@ -26,7 +26,7 @@ import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
@@ -45,7 +45,7 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 
 
 	@Override
-	protected void compileBody() throws CompilerError
+	protected void compileBody() throws CompilerException
 	{
 		final List<ExpressionNode> args = this.node.getArguments();
 		final ExpressionNode firstArg = args.get( 0 );

@@ -20,7 +20,7 @@
  */
 package sej.internal.spreadsheet.binding;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.internal.spreadsheet.Reference;
 
 public class ElementBinding
@@ -47,9 +47,9 @@ public class ElementBinding
 	}
 
 
-	protected void notInSection( String _name, Reference _ref ) throws CompilerError.NotInSection
+	protected void notInSection( String _name, Reference _ref ) throws CompilerException.NotInSection
 	{
-		throw new CompilerError.NotInSection( _name, _ref.toString(), getSection().toString(), getSection().getRange()
+		throw new CompilerException.NotInSection( _name, _ref.toString(), getSection().toString(), getSection().getRange()
 				.toString() );
 	}
 

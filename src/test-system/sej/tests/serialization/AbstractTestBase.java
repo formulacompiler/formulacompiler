@@ -31,13 +31,14 @@ import junit.framework.TestCase;
 
 public abstract class AbstractTestBase extends TestCase
 {
-	private static final String ENGINE_PATH = "build/Engine";
+	private static final String ENGINE_PATH = "build/temp";
+	private static final String ENGINE_NAME = "Engine";
 	private static final String ENGINE_EXT = ".jar";
 
 
 	protected void deserializeAndTest() throws Exception
 	{
-		InputStream inStream = new BufferedInputStream( new FileInputStream( getEngineFile() ));
+		InputStream inStream = new BufferedInputStream( new FileInputStream( getEngineFile() ) );
 		Engine engine = SEJRuntime.loadEngine( inStream );
 
 		computeAndTestResult( engine );
@@ -46,7 +47,9 @@ public abstract class AbstractTestBase extends TestCase
 
 	protected File getEngineFile()
 	{
-		return new File( ENGINE_PATH + getTypeSuffix() + ENGINE_EXT );
+		final File path = new File( ENGINE_PATH );
+		path.mkdirs();
+		return new File( path, ENGINE_NAME + getTypeSuffix() + ENGINE_EXT );
 	}
 
 

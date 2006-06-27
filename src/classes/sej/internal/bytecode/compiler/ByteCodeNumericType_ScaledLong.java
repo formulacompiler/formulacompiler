@@ -31,7 +31,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.Function;
 import sej.NumericType;
 import sej.Operator;
@@ -121,7 +121,7 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 
 
 	@Override
-	void compile( GeneratorAdapter _mv, Operator _operator, int _numberOfArguments ) throws CompilerError
+	void compile( GeneratorAdapter _mv, Operator _operator, int _numberOfArguments ) throws CompilerException
 	{
 		switch (_operator) {
 
@@ -181,7 +181,7 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 
 
 	@Override
-	void compileConst( GeneratorAdapter _mv, Object _constantValue ) throws CompilerError
+	void compileConst( GeneratorAdapter _mv, Object _constantValue ) throws CompilerException
 	{
 		if (null == _constantValue) {
 			_mv.visitInsn( Opcodes.LCONST_0 );

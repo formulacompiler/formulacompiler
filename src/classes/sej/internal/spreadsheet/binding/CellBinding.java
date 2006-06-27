@@ -20,7 +20,7 @@
  */
 package sej.internal.spreadsheet.binding;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.internal.spreadsheet.CellIndex;
 
 public class CellBinding extends ElementBinding
@@ -28,7 +28,7 @@ public class CellBinding extends ElementBinding
 	private final CellIndex index;
 
 
-	public CellBinding(SectionBinding _space, CellIndex _index) throws CompilerError
+	public CellBinding(SectionBinding _space, CellIndex _index) throws CompilerException
 	{
 		super( _space );
 		this.index = _index;

@@ -58,7 +58,7 @@ public class TypeConversion extends TestCase
 
 	private void testAllTypesWith( final NumericType _numericType, boolean _truncatesAt4 ) throws Exception
 	{
-		String path = "src/test-system/testdata/sej/tutorials/UsingAllNumericTypes.xls";
+		String path = "src/test-system/testdata/sej/tutorials/TypeConversion.xls";
 
 		EngineBuilder builder = SEJ.newEngineBuilder();
 		builder.loadSpreadsheet( path );
@@ -66,112 +66,128 @@ public class TypeConversion extends TestCase
 		builder.setNumericType( _numericType );
 		builder.bindAllByName();
 		SaveableEngine engine = builder.compile();
-
-
-		engine.saveTo( new FileOutputStream( "D:/Temp/typeseng.jar" ) );
-
-
 		AllTypesFactory factory = (AllTypesFactory) engine.getComputationFactory();
 
-		// ---- checkAllTypes
 		AllPossibleInput input = new AllPossibleInputImpl();
 		AllPossibleOutput output = factory.newInstance( input );
+
+		// ---- checkAllTypes
+		// Native types
 		assertEquals( input.getByte() * 2, output.calcByte() );
 		assertEquals( input.getShort() * 2, output.calcShort() );
 		assertEquals( input.getInt() * 2, output.calcInt() );
 		assertEquals( input.getDouble() * 2, output.calcDouble(), 0.0001 );
 		assertEquals( input.getFloat() * 2, output.calcFloat(), 0.0001F );
+		assertEquals( !input.getBoolean(), output.calcBoolean() );
 
+		// Boxed native types
+		assertEquals( input.getByte() * 2, output.calcBoxedByte().byteValue() );
+		assertEquals( input.getShort() * 2, output.calcBoxedShort().shortValue() );
+		assertEquals( input.getInt() * 2, output.calcBoxedInt().intValue() );
+		assertEquals( input.getDouble() * 2, output.calcBoxedDouble().doubleValue(), 0.0001 );
+		assertEquals( input.getFloat() * 2, output.calcBoxedFloat().floatValue(), 0.0001F );
+		assertEquals( !input.getBoolean(), output.calcBoxedBoolean().booleanValue() );
+
+		// Big types
 		assertEquals( Util.trimTrailingZerosAndPoint( input.getBigDecimal().add( BigDecimal.ONE ).toPlainString() ), Util
 				.trimTrailingZerosAndPoint( output.calcBigDecimal().toPlainString() ) );
 		assertEquals( Util.trimTrailingZerosAndPoint( input.getBigInteger().add( BigInteger.ONE ).toString() ), Util
 				.trimTrailingZerosAndPoint( output.calcBigInteger().toString() ) );
 
+		// Date
 		assertEquals( input.getDate().getTime() + ONE_DAY, output.calcDate().getTime() );
-		assertEquals( !input.getBoolean(), output.calcBoolean() );
-		
+
+		// Scaled long
 		if (_truncatesAt4) {
 			assertEquals( input.getLong6() / 100 * 2 * 10, output.calcLong5() );
+			assertEquals( input.getLong6() / 100 * 2 * 10, output.calcBoxedLong5().longValue() );
 		}
 		else {
 			assertEquals( input.getLong6() * 2 / 10, output.calcLong5() );
+			assertEquals( input.getLong6() * 2 / 10, output.calcBoxedLong5().longValue() );
 		}
 		// ---- checkAllTypes
 	}
 
 
-	// ---- TypeIO
 	public static interface AllPossibleInput
 	{
-		public byte getByte();
-		public short getShort();
-		public int getInt();
-		public long getLong();
-		public double getDouble();
-		public float getFloat();
-		public boolean getBoolean();
-
-		public Byte getBoxedByte();
-		public Short getBoxedShort();
-		public Integer getBoxedInt();
-		public Long getBoxedLong();
-		public Double getBoxedDouble();
-		public Float getBoxedFloat();
-		public Boolean getBoxedBoolean();
-
-		public BigDecimal getBigDecimal();
-		public BigInteger getBigInteger();
-
-		public Date getDate();
-
-		public Byte getNullByte();
-		public Short getNullShort();
-		public Integer getNullInt();
-		public Long getNullLong();
-		public Double getNullDouble();
-		public Float getNullFloat();
-		public Boolean getNullBoolean();
-		public BigDecimal getNullBigDecimal();
-		public BigInteger getNullBigInteger();
-		public Date getNullDate();
-
-		@ScaledLong(6)
-		public long getLong6();
 		
-		@ScaledLong(6)
-		public Long getBoxedLong6();
+		// ---- Input
+		// Native types
+		byte getByte();
+		short getShort();
+		int getInt();
+		long getLong();
+		@ScaledLong(6) long getLong6();
+		double getDouble();
+		float getFloat();
+		boolean getBoolean();
+
+		// Boxed native types
+		Byte getBoxedByte();
+		Short getBoxedShort();
+		Integer getBoxedInt();
+		Long getBoxedLong();
+		@ScaledLong(6) Long getBoxedLong6();
+		Double getBoxedDouble();
+		Float getBoxedFloat();
+		Boolean getBoxedBoolean();
+
+		// Big types
+		BigDecimal getBigDecimal();
+		BigInteger getBigInteger();
+
+		// Date is converted to a number à la Excel
+		Date getDate();
+		// ---- Input
 		
-		@ScaledLong(6)
-		public Long getNullLong6();
+		// Null values are treated as zero
+		Byte getNullByte();
+		Short getNullShort();
+		Integer getNullInt();
+		Long getNullLong();
+		@ScaledLong(6) Long getNullLong6();
+		Double getNullDouble();
+		Float getNullFloat();
+		Boolean getNullBoolean();
+		BigDecimal getNullBigDecimal();
+		BigInteger getNullBigInteger();
+		Date getNullDate();
 	}
+
 
 	public static interface AllPossibleOutput
 	{
-		public byte calcByte();
-		public short calcShort();
-		public int calcInt();
-		public long calcLong();
-		public double calcDouble();
-		public float calcFloat();
-		public boolean calcBoolean();
+		// ---- Output
+		// Native types
+		byte calcByte();
+		short calcShort();
+		int calcInt();
+		long calcLong();
+		@ScaledLong(5) long calcLong5();
+		double calcDouble();
+		float calcFloat();
+		boolean calcBoolean();
 
-		public Byte calcBoxedByte();
-		public Short calcBoxedShort();
-		public Integer calcBoxedInt();
-		public Long calcBoxedLong();
-		public Double calcBoxedDouble();
-		public Float calcBoxedFloat();
-		public Boolean calcBoxedBoolean();
+		// Boxed native types
+		Byte calcBoxedByte();
+		Short calcBoxedShort();
+		Integer calcBoxedInt();
+		Long calcBoxedLong();
+		@ScaledLong(5) Long calcBoxedLong5();
+		Double calcBoxedDouble();
+		Float calcBoxedFloat();
+		Boolean calcBoxedBoolean();
 
-		public BigDecimal calcBigDecimal();
-		public BigInteger calcBigInteger();
-		public Date calcDate();
-		
-		@ScaledLong(5)
-		public long calcLong5();
+		// Big types
+		BigDecimal calcBigDecimal();
+		BigInteger calcBigInteger();
+
+		// Date is converted from a number à la Excel
+		Date calcDate();
+		// ---- Output
 	}
-
-	// ---- TypeIO
 
 
 	public static class AllPossibleInputImpl implements AllPossibleInput
@@ -288,7 +304,7 @@ public class TypeConversion extends TestCase
 		{
 			return null;
 		}
-		
+
 		public long getLong6()
 		{
 			return 12345678;

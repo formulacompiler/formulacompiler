@@ -25,7 +25,7 @@ import java.io.InputStream;
 
 import sej.SaveableEngine;
 import sej.runtime.Engine;
-import sej.runtime.EngineError;
+import sej.runtime.EngineException;
 
 
 /**
@@ -47,8 +47,8 @@ public interface EngineLoader
 	 * @return The loaded engine.
 	 * 
 	 * @throws IOException
-	 * @throws EngineError
+	 * @throws EngineException
 	 */
-	public Engine loadEngineData( InputStream _stream ) throws IOException, EngineError;
+	public Engine loadEngineData( InputStream _stream ) throws IOException, EngineException;
 
 }

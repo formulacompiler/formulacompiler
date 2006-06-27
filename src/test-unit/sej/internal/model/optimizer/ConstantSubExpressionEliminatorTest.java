@@ -20,7 +20,7 @@
  */
 package sej.internal.model.optimizer;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.SEJ;
 import sej.internal.model.CellModel;
 
@@ -29,7 +29,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testConstantCells() throws CompilerError
+	public void testConstantCells() throws CompilerException
 	{
 		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 
@@ -45,7 +45,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testConstantCellsBigDecimal() throws CompilerError
+	public void testConstantCellsBigDecimal() throws CompilerException
 	{
 		model.traverse( new ConstantSubExpressionEliminator( SEJ.BIGDECIMAL8 ) );
 
@@ -61,7 +61,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testPartialFoldingInExprs() throws NoSuchMethodException, CompilerError
+	public void testPartialFoldingInExprs() throws NoSuchMethodException, CompilerException
 	{
 		makeConstCellInput();
 
@@ -79,7 +79,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testPartialAggregationInExprs() throws NoSuchMethodException, CompilerError
+	public void testPartialAggregationInExprs() throws NoSuchMethodException, CompilerException
 	{
 		makeConstCellInput();
 
@@ -93,7 +93,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testBandsAreNotConst() throws NoSuchMethodException, CompilerError
+	public void testBandsAreNotConst() throws NoSuchMethodException, CompilerException
 	{
 		makeConstCellInput();
 

@@ -22,7 +22,7 @@ package sej;
 
 import java.lang.reflect.Method;
 
-import sej.runtime.SEJError;
+import sej.runtime.SEJException;
 
 
 /**
@@ -32,15 +32,15 @@ import sej.runtime.SEJError;
  * 
  * @author peo
  */
-public class CompilerError extends SEJError
+public class CompilerException extends SEJException
 {
 
-	public CompilerError(String _message)
+	public CompilerException(String _message)
 	{
 		super( _message );
 	}
 
-	public CompilerError(String _message, Throwable _cause)
+	public CompilerException(String _message, Throwable _cause)
 	{
 		super( _message, _cause );
 	}
@@ -74,7 +74,7 @@ public class CompilerError extends SEJError
 	 * 
 	 * @author peo
 	 */
-	public static class DuplicateDefinition extends CompilerError
+	public static class DuplicateDefinition extends CompilerException
 	{
 
 		public DuplicateDefinition(String _message)
@@ -91,7 +91,7 @@ public class CompilerError extends SEJError
 	 * 
 	 * @author peo
 	 */
-	public static class NotInSection extends CompilerError
+	public static class NotInSection extends CompilerException
 	{
 
 		public NotInSection(String _eltName, String _eltAt, String _sectionName, String _sectionAt)
@@ -110,7 +110,7 @@ public class CompilerError extends SEJError
 	 * 
 	 * @author peo
 	 */
-	public static class SectionExtentNotCovered extends CompilerError
+	public static class SectionExtentNotCovered extends CompilerException
 	{
 
 		public SectionExtentNotCovered(String _rangeAt, String _sectionName, String _sectionAt)
@@ -127,7 +127,7 @@ public class CompilerError extends SEJError
 	 * 
 	 * @author peo
 	 */
-	public static class SectionOrientation extends CompilerError
+	public static class SectionOrientation extends CompilerException
 	{
 
 		public SectionOrientation(String _message)
@@ -143,7 +143,7 @@ public class CompilerError extends SEJError
 	 * 
 	 * @author peo
 	 */
-	public static class SectionOverlap extends CompilerError
+	public static class SectionOverlap extends CompilerException
 	{
 
 		public SectionOverlap(String _message)
@@ -159,7 +159,7 @@ public class CompilerError extends SEJError
 	 * 
 	 * @author peo
 	 */
-	public static class UnsupportedOperator extends CompilerError
+	public static class UnsupportedOperator extends CompilerException
 	{
 
 		public UnsupportedOperator(String _message)
@@ -175,7 +175,7 @@ public class CompilerError extends SEJError
 	 * 
 	 * @author peo
 	 */
-	public static class UnsupportedExpression extends CompilerError
+	public static class UnsupportedExpression extends CompilerException
 	{
 
 		public UnsupportedExpression(String _message)
@@ -193,7 +193,7 @@ public class CompilerError extends SEJError
 	 * 
 	 * @author peo
 	 */
-	public static class UnsupportedDataType extends CompilerError
+	public static class UnsupportedDataType extends CompilerException
 	{
 
 		public UnsupportedDataType(String _message)
@@ -210,7 +210,7 @@ public class CompilerError extends SEJError
 	 * 
 	 * @author peo
 	 */
-	public static class ConstructorMissing extends CompilerError
+	public static class ConstructorMissing extends CompilerException
 	{
 
 		public ConstructorMissing(String _message, Throwable _cause)
@@ -226,7 +226,7 @@ public class CompilerError extends SEJError
 	 * 
 	 * @author peo
 	 */
-	public static final class FactoryMethodMissing extends CompilerError
+	public static final class FactoryMethodMissing extends CompilerException
 	{
 
 		public FactoryMethodMissing(Class _factoryClass, Class _inputClass, Class _outputClass)
@@ -250,7 +250,7 @@ public class CompilerError extends SEJError
 	 * 
 	 * @author peo
 	 */
-	public static final class MethodNotImplemented extends CompilerError
+	public static final class MethodNotImplemented extends CompilerException
 	{
 
 		public MethodNotImplemented(Method _m)

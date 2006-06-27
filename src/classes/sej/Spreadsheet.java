@@ -58,10 +58,10 @@ public interface Spreadsheet extends Describable
 	 *           NumberSold, etc.).
 	 * @return The requested cell. The name must not designate a range.
 	 * 
-	 * @throws SpreadsheetError.NameNotFound if the name is not defined in the spreadsheet.
+	 * @throws SpreadsheetException.NameNotFound if the name is not defined in the spreadsheet.
 	 * @throws IllegalArgumentException if the name identifies a range instead of a single cell.
 	 */
-	public Cell getCell( String _cellName ) throws SpreadsheetError.NameNotFound, IllegalArgumentException;
+	public Cell getCell( String _cellName ) throws SpreadsheetException.NameNotFound, IllegalArgumentException;
 
 
 	/**
@@ -71,10 +71,10 @@ public interface Spreadsheet extends Describable
 	 *           etc.).
 	 * @return The requested range. The name can designate a cell.
 	 * 
-	 * @throws SpreadsheetError.NameNotFound if the name is not defined in the spreadsheet.
+	 * @throws SpreadsheetException.NameNotFound if the name is not defined in the spreadsheet.
 	 * @throws IllegalArgumentException if the name identifies a range instead of a single cell.
 	 */
-	public Range getRange( String _rangeName ) throws SpreadsheetError.NameNotFound, IllegalArgumentException;
+	public Range getRange( String _rangeName ) throws SpreadsheetException.NameNotFound, IllegalArgumentException;
 
 
 	/**

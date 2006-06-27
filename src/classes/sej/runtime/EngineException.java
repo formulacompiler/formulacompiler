@@ -22,31 +22,43 @@ package sej.runtime;
 
 
 /**
- * Base class for all exceptions thrown by SEJ.
+ * Base class for all exceptions thrown by the run-time engine support of SEJ.
  * 
  * @author peo
  */
-public class SEJError extends Exception
+public class EngineException extends SEJException
 {
 
-	public SEJError()
-	{
-		super();
-	}
-
-	public SEJError(String _message, Throwable _cause)
+	public EngineException(String _message, Throwable _cause)
 	{
 		super( _message, _cause );
 	}
 
-	public SEJError(String _message)
+	public EngineException(String _message)
 	{
 		super( _message );
 	}
 
-	public SEJError(Throwable _cause)
+	public EngineException(Throwable _cause)
 	{
 		super( _cause );
+	}
+
+
+	/**
+	 * SEJ could not find an appropriate engine loader for the stream you provided to
+	 * {@link sej.runtime.SEJRuntime#loadEngine(java.io.InputStream)}.
+	 * 
+	 * @author peo
+	 */
+	public static final class UnsupportedSerializationFormat extends EngineException
+	{
+
+		public UnsupportedSerializationFormat()
+		{
+			super( "Don't know how to load an engine -- you probably forgot to register a loader" );
+		}
+
 	}
 
 }

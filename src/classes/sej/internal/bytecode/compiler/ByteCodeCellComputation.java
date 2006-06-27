@@ -21,7 +21,7 @@
 package sej.internal.bytecode.compiler;
 
 import sej.CallFrame;
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.internal.model.CellModel;
 
 
@@ -58,30 +58,30 @@ final class ByteCodeCellComputation
 	}
 
 	
-	void validate() throws CompilerError
+	void validate() throws CompilerException
 	{
 		validateInputType();
 		validateOutputTypes();
 	}
 
-	private void validateInputType() throws CompilerError
+	private void validateInputType() throws CompilerException
 	{
 		if (this.cell.isInput()) {
 			getSection().getNumericType().getNumericType().validateReturnTypeForCell( this.cell.getCallChainToCall().getMethod() );
 		}
 	}
 
-	private void validateOutputTypes() throws CompilerError
+	private void validateOutputTypes() throws CompilerException
 	{
 		for (CallFrame frame : this.cell.getCallsToImplement()) {
 			if (frame.getHead() != frame) {
-				throw new CompilerError.UnsupportedDataType( "The output method " + frame + " cannot be chained." );
+				throw new CompilerException.UnsupportedDataType( "The output method " + frame + " cannot be chained." );
 			}
 			getSection().getNumericType().getNumericType().validateReturnTypeForCell( frame.getMethod() );
 		}
 	}
 
-	void compile() throws CompilerError
+	void compile() throws CompilerException
 	{
 		new ByteCodeCellCompiler( this ).compile();
 	}

@@ -27,7 +27,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import sej.CallFrame;
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.Orientation;
 import sej.Spreadsheet;
 import sej.internal.Util;
@@ -51,7 +51,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 
 	private SectionBinding(SectionBinding _space, CallFrame _callChainToCall, Class _inputClass,
 			CallFrame _callToImplement, Class _outputClass, CellRange _range, Orientation _orientation)
-			throws CompilerError
+			throws CompilerException
 	{
 		super( _space );
 		this.workbook = _space.getWorkbook();
@@ -132,12 +132,12 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	// ------------------------------------------------ Definition By Interface
 
 
-	public void defineInputCell( Spreadsheet.Cell _cell, CallFrame _callChainToCall ) throws CompilerError
+	public void defineInputCell( Spreadsheet.Cell _cell, CallFrame _callChainToCall ) throws CompilerException
 	{
 		validateAccessible( _callChainToCall );
 		final CellIndex cellIndex = (CellIndex) _cell;
 		if (this.inputs.containsKey( cellIndex )) {
-			throw new CompilerError.DuplicateDefinition( "Input cell '" + cellIndex.toString() + "' is already defined" );
+			throw new CompilerException.DuplicateDefinition( "Input cell '" + cellIndex.toString() + "' is already defined" );
 		}
 		final InputCellBinding def = new InputCellBinding( this, _callChainToCall, cellIndex );
 		this.inputs.put( def.getIndex(), def );
@@ -145,11 +145,11 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	}
 
 
-	public void defineOutputCell( Spreadsheet.Cell _cell, CallFrame _call ) throws CompilerError
+	public void defineOutputCell( Spreadsheet.Cell _cell, CallFrame _call ) throws CompilerException
 	{
 		validateImplementable( _call );
 		if (this.outputs.containsKey( _call )) {
-			throw new CompilerError.DuplicateDefinition( "Output method '" + _call.toString() + "' is already defined" );
+			throw new CompilerException.DuplicateDefinition( "Output method '" + _call.toString() + "' is already defined" );
 		}
 		final CellIndex cellIndex = (CellIndex) _cell;
 		final OutputCellBinding def = new OutputCellBinding( this, _call, cellIndex );
@@ -160,7 +160,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 
 	public SectionBinding defineRepeatingSection( Spreadsheet.Range _range, Orientation _orientation,
 			CallFrame _inputCallChainReturningIterable, Class _inputClass, CallFrame _outputCallToImplementIterable,
-			Class _outputClass ) throws CompilerError
+			Class _outputClass ) throws CompilerException
 	{
 		if (_inputClass == null) throw new IllegalArgumentException( "inputClass is null" );
 		validateAccessible( _inputCallChainReturningIterable );
@@ -199,16 +199,16 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	}
 
 
-	protected void checkSection( CellRange _range, Orientation _orientation ) throws CompilerError
+	protected void checkSection( CellRange _range, Orientation _orientation ) throws CompilerException
 	{
 		for (SectionBinding other : this.workbook.getSections()) {
 			if (other.isInSection( this )) {
 				if (other.getOrientation() != _orientation) {
-					throw new CompilerError.SectionOrientation( "Section '"
+					throw new CompilerException.SectionOrientation( "Section '"
 							+ _range.toString() + "' has a different orientation than '" + other.toString() + "'" );
 				}
 				if (other.getRange().overlaps( _range, _orientation )) {
-					throw new CompilerError.SectionOverlap( "Section '"
+					throw new CompilerException.SectionOverlap( "Section '"
 							+ _range.toString() + "' overlaps '" + other.toString() + "'" );
 				}
 			}
@@ -258,7 +258,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	}
 
 
-	public CellRange getPrototypeRange( CellRange _range ) throws CompilerError
+	public CellRange getPrototypeRange( CellRange _range ) throws CompilerException
 	{
 		CellIndex from = _range.getFrom();
 		CellIndex to = _range.getTo();
@@ -269,11 +269,11 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 		int isTo = to.getIndex( this.orientation );
 
 		if ((isFrom != wantFrom) || (isTo != wantTo)) {
-			throw new CompilerError.SectionExtentNotCovered( _range.toString(), this.toString(), this.getRange()
+			throw new CompilerException.SectionExtentNotCovered( _range.toString(), this.toString(), this.getRange()
 					.toString() );
 		}
 		if (!contains( _range.getFrom() ) || !contains( _range.getTo() )) {
-			throw new CompilerError.NotInSection( null, _range.toString(), this.toString(), this.getRange().toString() );
+			throw new CompilerException.NotInSection( null, _range.toString(), this.toString(), this.getRange().toString() );
 		}
 
 		if (isTo > isFrom) {
@@ -286,7 +286,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	}
 
 
-	public void validate() throws CompilerError
+	public void validate() throws CompilerException
 	{
 		if (this.outputClass != null) {
 			validateOutputIsFullyImplemented();
@@ -297,7 +297,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	}
 
 
-	private void validateOutputIsFullyImplemented() throws CompilerError
+	private void validateOutputIsFullyImplemented() throws CompilerException
 	{
 		Map<String, Method> abstractMethods = Util.abstractMethodsOf( this.outputClass );
 		if (abstractMethods.size() > 0) {
@@ -309,7 +309,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 			}
 			if (abstractMethods.size() > 0) {
 				final Method m = abstractMethods.values().iterator().next();
-				throw new CompilerError.MethodNotImplemented( m );
+				throw new CompilerException.MethodNotImplemented( m );
 			}
 		}
 	}

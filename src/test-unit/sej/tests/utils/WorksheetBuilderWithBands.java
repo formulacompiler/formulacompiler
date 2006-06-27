@@ -23,12 +23,12 @@ package sej.tests.utils;
 
 import sej.Aggregator;
 import sej.CallFrame;
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.Operator;
 import sej.Orientation;
 import sej.SEJ;
 import sej.SpreadsheetBinder;
-import sej.CompilerError.SectionOverlap;
+import sej.CompilerException.SectionOverlap;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForOperator;
@@ -111,7 +111,7 @@ public class WorksheetBuilderWithBands
 	 * @throws SectionOverlap
 	 */
 	@SuppressWarnings("unqualified-field-access")
-	public SpreadsheetBinder newBinder() throws CompilerError
+	public SpreadsheetBinder newBinder() throws CompilerException
 	{
 		SpreadsheetBinder binder = SEJ.newSpreadsheetBinder( sheet.getSpreadsheet(), Inputs.class, Outputs.class );
 		defineWorkbook( binder.getRoot() );
@@ -120,7 +120,7 @@ public class WorksheetBuilderWithBands
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void defineWorkbook( SpreadsheetBinder.Section _root ) throws CompilerError
+	public void defineWorkbook( SpreadsheetBinder.Section _root ) throws CompilerException
 	{
 		try {
 			_root.defineOutputCell( formula.getCellIndex(), new CallFrame( Outputs.class.getMethod( "getResult" ) ) );
@@ -136,7 +136,7 @@ public class WorksheetBuilderWithBands
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void defineRange( SpreadsheetBinder.Section _root ) throws CompilerError, SecurityException,
+	public void defineRange( SpreadsheetBinder.Section _root ) throws CompilerException, SecurityException,
 			NoSuchMethodException
 	{
 		CellRange rng = new CellRange( r1c1.getCellIndex(), r4c4.getCellIndex() );

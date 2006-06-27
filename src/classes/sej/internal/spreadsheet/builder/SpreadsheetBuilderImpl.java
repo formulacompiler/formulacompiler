@@ -136,7 +136,6 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 
 	public ExprNode fun( Function _fun, ExprNode... _args )
 	{
-		if (_fun == Function.IF) throw new IllegalArgumentException( "Use iff() for if-nodes" );
 		return new ExprNodeImpl( new ExpressionNodeForFunction( _fun, nodesOf( _args ) ) );
 	}
 

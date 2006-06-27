@@ -42,7 +42,7 @@ public class BasicUsageDemo
 		// Set the factory interface to implement. This interface defines the method
 		// Outputs newInstance( Inputs _inputs ), from which SEJ derives the input
 		// and output interfaces.
-		builder.setFactoryClass( Factory.class );
+		builder.setFactoryClass( OutputFactory.class );
 		
 		// Define which cells will be variable inputs to the engine, and which will be
 		// computable outputs, by cell name. All cells whose name correspond to a method
@@ -55,7 +55,7 @@ public class BasicUsageDemo
 		Engine engine = builder.compile();
 		
 		// Get the factory instance from the compiled engine.
-		Factory factory = (Factory) engine.getComputationFactory();
+		OutputFactory factory = (OutputFactory) engine.getComputationFactory();
 		// ---- Construction
 
 		// ---- Computation

@@ -28,7 +28,7 @@ import sej.EngineBuilder;
 import sej.SEJ;
 import sej.runtime.ComputationFactory;
 import sej.runtime.Resettable;
-import sej.runtime.SEJError;
+import sej.runtime.SEJException;
 import junit.framework.TestCase;
 
 public class Caching extends TestCase
@@ -201,7 +201,7 @@ public class Caching extends TestCase
 	// ---- CachingOutput
 
 
-	private ComputationFactory compile( Class _outputClass ) throws FileNotFoundException, IOException, SEJError 
+	private ComputationFactory compile( Class _outputClass ) throws FileNotFoundException, IOException, SEJException 
 	{
 		EngineBuilder builder = SEJ.newEngineBuilder();
 		builder.loadSpreadsheet( path );

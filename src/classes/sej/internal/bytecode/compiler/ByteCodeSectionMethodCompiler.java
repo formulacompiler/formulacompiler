@@ -21,6 +21,7 @@
 package sej.internal.bytecode.compiler;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.List;
 
 import org.objectweb.asm.ClassWriter;
@@ -32,7 +33,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.Aggregator;
 import sej.CallFrame;
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.Function;
 import sej.Operator;
 import sej.internal.expressions.ExpressionNode;
@@ -108,7 +109,7 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	void compile() throws CompilerError
+	void compile() throws CompilerException
 	{
 		beginCompilation();
 		compileBody();
@@ -130,7 +131,7 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	protected abstract void compileBody() throws CompilerError;
+	protected abstract void compileBody() throws CompilerException;
 
 
 	protected void compileRef( MethodVisitor _mv, ByteCodeCellComputation _cell )
@@ -173,18 +174,21 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	protected void compileConst( Object _constantValue ) throws CompilerError
+	protected void compileConst( Object _constantValue ) throws CompilerException
 	{
 		getNumericType().compileConst( mv(), _constantValue );
 	}
 
 
-	protected void compileInput( CallFrame _callChainToCall ) throws CompilerError
+	protected void compileInput( CallFrame _callChainToCall ) throws CompilerException
 	{
 		final CallFrame[] frames = _callChainToCall.getFrames();
+		final boolean isStatic = Modifier.isStatic( frames[ 0 ].getMethod().getModifiers() );
 
-		mv().loadThis();
-		mv().getField( getSection().engine, ByteCodeEngineCompiler.INPUTS_MEMBER_NAME, getSection().inputs );
+		if (!isStatic) {
+			mv().loadThis();
+			mv().getField( getSection().engine, ByteCodeEngineCompiler.INPUTS_MEMBER_NAME, getSection().inputs );
+		}
 
 		Class contextClass = getSection().getInputClass();
 		for (CallFrame frame : frames) {
@@ -196,18 +200,19 @@ abstract class ByteCodeSectionMethodCompiler
 			}
 			int opcode = Opcodes.INVOKEVIRTUAL;
 			if (contextClass.isInterface()) opcode = Opcodes.INVOKEINTERFACE;
+			else if (isStatic) opcode = Opcodes.INVOKESTATIC;
 
 			mv().visitMethodInsn( opcode, Type.getType( contextClass ).getInternalName(), method.getName(),
 					Type.getMethodDescriptor( method ) );
 
 			contextClass = method.getReturnType();
 		}
-		
+
 		getNumericType().compileToNum( mv(), _callChainToCall.getMethod() );
 	}
 
 
-	protected void compileExpr( ExpressionNode _node ) throws CompilerError
+	protected void compileExpr( ExpressionNode _node ) throws CompilerException
 	{
 		if (null == _node) {
 			mv().visitInsn( Opcodes.ACONST_NULL );
@@ -261,7 +266,7 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	private void compileOperator( ExpressionNodeForOperator _node ) throws CompilerError
+	private void compileOperator( ExpressionNodeForOperator _node ) throws CompilerException
 	{
 		for (ExpressionNode arg : _node.getArguments()) {
 			compileExpr( arg );
@@ -270,13 +275,13 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	private void compileOperator( Operator _operator, int _numberOfArguments ) throws CompilerError
+	private void compileOperator( Operator _operator, int _numberOfArguments ) throws CompilerException
 	{
 		getNumericType().compile( mv(), _operator, _numberOfArguments );
 	}
 
 
-	private void compileFunction( ExpressionNodeForFunction _node ) throws CompilerError
+	private void compileFunction( ExpressionNodeForFunction _node ) throws CompilerException
 	{
 		switch (_node.getFunction()) {
 
@@ -294,7 +299,7 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	private void compileStdFunction( ExpressionNodeForFunction _node ) throws CompilerError
+	private void compileStdFunction( ExpressionNodeForFunction _node ) throws CompilerException
 	{
 		final StringBuilder argTypeBuilder = new StringBuilder();
 		for (ExpressionNode arg : _node.getArguments()) {
@@ -305,7 +310,7 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	private void compileIf( ExpressionNodeForFunction _node ) throws CompilerError
+	private void compileIf( ExpressionNodeForFunction _node ) throws CompilerException
 	{
 		final Label notMet = mv().newLabel();
 		final Label done = mv().newLabel();
@@ -335,7 +340,7 @@ abstract class ByteCodeSectionMethodCompiler
 			this.branchTo = _branchTo;
 		}
 
-		void compile() throws CompilerError
+		void compile() throws CompilerException
 		{
 			if (this.node instanceof ExpressionNodeForOperator) {
 				final ExpressionNodeForOperator opNode = (ExpressionNodeForOperator) this.node;
@@ -396,9 +401,9 @@ abstract class ByteCodeSectionMethodCompiler
 		}
 
 		protected abstract TestCompiler newInverseCompiler( ExpressionNode _node, Label _branchTo );
-		protected abstract void compileAnd() throws CompilerError;
-		protected abstract void compileOr() throws CompilerError;
-		protected abstract void compileComparison( Operator _comparison ) throws CompilerError;
+		protected abstract void compileAnd() throws CompilerException;
+		protected abstract void compileOr() throws CompilerException;
+		protected abstract void compileComparison( Operator _comparison ) throws CompilerException;
 
 		protected void compileComparison( int _ifOpcode, int _comparisonOpcode )
 		{
@@ -406,7 +411,7 @@ abstract class ByteCodeSectionMethodCompiler
 			mv().visitJumpInsn( _ifOpcode, this.branchTo );
 		}
 
-		private void compileNot() throws CompilerError
+		private void compileNot() throws CompilerException
 		{
 			final List<ExpressionNode> args = this.node.getArguments();
 			if (0 < args.size()) {
@@ -417,14 +422,14 @@ abstract class ByteCodeSectionMethodCompiler
 			}
 		}
 
-		void compileValue() throws CompilerError
+		void compileValue() throws CompilerException
 		{
 			compileExpr( this.node );
 			getNumericType().compileZero( mv() );
 			compileComparison( Operator.NOTEQUAL );
 		}
 
-		protected abstract void compileBooleanTest() throws CompilerError;
+		protected abstract void compileBooleanTest() throws CompilerException;
 	}
 
 
@@ -437,7 +442,7 @@ abstract class ByteCodeSectionMethodCompiler
 		}
 
 		@Override
-		protected void compileComparison( Operator _comparison ) throws CompilerError
+		protected void compileComparison( Operator _comparison ) throws CompilerException
 		{
 			switch (_comparison) {
 
@@ -475,7 +480,7 @@ abstract class ByteCodeSectionMethodCompiler
 		}
 
 		@Override
-		protected void compileOr() throws CompilerError
+		protected void compileOr() throws CompilerException
 		{
 			final Label met = mv().newLabel();
 			final int nArg = this.node.getArguments().size();
@@ -491,7 +496,7 @@ abstract class ByteCodeSectionMethodCompiler
 		}
 
 		@Override
-		protected void compileAnd() throws CompilerError
+		protected void compileAnd() throws CompilerException
 		{
 			for (ExpressionNode arg : this.node.getArguments()) {
 				new TestCompilerBranchingWhenFalse( arg, this.branchTo ).compile();
@@ -499,7 +504,7 @@ abstract class ByteCodeSectionMethodCompiler
 		}
 
 		@Override
-		protected void compileBooleanTest() throws CompilerError
+		protected void compileBooleanTest() throws CompilerException
 		{
 			mv().visitJumpInsn( Opcodes.IFEQ, this.branchTo );
 		}
@@ -515,7 +520,7 @@ abstract class ByteCodeSectionMethodCompiler
 		}
 
 		@Override
-		protected void compileComparison( Operator _comparison ) throws CompilerError
+		protected void compileComparison( Operator _comparison ) throws CompilerException
 		{
 			switch (_comparison) {
 
@@ -553,7 +558,7 @@ abstract class ByteCodeSectionMethodCompiler
 		}
 
 		@Override
-		protected void compileOr() throws CompilerError
+		protected void compileOr() throws CompilerException
 		{
 			for (ExpressionNode arg : this.node.getArguments()) {
 				new TestCompilerBranchingWhenTrue( arg, this.branchTo ).compile();
@@ -561,7 +566,7 @@ abstract class ByteCodeSectionMethodCompiler
 		}
 
 		@Override
-		protected void compileAnd() throws CompilerError
+		protected void compileAnd() throws CompilerException
 		{
 			final Label notMet = mv().newLabel();
 			final int nArg = this.node.getArguments().size();
@@ -577,14 +582,14 @@ abstract class ByteCodeSectionMethodCompiler
 		}
 
 		@Override
-		protected void compileBooleanTest() throws CompilerError
+		protected void compileBooleanTest() throws CompilerException
 		{
 			mv().visitJumpInsn( Opcodes.IFNE, this.branchTo );
 		}
 	}
 
 
-	private void compileAggregation( ExpressionNodeForAggregator _node ) throws CompilerError
+	private void compileAggregation( ExpressionNodeForAggregator _node ) throws CompilerException
 	{
 		final Aggregator aggregator = _node.getAggregator();
 
@@ -601,7 +606,7 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	private void compileMapReduceAggregator( ExpressionNodeForAggregator _node ) throws CompilerError
+	private void compileMapReduceAggregator( ExpressionNodeForAggregator _node ) throws CompilerException
 	{
 		final Aggregator aggregator = _node.getAggregator();
 		final Operator reductor = aggregator.getReductor();
@@ -610,7 +615,7 @@ abstract class ByteCodeSectionMethodCompiler
 
 
 	protected void compileMapReduceAggregator( ExpressionNodeForAggregator _node, final Operator _reductor )
-			throws CompilerError
+			throws CompilerException
 	{
 		if (null == _reductor) unsupported( _node );
 		boolean first = true;
@@ -634,7 +639,7 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	private void compileIteration( Operator _reductor, ExpressionNodeForSubSectionModel _node ) throws CompilerError
+	private void compileIteration( Operator _reductor, ExpressionNodeForSubSectionModel _node ) throws CompilerException
 	{
 		// TODO compileIteration
 		unsupported( _node );
@@ -647,21 +652,21 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	private void compileRef( ExpressionNodeForParentSectionModel _node ) throws CompilerError
+	private void compileRef( ExpressionNodeForParentSectionModel _node ) throws CompilerException
 	{
 		// TODO compileRef
 		unsupported( _node );
 	}
 
 
-	private void compileRef( ExpressionNodeForSubSectionModel _node ) throws CompilerError
+	private void compileRef( ExpressionNodeForSubSectionModel _node ) throws CompilerException
 	{
 		// TODO compileRef
 		unsupported( _node );
 	}
 
 
-	private void compileHelpedExpr( ByteCodeHelperCompiler _compiler ) throws CompilerError
+	private void compileHelpedExpr( ByteCodeHelperCompiler _compiler ) throws CompilerException
 	{
 		_compiler.compile();
 		compileRef( mv(), _compiler.getMethodName() );
@@ -677,9 +682,9 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	protected void unsupported( ExpressionNode _node ) throws CompilerError
+	protected void unsupported( ExpressionNode _node ) throws CompilerException
 	{
-		throw new CompilerError.UnsupportedExpression( "The expression " + _node.describe() + " is not supported." );
+		throw new CompilerException.UnsupportedExpression( "The expression " + _node.describe() + " is not supported." );
 	}
 
 

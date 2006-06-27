@@ -57,19 +57,12 @@ public final class Util
 	{
 		final int mods = _class.getModifiers();
 		validate( Modifier.isPublic( mods ), _class, _role, "not public", ACCESSIBLE );
-		if (_class.getEnclosingClass() != null) {
-			validate( Modifier.isStatic( mods ), _class, _role, "enclosed but not static", ACCESSIBLE );
-		}
-		else {
-			validate( !Modifier.isStatic( mods ), _class, _role, "static", ACCESSIBLE );
-		}
 	}
 
 	public static void validateIsAccessible( Method _method, String _role )
 	{
 		final int mods = _method.getModifiers();
 		validate( Modifier.isPublic( mods ), _method, _role, "not public", ACCESSIBLE );
-		validate( !Modifier.isStatic( mods ), _method, _role, "static", ACCESSIBLE );
 	}
 
 

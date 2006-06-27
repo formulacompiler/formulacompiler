@@ -86,9 +86,9 @@ public interface SpreadsheetBinder
 	 * Finalizes and returns the binding built by this class.
 	 * 
 	 * @return The finalized binding.
-	 * @throws CompilerError
+	 * @throws CompilerException
 	 */
-	public SpreadsheetBinding getBinding() throws CompilerError;
+	public SpreadsheetBinding getBinding() throws CompilerException;
 
 
 	/**
@@ -134,13 +134,13 @@ public interface SpreadsheetBinder
 		 *           cell. The type of the cell is inferred from the return type of the last method in
 		 *           the chain. The head of the chain must be callable on the input class of this name
 		 *           space.
-		 * @throws CompilerError
+		 * @throws CompilerException
 		 * 
 		 * @see #defineOutputCell(Spreadsheet.Cell, CallFrame)
 		 * @see Spreadsheet#getCell(int, int, int)
 		 * @see Spreadsheet#getCell(String)
 		 */
-		public void defineInputCell( Spreadsheet.Cell _cell, CallFrame _callChainToCall ) throws CompilerError;
+		public void defineInputCell( Spreadsheet.Cell _cell, CallFrame _callChainToCall ) throws CompilerException;
 
 
 		/**
@@ -162,7 +162,7 @@ public interface SpreadsheetBinder
 		 * @see Spreadsheet#getCell(int, int, int)
 		 * @see Spreadsheet#getCell(String)
 		 */
-		public void defineOutputCell( Spreadsheet.Cell _cell, CallFrame _callToImplement ) throws CompilerError;
+		public void defineOutputCell( Spreadsheet.Cell _cell, CallFrame _callToImplement ) throws CompilerException;
 
 
 		/**
@@ -192,7 +192,7 @@ public interface SpreadsheetBinder
 		 */
 		public Section defineRepeatingSection( Spreadsheet.Range _range, Orientation _orientation,
 				CallFrame _inputCallChainReturningIterable, Class _inputClass, CallFrame _outputCallToImplementIterable,
-				Class _outputClass ) throws CompilerError;
+				Class _outputClass ) throws CompilerException;
 
 
 	}

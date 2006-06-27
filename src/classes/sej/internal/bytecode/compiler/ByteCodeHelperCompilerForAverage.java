@@ -23,7 +23,7 @@ package sej.internal.bytecode.compiler;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.Operator;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForAggregator;
@@ -45,7 +45,7 @@ final class ByteCodeHelperCompilerForAverage extends ByteCodeHelperCompiler
 
 
 	@Override
-	protected void compileBody() throws CompilerError
+	protected void compileBody() throws CompilerException
 	{
 		compileMapReduceAggregator( this.node, Operator.PLUS );
 		int divisor = this.node.getArguments().size();
@@ -62,9 +62,9 @@ final class ByteCodeHelperCompilerForAverage extends ByteCodeHelperCompiler
 	/**
 	 * The following is a sketch of what we will need to support dynamic sections.
 	 *  
-	 * @throws CompilerError
+	 * @throws CompilerException
 	 */
-	void compileBodyFuture() throws CompilerError
+	void compileBodyFuture() throws CompilerException
 	{
 		final int varN = mv().newLocal( Type.LONG_TYPE );
 		//final int varSum = mv().newLocal( getNumericType().getType() );

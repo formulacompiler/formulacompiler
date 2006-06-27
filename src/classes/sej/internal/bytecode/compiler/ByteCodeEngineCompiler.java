@@ -30,7 +30,7 @@ import java.util.HashMap;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Type;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.SaveableEngine;
 import sej.internal.Settings;
 import sej.internal.bytecode.runtime.ByteCodeEngine;
@@ -40,7 +40,7 @@ import sej.internal.model.CellModel;
 import sej.internal.model.SectionModel;
 import sej.runtime.Computation;
 import sej.runtime.Engine;
-import sej.runtime.EngineError;
+import sej.runtime.EngineException;
 import sej.runtime.Resettable;
 
 
@@ -103,7 +103,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 
 
 	@Override
-	public SaveableEngine compile() throws CompilerError, EngineError
+	public SaveableEngine compile() throws CompilerException, EngineException
 	{
 		final ByteCodeSectionCompiler rootCompiler = new ByteCodeSectionCompiler( this, getModel().getRoot() );
 
@@ -138,7 +138,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		}
 
 		@Override
-		protected void visitTargetCell( CellModel _cell ) throws CompilerError
+		protected void visitTargetCell( CellModel _cell ) throws CompilerException
 		{
 			new ByteCodeCellComputation( getSection(), _cell ).validate();
 		}
@@ -155,7 +155,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		}
 
 		@Override
-		public boolean visit( SectionModel _section ) throws CompilerError
+		public boolean visit( SectionModel _section ) throws CompilerException
 		{
 			final boolean result = super.visit( _section );
 			getSection().beginCompilation();
@@ -178,7 +178,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		}
 
 		@Override
-		protected void visitTargetCell( CellModel _cell ) throws CompilerError
+		protected void visitTargetCell( CellModel _cell ) throws CompilerException
 		{
 			getSection().getCellComputation( _cell ).compile();
 		}
@@ -207,7 +207,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		}
 
 		@Override
-		public boolean visit( SectionModel _section ) throws CompilerError
+		public boolean visit( SectionModel _section ) throws CompilerException
 		{
 			if (null == this.section) {
 				this.section = this.root;
@@ -229,7 +229,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		protected abstract ByteCodeSectionCompiler accessSubSection( SectionModel _section );
 
 		@Override
-		public boolean visit( CellModel _cell ) throws CompilerError
+		public boolean visit( CellModel _cell ) throws CompilerException
 		{
 			if (_cell.isInput() || _cell.isOutput() || 2 <= _cell.getReferenceCount()) {
 				visitTargetCell( _cell );
@@ -237,7 +237,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 			return true;
 		}
 
-		protected abstract void visitTargetCell( CellModel _cell ) throws CompilerError;
+		protected abstract void visitTargetCell( CellModel _cell ) throws CompilerException;
 	}
 
 

@@ -38,7 +38,7 @@ import sej.internal.spreadsheet.loader.AnyFormatSpreadsheetLoader;
 import sej.internal.util.EngineBuilderImpl;
 import sej.internal.util.SpreadsheetByNameBinderImpl;
 import sej.internal.util.SpreadsheetNameCreatorImpl;
-import sej.runtime.EngineError;
+import sej.runtime.EngineException;
 import sej.runtime.SEJRuntime;
 
 
@@ -79,10 +79,10 @@ public class SEJ extends SEJRuntime
 	 * 
 	 * @throws FileNotFoundException
 	 * @throws IOException
-	 * @throws SpreadsheetError
+	 * @throws SpreadsheetException
 	 */
 	public static Spreadsheet loadSpreadsheet( String _fileName ) throws FileNotFoundException, IOException,
-			SpreadsheetError
+			SpreadsheetException
 	{
 		return loadSpreadsheet( new File( _fileName ) );
 	}
@@ -95,9 +95,9 @@ public class SEJ extends SEJRuntime
 	 * 
 	 * @throws FileNotFoundException
 	 * @throws IOException
-	 * @throws SpreadsheetError
+	 * @throws SpreadsheetException
 	 */
-	public static Spreadsheet loadSpreadsheet( File _file ) throws FileNotFoundException, IOException, SpreadsheetError
+	public static Spreadsheet loadSpreadsheet( File _file ) throws FileNotFoundException, IOException, SpreadsheetException
 	{
 		return loadSpreadsheet( _file.getName(), new FileInputStream( _file ) );
 	}
@@ -111,10 +111,10 @@ public class SEJ extends SEJRuntime
 	 * @return the loaded spreadsheet representation.
 	 * 
 	 * @throws IOException
-	 * @throws SpreadsheetError
+	 * @throws SpreadsheetException
 	 */
 	public static Spreadsheet loadSpreadsheet( String _originalFileName, InputStream _stream ) throws IOException,
-			SpreadsheetError
+			SpreadsheetException
 	{
 		return AnyFormatSpreadsheetLoader.loadSpreadsheet( _originalFileName, _stream );
 	}
@@ -247,11 +247,11 @@ public class SEJ extends SEJRuntime
 	 * @param _factoryMethod see {@link sej.SpreadsheetCompiler.Config#factoryMethod}.
 	 * @return the new instance.
 	 * 
-	 * @throws CompilerError
-	 * @throws EngineError
+	 * @throws CompilerException
+	 * @throws EngineException
 	 */
 	public static SaveableEngine compileEngine( SpreadsheetBinding _binding, NumericType _numericType,
-			Class _factoryClass, Method _factoryMethod ) throws CompilerError, EngineError
+			Class _factoryClass, Method _factoryMethod ) throws CompilerException, EngineException
 	{
 		final SpreadsheetCompiler.Config cfg = new SpreadsheetCompiler.Config();
 		cfg.binding = _binding;
@@ -266,7 +266,7 @@ public class SEJ extends SEJRuntime
 	 * factory class and method unspecified.
 	 */
 	public static SaveableEngine compileEngine( SpreadsheetBinding _binding, NumericType _numericType )
-			throws CompilerError, EngineError
+			throws CompilerException, EngineException
 	{
 		final SpreadsheetCompiler.Config cfg = new SpreadsheetCompiler.Config();
 		cfg.binding = _binding;

@@ -22,7 +22,7 @@ package sej.internal.model.optimizer;
 
 import java.util.List;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.model.AbstractComputationModelVisitor;
@@ -35,7 +35,7 @@ final public class IntermediateResultsInliner extends AbstractComputationModelVi
 
 
 	@Override
-	public boolean visit( ComputationModel _model ) throws CompilerError
+	public boolean visit( ComputationModel _model ) throws CompilerException
 	{
 		_model.traverse( new ReferenceCounter() );
 		return true;
@@ -43,7 +43,7 @@ final public class IntermediateResultsInliner extends AbstractComputationModelVi
 	
 	
 	@Override
-	public boolean visited( ComputationModel _model ) throws CompilerError
+	public boolean visited( ComputationModel _model ) throws CompilerException
 	{
 		_model.traverse( new InlinedCellRemover() );
 		return true;
