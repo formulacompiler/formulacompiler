@@ -26,7 +26,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import sej.CallFrame;
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.Spreadsheet;
 import sej.SpreadsheetBinder;
 import sej.SpreadsheetByNameBinder;
@@ -98,7 +98,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 			this.contextMethods = _contextClass.getMethods();
 		}
 
-		public void bindAllMethodsToNamedCells() throws CompilerError
+		public void bindAllMethodsToNamedCells() throws CompilerException
 		{
 			for (Method m : this.contextMethods) {
 				if (m.getDeclaringClass() != Object.class) {
@@ -110,7 +110,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 			}
 		}
 
-		private void bindThisMethodToNamedCell( Method _m ) throws CompilerError
+		private void bindThisMethodToNamedCell( Method _m ) throws CompilerException
 		{
 			final String cellName = getCellNameFor( _m );
 			final Cell cell = getSpreadsheet().getCell( cellName );
@@ -130,7 +130,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 		}
 
 
-		public void bindAllNamedCellsToMethods() throws CompilerError
+		public void bindAllNamedCellsToMethods() throws CompilerException
 		{
 			final NameDefinition[] defs = getSpreadsheet().getDefinedNames();
 			for (NameDefinition def : defs) {
@@ -143,16 +143,16 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 			}
 		}
 
-		private void bindThisNamedCellToMethod( CellNameDefinition _def ) throws CompilerError
+		private void bindThisNamedCellToMethod( CellNameDefinition _def ) throws CompilerException
 		{
 			final String cellName = _def.getName();
 			if (!bindThisNamedCellToMethod( cellName, _def ) && !bindThisNamedCellToMethod( "get" + cellName, _def )) {
-				throw new CompilerError.NameNotFound( "There is no input method named either '"
+				throw new CompilerException.NameNotFound( "There is no input method named either '"
 						+ cellName + "' or 'get" + cellName + "' with no parameters (case is irrelevant)" );
 			}
 		}
 
-		private boolean bindThisNamedCellToMethod( String _methodName, CellNameDefinition _def ) throws CompilerError
+		private boolean bindThisNamedCellToMethod( String _methodName, CellNameDefinition _def ) throws CompilerException
 		{
 			for (Method m : this.contextMethods) {
 				if (m.getName().equalsIgnoreCase( _methodName ) && m.getParameterTypes().length == 0) {
@@ -165,7 +165,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 		}
 
 
-		protected abstract void bindCell( Cell _cell, CallFrame _frame ) throws CompilerError;
+		protected abstract void bindCell( Cell _cell, CallFrame _frame ) throws CompilerException;
 
 	}
 
@@ -179,7 +179,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 		}
 
 		@Override
-		protected void bindCell( Cell _cell, CallFrame _chain ) throws CompilerError
+		protected void bindCell( Cell _cell, CallFrame _chain ) throws CompilerException
 		{
 			getBinder().getRoot().defineInputCell( _cell, _chain );
 		}
@@ -196,7 +196,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 		}
 
 		@Override
-		protected void bindCell( Cell _cell, CallFrame _chain ) throws CompilerError
+		protected void bindCell( Cell _cell, CallFrame _chain ) throws CompilerException
 		{
 			getBinder().getRoot().defineOutputCell( _cell, _chain );
 		}

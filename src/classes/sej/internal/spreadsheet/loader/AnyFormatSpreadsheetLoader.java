@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import sej.Spreadsheet;
-import sej.SpreadsheetError;
+import sej.SpreadsheetException;
 import sej.internal.spreadsheet.loader.excel.xls.ExcelXLSLoader;
 
 /**
@@ -71,7 +71,7 @@ public final class AnyFormatSpreadsheetLoader
 	 *            exceptions when there are problems in file.
 	 */
 	public static Spreadsheet loadSpreadsheet( String _originalFileName, InputStream _stream ) throws IOException,
-			SpreadsheetError
+			SpreadsheetException
 	{
 		for (Factory factory : factories) {
 			if (factory.canHandle( _originalFileName )) {

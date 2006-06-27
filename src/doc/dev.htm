@@ -33,28 +33,34 @@
 
 <h3>Issues</h3>
 <ul class="spaced">
-<li>Check that BigDecimal input values are always properly rescaled.</li>
-<li>Allow different numeric input and output types and automatically convert them to the internal numeric type used in computations. This makes input and output interfaces reusable for computations with different internal numeric types, as well as being more convenient.</li>
-<li>When there is a more precise numeric type in an input interface with respect to the internal numeric type, raise an error with a clear message. Dito when there is a less precise type in an output interface. Add a compiler option that allows this with silent truncation of values.</li>
+<li>Document automatic type conversions.</li>
+<li>Include sej_src.jar and sej_doc.jar in releases. Check if using getResource() for test data etc. is better than file system access.</li>
 <li>Support AND, OR, and relational operators outside of IF.</li>
-<li>Include sej_src.jar and sej_doc.jar in releases.</li>
-<li>Check if using getResource() for test data etc. is better than file system access.</li>
+<li>Extend cell namer so it only handles sections of the sheet.</li>
+<li>Extend cell associator so it only handles names matching or not matching a given regex.</li>
+<li>Fully document API.</li>
 <li>Check whether it would make sense to replace JDOM with something built into the JRE. Be careful to not break JRE 1.4 compatibility. It seems that using either a SAX or a DOM parser from javax.xml.parsers would be ideal.</li>
 <li>Try moving the precision() dependency into a separate class which can be retrotranslated with warnings turned off.</li>
 <li>Implement support for multiple sheets.</li>
-<li>Write a samle that automatically sets cell names given row headers (first sheet only).</li>
 <li>Implement simple spreadsheet writer given an SEJ spreadsheet model. Should be supported by all the loaders. This allows Abacus to convert UI-defined computations to spreadsheets easily. If possible, support a template for this conversion.</li>
+<li>Store the internal model in XML form in the .jar files.</li>
 <li>Give access to SEJ's internal model from .ser files. Write a simple converter from this to a spreadsheet model, which can then be written out to a spreadsheet as per the todo above. This will make it possible to analyze a given .ser file using a simple tool.</li>
+<li>Think about signing the .jar files for security reasons.</li>
 <li>Implement parametrized outputs.</li>
 <li>Implement <tt>INDEX</tt> and <tt>MATCH</tt> again.</li>
-<li>Decide on how serialized byte code engines will be stored for both maximum load performance and maximum robustness when SEJ evolves.</li>
 <li>Implement Java source code generation and hybrid tests. This will naturally surface the exception and partial implementation of interfaces problem.</li>
+<li>Add an option to SEJ so engines throw exceptions when values are truncated.</li>
 </ul>
 
 <h3>Tests and Ideas</h3>
 <ul class="spaced">
+<li>Add automatic test for use of engine saved with JRE 1.5 on JRE 1.4.</li>
 <li>Test generation of an engine with 80'000 rows and a few columns which does a lookup into this table.</li>
 </ul>
+
+<h2>June 20, 2006</h2>
+<p><a href="releasenotes.htm">Release 0.5.0</a> is out the door. This has been a <b>major</b> API redesign, caused by the need for a simplified initial user experience with SEJ. The standard use-case is now just a few lines.</p>
+<p>I shall have to take some time to write down all the thoughts that led to this redesign.</p>
 
 <h2>May 26, 2006</h2>
 <p>I am working on an introductory example for SEJ for the tutorial (because I need this to streamline the docs and tests for binding and support for multiple data types in the interface). This prompted me to resume work on the simple cell binder. What this thing really needs to do is the following:</p>
@@ -497,7 +503,7 @@ void compileAnd( Node a, Node b, Label branch ) {
 <p>SEJ does not handle sums over nested bands properly. The user must model intermediate sums for every non-leaf band. I shall accept this as a known limitation for the moment and have <a href="doc/bands.html">documented</a> it.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 14.06.2006.</p>        </div>
+<br/>Last updated on 20.06.2006.</p>        </div>
     </div>
 </body>
 </html>

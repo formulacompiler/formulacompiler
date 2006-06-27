@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.describable.DescriptionBuilder;
 
 public class SectionModel extends ElementModel
@@ -78,7 +78,7 @@ public class SectionModel extends ElementModel
 	}
 
 
-	public boolean traverse( ComputationModelVisitor _visitor ) throws CompilerError
+	public boolean traverse( ComputationModelVisitor _visitor ) throws CompilerException
 	{
 		if (!_visitor.visit( this )) return false;
 		for (CellModel cell : getCells()) {

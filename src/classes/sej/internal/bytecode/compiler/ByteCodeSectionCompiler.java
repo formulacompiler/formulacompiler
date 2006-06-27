@@ -30,7 +30,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.internal.model.CellModel;
 import sej.internal.model.SectionModel;
 
@@ -136,7 +136,7 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	}
 
 
-	void beginCompilation() throws CompilerError
+	void beginCompilation() throws CompilerException
 	{
 		initializeClass( getOutputClass(), this.outputs, ByteCodeEngineCompiler.ENGINE_INTF );
 		if (getNumericType().buildStaticMembers( cw() )) {
@@ -223,7 +223,7 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 				this.inputs.getDescriptor() );
 	}
 
-	private void buildConstructorWithInputs() throws CompilerError
+	private void buildConstructorWithInputs() throws CompilerException
 	{
 		MethodVisitor mv = cw().visitMethod( 0, "<init>", "(" + this.inputs.getDescriptor() + ")V", null, null );
 		mv.visitCode();
@@ -250,7 +250,7 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		mv.visitEnd();
 	}
 
-	private void callInheritedConstructor( MethodVisitor _mv, int _inputsVar ) throws CompilerError
+	private void callInheritedConstructor( MethodVisitor _mv, int _inputsVar ) throws CompilerException
 	{
 		try {
 			if (getOutputClass().isInterface()) {
@@ -264,7 +264,7 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 			}
 		}
 		catch (NoSuchMethodException e) {
-			throw new CompilerError.ConstructorMissing(
+			throw new CompilerException.ConstructorMissing(
 					"There is no default constructor and none with the input type as sole parameter.", e );
 		}
 	}

@@ -23,12 +23,12 @@ package sej.internal.model.compiler;
 import java.text.NumberFormat;
 
 import sej.Aggregator;
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.Operator;
 import sej.Orientation;
 import sej.SEJ;
 import sej.SpreadsheetBinder;
-import sej.CompilerError.SectionExtentNotCovered;
+import sej.CompilerException.SectionExtentNotCovered;
 import sej.SpreadsheetBinder.Section;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForAggregator;
@@ -56,7 +56,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 {
 
 
-	public void testModelBuilding() throws CompilerError, SecurityException, NoSuchMethodException
+	public void testModelBuilding() throws CompilerException, SecurityException, NoSuchMethodException
 	{
 		NumberFormat format = (NumberFormat) NumberFormat.getNumberInstance().clone();
 		format.setMaximumFractionDigits( 2 );
@@ -154,7 +154,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 	}
 
 
-	public void testSumOverBandWithOuterRef() throws CompilerError
+	public void testSumOverBandWithOuterRef() throws CompilerException
 	{
 		SpreadsheetImpl workbook = new SpreadsheetImpl();
 		SheetImpl sheet = new SheetImpl( workbook );
@@ -198,7 +198,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 	}
 
 
-	public void testBandWithOutputCells() throws CompilerError, SecurityException, NoSuchMethodException
+	public void testBandWithOutputCells() throws CompilerException, SecurityException, NoSuchMethodException
 	{
 		SpreadsheetImpl workbook = new SpreadsheetImpl();
 		SheetImpl sheet = new SheetImpl( workbook );
@@ -240,7 +240,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 	}
 
 
-	public void testBandCellWithSumOverOuterBand() throws CompilerError, SecurityException, NoSuchMethodException
+	public void testBandCellWithSumOverOuterBand() throws CompilerException, SecurityException, NoSuchMethodException
 	{
 		SpreadsheetImpl workbook = new SpreadsheetImpl();
 		SheetImpl sheet = new SheetImpl( workbook );
@@ -276,7 +276,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 	}
 
 
-	public void testBandCellWithSumOverInnerBand() throws CompilerError, SecurityException, NoSuchMethodException
+	public void testBandCellWithSumOverInnerBand() throws CompilerException, SecurityException, NoSuchMethodException
 	{
 		SpreadsheetImpl workbook = new SpreadsheetImpl();
 		SheetImpl sheet = new SheetImpl( workbook );
@@ -336,7 +336,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 	}
 
 
-	public void testSumOverRangeThatDoesNotFullyCoverItsBandsExtent() throws CompilerError, SecurityException,
+	public void testSumOverRangeThatDoesNotFullyCoverItsBandsExtent() throws CompilerException, SecurityException,
 			NoSuchMethodException
 	{
 		SpreadsheetImpl workbook = new SpreadsheetImpl();
@@ -361,7 +361,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 
 
 	private void failForRangeNotCoveringBandExtent( SpreadsheetImpl workbook, CellInstance output, CellRange rng )
-			throws CompilerError, SecurityException, NoSuchMethodException
+			throws CompilerException, SecurityException, NoSuchMethodException
 	{
 		SpreadsheetBinder def = newBinder( workbook );
 		Section rootDef = def.getRoot();

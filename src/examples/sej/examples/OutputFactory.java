@@ -18,47 +18,9 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.runtime;
+package sej.examples;
 
-
-/**
- * Base class for all exceptions thrown by the run-time engine support of SEJ.
- * 
- * @author peo
- */
-public class EngineError extends SEJError
+public interface OutputFactory
 {
-
-	public EngineError(String _message, Throwable _cause)
-	{
-		super( _message, _cause );
-	}
-
-	public EngineError(String _message)
-	{
-		super( _message );
-	}
-
-	public EngineError(Throwable _cause)
-	{
-		super( _cause );
-	}
-
-
-	/**
-	 * SEJ could not find an appropriate engine loader for the stream you provided to
-	 * {@link sej.runtime.SEJRuntime#loadEngine(java.io.InputStream)}.
-	 * 
-	 * @author peo
-	 */
-	public static final class UnsupportedSerializationFormat extends EngineError
-	{
-
-		public UnsupportedSerializationFormat()
-		{
-			super( "Don't know how to load an engine -- you probably forgot to register a loader" );
-		}
-
-	}
-
+	public Outputs newInstance( Inputs _inputs );
 }

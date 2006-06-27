@@ -28,7 +28,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.NumericType;
 import sej.Operator;
 import sej.internal.runtime.RuntimeDouble_v1;
@@ -68,7 +68,7 @@ final class ByteCodeNumericType_Double extends ByteCodeNumericType
 
 
 	@Override
-	void compile( GeneratorAdapter _mv, Operator _operator, int _numberOfArguments ) throws CompilerError
+	void compile( GeneratorAdapter _mv, Operator _operator, int _numberOfArguments ) throws CompilerException
 	{
 		switch (_operator) {
 
@@ -117,7 +117,7 @@ final class ByteCodeNumericType_Double extends ByteCodeNumericType
 
 
 	@Override
-	void compileConst( GeneratorAdapter _mv, Object _constantValue ) throws CompilerError
+	void compileConst( GeneratorAdapter _mv, Object _constantValue ) throws CompilerException
 	{
 		if (null == _constantValue) {
 			_mv.visitInsn( Opcodes.DCONST_0 );

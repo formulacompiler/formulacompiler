@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.NumericType;
 import sej.SpreadsheetBinding;
 import sej.internal.model.CellModel;
@@ -62,7 +62,7 @@ public class ComputationModelCompiler
 	}
 
 
-	public ComputationModel compile() throws CompilerError
+	public ComputationModel compile() throws CompilerException
 	{
 		buildNewModel();
 		eliminateConstantSubExpressions();
@@ -83,7 +83,7 @@ public class ComputationModelCompiler
 	}
 
 
-	ComputationModel buildNewModel() throws CompilerError
+	ComputationModel buildNewModel() throws CompilerException
 	{
 		assert null == this.computationModel;
 
@@ -97,7 +97,7 @@ public class ComputationModelCompiler
 	}
 
 
-	private void buildModel() throws CompilerError
+	private void buildModel() throws CompilerException
 	{
 		for (OutputCellBinding outputDef : getEngineDef().getOutputs()) {
 			CellModel model = getOrCreateCellModel( outputDef.getIndex() );
@@ -125,7 +125,7 @@ public class ComputationModelCompiler
 	}
 
 
-	private CellModel getOrCreateCellModel( CellIndex _index ) throws CompilerError
+	private CellModel getOrCreateCellModel( CellIndex _index ) throws CompilerException
 	{
 		CellModel result = getCellModel( _index );
 		if (null == result) {
@@ -135,7 +135,7 @@ public class ComputationModelCompiler
 	}
 
 
-	private CellModel createCellModel( CellIndex _index ) throws CompilerError
+	private CellModel createCellModel( CellIndex _index ) throws CompilerException
 	{
 		SectionBinding sectionDef = getEngineDef().getSectionFor( _index );
 		SectionModelCompiler sectionCompiler = getOrCreateSectionCompiler( sectionDef );
@@ -180,13 +180,13 @@ public class ComputationModelCompiler
 	}
 
 
-	private void eliminateConstantSubExpressions() throws CompilerError
+	private void eliminateConstantSubExpressions() throws CompilerException
 	{
 		this.computationModel.traverse( new ConstantSubExpressionEliminator( getNumericType() ) );
 	}
 
 
-	private void inlineIntermediateResults() throws CompilerError
+	private void inlineIntermediateResults() throws CompilerException
 	{
 		this.computationModel.traverse( new IntermediateResultsInliner() );
 	}

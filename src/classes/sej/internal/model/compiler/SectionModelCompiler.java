@@ -22,7 +22,7 @@ package sej.internal.model.compiler;
 
 import java.util.Collection;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.model.CellModel;
@@ -90,7 +90,7 @@ public class SectionModelCompiler
 	}
 
 
-	public CellModel createCellModel( CellBinding _cellDef ) throws CompilerError
+	public CellModel createCellModel( CellBinding _cellDef ) throws CompilerException
 	{
 		boolean isInput = _cellDef instanceof InputCellBinding;
 		CellModel result = createCellModel( _cellDef.getIndex(), isInput );
@@ -101,7 +101,7 @@ public class SectionModelCompiler
 	}
 
 
-	public CellModel createCellModel( CellIndex _cellIndex, boolean _isInput ) throws CompilerError
+	public CellModel createCellModel( CellIndex _cellIndex, boolean _isInput ) throws CompilerException
 	{
 		final CellInstance cell = _cellIndex.getCell();
 		final boolean nonNull = (null != cell);
@@ -119,7 +119,7 @@ public class SectionModelCompiler
 	}
 
 
-	CellModel getOrCreateCellModel( CellIndex _cellIndex ) throws CompilerError
+	CellModel getOrCreateCellModel( CellIndex _cellIndex ) throws CompilerException
 	{
 		CellModel result = this.compiler.getCellModel( _cellIndex );
 		if (null == result) {
@@ -129,7 +129,7 @@ public class SectionModelCompiler
 	}
 
 
-	CellModel createCellModel( CellIndex _cellIndex ) throws CompilerError
+	CellModel createCellModel( CellIndex _cellIndex ) throws CompilerException
 	{
 		InputCellBinding inputDef = this.engineDef.getInputs().get( _cellIndex );
 		if (null != inputDef) {
@@ -159,7 +159,7 @@ public class SectionModelCompiler
 	}
 
 
-	private void buildCellModel( CellInstance _cell, CellModel _cellModel ) throws CompilerError
+	private void buildCellModel( CellInstance _cell, CellModel _cellModel ) throws CompilerException
 	{
 		if (null == _cell) throw new IllegalArgumentException();
 		if (_cell instanceof CellWithConstant) buildCellModel( _cellModel, (CellWithConstant) _cell );
@@ -175,7 +175,7 @@ public class SectionModelCompiler
 	}
 
 
-	private void buildCellModel( CellModel _cellModel, CellWithLazilyParsedExpression _cell ) throws CompilerError
+	private void buildCellModel( CellModel _cellModel, CellWithLazilyParsedExpression _cell ) throws CompilerException
 	{
 		ExpressionNode exprDef = _cell.getExpression();
 		ExpressionNode exprModel = (ExpressionNode) buildExpressionModel( exprDef );
@@ -184,7 +184,7 @@ public class SectionModelCompiler
 
 
 	@SuppressWarnings("unchecked")
-	private Object buildExpressionModel( ExpressionNode _exprDef ) throws CompilerError
+	private Object buildExpressionModel( ExpressionNode _exprDef ) throws CompilerException
 	{
 		if (null == _exprDef) {
 			return null;
@@ -229,7 +229,7 @@ public class SectionModelCompiler
 	}
 
 
-	ExpressionNode buildExpressionModel( CellIndex _cellIndex ) throws CompilerError
+	ExpressionNode buildExpressionModel( CellIndex _cellIndex ) throws CompilerException
 	{
 		SectionPath sectionPath = getSectionPathFor( _cellIndex );
 		if (null == sectionPath) {
@@ -244,14 +244,14 @@ public class SectionModelCompiler
 	}
 
 
-	private ExpressionNode buildExpressionModelForContainedCell( CellIndex _cellIndex ) throws CompilerError
+	private ExpressionNode buildExpressionModelForContainedCell( CellIndex _cellIndex ) throws CompilerException
 	{
 		CellModel cellModel = getOrCreateCellModel( _cellIndex );
 		return new ExpressionNodeForCellModel( cellModel );
 	}
 
 
-	private ExpressionNode buildExpressionModel( CellRange _range ) throws CompilerError
+	private ExpressionNode buildExpressionModel( CellRange _range ) throws CompilerException
 	{
 		SectionPath sectionPath = getSectionPathFor( _range );
 		if (null == sectionPath) {
@@ -267,7 +267,7 @@ public class SectionModelCompiler
 	}
 
 
-	private ExpressionNode buildExpressionModelForContainedRange( CellRange _range ) throws CompilerError
+	private ExpressionNode buildExpressionModelForContainedRange( CellRange _range ) throws CompilerException
 	{
 
 		final int sheets = _range.getTo().sheetIndex - _range.getFrom().sheetIndex + 1;
@@ -283,19 +283,19 @@ public class SectionModelCompiler
 	}
 
 
-	private SectionPath getSectionPathFor( CellIndex _cell ) throws CompilerError
+	private SectionPath getSectionPathFor( CellIndex _cell ) throws CompilerException
 	{
 		return getSectionPathFor( _cell, null );
 	}
 
 
-	private SectionPath getSectionPathFor( CellRange _range ) throws CompilerError
+	private SectionPath getSectionPathFor( CellRange _range ) throws CompilerException
 	{
 		return getSectionPathFor( _range.getFrom(), _range );
 	}
 
 
-	private SectionPath getSectionPathFor( CellIndex _cell, CellRange _range ) throws CompilerError
+	private SectionPath getSectionPathFor( CellIndex _cell, CellRange _range ) throws CompilerException
 	{
 		SectionPath result = null;
 		if (this.sectionDef.contains( _cell )) {

@@ -34,7 +34,7 @@
 <h2><a name="double">Using <tt>double</tt></a></h2>
 <p>Since <tt>double</tt> is the default, you can simply use the default engine builder, without specifying the type. If you want to give the type explicitly, use:</p>
 <p>[jc:sej.tutorials.UsingDouble:---- buildCompiler]</p>
-<p>When using <tt>double</tt>, the natural type for our numeric inputs and outputs is, of course, <tt>double</tt> as well. Other types are converted by SEJ to a <tt>double</tt> prior to using them in the computation.</p>
+<p>When using <tt>double</tt>, the natural type for our numeric inputs and outputs is, of course, <tt>double</tt> as well. Other types are <a href="type_conversion.htm">converted by SEJ</a> to a <tt>double</tt> prior to using them in the computation.</p>
 <p>[jc:sej.tutorials.UsingDouble:---- IO]</p>
 <p>In this example, we divide <em>InputA</em> by <em>InputB</em> and add <em>InputA</em>, ie. 1 + 1/6. The result is returned with <tt>double</tt>'s precision:</p>
 <p>[jc:sej.tutorials.UsingDouble:---- checkResult]</p>
@@ -42,7 +42,7 @@
 <h2><a name="BigDecimal">Using <tt>BigDecimal</tt></a></h2>
 <p>As I explained before, <tt>BigDecimal</tt> can be used with an arbitrary, fixed scale and defined rounding mode. In this example, we choose greater precision than <tt>double</tt> offers (namely 20 decimals after the point) and always round up. We only need to change one line compared to the builder setup for the <a href="#double"><tt>double</tt> example</a>:</p>
 <p>[jc:sej.tutorials.UsingBigDecimal:---- buildCompiler]</p>
-<p>The natural type for our numeric inputs and outputs is now <tt>BigDecimal</tt>. Again, other types are converted by SEJ to a <tt>BigDecimal</tt> prior to using them in the computation.</p>
+<p>The natural type for our numeric inputs and outputs is now <tt>BigDecimal</tt>. Again, other types are <a href="type_conversion.htm">converted by SEJ</a> to a <tt>BigDecimal</tt> prior to using them in the computation.</p>
 <p>[jc:sej.tutorials.UsingBigDecimal:---- IO]</p>
 <p>We again compute 1 + 1/6. The result is returned with the increased precision we demanded, rounded up:</p>
 <p>[jc:sej.tutorials.UsingBigDecimal:---- checkResult]</p>
@@ -73,6 +73,7 @@
 <li>Use the annotation <tt>@ScaledLong</tt> on the input or output method.</li>
 <li>Use the annotation <tt>@ScaledLong</tt> on the entire input or output type. This sets the default for all <tt>long</tt> return types of method of the type that don't override the scale themselves.</li>
 </ul>
+<p>The annotation controls the scale of the value obtained or returned by SEJ. This scale is independent of the scale SEJ uses for the internal computations. If the scales equal, then no <a href="type_conversion.htm">conversion</a> is needed. Otherwise SEJ rescales the values appropriately.</p>
 <p>Since scaled long support depends on annotations, you cannot (I think) declare them in SEJ's Java 1.4 compatibility mode. But generated engines should run perfectly well on Java 1.4.</p>
 <p>[jc:sej.tutorials.UsingScaledLong:---- IO]</p>
 <p>We again compute 1 + 1/6. The result is a scaled <tt>long</tt> (so <tt>1166L</tt> is the scaled <tt>long</tt> equivalent of 1.166). We get 1.166 and not 1.167 because the scaled long always truncates results (this is how <tt>long</tt> itself works in Java):</p>
@@ -111,7 +112,7 @@ BigDecimal total, price_per_mm3;</pre>
 <p>The responsibility for this choice, and for communicating its consequences to the sheet designers, rests fully with you, the programmer. But it does allow you to generate engines suited for precise financial or very fast pure integer computations.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 20.06.2006.</p>        </div>
+<br/>Last updated on 21.06.2006.</p>        </div>
     </div>
 </body>
 </html>

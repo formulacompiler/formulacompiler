@@ -24,7 +24,7 @@ import java.math.BigDecimal;
 
 import sej.Aggregator;
 import sej.CallFrame;
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.NumericType;
 import sej.Operator;
 import sej.SEJ;
@@ -42,7 +42,7 @@ import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
 import sej.runtime.Engine;
-import sej.runtime.EngineError;
+import sej.runtime.EngineException;
 import sej.tests.utils.AbstractTestBase;
 import sej.tests.utils.InputInterface;
 import sej.tests.utils.Inputs;
@@ -233,6 +233,63 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 	}
 
 
+	public void testNonStaticInput() throws Exception
+	{
+		makeBinderFor( NonStaticInput.class, StaticOutput.class );
+		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
+		this.root
+				.defineInputCell( this.formula.getCellIndex(), new CallFrame( NonStaticInput.class.getMethod( "getOne" ) ) );
+
+		assertResult( 1.0, new NonStaticInput( new double[] { 1.0 } ) );
+	}
+	
+	public class NonStaticInput extends Inputs
+	{
+
+		public NonStaticInput(double[] _values)
+		{
+			super( _values );
+		}
+		
+	}
+	
+	public static class StaticOutput extends Outputs
+	{
+
+		public StaticOutput()
+		{
+			super();
+		}
+		
+	}
+	
+
+	public void testStaticInputMethod() throws Exception
+	{
+		makeBinderFor( StaticInputMethod.class, StaticOutput.class );
+		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
+		this.root
+				.defineInputCell( this.formula.getCellIndex(), new CallFrame( StaticInputMethod.class.getMethod( "getStaticOne" ) ) );
+
+		assertResult( 1.0, new StaticInputMethod( new double[] { 1.0 } ) );
+	}
+	
+	public static class StaticInputMethod extends Inputs
+	{
+
+		public StaticInputMethod(double[] _values)
+		{
+			super( _values );
+		}
+		
+		public static double getStaticOne()
+		{
+			return 1.0;
+		}
+		
+	}
+	
+	
 	public void testUnsupportedInputType() throws Exception
 	{
 		makeBinderFor( ThrowingInput.class, ThrowingOutput.class );
@@ -244,7 +301,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 			newEngine();
 			fail();
 		}
-		catch (CompilerError.UnsupportedDataType e) {
+		catch (CompilerException.UnsupportedDataType e) {
 			// expected
 		}
 	}
@@ -260,7 +317,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 			newEngine();
 			fail();
 		}
-		catch (CompilerError.UnsupportedDataType e) {
+		catch (CompilerException.UnsupportedDataType e) {
 			// expected
 		}
 	}
@@ -391,7 +448,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 	 *             8.0 9.0 SUM(A4:B4)*B$1
 	 * </pre>
 	 * 
-	 * @throws CompilerError
+	 * @throws CompilerException
 	 */
 	// TODO xtest
 	public void xtestSections() throws Exception
@@ -415,12 +472,12 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 	}
 
 
-	private Engine newEngine() throws CompilerError, EngineError
+	private Engine newEngine() throws CompilerException, EngineException
 	{
 		return newEngine( SEJ.DEFAULT_NUMERIC_TYPE );
 	}
 
-	private Engine newEngine( NumericType _type ) throws CompilerError, EngineError
+	private Engine newEngine( NumericType _type ) throws CompilerException, EngineException
 	{
 		SpreadsheetCompiler.Config cfg = new SpreadsheetCompiler.Config();
 		cfg.binding = this.binder.getBinding();

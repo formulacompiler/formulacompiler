@@ -29,7 +29,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import sej.Spreadsheet;
-import sej.SpreadsheetError;
+import sej.SpreadsheetException;
 import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
 
@@ -140,11 +140,11 @@ public class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
 	}
 
 
-	public Spreadsheet.Cell getCell( String _cellName ) throws SpreadsheetError.NameNotFound
+	public Spreadsheet.Cell getCell( String _cellName ) throws SpreadsheetException.NameNotFound
 	{
 		Reference ref = getNamedRef( _cellName );
 		if (null == ref) {
-			throw new SpreadsheetError.NameNotFound( "The name '" + _cellName + "' is not defined in this workbook." );
+			throw new SpreadsheetException.NameNotFound( "The name '" + _cellName + "' is not defined in this workbook." );
 		}
 		else if (ref instanceof CellIndex) {
 			return (CellIndex) ref;
@@ -155,11 +155,11 @@ public class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
 	}
 
 
-	public Range getRange( String _rangeName ) throws SpreadsheetError.NameNotFound
+	public Range getRange( String _rangeName ) throws SpreadsheetException.NameNotFound
 	{
 		final Reference ref = getNamedRef( _rangeName );
 		if (null == ref) {
-			throw new SpreadsheetError.NameNotFound( "The name '" + _rangeName + "' is not defined in this workbook." );
+			throw new SpreadsheetException.NameNotFound( "The name '" + _rangeName + "' is not defined in this workbook." );
 		}
 		else if (ref instanceof CellRange) {
 			return (CellRange) ref;

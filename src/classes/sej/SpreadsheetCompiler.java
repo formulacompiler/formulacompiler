@@ -22,7 +22,7 @@ package sej;
 
 import java.lang.reflect.Method;
 
-import sej.runtime.EngineError;
+import sej.runtime.EngineException;
 
 
 /**
@@ -95,10 +95,10 @@ public interface SpreadsheetCompiler
 	 * @return the compiled engine, ready to be used immediately, or saved to persistent storage for
 	 *         later use.
 	 * 
-	 * @throws CompilerError
-	 * @throws EngineError
+	 * @throws CompilerException
+	 * @throws EngineException
 	 */
-	public SaveableEngine compile() throws CompilerError, EngineError;
+	public SaveableEngine compile() throws CompilerException, EngineException;
 
 
 }

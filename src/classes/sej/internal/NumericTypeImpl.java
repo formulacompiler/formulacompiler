@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.NumericType;
 import sej.internal.runtime.RuntimeDouble_v1;
 
@@ -142,7 +142,7 @@ public abstract class NumericTypeImpl implements NumericType
 	protected abstract String convertToString( Number _value );
 
 
-	public void validateReturnTypeForCell( Method _method ) throws CompilerError
+	public void validateReturnTypeForCell( Method _method ) throws CompilerException
 	{
 		final Class returnType = _method.getReturnType();
 
@@ -160,7 +160,7 @@ public abstract class NumericTypeImpl implements NumericType
 		if (BigInteger.class == returnType) return;
 		if (BigDecimal.class == returnType) return;
 		
-		throw new CompilerError.UnsupportedDataType( "The method " + _method + " has an unsupported return type" );
+		throw new CompilerException.UnsupportedDataType( "The method " + _method + " has an unsupported return type" );
 	}
 
 

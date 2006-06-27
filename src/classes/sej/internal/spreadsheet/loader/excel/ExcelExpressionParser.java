@@ -22,8 +22,8 @@ package sej.internal.spreadsheet.loader.excel;
 
 import java.io.StringReader;
 
-import sej.CompilerError;
-import sej.SpreadsheetError;
+import sej.CompilerException;
+import sej.SpreadsheetException;
 import sej.internal.Settings;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.spreadsheet.CellIndex;
@@ -119,17 +119,17 @@ class ExcelExpressionParser
 	}
 
 
-	CellRange parseVectorRefCol( String _first, String _second ) throws CompilerError
+	CellRange parseVectorRefCol( String _first, String _second ) throws CompilerException
 	{
 		// TODO parseVectorRefCol
-		throw new CompilerError.UnsupportedExpression( "Vectors are not supported yet." );
+		throw new CompilerException.UnsupportedExpression( "Vectors are not supported yet." );
 	}
 
 
-	CellRange parseVectorRefRow( String _first, String _second ) throws CompilerError
+	CellRange parseVectorRefRow( String _first, String _second ) throws CompilerException
 	{
 		// TODO parseVectorRefRow
-		throw new CompilerError.UnsupportedExpression( "Vectors are not supported yet." );
+		throw new CompilerException.UnsupportedExpression( "Vectors are not supported yet." );
 	}
 
 
@@ -145,7 +145,7 @@ class ExcelExpressionParser
 	}
 
 
-	ExpressionNode makeCellExpr( ExpressionNode _node ) throws SpreadsheetError
+	ExpressionNode makeCellExpr( ExpressionNode _node ) throws SpreadsheetException
 	{
 		if (_node instanceof ExpressionNodeForRange) {
 			final ExpressionNodeForRange rangeNode = (ExpressionNodeForRange) _node;

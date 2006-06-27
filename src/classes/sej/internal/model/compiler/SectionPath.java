@@ -20,7 +20,7 @@
  */
 package sej.internal.model.compiler;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
@@ -73,7 +73,7 @@ final class SectionPath
 	}
 
 
-	public void stepInto( SectionBinding _sectionDef ) throws CompilerError
+	public void stepInto( SectionBinding _sectionDef ) throws CompilerException
 	{
 		SectionModelCompiler sectionCompiler = this.targetSectionCompiler.getOrCreateSectionCompiler( _sectionDef );
 		SectionModel sectionModel = sectionCompiler.getSectionModel();
@@ -111,7 +111,7 @@ final class SectionPath
 	}
 
 
-	public void buildStepsInto( CellIndex _cellIndex ) throws CompilerError
+	public void buildStepsInto( CellIndex _cellIndex ) throws CompilerException
 	{
 		SectionBinding section;
 		while (null != (section = this.targetSectionCompiler.getSectionDef().getContainingSection( _cellIndex ))) {
@@ -120,7 +120,7 @@ final class SectionPath
 	}
 
 
-	public void buildStepsTo( CellIndex _cellIndex ) throws CompilerError
+	public void buildStepsTo( CellIndex _cellIndex ) throws CompilerException
 	{
 		while (!this.targetSectionCompiler.getSectionDef().contains( _cellIndex )) {
 			stepOut();

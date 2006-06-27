@@ -96,9 +96,9 @@ public interface SpreadsheetByNameBinder
 		 * <p>
 		 * See the <a href="../../tutorial/basics.htm#Convention">tutorial</a> for details.
 		 * 
-		 * @throws CompilerError
+		 * @throws CompilerException
 		 */
-		public void bindAllMethodsToNamedCells() throws CompilerError;
+		public void bindAllMethodsToNamedCells() throws CompilerException;
 
 		/**
 		 * Binds all still unbound named cells to methods of the corresponding name (that is, a cell
@@ -109,11 +109,11 @@ public interface SpreadsheetByNameBinder
 		 * <p>
 		 * See the <a href="../../tutorial/basics.htm#Convention">tutorial</a> for details.
 		 * 
-		 * @throws CompilerError
+		 * @throws CompilerException
 		 * 
 		 * @see #bindAllMethodsToNamedCells()
 		 */
-		public void bindAllNamedCellsToMethods() throws CompilerError;
+		public void bindAllNamedCellsToMethods() throws CompilerException;
 
 	}
 

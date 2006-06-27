@@ -30,7 +30,7 @@ import java.util.zip.ZipOutputStream;
 
 import sej.SaveableEngine;
 import sej.internal.bytecode.runtime.ByteCodeEngine;
-import sej.runtime.EngineError;
+import sej.runtime.EngineException;
 
 /**
  * Only the compiler generates saveable engines. The loader does not. This is so the runtime does
@@ -42,7 +42,7 @@ public class SaveableByteCodeEngine extends ByteCodeEngine implements SaveableEn
 {
 	
 
-	public SaveableByteCodeEngine(Map<String, byte[]> _classNamesAndBytes) throws EngineError
+	public SaveableByteCodeEngine(Map<String, byte[]> _classNamesAndBytes) throws EngineException
 	{
 		super( _classNamesAndBytes );
 	}

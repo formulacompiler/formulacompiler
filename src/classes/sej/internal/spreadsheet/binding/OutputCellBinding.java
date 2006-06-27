@@ -21,7 +21,7 @@
 package sej.internal.spreadsheet.binding;
 
 import sej.CallFrame;
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.internal.spreadsheet.CellIndex;
 
 public class OutputCellBinding extends CellBinding
@@ -29,7 +29,7 @@ public class OutputCellBinding extends CellBinding
 	private final CallFrame callToImplement;
 
 	public OutputCellBinding(SectionBinding _space, CallFrame _callToImplement, CellIndex _index)
-			throws CompilerError
+			throws CompilerException
 	{
 		super( _space, _index );
 		this.callToImplement = _callToImplement;

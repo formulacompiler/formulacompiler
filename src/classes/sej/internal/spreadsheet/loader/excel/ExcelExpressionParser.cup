@@ -23,7 +23,7 @@ parser code {:
 
 action code {:
 
-	private ExpressionNode cell( ExpressionNode _node ) throws SpreadsheetError
+	private ExpressionNode cell( ExpressionNode _node ) throws SpreadsheetException
 	{
 		return this.parser.excelParser.makeCellExpr( _node );
 	}

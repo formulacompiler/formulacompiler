@@ -18,9 +18,35 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.examples;
+package sej.runtime;
 
-public interface Factory
+
+/**
+ * Base class for all exceptions thrown by SEJ.
+ * 
+ * @author peo
+ */
+public class SEJException extends Exception
 {
-	public Outputs newInstance( Inputs _inputs );
+
+	public SEJException()
+	{
+		super();
+	}
+
+	public SEJException(String _message, Throwable _cause)
+	{
+		super( _message, _cause );
+	}
+
+	public SEJException(String _message)
+	{
+		super( _message );
+	}
+
+	public SEJException(Throwable _cause)
+	{
+		super( _cause );
+	}
+
 }

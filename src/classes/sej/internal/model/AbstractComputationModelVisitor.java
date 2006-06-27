@@ -20,36 +20,36 @@
  */
 package sej.internal.model;
 
-import sej.CompilerError;
+import sej.CompilerException;
 
 public abstract class AbstractComputationModelVisitor implements ComputationModelVisitor
 {
 
-	public boolean visit( ComputationModel _model ) throws CompilerError
+	public boolean visit( ComputationModel _model ) throws CompilerException
 	{
 		return true;
 	}
 
 
-	public boolean visited( ComputationModel _model ) throws CompilerError
+	public boolean visited( ComputationModel _model ) throws CompilerException
 	{
 		return true;
 	}
 
 
-	public boolean visit( SectionModel _section ) throws CompilerError
+	public boolean visit( SectionModel _section ) throws CompilerException
 	{
 		return true;
 	}
 
 
-	public boolean visited( SectionModel _section ) throws CompilerError
+	public boolean visited( SectionModel _section ) throws CompilerException
 	{
 		return true;
 	}
 
 
-	public boolean visit( CellModel _cell ) throws CompilerError
+	public boolean visit( CellModel _cell ) throws CompilerException
 	{
 		return true;
 	}

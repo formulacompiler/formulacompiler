@@ -24,9 +24,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import sej.Spreadsheet;
-import sej.SpreadsheetError;
+import sej.SpreadsheetException;
 
 public interface SpreadsheetLoader
 {
-	public Spreadsheet loadFrom( InputStream _stream ) throws IOException, SpreadsheetError;
+	public Spreadsheet loadFrom( InputStream _stream ) throws IOException, SpreadsheetException;
 }

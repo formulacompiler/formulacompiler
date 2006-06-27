@@ -22,7 +22,7 @@ package sej.internal.spreadsheet.compiler;
 
 import java.lang.reflect.Method;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.NumericType;
 import sej.SaveableEngine;
 import sej.SpreadsheetBinding;
@@ -31,7 +31,7 @@ import sej.internal.engine.compiler.AbstractEngineCompiler;
 import sej.internal.engine.compiler.EngineCompiler;
 import sej.internal.model.ComputationModel;
 import sej.internal.model.compiler.ComputationModelCompiler;
-import sej.runtime.EngineError;
+import sej.runtime.EngineException;
 
 
 public class SpreadsheetCompilerImpl implements SpreadsheetCompiler
@@ -55,7 +55,7 @@ public class SpreadsheetCompilerImpl implements SpreadsheetCompiler
 	}
 
 
-	public SaveableEngine compile() throws CompilerError, EngineError
+	public SaveableEngine compile() throws CompilerException, EngineException
 	{
 		ComputationModelCompiler cc = new ComputationModelCompiler( this.binding, this.numericType );
 		ComputationModel cm = cc.compile();

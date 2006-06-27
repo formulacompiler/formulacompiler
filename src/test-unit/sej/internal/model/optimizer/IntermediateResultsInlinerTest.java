@@ -20,7 +20,7 @@
  */
 package sej.internal.model.optimizer;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.SEJ;
 import sej.internal.model.CellModel;
 
@@ -29,7 +29,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testInliningOfSingleRef() throws SecurityException, NoSuchMethodException, CompilerError
+	public void testInliningOfSingleRef() throws SecurityException, NoSuchMethodException, CompilerException
 	{
 		makeConstCellInput();
 
@@ -53,7 +53,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testNoInliningOfDoubleRef() throws SecurityException, NoSuchMethodException, CompilerError
+	public void testNoInliningOfDoubleRef() throws SecurityException, NoSuchMethodException, CompilerException
 	{
 		makeConstCellInput();
 		bandRefSum.makeOutput( getOutput( "getA" ) );
@@ -78,7 +78,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testRepeatedInlining() throws SecurityException, NoSuchMethodException, CompilerError
+	public void testRepeatedInlining() throws SecurityException, NoSuchMethodException, CompilerException
 	{
 		makeConstCellInput();
 
@@ -103,7 +103,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testInliningOfAggregationArguments() throws SecurityException, NoSuchMethodException, CompilerError
+	public void testInliningOfAggregationArguments() throws SecurityException, NoSuchMethodException, CompilerException
 	{
 		makeConstCellInput();
 
@@ -128,7 +128,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testInliningOfAggregationArgumentsRefdByUnusedCell() throws SecurityException, NoSuchMethodException, CompilerError
+	public void testInliningOfAggregationArgumentsRefdByUnusedCell() throws SecurityException, NoSuchMethodException, CompilerException
 	{
 		makeConstCellInput();
 
@@ -156,7 +156,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testNoInliningOfDoubleRefAggregationArguments() throws SecurityException, NoSuchMethodException, CompilerError
+	public void testNoInliningOfDoubleRefAggregationArguments() throws SecurityException, NoSuchMethodException, CompilerException
 	{
 		makeConstCellInput();
 
@@ -185,7 +185,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testNoInliningOfOutputAggregationArguments() throws SecurityException, NoSuchMethodException, CompilerError
+	public void testNoInliningOfOutputAggregationArguments() throws SecurityException, NoSuchMethodException, CompilerException
 	{
 		makeConstCellInput();
 		bandRefSum.makeOutput( getOutput( "getA" ) );

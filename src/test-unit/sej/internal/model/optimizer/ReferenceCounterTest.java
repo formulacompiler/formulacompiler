@@ -20,7 +20,7 @@
  */
 package sej.internal.model.optimizer;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.SEJ;
 import sej.internal.model.CellModel;
 
@@ -29,7 +29,7 @@ public class ReferenceCounterTest extends AbstractOptimizerTest
 {
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testRefCountsOfCells() throws SecurityException, NoSuchMethodException, CompilerError
+	public void testRefCountsOfCells() throws SecurityException, NoSuchMethodException, CompilerException
 	{
 		makeConstCellInput();
 		bandRefSum.makeOutput( getOutput( "getA" ) );
@@ -62,7 +62,7 @@ public class ReferenceCounterTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testNoRefCountByUnusedCell() throws SecurityException, NoSuchMethodException, CompilerError
+	public void testNoRefCountByUnusedCell() throws SecurityException, NoSuchMethodException, CompilerException
 	{
 		makeConstCellInput();
 		bandRefSum.makeOutput( getOutput( "getA" ) );
@@ -85,7 +85,7 @@ public class ReferenceCounterTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testRefCountsOfConstCells() throws SecurityException, NoSuchMethodException, CompilerError
+	public void testRefCountsOfConstCells() throws SecurityException, NoSuchMethodException, CompilerException
 	{
 		makeConstCellInput();
 		bandRefSum.makeOutput( getOutput( "getA" ) );

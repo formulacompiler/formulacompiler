@@ -20,7 +20,7 @@
  */
 package sej.internal.spreadsheet.binder;
 
-import sej.CompilerError;
+import sej.CompilerException;
 import sej.Orientation;
 import sej.SEJ;
 import sej.SpreadsheetBinder;
@@ -79,7 +79,7 @@ public class SpreadsheetBinderTest extends AbstractTestBase
 			this.def.defineInputCell( this.dyn.r1c1.getCellIndex(), getInput( "getTwo" ) );
 			fail();
 		}
-		catch (CompilerError.DuplicateDefinition e) {
+		catch (CompilerException.DuplicateDefinition e) {
 			// expected
 		}
 	}
@@ -99,7 +99,7 @@ public class SpreadsheetBinderTest extends AbstractTestBase
 			this.def.defineOutputCell( this.dyn.r1c2.getCellIndex(), getOutput( "getResult" ) );
 			fail();
 		}
-		catch (CompilerError.DuplicateDefinition e) {
+		catch (CompilerException.DuplicateDefinition e) {
 			// expected
 		}
 
@@ -116,7 +116,7 @@ public class SpreadsheetBinderTest extends AbstractTestBase
 			this.def.defineRepeatingSection( horiz, Orientation.HORIZONTAL, getInput( "getSubDetails" ), Inputs.class, null, null );
 			fail();
 		}
-		catch (CompilerError.SectionOrientation e) {
+		catch (CompilerException.SectionOrientation e) {
 			// expected
 		}
 	}
@@ -176,7 +176,7 @@ public class SpreadsheetBinderTest extends AbstractTestBase
 			_def.defineRepeatingSection( two, _orientation, getInput( "getDetails" ), Inputs.class, null, null );
 			fail( "No overlap reported for " + two );
 		}
-		catch (CompilerError.SectionOverlap e) {
+		catch (CompilerException.SectionOverlap e) {
 			// expected
 		}
 	}
@@ -222,7 +222,7 @@ public class SpreadsheetBinderTest extends AbstractTestBase
 			_band.defineInputCell( _cell.getCellIndex(), getInput( "getOne" ) );
 			fail( "Definition for " + _cell.getCellIndex() + " accepted, but was not in band" );
 		}
-		catch (CompilerError.NotInSection e) {
+		catch (CompilerException.NotInSection e) {
 			// expected
 		}
 	}
@@ -235,7 +235,7 @@ public class SpreadsheetBinderTest extends AbstractTestBase
 			_band.defineRepeatingSection( rng, Orientation.VERTICAL, getInput( "getSubDetails" ), Inputs.class, null, null );
 			fail( "Definition for " + rng + " accepted, but was not in band" );
 		}
-		catch (CompilerError.NotInSection e) {
+		catch (CompilerException.NotInSection e) {
 			// expected
 		}
 	}
