@@ -41,7 +41,7 @@ import java_cup.runtime.Symbol;
 %state YYSTRING
 
 ALPHA	= [A-Za-z]
-IDENT	= {ALPHA} | {DIGIT} | "_"
+IDENT	= {ALPHA} | {DIGIT} | "_" | "."
 DIGIT	= [0-9]
 SYMBOL	= [\$\!\%\^\&\*\#\_\=\+\;\#\~\@\/\?\.\,\<\>\|\:\-\[\]\\]
 SPACE	= [\n\ \t\b\012]
@@ -55,9 +55,7 @@ CELL	= {ABS}? {ALPHA} {ALPHA}? {ABS}? {INT}
 SHEET	= {QUOTE}? ({ALPHA} | {DIGIT} | {SPACE} | {SYMBOL})+ {QUOTE}? "!" 
 		| {QUOTE} ({ALPHA} | {DIGIT} | {SPACE} | {SYMBOL} | "(" | ")")+ {QUOTE} "!"
 
-NAME	= {ALPHA} {ALPHA} {IDENT}*
-		| "_" {IDENT}*
-		| {ALPHA} "_" {IDENT}*
+NAME	= ({ALPHA} | "_") {IDENT}*
 
 FN		= "@"?
 

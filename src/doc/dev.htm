@@ -33,21 +33,19 @@
 
 <h3>Issues</h3>
 <ul class="spaced">
-<li>Document automatic type conversions.</li>
-<li>Include sej_src.jar and sej_doc.jar in releases. Check if using getResource() for test data etc. is better than file system access.</li>
 <li>Support AND, OR, and relational operators outside of IF.</li>
 <li>Extend cell namer so it only handles sections of the sheet.</li>
 <li>Extend cell associator so it only handles names matching or not matching a given regex.</li>
+<li>Implement parametrized outputs.</li>
+<li>Implement <tt>INDEX</tt> and <tt>MATCH</tt> again.</li>
+<li>Implement support for multiple sheets.</li>
 <li>Fully document API.</li>
 <li>Check whether it would make sense to replace JDOM with something built into the JRE. Be careful to not break JRE 1.4 compatibility. It seems that using either a SAX or a DOM parser from javax.xml.parsers would be ideal.</li>
 <li>Try moving the precision() dependency into a separate class which can be retrotranslated with warnings turned off.</li>
-<li>Implement support for multiple sheets.</li>
 <li>Implement simple spreadsheet writer given an SEJ spreadsheet model. Should be supported by all the loaders. This allows Abacus to convert UI-defined computations to spreadsheets easily. If possible, support a template for this conversion.</li>
 <li>Store the internal model in XML form in the .jar files.</li>
 <li>Give access to SEJ's internal model from .ser files. Write a simple converter from this to a spreadsheet model, which can then be written out to a spreadsheet as per the todo above. This will make it possible to analyze a given .ser file using a simple tool.</li>
 <li>Think about signing the .jar files for security reasons.</li>
-<li>Implement parametrized outputs.</li>
-<li>Implement <tt>INDEX</tt> and <tt>MATCH</tt> again.</li>
 <li>Implement Java source code generation and hybrid tests. This will naturally surface the exception and partial implementation of interfaces problem.</li>
 <li>Add an option to SEJ so engines throw exceptions when values are truncated.</li>
 </ul>
@@ -503,7 +501,7 @@ void compileAnd( Node a, Node b, Label branch ) {
 <p>SEJ does not handle sums over nested bands properly. The user must model intermediate sums for every non-leaf band. I shall accept this as a known limitation for the moment and have <a href="doc/bands.html">documented</a> it.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 20.06.2006.</p>        </div>
+<br/>Last updated on 27.06.2006.</p>        </div>
     </div>
 </body>
 </html>
