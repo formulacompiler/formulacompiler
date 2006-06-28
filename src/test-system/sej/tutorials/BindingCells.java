@@ -27,14 +27,16 @@ import sej.EngineBuilder;
 import sej.SEJ;
 import sej.Spreadsheet;
 import sej.SpreadsheetBinder;
+import sej.runtime.ComputationFactory;
+import junit.framework.TestCase;
 
 
-public class BindingCells
+public class BindingCells extends TestCase
 {
 
-	public void bindingCells() throws Exception
+	public void testBindingCells() throws Exception
 	{
-		final String path = "src/test-system/data/tutorials/BindingCells.xls";
+		final String path = "src/test-system/testdata/sej/tutorials/BindingCells.xls";
 
 		// ---- setupBuilder
 		EngineBuilder builder = SEJ.newEngineBuilder();
@@ -42,6 +44,7 @@ public class BindingCells
 		/* -in- */builder.setInputClass( Input.class );/* -in- */
 		/* -out- */builder.setOutputClass( Output.class );/* -out- */
 		// ---- setupBuilder
+		builder.createCellNamesFromRowTitles();
 		// ---- getBinder
 		Spreadsheet spreadsheet = builder./**/getSpreadsheet()/**/;
 		SpreadsheetBinder.Section binder = builder./**/getRootBinder/**/();
@@ -82,6 +85,13 @@ public class BindingCells
 		method = Output.class.getMethod( "getCoefficient" );
 		binder.defineOutputCell( cell, new CallFrame( method ) );
 		// ---- bindPlainOutputs
+		
+		ComputationFactory factory = builder.compile().getComputationFactory();
+		Input input = new InputImpl();
+		Output output = (Output) factory.newInstance( input );
+		
+		assertEquals( input.getValueForYear( 1994 ) + input.getName().length(), output.getResult(), 0.001 );
+		assertEquals( input.getSomeValue() + input.getAnotherValue(), output.getCoefficient(), 0.00001 );
 	}
 
 
@@ -125,5 +135,30 @@ public class BindingCells
 	}
 	// ---- OutputWithDefaults
 
+	
+	private static class InputImpl implements Input
+	{
+
+		public double getAnotherValue()
+		{
+			return 12.34;
+		}
+
+		public String getName()
+		{
+			return "SEJ";
+		}
+
+		public double getSomeValue()
+		{
+			return 43.21;
+		}
+
+		public double getValueForYear( int _year )
+		{
+			return _year - 1900;
+		}
+		
+	}
 
 }
