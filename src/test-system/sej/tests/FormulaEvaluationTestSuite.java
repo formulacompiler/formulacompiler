@@ -65,7 +65,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 	{
 		SpreadsheetImpl workbook;
 		try {
-			workbook = (SpreadsheetImpl) SEJ.loadSpreadsheet( new File( "src/test-system/testdata/sej/" + _fileName ) );
+			workbook = (SpreadsheetImpl) SEJ.loadSpreadsheet( new File( "src/test-system/testdata/sej/tests/" + _fileName ) );
 		}
 		catch (Exception e) {
 			e.fillInStackTrace();

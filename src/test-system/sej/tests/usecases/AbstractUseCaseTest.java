@@ -50,7 +50,7 @@ abstract class AbstractUseCaseTest extends TestCase
 			Class _outputs ) throws Exception
 	{
 		EngineBuilder builder = SEJ.newEngineBuilder();
-		builder.loadSpreadsheet( "src/test-system/testdata/sej/usecases/" + _sheetFileName + _extension );
+		builder.loadSpreadsheet( "src/test-system/testdata/sej/tests/usecases/" + _sheetFileName + _extension );
 		builder.setInputClass( _inputs );
 		builder.setOutputClass( _outputs );
 		runUseCase( _useCase, builder );
