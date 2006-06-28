@@ -68,16 +68,28 @@
 <p>[jc:sej.tutorials.BindingByName:---- Input]</p>
 <p>With this interface, you could, for instance, bind cells by name as follows:</p>
 <p>[jc:sej.tutorials.BindingByName:---- bindNamedInputs]</p>
-<p>In the implementation of <tt>getInput(String)</tt> you are free to look up the actual value of the named input in any way that seems fit.</p>
+<p>In the implementation of <tt>getInput(String)</tt> you are free to look up the actual value of the named input in any way that seems fit. Like this, for example:</p>
+<p>[jc:sej.tutorials.BindingByName:---- InputSample]</p>
 
 <h3>Outputs</h3>
 <p>To bind output values by name, you use an analogous construct:</p>
 <p>[jc:sej.tutorials.BindingByName:---- Output]</p>
 <p>and:</p>
 <p>[jc:sej.tutorials.BindingByName:---- bindNamedOutputs]</p>
-<p>SEJ must generate code that implements this by-name lookup for you to make this work. Here's how SEJ goes about it, assuming the spreadsheet contained two cells named <em>ORESULT</em> and <em>OCOEFF</em>:</p>
+<p>Here's how you would use the generated engine:</p>
+<p>[jc:sej.tutorials.BindingByName:---- checkResults]</p>
+<p>SEJ must generate code that implements this by-name lookup for you to make this work. Here's how SEJ goes about it, assuming the spreadsheet contained two cells named <em>O_ONETWOTHREE</em> and <em>O_SUMINTER</em>:</p>
 <p>[jc:sej.tutorials.BindingByName:---- GeneratedGetter]</p>
-<p>So this obviously works only for index types that properly implement <tt>equals()</tt>. And it shows why we must supply a default implementation for <tt>getResult(String)</tt>.</p>
+<p>The example shows why we must supply a default implementation for <tt>getResult(String)</tt>.</p>
+
+<h3>Complex Outputs</h3>
+<p>This not only works for index types that properly implement <tt>equals()</tt>, but also for the native types <tt>int</tt> and <tt>long</tt>. When the parameter is a native type, SEJ uses the <tt>==</tt> operator to compare the values. When there are multiple parameters, SEJ generates comparisons for all of the supplied values, joined by <tt>&&</tt>. The complex output method:</p>
+<p>[jc:sej.tutorials.BindingByName:---- ComplexOutput]</p>
+<p>is bound and then called as follows:</p>
+<p>[jc:sej.tutorials.BindingByName:---- bindComplexOutput]</p>
+<p>[jc:sej.tutorials.BindingByName:---- checkComplexResults]</p>
+<p>Again, this is code similar to what SEJ generates in this situation:</p>
+<p>[jc:sej.tutorials.BindingByName:---- GeneratedComplexGetter]</p>
 
 <h5>Note</h5>
 <p>Why does SEJ provide such black-box magic here when, for the inputs, it was stated as an explicit design goal to avoid such things? Well, providing the outputs is what SEJ <em>does</em>. So the implementation of the output interface must be SEJ's responsibility. We could have chosen an implementation where you could register multiple output interfaces, each with a distinct string name. You might then bind output cells to such a named interface. However, to access the named interface on a computation, there would again have to be a by-name lookup:</p>
@@ -173,7 +185,7 @@ double v = o.getValue();</pre>
 <p>With this, SEJ is going to implement the iterator as well as the computation of employee outputs for you. Behind the scenes, it generates descendants of both <tt>Output</tt> and <tt>Output.Employee</tt> for this.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 14.06.2006.</p>        </div>
+<br/>Last updated on 28.06.2006.</p>        </div>
     </div>
 </body>
 </html>

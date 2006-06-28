@@ -153,30 +153,39 @@ final class ByteCodeCellCompiler extends ByteCodeSectionMethodCompiler
 			if (callFrame.getHead() != callFrame) throw new IllegalArgumentException();
 
 			final Method method = callFrame.getMethod();
-			final Type returnType = Type.getReturnType( method );
-
 			if (0 == callFrame.getArgs().length) {
-				final int access = Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL;
-				final String name = method.getName();
-				final String sig = "()" + returnType.getDescriptor();
-				MethodVisitor mtd = this.cellComputation.getSection().cw().visitMethod( access, name, sig, null, null );
-				GeneratorAdapter mv = new GeneratorAdapter( mtd, access, name, sig );
-				mv.visitCode();
-
-				compileRef( mv, this.cellComputation );
-
-				if (CellModel.UNLIMITED != cell.getMaxFractionalDigits()) {
-					mv.visitLdcInsn( cell.getMaxFractionalDigits() );
-					getNumericType().compileRound( mv );
-				}
-
-				getNumericType().compileReturnFromNum( mv, method );
-
-				mv.visitMaxs( 0, 0 );
-				mv.visitEnd();
+				compileOutputMethod( cell, method.getName(), method );
 			}
-			else throw new IllegalArgumentException();
+			else {
+				ByteCodeOutputDistributorCompiler dist = this.getSection().getOutputDistributorFor( method );
+				final String caseName = dist.compileCase( callFrame );
+				compileOutputMethod( cell, caseName, method );
+			}
 		}
+	}
+
+
+	private void compileOutputMethod( CellModel _cell, String _name, Method _method ) throws CompilerException
+	{
+		final Type returnType = Type.getReturnType( _method );
+		final String sig = "()" + returnType.getDescriptor();
+		final int access = Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL;
+
+		MethodVisitor mtd = this.cellComputation.getSection().cw().visitMethod( access, _name, sig, null, null );
+		GeneratorAdapter mv = new GeneratorAdapter( mtd, access, _name, sig );
+		mv.visitCode();
+
+		compileRef( mv, this.cellComputation );
+
+		if (CellModel.UNLIMITED != _cell.getMaxFractionalDigits()) {
+			mv.visitLdcInsn( _cell.getMaxFractionalDigits() );
+			getNumericType().compileRound( mv );
+		}
+
+		getNumericType().compileReturnFromNum( mv, _method );
+
+		mv.visitMaxs( 0, 0 );
+		mv.visitEnd();
 	}
 
 

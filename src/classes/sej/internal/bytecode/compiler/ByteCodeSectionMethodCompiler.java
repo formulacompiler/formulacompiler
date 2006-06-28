@@ -60,18 +60,24 @@ abstract class ByteCodeSectionMethodCompiler
 
 	ByteCodeSectionMethodCompiler(ByteCodeSectionCompiler _section, String _methodName)
 	{
-		super();
-		this.section = _section;
-		this.methodName = _methodName;
-		this.mv = newAdapter();
+		this( _section, _methodName, Opcodes.ACC_PRIVATE );
 	}
 
 
-	private GeneratorAdapter newAdapter()
+	ByteCodeSectionMethodCompiler(ByteCodeSectionCompiler _section, String _methodName, int _access)
+	{
+		super();
+		this.section = _section;
+		this.methodName = _methodName;
+		this.mv = newAdapter( _access );
+	}
+
+
+	private GeneratorAdapter newAdapter( int _access )
 	{
 		final String name = getMethodName();
 		final String signature = "()" + getNumericType().getDescriptor();
-		final int access = Opcodes.ACC_FINAL | Opcodes.ACC_PRIVATE;
+		final int access = Opcodes.ACC_FINAL | _access;
 		return new GeneratorAdapter( cw().visitMethod( access, name, signature, null, null ), access, name, signature );
 	}
 
@@ -120,13 +126,13 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	private void beginCompilation()
+	protected void beginCompilation()
 	{
 		mv().visitCode();
 	}
 
 
-	private void endCompilation()
+	protected void endCompilation()
 	{
 		mv().visitInsn( getNumericType().getReturnOpcode() );
 		mv().endMethod();
