@@ -46,7 +46,7 @@ import junit.framework.TestSuite;
 
 public class FormulaEvaluationTestSuite extends TestSuite
 {
-	private static final int FIRST_TEST_ROW = 4;
+	private static final int FIRST_TEST_ROW = 5;
 	private static final int NAME_COL = 0;
 	private static final int EXPECTED_COL = 1;
 	private static final int ACTUAL_COL = 2;
