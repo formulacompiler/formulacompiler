@@ -29,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import sej.examples.interactive.controller.MainWindowController;
+import sej.runtime.SEJException;
 
 
 public class MainWindow extends JFrame
@@ -65,8 +66,8 @@ public class MainWindow extends JFrame
 		this.controller = _controller;
 		getSpreadsheetPanel().setController( _controller );
 		if (null != _controller) {
-			getInputsPanel().setControllerAndModel( _controller, _controller.getInputs() );
-			getOutputsPanel().setControllerAndModel( _controller, _controller.getOutputs() );
+			getInputsPanel().setControllerAndModel( _controller, _controller.getInputsModel() );
+			getOutputsPanel().setControllerAndModel( _controller, _controller.getOutputsModel() );
 		}
 		else {
 			getInputsPanel().setControllerAndModel( null, null );
@@ -213,7 +214,7 @@ public class MainWindow extends JFrame
 					try {
 						getController().computeNow();
 					}
-					catch (ModelError ex) {
+					catch (SEJException ex) {
 						JOptionPane.showMessageDialog( getRootPane(), ex.getMessage() );
 					}
 					catch (NoSuchMethodException ex) {

@@ -20,99 +20,98 @@
  */
 package sej.examples.interactive.ui;
 
-import sej.examples.interactive.controller.MainWindowController.SpreadsheetModel;
-import sej.internal.expressions.ExpressionNode;
-import sej.model.CellInstance;
-import sej.model.Row;
-import sej.model.Sheet;
-import sej.model.Workbook;
 
-public class SpreadsheetTableModel extends AbstractTableModel
+import sej.examples.interactive.controller.MainWindowController.CellListEntry;
+import sej.examples.interactive.controller.MainWindowController.CellListModel;
+
+public class CellListTableModel extends AbstractTableModel
 {
-	private final SpreadsheetModel spreadsheet;
+	private static final int CELL_COL = 0;
+	private static final int VALUE_COL = 1;
+	private final CellListModel cellList;
 
 
-	public SpreadsheetTableModel(SpreadsheetModel _spreadsheet)
+	public CellListTableModel(CellListModel _list)
 	{
-		assert null != _spreadsheet;
-		this.spreadsheet = _spreadsheet;
-		listenToController( _spreadsheet.getListeners() );
+		assert null != _list;
+		this.cellList = _list;
+		listenToController( _list.getListeners() );
 	}
 
 
-	public Workbook getWorkbook()
+	public CellListModel getCellList()
 	{
-		return this.spreadsheet.getWorkbook();
-	}
-
-
-	public Sheet getSheet()
-	{
-		return (null == getWorkbook()) ? null : getWorkbook().getSheets().get( 0 );
+		return this.cellList;
 	}
 
 
 	public int getRowCount()
 	{
-		if (null == getSheet()) return 1;
-		return getSheet().getRows().size();
+		return getCellList().getCells().size();
 	}
 
 
 	public int getColumnCount()
 	{
-		if (null == getSheet()) return 1;
-		return getSheet().getMaxColumnCount();
+		return 2;
 	}
 
 
 	public String getColumnName( int _columnIndex )
 	{
-		return Sheet.getCanonicalNameForColumnIndex( _columnIndex );
+		switch (_columnIndex) {
+		case CELL_COL:
+			return "Cell";
+		case VALUE_COL:
+			return "Value";
+		default:
+			return "ERROR";
+		}
 	}
 
 
 	public Class<?> getColumnClass( int _columnIndex )
 	{
-		return Object.class;
+		switch (_columnIndex) {
+		case VALUE_COL:
+			return Double.class;
+		default:
+			return String.class;
+		}
 	}
 
 
 	public boolean isCellEditable( int _rowIndex, int _columnIndex )
 	{
-		return false;
+		return (VALUE_COL == _columnIndex);
 	}
 
 
 	public Object getValueAt( int _rowIndex, int _columnIndex )
 	{
-		if (null == getSheet()) {
-			return "Click <Open spreadsheet file> to load a spreadsheet";
-		}
-		else {
-			Row row = getSheet().getRows().get( _rowIndex );
-			if (null != row) {
-				CellInstance cell = _columnIndex < row.getCells().size() ? row.getCells().get( _columnIndex )
-						: null;
-				if (null != cell) {
-					final ExpressionNode expression = cell.getExpression();
-					if (null == expression) {
-						return cell.getValue();
-					}
-					else {
-						return expression.toString();
-					}
-				}
-			}
-			return null;
+		final CellListEntry e = getCellList().getCells().get( _rowIndex );
+		switch (_columnIndex) {
+		case CELL_COL:
+			return "Cell??";
+			// return Sheet.getCanonicalNameForCellIndex( e.index.columnIndex, e.index.rowIndex );
+		case VALUE_COL:
+			return e.value;
+		default:
+			return "ERROR";
 		}
 	}
 
 
 	public void setValueAt( Object _value, int _rowIndex, int _columnIndex )
 	{
-		// Not implemented
+		final CellListEntry e = getCellList().getCells().get( _rowIndex );
+		switch (_columnIndex) {
+		case VALUE_COL:
+			e.value = (Double) _value;
+			break;
+		default:
+			break;
+		}
 	}
-
 
 }

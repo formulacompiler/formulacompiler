@@ -20,98 +20,100 @@
  */
 package sej.examples.interactive.ui;
 
+import sej.Spreadsheet;
+import sej.Spreadsheet.Cell;
+import sej.Spreadsheet.Row;
+import sej.Spreadsheet.Sheet;
+import sej.examples.interactive.controller.MainWindowController.SpreadsheetModel;
 
-import sej.examples.interactive.controller.MainWindowController.CellListEntry;
-import sej.examples.interactive.controller.MainWindowController.CellListModel;
-import sej.model.Sheet;
-
-public class CellListTableModel extends AbstractTableModel
+public class SpreadsheetTableModel extends AbstractTableModel
 {
-	private static final int CELL_COL = 0;
-	private static final int VALUE_COL = 1;
-	private final CellListModel cellList;
+	private final SpreadsheetModel spreadsheet;
 
 
-	public CellListTableModel(CellListModel _list)
+	public SpreadsheetTableModel(SpreadsheetModel _spreadsheet)
 	{
-		assert null != _list;
-		this.cellList = _list;
-		listenToController( _list.getListeners() );
+		assert null != _spreadsheet;
+		this.spreadsheet = _spreadsheet;
+		listenToController( _spreadsheet.getListeners() );
 	}
 
 
-	public CellListModel getCellList()
+	public Spreadsheet getSpreadsheetModel()
 	{
-		return this.cellList;
+		return this.spreadsheet.getSpreadsheet();
+	}
+
+
+	public Sheet getSheet()
+	{
+		return (null == getSpreadsheetModel()) ? null : getSpreadsheetModel().getSheets()[ 0 ];
 	}
 
 
 	public int getRowCount()
 	{
-		return getCellList().getCells().size();
+		final Sheet sheet = getSheet();
+		if (null == sheet) return 1;
+		return sheet.getRows().length;
 	}
 
 
 	public int getColumnCount()
 	{
-		return 2;
+		final Sheet sheet = getSheet();
+		if (null == sheet) return 1;
+		int result = 0;
+		for (Row row : sheet.getRows()) {
+			int len = row.getCells().length;
+			if (len > result) result = len;
+		}
+		return result;
 	}
 
 
 	public String getColumnName( int _columnIndex )
 	{
-		switch (_columnIndex) {
-		case CELL_COL:
-			return "Cell";
-		case VALUE_COL:
-			return "Value";
-		default:
-			return "ERROR";
-		}
+		return "Col??";
+		//return Sheet.getCanonicalNameForColumnIndex( _columnIndex );
 	}
 
 
 	public Class<?> getColumnClass( int _columnIndex )
 	{
-		switch (_columnIndex) {
-		case VALUE_COL:
-			return Double.class;
-		default:
-			return String.class;
-		}
+		return Object.class;
 	}
 
 
 	public boolean isCellEditable( int _rowIndex, int _columnIndex )
 	{
-		return (VALUE_COL == _columnIndex);
+		return false;
 	}
 
 
 	public Object getValueAt( int _rowIndex, int _columnIndex )
 	{
-		final CellListEntry e = getCellList().getCells().get( _rowIndex );
-		switch (_columnIndex) {
-		case CELL_COL:
-			return Sheet.getCanonicalNameForCellIndex( e.index.columnIndex, e.index.rowIndex );
-		case VALUE_COL:
-			return e.value;
-		default:
-			return "ERROR";
+		if (null == getSheet()) {
+			return "Click <Open spreadsheet file> to load a spreadsheet";
+		}
+		else {
+			Row row = getSheet().getRows()[ _rowIndex ];
+			if (null != row) {
+				final Cell[] cells = row.getCells();
+				Cell cell = _columnIndex < cells.length ? cells[ _columnIndex ] : null;
+				if (null != cell) {
+					return cell.getConstantValue();
+				}
+			}
+			return null;
 		}
 	}
 
 
 	public void setValueAt( Object _value, int _rowIndex, int _columnIndex )
 	{
-		final CellListEntry e = getCellList().getCells().get( _rowIndex );
-		switch (_columnIndex) {
-		case VALUE_COL:
-			e.value = (Double) _value;
-			break;
-		default:
-			break;
-		}
+		// Not implemented
 	}
+
 
 }

@@ -26,45 +26,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sej.CallFrame;
+import sej.EngineBuilder;
+import sej.SEJ;
+import sej.Spreadsheet;
+import sej.SpreadsheetException;
+import sej.Spreadsheet.Cell;
 import sej.SpreadsheetBinder.Section;
-import sej.internal.spreadsheet.CellIndex;
-import sej.internal.spreadsheet.loader.SpreadsheetLoader;
-import sej.runtime.Engine;
-
-import jxl.Workbook;
+import sej.runtime.ComputationFactory;
+import sej.runtime.SEJException;
 
 
 public class MainWindowController
 {
-	private final SpreadsheetModel spreadsheet = new SpreadsheetModel();
-	private final CellListModel inputs = new CellListModel();
-	private final CellListModel outputs = new CellListModel();
+	private final SpreadsheetModel spreadsheetModel = new SpreadsheetModel();
+	private final CellListModel inputsModel = new CellListModel();
+	private final CellListModel outputsModel = new CellListModel();
 
 
-	public SpreadsheetModel getSpreadsheet()
+	public SpreadsheetModel getSpreadsheetModel()
 	{
-		return this.spreadsheet;
+		return this.spreadsheetModel;
 	}
 
 
-	public CellListModel getInputs()
+	public CellListModel getInputsModel()
 	{
-		return this.inputs;
+		return this.inputsModel;
 	}
 
 
-	public CellListModel getOutputs()
+	public CellListModel getOutputsModel()
 	{
-		return this.outputs;
+		return this.outputsModel;
 	}
 
 
-	public void loadSpreadsheetFrom( String _fileName )
+	public void loadSpreadsheetFrom( String _fileName ) throws SpreadsheetException
 	{
-		getInputs().clear();
-		getOutputs().clear();
+		getInputsModel().clear();
+		getOutputsModel().clear();
 		try {
-			getSpreadsheet().setWorkbook( (Workbook) SpreadsheetLoader.loadFromFile( _fileName ) );
+			getSpreadsheetModel().setSpreadsheet( SEJ.loadSpreadsheet( _fileName ) );
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -72,35 +74,37 @@ public class MainWindowController
 	}
 
 
-	public void computeNow() throws ModelError, NoSuchMethodException
+	public void computeNow() throws NoSuchMethodException, SEJException
 	{
-		Compiler compiler = CompilerFactory.newDefaultCompiler( getSpreadsheet().getWorkbook(), Inputs.class,
-				Outputs.class );
-		Section root = compiler.getRoot();
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.setSpreadsheet( getSpreadsheetModel().getSpreadsheet() );
+		builder.setInputClass( Inputs.class );
+		builder.setOutputClass( Outputs.class );
+		Section root = builder.getRootBinder();
 
 		int iCell;
 
 		final Method inputMethod = Inputs.class.getMethod( "getCellValue", Integer.TYPE );
 		iCell = 0;
-		for (CellListEntry e : getInputs().getCells()) {
+		for (CellListEntry e : getInputsModel().getCells()) {
 			root.defineInputCell( e.index, new CallFrame( inputMethod, iCell++ ) );
 		}
 
 		final Method outputMethod = Outputs.class.getMethod( "getCellValue", Integer.TYPE );
 		iCell = 0;
-		for (CellListEntry e : getOutputs().getCells()) {
+		for (CellListEntry e : getOutputsModel().getCells()) {
 			root.defineOutputCell( e.index, new CallFrame( outputMethod, iCell++ ) );
 		}
 
-		Engine engine = compiler.compileNewEngine();
-		Outputs o = (Outputs) engine.newComputation( new Inputs( this.inputs ) );
+		ComputationFactory factory = builder.compile().getComputationFactory();
+		Outputs o = (Outputs) factory.newInstance( new Inputs( this.inputsModel ) );
 
 		iCell = 0;
-		for (CellListEntry e : getOutputs().getCells()) {
+		for (CellListEntry e : getOutputsModel().getCells()) {
 			e.value = o.getCellValue( iCell++ );
 		}
 
-		getOutputs().dataChanged();
+		getOutputsModel().dataChanged();
 	}
 
 
@@ -127,18 +131,18 @@ public class MainWindowController
 
 	public class SpreadsheetModel extends DataModel
 	{
-		private Workbook workbook;
+		private Spreadsheet spreadsheet;
 
 
-		public Workbook getWorkbook()
+		public Spreadsheet getSpreadsheet()
 		{
-			return this.workbook;
+			return this.spreadsheet;
 		}
 
 
-		public void setWorkbook( Workbook _workbook )
+		public void setSpreadsheet( Spreadsheet _spreadsheet )
 		{
-			this.workbook = _workbook;
+			this.spreadsheet = _spreadsheet;
 			dataChanged();
 		}
 
@@ -163,18 +167,18 @@ public class MainWindowController
 		}
 
 
-		public void add( int _row, int _col )
-		{
-			add( new CellIndex( 0, _col, _row ) );
-		}
-
-
-		public void add( CellIndex _index )
+		public void add( Spreadsheet.Cell _index )
 		{
 			this.cells.add( new CellListEntry( _index, null ) );
 			dataChanged();
 		}
 
+
+		public void add( int _row, int _col )
+		{
+			Cell cell = getSpreadsheetModel().getSpreadsheet().getSheets()[ 0 ].getRows()[ _row ].getCells()[ _col ];
+			add( cell );
+		}
 
 		public void remove( int _row )
 		{
@@ -182,16 +186,17 @@ public class MainWindowController
 			dataChanged();
 		}
 
+
 	}
 
 
 	public class CellListEntry
 	{
-		public CellIndex index;
+		public Spreadsheet.Cell index;
 		public Double value;
 
 
-		public CellListEntry(CellIndex _index, Double _value)
+		public CellListEntry(Spreadsheet.Cell _index, Double _value)
 		{
 			this.index = _index;
 			this.value = _value;
@@ -218,7 +223,7 @@ public class MainWindowController
 	}
 
 
-	public abstract class Outputs
+	public static abstract class Outputs
 	{
 		public double getCellValue( int _cellIndex )
 		{

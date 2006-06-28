@@ -30,6 +30,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileFilter;
 
+import sej.SpreadsheetException;
 import sej.examples.interactive.controller.MainWindowController;
 
 public class SpreadsheetPanel extends BottomButtonsPanel
@@ -52,7 +53,7 @@ public class SpreadsheetPanel extends BottomButtonsPanel
 	{
 		this.controller = _controller;
 		if (null != _controller) {
-			getTable().setModel( new SpreadsheetTableModel( _controller.getSpreadsheet() ) );
+			getTable().setModel( new SpreadsheetTableModel( _controller.getSpreadsheetModel() ) );
 		}
 		else {
 			getTable().setModel( null );
@@ -161,7 +162,12 @@ public class SpreadsheetPanel extends BottomButtonsPanel
 					final int retval = fc.showOpenDialog( SpreadsheetPanel.this );
 					if (retval == JFileChooser.APPROVE_OPTION) {
 						final File file = fc.getSelectedFile();
-						getController().loadSpreadsheetFrom( file.getAbsolutePath() );
+						try {
+							getController().loadSpreadsheetFrom( file.getAbsolutePath() );
+						}
+						catch (SpreadsheetException ex) {
+							throw new RuntimeException( ex ); 
+						}
 					}
 				}
 
