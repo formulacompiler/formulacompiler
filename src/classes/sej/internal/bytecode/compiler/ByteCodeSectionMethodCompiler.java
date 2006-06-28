@@ -50,6 +50,9 @@ import sej.internal.model.ExpressionNodeForSubSectionModel;
 
 abstract class ByteCodeSectionMethodCompiler
 {
+	private static final ExpressionNode TRUENODE = new ExpressionNodeForConstantValue( Boolean.TRUE );
+	private static final ExpressionNode FALSENODE = new ExpressionNodeForConstantValue( Boolean.FALSE );
+
 	private final ByteCodeSectionCompiler section;
 	private final String methodName;
 	private final GeneratorAdapter mv;
@@ -241,28 +244,67 @@ abstract class ByteCodeSectionMethodCompiler
 
 		else if (_node instanceof ExpressionNodeForOperator) {
 			final ExpressionNodeForOperator node = (ExpressionNodeForOperator) _node;
-			compileOperator( node );
+			if (needsIf( node.getOperator() )) {
+				compileIf( node, TRUENODE, FALSENODE );
+			}
+			else {
+				compileOperator( node );
+			}
 		}
 
 		else if (_node instanceof ExpressionNodeForFunction) {
 			final ExpressionNodeForFunction node = (ExpressionNodeForFunction) _node;
-			if (node.getFunction() == Function.IF) {
-				compileIf( node );
-			}
-			else {
-				compileFunction( node );
+			switch (node.getFunction()) {
+
+				case IF:
+					compileIf( node );
+					break;
+
+				case NOT:
+					compileIf( node, TRUENODE, FALSENODE );
+					break;
+
+				default:
+					compileFunction( node );
 			}
 		}
 
 		else if (_node instanceof ExpressionNodeForAggregator) {
 			final ExpressionNodeForAggregator node = (ExpressionNodeForAggregator) _node;
-			compileAggregation( node );
+			switch (node.getAggregator()) {
+
+				case AND:
+				case OR:
+					compileIf( node, TRUENODE, FALSENODE );
+					break;
+
+				default:
+					compileAggregation( node );
+			}
 		}
 
 		else {
 			unsupported( _node );
 		}
 
+	}
+
+
+	private boolean needsIf( Operator _operator )
+	{
+		switch (_operator) {
+			case AND:
+			case OR:
+			case EQUAL:
+			case NOTEQUAL:
+			case LESS:
+			case LESSOREQUAL:
+			case GREATER:
+			case GREATEROREQUAL:
+				return true;
+			default:
+				return false;
+		}
 	}
 
 
@@ -312,17 +354,24 @@ abstract class ByteCodeSectionMethodCompiler
 
 	private void compileIf( ExpressionNodeForFunction _node ) throws CompilerException
 	{
+		compileIf( _node.getArguments().get( 0 ), _node.getArguments().get( 1 ), _node.getArguments().get( 2 ) );
+	}
+
+
+	private void compileIf( ExpressionNode _test, ExpressionNode _ifTrue, ExpressionNode _ifFalse )
+			throws CompilerException
+	{
 		final Label notMet = mv().newLabel();
 		final Label done = mv().newLabel();
 
-		new TestCompilerBranchingWhenFalse( _node.getArguments().get( 0 ), notMet ).compile();
+		new TestCompilerBranchingWhenFalse( _test, notMet ).compile();
 
-		compileExpr( _node.getArguments().get( 1 ) );
+		compileExpr( _ifTrue );
 
 		mv().visitJumpInsn( Opcodes.GOTO, done );
 		mv().mark( notMet );
 
-		compileExpr( _node.getArguments().get( 2 ) );
+		compileExpr( _ifFalse );
 
 		mv().mark( done );
 	}

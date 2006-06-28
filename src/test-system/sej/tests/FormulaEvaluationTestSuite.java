@@ -250,7 +250,9 @@ public class FormulaEvaluationTestSuite extends TestSuite
 					getOutputClass().getMethod( "getNumber" ) ) );
 			else if (this.expected instanceof Date) root.defineOutputCell( outputCell.getCellIndex(), new CallFrame(
 					getOutputClass().getMethod( "getDate" ) ) );
-			else fail( "Output cell type not supported" );
+			else if (this.expected instanceof Boolean) root.defineOutputCell( outputCell.getCellIndex(), new CallFrame(
+					getOutputClass().getMethod( "getBoolean" ) ) );
+			else fail( "Output cell type not supported: " + this.expected.getClass() );
 
 			Inputs inputs = null;
 			if (this.useInputs) {
@@ -303,6 +305,10 @@ public class FormulaEvaluationTestSuite extends TestSuite
 					final Date actual = computation.getDate();
 					assertEquals( this.expected, actual );
 				}
+				else if (this.expected instanceof Boolean) {
+					final boolean actual = computation.getBoolean();
+					assertEquals( this.expected, actual );
+				}
 				else fail( "Output comparison not implemented" );
 
 			}
@@ -348,6 +354,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 
 			public double getDouble( int _index )
 			{
+				if (this.values[ _index ] == null) return 0.0;
 				return (Double) this.values[ _index ];
 			}
 
@@ -358,6 +365,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 
 			public boolean getBoolean( int _index )
 			{
+				if (this.values[ _index ] == null) return false;
 				return (Boolean) this.values[ _index ];
 			}
 
@@ -365,9 +373,14 @@ public class FormulaEvaluationTestSuite extends TestSuite
 
 		public static class Outputs
 		{
-			Date getDate()
+			public Date getDate()
 			{
 				throw new AbstractMethodError( "getDate()" );
+			}
+			
+			public boolean getBoolean()
+			{
+				throw new AbstractMethodError( "getBoolean()" );
 			}
 		}
 

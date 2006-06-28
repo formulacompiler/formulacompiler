@@ -27,13 +27,27 @@
         
         <div class="content">
         
-<p>The list of <a href="limitations.htm">current limitations</a> is now a separate document.</p>
+<p>Lists the new features, improvements, and fixes for each release of SEJ. You may also want to look at:</p>
+<ul compact class="compact">
+<li><a href="limitations.htm">Current Limitations</a></li>
+<li><a href="roadmap.htm">Roadmap</a></li>
+</ul>
+
+<h5>Note</h5>
+<p>The newest release listed in this document may not really be released yet. Take it as an announcement of things to come. ;)</p>
 
 <h2>Release 0.5.3</h2>
 
 <h3>Improvements</h3>
 <ul class="spaced">
 <li>SEJ now ships the new <tt>sej-&lt;ver&gt;-srcjar.zip</tt>, containing <tt>sej-src.jar</tt> and <tt>sej-doc.jar</tt> which contain, respectively, the entire source code and documentation for SEJ. Not included are the examples and test cases. These two .jar files make attaching source and docs in modern IDEs very easy.</li>
+<li>Clarified behaviour differences between Excel and SEJ with respect to <tt>null</tt> input values. See <a href="tutorial/type_conversion.htm">tutorial on type conversions</a>.</li>
+<li>Implemented <tt>AND</tt>, <tt>OR</tt>, <tt>NOT</tt>, and comparisons outside of the test of an <tt>IF</tt>.</li>
+</ul>
+
+<h3>Fixes</h3>
+<ul class="spaced">
+<li>Fixed parsing of cell/range names containing dots (<tt>.</tt>) in the R1C1-style parser. Added unit test for parsing names (only had a system test before which did not test the R1C1 parser).</li>
 </ul>
 
 <h2>Release 0.5.2</h2>
@@ -58,7 +72,7 @@
 <li>Can use non-static local classes as inputs again.</li>
 </ul>
 
-<h2>Release 0.5.0</h2>
+<h2><a name="0.5.0">Release 0.5.0</a></h2>
 
 <h3>New Features</h3>
 <ul class="spaced">
@@ -145,7 +159,7 @@
 <p>This is the first release with the new API based on <a href="tutorial/binding.htm">binding cells to native types</a>. The interpreter has been dropped and replaced by a byte code compiler producing very fast code.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 27.06.2006.</p>        </div>
+<br/>Last updated on 28.06.2006.</p>        </div>
     </div>
 </body>
 </html>

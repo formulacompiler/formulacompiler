@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>SEJ Roadmap - arrenbrecht.ch</title>
+    <style type="text/css" media="screen">
+        @import "style.css";
+	
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="printstyle.css" />
+</head>
+<body>
+    <div class="all">
+        <div class="nav">
+            <p class="nav">
+<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a> &gt;
+<a href="index.htm">SEJ</a> &gt;
+
+
+			</p>
+        </div>
+        <div class="title">
+            <h1>
+                SEJ Roadmap</h1>
+        </div>
+        
+        
+        <div class="content">
+        
+<ul class="spaced">
+<li>Implement parametrized outputs.</li>
+<li>Implement <tt>INDEX</tt> and <tt>MATCH</tt> again.</li>
+<li>Implement support for multiple sheets.</li>
+<li>Implement sections again.</li>
+<li>Implement string operators.</li>
+<li>Extend cell namer so it only handles sections of the sheet.</li>
+<li>Extend cell associator so it only handles names matching or not matching a given regex.</li>
+<li>Make cell namer not fail on unbound cells, but offer support for warning users about which cells are unbound.</li>
+<li>Fully document API.</li>
+<li>Check whether it would make sense to replace JDOM with something built into the JRE. Be careful to not break JRE 1.4 compatibility. It seems that using either a SAX or a DOM parser from javax.xml.parsers would be ideal.</li>
+<li>Try moving the precision() dependency into a separate class which can be retrotranslated with warnings turned off.</li>
+<li>Implement simple spreadsheet writer given an SEJ spreadsheet model. Should be supported by all the loaders. This allows Abacus to convert UI-defined computations to spreadsheets easily. If possible, support a template for this conversion.</li>
+<li>Store the internal model in XML form in the .jar files.</li>
+<li>Give access to SEJ's internal model from .ser files. Write a simple converter from this to a spreadsheet model, which can then be written out to a spreadsheet as per the todo above. This will make it possible to analyze a given .ser file using a simple tool.</li>
+<li>Implement handling of empty cells past edge for <tt>PRODUCT</tt>.</li>
+<li>Think about signing the .jar files for security reasons.</li>
+<li>Implement Java source code generation and hybrid tests. This will naturally surface the exception and partial implementation of interfaces problem.</li>
+<li>Add an option to SEJ so engines throw exceptions when values are truncated.</li>
+</ul>
+<p>You may also want to look at the <a href="limitations.htm">known limitations</a>.</p>
+
+<h2>Tests and Ideas</h2>
+<ul class="spaced">
+<li>Add automatic test for use of engine saved with JRE 1.5 on JRE 1.4.</li>
+<li>Test generation of an engine with 80'000 rows and a few columns which does a lookup into this table.</li>
+</ul>        </div>
+        <div class="footer">
+<p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
+<br/>Last updated on 28.06.2006.</p>        </div>
+    </div>
+</body>
+</html>

@@ -668,6 +668,11 @@
 		<zip basedir="${dist.tmp.dir}" destfile="${dist.file}-srcjar.zip" filesonly="no" />
 
 		<delete dir="${dist.tmp.dir}" />
+		
+		<copy todir="${dist.dir}">
+			<fileset dir="${src.test-system.dir}/testdata/sej" includes="Tests.xls" />
+		</copy>
+		
 	</target>
 
 </project>
