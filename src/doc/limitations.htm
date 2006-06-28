@@ -44,6 +44,7 @@
 <ul class="spaced">
 <li>SEJ currently supports only the basic numeric operators (<tt>+</tt>, <tt>-</tt>, <tt>*</tt>, <tt>/</tt>, <tt>%</tt>, <tt>^</tt>), <tt>SUM</tt>, <tt>MIN</tt>, <tt>MAX</tt>, <tt>AVERAGE</tt>, <tt>PRODUCT</tt>, <tt>IF</tt>, <tt>ROUND</tt>, and the comparisons and logical operators <tt>AND</tt>, <tt>OR</tt>, <tt>NOT</tt>. A good overview of the supported functionality can be gained from this <a href="dist/Tests.xls">file of test cases</a>.</li>
 <li>Range intersections are parsed but not evaluated correctly.</li>
+<li>Ranges specified using named cells as endpoints are not supported. Named ranges, however, are (see <tt>ExcelExpressionParserTest.testCellAndRangeMixes()</tt>).</li>
 </ul>
 
 <h3>Scaled Long Type</h3>
@@ -61,7 +62,6 @@
 <ul class="spaced">
 <li>Subsections of varying width or height, while they can be <a href="tutorial/binding.htm#BindRepeatingSections">defined</a>, are not handled by the compiler yet.</li>
 <li>Only <tt>double</tt>-, <tt>long</tt>-, <tt>BigDecimal</tt>-, <tt>Date</tt>-, and <tt>boolean</tt>-valued computations are supported. In particular, there is no support for <tt>String</tt> and <tt>null</tt> yet.</li>
-<li>The compiler cannot handle <a href="tutorial/binding.htm#BindByName">parametrized outputs</a> yet.</li>
 </ul>
 
 <h3>Engine Persistence</h3>

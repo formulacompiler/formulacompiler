@@ -102,6 +102,8 @@ public class ExcelExpressionParserTest extends TestCase
 	{
 		assertParsableA1( "SUM( A1:B2, C5, A1:B5 A2:E8, (A1 + A2) )", "SUM( A1:B2, C5, A1:B5 A2:E8, A1+A2 )" );
 		assertParsableA1( "(SUM( A1:B1, A2:B2 A1:A2, B1:B2, A1:B2 ) + B2)", "SUM( _1_, _2_ _A_, _B_, _ALL_ ) + _2_" );
+
+		// TODO assertParsableA1( "(SUM( A1:A2, A1:A2 A1:A2 ))", "SUM( A1:_A2_, _A1_:A2 _A1_:_A2_ )" );
 	}
 
 

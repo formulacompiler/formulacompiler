@@ -20,6 +20,7 @@
  */
 package sej.internal.bytecode.compiler;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +43,7 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	private final ByteCodeSectionCompiler parentSectionCompiler;
 	private final Map<SectionModel, ByteCodeSectionCompiler> subSectionCompilers = new HashMap<SectionModel, ByteCodeSectionCompiler>();
 	private final Map<CellModel, ByteCodeCellComputation> cellComputations = new HashMap<CellModel, ByteCodeCellComputation>();
+	private final Map<Method, ByteCodeOutputDistributorCompiler> outputDistributors = new HashMap<Method, ByteCodeOutputDistributorCompiler>();
 	private final SectionModel model;
 	private final ByteCodeNumericType numericType;
 
@@ -157,6 +159,7 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 
 	void endCompilation()
 	{
+		finalizeOutputDistributors();
 		finalizeReset();
 		finalizeStaticInitializer();
 		finalizeClass();
@@ -205,6 +208,26 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	{
 		assert null != this.resetter : "Resetter is null";
 		return this.resetter;
+	}
+
+
+	public ByteCodeOutputDistributorCompiler getOutputDistributorFor( Method _method )
+	{
+		ByteCodeOutputDistributorCompiler dist = this.outputDistributors.get( _method );
+		if (dist == null) {
+			dist = new ByteCodeOutputDistributorCompiler( this, _method );
+			this.outputDistributors.put( _method, dist );
+			dist.beginCompilation();
+		}
+		return dist;
+	}
+
+
+	private void finalizeOutputDistributors()
+	{
+		for (ByteCodeOutputDistributorCompiler dist : this.outputDistributors.values()) {
+			dist.endCompilation();
+		}
 	}
 
 

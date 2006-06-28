@@ -4,7 +4,7 @@
 
 	<property name="Name" value="SEJ" />
 	<property name="name" value="sej" />
-	<property name="dist.version" value="0.5.3" />
+	<property name="dist.version" value="0.5.4" />
 
 	<property name="src.dir" location="${basedir}/src" />
 	<property name="lib.dir" location="${basedir}/lib" />
