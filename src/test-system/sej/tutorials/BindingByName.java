@@ -20,15 +20,11 @@
  */
 package sej.tutorials;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.lang.reflect.Method;
 
 import sej.CallFrame;
 import sej.EngineBuilder;
 import sej.SEJ;
-import sej.SaveableEngine;
 import sej.Spreadsheet;
 import sej.SpreadsheetBinder;
 import sej.runtime.ComputationFactory;
