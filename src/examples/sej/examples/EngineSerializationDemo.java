@@ -42,7 +42,7 @@ public class EngineSerializationDemo
 		// ---- Serialization
 		// Build an engine for the given spreadsheet, inputs, and outputs.
 		EngineBuilder builder = SEJ.newEngineBuilder();
-		builder.loadSpreadsheet( "examples/testdata/sej/Test.xls" );
+		builder.loadSpreadsheet( "src/examples/testdata/sej/examples/Test.xls" );
 		builder.setFactoryClass( OutputFactory.class );
 		builder.bindAllByName();
 		SaveableEngine compiledEngine = builder.compile();

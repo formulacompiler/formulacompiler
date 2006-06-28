@@ -37,7 +37,7 @@ public class BasicUsageDemo
 		EngineBuilder builder = SEJ.newEngineBuilder();
 		
 		// Load and parse the spreadsheet file into memory.
-		builder.loadSpreadsheet( "src/examples/testdata/sej/Test.xls" );
+		builder.loadSpreadsheet( "src/examples/testdata/sej/examples/Test.xls" );
 		
 		// Set the factory interface to implement. This interface defines the method
 		// Outputs newInstance( Inputs _inputs ), from which SEJ derives the input

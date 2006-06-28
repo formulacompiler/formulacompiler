@@ -47,7 +47,7 @@ public abstract class AbstractSerializationTest extends AbstractTestBase
 		final Class<Inputs> inp = Inputs.class;
 		final Class<Outputs> outp = Outputs.class;
 		final EngineBuilder builder = SEJ.newEngineBuilder();
-		builder.loadSpreadsheet( "src/test-system/testdata/sej/serialization/SerializationTest.xls" );
+		builder.loadSpreadsheet( "src/test-system/testdata/sej/tests/serialization/SerializationTest.xls" );
 		builder.setInputClass( inp );
 		builder.setOutputClass( outp );
 		builder.setNumericType( getNumericType() );
