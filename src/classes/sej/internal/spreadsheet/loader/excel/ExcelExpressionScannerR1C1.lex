@@ -41,7 +41,7 @@ import java_cup.runtime.Symbol;
 %state YYSTRING
 
 ALPHA	= [A-Za-z]
-IDENT	= {ALPHA} | {DIGIT} | "_"
+IDENT	= {ALPHA} | {DIGIT} | "_" | "."
 DIGIT	= [0-9]
 SYMBOL	= [\$\!\%\^\&\*\#\_\=\+\;\#\~\@\/\?\.\,\<\>\|\:\-\[\]\\]
 SPACE	= [\n\ \t\b\012]
@@ -100,6 +100,8 @@ FN		= "@"?
 
 {FN} "TRUE"		{ return new Symbol( GeneratedSymbols.INT, new Integer(1) ); }
 {FN} "FALSE"	{ return new Symbol( GeneratedSymbols.INT, new Integer(0) ); }
+{FN} "true"		{ return new Symbol( GeneratedSymbols.INT, new Integer(1) ); }
+{FN} "false"	{ return new Symbol( GeneratedSymbols.INT, new Integer(0) ); }
 
 {CELL}		{ return new Symbol( GeneratedSymbols.CELLR1C1, yytext() ); }
 {COL}		{ return new Symbol( GeneratedSymbols.COL, yytext() ); }

@@ -28,33 +28,35 @@
         <div class="content">
         
 <p>This is an unstructured journal regarding the development of SEJ. I use it to keep track of ideas, goals and discussion notes.</p>
+<p>Check the <a href="roadmap.htm">roadmap</a> for the current priorities, and the <a href="releasenotes.htm">release notes</a> for what's already been done.</p>
 
-<h2>Next Steps</h2>
+<h2>June 28, 2006</h2>
+<p>I am currently focusing on things needed by the two first Abacus projects that will use SEJ. It's great to finally have real projects use SEJ. Generates lots of feedback regarding usability of the API and functionality.</p>
 
-<h3>Issues</h3>
+<h3>Estimates</h3>
+<p>I was a bit disappointed that my initial estimate of the project was so hopelessly wrong - thank God Claudio had a much better idea of how long it would take. On closer inspection, though, I believe I can somewhat defend my initial guess. I did, after all, change requirements for the project in mid-flight more than once, and quite fundamentally (think byte-code, think sections). Given that I am practically the only one on the change board right now, such things happen a little informally and, thus, are sometimes hard to discern for what they are. Nevertheless, the laurels for the most realistic estimate for the big picture of the project go to Claudio. Thanks, man!</p>
+
+<h3>API Redesign</h3>
+<p>As I said, I much redesigned the API for <a href="releasenotes.htm#0.5.0">release 0.5.0</a>. Why was that? It really was a culmination of various separate nagging doubts and ideas that I'd been harboring for a while (and which Igor reinforced):</p>
+<p>Standardization</p>
 <ul class="spaced">
-<li>Support AND, OR, and relational operators outside of IF.</li>
-<li>Extend cell namer so it only handles sections of the sheet.</li>
-<li>Extend cell associator so it only handles names matching or not matching a given regex.</li>
-<li>Implement parametrized outputs.</li>
-<li>Implement <tt>INDEX</tt> and <tt>MATCH</tt> again.</li>
-<li>Implement support for multiple sheets.</li>
-<li>Fully document API.</li>
-<li>Check whether it would make sense to replace JDOM with something built into the JRE. Be careful to not break JRE 1.4 compatibility. It seems that using either a SAX or a DOM parser from javax.xml.parsers would be ideal.</li>
-<li>Try moving the precision() dependency into a separate class which can be retrotranslated with warnings turned off.</li>
-<li>Implement simple spreadsheet writer given an SEJ spreadsheet model. Should be supported by all the loaders. This allows Abacus to convert UI-defined computations to spreadsheets easily. If possible, support a template for this conversion.</li>
-<li>Store the internal model in XML form in the .jar files.</li>
-<li>Give access to SEJ's internal model from .ser files. Write a simple converter from this to a spreadsheet model, which can then be written out to a spreadsheet as per the todo above. This will make it possible to analyze a given .ser file using a simple tool.</li>
-<li>Think about signing the .jar files for security reasons.</li>
-<li>Implement Java source code generation and hybrid tests. This will naturally surface the exception and partial implementation of interfaces problem.</li>
-<li>Add an option to SEJ so engines throw exceptions when values are truncated.</li>
+<li>Establish and document a set of best practices on how to use SEJ. This includes using cell and range names, reflection for binding cells to methods, and warning users when something looks fishy (like unbound named cells).</li>
+<li>Encourage people to follow to the best practices established by said use-case by way of making it the simplest to do. This might help to attain a certain unformity of uses of SEJ, which, in turn, will make it easier to change particulars of the lower-level API in the future.</li>
 </ul>
-
-<h3>Tests and Ideas</h3>
+<p>API Improvements</p>
 <ul class="spaced">
-<li>Add automatic test for use of engine saved with JRE 1.5 on JRE 1.4.</li>
-<li>Test generation of an engine with 80'000 rows and a few columns which does a lookup into this table.</li>
+<li>Introduce a straightforward API for the standard use-case, following said best practices. People don't want to see complexity when they don't need it.</li>
+<li>Add support for application-defined computation factories to reduce the application's dependence on SEJ.</li>
+<li>Offer the lower-level, more complex API to people needing the added control and power.</li>
+<li>Make the lower-level API more flexible by separating phases (load sheet, bind cells, compile to internal model, compile to engine).</li>
+<li>Expose the internal computation model as a separate way of specifying an engine. I have not done this yet, but prepared the API so that it would be easy to do so.</li>
 </ul>
+<p>Defensible API</p>
+<ul class="spaced">
+<li>Enforce a strict separation between internal and public parts. Given Java's insufficient visiblity control (no <em>friends</em>), I copied the approach taken by Sun and Eclipse by moving all internals into the <tt>sej.internal</tt> package.</li>
+<li>Expose only interfaces to strictly control what features users can see.</li>
+</ul>
+<p>What finally prompted me to do this redesign was when, in order to implement <a href="tutorial/type_conversion.htm">automatic type conversions</a>, I needed the <a href="tutorial/basics.htm">introductory example</a> to SEJ. This example, of course, would have to be the standard use-case for SEJ, showcasing the best practices!</p>
 
 <h2>June 20, 2006</h2>
 <p><a href="releasenotes.htm">Release 0.5.0</a> is out the door. This has been a <b>major</b> API redesign, caused by the need for a simplified initial user experience with SEJ. The standard use-case is now just a few lines.</p>
@@ -501,7 +503,7 @@ void compileAnd( Node a, Node b, Label branch ) {
 <p>SEJ does not handle sums over nested bands properly. The user must model intermediate sums for every non-leaf band. I shall accept this as a known limitation for the moment and have <a href="doc/bands.html">documented</a> it.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 27.06.2006.</p>        </div>
+<br/>Last updated on 28.06.2006.</p>        </div>
     </div>
 </body>
 </html>

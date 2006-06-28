@@ -43,18 +43,25 @@
 <li><tt>null</tt> values are silently converted to zero (unlike Java).</li>
 </ul>
 
+<h5>Warning</h5>
+<p>The latter rule is different from Excel, which converts empty cells situatively. An empty cell is, for instance, ignored by <tt>PRODUCT</tt> and string concatenation in Excel. As of this version of SEJ, a <tt>PRODUCT</tt> involving an input value which is <tt>null</tt> returns zero, not the product of all non-null numbers.
+<br/><b>This may change to be more compatible with Excel in a future release of SEJ.</b></p>
+
 <h2>Output Conversions</h2>
 <p>The set of supported output types is the same as that for input types (again, the <tt>@ScaledLong</tt> annotation works with all supported scales, not just <tt>6</tt>, of course):</p>
 <p>[jc:sej.tutorials.TypeConversion:---- Output]</p>
 <p>The rules are similar, too:</p>
 <ul class="spaced">
 <li>Values are silently truncated or reduced in precision to fit the target type (like Java does).</li>
-<li>SEJ never returns <tt>null</tt>. So, even if you map an output method to an empty spreadsheet cell, or to one that is mapped to an input method returning <tt>null</tt>, SEJ will return zero, not <tt>null</tt>.
-<br/><b>This may change in a future release of SEJ.</b></li>
-</ul>        </div>
+<li>SEJ never returns <tt>null</tt>.</li>
+</ul>
+
+<h5>Warning</h5>
+<p>The latter rule implies that, even if you map an output method to an empty spreadsheet cell, or to one that is mapped to an input method returning <tt>null</tt>, SEJ will return zero, not <tt>null</tt>.
+<br/><b>This may change in a future release of SEJ.</b></p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 21.06.2006.</p>        </div>
+<br/>Last updated on 28.06.2006.</p>        </div>
     </div>
 </body>
 </html>

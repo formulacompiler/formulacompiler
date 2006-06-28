@@ -98,7 +98,9 @@ FN		= "@"?
 {FN} "ROUND"	{ return new Symbol( GeneratedSymbols.ROUND, "ROUND" ); }
 
 {FN} "TRUE"		{ return new Symbol( GeneratedSymbols.INT, new Integer(1) ); }
+{FN} "true"		{ return new Symbol( GeneratedSymbols.INT, new Integer(1) ); }
 {FN} "FALSE"	{ return new Symbol( GeneratedSymbols.INT, new Integer(0) ); }
+{FN} "false"	{ return new Symbol( GeneratedSymbols.INT, new Integer(0) ); }
 
 {CELL}		{ return new Symbol( GeneratedSymbols.CELLA1, yytext() ); }
 {SHEET}		{ return new Symbol( GeneratedSymbols.SHEET, yytext() ); }

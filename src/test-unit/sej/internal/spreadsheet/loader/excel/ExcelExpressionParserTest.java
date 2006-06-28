@@ -45,7 +45,6 @@ public class ExcelExpressionParserTest extends TestCase
 	CellInstance cell22 = new CellWithConstant( this.row2, 123 );
 	ExcelExpressionParser parser = new ExcelExpressionParser( this.cell22 );
 
-
 	@Override
 	protected void setUp() throws Exception
 	{
@@ -60,7 +59,6 @@ public class ExcelExpressionParserTest extends TestCase
 		this.workbook.getNameMap().put( "_2_", new CellRange( this.cell21.getCellIndex(), this.cell22.getCellIndex() ) );
 		this.workbook.getNameMap().put( "_ALL_", new CellRange( this.cell11.getCellIndex(), this.cell22.getCellIndex() ) );
 	}
-
 
 	public void testRC() throws Exception
 	{
@@ -107,6 +105,27 @@ public class ExcelExpressionParserTest extends TestCase
 	}
 
 
+	public void testTrueFalse() throws Exception
+	{
+		assertParsableAll( "AND( 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0 )", "AND( TRUE, FALSE, true, false, @TRUE, @FALSE, @true, @false )" );
+	}
+
+
+	public void testNames() throws Exception
+	{
+		final String[] names = new String[] { "_A1", "A.1", "A1.", "A_1", "A.B", "_A", "_1", "_.", "A.B.C", "R1C.", "R1C3A" };
+
+		final CellIndex a1 = this.cell11.getCellIndex();
+		for (String n : names) {
+			this.workbook.getNameMap().put( n, a1 );
+		}
+
+		for (String n : names) {
+			assertParsableAll( "SUM( A1 )", "SUM( " + n + " )" );
+		}
+	}
+
+
 	public void testOldStyleFunctions() throws Exception
 	{
 		assertParsableA1( "((1.0 + ROUND( A1, 2.0 )) + 2.0)", "1 + @ROUND(A1,2) + 2" );
@@ -118,6 +137,13 @@ public class ExcelExpressionParserTest extends TestCase
 	{
 		assertErr( "2 + SOMEFUNC(A2)",
 				"Undefined name or unsupported function encountered in '2 + SOMEFUNC*?*(A2)'; error location indicated by '*?*'." );
+	}
+
+
+	private void assertParsableAll( String _expected, String _string )
+	{
+		assertParsableA1( _expected, _string );
+		assertParsableR1C1( _expected, _string );
 	}
 
 
