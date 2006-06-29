@@ -20,11 +20,16 @@
  */
 package sej.tutorials;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 
 import sej.CallFrame;
 import sej.EngineBuilder;
 import sej.SEJ;
+import sej.SaveableEngine;
 import sej.Spreadsheet;
 import sej.SpreadsheetBinder;
 import sej.runtime.ComputationFactory;
@@ -188,6 +193,113 @@ public class BindingByName extends TestCase
 		// ---- InputSample
 
 	}
+	
+	
+	public void testInputVariants() throws Exception
+	{
+		final String path = "src/test-system/testdata/sej/tutorials/BindingByName_InputVariants.xls";
+		
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.loadSpreadsheet( path );
+		builder.setInputClass( InputVariants.class );
+		builder.setOutputClass( SimpleOutput.class );
+		builder.createCellNamesFromRowTitles();
+
+		Class ic = InputVariants.class;
+		Spreadsheet ss = builder.getSpreadsheet();
+		SpreadsheetBinder.Section bnd = builder.getRootBinder();
+		
+		// ---- bindInputVariants
+		// Native types
+		bnd.defineInputCell( ss.getCell( "byte" ), new CallFrame( ic.getMethod( "getInput", Byte.TYPE ), (byte) 123 ) );
+		bnd.defineInputCell( ss.getCell( "short" ), new CallFrame( ic.getMethod( "getInput", Short.TYPE ), (short) 1234 ) );
+		bnd.defineInputCell( ss.getCell( "int" ), new CallFrame( ic.getMethod( "getInput", Integer.TYPE ), 12345 ) );
+		bnd.defineInputCell( ss.getCell( "long" ), new CallFrame( ic.getMethod( "getInput", Long.TYPE ), 123456L ) );
+		bnd.defineInputCell( ss.getCell( "double" ), new CallFrame( ic.getMethod( "getInput", Double.TYPE ), 123.45 ) );
+		bnd.defineInputCell( ss.getCell( "float" ), new CallFrame( ic.getMethod( "getInput", Float.TYPE ), 123.456F ) );
+		bnd.defineInputCell( ss.getCell( "char" ), new CallFrame( ic.getMethod( "getInput", Character.TYPE ), 'a' ) );
+		bnd.defineInputCell( ss.getCell( "bool" ), new CallFrame( ic.getMethod( "getInput", Boolean.TYPE ), true ) );
+
+		// Boxed types
+		bnd.defineInputCell( ss.getCell( "bbyte" ), new CallFrame( ic.getMethod( "getInput", Byte.class ), (byte) 123 ) );
+		bnd.defineInputCell( ss.getCell( "bshort" ), new CallFrame( ic.getMethod( "getInput", Short.class ), (short) 1234 ) );
+		bnd.defineInputCell( ss.getCell( "bint" ), new CallFrame( ic.getMethod( "getInput", Integer.class ), 12345 ) );
+		bnd.defineInputCell( ss.getCell( "blong" ), new CallFrame( ic.getMethod( "getInput", Long.class ), 123456L ) );
+		bnd.defineInputCell( ss.getCell( "bdouble" ), new CallFrame( ic.getMethod( "getInput", Double.class ), 123.45 ) );
+		bnd.defineInputCell( ss.getCell( "bfloat" ), new CallFrame( ic.getMethod( "getInput", Float.class ), 123.456F ) );
+		bnd.defineInputCell( ss.getCell( "bchar" ), new CallFrame( ic.getMethod( "getInput", Character.class ), 'a' ) );
+		bnd.defineInputCell( ss.getCell( "bbool" ), new CallFrame( ic.getMethod( "getInput", Boolean.class ), true ) );
+
+		// Other types
+		bnd.defineInputCell( ss.getCell( "string" ), new CallFrame( ic.getMethod( "getInput", String.class ), "123.4567" ) );
+		// ---- bindInputVariants
+		
+		// ---- bindInputCombination
+		Method mtd = ic.getMethod( "getInput", /**/Integer.TYPE, Boolean.TYPE, String.class/**/ );
+		bnd.defineInputCell( ss.getCell( "comb" ), new CallFrame( mtd, /**/12, true, "24"/**/ ) );
+		// ---- bindInputCombination
+		
+		bnd.defineOutputCell( ss.getCell( "result" ), new CallFrame( SimpleOutput.class.getMethod( "getResult" )) );
+
+		SaveableEngine engine = builder.compile();
+		
+		OutputStream out = new BufferedOutputStream( new FileOutputStream( "/temp/inp.jar"));
+		try {
+			engine.saveTo( out );
+		}
+		finally {
+			out.close();
+		}
+		
+		ComputationFactory factory = engine.getComputationFactory();
+		InputVariants input = new InputVariants();
+		SimpleOutput output = (SimpleOutput) factory.newInstance( input );
+
+		assertEquals( 275165.2687, output.getResult(), 0.001 );
+	}
+	
+
+	public static final class InputVariants
+	{
+
+		// ---- InputVariants
+		// Native types
+		public double getInput( byte _param ) /**/{ return _param; }/**/
+		public double getInput( short _param ) /**/{ return _param; }/**/
+		public double getInput( int _param ) /**/{ return _param; }/**/
+		public double getInput( long _param ) /**/{ return _param; }/**/
+		public double getInput( double _param ) /**/{ return _param; }/**/
+		public double getInput( float _param ) /**/{ return _param; }/**/
+		public double getInput( char _param ) /**/{ return _param; }/**/
+		public double getInput( boolean _param ) /**/{ return (_param? 1 : 0); }/**/
+		
+		// Boxed types
+		public double getInput( Byte _param ) /**/{ return _param; }/**/
+		public double getInput( Short _param ) /**/{ return _param; }/**/
+		public double getInput( Integer _param ) /**/{ return _param; }/**/
+		public double getInput( Long _param ) /**/{ return _param; }/**/
+		public double getInput( Double _param ) /**/{ return _param; }/**/
+		public double getInput( Float _param ) /**/{ return _param; }/**/
+		public double getInput( Character _param ) /**/{ return _param; }/**/
+		public double getInput( Boolean _param ) /**/{ return (_param? 1 : 0); }/**/
+
+		// Other types
+		public double getInput( String _param ) /**/{ return Double.valueOf( _param ); }/**/
+		public double getInput( BigDecimal _param ) /**/{ return _param.doubleValue(); }/**/
+		// ---- InputVariants
+		
+		// ---- InputCombination
+		public double getInput( int _a, boolean _b, String _c ) /**/{ return _a + Integer.valueOf( _c ); }/**/
+		// ---- InputCombination
+		
+	}
+	
+	
+	public static interface SimpleOutput
+	{
+		double getResult();
+	}
+	
 
 
 	public void testComplexOutputBinding() throws Exception

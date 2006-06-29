@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Binding Repeating Sections in SEJ - arrenbrecht.ch</title>
+    <style type="text/css" media="screen">
+        @import "../style.css";
+	
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+</head>
+<body>
+    <div class="all">
+        <div class="nav">
+            <p class="nav">
+<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a> &gt;
+<a href="../index.htm">SEJ</a> &gt;
+<a href="index.htm">Tutorial</a> &gt;
+
+			</p>
+        </div>
+        <div class="title">
+            <h1>
+                Binding Repeating Sections in SEJ</h1>
+        </div>
+        
+        
+        <div class="content">
+        
+<p>SEJ allows you to define repeating sections in spreadsheets. Examples would be</p>
+<ul compact class="compact">
+<li>all order totals of the last three months for this customer,</li>
+<li>all employees for which bonuses must be computed given a total bonus amount.</li>
+</ul>
+
+<h2>Input-only</h2>
+<p>The first example provides only input to some computation. To tell SEJ how many and which order totals there are, you need an input interface method with an <tt>Iterable</tt> or <tt>array</tt> result:</p>
+<p>[jc:sej.tutorials.BindingRepeatingSections:---- Input]</p>
+<p>Then you define the section and bind it to the input method. You also supply the type to be used to access section elements. The method returns another section binder (like the root binder we've been using up to now), which you use to bind cells and subsections of the section:</p>
+<p>[jc:sej.tutorials.BindingRepeatingSections:---- bindInputSection]</p>
+<p>Within the section, you bind the input cell for the order total:</p>
+<p>[jc:sej.tutorials.BindingRepeatingSections:---- bindInputCell]</p>
+
+<h2>Input/Output</h2>
+<p>In the second example above, you are also interested in output values that are repeated. The input is structured as it was for pure inputs:</p>
+<p>[jc:sej.tutorials.BindingRepeatingSections:---- Input2]</p>
+<p>To define the outputs for each employee, your output interface must have a corresponding method returning an appropriate <tt>Iterable</tt>:</p>
+<p>[jc:sej.tutorials.BindingRepeatingSections:---- Output]</p>
+<p>With this definition you can write:</p>
+<p>[jc:sej.tutorials.BindingRepeatingSections:---- bindIOSection]</p>
+<p>This binds the repeating section to the output as well as the input specification, allowing:</p>
+<p>[jc:sej.tutorials.BindingRepeatingSections:---- bindOutputCell]</p>
+<p>With this, SEJ is going to implement the iterator as well as the computation of employee outputs for you. Behind the scenes, it generates descendants of both <tt>Output</tt> and <tt>Output.Employee</tt> for this.</p>        </div>
+        <div class="footer">
+<p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
+<br/>Last updated on 29.06.2006.</p>        </div>
+    </div>
+</body>
+</html>

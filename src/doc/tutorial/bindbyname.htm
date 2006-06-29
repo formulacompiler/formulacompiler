@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Binding By Name in SEJ - arrenbrecht.ch</title>
+    <style type="text/css" media="screen">
+        @import "../style.css";
+	
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+</head>
+<body>
+    <div class="all">
+        <div class="nav">
+            <p class="nav">
+<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a> &gt;
+<a href="../index.htm">SEJ</a> &gt;
+<a href="index.htm">Tutorial</a> &gt;
+
+			</p>
+        </div>
+        <div class="title">
+            <h1>
+                Binding By Name in SEJ</h1>
+        </div>
+        
+        
+        <div class="content">
+        
+<p>If you have a generic system where the set of possible input and/or output values cannot be determined at compile-time, you have to resort to some sort of late binding, or binding by name.</p>
+<p>By <em>name</em>, I mean anything that helps you to identify a value, be it a <tt>String</tt>, <tt>int</tt>, or <tt>long</tt> value, or even a combination thereof.</p>
+
+<h2>Inputs</h2>
+<p>To bind inputs by name, you bind them to parametrized calls to a single dispatch method (or multiple ones - it's your choice). Here's an example of such a method:</p>
+<p>[jc:sej.tutorials.BindingByName:---- Input]</p>
+<p>With this interface, you could, for instance, bind cells by name as follows:</p>
+<p>[jc:sej.tutorials.BindingByName:---- bindNamedInputs]</p>
+<p>In the implementation of <tt>getInput(String)</tt> you are free to look up the actual value of the named input in any way that seems fit. Like this, for example:</p>
+<p>[jc:sej.tutorials.BindingByName:---- InputSample]</p>
+
+<h3>Supported Types</h3>
+<p>SEJ currently supports the following parameter types:</p>
+<p>[jc:sej.tutorials.BindingByName:---- InputVariants; omit]</p>
+<p>When binding, you have to take care that you are passing in values of the proper type (<tt>Integer</tt> for <tt>int</tt> and <tt>Integer</tt>, <tt>Byte</tt> for <tt>byte</tt> and <tt>Byte</tt>, etc.). This example uses autoboxing, but it still needs to take care to pass the proper native type to the boxing magic:</p>
+<p>[jc:sej.tutorials.BindingByName:---- bindInputVariants]</p>
+
+<h3>Multiple Parameters</h3>
+<p>You can also bind to parametrized methods with multiple parameters as long as all the parameter types are supported. Here's such a method:</p>
+<p>[jc:sej.tutorials.BindingByName:---- InputCombination; omit]</p>
+<p>and how to bind to it:</p>
+<p>[jc:sej.tutorials.BindingByName:---- bindInputCombination]</p>
+
+<h2>Outputs</h2>
+<p>To bind output values by name, you use an analogous construct:</p>
+<p>[jc:sej.tutorials.BindingByName:---- Output]</p>
+<p>and:</p>
+<p>[jc:sej.tutorials.BindingByName:---- bindNamedOutputs]</p>
+<p>Here's how you would use the generated engine:</p>
+<p>[jc:sej.tutorials.BindingByName:---- checkResults]</p>
+<p>SEJ must generate code that implements this by-name lookup for you to make this work. Here's how SEJ goes about it, assuming the spreadsheet contained two cells named <em>O_ONETWOTHREE</em> and <em>O_SUMINTER</em>:</p>
+<p>[jc:sej.tutorials.BindingByName:---- GeneratedGetter]</p>
+<p>The example shows why we must supply a default implementation for <tt>getResult(String)</tt>.</p>
+
+<h3>Supported Types</h3>
+<p>Parametrized outputs are supported for the following parameter types:</p>
+<ul compact class="compact">
+<li><tt>Object</tt> and subtypes that properly implement <tt>equals()</tt></li>
+<li><tt>int</tt>, compared using <tt>==</tt></li>
+<li><tt>long</tt>, compared using <tt>==</tt></li>
+</ul>
+
+<h3>Multiple Parameters</h3>
+<p>When there are multiple parameters, SEJ generates comparisons for all of the supplied values, joined by <tt>&&</tt>.</p>
+<p>Thus, the complex output method:</p>
+<p>[jc:sej.tutorials.BindingByName:---- ComplexOutput]</p>
+<p>is bound as:</p>
+<p>[jc:sej.tutorials.BindingByName:---- bindComplexOutput]</p>
+<p>and called as:</p>
+<p>[jc:sej.tutorials.BindingByName:---- checkComplexResults]</p>
+<p>Here's an idea of what SEJ generates in this situation:</p>
+<p>[jc:sej.tutorials.BindingByName:---- GeneratedComplexGetter]</p>
+
+<h2>Why This Magic?</h2>
+<p>Why does SEJ provide such black-box magic here when, for the inputs, it was stated as an explicit design goal to avoid such things? Well, providing the outputs is what SEJ <em>does</em>. So the implementation of the output interface must be SEJ's responsibility. We could have chosen an implementation where you could register multiple output interfaces, each with a distinct string name. You might then bind output cells to such a named interface. However, to access the named interface on a computation, there would again have to be a by-name lookup:</p>
+<pre>Computation c = engine.newComputation();
+Output o = (Output) c.getNamedOutput( "SomeOutput" );
+double v = o.getValue();</pre>
+
+<p>So we gain nothing but lose the close duality of how the input and output definitions work.</p>        </div>
+        <div class="footer">
+<p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
+<br/>Last updated on 29.06.2006.</p>        </div>
+    </div>
+</body>
+</html>
