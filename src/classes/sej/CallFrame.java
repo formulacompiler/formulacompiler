@@ -68,7 +68,7 @@ public final class CallFrame extends AbstractDescribable
 			if (!param.isPrimitive()) {
 				final Class<?> arg = this.args[ i ].getClass();
 				if (!param.isAssignableFrom( arg ))
-					throw new IllegalArgumentException( "Argument value not assignable to the parameter" );
+					throw new IllegalArgumentException( "Argument value of type '" + arg + "' not assignable to the parameter of type '" + param + "'" );
 			}
 			else {
 				// TODO Check assignment compatibility of primitive types

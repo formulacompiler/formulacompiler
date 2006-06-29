@@ -22,6 +22,7 @@ package sej.internal.bytecode.compiler;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Date;
 import java.util.List;
 
 import org.objectweb.asm.ClassWriter;
@@ -156,29 +157,87 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	protected void pushConstParam( Object _constantValue )
+	protected void pushConstParam( Class _type, Object _constantValue ) throws CompilerException
 	{
 		if (null == _constantValue) {
 			mv().visitInsn( Opcodes.ACONST_NULL );
 		}
-		else if (_constantValue instanceof Double) {
-			double val = (Double) _constantValue;
-			mv().push( val );
+
+		else if (_type == Byte.TYPE) {
+			mv().push( ((Number) _constantValue).byteValue() );
 		}
-		else if (_constantValue instanceof Integer) {
-			int val = (Integer) _constantValue;
-			mv().push( val );
+		else if (_type == Byte.class) {
+			mv().push( ((Number) _constantValue).byteValue() );
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Byte", "valueOf", "(B)Ljava/lang/Byte;" );
 		}
-		else if (_constantValue instanceof Long) {
-			long val = (Long) _constantValue;
-			mv().push( val );
+
+		else if (_type == Short.TYPE) {
+			mv().push( ((Number) _constantValue).shortValue() );
 		}
-		else if (_constantValue instanceof Boolean) {
-			boolean val = (Boolean) _constantValue;
-			mv().push( val );
+		else if (_type == Short.class) {
+			mv().push( ((Number) _constantValue).shortValue() );
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Short", "valueOf", "(S)Ljava/lang/Short;" );
 		}
-		else {
+
+		else if (_type == Integer.TYPE) {
+			mv().push( ((Number) _constantValue).intValue() );
+		}
+		else if (_type == Integer.class) {
+			mv().push( ((Number) _constantValue).intValue() );
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Integer", "valueOf", "(I)Ljava/lang/Integer;" );
+		}
+
+		else if (_type == Long.TYPE) {
+			mv().push( ((Number) _constantValue).longValue() );
+		}
+		else if (_type == Long.class) {
+			mv().push( ((Number) _constantValue).longValue() );
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Long", "valueOf", "(J)Ljava/lang/Long;" );
+		}
+
+		else if (_type == Double.TYPE) {
+			mv().push( ((Number) _constantValue).doubleValue() );
+		}
+		else if (_type == Double.class) {
+			mv().push( ((Number) _constantValue).doubleValue() );
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Double", "valueOf", "(D)Ljava/lang/Double;" );
+		}
+
+		else if (_type == Float.TYPE) {
+			mv().push( ((Number) _constantValue).floatValue() );
+		}
+		else if (_type == Float.class) {
+			mv().push( ((Number) _constantValue).floatValue() );
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Float", "valueOf", "(F)Ljava/lang/Float;" );
+		}
+
+		else if (_type == Character.TYPE) {
+			mv().push( ((Character) _constantValue).charValue() );
+		}
+		else if (_type == Character.class) {
+			mv().push( ((Character) _constantValue).charValue() );
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Character", "valueOf", "(C)Ljava/lang/Character;" );
+		}
+
+		else if (_type == Boolean.TYPE) {
+			mv().push( ((Boolean) _constantValue).booleanValue() );
+		}
+		else if (_type == Boolean.class) {
+			mv().push( ((Boolean) _constantValue).booleanValue() );
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;" );
+		}
+
+		else if (_type == String.class) {
 			mv().visitLdcInsn( _constantValue );
+		}
+
+		else if (_type == Date.class) {
+			mv().visitLdcInsn( _constantValue );
+		}
+
+		else {
+			throw new CompilerException.UnsupportedDataType( "The data type '"
+					+ _type + "' is not supported as an input method parameter" );
 		}
 	}
 
@@ -202,9 +261,13 @@ abstract class ByteCodeSectionMethodCompiler
 		Class contextClass = getSection().getInputClass();
 		for (CallFrame frame : frames) {
 			final Method method = frame.getMethod();
-			if (null != frame.getArgs()) {
-				for (Object arg : frame.getArgs()) {
-					pushConstParam( arg );
+			final Object[] args = frame.getArgs();
+			if (null != args) {
+				final Class[] types = method.getParameterTypes();
+				for (int i = 0; i < args.length; i++) {
+					final Object arg = args[ i ];
+					final Class type = types[ i ];
+					pushConstParam( type, arg );
 				}
 			}
 			int opcode = Opcodes.INVOKEVIRTUAL;
@@ -421,7 +484,6 @@ abstract class ByteCodeSectionMethodCompiler
 						compileExpr( this.node.getArguments().get( 1 ) );
 						compileComparison( operator );
 						return;
-
 				}
 			}
 
@@ -439,7 +501,7 @@ abstract class ByteCodeSectionMethodCompiler
 				}
 			}
 
-			if (this.node instanceof ExpressionNodeForFunction) {
+			else if (this.node instanceof ExpressionNodeForFunction) {
 				final ExpressionNodeForFunction fnNode = (ExpressionNodeForFunction) this.node;
 				final Function fn = fnNode.getFunction();
 
