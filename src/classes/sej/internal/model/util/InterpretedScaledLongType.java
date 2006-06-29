@@ -122,6 +122,7 @@ final class InterpretedScaledLongType extends InterpretedNumericType
 					case 2:
 						return valueToScaledLongOrZero( _args[ 0 ] ) + valueToScaledLongOrZero( _args[ 1 ] );
 				}
+				break;
 			}
 
 			case MINUS: {
@@ -131,6 +132,7 @@ final class InterpretedScaledLongType extends InterpretedNumericType
 					case 2:
 						return valueToScaledLongOrZero( _args[ 0 ] ) - valueToScaledLongOrZero( _args[ 1 ] );
 				}
+				break;
 			}
 
 			case TIMES: {
@@ -139,6 +141,7 @@ final class InterpretedScaledLongType extends InterpretedNumericType
 						return valueToScaledLongOrZero( _args[ 0 ] )
 								* valueToScaledLongOrZero( _args[ 1 ] ) / getScalingFactor();
 				}
+				break;
 			}
 
 			case DIV: {
@@ -147,6 +150,7 @@ final class InterpretedScaledLongType extends InterpretedNumericType
 						return valueToScaledLongOrZero( _args[ 0 ] )
 								* getScalingFactor() / valueToScaledLongOrZero( _args[ 1 ] );
 				}
+				break;
 			}
 
 			case EXP: {
@@ -154,6 +158,7 @@ final class InterpretedScaledLongType extends InterpretedNumericType
 					case 2:
 						return pow( valueToScaledLongOrZero( _args[ 0 ] ), valueToScaledLongOrZero( _args[ 1 ] ) );
 				}
+				break;
 			}
 
 			case PERCENT: {
@@ -161,6 +166,7 @@ final class InterpretedScaledLongType extends InterpretedNumericType
 					case 1:
 						return valueToScaledLongOrZero( _args[ 0 ] ) / 100L;
 				}
+				break;
 			}
 
 		}
@@ -190,6 +196,7 @@ final class InterpretedScaledLongType extends InterpretedNumericType
 						int maxFrac = (int) (valueToScaledLongOrZero( _args[ 1 ] ) / this.num.one());
 						return RuntimeLong_v1.round( val, maxFrac, this.runtimeCx );
 				}
+				break;
 			}
 
 			case MATCH: {
@@ -200,6 +207,7 @@ final class InterpretedScaledLongType extends InterpretedNumericType
 						final int matchType = valueToIntOrOne( _args[ 2 ] );
 						return numberToScaledLong( InterpretedNumericType.match( _args[ 0 ], _args[ 1 ], matchType ) + 1 );
 				}
+				break;
 			}
 
 		}

@@ -77,8 +77,9 @@ public abstract class AbstractTestBase extends TestCase
 	}
 
 
-	protected String trimTrailingZeroes( String result )
+	protected String trimTrailingZeroes( String _result )
 	{
+		String result = _result;
 		if (result.contains( "." )) {
 			while (result.endsWith( "0" ))
 				result = result.substring( 0, result.length() - 1 );

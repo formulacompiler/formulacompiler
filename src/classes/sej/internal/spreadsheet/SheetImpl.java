@@ -163,10 +163,11 @@ public class SheetImpl extends AbstractDescribable implements Spreadsheet.Sheet
 	public static int parseRCIndex( int _relativeTo, String _canonicalName, int _at )
 	{
 		int result = _relativeTo;
-		if (_at < _canonicalName.length()) {
-			char ch = _canonicalName.charAt( _at );
+		int at = _at;
+		if (at < _canonicalName.length()) {
+			char ch = _canonicalName.charAt( at );
 			if ('[' == ch) {
-				ch = _canonicalName.charAt( ++_at );
+				ch = _canonicalName.charAt( ++at );
 			}
 			else if ('C' != ch) {
 				result = 0;
@@ -174,8 +175,8 @@ public class SheetImpl extends AbstractDescribable implements Spreadsheet.Sheet
 			StringBuilder sb = new StringBuilder();
 			while (ch == '-' || (ch >= '0' && ch <= '9')) {
 				sb.append( ch );
-				if (++_at >= _canonicalName.length()) break;
-				ch = _canonicalName.charAt( _at );
+				if (++at >= _canonicalName.length()) break;
+				ch = _canonicalName.charAt( at );
 			}
 			if (sb.length() > 0) {
 				result += Integer.parseInt( sb.toString() );

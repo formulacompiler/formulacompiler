@@ -91,6 +91,7 @@ final class InterpretedBigDecimalType extends InterpretedNumericType
 					case 2:
 						return valueToBigDecimalOrZero( _args[ 0 ] ).subtract( valueToBigDecimalOrZero( _args[ 1 ] ) );
 				}
+				break;
 			}
 
 			case TIMES: {
@@ -107,6 +108,7 @@ final class InterpretedBigDecimalType extends InterpretedNumericType
 						return valueToBigDecimalOrZero( _args[ 0 ] ).divide( valueToBigDecimalOrZero( _args[ 1 ] ),
 								this.scale, this.roundingMode );
 				}
+				break;
 			}
 
 			case EXP: {
@@ -114,6 +116,7 @@ final class InterpretedBigDecimalType extends InterpretedNumericType
 					case 2:
 						return adjustScale( valueToBigDecimalOrZero( _args[ 0 ] ).pow( valueToIntOrZero( _args[ 1 ] ) ) );
 				}
+				break;
 			}
 
 			case PERCENT: {
@@ -121,10 +124,10 @@ final class InterpretedBigDecimalType extends InterpretedNumericType
 					case 1:
 						return adjustScale( valueToBigDecimalOrZero( _args[ 0 ] ).movePointLeft( 2 ) );
 				}
+				break;
 			}
 
 		}
-
 		return super.compute( _operator, _args );
 	}
 
@@ -142,6 +145,7 @@ final class InterpretedBigDecimalType extends InterpretedNumericType
 						int maxFrac = valueToIntOrZero( _args[ 1 ] );
 						return adjustScale( RuntimeBigDecimal_v1.round( val, maxFrac ) );
 				}
+				break;
 			}
 
 			case MATCH: {
@@ -153,8 +157,9 @@ final class InterpretedBigDecimalType extends InterpretedNumericType
 						return adjustScale( BigDecimal.valueOf( InterpretedNumericType.match( _args[ 0 ], _args[ 1 ],
 								valueToIntOrOne( _args[ 2 ] ) ) + 1 ) );
 				}
+				break;
 			}
-
+			
 		}
 		return super.compute( _function, _args );
 	}
