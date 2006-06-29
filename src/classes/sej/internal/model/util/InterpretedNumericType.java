@@ -34,7 +34,7 @@ public abstract class InterpretedNumericType
 	private final NumericType num;
 
 
-	InterpretedNumericType( NumericType _type )
+	InterpretedNumericType(NumericType _type)
 	{
 		super();
 		this.num = _type;
@@ -87,6 +87,7 @@ public abstract class InterpretedNumericType
 					case 1:
 						return _args[ 0 ];
 				}
+				break;
 			}
 
 			case CONCAT: {
@@ -106,6 +107,7 @@ public abstract class InterpretedNumericType
 						if (null == b) return a;
 						return compare( a, b ) <= 0 ? a : b;
 				}
+				break;
 			}
 
 			case MAX: {
@@ -117,6 +119,7 @@ public abstract class InterpretedNumericType
 						if (null == b) return a;
 						return compare( a, b ) >= 0 ? a : b;
 				}
+				break;
 			}
 
 			case EQUAL: {
@@ -128,6 +131,7 @@ public abstract class InterpretedNumericType
 						if (null == b) return (0 == valueToIntOrZero( a ));
 						return a.equals( b );
 				}
+				break;
 			}
 
 			case NOTEQUAL: {
@@ -139,6 +143,7 @@ public abstract class InterpretedNumericType
 						if (null == b) return (0 != valueToIntOrZero( a ));
 						return !a.equals( b );
 				}
+				break;
 			}
 
 			case GREATER: {
@@ -146,6 +151,7 @@ public abstract class InterpretedNumericType
 					case 2:
 						return compare( _args[ 0 ], _args[ 1 ] ) > 0;
 				}
+				break;
 			}
 
 			case GREATEROREQUAL: {
@@ -153,6 +159,7 @@ public abstract class InterpretedNumericType
 					case 2:
 						return compare( _args[ 0 ], _args[ 1 ] ) >= 0;
 				}
+				break;
 			}
 
 			case LESS: {
@@ -160,6 +167,7 @@ public abstract class InterpretedNumericType
 					case 2:
 						return compare( _args[ 0 ], _args[ 1 ] ) < 0;
 				}
+				break;
 			}
 
 			case LESSOREQUAL: {
@@ -167,6 +175,7 @@ public abstract class InterpretedNumericType
 					case 2:
 						return compare( _args[ 0 ], _args[ 1 ] ) <= 0;
 				}
+				break;
 			}
 
 			case AND: {
@@ -174,6 +183,7 @@ public abstract class InterpretedNumericType
 					case 2:
 						return toBoolean( _args[ 0 ] ) && toBoolean( _args[ 1 ] );
 				}
+				break;
 			}
 
 			case OR: {
@@ -181,8 +191,9 @@ public abstract class InterpretedNumericType
 					case 2:
 						return toBoolean( _args[ 0 ] ) || toBoolean( _args[ 1 ] );
 				}
+				break;
 			}
-
+			
 		}
 
 		throw new IllegalArgumentException( "Cannot interpret operator "
@@ -202,6 +213,7 @@ public abstract class InterpretedNumericType
 					case 3:
 						return toBoolean( _args[ 0 ] ) ? _args[ 1 ] : _args[ 2 ];
 				}
+				break;
 			}
 
 			case NOT: {
@@ -209,6 +221,7 @@ public abstract class InterpretedNumericType
 					case 1:
 						return !toBoolean( _args[ 0 ] );
 				}
+				break;
 			}
 
 			case INDEX: {
@@ -218,8 +231,9 @@ public abstract class InterpretedNumericType
 					case 3:
 						return evalIndex( (RangeValue) _args[ 0 ], _args[ 1 ], _args[ 2 ] );
 				}
+				break;
 			}
-
+			
 		}
 
 		throw new IllegalArgumentException( "Cannot interpret function "

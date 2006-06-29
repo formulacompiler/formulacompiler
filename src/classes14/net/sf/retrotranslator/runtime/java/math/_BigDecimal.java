@@ -35,11 +35,12 @@ public final class _BigDecimal
 		return new BigDecimal( _value );
 	}
 
-	public static BigDecimal pow( final BigDecimal x, int n )
+	public static BigDecimal pow( final BigDecimal x, final int n )
 	{
 		if (n < 0 || n > 999999999) throw new ArithmeticException( "Invalid operation" );
 		BigDecimal result = new BigDecimal( 1 );
-		while (0 < n--) {
+		int i = n;
+		while (0 < i--) {
 			result = result.multiply( x );
 		}
 		return result;

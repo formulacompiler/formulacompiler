@@ -174,8 +174,9 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 		public double getFact( int _x )
 		{
 			double f = 1;
-			while (0 < _x) {
-				f *= _x--;
+			int x = _x;
+			while (0 < x) {
+				f *= x--;
 			}
 			return f;
 		}

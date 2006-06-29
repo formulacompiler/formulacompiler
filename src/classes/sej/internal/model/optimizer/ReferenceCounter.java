@@ -65,11 +65,9 @@ public final class ReferenceCounter extends AbstractComputationModelVisitor
 			}
 		}
 		else {
-			if (_expr instanceof ExpressionNodeForParentSectionModel) {
-				_accessedBySubBand = true;
-			}
+			final boolean argsBySubBand = _accessedBySubBand || (_expr instanceof ExpressionNodeForParentSectionModel);
 			for (ExpressionNode arg : _expr.getArguments()) {
-				addRefToEverythingReferencedBy( arg, _accessedBySubBand );
+				addRefToEverythingReferencedBy( arg, argsBySubBand );
 			}
 		}
 	}

@@ -60,6 +60,7 @@ final class InterpretedDoubleType extends InterpretedNumericType
 					case 2:
 						return valueToDoubleOrZero( _args[ 0 ] ) - valueToDoubleOrZero( _args[ 1 ] );
 				}
+				break;
 			}
 
 			case TIMES: {
@@ -75,6 +76,7 @@ final class InterpretedDoubleType extends InterpretedNumericType
 					case 2:
 						return valueToDoubleOrZero( _args[ 0 ] ) / valueToDoubleOrZero( _args[ 1 ] );
 				}
+				break;
 			}
 
 			case EXP: {
@@ -82,6 +84,7 @@ final class InterpretedDoubleType extends InterpretedNumericType
 					case 2:
 						return Math.pow( valueToDoubleOrZero( _args[ 0 ] ), valueToDoubleOrZero( _args[ 1 ] ) );
 				}
+				break;
 			}
 
 			case PERCENT: {
@@ -89,10 +92,10 @@ final class InterpretedDoubleType extends InterpretedNumericType
 					case 1:
 						return valueToDoubleOrZero( _args[ 0 ] ) / 100;
 				}
+				break;
 			}
 
 		}
-
 		return super.compute( _operator, _args );
 	}
 
@@ -109,6 +112,7 @@ final class InterpretedDoubleType extends InterpretedNumericType
 						int maxFrac = valueToIntOrZero( _args[ 1 ] );
 						return RuntimeDouble_v1.round( val, maxFrac );
 				}
+				break;
 			}
 
 			case MATCH: {
@@ -118,8 +122,9 @@ final class InterpretedDoubleType extends InterpretedNumericType
 					case 3:
 						return (double) InterpretedNumericType.match( _args[ 0 ], _args[ 1 ], valueToIntOrOne( _args[ 2 ] ) ) + 1;
 				}
+				break;
 			}
-
+			
 		}
 		return super.compute( _function, _args );
 	}
