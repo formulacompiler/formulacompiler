@@ -23,10 +23,7 @@ package sej.internal.model;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 
-import sej.CallFrame;
 import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionNode;
 
@@ -34,9 +31,6 @@ public class CellModel extends ElementModel
 {
 	public static final int UNLIMITED = 10000;
 
-	private String name;
-	private CallFrame callChainToCall;
-	private final Collection<CallFrame> callsToImplement = new ArrayList<CallFrame>();
 	private Object constantValue;
 	private ExpressionNode expression;
 	private int maxFractionalDigits = UNLIMITED;
@@ -45,42 +39,8 @@ public class CellModel extends ElementModel
 
 	public CellModel(SectionModel _section, String _name)
 	{
-		super( _section );
-		this.name = _name;
+		super( _section, _name );
 		_section.getCells().add( this );
-	}
-
-
-	public boolean isInput()
-	{
-		return (null != this.callChainToCall);
-	}
-
-	public CallFrame getCallChainToCall()
-	{
-		return this.callChainToCall;
-	}
-
-	public void makeInput( CallFrame _callChainToCall )
-	{
-		this.callChainToCall = _callChainToCall;
-		this.name = _callChainToCall.toString();
-	}
-
-
-	public boolean isOutput()
-	{
-		return (0 < this.callsToImplement.size());
-	}
-
-	public CallFrame[] getCallsToImplement()
-	{
-		return this.callsToImplement.toArray( new CallFrame[ this.callsToImplement.size() ] );
-	}
-
-	public void makeOutput( CallFrame _callToImplement )
-	{
-		this.callsToImplement.add( _callToImplement );
 	}
 
 
@@ -208,13 +168,5 @@ public class CellModel extends ElementModel
 		_to.outdent();
 		_to.appendLine( "</cell>" );
 	}
-
-
-	@Override
-	public String getName()
-	{
-		return this.name;
-	}
-
 
 }

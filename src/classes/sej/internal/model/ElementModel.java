@@ -20,6 +20,10 @@
  */
 package sej.internal.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import sej.CallFrame;
 import sej.describable.AbstractDescribable;
 
 
@@ -27,21 +31,26 @@ public abstract class ElementModel extends AbstractDescribable
 {
 	private final ComputationModel engine;
 	private final SectionModel section;
+	private String name;
+	private CallFrame callChainToCall;
+	private final Collection<CallFrame> callsToImplement = new ArrayList<CallFrame>();
 
 
-	public ElementModel(SectionModel _section)
+	public ElementModel(SectionModel _section, String _name)
 	{
 		super();
 		this.engine = _section.getEngine();
 		this.section = _section;
+		this.name = _name;
 	}
 
 
-	ElementModel(ComputationModel _engine)
+	ElementModel(ComputationModel _engine, String _name)
 	{
 		super();
 		this.engine = _engine;
 		this.section = null;
+		this.name = _name;
 	}
 
 
@@ -56,10 +65,45 @@ public abstract class ElementModel extends AbstractDescribable
 		return this.section;
 	}
 	
-	
-	public abstract String getName();
+	public String getName()
+	{
+		return this.name;
+	}
 
 	
+	public boolean isInput()
+	{
+		return (null != this.callChainToCall);
+	}
+
+	public CallFrame getCallChainToCall()
+	{
+		return this.callChainToCall;
+	}
+
+	public void makeInput( CallFrame _callChainToCall )
+	{
+		this.callChainToCall = _callChainToCall;
+		this.name = _callChainToCall.toString();
+	}
+
+
+	public boolean isOutput()
+	{
+		return (0 < this.callsToImplement.size());
+	}
+
+	public CallFrame[] getCallsToImplement()
+	{
+		return this.callsToImplement.toArray( new CallFrame[ this.callsToImplement.size() ] );
+	}
+
+	public void makeOutput( CallFrame _callToImplement )
+	{
+		this.callsToImplement.add( _callToImplement );
+	}
+
+
 	@Override
 	public String toString()
 	{
