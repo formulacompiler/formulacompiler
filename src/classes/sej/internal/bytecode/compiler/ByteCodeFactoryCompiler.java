@@ -22,7 +22,6 @@ package sej.internal.bytecode.compiler;
 
 import java.lang.reflect.Method;
 
-import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
@@ -62,13 +61,12 @@ final class ByteCodeFactoryCompiler extends ByteCodeClassCompiler
 
 	private void buildDefaultConstructor( Type _parentType )
 	{
-		MethodVisitor mv = cw().visitMethod( Opcodes.ACC_PUBLIC, "<init>", "()V", null, null );
+		GeneratorAdapter mv = newMethod( Opcodes.ACC_PUBLIC, "<init>", "()V" );
 		mv.visitCode();
 		mv.visitVarInsn( Opcodes.ALOAD, 0 );
 		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, _parentType.getInternalName(), "<init>", "()V" );
 		mv.visitInsn( Opcodes.RETURN );
-		mv.visitMaxs( 0, 0 );
-		mv.visitEnd();
+		endMethod( mv );
 	}
 
 
@@ -83,8 +81,7 @@ final class ByteCodeFactoryCompiler extends ByteCodeClassCompiler
 		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, ByteCodeEngineCompiler.GEN_ROOT_CLASS.getInternalName(), "<init>", "("
 				+ this.userInputType.getDescriptor() + ")V" );
 		mv.visitInsn( Opcodes.ARETURN );
-		mv.endMethod();
-		mv.visitEnd();
+		endMethod( mv );
 	}
 
 
@@ -98,8 +95,7 @@ final class ByteCodeFactoryCompiler extends ByteCodeClassCompiler
 		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, ByteCodeEngineCompiler.GEN_ROOT_CLASS.getInternalName(), "<init>", "("
 				+ this.userInputType.getDescriptor() + ")V" );
 		mv.visitInsn( Opcodes.ARETURN );
-		mv.endMethod();
-		mv.visitEnd();
+		endMethod( mv );
 	}
 
 

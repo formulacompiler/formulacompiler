@@ -77,9 +77,9 @@ abstract class ByteCodeSectionMethodCompiler
 	private GeneratorAdapter newAdapter( int _access )
 	{
 		final String name = methodName();
-		final String signature = "()" + numericType().getDescriptor();
+		final String descriptor = "()" + numericType().getDescriptor();
 		final int access = Opcodes.ACC_FINAL | _access;
-		return new GeneratorAdapter( cw().visitMethod( access, name, signature, null, null ), access, name, signature );
+		return section().newMethod( access, name, descriptor );
 	}
 
 
@@ -131,8 +131,7 @@ abstract class ByteCodeSectionMethodCompiler
 	protected void endCompilation()
 	{
 		mv().visitInsn( numericType().getReturnOpcode() );
-		mv().endMethod();
-		mv().visitEnd();
+		section().endMethod( mv() );
 	}
 
 
