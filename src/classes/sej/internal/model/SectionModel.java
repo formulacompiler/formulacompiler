@@ -29,7 +29,6 @@ import sej.describable.DescriptionBuilder;
 
 public class SectionModel extends ElementModel
 {
-	private final String name;
 	private final List<SectionModel> sections = new ArrayList<SectionModel>();
 	private final List<CellModel> cells = new ArrayList<CellModel>();
 	private final Class inputClass;
@@ -38,8 +37,7 @@ public class SectionModel extends ElementModel
 
 	public SectionModel(SectionModel _section, String _name, Class _inputClass, Class _outputClass)
 	{
-		super( _section );
-		this.name = _name;
+		super( _section, _name );
 		this.inputClass = _inputClass;
 		this.outputClass = _outputClass;
 		_section.getSections().add( this );
@@ -48,8 +46,7 @@ public class SectionModel extends ElementModel
 
 	SectionModel(ComputationModel _engine, String _name, Class _inputClass, Class _outputClass)
 	{
-		super( _engine );
-		this.name = _name;
+		super( _engine, _name );
 		this.inputClass = _inputClass;
 		this.outputClass = _outputClass;
 	}
@@ -113,12 +110,4 @@ public class SectionModel extends ElementModel
 		_to.appendLine( "</section>" );
 	}
 	
-	
-	@Override
-	public String getName()
-	{
-		return this.name;
-	}
-
-
 }

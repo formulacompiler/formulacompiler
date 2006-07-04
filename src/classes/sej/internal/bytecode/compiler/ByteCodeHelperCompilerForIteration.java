@@ -20,8 +20,6 @@
  */
 package sej.internal.bytecode.compiler;
 
-import org.objectweb.asm.Opcodes;
-
 import sej.CompilerException;
 import sej.Operator;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
@@ -30,7 +28,7 @@ import sej.internal.model.ExpressionNodeForSubSectionModel;
 final class ByteCodeHelperCompilerForIteration extends ByteCodeHelperCompiler
 {
 	private final ExpressionNodeForSubSectionModel node;
-	private final ByteCodeSectionCompiler sub;
+	private final ByteCodeSubSectionCompiler sub;
 
 
 	ByteCodeHelperCompilerForIteration(ByteCodeSectionCompiler _section, Operator _reductor, ExpressionNodeForSubSectionModel _node)
@@ -45,7 +43,7 @@ final class ByteCodeHelperCompilerForIteration extends ByteCodeHelperCompiler
 	protected void compileBody() throws CompilerException
 	{
 		mv().loadThis();
-		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, section().classInternalName(), this.sub., desc )
+		section().compileCallToGetterFor( mv(), this.sub );
 	}
 
 

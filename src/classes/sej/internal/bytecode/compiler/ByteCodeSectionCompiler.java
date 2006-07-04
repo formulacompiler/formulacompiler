@@ -24,8 +24,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -36,10 +34,9 @@ import sej.internal.model.CellModel;
 import sej.internal.model.SectionModel;
 
 
-final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
+class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 {
-	private final ByteCodeSectionCompiler parentSectionCompiler;
-	private final Map<SectionModel, ByteCodeSectionCompiler> subSectionCompilers = new HashMap<SectionModel, ByteCodeSectionCompiler>();
+	private final Map<SectionModel, ByteCodeSubSectionCompiler> subSectionCompilers = new HashMap<SectionModel, ByteCodeSubSectionCompiler>();
 	private final Map<CellModel, ByteCodeCellComputation> cellComputations = new HashMap<CellModel, ByteCodeCellComputation>();
 	private final Map<Method, ByteCodeOutputDistributorCompiler> outputDistributors = new HashMap<Method, ByteCodeOutputDistributorCompiler>();
 	private final SectionModel model;
@@ -47,26 +44,19 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	private final Type inputs;
 	private final Type outputs;
 
-	
-	ByteCodeSectionCompiler(ByteCodeEngineCompiler _compiler, SectionModel _model)
+
+	ByteCodeSectionCompiler(ByteCodeEngineCompiler _compiler, SectionModel _model, String _name)
 	{
-		super( _compiler, ByteCodeEngineCompiler.GEN_ROOT_NAME, false );
+		super( _compiler, _name, false );
 		this.model = _model;
 		this.numericType = ByteCodeNumericType.typeFor( _compiler.getNumericType(), this );
 		this.inputs = typeFor( inputClass() );
 		this.outputs = typeFor( outputClass() );
-		this.parentSectionCompiler = null;
 	}
 
-	ByteCodeSectionCompiler(ByteCodeSectionCompiler _parent, SectionModel _model)
+	ByteCodeSectionCompiler(ByteCodeEngineCompiler _compiler, SectionModel _model)
 	{
-		super( _parent.engineCompiler(), _parent.engineCompiler().newSubClassName(), false );
-		this.model = _model;
-		this.numericType = _parent.numericType();
-		this.inputs = typeFor( inputClass() );
-		this.outputs = typeFor( outputClass() );
-		this.parentSectionCompiler = _parent;
-		_parent.subSectionCompilers.put( _model, this );
+		this( _compiler, _model, ByteCodeEngineCompiler.GEN_ROOT_NAME );
 	}
 
 	private Type typeFor( Class _inputClass )
@@ -77,12 +67,17 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 
 	ByteCodeSectionCompiler parentSectionCompiler()
 	{
-		return this.parentSectionCompiler;
+		return null;
 	}
 
-	ByteCodeSectionCompiler subSectionCompiler( SectionModel _section )
+	ByteCodeSubSectionCompiler subSectionCompiler( SectionModel _section )
 	{
 		return this.subSectionCompilers.get( _section );
+	}
+
+	void addSubSectionCompiler( SectionModel _section, ByteCodeSubSectionCompiler _compiler )
+	{
+		this.subSectionCompilers.put( _section, _compiler );
 	}
 
 	ByteCodeCellComputation cellComputation( CellModel _cell )
@@ -119,7 +114,7 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	{
 		return model().getOutputClass();
 	}
-	
+
 	Type inputType()
 	{
 		return this.inputs;
@@ -130,12 +125,26 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		return this.outputs;
 	}
 
-	
+
 	private int getterId;
 
 	String newGetterName()
 	{
 		return "get$" + (this.getterId++);
+	}
+
+
+	GeneratorAdapter newMethod( int _access, String _name, String _descriptor )
+	{
+		MethodVisitor mv = cw().visitMethod( _access, _name, _descriptor, null, null );
+		GeneratorAdapter ma = new GeneratorAdapter( mv, _access, _name, _descriptor );
+		ma.visitCode();
+		return ma;
+	}
+
+	void newField( int _access, String _name, String _descriptor )
+	{
+		cw().visitField( _access, _name, _descriptor, null, null ).visitEnd();
 	}
 
 
@@ -152,10 +161,16 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		}
 	}
 
-	void compileAccessTo( ByteCodeClassCompiler _subCompiler )
+	void compileAccessTo( ByteCodeSubSectionCompiler _sub )
 	{
-		// TODO Auto-generated method stub
+		newField( Opcodes.ACC_PRIVATE, _sub.getterName(), _sub.arrayDescriptor() );
 	}
+
+	public void compileCallToGetterFor( GeneratorAdapter _mv, ByteCodeSubSectionCompiler _sub )
+	{
+		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, classInternalName(), _sub.getterName(), _sub.getterDescriptor() );
+	}
+
 
 	void endCompilation()
 	{
@@ -187,10 +202,10 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 
 	private void buildReset()
 	{
-		MethodVisitor mv = cw().visitMethod( Opcodes.ACC_PUBLIC, "reset", "()V", null, null );
-		GeneratorAdapter ma = new GeneratorAdapter( mv, Opcodes.ACC_PUBLIC, "reset", "()V" );
-		ma.visitCode();
-		this.resetter = ma;
+		this.resetter = newMethod( Opcodes.ACC_PUBLIC, "reset", "()V" );
+
+		// TODO clean out subsection arrays
+
 	}
 
 	private void finalizeReset()
@@ -234,56 +249,46 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	private void buildInputMember()
 	{
 		if (!hasInputs()) throw new IllegalStateException();
-		FieldVisitor fv = cw().visitField( Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL,
-				ByteCodeEngineCompiler.INPUTS_MEMBER_NAME, this.inputs.getDescriptor(), null, null );
-		fv.visitEnd();
+		newField( Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL, ByteCodeEngineCompiler.INPUTS_MEMBER_NAME, inputType()
+				.getDescriptor() );
 	}
 
-	private void storeInputs( MethodVisitor _mv )
+	private void storeInputs( GeneratorAdapter _mv )
 	{
 		if (!hasInputs()) throw new IllegalStateException();
-		_mv.visitFieldInsn( Opcodes.PUTFIELD, this.classInternalName(), ByteCodeEngineCompiler.INPUTS_MEMBER_NAME,
-				this.inputs.getDescriptor() );
+		_mv.putField( this.classType(), ByteCodeEngineCompiler.INPUTS_MEMBER_NAME, inputType() );
 	}
 
 	private void buildConstructorWithInputs() throws CompilerException
 	{
-		MethodVisitor mv = cw().visitMethod( 0, "<init>", "(" + this.inputs.getDescriptor() + ")V", null, null );
-		mv.visitCode();
-		Label start = new Label();
-		mv.visitLabel( start );
+		GeneratorAdapter mv = newMethod( 0, "<init>", "(" + this.inputs.getDescriptor() + ")V" );
 
 		// super( _inputs ); or super();
 		callInheritedConstructor( mv, 1 );
 
 		// this.inputs = _inputs;
 		if (hasInputs()) {
-			mv.visitVarInsn( Opcodes.ALOAD, 0 );
-			mv.visitVarInsn( Opcodes.ALOAD, 1 );
+			mv.loadThis();
+			mv.loadArg( 0 );
 			storeInputs( mv );
 		}
 
 		mv.visitInsn( Opcodes.RETURN );
-
-		Label end = new Label();
-		mv.visitLabel( end );
-		mv.visitLocalVariable( "this", this.classDescriptor(), null, start, end, 0 );
-		mv.visitLocalVariable( "_inputs", this.inputs.getDescriptor(), null, start, end, 1 );
-		mv.visitMaxs( 2, 2 );
+		mv.visitMaxs( 0, 0 );
 		mv.visitEnd();
 	}
 
-	private void callInheritedConstructor( MethodVisitor _mv, int _inputsVar ) throws CompilerException
+	private void callInheritedConstructor( GeneratorAdapter _mv, int _inputsVar ) throws CompilerException
 	{
 		try {
 			if (outputClass().isInterface()) {
-				_mv.visitVarInsn( Opcodes.ALOAD, 0 );
+				_mv.loadThis();
 				_mv.visitMethodInsn( Opcodes.INVOKESPECIAL, "java/lang/Object", "<init>", "()V" );
 			}
 			else if (!callConstructorWithInputs( _mv, _inputsVar )) {
 				outputClass().getConstructor(); // ensure it is here and accessible
-				_mv.visitVarInsn( Opcodes.ALOAD, 0 );
-				_mv.visitMethodInsn( Opcodes.INVOKESPECIAL, this.outputs.getInternalName(), "<init>", "()V" );
+				_mv.loadThis();
+				_mv.visitMethodInsn( Opcodes.INVOKESPECIAL, outputType().getInternalName(), "<init>", "()V" );
 			}
 		}
 		catch (NoSuchMethodException e) {
@@ -292,7 +297,7 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		}
 	}
 
-	private boolean callConstructorWithInputs( MethodVisitor _mv, int _inputsVar )
+	private boolean callConstructorWithInputs( GeneratorAdapter _mv, int _inputsVar )
 	{
 		try {
 			outputClass().getConstructor( inputClass() ); // ensure it is here and accessible
@@ -301,15 +306,15 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 			return false;
 		}
 
-		_mv.visitVarInsn( Opcodes.ALOAD, 0 );
+		_mv.loadThis();
 		if (0 <= _inputsVar) {
 			_mv.visitVarInsn( Opcodes.ALOAD, _inputsVar );
 		}
 		else {
 			_mv.visitInsn( Opcodes.ACONST_NULL );
 		}
-		_mv.visitMethodInsn( Opcodes.INVOKESPECIAL, this.outputs.getInternalName(), "<init>", "("
-				+ this.inputs.getDescriptor() + ")V" );
+		_mv.visitMethodInsn( Opcodes.INVOKESPECIAL, outputType().getInternalName(), "<init>", "("
+				+ inputType().getDescriptor() + ")V" );
 
 		return true;
 	}

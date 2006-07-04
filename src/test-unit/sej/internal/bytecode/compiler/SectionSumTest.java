@@ -20,6 +20,9 @@
  */
 package sej.internal.bytecode.compiler;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -30,6 +33,7 @@ import sej.CompilerException;
 import sej.EngineBuilder;
 import sej.Orientation;
 import sej.SEJ;
+import sej.SaveableEngine;
 import sej.Spreadsheet;
 import sej.SpreadsheetBuilder;
 import sej.Spreadsheet.Range;
@@ -103,7 +107,24 @@ public class SectionSumTest extends TestCase
 		bindSectionSum( sht, bnd, "iterable" );
 		bindSectionSum( sht, bnd, "collection" );
 
-		return (RootOutput) cmp.compile().getComputationFactory().newComputation( _input );
+		SaveableEngine engine = cmp.compile();
+
+		
+		
+		
+		// TODO Remove this!!!!
+		OutputStream os = new BufferedOutputStream( new FileOutputStream( "/temp/sectionsum.jar" ));
+		try {
+			engine.saveTo( os );
+		}
+		finally {
+			os.close();
+		}
+		
+	
+		
+		
+		return (RootOutput) engine.getComputationFactory().newComputation( _input );
 	}
 
 	private void buildSectionSum( SpreadsheetBuilder _bld, CellRef _rootCell, String _prefix )

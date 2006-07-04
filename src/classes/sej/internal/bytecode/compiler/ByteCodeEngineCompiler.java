@@ -78,7 +78,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 	static final String GEN_ROOT_PATH = GEN_PACKAGE_PATH + GEN_ROOT_NAME;
 	static final String GEN_ROOT_DESC = "L" + GEN_PACKAGE_PATH + GEN_ROOT_NAME + ";";
 	static final String INPUTS_MEMBER_NAME = "inputs";
-	
+
 	static final Type GEN_FACTORY_CLASS = Type.getType( GEN_FACTORY_DESC );
 	static final Type GEN_ROOT_CLASS = Type.getType( GEN_ROOT_DESC );
 
@@ -104,15 +104,15 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		return this.canCache;
 	}
 
-	
+
 	private int nextSubClassNumber = 0;
 
 	String newSubClassName()
 	{
-		return "Sect" + Integer.toString( this.nextSubClassNumber++ );
+		return "$Sect" + Integer.toString( this.nextSubClassNumber++ );
 	}
 
-	
+
 	// ------------------------------------------------ Compilation
 
 
@@ -146,9 +146,9 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		}
 
 		@Override
-		protected ByteCodeSectionCompiler accessSubSection( SectionModel _section )
+		protected ByteCodeSubSectionCompiler accessSubSection( SectionModel _section )
 		{
-			return new ByteCodeSectionCompiler( getSection(), _section );
+			return new ByteCodeSubSectionCompiler( getSection(), _section );
 		}
 
 		@Override
@@ -186,7 +186,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		@Override
 		protected ByteCodeSectionCompiler accessSubSection( SectionModel _section )
 		{
-			final ByteCodeSectionCompiler subCompiler = getSection().subSectionCompiler( _section );
+			final ByteCodeSubSectionCompiler subCompiler = getSection().subSectionCompiler( _section );
 			getSection().compileAccessTo( subCompiler );
 			return subCompiler;
 		}

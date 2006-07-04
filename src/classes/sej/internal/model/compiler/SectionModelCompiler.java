@@ -155,6 +155,10 @@ public class SectionModelCompiler
 	{
 		SectionModel model = new SectionModel( getSectionModel(), _sectionDef.getCallChainToCall().toString(),
 				this.sectionDef.getInputClass(), this.sectionDef.getOutputClass() );
+		model.makeInput( _sectionDef.getCallChainToCall() );
+		if (_sectionDef.getCallToImplement() != null) {
+			model.makeOutput( _sectionDef.getCallToImplement() );
+		}
 		return new SectionModelCompiler( this.compiler, this, _sectionDef, model );
 	}
 
