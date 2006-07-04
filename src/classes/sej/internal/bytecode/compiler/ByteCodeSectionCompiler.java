@@ -146,7 +146,6 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		}
 		if (hasInputs()) buildInputMember();
 		buildConstructorWithInputs();
-		buildNewEngine();
 		if (getEngineCompiler().canCache()) {
 			buildReset();
 		}
@@ -313,44 +312,6 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 
 		return true;
 	}
-
-	private void buildNewEngine()
-	{
-		MethodVisitor mv = cw().visitMethod( Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL, "newComputation",
-				"(Ljava/lang/Object;)Ljava/lang/Object;", null, null );
-		mv.visitCode();
-		Label start = new Label();
-		mv.visitLabel( start );
-
-		// if (null == _inputs) throw new IllegalArgumentException();
-		if (hasInputs()) {
-			mv.visitVarInsn( Opcodes.ALOAD, 1 );
-			Label l2 = new Label();
-			mv.visitJumpInsn( Opcodes.IFNONNULL, l2 );
-			mv.visitTypeInsn( Opcodes.NEW, "java/lang/IllegalArgumentException" );
-			mv.visitInsn( Opcodes.DUP );
-			mv.visitMethodInsn( Opcodes.INVOKESPECIAL, "java/lang/IllegalArgumentException", "<init>", "()V" );
-			mv.visitInsn( Opcodes.ATHROW );
-			mv.visitLabel( l2 );
-		}
-
-		// return new GeneratedEngine( (Inputs) _inputs );
-		mv.visitTypeInsn( Opcodes.NEW, this.engine.getInternalName() );
-		mv.visitInsn( Opcodes.DUP );
-		mv.visitVarInsn( Opcodes.ALOAD, 1 );
-		mv.visitTypeInsn( Opcodes.CHECKCAST, this.inputs.getInternalName() );
-		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, this.engine.getInternalName(), "<init>", "("
-				+ this.inputs.getDescriptor() + ")V" );
-		mv.visitInsn( Opcodes.ARETURN );
-
-		Label end = new Label();
-		mv.visitLabel( end );
-		mv.visitLocalVariable( "this", this.engine.getDescriptor(), null, start, end, 0 );
-		mv.visitLocalVariable( "_inputs", "Ljava/lang/Object;", null, start, end, 1 );
-		mv.visitMaxs( 3, 2 );
-		mv.visitEnd();
-	}
-
 
 	@Override
 	void collectClassNamesAndBytes( HashMap<String, byte[]> _result )

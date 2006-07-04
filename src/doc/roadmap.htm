@@ -28,14 +28,13 @@
         <div class="content">
         
 <ul class="spaced">
-<li>Implement parametrized outputs.</li>
+<li>Make cell namer not fail on unbound cells, but offer support for warning users about which cells are unbound.</li>
 <li>Implement <tt>INDEX</tt> and <tt>MATCH</tt> again.</li>
 <li>Implement support for multiple sheets.</li>
 <li>Implement sections again.</li>
 <li>Implement string operators.</li>
 <li>Extend cell namer so it only handles sections of the sheet.</li>
 <li>Extend cell associator so it only handles names matching or not matching a given regex.</li>
-<li>Make cell namer not fail on unbound cells, but offer support for warning users about which cells are unbound.</li>
 <li>Fully document API.</li>
 <li>Check whether it would make sense to replace JDOM with something built into the JRE. Be careful to not break JRE 1.4 compatibility. It seems that using either a SAX or a DOM parser from javax.xml.parsers would be ideal.</li>
 <li>Try moving the precision() dependency into a separate class which can be retrotranslated with warnings turned off.</li>
@@ -53,10 +52,11 @@
 <ul class="spaced">
 <li>Add automatic test for use of engine saved with JRE 1.5 on JRE 1.4.</li>
 <li>Test generation of an engine with 80'000 rows and a few columns which does a lookup into this table.</li>
+<li>Bind input method parameters to other cells (see <a href="dev.htm#DynamicParams">dev journal, June 30</a>).</li>
 </ul>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 28.06.2006.</p>        </div>
+<br/>Last updated on 30.06.2006.</p>        </div>
     </div>
 </body>
 </html>

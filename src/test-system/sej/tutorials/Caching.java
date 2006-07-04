@@ -42,7 +42,7 @@ public class Caching extends TestCase
 
 		// ---- noCache
 		Input input = new Input();
-		PlainOutput output = (PlainOutput) factory.newInstance( input );
+		PlainOutput output = (PlainOutput) factory.newComputation( input );
 
 		input.setSide( /**/"10"/**/);
 		assertEquals( /**/"100"/**/, output.getArea().toPlainString() );
@@ -72,7 +72,7 @@ public class Caching extends TestCase
 
 		// ---- cache
 		Input input = new Input();
-		CachingOutput output = (CachingOutput) factory.newInstance( input );
+		CachingOutput output = (CachingOutput) factory.newComputation( input );
 
 		input.setSide( "10" );
 		assertEquals( "100", output.getArea().toPlainString() );
@@ -156,7 +156,7 @@ public class Caching extends TestCase
 
 	private long time( ComputationFactory _factory, Input _input )
 	{
-		PlainOutput output = (PlainOutput) _factory.newInstance( _input );
+		PlainOutput output = (PlainOutput) _factory.newComputation( _input );
 		// ---- timed
 		long startTime = System.nanoTime(); 
 		output.getArea();

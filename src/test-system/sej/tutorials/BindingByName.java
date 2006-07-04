@@ -83,7 +83,7 @@ public class BindingByName extends TestCase
 
 		ComputationFactory factory = builder.compile().getComputationFactory();
 		Input input = new InputImpl();
-		Output output = (Output) factory.newInstance( input );
+		Output output = (Output) factory.newComputation( input );
 
 		// ---- checkResults
 		assertEquals( 6.0, output.getOutput( "ONETWOTHREE" ), 0.001 );
@@ -253,7 +253,7 @@ public class BindingByName extends TestCase
 		
 		ComputationFactory factory = engine.getComputationFactory();
 		InputVariants input = new InputVariants();
-		SimpleOutput output = (SimpleOutput) factory.newInstance( input );
+		SimpleOutput output = (SimpleOutput) factory.newComputation( input );
 
 		assertEquals( 275165.2687, output.getResult(), 0.001 );
 	}
@@ -326,7 +326,7 @@ public class BindingByName extends TestCase
 
 		ComputationFactory factory = builder.compile().getComputationFactory();
 		Input input = new InputImpl();
-		ComplexOutput output = (ComplexOutput) factory.newInstance( input );
+		ComplexOutput output = (ComplexOutput) factory.newComputation( input );
 
 		// ---- checkComplexResults
 		assertEquals( 5.0, output.getComplex( 1, 2, "THREE" ), 0.001 );

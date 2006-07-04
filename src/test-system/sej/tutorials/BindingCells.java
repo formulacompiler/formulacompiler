@@ -88,7 +88,7 @@ public class BindingCells extends TestCase
 		
 		ComputationFactory factory = builder.compile().getComputationFactory();
 		Input input = new InputImpl();
-		Output output = (Output) factory.newInstance( input );
+		Output output = (Output) factory.newComputation( input );
 		
 		assertEquals( input.getValueForYear( 1994 ) + input.getName().length(), output.getResult(), 0.001 );
 		assertEquals( input.getSomeValue() + input.getAnotherValue(), output.getCoefficient(), 0.00001 );
