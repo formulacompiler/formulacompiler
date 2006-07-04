@@ -162,7 +162,7 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 	private void compileStaticConstant( MethodVisitor _mv, String _value )
 	{
 		final String constName = defineOrReuseStaticConstant( _value );
-		_mv.visitFieldInsn( Opcodes.GETSTATIC, getCompiler().engine.getInternalName(), constName, B );
+		_mv.visitFieldInsn( Opcodes.GETSTATIC, getCompiler().classInternalName(), constName, B );
 	}
 
 

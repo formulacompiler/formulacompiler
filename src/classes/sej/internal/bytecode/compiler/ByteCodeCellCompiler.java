@@ -87,12 +87,12 @@ final class ByteCodeCellCompiler extends ByteCodeSectionMethodCompiler
 
 	private boolean shouldCache( CellModel _cell )
 	{
-		return getSection().getEngineCompiler().canCache() && _cell.isCachingCandidate();
+		return section().engineCompiler().canCache() && _cell.isCachingCandidate();
 	}
 
 
-	private String cachedIndicatorName = "h$" + getMethodName();
-	private String cacheName = "c$" + getMethodName();
+	private String cachedIndicatorName = "h$" + methodName();
+	private String cacheName = "c$" + methodName();
 	private Label skipCachedComputation;
 
 
@@ -103,12 +103,12 @@ final class ByteCodeCellCompiler extends ByteCodeSectionMethodCompiler
 				.visitEnd();
 
 		// private <type> c$<x>
-		cw().visitField( Opcodes.ACC_PRIVATE, this.cacheName, getNumericType().getDescriptor(), null, null ).visitEnd();
+		cw().visitField( Opcodes.ACC_PRIVATE, this.cacheName, numericType().getDescriptor(), null, null ).visitEnd();
 
 		// if (!h$<x>) {
 		this.skipCachedComputation = mv().newLabel();
 		mv().loadThis();
-		mv().getField( getEngineType(), this.cachedIndicatorName, Type.BOOLEAN_TYPE );
+		mv().getField( classType(), this.cachedIndicatorName, Type.BOOLEAN_TYPE );
 		mv().visitJumpInsn( Opcodes.IFNE, this.skipCachedComputation );
 
 		// c$<x> = ...
@@ -118,30 +118,30 @@ final class ByteCodeCellCompiler extends ByteCodeSectionMethodCompiler
 
 	private void compileCacheEnd()
 	{
-		final String cachedIndicatorName = "h$" + getMethodName();
-		final String cacheName = "c$" + getMethodName();
+		final String cachedIndicatorName = "h$" + methodName();
+		final String cacheName = "c$" + methodName();
 
 		// this and computed value is on stack, so
 		// c$<x> = <value>;
-		mv().putField( getEngineType(), cacheName, getNumericType().getType() );
+		mv().putField( classType(), cacheName, numericType().getType() );
 
 		// h$<x> = true;
 		mv().loadThis();
 		mv().push( true );
-		mv().putField( getEngineType(), cachedIndicatorName, Type.BOOLEAN_TYPE );
+		mv().putField( classType(), cachedIndicatorName, Type.BOOLEAN_TYPE );
 
 		// }
 		// return c$<x>;
 		mv().mark( this.skipCachedComputation );
 		mv().loadThis();
-		mv().getField( getEngineType(), cacheName, getNumericType().getType() );
+		mv().getField( classType(), cacheName, numericType().getType() );
 
 		// In reset(), do:
 		// h$<x> = false;
-		GeneratorAdapter r = getSection().getResetter();
+		GeneratorAdapter r = section().resetter();
 		r.loadThis();
 		r.push( false );
-		r.putField( getEngineType(), cachedIndicatorName, Type.BOOLEAN_TYPE );
+		r.putField( classType(), cachedIndicatorName, Type.BOOLEAN_TYPE );
 	}
 
 
@@ -157,7 +157,7 @@ final class ByteCodeCellCompiler extends ByteCodeSectionMethodCompiler
 				compileOutputMethod( cell, method.getName(), method );
 			}
 			else {
-				ByteCodeOutputDistributorCompiler dist = this.getSection().getOutputDistributorFor( method );
+				ByteCodeOutputDistributorCompiler dist = this.section().getOutputDistributorFor( method );
 				final String caseName = dist.compileCase( callFrame );
 				compileOutputMethod( cell, caseName, method );
 			}
@@ -179,19 +179,19 @@ final class ByteCodeCellCompiler extends ByteCodeSectionMethodCompiler
 
 		if (CellModel.UNLIMITED != _cell.getMaxFractionalDigits()) {
 			mv.visitLdcInsn( _cell.getMaxFractionalDigits() );
-			getNumericType().compileRound( mv );
+			numericType().compileRound( mv );
 		}
 
-		getNumericType().compileReturnFromNum( mv, _method );
+		numericType().compileReturnFromNum( mv, _method );
 
 		mv.visitMaxs( 0, 0 );
 		mv.visitEnd();
 	}
 
 
-	private Type getEngineType()
+	private Type classType()
 	{
-		return getSection().engine;
+		return section().classType();
 	}
 
 }

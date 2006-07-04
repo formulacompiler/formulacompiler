@@ -20,15 +20,18 @@
  */
 package sej.internal.spreadsheet.binding;
 
+import java.io.IOException;
+
 import sej.CallFrame;
 import sej.CompilerException;
+import sej.describable.DescriptionBuilder;
 import sej.internal.spreadsheet.CellIndex;
 
 public class InputCellBinding extends CellBinding
 {
 	private final CallFrame callChainToCall;
 
-	
+
 	public InputCellBinding(SectionBinding _space, CallFrame _callChainToCall, CellIndex _index)
 			throws CompilerException
 	{
@@ -40,6 +43,17 @@ public class InputCellBinding extends CellBinding
 	public CallFrame getCallChainToCall()
 	{
 		return this.callChainToCall;
+	}
+
+
+	@Override
+	public void describeTo( DescriptionBuilder _to ) throws IOException
+	{
+		getIndex().describeTo( _to );
+		if (null != getCallChainToCall()) {
+			_to.append( " gets " );
+			getCallChainToCall().describeTo( _to );
+		}
 	}
 
 }

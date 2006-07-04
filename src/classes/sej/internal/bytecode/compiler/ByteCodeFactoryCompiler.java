@@ -27,10 +27,10 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
+import sej.internal.bytecode.runtime.ByteCodeEngine;
+
 final class ByteCodeFactoryCompiler extends ByteCodeClassCompiler
 {
-	private static final Type sejFactoryType = Type.getType( sej.runtime.ComputationFactory.class );
-	private static final Type factoryType = Type.getType( "L" + ByteCodeEngineCompiler.GEN_FACTORY_PATH + ";" );
 	private final Class userFactoryClass;
 	private final Method userFactoryMethod;
 	private final Type userFactoryType;
@@ -39,24 +39,18 @@ final class ByteCodeFactoryCompiler extends ByteCodeClassCompiler
 
 	ByteCodeFactoryCompiler(ByteCodeEngineCompiler _compiler, Class _factoryClass, Method _factoryMethod)
 	{
-		super( _compiler );
+		super( _compiler, ByteCodeEngine.GEN_FACTORY_NAME, true );
 		this.userFactoryClass = _factoryClass;
 		this.userFactoryMethod = _factoryMethod;
 		this.userFactoryType = (_factoryClass != null) ? Type.getType( _factoryClass ) : null;
-		this.userInputType = Type.getType( getEngineCompiler().getModel().getInputClass() );
-	}
-
-
-	@Override
-	String getClassBinaryName()
-	{
-		return this.factoryType.getInternalName();
+		this.userInputType = Type.getType( engineCompiler().getModel().getInputClass() );
 	}
 
 
 	void compile()
 	{
-		final Type parentType = initializeClass( this.userFactoryClass, this.userFactoryType, sejFactoryType );
+		final Type parentType = initializeClass( this.userFactoryClass, this.userFactoryType,
+				ByteCodeEngineCompiler.FACTORY_INTF );
 		buildDefaultConstructor( parentType );
 		buildComputationFactoryMethod();
 		if (this.userFactoryMethod != null) {
@@ -80,12 +74,13 @@ final class ByteCodeFactoryCompiler extends ByteCodeClassCompiler
 
 	private void buildComputationFactoryMethod()
 	{
-		final GeneratorAdapter mv = newMethod( "newComputation", "(Ljava/lang/Object;)" + ByteCodeEngineCompiler.COMPUTATION_INTF.getDescriptor() );
-		mv.newInstance( ByteCodeSectionCompiler.engine );
+		final GeneratorAdapter mv = newMethod( "newComputation", "(Ljava/lang/Object;)"
+				+ ByteCodeEngineCompiler.COMPUTATION_INTF.getDescriptor() );
+		mv.newInstance( ByteCodeEngineCompiler.GEN_ROOT_CLASS );
 		mv.dup();
 		mv.loadArg( 0 );
 		mv.checkCast( this.userInputType );
-		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, ByteCodeSectionCompiler.engine.getInternalName(), "<init>", "("
+		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, ByteCodeEngineCompiler.GEN_ROOT_CLASS.getInternalName(), "<init>", "("
 				+ this.userInputType.getDescriptor() + ")V" );
 		mv.visitInsn( Opcodes.ARETURN );
 		mv.endMethod();
@@ -97,10 +92,10 @@ final class ByteCodeFactoryCompiler extends ByteCodeClassCompiler
 	{
 		final GeneratorAdapter mv = newMethod( this.userFactoryMethod.getName(), Type
 				.getMethodDescriptor( this.userFactoryMethod ) );
-		mv.newInstance( ByteCodeSectionCompiler.engine );
+		mv.newInstance( ByteCodeEngineCompiler.GEN_ROOT_CLASS );
 		mv.dup();
 		mv.loadArg( 0 );
-		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, ByteCodeSectionCompiler.engine.getInternalName(), "<init>", "("
+		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, ByteCodeEngineCompiler.GEN_ROOT_CLASS.getInternalName(), "<init>", "("
 				+ this.userInputType.getDescriptor() + ")V" );
 		mv.visitInsn( Opcodes.ARETURN );
 		mv.endMethod();

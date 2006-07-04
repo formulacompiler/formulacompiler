@@ -20,6 +20,7 @@
  */
 package sej.internal.spreadsheet.binding;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +31,7 @@ import sej.CallFrame;
 import sej.CompilerException;
 import sej.Orientation;
 import sej.Spreadsheet;
+import sej.describable.DescriptionBuilder;
 import sej.internal.Util;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellRange;
@@ -312,6 +314,15 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 				throw new CompilerException.MethodNotImplemented( m );
 			}
 		}
+	}
+
+
+	@Override
+	public void describeTo( DescriptionBuilder _to ) throws IOException
+	{
+		getRange().describeTo( _to );
+		_to.append( " repeats " );
+		getCallChainToCall().describeTo( _to );
 	}
 
 }

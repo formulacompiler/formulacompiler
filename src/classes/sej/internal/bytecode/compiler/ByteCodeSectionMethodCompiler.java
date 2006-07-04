@@ -76,42 +76,37 @@ abstract class ByteCodeSectionMethodCompiler
 
 	private GeneratorAdapter newAdapter( int _access )
 	{
-		final String name = getMethodName();
-		final String signature = "()" + getNumericType().getDescriptor();
+		final String name = methodName();
+		final String signature = "()" + numericType().getDescriptor();
 		final int access = Opcodes.ACC_FINAL | _access;
 		return new GeneratorAdapter( cw().visitMethod( access, name, signature, null, null ), access, name, signature );
 	}
 
 
-	ByteCodeSectionCompiler getSection()
+	ByteCodeSectionCompiler section()
 	{
 		return this.section;
 	}
 
-
-	ByteCodeNumericType getNumericType()
+	ByteCodeNumericType numericType()
 	{
-		return getSection().getNumericType();
+		return section().numericType();
 	}
 
-
-	protected Type getRuntimeType()
+	protected Type runtimeType()
 	{
-		return getNumericType().getRuntimeType();
+		return numericType().getRuntimeType();
 	}
 
-
-	String getMethodName()
+	String methodName()
 	{
 		return this.methodName;
 	}
 
-
 	protected ClassWriter cw()
 	{
-		return getSection().cw();
+		return section().cw();
 	}
-
 
 	protected GeneratorAdapter mv()
 	{
@@ -135,7 +130,7 @@ abstract class ByteCodeSectionMethodCompiler
 
 	protected void endCompilation()
 	{
-		mv().visitInsn( getNumericType().getReturnOpcode() );
+		mv().visitInsn( numericType().getReturnOpcode() );
 		mv().endMethod();
 		mv().visitEnd();
 	}
@@ -152,8 +147,8 @@ abstract class ByteCodeSectionMethodCompiler
 	protected void compileRef( MethodVisitor _mv, String _getterName )
 	{
 		_mv.visitVarInsn( Opcodes.ALOAD, 0 );
-		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, getSection().engine.getInternalName(), _getterName, "()"
-				+ getNumericType().getDescriptor() );
+		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, section().classInternalName(), _getterName, "()"
+				+ numericType().getDescriptor() );
 	}
 
 
@@ -244,7 +239,7 @@ abstract class ByteCodeSectionMethodCompiler
 
 	protected void compileConst( Object _constantValue ) throws CompilerException
 	{
-		getNumericType().compileConst( mv(), _constantValue );
+		numericType().compileConst( mv(), _constantValue );
 	}
 
 
@@ -255,10 +250,10 @@ abstract class ByteCodeSectionMethodCompiler
 
 		if (!isStatic) {
 			mv().loadThis();
-			mv().getField( getSection().engine, ByteCodeEngineCompiler.INPUTS_MEMBER_NAME, getSection().inputs );
+			mv().getField( section().classType(), ByteCodeEngineCompiler.INPUTS_MEMBER_NAME, section().inputType() );
 		}
 
-		Class contextClass = getSection().getInputClass();
+		Class contextClass = section().inputClass();
 		for (CallFrame frame : frames) {
 			final Method method = frame.getMethod();
 			final Object[] args = frame.getArgs();
@@ -280,7 +275,7 @@ abstract class ByteCodeSectionMethodCompiler
 			contextClass = method.getReturnType();
 		}
 
-		getNumericType().compileToNum( mv(), _callChainToCall.getMethod() );
+		numericType().compileToNum( mv(), _callChainToCall.getMethod() );
 	}
 
 
@@ -388,7 +383,7 @@ abstract class ByteCodeSectionMethodCompiler
 
 	private void compileOperator( Operator _operator, int _numberOfArguments ) throws CompilerException
 	{
-		getNumericType().compile( mv(), _operator, _numberOfArguments );
+		numericType().compile( mv(), _operator, _numberOfArguments );
 	}
 
 
@@ -415,9 +410,9 @@ abstract class ByteCodeSectionMethodCompiler
 		final StringBuilder argTypeBuilder = new StringBuilder();
 		for (ExpressionNode arg : _node.getArguments()) {
 			compileExpr( arg );
-			argTypeBuilder.append( getNumericType().getDescriptor() );
+			argTypeBuilder.append( numericType().getDescriptor() );
 		}
-		getNumericType().compileStdFunction( mv(), _node.getFunction(), argTypeBuilder.toString() );
+		numericType().compileStdFunction( mv(), _node.getFunction(), argTypeBuilder.toString() );
 	}
 
 
@@ -524,7 +519,7 @@ abstract class ByteCodeSectionMethodCompiler
 
 		protected void compileComparison( int _ifOpcode, int _comparisonOpcode )
 		{
-			getNumericType().compileComparison( mv(), _comparisonOpcode );
+			numericType().compileComparison( mv(), _comparisonOpcode );
 			mv().visitJumpInsn( _ifOpcode, this.branchTo );
 		}
 
@@ -542,7 +537,7 @@ abstract class ByteCodeSectionMethodCompiler
 		void compileValue() throws CompilerException
 		{
 			compileExpr( this.node );
-			getNumericType().compileZero( mv() );
+			numericType().compileZero( mv() );
 			compileComparison( Operator.NOTEQUAL );
 		}
 
@@ -713,7 +708,7 @@ abstract class ByteCodeSectionMethodCompiler
 		switch (aggregator) {
 
 			case AVERAGE:
-				compileHelpedExpr( new ByteCodeHelperCompilerForAverage( getSection(), _node ) );
+				compileHelpedExpr( new ByteCodeHelperCompilerForAverage( section(), _node ) );
 				break;
 
 			default:
@@ -758,14 +753,13 @@ abstract class ByteCodeSectionMethodCompiler
 
 	private void compileIteration( Operator _reductor, ExpressionNodeForSubSectionModel _node ) throws CompilerException
 	{
-		// TODO compileIteration
-		unsupported( _node );
+		compileHelpedExpr( new ByteCodeHelperCompilerForIteration( section(), _reductor, _node ) );
 	}
 
 
 	private void compileRef( CellModel _cell )
 	{
-		compileRef( mv(), getSection().getCellComputation( _cell ) );
+		compileRef( mv(), section().cellComputation( _cell ) );
 	}
 
 
@@ -786,7 +780,7 @@ abstract class ByteCodeSectionMethodCompiler
 	private void compileHelpedExpr( ByteCodeHelperCompiler _compiler ) throws CompilerException
 	{
 		_compiler.compile();
-		compileRef( mv(), _compiler.getMethodName() );
+		compileRef( mv(), _compiler.methodName() );
 	}
 
 
@@ -794,7 +788,7 @@ abstract class ByteCodeSectionMethodCompiler
 	{
 		mv().dup2();
 		mv().push( _message );
-		mv().visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), "logDouble",
+		mv().visitMethodInsn( Opcodes.INVOKESTATIC, runtimeType().getInternalName(), "logDouble",
 				"(DLjava/lang/String;)V" );
 	}
 

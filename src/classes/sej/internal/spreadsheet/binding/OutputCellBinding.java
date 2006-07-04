@@ -20,8 +20,11 @@
  */
 package sej.internal.spreadsheet.binding;
 
+import java.io.IOException;
+
 import sej.CallFrame;
 import sej.CompilerException;
+import sej.describable.DescriptionBuilder;
 import sej.internal.spreadsheet.CellIndex;
 
 public class OutputCellBinding extends CellBinding
@@ -38,6 +41,14 @@ public class OutputCellBinding extends CellBinding
 	public CallFrame getCallToImplement()
 	{
 		return this.callToImplement;
+	}
+
+	@Override
+	public void describeTo( DescriptionBuilder _to ) throws IOException
+	{
+		getIndex().describeTo( _to );
+		_to.append( " implements " );
+		getCallToImplement().describeTo( _to );
 	}
 
 }

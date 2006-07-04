@@ -30,34 +30,54 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 abstract class ByteCodeClassCompiler
 {
-	private final ClassWriter cw = new ClassWriter( true );
 	private final ByteCodeEngineCompiler engineCompiler;
+	private final boolean classPublic;
+	private final String className;
+	private final String classInternalName;
+	private final String classDescriptor;
+	private final Type classType;
+	private final ClassWriter cw = new ClassWriter( true );
 
 
-	public ByteCodeClassCompiler(ByteCodeEngineCompiler _compiler)
+	public ByteCodeClassCompiler(ByteCodeEngineCompiler _compiler, String _className, boolean _public)
 	{
 		super();
 		this.engineCompiler = _compiler;
+		this.classPublic = _public;
+		this.className = _className;
+		this.classInternalName = ByteCodeEngineCompiler.GEN_PACKAGE_PATH + this.className;
+		this.classDescriptor = "L" + this.classInternalName + ";";
+		this.classType = Type.getType( this.classDescriptor );
 	}
 
-
-	protected ByteCodeEngineCompiler getEngineCompiler()
+	final ByteCodeEngineCompiler engineCompiler()
 	{
 		return this.engineCompiler;
 	}
 
-	ClassWriter cw()
+	final String classInternalName()
 	{
-		return this.cw;
+		return this.classInternalName;
 	}
 
-	abstract String getClassBinaryName();
-
-	protected String getPackageOf( String _internalName )
+	final String classDescriptor()
 	{
-		int p = _internalName.lastIndexOf( '/' );
-		if (0 <= p) return _internalName.substring( 0, p + 1 );
-		else return "";
+		return this.classDescriptor;
+	}
+
+	final String className()
+	{
+		return this.className;
+	}
+
+	final Type classType()
+	{
+		return this.classType;
+	}
+
+	final ClassWriter cw()
+	{
+		return this.cw;
 	}
 
 
@@ -77,8 +97,8 @@ abstract class ByteCodeClassCompiler
 			parentType = _parentTypeOrInterface;
 			interfaces = new String[] { _otherInterface.getInternalName() };
 		}
-		cw().visit( Opcodes.V1_4, Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL, getClassBinaryName(), null,
-				parentType.getInternalName(), interfaces );
+		final int access = Opcodes.ACC_FINAL | (this.classPublic ? Opcodes.ACC_PUBLIC : 0);
+		cw().visit( Opcodes.V1_4, access, classInternalName(), null, parentType.getInternalName(), interfaces );
 		cw().visitSource( null, null );
 
 		return parentType;
@@ -118,7 +138,7 @@ abstract class ByteCodeClassCompiler
 	}
 
 
-	byte[] getClassBytes()
+	final byte[] getClassBytes()
 	{
 		return cw().toByteArray();
 	}
@@ -126,7 +146,15 @@ abstract class ByteCodeClassCompiler
 
 	void collectClassNamesAndBytes( HashMap<String, byte[]> _result )
 	{
-		_result.put( getClassBinaryName().replace( '/', '.' ), getClassBytes() );
+		_result.put( classInternalName().replace( '/', '.' ), getClassBytes() );
+	}
+
+
+	final static String getPackageOf( String _internalName )
+	{
+		int p = _internalName.lastIndexOf( '/' );
+		if (0 <= p) return _internalName.substring( 0, p + 1 );
+		else return "";
 	}
 
 }

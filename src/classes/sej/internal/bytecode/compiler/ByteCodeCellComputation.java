@@ -37,7 +37,7 @@ final class ByteCodeCellComputation
 		super();
 		this.section = _section;
 		this.cell = _cell;
-		this.methodName = _section.getNewGetterName();
+		this.methodName = _section.newGetterName();
 		_section.addCellComputation( _cell, this );
 	}
 
@@ -67,7 +67,7 @@ final class ByteCodeCellComputation
 	private void validateInputType() throws CompilerException
 	{
 		if (this.cell.isInput()) {
-			getSection().getNumericType().getNumericType().validateReturnTypeForCell( this.cell.getCallChainToCall().getMethod() );
+			getSection().numericType().getNumericType().validateReturnTypeForCell( this.cell.getCallChainToCall().getMethod() );
 		}
 	}
 
@@ -77,7 +77,7 @@ final class ByteCodeCellComputation
 			if (frame.getHead() != frame) {
 				throw new CompilerException.UnsupportedDataType( "The output method " + frame + " cannot be chained." );
 			}
-			getSection().getNumericType().getNumericType().validateReturnTypeForCell( frame.getMethod() );
+			getSection().numericType().getNumericType().validateReturnTypeForCell( frame.getMethod() );
 		}
 	}
 

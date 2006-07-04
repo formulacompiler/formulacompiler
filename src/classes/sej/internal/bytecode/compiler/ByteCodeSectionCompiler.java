@@ -38,64 +38,54 @@ import sej.internal.model.SectionModel;
 
 final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 {
-	static Type engine = Type.getType( "L" + ByteCodeEngineCompiler.GEN_ROOT_PATH + ";" );
-
 	private final ByteCodeSectionCompiler parentSectionCompiler;
 	private final Map<SectionModel, ByteCodeSectionCompiler> subSectionCompilers = new HashMap<SectionModel, ByteCodeSectionCompiler>();
 	private final Map<CellModel, ByteCodeCellComputation> cellComputations = new HashMap<CellModel, ByteCodeCellComputation>();
 	private final Map<Method, ByteCodeOutputDistributorCompiler> outputDistributors = new HashMap<Method, ByteCodeOutputDistributorCompiler>();
 	private final SectionModel model;
 	private final ByteCodeNumericType numericType;
+	private final Type inputs;
+	private final Type outputs;
 
-	private int getterId;
-
-	boolean hasInputs;
-	Type inputs;
-	Type outputs;
-
-
+	
 	ByteCodeSectionCompiler(ByteCodeEngineCompiler _compiler, SectionModel _model)
 	{
-		super( _compiler );
-		this.parentSectionCompiler = null;
+		super( _compiler, ByteCodeEngineCompiler.GEN_ROOT_NAME, false );
 		this.model = _model;
 		this.numericType = ByteCodeNumericType.typeFor( _compiler.getNumericType(), this );
-		initialize();
+		this.inputs = typeFor( inputClass() );
+		this.outputs = typeFor( outputClass() );
+		this.parentSectionCompiler = null;
 	}
 
 	ByteCodeSectionCompiler(ByteCodeSectionCompiler _parent, SectionModel _model)
 	{
-		super( _parent.getEngineCompiler() );
-		this.parentSectionCompiler = _parent;
+		super( _parent.engineCompiler(), _parent.engineCompiler().newSubClassName(), false );
 		this.model = _model;
-		this.numericType = _parent.getNumericType();
+		this.numericType = _parent.numericType();
+		this.inputs = typeFor( inputClass() );
+		this.outputs = typeFor( outputClass() );
+		this.parentSectionCompiler = _parent;
 		_parent.subSectionCompilers.put( _model, this );
-		initialize();
 	}
 
-	private void initialize()
+	private Type typeFor( Class _inputClass )
 	{
-		this.inputs = (null == getInputClass()) ? Type.getType( Object.class ) : Type.getType( getInputClass() );
-		this.outputs = Type.getType( getOutputClass() );
+		return (null == _inputClass) ? Type.getType( Object.class ) : Type.getType( _inputClass );
 	}
 
 
-	ByteCodeNumericType getNumericType()
-	{
-		return this.numericType;
-	}
-
-	ByteCodeSectionCompiler getParentSectionCompiler()
+	ByteCodeSectionCompiler parentSectionCompiler()
 	{
 		return this.parentSectionCompiler;
 	}
 
-	ByteCodeSectionCompiler getSubSectionCompiler( SectionModel _section )
+	ByteCodeSectionCompiler subSectionCompiler( SectionModel _section )
 	{
 		return this.subSectionCompilers.get( _section );
 	}
 
-	ByteCodeCellComputation getCellComputation( CellModel _cell )
+	ByteCodeCellComputation cellComputation( CellModel _cell )
 	{
 		return this.cellComputations.get( _cell );
 	}
@@ -105,48 +95,59 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		this.cellComputations.put( _cell, _compiler );
 	}
 
-	SectionModel getModel()
+	SectionModel model()
 	{
 		return this.model;
 	}
 
-	Class getInputClass()
+	ByteCodeNumericType numericType()
 	{
-		return getModel().getInputClass();
+		return this.numericType;
+	}
+
+	Class inputClass()
+	{
+		return model().getInputClass();
 	}
 
 	boolean hasInputs()
 	{
-		return (null != getInputClass());
+		return (null != inputClass());
 	}
 
-	Class getOutputClass()
+	Class outputClass()
 	{
-		return getModel().getOutputClass();
+		return model().getOutputClass();
+	}
+	
+	Type inputType()
+	{
+		return this.inputs;
 	}
 
-	String getNewGetterName()
+	Type outputType()
+	{
+		return this.outputs;
+	}
+
+	
+	private int getterId;
+
+	String newGetterName()
 	{
 		return "get$" + (this.getterId++);
 	}
 
 
-	@Override
-	String getClassBinaryName()
-	{
-		return this.engine.getInternalName();
-	}
-
-
 	void beginCompilation() throws CompilerException
 	{
-		initializeClass( getOutputClass(), this.outputs, ByteCodeEngineCompiler.ENGINE_INTF );
-		if (getNumericType().buildStaticMembers( cw() )) {
+		initializeClass( outputClass(), this.outputs, ByteCodeEngineCompiler.ENGINE_INTF );
+		if (numericType().buildStaticMembers( cw() )) {
 			buildStaticInitializer();
 		}
 		if (hasInputs()) buildInputMember();
 		buildConstructorWithInputs();
-		if (getEngineCompiler().canCache()) {
+		if (engineCompiler().canCache()) {
 			buildReset();
 		}
 	}
@@ -169,14 +170,14 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	protected void buildStaticInitializer()
 	{
 		super.buildStaticInitializer();
-		getNumericType().compileStaticInitialization( initializer(), this.engine );
+		numericType().compileStaticInitialization( initializer(), this.classType() );
 	}
 
 	@Override
 	protected void finalizeStaticInitializer()
 	{
 		if (initializer() != null) {
-			getNumericType().finalizeStaticInitialization( initializer(), this.engine );
+			numericType().finalizeStaticInitialization( initializer(), this.classType() );
 		}
 		super.finalizeStaticInitializer();
 	}
@@ -203,7 +204,7 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		}
 	}
 
-	GeneratorAdapter getResetter()
+	GeneratorAdapter resetter()
 	{
 		assert null != this.resetter : "Resetter is null";
 		return this.resetter;
@@ -241,7 +242,7 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	private void storeInputs( MethodVisitor _mv )
 	{
 		if (!hasInputs()) throw new IllegalStateException();
-		_mv.visitFieldInsn( Opcodes.PUTFIELD, this.engine.getInternalName(), ByteCodeEngineCompiler.INPUTS_MEMBER_NAME,
+		_mv.visitFieldInsn( Opcodes.PUTFIELD, this.classInternalName(), ByteCodeEngineCompiler.INPUTS_MEMBER_NAME,
 				this.inputs.getDescriptor() );
 	}
 
@@ -266,7 +267,7 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 
 		Label end = new Label();
 		mv.visitLabel( end );
-		mv.visitLocalVariable( "this", this.engine.getDescriptor(), null, start, end, 0 );
+		mv.visitLocalVariable( "this", this.classDescriptor(), null, start, end, 0 );
 		mv.visitLocalVariable( "_inputs", this.inputs.getDescriptor(), null, start, end, 1 );
 		mv.visitMaxs( 2, 2 );
 		mv.visitEnd();
@@ -275,12 +276,12 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	private void callInheritedConstructor( MethodVisitor _mv, int _inputsVar ) throws CompilerException
 	{
 		try {
-			if (getOutputClass().isInterface()) {
+			if (outputClass().isInterface()) {
 				_mv.visitVarInsn( Opcodes.ALOAD, 0 );
 				_mv.visitMethodInsn( Opcodes.INVOKESPECIAL, "java/lang/Object", "<init>", "()V" );
 			}
 			else if (!callConstructorWithInputs( _mv, _inputsVar )) {
-				getOutputClass().getConstructor(); // ensure it is here and accessible
+				outputClass().getConstructor(); // ensure it is here and accessible
 				_mv.visitVarInsn( Opcodes.ALOAD, 0 );
 				_mv.visitMethodInsn( Opcodes.INVOKESPECIAL, this.outputs.getInternalName(), "<init>", "()V" );
 			}
@@ -294,7 +295,7 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	private boolean callConstructorWithInputs( MethodVisitor _mv, int _inputsVar )
 	{
 		try {
-			getOutputClass().getConstructor( getInputClass() ); // ensure it is here and accessible
+			outputClass().getConstructor( inputClass() ); // ensure it is here and accessible
 		}
 		catch (NoSuchMethodException e) {
 			return false;
@@ -321,6 +322,5 @@ final class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 			sub.collectClassNamesAndBytes( _result );
 		}
 	}
-
 
 }

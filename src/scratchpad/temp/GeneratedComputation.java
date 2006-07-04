@@ -1,13 +1,14 @@
 package temp;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.util.Iterator;
 
 import sej.runtime.Computation;
 
 public final class GeneratedComputation implements Computation, MyComputation
 {
 	private final MyInputs inputs;
+	private GeneratedDetails[] details;
+	private boolean detailsInitialized;
 
 	public GeneratedComputation(MyInputs _inputs)
 	{
@@ -16,64 +17,40 @@ public final class GeneratedComputation implements Computation, MyComputation
 
 	public double getResult()
 	{
-		return this.inputs.getOne() + this.inputs.getTwo();
-	}
-
-	public double inbyte()
-	{
-		return this.inputs.getbyte();
-	}
-
-	public double inByte()
-	{
-		return this.inputs.getByte();
-	}
-
-	public byte getByte()
-	{
-		return (byte) getResult();
-	}
-
-	public short getShort()
-	{
-		return (short) getResult();
-	}
-
-	public int getInt()
-	{
-		return (int) getResult();
-	}
-
-	public long getLong()
-	{
-		return (long) getResult();
-	}
-
-	public Integer getInteger()
-	{
-		return (int) getResult();
-	}
-
-	public BigInteger getBigInteger()
-	{
-		return BigInteger.valueOf( (long) getResult() );
+		return sumArray() + sumIterable() + sumIterator();
 	}
 
 
-	public BigDecimal getBD()
+	private double sumArray()
 	{
-		return BigDecimal.valueOf( 1 );
+		double result = 0.0;
+		final MyDetails[] arr = this.inputs.getArray();
+		final int len = arr.length;
+		for (int i = 0; i < len; i++) {
+			final MyDetails d = arr[i];
+			result += d.getValue();
+		}
+		return result;
 	}
 
-	public Float getFloat()
+	private double sumIterable()
 	{
-		return Float.valueOf( getBD().floatValue() );
+		double result = 0.0;
+		for (MyDetails d : this.inputs.getIterable()) {
+			result += d.getValue();
+		}
+		return result;
 	}
 
-	public BigDecimal useBD()
+	private double sumIterator()
 	{
-		final BigDecimal bd = getBD();
-		return bd == null ? BigDecimal.ZERO : bd;
+		double result = 0.0;
+		final Iterator<MyDetails> it = this.inputs.getIterator();
+		while (it.hasNext()) {
+			final MyDetails d = it.next();
+			result += d.getValue();
+		}
+		return result;
 	}
 
 }

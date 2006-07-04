@@ -241,7 +241,7 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 
 	private void compileRuntimeMethodWithContext( MethodVisitor _mv, String _methodName, String _methodSig )
 	{
-		_mv.visitFieldInsn( Opcodes.GETSTATIC, getCompiler().engine.getInternalName(), RUNTIME_CONTEXT_NAME,
+		_mv.visitFieldInsn( Opcodes.GETSTATIC, getCompiler().classInternalName(), RUNTIME_CONTEXT_NAME,
 				RUNTIME_CONTEXT_TYPE.getDescriptor() );
 		compileRuntimeMethod( _mv, _methodName, _methodSig );
 	}

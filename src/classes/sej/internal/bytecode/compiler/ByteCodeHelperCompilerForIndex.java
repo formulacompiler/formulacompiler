@@ -82,7 +82,7 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 	private void compileOneDimensionalIndexFunction( ExpressionNodeForRangeValue _rangeNode, ExpressionNode _node )
 	{
 		final List<ExpressionNode> vals = _rangeNode.getArguments();
-		final String arrayFieldName = getMethodName() + "_Consts";
+		final String arrayFieldName = methodName() + "_Consts";
 
 		compileStaticArrayField( vals, arrayFieldName );
 
@@ -123,7 +123,7 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 		}
 
 		// ... xy *=* new double[] { ... }
-		ci.visitFieldInsn( Opcodes.PUTSTATIC, getSection().engine.getInternalName(), _name, "[D" );
+		ci.visitFieldInsn( Opcodes.PUTSTATIC, section().classInternalName(), _name, "[D" );
 	}
 
 

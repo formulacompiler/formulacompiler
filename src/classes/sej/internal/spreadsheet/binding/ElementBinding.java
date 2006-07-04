@@ -21,9 +21,10 @@
 package sej.internal.spreadsheet.binding;
 
 import sej.CompilerException;
+import sej.describable.AbstractDescribable;
 import sej.internal.spreadsheet.Reference;
 
-public class ElementBinding
+public abstract class ElementBinding extends AbstractDescribable
 {
 	private final SectionBinding section;
 
