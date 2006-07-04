@@ -154,7 +154,7 @@ public class SectionModelCompiler
 	SectionModelCompiler createSectionCompiler( SectionBinding _sectionDef )
 	{
 		SectionModel model = new SectionModel( getSectionModel(), _sectionDef.getCallChainToCall().toString(),
-				this.sectionDef.getInputClass(), this.sectionDef.getOutputClass() );
+				_sectionDef.getInputClass(), _sectionDef.getOutputClass() );
 		model.makeInput( _sectionDef.getCallChainToCall() );
 		if (_sectionDef.getCallToImplement() != null) {
 			model.makeOutput( _sectionDef.getCallToImplement() );

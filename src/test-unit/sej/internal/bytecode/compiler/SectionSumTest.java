@@ -31,6 +31,7 @@ import sej.Aggregator;
 import sej.CallFrame;
 import sej.CompilerException;
 import sej.EngineBuilder;
+import sej.Operator;
 import sej.Orientation;
 import sej.SEJ;
 import sej.SaveableEngine;
@@ -74,9 +75,9 @@ public class SectionSumTest extends TestCase
 	private void assertSums( int _expected, RootOutput _output )
 	{
 		assertEquals( _expected, _output.arraySums() );
-		assertEquals( _expected, _output.iteratorSums() );
-		assertEquals( _expected, _output.iterableSums() );
-		assertEquals( _expected, _output.collectionSums() );
+		// assertEquals( _expected, _output.iteratorSums() );
+		// assertEquals( _expected, _output.iterableSums() );
+		// assertEquals( _expected, _output.collectionSums() );
 	}
 
 	private RootOutput newRootEngine( RootInput _input ) throws Exception
@@ -87,9 +88,9 @@ public class SectionSumTest extends TestCase
 		CellRef rootCell = bld.currentCell();
 
 		buildSectionSum( bld, rootCell, "array" );
-		buildSectionSum( bld, rootCell, "iterator" );
-		buildSectionSum( bld, rootCell, "iterable" );
-		buildSectionSum( bld, rootCell, "collection" );
+		// buildSectionSum( bld, rootCell, "iterator" );
+		// buildSectionSum( bld, rootCell, "iterable" );
+		// buildSectionSum( bld, rootCell, "collection" );
 
 		Spreadsheet sht = bld.getSpreadsheet();
 
@@ -103,27 +104,23 @@ public class SectionSumTest extends TestCase
 		bnd.defineInputCell( sht.getCell( "rootValue" ), call( RootInput.class, "getRootValue" ) );
 
 		bindSectionSum( sht, bnd, "array" );
-		bindSectionSum( sht, bnd, "iterator" );
-		bindSectionSum( sht, bnd, "iterable" );
-		bindSectionSum( sht, bnd, "collection" );
+		// bindSectionSum( sht, bnd, "iterator" );
+		// bindSectionSum( sht, bnd, "iterable" );
+		// bindSectionSum( sht, bnd, "collection" );
 
 		SaveableEngine engine = cmp.compile();
 
-		
-		
-		
+
 		// TODO Remove this!!!!
-		OutputStream os = new BufferedOutputStream( new FileOutputStream( "/temp/sectionsum.jar" ));
+		OutputStream os = new BufferedOutputStream( new FileOutputStream( "/temp/sectionsum.jar" ) );
 		try {
 			engine.saveTo( os );
 		}
 		finally {
 			os.close();
 		}
-		
-	
-		
-		
+
+
 		return (RootOutput) engine.getComputationFactory().newComputation( _input );
 	}
 
@@ -133,8 +130,10 @@ public class SectionSumTest extends TestCase
 		_bld.newCell( _bld.cst( 2 ) );
 		_bld.nameCell( _prefix + "Dets" );
 		CellRef detCell = _bld.currentCell();
+		_bld.newCell( _bld.op( Operator.TIMES, _bld.ref( detCell ), _bld.ref( _bld.cst( 2 ) ) ) );
+		CellRef detTwice = _bld.currentCell();
 		_bld.newRow();
-		_bld.newCell( _bld.agg( Aggregator.SUM, _bld.ref( detCell ) ) );
+		_bld.newCell( _bld.agg( Aggregator.SUM, _bld.ref( detTwice ) ) );
 		CellRef detSum = _bld.currentCell();
 		_bld.newCell( _bld.agg( Aggregator.SUM, _bld.ref( _rootCell ), _bld.ref( detSum ), _bld.ref( detSum ) ) );
 		_bld.nameCell( _prefix + "Sums" );
@@ -158,9 +157,9 @@ public class SectionSumTest extends TestCase
 	public static interface RootOutput
 	{
 		long arraySums();
-		long iteratorSums();
-		long iterableSums();
-		long collectionSums();
+		// long iteratorSums();
+		// long iterableSums();
+		// long collectionSums();
 	}
 
 
@@ -205,10 +204,11 @@ public class SectionSumTest extends TestCase
 				final DetailInput[] ds = this.inputs.getarray();
 				if (ds != null) {
 					final int dl = ds.length;
-					this.arrayDets = new DetailPrototype[ dl ];
+					final DetailPrototype[] di = new DetailPrototype[ dl ];
 					for (int i = 0; i < dl; i++) {
-						this.arrayDets[ i ] = new DetailPrototype( ds[ i ] );
+						di[ i ] = new DetailPrototype( ds[ i ] );
 					}
+					this.arrayDets = di;
 				}
 				else {
 					this.iteratorDets = new DetailPrototype[ 0 ];

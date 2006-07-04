@@ -34,7 +34,7 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.CellModel;
 
 
-final class ByteCodeCellCompiler extends ByteCodeSectionMethodCompiler
+final class ByteCodeCellCompiler extends ByteCodeSectionNumericMethodCompiler
 {
 	private final ByteCodeCellComputation cellComputation;
 
@@ -58,11 +58,11 @@ final class ByteCodeCellCompiler extends ByteCodeSectionMethodCompiler
 		if (cell.isInput()) {
 			if (shouldCache( cell )) {
 				compileCacheBegin();
-				compileInput( cell.getCallChainToCall() );
+				compileNumericInput( cell.getCallChainToCall() );
 				compileCacheEnd();
 			}
 			else {
-				compileInput( cell.getCallChainToCall() );
+				compileNumericInput( cell.getCallChainToCall() );
 			}
 		}
 		else {

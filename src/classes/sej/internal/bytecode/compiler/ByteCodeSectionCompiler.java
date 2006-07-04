@@ -146,9 +146,10 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		}
 	}
 
-	void compileAccessTo( ByteCodeSubSectionCompiler _sub )
+	void compileAccessTo( ByteCodeSubSectionCompiler _sub ) throws CompilerException
 	{
 		newField( Opcodes.ACC_PRIVATE, _sub.getterName(), _sub.arrayDescriptor() );
+		new ByteCodeSubSectionGetterCompiler( this, _sub ).compile();
 	}
 
 	public void compileCallToGetterFor( GeneratorAdapter _mv, ByteCodeSubSectionCompiler _sub )
@@ -263,7 +264,7 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	private void callInheritedConstructor( GeneratorAdapter _mv, int _inputsVar ) throws CompilerException
 	{
 		try {
-			if (outputClass().isInterface()) {
+			if (outputClass() == null || outputClass().isInterface()) {
 				_mv.loadThis();
 				_mv.visitMethodInsn( Opcodes.INVOKESPECIAL, "java/lang/Object", "<init>", "()V" );
 			}
