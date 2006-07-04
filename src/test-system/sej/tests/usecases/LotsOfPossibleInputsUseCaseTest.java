@@ -82,7 +82,7 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 		public void useEngine( Engine _engine )
 		{
 			final Inputs inputs = new Inputs( 13, 14 );
-			final Outputs outputs = (Outputs) _engine.getComputationFactory().newInstance( inputs );
+			final Outputs outputs = (Outputs) _engine.getComputationFactory().newComputation( inputs );
 
 			assertEquals( true, outputs.isOK() );
 			assertEquals( 127, outputs.getA(), 0.0001 );

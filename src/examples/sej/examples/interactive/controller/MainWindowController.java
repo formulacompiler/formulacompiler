@@ -97,7 +97,7 @@ public class MainWindowController
 		}
 
 		ComputationFactory factory = builder.compile().getComputationFactory();
-		Outputs o = (Outputs) factory.newInstance( new Inputs( this.inputsModel ) );
+		Outputs o = (Outputs) factory.newComputation( new Inputs( this.inputsModel ) );
 
 		iCell = 0;
 		for (CellListEntry e : getOutputsModel().getCells()) {

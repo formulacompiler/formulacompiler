@@ -70,7 +70,7 @@ public class UsingScaledLong extends TestCase
 		ComputationFactory factory = engine.getComputationFactory();
 
 		// ---- checkResult4
-		Output4 output = (Output4) factory.newInstance( new Input4( 6 ) );
+		Output4 output = (Output4) factory.newComputation( new Input4( 6 ) );
 		assertEquals( /**/11666L/**/, output.getResult() );
 		// ---- checkResult4
 	}
@@ -92,7 +92,7 @@ public class UsingScaledLong extends TestCase
 		ComputationFactory factory = engine.getComputationFactory();
 
 		// ---- checkResult0
-		Output0 output = (Output0) factory.newInstance( new Input0( 6 ) );
+		Output0 output = (Output0) factory.newComputation( new Input0( 6 ) );
 		assertEquals( /**/1L/**/, output.getResult() );
 		// ---- checkResult0
 

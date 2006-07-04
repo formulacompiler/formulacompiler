@@ -296,7 +296,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		private void runUsing( Engine _engine, Inputs _inputs ) throws Exception
 		{
 			try {
-				final Outputs computation = (Outputs) _engine.getComputationFactory().newInstance( _inputs );
+				final Outputs computation = (Outputs) _engine.getComputationFactory().newComputation( _inputs );
 
 				if (this.expected instanceof Double) {
 					assertNumber( (Double) this.expected, computation );

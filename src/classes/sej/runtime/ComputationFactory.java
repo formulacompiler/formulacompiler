@@ -38,6 +38,6 @@ public interface ComputationFactory
 	 *           computation.
 	 * @return a new computation instance, which is not thread-safe.
 	 */
-	public Computation newInstance( Object _inputs );
+	public Computation newComputation( Object _inputs );
 
 }

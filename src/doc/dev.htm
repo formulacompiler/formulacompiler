@@ -30,6 +30,39 @@
 <p>This is an unstructured journal regarding the development of SEJ. I use it to keep track of ideas, goals and discussion notes.</p>
 <p>Check the <a href="roadmap.htm">roadmap</a> for the current priorities, and the <a href="releasenotes.htm">release notes</a> for what's already been done.</p>
 
+<h2>June 30, 2006</h2>
+
+<h3>Authoring Sheets</h3>
+<p>I have been thinking some more about the people who will have to author custom computations as spreadsheets. While SEJ must be able to work with almost any sheet, we should still strive to provide a more pleasurable experience to sheet authors than just basic Excel. Here are my current ideas:</p>
+<ul class="spaced">
+<li>Write an Excel add-in that makes managing names easier. Might be a task-pane that lists all names and translates mangled parametrized calls to proper syntax. (For example: <tt>valueFor.1994</tt> becomes <tt>valueFor( 1994 )</tt>.)</li>
+<li>Write an Excel add-in that reads an i/o definition generated from the respective Java interfaces for the sheet. Then allow the user to paste the proper names onto cells. Could also support validation of existing names (much like the binder later does, too).</li>
+<li>Use color to distinguish input and output cells in the automatic, reflective binder.</li>
+<li>Write a tool that generates end-user documentation for the defined i/o names given the respective Java interfaces.</li>
+<li>Write a tool that can embed sample Excel sheets in HTML documentation (and maybe FO), complete with name annotations and formula display. This would also come in handy in the documentation of SEJ itself. In fact, what I need to document for my sample use-cases is exactly of the same sort as what applications will have to document for the specific computations they make customizable.</li>
+</ul>
+<p><a href="mailto:peo@arrenbrecht.ch">Feedback welcome!</a></p>
+
+<h3><a name="DynamicParams">Dynamic Parameters</a></h3>
+<p>I have started the use-case tests and tutorial on basic repeating sections. The first example is computing a customer rating given the totals of the orders for the last 3 months. With the current version of SEJ, the best we can do is something like:</p>
+<pre>public OrderData[] ordersForLastNDays( int _days );</pre>
+
+<p>However, it would be more natural to have something like:</p>
+<pre>public OrderData[] ordersByDate( Date _from, Date _to );</pre>
+
+<p>This is not something we can bind to with SEJ today. And even if we could, we would have to bind the date arguments <em>statically</em>. But they need to be dynamic, computed relative to the current date. This could be done in Excel. So we would need a way to bind an input call so that its parameters are bound to other cells. For example:</p>
+<pre>   A               B
+1  Today           =Date()
+2  StartDate       =... (formula that computes the start of the 3 month period)
+3  EndDate         =... (formula that computes the end of the 3 month period)
+4
+5  Order Date      Order Total
+6  1.1.2000        1000.00
+7  1.2.2000        1300.00</pre>
+
+<p>We would want to bind the range <tt>A6:B7</tt> as a repeating section to <tt>ordersByDate( StartDate, EndDate )</tt>. For example, by naming it, in Excel, <tt>ordersByDate.__StartDate.__EndDate</tt>.</p>
+<p>This is quite feasible. But something for a future version of SEJ. And I am not sure your typical Excel user could handle the complexity.</p>
+
 <h2>June 28, 2006</h2>
 <p>I am currently focusing on things needed by the two first Abacus projects that will use SEJ. It's great to finally have real projects use SEJ. Generates lots of feedback regarding usability of the API and functionality.</p>
 
@@ -503,7 +536,7 @@ void compileAnd( Node a, Node b, Label branch ) {
 <p>SEJ does not handle sums over nested bands properly. The user must model intermediate sums for every non-leaf band. I shall accept this as a known limitation for the moment and have <a href="doc/bands.html">documented</a> it.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 28.06.2006.</p>        </div>
+<br/>Last updated on 30.06.2006.</p>        </div>
     </div>
 </body>
 </html>

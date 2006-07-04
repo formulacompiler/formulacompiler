@@ -59,7 +59,7 @@ public abstract class AbstractTestBase extends TestCase
 	protected void computeAndTestResult( Engine _engine )
 	{
 		Inputs inputs = new Inputs( "4", "40" );
-		Outputs outputs = (Outputs) _engine.getComputationFactory().newInstance( inputs );
+		Outputs outputs = (Outputs) _engine.getComputationFactory().newComputation( inputs );
 		String result = numberToString( getResult( outputs ) );
 
 		assertEquals( "160", result );

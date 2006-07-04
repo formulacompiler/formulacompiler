@@ -221,7 +221,7 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 		final ByteCodeEngineCompiler compiler = new ByteCodeEngineCompiler( config );
 		final Engine engine = compiler.compile();
 		final ComputationFactory factory = engine.getComputationFactory();
-		return (Outputs) factory.newInstance( new Inputs() );
+		return (Outputs) factory.newComputation( new Inputs() );
 	}
 
 }

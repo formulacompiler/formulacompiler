@@ -6,7 +6,7 @@ import sej.runtime.ComputationFactory;
 public class GeneratedFactory implements ComputationFactory, MyFactory
 {
 
-	public Computation newInstance( Object _inputs )
+	public Computation newComputation( Object _inputs )
 	{
 		return new GeneratedComputation( (MyInputs) _inputs );
 	}

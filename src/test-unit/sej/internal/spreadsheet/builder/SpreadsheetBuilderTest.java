@@ -73,7 +73,7 @@ public class SpreadsheetBuilderTest extends TestCase
 		c.bindAllByName();
 		Engine e = c.compile();
 
-		Output o = (Output) e.getComputationFactory().newInstance( new Input() );
+		Output o = (Output) e.getComputationFactory().newComputation( new Input() );
 		assertEquals( 0.1, o.getRebate(), 0.00001 );
 	}
 

@@ -41,6 +41,7 @@ import sej.internal.spreadsheet.ExpressionNodeForCell;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
+import sej.runtime.ComputationFactory;
 import sej.runtime.Engine;
 import sej.runtime.EngineException;
 import sej.tests.utils.AbstractTestBase;
@@ -113,8 +114,8 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 	{
 		makeBinderFor( InputInterface.class, OutputsWithDefault.class );
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
-		this.root
-				.defineInputCell( this.formula.getCellIndex(), new CallFrame( InputInterface.class.getMethod( "getOne" ) ) );
+		this.root.defineInputCell( this.formula.getCellIndex(),
+				new CallFrame( InputInterface.class.getMethod( "getOne" ) ) );
 
 		assertResult( 1.0, new Inputs( new double[] { 1.0 } ) );
 	}
@@ -167,7 +168,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 				.getMethod( "getFails" ) ) );
 
 		Engine engine = newEngine();
-		ThrowingOutput outputs = (ThrowingOutput) engine.getComputationFactory().newInstance( new ThrowingInput() );
+		ThrowingOutput outputs = (ThrowingOutput) engine.getComputationFactory().newComputation( new ThrowingInput() );
 
 		try {
 			outputs.getFails();
@@ -189,7 +190,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 				.getMethod( "getShouldNotFail" ) ) );
 
 		Engine engine = newEngine();
-		ThrowingOutput outputs = (ThrowingOutput) engine.getComputationFactory().newInstance( new ThrowingInput() );
+		ThrowingOutput outputs = (ThrowingOutput) engine.getComputationFactory().newComputation( new ThrowingInput() );
 
 		try {
 			outputs.getShouldNotFail();
@@ -237,12 +238,12 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 	{
 		makeBinderFor( NonStaticInput.class, StaticOutput.class );
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
-		this.root
-				.defineInputCell( this.formula.getCellIndex(), new CallFrame( NonStaticInput.class.getMethod( "getOne" ) ) );
+		this.root.defineInputCell( this.formula.getCellIndex(),
+				new CallFrame( NonStaticInput.class.getMethod( "getOne" ) ) );
 
 		assertResult( 1.0, new NonStaticInput( new double[] { 1.0 } ) );
 	}
-	
+
 	public class NonStaticInput extends Inputs
 	{
 
@@ -250,9 +251,9 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 		{
 			super( _values );
 		}
-		
+
 	}
-	
+
 	public static class StaticOutput extends Outputs
 	{
 
@@ -260,20 +261,20 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 		{
 			super();
 		}
-		
+
 	}
-	
+
 
 	public void testStaticInputMethod() throws Exception
 	{
 		makeBinderFor( StaticInputMethod.class, StaticOutput.class );
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
-		this.root
-				.defineInputCell( this.formula.getCellIndex(), new CallFrame( StaticInputMethod.class.getMethod( "getStaticOne" ) ) );
+		this.root.defineInputCell( this.formula.getCellIndex(), new CallFrame( StaticInputMethod.class
+				.getMethod( "getStaticOne" ) ) );
 
 		assertResult( 1.0, new StaticInputMethod( new double[] { 1.0 } ) );
 	}
-	
+
 	public static class StaticInputMethod extends Inputs
 	{
 
@@ -281,21 +282,21 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 		{
 			super( _values );
 		}
-		
+
 		public static double getStaticOne()
 		{
 			return 1.0;
 		}
-		
+
 	}
-	
-	
+
+
 	public void testUnsupportedInputType() throws Exception
 	{
 		makeBinderFor( ThrowingInput.class, ThrowingOutput.class );
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
-		this.root
-				.defineInputCell( this.formula.getCellIndex(), new CallFrame( Inputs.class.getMethod( "getUnsupported" ) ) );
+		this.root.defineInputCell( this.formula.getCellIndex(),
+				new CallFrame( Inputs.class.getMethod( "getUnsupported" ) ) );
 		this.root.defineOutputCell( this.formula.getCellIndex(), new CallFrame( Outputs.class.getMethod( "getResult" ) ) );
 		try {
 			newEngine();
@@ -311,8 +312,8 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 	{
 		makeBinderFor( ThrowingInput.class, ThrowingOutput.class );
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
-		this.root.defineOutputCell( this.formula.getCellIndex(),
-				new CallFrame( Outputs.class.getMethod( "getUnsupported" ) ) );
+		this.root.defineOutputCell( this.formula.getCellIndex(), new CallFrame( Outputs.class
+				.getMethod( "getUnsupported" ) ) );
 		try {
 			newEngine();
 			fail();
@@ -450,27 +451,28 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 	 * 
 	 * @throws CompilerException
 	 */
-	// TODO xtest
-	public void xtestSections() throws Exception
+	public void testSections() throws Exception
 	{
-		/*
-		 * 
-		 * WorksheetBuilderWithBands dyn = new WorksheetBuilderWithBands( this.sheet );
-		 * 
-		 * Compiler compiler = dyn.newCompiler(); Engine engine = compiler.compileNewEngine();
-		 * 
-		 * /-* Define a computation where the dynamic input range is populated with more rows than are
-		 * in the original spreadsheet definition. SEJ will have to extend the range, copy the row
-		 * summing formula, and extend the scope of the totals sum. -/ Inputs inputs = new Inputs();
-		 * inputs.getDetails().add( new Inputs( 4, 5, 0 ) ); inputs.getDetails().add( new Inputs( 6,
-		 * 7, 0 ) ); inputs.getDetails().add( new Inputs( 8, 9, 0 ) ); Outputs outputs = (Outputs)
-		 * engine.newComputation( inputs ); double result = outputs.getResult();
-		 * 
-		 * assertEquals( 19.5, result, 0.001 );
-		 * 
-		 */
-	}
+		WorksheetBuilderWithBands dyn = new WorksheetBuilderWithBands( this.sheet );
+		this.binder = dyn.newBinder();
+		Engine engine = newEngine();
+		ComputationFactory factory = engine.getComputationFactory();
 
+		/*
+		 * Define a computation where the dynamic input range is populated with more rows than are in
+		 * the original spreadsheet definition. SEJ will have to extend the range, copy the row
+		 * summing formula, and extend the scope of the totals sum.
+		 */
+		
+		Inputs inputs = new Inputs();
+		inputs.getDetails().add( new Inputs( 4, 5, 0 ) );
+		inputs.getDetails().add( new Inputs( 6, 7, 0 ) );
+		inputs.getDetails().add( new Inputs( 8, 9, 0 ) );
+		Outputs outputs = (Outputs) factory.newComputation( inputs );
+		double result = outputs.getResult();
+
+		assertEquals( 19.5, result, 0.001 );
+	}
 
 	private Engine newEngine() throws CompilerException, EngineException
 	{
@@ -524,7 +526,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 
 	private void assertEngineResult( double _expected, Engine _engine, InputInterface _inputs )
 	{
-		OutputInterface outputs = (OutputInterface) _engine.getComputationFactory().newInstance( _inputs );
+		OutputInterface outputs = (OutputInterface) _engine.getComputationFactory().newComputation( _inputs );
 		double result = outputs.getResult();
 		assertEquals( outputs.getClass().getName(), _expected, result );
 	}
@@ -558,7 +560,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 				values[ i ] = BigDecimal.valueOf( _values[ i ] );
 			}
 		}
-		Outputs outputs = (Outputs) _engine.getComputationFactory().newInstance( new Inputs( values ) );
+		Outputs outputs = (Outputs) _engine.getComputationFactory().newComputation( new Inputs( values ) );
 		BigDecimal result = outputs.getBigResult();
 		assertTrue( 0 == result.compareTo( BigDecimal.valueOf( _expected ) ) );
 	}
