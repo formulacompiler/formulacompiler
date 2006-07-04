@@ -55,7 +55,7 @@ final class ByteCodeHelperCompilerForAverage extends ByteCodeHelperCompiler
 			divisor += partialAverage.numberOfNonNullArguments; 
 		}
 		compileConst( divisor );
-		getNumericType().compile( mv(), Operator.DIV, 2 );
+		numericType().compile( mv(), Operator.DIV, 2 );
 	}
 
 
@@ -80,7 +80,7 @@ final class ByteCodeHelperCompilerForAverage extends ByteCodeHelperCompiler
 		else {
 			mv().visitInsn( Opcodes.LCONST_0 );
 			mv().storeLocal( varN );
-			getNumericType().compileZero( mv() );
+			numericType().compileZero( mv() );
 			//mv().storeLocal( varSum );
 		}
 
@@ -94,7 +94,7 @@ final class ByteCodeHelperCompilerForAverage extends ByteCodeHelperCompiler
 				compileExpr( arg );
 			}
 			
-			getNumericType().compile( mv(), Operator.PLUS, 2 );
+			numericType().compile( mv(), Operator.PLUS, 2 );
 
 			//mv().storeLocal( varSum );
 			mv().iinc( varN, 1 );

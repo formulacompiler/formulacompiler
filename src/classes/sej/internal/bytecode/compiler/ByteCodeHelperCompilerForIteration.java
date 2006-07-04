@@ -18,29 +18,35 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.spreadsheet.binding;
+package sej.internal.bytecode.compiler;
+
+import org.objectweb.asm.Opcodes;
 
 import sej.CompilerException;
-import sej.internal.spreadsheet.CellIndex;
+import sej.Operator;
+import sej.internal.model.ExpressionNodeForSubSectionModel;
 
-public abstract class CellBinding extends ElementBinding
+
+final class ByteCodeHelperCompilerForIteration extends ByteCodeHelperCompiler
 {
-	private final CellIndex index;
+	private final ExpressionNodeForSubSectionModel node;
+	private final ByteCodeSectionCompiler sub;
 
 
-	public CellBinding(SectionBinding _space, CellIndex _index) throws CompilerException
+	ByteCodeHelperCompilerForIteration(ByteCodeSectionCompiler _section, Operator _reductor, ExpressionNodeForSubSectionModel _node)
 	{
-		super( _space );
-		this.index = _index;
-		if (!_space.contains( _index )) {
-			notInSection( toString(), _index );
-		}
+		super( _section );
+		this.node = _node;
+		this.sub = section().subSectionCompiler( this.node.getSectionModel() );
 	}
 
 
-	public CellIndex getIndex()
+	@Override
+	protected void compileBody() throws CompilerException
 	{
-		return this.index;
+		mv().loadThis();
+		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, section().classInternalName(), this.sub., desc )
 	}
+
 
 }

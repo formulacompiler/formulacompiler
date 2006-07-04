@@ -178,7 +178,7 @@ public interface SpreadsheetBinder
 		 * 
 		 * @param _range is the range whose rows (or columns) should be repeated.
 		 * @param _orientation indicates the orientation of the variable extent. Horizontal means
-		 *           repeating rows, vertical means repeating rows.
+		 *           repeating columns, vertical means repeating rows.
 		 * @param _inputCallChainReturningIterable gets called on a computation's input to return an
 		 *           iterable for the elements that the repeating section should effectively have.
 		 * @param _inputClass is the input type of the returned section.

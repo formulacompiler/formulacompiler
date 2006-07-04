@@ -19,6 +19,7 @@ public class CustomerRatingWithOrders extends TestCase
 
 	// TODO Use MATCH to get the rating given the total
 	// TODO Use INDEX to get a string rating instead of a numeric one
+	// TODO Test reset() with sections
 	
 
 	public void testCustomerRating() throws Exception

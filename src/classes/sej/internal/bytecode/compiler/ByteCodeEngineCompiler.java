@@ -71,14 +71,20 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 
 	// ------------------------------------------------ Construction
 
-	static final String GEN_ROOT_NAME = "$Root";
 	static final String GEN_PACKAGE_PATH = ByteCodeEngine.GEN_PACKAGE_NAME.replace( '.', '/' );
-	static final String GEN_FACTORY_PATH = "sej/gen/" + ByteCodeEngine.GEN_FACTORY_NAME;
-	static final String GEN_ROOT_PATH = "sej/gen/" + GEN_ROOT_NAME;
+	static final String GEN_FACTORY_PATH = GEN_PACKAGE_PATH + ByteCodeEngine.GEN_FACTORY_NAME;
+	static final String GEN_FACTORY_DESC = "L" + GEN_FACTORY_PATH + ";";
+	static final String GEN_ROOT_NAME = "$Root";
+	static final String GEN_ROOT_PATH = GEN_PACKAGE_PATH + GEN_ROOT_NAME;
+	static final String GEN_ROOT_DESC = "L" + GEN_PACKAGE_PATH + GEN_ROOT_NAME + ";";
+	static final String INPUTS_MEMBER_NAME = "inputs";
 	
+	static final Type GEN_FACTORY_CLASS = Type.getType( GEN_FACTORY_DESC );
+	static final Type GEN_ROOT_CLASS = Type.getType( GEN_ROOT_DESC );
+
 	static final Type ENGINE_INTF = Type.getType( Engine.class );
 	static final Type COMPUTATION_INTF = Type.getType( Computation.class );
-	static final String INPUTS_MEMBER_NAME = "inputs";
+	static final Type FACTORY_INTF = Type.getType( sej.runtime.ComputationFactory.class );
 	static final Type MATH_CLASS = Type.getType( Math.class );
 	static final Type BIGDECIMAL_CLASS = Type.getType( BigDecimal.class );
 	static final Type BIGINTEGER_CLASS = Type.getType( BigInteger.class );
@@ -98,7 +104,15 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		return this.canCache;
 	}
 
+	
+	private int nextSubClassNumber = 0;
 
+	String newSubClassName()
+	{
+		return "Sect" + Integer.toString( this.nextSubClassNumber++ );
+	}
+
+	
 	// ------------------------------------------------ Compilation
 
 
@@ -172,7 +186,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		@Override
 		protected ByteCodeSectionCompiler accessSubSection( SectionModel _section )
 		{
-			final ByteCodeSectionCompiler subCompiler = getSection().getSubSectionCompiler( _section );
+			final ByteCodeSectionCompiler subCompiler = getSection().subSectionCompiler( _section );
 			getSection().compileAccessTo( subCompiler );
 			return subCompiler;
 		}
@@ -180,7 +194,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		@Override
 		protected void visitTargetCell( CellModel _cell ) throws CompilerException
 		{
-			getSection().getCellComputation( _cell ).compile();
+			getSection().cellComputation( _cell ).compile();
 		}
 
 	}
@@ -222,7 +236,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		@Override
 		public boolean visited( SectionModel _section )
 		{
-			this.section = this.section.getParentSectionCompiler();
+			this.section = this.section.parentSectionCompiler();
 			return true;
 		}
 

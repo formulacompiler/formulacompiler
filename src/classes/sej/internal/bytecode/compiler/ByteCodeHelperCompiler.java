@@ -26,7 +26,7 @@ abstract class ByteCodeHelperCompiler extends ByteCodeSectionMethodCompiler
 
 	ByteCodeHelperCompiler(ByteCodeSectionCompiler _section) 
 	{
-		super( _section, _section.getNewGetterName() );
+		super( _section, _section.newGetterName() );
 	}
 
 }

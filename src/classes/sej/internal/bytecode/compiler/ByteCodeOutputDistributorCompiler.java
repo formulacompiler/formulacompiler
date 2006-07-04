@@ -113,7 +113,7 @@ public class ByteCodeOutputDistributorCompiler
 		}
 		
 		mv().loadThis();
-		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, this.section.engine.getInternalName(), caseMethodName, this.getterDescriptor );
+		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, this.section.classInternalName(), caseMethodName, this.getterDescriptor );
 		mv().returnValue();
 		
 		mv().visitLabel( next );
