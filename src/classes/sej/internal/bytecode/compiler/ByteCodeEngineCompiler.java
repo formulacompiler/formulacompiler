@@ -184,7 +184,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		}
 
 		@Override
-		protected ByteCodeSectionCompiler accessSubSection( SectionModel _section )
+		protected ByteCodeSectionCompiler accessSubSection( SectionModel _section ) throws CompilerException
 		{
 			final ByteCodeSubSectionCompiler subCompiler = getSection().subSectionCompiler( _section );
 			getSection().compileAccessTo( subCompiler );
@@ -240,7 +240,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 			return true;
 		}
 
-		protected abstract ByteCodeSectionCompiler accessSubSection( SectionModel _section );
+		protected abstract ByteCodeSectionCompiler accessSubSection( SectionModel _section ) throws CompilerException;
 
 		@Override
 		public boolean visit( CellModel _cell ) throws CompilerException

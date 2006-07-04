@@ -20,18 +20,28 @@
  */
 package sej.internal.bytecode.compiler;
 
+import org.objectweb.asm.Opcodes;
 
-abstract class ByteCodeHelperCompiler extends ByteCodeSectionNumericMethodCompiler
+
+abstract class ByteCodeSectionNumericMethodCompiler extends ByteCodeSectionMethodCompiler
 {
 
-	ByteCodeHelperCompiler(ByteCodeSectionCompiler _section) 
+	ByteCodeSectionNumericMethodCompiler(ByteCodeSectionCompiler _section, int _access, String _methodName)
 	{
-		super( _section, _section.newGetterName() );
+		super( _section, _access, _methodName, "()" + _section.numericType().getDescriptor() );
 	}
 
-	ByteCodeHelperCompiler(ByteCodeSectionCompiler _section, int _access) 
+	ByteCodeSectionNumericMethodCompiler(ByteCodeSectionCompiler _section, String _methodName)
 	{
-		super( _section, _access, _section.newGetterName() );
+		super( _section, Opcodes.ACC_PRIVATE, _methodName, "()" + _section.numericType().getDescriptor() );
+	}
+
+
+	@Override
+	protected void endCompilation()
+	{
+		mv().visitInsn( numericType().getReturnOpcode() );
+		super.endCompilation();
 	}
 
 }

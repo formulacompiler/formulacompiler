@@ -56,30 +56,17 @@ abstract class ByteCodeSectionMethodCompiler
 
 	private final ByteCodeSectionCompiler section;
 	private final String methodName;
+	private final String methodDescriptor;
 	private final GeneratorAdapter mv;
 
 
-	ByteCodeSectionMethodCompiler(ByteCodeSectionCompiler _section, String _methodName)
-	{
-		this( _section, _methodName, Opcodes.ACC_PRIVATE );
-	}
-
-
-	ByteCodeSectionMethodCompiler(ByteCodeSectionCompiler _section, String _methodName, int _access)
+	ByteCodeSectionMethodCompiler(ByteCodeSectionCompiler _section, int _access, String _methodName, String _descriptor)
 	{
 		super();
 		this.section = _section;
 		this.methodName = _methodName;
-		this.mv = newAdapter( _access );
-	}
-
-
-	private GeneratorAdapter newAdapter( int _access )
-	{
-		final String name = methodName();
-		final String descriptor = "()" + numericType().getDescriptor();
-		final int access = Opcodes.ACC_FINAL | _access;
-		return section().newMethod( access, name, descriptor );
+		this.methodDescriptor = _descriptor;
+		this.mv = section().newMethod( _access | Opcodes.ACC_FINAL, _methodName, _descriptor );
 	}
 
 
@@ -103,6 +90,11 @@ abstract class ByteCodeSectionMethodCompiler
 		return this.methodName;
 	}
 
+	String methodDescriptor()
+	{
+		return this.methodDescriptor;
+	}
+	
 	protected ClassWriter cw()
 	{
 		return section().cw();
@@ -130,7 +122,6 @@ abstract class ByteCodeSectionMethodCompiler
 
 	protected void endCompilation()
 	{
-		mv().visitInsn( numericType().getReturnOpcode() );
 		section().endMethod( mv() );
 	}
 
@@ -242,7 +233,14 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	protected void compileInput( CallFrame _callChainToCall ) throws CompilerException
+	protected void compileNumericInput( CallFrame _callChainToCall ) throws CompilerException
+	{
+		compileInputGetterCall( _callChainToCall );
+		numericType().compileToNum( mv(), _callChainToCall.getMethod() );
+	}
+
+
+	protected void compileInputGetterCall( CallFrame _callChainToCall ) throws CompilerException
 	{
 		final CallFrame[] frames = _callChainToCall.getFrames();
 		final boolean isStatic = Modifier.isStatic( frames[ 0 ].getMethod().getModifiers() );
@@ -273,8 +271,6 @@ abstract class ByteCodeSectionMethodCompiler
 
 			contextClass = method.getReturnType();
 		}
-
-		numericType().compileToNum( mv(), _callChainToCall.getMethod() );
 	}
 
 
@@ -380,7 +376,7 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	private void compileOperator( Operator _operator, int _numberOfArguments ) throws CompilerException
+	protected void compileOperator( Operator _operator, int _numberOfArguments ) throws CompilerException
 	{
 		numericType().compile( mv(), _operator, _numberOfArguments );
 	}
