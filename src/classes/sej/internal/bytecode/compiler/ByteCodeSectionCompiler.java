@@ -24,7 +24,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
@@ -134,20 +133,6 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	}
 
 
-	GeneratorAdapter newMethod( int _access, String _name, String _descriptor )
-	{
-		MethodVisitor mv = cw().visitMethod( _access, _name, _descriptor, null, null );
-		GeneratorAdapter ma = new GeneratorAdapter( mv, _access, _name, _descriptor );
-		ma.visitCode();
-		return ma;
-	}
-
-	void newField( int _access, String _name, String _descriptor )
-	{
-		cw().visitField( _access, _name, _descriptor, null, null ).visitEnd();
-	}
-
-
 	void beginCompilation() throws CompilerException
 	{
 		initializeClass( outputClass(), this.outputs, ByteCodeEngineCompiler.ENGINE_INTF );
@@ -211,10 +196,8 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	private void finalizeReset()
 	{
 		if (this.resetter != null) {
-			GeneratorAdapter ma = this.resetter;
-			ma.visitInsn( Opcodes.RETURN );
-			ma.visitMaxs( 0, 0 );
-			ma.visitEnd();
+			this.resetter.visitInsn( Opcodes.RETURN );
+			endMethod( this.resetter );
 			this.resetter = null;
 		}
 	}
@@ -274,8 +257,7 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		}
 
 		mv.visitInsn( Opcodes.RETURN );
-		mv.visitMaxs( 0, 0 );
-		mv.visitEnd();
+		endMethod( mv );
 	}
 
 	private void callInheritedConstructor( GeneratorAdapter _mv, int _inputsVar ) throws CompilerException

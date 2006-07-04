@@ -111,6 +111,26 @@ abstract class ByteCodeClassCompiler
 	}
 
 
+	GeneratorAdapter newMethod( int _access, String _name, String _descriptor )
+	{
+		MethodVisitor mv = cw().visitMethod( _access, _name, _descriptor, null, null );
+		GeneratorAdapter ma = new GeneratorAdapter( mv, _access, _name, _descriptor );
+		ma.visitCode();
+		return ma;
+	}
+	
+	void endMethod( GeneratorAdapter _mv )
+	{
+		_mv.endMethod();
+		_mv.visitEnd();
+	}
+
+	void newField( int _access, String _name, String _descriptor )
+	{
+		cw().visitField( _access, _name, _descriptor, null, null ).visitEnd();
+	}
+
+
 	private GeneratorAdapter initializer;
 
 	protected GeneratorAdapter initializer()
@@ -120,10 +140,7 @@ abstract class ByteCodeClassCompiler
 
 	protected void buildStaticInitializer()
 	{
-		MethodVisitor mv = cw().visitMethod( Opcodes.ACC_STATIC, "<clinit>", "()V", null, null );
-		GeneratorAdapter ma = new GeneratorAdapter( mv, Opcodes.ACC_STATIC, "<clinit>", "()V" );
-		ma.visitCode();
-		this.initializer = ma;
+		this.initializer = newMethod( Opcodes.ACC_STATIC, "<clinit>", "()V" );
 	}
 
 	protected void finalizeStaticInitializer()
@@ -131,8 +148,7 @@ abstract class ByteCodeClassCompiler
 		if (this.initializer != null) {
 			GeneratorAdapter ma = this.initializer;
 			ma.visitInsn( Opcodes.RETURN );
-			ma.visitMaxs( 0, 0 );
-			ma.visitEnd();
+			endMethod( ma );
 			this.initializer = null;
 		}
 	}
