@@ -220,6 +220,13 @@ abstract class ByteCodeSectionMethodCompiler
 			mv().visitLdcInsn( _constantValue );
 		}
 
+		else if (_constantValue instanceof Enum) {
+			final Enum enumValue = (Enum) _constantValue;
+			final Type enumType = Type.getType( enumValue.getDeclaringClass() );
+			final Type instanceType = Type.getType( enumValue.getClass() );
+			mv().getStatic( enumType, enumValue.name(), instanceType );
+		}
+		
 		else {
 			throw new CompilerException.UnsupportedDataType( "The data type '"
 					+ _type + "' is not supported as an input method parameter" );
@@ -770,7 +777,7 @@ abstract class ByteCodeSectionMethodCompiler
 
 		mv().loadThis();
 		mv().getField( section.classType(), ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parent.classType() );
-		mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, parent.classInternalName(), parentExpr.methodName(), parentExpr
+		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, parent.classInternalName(), parentExpr.methodName(), parentExpr
 				.methodDescriptor() );
 
 	}

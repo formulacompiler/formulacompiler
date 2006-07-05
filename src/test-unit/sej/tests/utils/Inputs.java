@@ -159,7 +159,7 @@ public class Inputs implements InputInterface
 		return BigDecimal.valueOf( 3 );
 	}
 
-	
+
 	public long getScaledLongA()
 	{
 		return 1003400L;
@@ -186,6 +186,21 @@ public class Inputs implements InputInterface
 			return this.base * 2;
 		}
 
+	}
+
+	public static enum MyEnum {
+		ONE, TWO;
+	}
+
+	public double hasEnumParam( MyEnum _param )
+	{
+		switch (_param) {
+			case ONE:
+				return 1;
+			case TWO:
+				return 2;
+		}
+		return 0;
 	}
 
 }
