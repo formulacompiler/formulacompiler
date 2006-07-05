@@ -41,10 +41,10 @@ public class CustomerRatingWithOrders extends TestCase
 		assertRating( 2, factory, 1000, 2000, 1000, 1500, 1000 );
 
 		// Let's pass fewer values.
-		assertRating( 1, factory, 5000, 3000 );
+		assertRating( 3, factory, 5000, 3000 );
 
 		// And more values.
-		assertRating( 0, factory, 1000, 2000, 1000, 1500, 1000, 10000 );
+		assertRating( 4, factory, 1000, 2000, 1000, 1500, 1000, 10000 );
 	}
 
 
