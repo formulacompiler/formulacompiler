@@ -92,8 +92,8 @@ public class SectionModelCompiler
 
 	public CellModel createCellModel( CellBinding _cellDef ) throws CompilerException
 	{
-		boolean isInput = _cellDef instanceof InputCellBinding;
-		CellModel result = createCellModel( _cellDef.getIndex(), isInput );
+		final boolean isInput = _cellDef instanceof InputCellBinding;
+		final CellModel result = createCellModel( _cellDef.getIndex(), isInput );
 		if (isInput) {
 			result.makeInput( ((InputCellBinding) _cellDef).getCallChainToCall() );
 		}
@@ -131,7 +131,7 @@ public class SectionModelCompiler
 
 	CellModel createCellModel( CellIndex _cellIndex ) throws CompilerException
 	{
-		InputCellBinding inputDef = this.engineDef.getInputs().get( _cellIndex );
+		final InputCellBinding inputDef = this.engineDef.getInputs().get( _cellIndex );
 		if (null != inputDef) {
 			return createCellModel( inputDef );
 		}
@@ -153,7 +153,7 @@ public class SectionModelCompiler
 
 	SectionModelCompiler createSectionCompiler( SectionBinding _sectionDef )
 	{
-		SectionModel model = new SectionModel( getSectionModel(), _sectionDef.getCallChainToCall().toString(),
+		final SectionModel model = new SectionModel( getSectionModel(), _sectionDef.getCallChainToCall().toString(),
 				_sectionDef.getInputClass(), _sectionDef.getOutputClass() );
 		model.makeInput( _sectionDef.getCallChainToCall() );
 		if (_sectionDef.getCallToImplement() != null) {
@@ -181,8 +181,8 @@ public class SectionModelCompiler
 
 	private void buildCellModel( CellModel _cellModel, CellWithLazilyParsedExpression _cell ) throws CompilerException
 	{
-		ExpressionNode exprDef = _cell.getExpression();
-		ExpressionNode exprModel = (ExpressionNode) buildExpressionModel( exprDef );
+		final ExpressionNode exprDef = _cell.getExpression();
+		final ExpressionNode exprModel = (ExpressionNode) buildExpressionModel( exprDef );
 		_cellModel.setExpression( exprModel );
 	}
 
@@ -207,26 +207,12 @@ public class SectionModelCompiler
 		}
 		else if (_exprDef instanceof ExpressionNodeForRange) {
 			final CellRange range = ((ExpressionNodeForRange) _exprDef).getRange();
-			final ExpressionNode rangeNode = buildExpressionModel( range );
-			if (rangeNode instanceof ExpressionNodeForRangeValue) {
-				return rangeNode.getArguments();
-			}
-			else {
-				return rangeNode;
-			}
+			return peelNodeForRangeValue( buildExpressionModel( range ) );
 		}
 		else {
 			final ExpressionNode result = _exprDef.cloneWithoutArguments();
 			for (ExpressionNode _arg : _exprDef.getArguments()) {
-				final Object argOrArgs = buildExpressionModel( _arg );
-				if (argOrArgs instanceof ExpressionNode) {
-					final ExpressionNode arg = (ExpressionNode) argOrArgs;
-					result.getArguments().add( arg );
-				}
-				else {
-					final Collection<ExpressionNode> args = (Collection<ExpressionNode>) argOrArgs;
-					result.getArguments().addAll( args );
-				}
+				addArgumentsTo( result, buildExpressionModel( _arg ) );
 			}
 			return result;
 		}
@@ -240,8 +226,9 @@ public class SectionModelCompiler
 			return buildExpressionModelForContainedCell( _cellIndex );
 		}
 		else {
-			ExpressionNode cellNode = sectionPath.getSectionCompiler().buildExpressionModelForContainedCell( _cellIndex );
-			ExpressionNode targetNode = sectionPath.getTargetNode();
+			final ExpressionNode cellNode = sectionPath.getSectionCompiler().buildExpressionModelForContainedCell(
+					_cellIndex );
+			final ExpressionNode targetNode = sectionPath.getTargetNode();
 			targetNode.getArguments().add( cellNode );
 			return sectionPath.getRootNode();
 		}
@@ -250,22 +237,23 @@ public class SectionModelCompiler
 
 	private ExpressionNode buildExpressionModelForContainedCell( CellIndex _cellIndex ) throws CompilerException
 	{
-		CellModel cellModel = getOrCreateCellModel( _cellIndex );
+		final CellModel cellModel = getOrCreateCellModel( _cellIndex );
 		return new ExpressionNodeForCellModel( cellModel );
 	}
 
 
+	@SuppressWarnings("unchecked")
 	private ExpressionNode buildExpressionModel( CellRange _range ) throws CompilerException
 	{
-		SectionPath sectionPath = getSectionPathFor( _range );
+		final SectionPath sectionPath = getSectionPathFor( _range );
 		if (null == sectionPath) {
 			return buildExpressionModelForContainedRange( _range );
 		}
 		else {
-			ExpressionNode rangeNode = sectionPath.getSectionCompiler().buildExpressionModelForContainedRange(
+			final ExpressionNode rangeNode = sectionPath.getSectionCompiler().buildExpressionModelForContainedRange(
 					sectionPath.getTargetRange() );
-			ExpressionNode targetNode = sectionPath.getTargetNode();
-			targetNode.getArguments().add( rangeNode );
+			final ExpressionNode targetNode = sectionPath.getTargetNode();
+			addArgumentsTo( targetNode, peelNodeForRangeValue( rangeNode ) );
 			return sectionPath.getRootNode();
 		}
 	}
@@ -278,12 +266,34 @@ public class SectionModelCompiler
 		final int rows = _range.getTo().rowIndex - _range.getFrom().rowIndex + 1;
 		final int cols = _range.getTo().columnIndex - _range.getFrom().columnIndex + 1;
 		final RangeValue rangeValue = new RangeValue( sheets, rows, cols );
-		ExpressionNode result = new ExpressionNodeForRangeValue( rangeValue );
+		final ExpressionNode result = new ExpressionNodeForRangeValue( rangeValue );
 		for (CellIndex element : _range) {
-			ExpressionNode elementNode = buildExpressionModel( element );
+			final ExpressionNode elementNode = buildExpressionModel( element );
 			result.getArguments().add( elementNode );
 		}
 		return result;
+	}
+
+
+	private Object peelNodeForRangeValue( final ExpressionNode _node )
+	{
+		if (_node instanceof ExpressionNodeForRangeValue) {
+			return _node.getArguments();
+		}
+		else {
+			return _node;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void addArgumentsTo( final ExpressionNode _result, final Object _argOrArgs )
+	{
+		if (_argOrArgs instanceof ExpressionNode) {
+			_result.getArguments().add( (ExpressionNode) _argOrArgs );
+		}
+		else {
+			_result.getArguments().addAll( (Collection<ExpressionNode>) _argOrArgs );
+		}
 	}
 
 
