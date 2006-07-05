@@ -33,12 +33,6 @@ public enum Operator {
 
 	NOOP {
 		@Override
-		public String getName()
-		{
-			return "NOOP";
-		}
-
-		@Override
 		public String getSymbol()
 		{
 			return "";
@@ -47,12 +41,6 @@ public enum Operator {
 
 
 	CONCAT {
-		@Override
-		public String getName()
-		{
-			return "CONCAT";
-		}
-
 		@Override
 		public String getSymbol()
 		{
@@ -63,12 +51,6 @@ public enum Operator {
 
 	PLUS {
 		@Override
-		public String getName()
-		{
-			return "PLUS";
-		}
-
-		@Override
 		public String getSymbol()
 		{
 			return "+";
@@ -77,12 +59,6 @@ public enum Operator {
 
 
 	MINUS {
-		@Override
-		public String getName()
-		{
-			return "MINUS";
-		}
-
 		@Override
 		public String getSymbol()
 		{
@@ -93,12 +69,6 @@ public enum Operator {
 
 	TIMES {
 		@Override
-		public String getName()
-		{
-			return "TIMES";
-		}
-
-		@Override
 		public String getSymbol()
 		{
 			return "*";
@@ -106,12 +76,6 @@ public enum Operator {
 	},
 
 	DIV {
-		@Override
-		public String getName()
-		{
-			return "DIV";
-		}
-
 		@Override
 		public String getSymbol()
 		{
@@ -121,12 +85,6 @@ public enum Operator {
 
 	EXP {
 		@Override
-		public String getName()
-		{
-			return "EXP";
-		}
-
-		@Override
 		public String getSymbol()
 		{
 			return "^";
@@ -134,12 +92,6 @@ public enum Operator {
 	},
 
 	PERCENT {
-		@Override
-		public String getName()
-		{
-			return "PERCENT";
-		}
-
 		@Override
 		public String getSymbol()
 		{
@@ -155,12 +107,6 @@ public enum Operator {
 
 	EQUAL {
 		@Override
-		public String getName()
-		{
-			return "EQUAL";
-		}
-
-		@Override
 		public String getSymbol()
 		{
 			return "=";
@@ -168,12 +114,6 @@ public enum Operator {
 	},
 
 	NOTEQUAL {
-		@Override
-		public String getName()
-		{
-			return "NOTEQUAL";
-		}
-
 		@Override
 		public String getSymbol()
 		{
@@ -183,12 +123,6 @@ public enum Operator {
 
 	LESS {
 		@Override
-		public String getName()
-		{
-			return "LESS";
-		}
-
-		@Override
 		public String getSymbol()
 		{
 			return "<";
@@ -196,12 +130,6 @@ public enum Operator {
 	},
 
 	LESSOREQUAL {
-		@Override
-		public String getName()
-		{
-			return "LESSOREQUAL";
-		}
-
 		@Override
 		public String getSymbol()
 		{
@@ -211,12 +139,6 @@ public enum Operator {
 
 	GREATER {
 		@Override
-		public String getName()
-		{
-			return "GREATER";
-		}
-
-		@Override
 		public String getSymbol()
 		{
 			return ">";
@@ -224,12 +146,6 @@ public enum Operator {
 	},
 
 	GREATEROREQUAL {
-		@Override
-		public String getName()
-		{
-			return "GREATEROREQUAL";
-		}
-
 		@Override
 		public String getSymbol()
 		{
@@ -294,7 +210,9 @@ public enum Operator {
 	};
 
 
-	public abstract String getName();
+	public String getName() {
+		return toString();
+	}
 
 	public abstract String getSymbol();
 
