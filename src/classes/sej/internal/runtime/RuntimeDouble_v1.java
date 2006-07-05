@@ -58,6 +58,11 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	{
 		return round( _val, (int) _maxFrac );
 	}
+	
+	public static double stdTODAY()
+	{
+		return dateToNum( today() );
+	}
 
 
 	public static boolean booleanFromNum( final double _val )

@@ -94,7 +94,7 @@ abstract class ByteCodeSectionMethodCompiler
 	{
 		return this.methodDescriptor;
 	}
-	
+
 	protected ClassWriter cw()
 	{
 		return section().cw();
@@ -387,6 +387,10 @@ abstract class ByteCodeSectionMethodCompiler
 		switch (_node.getFunction()) {
 
 			case ROUND:
+				compileStdFunction( _node );
+				break;
+				
+			case TODAY:
 				compileStdFunction( _node );
 				break;
 
@@ -760,10 +764,16 @@ abstract class ByteCodeSectionMethodCompiler
 
 	private void compileRef( ExpressionNodeForParentSectionModel _node ) throws CompilerException
 	{
-		// FIXME test and implement outer ref
-		unsupported( _node );
-	}
+		final ByteCodeSectionCompiler section = section();
+		final ByteCodeSectionCompiler parent = section.parentSectionCompiler();
+		final ByteCodeSectionNumericMethodCompiler parentExpr = parent.compileExpr( _node.getArguments().get( 0 ) );
 
+		mv().loadThis();
+		mv().getField( section.classType(), ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parent.classType() );
+		mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, parent.classInternalName(), parentExpr.methodName(), parentExpr
+				.methodDescriptor() );
+
+	}
 
 	private void compileRef( ExpressionNodeForSubSectionModel _node ) throws CompilerException
 	{

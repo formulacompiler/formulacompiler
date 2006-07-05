@@ -223,7 +223,7 @@ public abstract class InterpretedNumericType
 				}
 				break;
 			}
-
+			
 			case INDEX: {
 				switch (cardinality) {
 					case 2:

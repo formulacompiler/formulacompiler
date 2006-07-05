@@ -20,6 +20,9 @@
  */
 package sej.internal.runtime;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public abstract class Runtime_v1
 {
 
@@ -42,6 +45,14 @@ public abstract class Runtime_v1
 	public static long unboxLong( Long _boxed )
 	{
 		return (_boxed == null) ? 0L : _boxed;
+	}
+	
+	
+	public static Date today()
+	{
+		long now = Calendar.getInstance().getTime().getTime();
+		long today = now / MS_PER_DAY * MS_PER_DAY;
+		return new Date( today );
 	}
 
 }

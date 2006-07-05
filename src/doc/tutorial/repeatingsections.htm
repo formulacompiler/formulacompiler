@@ -30,7 +30,30 @@
 <p>SEJ allows you to define repeating sections of a spreadsheet. Such sections are different from ordinary ranges in Excel in that the width or height of the section varies with each use of the computation. Examples:</p><dl><dt>Order Totals (input only)</dt><dd>As input to a customer rating computation, feed all order totals of the last three months for this customer to the computation. One customer may have placed 5 orders in the last three months, another one 200.</dd><dt>Employees (input/output)</dt><dd>Feed all employees for which bonuses must be computed given a total bonus amount. Read back individual bonus amount for each employee. One client company for which the accounting company computes the bonuses may have 10 employees, another one 500.</dd></dl>
 
 <h2>Input Only</h2>
-<p>Let's look at how to implement the order totals problem from above.</p>        </div>
+
+<h3>Why Use A Repeating Section?</h3>
+<p>Let's look at the order totals problem given above. We want to feed <em>n</em> order totals to the spreadsheet, where <em>n</em> may vary. Since we compute only a single output, the customer rating, it is clear that these <em>n</em> order totals must in some way be aggregated by the computation. It could, for example, sum them, or take their average or median, and then do something with these values. Let me show you a simple spreadsheet that models something like that:</p>
+<pre>   A                       B
+1  Inputs
+2  OrdersForLastNDays(30)  Total
+3                           $300
+4                           $240
+5                           $680
+6
+7  Intermediate Values
+8  Total                   =SUM(B3:B5)
+9
+10 Outputs
+11 Rating                  =IF(B8&gt;1000;1;0)</pre>
+
+
+<h3>Implementing It</h3>
+<p>First of all, we need an interface to the customer data. This interface must let SEJ query the order totals. A simple approach would be to just pass an array of order totals. SEJ needs a little more structure than this, though.</p>
+<p>When you define a repeating section with SEJ, the section is treated like an embedded sub-sheet within the main sheet. Like a master/detail form really. This sub-sheet works just like the main sheet, so it must have an input interface to get values from (and optionally an output interface of which to implement methods). One advantage of having a proper interface for section elements is it becomes very straightforward to add new input values. The order date, for example.</p>
+<p>Here's the interface for the orders sub-sheet we are going to use:</p>
+<p>[jc:sej.tutorials.CustomerRatingWithOrders:---- OrderData]</p>
+<p>The main customer interface must therefore let SEJ query the set of orders it should process for this customer. The simplest way is to use an array (there are <a href="bindsections.htm">other options</a>):</p>
+<p>[jc:sej.tutorials.CustomerRatingWithOrders:---- CustomerData]</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
 <br/>Last updated on 05.07.2006.</p>        </div>

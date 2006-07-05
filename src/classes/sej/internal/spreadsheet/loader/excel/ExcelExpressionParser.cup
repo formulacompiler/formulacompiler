@@ -36,6 +36,7 @@ terminal EQUAL, NOTEQUAL, GREATER, GREATEROREQUAL, LESS, LESSOREQUAL;
 terminal IF, AND, OR, NOT;
 terminal SUM, PRODUCT, AVERAGE, MIN, MAX;
 terminal MATCH, INDEX, ROUND;
+terminal TODAY;
 terminal Integer INT;
 terminal Double DBL;
 terminal String STRING;
@@ -207,6 +208,9 @@ expr ::=
 	
 	|	ROUND LPAREN expr:val COMMA expr:prec RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.ROUND, cell( val ), cell( prec )); :}	
+				
+	|	TODAY LPAREN RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.TODAY ); :}
 				
 	;
 

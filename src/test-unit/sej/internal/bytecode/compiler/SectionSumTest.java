@@ -194,7 +194,7 @@ public class SectionSumTest extends TestCase
 
 					final DetailPrototype[] di = new DetailPrototype[ dl ];
 					for (int i = 0; i < dl; i++) {
-						di[ i ] = new DetailPrototype( ds[ i ] );
+						di[ i ] = new DetailPrototype( ds[ i ], this );
 					}
 
 					this.arrayDets = di;
@@ -237,7 +237,7 @@ public class SectionSumTest extends TestCase
 
 					final Collection<DetailPrototype> coll = new ArrayList<DetailPrototype>();
 					while (ds.hasNext()) {
-						coll.add( new DetailPrototype( ds.next() ) );
+						coll.add( new DetailPrototype( ds.next(), this ) );
 					}
 					final DetailPrototype[] di = coll.toArray( new DetailPrototype[ coll.size() ] );
 
@@ -281,8 +281,7 @@ public class SectionSumTest extends TestCase
 
 					final Collection<DetailPrototype> coll = new ArrayList<DetailPrototype>();
 					while (ds.hasNext()) {
-						final DetailInput d = ds.next();
-						coll.add( new DetailPrototype( d ) );
+						coll.add( new DetailPrototype( ds.next(), this ) );
 					}
 					final DetailPrototype[] di = coll.toArray( new DetailPrototype[ coll.size() ] );
 
@@ -329,7 +328,7 @@ public class SectionSumTest extends TestCase
 					final Iterator<DetailInput> ds = dc.iterator();
 					final DetailPrototype[] di = new DetailPrototype[ dl ];
 					for (int i = 0; i < dl; i++) {
-						di[ i ] = new DetailPrototype( ds.next() );
+						di[ i ] = new DetailPrototype( ds.next(), this );
 					}
 
 					this.collectionDets = di;
@@ -345,10 +344,12 @@ public class SectionSumTest extends TestCase
 
 	public static final class DetailPrototype
 	{
+		private final RootPrototype parent;
 		private final DetailInput inputs;
 
-		public DetailPrototype(DetailInput _inputs)
+		public DetailPrototype(DetailInput _inputs, RootPrototype _parent)
 		{
+			this.parent = _parent;
 			this.inputs = _inputs;
 		}
 
@@ -357,6 +358,11 @@ public class SectionSumTest extends TestCase
 			return this.inputs.getDetailValue() * 2;
 		}
 
+		void parentRef() // make warning go away
+		{
+			this.parent.toString();
+		}
+		
 	}
 
 

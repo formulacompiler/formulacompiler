@@ -51,6 +51,11 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return round( _val, _maxFrac.intValue() );
 	}
 
+	public static BigDecimal stdTODAY()
+	{
+		return dateToNum( today() );
+	}
+
 	public static BigDecimal pow( final BigDecimal x, final BigDecimal n )
 	{
 		return x.pow( n.intValue() );

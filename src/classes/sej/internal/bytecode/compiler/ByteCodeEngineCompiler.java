@@ -77,7 +77,8 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 	static final String GEN_ROOT_NAME = "$Root";
 	static final String GEN_ROOT_PATH = GEN_PACKAGE_PATH + GEN_ROOT_NAME;
 	static final String GEN_ROOT_DESC = "L" + GEN_PACKAGE_PATH + GEN_ROOT_NAME + ";";
-	static final String INPUTS_MEMBER_NAME = "inputs";
+	static final String INPUTS_MEMBER_NAME = "$inputs";
+	static final String PARENT_MEMBER_NAME = "$parent";
 
 	static final Type GEN_FACTORY_CLASS = Type.getType( GEN_FACTORY_DESC );
 	static final Type GEN_ROOT_CLASS = Type.getType( GEN_ROOT_DESC );
