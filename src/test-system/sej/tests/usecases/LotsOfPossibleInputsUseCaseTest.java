@@ -28,9 +28,9 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 import sej.CallFrame;
+import sej.SaveableEngine;
 import sej.Spreadsheet;
 import sej.SpreadsheetBinder;
-import sej.runtime.Engine;
 
 
 public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
@@ -79,7 +79,7 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 		}
 
 
-		public void useEngine( Engine _engine )
+		public void useEngine( SaveableEngine _engine )
 		{
 			final Inputs inputs = new Inputs( 13, 14 );
 			final Outputs outputs = (Outputs) _engine.getComputationFactory().newComputation( inputs );

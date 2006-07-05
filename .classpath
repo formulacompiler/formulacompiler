@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/classes"/>
-	<classpathentry kind="src" path="src/classes-gen"/>
-	<classpathentry kind="src" path="src/classes14"/>
-	<classpathentry kind="src" path="src/test-unit"/>
-	<classpathentry kind="src" path="src/test-system"/>
-	<classpathentry kind="src" path="src/examples"/>
-	<classpathentry kind="src" path="src/scratchpad"/>
-	<classpathentry sourcepath="J:/asm-2.2.1/src.zip" kind="lib" path="lib/asm-2.2.1.jar">
+	<classpathentry path="src/classes" kind="src"/>
+	<classpathentry path="src/classes-gen" kind="src"/>
+	<classpathentry path="src/classes14" kind="src"/>
+	<classpathentry path="src/test-unit" kind="src"/>
+	<classpathentry path="src/test-system" kind="src"/>
+	<classpathentry path="src/examples" kind="src"/>
+	<classpathentry path="src/debug" kind="src"/>
+	<classpathentry path="src/scratchpad" kind="src"/>
+	<classpathentry sourcepath="J:/asm-2.2.1/src.zip" path="lib/asm-2.2.1.jar" kind="lib">
 		<attributes>
-			<attribute value="file:/J:/asm-2.2.1/doc/javadoc/user" name="javadoc_location"/>
+			<attribute name="javadoc_location" value="file:/J:/asm-2.2.1/doc/javadoc/user"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry sourcepath="J:/asm-2.2.1/src.zip" kind="lib" path="lib/asm-commons-2.2.1.jar">
+	<classpathentry sourcepath="J:/asm-2.2.1/src.zip" path="lib/asm-commons-2.2.1.jar" kind="lib">
 		<attributes>
-			<attribute value="file:/J:/asm-2.2.1/doc/javadoc/user" name="javadoc_location"/>
+			<attribute name="javadoc_location" value="file:/J:/asm-2.2.1/doc/javadoc/user"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry sourcepath="J:/jexcelapi-2.5.9/src" kind="lib" path="lib/jxl.jar">
+	<classpathentry sourcepath="J:/jexcelapi-2.5.9/src" path="lib/jxl.jar" kind="lib">
 		<attributes>
-			<attribute value="file:/J:/jexcelapi-2.5.9/docs/" name="javadoc_location"/>
+			<attribute name="javadoc_location" value="file:/J:/jexcelapi-2.5.9/docs/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/java-cup-runtime-v10k.jar"/>
-	<classpathentry kind="lib" path="lib/jdom.jar">
+	<classpathentry path="lib/java-cup-runtime-v10k.jar" kind="lib"/>
+	<classpathentry path="lib/jdom.jar" kind="lib">
 		<attributes>
-			<attribute value="file:/J:/jdom-1.0/build/apidocs/" name="javadoc_location"/>
+			<attribute name="javadoc_location" value="file:/J:/jdom-1.0/build/apidocs/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JUnit"/>
-	<classpathentry kind="output" path="build/dev"/>
+	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"/>
+	<classpathentry path="org.eclipse.jdt.USER_LIBRARY/JUnit" kind="con"/>
+	<classpathentry path="build/dev" kind="output"/>
 </classpath>

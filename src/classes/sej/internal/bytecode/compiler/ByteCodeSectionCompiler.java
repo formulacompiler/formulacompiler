@@ -135,7 +135,7 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 
 	void beginCompilation() throws CompilerException
 	{
-		initializeClass( outputClass(), this.outputs, ByteCodeEngineCompiler.ENGINE_INTF );
+		initializeClass( outputClass(), this.outputs, ByteCodeEngineCompiler.COMPUTATION_INTF );
 		if (numericType().buildStaticMembers( cw() )) {
 			buildStaticInitializer();
 		}
