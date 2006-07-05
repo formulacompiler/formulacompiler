@@ -29,6 +29,7 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.CompilerException;
+import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.CellModel;
 import sej.internal.model.SectionModel;
 
@@ -124,6 +125,16 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		return this.outputs;
 	}
 
+	protected Type parentType()
+	{
+		return null;
+	}
+
+	boolean hasParent()
+	{
+		return (null != parentType());
+	}
+
 
 	private int getterId;
 
@@ -139,6 +150,7 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		if (numericType().buildStaticMembers( cw() )) {
 			buildStaticInitializer();
 		}
+		if (hasParent()) buildParentMember();
 		if (hasInputs()) buildInputMember();
 		buildConstructorWithInputs();
 		if (engineCompiler().canCache()) {
@@ -157,6 +169,13 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, classInternalName(), _sub.getterName(), _sub.getterDescriptor() );
 	}
 
+
+	public ByteCodeSectionNumericMethodCompiler compileExpr( ExpressionNode _node ) throws CompilerException
+	{
+		ByteCodeHelperCompilerForSubExpr result = new ByteCodeHelperCompilerForSubExpr( this, _node );
+		result.compile();
+		return result;
+	}
 
 	void endCompilation()
 	{
@@ -230,6 +249,13 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	}
 
 
+	private void buildParentMember()
+	{
+		if (!hasParent()) throw new IllegalStateException();
+		newField( Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL, ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parentType()
+				.getDescriptor() );
+	}
+
 	private void buildInputMember()
 	{
 		if (!hasInputs()) throw new IllegalStateException();
@@ -240,15 +266,23 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	private void storeInputs( GeneratorAdapter _mv )
 	{
 		if (!hasInputs()) throw new IllegalStateException();
-		_mv.putField( this.classType(), ByteCodeEngineCompiler.INPUTS_MEMBER_NAME, inputType() );
+		_mv.putField( classType(), ByteCodeEngineCompiler.INPUTS_MEMBER_NAME, inputType() );
 	}
 
 	private void buildConstructorWithInputs() throws CompilerException
 	{
-		GeneratorAdapter mv = newMethod( 0, "<init>", "(" + this.inputs.getDescriptor() + ")V" );
+		GeneratorAdapter mv = newMethod( 0, "<init>", "("
+				+ this.inputs.getDescriptor() + (hasParent() ? parentType().getDescriptor() : "") + ")V" );
 
 		// super( _inputs ); or super();
 		callInheritedConstructor( mv, 1 );
+
+		// this.parent = _parent;
+		if (hasParent()) {
+			mv.loadThis();
+			mv.loadArg( 1 );
+			mv.putField( classType(), ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parentType() );
+		}
 
 		// this.inputs = _inputs;
 		if (hasInputs()) {

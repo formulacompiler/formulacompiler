@@ -31,6 +31,7 @@ import sej.SEJ;
 import sej.SpreadsheetBinder;
 import sej.internal.Settings;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.runtime.Runtime_v1;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.Reference;
@@ -65,7 +66,8 @@ public class FormulaEvaluationTestSuite extends TestSuite
 	{
 		SpreadsheetImpl workbook;
 		try {
-			workbook = (SpreadsheetImpl) SEJ.loadSpreadsheet( new File( "src/test-system/testdata/sej/tests/" + _fileName ) );
+			workbook = (SpreadsheetImpl) SEJ
+					.loadSpreadsheet( new File( "src/test-system/testdata/sej/tests/" + _fileName ) );
 		}
 		catch (Exception e) {
 			e.fillInStackTrace();
@@ -252,6 +254,15 @@ public class FormulaEvaluationTestSuite extends TestSuite
 					getOutputClass().getMethod( "getDate" ) ) );
 			else if (this.expected instanceof Boolean) root.defineOutputCell( outputCell.getCellIndex(), new CallFrame(
 					getOutputClass().getMethod( "getBoolean" ) ) );
+			else if (this.expected instanceof String) {
+				String str = (String) this.expected;
+				if (str.equals( "TODAY" )) {
+					root.defineOutputCell( outputCell.getCellIndex(),
+							new CallFrame( getOutputClass().getMethod( "getDate" ) ) );
+					this.expected = Runtime_v1.today();
+				}
+				else fail( "Output string not supported: " + str );
+			}
 			else fail( "Output cell type not supported: " + this.expected.getClass() );
 
 			Inputs inputs = null;
@@ -377,7 +388,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 			{
 				throw new AbstractMethodError( "getDate()" );
 			}
-			
+
 			public boolean getBoolean()
 			{
 				throw new AbstractMethodError( "getBoolean()" );

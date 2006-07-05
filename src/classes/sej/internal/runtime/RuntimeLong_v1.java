@@ -178,6 +178,11 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		return round( _val, (int) (_maxFrac / _cx.one), _cx );
 	}
 
+	public static long stdTODAY( Context _cx )
+	{
+		return dateToNum( today(), _cx );
+	}
+
 
 	public static boolean booleanFromNum( final long _val )
 	{

@@ -22,8 +22,6 @@ package sej.internal.bytecode.compiler;
 
 import org.objectweb.asm.Type;
 
-import sej.CompilerException;
-import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.SectionModel;
 
 final class ByteCodeSubSectionCompiler extends ByteCodeSectionCompiler
@@ -74,11 +72,10 @@ final class ByteCodeSubSectionCompiler extends ByteCodeSectionCompiler
 	}
 
 
-	public ByteCodeSectionNumericMethodCompiler compileExpr( ExpressionNode _node ) throws CompilerException
+	@Override
+	protected Type parentType() 
 	{
-		ByteCodeHelperCompilerForSubExpr result = new ByteCodeHelperCompilerForSubExpr( this, _node );
-		result.compile();
-		return result;
+		return parentSectionCompiler().classType();
 	}
 
 }

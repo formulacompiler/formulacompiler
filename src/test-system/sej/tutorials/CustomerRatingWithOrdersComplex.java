@@ -21,6 +21,8 @@
 package sej.tutorials;
 
 import java.lang.reflect.Method;
+import java.util.Calendar;
+import java.util.Date;
 
 import sej.CallFrame;
 import sej.CompilerException;
@@ -34,9 +36,28 @@ import sej.SpreadsheetBinder.Section;
 import sej.runtime.Engine;
 import junit.framework.TestCase;
 
-public class CustomerRatingWithOrders extends TestCase
+public class CustomerRatingWithOrdersComplex extends TestCase
 {
+	private static final Calendar TODAY = today();
+	
+	private static final Calendar today()
+	{
+		Calendar now = Calendar.getInstance();
+		now.set( Calendar.HOUR, 0 );
+		now.set( Calendar.MINUTE, 0 );
+		now.set( Calendar.SECOND, 0 );
+		now.set( Calendar.MILLISECOND, 0 );
+		return now;
+	}
+	
+	private static final Date beforeToday( int _daysBack )
+	{
+		Calendar back = (Calendar) TODAY.clone();
+		back.add( Calendar.DAY_OF_MONTH, -_daysBack );
+		return back.getTime();
+	}
 
+	
 	// LATER Use MATCH to get the rating given the total
 	// LATER Use INDEX to get a string rating instead of a numeric one
 	// FIXME Test reset() with sections
@@ -44,7 +65,7 @@ public class CustomerRatingWithOrders extends TestCase
 
 	public void testCustomerRating() throws Exception
 	{
-		String path = "src/test-system/testdata/sej/tutorials/CustomerRating.xls";
+		String path = "src/test-system/testdata/sej/tutorials/CustomerRatingComplex.xls";
 
 		EngineBuilder builder = SEJ.newEngineBuilder();
 		builder.loadSpreadsheet( path );
@@ -57,14 +78,9 @@ public class CustomerRatingWithOrders extends TestCase
 		Engine engine = builder.compile();
 		CustomerRatingFactory factory = (CustomerRatingFactory) engine.getComputationFactory();
 
-		// Original sheet has five rows in the section. First, we pass the same number of values.
-		assertRating( 2, factory, 1000, 2000, 1000, 1500, 1000 );
-
 		// Let's pass fewer values.
-		assertRating( 3, factory, 5000, 3000 );
+		assertRating( 1, factory, new double[] {5000, 3000}, new int[] {10, 78} );
 
-		// And more values.
-		assertRating( 4, factory, 1000, 2000, 1000, 1500, 1000, 10000 );
 	}
 
 
@@ -88,13 +104,15 @@ public class CustomerRatingWithOrders extends TestCase
 
 			Cell totalCell = sheet.getCell( "OrderTotal" );
 			orders.defineInputCell( totalCell, new CallFrame( OrderData.class.getMethod( "total" ) ) );
+			Cell dateCell = sheet.getCell( "OrderDate" );
+			orders.defineInputCell( dateCell, new CallFrame( OrderData.class.getMethod( "date" ) ) );
 		}
 	}
 
 
-	private void assertRating( int _expected, CustomerRatingFactory _factory, double... _orderTotals )
+	private void assertRating( int _expected, CustomerRatingFactory _factory, double[] _orderTotals, int[] _daysBack )
 	{
-		CustomerData customer = new CustomerDataImpl( _orderTotals );
+		CustomerData customer = new CustomerDataImpl( _orderTotals, _daysBack );
 		CustomerRating ratingStrategy = _factory.newRating( customer );
 		int rating = ratingStrategy.rating();
 		assertEquals( _expected, rating );
@@ -125,6 +143,7 @@ public class CustomerRatingWithOrders extends TestCase
 	public static interface OrderData
 	{
 		public double total();
+		public Date date();
 	}
 
 	// ---- OrderData
@@ -134,12 +153,12 @@ public class CustomerRatingWithOrders extends TestCase
 	{
 		private final OrderDataImpl[] orders;
 
-		public CustomerDataImpl(double[] _orderTotals)
+		public CustomerDataImpl(double[] _orderTotals, int[] _daysBack)
 		{
 			super();
 			this.orders = new OrderDataImpl[ _orderTotals.length ];
 			for (int i = 0; i < _orderTotals.length; i++) {
-				this.orders[ i ] = new OrderDataImpl( _orderTotals[ i ] );
+				this.orders[ i ] = new OrderDataImpl( _orderTotals[ i ], _daysBack[ i ] );
 			}
 		}
 
@@ -152,16 +171,23 @@ public class CustomerRatingWithOrders extends TestCase
 	private static class OrderDataImpl implements OrderData
 	{
 		private final double total;
+		private final Date date;
 
-		public OrderDataImpl(double _total)
+		public OrderDataImpl(double _total, int _daysBack)
 		{
 			super();
 			this.total = _total;
+			this.date = beforeToday( _daysBack );
 		}
 
 		public double total()
 		{
 			return this.total;
+		}
+		
+		public Date date()
+		{
+			return this.date;
 		}
 	}
 

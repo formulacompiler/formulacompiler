@@ -36,7 +36,13 @@ public enum Function {
 
 	ROUND,
 
-	TODAY,
+	TODAY {
+		@Override
+		public boolean isVolatile()
+		{
+			return true;
+		}
+	},
 
 	MATCH,
 	INDEX;
@@ -45,6 +51,11 @@ public enum Function {
 	public String getName()
 	{
 		return toString();
+	}
+	
+	public boolean isVolatile() 
+	{
+		return false;
 	}
 
 }
