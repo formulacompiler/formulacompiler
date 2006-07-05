@@ -253,7 +253,7 @@ public class SpreadsheetBinderTest extends AbstractTestBase
 		assertInvalid( cfg, "spreadsheet" );
 		cfg.spreadsheet = this.workbook;
 		
-		// TODO more tests here
+		// LATER more tests here
 	}
 
 

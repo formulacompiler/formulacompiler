@@ -153,7 +153,7 @@ public class ByteCodeOutputDistributorCompiler
 
 	private void failWhenNoMatch()
 	{
-		// TODO "throw Abstract..."
+		// FIXME test this, then "throw Abstract..."
 	}
 
 }

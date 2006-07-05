@@ -59,7 +59,6 @@ public class GeneratedEngine extends Outputs implements Computation
 
 	public final Iterable<Outputs> getDetails()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -80,7 +79,7 @@ public class GeneratedEngine extends Outputs implements Computation
 
 	final double getIteration()
 	{
-		GeneratedEngine[] c = null; // TODO accessor, really
+		GeneratedEngine[] c = null; 
 		if (0 == c.length) return 0.0;
 		double result = c[ 0 ].getIntermediate();
 		for (int i = 1; i < c.length; i++)
@@ -237,25 +236,21 @@ public class GeneratedEngine extends Outputs implements Computation
 
 	public BigDecimal getBigDecimalA()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public BigDecimal getBigDecimalB()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public BigDecimal getBigDecimalC()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public BigDecimal getBigResult()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

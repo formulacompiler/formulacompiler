@@ -65,7 +65,7 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 					compileOneDimensionalIndexFunction( rangeNode, args.get( 1 ) );
 				}
 				else {
-					unsupported( this.node ); // TODO two-dim index
+					unsupported( this.node ); // LATER two-dim index
 				}
 				break;
 
@@ -101,9 +101,9 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 				"[D", null, null );
 		fv.visitEnd();
 
-		// TODO Finish compileStaticArrayField
+		// LATER Finish compileStaticArrayField
 		// ... new double[ n ]
-		final MethodVisitor ci = null; // TODO getSection().classInit();
+		final MethodVisitor ci = null; // LATER getSection().classInit();
 		ci.visitIntInsn( Opcodes.BIPUSH, n );
 		ci.visitIntInsn( Opcodes.NEWARRAY, n );
 
