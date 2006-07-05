@@ -100,6 +100,16 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 	}
 
 
+	public void testEnumInParametrizedInput() throws Exception
+	{
+		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
+		this.root.defineInputCell( this.formula.getCellIndex(), new CallFrame( Inputs.class.getMethod( "hasEnumParam",
+				Inputs.MyEnum.class ), Inputs.MyEnum.TWO ) );
+
+		assertResult( 2.0 );
+	}
+
+
 	public void testChainedInput() throws Exception
 	{
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
