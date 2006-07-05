@@ -30,48 +30,21 @@ package sej;
  */
 public enum Function {
 
+	IF,
 
-	IF {
-		@Override
-		public String getName()
-		{
-			return "IF";
-		}
-	},
+	NOT,
 
-	NOT {
-		@Override
-		public String getName()
-		{
-			return "NOT";
-		}
-	},
+	ROUND,
 
-	ROUND {
-		@Override
-		public String getName()
-		{
-			return "ROUND";
-		}
-	},
+	TODAY,
 
-	MATCH {
-		@Override
-		public String getName()
-		{
-			return "MATCH";
-		}
-	},
-
-	INDEX {
-		@Override
-		public String getName()
-		{
-			return "INDEX";
-		}
-	};
+	MATCH,
+	INDEX;
 
 
-	public abstract String getName();
+	public String getName()
+	{
+		return toString();
+	}
 
 }
