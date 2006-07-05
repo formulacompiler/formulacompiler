@@ -316,7 +316,7 @@ Output output = engine.newComputation( input );</pre>
 <h2>March 30, 2006</h2>
 
 <h3>Cells, Ranges and Names</h3>
-<p>Excel ranges and names are tricky. Here are some examples:</p><dt><tt>=SUM(2:5)</tt></dt><dd>sums the entire rows 2 through 5.</dd><dt><tt>=SUM(B:D)</tt></dt><dd>sums the entire columns B through D.</dd><dt><tt>=SUM(namedrange)</tt></dt><dd>sums the named range.</dd><dt><tt>=namedrange</tt></dt><dd>is an error, unless the range is unidimensional and the referencing cell is in a parallel range to the named one. However, in such a cell, <tt>=SUM(namedrange)</tt> still sums the entire range, not just the unidimensional cut through a possibly multidimensional range.</dd>
+<p>Excel ranges and names are tricky. Here are some examples:</p><dl><dt><tt>=SUM(2:5)</tt></dt><dd>sums the entire rows 2 through 5.</dd><dt><tt>=SUM(B:D)</tt></dt><dd>sums the entire columns B through D.</dd><dt><tt>=SUM(namedrange)</tt></dt><dd>sums the named range.</dd><dt><tt>=namedrange</tt></dt><dd>is an error, unless the range is unidimensional and the referencing cell is in a parallel range to the named one. However, in such a cell, <tt>=SUM(namedrange)</tt> still sums the entire range, not just the unidimensional cut through a possibly multidimensional range.</dd></dl>
 <p>The last rule deserves an example:</p>
 <pre>Income  Expense  Profit
   $100      $80  =Income-Expense =&gt; $180
@@ -483,7 +483,7 @@ void compileAnd( Node a, Node b, Label branch ) {
 
 <h2>March 16, 2006</h2>
 <p>It's done. I've rewritten the API and ported to old byte-code compiler over to the new design.</p>
-<p>I think I shall use version numbers in the class name for the runtime support for the engine. That way, I can easily support multiple versions of stored engines. As long as the implemented interfaces on the engines don't change, that is.</p><dt>Bill Venners <a href="http://www.artima.com/insidejvm/ed2/security2.html">writes</a></dt><dd><em>Although you can grant special access privileges between types belonging to the same package by giving members protected or package access, this special access is granted to members of the same package at runtime only if they were loaded by the same class loader.</em></dd>
+<p>I think I shall use version numbers in the class name for the runtime support for the engine. That way, I can easily support multiple versions of stored engines. As long as the implemented interfaces on the engines don't change, that is.</p><dl><dt>Bill Venners <a href="http://www.artima.com/insidejvm/ed2/security2.html">writes</a></dt><dd><em>Although you can grant special access privileges between types belonging to the same package by giving members protected or package access, this special access is granted to members of the same package at runtime only if they were loaded by the same class loader.</em></dd></dl>
 <p>This means one has to declare all interfaces to the engine (inputs and outputs) public, even though they very clearly should often be at most package visible.</p>
 
 <h5>Typing</h5>
@@ -536,7 +536,7 @@ void compileAnd( Node a, Node b, Label branch ) {
 <p>SEJ does not handle sums over nested bands properly. The user must model intermediate sums for every non-leaf band. I shall accept this as a known limitation for the moment and have <a href="doc/bands.html">documented</a> it.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 30.06.2006.</p>        </div>
+<br/>Last updated on 05.07.2006.</p>        </div>
     </div>
 </body>
 </html>
