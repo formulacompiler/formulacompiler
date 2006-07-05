@@ -20,9 +20,6 @@
  */
 package sej.internal.bytecode.compiler;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -109,17 +106,6 @@ public class SectionSumTest extends TestCase
 		bindSectionSum( sht, bnd, "collection" );
 
 		SaveableEngine engine = cmp.compile();
-
-
-		// TODO Remove this!!!!
-		OutputStream os = new BufferedOutputStream( new FileOutputStream( "/temp/sectionsum.jar" ) );
-		try {
-			engine.saveTo( os );
-		}
-		finally {
-			os.close();
-		}
-
 
 		return (RootOutput) engine.getComputationFactory().newComputation( _input );
 	}

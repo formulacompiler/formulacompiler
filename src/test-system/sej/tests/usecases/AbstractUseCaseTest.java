@@ -22,9 +22,9 @@ package sej.tests.usecases;
 
 import sej.EngineBuilder;
 import sej.SEJ;
+import sej.SaveableEngine;
 import sej.Spreadsheet;
 import sej.SpreadsheetBinder;
-import sej.runtime.Engine;
 import junit.framework.TestCase;
 
 abstract class AbstractUseCaseTest extends TestCase
@@ -34,7 +34,7 @@ abstract class AbstractUseCaseTest extends TestCase
 	protected interface UseCase
 	{
 		public void defineEngine( Spreadsheet _model, SpreadsheetBinder.Section _root ) throws Exception;
-		public void useEngine( Engine _engine ) throws Exception;
+		public void useEngine( SaveableEngine _engine ) throws Exception;
 	}
 
 
@@ -60,7 +60,7 @@ abstract class AbstractUseCaseTest extends TestCase
 	private final void runUseCase( UseCase _useCase, EngineBuilder _builder ) throws Exception
 	{
 		_useCase.defineEngine( _builder.getSpreadsheet(), _builder.getRootBinder() );
-		Engine engine = _builder.compile();
+		SaveableEngine engine = _builder.compile();
 		_useCase.useEngine( engine );
 	}
 
