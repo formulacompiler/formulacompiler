@@ -91,7 +91,6 @@ public interface SpreadsheetBuilder
 	 */
 	public void nameCell( String _name );
 
-
 	/**
 	 * Returns a reference to the cell created last. Use it to reference the cell in formulas for
 	 * other, calculated cells.
@@ -101,6 +100,25 @@ public interface SpreadsheetBuilder
 	public CellRef currentCell();
 
 
+	/**
+	 * Returns a range defined by two diagonally opposed corner cells.
+	 * 
+	 * @param _oneCorner is one of the two corners defining the range.
+	 * @param _otherCorner is the other of the two corners defining the range.
+	 */
+	public RangeRef range( CellRef _oneCorner, CellRef _otherCorner );
+
+	/**
+	 * Defines a name for the given range.
+	 * 
+	 * @param _name is the name for the range. Must be unique in the spreadsheet.
+	 * 
+	 * @see sej.Spreadsheet#getRange(String)
+	 * @see sej.Spreadsheet#getDefinedName(String)
+	 */
+	public void nameRange( RangeRef _range, String _name );
+
+	
 	/**
 	 * Returns a numeric constant value.
 	 */
@@ -131,6 +149,15 @@ public interface SpreadsheetBuilder
 	 */
 	public ExprNode ref( CellRef _cell );
 
+	/**
+	 * Returns an expression tree node which specifies a range of cells, defined earlier.
+	 *   
+	 * @param _rng is the reference to the range.
+	 * 
+	 * @see #range(sej.SpreadsheetBuilder.CellRef, sej.SpreadsheetBuilder.CellRef)
+	 */
+	public ExprNode ref( RangeRef _rng );
+	
 	/**
 	 * Returns an expression tree node which always evaluates to the given, constant value.
 	 * 
@@ -212,5 +239,21 @@ public interface SpreadsheetBuilder
 	{
 		// opaque
 	}
+
+	
+	/**
+	 * Opaque handle for a range in a spreadsheet, used to reference the range again in the
+	 * expression of other, calculated cells.
+	 * 
+	 * @author peo
+	 * 
+	 * @see sej.SpreadsheetBuilder#range(sej.SpreadsheetBuilder.CellRef, sej.SpreadsheetBuilder.CellRef)
+	 * @see sej.SpreadsheetBuilder#ref(sej.SpreadsheetBuilder.RangeRef)
+	 */
+	public static interface RangeRef
+	{
+		// opaque
+	}
+
 
 }

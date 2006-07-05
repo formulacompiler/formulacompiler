@@ -114,10 +114,11 @@ public class SectionSumTest extends TestCase
 	{
 		_bld.newRow();
 		_bld.newCell( _bld.cst( 2 ) );
-		_bld.nameCell( _prefix + "Dets" );
+		_bld.nameCell( _prefix + "Det" );
 		CellRef detCell = _bld.currentCell();
 		_bld.newCell( _bld.op( Operator.TIMES, _bld.ref( detCell ), _bld.ref( _bld.cst( 2 ) ) ) );
 		CellRef detTwice = _bld.currentCell();
+		_bld.nameRange( _bld.range( detCell, detTwice ), _prefix + "Dets" );
 		_bld.newRow();
 		_bld.newCell( _bld.agg( Aggregator.SUM, _bld.ref( detTwice ) ) );
 		CellRef detSum = _bld.currentCell();
@@ -130,7 +131,7 @@ public class SectionSumTest extends TestCase
 		Range rng = _sht.getRange( _prefix + "Dets" );
 		CallFrame iter = call( RootInput.class, "get" + _prefix );
 		Section dets = _bnd.defineRepeatingSection( rng, Orientation.VERTICAL, iter, DetailInput.class, null, null );
-		dets.defineInputCell( _sht.getCell( _prefix + "Dets" ), call( DetailInput.class, "getDetailValue" ) );
+		dets.defineInputCell( _sht.getCell( _prefix + "Det" ), call( DetailInput.class, "getDetailValue" ) );
 		_bnd.defineOutputCell( _sht.getCell( _prefix + "Sums" ), call( RootOutput.class, _prefix + "Sums" ) );
 	}
 
@@ -195,7 +196,7 @@ public class SectionSumTest extends TestCase
 					for (int i = 0; i < dl; i++) {
 						di[ i ] = new DetailPrototype( ds[ i ] );
 					}
-					
+
 					this.arrayDets = di;
 				}
 				else {
@@ -277,14 +278,14 @@ public class SectionSumTest extends TestCase
 			if (this.iterableDets == null) {
 				final Iterator<DetailInput> ds = this.inputs.getiterable().iterator();
 				if (ds != null) {
-					
+
 					final Collection<DetailPrototype> coll = new ArrayList<DetailPrototype>();
 					while (ds.hasNext()) {
 						final DetailInput d = ds.next();
 						coll.add( new DetailPrototype( d ) );
 					}
 					final DetailPrototype[] di = coll.toArray( new DetailPrototype[ coll.size() ] );
-					
+
 					this.iterableDets = di;
 				}
 				else {
@@ -323,14 +324,14 @@ public class SectionSumTest extends TestCase
 			if (this.collectionDets == null) {
 				final Collection<DetailInput> dc = this.inputs.getcollection();
 				if (dc != null) {
-					
+
 					final int dl = dc.size();
 					final Iterator<DetailInput> ds = dc.iterator();
 					final DetailPrototype[] di = new DetailPrototype[ dl ];
 					for (int i = 0; i < dl; i++) {
 						di[ i ] = new DetailPrototype( ds.next() );
 					}
-					
+
 					this.collectionDets = di;
 				}
 				else {

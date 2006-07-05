@@ -20,6 +20,7 @@
  */
 package sej.internal.spreadsheet.builder;
 
+import sej.Aggregator;
 import sej.EngineBuilder;
 import sej.Operator;
 import sej.SEJ;
@@ -50,11 +51,16 @@ public class SpreadsheetBuilderTest extends TestCase
 		b.nameCell( "ArticleRebate" );
 		ar = b.currentCell();
 
+		SpreadsheetBuilder.RangeRef rng = b.range( ar, cr );
+		b.nameRange( rng, "Rebates" );
+
 		b.newRow();
 		b.newRow();
-		b.newCell( b.cst( "Rebate" ) );
+		b.newCell( b.cst( "Rebates" ) );
 		b.newCell( b.op( Operator.MAX, b.ref( cr ), b.ref( ar ) ) );
-		b.nameCell( "Rebate" );
+		b.nameCell( "RebateOp" );
+		b.newCell( b.agg( Aggregator.MAX, b.ref( rng ) ) );
+		b.nameCell( "RebateAgg" );
 
 		Spreadsheet s = b.getSpreadsheet();
 		Sheet[] sheets = s.getSheets();
@@ -65,6 +71,9 @@ public class SpreadsheetBuilderTest extends TestCase
 		Row[] rows = sheet.getRows();
 
 		assertEquals( 4, rows.length );
+		assertNotNull( s.getCell( "RebateOp" ) );
+		assertNotNull( s.getCell( "RebateAgg" ) );
+		assertNotNull( s.getRange( "Rebates" ) );
 
 		EngineBuilder c = SEJ.newEngineBuilder();
 		c.setSpreadsheet( s );
@@ -74,7 +83,8 @@ public class SpreadsheetBuilderTest extends TestCase
 		Engine e = c.compile();
 
 		Output o = (Output) e.getComputationFactory().newComputation( new Input() );
-		assertEquals( 0.1, o.getRebate(), 0.00001 );
+		assertEquals( 0.1, o.getRebateOp(), 0.00001 );
+		assertEquals( 0.1, o.getRebateAgg(), 0.00001 );
 	}
 
 
@@ -92,7 +102,8 @@ public class SpreadsheetBuilderTest extends TestCase
 
 	public static interface Output
 	{
-		double getRebate();
+		double getRebateOp();
+		double getRebateAgg();
 	}
 
 }
