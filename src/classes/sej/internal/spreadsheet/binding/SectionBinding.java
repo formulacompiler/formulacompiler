@@ -139,7 +139,8 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 		validateAccessible( _callChainToCall );
 		final CellIndex cellIndex = (CellIndex) _cell;
 		if (this.inputs.containsKey( cellIndex )) {
-			throw new CompilerException.DuplicateDefinition( "Input cell '" + cellIndex.toString() + "' is already defined" );
+			throw new CompilerException.DuplicateDefinition( "Input cell '"
+					+ cellIndex.toString() + "' is already defined" );
 		}
 		final InputCellBinding def = new InputCellBinding( this, _callChainToCall, cellIndex );
 		this.inputs.put( def.getIndex(), def );
@@ -308,6 +309,11 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 			}
 			for (CallFrame cf : SectionBinding.this.outputs.keySet()) {
 				abstractMethods.remove( Util.nameAndSignatureOf( cf.getMethod() ) );
+			}
+			for (SectionBinding sub : SectionBinding.this.sections) {
+				if (sub.callToImplement != null) {
+					abstractMethods.remove( Util.nameAndSignatureOf( sub.callToImplement.getMethod() ) );
+				}
 			}
 			if (abstractMethods.size() > 0) {
 				final Method m = abstractMethods.values().iterator().next();

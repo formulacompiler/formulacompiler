@@ -32,10 +32,13 @@ import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
+import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
+import sej.internal.spreadsheet.CellRange;
 import sej.internal.spreadsheet.CellWithConstant;
 import sej.internal.spreadsheet.CellWithLazilyParsedExpression;
 import sej.internal.spreadsheet.ExpressionNodeForCell;
+import sej.internal.spreadsheet.ExpressionNodeForRange;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
@@ -53,14 +56,14 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 		super();
 		newSheet();
 	}
-	
-	
+
+
 	public Spreadsheet getSpreadsheet()
 	{
 		return this.spreadsheet;
 	}
-	
-	
+
+
 	public void newSheet()
 	{
 		this.sheet = new SheetImpl( this.spreadsheet );
@@ -98,6 +101,30 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 	}
 
 
+	public RangeRef range( CellRef _oneCorner, CellRef _otherCorner )
+	{
+		final CellIndex a = cellOf( _oneCorner ).getCellIndex();
+		final CellIndex b = cellOf( _otherCorner ).getCellIndex();
+		
+		int sheetMin = Math.min( a.sheetIndex, b.sheetIndex );
+		int sheetMax = Math.max( a.sheetIndex, b.sheetIndex );
+		int rowMin = Math.min( a.rowIndex, b.rowIndex );
+		int rowMax = Math.max( a.rowIndex, b.rowIndex );
+		int colMin = Math.min( a.columnIndex, b.columnIndex );
+		int colMax = Math.max( a.columnIndex, b.columnIndex );
+		
+		final CellIndex min = new CellIndex( this.spreadsheet, sheetMin, colMin, rowMin );
+		final CellIndex max = new CellIndex( this.spreadsheet, sheetMax, colMax, rowMax );
+		
+		return new RangeRefImpl( new CellRange( min, max ) );
+	}
+
+	public void nameRange( RangeRef _range, String _name )
+	{
+		this.spreadsheet.addToNameMap( _name, rangeOf( _range ) );
+	}
+
+
 	public Constant cst( String _const )
 	{
 		return new ConstantImpl( _const );
@@ -128,6 +155,12 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 	{
 		return new ExprNodeImpl( new ExpressionNodeForCell( cellOf( _cell ) ) );
 	}
+	
+	public ExprNode ref( RangeRef _rng )
+	{
+		return new ExprNodeImpl( new ExpressionNodeForRange( rangeOf( _rng ) ) );
+	}
+	
 
 	public ExprNode op( Operator _op, ExprNode... _args )
 	{
@@ -144,7 +177,7 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 		return new ExprNodeImpl( new ExpressionNodeForAggregator( _agg, nodesOf( _args ) ) );
 	}
 
-	
+
 	private Object valueOf( Constant _const )
 	{
 		return ((ConstantImpl) _const).value;
@@ -204,6 +237,24 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 		{
 			super();
 			this.cell = _cell;
+		}
+
+	}
+
+
+	private CellRange rangeOf( RangeRef _expr )
+	{
+		return ((RangeRefImpl) _expr).range;
+	}
+
+	private static class RangeRefImpl implements RangeRef
+	{
+		final CellRange range;
+
+		RangeRefImpl(CellRange _range)
+		{
+			super();
+			this.range = _range;
 		}
 
 	}

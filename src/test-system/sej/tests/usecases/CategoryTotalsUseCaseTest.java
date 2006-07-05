@@ -43,31 +43,36 @@ public class CategoryTotalsUseCaseTest extends AbstractUseCaseTest
 			public void defineEngine( Spreadsheet _model, SpreadsheetBinder.Section _root ) throws Exception
 			{
 				SpreadsheetBinder.Section categories = _root.defineRepeatingSection( _model.getRange( "Categories" ),
-						Orientation.VERTICAL, call( Inputs.class, "categories" ), CategoryInput.class, null, null );
+						Orientation.VERTICAL, call( Input.class, "categories" ), CategoryInput.class, call( Output.class,
+								"categories" ), CategoryOutput.class );
 				SpreadsheetBinder.Section elements = categories.defineRepeatingSection( _model.getRange( "Elements" ),
 						Orientation.VERTICAL, call( CategoryInput.class, "elements" ), ElementInput.class, null, null );
 				elements.defineInputCell( _model.getCell( "ElementAmount" ), call( ElementInput.class, "amount" ) );
 
-				// TODO categories.defineOutputCell( CATEGORY_TOTAL, ValueType.DOUBLE );
+				categories.defineOutputCell( _model.getCell( "CategoryTotal" ),
+						call( CategoryOutput.class, "categoryTotal" ) );
 
-				_root.defineOutputCell( _model.getCell( "GrandTotal" ), call( Outputs.class, "grandTotal" ) );
+				_root.defineOutputCell( _model.getCell( "GrandTotal" ), call( Output.class, "grandTotal" ) );
 			}
 
 			public void useEngine( SaveableEngine _engine ) throws Exception
 			{
-				Outputs computation = (Outputs) _engine.getComputationFactory().newComputation( new Inputs() );
+				Output computation = (Output) _engine.getComputationFactory().newComputation( new Input() );
 
 				assertEquals( 59, computation.grandTotal() );
 
-				// TODO assertEquals( 18, cat1.getInteger( CATEGORY_TOTAL ) );
-				// TODO assertEquals( 21, cat2.getInteger( CATEGORY_TOTAL ) );
-				// TODO assertEquals( 20, cat3.getInteger( CATEGORY_TOTAL ) );
+				CategoryOutput[] cats = computation.categories();
+
+				assertEquals( 3, cats.length );
+				assertEquals( 18, cats[ 0 ].categoryTotal() );
+				assertEquals( 21, cats[ 1 ].categoryTotal() );
+				assertEquals( 20, cats[ 2 ].categoryTotal() );
 			}
 
-		}, Inputs.class, Outputs.class );
+		}, Input.class, Output.class );
 	}
 
-	public static final class Inputs
+	public static final class Input
 	{
 		public CategoryInput[] categories()
 		{
@@ -110,9 +115,15 @@ public class CategoryTotalsUseCaseTest extends AbstractUseCaseTest
 		}
 	}
 
-	public static interface Outputs
+	public static interface Output
 	{
 		public int grandTotal();
+		public CategoryOutput[] categories();
+	}
+
+	public static interface CategoryOutput
+	{
+		public int categoryTotal();
 	}
 
 
