@@ -1,5 +1,9 @@
 package sej.internal.bytecode.compiler;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -10,6 +14,11 @@ import sej.CompilerException;
 
 public class ByteCodeSubSectionGetterCompiler extends ByteCodeSectionMethodCompiler
 {
+	private static final Type ITERATOR_INTF = Type.getType( Iterator.class ); 
+	private static final Type ITERABLE_INTF = Type.getType( Iterable.class ); 
+	private static final Type COLLECTION_INTF = Type.getType( Collection.class ); 
+	private static final Type ARRAYLIST_CLASS = Type.getType( ArrayList.class ); 
+	
 	private final ByteCodeSubSectionCompiler sub;
 
 
@@ -34,8 +43,9 @@ public class ByteCodeSubSectionGetterCompiler extends ByteCodeSectionMethodCompi
 
 		// ~ final DetailInput[] ds = this.inputs.getarray();
 		final CallFrame inputCall = sub.model().getCallChainToCall();
-		final Type inputArrayType = Type.getType( inputCall.getMethod().getReturnType() );
-		final int l_ds = mv.newLocal( inputArrayType );
+		final Class inputContainerClass = inputCall.getMethod().getReturnType();
+		final Type inputContainerType = Type.getType( inputContainerClass );
+		final int l_ds = mv.newLocal( inputContainerType );
 		compileInputGetterCall( inputCall );
 		mv.storeLocal( l_ds );
 
@@ -43,53 +53,39 @@ public class ByteCodeSubSectionGetterCompiler extends ByteCodeSectionMethodCompi
 		final Label isNull = mv.newLabel();
 		mv.loadLocal( l_ds );
 		mv.ifNull( isNull );
-		
-		// ~ ~ final int dl = ds.length;
-		final int l_dl = mv.newLocal( Type.INT_TYPE );
-		mv.loadLocal( l_ds );
-		mv.arrayLength();
-		mv.storeLocal( l_dl );
-		
-		//	~ ~ DetailImpl[] di = new DetailPrototype[ dl ];
-		final int l_di = mv.newLocal( sub.arrayType() );
-		mv.loadLocal( l_dl );
-		mv.newArray( sub.classType() );
-		mv.storeLocal( l_di );
-		
-		//	~ ~ for (int i = 0; i < dl; i++) {
-		final int l_i = mv.newLocal( Type.INT_TYPE );
-		final Label next = mv.newLabel();
-		mv.push( 0 );
-		mv.storeLocal( l_i );
-		mv.goTo( next );
-		final Label again = mv.mark();
-		
-		//	~ ~ ~ di[ i ] = new DetailPrototype( ds[ i ] );
-		mv.loadLocal( l_di );
-		mv.loadLocal( l_i );
-		mv.newInstance( sub.classType() );
-		mv.dup();
-		mv.loadLocal( l_ds );
-		mv.loadLocal( l_i );
-		mv.arrayLoad( sub.inputType() );
-		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, sub.classInternalName(), "<init>", "(" + sub.inputType().getDescriptor() + ")V" );
-		mv.arrayStore( sub.classType() );
-		
-		//	~ ~ }
-		mv.iinc( l_i, 1 );
-		mv.mark( next );
-		mv.loadLocal( l_i );
-		mv.loadLocal( l_dl );
-		mv.ifCmp( Type.INT_TYPE, mv.LT, again );
-		
-		//	~ ~ this.<field> = di;
+
+		int l_di;
+		if (inputContainerClass.isArray()) {
+			l_di = compileInitFromArray( sub, mv, l_ds );
+		}
+		else if (Collection.class.isAssignableFrom( inputContainerClass )) {
+			l_di = compileInitFromCollection( sub, mv, l_ds );
+		}
+		else if (Iterable.class.isAssignableFrom( inputContainerClass )) {
+			final int l_it = mv.newLocal( ITERATOR_INTF );
+			mv.loadLocal( l_ds );
+			mv.visitMethodInsn( Opcodes.INVOKEINTERFACE, ITERABLE_INTF.getInternalName(), "iterator", "()" + ITERATOR_INTF.getDescriptor() );
+			mv.storeLocal( l_it );
+			l_di = compileInitFromIterator( sub, mv, l_it );
+		}
+		else if (Iterator.class.isAssignableFrom( inputContainerClass )) {
+			l_di = compileInitFromIterator( sub, mv, l_ds );
+		}
+		else {
+			throw new CompilerException.UnsupportedDataType( "The return type of '"
+					+ inputCall.getMethod() + "' is not supported as input to a repeating section." );
+		}
+
+		// ~ ~ this.field = di;
 		mv.loadThis();
 		mv.loadLocal( l_di );
 		mv.putField( section().classType(), sub.getterName(), sub.arrayType() );
-		
+
 		// ~ } else {
 		mv.goTo( alreadySet );
 		mv.mark( isNull );
+
+		// ~ ~ this.field = new DetailPrototype[ 0 ];
 		mv.loadThis();
 		mv.push( 0 );
 		mv.newArray( sub.classType() );
@@ -105,4 +101,153 @@ public class ByteCodeSubSectionGetterCompiler extends ByteCodeSectionMethodCompi
 		mv.visitInsn( Opcodes.ARETURN );
 	}
 
+
+	private int compileInitFromArray( final ByteCodeSubSectionCompiler sub, final GeneratorAdapter mv, final int l_ds )
+	{
+		// final int dl = ds.length;
+		final int l_dl = mv.newLocal( Type.INT_TYPE );
+		mv.loadLocal( l_ds );
+		mv.arrayLength();
+		mv.storeLocal( l_dl );
+
+		// DetailImpl[] di = new DetailPrototype[ dl ];
+		final int l_di = mv.newLocal( sub.arrayType() );
+		mv.loadLocal( l_dl );
+		mv.newArray( sub.classType() );
+		mv.storeLocal( l_di );
+
+		// for (int i = 0; i < dl; i++) {
+		final int l_i = mv.newLocal( Type.INT_TYPE );
+		final Label next = mv.newLabel();
+		mv.push( 0 );
+		mv.storeLocal( l_i );
+		mv.goTo( next );
+		final Label again = mv.mark();
+
+		// ~ di[ i ] = new DetailPrototype( ds[ i ] );
+		mv.loadLocal( l_di );
+		mv.loadLocal( l_i );
+		mv.newInstance( sub.classType() );
+		mv.dup();
+		mv.loadLocal( l_ds );
+		mv.loadLocal( l_i );
+		mv.arrayLoad( sub.inputType() );
+		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, sub.classInternalName(), "<init>", "("
+				+ sub.inputType().getDescriptor() + ")V" );
+		mv.arrayStore( sub.classType() );
+
+		// }
+		mv.iinc( l_i, 1 );
+		mv.mark( next );
+		mv.loadLocal( l_i );
+		mv.loadLocal( l_dl );
+		mv.ifCmp( Type.INT_TYPE, mv.LT, again );
+
+		return l_di;
+	}
+
+	
+	private int compileInitFromCollection( final ByteCodeSubSectionCompiler sub, final GeneratorAdapter mv, final int l_dc )
+	{
+		final String n_iter = ITERATOR_INTF.getInternalName();
+		final String n_coll = COLLECTION_INTF.getInternalName();
+		
+		// final int dl = dc.size();
+		final int l_dl = mv.newLocal( Type.INT_TYPE );
+		mv.loadLocal( l_dc );
+		mv.visitMethodInsn( Opcodes.INVOKEINTERFACE, n_coll, "size", "()I" );
+		mv.storeLocal( l_dl );
+
+		// final Iterator<DetailInput> ds = dc.iterator();
+		final int l_ds = mv.newLocal( ITERATOR_INTF );
+		mv.loadLocal( l_dc );
+		mv.visitMethodInsn( Opcodes.INVOKEINTERFACE, n_coll, "iterator", "()" + ITERATOR_INTF.getDescriptor() );
+		mv.storeLocal( l_ds );
+		
+		// DetailImpl[] di = new DetailPrototype[ dl ];
+		final int l_di = mv.newLocal( sub.arrayType() );
+		mv.loadLocal( l_dl );
+		mv.newArray( sub.classType() );
+		mv.storeLocal( l_di );
+
+		// for (int i = 0; i < dl; i++) {
+		final int l_i = mv.newLocal( Type.INT_TYPE );
+		final Label next = mv.newLabel();
+		mv.push( 0 );
+		mv.storeLocal( l_i );
+		mv.goTo( next );
+		final Label again = mv.mark();
+
+		// ~ di[ i ] = new DetailPrototype( ds.next() );
+		mv.loadLocal( l_di );
+		mv.loadLocal( l_i );
+		mv.newInstance( sub.classType() );
+		mv.dup();
+		mv.loadLocal( l_ds );
+		mv.visitMethodInsn( Opcodes.INVOKEINTERFACE, n_iter, "next", "()Ljava/lang/Object;" );
+		mv.checkCast( sub.inputType() );
+		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, sub.classInternalName(), "<init>", "("
+				+ sub.inputType().getDescriptor() + ")V" );
+		mv.arrayStore( sub.classType() );
+
+		// }
+		mv.iinc( l_i, 1 );
+		mv.mark( next );
+		mv.loadLocal( l_i );
+		mv.loadLocal( l_dl );
+		mv.ifCmp( Type.INT_TYPE, mv.LT, again );
+
+		return l_di;
+	}
+
+	
+	private int compileInitFromIterator( final ByteCodeSubSectionCompiler sub, final GeneratorAdapter mv, final int l_ds )
+	{
+		final String n_iter = ITERATOR_INTF.getInternalName();
+		final String n_coll = COLLECTION_INTF.getInternalName();
+		final String n_arraylist = ARRAYLIST_CLASS.getInternalName();
+
+		// final Collection<DetailPrototype> coll = new ArrayList<DetailPrototype>();
+		final int l_coll = mv.newLocal( ARRAYLIST_CLASS );
+		mv.newInstance( ARRAYLIST_CLASS );
+		mv.dup();
+		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, n_arraylist, "<init>", "()V" );
+		mv.storeLocal( l_coll );
+		
+		// while (ds.hasNext()) {
+		final Label next = mv.newLabel();
+		mv.goTo( next );
+		final Label again = mv.mark();
+		
+		//	~ coll.add( new DetailPrototype( ds.next() ) );
+		mv.loadLocal( l_coll );
+		mv.newInstance( sub.classType() );
+		mv.dup();
+		mv.loadLocal( l_ds );
+		mv.visitMethodInsn( Opcodes.INVOKEINTERFACE, n_iter, "next", "()Ljava/lang/Object;" );
+		mv.checkCast( sub.inputType() );
+		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, sub.classInternalName(), "<init>", "("
+				+ sub.inputType().getDescriptor() + ")V" );
+		mv.visitMethodInsn( Opcodes.INVOKEINTERFACE, n_coll, "add", "(Ljava/lang/Object;)Z" );
+		mv.pop();
+		
+		// }
+		mv.mark( next );
+		mv.loadLocal( l_ds );
+		mv.visitMethodInsn( Opcodes.INVOKEINTERFACE, n_iter, "hasNext", "()Z" );
+		mv.ifZCmp( mv.NE, again );
+		
+		// final DetailPrototype[] di = coll.toArray( new DetailPrototype[ coll.size() ] );
+		final int l_di = mv.newLocal( sub.arrayType() );
+		mv.loadLocal( l_coll );
+		mv.loadLocal( l_coll );
+		mv.visitMethodInsn( Opcodes.INVOKEINTERFACE, n_coll, "size", "()I" );
+		mv.newArray( sub.classType() );
+		mv.visitMethodInsn( Opcodes.INVOKEINTERFACE, n_coll, "toArray", "([Ljava/lang/Object;)[Ljava/lang/Object;" );
+		mv.checkCast( sub.arrayType() );
+		mv.storeLocal( l_di );
+		
+		return l_di;
+	}
+	
 }

@@ -75,9 +75,9 @@ public class SectionSumTest extends TestCase
 	private void assertSums( int _expected, RootOutput _output )
 	{
 		assertEquals( _expected, _output.arraySums() );
-		// assertEquals( _expected, _output.iteratorSums() );
-		// assertEquals( _expected, _output.iterableSums() );
-		// assertEquals( _expected, _output.collectionSums() );
+		assertEquals( _expected, _output.iteratorSums() );
+		assertEquals( _expected, _output.iterableSums() );
+		assertEquals( _expected, _output.collectionSums() );
 	}
 
 	private RootOutput newRootEngine( RootInput _input ) throws Exception
@@ -88,9 +88,9 @@ public class SectionSumTest extends TestCase
 		CellRef rootCell = bld.currentCell();
 
 		buildSectionSum( bld, rootCell, "array" );
-		// buildSectionSum( bld, rootCell, "iterator" );
-		// buildSectionSum( bld, rootCell, "iterable" );
-		// buildSectionSum( bld, rootCell, "collection" );
+		buildSectionSum( bld, rootCell, "iterator" );
+		buildSectionSum( bld, rootCell, "iterable" );
+		buildSectionSum( bld, rootCell, "collection" );
 
 		Spreadsheet sht = bld.getSpreadsheet();
 
@@ -104,9 +104,9 @@ public class SectionSumTest extends TestCase
 		bnd.defineInputCell( sht.getCell( "rootValue" ), call( RootInput.class, "getRootValue" ) );
 
 		bindSectionSum( sht, bnd, "array" );
-		// bindSectionSum( sht, bnd, "iterator" );
-		// bindSectionSum( sht, bnd, "iterable" );
-		// bindSectionSum( sht, bnd, "collection" );
+		bindSectionSum( sht, bnd, "iterator" );
+		bindSectionSum( sht, bnd, "iterable" );
+		bindSectionSum( sht, bnd, "collection" );
 
 		SaveableEngine engine = cmp.compile();
 
@@ -157,9 +157,9 @@ public class SectionSumTest extends TestCase
 	public static interface RootOutput
 	{
 		long arraySums();
-		// long iteratorSums();
-		// long iterableSums();
-		// long collectionSums();
+		long iteratorSums();
+		long iterableSums();
+		long collectionSums();
 	}
 
 
@@ -204,10 +204,12 @@ public class SectionSumTest extends TestCase
 				final DetailInput[] ds = this.inputs.getarray();
 				if (ds != null) {
 					final int dl = ds.length;
+
 					final DetailPrototype[] di = new DetailPrototype[ dl ];
 					for (int i = 0; i < dl; i++) {
 						di[ i ] = new DetailPrototype( ds[ i ] );
 					}
+					
 					this.arrayDets = di;
 				}
 				else {
@@ -245,12 +247,14 @@ public class SectionSumTest extends TestCase
 			if (this.iteratorDets == null) {
 				final Iterator<DetailInput> ds = this.inputs.getiterator();
 				if (ds != null) {
+
 					final Collection<DetailPrototype> coll = new ArrayList<DetailPrototype>();
 					while (ds.hasNext()) {
-						final DetailInput d = ds.next();
-						coll.add( new DetailPrototype( d ) );
+						coll.add( new DetailPrototype( ds.next() ) );
 					}
-					this.iteratorDets = coll.toArray( new DetailPrototype[ coll.size() ] );
+					final DetailPrototype[] di = coll.toArray( new DetailPrototype[ coll.size() ] );
+
+					this.iteratorDets = di;
 				}
 				else {
 					this.iteratorDets = new DetailPrototype[ 0 ];
@@ -287,12 +291,15 @@ public class SectionSumTest extends TestCase
 			if (this.iterableDets == null) {
 				final Iterator<DetailInput> ds = this.inputs.getiterable().iterator();
 				if (ds != null) {
+					
 					final Collection<DetailPrototype> coll = new ArrayList<DetailPrototype>();
 					while (ds.hasNext()) {
 						final DetailInput d = ds.next();
 						coll.add( new DetailPrototype( d ) );
 					}
-					this.iterableDets = coll.toArray( new DetailPrototype[ coll.size() ] );
+					final DetailPrototype[] di = coll.toArray( new DetailPrototype[ coll.size() ] );
+					
+					this.iterableDets = di;
 				}
 				else {
 					this.iterableDets = new DetailPrototype[ 0 ];
@@ -330,13 +337,15 @@ public class SectionSumTest extends TestCase
 			if (this.collectionDets == null) {
 				final Collection<DetailInput> dc = this.inputs.getcollection();
 				if (dc != null) {
+					
 					final int dl = dc.size();
 					final Iterator<DetailInput> ds = dc.iterator();
-					this.collectionDets = new DetailPrototype[ dl ];
+					final DetailPrototype[] di = new DetailPrototype[ dl ];
 					for (int i = 0; i < dl; i++) {
-						final DetailInput d = ds.next();
-						this.collectionDets[ i ] = new DetailPrototype( d );
+						di[ i ] = new DetailPrototype( ds.next() );
 					}
+					
+					this.collectionDets = di;
 				}
 				else {
 					this.collectionDets = new DetailPrototype[ 0 ];
