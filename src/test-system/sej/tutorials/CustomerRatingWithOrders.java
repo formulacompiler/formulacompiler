@@ -71,24 +71,28 @@ public class CustomerRatingWithOrders extends TestCase
 	private void bindElements( EngineBuilder _builder ) throws CompilerException, NoSuchMethodException
 	{
 		Spreadsheet sheet = _builder.getSpreadsheet();
+		// ---- bindOrders
 		Section binder = _builder.getRootBinder();
+		// ---- bindOrders
 
 		Cell ratingCell = sheet.getCell( "Rating" );
 		binder.defineOutputCell( ratingCell, new CallFrame( _builder.getOutputClass().getMethod( "rating" ) ) );
 
-		// Bind orders section
-		{
-			Range range = sheet.getRange( "OrdersForLastThreeMonths" );
-			Method mtd = CustomerData.class.getMethod( "ordersForLastNDays", Integer.TYPE );
-			CallFrame call = new CallFrame( mtd, 90 );
-			Orientation orient = Orientation.VERTICAL;
-			Class input = OrderData.class;
+		// ---- bindOrders
+		Range range = sheet.getRange( "OrdersForLastThreeMonths" );
+		Method mtd = /**/CustomerData/**/.class.getMethod( /**/"ordersForLastNDays"/**/, Integer.TYPE );
+		CallFrame call = new CallFrame( mtd, 90 ); // last 3 months is 90 days back
+		Orientation orient = Orientation.VERTICAL;
+		Class input = /**/OrderData/**/.class;
 
-			Section orders = binder.defineRepeatingSection( range, orient, call, input, null, null );
+		Section /**/orders/**/ = binder./**/defineRepeatingSection/**/( range, orient, call, input, null, null );
+		// ---- bindOrders
 
-			Cell totalCell = sheet.getCell( "OrderTotal" );
-			orders.defineInputCell( totalCell, new CallFrame( OrderData.class.getMethod( "total" ) ) );
-		}
+		// ---- bindOrderValues
+		Cell totalCell = sheet.getCell( "OrderTotal" );
+		Method totalMethod = /**/OrderData/**/.class.getMethod( "total" );
+		/**/orders/**/.defineInputCell( totalCell, new CallFrame( totalMethod ) );
+		// ---- bindOrderValues
 	}
 
 
@@ -116,7 +120,7 @@ public class CustomerRatingWithOrders extends TestCase
 	// ---- CustomerData
 	public static interface CustomerData
 	{
-		public OrderData[] ordersForLastNDays( int _days );
+		public /**/OrderData[]/**/ ordersForLastNDays( int _days );
 	}
 
 	// ---- CustomerData

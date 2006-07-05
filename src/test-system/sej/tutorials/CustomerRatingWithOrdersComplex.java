@@ -39,7 +39,7 @@ import junit.framework.TestCase;
 public class CustomerRatingWithOrdersComplex extends TestCase
 {
 	private static final Calendar TODAY = today();
-	
+
 	private static final Calendar today()
 	{
 		Calendar now = Calendar.getInstance();
@@ -49,7 +49,7 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 		now.set( Calendar.MILLISECOND, 0 );
 		return now;
 	}
-	
+
 	private static final Date beforeToday( int _daysBack )
 	{
 		Calendar back = (Calendar) TODAY.clone();
@@ -57,7 +57,7 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 		return back.getTime();
 	}
 
-	
+
 	// LATER Use MATCH to get the rating given the total
 	// LATER Use INDEX to get a string rating instead of a numeric one
 	// FIXME Test reset() with sections
@@ -79,7 +79,7 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 		CustomerRatingFactory factory = (CustomerRatingFactory) engine.getComputationFactory();
 
 		// Let's pass fewer values.
-		assertRating( 1, factory, new double[] {5000, 3000}, new int[] {10, 78} );
+		assertRating( 1, factory, new double[] { 5000, 3000 }, new int[] { 10, 78 } );
 
 	}
 
@@ -92,21 +92,21 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 		Cell ratingCell = sheet.getCell( "Rating" );
 		binder.defineOutputCell( ratingCell, new CallFrame( _builder.getOutputClass().getMethod( "rating" ) ) );
 
-		// Bind orders section
-		{
-			Range range = sheet.getRange( "OrdersForLastThreeMonths" );
-			Method mtd = CustomerData.class.getMethod( "ordersForLastNDays", Integer.TYPE );
-			CallFrame call = new CallFrame( mtd, 90 );
-			Orientation orient = Orientation.VERTICAL;
-			Class input = OrderData.class;
+		Range range = sheet.getRange( "OrdersForLastThreeMonths" );
+		Method mtd = CustomerData.class.getMethod( "ordersForLastNDays", Integer.TYPE );
+		CallFrame call = new CallFrame( mtd, 90 );
+		Orientation orient = Orientation.VERTICAL;
+		Class input = OrderData.class;
 
-			Section orders = binder.defineRepeatingSection( range, orient, call, input, null, null );
+		Section orders = binder.defineRepeatingSection( range, orient, call, input, null, null );
 
-			Cell totalCell = sheet.getCell( "OrderTotal" );
-			orders.defineInputCell( totalCell, new CallFrame( OrderData.class.getMethod( "total" ) ) );
-			Cell dateCell = sheet.getCell( "OrderDate" );
-			orders.defineInputCell( dateCell, new CallFrame( OrderData.class.getMethod( "date" ) ) );
-		}
+		// ---- bindOrderValues
+		Cell totalCell = sheet.getCell( "OrderTotal" );
+		/**/orders/**/.defineInputCell( totalCell, new CallFrame( /**/OrderData/**/.class.getMethod( "total" ) ) );
+
+		Cell dateCell = sheet.getCell( "OrderDate" );
+		/**/orders/**/.defineInputCell( dateCell, new CallFrame( /**/OrderData/**/.class.getMethod( "date" ) ) );
+		// ---- bindOrderValues
 	}
 
 
@@ -143,7 +143,7 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 	public static interface OrderData
 	{
 		public double total();
-		public Date date();
+		/**/public Date date();/**/
 	}
 
 	// ---- OrderData
@@ -184,7 +184,7 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 		{
 			return this.total;
 		}
-		
+
 		public Date date()
 		{
 			return this.date;
