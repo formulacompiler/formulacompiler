@@ -235,7 +235,7 @@ public class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
 
 	public CellRefFormat getCellRefFormat()
 	{
-		return CellRefFormat.A1; // TODO Change this for Excel!
+		return CellRefFormat.A1; // LATER Change this for Excel!
 	}
 
 

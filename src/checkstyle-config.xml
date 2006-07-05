@@ -12,15 +12,13 @@
             <property name="headerFile" value="${checkstyle.header.file}"/>
         </module>
 		
-		
-<!--
-
 		<module name="TodoComment">
 		    <property name="format" value="TODO"/>
     	</module>
 
--->
-
+		<module name="TodoComment">
+		    <property name="format" value="FIXME"/>
+    	</module>
 
     </module>
     

@@ -190,7 +190,7 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	{
 		this.resetter = newMethod( Opcodes.ACC_PUBLIC, "reset", "()V" );
 
-		// TODO clean out subsection arrays
+		// FIXME clean out subsection arrays
 
 	}
 

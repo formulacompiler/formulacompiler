@@ -147,7 +147,7 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 				break;
 
 			case DIV:
-				// TODO Make scaled long div more efficient
+				// LATER Make scaled long div more efficient
 				if (isScaled()) {
 					_mv.swap( getType(), getType() );
 					_mv.push( this.one );
@@ -200,7 +200,7 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 		}
 		else if (_constantValue instanceof Date) {
 			Date date = (Date) _constantValue;
-			// TODO Native scaled long implementation of dateToExcel?
+			// LATER Native scaled long implementation of dateToExcel?
 			long val = this.num.valueOf( RuntimeDouble_v1.dateToNum( date ) ).longValue();
 			_mv.push( val );
 		}

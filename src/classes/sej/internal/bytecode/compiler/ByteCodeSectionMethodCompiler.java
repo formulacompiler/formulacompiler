@@ -390,7 +390,7 @@ abstract class ByteCodeSectionMethodCompiler
 				compileStdFunction( _node );
 				break;
 
-			// TODO case INDEX:
+			// LATER case INDEX:
 			// compileHelpedExpr( new ByteCodeHelperCompilerForIndex( getSection(), _node ) );
 			// break;
 
@@ -760,7 +760,7 @@ abstract class ByteCodeSectionMethodCompiler
 
 	private void compileRef( ExpressionNodeForParentSectionModel _node ) throws CompilerException
 	{
-		// TODO compileRef
+		// FIXME test and implement outer ref
 		unsupported( _node );
 	}
 

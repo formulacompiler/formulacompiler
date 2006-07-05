@@ -121,14 +121,14 @@ class ExcelExpressionParser
 
 	CellRange parseVectorRefCol( String _first, String _second ) throws CompilerException
 	{
-		// TODO parseVectorRefCol
+		// LATER parseVectorRefCol
 		throw new CompilerException.UnsupportedExpression( "Vectors are not supported yet." );
 	}
 
 
 	CellRange parseVectorRefRow( String _first, String _second ) throws CompilerException
 	{
-		// TODO parseVectorRefRow
+		// LATER parseVectorRefRow
 		throw new CompilerException.UnsupportedExpression( "Vectors are not supported yet." );
 	}
 
