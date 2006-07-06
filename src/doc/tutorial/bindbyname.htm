@@ -41,6 +41,8 @@
 <h3>Supported Types</h3>
 <p>SEJ currently supports the following parameter types:</p>
 <p>[jc:sej.tutorials.BindingByName:---- InputVariants; omit]</p>
+<p>Note in particular that custom, application defined enumeration constants are supported. Here's the definition for the <tt>MyEnum</tt> type bound above:</p>
+<p>[jc:sej.tutorials.BindingByName:---- MyEnum]</p>
 <p>When binding, you have to take care that you are passing in values of the proper type (<tt>Integer</tt> for <tt>int</tt> and <tt>Integer</tt>, <tt>Byte</tt> for <tt>byte</tt> and <tt>Byte</tt>, etc.). This example uses autoboxing, but it still needs to take care to pass the proper native type to the boxing magic:</p>
 <p>[jc:sej.tutorials.BindingByName:---- bindInputVariants]</p>
 
@@ -89,7 +91,7 @@ double v = o.getValue();</pre>
 <p>So we gain nothing but lose the close duality of how the input and output definitions work.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 05.07.2006.</p>        </div>
+<br/>Last updated on 06.07.2006.</p>        </div>
     </div>
 </body>
 </html>
