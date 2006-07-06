@@ -153,7 +153,7 @@ public class ByteCodeOutputDistributorCompiler
 
 	private void failWhenNoMatch()
 	{
-		// FIXME test this, then "throw Abstract..."
+		mv().throwException( ByteCodeEngineCompiler.ILLEGALARGUMENT_CLASS, "Given argument values not bound in '" + this.method + "'." );
 	}
 
 }
