@@ -226,7 +226,7 @@ abstract class ByteCodeSectionMethodCompiler
 			final Type instanceType = Type.getType( enumValue.getClass() );
 			mv().getStatic( enumType, enumValue.name(), instanceType );
 		}
-		
+
 		else {
 			throw new CompilerException.UnsupportedDataType( "The data type '"
 					+ _type + "' is not supported as an input method parameter" );
@@ -376,10 +376,27 @@ abstract class ByteCodeSectionMethodCompiler
 
 	private void compileOperator( ExpressionNodeForOperator _node ) throws CompilerException
 	{
-		for (ExpressionNode arg : _node.getArguments()) {
-			compileExpr( arg );
+		final List<ExpressionNode> args = _node.getArguments();
+		final Operator op = _node.getOperator();
+		switch (args.size()) {
+			
+			case 0:
+				unsupported( _node );
+				break;
+				
+			case 1:
+				compileExpr( args.get( 0 ) );
+				compileOperator( op, 1 );
+				break;
+
+			default:
+				compileExpr( args.get( 0 ) );
+				for (int i = 1; i < args.size(); i++) {
+					compileExpr( args.get( i ) );
+					compileOperator( op, 2 );
+				}
+				
 		}
-		compileOperator( _node.getOperator(), _node.getArguments().size() );
 	}
 
 
@@ -396,7 +413,7 @@ abstract class ByteCodeSectionMethodCompiler
 			case ROUND:
 				compileStdFunction( _node );
 				break;
-				
+
 			case TODAY:
 				compileStdFunction( _node );
 				break;
@@ -777,8 +794,8 @@ abstract class ByteCodeSectionMethodCompiler
 
 		mv().loadThis();
 		mv().getField( section.classType(), ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parent.classType() );
-		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, parent.classInternalName(), parentExpr.methodName(), parentExpr
-				.methodDescriptor() );
+		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, parent.classInternalName(), parentExpr.methodName(),
+				parentExpr.methodDescriptor() );
 
 	}
 

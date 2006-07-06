@@ -58,7 +58,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 	public FormulaEvaluationTestSuite()
 	{
 		addTestsIn( "Tests.xls" );
-		// addTestsIn( "Tests.xml" );
+		// LATER addTestsIn( "Tests.xml" );
 	}
 
 
