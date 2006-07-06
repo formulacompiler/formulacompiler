@@ -34,6 +34,7 @@ import sej.Spreadsheet.Cell;
 import sej.Spreadsheet.Range;
 import sej.SpreadsheetBinder.Section;
 import sej.runtime.Engine;
+import sej.runtime.Resettable;
 import junit.framework.TestCase;
 
 public class CustomerRatingWithOrdersComplex extends TestCase
@@ -125,7 +126,7 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 	}
 
 
-	public static interface CustomerRating
+	public static interface CustomerRating extends Resettable
 	{
 		public int rating();
 	}

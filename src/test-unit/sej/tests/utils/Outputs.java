@@ -22,6 +22,7 @@ package sej.tests.utils;
 
 import java.math.BigDecimal;
 
+import sej.runtime.Resettable;
 import sej.runtime.ScaledLong;
 
 /**
@@ -31,7 +32,7 @@ import sej.runtime.ScaledLong;
  * @author peo
  */
 @ScaledLong(4)
-public class Outputs implements OutputInterface
+public class Outputs implements OutputInterface, Resettable
 {
 	public double getResult()
 	{
@@ -92,5 +93,9 @@ public class Outputs implements OutputInterface
 	public long getScaledLongResult()
 	{
 		throw new AbstractMethodError( "" );
+	}
+	public void reset()
+	{
+		// Nothing here.
 	}
 }
