@@ -167,6 +167,13 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	{
 		newField( Opcodes.ACC_PRIVATE, _sub.getterName(), _sub.arrayDescriptor() );
 		new ByteCodeSubSectionGetterCompiler( this, _sub ).compile();
+
+		// In reset(), do:
+		// $<section> = null;
+		GeneratorAdapter r = resetter();
+		r.loadThis();
+		r.visitInsn( Opcodes.ACONST_NULL );
+		r.putField( classType(), _sub.getterName(), _sub.arrayType() );
 	}
 
 	public void compileCallToGetterFor( GeneratorAdapter _mv, ByteCodeSubSectionCompiler _sub )
@@ -214,9 +221,6 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	private void buildReset()
 	{
 		this.resetter = newMethod( Opcodes.ACC_PUBLIC, "reset", "()V" );
-
-		// FIXME clean out subsection arrays
-
 	}
 
 	private void finalizeReset()

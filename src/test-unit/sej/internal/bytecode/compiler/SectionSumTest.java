@@ -54,28 +54,42 @@ public class SectionSumTest extends TestCase
 	{
 		RootInput input = new RootInput( 10, 2, 3, 4, 5 );
 		int expected = 10 + 4 * (2 + 3 + 4 + 5);
-		assertSums( expected, input );
+		assertSums( expected, -20, input );
 	}
 
 	public void testEmptySums() throws Exception
 	{
 		RootInput input = new RootInput( 20 );
-		int expected = 20;
-		assertSums( expected, input );
+		assertSums( 20, 0, input );
 	}
 
-	private void assertSums( int _expected, RootInput _input ) throws Exception
+	private void assertSums( int _expected, int _expectedDiffWithoutLast, RootInput _input ) throws Exception
 	{
-		assertSums( _expected, new RootPrototype( _input ) );
-		assertSums( _expected, newRootEngine( _input ) );
+		assertSums( _expected, _expectedDiffWithoutLast, new RootPrototype( _input ), _input, "Proto" );
+		assertSums( _expected, _expectedDiffWithoutLast, newRootEngine( _input ), _input, "SEJ" );
 	}
 
-	private void assertSums( int _expected, RootOutput _output )
+	private void assertSums( int _expected, int _expectedDiffWithoutLast, RootOutput _output, RootInput _input, String _engName )
 	{
-		assertEquals( _expected, _output.arraySums() );
-		assertEquals( _expected, _output.iteratorSums() );
-		assertEquals( _expected, _output.iterableSums() );
-		assertEquals( _expected, _output.collectionSums() );
+		assertSums( _expected, _output, _engName );
+		if (_expectedDiffWithoutLast != 0) {
+			_input.detailLen--;
+			try {
+				_output.reset();
+				assertSums( _expected + _expectedDiffWithoutLast, _output, _engName );
+			}
+			finally {
+				_input.detailLen++;
+			}
+		}
+	}
+
+	private void assertSums( int _expected, RootOutput _output, String _engName )
+	{
+		assertEquals( _engName + ": array", _expected, _output.arraySums() );
+		assertEquals( _engName + ": iterator", _expected, _output.iteratorSums() );
+		assertEquals( _engName + ": iterable", _expected, _output.iterableSums() );
+		assertEquals( _engName + ": collection", _expected, _output.collectionSums() );
 	}
 
 	private RootOutput newRootEngine( RootInput _input ) throws Exception
@@ -371,15 +385,15 @@ public class SectionSumTest extends TestCase
 		{
 			this.parent.toString();
 		}
-		
+
 	}
 
 
 	public static final class RootInput
 	{
 		private final long value;
-		private final DetailInput[] details;
-		private final Collection<DetailInput> detailCollection = new ArrayList<DetailInput>();
+		private DetailInput[] details;
+		public int detailLen;
 
 		public RootInput(long _rootValue, long... _detailValues)
 		{
@@ -387,8 +401,8 @@ public class SectionSumTest extends TestCase
 			this.details = new DetailInput[ _detailValues.length ];
 			for (int i = 0; i < _detailValues.length; i++) {
 				this.details[ i ] = new DetailInput( _detailValues[ i ] );
-				this.detailCollection.add( this.details[ i ] );
 			}
+			this.detailLen = this.details.length;
 		}
 
 		public long getRootValue()
@@ -398,22 +412,28 @@ public class SectionSumTest extends TestCase
 
 		public DetailInput[] getarray()
 		{
-			return this.details;
+			DetailInput[] r = new DetailInput[ this.detailLen ];
+			System.arraycopy( this.details, 0, r, 0, r.length );
+			return r;
 		}
 
 		public Collection<DetailInput> getcollection()
 		{
-			return this.detailCollection;
+			ArrayList<DetailInput> r = new ArrayList<DetailInput>( this.detailLen );
+			for (int i = 0; i < this.detailLen; i++) {
+				r.add( this.details[ i ] );
+			}
+			return r;
 		}
 
 		public Iterable<DetailInput> getiterable()
 		{
-			return this.detailCollection;
+			return getcollection();
 		}
 
 		public Iterator<DetailInput> getiterator()
 		{
-			return this.detailCollection.iterator();
+			return getcollection().iterator();
 		}
 
 	}
