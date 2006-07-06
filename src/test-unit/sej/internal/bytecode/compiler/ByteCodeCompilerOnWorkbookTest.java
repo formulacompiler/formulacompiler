@@ -333,7 +333,56 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 		}
 	}
 
+	public void testMissingOutputParamValueAbstract() throws Exception
+	{
+		makeBinderFor( Inputs.class, ParamOutputAbstract.class );
+		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
+		this.root.defineOutputCell( this.formula.getCellIndex(), new CallFrame( ParamOutputAbstract.class.getMethod( "getParam",
+				Integer.TYPE ), 1 ) );
+		Engine engine = newEngine();
+		ParamOutputAbstract comp = (ParamOutputAbstract) engine.getComputationFactory().newComputation( null );
+		assertEquals( 123.0, comp.getParam( 1 ), 0.0001 );
 
+		try {
+			comp.getParam( 2 );
+			fail();
+		}
+		catch (IllegalArgumentException e) {
+			// expected
+		}
+	}
+
+	public static abstract class ParamOutputAbstract
+	{
+		public abstract double getParam( int _i );
+	}
+
+	
+	public void testMissingOutputParamValueInterface() throws Exception
+	{
+		makeBinderFor( Inputs.class, ParamOutputInterface.class );
+		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
+		this.root.defineOutputCell( this.formula.getCellIndex(), new CallFrame( ParamOutputInterface.class.getMethod( "getParam",
+				Integer.TYPE ), 1 ) );
+		Engine engine = newEngine();
+		ParamOutputInterface comp = (ParamOutputInterface) engine.getComputationFactory().newComputation( null );
+		assertEquals( 123.0, comp.getParam( 1 ), 0.0001 );
+
+		try {
+			comp.getParam( 2 );
+			fail();
+		}
+		catch (IllegalArgumentException e) {
+			// expected
+		}
+	}
+
+	public static interface ParamOutputInterface
+	{
+		double getParam( int _i );
+	}
+
+	
 	public void testAddingConstants() throws Exception
 	{
 		CellInstance a = new CellWithConstant( this.row, 123.0 );
@@ -473,7 +522,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 		 * the original spreadsheet definition. SEJ will have to extend the range, copy the row
 		 * summing formula, and extend the scope of the totals sum.
 		 */
-		
+
 		Inputs inputs = new Inputs();
 		inputs.getDetails().add( new Inputs( 4, 5, 0 ) );
 		inputs.getDetails().add( new Inputs( 6, 7, 0 ) );

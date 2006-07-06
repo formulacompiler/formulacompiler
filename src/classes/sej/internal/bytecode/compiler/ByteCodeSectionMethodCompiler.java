@@ -801,7 +801,6 @@ abstract class ByteCodeSectionMethodCompiler
 
 	private void compileRef( ExpressionNodeForSubSectionModel _node ) throws CompilerException
 	{
-		// TODO compileRef
 		unsupported( _node );
 	}
 

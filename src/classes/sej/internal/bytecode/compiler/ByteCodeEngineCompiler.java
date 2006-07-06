@@ -89,6 +89,8 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 	static final Type MATH_CLASS = Type.getType( Math.class );
 	static final Type BIGDECIMAL_CLASS = Type.getType( BigDecimal.class );
 	static final Type BIGINTEGER_CLASS = Type.getType( BigInteger.class );
+	
+	static final Type ILLEGALARGUMENT_CLASS = Type.getType( IllegalArgumentException.class );
 
 	private final boolean canCache;
 
