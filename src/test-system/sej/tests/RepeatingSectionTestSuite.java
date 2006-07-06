@@ -5,12 +5,12 @@ import java.util.List;
 
 import sej.CallFrame;
 import sej.EngineBuilder;
+import sej.NumericType;
 import sej.Orientation;
 import sej.SEJ;
 import sej.SaveableEngine;
 import sej.SpreadsheetBinder.Section;
 import sej.internal.Debug;
-import sej.internal.expressions.ExpressionNode;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellRange;
@@ -18,6 +18,8 @@ import sej.internal.spreadsheet.Reference;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
+import sej.runtime.ComputationFactory;
+import sej.runtime.Resettable;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -76,11 +78,11 @@ public class RepeatingSectionTestSuite extends TestSuite
 						final String rangeName = (String) rangeNameValue;
 						final CellInstance formulaCell = cells.get( FORMULA_COL );
 						final CellInstance nameCell = cells.get( NAME_COL );
-						final String testName = nameCell.getValue().toString();
+						final String testName = "R" + (iRow + 1) + ": " + nameCell.getValue().toString();
 
 						final TestSuite rangeSuite = new RangeTestSuite( testName, formulaCell, rangeName );
 
-						// if (rangeName.equals( "H_THREE" )) // FIX-ME
+						// if (iRow == 32) // FIX-ME
 						fileSuite.addTest( rangeSuite );
 
 					}
@@ -115,28 +117,21 @@ public class RepeatingSectionTestSuite extends TestSuite
 			expectedResultsCells = extractRangeCells( expectedResultsRange, orientation );
 			outerRefCells = extractRangeCells( outerRefsRange, orientation );
 
-			addTests( false );
-			// FIXME addTests( true );
+			addTest( new SectionTestCase( SEJ.DOUBLE ) );
+			addTest( new SectionTestCase( SEJ.BIGDECIMAL8 ) );
+			addTest( new SectionTestCase( SEJ.LONG4 ) );
 		}
 
 
-		private void addTests( boolean _caching )
+		private final class SectionTestCase extends TestCase
 		{
-			addTest( new DoubleTestCase( _caching ) );
-			// FIXME _suite.addTest( new BigDecimalTestCase( _caching ) );
-			// FIXME _suite.addTest( new ScaledLongTestCase( _caching ) );
-		}
+			private final NumericType numericType;
 
 
-		private abstract class SectionTestCase extends TestCase
-		{
-			private final boolean caching;
-
-
-			public SectionTestCase(boolean _caching)
+			public SectionTestCase(NumericType _numericType)
 			{
-				super( _caching ? "caching" : "transient" ); // FIXME name
-				this.caching = _caching;
+				super( RangeTestSuite.this.getName() + " @ " + _numericType );
+				this.numericType = _numericType;
 			}
 
 
@@ -146,9 +141,9 @@ public class RepeatingSectionTestSuite extends TestSuite
 			{
 				final EngineBuilder eb = SEJ.newEngineBuilder();
 				eb.setSpreadsheet( workbook );
-				eb.setFactoryClass( OutputFactory.class );
-				// FIXME numeric type
-				// FIXME caching
+				eb.setInputClass( Input.class );
+				eb.setOutputClass( Output.class );
+				eb.setNumericType( numericType );
 				final Section rb = eb.getRootBinder();
 				rb.defineOutputCell( formulaCell.getCellIndex(), new CallFrame( Output.class.getMethod( "result" ) ) );
 				Section sb = rb.defineRepeatingSection( sectionRange, orientation, new CallFrame( Input.class
@@ -168,11 +163,11 @@ public class RepeatingSectionTestSuite extends TestSuite
 
 				Debug.saveEngine( eng, "/temp/sect.jar" );
 
-				OutputFactory fact = (OutputFactory) eng.getComputationFactory();
+				ComputationFactory fact = eng.getComputationFactory();
 
 				for (int iRes = 0; iRes < sectionCells.length; iRes++) {
 					final Input in = new Input( iRes + 1, sectionCells, outerRefCells );
-					final Output out = fact.newOutput( in );
+					final Output out = (Output) fact.newComputation( in );
 					final double actual = out.result();
 					final double expected = (Double) expectedResultsCells[ iRes ][ 0 ].getValue();
 					assertEquals( getName() + "@" + iRes, expected, actual, 0.00001 );
@@ -181,26 +176,10 @@ public class RepeatingSectionTestSuite extends TestSuite
 
 		}
 
-
-		private final class DoubleTestCase extends SectionTestCase
-		{
-
-			public DoubleTestCase(boolean _caching)
-			{
-				super( _caching );
-			}
-
-		}
-
 	}
 
 
-	public static interface OutputFactory
-	{
-		Output newOutput( Input _i );
-	}
-
-	public static interface Output
+	public static interface Output extends Resettable
 	{
 		double result();
 	}

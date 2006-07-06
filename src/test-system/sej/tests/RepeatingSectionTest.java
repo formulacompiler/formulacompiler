@@ -3,6 +3,7 @@ package sej.tests;
 import sej.Aggregator;
 import sej.CallFrame;
 import sej.EngineBuilder;
+import sej.NumericType;
 import sej.Orientation;
 import sej.SEJ;
 import sej.SaveableEngine;
@@ -11,12 +12,30 @@ import sej.SpreadsheetBuilder;
 import sej.SpreadsheetBinder.Section;
 import sej.SpreadsheetBuilder.CellRef;
 import sej.runtime.ComputationFactory;
+import sej.runtime.Resettable;
 import junit.framework.TestCase;
 
 public class RepeatingSectionTest extends TestCase
 {
 	
-	public void testAggregators() throws Exception
+	
+	public void testDoubleAggregators() throws Exception
+	{
+		testAggregators( SEJ.DOUBLE );
+	}
+	
+	public void testBigDecimalAggregators() throws Exception
+	{
+		testAggregators( SEJ.BIGDECIMAL8 );
+	}
+	
+	public void testLong4Aggregators() throws Exception
+	{
+		testAggregators( SEJ.LONG4 );
+	}
+	
+	
+	private void testAggregators( NumericType _numericType ) throws Exception
 	{
 		long[] vals = new long[] { 1, 2, 3, 4 };
 		for (Aggregator agg : Aggregator.values()) {
@@ -40,7 +59,7 @@ public class RepeatingSectionTest extends TestCase
 			eb.setSpreadsheet( ss );
 			eb.setInputClass( Input.class );
 			eb.setOutputClass( Output.class );
-			// TODO Vary numeric type here
+			eb.setNumericType( _numericType );
 			Section bnd = eb.getRootBinder();
 			bnd.defineOutputCell( ss.getCell( "Result" ), out( "result" ) );
 			Section sub = bnd.defineRepeatingSection( ss.getRange( "Section" ), Orientation.HORIZONTAL, inp( "subs" ),
@@ -104,7 +123,7 @@ public class RepeatingSectionTest extends TestCase
 		Output newOutput( Input _i );
 	}
 
-	public static interface Output
+	public static interface Output extends Resettable
 	{
 		double result();
 	}

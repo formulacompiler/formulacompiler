@@ -30,6 +30,7 @@ import sej.Spreadsheet;
 import sej.SpreadsheetBinding;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.SpreadsheetImpl;
+import sej.runtime.Resettable;
 
 public class WorkbookBinding implements SpreadsheetBinding
 {
@@ -61,7 +62,7 @@ public class WorkbookBinding implements SpreadsheetBinding
 	{
 		return this.root.getInputClass();
 	}
-	
+
 	public Class getOutputClass()
 	{
 		return this.root.getOutputClass();
@@ -75,8 +76,8 @@ public class WorkbookBinding implements SpreadsheetBinding
 	{
 		return this.root;
 	}
-	
-	
+
+
 	public SpreadsheetImpl getWorkbook()
 	{
 		return this.workbook;
@@ -109,6 +110,11 @@ public class WorkbookBinding implements SpreadsheetBinding
 
 	public void validate() throws CompilerException
 	{
+		if (this.root.getSections().size() > 0) {
+			if (!Resettable.class.isAssignableFrom( getOutputClass() )) {
+				throw new CompilerException.MustBeResettable( getOutputClass() );
+			}
+		}
 		this.root.validate();
 	}
 

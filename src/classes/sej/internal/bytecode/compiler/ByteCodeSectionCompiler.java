@@ -143,9 +143,14 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		return "get$" + (this.getterId++);
 	}
 
+	
+	private boolean compilationStarted = false;
 
 	void beginCompilation() throws CompilerException
 	{
+		if (this.compilationStarted) return;
+		this.compilationStarted = true;
+		
 		initializeClass( outputClass(), this.outputs, ByteCodeEngineCompiler.COMPUTATION_INTF );
 		if (numericType().buildStaticMembers( cw() )) {
 			buildStaticInitializer();
@@ -172,6 +177,7 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 
 	public ByteCodeSectionNumericMethodCompiler compileExpr( ExpressionNode _node ) throws CompilerException
 	{
+		beginCompilation();
 		ByteCodeHelperCompilerForSubExpr result = new ByteCodeHelperCompilerForSubExpr( this, _node );
 		result.compile();
 		return result;

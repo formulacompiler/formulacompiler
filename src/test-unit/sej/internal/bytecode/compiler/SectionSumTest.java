@@ -38,6 +38,7 @@ import sej.Spreadsheet.Range;
 import sej.SpreadsheetBinder.Section;
 import sej.SpreadsheetBuilder.CellRef;
 import sej.runtime.Computation;
+import sej.runtime.Resettable;
 import junit.framework.TestCase;
 
 
@@ -141,7 +142,7 @@ public class SectionSumTest extends TestCase
 	}
 
 
-	public static interface RootOutput
+	public static interface RootOutput extends Resettable
 	{
 		long arraySums();
 		long iteratorSums();
@@ -338,6 +339,14 @@ public class SectionSumTest extends TestCase
 				}
 			}
 			return this.collectionDets;
+		}
+
+		public void reset()
+		{
+			this.arrayDets = null;
+			this.collectionDets = null;
+			this.iterableDets = null;
+			this.iteratorDets = null;
 		}
 
 	}

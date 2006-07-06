@@ -25,6 +25,7 @@ import sej.Orientation;
 import sej.SaveableEngine;
 import sej.Spreadsheet;
 import sej.SpreadsheetBinder;
+import sej.runtime.Resettable;
 
 public class CategoryTotalsUseCaseTest extends AbstractUseCaseTest
 {
@@ -115,7 +116,7 @@ public class CategoryTotalsUseCaseTest extends AbstractUseCaseTest
 		}
 	}
 
-	public static interface Output
+	public static interface Output extends Resettable
 	{
 		public int grandTotal();
 		public CategoryOutput[] categories();

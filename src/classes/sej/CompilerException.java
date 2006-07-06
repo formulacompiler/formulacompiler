@@ -22,6 +22,7 @@ package sej;
 
 import java.lang.reflect.Method;
 
+import sej.runtime.Resettable;
 import sej.runtime.SEJException;
 
 
@@ -65,7 +66,6 @@ public class CompilerException extends SEJException
 		}
 
 	}
-
 
 
 	/**
@@ -257,6 +257,24 @@ public class CompilerException extends SEJException
 		{
 			super( "The abstract method '"
 					+ _m + "' is not implemented; you should bind it to an element (cell or section)" );
+		}
+
+	}
+
+
+	/**
+	 * Your output type does not implement the {@link sej.runtime.Resettable} interface, as is
+	 * required by computations with repeating sections.
+	 * 
+	 * @author peo
+	 */
+	public static final class MustBeResettable extends CompilerException
+	{
+
+		public MustBeResettable(Class _class)
+		{
+			super( "The output type "
+					+ _class + " must implement the " + Resettable.class + " interface to support repeating sections." );
 		}
 
 	}
