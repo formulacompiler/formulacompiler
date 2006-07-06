@@ -730,13 +730,13 @@ abstract class ByteCodeSectionMethodCompiler
 		final Aggregator aggregator = _node.getAggregator();
 
 		switch (aggregator) {
-			
+
 			case COUNT:
 				compileCount( _node );
 				break;
 
 			case AVERAGE:
-				compileHelpedExpr( new ByteCodeHelperCompilerForAverage( section(), _node ) );
+				compileAverage( _node );
 				break;
 
 			default:
@@ -779,15 +779,21 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	private void compileCount( ExpressionNodeForAggregator _node ) throws CompilerException
+	private void compileCount( ExpressionNodeForAggregator _node ) 
 	{
+		long statics = 0;
 		for (ExpressionNode arg : _node.getArguments()) {
-			mv().push( 0L );
-			
+			if (!(arg instanceof ExpressionNodeForSubSectionModel)) {
+				statics++;
+			}
+		}
+		mv().push( statics );
+
+		for (ExpressionNode arg : _node.getArguments()) {
 			if (arg instanceof ExpressionNodeForSubSectionModel) {
 				ExpressionNodeForSubSectionModel subArg = (ExpressionNodeForSubSectionModel) arg;
 				ByteCodeSubSectionCompiler sub = section().subSectionCompiler( subArg.getSectionModel() );
-				
+
 				mv().loadThis();
 				section().compileCallToGetterFor( mv(), sub );
 				mv().arrayLength();
@@ -795,10 +801,7 @@ abstract class ByteCodeSectionMethodCompiler
 				mv().push( (long) subArg.getArguments().size() );
 				mv().visitInsn( Opcodes.LMUL );
 				mv().visitInsn( Opcodes.LADD );
-				
-			}
-			else {
-				unsupported( _node );
+
 			}
 		}
 
@@ -808,8 +811,16 @@ abstract class ByteCodeSectionMethodCompiler
 			mv().push( (long) agg.numberOfNonNullArguments );
 			mv().visitInsn( Opcodes.LADD );
 		}
-		
+
 		numericType().compileToNum( mv(), Long.TYPE );
+	}
+
+
+	private void compileAverage( ExpressionNodeForAggregator _node ) throws CompilerException
+	{
+		compileMapReduceAggregator( _node, Operator.PLUS );
+		compileCount( _node );
+		numericType().compile( mv(), Operator.DIV, 2 );
 	}
 
 

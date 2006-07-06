@@ -1,3 +1,23 @@
+/*
+ * Copyright © 2006 by Abacus Research AG, Switzerland.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are prohibited, unless you have been explicitly granted 
+ * more rights by Abacus Research AG.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
+ * OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
+ * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
+ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package sej.tests;
 
 import java.io.File;
@@ -10,7 +30,6 @@ import sej.Orientation;
 import sej.SEJ;
 import sej.SaveableEngine;
 import sej.SpreadsheetBinder.Section;
-import sej.internal.Debug;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellRange;
@@ -82,7 +101,7 @@ public class RepeatingSectionTestSuite extends TestSuite
 
 						final TestSuite rangeSuite = new RangeTestSuite( testName, formulaCell, rangeName );
 
-						if (iRow == 32) // FIXME
+						// if (iRow == 32) // FIX-ME
 						fileSuite.addTest( rangeSuite );
 
 					}
@@ -160,7 +179,7 @@ public class RepeatingSectionTestSuite extends TestSuite
 				}
 
 				SaveableEngine eng = eb.compile();
-				Debug.saveEngine( eng, "/temp/sect.jar" );  // FIXME
+				// Debug.saveEngine( eng, "/temp/sect.jar" );  // FIX-ME
 
 				ComputationFactory fact = eng.getComputationFactory();
 

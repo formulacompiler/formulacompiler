@@ -488,7 +488,7 @@
             		<include class="${base}.tests.**" />
             		<include class="${base}.tutorials.**" />
             		<include class="${base}.examples.**" />
-            		<exclude class="${base}.tests.FormulaEvaluationTestSuite*" />
+            		<exclude class="${base}.tests.*TestSuite*" />
             	</from>
                 <to>
                 	<include pattern="int-all" />

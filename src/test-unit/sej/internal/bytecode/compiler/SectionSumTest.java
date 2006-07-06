@@ -49,6 +49,7 @@ import junit.framework.TestCase;
  */
 public class SectionSumTest extends TestCase
 {
+	private static final boolean JRE14 = System.getProperty( "java.version" ).startsWith( "1.4." );
 
 	public void testSums() throws Exception
 	{
@@ -88,7 +89,7 @@ public class SectionSumTest extends TestCase
 	{
 		assertEquals( _engName + ": array", _expected, _output.arraySums() );
 		assertEquals( _engName + ": iterator", _expected, _output.iteratorSums() );
-		assertEquals( _engName + ": iterable", _expected, _output.iterableSums() );
+		if (!JRE14) assertEquals( _engName + ": iterable", _expected, _output.iterableSums() );
 		assertEquals( _engName + ": collection", _expected, _output.collectionSums() );
 	}
 
@@ -117,7 +118,7 @@ public class SectionSumTest extends TestCase
 
 		bindSectionSum( sht, bnd, "array" );
 		bindSectionSum( sht, bnd, "iterator" );
-		bindSectionSum( sht, bnd, "iterable" );
+		if (!JRE14) bindSectionSum( sht, bnd, "iterable" );
 		bindSectionSum( sht, bnd, "collection" );
 
 		SaveableEngine engine = cmp.compile();
@@ -156,16 +157,16 @@ public class SectionSumTest extends TestCase
 	}
 
 
-	public static interface RootOutput extends Resettable
+	public static abstract class RootOutput implements Resettable
 	{
-		long arraySums();
-		long iteratorSums();
-		long iterableSums();
-		long collectionSums();
+		public abstract long arraySums();
+		public abstract long iteratorSums();
+		public long iterableSums() { return 0; }
+		public abstract long collectionSums();
 	}
 
 
-	public static final class RootPrototype implements Computation, RootOutput
+	public static final class RootPrototype extends RootOutput implements Computation
 	{
 		private final RootInput inputs;
 
@@ -174,6 +175,7 @@ public class SectionSumTest extends TestCase
 			this.inputs = _inputs;
 		}
 
+		@Override
 		public long arraySums()
 		{
 			return this.inputs.getRootValue() + arraySum() + arraySum();
@@ -222,6 +224,7 @@ public class SectionSumTest extends TestCase
 		}
 
 
+		@Override
 		public long iteratorSums()
 		{
 			return this.inputs.getRootValue() + iteratorSum() + iteratorSum();
@@ -266,6 +269,7 @@ public class SectionSumTest extends TestCase
 		}
 
 
+		@Override
 		public long iterableSums()
 		{
 			return this.inputs.getRootValue() + iterableSum() + iterableSum();
@@ -310,6 +314,7 @@ public class SectionSumTest extends TestCase
 		}
 
 
+		@Override
 		public long collectionSums()
 		{
 			return this.inputs.getRootValue() + collectionSum() + collectionSum();

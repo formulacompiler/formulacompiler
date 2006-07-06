@@ -41,6 +41,26 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return (_value == null) ? ZERO : new BigDecimal( _value );
 	}
 
+
+	/**
+	 * JRE 1.4 does not have BigDecimal.valueOf, so I cannot compile it. Retrotranslator handles the
+	 * call here.
+	 */
+	public static BigDecimal newBigDecimal( final double _value )
+	{
+		return BigDecimal.valueOf( _value );
+	}
+
+	/**
+	 * JRE 1.4 does not have BigDecimal.valueOf, so I cannot compile it. Retrotranslator handles the
+	 * call here.
+	 */
+	public static BigDecimal newBigDecimal( final long _value )
+	{
+		return BigDecimal.valueOf( _value );
+	}
+
+
 	public static BigDecimal round( final BigDecimal _val, final int _maxFrac )
 	{
 		return _val.setScale( _maxFrac, BigDecimal.ROUND_HALF_UP );
@@ -99,7 +119,7 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return _value.setScale( _scale, _roundingMode ).movePointRight( _scale ).longValue();
 	}
 
-	
+
 	private static BigDecimal MSINADAY = new BigDecimal( MS_PER_DAY );
 	private static BigDecimal NONLEAPDAY = new BigDecimal( NON_LEAP_DAY );
 	private static BigDecimal UTCOFFSETDAYS = new BigDecimal( UTC_OFFSET_DAYS );

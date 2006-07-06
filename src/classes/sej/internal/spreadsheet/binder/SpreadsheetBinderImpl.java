@@ -31,7 +31,6 @@ import sej.Spreadsheet.Range;
 import sej.internal.spreadsheet.SpreadsheetImpl;
 import sej.internal.spreadsheet.binding.SectionBinding;
 import sej.internal.spreadsheet.binding.WorkbookBinding;
-import sej.runtime.Resettable;
 
 public final class SpreadsheetBinderImpl implements SpreadsheetBinder
 {
