@@ -76,8 +76,11 @@ public class CustomerRatingWithOrders extends TestCase
 		Section binder = _builder.getRootBinder();
 		// ---- bindOrders
 
+		// ---- bindRating
 		Cell ratingCell = sheet.getCell( "Rating" );
-		binder.defineOutputCell( ratingCell, new CallFrame( _builder.getOutputClass().getMethod( "rating" ) ) );
+		Method ratingMethod = CustomerRating.class.getMethod( "rating" );
+		/**/binder/**/.defineOutputCell( ratingCell, new CallFrame( ratingMethod ) );
+		// ---- bindRating
 
 		// ---- bindOrders
 		Range range = sheet.getRange( "OrdersForLastThreeMonths" );
@@ -112,10 +115,12 @@ public class CustomerRatingWithOrders extends TestCase
 	}
 
 
-	public static interface CustomerRating extends Resettable
+	// ---- CustomerRating
+	public static interface CustomerRating /**/extends Resettable/**/
 	{
 		public int rating();
 	}
+	// ---- CustomerRating
 
 
 	// ---- CustomerData

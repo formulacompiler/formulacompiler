@@ -68,6 +68,10 @@
 <p>[jc:sej.tutorials.CustomerRatingWithOrders:---- bindOrders]</p>
 <p>As I said above, a repeating section is like a sub-sheet within the main-sheet. Thus, the return value of this method is again a <tt>Section</tt>, just like the original <tt>binder</tt> for the main sheet. We use it to bind the cells in the first template row of the section to input methods on the order interface. Like so (assuming the name <em>OrderTotal</em> is defined in the spreadsheet as <tt>B3</tt>):</p>
 <p>[jc:sej.tutorials.CustomerRatingWithOrders:---- bindOrderValues]</p>
+<p>Binding the outputs is straightforward, as we are only binding global values, not values within the repeating section:</p>
+<p>[jc:sej.tutorials.CustomerRatingWithOrders:---- bindRating]</p>
+<p>We do, however, have to make our output interface <a href="caching.htm">resettable</a>. This is because SEJ always caches the elements of a repeatable section internally. Here it is, then:</p>
+<p>[jc:sej.tutorials.CustomerRatingWithOrders:---- CustomerRating]</p>
 
 <h5>Note</h5>
 <p>Given the return type <tt>OrderData[]</tt>, SEJ could infer the input interface for the section by itself. Unfortunately, this is not possible when the return type is a <tt>Collection</tt> or an <tt>Iterator</tt>. Even <tt>Collection&lt;OrderData&gt;</tt> does not help because the generics annotations are erased at runtime. SEJ therefore generally mandates that you pass it the interface type to use.</p>
@@ -106,7 +110,7 @@
 <p>This part of the documentation is still missing, as the implementation is not complete yet.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 05.07.2006.</p>        </div>
+<br/>Last updated on 06.07.2006.</p>        </div>
     </div>
 </body>
 </html>
