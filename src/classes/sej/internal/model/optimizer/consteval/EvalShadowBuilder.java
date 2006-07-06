@@ -80,6 +80,8 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 	{
 		final Aggregator aggregator = _node.getAggregator();
 		switch (aggregator) {
+			case COUNT:
+				return new EvalCount( _node, this.type );
 			case AVERAGE:
 				return new EvalAverage( _node, this.type );
 		}

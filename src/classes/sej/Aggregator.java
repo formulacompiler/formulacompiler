@@ -32,12 +32,6 @@ public enum Aggregator {
 
 	SUM {
 		@Override
-		public String getName()
-		{
-			return "SUM";
-		}
-
-		@Override
 		public boolean isOrderOfArgumentsIrrelevant()
 		{
 			return true;
@@ -51,12 +45,6 @@ public enum Aggregator {
 	},
 
 	PRODUCT {
-		@Override
-		public String getName()
-		{
-			return "PRODUCT";
-		}
-
 		@Override
 		public boolean isOrderOfArgumentsIrrelevant()
 		{
@@ -72,12 +60,6 @@ public enum Aggregator {
 
 	MIN {
 		@Override
-		public String getName()
-		{
-			return "MIN";
-		}
-
-		@Override
 		public boolean isOrderOfArgumentsIrrelevant()
 		{
 			return true;
@@ -92,12 +74,6 @@ public enum Aggregator {
 
 	MAX {
 		@Override
-		public String getName()
-		{
-			return "MAX";
-		}
-
-		@Override
 		public boolean isOrderOfArgumentsIrrelevant()
 		{
 			return true;
@@ -109,14 +85,28 @@ public enum Aggregator {
 			return Operator.MAX;
 		}
 	},
-
-	AVERAGE {
+	
+	COUNT {
 		@Override
-		public String getName()
+		public boolean isOrderOfArgumentsIrrelevant()
 		{
-			return "AVERAGE";
+			return true;
+		}
+		
+		@Override
+		public boolean areArgumentValuesIrrelevant()
+		{
+			return true;
 		}
 
+		@Override
+		public Operator getReductor()
+		{
+			return null;
+		}
+	},
+
+	AVERAGE {
 		@Override
 		public boolean isOrderOfArgumentsIrrelevant()
 		{
@@ -132,12 +122,6 @@ public enum Aggregator {
 
 	AND {
 		@Override
-		public String getName()
-		{
-			return "AND";
-		}
-
-		@Override
 		public boolean isOrderOfArgumentsIrrelevant()
 		{
 			return true;
@@ -152,12 +136,6 @@ public enum Aggregator {
 
 	OR {
 		@Override
-		public String getName()
-		{
-			return "OR";
-		}
-
-		@Override
 		public boolean isOrderOfArgumentsIrrelevant()
 		{
 			return true;
@@ -171,7 +149,11 @@ public enum Aggregator {
 	};
 
 
-	public abstract String getName();
+	public String getName() 
+	{
+		return name();
+	}
+	
 	public abstract boolean isOrderOfArgumentsIrrelevant();
 	public abstract Operator getReductor();
 
@@ -180,4 +162,9 @@ public enum Aggregator {
 		return isOrderOfArgumentsIrrelevant();
 	}
 
+	public boolean areArgumentValuesIrrelevant()
+	{
+		return false;
+	}
+	
 }

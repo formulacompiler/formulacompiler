@@ -10,6 +10,7 @@ import sej.Orientation;
 import sej.SEJ;
 import sej.SaveableEngine;
 import sej.SpreadsheetBinder.Section;
+import sej.internal.Debug;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellRange;
@@ -81,7 +82,7 @@ public class RepeatingSectionTestSuite extends TestSuite
 
 						final TestSuite rangeSuite = new RangeTestSuite( testName, formulaCell, rangeName );
 
-						// if (iRow == 32) // FIX-ME
+						if (iRow == 32) // FIXME
 						fileSuite.addTest( rangeSuite );
 
 					}
@@ -159,7 +160,7 @@ public class RepeatingSectionTestSuite extends TestSuite
 				}
 
 				SaveableEngine eng = eb.compile();
-				// Debug.saveEngine( eng, "/temp/sect.jar" );  // FIX-ME
+				Debug.saveEngine( eng, "/temp/sect.jar" );  // FIXME
 
 				ComputationFactory fact = eng.getComputationFactory();
 

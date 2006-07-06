@@ -35,20 +35,21 @@ public abstract class EvalAggregator extends EvalShadow
 		super( _node, _type );
 	}
 
-	
+
 	@Override
 	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object[] _args )
 	{
 		final Aggregation agg = newAggregation();
+		final Aggregator aggregator = ((ExpressionNodeForAggregator) getNode()).getAggregator();
+		final boolean argsDontMatter = aggregator.areArgumentValuesIrrelevant();
 		boolean areAllConst = true;
 		boolean areSomeConst = false;
 		for (Object arg : _args) {
-			if (isConstant( arg )) {
+			if ((argsDontMatter && !isInSubSection( arg )) || isConstant( arg )) {
 				aggregate( agg, arg );
 				areSomeConst = true;
 			}
 			else if (areAllConst) {
-				final Aggregator aggregator = ((ExpressionNodeForAggregator) getNode()).getAggregator();
 				if (!aggregator.isPartialAggregationSupported()) {
 					return getNode();
 				}
@@ -86,7 +87,7 @@ public abstract class EvalAggregator extends EvalShadow
 		return result;
 	}
 
-	
+
 	@Override
 	protected Object evaluateToConst( Object[] _args )
 	{

@@ -34,7 +34,7 @@ terminal PLUS, MINUS, TIMES, DIV, EXP, PERCENT, CONCAT, COMMA, COLON;
 terminal LPAREN, RPAREN, LBRACK, RBRACK;
 terminal EQUAL, NOTEQUAL, GREATER, GREATEROREQUAL, LESS, LESSOREQUAL;
 terminal IF, AND, OR, NOT;
-terminal SUM, PRODUCT, AVERAGE, MIN, MAX;
+terminal SUM, PRODUCT, COUNT, AVERAGE, MIN, MAX;
 terminal MATCH, INDEX, ROUND;
 terminal TODAY;
 terminal Integer INT;
@@ -250,6 +250,9 @@ agg ::=
 				
 	| 	PRODUCT
 				{: RESULT = Aggregator.PRODUCT; :}
+				
+	| 	COUNT
+				{: RESULT = Aggregator.COUNT; :}
 				
 	| 	AVERAGE
 				{: RESULT = Aggregator.AVERAGE; :}

@@ -91,6 +91,7 @@ FN		= "@"?
 {FN} "NOT"		{ return new Symbol( GeneratedSymbols.NOT, "NOT" ); }
 {FN} "SUM"		{ return new Symbol( GeneratedSymbols.SUM, "SUM" ); }
 {FN} "PRODUCT"	{ return new Symbol( GeneratedSymbols.PRODUCT, "PRODUCT" ); }
+{FN} "COUNT"	{ return new Symbol( GeneratedSymbols.COUNT, "COUNT" ); }
 {FN} "AVERAGE"	{ return new Symbol( GeneratedSymbols.AVERAGE, "AVERAGE" ); }
 {FN} "MIN"		{ return new Symbol( GeneratedSymbols.MIN, "MIN" ); }
 {FN} "MAX"		{ return new Symbol( GeneratedSymbols.MAX, "MAX" ); }
