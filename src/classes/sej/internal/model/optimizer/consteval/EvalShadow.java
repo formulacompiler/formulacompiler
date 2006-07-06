@@ -25,6 +25,7 @@ import java.util.List;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeShadow;
+import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.util.InterpretedNumericType;
 
 public abstract class EvalShadow extends ExpressionNodeShadow
@@ -104,6 +105,11 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	protected boolean isConstant( final Object firstArg )
 	{
 		return !(firstArg instanceof ExpressionNode);
+	}
+
+	protected boolean isInSubSection( final Object firstArg )
+	{
+		return (firstArg instanceof ExpressionNodeForSubSectionModel);
 	}
 
 	protected Object nodeWithConstantArgsFixed( Object[] _args )

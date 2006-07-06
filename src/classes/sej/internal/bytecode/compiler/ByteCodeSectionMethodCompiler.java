@@ -47,6 +47,7 @@ import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
 import sej.internal.model.ExpressionNodeForPartialAggregation;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
+import sej.internal.model.Aggregation.NonNullCountingAggregation;
 
 
 abstract class ByteCodeSectionMethodCompiler
@@ -379,11 +380,11 @@ abstract class ByteCodeSectionMethodCompiler
 		final List<ExpressionNode> args = _node.getArguments();
 		final Operator op = _node.getOperator();
 		switch (args.size()) {
-			
+
 			case 0:
 				unsupported( _node );
 				break;
-				
+
 			case 1:
 				compileExpr( args.get( 0 ) );
 				compileOperator( op, 1 );
@@ -395,7 +396,7 @@ abstract class ByteCodeSectionMethodCompiler
 					compileExpr( args.get( i ) );
 					compileOperator( op, 2 );
 				}
-				
+
 		}
 	}
 
@@ -729,6 +730,10 @@ abstract class ByteCodeSectionMethodCompiler
 		final Aggregator aggregator = _node.getAggregator();
 
 		switch (aggregator) {
+			
+			case COUNT:
+				compileCount( _node );
+				break;
 
 			case AVERAGE:
 				compileHelpedExpr( new ByteCodeHelperCompilerForAverage( section(), _node ) );
@@ -749,7 +754,7 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	protected void compileMapReduceAggregator( ExpressionNodeForAggregator _node, final Operator _reductor )
+	protected void compileMapReduceAggregator( ExpressionNodeForAggregator _node, Operator _reductor )
 			throws CompilerException
 	{
 		if (null == _reductor) unsupported( _node );
@@ -771,6 +776,40 @@ abstract class ByteCodeSectionMethodCompiler
 			compileConst( partialAggNode.getPartialAggregation().accumulator );
 			compileOperator( _reductor, 2 );
 		}
+	}
+
+
+	private void compileCount( ExpressionNodeForAggregator _node ) throws CompilerException
+	{
+		for (ExpressionNode arg : _node.getArguments()) {
+			mv().push( 0L );
+			
+			if (arg instanceof ExpressionNodeForSubSectionModel) {
+				ExpressionNodeForSubSectionModel subArg = (ExpressionNodeForSubSectionModel) arg;
+				ByteCodeSubSectionCompiler sub = section().subSectionCompiler( subArg.getSectionModel() );
+				
+				mv().loadThis();
+				section().compileCallToGetterFor( mv(), sub );
+				mv().arrayLength();
+				mv().visitInsn( Opcodes.I2L );
+				mv().push( (long) subArg.getArguments().size() );
+				mv().visitInsn( Opcodes.LMUL );
+				mv().visitInsn( Opcodes.LADD );
+				
+			}
+			else {
+				unsupported( _node );
+			}
+		}
+
+		if (_node instanceof ExpressionNodeForPartialAggregation) {
+			ExpressionNodeForPartialAggregation partialAggNode = (ExpressionNodeForPartialAggregation) _node;
+			NonNullCountingAggregation agg = (NonNullCountingAggregation) partialAggNode.getPartialAggregation();
+			mv().push( (long) agg.numberOfNonNullArguments );
+			mv().visitInsn( Opcodes.LADD );
+		}
+		
+		numericType().compileToNum( mv(), Long.TYPE );
 	}
 
 
