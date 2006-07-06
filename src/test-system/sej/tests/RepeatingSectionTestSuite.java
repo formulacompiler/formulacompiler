@@ -10,7 +10,6 @@ import sej.Orientation;
 import sej.SEJ;
 import sej.SaveableEngine;
 import sej.SpreadsheetBinder.Section;
-import sej.internal.Debug;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellRange;
@@ -160,8 +159,7 @@ public class RepeatingSectionTestSuite extends TestSuite
 				}
 
 				SaveableEngine eng = eb.compile();
-
-				Debug.saveEngine( eng, "/temp/sect.jar" );
+				// Debug.saveEngine( eng, "/temp/sect.jar" );  // FIX-ME
 
 				ComputationFactory fact = eng.getComputationFactory();
 
