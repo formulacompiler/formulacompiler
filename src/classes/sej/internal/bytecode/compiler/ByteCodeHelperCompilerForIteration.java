@@ -20,6 +20,8 @@
  */
 package sej.internal.bytecode.compiler;
 
+import java.util.List;
+
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -27,6 +29,8 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.CompilerException;
 import sej.Operator;
+import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 
 
@@ -51,7 +55,7 @@ final class ByteCodeHelperCompilerForIteration extends ByteCodeHelperCompiler
 	protected void compileBody() throws CompilerException
 	{
 		final ByteCodeSubSectionCompiler sub = this.sub;
-		final ByteCodeSectionNumericMethodCompiler subExpr = sub.compileExpr( this.node.getArguments().get( 0 ) );
+		final ByteCodeSectionNumericMethodCompiler subExpr = compileSubExpr( this.node.getArguments() );
 
 		final GeneratorAdapter mv = mv();
 
@@ -114,6 +118,22 @@ final class ByteCodeHelperCompilerForIteration extends ByteCodeHelperCompiler
 		mv.mark( noData );
 		numericType().compileZero( mv );
 		mv.visitInsn( numericType().getReturnOpcode() );
+	}
+
+
+	private ByteCodeSectionNumericMethodCompiler compileSubExpr( List<ExpressionNode> _args ) throws CompilerException
+	{
+		switch (_args.size()) {
+			case 0:
+				unsupported( this.node );
+				return null;
+			case 1:
+				return this.sub.compileExpr( _args.get( 0 ) );
+			default:
+				final ExpressionNodeForOperator combiner = new ExpressionNodeForOperator( this.reductor );
+				combiner.getArguments().addAll( _args );
+				return this.sub.compileExpr( combiner );
+		}
 	}
 
 
