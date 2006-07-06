@@ -137,8 +137,7 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 			}
 			catch (NumberFormatException e) {
 				final BigDecimal bigValue = new BigDecimal( _value );
-				if (!JRE14 && bigValue.precision() <= MAX_LONG_PREC) { // JRE 1.4 cannot handle
-					// precision()
+				if (!JRE14 && bigValue.precision() <= MAX_LONG_PREC) { // JRE 1.4 lacks "precision()"
 					final long longValue = bigValue.unscaledValue().longValue();
 					this.classInitializer.push( longValue );
 					this.classInitializer.push( bigValue.scale() );
@@ -316,13 +315,14 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 		;
 
 		else if (_returnType == BigInteger.class) {
-			compileRuntimeMethod( _mv, "newBigDecimal", "(" + ByteCodeEngineCompiler.BIGINTEGER_CLASS.getDescriptor() + ")" + B );
+			compileRuntimeMethod( _mv, "newBigDecimal", "("
+					+ ByteCodeEngineCompiler.BIGINTEGER_CLASS.getDescriptor() + ")" + B );
 		}
 
 		else {
 			return false;
 		}
-	
+
 		compileScaleAdjustment( _mv );
 		return true;
 	}
@@ -344,11 +344,11 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 	{
 		if (_returnType == _unboxed) {
 			convertUnboxed( _mv, _conversionOpcodes );
-			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, BNAME, "valueOf", _valueOfSig );
+			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, RUNTIME_TYPE.getInternalName(), "newBigDecimal", _valueOfSig );
 		}
 		else if (_returnType == _boxed) {
 			compileRuntimeMethod( _mv, _numberConverterName, _numberConverterSig );
-			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, BNAME, "valueOf", _valueOfSig );
+			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, RUNTIME_TYPE.getInternalName(), "newBigDecimal", _valueOfSig );
 		}
 		else {
 			return false;
@@ -408,8 +408,8 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 		}
 		return true;
 	}
-	
-	
+
+
 	@Override
 	protected boolean compileToNum( GeneratorAdapter _mv, ScaledLong _scale )
 	{

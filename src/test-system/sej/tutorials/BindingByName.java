@@ -24,7 +24,6 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
-import java.math.BigDecimal;
 
 import sej.CallFrame;
 import sej.EngineBuilder;
