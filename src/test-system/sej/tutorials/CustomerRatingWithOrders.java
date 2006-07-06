@@ -40,7 +40,6 @@ public class CustomerRatingWithOrders extends TestCase
 
 	// LATER Use MATCH to get the rating given the total
 	// LATER Use INDEX to get a string rating instead of a numeric one
-	// FIXME Test reset() with sections
 
 
 	public void testCustomerRating() throws Exception
