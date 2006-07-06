@@ -50,7 +50,7 @@ public class CustomerRatingWithOrders extends TestCase
 		builder.loadSpreadsheet( path );
 		builder.setFactoryClass( CustomerRatingFactory.class );
 
-		// TODO Make orders for last N days bindable automatically
+		// LATER Make orders for last N days bindable automatically
 		// builder.bindAllByName();
 		bindElements( builder );
 

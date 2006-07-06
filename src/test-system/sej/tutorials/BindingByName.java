@@ -232,6 +232,9 @@ public class BindingByName extends TestCase
 
 		// Other types
 		bnd.defineInputCell( ss.getCell( "string" ), new CallFrame( ic.getMethod( "getInput", String.class ), "123.4567" ) );
+
+		// Application-defined enumerations
+		bnd.defineInputCell( ss.getCell( "enum" ), new CallFrame( ic.getMethod( "getInput", MyEnum.class ), MyEnum.TWO ) );
 		// ---- bindInputVariants
 		
 		// ---- bindInputCombination
@@ -255,7 +258,7 @@ public class BindingByName extends TestCase
 		InputVariants input = new InputVariants();
 		SimpleOutput output = (SimpleOutput) factory.newComputation( input );
 
-		assertEquals( 275165.2687, output.getResult(), 0.001 );
+		assertEquals( 275167.2687, output.getResult(), 0.001 );
 	}
 	
 
@@ -285,7 +288,9 @@ public class BindingByName extends TestCase
 
 		// Other types
 		public double getInput( String _param ) /**/{ return Double.valueOf( _param ); }/**/
-		public double getInput( BigDecimal _param ) /**/{ return _param.doubleValue(); }/**/
+		
+		// Application-defined enumerations
+		public double getInput( MyEnum _param ) /**/{ return _param.ordinal(); };/**/
 		// ---- InputVariants
 		
 		// ---- InputCombination
@@ -299,6 +304,14 @@ public class BindingByName extends TestCase
 	{
 		double getResult();
 	}
+	
+	
+	// ---- MyEnum
+	public static enum MyEnum
+	{
+		ZERO, ONE, TWO;
+	}
+	// ---- MyEnum
 	
 
 
