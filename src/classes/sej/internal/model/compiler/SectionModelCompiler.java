@@ -288,7 +288,10 @@ public class SectionModelCompiler
 	@SuppressWarnings("unchecked")
 	private void addArgumentsTo( final ExpressionNode _result, final Object _argOrArgs )
 	{
-		if (_argOrArgs instanceof ExpressionNode) {
+		if (_argOrArgs == null) {
+			_result.getArguments().add( new ExpressionNodeForConstantValue( null ) );
+		}
+		else if (_argOrArgs instanceof ExpressionNode) {
 			_result.getArguments().add( (ExpressionNode) _argOrArgs );
 		}
 		else {

@@ -420,8 +420,12 @@ abstract class ByteCodeSectionMethodCompiler
 				break;
 
 			// LATER case INDEX:
-			// compileHelpedExpr( new ByteCodeHelperCompilerForIndex( getSection(), _node ) );
+			// compileHelpedExpr( new ByteCodeHelperCompilerForIndex( section(), _node ) );
 			// break;
+				
+			case MATCH:
+				compileHelpedExpr( new ByteCodeHelperCompilerForMatch( section(), _node ) );
+				break;
 
 			default:
 				unsupported( _node );

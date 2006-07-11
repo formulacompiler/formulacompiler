@@ -20,8 +20,6 @@
  */
 package sej.tutorials;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -96,7 +94,7 @@ public class Basics extends TestCase
 	// ---- RebateInputs
 	public static interface RebateInputs
 	{
-		int getCustomerCategory(); 
+		int getCustomerCategory();
 		int getArticleCategory();
 		double getCustomerRebate();
 		double getArticleRebate();
@@ -242,14 +240,24 @@ public class Basics extends TestCase
 	// ------------------------------------------------ Using SEJ
 
 
-	private static final String SHEETNAME = "src/test-system/testdata/sej/tutorials/BasicsCustom.xls";
+	private static final String STDSHEETNAME = "src/test-system/testdata/sej/tutorials/Basics.xls";
+	private static final String CUSTOMSHEETNAME = "src/test-system/testdata/sej/tutorials/BasicsCustom.xls";
+
+
+	public void testSEJStd() throws Exception
+	{
+		LineItem item = new StrategyLineItem();
+		RebateComputation.factory = compileFactoryFromSpreadsheet( STDSHEETNAME );
+		double rebate = item.computeRebate();
+		assertEquals( 0.1, rebate, 0.00001 );
+	}
 
 
 	// ---- UseCompiledFactory
 	public void testSEJ() throws Exception
 	{
 		LineItem item = new StrategyLineItem();
-		/**/RebateComputation.factory = compileFactoryFromSpreadsheet();/**/
+		/**/RebateComputation.factory = compileFactoryFromSpreadsheet( CUSTOMSHEETNAME );/**/
 		double rebate = item.computeRebate();
 		assertEquals( 0.15, rebate, 0.00001 );
 	}
@@ -257,10 +265,10 @@ public class Basics extends TestCase
 
 
 	// ---- CompileFactory
-	private RebateComputationFactory compileFactoryFromSpreadsheet() throws FileNotFoundException, IOException, SEJException
+	private RebateComputationFactory compileFactoryFromSpreadsheet( String _sheetName ) throws Exception
 	{
 		EngineBuilder builder = /**/SEJ.newEngineBuilder()/**/;
-		builder./**/loadSpreadsheet/**/( SHEETNAME );
+		builder./**/loadSpreadsheet/**/( _sheetName );
 		builder./**/setFactoryClass/**/( RebateComputationFactory.class );
 		builder./**/bindAllByName/**/();
 		Engine engine = builder./**/compile/**/();

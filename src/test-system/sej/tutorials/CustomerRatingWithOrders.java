@@ -38,7 +38,6 @@ import junit.framework.TestCase;
 public class CustomerRatingWithOrders extends TestCase
 {
 
-	// LATER Use MATCH to get the rating given the total
 	// LATER Use INDEX to get a string rating instead of a numeric one
 
 
@@ -58,13 +57,13 @@ public class CustomerRatingWithOrders extends TestCase
 		CustomerRatingFactory factory = (CustomerRatingFactory) engine.getComputationFactory();
 
 		// Original sheet has five rows in the section. First, we pass the same number of values.
-		assertRating( 2, factory, 1000, 2000, 1000, 1500, 1000 );
+		assertRating( 3, factory, 1000, 2000, 1000, 1500, 1000 );
 
 		// Let's pass fewer values.
-		assertRating( 3, factory, 5000, 3000 );
+		assertRating( 4, factory, 5000, 3000 );
 
 		// And more values.
-		assertRating( 4, factory, 1000, 2000, 1000, 1500, 1000, 10000 );
+		assertRating( 5, factory, 1000, 2000, 1000, 1500, 1000, 10000 );
 	}
 
 

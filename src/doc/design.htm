@@ -35,12 +35,15 @@
 			<p class="startofcontent"/>
 
 <h2>Introduction</h2>
-<p>The Spreadsheet Engine for Java (SEJ, for short) makes it possible to use computations defined in spreadsheet files within normal Java applications. The original spreadsheet files can be created, for example, in <a href="http://office.microsoft.com/">Microsoft Excel</a> or <a href="http://www.openoffice.org/">OpenOffice Calc</a>. SEJ reads the spreadsheet files and builds corresponding Java-based formula evaluation engines. Such an engine computes output values given a set of input values. For example, compute the value of the cell <em>B3</em> given the values of the cells <em>B1</em> and <em>B2</em> as inputs.</p>
-<p>The following code example should help clarify this process:</p>
-<pre>[jc:sej.examples.BasicUsageDemo:---- BasicUsage; strip ---- Computation; strip ---- Construction]</pre>
+<p>The Spreadsheet Engine for Java (SEJ, for short) makes it possible to use computations defined in spreadsheet files within normal Java applications. The original spreadsheet files can be created, for example, in <a href="http://office.microsoft.com/">Microsoft Excel</a> or <a href="http://www.openoffice.org/">OpenOffice Calc</a>. SEJ reads the spreadsheet files and builds corresponding Java-based formula evaluation engines. Such an engine computes output values given a set of input values.</p>
 
-<p>Or, graphically, where blue is your code, red is SEJ's, green are external dependencies, and yellow are generated things:</p>
+<h2>Overview</h2>
+<p>Here's an overview of how SEJ does this. Blue is your code, red is SEJ's, green are external dependencies, and yellow are generated things:</p>
 <p><img src="embedded.png" alt="Overview" /></p>
+<p>For example, compute the value of the cell <em>B3</em> given the values of the cells <em>B1</em> and <em>B2</em> as inputs in:</p>
+<p>[xc:testdata/sej/examples/test.xls]</p>
+<p>The following code does this:</p>
+<p>[jc:sej.examples.BasicUsageDemo:---- BasicUsage; strip ---- Computation; strip ---- Construction]</p>
 
 <h2>Design Goals</h2>
 
@@ -140,7 +143,7 @@
 <p><img src="compilesrc_and_use.png" alt="Source Compilation" /></p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 05.07.2006.</p>        </div>
+<br/>Last updated on 11.07.2006.</p>        </div>
     </div>
 </body>
 </html>

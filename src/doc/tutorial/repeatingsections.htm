@@ -33,28 +33,20 @@
 <p>Let's look at the order totals problem given above. We want to feed <em>n</em> order totals to the spreadsheet, where <em>n</em> may vary. Since we compute only a single output, the customer rating, it is clear that these <em>n</em> order totals must in some way be aggregated by the computation. It could, for example, sum them, or take their average or median, and then do something with these values. Generally speaking, you'll have to use a spreadsheet function that takes a <em>range</em> as an argument to reference values from a repeating section.</p>
 
 <h3>Spreadsheet Rules</h3>
-<p>Let me show you a simple spreadsheet that can be used with a repeating section:</p>
-<pre>   A                       B
-1  Inputs
-2  OrdersForLastNDays(90)  Total
-3                           $300
-4                           $240
-5                           $680
-6
-7  Intermediate Values
-8  Total                   =SUM(B3:B5)
-9
-10 Outputs
-11 Rating                  =IF(B8&gt;1000;1;0)</pre>
-
-<p>Cell <tt>B8</tt>, the <em>Total</em>, sums a value from each of the three rows 3..5. We are going to tell SEJ that this row range should be dynamic in height. For every actual computation, SEJ will then shrink or extend the range within the sum in <tt>B8</tt> accordingly.</p>
-<p>The fact that my original spreadsheet has exactly three rows is irrelevant to SEJ. What matters is that</p>
+<p>Let me show you a simple spreadsheet that can be used with a repeating section. Note that in the depicted spreadsheet</p>
 <ul compact class="compact">
-<li>we define the repeating section over the rows 3..5,</li>
-<li>the sum in <tt>B8</tt> covers the entire height of the variable section, and</li>
-<li>the formula in <tt>B8</tt> uses the range function <tt>SUM</tt>, rather than <tt>B3+B4+B5</tt>.</li>
+<li>the colored area is a named range whose name is given just below the sheet, and</li>
+<li>the blue names in parentheses are cell names.</li>
 </ul>
-<p>So we could just as well have used four, or only two example rows. (In fact, we can get away with just one example row. I don't recommend this, though, because you might then forget to use <tt>SUM</tt> over the rows.)</p>
+<p>[xc:testdata/sej/tutorials/CustomerRating.xls]</p>
+<p>Cell <tt>B10</tt>, the <em>Total</em>, sums a value from each of the five rows 3..7. We are going to tell SEJ that this row range should be dynamic in height. For every actual computation, SEJ will then shrink or extend the range within the sum in <tt>B10</tt> accordingly.</p>
+<p>The fact that my original spreadsheet has exactly five order total rows is irrelevant to SEJ. What matters is that</p>
+<ul compact class="compact">
+<li>we define the repeating section over the rows 3..7,</li>
+<li>the sum in <tt>B10</tt> covers the entire height of the variable section, and</li>
+<li>the formula in <tt>B10</tt> uses the range function <tt>SUM</tt>, rather than <tt>B3+...+B7</tt>.</li>
+</ul>
+<p>So we could just as well have used ten, or only two example rows. (In fact, we can get away with just one example row. I don't recommend this, though, because you might then forget to use <tt>SUM</tt> over the rows.)</p>
 <p>In any case, SEJ uses <b>only the first row</b> as a template for making the <em>n</em> rows later on, at runtime. This will be important later when I show you a more complex spreadsheet.</p>
 
 <h3>Hooking It Up</h3>
@@ -64,9 +56,9 @@
 <p>[jc:sej.tutorials.CustomerRatingWithOrders:---- OrderData]</p>
 <p>The main customer interface must therefore let SEJ query the set of orders it should process for this customer. The simplest way is to use an array (you could also use an <tt>Iterator</tt>, or an <tt>Iterable</tt> container):</p>
 <p>[jc:sej.tutorials.CustomerRatingWithOrders:---- CustomerData]</p>
-<p>We now need to tell SEJ that the order totals range of cells in the spreadsheet should be considered a vertically repeating section, which gets its data from the call shown above. In addition, we must tell SEJ the precise input interface to use for the orders, namely <tt>OrderData</tt>. Here's how to do this (assuming that the name <em>OrdersForLastThreeMonths</em> is defined in the spreadsheet as <tt>B3:B5</tt>):</p>
+<p>We now need to tell SEJ that the order totals range of cells in the spreadsheet should be considered a vertically repeating section, which gets its data from the call shown above. In addition, we must tell SEJ the precise input interface to use for the orders, namely <tt>OrderData</tt>. Here's how to do this (given that the name <em>OrdersForLastThreeMonths</em> is defined in the spreadsheet as <tt>B3:B7</tt>):</p>
 <p>[jc:sej.tutorials.CustomerRatingWithOrders:---- bindOrders]</p>
-<p>As I said above, a repeating section is like a sub-sheet within the main-sheet. Thus, the return value of this method is again a <tt>Section</tt>, just like the original <tt>binder</tt> for the main sheet. We use it to bind the cells in the first template row of the section to input methods on the order interface. Like so (assuming the name <em>OrderTotal</em> is defined in the spreadsheet as <tt>B3</tt>):</p>
+<p>As I said above, a repeating section is like a sub-sheet within the main-sheet. Thus, the return value of this method is again a <tt>Section</tt>, just like the original <tt>binder</tt> for the main sheet. We use it to bind the cells in the first template row of the section to input methods on the order interface. Like so (given that the name <em>OrderTotal</em> is defined in the spreadsheet as <tt>B3</tt>):</p>
 <p>[jc:sej.tutorials.CustomerRatingWithOrders:---- bindOrderValues]</p>
 <p>Binding the outputs is straightforward, as we are only binding global values, not values within the repeating section:</p>
 <p>[jc:sej.tutorials.CustomerRatingWithOrders:---- bindRating]</p>
@@ -79,29 +71,19 @@
 <h2>Intermediate Values In A Repeating Section</h2>
 <p>Let's extend the order totals example a bit. In the sum of the order totals, we want to give less weight to older values. To do this, we add the order date to the order interface:</p>
 <p>[jc:sej.tutorials.CustomerRatingWithOrdersComplex:---- OrderData]</p>
-<p>We now want our spreadsheet as follows:</p>
-<pre>   A                       B         C         D         E            F
-1  Inputs
-2  OrdersForLastNDays(90)  Total         Date  DaysBack  Weight       Value
-3                           $300     1/1/2000  =B$8-C3   =(90-D3)/90  =B3*E3
-4                           $240     2/1/2000  =B$8-C4   =(90-D4)/90  =B4*E4
-5                           $680     3/1/2000  =B$8-C4   =(90-D5)/90  =B5*E5
-6
-7  Intermediate Values
-8  Today                    =TODAY()
-9  TotalValue               =SUM(F3:F5)
-...</pre>
-
+<p>We now want our spreadsheet to compute the age of an order in days, and from that to compute the weight to give to the order's total. To do this, we compute the difference between the current date and the order date, and then linearly reduce the weight of olders orders towards 0 at the age of 90 days. The prototype row 3 shows this:</p>
+<p>[xc:testdata/sej/tutorials/CustomerRatingComplex.xls]</p>
 <p>To consider:</p>
 <ul class="spaced">
+<li>The order date is an input value. But to provide meaningful sample values for it, I have used a formula that computes them relative to the current date.</li>
 <li>We now have intermediate values within the repeating section. Columns B and C are inputs, but columns D, E, F are computed within the spreadsheet.</li>
-<li>The final aggregation in <tt>B9</tt> now sums the computed section values in <tt>F3:F5</tt>.</li>
-<li>The computed row value in column D references a cell outside of the repeating section.</li>
+<li>The final aggregation in <tt>B10</tt> now sums the computed section values in <tt>F3:F7</tt>.</li>
+<li>The computed row value in column D references a cell outside of the repeating section, namely the current date in <tt>B11</tt>.</li>
 </ul>
 <p>SEJ handles all of this correctly. You do, however, have to follow a few rules:</p>
 <ul class="spaced">
 <li>When referencing within the section, only reference within the same row. You cannot reference a value from a sibling row. In particular, you cannot do running totals.</li>
-<li>As stated above, SEJ only looks at the <b>first row</b> of the section (row 3 here), which it then uses as a template for all others. You must yourself take care that your other example rows (rows 4 and 5 here) have formulas of a similiar structure as the template row.</li>
+<li>As stated above, SEJ only looks at the <b>first row</b> of the section (row 3 here), which it then uses as a template for all others. You must yourself take care that your other example rows (rows 4 through 7 here) have formulas of a similiar structure as the template row.</li>
 </ul>
 <p>The only remaining thing is to bind the order date in a fashion similar to the order total (assuming the name <em>OrderDate</em> is defined in the spreadsheet as <tt>C3</tt>):</p>
 <p>[jc:sej.tutorials.CustomerRatingWithOrdersComplex:---- bindOrderValues]</p>
@@ -110,7 +92,7 @@
 <p>This part of the documentation is still missing, as the implementation is not complete yet.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 06.07.2006.</p>        </div>
+<br/>Last updated on 11.07.2006.</p>        </div>
     </div>
 </body>
 </html>

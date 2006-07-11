@@ -50,7 +50,7 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 		final List<ExpressionNode> args = this.node.getArguments();
 		final ExpressionNode firstArg = args.get( 0 );
 		if (firstArg instanceof ExpressionNodeForRangeValue) {
-			ExpressionNodeForRangeValue rangeNode = (ExpressionNodeForRangeValue) firstArg;
+			final ExpressionNodeForRangeValue rangeNode = (ExpressionNodeForRangeValue) firstArg;
 			switch (args.size()) {
 
 			case 2:
