@@ -1,13 +1,12 @@
 package sej.tests;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 
 import sej.EngineBuilder;
 import sej.SEJ;
+import sej.SaveableEngine;
+import sej.internal.Debug;
 import sej.internal.Settings;
-import sej.internal.spreadsheet.loader.excel.xls.ExcelXLSLoader;
-import sej.runtime.Engine;
 import junit.framework.TestCase;
 
 
@@ -15,28 +14,30 @@ public class DebugTestBigDecimal extends TestCase
 {
 
 	static {
-		ExcelXLSLoader.register();
-		StandardCompiler.registerAsDefault();
 		Settings.setDebugLogEnabled( true );
 	}
 
 
-	public void testDebugCase() throws IOException, ModelError
+	public void testDebugCase() throws Exception
 	{
-		final EngineBuilder builder = new EngineBuilder( Inputs.class, Outputs.class, SEJ.BIGDECIMAL8 );
+		final EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.setNumericType( SEJ.BIGDECIMAL8 );
+		builder.setFactoryClass( OutputFactory.class );
 		builder.loadSpreadsheet( "src/scratchpad/data/DebugCase.xls" );
-		builder.bindCellsByName();
-		final Engine engine = builder.buildEngine();
+		builder.bindAllByName();
+		final SaveableEngine engine = builder.compile();
+		Debug.saveEngine( engine, "/temp/Debug.jar" );
+		final OutputFactory factory = (OutputFactory) engine.getComputationFactory();
 
-		final Inputs inputs = new Inputs();
-		final Outputs outputs = (Outputs) engine.newComputation( inputs );
-		final BigDecimal result = outputs.getResult();
+		final Input input = new Input();
+		final Output output = factory.newOutput( input );
+		final BigDecimal result = output.getResult();
 		
-		assertEquals( "8000.00000000", result.toPlainString() );
+		assertEquals( "2.00000000", result.toPlainString() );
 	}
 
 
-	public static final class Inputs
+	public static final class Input
 	{
 		public BigDecimal getIA()
 		{
@@ -60,9 +61,14 @@ public class DebugTestBigDecimal extends TestCase
 	}
 
 
-	public static interface Outputs
+	public static interface Output
 	{
 		BigDecimal getResult();
+	}
+
+	public static interface OutputFactory
+	{
+		Output newOutput( Input _input );
 	}
 
 }

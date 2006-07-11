@@ -38,10 +38,11 @@
 
 <h3>Excel Functionality</h3>
 <ul class="spaced">
-<li>SEJ currently supports only the basic numeric operators (<tt>+</tt>, <tt>-</tt>, <tt>*</tt>, <tt>/</tt>, <tt>%</tt>, <tt>^</tt>), <tt>SUM</tt>, <tt>MIN</tt>, <tt>MAX</tt>, <tt>AVERAGE</tt>, <tt>PRODUCT</tt>, <tt>IF</tt>, <tt>ROUND</tt>, and the comparisons and logical operators <tt>AND</tt>, <tt>OR</tt>, <tt>NOT</tt>. A good overview of the supported functionality can be gained from this <a href="dist/Tests.xls">file of test cases</a>.</li>
+<li>SEJ currently supports only the basic numeric operators (<tt>+</tt>, <tt>-</tt>, <tt>*</tt>, <tt>/</tt>, <tt>%</tt>, <tt>^</tt>), <tt>SUM</tt>, <tt>MIN</tt>, <tt>MAX</tt>, <tt>AVERAGE</tt>, <tt>PRODUCT</tt>, <tt>IF</tt>, <tt>ROUND</tt>, <tt>MATCH</tt> and the comparisons and logical operators <tt>AND</tt>, <tt>OR</tt>, <tt>NOT</tt>. A good overview of the supported functionality can be gained from this <a href="dist/Tests.xls">file of test cases</a>.</li>
 <li>Null values (empty cells) are not yet supported. In particular, an <tt>AVERAGE</tt> involving empty cells will return a different result than Excel.</li>
 <li>Range intersections are parsed but not evaluated correctly.</li>
 <li>Ranges specified using named cells as endpoints are not supported. Named ranges, however, are (see <tt>ExcelExpressionParserTest.testCellAndRangeMixes()</tt>).</li>
+<li>With <tt>MATCH</tt>, the last argument (the match type) must be constant, and the second argument (the match range) cannot reference a repeating section.</li>
 </ul>
 
 <h3>Scaled Long Type</h3>
@@ -73,7 +74,7 @@
 </ul>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 06.07.2006.</p>        </div>
+<br/>Last updated on 11.07.2006.</p>        </div>
     </div>
 </body>
 </html>

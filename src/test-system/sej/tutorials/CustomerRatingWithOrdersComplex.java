@@ -59,7 +59,6 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 	}
 
 
-	// LATER Use MATCH to get the rating given the total
 	// LATER Use INDEX to get a string rating instead of a numeric one
 
 
@@ -79,7 +78,7 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 		CustomerRatingFactory factory = (CustomerRatingFactory) engine.getComputationFactory();
 
 		// Let's pass fewer values.
-		assertRating( 1, factory, new double[] { 5000, 3000 }, new int[] { 10, 78 } );
+		assertRating( 2, factory, new double[] { 5000, 3000 }, new int[] { 10, 78 } );
 
 	}
 

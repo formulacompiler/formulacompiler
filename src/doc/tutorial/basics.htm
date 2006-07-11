@@ -35,20 +35,9 @@
 <h2>Line Item Rebate Revisited</h2>
 <p>SEJ lets us solve the <a href="reason.htm">problem of the customizable line item rebate</a> very elegantly. We can enable the distributors - and also the more savvy customers - to customize the rebate computation in Microsoft Excel, or OpenOffice Calc.</p>
 <p>Here's the default rebate computation from the example, but now expressed as a spreadsheet:</p>
-<pre>   A                 B
-1  CustomerRebate    3%
-2  ArticleRebate     2%
-3
-4  Rebate            =MAX(B1:B2)</pre>
-
+<p>[xc:testdata/sej/tutorials/Basics.xls]</p>
 <p>And here's one variant some specific customer might want to use (the best category gets combined rebates):</p>
-<pre>   A                 B
-1  CustomerRebate    3%
-2  ArticleRebate     2%
-3  CustomerCategory  1
-4
-5  Rebate            =IF(B3=1;SUM(B1:B2);MAX(B1:B2))</pre>
-
+<p>[xc:testdata/sej/tutorials/BasicsCustom.xls]</p>
 <p>SEJ's job is to turn these sheets into valid rebate computation strategy classes for our application.</p>
 
 <h2>What SEJ Needs To Know</h2>
@@ -87,12 +76,7 @@
 
 <h5>Example</h5>
 <p>Our example from above satisfies all of these criteria:</p>
-<pre>   A                 B
-1  CustomerRebate    3%
-2  ArticleRebate     2%
-3
-4  Rebate            =MAX(B1:B2)</pre>
-
+<p>[xc:testdata/sej/tutorials/Basics.xls]</p>
 <p>SEJ will automatically infer the following bindings:</p>
 <ul compact class="compact">
 <li><em>CustomerRebate</em> identifies cell <em>B1</em>, which is mapped to the input method <tt>double getCustomerRebate()</tt>,</li>
@@ -111,7 +95,7 @@
 <p><a href="index.htm">Back: Tutorial Index</a></p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 05.07.2006.</p>        </div>
+<br/>Last updated on 11.07.2006.</p>        </div>
     </div>
 </body>
 </html>

@@ -28,12 +28,8 @@
         <div class="content">
         
 <p><span class="when">Note: All the sample code in this document has been cited by <a href="http://www.arrenbrecht.ch/jcite/">JCite</a> from source code that is checked for syntactic and semantic correctness during release builds.</span></p>
-<p>Consider the following example spreadsheet doing the computation of a square's area and a cube's volume, given the side length. The cell B1 is the sole input, B2 and B3 are outputs.</p>
-<pre>   A        B
-1  Side     2
-2  Area     =B1*B1
-3  Volume   =B2*B1</pre>
-
+<p>Consider the following example spreadsheet doing the computation of a square's area and a cube's volume, given the side length. The cell B1 is the sole input, B3 and B4 are outputs.</p>
+<p>[xc:testdata/sej/tutorials/Caching.xls]</p>
 <p>As you can see, the area is reused by the volume computation. This is, of course, a very simple example. But even here, if we were to compute millions of areas and volumes using <tt>BigDecimal</tt> and side lengths of great precision, it might already pay off to cache the intermediate value for the area.</p>
 <p>Also, the value for side is used three times in all. Assuming it is expensive to obtain the side length (maybe it involves a database access), it might also pay off to cache this value. This value could of course be cached by the application itself. However, since SEJ supports automatic internal caching anyway, it also relieves you of the tedium of manually caching input values.</p>
 <p>Finally, SEJ also caches output values, just in case you want to access them multiple times, without having to cache them yourself.</p>
@@ -69,7 +65,7 @@
 <p>Clearly, this is a lot more code than for the non-caching version. It is important to realize, however, that SEJ only caches intermediate cell values which are referenced more than once in the computation. All others are inlined into the single expression that references them. Cells that are not referenced at all don't appear in the computation at all, either.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 05.07.2006.</p>        </div>
+<br/>Last updated on 11.07.2006.</p>        </div>
     </div>
 </body>
 </html>

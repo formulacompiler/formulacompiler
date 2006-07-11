@@ -2,8 +2,9 @@ package sej.tests;
 
 import sej.EngineBuilder;
 import sej.SEJ;
+import sej.SaveableEngine;
+import sej.internal.Debug;
 import sej.internal.Settings;
-import sej.runtime.Engine;
 import junit.framework.TestCase;
 
 
@@ -21,14 +22,15 @@ public class DebugTestDouble extends TestCase
 		builder.setFactoryClass( OutputFactory.class );
 		builder.loadSpreadsheet( "src/scratchpad/data/DebugCase.xls" );
 		builder.bindAllByName();
-		final Engine engine = builder.compile();
+		final SaveableEngine engine = builder.compile();
+		Debug.saveEngine( engine, "/temp/Debug.jar" );
 		final OutputFactory factory = (OutputFactory) engine.getComputationFactory();
 
 		final Input input = new Input();
 		final Output output = factory.newOutput( input );
 		final double result = output.getResult();
 		
-		assertEquals( 0.0, result, 0.0001 );
+		assertEquals( 2.0, result, 0.0001 );
 	}
 
 
@@ -36,22 +38,22 @@ public class DebugTestDouble extends TestCase
 	{
 		public double getIA()
 		{
-			return 10.0;
+			return 200.0;
 		}
 
 		public double getIB()
 		{
-			return 20.0;
+			return 100.0;
 		}
 
 		public double getIC()
 		{
-			return 10.0;
+			return 200.0;
 		}
 
 		public double getID()
 		{
-			return 0;
+			return 500.0;
 		}
 	}
 

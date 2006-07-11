@@ -382,3 +382,51 @@ span.j-hl /* highlight */
 	text-decoration: none;
 	background-color: yellow;
 }
+
+/******************** Excel */
+
+table.xl
+	{
+	    border-collapse:collapse;
+	}
+
+table.xl td
+	{
+		border: solid 1px lightgray;
+		text-align: left;
+		vertical-align: top;
+		xpadding: 2px;
+	}
+
+table.xl td.xl-row, table.xl thead td
+	{
+		background-color: #ECECEC;
+		border-color: gray;
+		text-align: center;
+		padding-left: 2px;
+		padding-right: 2px;
+	}
+
+table.xl td.xl-num, table.xl td.xl-date
+	{
+		text-align: right;
+	}
+	
+span.xl-exp
+	{
+		font-size: x-small;
+		font-family: monospace;
+		color: maroon;
+	}
+
+span.xl-name
+	{
+		font-size: x-small;
+		font-style: italic;
+		color: #6495ED;
+	}
+
+td.xl-r1, span.xl-r1
+	{
+		background-color: #E0FFFF;
+	}
