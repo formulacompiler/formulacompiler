@@ -36,7 +36,7 @@ public class ExpressionNodeForOperator extends ExpressionNode
 		super();
 		this.operator = _operator;
 		for (ExpressionNode arg : _args) {
-			getArguments().add( arg );
+			arguments().add( arg );
 		}
 	}
 
@@ -57,7 +57,7 @@ public class ExpressionNodeForOperator extends ExpressionNode
 	@Override
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
-		switch (getArguments().size()) {
+		switch (arguments().size()) {
 
 		case 0:
 			_to.append( this.operator.getSymbol() );

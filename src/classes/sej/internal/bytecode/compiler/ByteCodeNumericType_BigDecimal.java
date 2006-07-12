@@ -46,16 +46,17 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 	private static final String BNAME = ByteCodeEngineCompiler.BIGDECIMAL_CLASS.getInternalName();
 	private static final String B = ByteCodeEngineCompiler.BIGDECIMAL_CLASS.getDescriptor();
 	private static final String V2B = "()" + B;
-	private static final String I2B = "(" + Type.INT_TYPE.getDescriptor() + ")" + B;
+	private static final String I2B = "(I)" + B;
 	private static final String L2B = "(" + Type.LONG_TYPE.getDescriptor() + ")" + B;
 	private static final String LI2B = "(" + Type.LONG_TYPE.getDescriptor() + "I)" + B;
-	private static final String D2B = "(" + Type.DOUBLE_TYPE.getDescriptor() + ")" + B;
+	private static final String D2B = "(D)" + B;
 	private static final String S2B = "(Ljava/lang/String;)" + B;
+	private static final String B2I = "(" + B + ")I";
 	private static final String B2B = ("(" + B + ")") + B;
 	private static final String BB2B = "(" + B + B + ")" + B;
 	private static final String BII2B = "(" + B + "II)" + B;
 	private static final String N2L = "(" + N + ")" + Type.LONG_TYPE.getDescriptor();
-	private static final String N2D = "(" + N + ")" + Type.DOUBLE_TYPE.getDescriptor();
+	private static final String N2D = "(" + N + ")D";
 	private final int scale;
 	private final int roundingMode;
 
@@ -405,4 +406,10 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 		return true;
 	}
 
+	@Override
+	void compileIntFromNum( GeneratorAdapter _mv )
+	{
+		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "intValue", B2I );
+	}
+	
 }

@@ -35,24 +35,29 @@ public abstract class ExpressionNodeShadow
 		this.node = _node;
 	}
 
-	public ExpressionNode getNode()
+	public ExpressionNode node()
 	{
 		return this.node;
 	}
 
-	public List<ExpressionNodeShadow> getArguments()
+	public List<ExpressionNodeShadow> arguments()
 	{
 		return this.arguments;
 	}
 
 	public static ExpressionNodeShadow shadow( ExpressionNode _node, Builder _builder )
 	{
-		final ExpressionNodeShadow result = _builder.shadow( _node );
-		final List<ExpressionNodeShadow> resultArgs = result.getArguments();
-		for (ExpressionNode argNode : _node.getArguments()) {
-			resultArgs.add( shadow( argNode, _builder ) );
+		if (_node == null) {
+			return null;
 		}
-		return result;
+		else {
+			final ExpressionNodeShadow result = _builder.shadow( _node );
+			final List<ExpressionNodeShadow> resultArgs = result.arguments();
+			for (ExpressionNode argNode : _node.arguments()) {
+				resultArgs.add( shadow( argNode, _builder ) );
+			}
+			return result;
+		}
 	}
 
 	public static interface Builder

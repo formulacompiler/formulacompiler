@@ -105,7 +105,7 @@ final class SectionPath
 			this.targetNode = _step;
 		}
 		else {
-			this.targetNode.getArguments().add( _step );
+			this.targetNode.arguments().add( _step );
 			this.targetNode = _step;
 		}
 	}

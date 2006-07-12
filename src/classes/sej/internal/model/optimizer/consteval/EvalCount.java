@@ -51,7 +51,7 @@ public class EvalCount extends EvalAggregator
 	protected Object resultOf( Aggregation _agg )
 	{
 		final NonNullCountingAggregation agg = (NonNullCountingAggregation) _agg;
-		return getType().adjustConstantValue( agg.numberOfNonNullArguments );
+		return type().adjustConstantValue( agg.numberOfNonNullArguments );
 	}
 
 }

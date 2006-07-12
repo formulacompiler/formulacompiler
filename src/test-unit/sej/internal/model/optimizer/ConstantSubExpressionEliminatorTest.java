@@ -20,16 +20,21 @@
  */
 package sej.internal.model.optimizer;
 
-import sej.CompilerException;
+import sej.Function;
 import sej.SEJ;
+import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.model.CellModel;
+import sej.internal.model.ExpressionNodeForCellModel;
+import sej.internal.model.ExpressionNodeForRangeValue;
+import sej.internal.model.RangeValue;
 
 public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 {
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testConstantCells() throws CompilerException
+	public void testConstantCells() throws Exception
 	{
 		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 
@@ -45,7 +50,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testConstantCellsBigDecimal() throws CompilerException
+	public void testConstantCellsBigDecimal() throws Exception
 	{
 		model.traverse( new ConstantSubExpressionEliminator( SEJ.BIGDECIMAL8 ) );
 
@@ -61,7 +66,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testPartialFoldingInExprs() throws NoSuchMethodException, CompilerException
+	public void testPartialFoldingInExprs() throws Exception
 	{
 		makeConstCellInput();
 
@@ -79,7 +84,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testPartialAggregationInExprs() throws NoSuchMethodException, CompilerException
+	public void testPartialAggregationInExprs() throws Exception
 	{
 		makeConstCellInput();
 
@@ -93,7 +98,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testBandsAreNotConst() throws NoSuchMethodException, CompilerException
+	public void testBandsAreNotConst() throws Exception
 	{
 		makeConstCellInput();
 
@@ -105,5 +110,49 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		assertExpr( "SUM( Band.10.0 )", sumOverBand );
 	}
 
+
+	@SuppressWarnings("unqualified-field-access")
+	public void testShortCircuitedINDEX_AllConst() throws Exception
+	{
+		CellModel i = new CellModel( root, "i" );
+		i.setExpression( new ExpressionNodeForConstantValue( 1.0 ) );
+		CellModel a = new CellModel( root, "a" );
+		a.setExpression( new ExpressionNodeForConstantValue( 2.0 ) );
+		CellModel b = new CellModel( root, "a" );
+		b.setExpression( new ExpressionNodeForConstantValue( 3.0 ) );
+		CellModel c = new CellModel( root, "c" );
+		c.setExpression( new ExpressionNodeForConstantValue( 4.0 ) );
+
+		CellModel index = new CellModel( root, "index" );
+		index.setExpression( new ExpressionNodeForFunction( Function.INDEX, new ExpressionNodeForRangeValue(
+				new RangeValue( 1, 1, 3 ), new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
+				new ExpressionNodeForCellModel( c ) ), new ExpressionNodeForCellModel( i ), null ) );
+
+		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
+
+		assertConst( 2.0, index );
+	}
+
+	@SuppressWarnings("unqualified-field-access")
+	public void testShortCircuitedINDEX_OnlyIndexConst() throws Exception
+	{
+		CellModel i = new CellModel( root, "i" );
+		i.setExpression( new ExpressionNodeForConstantValue( 1.0 ) );
+		CellModel a = new CellModel( root, "a" );
+		a.makeInput( getInput( "getOne" ) );
+		CellModel b = new CellModel( root, "a" );
+		b.makeInput( getInput( "getTwo" ) );
+		CellModel c = new CellModel( root, "c" );
+		c.makeInput( getInput( "getThree" ) );
+
+		CellModel index = new CellModel( root, "index" );
+		index.setExpression( new ExpressionNodeForFunction( Function.INDEX, new ExpressionNodeForRangeValue(
+				new RangeValue( 1, 1, 3 ), new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
+				new ExpressionNodeForCellModel( c ) ), new ExpressionNodeForCellModel( i ), null ) );
+
+		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
+
+		assertExpr( "getOne()", index );
+	}
 
 }

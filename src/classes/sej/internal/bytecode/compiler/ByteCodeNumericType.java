@@ -306,4 +306,6 @@ abstract class ByteCodeNumericType
 		compileRuntimeMethod( _mv, "booleanFromNum", "(" + descriptor() + ")Z" );
 	}
 
+	abstract void compileIntFromNum( GeneratorAdapter _mv );
+
 }

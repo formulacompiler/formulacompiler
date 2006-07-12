@@ -56,7 +56,10 @@ public final class ReferenceCounter extends AbstractComputationModelVisitor
 
 	void addRefToEverythingReferencedBy( ExpressionNode _expr, boolean _accessedBySubBand )
 	{
-		if (_expr instanceof ExpressionNodeForCellModel) {
+		if (_expr == null) {
+			// nothing to do
+		}
+		else if (_expr instanceof ExpressionNodeForCellModel) {
 			ExpressionNodeForCellModel cellNode = (ExpressionNodeForCellModel) _expr;
 			CellModel cellModel = cellNode.getCellModel();
 			if (null != cellModel) {
@@ -66,7 +69,7 @@ public final class ReferenceCounter extends AbstractComputationModelVisitor
 		}
 		else {
 			final boolean argsBySubBand = _accessedBySubBand || (_expr instanceof ExpressionNodeForParentSectionModel);
-			for (ExpressionNode arg : _expr.getArguments()) {
+			for (ExpressionNode arg : _expr.arguments()) {
 				addRefToEverythingReferencedBy( arg, argsBySubBand );
 			}
 		}

@@ -46,7 +46,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		this.type = _type;
 	}
 
-	public InterpretedNumericType getType()
+	public InterpretedNumericType type()
 	{
 		return this.type;
 	}
@@ -61,7 +61,11 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 
 	protected int cardinality()
 	{
-		return getArguments().size();
+		int result = arguments().size();
+		while ((result > 0) && (arguments().get( result - 1 ) == null)) {
+			result--;
+		}
+		return result;
 	}
 
 
@@ -78,8 +82,8 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 
 	protected Object evaluateArgument( int _index )
 	{
-		final EvalShadow argShadow = (EvalShadow) getArguments().get( _index );
-		return argShadow.eval();
+		final EvalShadow argShadow = (EvalShadow) arguments().get( _index );
+		return (argShadow == null) ? null : argShadow.eval();
 	}
 
 
@@ -114,7 +118,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 
 	protected Object nodeWithConstantArgsFixed( Object[] _args )
 	{
-		final List<ExpressionNode> argNodes = getNode().getArguments();
+		final List<ExpressionNode> argNodes = node().arguments();
 		int iArg = 0;
 		for (Object arg : _args) {
 			if (!(arg instanceof ExpressionNode)) {
@@ -122,7 +126,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 			}
 			iArg++;
 		}
-		return getNode();
+		return node();
 	}
 
 

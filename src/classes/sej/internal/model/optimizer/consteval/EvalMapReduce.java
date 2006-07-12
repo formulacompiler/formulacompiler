@@ -53,7 +53,7 @@ public class EvalMapReduce extends EvalAggregator
 				_agg.accumulator = _value;
 			}
 			else {
-				_agg.accumulator = getType().compute( this.reductor, _agg.accumulator, _value );
+				_agg.accumulator = type().compute( this.reductor, _agg.accumulator, _value );
 			}
 		}
 	}

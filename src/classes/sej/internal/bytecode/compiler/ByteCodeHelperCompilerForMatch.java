@@ -49,9 +49,7 @@ class ByteCodeHelperCompilerForMatch extends ByteCodeHelperCompiler
 	@Override
 	protected void compileBody() throws CompilerException
 	{
-		final List<ExpressionNode> args = this.node.getArguments();
-
-		switch (args.size()) {
+		switch (this.node.cardinality()) {
 
 			case 2: {
 				compileWithConstType( 1 );
@@ -59,7 +57,7 @@ class ByteCodeHelperCompilerForMatch extends ByteCodeHelperCompiler
 			}
 
 			case 3: {
-				final ExpressionNode typeArg = args.get( 2 );
+				final ExpressionNode typeArg = this.node.arguments().get( 2 );
 				if (typeArg instanceof ExpressionNodeForConstantValue) {
 					final ExpressionNodeForConstantValue constTypeArg = (ExpressionNodeForConstantValue) typeArg;
 					final Object typeVal = constTypeArg.getValue();
@@ -88,10 +86,10 @@ class ByteCodeHelperCompilerForMatch extends ByteCodeHelperCompiler
 		final Type numType = num.type();
 
 		Iterator candidates = null;
-		final ExpressionNode rangeArg = this.node.getArguments().get( 1 );
+		final ExpressionNode rangeArg = this.node.arguments().get( 1 );
 		if (rangeArg instanceof ExpressionNodeForRangeValue) {
 			final ExpressionNodeForRangeValue rangeNode = (ExpressionNodeForRangeValue) rangeArg;
-			candidates = rangeNode.getArguments().iterator();
+			candidates = rangeNode.arguments().iterator();
 		}
 		else if (rangeArg instanceof ExpressionNodeForConstantValue) {
 			final RangeValue rangeVals = (RangeValue) ((ExpressionNodeForConstantValue) rangeArg).getValue();
@@ -103,7 +101,7 @@ class ByteCodeHelperCompilerForMatch extends ByteCodeHelperCompiler
 
 		// final double val = <arg_1>;
 		final int l_val = mv().newLocal( numType );
-		compileExpr( this.node.getArguments().get( 0 ) );
+		compileExpr( this.node.arguments().get( 0 ) );
 
 		mv().storeLocal( l_val );
 

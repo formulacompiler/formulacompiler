@@ -55,7 +55,7 @@ final class ByteCodeHelperCompilerForIteration extends ByteCodeHelperCompiler
 	protected void compileBody() throws CompilerException
 	{
 		final ByteCodeSubSectionCompiler sub = this.sub;
-		final ByteCodeSectionNumericMethodCompiler subExpr = compileSubExpr( this.node.getArguments() );
+		final ByteCodeSectionNumericMethodCompiler subExpr = compileSubExpr( this.node.arguments() );
 
 		final GeneratorAdapter mv = mv();
 
@@ -131,7 +131,7 @@ final class ByteCodeHelperCompilerForIteration extends ByteCodeHelperCompiler
 				return this.sub.compileExpr( _args.get( 0 ) );
 			default:
 				final ExpressionNodeForOperator combiner = new ExpressionNodeForOperator( this.reductor );
-				combiner.getArguments().addAll( _args );
+				combiner.arguments().addAll( _args );
 				return this.sub.compileExpr( combiner );
 		}
 	}

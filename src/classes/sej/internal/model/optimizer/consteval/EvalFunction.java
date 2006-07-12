@@ -36,12 +36,12 @@ public class EvalFunction extends EvalShadow
 	@Override
 	protected Object evaluateToConst( Object[] _args )
 	{
-		final Function function = ((ExpressionNodeForFunction) getNode()).getFunction();
+		final Function function = ((ExpressionNodeForFunction) node()).getFunction();
 		if (function.isVolatile()) {
 			return nodeWithConstantArgsFixed( _args );
 		}
 		else {
-			return getType().compute( function, _args );
+			return type().compute( function, _args );
 		}
 	}
 

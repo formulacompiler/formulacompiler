@@ -40,7 +40,7 @@ public abstract class EvalAggregator extends EvalShadow
 	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object[] _args )
 	{
 		final Aggregation agg = newAggregation();
-		final Aggregator aggregator = ((ExpressionNodeForAggregator) getNode()).getAggregator();
+		final Aggregator aggregator = ((ExpressionNodeForAggregator) node()).getAggregator();
 		final boolean argsDontMatter = aggregator.areArgumentValuesIrrelevant();
 		boolean areAllConst = true;
 		boolean areSomeConst = false;
@@ -51,20 +51,20 @@ public abstract class EvalAggregator extends EvalShadow
 			}
 			else if (areAllConst) {
 				if (!aggregator.isPartialAggregationSupported()) {
-					return getNode();
+					return node();
 				}
 				areAllConst = false;
 			}
 		}
 		if (areAllConst) {
 			final Object result = resultOf( agg );
-			return (null != result) ? result : getType().adjustConstantValue( 0 );
+			return (null != result) ? result : type().adjustConstantValue( 0 );
 		}
 		else if (areSomeConst) {
 			return newPartialAggregationNode( agg, _args );
 		}
 		else {
-			return getNode();
+			return node();
 		}
 	}
 
@@ -76,12 +76,12 @@ public abstract class EvalAggregator extends EvalShadow
 
 	protected Object newPartialAggregationNode( final Aggregation _partialAggregation, Object[] _args )
 	{
-		final Aggregator aggregator = ((ExpressionNodeForAggregator) getNode()).getAggregator();
+		final Aggregator aggregator = ((ExpressionNodeForAggregator) node()).getAggregator();
 		final ExpressionNode result = new ExpressionNodeForPartialAggregation( aggregator, _partialAggregation );
 		for (Object arg : _args) {
 			if (arg instanceof ExpressionNode) {
 				final ExpressionNode argNode = (ExpressionNode) arg;
-				result.getArguments().add( argNode );
+				result.arguments().add( argNode );
 			}
 		}
 		return result;
