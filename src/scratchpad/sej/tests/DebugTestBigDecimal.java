@@ -33,7 +33,7 @@ public class DebugTestBigDecimal extends TestCase
 		final Output output = factory.newOutput( input );
 		final BigDecimal result = output.getResult();
 		
-		assertEquals( "2.00000000", result.toPlainString() );
+		assertEquals( "6.00000000", result.toPlainString() );
 	}
 
 
@@ -41,22 +41,22 @@ public class DebugTestBigDecimal extends TestCase
 	{
 		public BigDecimal getIA()
 		{
-			return BigDecimal.valueOf( 10 );
+			return BigDecimal.valueOf( 5 );
 		}
 
 		public BigDecimal getIB()
 		{
-			return BigDecimal.valueOf( 10 );
+			return BigDecimal.valueOf( 6 );
 		}
 
 		public BigDecimal getIC()
 		{
-			return BigDecimal.valueOf( 10 );
+			return BigDecimal.valueOf( 7 );
 		}
 
 		public BigDecimal getID()
 		{
-			return BigDecimal.ZERO;
+			return BigDecimal.valueOf( 2 );
 		}
 	}
 

@@ -51,7 +51,6 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 	private static final String LI2B = "(" + Type.LONG_TYPE.getDescriptor() + "I)" + B;
 	private static final String D2B = "(D)" + B;
 	private static final String S2B = "(Ljava/lang/String;)" + B;
-	private static final String B2I = "(" + B + ")I";
 	private static final String B2B = ("(" + B + ")") + B;
 	private static final String BB2B = "(" + B + B + ")" + B;
 	private static final String BII2B = "(" + B + "II)" + B;
@@ -409,7 +408,7 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 	@Override
 	void compileIntFromNum( GeneratorAdapter _mv )
 	{
-		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "intValue", B2I );
+		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "intValue", "()I" );
 	}
 	
 }

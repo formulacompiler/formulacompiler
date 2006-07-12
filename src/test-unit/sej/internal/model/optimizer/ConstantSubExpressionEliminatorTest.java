@@ -155,4 +155,26 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		assertExpr( "getOne()", index );
 	}
 
+	@SuppressWarnings("unqualified-field-access")
+	public void testINDEX_OnlyIndexInput() throws Exception
+	{
+		CellModel i = new CellModel( root, "i" );
+		i.makeInput( getInput( "getOne" ) );
+		CellModel a = new CellModel( root, "a" );
+		a.setExpression( new ExpressionNodeForConstantValue( 2.0 ) );
+		CellModel b = new CellModel( root, "a" );
+		b.setExpression( new ExpressionNodeForConstantValue( 3.0 ) );
+		CellModel c = new CellModel( root, "c" );
+		c.setExpression( new ExpressionNodeForConstantValue( 4.0 ) );
+
+		CellModel index = new CellModel( root, "index" );
+		index.setExpression( new ExpressionNodeForFunction( Function.INDEX, new ExpressionNodeForRangeValue(
+				new RangeValue( 1, 1, 3 ), new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
+				new ExpressionNodeForCellModel( c ) ), new ExpressionNodeForCellModel( i ), null ) );
+
+		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
+
+		assertExpr( "INDEX( {2.0, 3.0, 4.0}, getOne(),  )", index );
+	}
+
 }

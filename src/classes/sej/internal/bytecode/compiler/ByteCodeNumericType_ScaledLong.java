@@ -461,7 +461,7 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 	@Override
 	void compileIntFromNum( GeneratorAdapter _mv )
 	{
-		compileScaleCorrection( _mv, 0, getScale() );
+		compileScaleCorrection( _mv, getScale(), 0 );
 		_mv.visitInsn( Opcodes.L2I );
 	}
 

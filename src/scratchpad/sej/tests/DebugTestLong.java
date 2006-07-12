@@ -1,12 +1,11 @@
 package sej.tests;
 
-import java.io.IOException;
-
 import sej.EngineBuilder;
 import sej.SEJ;
+import sej.SaveableEngine;
+import sej.internal.Debug;
 import sej.internal.Settings;
-import sej.internal.spreadsheet.loader.excel.xls.ExcelXLSLoader;
-import sej.runtime.Engine;
+import sej.runtime.ScaledLong;
 import junit.framework.TestCase;
 
 
@@ -14,54 +13,62 @@ public class DebugTestLong extends TestCase
 {
 
 	static {
-		ExcelXLSLoader.register();
-		StandardCompiler.registerAsDefault();
 		Settings.setDebugLogEnabled( true );
 	}
 
 
-	public void testDebugCase() throws IOException, ModelError
+	public void testDebugCase() throws Exception
 	{
-		final EngineBuilder builder = new EngineBuilder( Inputs.class, Outputs.class, SEJ.LONG4 );
+		final EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.setNumericType( SEJ.LONG4 );
+		builder.setFactoryClass( OutputFactory.class );
 		builder.loadSpreadsheet( "src/scratchpad/data/DebugCase.xls" );
-		builder.bindCellsByName();
-		final Engine engine = builder.buildEngine();
+		builder.bindAllByName();
+		final SaveableEngine engine = builder.compile();
+		Debug.saveEngine( engine, "/temp/Debug.jar" );
+		final OutputFactory factory = (OutputFactory) engine.getComputationFactory();
 
-		final Inputs inputs = new Inputs();
-		final Outputs outputs = (Outputs) engine.newComputation( inputs );
-		final long result = outputs.getResult();
+		final Input input = new Input();
+		final Output output = factory.newOutput( input );
+		final long result = output.getResult();
 		
-		assertEquals( 620000L, result );
+		assertEquals( 60000L, result );
 	}
 
 
-	public static final class Inputs
-	{
+	@ScaledLong(4)
+	public static final class Input
+	{		
 		public long getIA()
 		{
-			return 100000L;
+			return 50000L;
 		}
 
 		public long getIB()
 		{
-			return 100000L;
+			return 60000L;
 		}
 
 		public long getIC()
 		{
-			return 100000L;
+			return 70000L;
 		}
 
 		public long getID()
 		{
-			return 0;
+			return 20000L;
 		}
 	}
 
-
-	public static interface Outputs
+	@ScaledLong(4)
+	public static interface Output
 	{
 		long getResult();
+	}
+
+	public static interface OutputFactory
+	{
+		Output newOutput( Input _input );
 	}
 
 }

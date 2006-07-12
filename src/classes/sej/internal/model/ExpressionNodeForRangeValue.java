@@ -61,7 +61,7 @@ public class ExpressionNodeForRangeValue extends ExpressionNode
 			boolean isFirst = true;
 			for (ExpressionNode arg : arguments()) {
 				if (isFirst) isFirst = false;
-				else _to.append( ',' );
+				else _to.append( ", " );
 				arg.describeTo( _to );
 			}
 			_to.append( '}' );

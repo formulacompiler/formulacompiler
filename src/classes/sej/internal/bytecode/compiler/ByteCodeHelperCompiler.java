@@ -20,6 +20,15 @@
  */
 package sej.internal.bytecode.compiler;
 
+import java.util.Collection;
+import java.util.Iterator;
+
+import sej.CompilerException;
+import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.model.ExpressionNodeForRangeValue;
+import sej.internal.model.RangeValue;
+
 
 abstract class ByteCodeHelperCompiler extends ByteCodeSectionNumericMethodCompiler
 {
@@ -34,4 +43,28 @@ abstract class ByteCodeHelperCompiler extends ByteCodeSectionNumericMethodCompil
 		super( _section, _access, _section.newGetterName() );
 	}
 
+	
+	protected ExpressionNode[] rangeElements( ExpressionNode _outerNode, ExpressionNode _rangeNode ) throws CompilerException 
+	{
+		if (_rangeNode instanceof ExpressionNodeForRangeValue) {
+			final Collection<ExpressionNode> args = _rangeNode.arguments();
+			return args.toArray( new ExpressionNode[ args.size() ] );
+		}
+		else if (_rangeNode instanceof ExpressionNodeForConstantValue) {
+			final RangeValue rangeVal = (RangeValue) ((ExpressionNodeForConstantValue) _rangeNode).getValue();
+			final int rangeSize = rangeVal.getNumberOfSheets() * rangeVal.getNumberOfRows() * rangeVal.getNumberOfColumns();
+			ExpressionNode[] result = new ExpressionNode[ rangeSize ];
+			final Iterator<Object> rangeIter = rangeVal.iterator();
+			int i = 0;
+			while (rangeIter.hasNext()) {
+				result[ i++ ] = new ExpressionNodeForConstantValue( rangeIter.next() );
+			}
+			return result;
+		}
+		else {
+			unsupported( _outerNode );
+			return null; 
+		}
+	}
+	
 }

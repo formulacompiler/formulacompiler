@@ -233,6 +233,12 @@ public class GeneratedEngine extends Outputs implements Computation
 		}
 
 	}
+	
+	public BigDecimal getIndex()
+	{
+		final int i = getBigDecimalA().intValue() - 1;
+		return BigDecimal.ZERO;
+	}
 
 	public BigDecimal getBigDecimalA()
 	{

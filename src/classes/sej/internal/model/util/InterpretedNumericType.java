@@ -78,6 +78,13 @@ public abstract class InterpretedNumericType
 	}
 
 
+	public int toInt( Object _value, int _ifNull )
+	{
+		if (_value == null) return _ifNull;
+		return valueToInt( _value, _ifNull );
+	}
+
+	
 	public Object compute( Operator _operator, Object... _args )
 	{
 		switch (_operator) {
