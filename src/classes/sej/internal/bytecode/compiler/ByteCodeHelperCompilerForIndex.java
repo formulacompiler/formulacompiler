@@ -59,7 +59,7 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 					return;
 
 				case 3:
-					if (args.get( 1 ) == null) {
+					if (isNull(args.get( 1 ))) {
 						compileOneDimensionalIndexFunction( rangeElements, args.get( 2 ) );
 						return;
 					}
@@ -68,6 +68,17 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 			}
 		}
 		unsupported( this.node );
+	}
+
+
+	private boolean isNull( ExpressionNode _node )
+	{
+		if (_node == null) return true;
+		if (_node instanceof ExpressionNodeForConstantValue) {
+			ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _node;
+			return (constNode.getValue() == null);
+		}
+		return false;
 	}
 
 
