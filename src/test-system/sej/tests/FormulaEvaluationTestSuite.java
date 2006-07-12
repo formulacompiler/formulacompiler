@@ -99,7 +99,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 						suite = new TestSuite( (String) nameCell.getValue() );
 						fileSuite.addTest( suite );
 					}
-					if (!isRowEmptyStartingWith( row, EXPECTED_COL )) {
+					if (!isRowEmptyStartingWith( row, EXPECTED_COL ) && row.getCellList().get( EXPECTED_COL ) != null) {
 						if (isRowEmptyStartingWith( row, INPUTCOUNT_COL )) {
 							formulaRow = -1;
 							addTests( suite, workbook, iRow, iRow, false );

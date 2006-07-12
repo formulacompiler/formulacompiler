@@ -42,7 +42,9 @@
 <li>Null values (empty cells) are not yet supported. In particular, an <tt>AVERAGE</tt> involving empty cells will return a different result than Excel.</li>
 <li>Range intersections are parsed but not evaluated correctly.</li>
 <li>Ranges specified using named cells as endpoints are not supported. Named ranges, however, are (see <tt>ExcelExpressionParserTest.testCellAndRangeMixes()</tt>).</li>
-<li>With <tt>MATCH</tt>, the last argument (the match type) must be constant, and the second argument (the match range) cannot reference a repeating section.</li>
+<li>With <tt>MATCH</tt>, the last argument (the match type) must be constant, and the second argument (the match range) cannot reference a repeating section yet.</li>
+<li>Only one-dimensional <tt>INDEX</tt> is supported (cannot do x/y lookup), and the range argument cannot reference a repeating section yet.</li>
+<li>Array expressions are not supported (such as <tt>{=INDEX({1,2;3,4};0;2)}</tt>).</li>
 </ul>
 
 <h3>Scaled Long Type</h3>
@@ -74,7 +76,7 @@
 </ul>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 11.07.2006.</p>        </div>
+<br/>Last updated on 12.07.2006.</p>        </div>
     </div>
 </body>
 </html>
