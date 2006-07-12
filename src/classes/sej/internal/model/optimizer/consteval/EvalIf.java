@@ -39,7 +39,7 @@ public class EvalIf extends EvalFunction
 		if (card > 0) {
 			final Object firstArg = evaluateArgument( 0 );
 			if (isConstant( firstArg )) {
-				final boolean constFirstArg = getType().toBoolean( firstArg );
+				final boolean constFirstArg = type().toBoolean( firstArg );
 				switch (card) {
 					case 2:
 						return (constFirstArg) ? evaluateArgument( 1 ) : null;

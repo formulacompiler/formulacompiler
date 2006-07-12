@@ -30,9 +30,9 @@ public class ExpressionNodeForRangeValue extends ExpressionNode
 	private RangeValue rangeValue;
 
 
-	public ExpressionNodeForRangeValue(RangeValue _rangeValue)
+	public ExpressionNodeForRangeValue(RangeValue _rangeValue, ExpressionNode... _args)
 	{
-		super();
+		super( _args );
 		this.rangeValue = _rangeValue;
 	}
 
@@ -53,13 +53,13 @@ public class ExpressionNodeForRangeValue extends ExpressionNode
 	@Override
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
-		if (getArguments().size() == 1) {
-			getArguments().get( 0 ).describeTo( _to );
+		if (arguments().size() == 1) {
+			arguments().get( 0 ).describeTo( _to );
 		}
 		else {
 			_to.append( '{' );
 			boolean isFirst = true;
-			for (ExpressionNode arg : getArguments()) {
+			for (ExpressionNode arg : arguments()) {
 				if (isFirst) isFirst = false;
 				else _to.append( ',' );
 				arg.describeTo( _to );

@@ -135,7 +135,7 @@ public abstract class AbstractOptimizerTest extends AbstractTestBase
 	{
 		ExpressionNodeForParentSectionModel result = new ExpressionNodeForParentSectionModel( _band.getSection() );
 		for (ExpressionNode arg : _args)
-			result.getArguments().add( arg );
+			result.arguments().add( arg );
 		return result;
 	}
 
@@ -144,7 +144,7 @@ public abstract class AbstractOptimizerTest extends AbstractTestBase
 	{
 		ExpressionNodeForSubSectionModel result = new ExpressionNodeForSubSectionModel( _band );
 		for (ExpressionNode arg : _args)
-			result.getArguments().add( arg );
+			result.arguments().add( arg );
 		return result;
 	}
 

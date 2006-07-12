@@ -377,7 +377,7 @@ abstract class ByteCodeSectionMethodCompiler
 
 	private void compileOperator( ExpressionNodeForOperator _node ) throws CompilerException
 	{
-		final List<ExpressionNode> args = _node.getArguments();
+		final List<ExpressionNode> args = _node.arguments();
 		final Operator op = _node.getOperator();
 		switch (args.size()) {
 
@@ -436,7 +436,7 @@ abstract class ByteCodeSectionMethodCompiler
 	private void compileStdFunction( ExpressionNodeForFunction _node ) throws CompilerException
 	{
 		final StringBuilder argTypeBuilder = new StringBuilder();
-		for (ExpressionNode arg : _node.getArguments()) {
+		for (ExpressionNode arg : _node.arguments()) {
 			compileExpr( arg );
 			argTypeBuilder.append( numericType().descriptor() );
 		}
@@ -446,7 +446,7 @@ abstract class ByteCodeSectionMethodCompiler
 
 	private void compileIf( ExpressionNodeForFunction _node ) throws CompilerException
 	{
-		compileIf( _node.getArguments().get( 0 ), _node.getArguments().get( 1 ), _node.getArguments().get( 2 ) );
+		compileIf( _node.arguments().get( 0 ), _node.arguments().get( 1 ), _node.arguments().get( 2 ) );
 	}
 
 
@@ -503,8 +503,8 @@ abstract class ByteCodeSectionMethodCompiler
 					case GREATEROREQUAL:
 					case LESS:
 					case LESSOREQUAL:
-						compileExpr( this.node.getArguments().get( 0 ) );
-						compileExpr( this.node.getArguments().get( 1 ) );
+						compileExpr( this.node.arguments().get( 0 ) );
+						compileExpr( this.node.arguments().get( 1 ) );
 						compileComparison( operator );
 						return;
 				}
@@ -553,7 +553,7 @@ abstract class ByteCodeSectionMethodCompiler
 
 		private void compileNot() throws CompilerException
 		{
-			final List<ExpressionNode> args = this.node.getArguments();
+			final List<ExpressionNode> args = this.node.arguments();
 			if (0 < args.size()) {
 				newInverseCompiler( args.get( 0 ), this.branchTo ).compile();
 			}
@@ -623,14 +623,14 @@ abstract class ByteCodeSectionMethodCompiler
 		protected void compileOr() throws CompilerException
 		{
 			final Label met = mv().newLabel();
-			final int nArg = this.node.getArguments().size();
+			final int nArg = this.node.arguments().size();
 			int iArg = 0;
 			while (iArg < nArg - 1) {
-				final ExpressionNode arg = this.node.getArguments().get( iArg );
+				final ExpressionNode arg = this.node.arguments().get( iArg );
 				new TestCompilerBranchingWhenTrue( arg, met ).compile();
 				iArg++;
 			}
-			final ExpressionNode lastArg = this.node.getArguments().get( iArg );
+			final ExpressionNode lastArg = this.node.arguments().get( iArg );
 			new TestCompilerBranchingWhenFalse( lastArg, this.branchTo ).compile();
 			mv().mark( met );
 		}
@@ -638,7 +638,7 @@ abstract class ByteCodeSectionMethodCompiler
 		@Override
 		protected void compileAnd() throws CompilerException
 		{
-			for (ExpressionNode arg : this.node.getArguments()) {
+			for (ExpressionNode arg : this.node.arguments()) {
 				new TestCompilerBranchingWhenFalse( arg, this.branchTo ).compile();
 			}
 		}
@@ -700,7 +700,7 @@ abstract class ByteCodeSectionMethodCompiler
 		@Override
 		protected void compileOr() throws CompilerException
 		{
-			for (ExpressionNode arg : this.node.getArguments()) {
+			for (ExpressionNode arg : this.node.arguments()) {
 				new TestCompilerBranchingWhenTrue( arg, this.branchTo ).compile();
 			}
 		}
@@ -709,14 +709,14 @@ abstract class ByteCodeSectionMethodCompiler
 		protected void compileAnd() throws CompilerException
 		{
 			final Label notMet = mv().newLabel();
-			final int nArg = this.node.getArguments().size();
+			final int nArg = this.node.arguments().size();
 			int iArg = 0;
 			while (iArg < nArg - 1) {
-				final ExpressionNode arg = this.node.getArguments().get( iArg );
+				final ExpressionNode arg = this.node.arguments().get( iArg );
 				new TestCompilerBranchingWhenFalse( arg, notMet ).compile();
 				iArg++;
 			}
-			final ExpressionNode lastArg = this.node.getArguments().get( iArg );
+			final ExpressionNode lastArg = this.node.arguments().get( iArg );
 			new TestCompilerBranchingWhenTrue( lastArg, this.branchTo ).compile();
 			mv().mark( notMet );
 		}
@@ -763,7 +763,7 @@ abstract class ByteCodeSectionMethodCompiler
 	{
 		if (null == _reductor) unsupported( _node );
 		boolean first = true;
-		for (ExpressionNode arg : _node.getArguments()) {
+		for (ExpressionNode arg : _node.arguments()) {
 			if (arg instanceof ExpressionNodeForSubSectionModel) {
 				ExpressionNodeForSubSectionModel subArg = (ExpressionNodeForSubSectionModel) arg;
 				compileIteration( _reductor, subArg );
@@ -786,14 +786,14 @@ abstract class ByteCodeSectionMethodCompiler
 	private void compileCount( ExpressionNodeForAggregator _node ) 
 	{
 		long statics = 0;
-		for (ExpressionNode arg : _node.getArguments()) {
+		for (ExpressionNode arg : _node.arguments()) {
 			if (!(arg instanceof ExpressionNodeForSubSectionModel)) {
 				statics++;
 			}
 		}
 		mv().push( statics );
 
-		for (ExpressionNode arg : _node.getArguments()) {
+		for (ExpressionNode arg : _node.arguments()) {
 			if (arg instanceof ExpressionNodeForSubSectionModel) {
 				ExpressionNodeForSubSectionModel subArg = (ExpressionNodeForSubSectionModel) arg;
 				ByteCodeSubSectionCompiler sub = section().subSectionCompiler( subArg.getSectionModel() );
@@ -802,7 +802,7 @@ abstract class ByteCodeSectionMethodCompiler
 				section().compileCallToGetterFor( mv(), sub );
 				mv().arrayLength();
 				mv().visitInsn( Opcodes.I2L );
-				mv().push( (long) subArg.getArguments().size() );
+				mv().push( (long) subArg.arguments().size() );
 				mv().visitInsn( Opcodes.LMUL );
 				mv().visitInsn( Opcodes.LADD );
 
@@ -844,7 +844,7 @@ abstract class ByteCodeSectionMethodCompiler
 	{
 		final ByteCodeSectionCompiler section = section();
 		final ByteCodeSectionCompiler parent = section.parentSectionCompiler();
-		final ByteCodeSectionNumericMethodCompiler parentExpr = parent.compileExpr( _node.getArguments().get( 0 ) );
+		final ByteCodeSectionNumericMethodCompiler parentExpr = parent.compileExpr( _node.arguments().get( 0 ) );
 
 		mv().loadThis();
 		mv().getField( section.classType(), ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parent.classType() );
@@ -878,17 +878,6 @@ abstract class ByteCodeSectionMethodCompiler
 	protected void unsupported( ExpressionNode _node ) throws CompilerException
 	{
 		throw new CompilerException.UnsupportedExpression( "The expression " + _node.describe() + " is not supported." );
-	}
-
-
-	protected boolean isNull( ExpressionNode _node )
-	{
-		if (null == _node) return true;
-		if (_node instanceof ExpressionNodeForConstantValue) {
-			ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _node;
-			return (null == constNode.getValue());
-		}
-		return false;
 	}
 
 }

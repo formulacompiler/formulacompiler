@@ -237,8 +237,8 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 
 	private void compileRuntimeMethodWithContext( MethodVisitor _mv, String _methodName, String _methodSig )
 	{
-		_mv.visitFieldInsn( Opcodes.GETSTATIC, compiler().classInternalName(), RUNTIME_CONTEXT_NAME,
-				RUNTIME_CONTEXT_TYPE.getDescriptor() );
+		_mv.visitFieldInsn( Opcodes.GETSTATIC, compiler().classInternalName(), RUNTIME_CONTEXT_NAME, RUNTIME_CONTEXT_TYPE
+				.getDescriptor() );
 		compileRuntimeMethod( _mv, _methodName, _methodSig );
 	}
 
@@ -455,6 +455,14 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 			_mv.push( correct );
 			_mv.visitInsn( Opcodes.LMUL );
 		}
+	}
+
+
+	@Override
+	void compileIntFromNum( GeneratorAdapter _mv )
+	{
+		compileScaleCorrection( _mv, 0, getScale() );
+		_mv.visitInsn( Opcodes.L2I );
 	}
 
 }

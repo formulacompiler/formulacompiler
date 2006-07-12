@@ -36,7 +36,7 @@ public class EvalCell extends EvalShadow
 	@Override
 	protected Object evaluateToConst( Object[] _args )
 	{
-		final ExpressionNodeForCellModel cellNode = (ExpressionNodeForCellModel) getNode();
+		final ExpressionNodeForCellModel cellNode = (ExpressionNodeForCellModel) node();
 		final CellModel cellModel = cellNode.getCellModel();
 
 		if (null == cellModel) {
@@ -44,7 +44,7 @@ public class EvalCell extends EvalShadow
 		}
 
 		if (cellModel.isInput()) {
-			return getNode();
+			return node();
 		}
 
 		final Object constantValue = cellModel.getConstantValue();
@@ -54,9 +54,9 @@ public class EvalCell extends EvalShadow
 
 		final ExpressionNode expression = cellModel.getExpression();
 		if (null != expression) {
-			final Object constResult = EvalShadow.evaluate( expression, getType() );
+			final Object constResult = EvalShadow.evaluate( expression, type() );
 			if (constResult instanceof ExpressionNode) {
-				return getNode();
+				return node();
 			}
 			else {
 				return constResult;

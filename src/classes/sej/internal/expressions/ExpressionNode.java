@@ -43,7 +43,7 @@ public abstract class ExpressionNode extends AbstractDescribable
 	protected ExpressionNode(ExpressionNode... _args)
 	{
 		for (ExpressionNode arg : _args) {
-			getArguments().add( arg );
+			arguments().add( arg );
 		}
 	}
 
@@ -52,12 +52,12 @@ public abstract class ExpressionNode extends AbstractDescribable
 	public ExpressionNode(Collection _args)
 	{
 		for (ExpressionNode arg : (Collection<ExpressionNode>) _args) {
-			getArguments().add( arg );
+			arguments().add( arg );
 		}
 	}
 
 
-	public List<ExpressionNode> getArguments()
+	public List<ExpressionNode> arguments()
 	{
 		return this.arguments;
 	}
@@ -68,6 +68,15 @@ public abstract class ExpressionNode extends AbstractDescribable
 		this.arguments.add( _arg );
 	}
 
+	public int cardinality()
+	{
+		int result = arguments().size();
+		while ((result > 0) && (arguments().get( result - 1 ) == null)) {
+			result--;
+		}
+		return result;
+	}
+
 
 	public abstract ExpressionNode cloneWithoutArguments();
 
@@ -76,9 +85,9 @@ public abstract class ExpressionNode extends AbstractDescribable
 	public Object clone()
 	{
 		ExpressionNode result = cloneWithoutArguments();
-		for (ExpressionNode arg : getArguments()) {
+		for (ExpressionNode arg : arguments()) {
 			ExpressionNode newArg = (ExpressionNode) arg.clone();
-			result.getArguments().add( newArg );
+			result.arguments().add( newArg );
 		}
 		return result;
 	}
@@ -86,7 +95,7 @@ public abstract class ExpressionNode extends AbstractDescribable
 
 	protected void describeArgumentTo( DescriptionBuilder _d, int _iArgument ) throws IOException
 	{
-		ExpressionNode arg = this.getArguments().get( _iArgument );
+		ExpressionNode arg = this.arguments().get( _iArgument );
 		if (null != arg) {
 			arg.describeTo( _d );
 		}
@@ -95,13 +104,13 @@ public abstract class ExpressionNode extends AbstractDescribable
 
 	protected void describeArgumentListTo( DescriptionBuilder _d ) throws IOException
 	{
-		if (0 == getArguments().size()) {
+		if (0 == arguments().size()) {
 			_d.append( "()" );
 		}
 		else {
 			_d.append( "( " );
 			describeArgumentTo( _d, 0 );
-			for (int iArg = 1; iArg < getArguments().size(); iArg++) {
+			for (int iArg = 1; iArg < arguments().size(); iArg++) {
 				_d.append( ", " );
 				describeArgumentTo( _d, iArg );
 			}
@@ -112,7 +121,7 @@ public abstract class ExpressionNode extends AbstractDescribable
 
 	protected void describeArgumentOrArgumentListTo( DescriptionBuilder _d ) throws IOException
 	{
-		if (1 == getArguments().size()) {
+		if (1 == arguments().size()) {
 			describeArgumentTo( _d, 0 );
 		}
 		else {

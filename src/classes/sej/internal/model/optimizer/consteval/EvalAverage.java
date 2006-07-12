@@ -38,7 +38,7 @@ public class EvalAverage extends EvalAggregator
 	protected Aggregation newAggregation()
 	{
 		final Aggregation.NonNullCountingAggregation result = new Aggregation.NonNullCountingAggregation();
-		result.accumulator = getType().adjustConstantValue( 0 );
+		result.accumulator = type().adjustConstantValue( 0 );
 		return result;
 	}
 
@@ -47,7 +47,7 @@ public class EvalAverage extends EvalAggregator
 	{
 		final NonNullCountingAggregation agg = (NonNullCountingAggregation) _agg;
 		if (null != _value) {
-			agg.accumulator = getType().compute( Operator.PLUS, agg.accumulator, _value );
+			agg.accumulator = type().compute( Operator.PLUS, agg.accumulator, _value );
 			agg.numberOfNonNullArguments++;
 		}
 	}
@@ -56,8 +56,8 @@ public class EvalAverage extends EvalAggregator
 	protected Object resultOf( Aggregation _agg )
 	{
 		final NonNullCountingAggregation agg = (NonNullCountingAggregation) _agg;
-		return getType().compute( Operator.DIV, agg.accumulator,
-				getType().adjustConstantValue( agg.numberOfNonNullArguments ) );
+		return type().compute( Operator.DIV, agg.accumulator,
+				type().adjustConstantValue( agg.numberOfNonNullArguments ) );
 	}
 
 }

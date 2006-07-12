@@ -52,7 +52,7 @@ public class ExpressionNodeForRangeUnion extends ExpressionNode
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
 		describeArgumentTo( _to, 0 );
-		for (int iArg = 1; iArg < getArguments().size(); iArg++) {
+		for (int iArg = 1; iArg < arguments().size(); iArg++) {
 			_to.append( ", " );
 			describeArgumentTo( _to, iArg );
 		}

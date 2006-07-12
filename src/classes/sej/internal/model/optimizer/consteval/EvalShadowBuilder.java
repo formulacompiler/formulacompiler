@@ -72,6 +72,8 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 		switch (_node.getFunction()) {
 			case IF:
 				return new EvalIf( _node, this.type );
+			case INDEX:
+				return new EvalIndex( _node, this.type );
 		}
 		return new EvalFunction( _node, this.type );
 	}

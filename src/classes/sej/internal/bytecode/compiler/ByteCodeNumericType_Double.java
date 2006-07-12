@@ -242,6 +242,12 @@ final class ByteCodeNumericType_Double extends ByteCodeNumericType
 		compileRuntimeMethod( _mv, "toScaledLong", "(DJ)J" );
 		return true;
 	}
+	
+	@Override
+	void compileIntFromNum( GeneratorAdapter _mv )
+	{
+		_mv.visitInsn( Opcodes.D2I );
+	}
 
 
 }

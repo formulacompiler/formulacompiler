@@ -40,7 +40,7 @@ public abstract class EvalShortCircuitedBooleanOperator extends EvalOperator
 			case 2:
 				final Object firstArg = evaluateArgument( 0 );
 				if (isConstant( firstArg )) {
-					final boolean constFirstArg = getType().toBoolean( firstArg );
+					final boolean constFirstArg = type().toBoolean( firstArg );
 					return eval( constFirstArg );
 				}
 		}
@@ -55,7 +55,7 @@ public abstract class EvalShortCircuitedBooleanOperator extends EvalOperator
 	{
 		Object secondArg = evaluateArgument( 1 );
 		if (isConstant( secondArg )) {
-			return getType().toBoolean( secondArg );
+			return type().toBoolean( secondArg );
 		}
 		else {
 			return secondArg;

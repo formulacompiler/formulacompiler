@@ -23,6 +23,7 @@ package sej.internal.bytecode.compiler;
 import java.util.List;
 
 import org.objectweb.asm.FieldVisitor;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
@@ -48,65 +49,89 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 	@Override
 	protected void compileBody() throws CompilerException
 	{
-		final List<ExpressionNode> args = this.node.getArguments();
-		final ExpressionNode firstArg = args.get( 0 );
-		if (firstArg instanceof ExpressionNodeForRangeValue) {
-			final ExpressionNodeForRangeValue rangeNode = (ExpressionNodeForRangeValue) firstArg;
-			switch (args.size()) {
+		final List<ExpressionNode> args = this.node.arguments();
+		if (args.size() > 0) {
+			final ExpressionNode firstArg = args.get( 0 );
+			if (firstArg instanceof ExpressionNodeForRangeValue) {
+				final ExpressionNodeForRangeValue rangeNode = (ExpressionNodeForRangeValue) firstArg;
+				switch (this.node.cardinality()) {
 
-				case 2:
-					compileOneDimensionalIndexFunction( rangeNode, args.get( 1 ) );
-					break;
-
-				case 3:
-					if (isNull( args.get( 1 ) )) {
-						compileOneDimensionalIndexFunction( rangeNode, args.get( 2 ) );
-					}
-					else if (isNull( args.get( 2 ) )) {
+					case 2:
 						compileOneDimensionalIndexFunction( rangeNode, args.get( 1 ) );
-					}
-					else {
-						unsupported( this.node ); // LATER two-dim index
-					}
-					break;
+						return;
 
-				default:
-					unsupported( this.node );
+					case 3:
+						if (args.get( 1 ) == null) {
+							compileOneDimensionalIndexFunction( rangeNode, args.get( 2 ) );
+							return;
+						}
+						break;
+
+				}
 			}
 		}
-		else {
-			unsupported( this.node );
-		}
+		unsupported( this.node );
 	}
 
 
-	private void compileOneDimensionalIndexFunction( ExpressionNodeForRangeValue _rangeNode, ExpressionNode _node ) throws CompilerException
+	private void compileOneDimensionalIndexFunction( ExpressionNodeForRangeValue _rangeNode, ExpressionNode _indexNode )
+			throws CompilerException
 	{
-		final List<ExpressionNode> vals = _rangeNode.getArguments();
+		final List<ExpressionNode> vals = _rangeNode.arguments();
+
+		final ByteCodeNumericType num = section().numericType();
+		final Type numType = num.type();
 		final String arrayFieldName = methodName() + "_Consts";
+		final String arrayType = "[" + num.descriptor();
 
 		compileStaticArrayField( vals, arrayFieldName );
 
+		final GeneratorAdapter mv = mv();
+
+		// final int i = <idx-expr> - 1;
+		final int l_i = mv.newLocal( Type.INT_TYPE );
+		compileExpr( _indexNode );
+		num.compileIntFromNum( mv );
+		mv.push( 1 );
+		mv.visitInsn( Opcodes.ISUB );
+		mv.storeLocal( l_i );
 
 		// gen switch
-		// gen lookup
+
+		// return (i >= 0 && i < getStaticIndex_Consts.length) ? getStaticIndex_Consts[ i ] : 0;
+		final Label outOfRange = mv.newLabel();
+		mv.loadLocal( l_i );
+		mv.visitJumpInsn( Opcodes.IFLT, outOfRange );
+
+		mv.loadLocal( l_i );
+		mv.visitFieldInsn( Opcodes.GETSTATIC, section().classInternalName(), arrayFieldName, arrayType );
+		mv.arrayLength();
+		mv.visitJumpInsn( Opcodes.IF_ICMPGE, outOfRange );
+
+		mv.visitFieldInsn( Opcodes.GETSTATIC, section().classInternalName(), arrayFieldName, arrayType );
+		mv.loadLocal( l_i );
+		mv.arrayLoad( numType );
+		mv.visitInsn( num.returnOpcode() );
+
+		mv.mark( outOfRange );
+		num.compileZero( mv );
 	}
 
 
-	private void compileStaticArrayField( final List<ExpressionNode> _vals, final String _name ) throws CompilerException
+	private void compileStaticArrayField( final List<ExpressionNode> _vals, final String _name )
+			throws CompilerException
 	{
 		final int n = _vals.size();
 
 		final ByteCodeNumericType num = section().numericType();
 		final Type numType = num.type();
 		final String arrayType = "[" + num.descriptor();
-		
+
 		// private final static double[] xy
 		final FieldVisitor fv = cw().visitField( Opcodes.ACC_PRIVATE | Opcodes.ACC_FINAL | Opcodes.ACC_STATIC, _name,
 				arrayType, null, null );
 		fv.visitEnd();
 
-		// LATER Finish compileStaticArrayField
 		// ... new double[ n ]
 		final GeneratorAdapter ci = section().initializer();
 		ci.push( n );
@@ -119,10 +144,10 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 			ci.visitIntInsn( Opcodes.BIPUSH, i++ );
 			if (val instanceof ExpressionNodeForConstantValue) {
 				ExpressionNodeForConstantValue constVal = (ExpressionNodeForConstantValue) val;
-				compileConst( constVal.getValue() );
+				num.compileConst( ci, constVal.getValue() );
 			}
 			else {
-				num.compileZero( ci );
+				num.compileZero( ci ); // FIXME is this necessary?
 			}
 			ci.arrayStore( numType );
 		}

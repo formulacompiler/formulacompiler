@@ -202,7 +202,7 @@ public class SectionModelCompiler
 			return buildExpressionModel( cell );
 		}
 		else if (_exprDef instanceof ExpressionNodeForRangeShape) {
-			final CellRange range = ((ExpressionNodeForRange) _exprDef.getArguments().get( 0 )).getRange();
+			final CellRange range = ((ExpressionNodeForRange) _exprDef.arguments().get( 0 )).getRange();
 			return buildExpressionModel( range );
 		}
 		else if (_exprDef instanceof ExpressionNodeForRange) {
@@ -211,7 +211,7 @@ public class SectionModelCompiler
 		}
 		else {
 			final ExpressionNode result = _exprDef.cloneWithoutArguments();
-			for (ExpressionNode _arg : _exprDef.getArguments()) {
+			for (ExpressionNode _arg : _exprDef.arguments()) {
 				addArgumentsTo( result, buildExpressionModel( _arg ) );
 			}
 			return result;
@@ -229,7 +229,7 @@ public class SectionModelCompiler
 			final ExpressionNode cellNode = sectionPath.getSectionCompiler().buildExpressionModelForContainedCell(
 					_cellIndex );
 			final ExpressionNode targetNode = sectionPath.getTargetNode();
-			targetNode.getArguments().add( cellNode );
+			targetNode.arguments().add( cellNode );
 			return sectionPath.getRootNode();
 		}
 	}
@@ -269,7 +269,7 @@ public class SectionModelCompiler
 		final ExpressionNode result = new ExpressionNodeForRangeValue( rangeValue );
 		for (CellIndex element : _range) {
 			final ExpressionNode elementNode = buildExpressionModel( element );
-			result.getArguments().add( elementNode );
+			result.arguments().add( elementNode );
 		}
 		return result;
 	}
@@ -278,7 +278,7 @@ public class SectionModelCompiler
 	private Object peelNodeForRangeValue( final ExpressionNode _node )
 	{
 		if (_node instanceof ExpressionNodeForRangeValue) {
-			return _node.getArguments();
+			return _node.arguments();
 		}
 		else {
 			return _node;
@@ -289,13 +289,13 @@ public class SectionModelCompiler
 	private void addArgumentsTo( final ExpressionNode _result, final Object _argOrArgs )
 	{
 		if (_argOrArgs == null) {
-			_result.getArguments().add( new ExpressionNodeForConstantValue( null ) );
+			_result.arguments().add( null );
 		}
 		else if (_argOrArgs instanceof ExpressionNode) {
-			_result.getArguments().add( (ExpressionNode) _argOrArgs );
+			_result.arguments().add( (ExpressionNode) _argOrArgs );
 		}
 		else {
-			_result.getArguments().addAll( (Collection<ExpressionNode>) _argOrArgs );
+			_result.arguments().addAll( (Collection<ExpressionNode>) _argOrArgs );
 		}
 	}
 

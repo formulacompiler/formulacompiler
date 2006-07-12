@@ -248,7 +248,8 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		@Override
 		public boolean visit( CellModel _cell ) throws CompilerException
 		{
-			if (_cell.isInput() || _cell.isOutput() || 2 <= _cell.getReferenceCount()) {
+			final int refCnt = _cell.getReferenceCount();
+			if ((_cell.isInput() && refCnt >= 1) || _cell.isOutput() || refCnt >= 2) {
 				visitTargetCell( _cell );
 			}
 			return true;

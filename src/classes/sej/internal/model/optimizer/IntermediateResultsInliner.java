@@ -40,8 +40,8 @@ final public class IntermediateResultsInliner extends AbstractComputationModelVi
 		_model.traverse( new ReferenceCounter() );
 		return true;
 	}
-	
-	
+
+
 	@Override
 	public boolean visited( ComputationModel _model ) throws CompilerException
 	{
@@ -71,7 +71,8 @@ final public class IntermediateResultsInliner extends AbstractComputationModelVi
 
 	private ExpressionNode inlineIntermediateResultsInto( ExpressionNode _expr )
 	{
-		assert null != _expr;
+		if (_expr == null) return null;
+		
 		ExpressionNode result = _expr;
 		while (result instanceof ExpressionNodeForCellModel) {
 			ExpressionNodeForCellModel cellNode = (ExpressionNodeForCellModel) result;
@@ -95,7 +96,7 @@ final public class IntermediateResultsInliner extends AbstractComputationModelVi
 		if (null == _expr) {
 			throw new IllegalArgumentException();
 		}
-		List<ExpressionNode> args = _expr.getArguments();
+		List<ExpressionNode> args = _expr.arguments();
 		if (args.size() > 0) {
 			ExpressionNode[] sourceArgs = args.toArray( new ExpressionNode[ args.size() ] );
 			args.clear();

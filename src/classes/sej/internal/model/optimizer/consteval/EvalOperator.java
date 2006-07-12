@@ -37,8 +37,8 @@ public class EvalOperator extends EvalShadow
 	@Override
 	protected Object evaluateToConst( Object[] _args )
 	{
-		final Operator operator = ((ExpressionNodeForOperator) getNode()).getOperator();
-		return getType().compute( operator, _args );
+		final Operator operator = ((ExpressionNodeForOperator) node()).getOperator();
+		return type().compute( operator, _args );
 	}
 
 }
