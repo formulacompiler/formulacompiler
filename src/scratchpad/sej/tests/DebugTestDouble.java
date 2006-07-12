@@ -53,7 +53,7 @@ public class DebugTestDouble extends TestCase
 
 		public double getID()
 		{
-			return 500.0;
+			return 2.0;
 		}
 	}
 

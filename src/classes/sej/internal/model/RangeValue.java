@@ -20,11 +20,15 @@
  */
 package sej.internal.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class RangeValue implements Iterable<Object>, Cloneable
+import sej.describable.AbstractDescribable;
+import sej.describable.DescriptionBuilder;
+
+public class RangeValue extends AbstractDescribable implements Iterable<Object>, Cloneable
 {
 	private final int numberOfSheets;
 	private final int numberOfRows;
@@ -39,7 +43,7 @@ public class RangeValue implements Iterable<Object>, Cloneable
 		this.numberOfColumns = _numberOfColumns;
 	}
 
-	
+
 	public int getNumberOfSheets()
 	{
 		return this.numberOfSheets;
@@ -83,7 +87,7 @@ public class RangeValue implements Iterable<Object>, Cloneable
 
 
 	@Override
-	public Object clone() 
+	public Object clone()
 	{
 		try {
 			return super.clone();
@@ -93,6 +97,19 @@ public class RangeValue implements Iterable<Object>, Cloneable
 			return null;
 		}
 	}
-	
+
+
+	@Override
+	public void describeTo( DescriptionBuilder _to ) throws IOException
+	{
+		_to.append( '{' );
+		boolean isFirst = true;
+		for (Object val : this.values) {
+			if (isFirst) isFirst = false;
+			else _to.append( ", " );
+			_to.append( val.toString() );
+		}
+		_to.append( '}' );
+	}
 
 }

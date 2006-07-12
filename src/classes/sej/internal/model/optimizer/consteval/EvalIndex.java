@@ -44,7 +44,7 @@ public class EvalIndex extends EvalFunction
 			case 2: { // one-dimensional lookup
 				final Object indexArg = evaluateArgument( 1 );
 				if (isConstant( indexArg )) {
-					final int index = ((Number) indexArg).intValue() - 1;
+					final int index = type().toInt( indexArg, 0 ) - 1;
 					if (index < 0) {
 						return null;
 					}

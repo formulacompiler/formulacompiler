@@ -20,9 +20,6 @@
  */
 package sej.internal.bytecode.compiler;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -31,8 +28,6 @@ import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
-import sej.internal.model.ExpressionNodeForRangeValue;
-import sej.internal.model.RangeValue;
 
 class ByteCodeHelperCompilerForMatch extends ByteCodeHelperCompiler
 {
@@ -84,20 +79,7 @@ class ByteCodeHelperCompilerForMatch extends ByteCodeHelperCompiler
 	{
 		final ByteCodeNumericType num = section().numericType();
 		final Type numType = num.type();
-
-		Iterator candidates = null;
-		final ExpressionNode rangeArg = this.node.arguments().get( 1 );
-		if (rangeArg instanceof ExpressionNodeForRangeValue) {
-			final ExpressionNodeForRangeValue rangeNode = (ExpressionNodeForRangeValue) rangeArg;
-			candidates = rangeNode.arguments().iterator();
-		}
-		else if (rangeArg instanceof ExpressionNodeForConstantValue) {
-			final RangeValue rangeVals = (RangeValue) ((ExpressionNodeForConstantValue) rangeArg).getValue();
-			candidates = rangeVals.iterator();
-		}
-		else {
-			unsupported( this.node );
-		}
+		final ExpressionNode[] candidates = rangeElements( this.node, this.node.arguments().get( 1 ) );
 
 		// final double val = <arg_1>;
 		final int l_val = mv().newLocal( numType );
@@ -112,47 +94,35 @@ class ByteCodeHelperCompilerForMatch extends ByteCodeHelperCompiler
 
 		final Label done = mv().newLabel();
 
-		if (candidates != null) { // get rid of warning
-			while (candidates.hasNext()) {
-				final Object candidate = candidates.next();
-
-				mv().loadLocal( l_val );
-
-				if (candidate instanceof ExpressionNode) {
-					compileExpr( (ExpressionNode) candidate );
-				}
-				else {
-					compileConst( candidate );
-				}
-				
-				if (_type == 0) {
-					// result++;
-					mv().iinc( l_result, 1 );
-					// else if (val == <expr_i>) return result;
-					num.compileComparison( mv(), Opcodes.DCMPL );
-					mv().visitJumpInsn( Opcodes.IFEQ, done );
-				}
-				else if (_type < 0) {
-					// else if (val > <expr_i>) return result;
-					num.compileComparison( mv(), Opcodes.DCMPG );
-					mv().visitJumpInsn( Opcodes.IFGT, done );
-					// result++;
-					mv().iinc( l_result, 1 );
-				}
-				else {
-					// else if (val < <expr_i>) return result;
-					num.compileComparison( mv(), Opcodes.DCMPL );
-					mv().visitJumpInsn( Opcodes.IFLT, done );
-					// result++;
-					mv().iinc( l_result, 1 );
-				}
-
-			}
+		for (ExpressionNode candidate : candidates) {
+			mv().loadLocal( l_val );
+			compileExpr( candidate );
 			if (_type == 0) {
-				// result = 0;
-				mv().push( 0 );
-				mv().storeLocal( l_result );
+				// result++;
+				mv().iinc( l_result, 1 );
+				// else if (val == <expr_i>) return result;
+				num.compileComparison( mv(), Opcodes.DCMPL );
+				mv().visitJumpInsn( Opcodes.IFEQ, done );
 			}
+			else if (_type < 0) {
+				// else if (val > <expr_i>) return result;
+				num.compileComparison( mv(), Opcodes.DCMPG );
+				mv().visitJumpInsn( Opcodes.IFGT, done );
+				// result++;
+				mv().iinc( l_result, 1 );
+			}
+			else {
+				// else if (val < <expr_i>) return result;
+				num.compileComparison( mv(), Opcodes.DCMPL );
+				mv().visitJumpInsn( Opcodes.IFLT, done );
+				// result++;
+				mv().iinc( l_result, 1 );
+			}
+		}
+		if (_type == 0) {
+			// result = 0;
+			mv().push( 0 );
+			mv().storeLocal( l_result );
 		}
 
 		mv().mark( done );

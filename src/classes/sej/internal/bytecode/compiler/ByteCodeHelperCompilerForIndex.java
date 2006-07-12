@@ -27,12 +27,12 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
+import org.objectweb.asm.commons.TableSwitchGenerator;
 
 import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
-import sej.internal.model.ExpressionNodeForRangeValue;
 
 class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 {
@@ -51,52 +51,87 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 	{
 		final List<ExpressionNode> args = this.node.arguments();
 		if (args.size() > 0) {
-			final ExpressionNode firstArg = args.get( 0 );
-			if (firstArg instanceof ExpressionNodeForRangeValue) {
-				final ExpressionNodeForRangeValue rangeNode = (ExpressionNodeForRangeValue) firstArg;
-				switch (this.node.cardinality()) {
+			final ExpressionNode[] rangeElements = rangeElements( this.node, args.get( 0 ) );
+			switch (this.node.cardinality()) {
 
-					case 2:
-						compileOneDimensionalIndexFunction( rangeNode, args.get( 1 ) );
+				case 2:
+					compileOneDimensionalIndexFunction( rangeElements, args.get( 1 ) );
+					return;
+
+				case 3:
+					if (args.get( 1 ) == null) {
+						compileOneDimensionalIndexFunction( rangeElements, args.get( 2 ) );
 						return;
+					}
+					break;
 
-					case 3:
-						if (args.get( 1 ) == null) {
-							compileOneDimensionalIndexFunction( rangeNode, args.get( 2 ) );
-							return;
-						}
-						break;
-
-				}
 			}
 		}
 		unsupported( this.node );
 	}
 
 
-	private void compileOneDimensionalIndexFunction( ExpressionNodeForRangeValue _rangeNode, ExpressionNode _indexNode )
+	private void compileOneDimensionalIndexFunction( final ExpressionNode[] _vals, ExpressionNode _index )
 			throws CompilerException
 	{
-		final List<ExpressionNode> vals = _rangeNode.arguments();
-
 		final ByteCodeNumericType num = section().numericType();
 		final Type numType = num.type();
 		final String arrayFieldName = methodName() + "_Consts";
 		final String arrayType = "[" + num.descriptor();
 
-		compileStaticArrayField( vals, arrayFieldName );
+		compileStaticArrayField( _vals, arrayFieldName );
 
 		final GeneratorAdapter mv = mv();
 
 		// final int i = <idx-expr> - 1;
 		final int l_i = mv.newLocal( Type.INT_TYPE );
-		compileExpr( _indexNode );
+		compileExpr( _index );
 		num.compileIntFromNum( mv );
 		mv.push( 1 );
 		mv.visitInsn( Opcodes.ISUB );
 		mv.storeLocal( l_i );
 
 		// gen switch
+		final int[] nonConstValIdxs = new int[ _vals.length ];
+		int nonConstValCnt = 0;
+		for (int i = 0; i < _vals.length; i++) {
+			final ExpressionNode val = _vals[ i ];
+			if (!(val instanceof ExpressionNodeForConstantValue)) {
+				nonConstValIdxs[ nonConstValCnt++ ] = i;
+			}
+		}
+		if (nonConstValCnt > 0) {
+			final int[] keys = new int[ nonConstValCnt ];
+			System.arraycopy( nonConstValIdxs, 0, keys, 0, nonConstValCnt );
+
+			mv.loadLocal( l_i );
+			try {
+				mv.tableSwitch( keys, new TableSwitchGenerator()
+				{
+
+					public void generateCase( int _key, Label _end )
+					{
+						final ExpressionNode val = _vals[ _key ];
+						try {
+							compileExpr( val );
+							mv.visitInsn( num.returnOpcode() );
+						}
+						catch (CompilerException e) {
+							throw new InnerException( e );
+						}
+					}
+
+					public void generateDefault()
+					{
+						// fall through
+					}
+
+				} );
+			}
+			catch (InnerException e) {
+				throw (CompilerException) e.getCause();
+			}
+		}
 
 		// return (i >= 0 && i < getStaticIndex_Consts.length) ? getStaticIndex_Consts[ i ] : 0;
 		final Label outOfRange = mv.newLabel();
@@ -114,14 +149,15 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 		mv.visitInsn( num.returnOpcode() );
 
 		mv.mark( outOfRange );
+		
 		num.compileZero( mv );
 	}
 
 
-	private void compileStaticArrayField( final List<ExpressionNode> _vals, final String _name )
+	private void compileStaticArrayField( ExpressionNode[] _vals, String _name )
 			throws CompilerException
 	{
-		final int n = _vals.size();
+		final int n = _vals.length;
 
 		final ByteCodeNumericType num = section().numericType();
 		final Type numType = num.type();
@@ -140,20 +176,28 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 		// ... { c1, c2, ... }
 		int i = 0;
 		for (ExpressionNode val : _vals) {
-			ci.visitInsn( Opcodes.DUP );
-			ci.visitIntInsn( Opcodes.BIPUSH, i++ );
 			if (val instanceof ExpressionNodeForConstantValue) {
+				ci.visitInsn( Opcodes.DUP );
+				ci.visitIntInsn( Opcodes.BIPUSH, i++ );
 				ExpressionNodeForConstantValue constVal = (ExpressionNodeForConstantValue) val;
 				num.compileConst( ci, constVal.getValue() );
+				ci.arrayStore( numType );
 			}
-			else {
-				num.compileZero( ci ); // FIXME is this necessary?
-			}
-			ci.arrayStore( numType );
 		}
 
 		// ... xy *=* new double[] { ... }
 		ci.visitFieldInsn( Opcodes.PUTSTATIC, section().classInternalName(), _name, arrayType );
+	}
+
+
+	private static final class InnerException extends RuntimeException
+	{
+
+		public InnerException(Throwable _cause)
+		{
+			super( _cause );
+		}
+
 	}
 
 
