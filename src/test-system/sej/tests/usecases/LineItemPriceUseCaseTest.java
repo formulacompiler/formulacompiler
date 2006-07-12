@@ -1,18 +1,16 @@
 package sej.tests.usecases;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-
 import sej.CallFrame;
+import sej.SaveableEngine;
 import sej.Spreadsheet;
+import sej.SpreadsheetBinder.Section;
 import sej.runtime.Engine;
 
 public class LineItemPriceUseCaseTest extends AbstractUseCaseTest
 {
 
 
-	public void testComputeLineItemPrice() throws IOException, ModelError, SecurityException, NoSuchMethodException,
-			InvocationTargetException
+	public void testComputeLineItemPrice() throws Exception
 	{
 		runUseCase( "LineItemPrice", new LineItemPriceUseCase(), Inputs.class, Outputs.class );
 	}
@@ -20,28 +18,26 @@ public class LineItemPriceUseCaseTest extends AbstractUseCaseTest
 
 	private final class LineItemPriceUseCase implements UseCase
 	{
-		public void defineEngine( Spreadsheet _model, Compiler.Section _root ) throws ModelError, NoSuchMethodException
+		public void defineEngine( Spreadsheet _model, Section _root ) throws Exception
 		{
 			defineInput( _model, _root, "ArticlePrice" );
 			defineInput( _model, _root, "NumberSold" );
 			defineOutput( _model, _root, "Total" );
 		}
 
-		private void defineInput( Spreadsheet _model, Compiler.Section _root, final String _cellName )
-				throws NoSuchMethodException, ModelError
+		private void defineInput( Spreadsheet _model, Section _root, final String _cellName ) throws Exception
 		{
 			_root.defineInputCell( _model.getCell( _cellName ),
 					new CallFrame( Inputs.class.getMethod( "get" + _cellName ) ) );
 		}
 
-		private void defineOutput( Spreadsheet _model, Compiler.Section _root, final String _cellName )
-				throws NoSuchMethodException, ModelError
+		private void defineOutput( Spreadsheet _model, Section _root, final String _cellName ) throws Exception
 		{
 			_root.defineOutputCell( _model.getCell( _cellName ), new CallFrame( Outputs.class
 					.getMethod( "get" + _cellName ) ) );
 		}
 
-		public void useEngine( Engine _engine ) throws InvocationTargetException
+		public void useEngine( SaveableEngine _engine )
 		{
 			assertPrice( 2000, _engine, 100, 20 );
 			assertPrice( 6930, _engine, 500, 14 );
@@ -51,7 +47,7 @@ public class LineItemPriceUseCaseTest extends AbstractUseCaseTest
 		private void assertPrice( double _total, Engine _engine, double _article, double _number )
 		{
 			final Inputs inputs = new Inputs( _article, _number );
-			final Outputs outputs = (Outputs) _engine.newComputation( inputs );
+			final Outputs outputs = (Outputs) _engine.getComputationFactory().newComputation( inputs );
 			assertEquals( _total, outputs.getTotal(), 0.000001 );
 		}
 	}
@@ -82,15 +78,9 @@ public class LineItemPriceUseCaseTest extends AbstractUseCaseTest
 	}
 
 
-	public static abstract class Outputs extends Engine.Computation
+	public static interface Outputs
 	{
-		public Outputs(Inputs _inputs)
-		{
-			super( _inputs );
-		}
-
 		public abstract double getTotal();
-
 	}
 
 
