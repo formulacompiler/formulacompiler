@@ -83,7 +83,7 @@ abstract class ByteCodeSectionMethodCompiler
 
 	protected Type runtimeType()
 	{
-		return numericType().getRuntimeType();
+		return numericType().runtimeType();
 	}
 
 	String methodName()
@@ -139,7 +139,7 @@ abstract class ByteCodeSectionMethodCompiler
 	{
 		_mv.visitVarInsn( Opcodes.ALOAD, 0 );
 		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, section().classInternalName(), _getterName, "()"
-				+ numericType().getDescriptor() );
+				+ numericType().descriptor() );
 	}
 
 
@@ -419,9 +419,9 @@ abstract class ByteCodeSectionMethodCompiler
 				compileStdFunction( _node );
 				break;
 
-			// LATER case INDEX:
-			// compileHelpedExpr( new ByteCodeHelperCompilerForIndex( section(), _node ) );
-			// break;
+			case INDEX:
+				compileHelpedExpr( new ByteCodeHelperCompilerForIndex( section(), _node ) );
+				break;
 				
 			case MATCH:
 				compileHelpedExpr( new ByteCodeHelperCompilerForMatch( section(), _node ) );
@@ -438,7 +438,7 @@ abstract class ByteCodeSectionMethodCompiler
 		final StringBuilder argTypeBuilder = new StringBuilder();
 		for (ExpressionNode arg : _node.getArguments()) {
 			compileExpr( arg );
-			argTypeBuilder.append( numericType().getDescriptor() );
+			argTypeBuilder.append( numericType().descriptor() );
 		}
 		numericType().compileStdFunction( mv(), _node.getFunction(), argTypeBuilder.toString() );
 	}

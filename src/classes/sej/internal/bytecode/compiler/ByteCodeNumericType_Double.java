@@ -45,14 +45,14 @@ final class ByteCodeNumericType_Double extends ByteCodeNumericType
 
 
 	@Override
-	Type getType()
+	Type type()
 	{
 		return Type.DOUBLE_TYPE;
 	}
 
 
 	@Override
-	int getReturnOpcode()
+	int returnOpcode()
 	{
 		return Opcodes.DRETURN;
 	}
@@ -61,7 +61,7 @@ final class ByteCodeNumericType_Double extends ByteCodeNumericType
 	private static final Type RUNTIME_TYPE = Type.getType( RuntimeDouble_v1.class );
 
 	@Override
-	Type getRuntimeType()
+	Type runtimeType()
 	{
 		return RUNTIME_TYPE;
 	}
@@ -156,7 +156,7 @@ final class ByteCodeNumericType_Double extends ByteCodeNumericType
 
 
 	@Override
-	protected String getRoundMethodSignature()
+	protected String roundMethodSignature()
 	{
 		return "(DI)D";
 	}
@@ -200,7 +200,7 @@ final class ByteCodeNumericType_Double extends ByteCodeNumericType
 	protected boolean compileReturnFromNum( GeneratorAdapter _mv, Class _returnType )
 	{
 		if (_returnType == Double.TYPE) {
-			_mv.visitInsn( getReturnOpcode() );
+			_mv.visitInsn( returnOpcode() );
 		}
 
 		else if (returnBoxedType( _mv, _returnType, Double.TYPE, Double.class ))

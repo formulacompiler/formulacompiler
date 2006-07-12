@@ -24,7 +24,6 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -78,48 +77,38 @@ abstract class ByteCodeNumericType
 	}
 
 
-	NumericTypeImpl getNumericType()
+	NumericTypeImpl numericType()
 	{
 		return this.num;
 	}
 
-	ByteCodeSectionCompiler getCompiler()
+	ByteCodeSectionCompiler compiler()
 	{
 		return this.compiler;
 	}
 
-	abstract Type getType();
-	abstract int getReturnOpcode();
-	abstract Type getRuntimeType();
+	abstract Type type();
+	abstract int returnOpcode();
+	abstract Type runtimeType();
 
 
-	String getDescriptor()
+	String descriptor()
 	{
-		return getType().getDescriptor();
+		return type().getDescriptor();
 	}
 
 
-	protected abstract String getRoundMethodSignature();
+	void buildStaticMembers()
+	{
+		// Overridable stub
+	}
+
+	protected abstract String roundMethodSignature();
 
 
 	protected void compileRuntimeMethod( MethodVisitor _mv, String _methodName, String _methodSig )
 	{
-		_mv.visitMethodInsn( Opcodes.INVOKESTATIC, getRuntimeType().getInternalName(), _methodName, _methodSig );
-	}
-
-	boolean buildStaticMembers( ClassWriter _writer )
-	{
-		return false;
-	}
-
-	void compileStaticInitialization( GeneratorAdapter _mv, Type _classType )
-	{
-		// overridable placeholder
-	}
-
-	void finalizeStaticInitialization( GeneratorAdapter _mv, Type _classType )
-	{
-		// overridable placeholder
+		_mv.visitMethodInsn( Opcodes.INVOKESTATIC, runtimeType().getInternalName(), _methodName, _methodSig );
 	}
 
 	void compile( GeneratorAdapter _mv, Operator _operator, int _numberOfArguments ) throws CompilerException
@@ -147,12 +136,12 @@ abstract class ByteCodeNumericType
 
 	void compileStdFunction( GeneratorAdapter _mv, Function _function, String _argumentDescriptor )
 	{
-		compileRuntimeMethod( _mv, "std" + _function.getName(), "(" + _argumentDescriptor + ")" + getDescriptor() );
+		compileRuntimeMethod( _mv, "std" + _function.getName(), "(" + _argumentDescriptor + ")" + descriptor() );
 	}
 
 	void compileRound( MethodVisitor _mv )
 	{
-		compileRuntimeMethod( _mv, "round", getRoundMethodSignature() );
+		compileRuntimeMethod( _mv, "round", roundMethodSignature() );
 	}
 
 
@@ -174,7 +163,7 @@ abstract class ByteCodeNumericType
 
 		else {
 			if (returnType == Long.TYPE || returnType == Long.class) {
-				final ScaledLong scale = getScaleOf( _method );
+				final ScaledLong scale = scaleOf( _method );
 				if (scale != null && scale.value() != 0) {
 					if (returnType == Long.class) {
 						compileRuntimeMethod( _mv, "unboxLong", LONG2J );
@@ -219,7 +208,7 @@ abstract class ByteCodeNumericType
 
 		else {
 			if (returnType == Long.TYPE || returnType == Long.class) {
-				final ScaledLong scale = getScaleOf( _method );
+				final ScaledLong scale = scaleOf( _method );
 				if (scale != null && scale.value() != 0) {
 					if (compileFromNum( _mv, scale )) {
 						if (returnType == Long.class) {
@@ -288,7 +277,7 @@ abstract class ByteCodeNumericType
 	}
 
 
-	private ScaledLong getScaleOf( Method _method )
+	private ScaledLong scaleOf( Method _method )
 	{
 		final ScaledLong typeScale = _method.getDeclaringClass().getAnnotation( ScaledLong.class );
 		final ScaledLong mtdScale = _method.getAnnotation( ScaledLong.class );
@@ -299,22 +288,22 @@ abstract class ByteCodeNumericType
 
 	void compileDateToNum( MethodVisitor _mv )
 	{
-		compileRuntimeMethod( _mv, "dateToNum", "(Ljava/util/Date;)" + getDescriptor() );
+		compileRuntimeMethod( _mv, "dateToNum", "(Ljava/util/Date;)" + descriptor() );
 	}
 
 	void compileDateFromNum( MethodVisitor _mv )
 	{
-		compileRuntimeMethod( _mv, "dateFromNum", "(" + getDescriptor() + ")Ljava/util/Date;" );
+		compileRuntimeMethod( _mv, "dateFromNum", "(" + descriptor() + ")Ljava/util/Date;" );
 	}
 
 	void compileBooleanToNum( MethodVisitor _mv )
 	{
-		compileRuntimeMethod( _mv, "booleanToNum", "(Z)" + getDescriptor() );
+		compileRuntimeMethod( _mv, "booleanToNum", "(Z)" + descriptor() );
 	}
 
 	void compileBooleanFromNum( MethodVisitor _mv )
 	{
-		compileRuntimeMethod( _mv, "booleanFromNum", "(" + getDescriptor() + ")Z" );
+		compileRuntimeMethod( _mv, "booleanFromNum", "(" + descriptor() + ")Z" );
 	}
 
 }

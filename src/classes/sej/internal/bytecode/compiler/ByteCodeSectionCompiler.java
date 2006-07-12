@@ -152,9 +152,7 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		this.compilationStarted = true;
 		
 		initializeClass( outputClass(), this.outputs, ByteCodeEngineCompiler.COMPUTATION_INTF );
-		if (numericType().buildStaticMembers( cw() )) {
-			buildStaticInitializer();
-		}
+		numericType().buildStaticMembers();
 		if (hasParent()) buildParentMember();
 		if (hasInputs()) buildInputMember();
 		buildConstructorWithInputs();
@@ -194,25 +192,7 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	{
 		finalizeOutputDistributors();
 		finalizeReset();
-		finalizeStaticInitializer();
 		finalizeClass();
-	}
-
-
-	@Override
-	protected void buildStaticInitializer()
-	{
-		super.buildStaticInitializer();
-		numericType().compileStaticInitialization( initializer(), this.classType() );
-	}
-
-	@Override
-	protected void finalizeStaticInitializer()
-	{
-		if (initializer() != null) {
-			numericType().finalizeStaticInitialization( initializer(), this.classType() );
-		}
-		super.finalizeStaticInitializer();
 	}
 
 

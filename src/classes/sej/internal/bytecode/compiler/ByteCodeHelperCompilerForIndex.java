@@ -23,8 +23,9 @@ package sej.internal.bytecode.compiler;
 import java.util.List;
 
 import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
@@ -37,7 +38,7 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 	private final ExpressionNodeForFunction node;
 
 
-	ByteCodeHelperCompilerForIndex(ByteCodeSectionCompiler _section, ExpressionNodeForFunction _node) 
+	ByteCodeHelperCompilerForIndex(ByteCodeSectionCompiler _section, ExpressionNodeForFunction _node)
 	{
 		super( _section );
 		this.node = _node;
@@ -53,24 +54,24 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 			final ExpressionNodeForRangeValue rangeNode = (ExpressionNodeForRangeValue) firstArg;
 			switch (args.size()) {
 
-			case 2:
-				compileOneDimensionalIndexFunction( rangeNode, args.get( 1 ) );
-				break;
-
-			case 3:
-				if (isNull( args.get( 1 ) )) {
-					compileOneDimensionalIndexFunction( rangeNode, args.get( 2 ) );
-				}
-				else if (isNull( args.get( 2 ) )) {
+				case 2:
 					compileOneDimensionalIndexFunction( rangeNode, args.get( 1 ) );
-				}
-				else {
-					unsupported( this.node ); // LATER two-dim index
-				}
-				break;
+					break;
 
-			default:
-				unsupported( this.node );
+				case 3:
+					if (isNull( args.get( 1 ) )) {
+						compileOneDimensionalIndexFunction( rangeNode, args.get( 2 ) );
+					}
+					else if (isNull( args.get( 2 ) )) {
+						compileOneDimensionalIndexFunction( rangeNode, args.get( 1 ) );
+					}
+					else {
+						unsupported( this.node ); // LATER two-dim index
+					}
+					break;
+
+				default:
+					unsupported( this.node );
 			}
 		}
 		else {
@@ -79,7 +80,7 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 	}
 
 
-	private void compileOneDimensionalIndexFunction( ExpressionNodeForRangeValue _rangeNode, ExpressionNode _node )
+	private void compileOneDimensionalIndexFunction( ExpressionNodeForRangeValue _rangeNode, ExpressionNode _node ) throws CompilerException
 	{
 		final List<ExpressionNode> vals = _rangeNode.getArguments();
 		final String arrayFieldName = methodName() + "_Consts";
@@ -92,20 +93,24 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 	}
 
 
-	private void compileStaticArrayField( final List<ExpressionNode> _vals, final String _name )
+	private void compileStaticArrayField( final List<ExpressionNode> _vals, final String _name ) throws CompilerException
 	{
 		final int n = _vals.size();
 
+		final ByteCodeNumericType num = section().numericType();
+		final Type numType = num.type();
+		final String arrayType = "[" + num.descriptor();
+		
 		// private final static double[] xy
 		final FieldVisitor fv = cw().visitField( Opcodes.ACC_PRIVATE | Opcodes.ACC_FINAL | Opcodes.ACC_STATIC, _name,
-				"[D", null, null );
+				arrayType, null, null );
 		fv.visitEnd();
 
 		// LATER Finish compileStaticArrayField
 		// ... new double[ n ]
-		final MethodVisitor ci = null; // LATER getSection().classInit();
-		ci.visitIntInsn( Opcodes.BIPUSH, n );
-		ci.visitIntInsn( Opcodes.NEWARRAY, n );
+		final GeneratorAdapter ci = section().initializer();
+		ci.push( n );
+		ci.newArray( numType );
 
 		// ... { c1, c2, ... }
 		int i = 0;
@@ -114,16 +119,16 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 			ci.visitIntInsn( Opcodes.BIPUSH, i++ );
 			if (val instanceof ExpressionNodeForConstantValue) {
 				ExpressionNodeForConstantValue constVal = (ExpressionNodeForConstantValue) val;
-				// ci.visitLdcInsn( Util.valueToDoubleOrZero( constVal.getValue() ) );
+				compileConst( constVal.getValue() );
 			}
 			else {
-				ci.visitInsn( Opcodes.DCONST_0 );
+				num.compileZero( ci );
 			}
-			ci.visitInsn( Opcodes.DASTORE );
+			ci.arrayStore( numType );
 		}
 
 		// ... xy *=* new double[] { ... }
-		ci.visitFieldInsn( Opcodes.PUTSTATIC, section().classInternalName(), _name, "[D" );
+		ci.visitFieldInsn( Opcodes.PUTSTATIC, section().classInternalName(), _name, arrayType );
 	}
 
 

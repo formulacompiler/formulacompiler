@@ -69,27 +69,27 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 
 
 	@Override
-	Type getType()
+	Type type()
 	{
 		return Type.LONG_TYPE;
 	}
 
 
 	@Override
-	int getReturnOpcode()
+	int returnOpcode()
 	{
 		return Opcodes.LRETURN;
 	}
 
 	@Override
-	Type getRuntimeType()
+	Type runtimeType()
 	{
 		return RUNTIME_TYPE;
 	}
 
 	private int getScale()
 	{
-		return getNumericType().getScale();
+		return numericType().getScale();
 	}
 
 	private boolean isScaled()
@@ -99,23 +99,19 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 
 
 	@Override
-	boolean buildStaticMembers( ClassWriter _cw )
+	void buildStaticMembers()
 	{
-		FieldVisitor fv = _cw.visitField( Opcodes.ACC_STATIC + Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL,
+		final ClassWriter cw = compiler().cw();
+		FieldVisitor fv = cw.visitField( Opcodes.ACC_STATIC + Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL,
 				RUNTIME_CONTEXT_NAME, RUNTIME_CONTEXT_TYPE.getDescriptor(), null, null );
 		fv.visitEnd();
-		return true;
-	}
 
-
-	@Override
-	void compileStaticInitialization( GeneratorAdapter _mv, Type _engineType )
-	{
-		_mv.visitTypeInsn( Opcodes.NEW, RUNTIME_CONTEXT_TYPE.getInternalName() );
-		_mv.visitInsn( Opcodes.DUP );
-		_mv.push( getScale() );
-		_mv.visitMethodInsn( Opcodes.INVOKESPECIAL, RUNTIME_CONTEXT_TYPE.getInternalName(), "<init>", "(I)V" );
-		_mv.visitFieldInsn( Opcodes.PUTSTATIC, _engineType.getInternalName(), RUNTIME_CONTEXT_NAME, RUNTIME_CONTEXT_TYPE
+		final GeneratorAdapter mv = compiler().initializer();
+		mv.visitTypeInsn( Opcodes.NEW, RUNTIME_CONTEXT_TYPE.getInternalName() );
+		mv.visitInsn( Opcodes.DUP );
+		mv.push( getScale() );
+		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, RUNTIME_CONTEXT_TYPE.getInternalName(), "<init>", "(I)V" );
+		mv.visitFieldInsn( Opcodes.PUTSTATIC, compiler().classInternalName(), RUNTIME_CONTEXT_NAME, RUNTIME_CONTEXT_TYPE
 				.getDescriptor() );
 	}
 
@@ -149,10 +145,10 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 			case DIV:
 				// LATER Make scaled long div more efficient
 				if (isScaled()) {
-					_mv.swap( getType(), getType() );
+					_mv.swap( type(), type() );
 					_mv.push( this.one );
 					_mv.visitInsn( Opcodes.LMUL );
-					_mv.swap( getType(), getType() );
+					_mv.swap( type(), type() );
 				}
 				_mv.visitInsn( Opcodes.LDIV );
 				break;
@@ -228,27 +224,27 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 	void compileStdFunction( GeneratorAdapter _mv, Function _function, String _argumentDescriptor )
 	{
 		compileRuntimeMethodWithContext( _mv, "std" + _function.getName(), "("
-				+ _argumentDescriptor + RUNTIME_CONTEXT_TYPE.getDescriptor() + ")" + getDescriptor() );
+				+ _argumentDescriptor + RUNTIME_CONTEXT_TYPE.getDescriptor() + ")" + descriptor() );
 	}
 
 
 	@Override
 	void compileRound( MethodVisitor _mv )
 	{
-		compileRuntimeMethodWithContext( _mv, "round", getRoundMethodSignature() );
+		compileRuntimeMethodWithContext( _mv, "round", roundMethodSignature() );
 	}
 
 
 	private void compileRuntimeMethodWithContext( MethodVisitor _mv, String _methodName, String _methodSig )
 	{
-		_mv.visitFieldInsn( Opcodes.GETSTATIC, getCompiler().classInternalName(), RUNTIME_CONTEXT_NAME,
+		_mv.visitFieldInsn( Opcodes.GETSTATIC, compiler().classInternalName(), RUNTIME_CONTEXT_NAME,
 				RUNTIME_CONTEXT_TYPE.getDescriptor() );
 		compileRuntimeMethod( _mv, _methodName, _methodSig );
 	}
 
 
 	@Override
-	protected String getRoundMethodSignature()
+	protected String roundMethodSignature()
 	{
 		return JIx_J;
 	}
