@@ -28,19 +28,19 @@ abstract class ByteCodeSectionNumericMethodCompiler extends ByteCodeSectionMetho
 
 	ByteCodeSectionNumericMethodCompiler(ByteCodeSectionCompiler _section, int _access, String _methodName)
 	{
-		super( _section, _access, _methodName, "()" + _section.numericType().getDescriptor() );
+		super( _section, _access, _methodName, "()" + _section.numericType().descriptor() );
 	}
 
 	ByteCodeSectionNumericMethodCompiler(ByteCodeSectionCompiler _section, String _methodName)
 	{
-		super( _section, Opcodes.ACC_PRIVATE, _methodName, "()" + _section.numericType().getDescriptor() );
+		super( _section, Opcodes.ACC_PRIVATE, _methodName, "()" + _section.numericType().descriptor() );
 	}
 
 
 	@Override
 	protected void endCompilation()
 	{
-		mv().visitInsn( numericType().getReturnOpcode() );
+		mv().visitInsn( numericType().returnOpcode() );
 		super.endCompilation();
 	}
 

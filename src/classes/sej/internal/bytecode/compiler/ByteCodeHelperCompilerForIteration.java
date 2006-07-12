@@ -77,7 +77,7 @@ final class ByteCodeHelperCompilerForIteration extends ByteCodeHelperCompiler
 		mv.ifZCmp( mv.LE, noData );
 
 		// ~ long result = ds[ 0 ].detailValue();
-		final int l_result = mv.newLocal( numericType().getType() );
+		final int l_result = mv.newLocal( numericType().type() );
 		mv.loadLocal( l_ds );
 		mv.push( 0 );
 		mv.arrayLoad( sub.classType() );
@@ -112,12 +112,12 @@ final class ByteCodeHelperCompilerForIteration extends ByteCodeHelperCompiler
 
 		// ~ return result;
 		mv.loadLocal( l_result );
-		mv.visitInsn( numericType().getReturnOpcode() );
+		mv.visitInsn( numericType().returnOpcode() );
 
 		// } else {
 		mv.mark( noData );
 		numericType().compileZero( mv );
-		mv.visitInsn( numericType().getReturnOpcode() );
+		mv.visitInsn( numericType().returnOpcode() );
 	}
 
 

@@ -85,7 +85,7 @@ class ByteCodeHelperCompilerForMatch extends ByteCodeHelperCompiler
 	private void compileWithConstType( int _type ) throws CompilerException
 	{
 		final ByteCodeNumericType num = section().numericType();
-		final Type numType = num.getType();
+		final Type numType = num.type();
 
 		Iterator candidates = null;
 		final ExpressionNode rangeArg = this.node.getArguments().get( 1 );

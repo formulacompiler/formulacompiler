@@ -107,6 +107,7 @@ abstract class ByteCodeClassCompiler
 
 	protected void finalizeClass()
 	{
+		finalizeStaticInitializer();
 		cw().visitEnd();
 	}
 
@@ -118,7 +119,7 @@ abstract class ByteCodeClassCompiler
 		ma.visitCode();
 		return ma;
 	}
-	
+
 	void endMethod( GeneratorAdapter _mv )
 	{
 		_mv.endMethod();
@@ -133,17 +134,20 @@ abstract class ByteCodeClassCompiler
 
 	private GeneratorAdapter initializer;
 
-	protected GeneratorAdapter initializer()
+	protected final GeneratorAdapter initializer()
 	{
+		if (this.initializer == null) {
+			buildStaticInitializer();
+		}
 		return this.initializer;
 	}
 
-	protected void buildStaticInitializer()
+	private void buildStaticInitializer()
 	{
 		this.initializer = newMethod( Opcodes.ACC_STATIC, "<clinit>", "()V" );
 	}
 
-	protected void finalizeStaticInitializer()
+	private void finalizeStaticInitializer()
 	{
 		if (this.initializer != null) {
 			GeneratorAdapter ma = this.initializer;

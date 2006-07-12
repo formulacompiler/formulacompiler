@@ -103,7 +103,7 @@ final class ByteCodeCellCompiler extends ByteCodeSectionNumericMethodCompiler
 				.visitEnd();
 
 		// private <type> c$<x>
-		cw().visitField( Opcodes.ACC_PRIVATE, this.cacheName, numericType().getDescriptor(), null, null ).visitEnd();
+		cw().visitField( Opcodes.ACC_PRIVATE, this.cacheName, numericType().descriptor(), null, null ).visitEnd();
 
 		// if (!h$<x>) {
 		this.skipCachedComputation = mv().newLabel();
@@ -123,7 +123,7 @@ final class ByteCodeCellCompiler extends ByteCodeSectionNumericMethodCompiler
 
 		// this and computed value is on stack, so
 		// c$<x> = <value>;
-		mv().putField( classType(), cacheName, numericType().getType() );
+		mv().putField( classType(), cacheName, numericType().type() );
 
 		// h$<x> = true;
 		mv().loadThis();
@@ -134,7 +134,7 @@ final class ByteCodeCellCompiler extends ByteCodeSectionNumericMethodCompiler
 		// return c$<x>;
 		mv().mark( this.skipCachedComputation );
 		mv().loadThis();
-		mv().getField( classType(), cacheName, numericType().getType() );
+		mv().getField( classType(), cacheName, numericType().type() );
 
 		// In reset(), do:
 		// h$<x> = false;
