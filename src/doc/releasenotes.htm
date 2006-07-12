@@ -41,7 +41,8 @@
 <h3>Improvements</h3>
 <ul class="spaced">
 <li>The <a href="tutorial/basics.htm">sample spreadsheets in the documentation</a> are now cited from the real spreadsheet files used in the automated tests (using <a href="http://arrenbrecht.ch/jcite/">JCite</a> again). This ensures their correctness and improves the formatting.</li>
-<li>The function <tt>MATCH</tt> is supported again. However, the last argument (the match type) must be constant, and the second argument (the match range) cannot reference a repeating section.</li>
+<li>The function <tt>MATCH</tt> is supported again. However, the last argument (the match type) must be constant, and the second argument (the match range) cannot reference a repeating section yet.</li>
+<li>The function <tt>INDEX</tt> is now supported for one-dimensional lookup. However, the range argument cannot reference a repeating section yet.</li>
 </ul>
 
 <h2>Release 0.6.0</h2>
@@ -205,7 +206,7 @@
 <p>This is the first release with the new API based on <a href="tutorial/binding.htm">binding cells to native types</a>. The interpreter has been dropped and replaced by a byte code compiler producing very fast code.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 11.07.2006.</p>        </div>
+<br/>Last updated on 12.07.2006.</p>        </div>
     </div>
 </body>
 </html>

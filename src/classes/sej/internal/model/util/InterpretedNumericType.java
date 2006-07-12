@@ -260,8 +260,8 @@ public abstract class InterpretedNumericType
 		int iRow = valueToIntOrOne( _rowIndex ) - 1;
 		int iCol = valueToIntOrOne( _colIndex ) - 1;
 		int iValue;
-		if (iRow < 0) iRow = 0;
-		if (iCol < 0) iCol = 0;
+		if (iRow < 0 || iRow >= _range.getNumberOfRows()) return null;
+		if (iCol < 0 || iCol >= _range.getNumberOfColumns()) return null;
 		if (null != _rowIndex && null != _colIndex) {
 			iValue = iRow * _range.getNumberOfColumns() + iCol;
 		}

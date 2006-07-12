@@ -198,7 +198,7 @@ expr ::=
 				{: RESULT = cell( e ); :}  // interestingly, you may not parenthesize ranges
 				
 	|	agg:a LPAREN rangeunion:l RPAREN
-				{: RESULT = new ExpressionNodeForAggregator( a, l.getArguments() ); :}
+				{: RESULT = new ExpressionNodeForAggregator( a, l.arguments() ); :}
 				
 	|	MATCH LPAREN expr:lookupvalue COMMA shapedrangeexpr:array optarg:matchtype RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.MATCH, cell( lookupvalue ), array, matchtype ); :}

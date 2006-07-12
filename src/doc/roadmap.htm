@@ -31,11 +31,11 @@
 <li>Make cell namer not fail on unbound cells, but offer support for warning users about which cells are unbound.</li>
 <li>Extend cell namer so it only handles sections of the sheet.</li>
 <li>Extend cell associator so it only handles names matching or not matching a given regex.</li>
-<li>Implement <tt>INDEX</tt> and <tt>MATCH</tt> again.</li>
 <li>Implement support for multiple sheets.</li>
 <li>Implement input/output sections again.</li>
 <li>Implement string operators.</li>
-<li>Support <tt>MATCH</tt> over repeating sections.</li>
+<li>Support 2-dimensional <tt>INDEX</tt>.</li>
+<li>Support <tt>MATCH</tt> and <tt>INDEX</tt> over repeating sections.</li>
 <li>Fully document API.</li>
 <li>Check whether it would make sense to replace JDOM with something built into the JRE. Be careful to not break JRE 1.4 compatibility. It seems that using either a SAX or a DOM parser from javax.xml.parsers would be ideal.</li>
 <li>Try moving the precision() dependency into a separate class which can be retrotranslated with warnings turned off.</li>
@@ -57,6 +57,7 @@
 <li>Handle R1C1-style spreadsheets</li>
 <li>Improve tests for binder config validation</li>
 </ul>
+<li>Support returning an array from 2-dimensional <tt>INDEX</tt>.</li>
 </ul>
 <p>You may also want to look at the <a href="limitations.htm">known limitations</a>.</p>
 
@@ -68,7 +69,7 @@
 </ul>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 11.07.2006.</p>        </div>
+<br/>Last updated on 12.07.2006.</p>        </div>
     </div>
 </body>
 </html>
