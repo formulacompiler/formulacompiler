@@ -507,7 +507,7 @@
 			windowtitle="${javadoc.title}" 
 			use="true"
 			packagenames="sej,sej.runtime,sej.describable,sej.expressions"
-			additionalParam="-tagletPath ${lib.dir}/build-only/java2html.jar;${lib.dir}/build-only/jcite.jar -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${src.cite.path}"
+			additionalParam="-tagletPath ${lib.dir}/build-only/java2html.jar;${lib.dir}/build-only/jcite.jar;${lib.dir}/jxl.jar -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${src.cite.path}"
 			stylesheetfile="${src.doc.dir}/plainstyle/style.css"
 			overview="${src.classes.dir}/overview.html"
 		>

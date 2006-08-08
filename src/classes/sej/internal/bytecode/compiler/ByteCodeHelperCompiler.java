@@ -67,4 +67,19 @@ abstract class ByteCodeHelperCompiler extends ByteCodeSectionNumericMethodCompil
 		}
 	}
 	
+
+	protected RangeValue range( ExpressionNode _outerNode, ExpressionNode _rangeNode ) throws CompilerException 
+	{
+		if (_rangeNode instanceof ExpressionNodeForRangeValue) {
+			return ((ExpressionNodeForRangeValue) _rangeNode).getRangeValue();
+		}
+		else if (_rangeNode instanceof ExpressionNodeForConstantValue) {
+			return (RangeValue) ((ExpressionNodeForConstantValue) _rangeNode).getValue();
+		}
+		else {
+			unsupported( _outerNode );
+			return null; 
+		}
+	}
+	
 }

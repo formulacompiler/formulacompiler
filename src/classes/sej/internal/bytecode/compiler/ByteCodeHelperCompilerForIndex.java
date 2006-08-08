@@ -55,15 +55,12 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 			switch (this.node.cardinality()) {
 
 				case 2:
-					compileOneDimensionalIndexFunction( rangeElements, args.get( 1 ) );
+					compileIndexFunction( rangeElements, args.get( 1 ), null );
 					return;
 
 				case 3:
-					if (isNull(args.get( 1 ))) {
-						compileOneDimensionalIndexFunction( rangeElements, args.get( 2 ) );
-						return;
-					}
-					break;
+					compileIndexFunction( rangeElements, args.get( 1 ), args.get( 2 ) );
+					return;
 
 			}
 		}
@@ -71,19 +68,7 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 	}
 
 
-	private boolean isNull( ExpressionNode _node )
-	{
-		if (_node == null) return true;
-		if (_node instanceof ExpressionNodeForConstantValue) {
-			ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _node;
-			return (constNode.getValue() == null);
-		}
-		return false;
-	}
-
-
-	private void compileOneDimensionalIndexFunction( final ExpressionNode[] _vals, ExpressionNode _index )
-			throws CompilerException
+	private void compileIndexFunction( final ExpressionNode[] _vals, ExpressionNode _row, ExpressionNode _col ) throws CompilerException
 	{
 		final ByteCodeNumericType num = section().numericType();
 		final Type numType = num.type();
@@ -94,12 +79,38 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 
 		final GeneratorAdapter mv = mv();
 
-		// final int i = <idx-expr> - 1;
 		final int l_i = mv.newLocal( Type.INT_TYPE );
-		compileExpr( _index );
-		num.compileIntFromNum( mv );
-		mv.push( 1 );
-		mv.visitInsn( Opcodes.ISUB );
+		if (isNull(_row)) {
+			// final int i = <col> - 1;
+			compileExpr( _col );
+			num.compileIntFromNum( mv );
+			mv.push( 1 );
+			mv.visitInsn( Opcodes.ISUB );
+		}
+		else if (isNull(_col)) {
+			// final int i = <row> - 1;
+			compileExpr( _row );
+			num.compileIntFromNum( mv );
+			mv.push( 1 );
+			mv.visitInsn( Opcodes.ISUB );
+		}
+		else {
+			// final int i = (<row> - 1) * <num_cols>) + (<col> - 1);
+			compileExpr( _row );
+			num.compileIntFromNum( mv );
+			mv.push( 1 );
+			mv.visitInsn( Opcodes.ISUB );
+
+			mv.push( range( this.node, this.node.arguments().get(0)).getNumberOfColumns() );
+			mv.visitInsn( Opcodes.IMUL );
+			
+			compileExpr( _col );
+			num.compileIntFromNum( mv );
+			mv.push( 1 );
+			mv.visitInsn( Opcodes.ISUB );
+
+			mv.visitInsn( Opcodes.IADD );
+		}
 		mv.storeLocal( l_i );
 
 		// gen switch
@@ -160,13 +171,11 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 		mv.visitInsn( num.returnOpcode() );
 
 		mv.mark( outOfRange );
-		
+
 		num.compileZero( mv );
 	}
 
-
-	private void compileStaticArrayField( ExpressionNode[] _vals, String _name )
-			throws CompilerException
+	private void compileStaticArrayField( ExpressionNode[] _vals, String _name ) throws CompilerException
 	{
 		final int n = _vals.length;
 
@@ -198,6 +207,17 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 
 		// ... xy *=* new double[] { ... }
 		ci.visitFieldInsn( Opcodes.PUTSTATIC, section().classInternalName(), _name, arrayType );
+	}
+
+
+	private boolean isNull( ExpressionNode _node )
+	{
+		if (_node == null) return true;
+		if (_node instanceof ExpressionNodeForConstantValue) {
+			ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _node;
+			return (constNode.getValue() == null);
+		}
+		return false;
 	}
 
 
