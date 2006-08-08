@@ -43,7 +43,7 @@
 <li>Range intersections are parsed but not evaluated correctly.</li>
 <li>Ranges specified using named cells as endpoints are not supported. Named ranges, however, are (see <tt>ExcelExpressionParserTest.testCellAndRangeMixes()</tt>).</li>
 <li>With <tt>MATCH</tt>, the last argument (the match type) must be constant, and the second argument (the match range) cannot reference a repeating section yet.</li>
-<li>Only one-dimensional <tt>INDEX</tt> is supported (cannot do x/y lookup), and the range argument cannot reference a repeating section yet.</li>
+<li>With <tt>INDEX</tt>, the range argument cannot reference a repeating section yet. It also does not support 3-dimensional lookups.</li>
 <li>Array expressions are not supported (such as <tt>{=INDEX({1,2;3,4};0;2)}</tt>).</li>
 </ul>
 

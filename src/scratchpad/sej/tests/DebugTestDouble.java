@@ -30,7 +30,7 @@ public class DebugTestDouble extends TestCase
 		final Output output = factory.newOutput( input );
 		final double result = output.getResult();
 		
-		assertEquals( 6.0, result, 0.0001 );
+		assertEquals( 11.0, result, 0.0001 );
 	}
 
 
@@ -38,12 +38,12 @@ public class DebugTestDouble extends TestCase
 	{
 		public double getIA()
 		{
-			return 5.0;
+			return 1.0;
 		}
 
 		public double getIB()
 		{
-			return 6.0;
+			return 1.0;
 		}
 
 		public double getIC()
