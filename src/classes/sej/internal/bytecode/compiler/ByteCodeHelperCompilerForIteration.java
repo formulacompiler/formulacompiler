@@ -117,7 +117,6 @@ final class ByteCodeHelperCompilerForIteration extends ByteCodeHelperCompiler
 		// } else {
 		mv.mark( noData );
 		numericType().compileZero( mv );
-		mv.visitInsn( numericType().returnOpcode() );
 	}
 
 
