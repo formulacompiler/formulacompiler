@@ -21,6 +21,9 @@
 package sej.tutorials;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 import sej.CallFrame;
 import sej.CompilerException;
@@ -37,21 +40,42 @@ import junit.framework.TestCase;
 
 public class CustomerRatingWithOrders extends TestCase
 {
+	private static final String SHEETPATH = "src/test-system/testdata/sej/tutorials/CustomerRating.xls";
 
-	// LATER Use INDEX to get a string rating instead of a numeric one
-
-
-	public void testCustomerRating() throws Exception
+	private static enum AccessorVersion
 	{
-		String path = "src/test-system/testdata/sej/tutorials/CustomerRating.xls";
+		ARRAY, ITERABLE, ITERATOR;
+	}
 
+	
+	// LATER Use INDEX to get a string rating instead of a numeric one
+	
+
+	public void testCustomerRatingWithArray() throws Exception
+	{
+		doTestCustomerRating( AccessorVersion.ARRAY );
+	}
+
+	public void testCustomerRatingWithIterable() throws Exception
+	{
+		doTestCustomerRating( AccessorVersion.ITERABLE );
+	}
+
+	public void testCustomerRatingWithIterator() throws Exception
+	{
+		doTestCustomerRating( AccessorVersion.ITERATOR );
+	}
+
+
+	public void doTestCustomerRating( AccessorVersion _version ) throws Exception
+	{
 		EngineBuilder builder = SEJ.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( SHEETPATH );
 		builder.setFactoryClass( CustomerRatingFactory.class );
 
 		// LATER Make orders for last N days bindable automatically
 		// builder.bindAllByName();
-		bindElements( builder );
+		bindElements( builder, _version );
 
 		Engine engine = builder.compile();
 		CustomerRatingFactory factory = (CustomerRatingFactory) engine.getComputationFactory();
@@ -67,7 +91,7 @@ public class CustomerRatingWithOrders extends TestCase
 	}
 
 
-	private void bindElements( EngineBuilder _builder ) throws CompilerException, NoSuchMethodException
+	private void bindElements( EngineBuilder _builder, AccessorVersion _version ) throws CompilerException, NoSuchMethodException
 	{
 		Spreadsheet sheet = _builder.getSpreadsheet();
 		// ---- bindOrders
@@ -83,6 +107,16 @@ public class CustomerRatingWithOrders extends TestCase
 		// ---- bindOrders
 		Range range = sheet.getRange( "OrdersForLastThreeMonths" );
 		Method mtd = /**/CustomerData/**/.class.getMethod( /**/"ordersForLastNDays"/**/, Integer.TYPE );
+		// -- omit
+		switch (_version) {
+			case ITERABLE:
+				mtd = CustomerData.class.getMethod( "ordersForLastNDaysIterable", Integer.TYPE );
+				break;
+			case ITERATOR:
+				mtd = CustomerData.class.getMethod( "ordersForLastNDaysIterator", Integer.TYPE );
+				break;
+		}
+		// -- omit
 		CallFrame call = new CallFrame( mtd, 90 ); // last 3 months is 90 days back
 		Orientation orient = Orientation.VERTICAL;
 		Class input = /**/OrderData/**/.class;
@@ -125,6 +159,10 @@ public class CustomerRatingWithOrders extends TestCase
 	public static interface CustomerData
 	{
 		public /**/OrderData[]/**/ ordersForLastNDays( int _days );
+		// -- CustomerDataAlternatives
+		public /**/Iterable<OrderData>/**/ ordersForLastNDaysIterable( int _days );
+		public /**/Iterator<OrderData>/**/ ordersForLastNDaysIterator( int _days );
+		// -- CustomerDataAlternatives
 	}
 
 	// ---- CustomerData
@@ -154,6 +192,18 @@ public class CustomerRatingWithOrders extends TestCase
 		public OrderData[] ordersForLastNDays( int _days )
 		{
 			return this.orders;
+		}
+		
+		public Iterable<OrderData> ordersForLastNDaysIterable( int _days )
+		{
+			Collection<OrderData> result = new ArrayList<OrderData>( this.orders.length );
+			for (OrderData order : this.orders) result.add( order );
+			return result;
+		}
+
+		public Iterator<OrderData> ordersForLastNDaysIterator( int _days )
+		{
+			return ordersForLastNDaysIterable( _days ).iterator();
 		}
 	}
 

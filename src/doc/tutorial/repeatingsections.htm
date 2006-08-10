@@ -27,37 +27,38 @@
         
         <div class="content">
         
-<p>SEJ allows you to define repeating sections of a spreadsheet. Such sections are different from ordinary ranges in Excel in that the width or height of the section varies with each use of the computation. Examples:</p><dl><dt>Order Totals (input only)</dt><dd>As input to a customer rating computation, feed all order totals of the last three months for this customer to the computation. One customer may have placed 5 orders in the last three months, another one 200.</dd><dt>Employees (input/output)</dt><dd>Feed all employees for which bonuses must be computed given a total bonus amount. Read back individual bonus amount for each employee. One client company for which the accounting company computes the bonuses may have 10 employees, another one 500.</dd></dl>
-
-<h2>Input Only</h2>
-<p>Let's look at the order totals problem given above. We want to feed <em>n</em> order totals to the spreadsheet, where <em>n</em> may vary. Since we compute only a single output, the customer rating, it is clear that these <em>n</em> order totals must in some way be aggregated by the computation. It could, for example, sum them, or take their average or median, and then do something with these values. Generally speaking, you'll have to use a spreadsheet function that takes a <em>range</em> as an argument to reference values from a repeating section.</p>
-
-<h3>Spreadsheet Rules</h3>
-<p>Let me show you a simple spreadsheet that can be used with a repeating section. Note that in the depicted spreadsheet</p>
+<p>SEJ allows you to define <em>repeating sections</em> in a spreadsheet. Such sections are different from ordinary ranges in Excel in that the width or height of the section varies with each use of the computation.</p>
+<p>For example, consider a hypothetical customer rating computation. We want users to be able to define a spreadsheet that computes the rating that we run for each customer in turn. For each customer, we feed the totals of all his orders of the last three months to the computation. One particular customer may have placed 5 orders in the last three months, another one 200.</p>
+<p>Let me show you a very simple spreadsheet that computes such a customer rating. Note that in the depicted spreadsheet</p>
 <ul compact class="compact">
 <li>the colored area is a named range whose name is given just below the sheet, and</li>
 <li>the blue names in parentheses are cell names.</li>
 </ul>
 <p>[xc:testdata/sej/tutorials/CustomerRating.xls]</p>
-<p>Cell <tt>B10</tt>, the <em>Total</em>, sums a value from each of the five rows 3..7. We are going to tell SEJ that this row range should be dynamic in height. For every actual computation, SEJ will then shrink or extend the range within the sum in <tt>B10</tt> accordingly.</p>
+<p>The row range <tt>3:7</tt> will be our repeating section with variable height. Cell <tt>B10</tt>, the <em>Total</em>, sums the five rows 3..7. For every actual computation, SEJ will shrink or extend the range within the sum in <tt>B10</tt> to match the number of order totals we actually passed in.</p>
+
+<h2>Spreadsheet Rules</h2>
 <p>The fact that my original spreadsheet has exactly five order total rows is irrelevant to SEJ. What matters is that</p>
 <ul compact class="compact">
-<li>we define the repeating section over the rows 3..7,</li>
+<li>when we define the repeating section over the rows 3..7,</li>
 <li>the sum in <tt>B10</tt> covers the entire height of the variable section, and</li>
 <li>the formula in <tt>B10</tt> uses the range function <tt>SUM</tt>, rather than <tt>B3+...+B7</tt>.</li>
 </ul>
+<p>Generally speaking, if you reference cells of a repeating section from outside the section, you'll have to use a spreadsheet function that takes a <em>range</em> as an argument. This range must cover the entire variable extent of the section (height or width).</p>
 <p>So we could just as well have used ten, or only two example rows. (In fact, we can get away with just one example row. I don't recommend this, though, because you might then forget to use <tt>SUM</tt> over the rows.)</p>
 <p>In any case, SEJ uses <b>only the first row</b> as a template for making the <em>n</em> rows later on, at runtime. This will be important later when I show you a more complex spreadsheet.</p>
 
-<h3>Hooking It Up</h3>
+<h2>Hooking It Up</h2>
 <p>Let's hook up the above spreadsheet with the customer rating application. First of all, we need an interface to the customer data. This interface must let SEJ query the order totals. A simple approach would be to just return an array of order totals. SEJ needs a little more structure than this, though.</p>
 <p>When you define a repeating section with SEJ, the section is treated like an embedded sub-sheet within the main sheet. Like a master/detail form really. This sub-sheet works just like the main sheet, so it must have an input interface to get values from. (As you'll see later, one advantage of having a proper interface for section elements is it becomes very straightforward to add new input values like the order date.)</p>
 <p>Here's the interface for the orders sub-sheet we are going to use:</p>
 <p>[jc:sej.tutorials.CustomerRatingWithOrders:---- OrderData]</p>
-<p>The main customer interface must therefore let SEJ query the set of orders it should process for this customer. The simplest way is to use an array (you could also use an <tt>Iterator</tt>, or an <tt>Iterable</tt> container):</p>
-<p>[jc:sej.tutorials.CustomerRatingWithOrders:---- CustomerData]</p>
+<p>The main customer interface must therefore let SEJ query the set of orders it should process for this customer. The simplest way is to use an array:</p>
+<p>[jc:sej.tutorials.CustomerRatingWithOrders:---- CustomerData; omit -- CustomerDataAlternatives]</p>
+<p>You can also use an <tt>Iterable</tt> or an <tt>Iterator</tt>, or one of their descendants. Like so:</p>
+<p>[jc:sej.tutorials.CustomerRatingWithOrders:-- CustomerDataAlternatives]</p>
 <p>We now need to tell SEJ that the order totals range of cells in the spreadsheet should be considered a vertically repeating section, which gets its data from the call shown above. In addition, we must tell SEJ the precise input interface to use for the orders, namely <tt>OrderData</tt>. Here's how to do this (given that the name <em>OrdersForLastThreeMonths</em> is defined in the spreadsheet as <tt>B3:B7</tt>):</p>
-<p>[jc:sej.tutorials.CustomerRatingWithOrders:---- bindOrders]</p>
+<p>[jc:sej.tutorials.CustomerRatingWithOrders:---- bindOrders; omit -- omit]</p>
 <p>As I said above, a repeating section is like a sub-sheet within the main-sheet. Thus, the return value of this method is again a <tt>Section</tt>, just like the original <tt>binder</tt> for the main sheet. We use it to bind the cells in the first template row of the section to input methods on the order interface. Like so (given that the name <em>OrderTotal</em> is defined in the spreadsheet as <tt>B3</tt>):</p>
 <p>[jc:sej.tutorials.CustomerRatingWithOrders:---- bindOrderValues]</p>
 <p>Binding the outputs is straightforward, as we are only binding global values, not values within the repeating section:</p>
@@ -86,13 +87,10 @@
 <li>As stated above, SEJ only looks at the <b>first row</b> of the section (row 3 here), which it then uses as a template for all others. You must yourself take care that your other example rows (rows 4 through 7 here) have formulas of a similiar structure as the template row.</li>
 </ul>
 <p>The only remaining thing is to bind the order date in a fashion similar to the order total (assuming the name <em>OrderDate</em> is defined in the spreadsheet as <tt>C3</tt>):</p>
-<p>[jc:sej.tutorials.CustomerRatingWithOrdersComplex:---- bindOrderValues]</p>
-
-<h2>Input/Output</h2>
-<p>This part of the documentation is still missing, as the implementation is not complete yet.</p>        </div>
+<p>[jc:sej.tutorials.CustomerRatingWithOrdersComplex:---- bindOrderValues]</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 11.07.2006.</p>        </div>
+<br/>Last updated on 10.08.2006.</p>        </div>
     </div>
 </body>
 </html>

@@ -20,7 +20,9 @@
  */
 package sej.internal.bytecode.compiler;
 
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.internal.model.SectionModel;
 
@@ -78,4 +80,33 @@ final class ByteCodeSubSectionCompiler extends ByteCodeSectionCompiler
 		return parentSectionCompiler().classType();
 	}
 
+	
+	@Override
+	protected boolean callConstructorWithInputs( GeneratorAdapter _mv, int _inputsVar )
+	{
+		
+		// try super( _inputs, _parent );
+		try {
+			outputClass().getConstructor( inputClass(), parentSectionCompiler().model().getOutputClass() ); // ensure it is here and accessible
+		}
+		catch (NoSuchMethodException e) {
+			return super.callConstructorWithInputs( _mv, _inputsVar );
+		}
+
+		_mv.loadThis();
+		if (0 <= _inputsVar) {
+			_mv.visitVarInsn( Opcodes.ALOAD, _inputsVar );
+		}
+		else {
+			_mv.visitInsn( Opcodes.ACONST_NULL );
+		}
+		_mv.loadThis();
+		_mv.getField( classType(), ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parentType() );
+		_mv.visitMethodInsn( Opcodes.INVOKESPECIAL, outputType().getInternalName(), "<init>", "("
+				+ inputType().getDescriptor() + parentType().getDescriptor() + ")V" );
+
+		return true;
+	}
+
+	
 }

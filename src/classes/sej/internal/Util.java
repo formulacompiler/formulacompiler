@@ -108,7 +108,7 @@ public final class Util
 			if (_factoryMethod == null) throw new IllegalArgumentException( "factoryMethod not specified" );
 			Util.validateIsImplementable( _factoryMethod, "factoryMethod" );
 
-			if (_factoryMethod.getReturnType() != _outputClass)
+			if (!_factoryMethod.getReturnType().isAssignableFrom( _outputClass ))
 				throw new IllegalArgumentException( "factoryMethod '"
 						+ _factoryMethod + "' does not return outputClass '" + _outputClass + "'" );
 			final Class[] params = _factoryMethod.getParameterTypes();

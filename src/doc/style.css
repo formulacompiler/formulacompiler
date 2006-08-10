@@ -380,7 +380,7 @@ span.j-undef /* undefined */
 span.j-hl /* highlight */
 {
 	text-decoration: none;
-	background-color: yellow;
+	background-color: #FFFFB0;
 }
 
 /******************** Excel */
@@ -429,4 +429,24 @@ span.xl-name
 td.xl-r1, span.xl-r1
 	{
 		background-color: #E0FFFF;
+	}
+
+td.xl-r2, span.xl-r2
+	{
+		background-color: #FFE0FF;
+	}
+	
+td.xl-r3, span.xl-r3
+	{
+		background-color: #FFFFE0;
+	}
+
+td.xl-r4, span.xl-r4
+	{
+		background-color: #E0FFE0;
+	}
+
+td.xl-r5, span.xl-r5
+	{
+		background-color: #E0E0FF;
 	}

@@ -27,7 +27,6 @@
         
         <div class="content">
         
-<p><span class="when">Note: All the sample code in this document has been cited by <a href="http://www.arrenbrecht.ch/jcite/">JCite</a> from source code that is checked for syntactic and semantic correctness during release builds.</span></p>
 <p>Besides the default <tt>double</tt>, SEJ supports a number of alternative numeric types you can choose from for the computations performed by generated engines. This is because <tt>double</tt> is not precise enough for financial applications. The choices are:</p><dl><dt><a href="#double"><tt>double</tt></a></dt><dd>is the default. It is what Excel and other spreadsheet applications use internally. So this choice is consistent with how the original spreadsheet behaves.</dd><dt><a href="#BigDecimal"><tt>BigDecimal</tt></a></dt><dd>can be used with either its internal scaling, or using a fixed scale. With a fixed scale, this type is a good choice for financial applications which must be able to cope with very high values.</dd><dt><a href="#long"><tt>long</tt></a></dt><dd>can be used either as an integer type, or using a fixed scale. With a fixed scale of 4 decimal places, this type corresponds to the <tt>currency</tt> type found in Microsoft COM and Borland Delphi.</dd></dl>
 <p>Note that the choice of numeric type <a href="#GlobalSetting">affects the entire engine</a> compiled by a given compiler, not just individual cells.</p>
 
@@ -112,7 +111,7 @@ BigDecimal total, price_per_mm3;</pre>
 <p>The responsibility for this choice, and for communicating its consequences to the sheet designers, rests fully with you, the programmer. But it does allow you to generate engines suited for precise financial or very fast pure integer computations.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 05.07.2006.</p>        </div>
+<br/>Last updated on 10.08.2006.</p>        </div>
     </div>
 </body>
 </html>
