@@ -28,6 +28,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
+import sej.CallFrame;
 import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.CellModel;
@@ -164,7 +165,12 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	void compileAccessTo( ByteCodeSubSectionCompiler _sub ) throws CompilerException
 	{
 		newField( Opcodes.ACC_PRIVATE, _sub.getterName(), _sub.arrayDescriptor() );
-		new ByteCodeSubSectionGetterCompiler( this, _sub ).compile();
+		new ByteCodeSubSectionLazyGetterCompiler( this, _sub ).compile();
+		
+		final CallFrame[] callsToImplement = _sub.model().getCallsToImplement();
+		for (CallFrame callToImplement : callsToImplement) {
+			new ByteCodeSubSectionOutputAccessorCompiler( this, _sub, callToImplement ).compile();
+		}
 
 		// In reset(), do:
 		// $<section> = null;
@@ -264,7 +270,7 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		GeneratorAdapter mv = newMethod( 0, "<init>", "("
 				+ this.inputs.getDescriptor() + (hasParent() ? parentType().getDescriptor() : "") + ")V" );
 
-		// super( _inputs ); or super();
+		// super( _inputs ); or super(); or, if has parent, super( _inputs, _parent );
 		callInheritedConstructor( mv, 1 );
 
 		// this.parent = _parent;
@@ -304,7 +310,7 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		}
 	}
 
-	private boolean callConstructorWithInputs( GeneratorAdapter _mv, int _inputsVar )
+	protected boolean callConstructorWithInputs( GeneratorAdapter _mv, int _inputsVar )
 	{
 		try {
 			outputClass().getConstructor( inputClass() ); // ensure it is here and accessible

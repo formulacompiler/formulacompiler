@@ -32,7 +32,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 import sej.CallFrame;
 import sej.CompilerException;
 
-public class ByteCodeSubSectionGetterCompiler extends ByteCodeSectionMethodCompiler
+public class ByteCodeSubSectionLazyGetterCompiler extends ByteCodeSectionMethodCompiler
 {
 	private static final Type ITERATOR_INTF = Type.getType( Iterator.class );
 	private static final Type ITERABLE_INTF = Type.getType( Iterable.class );
@@ -42,7 +42,7 @@ public class ByteCodeSubSectionGetterCompiler extends ByteCodeSectionMethodCompi
 	private final ByteCodeSubSectionCompiler sub;
 
 
-	ByteCodeSubSectionGetterCompiler(ByteCodeSectionCompiler _section, ByteCodeSubSectionCompiler _sub)
+	ByteCodeSubSectionLazyGetterCompiler(ByteCodeSectionCompiler _section, ByteCodeSubSectionCompiler _sub)
 	{
 		super( _section, Opcodes.ACC_PRIVATE, _sub.getterName(), _sub.getterDescriptor() );
 		this.sub = _sub;

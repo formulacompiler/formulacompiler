@@ -27,7 +27,6 @@
         
         <div class="content">
         
-<p><span class="when">Note: All the sample code in this document has been cited by <a href="http://www.arrenbrecht.ch/jcite/">JCite</a> from source code that is checked for syntactic and semantic correctness during release builds.</span></p>
 <p>Consider the following example spreadsheet doing the computation of a square's area and a cube's volume, given the side length. The cell B1 is the sole input, B3 and B4 are outputs.</p>
 <p>[xc:testdata/sej/tutorials/Caching.xls]</p>
 <p>As you can see, the area is reused by the volume computation. This is, of course, a very simple example. But even here, if we were to compute millions of areas and volumes using <tt>BigDecimal</tt> and side lengths of great precision, it might already pay off to cache the intermediate value for the area.</p>
@@ -65,7 +64,7 @@
 <p>Clearly, this is a lot more code than for the non-caching version. It is important to realize, however, that SEJ only caches intermediate cell values which are referenced more than once in the computation. All others are inlined into the single expression that references them. Cells that are not referenced at all don't appear in the computation at all, either.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 11.07.2006.</p>        </div>
+<br/>Last updated on 10.08.2006.</p>        </div>
     </div>
 </body>
 </html>

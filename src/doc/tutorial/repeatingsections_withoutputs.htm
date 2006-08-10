@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Outputs in Repeating Sections with SEJ - arrenbrecht.ch</title>
+    <style type="text/css" media="screen">
+        @import "../style.css";
+	
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+</head>
+<body>
+    <div class="all">
+        <div class="nav">
+            <p class="nav">
+<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a> &gt;
+<a href="../index.htm">SEJ</a> &gt;
+<a href="index.htm">Tutorial</a> &gt;
+
+			</p>
+        </div>
+        <div class="title">
+            <h1>
+                Outputs in Repeating Sections with SEJ</h1>
+        </div>
+        
+        
+        <div class="content">
+        
+<p>Sometimes you need to compute distinct output values for each of the elements of a variable-length data series. This is what we did before, in the <a href="repeatingsections.htm">customer rating</a> example, where the application loops of the customers itself. There are cases, however, where doing the loop yourself severely limits the range of computations your users can formulate. Mainly this is because they then cannot aggregate over the whole series. For this case, SEJ supports per-element outputs in repeating sections.</p>
+<p>For example, consider an application that must compute the individual yearly bonus amounts for each employee, given the total bonus amount for the entire company and some base data about each employee's performance. Typically, such a computation will first compute some sort of overall performance indicator for each employee, given his or her base data. It will then sum this indicator across the company, and finally distribute the bonus to each employee proportionally to his or her individual performance.</p>
+<p>So: given the total bonus amount, compute the individual bonus amounts for all employees. As (rather simplistic) base performance data, we will pass in the base salary and hours overtime for each employee. The sample spreadsheet shown below computes the total salary, including overtime at a fixed rate, as the employee performance indicator. It then computes each employee's share of the bonus to be proportional to his or her share of the total salary of all employees (which is computed in the spreadsheet):</p>
+<p>[xc:testdata/sej/tutorials/BonusPerEmployee.xls]</p>
+<p>To consider:</p>
+<ul compact class="compact">
+<li>The bonus total and fixed overtime rate (salary per hour) are global inputs.</li>
+<li>The base salary and hours overtime are inputs per employee.</li>
+<li>The final bonus amount is an <em>output per employee</em>.</li>
+<li>The employee name is not bound. It simply enhances the expressiveness of the example spreadsheet.</li>
+<li>Cell <tt>D5</tt> is an intermediate sum over the repeating section.</li>
+<li>Cells <tt>E2:E4</tt> use this intermediate sum again, within the section.</li>
+</ul>
+<p>Note that in scenarios like this one, where an outer aggregation over a possibly large repeating section is reused within the section, the mandatory <a href="caching.htm">caching of values</a> pays off quickly.</p>
+
+<h2>Interfaces</h2>
+<p>The following exposition assumes that you have read and understood the simpler <a href="repeatingsections.htm">customer rating example</a>.</p>
+
+<h3>Inputs</h3>
+<p>Since we need to tell the computation how many employees there are, and what their base performance data is, our inputs look much like they did for the <a href="repeatingsections.htm">customer rating example</a>. We are going to use a <a href="numeric_type.htm#long">scaled long</a> engine here, however, because this is a financial computation:</p>
+<p>[jc:sej.tutorials.BonusPerEmployee:---- Inputs]</p>
+
+<h3>Outputs</h3>
+<p>The factory, too, is straightforward:</p>
+<p>[jc:sej.tutorials.BonusPerEmployee:---- OutputFactory]</p>
+<p>Now, however, we need to get at an output value for each individual employee (the bonus amount), not just a global output as before. The concept is the same as for the individual inputs: we define a global output which defines an accessor for an array of outputs for the individual employees:</p>
+<p>[jc:sej.tutorials.BonusPerEmployee:---- Outputs; omit -- OutputsAlternatives]</p>
+<p>This accessor will be implemented by SEJ, just like other output methods. Apart from arrays, SEJ supports <tt>List</tt> and its ancestors <tt>Collection</tt> and <tt>Iterable</tt>, as well as <tt>Iterator</tt> as the result type of section accessor methods:</p>
+<p>[jc:sej.tutorials.BonusPerEmployee:-- OutputsAlternatives]</p>
+
+<h2>Binding</h2>
+<p>Binding the sheet to this structure now becomes straightforward again. The main difference is that when binding the section, we bind both an input and an output method and target type:</p>
+<p>[jc:sej.tutorials.BonusPerEmployee:---- bindSections]</p>
+<p>The employee inputs are bound just as before:</p>
+<p>[jc:sej.tutorials.BonusPerEmployee:---- bindEmployeeInputs]</p>
+<p>Binding the employee output, the bonus amount, is similar in concept as binding its inputs. We simply use <tt>defineOutputCell</tt>:</p>
+<p>[jc:sej.tutorials.BonusPerEmployee:---- bindEmployeeOutputs]</p>
+<p>Finally, we need to bind the globals:</p>
+<p>[jc:sej.tutorials.BonusPerEmployee:---- bindGlobals]</p>
+
+<h2>Using It</h2>
+<p>The interfaces given above can now be used as follows. First, we set up the input data in mock objects and request a computation for it:</p>
+<p>[jc:sej.tutorials.BonusPerEmployee:---- setupInputs]</p>
+<p>Then, we read back individual bonus amounts from the computation:</p>
+<p>[jc:sej.tutorials.BonusPerEmployee:---- consumeOutputs]</p>
+<p>Or, using the other supported return types <tt>List</tt>, <tt>Collection</tt>, and <tt>Iterator</tt>:</p>
+<p>[jc:sej.tutorials.BonusPerEmployee:---- consumeOutputsList]</p>
+<p>[jc:sej.tutorials.BonusPerEmployee:---- consumeOutputsCollection]</p>
+<p>[jc:sej.tutorials.BonusPerEmployee:---- consumeOutputsIterator]</p>
+
+<h2>Linking Outputs To Inputs</h2>
+<p>Note that in the setup shown above, we have no way of associating an employee output interface with its corresponding input interface other than by its position in the array (or collection, or iterator).</p>
+<p>We can change this in much the same way as to get access to the input data to provide <a href="bindcells.htm#Defaults">default output implementations</a>. Namely, by accepting the input data as the sole argument to the output type's constructor. To do this we have to change our employee output interface to an abstract class, of course. We can then expose an accessor for the input data value passed to our constructor:</p>
+<p>[jc:sej.tutorials.BonusPerEmployee:---- LinkedOutputs]</p>
+<p>Now we have the desired association:</p>
+<p>[jc:sej.tutorials.BonusPerEmployee:---- consumeLinkedOutputs]</p>
+
+<h2>Linking Outputs To Parent Outputs</h2>
+<p>In your constructor, you can also get the parent section's output object in case you need to access it in your default implementations. Here's how:</p>
+<p>[jc:sej.tutorials.BonusPerEmployee:---- FullyLinkedOutputs]</p>
+<p>Note that if you need to get the parent, you must also specify the input object as a constructor parameter. Here's the effect at runtime:</p>
+<p>[jc:sej.tutorials.BonusPerEmployee:---- consumeFullyLinkedOutputs]</p>        </div>
+        <div class="footer">
+<p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
+<br/>Last updated on 10.08.2006.</p>        </div>
+    </div>
+</body>
+</html>
