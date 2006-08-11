@@ -51,12 +51,12 @@ public class SectionOutputTest extends TestCase
 {
 	private static final boolean JRE14 = System.getProperty( "java.version" ).startsWith( "1.4." );
 
-	
+
 	public void testArray() throws Exception
 	{
 		assertValues( new int[] { 11, 3, 4, 5, 6 }, new RootInput( 10, 2, 3, 4, 5 ) );
 	}
-	
+
 	private void assertValues( int[] _expected, RootInput _input ) throws Exception
 	{
 		assertValues( _expected, new RootPrototype( _input ), _input, "Proto" );
@@ -76,7 +76,7 @@ public class SectionOutputTest extends TestCase
 		_output.reset();
 		assertArray( _expected, _len, _output );
 		assertIterator( _expected, _len, _output );
-		assertIterable( _expected, _len, _output );
+		if (!JRE14) assertIterable( _expected, _len, _output );
 		assertCollection( _expected, _len, _output );
 		assertList( _expected, _len, _output );
 	}
@@ -133,12 +133,13 @@ public class SectionOutputTest extends TestCase
 
 	private RootOutput newRootEngine( RootInput _input ) throws Exception
 	{
-		final String[] types = new String[] { "Array", "Iterator", "Iterable", "Collection", "List" }; 
-		
+		final String[] types = new String[] { "Array", "Iterator", "Iterable", "Collection", "List" };
+
 		SpreadsheetBuilder bld = SEJ.newSpreadsheetBuilder();
 
-		for (String type : types) buildSectionFor( bld, type );
-		
+		for (String type : types)
+			if (!(JRE14 && type.equals( "Iterable" ))) buildSectionFor( bld, type );
+
 		Spreadsheet sht = bld.getSpreadsheet();
 
 		EngineBuilder cmp = SEJ.newEngineBuilder();
@@ -148,10 +149,11 @@ public class SectionOutputTest extends TestCase
 		cmp.setNumericType( SEJ.LONG );
 		Section bnd = cmp.getRootBinder();
 
-		for (String type: types) bindSectionFor( sht, bnd, type );
-		
+		for (String type : types)
+			if (!(JRE14 && type.equals( "Iterable" ))) bindSectionFor( sht, bnd, type );
+
 		SaveableEngine engine = cmp.compile();
-		
+
 		return (RootOutput) engine.getComputationFactory().newComputation( _input );
 	}
 
@@ -160,11 +162,11 @@ public class SectionOutputTest extends TestCase
 		_bld.newCell( _bld.cst( 1 ) );
 		_bld.nameCell( "SectionInput" + _type );
 		CellRef inp = _bld.currentCell();
-		
+
 		_bld.newCell( _bld.op( Operator.PLUS, _bld.ref( inp ), _bld.ref( _bld.cst( 1 ) ) ) );
 		_bld.nameCell( "SectionOutput" + _type );
 		CellRef outp = _bld.currentCell();
-		
+
 		_bld.nameRange( _bld.range( inp, outp ), "Section" + _type );
 
 		_bld.newRow();
@@ -175,7 +177,8 @@ public class SectionOutputTest extends TestCase
 		Range rng = _sht.getRange( "Section" + _type );
 		CallFrame inps = call( RootInput.class, "inputs" );
 		CallFrame outps = call( RootOutput.class, "outputs" + _type );
-		Section dets = _bnd.defineRepeatingSection( rng, Orientation.VERTICAL, inps, DetailInput.class, outps, DetailOutput.class );
+		Section dets = _bnd.defineRepeatingSection( rng, Orientation.VERTICAL, inps, DetailInput.class, outps,
+				DetailOutput.class );
 		dets.defineInputCell( _sht.getCell( "SectionInput" + _type ), call( DetailInput.class, "input" ) );
 		dets.defineOutputCell( _sht.getCell( "SectionOutput" + _type ), call( DetailOutput.class, "output" ) );
 	}
@@ -186,22 +189,25 @@ public class SectionOutputTest extends TestCase
 	}
 
 
-	public static interface RootOutput extends Resettable
+	public static abstract class RootOutput implements Resettable
 	{
-		DetailOutput[] outputsArray();
-		Iterator<DetailOutput> outputsIterator();
-		Iterable<DetailOutput> outputsIterable();
-		Collection<DetailOutput> outputsCollection();
-		List<DetailOutput> outputsList();
+		public abstract DetailOutput[] outputsArray();
+		public abstract Iterator<DetailOutput> outputsIterator();
+		public Iterable<DetailOutput> outputsIterable()
+		{
+			return null;
+		}
+		public abstract Collection<DetailOutput> outputsCollection();
+		public abstract List<DetailOutput> outputsList();
 	}
-	
+
 	public static interface DetailOutput
 	{
 		long output();
 	}
 
 
-	public static final class RootPrototype implements RootOutput, Computation
+	public static final class RootPrototype extends RootOutput implements Computation
 	{
 		private final RootInput inputs;
 
@@ -233,31 +239,37 @@ public class SectionOutputTest extends TestCase
 			return this.outs;
 		}
 
+		@Override
 		public DetailOutput[] outputsArray()
 		{
 			return outs();
 		}
-		
+
+		@Override
 		public Iterator<DetailOutput> outputsIterator()
 		{
 			return outputsList().iterator();
 		}
-		
+
+		@Override
 		public Iterable<DetailOutput> outputsIterable()
 		{
 			return outputsList();
 		}
-		
+
+		@Override
 		public Collection<DetailOutput> outputsCollection()
 		{
 			return outputsList();
 		}
-		
+
+		@Override
 		public List<DetailOutput> outputsList()
 		{
 			final DetailPrototype[] arr = outs();
 			final ArrayList<DetailOutput> res = new ArrayList<DetailOutput>( arr.length );
-			for (DetailPrototype det : arr) res.add( det );
+			for (DetailPrototype det : arr)
+				res.add( det );
 			return res;
 		}
 
@@ -265,10 +277,10 @@ public class SectionOutputTest extends TestCase
 		{
 			this.outs = null;
 		}
-		
+
 	}
 
-	
+
 	public static final class DetailPrototype implements DetailOutput
 	{
 		private final RootPrototype parent;

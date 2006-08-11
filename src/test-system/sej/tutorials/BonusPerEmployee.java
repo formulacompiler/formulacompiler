@@ -1,3 +1,23 @@
+/*
+ * Copyright © 2006 by Abacus Research AG, Switzerland.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are prohibited, unless you have been explicitly granted 
+ * more rights by Abacus Research AG.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
+ * OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
+ * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
+ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package sej.tutorials;
 
 import java.lang.reflect.Method;
@@ -16,8 +36,6 @@ import sej.Spreadsheet;
 import sej.Spreadsheet.Cell;
 import sej.Spreadsheet.Range;
 import sej.SpreadsheetBinder.Section;
-import sej.internal.Debug;
-import sej.runtime.Engine;
 import sej.runtime.Resettable;
 import sej.runtime.ScaledLong;
 import junit.framework.TestCase;
@@ -67,8 +85,6 @@ public class BonusPerEmployee extends TestCase
 
 		SaveableEngine engine = builder.compile();
 		
-		Debug.saveEngine( engine, "D:/temp/sect.jar" );
-		
 		BonusComputationFactory factory = (BonusComputationFactory) engine.getComputationFactory();
 
 		{
@@ -87,7 +103,7 @@ public class BonusPerEmployee extends TestCase
 	{
 		Spreadsheet sheet = _builder.getSpreadsheet();
 		
-		// FIXME Create simplified section binding on EngineBuilder
+		// LATER Create simplified section binding on EngineBuilder
 		
 		// ---- bindSections
 		Section binder = _builder.getRootBinder();
@@ -351,167 +367,4 @@ public class BonusPerEmployee extends TestCase
 
 	}
 
-	
-	// ------------------------------------------------ Outputs linked to inputs
-	
-	
-	public void testLinkedBonusPerEmployee() throws Exception
-	{
-		EngineBuilder builder = SEJ.newEngineBuilder();
-		builder.setNumericType( SEJ.LONG4 );
-		builder.loadSpreadsheet( SHEETPATH );
-		builder.setFactoryClass( LinkedBonusComputationFactory.class );
-
-		// builder.bindAllByName();
-		bindElements( builder, AccessorVersion.ARRAY );
-
-		Engine engine = builder.compile();
-		LinkedBonusComputationFactory factory = (LinkedBonusComputationFactory) engine.getComputationFactory();
-
-		{
-			long bonusTotal = 200000000L;
-			long overtimeSalaryPerHour = 500000L;
-			long[] salaries = new long[] { 56000000L, 54000000L, 55000000L };
-			int[] hoursOvertime = new int[] { 20, 15, 0 };
-			long[] bonuses = new long[] { 72328800L, 67397300L, 60274000L };
-			assertLinkedBonuses( factory, bonusTotal, overtimeSalaryPerHour, salaries, hoursOvertime, bonuses );
-		}
-	}
-
-
-	public static interface LinkedBonusComputationFactory
-	{
-		public LinkedBonusComputation newComputation( BonusData _data );
-	}
-
-
-	// ---- LinkedOutputs
-	@ScaledLong(4)
-	public static interface LinkedBonusComputation extends Resettable
-	{
-		LinkedEmployeeBonusComputation[] employees();
-	}
-
-	@ScaledLong(4)
-	public static abstract class LinkedEmployeeBonusComputation
-	{
-		private final EmployeeBonusData inputs;
-
-		public LinkedEmployeeBonusComputation( /**/EmployeeBonusData _inputs/**/ ) 
-		{
-			super();
-			this.inputs = _inputs;
-		}
-		
-		public /**/EmployeeBonusData inputs()/**/ 
-		{ 
-			return this.inputs; 
-		}
-		
-		public abstract long bonusAmount();
-	}
-	// ---- LinkedOutputs
-
-
-	private void assertLinkedBonuses( LinkedBonusComputationFactory _factory, long _bonusTotal, long _overtimeSalaryPerHour,
-			long[] _salaries, int[] _hoursOvertime, long[] _expectedBonusAmounts )
-	{
-		BonusDataImpl data = new BonusDataImpl( _bonusTotal, _overtimeSalaryPerHour );
-		for (int i = 0; i < _salaries.length; i++) {
-			EmployeeBonusDataImpl emp = new EmployeeBonusDataImpl( _salaries[ i ], _hoursOvertime[ i ] );
-			data.addEmployee( emp );
-		}
-
-		// ---- consumeLinkedOutputs
-		LinkedBonusComputation comp = _factory.newComputation( data );
-		LinkedEmployeeBonusComputation[] /**/empOutputs = comp.employees()/**/;
-		EmployeeBonusData[] /**/empInputs = data.employees()/**/;
-		for (int i = 0; i < _expectedBonusAmounts.length; i++) {
-			/**/assertSame( empInputs[ i ], empOutputs[ i ].inputs() );/**/
-		}
-		// ---- consumeLinkedOutputs
-		
-	}
-	
-	
-	// ------------------------------------------------ Outputs linked to inputs and outer section
-	
-	
-	public void testFullyLinkedBonusPerEmployee() throws Exception
-	{
-		EngineBuilder builder = SEJ.newEngineBuilder();
-		builder.setNumericType( SEJ.LONG4 );
-		builder.loadSpreadsheet( SHEETPATH );
-		builder.setFactoryClass( FullyLinkedBonusComputationFactory.class );
-
-		// builder.bindAllByName();
-		bindElements( builder, AccessorVersion.ARRAY );
-
-		Engine engine = builder.compile();
-		FullyLinkedBonusComputationFactory factory = (FullyLinkedBonusComputationFactory) engine.getComputationFactory();
-
-		{
-			long bonusTotal = 200000000L;
-			long overtimeSalaryPerHour = 500000L;
-			long[] salaries = new long[] { 56000000L, 54000000L, 55000000L };
-			int[] hoursOvertime = new int[] { 20, 15, 0 };
-			long[] bonuses = new long[] { 72328800L, 67397300L, 60274000L };
-			assertFullyLinkedBonuses( factory, bonusTotal, overtimeSalaryPerHour, salaries, hoursOvertime, bonuses );
-		}
-	}
-
-
-	public static interface FullyLinkedBonusComputationFactory
-	{
-		public FullyLinkedBonusComputation newComputation( BonusData _data );
-	}
-
-
-	@ScaledLong(4)
-	public static interface FullyLinkedBonusComputation extends Resettable
-	{
-		FullyLinkedEmployeeBonusComputation[] employees();
-	}
-
-	// ---- FullyLinkedOutputs
-	@ScaledLong(4)
-	public static abstract class FullyLinkedEmployeeBonusComputation
-	{
-		private final FullyLinkedBonusComputation parent;
-
-		public FullyLinkedEmployeeBonusComputation( EmployeeBonusData _inputs, /**/FullyLinkedBonusComputation _parent/**/ ) 
-		{
-			super();
-			this.parent = _parent;
-		}
-		
-		public /**/FullyLinkedBonusComputation parent()/**/
-		{
-			return this.parent;
-		}
-		
-		public abstract long bonusAmount();
-	}
-	// ---- FullyLinkedOutputs
-
-
-	private void assertFullyLinkedBonuses( FullyLinkedBonusComputationFactory _factory, long _bonusTotal, long _overtimeSalaryPerHour,
-			long[] _salaries, int[] _hoursOvertime, long[] _expectedBonusAmounts )
-	{
-		BonusDataImpl data = new BonusDataImpl( _bonusTotal, _overtimeSalaryPerHour );
-		for (int i = 0; i < _salaries.length; i++) {
-			EmployeeBonusDataImpl emp = new EmployeeBonusDataImpl( _salaries[ i ], _hoursOvertime[ i ] );
-			data.addEmployee( emp );
-		}
-
-		// ---- consumeFullyLinkedOutputs
-		FullyLinkedBonusComputation /**/comp = _factory.newComputation( data )/**/;
-		FullyLinkedEmployeeBonusComputation[] /**/empOutputs = comp.employees()/**/;
-		for (int i = 0; i < _expectedBonusAmounts.length; i++) {
-			/**/assertSame( comp, empOutputs[ i ].parent() );/**/
-		}
-		// ---- consumeFullyLinkedOutputs
-		
-	}
-	
 }

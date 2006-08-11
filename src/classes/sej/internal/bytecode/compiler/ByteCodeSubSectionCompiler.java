@@ -84,6 +84,7 @@ final class ByteCodeSubSectionCompiler extends ByteCodeSectionCompiler
 	@Override
 	protected boolean callConstructorWithInputs( GeneratorAdapter _mv, int _inputsVar )
 	{
+		final int P_PARENT = 2;
 		
 		// try super( _inputs, _parent );
 		try {
@@ -100,10 +101,9 @@ final class ByteCodeSubSectionCompiler extends ByteCodeSectionCompiler
 		else {
 			_mv.visitInsn( Opcodes.ACONST_NULL );
 		}
-		_mv.loadThis();
-		_mv.getField( classType(), ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parentType() );
+		_mv.visitVarInsn( Opcodes.ALOAD, P_PARENT );
 		_mv.visitMethodInsn( Opcodes.INVOKESPECIAL, outputType().getInternalName(), "<init>", "("
-				+ inputType().getDescriptor() + parentType().getDescriptor() + ")V" );
+				+ inputType().getDescriptor() + parentSectionCompiler().outputType().getDescriptor() + ")V" );
 
 		return true;
 	}
