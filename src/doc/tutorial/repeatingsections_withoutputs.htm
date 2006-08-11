@@ -59,7 +59,7 @@
 
 <h2>Binding</h2>
 <p>Binding the sheet to this structure now becomes straightforward again. The main difference is that when binding the section, we bind both an input and an output method and target type:</p>
-<p>[jc:sej.tutorials.BonusPerEmployee:---- bindSections]</p>
+<p>[jc:sej.tutorials.BonusPerEmployee:---- bindSections; omit -- omit]</p>
 <p>The employee inputs are bound just as before:</p>
 <p>[jc:sej.tutorials.BonusPerEmployee:---- bindEmployeeInputs]</p>
 <p>Binding the employee output, the bonus amount, is similar in concept as binding its inputs. We simply use <tt>defineOutputCell</tt>:</p>
@@ -80,18 +80,18 @@
 <h2>Linking Outputs To Inputs</h2>
 <p>Note that in the setup shown above, we have no way of associating an employee output interface with its corresponding input interface other than by its position in the array (or collection, or iterator).</p>
 <p>We can change this in much the same way as to get access to the input data to provide <a href="bindcells.htm#Defaults">default output implementations</a>. Namely, by accepting the input data as the sole argument to the output type's constructor. To do this we have to change our employee output interface to an abstract class, of course. We can then expose an accessor for the input data value passed to our constructor:</p>
-<p>[jc:sej.tutorials.BonusPerEmployee:---- LinkedOutputs]</p>
+<p>[jc:sej.tutorials.BonusPerEmployee_Linked:---- Outputs]</p>
 <p>Now we have the desired association:</p>
-<p>[jc:sej.tutorials.BonusPerEmployee:---- consumeLinkedOutputs]</p>
+<p>[jc:sej.tutorials.BonusPerEmployee_Linked:---- consumeOutputs]</p>
 
 <h2>Linking Outputs To Parent Outputs</h2>
 <p>In your constructor, you can also get the parent section's output object in case you need to access it in your default implementations. Here's how:</p>
-<p>[jc:sej.tutorials.BonusPerEmployee:---- FullyLinkedOutputs]</p>
+<p>[jc:sej.tutorials.BonusPerEmployee_FullyLinked:---- Outputs]</p>
 <p>Note that if you need to get the parent, you must also specify the input object as a constructor parameter. Here's the effect at runtime:</p>
-<p>[jc:sej.tutorials.BonusPerEmployee:---- consumeFullyLinkedOutputs]</p>        </div>
+<p>[jc:sej.tutorials.BonusPerEmployee_FullyLinked:---- consumeOutputs]</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 10.08.2006.</p>        </div>
+<br/>Last updated on 11.08.2006.</p>        </div>
     </div>
 </body>
 </html>

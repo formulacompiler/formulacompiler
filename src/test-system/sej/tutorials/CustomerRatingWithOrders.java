@@ -40,6 +40,7 @@ import junit.framework.TestCase;
 
 public class CustomerRatingWithOrders extends TestCase
 {
+	private static final boolean JRE14 = System.getProperty( "java.version" ).startsWith( "1.4." );
 	private static final String SHEETPATH = "src/test-system/testdata/sej/tutorials/CustomerRating.xls";
 
 	private static enum AccessorVersion
@@ -58,7 +59,7 @@ public class CustomerRatingWithOrders extends TestCase
 
 	public void testCustomerRatingWithIterable() throws Exception
 	{
-		doTestCustomerRating( AccessorVersion.ITERABLE );
+		if (!JRE14) doTestCustomerRating( AccessorVersion.ITERABLE );
 	}
 
 	public void testCustomerRatingWithIterator() throws Exception
