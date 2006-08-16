@@ -172,6 +172,9 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 					_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "divide", BII2B );
 				}
 				else {
+					if (ByteCodeEngineCompiler.JRE14) {
+						throw new CompilerException.UnsupportedOperator( "Cannot divide unscaled BigDecimals on JRE 1.4." );
+					}
 					_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "divide", B2B );
 				}
 				break;
