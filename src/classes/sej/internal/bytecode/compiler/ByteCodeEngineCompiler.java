@@ -28,7 +28,9 @@ import java.math.BigInteger;
 import java.util.HashMap;
 
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.CompilerException;
 import sej.SaveableEngine;
@@ -46,6 +48,7 @@ import sej.runtime.Resettable;
 
 public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 {
+	static final boolean JRE14 = System.getProperty( "java.version" ).startsWith( "1.4." );
 
 	// ------------------------------------------------ Configuration & Factory
 
@@ -89,7 +92,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 	static final Type MATH_CLASS = Type.getType( Math.class );
 	static final Type BIGDECIMAL_CLASS = Type.getType( BigDecimal.class );
 	static final Type BIGINTEGER_CLASS = Type.getType( BigInteger.class );
-	
+
 	static final Type ILLEGALARGUMENT_CLASS = Type.getType( IllegalArgumentException.class );
 
 	private final boolean canCache;
@@ -275,6 +278,42 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		}
 		catch (IOException e) {
 			// just eat it
+		}
+	}
+
+
+	// ------------------------------------------------ Utilities
+
+
+	/**
+	 * Compiles a call to "static Boxed Boxed.valueOf( unboxed )" taking into account
+	 * Retrotranslator's type extensions.
+	 */
+	public static void compileValueOf( GeneratorAdapter _mv, String _internalClassName, String _signature, Class _paramClass )
+	{
+		if (JRE14) {
+			
+			try {
+				final Class cls = ClassLoader.getSystemClassLoader().loadClass( _internalClassName.replace( '/', '.' ));
+				cls.getMethod( "valueOf", _paramClass );
+				_mv.visitMethodInsn( Opcodes.INVOKESTATIC, _internalClassName, "valueOf", _signature );
+			}
+			catch (ClassNotFoundException e) {
+				throw new IllegalArgumentException( e );
+			}
+			catch (SecurityException e) {
+				throw new IllegalArgumentException( e );
+			}
+			catch (NoSuchMethodException e) {
+				final int posOfLastSlash = _internalClassName.lastIndexOf( '/' );
+				final String packagePath = _internalClassName.substring( 0, posOfLastSlash + 1 );
+				final String className = _internalClassName.substring( posOfLastSlash + 1 );
+				final String internalRetroClassName = "net/sf/retrotranslator/runtime/" + packagePath + "_" + className;
+				_mv.visitMethodInsn( Opcodes.INVOKESTATIC, internalRetroClassName, "valueOf", _signature );
+			}
+		}
+		else {
+			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, _internalClassName, "valueOf", _signature );
 		}
 	}
 

@@ -212,7 +212,7 @@ abstract class ByteCodeNumericType
 				if (scale != null && scale.value() != 0) {
 					if (compileFromNum( _mv, scale )) {
 						if (returnType == Long.class) {
-							_mv.visitMethodInsn( Opcodes.INVOKESTATIC, LONG_CLASS.getInternalName(), "valueOf", J2LONG );
+							ByteCodeEngineCompiler.compileValueOf( _mv, "java/lang/Long", J2LONG, Long.TYPE );
 							_mv.visitInsn( Opcodes.ARETURN );
 						}
 						else {
@@ -239,15 +239,16 @@ abstract class ByteCodeNumericType
 		return false;
 	}
 
-	protected final boolean returnBoxedType( MethodVisitor _mv, Class _returnType, Class _unboxed, Class _boxed,
+	protected final boolean returnBoxedType( GeneratorAdapter _mv, Class _returnType, Class _unboxed, Class _boxed,
 			int... _conversionOpcodes )
 	{
 		if (_returnType == _boxed) {
 			convertUnboxed( _mv, _conversionOpcodes );
 			final Type unboxedType = Type.getType( _unboxed );
 			final Type boxedType = Type.getType( _boxed );
-			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, boxedType.getInternalName(), "valueOf", "("
-					+ unboxedType.getDescriptor() + ")" + boxedType.getDescriptor() );
+
+			ByteCodeEngineCompiler.compileValueOf( _mv, boxedType.getInternalName(), "("
+					+ unboxedType.getDescriptor() + ")" + boxedType.getDescriptor(), _unboxed );
 			_mv.visitInsn( Opcodes.ARETURN );
 			return true;
 		}
@@ -256,7 +257,7 @@ abstract class ByteCodeNumericType
 		}
 	}
 
-	protected boolean returnDualType( MethodVisitor _mv, Class _returnType, Class _unboxed, Class _boxed,
+	protected boolean returnDualType( GeneratorAdapter _mv, Class _returnType, Class _unboxed, Class _boxed,
 			int _returnOpcode, int... _conversionOpcodes )
 	{
 		if (_returnType == _unboxed) {
