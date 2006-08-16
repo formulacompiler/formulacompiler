@@ -363,6 +363,7 @@
 				</fileset>
 				<fileset dir="${build.test-system.dir}">
 					<include name="**/*Test*.class" />
+					<include name="sej/tutorials/*.class" />
 					<exclude name="**/Abstract*" />
 					<exclude name="**/*$*" />
 					<exclude name="**/*DeserializationTest.class" />
@@ -443,6 +444,7 @@
 				</fileset>
 				<fileset dir="${build.test-system14.dir}">
 					<include name="**/*Test*.class" />
+					<include name="sej/tutorials/*.class" />
 					<exclude name="**/Abstract*" />
 					<exclude name="**/*$*" />
 					<exclude name="**/*DeserializationTest.class" />

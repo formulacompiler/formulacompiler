@@ -20,6 +20,7 @@
  */
 package sej.runtime;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -47,17 +48,43 @@ public class SEJRuntime
 	 * Returns a new engine deserialized by a registered engine loader (see {@code register()}) - it
 	 * must have been saved using {@link sej.SaveableEngine#saveTo(java.io.OutputStream)}.
 	 * 
-	 * @param _stream is an input stream which must support the {@link InputStream#mark(int)}
-	 *           operation.
+	 * @param _stream is an input stream. If it does not support the {@link InputStream#mark(int)}
+	 *           operation, it is automatically wrapped within a {@link BufferedInputStream}.
 	 * @return The loaded engine.
 	 * 
 	 * @throws IOException
 	 * @throws EngineException
+	 * 
+	 * @see #loadEngine(sej.runtime.EngineLoader.Config, InputStream)
 	 */
 	public static Engine loadEngine( InputStream _stream ) throws IOException, EngineException
 	{
-		if (!_stream.markSupported()) throw new IllegalArgumentException( "mark() is not supported by input stream" );
-		return new ByteCodeEngineLoader().loadEngineData( _stream );
+		return loadEngine( new EngineLoader.Config(), _stream );
+	}
+
+	/**
+	 * Like {@link #loadEngine(InputStream)}, but with full configuration options.
+	 * 
+	 * @param _config is the engine loader configuration block.
+	 * @param _stream is an input stream. If it does not support the {@link InputStream#mark(int)}
+	 *           operation, it is automatically wrapped within a {@link BufferedInputStream}.
+	 * @return The loaded engine.
+	 * 
+	 * @throws IOException
+	 * @throws EngineException
+	 * 
+	 * @see #loadEngine(InputStream)
+	 */
+	public static Engine loadEngine( EngineLoader.Config _config, InputStream _stream ) throws IOException,
+			EngineException
+	{
+		InputStream input = _stream;
+		if (!_stream.markSupported()) {
+			input = new BufferedInputStream( input );
+		}
+		assert input.markSupported();
+
+		return new ByteCodeEngineLoader( _config ).loadEngineData( _stream );
 	}
 
 }

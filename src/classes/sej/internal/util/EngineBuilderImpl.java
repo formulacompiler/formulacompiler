@@ -50,6 +50,7 @@ public class EngineBuilderImpl implements EngineBuilder
 	private Method factoryMethod;
 	private SpreadsheetBinder binder;
 	private SpreadsheetByNameBinder byNameBinder;
+	private ClassLoader parentClassLoaderForEngine = ClassLoader.getSystemClassLoader();
 
 
 	// ------------------------------------------------ Numeric Type
@@ -297,11 +298,22 @@ public class EngineBuilderImpl implements EngineBuilder
 
 	// ------------------------------------------------ Compilation
 
+	
+	public ClassLoader getParentClassLoaderForEngine()
+	{
+		return this.parentClassLoaderForEngine;
+	}
+	
+	public void setParentClassLoaderForEngine( ClassLoader _value )
+	{
+		this.parentClassLoaderForEngine = _value;
+	}
+	
 
 	public SaveableEngine compile() throws CompilerException, EngineException
 	{
 		final SpreadsheetBinding binding = getBinder().getBinding();
-		return SEJ.compileEngine( binding, this.numericType, this.factoryClass, this.factoryMethod );
+		return SEJ.compileEngine( binding, this.numericType, this.factoryClass, this.factoryMethod, this.parentClassLoaderForEngine );
 	}
 
 

@@ -18,25 +18,48 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.runtime;
+package sej.runtime;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import sej.SaveableEngine;
-import sej.runtime.Engine;
-import sej.runtime.EngineException;
 
 
 /**
- * Interface for deserializing instances of the {@link Engine} class. Use an engine's
- * {@code register()} method to register it for use by
- * {@link sej.runtime.SEJRuntime#loadEngine(InputStream)}.
+ * Interface for deserializing instances of the {@link Engine} class.
  * 
  * @author peo
  */
 public interface EngineLoader
 {
+
+	/**
+	 * Configuration data for new instances of {@link EngineLoader}.
+	 * 
+	 * @author peo
+	 * 
+	 * @see SEJRuntime#loadEngine(sej.runtime.EngineLoader.Config, InputStream)
+	 */
+	public static class Config
+	{
+
+		/**
+		 * The parent class loader to use for the loaded engine.
+		 */
+		public ClassLoader parentClassLoader = ClassLoader.getSystemClassLoader();
+
+		/**
+		 * Validates the configuration for missing or improperly set values.
+		 * 
+		 * @throws IllegalArgumentException
+		 */
+		public void validate()
+		{
+			// no validation so far
+		}
+	}
+
 
 	/**
 	 * Loads an engine. It must have been saved using

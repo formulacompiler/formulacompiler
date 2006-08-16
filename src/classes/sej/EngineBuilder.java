@@ -235,6 +235,30 @@ public interface EngineBuilder
 
 
 	/**
+	 * Returns the parent class loader used for the compiled engine (which is itself class loader).
+	 * 
+	 * @return {@link ClassLoader#getSystemClassLoader()} if the value was never modified, or else
+	 *          the value you have last set.
+	 * 
+	 * @see #setParentClassLoaderForEngine(ClassLoader)
+	 * @see #compile()
+	 */
+	public ClassLoader getParentClassLoaderForEngine();
+
+	/**
+	 * Sets the parent class loader to be used for the compiled engine (which is itself a class
+	 * loader).
+	 * 
+	 * @param _value is the new parent class loader. It probably never makes sense to pass
+	 *           {@code null} here.
+	 * 
+	 * @see #getParentClassLoaderForEngine()
+	 * @see #compile()
+	 */
+	public void setParentClassLoaderForEngine( ClassLoader _value );
+
+
+	/**
 	 * Compiles an executable computation engine from the inputs to this builder. In particular, you
 	 * must have loaded a spreadsheet, set the input and output types, or the factory type, and bound
 	 * spreadsheet cells to methods.
@@ -242,7 +266,8 @@ public interface EngineBuilder
 	 * <p>
 	 * See the <a href="../../tutorial/basics.htm">tutorial</a> for details.
 	 * 
-	 * @return the compiled engine, ready to be used immediately, or saved to persistent storage for later use.
+	 * @return the compiled engine, ready to be used immediately, or saved to persistent storage for
+	 *         later use.
 	 * 
 	 * @throws CompilerException
 	 * @throws EngineException
@@ -252,6 +277,7 @@ public interface EngineBuilder
 	 * @see #setOutputClass(Class)
 	 * @see #setFactoryClass(Class)
 	 * @see #bindAllByName()
+	 * @see #setParentClassLoaderForEngine(ClassLoader)
 	 */
 	public SaveableEngine compile() throws CompilerException, EngineException;
 

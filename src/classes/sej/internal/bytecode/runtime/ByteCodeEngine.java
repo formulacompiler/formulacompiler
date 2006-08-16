@@ -37,9 +37,9 @@ public class ByteCodeEngine extends ClassLoader implements Engine
 	private final ComputationFactory factory;
 
 
-	public ByteCodeEngine(Map<String, byte[]> _classNamesAndBytes) throws EngineException
+	public ByteCodeEngine(ClassLoader _parentClassLoader, Map<String, byte[]> _classNamesAndBytes) throws EngineException
 	{
-		super();
+		super( _parentClassLoader );
 		assert _classNamesAndBytes != null;
 		this.classNamesAndBytes.putAll( _classNamesAndBytes );
 		try {

@@ -136,7 +136,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		factoryCompiler.collectClassNamesAndBytes( classNamesAndBytes );
 		rootCompiler.collectClassNamesAndBytes( classNamesAndBytes );
 
-		return new SaveableByteCodeEngine( classNamesAndBytes );
+		return new SaveableByteCodeEngine( getParentClassLoader(), classNamesAndBytes );
 	}
 
 

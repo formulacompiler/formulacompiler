@@ -57,6 +57,7 @@ public abstract class AbstractEngineCompiler implements EngineCompiler
 	private final NumericType numericType;
 	private final Class factoryClass;
 	private final Method factoryMethod;
+	private final ClassLoader parentClassLoader;
 
 
 	protected AbstractEngineCompiler(EngineCompiler.Config _config)
@@ -67,6 +68,7 @@ public abstract class AbstractEngineCompiler implements EngineCompiler
 		this.numericType = _config.numericType;
 		this.factoryClass = _config.factoryClass;
 		this.factoryMethod = _config.factoryMethod;
+		this.parentClassLoader = _config.parentClassLoader;
 	}
 
 
@@ -89,8 +91,13 @@ public abstract class AbstractEngineCompiler implements EngineCompiler
 	{
 		return this.factoryMethod;
 	}
+	
+	public ClassLoader getParentClassLoader()
+	{
+		return this.parentClassLoader;
+	}
 
-
+	
 	public abstract SaveableEngine compile() throws CompilerException, EngineException;
 
 
