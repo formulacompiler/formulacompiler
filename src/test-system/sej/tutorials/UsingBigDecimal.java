@@ -22,6 +22,7 @@ package sej.tutorials;
 
 import java.math.BigDecimal;
 
+import sej.CompilerException;
 import sej.EngineBuilder;
 import sej.SEJ;
 import sej.runtime.Engine;
@@ -29,6 +30,7 @@ import junit.framework.TestCase;
 
 public class UsingBigDecimal extends TestCase
 {
+	private static final boolean JRE14 = System.getProperty( "java.version" ).startsWith( "1.4." );
 	private static final String PATH = "src/test-system/testdata/sej/tutorials/UsingNumericTypes.xls";
 
 
@@ -86,34 +88,38 @@ public class UsingBigDecimal extends TestCase
 	public void testUsingBigDecimalN() throws Exception
 	{
 		String path = PATH;
-
-		EngineBuilder builder = SEJ.newEngineBuilder();
-		builder.loadSpreadsheet( path );
-		builder.setFactoryClass( Factory.class );
-		// ---- buildCompilerN
-		builder.setNumericType( /**/SEJ.getNumericType( BigDecimal.class )/**/ );
-		// ---- buildCompilerN
-		builder.bindAllByName();
-		Engine engine = builder.compile();
-		Factory factory = (Factory) engine.getComputationFactory();
-
-		{
-			// ---- checkResultNa
-			Output output = factory.newInstance( new Input( /**/4/**/ ) );
-			assertEquals( /**/"1.25"/**/, output.getResult().toPlainString() );
-			// ---- checkResultNa
-		}
-
-		// ---- checkResultNb
 		try {
-			Output output = factory.newInstance( new Input( /**/3/**/ ) );
-			output.getResult();
-			fail( "ArithmeticException expected" );
+			EngineBuilder builder = SEJ.newEngineBuilder();
+			builder.loadSpreadsheet( path );
+			builder.setFactoryClass( Factory.class );
+			// ---- buildCompilerN
+			builder.setNumericType( /**/SEJ.getNumericType( BigDecimal.class )/**/ );
+			// ---- buildCompilerN
+			builder.bindAllByName();
+				Engine engine = builder.compile();
+			Factory factory = (Factory) engine.getComputationFactory();
+	
+			{
+				// ---- checkResultNa
+				Output output = factory.newInstance( new Input( /**/4/**/ ) );
+				assertEquals( /**/"1.25"/**/, output.getResult().toPlainString() );
+				// ---- checkResultNa
+			}
+	
+			// ---- checkResultNb
+			try {
+				Output output = factory.newInstance( new Input( /**/3/**/ ) );
+				output.getResult();
+				fail( "ArithmeticException expected" );
+			}
+			catch (/**/ArithmeticException e/**/) {
+				assertEquals( "Non-terminating decimal expansion; no exact representable decimal result.", e.getMessage() );
+			}
+			// ---- checkResultNb
 		}
-		catch (/**/ArithmeticException e/**/) {
-			assertEquals( "Non-terminating decimal expansion; no exact representable decimal result.", e.getMessage() );
+		catch (CompilerException.UnsupportedOperator e) {
+			assertTrue( JRE14 ); // Unscaled BigDecimal.divide is not supported on JRE 1.4
 		}
-		// ---- checkResultNb
 	}
 
 
