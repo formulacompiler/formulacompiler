@@ -97,7 +97,8 @@ public class SEJ extends SEJRuntime
 	 * @throws IOException
 	 * @throws SpreadsheetException
 	 */
-	public static Spreadsheet loadSpreadsheet( File _file ) throws FileNotFoundException, IOException, SpreadsheetException
+	public static Spreadsheet loadSpreadsheet( File _file ) throws FileNotFoundException, IOException,
+			SpreadsheetException
 	{
 		return loadSpreadsheet( _file.getName(), new FileInputStream( _file ) );
 	}
@@ -245,25 +246,28 @@ public class SEJ extends SEJRuntime
 	 * @param _numericType see {@link sej.SpreadsheetCompiler.Config#numericType}.
 	 * @param _factoryClass see {@link sej.SpreadsheetCompiler.Config#factoryClass}.
 	 * @param _factoryMethod see {@link sej.SpreadsheetCompiler.Config#factoryMethod}.
+	 * @param _parentClassLoader see {@link sej.SpreadsheetCompiler.Config#parentClassLoader}.
 	 * @return the new instance.
 	 * 
 	 * @throws CompilerException
 	 * @throws EngineException
 	 */
 	public static SaveableEngine compileEngine( SpreadsheetBinding _binding, NumericType _numericType,
-			Class _factoryClass, Method _factoryMethod ) throws CompilerException, EngineException
+			Class _factoryClass, Method _factoryMethod, ClassLoader _parentClassLoader ) throws CompilerException,
+			EngineException
 	{
 		final SpreadsheetCompiler.Config cfg = new SpreadsheetCompiler.Config();
 		cfg.binding = _binding;
 		cfg.numericType = _numericType;
 		cfg.factoryClass = _factoryClass;
 		cfg.factoryMethod = _factoryMethod;
+		cfg.parentClassLoader = _parentClassLoader;
 		return newSpreadsheetCompiler( cfg ).compile();
 	}
 
 	/**
-	 * Same as {@link #compileEngine(SpreadsheetBinding, NumericType, Class, Method)}, leaving the
-	 * factory class and method unspecified.
+	 * Same as {@link #compileEngine(SpreadsheetBinding, NumericType, Class, Method, ClassLoader)},
+	 * leaving the factory class and method unspecified.
 	 */
 	public static SaveableEngine compileEngine( SpreadsheetBinding _binding, NumericType _numericType )
 			throws CompilerException, EngineException
@@ -349,7 +353,7 @@ public class SEJ extends SEJRuntime
 	 */
 	public static final NumericType DEFAULT_NUMERIC_TYPE = DOUBLE;
 
-	
+
 	// ------------------------------------------------ Util access for config records
 
 

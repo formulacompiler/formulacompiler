@@ -74,6 +74,11 @@ public interface SpreadsheetCompiler
 		public Method factoryMethod = null;
 
 		/**
+		 * The parent class loader to use for the compiled engine.
+		 */
+		public ClassLoader parentClassLoader = ClassLoader.getSystemClassLoader();
+
+		/**
 		 * Validates the configuration.
 		 * 
 		 * @throws IllegalArgumentException

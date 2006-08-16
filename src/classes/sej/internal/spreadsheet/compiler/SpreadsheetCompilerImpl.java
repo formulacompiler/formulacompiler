@@ -40,6 +40,7 @@ public class SpreadsheetCompilerImpl implements SpreadsheetCompiler
 	private final NumericType numericType;
 	private final Class factoryClass;
 	private final Method factoryMethod;
+	private final ClassLoader parentClassLoader;
 
 	
 	public SpreadsheetCompilerImpl(Config _config)
@@ -52,6 +53,7 @@ public class SpreadsheetCompilerImpl implements SpreadsheetCompiler
 		this.numericType = _config.numericType;
 		this.factoryClass = _config.factoryClass;
 		this.factoryMethod = _config.factoryMethod;
+		this.parentClassLoader = _config.parentClassLoader;
 	}
 
 
@@ -65,6 +67,7 @@ public class SpreadsheetCompilerImpl implements SpreadsheetCompiler
 		ecc.numericType = this.numericType;
 		ecc.factoryClass = this.factoryClass;
 		ecc.factoryMethod = this.factoryMethod;
+		ecc.parentClassLoader = this.parentClassLoader;
 		EngineCompiler ec = AbstractEngineCompiler.newInstance( ecc );
 
 		return ec.compile();

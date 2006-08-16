@@ -30,6 +30,17 @@
 <p>This is an unstructured journal regarding the development of SEJ. I use it to keep track of ideas, goals and discussion notes.</p>
 <p>Check the <a href="roadmap.htm">roadmap</a> for the current priorities, and the <a href="releasenotes.htm">release notes</a> for what's already been done.</p>
 
+<h2>August 15, 2006</h2>
+<p>Marcel and Dejan have found a problem with Abacus's own custom class loader and the way SEJ instantiates its engines. I need to add a configuration option to SEJ so you can specify the parent class loader for the engines. The easiest way would be to add static member to <tt>SEJRuntime</tt>. However, I generally don't like <tt>static</tt> config, because the decision of what is a singleton environment and what not should really reside with the application, not the library. So that leaves me with two options:</p>
+<ul compact class="compact">
+<li>pass the parent class loader to the engine compilation and loading methods, or</li>
+<li>make <tt>SEJRuntime</tt> and, consequently, <tt>SEJ</tt> instantiable classes instead of namespaces for a bunch of static methods.</li>
+</ul>
+<p>Since I don't like cluttering the compilation and loading methods with this parameter, and since there might be even more config values in the future, I attempted to take the second route. This meant an API change. But with only two external projects using SEJ so far, I decided to do it. Seems I was wrong, though.</p>
+<p>I quickly realized that this would mean having to make all the top-level doer classes newly hold a reference to the <tt>SEJ</tt> instance that created them. This, however, would couple together the entire range of subsystems of SEJ - clearly a bad thing. So I shall revert to adding a parameter.</p>
+<p>...</p>
+<p>Did this. And discovered, to my horror, that all my ant builds never ran the tutorial tests. The include filter did not catch them. I have changed that now and found that some of my type conversions do not work with JRE 1.4. So I need to fix this before I can get on with new features.</p>
+
 <h2>July 11, 2006</h2>
 <p>Picking up on the ideas from June 30, I added support for citing Excel spreadsheets to <a href="http://arrenbrecht.ch/jcite/">JCite</a>. Now the SEJ documentation has <a href="tutorial/repeatingsections.htm">example spreadsheets</a> in it that are automatically tested and nicely formatted with every release. Cool.</p>
 
@@ -542,7 +553,7 @@ void compileAnd( Node a, Node b, Label branch ) {
 <p>SEJ does not handle sums over nested bands properly. The user must model intermediate sums for every non-leaf band. I shall accept this as a known limitation for the moment and have <a href="doc/bands.html">documented</a> it.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 12.07.2006.</p>        </div>
+<br/>Last updated on 15.08.2006.</p>        </div>
     </div>
 </body>
 </html>

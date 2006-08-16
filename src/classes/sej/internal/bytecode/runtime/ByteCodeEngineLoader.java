@@ -28,13 +28,22 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import sej.internal.runtime.EngineLoader;
 import sej.runtime.Engine;
 import sej.runtime.EngineException;
+import sej.runtime.EngineLoader;
 
 public final class ByteCodeEngineLoader implements EngineLoader
 {
+	private final ClassLoader parentClassLoader;
 
+	
+	public ByteCodeEngineLoader(EngineLoader.Config _config)
+	{
+		super();
+		this.parentClassLoader = _config.parentClassLoader;
+	}
+
+	
 	public Engine loadEngineData( InputStream _stream ) throws IOException, EngineException
 	{
 		final Map<String, byte[]> classNamesAndBytes = new HashMap<String, byte[]>();
@@ -60,7 +69,7 @@ public final class ByteCodeEngineLoader implements EngineLoader
 			jarStream.close();
 		}
 
-		return new ByteCodeEngine( classNamesAndBytes );
+		return new ByteCodeEngine( this.parentClassLoader, classNamesAndBytes );
 	}
 
 }

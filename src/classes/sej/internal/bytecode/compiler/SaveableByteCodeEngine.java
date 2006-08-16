@@ -42,9 +42,9 @@ public class SaveableByteCodeEngine extends ByteCodeEngine implements SaveableEn
 {
 	
 
-	public SaveableByteCodeEngine(Map<String, byte[]> _classNamesAndBytes) throws EngineException
+	public SaveableByteCodeEngine(ClassLoader _parentClassLoader, Map<String, byte[]> _classNamesAndBytes) throws EngineException
 	{
-		super( _classNamesAndBytes );
+		super( _parentClassLoader, _classNamesAndBytes );
 	}
 
 	

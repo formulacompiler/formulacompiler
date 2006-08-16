@@ -43,6 +43,13 @@
 <li>Implemented <a href="tutorial/repeatingsections_withoutputs.htm">repeating sections with outputs</a>.</li>
 <li>Updated to <a href="http://jexcelapi.sourceforge.net/">JExcelAPI</a> version <a href="http://sourceforge.net/project/shownotes.php?release_id=413377&group_id=79926">2.6.0</a>, released on April 27, 2006.</li>
 <li>Improved structure of <a href="tutorial/index.htm">tutorial index</a>.</li>
+<li>Allow setting of a <a href="tutorial/customclassloader.htm">custom parent class loader</a> for compiled and loaded engines.</li>
+</ul>
+
+<h3>Fixed</h3>
+<ul class="spaced">
+<li>The Ant build script now runs the tutorial tests for both the current JRE and JRE 1.4. They fell through so far because their class names do not end in <tt>Test</tt> for easier citability.</li>
+<li>As a consequence of the above, I have fixed the automatic type conversions so that they run on JRE 1.4 (which lacks, for instance, <tt>static Byte valueOf(byte)</tt> in class <tt>Byte</tt>).</li>
 </ul>
 
 <h2>Release 0.6.1</h2>
@@ -215,7 +222,7 @@
 <p>This is the first release with the new API based on <a href="tutorial/binding.htm">binding cells to native types</a>. The interpreter has been dropped and replaced by a byte code compiler producing very fast code.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 11.08.2006.</p>        </div>
+<br/>Last updated on 16.08.2006.</p>        </div>
     </div>
 </body>
 </html>

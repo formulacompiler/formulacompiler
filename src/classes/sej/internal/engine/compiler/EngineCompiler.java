@@ -35,6 +35,7 @@ public interface EngineCompiler
 
 	public static class Config
 	{
+		public ClassLoader parentClassLoader = ClassLoader.getSystemClassLoader();
 		public ComputationModel model;
 		public NumericType numericType = SEJ.DEFAULT_NUMERIC_TYPE;
 		public Class factoryClass;
