@@ -34,7 +34,7 @@ import junit.framework.TestCase;
 
 public class TypeConversion extends TestCase
 {
-
+	private static final boolean JRE14 = System.getProperty( "java.version" ).startsWith( "1.4." );
 	private static final long ONE_DAY = 1000 * 60 * 60 * 24; // ms
 	private static final Date CREATION_TIME = new Date( 100 * ONE_DAY );
 
@@ -72,40 +72,59 @@ public class TypeConversion extends TestCase
 
 		// ---- checkAllTypes
 		// Native types
-		assertEquals( input.getByte() * 2, output.calcByte() );
-		assertEquals( input.getShort() * 2, output.calcShort() );
-		assertEquals( input.getInt() * 2, output.calcInt() );
-		assertEquals( input.getDouble() * 2, output.calcDouble(), 0.0001 );
-		assertEquals( input.getFloat() * 2, output.calcFloat(), 0.0001F );
-		assertEquals( !input.getBoolean(), output.calcBoolean() );
+		assertEquals( "1", input.getByte() * 2, output.calcByte() );
+		assertEquals( "2", input.getShort() * 2, output.calcShort() );
+		assertEquals( "3", input.getInt() * 2, output.calcInt() );
+		assertEquals( "4", input.getDouble() * 2, output.calcDouble(), 0.0001 );
+		assertEquals( "5", input.getFloat() * 2, output.calcFloat(), 0.0001F );
+		assertEquals( "6", !input.getBoolean(), output.calcBoolean() );
 
 		// Boxed native types
-		assertEquals( input.getByte() * 2, output.calcBoxedByte().byteValue() );
-		assertEquals( input.getShort() * 2, output.calcBoxedShort().shortValue() );
-		assertEquals( input.getInt() * 2, output.calcBoxedInt().intValue() );
-		assertEquals( input.getDouble() * 2, output.calcBoxedDouble().doubleValue(), 0.0001 );
-		assertEquals( input.getFloat() * 2, output.calcBoxedFloat().floatValue(), 0.0001F );
-		assertEquals( !input.getBoolean(), output.calcBoxedBoolean().booleanValue() );
+		assertEquals( "1a", input.getByte() * 2, output.calcBoxedByte().byteValue() );
+		assertEquals( "2a", input.getShort() * 2, output.calcBoxedShort().shortValue() );
+		assertEquals( "3a", input.getInt() * 2, output.calcBoxedInt().intValue() );
+		assertEquals( "4a", input.getDouble() * 2, output.calcBoxedDouble().doubleValue(), 0.0001 );
+		assertEquals( "5a", input.getFloat() * 2, output.calcBoxedFloat().floatValue(), 0.0001F );
+		assertEquals( "6a", !input.getBoolean(), output.calcBoxedBoolean().booleanValue() );
 
 		// Big types
-		assertEquals( Util.trimTrailingZerosAndPoint( input.getBigDecimal().add( BigDecimal.ONE ).toPlainString() ), Util
-				.trimTrailingZerosAndPoint( output.calcBigDecimal().toPlainString() ) );
-		assertEquals( Util.trimTrailingZerosAndPoint( input.getBigInteger().add( BigInteger.ONE ).toString() ), Util
-				.trimTrailingZerosAndPoint( output.calcBigInteger().toString() ) );
+		assertEquals( "1b", asString( input.getBigDecimal().add( BigDecimal.ONE ) ), 
+				asString( output.calcBigDecimal() ) );
+		assertEquals( "2b", asString( input.getBigInteger().add( new BigInteger( "1" ) ) ),
+				asString( output.calcBigInteger() ) );
 
 		// Date
-		assertEquals( input.getDate().getTime() + ONE_DAY, output.calcDate().getTime() );
+		assertEquals( "1c", input.getDate().getTime() + ONE_DAY, output.calcDate().getTime() );
 
 		// Scaled long
 		if (_truncatesAt4) {
-			assertEquals( input.getLong6() / 100 * 2 * 10, output.calcLong5() );
-			assertEquals( input.getLong6() / 100 * 2 * 10, output.calcBoxedLong5().longValue() );
+			assertEquals( "1d", input.getLong6() / 100 * 2 * 10, output.calcLong5() );
+			assertEquals( "2d", input.getLong6() / 100 * 2 * 10, output.calcBoxedLong5().longValue() );
 		}
 		else {
-			assertEquals( input.getLong6() * 2 / 10, output.calcLong5() );
-			assertEquals( input.getLong6() * 2 / 10, output.calcBoxedLong5().longValue() );
+			assertEquals( "1d", input.getLong6() * 2 / 10, output.calcLong5() );
+			assertEquals( "2d", input.getLong6() * 2 / 10, output.calcBoxedLong5().longValue() );
 		}
 		// ---- checkAllTypes
+	}
+	
+	private String asString( BigDecimal _value )
+	{
+		final String str = Util.trimTrailingZerosAndPoint( _value.toPlainString() );
+		if (JRE14) {
+			// JRE 1.4 is more imprecise with Double than is JRE 1.5+
+			final int posOfDec = str.indexOf( '.' );
+			if (posOfDec >= 0) {
+				final int maxLen = Math.min( posOfDec + 5, str.length() );
+				return Util.trimTrailingZerosAndPoint( str.substring( 0, maxLen )); 
+			}
+		}
+		return str;
+	}
+
+	private String asString( BigInteger _value )
+	{
+		return Util.trimTrailingZerosAndPoint( _value.toString() );
 	}
 
 

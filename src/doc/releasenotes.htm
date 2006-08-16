@@ -41,15 +41,17 @@
 <h3>Improvements</h3>
 <ul class="spaced">
 <li>Implemented <a href="tutorial/repeatingsections_withoutputs.htm">repeating sections with outputs</a>.</li>
-<li>Updated to <a href="http://jexcelapi.sourceforge.net/">JExcelAPI</a> version <a href="http://sourceforge.net/project/shownotes.php?release_id=413377&group_id=79926">2.6.0</a>, released on April 27, 2006.</li>
 <li>Improved structure of <a href="tutorial/index.htm">tutorial index</a>.</li>
 <li>Allow setting of a <a href="tutorial/customclassloader.htm">custom parent class loader</a> for compiled and loaded engines.</li>
+<li>Updated to <a href="http://jexcelapi.sourceforge.net/">JExcelAPI</a> version <a href="http://sourceforge.net/project/shownotes.php?release_id=413377&group_id=79926">2.6.0</a>, released on April 27, 2006.</li>
+<li>Updated to <a href="http://retrotranslator.sourceforge.net/">Retrotranslator</a> version <a href="http://sourceforge.net/project/showfiles.php?group_id=153566&package_id=170323&release_id=429628">1.0.7</a>, released on July 4, 2006.</li>
 </ul>
 
-<h3>Fixed</h3>
+<h3>Fixes</h3>
 <ul class="spaced">
 <li>The Ant build script now runs the tutorial tests for both the current JRE and JRE 1.4. They fell through so far because their class names do not end in <tt>Test</tt> for easier citability.</li>
 <li>As a consequence of the above, I have fixed the automatic type conversions so that they run on JRE 1.4 (which lacks, for instance, <tt>static Byte valueOf(byte)</tt> in class <tt>Byte</tt>).</li>
+<li>Also as a consequence of the above, unscaled <tt>BigDecimal</tt> division is no longer supported on JRE 1.4.</li>
 </ul>
 
 <h2>Release 0.6.1</h2>

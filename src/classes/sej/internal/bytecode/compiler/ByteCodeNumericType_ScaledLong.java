@@ -366,8 +366,8 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 				_mv.visitInsn( Opcodes.DRETURN );
 			}
 			else {
-				_mv.visitMethodInsn( Opcodes.INVOKESTATIC, DOUBLE_CLASS.getInternalName(), "valueOf", "(D)"
-						+ DOUBLE_CLASS.getDescriptor() );
+				ByteCodeEngineCompiler.compileValueOf( _mv, DOUBLE_CLASS.getInternalName(), "(D)"
+						+ DOUBLE_CLASS.getDescriptor(), Double.TYPE );
 				_mv.visitInsn( Opcodes.ARETURN );
 			}
 		}
@@ -385,16 +385,16 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 				_mv.visitInsn( Opcodes.FRETURN );
 			}
 			else {
-				_mv.visitMethodInsn( Opcodes.INVOKESTATIC, FLOAT_CLASS.getInternalName(), "valueOf", "(F)"
-						+ FLOAT_CLASS.getDescriptor() );
+				ByteCodeEngineCompiler.compileValueOf( _mv, FLOAT_CLASS.getInternalName(), "(F)"
+						+ FLOAT_CLASS.getDescriptor(), Float.TYPE );
 				_mv.visitInsn( Opcodes.ARETURN );
 			}
 		}
 
 		else if (_returnType == BigInteger.class) {
 			scaleDown( _mv );
-			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeEngineCompiler.BIGINTEGER_CLASS.getInternalName(),
-					"valueOf", "(J)" + ByteCodeEngineCompiler.BIGINTEGER_CLASS.getDescriptor() );
+			ByteCodeEngineCompiler.compileValueOf( _mv, ByteCodeEngineCompiler.BIGINTEGER_CLASS.getInternalName(), "(J)"
+					+ ByteCodeEngineCompiler.BIGINTEGER_CLASS.getDescriptor(), Long.TYPE );
 			_mv.visitInsn( Opcodes.ARETURN );
 		}
 

@@ -36,13 +36,13 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 import sej.CompilerException;
 import sej.NumericType;
 import sej.Operator;
+import sej.internal.BigDecimalHelper;
 import sej.internal.runtime.RuntimeBigDecimal_v1;
 import sej.internal.runtime.RuntimeDouble_v1;
 import sej.runtime.ScaledLong;
 
 final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 {
-	private static final boolean JRE14 = System.getProperty( "java.version" ).startsWith( "1.4." );
 	private static final String BNAME = ByteCodeEngineCompiler.BIGDECIMAL_CLASS.getInternalName();
 	private static final String B = ByteCodeEngineCompiler.BIGDECIMAL_CLASS.getDescriptor();
 	private static final String V2B = "()" + B;
@@ -104,8 +104,8 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 			final ClassWriter cw = compiler().cw();
 			final GeneratorAdapter ci = compiler().initializer();
 			result = "C$" + Integer.toString( this.constantPool.size() );
-			cw.visitField( Opcodes.ACC_STATIC + Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL, result, B, null,
-					null ).visitEnd();
+			cw.visitField( Opcodes.ACC_STATIC + Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL, result, B, null, null )
+					.visitEnd();
 			try {
 				final long longValue = Long.parseLong( _value );
 				ci.push( longValue );
@@ -114,7 +114,7 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 			}
 			catch (NumberFormatException e) {
 				final BigDecimal bigValue = new BigDecimal( _value );
-				if (!JRE14 && bigValue.precision() <= MAX_LONG_PREC) { // JRE 1.4 lacks "precision()"
+				if (!ByteCodeEngineCompiler.JRE14 && BigDecimalHelper.precision( bigValue ) <= MAX_LONG_PREC) { // JRE 1.4 lacks "precision()"
 					final long longValue = bigValue.unscaledValue().longValue();
 					ci.push( longValue );
 					ci.push( bigValue.scale() );
@@ -366,7 +366,7 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 		return true;
 	}
 
-	private boolean returnDualType( MethodVisitor _mv, Class _returnType, Class _unboxed, Class _boxed,
+	private boolean returnDualType( GeneratorAdapter _mv, Class _returnType, Class _unboxed, Class _boxed,
 			int _returnOpcode, String _valueGetterName )
 	{
 		if (_returnType == _unboxed) {
@@ -410,5 +410,5 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 	{
 		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "intValue", "()I" );
 	}
-	
+
 }

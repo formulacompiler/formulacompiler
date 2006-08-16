@@ -154,7 +154,7 @@ abstract class ByteCodeSectionMethodCompiler
 		}
 		else if (_type == Byte.class) {
 			mv().push( ((Number) _constantValue).byteValue() );
-			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Byte", "valueOf", "(B)Ljava/lang/Byte;" );
+			ByteCodeEngineCompiler.compileValueOf( mv(), "java/lang/Byte", "(B)Ljava/lang/Byte;", Byte.TYPE );
 		}
 
 		else if (_type == Short.TYPE) {
@@ -162,7 +162,7 @@ abstract class ByteCodeSectionMethodCompiler
 		}
 		else if (_type == Short.class) {
 			mv().push( ((Number) _constantValue).shortValue() );
-			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Short", "valueOf", "(S)Ljava/lang/Short;" );
+			ByteCodeEngineCompiler.compileValueOf( mv(), "java/lang/Short", "(S)Ljava/lang/Short;", Short.TYPE );
 		}
 
 		else if (_type == Integer.TYPE) {
@@ -170,7 +170,7 @@ abstract class ByteCodeSectionMethodCompiler
 		}
 		else if (_type == Integer.class) {
 			mv().push( ((Number) _constantValue).intValue() );
-			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Integer", "valueOf", "(I)Ljava/lang/Integer;" );
+			ByteCodeEngineCompiler.compileValueOf( mv(), "java/lang/Integer", "(I)Ljava/lang/Integer;", Integer.TYPE );
 		}
 
 		else if (_type == Long.TYPE) {
@@ -178,7 +178,7 @@ abstract class ByteCodeSectionMethodCompiler
 		}
 		else if (_type == Long.class) {
 			mv().push( ((Number) _constantValue).longValue() );
-			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Long", "valueOf", "(J)Ljava/lang/Long;" );
+			ByteCodeEngineCompiler.compileValueOf( mv(), "java/lang/Long", "(J)Ljava/lang/Long;", Long.TYPE );
 		}
 
 		else if (_type == Double.TYPE) {
@@ -186,7 +186,7 @@ abstract class ByteCodeSectionMethodCompiler
 		}
 		else if (_type == Double.class) {
 			mv().push( ((Number) _constantValue).doubleValue() );
-			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Double", "valueOf", "(D)Ljava/lang/Double;" );
+			ByteCodeEngineCompiler.compileValueOf( mv(), "java/lang/Double", "(D)Ljava/lang/Double;", Double.TYPE );
 		}
 
 		else if (_type == Float.TYPE) {
@@ -194,7 +194,7 @@ abstract class ByteCodeSectionMethodCompiler
 		}
 		else if (_type == Float.class) {
 			mv().push( ((Number) _constantValue).floatValue() );
-			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Float", "valueOf", "(F)Ljava/lang/Float;" );
+			ByteCodeEngineCompiler.compileValueOf( mv(), "java/lang/Float", "(F)Ljava/lang/Float;", Float.TYPE );
 		}
 
 		else if (_type == Character.TYPE) {
@@ -202,7 +202,7 @@ abstract class ByteCodeSectionMethodCompiler
 		}
 		else if (_type == Character.class) {
 			mv().push( ((Character) _constantValue).charValue() );
-			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Character", "valueOf", "(C)Ljava/lang/Character;" );
+			ByteCodeEngineCompiler.compileValueOf( mv(), "java/lang/Character", "(C)Ljava/lang/Character;", Character.TYPE );
 		}
 
 		else if (_type == Boolean.TYPE) {
@@ -210,7 +210,7 @@ abstract class ByteCodeSectionMethodCompiler
 		}
 		else if (_type == Boolean.class) {
 			mv().push( ((Boolean) _constantValue).booleanValue() );
-			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;" );
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;" ); // I know JRE 1.4 handles this
 		}
 
 		else if (_type == String.class) {
@@ -422,7 +422,7 @@ abstract class ByteCodeSectionMethodCompiler
 			case INDEX:
 				compileHelpedExpr( new ByteCodeHelperCompilerForIndex( section(), _node ) );
 				break;
-				
+
 			case MATCH:
 				compileHelpedExpr( new ByteCodeHelperCompilerForMatch( section(), _node ) );
 				break;
@@ -783,7 +783,7 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	private void compileCount( ExpressionNodeForAggregator _node ) 
+	private void compileCount( ExpressionNodeForAggregator _node )
 	{
 		long statics = 0;
 		for (ExpressionNode arg : _node.arguments()) {
