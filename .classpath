@@ -24,11 +24,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry path="lib/java-cup-runtime-v10k.jar" kind="lib"/>
-	<classpathentry path="lib/jdom.jar" kind="lib">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/J:/jdom-1.0/build/apidocs/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"/>
 	<classpathentry path="org.eclipse.jdt.USER_LIBRARY/JUnit" kind="con"/>
 	<classpathentry path="build/dev" kind="output"/>

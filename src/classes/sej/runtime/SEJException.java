@@ -28,6 +28,7 @@ package sej.runtime;
  */
 public class SEJException extends Exception
 {
+	private String messageContext;
 
 	public SEJException()
 	{
@@ -47,6 +48,38 @@ public class SEJException extends Exception
 	public SEJException(Throwable _cause)
 	{
 		super( _cause );
+	}
+
+	@Override
+	public String getMessage()
+	{
+		final String cx = getMessageContext();
+		if (cx == null) {
+			return super.getMessage();
+		}
+		else {
+			return super.getMessage() + cx;
+		}
+	}
+	
+	public String getMessageContext()
+	{
+		return this.messageContext;
+	}
+	
+	public void setMessageContext( String _messageContext )
+	{
+		this.messageContext = _messageContext;
+	}
+
+	public void addMessageContext( String _messageContext )
+	{
+		if (null == this.messageContext) {
+			this.messageContext = _messageContext;
+		}
+		else {
+			this.messageContext += _messageContext;
+		}
 	}
 
 }

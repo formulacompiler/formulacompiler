@@ -51,36 +51,50 @@ final class ByteCodeCellCompiler extends ByteCodeSectionNumericMethodCompiler
 	{
 		final CellModel cell = this.cellComputation.getCell();
 
-		if (cell.isOutput()) {
-			compileOutputGetter();
-		}
+		try {
 
-		if (cell.isInput()) {
-			if (shouldCache( cell )) {
-				compileCacheBegin();
-				compileNumericInput( cell.getCallChainToCall() );
-				compileCacheEnd();
+			if (cell.isOutput()) {
+				compileOutputGetter();
 			}
-			else {
-				compileNumericInput( cell.getCallChainToCall() );
-			}
-		}
-		else {
-			final ExpressionNode cellExpr = cell.getExpression();
-			if (null != cellExpr) {
+
+			if (cell.isInput()) {
 				if (shouldCache( cell )) {
 					compileCacheBegin();
-					compileExpr( cellExpr );
+					compileNumericInput( cell.getCallChainToCall() );
 					compileCacheEnd();
 				}
 				else {
-					compileExpr( cellExpr );
+					compileNumericInput( cell.getCallChainToCall() );
 				}
 			}
 			else {
-				final Object constantValue = cell.getConstantValue();
-				compileConst( constantValue );
+				final ExpressionNode cellExpr = cell.getExpression();
+				if (null != cellExpr) {
+					try {
+						if (shouldCache( cell )) {
+							compileCacheBegin();
+							compileExpr( cellExpr );
+							compileCacheEnd();
+						}
+						else {
+							compileExpr( cellExpr );
+						}
+					}
+					catch (CompilerException e) {
+						e.addMessageContext( " Expression containing error is " + cellExpr + "." );
+						throw e;
+					}
+				}
+				else {
+					final Object constantValue = cell.getConstantValue();
+					compileConst( constantValue );
+				}
 			}
+
+		}
+		catch (CompilerException e) {
+			e.addMessageContext( " Cell containing error is " + cell + "." );
+			throw e;
 		}
 	}
 

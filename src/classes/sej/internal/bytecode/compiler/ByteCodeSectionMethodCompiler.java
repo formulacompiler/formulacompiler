@@ -855,7 +855,7 @@ abstract class ByteCodeSectionMethodCompiler
 
 	private void compileRef( ExpressionNodeForSubSectionModel _node ) throws CompilerException
 	{
-		unsupported( _node );
+		throw new CompilerException.ReferenceToInnerCellNotAggregated( "Cannot reference an inner cell of a section from an outer cell without aggregating it." );
 	}
 
 
