@@ -101,22 +101,29 @@ public interface EngineBuilder
 
 	/**
 	 * Returns the application-specific type defining the methods which input cells can call.
+	 * 
+	 * @see #setInputClass(Class)
 	 */
 	public Class getInputClass();
 
 	/**
 	 * Sets the application-specific type defining the methods which input cells can call. Must be
 	 * {@code public}. Can only be left {@code null} if a factory type is provided (see
-	 * {@link #setFactoryClass(Class)}), from which it is then inferred.
+	 * {@link #setFactoryClass(Class)}), from which it is then inferred. If the factory method is
+	 * provided, then this class must be assignable from the factory method's single argument.
 	 * 
 	 * <p>
 	 * See the <a href="../../tutorial/basics.htm#Convention">tutorial</a> for details.
+	 * 
+	 * @see #setFactoryMethod(Method)
 	 */
 	public void setInputClass( Class _inputClass );
 
 
 	/**
 	 * Returns the application-specific type defining the methods which output cells can implement.
+	 * 
+	 * @see #setOutputClass(Class)
 	 */
 	public Class getOutputClass();
 
@@ -125,16 +132,21 @@ public interface EngineBuilder
 	 * class, then the generated computation extends this class. If an interface, then the generated
 	 * computation implements this interface. Must be {@code public}. Can only be left {@code null}
 	 * if a factory type is provided (see {@link #setFactoryClass(Class)}), from which it is then
-	 * inferred.
+	 * inferred. If the factory method is set, then the factory method's return type must be
+	 * assignable from this class.
 	 * 
 	 * <p>
 	 * See the <a href="../../tutorial/basics.htm#Convention">tutorial</a> for details.
+	 * 
+	 * @see #setFactoryMethod(Method)
 	 */
 	public void setOutputClass( Class _outputClass );
 
 
 	/**
 	 * Returns the application-specific type to be used for the generated factory.
+	 * 
+	 * @see #setFactoryClass(Class)
 	 */
 	public Class getFactoryClass();
 
@@ -157,6 +169,8 @@ public interface EngineBuilder
 
 	/**
 	 * Returns the application-specific factory method.
+	 * 
+	 * @see #setFactoryMethod(Method)
 	 */
 	public Method getFactoryMethod();
 
@@ -172,8 +186,10 @@ public interface EngineBuilder
 	 * 
 	 * <p>
 	 * If you don't specify the input and output types, then they are inferred from this factory
-	 * method. If you do, then they must be the type of the first argument, and the return type of
-	 * this factory method, respectively.
+	 * method. If you do, then they must be compatible with the type of the single argument and the
+	 * return type of this factory method, respectively. More precisely, the input type must be
+	 * assignable from the type of the single argument, and the return type must be assignable from
+	 * the output type.
 	 * 
 	 * <p>
 	 * See the <a href="../../tutorial/basics.htm#Convention">tutorial</a> for details.
@@ -238,7 +254,7 @@ public interface EngineBuilder
 	 * Returns the parent class loader used for the compiled engine (which is itself class loader).
 	 * 
 	 * @return {@link ClassLoader#getSystemClassLoader()} if the value was never modified, or else
-	 *          the value you have last set.
+	 *         the value you have last set.
 	 * 
 	 * @see #setParentClassLoaderForEngine(ClassLoader)
 	 * @see #compile()

@@ -116,11 +116,11 @@ public class BindingCells extends TestCase
 
 
 	// ---- OutputWithDefaults
-	public static abstract class OutputWithDefault 
+	public static abstract class OutputWithDefault /**/implements Output/**/ 
 	{
 		private final Input input;
 
-		public OutputWithDefault(Input _input)
+		public OutputWithDefault(/**/Input _input/**/)
 		{
 			super();
 			this.input = _input;
@@ -130,10 +130,45 @@ public class BindingCells extends TestCase
 
 		public double getCoefficient()
 		{
-			return this.input.getSomeValue() * 0.02;
+			return /**/this.input.getSomeValue()/**/ * 0.02;
 		}
 	}
 	// ---- OutputWithDefaults
+
+	// ---- Factory
+	public static interface Factory
+	{
+		/**/Output/**/ newInstance( Input _input );
+	}
+	// ---- Factory
+	
+	public void testDefaults() throws Exception
+	{
+		final String path = "src/test-system/testdata/sej/tutorials/BindingCells.xls";
+
+		// ---- setupBuilderWithDefaults
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.loadSpreadsheet( path );
+		/**/builder.setFactoryClass( Factory.class );/**/
+		/**/builder.setOutputClass( OutputWithDefault.class );/**/
+		// ---- setupBuilderWithDefaults
+		builder.createCellNamesFromRowTitles();
+		Spreadsheet spreadsheet = builder./**/getSpreadsheet()/**/;
+		SpreadsheetBinder.Section binder = builder./**/getRootBinder/**/();
+
+		Method method;
+		Spreadsheet.Cell cell;
+
+		cell = spreadsheet.getCell( "RESULT" );
+		method = Output.class.getMethod( "getResult" );
+		binder.defineOutputCell( cell, new CallFrame( method ) );
+		
+		Factory factory = (Factory) builder.compile().getComputationFactory();
+		Input input = new InputImpl();
+		Output output = factory.newInstance( input );
+		
+		assertEquals( input.getSomeValue() * 0.02, output.getCoefficient(), 0.00001 );
+	}
 
 	
 	private static class InputImpl implements Input
