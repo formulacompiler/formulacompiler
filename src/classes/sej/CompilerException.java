@@ -280,4 +280,21 @@ public class CompilerException extends SEJException
 	}
 
 
+	/**
+	 * An outer cell references an inner cell of a section without aggregating it. For example,
+	 * {@code A2 = A1} is illegal if A1 is within a section, but A2 is not. The aggregation
+	 * {@code A2 = sum(A1)} would be legal.
+	 * 
+	 * @author peo
+	 */
+	public static final class ReferenceToInnerCellNotAggregated extends CompilerException
+	{
+
+		public ReferenceToInnerCellNotAggregated(String _message)
+		{
+			super( _message );
+		}
+
+	}
+
 }
