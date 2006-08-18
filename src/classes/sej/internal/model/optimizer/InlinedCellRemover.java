@@ -27,7 +27,7 @@ import sej.internal.model.AbstractComputationModelVisitor;
 import sej.internal.model.CellModel;
 import sej.internal.model.SectionModel;
 
-public class InlinedCellRemover extends AbstractComputationModelVisitor
+final class InlinedCellRemover extends AbstractComputationModelVisitor
 {
 	
 	

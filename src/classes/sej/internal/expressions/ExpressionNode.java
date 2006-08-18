@@ -32,6 +32,7 @@ import sej.describable.DescriptionBuilder;
 public abstract class ExpressionNode extends AbstractDescribable
 {
 	private List<ExpressionNode> arguments = new ArrayList<ExpressionNode>();
+	private DataType dataType;
 
 
 	protected ExpressionNode()
@@ -77,6 +78,17 @@ public abstract class ExpressionNode extends AbstractDescribable
 		return result;
 	}
 
+
+	public DataType getDataType()
+	{
+		return this.dataType;
+	}
+	
+	public void setDataType( DataType _dataType )
+	{
+		this.dataType = _dataType;
+	}
+	
 
 	public abstract ExpressionNode cloneWithoutArguments();
 
@@ -128,5 +140,6 @@ public abstract class ExpressionNode extends AbstractDescribable
 			describeArgumentListTo( _d );
 		}
 	}
+
 
 }

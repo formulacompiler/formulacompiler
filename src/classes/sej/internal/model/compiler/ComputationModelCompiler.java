@@ -30,6 +30,7 @@ import sej.SpreadsheetBinding;
 import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;
 import sej.internal.model.SectionModel;
+import sej.internal.model.analysis.TypeAnnotator;
 import sej.internal.model.optimizer.ConstantSubExpressionEliminator;
 import sej.internal.model.optimizer.IntermediateResultsInliner;
 import sej.internal.model.util.InterpretedNumericType;
@@ -67,6 +68,7 @@ public class ComputationModelCompiler
 		buildNewModel();
 		eliminateConstantSubExpressions();
 		inlineIntermediateResults();
+		annotateTypes();
 		return this.computationModel;
 	}
 
@@ -189,6 +191,11 @@ public class ComputationModelCompiler
 	private void inlineIntermediateResults() throws CompilerException
 	{
 		this.computationModel.traverse( new IntermediateResultsInliner() );
+	}
+	
+	private void annotateTypes() throws CompilerException
+	{
+		this.computationModel.traverse( new TypeAnnotator() );
 	}
 
 

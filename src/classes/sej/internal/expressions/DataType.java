@@ -18,26 +18,10 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.model;
+package sej.internal.expressions;
 
-import sej.internal.expressions.ExpressionNode;
+public enum DataType {
 
-public abstract class ExpressionNodeForSectionModel extends ExpressionNode
-{
-	private final SectionModel sectionModel;
-
-
-	public ExpressionNodeForSectionModel(SectionModel _sectionModel, ExpressionNode... _args)
-	{
-		super( _args );
-		this.sectionModel = _sectionModel;
-	}
-
-
-	public SectionModel getSectionModel()
-	{
-		return this.sectionModel;
-	}
-
-
+	NUMERIC, STRING, NULL;
+	
 }
