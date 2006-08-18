@@ -41,7 +41,7 @@ import sej.internal.runtime.RuntimeLong_v1;
 import sej.runtime.ScaledLong;
 import sej.runtime.ScaledLongSupport;
 
-final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
+final class NumericTypeCompiler_ScaledLong extends NumericTypeCompiler
 {
 	private static final Type DOUBLE_CLASS = Type.getType( Double.class );
 	private static final Type FLOAT_CLASS = Type.getType( Float.class );
@@ -60,7 +60,7 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 	private final NumericType num;
 	private final long one;
 
-	ByteCodeNumericType_ScaledLong(NumericType _type, ByteCodeSectionCompiler _compiler)
+	NumericTypeCompiler_ScaledLong(NumericType _type, SectionCompiler _compiler)
 	{
 		super( _type, _compiler );
 		this.num = _type;
@@ -437,7 +437,7 @@ final class ByteCodeNumericType_ScaledLong extends ByteCodeNumericType
 	}
 
 	@Override
-	protected boolean compileFromNum( GeneratorAdapter _mv, ScaledLong _scale )
+	protected boolean compileFromNumToScaledLong( GeneratorAdapter _mv, ScaledLong _scale )
 	{
 		compileScaleCorrection( _mv, getScale(), _scale.value() );
 		return true;

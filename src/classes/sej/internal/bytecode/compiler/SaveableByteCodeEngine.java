@@ -38,7 +38,7 @@ import sej.runtime.EngineException;
  * 
  * @author peo
  */
-public class SaveableByteCodeEngine extends ByteCodeEngine implements SaveableEngine
+final class SaveableByteCodeEngine extends ByteCodeEngine implements SaveableEngine
 {
 	
 

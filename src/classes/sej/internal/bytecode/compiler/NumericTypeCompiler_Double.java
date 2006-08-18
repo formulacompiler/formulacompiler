@@ -35,10 +35,10 @@ import sej.internal.runtime.RuntimeDouble_v1;
 import sej.runtime.ScaledLong;
 import sej.runtime.ScaledLongSupport;
 
-final class ByteCodeNumericType_Double extends ByteCodeNumericType
+final class NumericTypeCompiler_Double extends NumericTypeCompiler
 {
 
-	ByteCodeNumericType_Double(NumericType _type, ByteCodeSectionCompiler _compiler)
+	NumericTypeCompiler_Double(NumericType _type, SectionCompiler _compiler)
 	{
 		super( _type, _compiler );
 	}
@@ -219,7 +219,11 @@ final class ByteCodeNumericType_Double extends ByteCodeNumericType
 		;
 		else if (returnBoxedType( _mv, _returnType, Long.TYPE, BigInteger.class, Opcodes.D2L ))
 		;
-
+		
+		else if (_returnType == String.class) {
+			_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/Double", "toString", "(D)Ljava/lang/String;" );
+			_mv.visitInsn( Opcodes.ARETURN );
+		}
 		else {
 			return false;
 		}
@@ -236,7 +240,7 @@ final class ByteCodeNumericType_Double extends ByteCodeNumericType
 	}
 
 	@Override
-	protected boolean compileFromNum( GeneratorAdapter _mv, ScaledLong _scale )
+	protected boolean compileFromNumToScaledLong( GeneratorAdapter _mv, ScaledLong _scale )
 	{
 		_mv.push( ScaledLongSupport.ONE[ _scale.value() ] );
 		compileRuntimeMethod( _mv, "toScaledLong", "(DJ)J" );

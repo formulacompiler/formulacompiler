@@ -160,6 +160,8 @@ public abstract class NumericTypeImpl implements NumericType
 		if (BigInteger.class == returnType) return;
 		if (BigDecimal.class == returnType) return;
 		
+		if (String.class == returnType) return;
+		
 		throw new CompilerException.UnsupportedDataType( "The method " + _method + " has an unsupported return type" );
 	}
 

@@ -37,7 +37,7 @@ import sej.internal.NumericTypeImpl;
 import sej.runtime.ScaledLong;
 
 
-abstract class ByteCodeNumericType
+abstract class NumericTypeCompiler
 {
 	protected static final Type BOOLEAN_CLASS = Type.getType( Boolean.class );
 	protected static final Type BOOLEAN_TYPE = Type.BOOLEAN_TYPE;
@@ -50,26 +50,26 @@ abstract class ByteCodeNumericType
 	protected final static String N = NUMBER_CLASS.getDescriptor();
 
 	private final NumericTypeImpl num;
-	private final ByteCodeSectionCompiler compiler;
+	private final SectionCompiler compiler;
 
 
-	ByteCodeNumericType(NumericType _type, ByteCodeSectionCompiler _compiler)
+	NumericTypeCompiler(NumericType _type, SectionCompiler _compiler)
 	{
 		super();
 		this.num = (NumericTypeImpl) _type;
 		this.compiler = _compiler;
 	}
 
-	static ByteCodeNumericType typeFor( NumericType _type, ByteCodeSectionCompiler _compiler )
+	static NumericTypeCompiler typeFor( NumericType _type, SectionCompiler _compiler )
 	{
 		if (Double.TYPE == _type.getValueType()) {
-			return new ByteCodeNumericType_Double( _type, _compiler );
+			return new NumericTypeCompiler_Double( _type, _compiler );
 		}
 		else if (Long.TYPE == _type.getValueType()) {
-			return new ByteCodeNumericType_ScaledLong( _type, _compiler );
+			return new NumericTypeCompiler_ScaledLong( _type, _compiler );
 		}
 		else if (BigDecimal.class == _type.getValueType()) {
-			return new ByteCodeNumericType_BigDecimal( _type, _compiler );
+			return new NumericTypeCompiler_BigDecimal( _type, _compiler );
 		}
 		else {
 			throw new IllegalArgumentException( "Unsupported numeric type for byte code compilation." );
@@ -82,7 +82,7 @@ abstract class ByteCodeNumericType
 		return this.num;
 	}
 
-	ByteCodeSectionCompiler compiler()
+	SectionCompiler compiler()
 	{
 		return this.compiler;
 	}
@@ -210,7 +210,7 @@ abstract class ByteCodeNumericType
 			if (returnType == Long.TYPE || returnType == Long.class) {
 				final ScaledLong scale = scaleOf( _method );
 				if (scale != null && scale.value() != 0) {
-					if (compileFromNum( _mv, scale )) {
+					if (compileFromNumToScaledLong( _mv, scale )) {
 						if (returnType == Long.class) {
 							ByteCodeEngineCompiler.compileValueOf( _mv, "java/lang/Long", J2LONG, Long.TYPE );
 							_mv.visitInsn( Opcodes.ARETURN );
@@ -234,7 +234,7 @@ abstract class ByteCodeNumericType
 
 	protected abstract boolean compileReturnFromNum( GeneratorAdapter _mv, Class _returnType );
 
-	protected boolean compileFromNum( GeneratorAdapter _mv, ScaledLong _scale )
+	protected boolean compileFromNumToScaledLong( GeneratorAdapter _mv, ScaledLong _scale )
 	{
 		return false;
 	}

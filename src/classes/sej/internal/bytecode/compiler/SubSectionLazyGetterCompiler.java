@@ -32,17 +32,17 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 import sej.CallFrame;
 import sej.CompilerException;
 
-public class ByteCodeSubSectionLazyGetterCompiler extends ByteCodeSectionMethodCompiler
+final class SubSectionLazyGetterCompiler extends MethodCompiler
 {
 	private static final Type ITERATOR_INTF = Type.getType( Iterator.class );
 	private static final Type ITERABLE_INTF = Type.getType( Iterable.class );
 	private static final Type COLLECTION_INTF = Type.getType( Collection.class );
 	private static final Type ARRAYLIST_CLASS = Type.getType( ArrayList.class );
 
-	private final ByteCodeSubSectionCompiler sub;
+	private final SubSectionCompiler sub;
 
 
-	ByteCodeSubSectionLazyGetterCompiler(ByteCodeSectionCompiler _section, ByteCodeSubSectionCompiler _sub)
+	SubSectionLazyGetterCompiler(SectionCompiler _section, SubSectionCompiler _sub)
 	{
 		super( _section, Opcodes.ACC_PRIVATE, _sub.getterName(), _sub.getterDescriptor() );
 		this.sub = _sub;
@@ -52,7 +52,7 @@ public class ByteCodeSubSectionLazyGetterCompiler extends ByteCodeSectionMethodC
 	@Override
 	protected void compileBody() throws CompilerException
 	{
-		final ByteCodeSubSectionCompiler sub = this.sub;
+		final SubSectionCompiler sub = this.sub;
 		final GeneratorAdapter mv = mv();
 
 		// if (this.field == null) {
@@ -123,7 +123,7 @@ public class ByteCodeSubSectionLazyGetterCompiler extends ByteCodeSectionMethodC
 	}
 
 
-	private int compileInitFromArray( final ByteCodeSubSectionCompiler sub, final GeneratorAdapter mv, final int l_ds )
+	private int compileInitFromArray( final SubSectionCompiler sub, final GeneratorAdapter mv, final int l_ds )
 	{
 		// final int dl = ds.length;
 		final int l_dl = mv.newLocal( Type.INT_TYPE );
@@ -167,7 +167,7 @@ public class ByteCodeSubSectionLazyGetterCompiler extends ByteCodeSectionMethodC
 	}
 
 
-	private int compileInitFromCollection( final ByteCodeSubSectionCompiler sub, final GeneratorAdapter mv,
+	private int compileInitFromCollection( final SubSectionCompiler sub, final GeneratorAdapter mv,
 			final int l_dc )
 	{
 		final String n_iter = ITERATOR_INTF.getInternalName();
@@ -221,7 +221,7 @@ public class ByteCodeSubSectionLazyGetterCompiler extends ByteCodeSectionMethodC
 	}
 
 
-	private int compileInitFromIterator( final ByteCodeSubSectionCompiler sub, final GeneratorAdapter mv, final int l_ds )
+	private int compileInitFromIterator( final SubSectionCompiler sub, final GeneratorAdapter mv, final int l_ds )
 	{
 		final String n_iter = ITERATOR_INTF.getInternalName();
 		final String n_coll = COLLECTION_INTF.getInternalName();
@@ -270,7 +270,7 @@ public class ByteCodeSubSectionLazyGetterCompiler extends ByteCodeSectionMethodC
 	}
 
 
-	private void compileInit( final GeneratorAdapter _mv, final ByteCodeSubSectionCompiler _sub )
+	private void compileInit( final GeneratorAdapter _mv, final SubSectionCompiler _sub )
 	{
 		_mv.loadThis();
 		_mv.visitMethodInsn( Opcodes.INVOKESPECIAL, _sub.classInternalName(), "<init>", "("

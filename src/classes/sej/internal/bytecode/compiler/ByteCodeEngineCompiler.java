@@ -125,13 +125,13 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 	@Override
 	public SaveableEngine compile() throws CompilerException, EngineException
 	{
-		final ByteCodeSectionCompiler rootCompiler = new ByteCodeSectionCompiler( this, getModel().getRoot() );
+		final SectionCompiler rootCompiler = new SectionCompiler( this, getModel().getRoot() );
 
 		getModel().traverse( new ElementCreator( rootCompiler ) );
 		getModel().traverse( new ElementCompiler( rootCompiler ) );
 		if (Settings.isDebugCompilationEnabled()) dumpClassBytes( rootCompiler.getClassBytes() );
 
-		final ByteCodeFactoryCompiler factoryCompiler = new ByteCodeFactoryCompiler( this, getFactoryClass(),
+		final FactoryCompiler factoryCompiler = new FactoryCompiler( this, getFactoryClass(),
 				getFactoryMethod() );
 		factoryCompiler.compile();
 
@@ -146,21 +146,21 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 	final class ElementCreator extends AbstractElementVisitor
 	{
 
-		public ElementCreator(ByteCodeSectionCompiler _rootCompiler)
+		public ElementCreator(SectionCompiler _rootCompiler)
 		{
 			super( _rootCompiler );
 		}
 
 		@Override
-		protected ByteCodeSubSectionCompiler accessSubSection( SectionModel _section )
+		protected SubSectionCompiler accessSubSection( SectionModel _section )
 		{
-			return new ByteCodeSubSectionCompiler( getSection(), _section );
+			return new SubSectionCompiler( getSection(), _section );
 		}
 
 		@Override
 		protected void visitTargetCell( CellModel _cell ) throws CompilerException
 		{
-			new ByteCodeCellComputation( getSection(), _cell ).validate();
+			new CellComputation( getSection(), _cell ).validate();
 		}
 
 	}
@@ -169,7 +169,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 	final class ElementCompiler extends AbstractElementVisitor
 	{
 
-		public ElementCompiler(ByteCodeSectionCompiler _rootCompiler)
+		public ElementCompiler(SectionCompiler _rootCompiler)
 		{
 			super( _rootCompiler );
 		}
@@ -190,9 +190,9 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		}
 
 		@Override
-		protected ByteCodeSectionCompiler accessSubSection( SectionModel _section ) throws CompilerException
+		protected SectionCompiler accessSubSection( SectionModel _section ) throws CompilerException
 		{
-			final ByteCodeSubSectionCompiler subCompiler = getSection().subSectionCompiler( _section );
+			final SubSectionCompiler subCompiler = getSection().subSectionCompiler( _section );
 			getSection().compileAccessTo( subCompiler );
 			return subCompiler;
 		}
@@ -208,15 +208,15 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 
 	abstract class AbstractElementVisitor extends AbstractComputationModelVisitor
 	{
-		private final ByteCodeSectionCompiler root;
-		private ByteCodeSectionCompiler section;
+		private final SectionCompiler root;
+		private SectionCompiler section;
 
-		public AbstractElementVisitor(ByteCodeSectionCompiler _rootCompiler)
+		public AbstractElementVisitor(SectionCompiler _rootCompiler)
 		{
 			this.root = _rootCompiler;
 		}
 
-		ByteCodeSectionCompiler getSection()
+		SectionCompiler getSection()
 		{
 			return this.section;
 		}
@@ -246,7 +246,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 			return true;
 		}
 
-		protected abstract ByteCodeSectionCompiler accessSubSection( SectionModel _section ) throws CompilerException;
+		protected abstract SectionCompiler accessSubSection( SectionModel _section ) throws CompilerException;
 
 		@Override
 		public boolean visit( CellModel _cell ) throws CompilerException
