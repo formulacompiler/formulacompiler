@@ -28,7 +28,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.internal.bytecode.runtime.ByteCodeEngine;
 
-final class ByteCodeFactoryCompiler extends ByteCodeClassCompiler
+final class FactoryCompiler extends ClassCompiler
 {
 	private final Class userFactoryClass;
 	private final Method userFactoryMethod;
@@ -36,7 +36,7 @@ final class ByteCodeFactoryCompiler extends ByteCodeClassCompiler
 	private final Type userInputType;
 
 
-	ByteCodeFactoryCompiler(ByteCodeEngineCompiler _compiler, Class _factoryClass, Method _factoryMethod)
+	FactoryCompiler(ByteCodeEngineCompiler _compiler, Class _factoryClass, Method _factoryMethod)
 	{
 		super( _compiler, ByteCodeEngine.GEN_FACTORY_NAME, true );
 		this.userFactoryClass = _factoryClass;

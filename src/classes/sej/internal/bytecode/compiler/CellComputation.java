@@ -25,14 +25,14 @@ import sej.CompilerException;
 import sej.internal.model.CellModel;
 
 
-final class ByteCodeCellComputation
+final class CellComputation
 {
-	private final ByteCodeSectionCompiler section;
+	private final SectionCompiler section;
 	private final CellModel cell;
 	private final String methodName;
 
 
-	ByteCodeCellComputation(ByteCodeSectionCompiler _section, CellModel _cell)
+	CellComputation(SectionCompiler _section, CellModel _cell)
 	{
 		super();
 		this.section = _section;
@@ -47,7 +47,7 @@ final class ByteCodeCellComputation
 		return this.cell;
 	}
 
-	ByteCodeSectionCompiler getSection()
+	SectionCompiler getSection()
 	{
 		return this.section;
 	}
@@ -83,7 +83,7 @@ final class ByteCodeCellComputation
 
 	void compile() throws CompilerException
 	{
-		new ByteCodeCellCompiler( this ).compile();
+		new CellCompiler( this ).compile();
 	}
 
 }

@@ -26,16 +26,16 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.internal.model.SectionModel;
 
-final class ByteCodeSubSectionCompiler extends ByteCodeSectionCompiler
+final class SubSectionCompiler extends SectionCompiler
 {
-	private final ByteCodeSectionCompiler parentSectionCompiler;
+	private final SectionCompiler parentSectionCompiler;
 	private final String arrayDescriptor;
 	private final Type arrayType;
 	private final String getterName;
 	private final String getterDescriptor;
 
 
-	ByteCodeSubSectionCompiler(ByteCodeSectionCompiler _parent, SectionModel _model)
+	SubSectionCompiler(SectionCompiler _parent, SectionModel _model)
 	{
 		super( _parent.engineCompiler(), _model, _parent.engineCompiler().newSubClassName() );
 		this.parentSectionCompiler = _parent;
@@ -48,7 +48,7 @@ final class ByteCodeSubSectionCompiler extends ByteCodeSectionCompiler
 
 
 	@Override
-	ByteCodeSectionCompiler parentSectionCompiler()
+	SectionCompiler parentSectionCompiler()
 	{
 		return this.parentSectionCompiler;
 	}

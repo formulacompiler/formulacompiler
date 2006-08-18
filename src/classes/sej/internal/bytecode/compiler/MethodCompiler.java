@@ -50,18 +50,18 @@ import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.Aggregation.NonNullCountingAggregation;
 
 
-abstract class ByteCodeSectionMethodCompiler
+abstract class MethodCompiler
 {
 	private static final ExpressionNode TRUENODE = new ExpressionNodeForConstantValue( Boolean.TRUE );
 	private static final ExpressionNode FALSENODE = new ExpressionNodeForConstantValue( Boolean.FALSE );
 
-	private final ByteCodeSectionCompiler section;
+	private final SectionCompiler section;
 	private final String methodName;
 	private final String methodDescriptor;
 	private final GeneratorAdapter mv;
 
 
-	ByteCodeSectionMethodCompiler(ByteCodeSectionCompiler _section, int _access, String _methodName, String _descriptor)
+	MethodCompiler(SectionCompiler _section, int _access, String _methodName, String _descriptor)
 	{
 		super();
 		this.section = _section;
@@ -71,12 +71,12 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	ByteCodeSectionCompiler section()
+	SectionCompiler section()
 	{
 		return this.section;
 	}
 
-	ByteCodeNumericType numericType()
+	NumericTypeCompiler numericType()
 	{
 		return section().numericType();
 	}
@@ -130,7 +130,7 @@ abstract class ByteCodeSectionMethodCompiler
 	protected abstract void compileBody() throws CompilerException;
 
 
-	protected void compileRef( MethodVisitor _mv, ByteCodeCellComputation _cell )
+	protected void compileRef( MethodVisitor _mv, CellComputation _cell )
 	{
 		compileRef( _mv, _cell.getMethodName() );
 	}
@@ -420,11 +420,11 @@ abstract class ByteCodeSectionMethodCompiler
 				break;
 
 			case INDEX:
-				compileHelpedExpr( new ByteCodeHelperCompilerForIndex( section(), _node ) );
+				compileHelpedExpr( new HelperCompilerForIndex( section(), _node ) );
 				break;
 
 			case MATCH:
-				compileHelpedExpr( new ByteCodeHelperCompilerForMatch( section(), _node ) );
+				compileHelpedExpr( new HelperCompilerForMatch( section(), _node ) );
 				break;
 
 			default:
@@ -796,7 +796,7 @@ abstract class ByteCodeSectionMethodCompiler
 		for (ExpressionNode arg : _node.arguments()) {
 			if (arg instanceof ExpressionNodeForSubSectionModel) {
 				ExpressionNodeForSubSectionModel subArg = (ExpressionNodeForSubSectionModel) arg;
-				ByteCodeSubSectionCompiler sub = section().subSectionCompiler( subArg.getSectionModel() );
+				SubSectionCompiler sub = section().subSectionCompiler( subArg.getSectionModel() );
 
 				mv().loadThis();
 				section().compileCallToGetterFor( mv(), sub );
@@ -830,7 +830,7 @@ abstract class ByteCodeSectionMethodCompiler
 
 	private void compileIteration( Operator _reductor, ExpressionNodeForSubSectionModel _node ) throws CompilerException
 	{
-		compileHelpedExpr( new ByteCodeHelperCompilerForIteration( section(), _reductor, _node ) );
+		compileHelpedExpr( new HelperCompilerForIteration( section(), _reductor, _node ) );
 	}
 
 
@@ -842,9 +842,9 @@ abstract class ByteCodeSectionMethodCompiler
 
 	private void compileRef( ExpressionNodeForParentSectionModel _node ) throws CompilerException
 	{
-		final ByteCodeSectionCompiler section = section();
-		final ByteCodeSectionCompiler parent = section.parentSectionCompiler();
-		final ByteCodeSectionNumericMethodCompiler parentExpr = parent.compileExpr( _node.arguments().get( 0 ) );
+		final SectionCompiler section = section();
+		final SectionCompiler parent = section.parentSectionCompiler();
+		final NumericMethodCompiler parentExpr = parent.compileExpr( _node.arguments().get( 0 ) );
 
 		mv().loadThis();
 		mv().getField( section.classType(), ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parent.classType() );
@@ -859,7 +859,7 @@ abstract class ByteCodeSectionMethodCompiler
 	}
 
 
-	private void compileHelpedExpr( ByteCodeHelperCompiler _compiler ) throws CompilerException
+	private void compileHelpedExpr( HelperCompiler _compiler ) throws CompilerException
 	{
 		_compiler.compile();
 		compileRef( mv(), _compiler.methodName() );

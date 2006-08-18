@@ -35,27 +35,27 @@ import sej.internal.model.CellModel;
 import sej.internal.model.SectionModel;
 
 
-class ByteCodeSectionCompiler extends ByteCodeClassCompiler
+class SectionCompiler extends ClassCompiler
 {
-	private final Map<SectionModel, ByteCodeSubSectionCompiler> subSectionCompilers = new HashMap<SectionModel, ByteCodeSubSectionCompiler>();
-	private final Map<CellModel, ByteCodeCellComputation> cellComputations = new HashMap<CellModel, ByteCodeCellComputation>();
-	private final Map<Method, ByteCodeOutputDistributorCompiler> outputDistributors = new HashMap<Method, ByteCodeOutputDistributorCompiler>();
+	private final Map<SectionModel, SubSectionCompiler> subSectionCompilers = new HashMap<SectionModel, SubSectionCompiler>();
+	private final Map<CellModel, CellComputation> cellComputations = new HashMap<CellModel, CellComputation>();
+	private final Map<Method, OutputDistributorCompiler> outputDistributors = new HashMap<Method, OutputDistributorCompiler>();
 	private final SectionModel model;
-	private final ByteCodeNumericType numericType;
+	private final NumericTypeCompiler numericType;
 	private final Type inputs;
 	private final Type outputs;
 
 
-	ByteCodeSectionCompiler(ByteCodeEngineCompiler _compiler, SectionModel _model, String _name)
+	SectionCompiler(ByteCodeEngineCompiler _compiler, SectionModel _model, String _name)
 	{
 		super( _compiler, _name, false );
 		this.model = _model;
-		this.numericType = ByteCodeNumericType.typeFor( _compiler.getNumericType(), this );
+		this.numericType = NumericTypeCompiler.typeFor( _compiler.getNumericType(), this );
 		this.inputs = typeFor( inputClass() );
 		this.outputs = typeFor( outputClass() );
 	}
 
-	ByteCodeSectionCompiler(ByteCodeEngineCompiler _compiler, SectionModel _model)
+	SectionCompiler(ByteCodeEngineCompiler _compiler, SectionModel _model)
 	{
 		this( _compiler, _model, ByteCodeEngineCompiler.GEN_ROOT_NAME );
 	}
@@ -66,27 +66,27 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	}
 
 
-	ByteCodeSectionCompiler parentSectionCompiler()
+	SectionCompiler parentSectionCompiler()
 	{
 		return null;
 	}
 
-	ByteCodeSubSectionCompiler subSectionCompiler( SectionModel _section )
+	SubSectionCompiler subSectionCompiler( SectionModel _section )
 	{
 		return this.subSectionCompilers.get( _section );
 	}
 
-	void addSubSectionCompiler( SectionModel _section, ByteCodeSubSectionCompiler _compiler )
+	void addSubSectionCompiler( SectionModel _section, SubSectionCompiler _compiler )
 	{
 		this.subSectionCompilers.put( _section, _compiler );
 	}
 
-	ByteCodeCellComputation cellComputation( CellModel _cell )
+	CellComputation cellComputation( CellModel _cell )
 	{
 		return this.cellComputations.get( _cell );
 	}
 
-	void addCellComputation( CellModel _cell, ByteCodeCellComputation _compiler )
+	void addCellComputation( CellModel _cell, CellComputation _compiler )
 	{
 		this.cellComputations.put( _cell, _compiler );
 	}
@@ -96,7 +96,7 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		return this.model;
 	}
 
-	ByteCodeNumericType numericType()
+	NumericTypeCompiler numericType()
 	{
 		return this.numericType;
 	}
@@ -162,14 +162,14 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		}
 	}
 
-	void compileAccessTo( ByteCodeSubSectionCompiler _sub ) throws CompilerException
+	void compileAccessTo( SubSectionCompiler _sub ) throws CompilerException
 	{
 		newField( Opcodes.ACC_PRIVATE, _sub.getterName(), _sub.arrayDescriptor() );
-		new ByteCodeSubSectionLazyGetterCompiler( this, _sub ).compile();
+		new SubSectionLazyGetterCompiler( this, _sub ).compile();
 		
 		final CallFrame[] callsToImplement = _sub.model().getCallsToImplement();
 		for (CallFrame callToImplement : callsToImplement) {
-			new ByteCodeSubSectionOutputAccessorCompiler( this, _sub, callToImplement ).compile();
+			new SubSectionOutputAccessorCompiler( this, _sub, callToImplement ).compile();
 		}
 
 		// In reset(), do:
@@ -180,16 +180,16 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 		r.putField( classType(), _sub.getterName(), _sub.arrayType() );
 	}
 
-	public void compileCallToGetterFor( GeneratorAdapter _mv, ByteCodeSubSectionCompiler _sub )
+	public void compileCallToGetterFor( GeneratorAdapter _mv, SubSectionCompiler _sub )
 	{
 		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, classInternalName(), _sub.getterName(), _sub.getterDescriptor() );
 	}
 
 
-	public ByteCodeSectionNumericMethodCompiler compileExpr( ExpressionNode _node ) throws CompilerException
+	public NumericMethodCompiler compileExpr( ExpressionNode _node ) throws CompilerException
 	{
 		beginCompilation();
-		ByteCodeHelperCompilerForSubExpr result = new ByteCodeHelperCompilerForSubExpr( this, _node );
+		HelperCompilerForSubExpr result = new HelperCompilerForSubExpr( this, _node );
 		result.compile();
 		return result;
 	}
@@ -225,11 +225,11 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	}
 
 
-	public ByteCodeOutputDistributorCompiler getOutputDistributorFor( Method _method )
+	public OutputDistributorCompiler getOutputDistributorFor( Method _method )
 	{
-		ByteCodeOutputDistributorCompiler dist = this.outputDistributors.get( _method );
+		OutputDistributorCompiler dist = this.outputDistributors.get( _method );
 		if (dist == null) {
-			dist = new ByteCodeOutputDistributorCompiler( this, _method );
+			dist = new OutputDistributorCompiler( this, _method );
 			this.outputDistributors.put( _method, dist );
 			dist.beginCompilation();
 		}
@@ -239,7 +239,7 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 
 	private void finalizeOutputDistributors()
 	{
-		for (ByteCodeOutputDistributorCompiler dist : this.outputDistributors.values()) {
+		for (OutputDistributorCompiler dist : this.outputDistributors.values()) {
 			dist.endCompilation();
 		}
 	}
@@ -336,7 +336,7 @@ class ByteCodeSectionCompiler extends ByteCodeClassCompiler
 	void collectClassNamesAndBytes( HashMap<String, byte[]> _result )
 	{
 		super.collectClassNamesAndBytes( _result );
-		for (ByteCodeClassCompiler sub : this.subSectionCompilers.values()) {
+		for (ClassCompiler sub : this.subSectionCompilers.values()) {
 			sub.collectClassNamesAndBytes( _result );
 		}
 	}

@@ -20,23 +20,28 @@
  */
 package sej.internal.bytecode.compiler;
 
-import sej.CompilerException;
-import sej.internal.expressions.ExpressionNode;
+import org.objectweb.asm.Opcodes;
 
-public class ByteCodeHelperCompilerForSubExpr extends ByteCodeHelperCompiler
+
+abstract class NumericMethodCompiler extends MethodCompiler
 {
-	private final ExpressionNode node;
 
-	ByteCodeHelperCompilerForSubExpr(ByteCodeSectionCompiler _section, ExpressionNode _node)
+	NumericMethodCompiler(SectionCompiler _section, int _access, String _methodName)
 	{
-		super( _section, 0 );
-		this.node = _node;
+		super( _section, _access, _methodName, "()" + _section.numericType().descriptor() );
 	}
 
-	@Override
-	protected void compileBody() throws CompilerException
+	NumericMethodCompiler(SectionCompiler _section, String _methodName)
 	{
-		compileExpr( this.node );
+		super( _section, Opcodes.ACC_PRIVATE, _methodName, "()" + _section.numericType().descriptor() );
+	}
+
+
+	@Override
+	protected void endCompilation()
+	{
+		mv().visitInsn( numericType().returnOpcode() );
+		super.endCompilation();
 	}
 
 }

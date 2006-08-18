@@ -34,14 +34,14 @@ import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 
 
-final class ByteCodeHelperCompilerForIteration extends ByteCodeHelperCompiler
+final class HelperCompilerForIteration extends HelperCompiler
 {
 	private final ExpressionNodeForSubSectionModel node;
-	private final ByteCodeSubSectionCompiler sub;
+	private final SubSectionCompiler sub;
 	private final Operator reductor;
 
 
-	ByteCodeHelperCompilerForIteration(ByteCodeSectionCompiler _section, Operator _reductor,
+	HelperCompilerForIteration(SectionCompiler _section, Operator _reductor,
 			ExpressionNodeForSubSectionModel _node)
 	{
 		super( _section );
@@ -54,8 +54,8 @@ final class ByteCodeHelperCompilerForIteration extends ByteCodeHelperCompiler
 	@Override
 	protected void compileBody() throws CompilerException
 	{
-		final ByteCodeSubSectionCompiler sub = this.sub;
-		final ByteCodeSectionNumericMethodCompiler subExpr = compileSubExpr( this.node.arguments() );
+		final SubSectionCompiler sub = this.sub;
+		final NumericMethodCompiler subExpr = compileSubExpr( this.node.arguments() );
 
 		final GeneratorAdapter mv = mv();
 
@@ -120,7 +120,7 @@ final class ByteCodeHelperCompilerForIteration extends ByteCodeHelperCompiler
 	}
 
 
-	private ByteCodeSectionNumericMethodCompiler compileSubExpr( List<ExpressionNode> _args ) throws CompilerException
+	private NumericMethodCompiler compileSubExpr( List<ExpressionNode> _args ) throws CompilerException
 	{
 		switch (_args.size()) {
 			case 0:

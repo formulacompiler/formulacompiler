@@ -32,16 +32,16 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 import sej.CallFrame;
 import sej.CompilerException;
 
-public class ByteCodeSubSectionOutputAccessorCompiler extends ByteCodeSectionMethodCompiler
+final class SubSectionOutputAccessorCompiler extends MethodCompiler
 {
 	private static final Type ITERATOR_INTF = Type.getType( Iterator.class );
 	private static final Type ARRAYLIST_CLASS = Type.getType( ArrayList.class );
 
-	private final ByteCodeSubSectionCompiler sub;
+	private final SubSectionCompiler sub;
 	private final CallFrame callToImplement;
 
 
-	ByteCodeSubSectionOutputAccessorCompiler(ByteCodeSectionCompiler _section, ByteCodeSubSectionCompiler _sub, CallFrame _callToImplement)
+	SubSectionOutputAccessorCompiler(SectionCompiler _section, SubSectionCompiler _sub, CallFrame _callToImplement)
 	{
 		super( _section, Opcodes.ACC_PUBLIC, _callToImplement.getMethod().getName(), Type.getMethodDescriptor( _callToImplement.getMethod() ) );
 		this.sub = _sub;
@@ -53,7 +53,7 @@ public class ByteCodeSubSectionOutputAccessorCompiler extends ByteCodeSectionMet
 	@Override
 	protected void compileBody() throws CompilerException
 	{
-		final ByteCodeSubSectionCompiler sub = this.sub;
+		final SubSectionCompiler sub = this.sub;
 		final GeneratorAdapter mv = mv();
 
 		final CallFrame outputCall = this.callToImplement;

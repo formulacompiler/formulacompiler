@@ -28,7 +28,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
-abstract class ByteCodeClassCompiler
+abstract class ClassCompiler
 {
 	private final ByteCodeEngineCompiler engineCompiler;
 	private final boolean classPublic;
@@ -39,7 +39,7 @@ abstract class ByteCodeClassCompiler
 	private final ClassWriter cw = new ClassWriter( true );
 
 
-	public ByteCodeClassCompiler(ByteCodeEngineCompiler _compiler, String _className, boolean _public)
+	public ClassCompiler(ByteCodeEngineCompiler _compiler, String _className, boolean _public)
 	{
 		super();
 		this.engineCompiler = _compiler;

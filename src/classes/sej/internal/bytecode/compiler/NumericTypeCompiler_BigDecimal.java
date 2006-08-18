@@ -41,7 +41,7 @@ import sej.internal.runtime.RuntimeBigDecimal_v1;
 import sej.internal.runtime.RuntimeDouble_v1;
 import sej.runtime.ScaledLong;
 
-final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
+final class NumericTypeCompiler_BigDecimal extends NumericTypeCompiler
 {
 	private static final String BNAME = ByteCodeEngineCompiler.BIGDECIMAL_CLASS.getInternalName();
 	private static final String B = ByteCodeEngineCompiler.BIGDECIMAL_CLASS.getDescriptor();
@@ -60,7 +60,7 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 	private final int roundingMode;
 
 
-	ByteCodeNumericType_BigDecimal(NumericType _type, ByteCodeSectionCompiler _compiler)
+	NumericTypeCompiler_BigDecimal(NumericType _type, SectionCompiler _compiler)
 	{
 		super( _type, _compiler );
 		this.scale = _type.getScale();
@@ -400,7 +400,7 @@ final class ByteCodeNumericType_BigDecimal extends ByteCodeNumericType
 	}
 
 	@Override
-	protected boolean compileFromNum( GeneratorAdapter _mv, ScaledLong _scale )
+	protected boolean compileFromNumToScaledLong( GeneratorAdapter _mv, ScaledLong _scale )
 	{
 		_mv.push( _scale.value() );
 		_mv.push( numericType().getRoundingMode() );

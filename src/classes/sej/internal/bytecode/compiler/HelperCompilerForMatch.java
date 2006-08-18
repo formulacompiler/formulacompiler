@@ -29,12 +29,12 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
 
-class ByteCodeHelperCompilerForMatch extends ByteCodeHelperCompiler
+final class HelperCompilerForMatch extends HelperCompiler
 {
 	private final ExpressionNodeForFunction node;
 
 
-	ByteCodeHelperCompilerForMatch(ByteCodeSectionCompiler _section, ExpressionNodeForFunction _node)
+	HelperCompilerForMatch(SectionCompiler _section, ExpressionNodeForFunction _node)
 	{
 		super( _section );
 		this.node = _node;
@@ -77,7 +77,7 @@ class ByteCodeHelperCompilerForMatch extends ByteCodeHelperCompiler
 
 	private void compileWithConstType( int _type ) throws CompilerException
 	{
-		final ByteCodeNumericType num = section().numericType();
+		final NumericTypeCompiler num = section().numericType();
 		final Type numType = num.type();
 		final ExpressionNode[] candidates = rangeElements( this.node, this.node.arguments().get( 1 ) );
 

@@ -32,9 +32,9 @@ import sej.CallFrame;
 import sej.CompilerException;
 import sej.CompilerException.UnsupportedDataType;
 
-public class ByteCodeOutputDistributorCompiler
+final class OutputDistributorCompiler
 {
-	private final ByteCodeSectionCompiler section;
+	private final SectionCompiler section;
 	private final Method method;
 	private final String caseMethodPrefix;
 	private final String name;
@@ -47,7 +47,7 @@ public class ByteCodeOutputDistributorCompiler
 	private int nextCaseNumber;
 
 
-	ByteCodeOutputDistributorCompiler(ByteCodeSectionCompiler _section, Method _method)
+	OutputDistributorCompiler(SectionCompiler _section, Method _method)
 	{
 		super();
 		this.section = _section;

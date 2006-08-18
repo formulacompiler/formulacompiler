@@ -30,15 +30,15 @@ import sej.internal.model.ExpressionNodeForRangeValue;
 import sej.internal.model.RangeValue;
 
 
-abstract class ByteCodeHelperCompiler extends ByteCodeSectionNumericMethodCompiler
+abstract class HelperCompiler extends NumericMethodCompiler
 {
 
-	ByteCodeHelperCompiler(ByteCodeSectionCompiler _section) 
+	HelperCompiler(SectionCompiler _section) 
 	{
 		super( _section, _section.newGetterName() );
 	}
 
-	ByteCodeHelperCompiler(ByteCodeSectionCompiler _section, int _access) 
+	HelperCompiler(SectionCompiler _section, int _access) 
 	{
 		super( _section, _access, _section.newGetterName() );
 	}

@@ -34,12 +34,12 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.CellModel;
 
 
-final class ByteCodeCellCompiler extends ByteCodeSectionNumericMethodCompiler
+final class CellCompiler extends NumericMethodCompiler
 {
-	private final ByteCodeCellComputation cellComputation;
+	private final CellComputation cellComputation;
 
 
-	ByteCodeCellCompiler(ByteCodeCellComputation _computation)
+	CellCompiler(CellComputation _computation)
 	{
 		super( _computation.getSection(), _computation.getMethodName() );
 		this.cellComputation = _computation;
@@ -171,7 +171,7 @@ final class ByteCodeCellCompiler extends ByteCodeSectionNumericMethodCompiler
 				compileOutputMethod( cell, method.getName(), method );
 			}
 			else {
-				ByteCodeOutputDistributorCompiler dist = this.section().getOutputDistributorFor( method );
+				OutputDistributorCompiler dist = this.section().getOutputDistributorFor( method );
 				final String caseName = dist.compileCase( callFrame );
 				compileOutputMethod( cell, caseName, method );
 			}

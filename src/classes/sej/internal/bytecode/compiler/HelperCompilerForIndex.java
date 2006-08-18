@@ -34,12 +34,12 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
 
-class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
+class HelperCompilerForIndex extends HelperCompiler
 {
 	private final ExpressionNodeForFunction node;
 
 
-	ByteCodeHelperCompilerForIndex(ByteCodeSectionCompiler _section, ExpressionNodeForFunction _node)
+	HelperCompilerForIndex(SectionCompiler _section, ExpressionNodeForFunction _node)
 	{
 		super( _section );
 		this.node = _node;
@@ -70,7 +70,7 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 
 	private void compileIndexFunction( final ExpressionNode[] _vals, ExpressionNode _row, ExpressionNode _col ) throws CompilerException
 	{
-		final ByteCodeNumericType num = section().numericType();
+		final NumericTypeCompiler num = section().numericType();
 		final Type numType = num.type();
 		final String arrayFieldName = methodName() + "_Consts";
 		final String arrayType = "[" + num.descriptor();
@@ -179,7 +179,7 @@ class ByteCodeHelperCompilerForIndex extends ByteCodeHelperCompiler
 	{
 		final int n = _vals.length;
 
-		final ByteCodeNumericType num = section().numericType();
+		final NumericTypeCompiler num = section().numericType();
 		final Type numType = num.type();
 		final String arrayType = "[" + num.descriptor();
 
