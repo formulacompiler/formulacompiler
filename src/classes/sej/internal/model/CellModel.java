@@ -25,6 +25,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import sej.describable.DescriptionBuilder;
+import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
 
 public class CellModel extends ElementModel
@@ -35,6 +36,7 @@ public class CellModel extends ElementModel
 	private ExpressionNode expression;
 	private int maxFractionalDigits = UNLIMITED;
 	private int referenceCount = 0;
+	private DataType dataType;
 
 
 	public CellModel(SectionModel _section, String _name)
@@ -128,6 +130,17 @@ public class CellModel extends ElementModel
 	}
 
 
+	public DataType getDataType()
+	{
+		return this.dataType;
+	}
+	
+	public void setDataType( DataType _dataType )
+	{
+		this.dataType = _dataType;
+	}
+
+	
 	@Override
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
@@ -164,9 +177,15 @@ public class CellModel extends ElementModel
 			_to.append( this.referenceCount );
 			_to.appendLine( "\" />" );
 		}
+		if (null != this.dataType) {
+			_to.append( "<type name=\"" );
+			_to.append( this.dataType );
+			_to.appendLine( "\" />" );
+		}
 
 		_to.outdent();
 		_to.appendLine( "</cell>" );
 	}
+
 
 }

@@ -29,9 +29,9 @@ public class ExpressionNodeForParentSectionModel extends ExpressionNodeForSectio
 {
 
 	
-	public ExpressionNodeForParentSectionModel(SectionModel _outerSectionModel)
+	public ExpressionNodeForParentSectionModel(SectionModel _outerSectionModel, ExpressionNode... _args)
 	{
-		super( _outerSectionModel );
+		super( _outerSectionModel, _args );
 	}
 
 

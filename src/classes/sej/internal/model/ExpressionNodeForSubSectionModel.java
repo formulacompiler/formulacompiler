@@ -29,9 +29,9 @@ public class ExpressionNodeForSubSectionModel extends ExpressionNodeForSectionMo
 {
 
 
-	public ExpressionNodeForSubSectionModel(SectionModel _innerSectionModel)
+	public ExpressionNodeForSubSectionModel(SectionModel _innerSectionModel, ExpressionNode... _args)
 	{
-		super( _innerSectionModel );
+		super( _innerSectionModel, _args );
 	}
 
 
