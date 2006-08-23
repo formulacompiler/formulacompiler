@@ -22,6 +22,7 @@ package sej.internal.bytecode.compiler;
 
 import sej.CallFrame;
 import sej.CompilerException;
+import sej.internal.NumericTypeImpl;
 import sej.internal.model.CellModel;
 
 
@@ -57,7 +58,7 @@ final class CellComputation
 		return this.methodName;
 	}
 
-	
+
 	void validate() throws CompilerException
 	{
 		validateInputType();
@@ -67,7 +68,8 @@ final class CellComputation
 	private void validateInputType() throws CompilerException
 	{
 		if (this.cell.isInput()) {
-			getSection().numericType().numericType().validateReturnTypeForCell( this.cell.getCallChainToCall().getMethod() );
+			((NumericTypeImpl) getSection().engineCompiler().getNumericType()).validateReturnTypeForCell( this.cell
+					.getCallChainToCall().getMethod() );
 		}
 	}
 
@@ -77,13 +79,14 @@ final class CellComputation
 			if (frame.getHead() != frame) {
 				throw new CompilerException.UnsupportedDataType( "The output method " + frame + " cannot be chained." );
 			}
-			getSection().numericType().numericType().validateReturnTypeForCell( frame.getMethod() );
+			((NumericTypeImpl) getSection().engineCompiler().getNumericType()).validateReturnTypeForCell( frame
+					.getMethod() );
 		}
 	}
 
 	void compile() throws CompilerException
 	{
-		new CellCompiler( this ).compile();
+		new CellMethodCompiler( this ).compile();
 	}
 
 }

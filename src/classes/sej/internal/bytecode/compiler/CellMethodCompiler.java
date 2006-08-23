@@ -23,7 +23,6 @@ package sej.internal.bytecode.compiler;
 import java.lang.reflect.Method;
 
 import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
@@ -34,14 +33,14 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.CellModel;
 
 
-final class CellCompiler extends NumericMethodCompiler
+final class CellMethodCompiler extends ValueMethodCompiler
 {
 	private final CellComputation cellComputation;
 
 
-	CellCompiler(CellComputation _computation)
+	CellMethodCompiler(CellComputation _computation)
 	{
-		super( _computation.getSection(), _computation.getMethodName() );
+		super( _computation.getSection(), _computation.getMethodName(), _computation.getCell().getDataType() );
 		this.cellComputation = _computation;
 	}
 
@@ -73,11 +72,11 @@ final class CellCompiler extends NumericMethodCompiler
 					try {
 						if (shouldCache( cell )) {
 							compileCacheBegin();
-							compileExpr( cellExpr );
+							compileExpression( cellExpr );
 							compileCacheEnd();
 						}
 						else {
-							compileExpr( cellExpr );
+							compileExpression( cellExpr );
 						}
 					}
 					catch (CompilerException e) {
@@ -87,7 +86,7 @@ final class CellCompiler extends NumericMethodCompiler
 				}
 				else {
 					final Object constantValue = cell.getConstantValue();
-					compileConst( constantValue );
+					expressionCompiler().compileConst( constantValue );
 				}
 			}
 
@@ -99,7 +98,14 @@ final class CellCompiler extends NumericMethodCompiler
 	}
 
 
-	private boolean shouldCache( CellModel _cell )
+	private final void compileNumericInput( CallFrame _callChainToCall ) throws CompilerException
+	{
+		compileInputGetterCall( _callChainToCall );
+		expressionCompiler().compileConversionFromResultOf( _callChainToCall.getMethod() );
+	}
+
+
+	private final boolean shouldCache( CellModel _cell )
 	{
 		return section().engineCompiler().canCache() && _cell.isCachingCandidate();
 	}
@@ -110,14 +116,14 @@ final class CellCompiler extends NumericMethodCompiler
 	private Label skipCachedComputation;
 
 
-	private void compileCacheBegin()
+	private final void compileCacheBegin()
 	{
 		// private boolean h$<x>
 		cw().visitField( Opcodes.ACC_PRIVATE, this.cachedIndicatorName, Type.BOOLEAN_TYPE.getDescriptor(), null, null )
 				.visitEnd();
 
 		// private <type> c$<x>
-		cw().visitField( Opcodes.ACC_PRIVATE, this.cacheName, numericType().descriptor(), null, null ).visitEnd();
+		cw().visitField( Opcodes.ACC_PRIVATE, this.cacheName, typeCompiler().typeDescriptor(), null, null ).visitEnd();
 
 		// if (!h$<x>) {
 		this.skipCachedComputation = mv().newLabel();
@@ -130,14 +136,14 @@ final class CellCompiler extends NumericMethodCompiler
 	}
 
 
-	private void compileCacheEnd()
+	private final void compileCacheEnd()
 	{
 		final String cachedIndicatorName = "h$" + methodName();
 		final String cacheName = "c$" + methodName();
 
 		// this and computed value is on stack, so
 		// c$<x> = <value>;
-		mv().putField( classType(), cacheName, numericType().type() );
+		mv().putField( classType(), cacheName, typeCompiler().type() );
 
 		// h$<x> = true;
 		mv().loadThis();
@@ -148,7 +154,7 @@ final class CellCompiler extends NumericMethodCompiler
 		// return c$<x>;
 		mv().mark( this.skipCachedComputation );
 		mv().loadThis();
-		mv().getField( classType(), cacheName, numericType().type() );
+		mv().getField( classType(), cacheName, typeCompiler().type() );
 
 		// In reset(), do:
 		// h$<x> = false;
@@ -159,7 +165,7 @@ final class CellCompiler extends NumericMethodCompiler
 	}
 
 
-	private void compileOutputGetter() throws CompilerException
+	private final void compileOutputGetter() throws CompilerException
 	{
 		final CellModel cell = this.cellComputation.getCell();
 		for (CallFrame callFrame : cell.getCallsToImplement()) {
@@ -179,31 +185,15 @@ final class CellCompiler extends NumericMethodCompiler
 	}
 
 
-	private void compileOutputMethod( CellModel _cell, String _name, Method _method ) throws CompilerException
+	private final void compileOutputMethod( CellModel _cell, String _name, Method _method ) throws CompilerException
 	{
 		final Type returnType = Type.getReturnType( _method );
 		final String sig = "()" + returnType.getDescriptor();
-		final int access = Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL;
-
-		MethodVisitor mtd = this.cellComputation.getSection().cw().visitMethod( access, _name, sig, null, null );
-		GeneratorAdapter mv = new GeneratorAdapter( mtd, access, _name, sig );
-		mv.visitCode();
-
-		compileRef( mv, this.cellComputation );
-
-		if (CellModel.UNLIMITED != _cell.getMaxFractionalDigits()) {
-			mv.visitLdcInsn( _cell.getMaxFractionalDigits() );
-			numericType().compileRound( mv );
-		}
-
-		numericType().compileReturnFromNum( mv, _method );
-
-		mv.visitMaxs( 0, 0 );
-		mv.visitEnd();
+		new OutputMethodCompiler( section(), _name, sig, this.cellComputation, _method ).compile();
 	}
 
 
-	private Type classType()
+	private final Type classType()
 	{
 		return section().classType();
 	}

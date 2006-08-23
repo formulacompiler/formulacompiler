@@ -20,9 +20,6 @@
  */
 package sej.internal.bytecode.compiler;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -34,9 +31,9 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.CompilerException;
 import sej.SaveableEngine;
-import sej.internal.Settings;
 import sej.internal.bytecode.runtime.ByteCodeEngine;
 import sej.internal.engine.compiler.AbstractEngineCompiler;
+import sej.internal.expressions.DataType;
 import sej.internal.model.AbstractComputationModelVisitor;
 import sej.internal.model.CellModel;
 import sej.internal.model.SectionModel;
@@ -92,9 +89,12 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 	static final Type MATH_CLASS = Type.getType( Math.class );
 	static final Type BIGDECIMAL_CLASS = Type.getType( BigDecimal.class );
 	static final Type BIGINTEGER_CLASS = Type.getType( BigInteger.class );
+	static final Type STRING_CLASS = Type.getType( String.class );
 
 	static final Type ILLEGALARGUMENT_CLASS = Type.getType( IllegalArgumentException.class );
 
+	private final TypeCompiler numberCompiler = TypeCompilerForNumbers.compilerFor( this, this.getNumericType() );
+	private final TypeCompiler stringCompiler = new TypeCompilerForStrings( this );
 	private final boolean canCache;
 
 
@@ -122,24 +122,39 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 	// ------------------------------------------------ Compilation
 
 
+	private SectionCompiler rootCompiler;
+
+
 	@Override
 	public SaveableEngine compile() throws CompilerException, EngineException
 	{
-		final SectionCompiler rootCompiler = new SectionCompiler( this, getModel().getRoot() );
-
-		getModel().traverse( new ElementCreator( rootCompiler ) );
-		getModel().traverse( new ElementCompiler( rootCompiler ) );
-		if (Settings.isDebugCompilationEnabled()) dumpClassBytes( rootCompiler.getClassBytes() );
-
-		final FactoryCompiler factoryCompiler = new FactoryCompiler( this, getFactoryClass(),
-				getFactoryMethod() );
-		factoryCompiler.compile();
-
 		final HashMap<String, byte[]> classNamesAndBytes = new HashMap<String, byte[]>();
-		factoryCompiler.collectClassNamesAndBytes( classNamesAndBytes );
-		rootCompiler.collectClassNamesAndBytes( classNamesAndBytes );
 
+		final SectionCompiler rootCompiler = new SectionCompiler( this, getModel().getRoot() );
+		this.rootCompiler = rootCompiler;
+		try {
+
+			getModel().traverse( new ElementCreator( rootCompiler ) );
+			getModel().traverse( new ElementCompiler( rootCompiler ) );
+
+			final FactoryCompiler factoryCompiler = new FactoryCompiler( this, getFactoryClass(), getFactoryMethod() );
+			factoryCompiler.compile();
+
+			factoryCompiler.collectClassNamesAndBytes( classNamesAndBytes );
+			rootCompiler.collectClassNamesAndBytes( classNamesAndBytes );
+
+		}
+		finally {
+			this.rootCompiler = null;
+		}
+		
 		return new SaveableByteCodeEngine( getParentClassLoader(), classNamesAndBytes );
+	}
+
+
+	public SectionCompiler rootCompiler()
+	{
+		return this.rootCompiler;
 	}
 
 
@@ -262,23 +277,26 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 	}
 
 
-	private void dumpClassBytes( byte[] _classBytes )
+	public TypeCompiler typeCompiler( DataType _type )
 	{
-		try {
-			FileOutputStream stream = new FileOutputStream( "D:/Temp/GeneratedEngine.class" );
-			try {
-				stream.write( _classBytes );
-			}
-			finally {
-				stream.close();
-			}
+		switch (_type) {
+			case STRING:
+				return stringCompiler();
+			default:
+				return numberCompiler();
 		}
-		catch (FileNotFoundException e) {
-			// just eat it
-		}
-		catch (IOException e) {
-			// just eat it
-		}
+	}
+
+
+	public TypeCompiler numberCompiler()
+	{
+		return this.numberCompiler;
+	}
+
+
+	public TypeCompiler stringCompiler()
+	{
+		return this.stringCompiler;
 	}
 
 
@@ -289,12 +307,13 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 	 * Compiles a call to "static Boxed Boxed.valueOf( unboxed )" taking into account
 	 * Retrotranslator's type extensions.
 	 */
-	public static void compileValueOf( GeneratorAdapter _mv, String _internalClassName, String _signature, Class _paramClass )
+	public static void compileValueOf( GeneratorAdapter _mv, String _internalClassName, String _signature,
+			Class _paramClass )
 	{
 		if (JRE14) {
-			
+
 			try {
-				final Class cls = ClassLoader.getSystemClassLoader().loadClass( _internalClassName.replace( '/', '.' ));
+				final Class cls = ClassLoader.getSystemClassLoader().loadClass( _internalClassName.replace( '/', '.' ) );
 				cls.getMethod( "valueOf", _paramClass );
 				_mv.visitMethodInsn( Opcodes.INVOKESTATIC, _internalClassName, "valueOf", _signature );
 			}
@@ -316,6 +335,5 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 			_mv.visitMethodInsn( Opcodes.INVOKESTATIC, _internalClassName, "valueOf", _signature );
 		}
 	}
-
 
 }

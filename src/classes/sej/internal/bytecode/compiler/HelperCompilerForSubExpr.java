@@ -25,18 +25,16 @@ import sej.internal.expressions.ExpressionNode;
 
 final class HelperCompilerForSubExpr extends HelperCompiler
 {
-	private final ExpressionNode node;
 
 	HelperCompilerForSubExpr(SectionCompiler _section, ExpressionNode _node)
 	{
-		super( _section, 0 );
-		this.node = _node;
+		super( _section, 0, _node );
 	}
 
 	@Override
 	protected void compileBody() throws CompilerException
 	{
-		compileExpr( this.node );
+		compileExpression( node() );
 	}
 
 }

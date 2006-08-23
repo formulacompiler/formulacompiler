@@ -31,6 +31,7 @@ import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.SectionModel;
+import sej.internal.model.analysis.TypeAnnotator;
 import sej.internal.model.optimizer.IntermediateResultsInliner;
 import sej.runtime.ComputationFactory;
 import sej.runtime.Engine;
@@ -217,6 +218,7 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 	private Outputs newOutputs( ComputationModel _engineModel, NumericType _numericType ) throws Exception
 	{
 		_engineModel.traverse( new IntermediateResultsInliner() );
+		_engineModel.traverse( new TypeAnnotator() );
 		final ByteCodeEngineCompiler.Config config = new ByteCodeEngineCompiler.Config();
 		config.model = _engineModel;
 		config.numericType = _numericType;

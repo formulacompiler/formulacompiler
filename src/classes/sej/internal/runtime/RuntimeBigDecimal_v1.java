@@ -27,8 +27,8 @@ import java.util.Date;
 
 public class RuntimeBigDecimal_v1 extends Runtime_v1
 {
-	public static BigDecimal ZERO = new BigDecimal( 0 );
-	public static BigDecimal ONE = new BigDecimal( 1 );
+	public static BigDecimal ZERO = BigDecimal.ZERO;
+	public static BigDecimal ONE = BigDecimal.ONE;
 
 
 	public static BigDecimal newBigDecimal( final String _value )
