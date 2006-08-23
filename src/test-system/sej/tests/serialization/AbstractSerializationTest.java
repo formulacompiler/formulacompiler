@@ -59,8 +59,8 @@ public abstract class AbstractSerializationTest extends AbstractTestBase
 		bnd.defineOutputCell( sheet.getCell( 0, 1, 2 ), new CallFrame( outp.getMethod( "getResult" + getTypeSuffix() ) ) );
 
 		final SaveableEngine engine = builder.compile();
-		computeAndTestResult( engine );
 		serialize( engine );
+		computeAndTestResult( engine );
 	}
 
 

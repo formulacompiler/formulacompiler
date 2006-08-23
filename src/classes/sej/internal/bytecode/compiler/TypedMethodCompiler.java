@@ -18,53 +18,37 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.expressions;
+package sej.internal.bytecode.compiler;
 
-import sej.describable.DescriptionBuilder;
+import sej.internal.expressions.DataType;
 
-
-public class ExpressionNodeForConstantValue extends ExpressionNode
+abstract class TypedMethodCompiler extends MethodCompiler
 {
-	private Object value;
+	private final DataType dataType;
 
-
-	public ExpressionNodeForConstantValue(Object _value)
+	
+	TypedMethodCompiler(SectionCompiler _section, int _access, String _methodName, String _descriptor, DataType _type)
 	{
-		this.value = _value;
+		super( _section, _access, _methodName, _descriptor );
+		this.dataType = _type;
 	}
 
-
-	public ExpressionNodeForConstantValue(Object _value, DataType _type)
+	
+	DataType dataType()
 	{
-		this.value = _value;
-		setDataType( _type );
+		return this.dataType;
 	}
-
-
-	public Object getValue()
+	
+	
+	ExpressionCompiler expressionCompiler()
 	{
-		return this.value;
+		return expressionCompiler( dataType() );
 	}
-
-
-	@Override
-	public ExpressionNode cloneWithoutArguments()
+	
+	TypeCompiler typeCompiler()
 	{
-		return new ExpressionNodeForConstantValue( this.value );
+		return expressionCompiler().typeCompiler();
 	}
-
-
-	@Override
-	public void describeTo( DescriptionBuilder _to )
-	{
-		if (this.value instanceof String) {
-			_to.append( '"' );
-			_to.append( this.value );
-			_to.append( '"' );
-		}
-		else {
-			_to.append( this.value );
-		}
-	}
-
+	
+	
 }

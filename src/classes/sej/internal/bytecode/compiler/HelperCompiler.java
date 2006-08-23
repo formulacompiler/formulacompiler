@@ -23,52 +23,65 @@ package sej.internal.bytecode.compiler;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.objectweb.asm.Opcodes;
+
 import sej.CompilerException;
+import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.model.ExpressionNodeForRangeValue;
 import sej.internal.model.RangeValue;
 
 
-abstract class HelperCompiler extends NumericMethodCompiler
+abstract class HelperCompiler extends ValueMethodCompiler
 {
+	private final ExpressionNode node;
 
-	HelperCompiler(SectionCompiler _section) 
+
+	HelperCompiler(SectionCompiler _section, int _access, ExpressionNode _node)
 	{
-		super( _section, _section.newGetterName() );
+		super( _section, _access, _section.newGetterName(), _node.getDataType() );
+		this.node = _node;
 	}
-
-	HelperCompiler(SectionCompiler _section, int _access) 
-	{
-		super( _section, _access, _section.newGetterName() );
-	}
-
 	
-	protected ExpressionNode[] rangeElements( ExpressionNode _outerNode, ExpressionNode _rangeNode ) throws CompilerException 
+	HelperCompiler(SectionCompiler _section, ExpressionNode _node)
+	{
+		this( _section, Opcodes.ACC_PRIVATE, _node );
+	}
+	
+	protected final ExpressionNode node()
+	{
+		return this.node;
+	}
+
+
+	protected final ExpressionNode[] rangeElements( ExpressionNode _outerNode, ExpressionNode _rangeNode )
+			throws CompilerException
 	{
 		if (_rangeNode instanceof ExpressionNodeForRangeValue) {
 			final Collection<ExpressionNode> args = _rangeNode.arguments();
 			return args.toArray( new ExpressionNode[ args.size() ] );
 		}
 		else if (_rangeNode instanceof ExpressionNodeForConstantValue) {
+			final DataType rangeType = _rangeNode.getDataType();
 			final RangeValue rangeVal = (RangeValue) ((ExpressionNodeForConstantValue) _rangeNode).getValue();
-			final int rangeSize = rangeVal.getNumberOfSheets() * rangeVal.getNumberOfRows() * rangeVal.getNumberOfColumns();
+			final int rangeSize = rangeVal.getNumberOfSheets()
+					* rangeVal.getNumberOfRows() * rangeVal.getNumberOfColumns();
 			ExpressionNode[] result = new ExpressionNode[ rangeSize ];
 			final Iterator<Object> rangeIter = rangeVal.iterator();
 			int i = 0;
 			while (rangeIter.hasNext()) {
-				result[ i++ ] = new ExpressionNodeForConstantValue( rangeIter.next() );
+				result[ i++ ] = new ExpressionNodeForConstantValue( rangeIter.next(), rangeType );
 			}
 			return result;
 		}
 		else {
-			unsupported( _outerNode );
-			return null; 
+			throw new CompilerException.UnsupportedExpression( "Range expected in " + _outerNode.describe() + "." );
 		}
 	}
-	
 
-	protected RangeValue range( ExpressionNode _outerNode, ExpressionNode _rangeNode ) throws CompilerException 
+
+	protected final RangeValue range( ExpressionNode _outerNode, ExpressionNode _rangeNode ) throws CompilerException
 	{
 		if (_rangeNode instanceof ExpressionNodeForRangeValue) {
 			return ((ExpressionNodeForRangeValue) _rangeNode).getRangeValue();
@@ -77,9 +90,8 @@ abstract class HelperCompiler extends NumericMethodCompiler
 			return (RangeValue) ((ExpressionNodeForConstantValue) _rangeNode).getValue();
 		}
 		else {
-			unsupported( _outerNode );
-			return null; 
+			throw new CompilerException.UnsupportedExpression( "Range expected in " + _outerNode.describe() + "." );
 		}
 	}
-	
+
 }

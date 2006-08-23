@@ -22,26 +22,28 @@ package sej.internal.bytecode.compiler;
 
 import org.objectweb.asm.Opcodes;
 
+import sej.internal.expressions.DataType;
 
-abstract class NumericMethodCompiler extends MethodCompiler
+abstract class ValueMethodCompiler extends TypedMethodCompiler
 {
 
-	NumericMethodCompiler(SectionCompiler _section, int _access, String _methodName)
+	ValueMethodCompiler(SectionCompiler _section, int _access, String _methodName, DataType _type)
 	{
-		super( _section, _access, _methodName, "()" + _section.numericType().descriptor() );
+		super( _section, _access, _methodName, "()" + _section.engineCompiler().typeCompiler( _type ).typeDescriptor(), _type );
 	}
 
-	NumericMethodCompiler(SectionCompiler _section, String _methodName)
+	ValueMethodCompiler(SectionCompiler _section, String _methodName, DataType _type)
 	{
-		super( _section, Opcodes.ACC_PRIVATE, _methodName, "()" + _section.numericType().descriptor() );
+		this( _section, Opcodes.ACC_PRIVATE, _methodName, _type );
 	}
 
 
 	@Override
 	protected void endCompilation()
 	{
-		mv().visitInsn( numericType().returnOpcode() );
+		mv().visitInsn( typeCompiler().returnOpcode() );
 		super.endCompilation();
 	}
+
 
 }

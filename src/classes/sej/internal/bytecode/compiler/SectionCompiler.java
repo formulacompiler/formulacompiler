@@ -41,7 +41,6 @@ class SectionCompiler extends ClassCompiler
 	private final Map<CellModel, CellComputation> cellComputations = new HashMap<CellModel, CellComputation>();
 	private final Map<Method, OutputDistributorCompiler> outputDistributors = new HashMap<Method, OutputDistributorCompiler>();
 	private final SectionModel model;
-	private final NumericTypeCompiler numericType;
 	private final Type inputs;
 	private final Type outputs;
 
@@ -50,7 +49,6 @@ class SectionCompiler extends ClassCompiler
 	{
 		super( _compiler, _name, false );
 		this.model = _model;
-		this.numericType = NumericTypeCompiler.typeFor( _compiler.getNumericType(), this );
 		this.inputs = typeFor( inputClass() );
 		this.outputs = typeFor( outputClass() );
 	}
@@ -94,11 +92,6 @@ class SectionCompiler extends ClassCompiler
 	SectionModel model()
 	{
 		return this.model;
-	}
-
-	NumericTypeCompiler numericType()
-	{
-		return this.numericType;
 	}
 
 	Class inputClass()
@@ -153,7 +146,6 @@ class SectionCompiler extends ClassCompiler
 		this.compilationStarted = true;
 		
 		initializeClass( outputClass(), this.outputs, ByteCodeEngineCompiler.COMPUTATION_INTF );
-		numericType().buildStaticMembers();
 		if (hasParent()) buildParentMember();
 		if (hasInputs()) buildInputMember();
 		buildConstructorWithInputs();
@@ -186,7 +178,7 @@ class SectionCompiler extends ClassCompiler
 	}
 
 
-	public NumericMethodCompiler compileExpr( ExpressionNode _node ) throws CompilerException
+	public ValueMethodCompiler compileMethodForExpression( ExpressionNode _node ) throws CompilerException
 	{
 		beginCompilation();
 		HelperCompilerForSubExpr result = new HelperCompilerForSubExpr( this, _node );

@@ -31,28 +31,25 @@ import sej.internal.expressions.ExpressionNodeForFunction;
 
 final class HelperCompilerForMatch extends HelperCompiler
 {
-	private final ExpressionNodeForFunction node;
-
 
 	HelperCompilerForMatch(SectionCompiler _section, ExpressionNodeForFunction _node)
 	{
-		super( _section );
-		this.node = _node;
+		super( _section, _node );
 	}
 
 
 	@Override
 	protected void compileBody() throws CompilerException
 	{
-		switch (this.node.cardinality()) {
+		switch (node().cardinality()) {
 
 			case 2: {
 				compileWithConstType( 1 );
-				break;
+				return;
 			}
 
 			case 3: {
-				final ExpressionNode typeArg = this.node.arguments().get( 2 );
+				final ExpressionNode typeArg = node().arguments().get( 2 );
 				if (typeArg instanceof ExpressionNodeForConstantValue) {
 					final ExpressionNodeForConstantValue constTypeArg = (ExpressionNodeForConstantValue) typeArg;
 					final Object typeVal = constTypeArg.getValue();
@@ -62,29 +59,35 @@ final class HelperCompilerForMatch extends HelperCompiler
 					else {
 						compileWithConstType( 1 );
 					}
+					return;
 				}
-				else {
-					unsupported( this.node );
-				}
-				break;
+				throw new CompilerException.UnsupportedExpression(
+						"The type argument for MATCH (the last one) must be constant." );
 			}
 
-			default:
-				unsupported( this.node );
 		}
+		throw new CompilerException.UnsupportedExpression( "MATCH must have two or three arguments." );
 	}
 
 
 	private void compileWithConstType( int _type ) throws CompilerException
 	{
-		final NumericTypeCompiler num = section().numericType();
-		final Type numType = num.type();
-		final ExpressionNode[] candidates = rangeElements( this.node, this.node.arguments().get( 1 ) );
+		final ExpressionNode valNode = node().arguments().get( 0 );
+		final ExpressionNode candidateNode = node().arguments().get( 1 );
+
+		if (valNode.getDataType() != candidateNode.getDataType()) {
+			throw new CompilerException.UnsupportedExpression(
+					"MATCH must have the same type of argument in the first and second slot." );
+		}
+
+		final ExpressionNode[] candidates = rangeElements( node(), candidateNode );
+		final ExpressionCompilerForNumbers numCompiler = numericCompiler();
+		final ExpressionCompiler valCompiler = expressionCompiler( valNode.getDataType() );
+		final Type valType = valCompiler.type();
 
 		// final double val = <arg_1>;
-		final int l_val = mv().newLocal( numType );
-		compileExpr( this.node.arguments().get( 0 ) );
-
+		final int l_val = mv().newLocal( valType );
+		valCompiler.compile( valNode );
 		mv().storeLocal( l_val );
 
 		// int result = 0;
@@ -96,24 +99,24 @@ final class HelperCompilerForMatch extends HelperCompiler
 
 		for (ExpressionNode candidate : candidates) {
 			mv().loadLocal( l_val );
-			compileExpr( candidate );
+			valCompiler.compile( candidate );
 			if (_type == 0) {
 				// result++;
 				mv().iinc( l_result, 1 );
 				// else if (val == <expr_i>) return result;
-				num.compileComparison( mv(), Opcodes.DCMPL );
+				valCompiler.compileComparison( Opcodes.DCMPL );
 				mv().visitJumpInsn( Opcodes.IFEQ, done );
 			}
 			else if (_type < 0) {
 				// else if (val > <expr_i>) return result;
-				num.compileComparison( mv(), Opcodes.DCMPG );
+				valCompiler.compileComparison( Opcodes.DCMPG );
 				mv().visitJumpInsn( Opcodes.IFGT, done );
 				// result++;
 				mv().iinc( l_result, 1 );
 			}
 			else {
 				// else if (val < <expr_i>) return result;
-				num.compileComparison( mv(), Opcodes.DCMPL );
+				valCompiler.compileComparison( Opcodes.DCMPL );
 				mv().visitJumpInsn( Opcodes.IFLT, done );
 				// result++;
 				mv().iinc( l_result, 1 );
@@ -128,7 +131,7 @@ final class HelperCompilerForMatch extends HelperCompiler
 		mv().mark( done );
 		// return result;
 		mv().loadLocal( l_result );
-		num.compileToNum( mv(), Integer.TYPE );
+		numCompiler.compileConversionFromInt();
 	}
 
 

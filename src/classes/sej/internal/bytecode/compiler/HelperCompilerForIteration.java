@@ -36,7 +36,6 @@ import sej.internal.model.ExpressionNodeForSubSectionModel;
 
 final class HelperCompilerForIteration extends HelperCompiler
 {
-	private final ExpressionNodeForSubSectionModel node;
 	private final SubSectionCompiler sub;
 	private final Operator reductor;
 
@@ -44,9 +43,8 @@ final class HelperCompilerForIteration extends HelperCompiler
 	HelperCompilerForIteration(SectionCompiler _section, Operator _reductor,
 			ExpressionNodeForSubSectionModel _node)
 	{
-		super( _section );
-		this.node = _node;
-		this.sub = section().subSectionCompiler( this.node.getSectionModel() );
+		super( _section, _node );
+		this.sub = section().subSectionCompiler( _node.getSectionModel() );
 		this.reductor = _reductor;
 	}
 
@@ -55,7 +53,7 @@ final class HelperCompilerForIteration extends HelperCompiler
 	protected void compileBody() throws CompilerException
 	{
 		final SubSectionCompiler sub = this.sub;
-		final NumericMethodCompiler subExpr = compileSubExpr( this.node.arguments() );
+		final TypedMethodCompiler subExpr = compileSubExpr( node().arguments() );
 
 		final GeneratorAdapter mv = mv();
 
@@ -77,7 +75,7 @@ final class HelperCompilerForIteration extends HelperCompiler
 		mv.ifZCmp( mv.LE, noData );
 
 		// ~ long result = ds[ 0 ].detailValue();
-		final int l_result = mv.newLocal( numericType().type() );
+		final int l_result = mv.newLocal( subExpr.typeCompiler().type() );
 		mv.loadLocal( l_ds );
 		mv.push( 0 );
 		mv.arrayLoad( sub.classType() );
@@ -100,7 +98,7 @@ final class HelperCompilerForIteration extends HelperCompiler
 		mv.arrayLoad( sub.classType() );
 		mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, sub.classInternalName(), subExpr.methodName(), subExpr
 				.methodDescriptor() );
-		compileOperator( this.reductor, 2 );
+		expressionCompiler().compileOperator( this.reductor, 2 );
 		mv.storeLocal( l_result );
 
 		// ~ }
@@ -112,26 +110,26 @@ final class HelperCompilerForIteration extends HelperCompiler
 
 		// ~ return result;
 		mv.loadLocal( l_result );
-		mv.visitInsn( numericType().returnOpcode() );
+		mv.visitInsn( typeCompiler().returnOpcode() );
 
 		// } else {
 		mv.mark( noData );
-		numericType().compileZero( mv );
+		expressionCompiler().compileZero();
 	}
 
 
-	private NumericMethodCompiler compileSubExpr( List<ExpressionNode> _args ) throws CompilerException
+	private ValueMethodCompiler compileSubExpr( List<ExpressionNode> _args ) throws CompilerException
 	{
 		switch (_args.size()) {
 			case 0:
-				unsupported( this.node );
-				return null;
+				throw new CompilerException.UnsupportedExpression( "Aggregation across subsection must have at least one value to be aggregated." );
 			case 1:
-				return this.sub.compileExpr( _args.get( 0 ) );
+				return this.sub.compileMethodForExpression( _args.get( 0 ) );
 			default:
 				final ExpressionNodeForOperator combiner = new ExpressionNodeForOperator( this.reductor );
+				combiner.setDataType( dataType() );
 				combiner.arguments().addAll( _args );
-				return this.sub.compileExpr( combiner );
+				return this.sub.compileMethodForExpression( combiner );
 		}
 	}
 

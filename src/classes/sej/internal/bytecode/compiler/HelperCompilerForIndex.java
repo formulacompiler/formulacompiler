@@ -36,23 +36,20 @@ import sej.internal.expressions.ExpressionNodeForFunction;
 
 class HelperCompilerForIndex extends HelperCompiler
 {
-	private final ExpressionNodeForFunction node;
-
 
 	HelperCompilerForIndex(SectionCompiler _section, ExpressionNodeForFunction _node)
 	{
-		super( _section );
-		this.node = _node;
+		super( _section, _node );
 	}
 
 
 	@Override
 	protected void compileBody() throws CompilerException
 	{
-		final List<ExpressionNode> args = this.node.arguments();
+		final List<ExpressionNode> args = node().arguments();
 		if (args.size() > 0) {
-			final ExpressionNode[] rangeElements = rangeElements( this.node, args.get( 0 ) );
-			switch (this.node.cardinality()) {
+			final ExpressionNode[] rangeElements = rangeElements( node(), args.get( 0 ) );
+			switch (node().cardinality()) {
 
 				case 2:
 					compileIndexFunction( rangeElements, args.get( 1 ), null );
@@ -64,16 +61,17 @@ class HelperCompilerForIndex extends HelperCompiler
 
 			}
 		}
-		unsupported( this.node );
+		throw new CompilerException.UnsupportedExpression( "INDEX must have two or three arguments." );
 	}
 
 
 	private void compileIndexFunction( final ExpressionNode[] _vals, ExpressionNode _row, ExpressionNode _col ) throws CompilerException
 	{
-		final NumericTypeCompiler num = section().numericType();
-		final Type numType = num.type();
+		final ExpressionCompilerForNumbers numCompiler = numericCompiler();
+		final ExpressionCompiler valCompiler = expressionCompiler();
+		final Type valType = valCompiler.type();
 		final String arrayFieldName = methodName() + "_Consts";
-		final String arrayType = "[" + num.descriptor();
+		final String arrayType = "[" + valCompiler.typeDescriptor();
 
 		compileStaticArrayField( _vals, arrayFieldName );
 
@@ -82,30 +80,30 @@ class HelperCompilerForIndex extends HelperCompiler
 		final int l_i = mv.newLocal( Type.INT_TYPE );
 		if (isNull(_row)) {
 			// final int i = <col> - 1;
-			compileExpr( _col );
-			num.compileIntFromNum( mv );
+			numCompiler.compile( _col );
+			numCompiler.compileConversionToInt();
 			mv.push( 1 );
 			mv.visitInsn( Opcodes.ISUB );
 		}
 		else if (isNull(_col)) {
 			// final int i = <row> - 1;
-			compileExpr( _row );
-			num.compileIntFromNum( mv );
+			numCompiler.compile( _row );
+			numCompiler.compileConversionToInt();
 			mv.push( 1 );
 			mv.visitInsn( Opcodes.ISUB );
 		}
 		else {
 			// final int i = (<row> - 1) * <num_cols>) + (<col> - 1);
-			compileExpr( _row );
-			num.compileIntFromNum( mv );
+			numCompiler.compile( _row );
+			numCompiler.compileConversionToInt();
 			mv.push( 1 );
 			mv.visitInsn( Opcodes.ISUB );
 
-			mv.push( range( this.node, this.node.arguments().get(0)).getNumberOfColumns() );
+			mv.push( range( node(), node().arguments().get(0)).getNumberOfColumns() );
 			mv.visitInsn( Opcodes.IMUL );
 			
-			compileExpr( _col );
-			num.compileIntFromNum( mv );
+			numCompiler.compile( _col );
+			numCompiler.compileConversionToInt();
 			mv.push( 1 );
 			mv.visitInsn( Opcodes.ISUB );
 
@@ -135,8 +133,8 @@ class HelperCompilerForIndex extends HelperCompiler
 					{
 						final ExpressionNode val = _vals[ _key ];
 						try {
-							compileExpr( val );
-							mv.visitInsn( num.returnOpcode() );
+							valCompiler.compile( val );
+							mv.visitInsn( valCompiler.typeCompiler().returnOpcode() );
 						}
 						catch (CompilerException e) {
 							throw new InnerException( e );
@@ -167,21 +165,22 @@ class HelperCompilerForIndex extends HelperCompiler
 
 		mv.visitFieldInsn( Opcodes.GETSTATIC, section().classInternalName(), arrayFieldName, arrayType );
 		mv.loadLocal( l_i );
-		mv.arrayLoad( numType );
-		mv.visitInsn( num.returnOpcode() );
+		mv.arrayLoad( valType );
+		mv.visitInsn( valCompiler.typeCompiler().returnOpcode() );
 
 		mv.mark( outOfRange );
 
-		num.compileZero( mv );
+		valCompiler.compileZero();
 	}
 
 	private void compileStaticArrayField( ExpressionNode[] _vals, String _name ) throws CompilerException
 	{
 		final int n = _vals.length;
 
-		final NumericTypeCompiler num = section().numericType();
-		final Type numType = num.type();
-		final String arrayType = "[" + num.descriptor();
+		final ExpressionCompiler valCompiler = expressionCompiler();
+		final TypeCompiler valTypeCompiler = valCompiler.typeCompiler();
+		final Type valType = valCompiler.type();
+		final String arrayType = "[" + valCompiler.typeDescriptor();
 
 		// private final static double[] xy
 		final FieldVisitor fv = cw().visitField( Opcodes.ACC_PRIVATE | Opcodes.ACC_FINAL | Opcodes.ACC_STATIC, _name,
@@ -191,7 +190,7 @@ class HelperCompilerForIndex extends HelperCompiler
 		// ... new double[ n ]
 		final GeneratorAdapter ci = section().initializer();
 		ci.push( n );
-		ci.newArray( numType );
+		ci.newArray( valType );
 
 		// ... { c1, c2, ... }
 		int i = 0;
@@ -200,8 +199,8 @@ class HelperCompilerForIndex extends HelperCompiler
 				ci.visitInsn( Opcodes.DUP );
 				ci.visitIntInsn( Opcodes.BIPUSH, i++ );
 				ExpressionNodeForConstantValue constVal = (ExpressionNodeForConstantValue) val;
-				num.compileConst( ci, constVal.getValue() );
-				ci.arrayStore( numType );
+				valTypeCompiler.compileConst( ci, constVal.getValue() );
+				ci.arrayStore( valType );
 			}
 		}
 
