@@ -26,7 +26,7 @@ import sej.SEJ;
 
 public class ScaledLongTypeTest extends AbstractNumericTypeTest
 {
-	private final NumericType type = SEJ.LONG4;
+	private final NumericType type = SEJ.SCALEDLONG4;
 
 	@Override
 	protected NumericType getType()

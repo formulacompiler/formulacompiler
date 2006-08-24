@@ -48,7 +48,7 @@ public class BonusPerEmployee_Linked extends TestCase
 	public void testBonusPerEmployee() throws Exception
 	{
 		EngineBuilder builder = SEJ.newEngineBuilder();
-		builder.setNumericType( SEJ.LONG4 );
+		builder.setNumericType( SEJ.SCALEDLONG4 );
 		builder.loadSpreadsheet( SHEETPATH );
 		builder.setFactoryClass( BonusComputationFactory.class );
 

@@ -63,7 +63,7 @@ public class UsingScaledLong extends TestCase
 		builder.setInputClass( Input.class );
 		builder.setOutputClass( Output4.class );
 		// ---- buildCompiler4
-		builder.setNumericType( /**/SEJ.LONG4/**/ );
+		builder.setNumericType( /**/SEJ.SCALEDLONG4/**/ );
 		// ---- buildCompiler4
 		builder.bindAllByName();
 		Engine engine = builder.compile();

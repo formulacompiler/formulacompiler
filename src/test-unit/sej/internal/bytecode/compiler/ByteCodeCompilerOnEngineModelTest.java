@@ -204,9 +204,9 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 	private void assertScaledLongResult( final double _expectedResult, final ComputationModel _engineModel )
 			throws Exception
 	{
-		final Outputs outputs = newOutputs( _engineModel, SEJ.LONG4 );
+		final Outputs outputs = newOutputs( _engineModel, SEJ.SCALEDLONG4 );
 		final long actual = outputs.getScaledLongA();
-		final long expected = SEJ.LONG4.valueOf( _expectedResult ).longValue();
+		final long expected = SEJ.SCALEDLONG4.valueOf( _expectedResult ).longValue();
 		final long diff = actual - expected;
 		if (diff > 1 || diff < -1) { // accept difference in the last decimal due to rounding
 												// problems with division
