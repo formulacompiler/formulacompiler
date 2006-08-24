@@ -44,16 +44,15 @@ public class CategoryTotalsUseCaseTest extends AbstractUseCaseTest
 			public void defineEngine( Spreadsheet _model, SpreadsheetBinder.Section _root ) throws Exception
 			{
 				SpreadsheetBinder.Section cats = _root.defineRepeatingSection( _model.getRange( "Categories" ),
-						Orientation.VERTICAL, call( Input.class, "categories" ), CategoryInput.class, null, null );
-				// LATER call( Output.class, "categories" ), CategoryOutput.class );
+						Orientation.VERTICAL, call( Input.class, "categories" ), CategoryInput.class, call( Output.class,
+								"categories" ), CategoryOutput.class );
 
 				SpreadsheetBinder.Section elements = cats.defineRepeatingSection( _model.getRange( "Elements" ),
 						Orientation.VERTICAL, call( CategoryInput.class, "elements" ), ElementInput.class, null, null );
 
 				elements.defineInputCell( _model.getCell( "ElementAmount" ), call( ElementInput.class, "amount" ) );
 
-				// LATER cats.defineOutputCell( _model.getCell( "CategoryTotal" ), call(
-				// CategoryOutput.class, "categoryTotal" ) );
+				cats.defineOutputCell( _model.getCell( "CategoryTotal" ), call( CategoryOutput.class, "categoryTotal" ) );
 
 				_root.defineOutputCell( _model.getCell( "GrandTotal" ), call( Output.class, "grandTotal" ) );
 			}
@@ -64,11 +63,11 @@ public class CategoryTotalsUseCaseTest extends AbstractUseCaseTest
 
 				assertEquals( 59, computation.grandTotal() );
 
-				// LATER CategoryOutput[] cats = computation.categories();
-				// assertEquals( 3, cats.length );
-				// assertEquals( 18, cats[ 0 ].categoryTotal() );
-				// assertEquals( 21, cats[ 1 ].categoryTotal() );
-				// assertEquals( 20, cats[ 2 ].categoryTotal() );
+				CategoryOutput[] cats = computation.categories();
+				assertEquals( 3, cats.length );
+				assertEquals( 18, cats[ 0 ].categoryTotal() );
+				assertEquals( 21, cats[ 1 ].categoryTotal() );
+				assertEquals( 20, cats[ 2 ].categoryTotal() );
 			}
 
 		}, Input.class, Output.class );
@@ -120,7 +119,7 @@ public class CategoryTotalsUseCaseTest extends AbstractUseCaseTest
 	public static interface Output extends Resettable
 	{
 		public int grandTotal();
-		// LATER public CategoryOutput[] categories();
+		public CategoryOutput[] categories();
 	}
 
 	public static interface CategoryOutput

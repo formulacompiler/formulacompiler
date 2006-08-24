@@ -37,6 +37,7 @@ terminal IF, AND, OR, NOT;
 terminal SUM, PRODUCT, COUNT, AVERAGE, MIN, MAX;
 terminal MATCH, INDEX, ROUND;
 terminal TODAY;
+terminal CONCATENATE;
 terminal Integer INT;
 terminal Double DBL;
 terminal String STRING;
@@ -54,11 +55,13 @@ non terminal ExpressionNode arg;
 non terminal ExpressionNode optarg;
 non terminal ExpressionNode rangeexpr;
 non terminal ExpressionNode shapedrangeexpr;
+non terminal Collection<ExpressionNode> args;
 non terminal CellIndex cell;
 non terminal CellRange range;
 non terminal ExpressionNode rangeunion;
 non terminal ExpressionNode rangeintersection;
 non terminal Aggregator agg;
+non terminal ExpressionNode concat;
 
 precedence left EQUAL, NOTEQUAL, GREATER, GREATEROREQUAL, LESS, LESSOREQUAL;
 precedence left CONCAT;
@@ -149,8 +152,8 @@ expr ::=
 	|   PLUS expr:e
 				{: RESULT = cell( e ); :}
 
-	|	expr:l CONCAT expr:r
-				{: RESULT = new ExpressionNodeForOperator( Operator.CONCAT, cell( l ), cell( r ) ); :}
+	|	concat:c
+				{: RESULT = c; :}
 
 	|	expr:l PLUS expr:r
 				{: RESULT = new ExpressionNodeForOperator( Operator.PLUS, cell( l ), cell( r ) ); :}
@@ -212,8 +215,21 @@ expr ::=
 	|	TODAY LPAREN RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.TODAY ); :}
 				
+	|	CONCATENATE LPAREN args:a RPAREN
+				{: RESULT = new ExpressionNodeForOperator( Operator.CONCAT, a ); :}
 	;
 
+
+concat ::=
+
+		expr:l CONCAT expr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.CONCAT, cell( l ), cell( r ) ); :}
+				
+	|	concat:l CONCAT expr:r
+				{: l.addArgument( r ); RESULT = l; :}
+				
+	;
+		
 	
 arg ::=
 
@@ -241,7 +257,18 @@ optexpr ::=
 				{: RESULT = cell( e ); :}
 				
 	;
-	
+
+
+args ::=
+
+		expr:e
+				{: RESULT = new ArrayList<ExpressionNode>(); RESULT.add( e ); :}
+		
+	|	args:a COMMA expr:e
+				{: a.add( e ); RESULT = a; :}
+				
+	;
+
 	
 agg ::=
 

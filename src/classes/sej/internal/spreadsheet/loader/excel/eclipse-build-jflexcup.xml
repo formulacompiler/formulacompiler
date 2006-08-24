@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="ExcelExpressionParser" default="all">
 
-	<taskdef classname="JFlex.anttask.JFlexTask" name="jflex" />
-	<taskdef classname="java_cup.AntTask" name="cup" />
+	<taskdef classname="JFlex.anttask.JFlexTask" name="jflex" classpath="J:/jflex-1.4.1/lib/JFlex.jar"/>
+	<taskdef classname="java_cup.anttask.CUPTask" name="cup" classpath="J:/java-cup-11a/dist/java-cup-11a.jar" />
 
 	<target name="lex">
 		<jflex file="classes/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerA1.lex"
@@ -12,8 +12,8 @@
 	</target>
 
 	<target name="cup">
-		<cup file="classes/sej/internal/spreadsheet/loader/excel/ExcelExpressionParser.cup" 
-			dir="classes-gen/sej/internal/spreadsheet/loader/excel/" 
+		<cup srcfile="classes/sej/internal/spreadsheet/loader/excel/ExcelExpressionParser.cup" 
+			destdir="classes-gen" 
 			parser="GeneratedParser" 
 			symbols="GeneratedSymbols"
 			nopositions="true"

@@ -23,8 +23,8 @@
 			<attribute name="javadoc_location" value="file:/J:/jexcelapi-2.5.9/docs/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry path="lib/java-cup-runtime-v10k.jar" kind="lib"/>
 	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"/>
 	<classpathentry path="org.eclipse.jdt.USER_LIBRARY/JUnit" kind="con"/>
+	<classpathentry path="lib/java-cup-11a-runtime.jar" kind="lib"/>
 	<classpathentry path="build/dev" kind="output"/>
 </classpath>

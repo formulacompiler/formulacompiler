@@ -98,6 +98,14 @@ public class ExcelExpressionParserTest extends TestCase
 	}
 
 
+	public void testConcat() throws Exception
+	{
+		assertParsableAll( "(1.0 & 2.0 & 3.0 & 4.0)", "1 & 2 & 3 & 4" );
+		assertParsableAll( "(1.0 & (2.0 & 3.0) & 4.0)", "1 & (2 & 3) & 4" );
+		assertParsableAll( "(1.0 & 2.0 & 3.0 & 4.0)", "CONCATENATE( 1, 2, 3, 4 )" );
+	}
+
+
 	public void testCellAndRangeMixes() throws Exception
 	{
 		assertParsableA1( "SUM( A1:B2, C5, A1:B5 A2:E8, (A1 + A2) )", "SUM( A1:B2, C5, A1:B5 A2:E8, A1+A2 )" );

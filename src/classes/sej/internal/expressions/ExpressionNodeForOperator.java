@@ -21,6 +21,7 @@
 package sej.internal.expressions;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import sej.Operator;
 import sej.describable.DescriptionBuilder;
@@ -41,6 +42,13 @@ public class ExpressionNodeForOperator extends ExpressionNode
 	}
 
 
+	public ExpressionNodeForOperator(Operator _operator, Collection _args)
+	{
+		super( _args );
+		this.operator = _operator;
+	}
+
+
 	public Operator getOperator()
 	{
 		return this.operator;
@@ -57,7 +65,8 @@ public class ExpressionNodeForOperator extends ExpressionNode
 	@Override
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
-		switch (arguments().size()) {
+		final int argCount = arguments().size();
+		switch (argCount) {
 
 		case 0:
 			_to.append( this.operator.getSymbol() );
@@ -69,13 +78,15 @@ public class ExpressionNodeForOperator extends ExpressionNode
 			if (!this.operator.isPrefix()) _to.append( this.operator.getSymbol() );
 			_to.append( ")" );
 			break;
-		case 2:
+		default:
 			_to.append( "(" );
 			describeArgumentTo( _to, 0 );
-			_to.append( " " );
-			_to.append( this.operator.getSymbol() );
-			_to.append( " " );
-			describeArgumentTo( _to, 1 );
+			for (int i = 1; i < argCount; i++) {
+				_to.append( " " );
+				_to.append( this.operator.getSymbol() );
+				_to.append( " " );
+				describeArgumentTo( _to, i );
+			}
 			_to.append( ")" );
 			break;
 		}
