@@ -45,8 +45,7 @@
 	<property name="javadoc.dir" location="${doc.dir}/javadoc" />
 
 	<path id="build.classpath">
-		<fileset dir="${lib.dir}" includes="**/*.jar" />
-		<fileset dir="${lib.dir}/build-only" includes="**/*.jar" />
+		<fileset dir="${lib.dir}" includes="*.jar" />
 	</path>
 	<property name="build.classpath" refid="build.classpath" />
 	
@@ -58,7 +57,7 @@
 	<property name="src.cite.path" refid="cite.path" />
 
 	<path id="lib.classpath">
-		<fileset dir="${lib.dir}" includes="**/*.jar" />
+		<fileset dir="${lib.dir}" includes="**/*.jar" excludes="**/incompatible/*" />
 	</path>
 	<property name="lib.classpath" refid="lib.classpath" />
 
@@ -106,8 +105,8 @@
 	<!-- Generates source code                                             -->
 	<!-- ================================================================= -->
 
-	<taskdef classname="JFlex.anttask.JFlexTask" name="jflex" classpath="${lib.dir}/build-only/JFlex.jar" />
-	<taskdef classname="java_cup.anttask.CUPTask" name="cup" classpath="${lib.dir}/build-only/java-cup-11a.jar" />
+	<taskdef classname="JFlex.anttask.JFlexTask" name="jflex" classpath="${lib.dir}/build-only/incompatible/JFlex.jar" />
+	<taskdef classname="java_cup.anttask.CUPTask" name="cup" classpath="${lib.dir}/build-only/incompatible/java-cup-11a.jar" />
 
 	<target name="lex" depends="prepare">
 		<jflex file="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerA1.lex" destdir="${src.classes.gen.dir}" />
@@ -155,7 +154,7 @@
 		<delete dir="${build.classes14.dir}" />
 		<mkdir dir="${build.classes14.dir}"/>
 		
-		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${build.classpath}" failonerror="yes">
+		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${lib.classpath}" failonerror="yes">
 			<arg value="-srcdir" />
 			<arg file="${build.classes-unverified.dir}" />
 			<arg value="-srcjar" />
@@ -167,7 +166,7 @@
 			<arg value="-advanced" />  <!-- support BigDecimal.setScale with negative scale -->
 		</java>
 	
-		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${build.classpath}" failonerror="yes">
+		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${lib.classpath}" failonerror="yes">
 			<arg value="-srcdir" />
 			<arg file="${build.classes.dir}" />
 			<arg value="-srcjar" />
@@ -349,7 +348,7 @@
 		<mkdir dir="${build.test-unit14.dir}" />
 		<mkdir dir="${build.test-system14.dir}" />
 
-		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${build.classpath}:${build.classes14.dir}" failonerror="yes">
+		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${lib.classpath}:${build.classes14.dir}" failonerror="yes">
 			<arg value="-srcdir" />
 			<arg path="${build.test-unit.dir}" />
 			<arg value="-destdir" />
@@ -358,7 +357,7 @@
 			<arg value="-lazy" />
 		</java>
 
-		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${build.classpath}:${build.classes14.dir}" failonerror="yes">
+		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${lib.classpath}:${build.classes14.dir}" failonerror="yes">
 			<arg value="-srcdir" />
 			<arg path="${build.test-system.dir}" />
 			<arg value="-destdir" />
@@ -380,6 +379,7 @@
 				<pathelement path="${build.test-unit14.dir}" />
 				<pathelement path="${build.test-system14.dir}" />
 				<pathelement location="${jar14.file}" />
+				<pathelement location="${lib.dir}/build-only/backport-util-concurrent.jar" />
 			</classpath>
 
 			<batchtest>
@@ -406,6 +406,7 @@
 				<path refid="build.classpath" />
 				<pathelement path="${build.test-system14.dir}" />
 				<pathelement location="${jar14.runtime.file}" />
+				<pathelement location="${lib.dir}/build-only/backport-util-concurrent.jar" />
 			</classpath>
 
 			<batchtest>
@@ -432,11 +433,12 @@
 				<pathelement path="${build.test-unit14.dir}" />
 				<pathelement path="${build.test-system14.dir}" />
 				<pathelement location="${jar14.file}" />
+				<pathelement location="${lib.dir}/build-only/backport-util-concurrent.jar" />
 			</classpath>
 
 			<batchtest>
 				<fileset dir="${build.test-system14.dir}">
-					<include name="sej/tutorials/TypeConversion.class" />
+					<include name="sej/tutorials/Caching.class" />
 				</fileset>
 			</batchtest>
 
@@ -597,7 +599,7 @@
 			</fileset>
 		</copy>
 
-		<java classname="ch.arrenbrecht.jcite.JCite" classpath="${build.classpath}" failonerror="yes">
+		<java classname="ch.arrenbrecht.jcite.JCite" classpath="${lib.classpath}" failonerror="yes">
 			<arg value="-sp" />
 			<arg path="${src.classes.dir}" />
 			<arg value="-sp" />

@@ -61,4 +61,9 @@ public abstract class Runtime_v1
 		return new StringBuilder( _first );
 	}
 	
+	public static StringBuffer newStringBuffer( String _first )
+	{
+		return new StringBuffer( _first );
+	}
+	
 }
