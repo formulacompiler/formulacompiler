@@ -29,7 +29,6 @@ import sej.Spreadsheet;
 import sej.SpreadsheetBuilder;
 import sej.SpreadsheetBinder.Section;
 import sej.SpreadsheetBuilder.CellRef;
-import sej.internal.Debug;
 import sej.runtime.Resettable;
 import junit.framework.TestCase;
 
@@ -64,8 +63,6 @@ public class StringsTest extends TestCase
 			bindSheet( s, rb );
 			SaveableEngine e = eb.compile();
 			
-			Debug.saveEngine( e, "d:/temp/" + getName() + ".jar" );
-
 			MyFactory f = (MyFactory) e.getComputationFactory();
 
 			MyInputs i = new MyInputs();
