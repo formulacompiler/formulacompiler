@@ -343,7 +343,7 @@ final class ExpressionCompilerForScaledLongs extends ExpressionCompilerForNumber
 				break;
 
 			default:
-				unsupported( "Operator " + _operator + " is not supported for scaled longs." );
+				super.compileOperator( _operator, _numberOfArguments );
 		}
 	}
 

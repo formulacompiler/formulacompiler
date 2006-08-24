@@ -261,7 +261,10 @@ public class FormulaEvaluationTestSuite extends TestSuite
 							new CallFrame( getOutputClass().getMethod( "getDate" ) ) );
 					this.expected = Runtime_v1.today();
 				}
-				else fail( "Output string not supported: " + str );
+				else {
+					root.defineOutputCell( outputCell.getCellIndex(), new CallFrame( getOutputClass()
+							.getMethod( "getString" ) ) );
+				}
 			}
 			else fail( "Output cell type not supported: " + this.expected.getClass() );
 
@@ -292,6 +295,10 @@ public class FormulaEvaluationTestSuite extends TestSuite
 							root.defineInputCell( inputReferenceCellIndex, new CallFrame( getInputClass().getMethod(
 									"getBoolean", new Class[] { Integer.TYPE } ), iInput ) );
 						}
+						else if (inputValue instanceof String) {
+							root.defineInputCell( inputReferenceCellIndex, new CallFrame( getInputClass().getMethod(
+									"getString", new Class[] { Integer.TYPE } ), iInput ) );
+						}
 						else {
 							fail( "Input cell type not supported" );
 						}
@@ -318,6 +325,10 @@ public class FormulaEvaluationTestSuite extends TestSuite
 				}
 				else if (this.expected instanceof Boolean) {
 					final boolean actual = computation.getBoolean();
+					assertEquals( this.expected, actual );
+				}
+				else if (this.expected instanceof String) {
+					final String actual = computation.getString();
 					assertEquals( this.expected, actual );
 				}
 				else fail( "Output comparison not implemented" );
@@ -379,6 +390,11 @@ public class FormulaEvaluationTestSuite extends TestSuite
 				if (this.values[ _index ] == null) return false;
 				return (Boolean) this.values[ _index ];
 			}
+			
+			public String getString( int _index )
+			{
+				return (String) this.values[ _index ];
+			}
 
 		}
 
@@ -392,6 +408,11 @@ public class FormulaEvaluationTestSuite extends TestSuite
 			public boolean getBoolean()
 			{
 				throw new AbstractMethodError( "getBoolean()" );
+			}
+			
+			public String getString()
+			{
+				throw new AbstractMethodError( "getString()" );
 			}
 		}
 

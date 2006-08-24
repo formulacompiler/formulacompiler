@@ -29,6 +29,7 @@ import sej.Spreadsheet;
 import sej.SpreadsheetBuilder;
 import sej.SpreadsheetBinder.Section;
 import sej.SpreadsheetBuilder.CellRef;
+import sej.internal.Debug;
 import sej.runtime.Resettable;
 import junit.framework.TestCase;
 
@@ -62,6 +63,8 @@ public class StringsTest extends TestCase
 			Section rb = eb.getRootBinder();
 			bindSheet( s, rb );
 			SaveableEngine e = eb.compile();
+			
+			Debug.saveEngine( e, "d:/temp/" + getName() + ".jar" );
 
 			MyFactory f = (MyFactory) e.getComputationFactory();
 
@@ -182,7 +185,7 @@ public class StringsTest extends TestCase
 			this.bindA = a;
 			this.bindB = b;
 			this.bindC = c;
-			this.expected = ((a == 0) ? "a" : "C") + ((b == 0) ? "b" : "B") + ((c == 0) ? "c" : "C");
+			this.expected = ((a == 0) ? "a" : "A") + ((b == 0) ? "b" : "B") + ((c == 0) ? "c" : "C");
 		}
 
 		@Override

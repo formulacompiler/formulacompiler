@@ -190,7 +190,7 @@ final class ExpressionCompilerForDoubles extends ExpressionCompilerForNumbers
 				break;
 
 			default:
-				unsupported( "Operator " + _operator + " is not supported for doubles." );
+				super.compileOperator( _operator, _numberOfArguments );
 		}
 	}
 

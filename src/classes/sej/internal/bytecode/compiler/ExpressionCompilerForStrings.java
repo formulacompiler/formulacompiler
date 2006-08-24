@@ -21,12 +21,15 @@
 package sej.internal.bytecode.compiler;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.List;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import sej.CompilerException;
-import sej.Operator;
+import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForOperator;
 
 final class ExpressionCompilerForStrings extends ExpressionCompiler
 {
@@ -85,30 +88,50 @@ final class ExpressionCompilerForStrings extends ExpressionCompiler
 		Class returnType = _method.getReturnType();
 		compileConversionTo( returnType );
 	}
-
-
+	
+	
 	@Override
-	protected void compileOperator( Operator _operator, int _numberOfArguments ) throws CompilerException
+	protected void compileOperator( ExpressionNodeForOperator _node ) throws CompilerException
 	{
-		switch (_operator) {
+		final List<ExpressionNode> args = _node.arguments();
+		switch (_node.getOperator()) {
 
 			case CONCAT:
-				switch (_numberOfArguments) {
+				switch (args.size()) {
 					case 0:
 						unsupported( "CONCAT needs at least one argument." );
 						break;
 					case 1:
-						return;
+						compile( args.get(0) );
+						break;
 					default:
-						
+						compileConcatenation( args );
 				}
-				break;
+				return;
 				
 		}
-		unsupported( "Operator " + _operator + " is not supported for strings." );
+		super.compileOperator( _node );
 	}
 
 
+	private final void compileConcatenation( Collection<ExpressionNode> _args ) throws CompilerException
+	{
+		boolean first = true;
+		for (ExpressionNode arg : _args) {
+			if (first) {
+				compile( arg );
+				compileRuntimeMethod( "newStringBuilder", "(Ljava/lang/String;)Ljava/lang/StringBuilder;" );
+				first = false;
+			}
+			else {
+				compile( arg );
+				mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;" );
+			}
+		}
+		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/StringBuilder", "toString", "()Ljava/lang/String;" );
+	}
+
+	
 	@Override
 	protected void compileComparison( int _comparisonOpcode ) throws CompilerException
 	{
@@ -117,11 +140,11 @@ final class ExpressionCompilerForStrings extends ExpressionCompiler
 		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/String", "compareTo", "(Ljava/lang/String;)I" );
 	}
 
-	
+
 	@Override
 	public String toString()
 	{
 		return "string";
 	}
-	
+
 }

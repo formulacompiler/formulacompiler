@@ -20,8 +20,12 @@
  */
 package sej.internal.model.optimizer.consteval;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import sej.Operator;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.util.InterpretedNumericType;
 
@@ -39,6 +43,56 @@ public class EvalOperator extends EvalShadow
 	{
 		final Operator operator = ((ExpressionNodeForOperator) node()).getOperator();
 		return type().compute( operator, _args );
+	}
+	
+	
+	@Override
+	protected Object nodeWithConstantArgsFixed( Object[] _args )
+	{
+		final Object result = super.nodeWithConstantArgsFixed( _args );
+		if (result instanceof ExpressionNodeForOperator) {
+			ExpressionNodeForOperator opNode = (ExpressionNodeForOperator) result;
+			if (opNode.getOperator() == Operator.CONCAT) {
+				return concatConsecutiveConstArgsOf( opNode );
+			}
+		}
+		return result;
+	}
+
+
+	private final ExpressionNodeForOperator concatConsecutiveConstArgsOf( ExpressionNodeForOperator _opNode )
+	{
+		final Collection<ExpressionNode> newArgs = new ArrayList<ExpressionNode>( _opNode.arguments().size() );
+		boolean modified = false;
+		StringBuilder buildUp = null;
+		for (final ExpressionNode arg : _opNode.arguments()) {
+			if (arg instanceof ExpressionNodeForConstantValue) {
+				final ExpressionNodeForConstantValue constArg = (ExpressionNodeForConstantValue) arg;
+				if (buildUp == null) {
+					buildUp = new StringBuilder( constArg.getValue().toString() );
+				}
+				else {
+					buildUp.append( constArg.getValue() );
+					modified = true;
+				}
+			}
+			else {
+				if (buildUp != null) {
+					newArgs.add( new ExpressionNodeForConstantValue( buildUp.toString() ) );
+					buildUp = null;
+				}
+				newArgs.add( arg );
+			}
+		}
+		if (modified) {
+			if (buildUp != null) {
+				newArgs.add( new ExpressionNodeForConstantValue( buildUp.toString() ) );
+			}
+			return new ExpressionNodeForOperator( Operator.CONCAT, newArgs );
+		}
+		else {
+			return _opNode;
+		}
 	}
 
 }
