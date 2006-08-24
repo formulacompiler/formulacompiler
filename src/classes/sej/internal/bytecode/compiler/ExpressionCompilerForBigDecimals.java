@@ -31,6 +31,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 import sej.CompilerException;
 import sej.NumericType;
 import sej.Operator;
+import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.runtime.ScaledLong;
 
 final class ExpressionCompilerForBigDecimals extends ExpressionCompilerForNumbers
@@ -300,12 +301,29 @@ final class ExpressionCompilerForBigDecimals extends ExpressionCompilerForNumber
 				super.compileOperator( _operator, _numberOfArguments );
 		}
 	}
-
-
+	
+	
+	@Override
+	protected void compileStdFunction( ExpressionNodeForFunction _node ) throws CompilerException
+	{
+		super.compileStdFunction( _node );
+		compileScaleAdjustment();
+	}
+	
+	
+	@Override
+	protected void compileRound()
+	{
+		super.compileRound();
+		compileScaleAdjustment();
+	}
+	
+	
 	@Override
 	protected void compileComparison( int _comparisonOpcode ) throws CompilerException
 	{
 		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "compareTo", "(" + B + ")I" );
 	}
 
+	
 }

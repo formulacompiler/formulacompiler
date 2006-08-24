@@ -340,13 +340,13 @@ public class SEJ extends SEJRuntime
 	 * {@code long} scaled to 4 decimal places for fast, fixed point computations (similar to the
 	 * currency type found in Microsoft COM and Borland Delphi).
 	 */
-	public static final NumericType LONG4 = getNumericType( Long.TYPE, 4 );
+	public static final NumericType SCALEDLONG4 = getNumericType( Long.TYPE, 4 );
 
 	/**
 	 * Scaled {@code long} with 4 decimal places. Corresponds to the Currency type found in Microsoft
 	 * COM and Borland Delphi.
 	 */
-	public static final NumericType CURRENCY = LONG4;
+	public static final NumericType CURRENCY = SCALEDLONG4;
 
 	/**
 	 * Default type used when no explicit type is specified.

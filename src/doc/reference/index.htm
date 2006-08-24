@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>SEJ Function Reference - arrenbrecht.ch</title>
+    <style type="text/css" media="screen">
+        @import "../style.css";
+	
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+</head>
+<body>
+    <div class="all">
+        <div class="nav">
+            <p class="nav">
+<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a> &gt;
+<a href="../index.htm">SEJ</a> &gt;
+<a href="index.htm">Reference</a> &gt;
+
+			</p>
+        </div>
+        <div class="title">
+            <h1>
+                SEJ Function Reference</h1>
+        </div>
+        
+        
+        <div class="content">
+        
+<p>This is the function reference for the Spreadsheet Engine for Java (SEJ). You might also want to have a look at the <a href="../tutorial/index.htm">Tutorial</a> and the <a href="../javadoc/index.html">API Reference</a>.</p>
+<p>Since SEJ only supports <em>Microsoft Excel</em> spreadsheets as input at the moment, this reference uses Excel as a baseline for expected behaviour of the supported functions.</p>
+
+<h5>Note</h5>
+<p>To ensure its correctness, all the sample code and spreadsheets in this tutorial have been <a href="http://arrenbrecht.ch/jcite/">cited from automated tests</a> that are run with every release build (unless stated otherwise). The tests can be found in <tt>src/test-system/</tt> in the source distribution of SEJ. The accompanying data is in <tt>src/test-system/testdata/</tt>.</p>
+
+<h2>Data Values</h2>
+<p>SEJ supports the following types of values in cells:</p>
+<ul compact class="compact">
+<li>strings</li>
+<li>numbers (including monetary and percentage values)</li>
+<li>dates and times</li>
+<li>booleans</li>
+</ul>
+<p>Internally, SEJ really only supports two basic data types: numbers and strings. This suffices because Excel internally treats dates, times, and booleans as numbers, too.</p>
+<p>For a particular engine compiled by SEJ, the numbers are all of the same type. The default is the <tt>double</tt> type, which is what Excel uses as well. See the tutorial for details on the <a href="../tutorial/numeric_type.htm">available numeric types</a> and how to choose one.</p>
+
+<h5>Empty Cells</h5>
+<p>SEJ currently has no proper support for empty cells. It simply treats them like the number zero. This is most noticeable in functions like <tt>COUNT</tt>, <tt>AVERAGE</tt>, or <tt>PRODUCT</tt>.</p>
+
+<h2>Numeric Operators</h2>
+<p>[xc:testdata/sej/tests/Ref_NumericOperators.xls]</p>        </div>
+        <div class="footer">
+<p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
+<br/>Last updated on 24.08.2006.</p>        </div>
+    </div>
+</body>
+</html>

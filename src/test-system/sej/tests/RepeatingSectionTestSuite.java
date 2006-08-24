@@ -138,7 +138,7 @@ public class RepeatingSectionTestSuite extends TestSuite
 
 			addTest( new SectionTestCase( SEJ.DOUBLE ) );
 			addTest( new SectionTestCase( SEJ.BIGDECIMAL8 ) );
-			addTest( new SectionTestCase( SEJ.LONG4 ) );
+			addTest( new SectionTestCase( SEJ.SCALEDLONG4 ) );
 		}
 
 

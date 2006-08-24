@@ -235,7 +235,7 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 	}
 
 
-	private final void compileStdFunction( ExpressionNodeForFunction _node ) throws CompilerException
+	protected void compileStdFunction( ExpressionNodeForFunction _node ) throws CompilerException
 	{
 		final boolean needsContext = doesStdFunctionNeedContext( _node );
 		final StringBuilder descriptorBuilder = new StringBuilder();

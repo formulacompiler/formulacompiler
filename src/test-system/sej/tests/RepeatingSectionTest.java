@@ -51,7 +51,7 @@ public class RepeatingSectionTest extends TestCase
 
 	public void testLong4Aggregators() throws Exception
 	{
-		testAggregators( SEJ.LONG4 );
+		testAggregators( SEJ.SCALEDLONG4 );
 	}
 
 

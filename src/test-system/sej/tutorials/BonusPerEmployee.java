@@ -75,7 +75,7 @@ public class BonusPerEmployee extends TestCase
 	public void doTest( AccessorVersion _version ) throws Exception
 	{
 		EngineBuilder builder = SEJ.newEngineBuilder();
-		builder.setNumericType( SEJ.LONG4 );
+		builder.setNumericType( SEJ.SCALEDLONG4 );
 		builder.loadSpreadsheet( SHEETPATH );
 		builder.setFactoryClass( BonusComputationFactory.class );
 		builder.setOutputClass( BonusComputationDefaults.class );

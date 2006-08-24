@@ -51,7 +51,7 @@ public class TypeConversion extends TestCase
 
 	public void testAllTypesWithLong4() throws Exception
 	{
-		testAllTypesWith( SEJ.LONG4, true );
+		testAllTypesWith( SEJ.SCALEDLONG4, true );
 	}
 
 

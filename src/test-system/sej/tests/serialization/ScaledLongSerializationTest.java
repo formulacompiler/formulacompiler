@@ -29,7 +29,7 @@ public final class ScaledLongSerializationTest extends AbstractSerializationTest
 	@Override
 	protected NumericType getNumericType()
 	{
-		return SEJ.LONG4;
+		return SEJ.SCALEDLONG4;
 	}
 
 	@Override

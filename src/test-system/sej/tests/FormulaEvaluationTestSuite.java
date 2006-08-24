@@ -565,7 +565,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		public ScaledLongTestCase(SpreadsheetImpl _workbook, int _formulaRow, int _inputRow, boolean _useInputs,
 				boolean _cachingEnabled)
 		{
-			super( _workbook, _formulaRow, _inputRow, _useInputs, _cachingEnabled, SEJ.LONG4 );
+			super( _workbook, _formulaRow, _inputRow, _useInputs, _cachingEnabled, SEJ.SCALEDLONG4 );
 		}
 
 		@Override
@@ -592,7 +592,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 		{
 			final Outputs computation = (Outputs) _computation;
 			final long actual = computation.getNumber();
-			final long expected = ((Long) SEJ.LONG4.valueOf( _expected )).longValue();
+			final long expected = ((Long) SEJ.SCALEDLONG4.valueOf( _expected )).longValue();
 			assertEquals( expected, actual );
 		}
 
@@ -607,7 +607,7 @@ public class FormulaEvaluationTestSuite extends TestSuite
 
 			public long getNumber( int _index )
 			{
-				return ((Long) SEJ.LONG4.valueOf( getDouble( _index ) )).longValue();
+				return ((Long) SEJ.SCALEDLONG4.valueOf( getDouble( _index ) )).longValue();
 			}
 		}
 

@@ -20,7 +20,7 @@ public class DebugTestLong extends TestCase
 	public void testDebugCase() throws Exception
 	{
 		final EngineBuilder builder = SEJ.newEngineBuilder();
-		builder.setNumericType( SEJ.LONG4 );
+		builder.setNumericType( SEJ.SCALEDLONG4 );
 		builder.setFactoryClass( OutputFactory.class );
 		builder.loadSpreadsheet( "src/scratchpad/data/DebugCase.xls" );
 		builder.bindAllByName();
