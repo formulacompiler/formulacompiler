@@ -297,7 +297,7 @@ final class ExpressionCompilerForBigDecimals extends ExpressionCompilerForNumber
 				break;
 
 			default:
-				unsupported( "Operator " + _operator + " is not supported for BigDecimals." );
+				super.compileOperator( _operator, _numberOfArguments );
 		}
 	}
 

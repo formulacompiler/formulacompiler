@@ -227,7 +227,7 @@ abstract class ExpressionCompiler
 	}
 
 
-	private final void compileOperator( ExpressionNodeForOperator _node ) throws CompilerException
+	protected void compileOperator( ExpressionNodeForOperator _node ) throws CompilerException
 	{
 		final List<ExpressionNode> args = _node.arguments();
 		final Operator op = _node.getOperator();
@@ -253,7 +253,12 @@ abstract class ExpressionCompiler
 	}
 
 
-	protected abstract void compileOperator( Operator _operator, int _numberOfArguments ) throws CompilerException;
+	protected void compileOperator( Operator _operator, int _numberOfArguments ) throws CompilerException
+	{
+		unsupported( "Operator " + _operator + " is not supported for " + this );
+	}
+	
+	
 	protected abstract void compileComparison( int _comparisonOpcode ) throws CompilerException;
 
 

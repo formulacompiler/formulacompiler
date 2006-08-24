@@ -55,4 +55,10 @@ public abstract class Runtime_v1
 		return new Date( today );
 	}
 
+	
+	public static StringBuilder newStringBuilder( String _first )
+	{
+		return new StringBuilder( _first );
+	}
+	
 }
