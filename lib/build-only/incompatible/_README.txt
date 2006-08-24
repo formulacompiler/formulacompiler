@@ -1,0 +1,1 @@
+The .jars in this folder contain incompatible versions of the same packages (currently java_cup.runtime). The are thus excluded from the standard lib path used by build.xml and referenced explicitly when needed.

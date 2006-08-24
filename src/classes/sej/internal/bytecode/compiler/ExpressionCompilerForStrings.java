@@ -88,8 +88,8 @@ final class ExpressionCompilerForStrings extends ExpressionCompiler
 		Class returnType = _method.getReturnType();
 		compileConversionTo( returnType );
 	}
-	
-	
+
+
 	@Override
 	protected void compileOperator( ExpressionNodeForOperator _node ) throws CompilerException
 	{
@@ -102,13 +102,13 @@ final class ExpressionCompilerForStrings extends ExpressionCompiler
 						unsupported( "CONCAT needs at least one argument." );
 						break;
 					case 1:
-						compile( args.get(0) );
+						compile( args.get( 0 ) );
 						break;
 					default:
 						compileConcatenation( args );
 				}
 				return;
-				
+
 		}
 		super.compileOperator( _node );
 	}
@@ -120,18 +120,35 @@ final class ExpressionCompilerForStrings extends ExpressionCompiler
 		for (ExpressionNode arg : _args) {
 			if (first) {
 				compile( arg );
-				compileRuntimeMethod( "newStringBuilder", "(Ljava/lang/String;)Ljava/lang/StringBuilder;" );
+				if (ByteCodeEngineCompiler.JRE14) {
+					compileRuntimeMethod( "newStringBuffer", "(Ljava/lang/String;)Ljava/lang/StringBuffer;" );
+				}
+				else {
+					compileRuntimeMethod( "newStringBuilder", "(Ljava/lang/String;)Ljava/lang/StringBuilder;" );
+				}
 				first = false;
 			}
 			else {
 				compile( arg );
-				mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;" );
+				if (ByteCodeEngineCompiler.JRE14) {
+					mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/StringBuffer", "append",
+							"(Ljava/lang/String;)Ljava/lang/StringBuffer;" );
+				}
+				else {
+					mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/StringBuilder", "append",
+							"(Ljava/lang/String;)Ljava/lang/StringBuilder;" );
+				}
 			}
 		}
-		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/StringBuilder", "toString", "()Ljava/lang/String;" );
+		if (ByteCodeEngineCompiler.JRE14) {
+			mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/StringBuffer", "toString", "()Ljava/lang/String;" );
+		}
+		else {
+			mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/StringBuilder", "toString", "()Ljava/lang/String;" );
+		}
 	}
 
-	
+
 	@Override
 	protected void compileComparison( int _comparisonOpcode ) throws CompilerException
 	{
