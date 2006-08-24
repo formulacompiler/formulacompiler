@@ -288,11 +288,18 @@
 
 	<target name="test" depends="prepare, jar, compile-tests" description="Runs JUnit test suites">
 
+		<delete dir="${build.dir}/temp/testresults" />
+		<mkdir dir="${build.dir}/temp/testresults"/>
+		
 		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${lib.classpath}" />
 
-		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir=".">
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="."
+			tempdir="${build.dir}/temp" >
+			
+			<assertions enablesystemassertions="yes" />
 
-			<formatter type="plain" usefile="no" />
+			<formatter type="plain" usefile="yes" />
+			
 			<classpath>
 				<path refid="build.classpath" />
 				<pathelement path="${build.test-unit.dir}" />
@@ -300,7 +307,7 @@
 				<pathelement location="${jar.file}" />
 			</classpath>
 
-			<batchtest>
+			<batchtest todir="${build.dir}/temp/testresults">
 				<fileset dir="${build.test-unit.dir}">
 					<include name="**/*Test.class" />
 					<exclude name="**/Abstract*" />
@@ -317,16 +324,20 @@
 
 		</junit>
 
-		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir=".">
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="."
+			tempdir="${build.dir}/temp" >
 
-			<formatter type="plain" usefile="no" />
+			<assertions enablesystemassertions="yes" />
+
+			<formatter type="plain" usefile="yes" />
+			
 			<classpath>
 				<path refid="build.classpath" />
 				<pathelement path="${build.test-system.dir}" />
 				<pathelement location="${jar.runtime.file}" />
 			</classpath>
 
-			<batchtest>
+			<batchtest todir="${build.dir}/temp/testresults">
 				<fileset dir="${build.test-system.dir}">
 					<include name="**/*DeserializationTest.class" />
 					<exclude name="**/Abstract*" />
@@ -368,12 +379,19 @@
 	</target>
 
 	<target name="test14" depends="prepare, jar14, compile-tests14" description="Runs JUnit test suites with JRE 1.4">
+		
+		<delete dir="${build.dir}/temp/testresults14" />
+		<mkdir dir="${build.dir}/temp/testresults14"/>
 
 		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${test.classpath14}" />
 
-		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" jvm="${java14.home.dir}\bin\java" dir=".">
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" jvm="${java14.home.dir}\bin\java" dir="."
+			tempdir="${build.dir}/temp" >
+		
+			<assertions enablesystemassertions="yes" />
 
-			<formatter type="plain" usefile="no" />
+			<formatter type="plain" usefile="yes" />
+
 			<classpath>
 				<path refid="build.classpath" />
 				<pathelement path="${build.test-unit14.dir}" />
@@ -382,7 +400,7 @@
 				<pathelement location="${lib.dir}/build-only/backport-util-concurrent.jar" />
 			</classpath>
 
-			<batchtest>
+			<batchtest todir="${build.dir}/temp/testresults14">
 				<fileset dir="${build.test-unit14.dir}">
 					<include name="**/*Test.class" />
 					<exclude name="**/Abstract*" />
@@ -399,9 +417,13 @@
 
 		</junit>
 
-		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" jvm="${java14.home.dir}\bin\java" dir=".">
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" jvm="${java14.home.dir}\bin\java" dir="."
+			tempdir="${build.dir}/temp" >
+	
+			<assertions enablesystemassertions="yes" />
 
-			<formatter type="plain" usefile="no" />
+			<formatter type="plain" usefile="yes" />
+			
 			<classpath>
 				<path refid="build.classpath" />
 				<pathelement path="${build.test-system14.dir}" />
@@ -409,7 +431,7 @@
 				<pathelement location="${lib.dir}/build-only/backport-util-concurrent.jar" />
 			</classpath>
 
-			<batchtest>
+			<batchtest todir="${build.dir}/temp/testresults14">
 				<fileset dir="${build.test-system.dir}">
 					<include name="**/*DeserializationTest.class" />
 					<exclude name="**/Abstract*" />
