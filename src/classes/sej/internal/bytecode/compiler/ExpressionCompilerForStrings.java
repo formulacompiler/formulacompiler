@@ -93,18 +93,19 @@ final class ExpressionCompilerForStrings extends ExpressionCompiler
 		switch (_operator) {
 
 			case CONCAT:
-				if (_numberOfArguments == 2) {
-					// LATER CONCAT
-					unsupported( "CONCAT is not implemented yet." );
-				}
-				else {
-					unsupported( "CONCAT needs exactly two arguments." );
+				switch (_numberOfArguments) {
+					case 0:
+						unsupported( "CONCAT needs at least one argument." );
+						break;
+					case 1:
+						return;
+					default:
+						
 				}
 				break;
-
-			default:
-				unsupported( "Operator " + _operator + " is not supported for strings." );
+				
 		}
+		unsupported( "Operator " + _operator + " is not supported for strings." );
 	}
 
 

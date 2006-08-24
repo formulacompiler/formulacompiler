@@ -45,7 +45,9 @@ public enum Function {
 	},
 
 	MATCH,
-	INDEX;
+	INDEX,
+	
+	CONCATENATE;
 
 
 	public String getName()

@@ -99,6 +99,7 @@ FN		= "@"?
 {FN} "INDEX"	{ return new Symbol( GeneratedSymbols.INDEX, "INDEX" ); }
 {FN} "ROUND"	{ return new Symbol( GeneratedSymbols.ROUND, "ROUND" ); }
 {FN} "TODAY"	{ return new Symbol( GeneratedSymbols.TODAY, "TODAY" ); }
+{FN} "CONCATENATE"	{ return new Symbol( GeneratedSymbols.CONCATENATE, "CONCATENATE" ); }
 
 {FN} "TRUE"		{ return new Symbol( GeneratedSymbols.INT, new Integer(1) ); }
 {FN} "FALSE"	{ return new Symbol( GeneratedSymbols.INT, new Integer(0) ); }
