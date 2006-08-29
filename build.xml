@@ -603,7 +603,7 @@
 	<!-- Generates documentation                                           -->
 	<!-- ================================================================= -->
 
-	<target name="doc" description="Builds documentation" depends="prepare, examples">
+	<target name="doc" description="Builds documentation" depends="prepare, examples, test">
 
 		<delete dir="${doc.dir}" />
 		<mkdir dir="${doc.dir}" />
@@ -628,6 +628,8 @@
 			<arg path="${src.examples.dir}" />
 			<arg value="-sp" />
 			<arg path="${src.test-system.dir}" />
+			<arg value="-sp" />
+			<arg path="${build.dir}/temp/reference" />
 			<arg value="-r" />
 			<arg value="-i" />
 			<arg file="${src.doc.dir}/*.htm" />

@@ -36,7 +36,6 @@ import sej.SEJ;
 import sej.SaveableEngine;
 import sej.SpreadsheetBinder.Section;
 import sej.describable.DescriptionBuilder;
-import sej.internal.runtime.Runtime_v1;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellWithLazilyParsedExpression;
 import sej.internal.spreadsheet.RowImpl;
@@ -196,13 +195,13 @@ public abstract class AbstractReferenceTest extends TestCase
 
 		private int columnCountFor( RowImpl _row )
 		{
-			final CellInstance inputCountCell = _row.getCellOrNull( INPUTCOUNT_COL );
-			if (null == inputCountCell) {
-				return 2;
+			int result = INPUTCOUNT_COL - INPUTS_COL;
+			int iCol = INPUTCOUNT_COL - 1;
+			while (iCol >= INPUTS_COL) {
+				if (null != _row.getCellOrNull( iCol-- )) break;
+				result--;
 			}
-			else {
-				return 2 + ((Number) inputCountCell.getValue()).intValue();
-			}
+			return 2 + result;
 		}
 
 
@@ -281,7 +280,7 @@ public abstract class AbstractReferenceTest extends TestCase
 			private static final long SECS_PER_DAY = 24 * 60 * 60;
 			private static final long MS_PER_SEC = 1000;
 			private static final long MS_PER_DAY = SECS_PER_DAY * MS_PER_SEC;
-			
+
 			private Object expectedValueOf( Object _value )
 			{
 				if (_value instanceof String) {
@@ -367,7 +366,8 @@ public abstract class AbstractReferenceTest extends TestCase
 
 					String expr = "...";
 					String exprPrec = "";
-					if (RowRunner.this.valueRow == RowRunner.this.formulaRow) {
+					final RowImpl valueRow = RowRunner.this.valueRow;
+					if (valueRow == RowRunner.this.formulaRow) {
 						final CellWithLazilyParsedExpression exprCell = (CellWithLazilyParsedExpression) RowRunner.this.formula;
 						expr = "=" + highlightTermIn( exprCell.getExpressionParser().getSource() );
 						exprPrec = htmlPrecision( exprCell );
@@ -380,12 +380,10 @@ public abstract class AbstractReferenceTest extends TestCase
 					h.append( "<td class=\"xl-exp\">" ).append( expr ).append( exprPrec ).append( "</td>" );
 
 					final int columnCount = SheetRunner.this.columnCount;
-					final Object[] inputs = RowRunner.this.inputs;
-					for (int col = 2; col < columnCount; col++) {
-						final int i = col - 2;
-						if (inputs != null && i < inputs.length) {
-							final CellInstance inputCell = RowRunner.this.inputCells[ i ];
-							final Object input = inputs[ i ];
+					for (int col = INPUTS_COL; col < columnCount; col++) {
+						final CellInstance inputCell = valueRow.getCellOrNull( col );
+						if (inputCell != null) {
+							final Object input = inputCell.getValue();
 							final String inputCls = htmlCellClass( input );
 							h.append( "<td" ).append( inputCls ).append( ">" ).append( (null == input) ? "" : input ).append(
 									htmlPrecision( inputCell ) ).append( "</td>" );
@@ -499,10 +497,6 @@ public abstract class AbstractReferenceTest extends TestCase
 											.getBOOL() );
 									break;
 							}
-						}
-						catch (Exception ex) {
-							// DEBUG sej.internal.Debug.saveEngine( e, "d:/temp/ref.jar" );
-							throw ex;
 						}
 						catch (Error ex) {
 							// DEBUG sej.internal.Debug.saveEngine( e, "d:/temp/ref.jar" );

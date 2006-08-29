@@ -104,12 +104,14 @@ public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 	protected void compileZero( GeneratorAdapter _mv ) throws CompilerException
 	{
 		_mv.getStatic( runtimeType(), "ZERO", ByteCodeEngineCompiler.BIGDECIMAL_CLASS );
+		compileScaleAdjustment( _mv );
 	}
 
 
 	private final void compileOne( GeneratorAdapter _mv )
 	{
 		_mv.getStatic( runtimeType(), "ONE", ByteCodeEngineCompiler.BIGDECIMAL_CLASS );
+		compileScaleAdjustment( _mv );
 	}
 
 

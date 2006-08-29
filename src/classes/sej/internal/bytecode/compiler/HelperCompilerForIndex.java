@@ -197,11 +197,12 @@ class HelperCompilerForIndex extends HelperCompiler
 		for (ExpressionNode val : _vals) {
 			if (val instanceof ExpressionNodeForConstantValue) {
 				ci.visitInsn( Opcodes.DUP );
-				ci.visitIntInsn( Opcodes.BIPUSH, i++ );
+				ci.visitIntInsn( Opcodes.BIPUSH, i );
 				ExpressionNodeForConstantValue constVal = (ExpressionNodeForConstantValue) val;
 				valTypeCompiler.compileConst( ci, constVal.getValue() );
 				ci.arrayStore( valType );
 			}
+			i++;
 		}
 
 		// ... xy *=* new double[] { ... }

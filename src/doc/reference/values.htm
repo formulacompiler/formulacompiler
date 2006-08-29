@@ -43,8 +43,17 @@
 <p>[inc:CellNames.htm]</p>
 
 <h3>Empty Cells</h3>
-<p>SEJ currently has no proper support for empty cells. It simply treats them like the number zero. This is usually correct (even for multiplication with <tt>*</tt>, where Excel treats empty cells as 0 too), but fails most noticeably in <a href="aggregators.htm">aggregators</a> like <tt>COUNT</tt>, <tt>AVERAGE</tt>, or <tt>PRODUCT</tt> (where Excel skips empty cells):</p>
+<p>SEJ currently has no proper support for empty cells. It simply treats them like the number zero (<tt>0.0</tt>). This is usually correct (even for multiplication with <tt>*</tt>, where Excel treats empty cells as zero too), but fails most noticeably in <a href="aggregators.htm">aggregators</a> like <tt>COUNT</tt>, <tt>AVERAGE</tt>, or <tt>PRODUCT</tt> (where Excel skips empty cells):</p>
 <p>[inc:EmptyCells.htm]</p>
+
+<h3>Formula Errors</h3>
+<p>SEJ does not support Excel error indicators such as</p>
+<ul compact class="compact">
+<li><tt>#VALUE!</tt>,</li>
+<li><tt>#REF!</tt>, and</li>
+<li><tt>#N/A</tt>.</li>
+</ul>
+<p>It typically returns zero (<tt>0.0</tt>) instead.</p>
 
 <h3>Numeric Precision</h3>
 <p>If you set a fixed number of decimal places after the point on a cell in Excel, SEJ reflects this setting when computing final outputs. Like Excel, it does not limit the precision on intermediate results.</p>
