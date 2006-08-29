@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +36,7 @@ import sej.SEJ;
 import sej.SaveableEngine;
 import sej.SpreadsheetBinder.Section;
 import sej.describable.DescriptionBuilder;
+import sej.internal.runtime.Runtime_v1;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellWithLazilyParsedExpression;
 import sej.internal.spreadsheet.RowImpl;
@@ -43,7 +45,6 @@ import sej.internal.spreadsheet.SpreadsheetImpl;
 import sej.runtime.ComputationFactory;
 import sej.runtime.Resettable;
 import sej.runtime.ScaledLong;
-import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 public abstract class AbstractReferenceTest extends TestCase
@@ -253,7 +254,7 @@ public abstract class AbstractReferenceTest extends TestCase
 				this.rowName = "R" + _rowNumber + ": " + SheetRunner.this.sequenceName;
 				this.formulaRow = _formulaRow;
 				this.valueRow = _valueRow;
-				this.expected = _valueRow.getCellOrNull( EXPECTED_COL ).getValue();
+				this.expected = expectedValueOf( _valueRow.getCellOrNull( EXPECTED_COL ).getValue() );
 				this.expectedType = valueTypeOf( this.expected );
 				this.formula = _formulaRow.getCellOrNull( FORMULA_COL );
 				this.fullyParametrizedTestEngines = _engines;
@@ -277,6 +278,25 @@ public abstract class AbstractReferenceTest extends TestCase
 				}
 			}
 
+			private static final long SECS_PER_DAY = 24 * 60 * 60;
+			private static final long MS_PER_SEC = 1000;
+			private static final long MS_PER_DAY = SECS_PER_DAY * MS_PER_SEC;
+			
+			private Object expectedValueOf( Object _value )
+			{
+				if (_value instanceof String) {
+					if (_value.toString().equals( "(days from 2006)" )) {
+						final Calendar time = Calendar.getInstance();
+						final Calendar start = Calendar.getInstance();
+						start.set( 2006, 0, 0 );
+						final long diff = time.getTimeInMillis() - start.getTimeInMillis();
+						final long days = diff / MS_PER_DAY;
+						return Double.valueOf( days );
+					}
+				}
+				return _value;
+			}
+
 			private ValueType valueTypeOf( Object _value )
 			{
 				if (_value instanceof String) return ValueType.STRING;
@@ -284,7 +304,6 @@ public abstract class AbstractReferenceTest extends TestCase
 				if (_value instanceof Boolean) return ValueType.BOOL;
 				return ValueType.NUMBER;
 			}
-
 
 			public final SaveableEngine[] run() throws Exception
 			{
@@ -457,9 +476,10 @@ public abstract class AbstractReferenceTest extends TestCase
 					{
 						// DEBUG System.out.println( this.typedTestName );
 
-						final SaveableEngine e = (_engine == null) ? compileEngine() : _engine;
-
+						SaveableEngine e = null;
 						try {
+							e = (_engine == null) ? compileEngine() : _engine;
+
 							final ComputationFactory f = e.getComputationFactory();
 
 							final Outputs o = (Outputs) f.newComputation( newInputs() );
@@ -480,7 +500,11 @@ public abstract class AbstractReferenceTest extends TestCase
 									break;
 							}
 						}
-						catch (AssertionFailedError ex) {
+						catch (Exception ex) {
+							// DEBUG sej.internal.Debug.saveEngine( e, "d:/temp/ref.jar" );
+							throw ex;
+						}
+						catch (Error ex) {
 							// DEBUG sej.internal.Debug.saveEngine( e, "d:/temp/ref.jar" );
 							throw ex;
 						}
