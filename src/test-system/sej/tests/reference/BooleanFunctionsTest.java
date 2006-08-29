@@ -21,7 +21,7 @@
 package sej.tests.reference;
 
 
-public class NumericOperatorsTest extends AbstractReferenceTest
+public class BooleanFunctionsTest extends AbstractReferenceTest
 {
 	// configured automagically
 }

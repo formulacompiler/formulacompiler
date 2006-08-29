@@ -25,7 +25,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
 
 import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
@@ -50,11 +49,10 @@ final class ExpressionCompilerForStrings extends ExpressionCompiler
 	protected void compileConversionFrom( Class _class ) throws CompilerException
 	{
 		if (String.class == _class) {
-			return;
+			compileRuntimeMethod( "stringFromString", "(Ljava/lang/String;)Ljava/lang/String;" );
 		}
 		else if (Object.class.isAssignableFrom( _class )) {
-			mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, Type.getInternalName( _class ), "toString",
-					"()Ljava/lang/String;" );
+			compileRuntimeMethod( "stringFromObject", "(Ljava/lang/Object;)Ljava/lang/String;" );
 		}
 		else {
 			super.compileConversionFrom( _class );

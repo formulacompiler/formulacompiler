@@ -67,6 +67,12 @@ public class CellWithLazilyParsedExpression extends CellInstance
 	{
 		this.expression = _value;
 	}
+	
+	
+	public LazyExpressionParser getExpressionParser()
+	{
+		return this.expressionParser;
+	}
 
 
 	public void setExpressionParser( LazyExpressionParser _expressionParser )

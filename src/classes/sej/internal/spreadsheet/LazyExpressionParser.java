@@ -26,4 +26,5 @@ import sej.internal.expressions.ExpressionNode;
 public interface LazyExpressionParser 
 {
 	ExpressionNode parseExpression( CellWithLazilyParsedExpression _cell );
+	String getSource();
 }

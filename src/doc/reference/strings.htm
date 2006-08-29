@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Strings In SEJ - arrenbrecht.ch</title>
+    <style type="text/css" media="screen">
+        @import "../style.css";
+@import "refstyle.css";
+	
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+</head>
+<body>
+    <div class="all">
+        <div class="nav">
+            <p class="nav">
+<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a> &gt;
+<a href="../index.htm">SEJ</a> &gt;
+<a href="index.htm">Reference</a> &gt;
+
+			</p>
+        </div>
+        <div class="title">
+            <h1>
+                Strings In SEJ</h1>
+        </div>
+        
+        
+        <div class="content">
+        
+<p>The supported string operators and functions, shown by example:</p>
+<h5 class="ref">Concatenation Operator (&)</h5>
+<table class="xl ref"><thead><tr><td/><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td></tr></thead><tbody>
+<tr><td class="xl-row">2</td><td>Hello world!</td><td class="xl-exp">=C2<em>&</em>" "<em>&</em>D2</td><td>Hello</td><td>world!</td><td/></tr>
+<tr><td class="xl-row">3</td><td>StartMiddleEnd</td><td class="xl-exp">=C3<em>&</em>D3<em>&</em>E3</td><td>Start</td><td>Middle</td><td>End</td></tr>
+<tr><td class="xl-row">4</td><td>StartEnd</td><td class="xl-exp">...</td><td>Start</td><td></td><td>End</td></tr>
+<tr><td class="xl-row">5</td><td>MiddleEnd</td><td class="xl-exp">...</td><td></td><td>Middle</td><td>End</td></tr>
+<tr><td class="xl-row">6</td><td>StartMiddle</td><td class="xl-exp">...</td><td>Start</td><td>Middle</td><td></td></tr>
+</tbody></table><p/>
+<h5 class="ref">CONCATENATE</h5>
+<table class="xl ref"><thead><tr><td/><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td></tr></thead><tbody>
+<tr><td class="xl-row">8</td><td>Hello world!</td><td class="xl-exp">=<em>CONCATENATE</em>(C8," ",D8)</td><td>Hello</td><td>world!</td><td/></tr>
+<tr><td class="xl-row">9</td><td>StartMiddleEnd</td><td class="xl-exp">=<em>CONCATENATE</em>(C9,D9,E9)</td><td>Start</td><td>Middle</td><td>End</td></tr>
+<tr><td class="xl-row">10</td><td>StartEnd</td><td class="xl-exp">...</td><td>Start</td><td></td><td>End</td></tr>
+<tr><td class="xl-row">11</td><td>MiddleEnd</td><td class="xl-exp">...</td><td></td><td>Middle</td><td>End</td></tr>
+<tr><td class="xl-row">12</td><td>StartMiddle</td><td class="xl-exp">...</td><td>Start</td><td>Middle</td><td></td></tr>
+</tbody></table><p/>
+
+        </div>
+        <div class="footer">
+<p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
+<br/>Last updated on 29.08.2006.</p>        </div>
+    </div>
+</body>
+</html>
