@@ -38,12 +38,14 @@
 
 <h3>Excel Functionality</h3>
 <ul class="spaced">
-<li>SEJ currently supports only the basic numeric operators (<tt>+</tt>, <tt>-</tt>, <tt>*</tt>, <tt>/</tt>, <tt>%</tt>, <tt>^</tt>), <tt>SUM</tt>, <tt>MIN</tt>, <tt>MAX</tt>, <tt>AVERAGE</tt>, <tt>PRODUCT</tt>, <tt>IF</tt>, <tt>ROUND</tt>, <tt>MATCH</tt> and the comparisons and logical operators <tt>AND</tt>, <tt>OR</tt>, <tt>NOT</tt>. A good overview of the supported functionality can be gained from this <a href="dist/Tests.xls">file of test cases</a>.</li>
-<li>Null values (empty cells) are not yet supported. In particular, an <tt>AVERAGE</tt> involving empty cells will return a different result than Excel.</li>
+<li>SEJ currently supports only subset of Excel documented in this <a href="reference/index.htm">reference</a>.</li>
+<li><a href="reference/values.htm">Null values</a> (empty cells) are not yet supported. In particular, an <tt>AVERAGE</tt> involving empty cells will return a different result than Excel.</li>
 <li>Range intersections are parsed but not evaluated correctly.</li>
-<li>Ranges specified using named cells as endpoints are not supported. Named ranges, however, are (see <tt>ExcelExpressionParserTest.testCellAndRangeMixes()</tt>).</li>
-<li>With <tt>MATCH</tt>, the last argument (the match type) must be constant, and the second argument (the match range) cannot reference a repeating section yet.</li>
-<li>With <tt>INDEX</tt>, the range argument cannot reference a repeating section yet. It also does not support 3-dimensional lookups.</li>
+<li>Ranges specified using named cells as endpoints are not supported. <a href="reference/values.htm">Named ranges</a>, however, are.</li>
+<li>With <a href="reference/lookupfuncs.htm"><tt>MATCH</tt></a>, the last argument (the match type) must be constant, and the second argument (the match range) cannot reference a repeating section yet.</li>
+<li>With <a href="reference/lookupfuncs.htm"><tt>INDEX</tt></a>, the range argument cannot reference a repeating section yet. It also does not support 3-dimensional lookups.</li>
+<li><a href="reference/lookupfuncs.htm"><tt>INDEX</tt></a> does not return arrays (as in <tt>=SUM(INDEX(A1:B2;2))</tt>).</li>
+<li><a href="reference/booleans.htm"><tt>AND</tt> and <tt>OR</tt></a> cannot be used as aggregators over repeating sections yet.</li>
 <li>Array expressions are not supported (such as <tt>{=INDEX({1,2;3,4};0;2)}</tt>).</li>
 </ul>
 
@@ -60,8 +62,7 @@
 
 <h3>Interfacing with Java</h3>
 <ul class="spaced">
-<li><tt>AND</tt> and <tt>OR</tt> cannot be used as aggregators over repeating sections yet.</li>
-<li>Only <tt>double</tt>-, <tt>long</tt>-, <tt>BigDecimal</tt>-, <tt>Date</tt>-, and <tt>boolean</tt>-valued computations are supported. In particular, there is no support for <tt>String</tt> and <tt>null</tt> yet.</li>
+<li>There is no support for <tt>null</tt> yet (see also the note on <a href="reference/values.htm">empty cells</a>).</li>
 </ul>
 
 <h3>Engine Persistence</h3>
@@ -75,7 +76,7 @@
 </ul>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 11.08.2006.</p>        </div>
+<br/>Last updated on 29.08.2006.</p>        </div>
     </div>
 </body>
 </html>

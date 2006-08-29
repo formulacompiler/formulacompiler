@@ -231,6 +231,7 @@ final class ExpressionCompilerForBigDecimals extends ExpressionCompilerForNumber
 	{
 		mv().visitInsn( Opcodes.I2L );
 		compileRuntimeMethod( "newBigDecimal", L2B );
+		compileScaleAdjustment();
 	}
 
 	@Override

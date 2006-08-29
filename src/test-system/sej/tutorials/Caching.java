@@ -59,9 +59,18 @@ public class Caching extends TestCase
 	{
 		private Input input;
 		// ---- noCacheEngine
-		private BigDecimal getSide()   { return this.input.getSide(); }
-		public BigDecimal getArea()    { return getSide().multiply( getSide() ); }
-		public BigDecimal getVolume()  { return getArea().multiply( getSide() ); }
+		private BigDecimal getSide()
+		{
+			return this.input.getSide();
+		}
+		public BigDecimal getArea()
+		{
+			return getSide().multiply( getSide() );
+		}
+		public BigDecimal getVolume()
+		{
+			return getArea().multiply( getSide() );
+		}
 		// ---- noCacheEngine
 	}
 
@@ -128,8 +137,8 @@ public class Caching extends TestCase
 			}
 			return this.cacheVolume;
 		}
-		
-		public void reset() 
+
+		public void reset()
 		{
 			this.haveSide = false;
 			this.haveArea = false;
@@ -137,32 +146,37 @@ public class Caching extends TestCase
 		}
 		// ---- cacheEngine
 	}
-	
-	
+
+
 	public void testSpeed() throws Exception
 	{
 		ComputationFactory plainFactory = compile( PlainOutput.class );
 		ComputationFactory cachingFactory = compile( CachingPlainOutput.class );
-		Input input = new Input(); 
+		Input input = new Input();
 
 		// ---- timing
 		input.setSide( "123456789123456789123456789123456789123456789123456789123456789123456789" );
 		long plainTime = time( plainFactory, input );
 		long cachingTime = time( cachingFactory, input );
-		assertTrue( "Caching is at least twice as fast", cachingTime * 2 < plainTime );
+		assertTrue( "Caching is at least twice as fast; caching is " + cachingTime + " vs. " + plainTime,
+				cachingTime * 2 < plainTime );
 		// ---- timing
 	}
 
 
 	private long time( ComputationFactory _factory, Input _input )
 	{
-		PlainOutput output = (PlainOutput) _factory.newComputation( _input );
-		// ---- timed
-		long startTime = System.nanoTime(); 
-		output.getArea();
-		output.getVolume();
-		long endTime = System.nanoTime();
-		return endTime - startTime;
+		long result = 0;
+		for (int i = 0; i < 100; i++) {
+			PlainOutput output = (PlainOutput) _factory.newComputation( _input );
+			// ---- timed
+			long startTime = System.nanoTime();
+			output.getArea();
+			output.getVolume();
+			long endTime = System.nanoTime();
+			result += (endTime - startTime);
+		}
+		return result;
 		// ---- timed
 	}
 
@@ -201,7 +215,7 @@ public class Caching extends TestCase
 	// ---- CachingOutput
 
 
-	private ComputationFactory compile( Class _outputClass ) throws FileNotFoundException, IOException, SEJException 
+	private ComputationFactory compile( Class _outputClass ) throws FileNotFoundException, IOException, SEJException
 	{
 		EngineBuilder builder = SEJ.newEngineBuilder();
 		builder.loadSpreadsheet( path );
