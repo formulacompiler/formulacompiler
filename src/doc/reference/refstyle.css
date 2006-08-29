@@ -1,0 +1,27 @@
+table.ref thead td, table.xl td.xl-row {
+  color: gray;
+  font-size: smaller;
+}
+
+table.ref td {
+  padding-left: 4px;
+  padding-right: 4px;
+  color: gray;
+}
+
+table.ref td.xl-exp {
+  color: black;
+}
+
+table.ref td.xl-exp em {
+  background-color: #FFFFB0;
+  padding-left: 1px;
+  padding-right: 1px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+span.ref-prec {
+  background-color: #FFFFB0;
+  font-size: x-small;
+}

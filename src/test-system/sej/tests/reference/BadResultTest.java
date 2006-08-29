@@ -20,8 +20,22 @@
  */
 package sej.tests.reference;
 
+import junit.framework.AssertionFailedError;
 
-public class NumericOperatorsTest extends AbstractReferenceTest
+
+public class BadResultTest extends AbstractReferenceTest
 {
-	// configured automagically
+
+	@Override
+	public void testExpressions() throws Exception
+	{
+		try {
+			super.testExpressions();
+			fail( "Failing test did not fail" );
+		}
+		catch (AssertionFailedError e) {
+			assertEquals( "R2: Failing Test @ 0 using double expected:<4.0> but was:<3.0>", e.getMessage() );
+		}
+	}
+
 }

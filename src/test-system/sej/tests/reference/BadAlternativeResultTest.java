@@ -20,8 +20,26 @@
  */
 package sej.tests.reference;
 
+import junit.framework.AssertionFailedError;
 
-public class NumericOperatorsTest extends AbstractReferenceTest
+
+public class BadAlternativeResultTest extends AbstractReferenceTest
 {
-	// configured automagically
+	private static final int INPUTS = 2;
+
+	@Override
+	public void testExpressions() throws Exception
+	{
+		try {
+			super.testExpressions();
+			fail( "Failing test did not fail" );
+		}
+		catch (AssertionFailedError e) {
+			assertEquals( "R3: Testing failing on alternative input @ 11 using double expected:<3.0> but was:<7.0>", e
+					.getMessage() );
+		}
+		assertEquals( "Number of engines compiled", (1 << INPUTS) * CACHING_VARIANTS * TYPE_VARIANTS,
+				getNumberOfEnginesCompiled() );
+	}
+
 }

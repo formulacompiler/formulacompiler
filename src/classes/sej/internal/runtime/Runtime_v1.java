@@ -66,4 +66,14 @@ public abstract class Runtime_v1
 		return new StringBuffer( _first );
 	}
 	
+	public static String stringFromObject( Object _obj )
+	{
+		return (_obj == null)? "" : _obj.toString();
+	}
+	
+	public static String stringFromString( String _str )
+	{
+		return (_str == null)? "" : _str;
+	}
+	
 }

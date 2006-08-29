@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Numeric Precision In SEJ - arrenbrecht.ch</title>
+    <style type="text/css" media="screen">
+        @import "../style.css";
+@import "refstyle.css";
+	
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+</head>
+<body>
+    <div class="all">
+        <div class="nav">
+            <p class="nav">
+<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a> &gt;
+<a href="../index.htm">SEJ</a> &gt;
+<a href="index.htm">Reference</a> &gt;
+
+			</p>
+        </div>
+        <div class="title">
+            <h1>
+                Numeric Precision In SEJ</h1>
+        </div>
+        
+        
+        <div class="content">
+        
+<p>If you set a fixed number of decimal places after the point on a cell in Excel, SEJ reflects this setting when computing final outputs. Like Excel, it does not limit the precision on intermediate results.</p>
+<p>Here's the handling of cell precision, shown by example (the number format is shown in small type behind the cell value or formula):</p><h5 class="ref">Precision</h5>
+<table class="xl ref"><thead><tr><td/><td>A</td><td>B</td></tr></thead><tbody>
+<tr><td class="xl-row">2</td><td class="xl-num">12.0</td><td class="xl-exp">=12.34 <span class="ref-prec">(#0.)</span></td></tr>
+<tr><td class="xl-row">3</td><td class="xl-num">12.3</td><td class="xl-exp">=12.34 <span class="ref-prec">(#0.0)</span></td></tr>
+<tr><td class="xl-row">4</td><td class="xl-num">12.34</td><td class="xl-exp">=12.34 <span class="ref-prec">(#0.00)</span></td></tr>
+<tr><td class="xl-row">5</td><td class="xl-num">12.34</td><td class="xl-exp">=12.34 <span class="ref-prec">(#0.000)</span></td></tr>
+</tbody></table><p/>
+<h5 class="ref">Rounding</h5>
+<table class="xl ref"><thead><tr><td/><td>A</td><td>B</td></tr></thead><tbody>
+<tr><td class="xl-row">7</td><td class="xl-num">12.0</td><td class="xl-exp">=12.0049 <span class="ref-prec">(#0.00)</span></td></tr>
+<tr><td class="xl-row">8</td><td class="xl-num">12.01</td><td class="xl-exp">=12.005 <span class="ref-prec">(#0.00)</span></td></tr>
+<tr><td class="xl-row">9</td><td class="xl-num">13.0</td><td class="xl-exp">=12.999 <span class="ref-prec">(#0.00)</span></td></tr>
+<tr><td class="xl-row">10</td><td class="xl-num">12.01</td><td class="xl-exp">=12.0149 <span class="ref-prec">(#0.00)</span></td></tr>
+<tr><td class="xl-row">11</td><td class="xl-num">12.02</td><td class="xl-exp">=12.015 <span class="ref-prec">(#0.00)</span></td></tr>
+<tr><td class="xl-row">12</td><td class="xl-num">12.0</td><td class="xl-exp">=12.0001 <span class="ref-prec">(#0.00)</span></td></tr>
+<tr><td class="xl-row">13</td><td class="xl-num">-12.0</td><td class="xl-exp">=-12.0049 <span class="ref-prec">(#0.00)</span></td></tr>
+<tr><td class="xl-row">14</td><td class="xl-num">-12.01</td><td class="xl-exp">=-12.005 <span class="ref-prec">(#0.00)</span></td></tr>
+<tr><td class="xl-row">15</td><td class="xl-num">-13.0</td><td class="xl-exp">=-12.999 <span class="ref-prec">(#0.00)</span></td></tr>
+<tr><td class="xl-row">16</td><td class="xl-num">-12.0</td><td class="xl-exp">=-12.0001 <span class="ref-prec">(#0.00)</span></td></tr>
+</tbody></table><p/>
+<h5 class="ref">Intermediate values have full precision</h5>
+<table class="xl ref"><thead><tr><td/><td>A</td><td>B</td><td>C</td><td>D</td></tr></thead><tbody>
+<tr><td class="xl-row">18</td><td class="xl-num">0.21</td><td class="xl-exp">=C18+D18 <span class="ref-prec">(#0.00)</span></td><td class="xl-num">0.104 <span class="ref-prec">(#0.00)</span></td><td class="xl-num">0.104 <span class="ref-prec">(#0.00)</span></td></tr>
+<tr><td class="xl-row">19</td><td class="xl-num">0.41</td><td class="xl-exp">...</td><td class="xl-num">0.204 <span class="ref-prec">(#0.00)</span></td><td class="xl-num">0.204 <span class="ref-prec">(#0.00)</span></td></tr>
+</tbody></table><p/>
+        </div>
+        <div class="footer">
+<p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
+<br/>Last updated on 29.08.2006.</p>        </div>
+    </div>
+</body>
+</html>

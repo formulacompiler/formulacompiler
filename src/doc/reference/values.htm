@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Data Values In SEJ - arrenbrecht.ch</title>
+    <style type="text/css" media="screen">
+        @import "../style.css";
+@import "refstyle.css";
+	
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+</head>
+<body>
+    <div class="all">
+        <div class="nav">
+            <p class="nav">
+<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a> &gt;
+<a href="../index.htm">SEJ</a> &gt;
+<a href="index.htm">Reference</a> &gt;
+
+			</p>
+        </div>
+        <div class="title">
+            <h1>
+                Data Values In SEJ</h1>
+        </div>
+        
+        
+        <div class="content">
+        
+<p>SEJ supports the following types of values in cells:</p>
+<ul compact class="compact">
+<li>strings</li>
+<li>numbers (including monetary and percentage values)</li>
+<li>dates and times</li>
+<li>booleans</li>
+</ul>
+<p>Internally, SEJ really only supports two basic data types: numbers and strings. This suffices because Excel internally treats dates, times, and booleans as numbers, too.</p>
+<p>For a particular engine compiled by SEJ, the numbers are all of the same type. The default is the <tt>double</tt> type, which is what Excel uses as well. See the tutorial for details on the <a href="../tutorial/numeric_type.htm">available numeric types</a> and how to choose one.</p>
+
+<h5>Empty Cells</h5>
+<p>SEJ currently has no proper support for empty cells. It simply treats them like the number zero. This is most noticeable in functions like <tt>COUNT</tt>, <tt>AVERAGE</tt>, or <tt>PRODUCT</tt>.</p>        </div>
+        <div class="footer">
+<p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
+<br/>Last updated on 25.08.2006.</p>        </div>
+    </div>
+</body>
+</html>

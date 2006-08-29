@@ -47,6 +47,12 @@ public class ExcelLazyExpressionParser extends AbstractDescribable implements La
 	{
 		return new ExcelExpressionParser( this.cell ).parseText( this.expressionText, _cell.getCellRefFormat() );
 	}
+	
+	
+	public String getSource()
+	{
+		return this.expressionText;
+	}
 
 
 	@Override
