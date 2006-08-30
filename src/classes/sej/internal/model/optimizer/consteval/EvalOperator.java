@@ -31,21 +31,21 @@ import sej.internal.model.util.InterpretedNumericType;
 
 public class EvalOperator extends EvalShadow
 {
-	
+
 	EvalOperator(ExpressionNode _node, InterpretedNumericType _type)
 	{
 		super( _node, _type );
 	}
-	
-	
+
+
 	@Override
 	protected Object evaluateToConst( Object[] _args )
 	{
 		final Operator operator = ((ExpressionNodeForOperator) node()).getOperator();
 		return type().compute( operator, _args );
 	}
-	
-	
+
+
 	@Override
 	protected Object nodeWithConstantArgsFixed( Object[] _args )
 	{
@@ -69,10 +69,10 @@ public class EvalOperator extends EvalShadow
 			if (arg instanceof ExpressionNodeForConstantValue) {
 				final ExpressionNodeForConstantValue constArg = (ExpressionNodeForConstantValue) arg;
 				if (buildUp == null) {
-					buildUp = new StringBuilder( constArg.getValue().toString() );
+					buildUp = new StringBuilder( type().toString( constArg.getValue() ) );
 				}
 				else {
-					buildUp.append( constArg.getValue() );
+					buildUp.append( type().toString( constArg.getValue() ) );
 					modified = true;
 				}
 			}
