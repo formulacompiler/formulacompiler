@@ -46,7 +46,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		this.type = _type;
 	}
 
-	public InterpretedNumericType type()
+	public final InterpretedNumericType type()
 	{
 		return this.type;
 	}
@@ -59,7 +59,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	}
 
 
-	protected int cardinality()
+	protected final int cardinality()
 	{
 		int result = arguments().size();
 		while ((result > 0) && (arguments().get( result - 1 ) == null)) {
@@ -69,7 +69,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	}
 
 
-	private Object[] evaluateArguments()
+	private final Object[] evaluateArguments()
 	{
 		final int card = cardinality();
 		final Object[] argValues = new Object[ card ];
@@ -80,7 +80,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	}
 
 
-	protected Object evaluateArgument( int _index )
+	protected final Object evaluateArgument( int _index )
 	{
 		final EvalShadow argShadow = (EvalShadow) arguments().get( _index );
 		return (argShadow == null) ? null : argShadow.eval();
@@ -98,7 +98,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	}
 
 
-	protected boolean hasOnlyConstantArgs( Object[] _args )
+	protected final boolean hasOnlyConstantArgs( Object[] _args )
 	{
 		for (Object arg : _args) {
 			if (!isConstant( arg )) return false;
@@ -106,14 +106,14 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		return true;
 	}
 
-	protected boolean isConstant( final Object firstArg )
+	protected final boolean isConstant( Object _arg )
 	{
-		return !(firstArg instanceof ExpressionNode);
+		return !(_arg instanceof ExpressionNode);
 	}
 
-	protected boolean isInSubSection( final Object firstArg )
+	protected final boolean isInSubSection( Object _arg )
 	{
-		return (firstArg instanceof ExpressionNodeForSubSectionModel);
+		return (_arg instanceof ExpressionNodeForSubSectionModel);
 	}
 
 	protected Object nodeWithConstantArgsFixed( Object[] _args )

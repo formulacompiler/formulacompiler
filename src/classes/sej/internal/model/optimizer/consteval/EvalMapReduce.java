@@ -48,13 +48,12 @@ public class EvalMapReduce extends EvalAggregator
 	@Override
 	protected void aggregate( Aggregation _agg, Object _value )
 	{
-		if (null != _value) {
-			if (null == _agg.accumulator) {
-				_agg.accumulator = _value;
-			}
-			else {
-				_agg.accumulator = type().compute( this.reductor, _agg.accumulator, _value );
-			}
+		final Object value = (null == _value) ? type().zero() : _value;
+		if (null == _agg.accumulator) {
+			_agg.accumulator = value;
+		}
+		else {
+			_agg.accumulator = type().compute( this.reductor, _agg.accumulator, value );
 		}
 	}
 
