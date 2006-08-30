@@ -30,6 +30,16 @@
 <p>This is an unstructured journal regarding the development of SEJ. I use it to keep track of ideas, goals and discussion notes.</p>
 <p>Check the <a href="roadmap.htm">roadmap</a> for the current priorities, and the <a href="releasenotes.htm">release notes</a> for what's already been done.</p>
 
+<h2><a name="2006-08-30">August 30, 2006</a></h2>
+<p>I have restructured the Excel function tests. They are no longer a single big sheet, but split into multiple sheets. The code which runs these tests has also seen some improvements:</p>
+<ul class="spaced">
+<li><tt>BigDecimal</tt> tests now check for the proper scale of returned values.</li>
+<li>Tests with dynamic inputs are now run with all possible permutations of bound and unbound input cells (which, alas, makes the running time of a full system test significant even on my fast machine).</li>
+<li>The values of bound input cells are temporarily modified so the tests would detect if SEJ still uses the constant cell value instead of the bound input.</li>
+<li>The test code is itself tested for whether it really tests the way it should.</li>
+</ul>
+<p>In addition to this, the tests automatically emit HTML fragment files which document the test cases. They are then included in the <a href="reference/index.htm">reference</a>, again making sure I cite proven results.</p>
+
 <h2><a name="2006-08-23">August 23, 2006</a></h2>
 <p>I am implementing string-valued expressions. Pondering how to implement <tt>CONCATENATE</tt> and the <tt>&</tt> operator efficiently, I started thinking again about a still pending constant folder optimization:</p>
 <pre>  1 + 2 + x + 3  =  6 + x</pre>
@@ -161,7 +171,7 @@
 <p>...can be <a href="dev_old.htm">found here</a>.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 23.08.2006.</p>        </div>
+<br/>Last updated on 30.08.2006.</p>        </div>
     </div>
 </body>
 </html>
