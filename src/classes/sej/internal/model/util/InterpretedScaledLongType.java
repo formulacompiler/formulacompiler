@@ -52,7 +52,7 @@ final class InterpretedScaledLongType extends InterpretedNumericType
 		return this.num.one();
 	}
 
-	private long zero()
+	private long zeroL()
 	{
 		return this.num.zero();
 	}
@@ -95,11 +95,11 @@ final class InterpretedScaledLongType extends InterpretedNumericType
 
 	private long valueToScaledLongOrZero( Object _value )
 	{
-		if (null == _value) return zero();
+		if (null == _value) return zeroL();
 		if (_value instanceof Long) return (Long) _value;
 		if (_value instanceof Number) return numberToScaledLong( (Number) _value );
 		if (_value instanceof String) return parse( (String) _value );
-		return zero();
+		return zeroL();
 	}
 
 
@@ -177,7 +177,7 @@ final class InterpretedScaledLongType extends InterpretedNumericType
 
 	private long pow( long _x, long _exp )
 	{
-		if (_exp == zero()) return one();
+		if (_exp == zeroL()) return one();
 		if (_exp == one()) return _x;
 		return numberToScaledLong( Math.pow( scaledLongToDouble( _x ), scaledLongToDouble( _exp ) ) );
 	}

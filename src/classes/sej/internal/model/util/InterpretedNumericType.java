@@ -60,6 +60,12 @@ public abstract class InterpretedNumericType
 	public abstract Object adjustConstantValue( Object _value );
 	protected abstract int compare( Object _a, Object _b );
 
+	
+	public final Number zero()
+	{
+		return this.num.getZero();
+	}
+	
 
 	public boolean toBoolean( Object _value )
 	{
