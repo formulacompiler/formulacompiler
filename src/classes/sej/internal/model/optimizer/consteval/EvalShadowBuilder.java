@@ -86,6 +86,10 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 				return new EvalCount( _node, this.type );
 			case AVERAGE:
 				return new EvalAverage( _node, this.type );
+			case AND:
+				return new EvalMapReduceAnd( _node, this.type );
+			case OR:
+				return new EvalMapReduceOr( _node, this.type );
 		}
 
 		final Operator reductor = aggregator.getReductor();
