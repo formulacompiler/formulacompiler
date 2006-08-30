@@ -20,8 +20,11 @@
  */
 package sej.internal.runtime;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
+
+import sej.internal.BigDecimalHelper;
 
 public abstract class Runtime_v1
 {
@@ -76,4 +79,23 @@ public abstract class Runtime_v1
 		return (_str == null)? "" : _str;
 	}
 	
+	public static String stringFromBigDecimal( BigDecimal _value )
+	{
+		final BigDecimal stripped = _value.stripTrailingZeros();
+		final int scale = stripped.scale();
+		final int prec = BigDecimalHelper.precision( stripped );
+		final int ints = prec - scale;
+		if (ints > 20) {
+			return stripped.toString();
+		}
+		else {
+			return stripped.toPlainString();
+		}
+	}
+	
+	public static String emptyString()
+	{
+		return "";
+	}
+
 }

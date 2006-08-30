@@ -27,6 +27,7 @@ import java.util.List;
 import org.objectweb.asm.Opcodes;
 
 import sej.CompilerException;
+import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForOperator;
 
@@ -67,6 +68,21 @@ final class ExpressionCompilerForStrings extends ExpressionCompiler
 		compileConversionFrom( returnType );
 	}
 
+	
+	@Override
+	protected void compileConversionFrom( DataType _type ) throws CompilerException
+	{
+		switch (_type) {
+			case NULL:
+				compileRuntimeMethod( "emptyString", "()Ljava/lang/String;" );
+				return;
+			case NUMERIC:
+				method().numericCompiler().compileConversionToString();
+				return;
+		}
+		super.compileConversionFrom( _type );
+	}
+	
 
 	@Override
 	protected void compileConversionTo( Class _class ) throws CompilerException

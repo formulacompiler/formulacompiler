@@ -102,6 +102,12 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 	}
 
 
+	protected void compileConversionToString() throws CompilerException
+	{
+		throw new CompilerException.UnsupportedDataType( "Cannot convert from a " + this + " to a string." );
+	}
+
+	
 	@Override
 	protected void compileConversionFrom( Class _class ) throws CompilerException
 	{

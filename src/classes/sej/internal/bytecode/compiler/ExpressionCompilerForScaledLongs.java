@@ -45,6 +45,7 @@ final class ExpressionCompilerForScaledLongs extends ExpressionCompilerForNumber
 	private static final String JIx_J = "(JI" + RUNTIME_CONTEXT_DESCRIPTOR + ")J";
 	private static final String Dtx_J = "(Ljava/util/Date;" + RUNTIME_CONTEXT_DESCRIPTOR + ")J";
 	private static final String Jx_Dt = "(J" + RUNTIME_CONTEXT_DESCRIPTOR + ")Ljava/util/Date;";
+	private static final String Jx_St = "(J" + RUNTIME_CONTEXT_DESCRIPTOR + ")Ljava/lang/String;";
 	private static final String Zx_J = "(Z" + RUNTIME_CONTEXT_DESCRIPTOR + ")J";
 	private static final String Dx_J = "(D" + RUNTIME_CONTEXT_DESCRIPTOR + ")J";
 	private static final String Jx_D = "(J" + RUNTIME_CONTEXT_DESCRIPTOR + ")D";
@@ -267,6 +268,13 @@ final class ExpressionCompilerForScaledLongs extends ExpressionCompilerForNumber
 	{
 		compileScaleCorrection( scale(), _scale.value() );
 		return true;
+	}
+	
+	
+	@Override
+	protected void compileConversionToString() throws CompilerException
+	{
+		compileRuntimeMethodWithContext( "toExcelString", Jx_St );
 	}
 
 

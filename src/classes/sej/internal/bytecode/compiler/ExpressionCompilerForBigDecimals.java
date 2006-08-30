@@ -224,6 +224,13 @@ final class ExpressionCompilerForBigDecimals extends ExpressionCompilerForNumber
 		compileRuntimeMethod( "toScaledLong", "(" + B + "II)J" );
 		return true;
 	}
+	
+	
+	@Override
+	protected void compileConversionToString() throws CompilerException
+	{
+		compileRuntimeMethod( "toExcelString", "(" + B + ")Ljava/lang/String;" );
+	}
 
 
 	@Override
