@@ -49,6 +49,10 @@ public class EvalCell extends EvalShadow
 
 		final Object constantValue = cellModel.getConstantValue();
 		if (null != constantValue) {
+			if (constantValue instanceof Boolean) {
+				boolean bool = ((Boolean) constantValue).booleanValue();
+				return type().adjustConstantValue( Double.valueOf( bool ? 1.0 : 0.0 ) );
+			}
 			return constantValue;
 		}
 
