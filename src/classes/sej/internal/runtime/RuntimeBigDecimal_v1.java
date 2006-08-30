@@ -157,5 +157,11 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 
 		return value;
 	}
+	
+	
+	public static String toExcelString( BigDecimal _num )
+	{
+		return stringFromBigDecimal( _num );
+	}
 
 }

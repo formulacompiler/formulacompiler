@@ -234,4 +234,23 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		return _cx.toBigDecimal( _val );
 	}
 
+
+	public static String toExcelString( long _val, Context _cx )
+	{
+		return toExcelString( _val, _cx.scale );
+	}
+
+	public static String toExcelString( long _value, int _scale )
+	{
+		if (_value == 0) {
+			return "0";
+		}
+		else if (_scale == 0) {
+			return Long.toString( _value );
+		}
+		else {
+			return stringFromBigDecimal( RuntimeBigDecimal_v1.fromScaledLong( _value, _scale ) );
+		}
+	}
+
 }

@@ -20,6 +20,7 @@
  */
 package sej.internal.runtime;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -58,7 +59,7 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	{
 		return round( _val, (int) _maxFrac );
 	}
-	
+
 	public static double stdTODAY()
 	{
 		return dateToNum( today() );
@@ -89,6 +90,12 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	public static long toScaledLong( double _value, long _scalingFactor )
 	{
 		return (long) (_value * _scalingFactor);
+	}
+
+
+	public static String toExcelString( double _value )
+	{
+		return stringFromBigDecimal( BigDecimal.valueOf( _value ) );
 	}
 
 

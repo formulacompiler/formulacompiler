@@ -142,6 +142,13 @@ final class ExpressionCompilerForDoubles extends ExpressionCompilerForNumbers
 	{
 		mv().visitInsn( Opcodes.D2I );
 	}
+	
+	
+	@Override
+	protected void compileConversionToString() throws CompilerException
+	{
+		compileRuntimeMethod( "toExcelString", "(D)Ljava/lang/String;" );
+	}
 
 
 	@Override

@@ -76,7 +76,7 @@ public interface NumericType
 
 	/**
 	 * Returns the value as a string with no superfluous leading or trailing zeroes and decimal
-	 * point. Null returns the empty string.
+	 * point. Null returns the empty string. Uses scientific display the way Excel does.
 	 */
 	public String valueToConciseString( Number _value );
 

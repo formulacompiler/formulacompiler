@@ -27,7 +27,9 @@ import java.util.Date;
 
 import sej.CompilerException;
 import sej.NumericType;
+import sej.internal.runtime.RuntimeBigDecimal_v1;
 import sej.internal.runtime.RuntimeDouble_v1;
+import sej.internal.runtime.RuntimeLong_v1;
 
 
 /**
@@ -131,15 +133,10 @@ public abstract class NumericTypeImpl implements NumericType
 	}
 
 
-	protected String convertToConciseString( Number _value )
-	{
-		return Util.trimTrailingZerosAndPoint( valueToString( _value ) );
-	}
-
-
 	protected abstract Number convertFromNumber( Number _value );
 	protected abstract Number convertFromString( String _value );
 	protected abstract String convertToString( Number _value );
+	protected abstract String convertToConciseString( Number _value );
 
 
 	public void validateReturnTypeForCell( Method _method ) throws CompilerException
@@ -150,18 +147,18 @@ public abstract class NumericTypeImpl implements NumericType
 		if (Short.TYPE == returnType || Short.class == returnType) return;
 		if (Integer.TYPE == returnType || Integer.class == returnType) return;
 		if (Long.TYPE == returnType || Long.class == returnType) return;
-		
+
 		if (Float.TYPE == returnType || Float.class == returnType) return;
 		if (Double.TYPE == returnType || Double.class == returnType) return;
-		
+
 		if (Boolean.TYPE == returnType || Boolean.class == returnType) return;
 		if (Date.class == returnType) return;
-		
+
 		if (BigInteger.class == returnType) return;
 		if (BigDecimal.class == returnType) return;
-		
+
 		if (String.class == returnType) return;
-		
+
 		throw new CompilerException.UnsupportedDataType( "The method " + _method + " has an unsupported return type" );
 	}
 
@@ -217,6 +214,12 @@ public abstract class NumericTypeImpl implements NumericType
 			return _value.toString();
 		}
 
+		@Override
+		protected String convertToConciseString( Number _value )
+		{
+			return RuntimeDouble_v1.toExcelString( _value.doubleValue() );
+		}
+
 	}
 
 
@@ -269,6 +272,12 @@ public abstract class NumericTypeImpl implements NumericType
 		protected String convertToString( Number _value )
 		{
 			return ((BigDecimal) _value).toPlainString();
+		}
+
+		@Override
+		protected String convertToConciseString( Number _value )
+		{
+			return RuntimeBigDecimal_v1.toExcelString( (BigDecimal) _value );
 		}
 
 	}
@@ -416,16 +425,20 @@ public abstract class NumericTypeImpl implements NumericType
 		@Override
 		public long parse( String _value )
 		{
-			final int posOfDecPoint = _value.indexOf( '.' );
+			String value = _value;
+			if (value.indexOf( 'E' ) >= 0) {
+				value = new BigDecimal( value ).toPlainString();
+			}
+			final int posOfDecPoint = value.indexOf( '.' );
 			if (posOfDecPoint < 0) {
-				return Long.parseLong( _value ) * this.scalingFactor;
+				return Long.parseLong( value ) * this.scalingFactor;
 			}
 			else {
 				final int scaleOfResult = getScale();
-				final int scaleOfValue = _value.length() - posOfDecPoint - 1;
+				final int scaleOfValue = value.length() - posOfDecPoint - 1;
 				final int scaleOfDigits = (scaleOfValue > scaleOfResult) ? scaleOfResult : scaleOfValue;
-				final String digits = _value.substring( 0, posOfDecPoint )
-						+ _value.substring( posOfDecPoint + 1, posOfDecPoint + 1 + scaleOfDigits );
+				final String digits = value.substring( 0, posOfDecPoint )
+						+ value.substring( posOfDecPoint + 1, posOfDecPoint + 1 + scaleOfDigits );
 				final long unscaled = Long.parseLong( digits );
 				if (scaleOfDigits == scaleOfResult) {
 					return unscaled;
@@ -441,18 +454,7 @@ public abstract class NumericTypeImpl implements NumericType
 		@Override
 		public String format( long _value )
 		{
-			final long abs = (_value < 0) ? -_value : _value;
-			final String sign = (_value < 0) ? "-" : "";
-			String digits = Long.toString( abs );
-			int len = digits.length();
-			if (len <= getScale()) {
-				int addlZeroes = getScale() - len + 1;
-				digits = "0000000000000000000000000000000".substring( 0, addlZeroes ) + digits;
-				len += addlZeroes;
-			}
-			final String whole = digits.substring( 0, len - getScale() );
-			final String fract = digits.substring( len - getScale() );
-			return sign + whole + '.' + fract;
+			return RuntimeLong_v1.toExcelString( _value, getScale() );
 		}
 
 		@Override
@@ -460,6 +462,12 @@ public abstract class NumericTypeImpl implements NumericType
 		{
 			if (_value instanceof Long) return _value;
 			return (long) (RuntimeDouble_v1.round( _value.doubleValue(), getScale() ) * one());
+		}
+
+		@Override
+		protected String convertToConciseString( Number _value )
+		{
+			return RuntimeLong_v1.toExcelString( (Long) _value, getScale() );
 		}
 
 	}
