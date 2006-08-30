@@ -93,7 +93,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 
 	static final Type ILLEGALARGUMENT_CLASS = Type.getType( IllegalArgumentException.class );
 
-	private final TypeCompiler numberCompiler = TypeCompilerForNumbers.compilerFor( this, this.getNumericType() );
+	private final TypeCompilerForNumbers numberCompiler = TypeCompilerForNumbers.compilerFor( this, this.getNumericType() );
 	private final TypeCompiler stringCompiler = new TypeCompilerForStrings( this );
 	private final boolean canCache;
 
@@ -288,7 +288,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 	}
 
 
-	public TypeCompiler numberCompiler()
+	public TypeCompilerForNumbers numberCompiler()
 	{
 		return this.numberCompiler;
 	}
