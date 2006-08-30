@@ -37,6 +37,7 @@ import sej.SaveableEngine;
 import sej.SpreadsheetBinder.Section;
 import sej.describable.DescriptionBuilder;
 import sej.internal.spreadsheet.CellInstance;
+import sej.internal.spreadsheet.CellWithConstant;
 import sej.internal.spreadsheet.CellWithLazilyParsedExpression;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
@@ -57,6 +58,14 @@ public abstract class AbstractReferenceTest extends TestCase
 	private static final int INPUTCOUNT_COL = 9;
 	private static final int NAME_COL = 10;
 	private static final int HIGHLIGHT_COL = 11;
+	private static final int EXCELSAYS_COL = 12;
+	private static final int SKIPFOR_COL = 13;
+
+	private static final Double DOUBLE_DUMMY = 023974.239874;
+	private static final BigDecimal BIGDECIMAL_DUMMY = BigDecimal.valueOf( 023974.239874 );
+	private static final Long LONG_DUMMY = 923748L;
+	private static final Date DATE_DUMMY = Calendar.getInstance().getTime();
+	private static final String STRING_DUMMY = "-DUMMY-";
 
 	protected static final int CACHING_VARIANTS = 2;
 	protected static final int TYPE_VARIANTS = 3;
@@ -64,6 +73,10 @@ public abstract class AbstractReferenceTest extends TestCase
 	private final String baseName;
 	private final String spreadsheetName;
 
+	private int runOnlyRowNumbered = -1;
+	private NumType runOnlyType = null;
+	private int runOnlyInputVariant = -1;
+	private Boolean runOnlyCacheVariant = null;
 	private int numberOfEnginesCompiled = 0;
 
 
@@ -77,6 +90,31 @@ public abstract class AbstractReferenceTest extends TestCase
 		super();
 		this.baseName = extractBaseNameFrom( getClass().getSimpleName() );
 		this.spreadsheetName = this.baseName + ".xls";
+	}
+
+
+	protected AbstractReferenceTest(String _baseName)
+	{
+		super();
+		this.baseName = _baseName;
+		this.spreadsheetName = this.baseName + ".xls";
+	}
+
+
+	protected static enum NumType {
+		DOUBLE, BIGDECIMAL, LONG;
+	}
+
+	protected AbstractReferenceTest(String _baseName, int _onlyRowNumbered, NumType _onlyType, int _onlyInputVariant,
+			boolean _caching)
+	{
+		super();
+		this.baseName = _baseName;
+		this.spreadsheetName = this.baseName + ".xls";
+		this.runOnlyRowNumbered = _onlyRowNumbered;
+		this.runOnlyType = _onlyType;
+		this.runOnlyInputVariant = _onlyInputVariant;
+		this.runOnlyCacheVariant = _caching;
 	}
 
 	private static String extractBaseNameFrom( String _name )
@@ -115,6 +153,23 @@ public abstract class AbstractReferenceTest extends TestCase
 	}
 
 
+	protected void reportTestRun( String _testName )
+	{
+		// overridable
+	}
+
+	protected void reportDefectiveEngine( SaveableEngine _engine, String _testName )
+	{
+		// overridable
+	}
+
+
+	private final String htmlize( String _text )
+	{
+		return _text.replace( "&", "&amp;" ).replace( "<", "&lt;" ).replace( ">", "&gt;" );
+	}
+
+
 	private final class SheetRunner
 	{
 		private final SpreadsheetImpl book;
@@ -122,6 +177,7 @@ public abstract class AbstractReferenceTest extends TestCase
 		private String sequenceName;
 		private String[] highlightTerms;
 		private int columnCount = 2;
+		private String lastNormalizedExprShown = "";
 
 		public SheetRunner(SpreadsheetImpl _book)
 		{
@@ -135,44 +191,46 @@ public abstract class AbstractReferenceTest extends TestCase
 
 			final SheetImpl sheet = this.book.getSheetList().get( 0 );
 			final List<RowImpl> rows = sheet.getRowList();
+			final int onlyRow = AbstractReferenceTest.this.runOnlyRowNumbered;
 			int atRow = STARTING_ROW;
 			while (atRow < rows.size()) {
 				final RowImpl row = rows.get( atRow++ );
+				if (onlyRow < 0 || atRow == onlyRow) {
+					if (null != row.getCellOrNull( FORMULA_COL )) {
 
-				if (null != row.getCellOrNull( FORMULA_COL )) {
-
-					final CellInstance nameCell = row.getCellOrNull( NAME_COL );
-					if (null != nameCell) {
-						final String newName = nameCell.getValue().toString();
-						if (!newName.equals( "..." )) {
-							this.sequenceName = newName;
-							final CellInstance highlightCell = row.getCellOrNull( HIGHLIGHT_COL );
-							if (null != highlightCell) {
-								final String highlights = highlightCell.getValue().toString();
-								if (highlights == "xx") {
-									this.highlightTerms = null;
+						final CellInstance nameCell = row.getCellOrNull( NAME_COL );
+						if (null != nameCell) {
+							final String newName = nameCell.getValue().toString();
+							if (!newName.equals( "..." )) {
+								this.sequenceName = newName;
+								final CellInstance highlightCell = row.getCellOrNull( HIGHLIGHT_COL );
+								if (null != highlightCell) {
+									final String highlights = highlightCell.getValue().toString();
+									if (highlights == "xx") {
+										this.highlightTerms = null;
+									}
+									else {
+										this.highlightTerms = htmlize( highlights ).split( " " );
+									}
 								}
-								else {
-									this.highlightTerms = highlights.split( " " );
-								}
+								this.columnCount = maxColumnCountInSequence( rows, row, atRow );
+								emitNameToHtml();
 							}
-							this.columnCount = maxColumnCountInSequence( rows, row, atRow );
-							emitNameToHtml();
 						}
+
+						final SaveableEngine[] engines = new RowRunner( row, row, atRow, null ).run();
+
+						while (atRow < rows.size()) {
+							final RowImpl variantRow = rows.get( atRow );
+							final CellInstance variantNameCell = variantRow.getCellOrNull( NAME_COL );
+							if (null == variantNameCell || !variantNameCell.getValue().toString().equals( "..." )) break;
+							atRow++;
+
+							new RowRunner( row, variantRow, atRow, engines ).run();
+
+						}
+
 					}
-
-					final SaveableEngine[] engines = new RowRunner( row, row, atRow, null ).run();
-
-					while (atRow < rows.size()) {
-						final RowImpl variantRow = rows.get( atRow );
-						final CellInstance variantNameCell = variantRow.getCellOrNull( NAME_COL );
-						if (null == variantNameCell || !variantNameCell.getValue().toString().equals( "..." )) break;
-						atRow++;
-
-						new RowRunner( row, variantRow, atRow, engines ).run();
-
-					}
-
 				}
 			}
 			endHtml();
@@ -216,12 +274,13 @@ public abstract class AbstractReferenceTest extends TestCase
 			if (h.length() > 0) {
 				h.appendLine( "</tbody></table><p/>" );
 			}
-			h.append( "<h5 class=\"ref\">" ).append( this.sequenceName ).appendLine( "</h5>" );
+			h.append( "<h5 class=\"ref\">" ).append( htmlize( this.sequenceName ) ).appendLine( "</h5>" );
 			h.append( "<table class=\"xl ref\"><thead><tr><td/>" );
 			for (int col = 0; col < this.columnCount; col++) {
 				h.append( "<td>" ).append( (char) ('A' + col) ).append( "</td>" );
 			}
 			h.appendLine( "</tr></thead><tbody>" );
+			this.lastNormalizedExprShown = "";
 		}
 
 		private void endHtml() throws IOException
@@ -242,6 +301,7 @@ public abstract class AbstractReferenceTest extends TestCase
 			private final ValueType expectedType;
 			private final CellInstance formula;
 			private final SaveableEngine[] fullyParametrizedTestEngines;
+			private final String skipFor;
 			private CellInstance[] inputCells;
 			private Object[] inputs;
 			private ValueType[] inputTypes;
@@ -257,6 +317,8 @@ public abstract class AbstractReferenceTest extends TestCase
 				this.expectedType = valueTypeOf( this.expected );
 				this.formula = _formulaRow.getCellOrNull( FORMULA_COL );
 				this.fullyParametrizedTestEngines = _engines;
+				final CellInstance skipForCell = _valueRow.getCellOrNull( SKIPFOR_COL );
+				this.skipFor = (skipForCell == null)? "" : skipForCell.getValue().toString();
 				extractInputsFrom( _valueRow );
 			}
 
@@ -315,8 +377,12 @@ public abstract class AbstractReferenceTest extends TestCase
 				else {
 					final int inputLength = this.inputs.length;
 					final int inputVariations = (int) Math.pow( 2, inputLength );
+					final int onlyVariant = AbstractReferenceTest.this.runOnlyInputVariant;
 					TestRunner test;
-					if (this.formulaRow == this.valueRow) {
+					if (onlyVariant >= 0) {
+						test = new TestRunner( onlyVariant );
+					}
+					else if (this.formulaRow == this.valueRow) {
 						for (int activationBits = 0; activationBits < inputVariations - 1; activationBits++) {
 							new TestRunner( activationBits ).run();
 						}
@@ -369,8 +435,15 @@ public abstract class AbstractReferenceTest extends TestCase
 					final RowImpl valueRow = RowRunner.this.valueRow;
 					if (valueRow == RowRunner.this.formulaRow) {
 						final CellWithLazilyParsedExpression exprCell = (CellWithLazilyParsedExpression) RowRunner.this.formula;
-						expr = "=" + highlightTermIn( exprCell.getExpressionParser().getSource() );
+						expr = "=" + highlightTermIn( htmlize( exprCell.getExpressionParser().getSource() ) );
 						exprPrec = htmlPrecision( exprCell );
+						final String exprNormalized = expr.replace( Integer.toString( RowRunner.this.rowNumber ), "?" );
+						if (exprNormalized.equals( SheetRunner.this.lastNormalizedExprShown )) {
+							expr = "...";
+						}
+						else {
+							SheetRunner.this.lastNormalizedExprShown = exprNormalized;
+						}
 					}
 
 					final Object expected = RowRunner.this.expected;
@@ -385,7 +458,7 @@ public abstract class AbstractReferenceTest extends TestCase
 						if (inputCell != null) {
 							final Object input = inputCell.getValue();
 							final String inputCls = htmlCellClass( input );
-							h.append( "<td" ).append( inputCls ).append( ">" ).append( (null == input) ? "" : input ).append(
+							h.append( "<td" ).append( inputCls ).append( ">" ).append( htmlValue( input ) ).append(
 									htmlPrecision( inputCell ) ).append( "</td>" );
 						}
 						else {
@@ -393,10 +466,23 @@ public abstract class AbstractReferenceTest extends TestCase
 						}
 					}
 
+					final CellInstance excelSaysCell = valueRow.getCellOrNull( EXCELSAYS_COL );
+					if (null != excelSaysCell) {
+						final Object excelSays = excelSaysCell.getValue();
+						h.append( "<td class=\"ref-bad\">Excel says: " ).append( htmlValue( excelSays ) ).append( "</td>" );
+					}
+
 					h.appendLine( "</tr>" );
 				}
 
-				private String htmlCellClass( Object _value )
+				private final Object htmlValue( Object _value )
+				{
+					if (_value == null) return "";
+					if (_value.toString().equals( "")) return "' (empty string)";
+					return _value;
+				}
+
+				private final String htmlCellClass( Object _value )
 				{
 					String cls = "";
 					if (_value instanceof Date) cls = " class=\"xl-date\"";
@@ -404,7 +490,7 @@ public abstract class AbstractReferenceTest extends TestCase
 					return cls;
 				}
 
-				private String htmlPrecision( CellInstance _inputCell )
+				private final String htmlPrecision( CellInstance _inputCell )
 				{
 					if (_inputCell != null && _inputCell.getNumberFormat() != null) {
 						final int prec = _inputCell.getNumberFormat().getMaximumFractionDigits();
@@ -435,24 +521,35 @@ public abstract class AbstractReferenceTest extends TestCase
 				{
 					final SaveableEngine[] result = (this.testEngines != null) ? this.testEngines
 							: new SaveableEngine[ CACHING_VARIANTS * TYPE_VARIANTS ];
-					run( result, false );
-					run( result, true );
+					final Boolean onlyCache = AbstractReferenceTest.this.runOnlyCacheVariant;
+					if (null != onlyCache) {
+						run( result, onlyCache );
+					}
+					else {
+						run( result, false );
+						run( result, true );
+					}
 					return result;
 				}
 
 				private final void run( SaveableEngine[] _engines, boolean _caching ) throws Exception
 				{
+					final NumType onlyType = AbstractReferenceTest.this.runOnlyType;
+					final String skipFor = RowRunner.this.skipFor;
 					final int offsEngine = _caching ? TYPE_VARIANTS : 0;
 					int iEngine;
-
-					iEngine = offsEngine + 0;
-					_engines[ iEngine ] = new DoubleTestRunner( _caching ).run( _engines[ iEngine ] );
-
-					iEngine = offsEngine + 1;
-					_engines[ iEngine ] = new BigDecimalTestRunner( _caching ).run( _engines[ iEngine ] );
-
-					iEngine = offsEngine + 2;
-					_engines[ iEngine ] = new ScaledLongTestRunner( _caching ).run( _engines[ iEngine ] );
+					if ((null == onlyType || NumType.DOUBLE == onlyType) && !skipFor.contains( "double" )) {
+						iEngine = offsEngine + 0;
+						_engines[ iEngine ] = new DoubleTestRunner( _caching ).run( _engines[ iEngine ] );
+					}
+					if ((null == onlyType || NumType.BIGDECIMAL == onlyType) && !skipFor.contains( "big" )) {
+						iEngine = offsEngine + 1;
+						_engines[ iEngine ] = new BigDecimalTestRunner( _caching ).run( _engines[ iEngine ] );
+					}
+					if ((null == onlyType || NumType.LONG == onlyType) && !skipFor.contains( "long" )) {
+						iEngine = offsEngine + 2;
+						_engines[ iEngine ] = new ScaledLongTestRunner( _caching ).run( _engines[ iEngine ] );
+					}
 				}
 
 				private abstract class TypedTestRunner
@@ -472,7 +569,7 @@ public abstract class AbstractReferenceTest extends TestCase
 
 					public final SaveableEngine run( SaveableEngine _engine ) throws Exception
 					{
-						// DEBUG System.out.println( this.typedTestName );
+						reportTestRun( this.typedTestName );
 
 						SaveableEngine e = null;
 						try {
@@ -499,7 +596,7 @@ public abstract class AbstractReferenceTest extends TestCase
 							}
 						}
 						catch (Error ex) {
-							// DEBUG sej.internal.Debug.saveEngine( e, "d:/temp/ref.jar" );
+							reportDefectiveEngine( e, this.typedTestName );
 							throw ex;
 						}
 
@@ -516,19 +613,67 @@ public abstract class AbstractReferenceTest extends TestCase
 						b.defineOutputCell( RowRunner.this.formula.getCellIndex(), new CallFrame( b.getOutputClass()
 								.getMethod( "get" + RowRunner.this.expectedType.toString() ) ) );
 
-						if (TestRunner.this.inputActivationBits > 0) {
+						if (TestRunner.this.inputActivationBits == 0) {
+							AbstractReferenceTest.this.numberOfEnginesCompiled++;
+							return eb.compile();
+						}
+						else {
 							final RowImpl formulaRow = RowRunner.this.formulaRow;
 							final Object[] inputs = RowRunner.this.inputs;
-							for (int i = 0; i < inputs.length; i++) {
-								if (((1 << i) & TestRunner.this.inputActivationBits) != 0) {
-									final ValueType inputType = RowRunner.this.inputTypes[ i ];
-									b.defineInputCell( formulaRow.getCellIndex( INPUTS_COL + i ), new CallFrame( b
-											.getInputClass().getMethod( "get" + inputType.toString(), Integer.TYPE ), i ) );
+							final CellWithConstant[] originalCells = new CellWithConstant[ inputs.length ];
+							final Object[] originalCellValues = new Object[ inputs.length ];
+							try {
+								for (int i = 0; i < inputs.length; i++) {
+									if (((1 << i) & TestRunner.this.inputActivationBits) != 0) {
+										final ValueType inputType = RowRunner.this.inputTypes[ i ];
+										b.defineInputCell( formulaRow.getCellIndex( INPUTS_COL + i ), new CallFrame( b
+												.getInputClass().getMethod( "get" + inputType.toString(), Integer.TYPE ), i ) );
+										final CellInstance valueCell = formulaRow.getCellOrNull( INPUTS_COL + i );
+										if (valueCell instanceof CellWithConstant) {
+											final CellWithConstant constCell = (CellWithConstant) valueCell;
+											final Object originalValue = constCell.getValue();
+											originalCells[ i ] = constCell;
+											originalCellValues[ i ] = originalValue;
+											constCell.setValue( modifiedValue( originalValue ) );
+										}
+									}
+								}
+								AbstractReferenceTest.this.numberOfEnginesCompiled++;
+								return eb.compile();
+							}
+							finally {
+								for (int i = 0; i < originalCells.length; i++) {
+									final CellWithConstant constCell = originalCells[ i ];
+									if (null != constCell) {
+										constCell.setValue( originalCellValues[ i ] );
+									}
 								}
 							}
 						}
-						AbstractReferenceTest.this.numberOfEnginesCompiled++;
-						return eb.compile();
+					}
+
+					private final Object modifiedValue( Object _value )
+					{
+						if (_value instanceof Double) {
+							return DOUBLE_DUMMY;
+						}
+						if (_value instanceof BigDecimal) {
+							return BIGDECIMAL_DUMMY;
+						}
+						if (_value instanceof Long) {
+							return LONG_DUMMY;
+						}
+						if (_value instanceof Date) {
+							return DATE_DUMMY;
+						}
+						if (_value instanceof Boolean) {
+							boolean v = (Boolean) _value;
+							return !v;
+						}
+						if (_value instanceof String) {
+							return STRING_DUMMY;
+						}
+						return _value;
 					}
 
 
