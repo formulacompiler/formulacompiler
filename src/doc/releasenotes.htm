@@ -36,11 +36,32 @@
 <h5>Note</h5>
 <p>The newest release listed in this document may not really be released yet. Take it as an announcement of things to come. ;)</p>
 
+<h2>Release 0.7.0</h2>
+
+<h3>New Features</h3>
+<ul class="spaced">
+<li><a href="reference/index.htm">Function reference</a> in the docs.</li>
+<li><a href="reference/strings.htm">String support</a>.</li>
+</ul>
+
+<h3>Improvements</h3>
+<ul class="spaced">
+<li>Much <a href="dev.htm#2006-08-30">improved Excel function tests</a>, used as base for reference docs.</li>
+<li>Improved error messages should give clearer indication of the source of a problem.</li>
+</ul>
+
+<h3>Fixes</h3>
+<ul class="spaced">
+<li>Fixed-scale <tt>BigDecimal</tt> engines now return all values with proper scale.</li>
+<li>Boolean values are treated as numbers in constant folder, too.</li>
+<li>Enabled proper constant folding for <tt>AND</tt> and <tt>OR</tt> when they are aggregators.</li>
+</ul>
+
 <h2>Release 0.6.3</h2>
 
 <h3>Improvements</h3>
 <ul class="spaced">
-<li>Documented the use of a <a href="tutorial/bindcells.htm#Defaults">derived output class providing default implementations</a> with a factory method returning a superclass.</li>
+<li>Documented and tested the use of a <a href="tutorial/bindcells.htm#Defaults">derived output class providing default implementations</a> with a factory method returning a superclass.</li>
 </ul>
 
 <h2>Release 0.6.2</h2>
@@ -232,7 +253,7 @@
 <p>This is the first release with the new API based on <a href="tutorial/binding.htm">binding cells to native types</a>. The interpreter has been dropped and replaced by a byte code compiler producing very fast code.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 17.08.2006.</p>        </div>
+<br/>Last updated on 30.08.2006.</p>        </div>
     </div>
 </body>
 </html>

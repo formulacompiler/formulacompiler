@@ -47,6 +47,7 @@
 <li><a href="reference/lookupfuncs.htm"><tt>INDEX</tt></a> does not return arrays (as in <tt>=SUM(INDEX(A1:B2;2))</tt>).</li>
 <li><a href="reference/booleans.htm"><tt>AND</tt> and <tt>OR</tt></a> cannot be used as aggregators over repeating sections yet.</li>
 <li>Array expressions are not supported (such as <tt>{=INDEX({1,2;3,4};0;2)}</tt>).</li>
+<li>In Excel, a formula like <tt>(A1 = 0)</tt> returns false when <tt>A1</tt> is <tt>FALSE</tt>. In SEJ it is true. In both SEJ and Excel, <tt>(A1 + 0 = 0)</tt> returns true.</li>
 </ul>
 
 <h3>Scaled Long Type</h3>
@@ -76,7 +77,7 @@
 </ul>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.
-<br/>Last updated on 29.08.2006.</p>        </div>
+<br/>Last updated on 30.08.2006.</p>        </div>
     </div>
 </body>
 </html>
