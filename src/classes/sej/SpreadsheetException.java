@@ -41,6 +41,11 @@ public class SpreadsheetException extends SEJException
 		super( _message, _cause );
 	}
 
+	public SpreadsheetException(Throwable _cause)
+	{
+		super( _cause );
+	}
+
 
 	/**
 	 * You attempted to access a cell or range by a name which is not defined.
@@ -77,6 +82,17 @@ public class SpreadsheetException extends SEJException
 			super( _message );
 		}
 
+	}
+	
+	
+	public static class UnsupportedExpression extends SpreadsheetException
+	{
+		
+		public UnsupportedExpression( Throwable _cause )
+		{
+			super( _cause );
+		}
+		
 	}
 
 

@@ -22,9 +22,11 @@ package sej.internal.spreadsheet;
 
 import java.io.IOException;
 
+import sej.SpreadsheetException;
 import sej.describable.Describable;
 import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.spreadsheet.loader.excel.ExcelLoaderError;
 
 
 public class CellWithLazilyParsedExpression extends CellInstance
@@ -54,10 +56,17 @@ public class CellWithLazilyParsedExpression extends CellInstance
 
 
 	@Override
-	public synchronized ExpressionNode getExpression()
+	public synchronized ExpressionNode getExpression() throws SpreadsheetException
 	{
 		if (null == this.expression) {
-			this.expression = this.expressionParser.parseExpression( this );
+			try {
+				this.expression = this.expressionParser.parseExpression( this );
+			}
+			catch (ExcelLoaderError e) { 
+				final SpreadsheetException.UnsupportedExpression thrown = new SpreadsheetException.UnsupportedExpression( e );
+				thrown.addMessageContext( " In cell " + getCanonicalName() + "." );
+				throw thrown;
+			}
 		}
 		return this.expression;
 	}
@@ -78,15 +87,6 @@ public class CellWithLazilyParsedExpression extends CellInstance
 	public void setExpressionParser( LazyExpressionParser _expressionParser )
 	{
 		this.expressionParser = _expressionParser;
-	}
-
-
-	@Override
-	protected void copyTo( CellInstance _other )
-	{
-		super.copyTo( _other );
-		CellWithLazilyParsedExpression other = (CellWithLazilyParsedExpression) _other;
-		other.setExpression( (ExpressionNode) getExpression().clone() );
 	}
 
 

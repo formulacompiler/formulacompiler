@@ -318,7 +318,7 @@ public abstract class AbstractReferenceTest extends TestCase
 				this.formula = _formulaRow.getCellOrNull( FORMULA_COL );
 				this.fullyParametrizedTestEngines = _engines;
 				final CellInstance skipForCell = _valueRow.getCellOrNull( SKIPFOR_COL );
-				this.skipFor = (skipForCell == null)? "" : skipForCell.getValue().toString();
+				this.skipFor = (skipForCell == null) ? "" : skipForCell.getValue().toString();
 				extractInputsFrom( _valueRow );
 			}
 
@@ -457,9 +457,17 @@ public abstract class AbstractReferenceTest extends TestCase
 						final CellInstance inputCell = valueRow.getCellOrNull( col );
 						if (inputCell != null) {
 							final Object input = inputCell.getValue();
-							final String inputCls = htmlCellClass( input );
-							h.append( "<td" ).append( inputCls ).append( ">" ).append( htmlValue( input ) ).append(
-									htmlPrecision( inputCell ) ).append( "</td>" );
+							if (null != input) {
+								final String inputCls = htmlCellClass( input );
+								h.append( "<td" ).append( inputCls ).append( ">" ).append( htmlValue( input ) ).append(
+										htmlPrecision( inputCell ) ).append( "</td>" );
+							}
+							else {
+								final String inputExpr = ((CellWithLazilyParsedExpression) inputCell).getExpressionParser()
+										.getSource();
+								h.append( "<td>" ).append( htmlValue( inputExpr ) ).append( htmlPrecision( inputCell ) )
+										.append( "</td>" );
+							}
 						}
 						else {
 							h.append( "<td/>" );
@@ -478,7 +486,7 @@ public abstract class AbstractReferenceTest extends TestCase
 				private final Object htmlValue( Object _value )
 				{
 					if (_value == null) return "";
-					if (_value.toString().equals( "")) return "' (empty string)";
+					if (_value.toString().equals( "" )) return "' (empty string)";
 					return _value;
 				}
 
