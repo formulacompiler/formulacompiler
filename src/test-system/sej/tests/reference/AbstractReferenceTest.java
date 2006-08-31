@@ -36,6 +36,7 @@ import sej.SEJ;
 import sej.SaveableEngine;
 import sej.SpreadsheetBinder.Section;
 import sej.describable.DescriptionBuilder;
+import sej.internal.runtime.Runtime_v1;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellWithConstant;
 import sej.internal.spreadsheet.CellWithLazilyParsedExpression;
@@ -386,6 +387,8 @@ public abstract class AbstractReferenceTest extends TestCase
 
 			public final SaveableEngine[] run() throws Exception
 			{
+				if (Runtime_v1.JRE14 && this.skipFor.contains( "jre14" )) return null;
+				
 				if (null == this.inputs) {
 					final TestRunner test = new TestRunner();
 					test.emitTestToHtml();
