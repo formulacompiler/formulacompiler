@@ -59,9 +59,6 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 	}
 
 
-	// LATER Use INDEX to get a string rating instead of a numeric one
-
-
 	public void testCustomerRating() throws Exception
 	{
 		String path = "src/test-system/testdata/sej/tutorials/CustomerRatingComplex.xls";

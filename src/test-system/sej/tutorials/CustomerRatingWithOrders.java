@@ -49,9 +49,6 @@ public class CustomerRatingWithOrders extends TestCase
 	}
 
 	
-	// LATER Use INDEX to get a string rating instead of a numeric one
-	
-
 	public void testCustomerRatingWithArray() throws Exception
 	{
 		doTestCustomerRating( AccessorVersion.ARRAY );
@@ -82,13 +79,13 @@ public class CustomerRatingWithOrders extends TestCase
 		CustomerRatingFactory factory = (CustomerRatingFactory) engine.getComputationFactory();
 
 		// Original sheet has five rows in the section. First, we pass the same number of values.
-		assertRating( 3, factory, 1000, 2000, 1000, 1500, 1000 );
+		assertRating( "Average", factory, 1000, 2000, 1000, 1500, 1000 );
 
 		// Let's pass fewer values.
-		assertRating( 4, factory, 5000, 3000 );
+		assertRating( "Good", factory, 5000, 3000 );
 
 		// And more values.
-		assertRating( 5, factory, 1000, 2000, 1000, 1500, 1000, 10000 );
+		assertRating( "Excellent", factory, 1000, 2000, 1000, 1500, 1000, 10000 );
 	}
 
 
@@ -133,11 +130,11 @@ public class CustomerRatingWithOrders extends TestCase
 	}
 
 
-	private void assertRating( int _expected, CustomerRatingFactory _factory, double... _orderTotals )
+	private void assertRating( String _expected, CustomerRatingFactory _factory, double... _orderTotals )
 	{
 		CustomerData customer = new CustomerDataImpl( _orderTotals );
 		CustomerRating ratingStrategy = _factory.newRating( customer );
-		int rating = ratingStrategy.rating();
+		String rating = ratingStrategy.rating();
 		assertEquals( _expected, rating );
 	}
 
@@ -151,7 +148,7 @@ public class CustomerRatingWithOrders extends TestCase
 	// ---- CustomerRating
 	public static interface CustomerRating /**/extends Resettable/**/
 	{
-		public int rating();
+		public String rating();
 	}
 	// ---- CustomerRating
 
