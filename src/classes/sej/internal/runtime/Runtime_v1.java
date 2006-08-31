@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
 
 public abstract class Runtime_v1
 {
+	static final boolean JRE14 = System.getProperty( "java.version" ).startsWith( "1.4." );
 
 	// ---- Excel date conversion; copied from JExcelAPI (DateRecord.java)
 
@@ -83,8 +84,13 @@ public abstract class Runtime_v1
 
 	public static String stringFromBigDecimal( BigDecimal _value )
 	{
+		if (JRE14) {
+			// JRE 1.4 does not have stripTrailingZeros() or precision().
+			return trimTrailingZerosAndPoint( _value.toPlainString() );
+		}
+		
 		if (_value.compareTo( BigDecimal.ZERO ) == 0) return "0"; // avoid "0.0"
-		final BigDecimal stripped = _value.stripTrailingZeros();
+		final BigDecimal stripped = BigDecimalHelper.stripTrailingZeros( _value );
 		final int scale = stripped.scale();
 		final int prec = BigDecimalHelper.precision( stripped );
 		final int ints = prec - scale;
@@ -95,6 +101,20 @@ public abstract class Runtime_v1
 			return stripped.toPlainString();
 		}
 	}
+
+	public static String trimTrailingZerosAndPoint( String _string )
+	{
+		String result = _string;
+		if (result.contains( "." )) {
+			int l = result.length();
+			while ('0' == result.charAt( l - 1 ))
+				l--;
+			if ('.' == result.charAt( l - 1 )) l--;
+			result = result.substring( 0, l );
+		}
+		return result;
+	}
+
 
 	public static String emptyString()
 	{

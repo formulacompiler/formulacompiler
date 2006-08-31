@@ -27,6 +27,8 @@ import java.util.Map;
 
 import org.objectweb.asm.Type;
 
+import sej.internal.runtime.Runtime_v1;
+
 public final class Util
 {
 	private static final String ACCESSIBLE = "; cannot be accessed by SEJ";
@@ -41,15 +43,7 @@ public final class Util
 	
 	public static String trimTrailingZerosAndPoint( String _string )
 	{
-		String result = _string;
-		if (result.contains( "." )) {
-			int l = result.length();
-			while ('0' == result.charAt( l - 1 ))
-				l--;
-			if ('.' == result.charAt( l - 1 )) l--;
-			result = result.substring( 0, l );
-		}
-		return result;
+		return Runtime_v1.trimTrailingZerosAndPoint( _string );
 	}
 
 
