@@ -23,6 +23,7 @@ package sej.internal.model.compiler;
 import java.util.Collection;
 
 import sej.CompilerException;
+import sej.SpreadsheetException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.model.CellModel;
@@ -181,9 +182,14 @@ public class SectionModelCompiler
 
 	private void buildCellModel( CellModel _cellModel, CellWithLazilyParsedExpression _cell ) throws CompilerException
 	{
-		final ExpressionNode exprDef = _cell.getExpression();
-		final ExpressionNode exprModel = (ExpressionNode) buildExpressionModel( exprDef );
-		_cellModel.setExpression( exprModel );
+		try {
+			final ExpressionNode exprDef = _cell.getExpression();
+			final ExpressionNode exprModel = (ExpressionNode) buildExpressionModel( exprDef );
+			_cellModel.setExpression( exprModel );
+		}
+		catch (SpreadsheetException cause) {
+			throw new CompilerException.UnsupportedExpression( cause );
+		}
 	}
 
 

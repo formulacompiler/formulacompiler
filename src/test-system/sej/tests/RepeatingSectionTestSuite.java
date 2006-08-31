@@ -215,7 +215,7 @@ public class RepeatingSectionTestSuite extends TestSuite
 			this.values = new double[ _outerRefCells.length ];
 			for (int i = 0; i < _outerRefCells.length; i++) {
 				final CellInstance cell = _outerRefCells[ i ][ 0 ];
-				if (cell.getExpression() == null) {
+				if (cell.getValue() != null) {
 					this.values[ i ] = (Double) cell.getValue();
 				}
 			}
@@ -232,7 +232,7 @@ public class RepeatingSectionTestSuite extends TestSuite
 			this.values = new double[ _cells.length ];
 			this.subs = null;
 			for (int i = 0; i < _cells.length; i++) {
-				if (_cells[ i ].getExpression() == null) {
+				if (_cells[ i ].getValue() != null) {
 					this.values[ i ] = (Double) _cells[ i ].getValue();
 				}
 			}

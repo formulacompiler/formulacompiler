@@ -23,6 +23,7 @@ package sej.internal.spreadsheet;
 import java.io.IOException;
 import java.text.NumberFormat;
 
+import sej.SpreadsheetException;
 import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionNode;
@@ -67,7 +68,7 @@ public abstract class CellInstance extends AbstractDescribable
 	}
 
 
-	public abstract ExpressionNode getExpression();
+	public abstract ExpressionNode getExpression() throws SpreadsheetException;
 
 
 	public abstract Object getValue();
@@ -89,12 +90,6 @@ public abstract class CellInstance extends AbstractDescribable
 	}
 	
 	
-	protected void copyTo( CellInstance _other )
-	{
-		_other.numberFormat = this.numberFormat;
-	}
-
-
 	@Override
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{

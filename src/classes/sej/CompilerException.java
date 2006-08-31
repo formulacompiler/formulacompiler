@@ -46,6 +46,11 @@ public class CompilerException extends SEJException
 		super( _message, _cause );
 	}
 
+	public CompilerException(Throwable _cause)
+	{
+		super( _cause );
+	}
+
 
 	/**
 	 * Indicates that a required named element was not found.
@@ -181,6 +186,11 @@ public class CompilerException extends SEJException
 		public UnsupportedExpression(String _message)
 		{
 			super( _message );
+		}
+
+		public UnsupportedExpression(Throwable _cause)
+		{
+			super( _cause );
 		}
 
 	}
