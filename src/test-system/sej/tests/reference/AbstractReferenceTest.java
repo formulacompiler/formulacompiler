@@ -155,7 +155,7 @@ public abstract class AbstractReferenceTest extends TestCase
 
 	protected void reportTestRun( String _testName )
 	{
-		// overridable
+		System.out.println( _testName );
 	}
 
 	protected void reportDefectiveEngine( SaveableEngine _engine, String _testName )

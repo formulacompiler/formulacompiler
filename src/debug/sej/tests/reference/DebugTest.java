@@ -16,26 +16,22 @@ public final class DebugTest extends AbstractReferenceTest
 
 	public DebugTest()
 	{
-		super( "Strings" );
-		//super( "Strings", 46, NumType.DOUBLE, Integer.valueOf( "1", 2 ), false );
-	}
-	
-	@Override
-	protected void reportTestRun( String _testName )
-	{
-		System.out.println( _testName );
+		//super( "Strings" );
+		super( "Strings", 98, NumType.DOUBLE, Integer.valueOf( "0", 2 ), false );
 	}
 
 	@Override
 	protected void reportDefectiveEngine( SaveableEngine _engine, String _testName )
 	{
-		try {
-			Debug.saveEngine( _engine, "d:/temp/debug.jar" );
-			System.out.println( ".. dumped to d:/temp/debug.jar" );
-		}
-		catch (IOException e) {
-			e.printStackTrace();
+		if (_engine != null) {
+			try {
+				Debug.saveEngine( _engine, "d:/temp/debug.jar" );
+				System.out.println( ".. dumped to d:/temp/debug.jar" );
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
-	
+
 }

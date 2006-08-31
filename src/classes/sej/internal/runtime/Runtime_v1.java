@@ -99,6 +99,11 @@ public abstract class Runtime_v1
 		return "";
 	}
 
+	private static String notNull( String _s )
+	{
+		return (_s == null) ? "" : _s;
+	}
+
 
 	public static String stdMID( String _s, int _start, int _len )
 	{
@@ -122,8 +127,44 @@ public abstract class Runtime_v1
 		if (_len < 1) return "";
 		if (_len >= _s.length()) return _s;
 		final int max = _s.length();
-		final int len = (_len > max)? max : _len;
-		return _s.substring( max - len, max );
+		final int len = (_len > max) ? max : _len;
+		return _s.substring( max - len );
 	}
 
+	public static String stdSUBSTITUTE( String _s, String _src, String _tgt )
+	{
+		if (_s == null || _s.equals( "" )) return _s;
+		if (_src == null || _src.equals( "" ) || _src.equals( _tgt )) return _s;
+		return _s.replace( notNull( _src ), notNull( _tgt ) );
+	}
+
+	public static String stdSUBSTITUTE( String _s, String _src, String _tgt, int _occurrence )
+	{
+		if (_occurrence <= 0) return _s;
+		if (_s == null || _s.equals( "" )) return _s;
+		if (_src == null || _src == "" || _src.equals( _tgt )) return _s;
+		int at = 0;
+		int seen = 0;
+		while (at < _s.length()) {
+			final int p = _s.indexOf( _src, at );
+			if (p < 0) break;
+			if (++seen == _occurrence) {
+				return _s.substring( 0, p ) + _tgt + _s.substring( p + _src.length() );
+			}
+			at = p + _src.length();
+		}
+		return _s;
+	}
+
+	public static String stdREPLACE( String _s, int _at, int _len, String _repl )
+	{
+		if (_at < 1) return "";
+		if (_len < 0) return "";
+		if (_s == null || _s.equals( "" )) return _repl;
+		final int at = _at - 1;
+		if (at >= _s.length()) return _s + _repl;
+		if (at + _len >= _s.length()) return _s.substring( 0, at ) + _repl;
+		return _s.substring( 0, at ) + _repl + _s.substring( at + _len );
+	}
+	
 }
