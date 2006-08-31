@@ -81,6 +81,7 @@ public abstract class Runtime_v1
 	
 	public static String stringFromBigDecimal( BigDecimal _value )
 	{
+		if (_value.compareTo( BigDecimal.ZERO ) == 0) return "0"; // avoid "0.0"
 		final BigDecimal stripped = _value.stripTrailingZeros();
 		final int scale = stripped.scale();
 		final int prec = BigDecimalHelper.precision( stripped );
