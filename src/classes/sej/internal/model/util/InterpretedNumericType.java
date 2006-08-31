@@ -60,12 +60,12 @@ public abstract class InterpretedNumericType
 	public abstract Object adjustConstantValue( Object _value );
 	protected abstract int compare( Object _a, Object _b );
 
-	
+
 	public final Number zero()
 	{
 		return this.num.getZero();
 	}
-	
+
 
 	public boolean toBoolean( Object _value )
 	{
@@ -80,6 +80,10 @@ public abstract class InterpretedNumericType
 			Number number = (Number) _value;
 			return this.num.valueToConciseString( number );
 		}
+		if (_value instanceof Boolean) {
+			Boolean bool = (Boolean) _value;
+			return bool ? "1" : "0";
+		}
 		return _value.toString();
 	}
 
@@ -90,7 +94,7 @@ public abstract class InterpretedNumericType
 		return valueToInt( _value, _ifNull );
 	}
 
-	
+
 	public Object compute( Operator _operator, Object... _args )
 	{
 		switch (_operator) {
@@ -206,7 +210,7 @@ public abstract class InterpretedNumericType
 				}
 				break;
 			}
-			
+
 		}
 
 		throw new IllegalArgumentException( "Cannot interpret operator "
@@ -236,7 +240,7 @@ public abstract class InterpretedNumericType
 				}
 				break;
 			}
-			
+
 			case INDEX: {
 				switch (cardinality) {
 					case 2:
@@ -246,7 +250,7 @@ public abstract class InterpretedNumericType
 				}
 				break;
 			}
-			
+
 		}
 
 		throw new IllegalArgumentException( "Cannot interpret function "
