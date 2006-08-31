@@ -100,6 +100,18 @@ FN		= "@"?
 {FN} "ROUND"	{ return new Symbol( GeneratedSymbols.ROUND, "ROUND" ); }
 {FN} "TODAY"	{ return new Symbol( GeneratedSymbols.TODAY, "TODAY" ); }
 {FN} "CONCATENATE"	{ return new Symbol( GeneratedSymbols.CONCATENATE, "CONCATENATE" ); }
+{FN} "LEN"		{ return new Symbol( GeneratedSymbols.LEN, "LEN" ); }
+{FN} "MID"		{ return new Symbol( GeneratedSymbols.MID, "MID" ); }
+{FN} "LEFT"		{ return new Symbol( GeneratedSymbols.LEFT, "LEFT" ); }
+{FN} "RIGHT"	{ return new Symbol( GeneratedSymbols.RIGHT, "RIGHT" ); }
+{FN} "SUBSTITUTE"	{ return new Symbol( GeneratedSymbols.SUBSTITUTE, "SUBSTITUTE" ); }
+{FN} "REPLACE"	{ return new Symbol( GeneratedSymbols.REPLACE, "REPLACE" ); }
+{FN} "SEARCH"	{ return new Symbol( GeneratedSymbols.SEARCH, "SEARCH" ); }
+{FN} "FIND"		{ return new Symbol( GeneratedSymbols.FIND, "FIND" ); }
+{FN} "EXACT"	{ return new Symbol( GeneratedSymbols.EXACT, "EXACT" ); }
+{FN} "LOWER"	{ return new Symbol( GeneratedSymbols.LOWER, "LOWER" ); }
+{FN} "UPPER"	{ return new Symbol( GeneratedSymbols.UPPER, "UPPER" ); }
+{FN} "PROPER"	{ return new Symbol( GeneratedSymbols.PROPER, "PROPER" ); }
 
 {FN} "TRUE"		{ return new Symbol( GeneratedSymbols.INT, new Integer(1) ); }
 {FN} "FALSE"	{ return new Symbol( GeneratedSymbols.INT, new Integer(0) ); }

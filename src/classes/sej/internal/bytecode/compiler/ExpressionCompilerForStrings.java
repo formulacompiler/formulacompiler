@@ -29,6 +29,7 @@ import org.objectweb.asm.Opcodes;
 import sej.CompilerException;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
 
 final class ExpressionCompilerForStrings extends ExpressionCompiler
@@ -160,6 +161,49 @@ final class ExpressionCompilerForStrings extends ExpressionCompiler
 		else {
 			mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/StringBuilder", "toString", "()Ljava/lang/String;" );
 		}
+	}
+	
+	
+	@Override
+	protected void compileFunction( ExpressionNodeForFunction _node ) throws CompilerException
+	{
+		final List<ExpressionNode> args = _node.arguments();
+		final ExpressionCompilerForNumbers num = method().numericCompiler();
+		switch (_node.getFunction()) {
+			
+			case MID:
+				switch (_node.cardinality()) {
+					case 3:
+						compile( args.get( 0 ) );
+						num.compile( args.get( 1 ) );
+						num.compileConversionToInt();
+						num.compile( args.get( 2 ) );
+						num.compileConversionToInt();
+						compileRuntimeMethod( "stdMID", "(Ljava/lang/String;II)Ljava/lang/String;" );
+						return;
+				}
+				break;
+				
+			case LEFT:
+			case RIGHT:
+				switch (_node.cardinality()) {
+					case 1:
+					case 2:
+						compile( args.get( 0 ) );
+						if (_node.cardinality() > 1) {
+							num.compile( args.get( 1 ) );
+							num.compileConversionToInt();
+						}
+						else {
+							mv().visitInsn( Opcodes.ICONST_1 );
+						}
+						compileRuntimeMethod( "std" + _node.getFunction().getName(), "(Ljava/lang/String;I)Ljava/lang/String;" );
+						return;
+				}
+				break;
+				
+		}
+		super.compileFunction( _node );
 	}
 
 

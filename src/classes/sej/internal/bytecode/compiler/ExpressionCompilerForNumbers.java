@@ -233,19 +233,28 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 
 			case ROUND:
 				compileStdFunction( _node );
-				break;
+				return;
 
 			case TODAY:
 				compileStdFunction( _node );
-				break;
+				return;
 
 			case MATCH:
 				compileHelpedExpr( new HelperCompilerForMatch( section(), _node ) );
+				return;
+				
+			case LEN:
+				switch (_node.cardinality()) {
+					case 1:
+						method().stringCompiler().compile( _node.arguments().get(0) );
+						mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/String", "length", "()I" );
+						compileConversionFromInt();
+						return;
+				}
 				break;
 
-			default:
-				super.compileFunction( _node );
 		}
+		super.compileFunction( _node );
 	}
 
 

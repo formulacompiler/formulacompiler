@@ -27,6 +27,7 @@ import sej.NumericType;
 import sej.Operator;
 import sej.internal.NumericTypeImpl;
 import sej.internal.model.RangeValue;
+import sej.internal.runtime.Runtime_v1;
 
 
 public abstract class InterpretedNumericType
@@ -250,6 +251,40 @@ public abstract class InterpretedNumericType
 				}
 				break;
 			}
+
+			case LEN: {
+				switch (cardinality) {
+					case 1:
+						return toString( _args[ 0 ] ).length();
+				}
+				break;
+			}
+
+			case MID: {
+				switch (cardinality) {
+					case 3:
+						return Runtime_v1.stdMID( toString( _args[ 0 ] ), toInt( _args[ 1 ], 1 ), toInt( _args[ 2 ], 0 ) );
+				}
+				break;
+			}
+
+			case LEFT:
+				switch (cardinality) {
+					case 1:
+						return Runtime_v1.stdLEFT( toString( _args[ 0 ] ), 1 );
+					case 2:
+						return Runtime_v1.stdLEFT( toString( _args[ 0 ] ), toInt( _args[ 1 ], 0 ) );
+				}
+				break;
+
+			case RIGHT:
+				switch (cardinality) {
+					case 1:
+						return Runtime_v1.stdRIGHT( toString( _args[ 0 ] ), 1 );
+					case 2:
+						return Runtime_v1.stdRIGHT( toString( _args[ 0 ] ), toInt( _args[ 1 ], 0 ) );
+				}
+				break;
 
 		}
 
