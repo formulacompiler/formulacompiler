@@ -21,6 +21,7 @@
 package sej.internal.runtime;
 
 import java.math.BigDecimal;
+import java.text.BreakIterator;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -235,6 +236,36 @@ public abstract class Runtime_v1
 	{
 		_src.append( "\\x" );
 		_src.append( Integer.toHexString( _char ) );
+	}
+
+
+	public static String stdLOWER( String _s )
+	{
+		return _s.toLowerCase();
+	}
+
+	public static String stdUPPER( String _s )
+	{
+		return _s.toUpperCase();
+	}
+
+
+	static final String toTitleCase( String _str ) // LATER stdPROPER
+	{
+		// Unfinished! needs unit tests
+		final StringBuffer sb = new StringBuffer();
+		final String str = _str.toLowerCase();
+		final BreakIterator i = BreakIterator.getWordInstance();
+		i.setText( str );
+		int wasAt = 0;
+		int at = i.next();
+		if (at >= 0) {
+			sb.append( str.substring( wasAt, at ) );
+			sb.append( str.substring( at, 1 ).toUpperCase() );
+			wasAt = at + 1;
+		}
+		sb.append( str.substring( wasAt ));
+		return sb.toString();
 	}
 
 

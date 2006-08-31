@@ -235,6 +235,17 @@ final class ExpressionCompilerForStrings extends ExpressionCompiler
 				}
 				break;
 				
+			case LOWER:
+			case UPPER:
+			// LATER case PROPER:
+				switch (_node.cardinality()) {
+					case 1:
+						compile( args.get( 0 ) );
+						compileRuntimeMethod( "std" + _node.getFunction().getName(), "(Ljava/lang/String;)Ljava/lang/String;" );
+						return;
+				}
+				break;
+				
 		}
 		super.compileFunction( _node );
 	}
