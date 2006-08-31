@@ -33,6 +33,7 @@ import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
 import sej.internal.model.ExpressionNodeForRangeValue;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
+import sej.internal.model.RangeValue;
 
 
 public final class TypeAnnotator extends AbstractComputationModelVisitor
@@ -120,6 +121,15 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		}
 		else if (_value instanceof String) {
 			return DataType.STRING;
+		}
+		else if (_value instanceof RangeValue) {
+			final RangeValue range = (RangeValue) _value;
+			if (range.size() > 0) {
+				return typeOfConstant( range.get( 0 ) );
+			}
+			else {
+				return DataType.NULL;
+			}
 		}
 		else {
 			return DataType.NUMERIC;
