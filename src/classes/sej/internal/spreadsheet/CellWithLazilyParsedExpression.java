@@ -26,7 +26,6 @@ import sej.SpreadsheetException;
 import sej.describable.Describable;
 import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.spreadsheet.loader.excel.ExcelLoaderError;
 
 
 public class CellWithLazilyParsedExpression extends CellInstance
@@ -62,7 +61,7 @@ public class CellWithLazilyParsedExpression extends CellInstance
 			try {
 				this.expression = this.expressionParser.parseExpression( this );
 			}
-			catch (ExcelLoaderError e) { 
+			catch (Throwable e) { 
 				final SpreadsheetException.UnsupportedExpression thrown = new SpreadsheetException.UnsupportedExpression( e );
 				thrown.addMessageContext( " In cell " + getCanonicalName() + "." );
 				throw thrown;

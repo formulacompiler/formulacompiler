@@ -83,16 +83,21 @@ public class SpreadsheetException extends SEJException
 		}
 
 	}
-	
-	
+
+
+	/**
+	 * A cell formula contains a parsing error.
+	 * 
+	 * @author peo
+	 */
 	public static class UnsupportedExpression extends SpreadsheetException
 	{
-		
-		public UnsupportedExpression( Throwable _cause )
+
+		public UnsupportedExpression(Throwable _cause)
 		{
 			super( _cause );
 		}
-		
+
 	}
 
 
