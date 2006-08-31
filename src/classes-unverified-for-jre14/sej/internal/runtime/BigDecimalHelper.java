@@ -10,4 +10,9 @@ public class BigDecimalHelper
 		return x.precision();
 	}
 
+	public static BigDecimal stripTrailingZeros( BigDecimal _value )
+	{
+		return _value.stripTrailingZeros();
+	}
+
 }
