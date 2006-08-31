@@ -205,6 +205,17 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 					unsupported( _expr );
 					return DataType.NULL;
 				}
+			
+			case CONCATENATE:
+			case MID:
+			case LEFT:
+			case RIGHT:
+			case SUBSTITUTE:
+			case REPLACE:
+			case LOWER:
+			case UPPER:
+			case PROPER:
+				return DataType.STRING;
 
 			default:
 				return DataType.NUMERIC;

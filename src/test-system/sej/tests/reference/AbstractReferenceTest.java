@@ -313,27 +313,32 @@ public abstract class AbstractReferenceTest extends TestCase
 				this.rowName = "R" + _rowNumber + ": " + SheetRunner.this.sequenceName;
 				this.formulaRow = _formulaRow;
 				this.valueRow = _valueRow;
-				this.expected = expectedValueOf( _valueRow.getCellOrNull( EXPECTED_COL ).getValue() );
+				this.expected = expectedValueOf( valueOf( _valueRow.getCellOrNull( EXPECTED_COL ) ) );
 				this.expectedType = valueTypeOf( this.expected );
 				this.formula = _formulaRow.getCellOrNull( FORMULA_COL );
 				this.fullyParametrizedTestEngines = _engines;
 				final CellInstance skipForCell = _valueRow.getCellOrNull( SKIPFOR_COL );
-				this.skipFor = (skipForCell == null) ? "" : skipForCell.getValue().toString();
+				this.skipFor = (skipForCell == null) ? "" : valueOf( skipForCell ).toString();
 				extractInputsFrom( _valueRow );
+			}
+
+			private final Object valueOf( final CellInstance _cell )
+			{
+				return (_cell == null) ? null : _cell.getValue();
 			}
 
 			private void extractInputsFrom( RowImpl _valueRow )
 			{
 				final CellInstance inputCountCell = _valueRow.getCellOrNull( INPUTCOUNT_COL );
 				if (null != inputCountCell) {
-					final int inputCount = ((Number) inputCountCell.getValue()).intValue();
+					final int inputCount = ((Number) valueOf( inputCountCell )).intValue();
 					this.inputCells = new CellInstance[ inputCount ];
 					this.inputs = new Object[ inputCount ];
 					this.inputTypes = new ValueType[ inputCount ];
 					for (int i = 0; i < inputCount; i++) {
 						final CellInstance inputCell = _valueRow.getCellOrNull( INPUTS_COL + i );
 						this.inputCells[ i ] = inputCell;
-						this.inputs[ i ] = (null == inputCell) ? null : inputCell.getValue();
+						this.inputs[ i ] = (null == inputCell) ? null : valueOf( inputCell );
 						this.inputTypes[ i ] = valueTypeOf( this.inputs[ i ] );
 					}
 				}

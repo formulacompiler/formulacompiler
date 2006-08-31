@@ -49,8 +49,8 @@ public abstract class Runtime_v1
 	{
 		return (_boxed == null) ? 0L : _boxed;
 	}
-	
-	
+
+
 	public static Date today()
 	{
 		long now = Calendar.getInstance().getTime().getTime();
@@ -58,27 +58,27 @@ public abstract class Runtime_v1
 		return new Date( today );
 	}
 
-	
+
 	public static StringBuilder newStringBuilder( String _first )
 	{
 		return new StringBuilder( _first );
 	}
-	
+
 	public static StringBuffer newStringBuffer( String _first )
 	{
 		return new StringBuffer( _first );
 	}
-	
+
 	public static String stringFromObject( Object _obj )
 	{
-		return (_obj == null)? "" : _obj.toString();
+		return (_obj == null) ? "" : _obj.toString();
 	}
-	
+
 	public static String stringFromString( String _str )
 	{
-		return (_str == null)? "" : _str;
+		return (_str == null) ? "" : _str;
 	}
-	
+
 	public static String stringFromBigDecimal( BigDecimal _value )
 	{
 		if (_value.compareTo( BigDecimal.ZERO ) == 0) return "0"; // avoid "0.0"
@@ -93,10 +93,37 @@ public abstract class Runtime_v1
 			return stripped.toPlainString();
 		}
 	}
-	
+
 	public static String emptyString()
 	{
 		return "";
+	}
+
+
+	public static String stdMID( String _s, int _start, int _len )
+	{
+		final int start = _start - 1;
+		if (start < 0) return "";
+		if (start >= _s.length()) return "";
+		if (_len < 0) return "";
+		final int pastEnd = (start + _len >= _s.length()) ? _s.length() : start + _len;
+		return _s.substring( start, pastEnd );
+	}
+
+	public static String stdLEFT( String _s, int _len )
+	{
+		if (_len < 1) return "";
+		if (_len >= _s.length()) return _s;
+		return _s.substring( 0, _len );
+	}
+
+	public static String stdRIGHT( String _s, int _len )
+	{
+		if (_len < 1) return "";
+		if (_len >= _s.length()) return _s;
+		final int max = _s.length();
+		final int len = (_len > max)? max : _len;
+		return _s.substring( max - len, max );
 	}
 
 }

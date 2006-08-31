@@ -37,7 +37,7 @@ terminal IF, AND, OR, NOT;
 terminal SUM, PRODUCT, COUNT, AVERAGE, MIN, MAX;
 terminal MATCH, INDEX, ROUND;
 terminal TODAY;
-terminal CONCATENATE;
+terminal CONCATENATE, LEN, MID, LEFT, RIGHT, SUBSTITUTE, REPLACE, SEARCH, FIND, EXACT, LOWER, UPPER, PROPER;
 terminal Integer INT;
 terminal Double DBL;
 terminal String STRING;
@@ -217,6 +217,43 @@ expr ::=
 				
 	|	CONCATENATE LPAREN args:a RPAREN
 				{: RESULT = new ExpressionNodeForOperator( Operator.CONCAT, a ); :}
+				
+	|	LEN LPAREN expr:s RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.LEN, s ); :}
+	
+	|	MID LPAREN expr:s COMMA expr:start COMMA expr:len  RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.MID, s, start, len ); :}
+	
+	|	LEFT LPAREN expr:s optarg:len RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.LEFT, s, len ); :}
+	
+	|	RIGHT LPAREN expr:s optarg:len RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.RIGHT, s, len ); :}
+	
+	|	SUBSTITUTE LPAREN expr:e RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.SUBSTITUTE, e ); :}
+	
+	|	REPLACE LPAREN expr:e RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.REPLACE, e ); :}
+	
+	|	EXACT LPAREN expr:e RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.EXACT, e ); :}
+	
+	|	SEARCH LPAREN expr:e RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.SEARCH, e ); :}
+	
+	|	FIND LPAREN expr:e RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.FIND, e ); :}
+	
+	|	LOWER LPAREN expr:e RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.LOWER, e ); :}
+	
+	|	UPPER LPAREN expr:e RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.UPPER, e ); :}
+	
+	|	PROPER LPAREN expr:e RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.PROPER, e ); :}
+	
 	;
 
 

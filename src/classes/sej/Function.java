@@ -44,18 +44,17 @@ public enum Function {
 		}
 	},
 
-	MATCH,
-	INDEX,
-	
-	CONCATENATE;
+	MATCH, INDEX,
+
+	CONCATENATE, LEN, MID, LEFT, RIGHT, SUBSTITUTE, REPLACE, SEARCH, FIND, EXACT, LOWER, UPPER, PROPER;
 
 
 	public String getName()
 	{
 		return toString();
 	}
-	
-	public boolean isVolatile() 
+
+	public boolean isVolatile()
 	{
 		return false;
 	}
