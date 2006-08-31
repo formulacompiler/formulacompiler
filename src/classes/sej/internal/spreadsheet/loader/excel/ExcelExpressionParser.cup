@@ -230,14 +230,14 @@ expr ::=
 	|	RIGHT LPAREN expr:s optarg:len RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.RIGHT, s, len ); :}
 	
-	|	SUBSTITUTE LPAREN expr:e RPAREN
-				{: RESULT = new ExpressionNodeForFunction( Function.SUBSTITUTE, e ); :}
+	|	SUBSTITUTE LPAREN expr:s COMMA expr:src COMMA expr:tgt optarg:instance RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.SUBSTITUTE, s, src, tgt, instance ); :}
 	
-	|	REPLACE LPAREN expr:e RPAREN
-				{: RESULT = new ExpressionNodeForFunction( Function.REPLACE, e ); :}
+	|	REPLACE LPAREN expr:s COMMA expr:start COMMA expr:len COMMA expr:with RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.REPLACE, s, start, len, with ); :}
 	
-	|	EXACT LPAREN expr:e RPAREN
-				{: RESULT = new ExpressionNodeForFunction( Function.EXACT, e ); :}
+	|	EXACT LPAREN expr:a COMMA expr:b RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.EXACT, a, b ); :}
 	
 	|	SEARCH LPAREN expr:e RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.SEARCH, e ); :}

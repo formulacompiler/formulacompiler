@@ -202,6 +202,39 @@ final class ExpressionCompilerForStrings extends ExpressionCompiler
 				}
 				break;
 				
+			case SUBSTITUTE:
+				switch (_node.cardinality()) {
+					case 3:
+						compile( args.get( 0 ) );
+						compile( args.get( 1 ) );
+						compile( args.get( 2 ) );
+						compileRuntimeMethod( "stdSUBSTITUTE", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;" );
+						return;
+					case 4:
+						compile( args.get( 0 ) );
+						compile( args.get( 1 ) );
+						compile( args.get( 2 ) );
+						num.compile( args.get( 3 ) );
+						num.compileConversionToInt();
+						compileRuntimeMethod( "stdSUBSTITUTE", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)Ljava/lang/String;" );
+						return;
+				}
+				break;
+				
+			case REPLACE:
+				switch (_node.cardinality()) {
+					case 4:
+						compile( args.get( 0 ) );
+						num.compile( args.get( 1 ) );
+						num.compileConversionToInt();
+						num.compile( args.get( 2 ) );
+						num.compileConversionToInt();
+						compile( args.get( 3 ) );
+						compileRuntimeMethod( "stdREPLACE", "(Ljava/lang/String;IILjava/lang/String;)Ljava/lang/String;" );
+						return;
+				}
+				break;
+				
 		}
 		super.compileFunction( _node );
 	}

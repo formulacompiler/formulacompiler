@@ -286,6 +286,25 @@ public abstract class InterpretedNumericType
 				}
 				break;
 
+			case SUBSTITUTE:
+				switch (cardinality) {
+					case 3:
+						return Runtime_v1.stdSUBSTITUTE( toString( _args[ 0 ] ), toString( _args[ 1 ] ),
+								toString( _args[ 2 ] ) );
+					case 4:
+						return Runtime_v1.stdSUBSTITUTE( toString( _args[ 0 ] ), toString( _args[ 1 ] ),
+								toString( _args[ 2 ] ), toInt( _args[ 3 ], 0 ) );
+				}
+				break;
+				
+			case REPLACE:
+				switch (cardinality) {
+					case 4:
+						return Runtime_v1.stdREPLACE( toString( _args[ 0 ] ), toInt( _args[ 1 ], 0 ),
+								toInt( _args[ 2 ], 0 ), toString( _args[ 3 ] ) );
+				}
+				break;
+
 		}
 
 		throw new IllegalArgumentException( "Cannot interpret function "
