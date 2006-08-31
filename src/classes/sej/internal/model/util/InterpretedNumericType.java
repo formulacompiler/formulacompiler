@@ -304,6 +304,13 @@ public abstract class InterpretedNumericType
 								toInt( _args[ 2 ], 0 ), toString( _args[ 3 ] ) );
 				}
 				break;
+				
+			case EXACT:
+				switch (cardinality) {
+					case 2:
+						return Runtime_v1.stdEXACT( toString( _args[ 0 ] ), toString( _args[ 1 ] ) );
+				}
+				break;
 
 		}
 

@@ -229,6 +229,8 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 	@Override
 	protected void compileFunction( ExpressionNodeForFunction _node ) throws CompilerException
 	{
+		final ExpressionCompilerForStrings str = method().stringCompiler();
+		final List<ExpressionNode> args = _node.arguments();
 		switch (_node.getFunction()) {
 
 			case ROUND:
@@ -246,13 +248,23 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 			case LEN:
 				switch (_node.cardinality()) {
 					case 1:
-						method().stringCompiler().compile( _node.arguments().get(0) );
+						str.compile( args.get(0) );
 						mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/String", "length", "()I" );
 						compileConversionFromInt();
 						return;
 				}
 				break;
 
+			case EXACT:
+				switch (_node.cardinality()) {
+					case 2:
+						str.compile( args.get( 0 ) );
+						str.compile( args.get( 1 ) );
+						compileRuntimeMethod( "stdEXACT", "(Ljava/lang/String;Ljava/lang/String;)Z" );
+						compileConversionFrom( Boolean.TYPE );
+						return;
+				}
+				
 		}
 		super.compileFunction( _node );
 	}

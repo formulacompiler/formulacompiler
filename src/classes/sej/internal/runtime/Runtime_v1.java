@@ -167,4 +167,14 @@ public abstract class Runtime_v1
 		return _s.substring( 0, at ) + _repl + _s.substring( at + _len );
 	}
 	
+	public static boolean stdEXACT( String _a, String _b )
+	{
+		return _a.equals( _b );
+	}
+	
+	public static int stdSEARCH( String _what, String _within, int _startingAt )
+	{
+		return 0;
+	}
+	
 }
