@@ -560,45 +560,6 @@
 	</target>
 
 	<!-- ================================================================= -->
-	<!-- javadoc:                                                          -->
-	<!-- Generates javadoc                                                 -->
-	<!-- ================================================================= -->
-
-	<target name="javadoc" description="Builds javadoc" depends="prepare, doc">
-
-		<property name="javadoc.title" value="${Name} API ${dist.version.long}" />
-		<delete dir="${javadoc.dir}" />
-		<mkdir dir="${javadoc.dir}" />
-
-		<javadoc 
-			sourcepath="${src.classes.dir}" 
-			destdir="${javadoc.dir}" 
-			public="true" 
-			windowtitle="${javadoc.title}" 
-			use="true"
-			packagenames="sej,sej.runtime,sej.describable,sej.expressions"
-			additionalParam="-tagletPath ${lib.dir}/build-only/java2html.jar;${lib.dir}/build-only/jcite.jar;${lib.dir}/jxl.jar -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${src.cite.path}"
-			stylesheetfile="${src.doc.dir}/plainstyle/style.css"
-			overview="${src.classes.dir}/overview.html"
-		>
-			<classpath refid="build.classpath" />
-			<link href="http://java.sun.com/j2se/1.5/docs/api/" />
-		</javadoc>
-		
-		<copy todir="${javadoc.dir}">
-			<fileset dir="${src.classes.dir}">
-				<include name="**/*.gif" />
-				<include name="**/*.jpeg" />
-				<include name="**/*.jpg" />
-				<include name="**/*.png" />
-				<include name="**/*.pdf" />
-				<include name="**/*.svg" />
-			</fileset>
-		</copy>
-
-	</target>
-
-	<!-- ================================================================= -->
 	<!-- redoc:                                                            -->
 	<!-- Rebuilds documentation                                            -->
 	<!-- ================================================================= -->
@@ -645,6 +606,45 @@
 	</target>
 
 	<!-- ================================================================= -->
+	<!-- javadoc:                                                          -->
+	<!-- Generates javadoc                                                 -->
+	<!-- ================================================================= -->
+
+	<target name="javadoc" description="Builds javadoc" depends="prepare, redoc">
+
+		<property name="javadoc.title" value="${Name} API ${dist.version.long}" />
+		<delete dir="${javadoc.dir}" />
+		<mkdir dir="${javadoc.dir}" />
+
+		<javadoc 
+			sourcepath="${src.classes.dir}" 
+			destdir="${javadoc.dir}" 
+			public="true" 
+			windowtitle="${javadoc.title}" 
+			use="true"
+			packagenames="sej,sej.runtime,sej.describable,sej.expressions"
+			additionalParam="-tagletPath ${lib.dir}/build-only/java2html.jar;${lib.dir}/build-only/jcite.jar;${lib.dir}/jxl.jar -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${src.cite.path}"
+			stylesheetfile="${src.doc.dir}/plainstyle/style.css"
+			overview="${src.classes.dir}/overview.html"
+		>
+			<classpath refid="build.classpath" />
+			<link href="http://java.sun.com/j2se/1.5/docs/api/" />
+		</javadoc>
+		
+		<copy todir="${javadoc.dir}">
+			<fileset dir="${src.classes.dir}">
+				<include name="**/*.gif" />
+				<include name="**/*.jpeg" />
+				<include name="**/*.jpg" />
+				<include name="**/*.png" />
+				<include name="**/*.pdf" />
+				<include name="**/*.svg" />
+			</fileset>
+		</copy>
+
+	</target>
+
+	<!-- ================================================================= -->
 	<!-- doc:                                                              -->
 	<!-- Generates documentation                                           -->
 	<!-- ================================================================= -->
@@ -672,7 +672,7 @@
 	<!-- Package distribution version                                      -->
 	<!-- ================================================================= -->
 
-	<target name="pack" depends="prepare,redoc" description="Packs existing distribution - use with care!!">
+	<target name="pack" depends="prepare,redoc,javadoc" description="Packs existing distribution - use with care!!">
 		<echo>Bundling dist: ${dist.version.long}</echo>
 		<property name="dist.name" value="${name}-${dist.version}" />
 		<property name="dist.file" value="${dist.dir}/${dist.name}" />
