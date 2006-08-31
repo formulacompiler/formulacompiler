@@ -330,6 +330,26 @@ public abstract class InterpretedNumericType
 				}
 				break;
 
+			case LOWER:
+				switch (cardinality) {
+					case 1:
+						return Runtime_v1.stdLOWER( toString( _args[ 0 ] ) );
+				}
+				break;
+
+			case UPPER:
+				switch (cardinality) {
+					case 1:
+						return Runtime_v1.stdUPPER( toString( _args[ 0 ] ) );
+				}
+				break;
+
+			// LATER case PROPER:
+			/*
+			 * switch (cardinality) { case 1: return Runtime_v1.stdPROPER( toString( _args[ 0 ] ) ); }
+			 * break;
+			 */
+
 		}
 
 		throw new IllegalArgumentException( "Cannot interpret function "
