@@ -81,7 +81,7 @@ final class TypeCompilerForStrings extends TypeCompiler
 	@Override
 	protected void compileZero( GeneratorAdapter _mv ) throws CompilerException
 	{
-		throw new CompilerException.UnsupportedDataType( "String zero is not supported." );
+		compileRuntimeMethod( _mv, "emptyString", "()Ljava/lang/String;" );
 	}
 
 

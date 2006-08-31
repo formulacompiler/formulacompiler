@@ -23,14 +23,22 @@ package sej.internal.bytecode.compiler;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
+import org.objectweb.asm.Label;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
+import sej.Aggregator;
 import sej.CompilerException;
+import sej.Function;
 import sej.NumericType;
+import sej.Operator;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForFunction;
+import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.runtime.ScaledLong;
 
 abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
@@ -285,12 +293,290 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 
 	protected abstract String roundMethodSignature();
 
+	
+	final void compileTest( ExpressionNode _test, Label _notMet ) throws CompilerException
+	{
+		new TestCompilerBranchingWhenFalse( _test, _notMet ).compileTest();
+	}
+
+
+	private abstract class TestCompiler
+	{
+		protected ExpressionNode node;
+		protected Label branchTo;
+
+		TestCompiler(ExpressionNode _node, Label _branchTo)
+		{
+			super();
+			this.node = _node;
+			this.branchTo = _branchTo;
+		}
+
+		final void compileTest() throws CompilerException
+		{
+			if (this.node instanceof ExpressionNodeForOperator) {
+				final ExpressionNodeForOperator opNode = (ExpressionNodeForOperator) this.node;
+				final Operator operator = opNode.getOperator();
+
+				switch (operator) {
+
+					case AND:
+						compileAnd();
+						return;
+
+					case OR:
+						compileOr();
+						return;
+
+					case EQUAL:
+					case NOTEQUAL:
+					case GREATER:
+					case GREATEROREQUAL:
+					case LESS:
+					case LESSOREQUAL:
+						final List<ExpressionNode> args = this.node.arguments();
+						compileComparison( operator, args.get( 0 ), args.get( 1 ) );
+						return;
+				}
+			}
+
+			else if (this.node instanceof ExpressionNodeForAggregator) {
+				final ExpressionNodeForAggregator aggNode = (ExpressionNodeForAggregator) this.node;
+				final Aggregator aggregator = aggNode.getAggregator();
+
+				switch (aggregator) {
+					case AND:
+						compileAnd();
+						return;
+					case OR:
+						compileOr();
+						return;
+				}
+			}
+
+			else if (this.node instanceof ExpressionNodeForFunction) {
+				final ExpressionNodeForFunction fnNode = (ExpressionNodeForFunction) this.node;
+				final Function fn = fnNode.getFunction();
+
+				switch (fn) {
+
+					case NOT:
+						compileNot();
+						return;
+
+				}
+			}
+
+			compileValue();
+		}
+
+
+		/**
+		 * This method assumes that the data type of the lefthand argument drives the type of the
+		 * comparison.
+		 */
+		private final void compileComparison( Operator _operator, ExpressionNode _left, ExpressionNode _right )
+				throws CompilerException
+		{
+			final ExpressionCompiler leftCompiler = method().expressionCompiler( _left.getDataType() );
+			leftCompiler.compile( _left );
+			leftCompiler.compile( _right );
+			compileComparison( _operator );
+		}
+
+		protected abstract TestCompiler newInverseCompiler( ExpressionNode _node, Label _branchTo );
+		protected abstract void compileAnd() throws CompilerException;
+		protected abstract void compileOr() throws CompilerException;
+		protected abstract void compileComparison( Operator _comparison ) throws CompilerException;
+
+		protected final void compileComparison( int _ifOpcode, int _comparisonOpcode ) throws CompilerException
+		{
+			ExpressionCompilerForNumbers.this.compileComparison( _comparisonOpcode );
+			mv().visitJumpInsn( _ifOpcode, this.branchTo );
+		}
+
+		private final void compileNot() throws CompilerException
+		{
+			final List<ExpressionNode> args = this.node.arguments();
+			if (1 == args.size()) {
+				newInverseCompiler( args.get( 0 ), this.branchTo ).compileTest();
+			}
+			else {
+				unsupported( "NOT must have exactly one argument." );
+			}
+		}
+
+		final void compileValue() throws CompilerException
+		{
+			compile( this.node );
+			compileZero();
+			compileComparison( Operator.NOTEQUAL );
+		}
+
+		protected abstract void compileBooleanTest() throws CompilerException;
+	}
+
+
+	private class TestCompilerBranchingWhenFalse extends TestCompiler
+	{
+
+		TestCompilerBranchingWhenFalse(ExpressionNode _node, Label _branchTo)
+		{
+			super( _node, _branchTo );
+		}
+
+		@Override
+		protected void compileComparison( Operator _comparison ) throws CompilerException
+		{
+			switch (_comparison) {
+
+				case EQUAL:
+					compileComparison( Opcodes.IFNE, Opcodes.DCMPL );
+					return;
+
+				case NOTEQUAL:
+					compileComparison( Opcodes.IFEQ, Opcodes.DCMPL );
+					return;
+
+				case GREATER:
+					compileComparison( Opcodes.IFLE, Opcodes.DCMPL );
+					return;
+
+				case GREATEROREQUAL:
+					compileComparison( Opcodes.IFLT, Opcodes.DCMPL );
+					return;
+
+				case LESS:
+					compileComparison( Opcodes.IFGE, Opcodes.DCMPG );
+					return;
+
+				case LESSOREQUAL:
+					compileComparison( Opcodes.IFGT, Opcodes.DCMPG );
+					return;
+
+			}
+		}
+
+		@Override
+		protected TestCompiler newInverseCompiler( ExpressionNode _node, Label _branchTo )
+		{
+			return new TestCompilerBranchingWhenTrue( _node, _branchTo );
+		}
+
+		@Override
+		protected void compileOr() throws CompilerException
+		{
+			final Label met = mv().newLabel();
+			final int nArg = this.node.arguments().size();
+			int iArg = 0;
+			while (iArg < nArg - 1) {
+				final ExpressionNode arg = this.node.arguments().get( iArg );
+				new TestCompilerBranchingWhenTrue( arg, met ).compileTest();
+				iArg++;
+			}
+			final ExpressionNode lastArg = this.node.arguments().get( iArg );
+			new TestCompilerBranchingWhenFalse( lastArg, this.branchTo ).compileTest();
+			mv().mark( met );
+		}
+
+		@Override
+		protected void compileAnd() throws CompilerException
+		{
+			for (ExpressionNode arg : this.node.arguments()) {
+				new TestCompilerBranchingWhenFalse( arg, this.branchTo ).compileTest();
+			}
+		}
+
+		@Override
+		protected void compileBooleanTest() throws CompilerException
+		{
+			mv().visitJumpInsn( Opcodes.IFEQ, this.branchTo );
+		}
+	}
+
+
+	private class TestCompilerBranchingWhenTrue extends TestCompiler
+	{
+
+		TestCompilerBranchingWhenTrue(ExpressionNode _node, Label _branchTo)
+		{
+			super( _node, _branchTo );
+		}
+
+		@Override
+		protected void compileComparison( Operator _comparison ) throws CompilerException
+		{
+			switch (_comparison) {
+
+				case EQUAL:
+					compileComparison( Opcodes.IFEQ, Opcodes.DCMPL );
+					return;
+
+				case NOTEQUAL:
+					compileComparison( Opcodes.IFNE, Opcodes.DCMPL );
+					return;
+
+				case GREATER:
+					compileComparison( Opcodes.IFGT, Opcodes.DCMPG );
+					return;
+
+				case GREATEROREQUAL:
+					compileComparison( Opcodes.IFGE, Opcodes.DCMPG );
+					return;
+
+				case LESS:
+					compileComparison( Opcodes.IFLT, Opcodes.DCMPL );
+					return;
+
+				case LESSOREQUAL:
+					compileComparison( Opcodes.IFLE, Opcodes.DCMPL );
+					return;
+
+			}
+		}
+
+		@Override
+		protected TestCompiler newInverseCompiler( ExpressionNode _node, Label _branchTo )
+		{
+			return new TestCompilerBranchingWhenFalse( _node, _branchTo );
+		}
+
+		@Override
+		protected void compileOr() throws CompilerException
+		{
+			for (ExpressionNode arg : this.node.arguments()) {
+				new TestCompilerBranchingWhenTrue( arg, this.branchTo ).compileTest();
+			}
+		}
+
+		@Override
+		protected void compileAnd() throws CompilerException
+		{
+			final Label notMet = mv().newLabel();
+			final int nArg = this.node.arguments().size();
+			int iArg = 0;
+			while (iArg < nArg - 1) {
+				final ExpressionNode arg = this.node.arguments().get( iArg );
+				new TestCompilerBranchingWhenFalse( arg, notMet ).compileTest();
+				iArg++;
+			}
+			final ExpressionNode lastArg = this.node.arguments().get( iArg );
+			new TestCompilerBranchingWhenTrue( lastArg, this.branchTo ).compileTest();
+			mv().mark( notMet );
+		}
+
+		@Override
+		protected void compileBooleanTest() throws CompilerException
+		{
+			mv().visitJumpInsn( Opcodes.IFNE, this.branchTo );
+		}
+	}
+
 
 	@Override
 	public String toString()
 	{
 		return numericType().toString();
 	}
-
 
 }
