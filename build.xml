@@ -4,7 +4,7 @@
 
 	<property name="Name" value="SEJ" />
 	<property name="name" value="sej" />
-	<property name="dist.version" value="0.6.2" />
+	<property name="dist.version" value="0.7.0" />
 
 	<property name="src.dir" location="${basedir}/src" />
 	<property name="lib.dir" location="${basedir}/lib" />
@@ -599,11 +599,11 @@
 	</target>
 
 	<!-- ================================================================= -->
-	<!-- doc:                                                              -->
-	<!-- Generates documentation                                           -->
+	<!-- redoc:                                                            -->
+	<!-- Rebuilds documentation                                            -->
 	<!-- ================================================================= -->
 
-	<target name="doc" description="Builds documentation" depends="prepare, examples, test">
+	<target name="redoc" description="Rebuilds documentation - use with care!" depends="prepare">
 
 		<delete dir="${doc.dir}" />
 		<mkdir dir="${doc.dir}" />
@@ -645,6 +645,14 @@
 	</target>
 
 	<!-- ================================================================= -->
+	<!-- doc:                                                              -->
+	<!-- Generates documentation                                           -->
+	<!-- ================================================================= -->
+
+	<target name="doc" description="Builds documentation" depends="prepare, examples, test, redoc">
+	</target>
+
+	<!-- ================================================================= -->
 	<!-- clean:                                                            -->
 	<!-- Removes all build files                                           -->
 	<!-- ================================================================= -->
@@ -660,11 +668,11 @@
 	</target>
 
 	<!-- ================================================================= -->
-	<!-- dist:                                                             -->
+	<!-- pack:                                                             -->
 	<!-- Package distribution version                                      -->
 	<!-- ================================================================= -->
 
-	<target name="dist" depends="clean,compile,validate,jar,doc,javadoc,test,jar14,test14,examples,srcjar" description="Builds distribution">
+	<target name="pack" depends="prepare,redoc" description="Packs existing distribution - use with care!!">
 		<echo>Bundling dist: ${dist.version.long}</echo>
 		<property name="dist.name" value="${name}-${dist.version}" />
 		<property name="dist.file" value="${dist.dir}/${dist.name}" />
@@ -745,6 +753,14 @@
 			<fileset dir="${src.test-system.dir}/testdata/sej" includes="Tests.xls" />
 		</copy>
 		
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- dist:                                                             -->
+	<!-- Package distribution version                                      -->
+	<!-- ================================================================= -->
+
+	<target name="dist" depends="clean,compile,validate,jar,doc,javadoc,test,jar14,test14,examples,srcjar,pack" description="Builds distribution">
 	</target>
 
 </project>

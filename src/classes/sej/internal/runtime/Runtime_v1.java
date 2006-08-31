@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 
 public abstract class Runtime_v1
 {
-	static final boolean JRE14 = System.getProperty( "java.version" ).startsWith( "1.4." );
+	public static final boolean JRE14 = System.getProperty( "java.version" ).startsWith( "1.4." );
 
 	// ---- Excel date conversion; copied from JExcelAPI (DateRecord.java)
 
