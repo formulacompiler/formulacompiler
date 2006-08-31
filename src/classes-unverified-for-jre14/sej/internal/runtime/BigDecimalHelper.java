@@ -1,4 +1,4 @@
-package sej.internal;
+package sej.internal.runtime;
 
 import java.math.BigDecimal;
 

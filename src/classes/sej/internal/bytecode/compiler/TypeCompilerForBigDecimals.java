@@ -33,7 +33,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.CompilerException;
 import sej.NumericType;
-import sej.internal.BigDecimalHelper;
+import sej.internal.runtime.BigDecimalHelper;
 import sej.internal.runtime.RuntimeBigDecimal_v1;
 import sej.internal.runtime.RuntimeDouble_v1;
 

@@ -16,8 +16,8 @@ public final class DebugTest extends AbstractReferenceTest
 
 	public DebugTest()
 	{
-		super( "Strings", 177 );
-		// super( "Strings", 115, NumType.DOUBLE, Integer.valueOf( "0", 2 ), false );
+		// super( "Strings", 177 );
+		super( "BooleanFunctions", 7, NumType.DOUBLE, Integer.valueOf( "0", 2 ), false );
 	}
 
 	@Override

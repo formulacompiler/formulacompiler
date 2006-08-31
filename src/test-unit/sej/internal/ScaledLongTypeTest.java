@@ -65,21 +65,21 @@ public class ScaledLongTypeTest extends AbstractNumericTypeTest
 		final NumericTypeImpl.AbstractLongType dec2 = new NumericTypeImpl.ScaledLongType( 2 );
 
 		assertEquals( "123.45", dec2.format( 12345 ) );
-		assertEquals( "123.40", dec2.format( 12340 ) );
-		assertEquals( "123.00", dec2.format( 12300 ) );
+		assertEquals( "123.4", dec2.format( 12340 ) );
+		assertEquals( "123", dec2.format( 12300 ) );
 		assertEquals( "-123.45", dec2.format( -12345 ) );
-		assertEquals( "-123.40", dec2.format( -12340 ) );
-		assertEquals( "-123.00", dec2.format( -12300 ) );
+		assertEquals( "-123.4", dec2.format( -12340 ) );
+		assertEquals( "-123", dec2.format( -12300 ) );
 		
-		assertEquals( "0.00", dec2.format( 0 ) );
+		assertEquals( "0", dec2.format( 0 ) );
 		assertEquals( "0.01", dec2.format( 1 ) );
-		assertEquals( "0.10", dec2.format( 10 ) );
-		assertEquals( "1.00", dec2.format( 100 ) );
+		assertEquals( "0.1", dec2.format( 10 ) );
+		assertEquals( "1", dec2.format( 100 ) );
 
-		assertEquals( "0.00", dec2.format( -0 ) );
+		assertEquals( "0", dec2.format( -0 ) );
 		assertEquals( "-0.01", dec2.format( -1 ) );
-		assertEquals( "-0.10", dec2.format( -10 ) );
-		assertEquals( "-1.00", dec2.format( -100 ) );
+		assertEquals( "-0.1", dec2.format( -10 ) );
+		assertEquals( "-1", dec2.format( -100 ) );
 	}
 
 
