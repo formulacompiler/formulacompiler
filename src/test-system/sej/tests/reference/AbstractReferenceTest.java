@@ -359,6 +359,9 @@ public abstract class AbstractReferenceTest extends TestCase
 						final long days = diff / MS_PER_DAY;
 						return Double.valueOf( days );
 					}
+					if (_value.toString().equals( "Infinity" )) {
+						return 1.0 / 0.0;
+					}
 				}
 				return _value;
 			}
