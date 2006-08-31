@@ -239,11 +239,11 @@ expr ::=
 	|	EXACT LPAREN expr:a COMMA expr:b RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.EXACT, a, b ); :}
 	
-	|	SEARCH LPAREN expr:e RPAREN
-				{: RESULT = new ExpressionNodeForFunction( Function.SEARCH, e ); :}
+	|	FIND LPAREN expr:what COMMA expr:within optarg:start RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.FIND, what, within, start ); :}
 	
-	|	FIND LPAREN expr:e RPAREN
-				{: RESULT = new ExpressionNodeForFunction( Function.FIND, e ); :}
+	|	SEARCH LPAREN expr:what COMMA expr:within optarg:start RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.SEARCH, what, within, start ); :}
 	
 	|	LOWER LPAREN expr:e RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.LOWER, e ); :}

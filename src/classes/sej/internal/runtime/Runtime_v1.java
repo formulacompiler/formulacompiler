@@ -23,6 +23,8 @@ package sej.internal.runtime;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import sej.internal.BigDecimalHelper;
 
@@ -166,15 +168,74 @@ public abstract class Runtime_v1
 		if (at + _len >= _s.length()) return _s.substring( 0, at ) + _repl;
 		return _s.substring( 0, at ) + _repl + _s.substring( at + _len );
 	}
-	
+
 	public static boolean stdEXACT( String _a, String _b )
 	{
 		return _a.equals( _b );
 	}
-	
+
+	public static int stdFIND( String _what, String _within, int _startingAt )
+	{
+		if (_what == null || _what.equals( "" )) return 1;
+		if (_within == null || _within.equals( "" )) return 0;
+		return _within.indexOf( _what, _startingAt - 1 ) + 1;
+	}
+
 	public static int stdSEARCH( String _what, String _within, int _startingAt )
 	{
-		return 0;
+		if (_within == null || _within.equals( "" )) return 0;
+		if (_what == null || _what.equals( "" )) return 1;
+		if (_startingAt > _within.length()) return 0;
+
+		final Pattern pattern = patternFor( _what.toLowerCase() );
+		final Matcher matcher = pattern.matcher( _within.toLowerCase() );
+		if (matcher.find( _startingAt - 1 )) {
+			return matcher.start() + 1;
+		}
+		else {
+			return 0;
+		}
 	}
-	
+
+	private static final Pattern patternFor( String _stringWithWildcards )
+	{
+		final StringBuilder src = new StringBuilder(); // using "(?i)" has trouble with ä and Ä!
+		int i = 0;
+		while (i < _stringWithWildcards.length()) {
+			char c = _stringWithWildcards.charAt( i++ );
+			switch (c) {
+				case '*':
+					src.append( ".*" );
+					break;
+				case '?':
+					src.append( "." );
+					break;
+				case '~':
+					if (i < _stringWithWildcards.length()) {
+						char cc = _stringWithWildcards.charAt( i++ );
+						switch (cc) {
+							case '?':
+							case '*':
+								appendLiteral( src, cc );
+								break;
+							default:
+								appendLiteral( src, c );
+								appendLiteral( src, cc );
+						}
+					}
+					break;
+				default:
+					appendLiteral( src, c );
+			}
+		}
+		return Pattern.compile( src.toString() );
+	}
+
+	private static final void appendLiteral( final StringBuilder _src, char _char )
+	{
+		_src.append( "\\x" );
+		_src.append( Integer.toHexString( _char ) );
+	}
+
+
 }

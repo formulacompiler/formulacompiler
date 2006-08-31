@@ -264,6 +264,27 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 						compileConversionFrom( Boolean.TYPE );
 						return;
 				}
+				break;
+				
+			case SEARCH:
+			case FIND:
+				switch (_node.cardinality()) {
+					case 2:
+					case 3:
+						str.compile( args.get( 0 ) );
+						str.compile( args.get( 1 ) );
+						if (_node.cardinality() > 2) {
+							compile( args.get( 2 ));
+							compileConversionToInt();
+						}
+						else {
+							mv().visitInsn( Opcodes.ICONST_1 );
+						}
+						compileRuntimeMethod( "std" + _node.getFunction().getName(), "(Ljava/lang/String;Ljava/lang/String;I)I" );
+						compileConversionFromInt();
+						return;
+				}
+				break;
 				
 		}
 		super.compileFunction( _node );

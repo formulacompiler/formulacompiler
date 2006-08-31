@@ -73,6 +73,7 @@ public abstract class AbstractReferenceTest extends TestCase
 	private final String baseName;
 	private final String spreadsheetName;
 
+	private int startingRow = STARTING_ROW;
 	private int runOnlyRowNumbered = -1;
 	private NumType runOnlyType = null;
 	private int runOnlyInputVariant = -1;
@@ -105,6 +106,14 @@ public abstract class AbstractReferenceTest extends TestCase
 		DOUBLE, BIGDECIMAL, LONG;
 	}
 
+	protected AbstractReferenceTest(String _baseName, int _startingRowNumber)
+	{
+		super();
+		this.baseName = _baseName;
+		this.spreadsheetName = this.baseName + ".xls";
+		this.startingRow  = _startingRowNumber - 1;
+	}
+
 	protected AbstractReferenceTest(String _baseName, int _onlyRowNumbered, NumType _onlyType, int _onlyInputVariant,
 			boolean _caching)
 	{
@@ -116,6 +125,7 @@ public abstract class AbstractReferenceTest extends TestCase
 		this.runOnlyInputVariant = _onlyInputVariant;
 		this.runOnlyCacheVariant = _caching;
 	}
+
 
 	private static String extractBaseNameFrom( String _name )
 	{
@@ -192,7 +202,7 @@ public abstract class AbstractReferenceTest extends TestCase
 			final SheetImpl sheet = this.book.getSheetList().get( 0 );
 			final List<RowImpl> rows = sheet.getRowList();
 			final int onlyRow = AbstractReferenceTest.this.runOnlyRowNumbered;
-			int atRow = STARTING_ROW;
+			int atRow = AbstractReferenceTest.this.startingRow;
 			while (atRow < rows.size()) {
 				final RowImpl row = rows.get( atRow++ );
 				if (onlyRow < 0 || atRow == onlyRow) {

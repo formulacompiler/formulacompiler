@@ -296,19 +296,37 @@ public abstract class InterpretedNumericType
 								toString( _args[ 2 ] ), toInt( _args[ 3 ], 0 ) );
 				}
 				break;
-				
+
 			case REPLACE:
 				switch (cardinality) {
 					case 4:
-						return Runtime_v1.stdREPLACE( toString( _args[ 0 ] ), toInt( _args[ 1 ], 0 ),
-								toInt( _args[ 2 ], 0 ), toString( _args[ 3 ] ) );
+						return Runtime_v1.stdREPLACE( toString( _args[ 0 ] ), toInt( _args[ 1 ], 0 ), toInt( _args[ 2 ], 0 ),
+								toString( _args[ 3 ] ) );
 				}
 				break;
-				
+
 			case EXACT:
 				switch (cardinality) {
 					case 2:
 						return Runtime_v1.stdEXACT( toString( _args[ 0 ] ), toString( _args[ 1 ] ) );
+				}
+				break;
+
+			case FIND:
+				switch (cardinality) {
+					case 2:
+						return Runtime_v1.stdFIND( toString( _args[ 0 ] ), toString( _args[ 1 ] ), 1 );
+					case 3:
+						return Runtime_v1.stdFIND( toString( _args[ 0 ] ), toString( _args[ 1 ] ), toInt( _args[ 2 ], 1 ) );
+				}
+				break;
+
+			case SEARCH:
+				switch (cardinality) {
+					case 2:
+						return Runtime_v1.stdSEARCH( toString( _args[ 0 ] ), toString( _args[ 1 ] ), 1 );
+					case 3:
+						return Runtime_v1.stdSEARCH( toString( _args[ 0 ] ), toString( _args[ 1 ] ), toInt( _args[ 2 ], 1 ) );
 				}
 				break;
 
