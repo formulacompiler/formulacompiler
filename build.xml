@@ -863,4 +863,88 @@
 		
 	</target>
 
+	<!-- ================================================================= -->
+	<!-- emma:                                                             -->
+	<!-- Runs code coverage analysis                                       -->
+	<!-- ================================================================= -->
+
+	<target name="emma" depends="prepare, compile, compile-tests" description="Runs code coverage analysis">
+
+		<property name="build.instr.dir" value="${build.dir}/temp/instrumented" />
+		<property name="build.cover.dir" value="${build.dir}/coverage" />
+		<property name="emma.meta.file" value="${build.dir}/temp/metadata.emma" />
+		<property name="emma.run.file" value="${build.dir}/temp/rundata.emma" />
+		
+		<taskdef classpath="${lib.dir}/build-only/emma_ant.jar:${lib.classpath}" resource="emma_ant.properties"/>
+		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${lib.classpath}" />
+<!--
+		<delete dir="${build.instr.dir}" />
+		<delete dir="${build.cover.dir}" />
+		<delete dir="${emma.meta.file}" />
+		<delete dir="${emma.run.file}" />
+
+		<mkdir dir="${build.instr.dir}"/>
+		<mkdir dir="${build.cover.dir}"/>
+
+	    <emma>
+	      <instr destdir="${build.instr.dir}" metadatafile="${emma.meta.file}" merge="true" instrpath="${build.classes.dir}" />
+	      <instr destdir="${build.instr.dir}" metadatafile="${emma.meta.file}" merge="true" instrpath="${build.classes-unverified.dir}" />
+	    </emma>
+
+		<delete dir="${build.dir}/temp/testresults" />
+		<mkdir dir="${build.dir}/temp/testresults"/>
+		
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="."
+			tempdir="${build.dir}/temp" >
+			
+			<assertions enablesystemassertions="yes" />
+
+			<formatter type="plain" usefile="yes" />
+
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cober.file}" />
+			
+			<classpath>
+				<path refid="lib.classpath" />
+				<pathelement path="${build.instr.dir}" />
+				<pathelement path="${build.classes.dir}" />
+				<pathelement path="${build.classes-unverified.dir}" />
+				<pathelement path="${build.test-unit.dir}" />
+				<pathelement path="${build.test-system.dir}" />
+			</classpath>
+
+			<batchtest todir="${build.dir}/temp/testresults">
+				<fileset dir="${build.test-unit.dir}">
+					<include name="**/*Test.class" />
+					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
+				</fileset>
+				<fileset dir="${build.test-system.dir}">
+					<include name="**/*Test*.class" />
+					<include name="sej/tutorials/*.class" />
+					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
+					<exclude name="**/*DeserializationTest.class" />
+				</fileset>
+				<fileset dir="${build.test-system.dir}">
+					<include name="**/*DeserializationTest.class" />
+					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
+				</fileset>
+			</batchtest>
+			
+			<jvmarg value="-Demma.coverage.out.file=${emma.run.file}" />
+			<jvmarg value="-Demma.coverage.out.merge=false" />
+		</junit>
+-->
+	    <emma>
+	      <report sourcepath="${src.classes.dir},${src.classes-unverified.dir}" >
+	        <fileset file="${emma.meta.file}" />
+	        <fileset file="${emma.run.file}" />
+	        <html outfile="${build.cover.dir}/coverage.html" />
+	      </report>
+	    </emma>
+
+		
+	</target>
+
 </project>
