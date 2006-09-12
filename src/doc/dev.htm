@@ -30,6 +30,23 @@
 <p>This is an unstructured journal regarding the development of SEJ. I use it to keep track of ideas, goals and discussion notes.</p>
 <p>Check the <a href="roadmap.htm">roadmap</a> for the current priorities, and the <a href="releasenotes.htm">release notes</a> for what's already been done.</p>
 
+<h2><a name="2006-09-12">September 12, 2006</a></h2>
+<p>I have added code coverage analysis to SEJ using <a href="http://cobertura.sourceforge.net/">cobertura</a>. Overall results right now:</p>
+<ul compact class="compact">
+<li>84% line coverage</li>
+<li>93% branch coverage</li>
+</ul>
+<p>Not bad, eh? Nevertheless, this already helped identify a few untested areas:</p>
+<ul compact class="compact">
+<li>value conversions in bytecode type compilers</li>
+<li>lots of error handling in the bytecode compiler</li>
+<li>compilation of comparison in <tt>IF</tt> with inverse branch target (<tt>TestCompilerBranchingWhenTrue</tt>)</li>
+<li>literal pattern chars in string pattern expressions</li>
+<li>some sheet builder constructs are untested</li>
+<li>no test of auto-mark-support of engine loader input stream</li>
+</ul>
+<p>Some leaks are caused by JRE 1.4, which is not run during coverage analysis right now. Many others are due to untested error cases (<tt>throw</tt>).</p>
+
 <h2><a name="2006-08-30">August 30, 2006</a></h2>
 <p>I have restructured the Excel function tests. They are no longer a single big sheet, but split into multiple sheets. The code which runs these tests has also seen some improvements:</p>
 <ul class="spaced">
