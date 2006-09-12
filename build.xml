@@ -763,4 +763,104 @@
 	<target name="dist" depends="clean,compile,validate,jar,doc,javadoc,test,jar14,test14,examples,srcjar,pack" description="Builds distribution">
 	</target>
 
+	<!-- ================================================================= -->
+	<!-- cover:                                                            -->
+	<!-- Runs code coverage analysis                                       -->
+	<!-- ================================================================= -->
+
+	<target name="cover" depends="prepare, compile, compile-tests" description="Runs code coverage analysis">
+
+		<property name="build.instr.dir" value="${build.dir}/temp/instrumented" />
+		<property name="build.cover.dir" value="${build.dir}/coverage" />
+		<property name="cober.file" value="${build.dir}/temp/cobertura.ser" />
+		
+		<taskdef classpath="${lib.dir}/build-only/cobertura.jar:${lib.classpath}" resource="tasks.properties"/>
+		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${lib.classpath}" />
+
+		<delete dir="${cober.file}" />
+		<delete dir="${build.instr.dir}" />
+		<delete dir="${build.cover.dir}" />
+
+		<mkdir dir="${build.instr.dir}"/>
+		<mkdir dir="${build.cover.dir}"/>
+		
+		<cobertura-instrument todir="${build.instr.dir}" datafile="${cober.file}" >
+		    <fileset dir="${build.classes.dir}">
+		        <include name="**/*.class"/>
+		    </fileset>
+		    <fileset dir="${build.classes-unverified.dir}">
+		        <include name="**/*.class"/>
+		    </fileset>
+			<!--
+		    <fileset dir="${build.test-unit.dir}">
+		        <include name="**/*.class"/>
+		    </fileset>
+		    <fileset dir="${build.test-system.dir}">
+		        <include name="**/*.class"/>
+		    </fileset>
+		    -->
+		</cobertura-instrument>
+
+		<delete dir="${build.dir}/temp/testresults" />
+		<mkdir dir="${build.dir}/temp/testresults"/>
+		
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="."
+			tempdir="${build.dir}/temp" >
+			
+			<assertions enablesystemassertions="yes" />
+
+			<formatter type="plain" usefile="yes" />
+
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cober.file}" />
+			
+			<classpath>
+				<path refid="lib.classpath" />
+				<pathelement path="${build.instr.dir}" />
+				<pathelement path="${build.classes.dir}" />
+				<pathelement path="${build.classes-unverified.dir}" />
+				<pathelement path="${build.test-unit.dir}" />
+				<pathelement path="${build.test-system.dir}" />
+			</classpath>
+
+			<batchtest todir="${build.dir}/temp/testresults">
+				<fileset dir="${build.test-unit.dir}">
+					<include name="**/*Test.class" />
+					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
+				</fileset>
+				<fileset dir="${build.test-system.dir}">
+					<include name="**/*Test*.class" />
+					<include name="sej/tutorials/*.class" />
+					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
+					<exclude name="**/*DeserializationTest.class" />
+				</fileset>
+				<fileset dir="${build.test-system.dir}">
+					<include name="**/*DeserializationTest.class" />
+					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+
+		<cobertura-report destdir="${build.cover.dir}" datafile="${cober.file}">
+		    <fileset dir="${src.classes.dir}">
+				<include name="**/*.java" />
+		    </fileset>
+		    <fileset dir="${src.classes-unverified.dir}">
+				<include name="**/*.java" />
+		    </fileset>
+			<!--
+		    <fileset dir="${src.test-unit.dir}">
+				<include name="**/*.java" />
+		    </fileset>
+		    <fileset dir="${src.test-system.dir}">
+				<include name="**/*.java" />
+		    </fileset>
+		    -->
+		</cobertura-report>
+		
+	</target>
+
 </project>
