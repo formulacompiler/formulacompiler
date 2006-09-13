@@ -41,7 +41,7 @@ import sej.internal.spreadsheet.binding.SectionBinding;
 import sej.internal.spreadsheet.binding.WorkbookBinding;
 
 
-public class ComputationModelCompiler
+public final class ComputationModelCompiler
 {
 	private final WorkbookBinding binding;
 	private final InterpretedNumericType numericType;

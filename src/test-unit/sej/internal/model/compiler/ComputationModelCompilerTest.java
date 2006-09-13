@@ -23,7 +23,6 @@ package sej.internal.model.compiler;
 import java.text.NumberFormat;
 
 import sej.Aggregator;
-import sej.CompilerException;
 import sej.Operator;
 import sej.Orientation;
 import sej.SEJ;
@@ -56,7 +55,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 {
 
 
-	public void testModelBuilding() throws CompilerException, SecurityException, NoSuchMethodException
+	public void testModelBuilding() throws Exception
 	{
 		NumberFormat format = (NumberFormat) NumberFormat.getNumberInstance().clone();
 		format.setMaximumFractionDigits( 2 );
@@ -108,10 +107,10 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 		assertEquals( true, o2m.isOutput() );
 		assertEquals( 1, o2m.getReferenceCount() );
 		assertEquals( 2, o2m.getMaxFractionalDigits() );
-		assertEquals( "(((getOne() + D1) + F1) + #NULL)", o2m.getExpression().describe() );
+		assertEquals( "(((Inputs.getOne() + D1) + F1) + #NULL)", o2m.getExpression().describe() );
 
 		CellModel i1m = root.getCells().get( 2 );
-		assertEquals( "getOne()", i1m.getName() );
+		assertEquals( "Inputs.getOne()", i1m.getName() );
 		assertEquals( true, i1m.isInput() );
 		assertEquals( false, i1m.isOutput() );
 		assertEquals( 1, i1m.getReferenceCount() );
@@ -133,6 +132,8 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 		assertEquals( 1, x3m.getReferenceCount() );
 		assertEquals( CellModel.UNLIMITED, x3m.getMaxFractionalDigits() );
 		assertEquals( "(E1 + D1)", x3m.getExpression().describe() );
+		assertSame( x3.getExpression(), x3m.getExpression().getDerivedFrom() );
+		assertSame( x3.getExpression().arguments().get( 0 ), x3m.getExpression().arguments().get( 0 ).getDerivedFrom() );
 
 		CellModel x2m = root.getCells().get( 5 );
 		assertEquals( "E1", x2m.getName() );
@@ -143,7 +144,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 		assertEquals( 4.0, (Double) x2m.getConstantValue(), 0.1 );
 
 		CellModel io1m = root.getCells().get( 6 );
-		assertEquals( "getThree()", io1m.getName() );
+		assertEquals( "Inputs.getThree()", io1m.getName() );
 		assertEquals( true, io1m.isInput() );
 		assertEquals( true, io1m.isOutput() );
 		assertEquals( 1, io1m.getReferenceCount() );
@@ -154,7 +155,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 	}
 
 
-	public void testSumOverBandWithOuterRef() throws CompilerException
+	public void testSumOverBandWithOuterRef() throws Exception
 	{
 		SpreadsheetImpl workbook = new SpreadsheetImpl();
 		SheetImpl sheet = new SheetImpl( workbook );
@@ -188,17 +189,17 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 		CellModel i2 = range.getCells().get( 2 );
 		CellModel i3 = range.getCells().get( 3 );
 
-		assertEquals( "SUM( getDetails().D2 )", result.getExpression().describe() );
-		assertEquals( "(SUM( getOne(), getTwo(), getThree() ) * ..B1)", x1.getExpression().describe() );
+		assertEquals( "SUM( Inputs.getDetails()~>D2 )", result.getExpression().describe() );
+		assertEquals( "(SUM( Inputs.getOne(), Inputs.getTwo(), Inputs.getThree() ) * <~B1)", x1.getExpression().describe() );
 
 		assertEquals( "D2", x1.getName() );
-		assertEquals( "getOne()", i1.getName() );
-		assertEquals( "getTwo()", i2.getName() );
-		assertEquals( "getThree()", i3.getName() );
+		assertEquals( "Inputs.getOne()", i1.getName() );
+		assertEquals( "Inputs.getTwo()", i2.getName() );
+		assertEquals( "Inputs.getThree()", i3.getName() );
 	}
 
 
-	public void testBandWithOutputCells() throws CompilerException, SecurityException, NoSuchMethodException
+	public void testBandWithOutputCells() throws Exception
 	{
 		SpreadsheetImpl workbook = new SpreadsheetImpl();
 		SheetImpl sheet = new SheetImpl( workbook );
@@ -232,15 +233,15 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 		CellModel i3 = range.getCells().get( 3 );
 
 		assertEquals( "D2", o1.getName() );
-		assertEquals( "getOne()", i1.getName() );
-		assertEquals( "getTwo()", i2.getName() );
-		assertEquals( "getThree()", i3.getName() );
+		assertEquals( "Inputs.getOne()", i1.getName() );
+		assertEquals( "Inputs.getTwo()", i2.getName() );
+		assertEquals( "Inputs.getThree()", i3.getName() );
 
-		assertEquals( "(SUM( getOne(), getTwo(), getThree() ) * ..B1)", o1.getExpression().describe() );
+		assertEquals( "(SUM( Inputs.getOne(), Inputs.getTwo(), Inputs.getThree() ) * <~B1)", o1.getExpression().describe() );
 	}
 
 
-	public void testBandCellWithSumOverOuterBand() throws CompilerException, SecurityException, NoSuchMethodException
+	public void testBandCellWithSumOverOuterBand() throws Exception
 	{
 		SpreadsheetImpl workbook = new SpreadsheetImpl();
 		SheetImpl sheet = new SheetImpl( workbook );
@@ -268,15 +269,15 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 		SectionModel outputs = root.getSections().get( 0 );
 		SectionModel inputs = root.getSections().get( 1 );
 
-		assertEquals( "getDetails()", outputs.getName() );
-		assertEquals( "getDetails()", inputs.getName() );
+		assertEquals( "Inputs.getDetails()", outputs.getName() );
+		assertEquals( "Inputs.getDetails()", inputs.getName() );
 
 		final CellModel output = outputs.getCells().get( 0 );
-		assertEquals( "SUM( ..getDetails().getOne() )", output.getExpression().describe() );
+		assertEquals( "SUM( <~Inputs.getDetails()~>Inputs.getOne() )", output.getExpression().describe() );
 	}
 
 
-	public void testBandCellWithSumOverInnerBand() throws CompilerException, SecurityException, NoSuchMethodException
+	public void testBandCellWithSumOverInnerBand() throws Exception
 	{
 		SpreadsheetImpl workbook = new SpreadsheetImpl();
 		SheetImpl sheet = new SheetImpl( workbook );
@@ -312,7 +313,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 
 		assertEquals( "B1", line.getName() );
 		assertEquals( "C1", global.getName() );
-		assertEquals( "getDetails()", outer.getName() );
+		assertEquals( "Inputs.getDetails()", outer.getName() );
 
 		assertEquals( 1, outer.getCells().size() );
 		assertEquals( 1, outer.getSections().size() );
@@ -321,23 +322,22 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 		SectionModel inner = outer.getSections().get( 0 );
 
 		assertEquals( "A2", inter.getName() );
-		assertEquals( "getSubDetails()", inner.getName() );
+		assertEquals( "Inputs.getSubDetails()", inner.getName() );
 
 		assertEquals( 1, inner.getCells().size() );
 		assertEquals( 0, inner.getSections().size() );
 
 		CellModel inp = inner.getCells().get( 0 );
 
-		assertEquals( "getOne()", inp.getName() );
+		assertEquals( "Inputs.getOne()", inp.getName() );
 
-		assertEquals( "SUM( getDetails().getSubDetails().getOne() )", global.getExpression().describe() );
-		assertEquals( "SUM( getDetails().A2 )", line.getExpression().describe() );
-		assertEquals( "SUM( getSubDetails().getOne() )", inter.getExpression().describe() );
+		assertEquals( "SUM( Inputs.getDetails()~>Inputs.getSubDetails()~>Inputs.getOne() )", global.getExpression().describe() );
+		assertEquals( "SUM( Inputs.getDetails()~>A2 )", line.getExpression().describe() );
+		assertEquals( "SUM( Inputs.getSubDetails()~>Inputs.getOne() )", inter.getExpression().describe() );
 	}
 
 
-	public void testSumOverRangeThatDoesNotFullyCoverItsBandsExtent() throws CompilerException, SecurityException,
-			NoSuchMethodException
+	public void testSumOverRangeThatDoesNotFullyCoverItsBandsExtent() throws Exception
 	{
 		SpreadsheetImpl workbook = new SpreadsheetImpl();
 		SheetImpl sheet = new SheetImpl( workbook );
@@ -361,7 +361,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 
 
 	private void failForRangeNotCoveringBandExtent( SpreadsheetImpl workbook, CellInstance output, CellRange rng )
-			throws CompilerException, SecurityException, NoSuchMethodException
+			throws Exception
 	{
 		SpreadsheetBinder def = newBinder( workbook );
 		Section rootDef = def.getRoot();

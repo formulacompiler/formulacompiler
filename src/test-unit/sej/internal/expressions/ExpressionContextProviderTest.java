@@ -20,7 +20,7 @@ public class ExpressionContextProviderTest extends TestCase
 	protected void setUp() throws Exception
 	{
 		super.setUp();
-		this.parsed.setContextProvider( new CellExpressionAsContextProvider( "A1", this.parsed ) );
+		this.parsed.setContextProviderOnThisAndArgumentsRecursively( new CellExpressionAsContextProvider( "A1", this.parsed ) );
 		this.derived.setDerivedFrom( this.parsed );
 		this.derivedInner.setDerivedFrom( this.parsedInner );
 	}

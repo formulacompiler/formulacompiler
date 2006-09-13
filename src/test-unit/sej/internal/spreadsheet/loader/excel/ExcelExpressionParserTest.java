@@ -146,7 +146,7 @@ public class ExcelExpressionParserTest extends TestCase
 	public void testUnsupported() throws Exception
 	{
 		assertErr( "2 + SOMEFUNC(A2)",
-				"Undefined name or unsupported function encountered in '2 + SOMEFUNC*?*(A2)'; error location indicated by '*?*'." );
+				"Undefined name or unsupported function encountered in expression 2 + SOMEFUNC <<? (A2); error location indicated by <<?." );
 	}
 
 

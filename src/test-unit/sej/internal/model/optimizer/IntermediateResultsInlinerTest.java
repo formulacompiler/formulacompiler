@@ -43,12 +43,12 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
 		assertConst( 3.0, constSum );
-		assertExpr( "(getOne() + 2.0)", constRefSum );
+		assertExpr( "(Inputs.getOne() + 2.0)", constRefSum );
 
 		assertConst( 10.0, bandExpr );
 		assertConst( 11.0, bandOther );
 		assertNull( bandRefSum.getExpression() );
-		assertExpr( "((33.0 + ..ConstRefSum) + ..getOne())", otherRef );
+		assertExpr( "((33.0 + <~ConstRefSum) + <~Inputs.getOne())", otherRef );
 	}
 
 
@@ -68,11 +68,11 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
 		assertConst( 3.0, constSum );
-		assertExpr( "(getOne() + 2.0)", constRefSum );
+		assertExpr( "(Inputs.getOne() + 2.0)", constRefSum );
 
 		assertConst( 10.0, bandExpr );
 		assertConst( 11.0, bandOther );
-		assertExpr( "(33.0 + ..ConstRefSum)", bandRefSum );
+		assertExpr( "(33.0 + <~ConstRefSum)", bandRefSum );
 		assertExpr( "ConstRefSum", otherRef );
 	}
 
@@ -92,13 +92,13 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
 		assertConst( 3.0, constSum );
-		assertExpr( "(getOne() + 2.0)", constRefSum );
+		assertExpr( "(Inputs.getOne() + 2.0)", constRefSum );
 
 		assertConst( 10.0, bandExpr );
 		assertConst( 11.0, bandOther );
 		assertNull( bandRefSum.getExpression() );
 
-		assertExpr( "(33.0 + ..ConstRefSum)", otherRef );
+		assertExpr( "(33.0 + <~ConstRefSum)", otherRef );
 	}
 
 
@@ -117,13 +117,13 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
 		assertConst( 3.0, constSum );
-		assertExpr( "(getOne() + 2.0)", constRefSum );
+		assertExpr( "(Inputs.getOne() + 2.0)", constRefSum );
 
 		assertConst( 10.0, bandExpr );
 		assertConst( 11.0, bandOther );
 		assertNull( bandRefSum.getExpression() );
 
-		assertExpr( "SUM( Band.(33.0 + ..ConstRefSum) )", sum );
+		assertExpr( "SUM( Band~>(33.0 + <~ConstRefSum) )", sum );
 	}
 
 
@@ -145,13 +145,13 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
 		assertConst( 3.0, constSum );
-		assertExpr( "(getOne() + 2.0)", constRefSum );
+		assertExpr( "(Inputs.getOne() + 2.0)", constRefSum );
 
 		assertConst( 10.0, bandExpr );
 		assertConst( 11.0, bandOther );
 		assertNull( bandRefSum.getExpression() );
 
-		assertExpr( "SUM( Band.(33.0 + ..ConstRefSum) )", sum );
+		assertExpr( "SUM( Band~>(33.0 + <~ConstRefSum) )", sum );
 	}
 
 
@@ -174,13 +174,13 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
 		assertConst( 3.0, constSum );
-		assertExpr( "(getOne() + 2.0)", constRefSum );
+		assertExpr( "(Inputs.getOne() + 2.0)", constRefSum );
 
 		assertConst( 10.0, bandExpr );
 		assertConst( 11.0, bandOther );
-		assertExpr( "(33.0 + ..ConstRefSum)", bandRefSum );
+		assertExpr( "(33.0 + <~ConstRefSum)", bandRefSum );
 
-		assertExpr( "SUM( Band.BandRefSum )", sum );
+		assertExpr( "SUM( Band~>BandRefSum )", sum );
 	}
 
 
@@ -200,13 +200,13 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
 		assertConst( 3.0, constSum );
-		assertExpr( "(getOne() + 2.0)", constRefSum );
+		assertExpr( "(Inputs.getOne() + 2.0)", constRefSum );
 
 		assertConst( 10.0, bandExpr );
 		assertConst( 11.0, bandOther );
-		assertExpr( "(33.0 + ..ConstRefSum)", bandRefSum );
+		assertExpr( "(33.0 + <~ConstRefSum)", bandRefSum );
 
-		assertExpr( "SUM( Band.BandRefSum )", sum );
+		assertExpr( "SUM( Band~>BandRefSum )", sum );
 	}
 
 

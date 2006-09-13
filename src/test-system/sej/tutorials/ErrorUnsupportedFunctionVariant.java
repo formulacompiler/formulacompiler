@@ -24,67 +24,72 @@ import sej.CallFrame;
 import sej.CompilerException;
 import sej.EngineBuilder;
 import sej.SEJ;
-import sej.SaveableEngine;
 import sej.Spreadsheet.Cell;
 import junit.framework.TestCase;
 
-public class ErrorUnsupportedFunction extends TestCase
+public class ErrorUnsupportedFunctionVariant extends TestCase
 {
 
-	public void testBindInfo() throws Exception
+	public void testBindBad() throws Exception
 	{
-		// ---- BindInfo
-		EngineBuilder builder = builderForComputationOfCellNamed( /**/"Info"/**/ );
+		// ---- BindBad
+		EngineBuilder builder = builderForComputationOfCellNamed( /**/"Bad"/**/);
+		/**/bindInputNamed( builder, "Type" );/**/
 		try {
 			/**/builder.compile();/**/
 			fail();
 		}
 		catch (/**/CompilerException.UnsupportedExpression e/**/) {
-			String err = /**/"Unsupported element in expression 1.0+INFO <<? (B1); error location indicated by <<?." 
-				+ "\nCell containing expression is A1."/**/;
+			String err = /**/"The last argument to MATCH, the match type, must be constant, but is MyInputs.value()."
+				+ "\nIn expression (1.0 + MATCH( B1, C1:E1,  >> F1 <<  )); error location indicated by >>..<<."
+				+ "\nCell containing expression is A1."
+				+ "\nReferenced by cell A1."/**/;
 			assertEquals( err, e.getMessage() );
 		}
-		// ---- BindInfo
+		// ---- BindBad
 	}
 
-	public void testBindReferencesInfo() throws Exception
+	public void testBindReferencesBad() throws Exception
 	{
-		// ---- BindReferencesInfo
-		EngineBuilder builder = builderForComputationOfCellNamed( /**/"ReferencesInfo"/**/);
+		// ---- BindReferencesBad
+		EngineBuilder builder = builderForComputationOfCellNamed( /**/"ReferencesBad"/**/);
+		bindInputNamed( builder, "Type" );
 		try {
 			builder.compile();
 			fail();
 		}
 		catch (CompilerException.UnsupportedExpression e) {
-			String err = "Unsupported element in expression 1.0+INFO <<? (B1); error location indicated by <<?." 
+			String err = "The last argument to MATCH, the match type, must be constant, but is MyInputs.value()."
+				+ "\nIn expression (1.0 + MATCH( B1, C1:E1,  >> F1 <<  )); error location indicated by >>..<<."
 				+ "\nCell containing expression is A1."
 				+ /**/"\nReferenced by cell A2."/**/;
 			assertEquals( err, e.getMessage() );
 		}
-		// ---- BindReferencesInfo
+		// ---- BindReferencesBad
 	}
-
-	public void testBindIndependent() throws Exception
-	{
-		// ---- BindIndependent
-		EngineBuilder builder = builderForComputationOfCellNamed( /**/"Independent"/**/);
-		SaveableEngine engine = builder.compile();
-		MyFactory factory = (MyFactory) engine.getComputationFactory();
-		MyComputation computation = factory.newComputation( new MyInputs() );
-		/**/assertEquals( 3, computation.result() );/**/
-		// ---- BindIndependent
-	}
+	
+	
+	// FIXME Test folded cell
+	// FIXME Test folded subexpr
+	// FIXME Test folded ref to other cell
 
 
 	private EngineBuilder builderForComputationOfCellNamed( String _cellName ) throws Exception
 	{
 		EngineBuilder builder = SEJ.newEngineBuilder();
-		builder.loadSpreadsheet( "src/test-system/testdata/sej/tutorials/ErrorUnsupportedFunction.xls" );
+		builder.loadSpreadsheet( "src/test-system/testdata/sej/tutorials/ErrorUnsupportedFunctionVariant.xls" );
 		builder.setFactoryClass( MyFactory.class );
 		Cell cell = builder.getSpreadsheet().getCell( _cellName );
 		CallFrame call = new CallFrame( MyComputation.class.getMethod( "result" ) );
 		builder.getRootBinder().defineOutputCell( cell, call );
 		return builder;
+	}
+
+	private void bindInputNamed( EngineBuilder _builder, String _cellName ) throws Exception
+	{
+		Cell cell = _builder.getSpreadsheet().getCell( _cellName );
+		CallFrame call = new CallFrame( MyInputs.class.getMethod( "value" ) );
+		_builder.getRootBinder().defineInputCell( cell, call );
 	}
 
 	public static interface MyFactory
