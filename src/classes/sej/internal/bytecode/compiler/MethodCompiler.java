@@ -251,7 +251,7 @@ abstract class MethodCompiler
 
 		else {
 			throw new CompilerException.UnsupportedDataType( "The data type '"
-					+ _type + "' is not supported as an input method parameter" );
+					+ _type + "' is not supported as an input method parameter." );
 		}
 	}
 	

@@ -91,7 +91,7 @@ public abstract class EvalAggregator extends EvalShadow
 	@Override
 	protected Object evaluateToConst( Object[] _args )
 	{
-		throw new IllegalStateException( "Should never be called" );
+		throw new IllegalStateException( "Internal error: EvalAggregator.evaluateToConst() should never be called" );
 	}
 
 

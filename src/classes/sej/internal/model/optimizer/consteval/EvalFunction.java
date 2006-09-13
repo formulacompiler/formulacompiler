@@ -23,6 +23,7 @@ package sej.internal.model.optimizer.consteval;
 import sej.Function;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForFunction;
+import sej.internal.model.util.EvalNotPossibleException;
 import sej.internal.model.util.InterpretedNumericType;
 
 public class EvalFunction extends EvalShadow
@@ -41,7 +42,12 @@ public class EvalFunction extends EvalShadow
 			return nodeWithConstantArgsFixed( _args );
 		}
 		else {
-			return type().compute( function, _args );
+			try {
+				return type().compute( function, _args );
+			}
+			catch (EvalNotPossibleException e) {
+				return nodeWithConstantArgsFixed( _args );
+			}
 		}
 	}
 

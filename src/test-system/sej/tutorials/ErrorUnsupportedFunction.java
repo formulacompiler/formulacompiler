@@ -75,6 +75,25 @@ public class ErrorUnsupportedFunction extends TestCase
 		// ---- BindIndependent
 	}
 
+	public void testParsedButUnsupportedFunction() throws Exception
+	{
+		// ---- BindParsedButUnsupported
+		EngineBuilder builder = builderForComputationOfCellNamed( /**/"Unsupported"/**/);
+		try {
+			builder.compile();
+			fail();
+		}
+		catch (CompilerException.UnsupportedExpression e) {
+			String err = /**/"Function PROPER is not supported for string engines."/**/
+				+ /**/"\nIn expression LEN(  >> PROPER( B4 ) <<  ); error location indicated by >>..<<."/**/
+				+ "\nCell containing expression is A4."
+				+ "\nReferenced by cell A4.";
+			assertEquals( err, e.getMessage() );
+		}
+		// ---- BindParsedButUnsupported
+	}
+	
+	
 
 	private EngineBuilder builderForComputationOfCellNamed( String _cellName ) throws Exception
 	{

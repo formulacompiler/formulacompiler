@@ -58,7 +58,7 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 			return new ExpressionCompilerForBigDecimals( _methodCompiler, _numericType );
 		}
 		else {
-			throw new IllegalArgumentException( "Unsupported data type for byte code compilation." );
+			throw new IllegalArgumentException( "Unsupported data type " + _numericType + " for byte code compilation." );
 		}
 	}
 
@@ -146,7 +146,7 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 					compileRuntimeMethod( "unboxLong", LONG2J );
 				}
 				if (!compileConversionFrom( scale )) {
-					throw new CompilerException.UnsupportedDataType( "Scaled long is not supported here." );
+					throw new CompilerException.UnsupportedDataType( "Scaled long inputs not supported by " + this + "." );
 				}
 				return;
 			}
@@ -168,7 +168,7 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 					}
 				}
 				else {
-					throw new CompilerException.UnsupportedDataType( "Scaled long return type is not supported." );
+					throw new CompilerException.UnsupportedDataType( "Scaled long results not supported by " + this + "." );
 				}
 				return;
 			}
@@ -319,12 +319,12 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 
 	protected void appendStdFunctionContext( StringBuilder _descriptorBuilder )
 	{
-		throw new IllegalStateException( "appendStdFunctionContext() is not applicable for this type." );
+		throw new IllegalStateException( "Internal error: appendStdFunctionContext() is not applicable for " + this + "." );
 	}
 
 	protected void compileRuntimeMethodWithContext( String _string, String _string2 )
 	{
-		throw new IllegalStateException( "compileRuntimeMethodWithContext() is not applicable for this type." );
+		throw new IllegalStateException( "Internal error: compileRuntimeMethodWithContext() is not applicable for " + this + "." );
 	}
 
 
@@ -444,7 +444,7 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 				newInverseCompiler( args.get( 0 ), this.branchTo ).compileTest();
 			}
 			else {
-				unsupported( "NOT must have exactly one argument." );
+				throw new CompilerException.UnsupportedExpression( "NOT must have exactly one argument." );
 			}
 		}
 

@@ -18,41 +18,12 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.expressions;
+package sej.internal.model.util;
 
-public final class ExpressionDescriptionConfig
+public final class EvalNotPossibleException extends RuntimeException
 {
-	private final ExpressionNode focusedNode;
-	private final String focusStartMarker;
-	private final String focusEndMarker;
-
-	public ExpressionDescriptionConfig(ExpressionNode _focusedNode, String _focusStartMarker, String _focusEndMarker)
+	public EvalNotPossibleException()
 	{
 		super();
-		this.focusedNode = _focusedNode;
-		this.focusStartMarker = _focusStartMarker;
-		this.focusEndMarker = _focusEndMarker;
 	}
-
-	
-	public boolean isFocused( ExpressionNode _node )
-	{
-		if (_node == null) {
-			return false;
-		}
-		return (_node == this.focusedNode); 
-	}
-
-
-	public String focusStartMarker()
-	{
-		return this.focusStartMarker;
-	}
-
-
-	public String focusEndMarker()
-	{
-		return this.focusEndMarker;
-	}
-
 }

@@ -214,8 +214,7 @@ public abstract class InterpretedNumericType
 
 		}
 
-		throw new IllegalArgumentException( "Cannot interpret operator "
-				+ _operator.getSymbol() + " with " + _args.length + " arguments" );
+		throw new EvalNotPossibleException();
 	}
 
 
@@ -352,8 +351,7 @@ public abstract class InterpretedNumericType
 
 		}
 
-		throw new IllegalArgumentException( "Cannot interpret function "
-				+ _function.getName() + " with " + _args.length + " arguments" );
+		throw new EvalNotPossibleException();
 	}
 
 
