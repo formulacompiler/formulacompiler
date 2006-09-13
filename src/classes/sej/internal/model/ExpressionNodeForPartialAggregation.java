@@ -24,6 +24,7 @@ import java.io.IOException;
 
 import sej.Aggregator;
 import sej.describable.DescriptionBuilder;
+import sej.internal.expressions.ExpressionDescriptionConfig;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForAggregator;
 
@@ -52,7 +53,7 @@ public class ExpressionNodeForPartialAggregation extends ExpressionNodeForAggreg
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
 		_to.append( getAggregator().getName() );
 		if (null != this.partialAggregation) {
@@ -60,7 +61,7 @@ public class ExpressionNodeForPartialAggregation extends ExpressionNodeForAggreg
 			this.partialAggregation.describeTo( _to );
 			_to.append( '}' );
 		}
-		describeArgumentListTo( _to );
+		describeArgumentListTo( _to, _cfg );
 	}
 
 

@@ -63,7 +63,7 @@ public class ExpressionNodeForOperator extends ExpressionNode
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
 		final int argCount = arguments().size();
 		switch (argCount) {
@@ -74,18 +74,18 @@ public class ExpressionNodeForOperator extends ExpressionNode
 		case 1:
 			_to.append( "(" );
 			if (this.operator.isPrefix()) _to.append( this.operator.getSymbol() );
-			describeArgumentTo( _to, 0 );
+			describeArgumentTo( _to, _cfg, 0 );
 			if (!this.operator.isPrefix()) _to.append( this.operator.getSymbol() );
 			_to.append( ")" );
 			break;
 		default:
 			_to.append( "(" );
-			describeArgumentTo( _to, 0 );
+			describeArgumentTo( _to, _cfg, 0 );
 			for (int i = 1; i < argCount; i++) {
 				_to.append( " " );
 				_to.append( this.operator.getSymbol() );
 				_to.append( " " );
-				describeArgumentTo( _to, i );
+				describeArgumentTo( _to, _cfg, i );
 			}
 			_to.append( ")" );
 			break;
