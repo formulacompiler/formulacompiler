@@ -89,9 +89,6 @@ public class ErrorUnsupportedFunctionVariant extends TestCase
 	}
 
 
-	// FIXME Systematic pass through error cases
-
-
 	private EngineBuilder builderForComputationOfCellNamed( String _cellName ) throws Exception
 	{
 		EngineBuilder builder = SEJ.newEngineBuilder();
