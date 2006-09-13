@@ -46,7 +46,7 @@ import sej.internal.spreadsheet.binding.SectionBinding;
 import sej.internal.spreadsheet.binding.WorkbookBinding;
 
 
-public class SectionModelCompiler
+public final class SectionModelCompiler
 {
 	private final ComputationModelCompiler compiler;
 	private final WorkbookBinding engineDef;
@@ -167,9 +167,12 @@ public class SectionModelCompiler
 	private void buildCellModel( CellInstance _cell, CellModel _cellModel ) throws CompilerException
 	{
 		if (null == _cell) throw new IllegalArgumentException();
-		if (_cell instanceof CellWithConstant) buildCellModel( _cellModel, (CellWithConstant) _cell );
-		else if (_cell instanceof CellWithLazilyParsedExpression)
+		if (_cell instanceof CellWithConstant) {
+			buildCellModel( _cellModel, (CellWithConstant) _cell );
+		}
+		else if (_cell instanceof CellWithLazilyParsedExpression) {
 			buildCellModel( _cellModel, (CellWithLazilyParsedExpression) _cell );
+		}
 		_cellModel.applyNumberFormat( _cell.getNumberFormat() );
 	}
 
@@ -190,11 +193,26 @@ public class SectionModelCompiler
 		catch (SpreadsheetException cause) {
 			throw new CompilerException.UnsupportedExpression( cause );
 		}
+		catch (CompilerException e) {
+			e.addMessageContext( "\nReferenced by cell " + _cell.getCanonicalName() + "." );
+			throw e;
+		}
+	}
+
+
+	private Object buildExpressionModel( ExpressionNode _exprDef ) throws CompilerException
+	{
+		final Object result = buildRawExpressionModel( _exprDef );
+		if (result instanceof ExpressionNode) {
+			final ExpressionNode resNode = (ExpressionNode) result;
+			resNode.setDerivedFrom( _exprDef );
+		}
+		return result;
 	}
 
 
 	@SuppressWarnings("unchecked")
-	private Object buildExpressionModel( ExpressionNode _exprDef ) throws CompilerException
+	private Object buildRawExpressionModel( ExpressionNode _exprDef ) throws CompilerException
 	{
 		if (null == _exprDef) {
 			return null;

@@ -46,7 +46,7 @@ public class ExpressionNodeForParentSectionModel extends ExpressionNodeForSectio
 	@Override
 	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
-		_to.append( ".." );
+		_to.append( "<~" );
 		describeArgumentOrArgumentListTo( _to, _cfg );
 	}
 

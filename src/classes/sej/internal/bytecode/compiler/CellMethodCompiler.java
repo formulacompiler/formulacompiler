@@ -79,8 +79,19 @@ final class CellMethodCompiler extends ValueMethodCompiler
 							compileExpression( cellExpr );
 						}
 					}
+					catch (InnerExpressionException e) {
+						final CompilerException cause = e.getCause();
+						final ExpressionNode errorNode = e.getErrorNode();
+						if (null != errorNode) {
+							cause.addMessageContext( errorNode.getContext( errorNode ) );
+						}
+						else {
+							cause.addMessageContext( cellExpr.getContext( null ) );
+						}
+						throw cause;
+					}
 					catch (CompilerException e) {
-						e.addMessageContext( " Expression containing error is " + cellExpr + "." );
+						e.addMessageContext( cellExpr.getContext( null ) );
 						throw e;
 					}
 				}
@@ -92,7 +103,7 @@ final class CellMethodCompiler extends ValueMethodCompiler
 
 		}
 		catch (CompilerException e) {
-			e.addMessageContext( " Cell containing error is " + cell + "." );
+			e.addMessageContext( "\nReferenced by cell " + cell + "." );
 			throw e;
 		}
 	}

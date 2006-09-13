@@ -84,7 +84,7 @@ public abstract class ElementModel extends AbstractDescribable
 	public void makeInput( CallFrame _callChainToCall )
 	{
 		this.callChainToCall = _callChainToCall;
-		this.name = _callChainToCall.toString();
+		this.name = _callChainToCall.getHead().getMethod().getDeclaringClass().getSimpleName() + "." + _callChainToCall.toString();
 	}
 
 

@@ -47,7 +47,7 @@
 <p>Binding an output cell to the first cell containing the <tt>INFO</tt> function results in:</p>
 <p>[jc:sej.tutorials.ErrorUnsupportedFunction:---- BindInfo]</p>
 <p>Note that the failure only occurs when comiling the engine. Not when loading the spreadsheet, and not when binding cells. This is due to SEJ's lazy expression parser which only parses those expressions in the spreadsheet that are actually referenced by a bound output cell.</p>
-<p>Binding the output cell to the second cell, which references the first cell, results in the same error:</p>
+<p>Binding the output cell to the second cell, which references the first cell, results in the same error, but note that the message identifies <tt>A2</tt> as the source of the reference:</p>
 <p>[jc:sej.tutorials.ErrorUnsupportedFunction:---- BindReferencesInfo]</p>
 <p>However, binding to the third cell, which is independent of the first cell containing the <tt>INFO</tt> function, works ok:</p>
 <p>[jc:sej.tutorials.ErrorUnsupportedFunction:---- BindIndependent]</p>
@@ -58,7 +58,10 @@
 <h5>Example</h5>
 <p>Consider the following spreadsheet:</p>
 <p>[xc:testdata/sej/tutorials/ErrorUnsupportedFunctionVariant.xls]</p>
-<p>If we bind the output to <em>Bad</em> and make <em>Type</em> an input, then SEJ will throw an error:</p>        </div>
+<p>If we bind the output to <em>Bad</em> and make <em>Type</em> an input, then SEJ will throw an error:</p>
+<p>[jc:sej.tutorials.ErrorUnsupportedFunctionVariant:---- BindBad]</p>
+<p>The same happens if we bind the output to <em>ReferencesBad</em> and make <em>Type</em> an input, but again notice how the referencing cell is identified:</p>
+<p>[jc:sej.tutorials.ErrorUnsupportedFunctionVariant:---- BindReferencesBad]</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.</p>        </div>
     </div>

@@ -57,26 +57,34 @@ public class CellWithLazilyParsedExpression extends CellInstance
 	@Override
 	public synchronized ExpressionNode getExpression() throws SpreadsheetException
 	{
-		if (null == this.expression) {
+		final ExpressionNode own = this.expression;
+		if (null != own) {
+			return own;
+		}
+		else {
 			try {
-				this.expression = this.expressionParser.parseExpression( this );
+				final ExpressionNode parsed = this.expressionParser.parseExpression( this );
+				setExpression( parsed );
+				return parsed;
 			}
-			catch (Throwable e) { 
+			catch (Throwable e) {
 				final SpreadsheetException.UnsupportedExpression thrown = new SpreadsheetException.UnsupportedExpression( e );
-				thrown.addMessageContext( " In cell " + getCanonicalName() + "." );
+				thrown.addMessageContext( "\nCell containing expression is " + getCanonicalName() + "." );
 				throw thrown;
 			}
 		}
-		return this.expression;
 	}
 
 
 	public void setExpression( ExpressionNode _value )
 	{
 		this.expression = _value;
+		if (null != _value) {
+			_value.setContextProviderOnThisAndArgumentsRecursively( new CellExpressionContextProvider( this, _value ) );
+		}
 	}
-	
-	
+
+
 	public LazyExpressionParser getExpressionParser()
 	{
 		return this.expressionParser;

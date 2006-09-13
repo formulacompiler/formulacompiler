@@ -75,11 +75,11 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
 		assertConst( 3.0, constSum );
-		assertExpr( "(getOne() + 2.0)", constRefSum );
+		assertExpr( "(Inputs.getOne() + 2.0)", constRefSum );
 
 		assertConst( 10.0, bandExpr );
 		assertConst( 11.0, bandOther );
-		assertExpr( "(33.0 + ..ConstRefSum)", bandRefSum );
+		assertExpr( "(33.0 + <~ConstRefSum)", bandRefSum );
 	}
 
 
@@ -93,7 +93,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 
-		assertExpr( "SUM{5.0}( getOne() )", sumOverInputsAndConsts );
+		assertExpr( "SUM{5.0}( Inputs.getOne() )", sumOverInputsAndConsts );
 	}
 
 
@@ -107,7 +107,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 
-		assertExpr( "SUM( Band.10.0 )", sumOverBand );
+		assertExpr( "SUM( Band~>10.0 )", sumOverBand );
 	}
 
 
@@ -152,7 +152,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 
-		assertExpr( "getOne()", index );
+		assertExpr( "Inputs.getOne()", index );
 	}
 
 	@SuppressWarnings("unqualified-field-access")
@@ -174,7 +174,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 
-		assertExpr( "INDEX( {2.0, 3.0, 4.0}, getOne(),  )", index );
+		assertExpr( "INDEX( {2.0, 3.0, 4.0}, Inputs.getOne(),  )", index );
 	}
 
 }

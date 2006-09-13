@@ -61,8 +61,8 @@ final class HelperCompilerForMatch extends HelperCompiler
 					}
 					return;
 				}
-				throw new CompilerException.UnsupportedExpression(
-						"The type argument for MATCH (the last one) must be constant." );
+				throw new InnerExpressionException( typeArg, new CompilerException.UnsupportedExpression(
+						"The last argument to MATCH, the match type, must be constant, but is " + typeArg.describe() + "." ) );
 			}
 
 		}

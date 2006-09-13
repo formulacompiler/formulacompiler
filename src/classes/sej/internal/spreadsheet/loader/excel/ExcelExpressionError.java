@@ -29,7 +29,7 @@ public class ExcelExpressionError extends ExcelLoaderError
 		final String sourceAfterError = _source.substring( _atPosition );
 
 		StringBuilder result = new StringBuilder( _message );
-		result.append( " in '" ).append( sourceBeforeError ).append( " <<? " ).append( sourceAfterError ).append( "'; error location indicated by '<<?'." );
+		result.append( " in expression " ).append( sourceBeforeError ).append( " <<? " ).append( sourceAfterError ).append( "; error location indicated by <<?." );
 		return result.toString();
 	}
 

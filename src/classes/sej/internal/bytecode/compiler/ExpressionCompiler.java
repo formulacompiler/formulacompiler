@@ -111,9 +111,11 @@ abstract class ExpressionCompiler
 		try {
 			compileInner( _node );
 		}
-		catch (CompilerException e) {
-			if (null == e.getMessageContext()) e.addMessageContext( " In expression '" + _node.describe() + "'." );
+		catch (InnerExpressionException e) {
 			throw e;
+		}
+		catch (CompilerException e) {
+			throw new InnerExpressionException( _node, e );
 		}
 	}
 

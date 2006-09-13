@@ -47,7 +47,7 @@ public class ExpressionNodeForSubSectionModel extends ExpressionNodeForSectionMo
 	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
 		_to.append( getSectionModel().toString() );
-		_to.append( '.' );
+		_to.append( "~>" );
 		describeArgumentOrArgumentListTo( _to, _cfg );
 	}
 

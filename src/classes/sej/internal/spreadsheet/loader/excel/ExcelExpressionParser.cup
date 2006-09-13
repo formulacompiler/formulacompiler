@@ -16,7 +16,7 @@ parser code {:
 	public void syntax_error( Symbol _cur_token )
 	{
 		done_parsing();
-		throw new RuntimeException( "Unsupported expression element" );
+		throw new RuntimeException( "Unsupported element" );
 	}
 	
 :}
