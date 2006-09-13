@@ -95,7 +95,7 @@ public class SpreadsheetException extends SEJException
 
 		public UnsupportedExpression(Throwable _cause)
 		{
-			super( _cause );
+			super( _cause.getMessage(), _cause );
 		}
 
 	}
