@@ -59,10 +59,10 @@ public class ExpressionNodeForFunction extends ExpressionNode
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
 		_to.append( this.function.getName() );
-		describeArgumentListTo( _to );
+		describeArgumentListTo( _to, _cfg );
 	}
 
 }

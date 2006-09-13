@@ -23,6 +23,7 @@ package sej.internal.spreadsheet;
 import java.io.IOException;
 
 import sej.describable.DescriptionBuilder;
+import sej.internal.expressions.ExpressionDescriptionConfig;
 import sej.internal.expressions.ExpressionNode;
 
 public class ExpressionNodeForRange extends ExpressionNode
@@ -64,7 +65,7 @@ public class ExpressionNodeForRange extends ExpressionNode
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
 		this.range.describeTo( _to );
 	}

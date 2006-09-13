@@ -18,43 +18,15 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.spreadsheet;
+package sej.internal.expressions;
 
 import java.io.IOException;
-import java.util.Collection;
 
 import sej.describable.DescriptionBuilder;
-import sej.internal.expressions.ExpressionDescriptionConfig;
-import sej.internal.expressions.ExpressionNode;
 
-public class ExpressionNodeForRangeShape extends ExpressionNode
+public interface ExpressionContextProvider
 {
 
-	public ExpressionNodeForRangeShape()
-	{
-		super();
-	}
-
-	public ExpressionNodeForRangeShape(Collection _args)
-	{
-		super( _args );
-	}
-
-	public ExpressionNodeForRangeShape(ExpressionNode... _args)
-	{
-		super( _args );
-	}
-
-	@Override
-	public ExpressionNode cloneWithoutArguments()
-	{
-		return new ExpressionNodeForRangeShape();
-	}
-
-	@Override
-	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
-	{
-		describeArgumentOrArgumentListTo( _to, _cfg );
-	}
+	void buildContext( DescriptionBuilder _builder, ExpressionNode _focusedNode ) throws IOException;
 
 }

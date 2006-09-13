@@ -23,6 +23,7 @@ package sej.internal.spreadsheet;
 import java.io.IOException;
 
 import sej.describable.DescriptionBuilder;
+import sej.internal.expressions.ExpressionDescriptionConfig;
 import sej.internal.expressions.ExpressionNode;
 
 
@@ -49,12 +50,12 @@ public class ExpressionNodeForRangeUnion extends ExpressionNode
 	}
 
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
-		describeArgumentTo( _to, 0 );
+		describeArgumentTo( _to, _cfg, 0 );
 		for (int iArg = 1; iArg < arguments().size(); iArg++) {
 			_to.append( ", " );
-			describeArgumentTo( _to, iArg );
+			describeArgumentTo( _to, _cfg, iArg );
 		}
 	}
 

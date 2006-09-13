@@ -23,6 +23,7 @@ package sej.internal.model;
 import java.io.IOException;
 
 import sej.describable.DescriptionBuilder;
+import sej.internal.expressions.ExpressionDescriptionConfig;
 import sej.internal.expressions.ExpressionNode;
 
 
@@ -59,7 +60,7 @@ public class ExpressionNodeForCellModel extends ExpressionNode
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
 		if (null == this.cellModel) {
 			_to.append( "#NULL" );

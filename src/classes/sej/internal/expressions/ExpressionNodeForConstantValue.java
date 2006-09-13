@@ -55,7 +55,7 @@ public class ExpressionNodeForConstantValue extends ExpressionNode
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to )
+	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
 	{
 		if (this.value instanceof String) {
 			_to.append( '"' );

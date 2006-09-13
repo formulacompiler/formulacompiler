@@ -23,6 +23,7 @@ package sej.internal.model;
 import java.io.IOException;
 
 import sej.describable.DescriptionBuilder;
+import sej.internal.expressions.ExpressionDescriptionConfig;
 import sej.internal.expressions.ExpressionNode;
 
 public class ExpressionNodeForSubSectionModel extends ExpressionNodeForSectionModel
@@ -43,11 +44,11 @@ public class ExpressionNodeForSubSectionModel extends ExpressionNodeForSectionMo
 	
 	
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
 		_to.append( getSectionModel().toString() );
 		_to.append( '.' );
-		describeArgumentOrArgumentListTo( _to );
+		describeArgumentOrArgumentListTo( _to, _cfg );
 	}
 
 }

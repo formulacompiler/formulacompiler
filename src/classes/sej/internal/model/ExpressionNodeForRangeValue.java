@@ -23,6 +23,7 @@ package sej.internal.model;
 import java.io.IOException;
 
 import sej.describable.DescriptionBuilder;
+import sej.internal.expressions.ExpressionDescriptionConfig;
 import sej.internal.expressions.ExpressionNode;
 
 public class ExpressionNodeForRangeValue extends ExpressionNode
@@ -51,10 +52,10 @@ public class ExpressionNodeForRangeValue extends ExpressionNode
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
 		if (arguments().size() == 1) {
-			arguments().get( 0 ).describeTo( _to );
+			describeArgumentTo( _to, _cfg, 0 );
 		}
 		else {
 			_to.append( '{' );
@@ -62,7 +63,7 @@ public class ExpressionNodeForRangeValue extends ExpressionNode
 			for (ExpressionNode arg : arguments()) {
 				if (isFirst) isFirst = false;
 				else _to.append( ", " );
-				arg.describeTo( _to );
+				arg.describeTo( _to, _cfg );
 			}
 			_to.append( '}' );
 		}

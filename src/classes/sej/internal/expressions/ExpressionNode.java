@@ -33,6 +33,8 @@ public abstract class ExpressionNode extends AbstractDescribable
 {
 	private List<ExpressionNode> arguments = new ArrayList<ExpressionNode>();
 	private DataType dataType;
+	private ExpressionNode derivedFrom;
+	private ExpressionContextProvider contextProvider;
 
 
 	protected ExpressionNode()
@@ -90,55 +92,135 @@ public abstract class ExpressionNode extends AbstractDescribable
 	}
 	
 
+	public ExpressionNode getDerivedFrom()
+	{
+		return this.derivedFrom;
+	}
+
+	public void setDerivedFrom( ExpressionNode _node )
+	{
+		this.derivedFrom = _node;
+	}
+
+	public ExpressionNode getOrigin()
+	{
+		return (this.derivedFrom == null)? this : this.derivedFrom.getOrigin();
+	}
+
+
 	public abstract ExpressionNode cloneWithoutArguments();
 
 
 	@Override
 	public Object clone()
 	{
-		ExpressionNode result = cloneWithoutArguments();
+		final ExpressionNode result = cloneWithoutArguments();
 		for (ExpressionNode arg : arguments()) {
-			ExpressionNode newArg = (ExpressionNode) arg.clone();
+			final ExpressionNode newArg = (ExpressionNode) arg.clone();
 			result.arguments().add( newArg );
 		}
 		return result;
 	}
-
-
-	protected void describeArgumentTo( DescriptionBuilder _d, int _iArgument ) throws IOException
+	
+	
+	@Override
+	public final void describeTo( DescriptionBuilder _to ) throws IOException
 	{
-		ExpressionNode arg = this.arguments().get( _iArgument );
-		if (null != arg) {
-			arg.describeTo( _d );
+		describeToWithConfig( _to, null );
+	}
+
+
+	public final void describeTo( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
+	{
+		if (null != _cfg && _cfg.isFocused( this )) {
+			_to.append( _cfg.focusStartMarker() );
+			describeToWithConfig( _to, _cfg );
+			_to.append( _cfg.focusEndMarker() );
+		}
+		else {
+			describeToWithConfig( _to, _cfg );
 		}
 	}
 
 
-	protected void describeArgumentListTo( DescriptionBuilder _d ) throws IOException
+	protected abstract void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException;
+
+
+	protected void describeArgumentTo( DescriptionBuilder _d, ExpressionDescriptionConfig _cfg, int _iArgument ) throws IOException
+	{
+		final ExpressionNode arg = this.arguments().get( _iArgument );
+		if (null != arg) {
+			arg.describeTo( _d, _cfg );
+		}
+	}
+
+
+	protected void describeArgumentListTo( DescriptionBuilder _d, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
 		if (0 == arguments().size()) {
 			_d.append( "()" );
 		}
 		else {
 			_d.append( "( " );
-			describeArgumentTo( _d, 0 );
+			describeArgumentTo( _d, _cfg, 0 );
 			for (int iArg = 1; iArg < arguments().size(); iArg++) {
 				_d.append( ", " );
-				describeArgumentTo( _d, iArg );
+				describeArgumentTo( _d, _cfg, iArg );
 			}
 			_d.append( " )" );
 		}
 	}
 
 
-	protected void describeArgumentOrArgumentListTo( DescriptionBuilder _d ) throws IOException
+	protected void describeArgumentOrArgumentListTo( DescriptionBuilder _d, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
 		if (1 == arguments().size()) {
-			describeArgumentTo( _d, 0 );
+			describeArgumentTo( _d, _cfg, 0 );
 		}
 		else {
-			describeArgumentListTo( _d );
+			describeArgumentListTo( _d, _cfg );
 		}
+	}
+
+
+	public ExpressionContextProvider getContextProvider()
+	{
+		return this.contextProvider;
+	}
+
+	public void setContextProvider( ExpressionContextProvider _provider )
+	{
+		this.contextProvider = _provider;
+	}
+
+	public String getContext( ExpressionNode _focusedNode )
+	{
+		final DescriptionBuilder builder = new DescriptionBuilder();
+		try {
+			buildContext( builder, _focusedNode );
+		}
+		catch (IOException e) {
+			builder.append( e.getMessage() );
+		}
+		return builder.toString();
+	}
+
+	public void buildContext( DescriptionBuilder _builder, ExpressionNode _focusedNode ) throws IOException
+	{
+		ExpressionContextProvider prov = getNearestContextProvider();
+		if (null != prov) {
+			prov.buildContext( _builder, _focusedNode );
+		}
+		else {
+			describeTo( _builder );
+		}
+	}
+
+
+	private ExpressionContextProvider getNearestContextProvider()
+	{
+		final ExpressionContextProvider prov = getContextProvider();
+		return (null == prov)? getOrigin().getContextProvider() : prov;
 	}
 
 
