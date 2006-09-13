@@ -72,6 +72,7 @@ public class ErrorUnsupportedFunctionVariant extends TestCase
 	// FIXME Test folded cell
 	// FIXME Test folded subexpr
 	// FIXME Test folded ref to other cell
+	// FIXME Systematic pass through error cases
 
 
 	private EngineBuilder builderForComputationOfCellNamed( String _cellName ) throws Exception

@@ -129,7 +129,8 @@ abstract class ExpressionCompiler
 		final DataType nodeType = _node.getDataType();
 
 		if (null == nodeType) {
-			throw new CompilerException.UnsupportedDataType( "Data type not set." );
+			throw new CompilerException.UnsupportedDataType( "Internal error: Data type not set on node "
+					+ _node.describe() + "." );
 		}
 
 		else if (DataType.NULL != nodeType && dataType() != nodeType) {
@@ -200,7 +201,8 @@ abstract class ExpressionCompiler
 		}
 
 		else {
-			unsupported( "Unsupported expression." );
+			throw new CompilerException.UnsupportedExpression( "Internal error: unsupported node type "
+					+ _node.describe() + "." );
 		}
 	}
 
@@ -236,8 +238,8 @@ abstract class ExpressionCompiler
 		switch (args.size()) {
 
 			case 0:
-				unsupported( "Operator must have at least one argument." );
-				break;
+				throw new CompilerException.UnsupportedExpression(
+						"Internal error: must have at least one argument for operator node " + _node.describe() + "." );
 
 			case 1:
 				compile( args.get( 0 ) );
@@ -257,10 +259,11 @@ abstract class ExpressionCompiler
 
 	protected void compileOperator( Operator _operator, int _numberOfArguments ) throws CompilerException
 	{
-		unsupported( "Operator " + _operator + " is not supported for " + this );
+		throw new CompilerException.UnsupportedExpression( "Operator "
+				+ _operator + " is not supported for " + this + " engines." );
 	}
-	
-	
+
+
 	protected abstract void compileComparison( int _comparisonOpcode ) throws CompilerException;
 
 
@@ -289,7 +292,7 @@ abstract class ExpressionCompiler
 			innerCompileConversionFromResultOf( _method );
 		}
 		catch (CompilerException e) {
-			e.addMessageContext( " Caused by return type of input '" + _method + "'." );
+			e.addMessageContext( "\nCaused by return type of input '" + _method + "'." );
 			throw e;
 		}
 	}
@@ -310,7 +313,7 @@ abstract class ExpressionCompiler
 			innerCompileConversionToResultOf( _method );
 		}
 		catch (CompilerException e) {
-			e.addMessageContext( " Caused by return type of input '" + _method + "'." );
+			e.addMessageContext( "\nCaused by return type of input '" + _method + "'." );
 			throw e;
 		}
 	}
@@ -328,7 +331,8 @@ abstract class ExpressionCompiler
 				break;
 
 			default:
-				unsupported( "Function " + fun + " is not supported." );
+				throw new CompilerException.UnsupportedExpression( "Function "
+						+ fun + " is not supported for " + this + " engines." );
 		}
 	}
 
@@ -345,7 +349,7 @@ abstract class ExpressionCompiler
 		final GeneratorAdapter mv = mv();
 		final Label notMet = mv.newLabel();
 		final Label done = mv.newLabel();
-		
+
 		method().numericCompiler().compileTest( _test, notMet );
 
 		compile( _ifTrue );
@@ -391,7 +395,9 @@ abstract class ExpressionCompiler
 	protected final void compileMapReduceAggregator( ExpressionNodeForAggregator _node, Operator _reductor )
 			throws CompilerException
 	{
-		if (null == _reductor) unsupported( "Aggregation has no MapReduce reductor." );
+		if (null == _reductor)
+			throw new CompilerException.UnsupportedExpression( "Internal error: No MapReduce reductor for aggregation "
+					+ _node.describe() + "." );
 		boolean first = true;
 		for (ExpressionNode arg : _node.arguments()) {
 			if (arg instanceof ExpressionNodeForSubSectionModel) {
@@ -518,12 +524,6 @@ abstract class ExpressionCompiler
 	protected final void compileRuntimeMethod( String _methodName, String _methodSig )
 	{
 		typeCompiler().compileRuntimeMethod( mv(), _methodName, _methodSig );
-	}
-
-
-	protected final void unsupported( String _why ) throws CompilerException
-	{
-		throw new CompilerException.UnsupportedExpression( _why );
 	}
 
 }

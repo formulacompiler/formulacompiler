@@ -102,7 +102,7 @@ final class OutputDistributorCompiler
 				mv().ifCmp( argType, mv().NE, next );
 			}
 			else if (argClass.isPrimitive()) {
-				throw new CompilerException.UnsupportedDataType( "The type '" + argClass + "' is not supported as an output parameter type for '" + this.method + "'" );
+				throw new CompilerException.UnsupportedDataType( "The type '" + argClass + "' is not supported as an output parameter type for '" + this.method + "'." );
 			}
 			else {
 				mv().visitLdcInsn( argValue );

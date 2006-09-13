@@ -36,7 +36,7 @@
 <p>It sometimes helps to start with a new file, and then selectively copy only the necessary formulas and values over from the old, unreadable one.</p>
 
 <h2>Unsupported Functions</h2>
-<p>If JExcelAPI has managed to read the file, there may still be elements within it that SEJ cannot handle. The most typical case is that a particular Excel function is not supported. For example, the <tt>INFO</tt> function is not supported by SEJ. However, SEJ is smart enough to accept spreadsheets containing unsupported functions, <em>provided they are not referenced by any output cell</em>.</p>
+<p>If JExcelAPI has managed to read the file, there may still be elements within it that SEJ cannot handle. The most typical case is that a particular Excel function is not supported at all, meaning SEJ cannot even parse expressions containing it. For example, the <tt>INFO</tt> function cannot be parsed by SEJ. The function <tt>PROPER</tt>, while it can be parsed, is still not supported yet. However, SEJ is smart enough to accept spreadsheets containing unsupported functions, <em>provided they are not referenced by any output cell</em>.</p>
 
 <h5>Hint</h5>
 <p>You may sometimes be able to substitute a combination of <a href="../reference/index.htm">supported functions</a> for an unsupported one.</p>
@@ -51,9 +51,14 @@
 <p>[jc:sej.tutorials.ErrorUnsupportedFunction:---- BindReferencesInfo]</p>
 <p>However, binding to the third cell, which is independent of the first cell containing the <tt>INFO</tt> function, works ok:</p>
 <p>[jc:sej.tutorials.ErrorUnsupportedFunction:---- BindIndependent]</p>
+<p>The final example shows the error message for a parseable, but unsupported function (<tt>PROPER</tt>):</p>
+<p>[jc:sej.tutorials.ErrorUnsupportedFunction:---- BindParsedButUnsupported]</p>
 
 <h2>Unsupported Function Variants</h2>
 <p>You may also encounter functions that are supported, but not with all possible variants of argument lists. For example, SEJ currently does not support the <tt>MATCH</tt> function when its last argument (the match type) is bound to an input variable.</p>
+
+<h5>Hint</h5>
+<p>You may sometimes be able to work around such limitations by using <tt>IF</tt>.</p>
 
 <h5>Example</h5>
 <p>Consider the following spreadsheet:</p>

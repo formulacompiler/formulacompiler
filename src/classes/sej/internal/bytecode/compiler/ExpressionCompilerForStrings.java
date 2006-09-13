@@ -114,8 +114,7 @@ final class ExpressionCompilerForStrings extends ExpressionCompiler
 			case CONCAT:
 				switch (args.size()) {
 					case 0:
-						unsupported( "CONCAT needs at least one argument." );
-						break;
+						throw new CompilerException.UnsupportedExpression( "CONCAT needs at least one argument." );
 					case 1:
 						compile( args.get( 0 ) );
 						break;
@@ -255,8 +254,7 @@ final class ExpressionCompilerForStrings extends ExpressionCompiler
 	protected void compileComparison( int _comparisonOpcode ) throws CompilerException
 	{
 		// LATER compare strings
-		unsupported( "String comparison is not implemented yet." );
-		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/String", "compareTo", "(Ljava/lang/String;)I" );
+		throw new CompilerException.UnsupportedExpression( "String comparison is not implemented yet." );
 	}
 
 
