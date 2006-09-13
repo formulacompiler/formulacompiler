@@ -73,9 +73,6 @@ final class ExpressionCompilerForDoubles extends ExpressionCompilerForNumbers
 		else if (Number.class.isAssignableFrom( _class )) {
 			compileRuntimeMethod( "numberToNum", "(" + N + ")D" );
 		}
-		else if (_class == String.class) {
-			mv.visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Double", "valueOf", "(Ljava/lang/String;)D" );
-		}
 		else {
 			super.compileConversionFrom( _class );
 		}

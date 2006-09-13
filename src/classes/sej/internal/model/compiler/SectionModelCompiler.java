@@ -156,10 +156,11 @@ public final class SectionModelCompiler
 	{
 		final SectionModel model = new SectionModel( getSectionModel(), _sectionDef.getCallChainToCall().toString(),
 				_sectionDef.getInputClass(), _sectionDef.getOutputClass() );
+		model.setOriginalName( _sectionDef.getRange().describe() );
 		model.makeInput( _sectionDef.getCallChainToCall() );
 		if (_sectionDef.getCallToImplement() != null) {
 			model.makeOutput( _sectionDef.getCallToImplement() );
-		}
+		}		
 		return new SectionModelCompiler( this.compiler, this, _sectionDef, model );
 	}
 
