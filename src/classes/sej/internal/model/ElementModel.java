@@ -32,6 +32,7 @@ public abstract class ElementModel extends AbstractDescribable
 	private final ComputationModel engine;
 	private final SectionModel section;
 	private String name;
+	private String originalName;
 	private CallFrame callChainToCall;
 	private final Collection<CallFrame> callsToImplement = new ArrayList<CallFrame>();
 
@@ -42,6 +43,7 @@ public abstract class ElementModel extends AbstractDescribable
 		this.engine = _section.getEngine();
 		this.section = _section;
 		this.name = _name;
+		this.originalName = _name;
 	}
 
 
@@ -51,6 +53,7 @@ public abstract class ElementModel extends AbstractDescribable
 		this.engine = _engine;
 		this.section = null;
 		this.name = _name;
+		this.originalName = _name;
 	}
 
 
@@ -69,8 +72,19 @@ public abstract class ElementModel extends AbstractDescribable
 	{
 		return this.name;
 	}
-
 	
+	
+	public final String getOriginalName()
+	{
+		return this.originalName;
+	}
+
+	public final void setOriginalName( String _originalName )
+	{
+		this.originalName = _originalName;
+	}
+
+
 	public boolean isInput()
 	{
 		return (null != this.callChainToCall);

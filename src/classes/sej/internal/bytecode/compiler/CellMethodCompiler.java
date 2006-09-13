@@ -103,7 +103,7 @@ final class CellMethodCompiler extends ValueMethodCompiler
 
 		}
 		catch (CompilerException e) {
-			e.addMessageContext( "\nReferenced by cell " + cell + "." );
+			e.addMessageContext( "\nReferenced by cell " + cell.getOriginalName() + "." );
 			throw e;
 		}
 	}
