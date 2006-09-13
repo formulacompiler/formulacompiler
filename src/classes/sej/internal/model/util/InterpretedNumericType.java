@@ -386,7 +386,7 @@ public abstract class InterpretedNumericType
 			return -1;
 		}
 		else {
-			RangeValue range = (RangeValue) _in;
+			final RangeValue range = (RangeValue) _in;
 			if (0 == _type) {
 				int iObj = 0;
 				for (Object elt : range) {
@@ -396,11 +396,12 @@ public abstract class InterpretedNumericType
 				return -1;
 			}
 			else {
-				Comparable comp = (Comparable) _lookup;
+				final Comparable comp = (Comparable) _lookup;
+				final int compResIndicatingMatch = (_type < 0)? 1 : -1;
 				int iObj = 0;
 				for (Object elt : range) {
-					int compRes = comp.compareTo( elt );
-					if (-compRes == _type) return iObj - 1;
+					final int compRes = comp.compareTo( elt );
+					if (compRes == compResIndicatingMatch) return iObj - 1;
 					iObj++;
 				}
 				return range.size() - 1;

@@ -24,6 +24,7 @@ import sej.CallFrame;
 import sej.CompilerException;
 import sej.EngineBuilder;
 import sej.SEJ;
+import sej.SaveableEngine;
 import sej.Spreadsheet.Cell;
 import junit.framework.TestCase;
 
@@ -41,9 +42,9 @@ public class ErrorUnsupportedFunctionVariant extends TestCase
 		}
 		catch (/**/CompilerException.UnsupportedExpression e/**/) {
 			String err = /**/"The last argument to MATCH, the match type, must be constant, but is MyInputs.value()."
-				+ "\nIn expression (1.0 + MATCH( B1, C1:E1,  >> F1 <<  )); error location indicated by >>..<<."
-				+ "\nCell containing expression is A1."
-				+ "\nReferenced by cell A1."/**/;
+					+ "\nIn expression (1.0 + MATCH( B1, C1:E1,  >> F1 <<  )); error location indicated by >>..<<."
+					+ "\nCell containing expression is A1." 
+					+ "\nReferenced by cell A1."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- BindBad
@@ -60,18 +61,34 @@ public class ErrorUnsupportedFunctionVariant extends TestCase
 		}
 		catch (CompilerException.UnsupportedExpression e) {
 			String err = "The last argument to MATCH, the match type, must be constant, but is MyInputs.value()."
-				+ "\nIn expression (1.0 + MATCH( B1, C1:E1,  >> F1 <<  )); error location indicated by >>..<<."
-				+ "\nCell containing expression is A1."
-				+ /**/"\nReferenced by cell A2."/**/;
+					+ "\nIn expression (1.0 + MATCH( B1, C1:E1,  >> F1 <<  )); error location indicated by >>..<<."
+					+ "\nCell containing expression is A1." 
+					+ /**/"\nReferenced by cell A2."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- BindReferencesBad
 	}
-	
-	
-	// FIXME Test folded cell
-	// FIXME Test folded subexpr
-	// FIXME Test folded ref to other cell
+
+	public void testBindOK() throws Exception
+	{
+		EngineBuilder builder = builderForComputationOfCellNamed( "Bad" );
+		SaveableEngine engine = builder.compile();
+		MyFactory factory = (MyFactory) engine.getComputationFactory();
+		MyComputation computation = factory.newComputation( new MyInputs() );
+		assertEquals( 3, computation.result() );
+	}
+
+	public void testBindOKWithInput() throws Exception
+	{
+		EngineBuilder builder = builderForComputationOfCellNamed( "Bad" );
+		bindInputNamed( builder, "LookedFor" );
+		SaveableEngine engine = builder.compile();
+		MyFactory factory = (MyFactory) engine.getComputationFactory();
+		MyComputation computation = factory.newComputation( new MyInputs() );
+		assertEquals( 4, computation.result() );
+	}
+
+
 	// FIXME Systematic pass through error cases
 
 
@@ -102,7 +119,7 @@ public class ErrorUnsupportedFunctionVariant extends TestCase
 	{
 		public int value()
 		{
-			return 1;
+			return 30;
 		}
 	}
 
