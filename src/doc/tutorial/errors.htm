@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Errors - arrenbrecht.ch</title>
+    <style type="text/css" media="screen">
+        @import "../style.css";
+	
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+</head>
+<body>
+    <div class="all">
+        <div class="nav">
+            <p class="nav">
+<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a> &gt;
+<a href="../index.htm">SEJ</a> &gt;
+<a href="index.htm">Tutorial</a> &gt;
+
+			</p>
+        </div>
+        <div class="title">
+            <h1>
+                Errors</h1>
+        </div>
+        
+        
+        <div class="content">
+        
+<p>SEJ tries hard to give meaningful error messages which clearly identify both the problem and its source. This document shows the most typical errors, why they occur, and what to do about them.</p>
+
+<h2>Unreadable .xls Files</h2>
+<p>SEJ uses <a href="http://jexcelapi.sourceforge.net/">JExcelAPI</a> to read files in Excel's .xls format. It may happen that JExcelAPI fails to read the file before SEJ has a chance to look at its contents.</p>
+
+<h5>Hint</h5>
+<p>It sometimes helps to start with a new file, and then selectively copy only the necessary formulas and values over from the old, unreadable one.</p>
+
+<h2>Unsupported Functions</h2>
+<p>If JExcelAPI has managed to read the file, there may still be elements within it that SEJ cannot handle. The most typical case is that a particular Excel function is not supported. For example, the <tt>INFO</tt> function is not supported by SEJ. However, SEJ is smart enough to accept spreadsheets containing unsupported functions, <em>provided they are not referenced by any output cell</em>.</p>
+
+<h5>Hint</h5>
+<p>You may sometimes be able to substitute a combination of <a href="../reference/index.htm">supported functions</a> for an unsupported one.</p>
+
+<h5>Example</h5>
+<p>The following spreadsheet contains a cell which uses the <tt>INFO</tt> function in its formula, another cell which references the former cell, and a third cell that whose value does not involve the <tt>INFO</tt> function at all:</p>
+<p>[xc:testdata/sej/tutorials/ErrorUnsupportedFunction.xls]</p>
+<p>Binding an output cell to the first cell containing the <tt>INFO</tt> function results in:</p>
+<p>[jc:sej.tutorials.ErrorUnsupportedFunction:---- BindInfo]</p>
+<p>Note that the failure only occurs when comiling the engine. Not when loading the spreadsheet, and not when binding cells. This is due to SEJ's lazy expression parser which only parses those expressions in the spreadsheet that are actually referenced by a bound output cell.</p>
+<p>Binding the output cell to the second cell, which references the first cell, results in the same error:</p>
+<p>[jc:sej.tutorials.ErrorUnsupportedFunction:---- BindReferencesInfo]</p>
+<p>However, binding to the third cell, which is independent of the first cell containing the <tt>INFO</tt> function, works ok:</p>
+<p>[jc:sej.tutorials.ErrorUnsupportedFunction:---- BindIndependent]</p>
+
+<h2>Unsupported Function Variants</h2>
+<p>You may also encounter functions that are supported, but not with all possible variants of argument lists. For example, SEJ currently does not support the <tt>MATCH</tt> function when its last argument (the match type) is bound to an input variable.</p>
+
+<h5>Example</h5>
+<p>Consider the following spreadsheet:</p>
+<p>[xc:testdata/sej/tutorials/ErrorUnsupportedFunctionVariant.xls]</p>
+<p>If we bind the output to <em>Bad</em> and make <em>Type</em> an input, then SEJ will throw an error:</p>        </div>
+        <div class="footer">
+<p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.</p>        </div>
+    </div>
+</body>
+</html>
