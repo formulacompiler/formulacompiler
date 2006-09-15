@@ -33,7 +33,7 @@ import java_cup.runtime.Symbol;
 %final
 %apiprivate
 %{
-	public int charsRead() { return yychar; }
+	public int charsRead() { return zzMarkedPos; }
 	private String source;
 	public void setSource( String _source ) { this.source = _source; }
 %}
