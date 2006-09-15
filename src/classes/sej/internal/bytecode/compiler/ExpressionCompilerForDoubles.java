@@ -110,9 +110,6 @@ final class ExpressionCompilerForDoubles extends ExpressionCompilerForNumbers
 		;
 		else if (compileConversionToBoxed( _class, Long.TYPE, BigInteger.class, Opcodes.D2L ))
 		;
-		else if (_class == String.class) {
-			mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/Double", "toString", "(D)Ljava/lang/String;" );
-		}
 		else {
 			super.compileConversionTo( _class );
 		}
