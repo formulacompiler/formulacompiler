@@ -253,7 +253,7 @@ expr ::=
 	
 	|	PROPER LPAREN expr:e RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.PROPER, e ); :}
-	
+				
 	;
 
 
