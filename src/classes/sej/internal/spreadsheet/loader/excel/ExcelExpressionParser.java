@@ -37,7 +37,7 @@ import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
 
 
-class ExcelExpressionParser
+final class ExcelExpressionParser
 {
 	SpreadsheetImpl workbook;
 	SheetImpl sheet;
@@ -66,14 +66,14 @@ class ExcelExpressionParser
 		final StringReader reader = new StringReader( _text );
 
 		switch (_cellRefFormat) {
-		case A1:
-			this.scanner = new GeneratedScannerA1( reader );
-			break;
-		case R1C1:
-			this.scanner = new GeneratedScannerR1C1( reader );
+			case A1:
+				this.scanner = new GeneratedScannerA1( reader );
+				break;
+			case R1C1:
+				this.scanner = new GeneratedScannerR1C1( reader );
 		}
 		this.scanner.setSource( _text );
-		
+
 		final GeneratedParser parser = new GeneratedParser( this.scanner );
 		parser.excelParser = this;
 		try {
@@ -113,9 +113,42 @@ class ExcelExpressionParser
 	}
 
 
+	CellIndex parseCellRefA1( String _ref, String _sheet )
+	{
+		return getSheet( _sheet ).getCellIndexForCanonicalNameA1( _ref );
+	}
+
+
 	CellIndex parseCellRefR1C1( String _ref )
 	{
 		return this.sheet.getCellIndexForCanonicalNameR1C1( _ref, this.cell.getCellIndex() );
+	}
+
+
+	CellIndex parseCellRefR1C1( String _ref, String _sheet )
+	{
+		return getSheet( _sheet ).getCellIndexForCanonicalNameR1C1( _ref, this.cell.getCellIndex() );
+	}
+
+
+	private SheetImpl getSheet( String _sheet )
+	{
+		final String sheetName = stripSheetNameDecorationFrom( _sheet );
+		final SheetImpl namedSheet = this.workbook.getSheet( sheetName );
+		if (null == namedSheet) {
+			throw new CompilerException.NameNotFound( "Sheet '" + sheetName + "' is not defined." );
+		}
+		return namedSheet;
+	}
+
+	private String stripSheetNameDecorationFrom( String _sheet )
+	{
+		int startPos = 0;
+		int endPos = _sheet.length();
+		if ('\'' == _sheet.charAt( 0 )) startPos++;
+		if ('!' == _sheet.charAt( endPos - 1 )) endPos--;
+		if ('\'' == _sheet.charAt( endPos - 1 )) endPos--;
+		return _sheet.substring( startPos, endPos );
 	}
 
 
@@ -141,7 +174,8 @@ class ExcelExpressionParser
 		else if (_ref instanceof CellRange) {
 			return new ExpressionNodeForRange( (CellRange) _ref );
 		}
-		throw new ExcelExpressionError( "Undefined name or unsupported function encountered", this.source, this.scanner.charsRead() );
+		throw new ExcelExpressionError( "Undefined name or unsupported function encountered", this.source, this.scanner
+				.charsRead() );
 	}
 
 

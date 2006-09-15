@@ -379,6 +379,68 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 	}
 
 
+	public void testReferenceToSecondarySheet() throws Exception
+	{
+		SpreadsheetImpl workbook = new SpreadsheetImpl();
+		SheetImpl sheet1 = new SheetImpl( workbook, "One" );
+		SheetImpl sheet2 = new SheetImpl( workbook, "Two" );
+		RowImpl r11 = new RowImpl( sheet1 );
+		RowImpl r21 = new RowImpl( sheet2 );
+		
+		CellInstance i1 = new CellWithConstant( r21, 1.0 );
+		CellInstance o1 = new CellWithLazilyParsedExpression( r11, sum( refRange( i1, i1 ) ) );
+
+		SpreadsheetBinder def = newBinder( workbook );
+		Section rootDef = def.getRoot();
+		rootDef.defineInputCell( i1.getCellIndex(), getInput( "getOne" ) );
+		rootDef.defineOutputCell( o1.getCellIndex(), getOutput( "getResult" ) );
+
+		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), SEJ.DOUBLE );
+		ComputationModel model = compiler.buildNewModel();
+		SectionModel root = model.getRoot();
+
+		assertEquals( 2, root.getCells().size() );
+
+		CellModel _o1 = root.getCells().get( 0 );
+		CellModel _i1 = root.getCells().get( 1 );
+
+		assertEquals( "A1", _o1.getName() );
+		assertEquals( "Inputs.getOne()", _i1.getName() );
+		assertEquals( "SUM( Inputs.getOne() )", _o1.getExpression().describe() );
+	}
+	
+	
+	public void testReferenceFromSecondarySheet() throws Exception
+	{
+		SpreadsheetImpl workbook = new SpreadsheetImpl();
+		SheetImpl sheet1 = new SheetImpl( workbook, "One" );
+		SheetImpl sheet2 = new SheetImpl( workbook, "Two" );
+		RowImpl r11 = new RowImpl( sheet1 );
+		RowImpl r21 = new RowImpl( sheet2 );
+		
+		CellInstance i1 = new CellWithConstant( r11, 1.0 );
+		CellInstance o1 = new CellWithLazilyParsedExpression( r21, sum( refRange( i1, i1 ) ) );
+
+		SpreadsheetBinder def = newBinder( workbook );
+		Section rootDef = def.getRoot();
+		rootDef.defineInputCell( i1.getCellIndex(), getInput( "getOne" ) );
+		rootDef.defineOutputCell( o1.getCellIndex(), getOutput( "getResult" ) );
+
+		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), SEJ.DOUBLE );
+		ComputationModel model = compiler.buildNewModel();
+		SectionModel root = model.getRoot();
+
+		assertEquals( 2, root.getCells().size() );
+
+		CellModel _o1 = root.getCells().get( 0 );
+		CellModel _i1 = root.getCells().get( 1 );
+
+		assertEquals( "'Two'!A1", _o1.getName() );
+		assertEquals( "Inputs.getOne()", _i1.getName() );
+		assertEquals( "SUM( Inputs.getOne() )", _o1.getExpression().describe() );
+	}
+
+	
 	private SpreadsheetBinder newBinder( SpreadsheetImpl _workbook )
 	{
 		return SEJ.newSpreadsheetBinder( _workbook, Inputs.class, Outputs.class );

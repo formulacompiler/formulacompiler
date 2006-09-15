@@ -30,7 +30,7 @@ import sej.internal.spreadsheet.CellWithLazilyParsedExpression;
 import sej.internal.spreadsheet.LazyExpressionParser;
 
 
-public class ExcelLazyExpressionParser extends AbstractDescribable implements LazyExpressionParser
+public final class ExcelLazyExpressionParser extends AbstractDescribable implements LazyExpressionParser
 {
 	private CellInstance cell;
 	private String expressionText;

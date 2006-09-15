@@ -29,7 +29,7 @@ import sej.SpreadsheetException;
 import sej.describable.DescriptionBuilder;
 
 
-public class CellRange extends Reference implements Spreadsheet.Range, Iterable<CellIndex>
+public final class CellRange extends Reference implements Spreadsheet.Range, Iterable<CellIndex>
 {
 	private CellIndex from;
 	private CellIndex to;

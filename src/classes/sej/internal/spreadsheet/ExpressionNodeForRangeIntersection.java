@@ -27,7 +27,7 @@ import sej.internal.expressions.ExpressionDescriptionConfig;
 import sej.internal.expressions.ExpressionNode;
 
 
-public class ExpressionNodeForRangeIntersection extends ExpressionNode
+public final class ExpressionNodeForRangeIntersection extends ExpressionNode
 {
 
 	public ExpressionNodeForRangeIntersection(ExpressionNode _firstArg)

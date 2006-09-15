@@ -52,7 +52,7 @@ import jxl.WorkbookSettings;
  * 
  * @author peo
  */
-public class ExcelXLSLoader implements SpreadsheetLoader
+public final class ExcelXLSLoader implements SpreadsheetLoader
 {
 
 
@@ -77,29 +77,27 @@ public class ExcelXLSLoader implements SpreadsheetLoader
 
 	public Spreadsheet loadFrom( InputStream _stream ) throws IOException
 	{
-
-		jxl.Workbook xlsWorkbook;
-		WorkbookSettings xlsSettings = new WorkbookSettings();
+		final WorkbookSettings xlsSettings = new WorkbookSettings();
 		xlsSettings.setLocale( Locale.ENGLISH );
 		xlsSettings.setExcelDisplayLanguage( "EN" );
 		xlsSettings.setExcelRegionalSettings( "EN" );
 		try {
-			xlsWorkbook = jxl.Workbook.getWorkbook( _stream, xlsSettings );
+			final jxl.Workbook xlsWorkbook = jxl.Workbook.getWorkbook( _stream, xlsSettings );
+			final SpreadsheetImpl workbook = new SpreadsheetImpl();
+
+			for (final jxl.Sheet xlsSheet : xlsWorkbook.getSheets()) {
+				final SheetImpl sheet = new SheetImpl( workbook, xlsSheet.getName() );
+				loadRows( xlsSheet, sheet );
+			}
+
+			loadNames( xlsWorkbook, workbook );
+			workbook.trim();
+
+			return workbook;
 		}
 		catch (jxl.read.biff.BiffException e) {
 			throw new ExcelLoaderError( e );
 		}
-		jxl.Sheet xlsSheet = xlsWorkbook.getSheet( 0 );
-
-		SpreadsheetImpl workbook = new SpreadsheetImpl();
-		SheetImpl sheet = new SheetImpl( workbook );
-
-		loadRows( xlsSheet, sheet );
-		loadNames( xlsWorkbook, workbook );
-		
-		workbook.trim();
-
-		return workbook;
 	}
 
 
@@ -167,18 +165,21 @@ public class ExcelXLSLoader implements SpreadsheetLoader
 
 	private void loadNames( jxl.Workbook _xlsWorkbook, SpreadsheetImpl _workbook )
 	{
-		for (String name : _xlsWorkbook.getRangeNames()) {
-			jxl.Range[] xlsRange = _xlsWorkbook.findByName( name );
+		for (final String name : _xlsWorkbook.getRangeNames()) {
+			final jxl.Range[] xlsRange = _xlsWorkbook.findByName( name );
 			if (1 == xlsRange.length) {
-				jxl.Cell xlsStart = xlsRange[ 0 ].getTopLeft();
-				jxl.Cell xlsEnd = xlsRange[ 0 ].getBottomRight();
-				CellIndex start = new CellIndex( _workbook, 0, xlsStart.getColumn(), xlsStart.getRow() );
-				if ((xlsStart.getColumn() == xlsEnd.getColumn()) && (xlsStart.getRow() == xlsEnd.getRow())) {
+				final int xlsStartSheet = xlsRange[ 0 ].getFirstSheetIndex();
+				final int xlsEndSheet = xlsRange[ 0 ].getLastSheetIndex();
+				final jxl.Cell xlsStart = xlsRange[ 0 ].getTopLeft();
+				final jxl.Cell xlsEnd = xlsRange[ 0 ].getBottomRight();
+				final CellIndex start = new CellIndex( _workbook, xlsStartSheet, xlsStart.getColumn(), xlsStart.getRow() );
+				if ((xlsStart.getColumn() == xlsEnd.getColumn())
+						&& (xlsStart.getRow() == xlsEnd.getRow()) && (xlsStartSheet == xlsEndSheet)) {
 					_workbook.addToNameMap( name, start );
 				}
 				else {
-					CellIndex end = new CellIndex( _workbook, 0, xlsEnd.getColumn(), xlsEnd.getRow() );
-					CellRange range = new CellRange( start, end );
+					final CellIndex end = new CellIndex( _workbook, xlsEndSheet, xlsEnd.getColumn(), xlsEnd.getRow() );
+					final CellRange range = new CellRange( start, end );
 					_workbook.addToNameMap( name, range );
 				}
 			}

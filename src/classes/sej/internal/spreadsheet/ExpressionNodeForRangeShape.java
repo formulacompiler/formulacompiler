@@ -27,7 +27,7 @@ import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionDescriptionConfig;
 import sej.internal.expressions.ExpressionNode;
 
-public class ExpressionNodeForRangeShape extends ExpressionNode
+public final class ExpressionNodeForRangeShape extends ExpressionNode
 {
 
 	public ExpressionNodeForRangeShape()

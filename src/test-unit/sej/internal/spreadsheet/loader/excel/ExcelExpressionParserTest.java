@@ -36,7 +36,7 @@ import junit.framework.TestCase;
 public class ExcelExpressionParserTest extends TestCase
 {
 	SpreadsheetImpl workbook = new SpreadsheetImpl();
-	SheetImpl sheet = new SheetImpl( this.workbook );
+	SheetImpl sheet = new SheetImpl( this.workbook, "One" );
 	RowImpl row1 = new RowImpl( this.sheet );
 	CellInstance cell11 = new CellWithConstant( this.row1, 123 );
 	CellInstance cell12 = new CellWithConstant( this.row1, 123 );
@@ -85,39 +85,39 @@ public class ExcelExpressionParserTest extends TestCase
 
 	public void testCellRefs() throws Exception
 	{
-		assertParsableA1( "((((A1 + B1) + B2) + A2) + B2)", "A1 + _1_ + _2_ + _A_ + _B_" );
-		assertParsableR1C1( "((((A1 + B1) + B2) + A2) + B2)", "R1C1 + _1_ + _2_ + _A_ + _B_" );
-		assertParsableR1C1( "((((A1 + C3) + A2) + B1) + A1)", "R1C1 + R[1]C[1] + RC1 + R1C + R[-1]C[-1]" );
+		assertParseableA1( "((((A1 + B1) + B2) + A2) + B2)", "A1 + _1_ + _2_ + _A_ + _B_" );
+		assertParseableR1C1( "((((A1 + B1) + B2) + A2) + B2)", "R1C1 + _1_ + _2_ + _A_ + _B_" );
+		assertParseableR1C1( "((((A1 + C3) + A2) + B1) + A1)", "R1C1 + R[1]C[1] + RC1 + R1C + R[-1]C[-1]" );
 	}
 
 
 	public void testOperators()
 	{
-		assertParsableA1( "((((A1 + (-B1)) + B2) - B3) - (-B4))", "A1 + -B1 + +B2 - +B3 - -B4" );
-		assertParsableA1( "(A1 + (A2 * A3))", "A1 + A2 * A3" );
+		assertParseableA1( "((((A1 + (-B1)) + B2) - B3) - (-B4))", "A1 + -B1 + +B2 - +B3 - -B4" );
+		assertParseableA1( "(A1 + (A2 * A3))", "A1 + A2 * A3" );
 	}
 
 
 	public void testConcat() throws Exception
 	{
-		assertParsableAll( "(1.0 & 2.0 & 3.0 & 4.0)", "1 & 2 & 3 & 4" );
-		assertParsableAll( "(1.0 & (2.0 & 3.0) & 4.0)", "1 & (2 & 3) & 4" );
-		assertParsableAll( "(1.0 & 2.0 & 3.0 & 4.0)", "CONCATENATE( 1, 2, 3, 4 )" );
+		assertParseableAll( "(1.0 & 2.0 & 3.0 & 4.0)", "1 & 2 & 3 & 4" );
+		assertParseableAll( "(1.0 & (2.0 & 3.0) & 4.0)", "1 & (2 & 3) & 4" );
+		assertParseableAll( "(1.0 & 2.0 & 3.0 & 4.0)", "CONCATENATE( 1, 2, 3, 4 )" );
 	}
 
 
 	public void testCellAndRangeMixes() throws Exception
 	{
-		assertParsableA1( "SUM( A1:B2, C5, A1:B5 A2:E8, (A1 + A2) )", "SUM( A1:B2, C5, A1:B5 A2:E8, A1+A2 )" );
-		assertParsableA1( "(SUM( A1:B1, A2:B2 A1:A2, B1:B2, A1:B2 ) + B2)", "SUM( _1_, _2_ _A_, _B_, _ALL_ ) + _2_" );
+		assertParseableA1( "SUM( A1:B2, C5, A1:B5 A2:E8, (A1 + A2) )", "SUM( A1:B2, C5, A1:B5 A2:E8, A1+A2 )" );
+		assertParseableA1( "(SUM( A1:B1, A2:B2 A1:A2, B1:B2, A1:B2 ) + B2)", "SUM( _1_, _2_ _A_, _B_, _ALL_ ) + _2_" );
 
-		// LATER assertParsableA1( "(SUM( A1:A2, A1:A2 A1:A2 ))", "SUM( A1:_A2_, _A1_:A2 _A1_:_A2_ )" );
+		// LATER assertParseableA1( "(SUM( A1:A2, A1:A2 A1:A2 ))", "SUM( A1:_A2_, _A1_:A2 _A1_:_A2_ )" );
 	}
 
 
 	public void testTrueFalse() throws Exception
 	{
-		assertParsableAll( "AND( 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0 )", "AND( TRUE, FALSE, true, false, @TRUE, @FALSE, @true, @false )" );
+		assertParseableAll( "AND( 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0 )", "AND( TRUE, FALSE, true, false, @TRUE, @FALSE, @true, @false )" );
 	}
 
 
@@ -131,45 +131,77 @@ public class ExcelExpressionParserTest extends TestCase
 		}
 
 		for (String n : names) {
-			assertParsableAll( "SUM( A1 )", "SUM( " + n + " )" );
+			assertParseableAll( "SUM( A1 )", "SUM( " + n + " )" );
 		}
 	}
 
 
 	public void testOldStyleFunctions() throws Exception
 	{
-		assertParsableA1( "((1.0 + ROUND( A1, 2.0 )) + 2.0)", "1 + @ROUND(A1,2) + 2" );
-		assertParsableA1( "((1.0 + ROUND( A1, 2.0 )) + 2.0)", "1 + ROUND(A1,2) + 2" );
+		assertParseableA1( "((1.0 + ROUND( A1, 2.0 )) + 2.0)", "1 + @ROUND(A1,2) + 2" );
+		assertParseableA1( "((1.0 + ROUND( A1, 2.0 )) + 2.0)", "1 + ROUND(A1,2) + 2" );
 	}
 
 
 	public void testUnsupported() throws Exception
 	{
 		assertErr( "2 + SOMEFUNC(A2)",
-				"Undefined name or unsupported function encountered in expression 2 + SOMEFUNC <<? (A2); error location indicated by <<?." );
+				"Undefined name or unsupported function encountered in expression 2 + SOMEFUNC( <<? A2); error location indicated by <<?." );
 	}
-
-
-	private void assertParsableAll( String _expected, String _string )
+	
+	
+	public void testReferenceToSecondarySheet() throws Exception
 	{
-		assertParsableA1( _expected, _string );
-		assertParsableR1C1( _expected, _string );
+		new SheetImpl( this.workbook, "Two" );
+		new SheetImpl( this.workbook, "*()__ 123\"yes\"" );
+		assertRefA1( "'Two'!A2", "Two!A2" );
+		assertRefR1C1( "'Two'!A2", "Two!R2C1" );
+		assertRefA1( "'*()__ 123\"yes\"'!A1", "'*()__ 123\"yes\"'!A1" );
+		assertRefR1C1( "'*()__ 123\"yes\"'!A1", "'*()__ 123\"yes\"'!R1C1" );
 	}
 
 
-	private void assertParsableA1( String _expected, String _string )
+	public void testReferenceFromSecondarySheet() throws Exception
 	{
-		assertParsable( _expected, _string, CellRefFormat.A1 );
+		SheetImpl sheet2 = new SheetImpl( this.workbook, "Two" );
+		RowImpl row21 = new RowImpl( sheet2 );
+		CellInstance cell211 = new CellWithConstant( row21, 4711 );
+		this.parser = new ExcelExpressionParser( cell211 );
+		assertRefA1( "'Two'!A2", "A2" );
+		assertRefA1( "A2", "One!A2" );
+		assertRefR1C1( "'Two'!A2", "R2C1" );
+		assertRefR1C1( "A2", "One!R2C1" );
 	}
 
 
-	private void assertParsableR1C1( String _expected, String _string )
+	public void testReferencesToSecondarySheet() throws Exception
 	{
-		assertParsable( _expected, _string, CellRefFormat.R1C1 );
+		new SheetImpl( this.workbook, "Two" );
+		assertParseableA1( "('Two'!A2 + 'Two'!B1)", "Two!A2+Two!B1" );
+		assertParseableR1C1( "('Two'!A2 + 'Two'!B1)", "Two!R2C1+Two!R1C2" );
 	}
 
 
-	private void assertParsable( String _expected, String _expr, CellRefFormat _format )
+	private void assertParseableAll( String _expected, String _string )
+	{
+		assertParseableA1( _expected, _string );
+		assertParseableR1C1( _expected, _string );
+	}
+
+
+	private void assertParseableA1( String _expected, String _string )
+	{
+		assertParseable( _expected, _string, CellRefFormat.A1 );
+	}
+
+
+	private void assertParseableR1C1( String _expected, String _string )
+	{
+		assertParseable( _expected, _string, CellRefFormat.R1C1 );
+	}
+
+
+	private void assertParseable( String _expected, String _expr, CellRefFormat _format )
 	{
 		final ExpressionNode node = this.parser.parseText( _expr, _format );
 		final String actual = node.describe();
@@ -194,7 +226,7 @@ public class ExcelExpressionParserTest extends TestCase
 		ExpressionNode parsed = this.parser.parseText( _ref, _format );
 		ExpressionNodeForCell node = (ExpressionNodeForCell) parsed;
 		CellIndex ref = node.getCellIndex();
-		String actual = SheetImpl.getCanonicalNameForCellIndex( ref.columnIndex, ref.rowIndex );
+		String actual = ref.toString();
 		assertEquals( _canonicalName, actual );
 	}
 

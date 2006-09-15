@@ -29,7 +29,7 @@ import sej.Spreadsheet.Cell;
 import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
 
-public class RowImpl extends AbstractDescribable implements Spreadsheet.Row
+public final class RowImpl extends AbstractDescribable implements Spreadsheet.Row
 {
 	private final SheetImpl sheet;
 	private final int rowIndex;

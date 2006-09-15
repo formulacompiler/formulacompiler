@@ -27,7 +27,7 @@ import sej.internal.expressions.ExpressionDescriptionConfig;
 import sej.internal.expressions.ExpressionNode;
 
 
-public class ExpressionNodeForCell extends ExpressionNode
+public final class ExpressionNodeForCell extends ExpressionNode
 {
 	private final CellIndex cellIndex;
 

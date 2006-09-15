@@ -42,6 +42,7 @@
 <li><a href="reference/values.htm">Null values</a> (empty cells) are not yet supported. In particular, an <tt>AVERAGE</tt> involving empty cells will return a different result than Excel.</li>
 <li>Range intersections are parsed but not evaluated correctly.</li>
 <li>Ranges specified using named cells as endpoints are not supported. <a href="reference/values.htm">Named ranges</a>, however, are.</li>
+<li>Named range unions are not supported. They are ignored when the spreadsheet is loaded and their name will therefore not be known to SEJ.</li>
 <li>With <a href="reference/lookupfuncs.htm"><tt>MATCH</tt></a>, the last argument (the match type) must be constant, and the second argument (the match range) cannot reference a repeating section yet.</li>
 <li>With <a href="reference/lookupfuncs.htm"><tt>INDEX</tt></a>, the range argument cannot reference a repeating section yet. It also does not support 3-dimensional lookups.</li>
 <li><a href="reference/lookupfuncs.htm"><tt>INDEX</tt></a> does not return arrays (as in <tt>=SUM(INDEX(A1:B2;2))</tt>).</li>

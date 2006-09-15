@@ -37,7 +37,7 @@ public class WorkbookTest extends TestCase
 		String description = workbook.describe();
 
 		assertEquals( "<workbook>\n"
-				+ "	<sheet>\n"
+				+ "	<sheet name=\"Sheet1\">\n"
 				+ "		<row>\n"
 				+ "			<cell id=\"A1\">\n"
 				+ "				<expr>SUM( D2:D5 )</expr>\n"

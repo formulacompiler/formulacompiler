@@ -27,7 +27,7 @@ import sej.internal.expressions.ExpressionDescriptionConfig;
 import sej.internal.expressions.ExpressionNode;
 
 
-public class ExpressionNodeForRangeUnion extends ExpressionNode
+public final class ExpressionNodeForRangeUnion extends ExpressionNode
 {
 
 	public ExpressionNodeForRangeUnion(ExpressionNode _firstArg)
