@@ -30,17 +30,25 @@ import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
 
 
-public class SheetImpl extends AbstractDescribable implements Spreadsheet.Sheet
+public final class SheetImpl extends AbstractDescribable implements Spreadsheet.Sheet
 {
 	private final SpreadsheetImpl spreadsheet;
 	private final int sheetIndex;
+	private final String name;
 	private final List<RowImpl> rows = new ArrayList<RowImpl>();
 
 
 	public SheetImpl(SpreadsheetImpl _spreadsheet)
 	{
+		this( _spreadsheet, "Sheet" + (_spreadsheet.getSheetList().size() + 1) );
+	}
+
+
+	public SheetImpl(SpreadsheetImpl _spreadsheet, String _name)
+	{
 		this.spreadsheet = _spreadsheet;
 		this.sheetIndex = _spreadsheet.getSheetList().size();
+		this.name = _name;
 		_spreadsheet.getSheetList().add( this );
 	}
 
@@ -51,6 +59,12 @@ public class SheetImpl extends AbstractDescribable implements Spreadsheet.Sheet
 	}
 	
 	
+	public final String getName()
+	{
+		return this.name;
+	}
+
+
 	public Row[] getRows()
 	{
 		return this.rows.toArray( new Row[ this.rows.size() ] );
@@ -212,7 +226,7 @@ public class SheetImpl extends AbstractDescribable implements Spreadsheet.Sheet
 	@Override
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
-		_to.appendLine( "<sheet>" );
+		_to.append( "<sheet name=\"" ).append( getName() ).appendLine( "\">" );
 		_to.indent();
 		for (RowImpl row : getRowList()) {
 			row.describeTo( _to );

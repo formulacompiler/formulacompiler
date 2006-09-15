@@ -43,7 +43,7 @@ import java_cup.runtime.Symbol;
 ALPHA	= [A-Za-z]
 IDENT	= {ALPHA} | {DIGIT} | "_" | "."
 DIGIT	= [0-9]
-SYMBOL	= [\$\!\%\^\&\*\#\_\=\+\;\#\~\@\/\?\.\,\<\>\|\:\-\[\]\\]
+SYMBOL	= [^\']
 SPACE	= [\n\ \t\b\012]
 QUOTE	= "'"
 
@@ -54,8 +54,8 @@ IDX		= ("[" "-"? {INT} "]") | {INT}
 ROW		= "R" {IDX}?
 COL		= "C" {IDX}?
 CELL	= {ROW} {COL}
-SHEET	= {QUOTE}? ({ALPHA} | {DIGIT} | {SPACE} | {SYMBOL})+ {QUOTE}? "!" 
-		| {QUOTE} ({ALPHA} | {DIGIT} | {SPACE} | {SYMBOL} | "(" | ")")+ {QUOTE} "!"
+SHEET	= ({IDENT})+ "!" 
+		| {QUOTE} ({IDENT} | {SPACE} | {SYMBOL})+ {QUOTE} "!"
 
 NAME	= ({ALPHA} | "_") {IDENT}*
 

@@ -20,7 +20,7 @@
  */
 package sej.internal.spreadsheet.loader.excel;
 
-public class ExcelExpressionError extends ExcelLoaderError
+public final class ExcelExpressionError extends ExcelLoaderError
 {
 
 	private static String addPositionInfoTo( String _message, String _source, int _atPosition )

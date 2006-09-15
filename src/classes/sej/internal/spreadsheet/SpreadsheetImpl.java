@@ -39,7 +39,7 @@ import sej.describable.DescriptionBuilder;
  * 
  * @author peo
  */
-public class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
+public final class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
 {
 	private List<SheetImpl> sheets = new ArrayList<SheetImpl>();
 	private Map<String, Reference> names = new HashMap<String, Reference>();
@@ -202,6 +202,17 @@ public class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
 		else {
 			return _defaultSheet.getCellIndexForCanonicalName( _cellNameOrCanonicalName, _relativeTo );
 		}
+	}
+
+
+	public SheetImpl getSheet( String _sheetName )
+	{
+		for (SheetImpl s : getSheetList()) {
+			if (_sheetName.equalsIgnoreCase( s.getName() )) {
+				return s;
+			}
+		}
+		return null;
 	}
 
 

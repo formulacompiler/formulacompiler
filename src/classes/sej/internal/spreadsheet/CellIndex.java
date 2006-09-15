@@ -24,7 +24,7 @@ import sej.Orientation;
 import sej.Spreadsheet.Cell;
 import sej.describable.DescriptionBuilder;
 
-public class CellIndex extends Reference implements Cell
+public final class CellIndex extends Reference implements Cell
 {
 	public final SpreadsheetImpl spreadsheet;
 	public final int sheetIndex;
@@ -175,7 +175,12 @@ public class CellIndex extends Reference implements Cell
 	@Override
 	public String toString()
 	{
-		return SheetImpl.getCanonicalNameForCellIndex( this.columnIndex, this.rowIndex );
+		if (this.sheetIndex > 0) {
+			return "'" + getSheet().getName() + "'!" + SheetImpl.getCanonicalNameForCellIndex( this.columnIndex, this.rowIndex );
+		}
+		else {
+			return SheetImpl.getCanonicalNameForCellIndex( this.columnIndex, this.rowIndex );
+		}
 	}
 
 

@@ -87,6 +87,12 @@ cell ::=
 	|	CELLR1C1:c
 				{: RESULT = this.parser.excelParser.parseCellRefR1C1( c ); :}
 
+	|	SHEET:s CELLA1:c
+				{: RESULT = this.parser.excelParser.parseCellRefA1( c, s ); :}
+
+	|	SHEET:s CELLR1C1:c
+				{: RESULT = this.parser.excelParser.parseCellRefR1C1( c, s ); :}
+
 	;
 	
 	

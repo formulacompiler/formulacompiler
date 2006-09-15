@@ -24,7 +24,7 @@ import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionNode;
 
 
-public class CellWithConstant extends CellInstance
+public final class CellWithConstant extends CellInstance
 {
 	private Object value;
 

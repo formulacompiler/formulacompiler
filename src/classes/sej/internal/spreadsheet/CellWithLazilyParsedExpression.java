@@ -28,7 +28,7 @@ import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionNode;
 
 
-public class CellWithLazilyParsedExpression extends CellInstance
+public final class CellWithLazilyParsedExpression extends CellInstance
 {
 	private ExpressionNode expression;
 	private LazyExpressionParser expressionParser;

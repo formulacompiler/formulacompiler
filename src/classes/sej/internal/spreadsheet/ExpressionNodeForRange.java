@@ -26,7 +26,7 @@ import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionDescriptionConfig;
 import sej.internal.expressions.ExpressionNode;
 
-public class ExpressionNodeForRange extends ExpressionNode
+public final class ExpressionNodeForRange extends ExpressionNode
 {
 	private final CellRange range;
 
