@@ -65,6 +65,7 @@ public class TypeConversion extends TestCase
 		builder.setNumericType( _numericType );
 		builder.bindAllByName();
 		SaveableEngine engine = builder.compile();
+		
 		AllTypesFactory factory = (AllTypesFactory) engine.getComputationFactory();
 
 		AllPossibleInput input = new AllPossibleInputImpl();
@@ -105,6 +106,9 @@ public class TypeConversion extends TestCase
 			assertEquals( "1d", input.getLong6() * 2 / 10, output.calcLong5() );
 			assertEquals( "2d", input.getLong6() * 2 / 10, output.calcBoxedLong5().longValue() );
 		}
+		
+		// String
+		assertEquals( "Hello, world!", output.calcString() );
 		// ---- checkAllTypes
 	}
 	
@@ -158,6 +162,9 @@ public class TypeConversion extends TestCase
 
 		// Date is converted to a number à la Excel
 		Date getDate();
+		
+		// String cannot be used for numbers, but for string-valued cells
+		String getString();
 		// ---- Input
 		
 		// Null values are treated as zero
@@ -204,6 +211,9 @@ public class TypeConversion extends TestCase
 
 		// Date is converted from a number à la Excel
 		Date calcDate();
+		
+		// Strings are converted according to Java's settings
+		String calcString();	
 		// ---- Output
 	}
 
@@ -280,6 +290,11 @@ public class TypeConversion extends TestCase
 		public Date getDate()
 		{
 			return CREATION_TIME;
+		}
+		
+		public String getString()
+		{
+			return "Hello, world!";
 		}
 
 		public Byte getNullByte()

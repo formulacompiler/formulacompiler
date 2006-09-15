@@ -104,6 +104,9 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 		else if (_class == Date.class) {
 			compileRuntimeMethod( "dateFromNum", "(" + typeDescriptor() + ")Ljava/util/Date;" );
 		}
+		else if (_class == String.class) {
+			compileConversionToString();
+		}
 		else {
 			super.compileConversionTo( _class );
 		}

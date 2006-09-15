@@ -48,6 +48,8 @@
 <li><a href="reference/booleans.htm"><tt>AND</tt> and <tt>OR</tt></a> cannot be used as aggregators over repeating sections yet.</li>
 <li>Array expressions are not supported (such as <tt>{=INDEX({1,2;3,4};0;2)}</tt>).</li>
 <li>In Excel, a formula like <tt>(A1 = 0)</tt> returns false when <tt>A1</tt> is <tt>FALSE</tt>. In SEJ it is true. In both SEJ and Excel, <tt>(A1 + 0 = 0)</tt> returns true.</li>
+<li>When binding a <tt>String</tt>-valued output method to a date field in Excel, the resulting value is not formatted as a date, but as a number. This is because, internally, dates are treated as numbers. This is the same behaviour as that shown by <tt>CONCATENATE</tt> and <tt>&</tt> in Excel itself.</li>
+<li>When binding a <tt>String</tt>-valued output method to a numeric field with a special cell format, that format is not respected. This is the same behaviour as that shown by <tt>CONCATENATE</tt> and <tt>&</tt> in Excel itself.</li>
 </ul>
 
 <h3>Scaled Long Type</h3>
