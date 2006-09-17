@@ -8,8 +8,10 @@
 	
     </style>
     <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+	<script type="text/javascript" src="../scripts.js"></script>
+	
 </head>
-<body>
+<body onload="body_loaded();">
     <div class="all">
         <div class="nav">
             <p class="nav">
@@ -28,7 +30,9 @@
         <div class="content">
         
 <p>If you have a generic system where the set of possible input and/or output values cannot be determined at compile-time, you have to resort to some sort of late binding, or binding by name.</p>
-<p>By <em>name</em>, I mean anything that helps you to identify a value, be it a <tt>String</tt>, <tt>int</tt>, or <tt>long</tt> value, or even a combination thereof.</p>
+<p>By <em>name</em>, I mean anything that helps you to identify a value, be it a <tt>String</tt>, <tt>int</tt>, or <tt>long</tt> value, or even a combination thereof.</p><div class="toc">
+<p id="pagetoc" hfrom="2" hto="3"><i>Table Of Contents missing - need to enable JavaScript?</i></p>
+</div>
 
 <h2>Inputs</h2>
 <p>To bind inputs by name, you bind them to parametrized calls to a single dispatch method (or multiple ones - it's your choice). Here's an example of such a method:</p>

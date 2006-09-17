@@ -8,8 +8,10 @@
 	
     </style>
     <link rel="stylesheet" type="text/css" media="print" href="printstyle.css" />
+	<script type="text/javascript" src="scripts.js"></script>
+	
 </head>
-<body>
+<body onload="body_loaded();">
     <div class="all">
         <div class="nav">
             <p class="nav">
@@ -28,9 +30,13 @@
         <div class="content">
         
 <p>This is an unstructured journal regarding the development of SEJ. I use it to keep track of ideas, goals and discussion notes.</p>
-<p>Check the <a href="roadmap.htm">roadmap</a> for the current priorities, and the <a href="releasenotes.htm">release notes</a> for what's already been done.</p>
+<p>Check the <a href="roadmap.htm">roadmap</a> for the current priorities, and the <a href="releasenotes.htm">release notes</a> for what's already been done.</p><div class="toc">
+<p id="pagetoc" hfrom="2" hto="5"><i>Table Of Contents missing - need to enable JavaScript?</i></p>
+</div>
 
 <h2><a name="2006-09-12">September 12, 2006</a></h2>
+
+<h5>Code Coverage</h5>
 <p>I have added code coverage analysis to SEJ using <a href="http://cobertura.sourceforge.net/">cobertura</a>. Overall results right now:</p>
 <ul compact class="compact">
 <li>84% line coverage</li>
@@ -48,6 +54,8 @@
 <p>Some leaks are caused by JRE 1.4, which is not run during coverage analysis right now. Many others are due to untested error cases (<tt>throw</tt>).</p>
 
 <h2><a name="2006-08-30">August 30, 2006</a></h2>
+
+<h5>Reference Tests</h5>
 <p>I have restructured the Excel function tests. They are no longer a single big sheet, but split into multiple sheets. The code which runs these tests has also seen some improvements:</p>
 <ul class="spaced">
 <li><tt>BigDecimal</tt> tests now check for the proper scale of returned values.</li>
@@ -58,6 +66,8 @@
 <p>In addition to this, the tests automatically emit HTML fragment files which document the test cases. They are then included in the <a href="reference/index.htm">reference</a>, again making sure I cite proven results.</p>
 
 <h2><a name="2006-08-23">August 23, 2006</a></h2>
+
+<h5>Constant Folding</h5>
 <p>I am implementing string-valued expressions. Pondering how to implement <tt>CONCATENATE</tt> and the <tt>&</tt> operator efficiently, I started thinking again about a still pending constant folder optimization:</p>
 <pre>  1 + 2 + x + 3  =  6 + x</pre>
 
@@ -114,6 +124,8 @@
 <p>Did this. And discovered, to my horror, that all my ant builds never ran the tutorial tests. The include filter did not catch them. I have changed that now and found that some of my type conversions do not work with JRE 1.4. So I need to fix this before I can get on with new features.</p>
 
 <h2>July 11, 2006</h2>
+
+<h5>Citing Excel</h5>
 <p>Picking up on the ideas from June 30, I added support for citing Excel spreadsheets to <a href="http://arrenbrecht.ch/jcite/">JCite</a>. Now the SEJ documentation has <a href="tutorial/repeatingsections.htm">example spreadsheets</a> in it that are automatically tested and nicely formatted with every release. Cool.</p>
 
 <h2>July 6, 2006</h2>

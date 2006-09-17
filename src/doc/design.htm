@@ -8,8 +8,10 @@
 	
     </style>
     <link rel="stylesheet" type="text/css" media="print" href="printstyle.css" />
+	<script type="text/javascript" src="scripts.js"></script>
+	
 </head>
-<body>
+<body onload="body_loaded();">
     <div class="all">
         <div class="nav">
             <p class="nav">
@@ -35,7 +37,9 @@
 			<p class="startofcontent"/>
 
 <h2>Introduction</h2>
-<p>The Spreadsheet Engine for Java (SEJ, for short) makes it possible to use computations defined in spreadsheet files within normal Java applications. The original spreadsheet files can be created, for example, in <a href="http://office.microsoft.com/">Microsoft Excel</a> or <a href="http://www.openoffice.org/">OpenOffice Calc</a>. SEJ reads the spreadsheet files and builds corresponding Java-based formula evaluation engines. Such an engine computes output values given a set of input values.</p>
+<p>The Spreadsheet Engine for Java (SEJ, for short) makes it possible to use computations defined in spreadsheet files within normal Java applications. The original spreadsheet files can be created, for example, in <a href="http://office.microsoft.com/">Microsoft Excel</a> or <a href="http://www.openoffice.org/">OpenOffice Calc</a>. SEJ reads the spreadsheet files and builds corresponding Java-based formula evaluation engines. Such an engine computes output values given a set of input values.</p><div class="toc">
+<p id="pagetoc" hfrom="2" hto="3"><i>Table Of Contents missing - need to enable JavaScript?</i></p>
+</div>
 
 <h2>Overview</h2>
 <p>Here's an overview of how SEJ does this. Blue is your code, red is SEJ's, green are external dependencies, and yellow are generated things:</p>

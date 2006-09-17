@@ -8,8 +8,10 @@
 	
     </style>
     <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+	<script type="text/javascript" src="../scripts.js"></script>
+	
 </head>
-<body>
+<body onload="body_loaded();">
     <div class="all">
         <div class="nav">
             <p class="nav">
@@ -30,7 +32,9 @@
 <p>SEJ allows you to set only a single interface to provide inputs to or obtain outputs from a computation. How can you work around this?</p>
 
 <h5>Note</h5>
-<p>The example code on this page, while syntactically checked, is not yet part of an automated test.</p>
+<p>The example code on this page, while syntactically checked, is not yet part of an automated test.</p><div class="toc">
+<p id="pagetoc" hfrom="2" hto="3"><i>Table Of Contents missing - need to enable JavaScript?</i></p>
+</div>
 
 <h2>Inputs</h2>
 <p>To feed information to a computation from various sources, each with its own interface, you need to define a wrapper that gives access to the source interfaces.</p>

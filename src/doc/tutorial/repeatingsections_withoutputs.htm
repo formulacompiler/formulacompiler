@@ -8,8 +8,10 @@
 	
     </style>
     <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+	<script type="text/javascript" src="../scripts.js"></script>
+	
 </head>
-<body>
+<body onload="body_loaded();">
     <div class="all">
         <div class="nav">
             <p class="nav">
@@ -27,7 +29,11 @@
         
         <div class="content">
         
-<p>Sometimes you need to compute distinct output values for each of the elements of a variable-length data series. This is what we did before, in the <a href="repeatingsections.htm">customer rating</a> example, where the application loops of the customers itself. There are cases, however, where doing the loop yourself severely limits the range of computations your users can formulate. Mainly this is because they then cannot aggregate over the whole series. For this case, SEJ supports per-element outputs in repeating sections.</p>
+<p>Sometimes you need to compute distinct output values for each of the elements of a variable-length data series. This is what we did before, in the <a href="repeatingsections.htm">customer rating</a> example, where the application loops of the customers itself. There are cases, however, where doing the loop yourself severely limits the range of computations your users can formulate. Mainly this is because they then cannot aggregate over the whole series. For this case, SEJ supports per-element outputs in repeating sections.</p><div class="toc">
+<p id="pagetoc" hfrom="2" hto="3"><i>Table Of Contents missing - need to enable JavaScript?</i></p>
+</div>
+
+<h2>Sample Spreadsheet</h2>
 <p>For example, consider an application that must compute the individual yearly bonus amounts for each employee, given the total bonus amount for the entire company and some base data about each employee's performance. Typically, such a computation will first compute some sort of overall performance indicator for each employee, given his or her base data. It will then sum this indicator across the company, and finally distribute the bonus to each employee proportionally to his or her individual performance.</p>
 <p>So: given the total bonus amount, compute the individual bonus amounts for all employees. As (rather simplistic) base performance data, we will pass in the base salary and hours overtime for each employee. The sample spreadsheet shown below computes the total salary, including overtime at a fixed rate, as the employee performance indicator. It then computes each employee's share of the bonus to be proportional to his or her share of the total salary of all employees (which is computed in the spreadsheet):</p>
 <p>[xc:testdata/sej/tutorials/BonusPerEmployee.xls]</p>

@@ -55,6 +55,11 @@ td
 	display: none;
 }
 
+div.toc
+{
+	display: none;
+}
+
 
 /* Footer */
 
@@ -168,7 +173,6 @@ table.xl td
 		border: solid 1px lightgray;
 		text-align: left;
 		vertical-align: top;
-		xpadding: 2px;
 	}
 
 table.xl td.xl-row, table.xl thead td
