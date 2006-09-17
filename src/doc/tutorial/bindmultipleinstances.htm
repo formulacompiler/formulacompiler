@@ -8,8 +8,10 @@
 	
     </style>
     <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+	<script type="text/javascript" src="../scripts.js"></script>
+	
 </head>
-<body>
+<body onload="body_loaded();">
     <div class="all">
         <div class="nav">
             <p class="nav">
@@ -30,7 +32,9 @@
 <p>What if you need to provide multiple separate instances of source interfaces as input providers, or need SEJ to implement multiple separate instances of output interfaces?</p>
 
 <h5>Note</h5>
-<p>The example code on this page, while syntactically checked, is not yet part of an automated test.</p>
+<p>The example code on this page, while syntactically checked, is not yet part of an automated test.</p><div class="toc">
+<p id="pagetoc" hfrom="2" hto="3"><i>Table Of Contents missing - need to enable JavaScript?</i></p>
+</div>
 
 <h2>Inputs</h2>
 <p>Let's assume you have <em>n</em> separate customer categories. You want to bind all cells named after the pattern <em>CC_DISCOUNT_&lt;n&gt;</em> to the discount percentage associated with the customer category <em>&lt;n&gt;</em>. Here's how you go about it.</p>

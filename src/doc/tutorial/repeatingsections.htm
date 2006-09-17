@@ -8,8 +8,10 @@
 	
     </style>
     <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+	<script type="text/javascript" src="../scripts.js"></script>
+	
 </head>
-<body>
+<body onload="body_loaded();">
     <div class="all">
         <div class="nav">
             <p class="nav">
@@ -27,7 +29,11 @@
         
         <div class="content">
         
-<p>SEJ allows you to define <em>repeating sections</em> in a spreadsheet. Such sections are different from ordinary ranges in Excel in that the width or height of the section varies with each use of the computation.</p>
+<p>SEJ allows you to define <em>repeating sections</em> in a spreadsheet. Such sections are different from ordinary ranges in Excel in that the width or height of the section varies with each use of the computation.</p><div class="toc">
+<p id="pagetoc" hfrom="2" hto="3"><i>Table Of Contents missing - need to enable JavaScript?</i></p>
+</div>
+
+<h2>Sample Spreadsheet</h2>
 <p>For example, consider a hypothetical customer rating computation. We want users to be able to define a spreadsheet that computes the rating that we run for each customer in turn. For each customer, we feed the totals of all his orders of the last three months to the computation. One particular customer may have placed 5 orders in the last three months, another one 200.</p>
 <p>Let me show you a very simple spreadsheet that computes such a customer rating. Note that in the depicted spreadsheet</p>
 <ul compact class="compact">

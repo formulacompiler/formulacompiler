@@ -8,8 +8,10 @@
 	
     </style>
     <link rel="stylesheet" type="text/css" media="print" href="printstyle.css" />
+	<script type="text/javascript" src="scripts.js"></script>
+	
 </head>
-<body>
+<body onload="body_loaded();">
     <div class="all">
         <div class="nav">
             <p class="nav">
@@ -27,9 +29,11 @@
         
         <div class="content">
         
-<p>This document describes the current limitations of SEJ as of the latest release mentioned in the <a href="releasenotes.htm">release notes</a>.</p>
+<p>This document describes the current limitations of SEJ as of the latest release mentioned in the <a href="releasenotes.htm">release notes</a>.</p><div class="toc">
+<p id="pagetoc" hfrom="2" hto="3"><i>Table Of Contents missing - need to enable JavaScript?</i></p>
+</div>
 
-<h3>Spreadsheet Formats</h3>
+<h2>Spreadsheet Formats</h2>
 <ul class="spaced">
 <li>Excel .xml support is missing (parked for resurrection in an earlier version).</li>
 <li>OpenOffice Calc spreadsheet loader is not done at all.</li>
@@ -49,9 +53,9 @@
 <li><a href="reference/booleans.htm"><tt>AND</tt> and <tt>OR</tt></a> cannot be used as aggregators over repeating sections yet.</li>
 <li>Array expressions are not supported (such as <tt>{=INDEX({1,2;3,4};0;2)}</tt>).</li>
 <li>In Excel, a formula like <tt>(A1 = 0)</tt> returns false when <tt>A1</tt> is <tt>FALSE</tt>. In SEJ it is true. In both SEJ and Excel, <tt>(A1 + 0 = 0)</tt> returns true.</li>
-<li>When binding a <tt>String</tt>-valued output method to a date field in Excel, the resulting value is not formatted as a date, but as a number. This is because, internally, dates are treated as numbers. This is the same behaviour as that shown by <tt>CONCATENATE</tt> and <tt>&</tt> in Excel itself.</li>
-<li>When binding a <tt>String</tt>-valued output method to a numeric field with a special cell format, that format is not respected. This is the same behaviour as that shown by <tt>CONCATENATE</tt> and <tt>&</tt> in Excel itself.</li>
 </ul>
+
+<h2>Numeric Types</h2>
 
 <h3>Scaled Long Type</h3>
 <ul class="spaced">
@@ -64,17 +68,19 @@
 <li>Can only compute exponentiation with integer exponents. The exponent is silently truncated.</li>
 </ul>
 
-<h3>Interfacing with Java</h3>
+<h2>Interfacing with Java</h2>
 <ul class="spaced">
 <li>There is no support for <tt>null</tt> yet (see also the note on <a href="reference/values.htm">empty cells</a>).</li>
+<li>When binding a <tt>String</tt>-valued output method to a date field in Excel, the resulting value is not formatted as a date, but as a number. This is because, internally, dates are treated as numbers. This is the same behaviour as that shown by <tt>CONCATENATE</tt> and <tt>&</tt> in Excel itself.</li>
+<li>When binding a <tt>String</tt>-valued output method to a numeric field with a special cell format, that format is not respected. This is the same behaviour as that shown by <tt>CONCATENATE</tt> and <tt>&</tt> in Excel itself.</li>
 </ul>
 
-<h3>Engine Persistence</h3>
+<h2>Engine Persistence</h2>
 <ul class="spaced">
 <li>The engines stored by SEJ are not quite in the definitive format yet. It is currently a standard .jar file's contents, with no versioning information. I will improve this so the .jar contains an XML description of the computation which could be used to recompile the engine. And maybe some sort of signature to guarantee that the loaded .jar is actually one produced by SEJ in the first place.</li>
 </ul>
 
-<h3>Miscellaneous</h3>
+<h2>Miscellaneous</h2>
 <ul class="spaced">
 <li>The interactive demo is still somewhat broken (because of missing info methods on the spreadsheet query interface).</li>
 </ul>        </div>

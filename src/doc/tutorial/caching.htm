@@ -8,8 +8,10 @@
 	
     </style>
     <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+	<script type="text/javascript" src="../scripts.js"></script>
+	
 </head>
-<body>
+<body onload="body_loaded();">
     <div class="all">
         <div class="nav">
             <p class="nav">
@@ -27,6 +29,11 @@
         
         <div class="content">
         
+<p>Many computations can be sped up considerably by caching intermediate results. Here I show how to make an engine cache input values and intermediate cell values internally.</p><div class="toc">
+<p id="pagetoc" hfrom="2" hto="3"><i>Table Of Contents missing - need to enable JavaScript?</i></p>
+</div>
+
+<h2>Motivation</h2>
 <p>Consider the following example spreadsheet doing the computation of a square's area and a cube's volume, given the side length. The cell B1 is the sole input, B3 and B4 are outputs.</p>
 <p>[xc:testdata/sej/tutorials/Caching.xls]</p>
 <p>As you can see, the area is reused by the volume computation. This is, of course, a very simple example. But even here, if we were to compute millions of areas and volumes using <tt>BigDecimal</tt> and side lengths of great precision, it might already pay off to cache the intermediate value for the area.</p>

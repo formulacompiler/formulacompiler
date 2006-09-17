@@ -8,8 +8,10 @@
 	
     </style>
     <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+	<script type="text/javascript" src="../scripts.js"></script>
+	
 </head>
-<body>
+<body onload="body_loaded();">
     <div class="all">
         <div class="nav">
             <p class="nav">
@@ -27,7 +29,9 @@
         
         <div class="content">
         
-<p>SEJ tries hard to give meaningful error messages which clearly identify both the problem and its source. This document shows the most typical errors, why they occur, and what to do about them.</p>
+<p>SEJ tries hard to give meaningful error messages which clearly identify both the problem and its source. This document shows the most typical errors, why they occur, and what to do about them.</p><div class="toc">
+<p id="pagetoc" hfrom="2" hto="3"><i>Table Of Contents missing - need to enable JavaScript?</i></p>
+</div>
 
 <h2>Unreadable .xls Files</h2>
 <p>SEJ uses <a href="http://jexcelapi.sourceforge.net/">JExcelAPI</a> to read files in Excel's .xls format. It may happen that JExcelAPI fails to read the file before SEJ has a chance to look at its contents.</p>

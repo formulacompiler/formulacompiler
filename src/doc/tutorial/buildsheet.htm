@@ -8,8 +8,10 @@
 	
     </style>
     <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+	<script type="text/javascript" src="../scripts.js"></script>
+	
 </head>
-<body>
+<body onload="body_loaded();">
     <div class="all">
         <div class="nav">
             <p class="nav">
@@ -27,6 +29,11 @@
         
         <div class="content">
         
+<p>Some applications may wish to use SEJ to compile computation engines, but want users to be able to specify simple computations without having to setup a spreadsheet. These can use a builder to dynamically construct a spreadsheet as input to SEJ.</p><div class="toc">
+<p id="pagetoc" hfrom="2" hto="3"><i>Table Of Contents missing - need to enable JavaScript?</i></p>
+</div>
+
+<h2>Motivation</h2>
 <p>Consider again the main example for SEJ, the <a href="reason.htm">order line item rebate computation</a>. We solved the problem of allowing distributors and customers to customize the computation by letting them specify their own computations <a href="basics.htm">as spreadsheets</a>, such as this one:</p>
 <p>[xc:testdata/sej/tutorials/Basics.xls]</p>
 <p>Maybe many of your users must define their own, typically very simple, custom computations. Maybe there are a great many points in your application, where they want to do this (not just the line item rebate). In such a case you may want to offer your users a simple UI for defining straightforward custom computations (like, for instance, one liners), but still allow them to switch to a spreadsheet for more complex cases. Users thus might be able to define, right in your UI, the following formula:</p>

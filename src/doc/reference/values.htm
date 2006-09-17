@@ -9,8 +9,10 @@
 	
     </style>
     <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+	<script type="text/javascript" src="../scripts.js"></script>
+	
 </head>
-<body>
+<body onload="body_loaded();">
     <div class="all">
         <div class="nav">
             <p class="nav">
@@ -36,17 +38,19 @@
 <li>booleans</li>
 </ul>
 <p>Internally, SEJ really only supports two basic data types: numbers and strings. This suffices because Excel internally treats dates, times, and booleans as numbers, too.</p>
-<p>For a particular engine compiled by SEJ, the numbers are all of the same type. The default is the <tt>double</tt> type, which is what Excel uses as well. See the tutorial for details on the <a href="../tutorial/numeric_type.htm">available numeric types</a> and how to choose one.</p>
+<p>For a particular engine compiled by SEJ, the numbers are all of the same type. The default is the <tt>double</tt> type, which is what Excel uses as well. See the tutorial for details on the <a href="../tutorial/numeric_type.htm">available numeric types</a> and how to choose one.</p><div class="toc">
+<p id="pagetoc" hfrom="2" hto="4"><i>Table Of Contents missing - need to enable JavaScript?</i></p>
+</div>
 
-<h3>Cell References</h3>
+<h2>Cell References</h2>
 <p>SEJ supports the following styles of cell and range references:</p>
 <p>[inc:CellNames.htm]</p>
 
-<h3>Empty Cells</h3>
+<h2>Empty Cells</h2>
 <p>SEJ currently has no proper support for empty cells. It simply treats them like the number zero (<tt>0.0</tt>). This is usually correct (even for multiplication with <tt>*</tt>, where Excel treats empty cells as zero too), but fails most noticeably in <a href="aggregators.htm">aggregators</a> like <tt>COUNT</tt>, <tt>AVERAGE</tt>, or <tt>PRODUCT</tt> (where Excel skips empty cells):</p>
 <p>[inc:EmptyCells.htm]</p>
 
-<h3>Formula Errors</h3>
+<h2>Formula Errors</h2>
 <p>SEJ does not support Excel error indicators such as</p>
 <ul compact class="compact">
 <li><tt>#VALUE!</tt>,</li>
@@ -55,7 +59,7 @@
 </ul>
 <p>It typically returns zero (<tt>0.0</tt>) instead.</p>
 
-<h3>Numeric Precision</h3>
+<h2>Numeric Precision</h2>
 <p>If you set a fixed number of decimal places after the point on a cell in Excel, SEJ reflects this setting when computing final outputs. Like Excel, it does not limit the precision on intermediate results.</p>
 <p>Here's the handling of cell precision, shown by example (the number format is shown in small type behind the cell value or formula):</p>
 <p>[inc:Precision.htm]</p>        </div>
