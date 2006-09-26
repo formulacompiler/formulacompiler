@@ -20,6 +20,11 @@
  */
 package sej.tutorials;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -28,6 +33,7 @@ import sej.Operator;
 import sej.SEJ;
 import sej.Spreadsheet;
 import sej.SpreadsheetBuilder;
+import sej.SpreadsheetSaver;
 import sej.runtime.Engine;
 import sej.runtime.SEJException;
 import junit.framework.TestCase;
@@ -296,7 +302,7 @@ public class Basics extends TestCase
 	private RebateComputationFactory compileFactoryFromOwnUI() throws SEJException
 	{
 		EngineBuilder builder = SEJ.newEngineBuilder();
-		builder./**/setSpreadsheet( buildSpreadsheet() )/**/;  // instead of loadSpreadsheet()
+		builder./**/setSpreadsheet( buildSpreadsheet() )/**/; // instead of loadSpreadsheet()
 		builder.setFactoryClass( RebateComputationFactory.class );
 		builder.bindAllByName();
 		Engine engine = builder.compile();
@@ -310,8 +316,8 @@ public class Basics extends TestCase
 	{
 		SpreadsheetBuilder b = SEJ./**/newSpreadsheetBuilder/**/();
 
-		b./**/newCell/**/( b./**/cst( "CustomerRebate" )/**/ );
-		b.newCell( b./**/cst( 0.1 )/**/ );
+		b./**/newCell/**/( b./**/cst( "CustomerRebate" )/**/);
+		b.newCell( b./**/cst( 0.1 )/**/);
 		// -- defCalc
 		/* -hlCalc- */SpreadsheetBuilder.CellRef cr = b.currentCell();/* -hlCalc- */
 		// -- defCalc
@@ -325,13 +331,52 @@ public class Basics extends TestCase
 		b.newRow();
 		b.newRow();
 		b.newCell( b.cst( "Rebate" ) );
-		b.newCell( /* -hlCalc- */b.op( Operator.PLUS, b.ref( cr ), b.ref( ar ) )/* -hlCalc- */ );
+		b.newCell( /* -hlCalc- */b.op( Operator.PLUS, b.ref( cr ), b.ref( ar ) )/* -hlCalc- */);
 		// -- defCalc
 
 		return b./**/getSpreadsheet/**/();
 	}
 
 	// ---- OwnUISheet
+
+
+	// ------------------------------------------------ Generate Initial Sheet
+
+
+	private static final String GENFILE = "build/temp/GeneratedSheet.xls";
+
+
+	public void testGenerateFile() throws Exception
+	{
+		// ---- GenerateFile
+		Spreadsheet s = buildSpreadsheet();
+		SEJ./**/saveSpreadsheet/**/( s, GENFILE, null );
+		// ---- GenerateFile
+		checkSpreadsheetStream( s, new BufferedInputStream( new FileInputStream( GENFILE ) ) );
+	}
+
+
+	public void testGenerateStream() throws Exception
+	{
+		// ---- GenerateStream
+		Spreadsheet s = buildSpreadsheet();
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+
+		SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
+		cfg.spreadsheet = s;
+		cfg.typeExtension = ".xls";
+		cfg.outputStream = os;
+		SEJ./**/newSpreadsheetSaver/**/( cfg ).save();
+		// ---- GenerateStream
+		checkSpreadsheetStream( s, new ByteArrayInputStream( os.toByteArray() ) );
+	}
+
+
+	private void checkSpreadsheetStream( Spreadsheet _expected, InputStream _stream ) throws Exception
+	{
+		Spreadsheet actual = SEJ.loadSpreadsheet( GENFILE, _stream );
+		assertEquals( _expected.describe(), actual.describe() );
+	}
 
 
 	// ------------------------------------------------ Base classes

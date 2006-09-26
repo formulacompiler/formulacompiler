@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-    <title>Building Your Own Spreadsheet - arrenbrecht.ch</title>
+    <title>Using SEJ Without A Spreadsheet File - arrenbrecht.ch</title>
     <style type="text/css" media="screen">
         @import "../style.css";
 	
@@ -23,7 +23,7 @@
         </div>
         <div class="title">
             <h1>
-                Building Your Own Spreadsheet</h1>
+                Using SEJ Without A Spreadsheet File</h1>
         </div>
         
         
@@ -40,16 +40,19 @@
 <pre>Rebate = CustomerRebate + ArticleRebate</pre>
 
 <p>How can you implement this? Remember that we already factored out the actual computation as a <em>strategy</em>. So a straightforward approach is to implement a new strategy, which is effectively an interpreter for the simple one-line formulas (or whatever your UI allows users to specify).</p>
-<p>If you expect these computations to be used heavily in your application, however, it may be worthwhile to harness SEJ to generate true byte-code computations for these formulas, instead of interpreting them. A side benefit of this approach will be that you can give users switching from a simple formula to a full blown spreadsheet a head start by letting SEJ generate a template spreadsheet implementing the initial formula (this latter part is a planned feature).</p>
+<p>If you expect these computations to be used heavily in your application, however, it may be worthwhile to harness SEJ to generate true byte-code computations for these formulas, instead of interpreting them. A side benefit of this approach will be that you can give users switching from a simple formula to a full blown spreadsheet a head start by letting SEJ <a href="generatesheet.htm">generate an initial spreadsheet</a> implementing the currently defined formula.</p>
 
-<h2>How To Build Your Own</h2>
+<h2><a name="building">Building Your Own Spreadsheet Model</a></h2>
 <p>SEJ's compiler takes an internal representation of a spreadsheet as input. Normally, you load this from an actual spreadsheet file. With the <a href="../javadoc/sej/SpreadsheetBuilder.html"><tt>SpreadsheetBuilder</tt></a>, however, you can build one in memory from scratch. I'll first show you how to define the spreadsheet with only the two input cells:</p>
 <p>[jc:sej.tutorials.Basics:---- OwnUISheet; omit -- defCalc]</p>
 <p>The method <tt>b.cst()</tt> is a factory method for constant values. It accepts all the types of constant value that SEJ supports, for example <tt>String</tt> and <tt>Number</tt>.</p>
 <p>Of particular interest is how to build calculated cells, <tt>B1+B2</tt> in this example. Here's the same method again, showing how the calculated cell is defined:</p>
 <p>[jc:sej.tutorials.Basics:---- OwnUISheet; highlight -hlCalc-; strip -- defCalc; strip]</p>
 <p>The <tt>currentCell()</tt> method returns a reference to the cell defined just before it. These references can be used later on in formulas to reference other cells.</p>
-<p>The part <tt>b.op( Operator.PLUS, ... )</tt> defines the last cell as one performing an addition, which is one of the supported <a href="../javadoc/sej/Operator.html">operators</a>. Its arguments are references to the two cells defined above. There is also <tt>fun()</tt> for <a href="../javadoc/sej/Function.html">functions</a>, and <tt>agg()</tt> for <a href="../javadoc/sej/Aggregator.html">aggregators</a>.</p>        </div>
+<p>The part <tt>b.op( Operator.PLUS, ... )</tt> defines the last cell as one performing an addition, which is one of the supported <a href="../javadoc/sej/Operator.html">operators</a>. Its arguments are references to the two cells defined above. There is also <tt>fun()</tt> for <a href="../javadoc/sej/Function.html">functions</a>, and <tt>agg()</tt> for <a href="../javadoc/sej/Aggregator.html">aggregators</a>.</p>
+
+<h2>Switching To A Spreadsheet File</h2>
+<p>When users find the simple formula UI too limited, they will want to switch to using a full-blown spreadsheet. As noted above, you can give them a head start by having SEJ <a href="generatesheet.htm#generate">generate the initial spreadsheet</a> for them. This spreadsheet then implements the current simple formula as a starting point for further customization.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.</p>        </div>
     </div>

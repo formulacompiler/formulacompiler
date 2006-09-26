@@ -20,9 +20,12 @@
  */
 package sej;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -130,6 +133,82 @@ public class SEJ extends SEJRuntime
 	public static SpreadsheetBuilder newSpreadsheetBuilder()
 	{
 		return new SpreadsheetBuilderImpl();
+	}
+
+
+	/**
+	 * Saves a spreadsheet model to a new spreadsheet file. Use this primarily to build an initial
+	 * spreadsheet file for users wanting to customize a particular aspect of your application using
+	 * SEJ. See the <a href="../../tutorial/generatesheet.htm">tutorial</a> for details.
+	 * 
+	 * @param _model is the internal spreadsheet model that defines the file to be written. Use
+	 *           {@link #newSpreadsheetBuilder()} to build this model.
+	 * @param _outputFileName is the name of the spreadsheet file to be written. Its extension is
+	 *           used to determine the file format to write (.xls for Excel, etc.).
+	 * @param _templateFileNameOrNull is an optional name of a template file. If given, SEJ uses it
+	 *           to format the generated cells (again, see the tutorial for details).
+	 * @throws IOException
+	 * @throws SpreadsheetException
+	 */
+	public static void saveSpreadsheet( Spreadsheet _model, String _outputFileName, String _templateFileNameOrNull )
+			throws IOException, SpreadsheetException
+	{
+		saveSpreadsheet( _model, new File( _outputFileName ), (null == _templateFileNameOrNull) ? null : new File(
+				_templateFileNameOrNull ) );
+	}
+
+
+	/**
+	 * Like {@link #saveSpreadsheet(Spreadsheet, String, String)}, but taking {@code File}s instead
+	 * of {@code String}s as input.
+	 * 
+	 * @throws IOException
+	 * @throws SpreadsheetException
+	 */
+	public static void saveSpreadsheet( Spreadsheet _model, File _outputFile, File _templateFileOrNull )
+			throws IOException, SpreadsheetException
+	{
+		SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
+		cfg.spreadsheet = _model;
+		cfg.typeExtension = extensionOf( _outputFile.getName() );
+		cfg.outputStream = new BufferedOutputStream( new FileOutputStream( _outputFile ) );
+		try {
+			try {
+				if (null != _templateFileOrNull) {
+					cfg.templateInputStream = new BufferedInputStream( new FileInputStream( _templateFileOrNull ) );
+				}
+				newSpreadsheetSaver( cfg ).save();
+			}
+			finally {
+				if (null != cfg.templateInputStream) cfg.templateInputStream.close();
+			}
+		}
+		finally {
+			cfg.outputStream.close();
+		}
+	}
+
+
+	private static String extensionOf( String _name )
+	{
+		final int lastDotAt = _name.lastIndexOf( '.' );
+		if (0 <= lastDotAt) {
+			return _name.substring( lastDotAt );
+		}
+		return "";
+	}
+
+
+	/**
+	 * Returns a new instance of a spreadsheet saver, which is used to save a spreadsheet
+	 * representation to a spreadsheet file (to give users a something to start with).
+	 * 
+	 * @param _config contains the configuration for the new instance.
+	 * @return the new instance.
+	 */
+	public static SpreadsheetSaver newSpreadsheetSaver( SpreadsheetSaver.Config _config )
+	{
+		return null; // FIXME return new ExcelXLSSaver( _config ); // LATER make this customizable once we support more formats
 	}
 
 
