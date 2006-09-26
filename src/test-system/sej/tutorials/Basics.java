@@ -375,7 +375,20 @@ public class Basics extends TestCase
 	private void checkSpreadsheetStream( Spreadsheet _expected, InputStream _stream ) throws Exception
 	{
 		Spreadsheet actual = SEJ.loadSpreadsheet( GENFILE, _stream );
+		touchExpressions( actual );
 		assertEquals( _expected.describe(), actual.describe() );
+	}
+
+
+	private void touchExpressions( Spreadsheet _ss ) throws Exception
+	{
+		for (Spreadsheet.Sheet s : _ss.getSheets()) {
+			for (Spreadsheet.Row r : s.getRows()) {
+				for (Spreadsheet.Cell c : r.getCells()) {
+					c.getExpressionText();
+				}
+			}
+		}
 	}
 
 

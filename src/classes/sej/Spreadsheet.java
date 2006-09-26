@@ -171,6 +171,15 @@ public interface Spreadsheet extends Describable
 		 */
 		public Object getConstantValue();
 
+		/**
+		 * Returns the expression text of the cell, as parsed from the spreadsheet by SEJ.
+		 * 
+		 * @return the text of the parsed expression, or {@code null} if the cell is empty or
+		 *         constant.
+		 * @throws SpreadsheetException 
+		 */
+		public String getExpressionText() throws SpreadsheetException;
+
 	}
 
 
