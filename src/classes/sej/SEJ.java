@@ -38,6 +38,7 @@ import sej.internal.spreadsheet.binder.SpreadsheetBinderImpl;
 import sej.internal.spreadsheet.builder.SpreadsheetBuilderImpl;
 import sej.internal.spreadsheet.compiler.SpreadsheetCompilerImpl;
 import sej.internal.spreadsheet.loader.AnyFormatSpreadsheetLoader;
+import sej.internal.spreadsheet.saver.excel.xls.ExcelXLSSaver;
 import sej.internal.util.EngineBuilderImpl;
 import sej.internal.util.SpreadsheetByNameBinderImpl;
 import sej.internal.util.SpreadsheetNameCreatorImpl;
@@ -205,10 +206,15 @@ public class SEJ extends SEJRuntime
 	 * 
 	 * @param _config contains the configuration for the new instance.
 	 * @return the new instance.
+	 * @throws SpreadsheetException
 	 */
-	public static SpreadsheetSaver newSpreadsheetSaver( SpreadsheetSaver.Config _config )
+	public static SpreadsheetSaver newSpreadsheetSaver( SpreadsheetSaver.Config _config ) throws SpreadsheetException
 	{
-		return null; // FIXME return new ExcelXLSSaver( _config ); // LATER make this customizable once we support more formats
+		// LATER make this customizable once we support more formats
+		if (".xls".equalsIgnoreCase( _config.typeExtension )) {
+			return new ExcelXLSSaver( _config );
+		}
+		throw new SpreadsheetException.UnsupportedFormat( "No saver found for format " + _config.typeExtension );
 	}
 
 

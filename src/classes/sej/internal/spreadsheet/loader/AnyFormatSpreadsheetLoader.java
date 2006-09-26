@@ -79,7 +79,7 @@ public final class AnyFormatSpreadsheetLoader
 				return loader.loadFrom( _stream );
 			}
 		}
-		throw new IllegalStateException( "No loader found for file " + _originalFileName );
+		throw new SpreadsheetException.UnsupportedFormat( "No loader found for file " + _originalFileName );
 	}
 
 

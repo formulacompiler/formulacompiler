@@ -101,4 +101,36 @@ public class SpreadsheetException extends SEJException
 	}
 
 
+	/**
+	 * A unsupported spreadsheet file format extension was encountered.
+	 * 
+	 * @author peo
+	 */
+	public static class UnsupportedFormat extends SpreadsheetException
+	{
+
+		public UnsupportedFormat(String _message)
+		{
+			super( _message );
+		}
+
+	}
+
+
+	/**
+	 * An internal spreadsheet model could not be saved.
+	 * 
+	 * @author peo
+	 */
+	public static class SaveError extends SpreadsheetException
+	{
+
+		public SaveError(Throwable _cause)
+		{
+			super( _cause.getMessage(), _cause );
+		}
+
+	}
+
+
 }

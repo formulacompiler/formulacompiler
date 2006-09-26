@@ -21,6 +21,7 @@
 package sej.internal.spreadsheet;
 
 import sej.Orientation;
+import sej.SpreadsheetException;
 import sej.Spreadsheet.Cell;
 import sej.describable.DescriptionBuilder;
 
@@ -132,6 +133,18 @@ public final class CellIndex extends Reference implements Cell
 		final CellInstance cell = getCell();
 		if (cell instanceof CellWithConstant) {
 			return ((CellWithConstant) cell).getValue();
+		}
+		else {
+			return null;
+		}
+	}
+
+
+	public String getExpressionText() throws SpreadsheetException
+	{
+		final CellInstance cell = getCell();
+		if (cell instanceof CellWithLazilyParsedExpression) {
+			return ((CellWithLazilyParsedExpression) cell).getExpression().toString();
 		}
 		else {
 			return null;
