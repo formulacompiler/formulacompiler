@@ -3,6 +3,7 @@
 	<classpathentry path="src/classes" kind="src"/>
 	<classpathentry path="src/classes-unverified-for-jre14" kind="src"/>
 	<classpathentry path="src/classes-gen" kind="src"/>
+	<classpathentry path="src/test-accessors" kind="src"/>
 	<classpathentry path="src/test-unit" kind="src"/>
 	<classpathentry path="src/test-system" kind="src"/>
 	<classpathentry path="src/examples" kind="src"/>

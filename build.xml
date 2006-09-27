@@ -4,7 +4,7 @@
 
 	<property name="Name" value="SEJ" />
 	<property name="name" value="sej" />
-	<property name="dist.version" value="0.7.3" />
+	<property name="dist.version" value="0.7.4" />
 
 	<property name="src.dir" location="${basedir}/src" />
 	<property name="lib.dir" location="${basedir}/lib" />
@@ -591,6 +591,8 @@
 			<arg path="${src.test-system.dir}" />
 			<arg value="-sp" />
 			<arg path="${build.dir}/temp/reference" />
+			<arg value="-sp" />
+			<arg path="${build.dir}/temp" />
 			<arg value="-r" />
 			<arg value="-i" />
 			<arg file="${src.doc.dir}/*.htm" />
