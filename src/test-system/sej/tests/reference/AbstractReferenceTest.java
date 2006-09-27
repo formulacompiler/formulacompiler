@@ -36,13 +36,17 @@ import sej.SEJ;
 import sej.SaveableEngine;
 import sej.SpreadsheetBinder.Section;
 import sej.describable.DescriptionBuilder;
+import sej.internal.expressions.ExpressionNode;
 import sej.internal.runtime.Runtime_v1;
 import sej.internal.spreadsheet.CellInstance;
+import sej.internal.spreadsheet.CellRefFormat;
 import sej.internal.spreadsheet.CellWithConstant;
 import sej.internal.spreadsheet.CellWithLazilyParsedExpression;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
+import sej.internal.spreadsheet.loader.excel.ExcelExpressionParserAccessor;
+import sej.internal.spreadsheet.saver.excel.xls.ExcelXLSExpressionFormatter;
 import sej.runtime.ComputationFactory;
 import sej.runtime.Resettable;
 import sej.runtime.ScaledLong;
@@ -387,6 +391,7 @@ public abstract class AbstractReferenceTest extends TestCase
 
 			public final SaveableEngine[] run() throws Exception
 			{
+				testExpressionConversion();
 				if (Runtime_v1.JRE14 && this.skipFor.contains( "jre14" )) return null;
 				
 				if (null == this.inputs) {
@@ -416,6 +421,21 @@ public abstract class AbstractReferenceTest extends TestCase
 					}
 
 					return test.run();
+				}
+			}
+
+
+			private void testExpressionConversion() throws Exception
+			{
+				if (this.formula instanceof CellWithLazilyParsedExpression) {
+					final CellWithLazilyParsedExpression exprCell = (CellWithLazilyParsedExpression) this.formula;
+					final ExpressionNode expr = exprCell.getExpression();
+					final ExcelXLSExpressionFormatter formatter = new ExcelXLSExpressionFormatter();
+					final ExcelExpressionParserAccessor parser = new ExcelExpressionParserAccessor( this.formula );
+					final String expected = formatter.format( expr );
+					final ExpressionNode parsed = parser.parseText( expected, CellRefFormat.A1 );
+					final String actual = formatter.format(  parsed );
+					assertEquals( expected, actual );
 				}
 			}
 
