@@ -13,6 +13,7 @@
 	<property name="src.classes.dir" location="${src.dir}/classes" />
 	<property name="src.classes.gen.dir" location="${src.dir}/classes-gen" />
 	<property name="src.classes-unverified.dir" location="${src.dir}/classes-unverified-for-jre14" />
+	<property name="src.test-accessors.dir" location="${src.dir}/test-accessors" />
 	<property name="src.test-unit.dir" location="${src.dir}/test-unit" />
 	<property name="src.test-system.dir" location="${src.dir}/test-system" />
 	<property name="src.examples.dir" location="${src.dir}/examples" />
@@ -278,6 +279,9 @@
 		<mkdir dir="${build.test-unit.dir}" />
 		<mkdir dir="${build.test-system.dir}" />
 
+		<javac srcdir="${src.test-accessors.dir}" destdir="${build.test-unit.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+			<include name="sej/**" />
+		</javac>
 		<javac srcdir="${src.test-unit.dir}" destdir="${build.test-unit.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/**" />
 		</javac>

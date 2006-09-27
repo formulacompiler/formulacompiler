@@ -161,6 +161,7 @@
                 	<exclude class="${base}.internal.spreadsheet.builder.SpreadsheetBuilderImpl" />
                 	<exclude class="${base}.internal.spreadsheet.compiler.SpreadsheetCompilerImpl" />
                 	<exclude class="${base}.internal.spreadsheet.loader.AnyFormatSpreadsheetLoader" />
+                	<exclude class="${base}.internal.spreadsheet.saver.excel.xls.ExcelXLSSaver" />
                 	<exclude class="${base}.internal.util.EngineBuilderImpl" />
                 	<exclude class="${base}.internal.util.SpreadsheetByNameBinderImpl" />
                 	<exclude class="${base}.internal.util.SpreadsheetNameCreatorImpl" />
