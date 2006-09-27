@@ -24,6 +24,9 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -343,6 +346,9 @@ public class Basics extends AbstractTestBase
 
 
 	private static final String GENFILE = "build/temp/GeneratedSheet.xls";
+	private static final String GENTEMPLATEDFILE = "build/temp/GeneratedTemplatedSheet.xls";
+	private static final String TEMPLATEFILE = "src/test-system/testdata/sej/tutorials/Template.xls";
+	private static final String EXPECTEDGENTEMPLATEDFILE = "src/test-system/testdata/sej/tutorials/ExpectedTemplatedSheet.xls";
 
 
 	public void testGenerateFile() throws Exception
@@ -359,18 +365,97 @@ public class Basics extends AbstractTestBase
 	{
 		// ---- GenerateStream
 		Spreadsheet s = buildSpreadsheet();
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		ByteArrayOutputStream /**/os/**/ = new ByteArrayOutputStream();
 
 		SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
 		cfg.spreadsheet = s;
-		cfg.typeExtension = ".xls";
-		cfg.outputStream = os;
-		SEJ./**/newSpreadsheetSaver/**/( cfg ).save();
+		cfg./**/typeExtension/**/ = ".xls";
+		cfg./**/outputStream/**/ = os;
+		/**/SEJ.newSpreadsheetSaver( cfg ).save();/**/
 		// ---- GenerateStream
 		checkSpreadsheetStream( s, new ByteArrayInputStream( os.toByteArray() ), GENFILE );
 	}
 
 
+	public void testGenerateTemplatedFile() throws Exception
+	{
+		// ---- GenerateTemplatedFile
+		Spreadsheet s = buildTemplatedSpreadsheet();
+		SEJ.saveSpreadsheet( s, GENTEMPLATEDFILE, /**/TEMPLATEFILE/**/ );
+		// ---- GenerateTemplatedFile
+		assertEqualFiles( EXPECTEDGENTEMPLATEDFILE, GENTEMPLATEDFILE );
+	}
+
+
+	public void testGenerateTemplatedStream() throws Exception
+	{
+		// ---- GenerateTemplatedStream
+		Spreadsheet s = buildTemplatedSpreadsheet();
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		InputStream /**/ts/**/ = new BufferedInputStream( new FileInputStream( TEMPLATEFILE )); 
+
+		SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
+		cfg.spreadsheet = s;
+		cfg.typeExtension = ".xls";
+		cfg.outputStream = os;
+		cfg./**/templateInputStream/**/ = ts;
+		SEJ.newSpreadsheetSaver( cfg ).save();
+		// ---- GenerateTemplatedStream
+		
+		ts.close();
+		os.close();
+		final byte[] bytes = os.toByteArray();
+		final InputStream exp = new BufferedInputStream( new FileInputStream( EXPECTEDGENTEMPLATEDFILE ));
+		final InputStream act = new ByteArrayInputStream( bytes );
+		
+		copy( new ByteArrayInputStream( bytes ), new FileOutputStream( GENTEMPLATEDFILE ));
+		
+		assertEqualStreams( "Comparing generated templated sheets", exp, act );
+	}
+
+
+	private void copy( InputStream _in, OutputStream _out ) throws Exception
+	{
+		final byte[] buf = new byte[1024]; 
+		int l;
+		while (0 < (l = _in.read( buf ))) {
+			_out.write( buf, 0, l );
+		}
+		_out.close();
+	}
+
+
+	private Spreadsheet buildTemplatedSpreadsheet()
+	{
+		// ---- BuildTemplatedSheet
+		final String CAPTION = "Caption";
+		final String LBL = "Label";
+		final String IN = "InputValue";
+		final String OUT = "OutputValue";
+		
+		SpreadsheetBuilder b = SEJ.newSpreadsheetBuilder();
+
+		b./**/styleRow/**/( CAPTION ).newCell( b.cst( "Inputs" ))./**/styleCell/**/( CAPTION ).newRow();
+		b.newCell( b.cst( "CustomerRebate" ))./**/styleCell/**/( LBL );
+		b.newCell( b.cst( 0.1 ))./**/styleCell/**/( IN );
+		SpreadsheetBuilder.CellRef cr = b.currentCell();
+
+		b.newRow();
+		b.newCell( b.cst( "ArticleRebate" ) ).styleCell( LBL );
+		b.newCell( b.cst( 0.05 ) ).styleCell( IN );
+		SpreadsheetBuilder.CellRef ar = b.currentCell();
+
+		b.newRow().styleRow( CAPTION ).newCell( b.cst( "Outputs" )).styleCell( CAPTION ).newRow();
+		b.newCell( b.cst( "Rebate" ) ).styleCell( LBL );
+		b.newCell( b.op( Operator.PLUS, b.ref( cr ), b.ref( ar ) )).styleCell( OUT );
+
+		b.newRow().styleRow( CAPTION ).newCell( b.cst( "Intermediate Values" )).styleCell( CAPTION ).newRow();
+		
+		return b.getSpreadsheet();
+		// ---- BuildTemplatedSheet
+	}
+
+	
 	// ------------------------------------------------ Base classes
 
 

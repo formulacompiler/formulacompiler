@@ -21,9 +21,12 @@
 package sej.internal.spreadsheet.saver.excel.xls;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import sej.Spreadsheet;
@@ -38,9 +41,20 @@ import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
 
+import jxl.Cell;
+import jxl.CellView;
 import jxl.JXLException;
+import jxl.Sheet;
+import jxl.Workbook;
 import jxl.WorkbookSettings;
+import jxl.format.Border;
+import jxl.format.CellFormat;
+import jxl.read.biff.BiffException;
+import jxl.write.Blank;
+import jxl.write.Formula;
 import jxl.write.WritableCell;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
@@ -49,22 +63,42 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	private final Spreadsheet model;
 	private final OutputStream outputStream;
 	private final ExcelXLSExpressionFormatter formatter = new ExcelXLSExpressionFormatter();
+	private final Workbook template;
+	private final Sheet templateSheet;
 
 
-	public ExcelXLSSaver(Config _config)
+	public ExcelXLSSaver(Config _config) throws IOException, SpreadsheetException
 	{
 		super();
 		this.model = _config.spreadsheet;
 		this.outputStream = _config.outputStream;
+		this.template = (null == _config.templateInputStream) ? null : loadTemplate( _config.templateInputStream );
+		this.templateSheet = (null == this.template) ? null : this.template.getSheet( 0 );
+	}
+
+
+	private static Workbook loadTemplate( InputStream _stream ) throws IOException, SpreadsheetException
+	{
+		try {
+			return Workbook.getWorkbook( _stream );
+		}
+		catch (BiffException e) {
+			throw new SpreadsheetException.LoadError( e );
+		}
+	}
+
+	private Cell getTemplateCell( String _styleName )
+	{
+		return (null == this.template) ? null : this.template.findCellByName( _styleName );
 	}
 
 
 	public void save() throws IOException, SpreadsheetException
 	{
 		final SpreadsheetImpl wb = (SpreadsheetImpl) this.model;
-		final WorkbookSettings xset = new jxl.WorkbookSettings();
+		final WorkbookSettings xset = new WorkbookSettings();
 		xset.setLocale( new Locale( "en", "EN" ) );
-		final jxl.write.WritableWorkbook xwb = jxl.Workbook.createWorkbook( this.outputStream, xset );
+		final WritableWorkbook xwb = Workbook.createWorkbook( this.outputStream, xset );
 		try {
 			saveWorkbook( wb, xwb );
 			xwb.write();
@@ -77,10 +111,13 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 
 	private void saveWorkbook( SpreadsheetImpl _wb, WritableWorkbook _xwb ) throws JXLException, SpreadsheetException
 	{
-		for (final SheetImpl s : _wb.getSheetList()) {
-			final jxl.write.WritableSheet xs = _xwb.createSheet( s.getName(), s.getSheetIndex() );
-			saveSheet( s, _xwb, xs );
-		}
+		saveSheets( _wb, _xwb );
+		saveNames( _wb, _xwb );
+	}
+
+
+	private void saveNames( SpreadsheetImpl _wb, WritableWorkbook _xwb )
+	{
 		for (final Entry<String, Reference> nd : _wb.getNameMap().entrySet()) {
 			final String name = nd.getKey();
 			final Reference ref = nd.getValue();
@@ -102,6 +139,15 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	}
 
 
+	private void saveSheets( SpreadsheetImpl _wb, WritableWorkbook _xwb ) throws JXLException, SpreadsheetException
+	{
+		for (final SheetImpl s : _wb.getSheetList()) {
+			final WritableSheet xs = _xwb.createSheet( s.getName(), s.getSheetIndex() );
+			saveSheet( s, _xwb, xs );
+		}
+	}
+
+
 	private void saveSheet( SheetImpl _s, WritableWorkbook _xwb, WritableSheet _xs ) throws JXLException,
 			SpreadsheetException
 	{
@@ -118,6 +164,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 		for (final CellInstance c : _r.getCellList()) {
 			saveCell( c, _xwb, _xs, row );
 		}
+		styleRow( _r.getStyleName(), _xwb, _xs, row );
 	}
 
 
@@ -125,8 +172,10 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 			SpreadsheetException
 	{
 		final int col = _c.getColumnIndex();
-		final jxl.write.WritableCell xc = createCell( _c, _xwb, col, _row );
+		final WritableCell xc = createCell( _c, _xwb, col, _row );
 		_xs.addCell( xc );
+		styleCell( _c.getStyleName(), _xwb, _xs, xc );
+		styleColumn( _c.getStyleName(), _xwb, _xs, col );
 	}
 
 
@@ -135,7 +184,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	{
 		final ExpressionNode expr = _c.getExpression();
 		if (null != expr) {
-			return new jxl.write.Formula( _col, _row, this.formatter.format( expr ) );
+			return new Formula( _col, _row, this.formatter.format( expr ) );
 		}
 		else {
 			final Object val = _c.getValue();
@@ -152,7 +201,120 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 				return new jxl.write.Number( _col, _row, ((Number) val).doubleValue() );
 			}
 		}
-		return new jxl.write.Blank( _col, _row );
+		return new Blank( _col, _row );
+	}
+
+
+	private final Map<String, CellView> colStyles = new HashMap<String, CellView>();
+	private final Map<String, CellView> rowStyles = new HashMap<String, CellView>();
+
+	private CellView getRowStyle( String _styleName )
+	{
+		return getRowOrColStyle( _styleName, this.rowStyles, true );
+	}
+
+	private CellView getColumnStyle( String _styleName )
+	{
+		return getRowOrColStyle( _styleName, this.colStyles, false );
+	}
+
+	private CellView getRowOrColStyle( String _styleName, Map<String, CellView> _styles, boolean _isRow )
+	{
+		if (_styles.containsKey( _styleName )) {
+			return _styles.get( _styleName );
+		}
+		else {
+			final Cell styleCell = getTemplateCell( _styleName );
+			if (null != styleCell) {
+				final CellView styleFormat = _isRow ? this.templateSheet.getRowView( styleCell.getRow() ) : this.templateSheet
+						.getColumnView( styleCell.getColumn() );
+				final CellView targetFormat = new CellView();
+				
+				copyRowOrColAttributes( styleFormat, targetFormat );
+				
+				_styles.put( _styleName, targetFormat );
+				return targetFormat;
+			}
+			else {
+				_styles.put( _styleName, null );
+				return null;
+			}
+		}
+	}
+
+	private void copyRowOrColAttributes( CellView _source, CellView _target )
+	{
+		_target.setSize( _source.getSize() );
+	}
+
+	
+	private final Map<String, CellFormat> cellStyles = new HashMap<String, CellFormat>();
+	
+	private CellFormat getCellStyle( String _styleName ) throws JXLException
+	{
+		final Map<String, CellFormat> styles = this.cellStyles;
+		if (styles.containsKey( _styleName )) {
+			return styles.get( _styleName );
+		}
+		else {
+			final Cell styleCell = getTemplateCell( _styleName );
+			if (null != styleCell) {
+				final CellFormat styleFormat = styleCell.getCellFormat();
+				final WritableCellFormat targetFormat = new WritableCellFormat();
+
+				copyCellAttributes( styleFormat, targetFormat );
+				
+				styles.put( _styleName, targetFormat );
+				return targetFormat;
+			}
+			else {
+				styles.put( _styleName, null );
+				return null;
+			}
+		}
+	}
+
+	private static final Border[] BORDERS = new Border[] { Border.TOP, Border.BOTTOM, Border.LEFT, Border.RIGHT };
+	
+	private void copyCellAttributes( CellFormat _source, WritableCellFormat _target ) throws JXLException
+	{
+		_target.setAlignment( _source.getAlignment() );
+		_target.setBackground( _source.getBackgroundColour(), _source.getPattern() );
+		for (Border b : BORDERS) {
+			_target.setBorder( b, _source.getBorderLine( b ), _source.getBorderColour( b ) );
+		}
+		_target.setFont( new WritableFont(_source.getFont()) );
+		_target.setIndentation( _source.getIndentation() );
+		_target.setLocked( _source.isLocked() );
+		_target.setOrientation( _source.getOrientation() );
+		_target.setShrinkToFit( _source.isShrinkToFit() );
+		_target.setVerticalAlignment( _source.getVerticalAlignment() );
+		_target.setWrap( _source.getWrap() );
+	}
+
+
+	private void styleRow( String _styleName, WritableWorkbook _xwb, WritableSheet _xs, int _row ) throws JXLException
+	{
+		final CellView style = getRowStyle( _styleName );
+		if (null != style) {
+			_xs.setRowView( _row, style.getSize() );
+		}
+	}
+
+	private void styleColumn( String _styleName, WritableWorkbook _xwb, WritableSheet _xs, int _col )
+	{
+		final CellView style = getColumnStyle( _styleName );
+		if (null != style) {
+			_xs.setColumnView( _col, style );
+		}
+	}
+
+	private void styleCell( String _styleName, WritableWorkbook _xwb, WritableSheet _xs, WritableCell _xc ) throws JXLException
+	{
+		final CellFormat style = getCellStyle( _styleName );
+		if (null != style) {
+			_xc.setCellFormat( style );
+		}
 	}
 
 
