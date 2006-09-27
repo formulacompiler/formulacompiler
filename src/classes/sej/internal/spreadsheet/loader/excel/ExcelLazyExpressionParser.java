@@ -22,6 +22,7 @@ package sej.internal.spreadsheet.loader.excel;
 
 import java.io.IOException;
 
+import sej.SpreadsheetException;
 import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionNode;
@@ -43,7 +44,7 @@ public final class ExcelLazyExpressionParser extends AbstractDescribable impleme
 	}
 
 
-	public ExpressionNode parseExpression( CellWithLazilyParsedExpression _cell ) throws ExcelLoaderError
+	public ExpressionNode parseExpression( CellWithLazilyParsedExpression _cell ) throws SpreadsheetException
 	{
 		return new ExcelExpressionParser( this.cell ).parseText( this.expressionText, _cell.getCellRefFormat() );
 	}

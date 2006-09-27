@@ -237,7 +237,7 @@ public class ExcelExpressionParserTest extends TestCase
 			this.parser.parseText( _ref, CellRefFormat.A1 );
 			fail( "Expected exception: " + _msg );
 		}
-		catch (ExcelExpressionError e) {
+		catch (ExcelExpressionParserError e) {
 			assertEquals( _msg, e.getMessage() );
 		}
 	}
