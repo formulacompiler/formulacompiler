@@ -583,6 +583,7 @@
 				<include name="**/*.html" />
 				<include name="**/*.htm" />
 				<include name="**/*.css" />
+				<include name="**/*.js" />
 			</fileset>
 		</copy>
 
