@@ -133,4 +133,20 @@ public class SpreadsheetException extends SEJException
 	}
 
 
+	/**
+	 * An internal spreadsheet model could not be saved.
+	 * 
+	 * @author peo
+	 */
+	public static class LoadError extends SpreadsheetException
+	{
+
+		public LoadError(Throwable _cause)
+		{
+			super( _cause.getMessage(), _cause );
+		}
+
+	}
+
+
 }

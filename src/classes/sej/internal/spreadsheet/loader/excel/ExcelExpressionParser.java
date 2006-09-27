@@ -84,11 +84,11 @@ final class ExcelExpressionParser
 				parser.parse();
 			}
 		}
-		catch (ExcelExpressionError e) {
+		catch (ExcelExpressionParserError e) {
 			throw e;
 		}
 		catch (Exception e) {
-			throw new ExcelExpressionError( e, this.source, this.scanner.charsRead() );
+			throw new ExcelExpressionParserError( e, this.source, this.scanner.charsRead() );
 		}
 
 		return parser.rootNode;
@@ -174,7 +174,7 @@ final class ExcelExpressionParser
 		else if (_ref instanceof CellRange) {
 			return new ExpressionNodeForRange( (CellRange) _ref );
 		}
-		throw new ExcelExpressionError( "Undefined name or unsupported function encountered", this.source, this.scanner
+		throw new ExcelExpressionParserError( "Undefined name or unsupported function encountered", this.source, this.scanner
 				.charsRead() );
 	}
 

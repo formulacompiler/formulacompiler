@@ -206,9 +206,12 @@ public class SEJ extends SEJRuntime
 	 * 
 	 * @param _config contains the configuration for the new instance.
 	 * @return the new instance.
+	 * 
 	 * @throws SpreadsheetException
+	 * @throws IOException
 	 */
-	public static SpreadsheetSaver newSpreadsheetSaver( SpreadsheetSaver.Config _config ) throws SpreadsheetException
+	public static SpreadsheetSaver newSpreadsheetSaver( SpreadsheetSaver.Config _config ) throws IOException,
+			SpreadsheetException
 	{
 		// LATER make this customizable once we support more formats
 		if (".xls".equalsIgnoreCase( _config.typeExtension )) {

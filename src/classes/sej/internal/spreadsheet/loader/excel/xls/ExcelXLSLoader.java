@@ -26,6 +26,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 import sej.Spreadsheet;
+import sej.SpreadsheetException;
 import sej.internal.runtime.RuntimeDouble_v1;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
@@ -38,7 +39,6 @@ import sej.internal.spreadsheet.SpreadsheetImpl;
 import sej.internal.spreadsheet.loader.AnyFormatSpreadsheetLoader;
 import sej.internal.spreadsheet.loader.SpreadsheetLoader;
 import sej.internal.spreadsheet.loader.excel.ExcelLazyExpressionParser;
-import sej.internal.spreadsheet.loader.excel.ExcelLoaderError;
 
 import jxl.CellType;
 import jxl.DateCell;
@@ -75,7 +75,7 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 	}
 
 
-	public Spreadsheet loadFrom( InputStream _stream ) throws IOException
+	public Spreadsheet loadFrom( InputStream _stream ) throws IOException, SpreadsheetException
 	{
 		final WorkbookSettings xlsSettings = new WorkbookSettings();
 		xlsSettings.setLocale( Locale.ENGLISH );
@@ -96,12 +96,12 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 			return workbook;
 		}
 		catch (jxl.read.biff.BiffException e) {
-			throw new ExcelLoaderError( e );
+			throw new SpreadsheetException.LoadError( e );
 		}
 	}
 
 
-	private void loadRows( jxl.Sheet _xlsSheet, SheetImpl _sheet )
+	private void loadRows( jxl.Sheet _xlsSheet, SheetImpl _sheet ) throws SpreadsheetException
 	{
 		for (int iRow = 0; iRow < _xlsSheet.getRows(); iRow++) {
 			jxl.Cell[] xlsRow = _xlsSheet.getRow( iRow );
@@ -124,7 +124,7 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 	}
 
 
-	private void loadCell( jxl.Cell _xlsCell, RowImpl _row )
+	private void loadCell( jxl.Cell _xlsCell, RowImpl _row ) throws SpreadsheetException
 	{
 		jxl.CellType xlsType = _xlsCell.getType();
 
@@ -135,7 +135,7 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 				exprCell.setExpressionParser( new ExcelLazyExpressionParser( exprCell, xlsFormulaCell.getFormula() ) );
 			}
 			catch (jxl.biff.formula.FormulaException e) {
-				throw new ExcelLoaderError( e );
+				throw new SpreadsheetException.LoadError( e );
 			}
 			if (xlsFormulaCell instanceof NumberFormulaCell) {
 				NumberFormulaCell xlsNumFormulaCell = ((NumberFormulaCell) xlsFormulaCell);
