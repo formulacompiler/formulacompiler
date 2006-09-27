@@ -44,6 +44,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 {
 	private final Spreadsheet model;
 	private final OutputStream outputStream;
+	private final ExcelXLSExpressionFormatter formatter = new ExcelXLSExpressionFormatter();
 
 
 	public ExcelXLSSaver(Config _config)
@@ -113,7 +114,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	{
 		final ExpressionNode expr = _c.getExpression();
 		if (null != expr) {
-			return new jxl.write.Formula( _col, _row, toExcel( expr ));
+			return new jxl.write.Formula( _col, _row, this.formatter.format( expr ));
 		}
 		else {
 			final Object val = _c.getValue();
@@ -131,12 +132,6 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 			}
 		}
 		return new jxl.write.Blank( _col, _row );
-	}
-
-
-	private String toExcel( ExpressionNode _expr )
-	{
-		return _expr.toString();
 	}
 
 
