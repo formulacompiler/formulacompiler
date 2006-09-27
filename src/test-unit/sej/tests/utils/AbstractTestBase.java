@@ -20,7 +20,11 @@
  */
 package sej.tests.utils;
 
+import java.io.InputStream;
+
 import sej.CallFrame;
+import sej.SEJ;
+import sej.Spreadsheet;
 import junit.framework.TestCase;
 
 public abstract class AbstractTestBase extends TestCase
@@ -38,5 +42,25 @@ public abstract class AbstractTestBase extends TestCase
 		return new CallFrame( Outputs.class.getMethod( _name ) );
 	}
 
+	
+	protected void checkSpreadsheetStream( Spreadsheet _expected, InputStream _stream, String _typeExtensionOrFileName ) throws Exception
+	{
+		Spreadsheet actual = SEJ.loadSpreadsheet( _typeExtensionOrFileName, _stream );
+		touchExpressions( actual );
+		assertEquals( _expected.describe(), actual.describe() );
+	}
 
+
+	protected void touchExpressions( Spreadsheet _ss ) throws Exception
+	{
+		for (Spreadsheet.Sheet s : _ss.getSheets()) {
+			for (Spreadsheet.Row r : s.getRows()) {
+				for (Spreadsheet.Cell c : r.getCells()) {
+					c.getExpressionText();
+				}
+			}
+		}
+	}
+
+	
 }

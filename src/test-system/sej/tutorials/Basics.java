@@ -24,7 +24,6 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -36,9 +35,9 @@ import sej.SpreadsheetBuilder;
 import sej.SpreadsheetSaver;
 import sej.runtime.Engine;
 import sej.runtime.SEJException;
-import junit.framework.TestCase;
+import sej.tests.utils.AbstractTestBase;
 
-public class Basics extends TestCase
+public class Basics extends AbstractTestBase
 {
 
 
@@ -352,7 +351,7 @@ public class Basics extends TestCase
 		Spreadsheet s = buildSpreadsheet();
 		SEJ./**/saveSpreadsheet/**/( s, GENFILE, null );
 		// ---- GenerateFile
-		checkSpreadsheetStream( s, new BufferedInputStream( new FileInputStream( GENFILE ) ) );
+		checkSpreadsheetStream( s, new BufferedInputStream( new FileInputStream( GENFILE ) ), GENFILE );
 	}
 
 
@@ -368,27 +367,7 @@ public class Basics extends TestCase
 		cfg.outputStream = os;
 		SEJ./**/newSpreadsheetSaver/**/( cfg ).save();
 		// ---- GenerateStream
-		checkSpreadsheetStream( s, new ByteArrayInputStream( os.toByteArray() ) );
-	}
-
-
-	private void checkSpreadsheetStream( Spreadsheet _expected, InputStream _stream ) throws Exception
-	{
-		Spreadsheet actual = SEJ.loadSpreadsheet( GENFILE, _stream );
-		touchExpressions( actual );
-		assertEquals( _expected.describe(), actual.describe() );
-	}
-
-
-	private void touchExpressions( Spreadsheet _ss ) throws Exception
-	{
-		for (Spreadsheet.Sheet s : _ss.getSheets()) {
-			for (Spreadsheet.Row r : s.getRows()) {
-				for (Spreadsheet.Cell c : r.getCells()) {
-					c.getExpressionText();
-				}
-			}
-		}
+		checkSpreadsheetStream( s, new ByteArrayInputStream( os.toByteArray() ), GENFILE );
 	}
 
 

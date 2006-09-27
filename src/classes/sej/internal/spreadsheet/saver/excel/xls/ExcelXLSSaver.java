@@ -24,12 +24,16 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map.Entry;
 
 import sej.Spreadsheet;
 import sej.SpreadsheetException;
 import sej.SpreadsheetSaver;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
+import sej.internal.spreadsheet.CellRange;
+import sej.internal.spreadsheet.Reference;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
@@ -77,7 +81,24 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 			final jxl.write.WritableSheet xs = _xwb.createSheet( s.getName(), s.getSheetIndex() );
 			saveSheet( s, _xwb, xs );
 		}
-		// FIXME save names
+		for (final Entry<String, Reference> nd : _wb.getNameMap().entrySet()) {
+			final String name = nd.getKey();
+			final Reference ref = nd.getValue();
+			if (ref instanceof CellIndex) {
+				final CellIndex cell = (CellIndex) ref;
+				_xwb.addNameArea( name, _xwb.getSheet( cell.sheetIndex ), cell.columnIndex, cell.rowIndex,
+						cell.columnIndex, cell.rowIndex );
+			}
+			else if (ref instanceof CellRange) {
+				final CellRange range = (CellRange) ref;
+				final CellIndex from = range.getFrom();
+				final CellIndex to = range.getTo();
+				if (from.sheetIndex == to.sheetIndex) {
+					_xwb.addNameArea( name, _xwb.getSheet( from.sheetIndex ), from.columnIndex, from.rowIndex,
+							to.columnIndex, to.rowIndex );
+				}
+			}
+		}
 	}
 
 
@@ -114,7 +135,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	{
 		final ExpressionNode expr = _c.getExpression();
 		if (null != expr) {
-			return new jxl.write.Formula( _col, _row, this.formatter.format( expr ));
+			return new jxl.write.Formula( _col, _row, this.formatter.format( expr ) );
 		}
 		else {
 			final Object val = _c.getValue();
