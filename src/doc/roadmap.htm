@@ -37,7 +37,6 @@
 <li>Support <tt>MATCH</tt> and <tt>INDEX</tt> over repeating sections.</li>
 <li>Fully document API.</li>
 <li>Check whether it would make sense to replace JDOM with something built into the JRE. Be careful to not break JRE 1.4 compatibility. It seems that using either a SAX or a DOM parser from javax.xml.parsers would be ideal.</li>
-<li>Implement simple spreadsheet writer given an SEJ spreadsheet model. Should be supported by all the loaders. This allows Abacus to convert UI-defined computations to spreadsheets easily. If possible, support a template for this conversion.</li>
 <li>Store the internal model in XML form in the .jar files.</li>
 <li>Give access to SEJ's internal model from .ser files. Write a simple converter from this to a spreadsheet model, which can then be written out to a spreadsheet as per the todo above. This will make it possible to analyze a given .ser file using a simple tool.</li>
 <li>Implement handling of empty cells past edge for <tt>PRODUCT</tt>.</li>

@@ -129,4 +129,4 @@ FN		= "@"?
 
 {SPACE}		{}
 
-. { throw new ExcelExpressionError( "Unexpected character: '" + yytext() + "'", source, yychar ); }
+. { throw new ExcelExpressionParserError( "Unexpected character: '" + yytext() + "'", source, yychar ); }
