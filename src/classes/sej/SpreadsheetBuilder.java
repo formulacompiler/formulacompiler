@@ -47,53 +47,78 @@ public interface SpreadsheetBuilder
 	/**
 	 * Terminates the current sheet and starts a new one, with a new, empty first row.
 	 * 
+	 * @return {@code this} (for call chaining).
+	 * 
 	 * @see sej.Spreadsheet.Sheet
 	 */
-	public void newSheet();
+	public SpreadsheetBuilder newSheet();
 
 
 	/**
 	 * Terminates the current row and starts a new, empty one in the current sheet.
 	 * 
+	 * @return {@code this} (for call chaining).
+	 * 
 	 * @see sej.Spreadsheet.Row
 	 */
-	public void newRow();
+	public SpreadsheetBuilder newRow();
+
+	/**
+	 * Remembers a style name for this row for use by the {@link SpreadsheetSaver}.
+	 * 
+	 * @param _styleName is an arbitrary string used by the {@link SpreadsheetSaver}.
+	 * @return {@code this} (for call chaining).
+	 */
+	public SpreadsheetBuilder styleRow( String _styleName );
 
 
 	/**
 	 * Creates a new cell in the current row with a constant value.
 	 * 
 	 * @param _const is the value of the new cell.
+	 * @return {@code this} (for call chaining).
 	 * 
 	 * @see sej.Spreadsheet.Cell
 	 */
-	public void newCell( Constant _const );
+	public SpreadsheetBuilder newCell( Constant _const );
 
 	/**
 	 * Creates a new, calculated cell in the current row, with the given expression tree defining its
 	 * formula.
 	 * 
 	 * @param _expr is the expression tree defining the cell's formula.
+	 * @return {@code this} (for call chaining).
 	 * 
 	 * @see sej.Spreadsheet.Cell
 	 */
-	public void newCell( ExprNode _expr );
+	public SpreadsheetBuilder newCell( ExprNode _expr );
 
 	/**
 	 * Defines a name for the cell created last.
 	 * 
 	 * @param _name is the name for the cell. Must be unique in the spreadsheet.
+	 * @return {@code this} (for call chaining).
 	 * 
 	 * @see #newCell(sej.SpreadsheetBuilder.Constant)
 	 * @see #newCell(sej.SpreadsheetBuilder.ExprNode)
 	 * @see sej.Spreadsheet#getCell(String)
 	 * @see sej.Spreadsheet#getDefinedName(String)
 	 */
-	public void nameCell( String _name );
+	public SpreadsheetBuilder nameCell( String _name );
+
+	/**
+	 * Remembers a style name for this cell for use by the {@link SpreadsheetSaver}.
+	 * 
+	 * @param _styleName is an arbitrary string used by the {@link SpreadsheetSaver}.
+	 * @return {@code this} (for call chaining).
+	 */
+	public SpreadsheetBuilder styleCell( String _styleName );
 
 	/**
 	 * Returns a reference to the cell created last. Use it to reference the cell in formulas for
 	 * other, calculated cells.
+	 * 
+	 * @return {@code this} (for call chaining).
 	 * 
 	 * @see #ref(sej.SpreadsheetBuilder.CellRef)
 	 */
@@ -112,13 +137,14 @@ public interface SpreadsheetBuilder
 	 * Defines a name for the given range.
 	 * 
 	 * @param _name is the name for the range. Must be unique in the spreadsheet.
+	 * @return {@code this} (for call chaining).
 	 * 
 	 * @see sej.Spreadsheet#getRange(String)
 	 * @see sej.Spreadsheet#getDefinedName(String)
 	 */
-	public void nameRange( RangeRef _range, String _name );
+	public SpreadsheetBuilder nameRange( RangeRef _range, String _name );
 
-	
+
 	/**
 	 * Returns a numeric constant value.
 	 */
@@ -151,13 +177,13 @@ public interface SpreadsheetBuilder
 
 	/**
 	 * Returns an expression tree node which specifies a range of cells, defined earlier.
-	 *   
+	 * 
 	 * @param _rng is the reference to the range.
 	 * 
 	 * @see #range(sej.SpreadsheetBuilder.CellRef, sej.SpreadsheetBuilder.CellRef)
 	 */
 	public ExprNode ref( RangeRef _rng );
-	
+
 	/**
 	 * Returns an expression tree node which always evaluates to the given, constant value.
 	 * 
@@ -191,7 +217,7 @@ public interface SpreadsheetBuilder
 	 *           aggregators accept an arbitrary number of arguments.
 	 */
 	public ExprNode agg( Aggregator _agg, ExprNode... _args );
-	
+
 
 	/**
 	 * Opaque handle for a constant value supported by the spreadsheet builder.
@@ -240,14 +266,15 @@ public interface SpreadsheetBuilder
 		// opaque
 	}
 
-	
+
 	/**
 	 * Opaque handle for a range in a spreadsheet, used to reference the range again in the
 	 * expression of other, calculated cells.
 	 * 
 	 * @author peo
 	 * 
-	 * @see sej.SpreadsheetBuilder#range(sej.SpreadsheetBuilder.CellRef, sej.SpreadsheetBuilder.CellRef)
+	 * @see sej.SpreadsheetBuilder#range(sej.SpreadsheetBuilder.CellRef,
+	 *      sej.SpreadsheetBuilder.CellRef)
 	 * @see sej.SpreadsheetBuilder#ref(sej.SpreadsheetBuilder.RangeRef)
 	 */
 	public static interface RangeRef

@@ -64,34 +64,39 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 	}
 
 
-	public void newSheet()
+	public SpreadsheetBuilder newSheet()
 	{
 		this.sheet = new SheetImpl( this.spreadsheet );
 		newRow();
+		return this;
 	}
 
 
-	public void newRow()
+	public SpreadsheetBuilder newRow()
 	{
 		this.row = new RowImpl( this.sheet );
 		this.cell = null;
+		return this;
 	}
 
-
-	public void newCell( Constant _const )
+	
+	public SpreadsheetBuilder newCell( Constant _const )
 	{
 		this.cell = new CellWithConstant( this.row, valueOf( _const ) );
+		return this;
 	}
 
-	public void newCell( ExprNode _expr )
+	public SpreadsheetBuilder newCell( ExprNode _expr )
 	{
 		this.cell = new CellWithLazilyParsedExpression( this.row, nodeOf( _expr ) );
+		return this;
 	}
 
 
-	public void nameCell( String _name )
+	public SpreadsheetBuilder nameCell( String _name )
 	{
 		this.spreadsheet.addToNameMap( _name, this.cell.getCellIndex() );
+		return this;
 	}
 
 
@@ -119,9 +124,23 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 		return new RangeRefImpl( new CellRange( min, max ) );
 	}
 
-	public void nameRange( RangeRef _range, String _name )
+	public SpreadsheetBuilder nameRange( RangeRef _range, String _name )
 	{
 		this.spreadsheet.addToNameMap( _name, rangeOf( _range ) );
+		return this;
+	}
+
+
+	public SpreadsheetBuilder styleRow( String _styleName )
+	{
+		this.row.setStyleName( _styleName );
+		return this;
+	}
+
+	public SpreadsheetBuilder styleCell( String _styleName )
+	{
+		this.cell.setStyleName( _styleName );
+		return this;
 	}
 
 

@@ -20,6 +20,8 @@
  */
 package sej.tests.utils;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.InputStream;
 
 import sej.CallFrame;
@@ -42,8 +44,9 @@ public abstract class AbstractTestBase extends TestCase
 		return new CallFrame( Outputs.class.getMethod( _name ) );
 	}
 
-	
-	protected void checkSpreadsheetStream( Spreadsheet _expected, InputStream _stream, String _typeExtensionOrFileName ) throws Exception
+
+	protected void checkSpreadsheetStream( Spreadsheet _expected, InputStream _stream, String _typeExtensionOrFileName )
+			throws Exception
 	{
 		Spreadsheet actual = SEJ.loadSpreadsheet( _typeExtensionOrFileName, _stream );
 		touchExpressions( actual );
@@ -62,5 +65,28 @@ public abstract class AbstractTestBase extends TestCase
 		}
 	}
 
-	
+
+	protected void assertEqualStreams( String _message, InputStream _expected, InputStream _actual ) throws Exception
+	{
+		int offset = 0;
+		while (true) {
+			final int e = _expected.read();
+			final int a = _actual.read();
+			if (e != a) {
+				assertEquals( _message + " at offset " + offset, e, a );
+			}
+			offset++;
+			if (e < 0) break;
+		}
+	}
+
+
+	protected void assertEqualFiles( String _nameOfExpectedFile, String _nameOfActualFile ) throws Exception
+	{
+		final InputStream exp = new BufferedInputStream( new FileInputStream( _nameOfExpectedFile ) );
+		final InputStream act = new BufferedInputStream( new FileInputStream( _nameOfActualFile ) );
+		assertEqualStreams( "Comparing files " + _nameOfExpectedFile + " and " + _nameOfActualFile, exp, act );
+	}
+
+
 }

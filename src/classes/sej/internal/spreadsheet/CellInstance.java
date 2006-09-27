@@ -24,12 +24,11 @@ import java.io.IOException;
 import java.text.NumberFormat;
 
 import sej.SpreadsheetException;
-import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionNode;
 
 
-public abstract class CellInstance extends AbstractDescribable
+public abstract class CellInstance extends AbstractStyledElement
 {
 	private final RowImpl row;
 	private final int columnIndex;
