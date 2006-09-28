@@ -828,6 +828,8 @@
 				<pathelement path="${build.test-unit.dir}" />
 				<pathelement path="${build.test-system.dir}" />
 			</classpath>
+			
+			<sysproperty key="sej.tutorials.Caching.testSpeed.disabled" value="true" />
 
 			<batchtest todir="${build.dir}/temp/testresults">
 				<fileset dir="${build.test-unit.dir}">
@@ -884,7 +886,7 @@
 		
 		<taskdef classpath="${lib.dir}/build-only/emma_ant.jar:${lib.classpath}" resource="emma_ant.properties"/>
 		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${lib.classpath}" />
-<!--
+
 		<delete dir="${build.instr.dir}" />
 		<delete dir="${build.cover.dir}" />
 		<delete dir="${emma.meta.file}" />
@@ -918,6 +920,8 @@
 				<pathelement path="${build.test-unit.dir}" />
 				<pathelement path="${build.test-system.dir}" />
 			</classpath>
+			
+			<sysproperty key="sej.tutorials.Caching.testSpeed.disabled" value="true" />
 
 			<batchtest todir="${build.dir}/temp/testresults">
 				<fileset dir="${build.test-unit.dir}">
@@ -942,7 +946,7 @@
 			<jvmarg value="-Demma.coverage.out.file=${emma.run.file}" />
 			<jvmarg value="-Demma.coverage.out.merge=false" />
 		</junit>
--->
+
 	    <emma>
 	      <report sourcepath="${src.classes.dir},${src.classes-unverified.dir}" >
 	        <fileset file="${emma.meta.file}" />
@@ -953,5 +957,6 @@
 
 		
 	</target>
+
 
 </project>
