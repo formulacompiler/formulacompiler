@@ -4,7 +4,7 @@
 
 	<property name="Name" value="SEJ" />
 	<property name="name" value="sej" />
-	<property name="dist.version" value="0.7.3" />
+	<property name="dist.version" value="0.7.4" />
 
 	<property name="src.dir" location="${basedir}/src" />
 	<property name="lib.dir" location="${basedir}/lib" />
@@ -910,8 +910,6 @@
 
 			<formatter type="plain" usefile="yes" />
 
-			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cober.file}" />
-			
 			<classpath>
 				<path refid="lib.classpath" />
 				<pathelement path="${build.instr.dir}" />

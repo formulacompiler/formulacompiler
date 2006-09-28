@@ -70,10 +70,11 @@
 <p>[jc:sej.tutorials.Basics:---- BuildTemplatedSheet]</p>
 
 <h3>Template Spreadsheet</h3>
-<p>Then, create a template spreadsheet. For every style you used, create a named cell in the spreadsheet that defines the formatting:</p>
+<p>Then, create a template spreadsheet. For every style you used, create a named cell in the spreadsheet that defines the formatting.</p>
 <p>[xc:testdata/sej/tutorials/Template.xls]</p>
 <p>The rendering above is not a screenshot of the real Excel spreadsheet, but an HTML version generated automatically from the original spreadsheet. This rendering conveys only the essentials, like formulas, values, and - the important bit here - names. Since we are concerned about actual visual appearance, let's look at a real screenshot of the test template spreadsheet (this image may be outdated as it is not regenerated with every build of SEJ):</p>
 <p><img src="generatesheet-template.xls.gif" alt="Screenshot of Template.xls" /></p>
+<p>When applying a cell style, SEJ applies as much as possible of the original style. In particular, it usually applies number and date formatting options as well. This means that if you apply a generic style, like <em>InputValue</em> below, to a date value, it will be shown as its internal numeric value rather than a date on the spreadsheet.</p>
 
 <h3>Saving With A Template</h3>
 <p>To save this model using a template, pass the name of the template spreadsheet file to the <tt>saveSpreadsheet</tt> method:</p>
@@ -81,7 +82,8 @@
 <p>Again, this also works using streams:</p>
 <p>[jc:sej.tutorials.Basics:---- GenerateTemplatedStream]</p>
 <p>Here's a screenshot of the result (this image may be outdated as it is not regenerated with every build of SEJ):</p>
-<p><img src="generatesheet-result.xls.gif" alt="Screenshot of Result.xls" /></p>        </div>
+<p><img src="generatesheet-result.xls.gif" alt="Screenshot of Result.xls" /></p>
+<p>Note that unstyled cells use a default font and format, which depends on the spreadsheet format being written.</p>        </div>
         <div class="footer">
 <p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.</p>        </div>
     </div>
