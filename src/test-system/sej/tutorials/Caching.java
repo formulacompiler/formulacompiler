@@ -150,6 +150,8 @@ public class Caching extends TestCase
 
 	public void testSpeed() throws Exception
 	{
+		if (Boolean.getBoolean( "sej.tutorials.Caching.testSpeed.disabled" )) return;
+		
 		ComputationFactory plainFactory = compile( PlainOutput.class );
 		ComputationFactory cachingFactory = compile( CachingPlainOutput.class );
 		Input input = new Input();
