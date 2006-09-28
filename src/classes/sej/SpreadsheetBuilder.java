@@ -94,6 +94,15 @@ public interface SpreadsheetBuilder
 	public SpreadsheetBuilder newCell( ExprNode _expr );
 
 	/**
+	 * Creates a new, blank cell in the current row.
+	 * 
+	 * @return {@code this} (for call chaining).
+	 * 
+	 * @see sej.Spreadsheet.Cell
+	 */
+	public SpreadsheetBuilder newCell();
+
+	/**
 	 * Defines a name for the cell created last.
 	 * 
 	 * @param _name is the name for the cell. Must be unique in the spreadsheet.
