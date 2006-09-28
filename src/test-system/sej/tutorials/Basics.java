@@ -36,6 +36,7 @@ import sej.SEJ;
 import sej.Spreadsheet;
 import sej.SpreadsheetBuilder;
 import sej.SpreadsheetSaver;
+import sej.internal.runtime.Runtime_v1;
 import sej.runtime.Engine;
 import sej.runtime.SEJException;
 import sej.tests.utils.AbstractTestBase;
@@ -432,6 +433,7 @@ public class Basics extends AbstractTestBase
 		final String LBL = "Label";
 		final String IN = "InputValue";
 		final String OUT = "OutputValue";
+		final String INTER = "IntermediateValue";
 		
 		SpreadsheetBuilder b = SEJ.newSpreadsheetBuilder();
 
@@ -445,11 +447,22 @@ public class Basics extends AbstractTestBase
 		b.newCell( b.cst( 0.05 ) ).styleCell( IN );
 		SpreadsheetBuilder.CellRef ar = b.currentCell();
 
+		b.newRow();
+		b.newCell( b.cst( "OrderDate" ) ).styleCell( LBL );
+		b.newCell( b.cst( Runtime_v1.today() ) ).styleCell( IN );
+		
+		b.newRow();
+		b.newCell( b.cst( "IsKeyAccount" ) ).styleCell( LBL );
+		b.newCell( b.cst( true ) ).styleCell( IN );
+		
 		b.newRow().styleRow( CAPTION ).newCell( b.cst( "Outputs" )).styleCell( CAPTION ).newRow();
 		b.newCell( b.cst( "Rebate" ) ).styleCell( LBL );
 		b.newCell( b.op( Operator.PLUS, b.ref( cr ), b.ref( ar ) )).styleCell( OUT );
 
 		b.newRow().styleRow( CAPTION ).newCell( b.cst( "Intermediate Values" )).styleCell( CAPTION ).newRow();
+		b.newCell( b.cst( "(sample only)" ) ).styleCell( LBL );
+		b.newCell().styleCell( INTER );
+		
 		
 		return b.getSpreadsheet();
 		// ---- BuildTemplatedSheet

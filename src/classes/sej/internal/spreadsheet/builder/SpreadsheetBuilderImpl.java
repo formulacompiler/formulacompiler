@@ -91,6 +91,12 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 		this.cell = new CellWithLazilyParsedExpression( this.row, nodeOf( _expr ) );
 		return this;
 	}
+	
+	public SpreadsheetBuilder newCell()
+	{
+		this.cell = new CellWithConstant( this.row, null );
+		return this;
+	}
 
 
 	public SpreadsheetBuilder nameCell( String _name )

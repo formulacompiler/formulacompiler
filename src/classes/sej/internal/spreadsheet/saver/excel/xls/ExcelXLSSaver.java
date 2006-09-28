@@ -47,10 +47,12 @@ import jxl.JXLException;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
+import jxl.biff.DisplayFormat;
 import jxl.format.Border;
 import jxl.format.CellFormat;
 import jxl.read.biff.BiffException;
 import jxl.write.Blank;
+import jxl.write.DateFormats;
 import jxl.write.Formula;
 import jxl.write.WritableCell;
 import jxl.write.WritableCellFormat;
@@ -96,9 +98,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	public void save() throws IOException, SpreadsheetException
 	{
 		final SpreadsheetImpl wb = (SpreadsheetImpl) this.model;
-		final WorkbookSettings xset = new WorkbookSettings();
-		xset.setLocale( new Locale( "en", "EN" ) );
-		final WritableWorkbook xwb = Workbook.createWorkbook( this.outputStream, xset );
+		final WritableWorkbook xwb = createWorkbook();
 		try {
 			saveWorkbook( wb, xwb );
 			xwb.write();
@@ -108,6 +108,24 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 			throw new SpreadsheetException.SaveError( e );
 		}
 	}
+
+	private WritableWorkbook createWorkbook() throws IOException
+	{
+		final WorkbookSettings xset = new WorkbookSettings();
+		xset.setLocale( new Locale( "en", "EN" ) );
+		if (null == this.template) {
+			return Workbook.createWorkbook( this.outputStream, xset );
+		}
+		else {
+			final WritableWorkbook xwb = Workbook.createWorkbook( this.outputStream, this.template, xset );
+			for (int i = xwb.getSheets().length - 1; i >= 0; i--) {
+				xwb.removeSheet( i );
+			}
+			xwb.removeAllAreaNames();
+			return xwb;
+		}
+	}
+
 
 	private void saveWorkbook( SpreadsheetImpl _wb, WritableWorkbook _xwb ) throws JXLException, SpreadsheetException
 	{
@@ -173,8 +191,8 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	{
 		final int col = _c.getColumnIndex();
 		final WritableCell xc = createCell( _c, _xwb, col, _row );
-		_xs.addCell( xc );
 		styleCell( _c.getStyleName(), _xwb, _xs, xc );
+		_xs.addCell( xc );
 		styleColumn( _c.getStyleName(), _xwb, _xs, col );
 	}
 
@@ -192,7 +210,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 				return new jxl.write.Label( _col, _row, ((String) val) );
 			}
 			if (val instanceof Date) {
-				return new jxl.write.DateTime( _col, _row, ((Date) val) );
+				return new jxl.write.DateTime( _col, _row, ((Date) val), jxl.write.DateTime.GMT );
 			}
 			if (val instanceof Boolean) {
 				return new jxl.write.Boolean( _col, _row, ((Boolean) val) );
@@ -226,12 +244,12 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 		else {
 			final Cell styleCell = getTemplateCell( _styleName );
 			if (null != styleCell) {
-				final CellView styleFormat = _isRow ? this.templateSheet.getRowView( styleCell.getRow() ) : this.templateSheet
-						.getColumnView( styleCell.getColumn() );
+				final CellView styleFormat = _isRow ? this.templateSheet.getRowView( styleCell.getRow() )
+						: this.templateSheet.getColumnView( styleCell.getColumn() );
 				final CellView targetFormat = new CellView();
-				
+
 				copyRowOrColAttributes( styleFormat, targetFormat );
-				
+
 				_styles.put( _styleName, targetFormat );
 				return targetFormat;
 			}
@@ -247,9 +265,9 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 		_target.setSize( _source.getSize() );
 	}
 
-	
+
 	private final Map<String, CellFormat> cellStyles = new HashMap<String, CellFormat>();
-	
+
 	private CellFormat getCellStyle( String _styleName ) throws JXLException
 	{
 		final Map<String, CellFormat> styles = this.cellStyles;
@@ -263,7 +281,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 				final WritableCellFormat targetFormat = new WritableCellFormat();
 
 				copyCellAttributes( styleFormat, targetFormat );
-				
+
 				styles.put( _styleName, targetFormat );
 				return targetFormat;
 			}
@@ -275,7 +293,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	}
 
 	private static final Border[] BORDERS = new Border[] { Border.TOP, Border.BOTTOM, Border.LEFT, Border.RIGHT };
-	
+
 	private void copyCellAttributes( CellFormat _source, WritableCellFormat _target ) throws JXLException
 	{
 		_target.setAlignment( _source.getAlignment() );
@@ -283,7 +301,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 		for (Border b : BORDERS) {
 			_target.setBorder( b, _source.getBorderLine( b ), _source.getBorderColour( b ) );
 		}
-		_target.setFont( new WritableFont(_source.getFont()) );
+		_target.setFont( new WritableFont( _source.getFont() ) );
 		_target.setIndentation( _source.getIndentation() );
 		_target.setLocked( _source.isLocked() );
 		_target.setOrientation( _source.getOrientation() );
@@ -309,13 +327,45 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 		}
 	}
 
-	private void styleCell( String _styleName, WritableWorkbook _xwb, WritableSheet _xs, WritableCell _xc ) throws JXLException
+	private void styleCell( String _styleName, WritableWorkbook _xwb, WritableSheet _xs, WritableCell _xc )
+			throws JXLException
 	{
 		final CellFormat style = getCellStyle( _styleName );
+		final DisplayFormat displayFormat = getCellDisplayFormat( _xc );
 		if (null != style) {
-			_xc.setCellFormat( style );
+			if (null != displayFormat) {
+				final WritableCellFormat custom = new WritableCellFormat( displayFormat );
+				copyCellAttributes( style, custom );
+				_xc.setCellFormat( custom );
+			}
+			else {
+				_xc.setCellFormat( style );
+			}
+		}
+		else if (null != displayFormat) {
+			_xc.setCellFormat( getCellFormatFor( displayFormat ) );
 		}
 	}
+
+	private DisplayFormat getCellDisplayFormat( WritableCell _xc )
+	{
+		if (_xc instanceof jxl.write.DateTime) {
+			return DateFormats.DEFAULT;
+		}
+		return null;
+	}
+
+	private CellFormat getCellFormatFor( DisplayFormat _displayFormat )
+	{
+		CellFormat result = this.cellFormats.get( _displayFormat );
+		if (null == result) {
+			result = new WritableCellFormat( _displayFormat );
+			this.cellFormats.put( _displayFormat, result );
+		}
+		return result;
+	}
+
+	private final Map<DisplayFormat, CellFormat> cellFormats = new HashMap<DisplayFormat, CellFormat>();
 
 
 }
