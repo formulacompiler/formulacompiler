@@ -47,16 +47,11 @@ import jxl.JXLException;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
-import jxl.biff.DisplayFormat;
-import jxl.format.Border;
 import jxl.format.CellFormat;
 import jxl.read.biff.BiffException;
 import jxl.write.Blank;
-import jxl.write.DateFormats;
 import jxl.write.Formula;
 import jxl.write.WritableCell;
-import jxl.write.WritableCellFormat;
-import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
@@ -118,12 +113,18 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 		}
 		else {
 			final WritableWorkbook xwb = Workbook.createWorkbook( this.outputStream, this.template, xset );
-			for (int i = xwb.getSheets().length - 1; i >= 0; i--) {
-				xwb.removeSheet( i );
-			}
-			xwb.removeAllAreaNames();
+			extractCellFormatsFrom( xwb );
+			removeDataFrom( xwb );
 			return xwb;
 		}
+	}
+
+	private void removeDataFrom( final WritableWorkbook _xwb )
+	{
+		for (int i = _xwb.getSheets().length - 1; i >= 0; i--) {
+			_xwb.removeSheet( i );
+		}
+		_xwb.removeAllAreaNames();
 	}
 
 
@@ -268,46 +269,17 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 
 	private final Map<String, CellFormat> cellStyles = new HashMap<String, CellFormat>();
 
-	private CellFormat getCellStyle( String _styleName ) throws JXLException
+	private void extractCellFormatsFrom( WritableWorkbook _xwb )
 	{
-		final Map<String, CellFormat> styles = this.cellStyles;
-		if (styles.containsKey( _styleName )) {
-			return styles.get( _styleName );
-		}
-		else {
-			final Cell styleCell = getTemplateCell( _styleName );
-			if (null != styleCell) {
-				final CellFormat styleFormat = styleCell.getCellFormat();
-				final WritableCellFormat targetFormat = new WritableCellFormat();
-
-				copyCellAttributes( styleFormat, targetFormat );
-
-				styles.put( _styleName, targetFormat );
-				return targetFormat;
-			}
-			else {
-				styles.put( _styleName, null );
-				return null;
-			}
+		for (final String name : _xwb.getRangeNames()) {
+			final WritableCell cell = _xwb.findCellByName( name );
+			this.cellStyles.put( name, cell.getCellFormat() );
 		}
 	}
 
-	private static final Border[] BORDERS = new Border[] { Border.TOP, Border.BOTTOM, Border.LEFT, Border.RIGHT };
-
-	private void copyCellAttributes( CellFormat _source, WritableCellFormat _target ) throws JXLException
+	private CellFormat getCellStyle( String _styleName )
 	{
-		_target.setAlignment( _source.getAlignment() );
-		_target.setBackground( _source.getBackgroundColour(), _source.getPattern() );
-		for (Border b : BORDERS) {
-			_target.setBorder( b, _source.getBorderLine( b ), _source.getBorderColour( b ) );
-		}
-		_target.setFont( new WritableFont( _source.getFont() ) );
-		_target.setIndentation( _source.getIndentation() );
-		_target.setLocked( _source.isLocked() );
-		_target.setOrientation( _source.getOrientation() );
-		_target.setShrinkToFit( _source.isShrinkToFit() );
-		_target.setVerticalAlignment( _source.getVerticalAlignment() );
-		_target.setWrap( _source.getWrap() );
+		return this.cellStyles.get( _styleName );
 	}
 
 
@@ -328,44 +300,12 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	}
 
 	private void styleCell( String _styleName, WritableWorkbook _xwb, WritableSheet _xs, WritableCell _xc )
-			throws JXLException
 	{
 		final CellFormat style = getCellStyle( _styleName );
-		final DisplayFormat displayFormat = getCellDisplayFormat( _xc );
 		if (null != style) {
-			if (null != displayFormat) {
-				final WritableCellFormat custom = new WritableCellFormat( displayFormat );
-				copyCellAttributes( style, custom );
-				_xc.setCellFormat( custom );
-			}
-			else {
-				_xc.setCellFormat( style );
-			}
-		}
-		else if (null != displayFormat) {
-			_xc.setCellFormat( getCellFormatFor( displayFormat ) );
+			_xc.setCellFormat( style );
 		}
 	}
 
-	private DisplayFormat getCellDisplayFormat( WritableCell _xc )
-	{
-		if (_xc instanceof jxl.write.DateTime) {
-			return DateFormats.DEFAULT;
-		}
-		return null;
-	}
-
-	private CellFormat getCellFormatFor( DisplayFormat _displayFormat )
-	{
-		CellFormat result = this.cellFormats.get( _displayFormat );
-		if (null == result) {
-			result = new WritableCellFormat( _displayFormat );
-			this.cellFormats.put( _displayFormat, result );
-		}
-		return result;
-	}
-
-	private final Map<DisplayFormat, CellFormat> cellFormats = new HashMap<DisplayFormat, CellFormat>();
-
-
+	
 }

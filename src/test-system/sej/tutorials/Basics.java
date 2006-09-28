@@ -36,7 +36,6 @@ import sej.SEJ;
 import sej.Spreadsheet;
 import sej.SpreadsheetBuilder;
 import sej.SpreadsheetSaver;
-import sej.internal.runtime.Runtime_v1;
 import sej.runtime.Engine;
 import sej.runtime.SEJException;
 import sej.tests.utils.AbstractTestBase;
@@ -432,45 +431,54 @@ public class Basics extends AbstractTestBase
 		final String CAPTION = "Caption";
 		final String LBL = "Label";
 		final String IN = "InputValue";
-		final String OUT = "OutputValue";
+		final String IN_P = "PercentInputValue";
+		final String IN_D = "DateInputValue";
+		final String OUT_P = "PercentOutputValue";
 		final String INTER = "IntermediateValue";
 		
 		SpreadsheetBuilder b = SEJ.newSpreadsheetBuilder();
+		
+		b.newCell().newCell( b.cst( "Styled" )).newCell( b.cst( "Plain" ));
 
-		b./**/styleRow/**/( CAPTION ).newCell( b.cst( "Inputs" ))./**/styleCell/**/( CAPTION ).newRow();
-		b.newCell( b.cst( "CustomerRebate" ))./**/styleCell/**/( LBL );
-		b.newCell( b.cst( 0.1 ))./**/styleCell/**/( IN );
+		b.newRow()./**/styleRow( CAPTION )/**/.newCell( b.cst( "Inputs" ))./**/styleCell( CAPTION )/**/.newRow();
+		b.newCell( b.cst( "CustomerRebate" ))./**/styleCell( LBL )/**/;
+		b.newCell( b.cst( 0.1 ))./**/styleCell( IN_P )/**/;
+		b.newCell( b.cst( 0.1 ));
 		SpreadsheetBuilder.CellRef cr = b.currentCell();
 
 		b.newRow();
-		b.newCell( b.cst( "ArticleRebate" ) ).styleCell( LBL );
-		b.newCell( b.cst( 0.05 ) ).styleCell( IN );
+		b.newCell( b.cst( "ArticleRebate" ) )./**/styleCell( LBL )/**/;
+		b.newCell( b.cst( 0.05 ) )./**/styleCell( IN_P )/**/;
+		b.newCell( b.cst( 0.05 ) );
 		SpreadsheetBuilder.CellRef ar = b.currentCell();
-
-		b.newRow();
-		b.newCell( b.cst( "OrderDate" ) ).styleCell( LBL );
-		b.newCell( b.cst( Runtime_v1.today() ) ).styleCell( IN );
+		
+		final Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis( 0 );
+		cal.set( 2006, 9, 29 );
+		Date orderDateSampleValue = cal.getTime();
 		
 		b.newRow();
-		b.newCell( b.cst( "IsKeyAccount" ) ).styleCell( LBL );
-		b.newCell( b.cst( true ) ).styleCell( IN );
+		b.newCell( b.cst( "OrderDate" ) )./**/styleCell( LBL )/**/;
+		b.newCell( b.cst( orderDateSampleValue ) )./**/styleCell( IN_D )/**/;
+		b.newCell( b.cst( orderDateSampleValue ) );
 		
-		b.newRow().styleRow( CAPTION ).newCell( b.cst( "Outputs" )).styleCell( CAPTION ).newRow();
-		b.newCell( b.cst( "Rebate" ) ).styleCell( LBL );
-		b.newCell( b.op( Operator.PLUS, b.ref( cr ), b.ref( ar ) )).styleCell( OUT );
+		b.newRow();
+		b.newCell( b.cst( "IsKeyAccount" ) )./**/styleCell( LBL )/**/;
+		b.newCell( b.cst( true ) )./**/styleCell( IN )/**/;
+		b.newCell( b.cst( true ) );
+		
+		b.newRow()./**/styleRow( CAPTION )/**/.newCell( b.cst( "Outputs" ))./**/styleCell( CAPTION )/**/.newRow();
+		b.newCell( b.cst( "Rebate" ) )./**/styleCell( LBL )/**/;
+		b.newCell( b.op( Operator.PLUS, b.ref( cr ), b.ref( ar ) ))./**/styleCell( OUT_P )/**/;
 
-		b.newRow().styleRow( CAPTION ).newCell( b.cst( "Intermediate Values" )).styleCell( CAPTION ).newRow();
-		b.newCell( b.cst( "(sample only)" ) ).styleCell( LBL );
-		b.newCell().styleCell( INTER );
-		
+		b.newRow()./**/styleRow( CAPTION )/**/.newCell( b.cst( "Intermediate Values" ))./**/styleCell( CAPTION )/**/.newRow();
+		b.newCell( b.cst( "(sample only)" ) )./**/styleCell( LBL )/**/;
+		b.newCell()./**/styleCell( INTER )/**/;
+		b.newCell();
 		
 		return b.getSpreadsheet();
 		// ---- BuildTemplatedSheet
 	}
-
-	
-	// ------------------------------------------------ Base classes
-
 
 	static abstract class LineItem
 	{
