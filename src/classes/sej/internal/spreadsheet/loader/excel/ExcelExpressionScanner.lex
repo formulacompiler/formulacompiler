@@ -20,7 +20,7 @@
  */
 package sej.internal.spreadsheet.loader.excel;
 
-/* Lexer for Excel formulas with R1C1-style cell references. Based on the one found in JExcelAPI.
+/* Lexer for Excel formulas. Based on the one found in JExcelAPI.
 */
 
 import java_cup.runtime.Symbol;
@@ -28,7 +28,7 @@ import java_cup.runtime.Symbol;
 %cupsym GeneratedSymbols
 %cup
 %char
-%class GeneratedScannerR1C1
+%class GeneratedScanner@cellstyle@
 %implements ExcelExpressionScanner
 %final
 %apiprivate
@@ -50,10 +50,8 @@ QUOTE	= "'"
 INT		= {DIGIT}+
 DBL		= {DIGIT}+ "." {DIGIT}+
 
-IDX		= ("[" "-"? {INT} "]") | {INT}
-ROW		= "R" {IDX}?
-COL		= "C" {IDX}?
-CELL	= {ROW} {COL}
+@cellregexp@
+
 SHEET	= ({IDENT})+ "!" 
 		| {QUOTE} ({IDENT} | {SPACE} | {SYMBOL})+ {QUOTE} "!"
 
@@ -63,6 +61,7 @@ FN		= "@"?
 
 
 %%
+
 
 "+"			{ return new Symbol( GeneratedSymbols.PLUS, "+" ); }
 "-"			{ return new Symbol( GeneratedSymbols.MINUS, "-" ); }
@@ -114,13 +113,11 @@ FN		= "@"?
 {FN} "PROPER"	{ return new Symbol( GeneratedSymbols.PROPER, "PROPER" ); }
 
 {FN} "TRUE"		{ return new Symbol( GeneratedSymbols.INT, new Integer(1) ); }
-{FN} "FALSE"	{ return new Symbol( GeneratedSymbols.INT, new Integer(0) ); }
 {FN} "true"		{ return new Symbol( GeneratedSymbols.INT, new Integer(1) ); }
+{FN} "FALSE"	{ return new Symbol( GeneratedSymbols.INT, new Integer(0) ); }
 {FN} "false"	{ return new Symbol( GeneratedSymbols.INT, new Integer(0) ); }
 
-{CELL}		{ return new Symbol( GeneratedSymbols.CELLR1C1, yytext() ); }
-{COL}		{ return new Symbol( GeneratedSymbols.COL, yytext() ); }
-{ROW}		{ return new Symbol( GeneratedSymbols.ROW, yytext() ); }
+@cellscan@
 {SHEET}		{ return new Symbol( GeneratedSymbols.SHEET, yytext() ); }
 
 {INT}		{ return new Symbol( GeneratedSymbols.INT, new Integer( yytext() ) ); }

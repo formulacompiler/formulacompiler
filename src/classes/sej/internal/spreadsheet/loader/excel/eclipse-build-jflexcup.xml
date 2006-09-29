@@ -4,10 +4,36 @@
 	<taskdef classname="JFlex.anttask.JFlexTask" name="jflex" classpath="J:/jflex-1.4.1/lib/JFlex.jar"/>
 	<taskdef classname="java_cup.anttask.CUPTask" name="cup" classpath="J:/java-cup-11a/dist/java-cup-11a.jar" />
 
-	<target name="lex">
-		<jflex file="classes/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerA1.lex"
+	<target name="lexgen">
+		<loadfile property="lex.regexps" srcfile="classes/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}_RegExps.lex"></loadfile>
+		<loadfile property="lex.scan" srcfile="classes/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}_Scan.lex"></loadfile>
+		<copy 
+			file="classes/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner.lex"
+			tofile="classes-gen/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}.lex"
+			overwrite="true">
+			<filterchain>
+				<replacetokens>
+					<token key="cellstyle" value="${style}" />
+					<token key="cellregexp" value="${lex.regexps}" />
+					<token key="cellscan" value="${lex.scan}" />
+				</replacetokens>
+			</filterchain>
+		</copy>
+	</target>
+	
+	<target name="lexinput">
+		<antcall target="lexgen">
+			<param name="style" value="A1"/>
+		</antcall>
+		<antcall target="lexgen">
+			<param name="style" value="R1C1"/>
+		</antcall>
+	</target>
+
+	<target name="lex" depends="lexinput">
+		<jflex file="classes-gen/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerA1.lex"
 			destdir="classes-gen"/>
-		<jflex file="classes/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerR1C1.lex"
+		<jflex file="classes-gen/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerR1C1.lex"
 			destdir="classes-gen"/>
 	</target>
 
