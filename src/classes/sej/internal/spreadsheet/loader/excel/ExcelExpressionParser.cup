@@ -35,7 +35,7 @@ terminal LPAREN, RPAREN, LBRACK, RBRACK;
 terminal EQUAL, NOTEQUAL, GREATER, GREATEROREQUAL, LESS, LESSOREQUAL;
 terminal IF, AND, OR, NOT;
 terminal SUM, PRODUCT, COUNT, AVERAGE, MIN, MAX;
-terminal MATCH, INDEX, ROUND;
+terminal MATCH, INDEX, ROUND, ABS;
 terminal TODAY;
 terminal CONCATENATE, LEN, MID, LEFT, RIGHT, SUBSTITUTE, REPLACE, SEARCH, FIND, EXACT, LOWER, UPPER, PROPER;
 terminal Integer INT;
@@ -259,6 +259,9 @@ expr ::=
 	
 	|	PROPER LPAREN expr:e RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.PROPER, e ); :}
+
+	|	ABS LPAREN expr:e RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.ABS, e ); :}
 				
 	;
 

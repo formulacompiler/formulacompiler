@@ -29,6 +29,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 import sej.CompilerException;
 import sej.NumericType;
 import sej.Operator;
+import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.runtime.ScaledLong;
 import sej.runtime.ScaledLongSupport;
 
@@ -136,8 +137,8 @@ final class ExpressionCompilerForDoubles extends ExpressionCompilerForNumbers
 	{
 		mv().visitInsn( Opcodes.D2I );
 	}
-	
-	
+
+
 	@Override
 	protected void compileConversionToString() throws CompilerException
 	{
@@ -177,10 +178,13 @@ final class ExpressionCompilerForDoubles extends ExpressionCompilerForNumbers
 				mv.visitInsn( Opcodes.DDIV );
 				break;
 
+			// Please leave the following JCite annotation intact.
+			// ---- opEXP
 			case EXP:
 				mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeEngineCompiler.MATH_CLASS.getInternalName(), "pow",
 						"(DD)D" );
 				break;
+			// ---- opEXP
 
 			case MIN:
 				compileRuntimeMethod( "min", "(DD)D" );
@@ -202,6 +206,28 @@ final class ExpressionCompilerForDoubles extends ExpressionCompilerForNumbers
 		mv().visitInsn( _comparisonOpcode );
 	}
 
+
+	@Override
+	protected void compileFunction( ExpressionNodeForFunction _node ) throws CompilerException
+	{
+		final GeneratorAdapter mv = mv();
+		switch (_node.getFunction()) {
+
+			// Please leave the following JCite annotation intact.
+			// ---- funABS
+			case ABS:
+				switch (_node.cardinality()) {
+					case 1:
+						mv.visitMethodInsn( Opcodes.INVOKESTATIC, ByteCodeEngineCompiler.MATH_CLASS.getInternalName(), "abs",
+								"(D)D" );
+						return;
+				}
+				break;
+			// ---- funABS
+
+		}
+		super.compileFunction( _node );
+	}
 
 	/**
 	 * Debugging aid. Protected so Eclipse does not flag it as an unused private method.
