@@ -118,7 +118,7 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 		throw new CompilerException.UnsupportedDataType( "Cannot convert from a " + this + " to a string." );
 	}
 
-	
+
 	@Override
 	protected void compileConversionFrom( Class _class ) throws CompilerException
 	{
@@ -236,22 +236,33 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 		final List<ExpressionNode> args = _node.arguments();
 		switch (_node.getFunction()) {
 
+			// Please leave the following JCite annotation intact.
+			// ---- compileROUND
 			case ROUND:
-				compileStdFunction( _node );
-				return;
+				switch (_node.cardinality()) {
+					case 2:
+						compileRuntimeFunction( _node );
+						return;
+				}
+				break;
+			// ---- compileROUND
 
 			case TODAY:
-				compileStdFunction( _node );
-				return;
+				switch (_node.cardinality()) {
+					case 0:
+						compileRuntimeFunction( _node );
+						return;
+				}
+				break;
 
 			case MATCH:
 				compileHelpedExpr( new HelperCompilerForMatch( section(), _node ) );
 				return;
-				
+
 			case LEN:
 				switch (_node.cardinality()) {
 					case 1:
-						str.compile( args.get(0) );
+						str.compile( args.get( 0 ) );
 						mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/String", "length", "()I" );
 						compileConversionFromInt();
 						return;
@@ -268,7 +279,7 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 						return;
 				}
 				break;
-				
+
 			case SEARCH:
 			case FIND:
 				switch (_node.cardinality()) {
@@ -277,26 +288,27 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 						str.compile( args.get( 0 ) );
 						str.compile( args.get( 1 ) );
 						if (_node.cardinality() > 2) {
-							compile( args.get( 2 ));
+							compile( args.get( 2 ) );
 							compileConversionToInt();
 						}
 						else {
 							mv().visitInsn( Opcodes.ICONST_1 );
 						}
-						compileRuntimeMethod( "std" + _node.getFunction().getName(), "(Ljava/lang/String;Ljava/lang/String;I)I" );
+						compileRuntimeMethod( "std" + _node.getFunction().getName(),
+								"(Ljava/lang/String;Ljava/lang/String;I)I" );
 						compileConversionFromInt();
 						return;
 				}
 				break;
-				
+
 		}
 		super.compileFunction( _node );
 	}
 
 
-	protected void compileStdFunction( ExpressionNodeForFunction _node ) throws CompilerException
+	protected void compileRuntimeFunction( ExpressionNodeForFunction _node ) throws CompilerException
 	{
-		final boolean needsContext = doesStdFunctionNeedContext( _node );
+		final boolean needsContext = doesRuntimeFunctionNeedContext( _node );
 		final StringBuilder descriptorBuilder = new StringBuilder();
 		final String typeDescriptor = typeDescriptor();
 		descriptorBuilder.append( '(' );
@@ -304,7 +316,7 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 			compile( arg );
 			descriptorBuilder.append( typeDescriptor );
 		}
-		if (needsContext) appendStdFunctionContext( descriptorBuilder );
+		if (needsContext) appendRuntimeFunctionContext( descriptorBuilder );
 		descriptorBuilder.append( ')' );
 		descriptorBuilder.append( typeDescriptor );
 		if (needsContext) {
@@ -315,19 +327,20 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 		}
 	}
 
-	protected boolean doesStdFunctionNeedContext( ExpressionNodeForFunction _node )
+	protected boolean doesRuntimeFunctionNeedContext( ExpressionNodeForFunction _node )
 	{
 		return false;
 	}
 
-	protected void appendStdFunctionContext( StringBuilder _descriptorBuilder )
+	protected void appendRuntimeFunctionContext( StringBuilder _descriptorBuilder )
 	{
 		throw new IllegalStateException( "Internal error: appendStdFunctionContext() is not applicable for " + this + "." );
 	}
 
 	protected void compileRuntimeMethodWithContext( String _string, String _string2 )
 	{
-		throw new IllegalStateException( "Internal error: compileRuntimeMethodWithContext() is not applicable for " + this + "." );
+		throw new IllegalStateException( "Internal error: compileRuntimeMethodWithContext() is not applicable for "
+				+ this + "." );
 	}
 
 
@@ -338,7 +351,7 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 
 	protected abstract String roundMethodSignature();
 
-	
+
 	final void compileTest( ExpressionNode _test, Label _notMet ) throws CompilerException
 	{
 		new TestCompilerBranchingWhenFalse( _test, _notMet ).compileTest();

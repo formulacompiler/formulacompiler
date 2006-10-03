@@ -18,45 +18,16 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej;
+package sej.examples;
 
+// ---- Class
+public final class DisassembleJVMByteCodes
+{
 
-/**
- * Lists all the functions supported by SEJ.
- * 
- * @author peo
- * 
- * @see SpreadsheetBuilder#fun(Function, sej.SpreadsheetBuilder.ExprNode[])
- */
-public enum Function {
-
-	IF,
-
-	NOT,
-
-	ABS, ROUND,
-
-	TODAY {
-		@Override
-		public boolean isVolatile()
-		{
-			return true;
-		}
-	},
-
-	MATCH, INDEX,
-
-	CONCATENATE, LEN, MID, LEFT, RIGHT, SUBSTITUTE, REPLACE, SEARCH, FIND, EXACT, LOWER, UPPER, PROPER;
-
-
-	public String getName()
+	public double implementABS( double value )
 	{
-		return toString();
-	}
-
-	public boolean isVolatile()
-	{
-		return false;
+		return Math.abs( value );
 	}
 
 }
+// ---- Class

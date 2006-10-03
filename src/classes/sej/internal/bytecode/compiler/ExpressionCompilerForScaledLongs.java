@@ -393,13 +393,13 @@ final class ExpressionCompilerForScaledLongs extends ExpressionCompilerForNumber
 	}
 
 	@Override
-	protected boolean doesStdFunctionNeedContext( ExpressionNodeForFunction _node )
+	protected boolean doesRuntimeFunctionNeedContext( ExpressionNodeForFunction _node )
 	{
 		return true;
 	}
 	
 	@Override
-	protected void appendStdFunctionContext( StringBuilder _descriptorBuilder )
+	protected void appendRuntimeFunctionContext( StringBuilder _descriptorBuilder )
 	{
 		_descriptorBuilder.append( RUNTIME_CONTEXT_DESCRIPTOR );
 	}

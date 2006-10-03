@@ -16,7 +16,7 @@ public final class DebugTest extends AbstractReferenceTest
 
 	public DebugTest()
 	{
-		super( "CellNames", 14 );
+		super( "NumericFunctions", 2 );
 		// super( "Strings", 7, NumType.DOUBLE, Integer.valueOf( "0", 2 ), false );
 	}
 

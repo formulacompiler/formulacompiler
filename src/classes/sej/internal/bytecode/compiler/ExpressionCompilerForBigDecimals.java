@@ -312,9 +312,9 @@ final class ExpressionCompilerForBigDecimals extends ExpressionCompilerForNumber
 	
 	
 	@Override
-	protected void compileStdFunction( ExpressionNodeForFunction _node ) throws CompilerException
+	protected void compileRuntimeFunction( ExpressionNodeForFunction _node ) throws CompilerException
 	{
-		super.compileStdFunction( _node );
+		super.compileRuntimeFunction( _node );
 		compileScaleAdjustment();
 	}
 	

@@ -96,6 +96,7 @@ FN		= "@"?
 {FN} "MAX"		{ return new Symbol( GeneratedSymbols.MAX, "MAX" ); }
 {FN} "MATCH"	{ return new Symbol( GeneratedSymbols.MATCH, "MATCH" ); }
 {FN} "INDEX"	{ return new Symbol( GeneratedSymbols.INDEX, "INDEX" ); }
+{FN} "ABS"		{ return new Symbol( GeneratedSymbols.ABS, "ABS" ); }
 {FN} "ROUND"	{ return new Symbol( GeneratedSymbols.ROUND, "ROUND" ); }
 {FN} "TODAY"	{ return new Symbol( GeneratedSymbols.TODAY, "TODAY" ); }
 {FN} "CONCATENATE"	{ return new Symbol( GeneratedSymbols.CONCATENATE, "CONCATENATE" ); }

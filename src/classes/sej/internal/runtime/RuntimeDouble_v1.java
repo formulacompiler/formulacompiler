@@ -55,10 +55,13 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		}
 	}
 
+	// Please leave the following JCite annotation intact.
+	// ---- stdROUND
 	public static double stdROUND( final double _val, final double _maxFrac )
 	{
 		return round( _val, (int) _maxFrac );
 	}
+	// ---- stdROUND
 
 	public static double stdTODAY()
 	{

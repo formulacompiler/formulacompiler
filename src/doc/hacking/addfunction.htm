@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Adding A New Spreadsheet Function To SEJ - arrenbrecht.ch</title>
+    <style type="text/css" media="screen">
+        @import "../style.css";
+	
+    </style>
+    <link rel="stylesheet" type="text/css" media="print" href="../printstyle.css" />
+	<script type="text/javascript" src="../scripts.js"></script>
+	
+</head>
+<body onload="body_loaded();">
+    <div class="all">
+        <div class="nav">
+            <p class="nav">
+<a href="http://www.arrenbrecht.ch/">arrenbrecht.ch</a> &gt;
+<a href="../index.htm">SEJ</a> &gt;
+<a href="index.htm">Hacking</a> &gt;
+
+			</p>
+        </div>
+        <div class="title">
+            <h1>
+                Adding A New Spreadsheet Function To SEJ</h1>
+        </div>
+        
+        
+        <div class="content">
+        
+<p>As a simple, but probably typical example, we will look at how I added <tt>ABS()</tt> to the list of supported spreadsheet functions. So for the rest of this page, we will assume <tt>ABS()</tt> was not implemented yet.</p><div class="toc">
+<p id="pagetoc" hfrom="2" hto="3"><i>Table Of Contents missing - need to enable JavaScript?</i></p>
+</div>
+
+<h2>Rule 1: <em>Document first</em></h2>
+<p>Documentation, of course, documents, but it also <a href="http://peomeint.blogspot.com/2006/08/beyond-tdd-documentation-driven.html">focuses our thinking</a>. This is why we start with it - and, of course, so we don't forget it. For larger, novel features, it can be <a href="../tutorial/generatesheet.htm">quite elaborate</a>. In our case, we may safely assume that people know why we would want <tt>ABS()</tt> to be supported and that they will consult the Excel help file for information on it.</p>
+<p>Nevertheless, we still need to document the fact that <tt>ABS()</tt> is, in fact, supported. First, we announce the improvement in the release notes in <tt>src/doc/releasenotes.htm</tt>. Just look at the file and you'll see how.</p>
+<p>Then we add it to the list of supported numeric functions in the reference documentation. The master list is in <tt><a href="../releasenotes.htm">src/doc/reference/index.htm</a></tt>. We add the <tt>ABS()</tt> function under the heading <em>Numeric Functions</em>. Like this:</p>
+<pre>...
+&lt;dt&gt;&lt;a href="numfuncs.htm"&gt;Numeric Functions&lt;/a&gt;&lt;/dt&gt;
+&lt;dd&gt;&lt;tt&gt;ABS&lt;/tt&gt;, &lt;tt&gt;ROUND&lt;/tt&gt;&lt;/dd&gt;
+...</pre>
+<dl><dt>Note</dt><dd><em>I currently generate all the plain HTML files from a simplified source (comparable to <a href="http://daringfireball.net/projects/markdown/">markdown</a>) with a homegrown system. So you may have to reformat the HTML first for better readability. The Eclipse Web Tools HTML editor does this nicely. When you send a patch with changed HTML documents, I will merge the changes back into my simplified sources myself. And yes, I do plan to change this.</em></dd></dl>
+
+<h2>Rule 2: <em>Cite tested examples</em></h2>
+<p>So far, we simply said: <em><tt>ABS()</tt> is supported.</em> How do we know it is? How does the reader know? This is where test-driven development gets into the picture - with a twist. We prove what we say directly to our reader. The proof becomes an integral part of the documentation (which is, after all, <em>what we are saying</em>). So, to integrate the proof, we always give examples which are <a href="http://arrenbrecht.ch/articles/SourceCiting.htm"><em>cited</em> from automated tests</a>.</p>
+<p>SEJ's existing testing and citing infrastructure makes this easy, especially for adding a new spreadsheet function. The spreadsheet files in <tt>src/test-system/testdata/sej/tests/reference</tt> contain formula tests. SEJ's build system runs them automatically. It also makes them citable by writing out HTML fragments describing them. So, to prove we implemented <tt>ABS()</tt>, all we still need to do is add test cases to one of the test sheets.</p>
+
+<h2>Automated Formula Tests</h2>
+<p>For <tt>ABS()</tt>, we extend the sheet called <tt>NumericFunctions.xls</tt>. By <em>citing</em> it, I can show it right here:</p>
+<p>[xc:testdata/sej/tests/reference/NumericFunctions.xls]</p>
+<p>And here is <a href="../reference/numfuncs.htm">the documentation produced from it</a>.</p>
+<p>This spreadsheet has one row per test case. Blank rows are ignored. The columns have the following meanings. As examples, just look at what I inserted for the <tt>ABS()</tt> tests in the sheet above.</p><dl><dt>Expected (A)</dt><dd>Holds the expected result of the computation. You should always fill this cell by copying the value from column B, and then pasting it to column A using <em>Paste Special -&gt; Values Only</em>.</dd><dt>Actual (B)</dt><dd>Holds the formula to be computed by SEJ. It may reference constant values and any other cell. Normally, it references adjacent cells in columns C through I.</dd><dt>Inputs (C-I)</dt><dd>Typically holds input values to the formula.</dd><dt># of Inputs (J)</dt><dd>The number of cells in C-I which SEJ should bind to input methods. This is indicated by a conditionally formatted green background on those cells in Excel. When a cell is bound, it still returns the value that is given for it in the sheet, so the expected result remains valid.</dd><dt>Name (K)</dt><dd>The name of feature being tested and documented. Used as a subtitle in the generated documentation. Following rows with no name in this column are considered to be part of the last name's tests. (See below for the meaning of <tt>...</tt> here.)</dd><dt>Highlight (L)</dt><dd>A substring that should be highlighted in the formula as rendered in the generated documentation. Following rows with nothing in this columns reuse the last value. Putting <tt>x</tt> into the column clears the highlighting.</dd></dl>
+<p>When you specify bound input cells using column J, the automated test runner automatically runs the formula with all possible combinations of bound and unbound input values. This ensures that the runtime and compile time (constant folder) implementations work for all combinations.</p>
+<p>These tests do not, however, check whether a bound input really reacts dynamically to its runtime input value. The dynamic input value is, after all, still the same as the constant values in the spreadsheet. This is so because the result has to remain the same for checking.</p>
+<p>To check alternate input sets, you use the value <tt>...</tt> in the <em>Name</em> column K. This runs the test in the above row again, with the full set of inputs bound. The dynamic values are now taken from the alternate row instead of the original test row. So is the expected result. The formula in the alternate row, however, is ignored (because the original test row is run). While the formula is ignored by the test, you should still copy it down from the original test row to conveniently determine the expected result of the alternate row. The last test row for <tt>ABS()</tt> in the sheet above shows this. Finally, you can have more than one alternate row. Just add more rows with <tt>...</tt> in the <em>Name</em> column.</p>
+
+<h2>Rule 3: <em>Mimick existing code</em></h2>
+<p>This rule is the <em>monkey see, monkey do</em> rule from the book on <a href="http://udig.refractions.net/confluence/display/UDIG/Eclipse+House+Rules">contributing to Eclipse</a>. It means we look for an already implemented function closely matching <tt>ABS()</tt>, and then mimick its implementation (aka copy/paste). We will mimick <tt>ROUND()</tt> for <tt>ABS()</tt>. In fact, we already did. When documenting <tt>ABS()</tt> in the list of supported functions, remember? This rule basically states something we would do anyway.</p>
+<p>So, to add the test cases for <tt>ABS()</tt>, I already copied lines from <tt>ROUND()</tt> and adjusted them. You can see them in the sheet above. (Copying the lines made sure that the conditional formatting for input values was copied too.)</p>
+
+<h2>Rule 4: <em>Implement only what the tests require</em></h2>
+<p>This is test-driven development. We implement <tt>ABS()</tt> by just adding missing code until the tests run. The first step is, then, to run the tests just added (which will fail, of course). Every formula test sheet corresponds to a test class in <tt>src/test-system/sej/tests/reference</tt>. For the sheet <tt>NumericFunctions.xls</tt>, we need to run the test class <tt>NumericFunctionsTest</tt>. Doing this now returns:</p>
+<pre>sej.SpreadsheetException$UnsupportedExpression:
+  Undefined name or unsupported function encountered in expression ABS( &lt;&lt;? C2);
+  error location indicated by &lt;&lt;?.
+  Cell containing expression is B2.
+at sej.internal.spreadsheet.CellWithLazilyParsedExpression.getExpression(CellWithLazilyParsedExpression.java:71)
+...</pre>
+
+
+<h2>Extending The Parser</h2>
+<p><em>Undefined name or unsupported function encountered</em> means SEJ's Excel formula parser cannot parse something. So we must make it support <tt>ABS()</tt> as our first implementation step. The parser consists of two separate phases, the lexical scanner returning symbols, and the symbol stream parser. Both are generated from special scanner and parser description languages.</p>
+<p>The scanner is generated using <a href="http://www.jflex.de/">JFlex</a>. Its input file is <tt>src/classes/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner.lex</tt>. To add support for recognizing the <tt>ABS</tt> token, we simply add the following line above the one for <tt>ROUND</tt>:</p>
+<pre>{FN} "ABS" { return new Symbol( GeneratedSymbols.ABS, "ABS" ); }</pre>
+
+<p>We run <tt>ant lex</tt> to regenerate the scanner. This leads to the next error. The Java symbol <tt>GeneratedSymbols.ABS</tt> is undefined. This is because the parser defines the available symbols. So we need to tell the token parser about <tt>ABS</tt> too.</p>
+<p>The parser is generated using <a href="http://www2.in.tum.de/projects/cup/">CUP</a>. Its input file is <tt>src/classes/sej/internal/spreadsheet/loader/excel/ExcelExpressionParser.cup</tt>. To add support for recognizing the <tt>ABS()</tt> function, we first add the symbol <tt>ABS</tt>:</p>
+<pre>terminal MATCH, INDEX, ROUND, ABS;</pre>
+
+<p>Then we add parsing instructions for the entire <tt>ABS()</tt> function. They go into the definition of the <tt>expr</tt> clause:</p>
+<pre>expr ::=
+  ...
+  |  ABS LPAREN expr:e RPAREN
+       {: RESULT = new ExpressionNodeForFunction( Function.ABS, e ); :}</pre>
+
+<p>This should be fairly self-explanatory. It creates a new for a function <tt>ABS</tt> with a single argument <tt>e</tt>, which can be any expression. To generate the parser, we run <tt>ant cup</tt>.</p>
+<p>Now, the Java symbol <tt>sej.Function.ABS</tt> is undefined. Extending this enumeration is straightforward, and the code compiles again.</p>
+
+<h2>Implementing The Function</h2>
+<p>Running the test again, we get:</p>
+<pre>sej.CompilerException$UnsupportedExpression:
+Function ABS is not supported for double engines.
+In expression  &gt;&gt; ABS( C2 ) &lt;&lt; ; error location indicated by &gt;&gt;..&lt;&lt;.
+Cell containing expression is B2.
+Referenced by cell B2.
+  at sej.internal.bytecode.compiler.ExpressionCompiler.compileFunction(ExpressionCompiler.java:334)
+  at sej.internal.bytecode.compiler.ExpressionCompilerForNumbers.compileFunction(ExpressionCompilerForNumbers.java:293)
+  at sej.internal.bytecode.compiler.ExpressionCompiler.compileInner(ExpressionCompiler.java:185)
+  at sej.internal.bytecode.compiler.ExpressionCompiler.compile(ExpressionCompiler.java:112)
+  at sej.internal.bytecode.compiler.MethodCompiler.compileExpression(MethodCompiler.java:261)
+  at sej.internal.bytecode.compiler.CellMethodCompiler.compileBody(CellMethodCompiler.java:79)
+  at sej.internal.bytecode.compiler.MethodCompiler.compile(MethodCompiler.java:112)
+  at sej.internal.bytecode.compiler.CellComputation.compile(CellComputation.java:89)
+  at sej.internal.bytecode.compiler.ByteCodeEngineCompiler$ElementCompiler.visitTargetCell(ByteCodeEngineCompiler.java:218)
+  at sej.internal.bytecode.compiler.ByteCodeEngineCompiler$AbstractElementVisitor.visit(ByteCodeEngineCompiler.java:271)</pre>
+
+<p>This is from the heart of SEJ, the byte code compiler. To implement <tt>ABS()</tt>, let's look at how <tt>ROUND()</tt> is implemented. In the method <tt>sej.internal.bytecode.compiler.ExpressionCompilerForNumbers.compileFunction</tt>, we see the following:</p>
+<p>[jc:sej.internal.bytecode.compiler.ExpressionCompilerForNumbers:---- compileROUND]</p>
+
+<h3>Functions Supported By The Runtime</h3>
+<p>In SEJ parlance, a <tt>RuntimeFunction</tt> is one not compiled directly to bytecode, but mapped to a Java function implemented by the <tt>Runtime</tt> class. The runtime is subclassed for each supported <a href="../tutorial/numeric_type.htm">numeric type</a>. It is also versioned so SEJ can easily provide backwards compatibility with older compiled engines. Here is the implementation from <tt>sej.internal.runtime.RuntimeDouble_v1</tt>:</p>
+<p>[jc:sej.internal.runtime.RuntimeDouble_v1:---- stdROUND]</p>
+<p>This would be very easy to do for <tt>ABS()</tt> too. But <tt>ABS()</tt> is really so basic, we will implement it natively instead. I can thus show you how to compile byte code, and the separate compilers for the different numeric types.</p>
+
+<h3>Byte Code Compilation For Doubles</h3>
+<p>The <tt>ExpressionCompilerForNumbers</tt> I mentioned before is for numbers in general. It typically handles functions supported by the individual subclasses of the runtime. When compiling directly to byte code, we need to go into the subclasses of <tt>ExpressionCompilerForNumbers</tt> itself, namely</p>
+<ul compact class="compact">
+<li><tt>ExpressionCompilerForDoubles</tt>,</li>
+<li><tt>ExpressionCompilerForScaledLongs</tt>, and</li>
+<li><tt>ExpressionCompilerForBigDecimals</tt>.</li>
+</ul>
+<p>Let's start with <tt>ExpressionCompilerForDoubles</tt>. We see that <tt>compileFunction()</tt> is not yet overridden, so we have nothing to mimick. But there is <tt>compileOperator()</tt>, which is essentially the same thing. It only uses a different enumeration (<tt>Operator</tt> instead of <tt>Function</tt>). The implementation of <tt>EXP</tt> seems a good match for <tt>ABS</tt>, as it also calls a static method of <tt>Math</tt>. Here is the snippet:</p>
+<p>[jc:sej.internal.bytecode.compiler.ExpressionCompilerForDoubles:---- opEXP]</p>
+<p>SEJ uses the <a href="http://asm.objectweb.org/">ASM library</a> to compile byte code. ASM uses a byte code instruction visitor implementation for generating code, hence the names starting with <tt>visit</tt>. Here's what the parameters mean:</p>
+<ul class="spaced">
+<li>The <tt>Opcodes</tt> represent the <a href="http://www.cat.nyu.edu/~meyer/jvmref/ref-Java.html">JVM byte code instruction set</a>. This what <tt>javap -c</tt> emits, too. <tt>INVOKESTATIC</tt> invokes a static method.</li>
+<li>The next parameter is the target class name its internal form (simply replace all <tt>.</tt> with <tt>/</tt>). Or use a type helper class as shown here. <tt>ByteCodeEngineCompiler</tt> defines a number of them.</li>
+<li>Next is the method name.</li>
+<li>Finally, we have the method's type signature. Native types have abbreviations (like <tt>D</tt> for <tt>double</tt>, <tt>I</tt> for <tt>int</tt>, etc.). The return type is at the end.</li>
+</ul>
+<p>We override <tt>compileFunction</tt> in <tt>ExpressionCompilerForDoubles</tt> and combine what we saw for <tt>ROUND</tt> and for <tt>EXP</tt> to compile the actual code:</p>
+<p>[jc:sej.internal.bytecode.compiler.ExpressionCompilerForDoubles:---- funABS]</p>
+
+<h3>Byte Code, What Byte Code?</h3>
+<p>If you know how to implement a feature using Java, but not JVM byte code, write a small class with a single method that performs the operation:</p>
+<p>[jc:sej.examples.DisassembleJVMByteCodes:---- Class]</p>
+<p>Then either use the excellent <a href="http://asm.objectweb.org/eclipse/index.html">Eclipse ASM plugin</a> to view the method's byte code, or simply run</p>
+<pre>javap -c sej/examples/DisassembleJVMByteCodes</pre>
+
+<p>which emits</p>
+<pre>Compiled from "DisassembleJVMByteCodes.java"
+public final class sej.examples.DisassembleJVMByteCodes extends java.lang.Object{
+public sej.examples.DisassembleJVMByteCodes();
+  Code:
+   0:   aload_0
+   1:   invokespecial   #8; //Method java/lang/Object."&lt;init&gt;":()V
+   4:   return
+
+public double implementABS(double);
+  Code:
+   0:   dload_1
+   1:   invokestatic    #16; //Method java/lang/Math.abs:(D)D
+   4:   dreturn
+
+}</pre>
+        </div>
+        <div class="footer">
+<p>Copyright &copy; 2006 Peter Arrenbrecht. All rights reserved.</p>        </div>
+    </div>
+</body>
+</html>
