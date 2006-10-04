@@ -37,6 +37,9 @@ import sej.internal.runtime.BigDecimalHelper;
 import sej.internal.runtime.RuntimeBigDecimal_v1;
 import sej.internal.runtime.RuntimeDouble_v1;
 
+
+// FIXME
+
 public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 {
 	static final String BNAME = ByteCodeEngineCompiler.BIGDECIMAL_CLASS.getInternalName();
@@ -55,14 +58,14 @@ public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 
 	private static final Type RUNTIME_TYPE = Type.getType( RuntimeBigDecimal_v1.class );
 
-	private final int scale;
+	private final int fixedScale;
 	private final int roundingMode;
 
 
 	protected TypeCompilerForBigDecimals(ByteCodeEngineCompiler _engineCompiler, NumericType _numericType)
 	{
 		super( _engineCompiler, _numericType );
-		this.scale = _numericType.getScale();
+		this.fixedScale = _numericType.getScale();
 		this.roundingMode = _numericType.getRoundingMode();
 	}
 
@@ -85,15 +88,15 @@ public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 	}
 
 
-	final boolean isScaled()
+	final boolean needsAdjustment()
 	{
-		return NumericType.UNDEFINED_SCALE != this.scale;
+		return NumericType.UNDEFINED_SCALE != this.fixedScale;
 	}
 
-	final void compileScaleAdjustment( GeneratorAdapter _mv )
+	final void compileAdjustment( GeneratorAdapter _mv )
 	{
-		if (isScaled()) {
-			_mv.push( this.scale );
+		if (needsAdjustment()) {
+			_mv.push( this.fixedScale );
 			_mv.push( this.roundingMode );
 			_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "setScale", "(II)" + B );
 		}
@@ -104,14 +107,14 @@ public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 	protected void compileZero( GeneratorAdapter _mv ) throws CompilerException
 	{
 		_mv.getStatic( runtimeType(), "ZERO", ByteCodeEngineCompiler.BIGDECIMAL_CLASS );
-		compileScaleAdjustment( _mv );
+		compileAdjustment( _mv );
 	}
 
 
 	private final void compileOne( GeneratorAdapter _mv )
 	{
 		_mv.getStatic( runtimeType(), "ONE", ByteCodeEngineCompiler.BIGDECIMAL_CLASS );
-		compileScaleAdjustment( _mv );
+		compileAdjustment( _mv );
 	}
 
 
@@ -164,7 +167,7 @@ public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 				final long longValue = Long.parseLong( _value );
 				ci.push( longValue );
 				ci.visitMethodInsn( Opcodes.INVOKESTATIC, BNAME, "valueOf", L2B );
-				compileScaleAdjustment( ci );
+				compileAdjustment( ci );
 			}
 			catch (NumberFormatException e) {
 				final BigDecimal bigValue = new BigDecimal( _value );
@@ -174,14 +177,14 @@ public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 					ci.push( longValue );
 					ci.push( bigValue.scale() );
 					ci.visitMethodInsn( Opcodes.INVOKESTATIC, BNAME, "valueOf", LI2B );
-					if (bigValue.scale() != this.scale) {
-						compileScaleAdjustment( ci );
+					if (bigValue.scale() != this.fixedScale) {
+						compileAdjustment( ci );
 					}
 				}
 				else {
 					ci.push( _value );
 					compileRuntimeMethod( ci, "newBigDecimal", S2B );
-					compileScaleAdjustment( ci );
+					compileAdjustment( ci );
 				}
 			}
 			ci.visitFieldInsn( Opcodes.PUTSTATIC, rootCompiler().classInternalName(), result, B );

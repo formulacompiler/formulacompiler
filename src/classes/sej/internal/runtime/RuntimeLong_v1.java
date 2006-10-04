@@ -253,4 +253,21 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		}
 	}
 
+	
+	public static long op_EXP( final long x, final long n, Context _cx )
+	{
+		return _cx.fromDouble( Math.pow( _cx.toDouble( x ), _cx.toDouble( n ) ) );
+	}
+
+	public static long fun_ROUND( final long _val, final long _maxFrac, Context _cx )
+	{
+		if (_cx.scale == 0) return round( _val, (int) _maxFrac, _cx );
+		return round( _val, (int) (_maxFrac / _cx.one), _cx );
+	}
+
+	public static long fun_TODAY( Context _cx )
+	{
+		return dateToNum( today(), _cx );
+	}
+
 }

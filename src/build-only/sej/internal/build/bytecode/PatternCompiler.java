@@ -18,48 +18,33 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.bytecode.compiler;
+package sej.internal.build.bytecode;
 
-import sej.CompilerException;
-import sej.NumericType;
-import sej.runtime.ScaledLong;
-import sej.runtime.ScaledLongSupport;
+import java.io.File;
+import java.io.IOException;
 
-final class ExpressionCompilerForDoubles extends ExpressionCompilerForDoubles_Generated
+import sej.internal.templates.ExpressionTemplatesForBigDecimals;
+import sej.internal.templates.ExpressionTemplatesForNumbers;
+import sej.internal.templates.ExpressionTemplatesForDoubles;
+import sej.internal.templates.ExpressionTemplatesForScaledLongs;
+
+public final class PatternCompiler
 {
 
-	public ExpressionCompilerForDoubles(MethodCompiler _methodCompiler, NumericType _numericType)
+	public static void main( String[] args ) throws Exception
 	{
-		super( _methodCompiler, _numericType );
-	}
-	
-	
-	@Override
-	protected boolean isScaled()
-	{
-		return false;
-	}
-	
-	
-	@Override
-	protected boolean compileConversionFrom( ScaledLong _scale ) throws CompilerException
-	{
-		compile_util_fromScaledLong( ScaledLongSupport.ONE[ _scale.value() ] );
-		return true;
-	}
-
-	@Override
-	protected boolean compileConversionTo( ScaledLong _scale ) throws CompilerException
-	{
-		compile_util_toScaledLong( ScaledLongSupport.ONE[ _scale.value() ] );
-		return true;
+		new PatternCompiler().run();
 	}
 
 
-	@Override
-	protected void compileComparison( int _comparisonOpcode ) throws CompilerException
+	private void run() throws IOException
 	{
-		mv().visitInsn( _comparisonOpcode );
+		final File p = new File( "src/classes-gen/sej/internal/bytecode/compiler" );
+		p.mkdirs();
+
+		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForNumbers.class, "Numbers" ).generate( p );
+		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForDoubles.class, "Doubles" ).generate( p );
+		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForScaledLongs.class, "ScaledLongs" ).generate( p );
+		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForBigDecimals.class, "BigDecimals", true ).generate( p );
 	}
-	
 }

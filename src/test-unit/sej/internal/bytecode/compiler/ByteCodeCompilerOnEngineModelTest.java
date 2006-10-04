@@ -26,6 +26,8 @@ import sej.CallFrame;
 import sej.NumericType;
 import sej.Operator;
 import sej.SEJ;
+import sej.SaveableEngine;
+import sej.internal.Debug;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;
@@ -34,7 +36,6 @@ import sej.internal.model.SectionModel;
 import sej.internal.model.analysis.TypeAnnotator;
 import sej.internal.model.optimizer.IntermediateResultsInliner;
 import sej.runtime.ComputationFactory;
-import sej.runtime.Engine;
 import sej.tests.utils.Inputs;
 import sej.tests.utils.Outputs;
 import junit.framework.TestCase;
@@ -223,7 +224,10 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 		config.model = _engineModel;
 		config.numericType = _numericType;
 		final ByteCodeEngineCompiler compiler = new ByteCodeEngineCompiler( config );
-		final Engine engine = compiler.compile();
+		final SaveableEngine engine = compiler.compile();
+		
+		Debug.saveEngine( engine, "/temp/debug.jar" );
+		
 		final ComputationFactory factory = engine.getComputationFactory();
 		return (Outputs) factory.newComputation( new Inputs() );
 	}

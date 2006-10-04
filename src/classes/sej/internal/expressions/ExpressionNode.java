@@ -65,6 +65,10 @@ public abstract class ExpressionNode extends AbstractDescribable
 		return this.arguments;
 	}
 
+	public ExpressionNode argument( int _i )
+	{
+		return arguments().get( _i );
+	}
 
 	public void addArgument( ExpressionNode _arg )
 	{

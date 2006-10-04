@@ -104,6 +104,17 @@ abstract class ExpressionCompiler
 	{
 		return this.mv;
 	}
+	
+	
+	protected final int localsOffset()
+	{
+		return method().localsOffset();
+	}
+	
+	protected final void incLocalsOffset( int _by )
+	{
+		method().incLocalsOffset( _by );
+	}
 
 
 	protected final void compile( ExpressionNode _node ) throws CompilerException
@@ -243,21 +254,21 @@ abstract class ExpressionCompiler
 
 			case 1:
 				compile( args.get( 0 ) );
-				compileOperator( op, 1 );
+				compileOperatorWithFirstArgOnStack( op, null );
 				break;
 
 			default:
 				compile( args.get( 0 ) );
 				for (int i = 1; i < args.size(); i++) {
-					compile( args.get( i ) );
-					compileOperator( op, 2 );
+					compileOperatorWithFirstArgOnStack( op, args.get( i ) );
 				}
 
 		}
 	}
 
 
-	protected void compileOperator( Operator _operator, int _numberOfArguments ) throws CompilerException
+	protected void compileOperatorWithFirstArgOnStack( Operator _operator, ExpressionNode _secondArg )
+			throws CompilerException
 	{
 		throw new CompilerException.UnsupportedExpression( "Operator "
 				+ _operator + " is not supported for " + this + " engines." );
@@ -395,9 +406,14 @@ abstract class ExpressionCompiler
 	protected final void compileMapReduceAggregator( ExpressionNodeForAggregator _node, Operator _reductor )
 			throws CompilerException
 	{
-		if (null == _reductor)
+		if (null == _reductor) {
 			throw new CompilerException.UnsupportedExpression( "Internal error: No MapReduce reductor for aggregation "
 					+ _node.describe() + "." );
+		}
+
+// FIXME		
+		/*
+
 		boolean first = true;
 		for (ExpressionNode arg : _node.arguments()) {
 			if (arg instanceof ExpressionNodeForSubSectionModel) {
@@ -408,14 +424,15 @@ abstract class ExpressionCompiler
 				compile( arg );
 			}
 			if (first) first = false;
-			else compileOperator( _reductor, 2 );
+			else compileOperatorWithFirstArgOnStack( _reductor, 2 );
 		}
 
 		if (_node instanceof ExpressionNodeForPartialAggregation) {
 			ExpressionNodeForPartialAggregation partialAggNode = (ExpressionNodeForPartialAggregation) _node;
 			compileConst( partialAggNode.getPartialAggregation().accumulator );
-			compileOperator( _reductor, 2 );
+			compileOperatorWithFirstArgOnStack( _reductor, 2 );
 		}
+*/		
 	}
 
 
@@ -462,7 +479,7 @@ abstract class ExpressionCompiler
 	{
 		compileMapReduceAggregator( _node, Operator.PLUS );
 		compileCount( _node );
-		compileOperator( Operator.DIV, 2 );
+// FIXME		compileOperatorWithFirstArgOnStack( Operator.DIV, 2 );
 	}
 
 

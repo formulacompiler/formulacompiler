@@ -22,6 +22,7 @@ package sej.internal.bytecode.compiler;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -41,7 +42,7 @@ import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.runtime.ScaledLong;
 
-abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
+abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers_Generated
 {
 	protected final static Type NUMBER_CLASS = Type.getType( Number.class );
 	protected final static String N = NUMBER_CLASS.getDescriptor();
@@ -67,7 +68,7 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 
 	ExpressionCompilerForNumbers(MethodCompiler _methodCompiler, NumericType _numericType)
 	{
-		super( _methodCompiler );
+		super( _methodCompiler, _numericType );
 		this.numericType = _numericType;
 	}
 
@@ -83,58 +84,367 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 	}
 
 
-	protected abstract void compileConversionFromInt() throws CompilerException;
-	protected abstract void compileConversionToInt() throws CompilerException;
-
-
 	protected abstract boolean compileConversionFrom( ScaledLong _scale ) throws CompilerException;
 	protected abstract boolean compileConversionTo( ScaledLong _scale ) throws CompilerException;
+
+
+	protected void compileConversionFromInt() throws CompilerException
+	{
+		compile_util_fromInt();
+		compileScaleUp();
+	}
+
+	protected void compileConversionToInt() throws CompilerException
+	{
+		compileScaleDown();
+		compile_util_toInt();
+	}
 
 
 	@Override
 	protected void compileConversionTo( Class _class ) throws CompilerException
 	{
-		if (_class == Boolean.TYPE) {
-			compileRuntimeMethod( "booleanFromNum", "(" + typeDescriptor() + ")Z" );
-		}
-		else if (_class == Boolean.class) {
-			compileRuntimeMethod( "booleanFromNum", "(" + typeDescriptor() + ")Z" );
-			compileConversionToBoxed( _class, Boolean.TYPE, Boolean.class );
-		}
-		else if (_class == Date.class) {
-			compileRuntimeMethod( "dateFromNum", "(" + typeDescriptor() + ")Ljava/util/Date;" );
-		}
-		else if (_class == String.class) {
-			compileConversionToString();
+		final Class unboxed = unboxed( _class );
+		if (null == unboxed) {
+			compileConversionToUnboxed( _class );
 		}
 		else {
+			compileConversionToUnboxed( unboxed );
+			compileBoxing( _class );
+		}
+	}
+
+
+	protected abstract boolean isScaled();
+
+	@SuppressWarnings("unused")
+	protected void compileScaleUp() throws CompilerException
+	{
+		if (isScaled()) throw new IllegalStateException( "No scaling for " + toString() );
+	}
+
+	@SuppressWarnings("unused")
+	protected void compileScaleDown() throws CompilerException
+	{
+		if (isScaled()) throw new IllegalStateException( "No scaling for " + toString() );
+	}
+
+
+	protected void compileConversionToUnboxed( Class _class ) throws CompilerException
+	{
+		if (_class == Long.TYPE) {
+			compileScaleDown();
+			compile_util_toLong();
+		}
+
+		else if (_class == Integer.TYPE) {
+			compileScaleDown();
+			compile_util_toInt();
+		}
+
+		else if (_class == Short.TYPE) {
+			compileScaleDown();
+			compile_util_toShort();
+		}
+
+		else if (_class == Byte.TYPE) {
+			compileScaleDown();
+			compile_util_toByte();
+		}
+
+		else if (_class == Boolean.TYPE) {
+			compileScaleDown();
+			compile_util_toBoolean();
+		}
+
+		else if (_class == Character.TYPE) {
+			compileScaleDown();
+			compile_util_toCharacter();
+		}
+
+		else if (_class == Double.TYPE) {
+			if (isScaled()) {
+				compile_util_toDouble_Scaled();
+			}
+			else {
+				compile_util_toDouble();
+			}
+		}
+
+		else if (_class == Float.TYPE) {
+			if (isScaled()) {
+				compile_util_toFloat_Scaled();
+			}
+			else {
+				compile_util_toFloat();
+			}
+		}
+
+		else if (_class == BigInteger.class) {
+			compileScaleDown();
+			compile_util_toBigInteger();
+		}
+
+		else if (_class == BigDecimal.class) {
+			if (isScaled()) {
+				compile_util_toBigDecimal_Scaled();
+			}
+			else {
+				compile_util_toBigDecimal();
+			}
+		}
+
+		else if (_class == Date.class) {
+			compile_util_toDate();
+		}
+
+		else if (_class == String.class) {
+			compile_util_toString();
+		}
+
+		else {
 			super.compileConversionTo( _class );
+		}
+	}
+
+	protected abstract void compile_util_toByte() throws CompilerException;
+	protected abstract void compile_util_toShort() throws CompilerException;
+	protected abstract void compile_util_toInt() throws CompilerException;
+	protected abstract void compile_util_toLong() throws CompilerException;
+	protected abstract void compile_util_toDouble() throws CompilerException;
+	protected abstract void compile_util_toFloat() throws CompilerException;
+	protected abstract void compile_util_toBigDecimal() throws CompilerException;
+	protected abstract void compile_util_toBigInteger() throws CompilerException;
+	protected abstract void compile_util_toBoolean() throws CompilerException;
+	protected abstract void compile_util_toCharacter() throws CompilerException;
+	protected abstract void compile_util_toDate() throws CompilerException;
+	protected abstract void compile_util_toString() throws CompilerException;
+
+	@SuppressWarnings("unused")
+	protected void compile_util_toDouble_Scaled() throws CompilerException
+	{
+		throw new IllegalStateException( "No scaling for " + toString() );
+	}
+
+	@SuppressWarnings("unused")
+	protected void compile_util_toFloat_Scaled() throws CompilerException
+	{
+		throw new IllegalStateException( "No scaling for " + toString() );
+	}
+
+	@SuppressWarnings("unused")
+	protected void compile_util_toBigDecimal_Scaled() throws CompilerException
+	{
+		throw new IllegalStateException( "No scaling for " + toString() );
+	}
+
+
+	private Class unboxed( Class _class )
+	{
+		if (Byte.class == _class) {
+			return Byte.TYPE;
+		}
+		else if (Short.class == _class) {
+			return Short.TYPE;
+		}
+		else if (Integer.class == _class) {
+			return Integer.TYPE;
+		}
+		else if (Long.class == _class) {
+			return Long.TYPE;
+		}
+		else if (Float.class == _class) {
+			return Float.TYPE;
+		}
+		else if (Double.class == _class) {
+			return Double.TYPE;
+		}
+		else if (Character.class == _class) {
+			return Character.TYPE;
+		}
+		else if (Boolean.class == _class) {
+			return Boolean.TYPE;
+		}
+		return null;
+	}
+
+
+	private void compileBoxing( Class _class ) throws CompilerException
+	{
+		if (Byte.class == _class) {
+			compile_util_boxByte();
+		}
+		else if (Short.class == _class) {
+			compile_util_boxShort();
+		}
+		else if (Integer.class == _class) {
+			compile_util_boxInteger();
+		}
+		else if (Long.class == _class) {
+			compile_util_boxLong();
+		}
+		else if (Float.class == _class) {
+			compile_util_boxFloat();
+		}
+		else if (Double.class == _class) {
+			compile_util_boxDouble();
+		}
+		else if (Character.class == _class) {
+			compile_util_boxCharacter();
+		}
+		else if (Boolean.class == _class) {
+			compile_util_boxBoolean();
 		}
 	}
 
 
 	protected void compileConversionToString() throws CompilerException
 	{
-		throw new CompilerException.UnsupportedDataType( "Cannot convert from a " + this + " to a string." );
+		compile_util_toString();
 	}
 
 
 	@Override
 	protected void compileConversionFrom( Class _class ) throws CompilerException
 	{
-		if (_class == Boolean.TYPE) {
-			compileRuntimeMethod( "booleanToNum", "(Z)" + typeDescriptor() );
+		compileConversionFromUnboxed( compileUnboxing( _class ) );
+	}
+
+
+	protected void compileConversionFromUnboxed( Class _class ) throws CompilerException
+	{
+		if (_class == Integer.TYPE || _class == Short.TYPE || _class == Byte.TYPE) {
+			compile_util_fromInt();
+			compileScaleUp();
 		}
-		else if (_class == Boolean.class) {
-			compileRuntimeMethod( "unboxBoolean", BOOL2Z );
-			compileRuntimeMethod( "booleanToNum", "(Z)" + typeDescriptor() );
+
+		else if (_class == Long.TYPE) {
+			compile_util_fromLong();
+			compileScaleUp();
 		}
-		else if (_class == Date.class) {
-			compileRuntimeMethod( "dateToNum", "(Ljava/util/Date;)" + typeDescriptor() );
+
+		else if (_class == Double.TYPE) {
+			if (isScaled()) {
+				compile_util_fromDouble_Scaled();
+			}
+			else {
+				compile_util_fromDouble();
+			}
 		}
+
+		else if (_class == Float.TYPE) {
+			if (isScaled()) {
+				compile_util_fromFloat_Scaled();
+			}
+			else {
+				compile_util_fromFloat();
+			}
+		}
+
+		else if (BigDecimal.class.isAssignableFrom( _class )) {
+			if (isScaled()) {
+				compile_util_fromBigDecimal_Scaled();
+			}
+			else {
+				compile_util_fromBigDecimal();
+			}
+		}
+
+		else if (BigInteger.class.isAssignableFrom( _class )) {
+			compile_util_fromBigInteger();
+			compileScaleUp();
+		}
+
+		else if (Number.class.isAssignableFrom( _class )) {
+			compile_util_fromNumber();
+			compileScaleUp();
+		}
+
+		else if (_class == Boolean.TYPE) {
+			compile_util_fromBoolean();
+		}
+
+		else if (Date.class.isAssignableFrom( _class )) {
+			compile_util_fromDate();
+		}
+
 		else {
 			super.compileConversionFrom( _class );
 		}
+	}
+
+	protected abstract void compile_util_fromInt() throws CompilerException;
+	protected abstract void compile_util_fromLong() throws CompilerException;
+	protected abstract void compile_util_fromDouble() throws CompilerException;
+	protected abstract void compile_util_fromFloat() throws CompilerException;
+	protected abstract void compile_util_fromNumber() throws CompilerException;
+	protected abstract void compile_util_fromBoolean() throws CompilerException;
+	protected abstract void compile_util_fromDate() throws CompilerException;
+
+	protected void compile_util_fromBigDecimal() throws CompilerException
+	{
+		compile_util_fromNumber();
+	}
+
+	protected void compile_util_fromBigInteger() throws CompilerException
+	{
+		compile_util_fromNumber();
+	}
+
+	@SuppressWarnings("unused")
+	protected void compile_util_fromDouble_Scaled() throws CompilerException
+	{
+		throw new IllegalStateException( "No scaling for " + toString() );
+	}
+
+	@SuppressWarnings("unused")
+	protected void compile_util_fromFloat_Scaled() throws CompilerException
+	{
+		throw new IllegalStateException( "No scaling for " + toString() );
+	}
+
+	@SuppressWarnings("unused")
+	protected void compile_util_fromBigDecimal_Scaled() throws CompilerException
+	{
+		throw new IllegalStateException( "No scaling for " + toString() );
+	}
+
+
+	private Class compileUnboxing( Class _class ) throws CompilerException
+	{
+		if (Byte.class.isAssignableFrom( _class )) {
+			compile_util_unboxByte();
+			return Byte.TYPE;
+		}
+		else if (Short.class.isAssignableFrom( _class )) {
+			compile_util_unboxShort();
+			return Short.TYPE;
+		}
+		else if (Integer.class.isAssignableFrom( _class )) {
+			compile_util_unboxInteger();
+			return Integer.TYPE;
+		}
+		else if (Long.class.isAssignableFrom( _class )) {
+			compile_util_unboxLong();
+			return Long.TYPE;
+		}
+		else if (Float.class.isAssignableFrom( _class )) {
+			compile_util_unboxFloat();
+			return Float.TYPE;
+		}
+		else if (Double.class.isAssignableFrom( _class )) {
+			compile_util_unboxDouble();
+			return Double.TYPE;
+		}
+		else if (Character.class.isAssignableFrom( _class )) {
+			compile_util_unboxCharacter();
+			return Character.TYPE;
+		}
+		else if (Boolean.class.isAssignableFrom( _class )) {
+			compile_util_unboxBoolean();
+			return Boolean.TYPE;
+		}
+		return _class;
 	}
 
 
@@ -146,7 +456,7 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 			final ScaledLong scale = scaleOf( _method );
 			if (scale != null && scale.value() != 0) {
 				if (returnType == Long.class) {
-					compileRuntimeMethod( "unboxLong", LONG2J );
+					compile_util_unboxLong();
 				}
 				if (!compileConversionFrom( scale )) {
 					throw new CompilerException.UnsupportedDataType( "Scaled long inputs not supported by " + this + "." );
@@ -235,25 +545,6 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 		final ExpressionCompilerForStrings str = method().stringCompiler();
 		final List<ExpressionNode> args = _node.arguments();
 		switch (_node.getFunction()) {
-
-			// Please leave the following JCite annotation intact.
-			// ---- compileROUND
-			case ROUND:
-				switch (_node.cardinality()) {
-					case 2:
-						compileRuntimeFunction( _node );
-						return;
-				}
-				break;
-			// ---- compileROUND
-
-			case TODAY:
-				switch (_node.cardinality()) {
-					case 0:
-						compileRuntimeFunction( _node );
-						return;
-				}
-				break;
 
 			case MATCH:
 				compileHelpedExpr( new HelperCompilerForMatch( section(), _node ) );
@@ -344,12 +635,7 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompiler
 	}
 
 
-	protected void compileRound()
-	{
-		compileRuntimeMethod( "round", roundMethodSignature() );
-	}
-
-	protected abstract String roundMethodSignature();
+	protected abstract void compile_util_round( int _maxFractionalDigits ) throws CompilerException;
 
 
 	final void compileTest( ExpressionNode _test, Label _notMet ) throws CompilerException
