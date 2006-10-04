@@ -52,8 +52,7 @@ final class OutputMethodCompiler extends TypedMethodCompiler
 		expressionCompiler().compileRef( this.computation );
 
 		if (DataType.NUMERIC == dataType() && CellModel.UNLIMITED != cell.getMaxFractionalDigits()) {
-			mv().visitLdcInsn( cell.getMaxFractionalDigits() );
-			((ExpressionCompilerForNumbers) expressionCompiler()).compileRound();
+			((ExpressionCompilerForNumbers) expressionCompiler()).compile_util_round( cell.getMaxFractionalDigits() );
 		}
 
 		expressionCompiler().compileConversionToResultOf( this.implementedMethod );

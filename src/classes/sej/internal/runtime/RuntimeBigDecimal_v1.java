@@ -76,6 +76,16 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return dateToNum( today() );
 	}
 
+	public static BigDecimal fun_ROUND( final BigDecimal _val, final BigDecimal _maxFrac )
+	{
+		return round( _val, _maxFrac.intValue() );
+	}
+
+	public static BigDecimal fun_TODAY()
+	{
+		return dateToNum( today() );
+	}
+
 	public static BigDecimal pow( final BigDecimal x, final BigDecimal n )
 	{
 		return x.pow( n.intValue() );

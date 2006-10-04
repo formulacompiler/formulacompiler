@@ -98,7 +98,7 @@ final class HelperCompilerForIteration extends HelperCompiler
 		mv.arrayLoad( sub.classType() );
 		mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, sub.classInternalName(), subExpr.methodName(), subExpr
 				.methodDescriptor() );
-		expressionCompiler().compileOperator( this.reductor, 2 );
+		expressionCompiler().compileOperatorWithFirstArgOnStack( this.reductor, 2 );
 		mv.storeLocal( l_result );
 
 		// ~ }

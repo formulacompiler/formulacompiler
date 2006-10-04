@@ -69,6 +69,12 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	}
 
 
+	public static double fun_TODAY()
+	{
+		return dateToNum( today() );
+	}
+
+
 	public static boolean booleanFromNum( final double _val )
 	{
 		return (_val != 0);

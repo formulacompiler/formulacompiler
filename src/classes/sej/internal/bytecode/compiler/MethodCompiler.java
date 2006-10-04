@@ -53,8 +53,17 @@ abstract class MethodCompiler
 		this.methodName = _methodName;
 		this.methodDescriptor = _descriptor;
 		this.mv = section().newMethod( _access | Opcodes.ACC_FINAL, _methodName, _descriptor );
+		this.localsOffset = 1 + totalSizeOf( Type.getArgumentTypes( _descriptor ) );
 	}
 
+	private static final int totalSizeOf( Type[] _argTypes )
+	{
+		int result = 0;
+		for (Type t : _argTypes)
+			result += t.getSize();
+		return result;
+	}
+	
 
 	final SectionCompiler section()
 	{
@@ -262,4 +271,16 @@ abstract class MethodCompiler
 	}
 
 	
+	private int localsOffset = 0;
+	
+	protected final int localsOffset()
+	{
+		return this.localsOffset;
+	}
+	
+	protected final void incLocalsOffset( int _by )
+	{
+		this.localsOffset += _by;
+	}
+
 }

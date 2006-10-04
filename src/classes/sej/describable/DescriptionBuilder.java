@@ -63,6 +63,12 @@ public class DescriptionBuilder
 	}
 
 
+	public void indent( int _n )
+	{
+		for (int i = _n; i > 0; i--) indent();
+	}
+
+
 	public void outdent()
 	{
 		final int l = this.indentation.length();
@@ -103,6 +109,12 @@ public class DescriptionBuilder
 	{
 		append( _string );
 		newLine();
+	}
+
+
+	public void appendUnindented( String _string )
+	{
+		this.builder.append( _string );
 	}
 
 
