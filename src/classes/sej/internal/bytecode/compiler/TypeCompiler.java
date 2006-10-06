@@ -31,6 +31,7 @@ abstract class TypeCompiler
 {
 	private final ByteCodeEngineCompiler engineCompiler;
 	private String typeDescriptor;
+	private String typeGetterDesc;
 
 	public TypeCompiler(ByteCodeEngineCompiler _engineCompiler)
 	{
@@ -57,6 +58,13 @@ abstract class TypeCompiler
 		if (this.typeDescriptor == null) this.typeDescriptor = type().getDescriptor();
 		return this.typeDescriptor;
 	}
+	
+	protected final String typeGetterDesc()
+	{
+		if (this.typeGetterDesc == null) this.typeGetterDesc = "()" + typeDescriptor();
+		return this.typeGetterDesc;
+	}
+	
 
 	protected abstract int returnOpcode();
 

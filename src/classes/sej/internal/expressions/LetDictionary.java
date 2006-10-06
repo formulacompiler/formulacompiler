@@ -2,6 +2,8 @@ package sej.internal.expressions;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 public final class LetDictionary<V>
 {
@@ -42,5 +44,10 @@ public final class LetDictionary<V>
 		return this.map.get( _name );
 	}
 
+	
+	public final Set<Entry<String, V>> entrySet()
+	{
+		return this.map.entrySet();
+	}
 
 }

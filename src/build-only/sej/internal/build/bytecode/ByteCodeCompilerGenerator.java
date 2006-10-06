@@ -273,6 +273,7 @@ final class ByteCodeCompilerGenerator
 		final List<Label> labels = new ArrayList<Label>();
 		final String enumName;
 		final String ifCond;
+		final Iterator insns;
 
 		int sizeOfLocals;
 		int sizeOfVarsInLocals;
@@ -287,6 +288,7 @@ final class ByteCodeCompilerGenerator
 			this.firstVarInLocals = 1 + totalSizeOf( argTypes ); // add 1 for "this"
 			this.sizeOfVarsInLocals = sizeOfLocals - firstVarInLocals;
 			this.backingVars = new int[ cardinality ];
+			this.insns = _mtdNode.instructions.iterator();
 			// split name
 			final String n = _mtdNode.name;
 			final int p = n.indexOf( '_' );
@@ -327,12 +329,13 @@ final class ByteCodeCompilerGenerator
 			cb.appendLine( "{" );
 			cb.indent();
 			cb.appendLine( "final GeneratorAdapter mv = mv();" );
+			cb.appendLine( "final int loc = localsOffset();" );
+			genLocalOffsetInc();
 
 			scanForArgsNeedingBackingVars();
 			genLabels();
 			genInsns();
 			if (adjustValues) genValueAdjustment();
-			genLocalOffsetInc();
 
 			cb.outdent();
 			cb.appendLine( "}" );
@@ -416,18 +419,19 @@ final class ByteCodeCompilerGenerator
 			}
 		}
 
+
+		private AbstractInsnNode next;
+
 		private void genInsns()
 		{
-			final Iterator insns = mtdNode.instructions.iterator();
-
 			// Loop through iterator with look-ahead of 1.
 			// Assumes at least one element is present (RETURN).
 			assert insns.hasNext();
 
-			Object next = insns.next();
+			this.next = (AbstractInsnNode) insns.next();
 			while (insns.hasNext()) {
-				final AbstractInsnNode insnNode = (AbstractInsnNode) next;
-				next = insns.next();
+				final AbstractInsnNode insnNode = this.next;
+				skipInsn();
 				switch (insnNode.getOpcode()) {
 
 					case Opcodes.ILOAD:
@@ -436,12 +440,7 @@ final class ByteCodeCompilerGenerator
 					case Opcodes.ALOAD: {
 						final VarInsnNode varNode = (VarInsnNode) insnNode;
 						if (0 == varNode.var) {
-							// Drop references to this. If followed by member access, compile as context
-							// field access.
-							if (next instanceof FieldInsnNode) {
-								genLoadContextFieldInsn( (FieldInsnNode) next );
-								next = insns.next();
-							}
+							genThisInsn();
 						}
 						else if (varNode.var < firstVarInLocals) {
 							final int paramIdx = paramIdxOfLocalAt( varNode.var );
@@ -466,6 +465,16 @@ final class ByteCodeCompilerGenerator
 			}
 		}
 
+		protected AbstractInsnNode nextInsn()
+		{
+			return this.next;
+		}
+
+		protected void skipInsn()
+		{
+			this.next = (AbstractInsnNode) this.insns.next();
+		}
+
 
 		private int paramIdxOfLocalAt( int _at )
 		{
@@ -477,6 +486,16 @@ final class ByteCodeCompilerGenerator
 			return iPar;
 		}
 
+
+		protected void genThisInsn()
+		{
+			// Drop references to this. If followed by member access, compile as context
+			// field access.
+			if (next instanceof FieldInsnNode) {
+				genLoadContextFieldInsn( (FieldInsnNode) next );
+				skipInsn();
+			}
+		}
 
 		private void genLoadContextFieldInsn( FieldInsnNode _node )
 		{
@@ -642,9 +661,9 @@ final class ByteCodeCompilerGenerator
 		}
 
 
-		private void genVar( int _var )
+		protected void genVar( int _var )
 		{
-			classBuilder.append( _var - firstVarInLocals ).append( " + localsOffset()" );
+			classBuilder.append( _var - firstVarInLocals ).append( " + loc" );
 		}
 
 
@@ -854,18 +873,19 @@ final class ByteCodeCompilerGenerator
 		@Override
 		protected void genParams()
 		{
-			classBuilder.append( "( InnerCompilation _forElement )" );
+			classBuilder.append( "( ForEachElementCompilation _forElement )" );
 		}
 
 		@Override
-		protected void genOwnMethodInsn( MethodInsnNode _node )
+		protected void genThisInsn()
 		{
-			if (_node.name.equals( "scanElement" )) {
-				classBuilder.appendLine( "_forElement.compile();" );
-			}
-			else {
-				super.genOwnMethodInsn( _node );
-			}
+			classBuilder.append( "_forElement.compile( " );
+			genVar( ((VarInsnNode) nextInsn()).var );
+			classBuilder.appendLine( " );" );
+			skipInsn(); // xLOAD elt
+			if (!((MethodInsnNode) nextInsn()).name.equals( "scanElement" ))
+				throw new IllegalArgumentException( "scanElement expected" );
+			skipInsn(); // call
 		}
 
 	}

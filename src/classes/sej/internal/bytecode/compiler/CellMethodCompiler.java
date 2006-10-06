@@ -40,7 +40,7 @@ final class CellMethodCompiler extends ValueMethodCompiler
 
 	CellMethodCompiler(CellComputation _computation)
 	{
-		super( _computation.getSection(), _computation.getMethodName(), _computation.getCell().getDataType() );
+		super( _computation.getSection(), 0, _computation.getMethodName(), _computation.getCell().getDataType() );
 		this.cellComputation = _computation;
 	}
 
