@@ -44,7 +44,7 @@ final class SubSectionLazyGetterCompiler extends MethodCompiler
 
 	SubSectionLazyGetterCompiler(SectionCompiler _section, SubSectionCompiler _sub)
 	{
-		super( _section, Opcodes.ACC_PRIVATE, _sub.getterName(), _sub.getterDescriptor() );
+		super( _section, 0, _sub.getterName(), _sub.getterDescriptor() );
 		this.sub = _sub;
 	}
 

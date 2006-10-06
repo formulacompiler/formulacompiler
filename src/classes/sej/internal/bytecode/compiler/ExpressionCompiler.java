@@ -22,6 +22,7 @@ package sej.internal.bytecode.compiler;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -240,6 +241,11 @@ abstract class ExpressionCompiler
 			compileFold( node );
 		}
 
+		else if (_node instanceof ExpressionNodeForInnerFoldedObjRef) {
+			final ExpressionNodeForInnerFoldedObjRef node = (ExpressionNodeForInnerFoldedObjRef) _node;
+			compileInnerFoldedObjRef( node );
+		}
+
 		else {
 			throw new CompilerException.UnsupportedExpression( "Internal error: unsupported node type "
 					+ _node.describe() + "." );
@@ -416,11 +422,17 @@ abstract class ExpressionCompiler
 	}
 
 
-	private final void compileRef( String _getterName )
+	private final void compileRef( String _getterName, SectionCompiler _section, int _localThis )
 	{
 		final GeneratorAdapter mv = mv();
-		mv.visitVarInsn( Opcodes.ALOAD, 0 );
-		mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, section().classInternalName(), _getterName, "()" + typeDescriptor() );
+		mv.visitVarInsn( Opcodes.ALOAD, _localThis );
+		mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, _section.classInternalName(), _getterName, typeCompiler()
+				.typeGetterDesc() );
+	}
+
+	private final void compileRef( String _getterName )
+	{
+		compileRef( _getterName, section(), 0 );
 	}
 
 
@@ -499,6 +511,9 @@ abstract class ExpressionCompiler
 		else if (val instanceof Integer) {
 			compileLoadLocal( (Integer) val );
 		}
+		else {
+			throw new CompilerException.NameNotFound( "The variable " + _varName + " is not bound in this context." );
+		}
 	}
 
 	protected final int compileStoreToNewLocal()
@@ -535,20 +550,29 @@ abstract class ExpressionCompiler
 	}
 
 
+	final void copyAndForcePendingLetsFrom( LetDictionary<Object> _lets ) throws CompilerException
+	{
+		for (final Map.Entry<String, Object> let : _lets.entrySet()) {
+			final String letName = let.getKey();
+			final Object letValue = let.getValue();
+			if (letValue instanceof EvaluateIntoLocal) {
+				final ExpressionNode pendingNode = ((EvaluateIntoLocal) letValue).node;
+				compile( pendingNode );
+				letDict().set( letName, compileDupAndStoreToNewLocal() );
+			}
+		}
+	}
+
+
 	private final void compileFold( ExpressionNodeForFold _node ) throws CompilerException
 	{
 		final FoldContext foldContext = new FoldContext( _node, section() );
 		if (isSubSectionIn( _node.elements() )) {
-			final HelperCompilerForIterativeFold helper = new HelperCompilerForIterativeFold( section(), _node.elements(),
-					foldContext );
-			helper.compile();
-			mv().loadThis();
-			compile( foldContext.node.initialAccumulatorValue() );
-			mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, section().classInternalName(), helper.methodName(),
-					helper.methodDescriptor() );
+			compileHelpedExpr( new HelperCompilerForIterativeFold( section(), _node.elements(), foldContext, letDict() ) );
 		}
 		else {
-			// LATER For folds that support this, we could skip the initial value in favour of the first element
+			// LATER For folds that support this, we could skip the initial value in favour of the
+			// first element
 			compile( foldContext.node.initialAccumulatorValue() );
 			compileChainedFoldOverNonRepeatingElements( foldContext, foldContext.node.elements() );
 		}
@@ -562,14 +586,14 @@ abstract class ExpressionCompiler
 		return false;
 	}
 
-	final void compileChainedFoldOverNonRepeatingElements( FoldContext _context, Iterable<ExpressionNode> _elements )
+	final void compileChainedFoldOverNonRepeatingElements( FoldContext _context, Iterable<ExpressionNode> _elts )
 			throws CompilerException
 	{
 		final String accName = _context.node.accumulatorName();
 		final Object accOld = letDict().let( accName, CHAINED_FIRST_ARG );
 		try {
 			final int reuseLocalsAt = localsOffset();
-			for (final ExpressionNode elt : _elements) {
+			for (final ExpressionNode elt : _elts) {
 				if (!(elt instanceof ExpressionNodeForSubSectionModel)) {
 					resetLocalsTo( reuseLocalsAt );
 					compileElementFold( _context, elt );
@@ -581,15 +605,39 @@ abstract class ExpressionCompiler
 		}
 	}
 
-	final void compileElementFold( FoldContext _context, final ExpressionNode _elt ) throws CompilerException
+	final void compileElementFold( FoldContext _context, ExpressionNode _elt ) throws CompilerException
 	{
 		final String eltName = _context.node.elementName();
-		final Object eltOld = letDict().let( eltName, _elt );
+		final ExpressionNode eltBinding = (_context.localThis == 0) ? _elt : new ExpressionNodeForInnerFoldedObjRef(
+				_context, _elt );
+		final Object eltOld = letDict().let( eltName, eltBinding );
 		try {
 			compile( _context.node.accumulatingStep() );
 		}
 		finally {
 			letDict().unlet( eltName, eltOld );
+		}
+	}
+
+
+	private final void compileInnerFoldedObjRef( ExpressionNodeForInnerFoldedObjRef _node ) throws CompilerException
+	{
+		final ExpressionNode ref = _node.argument( 0 );
+		if (ref instanceof ExpressionNodeForConstantValue) {
+			compile( ref );
+		}
+		else {
+			String getterName;
+			if (ref instanceof ExpressionNodeForCellModel) {
+				final ExpressionNodeForCellModel cellRef = (ExpressionNodeForCellModel) ref;
+				final CellComputation cellMethod = _node.context().section.cellComputation( cellRef.getCellModel() );
+				getterName = cellMethod.getMethodName();
+			}
+			else {
+				final ValueMethodCompiler exprMethod = _node.context().section.compileMethodForExpression( ref );
+				getterName = exprMethod.methodName();
+			}
+			compileRef( getterName, _node.context().section, _node.context().localThis );
 		}
 	}
 
@@ -607,11 +655,11 @@ abstract class ExpressionCompiler
 	}
 
 
-	protected static interface InnerCompilation
+	protected static interface ForEachElementCompilation
 	{
-		void compile() throws CompilerException;
+		void compile( int _xi ) throws CompilerException;
 	}
 
-	protected abstract void compile_scanArray( InnerCompilation _forElement ) throws CompilerException;
+	protected abstract void compile_scanArray( ForEachElementCompilation _forElement ) throws CompilerException;
 
 }
