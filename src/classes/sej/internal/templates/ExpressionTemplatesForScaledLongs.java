@@ -242,14 +242,12 @@ public class ExpressionTemplatesForScaledLongs
 
 	long op_MIN( long a, long b )
 	{
-		long a__1, b__2;
-		return ((a__1 = a) < (b__2 = b)) ? a__1 : b__2;
+		return (a < b) ? a : b;
 	}
 
 	long op_MAX( long a, long b )
 	{
-		long a__1, b__2;
-		return ((a__1 = a) > (b__2 = b)) ? a__1 : b__2;
+		return (a > b) ? a : b;
 	}
 
 	long op_AND( long a, long b )
@@ -268,8 +266,7 @@ public class ExpressionTemplatesForScaledLongs
 
 	long fun_ABS( long a )
 	{
-		long a__1;
-		return ((a__1 = a) < 0) ? -a__1 : a__1;
+		return (a < 0) ? -a : a;
 	}
 
 	long fun_ROUND( long a, long b )

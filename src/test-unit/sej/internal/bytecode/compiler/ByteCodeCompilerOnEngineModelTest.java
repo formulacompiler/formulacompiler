@@ -26,8 +26,6 @@ import sej.CallFrame;
 import sej.NumericType;
 import sej.Operator;
 import sej.SEJ;
-import sej.SaveableEngine;
-import sej.internal.Debug;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;
@@ -36,6 +34,7 @@ import sej.internal.model.SectionModel;
 import sej.internal.model.analysis.TypeAnnotator;
 import sej.internal.model.optimizer.IntermediateResultsInliner;
 import sej.runtime.ComputationFactory;
+import sej.runtime.Engine;
 import sej.tests.utils.Inputs;
 import sej.tests.utils.Outputs;
 import junit.framework.TestCase;
@@ -69,8 +68,7 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 	}
 
 
-	private void assertUnaryOperator( final Operator _operator, final double _expectedResult )
-			throws Exception
+	private void assertUnaryOperator( final Operator _operator, final double _expectedResult ) throws Exception
 	{
 		assertDoubleUnaryOperator( _operator, _expectedResult );
 		assertBigDecimalUnaryOperator( _operator, _expectedResult );
@@ -78,8 +76,7 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 	}
 
 
-	private void assertDoubleOperator( final Operator _operator, final double _expectedResult )
-			throws Exception
+	private void assertDoubleOperator( final Operator _operator, final double _expectedResult ) throws Exception
 	{
 		final ComputationModel engineModel = new ComputationModel( Inputs.class, Outputs.class );
 		final SectionModel rootModel = engineModel.getRoot();
@@ -97,8 +94,7 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 	}
 
 
-	private void assertDoubleUnaryOperator( final Operator _operator, final double _expectedResult )
-			throws Exception
+	private void assertDoubleUnaryOperator( final Operator _operator, final double _expectedResult ) throws Exception
 	{
 		final ComputationModel engineModel = new ComputationModel( Inputs.class, Outputs.class );
 		final SectionModel rootModel = engineModel.getRoot();
@@ -122,8 +118,7 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 	}
 
 
-	private void assertBigDecimalOperator( final Operator _operator, final double _expectedResult )
-			throws Exception
+	private void assertBigDecimalOperator( final Operator _operator, final double _expectedResult ) throws Exception
 	{
 		final ComputationModel engineModel = new ComputationModel( Inputs.class, Outputs.class );
 		final SectionModel rootModel = engineModel.getRoot();
@@ -167,8 +162,7 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 	}
 
 
-	private void assertScaledLongOperator( final Operator _operator, final double _expectedResult )
-			throws Exception
+	private void assertScaledLongOperator( final Operator _operator, final double _expectedResult ) throws Exception
 	{
 		final ComputationModel engineModel = new ComputationModel( Inputs.class, Outputs.class );
 		final SectionModel rootModel = engineModel.getRoot();
@@ -210,7 +204,7 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 		final long expected = SEJ.SCALEDLONG4.valueOf( _expectedResult ).longValue();
 		final long diff = actual - expected;
 		if (diff > 1 || diff < -1) { // accept difference in the last decimal due to rounding
-												// problems with division
+			// problems with division
 			assertEquals( expected, actual );
 		}
 	}
@@ -224,10 +218,7 @@ public class ByteCodeCompilerOnEngineModelTest extends TestCase
 		config.model = _engineModel;
 		config.numericType = _numericType;
 		final ByteCodeEngineCompiler compiler = new ByteCodeEngineCompiler( config );
-		final SaveableEngine engine = compiler.compile();
-		
-		Debug.saveEngine( engine, "/temp/debug.jar" );
-		
+		final Engine engine = compiler.compile();
 		final ComputationFactory factory = engine.getComputationFactory();
 		return (Outputs) factory.newComputation( new Inputs() );
 	}

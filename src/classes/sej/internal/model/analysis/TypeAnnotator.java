@@ -25,8 +25,12 @@ import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.ExpressionNodeForFold;
 import sej.internal.expressions.ExpressionNodeForFunction;
+import sej.internal.expressions.ExpressionNodeForLet;
+import sej.internal.expressions.ExpressionNodeForLetVar;
 import sej.internal.expressions.ExpressionNodeForOperator;
+import sej.internal.expressions.LetDictionary;
 import sej.internal.model.AbstractComputationModelVisitor;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
@@ -38,6 +42,12 @@ import sej.internal.model.RangeValue;
 
 public final class TypeAnnotator extends AbstractComputationModelVisitor
 {
+	private final LetDictionary<DataType> letDict = new LetDictionary<DataType>();
+
+	private LetDictionary<DataType> letDict()
+	{
+		return this.letDict;
+	}
 
 
 	@Override
@@ -101,6 +111,10 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		if (_expr instanceof ExpressionNodeForParentSectionModel)
 			return typeOf( (ExpressionNodeForParentSectionModel) _expr );
 		if (_expr instanceof ExpressionNodeForSubSectionModel) return typeOf( (ExpressionNodeForSubSectionModel) _expr );
+
+		if (_expr instanceof ExpressionNodeForLet) return typeOf( (ExpressionNodeForLet) _expr );
+		if (_expr instanceof ExpressionNodeForLetVar) return typeOf( (ExpressionNodeForLetVar) _expr );
+		if (_expr instanceof ExpressionNodeForFold) return typeOf( (ExpressionNodeForFold) _expr );
 
 		unsupported( _expr );
 		return null;
@@ -205,7 +219,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 					unsupported( _expr );
 					return DataType.NULL;
 				}
-			
+
 			case CONCATENATE:
 			case MID:
 			case LEFT:
@@ -238,6 +252,43 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 	{
 		annotateArgs( _expr );
 		return typeOf( _expr.arguments() );
+	}
+
+
+	private DataType typeOf( ExpressionNodeForLet _expr ) throws CompilerException
+	{
+		final DataType valType = annotate( _expr.value() );
+		DataType oldVar = letDict().let( _expr.varName(), valType );
+		try {
+			return annotate( _expr.in() );
+		}
+		finally {
+			letDict().unlet( _expr.varName(), oldVar );
+		}
+	}
+
+	private DataType typeOf( ExpressionNodeForLetVar _expr )
+	{
+		return letDict().lookup( _expr.varName() );
+	}
+
+	private DataType typeOf( ExpressionNodeForFold _expr ) throws CompilerException
+	{
+		for (final ExpressionNode elt : _expr.elements()) {
+			annotate( elt );
+		}
+		final DataType eltType = typeOf( _expr.elements() );
+		final DataType resultType = annotate( _expr.initialAccumulatorValue() );
+		final DataType oldAcc = letDict().let( _expr.accumulatorName(), resultType );
+		final DataType oldElt = letDict().let( _expr.elementName(), eltType );
+		try {
+			annotate( _expr.accumulatingStep() );
+		}
+		finally {
+			letDict().unlet( _expr.elementName(), oldElt );
+			letDict().unlet( _expr.accumulatorName(), oldAcc );
+		}
+		return _expr.argument( 0 ).getDataType();
 	}
 
 

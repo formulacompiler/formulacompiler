@@ -226,15 +226,13 @@ public class ExpressionTemplatesForBigDecimals
 	@ReturnsAdjustedValue
 	BigDecimal op_MIN( BigDecimal a, BigDecimal b )
 	{
-		BigDecimal a__1, b__2;
-		return ((a__1 = a).compareTo( (b__2 = b) ) < 0) ? a__1 : b__2;
+		return (a.compareTo( b ) < 0) ? a : b;
 	}
 
 	@ReturnsAdjustedValue
 	BigDecimal op_MAX( BigDecimal a, BigDecimal b )
 	{
-		BigDecimal a__1, b__2;
-		return ((a__1 = a).compareTo( (b__2 = b) ) > 0) ? a__1 : b__2;
+		return (a.compareTo( b ) > 0) ? a : b;
 	}
 
 	BigDecimal op_AND( BigDecimal a, BigDecimal b )

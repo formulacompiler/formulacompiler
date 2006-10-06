@@ -283,4 +283,16 @@ abstract class MethodCompiler
 		this.localsOffset += _by;
 	}
 
+	protected final void resetLocalsTo( int _to )
+	{
+		this.localsOffset = _to;
+	}
+
+	protected final int newLocal( int _size )
+	{
+		final int local = localsOffset();
+		incLocalsOffset( _size );
+		return local;
+	}
+
 }

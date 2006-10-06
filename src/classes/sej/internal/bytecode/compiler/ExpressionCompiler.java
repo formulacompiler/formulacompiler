@@ -28,7 +28,6 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
-import sej.Aggregator;
 import sej.CompilerException;
 import sej.Function;
 import sej.Operator;
@@ -36,14 +35,16 @@ import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.ExpressionNodeForFold;
 import sej.internal.expressions.ExpressionNodeForFunction;
+import sej.internal.expressions.ExpressionNodeForLet;
+import sej.internal.expressions.ExpressionNodeForLetVar;
 import sej.internal.expressions.ExpressionNodeForOperator;
+import sej.internal.expressions.LetDictionary;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
-import sej.internal.model.ExpressionNodeForPartialAggregation;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
-import sej.internal.model.Aggregation.NonNullCountingAggregation;
 
 abstract class ExpressionCompiler
 {
@@ -55,9 +56,12 @@ abstract class ExpressionCompiler
 	protected static final String J2LONG = "(" + LONG_TYPE.getDescriptor() + ")" + LONG_CLASS.getDescriptor();
 	protected static final String LONG2J = "(" + LONG_CLASS.getDescriptor() + ")" + LONG_TYPE.getDescriptor();
 
+	protected static final Object CHAINED_FIRST_ARG = new Object();
+
 	private static final ExpressionNode TRUENODE = new ExpressionNodeForConstantValue( Boolean.TRUE, DataType.NUMERIC );
 	private static final ExpressionNode FALSENODE = new ExpressionNodeForConstantValue( Boolean.FALSE, DataType.NUMERIC );
 
+	private final LetDictionary<Object> letDict = new LetDictionary<Object>();
 	private final MethodCompiler methodCompiler;
 	private final GeneratorAdapter mv;
 
@@ -104,16 +108,26 @@ abstract class ExpressionCompiler
 	{
 		return this.mv;
 	}
-	
-	
+
+	protected final LetDictionary<Object> letDict()
+	{
+		return this.letDict;
+	}
+
+
 	protected final int localsOffset()
 	{
 		return method().localsOffset();
 	}
-	
+
 	protected final void incLocalsOffset( int _by )
 	{
 		method().incLocalsOffset( _by );
+	}
+
+	protected final void resetLocalsTo( int _to )
+	{
+		method().resetLocalsTo( _to );
 	}
 
 
@@ -209,6 +223,21 @@ abstract class ExpressionCompiler
 				default:
 					compileAggregation( node );
 			}
+		}
+
+		else if (_node instanceof ExpressionNodeForLet) {
+			final ExpressionNodeForLet node = (ExpressionNodeForLet) _node;
+			compileLet( node );
+		}
+
+		else if (_node instanceof ExpressionNodeForLetVar) {
+			final ExpressionNodeForLetVar node = (ExpressionNodeForLetVar) _node;
+			compileLetVar( node.varName() );
+		}
+
+		else if (_node instanceof ExpressionNodeForFold) {
+			final ExpressionNodeForFold node = (ExpressionNodeForFold) _node;
+			compileFold( node );
 		}
 
 		else {
@@ -374,119 +403,10 @@ abstract class ExpressionCompiler
 	}
 
 
-	private final void compileAggregation( ExpressionNodeForAggregator _node ) throws CompilerException
+	protected void compileAggregation( ExpressionNodeForAggregator _node ) throws CompilerException
 	{
-		final Aggregator aggregator = _node.getAggregator();
-
-		switch (aggregator) {
-
-			case COUNT:
-				compileCount( _node );
-				break;
-
-			case AVERAGE:
-				compileAverage( _node );
-				break;
-
-			default:
-				compileMapReduceAggregator( _node );
-
-		}
-	}
-
-
-	private final void compileMapReduceAggregator( ExpressionNodeForAggregator _node ) throws CompilerException
-	{
-		final Aggregator aggregator = _node.getAggregator();
-		final Operator reductor = aggregator.getReductor();
-		compileMapReduceAggregator( _node, reductor );
-	}
-
-
-	protected final void compileMapReduceAggregator( ExpressionNodeForAggregator _node, Operator _reductor )
-			throws CompilerException
-	{
-		if (null == _reductor) {
-			throw new CompilerException.UnsupportedExpression( "Internal error: No MapReduce reductor for aggregation "
-					+ _node.describe() + "." );
-		}
-
-// FIXME		
-		/*
-
-		boolean first = true;
-		for (ExpressionNode arg : _node.arguments()) {
-			if (arg instanceof ExpressionNodeForSubSectionModel) {
-				ExpressionNodeForSubSectionModel subArg = (ExpressionNodeForSubSectionModel) arg;
-				compileIteration( _reductor, subArg );
-			}
-			else {
-				compile( arg );
-			}
-			if (first) first = false;
-			else compileOperatorWithFirstArgOnStack( _reductor, 2 );
-		}
-
-		if (_node instanceof ExpressionNodeForPartialAggregation) {
-			ExpressionNodeForPartialAggregation partialAggNode = (ExpressionNodeForPartialAggregation) _node;
-			compileConst( partialAggNode.getPartialAggregation().accumulator );
-			compileOperatorWithFirstArgOnStack( _reductor, 2 );
-		}
-*/		
-	}
-
-
-	private final void compileCount( ExpressionNodeForAggregator _node ) throws CompilerException
-	{
-		final GeneratorAdapter mv = mv();
-
-		long statics = 0;
-		for (ExpressionNode arg : _node.arguments()) {
-			if (!(arg instanceof ExpressionNodeForSubSectionModel)) {
-				statics++;
-			}
-		}
-		mv.push( statics );
-
-		for (ExpressionNode arg : _node.arguments()) {
-			if (arg instanceof ExpressionNodeForSubSectionModel) {
-				ExpressionNodeForSubSectionModel subArg = (ExpressionNodeForSubSectionModel) arg;
-				SubSectionCompiler sub = section().subSectionCompiler( subArg.getSectionModel() );
-
-				mv.loadThis();
-				section().compileCallToGetterFor( mv, sub );
-				mv.arrayLength();
-				mv.visitInsn( Opcodes.I2L );
-				mv.push( (long) subArg.arguments().size() );
-				mv.visitInsn( Opcodes.LMUL );
-				mv.visitInsn( Opcodes.LADD );
-
-			}
-		}
-
-		if (_node instanceof ExpressionNodeForPartialAggregation) {
-			ExpressionNodeForPartialAggregation partialAggNode = (ExpressionNodeForPartialAggregation) _node;
-			NonNullCountingAggregation agg = (NonNullCountingAggregation) partialAggNode.getPartialAggregation();
-			mv.push( (long) agg.numberOfNonNullArguments );
-			mv.visitInsn( Opcodes.LADD );
-		}
-
-		compileConversionFrom( Long.TYPE );
-	}
-
-
-	private final void compileAverage( ExpressionNodeForAggregator _node ) throws CompilerException
-	{
-		compileMapReduceAggregator( _node, Operator.PLUS );
-		compileCount( _node );
-// FIXME		compileOperatorWithFirstArgOnStack( Operator.DIV, 2 );
-	}
-
-
-	private final void compileIteration( Operator _reductor, ExpressionNodeForSubSectionModel _node )
-			throws CompilerException
-	{
-		compileHelpedExpr( new HelperCompilerForIteration( section(), _reductor, _node ) );
+		throw new CompilerException.UnsupportedExpression( "Aggregator "
+				+ _node.getAggregator() + " is not supported for " + this + " engines." );
 	}
 
 
@@ -531,7 +451,150 @@ abstract class ExpressionCompiler
 	}
 
 
-	protected final void compileHelpedExpr( HelperCompiler _compiler ) throws CompilerException
+	private static final class EvaluateIntoLocal
+	{
+		private final ExpressionNode node;
+
+		public EvaluateIntoLocal(ExpressionNode _node)
+		{
+			super();
+			this.node = _node;
+		}
+
+		public final ExpressionNode node()
+		{
+			return this.node;
+		}
+
+	}
+
+
+	private final void compileLet( ExpressionNodeForLet _node ) throws CompilerException
+	{
+		final Object oldVar = letDict().let( _node.varName(), new EvaluateIntoLocal( _node.value() ) );
+		try {
+			compile( _node.in() );
+		}
+		finally {
+			letDict().unlet( _node.varName(), oldVar );
+		}
+	}
+
+
+	private final void compileLetVar( String _varName ) throws CompilerException
+	{
+		final Object val = letDict().lookup( _varName );
+		if (val == CHAINED_FIRST_ARG) {
+			// ignore
+		}
+		else if (val instanceof ExpressionNode) {
+			compile( (ExpressionNode) val );
+		}
+		else if (val instanceof EvaluateIntoLocal) {
+			final EvaluateIntoLocal eval = (EvaluateIntoLocal) val;
+			compile( eval.node() );
+			final int local = compileDupAndStoreToNewLocal();
+			letDict().set( _varName, local );
+		}
+		else if (val instanceof Integer) {
+			compileLoadLocal( (Integer) val );
+		}
+	}
+
+	protected final int compileStoreToNewLocal()
+	{
+		final int local = compileNewLocal();
+		compileStoreLocal( local );
+		return local;
+	}
+
+	protected final int compileDupAndStoreToNewLocal()
+	{
+		compileDup();
+		return compileStoreToNewLocal();
+	}
+
+	protected final int compileNewLocal()
+	{
+		return method().newLocal( type().getSize() );
+	}
+
+	protected void compileDup()
+	{
+		mv().visitInsn( Opcodes.DUP );
+	}
+
+	protected final void compileStoreLocal( int _local )
+	{
+		mv().visitVarInsn( type().getOpcode( Opcodes.ISTORE ), _local );
+	}
+
+	protected final void compileLoadLocal( int _local )
+	{
+		mv().visitVarInsn( type().getOpcode( Opcodes.ILOAD ), _local );
+	}
+
+
+	private final void compileFold( ExpressionNodeForFold _node ) throws CompilerException
+	{
+		final FoldContext foldContext = new FoldContext( _node, section() );
+		if (isSubSectionIn( _node.elements() )) {
+			final HelperCompilerForIterativeFold helper = new HelperCompilerForIterativeFold( section(), _node.elements(),
+					foldContext );
+			helper.compile();
+			mv().loadThis();
+			compile( foldContext.node.initialAccumulatorValue() );
+			mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, section().classInternalName(), helper.methodName(),
+					helper.methodDescriptor() );
+		}
+		else {
+			// LATER For folds that support this, we could skip the initial value in favour of the first element
+			compile( foldContext.node.initialAccumulatorValue() );
+			compileChainedFoldOverNonRepeatingElements( foldContext, foldContext.node.elements() );
+		}
+	}
+
+	final boolean isSubSectionIn( Iterable<ExpressionNode> _elts )
+	{
+		for (ExpressionNode elt : _elts) {
+			if (elt instanceof ExpressionNodeForSubSectionModel) return true;
+		}
+		return false;
+	}
+
+	final void compileChainedFoldOverNonRepeatingElements( FoldContext _context, Iterable<ExpressionNode> _elements )
+			throws CompilerException
+	{
+		final String accName = _context.node.accumulatorName();
+		final Object accOld = letDict().let( accName, CHAINED_FIRST_ARG );
+		try {
+			final int reuseLocalsAt = localsOffset();
+			for (final ExpressionNode elt : _elements) {
+				if (!(elt instanceof ExpressionNodeForSubSectionModel)) {
+					resetLocalsTo( reuseLocalsAt );
+					compileElementFold( _context, elt );
+				}
+			}
+		}
+		finally {
+			letDict().unlet( accName, accOld );
+		}
+	}
+
+	final void compileElementFold( FoldContext _context, final ExpressionNode _elt ) throws CompilerException
+	{
+		final String eltName = _context.node.elementName();
+		final Object eltOld = letDict().let( eltName, _elt );
+		try {
+			compile( _context.node.accumulatingStep() );
+		}
+		finally {
+			letDict().unlet( eltName, eltOld );
+		}
+	}
+
+
+	final void compileHelpedExpr( HelperCompiler _compiler ) throws CompilerException
 	{
 		_compiler.compile();
 		compileRef( _compiler.methodName() );
@@ -542,5 +605,13 @@ abstract class ExpressionCompiler
 	{
 		typeCompiler().compileRuntimeMethod( mv(), _methodName, _methodSig );
 	}
+
+
+	protected static interface InnerCompilation
+	{
+		void compile() throws CompilerException;
+	}
+
+	protected abstract void compile_scanArray( InnerCompilation _forElement ) throws CompilerException;
 
 }
