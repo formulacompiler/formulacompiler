@@ -23,9 +23,10 @@ package sej.internal.build.bytecode;
 import java.io.File;
 import java.io.IOException;
 
+import sej.internal.templates.ExpressionTemplatesForAll;
 import sej.internal.templates.ExpressionTemplatesForBigDecimals;
-import sej.internal.templates.ExpressionTemplatesForNumbers;
 import sej.internal.templates.ExpressionTemplatesForDoubles;
+import sej.internal.templates.ExpressionTemplatesForNumbers;
 import sej.internal.templates.ExpressionTemplatesForScaledLongs;
 
 public final class PatternCompiler
@@ -42,9 +43,10 @@ public final class PatternCompiler
 		final File p = new File( "src/classes-gen/sej/internal/bytecode/compiler" );
 		p.mkdirs();
 
+		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForAll.class, "All", false, false ).generate( p );
 		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForNumbers.class, "Numbers" ).generate( p );
 		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForDoubles.class, "Doubles" ).generate( p );
 		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForScaledLongs.class, "ScaledLongs" ).generate( p );
-		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForBigDecimals.class, "BigDecimals", true ).generate( p );
+		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForBigDecimals.class, "BigDecimals", true, true ).generate( p );
 	}
 }

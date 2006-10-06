@@ -18,13 +18,24 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.templates;
+package sej.internal.bytecode.compiler;
 
+import org.objectweb.asm.Type;
 
-@SuppressWarnings("unqualified-field-access")
-public class ExpressionTemplatesForNumbers
+import sej.internal.expressions.ExpressionNodeForFold;
+
+final class FoldContext
 {
+	final ExpressionNodeForFold node;
+	final Type accumulatorType;
 
-	// Nothing so far.
+	public FoldContext(ExpressionNodeForFold _node, SectionCompiler _compiler)
+	{
+		super();
+		this.node = _node;
+
+		// FIXME StringBuffer etc.
+		this.accumulatorType = _compiler.engineCompiler().typeCompiler( _node.getDataType() ).type();
+	}
 
 }

@@ -20,7 +20,8 @@
  */
 package sej.tests.utils;
 
-import sej.runtime.Resettable;
+import java.math.BigDecimal;
+
 import sej.runtime.ScaledLong;
 
 /**
@@ -30,10 +31,66 @@ import sej.runtime.ScaledLong;
  * @author peo
  */
 @ScaledLong(4)
-public class Outputs extends OutputsWithoutCaching implements Resettable
+public class OutputsWithoutCaching implements OutputInterface
 {
-	public void reset()
+	public double getResult()
 	{
-		// Nothing here.
+		throw new AbstractMethodError( "" );
+	}
+	public double getA()
+	{
+		throw new AbstractMethodError( "" );
+	}
+	public double getB()
+	{
+		throw new AbstractMethodError( "" );
+	}
+	public double getC()
+	{
+		throw new AbstractMethodError( "" );
+	}
+	public Iterable<OutputsWithoutCaching> getDetails()
+	{
+		throw new AbstractMethodError( "" );
+	}
+	public Double getDoubleObj()
+	{
+		throw new AbstractMethodError( "" );
+	}
+	public System getUnsupported()
+	{
+		throw new AbstractMethodError( "" );
+	}
+	public BigDecimal getBigDecimalA()
+	{
+		throw new AbstractMethodError( "" );
+	}
+	public BigDecimal getBigDecimalB()
+	{
+		throw new AbstractMethodError( "" );
+	}
+	public BigDecimal getBigDecimalC()
+	{
+		throw new AbstractMethodError( "" );
+	}
+	public BigDecimal getBigResult()
+	{
+		throw new AbstractMethodError( "" );
+	}
+	public long getScaledLongA()
+	{
+		throw new AbstractMethodError( "" );
+	}
+	public long getScaledLongB()
+	{
+		throw new AbstractMethodError( "" );
+	}
+	public long getScaledLongC()
+	{
+		throw new AbstractMethodError( "" );
+	}
+	public long getScaledLongResult()
+	{
+		throw new AbstractMethodError( "" );
 	}
 }

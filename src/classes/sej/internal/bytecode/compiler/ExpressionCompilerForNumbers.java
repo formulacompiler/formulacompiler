@@ -40,6 +40,9 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
+import sej.internal.model.ExpressionNodeForPartialAggregation;
+import sej.internal.model.ExpressionNodeForSubSectionModel;
+import sej.internal.model.Aggregation.NonNullCountingAggregation;
 import sej.runtime.ScaledLong;
 
 abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers_Generated
@@ -636,6 +639,61 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers
 
 
 	protected abstract void compile_util_round( int _maxFractionalDigits ) throws CompilerException;
+
+
+	@Override
+	protected void compileAggregation( ExpressionNodeForAggregator _node ) throws CompilerException
+	{
+		final Aggregator aggregator = _node.getAggregator();
+		switch (aggregator) {
+
+			case COUNT:
+				compileCount( _node );
+				break;
+
+			default:
+				super.compileAggregation( _node );
+
+		}
+	}
+
+
+	private final void compileCount( ExpressionNodeForAggregator _node ) throws CompilerException
+	{
+		final GeneratorAdapter mv = mv();
+
+		int statics = 0;
+		for (ExpressionNode arg : _node.arguments()) {
+			if (!(arg instanceof ExpressionNodeForSubSectionModel)) {
+				statics++;
+			}
+		}
+		mv.push( statics );
+
+		for (ExpressionNode arg : _node.arguments()) {
+			if (arg instanceof ExpressionNodeForSubSectionModel) {
+				ExpressionNodeForSubSectionModel subArg = (ExpressionNodeForSubSectionModel) arg;
+				SubSectionCompiler sub = section().subSectionCompiler( subArg.getSectionModel() );
+
+				mv.loadThis();
+				section().compileCallToGetterFor( mv, sub );
+				mv.arrayLength();
+				mv.push( subArg.arguments().size() );
+				mv.visitInsn( Opcodes.IMUL );
+				mv.visitInsn( Opcodes.IADD );
+
+			}
+		}
+
+		if (_node instanceof ExpressionNodeForPartialAggregation) {
+			ExpressionNodeForPartialAggregation partialAggNode = (ExpressionNodeForPartialAggregation) _node;
+			NonNullCountingAggregation agg = (NonNullCountingAggregation) partialAggNode.getPartialAggregation();
+			mv.push( (long) agg.numberOfNonNullArguments );
+			mv.visitInsn( Opcodes.IADD );
+		}
+
+		compileConversionFromInt();
+	}
 
 
 	final void compileTest( ExpressionNode _test, Label _notMet ) throws CompilerException

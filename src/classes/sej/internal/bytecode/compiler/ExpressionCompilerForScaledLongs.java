@@ -87,4 +87,10 @@ final class ExpressionCompilerForScaledLongs extends ExpressionCompilerForScaled
 	}
 
 
+	@Override
+	protected void compileDup()
+	{
+		mv().visitInsn( Opcodes.DUP2 );
+	}
+	
 }

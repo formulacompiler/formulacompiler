@@ -60,15 +60,17 @@ final class ByteCodeCompilerGenerator
 	final DescriptionBuilder functionDispatchBuilder = new DescriptionBuilder();
 	final String superName;
 	final String typeName;
+	final boolean isNumeric;
 	final boolean adjustValues;
 	final Class cls;
 	final ClassNode clsNode;
 
 	public ByteCodeCompilerGenerator(PatternCompiler _compiler, Class _cls, String _typeName, String _superName,
-			boolean _adjustValues) throws IOException
+			boolean _isNumeric, boolean _adjustValues) throws IOException
 	{
 		this.superName = _superName;
 		this.typeName = _typeName;
+		this.isNumeric = _isNumeric;
 		this.adjustValues = _adjustValues;
 		this.cls = _cls;
 		this.clsNode = new ClassNode();
@@ -79,15 +81,15 @@ final class ByteCodeCompilerGenerator
 		this.functionDispatchBuilder.indent( 3 );
 	}
 
-	public ByteCodeCompilerGenerator(PatternCompiler _compiler, Class _cls, String _typeName, boolean _adjustValues)
-			throws IOException
+	public ByteCodeCompilerGenerator(PatternCompiler _compiler, Class _cls, String _typeName, boolean _isNumeric,
+			boolean _adjustValues) throws IOException
 	{
-		this( _compiler, _cls, _typeName, "ExpressionCompilerFor" + _typeName + "_Base", _adjustValues );
+		this( _compiler, _cls, _typeName, "ExpressionCompilerFor" + _typeName + "_Base", _isNumeric, _adjustValues );
 	}
 
 	public ByteCodeCompilerGenerator(PatternCompiler _compiler, Class _cls, String _typeName) throws IOException
 	{
-		this( _compiler, _cls, _typeName, false );
+		this( _compiler, _cls, _typeName, true, false );
 	}
 
 
@@ -98,6 +100,10 @@ final class ByteCodeCompilerGenerator
 		System.out.println( "Generating " + clsName + "..." );
 
 		DescriptionBuilder cb = classBuilder;
+		cb.appendLine( "/**" );
+		cb.append( " * DO NOT MODIFY! This file is generated automatically from " ).append( this.cls.getName() )
+				.appendLine( "." );
+		cb.appendLine( " */" );
 		cb.appendLine( "package sej.internal.bytecode.compiler;" );
 		cb.newLine();
 		cb.appendLine( "import org.objectweb.asm.Label;" );
@@ -117,11 +123,14 @@ final class ByteCodeCompilerGenerator
 		cb.indent();
 
 		cb.newLine();
-		cb.append( "public " ).append( clsName )
-				.appendLine( "(MethodCompiler _methodCompiler, NumericType _numericType)" );
+		cb.append( "public " ).append( clsName ).append( "(MethodCompiler _methodCompiler" );
+		if (isNumeric) cb.append( ", NumericType _numericType" );
+		cb.appendLine( ")" );
 		cb.appendLine( "{" );
 		cb.indent();
-		cb.appendLine( "super( _methodCompiler, _numericType );" );
+		cb.append( "super( _methodCompiler" );
+		if (isNumeric) cb.append( ", _numericType" );
+		cb.appendLine( " );" );
 		cb.outdent();
 		cb.appendLine( "}" );
 
@@ -144,14 +153,17 @@ final class ByteCodeCompilerGenerator
 	{
 		for (Object mtdObj : clsNode.methods) {
 			final MethodNode mtdNode = (MethodNode) mtdObj;
-			if (mtdNode.name.startsWith( "op_" )) {
-				new OperatorTemplateGenerator( mtdNode ).generate();
-			}
-			else if (mtdNode.name.startsWith( "fun_" )) {
+			if (mtdNode.name.startsWith( "fun_" )) {
 				new FunctionTemplateGenerator( mtdNode ).generate();
+			}
+			else if (mtdNode.name.startsWith( "op_" )) {
+				new OperatorTemplateGenerator( mtdNode ).generate();
 			}
 			else if (mtdNode.name.startsWith( "util_" )) {
 				new UtilTemplateGenerator( mtdNode ).generate();
+			}
+			else if (mtdNode.name.equals( "scanArray" )) {
+				new ScanArrayTemplateGenerator( mtdNode ).generate();
 			}
 		}
 	}
@@ -407,8 +419,15 @@ final class ByteCodeCompilerGenerator
 		private void genInsns()
 		{
 			final Iterator insns = mtdNode.instructions.iterator();
+
+			// Loop through iterator with look-ahead of 1.
+			// Assumes at least one element is present (RETURN).
+			assert insns.hasNext();
+
+			Object next = insns.next();
 			while (insns.hasNext()) {
-				final AbstractInsnNode insnNode = (AbstractInsnNode) insns.next();
+				final AbstractInsnNode insnNode = (AbstractInsnNode) next;
+				next = insns.next();
 				switch (insnNode.getOpcode()) {
 
 					case Opcodes.ILOAD:
@@ -417,7 +436,12 @@ final class ByteCodeCompilerGenerator
 					case Opcodes.ALOAD: {
 						final VarInsnNode varNode = (VarInsnNode) insnNode;
 						if (0 == varNode.var) {
-							genLoadContextFieldInsn( (FieldInsnNode) insns.next() );
+							// Drop references to this. If followed by member access, compile as context
+							// field access.
+							if (next instanceof FieldInsnNode) {
+								genLoadContextFieldInsn( (FieldInsnNode) next );
+								next = insns.next();
+							}
 						}
 						else if (varNode.var < firstVarInLocals) {
 							final int paramIdx = paramIdxOfLocalAt( varNode.var );
@@ -433,6 +457,7 @@ final class ByteCodeCompilerGenerator
 					case Opcodes.DRETURN:
 					case Opcodes.LRETURN:
 					case Opcodes.ARETURN:
+					case Opcodes.RETURN:
 						return;
 
 					default:
@@ -492,6 +517,11 @@ final class ByteCodeCompilerGenerator
 			classBuilder.append( "compile( _" ).append( paramName( _paramIdx ) ).appendLine( " );" );
 		}
 
+		protected void genOwnMethodInsn( MethodInsnNode _node )
+		{
+			throw new IllegalArgumentException( "Cannot handle calls to own methods in this context." );
+		}
+
 		private int genBackingVar( int _paramIdx )
 		{
 			backingVars[ _paramIdx ] = sizeOfLocals;
@@ -536,9 +566,10 @@ final class ByteCodeCompilerGenerator
 
 		private void genInsn( IincInsnNode _node )
 		{
-			startInsn( _node );
-			classBuilder.append( ", " ).append( _node.incr ).append( ", " );
+			final DescriptionBuilder cb = classBuilder;
+			cb.append( "mv.visitIincInsn( " );
 			genVar( _node.var );
+			cb.append( ", " ).append( _node.incr );
 			endInsn();
 		}
 
@@ -571,10 +602,15 @@ final class ByteCodeCompilerGenerator
 
 		private void genInsn( MethodInsnNode _node )
 		{
-			startInsn( _node );
-			classBuilder.append( ", \"" ).append( _node.owner ).append( "\", \"" ).append( _node.name ).append( "\", \"" )
-					.append( _node.desc ).append( "\"" );
-			endInsn();
+			if (_node.owner == clsNode.name) {
+				genOwnMethodInsn( _node );
+			}
+			else {
+				startInsn( _node );
+				classBuilder.append( ", \"" ).append( _node.owner ).append( "\", \"" ).append( _node.name ).append(
+						"\", \"" ).append( _node.desc ).append( "\"" );
+				endInsn();
+			}
 		}
 
 		private void genInsn( FieldInsnNode _node )
@@ -644,69 +680,6 @@ final class ByteCodeCompilerGenerator
 	}
 
 
-	class OperatorTemplateGenerator extends TemplateMethodGenerator
-	{
-
-		public OperatorTemplateGenerator(MethodNode _mtdNode)
-		{
-			super( _mtdNode );
-		}
-
-
-		@Override
-		protected int firstArg()
-		{
-			return 1;
-		}
-
-
-		boolean firstParamAccess = true;
-
-		@Override
-		protected void genFirstAccessToParamInsn( int _paramIdx )
-		{
-			if (firstParamAccess) {
-				if (0 != _paramIdx) {
-					throw new IllegalArgumentException( "Operator does not access first argument first in "
-							+ mtdNode.name + mtdNode.desc );
-				}
-				firstParamAccess = false;
-			}
-			else {
-				super.genFirstAccessToParamInsn( _paramIdx );
-			}
-		}
-
-
-		@Override
-		protected void genDispatch()
-		{
-			if (1 == cardinality) {
-				final DescriptionBuilder db = unaryOperatorDispatchBuilder;
-				genDispatch( db, "" );
-			}
-			else if (2 == cardinality) {
-				final DescriptionBuilder db = binaryOperatorDispatchBuilder;
-				genDispatch( db, " _secondArg " );
-			}
-			else throw new IllegalArgumentException( "Operator cannot have more than 2 arguments in "
-					+ mtdNode.name + mtdNode.desc );
-		}
-
-		private void genDispatch( DescriptionBuilder _dispatcher, String _params )
-		{
-			genDispatchCase( _dispatcher, enumName );
-			_dispatcher.indent();
-			genDispatchIf( _dispatcher, ifCond );
-			_dispatcher.append( "compile_" ).append( mtdNode.name ).append( "(" ).append( _params ).appendLine( ");" );
-			_dispatcher.appendLine( "return;" );
-			genDispatchEndIf( _dispatcher, ifCond );
-			_dispatcher.outdent();
-		}
-
-	}
-
-
 	class FunctionTemplateGenerator extends TemplateMethodGenerator
 	{
 
@@ -748,39 +721,19 @@ final class ByteCodeCompilerGenerator
 	}
 
 
-	class UtilTemplateGenerator extends TemplateMethodGenerator
+	abstract class ImplicitFirstArgTemplateGenerator extends TemplateMethodGenerator
 	{
 
-		public UtilTemplateGenerator(MethodNode _mtdNode)
+		public ImplicitFirstArgTemplateGenerator(MethodNode _mtdNode)
 		{
 			super( _mtdNode );
 		}
 
-
 		@Override
-		protected String visibility()
+		protected int firstArg()
 		{
-			return "protected";
+			return 1;
 		}
-
-
-		@Override
-		protected void genParams()
-		{
-			final DescriptionBuilder cb = classBuilder;
-			int iArg = 1;
-			if (iArg >= argTypes.length) {
-				cb.append( "()" );
-			}
-			else {
-				cb.append( "( " ).append( argTypes[ iArg ].getClassName() ).append( " _" ).append( paramName( iArg++ ) );
-				while (iArg < argTypes.length) {
-					cb.append( argTypes[ iArg ].getClassName() ).append( " _" ).append( paramName( iArg++ ) );
-				}
-				cb.append( " )" );
-			}
-		}
-
 
 		boolean firstParamAccess = true;
 
@@ -795,15 +748,124 @@ final class ByteCodeCompilerGenerator
 				firstParamAccess = false;
 			}
 			else {
-				classBuilder.append( "mv.push( _" ).append( paramName( _paramIdx ) ).appendLine( " );" );
+				genFirstAccessToExplicitParamInsn( _paramIdx );
 			}
 		}
 
+		protected void genFirstAccessToExplicitParamInsn( int _paramIdx )
+		{
+			super.genFirstAccessToParamInsn( _paramIdx );
+		}
+
+	}
+
+
+	class OperatorTemplateGenerator extends ImplicitFirstArgTemplateGenerator
+	{
+
+		public OperatorTemplateGenerator(MethodNode _mtdNode)
+		{
+			super( _mtdNode );
+		}
+
+		@Override
+		protected void genDispatch()
+		{
+			if (1 == cardinality) {
+				final DescriptionBuilder db = unaryOperatorDispatchBuilder;
+				genDispatch( db, "" );
+			}
+			else if (2 == cardinality) {
+				final DescriptionBuilder db = binaryOperatorDispatchBuilder;
+				genDispatch( db, " _secondArg " );
+			}
+			else throw new IllegalArgumentException( "Operator cannot have more than 2 arguments in "
+					+ mtdNode.name + mtdNode.desc );
+		}
+
+		private void genDispatch( DescriptionBuilder _dispatcher, String _params )
+		{
+			genDispatchCase( _dispatcher, enumName );
+			_dispatcher.indent();
+			genDispatchIf( _dispatcher, ifCond );
+			_dispatcher.append( "compile_" ).append( mtdNode.name ).append( "(" ).append( _params ).appendLine( ");" );
+			_dispatcher.appendLine( "return;" );
+			genDispatchEndIf( _dispatcher, ifCond );
+			_dispatcher.outdent();
+		}
+
+	}
+
+
+	class UtilTemplateGenerator extends ImplicitFirstArgTemplateGenerator
+	{
+
+		public UtilTemplateGenerator(MethodNode _mtdNode)
+		{
+			super( _mtdNode );
+		}
+
+		@Override
+		protected String visibility()
+		{
+			return "protected";
+		}
+
+		@Override
+		protected void genParams()
+		{
+			final DescriptionBuilder cb = classBuilder;
+			int iArg = firstArg();
+			if (iArg >= argTypes.length) {
+				cb.append( "()" );
+			}
+			else {
+				cb.append( "( " ).append( argTypes[ iArg ].getClassName() ).append( " _" ).append( paramName( iArg++ ) );
+				while (iArg < argTypes.length) {
+					cb.append( argTypes[ iArg ].getClassName() ).append( " _" ).append( paramName( iArg++ ) );
+				}
+				cb.append( " )" );
+			}
+		}
+
+		@Override
+		protected void genFirstAccessToExplicitParamInsn( int _paramIdx )
+		{
+			classBuilder.append( "mv.push( _" ).append( paramName( _paramIdx ) ).appendLine( " );" );
+		}
 
 		@Override
 		protected void genDispatch()
 		{
 			// No automatic dispatch for utils.
+		}
+
+	}
+
+
+	class ScanArrayTemplateGenerator extends UtilTemplateGenerator
+	{
+
+		public ScanArrayTemplateGenerator(MethodNode _mtdNode)
+		{
+			super( _mtdNode );
+		}
+
+		@Override
+		protected void genParams()
+		{
+			classBuilder.append( "( InnerCompilation _forElement )" );
+		}
+
+		@Override
+		protected void genOwnMethodInsn( MethodInsnNode _node )
+		{
+			if (_node.name.equals( "scanElement" )) {
+				classBuilder.appendLine( "_forElement.compile();" );
+			}
+			else {
+				super.genOwnMethodInsn( _node );
+			}
 		}
 
 	}

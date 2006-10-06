@@ -26,7 +26,7 @@ import java.util.Date;
 
 import sej.internal.runtime.RuntimeDouble_v1;
 
-public class ExpressionTemplatesForDoubles
+public abstract class ExpressionTemplatesForDoubles
 {
 
 
@@ -134,8 +134,8 @@ public class ExpressionTemplatesForDoubles
 	{
 		return RuntimeDouble_v1.toExcelString( a );
 	}
-	
-	
+
+
 	double util_fromScaledLong( long a, long _scalingFactor )
 	{
 		return RuntimeDouble_v1.fromScaledLong( a, _scalingFactor );
@@ -146,7 +146,7 @@ public class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v1.toScaledLong( a, _scalingFactor );
 	}
 
-
+	
 	// ------------------------------------------------ Operators
 
 
@@ -192,14 +192,12 @@ public class ExpressionTemplatesForDoubles
 
 	double op_MIN( double a, double b )
 	{
-		double a__1, b__2;
-		return ((a__1 = a) < (b__2 = b)) ? a__1 : b__2;
+		return (a < b) ? a : b;
 	}
 
 	double op_MAX( double a, double b )
 	{
-		double a__1, b__2;
-		return ((a__1 = a) > (b__2 = b)) ? a__1 : b__2;
+		return (a > b) ? a : b;
 	}
 
 	double op_AND( double a, double b )

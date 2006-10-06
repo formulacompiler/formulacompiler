@@ -42,6 +42,9 @@ import sej.runtime.Resettable;
 import junit.framework.TestCase;
 
 
+// FIXME Test mix of section and static array
+
+
 /**
  * This is the prototype of how SEJ implements sums over variably sized sections.
  * 

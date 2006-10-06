@@ -32,7 +32,11 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
 
-final class ExpressionCompilerForStrings extends ExpressionCompiler
+
+// FIXME Base on templates
+
+
+final class ExpressionCompilerForStrings extends ExpressionCompilerForAll_Generated
 {
 
 	ExpressionCompilerForStrings(MethodCompiler _methodCompiler)
