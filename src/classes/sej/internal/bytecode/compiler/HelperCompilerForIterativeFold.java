@@ -25,7 +25,6 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.ExpressionNodeForFold;
 import sej.internal.expressions.LetDictionary;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 
@@ -33,8 +32,7 @@ import sej.internal.model.ExpressionNodeForSubSectionModel;
 @SuppressWarnings("unqualified-field-access")
 final class HelperCompilerForIterativeFold extends HelperCompiler
 {
-	private final FoldContext foldContext2;
-	private final ExpressionNodeForFold foldNode;
+	private final FoldContext foldContext;
 	private final Iterable<ExpressionNode> elts;
 	private final LetDictionary<Object> outerLets;
 
@@ -43,8 +41,7 @@ final class HelperCompilerForIterativeFold extends HelperCompiler
 			FoldContext _context, LetDictionary<Object> _outerLets)
 	{
 		super( _section, _context.node );
-		this.foldContext2 = _context;
-		this.foldNode = _context.node;
+		this.foldContext = _context;
 		this.elts = _elts;
 		this.outerLets = _outerLets;
 	}
@@ -60,8 +57,8 @@ final class HelperCompilerForIterativeFold extends HelperCompiler
 		expc.copyAndForcePendingLetsFrom( this.outerLets );
 
 		final int localResult = compileNewAccumulator();
-		expc.compile( foldContext2.node.initialAccumulatorValue() );
-		compileElements( foldContext2, elts, localResult );
+		expc.compile( foldContext.node.initialAccumulatorValue() );
+		compileElements( foldContext, elts, localResult );
 	}
 
 
@@ -81,7 +78,6 @@ final class HelperCompilerForIterativeFold extends HelperCompiler
 	final void compileIterativeFoldOverRepeatingElements( final FoldContext _context, Iterable<ExpressionNode> _elts,
 			final int _localAccumulator ) throws CompilerException
 	{
-		final SectionCompiler section = section();
 		final ExpressionCompiler expc = expressionCompiler();
 		final int reuseLocalsAt = localsOffset();
 		for (final ExpressionNode elt : _elts) {
@@ -109,17 +105,17 @@ final class HelperCompilerForIterativeFold extends HelperCompiler
 
 	final int compileNewAccumulator()
 	{
-		return newLocal( foldContext2.accumulatorType.getSize() );
+		return newLocal( foldContext.accumulatorType.getSize() );
 	}
 
 	final void compileAccumulatorStore( int _local )
 	{
-		mv().visitVarInsn( foldContext2.accumulatorType.getOpcode( Opcodes.ISTORE ), _local );
+		mv().visitVarInsn( foldContext.accumulatorType.getOpcode( Opcodes.ISTORE ), _local );
 	}
 
 	final void compileAccumulatorLoad( int _local )
 	{
-		mv().visitVarInsn( foldContext2.accumulatorType.getOpcode( Opcodes.ILOAD ), _local );
+		mv().visitVarInsn( foldContext.accumulatorType.getOpcode( Opcodes.ILOAD ), _local );
 	}
 
 }
