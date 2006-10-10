@@ -20,6 +20,7 @@
  */
 package sej.internal.bytecode.compiler;
 
+import sej.Aggregator;
 import sej.CallFrame;
 import sej.NumericType;
 import sej.Operator;
@@ -27,6 +28,7 @@ import sej.SEJ;
 import sej.SaveableEngine;
 import sej.internal.Debug;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
 import sej.internal.expressions.ExpressionNodeForLet;
@@ -39,6 +41,7 @@ import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.SectionModel;
 import sej.internal.model.analysis.TypeAnnotator;
 import sej.internal.model.optimizer.IntermediateResultsInliner;
+import sej.internal.model.rewriting.ModelRewriter;
 import sej.runtime.ComputationFactory;
 import sej.tests.utils.Inputs;
 import sej.tests.utils.Outputs;
@@ -188,6 +191,59 @@ public class LittleLanguageTests extends TestCase
 
 		final Inputs i = this.inputs;
 		assertDoubleResult( i.getDoubleA() * (N_DET * N_DET + 1) + i.getDoubleB() + i.getDoubleC() * N_DET, engineModel );
+	}
+
+
+	public void testRewritingOfVARP() throws Exception
+	{
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final SectionModel rootModel = engineModel.getRoot();
+		final CellModel a = new CellModel( rootModel, "a" );
+		final CellModel b = new CellModel( rootModel, "b" );
+		final CellModel c = new CellModel( rootModel, "c" );
+		final CellModel r = new CellModel( rootModel, "r" );
+
+		a.setConstantValue( 1.0 );
+		b.setConstantValue( 2.0 );
+		c.setConstantValue( 3.0 );
+
+		final ExpressionNode[] args = new ExpressionNode[] { new ExpressionNodeForCellModel( a ),
+				new ExpressionNodeForCellModel( b ), new ExpressionNodeForCellModel( c ) };
+
+		r.setExpression( new ExpressionNodeForAggregator( Aggregator.VARP, args ) );
+
+		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
+		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
+		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		
+		engineModel.traverse( new ModelRewriter() );
+
+		final Inputs i = this.inputs;
+		final double expected = varp( i.getDoubleA(), i.getDoubleB(), i.getDoubleC() );
+		assertDoubleResult( expected, engineModel );
+	}
+
+	private double varp( double... _xs )
+	{
+		final double n = _xs.length;
+		final double s = sum( _xs );
+		final double m = s / n;
+		double sse = 0;
+		for (double xi : _xs) {
+			final double ei = xi - m;
+			sse += ei * ei;
+		}
+		return sse / n;
+	}
+
+	private double sum( double... _xs )
+	{
+		double sum = 0;
+		for (double xi : _xs) {
+			sum += xi;
+		}
+		return sum;
 	}
 
 

@@ -45,6 +45,7 @@ import sej.internal.expressions.LetDictionary;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
+import sej.internal.model.ExpressionNodeForSubExpr;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 
 abstract class ExpressionCompiler
@@ -244,6 +245,14 @@ abstract class ExpressionCompiler
 		else if (_node instanceof ExpressionNodeForInnerFoldedObjRef) {
 			final ExpressionNodeForInnerFoldedObjRef node = (ExpressionNodeForInnerFoldedObjRef) _node;
 			compileInnerFoldedObjRef( node );
+		}
+
+		else if (_node instanceof ExpressionNodeForSubExpr) {
+			if (_node.cardinality() != 1) {
+				throw new CompilerException.UnsupportedExpression(
+						"Internal error: subexpr node must have exactly one argument" );
+			}
+			compile( _node.argument( 0 ) );
 		}
 
 		else {
@@ -465,17 +474,14 @@ abstract class ExpressionCompiler
 
 	private static final class EvaluateIntoLocal
 	{
-		private final ExpressionNode node;
+		final ExpressionNode node;
+		final int local;
 
-		public EvaluateIntoLocal(ExpressionNode _node)
+		public EvaluateIntoLocal(int _local, ExpressionNode _node)
 		{
 			super();
+			this.local = _local;
 			this.node = _node;
-		}
-
-		public final ExpressionNode node()
-		{
-			return this.node;
 		}
 
 	}
@@ -483,7 +489,10 @@ abstract class ExpressionCompiler
 
 	private final void compileLet( ExpressionNodeForLet _node ) throws CompilerException
 	{
-		final Object oldVar = letDict().let( _node.varName(), new EvaluateIntoLocal( _node.value() ) );
+		// Note: It is important to allocate the local here rather than at the point of first
+		// evaluation. Otherwise it could get reused when the first evaluation is within a local
+		// scope.
+		final Object oldVar = letDict().let( _node.varName(), new EvaluateIntoLocal( compileNewLocal(), _node.value() ) );
 		try {
 			compile( _node.in() );
 		}
@@ -504,9 +513,10 @@ abstract class ExpressionCompiler
 		}
 		else if (val instanceof EvaluateIntoLocal) {
 			final EvaluateIntoLocal eval = (EvaluateIntoLocal) val;
-			compile( eval.node() );
-			final int local = compileDupAndStoreToNewLocal();
-			letDict().set( _varName, local );
+			compile( eval.node );
+			compileDup();
+			compileStoreLocal( eval.local );
+			letDict().set( _varName, eval.local );
 		}
 		else if (val instanceof Integer) {
 			compileLoadLocal( (Integer) val );
@@ -594,7 +604,10 @@ abstract class ExpressionCompiler
 		try {
 			final int reuseLocalsAt = localsOffset();
 			for (final ExpressionNode elt : _elts) {
-				if (!(elt instanceof ExpressionNodeForSubSectionModel)) {
+				if (elt instanceof ExpressionNodeForSubExpr) {
+					compileChainedFoldOverNonRepeatingElements( _context, elt.arguments() );
+				}
+				else if (!(elt instanceof ExpressionNodeForSubSectionModel)) {
 					resetLocalsTo( reuseLocalsAt );
 					compileElementFold( _context, elt );
 				}

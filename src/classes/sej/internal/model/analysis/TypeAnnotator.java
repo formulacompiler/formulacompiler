@@ -36,6 +36,7 @@ import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
 import sej.internal.model.ExpressionNodeForRangeValue;
+import sej.internal.model.ExpressionNodeForSubExpr;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.RangeValue;
 
@@ -115,6 +116,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		if (_expr instanceof ExpressionNodeForLet) return typeOf( (ExpressionNodeForLet) _expr );
 		if (_expr instanceof ExpressionNodeForLetVar) return typeOf( (ExpressionNodeForLetVar) _expr );
 		if (_expr instanceof ExpressionNodeForFold) return typeOf( (ExpressionNodeForFold) _expr );
+		if (_expr instanceof ExpressionNodeForSubExpr) return typeOf( (ExpressionNodeForSubExpr) _expr );
 
 		unsupported( _expr );
 		return null;
@@ -289,6 +291,12 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 			letDict().unlet( _expr.accumulatorName(), oldAcc );
 		}
 		return _expr.argument( 0 ).getDataType();
+	}
+
+	private DataType typeOf( ExpressionNodeForSubExpr _expr ) throws CompilerException
+	{
+		annotateArgs( _expr );
+		return typeOf( _expr.arguments() );
 	}
 
 
