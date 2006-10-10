@@ -41,6 +41,7 @@ import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.ExpressionNodeForPartialAggregation;
+import sej.internal.model.ExpressionNodeForSubExpr;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.Aggregation.NonNullCountingAggregation;
 import sej.runtime.ScaledLong;
@@ -662,12 +663,7 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers
 	{
 		final GeneratorAdapter mv = mv();
 
-		int statics = 0;
-		for (ExpressionNode arg : _node.arguments()) {
-			if (!(arg instanceof ExpressionNodeForSubSectionModel)) {
-				statics++;
-			}
-		}
+		int statics = countStatics( _node, 0 );
 		mv.push( statics );
 
 		for (ExpressionNode arg : _node.arguments()) {
@@ -693,6 +689,20 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers
 		}
 
 		compileConversionFromInt();
+	}
+
+	private int countStatics( ExpressionNode _node, int _n )
+	{
+		int n = _n;
+		for (ExpressionNode arg : _node.arguments()) {
+			if (arg instanceof ExpressionNodeForSubExpr) {
+				n = countStatics( arg, n );
+			}
+			else if (!(arg instanceof ExpressionNodeForSubSectionModel)) {
+				n++;
+			}
+		}
+		return n;
 	}
 
 
