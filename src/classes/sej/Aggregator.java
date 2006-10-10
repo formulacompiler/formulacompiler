@@ -120,6 +120,20 @@ public enum Aggregator {
 		}
 	},
 
+	VARP {
+		@Override
+		public boolean isOrderOfArgumentsIrrelevant()
+		{
+			return true;
+		}
+
+		@Override
+		public Operator getReductor()
+		{
+			return null;
+		}
+	},
+
 	AND {
 		@Override
 		public boolean isOrderOfArgumentsIrrelevant()
@@ -155,6 +169,8 @@ public enum Aggregator {
 	}
 	
 	public abstract boolean isOrderOfArgumentsIrrelevant();
+
+	// FIXME no longer needed
 	public abstract Operator getReductor();
 
 	public boolean isPartialAggregationSupported()
