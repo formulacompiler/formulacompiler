@@ -191,6 +191,7 @@ public class LittleLanguageTests extends TestCase
 	}
 
 
+	// TODO ITER-support
 	/*
 	 * public void testBlock() throws Exception { final ComputationModel engineModel = new
 	 * ComputationModel( Inputs.class, OutputsWithoutCaching.class ); final SectionModel rootModel =

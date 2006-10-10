@@ -94,6 +94,7 @@ FN		= "@"?
 {FN} "AVERAGE"	{ return new Symbol( GeneratedSymbols.AVERAGE, "AVERAGE" ); }
 {FN} "MIN"		{ return new Symbol( GeneratedSymbols.MIN, "MIN" ); }
 {FN} "MAX"		{ return new Symbol( GeneratedSymbols.MAX, "MAX" ); }
+{FN} "VARP"		{ return new Symbol( GeneratedSymbols.VARP, "VARP" ); }
 {FN} "MATCH"	{ return new Symbol( GeneratedSymbols.MATCH, "MATCH" ); }
 {FN} "INDEX"	{ return new Symbol( GeneratedSymbols.INDEX, "INDEX" ); }
 {FN} "ABS"		{ return new Symbol( GeneratedSymbols.ABS, "ABS" ); }
