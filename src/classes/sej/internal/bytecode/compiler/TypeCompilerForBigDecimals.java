@@ -38,7 +38,7 @@ import sej.internal.runtime.RuntimeBigDecimal_v1;
 import sej.internal.runtime.RuntimeDouble_v1;
 
 
-// FIXME
+// FIXME TypeCompilers should be based on templates too
 
 public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 {

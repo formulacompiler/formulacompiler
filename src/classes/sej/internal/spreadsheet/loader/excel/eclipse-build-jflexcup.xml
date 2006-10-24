@@ -28,12 +28,17 @@
 		<antcall target="lexgen">
 			<param name="style" value="R1C1"/>
 		</antcall>
+		<antcall target="lexgen">
+			<param name="style" value="Internal"/>
+		</antcall>
 	</target>
 
 	<target name="lex" depends="lexinput">
 		<jflex file="classes-gen/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerA1.lex"
 			destdir="classes-gen"/>
 		<jflex file="classes-gen/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerR1C1.lex"
+			destdir="classes-gen"/>
+		<jflex file="classes-gen/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerInternal.lex"
 			destdir="classes-gen"/>
 	</target>
 

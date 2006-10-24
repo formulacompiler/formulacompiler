@@ -18,51 +18,42 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.model.rewriting;
+package sej.internal.build.rewriting;
 
-import java.util.List;
+import sej.Function;
 
-import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.ExpressionNodeForFunction;
-
-final class ExpressionRewriter extends AbstractExpressionRewriter
+public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 {
-	private final GeneratedFunctionRewriter generatedRules = new GeneratedFunctionRewriter();
 
-	
-	public ExpressionRewriter()
+	private RewriteRulesCompiler()
 	{
 		super();
 	}
 
 
-	public final ExpressionNode rewrite( ExpressionNode _expr )
+	public static void main( String[] args ) throws Exception
 	{
-		ExpressionNode result = _expr;
-		if (_expr instanceof ExpressionNodeForFunction) {
-			result = rewriteFun( (ExpressionNodeForFunction) _expr );
-		}
-		return rewriteArgsOf( result );
+		new RewriteRulesCompiler().run();
 	}
 
 
-	private ExpressionNode rewriteArgsOf( ExpressionNode _expr )
+	@Override
+	protected void defineFunctions() throws Exception
 	{
-		final List<ExpressionNode> args = _expr.arguments();
-		for (int iArg = 0; iArg < args.size(); iArg++) {
-			final ExpressionNode arg = args.get( iArg );
-			final ExpressionNode rewritten = rewrite( arg );
-			if (rewritten != arg) {
-				args.set( iArg, rewritten );
-			}
+		def( Function.SUM, "xs*", "_FOLDL( acc: 0; xi: `acc + `xi; `xs )" );
+		def( Function.AVERAGE, "xs*", "SUM( `xs ) / COUNT( `xs )" );
+
+		begin( Function.VARP, "xs*" );
+		{
+			body( "_LET( c: COUNT(`xs);" );
+			// Inlining AVERAGE here because COUNT is already known:
+			body( "	_LET( m: SUM(`xs) / `c;" );
+			body( "		_FOLDL( acc: 0; xi: _LET( ei: `xi - `m; `acc + `ei*`ei ); `xs )" );
+			body( "	)" );
+			body( "	/ `c" );
+			body( ")" );
 		}
-		return _expr;
-	}
-
-
-	private ExpressionNode rewriteFun( ExpressionNodeForFunction _fun )
-	{
-		return this.generatedRules.rewrite( _fun );
+		end();
 	}
 
 

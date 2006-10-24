@@ -7,20 +7,20 @@ import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionDescriptionConfig;
 import sej.internal.expressions.ExpressionNode;
 
-public final class ExpressionNodeForSubExpr extends ExpressionNode
+public final class ExpressionNodeForSubstitution extends ExpressionNode
 {
 
-	public ExpressionNodeForSubExpr()
+	public ExpressionNodeForSubstitution()
 	{
 		super();
 	}
 
-	public ExpressionNodeForSubExpr(ExpressionNode... _args)
+	public ExpressionNodeForSubstitution(ExpressionNode... _args)
 	{
 		super( _args );
 	}
 
-	public ExpressionNodeForSubExpr(Collection _args)
+	public ExpressionNodeForSubstitution(Collection _args)
 	{
 		super( _args );
 	}
@@ -29,7 +29,7 @@ public final class ExpressionNodeForSubExpr extends ExpressionNode
 	@Override
 	public ExpressionNode cloneWithoutArguments()
 	{
-		return new ExpressionNodeForSubExpr();
+		return new ExpressionNodeForSubstitution();
 	}
 
 	@Override

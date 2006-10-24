@@ -30,7 +30,7 @@ action code {:
 
 :}
 
-terminal PLUS, MINUS, TIMES, DIV, EXP, PERCENT, CONCAT, COMMA, COLON;
+terminal PLUS, MINUS, TIMES, DIV, EXP, PERCENT, CONCAT, COMMA, COLON, SEMICOLON;
 terminal LPAREN, RPAREN, LBRACK, RBRACK;
 terminal EQUAL, NOTEQUAL, GREATER, GREATEROREQUAL, LESS, LESSOREQUAL;
 terminal IF, AND, OR, NOT;
@@ -48,6 +48,9 @@ terminal String CELLR1C1;
 terminal String COL;
 terminal String ROW;
 
+terminal LET, FOLDL;
+terminal String LETVAR;
+
 non terminal expr_root;
 non terminal ExpressionNode expr;
 non terminal ExpressionNode optexpr;
@@ -60,7 +63,7 @@ non terminal CellIndex cell;
 non terminal CellRange range;
 non terminal ExpressionNode rangeunion;
 non terminal ExpressionNode rangeintersection;
-non terminal Aggregator agg;
+non terminal Function agg;
 non terminal ExpressionNode concat;
 
 precedence left EQUAL, NOTEQUAL, GREATER, GREATEROREQUAL, LESS, LESSOREQUAL;
@@ -152,6 +155,9 @@ expr ::=
 	|	cell:c
 				{: RESULT = this.parser.excelParser.newNodeForReference( c ); :}
 				
+	|	LETVAR:v
+				{: RESULT = new ExpressionNodeForLetVar( v.substring( 1 ) ); :}
+				
 	|   MINUS expr:e
 				{: RESULT = new ExpressionNodeForOperator( Operator.MINUS, cell( e )); :}
 				
@@ -196,6 +202,12 @@ expr ::=
 
 	|	expr:l GREATEROREQUAL expr:r
 				{: RESULT = new ExpressionNodeForOperator( Operator.GREATEROREQUAL, cell( l ), cell( r ) ); :}
+				
+	|	LET LPAREN NAME:n COLON expr:v SEMICOLON expr:in RPAREN
+				{: RESULT = new ExpressionNodeForLet( n, v, in ); :}
+
+	|	FOLDL LPAREN NAME:acc COLON expr:init SEMICOLON NAME:x COLON expr:fold SEMICOLON args:args RPAREN
+				{: RESULT = new ExpressionNodeForFold( acc, init, x, fold, args ); :}
 
 	|	IF LPAREN expr:test COMMA expr:t COMMA expr:f RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.IF, cell( test ), cell( t ), cell( f )); :}
@@ -207,7 +219,7 @@ expr ::=
 				{: RESULT = cell( e ); :}  // interestingly, you may not parenthesize ranges
 				
 	|	agg:a LPAREN rangeunion:l RPAREN
-				{: RESULT = new ExpressionNodeForAggregator( a, l.arguments() ); :}
+				{: RESULT = new ExpressionNodeForFunction( a, l.arguments() ); :}
 				
 	|	MATCH LPAREN expr:lookupvalue COMMA shapedrangeexpr:array optarg:matchtype RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.MATCH, cell( lookupvalue ), array, matchtype ); :}
@@ -319,31 +331,31 @@ args ::=
 agg ::=
 
 		SUM
-				{: RESULT = Aggregator.SUM; :}
+				{: RESULT = Function.SUM; :}
 				
 	| 	PRODUCT
-				{: RESULT = Aggregator.PRODUCT; :}
+				{: RESULT = Function.PRODUCT; :}
 				
 	| 	COUNT
-				{: RESULT = Aggregator.COUNT; :}
+				{: RESULT = Function.COUNT; :}
 				
 	| 	AVERAGE
-				{: RESULT = Aggregator.AVERAGE; :}
+				{: RESULT = Function.AVERAGE; :}
 				
 	| 	VARP
-				{: RESULT = Aggregator.VARP; :}
+				{: RESULT = Function.VARP; :}
 				
 	| 	MIN
-				{: RESULT = Aggregator.MIN; :}
+				{: RESULT = Function.MIN; :}
 				
 	| 	MAX
-				{: RESULT = Aggregator.MAX; :}
+				{: RESULT = Function.MAX; :}
 				
 	| 	AND
-				{: RESULT = Aggregator.AND; :}
+				{: RESULT = Function.AND; :}
 				
 	| 	OR
-				{: RESULT = Aggregator.OR; :}
+				{: RESULT = Function.OR; :}
 				
 	;
 	

@@ -45,7 +45,7 @@ import sej.internal.expressions.LetDictionary;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
-import sej.internal.model.ExpressionNodeForSubExpr;
+import sej.internal.model.ExpressionNodeForSubstitution;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 
 abstract class ExpressionCompiler
@@ -247,7 +247,7 @@ abstract class ExpressionCompiler
 			compileInnerFoldedObjRef( node );
 		}
 
-		else if (_node instanceof ExpressionNodeForSubExpr) {
+		else if (_node instanceof ExpressionNodeForSubstitution) {
 			if (_node.cardinality() != 1) {
 				throw new CompilerException.UnsupportedExpression(
 						"Internal error: subexpr node must have exactly one argument" );
@@ -604,7 +604,7 @@ abstract class ExpressionCompiler
 		try {
 			final int reuseLocalsAt = localsOffset();
 			for (final ExpressionNode elt : _elts) {
-				if (elt instanceof ExpressionNodeForSubExpr) {
+				if (elt instanceof ExpressionNodeForSubstitution) {
 					compileChainedFoldOverNonRepeatingElements( _context, elt.arguments() );
 				}
 				else if (!(elt instanceof ExpressionNodeForSubSectionModel)) {

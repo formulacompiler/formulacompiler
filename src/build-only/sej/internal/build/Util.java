@@ -33,7 +33,7 @@
  * Peter Arrenbrecht
  * http://www.arrenbrecht.ch/jcite
  */
-package sej.internal.build.bytecode;
+package sej.internal.build;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

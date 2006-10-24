@@ -1,6 +1,7 @@
 package sej.internal.expressions;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Iterator;
 
 import sej.describable.DescriptionBuilder;
@@ -25,6 +26,12 @@ public final class ExpressionNodeForFold extends ExpressionNode
 		arguments().add( _accumulatingStep );
 		for (ExpressionNode element : _elements)
 			addArgument( element );
+	}
+
+	public ExpressionNodeForFold(String _acc, ExpressionNode _init, String _x, ExpressionNode _fold,
+			Collection<ExpressionNode> _args)
+	{
+		this( _acc, _init, _x, _fold, _args.toArray( new ExpressionNode[ _args.size() ] ) );
 	}
 
 
@@ -74,12 +81,15 @@ public final class ExpressionNodeForFold extends ExpressionNode
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
-		_to.append( "°FOLD( " ).append( accumulatorName() ).append( ": " );
+		_to.append( "_FOLD( " ).append( accumulatorName() ).append( ": " );
 		initialAccumulatorValue().describeTo( _to, _cfg );
-		_to.append( ", " ).append( elementName() ).append( ": " );
+		_to.append( "; " ).append( elementName() ).append( ": " );
 		accumulatingStep().describeTo( _to, _cfg );
+		_to.append( "; " );
+		boolean first = true;
 		for (final ExpressionNode element : elements()) {
-			_to.append( ", " );
+			if (first) first = false;
+			else _to.append( ", " );
 			element.describeTo( _to, _cfg );
 		}
 		_to.append( " )" );

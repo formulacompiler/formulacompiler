@@ -50,8 +50,8 @@ final class ExcelExpressionParser
 	public ExcelExpressionParser(CellInstance _cell)
 	{
 		this.cell = _cell;
-		this.sheet = this.cell.getRow().getSheet();
-		this.workbook = this.sheet.getSpreadsheet();
+		this.sheet = (_cell == null) ? null : this.cell.getRow().getSheet();
+		this.workbook = (_cell == null) ? null : this.sheet.getSpreadsheet();
 	}
 
 
@@ -174,8 +174,8 @@ final class ExcelExpressionParser
 		else if (_ref instanceof CellRange) {
 			return new ExpressionNodeForRange( (CellRange) _ref );
 		}
-		throw new ExcelExpressionParserError( "Undefined name or unsupported function encountered", this.source, this.scanner
-				.charsRead() );
+		throw new ExcelExpressionParserError( "Undefined name or unsupported function encountered", this.source,
+				this.scanner.charsRead() );
 	}
 
 

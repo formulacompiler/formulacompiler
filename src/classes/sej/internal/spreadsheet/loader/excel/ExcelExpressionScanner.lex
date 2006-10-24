@@ -44,7 +44,8 @@ ALPHA	= [A-Za-z]
 IDENT	= {ALPHA} | {DIGIT} | "_" | "."
 DIGIT	= [0-9]
 SYMBOL	= [^\']
-SPACE	= [\n\ \t\b\012]
+NEWLINE	= \r | \n | \r\n
+SPACE	= [ \t\b\012\f] | {NEWLINE}
 QUOTE	= "'"
 
 INT		= {DIGIT}+
@@ -76,6 +77,7 @@ FN		= "@"?
 "]"			{ return new Symbol( GeneratedSymbols.RBRACK, "]" ); }
 ","			{ return new Symbol( GeneratedSymbols.COMMA, "," ); }
 ":"			{ return new Symbol( GeneratedSymbols.COLON, ":" ); }
+";"			{ return new Symbol( GeneratedSymbols.SEMICOLON, ";" ); }
 
 "="			{ return new Symbol( GeneratedSymbols.EQUAL, "=" ); }
 ">"			{ return new Symbol( GeneratedSymbols.GREATER, ">" ); }
