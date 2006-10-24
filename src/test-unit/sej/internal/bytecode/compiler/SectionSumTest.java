@@ -24,10 +24,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import sej.Aggregator;
 import sej.CallFrame;
 import sej.CompilerException;
 import sej.EngineBuilder;
+import sej.Function;
 import sej.Operator;
 import sej.Orientation;
 import sej.SEJ;
@@ -139,9 +139,9 @@ public class SectionSumTest extends TestCase
 		CellRef detTwice = _bld.currentCell();
 		_bld.nameRange( _bld.range( detCell, detTwice ), _prefix + "Dets" );
 		_bld.newRow();
-		_bld.newCell( _bld.agg( Aggregator.SUM, _bld.ref( detTwice ) ) );
+		_bld.newCell( _bld.fun( Function.SUM, _bld.ref( detTwice ) ) );
 		CellRef detSum = _bld.currentCell();
-		_bld.newCell( _bld.agg( Aggregator.SUM, _bld.ref( _rootCell ), _bld.ref( detSum ), _bld.ref( detSum ) ) );
+		_bld.newCell( _bld.fun( Function.SUM, _bld.ref( _rootCell ), _bld.ref( detSum ), _bld.ref( detSum ) ) );
 		_bld.nameCell( _prefix + "Sums" );
 	}
 

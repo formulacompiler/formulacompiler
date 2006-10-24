@@ -31,18 +31,16 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
-import sej.Aggregator;
 import sej.CompilerException;
 import sej.Function;
 import sej.NumericType;
 import sej.Operator;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.ExpressionNodeForPartialAggregation;
-import sej.internal.model.ExpressionNodeForSubstitution;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
+import sej.internal.model.ExpressionNodeForSubstitution;
 import sej.internal.model.Aggregation.NonNullCountingAggregation;
 import sej.runtime.ScaledLong;
 
@@ -596,6 +594,10 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers
 				}
 				break;
 
+			case COUNT:
+				compileCount( _node );
+				break;
+
 		}
 		super.compileFunction( _node );
 	}
@@ -641,25 +643,8 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers
 
 	protected abstract void compile_util_round( int _maxFractionalDigits ) throws CompilerException;
 
-
-	@Override
-	protected void compileAggregation( ExpressionNodeForAggregator _node ) throws CompilerException
-	{
-		final Aggregator aggregator = _node.getAggregator();
-		switch (aggregator) {
-
-			case COUNT:
-				compileCount( _node );
-				break;
-
-			default:
-				super.compileAggregation( _node );
-
-		}
-	}
-
-
-	private final void compileCount( ExpressionNodeForAggregator _node ) throws CompilerException
+	
+	private final void compileCount( ExpressionNodeForFunction _node ) throws CompilerException
 	{
 		final GeneratorAdapter mv = mv();
 
@@ -752,26 +737,20 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers
 				}
 			}
 
-			else if (this.node instanceof ExpressionNodeForAggregator) {
-				final ExpressionNodeForAggregator aggNode = (ExpressionNodeForAggregator) this.node;
-				final Aggregator aggregator = aggNode.getAggregator();
-
-				switch (aggregator) {
-					case AND:
-						compileAnd();
-						return;
-					case OR:
-						compileOr();
-						return;
-				}
-			}
-
 			else if (this.node instanceof ExpressionNodeForFunction) {
 				final ExpressionNodeForFunction fnNode = (ExpressionNodeForFunction) this.node;
 				final Function fn = fnNode.getFunction();
 
 				switch (fn) {
 
+					case AND:
+						compileAnd();
+						return;
+						
+					case OR:
+						compileOr();
+						return;
+						
 					case NOT:
 						compileNot();
 						return;

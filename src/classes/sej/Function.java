@@ -47,10 +47,13 @@ public enum Function {
 	MATCH, INDEX,
 
 	CONCATENATE, LEN, MID, LEFT, RIGHT, SUBSTITUTE, REPLACE, SEARCH, FIND, EXACT, LOWER, UPPER, PROPER,
-	
+
+	// Don't forget to update AGGREGATORS below!
 	SUM, PRODUCT, MIN, MAX, COUNT, AVERAGE, VARP, AND, OR;
 
-		
+	private static final Function[] AGGREGATORS = new Function[] { SUM, PRODUCT, MIN, MAX, COUNT, AVERAGE, VARP, AND, OR };
+
+
 	public String getName()
 	{
 		return toString();
@@ -59,6 +62,11 @@ public enum Function {
 	public boolean isVolatile()
 	{
 		return false;
+	}
+
+	public static Function[] aggregators()
+	{
+		return AGGREGATORS;
 	}
 
 }

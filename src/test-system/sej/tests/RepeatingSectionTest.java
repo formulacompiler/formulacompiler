@@ -20,9 +20,9 @@
  */
 package sej.tests;
 
-import sej.Aggregator;
 import sej.CallFrame;
 import sej.EngineBuilder;
+import sej.Function;
 import sej.NumericType;
 import sej.Orientation;
 import sej.SEJ;
@@ -58,7 +58,7 @@ public class RepeatingSectionTest extends TestCase
 	private void testAggregators( NumericType _numericType ) throws Exception
 	{
 		long[] vals = new long[] { 1, 2, 3, 4 };
-		for (Aggregator agg : Aggregator.values()) {
+		for (Function agg : Function.aggregators()) {
 			switch (agg) {
 
 				case AND:
@@ -78,7 +78,7 @@ public class RepeatingSectionTest extends TestCase
 					sb.nameRange( sb.range( rangeStart, rangeEnd ), "Section" );
 
 					sb.newRow();
-					sb.newCell( sb.agg( agg, sb.ref( rangeStart ) ) );
+					sb.newCell( sb.fun( agg, sb.ref( rangeStart ) ) );
 					sb.nameCell( "Result" );
 
 					EngineBuilder eb = SEJ.newEngineBuilder();
@@ -96,7 +96,7 @@ public class RepeatingSectionTest extends TestCase
 					SaveableEngine e = eb.compile();
 					ComputationFactory f = e.getComputationFactory();
 
-					final int s = (agg == Aggregator.AVERAGE) ? 1 : 0;
+					final int s = (agg == Function.AVERAGE) ? 1 : 0;
 					for (int l = s; l < vals.length; l++) {
 						Input i = new Input( 0, l, vals );
 						Output o = (Output) f.newComputation( i );
@@ -110,13 +110,13 @@ public class RepeatingSectionTest extends TestCase
 	}
 
 
-	private double expected( Aggregator _agg, Input _inp )
+	private double expected( Function _agg, Input _inp )
 	{
 		if (_inp.subs().length > 0) {
 			boolean first = true;
 			double r = 0.0;
 			for (Input sub : _inp.subs()) {
-				if (first && _agg != Aggregator.COUNT) {
+				if (first && _agg != Function.COUNT) {
 					r = sub.value();
 					first = false;
 				}

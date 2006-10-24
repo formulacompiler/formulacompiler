@@ -34,7 +34,6 @@ import sej.Function;
 import sej.Operator;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
 import sej.internal.expressions.ExpressionNodeForFunction;
@@ -45,8 +44,8 @@ import sej.internal.expressions.LetDictionary;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
-import sej.internal.model.ExpressionNodeForSubstitution;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
+import sej.internal.model.ExpressionNodeForSubstitution;
 
 abstract class ExpressionCompiler
 {
@@ -208,22 +207,13 @@ abstract class ExpressionCompiler
 					compileIf( node, TRUENODE, FALSENODE );
 					break;
 
-				default:
-					compileFunction( node );
-			}
-		}
-
-		else if (_node instanceof ExpressionNodeForAggregator) {
-			final ExpressionNodeForAggregator node = (ExpressionNodeForAggregator) _node;
-			switch (node.getAggregator()) {
-
 				case AND:
 				case OR:
 					compileIf( node, TRUENODE, FALSENODE );
 					break;
 
 				default:
-					compileAggregation( node );
+					compileFunction( node );
 			}
 		}
 
@@ -415,13 +405,6 @@ abstract class ExpressionCompiler
 		compile( _ifFalse );
 
 		mv.mark( done );
-	}
-
-
-	protected void compileAggregation( ExpressionNodeForAggregator _node ) throws CompilerException
-	{
-		throw new CompilerException.UnsupportedExpression( "Aggregator "
-				+ _node.getAggregator() + " is not supported for " + this + " engines." );
 	}
 
 

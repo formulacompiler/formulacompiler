@@ -20,8 +20,8 @@
  */
 package sej.internal.spreadsheet.builder;
 
-import sej.Aggregator;
 import sej.EngineBuilder;
+import sej.Function;
 import sej.Operator;
 import sej.SEJ;
 import sej.Spreadsheet;
@@ -59,7 +59,7 @@ public class SpreadsheetBuilderTest extends TestCase
 		b.newCell( b.cst( "Rebates" ) );
 		b.newCell( b.op( Operator.MAX, b.ref( cr ), b.ref( ar ) ) );
 		b.nameCell( "RebateOp" );
-		b.newCell( b.agg( Aggregator.MAX, b.ref( rng ) ) );
+		b.newCell( b.fun( Function.MAX, b.ref( rng ) ) );
 		b.nameCell( "RebateAgg" );
 
 		Spreadsheet s = b.getSpreadsheet();

@@ -20,9 +20,9 @@
  */
 package sej.internal.model.rewriting;
 
-import sej.Aggregator;
+import sej.Function;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.ExpressionNodeForAggregator;
+import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;
 import sej.internal.model.ExpressionNodeForCellModel;
@@ -34,7 +34,7 @@ import junit.framework.TestCase;
 public class ModelRewriterTest extends TestCase
 {
 
-	
+
 	public void testSUM() throws Exception
 	{
 		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
@@ -44,13 +44,13 @@ public class ModelRewriterTest extends TestCase
 		final CellModel c = new CellModel( rootModel, "c" );
 		final CellModel r = new CellModel( rootModel, "r" );
 
-		r.setExpression( new ExpressionNodeForAggregator( Aggregator.SUM, new ExpressionNode[] {
+		r.setExpression( new ExpressionNodeForFunction( Function.SUM, new ExpressionNode[] {
 				new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
 				new ExpressionNodeForCellModel( c ) } ) );
 
 		engineModel.traverse( new ModelRewriter() );
 
-		assertEquals( "°FOLD( acc: 0, xi: (acc + xi), ( a, b, c ) )", r.getExpression().toString() );
+		assertEquals( "_FOLD( acc: 0.0; xi: (`acc + `xi); ( a, b, c ) )", r.getExpression().toString() );
 	}
 
 

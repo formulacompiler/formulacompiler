@@ -21,16 +21,16 @@
 package sej.tests.utils;
 
 
-import sej.Aggregator;
 import sej.CallFrame;
 import sej.CompilerException;
+import sej.Function;
 import sej.Operator;
 import sej.Orientation;
 import sej.SEJ;
 import sej.SpreadsheetBinder;
 import sej.CompilerException.SectionOverlap;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.ExpressionNodeForAggregator;
+import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
@@ -100,7 +100,7 @@ public class WorksheetBuilderWithBands
 		r4c4 = buildRowSum( r4c1, r4c3, factor );
 
 		// Setup the formula to sum the row sums defined above.
-		this.formula.setExpression( new ExpressionNodeForAggregator( Aggregator.SUM, new ExpressionNodeForRange( r1c4
+		this.formula.setExpression( new ExpressionNodeForFunction( Function.SUM, new ExpressionNodeForRange( r1c4
 				.getCellIndex(), r4c4.getCellIndex() ) ) );
 	}
 
@@ -152,8 +152,8 @@ public class WorksheetBuilderWithBands
 	{
 		CellWithLazilyParsedExpression sum = new CellWithLazilyParsedExpression( _r1c1.getRow() );
 		final CellIndex factorRef = _factor.getCellIndex().getAbsoluteIndex( false, true );
-		final ExpressionNode aggregation = new ExpressionNodeForAggregator( Aggregator.SUM, new ExpressionNodeForRange(
-				_r1c1.getCellIndex(), _r1c2.getCellIndex() ) );
+		final ExpressionNode aggregation = new ExpressionNodeForFunction( Function.SUM, new ExpressionNodeForRange( _r1c1
+				.getCellIndex(), _r1c2.getCellIndex() ) );
 		final ExpressionNode multiplication = new ExpressionNodeForOperator( Operator.TIMES, aggregation,
 				new ExpressionNodeForCell( factorRef ) );
 		sum.setExpression( multiplication );

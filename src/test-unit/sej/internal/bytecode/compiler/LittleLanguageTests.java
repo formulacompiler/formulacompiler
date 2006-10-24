@@ -20,17 +20,17 @@
  */
 package sej.internal.bytecode.compiler;
 
-import sej.Aggregator;
 import sej.CallFrame;
+import sej.Function;
 import sej.NumericType;
 import sej.Operator;
 import sej.SEJ;
 import sej.SaveableEngine;
 import sej.internal.Debug;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
+import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
 import sej.internal.expressions.ExpressionNodeForOperator;
@@ -210,7 +210,7 @@ public class LittleLanguageTests extends TestCase
 		final ExpressionNode[] args = new ExpressionNode[] { new ExpressionNodeForCellModel( a ),
 				new ExpressionNodeForCellModel( b ), new ExpressionNodeForCellModel( c ) };
 
-		r.setExpression( new ExpressionNodeForAggregator( Aggregator.VARP, args ) );
+		r.setExpression( new ExpressionNodeForFunction( Function.VARP, args ) );
 
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );

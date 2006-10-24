@@ -22,23 +22,24 @@ package sej.internal.model;
 
 import java.io.IOException;
 
-import sej.Aggregator;
+import sej.Function;
 import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionDescriptionConfig;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.ExpressionNodeForAggregator;
+import sej.internal.expressions.ExpressionNodeForFunction;
 
-public class ExpressionNodeForPartialAggregation extends ExpressionNodeForAggregator
+// FIXME Do I need this still? How?
+public class ExpressionNodeForPartialAggregation extends ExpressionNodeForFunction
 {
 	private final Aggregation partialAggregation;
 
-	public ExpressionNodeForPartialAggregation(Aggregator _aggregator, Aggregation _partialAggregation)
+	public ExpressionNodeForPartialAggregation(Function _aggregator, Aggregation _partialAggregation)
 	{
 		super( _aggregator );
 		this.partialAggregation = _partialAggregation;
 	}
-	
-	
+
+
 	public Aggregation getPartialAggregation()
 	{
 		return this.partialAggregation;
@@ -48,14 +49,14 @@ public class ExpressionNodeForPartialAggregation extends ExpressionNodeForAggreg
 	@Override
 	public ExpressionNode cloneWithoutArguments()
 	{
-		return new ExpressionNodeForPartialAggregation( getAggregator(), this.partialAggregation );
+		return new ExpressionNodeForPartialAggregation( getFunction(), this.partialAggregation );
 	}
 
 
 	@Override
 	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
-		_to.append( getAggregator().getName() );
+		_to.append( getFunction().getName() );
 		if (null != this.partialAggregation) {
 			_to.append( '{' );
 			this.partialAggregation.describeTo( _to );

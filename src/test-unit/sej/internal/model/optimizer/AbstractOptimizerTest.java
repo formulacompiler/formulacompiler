@@ -22,12 +22,12 @@ package sej.internal.model.optimizer;
 
 import java.math.BigDecimal;
 
-import sej.Aggregator;
+import sej.Function;
 import sej.Operator;
 import sej.SEJ;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;
@@ -157,7 +157,7 @@ public abstract class AbstractOptimizerTest extends AbstractTestBase
 
 	protected ExpressionNode sum( ExpressionNode... _args )
 	{
-		return new ExpressionNodeForAggregator( Aggregator.SUM, _args );
+		return new ExpressionNodeForFunction( Function.SUM, _args );
 	}
 
 

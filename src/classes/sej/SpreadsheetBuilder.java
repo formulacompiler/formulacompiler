@@ -217,16 +217,6 @@ public interface SpreadsheetBuilder
 	 */
 	public ExprNode fun( Function _fun, ExprNode... _args );
 
-	/**
-	 * Returns an expression tree node which aggregates the values of its argument nodes into a
-	 * single value.
-	 * 
-	 * @param _agg is the aggregator.
-	 * @param _args is the list of arguments. The number of arguments depends on the aggregator. Most
-	 *           aggregators accept an arbitrary number of arguments.
-	 */
-	public ExprNode agg( Aggregator _agg, ExprNode... _args );
-
 
 	/**
 	 * Opaque handle for a constant value supported by the spreadsheet builder.
@@ -253,7 +243,6 @@ public interface SpreadsheetBuilder
 	 * @see sej.SpreadsheetBuilder#ref(sej.SpreadsheetBuilder.CellRef)
 	 * @see sej.SpreadsheetBuilder#op(Operator, sej.SpreadsheetBuilder.ExprNode[])
 	 * @see sej.SpreadsheetBuilder#fun(Function, sej.SpreadsheetBuilder.ExprNode[])
-	 * @see sej.SpreadsheetBuilder#agg(Aggregator, sej.SpreadsheetBuilder.ExprNode[])
 	 */
 	public static interface ExprNode
 	{

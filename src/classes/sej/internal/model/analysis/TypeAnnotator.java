@@ -23,7 +23,6 @@ package sej.internal.model.analysis;
 import sej.CompilerException;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
 import sej.internal.expressions.ExpressionNodeForFunction;
@@ -36,8 +35,8 @@ import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
 import sej.internal.model.ExpressionNodeForRangeValue;
-import sej.internal.model.ExpressionNodeForSubstitution;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
+import sej.internal.model.ExpressionNodeForSubstitution;
 import sej.internal.model.RangeValue;
 
 
@@ -108,7 +107,6 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		if (_expr instanceof ExpressionNodeForRangeValue) return typeOf( (ExpressionNodeForRangeValue) _expr );
 		if (_expr instanceof ExpressionNodeForOperator) return typeOf( (ExpressionNodeForOperator) _expr );
 		if (_expr instanceof ExpressionNodeForFunction) return typeOf( (ExpressionNodeForFunction) _expr );
-		if (_expr instanceof ExpressionNodeForAggregator) return typeOf( (ExpressionNodeForAggregator) _expr );
 		if (_expr instanceof ExpressionNodeForParentSectionModel)
 			return typeOf( (ExpressionNodeForParentSectionModel) _expr );
 		if (_expr instanceof ExpressionNodeForSubSectionModel) return typeOf( (ExpressionNodeForSubSectionModel) _expr );
@@ -236,12 +234,6 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 			default:
 				return DataType.NUMERIC;
 		}
-	}
-
-	private DataType typeOf( ExpressionNodeForAggregator _expr ) throws CompilerException
-	{
-		annotateArgs( _expr );
-		return DataType.NUMERIC;
 	}
 
 	private DataType typeOf( ExpressionNodeForParentSectionModel _expr ) throws CompilerException

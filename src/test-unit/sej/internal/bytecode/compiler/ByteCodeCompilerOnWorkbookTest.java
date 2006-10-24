@@ -22,16 +22,16 @@ package sej.internal.bytecode.compiler;
 
 import java.math.BigDecimal;
 
-import sej.Aggregator;
 import sej.CallFrame;
 import sej.CompilerException;
+import sej.Function;
 import sej.NumericType;
 import sej.Operator;
 import sej.SEJ;
 import sej.SpreadsheetBinder;
 import sej.SpreadsheetCompiler;
-import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
@@ -400,7 +400,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 	{
 		CellInstance a = new CellWithConstant( this.row, 123.0 );
 		CellInstance b = new CellWithConstant( this.row, 456.0 );
-		this.formula.setExpression( new ExpressionNodeForAggregator( Aggregator.SUM, new ExpressionNodeForCell( a ),
+		this.formula.setExpression( new ExpressionNodeForFunction( Function.SUM, new ExpressionNodeForCell( a ),
 				new ExpressionNodeForCell( b ) ) );
 
 		assertResult( 579.0, null, null );
@@ -413,7 +413,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 	{
 		CellInstance a = new CellWithConstant( this.row, 123.0 );
 		CellInstance b = new CellWithConstant( this.row, 456.0 );
-		this.formula.setExpression( new ExpressionNodeForAggregator( Aggregator.MIN, new ExpressionNodeForCell( a ),
+		this.formula.setExpression( new ExpressionNodeForFunction( Function.MIN, new ExpressionNodeForCell( a ),
 				new ExpressionNodeForCell( b ) ) );
 
 		assertResult( 123.0, null, null );
@@ -428,7 +428,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 	{
 		CellInstance a = new CellWithConstant( this.row, 123.0 );
 		CellInstance b = new CellWithConstant( this.row, 456.0 );
-		this.formula.setExpression( new ExpressionNodeForAggregator( Aggregator.MAX, new ExpressionNodeForCell( a ),
+		this.formula.setExpression( new ExpressionNodeForFunction( Function.MAX, new ExpressionNodeForCell( a ),
 				new ExpressionNodeForCell( b ) ) );
 
 		assertResult( 456.0, null, null );

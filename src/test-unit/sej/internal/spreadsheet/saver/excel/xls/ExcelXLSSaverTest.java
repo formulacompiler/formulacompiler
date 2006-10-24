@@ -23,7 +23,7 @@ package sej.internal.spreadsheet.saver.excel.xls;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-import sej.Aggregator;
+import sej.Function;
 import sej.SEJ;
 import sej.Spreadsheet;
 import sej.SpreadsheetBuilder;
@@ -52,7 +52,7 @@ public class ExcelXLSSaverTest extends AbstractTestBase
 		b.nameRange( ins, "Inputs" );
 
 		b.newRow();
-		b.newCell( b.agg( Aggregator.SUM, b.ref( b.range( a1, b1 ) ) ) );
+		b.newCell( b.fun( Function.SUM, b.ref( b.range( a1, b1 ) ) ) );
 		b.nameCell( "out" );
 		
 		Spreadsheet s = b.getSpreadsheet();
