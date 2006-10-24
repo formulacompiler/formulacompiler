@@ -20,6 +20,8 @@
  */
 package sej.internal.bytecode.compiler;
 
+import java.math.BigDecimal;
+
 import org.objectweb.asm.Opcodes;
 
 import sej.CompilerException;
@@ -36,6 +38,13 @@ final class ExpressionCompilerForBigDecimals extends ExpressionCompilerForBigDec
 	public ExpressionCompilerForBigDecimals(MethodCompiler _methodCompiler, NumericType _numericType)
 	{
 		super( _methodCompiler, _numericType );
+	}
+
+
+	@Override
+	protected boolean isNativeType( Class _type )
+	{
+		return _type == BigDecimal.class;
 	}
 
 

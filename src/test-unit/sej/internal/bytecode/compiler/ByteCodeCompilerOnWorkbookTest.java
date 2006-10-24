@@ -28,6 +28,7 @@ import sej.Function;
 import sej.NumericType;
 import sej.Operator;
 import sej.SEJ;
+import sej.SaveableEngine;
 import sej.SpreadsheetBinder;
 import sej.SpreadsheetCompiler;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
@@ -43,7 +44,6 @@ import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
 import sej.runtime.ComputationFactory;
 import sej.runtime.Engine;
-import sej.runtime.EngineException;
 import sej.tests.utils.AbstractTestBase;
 import sej.tests.utils.InputInterface;
 import sej.tests.utils.Inputs;
@@ -533,18 +533,20 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 		assertEquals( 19.5, result, 0.001 );
 	}
 
-	private Engine newEngine() throws CompilerException, EngineException
+	private Engine newEngine() throws Exception
 	{
 		return newEngine( SEJ.DEFAULT_NUMERIC_TYPE );
 	}
 
-	private Engine newEngine( NumericType _type ) throws CompilerException, EngineException
+	private Engine newEngine( NumericType _type ) throws Exception
 	{
 		SpreadsheetCompiler.Config cfg = new SpreadsheetCompiler.Config();
 		cfg.binding = this.binder.getBinding();
 		cfg.numericType = _type;
 		SpreadsheetCompiler compiler = SEJ.newSpreadsheetCompiler( cfg );
-		return compiler.compile();
+		SaveableEngine engine = compiler.compile();
+		checkEngine( engine );
+		return engine;
 	}
 
 	private void assertResult( double _expected ) throws Exception

@@ -89,7 +89,7 @@ public class Settings
 
 	public static boolean isDebugCompilationEnabled()
 	{
-		return debugCompilationEnabled ;
+		return debugCompilationEnabled;
 	}
 
 

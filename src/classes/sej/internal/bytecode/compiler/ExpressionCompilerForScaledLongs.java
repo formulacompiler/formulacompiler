@@ -37,6 +37,13 @@ final class ExpressionCompilerForScaledLongs extends ExpressionCompilerForScaled
 	
 	
 	@Override
+	protected boolean isNativeType( Class _type )
+	{
+		return _type == Long.TYPE;
+	}
+
+	
+	@Override
 	protected final void compileScaleUp() throws CompilerException
 	{
 		if (scale() > 0) {

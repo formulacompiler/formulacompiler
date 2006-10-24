@@ -39,7 +39,7 @@ import sej.SpreadsheetBinder.Section;
 import sej.SpreadsheetBuilder.CellRef;
 import sej.runtime.Computation;
 import sej.runtime.Resettable;
-import junit.framework.TestCase;
+import sej.tests.utils.AbstractTestBase;
 
 
 // FIXME Test mix of section and static array
@@ -50,7 +50,7 @@ import junit.framework.TestCase;
  * 
  * @author peo
  */
-public class SectionSumTest extends TestCase
+public class SectionSumTest extends AbstractTestBase
 {
 	private static final boolean JRE14 = System.getProperty( "java.version" ).startsWith( "1.4." );
 
@@ -125,6 +125,7 @@ public class SectionSumTest extends TestCase
 		bindSectionSum( sht, bnd, "collection" );
 
 		SaveableEngine engine = cmp.compile();
+		checkEngine( engine );
 
 		return (RootOutput) engine.getComputationFactory().newComputation( _input );
 	}

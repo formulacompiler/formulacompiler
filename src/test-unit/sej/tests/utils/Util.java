@@ -20,6 +20,7 @@
  */
 package sej.tests.utils;
 
+
 public class Util
 {
 
@@ -36,4 +37,5 @@ public class Util
 		return result;
 	}
 
+	
 }
