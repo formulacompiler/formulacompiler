@@ -46,6 +46,7 @@ import org.objectweb.asm.tree.VarInsnNode;
 import org.objectweb.asm.util.AbstractVisitor;
 
 import sej.describable.DescriptionBuilder;
+import sej.internal.build.Util;
 
 @SuppressWarnings("unqualified-field-access")
 final class ByteCodeCompilerGenerator

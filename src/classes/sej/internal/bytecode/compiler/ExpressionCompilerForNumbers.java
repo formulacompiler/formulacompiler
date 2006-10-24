@@ -41,7 +41,7 @@ import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.ExpressionNodeForPartialAggregation;
-import sej.internal.model.ExpressionNodeForSubExpr;
+import sej.internal.model.ExpressionNodeForSubstitution;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.Aggregation.NonNullCountingAggregation;
 import sej.runtime.ScaledLong;
@@ -695,7 +695,7 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers
 	{
 		int n = _n;
 		for (ExpressionNode arg : _node.arguments()) {
-			if (arg instanceof ExpressionNodeForSubExpr) {
+			if (arg instanceof ExpressionNodeForSubstitution) {
 				n = countStatics( arg, n );
 			}
 			else if (!(arg instanceof ExpressionNodeForSubSectionModel)) {
