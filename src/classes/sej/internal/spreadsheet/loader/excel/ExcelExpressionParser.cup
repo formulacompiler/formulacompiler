@@ -31,6 +31,7 @@ action code {:
 :}
 
 terminal PLUS, MINUS, TIMES, DIV, EXP, PERCENT, CONCAT, COMMA, COLON, SEMICOLON;
+terminal OPMIN, OPMAX, OPAND, OPOR;
 terminal LPAREN, RPAREN, LBRACK, RBRACK;
 terminal EQUAL, NOTEQUAL, GREATER, GREATEROREQUAL, LESS, LESSOREQUAL;
 terminal IF, AND, OR, NOT;
@@ -66,6 +67,8 @@ non terminal ExpressionNode rangeintersection;
 non terminal Function agg;
 non terminal ExpressionNode concat;
 
+precedence left OPAND, OPOR;
+precedence left OPMIN, OPMAX;
 precedence left EQUAL, NOTEQUAL, GREATER, GREATEROREQUAL, LESS, LESSOREQUAL;
 precedence left CONCAT;
 precedence left PLUS, MINUS;
@@ -202,6 +205,18 @@ expr ::=
 
 	|	expr:l GREATEROREQUAL expr:r
 				{: RESULT = new ExpressionNodeForOperator( Operator.GREATEROREQUAL, cell( l ), cell( r ) ); :}
+				
+	|	expr:l OPMIN expr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.MIN, cell( l ), cell( r ) ); :}
+				
+	|	expr:l OPMAX expr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.MAX, cell( l ), cell( r ) ); :}
+				
+	|	expr:l OPAND expr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.AND, cell( l ), cell( r ) ); :}
+				
+	|	expr:l OPOR expr:r
+				{: RESULT = new ExpressionNodeForOperator( Operator.OR, cell( l ), cell( r ) ); :}
 				
 	|	LET LPAREN NAME:n COLON expr:v SEMICOLON expr:in RPAREN
 				{: RESULT = new ExpressionNodeForLet( n, v, in ); :}

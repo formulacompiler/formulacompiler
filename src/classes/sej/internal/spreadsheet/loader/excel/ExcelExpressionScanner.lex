@@ -86,6 +86,11 @@ FN		= "@"?
 "<="		{ return new Symbol( GeneratedSymbols.LESSOREQUAL, "<=" ); }
 "<>"		{ return new Symbol( GeneratedSymbols.NOTEQUAL, "<>" ); }
 
+"_min_"		{ return new Symbol( GeneratedSymbols.OPMIN, "_min" ); }
+"_max_"		{ return new Symbol( GeneratedSymbols.OPMAX, "_max" ); }
+"_and_"		{ return new Symbol( GeneratedSymbols.OPAND, "_and" ); }
+"_or_"		{ return new Symbol( GeneratedSymbols.OPOR, "_or" ); }
+
 {FN} "IF"		{ return new Symbol( GeneratedSymbols.IF, "IF" ); }
 {FN} "AND"		{ return new Symbol( GeneratedSymbols.AND, "AND" ); }
 {FN} "OR"		{ return new Symbol( GeneratedSymbols.OR, "OR" ); }

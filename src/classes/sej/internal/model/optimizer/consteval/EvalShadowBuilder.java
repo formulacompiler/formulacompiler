@@ -20,10 +20,7 @@
  */
 package sej.internal.model.optimizer.consteval;
 
-import sej.Aggregator;
-import sej.Operator;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
@@ -49,8 +46,6 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 		if (_node instanceof ExpressionNodeForRangeValue) return new EvalRangeValue( _node, this.type );
 		if (_node instanceof ExpressionNodeForOperator) return newEvalOperator( (ExpressionNodeForOperator) _node );
 		if (_node instanceof ExpressionNodeForFunction) return newEvalFunction( (ExpressionNodeForFunction) _node );
-		if (_node instanceof ExpressionNodeForAggregator)
-			return newEvalAggregator( (ExpressionNodeForAggregator) _node );
 		if (_node instanceof ExpressionNodeForCellModel) return new EvalCell( _node, this.type );
 		if (_node instanceof ExpressionNodeForParentSectionModel) return new EvalPassthrough( _node );
 		return new EvalNonFoldable( _node );
@@ -76,28 +71,6 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 				return new EvalIndex( _node, this.type );
 		}
 		return new EvalFunction( _node, this.type );
-	}
-
-	private ExpressionNodeShadow newEvalAggregator( ExpressionNodeForAggregator _node )
-	{
-		final Aggregator aggregator = _node.getAggregator();
-		switch (aggregator) {
-			case COUNT:
-				return new EvalCount( _node, this.type );
-			case AVERAGE:
-				return new EvalAverage( _node, this.type );
-			case AND:
-				return new EvalMapReduceAnd( _node, this.type );
-			case OR:
-				return new EvalMapReduceOr( _node, this.type );
-		}
-
-		final Operator reductor = aggregator.getReductor();
-		if (null != reductor) {
-			return new EvalMapReduce( _node, reductor, this.type );
-		}
-
-		return new EvalNonFoldable( _node );
 	}
 
 }

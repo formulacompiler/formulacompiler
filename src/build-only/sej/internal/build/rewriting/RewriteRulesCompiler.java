@@ -40,6 +40,9 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 	@Override
 	protected void defineFunctions() throws Exception
 	{
+		def( Function.MIN, "xs*", "_FOLDL( acc: 0; xi: `acc _min_ `xi; `xs )" );
+		def( Function.MAX, "xs*", "_FOLDL( acc: 0; xi: `acc _max_ `xi; `xs )" );
+
 		def( Function.SUM, "xs*", "_FOLDL( acc: 0; xi: `acc + `xi; `xs )" );
 		def( Function.AVERAGE, "xs*", "SUM( `xs ) / COUNT( `xs )" );
 

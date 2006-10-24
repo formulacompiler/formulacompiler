@@ -22,12 +22,10 @@ package sej.internal.model.analysis;
 
 import java.util.Calendar;
 
-import sej.Aggregator;
 import sej.Function;
 import sej.Operator;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
@@ -286,7 +284,7 @@ public class TypeAnnotatorTest extends TestCase
 
 	public void testAggregators() throws Exception
 	{
-		for (Aggregator agg : Aggregator.values()) {
+		for (Function agg : Function.aggregators()) {
 			ComputationModel m = new ComputationModel( In.class, Out.class );
 			SectionModel r = m.getRoot();
 			CellModel c = new CellModel( r, "Result" );
@@ -396,9 +394,9 @@ public class TypeAnnotatorTest extends TestCase
 		return new ExpressionNodeForFunction( _fun, _args );
 	}
 
-	private ExpressionNodeForAggregator agg( Aggregator _agg, ExpressionNode... _args )
+	private ExpressionNodeForFunction agg( Function _agg, ExpressionNode... _args )
 	{
-		return new ExpressionNodeForAggregator( _agg, _args );
+		return new ExpressionNodeForFunction( _agg, _args );
 	}
 
 

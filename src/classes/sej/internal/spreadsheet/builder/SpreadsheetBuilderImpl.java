@@ -22,13 +22,11 @@ package sej.internal.spreadsheet.builder;
 
 import java.util.Date;
 
-import sej.Aggregator;
 import sej.Function;
 import sej.Operator;
 import sej.Spreadsheet;
 import sej.SpreadsheetBuilder;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.ExpressionNodeForAggregator;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
@@ -195,11 +193,6 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 	public ExprNode fun( Function _fun, ExprNode... _args )
 	{
 		return new ExprNodeImpl( new ExpressionNodeForFunction( _fun, nodesOf( _args ) ) );
-	}
-
-	public ExprNode agg( Aggregator _agg, ExprNode... _args )
-	{
-		return new ExprNodeImpl( new ExpressionNodeForAggregator( _agg, nodesOf( _args ) ) );
 	}
 
 

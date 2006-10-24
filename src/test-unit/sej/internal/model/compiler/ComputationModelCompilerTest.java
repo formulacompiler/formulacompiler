@@ -22,7 +22,7 @@ package sej.internal.model.compiler;
 
 import java.text.NumberFormat;
 
-import sej.Aggregator;
+import sej.Function;
 import sej.Operator;
 import sej.Orientation;
 import sej.SEJ;
@@ -30,7 +30,7 @@ import sej.SpreadsheetBinder;
 import sej.CompilerException.SectionExtentNotCovered;
 import sej.SpreadsheetBinder.Section;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.ExpressionNodeForAggregator;
+import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;
@@ -455,7 +455,7 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 
 	private ExpressionNode sum( ExpressionNode... _args )
 	{
-		return new ExpressionNodeForAggregator( Aggregator.SUM, _args );
+		return new ExpressionNodeForFunction( Function.SUM, _args );
 	}
 
 

@@ -228,14 +228,14 @@ public abstract class AbstractRewriteRulesCompiler
 
 	private void compileOp( ExpressionNodeForOperator _node, DescriptionBuilder _b ) throws Exception
 	{
-		_b.append( "op( Operator." ).append( _node.getOperator().getName() );
+		_b.append( "op( Operator." ).append( _node.getOperator().toString() );
 		compileArgList( _node, _b );
 	}
 
 
 	private void compileFun( ExpressionNodeForFunction _node, DescriptionBuilder _b ) throws Exception
 	{
-		_b.append( "fun( Function." ).append( _node.getFunction().getName() );
+		_b.append( "fun( Function." ).append( _node.getFunction().toString() );
 		compileArgList( _node, _b );
 	}
 

@@ -157,7 +157,7 @@ public enum Operator {
 		@Override
 		public String getName()
 		{
-			return "$MIN";
+			return "_min_";
 		}
 
 		@Override
@@ -171,7 +171,7 @@ public enum Operator {
 		@Override
 		public String getName()
 		{
-			return "$MAX";
+			return "_max_";
 		}
 
 		@Override
@@ -185,7 +185,7 @@ public enum Operator {
 		@Override
 		public String getName()
 		{
-			return "$AND";
+			return "_and_";
 		}
 
 		@Override
@@ -199,7 +199,7 @@ public enum Operator {
 		@Override
 		public String getName()
 		{
-			return "$OR";
+			return "_or_";
 		}
 
 		@Override
