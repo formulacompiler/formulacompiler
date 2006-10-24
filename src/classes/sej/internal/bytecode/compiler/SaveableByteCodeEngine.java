@@ -29,6 +29,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import sej.SaveableEngine;
+import sej.internal.Settings;
 import sej.internal.bytecode.runtime.ByteCodeEngine;
 import sej.runtime.EngineException;
 
@@ -40,14 +41,15 @@ import sej.runtime.EngineException;
  */
 final class SaveableByteCodeEngine extends ByteCodeEngine implements SaveableEngine
 {
-	
 
-	public SaveableByteCodeEngine(ClassLoader _parentClassLoader, Map<String, byte[]> _classNamesAndBytes) throws EngineException
+
+	public SaveableByteCodeEngine(ClassLoader _parentClassLoader, Map<String, byte[]> _classNamesAndBytes)
+			throws EngineException
 	{
 		super( _parentClassLoader, _classNamesAndBytes );
 	}
 
-	
+
 	public void saveTo( OutputStream _stream ) throws IOException
 	{
 		final ZipOutputStream jarStream = new JarOutputStream( _stream );
@@ -57,6 +59,9 @@ final class SaveableByteCodeEngine extends ByteCodeEngine implements SaveableEng
 				final String fileName = classNameAndBytes.getKey().replace( '.', '/' ) + ".class";
 				final byte[] fileData = classNameAndBytes.getValue();
 				ZipEntry jarEntry = new ZipEntry( fileName );
+				if (Settings.isDebugCompilationEnabled()) {
+					jarEntry.setTime( 0 );
+				}
 				jarStream.putNextEntry( jarEntry );
 				jarStream.write( fileData );
 				jarStream.closeEntry();

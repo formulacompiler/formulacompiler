@@ -39,7 +39,7 @@ import sej.SpreadsheetBinder.Section;
 import sej.SpreadsheetBuilder.CellRef;
 import sej.runtime.Computation;
 import sej.runtime.Resettable;
-import junit.framework.TestCase;
+import sej.tests.utils.AbstractTestBase;
 
 
 /**
@@ -47,7 +47,7 @@ import junit.framework.TestCase;
  * 
  * @author peo
  */
-public class SectionOutputTest extends TestCase
+public class SectionOutputTest extends AbstractTestBase
 {
 	private static final boolean JRE14 = System.getProperty( "java.version" ).startsWith( "1.4." );
 
@@ -153,6 +153,7 @@ public class SectionOutputTest extends TestCase
 			if (!(JRE14 && type.equals( "Iterable" ))) bindSectionFor( sht, bnd, type );
 
 		SaveableEngine engine = cmp.compile();
+		checkEngine( engine );
 
 		return (RootOutput) engine.getComputationFactory().newComputation( _input );
 	}

@@ -41,6 +41,12 @@ final class ExpressionCompilerForDoubles extends ExpressionCompilerForDoubles_Ge
 	{
 		return false;
 	}
+	
+	@Override
+	protected boolean isNativeType( Class _type )
+	{
+		return _type == Double.TYPE;
+	}
 
 
 	@Override

@@ -488,9 +488,13 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers
 				return;
 			}
 		}
-		compileConversionTo( returnType );
+		if (!isNativeType( returnType )) {
+			compileConversionTo( returnType );
+		}
 	}
 
+	protected abstract boolean isNativeType( Class _type );
+	
 
 	protected final ScaledLong scaleOf( Method _method )
 	{
@@ -643,7 +647,7 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers
 
 	protected abstract void compile_util_round( int _maxFractionalDigits ) throws CompilerException;
 
-	
+
 	private final void compileCount( ExpressionNodeForFunction _node ) throws CompilerException
 	{
 		final GeneratorAdapter mv = mv();
@@ -746,11 +750,11 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers
 					case AND:
 						compileAnd();
 						return;
-						
+
 					case OR:
 						compileOr();
 						return;
-						
+
 					case NOT:
 						compileNot();
 						return;

@@ -30,9 +30,9 @@ import sej.SpreadsheetBuilder;
 import sej.SpreadsheetBinder.Section;
 import sej.SpreadsheetBuilder.CellRef;
 import sej.runtime.Resettable;
-import junit.framework.TestCase;
+import sej.tests.utils.AbstractTestBase;
 
-public class StringsTest extends TestCase
+public class StringsTest extends AbstractTestBase
 {
 	private static final String DYNAMIC_STRING = "This is a dynamic string.";
 	private static final String STATIC_STRING = "This is a string.";
@@ -62,6 +62,7 @@ public class StringsTest extends TestCase
 			Section rb = eb.getRootBinder();
 			bindSheet( s, rb );
 			SaveableEngine e = eb.compile();
+			checkEngine( e );
 			
 			MyFactory f = (MyFactory) e.getComputationFactory();
 
