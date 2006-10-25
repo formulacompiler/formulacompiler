@@ -40,10 +40,10 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 	@Override
 	protected void defineFunctions() throws Exception
 	{
-		def( Function.MIN, "xs*", "_FOLDL( acc: 0; xi: `acc _min_ `xi; `xs )" );
-		def( Function.MAX, "xs*", "_FOLDL( acc: 0; xi: `acc _max_ `xi; `xs )" );
+		def( Function.MIN, "xs*", "_FOLDL_1ST( xi: xi; r vi: `r _min_ `vi; 0; `xs )" );
+		def( Function.MAX, "xs*", "_FOLDL_1ST( xi: xi; r vi: `r _max_ `vi; 0; `xs )" );
 
-		def( Function.SUM, "xs*", "_FOLDL( acc: 0; xi: `acc + `xi; `xs )" );
+		def( Function.SUM, "xs*", "_FOLDL( r: 0; xi: `r + `xi; `xs )" );
 		def( Function.AVERAGE, "xs*", "SUM( `xs ) / COUNT( `xs )" );
 
 		begin( Function.VARP, "xs*" );
@@ -51,7 +51,7 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 			body( "_LET( c: COUNT(`xs);" );
 			// Inlining AVERAGE here because COUNT is already known:
 			body( "	_LET( m: SUM(`xs) / `c;" );
-			body( "		_FOLDL( acc: 0; xi: _LET( ei: `xi - `m; `acc + `ei*`ei ); `xs )" );
+			body( "		_FOLDL( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
 			body( "	)" );
 			body( "	/ `c" );
 			body( ")" );

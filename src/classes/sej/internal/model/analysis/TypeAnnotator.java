@@ -21,10 +21,12 @@
 package sej.internal.model.analysis;
 
 import sej.CompilerException;
+import sej.internal.expressions.AbstractExpressionNodeForFold;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
+import sej.internal.expressions.ExpressionNodeForFold1st;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
@@ -114,6 +116,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		if (_expr instanceof ExpressionNodeForLet) return typeOf( (ExpressionNodeForLet) _expr );
 		if (_expr instanceof ExpressionNodeForLetVar) return typeOf( (ExpressionNodeForLetVar) _expr );
 		if (_expr instanceof ExpressionNodeForFold) return typeOf( (ExpressionNodeForFold) _expr );
+		if (_expr instanceof ExpressionNodeForFold1st) return typeOf( (ExpressionNodeForFold1st) _expr );
 		if (_expr instanceof ExpressionNodeForSubstitution) return typeOf( (ExpressionNodeForSubstitution) _expr );
 
 		unsupported( _expr );
@@ -268,21 +271,47 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 
 	private DataType typeOf( ExpressionNodeForFold _expr ) throws CompilerException
 	{
+		annotateFold( _expr );
+		return _expr.initialAccumulatorValue().getDataType();
+	}
+
+	private DataType typeOf( ExpressionNodeForFold1st _expr ) throws CompilerException
+	{
+		final DataType eltType = annotateFold( _expr );
+
+		final String firstName = _expr.firstName();
+		final DataType oldFirst = letDict().let( firstName, eltType );
+		try {
+			annotate( _expr.firstValue() );
+		}
+		finally {
+			letDict().unlet( firstName, oldFirst );
+		}
+
+		return _expr.emptyValue().getDataType();
+	}
+	
+	private DataType annotateFold( AbstractExpressionNodeForFold _expr ) throws CompilerException 
+	{
 		for (final ExpressionNode elt : _expr.elements()) {
 			annotate( elt );
 		}
 		final DataType eltType = typeOf( _expr.elements() );
 		final DataType resultType = annotate( _expr.initialAccumulatorValue() );
-		final DataType oldAcc = letDict().let( _expr.accumulatorName(), resultType );
-		final DataType oldElt = letDict().let( _expr.elementName(), eltType );
+
+		final String accName = _expr.accumulatorName();
+		final String eltName = _expr.elementName();
+		final DataType oldAcc = letDict().let( accName, resultType );
+		final DataType oldElt = letDict().let( eltName, eltType );
 		try {
 			annotate( _expr.accumulatingStep() );
 		}
 		finally {
-			letDict().unlet( _expr.elementName(), oldElt );
-			letDict().unlet( _expr.accumulatorName(), oldAcc );
+			letDict().unlet( eltName, oldElt );
+			letDict().unlet( accName, oldAcc );
 		}
-		return _expr.argument( 0 ).getDataType();
+
+		return eltType;
 	}
 
 	private DataType typeOf( ExpressionNodeForSubstitution _expr ) throws CompilerException

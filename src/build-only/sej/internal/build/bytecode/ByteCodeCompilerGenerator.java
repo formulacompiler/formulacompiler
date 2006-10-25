@@ -166,6 +166,9 @@ final class ByteCodeCompilerGenerator
 			else if (mtdNode.name.equals( "scanArray" )) {
 				new ScanArrayTemplateGenerator( mtdNode ).generate();
 			}
+			else if (mtdNode.name.equals( "scanArrayWithFirst" )) {
+				new ScanArrayWithFirstTemplateGenerator( mtdNode ).generate();
+			}
 		}
 	}
 
@@ -885,8 +888,48 @@ final class ByteCodeCompilerGenerator
 			classBuilder.appendLine( " );" );
 			skipInsn(); // xLOAD elt
 			if (!((MethodInsnNode) nextInsn()).name.equals( "scanElement" ))
-				throw new IllegalArgumentException( "scanElement expected" );
+				throw new IllegalArgumentException( "scanElement() expected" );
 			skipInsn(); // call
+		}
+
+	}
+
+
+	class ScanArrayWithFirstTemplateGenerator extends UtilTemplateGenerator
+	{
+
+		public ScanArrayWithFirstTemplateGenerator(MethodNode _mtdNode)
+		{
+			super( _mtdNode );
+		}
+
+		@Override
+		protected void genParams()
+		{
+			classBuilder.append( "( ForEachElementWithFirstCompilation _forElement )" );
+		}
+
+		@Override
+		protected void genThisInsn()
+		{
+			if (nextInsn() instanceof MethodInsnNode) {
+				final String mtdName = ((MethodInsnNode) nextInsn()).name;
+				skipInsn(); // call
+				if (mtdName.equals( "isFirst" )) classBuilder.appendLine( "_forElement.compileIsFirst();" );
+				else if (mtdName.equals( "haveFirst" )) classBuilder.appendLine( "_forElement.compileHaveFirst();" );
+				else throw new IllegalArgumentException( "isFirst() or haveFirst() expected" );
+			}
+			else {
+				final int var = ((VarInsnNode) nextInsn()).var;
+				skipInsn(); // xLOAD elt
+				final String mtdName = ((MethodInsnNode) nextInsn()).name;
+				skipInsn(); // call
+				if (mtdName.equals( "scanFirst" )) classBuilder.append( "_forElement.compileFirst( " );
+				else if (mtdName.equals( "scanElement" )) classBuilder.append( "_forElement.compileElement( " );
+				else throw new IllegalArgumentException( "isFirst() or haveFirst() expected" );
+				genVar( var );
+				classBuilder.appendLine( " );" );
+			}
 		}
 
 	}

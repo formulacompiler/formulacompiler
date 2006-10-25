@@ -26,10 +26,10 @@ import sej.NumericType;
 import sej.Operator;
 import sej.SEJ;
 import sej.SaveableEngine;
-import sej.internal.Debug;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
+import sej.internal.expressions.ExpressionNodeForFold1st;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
@@ -43,12 +43,12 @@ import sej.internal.model.analysis.TypeAnnotator;
 import sej.internal.model.optimizer.IntermediateResultsInliner;
 import sej.internal.model.rewriting.ModelRewriter;
 import sej.runtime.ComputationFactory;
+import sej.tests.utils.AbstractTestBase;
 import sej.tests.utils.Inputs;
 import sej.tests.utils.Outputs;
 import sej.tests.utils.OutputsWithoutCaching;
-import junit.framework.TestCase;
 
-public class LittleLanguageTests extends TestCase
+public class LittleLanguageTests extends AbstractTestBase
 {
 	private static final int N_DET = 3;
 	private final Inputs inputs = new Inputs();
@@ -216,7 +216,7 @@ public class LittleLanguageTests extends TestCase
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
 		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
 		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
-		
+
 		engineModel.traverse( new ModelRewriter() );
 
 		final Inputs i = this.inputs;
@@ -246,6 +246,209 @@ public class LittleLanguageTests extends TestCase
 		return sum;
 	}
 
+
+	public void testFold1st() throws Exception
+	{
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final SectionModel rootModel = engineModel.getRoot();
+		final CellModel a = new CellModel( rootModel, "a" );
+		final CellModel b = new CellModel( rootModel, "b" );
+		final CellModel c = new CellModel( rootModel, "c" );
+		final CellModel r = new CellModel( rootModel, "r" );
+
+		a.setConstantValue( 1.0 );
+		b.setConstantValue( 2.0 );
+		c.setConstantValue( 3.0 );
+
+		final ExpressionNode other = new ExpressionNodeForConstantValue( 17 );
+		final ExpressionNode init = new ExpressionNodeForOperator( Operator.DIV, new ExpressionNodeForLetVar( "x0" ),
+				new ExpressionNodeForConstantValue( 2 ) );
+		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
+				new ExpressionNodeForOperator( Operator.DIV, new ExpressionNodeForLetVar( "xi" ),
+						new ExpressionNodeForConstantValue( 2 ) ) );
+		final ExpressionNode[] args = new ExpressionNode[] { new ExpressionNodeForCellModel( a ),
+				new ExpressionNodeForCellModel( b ), new ExpressionNodeForCellModel( c ) };
+
+		r.setExpression( new ExpressionNodeForFold1st( "x0", init, "acc", "xi", fold, other, args ) );
+
+		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
+		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
+		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+
+		final Inputs i = this.inputs;
+		assertDoubleResult( i.getDoubleA() / 2 + i.getDoubleB() / 2 + i.getDoubleC() / 2, engineModel );
+	}
+
+
+	public void testFold1stOverSectionAndCell() throws Exception
+	{
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, Outputs.class );
+		final SectionModel rootModel = engineModel.getRoot();
+		final SectionModel subModel = new SectionModel( rootModel, "Sub", Inputs.class, null );
+		final CellModel a = new CellModel( rootModel, "a" );
+		final CellModel b = new CellModel( rootModel, "b" );
+		final CellModel c = new CellModel( subModel, "c" );
+		final CellModel r = new CellModel( rootModel, "r" );
+
+		a.setConstantValue( 1.0 );
+		b.setConstantValue( 2.0 );
+		c.setConstantValue( 3.0 );
+
+		final ExpressionNode other = new ExpressionNodeForConstantValue( 17 );
+		final ExpressionNode init = new ExpressionNodeForOperator( Operator.DIV, new ExpressionNodeForLetVar( "x0" ),
+				new ExpressionNodeForConstantValue( 2 ) );
+		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
+				new ExpressionNodeForOperator( Operator.DIV, new ExpressionNodeForLetVar( "xi" ),
+						new ExpressionNodeForConstantValue( 2 ) ) );
+		final ExpressionNode[] args = new ExpressionNode[] {
+				new ExpressionNodeForSubSectionModel( subModel, new ExpressionNodeForCellModel( c ) ),
+				new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ) };
+
+		r.setExpression( new ExpressionNodeForFold1st( "x0", init, "acc", "xi", fold, other, args ) );
+
+		subModel.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
+		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
+		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
+		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+
+		final Inputs i = this.inputs;
+		assertDoubleResult( i.getDoubleA() / 2 + i.getDoubleB() / 2 + i.getDoubleC() / 2 * N_DET, engineModel );
+	}
+
+
+	public void testFold1stOverTwoSections() throws Exception
+	{
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, Outputs.class );
+		final SectionModel rootModel = engineModel.getRoot();
+		final SectionModel subModel1 = new SectionModel( rootModel, "Sub1", Inputs.class, null );
+		final SectionModel subModel2 = new SectionModel( rootModel, "Sub2", Inputs.class, null );
+		final CellModel a = new CellModel( subModel1, "a" );
+		final CellModel b = new CellModel( subModel1, "b" );
+		final CellModel c = new CellModel( subModel2, "c" );
+		final CellModel r = new CellModel( rootModel, "r" );
+
+		a.setConstantValue( 1.0 );
+		b.setConstantValue( 2.0 );
+		c.setConstantValue( 3.0 );
+
+		final ExpressionNode other = new ExpressionNodeForConstantValue( 17 );
+		final ExpressionNode init = new ExpressionNodeForOperator( Operator.DIV, new ExpressionNodeForLetVar( "x0" ),
+				new ExpressionNodeForConstantValue( 2 ) );
+		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
+				new ExpressionNodeForOperator( Operator.DIV, new ExpressionNodeForLetVar( "xi" ),
+						new ExpressionNodeForConstantValue( 2 ) ) );
+		final ExpressionNode[] args = new ExpressionNode[] {
+				new ExpressionNodeForSubSectionModel( subModel1, new ExpressionNodeForCellModel( a ),
+						new ExpressionNodeForCellModel( b ) ),
+				new ExpressionNodeForSubSectionModel( subModel2, new ExpressionNodeForCellModel( c ) ) };
+
+		r.setExpression( new ExpressionNodeForFold1st( "x0", init, "acc", "xi", fold, other, args ) );
+
+		subModel1.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
+		subModel2.makeInput( new CallFrame( Inputs.class.getMethod( "getOtherDetails" ) ) );
+		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
+		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
+		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+
+		final Inputs i = this.inputs;
+
+		final int N_OTHER = 4;
+		for (int j = 0; j < N_OTHER; j++) {
+			i.getOtherDetails().add( new Inputs() );
+		}
+		final Outputs outputs = (Outputs) newOutputs( engineModel, SEJ.DOUBLE );
+
+		outputs.reset();
+		assertEquals( i.getDoubleA() / 2 * N_DET + i.getDoubleB() / 2 * N_DET + i.getDoubleC() / 2 * N_OTHER, outputs
+				.getResult(), 0.0000001 );
+
+		i.getDetails().clear();
+		outputs.reset();
+		assertEquals( i.getDoubleC() / 2 * N_OTHER, outputs.getResult(), 0.0000001 );
+
+		i.getOtherDetails().clear();
+		outputs.reset();
+		assertEquals( 17, outputs.getResult(), 0.0000001 );
+
+	}
+
+
+	public void testFold1stOverNestedSections() throws Exception
+	{
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, Outputs.class );
+		final SectionModel rootModel = engineModel.getRoot();
+		final SectionModel subModel1 = new SectionModel( rootModel, "Sub1", Inputs.class, null );
+		final SectionModel subModel2 = new SectionModel( rootModel, "Sub2", Inputs.class, null );
+		final SectionModel subsubModel = new SectionModel( subModel2, "SubSub", Inputs.class, null );
+		final CellModel a = new CellModel( subModel1, "a" );
+		final CellModel b = new CellModel( subModel1, "b" );
+		final CellModel c = new CellModel( subModel2, "c" );
+		final CellModel d = new CellModel( subsubModel, "d" );
+		final CellModel r = new CellModel( rootModel, "r" );
+
+		a.setConstantValue( 1.0 );
+		b.setConstantValue( 2.0 );
+		c.setConstantValue( 3.0 );
+		d.setConstantValue( 4.0 );
+
+		final ExpressionNode other = new ExpressionNodeForConstantValue( 17 );
+		final ExpressionNode init = new ExpressionNodeForOperator( Operator.DIV, new ExpressionNodeForLetVar( "x0" ),
+				new ExpressionNodeForConstantValue( 2 ) );
+		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
+				new ExpressionNodeForOperator( Operator.DIV, new ExpressionNodeForLetVar( "xi" ),
+						new ExpressionNodeForConstantValue( 2 ) ) );
+
+		final ExpressionNode[] args = new ExpressionNode[] {
+				new ExpressionNodeForSubSectionModel( subModel1, new ExpressionNodeForCellModel( a ),
+						new ExpressionNodeForCellModel( b ) ),
+				new ExpressionNodeForSubSectionModel( subModel2, new ExpressionNodeForSubSectionModel( subsubModel,
+						new ExpressionNodeForCellModel( d ) ), new ExpressionNodeForCellModel( c ) ) };
+
+		final ExpressionNode[] args0 = new ExpressionNode[] { new ExpressionNodeForSubSectionModel( subModel2,
+				new ExpressionNodeForSubSectionModel( subsubModel, new ExpressionNodeForCellModel( d ) ),
+				new ExpressionNodeForCellModel( c ) ) };
+
+
+		r.setExpression( new ExpressionNodeForFold1st( "x0", init, "acc", "xi", fold, other, args ) );
+
+		subModel1.makeInput( new CallFrame( Inputs.class.getMethod( "getOtherDetails" ) ) );
+		subModel2.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
+		subsubModel.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
+		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
+		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
+		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
+		d.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+
+		final Inputs i = this.inputs;
+		final int N_OTHER = 4;
+		for (int j = 0; j < N_OTHER; j++) {
+			i.getOtherDetails().add( new Inputs() );
+		}
+		final Outputs outputs = (Outputs) newOutputs( engineModel, SEJ.DOUBLE );
+
+		outputs.reset();
+		assertEquals( i.getDoubleA()
+				/ 2 * N_OTHER + i.getDoubleB() / 2 * N_OTHER + i.getDoubleC() / 2 * N_DET + i.getDoubleA() / 2 * N_DET
+				* N_DET, outputs.getResult(), 0.0000001 );
+
+		i.getOtherDetails().clear();
+		outputs.reset();
+		assertEquals( i.getDoubleC() / 2 * N_DET + i.getDoubleA() / 2 * N_DET * N_DET, outputs.getResult(), 0.0000001 );
+
+		i.getDetails().iterator().next().getDetails().clear();
+		outputs.reset();
+		assertEquals( i.getDoubleC() / 2 * N_DET + i.getDoubleA() / 2 * N_DET * (N_DET - 1), outputs.getResult(),
+				0.0000001 );
+
+		i.getDetails().clear();
+		outputs.reset();
+		assertEquals( 17, outputs.getResult(), 0.0000001 );
+
+	}
 
 	// TODO ITER-support
 	/*
@@ -300,7 +503,7 @@ public class LittleLanguageTests extends TestCase
 		final ByteCodeEngineCompiler compiler = new ByteCodeEngineCompiler( config );
 		final SaveableEngine engine = compiler.compile();
 
-		Debug.saveEngine( engine, "/temp/debug.jar" );
+		checkEngine( engine );
 
 		final ComputationFactory factory = engine.getComputationFactory();
 		return (OutputsWithoutCaching) factory.newComputation( this.inputs );

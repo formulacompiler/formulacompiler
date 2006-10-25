@@ -27,14 +27,15 @@ import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.LetDictionary;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
+import sej.internal.model.ExpressionNodeForSubstitution;
 
 
-@SuppressWarnings("unqualified-field-access")
-final class HelperCompilerForIterativeFold extends HelperCompiler
+class HelperCompilerForIterativeFold extends HelperCompiler
 {
-	private final FoldContext foldContext;
-	private final Iterable<ExpressionNode> elts;
-	private final LetDictionary<Object> outerLets;
+	protected final FoldContext foldContext;
+	protected final Iterable<ExpressionNode> elts;
+	protected final LetDictionary<Object> outerLets;
+	protected final ExpressionCompiler expc;
 
 
 	public HelperCompilerForIterativeFold(SectionCompiler _section, Iterable<ExpressionNode> _elts,
@@ -44,78 +45,106 @@ final class HelperCompilerForIterativeFold extends HelperCompiler
 		this.foldContext = _context;
 		this.elts = _elts;
 		this.outerLets = _outerLets;
+		this.expc = expressionCompiler();
+	}
+
+
+	protected final ExpressionCompiler expc()
+	{
+		return this.expc;
 	}
 
 
 	@Override
 	protected final void compileBody() throws CompilerException
 	{
-		final ExpressionCompiler expc = expressionCompiler();
-
 		// This handles outer lets such as in "var(xs) = (let m = avg(xs) in fold(... ei = xi - m))".
 		// Ensures that the let is available and computed before the loop.
-		expc.copyAndForcePendingLetsFrom( this.outerLets );
+		expc().copyAndForcePendingLetsFrom( this.outerLets );
 
-		final int localResult = compileNewAccumulator();
-		expc.compile( foldContext.node.initialAccumulatorValue() );
-		compileElements( foldContext, elts, localResult );
+		compileFold( this.foldContext, this.elts, compileNewAccumulator() );
 	}
 
 
-	private void compileElements( FoldContext _context, Iterable<ExpressionNode> _elts, int _localAccumulator )
+	protected void compileFold( FoldContext _context, Iterable<ExpressionNode> _elts, int _localResult )
 			throws CompilerException
 	{
-		final ExpressionCompiler expc = expressionCompiler();
-		if (expc.isSubSectionIn( _elts )) {
+		expc().compile( _context.node.initialAccumulatorValue() );
+		compileFoldWithChainedInitialValue( _context, _elts, _localResult, null );
+	}
+
+
+	protected void compileFoldWithChainedInitialValue( FoldContext _context, Iterable<ExpressionNode> _elts,
+			int _localAccumulator, ExpressionNode _except ) throws CompilerException
+	{
+		expc().compileChainedFoldOverNonRepeatingElements( _context, _elts, _except );
+		if (expc().isSubSectionIn( _elts )) {
 			compileAccumulatorStore( _localAccumulator );
 			compileIterativeFoldOverRepeatingElements( _context, _elts, _localAccumulator );
 			compileAccumulatorLoad( _localAccumulator );
 		}
-		expc.compileChainedFoldOverNonRepeatingElements( _context, _elts );
 	}
 
 
-	final void compileIterativeFoldOverRepeatingElements( final FoldContext _context, Iterable<ExpressionNode> _elts,
-			final int _localAccumulator ) throws CompilerException
+	protected final void compileElements( FoldContext _context, Iterable<ExpressionNode> _elts, ExpressionNode _except,
+			int _localAccumulator ) throws CompilerException
 	{
-		final ExpressionCompiler expc = expressionCompiler();
+		if (null != expc().firstStaticElementIn( _elts )) {
+			compileAccumulatorLoad( _localAccumulator );
+			expc().compileChainedFoldOverNonRepeatingElements( _context, _elts, _except );
+			compileAccumulatorStore( _localAccumulator );
+		}
+		compileIterativeFoldOverRepeatingElements( _context, _elts, _localAccumulator );
+	}
+
+
+	protected final void compileIterativeFoldOverRepeatingElements( final FoldContext _context,
+			Iterable<ExpressionNode> _elts, final int _localAccumulator ) throws CompilerException
+	{
 		final int reuseLocalsAt = localsOffset();
 		for (final ExpressionNode elt : _elts) {
-			if (elt instanceof ExpressionNodeForSubSectionModel) {
-				final ExpressionNodeForSubSectionModel subElt = (ExpressionNodeForSubSectionModel) elt;
-				final SubSectionCompiler subSection = _context.section.subSectionCompiler( subElt.getSectionModel() );
-				final GeneratorAdapter mv = mv();
+			if (elt instanceof ExpressionNodeForSubstitution) {
+				compileIterativeFoldOverRepeatingElements( _context, elt.arguments(), _localAccumulator );
+			}
+			else if (elt instanceof ExpressionNodeForSubSectionModel) {
 				resetLocalsTo( reuseLocalsAt );
-				mv.visitVarInsn( Opcodes.ALOAD, _context.localThis );
-				_context.section.compileCallToGetterFor( mv, subSection );
-				expc.compile_scanArray( new ExpressionCompiler.ForEachElementCompilation()
-				{
-
-					public void compile( int localElement ) throws CompilerException
-					{
-						compileAccumulatorLoad( _localAccumulator );
-						compileElements( new FoldContext( _context, subSection, localElement ), elt.arguments(), _localAccumulator );
-						compileAccumulatorStore( _localAccumulator );
-					}
-
-				} );
+				compileIterativeFoldOverRepeatingElement( _context, _localAccumulator,
+						(ExpressionNodeForSubSectionModel) elt );
 			}
 		}
 	}
 
+	protected void compileIterativeFoldOverRepeatingElement( final FoldContext _context, final int _localAccumulator,
+			final ExpressionNodeForSubSectionModel _elt ) throws CompilerException
+	{
+		final SubSectionCompiler subSection = _context.section.subSectionCompiler( _elt.getSectionModel() );
+		final GeneratorAdapter mv = mv();
+		mv.visitVarInsn( Opcodes.ALOAD, _context.localThis );
+		_context.section.compileCallToGetterFor( mv, subSection );
+		expc().compile_scanArray( new ExpressionCompiler.ForEachElementCompilation()
+		{
+
+			public void compile( int _xi ) throws CompilerException
+			{
+				compileElements( new FoldContext( _context, subSection, _xi ), _elt.arguments(), null, _localAccumulator );
+			}
+
+		} );
+	}
+
 	final int compileNewAccumulator()
 	{
-		return newLocal( foldContext.accumulatorType.getSize() );
+		return newLocal( this.foldContext.accumulatorType.getSize() );
 	}
 
 	final void compileAccumulatorStore( int _local )
 	{
-		mv().visitVarInsn( foldContext.accumulatorType.getOpcode( Opcodes.ISTORE ), _local );
+		mv().visitVarInsn( this.foldContext.accumulatorType.getOpcode( Opcodes.ISTORE ), _local );
 	}
 
 	final void compileAccumulatorLoad( int _local )
 	{
-		mv().visitVarInsn( foldContext.accumulatorType.getOpcode( Opcodes.ILOAD ), _local );
+		mv().visitVarInsn( this.foldContext.accumulatorType.getOpcode( Opcodes.ILOAD ), _local );
 	}
 
 }
