@@ -499,7 +499,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
 	/**
 	 * Construct a sheet with dynamic ranges: {@link WorksheetBuilderWithBands}.
 	 * 
-	 * Then provide input values for the range A2:B3 (the fixed numbers) which extend it by one row:
+	 * Then provide input values for the range A2:B3 (the fixed numbers) and extend it by one row:
 	 * 
 	 * <pre>
 	 *             SUM(C2:C3) 0.5

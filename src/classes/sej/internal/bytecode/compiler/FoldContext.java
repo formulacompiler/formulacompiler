@@ -22,17 +22,18 @@ package sej.internal.bytecode.compiler;
 
 import org.objectweb.asm.Type;
 
-import sej.internal.expressions.ExpressionNodeForFold;
+import sej.internal.expressions.AbstractExpressionNodeForFold;
 
 final class FoldContext
 {
-	final ExpressionNodeForFold node;
+	final AbstractExpressionNodeForFold node;
 	final Type accumulatorType;
 	final SectionCompiler section;
 	final int localThis;
+	int localHaveFirst;
 	
 	
-	public FoldContext(ExpressionNodeForFold _node, SectionCompiler _section)
+	public FoldContext(AbstractExpressionNodeForFold _node, SectionCompiler _section)
 	{
 		super();
 		this.node = _node;
@@ -49,6 +50,7 @@ final class FoldContext
 		super();
 		this.node = _context.node;
 		this.accumulatorType = _context.accumulatorType;
+		this.localHaveFirst = _context.localHaveFirst;
 		this.section = _section;
 		this.localThis = _sectionObject;
 	}

@@ -37,6 +37,7 @@ public class Inputs implements InputInterface
 	private BigDecimal bigTwo;
 	private BigDecimal bigThree;
 	private final Collection<Inputs> details = new ArrayList<Inputs>();
+	private final Collection<Inputs> otherDetails = new ArrayList<Inputs>();
 	private double doubleIncr = 1;
 
 	public Inputs(final double _one, final double _two, final double _three)
@@ -108,6 +109,11 @@ public class Inputs implements InputInterface
 	public Collection<Inputs> getSubDetails()
 	{
 		return this.details;
+	}
+
+	public Collection<Inputs> getOtherDetails()
+	{
+		return this.otherDetails;
 	}
 
 	public double getPlusOne( double _value )

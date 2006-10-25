@@ -36,6 +36,7 @@ import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
+import sej.internal.expressions.ExpressionNodeForFold1st;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
@@ -230,6 +231,11 @@ abstract class ExpressionCompiler
 		else if (_node instanceof ExpressionNodeForFold) {
 			final ExpressionNodeForFold node = (ExpressionNodeForFold) _node;
 			compileFold( node );
+		}
+
+		else if (_node instanceof ExpressionNodeForFold1st) {
+			final ExpressionNodeForFold1st node = (ExpressionNodeForFold1st) _node;
+			compileFold1st( node );
 		}
 
 		else if (_node instanceof ExpressionNodeForInnerFoldedObjRef) {
@@ -564,23 +570,56 @@ abstract class ExpressionCompiler
 			compileHelpedExpr( new HelperCompilerForIterativeFold( section(), _node.elements(), foldContext, letDict() ) );
 		}
 		else {
-			// LATER For folds that support this, we could skip the initial value in favour of the
-			// first element
 			compile( foldContext.node.initialAccumulatorValue() );
-			compileChainedFoldOverNonRepeatingElements( foldContext, foldContext.node.elements() );
+			compileChainedFoldOverNonRepeatingElements( foldContext, foldContext.node.elements(), null );
+		}
+	}
+
+	private final void compileFold1st( ExpressionNodeForFold1st _node ) throws CompilerException
+	{
+		final FoldContext foldContext = new FoldContext( _node, section() );
+		if (isSubSectionIn( _node.elements() )) {
+			compileHelpedExpr( new HelperCompilerForIterativeFold1st( section(), _node.elements(), foldContext, letDict() ) );
+		}
+		else {
+			final Iterable<ExpressionNode> elts = foldContext.node.elements();
+			final ExpressionNode first = firstStaticElementIn( elts );
+			compileElementAccess( foldContext, _node.firstName(), first, _node.firstValue() );
+			compileChainedFoldOverNonRepeatingElements( foldContext, elts, first );
 		}
 	}
 
 	final boolean isSubSectionIn( Iterable<ExpressionNode> _elts )
 	{
 		for (ExpressionNode elt : _elts) {
-			if (elt instanceof ExpressionNodeForSubSectionModel) return true;
+			if (elt instanceof ExpressionNodeForSubstitution) {
+				if (isSubSectionIn( elt.arguments() )) {
+					return true;
+				}
+			}
+			else if (elt instanceof ExpressionNodeForSubSectionModel) {
+				return true;
+			}
 		}
 		return false;
 	}
 
-	final void compileChainedFoldOverNonRepeatingElements( FoldContext _context, Iterable<ExpressionNode> _elts )
-			throws CompilerException
+	final ExpressionNode firstStaticElementIn( Iterable<ExpressionNode> _elts ) throws CompilerException
+	{
+		for (ExpressionNode elt : _elts) {
+			if (elt instanceof ExpressionNodeForSubstitution) {
+				final ExpressionNode subFirst = firstStaticElementIn( elt.arguments() );
+				if (subFirst != null) return subFirst;
+			}
+			else if (!(elt instanceof ExpressionNodeForSubSectionModel)) {
+				return elt;
+			}
+		}
+		return null;
+	}
+
+	final void compileChainedFoldOverNonRepeatingElements( FoldContext _context, Iterable<ExpressionNode> _elts,
+			ExpressionNode _except ) throws CompilerException
 	{
 		final String accName = _context.node.accumulatorName();
 		final Object accOld = letDict().let( accName, CHAINED_FIRST_ARG );
@@ -588,9 +627,9 @@ abstract class ExpressionCompiler
 			final int reuseLocalsAt = localsOffset();
 			for (final ExpressionNode elt : _elts) {
 				if (elt instanceof ExpressionNodeForSubstitution) {
-					compileChainedFoldOverNonRepeatingElements( _context, elt.arguments() );
+					compileChainedFoldOverNonRepeatingElements( _context, elt.arguments(), _except );
 				}
-				else if (!(elt instanceof ExpressionNodeForSubSectionModel)) {
+				else if ((elt != _except) && !(elt instanceof ExpressionNodeForSubSectionModel)) {
 					resetLocalsTo( reuseLocalsAt );
 					compileElementFold( _context, elt );
 				}
@@ -603,15 +642,20 @@ abstract class ExpressionCompiler
 
 	final void compileElementFold( FoldContext _context, ExpressionNode _elt ) throws CompilerException
 	{
-		final String eltName = _context.node.elementName();
+		compileElementAccess( _context, _context.node.elementName(), _elt, _context.node.accumulatingStep() );
+	}
+
+	final void compileElementAccess( FoldContext _context, String _eltName, ExpressionNode _elt, ExpressionNode _expr )
+			throws CompilerException
+	{
 		final ExpressionNode eltBinding = (_context.localThis == 0) ? _elt : new ExpressionNodeForInnerFoldedObjRef(
 				_context, _elt );
-		final Object eltOld = letDict().let( eltName, eltBinding );
+		final Object eltOld = letDict().let( _eltName, eltBinding );
 		try {
-			compile( _context.node.accumulatingStep() );
+			compile( _expr );
 		}
 		finally {
-			letDict().unlet( eltName, eltOld );
+			letDict().unlet( _eltName, eltOld );
 		}
 	}
 
@@ -657,5 +701,17 @@ abstract class ExpressionCompiler
 	}
 
 	protected abstract void compile_scanArray( ForEachElementCompilation _forElement ) throws CompilerException;
+
+
+	protected static interface ForEachElementWithFirstCompilation
+	{
+		void compileIsFirst() throws CompilerException;
+		void compileHaveFirst() throws CompilerException;
+		void compileFirst( int _xi ) throws CompilerException;
+		void compileElement( int _xi ) throws CompilerException;
+	}
+
+	protected abstract void compile_scanArrayWithFirst( ForEachElementWithFirstCompilation _forElement )
+			throws CompilerException;
 
 }
