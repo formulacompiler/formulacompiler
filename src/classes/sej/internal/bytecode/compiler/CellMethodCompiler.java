@@ -33,7 +33,7 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.CellModel;
 
 
-final class CellMethodCompiler extends ValueMethodCompiler
+final class CellMethodCompiler extends NullaryValueMethodCompiler
 {
 	private final CellComputation cellComputation;
 

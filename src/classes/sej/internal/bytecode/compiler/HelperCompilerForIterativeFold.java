@@ -25,7 +25,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.LetDictionary;
+import sej.internal.expressions.LetDictionary.LetEntry;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 
 
@@ -33,17 +33,15 @@ class HelperCompilerForIterativeFold extends HelperCompiler
 {
 	protected final FoldContext foldContext;
 	protected final Iterable<ExpressionNode> elts;
-	protected final LetDictionary<Object> outerLets;
 	protected final ExpressionCompiler expc;
 
 
 	public HelperCompilerForIterativeFold(SectionCompiler _section, Iterable<ExpressionNode> _elts,
-			FoldContext _context, LetDictionary<Object> _outerLets)
+			FoldContext _context, Iterable<LetEntry> _closure)
 	{
-		super( _section, _context.node );
+		super( _section, _context.node, _closure );
 		this.foldContext = _context;
 		this.elts = _elts;
-		this.outerLets = _outerLets;
 		this.expc = expressionCompiler();
 	}
 
@@ -57,10 +55,6 @@ class HelperCompilerForIterativeFold extends HelperCompiler
 	@Override
 	protected final void compileBody() throws CompilerException
 	{
-		// This handles outer lets such as in "var(xs) = (let m = avg(xs) in fold(... ei = xi - m))".
-		// Ensures that the let is available and computed before the loop.
-		expc().copyAndForcePendingLetsFrom( this.outerLets );
-
 		compileFold( this.foldContext, this.elts, compileNewAccumulator() );
 	}
 
@@ -120,16 +114,24 @@ class HelperCompilerForIterativeFold extends HelperCompiler
 	protected void compileIterativeFoldOverRepeatingElement( final FoldContext _context, final int _localAccumulator,
 			final ExpressionNodeForSubSectionModel _elt ) throws CompilerException
 	{
-		final SubSectionCompiler subSection = _context.section.subSectionCompiler( _elt.getSectionModel() );
+		final SubSectionCompiler subSection = sectionInContext().subSectionCompiler( _elt.getSectionModel() );
 		final GeneratorAdapter mv = mv();
-		mv.visitVarInsn( Opcodes.ALOAD, _context.localThis );
-		_context.section.compileCallToGetterFor( mv, subSection );
+		mv.visitVarInsn( Opcodes.ALOAD, objectInContext() );
+		sectionInContext().compileCallToGetterFor( mv, subSection );
 		expc().compile_scanArray( new ExpressionCompiler.ForEachElementCompilation()
 		{
 
 			public void compile( int _xi ) throws CompilerException
 			{
-				compileElements( new FoldContext( _context, subSection, _xi ), _elt.arguments(), null, _localAccumulator );
+				final SectionCompiler oldSection = sectionInContext();
+				final int oldObject = objectInContext();
+				try {
+					setObjectInContext( subSection, _xi );
+					compileElements( _context, _elt.arguments(), null, _localAccumulator );
+				}
+				finally {
+					setObjectInContext( oldSection, oldObject );
+				}
 			}
 
 		} );

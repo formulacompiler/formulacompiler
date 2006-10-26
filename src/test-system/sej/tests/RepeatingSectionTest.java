@@ -54,17 +54,16 @@ public class RepeatingSectionTest extends TestCase
 		testAggregators( SEJ.SCALEDLONG4 );
 	}
 
+	private static final Function[] TESTED_AGGREGATORS = new Function[] { Function.SUM, Function.PRODUCT, Function.MIN,
+			Function.MAX, Function.COUNT, Function.AVERAGE };
+
+	// LATER Add AND, OR above.
 
 	private void testAggregators( NumericType _numericType ) throws Exception
 	{
 		long[] vals = new long[] { 1, 2, 3, 4 };
-		for (Function agg : Function.aggregators()) {
+		for (Function agg : TESTED_AGGREGATORS) {
 			switch (agg) {
-
-				case AND:
-				case OR:
-					// LATER not supported over sections yet
-					break;
 
 				default:
 					SpreadsheetBuilder sb = SEJ.newSpreadsheetBuilder();
@@ -96,7 +95,7 @@ public class RepeatingSectionTest extends TestCase
 					SaveableEngine e = eb.compile();
 					ComputationFactory f = e.getComputationFactory();
 
-					final int s = (agg == Function.AVERAGE) ? 1 : 0;
+					final int s = (agg == Function.AVERAGE || agg == Function.VARP) ? 1 : 0;
 					for (int l = s; l < vals.length; l++) {
 						Input i = new Input( 0, l, vals );
 						Output o = (Output) f.newComputation( i );
@@ -108,7 +107,6 @@ public class RepeatingSectionTest extends TestCase
 
 		}
 	}
-
 
 	private double expected( Function _agg, Input _inp )
 	{

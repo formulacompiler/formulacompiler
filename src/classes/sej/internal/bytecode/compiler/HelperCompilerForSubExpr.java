@@ -22,13 +22,14 @@ package sej.internal.bytecode.compiler;
 
 import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.LetDictionary.LetEntry;
 
 final class HelperCompilerForSubExpr extends HelperCompiler
 {
 
-	HelperCompilerForSubExpr(SectionCompiler _section, ExpressionNode _node)
+	HelperCompilerForSubExpr(SectionCompiler _section, ExpressionNode _node, Iterable<LetEntry> _closure)
 	{
-		super( _section, 0, _node );
+		super( _section, 0, _node, _closure );
 	}
 
 	@Override

@@ -31,6 +31,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 import sej.CallFrame;
 import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.LetDictionary.LetEntry;
 import sej.internal.model.CellModel;
 import sej.internal.model.SectionModel;
 
@@ -137,14 +138,14 @@ class SectionCompiler extends ClassCompiler
 		return "get$" + (this.getterId++);
 	}
 
-	
+
 	private boolean compilationStarted = false;
 
 	void beginCompilation() throws CompilerException
 	{
 		if (this.compilationStarted) return;
 		this.compilationStarted = true;
-		
+
 		initializeClass( outputClass(), this.outputs, ByteCodeEngineCompiler.COMPUTATION_INTF );
 		if (hasParent()) buildParentMember();
 		if (hasInputs()) buildInputMember();
@@ -158,7 +159,7 @@ class SectionCompiler extends ClassCompiler
 	{
 		newField( Opcodes.ACC_PRIVATE, _sub.getterName(), _sub.arrayDescriptor() );
 		new SubSectionLazyGetterCompiler( this, _sub ).compile();
-		
+
 		final CallFrame[] callsToImplement = _sub.model().getCallsToImplement();
 		for (CallFrame callToImplement : callsToImplement) {
 			new SubSectionOutputAccessorCompiler( this, _sub, callToImplement ).compile();
@@ -178,10 +179,11 @@ class SectionCompiler extends ClassCompiler
 	}
 
 
-	public ValueMethodCompiler compileMethodForExpression( ExpressionNode _node ) throws CompilerException
+	public HelperCompiler compileMethodForExpression( ExpressionNode _node, Iterable<LetEntry> _closure )
+			throws CompilerException
 	{
 		beginCompilation();
-		HelperCompilerForSubExpr result = new HelperCompilerForSubExpr( this, _node );
+		HelperCompilerForSubExpr result = new HelperCompilerForSubExpr( this, _node, _closure );
 		result.compile();
 		return result;
 	}
@@ -240,15 +242,13 @@ class SectionCompiler extends ClassCompiler
 	private void buildParentMember()
 	{
 		if (!hasParent()) throw new IllegalStateException();
-		newField( Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL, ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parentType()
-				.getDescriptor() );
+		newField( Opcodes.ACC_FINAL, ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parentType().getDescriptor() );
 	}
 
 	private void buildInputMember()
 	{
 		if (!hasInputs()) throw new IllegalStateException();
-		newField( Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL, ByteCodeEngineCompiler.INPUTS_MEMBER_NAME, inputType()
-				.getDescriptor() );
+		newField( Opcodes.ACC_FINAL, ByteCodeEngineCompiler.INPUTS_MEMBER_NAME, inputType().getDescriptor() );
 	}
 
 	private void storeInputs( GeneratorAdapter _mv )

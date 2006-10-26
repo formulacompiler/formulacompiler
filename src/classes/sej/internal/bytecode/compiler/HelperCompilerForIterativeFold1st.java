@@ -6,7 +6,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForFold1st;
-import sej.internal.expressions.LetDictionary;
+import sej.internal.expressions.LetDictionary.LetEntry;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 
 
@@ -16,9 +16,9 @@ final class HelperCompilerForIterativeFold1st extends HelperCompilerForIterative
 	private boolean needFirstDetection = true;
 
 	public HelperCompilerForIterativeFold1st(SectionCompiler _section, Iterable<ExpressionNode> _elts,
-			FoldContext _context, LetDictionary<Object> _outerLets)
+			FoldContext _context, Iterable<LetEntry> _closure)
 	{
-		super( _section, _elts, _context, _outerLets );
+		super( _section, _elts, _context, _closure );
 		this.fold = (ExpressionNodeForFold1st) _context.node;
 	}
 
@@ -71,10 +71,10 @@ final class HelperCompilerForIterativeFold1st extends HelperCompilerForIterative
 			final int _localAccumulator, final ExpressionNodeForSubSectionModel _elt,
 			final ExpressionNode _firstNonRepeatingElement ) throws CompilerException
 	{
-		final SubSectionCompiler subSection = _context.section.subSectionCompiler( _elt.getSectionModel() );
+		final SubSectionCompiler subSection = sectionInContext().subSectionCompiler( _elt.getSectionModel() );
 		final GeneratorAdapter mv = mv();
-		mv.visitVarInsn( Opcodes.ALOAD, _context.localThis );
-		_context.section.compileCallToGetterFor( mv, subSection );
+		mv.visitVarInsn( Opcodes.ALOAD, objectInContext() );
+		sectionInContext().compileCallToGetterFor( mv, subSection );
 		final Iterable<ExpressionNode> subElts = _elt.arguments();
 		final int haveFirst = _context.localHaveFirst;
 		final ExpressionNodeForFold1st fold = this.fold;
@@ -95,19 +95,35 @@ final class HelperCompilerForIterativeFold1st extends HelperCompilerForIterative
 
 			public void compileFirst( int _x0 ) throws CompilerException
 			{
-				final FoldContext subContext = new FoldContext( _context, subSection, _x0 );
-				
-				HelperCompilerForIterativeFold1st.this.needFirstDetection = false;
-				
-				expc().compileElementAccess( subContext, fold.firstName(), _firstNonRepeatingElement, fold.firstValue() );
-				expc().compileChainedFoldOverNonRepeatingElements( subContext, subElts, _firstNonRepeatingElement );
-				compileAccumulatorStore( _localAccumulator );
-				compileIterativeFoldOverRepeatingElements( subContext, subElts, _localAccumulator );
+				final SectionCompiler oldSection = sectionInContext();
+				final int oldObject = objectInContext();
+				try {
+					setObjectInContext( subSection, _x0 );
+
+					HelperCompilerForIterativeFold1st.this.needFirstDetection = false;
+
+					expc().compileElementAccess( _context, fold.firstName(), _firstNonRepeatingElement, fold.firstValue() );
+					expc().compileChainedFoldOverNonRepeatingElements( _context, subElts, _firstNonRepeatingElement );
+					compileAccumulatorStore( _localAccumulator );
+					compileIterativeFoldOverRepeatingElements( _context, subElts, _localAccumulator );
+					
+				}
+				finally {
+					setObjectInContext( oldSection, oldObject );
+				}
 			}
 
 			public void compileElement( int _xi ) throws CompilerException
 			{
-				compileElements( new FoldContext( _context, subSection, _xi ), subElts, null, _localAccumulator );
+				final SectionCompiler oldSection = sectionInContext();
+				final int oldObject = objectInContext();
+				try {
+					setObjectInContext( subSection, _xi );
+					compileElements( _context, subElts, null, _localAccumulator );
+				}
+				finally {
+					setObjectInContext( oldSection, oldObject );
+				}
 			}
 
 		} );

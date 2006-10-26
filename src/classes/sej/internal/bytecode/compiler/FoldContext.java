@@ -28,32 +28,16 @@ final class FoldContext
 {
 	final AbstractExpressionNodeForFold node;
 	final Type accumulatorType;
-	final SectionCompiler section;
-	final int localThis;
 	int localHaveFirst;
-	
-	
-	public FoldContext(AbstractExpressionNodeForFold _node, SectionCompiler _section)
+
+
+	public FoldContext(AbstractExpressionNodeForFold _node, ByteCodeEngineCompiler _engine)
 	{
 		super();
 		this.node = _node;
-		this.section = _section;
-		this.localThis = 0; // this
 
 		// FIXME StringBuffer etc.
-		this.accumulatorType = _section.engineCompiler().typeCompiler( _node.getDataType() ).type();
+		this.accumulatorType = _engine.typeCompiler( _node.getDataType() ).type();
 	}
-	
-	
-	public FoldContext(FoldContext _context, SectionCompiler _section, int _sectionObject)
-	{
-		super();
-		this.node = _context.node;
-		this.accumulatorType = _context.accumulatorType;
-		this.localHaveFirst = _context.localHaveFirst;
-		this.section = _section;
-		this.localThis = _sectionObject;
-	}
-	
 
 }

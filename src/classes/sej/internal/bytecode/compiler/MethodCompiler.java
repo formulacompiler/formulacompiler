@@ -33,6 +33,7 @@ import sej.CallFrame;
 import sej.CompilerException;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.LetDictionary;
 
 
 abstract class MethodCompiler
@@ -41,9 +42,13 @@ abstract class MethodCompiler
 	private final String methodName;
 	private final String methodDescriptor;
 	private final GeneratorAdapter mv;
+	private final LetDictionary letDict = new LetDictionary();
 
 	private ExpressionCompilerForStrings stringCompiler;
 	private ExpressionCompilerForNumbers numericCompiler;
+	
+	private SectionCompiler sectionInContext;
+	private int objectInContext;
 
 
 	MethodCompiler(SectionCompiler _section, int _access, String _methodName, String _descriptor)
@@ -54,6 +59,8 @@ abstract class MethodCompiler
 		this.methodDescriptor = _descriptor;
 		this.mv = section().newMethod( _access | Opcodes.ACC_FINAL, _methodName, _descriptor );
 		this.localsOffset = 1 + totalSizeOf( Type.getArgumentTypes( _descriptor ) );
+		this.sectionInContext = _section;
+		this.objectInContext = 0; // "this"
 	}
 
 	private static final int totalSizeOf( Type[] _argTypes )
@@ -69,6 +76,28 @@ abstract class MethodCompiler
 	{
 		return this.section;
 	}
+	
+	final LetDictionary letDict()
+	{
+		return this.letDict;
+	}
+	
+	final int objectInContext()
+	{
+		return this.objectInContext;
+	}
+	
+	public SectionCompiler sectionInContext()
+	{
+		return this.sectionInContext;
+	}
+	
+	final void setObjectInContext( SectionCompiler _section, int _object )
+	{
+		this.sectionInContext = _section;
+		this.objectInContext = _object;
+	}
+	
 
 	final ExpressionCompiler expressionCompiler( DataType _type )
 	{

@@ -22,9 +22,9 @@ package sej.internal.expressions;
 
 import java.util.Stack;
 
-public final class LetDictionary<V>
+public final class LetDictionary
 {
-	private final Stack<LetEntry<V>> stack = new Stack<LetEntry<V>>();
+	private final Stack<LetEntry> stack = new Stack<LetEntry>();
 
 	public LetDictionary()
 	{
@@ -38,17 +38,17 @@ public final class LetDictionary<V>
 	}
 
 
-	public final void let( String _name, V _value )
+	public final void let( String _name, DataType _type, Object _value )
 	{
-		this.stack.push( new LetEntry<V>( _name, _value ) );
+		this.stack.push( new LetEntry( _name, _type, _value ) );
 	}
 
-	public final void set( String _name, V _value )
+	public final void set( String _name, Object _value )
 	{
 		for (int i = this.stack.size() - 1; i >= 0; i--) {
-			final LetEntry<V> entry = this.stack.get( i );
+			final LetEntry entry = this.stack.get( i );
 			if (_name.equals( entry.name )) {
-				this.stack.set( i, new LetEntry<V>( _name, _value ) );
+				this.stack.set( i, new LetEntry( _name, entry.type, _value ) );
 				return;
 			}
 		}
@@ -62,35 +62,50 @@ public final class LetDictionary<V>
 	}
 
 
-	public final V lookup( String _name )
+	public final Object lookup( String _name )
+	{
+		final LetEntry found = find( _name );
+		return (null != found) ? found.value : null;
+	}
+
+	public DataType lookupType( String _name )
+	{
+		final LetEntry found = find( _name );
+		return (null != found) ? found.type : null;
+	}
+
+	public final LetEntry find( String _name )
 	{
 		for (int i = this.stack.size() - 1; i >= 0; i--) {
-			final LetEntry<V> entry = this.stack.get( i );
+			final LetEntry entry = this.stack.get( i );
 			if (_name.equals( entry.name )) {
-				return entry.value;
+				return entry;
 			}
 		}
 		return null;
 	}
-	
-	
-	public final Iterable<LetEntry<V>> entries()
+
+
+	public final Iterable<LetEntry> entries()
 	{
 		return this.stack;
 	}
 
 
-	public static final class LetEntry<V>
+	public static final class LetEntry
 	{
 		public final String name;
-		public final V value;
+		public final DataType type;
+		public final Object value;
 
-		public LetEntry(String _name, V _value)
+		public LetEntry(String _name, DataType _type, Object _value)
 		{
 			super();
 			this.name = _name;
+			this.type = _type;
 			this.value = _value;
 		}
 	}
+
 
 }

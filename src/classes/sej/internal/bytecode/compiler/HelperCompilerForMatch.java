@@ -28,13 +28,14 @@ import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
+import sej.internal.expressions.LetDictionary.LetEntry;
 
 final class HelperCompilerForMatch extends HelperCompiler
 {
 
-	HelperCompilerForMatch(SectionCompiler _section, ExpressionNodeForFunction _node)
+	HelperCompilerForMatch(SectionCompiler _section, ExpressionNodeForFunction _node, Iterable<LetEntry> _closure)
 	{
-		super( _section, _node );
+		super( _section, _node, _closure );
 	}
 
 

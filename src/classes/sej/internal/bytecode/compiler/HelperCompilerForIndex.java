@@ -33,13 +33,14 @@ import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
+import sej.internal.expressions.LetDictionary.LetEntry;
 
 class HelperCompilerForIndex extends HelperCompiler
 {
 
-	HelperCompilerForIndex(SectionCompiler _section, ExpressionNodeForFunction _node)
+	HelperCompilerForIndex(SectionCompiler _section, ExpressionNodeForFunction _node, Iterable<LetEntry> _closure)
 	{
-		super( _section, _node );
+		super( _section, _node, _closure );
 	}
 
 
@@ -65,7 +66,8 @@ class HelperCompilerForIndex extends HelperCompiler
 	}
 
 
-	private void compileIndexFunction( final ExpressionNode[] _vals, ExpressionNode _row, ExpressionNode _col ) throws CompilerException
+	private void compileIndexFunction( final ExpressionNode[] _vals, ExpressionNode _row, ExpressionNode _col )
+			throws CompilerException
 	{
 		final ExpressionCompilerForNumbers numCompiler = numericCompiler();
 		final ExpressionCompiler valCompiler = expressionCompiler();
@@ -78,14 +80,14 @@ class HelperCompilerForIndex extends HelperCompiler
 		final GeneratorAdapter mv = mv();
 
 		final int l_i = mv.newLocal( Type.INT_TYPE );
-		if (isNull(_row)) {
+		if (isNull( _row )) {
 			// final int i = <col> - 1;
 			numCompiler.compile( _col );
 			numCompiler.compileConversionToInt();
 			mv.push( 1 );
 			mv.visitInsn( Opcodes.ISUB );
 		}
-		else if (isNull(_col)) {
+		else if (isNull( _col )) {
 			// final int i = <row> - 1;
 			numCompiler.compile( _row );
 			numCompiler.compileConversionToInt();
@@ -99,9 +101,9 @@ class HelperCompilerForIndex extends HelperCompiler
 			mv.push( 1 );
 			mv.visitInsn( Opcodes.ISUB );
 
-			mv.push( range( node(), node().arguments().get(0)).getNumberOfColumns() );
+			mv.push( range( node(), node().arguments().get( 0 ) ).getNumberOfColumns() );
 			mv.visitInsn( Opcodes.IMUL );
-			
+
 			numCompiler.compile( _col );
 			numCompiler.compileConversionToInt();
 			mv.push( 1 );
