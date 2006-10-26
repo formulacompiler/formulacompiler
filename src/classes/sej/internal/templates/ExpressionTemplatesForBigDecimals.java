@@ -148,7 +148,8 @@ public class ExpressionTemplatesForBigDecimals
 	@ReturnsAdjustedValue
 	boolean util_toBoolean( BigDecimal a )
 	{
-		return !a.equals( BigDecimal.ZERO );
+		final boolean b = a.compareTo( BigDecimal.ZERO ) != 0;
+		return b;
 	}
 
 	@ReturnsAdjustedValue

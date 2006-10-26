@@ -16,8 +16,8 @@ public final class DebugTest extends AbstractReferenceTest
 
 	public DebugTest()
 	{
-		// super( "CellNames", 2 );
-		super( "CellNames", 11, NumType.DOUBLE, Integer.valueOf( "1", 2 ), false );
+		super( "Strings" );
+		//super( "NumericFunctions", 5, NumType.LONG, Integer.valueOf( "0", 2 ), false );
 	}
 
 	@Override
@@ -25,8 +25,8 @@ public final class DebugTest extends AbstractReferenceTest
 	{
 		if (_engine != null) {
 			try {
-				Debug.saveEngine( _engine, "d:/temp/debug.jar" );
-				System.out.println( ".. dumped to d:/temp/debug.jar" );
+				Debug.saveEngine( _engine, "/temp/debug.jar" );
+				System.out.println( ".. dumped to /temp/debug.jar" );
 			}
 			catch (IOException e) {
 				e.printStackTrace();

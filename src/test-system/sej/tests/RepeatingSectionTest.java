@@ -63,7 +63,7 @@ public class RepeatingSectionTest extends TestCase
 
 				case AND:
 				case OR:
-					// not supported over sections yet
+					// LATER not supported over sections yet
 					break;
 
 				default:
