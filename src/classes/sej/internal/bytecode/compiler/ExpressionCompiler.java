@@ -22,7 +22,6 @@ package sej.internal.bytecode.compiler;
 
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Map;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -472,12 +471,12 @@ abstract class ExpressionCompiler
 		// Note: It is important to allocate the local here rather than at the point of first
 		// evaluation. Otherwise it could get reused when the first evaluation is within a local
 		// scope.
-		final Object oldVar = letDict().let( _node.varName(), new EvaluateIntoLocal( compileNewLocal(), _node.value() ) );
+		letDict().let( _node.varName(), new EvaluateIntoLocal( compileNewLocal(), _node.value() ) );
 		try {
 			compile( _node.in() );
 		}
 		finally {
-			letDict().unlet( _node.varName(), oldVar );
+			letDict().unlet( _node.varName() );
 		}
 	}
 
@@ -542,13 +541,18 @@ abstract class ExpressionCompiler
 
 	final void copyAndForcePendingLetsFrom( LetDictionary<Object> _lets ) throws CompilerException
 	{
-		for (final Map.Entry<String, Object> let : _lets.entrySet()) {
-			final String letName = let.getKey();
-			final Object letValue = let.getValue();
-			if (letValue instanceof EvaluateIntoLocal) {
-				final ExpressionNode pendingNode = ((EvaluateIntoLocal) letValue).node;
+		/*
+		 * FIXME Maybe I should copy and force only the lets that are actually used. Otherwise I might
+		 * end up with unnecessary double evaluations in helpers.
+		 */
+		for (final LetDictionary.LetEntry<Object> let : _lets.entries()) {
+			if (let.value instanceof EvaluateIntoLocal) {
+				final ExpressionNode pendingNode = ((EvaluateIntoLocal) let.value).node;
 				compile( pendingNode );
-				letDict().set( letName, compileDupAndStoreToNewLocal() );
+				letDict().let( let.name, compileDupAndStoreToNewLocal() );
+			}
+			else {
+				letDict().let( let.name, let.value );
 			}
 		}
 	}
@@ -610,7 +614,7 @@ abstract class ExpressionCompiler
 			ExpressionNode _except ) throws CompilerException
 	{
 		final String accName = _context.node.accumulatorName();
-		final Object accOld = letDict().let( accName, CHAINED_FIRST_ARG );
+		letDict().let( accName, CHAINED_FIRST_ARG );
 		try {
 			final int reuseLocalsAt = localsOffset();
 			for (final ExpressionNode elt : _elts) {
@@ -621,7 +625,7 @@ abstract class ExpressionCompiler
 			}
 		}
 		finally {
-			letDict().unlet( accName, accOld );
+			letDict().unlet( accName );
 		}
 	}
 
@@ -635,12 +639,12 @@ abstract class ExpressionCompiler
 	{
 		final ExpressionNode eltBinding = (_context.localThis == 0) ? _elt : new ExpressionNodeForInnerFoldedObjRef(
 				_context, _elt );
-		final Object eltOld = letDict().let( _eltName, eltBinding );
+		letDict().let( _eltName, eltBinding );
 		try {
 			compile( _expr );
 		}
 		finally {
-			letDict().unlet( _eltName, eltOld );
+			letDict().unlet( _eltName );
 		}
 	}
 

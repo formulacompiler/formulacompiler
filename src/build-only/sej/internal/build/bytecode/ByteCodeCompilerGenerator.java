@@ -465,6 +465,14 @@ final class ByteCodeCompilerGenerator
 					case Opcodes.LRETURN:
 					case Opcodes.ARETURN:
 					case Opcodes.RETURN:
+						while (insns.hasNext()) {
+							skipInsn();
+							if (isReturn( nextInsn() )) {
+								throw new IllegalArgumentException( "The method "
+										+ mtdNode.name
+										+ " has multiple returns. Use an 'extract local variable' refactoring to fix this." );
+							}
+						}
 						return;
 
 					default:
@@ -481,6 +489,22 @@ final class ByteCodeCompilerGenerator
 		protected void skipInsn()
 		{
 			this.next = (AbstractInsnNode) this.insns.next();
+		}
+
+
+		private boolean isReturn( AbstractInsnNode _insn )
+		{
+			switch (_insn.getOpcode()) {
+				case Opcodes.IRETURN:
+				case Opcodes.DRETURN:
+				case Opcodes.FRETURN:
+				case Opcodes.LRETURN:
+				case Opcodes.ARETURN:
+				case Opcodes.RETURN:
+					return true;
+				default:
+					return false;
+			}
 		}
 
 

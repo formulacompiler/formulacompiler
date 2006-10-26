@@ -34,7 +34,12 @@ public final class PatternCompiler
 
 	public static void main( String[] args ) throws Exception
 	{
-		new PatternCompiler().run();
+		try {
+			new PatternCompiler().run();
+		}
+		catch (Throwable t) {
+			System.out.println( "ERROR: " + t.getMessage() );
+		}
 	}
 
 
@@ -47,6 +52,7 @@ public final class PatternCompiler
 		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForNumbers.class, "Numbers" ).generate( p );
 		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForDoubles.class, "Doubles" ).generate( p );
 		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForScaledLongs.class, "ScaledLongs" ).generate( p );
-		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForBigDecimals.class, "BigDecimals", true, true ).generate( p );
+		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForBigDecimals.class, "BigDecimals", true, true )
+				.generate( p );
 	}
 }

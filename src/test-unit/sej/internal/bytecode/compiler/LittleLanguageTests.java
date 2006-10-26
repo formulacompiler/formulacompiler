@@ -262,6 +262,48 @@ public class LittleLanguageTests extends AbstractTestBase
 		assertDoubleResult( expected, engineModel );
 	}
 
+	public void testRewritingOfVARPOverSection() throws Exception
+	{
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, Outputs.class );
+		final SectionModel rootModel = engineModel.getRoot();
+		final SectionModel subModel = new SectionModel( rootModel, "Sub", Inputs.class, null );
+		final CellModel a = new CellModel( rootModel, "a" );
+		final CellModel b = new CellModel( subModel, "b" );
+		final CellModel c = new CellModel( subModel, "c" );
+		final CellModel r = new CellModel( rootModel, "r" );
+
+		a.setConstantValue( 1.0 );
+		b.setConstantValue( 2.0 );
+		c.setConstantValue( 3.0 );
+
+		final ExpressionNode[] args = new ExpressionNode[] {
+				new ExpressionNodeForCellModel( a ),
+				new ExpressionNodeForSubSectionModel( subModel, new ExpressionNodeForCellModel( b ),
+						new ExpressionNodeForCellModel( c ) ) };
+
+		r.setExpression( new ExpressionNodeForFunction( Function.VARP, args ) );
+
+		subModel.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
+	
+		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
+		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
+		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+
+		engineModel.traverse( new ModelRewriter() );
+		engineModel.traverse( new SubstitutionInliner() );
+
+		final Inputs i = this.inputs;
+		final double[] vals = new double[ N_DET * 2 + 1 ];
+		vals[0] = i.getDoubleA();
+		for (int j = 0; j < N_DET; j++) {
+			vals[j * 2 + 1] = i.getDoubleB();
+			vals[j * 2 + 2] = i.getDoubleC();
+		}
+		final double expected = varp( vals );
+		assertDoubleResult( expected, engineModel );
+	}
+
 	private double varp( double... _xs )
 	{
 		final double n = _xs.length;

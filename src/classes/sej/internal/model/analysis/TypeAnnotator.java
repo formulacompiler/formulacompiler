@@ -253,12 +253,12 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 	private DataType typeOf( ExpressionNodeForLet _expr ) throws CompilerException
 	{
 		final DataType valType = annotate( _expr.value() );
-		DataType oldVar = letDict().let( _expr.varName(), valType );
+		letDict().let( _expr.varName(), valType );
 		try {
 			return annotate( _expr.in() );
 		}
 		finally {
-			letDict().unlet( _expr.varName(), oldVar );
+			letDict().unlet( _expr.varName() );
 		}
 	}
 
@@ -278,12 +278,12 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		final DataType eltType = annotateFold( _expr );
 
 		final String firstName = _expr.firstName();
-		final DataType oldFirst = letDict().let( firstName, eltType );
+		letDict().let( firstName, eltType );
 		try {
 			annotate( _expr.firstValue() );
 		}
 		finally {
-			letDict().unlet( firstName, oldFirst );
+			letDict().unlet( firstName );
 		}
 
 		return _expr.emptyValue().getDataType();
@@ -299,14 +299,14 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 
 		final String accName = _expr.accumulatorName();
 		final String eltName = _expr.elementName();
-		final DataType oldAcc = letDict().let( accName, resultType );
-		final DataType oldElt = letDict().let( eltName, eltType );
+		letDict().let( accName, resultType );
+		letDict().let( eltName, eltType );
 		try {
 			annotate( _expr.accumulatingStep() );
 		}
 		finally {
-			letDict().unlet( eltName, oldElt );
-			letDict().unlet( accName, oldAcc );
+			letDict().unlet( eltName );
+			letDict().unlet( accName );
 		}
 
 		return eltType;

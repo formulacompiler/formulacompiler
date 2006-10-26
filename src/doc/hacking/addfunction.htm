@@ -45,7 +45,10 @@
 
 <h2>Rule 2: <em>Cite tested examples</em></h2>
 <p>So far, we simply said: <em><tt>ABS()</tt> is supported.</em> How do we know it is? How does the reader know? This is where test-driven development gets into the picture - with a twist. We prove what we say directly to our reader. The proof becomes an integral part of the documentation (which is, after all, <em>what we are saying</em>). So, to integrate the proof, we always give examples which are <a href="http://arrenbrecht.ch/articles/SourceCiting.htm"><em>cited</em> from automated tests</a>.</p>
-<p>SEJ's existing testing and citing infrastructure makes this easy, especially for adding a new spreadsheet function. The spreadsheet files in <tt>src/test-system/testdata/sej/tests/reference</tt> contain formula tests. SEJ's build system runs them automatically. It also makes them citable by writing out HTML fragments describing them. So, to prove we implemented <tt>ABS()</tt>, all we still need to do is add test cases to one of the test sheets.</p>
+<p>SEJ's existing testing and citing infrastructure makes this easy, especially for adding a new spreadsheet function. The spreadsheet files in <tt>src/test-system/testdata/sej/tests/reference</tt> contain formula tests. SEJ's build system runs them automatically for all the supported <a href="../tutorial/numeric_type.htm">numeric types</a> and with and without <a href="../tutorial/caching.htm">caching</a>. It also makes them citable by writing out HTML fragments describing them. So, to prove we implemented <tt>ABS()</tt>, all we still need to do is add test cases to one of the test sheets.</p>
+
+<h5>Note</h5>
+<p>SEJ runs your tests using <tt>DOUBLE</tt>, <tt>BIGDECIMAL8</tt>, and <tt>LONG4</tt>. So you must make sure your tests work OK with all of these precisions.</p>
 
 <h2>Automated Formula Tests</h2>
 <p>For <tt>ABS()</tt>, we extend the sheet called <tt>NumericFunctions.xls</tt>. By <em>citing</em> it, I can show it right here:</p>
