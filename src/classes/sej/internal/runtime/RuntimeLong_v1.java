@@ -91,6 +91,7 @@ public final class RuntimeLong_v1 extends Runtime_v1
 			}
 		}
 
+		@Deprecated
 		long fromNumber( Number _value )
 		{
 			if (_value == null) {
@@ -204,6 +205,7 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		return fromDouble( RuntimeDouble_v1.dateToNum( _val ), _cx );
 	}
 
+	@Deprecated
 	public static long fromNumber( Number _val, Context _cx )
 	{
 		return _cx.fromNumber( _val );

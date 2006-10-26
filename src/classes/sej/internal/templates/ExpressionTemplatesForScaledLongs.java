@@ -97,7 +97,7 @@ public class ExpressionTemplatesForScaledLongs
 
 	long util_fromNumber( Number a )
 	{
-		return RuntimeLong_v1.fromNumber( a, context );
+		return (null == a) ? 0 : a.longValue();
 	}
 
 	long util_fromBoolean( boolean a )
@@ -109,8 +109,8 @@ public class ExpressionTemplatesForScaledLongs
 	{
 		return RuntimeLong_v1.dateToNum( a, context );
 	}
-	
-	
+
+
 	byte util_toByte( long a )
 	{
 		return (byte) a;
@@ -168,7 +168,9 @@ public class ExpressionTemplatesForScaledLongs
 
 	boolean util_toBoolean( long a )
 	{
-		return a != 0;
+		// Use a local so the conditional does not span the return instruction.
+		final boolean b = a != 0;
+		return b;
 	}
 
 	char util_toCharacter( long a )
@@ -180,7 +182,7 @@ public class ExpressionTemplatesForScaledLongs
 	{
 		return RuntimeLong_v1.dateFromNum( a, context );
 	}
-	
+
 	String util_toString( long a )
 	{
 		return RuntimeLong_v1.toExcelString( a, context );

@@ -117,7 +117,9 @@ public abstract class ExpressionTemplatesForDoubles
 
 	boolean util_toBoolean( double a )
 	{
-		return a != 0;
+		// Use a local so the conditional does not span the return instruction.
+		final boolean b = a != 0;
+		return b;
 	}
 
 	char util_toCharacter( double a )

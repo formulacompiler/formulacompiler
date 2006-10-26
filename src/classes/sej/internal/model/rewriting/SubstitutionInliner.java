@@ -52,7 +52,9 @@ public final class SubstitutionInliner extends AbstractComputationModelVisitor
 
 	private void inline( ExpressionNode _expr )
 	{
-		_expr.replaceArguments( inline( _expr.arguments() ) );
+		if (null != _expr) {
+			_expr.replaceArguments( inline( _expr.arguments() ) );
+		}
 	}
 
 

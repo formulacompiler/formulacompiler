@@ -29,7 +29,7 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 {
 	private final GeneratedFunctionRewriter generatedRules = new GeneratedFunctionRewriter();
 
-	
+
 	public ExpressionRewriter()
 	{
 		super();
@@ -48,15 +48,20 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 
 	private ExpressionNode rewriteArgsOf( ExpressionNode _expr )
 	{
-		final List<ExpressionNode> args = _expr.arguments();
-		for (int iArg = 0; iArg < args.size(); iArg++) {
-			final ExpressionNode arg = args.get( iArg );
-			final ExpressionNode rewritten = rewrite( arg );
-			if (rewritten != arg) {
-				args.set( iArg, rewritten );
-			}
+		if (null == _expr) {
+			return null;
 		}
-		return _expr;
+		else {
+			final List<ExpressionNode> args = _expr.arguments();
+			for (int iArg = 0; iArg < args.size(); iArg++) {
+				final ExpressionNode arg = args.get( iArg );
+				final ExpressionNode rewritten = rewrite( arg );
+				if (rewritten != arg) {
+					args.set( iArg, rewritten );
+				}
+			}
+			return _expr;
+		}
 	}
 
 
