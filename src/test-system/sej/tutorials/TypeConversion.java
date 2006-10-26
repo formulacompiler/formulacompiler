@@ -28,6 +28,7 @@ import sej.EngineBuilder;
 import sej.NumericType;
 import sej.SEJ;
 import sej.SaveableEngine;
+import sej.internal.Debug;
 import sej.runtime.ScaledLong;
 import sej.tests.utils.Util;
 import junit.framework.TestCase;
@@ -65,6 +66,8 @@ public class TypeConversion extends TestCase
 		builder.setNumericType( _numericType );
 		builder.bindAllByName();
 		SaveableEngine engine = builder.compile();
+		
+		Debug.saveEngine( engine, "/temp/debug.jar" );
 		
 		AllTypesFactory factory = (AllTypesFactory) engine.getComputationFactory();
 

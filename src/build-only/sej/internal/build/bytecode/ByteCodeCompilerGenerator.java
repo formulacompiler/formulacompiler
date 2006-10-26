@@ -42,6 +42,7 @@ import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 import org.objectweb.asm.util.AbstractVisitor;
 
@@ -406,6 +407,7 @@ final class ByteCodeCompilerGenerator
 				switch (insnNode.getOpcode()) {
 					case Opcodes.ILOAD:
 					case Opcodes.DLOAD:
+					case Opcodes.FLOAD:
 					case Opcodes.LLOAD:
 					case Opcodes.ALOAD:
 						final VarInsnNode varNode = (VarInsnNode) insnNode;
@@ -440,6 +442,7 @@ final class ByteCodeCompilerGenerator
 
 					case Opcodes.ILOAD:
 					case Opcodes.DLOAD:
+					case Opcodes.FLOAD:
 					case Opcodes.LLOAD:
 					case Opcodes.ALOAD: {
 						final VarInsnNode varNode = (VarInsnNode) insnNode;
@@ -458,6 +461,7 @@ final class ByteCodeCompilerGenerator
 
 					case Opcodes.IRETURN:
 					case Opcodes.DRETURN:
+					case Opcodes.FRETURN:
 					case Opcodes.LRETURN:
 					case Opcodes.ARETURN:
 					case Opcodes.RETURN:
@@ -566,6 +570,7 @@ final class ByteCodeCompilerGenerator
 			else if (_insnNode instanceof LdcInsnNode) genInsn( (LdcInsnNode) _insnNode );
 			else if (_insnNode instanceof MethodInsnNode) genInsn( (MethodInsnNode) _insnNode );
 			else if (_insnNode instanceof FieldInsnNode) genInsn( (FieldInsnNode) _insnNode );
+			else if (_insnNode instanceof TypeInsnNode) genInsn( (TypeInsnNode) _insnNode );
 			// field
 			// LookupSwitch
 			// MultiANewArray
@@ -641,6 +646,13 @@ final class ByteCodeCompilerGenerator
 			startInsn( _node );
 			classBuilder.append( ", \"" ).append( _node.owner ).append( "\", \"" ).append( _node.name ).append( "\", \"" )
 					.append( _node.desc ).append( "\"" );
+			endInsn();
+		}
+
+		private void genInsn( TypeInsnNode _node )
+		{
+			startInsn( _node );
+			classBuilder.append( ", \"" ).append( _node.desc ).append( "\"" );
 			endInsn();
 		}
 

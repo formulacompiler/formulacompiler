@@ -37,7 +37,7 @@ abstract class ExpressionCompilerForBigDecimals_Base extends ExpressionCompilerF
 
 	protected final boolean needsValueAdjustment()
 	{
-		return (this.fixedScale != 0);
+		return (this.fixedScale != NumericType.UNDEFINED_SCALE);
 	}
 
 	protected final void compileValueAdjustment() throws CompilerException

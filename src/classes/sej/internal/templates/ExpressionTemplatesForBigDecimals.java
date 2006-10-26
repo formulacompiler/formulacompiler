@@ -97,61 +97,73 @@ public class ExpressionTemplatesForBigDecimals
 	}
 
 
+	@ReturnsAdjustedValue
 	byte util_toByte( BigDecimal a )
 	{
 		return a.byteValue();
 	}
 
+	@ReturnsAdjustedValue
 	short util_toShort( BigDecimal a )
 	{
 		return a.shortValue();
 	}
 
+	@ReturnsAdjustedValue
 	int util_toInt( BigDecimal a )
 	{
 		return a.intValue();
 	}
 
+	@ReturnsAdjustedValue
 	long util_toLong( BigDecimal a )
 	{
 		return a.longValue();
 	}
 
+	@ReturnsAdjustedValue
 	double util_toDouble( BigDecimal a )
 	{
 		return a.doubleValue();
 	}
 
+	@ReturnsAdjustedValue
 	float util_toFloat( BigDecimal a )
 	{
 		return a.floatValue();
 	}
 
+	@ReturnsAdjustedValue
 	BigInteger util_toBigInteger( BigDecimal a )
 	{
 		return a.toBigInteger();
 	}
 
+	@ReturnsAdjustedValue
 	BigDecimal util_toBigDecimal( BigDecimal a )
 	{
 		return a;
 	}
 
+	@ReturnsAdjustedValue
 	boolean util_toBoolean( BigDecimal a )
 	{
 		return !a.equals( BigDecimal.ZERO );
 	}
 
+	@ReturnsAdjustedValue
 	char util_toCharacter( BigDecimal a )
 	{
 		return (char) a.intValue();
 	}
 
+	@ReturnsAdjustedValue
 	Date util_toDate( BigDecimal a )
 	{
 		return RuntimeBigDecimal_v1.dateFromNum( a );
 	}
 
+	@ReturnsAdjustedValue
 	String util_toString( BigDecimal a )
 	{
 		return RuntimeBigDecimal_v1.toExcelString( a );
@@ -163,6 +175,7 @@ public class ExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v1.fromScaledLong( a, _scale );
 	}
 
+	@ReturnsAdjustedValue
 	long util_toScaledLong( BigDecimal a, int _scale )
 	{
 		return RuntimeBigDecimal_v1.toScaledLong( a, _scale );
