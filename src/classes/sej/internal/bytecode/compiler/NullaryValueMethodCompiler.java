@@ -20,30 +20,19 @@
  */
 package sej.internal.bytecode.compiler;
 
-import org.objectweb.asm.Opcodes;
-
 import sej.internal.expressions.DataType;
 
-abstract class ValueMethodCompiler extends TypedMethodCompiler
+abstract class NullaryValueMethodCompiler extends ValueMethodCompiler
 {
 
-	ValueMethodCompiler(SectionCompiler _section, int _access, String _methodName, DataType _type)
+	NullaryValueMethodCompiler(SectionCompiler _section, int _access, String _methodName, DataType _type)
 	{
-		super( _section, _access, _methodName, "()" + _section.engineCompiler().typeCompiler( _type ).typeDescriptor(), _type );
+		super( _section, _access, _methodName, "", _type );
 	}
 
-	ValueMethodCompiler(SectionCompiler _section, String _methodName, DataType _type)
+	NullaryValueMethodCompiler(SectionCompiler _section, String _methodName, DataType _type)
 	{
-		this( _section, Opcodes.ACC_PRIVATE, _methodName, _type );
+		this( _section, 0, _methodName, _type );
 	}
-
-
-	@Override
-	protected void endCompilation()
-	{
-		mv().visitInsn( typeCompiler().returnOpcode() );
-		super.endCompilation();
-	}
-
 
 }

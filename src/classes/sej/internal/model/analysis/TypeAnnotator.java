@@ -43,9 +43,9 @@ import sej.internal.model.RangeValue;
 
 public final class TypeAnnotator extends AbstractComputationModelVisitor
 {
-	private final LetDictionary<DataType> letDict = new LetDictionary<DataType>();
+	private final LetDictionary letDict = new LetDictionary();
 
-	private LetDictionary<DataType> letDict()
+	private LetDictionary letDict()
 	{
 		return this.letDict;
 	}
@@ -253,7 +253,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 	private DataType typeOf( ExpressionNodeForLet _expr ) throws CompilerException
 	{
 		final DataType valType = annotate( _expr.value() );
-		letDict().let( _expr.varName(), valType );
+		letDict().let( _expr.varName(), valType, null );
 		try {
 			return annotate( _expr.in() );
 		}
@@ -264,7 +264,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 
 	private DataType typeOf( ExpressionNodeForLetVar _expr )
 	{
-		return letDict().lookup( _expr.varName() );
+		return letDict().lookupType( _expr.varName() );
 	}
 
 	private DataType typeOf( ExpressionNodeForFold _expr ) throws CompilerException
@@ -278,7 +278,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		final DataType eltType = annotateFold( _expr );
 
 		final String firstName = _expr.firstName();
-		letDict().let( firstName, eltType );
+		letDict().let( firstName, eltType, null );
 		try {
 			annotate( _expr.firstValue() );
 		}
@@ -299,8 +299,8 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 
 		final String accName = _expr.accumulatorName();
 		final String eltName = _expr.elementName();
-		letDict().let( accName, resultType );
-		letDict().let( eltName, eltType );
+		letDict().let( accName, resultType, null );
+		letDict().let( eltName, eltType, null );
 		try {
 			annotate( _expr.accumulatingStep() );
 		}

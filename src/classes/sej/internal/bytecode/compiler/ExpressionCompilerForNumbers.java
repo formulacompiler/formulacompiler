@@ -38,6 +38,7 @@ import sej.Operator;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
+import sej.internal.expressions.LetDictionary.LetEntry;
 import sej.internal.model.ExpressionNodeForPartialAggregation;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.Aggregation.NonNullCountingAggregation;
@@ -552,7 +553,8 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers
 		switch (_node.getFunction()) {
 
 			case MATCH:
-				compileHelpedExpr( new HelperCompilerForMatch( section(), _node ) );
+				Iterable<LetEntry> closure = closureOf( _node );
+				compileHelpedExpr( new HelperCompilerForMatch( sectionInContext(), _node, closure ), closure );
 				return;
 
 			case LEN:
@@ -657,10 +659,10 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers
 		for (ExpressionNode arg : _node.arguments()) {
 			if (arg instanceof ExpressionNodeForSubSectionModel) {
 				ExpressionNodeForSubSectionModel subArg = (ExpressionNodeForSubSectionModel) arg;
-				SubSectionCompiler sub = section().subSectionCompiler( subArg.getSectionModel() );
+				SubSectionCompiler sub = sectionInContext().subSectionCompiler( subArg.getSectionModel() );
 
-				mv.loadThis();
-				section().compileCallToGetterFor( mv, sub );
+				mv.visitVarInsn( Opcodes.ALOAD, method().objectInContext() );
+				sectionInContext().compileCallToGetterFor( mv, sub );
 				mv.arrayLength();
 				mv.push( subArg.arguments().size() );
 				mv.visitInsn( Opcodes.IMUL );

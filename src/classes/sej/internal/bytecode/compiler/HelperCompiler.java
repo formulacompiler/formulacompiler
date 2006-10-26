@@ -23,12 +23,11 @@ package sej.internal.bytecode.compiler;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.objectweb.asm.Opcodes;
-
 import sej.CompilerException;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.LetDictionary.LetEntry;
 import sej.internal.model.ExpressionNodeForRangeValue;
 import sej.internal.model.RangeValue;
 
@@ -38,20 +37,40 @@ abstract class HelperCompiler extends ValueMethodCompiler
 	private final ExpressionNode node;
 
 
-	HelperCompiler(SectionCompiler _section, int _access, ExpressionNode _node)
+	HelperCompiler(SectionCompiler _section, int _access, ExpressionNode _node, Iterable<LetEntry> _closure)
 	{
-		super( _section, _access, _section.newGetterName(), _node.getDataType() );
+		super( _section, _access, _section.newGetterName(), descriptorOf( _section, _closure ), _node.getDataType() );
 		this.node = _node;
+		addClosureToLetDict( _closure );
 	}
-	
-	HelperCompiler(SectionCompiler _section, ExpressionNode _node)
+
+	HelperCompiler(SectionCompiler _section, ExpressionNode _node, Iterable<LetEntry> _closure)
 	{
-		this( _section, Opcodes.ACC_PRIVATE, _node );
+		this( _section, 0, _node, _closure );
 	}
-	
+
+	private static final String descriptorOf( SectionCompiler _section, Iterable<LetEntry> _closure )
+	{
+		StringBuffer b = new StringBuffer();
+		for (LetEntry entry : _closure) {
+			b.append( _section.engineCompiler().typeCompiler( entry.type ).typeDescriptor() );
+		}
+		return b.toString();
+	}
+
 	protected final ExpressionNode node()
 	{
 		return this.node;
+	}
+
+	
+	private final void addClosureToLetDict( Iterable<LetEntry> _closure )
+	{
+		int iArg = 1; // 0 is "this"
+		for (LetEntry entry : _closure) {
+			letDict().let( entry.name, entry.type, Integer.valueOf( iArg ) );
+			iArg += section().engineCompiler().typeCompiler( entry.type ).type().getSize();
+		}
 	}
 
 
