@@ -38,7 +38,6 @@ import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
 import sej.internal.model.ExpressionNodeForRangeValue;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
-import sej.internal.model.ExpressionNodeForSubstitution;
 import sej.internal.model.RangeValue;
 
 
@@ -117,7 +116,6 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		if (_expr instanceof ExpressionNodeForLetVar) return typeOf( (ExpressionNodeForLetVar) _expr );
 		if (_expr instanceof ExpressionNodeForFold) return typeOf( (ExpressionNodeForFold) _expr );
 		if (_expr instanceof ExpressionNodeForFold1st) return typeOf( (ExpressionNodeForFold1st) _expr );
-		if (_expr instanceof ExpressionNodeForSubstitution) return typeOf( (ExpressionNodeForSubstitution) _expr );
 
 		unsupported( _expr );
 		return null;
@@ -312,12 +310,6 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		}
 
 		return eltType;
-	}
-
-	private DataType typeOf( ExpressionNodeForSubstitution _expr ) throws CompilerException
-	{
-		annotateArgs( _expr );
-		return typeOf( _expr.arguments() );
 	}
 
 

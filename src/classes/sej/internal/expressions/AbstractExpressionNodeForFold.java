@@ -10,12 +10,14 @@ public abstract class AbstractExpressionNodeForFold extends ExpressionNode
 {
 	private final String accumulatorName;
 	private final String elementName;
+	private final boolean canInlineFirst;
 
-	protected AbstractExpressionNodeForFold(String _accumulatorName, String _elementName)
+	protected AbstractExpressionNodeForFold(String _accumulatorName, String _elementName, boolean _canInlineFirst)
 	{
 		super();
 		this.accumulatorName = _accumulatorName;
 		this.elementName = _elementName;
+		this.canInlineFirst = _canInlineFirst;
 	}
 
 	
@@ -49,6 +51,11 @@ public abstract class AbstractExpressionNodeForFold extends ExpressionNode
 	public final ExpressionNode accumulatingStep()
 	{
 		return argument( 1 );
+	}
+	
+	public final boolean canInlineFirst()
+	{
+		return this.canInlineFirst;
 	}
 
 	public final Iterable<ExpressionNode> elements()

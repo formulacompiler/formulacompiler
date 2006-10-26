@@ -27,7 +27,6 @@ import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.LetDictionary;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
-import sej.internal.model.ExpressionNodeForSubstitution;
 
 
 class HelperCompilerForIterativeFold extends HelperCompiler
@@ -69,8 +68,15 @@ class HelperCompilerForIterativeFold extends HelperCompiler
 	protected void compileFold( FoldContext _context, Iterable<ExpressionNode> _elts, int _localResult )
 			throws CompilerException
 	{
-		expc().compile( _context.node.initialAccumulatorValue() );
-		compileFoldWithChainedInitialValue( _context, _elts, _localResult, null );
+		ExpressionNode first;
+		if (_context.node.canInlineFirst() && (first = expc().firstStaticElementIn( _elts )) != null) {
+			expc().compile( first );
+			compileFoldWithChainedInitialValue( _context, _elts, _localResult, first );
+		}
+		else {
+			expc().compile( _context.node.initialAccumulatorValue() );
+			compileFoldWithChainedInitialValue( _context, _elts, _localResult, null );
+		}
 	}
 
 
@@ -103,10 +109,7 @@ class HelperCompilerForIterativeFold extends HelperCompiler
 	{
 		final int reuseLocalsAt = localsOffset();
 		for (final ExpressionNode elt : _elts) {
-			if (elt instanceof ExpressionNodeForSubstitution) {
-				compileIterativeFoldOverRepeatingElements( _context, elt.arguments(), _localAccumulator );
-			}
-			else if (elt instanceof ExpressionNodeForSubSectionModel) {
+			if (elt instanceof ExpressionNodeForSubSectionModel) {
 				resetLocalsTo( reuseLocalsAt );
 				compileIterativeFoldOverRepeatingElement( _context, _localAccumulator,
 						(ExpressionNodeForSubSectionModel) elt );

@@ -46,7 +46,6 @@ import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
-import sej.internal.model.ExpressionNodeForSubstitution;
 
 abstract class ExpressionCompiler
 {
@@ -241,14 +240,6 @@ abstract class ExpressionCompiler
 		else if (_node instanceof ExpressionNodeForInnerFoldedObjRef) {
 			final ExpressionNodeForInnerFoldedObjRef node = (ExpressionNodeForInnerFoldedObjRef) _node;
 			compileInnerFoldedObjRef( node );
-		}
-
-		else if (_node instanceof ExpressionNodeForSubstitution) {
-			if (_node.cardinality() != 1) {
-				throw new CompilerException.UnsupportedExpression(
-						"Internal error: subexpr node must have exactly one argument" );
-			}
-			compile( _node.argument( 0 ) );
 		}
 
 		else {
@@ -569,9 +560,15 @@ abstract class ExpressionCompiler
 		if (isSubSectionIn( _node.elements() )) {
 			compileHelpedExpr( new HelperCompilerForIterativeFold( section(), _node.elements(), foldContext, letDict() ) );
 		}
+		else if (_node.canInlineFirst()) {
+			final Iterable<ExpressionNode> elts = _node.elements();
+			final ExpressionNode first = firstStaticElementIn( elts );
+			compile( first );
+			compileChainedFoldOverNonRepeatingElements( foldContext, elts, first );
+		}
 		else {
-			compile( foldContext.node.initialAccumulatorValue() );
-			compileChainedFoldOverNonRepeatingElements( foldContext, foldContext.node.elements(), null );
+			compile( _node.initialAccumulatorValue() );
+			compileChainedFoldOverNonRepeatingElements( foldContext, _node.elements(), null );
 		}
 	}
 
@@ -592,26 +589,17 @@ abstract class ExpressionCompiler
 	final boolean isSubSectionIn( Iterable<ExpressionNode> _elts )
 	{
 		for (ExpressionNode elt : _elts) {
-			if (elt instanceof ExpressionNodeForSubstitution) {
-				if (isSubSectionIn( elt.arguments() )) {
-					return true;
-				}
-			}
-			else if (elt instanceof ExpressionNodeForSubSectionModel) {
+			if (elt instanceof ExpressionNodeForSubSectionModel) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	final ExpressionNode firstStaticElementIn( Iterable<ExpressionNode> _elts ) throws CompilerException
+	final ExpressionNode firstStaticElementIn( Iterable<ExpressionNode> _elts )
 	{
 		for (ExpressionNode elt : _elts) {
-			if (elt instanceof ExpressionNodeForSubstitution) {
-				final ExpressionNode subFirst = firstStaticElementIn( elt.arguments() );
-				if (subFirst != null) return subFirst;
-			}
-			else if (!(elt instanceof ExpressionNodeForSubSectionModel)) {
+			if (!(elt instanceof ExpressionNodeForSubSectionModel)) {
 				return elt;
 			}
 		}
@@ -626,10 +614,7 @@ abstract class ExpressionCompiler
 		try {
 			final int reuseLocalsAt = localsOffset();
 			for (final ExpressionNode elt : _elts) {
-				if (elt instanceof ExpressionNodeForSubstitution) {
-					compileChainedFoldOverNonRepeatingElements( _context, elt.arguments(), _except );
-				}
-				else if ((elt != _except) && !(elt instanceof ExpressionNodeForSubSectionModel)) {
+				if ((elt != _except) && !(elt instanceof ExpressionNodeForSubSectionModel)) {
 					resetLocalsTo( reuseLocalsAt );
 					compileElementFold( _context, elt );
 				}

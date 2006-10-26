@@ -12,7 +12,7 @@ public class ExpressionNodeForFold1st extends AbstractExpressionNodeForFold
 
 	private ExpressionNodeForFold1st(String _firstName, String _accumulatorName, String _elementName)
 	{
-		super( _accumulatorName, _elementName );
+		super( _accumulatorName, _elementName, true );
 		this.firstName = _firstName;
 	}
 

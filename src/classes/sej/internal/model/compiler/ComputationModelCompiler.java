@@ -34,6 +34,7 @@ import sej.internal.model.analysis.TypeAnnotator;
 import sej.internal.model.optimizer.ConstantSubExpressionEliminator;
 import sej.internal.model.optimizer.IntermediateResultsInliner;
 import sej.internal.model.rewriting.ModelRewriter;
+import sej.internal.model.rewriting.SubstitutionInliner;
 import sej.internal.model.util.InterpretedNumericType;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.binding.InputCellBinding;
@@ -67,9 +68,10 @@ public final class ComputationModelCompiler
 	public ComputationModel compile() throws CompilerException
 	{
 		buildNewModel();
-		rewriteExpression();
+		rewriteExpressions();
 		eliminateConstantSubExpressions();
 		inlineIntermediateResults();
+		inlineSubstitutions();
 		annotateTypes();
 		return this.computationModel;
 	}
@@ -184,7 +186,7 @@ public final class ComputationModelCompiler
 	}
 
 
-	private void rewriteExpression() throws CompilerException
+	private void rewriteExpressions() throws CompilerException
 	{
 		this.computationModel.traverse( new ModelRewriter() );
 	}
@@ -199,6 +201,11 @@ public final class ComputationModelCompiler
 	private void inlineIntermediateResults() throws CompilerException
 	{
 		this.computationModel.traverse( new IntermediateResultsInliner() );
+	}
+
+	private void inlineSubstitutions() throws CompilerException
+	{
+		this.computationModel.traverse( new SubstitutionInliner() );
 	}
 
 	private void annotateTypes() throws CompilerException
