@@ -29,6 +29,7 @@ import sej.Operator;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
+import sej.internal.expressions.ExpressionNodeForFold1st;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
@@ -83,9 +84,16 @@ abstract class AbstractExpressionRewriter
 
 
 	protected final ExpressionNode foldl( String _acc, ExpressionNode _init, String _x, ExpressionNode _fold,
-			ExpressionNode _xs )
+			boolean _canInlineFirst, ExpressionNode _xs )
 	{
-		return new ExpressionNodeForFold( _acc, _init, _x, _fold, _xs );
+		return new ExpressionNodeForFold( _acc, _init, _x, _fold, _canInlineFirst, _xs );
+	}
+
+
+	protected final ExpressionNode foldl1( String _x0, ExpressionNode _v0, String _acc, String _xi, ExpressionNode _fold,
+			ExpressionNode _empty, ExpressionNode _xs )
+	{
+		return new ExpressionNodeForFold1st( _x0, _v0, _acc, _xi, _fold, _empty, _xs );
 	}
 
 

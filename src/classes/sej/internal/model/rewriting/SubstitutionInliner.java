@@ -20,37 +20,63 @@
  */
 package sej.internal.model.rewriting;
 
-import sej.Function;
-import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.ExpressionNodeForFunction;
-import sej.internal.model.CellModel;
-import sej.internal.model.ComputationModel;
-import sej.internal.model.ExpressionNodeForCellModel;
-import sej.internal.model.SectionModel;
-import sej.tests.utils.Inputs;
-import sej.tests.utils.OutputsWithoutCaching;
-import junit.framework.TestCase;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ModelRewriterTest extends TestCase
+import sej.CompilerException;
+import sej.internal.expressions.ExpressionNode;
+import sej.internal.model.AbstractComputationModelVisitor;
+import sej.internal.model.CellModel;
+import sej.internal.model.ExpressionNodeForSubstitution;
+
+
+public final class SubstitutionInliner extends AbstractComputationModelVisitor
 {
 
-
-	public void testSUM() throws Exception
+	public SubstitutionInliner()
 	{
-		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
-		final SectionModel rootModel = engineModel.getRoot();
-		final CellModel a = new CellModel( rootModel, "a" );
-		final CellModel b = new CellModel( rootModel, "b" );
-		final CellModel c = new CellModel( rootModel, "c" );
-		final CellModel r = new CellModel( rootModel, "r" );
+		super();
+	}
 
-		r.setExpression( new ExpressionNodeForFunction( Function.SUM, new ExpressionNode[] {
-				new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
-				new ExpressionNodeForCellModel( c ) } ) );
 
-		engineModel.traverse( new ModelRewriter() );
+	@Override
+	public boolean visit( CellModel _cell ) throws CompilerException
+	{
+		final ExpressionNode expr = _cell.getExpression();
+		if (null != expr) {
+			inline( expr );
+		}
+		return true;
+	}
 
-		assertEquals( "_FOLDL_1ST_OK( r: 0.0; xi: (`r + `xi); ( a, b, c ) )", r.getExpression().toString() );
+
+	private void inline( ExpressionNode _expr )
+	{
+		_expr.replaceArguments( inline( _expr.arguments() ) );
+	}
+
+
+	private List<ExpressionNode> inline( List<ExpressionNode> _list )
+	{
+		List<ExpressionNode> result = new ArrayList<ExpressionNode>();
+		for (final ExpressionNode node : _list) {
+			inline( node, result );
+		}
+		return result;
+	}
+
+
+	private void inline( ExpressionNode _node, List<ExpressionNode> _result )
+	{
+		if (_node instanceof ExpressionNodeForSubstitution) {
+			for (final ExpressionNode elt : _node.arguments()) {
+				inline( elt, _result );
+			}
+		}
+		else {
+			inline( _node );
+			_result.add( _node );
+		}
 	}
 
 

@@ -32,6 +32,7 @@ import sej.internal.build.Util;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
+import sej.internal.expressions.ExpressionNodeForFold1st;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
@@ -183,6 +184,7 @@ public abstract class AbstractRewriteRulesCompiler
 		else if (_node instanceof ExpressionNodeForLetVar) compileLetVar( (ExpressionNodeForLetVar) _node, _b );
 		else if (_node instanceof ExpressionNodeForLet) compileLet( (ExpressionNodeForLet) _node, _b );
 		else if (_node instanceof ExpressionNodeForFold) compileFold( (ExpressionNodeForFold) _node, _b );
+		else if (_node instanceof ExpressionNodeForFold1st) compileFold1st( (ExpressionNodeForFold1st) _node, _b );
 		else throw new Exception( "Unsupported expression: " + _node.toString() );
 	}
 
@@ -268,6 +270,20 @@ public abstract class AbstractRewriteRulesCompiler
 		compileExpr( _fold.initialAccumulatorValue(), _b );
 		_b.append( ", \"" ).append( _fold.elementName() ).append( "\", " );
 		compileExpr( _fold.accumulatingStep(), _b );
+		_b.append( ", " ).append( _fold.canInlineFirst() ? "true" : "false" ).append( ", " );
+		compileArgs( _fold.elements(), _b );
+		_b.append( " )" );
+	}
+
+
+	private void compileFold1st( ExpressionNodeForFold1st _fold, DescriptionBuilder _b ) throws Exception
+	{
+		_b.append( "foldl1( \"" ).append( _fold.firstName() ).append( "\", " );
+		compileExpr( _fold.firstValue(), _b );
+		_b.append( ", \"" ).append( _fold.accumulatorName() ).append( "\", \"" ).append( _fold.elementName() ).append( "\", " );
+		compileExpr( _fold.accumulatingStep(), _b );
+		_b.append( ", " );
+		compileExpr( _fold.emptyValue(), _b );
 		_b.append( ", " );
 		compileArgs( _fold.elements(), _b );
 		_b.append( " )" );

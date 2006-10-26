@@ -60,22 +60,27 @@ public abstract class ExpressionNode extends AbstractDescribable
 	}
 
 
-	public List<ExpressionNode> arguments()
+	public final List<ExpressionNode> arguments()
 	{
 		return this.arguments;
 	}
 
-	public ExpressionNode argument( int _i )
+	public final ExpressionNode argument( int _i )
 	{
 		return arguments().get( _i );
 	}
 
-	public void addArgument( ExpressionNode _arg )
+	public final void addArgument( ExpressionNode _arg )
 	{
 		this.arguments.add( _arg );
 	}
 
-	public int cardinality()
+	public final void replaceArguments( List<ExpressionNode> _newArguments )
+	{
+		this.arguments = _newArguments;
+	}
+
+	public final int cardinality()
 	{
 		int result = arguments().size();
 		while ((result > 0) && (arguments().get( result - 1 ) == null)) {
@@ -85,28 +90,28 @@ public abstract class ExpressionNode extends AbstractDescribable
 	}
 
 
-	public DataType getDataType()
+	public final DataType getDataType()
 	{
 		return this.dataType;
 	}
 
-	public void setDataType( DataType _dataType )
+	public final void setDataType( DataType _dataType )
 	{
 		this.dataType = _dataType;
 	}
 
 
-	public ExpressionNode getDerivedFrom()
+	public final ExpressionNode getDerivedFrom()
 	{
 		return this.derivedFrom;
 	}
 
-	public void setDerivedFrom( ExpressionNode _node )
+	public final void setDerivedFrom( ExpressionNode _node )
 	{
 		this.derivedFrom = _node;
 	}
 
-	public ExpressionNode getOrigin()
+	public final ExpressionNode getOrigin()
 	{
 		return (this.derivedFrom == null) ? this : this.derivedFrom.getOrigin();
 	}
@@ -151,7 +156,7 @@ public abstract class ExpressionNode extends AbstractDescribable
 			throws IOException;
 
 
-	protected void describeArgumentTo( DescriptionBuilder _d, ExpressionDescriptionConfig _cfg, int _iArgument )
+	protected final void describeArgumentTo( DescriptionBuilder _d, ExpressionDescriptionConfig _cfg, int _iArgument )
 			throws IOException
 	{
 		final ExpressionNode arg = this.arguments().get( _iArgument );
@@ -161,7 +166,7 @@ public abstract class ExpressionNode extends AbstractDescribable
 	}
 
 
-	protected void describeArgumentListTo( DescriptionBuilder _d, ExpressionDescriptionConfig _cfg ) throws IOException
+	protected final void describeArgumentListTo( DescriptionBuilder _d, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
 		if (0 == arguments().size()) {
 			_d.append( "()" );
@@ -178,7 +183,7 @@ public abstract class ExpressionNode extends AbstractDescribable
 	}
 
 
-	protected void describeArgumentOrArgumentListTo( DescriptionBuilder _d, ExpressionDescriptionConfig _cfg )
+	protected final void describeArgumentOrArgumentListTo( DescriptionBuilder _d, ExpressionDescriptionConfig _cfg )
 			throws IOException
 	{
 		if (1 == arguments().size()) {
@@ -190,12 +195,12 @@ public abstract class ExpressionNode extends AbstractDescribable
 	}
 
 
-	public ExpressionContextProvider getContextProvider()
+	public final ExpressionContextProvider getContextProvider()
 	{
 		return this.contextProvider;
 	}
 
-	public void setContextProviderOnThisAndArgumentsRecursively( ExpressionContextProvider _provider )
+	public final void setContextProviderOnThisAndArgumentsRecursively( ExpressionContextProvider _provider )
 	{
 		this.contextProvider = _provider;
 		for (ExpressionNode arg : arguments()) {
@@ -205,7 +210,7 @@ public abstract class ExpressionNode extends AbstractDescribable
 		}
 	}
 
-	public String getContext( ExpressionNode _focusedNode )
+	public final String getContext( ExpressionNode _focusedNode )
 	{
 		final DescriptionBuilder builder = new DescriptionBuilder();
 		try {
@@ -217,7 +222,7 @@ public abstract class ExpressionNode extends AbstractDescribable
 		return builder.toString();
 	}
 
-	public void buildContext( DescriptionBuilder _builder, ExpressionNode _focusedNode ) throws IOException
+	public final void buildContext( DescriptionBuilder _builder, ExpressionNode _focusedNode ) throws IOException
 	{
 		ExpressionContextProvider prov = getNearestContextProvider();
 		if (null != prov) {
@@ -231,7 +236,7 @@ public abstract class ExpressionNode extends AbstractDescribable
 	}
 
 
-	private ExpressionContextProvider getNearestContextProvider()
+	private final ExpressionContextProvider getNearestContextProvider()
 	{
 		final ExpressionContextProvider prov = getContextProvider();
 		return (null == prov) ? getOrigin().getContextProvider() : prov;

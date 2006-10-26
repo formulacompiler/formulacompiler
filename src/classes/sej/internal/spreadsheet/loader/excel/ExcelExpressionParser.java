@@ -101,11 +101,13 @@ final class ExcelExpressionParser
 	}
 
 
-	Reference parseNamedRef( String _ident )
+	Reference parseNamedRef( String _ident ) throws Exception
 	{
+		if (null == this.workbook) {
+			throw new Exception( "Cannot parse " + _ident + " in this context - did you mean `" + _ident + "?" );
+		}
 		return this.workbook.getNamedRef( _ident );
 	}
-
 
 	CellIndex parseCellRefA1( String _ref )
 	{

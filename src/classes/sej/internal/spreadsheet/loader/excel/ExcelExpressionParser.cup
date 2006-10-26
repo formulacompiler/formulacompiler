@@ -49,7 +49,7 @@ terminal String CELLR1C1;
 terminal String COL;
 terminal String ROW;
 
-terminal LET, FOLDL;
+terminal LET, FOLDL, FOLDL1ST, FOLDL1STOK;
 terminal String LETVAR;
 
 non terminal expr_root;
@@ -222,7 +222,13 @@ expr ::=
 				{: RESULT = new ExpressionNodeForLet( n, v, in ); :}
 
 	|	FOLDL LPAREN NAME:acc COLON expr:init SEMICOLON NAME:x COLON expr:fold SEMICOLON args:args RPAREN
-				{: RESULT = new ExpressionNodeForFold( acc, init, x, fold, args ); :}
+				{: RESULT = new ExpressionNodeForFold( acc, init, x, fold, false, args ); :}
+
+	|	FOLDL1STOK LPAREN NAME:acc COLON expr:init SEMICOLON NAME:x COLON expr:fold SEMICOLON args:args RPAREN
+				{: RESULT = new ExpressionNodeForFold( acc, init, x, fold, true, args ); :}
+
+	|	FOLDL1ST LPAREN NAME:x0 COLON expr:v0 SEMICOLON NAME:acc NAME:xi COLON expr:fold SEMICOLON expr:other SEMICOLON args:args RPAREN
+				{: RESULT = new ExpressionNodeForFold1st( x0, v0, acc, xi, fold, other, args ); :}
 
 	|	IF LPAREN expr:test COMMA expr:t COMMA expr:f RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.IF, cell( test ), cell( t ), cell( f )); :}

@@ -42,6 +42,7 @@ import sej.internal.model.SectionModel;
 import sej.internal.model.analysis.TypeAnnotator;
 import sej.internal.model.optimizer.IntermediateResultsInliner;
 import sej.internal.model.rewriting.ModelRewriter;
+import sej.internal.model.rewriting.SubstitutionInliner;
 import sej.runtime.ComputationFactory;
 import sej.tests.utils.AbstractTestBase;
 import sej.tests.utils.Inputs;
@@ -90,6 +91,16 @@ public class LittleLanguageTests extends AbstractTestBase
 
 	public void testFold() throws Exception
 	{
+		checkFold( false );
+	}
+
+	public void testFold1stOK() throws Exception
+	{
+		checkFold( true );
+	}
+
+	private void checkFold( boolean _1stOK ) throws NoSuchMethodException, Exception
+	{
 		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
 		final SectionModel rootModel = engineModel.getRoot();
 		final CellModel a = new CellModel( rootModel, "a" );
@@ -101,13 +112,13 @@ public class LittleLanguageTests extends AbstractTestBase
 		b.setConstantValue( 2.0 );
 		c.setConstantValue( 3.0 );
 
-		final ExpressionNode init = new ExpressionNodeForConstantValue( 0 );
+		final ExpressionNode init = new ExpressionNodeForConstantValue( _1stOK ? 17 : 0 );
 		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
 				new ExpressionNodeForLetVar( "xi" ) );
 		final ExpressionNode[] args = new ExpressionNode[] { new ExpressionNodeForCellModel( a ),
 				new ExpressionNodeForCellModel( b ), new ExpressionNodeForCellModel( c ) };
 
-		r.setExpression( new ExpressionNodeForFold( "acc", init, "xi", fold, args ) );
+		r.setExpression( new ExpressionNodeForFold( "acc", init, "xi", fold, _1stOK, args ) );
 
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
@@ -121,6 +132,26 @@ public class LittleLanguageTests extends AbstractTestBase
 
 	public void testFoldOverSection() throws Exception
 	{
+		checkFoldOverSection( false, false );
+	}
+
+	public void testFold1stOKOverSection() throws Exception
+	{
+		checkFoldOverSection( true, false );
+	}
+
+	public void testFoldOverSectionOnly() throws Exception
+	{
+		checkFoldOverSection( false, true );
+	}
+
+	public void testFold1stOKOverSectionOnly() throws Exception
+	{
+		checkFoldOverSection( true, true );
+	}
+
+	private void checkFoldOverSection( boolean _1stOK, boolean _sectionOnly ) throws NoSuchMethodException, Exception
+	{
 		final ComputationModel engineModel = new ComputationModel( Inputs.class, Outputs.class );
 		final SectionModel rootModel = engineModel.getRoot();
 		final SectionModel subModel = new SectionModel( rootModel, "Sub", Inputs.class, null );
@@ -133,14 +164,20 @@ public class LittleLanguageTests extends AbstractTestBase
 		b.setConstantValue( 2.0 );
 		c.setConstantValue( 3.0 );
 
-		final ExpressionNode init = new ExpressionNodeForConstantValue( 0 );
+		final ExpressionNode init = new ExpressionNodeForConstantValue( _1stOK && !_sectionOnly ? 17 : 0 );
 		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
 				new ExpressionNodeForLetVar( "xi" ) );
-		final ExpressionNode[] args = new ExpressionNode[] { new ExpressionNodeForCellModel( a ),
-				new ExpressionNodeForCellModel( b ),
-				new ExpressionNodeForSubSectionModel( subModel, new ExpressionNodeForCellModel( c ) ) };
+		ExpressionNode[] args;
+		if (_sectionOnly) {
+			args = new ExpressionNode[] { new ExpressionNodeForSubSectionModel( subModel, new ExpressionNodeForCellModel(
+					c ) ) };
+		}
+		else {
+			args = new ExpressionNode[] { new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
+					new ExpressionNodeForSubSectionModel( subModel, new ExpressionNodeForCellModel( c ) ) };
+		}
 
-		r.setExpression( new ExpressionNodeForFold( "acc", init, "xi", fold, args ) );
+		r.setExpression( new ExpressionNodeForFold( "acc", init, "xi", fold, _1stOK, args ) );
 
 		subModel.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
@@ -149,7 +186,7 @@ public class LittleLanguageTests extends AbstractTestBase
 		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
 
 		final Inputs i = this.inputs;
-		assertDoubleResult( i.getDoubleA() + i.getDoubleB() + i.getDoubleC() * N_DET, engineModel );
+		assertDoubleResult( (_sectionOnly ? 0 : i.getDoubleA() + i.getDoubleB()) + i.getDoubleC() * N_DET, engineModel );
 	}
 
 
@@ -179,7 +216,7 @@ public class LittleLanguageTests extends AbstractTestBase
 				new ExpressionNodeForSubSectionModel( subModel, new ExpressionNodeForSubSectionModel( subsubModel,
 						new ExpressionNodeForCellModel( d ) ), new ExpressionNodeForCellModel( c ) ) };
 
-		r.setExpression( new ExpressionNodeForFold( "acc", init, "xi", fold, args ) );
+		r.setExpression( new ExpressionNodeForFold( "acc", init, "xi", fold, false, args ) );
 
 		subModel.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
 		subsubModel.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
@@ -218,6 +255,7 @@ public class LittleLanguageTests extends AbstractTestBase
 		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
 
 		engineModel.traverse( new ModelRewriter() );
+		engineModel.traverse( new SubstitutionInliner() );
 
 		final Inputs i = this.inputs;
 		final double expected = varp( i.getDoubleA(), i.getDoubleB(), i.getDoubleC() );
@@ -406,11 +444,6 @@ public class LittleLanguageTests extends AbstractTestBase
 						new ExpressionNodeForCellModel( b ) ),
 				new ExpressionNodeForSubSectionModel( subModel2, new ExpressionNodeForSubSectionModel( subsubModel,
 						new ExpressionNodeForCellModel( d ) ), new ExpressionNodeForCellModel( c ) ) };
-
-		final ExpressionNode[] args0 = new ExpressionNode[] { new ExpressionNodeForSubSectionModel( subModel2,
-				new ExpressionNodeForSubSectionModel( subsubModel, new ExpressionNodeForCellModel( d ) ),
-				new ExpressionNodeForCellModel( c ) ) };
-
 
 		r.setExpression( new ExpressionNodeForFold1st( "x0", init, "acc", "xi", fold, other, args ) );
 
