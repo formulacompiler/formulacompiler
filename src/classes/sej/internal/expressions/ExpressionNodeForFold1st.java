@@ -71,7 +71,7 @@ public class ExpressionNodeForFold1st extends AbstractExpressionNodeForFold
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
-		_to.append( "_FOLDL_1ST( " ).append( firstName() ).append( ": " );
+		_to.append( "_FOLD_1ST( " ).append( firstName() ).append( ": " );
 		firstValue().describeTo( _to, _cfg );
 		_to.append( "; " ).append( accumulatorName() ).append( ' ' ).append( elementName() ).append( ": " );
 		accumulatingStep().describeTo( _to, _cfg );

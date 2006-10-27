@@ -50,7 +50,7 @@ public class ModelRewriterTest extends TestCase
 
 		engineModel.traverse( new ModelRewriter() );
 
-		assertEquals( "_FOLDL_1ST_OK( r: 0.0; xi: (`r + `xi); ( a, b, c ) )", r.getExpression().toString() );
+		assertEquals( "_FOLD_1STOK( r: 0.0; xi: (`r + `xi); ( a, b, c ) )", r.getExpression().toString() );
 	}
 
 

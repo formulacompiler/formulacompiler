@@ -49,7 +49,7 @@ terminal String CELLR1C1;
 terminal String COL;
 terminal String ROW;
 
-terminal LET, FOLDL, FOLDL1ST, FOLDL1STOK;
+terminal LET, FOLD, FOLD1ST, FOLD1STOK;
 terminal String LETVAR;
 
 non terminal expr_root;
@@ -221,13 +221,13 @@ expr ::=
 	|	LET LPAREN NAME:n COLON expr:v SEMICOLON expr:in RPAREN
 				{: RESULT = new ExpressionNodeForLet( n, v, in ); :}
 
-	|	FOLDL LPAREN NAME:acc COLON expr:init SEMICOLON NAME:x COLON expr:fold SEMICOLON args:args RPAREN
+	|	FOLD LPAREN NAME:acc COLON expr:init SEMICOLON NAME:x COLON expr:fold SEMICOLON args:args RPAREN
 				{: RESULT = new ExpressionNodeForFold( acc, init, x, fold, false, args ); :}
 
-	|	FOLDL1STOK LPAREN NAME:acc COLON expr:init SEMICOLON NAME:x COLON expr:fold SEMICOLON args:args RPAREN
+	|	FOLD1STOK LPAREN NAME:acc COLON expr:init SEMICOLON NAME:x COLON expr:fold SEMICOLON args:args RPAREN
 				{: RESULT = new ExpressionNodeForFold( acc, init, x, fold, true, args ); :}
 
-	|	FOLDL1ST LPAREN NAME:x0 COLON expr:v0 SEMICOLON NAME:acc NAME:xi COLON expr:fold SEMICOLON expr:other SEMICOLON args:args RPAREN
+	|	FOLD1ST LPAREN NAME:x0 COLON expr:v0 SEMICOLON NAME:acc NAME:xi COLON expr:fold SEMICOLON expr:other SEMICOLON args:args RPAREN
 				{: RESULT = new ExpressionNodeForFold1st( x0, v0, acc, xi, fold, other, args ); :}
 
 	|	IF LPAREN expr:test COMMA expr:t COMMA expr:f RPAREN
