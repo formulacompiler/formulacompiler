@@ -154,12 +154,16 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		return false;
 	}
 
+	@SuppressWarnings("null")
 	protected final boolean fixArg( final List<ExpressionNode> _args, int _iArg, Object _const )
 	{
 		final ExpressionNode curr = _args.get( _iArg );
 		if (curr instanceof ExpressionNodeForConstantValue) {
 			final ExpressionNodeForConstantValue currConst = (ExpressionNodeForConstantValue) curr;
-			if (currConst.getValue().equals( _const )) {
+			if (null == currConst.getValue()) {
+				if (null == _const) return false;
+			}
+			else if (currConst.getValue().equals( _const )) {
 				return false;
 			}
 		}
