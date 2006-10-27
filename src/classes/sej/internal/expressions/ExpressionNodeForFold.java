@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import sej.describable.DescriptionBuilder;
 
-public class ExpressionNodeForFold extends AbstractExpressionNodeForFold
+public final class ExpressionNodeForFold extends AbstractExpressionNodeForFold
 {
 
 	private ExpressionNodeForFold(String _accumulatorName, String _elementName, boolean _canInlineFirst)
@@ -31,6 +31,12 @@ public class ExpressionNodeForFold extends AbstractExpressionNodeForFold
 		arguments().addAll( _elements );
 	}
 
+	
+	public final void neverInlineFirst()
+	{
+		setCanInlineFirst( false );
+	}
+	
 
 	@Override
 	public ExpressionNode cloneWithoutArguments()
@@ -39,6 +45,7 @@ public class ExpressionNodeForFold extends AbstractExpressionNodeForFold
 	}
 
 
+	// FIXME Rename FOLDL to FOLD because it does not have a predetermined order of evaluation of its arguments.
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{

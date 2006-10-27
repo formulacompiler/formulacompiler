@@ -33,7 +33,7 @@ public abstract class EvalShortCircuitedBooleanOperator extends EvalOperator
 	
 	
 	@Override
-	public Object eval()
+	protected Object eval()
 	{
 		final int card = cardinality();
 		switch (card) {

@@ -21,6 +21,7 @@
 package sej.internal.model.optimizer;
 
 import sej.Function;
+import sej.NumericType;
 import sej.SEJ;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
@@ -28,15 +29,23 @@ import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForRangeValue;
 import sej.internal.model.RangeValue;
+import sej.internal.model.rewriting.ModelRewriter;
 
 public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 {
 
+	@SuppressWarnings("unqualified-field-access")
+	protected final void optimize( NumericType _type ) throws Exception
+	{
+		model.traverse( new ModelRewriter() );
+		model.traverse( new ConstantSubExpressionEliminator( _type ) );
+	}
+	
 
 	@SuppressWarnings("unqualified-field-access")
 	public void testConstantCells() throws Exception
 	{
-		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
+		optimize( SEJ.DOUBLE );
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -52,7 +61,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 	@SuppressWarnings("unqualified-field-access")
 	public void testConstantCellsBigDecimal() throws Exception
 	{
-		model.traverse( new ConstantSubExpressionEliminator( SEJ.BIGDECIMAL8 ) );
+		optimize( SEJ.BIGDECIMAL8 );
 
 		// assertBigConst( "1", constCell ); -- still double because model was constructed that way
 		// assertBigConst( "3", constExpr );
@@ -70,7 +79,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 	{
 		makeConstCellInput();
 
-		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
+		optimize( SEJ.DOUBLE );
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -91,7 +100,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		CellModel sumOverInputsAndConsts = new CellModel( root, "SumOverInputsAndConsts" );
 		sumOverInputsAndConsts.setExpression( sum( ref( constCell ), ref( constExpr ), ref( constSum ) ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
+		optimize( SEJ.DOUBLE );
 
 		assertExpr( "SUM{5.0}( Inputs.getOne() )", sumOverInputsAndConsts );
 	}
@@ -105,7 +114,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		CellModel sumOverBand = new CellModel( root, "SumOverBand" );
 		sumOverBand.setExpression( sum( inner( band, ref( bandExpr ) ) ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
+		optimize( SEJ.DOUBLE );
 
 		assertExpr( "SUM( Band~>10.0 )", sumOverBand );
 	}
@@ -128,7 +137,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 				new RangeValue( 1, 1, 3 ), new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
 				new ExpressionNodeForCellModel( c ) ), new ExpressionNodeForCellModel( i ), null ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
+		optimize( SEJ.DOUBLE );
 
 		assertConst( 2.0, index );
 	}
@@ -150,7 +159,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 				new RangeValue( 1, 1, 3 ), new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
 				new ExpressionNodeForCellModel( c ) ), new ExpressionNodeForCellModel( i ), null ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
+		optimize( SEJ.DOUBLE );
 
 		assertExpr( "Inputs.getOne()", index );
 	}
@@ -172,7 +181,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 				new RangeValue( 1, 1, 3 ), new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
 				new ExpressionNodeForCellModel( c ) ), new ExpressionNodeForCellModel( i ), null ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
+		optimize( SEJ.DOUBLE );
 
 		assertExpr( "INDEX( {2.0, 3.0, 4.0}, Inputs.getOne(),  )", index );
 	}

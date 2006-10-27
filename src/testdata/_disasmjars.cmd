@@ -1,8 +1,13 @@
 setlocal
-set exp=%~dpn1.jar
-set act=%~dpn1-actual.jar
-set exp_out=%~dpn1.txt
-set act_out=%~dpn1-actual.txt
 
-"%JAVA_HOME%\bin\javap" -c -private -classpath %exp% sej/gen/$Root > %exp_out%
-"%JAVA_HOME%\bin\javap" -c -private -classpath %act% sej/gen/$Root > %act_out%
+call :disasm %~dpn1
+call :disasm %~dpn1-actual
+goto :EOF
+
+
+:disasm
+"%JAVA_HOME%\bin\javap" -c -private -classpath %1.jar sej/gen/$Root > %1.txt
+"%JAVA_HOME%\bin\javap" -c -private -classpath %1.jar sej/gen/$Sect0 >> %1.txt
+"%JAVA_HOME%\bin\javap" -c -private -classpath %1.jar sej/gen/$Sect1 >> %1.txt
+"%JAVA_HOME%\bin\javap" -c -private -classpath %1.jar sej/gen/$Sect2 >> %1.txt
+goto:EOF

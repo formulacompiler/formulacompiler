@@ -20,16 +20,24 @@
  */
 package sej.internal.model.optimizer;
 
-import sej.CompilerException;
 import sej.SEJ;
 import sej.internal.model.CellModel;
+import sej.internal.model.rewriting.ModelRewriter;
 
 public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 {
+	
+	@SuppressWarnings("unqualified-field-access")
+	protected final void optimize( ) throws Exception
+	{
+		model.traverse( new ModelRewriter() );
+		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
+		model.traverse( new IntermediateResultsInliner() );
+	}
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testInliningOfSingleRef() throws SecurityException, NoSuchMethodException, CompilerException
+	public void testInliningOfSingleRef() throws Exception
 	{
 		makeConstCellInput();
 
@@ -37,8 +45,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		otherRef.setExpression( plus( ref( bandRefSum ), outer( this.root, ref( constCell ) ) ) );
 		otherRef.makeOutput( getOutput( "getA" ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
-		model.traverse( new IntermediateResultsInliner() );
+		optimize( );
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -53,7 +60,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testNoInliningOfDoubleRef() throws SecurityException, NoSuchMethodException, CompilerException
+	public void testNoInliningOfDoubleRef() throws Exception
 	{
 		makeConstCellInput();
 		bandRefSum.makeOutput( getOutput( "getA" ) );
@@ -62,8 +69,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		otherRef.setExpression( ref( constRefSum ) );
 		otherRef.makeOutput( getOutput( "getB" ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
-		model.traverse( new IntermediateResultsInliner() );
+		optimize( );
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -78,7 +84,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testRepeatedInlining() throws SecurityException, NoSuchMethodException, CompilerException
+	public void testRepeatedInlining() throws Exception
 	{
 		makeConstCellInput();
 
@@ -86,8 +92,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		otherRef.setExpression( ref( bandRefSum ) );
 		otherRef.makeOutput( getOutput( "getA" ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
-		model.traverse( new IntermediateResultsInliner() );
+		optimize( );
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -103,7 +108,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testInliningOfAggregationArguments() throws SecurityException, NoSuchMethodException, CompilerException
+	public void testInliningOfAggregationArguments() throws Exception
 	{
 		makeConstCellInput();
 
@@ -111,8 +116,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		sum.setExpression( sum( inner( band, ref( bandRefSum ) ) ) );
 		sum.makeOutput( getOutput( "getA" ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
-		model.traverse( new IntermediateResultsInliner() );
+		optimize( );
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -128,7 +132,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testInliningOfAggregationArgumentsRefdByUnusedCell() throws SecurityException, NoSuchMethodException, CompilerException
+	public void testInliningOfAggregationArgumentsRefdByUnusedCell() throws Exception
 	{
 		makeConstCellInput();
 
@@ -139,8 +143,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		CellModel otherRef = new CellModel( this.band, "OtherRef " );
 		otherRef.setExpression( ref( bandRefSum ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
-		model.traverse( new IntermediateResultsInliner() );
+		optimize( );
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -156,7 +159,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testNoInliningOfDoubleRefAggregationArguments() throws SecurityException, NoSuchMethodException, CompilerException
+	public void testNoInliningOfDoubleRefAggregationArguments() throws Exception
 	{
 		makeConstCellInput();
 
@@ -168,8 +171,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		otherRef.setExpression( ref( bandRefSum ) );
 		otherRef.makeOutput( getOutput( "getB" ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
-		model.traverse( new IntermediateResultsInliner() );
+		optimize( );
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -185,7 +187,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 
 
 	@SuppressWarnings("unqualified-field-access")
-	public void testNoInliningOfOutputAggregationArguments() throws SecurityException, NoSuchMethodException, CompilerException
+	public void testNoInliningOfOutputAggregationArguments() throws Exception
 	{
 		makeConstCellInput();
 		bandRefSum.makeOutput( getOutput( "getA" ) );
@@ -194,8 +196,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		sum.setExpression( sum( inner( band, ref( bandRefSum ) ) ) );
 		sum.makeOutput( getOutput( "getB" ) );
 
-		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
-		model.traverse( new IntermediateResultsInliner() );
+		optimize( );
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
