@@ -244,12 +244,19 @@ public class ExpressionTemplatesForScaledLongs
 
 	long op_MIN( long a, long b )
 	{
-		return (a < b) ? a : b;
+		/*
+		 * Using a direct comparison like
+		 * 
+		 *   return (a < b) ? a : b;
+		 *   
+		 * generates too much code for inlining.
+		 */
+		return RuntimeLong_v1.min( a, b );
 	}
 
 	long op_MAX( long a, long b )
 	{
-		return (a > b) ? a : b;
+		return RuntimeLong_v1.max( a, b );
 	}
 
 	long op_AND( long a, long b )
