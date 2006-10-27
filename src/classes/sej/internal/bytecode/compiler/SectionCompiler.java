@@ -248,7 +248,7 @@ class SectionCompiler extends ClassCompiler
 	private void buildInputMember()
 	{
 		if (!hasInputs()) throw new IllegalStateException();
-		newField( Opcodes.ACC_FINAL, ByteCodeEngineCompiler.INPUTS_MEMBER_NAME, inputType().getDescriptor() );
+		newField( Opcodes.ACC_FINAL + Opcodes.ACC_PRIVATE, ByteCodeEngineCompiler.INPUTS_MEMBER_NAME, inputType().getDescriptor() );
 	}
 
 	private void storeInputs( GeneratorAdapter _mv )

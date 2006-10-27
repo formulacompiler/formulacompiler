@@ -33,7 +33,7 @@ public class EvalIf extends EvalFunction
 
 
 	@Override
-	public Object eval()
+	protected Object eval()
 	{
 		final int card = cardinality();
 		if (card > 0) {

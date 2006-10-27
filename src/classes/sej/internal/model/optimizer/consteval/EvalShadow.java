@@ -25,19 +25,20 @@ import java.util.List;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeShadow;
+import sej.internal.expressions.LetDictionary;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.util.InterpretedNumericType;
 
 public abstract class EvalShadow extends ExpressionNodeShadow
 {
-	
+
 	public static Object evaluate( ExpressionNode _expr, InterpretedNumericType _type )
 	{
 		EvalShadow shadow = (EvalShadow) ExpressionNodeShadow.shadow( _expr, new EvalShadowBuilder( _type ) );
-		return shadow.eval();
+		return shadow.evalIn( new LetDictionary() );
 	}
 
-	
+
 	private final InterpretedNumericType type;
 
 	EvalShadow(ExpressionNode _node, InterpretedNumericType _type)
@@ -52,7 +53,21 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	}
 
 
-	public Object eval()
+	private LetDictionary letDict;
+
+	private final Object evalIn( LetDictionary _letDict )
+	{
+		this.letDict = _letDict;
+		return eval();
+	}
+
+	protected final LetDictionary letDict()
+	{
+		return this.letDict;
+	}
+
+
+	protected Object eval()
 	{
 		final Object[] argValues = evaluateArguments();
 		return evaluateToConstOrExprWithConstantArgsFixed( argValues );
@@ -82,8 +97,12 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 
 	protected final Object evaluateArgument( int _index )
 	{
-		final EvalShadow argShadow = (EvalShadow) arguments().get( _index );
-		return (argShadow == null) ? null : argShadow.eval();
+		return evaluateArgument( (EvalShadow) arguments().get( _index ) );
+	}
+
+	protected final Object evaluateArgument( EvalShadow _arg )
+	{
+		return (_arg == null) ? null : _arg.evalIn( letDict() );
 	}
 
 
@@ -121,12 +140,31 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		final List<ExpressionNode> argNodes = node().arguments();
 		int iArg = 0;
 		for (Object arg : _args) {
-			if (!(arg instanceof ExpressionNode)) {
-				argNodes.set( iArg, new ExpressionNodeForConstantValue( arg ) );
-			}
+			fixArgIfConstant( argNodes, iArg, arg );
 			iArg++;
 		}
 		return node();
+	}
+
+	protected final boolean fixArgIfConstant( final List<ExpressionNode> _args, int _iArg, Object _arg )
+	{
+		if (isConstant( _arg )) {
+			return fixArg( _args, _iArg, _arg );
+		}
+		return false;
+	}
+
+	protected final boolean fixArg( final List<ExpressionNode> _args, int _iArg, Object _const )
+	{
+		final ExpressionNode curr = _args.get( _iArg );
+		if (curr instanceof ExpressionNodeForConstantValue) {
+			final ExpressionNodeForConstantValue currConst = (ExpressionNodeForConstantValue) curr;
+			if (currConst.getValue().equals( _const )) {
+				return false;
+			}
+		}
+		_args.set( _iArg, new ExpressionNodeForConstantValue( _const ) );
+		return true;
 	}
 
 

@@ -20,48 +20,37 @@
  */
 package sej.internal.model.optimizer.consteval;
 
-import java.util.List;
-
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.ExpressionNodeShadow;
-import sej.internal.model.util.InterpretedNumericType;
 
-public class EvalIndex extends EvalFunction
+public class EvalSubstitution extends EvalShadow
 {
 
-	public EvalIndex(ExpressionNode _node, InterpretedNumericType _type)
+	public EvalSubstitution(ExpressionNode _node)
 	{
-		super( _node, _type );
+		super( _node, null );
 	}
-
 
 	@Override
-	protected Object eval()
+	protected Object evaluateToConst( Object[] _args )
 	{
-		final int card = cardinality();
-		switch (card) {
-			
-			case 2: { // one-dimensional lookup
-				final Object indexArg = evaluateArgument( 1 );
-				if (isConstant( indexArg )) {
-					final int index = type().toInt( indexArg, 0 ) - 1;
-					if (index < 0) {
-						return null;
-					}
-					final EvalRangeValue rangeArg = (EvalRangeValue) arguments().get( 0 );
-					final List<ExpressionNodeShadow> args = rangeArg.arguments();
-					if (index >= args.size()) {
-						return null;
-					}
-					final EvalShadow arg = (EvalShadow) args.get( index );
-					return evaluateArgument( arg );
-				}
-				break;
-			}
-				
+		if (_args.length == 1) {
+			return _args[ 0 ];
 		}
-		
-		return super.eval();
+		else {
+			return nodeWithConstantArgsFixed( _args );
+		}
 	}
 
+	@Override
+	protected Object nodeWithConstantArgsFixed( Object[] _args )
+	{
+		if (_args.length == 1) {
+			// Skip the substitution node right away.
+			return node().argument( 0 );
+		}
+		else {
+			return super.nodeWithConstantArgsFixed( _args );
+		}
+	}
+	
 }

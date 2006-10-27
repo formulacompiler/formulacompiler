@@ -22,12 +22,17 @@ package sej.internal.model.optimizer.consteval;
 
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.ExpressionNodeForFold;
+import sej.internal.expressions.ExpressionNodeForFold1st;
 import sej.internal.expressions.ExpressionNodeForFunction;
+import sej.internal.expressions.ExpressionNodeForLet;
+import sej.internal.expressions.ExpressionNodeForLetVar;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.expressions.ExpressionNodeShadow;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
 import sej.internal.model.ExpressionNodeForRangeValue;
+import sej.internal.model.ExpressionNodeForSubstitution;
 import sej.internal.model.util.InterpretedNumericType;
 
 public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
@@ -43,12 +48,17 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 	public ExpressionNodeShadow shadow( ExpressionNode _node )
 	{
 		if (_node instanceof ExpressionNodeForConstantValue) return new EvalConstantValue( _node, this.type );
-		if (_node instanceof ExpressionNodeForRangeValue) return new EvalRangeValue( _node, this.type );
-		if (_node instanceof ExpressionNodeForOperator) return newEvalOperator( (ExpressionNodeForOperator) _node );
-		if (_node instanceof ExpressionNodeForFunction) return newEvalFunction( (ExpressionNodeForFunction) _node );
-		if (_node instanceof ExpressionNodeForCellModel) return new EvalCell( _node, this.type );
-		if (_node instanceof ExpressionNodeForParentSectionModel) return new EvalPassthrough( _node );
-		return new EvalNonFoldable( _node );
+		else if (_node instanceof ExpressionNodeForRangeValue) return new EvalRangeValue( _node, this.type );
+		else if (_node instanceof ExpressionNodeForOperator) return newEvalOperator( (ExpressionNodeForOperator) _node );
+		else if (_node instanceof ExpressionNodeForFunction) return newEvalFunction( (ExpressionNodeForFunction) _node );
+		else if (_node instanceof ExpressionNodeForCellModel) return new EvalCell( _node, this.type );
+		else if (_node instanceof ExpressionNodeForParentSectionModel) return new EvalPassthrough( _node );
+		else if (_node instanceof ExpressionNodeForSubstitution) return new EvalSubstitution( _node );
+		else if (_node instanceof ExpressionNodeForLet) return new EvalLet( (ExpressionNodeForLet) _node, this.type );
+		else if (_node instanceof ExpressionNodeForLetVar) return new EvalLetVar( (ExpressionNodeForLetVar) _node, this.type );
+		else if (_node instanceof ExpressionNodeForFold) return new EvalFold( (ExpressionNodeForFold) _node, this.type );
+		// else if (_node instanceof ExpressionNodeForFold1st) return new EvalFold1st( (ExpressionNodeFold1st) _node, this.type );
+		else return new EvalNonFoldable( _node );
 	}
 
 	private ExpressionNodeShadow newEvalOperator( ExpressionNodeForOperator _node )
