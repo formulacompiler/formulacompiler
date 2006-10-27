@@ -40,7 +40,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		model.traverse( new ModelRewriter() );
 		model.traverse( new ConstantSubExpressionEliminator( _type ) );
 	}
-	
+
 
 	@SuppressWarnings("unqualified-field-access")
 	public void testConstantCells() throws Exception
@@ -102,7 +102,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 		optimize( SEJ.DOUBLE );
 
-		assertExpr( "SUM{5.0}( Inputs.getOne() )", sumOverInputsAndConsts );
+		assertExpr( "_FOLD( r: 5.0; xi: (`r + `xi); Inputs.getOne() )", sumOverInputsAndConsts );
 	}
 
 
@@ -116,7 +116,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 		optimize( SEJ.DOUBLE );
 
-		assertExpr( "SUM( Band~>10.0 )", sumOverBand );
+		assertExpr( "_FOLD_1STOK( r: 0.0; xi: (`r + `xi); ( Band~>10.0 ) )", sumOverBand );
 	}
 
 

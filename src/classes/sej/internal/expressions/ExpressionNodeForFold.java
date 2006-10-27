@@ -49,7 +49,7 @@ public final class ExpressionNodeForFold extends AbstractExpressionNodeForFold
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
-		_to.append( canInlineFirst() ? "_FOLDL_1ST_OK( " : "_FOLDL( " ).append( accumulatorName() ).append( ": " );
+		_to.append( canInlineFirst() ? "_FOLD_1STOK( " : "_FOLD( " ).append( accumulatorName() ).append( ": " );
 		initialAccumulatorValue().describeTo( _to, _cfg );
 		_to.append( "; " ).append( elementName() ).append( ": " );
 		accumulatingStep().describeTo( _to, _cfg );

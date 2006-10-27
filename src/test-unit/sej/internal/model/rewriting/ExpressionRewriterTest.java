@@ -36,18 +36,18 @@ public class ExpressionRewriterTest extends TestCase
 
 	public void testSUM() throws Exception
 	{
-		assertRewrite( "_FOLDL_1ST_OK( r: 0.0; xi: (`r + `xi); ( A1:A2 ) )", "SUM( A1:A2 )" );
+		assertRewrite( "_FOLD_1STOK( r: 0.0; xi: (`r + `xi); ( A1:A2 ) )", "SUM( A1:A2 )" );
 	}
 
 	public void testAVERAGE() throws Exception
 	{
-		assertRewrite( "(_FOLDL_1ST_OK( r: 0.0; xi: (`r + `xi); ( A1:A2 ) ) / COUNT( ( A1:A2 ) ))", "AVERAGE( A1:A2 )" );
+		assertRewrite( "(_FOLD_1STOK( r: 0.0; xi: (`r + `xi); ( A1:A2 ) ) / COUNT( ( A1:A2 ) ))", "AVERAGE( A1:A2 )" );
 	}
 
 	public void testVARP() throws Exception
 	{
 		assertRewrite(
-				"_LET( c: COUNT( ( A1:A2 ) ); (_LET( m: (_FOLDL_1ST_OK( r: 0.0; xi: (`r + `xi); ( A1:A2 ) ) / `c); _FOLDL( r: 0.0; xi: _LET( ei: (`xi - `m); (`r + (`ei * `ei)) ); ( A1:A2 ) ) ) / `c) )",
+				"_LET( c: COUNT( ( A1:A2 ) ); (_LET( m: (_FOLD_1STOK( r: 0.0; xi: (`r + `xi); ( A1:A2 ) ) / `c); _FOLD( r: 0.0; xi: _LET( ei: (`xi - `m); (`r + (`ei * `ei)) ); ( A1:A2 ) ) ) / `c) )",
 				"VARP( A1:A2 )" );
 	}
 

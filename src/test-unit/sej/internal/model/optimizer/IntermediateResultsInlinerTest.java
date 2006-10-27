@@ -127,7 +127,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertConst( 11.0, bandOther );
 		assertNull( bandRefSum.getExpression() );
 
-		assertExpr( "SUM( Band~>(33.0 + <~ConstRefSum) )", sum );
+		assertExpr( "_FOLD_1STOK( r: 0.0; xi: (`r + `xi); ( Band~>(33.0 + <~ConstRefSum) ) )", sum );
 	}
 
 
@@ -154,7 +154,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertConst( 11.0, bandOther );
 		assertNull( bandRefSum.getExpression() );
 
-		assertExpr( "SUM( Band~>(33.0 + <~ConstRefSum) )", sum );
+		assertExpr( "_FOLD_1STOK( r: 0.0; xi: (`r + `xi); ( Band~>(33.0 + <~ConstRefSum) ) )", sum );
 	}
 
 
@@ -182,7 +182,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertConst( 11.0, bandOther );
 		assertExpr( "(33.0 + <~ConstRefSum)", bandRefSum );
 
-		assertExpr( "SUM( Band~>BandRefSum )", sum );
+		assertExpr( "_FOLD_1STOK( r: 0.0; xi: (`r + `xi); ( Band~>BandRefSum ) )", sum );
 	}
 
 
@@ -207,7 +207,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertConst( 11.0, bandOther );
 		assertExpr( "(33.0 + <~ConstRefSum)", bandRefSum );
 
-		assertExpr( "SUM( Band~>BandRefSum )", sum );
+		assertExpr( "_FOLD_1STOK( r: 0.0; xi: (`r + `xi); ( Band~>BandRefSum ) )", sum );
 	}
 
 
