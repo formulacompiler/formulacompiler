@@ -91,6 +91,15 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return x.pow( n.intValue() );
 	}
 
+	public static BigDecimal min( BigDecimal a, BigDecimal b )
+	{
+		return (a.compareTo( b ) <= 0) ? a : b;
+	}
+
+	public static BigDecimal max( BigDecimal a, BigDecimal b )
+	{
+		return (a.compareTo( b ) >= 0) ? a : b;
+	}
 
 	public static boolean booleanFromNum( final BigDecimal _val )
 	{
@@ -167,11 +176,12 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 
 		return value;
 	}
-	
-	
+
+
 	public static String toExcelString( BigDecimal _num )
 	{
 		return stringFromBigDecimal( _num );
 	}
+
 
 }

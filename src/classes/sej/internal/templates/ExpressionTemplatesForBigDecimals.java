@@ -240,13 +240,20 @@ public class ExpressionTemplatesForBigDecimals
 	@ReturnsAdjustedValue
 	BigDecimal op_MIN( BigDecimal a, BigDecimal b )
 	{
-		return (a.compareTo( b ) < 0) ? a : b;
+		/*
+		 * Using a direct comparison like
+		 * 
+		 *   return (a.compareTo( b ) <= 0) ? a : b;
+		 *   
+		 * generates too much code for inlining.
+		 */
+		return RuntimeBigDecimal_v1.min( a, b );
 	}
 
 	@ReturnsAdjustedValue
 	BigDecimal op_MAX( BigDecimal a, BigDecimal b )
 	{
-		return (a.compareTo( b ) > 0) ? a : b;
+		return RuntimeBigDecimal_v1.max( a, b );
 	}
 
 	BigDecimal op_AND( BigDecimal a, BigDecimal b )

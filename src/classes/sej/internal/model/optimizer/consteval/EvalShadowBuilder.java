@@ -57,7 +57,7 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 		else if (_node instanceof ExpressionNodeForLet) return new EvalLet( (ExpressionNodeForLet) _node, this.type );
 		else if (_node instanceof ExpressionNodeForLetVar) return new EvalLetVar( (ExpressionNodeForLetVar) _node, this.type );
 		else if (_node instanceof ExpressionNodeForFold) return new EvalFold( (ExpressionNodeForFold) _node, this.type );
-		// else if (_node instanceof ExpressionNodeForFold1st) return new EvalFold1st( (ExpressionNodeFold1st) _node, this.type );
+		else if (_node instanceof ExpressionNodeForFold1st) return new EvalFold1st( (ExpressionNodeForFold1st) _node, this.type );
 		else return new EvalNonFoldable( _node );
 	}
 

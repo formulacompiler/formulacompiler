@@ -194,12 +194,19 @@ public abstract class ExpressionTemplatesForDoubles
 
 	double op_MIN( double a, double b )
 	{
-		return (a < b) ? a : b;
+		/*
+		 * Using a direct comparison like
+		 * 
+		 *   return (a < b) ? a : b;
+		 *   
+		 * generates too much code for inlining.
+		 */
+		return RuntimeDouble_v1.min( a, b );
 	}
 
 	double op_MAX( double a, double b )
 	{
-		return (a > b) ? a : b;
+		return RuntimeDouble_v1.max( a, b );
 	}
 
 	double op_AND( double a, double b )
