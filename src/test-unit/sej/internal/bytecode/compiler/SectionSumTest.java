@@ -42,9 +42,6 @@ import sej.runtime.Resettable;
 import sej.tests.utils.AbstractTestBase;
 
 
-// FIXME Test mix of section and static array
-
-
 /**
  * This is the prototype of how SEJ implements sums over variably sized sections.
  * 

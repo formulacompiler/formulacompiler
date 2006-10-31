@@ -23,15 +23,16 @@ package sej.internal.build.bytecode;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.IincInsnNode;
@@ -57,24 +58,22 @@ final class ByteCodeCompilerGenerator
 	static final int INIT_BACKING_VAR_ON_ACCESS = -1;
 
 	final DescriptionBuilder classBuilder = new DescriptionBuilder();
-	final DescriptionBuilder unaryOperatorDispatchBuilder = new DescriptionBuilder();
-	final DescriptionBuilder binaryOperatorDispatchBuilder = new DescriptionBuilder();
-	final DescriptionBuilder functionDispatchBuilder = new DescriptionBuilder();
+	final DispatchBuilder unaryOperatorDispatchBuilder = new DispatchBuilder();
+	final DispatchBuilder binaryOperatorDispatchBuilder = new DispatchBuilder();
+	final DispatchBuilder functionDispatchBuilder = new DispatchBuilder();
 	final String superName;
 	final String typeName;
-	final boolean isNumeric;
-	final boolean adjustValues;
 	final Class cls;
 	final ClassNode clsNode;
+	final Customization customization;
 
 	public ByteCodeCompilerGenerator(PatternCompiler _compiler, Class _cls, String _typeName, String _superName,
-			boolean _isNumeric, boolean _adjustValues) throws IOException
+			Customization _customization) throws IOException
 	{
 		this.superName = _superName;
 		this.typeName = _typeName;
-		this.isNumeric = _isNumeric;
-		this.adjustValues = _adjustValues;
 		this.cls = _cls;
+		this.customization = _customization;
 		this.clsNode = new ClassNode();
 		new ClassReader( _cls.getCanonicalName() ).accept( clsNode, true );
 
@@ -83,15 +82,15 @@ final class ByteCodeCompilerGenerator
 		this.functionDispatchBuilder.indent( 3 );
 	}
 
-	public ByteCodeCompilerGenerator(PatternCompiler _compiler, Class _cls, String _typeName, boolean _isNumeric,
-			boolean _adjustValues) throws IOException
+	public ByteCodeCompilerGenerator(PatternCompiler _compiler, Class _cls, String _typeName,
+			Customization _customization) throws IOException
 	{
-		this( _compiler, _cls, _typeName, "ExpressionCompilerFor" + _typeName + "_Base", _isNumeric, _adjustValues );
+		this( _compiler, _cls, _typeName, "ExpressionCompilerFor" + _typeName + "_Base", _customization );
 	}
 
 	public ByteCodeCompilerGenerator(PatternCompiler _compiler, Class _cls, String _typeName) throws IOException
 	{
-		this( _compiler, _cls, _typeName, true, false );
+		this( _compiler, _cls, _typeName, new Customization() );
 	}
 
 
@@ -126,12 +125,12 @@ final class ByteCodeCompilerGenerator
 
 		cb.newLine();
 		cb.append( "public " ).append( clsName ).append( "(MethodCompiler _methodCompiler" );
-		if (isNumeric) cb.append( ", NumericType _numericType" );
+		customization.extendConstructorFormals( cb );
 		cb.appendLine( ")" );
 		cb.appendLine( "{" );
 		cb.indent();
 		cb.append( "super( _methodCompiler" );
-		if (isNumeric) cb.append( ", _numericType" );
+		customization.extendConstructorArgumentsForSuper( cb );
 		cb.appendLine( " );" );
 		cb.outdent();
 		cb.appendLine( "}" );
@@ -163,6 +162,12 @@ final class ByteCodeCompilerGenerator
 			}
 			else if (mtdNode.name.startsWith( "util_" )) {
 				new UtilTemplateGenerator( mtdNode ).generate();
+			}
+			else if (mtdNode.name.startsWith( "utilOp_" )) {
+				new UtilOperatorTemplateGenerator( mtdNode ).generate();
+			}
+			else if (mtdNode.name.startsWith( "utilFun_" )) {
+				new UtilFunctionTemplateGenerator( mtdNode ).generate();
 			}
 			else if (mtdNode.name.equals( "scanArray" )) {
 				new ScanArrayTemplateGenerator( mtdNode ).generate();
@@ -226,6 +231,7 @@ final class ByteCodeCompilerGenerator
 		cb.appendLine( "{" );
 		cb.indent();
 
+		cb.appendLine( "final int c = _node.cardinality();" );
 		cb.appendLine( "switch (_node.getFunction()) {" );
 		cb.indent();
 
@@ -240,32 +246,54 @@ final class ByteCodeCompilerGenerator
 	}
 
 
-	private String lastDispatch = "";
-	private Object lastDispatcher = null;
-
-	protected void genDispatchCase( DescriptionBuilder _dispatcher, String _enumName )
+	final class DispatchBuilder extends DescriptionBuilder
 	{
-		if (lastDispatcher != _dispatcher || !lastDispatch.equals( _enumName )) {
-			_dispatcher.append( "case " ).append( _enumName ).appendLine( ":" );
-			lastDispatch = _enumName;
-			lastDispatcher = _dispatcher;
-		}
-	}
+		String pending;
 
-	protected void genDispatchIf( DescriptionBuilder _dispatcher, String _ifCond )
-	{
-		if (null != _ifCond) {
-			_dispatcher.append( "if (" ).append( _ifCond ).appendLine( "()) {" );
-			_dispatcher.indent();
+		@Override
+		public String toString()
+		{
+			closePending();
+			return super.toString();
 		}
-	}
 
-	protected void genDispatchEndIf( DescriptionBuilder _dispatcher, String _ifCond )
-	{
-		if (null != _ifCond) {
-			_dispatcher.outdent();
-			_dispatcher.appendLine( "}" );
+		void closePending()
+		{
+			if (null != pending) {
+				appendLine( pending );
+				pending = null;
+			}
 		}
+
+		private String lastDispatch = "";
+
+		protected boolean genDispatchCase( String _enumName )
+		{
+			if (!lastDispatch.equals( _enumName )) {
+				closePending();
+				append( "case " ).append( _enumName ).appendLine( ":" );
+				lastDispatch = _enumName;
+				return true;
+			}
+			return false;
+		}
+
+		protected void genDispatchIf( String _ifCond )
+		{
+			if (null != _ifCond) {
+				append( "if (" ).append( _ifCond ).appendLine( "()) {" );
+				indent();
+			}
+		}
+
+		protected void genDispatchEndIf( String _ifCond )
+		{
+			if (null != _ifCond) {
+				outdent();
+				appendLine( "}" );
+			}
+		}
+
 	}
 
 
@@ -279,6 +307,7 @@ final class ByteCodeCompilerGenerator
 		final String enumName;
 		final String ifCond;
 		final Iterator insns;
+		final Map<String, Object> defs = new HashMap<String, Object>();
 
 		int sizeOfLocals;
 		int sizeOfVarsInLocals;
@@ -340,7 +369,7 @@ final class ByteCodeCompilerGenerator
 			scanForArgsNeedingBackingVars();
 			genLabels();
 			genInsns();
-			if (adjustValues) genValueAdjustment();
+			customization.genValueAdjustment( classBuilder, this );
 
 			cb.outdent();
 			cb.appendLine( "}" );
@@ -451,7 +480,7 @@ final class ByteCodeCompilerGenerator
 						}
 						else if (varNode.var < firstVarInLocals) {
 							final int paramIdx = paramIdxOfLocalAt( varNode.var );
-							genLoadParamInsn( paramIdx );
+							genLoadParamInsn( paramIdx, insnNode.getOpcode() );
 						}
 						else {
 							genAbstractInsn( insnNode );
@@ -535,18 +564,18 @@ final class ByteCodeCompilerGenerator
 		}
 
 
-		private void genLoadParamInsn( int _paramIdx )
+		private void genLoadParamInsn( int _paramIdx, int _opcode )
 		{
 			final DescriptionBuilder cb = classBuilder;
 			int backingVar = backingVars[ _paramIdx ];
 			if (backingVar == 0) {
-				genFirstAccessToParamInsn( _paramIdx );
+				genFirstAccessToParamInsn( _paramIdx, _opcode );
 			}
 			else {
 				final Type type = argTypes[ _paramIdx ];
 				if (backingVar == INIT_BACKING_VAR_ON_ACCESS) {
 					backingVar = genBackingVar( _paramIdx );
-					genFirstAccessToParamInsn( _paramIdx );
+					genFirstAccessToParamInsn( _paramIdx, _opcode );
 					final int dup = type.getSize() > 1 ? Opcodes.DUP2 : Opcodes.DUP;
 					final int store = type.getOpcode( Opcodes.ISTORE );
 					cb.append( "mv.visitInsn( Opcodes." ).append( AbstractVisitor.OPCODES[ dup ] ).appendLine( " );" );
@@ -563,9 +592,9 @@ final class ByteCodeCompilerGenerator
 			}
 		}
 
-		protected void genFirstAccessToParamInsn( int _paramIdx )
+		protected void genFirstAccessToParamInsn( int _paramIdx, int _opcode )
 		{
-			classBuilder.append( "compile( _" ).append( paramName( _paramIdx ) ).appendLine( " );" );
+			customization.genCompilationOfArgNode( classBuilder, this, _paramIdx, _opcode );
 		}
 
 		protected void genOwnMethodInsn( MethodInsnNode _node )
@@ -707,27 +736,6 @@ final class ByteCodeCompilerGenerator
 		}
 
 
-		private void genValueAdjustment()
-		{
-			if (!hasAnnotation( mtdNode, "Lsej/internal/templates/ReturnsAdjustedValue;" )) {
-				classBuilder.appendLine( "compileValueAdjustment();" );
-			}
-		}
-
-		private boolean hasAnnotation( MethodNode _mtdNode, String _className )
-		{
-			if (null != _mtdNode.invisibleAnnotations) {
-				for (final Object annObj : _mtdNode.invisibleAnnotations) {
-					final AnnotationNode annNode = (AnnotationNode) annObj;
-					if (annNode.desc.equals( _className )) {
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-
-
 		private void genLocalOffsetInc()
 		{
 			if (sizeOfVarsInLocals > 0) {
@@ -751,13 +759,12 @@ final class ByteCodeCompilerGenerator
 		@Override
 		protected void genDispatch()
 		{
-			final DescriptionBuilder db = functionDispatchBuilder;
-			genDispatchCase( db, enumName );
+			final DispatchBuilder db = functionDispatchBuilder;
+			if (db.genDispatchCase( enumName )) {
+				db.pending = "   break;";
+			}
 			db.indent();
-
-			db.appendLine( "switch (_node.cardinality()) {" );
-			db.indent();
-			db.append( "case " ).append( cardinality ).appendLine( ":" );
+			db.append( "if (" ).append( cardinality ).appendLine( " == c) {" );
 			db.indent();
 			db.append( "compile_" ).append( mtdNode.name );
 			if (0 == cardinality) {
@@ -772,9 +779,7 @@ final class ByteCodeCompilerGenerator
 			}
 			db.appendLine( "return;" );
 			db.outdent();
-			db.outdent();
 			db.appendLine( "}" );
-			db.appendLine( "break;" );
 			db.outdent();
 		}
 	}
@@ -797,7 +802,7 @@ final class ByteCodeCompilerGenerator
 		boolean firstParamAccess = true;
 
 		@Override
-		protected void genFirstAccessToParamInsn( int _paramIdx )
+		protected void genFirstAccessToParamInsn( int _paramIdx, int _opcode )
 		{
 			if (firstParamAccess) {
 				if (0 != _paramIdx) {
@@ -807,13 +812,13 @@ final class ByteCodeCompilerGenerator
 				firstParamAccess = false;
 			}
 			else {
-				genFirstAccessToExplicitParamInsn( _paramIdx );
+				genFirstAccessToExplicitParamInsn( _paramIdx, _opcode );
 			}
 		}
 
-		protected void genFirstAccessToExplicitParamInsn( int _paramIdx )
+		protected void genFirstAccessToExplicitParamInsn( int _paramIdx, int _opcode )
 		{
-			super.genFirstAccessToParamInsn( _paramIdx );
+			super.genFirstAccessToParamInsn( _paramIdx, _opcode );
 		}
 
 	}
@@ -831,26 +836,72 @@ final class ByteCodeCompilerGenerator
 		protected void genDispatch()
 		{
 			if (1 == cardinality) {
-				final DescriptionBuilder db = unaryOperatorDispatchBuilder;
+				final DispatchBuilder db = unaryOperatorDispatchBuilder;
 				genDispatch( db, "" );
 			}
 			else if (2 == cardinality) {
-				final DescriptionBuilder db = binaryOperatorDispatchBuilder;
+				final DispatchBuilder db = binaryOperatorDispatchBuilder;
 				genDispatch( db, " _secondArg " );
 			}
 			else throw new IllegalArgumentException( "Operator cannot have more than 2 arguments in "
 					+ mtdNode.name + mtdNode.desc );
 		}
 
-		private void genDispatch( DescriptionBuilder _dispatcher, String _params )
+		private void genDispatch( DispatchBuilder _dispatcher, String _params )
 		{
-			genDispatchCase( _dispatcher, enumName );
+			_dispatcher.genDispatchCase( enumName );
 			_dispatcher.indent();
-			genDispatchIf( _dispatcher, ifCond );
+			_dispatcher.genDispatchIf( ifCond );
 			_dispatcher.append( "compile_" ).append( mtdNode.name ).append( "(" ).append( _params ).appendLine( ");" );
 			_dispatcher.appendLine( "return;" );
-			genDispatchEndIf( _dispatcher, ifCond );
+			_dispatcher.genDispatchEndIf( ifCond );
 			_dispatcher.outdent();
+		}
+
+	}
+
+
+	class UtilOperatorTemplateGenerator extends ImplicitFirstArgTemplateGenerator
+	{
+
+		public UtilOperatorTemplateGenerator(MethodNode _mtdNode)
+		{
+			super( _mtdNode );
+		}
+
+		@Override
+		protected String visibility()
+		{
+			return "protected";
+		}
+
+		@Override
+		protected void genDispatch()
+		{
+			// No automatic dispatch for utils.
+		}
+
+	}
+
+
+	class UtilFunctionTemplateGenerator extends TemplateMethodGenerator
+	{
+
+		public UtilFunctionTemplateGenerator(MethodNode _mtdNode)
+		{
+			super( _mtdNode );
+		}
+
+		@Override
+		protected String visibility()
+		{
+			return "protected";
+		}
+
+		@Override
+		protected void genDispatch()
+		{
+			// No automatic dispatch for utils.
 		}
 
 	}
@@ -888,7 +939,7 @@ final class ByteCodeCompilerGenerator
 		}
 
 		@Override
-		protected void genFirstAccessToExplicitParamInsn( int _paramIdx )
+		protected void genFirstAccessToExplicitParamInsn( int _paramIdx, int _opcode )
 		{
 			classBuilder.append( "mv.push( _" ).append( paramName( _paramIdx ) ).appendLine( " );" );
 		}
@@ -970,5 +1021,31 @@ final class ByteCodeCompilerGenerator
 
 	}
 
+
+	static class Customization
+	{
+
+		protected void extendConstructorFormals( DescriptionBuilder _cb )
+		{
+			// Overridable
+		}
+
+		protected void extendConstructorArgumentsForSuper( DescriptionBuilder _cb )
+		{
+			// Overridable
+		}
+
+		protected void genValueAdjustment( DescriptionBuilder _cb, TemplateMethodGenerator _generator )
+		{
+			// Overridable
+		}
+
+		protected void genCompilationOfArgNode( DescriptionBuilder _cb, TemplateMethodGenerator _generator,
+				int _paramIdx, int _opcode )
+		{
+			_cb.append( "compile( _" ).append( _generator.paramName( _paramIdx ) ).appendLine( " );" );
+		}
+
+	}
 
 }
