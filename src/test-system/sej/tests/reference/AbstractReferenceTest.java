@@ -367,9 +367,14 @@ public abstract class AbstractReferenceTest extends TestCase
 			{
 				if (_value instanceof String) {
 					if (_value.toString().equals( "(days from 2006)" )) {
-						final Calendar time = Calendar.getInstance();
 						final Calendar start = Calendar.getInstance();
-						start.set( 2006, 0, 0 );
+						start.clear();
+						start.set( 2006, Calendar.JANUARY, 1 );
+						final Calendar time = Calendar.getInstance();
+						time.set( Calendar.HOUR, 0 );
+						time.set( Calendar.MINUTE, 0 );
+						time.set( Calendar.SECOND, 0 );
+						time.set( Calendar.MILLISECOND, 0 );
 						final long diff = time.getTimeInMillis() - start.getTimeInMillis();
 						final long days = diff / MS_PER_DAY;
 						return Double.valueOf( days );

@@ -39,9 +39,7 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.expressions.LetDictionary.LetEntry;
-import sej.internal.model.ExpressionNodeForPartialAggregation;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
-import sej.internal.model.Aggregation.NonNullCountingAggregation;
 import sej.runtime.ScaledLong;
 
 abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers_Generated
@@ -669,13 +667,6 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers
 				mv.visitInsn( Opcodes.IADD );
 
 			}
-		}
-
-		if (_node instanceof ExpressionNodeForPartialAggregation) {
-			ExpressionNodeForPartialAggregation partialAggNode = (ExpressionNodeForPartialAggregation) _node;
-			NonNullCountingAggregation agg = (NonNullCountingAggregation) partialAggNode.getPartialAggregation();
-			mv.push( (long) agg.numberOfNonNullArguments );
-			mv.visitInsn( Opcodes.IADD );
 		}
 
 		compileConversionFromInt();
