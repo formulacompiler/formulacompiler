@@ -20,6 +20,7 @@
  */
 package sej.internal.bytecode.compiler;
 
+import sej.CompilerException;
 import sej.NumericType;
 
 abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAll_Generated
@@ -29,5 +30,9 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	{
 		super( _methodCompiler );
 	}
+
+	protected abstract void compileConversionFromInt() throws CompilerException;
+
+	protected abstract void compileConversionToInt() throws CompilerException;
 
 }

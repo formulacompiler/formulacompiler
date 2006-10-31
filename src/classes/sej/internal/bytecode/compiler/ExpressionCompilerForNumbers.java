@@ -88,12 +88,14 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers
 	protected abstract boolean compileConversionTo( ScaledLong _scale ) throws CompilerException;
 
 
+	@Override
 	protected void compileConversionFromInt() throws CompilerException
 	{
 		compile_util_fromInt();
 		compileScaleUp();
 	}
 
+	@Override
 	protected void compileConversionToInt() throws CompilerException
 	{
 		compileScaleDown();
@@ -546,56 +548,12 @@ abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers
 	@Override
 	protected void compileFunction( ExpressionNodeForFunction _node ) throws CompilerException
 	{
-		final ExpressionCompilerForStrings str = method().stringCompiler();
-		final List<ExpressionNode> args = _node.arguments();
 		switch (_node.getFunction()) {
 
 			case MATCH:
 				Iterable<LetEntry> closure = closureOf( _node );
 				compileHelpedExpr( new HelperCompilerForMatch( sectionInContext(), _node, closure ), closure );
 				return;
-
-			case LEN:
-				switch (_node.cardinality()) {
-					case 1:
-						str.compile( args.get( 0 ) );
-						mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/String", "length", "()I" );
-						compileConversionFromInt();
-						return;
-				}
-				break;
-
-			case EXACT:
-				switch (_node.cardinality()) {
-					case 2:
-						str.compile( args.get( 0 ) );
-						str.compile( args.get( 1 ) );
-						compileRuntimeMethod( "stdEXACT", "(Ljava/lang/String;Ljava/lang/String;)Z" );
-						compileConversionFrom( Boolean.TYPE );
-						return;
-				}
-				break;
-
-			case SEARCH:
-			case FIND:
-				switch (_node.cardinality()) {
-					case 2:
-					case 3:
-						str.compile( args.get( 0 ) );
-						str.compile( args.get( 1 ) );
-						if (_node.cardinality() > 2) {
-							compile( args.get( 2 ) );
-							compileConversionToInt();
-						}
-						else {
-							mv().visitInsn( Opcodes.ICONST_1 );
-						}
-						compileRuntimeMethod( "std" + _node.getFunction().getName(),
-								"(Ljava/lang/String;Ljava/lang/String;I)I" );
-						compileConversionFromInt();
-						return;
-				}
-				break;
 
 			case COUNT:
 				compileCount( _node );
