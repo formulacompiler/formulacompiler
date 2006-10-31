@@ -18,40 +18,22 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.expressions;
+package sej.internal.model.rewriting;
 
-import java.io.IOException;
+import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForFunction;
 
-import sej.describable.DescriptionBuilder;
 
-public final class ExpressionNodeForLetVar extends ExpressionNode
+/**
+ * This is a dummy class for boot-strap compilation of the class that will compile the actual
+ * version of this class. It is only used during the initial compile run.
+ */
+final class GeneratedFunctionRewriter extends AbstractExpressionRewriter
 {
-	private final String varName;
-	
-	public ExpressionNodeForLetVar( String _varName )
-	{
-		super();
-		this.varName = _varName;
-	}
-	
-	
-	public final String varName()
-	{
-		return this.varName;
-	}
 
-
-	@Override
-	public ExpressionNode cloneWithoutArguments()
+	public final ExpressionNode rewrite( ExpressionNodeForFunction _fun )
 	{
-		return new ExpressionNodeForLetVar( varName() );
-	}
-
-	
-	@Override
-	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
-	{
-		_to.append( '`' ).append( varName() );
+		return _fun;
 	}
 
 }

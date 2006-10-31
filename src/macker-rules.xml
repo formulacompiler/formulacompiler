@@ -34,6 +34,7 @@
         <pattern name="int.model.compiler"	class="${base}.internal.model.compiler.**" />
         <pattern name="int.model.optimizer"	class="${base}.internal.model.optimizer.**" />
         <pattern name="int.model.analysis"	class="${base}.internal.model.analysis.**" />
+        <pattern name="int.model.rewriting"	class="${base}.internal.model.rewriting.**" />
         <pattern name="int.model.util"		class="${base}.internal.model.util.*" />
 
         <pattern name="int.sheet"			class="${base}.internal.spreadsheet.*" />
@@ -293,10 +294,27 @@
                 	<exclude pattern="int.model" />
                 	<exclude pattern="int.model.util" />
                 	<exclude pattern="int.model.compiler" />
+                	<exclude pattern="int.model.rewriting" />
                 	<exclude pattern="int.model.optimizer" />
                 	<exclude pattern="int.model.analysis" />
                 	<exclude pattern="int.sheet" />
                 	<exclude pattern="int.sheet.binding" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+        <access-rule>
+            <message>sej.internal.model.rewriting</message>
+            <deny>
+            	<from> 
+            		<include pattern="int.model.rewriting" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                	<exclude pattern="int.model" />
+                	<exclude pattern="int.model.util" />
+                	<exclude pattern="int.model.rewriting" />
                 </to>
             </deny>
         </access-rule>

@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry path="src/classes" kind="src"/>
-	<classpathentry path="src/classes-unverified-for-jre14" kind="src"/>
-	<classpathentry path="src/classes-gen" kind="src"/>
-	<classpathentry path="src/test-accessors" kind="src"/>
-	<classpathentry path="src/test-unit" kind="src"/>
-	<classpathentry path="src/test-system" kind="src"/>
-	<classpathentry path="src/examples" kind="src"/>
-	<classpathentry path="src/build-only" kind="src"/>
-	<classpathentry path="src/debug" kind="src"/>
-	<classpathentry path="src/scratchpad" kind="src"/>
-	<classpathentry sourcepath="J:/asm-2.2.1/src.zip" path="lib/asm-2.2.1.jar" kind="lib">
+	<classpathentry kind="src" path="src/classes"/>
+	<classpathentry kind="src" path="src/classes-unverified-for-jre14"/>
+	<classpathentry kind="src" path="src/classes-gen"/>
+	<classpathentry kind="src" path="src/test-accessors"/>
+	<classpathentry kind="src" path="src/test-unit"/>
+	<classpathentry kind="src" path="src/test-system"/>
+	<classpathentry kind="src" path="src/examples"/>
+	<classpathentry kind="src" path="src/build-tools"/>
+	<classpathentry kind="src" path="src/debug"/>
+	<classpathentry kind="src" path="src/scratchpad"/>
+	<classpathentry kind="lib" path="lib/asm-2.2.1.jar" sourcepath="J:/asm-2.2.1/src.zip">
 		<attributes>
 			<attribute name="javadoc_location" value="file:/J:/asm-2.2.1/doc/javadoc/user"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry sourcepath="J:/asm-2.2.1/src.zip" path="lib/asm-commons-2.2.1.jar" kind="lib">
+	<classpathentry kind="lib" path="lib/asm-commons-2.2.1.jar" sourcepath="J:/asm-2.2.1/src.zip">
 		<attributes>
 			<attribute name="javadoc_location" value="file:/J:/asm-2.2.1/doc/javadoc/user"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry path="lib/build-only/asm-util-2.2.1.jar" kind="lib"/>
-	<classpathentry path="lib/build-only/asm-tree-2.2.1.jar" kind="lib"/>
-	<classpathentry sourcepath="J:/jexcelapi-2.6-peo-1/src" path="lib/jxl.jar" kind="lib">
+	<classpathentry kind="lib" path="lib/build-only/asm-util-2.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/build-only/asm-tree-2.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/jxl.jar" sourcepath="J:/jexcelapi-2.6-peo-1/src">
 		<attributes>
 			<attribute name="javadoc_location" value="file:/J:/jexcelapi-2.5.9/docs/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"/>
-	<classpathentry path="org.eclipse.jdt.USER_LIBRARY/JUnit" kind="con"/>
-	<classpathentry sourcepath="J:/java-cup-11a/src" path="lib/java-cup-11a-runtime.jar" kind="lib"/>
-	<classpathentry path="build/dev" kind="output"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JUnit"/>
+	<classpathentry kind="lib" path="lib/java-cup-11a-runtime.jar" sourcepath="J:/java-cup-11a/src"/>
+	<classpathentry kind="output" path="build/dev"/>
 </classpath>
