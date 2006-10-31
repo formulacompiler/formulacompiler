@@ -16,8 +16,8 @@ public final class DebugTest extends AbstractReferenceTest
 
 	public DebugTest()
 	{
-		super( "Strings" );
-		//super( "NumericFunctions", 5, NumType.LONG, Integer.valueOf( "0", 2 ), false );
+		//super( "Strings" );
+		super( "DateFunctions", 2, NumType.DOUBLE, Integer.valueOf( "0", 2 ), false );
 	}
 
 	@Override
