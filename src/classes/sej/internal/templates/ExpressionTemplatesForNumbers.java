@@ -20,11 +20,48 @@
  */
 package sej.internal.templates;
 
+import sej.internal.runtime.Runtime_v1;
+
 
 @SuppressWarnings("unqualified-field-access")
 public class ExpressionTemplatesForNumbers
 {
 
-	// Nothing so far.
+	/**
+	 * The "String" argument is automatically compiled using the String expression compiler. The
+	 * "int" return is automatically converted to the proper output type.
+	 */
+	int fun_LEN( String a )
+	{
+		return a.length();
+	}
+
+
+	boolean fun_EXACT( String a, String b )
+	{
+		return Runtime_v1.stdEXACT( a, b );
+	}
+
+
+	int fun_SEARCH( String _what, String _within )
+	{
+		return Runtime_v1.stdSEARCH( _what, _within, 1 );
+	}
+
+	int fun_SEARCH( String _what, String _within, int _startingAt )
+	{
+		return Runtime_v1.stdSEARCH( _what, _within, _startingAt );
+	}
+
+
+	int fun_FIND( String _what, String _within )
+	{
+		return Runtime_v1.stdFIND( _what, _within, 1 );
+	}
+
+	int fun_FIND( String _what, String _within, int _startingAt )
+	{
+		return Runtime_v1.stdFIND( _what, _within, _startingAt );
+	}
 
 }

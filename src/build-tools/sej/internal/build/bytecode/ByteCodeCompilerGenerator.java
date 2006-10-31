@@ -109,6 +109,7 @@ final class ByteCodeCompilerGenerator
 		cb.newLine();
 		cb.appendLine( "import org.objectweb.asm.Label;" );
 		cb.appendLine( "import org.objectweb.asm.Opcodes;" );
+		cb.appendLine( "import org.objectweb.asm.Type;" );
 		cb.appendLine( "import org.objectweb.asm.commons.GeneratorAdapter;" );
 		cb.newLine();
 		cb.appendLine( "import sej.CompilerException;" );
@@ -301,6 +302,7 @@ final class ByteCodeCompilerGenerator
 	{
 		final MethodNode mtdNode;
 		final Type[] argTypes;
+		final Type returnType;
 		final int cardinality;
 		final int firstVarInLocals;
 		final List<Label> labels = new ArrayList<Label>();
@@ -317,6 +319,7 @@ final class ByteCodeCompilerGenerator
 		{
 			this.mtdNode = _mtdNode;
 			this.argTypes = Type.getArgumentTypes( mtdNode.desc );
+			this.returnType = Type.getReturnType( mtdNode.desc );
 			this.cardinality = argTypes.length;
 			this.sizeOfLocals = mtdNode.maxLocals;
 			this.firstVarInLocals = 1 + totalSizeOf( argTypes ); // add 1 for "this"
@@ -355,6 +358,8 @@ final class ByteCodeCompilerGenerator
 
 		public void generate()
 		{
+			System.out.println( "  " + mtdNode.name );
+
 			final DescriptionBuilder cb = classBuilder;
 			cb.newLine();
 			cb.append( visibility() ).append( " final void compile_" ).append( mtdNode.name );
@@ -464,8 +469,9 @@ final class ByteCodeCompilerGenerator
 			assert insns.hasNext();
 
 			this.next = (AbstractInsnNode) insns.next();
-			while (insns.hasNext()) {
-				final AbstractInsnNode insnNode = this.next;
+			while (null != this.next) {
+				final AbstractInsnNode insnNode = nextInsn();
+
 				skipInsn();
 				switch (insnNode.getOpcode()) {
 
@@ -493,7 +499,7 @@ final class ByteCodeCompilerGenerator
 					case Opcodes.FRETURN:
 					case Opcodes.LRETURN:
 					case Opcodes.ARETURN:
-					case Opcodes.RETURN:
+					case Opcodes.RETURN: {
 						while (insns.hasNext()) {
 							skipInsn();
 							if (isReturn( nextInsn() )) {
@@ -502,12 +508,19 @@ final class ByteCodeCompilerGenerator
 										+ " has multiple returns. Use an 'extract local variable' refactoring to fix this." );
 							}
 						}
+						genFinalValueConversion();
 						return;
+					}
 
 					default:
 						genAbstractInsn( insnNode );
 				}
 			}
+		}
+
+		protected void genFinalValueConversion()
+		{
+			// Overridable
 		}
 
 		protected AbstractInsnNode nextInsn()
@@ -517,9 +530,8 @@ final class ByteCodeCompilerGenerator
 
 		protected void skipInsn()
 		{
-			this.next = (AbstractInsnNode) this.insns.next();
+			this.next = (this.insns.hasNext()) ? (AbstractInsnNode) this.insns.next() : null;
 		}
-
 
 		private boolean isReturn( AbstractInsnNode _insn )
 		{
@@ -569,13 +581,13 @@ final class ByteCodeCompilerGenerator
 			final DescriptionBuilder cb = classBuilder;
 			int backingVar = backingVars[ _paramIdx ];
 			if (backingVar == 0) {
-				genFirstAccessToParamInsn( _paramIdx, _opcode );
+				genFirstAccessToParamInsn( _paramIdx );
 			}
 			else {
 				final Type type = argTypes[ _paramIdx ];
 				if (backingVar == INIT_BACKING_VAR_ON_ACCESS) {
 					backingVar = genBackingVar( _paramIdx );
-					genFirstAccessToParamInsn( _paramIdx, _opcode );
+					genFirstAccessToParamInsn( _paramIdx );
 					final int dup = type.getSize() > 1 ? Opcodes.DUP2 : Opcodes.DUP;
 					final int store = type.getOpcode( Opcodes.ISTORE );
 					cb.append( "mv.visitInsn( Opcodes." ).append( AbstractVisitor.OPCODES[ dup ] ).appendLine( " );" );
@@ -592,9 +604,19 @@ final class ByteCodeCompilerGenerator
 			}
 		}
 
-		protected void genFirstAccessToParamInsn( int _paramIdx, int _opcode )
+		protected void genFirstAccessToParamInsn( int _paramIdx )
 		{
-			customization.genCompilationOfArgNode( classBuilder, this, _paramIdx, _opcode );
+			genOveridableCompilationOfArgNode( _paramIdx );
+		}
+
+		protected void genOveridableCompilationOfArgNode( int _paramIdx )
+		{
+			genCompilationOfArgNode( _paramIdx );
+		}
+
+		protected void genCompilationOfArgNode( int _paramIdx )
+		{
+			classBuilder.append( "compile( _" ).append( paramName( _paramIdx ) ).appendLine( " );" );
 		}
 
 		protected void genOwnMethodInsn( MethodInsnNode _node )
@@ -624,11 +646,9 @@ final class ByteCodeCompilerGenerator
 			else if (_insnNode instanceof MethodInsnNode) genInsn( (MethodInsnNode) _insnNode );
 			else if (_insnNode instanceof FieldInsnNode) genInsn( (FieldInsnNode) _insnNode );
 			else if (_insnNode instanceof TypeInsnNode) genInsn( (TypeInsnNode) _insnNode );
-			// field
 			// LookupSwitch
 			// MultiANewArray
 			// TableSwitch
-			// Type
 		}
 
 		private void genInsn( InsnNode _node )
@@ -782,6 +802,19 @@ final class ByteCodeCompilerGenerator
 			db.appendLine( "}" );
 			db.outdent();
 		}
+
+		@Override
+		protected void genOveridableCompilationOfArgNode( int _paramIdx )
+		{
+			customization.genCompilationOfArgNode( classBuilder, this, _paramIdx, argTypes[ _paramIdx ] );
+		}
+
+		@Override
+		protected void genFinalValueConversion()
+		{
+			customization.genCompilationOfFinalValueConversion( classBuilder, this, returnType );
+		}
+
 	}
 
 
@@ -802,7 +835,7 @@ final class ByteCodeCompilerGenerator
 		boolean firstParamAccess = true;
 
 		@Override
-		protected void genFirstAccessToParamInsn( int _paramIdx, int _opcode )
+		protected void genFirstAccessToParamInsn( int _paramIdx )
 		{
 			if (firstParamAccess) {
 				if (0 != _paramIdx) {
@@ -812,13 +845,13 @@ final class ByteCodeCompilerGenerator
 				firstParamAccess = false;
 			}
 			else {
-				genFirstAccessToExplicitParamInsn( _paramIdx, _opcode );
+				genFirstAccessToExplicitParamInsn( _paramIdx );
 			}
 		}
 
-		protected void genFirstAccessToExplicitParamInsn( int _paramIdx, int _opcode )
+		protected void genFirstAccessToExplicitParamInsn( int _paramIdx )
 		{
-			super.genFirstAccessToParamInsn( _paramIdx, _opcode );
+			super.genFirstAccessToParamInsn( _paramIdx );
 		}
 
 	}
@@ -856,6 +889,18 @@ final class ByteCodeCompilerGenerator
 			_dispatcher.appendLine( "return;" );
 			_dispatcher.genDispatchEndIf( ifCond );
 			_dispatcher.outdent();
+		}
+
+		@Override
+		protected void genOveridableCompilationOfArgNode( int _paramIdx )
+		{
+			customization.genCompilationOfArgNode( classBuilder, this, _paramIdx, argTypes[ _paramIdx ] );
+		}
+
+		@Override
+		protected void genFinalValueConversion()
+		{
+			customization.genCompilationOfFinalValueConversion( classBuilder, this, returnType );
 		}
 
 	}
@@ -939,7 +984,7 @@ final class ByteCodeCompilerGenerator
 		}
 
 		@Override
-		protected void genFirstAccessToExplicitParamInsn( int _paramIdx, int _opcode )
+		protected void genFirstAccessToExplicitParamInsn( int _paramIdx )
 		{
 			classBuilder.append( "mv.push( _" ).append( paramName( _paramIdx ) ).appendLine( " );" );
 		}
@@ -1041,9 +1086,15 @@ final class ByteCodeCompilerGenerator
 		}
 
 		protected void genCompilationOfArgNode( DescriptionBuilder _cb, TemplateMethodGenerator _generator,
-				int _paramIdx, int _opcode )
+				int _paramIdx, Type _paramType )
 		{
-			_cb.append( "compile( _" ).append( _generator.paramName( _paramIdx ) ).appendLine( " );" );
+			_generator.genCompilationOfArgNode( _paramIdx );
+		}
+
+		protected void genCompilationOfFinalValueConversion( DescriptionBuilder _cb, TemplateMethodGenerator _generator,
+				Type _returnType )
+		{
+			// Overridable
 		}
 
 	}
