@@ -20,22 +20,12 @@
  */
 package sej.internal.bytecode.compiler;
 
-import org.objectweb.asm.Type;
-
-import sej.internal.expressions.AbstractExpressionNodeForFold;
-
-final class FoldContext
+abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAll_Generated
 {
-	final AbstractExpressionNodeForFold node;
-	final Type accumulatorType;
-	int localHaveFirst;
 
-
-	public FoldContext(AbstractExpressionNodeForFold _node, ByteCodeEngineCompiler _engine)
+	public ExpressionCompilerForStrings_Base(MethodCompiler _methodCompiler)
 	{
-		super();
-		this.node = _node;
-		this.accumulatorType = _engine.typeCompiler( _node.getDataType() ).type();
+		super( _methodCompiler );
 	}
 
 }

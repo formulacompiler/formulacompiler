@@ -24,19 +24,13 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
 
-import org.objectweb.asm.Opcodes;
-
 import sej.CompilerException;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
 
 
-// FIXME Base on templates
-
-
-final class ExpressionCompilerForStrings extends ExpressionCompilerForAll_Generated
+final class ExpressionCompilerForStrings extends ExpressionCompilerForStrings_Generated
 {
 
 	ExpressionCompilerForStrings(MethodCompiler _methodCompiler)
@@ -55,10 +49,10 @@ final class ExpressionCompilerForStrings extends ExpressionCompilerForAll_Genera
 	protected void compileConversionFrom( Class _class ) throws CompilerException
 	{
 		if (String.class == _class) {
-			compileRuntimeMethod( "stringFromString", "(Ljava/lang/String;)Ljava/lang/String;" );
+			compile_util_fromString();
 		}
 		else if (Object.class.isAssignableFrom( _class )) {
-			compileRuntimeMethod( "stringFromObject", "(Ljava/lang/Object;)Ljava/lang/String;" );
+			compile_util_fromObject();
 		}
 		else {
 			super.compileConversionFrom( _class );
@@ -79,7 +73,7 @@ final class ExpressionCompilerForStrings extends ExpressionCompilerForAll_Genera
 	{
 		switch (_type) {
 			case NULL:
-				compileRuntimeMethod( "emptyString", "()Ljava/lang/String;" );
+				compile_util_fromNull();
 				return;
 			case NUMERIC:
 				method().numericCompiler().compileConversionToString();
@@ -137,123 +131,32 @@ final class ExpressionCompilerForStrings extends ExpressionCompilerForAll_Genera
 		boolean first = true;
 		for (ExpressionNode arg : _args) {
 			if (first) {
-				compile( arg );
 				if (ByteCodeEngineCompiler.JRE14) {
-					compileRuntimeMethod( "newStringBuffer", "(Ljava/lang/String;)Ljava/lang/StringBuffer;" );
+					compile_utilFun_newBuffer( arg );
 				}
 				else {
-					compileRuntimeMethod( "newStringBuilder", "(Ljava/lang/String;)Ljava/lang/StringBuilder;" );
+					compile_utilFun_newBuilder( arg );
 				}
 				first = false;
 			}
 			else {
-				compile( arg );
 				if (ByteCodeEngineCompiler.JRE14) {
-					mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/StringBuffer", "append",
-							"(Ljava/lang/String;)Ljava/lang/StringBuffer;" );
+					compile_utilOp_appendBuffer( arg );
 				}
 				else {
-					mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/StringBuilder", "append",
-							"(Ljava/lang/String;)Ljava/lang/StringBuilder;" );
+					compile_utilOp_appendBuilder( arg );
 				}
 			}
 		}
 		if (ByteCodeEngineCompiler.JRE14) {
-			mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/StringBuffer", "toString", "()Ljava/lang/String;" );
+			compile_utilOp_fromBuffer();
 		}
 		else {
-			mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/StringBuilder", "toString", "()Ljava/lang/String;" );
+			compile_utilOp_fromBuilder();
 		}
 	}
 	
 	
-	@Override
-	protected void compileFunction( ExpressionNodeForFunction _node ) throws CompilerException
-	{
-		final List<ExpressionNode> args = _node.arguments();
-		final ExpressionCompilerForNumbers num = method().numericCompiler();
-		switch (_node.getFunction()) {
-			
-			case MID:
-				switch (_node.cardinality()) {
-					case 3:
-						compile( args.get( 0 ) );
-						num.compile( args.get( 1 ) );
-						num.compileConversionToInt();
-						num.compile( args.get( 2 ) );
-						num.compileConversionToInt();
-						compileRuntimeMethod( "stdMID", "(Ljava/lang/String;II)Ljava/lang/String;" );
-						return;
-				}
-				break;
-				
-			case LEFT:
-			case RIGHT:
-				switch (_node.cardinality()) {
-					case 1:
-					case 2:
-						compile( args.get( 0 ) );
-						if (_node.cardinality() > 1) {
-							num.compile( args.get( 1 ) );
-							num.compileConversionToInt();
-						}
-						else {
-							mv().visitInsn( Opcodes.ICONST_1 );
-						}
-						compileRuntimeMethod( "std" + _node.getFunction().getName(), "(Ljava/lang/String;I)Ljava/lang/String;" );
-						return;
-				}
-				break;
-				
-			case SUBSTITUTE:
-				switch (_node.cardinality()) {
-					case 3:
-						compile( args.get( 0 ) );
-						compile( args.get( 1 ) );
-						compile( args.get( 2 ) );
-						compileRuntimeMethod( "stdSUBSTITUTE", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;" );
-						return;
-					case 4:
-						compile( args.get( 0 ) );
-						compile( args.get( 1 ) );
-						compile( args.get( 2 ) );
-						num.compile( args.get( 3 ) );
-						num.compileConversionToInt();
-						compileRuntimeMethod( "stdSUBSTITUTE", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)Ljava/lang/String;" );
-						return;
-				}
-				break;
-				
-			case REPLACE:
-				switch (_node.cardinality()) {
-					case 4:
-						compile( args.get( 0 ) );
-						num.compile( args.get( 1 ) );
-						num.compileConversionToInt();
-						num.compile( args.get( 2 ) );
-						num.compileConversionToInt();
-						compile( args.get( 3 ) );
-						compileRuntimeMethod( "stdREPLACE", "(Ljava/lang/String;IILjava/lang/String;)Ljava/lang/String;" );
-						return;
-				}
-				break;
-				
-			case LOWER:
-			case UPPER:
-			// LATER case PROPER:
-				switch (_node.cardinality()) {
-					case 1:
-						compile( args.get( 0 ) );
-						compileRuntimeMethod( "std" + _node.getFunction().getName(), "(Ljava/lang/String;)Ljava/lang/String;" );
-						return;
-				}
-				break;
-				
-		}
-		super.compileFunction( _node );
-	}
-
-
 	@Override
 	protected void compileComparison( int _comparisonOpcode ) throws CompilerException
 	{

@@ -65,7 +65,6 @@ public final class ExpressionNodeForFold extends AbstractExpressionNodeForFold
 	}
 
 
-	// FIXME Rename FOLDL to FOLD because it does not have a predetermined order of evaluation of its arguments.
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
