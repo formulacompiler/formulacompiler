@@ -4,14 +4,16 @@
 
 	<property name="Name" value="SEJ" />
 	<property name="name" value="sej" />
-	<property name="dist.version" value="0.7.4" />
+	<property name="dist.version" value="0.8.0" />
 
 	<property name="src.dir" location="${basedir}/src" />
 	<property name="lib.dir" location="${basedir}/lib" />
 	<property name="conf.dir" location="${basedir}/conf" />
 	<property name="doc.dir" location="${basedir}/doc" />
 	<property name="src.classes.dir" location="${src.dir}/classes" />
-	<property name="src.classes.gen.dir" location="${src.dir}/classes-gen" />
+	<property name="src.classes-gen.dir" location="${src.dir}/classes-gen" />
+	<property name="src.classes-bootstrap.dir" location="${src.dir}/classes-bootstrap-dummies" />
+	<property name="src.classes-build-tools.dir" location="${src.dir}/build-tools" />
 	<property name="src.classes-unverified.dir" location="${src.dir}/classes-unverified-for-jre14" />
 	<property name="src.test-accessors.dir" location="${src.dir}/test-accessors" />
 	<property name="src.test-unit.dir" location="${src.dir}/test-unit" />
@@ -27,6 +29,7 @@
 	<property name="build.dir" location="${basedir}/build" />
 	<property name="build.classes.dir" location="${build.dir}/classes" />
 	<property name="build.classes-unverified.dir" location="${build.dir}/classes-unverified-for-jre14" />
+	<property name="build.classes-bootstrap.dir" location="${build.dir}/classes-bootstrap" />
 	<property name="build.classes14.dir" location="${build.dir}/classes14" />
 	<property name="build.test-unit.dir" location="${build.dir}/test-unit" />
 	<property name="build.test-unit14.dir" location="${build.dir}/test-unit14" />
@@ -61,18 +64,17 @@
 		<fileset dir="${lib.dir}" includes="**/*.jar" excludes="**/incompatible/*" />
 	</path>
 	<property name="lib.classpath" refid="lib.classpath" />
+	<property name="tools.classpath" refid="lib.classpath" />
 
 	<property file="build.conf" />
 
-	<!-- ================================================================= -->
-	<!-- prepare:                                                          -->
-	<!-- Sets up directories and such for compilation                      -->
-	<!-- ================================================================= -->
+	<!-- prepare -->
 
 	<target name="prepare">
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${build.classes.dir}" />
 		<mkdir dir="${build.classes-unverified.dir}" />
+		<mkdir dir="${build.classes-bootstrap.dir}" />
 		<mkdir dir="${build.classes14.dir}" />
 
 		<path id="run.classpath">
@@ -101,10 +103,7 @@
 		<property name="dist.version.long" value="${dist.version} [${timestamp}]" />
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- generate:                                                         -->
-	<!-- Generates source code                                             -->
-	<!-- ================================================================= -->
+	<!-- generate scanners/parsers -->
 
 	<taskdef classname="JFlex.anttask.JFlexTask" name="jflex" classpath="${lib.dir}/build-only/incompatible/JFlex.jar" />
 	<taskdef classname="java_cup.anttask.CUPTask" name="cup" classpath="${lib.dir}/build-only/incompatible/java-cup-11a.jar" />
@@ -114,7 +113,7 @@
 		<loadfile property="lex.scan" srcfile="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}_Scan.lex"></loadfile>
 		<copy 
 			file="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner.lex"
-			tofile="${src.classes.gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}.lex"
+			tofile="${src.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}.lex"
 			overwrite="true">
 			<filterchain>
 				<replacetokens>
@@ -133,15 +132,19 @@
 		<antcall target="lexgen">
 			<param name="style" value="R1C1"/>
 		</antcall>
+		<antcall target="lexgen">
+			<param name="style" value="Internal"/>
+		</antcall>
 	</target>
 
 	<target name="lex" depends="prepare, lexinput">
-		<jflex file="${src.classes.gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerA1.lex" destdir="${src.classes.gen.dir}" />
-		<jflex file="${src.classes.gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerR1C1.lex" destdir="${src.classes.gen.dir}" />
+		<jflex file="${src.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerA1.lex" destdir="${src.classes-gen.dir}" />
+		<jflex file="${src.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerR1C1.lex" destdir="${src.classes-gen.dir}" />
+		<jflex file="${src.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerInternal.lex" destdir="${src.classes-gen.dir}" />
 	</target>
 
 	<target name="cup" depends="prepare, lex">
-		<cup srcfile="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionParser.cup" destdir="${src.classes.gen.dir}" 
+		<cup srcfile="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionParser.cup" destdir="${src.classes-gen.dir}" 
 			parser="GeneratedParser" 
 			symbols="GeneratedSymbols"
 			nopositions="true"
@@ -150,31 +153,37 @@
 		/>
 	</target>
 
-	<target name="generate" depends="lex, cup">
-		<mkdir dir="${src.classes.gen.dir}" />
-	</target>
+	<!-- compile -->
 
-	<!-- ================================================================= -->
-	<!-- compile:                                                          -->
-	<!-- Compiles the source code                                          -->
-	<!-- ================================================================= -->
-
-	<target name="compile" depends="prepare, generate" description="Compiles the source code">
-
+	<target name="compile-unverified" depends="prepare" description="Compiles the source code unverified for JRE 1.4">
 		<javac srcdir="${src.classes-unverified.dir}" destdir="${build.classes-unverified.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/**" />
 		</javac>
-
-		<javac srcdir="${src.classes.dir}:${src.classes.gen.dir}" destdir="${build.classes.dir}" classpath="${build.classpath}:${build.classes-unverified.dir}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
-			<include name="sej/**" />
-		</javac>
-
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- compile14:                                                        -->
-	<!-- Compiles the source code for JRE 1.4                              -->
-	<!-- ================================================================= -->
+	<target name="compile-bootstrap" depends="prepare, lex, cup, compile-unverified" description="Compiles the bootstrap source code">
+		<delete failonerror="no">
+			<fileset dir="${src.classes-gen.dir}/sej/internal/model/rewriting" includes="*.java" />
+			<fileset dir="${src.classes-gen.dir}/sej/internal/bytecode/compiler" includes="*.java" />
+		</delete>
+		<javac srcdir="${src.classes.dir}:${src.classes-gen.dir}:${src.classes-bootstrap.dir}:${src.classes-build-tools.dir}" destdir="${build.classes-bootstrap.dir}" classpath="${tools.classpath}:${build.classes-unverified.dir}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+			<include name="sej/**" />
+		</javac>
+	</target>
+
+	<target name="generate" depends="prepare, compile-bootstrap" description="Generates source code">
+		<property name="tools-path" value="${tools.classpath}:${build.classes-bootstrap.dir}:${build.classes-unverified.dir}" />
+		<java classpath="${tools-path}" classname="sej.internal.build.rewriting.RewriteRulesCompiler" />
+		<java classpath="${tools-path}" classname="sej.internal.build.bytecode.PatternCompiler" fork="true" />
+	</target>
+
+	<target name="compile" depends="prepare, generate" description="Compiles the source code">
+		<javac srcdir="${src.classes.dir}:${src.classes-gen.dir}" destdir="${build.classes.dir}" classpath="${build.classpath}:${build.classes-unverified.dir}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+			<include name="sej/**" />
+		</javac>
+	</target>
+
+	<!-- compile14 -->
 
 	<target name="compile14" depends="prepare, compile" description="Compiles the source code for JRE 1.4">
 
@@ -216,10 +225,7 @@
 
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- jar:                                                              -->
-	<!-- Creates jar files                                                 -->
-	<!-- ================================================================= -->
+	<!-- jars -->
 
 	<target name="jar" depends="compile" description="Creates the jar files">
 
@@ -241,11 +247,6 @@
 		</jar>
 
 	</target>
-
-	<!-- ================================================================= -->
-	<!-- jar14:                                                            -->
-	<!-- Creates jar files for Java 1.4                                    -->
-	<!-- ================================================================= -->
 
 	<target name="jar14" depends="compile14" description="Creates the jar files for Java 1.4">
 
@@ -269,11 +270,6 @@
 
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- srcjar:                                                           -->
-	<!-- Create jar file with source code                                  -->
-	<!-- ================================================================= -->
-
 	<target name="srcjar" depends="prepare, validate, javadoc" description="Creates a jar file with the product source code in it">
 
 		<delete file="${jar.src.file}" />
@@ -282,7 +278,7 @@
 				<include name="**/*.java"/>
 				<exclude name="net/sf/retrotranslator/**"/>
 			</fileset>
-			<fileset dir="${src.classes.gen.dir}" >
+			<fileset dir="${src.classes-gen.dir}" >
 				<include name="**/*.java"/>
 			</fileset>
 		</jar>
@@ -295,10 +291,7 @@
 
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- test:                                                             -->
-	<!-- Runs JUnit test suites                                            -->
-	<!-- ================================================================= -->
+	<!-- test -->
 
 	<target name="compile-tests" depends="prepare, compile">
 
@@ -379,10 +372,7 @@
 
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- test14:                                                           -->
-	<!-- Runs JUnit test suites using JRE 1.4                              -->
-	<!-- ================================================================= -->
+	<!-- test14 -->
 
 	<target name="compile-tests14" depends="compile-tests">
 
@@ -498,10 +488,7 @@
 
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- examples:                                                         -->
-	<!-- Compiles examples                                                 -->
-	<!-- ================================================================= -->
+	<!-- examples -->
 
 	<target name="compile-examples" depends="prepare, compile">
 
@@ -515,27 +502,17 @@
 	<target name="examples" depends="compile-examples" description="Compiles examples">
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- build:                                                            -->
-	<!-- The default target                                                -->
-	<!-- ================================================================= -->
+	<!-- build -->
 
 	<target name="build" depends="jar,compile-tests,compile-examples" description="Builds the library target (default)">
-
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- validate:                                                         -->
-	<!-- Validates source code                                             -->
-	<!-- ================================================================= -->
+	<!-- validate -->
 
 	<target name="validate" depends="prepare, dependencies, style" description="Validates source">
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- dependencies:                                                     -->
-	<!-- Checks component dependencies                                     -->
-	<!-- ================================================================= -->
+	<!-- dependencies -->
 
 	<path id="macker.classpath">
 		<fileset dir="J:/macker-0.4.2/lib" />
@@ -560,10 +537,7 @@
 		</macker>
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- style:                                                            -->
-	<!-- Runs checkstyle                                                   -->
-	<!-- ================================================================= -->
+	<!-- style -->
 
 	<target name="style" depends="prepare" description="Runs checkstyle">
 		<cs:checkstyle config="${src.dir}\checkstyle-config-apionly.xml">
@@ -586,13 +560,19 @@
 			<fileset dir="${src.examples.dir}">
 				<include name="**/*.java" />
 			</fileset>
+			<fileset dir="${src.classes-bootstrap.dir}">
+				<include name="**/*.java" />
+			</fileset>
+			<fileset dir="${src.classes-build-tools.dir}">
+				<include name="**/*.java" />
+				<!--  the following two files have differing licences  -->
+				<exclude name="sej/internal/build/Util.java" />
+				<exclude name="sej/internal/build/bytecode/ASMHelpers.java" />
+			</fileset>
 		</cs:checkstyle>
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- redoc:                                                            -->
-	<!-- Rebuilds documentation                                            -->
-	<!-- ================================================================= -->
+	<!-- redoc -->
 
 	<target name="redoc" description="Rebuilds documentation - use with care!" depends="prepare">
 
@@ -638,10 +618,7 @@
 		</replace>
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- javadoc:                                                          -->
-	<!-- Generates javadoc                                                 -->
-	<!-- ================================================================= -->
+	<!-- javadoc -->
 
 	<target name="javadoc" description="Builds javadoc" depends="prepare, redoc">
 
@@ -677,33 +654,24 @@
 
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- doc:                                                              -->
-	<!-- Generates documentation                                           -->
-	<!-- ================================================================= -->
+	<!-- doc -->
 
 	<target name="doc" description="Builds documentation" depends="prepare, examples, test, redoc">
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- clean:                                                            -->
-	<!-- Removes all build files                                           -->
-	<!-- ================================================================= -->
+	<!-- clean -->
 
 	<target name="clean" description="Removes all build files">
 		<delete dir="${doc.dir}" />
 		<delete dir="${build.classes.dir}" />
 		<delete dir="${build.dir}" />
 		<delete dir="${dist.dir}" />
-		<delete dir="${src.classes.gen.dir}" />
-		<mkdir dir="${src.classes.gen.dir}" />
+		<delete dir="${src.classes-gen.dir}" />
+		<mkdir dir="${src.classes-gen.dir}" />
 		<mkdir dir="${build.dir}/dev" />  <!-- make Eclipse happy -->
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- pack:                                                             -->
-	<!-- Package distribution version                                      -->
-	<!-- ================================================================= -->
+	<!-- pack -->
 
 	<target name="pack" depends="prepare,redoc,javadoc" description="Packs existing distribution - use with care!!">
 		<echo>Bundling dist: ${dist.version.long}</echo>
@@ -788,18 +756,12 @@
 		
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- dist:                                                             -->
-	<!-- Package distribution version                                      -->
-	<!-- ================================================================= -->
+	<!-- dist -->
 
 	<target name="dist" depends="clean,compile,validate,jar,doc,javadoc,test,jar14,test14,examples,srcjar,pack" description="Builds distribution">
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- cover:                                                            -->
-	<!-- Runs code coverage analysis                                       -->
-	<!-- ================================================================= -->
+	<!-- cover -->
 
 	<target name="cover" depends="prepare, compile, compile-tests" description="Runs code coverage analysis">
 
@@ -898,10 +860,7 @@
 		
 	</target>
 
-	<!-- ================================================================= -->
-	<!-- emma:                                                             -->
-	<!-- Runs code coverage analysis                                       -->
-	<!-- ================================================================= -->
+	<!-- emma -->
 
 	<target name="emma" depends="prepare, compile, compile-tests" description="Runs code coverage analysis">
 
