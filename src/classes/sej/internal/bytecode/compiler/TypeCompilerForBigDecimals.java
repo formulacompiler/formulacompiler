@@ -38,8 +38,6 @@ import sej.internal.runtime.RuntimeBigDecimal_v1;
 import sej.internal.runtime.RuntimeDouble_v1;
 
 
-// FIXME TypeCompilers should be based on templates too
-
 public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 {
 	static final String BNAME = ByteCodeEngineCompiler.BIGDECIMAL_CLASS.getInternalName();
