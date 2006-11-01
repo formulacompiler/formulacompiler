@@ -372,6 +372,37 @@
 
 	</target>
 
+	<target name="dbg" depends="prepare, jar, compile-tests" description="Runs a single JUnit test suite">
+
+		<delete dir="${build.dir}/temp/testresults" />
+		<mkdir dir="${build.dir}/temp/testresults"/>
+		
+		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${lib.classpath}" />
+
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="."
+			tempdir="${build.dir}/temp" >
+			
+			<assertions enablesystemassertions="yes" />
+
+			<formatter type="plain" usefile="yes" />
+			
+			<classpath>
+				<path refid="build.classpath" />
+				<pathelement path="${build.test-unit.dir}" />
+				<pathelement path="${build.test-system.dir}" />
+				<pathelement location="${jar.file}" />
+			</classpath>
+
+			<batchtest todir="${build.dir}/temp/testresults">
+				<fileset dir="${build.test-system.dir}">
+					<include name="sej/tutorials/TypeConversion.class" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+
+	</target>
+
 	<!-- test14 -->
 
 	<target name="compile-tests14" depends="compile-tests">

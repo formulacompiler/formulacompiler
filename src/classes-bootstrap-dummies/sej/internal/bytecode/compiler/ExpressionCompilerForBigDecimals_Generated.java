@@ -181,24 +181,14 @@ abstract class ExpressionCompilerForBigDecimals_Generated extends ExpressionComp
 		// dummy
 	}
 
+	@Override
 	protected final void compile_util_fromScaledLong( int _b ) throws CompilerException
 	{
 		// dummy
 	}
 
+	@Override
 	protected final void compile_util_toScaledLong( int _b ) throws CompilerException
-	{
-		// dummy
-	}
-
-	@Override
-	protected void compileOperatorWithFirstArgOnStack( Operator _operator, ExpressionNode _secondArg ) throws CompilerException
-	{
-		// dummy
-	}
-
-	@Override
-	protected void compileFunction( ExpressionNodeForFunction _node ) throws CompilerException
 	{
 		// dummy
 	}

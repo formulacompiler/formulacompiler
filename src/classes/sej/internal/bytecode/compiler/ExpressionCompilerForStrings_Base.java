@@ -20,6 +20,15 @@
  */
 package sej.internal.bytecode.compiler;
 
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.List;
+
+import sej.CompilerException;
+import sej.internal.expressions.DataType;
+import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForOperator;
+
 abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAll_Generated
 {
 
@@ -27,5 +36,153 @@ abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAl
 	{
 		super( _methodCompiler );
 	}
+
+	
+	@Override
+	protected TypeCompiler typeCompiler()
+	{
+		return section().engineCompiler().stringCompiler();
+	}
+
+
+	@Override
+	protected void compileConversionFrom( Class _class ) throws CompilerException
+	{
+		if (String.class == _class) {
+			compile_util_fromString();
+		}
+		else if (Object.class.isAssignableFrom( _class )) {
+			compile_util_fromObject();
+		}
+		else {
+			super.compileConversionFrom( _class );
+		}
+	}
+
+
+	@Override
+	protected void innerCompileConversionFromResultOf( Method _method ) throws CompilerException
+	{
+		Class returnType = _method.getReturnType();
+		compileConversionFrom( returnType );
+	}
+
+	
+	@Override
+	protected void compileConversionFrom( DataType _type ) throws CompilerException
+	{
+		switch (_type) {
+			case NULL:
+				compile_util_fromNull();
+				return;
+			case NUMERIC:
+				method().numericCompiler().compileConversionToString();
+				return;
+		}
+		super.compileConversionFrom( _type );
+	}
+	
+
+	@Override
+	protected void compileConversionTo( Class _class ) throws CompilerException
+	{
+		if (String.class == _class) {
+			return;
+		}
+		else {
+			super.compileConversionTo( _class );
+		}
+	}
+
+
+	@Override
+	protected void innerCompileConversionToResultOf( Method _method ) throws CompilerException
+	{
+		Class returnType = _method.getReturnType();
+		compileConversionTo( returnType );
+	}
+
+
+	@Override
+	protected void compileOperator( ExpressionNodeForOperator _node ) throws CompilerException
+	{
+		final List<ExpressionNode> args = _node.arguments();
+		switch (_node.getOperator()) {
+
+			case CONCAT:
+				switch (args.size()) {
+					case 0:
+						throw new CompilerException.UnsupportedExpression( "CONCAT needs at least one argument." );
+					case 1:
+						compile( args.get( 0 ) );
+						break;
+					default:
+						compileConcatenation( args );
+				}
+				return;
+
+		}
+		super.compileOperator( _node );
+	}
+
+
+	private final void compileConcatenation( Collection<ExpressionNode> _args ) throws CompilerException
+	{
+		boolean first = true;
+		for (ExpressionNode arg : _args) {
+			if (first) {
+				if (ByteCodeEngineCompiler.JRE14) {
+					compile_utilFun_newBuffer( arg );
+				}
+				else {
+					compile_utilFun_newBuilder( arg );
+				}
+				first = false;
+			}
+			else {
+				if (ByteCodeEngineCompiler.JRE14) {
+					compile_utilOp_appendBuffer( arg );
+				}
+				else {
+					compile_utilOp_appendBuilder( arg );
+				}
+			}
+		}
+		if (ByteCodeEngineCompiler.JRE14) {
+			compile_utilOp_fromBuffer();
+		}
+		else {
+			compile_utilOp_fromBuilder();
+		}
+	}
+	
+	
+	@Override
+	protected void compileComparison( int _comparisonOpcode ) throws CompilerException
+	{
+		// LATER compare strings
+		throw new CompilerException.UnsupportedExpression( "String comparison is not implemented yet." );
+	}
+
+
+	@Override
+	public String toString()
+	{
+		return "string";
+	}
+
+	
+	protected abstract void compile_util_fromString() throws CompilerException;
+	protected abstract void compile_util_fromObject() throws CompilerException;
+	protected abstract void compile_util_fromNull() throws CompilerException;
+
+	protected abstract void compile_utilFun_newBuilder( ExpressionNode _arg ) throws CompilerException;
+	protected abstract void compile_utilOp_appendBuilder( ExpressionNode _arg ) throws CompilerException;
+	protected abstract void compile_utilOp_fromBuilder() throws CompilerException;
+
+	protected abstract void compile_utilFun_newBuffer( ExpressionNode _arg ) throws CompilerException;
+	protected abstract void compile_utilOp_appendBuffer( ExpressionNode _arg ) throws CompilerException;
+	protected abstract void compile_utilOp_fromBuffer() throws CompilerException;
+
 
 }

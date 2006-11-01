@@ -43,12 +43,14 @@ abstract class ExpressionCompilerForScaledLongs_Generated extends ExpressionComp
 		super( _methodCompiler, _numericType );
 	}
 	
-	protected final void compile_util_scaleUp( long _scale ) throws CompilerException
+	@Override
+	protected final void compile_util_scaleUp( long _one ) throws CompilerException
 	{
 		// dummy
 	}
 
-	protected final void compile_util_scaleDown( long _scale ) throws CompilerException
+	@Override
+	protected final void compile_util_scaleDown( long _one ) throws CompilerException
 	{
 		// dummy
 	}
@@ -181,28 +183,6 @@ abstract class ExpressionCompilerForScaledLongs_Generated extends ExpressionComp
 
 	@Override
 	protected final void compile_util_toString() throws CompilerException
-	{
-		// dummy
-	}
-
-	protected final void compile_util_fromScaledLong( int _b ) throws CompilerException
-	{
-		// dummy
-	}
-
-	protected final void compile_util_toScaledLong( int _b ) throws CompilerException
-	{
-		// dummy
-	}
-
-	@Override
-	protected void compileOperatorWithFirstArgOnStack( Operator _operator, ExpressionNode _secondArg ) throws CompilerException
-	{
-		// dummy
-	}
-
-	@Override
-	protected void compileFunction( ExpressionNodeForFunction _node ) throws CompilerException
 	{
 		// dummy
 	}

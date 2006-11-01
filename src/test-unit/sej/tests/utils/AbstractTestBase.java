@@ -77,6 +77,14 @@ public abstract class AbstractTestBase extends TestCase
 	}
 
 
+	private static final File JAR_PATH = new File( "src/testdata/enginejars/jdk-" + jdkVersion() );
+
+	private static final String jdkVersion()
+	{
+		final String ver = System.getProperty( "java.version" );
+		return ver.substring( 0, 3 );
+	}
+
 	private int nextCheckId = 1;
 
 	protected void checkEngine( SaveableEngine _engine ) throws Exception
@@ -86,7 +94,7 @@ public abstract class AbstractTestBase extends TestCase
 
 	protected void checkEngine( SaveableEngine _engine, String _id ) throws Exception
 	{
-		final File jars = new File( "src/testdata/enginejars/" + getClass().getSimpleName() + '/' + getName() );
+		final File jars = new File( JAR_PATH, getClass().getSimpleName() + '/' + getName() );
 		jars.mkdirs();
 
 		// Make sure dates in .zip files are 0ed out so .zips are comparable:
@@ -117,6 +125,7 @@ public abstract class AbstractTestBase extends TestCase
 			writeStreamToFile( actual, expectedFile );
 		}
 	}
+
 
 	private void writeStreamToFile( InputStream _actual, File _file ) throws FileNotFoundException, IOException
 	{

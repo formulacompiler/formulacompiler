@@ -97,7 +97,7 @@ public class ExpressionTemplatesForScaledLongs
 
 	long util_fromNumber( Number a )
 	{
-		return (null == a) ? 0 : a.longValue();
+		return (a == null) ? 0 : a.longValue();
 	}
 
 	long util_fromBoolean( boolean a )

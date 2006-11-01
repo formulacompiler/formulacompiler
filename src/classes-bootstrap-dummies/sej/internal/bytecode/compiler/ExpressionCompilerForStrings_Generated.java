@@ -24,6 +24,9 @@
  */
 package sej.internal.bytecode.compiler;
 
+import sej.CompilerException;
+import sej.internal.expressions.ExpressionNode;
+
 /**
  * This is a dummy class for boot-strap compilation of the class that will compile the actual
  * version of this class. It is only used during the initial compile run.
@@ -35,6 +38,69 @@ abstract class ExpressionCompilerForStrings_Generated extends ExpressionCompiler
 	public ExpressionCompilerForStrings_Generated(MethodCompiler _methodCompiler)
 	{
 		super( _methodCompiler );
+	}
+
+	@Override
+	protected void compile_util_fromNull() throws CompilerException
+	{
+		// dummy
+
+	}
+
+	@Override
+	protected void compile_util_fromObject() throws CompilerException
+	{
+		// dummy
+
+	}
+
+	@Override
+	protected void compile_util_fromString() throws CompilerException
+	{
+		// dummy
+
+	}
+
+	@Override
+	protected void compile_utilFun_newBuffer( ExpressionNode _arg ) throws CompilerException
+	{
+		// dummy
+
+	}
+
+	@Override
+	protected void compile_utilFun_newBuilder( ExpressionNode _arg ) throws CompilerException
+	{
+		// dummy
+
+	}
+
+	@Override
+	protected void compile_utilOp_appendBuffer( ExpressionNode _arg ) throws CompilerException
+	{
+		// dummy
+
+	}
+
+	@Override
+	protected void compile_utilOp_appendBuilder( ExpressionNode _arg ) throws CompilerException
+	{
+		// dummy
+
+	}
+
+	@Override
+	protected void compile_utilOp_fromBuffer() throws CompilerException
+	{
+		// dummy
+
+	}
+
+	@Override
+	protected void compile_utilOp_fromBuilder() throws CompilerException
+	{
+		// dummy
+
 	}
 
 }

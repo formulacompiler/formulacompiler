@@ -104,6 +104,7 @@ final class ByteCodeCompilerGenerator
 		cb.appendLine( "/**" );
 		cb.append( " * DO NOT MODIFY! This file is generated automatically from " ).append( this.cls.getName() )
 				.appendLine( "." );
+		cb.append( " * Generated using jdk-" ).append( System.getProperty( "java.version" ) ).appendLine( "." );
 		cb.appendLine( " */" );
 		cb.appendLine( "package sej.internal.bytecode.compiler;" );
 		cb.newLine();
@@ -149,7 +150,6 @@ final class ByteCodeCompilerGenerator
 		System.out.println( "Done generating " + clsName + "." );
 		System.out.println();
 	}
-
 
 	private void genMethods()
 	{
