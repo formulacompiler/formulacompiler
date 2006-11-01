@@ -22,8 +22,11 @@ package sej.internal.bytecode.compiler;
 
 import org.objectweb.asm.Opcodes;
 
+import sej.CompilerException;
 import sej.NumericType;
 import sej.internal.NumericTypeImpl;
+import sej.runtime.ScaledLong;
+import sej.runtime.ScaledLongSupport;
 
 abstract class ExpressionCompilerForScaledLongs_Base extends ExpressionCompilerForNumbers
 {
@@ -74,5 +77,75 @@ abstract class ExpressionCompilerForScaledLongs_Base extends ExpressionCompilerF
 	{
 		mv().push( this.one );
 	}
+
+
+	
+	@Override
+	protected boolean isNativeType( Class _type )
+	{
+		return _type == Long.TYPE;
+	}
+
+	
+	@Override
+	protected final void compileScaleUp() throws CompilerException
+	{
+		if (scale() > 0) {
+			compile_util_scaleUp( this.one );
+		}
+	}
+
+	@Override
+	protected final void compileScaleDown() throws CompilerException
+	{
+		if (scale() > 0) {
+			compile_util_scaleDown( this.one );
+		}
+	}
+
+	private final void compileScaleCorrection( int _have, int _want ) throws CompilerException
+	{
+		if (_have > _want) {
+			long correct = ScaledLongSupport.ONE[ _have ] / ScaledLongSupport.ONE[ _want ];
+			compile_util_scaleDown( correct );
+		}
+		else if (_have < _want) {
+			long correct = ScaledLongSupport.ONE[ _want ] / ScaledLongSupport.ONE[ _have ];
+			compile_util_scaleUp( correct );
+		}
+	}
+
+
+	@Override
+	protected boolean compileConversionFrom( ScaledLong _scale ) throws CompilerException
+	{
+		compileScaleCorrection( _scale.value(), scale() );
+		return true;
+	}
+
+	@Override
+	protected boolean compileConversionTo( ScaledLong _scale ) throws CompilerException
+	{
+		compileScaleCorrection( scale(), _scale.value() );
+		return true;
+	}
+
+
+	@Override
+	protected void compileComparison( int _comparisonOpcode ) throws CompilerException
+	{
+		mv().visitInsn( Opcodes.LCMP );
+	}
+
+
+	@Override
+	protected void compileDup()
+	{
+		mv().visitInsn( Opcodes.DUP2 );
+	}
+
+	
+	protected abstract void compile_util_scaleUp( long _one ) throws CompilerException;
+	protected abstract void compile_util_scaleDown( long _one ) throws CompilerException;
 
 }

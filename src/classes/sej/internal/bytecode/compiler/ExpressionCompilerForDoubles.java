@@ -20,12 +20,7 @@
  */
 package sej.internal.bytecode.compiler;
 
-import org.objectweb.asm.Opcodes;
-
-import sej.CompilerException;
 import sej.NumericType;
-import sej.runtime.ScaledLong;
-import sej.runtime.ScaledLongSupport;
 
 final class ExpressionCompilerForDoubles extends ExpressionCompilerForDoubles_Generated
 {
@@ -35,46 +30,4 @@ final class ExpressionCompilerForDoubles extends ExpressionCompilerForDoubles_Ge
 		super( _methodCompiler, _numericType );
 	}
 
-
-	@Override
-	protected boolean isScaled()
-	{
-		return false;
-	}
-	
-	@Override
-	protected boolean isNativeType( Class _type )
-	{
-		return _type == Double.TYPE;
-	}
-
-
-	@Override
-	protected boolean compileConversionFrom( ScaledLong _scale ) throws CompilerException
-	{
-		compile_util_fromScaledLong( ScaledLongSupport.ONE[ _scale.value() ] );
-		return true;
-	}
-
-	@Override
-	protected boolean compileConversionTo( ScaledLong _scale ) throws CompilerException
-	{
-		compile_util_toScaledLong( ScaledLongSupport.ONE[ _scale.value() ] );
-		return true;
-	}
-
-
-	@Override
-	protected void compileComparison( int _comparisonOpcode ) throws CompilerException
-	{
-		mv().visitInsn( _comparisonOpcode );
-	}
-
-	
-	@Override
-	protected void compileDup()
-	{
-		mv().visitInsn( Opcodes.DUP2 );
-	}
-	
 }

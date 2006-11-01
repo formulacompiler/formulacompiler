@@ -20,6 +20,9 @@
  */
 package sej.tutorials;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
@@ -65,6 +68,16 @@ public class TypeConversion extends TestCase
 		builder.setNumericType( _numericType );
 		builder.bindAllByName();
 		SaveableEngine engine = builder.compile();
+		
+		if (_numericType == SEJ.CURRENCY) {
+			OutputStream os = new BufferedOutputStream( new FileOutputStream( "/temp/debug.jar" ) );
+			try {
+				engine.saveTo( os );
+			}
+			finally {
+				os.close();
+			}
+		}
 		
 		AllTypesFactory factory = (AllTypesFactory) engine.getComputationFactory();
 

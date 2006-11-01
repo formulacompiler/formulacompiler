@@ -20,54 +20,14 @@
  */
 package sej.internal.bytecode.compiler;
 
-import java.math.BigDecimal;
-
-import org.objectweb.asm.Opcodes;
-
-import sej.CompilerException;
 import sej.NumericType;
-import sej.runtime.ScaledLong;
 
 final class ExpressionCompilerForBigDecimals extends ExpressionCompilerForBigDecimals_Generated
 {
-	private static final String BNAME = TypeCompilerForBigDecimals.BNAME;
-	private static final String B = TypeCompilerForBigDecimals.B;
-	private static final String B2I = "(" + B + ")I";
-
 
 	public ExpressionCompilerForBigDecimals(MethodCompiler _methodCompiler, NumericType _numericType)
 	{
 		super( _methodCompiler, _numericType );
 	}
-
-
-	@Override
-	protected boolean isNativeType( Class _type )
-	{
-		return _type == BigDecimal.class;
-	}
-
-
-	@Override
-	protected boolean compileConversionFrom( ScaledLong _scale ) throws CompilerException
-	{
-		compile_util_fromScaledLong( _scale.value() );
-		return true;
-	}
-
-	@Override
-	protected boolean compileConversionTo( ScaledLong _scale ) throws CompilerException
-	{
-		compile_util_toScaledLong( _scale.value() );
-		return true;
-	}
-
-
-	@Override
-	protected void compileComparison( int _comparisonOpcode ) throws CompilerException
-	{
-		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "compareTo", B2I );
-	}
-
 
 }
