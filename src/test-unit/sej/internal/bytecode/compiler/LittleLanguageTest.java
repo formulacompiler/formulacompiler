@@ -49,7 +49,7 @@ import sej.tests.utils.Inputs;
 import sej.tests.utils.Outputs;
 import sej.tests.utils.OutputsWithoutCaching;
 
-public class LittleLanguageTests extends AbstractTestBase
+public class LittleLanguageTest extends AbstractTestBase
 {
 	private static final int N_DET = 3;
 	private final Inputs inputs = new Inputs();
