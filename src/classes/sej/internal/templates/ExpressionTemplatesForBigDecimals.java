@@ -88,7 +88,7 @@ public class ExpressionTemplatesForBigDecimals
 
 	BigDecimal util_fromBoolean( boolean a )
 	{
-		return a ? BigDecimal.ONE : BigDecimal.ZERO;
+		return RuntimeBigDecimal_v1.booleanToNum( a );
 	}
 
 	BigDecimal util_fromDate( Date a )
@@ -148,8 +148,7 @@ public class ExpressionTemplatesForBigDecimals
 	@ReturnsAdjustedValue
 	boolean util_toBoolean( BigDecimal a )
 	{
-		final boolean b = a.compareTo( BigDecimal.ZERO ) != 0;
-		return b;
+		return RuntimeBigDecimal_v1.booleanFromNum( a );
 	}
 
 	@ReturnsAdjustedValue
@@ -258,14 +257,12 @@ public class ExpressionTemplatesForBigDecimals
 
 	BigDecimal op_AND( BigDecimal a, BigDecimal b )
 	{
-		return (a.compareTo( BigDecimal.ZERO ) != 0) && (b.compareTo( BigDecimal.ZERO ) != 0) ? BigDecimal.ONE
-				: BigDecimal.ZERO;
+		return RuntimeBigDecimal_v1.and( a, b );
 	}
 
 	BigDecimal op_OR( BigDecimal a, BigDecimal b )
 	{
-		return (a.compareTo( BigDecimal.ZERO ) != 0) || (b.compareTo( BigDecimal.ZERO ) != 0) ? BigDecimal.ONE
-				: BigDecimal.ZERO;
+		return RuntimeBigDecimal_v1.or( a, b );
 	}
 
 

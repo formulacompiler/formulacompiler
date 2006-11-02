@@ -49,7 +49,6 @@ import sej.tests.utils.AbstractTestBase;
  */
 public class SectionSumTest extends AbstractTestBase
 {
-	private static final boolean JRE14 = System.getProperty( "java.version" ).startsWith( "1.4." );
 
 	public void testSums() throws Exception
 	{
@@ -89,7 +88,7 @@ public class SectionSumTest extends AbstractTestBase
 	{
 		assertEquals( _engName + ": array", _expected, _output.arraySums() );
 		assertEquals( _engName + ": iterator", _expected, _output.iteratorSums() );
-		if (!JRE14) assertEquals( _engName + ": iterable", _expected, _output.iterableSums() );
+		assertEquals( _engName + ": iterable", _expected, _output.iterableSums() );
 		assertEquals( _engName + ": collection", _expected, _output.collectionSums() );
 	}
 
@@ -118,7 +117,7 @@ public class SectionSumTest extends AbstractTestBase
 
 		bindSectionSum( sht, bnd, "array" );
 		bindSectionSum( sht, bnd, "iterator" );
-		if (!JRE14) bindSectionSum( sht, bnd, "iterable" );
+		bindSectionSum( sht, bnd, "iterable" );
 		bindSectionSum( sht, bnd, "collection" );
 
 		SaveableEngine engine = cmp.compile();

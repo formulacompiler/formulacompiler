@@ -50,11 +50,18 @@ import java.util.regex.Pattern;
  * 
  * @author peo
  */
-public class Util
+public final class Util
 {
 
 
-	public static String readStringFrom( File _source ) throws IOException
+	public static final String jdkVersionSuffix()
+	{
+		final String ver = System.getProperty( "java.version" );
+		return ver.substring( 0, 3 );
+	}
+	
+	
+	public static final String readStringFrom( File _source ) throws IOException
 	{
 		StringBuffer sb = new StringBuffer( 1024 );
 		BufferedReader reader = new BufferedReader( new FileReader( _source ) );
@@ -72,7 +79,7 @@ public class Util
 	}
 
 
-	public static void writeStringTo( String _value, File _target ) throws IOException
+	public static final void writeStringTo( String _value, File _target ) throws IOException
 	{
 		BufferedWriter writer = new BufferedWriter( new FileWriter( _target ) );
 		try {
@@ -90,7 +97,7 @@ public class Util
 	}
 
 
-	static void iterateFiles( File _inputFolder, String _pattern, File _outputFolder, boolean _recurse,
+	static final void iterateFiles( File _inputFolder, String _pattern, File _outputFolder, boolean _recurse,
 			FileVisitor _visitor ) throws IOException
 	{
 		final StringBuilder src = new StringBuilder();

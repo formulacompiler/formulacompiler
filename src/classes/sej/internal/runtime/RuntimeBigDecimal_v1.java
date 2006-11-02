@@ -46,6 +46,7 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 	 * JRE 1.4 does not have BigDecimal.valueOf, so I cannot compile it. Retrotranslator handles the
 	 * call here.
 	 */
+	@Deprecated
 	public static BigDecimal newBigDecimal( final double _value )
 	{
 		return BigDecimal.valueOf( _value );
@@ -55,6 +56,7 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 	 * JRE 1.4 does not have BigDecimal.valueOf, so I cannot compile it. Retrotranslator handles the
 	 * call here.
 	 */
+	@Deprecated
 	public static BigDecimal newBigDecimal( final long _value )
 	{
 		return BigDecimal.valueOf( _value );
@@ -99,6 +101,16 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 	public static BigDecimal max( BigDecimal a, BigDecimal b )
 	{
 		return (a.compareTo( b ) >= 0) ? a : b;
+	}
+
+	public static BigDecimal and( BigDecimal a, BigDecimal b )
+	{
+		return booleanToNum( booleanFromNum( a ) && booleanFromNum( b ) );
+	}
+
+	public static BigDecimal or( BigDecimal a, BigDecimal b )
+	{
+		return booleanToNum( booleanFromNum( a ) || booleanFromNum( b ) );
 	}
 
 	public static boolean booleanFromNum( final BigDecimal _val )

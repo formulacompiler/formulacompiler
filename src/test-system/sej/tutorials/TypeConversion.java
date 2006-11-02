@@ -37,7 +37,6 @@ import junit.framework.TestCase;
 
 public class TypeConversion extends TestCase
 {
-	private static final boolean JRE14 = System.getProperty( "java.version" ).startsWith( "1.4." );
 	private static final long ONE_DAY = 1000 * 60 * 60 * 24; // ms
 	private static final Date CREATION_TIME = new Date( 100 * ONE_DAY );
 
@@ -127,16 +126,7 @@ public class TypeConversion extends TestCase
 	
 	private String asString( BigDecimal _value )
 	{
-		final String str = Util.trimTrailingZerosAndPoint( _value.toPlainString() );
-		if (JRE14) {
-			// JRE 1.4 is more imprecise with Double than is JRE 1.5+
-			final int posOfDec = str.indexOf( '.' );
-			if (posOfDec >= 0) {
-				final int maxLen = Math.min( posOfDec + 5, str.length() );
-				return Util.trimTrailingZerosAndPoint( str.substring( 0, maxLen )); 
-			}
-		}
-		return str;
+		return Util.trimTrailingZerosAndPoint( _value.toPlainString() );
 	}
 
 	private String asString( BigInteger _value )

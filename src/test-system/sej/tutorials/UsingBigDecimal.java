@@ -30,7 +30,6 @@ import junit.framework.TestCase;
 
 public class UsingBigDecimal extends TestCase
 {
-	private static final boolean JRE14 = System.getProperty( "java.version" ).startsWith( "1.4." );
 	private static final String PATH = "src/test-system/testdata/sej/tutorials/UsingNumericTypes.xls";
 
 
@@ -42,7 +41,7 @@ public class UsingBigDecimal extends TestCase
 		builder.loadSpreadsheet( path );
 		builder.setFactoryClass( Factory.class );
 		// ---- buildCompiler
-		builder.setNumericType( /**/SEJ.getNumericType( BigDecimal.class, 20, BigDecimal.ROUND_UP )/**/ );
+		builder.setNumericType( /**/SEJ.getNumericType( BigDecimal.class, 20, BigDecimal.ROUND_UP )/**/);
 		// ---- buildCompiler
 		builder.bindAllByName();
 		Engine engine = builder.compile();
@@ -63,7 +62,7 @@ public class UsingBigDecimal extends TestCase
 		builder.loadSpreadsheet( path );
 		builder.setFactoryClass( Factory.class );
 		// ---- buildCompiler8
-		builder.setNumericType( /**/SEJ.BIGDECIMAL8/**/ );
+		builder.setNumericType( /**/SEJ.BIGDECIMAL8/**/);
 		// ---- buildCompiler8
 		builder.bindAllByName();
 		Engine engine = builder.compile();
@@ -78,7 +77,7 @@ public class UsingBigDecimal extends TestCase
 
 		{
 			// ---- checkResult8b
-			Output output = factory.newInstance( new Input( /**/3/**/ ) );
+			Output output = factory.newInstance( new Input( /**/3/**/) );
 			assertEquals( /**/"1.33333333"/**/, output.getResult().toPlainString() );
 			// ---- checkResult8b
 		}
@@ -88,54 +87,59 @@ public class UsingBigDecimal extends TestCase
 	public void testUsingBigDecimalN() throws Exception
 	{
 		String path = PATH;
+		EngineBuilder builder = SEJ.newEngineBuilder();
+		builder.loadSpreadsheet( path );
+		builder.setFactoryClass( Factory.class );
+		// ---- buildCompilerN
+		builder.setNumericType( /**/SEJ.getNumericType( BigDecimal.class )/**/);
+		// ---- buildCompilerN
+		builder.bindAllByName();
+		Engine engine = builder.compile();
+		Factory factory = (Factory) engine.getComputationFactory();
+
+		{
+			// ---- checkResultNa
+			Output output = factory.newInstance( new Input( /**/4/**/) );
+			assertEquals( /**/"1.25"/**/, output.getResult().toPlainString() );
+			// ---- checkResultNa
+		}
+
+		// ---- checkResultNb
 		try {
-			EngineBuilder builder = SEJ.newEngineBuilder();
-			builder.loadSpreadsheet( path );
-			builder.setFactoryClass( Factory.class );
-			// ---- buildCompilerN
-			builder.setNumericType( /**/SEJ.getNumericType( BigDecimal.class )/**/ );
-			// ---- buildCompilerN
-			builder.bindAllByName();
-				Engine engine = builder.compile();
-			Factory factory = (Factory) engine.getComputationFactory();
-	
-			{
-				// ---- checkResultNa
-				Output output = factory.newInstance( new Input( /**/4/**/ ) );
-				assertEquals( /**/"1.25"/**/, output.getResult().toPlainString() );
-				// ---- checkResultNa
-			}
-	
-			// ---- checkResultNb
-			try {
-				Output output = factory.newInstance( new Input( /**/3/**/ ) );
-				output.getResult();
-				fail( "ArithmeticException expected" );
-			}
-			catch (/**/ArithmeticException e/**/) {
-				assertEquals( "Non-terminating decimal expansion; no exact representable decimal result.", e.getMessage() );
-			}
-			// ---- checkResultNb
+			Output output = factory.newInstance( new Input( /**/3/**/) );
+			output.getResult();
+			fail( "ArithmeticException expected" );
 		}
-		catch (CompilerException.UnsupportedOperator e) {
-			assertTrue( JRE14 ); // Unscaled BigDecimal.divide is not supported on JRE 1.4
+		catch (/**/ArithmeticException e/**/) {
+			assertEquals( "Non-terminating decimal expansion; no exact representable decimal result.", e.getMessage() );
 		}
+		// ---- checkResultNb
 	}
 
 
 	// ---- IO
 	public static class Input
 	{
-		public Input(int b)  { this.b = b; }
-		public /**/BigDecimal/**/ getA()  { return BigDecimal.valueOf( 1 ); }
-		public /**/BigDecimal/**/ getB()  { return BigDecimal.valueOf( this.b ); }
+		public Input(int b)
+		{
+			this.b = b;
+		}
+		public/**/BigDecimal/**/getA()
+		{
+			return BigDecimal.valueOf( 1 );
+		}
+		public/**/BigDecimal/**/getB()
+		{
+			return BigDecimal.valueOf( this.b );
+		}
 		private final int b;
 	}
 
 	public static interface Output
 	{
-		/**/BigDecimal/**/ getResult();
+		/**/BigDecimal/**/getResult();
 	}
+
 	// ---- IO
 
 	public static interface Factory

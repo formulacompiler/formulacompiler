@@ -44,6 +44,8 @@ public abstract class NumericTypeImpl implements NumericType
 	private final int scale;
 	private final int roundingMode;
 
+	// LATER Switch to MathContext
+	
 	/**
 	 * To ensure compatibility with JRE 1.4 I cannot use a MathContext here.
 	 */

@@ -29,6 +29,7 @@ import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import sej.describable.DescriptionBuilder;
+import sej.internal.build.Util;
 import sej.internal.build.bytecode.ByteCodeCompilerGenerator.TemplateMethodGenerator;
 import sej.internal.templates.ExpressionTemplatesForAll;
 import sej.internal.templates.ExpressionTemplatesForBigDecimals;
@@ -55,7 +56,7 @@ public final class PatternCompiler
 
 	private void run() throws IOException
 	{
-		final File p = new File( "src/classes-gen/sej/internal/bytecode/compiler" );
+		final File p = new File( "src/classes-gen-jre" + Util.jdkVersionSuffix() + "/sej/internal/bytecode/compiler" );
 		p.mkdirs();
 
 		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForAll.class, "All" ).generate( p );

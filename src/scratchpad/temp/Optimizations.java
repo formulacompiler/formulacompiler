@@ -5,6 +5,7 @@ public class Optimizations
 	
 	private static final String A = "a";
 	private static final String B = "b";
+	@SuppressWarnings("unused")
 	private static final String C = A + B;
 
 

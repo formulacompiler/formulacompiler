@@ -63,24 +63,6 @@ public class ExpressionTemplatesForStrings
 	}
 
 
-	// For JRE 1.4 (does not have StringBuilder).
-
-	StringBuffer utilFun_newBuffer( String a )
-	{
-		return new StringBuffer( a );
-	}
-
-	StringBuffer utilOp_appendBuffer( StringBuffer b, String s )
-	{
-		return b.append( s );
-	}
-
-	String utilOp_fromBuffer( StringBuffer b )
-	{
-		return b.toString();
-	}
-
-
 	String fun_LOWER( String a )
 	{
 		return Runtime_v1.stdLOWER( a );
