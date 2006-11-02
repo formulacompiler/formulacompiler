@@ -173,12 +173,14 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		}
 	}
 
+	@Deprecated
 	public static long stdROUND( final long _val, final long _maxFrac, Context _cx )
 	{
 		if (_cx.scale == 0) return round( _val, (int) _maxFrac, _cx );
 		return round( _val, (int) (_maxFrac / _cx.one), _cx );
 	}
 
+	@Deprecated
 	public static long stdTODAY( Context _cx )
 	{
 		return dateToNum( today(), _cx );

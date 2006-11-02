@@ -68,11 +68,13 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return _val.setScale( _maxFrac, BigDecimal.ROUND_HALF_UP );
 	}
 
+	@Deprecated
 	public static BigDecimal stdROUND( final BigDecimal _val, final BigDecimal _maxFrac )
 	{
 		return round( _val, _maxFrac.intValue() );
 	}
 
+	@Deprecated
 	public static BigDecimal stdTODAY()
 	{
 		return dateToNum( today() );
@@ -103,11 +105,13 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return (a.compareTo( b ) >= 0) ? a : b;
 	}
 
+	@Deprecated
 	public static BigDecimal and( BigDecimal a, BigDecimal b )
 	{
 		return booleanToNum( booleanFromNum( a ) && booleanFromNum( b ) );
 	}
 
+	@Deprecated
 	public static BigDecimal or( BigDecimal a, BigDecimal b )
 	{
 		return booleanToNum( booleanFromNum( a ) || booleanFromNum( b ) );
