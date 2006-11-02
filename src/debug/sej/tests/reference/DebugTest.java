@@ -16,8 +16,8 @@ public final class DebugTest extends AbstractReferenceTest
 
 	public DebugTest()
 	{
-		super( "Aggregators" );
-		//super( "Aggregators", 63, NumType.BIGDECIMAL, Integer.valueOf( "0", 2 ), false );
+		super( "Strings", 169 );
+		//super( "Strings", 169, NumType.DOUBLE, Integer.valueOf( "0", 2 ), false );
 	}
 
 	@Override
