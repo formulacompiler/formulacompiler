@@ -712,7 +712,9 @@
 		<mkdir dir="${build.cover.dir}"/>
 
 	    <emma>
-	      <instr destdir="${build.instr.dir}" metadatafile="${emma.meta.file}" merge="true" instrpath="${build.classes.dir}" />
+		    <instr destdir="${build.instr.dir}" metadatafile="${emma.meta.file}" merge="true" instrpath="${build.classes.dir}" >
+		    	<filter value="+sej.*,-sej.internal.templates.*" />
+	      	</instr>
 	    </emma>
 
 		<delete dir="${build.dir}/temp/testresults" />

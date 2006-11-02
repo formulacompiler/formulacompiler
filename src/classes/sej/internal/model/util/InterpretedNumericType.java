@@ -232,7 +232,7 @@ public abstract class InterpretedNumericType
 				}
 				break;
 			}
-
+			
 			case NOT: {
 				switch (cardinality) {
 					case 1:
@@ -249,6 +249,10 @@ public abstract class InterpretedNumericType
 						return evalIndex( (RangeValue) _args[ 0 ], _args[ 1 ], _args[ 2 ] );
 				}
 				break;
+			}
+			
+			case COUNT: {
+				return _args.length;
 			}
 
 			case LEN: {
