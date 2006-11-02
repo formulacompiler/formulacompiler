@@ -16,8 +16,8 @@ public final class DebugTest extends AbstractReferenceTest
 
 	public DebugTest()
 	{
-		super( "Strings" );
-		//super( "Strings", 142, NumType.DOUBLE, Integer.valueOf( "1", 2 ), false );
+		//super( "FunctionIF" );
+		super( "FunctionIF", 49, NumType.DOUBLE, Integer.valueOf( "1", 2 ), false );
 	}
 
 	@Override

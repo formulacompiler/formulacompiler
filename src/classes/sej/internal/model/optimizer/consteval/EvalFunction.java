@@ -20,6 +20,8 @@
  */
 package sej.internal.model.optimizer.consteval;
 
+import java.util.List;
+
 import sej.Function;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForFunction;
@@ -33,6 +35,55 @@ public class EvalFunction extends EvalShadow
 	{
 		super( _node, _type );
 	}
+
+
+	@Override
+	protected Object eval()
+	{
+		final Function function = ((ExpressionNodeForFunction) node()).getFunction();
+		switch (function) {
+
+			case AND:
+				return evalBooleanSequence( false );
+
+			case OR:
+				return evalBooleanSequence( true );
+
+			default:
+				return super.eval();
+
+		}
+	}
+
+
+	private final Object evalBooleanSequence( boolean _returnThisIfFound )
+	{
+		final InterpretedNumericType type = type();
+		final List<ExpressionNode> args = node().arguments();
+
+		// Since AND and OR are strict in spreadsheets, we can start at the back.
+		for (int i = cardinality() - 1; i >= 0; i--) {
+			final Object arg = evaluateArgument( i );
+			if (isConstant( arg )) {
+				final boolean value = type.toBoolean( arg );
+				if (value == _returnThisIfFound) {
+					return _returnThisIfFound;
+				}
+				else {
+					args.remove( i );
+					arguments().remove( i );
+				}
+			}
+		}
+
+		if (args.size() > 0) {
+			return node();
+		}
+		else {
+			return !_returnThisIfFound;
+		}
+	}
+
 
 	@Override
 	protected Object evaluateToConst( Object[] _args )
@@ -50,5 +101,6 @@ public class EvalFunction extends EvalShadow
 			}
 		}
 	}
+
 
 }
