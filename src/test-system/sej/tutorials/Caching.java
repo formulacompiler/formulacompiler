@@ -160,8 +160,8 @@ public class Caching extends TestCase
 		input.setSide( "123456789123456789123456789123456789123456789123456789123456789123456789" );
 		long plainTime = time( plainFactory, input );
 		long cachingTime = time( cachingFactory, input );
-		assertTrue( "Caching is at least twice as fast; caching is " + cachingTime + " vs. " + plainTime,
-				cachingTime * 2 < plainTime );
+		assertTrue( "Caching is at least half as fast again; caching is " + cachingTime + " vs. " + plainTime,
+				cachingTime * 3 / 2 < plainTime );
 		// ---- timing
 	}
 
