@@ -22,7 +22,6 @@ package sej.tutorials;
 
 import java.math.BigDecimal;
 
-import sej.CompilerException;
 import sej.EngineBuilder;
 import sej.SEJ;
 import sej.runtime.Engine;
