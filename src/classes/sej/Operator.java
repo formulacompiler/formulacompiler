@@ -179,34 +179,6 @@ public enum Operator {
 		{
 			return getName();
 		}
-	},
-
-	AND {
-		@Override
-		public String getName()
-		{
-			return "_and_";
-		}
-
-		@Override
-		public String getSymbol()
-		{
-			return getName();
-		}
-	},
-
-	OR {
-		@Override
-		public String getName()
-		{
-			return "_or_";
-		}
-
-		@Override
-		public String getSymbol()
-		{
-			return getName();
-		}
 	};
 
 

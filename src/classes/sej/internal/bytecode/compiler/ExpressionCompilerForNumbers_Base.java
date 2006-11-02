@@ -636,14 +636,6 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 
 				switch (operator) {
 
-					case AND:
-						compileAnd();
-						return;
-
-					case OR:
-						compileOr();
-						return;
-
 					case EQUAL:
 					case NOTEQUAL:
 					case GREATER:

@@ -255,16 +255,6 @@ public class ExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v1.max( a, b );
 	}
 
-	BigDecimal op_AND( BigDecimal a, BigDecimal b )
-	{
-		return RuntimeBigDecimal_v1.and( a, b );
-	}
-
-	BigDecimal op_OR( BigDecimal a, BigDecimal b )
-	{
-		return RuntimeBigDecimal_v1.or( a, b );
-	}
-
 
 	// ------------------------------------------------ Numeric Functions
 

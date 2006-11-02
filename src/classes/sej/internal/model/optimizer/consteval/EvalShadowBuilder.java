@@ -49,7 +49,7 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 	{
 		if (_node instanceof ExpressionNodeForConstantValue) return new EvalConstantValue( _node, this.type );
 		else if (_node instanceof ExpressionNodeForRangeValue) return new EvalRangeValue( _node, this.type );
-		else if (_node instanceof ExpressionNodeForOperator) return newEvalOperator( (ExpressionNodeForOperator) _node );
+		else if (_node instanceof ExpressionNodeForOperator) return new EvalOperator( _node, this.type );
 		else if (_node instanceof ExpressionNodeForFunction) return newEvalFunction( (ExpressionNodeForFunction) _node );
 		else if (_node instanceof ExpressionNodeForCellModel) return new EvalCell( _node, this.type );
 		else if (_node instanceof ExpressionNodeForParentSectionModel) return new EvalPassthrough( _node );
@@ -59,17 +59,6 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 		else if (_node instanceof ExpressionNodeForFold) return new EvalFold( (ExpressionNodeForFold) _node, this.type );
 		else if (_node instanceof ExpressionNodeForFold1st) return new EvalFold1st( (ExpressionNodeForFold1st) _node, this.type );
 		else return new EvalNonFoldable( _node );
-	}
-
-	private ExpressionNodeShadow newEvalOperator( ExpressionNodeForOperator _node )
-	{
-		switch (_node.getOperator()) {
-			case AND:
-				return new EvalAnd( _node, this.type );
-			case OR:
-				return new EvalOr( _node, this.type );
-		}
-		return new EvalOperator( _node, this.type );
 	}
 
 	private ExpressionNodeShadow newEvalFunction( ExpressionNodeForFunction _node )
