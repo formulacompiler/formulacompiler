@@ -166,6 +166,10 @@
 	<target name="compile" depends="prepare, generate" description="Compiles the source code">
 		<javac srcdir="${src.classes.dir}:${src.classes-gen-jre.dir}:${src.classes-gen.dir}" destdir="${build.classes.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/**" />
+			<!-- Not needed at runtime so far: -->
+			<exclude name="sej/internal/templates/**" /> 
+			<exclude name="sej/internal/spreadsheet/loader/excel/RewriteLanguageParser*" />
+			<exclude name="sej/internal/spreadsheet/loader/excel/Generated*Internal*" />
 		</javac>
 	</target>
 
@@ -713,7 +717,6 @@
 
 	    <emma>
 		    <instr destdir="${build.instr.dir}" metadatafile="${emma.meta.file}" merge="true" instrpath="${build.classes.dir}" >
-		    	<filter value="+sej.*,-sej.internal.templates.*" />
 	      	</instr>
 	    </emma>
 
