@@ -12,9 +12,9 @@
 	<property name="doc.dir" location="${basedir}/doc" />
 	<property name="src.classes.dir" location="${src.dir}/classes" />
 	<property name="src.classes-gen.dir" location="${src.dir}/classes-gen" />
+	<property name="src.classes-gen-jre.dir" location="${src.dir}/classes-gen-jre${ant.java.version}" />
 	<property name="src.classes-bootstrap.dir" location="${src.dir}/classes-bootstrap-dummies" />
 	<property name="src.classes-build-tools.dir" location="${src.dir}/build-tools" />
-	<property name="src.classes-unverified.dir" location="${src.dir}/classes-unverified-for-jre14" />
 	<property name="src.test-accessors.dir" location="${src.dir}/test-accessors" />
 	<property name="src.test-unit.dir" location="${src.dir}/test-unit" />
 	<property name="src.test-system.dir" location="${src.dir}/test-system" />
@@ -28,20 +28,14 @@
 
 	<property name="build.dir" location="${basedir}/build" />
 	<property name="build.classes.dir" location="${build.dir}/classes" />
-	<property name="build.classes-unverified.dir" location="${build.dir}/classes-unverified-for-jre14" />
 	<property name="build.classes-bootstrap.dir" location="${build.dir}/classes-bootstrap" />
-	<property name="build.classes14.dir" location="${build.dir}/classes14" />
 	<property name="build.test-unit.dir" location="${build.dir}/test-unit" />
-	<property name="build.test-unit14.dir" location="${build.dir}/test-unit14" />
 	<property name="build.test-system.dir" location="${build.dir}/test-system" />
-	<property name="build.test-system14.dir" location="${build.dir}/test-system14" />
 	<property name="build.examples.dir" location="${build.dir}/examples" />
 	<property name="dist.dir" location="${basedir}/dist" />
 
 	<property name="jar.file" location="${build.dir}/${name}.jar" />
-	<property name="jar14.file" location="${build.dir}/${name}-jre1.4.jar" />
 	<property name="jar.runtime.file" location="${build.dir}/${name}-runtime.jar" />
-	<property name="jar14.runtime.file" location="${build.dir}/${name}-runtime-jre1.4.jar" />
 	<property name="jar.src.file" location="${build.dir}/${name}-src.jar" />
 	<property name="jar.doc.file" location="${build.dir}/${name}-doc.jar" />
 	<!-- <property name="jar.manifest" location="${src.classes.dir}/manifest.mf" /> -->
@@ -73,9 +67,7 @@
 	<target name="prepare">
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${build.classes.dir}" />
-		<mkdir dir="${build.classes-unverified.dir}" />
 		<mkdir dir="${build.classes-bootstrap.dir}" />
-		<mkdir dir="${build.classes14.dir}" />
 
 		<path id="run.classpath">
 			<pathelement location="${conf.dir}" />
@@ -155,74 +147,26 @@
 
 	<!-- compile -->
 
-	<target name="compile-unverified" depends="prepare" description="Compiles the source code unverified for JRE 1.4">
-		<javac srcdir="${src.classes-unverified.dir}" destdir="${build.classes-unverified.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
-			<include name="sej/**" />
-		</javac>
-	</target>
-
-	<target name="compile-bootstrap" depends="prepare, lex, cup, compile-unverified" description="Compiles the bootstrap source code">
+	<target name="compile-bootstrap" depends="prepare, lex, cup" description="Compiles the bootstrap source code">
 		<delete failonerror="no">
 			<fileset dir="${src.classes-gen.dir}/sej/internal/model/rewriting" includes="*.java" />
-			<fileset dir="${src.classes-gen.dir}/sej/internal/bytecode/compiler" includes="*.java" />
+			<fileset dir="${src.classes-gen-jre.dir}/sej/internal/bytecode/compiler" includes="*.java" />
 		</delete>
-		<javac srcdir="${src.classes.dir}:${src.classes-gen.dir}:${src.classes-bootstrap.dir}:${src.classes-build-tools.dir}" destdir="${build.classes-bootstrap.dir}" classpath="${tools.classpath}:${build.classes-unverified.dir}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+		<javac srcdir="${src.classes.dir}:${src.classes-gen.dir}:${src.classes-bootstrap.dir}:${src.classes-build-tools.dir}" destdir="${build.classes-bootstrap.dir}" classpath="${tools.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/**" />
 		</javac>
 	</target>
 
 	<target name="generate" depends="prepare, compile-bootstrap" description="Generates source code">
-		<property name="tools-path" value="${tools.classpath}:${build.classes-bootstrap.dir}:${build.classes-unverified.dir}" />
+		<property name="tools-path" value="${tools.classpath}:${build.classes-bootstrap.dir}" />
 		<java classpath="${tools-path}" classname="sej.internal.build.rewriting.RewriteRulesCompiler" />
 		<java classpath="${tools-path}" classname="sej.internal.build.bytecode.PatternCompiler" fork="true" />
 	</target>
 
 	<target name="compile" depends="prepare, generate" description="Compiles the source code">
-		<javac srcdir="${src.classes.dir}:${src.classes-gen.dir}" destdir="${build.classes.dir}" classpath="${build.classpath}:${build.classes-unverified.dir}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+		<javac srcdir="${src.classes.dir}:${src.classes-gen-jre.dir}:${src.classes-gen.dir}" destdir="${build.classes.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/**" />
 		</javac>
-	</target>
-
-	<!-- compile14 -->
-
-	<target name="compile14" depends="prepare, compile" description="Compiles the source code for JRE 1.4">
-
-		<delete dir="${build.classes14.dir}" />
-		<mkdir dir="${build.classes14.dir}"/>
-		
-		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${lib.classpath}" failonerror="yes">
-			<arg value="-srcdir" />
-			<arg file="${build.classes-unverified.dir}" />
-			<arg value="-srcjar" />
-			<arg file="${lib.dir}/build-only/retrotranslator-runtime-1.0.7.jar" />
-			<arg value="-destdir" />
-			<arg file="${build.classes14.dir}" />
-			<arg value="-stripsign" />
-			<arg value="-lazy" />
-			<arg value="-advanced" />  <!-- support BigDecimal.setScale with negative scale -->
-		</java>
-	
-		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${lib.classpath}" failonerror="yes">
-			<arg value="-srcdir" />
-			<arg file="${build.classes.dir}" />
-			<arg value="-srcjar" />
-			<arg file="${lib.dir}/build-only/retrotranslator-runtime-1.0.7.jar" />
-			<arg value="-destdir" />
-			<arg file="${build.classes14.dir}" />
-			<arg value="-stripsign" />
-			<arg value="-lazy" />
-			<arg value="-verify" />
-			<arg value="-classpath" />
-			<arg value="${build.classes14.dir}" />
-			<arg value="-classpath" />
-			<arg value="${lib.classpath}" />
-			<arg value="-classpath" />
-			<arg value="${lib.dir}/build-only/backport-util-concurrent.jar" />
-			<arg value="-classpath" />
-			<arg value="${java14.home.dir}/lib/rt.jar" />
-			<arg value="-advanced" />  <!-- support BigDecimal.setScale with negative scale -->
-		</java>
-
 	</target>
 
 	<!-- jars -->
@@ -232,8 +176,6 @@
 		<delete file="${jar.file}" />
 		<jar jarfile="${jar.file}" compress="true">
 			<fileset dir="${build.classes.dir}" >
-			</fileset>
-			<fileset dir="${build.classes-unverified.dir}" >
 			</fileset>
 		</jar>
 
@@ -248,28 +190,6 @@
 
 	</target>
 
-	<target name="jar14" depends="compile14" description="Creates the jar files for Java 1.4">
-
-		<delete file="${jar14.file}" />
-		<jar jarfile="${jar14.file}" compress="true">
-			<fileset dir="${build.classes14.dir}" >
-				<exclude name="META-INF/**" />
-			</fileset>
-		</jar>
-
-		<delete file="${jar14.runtime.file}" />
-		<jar jarfile="${jar14.runtime.file}" compress="true">
-			<fileset dir="${build.classes14.dir}">
-				<include name="sej/runtime/*.class" />
-				<include name="sej/internal/runtime/*.class" />
-				<include name="sej/internal/bytecode/runtime/*.class" />
-				<include name="net/sf/**" />
-				<include name="*.txt" />
-			</fileset>
-		</jar>
-
-	</target>
-
 	<target name="srcjar" depends="prepare, validate, javadoc" description="Creates a jar file with the product source code in it">
 
 		<delete file="${jar.src.file}" />
@@ -279,6 +199,9 @@
 				<exclude name="net/sf/retrotranslator/**"/>
 			</fileset>
 			<fileset dir="${src.classes-gen.dir}" >
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${src.classes-gen-jre.dir}" >
 				<include name="**/*.java"/>
 			</fileset>
 		</jar>
@@ -396,122 +319,6 @@
 			<batchtest todir="${build.dir}/temp/testresults">
 				<fileset dir="${build.test-system.dir}">
 					<include name="sej/tutorials/TypeConversion.class" />
-				</fileset>
-			</batchtest>
-
-		</junit>
-
-	</target>
-
-	<!-- test14 -->
-
-	<target name="compile-tests14" depends="compile-tests">
-
-		<mkdir dir="${build.test-unit14.dir}" />
-		<mkdir dir="${build.test-system14.dir}" />
-
-		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${lib.classpath}:${build.classes14.dir}" failonerror="yes">
-			<arg value="-srcdir" />
-			<arg path="${build.test-unit.dir}" />
-			<arg value="-destdir" />
-			<arg path="${build.test-unit14.dir}" />
-			<arg value="-stripsign" />
-			<arg value="-lazy" />
-		</java>
-
-		<java classname="net.sf.retrotranslator.transformer.Retrotranslator" classpath="${lib.classpath}:${build.classes14.dir}" failonerror="yes">
-			<arg value="-srcdir" />
-			<arg path="${build.test-system.dir}" />
-			<arg value="-destdir" />
-			<arg path="${build.test-system14.dir}" />
-			<arg value="-stripsign" />
-			<arg value="-lazy" />
-		</java>
-	</target>
-
-	<target name="test14" depends="prepare, jar14, compile-tests14" description="Runs JUnit test suites with JRE 1.4">
-		
-		<delete dir="${build.dir}/temp/testresults14" />
-		<mkdir dir="${build.dir}/temp/testresults14"/>
-
-		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${test.classpath14}" />
-
-		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" jvm="${java14.home.dir}\bin\java" dir="."
-			tempdir="${build.dir}/temp" >
-		
-			<assertions enablesystemassertions="yes" />
-
-			<formatter type="plain" usefile="yes" />
-
-			<classpath>
-				<path refid="build.classpath" />
-				<pathelement path="${build.test-unit14.dir}" />
-				<pathelement path="${build.test-system14.dir}" />
-				<pathelement location="${jar14.file}" />
-				<pathelement location="${lib.dir}/build-only/backport-util-concurrent.jar" />
-			</classpath>
-
-			<batchtest todir="${build.dir}/temp/testresults14">
-				<fileset dir="${build.test-unit14.dir}">
-					<include name="**/*Test.class" />
-					<exclude name="**/Abstract*" />
-					<exclude name="**/*$*" />
-				</fileset>
-				<fileset dir="${build.test-system14.dir}">
-					<include name="**/*Test*.class" />
-					<include name="sej/tutorials/*.class" />
-					<exclude name="**/Abstract*" />
-					<exclude name="**/*$*" />
-					<exclude name="**/*DeserializationTest.class" />
-				</fileset>
-			</batchtest>
-
-		</junit>
-
-		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" jvm="${java14.home.dir}\bin\java" dir="."
-			tempdir="${build.dir}/temp" >
-	
-			<assertions enablesystemassertions="yes" />
-
-			<formatter type="plain" usefile="yes" />
-			
-			<classpath>
-				<path refid="build.classpath" />
-				<pathelement path="${build.test-system14.dir}" />
-				<pathelement location="${jar14.runtime.file}" />
-				<pathelement location="${lib.dir}/build-only/backport-util-concurrent.jar" />
-			</classpath>
-
-			<batchtest todir="${build.dir}/temp/testresults14">
-				<fileset dir="${build.test-system.dir}">
-					<include name="**/*DeserializationTest.class" />
-					<exclude name="**/Abstract*" />
-					<exclude name="**/*$*" />
-				</fileset>
-			</batchtest>
-
-		</junit>
-
-	</target>
-
-	<target name="dbg14" depends="prepare, jar14, compile-tests14" description="Debugs a single JRE 1.4 test case">
-
-		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${test.classpath14}" />
-
-		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" jvm="${java14.home.dir}\bin\java" dir=".">
-
-			<formatter type="plain" usefile="no" />
-			<classpath>
-				<path refid="build.classpath" />
-				<pathelement path="${build.test-unit14.dir}" />
-				<pathelement path="${build.test-system14.dir}" />
-				<pathelement location="${jar14.file}" />
-				<pathelement location="${lib.dir}/build-only/backport-util-concurrent.jar" />
-			</classpath>
-
-			<batchtest>
-				<fileset dir="${build.test-system14.dir}">
-					<include name="sej/tutorials/Caching.class" />
 				</fileset>
 			</batchtest>
 
@@ -789,7 +596,7 @@
 
 	<!-- dist -->
 
-	<target name="dist" depends="clean,compile,validate,jar,doc,javadoc,test,jar14,test14,examples,srcjar,pack" description="Builds distribution">
+	<target name="dist" depends="clean,compile,validate,jar,doc,javadoc,test,examples,srcjar,pack" description="Builds distribution">
 	</target>
 
 	<!-- cover -->
@@ -812,9 +619,6 @@
 		
 		<cobertura-instrument todir="${build.instr.dir}" datafile="${cober.file}" >
 		    <fileset dir="${build.classes.dir}">
-		        <include name="**/*.class"/>
-		    </fileset>
-		    <fileset dir="${build.classes-unverified.dir}">
 		        <include name="**/*.class"/>
 		    </fileset>
 			<!--
@@ -843,7 +647,6 @@
 				<path refid="lib.classpath" />
 				<pathelement path="${build.instr.dir}" />
 				<pathelement path="${build.classes.dir}" />
-				<pathelement path="${build.classes-unverified.dir}" />
 				<pathelement path="${build.test-unit.dir}" />
 				<pathelement path="${build.test-system.dir}" />
 			</classpath>
@@ -874,9 +677,6 @@
 
 		<cobertura-report destdir="${build.cover.dir}" datafile="${cober.file}">
 		    <fileset dir="${src.classes.dir}">
-				<include name="**/*.java" />
-		    </fileset>
-		    <fileset dir="${src.classes-unverified.dir}">
 				<include name="**/*.java" />
 		    </fileset>
 			<!--
@@ -913,7 +713,6 @@
 
 	    <emma>
 	      <instr destdir="${build.instr.dir}" metadatafile="${emma.meta.file}" merge="true" instrpath="${build.classes.dir}" />
-	      <instr destdir="${build.instr.dir}" metadatafile="${emma.meta.file}" merge="true" instrpath="${build.classes-unverified.dir}" />
 	    </emma>
 
 		<delete dir="${build.dir}/temp/testresults" />
@@ -930,7 +729,6 @@
 				<path refid="lib.classpath" />
 				<pathelement path="${build.instr.dir}" />
 				<pathelement path="${build.classes.dir}" />
-				<pathelement path="${build.classes-unverified.dir}" />
 				<pathelement path="${build.test-unit.dir}" />
 				<pathelement path="${build.test-system.dir}" />
 			</classpath>
@@ -962,7 +760,7 @@
 		</junit>
 
 	    <emma>
-	      <report sourcepath="${src.classes.dir},${src.classes-unverified.dir}" >
+	      <report sourcepath="${src.classes.dir}" >
 	        <fileset file="${emma.meta.file}" />
 	        <fileset file="${emma.run.file}" />
 	        <html outfile="${build.cover.dir}/coverage.html" />

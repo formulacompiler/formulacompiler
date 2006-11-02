@@ -478,7 +478,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 			if (scale != null && scale.value() != 0) {
 				if (compileConversionTo( scale )) {
 					if (returnType == Long.class) {
-						ByteCodeEngineCompiler.compileValueOf( mv(), "java/lang/Long", J2LONG, Long.TYPE );
+						mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Long", "valueOf", J2LONG );
 					}
 				}
 				else {
@@ -503,37 +503,6 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		return scale;
 	}
 
-
-	protected final boolean compileConversionToBoxed( Class _returnType, Class _unboxed, Class _boxed,
-			int... _conversionOpcodes )
-	{
-		if (_returnType == _boxed) {
-			compileInstructions( _conversionOpcodes );
-			final Type unboxedType = Type.getType( _unboxed );
-			final Type boxedType = Type.getType( _boxed );
-
-			ByteCodeEngineCompiler.compileValueOf( mv(), boxedType.getInternalName(), "("
-					+ unboxedType.getDescriptor() + ")" + boxedType.getDescriptor(), _unboxed );
-
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-
-	protected final boolean compileConversionToBoxable( Class _returnType, Class _unboxed, Class _boxed,
-			int... _conversionOpcodes )
-	{
-		if (_returnType == _unboxed) {
-			compileInstructions( _conversionOpcodes );
-			return true;
-		}
-		else {
-			return compileConversionToBoxed( _returnType, _unboxed, _boxed, _conversionOpcodes );
-		}
-	}
 
 	protected final void compileInstructions( int... _conversionOpcodes )
 	{

@@ -37,7 +37,7 @@ abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAl
 		super( _methodCompiler );
 	}
 
-	
+
 	@Override
 	protected TypeCompiler typeCompiler()
 	{
@@ -67,7 +67,7 @@ abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAl
 		compileConversionFrom( returnType );
 	}
 
-	
+
 	@Override
 	protected void compileConversionFrom( DataType _type ) throws CompilerException
 	{
@@ -81,7 +81,7 @@ abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAl
 		}
 		super.compileConversionFrom( _type );
 	}
-	
+
 
 	@Override
 	protected void compileConversionTo( Class _class ) throws CompilerException
@@ -131,32 +131,17 @@ abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAl
 		boolean first = true;
 		for (ExpressionNode arg : _args) {
 			if (first) {
-				if (ByteCodeEngineCompiler.JRE14) {
-					compile_utilFun_newBuffer( arg );
-				}
-				else {
-					compile_utilFun_newBuilder( arg );
-				}
+				compile_utilFun_newBuilder( arg );
 				first = false;
 			}
 			else {
-				if (ByteCodeEngineCompiler.JRE14) {
-					compile_utilOp_appendBuffer( arg );
-				}
-				else {
-					compile_utilOp_appendBuilder( arg );
-				}
+				compile_utilOp_appendBuilder( arg );
 			}
 		}
-		if (ByteCodeEngineCompiler.JRE14) {
-			compile_utilOp_fromBuffer();
-		}
-		else {
-			compile_utilOp_fromBuilder();
-		}
+		compile_utilOp_fromBuilder();
 	}
-	
-	
+
+
 	@Override
 	protected void compileComparison( int _comparisonOpcode ) throws CompilerException
 	{
@@ -171,7 +156,7 @@ abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAl
 		return "string";
 	}
 
-	
+
 	protected abstract void compile_util_fromString() throws CompilerException;
 	protected abstract void compile_util_fromObject() throws CompilerException;
 	protected abstract void compile_util_fromNull() throws CompilerException;
@@ -179,10 +164,6 @@ abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAl
 	protected abstract void compile_utilFun_newBuilder( ExpressionNode _arg ) throws CompilerException;
 	protected abstract void compile_utilOp_appendBuilder( ExpressionNode _arg ) throws CompilerException;
 	protected abstract void compile_utilOp_fromBuilder() throws CompilerException;
-
-	protected abstract void compile_utilFun_newBuffer( ExpressionNode _arg ) throws CompilerException;
-	protected abstract void compile_utilOp_appendBuffer( ExpressionNode _arg ) throws CompilerException;
-	protected abstract void compile_utilOp_fromBuffer() throws CompilerException;
 
 
 }

@@ -72,42 +72,42 @@ public abstract class ExpressionTemplatesForAll
 
 	Byte util_boxByte( byte a )
 	{
-		return a;
+		return Byte.valueOf( a );
 	}
 
 	Short util_boxShort( short a )
 	{
-		return a;
+		return Short.valueOf( a );
 	}
 
 	Integer util_boxInteger( int a )
 	{
-		return a;
+		return Integer.valueOf( a );
 	}
 
 	Long util_boxLong( long a )
 	{
-		return a;
+		return Long.valueOf( a );
 	}
 
 	Float util_boxFloat( float a )
 	{
-		return a;
+		return Float.valueOf( a );
 	}
 
 	Double util_boxDouble( double a )
 	{
-		return a;
+		return Double.valueOf( a );
 	}
 
 	Character util_boxCharacter( char a )
 	{
-		return a;
+		return Character.valueOf( a );
 	}
 
 	Boolean util_boxBoolean( boolean a )
 	{
-		return a;
+		return Boolean.valueOf( a );
 	}
 
 

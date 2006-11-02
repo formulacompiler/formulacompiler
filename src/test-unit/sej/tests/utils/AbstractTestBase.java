@@ -77,7 +77,7 @@ public abstract class AbstractTestBase extends TestCase
 	}
 
 
-	private static final File JAR_PATH = new File( "src/testdata/enginejars/jdk-" + jdkVersion() );
+	private static final File JAR_PATH = new File( "src/testdata/enginejars/jre-" + jdkVersion() );
 
 	private static final String jdkVersion()
 	{

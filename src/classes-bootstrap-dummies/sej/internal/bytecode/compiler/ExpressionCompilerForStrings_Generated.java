@@ -62,13 +62,6 @@ abstract class ExpressionCompilerForStrings_Generated extends ExpressionCompiler
 	}
 
 	@Override
-	protected void compile_utilFun_newBuffer( ExpressionNode _arg ) throws CompilerException
-	{
-		// dummy
-
-	}
-
-	@Override
 	protected void compile_utilFun_newBuilder( ExpressionNode _arg ) throws CompilerException
 	{
 		// dummy
@@ -76,21 +69,7 @@ abstract class ExpressionCompilerForStrings_Generated extends ExpressionCompiler
 	}
 
 	@Override
-	protected void compile_utilOp_appendBuffer( ExpressionNode _arg ) throws CompilerException
-	{
-		// dummy
-
-	}
-
-	@Override
 	protected void compile_utilOp_appendBuilder( ExpressionNode _arg ) throws CompilerException
-	{
-		// dummy
-
-	}
-
-	@Override
-	protected void compile_utilOp_fromBuffer() throws CompilerException
 	{
 		// dummy
 

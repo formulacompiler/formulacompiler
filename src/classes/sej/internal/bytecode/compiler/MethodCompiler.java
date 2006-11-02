@@ -211,7 +211,7 @@ abstract class MethodCompiler
 		}
 		else if (_type == Byte.class) {
 			mv().push( ((Number) _constantValue).byteValue() );
-			ByteCodeEngineCompiler.compileValueOf( mv(), "java/lang/Byte", "(B)Ljava/lang/Byte;", Byte.TYPE );
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Byte", "valueOf", "(B)Ljava/lang/Byte;" );
 		}
 
 		else if (_type == Short.TYPE) {
@@ -219,7 +219,7 @@ abstract class MethodCompiler
 		}
 		else if (_type == Short.class) {
 			mv().push( ((Number) _constantValue).shortValue() );
-			ByteCodeEngineCompiler.compileValueOf( mv(), "java/lang/Short", "(S)Ljava/lang/Short;", Short.TYPE );
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Short", "valueOf", "(S)Ljava/lang/Short;" );
 		}
 
 		else if (_type == Integer.TYPE) {
@@ -227,7 +227,7 @@ abstract class MethodCompiler
 		}
 		else if (_type == Integer.class) {
 			mv().push( ((Number) _constantValue).intValue() );
-			ByteCodeEngineCompiler.compileValueOf( mv(), "java/lang/Integer", "(I)Ljava/lang/Integer;", Integer.TYPE );
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Integer", "valueOf", "(I)Ljava/lang/Integer;" );
 		}
 
 		else if (_type == Long.TYPE) {
@@ -235,7 +235,7 @@ abstract class MethodCompiler
 		}
 		else if (_type == Long.class) {
 			mv().push( ((Number) _constantValue).longValue() );
-			ByteCodeEngineCompiler.compileValueOf( mv(), "java/lang/Long", "(J)Ljava/lang/Long;", Long.TYPE );
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Long", "valueOf", "(J)Ljava/lang/Long;" );
 		}
 
 		else if (_type == Double.TYPE) {
@@ -243,7 +243,7 @@ abstract class MethodCompiler
 		}
 		else if (_type == Double.class) {
 			mv().push( ((Number) _constantValue).doubleValue() );
-			ByteCodeEngineCompiler.compileValueOf( mv(), "java/lang/Double", "(D)Ljava/lang/Double;", Double.TYPE );
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Double", "valueOf", "(D)Ljava/lang/Double;" );
 		}
 
 		else if (_type == Float.TYPE) {
@@ -251,7 +251,7 @@ abstract class MethodCompiler
 		}
 		else if (_type == Float.class) {
 			mv().push( ((Number) _constantValue).floatValue() );
-			ByteCodeEngineCompiler.compileValueOf( mv(), "java/lang/Float", "(F)Ljava/lang/Float;", Float.TYPE );
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Float", "valueOf", "(F)Ljava/lang/Float;" );
 		}
 
 		else if (_type == Character.TYPE) {
@@ -259,8 +259,7 @@ abstract class MethodCompiler
 		}
 		else if (_type == Character.class) {
 			mv().push( ((Character) _constantValue).charValue() );
-			ByteCodeEngineCompiler
-					.compileValueOf( mv(), "java/lang/Character", "(C)Ljava/lang/Character;", Character.TYPE );
+			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Character", "valueOf", "(C)Ljava/lang/Character;" );
 		}
 
 		else if (_type == Boolean.TYPE) {
@@ -268,7 +267,6 @@ abstract class MethodCompiler
 		}
 		else if (_type == Boolean.class) {
 			mv().push( ((Boolean) _constantValue).booleanValue() );
-			// I know JRE 1.4 handles this:
 			mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;" );
 		}
 

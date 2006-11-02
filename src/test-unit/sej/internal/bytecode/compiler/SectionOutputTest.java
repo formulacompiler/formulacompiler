@@ -49,8 +49,6 @@ import sej.tests.utils.AbstractTestBase;
  */
 public class SectionOutputTest extends AbstractTestBase
 {
-	private static final boolean JRE14 = System.getProperty( "java.version" ).startsWith( "1.4." );
-
 
 	public void testArray() throws Exception
 	{
@@ -76,7 +74,7 @@ public class SectionOutputTest extends AbstractTestBase
 		_output.reset();
 		assertArray( _expected, _len, _output );
 		assertIterator( _expected, _len, _output );
-		if (!JRE14) assertIterable( _expected, _len, _output );
+		assertIterable( _expected, _len, _output );
 		assertCollection( _expected, _len, _output );
 		assertList( _expected, _len, _output );
 	}
@@ -138,7 +136,7 @@ public class SectionOutputTest extends AbstractTestBase
 		SpreadsheetBuilder bld = SEJ.newSpreadsheetBuilder();
 
 		for (String type : types)
-			if (!(JRE14 && type.equals( "Iterable" ))) buildSectionFor( bld, type );
+			buildSectionFor( bld, type );
 
 		Spreadsheet sht = bld.getSpreadsheet();
 
@@ -150,7 +148,7 @@ public class SectionOutputTest extends AbstractTestBase
 		Section bnd = cmp.getRootBinder();
 
 		for (String type : types)
-			if (!(JRE14 && type.equals( "Iterable" ))) bindSectionFor( sht, bnd, type );
+			bindSectionFor( sht, bnd, type );
 
 		SaveableEngine engine = cmp.compile();
 		checkEngine( engine );

@@ -33,7 +33,6 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.CompilerException;
 import sej.NumericType;
-import sej.internal.runtime.BigDecimalHelper;
 import sej.internal.runtime.RuntimeBigDecimal_v1;
 import sej.internal.runtime.RuntimeDouble_v1;
 
@@ -147,10 +146,8 @@ public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 
 	private final Map<String, String> constantPool = new HashMap<String, String>();
 
-
 	/** The max value of a long is 9,223,372,036,854,775,807, so its max precision is 6 * 3 = 18. */
 	private static final int MAX_LONG_PREC = 18;
-
 
 	private final String defineOrReuseStaticConstant( String _value )
 	{
@@ -159,31 +156,21 @@ public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 			final ClassWriter cw = rootCompiler().cw();
 			final GeneratorAdapter ci = rootCompiler().initializer();
 			result = "C$" + Integer.toString( this.constantPool.size() );
-			cw.visitField( Opcodes.ACC_STATIC + Opcodes.ACC_FINAL, result, B, null, null )
-					.visitEnd();
-			try {
-				final long longValue = Long.parseLong( _value );
+			cw.visitField( Opcodes.ACC_STATIC + Opcodes.ACC_FINAL, result, B, null, null ).visitEnd();
+			final BigDecimal bigValue = new BigDecimal( _value );
+			if (bigValue.precision() <= MAX_LONG_PREC) {
+				final long longValue = bigValue.unscaledValue().longValue();
 				ci.push( longValue );
-				ci.visitMethodInsn( Opcodes.INVOKESTATIC, BNAME, "valueOf", L2B );
-				compileAdjustment( ci );
-			}
-			catch (NumberFormatException e) {
-				final BigDecimal bigValue = new BigDecimal( _value );
-				// JRE 1.4 lacks "precision"
-				if (!ByteCodeEngineCompiler.JRE14 && BigDecimalHelper.precision( bigValue ) <= MAX_LONG_PREC) {
-					final long longValue = bigValue.unscaledValue().longValue();
-					ci.push( longValue );
-					ci.push( bigValue.scale() );
-					ci.visitMethodInsn( Opcodes.INVOKESTATIC, BNAME, "valueOf", LI2B );
-					if (bigValue.scale() != this.fixedScale) {
-						compileAdjustment( ci );
-					}
-				}
-				else {
-					ci.push( _value );
-					compileRuntimeMethod( ci, "newBigDecimal", S2B );
+				ci.push( bigValue.scale() );
+				ci.visitMethodInsn( Opcodes.INVOKESTATIC, BNAME, "valueOf", LI2B );
+				if (bigValue.scale() != this.fixedScale) {
 					compileAdjustment( ci );
 				}
+			}
+			else {
+				ci.push( _value );
+				compileRuntimeMethod( ci, "newBigDecimal", S2B );
+				compileAdjustment( ci );
 			}
 			ci.visitFieldInsn( Opcodes.PUTSTATIC, rootCompiler().classInternalName(), result, B );
 			this.constantPool.put( _value, result );
