@@ -227,16 +227,11 @@ public abstract class Runtime_v1
 					break;
 				case '~':
 					if (i < _stringWithWildcards.length()) {
-						char cc = _stringWithWildcards.charAt( i++ );
-						switch (cc) {
-							case '?':
-							case '*':
-								appendLiteral( src, cc );
-								break;
-							default:
-								appendLiteral( src, c );
-								appendLiteral( src, cc );
-						}
+						final char cc = _stringWithWildcards.charAt( i++ );
+						appendLiteral( src, cc );
+					}
+					else {
+						appendLiteral( src, c );
 					}
 					break;
 				default:
