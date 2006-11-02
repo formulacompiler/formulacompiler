@@ -209,16 +209,6 @@ public abstract class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v1.max( a, b );
 	}
 
-	double op_AND( double a, double b )
-	{
-		return (a != 0) && (b != 0) ? 1 : 0;
-	}
-
-	double op_OR( double a, double b )
-	{
-		return (a != 0) || (b != 0) ? 1 : 0;
-	}
-
 
 	// ------------------------------------------------ Numeric Functions
 

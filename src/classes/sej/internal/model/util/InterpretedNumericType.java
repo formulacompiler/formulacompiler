@@ -196,22 +196,6 @@ public abstract class InterpretedNumericType
 				break;
 			}
 
-			case AND: {
-				switch (_args.length) {
-					case 2:
-						return toBoolean( _args[ 0 ] ) && toBoolean( _args[ 1 ] );
-				}
-				break;
-			}
-
-			case OR: {
-				switch (_args.length) {
-					case 2:
-						return toBoolean( _args[ 0 ] ) || toBoolean( _args[ 1 ] );
-				}
-				break;
-			}
-
 		}
 
 		throw new EvalNotPossibleException();

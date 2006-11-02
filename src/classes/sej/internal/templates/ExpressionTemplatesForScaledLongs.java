@@ -259,16 +259,6 @@ public class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v1.max( a, b );
 	}
 
-	long op_AND( long a, long b )
-	{
-		return (a != 0) && (b != 0) ? 1 : 0;
-	}
-
-	long op_OR( long a, long b )
-	{
-		return (a != 0) || (b != 0) ? 1 : 0;
-	}
-
 
 	// ------------------------------------------------ Numeric Functions
 

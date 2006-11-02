@@ -179,6 +179,8 @@ final class InterpretedBigDecimalType extends InterpretedNumericType
 		BigDecimal result;
 		if (_value instanceof BigDecimal) result = (BigDecimal) _value;
 		else if (_value instanceof Double) result = BigDecimal.valueOf( (Double) _value );
+		else if (_value instanceof Integer) result = BigDecimal.valueOf( (Integer) _value );
+		else if (_value instanceof Long) result = BigDecimal.valueOf( (Long) _value );
 		else if (_value instanceof String) result = new BigDecimal( (String) _value );
 		else result = _ifNull;
 		return adjustScale( result );

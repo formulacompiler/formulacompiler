@@ -253,8 +253,6 @@ abstract class ExpressionCompiler
 	private final boolean needsIf( Operator _operator )
 	{
 		switch (_operator) {
-			case AND:
-			case OR:
 			case EQUAL:
 			case NOTEQUAL:
 			case LESS:
