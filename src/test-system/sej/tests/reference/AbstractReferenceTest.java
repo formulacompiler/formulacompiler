@@ -115,7 +115,7 @@ public abstract class AbstractReferenceTest extends TestCase
 		super();
 		this.baseName = _baseName;
 		this.spreadsheetName = this.baseName + ".xls";
-		this.startingRow  = _startingRowNumber - 1;
+		this.startingRow = _startingRowNumber - 1;
 	}
 
 	protected AbstractReferenceTest(String _baseName, int _onlyRowNumbered, NumType _onlyType, int _onlyInputVariant,
@@ -188,6 +188,7 @@ public abstract class AbstractReferenceTest extends TestCase
 	{
 		private final SpreadsheetImpl book;
 		private final DescriptionBuilder html = new DescriptionBuilder();
+		private final DescriptionBuilder terms = new DescriptionBuilder();
 		private String sequenceName;
 		private String[] highlightTerms;
 		private int columnCount = 2;
@@ -202,6 +203,7 @@ public abstract class AbstractReferenceTest extends TestCase
 		public void run() throws Exception
 		{
 			startHtml();
+			startTerms();
 
 			final SheetImpl sheet = this.book.getSheetList().get( 0 );
 			final List<RowImpl> rows = sheet.getRowList();
@@ -220,11 +222,12 @@ public abstract class AbstractReferenceTest extends TestCase
 								final CellInstance highlightCell = row.getCellOrNull( HIGHLIGHT_COL );
 								if (null != highlightCell) {
 									final String highlights = highlightCell.getValue().toString();
-									if (highlights == "xx") {
+									if (highlights.equals( "xx" )) {
 										this.highlightTerms = null;
 									}
 									else {
 										this.highlightTerms = htmlize( highlights ).split( " " );
+										emitTerm( highlights.split( " " )[ 0 ] );
 									}
 								}
 								this.columnCount = maxColumnCountInSequence( rows, row, atRow );
@@ -247,7 +250,9 @@ public abstract class AbstractReferenceTest extends TestCase
 					}
 				}
 			}
+			
 			endHtml();
+			endTerms();
 		}
 
 
@@ -302,6 +307,24 @@ public abstract class AbstractReferenceTest extends TestCase
 			final DescriptionBuilder h = this.html;
 			h.appendLine( "</tbody></table><p/>" );
 			writeStringTo( h.toString(), new File( HTML_PATH, AbstractReferenceTest.this.baseName + ".htm" ) );
+		}
+
+
+		private void startTerms()
+		{
+			// No intro.
+		}
+
+		private void emitTerm( String _term )
+		{
+			final DescriptionBuilder h = this.terms;
+			h.append( "terms << '" ).append( _term ).appendLine( "'" );
+		}
+
+		private void endTerms() throws IOException
+		{
+			final DescriptionBuilder h = this.terms;
+			writeStringTo( h.toString(), new File( HTML_PATH, AbstractReferenceTest.this.baseName + "_terms.rb" ) );
 		}
 
 
@@ -396,7 +419,7 @@ public abstract class AbstractReferenceTest extends TestCase
 			public final SaveableEngine[] run() throws Exception
 			{
 				testExpressionConversion();
-				
+
 				if (null == this.inputs) {
 					final TestRunner test = new TestRunner();
 					test.emitTestToHtml();
@@ -437,7 +460,7 @@ public abstract class AbstractReferenceTest extends TestCase
 					final ExcelExpressionParserAccessor parser = new ExcelExpressionParserAccessor( this.formula );
 					final String expected = formatter.format( expr );
 					final ExpressionNode parsed = parser.parseText( expected, CellRefFormat.A1 );
-					final String actual = formatter.format(  parsed );
+					final String actual = formatter.format( parsed );
 					assertEquals( expected, actual );
 				}
 			}
