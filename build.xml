@@ -11,8 +11,6 @@
 	<property name="conf.dir" location="${basedir}/conf" />
 	<property name="doc.dir" location="${basedir}/doc" />
 	<property name="src.classes.dir" location="${src.dir}/classes" />
-	<property name="src.classes-gen.dir" location="${src.dir}/classes-gen" />
-	<property name="src.classes-gen-jre.dir" location="${src.dir}/classes-gen-jre${ant.java.version}" />
 	<property name="src.classes-bootstrap.dir" location="${src.dir}/classes-bootstrap-dummies" />
 	<property name="src.classes-build-tools.dir" location="${src.dir}/build-tools" />
 	<property name="src.test-accessors.dir" location="${src.dir}/test-accessors" />
@@ -33,6 +31,9 @@
 	<property name="build.test-system.dir" location="${build.dir}/test-system" />
 	<property name="build.examples.dir" location="${build.dir}/examples" />
 	<property name="dist.dir" location="${basedir}/dist" />
+
+	<property name="src.classes-gen.dir" location="${build.dir}/classes-gen" />
+	<property name="src.classes-gen-jre.dir" location="${build.dir}/classes-gen-jre${ant.java.version}" />
 
 	<property name="jar.file" location="${build.dir}/${name}.jar" />
 	<property name="jar.runtime.file" location="${build.dir}/${name}-runtime.jar" />
@@ -505,11 +506,10 @@
 
 	<target name="clean" description="Removes all build files">
 		<delete dir="${doc.dir}" />
-		<delete dir="${build.classes.dir}" />
 		<delete dir="${build.dir}" />
 		<delete dir="${dist.dir}" />
-		<delete dir="${src.classes-gen.dir}" />
 		<mkdir dir="${src.classes-gen.dir}" />
+		<mkdir dir="${src.classes-gen-jre.dir}" />
 		<mkdir dir="${build.dir}/dev" />  <!-- make Eclipse happy -->
 	</target>
 

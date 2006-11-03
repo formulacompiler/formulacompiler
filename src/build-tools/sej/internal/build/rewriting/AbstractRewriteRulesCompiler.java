@@ -42,7 +42,7 @@ import sej.internal.spreadsheet.loader.excel.RewriteLanguageParser;
 public abstract class AbstractRewriteRulesCompiler
 {
 	private static final String TEMPLATE_FILE = "src/build-tools/sej/internal/build/rewriting/GeneratedFunctionRewriter.template";
-	private static final String TGT_FOLDER = "src/classes-gen/sej/internal/model/rewriting";
+	private static final String TGT_FOLDER = "build/classes-gen/sej/internal/model/rewriting";
 	private static final String TGT_NAME = "GeneratedExpressionRewriter.java";
 
 	private final DescriptionBuilder cases = new DescriptionBuilder();
