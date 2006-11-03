@@ -1,0 +1,46 @@
+
+h1. Using SEJ Without A Spreadsheet File
+
+
+Some applications may wish to use SEJ to compile computation engines, but want users to be able to specify simple computations without having to setup a spreadsheet. These can use a builder to dynamically construct a spreadsheet as input to SEJ.
+
+<%= toc 2, 3 %>
+
+
+h2. Motivation
+
+Consider again the main example for SEJ, the "order line item rebate computation":reason.htm. We solved the problem of allowing distributors and customers to customize the computation by letting them specify their own computations "as spreadsheets":basics.htm, such as this one:
+
+	[xc:testdata/sej/tutorials/Basics.xls]
+
+Maybe many of your users must define their own, typically very simple, custom computations. Maybe there are a great many points in your application, where they want to do this (not just the line item rebate). In such a case you may want to offer your users a simple UI for defining straightforward custom computations (like, for instance, one liners), but still allow them to switch to a spreadsheet for more complex cases. Users thus might be able to define, right in your UI, the following formula:
+
+	Rebate = CustomerRebate + ArticleRebate
+
+How can you implement this? Remember that we already factored out the actual computation as a _strategy_. So a straightforward approach is to implement a new strategy, which is effectively an interpreter for the simple one-line formulas (or whatever your UI allows users to specify).
+
+If you expect these computations to be used heavily in your application, however, it may be worthwhile to harness SEJ to generate true byte-code computations for these formulas, instead of interpreting them. A side benefit of this approach will be that you can give users switching from a simple formula to a full blown spreadsheet a head start by letting SEJ "generate an initial spreadsheet":generatesheet.htm implementing the currently defined formula.
+
+
+
+h2. <a name="building">Building Your Own Spreadsheet Model</a>
+
+SEJ's compiler takes an internal representation of a spreadsheet as input. Normally, you load this from an actual spreadsheet file. With the "@SpreadsheetBuilder@":../javadoc/sej/SpreadsheetBuilder.html, however, you can build one in memory from scratch. I'll first show you how to define the spreadsheet with only the two input cells:
+
+	[jc:sej.tutorials.Basics:---- OwnUISheet; omit -- defCalc]
+
+The method @b.cst()@ is a factory method for constant values. It accepts all the types of constant value that SEJ supports, for example @String@ and @Number@.
+
+Of particular interest is how to build calculated cells, @B1+B2@ in this example. Here's the same method again, showing how the calculated cell is defined:
+
+	[jc:sej.tutorials.Basics:---- OwnUISheet; highlight -hlCalc-; strip -- defCalc; strip]
+
+The @currentCell()@ method returns a reference to the cell defined just before it. These references can be used later on in formulas to reference other cells.
+
+The part @b.op( Operator.PLUS, ... )@ defines the last cell as one performing an addition, which is one of the supported "operators":../javadoc/sej/Operator.html. Its arguments are references to the two cells defined above. There is also @fun()@ for "functions and aggregators":../javadoc/sej/Function.html.
+
+
+
+h2. Switching To A Spreadsheet File
+
+When users find the simple formula UI too limited, they will want to switch to using a full-blown spreadsheet. As noted above, you can give them a head start by having SEJ "generate the initial spreadsheet":generatesheet.htm#generate for them. This spreadsheet then implements the current simple formula as a starting point for further customization.

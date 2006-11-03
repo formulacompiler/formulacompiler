@@ -1,0 +1,42 @@
+
+h1. Contributing To SEJ
+
+
+Thank you! You want to contribute to SEJ. I appreciate it. In these pages I will tell you how to go about it.
+
+We have to cover quite a bit of ground. This is because SEJ was -- and is -- developed with great attention to quality. But never fear, the examples will make it all clear.
+
+<%= toc %>
+
+
+h2. House Rules
+
+When developing for "Eclipse":-ec, you need to follow its "house rules":-ecrules. They help you and everyone else produce a consistent and high-quality product. It's the same with SEJ, only we have fewer rules. Here they are:
+
+	# Document first
+	# Cite tested examples
+	# Mimick existing code
+	# Implement only what the tests require
+
+Simple enough. Now go see them in action: "add a missing function":addfunction.htm. That will them clear.
+
+
+h2. Ways To Contribute
+
+<dl>
+
+<dt>"Add A Missing Function":addfunction.htm</dt><dd>SEJ does not support all of Excel's functions -- only "these":../reference/index.htm. See how to add a missing one. Also introduces the fundamental contribution rules shown above.</dd>
+</dl>
+
+
+h2. Missing Topics
+
+	* what is under SVN?
+	* what is produced from what?
+	* Eclipse preferred - setup Eclipse
+	* code style
+	* ddt, tdd
+	* reference tests
+	* build.xml
+	* read the docs
+	* doc is produced from src/doc

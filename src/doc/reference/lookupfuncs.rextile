@@ -1,0 +1,11 @@
+
+h1. Lookup Functions In SEJ
+
+
+<%= toc 2, 5 %>
+
+h3. Lookup Functions
+
+The supported lookup functions are shown by example below. Note that SEJ sometimes returns zero (@0.0@) where Excel will return @#VALUE@, @#N/A@, or @#REF!@.
+
+	[inc:LookupFunctions.htm]

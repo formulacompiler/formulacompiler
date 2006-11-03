@@ -1,0 +1,114 @@
+
+h1. Binding By Name in SEJ
+
+
+If you have a generic system where the set of possible input and/or output values cannot be determined at compile-time, you have to resort to some sort of late binding, or binding by name.
+
+By _name_, I mean anything that helps you to identify a value, be it a @String@, @int@, or @long@ value, or even a combination thereof.
+
+<%= toc 2, 3 %>
+
+
+h2. Inputs
+
+To bind inputs by name, you bind them to parametrized calls to a single dispatch method (or multiple ones - it's your choice). Here's an example of such a method:
+
+	[jc:sej.tutorials.BindingByName:---- Input]
+
+With this interface, you could, for instance, bind cells by name as follows:
+
+	[jc:sej.tutorials.BindingByName:---- bindNamedInputs]
+
+In the implementation of @getInput(String)@ you are free to look up the actual value of the named input in any way that seems fit. Like this, for example:
+
+	[jc:sej.tutorials.BindingByName:---- InputSample]
+
+
+h3. Supported Types
+
+SEJ currently supports the following parameter types:
+
+	[jc:sej.tutorials.BindingByName:---- InputVariants; omit]
+
+Note in particular that custom, application defined enumeration constants are supported. Here's the definition for the @MyEnum@ type bound above:
+
+	[jc:sej.tutorials.BindingByName:---- MyEnum]
+
+When binding, you have to take care that you are passing in values of the proper type (@Integer@ for @int@ and @Integer@, @Byte@ for @byte@ and @Byte@, etc.). This example uses autoboxing, but it still needs to take care to pass the proper native type to the boxing magic:
+
+	[jc:sej.tutorials.BindingByName:---- bindInputVariants]
+
+
+h3. Multiple Parameters
+
+You can also bind to parametrized methods with multiple parameters as long as all the parameter types are supported. Here's such a method:
+
+	[jc:sej.tutorials.BindingByName:---- InputCombination; omit]
+
+and how to bind to it:
+
+	[jc:sej.tutorials.BindingByName:---- bindInputCombination]
+
+
+
+h2. Outputs
+
+To bind output values by name, you use an analogous construct:
+
+	[jc:sej.tutorials.BindingByName:---- Output]
+
+and:
+
+	[jc:sej.tutorials.BindingByName:---- bindNamedOutputs]
+
+Here's how you would use the generated engine:
+
+	[jc:sej.tutorials.BindingByName:---- checkResults]
+
+SEJ must generate code that implements this by-name lookup for you to make this work. Here's how SEJ goes about it, assuming the spreadsheet contained two cells named _O_ONETWOTHREE_ and _O_SUMINTER_:
+
+	[jc:sej.tutorials.BindingByName:---- GeneratedGetter]
+
+The example shows why we must supply a default implementation for @getResult(String)@.
+
+
+h3. Supported Types
+
+Parametrized outputs are supported for the following parameter types:
+
+	* @Object@ and subtypes that properly implement @equals()@
+	* @int@, compared using @==@
+	* @long@, compared using @==@
+
+
+h3. Multiple Parameters
+
+When there are multiple parameters, SEJ generates comparisons for all of the supplied values, joined by a logical and.
+
+Thus, the complex output method:
+
+	[jc:sej.tutorials.BindingByName:---- ComplexOutput]
+
+is bound as:
+
+	[jc:sej.tutorials.BindingByName:---- bindComplexOutput]
+
+and called as:
+
+	[jc:sej.tutorials.BindingByName:---- checkComplexResults]
+
+Here's an idea of what SEJ generates in this situation:
+
+	[jc:sej.tutorials.BindingByName:---- GeneratedComplexGetter]
+
+
+
+h2. Why This Magic?
+
+Why does SEJ provide such black-box magic here when, for the inputs, it was stated as an explicit design goal to avoid such things? Well, providing the outputs is what SEJ _does_. So the implementation of the output interface must be SEJ's responsibility. We could have chosen an implementation where you could register multiple output interfaces, each with a distinct string name. You might then bind output cells to such a named interface. However, to access the named interface on a computation, there would again have to be a by-name lookup:
+
+	Computation c = engine.newComputation();
+	Output o = (Output) c.getNamedOutput( "SomeOutput" );
+	double v = o.getValue();
+
+So we gain nothing but lose the close duality of how the input and output definitions work.

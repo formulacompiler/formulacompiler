@@ -1,0 +1,2 @@
+<p>Copyright &copy; 2006 by Peter Arrenbrecht. All rights reserved.
+<br/>Last updated on <%= File.new( rextile_name ).mtime.getlocal.strftime( '%b %d, %Y' ) %>.</p>
