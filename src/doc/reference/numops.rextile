@@ -1,0 +1,18 @@
+
+h1. Numeric Operators In SEJ
+
+
+<%= toc 2, 5 %>
+
+h3. Arithmetic Operators
+
+The supported numeric operators are shown by example below. The examples also show how operator precedence is taken into account.
+
+	[inc:NumericOperators.htm]
+
+
+h3. Comparison Operators
+
+These are operators that return a boolean value, which is either the number 1 (true) or 0 (false) internally, shown by example:
+
+	[inc:NumericComparisons.htm]

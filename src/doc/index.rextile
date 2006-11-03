@@ -1,0 +1,54 @@
+
+h1. SEJ - Spreadsheet Engine for Java
+
+
+<div class="news">
+
+"Release 0.8.0":releasenotes.htm with much more developer friendly way of adding new spreadsheet functions.
+<br/>%(when)November ?, 2006%
+
+"Release 0.7.3":releasenotes.htm with support for multiple sheets in a workbook and for "writing spreadsheet files":tutorial/generatesheet.htm given an internal model.
+<br/>%(when)September 27, 2006%
+
+</div>
+
+
+*Non-public pre-release version!*
+
+The Spreadsheet Engine for Java (SEJ, for short) makes it possible to use computations defined in spreadsheet files within normal Java applications. SEJ was designed from the ground up for high performance, low memory usage and thread-safety. For detailed information, look at one of
+
+	* "Tutorial":tutorial/index.htm
+	* "Function Reference (Supported Formulas)":reference/index.htm
+	* "API Reference (JavaDoc)":javadoc/index.html
+	* "Design Document":design.htm
+
+	* "Release Notes":releasenotes.htm
+	* "Limitations":limitations.htm
+	* "Roadmap":roadmap.htm
+
+	* "Developer's Journal":dev.htm
+	* "Developer Documentation":hacking/index.htm
+
+
+h2. License
+
+SEJ is *not open source*. It is the property of Abacus Research AG, Switzerland. See the "license terms":LICENSE.html for details. Portions of the code are intended to be licensed under the GPL license.
+
+
+h2. Download
+
+<% sej_ver = '0.8.0' %>
+
+<dl>
+
+<dt>"sej-<%=sej_ver%>-bin.zip":dist/sej-<%=sej_ver%>-bin.zip</dt><dd>Binary release, including documentation and all required third-party libraries.</dd>
+
+<dt>"sej-<%=sej_ver%>-srcjar.zip":dist/sej-<%=sej_ver%>-srcjar.zip</dt><dd>Source code and documentation for SEJ in .jar files: @sej-src.jar@ and @sej-doc.jar@. Makes attaching source and doc in IDEs simple.</dd>
+
+<dt>"sej-<%=sej_ver%>-src.zip":dist/sej-<%=sej_ver%>-src.zip</dt><dd>Complete source code for SEJ, including tests and examples. Can produce all binaries by running @ant dist@.</dd>
+</dl>
+
+
+"Releases Notes":releasenotes.htm
+
+*This code is not open source!*

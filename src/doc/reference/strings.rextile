@@ -1,0 +1,9 @@
+
+h1. Strings In SEJ
+
+
+<%= toc 2, 5 %>
+
+h3. String Functions
+
+	[inc:Strings.htm]

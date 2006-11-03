@@ -1,0 +1,18 @@
+
+h1. Booleans In SEJ
+
+
+<%= toc 2, 5 %>
+
+h3. Boolean Functions
+
+The supported boolean values and functions, shown by example (note that the functions @AND@ and @OR@ are range functions):
+
+	[inc:BooleanFunctions.htm]
+
+
+h3. @IF@ Function
+
+@IF@ is supported for numeric and string return values, shown by example:
+
+	[inc:FunctionIF.htm]

@@ -430,12 +430,14 @@
 				<include name="**/*.pdf" />
 				<include name="**/*.svg" />
 				<include name="**/*.html" />
-				<include name="**/*.htm" />
 				<include name="**/*.css" />
 				<include name="**/*.js" />
 			</fileset>
 		</copy>
 
+		<exec dir="${src.doc.dir}" executable="rextile" vmlauncher="false">
+		</exec>
+		
 		<java classname="ch.arrenbrecht.jcite.JCite" classpath="${lib.classpath}" failonerror="yes">
 			<arg value="-sp" />
 			<arg path="${src.classes.dir}" />
@@ -449,16 +451,11 @@
 			<arg path="${build.dir}/temp" />
 			<arg value="-r" />
 			<arg value="-i" />
-			<arg file="${src.doc.dir}/*.htm" />
+			<arg file="${doc.dir}/*.htm" />
 			<arg value="-o" />
 			<arg file="${doc.dir}" />
 		</java>
 
-		<replace dir="${doc.dir}">
-			<include name="**/*.htm" />
-			<replacetoken><![CDATA[<a href="dist/]]></replacetoken>
-			<replacevalue><![CDATA[<a href="../dist/]]></replacevalue>
-		</replace>
 	</target>
 
 	<!-- javadoc -->

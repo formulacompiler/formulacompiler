@@ -1,0 +1,229 @@
+
+h1. Adding A New Spreadsheet Function To SEJ
+
+
+As a simple, but probably typical example, we will look at how I added @ABS()@ to the list of supported spreadsheet functions. So for the rest of this page, we will assume @ABS()@ was not implemented yet.
+
+<%= toc 2, 3 %>
+
+
+h2. Rule 1: _Document first_
+
+Documentation, of course, documents, but it also "focuses our thinking":-tdd. This is why we start with it - and, of course, so we don't forget it. For larger, novel features, it can be "quite elaborate":../tutorial/generatesheet.htm. In our case, we may safely assume that people know why we would want @ABS()@ to be supported and that they will consult the Excel help file for information on it.
+
+Nevertheless, we still need to document the fact that @ABS()@ is, in fact, supported. First, we announce the improvement in the release notes in @src/doc/releasenotes.rextile@. Just look at the file and you'll see how.
+
+h5. Rextile
+
+SEJ's documentation is written in "Textile":-tex, a very concise and text-editor-friendly format for writing XHTML.
+
+Then we add it to the list of supported numeric functions in the reference documentation. The master list is in @"src/doc/reference/index.htm":../releasenotes.htm@. We add the @ABS()@ function under the heading _Numeric Functions_. Like this:
+
+<pre><code
+>...
+<dt><a href="numfuncs.htm">Numeric Functions</a></dt>
+<dd><tt>ABS</tt>, <tt>ROUND</tt></dd>
+...
+</code></pre>
+
+
+
+h2. Rule 2: _Cite tested examples_
+
+So far, we simply said: _@ABS()@ is supported._ How do we know it is? How does the reader know? This is where test-driven development gets into the picture - with a twist. We prove what we say directly to our reader. The proof becomes an integral part of the documentation (which is, after all, _what we are saying_). So, to integrate the proof, we always give examples which are "_cited_ from automated tests":http://arrenbrecht.ch/articles/SourceCiting.htm.
+
+SEJ's existing testing and citing infrastructure makes this easy, especially for adding a new spreadsheet function. The spreadsheet files in @src/test-system/testdata/sej/tests/reference@ contain formula tests. SEJ's build system runs them automatically for all the supported "numeric types":../tutorial/numeric_type.htm and with and without "caching":../tutorial/caching.htm. It also makes them citable by writing out HTML fragments describing them. So, to prove we implemented @ABS()@, all we still need to do is add test cases to one of the test sheets.
+
+h5. Note
+
+SEJ runs your tests using @DOUBLE@, @BIGDECIMAL8@, and @LONG4@. So you must make sure your tests work OK with all of these precisions.
+
+
+
+h2. Automated Formula Tests
+
+For @ABS()@, we extend the sheet called @NumericFunctions.xls@. By _citing_ it, I can show it right here:
+
+	[xc:testdata/sej/tests/reference/NumericFunctions.xls]
+
+And here is "the documentation produced from it":../reference/numfuncs.htm.
+
+This spreadsheet has one row per test case. Blank rows are ignored. The columns have the following meanings. As examples, just look at what I inserted for the @ABS()@ tests in the sheet above.
+
+
+<dl>
+
+<dt>Expected (A)</dt><dd>Holds the expected result of the computation. You should always fill this cell by copying the value from column B, and then pasting it to column A using _Paste Special -> Values Only_.</dd>
+
+<dt>Actual (B)</dt><dd>Holds the formula to be computed by SEJ. It may reference constant values and any other cell. Normally, it references adjacent cells in columns C through I.</dd>
+
+<dt>Inputs (C-I)</dt><dd>Typically holds input values to the formula.</dd>
+
+<dt># of Inputs (J)</dt><dd>The number of cells in C-I which SEJ should bind to input methods. This is indicated by a conditionally formatted green background on those cells in Excel. When a cell is bound, it still returns the value that is given for it in the sheet, so the expected result remains valid.</dd>
+
+<dt>Name (K)</dt><dd>The name of feature being tested and documented. Used as a subtitle in the generated documentation. Following rows with no name in this column are considered to be part of the last name's tests. (See below for the meaning of @...@ here.)</dd>
+
+<dt>Highlight (L)</dt><dd>A substring that should be highlighted in the formula as rendered in the generated documentation. Following rows with nothing in this columns reuse the last value. Putting @x@ into the column clears the highlighting.</dd>
+</dl>
+
+
+When you specify bound input cells using column J, the automated test runner automatically runs the formula with all possible combinations of bound and unbound input values. This ensures that the runtime and compile time (constant folder) implementations work for all combinations.
+
+These tests do not, however, check whether a bound input really reacts dynamically to its runtime input value. The dynamic input value is, after all, still the same as the constant values in the spreadsheet. This is so because the result has to remain the same for checking.
+
+To check alternate input sets, you use the value @...@ in the _Name_ column K. This runs the test in the above row again, with the full set of inputs bound. The dynamic values are now taken from the alternate row instead of the original test row. So is the expected result. The formula in the alternate row, however, is ignored (because the original test row is run). While the formula is ignored by the test, you should still copy it down from the original test row to conveniently determine the expected result of the alternate row. The last test row for @ABS()@ in the sheet above shows this. Finally, you can have more than one alternate row. Just add more rows with @...@ in the _Name_ column.
+
+
+
+h2. Rule 3: _Mimick existing code_
+
+This rule is the _monkey see, monkey do_ rule from the book on "contributing to Eclipse":-ecrules. It means we look for an already implemented function closely matching @ABS()@, and then mimick its implementation (aka copy/paste). We will mimick @ROUND()@ for @ABS()@. In fact, we already did. When documenting @ABS()@ in the list of supported functions, remember? This rule basically states something we would do anyway.
+
+So, to add the test cases for @ABS()@, I already copied lines from @ROUND()@ and adjusted them. You can see them in the sheet above. (Copying the lines made sure that the conditional formatting for input values was copied too.)
+
+
+
+h2. Rule 4: _Implement only what the tests require_
+
+This is test-driven development. We implement @ABS()@ by just adding missing code until the tests run. The first step is, then, to run the tests just added (which will fail, of course). Every formula test sheet corresponds to a test class in @src/test-system/sej/tests/reference@. For the sheet @NumericFunctions.xls@, we need to run the test class @NumericFunctionsTest@. Doing this now returns:
+
+<pre><code
+>sej.SpreadsheetException$UnsupportedExpression:
+  Undefined name or unsupported function encountered in expression ABS( <<? C2);
+  error location indicated by <<?.
+  Cell containing expression is B2.
+at sej.internal.spreadsheet.CellWithLazilyParsedExpression.getExpression(CellWithLazilyParsedExpression.java:71)
+...
+</code></pre>
+
+
+
+h2. Extending The Parser
+
+_Undefined name or unsupported function encountered_ means SEJ's Excel formula parser cannot parse something. So we must make it support @ABS()@ as our first implementation step. The parser consists of two separate phases, the lexical scanner returning symbols, and the symbol stream parser. Both are generated from special scanner and parser description languages.
+
+The scanner is generated using "JFlex":http://www.jflex.de/. Its input file is @src/classes/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner.lex@. To add support for recognizing the @ABS@ token, we simply add the following line above the one for @ROUND@:
+
+<pre><code
+>{FN} "ABS" { return new Symbol( GeneratedSymbols.ABS, "ABS" ); }
+</code></pre>
+
+We run @ant lex@ to regenerate the scanner. This leads to the next error. The Java symbol @GeneratedSymbols.ABS@ is undefined. This is because the parser defines the available symbols. So we need to tell the token parser about @ABS@ too.
+
+The parser is generated using "CUP":-cup. Its input file is @src/classes/sej/internal/spreadsheet/loader/excel/ExcelExpressionParser.cup@. To add support for recognizing the @ABS()@ function, we first add the symbol @ABS@:
+
+<pre><code
+>terminal MATCH, INDEX, ROUND, ABS;
+</code></pre>
+
+Then we add parsing instructions for the entire @ABS()@ function. They go into the definition of the @expr@ clause:
+
+<pre><code
+>expr ::=
+  ...
+  |  ABS LPAREN expr:e RPAREN
+       {: RESULT = new ExpressionNodeForFunction( Function.ABS, e ); :}
+</code></pre>
+
+This should be fairly self-explanatory. It creates a new for a function @ABS@ with a single argument @e@, which can be any expression. To generate the parser, we run @ant cup@.
+
+Now, the Java symbol @sej.Function.ABS@ is undefined. Extending this enumeration is straightforward, and the code compiles again.
+
+
+
+h2. Implementing The Function
+
+Running the test again, we get:
+
+<pre><code
+>sej.CompilerException$UnsupportedExpression:
+Function ABS is not supported for double engines.
+In expression  >> ABS( C2 ) << ; error location indicated by >>..<<.
+Cell containing expression is B2.
+Referenced by cell B2.
+  at sej.internal.bytecode.compiler.ExpressionCompiler.compileFunction(ExpressionCompiler.java:334)
+  at sej.internal.bytecode.compiler.ExpressionCompilerForNumbers.compileFunction(ExpressionCompilerForNumbers.java:293)
+  at sej.internal.bytecode.compiler.ExpressionCompiler.compileInner(ExpressionCompiler.java:185)
+  at sej.internal.bytecode.compiler.ExpressionCompiler.compile(ExpressionCompiler.java:112)
+  at sej.internal.bytecode.compiler.MethodCompiler.compileExpression(MethodCompiler.java:261)
+  at sej.internal.bytecode.compiler.CellMethodCompiler.compileBody(CellMethodCompiler.java:79)
+  at sej.internal.bytecode.compiler.MethodCompiler.compile(MethodCompiler.java:112)
+  at sej.internal.bytecode.compiler.CellComputation.compile(CellComputation.java:89)
+  at sej.internal.bytecode.compiler.ByteCodeEngineCompiler$ElementCompiler.visitTargetCell(ByteCodeEngineCompiler.java:218)
+  at sej.internal.bytecode.compiler.ByteCodeEngineCompiler$AbstractElementVisitor.visit(ByteCodeEngineCompiler.java:271)
+</code></pre>
+
+This is from the heart of SEJ, the byte code compiler. To implement @ABS()@, let's look at how @ROUND()@ is implemented. In the method @sej.internal.bytecode.compiler.ExpressionCompilerForNumbers.compileFunction@, we see the following:
+
+	[jc:sej.internal.bytecode.compiler.ExpressionCompilerForNumbers:---- compileROUND]
+
+
+h3. Functions Supported By The Runtime
+
+In SEJ parlance, a @RuntimeFunction@ is one not compiled directly to bytecode, but mapped to a Java function implemented by the @Runtime@ class. The runtime is subclassed for each supported "numeric type":../tutorial/numeric_type.htm. It is also versioned so SEJ can easily provide backwards compatibility with older compiled engines. Here is the implementation from @sej.internal.runtime.RuntimeDouble_v1@:
+
+	[jc:sej.internal.runtime.RuntimeDouble_v1:---- stdROUND]
+
+This would be very easy to do for @ABS()@ too. But @ABS()@ is really so basic, we will implement it natively instead. I can thus show you how to compile byte code, and the separate compilers for the different numeric types.
+
+
+h3. Byte Code Compilation For Doubles
+
+The @ExpressionCompilerForNumbers@ I mentioned before is for numbers in general. It typically handles functions supported by the individual subclasses of the runtime. When compiling directly to byte code, we need to go into the subclasses of @ExpressionCompilerForNumbers@ itself, namely
+
+	* @ExpressionCompilerForDoubles@,
+	* @ExpressionCompilerForScaledLongs@, and
+	* @ExpressionCompilerForBigDecimals@.
+
+Let's start with @ExpressionCompilerForDoubles@. We see that @compileFunction()@ is not yet overridden, so we have nothing to mimick. But there is @compileOperator()@, which is essentially the same thing. It only uses a different enumeration (@Operator@ instead of @Function@). The implementation of @EXP@ seems a good match for @ABS@, as it also calls a static method of @Math@. Here is the snippet:
+
+	[jc:sej.internal.bytecode.compiler.ExpressionCompilerForDoubles:---- opEXP]
+
+SEJ uses the "ASM library":http://asm.objectweb.org/ to compile byte code. ASM uses a byte code instruction visitor implementation for generating code, hence the names starting with @visit@. Here's what the parameters mean:
+
+	* The @Opcodes@ represent the "JVM byte code instruction set":-jvminsns. This what @javap -c@ emits, too. @INVOKESTATIC@ invokes a static method.
+
+	* The next parameter is the target class name its internal form (simply replace all @.@ with @/@). Or use a type helper class as shown here. @ByteCodeEngineCompiler@ defines a number of them.
+
+	* Next is the method name.
+
+	* Finally, we have the method's type signature. Native types have abbreviations (like @D@ for @double@, @I@ for @int@, etc.). The return type is at the end.
+
+
+We override @compileFunction@ in @ExpressionCompilerForDoubles@ and combine what we saw for @ROUND@ and for @EXP@ to compile the actual code:
+
+	[jc:sej.internal.bytecode.compiler.ExpressionCompilerForDoubles:---- funABS]
+
+
+h3. Byte Code, What Byte Code?
+
+If you know how to implement a feature using Java, but not JVM byte code, write a small class with a single method that performs the operation:
+
+	[jc:sej.examples.DisassembleJVMByteCodes:---- Class]
+
+Then either use the excellent "Eclipse ASM plugin":-ecasm to view the method's byte code, or simply run
+
+<pre><code
+>javap -c sej/examples/DisassembleJVMByteCodes
+</code></pre>
+
+which emits
+
+<pre><code
+>Compiled from "DisassembleJVMByteCodes.java"
+public final class sej.examples.DisassembleJVMByteCodes extends java.lang.Object{
+public sej.examples.DisassembleJVMByteCodes();
+  Code:
+   0:   aload_0
+   1:   invokespecial   #8; //Method java/lang/Object."<init>":()V
+   4:   return
+
+public double implementABS(double);
+  Code:
+   0:   dload_1
+   1:   invokestatic    #16; //Method java/lang/Math.abs:(D)D
+   4:   dreturn
+
+}
+</code></pre>
+

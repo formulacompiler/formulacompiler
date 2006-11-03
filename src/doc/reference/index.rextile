@@ -1,0 +1,37 @@
+
+h1. SEJ Function Reference
+
+
+This is the function reference for the Spreadsheet Engine for Java (SEJ). You might also want to have a look at the "Tutorial":../tutorial/index.htm and the "API Reference":../javadoc/index.html, and in particular the "Limitations":../limitations.htm.
+
+h5. Note
+
+To ensure its correctness, all the example expressions and their results have been "cited from automated tests":-jcite that are run with every release build.
+
+
+
+h2. Microsoft Excel Support
+
+Since SEJ only supports "Microsoft Excel":-excel spreadsheets as input at the moment, this reference uses Excel as a baseline for expected behaviour of the supported functions.
+
+<dl>
+
+<dt>"Cells, Values, Names":values.htm</dt><dd>Strings, numbers, dates, booleans; blank cells; cell names; ranges; numeric precision</dd>
+
+<dt>"Numeric Operators":numops.htm</dt><dd>@+@, @-@, @*@, @/@, @%@, @^@</dd>
+
+<dt>"Numeric Functions":numfuncs.htm</dt><dd>@ROUND@</dd>
+
+<dt>"String Support":strings.htm</dt><dd>@&@, @CONCATENATE@, @LEN@, @MID@, @LEFT@, @RIGHT@, @SUBSTITUTE@, @REPLACE@, @EXACT@, @SEARCH@, @FIND@, @LOWER@, @UPPER@</dd>
+
+<dt>"Boolean Functions And @IF@":booleans.htm</dt><dd>@NOT@, @AND@, @OR@, @IF@</dd>
+
+<dt>"Date Functions":datefuncs.htm</dt><dd>@TODAY@</dd>
+
+<dt>"Aggregators":aggregators.htm</dt><dd>@SUM@, @PRODUCT@, @COUNT@, @AVERAGE@, @MIN@, @MAX@</dd>
+
+<dt>"Lookup Functions":lookupfuncs.htm</dt><dd>@MATCH@, @INDEX@</dd>
+
+<dt>"Limitations":../limitations.htm</dt><dd>Things that are known to not work quite as expected yet.</dd>
+</dl>
+
