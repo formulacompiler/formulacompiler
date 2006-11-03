@@ -263,10 +263,13 @@ public class ExpressionTemplatesForScaledLongs
 	// ------------------------------------------------ Numeric Functions
 
 
+	// Leave this comment in. It is used to cite the code into the documentation.
+	// ---- fun_ABS
 	long fun_ABS( long a )
 	{
 		return (a < 0) ? -a : a;
 	}
+	// ---- fun_ABS
 
 	long fun_ROUND( long a, long b )
 	{

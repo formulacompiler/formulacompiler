@@ -14,7 +14,7 @@ h2. House Rules
 When developing for "Eclipse":-ec, you need to follow its "house rules":-ecrules. They help you and everyone else produce a consistent and high-quality product. It's the same with SEJ, only we have fewer rules. Here they are:
 
 	# Document first
-	# Cite tested examples
+	# Cite tests
 	# Mimick existing code
 	# Implement only what the tests require
 
@@ -23,9 +23,15 @@ Simple enough. Now go see them in action: "add a missing function":addfunction.h
 
 h2. Ways To Contribute
 
+
+SEJ does not support all of Excel's functions -- only "these":../reference/index.htm. See how to add a missing one:
+
 <dl>
 
-<dt>"Add A Missing Function":addfunction.htm</dt><dd>SEJ does not support all of Excel's functions -- only "these":../reference/index.htm. See how to add a missing one. Also introduces the fundamental contribution rules shown above.</dd>
+<dt>"Add A Primitive Function":addfunction.htm</dt><dd>See how to add primitive functions by writing a template method in Java. Also introduces the fundamental contribution rules shown above.</dd>
+
+<dt>"Add A High-Level Function":addrewrite.htm</dt><dd>See how to add a high-level function which is defined by rewriting it using lower-level functions.</dd>
+
 </dl>
 
 
@@ -40,3 +46,4 @@ h2. Missing Topics
 	* build.xml
 	* read the docs
 	* doc is produced from src/doc
+	* DebugTest

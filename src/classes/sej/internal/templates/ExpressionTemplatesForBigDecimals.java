@@ -259,11 +259,14 @@ public class ExpressionTemplatesForBigDecimals
 	// ------------------------------------------------ Numeric Functions
 
 
+	// Leave this comment in. It is used to cite the code into the documentation.
+	// ---- fun_ABS
 	@ReturnsAdjustedValue
 	BigDecimal fun_ABS( BigDecimal a )
 	{
 		return a.abs();
 	}
+	// ---- fun_ABS
 
 	BigDecimal fun_ROUND( BigDecimal a, BigDecimal b )
 	{

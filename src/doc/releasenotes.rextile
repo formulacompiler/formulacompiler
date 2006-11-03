@@ -8,22 +8,27 @@ Lists the new features, improvements, and fixes for each release of SEJ. You may
 	* "Roadmap":roadmap.htm
 
 	
-h2. Release 0.7.4
-
+h2. Release 0.8.0
 
 h5. New
 
-	* First version of "hacking docs":dev/index.htm.
+	* First version of "hacking docs":hacking/index.htm.
+	* Generation of byte-code compiler methods from "plain Java template methods":hacking/addfunction.htm to implement low-level functions.
+	* "Expression rewriting":hacking/addrewrite.htm to implement high-level functions.
+	* @FOLD@ and @LET@ for rewriting of aggregators.
 
 h5. Better
 
 	* @SpreadsheetBuilder.newCell()@ added for creating blank cells.
-	* @ABS()@ is now supported.
+	* @ABS()@ and @VARP()@ are now supported.
+	* A number of automated tests compare generated .jar files against baseline versions to detect unwanted changes.
+	* Documentation source now in the project in "Rextile":-rex format. Used to be in a custom format and only resulting HTML files were versioned in the project.
 
 h5. Fixed
 
 	* Excel spreadsheet saver now properly formats dates and booleans (added tests, too). Fixed issue with columns widths and default fonts not being copied from the template properly.
 	* Code coverage ant targets no longer run the caching speed test as the speed varies too much when coverage tracking is enabled.
+	* Use of @FOLD@ fixes a number of bugs with aggregation over nested sections.
 
 
 h2. Release 0.7.3
