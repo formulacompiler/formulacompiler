@@ -148,7 +148,7 @@ public abstract class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v1.toScaledLong( a, _scalingFactor );
 	}
 
-	
+
 	// ------------------------------------------------ Operators
 
 
@@ -197,8 +197,8 @@ public abstract class ExpressionTemplatesForDoubles
 		/*
 		 * Using a direct comparison like
 		 * 
-		 *   return (a < b) ? a : b;
-		 *   
+		 * return (a < b) ? a : b;
+		 * 
 		 * generates too much code for inlining.
 		 */
 		return RuntimeDouble_v1.min( a, b );
@@ -213,15 +213,21 @@ public abstract class ExpressionTemplatesForDoubles
 	// ------------------------------------------------ Numeric Functions
 
 
+	// Leave this comment in. It is used to cite the code into the documentation.
+	// ---- fun_ABS
 	double fun_ABS( double a )
 	{
 		return Math.abs( a );
 	}
+	// ---- fun_ABS
 
+	// Leave this comment in. It is used to cite the code into the documentation.
+	// ---- fun_ROUND
 	double fun_ROUND( double a, double b )
 	{
 		return RuntimeDouble_v1.round( a, (int) b );
 	}
+	// ---- fun_ROUND
 
 
 	// ------------------------------------------------ Date Functions

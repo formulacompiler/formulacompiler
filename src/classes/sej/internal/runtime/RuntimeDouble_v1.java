@@ -44,6 +44,8 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		return a <= b ? a : b;
 	}
 
+	// Leave this comment in. It is used to cite the code into the documentation.
+	// ---- round
 	public static double round( final double _val, final int _maxFrac )
 	{
 		final double shift = Math.pow( 10, _maxFrac );
@@ -54,15 +56,13 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 			return Math.floor( _val * shift + 0.5 ) / shift;
 		}
 	}
+	// ---- round
 
-	// Please leave the following JCite annotation intact.
-	// ---- stdROUND
 	@Deprecated
 	public static double stdROUND( final double _val, final double _maxFrac )
 	{
 		return round( _val, (int) _maxFrac );
 	}
-	// ---- stdROUND
 	
 	@Deprecated
 	public static double stdTODAY()
