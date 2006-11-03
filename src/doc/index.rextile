@@ -41,11 +41,11 @@ h2. Download
 
 <dl>
 
-<dt>"sej-<%=sej_ver%>-bin.zip":dist/sej-<%=sej_ver%>-bin.zip</dt><dd>Binary release, including documentation and all required third-party libraries.</dd>
+<dt>"sej-<%=sej_ver%>-bin.zip":http://arrenbrecht.ch/sej/dist/sej-<%=sej_ver%>-bin.zip</dt><dd>Binary release, including documentation and all required third-party libraries.</dd>
 
-<dt>"sej-<%=sej_ver%>-srcjar.zip":dist/sej-<%=sej_ver%>-srcjar.zip</dt><dd>Source code and documentation for SEJ in .jar files: @sej-src.jar@ and @sej-doc.jar@. Makes attaching source and doc in IDEs simple.</dd>
+<dt>"sej-<%=sej_ver%>-srcjar.zip":http://arrenbrecht.ch/sej/dist/sej-<%=sej_ver%>-srcjar.zip</dt><dd>Source code and documentation for SEJ in .jar files: @sej-src.jar@ and @sej-doc.jar@. Makes attaching source and doc in IDEs simple.</dd>
 
-<dt>"sej-<%=sej_ver%>-src.zip":dist/sej-<%=sej_ver%>-src.zip</dt><dd>Complete source code for SEJ, including tests and examples. Can produce all binaries by running @ant dist@.</dd>
+<dt>"sej-<%=sej_ver%>-src.zip":http://arrenbrecht.ch/sej/dist/sej-<%=sej_ver%>-src.zip</dt><dd>Complete source code for SEJ, including tests and examples. Can produce all binaries by running @ant dist@.</dd>
 </dl>
 
 

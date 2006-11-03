@@ -18,19 +18,14 @@ Since SEJ only supports "Microsoft Excel":-excel spreadsheets as input at the mo
 
 <dt>"Cells, Values, Names":values.htm</dt><dd>Strings, numbers, dates, booleans; blank cells; cell names; ranges; numeric precision</dd>
 
-<dt>"Numeric Operators":numops.htm</dt><dd>@+@, @-@, @*@, @/@, @%@, @^@</dd>
+<%= summary 'Numeric Operators', 'numops', ['NumericOperators', 'NumericComparisons'] %>
+<%= summary 'Numeric Functions', 'numfuncs', ['NumericFunctions'] %>
+<%= summary 'String Support', 'strings', ['Strings'] %>
+<%= summary 'Boolean Functions And IF', 'booleans', ['BooleanFunctions', 'FunctionIF'] %>
+<%= summary 'Date Functions', 'datefuncs', ['DateFunctions'] %>
+<%= summary 'Aggregators', 'aggregators', ['FunctionSUM', 'Aggregators'] %>
+<%= summary 'Lookup Functions', 'lookupfuncs', ['LookupFunctions'] %>
 
-<dt>"Numeric Functions":numfuncs.htm</dt><dd>@ROUND@</dd>
-
-<dt>"String Support":strings.htm</dt><dd>@&@, @CONCATENATE@, @LEN@, @MID@, @LEFT@, @RIGHT@, @SUBSTITUTE@, @REPLACE@, @EXACT@, @SEARCH@, @FIND@, @LOWER@, @UPPER@</dd>
-
-<dt>"Boolean Functions And @IF@":booleans.htm</dt><dd>@NOT@, @AND@, @OR@, @IF@</dd>
-
-<dt>"Date Functions":datefuncs.htm</dt><dd>@TODAY@</dd>
-
-<dt>"Aggregators":aggregators.htm</dt><dd>@SUM@, @PRODUCT@, @COUNT@, @AVERAGE@, @MIN@, @MAX@</dd>
-
-<dt>"Lookup Functions":lookupfuncs.htm</dt><dd>@MATCH@, @INDEX@</dd>
 
 <dt>"Limitations":../limitations.htm</dt><dd>Things that are known to not work quite as expected yet.</dd>
 </dl>
