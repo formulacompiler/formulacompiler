@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="ExcelExpressionParser" default="all">
 
-	<taskdef classname="JFlex.anttask.JFlexTask" name="jflex" classpath="J:/jflex-1.4.1/lib/JFlex.jar"/>
-	<taskdef classname="java_cup.anttask.CUPTask" name="cup" classpath="J:/java-cup-11a/dist/java-cup-11a.jar" />
+	<taskdef classname="java_cup.anttask.CUPTask" name="cup11a" classpath="J:/java-cup-11a/dist/java-cup-11a.jar" />
 
 	<target name="lexgen">
 		<loadfile property="lex.regexps" srcfile="classes/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}_RegExps.lex"></loadfile>
@@ -43,7 +42,7 @@
 	</target>
 
 	<target name="cup">
-		<cup srcfile="classes/sej/internal/spreadsheet/loader/excel/ExcelExpressionParser.cup" 
+		<cup11a srcfile="classes/sej/internal/spreadsheet/loader/excel/ExcelExpressionParser.cup" 
 			destdir="classes-gen" 
 			parser="GeneratedParser" 
 			symbols="GeneratedSymbols"
