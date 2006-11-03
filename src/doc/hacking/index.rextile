@@ -18,7 +18,7 @@ When developing for "Eclipse":-ec, you need to follow its "house rules":-ecrules
 	# Mimick existing code
 	# Implement only what the tests require
 
-Simple enough. Now go see them in action: "add a missing function":addfunction.htm. That will them clear.
+Simple enough. Now go see them in action: "add a missing function":addfunction.htm. That will make them clear.
 
 
 h2. Ways To Contribute
