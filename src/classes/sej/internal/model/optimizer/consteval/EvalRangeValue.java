@@ -38,6 +38,7 @@ public class EvalRangeValue extends EvalShadow
 	{
 		ExpressionNodeForRangeValue rangeNode = (ExpressionNodeForRangeValue) node();
 		RangeValue result = (RangeValue) rangeNode.getRangeValue().clone();
+		assert result.size() == 0;
 		for (Object arg : _args) {
 			result.add( arg );
 		}
