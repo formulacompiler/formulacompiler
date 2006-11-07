@@ -89,13 +89,9 @@ public class RangeValue extends AbstractDescribable implements Iterable<Object>,
 	@Override
 	public Object clone()
 	{
-		try {
-			return super.clone();
-		}
-		catch (CloneNotSupportedException e) {
-			assert false;
-			return null;
-		}
+		RangeValue cloned = new RangeValue( this.numberOfSheets, this.numberOfRows, this.numberOfColumns );
+		cloned.values.addAll( this.values );
+		return cloned;
 	}
 
 
