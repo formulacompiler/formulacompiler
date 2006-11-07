@@ -26,6 +26,7 @@ import java.util.NoSuchElementException;
 import sej.Orientation;
 import sej.Spreadsheet;
 import sej.SpreadsheetException;
+import sej.Spreadsheet.Cell;
 import sej.describable.DescriptionBuilder;
 
 
@@ -172,6 +173,37 @@ public final class CellRange extends Reference implements Spreadsheet.Range, Ite
 		}
 		throw new SpreadsheetException.CellRangeNotUniDimensional( "Range "
 				+ this + " cannot be used to specify a relative cell for " + _cell );
+	}
+
+
+	public final boolean contains( Spreadsheet.Range _other )
+	{
+		CellRange other = (CellRange) _other;
+		return contains( other.from ) && contains( other.to );
+	}
+
+	public final boolean contains( Spreadsheet.Cell _cell )
+	{
+		CellIndex cell = (CellIndex) _cell;
+		return between( this.from.sheetIndex, this.to.sheetIndex, cell.sheetIndex )
+				&& between( this.from.rowIndex, this.to.rowIndex, cell.rowIndex )
+				&& between( this.from.columnIndex, this.to.columnIndex, cell.columnIndex );
+	}
+
+	private final boolean between( int _a, int _b, int _x )
+	{
+		return _a <= _x && _x <= _b;
+	}
+	
+	
+	public Cell getTopLeft()
+	{
+		return this.from;
+	}
+
+	public Cell getBottomRight()
+	{
+		return this.to;
 	}
 
 

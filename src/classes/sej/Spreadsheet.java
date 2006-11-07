@@ -176,7 +176,7 @@ public interface Spreadsheet extends Describable
 		 * 
 		 * @return the text of the parsed expression, or {@code null} if the cell is empty or
 		 *         constant.
-		 * @throws SpreadsheetException 
+		 * @throws SpreadsheetException
 		 */
 		public String getExpressionText() throws SpreadsheetException;
 
@@ -191,7 +191,33 @@ public interface Spreadsheet extends Describable
 	 */
 	public static interface Range
 	{
-		/* Marker interface only */
+
+		/**
+		 * Tests whether the other range is completely contained within this one.
+		 * 
+		 * @param _other is the other range.
+		 * @return true iff the other range is completely contained.
+		 */
+		boolean contains( Range _other );
+
+		/**
+		 * Tests whether the cell is contained within this range.
+		 * 
+		 * @param _cell is the cell to test.
+		 * @return true iff the cell is within the range.
+		 */
+		boolean contains( Cell _cell );
+
+		/**
+		 * Returns the top left corner of the range (on the leftmost sheet of the range).
+		 */
+		Cell getTopLeft();
+
+		/**
+		 * Returns the bottom right corner of the range (on the rightmost sheet of the range).
+		 */
+		Cell getBottomRight();
+
 	}
 
 
