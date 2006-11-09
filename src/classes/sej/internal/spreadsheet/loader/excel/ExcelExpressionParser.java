@@ -99,7 +99,7 @@ final class ExcelExpressionParser
 	Reference parseNamedRef( String _ident ) throws Exception
 	{
 		if (null == this.workbook) {
-			throw new Exception( "Cannot parse " + _ident + " in this context - did you mean `" + _ident + "?" );
+			throw new Exception( "Cannot parse " + _ident + " in this context - did you mean `" + _ident + " or _" + _ident + "?" );
 		}
 		return this.workbook.getNamedRef( _ident );
 	}
