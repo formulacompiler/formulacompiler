@@ -257,7 +257,7 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		}
 	}
 
-	
+
 	public static long op_EXP( final long x, final long n, Context _cx )
 	{
 		return _cx.fromDouble( Math.pow( _cx.toDouble( x ), _cx.toDouble( n ) ) );
@@ -272,6 +272,22 @@ public final class RuntimeLong_v1 extends Runtime_v1
 	public static long fun_TODAY( Context _cx )
 	{
 		return dateToNum( today(), _cx );
+	}
+
+	public static long fun_FACT( long _a )
+	{
+		if (_a < 0) {
+			return 0; // Excel #NUM!
+		}
+		else {
+			int a = (int) _a;
+			if (a < FACTORIALS.length) {
+				return FACTORIALS[ a ];
+			}
+			else {
+				throw new ArithmeticException( "Overflow in FACT() using (scaled) long." );
+			}
+		}
 	}
 
 }

@@ -20,22 +20,29 @@
  */
 package sej.internal.model.optimizer.consteval;
 
-import java.util.List;
-
+import sej.internal.Settings;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeShadow;
 import sej.internal.expressions.LetDictionary;
+import sej.internal.logging.Log;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.util.InterpretedNumericType;
 
 public abstract class EvalShadow extends ExpressionNodeShadow
 {
+	public static final Log LOG = Settings.LOG_CONSTEVAL;
+
 
 	public static Object evaluate( ExpressionNode _expr, InterpretedNumericType _type )
 	{
-		EvalShadow shadow = (EvalShadow) ExpressionNodeShadow.shadow( _expr, new EvalShadowBuilder( _type ) );
-		return shadow.evalIn( new LetDictionary() );
+		EvalShadow shadow = shadow( _expr, _type );
+		return shadow.evalIn( new EvalShadowContext() );
+	}
+
+	protected static EvalShadow shadow( ExpressionNode _expr, InterpretedNumericType _type )
+	{
+		return (EvalShadow) ExpressionNodeShadow.shadow( _expr, new EvalShadowBuilder( _type ) );
 	}
 
 
@@ -53,17 +60,30 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	}
 
 
-	private LetDictionary letDict;
+	private EvalShadowContext context;
 
-	private final Object evalIn( LetDictionary _letDict )
+	protected final Object evalIn( EvalShadowContext _context )
 	{
-		this.letDict = _letDict;
-		return eval();
+		this.context = _context;
+
+		final String from = node().toString();
+		if (LOG.e()) LOG.a( "Eval " ).a( from ).lf().i();
+
+		final Object res = eval();
+
+		if (LOG.e()) LOG.o().a( "Got " ).a( from ).a( " -> " ).a( res ).lf();
+
+		return res;
+	}
+
+	protected final EvalShadowContext context()
+	{
+		return this.context;
 	}
 
 	protected final LetDictionary letDict()
 	{
-		return this.letDict;
+		return this.context.letDict;
 	}
 
 
@@ -102,7 +122,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 
 	protected final Object evaluateArgument( EvalShadow _arg )
 	{
-		return (_arg == null) ? null : _arg.evalIn( letDict() );
+		return (_arg == null) ? null : _arg.evalIn( context() );
 	}
 
 
@@ -112,7 +132,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 			return evaluateToConst( _args );
 		}
 		else {
-			return nodeWithConstantArgsFixed( _args );
+			return evaluateToNode( _args );
 		}
 	}
 
@@ -135,44 +155,26 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		return (_arg instanceof ExpressionNodeForSubSectionModel);
 	}
 
-	protected Object nodeWithConstantArgsFixed( Object[] _args )
+	protected Object evaluateToNode( Object[] _args )
 	{
-		final List<ExpressionNode> argNodes = node().arguments();
-		int iArg = 0;
-		for (Object arg : _args) {
-			fixArgIfConstant( argNodes, iArg, arg );
-			iArg++;
-		}
-		return node();
-	}
-
-	protected final boolean fixArgIfConstant( final List<ExpressionNode> _args, int _iArg, Object _arg )
-	{
-		if (isConstant( _arg )) {
-			return fixArg( _args, _iArg, _arg );
-		}
-		return false;
-	}
-
-	@SuppressWarnings("null")
-	protected final boolean fixArg( final List<ExpressionNode> _args, int _iArg, Object _const )
-	{
-		final ExpressionNode curr = _args.get( _iArg );
-		if (curr instanceof ExpressionNodeForConstantValue) {
-			final ExpressionNodeForConstantValue currConst = (ExpressionNodeForConstantValue) curr;
-			if (null == currConst.getValue()) {
-				if (null == _const) return false;
+		ExpressionNode result = node().cloneWithoutArguments();
+		for (final Object arg : _args) {
+			if (isConstant( arg )) {
+				result.addArgument( new ExpressionNodeForConstantValue( arg ) );
 			}
-			else if (currConst.getValue().equals( _const )) {
-				return false;
+			else {
+				result.addArgument( (ExpressionNode) arg );
 			}
 		}
-		_args.set( _iArg, new ExpressionNodeForConstantValue( _const ) );
-		return true;
+		return result;
 	}
-
 
 	protected abstract Object evaluateToConst( Object[] _args );
 
+
+	protected final ExpressionNode valueToNode( Object _value )
+	{
+		return isConstant( _value ) ? new ExpressionNodeForConstantValue( _value ) : (ExpressionNode) _value;
+	}
 
 }

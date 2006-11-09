@@ -274,6 +274,15 @@ public class ExpressionTemplatesForBigDecimals
 	}
 
 
+	// ------------------------------------------------ Combinatorics
+
+
+	BigDecimal fun_FACT( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v1.fun_FACT( a );
+	}
+
+
 	// ------------------------------------------------ Date Functions
 
 

@@ -247,8 +247,8 @@ public class ExpressionTemplatesForScaledLongs
 		/*
 		 * Using a direct comparison like
 		 * 
-		 *   return (a < b) ? a : b;
-		 *   
+		 * return (a < b) ? a : b;
+		 * 
 		 * generates too much code for inlining.
 		 */
 		return RuntimeLong_v1.min( a, b );
@@ -274,6 +274,20 @@ public class ExpressionTemplatesForScaledLongs
 	long fun_ROUND( long a, long b )
 	{
 		return RuntimeLong_v1.fun_ROUND( a, b, context );
+	}
+
+
+	// ------------------------------------------------ Combinatorics
+
+
+	long fun_FACT__if_isScaled( long a )
+	{
+		return RuntimeLong_v1.fun_FACT( a / one ) * one;
+	}
+
+	long fun_FACT( long a )
+	{
+		return RuntimeLong_v1.fun_FACT( a );
 	}
 
 

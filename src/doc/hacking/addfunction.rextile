@@ -1,8 +1,8 @@
 
-h1. Adding A New Spreadsheet Function To SEJ
+h1. Adding A New Primitive Spreadsheet Function To SEJ
 
 
-As a simple, but probably typical example, we will look at how I added @ABS()@ to the list of supported spreadsheet functions. So for the rest of this page, we will assume @ABS()@ was not implemented yet.
+As a simple, but probably typical example, we will look at how I added @ABS()@ to the list of supported spreadsheet functions. So for the rest of this page, we will assume @ABS()@ has not been implemented yet.
 
 <%= toc 2, 4 %>
 
@@ -35,9 +35,9 @@ SEJ runs your tests using @DOUBLE@, @BIGDECIMAL8@, and @LONG4@. So you must make
 
 h2. Automated Formula Tests
 
-For @ABS()@, we extend the sheet called @NumericFunctions.xls@. By _citing_ it, I can show it right here:
+For @ABS()@, we extend the sheet called @NumericFunctions.xls@. By _citing_ it, I can show it right here (only the relevant subset is shown):
 
-	[xc:testdata/sej/tests/reference/NumericFunctions.xls]
+	[xc:testdata/sej/tests/reference/NumericFunctions.xls:HeaderRange,ABSRange]
 
 And here is "the documentation produced from it":../reference/numfuncs.htm. Note also how the list of supported functions in the "reference index":../reference/index.htm automatically includes @ABS@.
 
@@ -57,6 +57,11 @@ This spreadsheet has one row per test case. Blank rows are ignored. The columns 
 <dt>Name (K)</dt><dd>The name of feature being tested and documented. Used as a subtitle in the generated documentation. Following rows with no name in this column are considered to be part of the last name's tests. (See below for the meaning of @...@ here.)</dd>
 
 <dt>Highlight (L)</dt><dd>A substring that should be highlighted in the formula as rendered in the generated documentation. Subsequent rows with nothing in this column reuse the last value. Putting @xx@ into the column clears the highlighting. You can add more than one substring, separated by spaces. The first such substring is automatically added to the list of supported functions in the "reference index":../reference/index.htm.</dd>
+
+<dt>Excel says (M)</td><dd>When SEJ returns something different from Excel, you can document it here. This will be cited in the user documentation. Typical usage is when SEJ returns 0, but Excel returns an error like @#NUM!@. You should then set this column to @'#NUM!@ (note the tick at the start).</dd>
+
+<dt>Skip for (N)</td><dd>If this column contains any of @double@, @big@, @long@, then the test is _not_ run for the corresponding numeric type. You can list multiple types here. Use this when, for example, the precision of @long@ is not sufficient for a particular test case.</dd>
+
 </dl>
 
 When you specify bound input cells using column J, the automated test runner automatically runs the formula with all possible combinations of bound and unbound input values. This ensures that the runtime and compile time (constant folder) implementations work for all combinations.

@@ -22,8 +22,13 @@ package sej.internal.expressions;
 
 import java.util.Stack;
 
+import sej.internal.Settings;
+import sej.internal.logging.Log;
+
 public final class LetDictionary
 {
+	public static final Log LOG = Settings.LOG_LETVARS;
+
 	private final Stack<LetEntry> stack = new Stack<LetEntry>();
 
 	public LetDictionary()
@@ -41,10 +46,13 @@ public final class LetDictionary
 	public final void let( String _name, DataType _type, Object _value )
 	{
 		this.stack.push( new LetEntry( _name, _type, _value ) );
+		if (LOG.e()) LOG.a( "Letting " ).a( _name ).a( " = " ).a( _value ).lf().i();
 	}
 
 	public final void set( String _name, Object _value )
 	{
+		if (LOG.e()) LOG.o().a( "Reletting " ).a( _name ).a( " = " ).a( _value ).lf().i();
+
 		for (int i = this.stack.size() - 1; i >= 0; i--) {
 			final LetEntry entry = this.stack.get( i );
 			if (_name.equals( entry.name )) {
@@ -59,6 +67,8 @@ public final class LetDictionary
 	{
 		final LetEntry was = this.stack.pop();
 		if (was.name != _name) throw new IllegalArgumentException( "Name mismatch - unbalanced let/unlet?" );
+
+		if (LOG.e()) LOG.o().a( "Unletting " ).a( _name ).lf();
 	}
 
 

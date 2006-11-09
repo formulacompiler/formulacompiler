@@ -16,11 +16,11 @@ h5. New
 	* Generation of byte-code compiler methods from "plain Java template methods":hacking/addfunction.htm to implement low-level functions.
 	* "Expression rewriting":hacking/addrewrite.htm to implement high-level functions.
 	* @FOLD@ and @LET@ for rewriting of aggregators.
+	* @ABS()@, @VAR()@, @VARP()@, @FACT()@, and @COMBIN()@ are now supported.
 
 h5. Better
 
 	* @SpreadsheetBuilder.newCell()@ added for creating blank cells.
-	* @ABS()@ and @VARP()@ are now supported.
 	* A number of automated tests compare generated .jar files against baseline versions to detect unwanted changes.
 	* Documentation source now in the project in "Rextile":-rex format. Used to be in a custom format and only resulting HTML files were versioned in the project.
 

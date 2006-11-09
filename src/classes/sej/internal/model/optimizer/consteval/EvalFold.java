@@ -20,6 +20,10 @@
  */
 package sej.internal.model.optimizer.consteval;
 
+import java.util.Collection;
+
+import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
 import sej.internal.model.util.InterpretedNumericType;
 
@@ -33,11 +37,15 @@ final class EvalFold extends EvalAbstractFold
 
 
 	@Override
-	protected void insertPartialFold( Object _acc )
+	protected ExpressionNode partialFold( Object _acc, boolean _accChanged, Object[] _args,
+			Collection<ExpressionNode> _dynArgs )
 	{
-		if (fixArg( node().arguments(), 0, _acc )) {
-			((ExpressionNodeForFold) node()).neverInlineFirst();
-		}
+		ExpressionNodeForFold result = (ExpressionNodeForFold) node().cloneWithoutArguments();
+		result.addArgument( new ExpressionNodeForConstantValue( _acc ) ); // initial
+		result.addArgument( valueToNode( _args[ 1 ] ) ); // fold
+		result.arguments().addAll( _dynArgs );
+		if (_accChanged) result.neverInlineFirst();
+		return result;
 	}
 
 }

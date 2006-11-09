@@ -37,9 +37,12 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 	}
 
 
+	// Leave this comment in. It is used to cite the code into the documentation.
+	// ---- fun_COMBIN
 	@Override
 	protected void defineFunctions() throws Exception
 	{
+		// ---- fun_COMBIN
 
 		/*
 		 * PRODUCT must return 0 for empty sections, so I cannot use _FOLDL_1ST_OK as the initial
@@ -69,8 +72,8 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 
 		/*
 		 * An efficient implementation of VARP for large datasets would require a helper function
-		 * returning _both_ the sum and the count in one pass. We don't do this yet, so the following
-		 * is quite OK:
+		 * returning _both_ the sum and the count in one pass. We don't do cursor-style aggregation
+		 * yet, so the following is quite OK:
 		 */
 		begin( Function.VARP, "xs*" );
 		{
@@ -83,8 +86,45 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 			body( ")" );
 		}
 		end();
+		
+		// Leave this comment in. It is used to cite the code into the documentation.
+		// ---- fun_VAR
+		begin( Function.VAR, "xs*" );
+		{
+			body( "_LET( c: COUNT(`xs);" );
+			// Inlining AVERAGE here because COUNT is already known:
+			body( "	_LET( m: SUM(`xs) / `c;" );
+			body( "		_FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
+			body( "	)" );
+			body( "	/ (`c - 1)" );
+			body( ")" );
+		}
+		end();
+		// ---- fun_VAR
+		
 
+		// Leave this comment in. It is used to cite the code into the documentation.
+		// ---- fun_COMBIN
+		// ...
+		begin( Function.COMBIN, "n", "k" );
+		{
+			body( "IF( OR( `n <= 0, `n < `k ), 0," );
+			body( "  IF( `n = `k, 1," );
+			body( "    IF( `k = 1, `n," );
+			body( "      FACT(`n) / (FACT(`k) * FACT(`n - `k))" );
+			body( "    )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
+		// ...
+		// ---- fun_COMBIN
+
+
+		// Leave this comment in. It is used to cite the code into the documentation.
+		// ---- fun_COMBIN
 	}
+	// ---- fun_COMBIN
 
 
 }

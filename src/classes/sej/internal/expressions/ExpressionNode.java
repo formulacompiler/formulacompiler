@@ -116,16 +116,25 @@ public abstract class ExpressionNode extends AbstractDescribable
 		return (this.derivedFrom == null) ? this : this.derivedFrom.getOrigin();
 	}
 
+	
+	public ExpressionNode cloneWithoutArguments()
+	{
+		final ExpressionNode result = innerCloneWithoutArguments();
+		result.contextProvider = this.contextProvider;
+		result.dataType = this.dataType;
+		result.derivedFrom = this.derivedFrom;
+		return result;
+	}
 
-	public abstract ExpressionNode cloneWithoutArguments();
+	protected abstract ExpressionNode innerCloneWithoutArguments();
 
 
 	@Override
-	public Object clone()
+	public ExpressionNode clone()
 	{
 		final ExpressionNode result = cloneWithoutArguments();
 		for (ExpressionNode arg : arguments()) {
-			final ExpressionNode newArg = (ExpressionNode) arg.clone();
+			final ExpressionNode newArg = arg.clone();
 			result.arguments().add( newArg );
 		}
 		return result;

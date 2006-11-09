@@ -48,7 +48,7 @@ public class ExpressionNodeForConstantValue extends ExpressionNode
 
 
 	@Override
-	public ExpressionNode cloneWithoutArguments()
+	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForConstantValue( this.value );
 	}

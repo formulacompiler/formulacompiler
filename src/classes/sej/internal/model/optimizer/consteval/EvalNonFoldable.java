@@ -33,7 +33,7 @@ public class EvalNonFoldable extends EvalShadow
 	@Override
 	protected Object evaluateToConst( Object[] _args )
 	{
-		return nodeWithConstantArgsFixed( _args );
+		return evaluateToNode( _args );
 	}
 
 }

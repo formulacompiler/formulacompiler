@@ -44,7 +44,7 @@ public final class ExpressionNodeForRangeUnion extends ExpressionNode
 
 
 	@Override
-	public ExpressionNode cloneWithoutArguments()
+	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForRangeUnion();
 	}

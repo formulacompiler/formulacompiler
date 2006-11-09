@@ -37,7 +37,7 @@ public class ExpressionNodeForParentSectionModel extends ExpressionNodeForSectio
 
 
 	@Override
-	public ExpressionNode cloneWithoutArguments()
+	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForParentSectionModel( getSectionModel() );
 	}

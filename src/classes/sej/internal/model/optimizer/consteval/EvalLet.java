@@ -44,7 +44,7 @@ final class EvalLet extends EvalShadow
 			if (isConstant( result )) {
 				return result;
 			}
-			return nodeWithConstantArgsFixed( new Object[] { val, result } );
+			return evaluateToNode( new Object[] { val, result } );
 		}
 		finally {
 			letDict().unlet( this.varName );

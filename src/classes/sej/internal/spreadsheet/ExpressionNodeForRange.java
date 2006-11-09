@@ -58,7 +58,7 @@ public final class ExpressionNodeForRange extends ExpressionNode
 
 
 	@Override
-	public ExpressionNode cloneWithoutArguments()
+	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForRange( this.range );
 	}

@@ -25,6 +25,8 @@ import sej.internal.model.util.InterpretedNumericType;
 
 final class EvalLetVar extends EvalShadow
 {
+	static final Object UNDEF = new Object();
+
 	private final String varName;
 
 	public EvalLetVar(ExpressionNodeForLetVar _node, InterpretedNumericType _type)
@@ -37,9 +39,16 @@ final class EvalLetVar extends EvalShadow
 	@Override
 	protected Object eval()
 	{
-		return letDict().lookup( this.varName );
+		final Object val = letDict().lookup( this.varName );
+		if (val == UNDEF) {
+			if (LOG.e()) LOG.a( "Lookup " ).a( this.varName ).a( " is undefined. " ).lf();
+			return node(); // No need to clone leaf node.
+		}
+		else {
+			if (LOG.e()) LOG.a( "Lookup " ).a( this.varName ).a( " = " ).a( val ).lf();
+			return val;
+		}
 	}
-
 
 	@Override
 	protected Object evaluateToConst( Object[] _args )

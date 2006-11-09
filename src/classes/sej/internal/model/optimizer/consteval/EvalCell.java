@@ -60,7 +60,11 @@ public class EvalCell extends EvalShadow
 		if (null != expression) {
 			final Object constResult = EvalShadow.evaluate( expression, type() );
 			if (constResult instanceof ExpressionNode) {
+				
+				// Do not need to clone leaf node.
+				assert node().arguments().size() == 0;
 				return node();
+				
 			}
 			else {
 				return constResult;

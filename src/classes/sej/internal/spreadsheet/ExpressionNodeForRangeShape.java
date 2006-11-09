@@ -46,7 +46,7 @@ public final class ExpressionNodeForRangeShape extends ExpressionNode
 	}
 
 	@Override
-	public ExpressionNode cloneWithoutArguments()
+	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForRangeShape();
 	}

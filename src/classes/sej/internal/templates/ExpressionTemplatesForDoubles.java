@@ -230,6 +230,15 @@ public abstract class ExpressionTemplatesForDoubles
 	// ---- fun_ROUND
 
 
+	// ------------------------------------------------ Combinatorics
+
+
+	double fun_FACT( double a )
+	{
+		return RuntimeDouble_v1.fun_FACT( a );
+	}
+
+
 	// ------------------------------------------------ Date Functions
 
 

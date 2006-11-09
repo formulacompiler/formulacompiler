@@ -258,7 +258,6 @@ public abstract class Runtime_v1
 		return _s.toUpperCase();
 	}
 
-
 	// LATER stdPROPER
 	/*
 	 * static final String toTitleCase( String _str ) { // Unfinished! needs unit tests final
@@ -269,5 +268,8 @@ public abstract class Runtime_v1
 	 * sb.toString(); }
 	 */
 
+
+	protected static final long[] FACTORIALS = new long[] { 1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800,
+			39916800, 479001600 };
 
 }

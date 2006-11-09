@@ -20,6 +20,8 @@
  */
 package sej.internal;
 
+import sej.internal.logging.Log;
+
 /**
  * Holds global settings for SEJ.
  * 
@@ -27,75 +29,41 @@ package sej.internal;
  */
 public class Settings
 {
-	private static boolean debugLogEnabled = false;
-	private static String debugIndentation = "";
+	public static final Log LOG_LETVARS = logFor( "letVars" );
+	public static final Log LOG_CONSTEVAL = logFor( "constEval" );
+
+	public static final Log logFor( String _name )
+	{
+		final Log log = new Log();
+		log.setEnabled( "true".equals( System.getProperty( "sej.internal.Settings.LOG." + _name + ".enabled" ) ) );
+		return log;
+	}
+
+	
 	private static boolean debugParserEnabled = false;
-	private static boolean debugCompilationEnabled = false;
-
-
-	/**
-	 * Returns whether the logging of debug information to the console is enabled.
-	 */
-	public static boolean isDebugLogEnabled()
-	{
-		return debugLogEnabled;
-	}
-
-
-	/**
-	 * Controls whether the logging of debug information to the console is enabled.
-	 */
-	public static void setDebugLogEnabled( boolean _debugMode )
-	{
-		debugLogEnabled = _debugMode;
-	}
-
-
-	public static String getDebugIndentation()
-	{
-		return debugIndentation;
-	}
-
-
-	public static void printDebugIndentation()
-	{
-		System.out.print( debugIndentation );
-	}
-
-
-	public static void debugIndent()
-	{
-		debugIndentation += "  ";
-	}
-
-
-	public static void debugOutdent()
-	{
-		debugIndentation = debugIndentation.substring( 2 );
-	}
-
 
 	public static boolean isDebugParserEnabled()
 	{
 		return debugParserEnabled;
 	}
 
-
 	public static void setDebugParserEnabled( boolean _debugParserEnabled )
 	{
 		debugParserEnabled = _debugParserEnabled;
 	}
 
+	
+	private static boolean debugCompilationEnabled = false;
 
 	public static boolean isDebugCompilationEnabled()
 	{
 		return debugCompilationEnabled;
 	}
 
-
 	public static void setDebugCompilationEnabled( boolean _debugCompilationEnabled )
 	{
 		debugCompilationEnabled = _debugCompilationEnabled;
 	}
+
 
 }

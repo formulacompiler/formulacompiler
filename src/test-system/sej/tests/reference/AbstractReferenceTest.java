@@ -37,6 +37,7 @@ import sej.SaveableEngine;
 import sej.SpreadsheetBinder.Section;
 import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.logging.Log;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellRefFormat;
 import sej.internal.spreadsheet.CellWithConstant;
@@ -53,6 +54,8 @@ import junit.framework.TestCase;
 
 public abstract class AbstractReferenceTest extends TestCase
 {
+	public static final Log LOG = new Log();
+
 	private static final File SPREADSHEET_PATH = new File( "src/test-system/testdata/sej/tests/reference" );
 	private static final File HTML_PATH = new File( "build/temp/reference" );
 	private static final int STARTING_ROW = 1;
@@ -169,7 +172,7 @@ public abstract class AbstractReferenceTest extends TestCase
 
 	protected void reportTestRun( String _testName )
 	{
-		System.out.println( _testName );
+		LOG.a( _testName ).lf().i();
 	}
 
 	protected void reportDefectiveEngine( SaveableEngine _engine, String _testName )
@@ -177,6 +180,10 @@ public abstract class AbstractReferenceTest extends TestCase
 		// overridable
 	}
 
+	protected void reportEndOfTestRun( String _testName )
+	{
+		LOG.o();
+	}
 
 	private final String htmlize( String _text )
 	{
@@ -250,7 +257,7 @@ public abstract class AbstractReferenceTest extends TestCase
 					}
 				}
 			}
-			
+
 			endHtml();
 			endTerms();
 		}
@@ -675,9 +682,11 @@ public abstract class AbstractReferenceTest extends TestCase
 							throw ex;
 						}
 
+						reportEndOfTestRun( this.typedTestName );
 						return e;
 					}
 
+					
 					private final SaveableEngine compileEngine() throws Exception
 					{
 						final EngineBuilder eb = SEJ.newEngineBuilder();

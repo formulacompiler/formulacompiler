@@ -59,7 +59,7 @@ public final class ExpressionNodeForFold extends AbstractExpressionNodeForFold
 	
 
 	@Override
-	public ExpressionNode cloneWithoutArguments()
+	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForFold( accumulatorName(), elementName(), canInlineFirst() );
 	}
