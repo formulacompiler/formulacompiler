@@ -142,17 +142,27 @@ public abstract class AbstractRewriteRulesCompiler
 	private final void compileMethod() throws Exception
 	{
 		final DescriptionBuilder b = this.methods;
+		final ExpressionNode expr = parse( this.body.toString() );
 		b.append( "private final ExpressionNode rewrite" ).append( this.fun.getName() ).appendLine(
 				"( ExpressionNodeForFunction _fun ) {" );
 		b.indent();
 		{
 			b.appendLine( "final Iterator<ExpressionNode> args = _fun.arguments().iterator();" );
+			final StringBuilder prefix = new StringBuilder();
+			final StringBuilder suffix = new StringBuilder();
 			int iParam = 0;
 			for (String param : this.params) {
 				if (param.endsWith( "*" )) {
 					param = param.substring( 0, param.length() - 1 );
 					b.append( "final ExpressionNode " ).append( param ).appendLine( " = substitution( args );" );
 					this.params.set( iParam, param );
+				}
+				else if (occursMoreThanOnce( expr, param )) {
+					b.append( "final ExpressionNode " ).append( param ).appendLine( "_ = args.next();" );
+					b.append( "final ExpressionNode " ).append( param ).append( " = var( \"" ).append( param ).appendLine(
+							"\" );" );
+					prefix.append( "let( \"" ).append( param ).append( "\", " ).append( param ).append( "_, " );
+					suffix.append( " )" );
 				}
 				else {
 					b.append( "final ExpressionNode " ).append( param ).appendLine( " = substitution( args.next() );" );
@@ -161,12 +171,63 @@ public abstract class AbstractRewriteRulesCompiler
 			}
 
 			b.append( "return " );
-			compileExpr( parse( this.body.toString() ), b );
+			b.append( prefix );
+			compileExpr( expr, b );
+			b.append( suffix );
 			b.appendLine( ";" );
 		}
 		b.outdent();
 		b.appendLine( "}" );
 		b.newLine();
+	}
+
+	private boolean occursMoreThanOnce( final ExpressionNode _expr, String _param )
+	{
+		return countOccurrences_atLeast2( _expr, _param ) > 1;
+	}
+
+	private final int countOccurrences_atLeast2( ExpressionNode _expr, String _param )
+	{
+		if (_expr instanceof ExpressionNodeForLetVar) {
+			final ExpressionNodeForLetVar varNode = (ExpressionNodeForLetVar) _expr;
+			return varNode.varName().equals( _param ) ? 1 : 0;
+		}
+		else if (_expr instanceof ExpressionNodeForLet) {
+			final ExpressionNodeForLet letNode = (ExpressionNodeForLet) _expr;
+			if (letNode.varName().equals( _param )) {
+				return 0; // shadowed
+			}
+			return countOccurrences_atLeast2( letNode.in(), _param );
+		}
+		else if (_expr instanceof ExpressionNodeForFold) {
+			final ExpressionNodeForFold foldNode = (ExpressionNodeForFold) _expr;
+			int occ = countOccurrences_atLeast2( foldNode.initialAccumulatorValue(), _param );
+			if (!foldNode.accumulatorName().equals( _param ) && !foldNode.elementName().equals( _param )) {
+				// If it occurs here, multiple since this is repeated -> always aliased.
+				occ += countOccurrences_atLeast2( foldNode.accumulatingStep(), _param ) * 2;
+			}
+			return occ;
+		}
+		else if (_expr instanceof ExpressionNodeForFold1st) {
+			final ExpressionNodeForFold1st foldNode = (ExpressionNodeForFold1st) _expr;
+			int occ = countOccurrences_atLeast2( foldNode.emptyValue(), _param );
+			if (!foldNode.firstName().equals( _param )) {
+				occ += countOccurrences_atLeast2( foldNode.firstValue(), _param );
+			}
+			if (!foldNode.accumulatorName().equals( _param ) && !foldNode.elementName().equals( _param )) {
+				// If it occurs here, multiple since this is repeated -> always aliased.
+				occ += countOccurrences_atLeast2( foldNode.accumulatingStep(), _param ) * 2;
+			}
+			return occ;
+		}
+		else {
+			int occ = 0;
+			for (final ExpressionNode arg : _expr.arguments()) {
+				occ += countOccurrences_atLeast2( arg, _param );
+				if (occ > 1) return occ;
+			}
+			return occ;
+		}
 	}
 
 
@@ -280,7 +341,8 @@ public abstract class AbstractRewriteRulesCompiler
 	{
 		_b.append( "foldl1( \"" ).append( _fold.firstName() ).append( "\", " );
 		compileExpr( _fold.firstValue(), _b );
-		_b.append( ", \"" ).append( _fold.accumulatorName() ).append( "\", \"" ).append( _fold.elementName() ).append( "\", " );
+		_b.append( ", \"" ).append( _fold.accumulatorName() ).append( "\", \"" ).append( _fold.elementName() ).append(
+				"\", " );
 		compileExpr( _fold.accumulatingStep(), _b );
 		_b.append( ", " );
 		compileExpr( _fold.emptyValue(), _b );
