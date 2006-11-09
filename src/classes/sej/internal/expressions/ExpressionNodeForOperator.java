@@ -56,7 +56,7 @@ public class ExpressionNodeForOperator extends ExpressionNode
 
 
 	@Override
-	public ExpressionNode cloneWithoutArguments()
+	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForOperator( this.operator );
 	}

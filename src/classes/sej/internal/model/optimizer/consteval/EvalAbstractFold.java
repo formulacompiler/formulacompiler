@@ -20,6 +20,9 @@
  */
 package sej.internal.model.optimizer.consteval;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import sej.internal.expressions.AbstractExpressionNodeForFold;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
@@ -28,8 +31,9 @@ import sej.internal.model.util.InterpretedNumericType;
 
 abstract class EvalAbstractFold extends EvalShadow
 {
-	private final String accName;
-	private final String eltName;
+	protected final String accName;
+	protected final String eltName;
+	protected EvalShadow foldEval;
 
 	public EvalAbstractFold(AbstractExpressionNodeForFold _node, InterpretedNumericType _type)
 	{
@@ -48,29 +52,32 @@ abstract class EvalAbstractFold extends EvalShadow
 			args[ i ] = evaluateArgument( i );
 		}
 
-		Object acc = initial( args );
+		final Collection<ExpressionNode> dynArgs = new ArrayList<ExpressionNode>();
+		final Object initialAcc = initial( args );
+		Object acc = initialAcc;
 		if (isConstant( acc )) {
 			for (int i = args.length - 1; i >= i0; i--) {
 				final Object xi = args[ i ];
 				if (xi instanceof ExpressionNodeForSubstitution) {
-					node().arguments().remove( i );
-					acc = fold( acc, ((ExpressionNodeForSubstitution) xi).arguments() );
+					acc = foldMany( acc, ((ExpressionNodeForSubstitution) xi).arguments(), dynArgs );
 				}
 				else if (isConstant( xi )) {
-					acc = fold( acc, xi );
-					node().arguments().remove( i );
+					acc = foldOne( acc, xi, dynArgs );
+				}
+				else {
+					dynArgs.add( (ExpressionNode) xi );
 				}
 			}
-			if (node().arguments().size() == i0) {
+			if (dynArgs.size() == 0) {
 				return acc;
 			}
 			else {
-				insertPartialFold( acc );
-				return node();
+				final boolean sameAcc = (acc == initialAcc) || (acc != null && acc.equals( initialAcc ));
+				return partialFold( acc, !sameAcc, args, dynArgs );
 			}
 		}
 		else {
-			return nodeWithConstantArgsFixed( args );
+			return evaluateToNode( args );
 		}
 	}
 
@@ -79,42 +86,62 @@ abstract class EvalAbstractFold extends EvalShadow
 	{
 		int i0 = _i0;
 		_args[ i0++ ] = evaluateArgument( 0 ); // initial
-		_args[ i0++ ] = node().argument( 1 ); // fold
+
+		// Temporarily undefine the names so they don't capture outer defs.
+		letDict().let( this.accName, null, EvalLetVar.UNDEF );
+		letDict().let( this.eltName, null, EvalLetVar.UNDEF );
+		try {
+			_args[ i0++ ] = evaluateArgument( 1 ); // fold
+		}
+		finally {
+			letDict().unlet( this.eltName );
+			letDict().unlet( this.accName );
+		}
+
+		this.foldEval = shadow( (ExpressionNode) _args[ i0 - 1 ], type() );
 		return i0;
 	}
 
-	
+
 	protected Object initial( final Object[] _args )
 	{
-		return _args[0];
+		return _args[ 0 ];
 	}
 
 
-	private final Object fold( final Object _acc, final Iterable<ExpressionNode> _nodes )
+	private final Object foldMany( final Object _acc, final Iterable<ExpressionNode> _nodes,
+			Collection<ExpressionNode> _dynArgs )
 	{
 		Object acc = _acc;
 		for (final ExpressionNode node : _nodes) {
 			if (node instanceof ExpressionNodeForConstantValue) {
 				final ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) node;
-				acc = fold( acc, constNode.getValue() );
+				acc = foldOne( acc, constNode.getValue(), _dynArgs );
 			}
 			else if (node instanceof ExpressionNodeForSubstitution) {
-				acc = fold( acc, node.arguments() );
+				acc = foldMany( acc, node.arguments(), _dynArgs );
 			}
 			else {
-				this.node().addArgument( node );
+				_dynArgs.add( node );
 			}
 		}
 		return acc;
 	}
 
-	
-	protected Object fold( final Object _acc, final Object _val )
+
+	protected Object foldOne( final Object _acc, final Object _val, Collection<ExpressionNode> _dynArgs )
 	{
 		letDict().let( this.accName, null, _acc );
 		letDict().let( this.eltName, null, _val );
 		try {
-			return evaluateArgument( 1 ); // fold
+			final Object newAcc = this.foldEval.evalIn( context() );
+			if (isConstant( newAcc )) {
+				return newAcc;
+			}
+			else {
+				_dynArgs.add( new ExpressionNodeForConstantValue( _val ) );
+				return _acc;
+			}
 		}
 		finally {
 			letDict().unlet( this.eltName );
@@ -122,8 +149,9 @@ abstract class EvalAbstractFold extends EvalShadow
 		}
 	}
 
-	
-	protected abstract void insertPartialFold( Object _acc );
+
+	protected abstract ExpressionNode partialFold( Object _acc, boolean _accChanged, Object[] _args,
+			Collection<ExpressionNode> _dynArgs );
 
 
 	@Override

@@ -446,12 +446,34 @@
 			<arg value="-sp" />
 			<arg path="${src.test-system.dir}" />
 			<arg value="-sp" />
+			<arg path="${src.classes-build-tools.dir}" />
+			<arg value="-sp" />
 			<arg path="${build.dir}/temp/reference" />
 			<arg value="-sp" />
 			<arg path="${build.dir}/temp" />
 			<arg value="-r" />
 			<arg value="-i" />
 			<arg file="${doc.dir}/*.htm" />
+			<arg value="-o" />
+			<arg file="${doc.dir}" />
+		</java>
+
+		<java classname="ch.arrenbrecht.jcite.JCite" classpath="${lib.classpath}" failonerror="yes">
+			<arg value="-sp" />
+			<arg path="${src.classes.dir}" />
+			<arg value="-sp" />
+			<arg path="${src.examples.dir}" />
+			<arg value="-sp" />
+			<arg path="${src.test-system.dir}" />
+			<arg value="-sp" />
+			<arg path="${src.classes-build-tools.dir}" />
+			<arg value="-sp" />
+			<arg path="${build.dir}/temp/reference" />
+			<arg value="-sp" />
+			<arg path="${build.dir}/temp" />
+			<arg value="-r" />
+			<arg value="-i" />
+			<arg file="${doc.dir}/*.xhtml" />
 			<arg value="-o" />
 			<arg file="${doc.dir}" />
 		</java>

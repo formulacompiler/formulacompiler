@@ -20,7 +20,8 @@
  */
 package sej.internal.model.optimizer.consteval;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import sej.Function;
 import sej.internal.expressions.ExpressionNode;
@@ -59,25 +60,24 @@ public class EvalFunction extends EvalShadow
 	private final Object evalBooleanSequence( boolean _returnThisIfFound )
 	{
 		final InterpretedNumericType type = type();
-		final List<ExpressionNode> args = node().arguments();
-
-		// Since AND and OR are strict in spreadsheets, we can start at the back.
-		for (int i = cardinality() - 1; i >= 0; i--) {
+		final Collection<ExpressionNode> dynArgs = new ArrayList<ExpressionNode>();
+		final int n = cardinality();
+		for (int i = 0; i < n; i++) {
 			final Object arg = evaluateArgument( i );
 			if (isConstant( arg )) {
 				final boolean value = type.toBoolean( arg );
 				if (value == _returnThisIfFound) {
 					return _returnThisIfFound;
 				}
-				else {
-					args.remove( i );
-					arguments().remove( i );
-				}
+			}
+			else {
+				dynArgs.add( (ExpressionNode) arg );
 			}
 		}
-
-		if (args.size() > 0) {
-			return node();
+		if (dynArgs.size() > 0) {
+			final ExpressionNode result = node().cloneWithoutArguments();
+			result.arguments().addAll( dynArgs );
+			return result;
 		}
 		else {
 			return !_returnThisIfFound;
@@ -90,14 +90,14 @@ public class EvalFunction extends EvalShadow
 	{
 		final Function function = ((ExpressionNodeForFunction) node()).getFunction();
 		if (function.isVolatile()) {
-			return nodeWithConstantArgsFixed( _args );
+			return evaluateToNode( _args );
 		}
 		else {
 			try {
 				return type().compute( function, _args );
 			}
 			catch (EvalNotPossibleException e) {
-				return nodeWithConstantArgsFixed( _args );
+				return evaluateToNode( _args );
 			}
 		}
 	}

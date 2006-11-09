@@ -18,60 +18,71 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.expressions;
+package sej.internal.logging;
 
-import java.io.IOException;
+import java.io.PrintStream;
 
-import sej.describable.DescriptionBuilder;
-
-public final class ExpressionNodeForLet extends ExpressionNode
+public final class Logger
 {
-	private final String varName;
+	private final String indent;
+	private final int indentLength;
+	private StringBuilder indentation = new StringBuilder();
+	private String currentIndentation = "";
+	private boolean indentPending = true;
 
-	public ExpressionNodeForLet(String _varName, ExpressionNode _value, ExpressionNode _in)
+
+	public Logger()
 	{
-		super( _value, _in );
-		this.varName = _varName;
+		this( "\t" );
 	}
 
-	private ExpressionNodeForLet(String _varName)
+	public Logger(final String _indent)
 	{
 		super();
-		this.varName = _varName;
+		this.indent = _indent;
+		this.indentLength = _indent.length();
 	}
 
 
-	public final String varName()
+	void indent()
 	{
-		return this.varName;
+		this.indentation.append( this.indent );
+		this.currentIndentation = this.indentation.toString();
 	}
 
-	public final ExpressionNode value()
+	void outdent()
 	{
-		return argument( 0 );
+		final int l = this.indentation.length();
+		if (this.indentLength <= l) {
+			this.indentation.setLength( l - this.indentLength );
+			this.currentIndentation = this.indentation.toString();
+		}
 	}
 
-	public final ExpressionNode in()
+	private void addIndentationIfPending()
 	{
-		return argument( 1 );
+		if (this.indentPending) addIndentation();
 	}
 
-
-	@Override
-	public ExpressionNode innerCloneWithoutArguments()
+	private void addIndentation()
 	{
-		return new ExpressionNodeForLet( this.varName );
+		System.out.print( this.currentIndentation );
+		this.indentPending = false;
 	}
 
 
-	@Override
-	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
+	Logger newLine()
 	{
-		_to.append( "_LET( " ).append( varName() ).append( ": " );
-		value().describeTo( _to, _cfg );
-		_to.append( "; " );
-		in().describeTo( _to, _cfg );
-		_to.append( " )" );
+		System.out.print( '\n' );
+		this.indentPending = true;
+		return this;
 	}
+	
+	PrintStream stream()
+	{
+		addIndentationIfPending();
+		return System.out;
+	}
+	
 
 }

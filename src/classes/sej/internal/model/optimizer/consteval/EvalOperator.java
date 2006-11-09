@@ -47,9 +47,9 @@ public class EvalOperator extends EvalShadow
 
 
 	@Override
-	protected Object nodeWithConstantArgsFixed( Object[] _args )
+	protected Object evaluateToNode( Object[] _args )
 	{
-		final Object result = super.nodeWithConstantArgsFixed( _args );
+		final Object result = super.evaluateToNode( _args );
 		if (result instanceof ExpressionNodeForOperator) {
 			ExpressionNodeForOperator opNode = (ExpressionNodeForOperator) result;
 			if (opNode.getOperator() == Operator.CONCAT) {

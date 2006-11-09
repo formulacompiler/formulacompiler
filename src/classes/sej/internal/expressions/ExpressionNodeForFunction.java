@@ -52,7 +52,7 @@ public class ExpressionNodeForFunction extends ExpressionNode
 
 
 	@Override
-	public ExpressionNode cloneWithoutArguments()
+	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForFunction( this.function );
 	}

@@ -57,7 +57,7 @@ public final class ExpressionNodeForCell extends ExpressionNode
 
 
 	@Override
-	public ExpressionNode cloneWithoutArguments()
+	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForCell( this.cellIndex );
 	}

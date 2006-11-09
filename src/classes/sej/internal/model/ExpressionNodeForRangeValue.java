@@ -45,7 +45,7 @@ public class ExpressionNodeForRangeValue extends ExpressionNode
 
 
 	@Override
-	public ExpressionNode cloneWithoutArguments()
+	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForRangeValue( (RangeValue) getRangeValue().clone() );
 	}

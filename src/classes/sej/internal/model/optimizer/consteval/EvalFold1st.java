@@ -20,15 +20,20 @@
  */
 package sej.internal.model.optimizer.consteval;
 
+import java.util.Collection;
+
+import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.ExpressionNodeForFold;
 import sej.internal.expressions.ExpressionNodeForFold1st;
 import sej.internal.model.util.InterpretedNumericType;
 
 final class EvalFold1st extends EvalAbstractFold
 {
 	private static final Object NO_VALUE = new Object();
-	
+
 	private final String firstName;
+	private EvalShadow initialEval;
 
 	public EvalFold1st(ExpressionNodeForFold1st _node, InterpretedNumericType _type)
 	{
@@ -41,46 +46,71 @@ final class EvalFold1st extends EvalAbstractFold
 	protected int evalFixedArgs( Object[] _args, int _i0 )
 	{
 		int i0 = super.evalFixedArgs( _args, _i0 );
-		_args[ i0++ ] = node().argument( 2 ); // first
+
+		// Temporarily undefine the names so they don't capture outer defs.
+		letDict().let( this.firstName, null, EvalLetVar.UNDEF );
+		try {
+			_args[ i0++ ] = evaluateArgument( 2 ); // initial
+		}
+		finally {
+			letDict().unlet( this.firstName );
+		}
+
+		this.initialEval = shadow( (ExpressionNode) _args[ i0 - 1 ], type() );
 		return i0;
 	}
-	
-	
+
+
 	@Override
 	protected Object initial( Object[] _args )
 	{
 		return NO_VALUE;
 	}
-	
-	
-	private boolean haveFirst = false;
+
 
 	@Override
-	protected Object fold( Object _acc, Object _val )
+	protected Object foldOne( Object _acc, Object _val, Collection<ExpressionNode> _dynArgs )
 	{
-		if (this.haveFirst) {
-			return super.fold( _acc, _val );
-		}
-		else {
-			this.haveFirst = true;
+		if (_acc == NO_VALUE) {
 			letDict().let( this.firstName, null, _val );
 			try {
-				return evaluateArgument( 2 ); // first
+				final Object val = this.initialEval.evalIn( context() );
+				if (isConstant( val )) {
+					return val;
+				}
+				else {
+					_dynArgs.add( (ExpressionNode) val );
+					return _acc;
+				}
 			}
 			finally {
 				letDict().unlet( this.firstName );
 			}
 		}
+		else {
+			return super.foldOne( _acc, _val, _dynArgs );
+		}
 	}
 
 
 	@Override
-	protected void insertPartialFold( Object _acc )
+	protected ExpressionNode partialFold( Object _acc, boolean _accChanged, Object[] _args,
+			Collection<ExpressionNode> _dynArgs )
 	{
 		if (_acc != NO_VALUE) {
-			node().addArgument( new ExpressionNodeForConstantValue( _acc ) );
+			ExpressionNodeForFold result = new ExpressionNodeForFold( this.accName, new ExpressionNodeForConstantValue(
+					_acc ), this.eltName, node().argument( 1 ).clone(), false );
+			result.arguments().addAll( _dynArgs );
+			return result;
+		}
+		else {
+			ExpressionNodeForFold1st result = (ExpressionNodeForFold1st) node().cloneWithoutArguments();
+			result.addArgument( valueToNode( _args[ 0 ] ) ); // empty
+			result.addArgument( valueToNode( _args[ 1 ] ) ); // fold
+			result.addArgument( valueToNode( _args[ 2 ] ) ); // initial
+			result.arguments().addAll( _dynArgs );
+			return result;
 		}
 	}
-
 
 }

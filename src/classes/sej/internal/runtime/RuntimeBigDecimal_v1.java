@@ -80,16 +80,6 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return dateToNum( today() );
 	}
 
-	public static BigDecimal fun_ROUND( final BigDecimal _val, final BigDecimal _maxFrac )
-	{
-		return round( _val, _maxFrac.intValue() );
-	}
-
-	public static BigDecimal fun_TODAY()
-	{
-		return dateToNum( today() );
-	}
-
 	public static BigDecimal pow( final BigDecimal x, final BigDecimal n )
 	{
 		return x.pow( n.intValue() );
@@ -199,5 +189,32 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return stringFromBigDecimal( _num );
 	}
 
+
+	public static BigDecimal fun_ROUND( final BigDecimal _val, final BigDecimal _maxFrac )
+	{
+		return round( _val, _maxFrac.intValue() );
+	}
+
+	public static BigDecimal fun_TODAY()
+	{
+		return dateToNum( today() );
+	}
+
+	public static BigDecimal fun_FACT( BigDecimal _a )
+	{
+		int a = _a.intValue();
+		if (a < 0) {
+			return ZERO; // Excel #NUM!
+		}
+		else if (a < FACTORIALS.length) {
+			return BigDecimal.valueOf( FACTORIALS[ a ] );
+		}
+		else {
+			BigDecimal r = ONE;
+			while (a > 1)
+				r = r.multiply( BigDecimal.valueOf( a-- ) );
+			return r;
+		}
+	}
 
 }

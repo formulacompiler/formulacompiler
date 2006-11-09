@@ -34,23 +34,24 @@ public class EvalSubstitution extends EvalShadow
 	protected Object evaluateToConst( Object[] _args )
 	{
 		if (_args.length == 1) {
+			// Skip the substitution node right away.
 			return _args[ 0 ];
 		}
 		else {
-			return nodeWithConstantArgsFixed( _args );
+			return super.evaluateToNode( _args );
 		}
 	}
 
 	@Override
-	protected Object nodeWithConstantArgsFixed( Object[] _args )
+	protected Object evaluateToNode( Object[] _args )
 	{
 		if (_args.length == 1) {
 			// Skip the substitution node right away.
-			return node().argument( 0 );
+			return _args[ 0 ];
 		}
 		else {
-			return super.nodeWithConstantArgsFixed( _args );
+			return super.evaluateToNode( _args );
 		}
 	}
-	
+
 }

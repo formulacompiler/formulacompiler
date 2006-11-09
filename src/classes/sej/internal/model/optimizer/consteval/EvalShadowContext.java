@@ -18,57 +18,11 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.model;
+package sej.internal.model.optimizer.consteval;
 
-import java.io.IOException;
+import sej.internal.expressions.LetDictionary;
 
-import sej.describable.DescriptionBuilder;
-import sej.internal.expressions.ExpressionDescriptionConfig;
-import sej.internal.expressions.ExpressionNode;
-
-
-public class ExpressionNodeForCellModel extends ExpressionNode
+final class EvalShadowContext
 {
-	private CellModel cellModel;
-
-
-	public ExpressionNodeForCellModel(CellModel _cellModel)
-	{
-		super();
-		setCellModel( _cellModel );
-	}
-
-
-	public CellModel getCellModel()
-	{
-		return this.cellModel;
-	}
-
-
-	public void setCellModel( CellModel _cellModel )
-	{
-		if (_cellModel == this.cellModel) return;
-		this.cellModel = _cellModel;
-	}
-
-
-	@Override
-	public ExpressionNode innerCloneWithoutArguments()
-	{
-		return new ExpressionNodeForCellModel( this.cellModel );
-	}
-
-
-	@Override
-	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
-	{
-		if (null == this.cellModel) {
-			_to.append( "#NULL" );
-		}
-		else {
-			_to.append( this.cellModel.toString() );
-		}
-	}
-
-
+	public final LetDictionary letDict = new LetDictionary();
 }

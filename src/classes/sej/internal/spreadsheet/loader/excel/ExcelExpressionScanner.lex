@@ -93,6 +93,7 @@ FN		= "@"?
 {FN} "AND"		{ return new Symbol( GeneratedSymbols.AND, "AND" ); }
 {FN} "OR"		{ return new Symbol( GeneratedSymbols.OR, "OR" ); }
 {FN} "NOT"		{ return new Symbol( GeneratedSymbols.NOT, "NOT" ); }
+
 {FN} "SUM"		{ return new Symbol( GeneratedSymbols.SUM, "SUM" ); }
 {FN} "PRODUCT"	{ return new Symbol( GeneratedSymbols.PRODUCT, "PRODUCT" ); }
 {FN} "COUNT"	{ return new Symbol( GeneratedSymbols.COUNT, "COUNT" ); }
@@ -100,11 +101,18 @@ FN		= "@"?
 {FN} "MIN"		{ return new Symbol( GeneratedSymbols.MIN, "MIN" ); }
 {FN} "MAX"		{ return new Symbol( GeneratedSymbols.MAX, "MAX" ); }
 {FN} "VARP"		{ return new Symbol( GeneratedSymbols.VARP, "VARP" ); }
+
 {FN} "MATCH"	{ return new Symbol( GeneratedSymbols.MATCH, "MATCH" ); }
 {FN} "INDEX"	{ return new Symbol( GeneratedSymbols.INDEX, "INDEX" ); }
+
 {FN} "ABS"		{ return new Symbol( GeneratedSymbols.ABS, "ABS" ); }
 {FN} "ROUND"	{ return new Symbol( GeneratedSymbols.ROUND, "ROUND" ); }
+
+{FN} "FACT"		{ return new Symbol( GeneratedSymbols.FACT, "FACT" ); }
+{FN} "COMBIN"	{ return new Symbol( GeneratedSymbols.COMBIN, "COMBIN" ); }
+
 {FN} "TODAY"	{ return new Symbol( GeneratedSymbols.TODAY, "TODAY" ); }
+
 {FN} "CONCATENATE"	{ return new Symbol( GeneratedSymbols.CONCATENATE, "CONCATENATE" ); }
 {FN} "LEN"		{ return new Symbol( GeneratedSymbols.LEN, "LEN" ); }
 {FN} "MID"		{ return new Symbol( GeneratedSymbols.MID, "MID" ); }

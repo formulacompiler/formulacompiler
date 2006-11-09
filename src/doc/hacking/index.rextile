@@ -30,7 +30,7 @@ SEJ does not support all of Excel's functions -- only "these":../reference/index
 
 <dt>"Add A Primitive Function":addfunction.htm</dt><dd>See how to add primitive functions by writing a template method in Java. Also introduces the fundamental contribution rules shown above.</dd>
 
-<dt>"Add A High-Level Function":addrewrite.htm</dt><dd>See how to add a high-level function which is defined by rewriting it using lower-level functions.</dd>
+<dt>"Add A High-Level Function":addrewrite.xhtml</dt><dd>See how to add a high-level function which is defined by rewriting it using lower-level functions.</dd>
 
 </dl>
 

@@ -63,15 +63,9 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	{
 		return round( _val, (int) _maxFrac );
 	}
-	
+
 	@Deprecated
 	public static double stdTODAY()
-	{
-		return dateToNum( today() );
-	}
-
-
-	public static double fun_TODAY()
 	{
 		return dateToNum( today() );
 	}
@@ -164,5 +158,32 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 
 		return value;
 	}
+
+
+	public static double fun_TODAY()
+	{
+		return dateToNum( today() );
+	}
+
+
+	public static double fun_FACT( double _a )
+	{
+		if (_a < 0.0) {
+			return 0.0; // Excel #NUM!
+		}
+		else {
+			int a = (int) _a;
+			if (a < FACTORIALS.length) {
+				return FACTORIALS[ a ];
+			}
+			else {
+				double r = 1;
+				while (a > 1)
+					r *= a--;
+				return r;
+			}
+		}
+	}
+
 
 }

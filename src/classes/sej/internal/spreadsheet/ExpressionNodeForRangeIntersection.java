@@ -44,7 +44,7 @@ public final class ExpressionNodeForRangeIntersection extends ExpressionNode
 
 
 	@Override
-	public ExpressionNode cloneWithoutArguments()
+	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForRangeIntersection();
 	}

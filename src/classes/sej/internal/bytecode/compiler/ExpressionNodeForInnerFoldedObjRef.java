@@ -45,7 +45,7 @@ public class ExpressionNodeForInnerFoldedObjRef extends ExpressionNode
 
 
 	@Override
-	public ExpressionNode cloneWithoutArguments()
+	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return null;
 	}

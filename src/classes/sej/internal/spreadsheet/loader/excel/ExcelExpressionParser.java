@@ -57,11 +57,6 @@ final class ExcelExpressionParser
 
 	public ExpressionNode parseText( String _text, CellRefFormat _cellRefFormat )
 	{
-		if (Settings.isDebugLogEnabled()) {
-			System.out.print( "Parse: " );
-			System.out.println( _text );
-		}
-
 		this.source = _text;
 		final StringReader reader = new StringReader( _text );
 

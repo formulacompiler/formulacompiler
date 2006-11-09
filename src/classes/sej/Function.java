@@ -30,12 +30,21 @@ package sej;
  */
 public enum Function {
 
+	// Logic
+	
 	IF,
-
 	NOT,
 
+	// Math
+	
 	ABS, ROUND,
 
+	// Combinatorics
+	
+	FACT, COMBIN,
+
+	// Dates
+	
 	TODAY {
 		@Override
 		public boolean isVolatile()
@@ -44,14 +53,21 @@ public enum Function {
 		}
 	},
 
+	// Lookup
+	
 	MATCH, INDEX,
 
+	// String
+	
 	CONCATENATE, LEN, MID, LEFT, RIGHT, SUBSTITUTE, REPLACE, SEARCH, FIND, EXACT, LOWER, UPPER, PROPER,
 
+	// Aggregators
 	// Don't forget to update AGGREGATORS below!
-	SUM, PRODUCT, MIN, MAX, COUNT, AVERAGE, VARP, AND, OR;
+	
+	SUM, PRODUCT, MIN, MAX, COUNT, AVERAGE, VAR, VARP, AND, OR;
 
-	private static final Function[] AGGREGATORS = new Function[] { SUM, PRODUCT, MIN, MAX, COUNT, AVERAGE, VARP, AND, OR };
+	
+	private static final Function[] AGGREGATORS = new Function[] { SUM, PRODUCT, MIN, MAX, COUNT, AVERAGE, VAR, VARP, AND, OR };
 
 
 	public String getName()

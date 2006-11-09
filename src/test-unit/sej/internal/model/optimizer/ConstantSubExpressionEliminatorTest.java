@@ -116,7 +116,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 		optimize( SEJ.DOUBLE );
 
-		assertExpr( "_FOLD_1STOK( r: 0.0; xi: (`r + `xi); ( Band~>10.0 ) )", sumOverBand );
+		assertExpr( "_FOLD_1STOK( r: 0.0; xi: (`r + `xi); Band~>10.0 )", sumOverBand );
 	}
 
 
@@ -183,7 +183,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 		optimize( SEJ.DOUBLE );
 
-		assertExpr( "INDEX( {2.0, 3.0, 4.0}, Inputs.getOne(),  )", index );
+		assertExpr( "INDEX( {2.0, 3.0, 4.0}, Inputs.getOne() )", index );
 	}
 
 }

@@ -83,7 +83,7 @@ public class ExpressionNodeForFold1st extends AbstractExpressionNodeForFold
 
 
 	@Override
-	public ExpressionNode cloneWithoutArguments()
+	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForFold1st( this.firstName, accumulatorName(), elementName() );
 	}
