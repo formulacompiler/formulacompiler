@@ -39,7 +39,7 @@ public final class DebugTest extends AbstractReferenceTest
 	public DebugTest()
 	{
 		super( "NumericFunctions" );
-		// super( "EmptyCells", 11, NumType.DOUBLE, Integer.valueOf( "0", 2 ), false );
+		//super( "NumericFunctions", 41, NumType.DOUBLE, Integer.valueOf( "0", 2 ), false );
 	}
 
 	@Override

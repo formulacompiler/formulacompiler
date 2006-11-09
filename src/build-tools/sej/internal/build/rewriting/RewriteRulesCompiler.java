@@ -108,10 +108,10 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		// ...
 		begin( Function.COMBIN, "n", "k" );
 		{
-			body( "IF( OR( `n <= 0, `n < `k ), 0," );
+			body( "IF( OR( `n <= 0, `k < 0, `n < `k ), 0," );
 			body( "  IF( `n = `k, 1," );
 			body( "    IF( `k = 1, `n," );
-			body( "      FACT(`n) / (FACT(`k) * FACT(`n - `k))" );
+			body( "      FACT(`n) / FACT(`k) / FACT(`n - `k)" );
 			body( "    )" );
 			body( "  )" );
 			body( ")" );
