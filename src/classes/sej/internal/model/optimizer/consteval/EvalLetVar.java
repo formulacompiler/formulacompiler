@@ -44,9 +44,13 @@ final class EvalLetVar extends EvalShadow
 			if (LOG.e()) LOG.a( "Lookup " ).a( this.varName ).a( " is undefined. " ).lf();
 			return node(); // No need to clone leaf node.
 		}
+		else if (isConstant( val )) {
+			if (LOG.e()) LOG.a( "Lookup " ).a( this.varName ).a( " <- " ).a( val ).lf();
+			return val;
+		}
 		else {
 			if (LOG.e()) LOG.a( "Lookup " ).a( this.varName ).a( " = " ).a( val ).lf();
-			return val;
+			return node(); // No need to clone leaf node.
 		}
 	}
 

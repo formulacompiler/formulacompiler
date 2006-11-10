@@ -100,6 +100,7 @@ FN		= "@"?
 {FN} "AVERAGE"	{ return new Symbol( GeneratedSymbols.AVERAGE, "AVERAGE" ); }
 {FN} "MIN"		{ return new Symbol( GeneratedSymbols.MIN, "MIN" ); }
 {FN} "MAX"		{ return new Symbol( GeneratedSymbols.MAX, "MAX" ); }
+{FN} "VAR"		{ return new Symbol( GeneratedSymbols.VAR, "VAR" ); }
 {FN} "VARP"		{ return new Symbol( GeneratedSymbols.VARP, "VARP" ); }
 
 {FN} "MATCH"	{ return new Symbol( GeneratedSymbols.MATCH, "MATCH" ); }

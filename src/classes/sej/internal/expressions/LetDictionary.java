@@ -51,7 +51,7 @@ public final class LetDictionary
 
 	public final void set( String _name, Object _value )
 	{
-		if (LOG.e()) LOG.o().a( "Reletting " ).a( _name ).a( " = " ).a( _value ).lf().i();
+		if (LOG.e()) LOG.a( "Reletting " ).a( _name ).a( " = " ).a( _value ).lf();
 
 		for (int i = this.stack.size() - 1; i >= 0; i--) {
 			final LetEntry entry = this.stack.get( i );

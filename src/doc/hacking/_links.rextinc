@@ -1,0 +1,10 @@
+
+[-prim]addprimitive.htm
+[-high]addrewrite.xhtml
+[-agg]addagg.xhtml
+
+[-ref]../reference/index.htm
+[-tut]../tutorial/index.htm
+[-dev]../dev.htm
+[-types]../tutorial/numeric_type.htm
+[-funfold]http://en.wikipedia.org/wiki/Foldl

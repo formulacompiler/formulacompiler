@@ -66,12 +66,11 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	{
 		this.context = _context;
 
-		final String from = node().toString();
-		if (LOG.e()) LOG.a( "Eval " ).a( from ).lf().i();
+		if (LOG.e()) LOG.a( "Eval " ).a( node() ).lf().i();
 
 		final Object res = eval();
 
-		if (LOG.e()) LOG.o().a( "Got " ).a( from ).a( " -> " ).a( res ).lf();
+		if (LOG.e()) LOG.o().a( "Got " ).a( res ).lf();
 
 		return res;
 	}

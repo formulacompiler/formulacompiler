@@ -47,7 +47,7 @@ public class ExpressionRewriterTest extends TestCase
 	public void testVARP() throws Exception
 	{
 		assertRewrite(
-				"_LET( c: COUNT( ( A1:A2 ) ); (_LET( m: (_FOLD_1STOK( r: 0.0; xi: (`r + `xi); ( A1:A2 ) ) / `c); _FOLD( r: 0.0; xi: _LET( ei: (`xi - `m); (`r + (`ei * `ei)) ); ( A1:A2 ) ) ) / `c) )",
+				"_LET( n: COUNT( ( A1:A2 ) ); (_LET( m: (_FOLD_1STOK( r: 0.0; xi: (`r + `xi); ( A1:A2 ) ) / `n); _FOLD( r: 0.0; xi: _LET( ei: (`xi - `m); (`r + (`ei * `ei)) ); ( A1:A2 ) ) ) / `n) )",
 				"VARP( A1:A2 )" );
 	}
 

@@ -54,14 +54,20 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		 * The first argument to SUM can be used as the initial value to get rid of one addition. But
 		 * the single addition is not worth the overhead of _FOLDL_1ST. So use _FOLDL_1ST_OK.
 		 */
+		// Leave this comment in. It is used to cite the code into the documentation.
+		// ---- fun_SUM
 		def( Function.SUM, "xs*", "_FOLD_1STOK( r: 0; xi: `r + `xi; `xs )" );
+		// ---- fun_SUM
 
 		/*
 		 * It is clearer for MIN and MAX to always act on the first arg and not some arbitrary
 		 * extremal initial value. So use _FOLDL_1ST.
 		 */
+		// Leave this comment in. It is used to cite the code into the documentation.
+		// ---- fun_MINMAX
 		def( Function.MIN, "xs*", "_FOLD_1ST( x0: `x0; r xi: `r _min_ `xi; 0; `xs )" );
 		def( Function.MAX, "xs*", "_FOLD_1ST( x0: `x0; r xi: `r _max_ `xi; 0; `xs )" );
+		// ---- fun_MINMAX
 
 		/*
 		 * This definition of AVERAGE is not really suitable for large, non-cached sections. It is
@@ -73,35 +79,35 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		/*
 		 * An efficient implementation of VARP for large datasets would require a helper function
 		 * returning _both_ the sum and the count in one pass. We don't do cursor-style aggregation
-		 * yet, so the following is quite OK:
+		 * yet, so the following is quite OK.
+		 * 
+		 * I am inlining AVERAGE here because COUNT is already known.
 		 */
 		begin( Function.VARP, "xs*" );
 		{
-			body( "_LET( c: COUNT(`xs);" );
-			// Inlining AVERAGE here because COUNT is already known:
-			body( "	_LET( m: SUM(`xs) / `c;" );
-			body( "		_FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
-			body( "	)" );
-			body( "	/ `c" );
+			body( "_LET( n: COUNT(`xs);" );
+			body( "	 _LET( m: SUM(`xs) / `n;" );
+			body( "    _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
+			body( "  )" );
+			body( "  / `n" );
 			body( ")" );
 		}
 		end();
-		
+
 		// Leave this comment in. It is used to cite the code into the documentation.
 		// ---- fun_VAR
 		begin( Function.VAR, "xs*" );
 		{
-			body( "_LET( c: COUNT(`xs);" );
-			// Inlining AVERAGE here because COUNT is already known:
-			body( "	_LET( m: SUM(`xs) / `c;" );
-			body( "		_FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
-			body( "	)" );
-			body( "	/ (`c - 1)" );
+			body( "_LET( n: COUNT(`xs);" );
+			body( "  _LET( m: SUM(`xs) / `n;" );
+			body( "    _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
+			body( "  )" );
+			body( "  / (`n - 1)" );
 			body( ")" );
 		}
 		end();
 		// ---- fun_VAR
-		
+
 
 		// Leave this comment in. It is used to cite the code into the documentation.
 		// ---- fun_COMBIN
