@@ -484,6 +484,12 @@ abstract class ExpressionCompiler
 			this.local = _local;
 			this.node = _node;
 		}
+		
+		@Override
+		public String toString()
+		{
+			return this.node.toString() + " @ " + String.valueOf( this.local );
+		}
 
 	}
 

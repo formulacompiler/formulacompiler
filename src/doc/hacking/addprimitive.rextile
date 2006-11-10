@@ -23,9 +23,9 @@ SEJ's documentation is written in "Textile":-tex, a very concise and text editor
 
 h2. _Rule 2_: <br/>Cite tests
 
-So far, we simply said: <em>@ABS()@ is supported</em>. How do we know it is? How does the reader know? This is where test-driven development gets into the picture - with a twist. We prove what we say directly to our reader. The proof becomes an integral part of the documentation (which is, after all, _what we are saying_). So, to integrate the proof, we always give examples which are "_cited_ from automated tests":http://arrenbrecht.ch/articles/SourceCiting.htm.
+So far, we simply said: <em>@ABS()@ is supported</em>. How do we know it is? How does the reader know? This is where test-driven development gets into the picture - with a twist. We prove what we say directly to our reader. The proof becomes an integral part of the documentation (which is, after all, _what we are saying_). So, to integrate the proof, we always give examples which are "_cited_ from automated tests":-citing.
 
-SEJ's existing testing and citing infrastructure makes this easy, especially for adding a new spreadsheet function. The spreadsheet files in @src/test-system/testdata/sej/tests/reference@ contain formula tests. SEJ's build system runs them automatically for all the supported "numeric types":../tutorial/numeric_type.htm and with and without "caching":../tutorial/caching.htm enabled. It also makes them citable by writing out documentation fragments describing them. So, to prove we implemented @ABS()@, all we still need to do is add test cases to one of the test sheets.
+SEJ's existing testing and citing infrastructure makes this easy, especially for adding a new spreadsheet function. The spreadsheet files in @src/test-system/testdata/sej/tests/reference@ contain formula tests. SEJ's build system runs them automatically for all the supported "numeric types":-types and with and without "caching":../tutorial/caching.htm enabled. It also makes them citable by writing out documentation fragments describing them. So, to prove we implemented @ABS()@, all we still need to do is add test cases to one of the test sheets.
 
 h5. Note
 
@@ -39,7 +39,7 @@ For @ABS()@, we extend the sheet called @NumericFunctions.xls@. By _citing_ it, 
 
 	[xc:testdata/sej/tests/reference/NumericFunctions.xls:HeaderRange,ABSRange]
 
-And here is "the documentation produced from it":../reference/numfuncs.htm. Note also how the list of supported functions in the "reference index":../reference/index.htm automatically includes @ABS@.
+And here is "the documentation produced from it":../reference/numfuncs.htm. Note also how the list of supported functions in the "reference index":-ref automatically includes @ABS@.
 
 This spreadsheet has one row per test case. Blank rows are ignored. The columns have the following meanings. As examples, just look at what I inserted for the @ABS()@ tests in the sheet above.
 
@@ -56,7 +56,7 @@ This spreadsheet has one row per test case. Blank rows are ignored. The columns 
 
 <dt>Name (K)</dt><dd>The name of feature being tested and documented. Used as a subtitle in the generated documentation. Following rows with no name in this column are considered to be part of the last name's tests. (See below for the meaning of @...@ here.)</dd>
 
-<dt>Highlight (L)</dt><dd>A substring that should be highlighted in the formula as rendered in the generated documentation. Subsequent rows with nothing in this column reuse the last value. Putting @xx@ into the column clears the highlighting. You can add more than one substring, separated by spaces. The first such substring is automatically added to the list of supported functions in the "reference index":../reference/index.htm.</dd>
+<dt>Highlight (L)</dt><dd>A substring that should be highlighted in the formula as rendered in the generated documentation. Subsequent rows with nothing in this column reuse the last value. Putting @xx@ into the column clears the highlighting. You can add more than one substring, separated by spaces. The first such substring is automatically added to the list of supported functions in the "reference index":-ref.</dd>
 
 <dt>Excel says (M)</td><dd>When SEJ returns something different from Excel, you can document it here. This will be cited in the user documentation. Typical usage is when SEJ returns 0, but Excel returns an error like @#NUM!@. You should then set this column to @'#NUM!@ (note the tick at the start).</dd>
 
@@ -166,11 +166,11 @@ that is called @fun_XY@ is automatically decompiled by SEJ's build process to ge
 
 h4. Expression Rewriting
 
-There is another approach for functions that can be rewritten to expressions involving only other, more primitive expression functions. This is shown in the topic on "adding @VAR()@":addrewrite.htm.
+There is another approach for functions that can be rewritten to expressions involving only other, more primitive expression functions. This is shown in the topic on "adding high-level functions":-prim.
 
 h4. Runtime Support
 
-As you can see, @ROUND()@ is not implemented directly, but mapped to a runtime support function. The runtime is subclassed for each supported "numeric type":../tutorial/numeric_type.htm. It is also versioned so SEJ can easily provide backwards compatibility with older compiled engines. Here is the implementation from @sej.internal.runtime.RuntimeDouble_v1@:
+As you can see, @ROUND()@ is not implemented directly, but mapped to a runtime support function. The runtime is subclassed for each supported "numeric type":-types. It is also versioned so SEJ can easily provide backwards compatibility with older compiled engines. Here is the implementation from @sej.internal.runtime.RuntimeDouble_v1@:
 
 	[jc:sej.internal.runtime.RuntimeDouble_v1:---- round]
 
@@ -195,4 +195,4 @@ h2. Conclusion
 
 That's it. All the tests run green. Running @ant redoc@ updates the documentation and -- lo and behold -- @ABS()@ is now included and fully documented.
 
-Now read on to see that other approach using expression rewriting: "adding @VAR()@":addrewrite.htm.
+Now read on to see that other approach using expression rewriting: "adding high-level functions":-high.

@@ -2,21 +2,23 @@
 
 h1. Adding A New High-Level Spreadsheet Function To SEJ
 
-A _high-level function_, in this context, is one that can be defined by rewriting it in terms of other, lower-level Excel functions. Doing this makes it immediately available to the constant folder, and to all the different "numeric types":../tutorial/numeric_type.htm supported by SEJ.
+A _high-level function_, in this context, is one that can be defined by rewriting it in terms of other, lower-level Excel functions. Doing this makes it immediately available to the constant folder, and to all the different "numeric types":-types supported by SEJ.
 
-As a example of a _high-level_ function we will look at how I added @COMBIN()@ and @VAR()@ to the list of supported spreadsheet functions. So for the rest of this page, we will assume @COMBIN()@ and @VAR()@ have not been implemented yet.
+As a example of a _high-level_ function we will look at how I added @COMBIN()@ to the list of supported spreadsheet functions. So for the rest of this page, we will assume @COMBIN()@ has not been implemented yet.
 
-_Note: You must have read "adding a new primitive function":addfunction.htm to understand this section._
+_Note: You must have read "adding a new primitive function":-prim to understand this section._
 
 <%= toc 2, 4 %>
 
 
+h2. Docs and Tests
 
-h2. Adding COMBIN
-
-As with "ABS":addfunction.htm, we start with documentation (announcing @COMBIN()@ in the release notes), and the citable test cases:
+As with "ABS":-prim, we start with documentation (announcing @COMBIN()@ in the release notes), and the citable test cases:
 
 	[xc:testdata/sej/tests/reference/NumericFunctions.xls:HeaderRange,COMBINRange]
+
+	
+h2. Parsing
 
 Making @COMBIN()@ known to the parser is again just like we did it for @ABS()@. The only point worth noting is that we need two arguments:
 
@@ -26,7 +28,7 @@ Making @COMBIN()@ known to the parser is again just like we did it for @ABS()@. 
 	...
 
 	
-h3. Rewriting It
+h2. Rewriting It
 
 Now we get to the interesting part. We rewrite @COMBIN(n,k)@ in terms of lower-level Excel and SEJ functions. From the Excel help file we see that @COMBIN(n,k)@ is
 
@@ -39,7 +41,7 @@ Now we get to the interesting part. We rewrite @COMBIN(n,k)@ in terms of lower-l
 
 where, in Excel, the factorial _n!_ is @FACT(n)@. So we would like to define, in SEJ:
 
-	COMBIN(n,k) = FACT(n) / (FACT(k) * FACT(n - k))
+	COMBIN(n,k) = FACT(n) / FACT(k) / FACT(n - k)
 
 However, we should also test for error cases, like the following:
 
@@ -48,7 +50,7 @@ However, we should also test for error cases, like the following:
 This shows that we need to add a few tests for invalid arguments. We can do this with @IF@, as you can see further below.
 
 
-h3. Rewrite Rule
+h2. Rewrite Rule
 
 To define a rewrite rule in SEJ, you need to add the rule to the class
 
@@ -64,16 +66,20 @@ The definition should look straightforward. The backticks, as in @`n@ and @`k@, 
 
 Running @ant build@ regenerates the rewriter so it includes the new definition. (In the IDE, you can simply run the class @RewriteRulesCompiler@, which we just modified, to regenerate.)
 
+h4. Parameter Reuse
 
-h2. Adding VAR
+When you access a parameter more than once (as we do above), SEJ's rule compiler automatically inserts a @_LET()@ around the parameter in question. This ensures that parameters are not evaluated more than once. For example, an application like
 
-Again, we start with the announcement in the release notes, and the tests:
+	COMBIN( A1+A2, B1-B2 )
 
-	[xc:testdata/sej/tests/reference/Aggregators.xls:CiteHeader,CiteVAR]
+results in inlined code like
 
-The function @VAR()@ is an aggregator.
+	int n, k;
+	return ... fac((n = A1+A2)) / fac((k = B1-B2)) / fac(n - k) ...
+	
+where @fac()@ is the runtime support function for @FACT()@.
 
+h4. No Runtime
 
-
-h2. Notes On Rewriting
+A rewrite rule always generates code directly into the computation. There is no option to move support code into the runtime, as there is for "primitive functions":-prim (see @fac()@ above). This may change in a future release.
 

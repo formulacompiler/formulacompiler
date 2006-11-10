@@ -38,8 +38,8 @@ public final class DebugTest extends AbstractReferenceTest
 
 	public DebugTest()
 	{
-		super( "NumericFunctions" );
-		//super( "NumericFunctions", 41, NumType.DOUBLE, Integer.valueOf( "0", 2 ), false );
+		super( "Aggregators" );
+		//super( "Aggregators", 146, NumType.DOUBLE, Integer.valueOf( "0", 2 ), false );
 	}
 
 	@Override

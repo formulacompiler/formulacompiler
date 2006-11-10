@@ -11,6 +11,12 @@ We have to cover quite a bit of ground. This is because SEJ was -- and is -- dev
 
 h2. House Rules
 
+First and foremost, I ask you to read the documentation for the area you wish to contribute to. This includes the
+
+	* "tutorial":-tut, the
+	* "reference":-ref, and the
+	* "developer's journal":-dev, which you might have to skim through.
+
 When developing for "Eclipse":-ec, you need to follow its "house rules":-ecrules. They help you and everyone else produce a consistent and high-quality product. It's the same with SEJ, only we have fewer rules. Here they are:
 
 	# Document first
@@ -23,14 +29,15 @@ Simple enough. Now go see them in action: "add a missing function":addfunction.h
 
 h2. Ways To Contribute
 
-
-SEJ does not support all of Excel's functions -- only "these":../reference/index.htm. See how to add a missing one:
+SEJ does not support all of Excel's functions -- only "these":-ref. See how to add a missing one:
 
 <dl>
 
-<dt>"Add A Primitive Function":addfunction.htm</dt><dd>See how to add primitive functions by writing a template method in Java. Also introduces the fundamental contribution rules shown above.</dd>
+<dt>"Add A Primitive Function":-prim</dt><dd>See how to add a primitive function, @ABS()@, by writing a template method in Java. Also introduces the fundamental contribution rules shown above.</dd>
 
-<dt>"Add A High-Level Function":addrewrite.xhtml</dt><dd>See how to add a high-level function which is defined by rewriting it using lower-level functions.</dd>
+<dt>"Add A High-Level Function":-high (contains Math; use Firefox to view)</dt><dd>See how to add a high-level function, @COMBIN()@, which is defined by rewriting it using lower-level functions.</dd>
+
+<dt>"Add A High-Level Aggregator":-agg (contains Math; use Firefox to view)</dt><dd>See how to add an aggregator function, @VAR()@, which is defined by rewriting it using @_LET()@, @_FOLD()@, and lower-level functions.</dd>
 
 </dl>
 
@@ -44,6 +51,6 @@ h2. Missing Topics
 	* ddt, tdd
 	* reference tests
 	* build.xml
-	* read the docs
 	* doc is produced from src/doc
 	* DebugTest
+	* Logs

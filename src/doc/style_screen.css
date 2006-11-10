@@ -47,6 +47,10 @@ pre
 	clear: right;
 }
 
+math {
+	padding-left: 1em;
+}
+
 tt {
 	font-style: italic;
 }

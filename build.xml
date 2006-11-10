@@ -415,9 +415,9 @@
 		</cs:checkstyle>
 	</target>
 
-	<!-- redoc -->
+	<!-- rextile -->
 
-	<target name="redoc" description="Rebuilds documentation - use with care!" depends="prepare">
+	<target name="rextile" description="Rebuilds documentation from .rextile sources" depends="prepare">
 
 		<delete dir="${doc.dir}" />
 		<mkdir dir="${doc.dir}" />
@@ -438,6 +438,54 @@
 		<exec dir="${src.doc.dir}" executable="rextile" vmlauncher="false">
 		</exec>
 		
+		<java classname="ch.arrenbrecht.jcite.JCite" classpath="${lib.classpath}" failonerror="yes">
+			<arg value="-sp" />
+			<arg path="${src.classes.dir}" />
+			<arg value="-sp" />
+			<arg path="${src.examples.dir}" />
+			<arg value="-sp" />
+			<arg path="${src.test-system.dir}" />
+			<arg value="-sp" />
+			<arg path="${src.classes-build-tools.dir}" />
+			<arg value="-sp" />
+			<arg path="${build.dir}/temp/reference" />
+			<arg value="-sp" />
+			<arg path="${build.dir}/temp" />
+			<arg value="-r" />
+			<arg value="-i" />
+			<arg file="${doc.dir}/*.htm" />
+			<arg value="-o" />
+			<arg file="${doc.dir}" />
+			<arg value="-v" />
+		</java>
+
+		<java classname="ch.arrenbrecht.jcite.JCite" classpath="${lib.classpath}" failonerror="yes">
+			<arg value="-sp" />
+			<arg path="${src.classes.dir}" />
+			<arg value="-sp" />
+			<arg path="${src.examples.dir}" />
+			<arg value="-sp" />
+			<arg path="${src.test-system.dir}" />
+			<arg value="-sp" />
+			<arg path="${src.classes-build-tools.dir}" />
+			<arg value="-sp" />
+			<arg path="${build.dir}/temp/reference" />
+			<arg value="-sp" />
+			<arg path="${build.dir}/temp" />
+			<arg value="-r" />
+			<arg value="-i" />
+			<arg file="${doc.dir}/*.xhtml" />
+			<arg value="-o" />
+			<arg file="${doc.dir}" />
+			<arg value="-v" />
+		</java>
+
+	</target>
+
+	<!-- cite -->
+
+	<target name="cite" description="Cites code into documentation - use with care!" depends="prepare">
+
 		<java classname="ch.arrenbrecht.jcite.JCite" classpath="${lib.classpath}" failonerror="yes">
 			<arg value="-sp" />
 			<arg path="${src.classes.dir}" />
@@ -482,7 +530,7 @@
 
 	<!-- javadoc -->
 
-	<target name="javadoc" description="Builds javadoc" depends="prepare, redoc">
+	<target name="javadoc" description="Builds javadoc" depends="prepare, rextile">
 
 		<property name="javadoc.title" value="${Name} API ${dist.version.long}" />
 		<delete dir="${javadoc.dir}" />
@@ -518,7 +566,7 @@
 
 	<!-- doc -->
 
-	<target name="doc" description="Builds documentation" depends="prepare, examples, test, redoc">
+	<target name="doc" description="Builds documentation" depends="prepare, examples, test, rextile, cite">
 	</target>
 
 	<!-- clean -->
@@ -534,7 +582,7 @@
 
 	<!-- pack -->
 
-	<target name="pack" depends="prepare,redoc,javadoc" description="Packs existing distribution - use with care!!">
+	<target name="pack" depends="prepare,rextile,cite,javadoc" description="Packs existing distribution - use with care!!">
 		<echo>Bundling dist: ${dist.version.long}</echo>
 		<property name="dist.name" value="${name}-${dist.version}" />
 		<property name="dist.file" value="${dist.dir}/${dist.name}" />

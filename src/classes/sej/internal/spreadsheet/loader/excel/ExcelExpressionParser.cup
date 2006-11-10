@@ -35,7 +35,7 @@ terminal OPMIN, OPMAX;
 terminal LPAREN, RPAREN, LBRACK, RBRACK;
 terminal EQUAL, NOTEQUAL, GREATER, GREATEROREQUAL, LESS, LESSOREQUAL;
 terminal IF, AND, OR, NOT;
-terminal SUM, PRODUCT, COUNT, AVERAGE, MIN, MAX, VARP;
+terminal SUM, PRODUCT, COUNT, AVERAGE, MIN, MAX, VAR, VARP;
 terminal MATCH, INDEX, ROUND, ABS;
 terminal FACT, COMBIN;
 terminal TODAY;
@@ -362,6 +362,9 @@ agg ::=
 				
 	| 	AVERAGE
 				{: RESULT = Function.AVERAGE; :}
+				
+	| 	VAR
+				{: RESULT = Function.VAR; :}
 				
 	| 	VARP
 				{: RESULT = Function.VARP; :}
