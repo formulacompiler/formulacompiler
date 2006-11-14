@@ -14,12 +14,14 @@
 		<pattern name="int"					class="${base}.internal.*" />
         <pattern name="int.runtime"			class="${base}.internal.runtime.*" />
         <pattern name="int.expr"			class="${base}.internal.expressions.*" />
+        <pattern name="int.logging"			class="${base}.internal.logging.*" />
 		<pattern name="int-all"				class="${base}.internal.**" />
 		<pattern name="int-sub">
 			<include pattern="int-all" />
 			<exclude pattern="int" />
 			<exclude pattern="int.runtime" />
 			<exclude pattern="int.expr" />
+			<exclude pattern="int.logging" />
 		</pattern>
 
         <pattern name="int.bytecode.compiler"	class="${base}.internal.bytecode.compiler.**" />
@@ -184,6 +186,7 @@
                 	<include pattern="int-all" />
                 	<exclude pattern="int" />
                 	<exclude pattern="int.runtime" />
+                	<exclude pattern="int.logging" />
                 	<exclude pattern="int.expr" />
                 </to>
             </deny>
