@@ -1,0 +1,7 @@
+
+h1. SEJ's Build Process
+
+SEJ comes with an "Ant":-ant build script in @build.xml@. This document lists the steps involved in a full distribution build. To run a build, you need to "setup the required tools":tools.htm first.
+
+<%= toc 2, 4 %>
+

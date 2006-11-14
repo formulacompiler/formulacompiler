@@ -1,52 +1,15 @@
 
-h1. Contributing To SEJ
+h1. SEJ Developer Documentation
+
+This section covers the internals of SEJ. It should give you a quick start when your are considering fixing something, or contributing a new function or feature to SEJ.
+
+	* "Overview Of Files And Folders":-files
+	* "Tools Needed":tools.htm
+	* "Build Process":build.htm
+	* "Contributing To SEJ":contributing.htm
 
 
-Thank you! You want to contribute to SEJ. I appreciate it. In these pages I will tell you how to go about it.
-
-We have to cover quite a bit of ground. This is because SEJ was -- and is -- developed with great attention to quality. But never fear, the examples will make it all clear.
-
-<%= toc %>
-
-
-h2. House Rules
-
-First and foremost, I ask you to read the documentation for the area you wish to contribute to. This includes the
-
-	* "tutorial":-tut, the
-	* "reference":-ref, and the
-	* "developer's journal":-dev, which you might want to skim through.
-
-When developing for "Eclipse":-ec, you need to follow its "house rules":-ecrules. They help you and everyone else produce a consistent and high-quality product. It's the same with SEJ, only we have fewer rules. Here they are:
-
-	# Document first
-	# Cite tests
-	# Mimick existing code
-	# Implement only what the tests require
-
-Simple enough. Now go see them in action: "add a missing function":addfunction.htm. That will make them clear.
-
-
-h2. Ways To Contribute
-
-SEJ does not support all of Excel's functions -- only "these":-ref. See how to add a missing one:
-
-dt. "Add A Primitive Function":-prim
-	: See how to add a primitive function, @ABS()@, by writing a template method in Java. Also introduces the fundamental contribution rules shown above.
-
-dt. "Add A High-Level Function":-high (contains Math; use Firefox to view)
-	: See how to add a high-level function, @COMBIN()@, which is defined by rewriting it using lower-level functions.
-
-dt. "Add A High-Level Aggregator":-agg (contains Math; use Firefox to view)
-	: See how to add an aggregator function, @VAR()@, which is defined by rewriting it using @_LET()@, @_FOLD()@, and lower-level functions.
-
-
-h2. Reference Information
-
-	* "Overview of files and folders":-files
-
-
-h2. Missing Topics
+h3. Missing Topics
 
 	* doc is produced from src/doc
 	* DebugTest
