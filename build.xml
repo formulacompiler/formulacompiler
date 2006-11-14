@@ -522,7 +522,7 @@
 	<!-- doc -->
 
 	<target name="doc" description="Builds documentation" depends="prepare, examples, test, rextile, cite, javadoc">
-		<copyfile dest="${basedir}\LICENSE.html" src="${src.doc.dir}\LICENSE.html" />
+		<copy file="${basedir}\LICENSE.html" todir="${src.doc.dir}" />
 	</target>
 
 	<!-- clean -->

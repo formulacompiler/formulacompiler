@@ -38,15 +38,15 @@ SEJ is *not open source*. It is the property of Abacus Research AG, Switzerland.
 h2. Download
 
 <% sej_ver = '0.8.0' %>
+<% tools_ver = '0.8.0' %>
 
-<dl>
+dt. "sej-<%=sej_ver%>-bin.zip":http://arrenbrecht.ch/sej/dist/sej-<%=sej_ver%>-bin.zip : Binary release, including documentation and all required third-party libraries.
 
-<dt>"sej-<%=sej_ver%>-bin.zip":http://arrenbrecht.ch/sej/dist/sej-<%=sej_ver%>-bin.zip</dt><dd>Binary release, including documentation and all required third-party libraries.</dd>
+dt. "sej-<%=sej_ver%>-srcjar.zip":http://arrenbrecht.ch/sej/dist/sej-<%=sej_ver%>-srcjar.zip : Source code and documentation for SEJ in .jar files: @sej-src.jar@ and @sej-doc.jar@. Makes attaching source and doc in IDEs simple.
 
-<dt>"sej-<%=sej_ver%>-srcjar.zip":http://arrenbrecht.ch/sej/dist/sej-<%=sej_ver%>-srcjar.zip</dt><dd>Source code and documentation for SEJ in .jar files: @sej-src.jar@ and @sej-doc.jar@. Makes attaching source and doc in IDEs simple.</dd>
+dt. "sej-<%=sej_ver%>-src.zip":http://arrenbrecht.ch/sej/dist/sej-<%=sej_ver%>-src.zip : Complete source code for SEJ, including tests and examples. Needs external tools to run (see below). Setup instructions are "here":hacking/tools.htm.
 
-<dt>"sej-<%=sej_ver%>-src.zip":http://arrenbrecht.ch/sej/dist/sej-<%=sej_ver%>-src.zip</dt><dd>Complete source code for SEJ, including tests and examples. Can produce all binaries by running @ant dist@.</dd>
-</dl>
+dt. "sej-<%=tools_ver%>-tools.zip":http://arrenbrecht.ch/sej/dist/sej-<%=tools_ver%>-tools.zip : Most of the external tools required to build an SEJ distribution in a single download.
 
 
 "Releases Notes":releasenotes.htm

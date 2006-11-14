@@ -11,6 +11,11 @@
 
 [-funfold]http://en.wikipedia.org/wiki/Foldl
 [-ant]http://ant.apache.org/
+[-junit]http://junit.org/
 [-checkstyle]http://checkstyle.sourceforge.net/
 [-macker]http://innig.net/macker/index.html
 [-ec]http://eclipse.org/
+[-cobertura]http://cobertura.sourceforge.net/
+[-emma]http://emma.sourceforge.net/
+[-rexinst]http://arrenbrecht.ch/rextile/install.htm
+
