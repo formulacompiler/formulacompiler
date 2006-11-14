@@ -57,7 +57,7 @@ public abstract class AbstractReferenceTest extends TestCase
 	public static final Log LOG = new Log();
 
 	private static final File SPREADSHEET_PATH = new File( "src/test-system/testdata/sej/tests/reference" );
-	private static final File HTML_PATH = new File( "build/temp/reference" );
+	private static final File HTML_PATH = new File( "temp/reference" );
 	private static final int STARTING_ROW = 1;
 	private static final int EXPECTED_COL = 0;
 	private static final int FORMULA_COL = 1;

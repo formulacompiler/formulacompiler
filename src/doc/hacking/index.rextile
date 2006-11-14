@@ -58,3 +58,4 @@ h2. Missing Topics
 	* ddt, tdd
 	* reference tests
 	* build.xml
+	* configure ant with junit (see http://ant.apache.org/faq.html#delegating-classloader)

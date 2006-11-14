@@ -345,8 +345,8 @@ public class Basics extends AbstractTestBase
 	// ------------------------------------------------ Generate Initial Sheet
 
 
-	private static final String GENFILE = "build/temp/GeneratedSheet.xls";
-	private static final String GENTEMPLATEDFILE = "build/temp/GeneratedTemplatedSheet.xls";
+	private static final String GENFILE = "temp/GeneratedSheet.xls";
+	private static final String GENTEMPLATEDFILE = "temp/GeneratedTemplatedSheet.xls";
 	private static final String TEMPLATEFILE = "src/test-system/testdata/sej/tutorials/Template.xls";
 	private static final String EXPECTEDGENTEMPLATEDFILE = "src/test-system/testdata/sej/tutorials/ExpectedTemplatedSheet.xls";
 

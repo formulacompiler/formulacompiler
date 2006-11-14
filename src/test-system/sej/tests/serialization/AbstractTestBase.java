@@ -31,7 +31,7 @@ import junit.framework.TestCase;
 
 public abstract class AbstractTestBase extends TestCase
 {
-	private static final String ENGINE_PATH = "build/temp";
+	private static final String ENGINE_PATH = "temp";
 	private static final String ENGINE_NAME = "Engine";
 	private static final String ENGINE_EXT = ".jar";
 
