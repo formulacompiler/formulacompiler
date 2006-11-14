@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="sej" default="build" basedir="." xmlns:cs="antlib:com.puppycrawl.tools.checkstyle">
-	<description>Builds, tests, and runs the project SEJ.</description>
+<project name="sej" default="build" basedir=".">
+	<description>Builds and tests the project SEJ.</description>
 
-	<echo>Running on ${java.version}.</echo>
-	
+	<property file="build.properties" />
+	<property file="build.default.properties" />
+
 	<property name="Name" value="SEJ" />
 	<property name="name" value="sej" />
 	<property name="dist.version" value="0.8.0" />
@@ -43,8 +44,6 @@
 	<property name="jar.runtime.file" location="${build.dir}/${name}-runtime.jar" />
 	<property name="jar.src.file" location="${build.dir}/${name}-src.jar" />
 	<property name="jar.doc.file" location="${build.dir}/${name}-doc.jar" />
-	<!-- <property name="jar.manifest" location="${src.classes.dir}/manifest.mf" /> -->
-
 	<property name="javadoc.dir" location="${doc.dir}/javadoc" />
 
 	<path id="build.classpath">
@@ -64,12 +63,17 @@
 	</path>
 	<property name="lib.classpath" refid="lib.classpath" />
 	<property name="tools.classpath" refid="lib.classpath" />
-
-	<property file="build.conf" />
+	
+	<!-- global taskdefs -->
+	
+	<taskdef name="jflex" classname="JFlex.anttask.JFlexTask" classpath="${lib.dir}/build-only/incompatible/JFlex.jar" />
+	<taskdef name="cup" classname="java_cup.anttask.CUPTask" classpath="${lib.dir}/build-only/incompatible/java-cup-11a.jar" />
 
 	<!-- prepare -->
 
 	<target name="prepare">
+		<echo>Running on ${java.version}.</echo>
+		
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${temp.dir}" />
 		<mkdir dir="${temp.classes.dir}" />
@@ -103,9 +107,6 @@
 	</target>
 
 	<!-- generate scanners/parsers -->
-
-	<taskdef classname="JFlex.anttask.JFlexTask" name="jflex" classpath="${lib.dir}/build-only/incompatible/JFlex.jar" />
-	<taskdef classname="java_cup.anttask.CUPTask" name="cup" classpath="${lib.dir}/build-only/incompatible/java-cup-11a.jar" />
 
 	<target name="lexgen">
 		<loadfile property="lex.regexps" srcfile="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}_RegExps.lex">
@@ -351,14 +352,14 @@
 
 	<!-- dependencies -->
 
-	<path id="macker.classpath">
-		<fileset dir="J:/macker-0.4.2/lib" />
-		<fileset dir="J:/macker-0.4.2/build" />
-	</path>
-
-	<taskdef name="macker" classname="net.innig.macker.ant.MackerAntTask" classpathref="macker.classpath" />
-
 	<target name="dependencies" depends="prepare, compile, compile-tests, compile-examples">
+
+		<path id="macker.classpath">
+			<pathelement path="${macker.jar}" />
+			<fileset dir="${macker.lib.dir}" includes="*.jar" />
+		</path>
+		<taskdef name="macker" classname="net.innig.macker.ant.MackerAntTask" classpathref="macker.classpath" />
+
 		<macker>
 			<rules dir="${src.dir}" includes="macker-rules.xml" />
 			<classes dir="${temp.classes.dir}">
@@ -377,13 +378,16 @@
 	<!-- style -->
 
 	<target name="style" depends="prepare" description="Runs checkstyle">
-		<cs:checkstyle config="${src.dir}\checkstyle-config-apionly.xml">
+
+		<taskdef resource="checkstyletask.properties" classpath="${checkstyle-all.jar}" />
+		
+		<checkstyle config="${src.dir}\checkstyle-config-apionly.xml">
 			<fileset dir="${src.classes.dir}">
 				<include name="**/*.java" />
 				<exclude name="sej/internal/**/*.java" />
 			</fileset>
-		</cs:checkstyle>
-		<cs:checkstyle config="${src.dir}\checkstyle-config.xml">
+		</checkstyle>
+		<checkstyle config="${src.dir}\checkstyle-config.xml">
 			<property key="checkstyle.header.file" file="${src.dir}\copyright-header.txt" />
 			<fileset dir="${src.classes.dir}">
 				<include name="**/*.java" />
@@ -406,7 +410,7 @@
 				<exclude name="sej/internal/build/Util.java" />
 				<exclude name="sej/internal/build/bytecode/ASMHelpers.java" />
 			</fileset>
-		</cs:checkstyle>
+		</checkstyle>
 	</target>
 
 	<!-- rextile -->
@@ -429,50 +433,8 @@
 			</fileset>
 		</copy>
 
-		<exec dir="${src.doc.dir}" executable="rextile" vmlauncher="false">
+		<exec dir="${src.doc.dir}" executable="${rextile.launch}" vmlauncher="false">
 		</exec>
-
-		<java classname="ch.arrenbrecht.jcite.JCite" classpath="${lib.classpath}" failonerror="yes">
-			<arg value="-sp" />
-			<arg path="${src.classes.dir}" />
-			<arg value="-sp" />
-			<arg path="${src.examples.dir}" />
-			<arg value="-sp" />
-			<arg path="${src.test-system.dir}" />
-			<arg value="-sp" />
-			<arg path="${src.classes-build-tools.dir}" />
-			<arg value="-sp" />
-			<arg path="${build.dir}/temp/reference" />
-			<arg value="-sp" />
-			<arg path="${build.dir}/temp" />
-			<arg value="-r" />
-			<arg value="-i" />
-			<arg file="${doc.dir}/*.htm" />
-			<arg value="-o" />
-			<arg file="${doc.dir}" />
-			<arg value="-v" />
-		</java>
-
-		<java classname="ch.arrenbrecht.jcite.JCite" classpath="${lib.classpath}" failonerror="yes">
-			<arg value="-sp" />
-			<arg path="${src.classes.dir}" />
-			<arg value="-sp" />
-			<arg path="${src.examples.dir}" />
-			<arg value="-sp" />
-			<arg path="${src.test-system.dir}" />
-			<arg value="-sp" />
-			<arg path="${src.classes-build-tools.dir}" />
-			<arg value="-sp" />
-			<arg path="${build.dir}/temp/reference" />
-			<arg value="-sp" />
-			<arg path="${build.dir}/temp" />
-			<arg value="-r" />
-			<arg value="-i" />
-			<arg file="${doc.dir}/*.xhtml" />
-			<arg value="-o" />
-			<arg file="${doc.dir}" />
-			<arg value="-v" />
-		</java>
 
 	</target>
 
@@ -480,7 +442,12 @@
 
 	<target name="cite" description="Cites code into documentation - use with care!" depends="prepare">
 
-		<java classname="ch.arrenbrecht.jcite.JCite" classpath="${lib.classpath}" failonerror="yes">
+		<path id="jcite.path">
+			<fileset dir="${jcite.build.dir}"  includes="*.jar" />
+			<fileset dir="${jcite.lib.dir}" includes="*.jar" />
+		</path>
+		
+		<java classname="ch.arrenbrecht.jcite.JCite" classpathref="jcite.path" failonerror="yes">
 			<arg value="-sp" />
 			<arg path="${src.classes.dir}" />
 			<arg value="-sp" />
@@ -500,7 +467,7 @@
 			<arg file="${doc.dir}" />
 		</java>
 
-		<java classname="ch.arrenbrecht.jcite.JCite" classpath="${lib.classpath}" failonerror="yes">
+		<java classname="ch.arrenbrecht.jcite.JCite" classpathref="jcite.path" failonerror="yes">
 			<arg value="-sp" />
 			<arg path="${src.classes.dir}" />
 			<arg value="-sp" />
@@ -551,6 +518,7 @@
 	<!-- doc -->
 
 	<target name="doc" description="Builds documentation" depends="prepare, examples, test, rextile, cite">
+		<copyfile dest="${basedir}\LICENSE.html" src="${src.doc.dir}\LICENSE.html" />
 	</target>
 
 	<!-- clean -->
