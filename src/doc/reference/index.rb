@@ -2,7 +2,7 @@
 def summary( title, file, term_list_files )
 	terms = []
 	term_list_files.each do |fn|
-		fn = '../../build/temp/reference/' + fn + '_terms.rb'
+		fn = '../../temp/reference/' + fn + '_terms.rb'
 		File.open( fn, 'r' ) { |f| eval f.read, binding }
 	end
 	terms.sort!

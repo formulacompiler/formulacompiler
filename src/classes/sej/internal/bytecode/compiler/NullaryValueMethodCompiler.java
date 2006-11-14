@@ -30,9 +30,4 @@ abstract class NullaryValueMethodCompiler extends ValueMethodCompiler
 		super( _section, _access, _methodName, "", _type );
 	}
 
-	NullaryValueMethodCompiler(SectionCompiler _section, String _methodName, DataType _type)
-	{
-		this( _section, 0, _methodName, _type );
-	}
-
 }

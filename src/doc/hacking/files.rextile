@@ -6,8 +6,11 @@ This section gives an overview of the important files and folders of SEJ.
 dt. .project <br/> .classpath :
 	Eclipse project definition. Eclipse is the preferred development environment for SEJ.
 
-dt. build.conf :
-	Custom build properties. Will mainly be necessary if JRE 1.4 support is ever enabled again.
+dt. build.default.properties :
+	Default custom build properties. You should override these in a custom @build.properties@ file.
+	
+dt. build.properties :
+	Optional custom build properties. Use this to locate external tools. See @build.default.properties@ for a list of things to define.
 	
 dt. build.xml :
 	"Ant":-ant build script.
