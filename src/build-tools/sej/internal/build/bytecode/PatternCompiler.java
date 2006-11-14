@@ -56,7 +56,7 @@ public final class PatternCompiler
 
 	private void run() throws IOException
 	{
-		final File p = new File( "build/classes-gen-jre" + Util.jdkVersionSuffix() + "/sej/internal/bytecode/compiler" );
+		final File p = new File( "temp/gen-src/classes-jre" + Util.jdkVersionSuffix() + "/sej/internal/bytecode/compiler" );
 		p.mkdirs();
 
 		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForAll.class, "All" ).generate( p );

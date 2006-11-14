@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/classes"/>
-	<classpathentry kind="src" path="build/classes-gen"/>
-	<classpathentry kind="src" path="build/classes-gen-jre1.6"/>
 	<classpathentry kind="src" path="src/test-accessors"/>
 	<classpathentry kind="src" path="src/test-unit"/>
 	<classpathentry kind="src" path="src/test-system"/>
@@ -10,6 +8,8 @@
 	<classpathentry kind="src" path="src/build-tools"/>
 	<classpathentry kind="src" path="src/debug"/>
 	<classpathentry kind="src" path="src/scratchpad"/>
+	<classpathentry kind="src" path="temp/gen-src/classes-jre1.6"/>
+	<classpathentry kind="src" path="temp/gen-src/classes"/>
 	<classpathentry kind="lib" path="lib/asm-2.2.1.jar" sourcepath="J:/asm-2.2.1/src.zip">
 		<attributes>
 			<attribute name="javadoc_location" value="file:/J:/asm-2.2.1/doc/javadoc/user"/>
@@ -30,5 +30,5 @@
 	<classpathentry kind="lib" path="lib/java-cup-11a-runtime.jar" sourcepath="J:/java-cup-11a/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JUnit"/>
-	<classpathentry kind="output" path="build/dev"/>
+	<classpathentry kind="output" path="temp/classes/dev"/>
 </classpath>
