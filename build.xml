@@ -2,13 +2,14 @@
 <project name="sej" default="build" basedir="." xmlns:cs="antlib:com.puppycrawl.tools.checkstyle">
 	<description>Builds, tests, and runs the project SEJ.</description>
 
+	<echo>Running on ${java.version}.</echo>
+	
 	<property name="Name" value="SEJ" />
 	<property name="name" value="sej" />
 	<property name="dist.version" value="0.8.0" />
 
 	<property name="src.dir" location="${basedir}/src" />
 	<property name="lib.dir" location="${basedir}/lib" />
-	<property name="conf.dir" location="${basedir}/conf" />
 	<property name="doc.dir" location="${basedir}/doc" />
 	<property name="src.classes.dir" location="${src.dir}/classes" />
 	<property name="src.classes-bootstrap.dir" location="${src.dir}/classes-bootstrap-dummies" />
@@ -25,15 +26,18 @@
 	<property name="javac.target" value="1.5" />
 
 	<property name="build.dir" location="${basedir}/build" />
-	<property name="build.classes.dir" location="${build.dir}/classes" />
-	<property name="build.classes-bootstrap.dir" location="${build.dir}/classes-bootstrap" />
-	<property name="build.test-unit.dir" location="${build.dir}/test-unit" />
-	<property name="build.test-system.dir" location="${build.dir}/test-system" />
-	<property name="build.examples.dir" location="${build.dir}/examples" />
-	<property name="dist.dir" location="${basedir}/dist" />
 
-	<property name="src.classes-gen.dir" location="${build.dir}/classes-gen" />
-	<property name="src.classes-gen-jre.dir" location="${build.dir}/classes-gen-jre${ant.java.version}" />
+	<property name="temp.dir" location="${basedir}/temp" />
+	<property name="temp.classes.dir" location="${temp.dir}/classes/main" />
+	<property name="temp.classes-bootstrap.dir" location="${temp.dir}/classes/bootstrap" />
+	<property name="temp.test-unit.dir" location="${temp.dir}/classes/test-unit" />
+	<property name="temp.test-system.dir" location="${temp.dir}/classes/test-system" />
+	<property name="temp.examples.dir" location="${temp.dir}/classes/examples" />
+	<property name="temp.classes-gen.dir" location="${temp.dir}/gen-src/classes" />
+	<property name="temp.classes-gen-jre.dir" location="${temp.dir}/gen-src/classes-jre${ant.java.version}" />
+	<property name="temp.testresults.dir" location="${temp.dir}/testresults" />
+
+	<property name="dist.dir" location="${basedir}/dist" />
 
 	<property name="jar.file" location="${build.dir}/${name}.jar" />
 	<property name="jar.runtime.file" location="${build.dir}/${name}-runtime.jar" />
@@ -47,11 +51,11 @@
 		<fileset dir="${lib.dir}" includes="*.jar" />
 	</path>
 	<property name="build.classpath" refid="build.classpath" />
-	
+
 	<path id="cite.path">
-		<dirset dir="${src.classes.dir}"/>
-		<dirset dir="${src.test-system.dir}"/>
-		<dirset dir="${src.examples.dir}"/>
+		<dirset dir="${src.classes.dir}" />
+		<dirset dir="${src.test-system.dir}" />
+		<dirset dir="${src.examples.dir}" />
 	</path>
 	<property name="src.cite.path" refid="cite.path" />
 
@@ -67,25 +71,27 @@
 
 	<target name="prepare">
 		<mkdir dir="${build.dir}" />
-		<mkdir dir="${build.classes.dir}" />
-		<mkdir dir="${build.classes-bootstrap.dir}" />
+		<mkdir dir="${temp.dir}" />
+		<mkdir dir="${temp.classes.dir}" />
+		<mkdir dir="${temp.classes-bootstrap.dir}" />
+		<mkdir dir="${temp.classes-gen.dir}" />
+		<mkdir dir="${temp.classes-gen-jre.dir}" />
 
 		<path id="run.classpath">
-			<pathelement location="${conf.dir}" />
-			<pathelement location="${build.classes.dir}" />
+			<pathelement location="${temp.classes.dir}" />
 			<fileset dir="${lib.dir}" includes="**/*.jar" />
 		</path>
 		<property name="run.classpath" refid="run.classpath" />
 
 		<path id="test.classpath">
-			<pathelement location="${build.test-unit.dir}" />
-			<pathelement location="${build.test-system.dir}" />
+			<pathelement location="${temp.test-unit.dir}" />
+			<pathelement location="${temp.test-system.dir}" />
 			<path refid="run.classpath" />
 		</path>
 		<property name="test.classpath" refid="test.classpath" />
 
 		<path id="examples.classpath">
-			<pathelement location="${build.examples.dir}" />
+			<pathelement location="${temp.examples.dir}" />
 			<path refid="run.classpath" />
 		</path>
 		<property name="examples.classpath" refid="examples.classpath" />
@@ -100,14 +106,13 @@
 
 	<taskdef classname="JFlex.anttask.JFlexTask" name="jflex" classpath="${lib.dir}/build-only/incompatible/JFlex.jar" />
 	<taskdef classname="java_cup.anttask.CUPTask" name="cup" classpath="${lib.dir}/build-only/incompatible/java-cup-11a.jar" />
-	
+
 	<target name="lexgen">
-		<loadfile property="lex.regexps" srcfile="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}_RegExps.lex"></loadfile>
-		<loadfile property="lex.scan" srcfile="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}_Scan.lex"></loadfile>
-		<copy 
-			file="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner.lex"
-			tofile="${src.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}.lex"
-			overwrite="true">
+		<loadfile property="lex.regexps" srcfile="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}_RegExps.lex">
+		</loadfile>
+		<loadfile property="lex.scan" srcfile="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}_Scan.lex">
+		</loadfile>
+		<copy file="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner.lex" tofile="${temp.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}.lex" overwrite="true">
 			<filterchain>
 				<replacetokens>
 					<token key="cellstyle" value="${style}" />
@@ -117,58 +122,52 @@
 			</filterchain>
 		</copy>
 	</target>
-	
+
 	<target name="lexinput" depends="prepare">
 		<antcall target="lexgen">
-			<param name="style" value="A1"/>
+			<param name="style" value="A1" />
 		</antcall>
 		<antcall target="lexgen">
-			<param name="style" value="R1C1"/>
+			<param name="style" value="R1C1" />
 		</antcall>
 		<antcall target="lexgen">
-			<param name="style" value="Internal"/>
+			<param name="style" value="Internal" />
 		</antcall>
 	</target>
 
 	<target name="lex" depends="prepare, lexinput">
-		<jflex file="${src.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerA1.lex" destdir="${src.classes-gen.dir}" />
-		<jflex file="${src.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerR1C1.lex" destdir="${src.classes-gen.dir}" />
-		<jflex file="${src.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerInternal.lex" destdir="${src.classes-gen.dir}" />
+		<jflex file="${temp.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerA1.lex" destdir="${temp.classes-gen.dir}" />
+		<jflex file="${temp.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerR1C1.lex" destdir="${temp.classes-gen.dir}" />
+		<jflex file="${temp.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerInternal.lex" destdir="${temp.classes-gen.dir}" />
 	</target>
 
 	<target name="cup" depends="prepare, lex">
-		<cup srcfile="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionParser.cup" destdir="${src.classes-gen.dir}" 
-			parser="GeneratedParser" 
-			symbols="GeneratedSymbols"
-			nopositions="true"
-			nosummary="true"
-			nowarn="true"
-		/>
+		<cup srcfile="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionParser.cup" destdir="${temp.classes-gen.dir}" parser="GeneratedParser" symbols="GeneratedSymbols" nopositions="true" nosummary="true" nowarn="true" />
 	</target>
 
 	<!-- compile -->
 
 	<target name="compile-bootstrap" depends="prepare, lex, cup" description="Compiles the bootstrap source code">
 		<delete failonerror="no">
-			<fileset dir="${src.classes-gen.dir}/sej/internal/model/rewriting" includes="*.java" />
-			<fileset dir="${src.classes-gen-jre.dir}/sej/internal/bytecode/compiler" includes="*.java" />
+			<fileset dir="${temp.classes-gen.dir}/sej/internal/model/rewriting" includes="*.java" />
+			<fileset dir="${temp.classes-gen-jre.dir}/sej/internal/bytecode/compiler" includes="*.java" />
 		</delete>
-		<javac srcdir="${src.classes.dir}:${src.classes-gen.dir}:${src.classes-bootstrap.dir}:${src.classes-build-tools.dir}" destdir="${build.classes-bootstrap.dir}" classpath="${tools.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+		<javac srcdir="${src.classes.dir}:${temp.classes-gen.dir}:${src.classes-bootstrap.dir}:${src.classes-build-tools.dir}" destdir="${temp.classes-bootstrap.dir}" classpath="${tools.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/**" />
 		</javac>
 	</target>
 
 	<target name="generate" depends="prepare, compile-bootstrap" description="Generates source code">
-		<property name="tools-path" value="${tools.classpath}:${build.classes-bootstrap.dir}" />
+		<property name="tools-path" value="${tools.classpath}:${temp.classes-bootstrap.dir}" />
 		<java classpath="${tools-path}" classname="sej.internal.build.rewriting.RewriteRulesCompiler" />
 		<java classpath="${tools-path}" classname="sej.internal.build.bytecode.PatternCompiler" fork="true" />
 	</target>
 
 	<target name="compile" depends="prepare, generate" description="Compiles the source code">
-		<javac srcdir="${src.classes.dir}:${src.classes-gen-jre.dir}:${src.classes-gen.dir}" destdir="${build.classes.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+		<javac srcdir="${src.classes.dir}:${temp.classes-gen-jre.dir}:${temp.classes-gen.dir}" destdir="${temp.classes.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/**" />
 			<!-- Not needed at runtime so far: -->
-			<exclude name="sej/internal/templates/**" /> 
+			<exclude name="sej/internal/templates/**" />
 			<exclude name="sej/internal/spreadsheet/loader/excel/RewriteLanguageParser*" />
 			<exclude name="sej/internal/spreadsheet/loader/excel/Generated*Internal*" />
 		</javac>
@@ -180,13 +179,13 @@
 
 		<delete file="${jar.file}" />
 		<jar jarfile="${jar.file}" compress="true">
-			<fileset dir="${build.classes.dir}" >
+			<fileset dir="${temp.classes.dir}">
 			</fileset>
 		</jar>
 
 		<delete file="${jar.runtime.file}" />
 		<jar jarfile="${jar.runtime.file}" compress="true">
-			<fileset dir="${build.classes.dir}">
+			<fileset dir="${temp.classes.dir}">
 				<include name="sej/runtime/*.class" />
 				<include name="sej/internal/runtime/*.class" />
 				<include name="sej/internal/bytecode/runtime/*.class" />
@@ -199,21 +198,21 @@
 
 		<delete file="${jar.src.file}" />
 		<jar jarfile="${jar.src.file}" compress="true">
-			<fileset dir="${src.classes.dir}" >
-				<include name="**/*.java"/>
-				<exclude name="net/sf/retrotranslator/**"/>
+			<fileset dir="${src.classes.dir}">
+				<include name="**/*.java" />
+				<exclude name="net/sf/retrotranslator/**" />
 			</fileset>
-			<fileset dir="${src.classes-gen.dir}" >
-				<include name="**/*.java"/>
+			<fileset dir="${temp.classes-gen.dir}">
+				<include name="**/*.java" />
 			</fileset>
-			<fileset dir="${src.classes-gen-jre.dir}" >
-				<include name="**/*.java"/>
+			<fileset dir="${temp.classes-gen-jre.dir}">
+				<include name="**/*.java" />
 			</fileset>
 		</jar>
 
 		<delete file="${jar.doc.file}" />
 		<jar jarfile="${jar.doc.file}" compress="true">
-			<fileset dir="${javadoc.dir}" >
+			<fileset dir="${javadoc.dir}">
 			</fileset>
 		</jar>
 
@@ -223,48 +222,45 @@
 
 	<target name="compile-tests" depends="prepare, compile">
 
-		<mkdir dir="${build.test-unit.dir}" />
-		<mkdir dir="${build.test-system.dir}" />
+		<mkdir dir="${temp.test-unit.dir}" />
+		<mkdir dir="${temp.test-system.dir}" />
 
-		<javac srcdir="${src.test-accessors.dir}" destdir="${build.test-unit.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+		<javac srcdir="${src.test-accessors.dir}" destdir="${temp.test-unit.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/**" />
 		</javac>
-		<javac srcdir="${src.test-unit.dir}" destdir="${build.test-unit.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+		<javac srcdir="${src.test-unit.dir}" destdir="${temp.test-unit.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/**" />
 		</javac>
-		<javac srcdir="${src.test-system.dir}" destdir="${build.test-system.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+		<javac srcdir="${src.test-system.dir}" destdir="${temp.test-system.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/**" />
 		</javac>
 	</target>
 
 	<target name="test" depends="prepare, jar, compile-tests" description="Runs JUnit test suites">
 
-		<delete dir="${build.dir}/temp/testresults" />
-		<mkdir dir="${build.dir}/temp/testresults"/>
-		
-		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${lib.classpath}" />
+		<delete dir="${temp.testresults.dir}" />
+		<mkdir dir="${temp.testresults.dir}" />
 
-		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="."
-			tempdir="${build.dir}/temp" >
-			
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+
 			<assertions enablesystemassertions="yes" />
 
 			<formatter type="plain" usefile="yes" />
-			
+
 			<classpath>
 				<path refid="build.classpath" />
-				<pathelement path="${build.test-unit.dir}" />
-				<pathelement path="${build.test-system.dir}" />
+				<pathelement path="${temp.test-unit.dir}" />
+				<pathelement path="${temp.test-system.dir}" />
 				<pathelement location="${jar.file}" />
 			</classpath>
 
-			<batchtest todir="${build.dir}/temp/testresults">
-				<fileset dir="${build.test-unit.dir}">
+			<batchtest todir="${temp.testresults.dir}">
+				<fileset dir="${temp.test-unit.dir}">
 					<include name="**/*Test.class" />
 					<exclude name="**/Abstract*" />
 					<exclude name="**/*$*" />
 				</fileset>
-				<fileset dir="${build.test-system.dir}">
+				<fileset dir="${temp.test-system.dir}">
 					<include name="**/*Test*.class" />
 					<include name="sej/tutorials/*.class" />
 					<exclude name="**/Abstract*" />
@@ -275,21 +271,20 @@
 
 		</junit>
 
-		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="."
-			tempdir="${build.dir}/temp" >
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
 
 			<assertions enablesystemassertions="yes" />
 
 			<formatter type="plain" usefile="yes" />
-			
+
 			<classpath>
 				<path refid="build.classpath" />
-				<pathelement path="${build.test-system.dir}" />
+				<pathelement path="${temp.test-system.dir}" />
 				<pathelement location="${jar.runtime.file}" />
 			</classpath>
 
-			<batchtest todir="${build.dir}/temp/testresults">
-				<fileset dir="${build.test-system.dir}">
+			<batchtest todir="${temp.testresults.dir}">
+				<fileset dir="${temp.test-system.dir}">
 					<include name="**/*DeserializationTest.class" />
 					<exclude name="**/Abstract*" />
 					<exclude name="**/*$*" />
@@ -302,28 +297,27 @@
 
 	<target name="dbg" depends="prepare, jar, compile-tests" description="Runs a single JUnit test suite">
 
-		<delete dir="${build.dir}/temp/testresults" />
-		<mkdir dir="${build.dir}/temp/testresults"/>
-		
-		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${lib.classpath}" />
+		<delete dir="${temp.testresults.dir}" />
+		<mkdir dir="${temp.testresults.dir}" />
 
-		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="."
-			tempdir="${build.dir}/temp" >
-			
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+
 			<assertions enablesystemassertions="yes" />
 
 			<formatter type="plain" usefile="yes" />
-			
+
 			<classpath>
 				<path refid="build.classpath" />
-				<pathelement path="${build.test-unit.dir}" />
-				<pathelement path="${build.test-system.dir}" />
+				<pathelement path="${temp.test-unit.dir}" />
+				<pathelement path="${temp.test-system.dir}" />
 				<pathelement location="${jar.file}" />
 			</classpath>
 
-			<batchtest todir="${build.dir}/temp/testresults">
-				<fileset dir="${build.test-system.dir}">
+			<batchtest todir="${temp.testresults.dir}">
+				<fileset dir="${temp.test-system.dir}">
+
 					<include name="sej/tutorials/TypeConversion.class" />
+
 				</fileset>
 			</batchtest>
 
@@ -335,9 +329,9 @@
 
 	<target name="compile-examples" depends="prepare, compile">
 
-		<mkdir dir="${build.examples.dir}" />
+		<mkdir dir="${temp.examples.dir}" />
 
-		<javac srcdir="${src.examples.dir}" destdir="${build.examples.dir}" classpath="${examples.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+		<javac srcdir="${src.examples.dir}" destdir="${temp.examples.dir}" classpath="${examples.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="**" />
 		</javac>
 	</target>
@@ -367,14 +361,14 @@
 	<target name="dependencies" depends="prepare, compile, compile-tests, compile-examples">
 		<macker>
 			<rules dir="${src.dir}" includes="macker-rules.xml" />
-			<classes dir="${build.classes.dir}">
+			<classes dir="${temp.classes.dir}">
 				<include name="**/*.class" />
 				<exclude name="**/CUP*.class" />
 			</classes>
-			<classes dir="${build.test-system.dir}">
+			<classes dir="${temp.test-system.dir}">
 				<include name="**/*.class" />
 			</classes>
-			<classes dir="${build.examples.dir}">
+			<classes dir="${temp.examples.dir}">
 				<include name="**/*.class" />
 			</classes>
 		</macker>
@@ -437,7 +431,7 @@
 
 		<exec dir="${src.doc.dir}" executable="rextile" vmlauncher="false">
 		</exec>
-		
+
 		<java classname="ch.arrenbrecht.jcite.JCite" classpath="${lib.classpath}" failonerror="yes">
 			<arg value="-sp" />
 			<arg path="${src.classes.dir}" />
@@ -496,9 +490,9 @@
 			<arg value="-sp" />
 			<arg path="${src.classes-build-tools.dir}" />
 			<arg value="-sp" />
-			<arg path="${build.dir}/temp/reference" />
+			<arg path="${temp.dir}/reference" />
 			<arg value="-sp" />
-			<arg path="${build.dir}/temp" />
+			<arg path="${temp.dir}" />
 			<arg value="-r" />
 			<arg value="-i" />
 			<arg file="${doc.dir}/*.htm" />
@@ -516,9 +510,9 @@
 			<arg value="-sp" />
 			<arg path="${src.classes-build-tools.dir}" />
 			<arg value="-sp" />
-			<arg path="${build.dir}/temp/reference" />
+			<arg path="${temp.dir}/reference" />
 			<arg value="-sp" />
-			<arg path="${build.dir}/temp" />
+			<arg path="${temp.dir}" />
 			<arg value="-r" />
 			<arg value="-i" />
 			<arg file="${doc.dir}/*.xhtml" />
@@ -536,21 +530,11 @@
 		<delete dir="${javadoc.dir}" />
 		<mkdir dir="${javadoc.dir}" />
 
-		<javadoc 
-			sourcepath="${src.classes.dir}" 
-			destdir="${javadoc.dir}" 
-			public="true" 
-			windowtitle="${javadoc.title}" 
-			use="true"
-			packagenames="sej,sej.runtime,sej.describable,sej.expressions"
-			additionalParam="-tagletPath ${lib.dir}/build-only/java2html.jar;${lib.dir}/build-only/jcite.jar;${lib.dir}/jxl.jar -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${src.cite.path}"
-			stylesheetfile="${src.doc.dir}/plainstyle/style.css"
-			overview="${src.classes.dir}/overview.html"
-		>
+		<javadoc sourcepath="${src.classes.dir}" destdir="${javadoc.dir}" public="true" windowtitle="${javadoc.title}" use="true" packagenames="sej,sej.runtime,sej.describable,sej.expressions" additionalParam="-tagletPath ${lib.dir}/build-only/java2html.jar;${lib.dir}/build-only/jcite.jar;${lib.dir}/jxl.jar -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${src.cite.path}" stylesheetfile="${src.doc.dir}/plainstyle/style.css" overview="${src.classes.dir}/overview.html">
 			<classpath refid="build.classpath" />
 			<link href="http://java.sun.com/j2se/1.5/docs/api/" />
 		</javadoc>
-		
+
 		<copy todir="${javadoc.dir}">
 			<fileset dir="${src.classes.dir}">
 				<include name="**/*.gif" />
@@ -571,13 +555,24 @@
 
 	<!-- clean -->
 
-	<target name="clean" description="Removes all build files">
+	<target name="clean" description="Removes all temp files">
+		<delete dir="${temp.dir}" />
+		<mkdir dir="${temp.classes-gen.dir}" />
+		<mkdir dir="${temp.classes-gen-jre.dir}" />
+
+		<!-- make Eclipse happy - might be running on 1.5 or 1.6 -->
+		<mkdir dir="${temp.dir}/gen-src/classes-jre1.5" />
+		<mkdir dir="${temp.dir}/gen-src/classes-jre1.6" />
+		<mkdir dir="${temp.dir}/classes/dev" />
+
+	</target>
+
+	<!-- clobber -->
+
+	<target name="clobber" depends="clean" description="Removes all temp and build files">
 		<delete dir="${doc.dir}" />
 		<delete dir="${build.dir}" />
 		<delete dir="${dist.dir}" />
-		<mkdir dir="${src.classes-gen.dir}" />
-		<mkdir dir="${src.classes-gen-jre.dir}" />
-		<mkdir dir="${build.dir}/dev" />  <!-- make Eclipse happy -->
 	</target>
 
 	<!-- pack -->
@@ -587,7 +582,7 @@
 		<property name="dist.name" value="${name}-${dist.version}" />
 		<property name="dist.file" value="${dist.dir}/${dist.name}" />
 
-		<property name="dist.tmp.dir" value="${dist.dir}/tmp" />
+		<property name="dist.tmp.dir" value="${temp.dir}/dist" />
 		<property name="dist.staging.dir" value="${dist.tmp.dir}/${dist.name}" />
 
 		<!-- binary -->
@@ -658,40 +653,34 @@
 		<zip basedir="${dist.tmp.dir}" destfile="${dist.file}-srcjar.zip" filesonly="no" />
 
 		<delete dir="${dist.tmp.dir}" />
-		
-		<copy todir="${dist.dir}">
-			<fileset dir="${src.test-system.dir}/testdata/sej" includes="Tests.xls" />
-		</copy>
-		
 	</target>
 
 	<!-- dist -->
 
-	<target name="dist" depends="clean,compile,validate,jar,doc,javadoc,test,examples,srcjar,pack" description="Builds distribution">
+	<target name="dist" depends="clobber,compile,validate,jar,doc,javadoc,test,examples,srcjar,pack" description="Builds distribution">
 	</target>
 
 	<!-- cover -->
 
 	<target name="cover" depends="prepare, compile, compile-tests" description="Runs code coverage analysis">
 
-		<property name="build.instr.dir" value="${build.dir}/temp/instrumented" />
-		<property name="build.cover.dir" value="${build.dir}/coverage" />
-		<property name="cober.file" value="${build.dir}/temp/cobertura.ser" />
-		
-		<taskdef classpath="${lib.dir}/build-only/cobertura.jar:${lib.classpath}" resource="tasks.properties"/>
-		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${lib.classpath}" />
+		<property name="temp.instr.dir" value="${temp.dir}/classes/instrumented" />
+		<property name="temp.cover.dir" value="${temp.dir}/coverage" />
+		<property name="cober.file" value="${temp.dir}/cobertura.ser" />
+
+		<taskdef classpath="${lib.dir}/build-only/cobertura.jar:${lib.classpath}" resource="tasks.properties" />
 
 		<delete dir="${cober.file}" />
-		<delete dir="${build.instr.dir}" />
-		<delete dir="${build.cover.dir}" />
+		<delete dir="${temp.instr.dir}" />
+		<delete dir="${temp.cover.dir}" />
 
-		<mkdir dir="${build.instr.dir}"/>
-		<mkdir dir="${build.cover.dir}"/>
-		
-		<cobertura-instrument todir="${build.instr.dir}" datafile="${cober.file}" >
-		    <fileset dir="${build.classes.dir}">
-		        <include name="**/*.class"/>
-		    </fileset>
+		<mkdir dir="${temp.instr.dir}" />
+		<mkdir dir="${temp.cover.dir}" />
+
+		<cobertura-instrument todir="${temp.instr.dir}" datafile="${cober.file}">
+			<fileset dir="${temp.classes.dir}">
+				<include name="**/*.class" />
+			</fileset>
 			<!--
 		    <fileset dir="${build.test-unit.dir}">
 		        <include name="**/*.class"/>
@@ -702,42 +691,41 @@
 		    -->
 		</cobertura-instrument>
 
-		<delete dir="${build.dir}/temp/testresults" />
-		<mkdir dir="${build.dir}/temp/testresults"/>
-		
-		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="."
-			tempdir="${build.dir}/temp" >
-			
+		<delete dir="${temp.testresults.dir}" />
+		<mkdir dir="${temp.testresults.dir}" />
+
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+
 			<assertions enablesystemassertions="yes" />
 
 			<formatter type="plain" usefile="yes" />
 
 			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cober.file}" />
-			
+
 			<classpath>
 				<path refid="lib.classpath" />
-				<pathelement path="${build.instr.dir}" />
-				<pathelement path="${build.classes.dir}" />
-				<pathelement path="${build.test-unit.dir}" />
-				<pathelement path="${build.test-system.dir}" />
+				<pathelement path="${temp.instr.dir}" />
+				<pathelement path="${temp.classes.dir}" />
+				<pathelement path="${temp.test-unit.dir}" />
+				<pathelement path="${temp.test-system.dir}" />
 			</classpath>
-			
+
 			<sysproperty key="sej.tutorials.Caching.testSpeed.disabled" value="true" />
 
-			<batchtest todir="${build.dir}/temp/testresults">
-				<fileset dir="${build.test-unit.dir}">
+			<batchtest todir="${temp.testresults.dir}">
+				<fileset dir="${temp.test-unit.dir}">
 					<include name="**/*Test.class" />
 					<exclude name="**/Abstract*" />
 					<exclude name="**/*$*" />
 				</fileset>
-				<fileset dir="${build.test-system.dir}">
+				<fileset dir="${temp.test-system.dir}">
 					<include name="**/*Test*.class" />
 					<include name="sej/tutorials/*.class" />
 					<exclude name="**/Abstract*" />
 					<exclude name="**/*$*" />
 					<exclude name="**/*DeserializationTest.class" />
 				</fileset>
-				<fileset dir="${build.test-system.dir}">
+				<fileset dir="${temp.test-system.dir}">
 					<include name="**/*DeserializationTest.class" />
 					<exclude name="**/Abstract*" />
 					<exclude name="**/*$*" />
@@ -746,10 +734,10 @@
 
 		</junit>
 
-		<cobertura-report destdir="${build.cover.dir}" datafile="${cober.file}">
-		    <fileset dir="${src.classes.dir}">
+		<cobertura-report destdir="${temp.cover.dir}" datafile="${cober.file}">
+			<fileset dir="${src.classes.dir}">
 				<include name="**/*.java" />
-		    </fileset>
+			</fileset>
 			<!--
 		    <fileset dir="${src.test-unit.dir}">
 				<include name="**/*.java" />
@@ -759,87 +747,85 @@
 		    </fileset>
 		    -->
 		</cobertura-report>
-		
+
 	</target>
 
 	<!-- emma -->
 
 	<target name="emma" depends="prepare, compile, compile-tests" description="Runs code coverage analysis">
 
-		<property name="build.instr.dir" value="${build.dir}/temp/instrumented" />
-		<property name="build.cover.dir" value="${build.dir}/coverage" />
-		<property name="emma.meta.file" value="${build.dir}/temp/metadata.emma" />
-		<property name="emma.run.file" value="${build.dir}/temp/rundata.emma" />
-		
-		<taskdef classpath="${lib.dir}/build-only/emma_ant.jar:${lib.classpath}" resource="emma_ant.properties"/>
-		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpath="${lib.classpath}" />
+		<property name="temp.instr.dir" value="${temp.dir}/instrumented" />
+		<property name="temp.cover.dir" value="${temp.dir}/coverage" />
+		<property name="emma.meta.file" value="${temp.dir}/metadata.emma" />
+		<property name="emma.run.file" value="${temp.dir}/rundata.emma" />
 
-		<delete dir="${build.instr.dir}" />
-		<delete dir="${build.cover.dir}" />
+		<taskdef classpath="${lib.dir}/build-only/emma_ant.jar:${lib.classpath}" resource="emma_ant.properties" />
+
+		<delete dir="${temp.instr.dir}" />
+		<delete dir="${temp.cover.dir}" />
 		<delete dir="${emma.meta.file}" />
 		<delete dir="${emma.run.file}" />
 
-		<mkdir dir="${build.instr.dir}"/>
-		<mkdir dir="${build.cover.dir}"/>
+		<mkdir dir="${temp.instr.dir}" />
+		<mkdir dir="${temp.cover.dir}" />
 
-	    <emma>
-		    <instr destdir="${build.instr.dir}" metadatafile="${emma.meta.file}" merge="true" instrpath="${build.classes.dir}" >
-	      	</instr>
-	    </emma>
+		<emma>
+			<instr destdir="${temp.instr.dir}" metadatafile="${emma.meta.file}" merge="true" instrpath="${temp.classes.dir}">
+			</instr>
+		</emma>
 
-		<delete dir="${build.dir}/temp/testresults" />
-		<mkdir dir="${build.dir}/temp/testresults"/>
-		
-		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="."
-			tempdir="${build.dir}/temp" >
-			
+		<delete dir="${temp.testresults.dir}" />
+		<mkdir dir="${temp.testresults.dir}" />
+
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+
 			<assertions enablesystemassertions="yes" />
 
 			<formatter type="plain" usefile="yes" />
 
 			<classpath>
 				<path refid="lib.classpath" />
-				<pathelement path="${build.instr.dir}" />
-				<pathelement path="${build.classes.dir}" />
-				<pathelement path="${build.test-unit.dir}" />
-				<pathelement path="${build.test-system.dir}" />
+				<pathelement path="${temp.instr.dir}" />
+				<pathelement path="${temp.classes.dir}" />
+				<pathelement path="${temp.test-unit.dir}" />
+				<pathelement path="${temp.test-system.dir}" />
 			</classpath>
-			
+
 			<sysproperty key="sej.tutorials.Caching.testSpeed.disabled" value="true" />
 
-			<batchtest todir="${build.dir}/temp/testresults">
-				<fileset dir="${build.test-unit.dir}">
+			<batchtest todir="${temp.testresults.dir}">
+				<fileset dir="${temp.test-unit.dir}">
 					<include name="**/*Test.class" />
 					<exclude name="**/Abstract*" />
 					<exclude name="**/*$*" />
 				</fileset>
-				<fileset dir="${build.test-system.dir}">
+				<fileset dir="${temp.test-system.dir}">
 					<include name="**/*Test*.class" />
 					<include name="sej/tutorials/*.class" />
 					<exclude name="**/Abstract*" />
 					<exclude name="**/*$*" />
 					<exclude name="**/*DeserializationTest.class" />
 				</fileset>
-				<fileset dir="${build.test-system.dir}">
+				<fileset dir="${temp.test-system.dir}">
 					<include name="**/*DeserializationTest.class" />
 					<exclude name="**/Abstract*" />
 					<exclude name="**/*$*" />
 				</fileset>
 			</batchtest>
-			
+
 			<jvmarg value="-Demma.coverage.out.file=${emma.run.file}" />
 			<jvmarg value="-Demma.coverage.out.merge=false" />
 		</junit>
 
-	    <emma>
-	      <report sourcepath="${src.classes.dir}" >
-	        <fileset file="${emma.meta.file}" />
-	        <fileset file="${emma.run.file}" />
-	        <html outfile="${build.cover.dir}/coverage.html" />
-	      </report>
-	    </emma>
+		<emma>
+			<report sourcepath="${src.classes.dir}">
+				<fileset file="${emma.meta.file}" />
+				<fileset file="${emma.run.file}" />
+				<html outfile="${temp.cover.dir}/coverage.html" />
+			</report>
+		</emma>
 
-		
+
 	</target>
 
 
