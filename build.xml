@@ -342,7 +342,7 @@
 
 	<!-- build -->
 
-	<target name="build" depends="jar,compile-tests,compile-examples" description="Builds the library target (default)">
+	<target name="build" depends="jar" description="Builds the library target (default)">
 	</target>
 
 	<!-- validate -->
@@ -442,12 +442,12 @@
 
 	<target name="cite" description="Cites code into documentation - use with care!" depends="prepare">
 
-		<path id="jcite.path">
+		<path id="jcite.classpath">
 			<fileset dir="${jcite.build.dir}"  includes="*.jar" />
 			<fileset dir="${jcite.lib.dir}" includes="*.jar" />
 		</path>
 		
-		<java classname="ch.arrenbrecht.jcite.JCite" classpathref="jcite.path" failonerror="yes">
+		<java classname="ch.arrenbrecht.jcite.JCite" classpathref="jcite.classpath" failonerror="yes">
 			<arg value="-sp" />
 			<arg path="${src.classes.dir}" />
 			<arg value="-sp" />
@@ -467,7 +467,7 @@
 			<arg file="${doc.dir}" />
 		</java>
 
-		<java classname="ch.arrenbrecht.jcite.JCite" classpathref="jcite.path" failonerror="yes">
+		<java classname="ch.arrenbrecht.jcite.JCite" classpathref="jcite.classpath" failonerror="yes">
 			<arg value="-sp" />
 			<arg path="${src.classes.dir}" />
 			<arg value="-sp" />
@@ -491,13 +491,17 @@
 
 	<!-- javadoc -->
 
-	<target name="javadoc" description="Builds javadoc" depends="prepare, rextile">
+	<target name="javadoc" description="Builds javadoc" depends="prepare">
 
 		<property name="javadoc.title" value="${Name} API ${dist.version.long}" />
 		<delete dir="${javadoc.dir}" />
 		<mkdir dir="${javadoc.dir}" />
 
-		<javadoc sourcepath="${src.classes.dir}" destdir="${javadoc.dir}" public="true" windowtitle="${javadoc.title}" use="true" packagenames="sej,sej.runtime,sej.describable,sej.expressions" additionalParam="-tagletPath ${lib.dir}/build-only/java2html.jar;${lib.dir}/build-only/jcite.jar;${lib.dir}/jxl.jar -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${src.cite.path}" stylesheetfile="${src.doc.dir}/plainstyle/style.css" overview="${src.classes.dir}/overview.html">
+		<javadoc sourcepath="${src.classes.dir}" destdir="${javadoc.dir}" public="true" windowtitle="${javadoc.title}" use="true" 
+			packagenames="sej,sej.runtime,sej.describable,sej.expressions" 
+			additionalParam="-tagletPath ${jcite.build.dir}/jcite.jar;${jcite.lib.dir}/java2html.jar -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${src.cite.path}" 
+			stylesheetfile="${src.doc.dir}/javadoc/style.css" 
+			overview="${src.classes.dir}/overview.html">
 			<classpath refid="build.classpath" />
 			<link href="http://java.sun.com/j2se/1.5/docs/api/" />
 		</javadoc>
@@ -525,14 +529,6 @@
 
 	<target name="clean" description="Removes all temp files">
 		<delete dir="${temp.dir}" />
-		<mkdir dir="${temp.classes-gen.dir}" />
-		<mkdir dir="${temp.classes-gen-jre.dir}" />
-
-		<!-- make Eclipse happy - might be running on 1.5 or 1.6 -->
-		<mkdir dir="${temp.dir}/gen-src/classes-jre1.5" />
-		<mkdir dir="${temp.dir}/gen-src/classes-jre1.6" />
-		<mkdir dir="${temp.dir}/classes/dev" />
-
 	</target>
 
 	<!-- clobber -->
@@ -632,11 +628,15 @@
 
 	<target name="cover" depends="prepare, compile, compile-tests" description="Runs code coverage analysis">
 
+		<path id="cobertura.classpath">
+			<pathelement path="${cobertura.jar}" />
+			<fileset dir="${cobertura.lib.dir}" includes="*.jar" />
+		</path>
+		<taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
+
 		<property name="temp.instr.dir" value="${temp.dir}/classes/instrumented" />
 		<property name="temp.cover.dir" value="${temp.dir}/coverage" />
 		<property name="cober.file" value="${temp.dir}/cobertura.ser" />
-
-		<taskdef classpath="${lib.dir}/build-only/cobertura.jar:${lib.classpath}" resource="tasks.properties" />
 
 		<delete dir="${cober.file}" />
 		<delete dir="${temp.instr.dir}" />
@@ -649,14 +649,6 @@
 			<fileset dir="${temp.classes.dir}">
 				<include name="**/*.class" />
 			</fileset>
-			<!--
-		    <fileset dir="${build.test-unit.dir}">
-		        <include name="**/*.class"/>
-		    </fileset>
-		    <fileset dir="${build.test-system.dir}">
-		        <include name="**/*.class"/>
-		    </fileset>
-		    -->
 		</cobertura-instrument>
 
 		<delete dir="${temp.testresults.dir}" />
@@ -672,6 +664,7 @@
 
 			<classpath>
 				<path refid="lib.classpath" />
+				<path refid="cobertura.classpath" />
 				<pathelement path="${temp.instr.dir}" />
 				<pathelement path="${temp.classes.dir}" />
 				<pathelement path="${temp.test-unit.dir}" />
@@ -706,14 +699,6 @@
 			<fileset dir="${src.classes.dir}">
 				<include name="**/*.java" />
 			</fileset>
-			<!--
-		    <fileset dir="${src.test-unit.dir}">
-				<include name="**/*.java" />
-		    </fileset>
-		    <fileset dir="${src.test-system.dir}">
-				<include name="**/*.java" />
-		    </fileset>
-		    -->
 		</cobertura-report>
 
 	</target>
@@ -722,12 +707,15 @@
 
 	<target name="emma" depends="prepare, compile, compile-tests" description="Runs code coverage analysis">
 
+		<path id="emma.classpath">
+			<fileset dir="${emma.lib.dir}" includes="*.jar" />
+		</path>
+		<taskdef classpathref="emma.classpath" resource="emma_ant.properties" />
+
 		<property name="temp.instr.dir" value="${temp.dir}/instrumented" />
 		<property name="temp.cover.dir" value="${temp.dir}/coverage" />
 		<property name="emma.meta.file" value="${temp.dir}/metadata.emma" />
 		<property name="emma.run.file" value="${temp.dir}/rundata.emma" />
-
-		<taskdef classpath="${lib.dir}/build-only/emma_ant.jar:${lib.classpath}" resource="emma_ant.properties" />
 
 		<delete dir="${temp.instr.dir}" />
 		<delete dir="${temp.cover.dir}" />
@@ -753,6 +741,7 @@
 
 			<classpath>
 				<path refid="lib.classpath" />
+				<path refid="emma.classpath" />
 				<pathelement path="${temp.instr.dir}" />
 				<pathelement path="${temp.classes.dir}" />
 				<pathelement path="${temp.test-unit.dir}" />
