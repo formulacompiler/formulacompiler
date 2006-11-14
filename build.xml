@@ -541,8 +541,9 @@
 
 	<!-- pack -->
 
-	<target name="pack" depends="prepare,rextile,cite,javadoc" description="Packs existing distribution - use with care!!">
-		<echo>Bundling dist: ${dist.version.long}</echo>
+	<target name="pack" depends="prepare" description="Packs existing distribution - use with care!!">
+		<echo>Bundling dist: ${dist.version}</echo>
+		<mkdir dir="${dist.dir}" />
 		<property name="dist.name" value="${name}-${dist.version}" />
 		<property name="dist.file" value="${dist.dir}/${dist.name}" />
 
