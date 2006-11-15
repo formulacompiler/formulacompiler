@@ -5,37 +5,11 @@ Thank you! You want to contribute to SEJ. I appreciate it. In these pages I will
 
 We have to cover quite a bit of ground. This is because SEJ was -- and is -- developed with great attention to quality. But never fear, the examples will make it all clear.
 
-<%= toc %>
+dt. "House Rules":-rules : Basic rules to help you and everyone else produce a consistent and high-quality product.
 
+dt. "Add A Primitive Function":-prim : How to add a primitive spreadsheet function, @ABS()@, by writing a template method in Java. Introduces the fundamental contribution rules shown above.
 
-h2. House Rules
+dt. "Add A High-Level Function":-high (contains Math; use Firefox to view) : How to add a high-level spreadsheet function, @COMBIN()@, which is defined by rewriting it using lower-level functions.
 
-First and foremost, I ask you to read the documentation for the area you wish to contribute to. This includes the
-
-	* "tutorial":-tut, the
-	* "reference":-ref, and the
-	* "developer's journal":-dev, which you might want to skim through.
-
-When developing for "Eclipse":-ec, you need to follow its "house rules":-ecrules. They help you and everyone else produce a consistent and high-quality product. It's the same with SEJ, only we have fewer rules. Here they are:
-
-	# Document first
-	# Cite tests
-	# Mimick existing code (see also: "code style":style.htm)
-	# Implement only what the tests require
-
-Simple enough. Now go see them in action: "add a missing function":-prim. That will make them clear.
-
-
-h2. Ways To Contribute
-
-SEJ does not support all of Excel's functions -- only "these":-ref. See how to add a missing one:
-
-dt. "Add A Primitive Function":-prim
-	: See how to add a primitive function, @ABS()@, by writing a template method in Java. Also introduces the fundamental contribution rules shown above.
-
-dt. "Add A High-Level Function":-high (contains Math; use Firefox to view)
-	: See how to add a high-level function, @COMBIN()@, which is defined by rewriting it using lower-level functions.
-
-dt. "Add A High-Level Aggregator":-agg (contains Math; use Firefox to view)
-	: See how to add an aggregator function, @VAR()@, which is defined by rewriting it using @_LET()@, @_FOLD()@, and lower-level functions.
+dt. "Add A High-Level Aggregator":-agg (contains Math; use Firefox to view) : How to add an aggregator function, @VAR()@, which is defined by rewriting it using @_LET()@, @_FOLD()@, and lower-level functions.
 

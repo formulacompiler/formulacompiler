@@ -9,10 +9,15 @@ h2. Getting Started
 	* "Build Tools Setup":tools.htm
 	* "Build Process":build.htm
 	* "IDE Setup":ide.htm
-
-h2. Contributing
-
 	* "Contributing To SEJ":contributing.htm
+
+h2. Reference
+
 	* "Automated Reference Tests":-reftest
+	* "Adding A Primitive Function":-prim
+	* "Adding A High-Level Function":-high
+	* "Adding An Aggregator":-high
+	
+	* "House Rules":rules.htm
 	* "Java Code Style":style.htm
 

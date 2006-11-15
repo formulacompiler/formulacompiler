@@ -5,7 +5,7 @@ h1. SEJ - Spreadsheet Engine for Java
 <div class="news">
 
 "Release 0.8.0":releasenotes.htm with much more developer friendly way of adding new spreadsheet functions.
-<br/>%(when)November ?, 2006%
+<br/>%(when)November 15, 2006%
 
 "Release 0.7.3":releasenotes.htm with support for multiple sheets in a workbook and for "writing spreadsheet files":tutorial/generatesheet.htm given an internal model.
 <br/>%(when)September 27, 2006%
