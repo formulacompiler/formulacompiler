@@ -27,21 +27,46 @@ import sej.internal.Debug;
 import sej.internal.Settings;
 
 
+// ---- DebugTest
+/**
+ * Special debugging testcase for automated reference tests. See constructor for how to configure
+ * it.
+ */
 public final class DebugTest extends AbstractReferenceTest
 {
-	
+
+	/**
+	 * Options you might wish to enable.
+	 */
 	static {
 		Settings.LOG_CONSTEVAL.setEnabled( false );
 		Settings.LOG_LETVARS.setEnabled( false );
 	}
-	
 
+
+	/**
+	 * Configure which test to run here. At first, just run the suite you are interested in, or, if
+	 * you know it, the starting row to use. Then, when you know which test fails (from the console
+	 * output), configure it precisely. Note how <code>Integer.valueOf( "x", 2 )</code> is used to
+	 * encode the bound/unbound input variant to use.
+	 */
 	public DebugTest()
 	{
 		super( "Aggregators" );
-		//super( "Aggregators", 146, NumType.DOUBLE, Integer.valueOf( "0", 2 ), false );
+		// super( "Aggregators", 146 );
+		// super( "Aggregators", 146, NumType.DOUBLE, Integer.valueOf( "101", 2 ), false );
 	}
 
+
+	/**
+	 * Logs the generated engine .jar to "/temp/debug.jar" in case of a test failure. You can use
+	 * 
+	 * <pre>
+	 * javap -c -private -classpath ./debug.jar sej/gen/$Root
+	 * </pre>
+	 * 
+	 * to disassemble its VM byte-code instructions.
+	 */
 	@Override
 	protected void reportDefectiveEngine( SaveableEngine _engine, String _testName )
 	{
@@ -57,3 +82,4 @@ public final class DebugTest extends AbstractReferenceTest
 	}
 
 }
+// ---- DebugTest

@@ -30,22 +30,13 @@ To use "Eclipse":-ec (as I do), you can simply use the existing definition in @.
 	* Give the project a name (_sej-trunk_, for instance).
 	* Choose _Finish_.
 
+FIXME FIXME
+	
 If you are running on JDK 1.6, then all should be well. If you're on JDK 1.5, then you must change the source path @temp/gen-src/classes-jre1.6@ to @temp/gen-src/classes-jre1.5@.
 
 h4. Code Style
 
-Finally, you may want to import the formatter rules for the preferred "code style":style.htm to use with SEJ.
-
-	* Open the _Preferences_.
-	* Go to _Java > Code Style > Formatter_.
-	* Choose _Import_ to import @src/eclipse-code-style.xml@.
-	* Choose _Configure Project Specific Settings_ (link at the top of the dialog).
-	* Make the SEJ project use the format named _SEJ_ (which you just imported).
-	* Goto _Java > Code Style_.
-	* Again, choose _Configure Project Specific Settings_ (link at the top of the dialog).
-	* Make the SEJ project use specific settings.
-	* In the _Conventions for variable names_, set only the prefix for _Parameters_ to @_@ (underscore).
-	* Check _Qualify all generated field 
+The default Eclipse project has a project-specific "code style":style.htm already set.
 
 That's it. You're "ready to roll":contributing.htm.
 
