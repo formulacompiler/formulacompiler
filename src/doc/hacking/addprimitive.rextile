@@ -154,11 +154,13 @@ and in @sej.internal.templates.ExpressionTemplatesForBigDecimals@:
 
 	[jc:sej.internal.templates.ExpressionTemplatesForBigDecimals:---- fun_ABS]
 
-The annotation @@ReturnsAdjustedValue@ means that the method result already has the proper scale. If you omit it, SEJ will generate rescaling code after your method body.
+The annotation @@ReturnsAdjustedValue@ means that the method result already has the proper scale. If you omit it, SEJ will generate rescaling code after your method body. Once this is done, run "@ant generate@":build.htm to rebuild the compiler code from the template methods.
+
+dt. Note : With "Eclipse":-ec, it is crucial to use @ant generate@ to update the compiler code rather than running @sej.internal.build.bytecode.PatternCompiler@ directly from within the IDE. This is because Eclipse's compiler produces different byte-code sequences for the pattern methods than @javac@ as invoked by SEJ's "build script":build.htm. While Eclipse's version is also correct, it breaks the binary comparisons of generated engines with reference versions in some of the unit tests for SEJ (see @sej.tests.utils.AbstractTestBase.checkEngine()@ in @src/test-unit/@.
 
 
 h2. Conclusion
 
-That's it. All the tests run green. Running @ant redoc@ updates the documentation and -- lo and behold -- @ABS()@ is now included and fully documented.
+That's it. All the tests run green. Running "@ant doc@":build.htm updates the documentation and -- lo and behold -- @ABS()@ is now included and fully documented. (Hint: If you just ran the full tests, @ant rextile cite@ is way faster because @ant doc@ runs the tests again.)
 
 Now read on to see that other approach using expression rewriting: "adding high-level functions":-high.
