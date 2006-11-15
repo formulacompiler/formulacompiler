@@ -20,6 +20,8 @@
  */
 package sej.internal.model.optimizer.consteval;
 
+import java.util.List;
+
 import sej.internal.Settings;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
@@ -27,6 +29,7 @@ import sej.internal.expressions.ExpressionNodeShadow;
 import sej.internal.expressions.LetDictionary;
 import sej.internal.logging.Log;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
+import sej.internal.model.ExpressionNodeForSubstitution;
 import sej.internal.model.util.InterpretedNumericType;
 
 public abstract class EvalShadow extends ExpressionNodeShadow
@@ -146,9 +149,19 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 
 	protected final boolean isConstant( Object _arg )
 	{
-		return !(_arg instanceof ExpressionNode);
+		return !(_arg instanceof ExpressionNode)
+				|| ((_arg instanceof ExpressionNodeForSubstitution) && areConstant( ((ExpressionNode) _arg).arguments() ));
 	}
 
+	private final boolean areConstant( Iterable<ExpressionNode> _args )
+	{
+		for (ExpressionNode arg : _args) {
+			if (!isConstant( arg ) && !(arg instanceof ExpressionNodeForConstantValue)) return false;
+		}
+		return true;
+	}
+
+	
 	protected final boolean isInSubSection( Object _arg )
 	{
 		return (_arg instanceof ExpressionNodeForSubSectionModel);

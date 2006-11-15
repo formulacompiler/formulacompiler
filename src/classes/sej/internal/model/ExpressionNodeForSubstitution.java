@@ -55,6 +55,7 @@ public final class ExpressionNodeForSubstitution extends ExpressionNode
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
+		_to.append( "@" );
 		describeArgumentListTo( _to, _cfg );
 	}
 

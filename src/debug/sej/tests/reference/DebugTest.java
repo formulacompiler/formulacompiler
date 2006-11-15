@@ -52,9 +52,9 @@ public final class DebugTest extends AbstractReferenceTest
 	 */
 	public DebugTest()
 	{
-		super( "Aggregators" );
-		// super( "Aggregators", 146 );
-		// super( "Aggregators", 146, NumType.DOUBLE, Integer.valueOf( "101", 2 ), false );
+		// super( "Aggregators" );
+		super( "Aggregators", 143 );
+		// super( "Aggregators", 143, NumType.DOUBLE, Integer.valueOf( "0", 2 ), false );
 	}
 
 
