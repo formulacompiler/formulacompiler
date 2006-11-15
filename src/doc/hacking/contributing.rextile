@@ -20,10 +20,10 @@ When developing for "Eclipse":-ec, you need to follow its "house rules":-ecrules
 
 	# Document first
 	# Cite tests
-	# Mimick existing code
+	# Mimick existing code (see also: "code style":style.htm)
 	# Implement only what the tests require
 
-Simple enough. Now go see them in action: "add a missing function":addfunction.htm. That will make them clear.
+Simple enough. Now go see them in action: "add a missing function":-prim. That will make them clear.
 
 
 h2. Ways To Contribute

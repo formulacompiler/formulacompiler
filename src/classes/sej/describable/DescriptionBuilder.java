@@ -22,13 +22,11 @@ package sej.describable;
 
 
 /**
- * A specialized string builder that supports multiple lines with proper indentation. This class
- * really ought to implement <code>Appendable</code>, but unfortunately, that interface is not
- * available in Java 1.4.
+ * A specialized string builder that supports multiple lines with proper indentation.
  * 
  * @author peo
  */
-public class DescriptionBuilder
+public class DescriptionBuilder implements Appendable
 {
 	private final StringBuilder builder = new StringBuilder();
 	private final String indent;

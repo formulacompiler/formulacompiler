@@ -1,0 +1,4 @@
+
+h1. Java Code Style
+
+To ensure some sort of consistency in the source code, I would strongly appreciate it if you could follow these style guidelines. If you use "Eclipse":-ec, you can "import them":ide.htm as a Java formatter style.

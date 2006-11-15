@@ -108,8 +108,8 @@ dt. temp/testresults/ : JUnit output produced by the test runs. Check the newest
 
 h2. Miscellany
 	
-dt. .project <br/> .classpath : "Eclipse":-ec project definition.
+dt. .project <br/> .classpath <br/> .settings/ : "Eclipse project definition":ide.htm.
 
 dt. index.html : Redirection to @doc/index.htm@.
 
-dt. LICENSE.html : Top-level license terms for SEJ. Duplicated in @doc/LICENSE.html@. Original is in @src/doc/LICENSE.html@.
+dt. LICENSE.html : Top-level license terms for SEJ. Duplicated in @doc/LICENSE.html@.
