@@ -40,9 +40,6 @@ public class EvalFunction extends EvalShadow
 	}
 
 
-	// FIXME Count!
-
-
 	@Override
 	protected Object eval()
 	{
