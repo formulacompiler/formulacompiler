@@ -430,6 +430,7 @@
 				<include name="**/*.css" />
 				<include name="**/*.js" />
 			</fileset>
+			<fileset file="${basedir}\LICENSE.html" />
 		</copy>
 
 		<exec dir="${src.doc.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true" >
@@ -521,7 +522,6 @@
 	<!-- doc -->
 
 	<target name="doc" depends="compile-examples, test, rextile, cite, javadoc" description="Rebuilds entire documentation in doc/ (runs tests first).">
-		<copy file="${basedir}\LICENSE.html" todir="${src.doc.dir}" />
 	</target>
 
 	<!-- clean -->
