@@ -3,6 +3,8 @@
 [-high]addrewrite.xhtml
 [-agg]addagg.xhtml
 [-files]files.htm
+[-reftest]referencetests.htm
+[-dbgtest]referencetests.htm#debug
 
 [-ref]../reference/index.htm
 [-tut]../tutorial/index.htm

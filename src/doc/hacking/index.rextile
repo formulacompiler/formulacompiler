@@ -3,15 +3,16 @@ h1. SEJ Developer Documentation
 
 This section covers the internals of SEJ. It should give you a quick start when your are considering fixing something, or contributing a new function or feature to SEJ.
 
+h2. Getting Started
+
 	* "Overview Of Files And Folders":-files
 	* "Build Tools Setup":tools.htm
 	* "Build Process":build.htm
 	* "IDE Setup":ide.htm
+
+h2. Contributing
+
 	* "Contributing To SEJ":contributing.htm
+	* "Automated Reference Tests":-reftest
 	* "Java Code Style":style.htm
 
-
-h3. Missing Topics
-
-	* DebugTest
-	* ddt, tdd
