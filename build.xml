@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="sej" default="build" basedir=".">
-	<description>Builds and tests the project SEJ.</description>
+	<description>Builds, tests, and packages SEJ.</description>
 
 	<property file="build.properties" />
 	<property file="build.default.properties" />
@@ -20,8 +20,6 @@
 	<property name="src.test-system.dir" location="${src.dir}/test-system" />
 	<property name="src.examples.dir" location="${src.dir}/examples" />
 	<property name="src.doc.dir" location="${src.dir}/doc" />
-
-	<!-- Targets -->
 
 	<property name="javac.source" value="1.5" />
 	<property name="javac.target" value="1.5" />
@@ -71,7 +69,7 @@
 
 	<!-- prepare -->
 
-	<target name="prepare">
+	<target name="-prepare">
 		<echo>Running on ${java.version}.</echo>
 		
 		<mkdir dir="${build.dir}" />
@@ -108,7 +106,7 @@
 
 	<!-- generate scanners/parsers -->
 
-	<target name="lexgen">
+	<target name="-lexgen">
 		<loadfile property="lex.regexps" srcfile="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}_RegExps.lex">
 		</loadfile>
 		<loadfile property="lex.scan" srcfile="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}_Scan.lex">
@@ -124,31 +122,34 @@
 		</copy>
 	</target>
 
-	<target name="lexinput" depends="prepare">
-		<antcall target="lexgen">
+	<target name="-lexinput" depends="-prepare">
+		<antcall target="-lexgen">
 			<param name="style" value="A1" />
 		</antcall>
-		<antcall target="lexgen">
+		<antcall target="-lexgen">
 			<param name="style" value="R1C1" />
 		</antcall>
-		<antcall target="lexgen">
+		<antcall target="-lexgen">
 			<param name="style" value="Internal" />
 		</antcall>
 	</target>
 
-	<target name="lex" depends="prepare, lexinput">
+	<target name="-lex" depends="-prepare, -lexinput">
 		<jflex file="${temp.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerA1.lex" destdir="${temp.classes-gen.dir}" />
 		<jflex file="${temp.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerR1C1.lex" destdir="${temp.classes-gen.dir}" />
 		<jflex file="${temp.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerInternal.lex" destdir="${temp.classes-gen.dir}" />
 	</target>
 
-	<target name="cup" depends="prepare, lex">
+	<target name="-cup" depends="-prepare">
 		<cup srcfile="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionParser.cup" destdir="${temp.classes-gen.dir}" parser="GeneratedParser" symbols="GeneratedSymbols" nopositions="true" nosummary="true" nowarn="true" />
+	</target>
+	
+	<target name="generate-parsers" depends="-lex, -cup" description="Generates Java source for the expression parsers.">
 	</target>
 
 	<!-- compile -->
 
-	<target name="compile-bootstrap" depends="prepare, lex, cup" description="Compiles the bootstrap source code">
+	<target name="-compile-bootstrap" depends="-prepare, generate-parsers">
 		<delete failonerror="no">
 			<fileset dir="${temp.classes-gen.dir}/sej/internal/model/rewriting" includes="*.java" />
 			<fileset dir="${temp.classes-gen-jre.dir}/sej/internal/bytecode/compiler" includes="*.java" />
@@ -158,13 +159,13 @@
 		</javac>
 	</target>
 
-	<target name="generate" depends="prepare, compile-bootstrap" description="Generates source code">
+	<target name="generate" depends="generate-parsers, -compile-bootstrap" description="Generates all non-hand written Java source code.">
 		<property name="tools-path" value="${tools.classpath}:${temp.classes-bootstrap.dir}" />
 		<java classpath="${tools-path}" classname="sej.internal.build.rewriting.RewriteRulesCompiler" />
 		<java classpath="${tools-path}" classname="sej.internal.build.bytecode.PatternCompiler" fork="true" />
 	</target>
 
-	<target name="compile" depends="prepare, generate" description="Compiles the source code">
+	<target name="compile" depends="generate" description="Compiles the Java source code for sej.jar.">
 		<javac srcdir="${src.classes.dir}:${temp.classes-gen-jre.dir}:${temp.classes-gen.dir}" destdir="${temp.classes.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/**" />
 			<!-- Not needed at runtime so far: -->
@@ -176,7 +177,7 @@
 
 	<!-- jars -->
 
-	<target name="jar" depends="compile" description="Creates the jar files">
+	<target name="jar" depends="compile" description="Creates sej.jar and sej-runtime.jar.">
 
 		<delete file="${jar.file}" />
 		<jar jarfile="${jar.file}" compress="true">
@@ -195,7 +196,7 @@
 
 	</target>
 
-	<target name="srcjar" depends="prepare, validate, javadoc" description="Creates a jar file with the product source code in it">
+	<target name="srcjar" depends="-prepare, validate, javadoc" description="Creates the source and documenation .jar files.">
 
 		<delete file="${jar.src.file}" />
 		<jar jarfile="${jar.src.file}" compress="true">
@@ -221,7 +222,7 @@
 
 	<!-- test -->
 
-	<target name="compile-tests" depends="prepare, compile">
+	<target name="compile-tests" depends="compile" description="Compiles the Java source code for the automated tests.">
 
 		<mkdir dir="${temp.test-unit.dir}" />
 		<mkdir dir="${temp.test-system.dir}" />
@@ -237,7 +238,7 @@
 		</javac>
 	</target>
 
-	<target name="test" depends="prepare, jar, compile-tests" description="Runs JUnit test suites">
+	<target name="test" depends="jar, compile-tests" description="Compiles and runs all automated tests using sej.jar.">
 
 		<delete dir="${temp.testresults.dir}" />
 		<mkdir dir="${temp.testresults.dir}" />
@@ -296,7 +297,7 @@
 
 	</target>
 
-	<target name="dbg" depends="prepare, jar, compile-tests" description="Runs a single JUnit test suite">
+	<target name="dbg" depends="jar, compile-tests" description="Runs a single automated test suite (for debugging purposes).">
 
 		<delete dir="${temp.testresults.dir}" />
 		<mkdir dir="${temp.testresults.dir}" />
@@ -317,6 +318,7 @@
 			<batchtest todir="${temp.testresults.dir}">
 				<fileset dir="${temp.test-system.dir}">
 
+					<!-- CHANGE HERE -->
 					<include name="sej/tutorials/TypeConversion.class" />
 
 				</fileset>
@@ -328,7 +330,7 @@
 
 	<!-- examples -->
 
-	<target name="compile-examples" depends="prepare, compile">
+	<target name="compile-examples" depends="compile" description="Compiles the Java source code for the examples.">
 
 		<mkdir dir="${temp.examples.dir}" />
 
@@ -337,22 +339,19 @@
 		</javac>
 	</target>
 
-	<target name="examples" depends="compile-examples" description="Compiles examples">
-	</target>
-
 	<!-- build -->
 
-	<target name="build" depends="jar" description="Builds the library target (default)">
+	<target name="build" depends="jar" description="Builds the default library target (jar).">
 	</target>
 
 	<!-- validate -->
 
-	<target name="validate" depends="prepare, dependencies, style" description="Validates source">
+	<target name="validate" depends="compile, compile-tests, compile-examples, dependencies, style" description="Validates the Java source code (compilation and static analysis).">
 	</target>
 
 	<!-- dependencies -->
 
-	<target name="dependencies" depends="prepare, compile, compile-tests, compile-examples">
+	<target name="dependencies" depends="compile, compile-tests, compile-examples" description="Validates Java package dependencies against src/macker-rules.xml.">
 
 		<path id="macker.classpath">
 			<pathelement path="${macker.jar}" />
@@ -377,7 +376,7 @@
 
 	<!-- style -->
 
-	<target name="style" depends="prepare" description="Runs checkstyle">
+	<target name="style" depends="-prepare" description="Validates Java source code style against src/checkstyle-config.xml.">
 
 		<taskdef resource="checkstyletask.properties" classpath="${checkstyle-all.jar}" />
 		
@@ -415,7 +414,7 @@
 
 	<!-- rextile -->
 
-	<target name="rextile" description="Rebuilds documentation from .rextile sources" depends="prepare">
+	<target name="rextile" depends="-prepare" description="Rebuilds documentation in doc/ from Rextile sources (does not cite).">
 
 		<delete dir="${doc.dir}" />
 		<mkdir dir="${doc.dir}" />
@@ -433,14 +432,14 @@
 			</fileset>
 		</copy>
 
-		<exec dir="${src.doc.dir}" executable="${rextile.launch}" vmlauncher="false">
+		<exec dir="${src.doc.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true" >
 		</exec>
 
 	</target>
 
 	<!-- cite -->
 
-	<target name="cite" description="Cites code into documentation - use with care!" depends="prepare">
+	<target name="cite" depends="-prepare" description="Cites code fragments into documentation in doc/ (needs successful test run).">
 
 		<path id="jcite.classpath">
 			<fileset dir="${jcite.build.dir}"  includes="*.jar" />
@@ -491,7 +490,7 @@
 
 	<!-- javadoc -->
 
-	<target name="javadoc" description="Builds javadoc" depends="prepare">
+	<target name="javadoc" depends="-prepare" description="Rebuilds API documentation in doc/javadoc/.">
 
 		<property name="javadoc.title" value="${Name} API ${dist.version.long}" />
 		<delete dir="${javadoc.dir}" />
@@ -521,19 +520,19 @@
 
 	<!-- doc -->
 
-	<target name="doc" description="Builds documentation" depends="prepare, examples, test, rextile, cite, javadoc">
+	<target name="doc" depends="compile-examples, test, rextile, cite, javadoc" description="Rebuilds entire documentation in doc/ (runs tests first).">
 		<copy file="${basedir}\LICENSE.html" todir="${src.doc.dir}" />
 	</target>
 
 	<!-- clean -->
 
-	<target name="clean" description="Removes all temp files">
+	<target name="clean" description="Removes all temporary files (temp/).">
 		<delete dir="${temp.dir}" />
 	</target>
 
 	<!-- clobber -->
 
-	<target name="clobber" depends="clean" description="Removes all temp and build files">
+	<target name="clobber" depends="clean" description="Removes all temporary and built files (temp/, doc/, build/, dist/).">
 		<delete dir="${doc.dir}" />
 		<delete dir="${build.dir}" />
 		<delete dir="${dist.dir}" />
@@ -541,7 +540,7 @@
 
 	<!-- pack -->
 
-	<target name="pack" depends="prepare" description="Packs existing distribution - use with care!!">
+	<target name="pack" depends="-prepare" description="Rebuilds distribution packages from built files (needs build/, doc/).">
 		<echo>Bundling dist: ${dist.version}</echo>
 		<mkdir dir="${dist.dir}" />
 		<property name="dist.name" value="${name}-${dist.version}" />
@@ -586,7 +585,7 @@
 				<include name="*.css" />
 				<include name="src/**" />
 				<include name="build.xml" />
-				<include name="build.conf" />
+				<include name="build.default.properties" />
 				<exclude name="**/.DS_Store" />
 			</fileset>
 		</copy>
@@ -622,12 +621,12 @@
 
 	<!-- dist -->
 
-	<target name="dist" depends="clobber,compile,validate,jar,doc,javadoc,test,examples,srcjar,pack" description="Builds distribution">
+	<target name="dist" depends="clobber,test,validate,doc,jar,srcjar,pack" description="Rebuilds distribution packages from scratch. Run this for a clean package build.">
 	</target>
 
 	<!-- cover -->
 
-	<target name="cover" depends="prepare, compile, compile-tests" description="Runs code coverage analysis">
+	<target name="cover" depends="compile, compile-tests" description="Runs code coverage analysis using Cobertura (output in temp/coverage/).">
 
 		<path id="cobertura.classpath">
 			<pathelement path="${cobertura.jar}" />
@@ -706,7 +705,7 @@
 
 	<!-- emma -->
 
-	<target name="emma" depends="prepare, compile, compile-tests" description="Runs code coverage analysis">
+	<target name="emma" depends="compile, compile-tests" description="Runs code coverage analysis using Emma (output in temp/coverage/).">
 
 		<path id="emma.classpath">
 			<fileset dir="${emma.lib.dir}" includes="*.jar" />
