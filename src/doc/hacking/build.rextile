@@ -1,16 +1,14 @@
 
 h1. SEJ's Build Process
 
-SEJ comes with an "Ant":-ant build script in @build.xml@. This document lists the steps involved in a full distribution build. To run a build, you need to "setup the required tools":tools.htm first.
+SEJ comes with an "Ant":-ant build script in @build.xml@. This document lists the most important build targets. To run a build, you need to "setup the required tools":tools.htm first.
+
+To get a quick overview of all available build targets, run @ant -p@ in SEJ's root folder. If you want to know more, I encourage you to look at @build.xml@. Skimming over the "file and folder list":files.htm first will help.
 
 <%= toc 2, 4 %>
 
 
-h2. Build Targets
-
-To get a quick overview of all available build targets, run @ant -p@ in SEJ's root folder.
-
-h3. Main Targets
+h2. Main Targets
 
 dt. build : is the default build target. It rebuilds @build/sej.jar@ and @build/sej-runtime.jar@ from the source code. It runs @generate@ first, because part of SEJ's source code is generated from DSL(domain specific language)s.
 
@@ -18,7 +16,8 @@ dt. doc : rebuilds the documentation from scratch. It runs the tests first becau
 
 dt. dist : rebuilds the distribution packages from scratch. It first erases all temporary and build files and then runs a full build, including tests, validation, and documentation, but _not_ code coverage analysis.
 
-h3. Developer Targets
+
+h2. Developer Targets
 
 dt. generate : rebuilds generated Java source files. This includes the expression scanners and parsers, the expression "rewriting rules":addrewrite.htm, and the "template-driven byte-code compilers":addprimitive.htm.
 
