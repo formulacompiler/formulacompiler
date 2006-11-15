@@ -29,6 +29,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/java-cup-11a-runtime.jar" sourcepath="J:/java-cup-11a/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JUnit"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3.8.1"/>
 	<classpathentry kind="output" path="temp/classes/dev"/>
 </classpath>
