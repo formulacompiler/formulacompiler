@@ -26,6 +26,8 @@ import java.util.Collection;
 import sej.Function;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForFunction;
+import sej.internal.model.ExpressionNodeForSubstitution;
+import sej.internal.model.RangeValue;
 import sej.internal.model.util.EvalNotPossibleException;
 import sej.internal.model.util.InterpretedNumericType;
 
@@ -36,6 +38,9 @@ public class EvalFunction extends EvalShadow
 	{
 		super( _node, _type );
 	}
+
+
+	// FIXME Count!
 
 
 	@Override
@@ -93,13 +98,53 @@ public class EvalFunction extends EvalShadow
 			return evaluateToNode( _args );
 		}
 		else {
-			try {
-				return type().compute( function, _args );
-			}
-			catch (EvalNotPossibleException e) {
-				return evaluateToNode( _args );
+			switch (function) {
+
+				case COUNT:
+					return evalCount( _args );
+
+				default:
+					try {
+						return type().compute( function, _args );
+					}
+					catch (EvalNotPossibleException e) {
+						return evaluateToNode( _args );
+					}
+
 			}
 		}
+	}
+
+
+	private final Object evalCount( Object[] _args )
+	{
+		int result = 0;
+		for (Object arg : _args) {
+			result += count( arg );
+		}
+		return result;
+	}
+
+	private final int count( Object _arg )
+	{
+		if (_arg instanceof ExpressionNodeForSubstitution) {
+			return countAll( ((ExpressionNodeForSubstitution) _arg).arguments() );
+		}
+		else if (_arg instanceof RangeValue) {
+			return countAll( (RangeValue) _arg );
+		}
+		else {
+			return 1;
+		}
+	}
+
+	private final int countAll( Iterable _args )
+	{
+		int result = 0;
+		for (Object elt : _args) {
+			result += count( elt );
+		}
+		return result;
 	}
 
 
