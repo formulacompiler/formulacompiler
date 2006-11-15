@@ -1,14 +1,15 @@
 
 h1. SEJ Roadmap
 
-
+	* Ensure the constant folder folds shared expressions only once.
+	* Make the constant folder use the template methods so we get automatic folding support for primitives.
 	* Simplify manual binding, including sections.
 	* Make cell namer not fail on unbound cells, but offer support for warning users about which cells are unbound.
 	* Extend cell namer so it only handles sections of the sheet.
 	* Extend cell associator so it only handles names matching or not matching a given regex.
 	* Support @MATCH@ and @INDEX@ over repeating sections.
 	* Fully document API.
-	* Check whether it would make sense to replace JDOM with something built into the JRE. Be careful to not break JRE 1.4 compatibility. It seems that using either a SAX or a DOM parser from javax.xml.parsers would be ideal.
+	* Check whether it would make sense to replace JDOM with something built into the JRE. It seems that using either a SAX or a DOM parser from javax.xml.parsers would be ideal.
 	* Store the internal model in XML form in the .jar files.
 	* Give access to SEJ's internal model from .ser files. Write a simple converter from this to a spreadsheet model, which can then be written out to a spreadsheet as per the todo above. This will make it possible to analyze a given .ser file using a simple tool.
 	* Implement handling of empty cells past edge for @PRODUCT@.
@@ -16,7 +17,6 @@ h1. SEJ Roadmap
 	* Implement Java source code generation and hybrid tests. This will naturally surface the exception and partial implementation of interfaces problem.
 	* Add an option to SEJ so engines throw exceptions when values are truncated.
 	* Scan the Eclipse task list for @// LATER@ comments:
-	* More efficient scaled long div
 	* Native scaled long date conversion
 	* In @CallFrame@, check assignment compatibility of primitive types
 	* In CustomerRating tutorial, make last N days bindable automatically
@@ -32,7 +32,6 @@ You may also want to look at the "known limitations":limitations.htm.
 
 h2. Tests and Ideas
 
-	* Add automatic test for use of engine saved with JRE 1.5 on JRE 1.4.
 	* Test generation of an engine with 80'000 rows and a few columns which does a lookup into this table.
 	* Bind input method parameters to other cells (see "dev journal, June 30":dev.htm#DynamicParams).
 

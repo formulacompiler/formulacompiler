@@ -10,25 +10,38 @@ Lists the new features, improvements, and fixes for each release of SEJ. You may
 	
 h2. Release 0.8.0
 
+h5. Changed!
+
+	* Dropped support for JRE 1.4. This could be re-enabled with some effort, if anyone really needs it.
+
 h5. New
 
 	* First version of "hacking docs":hacking/index.htm.
-	* Generation of byte-code compiler methods from "plain Java template methods":hacking/addfunction.htm to implement low-level functions.
-	* "Expression rewriting":hacking/addrewrite.htm to implement high-level functions.
-	* @FOLD@ and @LET@ for rewriting of aggregators.
+	* Generation of byte-code compiler methods from "plain Java template methods":hacking/addprimitive.htm to implement low-level functions.
+	* "Expression rewriting":hacking/addrewrite.xhtml to implement high-level functions.
+	* @FOLD@ and @LET@ for "rewriting of aggregators":hacking/addagg.xhtml.
 	* @ABS()@, @VAR()@, @VARP()@, @FACT()@, and @COMBIN()@ are now supported.
+	* Added generic test harness which allows me to fairly quickly debug users's sheets.
 
 h5. Better
 
 	* @SpreadsheetBuilder.newCell()@ added for creating blank cells.
 	* A number of automated tests compare generated .jar files against baseline versions to detect unwanted changes.
 	* Documentation source now in the project in "Rextile":-rex format. Used to be in a custom format and only resulting HTML files were versioned in the project.
+	* "Build script":hacking/build.htm greatly streamlined and documented. Made it properly configurable/portable.
+	* Added download for build tools package to the main page.
+	* Source distribution now includes "Eclipse project setup":hacking/ide.htm with custom Java formatting rules and all.
+	* Added internal logging package for structured (indented) debug log output.
+	* Temporary build artefacts now get written to @temp/@ rather than @build/@.
+	* Constant folding support for @AND@ and @OR@.
+	* Eliminated redundant definitions of A1- and R1C1-style expression scanners.
 
 h5. Fixed
 
 	* Excel spreadsheet saver now properly formats dates and booleans (added tests, too). Fixed issue with columns widths and default fonts not being copied from the template properly.
 	* Code coverage ant targets no longer run the caching speed test as the speed varies too much when coverage tracking is enabled.
-	* Use of @FOLD@ fixes a number of bugs with aggregation over nested sections.
+	* Use of @_FOLD@ fixes a number of bugs with aggregation over nested sections.
+	* @SEARCH@ with wildcards had bugs.
 
 
 h2. Release 0.7.3
