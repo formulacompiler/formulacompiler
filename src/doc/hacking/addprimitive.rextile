@@ -17,7 +17,7 @@ Nevertheless, we still need to document that @ABS()@ is, in fact, supported. Fir
 
 h4. Rextile
 
-SEJ's documentation is written in "Textile":-tex, a very concise and text editor-friendly format for writing XHTML. To convert the Textile sources to XHTML, we use "Rextile":-rex -- a "Ruby":-rb based tool. You will need to install it. Once it's installed, you can simply run @ant redoc@ to regenerate the documentation in @doc@ from the sources in @src/doc@.
+SEJ's documentation is written in "Textile":-tex, a very concise and text editor-friendly format for writing XHTML. To convert the Textile sources to XHTML, we use "Rextile":-rex -- a "Ruby":-rb based tool. You will need to "install it":tools.htm. Once it's installed, you can simply run "ant doc":build.htm to regenerate the documentation in @doc/@ from the sources in @src/doc/@. (It is much quicker to run @ant rextile@ if you just want see the updated release notes, and can live with some warnings and missing citations.)
 
 
 

@@ -11,16 +11,8 @@ This section covers the internals of SEJ. It should give you a quick start when 
 
 h3. Missing Topics
 
-	* doc is produced from src/doc
 	* DebugTest
-	* Logs
 	* what is under SVN?
-	* what is produced from what?
 	* Eclipse preferred - setup Eclipse
 	* code style
 	* ddt, tdd
-	* reference tests
-	* build.xml
-	* configure ant with junit (see http://ant.apache.org/faq.html#delegating-classloader)
-	* code style
-	

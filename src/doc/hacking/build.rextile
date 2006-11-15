@@ -5,3 +5,35 @@ SEJ comes with an "Ant":-ant build script in @build.xml@. This document lists th
 
 <%= toc 2, 4 %>
 
+
+h2. Build Targets
+
+To get a quick overview of all available build targets, run @ant -p@ in SEJ's root folder.
+
+h3. Main Targets
+
+dt. build : is the default build target. It rebuilds @build/sej.jar@ and @build/sej-runtime.jar@ from the source code. It runs @generate@ first, because part of SEJ's source code is generated from DSL(domain specific language)s.
+
+dt. doc : rebuilds the documentation from scratch. It runs the tests first because some of the test results are cited directly into the documentation (in the "function reference":../reference/index.htm, for instance). This will take a while. See @rextile@ and @cite@ below for faster options.
+
+dt. dist : rebuilds the distribution packages from scratch. It first erases all temporary and build files and then runs a full build, including tests, validation, and documentation, but _not_ code coverage analysis.
+
+h3. Developer Targets
+
+dt. generate : rebuilds generated Java source files. This includes the expression scanners and parsers, the expression "rewriting rules":addrewrite.htm, and the "template-driven byte-code compilers":addprimitive.htm.
+
+dt. compile : compiles the product source code (not tests and examples). Invokes @generate@ first.
+
+dt. test : recompiles product and tests, and then runs all the tests. This can take quite a while.
+
+dt. dbg : runs only a single test suite from the tests. Use this for debugging tests when running them from the IDE is somehow not sufficient. You will have to edit the @dbg@ target in @build.xml@ first to specify which test to run.
+
+dt. validate : runs static code analysis to check code for conformance to rules. Includes checks for invalid package dependencies (@dependencies@) and missing header or javadoc comments (@style@).
+
+dt. rextile : regenerates the HTML files in @doc/@ from @src/doc/@, but does not cite code snippets. Use this when writing mostly textual docs to quickly verify the generated HTML. May issue warnings if there are no test results in @temp/@.
+
+dt. cite : cites code snippets into generated HTML files in @doc/@. Mostly used together with @rextile@, as in @ant rextile cite@. May issue warnings if there are no test results to cite in @temp/@.
+
+dt. emma : runs code coverage analysis using "Emma":-emma. Like @test@, but instruments the product code for coverage analysis. Output is in @temp/coverage/@.
+
+dt. cover : like @emma@, but uses "Cobertura":-cobertura. Slower, but produces nicer looking output.
