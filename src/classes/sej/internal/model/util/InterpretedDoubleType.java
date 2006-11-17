@@ -130,7 +130,7 @@ final class InterpretedDoubleType extends InterpretedNumericType
 	}
 
 	@Override
-	protected int compare( Object _a, Object _b )
+	protected int compareNumerically( Object _a, Object _b )
 	{
 		double a = valueToDoubleOrZero( _a );
 		double b = valueToDoubleOrZero( _b );

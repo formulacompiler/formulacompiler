@@ -305,7 +305,7 @@ abstract class ExpressionCompiler
 	}
 
 
-	protected abstract void compileComparison( int _comparisonOpcode ) throws CompilerException;
+	protected abstract int compileComparison( int _ifOpcode, int _comparisonOpcode ) throws CompilerException;
 
 
 	protected final void compileZero() throws CompilerException

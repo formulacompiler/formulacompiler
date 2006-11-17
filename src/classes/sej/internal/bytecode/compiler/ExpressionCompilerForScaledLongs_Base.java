@@ -79,14 +79,13 @@ abstract class ExpressionCompilerForScaledLongs_Base extends ExpressionCompilerF
 	}
 
 
-	
 	@Override
 	protected boolean isNativeType( Class _type )
 	{
 		return _type == Long.TYPE;
 	}
 
-	
+
 	@Override
 	protected final void compileScaleUp() throws CompilerException
 	{
@@ -132,9 +131,10 @@ abstract class ExpressionCompilerForScaledLongs_Base extends ExpressionCompilerF
 
 
 	@Override
-	protected void compileComparison( int _comparisonOpcode ) throws CompilerException
+	protected int compileComparison( int _ifOpcode, int _comparisonOpcode ) throws CompilerException
 	{
 		mv().visitInsn( Opcodes.LCMP );
+		return _ifOpcode;
 	}
 
 
@@ -144,7 +144,7 @@ abstract class ExpressionCompilerForScaledLongs_Base extends ExpressionCompilerF
 		mv().visitInsn( Opcodes.DUP2 );
 	}
 
-	
+
 	protected abstract void compile_util_scaleUp( long _one ) throws CompilerException;
 	protected abstract void compile_util_scaleDown( long _one ) throws CompilerException;
 

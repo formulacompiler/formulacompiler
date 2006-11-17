@@ -12,7 +12,8 @@ h2. Release 0.8.1
 	
 h5. Better
 
-	* Added support for naive string comparisons. By _naive_ I mean that they do not handle the fancy code-page stuff in Excel yet. It's basically @String.
+	* Added support for naive "string comparisons":reference/strings.htm. By _naive_ I mean that they do not handle the fancy code-page stuff in Excel yet. It's basically @String.
+	* Redid the "dev journal":dev/index.htm so it indexes automatically. Added two entries.
 	
 	
 h2. Release 0.8.0

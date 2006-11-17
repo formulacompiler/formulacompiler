@@ -35,6 +35,7 @@ import sej.CompilerException;
 import sej.Function;
 import sej.NumericType;
 import sej.Operator;
+import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
@@ -72,7 +73,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		this.numericType = _numericType;
 	}
 
-	
+
 	NumericType numericType()
 	{
 		return this.numericType;
@@ -673,28 +674,28 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		}
 
 
-		/**
-		 * This method assumes that the data type of the lefthand argument drives the type of the
-		 * comparison.
-		 */
 		private final void compileComparison( Operator _operator, ExpressionNode _left, ExpressionNode _right )
 				throws CompilerException
 		{
-			final ExpressionCompiler leftCompiler = method().expressionCompiler( _left.getDataType() );
-			leftCompiler.compile( _left );
-			leftCompiler.compile( _right );
-			compileComparison( _operator );
+			final boolean haveStrings = (_left.getDataType() == DataType.STRING || _right.getDataType() == DataType.STRING);
+			final ExpressionCompiler comparisonCompiler = haveStrings ? method().stringCompiler() : method()
+					.numericCompiler();
+			comparisonCompiler.compile( _left );
+			comparisonCompiler.compile( _right );
+			compileComparison( _operator, comparisonCompiler );
 		}
 
 		protected abstract TestCompiler newInverseCompiler( ExpressionNode _node, Label _branchTo );
 		protected abstract void compileAnd() throws CompilerException;
 		protected abstract void compileOr() throws CompilerException;
-		protected abstract void compileComparison( Operator _comparison ) throws CompilerException;
+		protected abstract void compileComparison( Operator _comparison, ExpressionCompiler _comparisonCompiler )
+				throws CompilerException;
 
-		protected final void compileComparison( int _ifOpcode, int _comparisonOpcode ) throws CompilerException
+		protected final void compileComparison( ExpressionCompiler _comparisonCompiler, int _ifOpcode,
+				int _comparisonOpcode ) throws CompilerException
 		{
-			ExpressionCompilerForNumbers_Base.this.compileComparison( _comparisonOpcode );
-			mv().visitJumpInsn( _ifOpcode, this.branchTo );
+			final int effectiveIfOpcode = _comparisonCompiler.compileComparison( _ifOpcode, _comparisonOpcode );
+			mv().visitJumpInsn( effectiveIfOpcode, this.branchTo );
 		}
 
 		private final void compileNot() throws CompilerException
@@ -712,7 +713,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		{
 			compile( this.node );
 			compileZero();
-			compileComparison( Operator.NOTEQUAL );
+			compileComparison( Operator.NOTEQUAL, method().numericCompiler() );
 		}
 
 		protected abstract void compileBooleanTest() throws CompilerException;
@@ -728,32 +729,33 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		}
 
 		@Override
-		protected void compileComparison( Operator _comparison ) throws CompilerException
+		protected void compileComparison( Operator _comparison, ExpressionCompiler _comparisonCompiler )
+				throws CompilerException
 		{
 			switch (_comparison) {
 
 				case EQUAL:
-					compileComparison( Opcodes.IFNE, Opcodes.DCMPL );
+					compileComparison( _comparisonCompiler, Opcodes.IFNE, Opcodes.DCMPL );
 					return;
 
 				case NOTEQUAL:
-					compileComparison( Opcodes.IFEQ, Opcodes.DCMPL );
+					compileComparison( _comparisonCompiler, Opcodes.IFEQ, Opcodes.DCMPL );
 					return;
 
 				case GREATER:
-					compileComparison( Opcodes.IFLE, Opcodes.DCMPL );
+					compileComparison( _comparisonCompiler, Opcodes.IFLE, Opcodes.DCMPL );
 					return;
 
 				case GREATEROREQUAL:
-					compileComparison( Opcodes.IFLT, Opcodes.DCMPL );
+					compileComparison( _comparisonCompiler, Opcodes.IFLT, Opcodes.DCMPL );
 					return;
 
 				case LESS:
-					compileComparison( Opcodes.IFGE, Opcodes.DCMPG );
+					compileComparison( _comparisonCompiler, Opcodes.IFGE, Opcodes.DCMPG );
 					return;
 
 				case LESSOREQUAL:
-					compileComparison( Opcodes.IFGT, Opcodes.DCMPG );
+					compileComparison( _comparisonCompiler, Opcodes.IFGT, Opcodes.DCMPG );
 					return;
 
 			}
@@ -806,32 +808,33 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		}
 
 		@Override
-		protected void compileComparison( Operator _comparison ) throws CompilerException
+		protected void compileComparison( Operator _comparison, ExpressionCompiler _comparisonCompiler )
+				throws CompilerException
 		{
 			switch (_comparison) {
 
 				case EQUAL:
-					compileComparison( Opcodes.IFEQ, Opcodes.DCMPL );
+					compileComparison( _comparisonCompiler, Opcodes.IFEQ, Opcodes.DCMPL );
 					return;
 
 				case NOTEQUAL:
-					compileComparison( Opcodes.IFNE, Opcodes.DCMPL );
+					compileComparison( _comparisonCompiler, Opcodes.IFNE, Opcodes.DCMPL );
 					return;
 
 				case GREATER:
-					compileComparison( Opcodes.IFGT, Opcodes.DCMPG );
+					compileComparison( _comparisonCompiler, Opcodes.IFGT, Opcodes.DCMPG );
 					return;
 
 				case GREATEROREQUAL:
-					compileComparison( Opcodes.IFGE, Opcodes.DCMPG );
+					compileComparison( _comparisonCompiler, Opcodes.IFGE, Opcodes.DCMPG );
 					return;
 
 				case LESS:
-					compileComparison( Opcodes.IFLT, Opcodes.DCMPL );
+					compileComparison( _comparisonCompiler, Opcodes.IFLT, Opcodes.DCMPL );
 					return;
 
 				case LESSOREQUAL:
-					compileComparison( Opcodes.IFLE, Opcodes.DCMPL );
+					compileComparison( _comparisonCompiler, Opcodes.IFLE, Opcodes.DCMPL );
 					return;
 
 			}

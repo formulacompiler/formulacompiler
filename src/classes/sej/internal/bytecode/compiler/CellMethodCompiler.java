@@ -59,11 +59,11 @@ final class CellMethodCompiler extends NullaryValueMethodCompiler
 			if (cell.isInput()) {
 				if (shouldCache( cell )) {
 					compileCacheBegin();
-					compileNumericInput( cell.getCallChainToCall() );
+					compileInput( cell.getCallChainToCall() );
 					compileCacheEnd();
 				}
 				else {
-					compileNumericInput( cell.getCallChainToCall() );
+					compileInput( cell.getCallChainToCall() );
 				}
 			}
 			else {
@@ -109,7 +109,7 @@ final class CellMethodCompiler extends NullaryValueMethodCompiler
 	}
 
 
-	private final void compileNumericInput( CallFrame _callChainToCall ) throws CompilerException
+	private final void compileInput( CallFrame _callChainToCall ) throws CompilerException
 	{
 		compileInputGetterCall( _callChainToCall );
 		expressionCompiler().compileConversionFromResultOf( _callChainToCall.getMethod() );

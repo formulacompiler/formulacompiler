@@ -105,20 +105,17 @@ final class HelperCompilerForMatch extends HelperCompiler
 				// result++;
 				mv().iinc( l_result, 1 );
 				// else if (val == <expr_i>) return result;
-				valCompiler.compileComparison( Opcodes.DCMPL );
-				mv().visitJumpInsn( Opcodes.IFEQ, done );
+				mv().visitJumpInsn( valCompiler.compileComparison( Opcodes.IFEQ, Opcodes.DCMPL ), done );
 			}
 			else if (_type < 0) {
 				// else if (val > <expr_i>) return result;
-				valCompiler.compileComparison( Opcodes.DCMPG );
-				mv().visitJumpInsn( Opcodes.IFGT, done );
+				mv().visitJumpInsn( valCompiler.compileComparison( Opcodes.IFGT, Opcodes.DCMPL ), done );
 				// result++;
 				mv().iinc( l_result, 1 );
 			}
 			else {
 				// else if (val < <expr_i>) return result;
-				valCompiler.compileComparison( Opcodes.DCMPL );
-				mv().visitJumpInsn( Opcodes.IFLT, done );
+				mv().visitJumpInsn( valCompiler.compileComparison( Opcodes.IFLT, Opcodes.DCMPG ), done );
 				// result++;
 				mv().iinc( l_result, 1 );
 			}
