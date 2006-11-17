@@ -60,7 +60,7 @@ public abstract class AbstractTester
 
 		this.computation = (Outputs) this.engine.getComputationFactory().newComputation( this.root.input );
 
-		this.root.checkOutputs( this.computation );
+		this.root.logOutputs( this.computation );
 	}
 
 
@@ -131,7 +131,7 @@ public abstract class AbstractTester
 		private final Range range;
 		private final List<SectionDef> subs = new ArrayList<SectionDef>();
 		private final Inputs input;
-		private final List<Object> outputValues = new ArrayList<Object>();
+		private final List<String> outputNames = new ArrayList<String>();
 		private int nextSectionIndex = 0;
 
 		public SectionDef(SectionDef _parent, Range _range, Section _binder, Inputs _input) throws Exception
@@ -175,23 +175,31 @@ public abstract class AbstractTester
 			switch (_type) {
 				case INPUT: {
 					final CallFrame getter = new CallFrame( Inputs.class.getMethod( "get" + typeName, Integer.TYPE ),
-							this.input.addInput( _cell.getConstantValue() ) );
+							this.input.addInput( castValue( _cell.getConstantValue() ) ) );
 					this.binder.defineInputCell( _cell, getter );
 					break;
 				}
 				case OUTPUT: {
 					final CallFrame setter = new CallFrame( Outputs.class.getMethod( "get" + typeName, Integer.TYPE ), this
-							.addOutput( _cell.getConstantValue() ) );
+							.addOutput( _cell.describe() ) );
 					this.binder.defineOutputCell( _cell, setter );
 					break;
 				}
 			}
 		}
 
-		private int addOutput( Object _value )
+		private Object castValue( Object _value )
 		{
-			this.outputValues.add( _value );
-			return this.outputValues.size() - 1;
+			if (_value instanceof Number) {
+				return AbstractTester.this.builder.getNumericType().valueOf( (Number) _value );
+			}
+			return _value;
+		}
+
+		private int addOutput( String _name )
+		{
+			this.outputNames.add( _name );
+			return this.outputNames.size() - 1;
 		}
 
 		public void defineSection( Range _range ) throws Exception
@@ -204,18 +212,14 @@ public abstract class AbstractTester
 			new SectionDef( this, _range, sub, this.input.subs.get( subIndex )[ 0 ] );
 		}
 
-		public void checkOutputs( Outputs _computation )
+		public void logOutputs( Outputs _computation )
 		{
-			for (int i = 0; i < this.outputValues.size(); i++) {
-				final Object expected = this.outputValues.get( i );
-				Object actual;
-				if (expected instanceof String) {
-					actual = _computation.getString( i );
-				}
-				else {
-					actual = _computation.getBigDecimal( i );
-				}
-				System.out.println( "Want: " + expected.toString() + "; is: " + actual.toString() );
+			for (int i = 0; i < this.outputNames.size(); i++) {
+				final String name = this.outputNames.get( i );
+				final BigDecimal bd = _computation.getBigDecimal( i );
+				final String s = _computation.getString( i );
+				final Object actual = (bd == null) ? s : bd;
+				System.out.println( "Output " + name + " is: " + actual.toString() );
 			}
 		}
 
