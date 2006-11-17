@@ -21,9 +21,6 @@
 package sej.tests.reference;
 
 
-// FIXME compare num to string
-
-
 public class StringComparisonsTest extends AbstractReferenceTest
 {
 	// configured automagically
