@@ -459,6 +459,8 @@
 			<arg value="-sp" />
 			<arg path="${src.dir}/debug" />
 			<arg value="-sp" />
+			<arg path="${src.dir}/scratchpad" />
+			<arg value="-sp" />
 			<arg path="${temp.dir}/reference" />
 			<arg value="-sp" />
 			<arg path="${temp.dir}" />
@@ -480,6 +482,8 @@
 			<arg path="${src.classes-build-tools.dir}" />
 			<arg value="-sp" />
 			<arg path="${src.dir}/debug" />
+			<arg value="-sp" />
+			<arg path="${src.dir}/scratchpad" />
 			<arg value="-sp" />
 			<arg path="${temp.dir}/reference" />
 			<arg value="-sp" />

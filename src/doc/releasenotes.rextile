@@ -8,6 +8,13 @@ Lists the new features, improvements, and fixes for each release of SEJ. You may
 	* "Roadmap":roadmap.htm
 
 	
+h2. Release 0.8.1
+	
+h5. Better
+
+	* Added support for naive string comparisons. By _naive_ I mean that they do not handle the fancy code-page stuff in Excel yet. It's basically @String.
+	
+	
 h2. Release 0.8.0
 
 h5. Changed!

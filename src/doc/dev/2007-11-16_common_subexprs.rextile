@@ -1,0 +1,63 @@
+
+h1. Common Sub-Expressions In Large Sheets
+
+<%= toc %>
+
+
+h2. Typical Sheet
+
+The following sheet, while grossly oversimplified, seems to be a very typical sheet for the insurance models used by insurance companies (a relative of mine is a mathematician at one of them). The typical things are the large table and its inhomogeneity (in practice, the tables are much larger than the one here). This is not a simple repeating section with a perfectly homogeneous structure.
+
+	[xc:sej/devjournal/cse/InsuranceModel.xls]
+
+Currently, SEJ compiles this to something like this:
+
+	[jc:sej.devjournal.cse.InsuranceModel:---- OutputsCurrent]
+
+There are two stupid things here (apart from the possible peephole optimization noted in the code):
+
+	* The method @getMatchingRow()@ is a nightmare of redundancy and code bloat.
+	* So is the repetition of @return getInsuredAmount() * x@ in @getInsuranceCostPerYear()@.
+
+Now, code bloat now only means more code, it also means
+
+	* less efficient use of high-speed CPU caches,
+	* more JIT overhead, and
+	* no clearly identifiable, small, and often-used hotspots in the code for the JITer to optimize heavily.
+	
+So the question is, how do we get more efficient code?
+
+
+h2. Homogenized Sheet
+
+Now, this table could be made homogeneous, of course. It involves a formula type column in the table, and then another @INDEX@ to select the proper computation variant to use (only the start of the sheet is shown):
+
+	[xc:sej/devjournal/cse/InsuranceModel_Section.xls:Show]
+
+Now we could simply declare a non-dynamic section over the table (a feature SEJ would have to learn), which would make @VLOOKUP()@ iterate over a statically initialized section (from the constants found in the range) and return the final result for the first match.
+
+This would perform well even if the static section were a sliding cursor across static @double[]@ arrays (for very large tables). Only if we need more than one return value from the table would we run into trouble: the lookup methods only ever return a single value. So we would have to re-iterate the table for every needed value.
+
+If the static section were held in an array of objects (rather than a sliding cursor), we could use an initial @MATCH@ and then multiple calls to @INDEX@ to work around this with decent performance (at the cost of slightly higher memory usage).
+
+
+h2. Normalized Sheet
+
+The approach taken above is like relational normalization, really. Done more fully, we get:
+	
+	[xc:sej/devjournal/cse/InsuranceModel_Homogeneous.xls:Show]
+
+If the static section is held in an array of objects (rather than a sliding cursor), we would get decent performance from this. The sliding cursor would have to re-iterate for every @INDEX()@ we have here.
+
+
+h2. Typical Sheet Again
+
+All this is not how typical Excel users think, however. They will much sooner come up with the first version of the sheet than the others.
+	
+So the question is, can we compile the first version to efficient code? Maybe by looking at the sheet in R1C1-notation. Then we clearly see that there are a lot of identical formulas referencing neighbouring cells.
+
+So we could try to compile all shared formulas (after some threshold) to single methods with _sheet, row, column_ parameters. Such a method could then access neighbours through some sort of dispatch routine which routes a _sheet, row, column_ index to the appropriate cell getter. If we analyze for every shared formula the set of possible neighbours, we might get fairly compact and efficient dispatch methods, too.
+
+Here's a sketch of what I mean by this:
+
+	[jc:sej.devjournal.cse.InsuranceModel:---- OutputsDesired]
