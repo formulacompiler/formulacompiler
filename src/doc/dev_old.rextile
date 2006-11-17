@@ -2,7 +2,7 @@
 h1. SEJ Developer's Journal - Old Entries
 
 
-These are the older entries of my journal regarding the development of SEJ. The "newer entries":dev.htm are on the main journal page.
+These are the oldest entries of my journal regarding the development of SEJ. The "newer entries":dev/index.htm are on the main journal page.
 
 <%= toc 2, 5 %>
 
