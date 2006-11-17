@@ -20,8 +20,6 @@
  */
 package sej.internal.model.optimizer.consteval;
 
-import java.util.List;
-
 import sej.internal.Settings;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;

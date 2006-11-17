@@ -29,7 +29,6 @@ import sej.internal.NumericTypeImpl;
 import sej.internal.model.RangeValue;
 import sej.internal.runtime.Runtime_v1;
 
-
 public abstract class InterpretedNumericType
 {
 	private final NumericType num;
@@ -59,7 +58,18 @@ public abstract class InterpretedNumericType
 
 
 	public abstract Object adjustConstantValue( Object _value );
-	protected abstract int compare( Object _a, Object _b );
+	protected abstract int compareNumerically( Object _a, Object _b );
+
+
+	protected final int compare( Object _a, Object _b )
+	{
+		if (_a instanceof String || _b instanceof String) {
+			return toString( _a ).compareToIgnoreCase( toString( _b ) );
+		}
+		else {
+			return compareNumerically( _a, _b );
+		}
+	}
 
 
 	public final Number zero()
@@ -76,12 +86,17 @@ public abstract class InterpretedNumericType
 
 	public String toString( Object _value )
 	{
-		if (_value == null) return "";
-		if (_value instanceof Number) {
+		if (_value == null) {
+			return "";
+		}
+		else if (_value instanceof String) {
+			return (String) _value;
+		}
+		else if (_value instanceof Number) {
 			Number number = (Number) _value;
 			return this.num.valueToConciseString( number );
 		}
-		if (_value instanceof Boolean) {
+		else if (_value instanceof Boolean) {
 			Boolean bool = (Boolean) _value;
 			return bool ? "1" : "0";
 		}
@@ -145,6 +160,8 @@ public abstract class InterpretedNumericType
 					case 2:
 						Object a = _args[ 0 ];
 						Object b = _args[ 1 ];
+						if (a instanceof String || b instanceof String)
+							return toString( a ).compareToIgnoreCase( toString( b ) ) == 0;
 						if (null == a) return (0 == valueToIntOrZero( b ));
 						if (null == b) return (0 == valueToIntOrZero( a ));
 						return a.equals( b );
@@ -157,6 +174,8 @@ public abstract class InterpretedNumericType
 					case 2:
 						Object a = _args[ 0 ];
 						Object b = _args[ 1 ];
+						if (a instanceof String || b instanceof String)
+							return toString( a ).compareToIgnoreCase( toString( b ) ) != 0;
 						if (null == a) return (0 != valueToIntOrZero( b ));
 						if (null == b) return (0 != valueToIntOrZero( a ));
 						return !a.equals( b );
@@ -201,7 +220,6 @@ public abstract class InterpretedNumericType
 		throw new EvalNotPossibleException();
 	}
 
-
 	public Object compute( Function _function, Object... _args )
 	{
 		final int cardinality = _args.length;
@@ -216,7 +234,7 @@ public abstract class InterpretedNumericType
 				}
 				break;
 			}
-			
+
 			case NOT: {
 				switch (cardinality) {
 					case 1:
@@ -234,7 +252,7 @@ public abstract class InterpretedNumericType
 				}
 				break;
 			}
-			
+
 			case COUNT: {
 				return _args.length;
 			}
@@ -385,7 +403,7 @@ public abstract class InterpretedNumericType
 			}
 			else {
 				final Comparable comp = (Comparable) _lookup;
-				final int compResIndicatingMatch = (_type < 0)? 1 : -1;
+				final int compResIndicatingMatch = (_type < 0) ? 1 : -1;
 				int iObj = 0;
 				for (Object elt : range) {
 					final int compRes = comp.compareTo( elt );

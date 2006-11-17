@@ -24,6 +24,8 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
 
+import org.objectweb.asm.Opcodes;
+
 import sej.CompilerException;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
@@ -31,6 +33,10 @@ import sej.internal.expressions.ExpressionNodeForOperator;
 
 abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAll_Generated
 {
+	private static final String SNAME = TypeCompilerForStrings.SNAME;
+	private static final String S = TypeCompilerForStrings.S;
+	private static final String S2I = "(" + S + ")I";
+	private static final String S2Z = "(" + S + ")Z";
 
 	public ExpressionCompilerForStrings_Base(MethodCompiler _methodCompiler)
 	{
@@ -143,10 +149,28 @@ abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAl
 
 
 	@Override
-	protected void compileComparison( int _comparisonOpcode ) throws CompilerException
+	protected int compileComparison( int _ifOpcode, int _comparisonOpcode ) throws CompilerException
 	{
-		// LATER compare strings
-		throw new CompilerException.UnsupportedExpression( "String comparison is not implemented yet." );
+		switch (_ifOpcode) {
+
+			/*
+			 * This may seem counter-intuitive here, but the contract is to return 0 for equality.
+			 * Boolean true, however, is 1. So we invert the test for EQ and NE.
+			 */
+			
+			case Opcodes.IFEQ:
+				mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, SNAME, "equalsIgnoreCase", S2Z );
+				return Opcodes.IFNE;
+
+			case Opcodes.IFNE:
+				mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, SNAME, "equalsIgnoreCase", S2Z );
+				return Opcodes.IFEQ;
+
+			default:
+				mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, SNAME, "compareToIgnoreCase", S2I );
+				return _ifOpcode;
+
+		}
 	}
 
 

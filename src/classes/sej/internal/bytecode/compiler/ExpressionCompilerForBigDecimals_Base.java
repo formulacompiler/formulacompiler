@@ -99,9 +99,10 @@ abstract class ExpressionCompilerForBigDecimals_Base extends ExpressionCompilerF
 
 
 	@Override
-	protected void compileComparison( int _comparisonOpcode ) throws CompilerException
+	protected int compileComparison( int _ifOpcode, int _comparisonOpcode ) throws CompilerException
 	{
 		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "compareTo", B2I );
+		return _ifOpcode;
 	}
 
 

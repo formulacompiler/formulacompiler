@@ -216,7 +216,7 @@ final class InterpretedScaledLongType extends InterpretedNumericType
 
 
 	@Override
-	protected int compare( Object _a, Object _b )
+	protected int compareNumerically( Object _a, Object _b )
 	{
 		long a = valueToScaledLongOrZero( _a );
 		long b = valueToScaledLongOrZero( _b );

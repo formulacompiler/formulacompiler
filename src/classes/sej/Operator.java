@@ -111,6 +111,12 @@ public enum Operator {
 		{
 			return "=";
 		}
+		
+		@Override
+		public Operator inverse()
+		{
+			return NOTEQUAL;
+		}
 	},
 
 	NOTEQUAL {
@@ -118,6 +124,12 @@ public enum Operator {
 		public String getSymbol()
 		{
 			return "<>";
+		}
+		
+		@Override
+		public Operator inverse()
+		{
+			return EQUAL;
 		}
 	},
 
@@ -127,6 +139,12 @@ public enum Operator {
 		{
 			return "<";
 		}
+		
+		@Override
+		public Operator inverse()
+		{
+			return GREATEROREQUAL;
+		}
 	},
 
 	LESSOREQUAL {
@@ -134,6 +152,12 @@ public enum Operator {
 		public String getSymbol()
 		{
 			return "<=";
+		}
+		
+		@Override
+		public Operator inverse()
+		{
+			return GREATER;
 		}
 	},
 
@@ -143,6 +167,12 @@ public enum Operator {
 		{
 			return ">";
 		}
+		
+		@Override
+		public Operator inverse()
+		{
+			return LESSOREQUAL;
+		}
 	},
 
 	GREATEROREQUAL {
@@ -150,6 +180,12 @@ public enum Operator {
 		public String getSymbol()
 		{
 			return ">=";
+		}
+		
+		@Override
+		public Operator inverse()
+		{
+			return LESS;
 		}
 	},
 
@@ -182,7 +218,8 @@ public enum Operator {
 	};
 
 
-	public String getName() {
+	public String getName()
+	{
 		return toString();
 	}
 
@@ -192,6 +229,11 @@ public enum Operator {
 	public boolean isPrefix()
 	{
 		return true;
+	}
+
+	public Operator inverse()
+	{
+		throw new IllegalStateException( "inverse() not supported for " + toString() );
 	}
 
 }

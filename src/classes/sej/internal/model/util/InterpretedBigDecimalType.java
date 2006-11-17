@@ -166,7 +166,7 @@ final class InterpretedBigDecimalType extends InterpretedNumericType
 
 
 	@Override
-	protected int compare( Object _a, Object _b )
+	protected int compareNumerically( Object _a, Object _b )
 	{
 		BigDecimal a = valueToBigDecimalOrZero( _a );
 		BigDecimal b = valueToBigDecimalOrZero( _b );

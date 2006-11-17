@@ -31,6 +31,8 @@ import sej.internal.runtime.Runtime_v1;
 final class TypeCompilerForStrings extends TypeCompiler
 {
 	private static final Type RUNTIME_TYPE = Type.getType( Runtime_v1.class );
+	static final String SNAME = ByteCodeEngineCompiler.STRING_CLASS.getInternalName();
+	static final String S = ByteCodeEngineCompiler.STRING_CLASS.getDescriptor();
 
 	public TypeCompilerForStrings(ByteCodeEngineCompiler _engineCompiler)
 	{

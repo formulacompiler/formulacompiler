@@ -64,9 +64,10 @@ abstract class ExpressionCompilerForDoubles_Base extends ExpressionCompilerForNu
 
 
 	@Override
-	protected void compileComparison( int _comparisonOpcode ) throws CompilerException
+	protected int compileComparison( int _ifOpcode, int _comparisonOpcode ) throws CompilerException
 	{
 		mv().visitInsn( _comparisonOpcode );
+		return _ifOpcode;
 	}
 
 	
