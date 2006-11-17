@@ -4,11 +4,11 @@ h1. SEJ - Spreadsheet Engine for Java
 
 <div class="news">
 
+"Release 0.8.1":releasenotes.htm supports "string comparisons":reference/strings.htm.
+<br/>%(when)November 17, 2006%
+
 "Release 0.8.0":releasenotes.htm with much more developer friendly way of adding new spreadsheet functions.
 <br/>%(when)November 15, 2006%
-
-"Release 0.7.3":releasenotes.htm with support for multiple sheets in a workbook and for "writing spreadsheet files":tutorial/generatesheet.htm given an internal model.
-<br/>%(when)September 27, 2006%
 
 </div>
 
@@ -37,7 +37,7 @@ SEJ is *not open source*. It is the property of Abacus Research AG, Switzerland.
 
 h2. Download
 
-<% sej_ver = '0.8.0' %>
+<% sej_ver = '0.8.1' %>
 <% tools_ver = '0.8.0' %>
 
 dt. "sej-<%=sej_ver%>-bin.zip":http://arrenbrecht.ch/sej/dist/sej-<%=sej_ver%>-bin.zip : Binary release, including documentation and all required third-party libraries.
@@ -46,7 +46,7 @@ dt. "sej-<%=sej_ver%>-srcjar.zip":http://arrenbrecht.ch/sej/dist/sej-<%=sej_ver%
 
 dt. "sej-<%=sej_ver%>-src.zip":http://arrenbrecht.ch/sej/dist/sej-<%=sej_ver%>-src.zip : Complete source code for SEJ, including tests and examples. Needs external tools to run (see below). Setup instructions are "here":hacking/tools.htm.
 
-dt. "sej-<%=tools_ver%>-tools.zip":http://arrenbrecht.ch/sej/dist/sej-<%=tools_ver%>-tools.zip : Most of the external tools required to build an SEJ distribution in a single download.
+dt. "sej-<%=tools_ver%>-tools.zip":http://arrenbrecht.ch/sej/dist/sej-<%=tools_ver%>-tools.zip : Most of the external tools required to build an SEJ distribution in a single download. It's OK if the version here is less than the others.
 
 
 "Releases Notes":releasenotes.htm
