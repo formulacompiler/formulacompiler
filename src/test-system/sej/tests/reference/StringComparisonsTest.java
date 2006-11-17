@@ -21,11 +21,7 @@
 package sej.tests.reference;
 
 
-// FIXME IF
-// FIXME IF with mixed string/num conditions
 // FIXME compare num to string
-// FIXME document naïveté
-// FIXME add to reference docs
 
 
 public class StringComparisonsTest extends AbstractReferenceTest

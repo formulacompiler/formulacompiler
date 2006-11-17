@@ -52,9 +52,9 @@ public final class DebugTest extends AbstractReferenceTest
 	 */
 	public DebugTest()
 	{
-		// super( "StringComparisons" );
-		super( "StringComparisons", 74 );
-		// super( "StringComparisons", 22, NumType.DOUBLE, Integer.valueOf( "1", 2 ), false );
+		super( "StringComparisons" );
+		// super( "StringComparisons", 74 );
+		// super( "StringComparisons", 9, NumType.DOUBLE, Integer.valueOf( "1", 2 ), false );
 	}
 
 

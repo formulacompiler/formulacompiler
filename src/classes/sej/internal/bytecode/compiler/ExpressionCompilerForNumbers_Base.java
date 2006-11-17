@@ -677,12 +677,49 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		private final void compileComparison( Operator _operator, ExpressionNode _left, ExpressionNode _right )
 				throws CompilerException
 		{
-			final boolean haveStrings = (_left.getDataType() == DataType.STRING || _right.getDataType() == DataType.STRING);
-			final ExpressionCompiler comparisonCompiler = haveStrings ? method().stringCompiler() : method()
-					.numericCompiler();
-			comparisonCompiler.compile( _left );
-			comparisonCompiler.compile( _right );
-			compileComparison( _operator, comparisonCompiler );
+			final boolean leftIsString = _left.getDataType() == DataType.STRING;
+			final boolean rightIsString = _right.getDataType() == DataType.STRING;
+
+			// String is always greater than number in Excel:
+			if (leftIsString && !rightIsString) {
+				compileStaticComparisonResult( _operator, +1 );
+			}
+			else if (!leftIsString && rightIsString) {
+				compileStaticComparisonResult( _operator, -1 );
+			}
+			else {
+				final ExpressionCompiler comparisonCompiler = (leftIsString || rightIsString) ? method().stringCompiler()
+						: method().numericCompiler();
+				comparisonCompiler.compile( _left );
+				comparisonCompiler.compile( _right );
+				compileComparison( _operator, comparisonCompiler );
+			}
+		}
+
+		private final void compileStaticComparisonResult( Operator _operator, int _result ) throws CompilerException
+		{
+			switch (_operator) {
+				case EQUAL:
+					compileStaticConditionResult( _result == 0 );
+					break;
+				case NOTEQUAL:
+					compileStaticConditionResult( _result != 0 );
+					break;
+				case GREATER:
+					compileStaticConditionResult( _result > 0 );
+					break;
+				case GREATEROREQUAL:
+					compileStaticConditionResult( _result >= 0 );
+					break;
+				case LESS:
+					compileStaticConditionResult( _result < 0 );
+					break;
+				case LESSOREQUAL:
+					compileStaticConditionResult( _result <= 0 );
+					break;
+				default:
+					throw new IllegalArgumentException( "Comparison expected" );
+			}
 		}
 
 		protected abstract TestCompiler newInverseCompiler( ExpressionNode _node, Label _branchTo );
@@ -690,6 +727,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		protected abstract void compileOr() throws CompilerException;
 		protected abstract void compileComparison( Operator _comparison, ExpressionCompiler _comparisonCompiler )
 				throws CompilerException;
+		protected abstract void compileStaticConditionResult( boolean _result ) throws CompilerException;
 
 		protected final void compileComparison( ExpressionCompiler _comparisonCompiler, int _ifOpcode,
 				int _comparisonOpcode ) throws CompilerException
@@ -758,6 +796,14 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 					compileComparison( _comparisonCompiler, Opcodes.IFGT, Opcodes.DCMPG );
 					return;
 
+			}
+		}
+
+		@Override
+		protected void compileStaticConditionResult( boolean _result ) throws CompilerException
+		{
+			if (!_result) {
+				mv().visitJumpInsn( Opcodes.GOTO, this.branchTo );
 			}
 		}
 
@@ -837,6 +883,14 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 					compileComparison( _comparisonCompiler, Opcodes.IFLE, Opcodes.DCMPL );
 					return;
 
+			}
+		}
+
+		@Override
+		protected void compileStaticConditionResult( boolean _result ) throws CompilerException
+		{
+			if (_result) {
+				mv().visitJumpInsn( Opcodes.GOTO, this.branchTo );
 			}
 		}
 
