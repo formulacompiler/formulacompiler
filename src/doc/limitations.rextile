@@ -27,7 +27,7 @@ h5. Excel
 	* "@AND@ and @OR@":reference/booleans.htm cannot be used as aggregators over repeating sections yet.
 	* Array expressions are not supported (such as @{=INDEX({1,2;3,4};0;2)}@).
 	* In Excel, a formula like @(A1 = 0)@ returns false when @A1@ is @FALSE@. In SEJ it is true. In both SEJ and Excel, @(A1 + 0 = 0)@ returns true.
-
+	* String comparisons don't sort umlauts and such the way Excel does (see "String Comparisons":reference/strings.htm).
 
 
 h2. Numeric Types
