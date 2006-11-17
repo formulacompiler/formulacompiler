@@ -58,20 +58,34 @@ public abstract class InterpretedNumericType
 
 
 	public abstract Object adjustConstantValue( Object _value );
-	protected abstract int compareNumerically( Object _a, Object _b );
 
 
 	protected final int compare( Object _a, Object _b )
 	{
-		if (_a instanceof String || _b instanceof String) {
-			return toString( _a ).compareToIgnoreCase( toString( _b ) );
+		if (_a instanceof String) {
+			if (_b instanceof String || null == _b) {
+				return toString( _a ).compareToIgnoreCase( toString( _b ) );
+			}
+			else {
+				return +1; // String always greater than number in Excel.
+			}
+		}
+		else if (_b instanceof String) {
+			if (null == _a) {
+				return ((String) _b).length() == 0 ? 0 : -1;
+			}
+			else {
+				return -1; // Number always less than string in Excel.
+			}
 		}
 		else {
 			return compareNumerically( _a, _b );
 		}
 	}
 
+	protected abstract int compareNumerically( Object _a, Object _b );
 
+	
 	public final Number zero()
 	{
 		return this.num.getZero();
@@ -158,13 +172,7 @@ public abstract class InterpretedNumericType
 			case EQUAL: {
 				switch (_args.length) {
 					case 2:
-						Object a = _args[ 0 ];
-						Object b = _args[ 1 ];
-						if (a instanceof String || b instanceof String)
-							return toString( a ).compareToIgnoreCase( toString( b ) ) == 0;
-						if (null == a) return (0 == valueToIntOrZero( b ));
-						if (null == b) return (0 == valueToIntOrZero( a ));
-						return a.equals( b );
+						return compare( _args[ 0 ], _args[ 1 ] ) == 0;
 				}
 				break;
 			}
@@ -172,13 +180,7 @@ public abstract class InterpretedNumericType
 			case NOTEQUAL: {
 				switch (_args.length) {
 					case 2:
-						Object a = _args[ 0 ];
-						Object b = _args[ 1 ];
-						if (a instanceof String || b instanceof String)
-							return toString( a ).compareToIgnoreCase( toString( b ) ) != 0;
-						if (null == a) return (0 != valueToIntOrZero( b ));
-						if (null == b) return (0 != valueToIntOrZero( a ));
-						return !a.equals( b );
+						return compare( _args[ 0 ], _args[ 1 ] ) != 0;
 				}
 				break;
 			}
