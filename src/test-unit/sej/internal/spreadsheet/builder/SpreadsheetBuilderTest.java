@@ -22,7 +22,6 @@ package sej.internal.spreadsheet.builder;
 
 import sej.EngineBuilder;
 import sej.Function;
-import sej.Operator;
 import sej.SEJ;
 import sej.Spreadsheet;
 import sej.SpreadsheetBuilder;
@@ -57,7 +56,7 @@ public class SpreadsheetBuilderTest extends TestCase
 		b.newRow();
 		b.newRow();
 		b.newCell( b.cst( "Rebates" ) );
-		b.newCell( b.op( Operator.MAX, b.ref( cr ), b.ref( ar ) ) );
+		b.newCell( b.fun( Function.MAX, b.ref( cr ), b.ref( ar ) ) );
 		b.nameCell( "RebateOp" );
 		b.newCell( b.fun( Function.MAX, b.ref( rng ) ) );
 		b.nameCell( "RebateAgg" );

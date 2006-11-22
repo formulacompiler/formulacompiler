@@ -186,7 +186,7 @@ public class ExpressionTemplatesForBigDecimals
 
 
 	@ReturnsAdjustedValue
-	BigDecimal op_NOOP( BigDecimal a )
+	BigDecimal op_INTERNAL_NOOP( BigDecimal a )
 	{
 		return a;
 	}
@@ -237,7 +237,7 @@ public class ExpressionTemplatesForBigDecimals
 	}
 
 	@ReturnsAdjustedValue
-	BigDecimal op_MIN( BigDecimal a, BigDecimal b )
+	BigDecimal op_INTERNAL_MIN( BigDecimal a, BigDecimal b )
 	{
 		/*
 		 * Using a direct comparison like
@@ -250,7 +250,7 @@ public class ExpressionTemplatesForBigDecimals
 	}
 
 	@ReturnsAdjustedValue
-	BigDecimal op_MAX( BigDecimal a, BigDecimal b )
+	BigDecimal op_INTERNAL_MAX( BigDecimal a, BigDecimal b )
 	{
 		return RuntimeBigDecimal_v1.max( a, b );
 	}

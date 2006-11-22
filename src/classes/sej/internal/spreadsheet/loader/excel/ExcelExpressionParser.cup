@@ -207,10 +207,10 @@ expr ::=
 				{: RESULT = new ExpressionNodeForOperator( Operator.GREATEROREQUAL, cell( l ), cell( r ) ); :}
 				
 	|	expr:l OPMIN expr:r
-				{: RESULT = new ExpressionNodeForOperator( Operator.MIN, cell( l ), cell( r ) ); :}
+				{: RESULT = new ExpressionNodeForOperator( Operator.INTERNAL_MIN, cell( l ), cell( r ) ); :}
 				
 	|	expr:l OPMAX expr:r
-				{: RESULT = new ExpressionNodeForOperator( Operator.MAX, cell( l ), cell( r ) ); :}
+				{: RESULT = new ExpressionNodeForOperator( Operator.INTERNAL_MAX, cell( l ), cell( r ) ); :}
 				
 	|	LET LPAREN NAME:n COLON expr:v SEMICOLON expr:in RPAREN
 				{: RESULT = new ExpressionNodeForLet( n, v, in ); :}
