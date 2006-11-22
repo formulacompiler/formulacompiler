@@ -9,7 +9,7 @@ dt. "House Rules":-rules : Basic rules to help you and everyone else produce a c
 
 dt. "Add A Primitive Function":-prim : How to add a primitive spreadsheet function, @ABS()@, by writing a template method in Java. Introduces the fundamental contribution rules shown above.
 
-dt. "Add A High-Level Function":-high (contains Math; use Firefox to view) : How to add a high-level spreadsheet function, @COMBIN()@, which is defined by rewriting it using lower-level functions.
+dt. "Add A High-Level Function":-high (contains "MathML":-mathml, use "Firefox to view":-mozmath) : How to add a high-level spreadsheet function, @COMBIN()@, which is defined by rewriting it using lower-level functions.
 
-dt. "Add A High-Level Aggregator":-agg (contains Math; use Firefox to view) : How to add an aggregator function, @VAR()@, which is defined by rewriting it using @_LET()@, @_FOLD()@, and lower-level functions.
+dt. "Add A High-Level Aggregator":-agg (contains "MathML":-mathml, use "Firefox to view":-mozmath) : How to add an aggregator function, @VAR()@, which is defined by rewriting it using @_LET()@, @_FOLD()@, and lower-level functions.
 

@@ -17,6 +17,7 @@ h5. *Changed!*
 h5. Documented
 
 	* Checked whether "the engine format needs to be more robust":dev/2007-11-22_robust_storage.htm for the future. It's OK already.
+	* Added a 	"breakdown of missing spreadsheet functions":hacking/functions_to_implement.htm.
 	
 	
 h2. Release 0.8.1
