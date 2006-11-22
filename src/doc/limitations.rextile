@@ -13,7 +13,6 @@ h2. Spreadsheet Formats
 	* OpenOffice Calc spreadsheet loader is not done at all.
 	* The Excel .xls loader does not yet handle references to other sheets and labels in formulas.
 
-
 h5. Excel
 
 	* SEJ currently supports only subset of Excel documented in this "reference":reference/index.htm.
@@ -28,16 +27,15 @@ h5. Excel
 	* Array expressions are not supported (such as @{=INDEX({1,2;3,4};0;2)}@).
 	* In Excel, a formula like @(A1 = 0)@ returns false when @A1@ is @FALSE@. In SEJ it is true. In both SEJ and Excel, @(A1 + 0 = 0)@ returns true.
 	* String comparisons don't sort umlauts and such the way Excel does (see "String Comparisons":reference/strings.htm).
+	* The options flag "Precision as displayed" is not supported. SEJ always uses the full precision of the configured numeric type internally and only rounds final outputs.
 
 
 h2. Numeric Types
-
 
 h5. Scaled Long
 
 	* Currently computes exponentiation and conversion from and to dates using the @double@ type.
 	* Scaled division currently swaps arguments on the stack a little too much.
-
 
 h5. BigDecimal
 

@@ -10,8 +10,6 @@ h1. SEJ Roadmap
 	* Support @MATCH@ and @INDEX@ over repeating sections.
 	* Fully document API.
 	* Check whether it would make sense to replace JDOM with something built into the JRE. It seems that using either a SAX or a DOM parser from javax.xml.parsers would be ideal.
-	* Store the internal model in XML form in the .jar files.
-	* Give access to SEJ's internal model from .ser files. Write a simple converter from this to a spreadsheet model, which can then be written out to a spreadsheet as per the todo above. This will make it possible to analyze a given .ser file using a simple tool.
 	* Implement handling of empty cells past edge for @PRODUCT@.
 	* Think about signing the .jar files for security reasons.
 	* Implement Java source code generation and hybrid tests. This will naturally surface the exception and partial implementation of interfaces problem.
