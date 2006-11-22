@@ -192,7 +192,7 @@ public class ExpressionTemplatesForScaledLongs
 	// ------------------------------------------------ Operators
 
 
-	long op_NOOP( long a )
+	long op_INTERNAL_NOOP( long a )
 	{
 		return a;
 	}
@@ -242,7 +242,7 @@ public class ExpressionTemplatesForScaledLongs
 		return a / 100;
 	}
 
-	long op_MIN( long a, long b )
+	long op_INTERNAL_MIN( long a, long b )
 	{
 		/*
 		 * Using a direct comparison like
@@ -254,7 +254,7 @@ public class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v1.min( a, b );
 	}
 
-	long op_MAX( long a, long b )
+	long op_INTERNAL_MAX( long a, long b )
 	{
 		return RuntimeLong_v1.max( a, b );
 	}

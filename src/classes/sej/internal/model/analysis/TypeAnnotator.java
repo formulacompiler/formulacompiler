@@ -189,7 +189,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 	{
 		annotateArgs( _expr );
 		switch (_expr.getOperator()) {
-			case NOOP:
+			case INTERNAL_NOOP:
 				return DataType.NULL;
 			case CONCAT:
 				return DataType.STRING;

@@ -152,7 +152,7 @@ public abstract class ExpressionTemplatesForDoubles
 	// ------------------------------------------------ Operators
 
 
-	double op_NOOP( double a )
+	double op_INTERNAL_NOOP( double a )
 	{
 		return a;
 	}
@@ -192,7 +192,7 @@ public abstract class ExpressionTemplatesForDoubles
 		return a / 100;
 	}
 
-	double op_MIN( double a, double b )
+	double op_INTERNAL_MIN( double a, double b )
 	{
 		/*
 		 * Using a direct comparison like
@@ -204,7 +204,7 @@ public abstract class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v1.min( a, b );
 	}
 
-	double op_MAX( double a, double b )
+	double op_INTERNAL_MAX( double a, double b )
 	{
 		return RuntimeDouble_v1.max( a, b );
 	}

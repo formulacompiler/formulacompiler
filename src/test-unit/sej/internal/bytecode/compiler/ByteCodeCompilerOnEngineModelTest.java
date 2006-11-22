@@ -53,8 +53,8 @@ public class ByteCodeCompilerOnEngineModelTest extends AbstractTestBase
 		assertOperator( Operator.TIMES, a * b );
 		assertOperator( Operator.DIV, a / b );
 		assertOperator( Operator.EXP, Math.pow( a, b ) );
-		assertOperator( Operator.MIN, b );
-		assertOperator( Operator.MAX, a );
+		assertOperator( Operator.INTERNAL_MIN, b );
+		assertOperator( Operator.INTERNAL_MAX, a );
 		assertUnaryOperator( Operator.MINUS, -a );
 		assertUnaryOperator( Operator.PERCENT, a / 100 );
 	}

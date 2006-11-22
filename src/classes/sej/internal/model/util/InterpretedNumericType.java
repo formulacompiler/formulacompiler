@@ -129,7 +129,7 @@ public abstract class InterpretedNumericType
 	{
 		switch (_operator) {
 
-			case NOOP: {
+			case INTERNAL_NOOP: {
 				switch (_args.length) {
 					case 1:
 						return _args[ 0 ];
@@ -145,7 +145,7 @@ public abstract class InterpretedNumericType
 				return result.toString();
 			}
 
-			case MIN: {
+			case INTERNAL_MIN: {
 				switch (_args.length) {
 					case 2:
 						Object a = _args[ 0 ];
@@ -157,7 +157,7 @@ public abstract class InterpretedNumericType
 				break;
 			}
 
-			case MAX: {
+			case INTERNAL_MAX: {
 				switch (_args.length) {
 					case 2:
 						Object a = _args[ 0 ];

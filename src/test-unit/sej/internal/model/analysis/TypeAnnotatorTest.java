@@ -196,7 +196,7 @@ public class TypeAnnotatorTest extends TestCase
 
 			DataType expected;
 			switch (op) {
-				case NOOP:
+				case INTERNAL_NOOP:
 					expected = DataType.NULL;
 					break;
 				case CONCAT:

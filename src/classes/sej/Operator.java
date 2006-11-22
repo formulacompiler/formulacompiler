@@ -31,7 +31,10 @@ package sej;
 public enum Operator {
 
 
-	NOOP {
+	/**
+	 * Internal - do not use!
+	 */
+	INTERNAL_NOOP {
 		@Override
 		public String getSymbol()
 		{
@@ -111,7 +114,7 @@ public enum Operator {
 		{
 			return "=";
 		}
-		
+
 		@Override
 		public Operator inverse()
 		{
@@ -125,7 +128,7 @@ public enum Operator {
 		{
 			return "<>";
 		}
-		
+
 		@Override
 		public Operator inverse()
 		{
@@ -139,7 +142,7 @@ public enum Operator {
 		{
 			return "<";
 		}
-		
+
 		@Override
 		public Operator inverse()
 		{
@@ -153,7 +156,7 @@ public enum Operator {
 		{
 			return "<=";
 		}
-		
+
 		@Override
 		public Operator inverse()
 		{
@@ -167,7 +170,7 @@ public enum Operator {
 		{
 			return ">";
 		}
-		
+
 		@Override
 		public Operator inverse()
 		{
@@ -181,7 +184,7 @@ public enum Operator {
 		{
 			return ">=";
 		}
-		
+
 		@Override
 		public Operator inverse()
 		{
@@ -189,7 +192,10 @@ public enum Operator {
 		}
 	},
 
-	MIN {
+	/**
+	 * Internal - do not use!
+	 */
+	INTERNAL_MIN {
 		@Override
 		public String getName()
 		{
@@ -203,7 +209,10 @@ public enum Operator {
 		}
 	},
 
-	MAX {
+	/**
+	 * Internal - do not use!
+	 */
+	INTERNAL_MAX {
 		@Override
 		public String getName()
 		{
