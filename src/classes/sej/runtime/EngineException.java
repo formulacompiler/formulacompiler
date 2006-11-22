@@ -56,7 +56,7 @@ public class EngineException extends SEJException
 
 		public UnsupportedSerializationFormat()
 		{
-			super( "Don't know how to load an engine -- you probably forgot to register a loader" );
+			super( "Don't know how to load this engine -- you probably forgot to register a loader" );
 		}
 
 	}
