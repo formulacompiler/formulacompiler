@@ -4,11 +4,11 @@ h1. SEJ - Spreadsheet Engine for Java
 
 <div class="news">
 
+"Release 0.8.2":releasenotes.htm ...
+<br/>%(when)November ?, 2006%
+
 "Release 0.8.1":releasenotes.htm supports "string comparisons":reference/strings.htm.
 <br/>%(when)November 17, 2006%
-
-"Release 0.8.0":releasenotes.htm with much more developer friendly way of adding new spreadsheet functions.
-<br/>%(when)November 15, 2006%
 
 </div>
 
@@ -37,7 +37,7 @@ SEJ is *not open source*. It is the property of Abacus Research AG, Switzerland.
 
 h2. Download
 
-<% sej_ver = '0.8.1' %>
+<% sej_ver = '0.8.2' %>
 <% tools_ver = '0.8.0' %>
 
 dt. "sej-<%=sej_ver%>-bin.zip":http://arrenbrecht.ch/sej/dist/sej-<%=sej_ver%>-bin.zip : Binary release, including documentation and all required third-party libraries.
