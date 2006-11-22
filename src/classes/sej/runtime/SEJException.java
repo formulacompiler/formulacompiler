@@ -22,7 +22,11 @@ package sej.runtime;
 
 
 /**
- * Base class for all exceptions thrown by SEJ.
+ * Base class for all exceptions thrown by SEJ. Augments the basic {@link Exception} class with
+ * support for message context information. The idea is that handlers further up the chain can add
+ * context information to the existing exception, then rethrow it. This makes the exception mutable,
+ * but avoids having to wrap it repeatedly for no other reason that to provide a bit of source
+ * location context.
  * 
  * @author peo
  */
@@ -50,6 +54,14 @@ public class SEJException extends Exception
 		super( _cause );
 	}
 
+	/**
+	 * Override that appends the current message context to the message.
+	 * 
+	 * @return the message plus the context.
+	 * 
+	 * @see #getPureMessage()
+	 * @see #getMessageContext()
+	 */
 	@Override
 	public String getMessage()
 	{
@@ -61,17 +73,43 @@ public class SEJException extends Exception
 			return super.getMessage() + cx;
 		}
 	}
-	
+
+	/**
+	 * Returns the pure, unchanged message.
+	 * 
+	 * @see #getMessage()
+	 */
+	public String getPureMessage()
+	{
+		return super.getMessage();
+	}
+
+	/**
+	 * Returns the current message context. It is automatically appended to the normal
+	 * {@link #getMessage()}.
+	 */
 	public String getMessageContext()
 	{
 		return this.messageContext;
 	}
-	
+
+	/**
+	 * Sets the current message context.
+	 * 
+	 * @param _messageContext is the new message context.
+	 * 
+	 * @see #addMessageContext(String)
+	 */
 	public void setMessageContext( String _messageContext )
 	{
 		this.messageContext = _messageContext;
 	}
 
+	/**
+	 * Appends to the current message context.
+	 * 
+	 * @param _messageContext is the context to append.
+	 */
 	public void addMessageContext( String _messageContext )
 	{
 		if (null == this.messageContext) {
