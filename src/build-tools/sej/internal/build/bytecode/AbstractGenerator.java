@@ -36,6 +36,8 @@ abstract class AbstractGenerator
 	static final int IF_CLAUSE_LEN = IF_CLAUSE.length();
 	
 	final DescriptionBuilder classBuilder = new DescriptionBuilder();
+	final DispatchBuilder unaryOperatorDispatchBuilder = new DispatchBuilder();
+	final DispatchBuilder binaryOperatorDispatchBuilder = new DispatchBuilder();
 	final DispatchBuilder functionDispatchBuilder = new DispatchBuilder();
 	final String superName;
 	final String typeName;
@@ -52,6 +54,8 @@ abstract class AbstractGenerator
 		this.superName = _superName;
 		this.clsNode = new ClassNode();
 		new ClassReader( _template.getCanonicalName() ).accept( clsNode, true );
+		this.unaryOperatorDispatchBuilder.indent( 4 );
+		this.binaryOperatorDispatchBuilder.indent( 4 );
 		this.functionDispatchBuilder.indent( 3 );
 	}
 

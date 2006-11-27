@@ -24,7 +24,6 @@ import sej.Function;
 import sej.NumericType;
 import sej.Operator;
 import sej.internal.model.RangeValue;
-import sej.internal.runtime.Runtime_v1;
 
 abstract class InterpretedNumericType_Base
 {
@@ -104,19 +103,14 @@ abstract class InterpretedNumericType_Base
 		if (_value == null) return _ifNull;
 		return valueToInt( _value, _ifNull );
 	}
+	
+	
+	public abstract Object toNumeric( Number _value );
 
 
 	public Object compute( Operator _operator, Object... _args )
 	{
 		switch (_operator) {
-
-			case INTERNAL_NOOP: {
-				switch (_args.length) {
-					case 1:
-						return _args[ 0 ];
-				}
-				break;
-			}
 
 			case CONCAT: {
 				StringBuilder result = new StringBuilder();
@@ -124,30 +118,6 @@ abstract class InterpretedNumericType_Base
 					result.append( toString( arg ) );
 				}
 				return result.toString();
-			}
-
-			case INTERNAL_MIN: {
-				switch (_args.length) {
-					case 2:
-						Object a = _args[ 0 ];
-						Object b = _args[ 1 ];
-						if (null == a) return b;
-						if (null == b) return a;
-						return compare( a, b ) <= 0 ? a : b;
-				}
-				break;
-			}
-
-			case INTERNAL_MAX: {
-				switch (_args.length) {
-					case 2:
-						Object a = _args[ 0 ];
-						Object b = _args[ 1 ];
-						if (null == a) return b;
-						if (null == b) return a;
-						return compare( a, b ) >= 0 ? a : b;
-				}
-				break;
 			}
 
 			case EQUAL: {
@@ -235,108 +205,20 @@ abstract class InterpretedNumericType_Base
 				}
 				break;
 			}
+			
+			case MATCH: {
+				switch (cardinality) {
+					case 2:
+						return toNumeric( InterpretedNumericType.match( _args[ 0 ], _args[ 1 ], 1 ) + 1 );
+					case 3:
+						return toNumeric( InterpretedNumericType.match( _args[ 0 ], _args[ 1 ], valueToIntOrOne( _args[ 2 ] ) ) + 1 );
+				}
+				break;
+			}
 
 			case COUNT: {
 				return _args.length;
 			}
-
-			case LEN: {
-				switch (cardinality) {
-					case 1:
-						return toString( _args[ 0 ] ).length();
-				}
-				break;
-			}
-
-			case MID: {
-				switch (cardinality) {
-					case 3:
-						return Runtime_v1.stdMID( toString( _args[ 0 ] ), toInt( _args[ 1 ], 1 ), toInt( _args[ 2 ], 0 ) );
-				}
-				break;
-			}
-
-			case LEFT:
-				switch (cardinality) {
-					case 1:
-						return Runtime_v1.stdLEFT( toString( _args[ 0 ] ), 1 );
-					case 2:
-						return Runtime_v1.stdLEFT( toString( _args[ 0 ] ), toInt( _args[ 1 ], 0 ) );
-				}
-				break;
-
-			case RIGHT:
-				switch (cardinality) {
-					case 1:
-						return Runtime_v1.stdRIGHT( toString( _args[ 0 ] ), 1 );
-					case 2:
-						return Runtime_v1.stdRIGHT( toString( _args[ 0 ] ), toInt( _args[ 1 ], 0 ) );
-				}
-				break;
-
-			case SUBSTITUTE:
-				switch (cardinality) {
-					case 3:
-						return Runtime_v1.stdSUBSTITUTE( toString( _args[ 0 ] ), toString( _args[ 1 ] ),
-								toString( _args[ 2 ] ) );
-					case 4:
-						return Runtime_v1.stdSUBSTITUTE( toString( _args[ 0 ] ), toString( _args[ 1 ] ),
-								toString( _args[ 2 ] ), toInt( _args[ 3 ], 0 ) );
-				}
-				break;
-
-			case REPLACE:
-				switch (cardinality) {
-					case 4:
-						return Runtime_v1.stdREPLACE( toString( _args[ 0 ] ), toInt( _args[ 1 ], 0 ), toInt( _args[ 2 ], 0 ),
-								toString( _args[ 3 ] ) );
-				}
-				break;
-
-			case EXACT:
-				switch (cardinality) {
-					case 2:
-						return Runtime_v1.stdEXACT( toString( _args[ 0 ] ), toString( _args[ 1 ] ) );
-				}
-				break;
-
-			case FIND:
-				switch (cardinality) {
-					case 2:
-						return Runtime_v1.stdFIND( toString( _args[ 0 ] ), toString( _args[ 1 ] ), 1 );
-					case 3:
-						return Runtime_v1.stdFIND( toString( _args[ 0 ] ), toString( _args[ 1 ] ), toInt( _args[ 2 ], 1 ) );
-				}
-				break;
-
-			case SEARCH:
-				switch (cardinality) {
-					case 2:
-						return Runtime_v1.stdSEARCH( toString( _args[ 0 ] ), toString( _args[ 1 ] ), 1 );
-					case 3:
-						return Runtime_v1.stdSEARCH( toString( _args[ 0 ] ), toString( _args[ 1 ] ), toInt( _args[ 2 ], 1 ) );
-				}
-				break;
-
-			case LOWER:
-				switch (cardinality) {
-					case 1:
-						return Runtime_v1.stdLOWER( toString( _args[ 0 ] ) );
-				}
-				break;
-
-			case UPPER:
-				switch (cardinality) {
-					case 1:
-						return Runtime_v1.stdUPPER( toString( _args[ 0 ] ) );
-				}
-				break;
-
-			// LATER case PROPER:
-			/*
-			 * switch (cardinality) { case 1: return Runtime_v1.stdPROPER( toString( _args[ 0 ] ) ); }
-			 * break;
-			 */
 
 		}
 

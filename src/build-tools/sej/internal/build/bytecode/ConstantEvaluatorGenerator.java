@@ -65,6 +65,7 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 		cb.appendLine( "import sej.CompilerException;" );
 		cb.appendLine( "import sej.Function;" );
 		cb.appendLine( "import sej.NumericType;" );
+		cb.appendLine( "import sej.Operator;" );
 		cb.appendLine( "import sej.internal.expressions.ExpressionNode;" );
 		cb.appendLine( "import sej.internal.expressions.ExpressionNodeForFunction;" );
 		cb.append( "import sej.internal.templates." ).append( clsName ).appendLine( ";" );
@@ -77,7 +78,8 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 
 		customization.genConstructor( cb, this );
 
-		genFunctions();
+		genMethods();
+		genOperatorDispatch();
 		genFunctionDispatch();
 
 		cb.outdent();
@@ -91,62 +93,32 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 	}
 
 
-	private final void genFunctions()
+	private final void genMethods()
 	{
 		for (Object mtdObj : clsNode.methods) {
 			final MethodNode mtdNode = (MethodNode) mtdObj;
 			if (mtdNode.name.startsWith( "fun_" )) {
-				new FunctionTemplateGenerator( mtdNode ).generate();
+				new FunctionEvaluatorGenerator( mtdNode ).generate();
+			}
+			else if (mtdNode.name.startsWith( "op_" )) {
+				new OperatorEvaluatorGenerator( mtdNode ).generate();
 			}
 		}
 	}
 
-
-	final class FunctionTemplateGenerator extends AbstractMethodTemplateGenerator
+	
+	abstract class AbstractMethodEvaluatorGenerator extends AbstractMethodTemplateGenerator
 	{
-
-		public FunctionTemplateGenerator(MethodNode _mtdNode)
+		
+		public AbstractMethodEvaluatorGenerator(MethodNode _mtdNode)
 		{
 			super( _mtdNode );
 		}
 
-		public void generate()
+		protected final void generateArg( DispatchBuilder _db, int _iArg )
 		{
-			System.out.println( "  " + mtdNode.name );
-
-			final DispatchBuilder db = functionDispatchBuilder;
-			if (db.genDispatchCase( enumName )) {
-				db.pending = "   break;";
-			}
-			db.indent();
-			db.append( "if (" ).append( cardinality ).appendLine( " == c) {" );
-			db.indent();
-			db.append( "return " );
-			final String valueAdjustmentSuffix = customization.genValueAdjustment( db, this );
-			db.append( "t." ).append( mtdNode.name );
-			if (0 == cardinality) {
-				db.append( "()" );
-			}
-			else {
-				db.append( "( " );
-				generateArg( 0 );
-				for (int iArg = 1; iArg < cardinality; iArg++) {
-					db.append( ", " );
-					generateArg( iArg );
-				}
-				db.append( " )" );
-			}
-			db.append( valueAdjustmentSuffix ).appendLine( ";" );
-			db.outdent();
-			db.appendLine( "}" );
-			db.outdent();
-		}
-
-		private final void generateArg( int _iArg )
-		{
-			final DispatchBuilder db = functionDispatchBuilder;
 			final Type argType = argTypes[ _iArg ];
-			db.append( "to_" ).append( convName( argType ) ).append( "( _args[ " ).append( _iArg ).append( " ] )" );
+			_db.append( "to_" ).append( convName( argType ) ).append( "( _args[ " ).append( _iArg ).append( " ] )" );
 		}
 
 		private final String convName( Type _argType )
@@ -182,6 +154,136 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 			return _internalName.substring( p + 1 );
 		}
 
+	}
+
+
+	final class OperatorEvaluatorGenerator extends AbstractMethodEvaluatorGenerator
+	{
+
+		public OperatorEvaluatorGenerator(MethodNode _mtdNode)
+		{
+			super( _mtdNode );
+		}
+
+		public void generate()
+		{
+			System.out.println( "  " + mtdNode.name );
+
+			final DispatchBuilder db = (cardinality == 1)? unaryOperatorDispatchBuilder : binaryOperatorDispatchBuilder;
+			db.genDispatchCase( enumName );
+			db.indent();
+			db.genDispatchIf( ifCond );
+
+			db.append( "return " );
+			final String valueAdjustmentSuffix = customization.genValueAdjustment( db, this );
+			db.append( "t." ).append( mtdNode.name );
+			if (0 == cardinality) {
+				db.append( "()" );
+			}
+			else {
+				db.append( "( " );
+				generateArg( db, 0 );
+				for (int iArg = 1; iArg < cardinality; iArg++) {
+					db.append( ", " );
+					generateArg( db, iArg );
+				}
+				db.append( " )" );
+			}
+			db.append( valueAdjustmentSuffix ).appendLine( ";" );
+			
+			db.genDispatchEndIf( ifCond );
+			db.outdent();
+		}
+
+	}
+
+
+	final class FunctionEvaluatorGenerator extends AbstractMethodEvaluatorGenerator
+	{
+
+		public FunctionEvaluatorGenerator(MethodNode _mtdNode)
+		{
+			super( _mtdNode );
+		}
+
+		public void generate()
+		{
+			System.out.println( "  " + mtdNode.name );
+
+			final DispatchBuilder db = functionDispatchBuilder;
+			if (db.genDispatchCase( enumName )) {
+				db.pending = "   break;";
+			}
+			db.indent();
+			db.append( "if (" ).append( cardinality ).appendLine( " == c) {" );
+			db.indent();
+			db.genDispatchIf( ifCond );
+			db.append( "return " );
+			final String valueAdjustmentSuffix = customization.genValueAdjustment( db, this );
+			db.append( "t." ).append( mtdNode.name );
+			if (0 == cardinality) {
+				db.append( "()" );
+			}
+			else {
+				db.append( "( " );
+				generateArg( db, 0 );
+				for (int iArg = 1; iArg < cardinality; iArg++) {
+					db.append( ", " );
+					generateArg( db, iArg );
+				}
+				db.append( " )" );
+			}
+			db.append( valueAdjustmentSuffix ).appendLine( ";" );
+			db.genDispatchEndIf( ifCond );
+			db.outdent();
+			db.appendLine( "}" );
+			db.outdent();
+		}
+
+	}
+
+
+	private final void genOperatorDispatch()
+	{
+		if (this.unaryOperatorDispatchBuilder.length() == 0) return;
+
+		final DescriptionBuilder cb = classBuilder;
+		cb.newLine();
+		cb.appendLine( "@Override" );
+		cb
+				.appendLine( "public Object compute( Operator _operator, Object... _args )" );
+		cb.appendLine( "{" );
+		cb.indent();
+
+		cb.append( "final " ).append( clsName ).append( " t = " ).append( customization.templateName() ).appendLine( ";" );
+		cb.appendLine( "final int c = _args.length;" );
+		
+		cb.appendLine( "if (1 == c) {" );
+		cb.indent();
+		cb.appendLine( "switch (_operator) {" );
+		cb.indent();
+
+		cb.appendUnindented( this.unaryOperatorDispatchBuilder.toString() );
+
+		cb.outdent();
+		cb.appendLine( "}" );
+		cb.outdent();
+		cb.appendLine( "}" );
+		cb.appendLine( "else if (2 == c) {" );
+		cb.indent();
+		cb.appendLine( "switch (_operator) {" );
+		cb.indent();
+
+		cb.appendUnindented( this.binaryOperatorDispatchBuilder.toString() );
+
+		cb.outdent();
+		cb.appendLine( "}" );
+		cb.outdent();
+		cb.appendLine( "}" );
+
+		cb.appendLine( "return super.compute( _operator, _args );" );
+		cb.outdent();
+		cb.appendLine( "}" );
 	}
 
 
@@ -233,7 +335,7 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 			return "TEMPLATE";
 		}
 
-		protected String genValueAdjustment( DescriptionBuilder _cb, FunctionTemplateGenerator _generator )
+		protected String genValueAdjustment( DescriptionBuilder _cb, AbstractMethodEvaluatorGenerator _generator )
 		{
 			return "";
 		}

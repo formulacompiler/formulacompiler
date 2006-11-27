@@ -34,7 +34,7 @@ public enum Operator {
 	/**
 	 * Internal - do not use!
 	 */
-	INTERNAL_NOOP {
+	INTERNAL_NOOP { // FIXME Needed?
 		@Override
 		public String getSymbol()
 		{

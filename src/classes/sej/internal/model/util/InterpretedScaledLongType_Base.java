@@ -22,8 +22,6 @@ package sej.internal.model.util;
 
 import java.math.BigDecimal;
 
-import sej.Function;
-import sej.Operator;
 import sej.internal.NumericTypeImpl;
 import sej.internal.NumericTypeImpl.AbstractLongType;
 import sej.internal.runtime.RuntimeLong_v1;
@@ -62,11 +60,6 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 		return this.num.zero();
 	}
 
-	private final long one()
-	{
-		return this.num.one();
-	}
-
 	private final long parse( String _value )
 	{
 		return this.num.parse( _value );
@@ -81,6 +74,13 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 		}
 		return _value;
 
+	}
+	
+	
+	@Override
+	public Object toNumeric( Number _value )
+	{
+		return valueToScaledLongOrZero( _value );
 	}
 
 
@@ -118,99 +118,6 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 
 
 	@Override
-	public Object compute( Operator _operator, Object... _args )
-	{
-		switch (_operator) {
-
-			case PLUS: {
-				switch (_args.length) {
-					case 2:
-						return valueToScaledLongOrZero( _args[ 0 ] ) + valueToScaledLongOrZero( _args[ 1 ] );
-				}
-				break;
-			}
-
-			case MINUS: {
-				switch (_args.length) {
-					case 1:
-						return -valueToScaledLongOrZero( _args[ 0 ] );
-					case 2:
-						return valueToScaledLongOrZero( _args[ 0 ] ) - valueToScaledLongOrZero( _args[ 1 ] );
-				}
-				break;
-			}
-
-			case TIMES: {
-				switch (_args.length) {
-					case 2:
-						return valueToScaledLongOrZero( _args[ 0 ] )
-								* valueToScaledLongOrZero( _args[ 1 ] ) / getScalingFactor();
-				}
-				break;
-			}
-
-			case DIV: {
-				switch (_args.length) {
-					case 2:
-						return valueToScaledLongOrZero( _args[ 0 ] )
-								* getScalingFactor() / valueToScaledLongOrZero( _args[ 1 ] );
-				}
-				break;
-			}
-
-			case EXP: {
-				switch (_args.length) {
-					case 2:
-						return pow( valueToScaledLongOrZero( _args[ 0 ] ), valueToScaledLongOrZero( _args[ 1 ] ) );
-				}
-				break;
-			}
-
-			case PERCENT: {
-				switch (_args.length) {
-					case 1:
-						return valueToScaledLongOrZero( _args[ 0 ] ) / 100L;
-				}
-				break;
-			}
-
-		}
-
-		return super.compute( _operator, _args );
-	}
-
-
-	private final long pow( long _x, long _exp )
-	{
-		if (_exp == zeroL()) return one();
-		if (_exp == one()) return _x;
-		return numberToScaledLong( Math.pow( scaledLongToDouble( _x ), scaledLongToDouble( _exp ) ) );
-	}
-
-
-	@Override
-	public Object compute( Function _function, Object... _args )
-	{
-		final int cardinality = _args.length;
-		switch (_function) {
-
-			case MATCH: {
-				switch (cardinality) {
-					case 2:
-						return numberToScaledLong( InterpretedNumericType.match( _args[ 0 ], _args[ 1 ], 1 ) + 1 );
-					case 3:
-						final int matchType = valueToIntOrOne( _args[ 2 ] );
-						return numberToScaledLong( InterpretedNumericType.match( _args[ 0 ], _args[ 1 ], matchType ) + 1 );
-				}
-				break;
-			}
-
-		}
-		return super.compute( _function, _args );
-	}
-
-
-	@Override
 	protected final int compareNumerically( Object _a, Object _b )
 	{
 		long a = valueToScaledLongOrZero( _a );
@@ -235,6 +142,11 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 	protected final long to_long( Object _o )
 	{
 		return valueToScaledLongOrZero( _o );
+	}
+
+	protected final boolean isScaled()
+	{
+		return getScale() != 0;
 	}
 
 	
