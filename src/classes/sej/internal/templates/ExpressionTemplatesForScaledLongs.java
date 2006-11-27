@@ -30,9 +30,9 @@ import sej.internal.runtime.RuntimeLong_v1;
 @SuppressWarnings("unqualified-field-access")
 public final class ExpressionTemplatesForScaledLongs
 {
-	RuntimeLong_v1.Context context;
-	int scale;
-	long one;
+	final RuntimeLong_v1.Context context;
+	final int scale;
+	final long one;
 	
 	public ExpressionTemplatesForScaledLongs( RuntimeLong_v1.Context _context )
 	{
@@ -200,57 +200,57 @@ public final class ExpressionTemplatesForScaledLongs
 	// ------------------------------------------------ Operators
 
 
-	long op_INTERNAL_NOOP( long a )
+	public long op_INTERNAL_NOOP( long a )
 	{
 		return a;
 	}
 
-	long op_PLUS( long a, long b )
+	public long op_PLUS( long a, long b )
 	{
 		return a + b;
 	}
 
-	long op_MINUS( long a, long b )
+	public long op_MINUS( long a, long b )
 	{
 		return a - b;
 	}
 
-	long op_MINUS( long a )
+	public long op_MINUS( long a )
 	{
 		return -a;
 	}
 
-	long op_TIMES__if_isScaled( long a, long b )
+	public long op_TIMES__if_isScaled( long a, long b )
 	{
 		return a * b / one;
 	}
 
-	long op_TIMES( long a, long b )
+	public long op_TIMES( long a, long b )
 	{
 		return a * b;
 	}
 
-	long op_DIV__if_isScaled( long a, long b )
+	public long op_DIV__if_isScaled( long a, long b )
 	{
 		return a * one / b;
 	}
 
-	long op_DIV( long a, long b )
+	public long op_DIV( long a, long b )
 	{
 		return a / b;
 	}
 
-	long op_EXP( long a, long b )
+	public long op_EXP( long a, long b )
 	{
 		return RuntimeLong_v1.op_EXP( a, b, context );
 	}
 
-	long op_PERCENT( long a )
+	public long op_PERCENT( long a )
 	{
 		return a / 100;
 	}
 
-	long op_INTERNAL_MIN( long a, long b )
+	public long op_INTERNAL_MIN( long a, long b )
 	{
 		/*
 		 * Using a direct comparison like
@@ -262,7 +262,7 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v1.min( a, b );
 	}
 
-	long op_INTERNAL_MAX( long a, long b )
+	public long op_INTERNAL_MAX( long a, long b )
 	{
 		return RuntimeLong_v1.max( a, b );
 	}

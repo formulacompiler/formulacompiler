@@ -24,15 +24,24 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
+import sej.NumericType;
 import sej.internal.runtime.RuntimeBigDecimal_v1;
 
 
 @SuppressWarnings("unqualified-field-access")
 public final class ExpressionTemplatesForBigDecimals
 {
-	boolean isScaled = false;
-	int fixedScale = 0;
-	int roundingMode = 0;
+	final boolean isScaled;
+	final int fixedScale;
+	final int roundingMode;
+
+	public ExpressionTemplatesForBigDecimals(NumericType _type)
+	{
+		super();
+		this.isScaled = (_type.getScale() != NumericType.UNDEFINED_SCALE);
+		this.fixedScale = _type.getScale();
+		this.roundingMode = _type.getRoundingMode();
+	}
 
 
 	// ------------------------------------------------ Utils
@@ -78,12 +87,12 @@ public final class ExpressionTemplatesForBigDecimals
 
 	BigDecimal util_fromBigInteger( BigInteger a )
 	{
-		return a == null? BigDecimal.ZERO : new BigDecimal( a );
+		return a == null ? BigDecimal.ZERO : new BigDecimal( a );
 	}
 
 	BigDecimal util_fromNumber( Number a )
 	{
-		return a == null? BigDecimal.ZERO : new BigDecimal( a.toString() );
+		return a == null ? BigDecimal.ZERO : new BigDecimal( a.toString() );
 	}
 
 	BigDecimal util_fromBoolean( boolean a )
@@ -186,71 +195,71 @@ public final class ExpressionTemplatesForBigDecimals
 
 
 	@ReturnsAdjustedValue
-	BigDecimal op_INTERNAL_NOOP( BigDecimal a )
+	public BigDecimal op_INTERNAL_NOOP( BigDecimal a )
 	{
 		return a;
 	}
 
 	@ReturnsAdjustedValue
-	BigDecimal op_PLUS( BigDecimal a, BigDecimal b )
+	public BigDecimal op_PLUS( BigDecimal a, BigDecimal b )
 	{
 		return a.add( b );
 	}
 
 	@ReturnsAdjustedValue
-	BigDecimal op_MINUS( BigDecimal a, BigDecimal b )
+	public BigDecimal op_MINUS( BigDecimal a, BigDecimal b )
 	{
 		return a.subtract( b );
 	}
 
 	@ReturnsAdjustedValue
-	BigDecimal op_MINUS( BigDecimal a )
+	public BigDecimal op_MINUS( BigDecimal a )
 	{
 		return a.negate();
 	}
 
-	BigDecimal op_TIMES( BigDecimal a, BigDecimal b )
+	public BigDecimal op_TIMES( BigDecimal a, BigDecimal b )
 	{
 		return a.multiply( b );
 	}
 
 	@ReturnsAdjustedValue
-	BigDecimal op_DIV__if_needsValueAdjustment( BigDecimal a, BigDecimal b )
+	public BigDecimal op_DIV__if_needsValueAdjustment( BigDecimal a, BigDecimal b )
 	{
 		return a.divide( b, fixedScale, roundingMode );
 	}
 
 	@ReturnsAdjustedValue
-	BigDecimal op_DIV( BigDecimal a, BigDecimal b )
+	public BigDecimal op_DIV( BigDecimal a, BigDecimal b )
 	{
 		return a.divide( b );
 	}
 
-	BigDecimal op_EXP( BigDecimal a, BigDecimal b )
+	public BigDecimal op_EXP( BigDecimal a, BigDecimal b )
 	{
 		return RuntimeBigDecimal_v1.pow( a, b );
 	}
 
-	BigDecimal op_PERCENT( BigDecimal a )
+	public BigDecimal op_PERCENT( BigDecimal a )
 	{
 		return a.movePointLeft( 2 );
 	}
 
 	@ReturnsAdjustedValue
-	BigDecimal op_INTERNAL_MIN( BigDecimal a, BigDecimal b )
+	public BigDecimal op_INTERNAL_MIN( BigDecimal a, BigDecimal b )
 	{
 		/*
 		 * Using a direct comparison like
 		 * 
-		 *   return (a.compareTo( b ) <= 0) ? a : b;
-		 *   
+		 * return (a.compareTo( b ) <= 0) ? a : b;
+		 * 
 		 * generates too much code for inlining.
 		 */
 		return RuntimeBigDecimal_v1.min( a, b );
 	}
 
 	@ReturnsAdjustedValue
-	BigDecimal op_INTERNAL_MAX( BigDecimal a, BigDecimal b )
+	public BigDecimal op_INTERNAL_MAX( BigDecimal a, BigDecimal b )
 	{
 		return RuntimeBigDecimal_v1.max( a, b );
 	}

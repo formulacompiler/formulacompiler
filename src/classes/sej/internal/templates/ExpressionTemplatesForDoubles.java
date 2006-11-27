@@ -152,47 +152,47 @@ public final class ExpressionTemplatesForDoubles
 	// ------------------------------------------------ Operators
 
 
-	double op_INTERNAL_NOOP( double a )
+	public double op_INTERNAL_NOOP( double a )
 	{
 		return a;
 	}
 
-	double op_PLUS( double a, double b )
+	public double op_PLUS( double a, double b )
 	{
 		return a + b;
 	}
 
-	double op_MINUS( double a, double b )
+	public double op_MINUS( double a, double b )
 	{
 		return a - b;
 	}
 
-	double op_MINUS( double a )
+	public double op_MINUS( double a )
 	{
 		return -a;
 	}
 
-	double op_TIMES( double a, double b )
+	public double op_TIMES( double a, double b )
 	{
 		return a * b;
 	}
 
-	double op_DIV( double a, double b )
+	public double op_DIV( double a, double b )
 	{
 		return a / b;
 	}
 
-	double op_EXP( double a, double b )
+	public double op_EXP( double a, double b )
 	{
 		return Math.pow( a, b );
 	}
 
-	double op_PERCENT( double a )
+	public double op_PERCENT( double a )
 	{
 		return a / 100;
 	}
 
-	double op_INTERNAL_MIN( double a, double b )
+	public double op_INTERNAL_MIN( double a, double b )
 	{
 		/*
 		 * Using a direct comparison like
@@ -204,7 +204,7 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v1.min( a, b );
 	}
 
-	double op_INTERNAL_MAX( double a, double b )
+	public double op_INTERNAL_MAX( double a, double b )
 	{
 		return RuntimeDouble_v1.max( a, b );
 	}

@@ -53,8 +53,6 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 {
 	static final int INIT_BACKING_VAR_ON_ACCESS = -1;
 
-	final DispatchBuilder unaryOperatorDispatchBuilder = new DispatchBuilder();
-	final DispatchBuilder binaryOperatorDispatchBuilder = new DispatchBuilder();
 	final Customization customization;
 
 	public ByteCodeCompilerGenerator(Class _cls, String _typeName, String _superName, Customization _customization)
@@ -62,8 +60,6 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 	{
 		super( _cls, _typeName, _superName );
 		this.customization = _customization;
-		this.unaryOperatorDispatchBuilder.indent( 4 );
-		this.binaryOperatorDispatchBuilder.indent( 4 );
 	}
 
 	public ByteCodeCompilerGenerator(Class _cls, String _typeName, Customization _customization) throws IOException
@@ -690,6 +686,7 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 			db.indent();
 			db.append( "if (" ).append( cardinality ).appendLine( " == c) {" );
 			db.indent();
+			db.genDispatchIf( ifCond );
 			db.append( "compile_" ).append( mtdNode.name );
 			if (0 == cardinality) {
 				db.appendLine( "();" );
@@ -702,6 +699,7 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 				db.appendLine( " );" );
 			}
 			db.appendLine( "return;" );
+			db.genDispatchEndIf( ifCond );
 			db.outdent();
 			db.appendLine( "}" );
 			db.outdent();

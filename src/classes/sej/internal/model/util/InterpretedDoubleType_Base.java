@@ -20,9 +20,7 @@
  */
 package sej.internal.model.util;
 
-import sej.Function;
 import sej.NumericType;
-import sej.Operator;
 
 abstract class InterpretedDoubleType_Base extends InterpretedNumericType
 {
@@ -38,86 +36,15 @@ abstract class InterpretedDoubleType_Base extends InterpretedNumericType
 	{
 		return _value;
 	}
-
+	
+	
 	@Override
-	public Object compute( Operator _operator, Object... _args )
+	public Object toNumeric( Number _value )
 	{
-		switch (_operator) {
-
-			case PLUS: {
-				double result = 0.0;
-				for (Object arg : _args) {
-					result += valueToDoubleOrZero( arg );
-				}
-				return result;
-			}
-
-			case MINUS: {
-				switch (_args.length) {
-					case 1:
-						return -valueToDoubleOrZero( _args[ 0 ] );
-					case 2:
-						return valueToDoubleOrZero( _args[ 0 ] ) - valueToDoubleOrZero( _args[ 1 ] );
-				}
-				break;
-			}
-
-			case TIMES: {
-				double result = 1.0;
-				for (Object arg : _args) {
-					result *= valueToDoubleOrZero( arg );
-				}
-				return result;
-			}
-
-			case DIV: {
-				switch (_args.length) {
-					case 2:
-						return valueToDoubleOrZero( _args[ 0 ] ) / valueToDoubleOrZero( _args[ 1 ] );
-				}
-				break;
-			}
-
-			case EXP: {
-				switch (_args.length) {
-					case 2:
-						return Math.pow( valueToDoubleOrZero( _args[ 0 ] ), valueToDoubleOrZero( _args[ 1 ] ) );
-				}
-				break;
-			}
-
-			case PERCENT: {
-				switch (_args.length) {
-					case 1:
-						return valueToDoubleOrZero( _args[ 0 ] ) / 100;
-				}
-				break;
-			}
-
-		}
-		return super.compute( _operator, _args );
+		return valueToDoubleOrZero( _value );
 	}
 
-	@Override
-	public Object compute( Function _function, Object... _args )
-	{
-		final int cardinality = _args.length;
-		switch (_function) {
-
-			case MATCH: {
-				switch (cardinality) {
-					case 2:
-						return (double) InterpretedNumericType.match( _args[ 0 ], _args[ 1 ], 1 ) + 1;
-					case 3:
-						return (double) InterpretedNumericType.match( _args[ 0 ], _args[ 1 ], valueToIntOrOne( _args[ 2 ] ) ) + 1;
-				}
-				break;
-			}
-			
-		}
-		return super.compute( _function, _args );
-	}
-
+	
 	@Override
 	protected int compareNumerically( Object _a, Object _b )
 	{
