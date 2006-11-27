@@ -29,20 +29,19 @@ import org.objectweb.asm.Type;
 import sej.describable.DescriptionBuilder;
 import sej.internal.build.Util;
 import sej.internal.build.bytecode.ByteCodeCompilerGenerator.TemplateMethodGenerator;
-import sej.internal.templates.ExpressionTemplatesForAll;
-import sej.internal.templates.ExpressionTemplatesForBigDecimals;
-import sej.internal.templates.ExpressionTemplatesForDoubles;
-import sej.internal.templates.ExpressionTemplatesForNumbers;
-import sej.internal.templates.ExpressionTemplatesForScaledLongs;
-import sej.internal.templates.ExpressionTemplatesForStrings;
+import sej.internal.model.templates.ExpressionTemplatesForAll;
+import sej.internal.model.templates.ExpressionTemplatesForBigDecimals;
+import sej.internal.model.templates.ExpressionTemplatesForDoubles;
+import sej.internal.model.templates.ExpressionTemplatesForNumbers;
+import sej.internal.model.templates.ExpressionTemplatesForScaledLongs;
+import sej.internal.model.templates.ExpressionTemplatesForStrings;
 
 class PatternCompilerToByteCodeCompilers
 {
 
 	public void run() throws IOException
 	{
-		final File p = new File( "temp/gen-src/classes-jre"
-				+ Util.jdkVersionSuffix() + "/sej/internal/bytecode/compiler" );
+		final File p = new File( "temp/gen-src/classes-jre" + Util.jdkVersionSuffix() + "/sej/internal/bytecode/compiler" );
 		p.mkdirs();
 
 		new ByteCodeCompilerGenerator( ExpressionTemplatesForAll.class, "All" ).generate( p );
@@ -75,8 +74,8 @@ class PatternCompilerToByteCodeCompilers
 			}
 		}
 
-		protected abstract void genAccessAs( DescriptionBuilder _cb, TemplateMethodGenerator _generator,
-				int _paramIdx, Type _paramType );
+		protected abstract void genAccessAs( DescriptionBuilder _cb, TemplateMethodGenerator _generator, int _paramIdx,
+				Type _paramType );
 
 		@Override
 		protected final void genCompilationOfFinalValueConversion( DescriptionBuilder _cb,
@@ -178,7 +177,7 @@ class PatternCompilerToByteCodeCompilers
 		@Override
 		protected void genValueAdjustment( DescriptionBuilder _cb, TemplateMethodGenerator _generator )
 		{
-			if (!PatternCompiler.hasAnnotation( _generator.mtdNode, "Lsej/internal/templates/ReturnsAdjustedValue;" )) {
+			if (!PatternCompiler.hasAnnotation( _generator.mtdNode, PatternCompiler.RETURNS_ADJUSTED_VALUE_DESC )) {
 				_cb.appendLine( "compileValueAdjustment();" );
 			}
 		}

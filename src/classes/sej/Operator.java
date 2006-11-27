@@ -31,18 +31,6 @@ package sej;
 public enum Operator {
 
 
-	/**
-	 * Internal - do not use!
-	 */
-	INTERNAL_NOOP { // FIXME Needed?
-		@Override
-		public String getSymbol()
-		{
-			return "";
-		}
-	},
-
-
 	CONCAT {
 		@Override
 		public String getSymbol()

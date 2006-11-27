@@ -352,7 +352,7 @@
 
 	<!-- dependencies -->
 
-	<target name="dependencies" depends="compile, compile-tests, compile-examples" description="Validates Java package dependencies against src/macker-rules.xml.">
+	<target name="dependencies-only" depends="-prepare" description="Validates Java package dependencies of existing compiled source against src/macker-rules.xml.">
 
 		<path id="macker.classpath">
 			<pathelement path="${macker.jar}" />
@@ -373,6 +373,9 @@
 				<include name="**/*.class" />
 			</classes>
 		</macker>
+	</target>
+
+	<target name="dependencies" depends="compile, compile-tests, compile-examples, dependencies-only" description="Validates Java package dependencies against src/macker-rules.xml.">
 	</target>
 
 	<!-- style -->

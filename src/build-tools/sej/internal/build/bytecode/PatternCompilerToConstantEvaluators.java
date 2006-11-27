@@ -25,11 +25,11 @@ import java.io.IOException;
 
 import sej.describable.DescriptionBuilder;
 import sej.internal.build.bytecode.ConstantEvaluatorGenerator.AbstractMethodEvaluatorGenerator;
-import sej.internal.templates.ExpressionTemplatesForBigDecimals;
-import sej.internal.templates.ExpressionTemplatesForDoubles;
-import sej.internal.templates.ExpressionTemplatesForNumbers;
-import sej.internal.templates.ExpressionTemplatesForScaledLongs;
-import sej.internal.templates.ExpressionTemplatesForStrings;
+import sej.internal.model.templates.ExpressionTemplatesForBigDecimals;
+import sej.internal.model.templates.ExpressionTemplatesForDoubles;
+import sej.internal.model.templates.ExpressionTemplatesForNumbers;
+import sej.internal.model.templates.ExpressionTemplatesForScaledLongs;
+import sej.internal.model.templates.ExpressionTemplatesForStrings;
 
 class PatternCompilerToConstantEvaluators
 {
@@ -68,8 +68,7 @@ class PatternCompilerToConstantEvaluators
 			cb.append( "private final " ).append( _generator.clsName ).appendLine( " template;" );
 
 			cb.newLine();
-			cb.append( "public " ).append( _generator.typeName ).appendLine(
-					"(NumericType _type) {" );
+			cb.append( "public " ).append( _generator.typeName ).appendLine( "(NumericType _type) {" );
 			cb.indent();
 			cb.appendLine( "super( _type );" );
 			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine( "( _type );" );
@@ -86,7 +85,7 @@ class PatternCompilerToConstantEvaluators
 		@Override
 		protected String genValueAdjustment( DescriptionBuilder _cb, AbstractMethodEvaluatorGenerator _generator )
 		{
-			if (!PatternCompiler.hasAnnotation( _generator.mtdNode, "Lsej/internal/templates/ReturnsAdjustedValue;" )) {
+			if (!PatternCompiler.hasAnnotation( _generator.mtdNode, PatternCompiler.RETURNS_ADJUSTED_VALUE_DESC )) {
 				_cb.append( "adjustReturnedValue( " );
 				return " )";
 			}
