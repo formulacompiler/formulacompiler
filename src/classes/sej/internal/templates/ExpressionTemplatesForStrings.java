@@ -24,7 +24,7 @@ import sej.internal.runtime.Runtime_v1;
 
 
 @SuppressWarnings("unqualified-field-access")
-public class ExpressionTemplatesForStrings
+public final class ExpressionTemplatesForStrings
 {
 
 	String util_fromString( String a )
@@ -63,12 +63,12 @@ public class ExpressionTemplatesForStrings
 	}
 
 
-	String fun_LOWER( String a )
+	public String fun_LOWER( String a )
 	{
 		return Runtime_v1.stdLOWER( a );
 	}
 
-	String fun_UPPER( String a )
+	public String fun_UPPER( String a )
 	{
 		return Runtime_v1.stdUPPER( a );
 	}
@@ -76,42 +76,42 @@ public class ExpressionTemplatesForStrings
 	// LATER fun_PROPER
 
 
-	String fun_MID( String s, int start, int len )
+	public String fun_MID( String s, int start, int len )
 	{
 		return Runtime_v1.stdMID( s, start, len );
 	}
 
-	String fun_LEFT( String s )
+	public String fun_LEFT( String s )
 	{
 		return Runtime_v1.stdLEFT( s, 1 );
 	}
 
-	String fun_LEFT( String s, int len )
+	public String fun_LEFT( String s, int len )
 	{
 		return Runtime_v1.stdLEFT( s, len );
 	}
 
-	String fun_RIGHT( String s )
+	public String fun_RIGHT( String s )
 	{
 		return Runtime_v1.stdRIGHT( s, 1 );
 	}
 
-	String fun_RIGHT( String s, int len )
+	public String fun_RIGHT( String s, int len )
 	{
 		return Runtime_v1.stdRIGHT( s, len );
 	}
 
-	String fun_SUBSTITUTE( String s, String src, String tgt )
+	public String fun_SUBSTITUTE( String s, String src, String tgt )
 	{
 		return Runtime_v1.stdSUBSTITUTE( s, src, tgt );
 	}
 
-	String fun_SUBSTITUTE( String s, String src, String tgt, int occurrence )
+	public String fun_SUBSTITUTE( String s, String src, String tgt, int occurrence )
 	{
 		return Runtime_v1.stdSUBSTITUTE( s, src, tgt, occurrence );
 	}
 
-	String fun_REPLACE( String s, int at, int len, String repl )
+	public String fun_REPLACE( String s, int at, int len, String repl )
 	{
 		return Runtime_v1.stdREPLACE( s, at, len, repl );
 	}

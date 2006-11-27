@@ -28,11 +28,19 @@ import sej.internal.runtime.RuntimeLong_v1;
 
 
 @SuppressWarnings("unqualified-field-access")
-public class ExpressionTemplatesForScaledLongs
+public final class ExpressionTemplatesForScaledLongs
 {
 	RuntimeLong_v1.Context context;
 	int scale;
 	long one;
+	
+	public ExpressionTemplatesForScaledLongs( RuntimeLong_v1.Context _context )
+	{
+		super();
+		this.context = _context;
+		this.scale = _context.scale();
+		this.one = _context.one();
+	}
 
 
 	// ------------------------------------------------ Utils
@@ -265,13 +273,13 @@ public class ExpressionTemplatesForScaledLongs
 
 	// Leave this comment in. It is used to cite the code into the documentation.
 	// ---- fun_ABS
-	long fun_ABS( long a )
+	public long fun_ABS( long a )
 	{
 		return (a < 0) ? -a : a;
 	}
 	// ---- fun_ABS
 
-	long fun_ROUND( long a, long b )
+	public long fun_ROUND( long a, long b )
 	{
 		return RuntimeLong_v1.fun_ROUND( a, b, context );
 	}
@@ -280,12 +288,12 @@ public class ExpressionTemplatesForScaledLongs
 	// ------------------------------------------------ Combinatorics
 
 
-	long fun_FACT__if_isScaled( long a )
+	public long fun_FACT__if_isScaled( long a )
 	{
 		return RuntimeLong_v1.fun_FACT( a / one ) * one;
 	}
 
-	long fun_FACT( long a )
+	public long fun_FACT( long a )
 	{
 		return RuntimeLong_v1.fun_FACT( a );
 	}
@@ -294,7 +302,7 @@ public class ExpressionTemplatesForScaledLongs
 	// ------------------------------------------------ Date Functions
 
 
-	long fun_TODAY()
+	public long fun_TODAY()
 	{
 		return RuntimeLong_v1.fun_TODAY( context );
 	}

@@ -28,7 +28,7 @@ import sej.internal.runtime.RuntimeBigDecimal_v1;
 
 
 @SuppressWarnings("unqualified-field-access")
-public class ExpressionTemplatesForBigDecimals
+public final class ExpressionTemplatesForBigDecimals
 {
 	boolean isScaled = false;
 	int fixedScale = 0;
@@ -262,13 +262,13 @@ public class ExpressionTemplatesForBigDecimals
 	// Leave this comment in. It is used to cite the code into the documentation.
 	// ---- fun_ABS
 	@ReturnsAdjustedValue
-	BigDecimal fun_ABS( BigDecimal a )
+	public BigDecimal fun_ABS( BigDecimal a )
 	{
 		return a.abs();
 	}
 	// ---- fun_ABS
 
-	BigDecimal fun_ROUND( BigDecimal a, BigDecimal b )
+	public BigDecimal fun_ROUND( BigDecimal a, BigDecimal b )
 	{
 		return RuntimeBigDecimal_v1.fun_ROUND( a, b );
 	}
@@ -277,7 +277,7 @@ public class ExpressionTemplatesForBigDecimals
 	// ------------------------------------------------ Combinatorics
 
 
-	BigDecimal fun_FACT( BigDecimal a )
+	public BigDecimal fun_FACT( BigDecimal a )
 	{
 		return RuntimeBigDecimal_v1.fun_FACT( a );
 	}
@@ -286,7 +286,7 @@ public class ExpressionTemplatesForBigDecimals
 	// ------------------------------------------------ Date Functions
 
 
-	BigDecimal fun_TODAY()
+	public BigDecimal fun_TODAY()
 	{
 		return RuntimeBigDecimal_v1.fun_TODAY();
 	}

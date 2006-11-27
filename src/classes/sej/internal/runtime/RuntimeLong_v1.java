@@ -54,6 +54,16 @@ public final class RuntimeLong_v1 extends Runtime_v1
 			this.one = ONE_AT_SCALE[ _scale ];
 			this.oneAsDouble = this.one;
 		}
+		
+		public final int scale()
+		{
+			return this.scale;
+		}
+
+		public final long one()
+		{
+			return this.one;
+		}
 
 		double toDouble( long _value )
 		{

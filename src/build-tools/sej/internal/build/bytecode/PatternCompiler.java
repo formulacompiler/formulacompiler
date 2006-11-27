@@ -31,6 +31,7 @@ import org.objectweb.asm.tree.MethodNode;
 import sej.describable.DescriptionBuilder;
 import sej.internal.build.Util;
 import sej.internal.build.bytecode.ByteCodeCompilerGenerator.TemplateMethodGenerator;
+import sej.internal.build.bytecode.ConstantEvaluatorGenerator.FunctionTemplateGenerator;
 import sej.internal.templates.ExpressionTemplatesForAll;
 import sej.internal.templates.ExpressionTemplatesForBigDecimals;
 import sej.internal.templates.ExpressionTemplatesForDoubles;
@@ -46,7 +47,8 @@ public final class PatternCompiler
 	public static void main( String[] args ) throws Exception
 	{
 		try {
-			new PatternCompiler().run();
+			new PatternCompilerToByteCodeCompilers().run();
+			new PatternCompilerToConstantEvaluators().run();
 		}
 		catch (Throwable t) {
 			System.out.println( "ERROR: " + t.getMessage() );
@@ -54,199 +56,281 @@ public final class PatternCompiler
 	}
 
 
-	private void run() throws IOException
-	{
-		final File p = new File( "temp/gen-src/classes-jre" + Util.jdkVersionSuffix() + "/sej/internal/bytecode/compiler" );
-		p.mkdirs();
-
-		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForAll.class, "All" ).generate( p );
-		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForNumbers.class, "Numbers", new Numeric( Type
-				.getType( Number.class ) ) ).generate( p );
-		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForDoubles.class, "Doubles", new Numeric(
-				Type.DOUBLE_TYPE ) ).generate( p );
-		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForScaledLongs.class, "ScaledLongs", new Numeric(
-				Type.LONG_TYPE ) ).generate( p );
-		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForBigDecimals.class, "BigDecimals", new Adjusted( Type
-				.getType( BigDecimal.class ) ) ).generate( p );
-		new ByteCodeCompilerGenerator( this, ExpressionTemplatesForStrings.class, "Strings", new Strings() ).generate( p );
-	}
-
-
-	private static abstract class AbstractDual extends ByteCodeCompilerGenerator.Customization
+	private static class PatternCompilerToConstantEvaluators
 	{
 
-		protected abstract Type ownType();
-
-		@Override
-		protected final void genCompilationOfArgNode( DescriptionBuilder _cb, TemplateMethodGenerator _generator,
-				int _paramIdx, Type _paramType )
+		public void run() throws IOException
 		{
-			if (_paramType.equals( ownType() )) {
-				super.genCompilationOfArgNode( _cb, _generator, _paramIdx, _paramType );
-			}
-			else {
-				genAccessAs( _cb, _generator, _paramIdx, _paramType );
-			}
+			final File p = new File( "temp/gen-src/classes/sej/internal/model/util" );
+			p.mkdirs();
+
+			new ConstantEvaluatorGenerator( ExpressionTemplatesForNumbers.class, "InterpretedNumericType_Generated",
+					"InterpretedNumericType_Base" ).generate( p );
+			new ConstantEvaluatorGenerator( ExpressionTemplatesForStrings.class,
+					"InterpretedNumericType_GeneratedStrings", "InterpretedNumericType_Generated" ).generate( p );
+
+			new ConstantEvaluatorGenerator( ExpressionTemplatesForDoubles.class, "InterpretedDoubleType_Generated",
+					"InterpretedDoubleType_Base" ).generate( p );
+			new ConstantEvaluatorGenerator( ExpressionTemplatesForBigDecimals.class,
+					"InterpretedBigDecimalType_Generated", "InterpretedBigDecimalType_Base", new Adjusted() ).generate( p );
+			new ConstantEvaluatorGenerator( ExpressionTemplatesForScaledLongs.class,
+					"InterpretedScaledLongType_Generated", "InterpretedScaledLongType_Base", new ScaledLong() ).generate( p );
 		}
 
-		protected abstract void genAccessAs( DescriptionBuilder _cb, TemplateMethodGenerator _generator, int _paramIdx,
-				Type _paramType );
-
-		@Override
-		protected final void genCompilationOfFinalValueConversion( DescriptionBuilder _cb,
-				TemplateMethodGenerator _generator, Type _returnType )
+		private static class Adjusted extends ConstantEvaluatorGenerator.Customization
 		{
-			if (_returnType.equals( ownType() )) {
-				super.genCompilationOfFinalValueConversion( _cb, _generator, _returnType );
+
+			public Adjusted()
+			{
+				super();
 			}
-			else {
-				genReturnAs( _cb, _returnType );
+
+			@Override
+			protected String genValueAdjustment( DescriptionBuilder _cb, FunctionTemplateGenerator _generator )
+			{
+				if (!hasAnnotation( _generator.mtdNode, "Lsej/internal/templates/ReturnsAdjustedValue;" )) {
+					_cb.append( "adjustReturnedValue( " );
+					return " )";
+				}
+				return "";
 			}
+
 		}
 
-		protected void genReturnAs( DescriptionBuilder _cb, Type _type )
+		private static class ScaledLong extends ConstantEvaluatorGenerator.Customization
 		{
-			if (Type.INT_TYPE.equals( _type )) {
-				_cb.appendLine( "compileConversionFromInt();" );
+
+			public ScaledLong()
+			{
+				super();
 			}
-			else {
-				_cb.append( "compileConversionFrom( " ).append( typeToJavaConst( _type ) ).appendLine( " );" );
+
+			@Override
+			protected void genConstructor( DescriptionBuilder _cb, ConstantEvaluatorGenerator _generator )
+			{
+				final DescriptionBuilder cb = _cb;
+
+				cb.append( "private final " ).append( _generator.clsName ).appendLine( " template;" );
+
+				cb.newLine();
+				cb.append( "public " ).append( _generator.typeName ).appendLine( "(sej.internal.NumericTypeImpl.AbstractLongType _type) {" );
+				cb.indent();
+				cb.appendLine( "super( _type );" );
+				cb.append( "this.template = new " ).append( _generator.clsName ).appendLine( "( getContext() );" );
+				cb.outdent();
+				cb.appendLine( "}" );
 			}
-		}
-
-		protected final String typeToJavaConst( Type _paramType )
-		{
-			if (_paramType.equals( STRING_TYPE )) return "String.class";
-			else if (_paramType.equals( Type.INT_TYPE )) return "Integer.TYPE";
-			else if (_paramType.equals( Type.BOOLEAN_TYPE )) return "Boolean.TYPE";
-			else throw new IllegalArgumentException( "The type "
-					+ _paramType.toString() + " is not supported by automatic conversion." );
-		}
-
-	}
-
-
-	private static class Numeric extends AbstractDual
-	{
-		private final Type ownType;
-
-		public Numeric(Type _ownType)
-		{
-			super();
-			this.ownType = _ownType;
-		}
-
-		@Override
-		protected Type ownType()
-		{
-			return this.ownType;
-		}
-
-		@Override
-		protected void extendConstructorFormals( DescriptionBuilder _cb )
-		{
-			_cb.append( ", NumericType _numericType" );
-		}
-
-		@Override
-		protected void extendConstructorArgumentsForSuper( DescriptionBuilder _cb )
-		{
-			_cb.append( ", _numericType" );
-		}
-
-		@Override
-		protected void genAccessAs( DescriptionBuilder _cb, TemplateMethodGenerator _generator, int _paramIdx,
-				Type _paramType )
-		{
-			if (_paramType.equals( STRING_TYPE )) {
-				genStr( _cb, _generator );
-				_cb.append( "str.compile( _" ).append( _generator.paramName( _paramIdx ) ).appendLine( " );" );
+			
+			@Override
+			protected String templateName()
+			{
+				return "this.template";
 			}
-			else {
-				_cb.append( "compile( _" ).append( _generator.paramName( _paramIdx ) ).appendLine( " );" );
-				_cb.append( "compileConversionTo( " ).append( typeToJavaConst( _paramType ) ).appendLine( " );" );
-			}
-		}
 
-		private static final String STR_COMP = "str";
-
-		private void genStr( DescriptionBuilder _cb, TemplateMethodGenerator _generator )
-		{
-			if (!_generator.defs.containsKey( STR_COMP )) {
-				_cb.appendLine( "final ExpressionCompilerForStrings str = method().stringCompiler();" );
-				_generator.defs.put( STR_COMP, null );
-			}
 		}
 
 	}
 
 
-	private static class Adjusted extends Numeric
+	private static class PatternCompilerToByteCodeCompilers
 	{
 
-		public Adjusted(Type _ownType)
+		public void run() throws IOException
 		{
-			super( _ownType );
+			final File p = new File( "temp/gen-src/classes-jre"
+					+ Util.jdkVersionSuffix() + "/sej/internal/bytecode/compiler" );
+			p.mkdirs();
+
+			new ByteCodeCompilerGenerator( ExpressionTemplatesForAll.class, "All" ).generate( p );
+			new ByteCodeCompilerGenerator( ExpressionTemplatesForNumbers.class, "Numbers", new Numeric( Type
+					.getType( Number.class ) ) ).generate( p );
+			new ByteCodeCompilerGenerator( ExpressionTemplatesForDoubles.class, "Doubles", new Numeric( Type.DOUBLE_TYPE ) )
+					.generate( p );
+			new ByteCodeCompilerGenerator( ExpressionTemplatesForScaledLongs.class, "ScaledLongs", new Numeric(
+					Type.LONG_TYPE ) ).generate( p );
+			new ByteCodeCompilerGenerator( ExpressionTemplatesForBigDecimals.class, "BigDecimals", new Adjusted( Type
+					.getType( BigDecimal.class ) ) ).generate( p );
+			new ByteCodeCompilerGenerator( ExpressionTemplatesForStrings.class, "Strings", new Strings() ).generate( p );
 		}
 
-		@Override
-		protected void genValueAdjustment( DescriptionBuilder _cb, TemplateMethodGenerator _generator )
-		{
-			if (!hasAnnotation( _generator.mtdNode, "Lsej/internal/templates/ReturnsAdjustedValue;" )) {
-				_cb.appendLine( "compileValueAdjustment();" );
-			}
-		}
 
-		private boolean hasAnnotation( MethodNode _mtdNode, String _className )
+		private static abstract class AbstractDual extends ByteCodeCompilerGenerator.Customization
 		{
-			if (null != _mtdNode.invisibleAnnotations) {
-				for (final Object annObj : _mtdNode.invisibleAnnotations) {
-					final AnnotationNode annNode = (AnnotationNode) annObj;
-					if (annNode.desc.equals( _className )) {
-						return true;
-					}
+
+			protected abstract Type ownType();
+
+			@Override
+			protected final void genCompilationOfArgNode( DescriptionBuilder _cb, TemplateMethodGenerator _generator,
+					int _paramIdx, Type _paramType )
+			{
+				if (_paramType.equals( ownType() )) {
+					super.genCompilationOfArgNode( _cb, _generator, _paramIdx, _paramType );
+				}
+				else {
+					genAccessAs( _cb, _generator, _paramIdx, _paramType );
 				}
 			}
-			return false;
+
+			protected abstract void genAccessAs( DescriptionBuilder _cb, TemplateMethodGenerator _generator,
+					int _paramIdx, Type _paramType );
+
+			@Override
+			protected final void genCompilationOfFinalValueConversion( DescriptionBuilder _cb,
+					TemplateMethodGenerator _generator, Type _returnType )
+			{
+				if (_returnType.equals( ownType() )) {
+					super.genCompilationOfFinalValueConversion( _cb, _generator, _returnType );
+				}
+				else {
+					genReturnAs( _cb, _returnType );
+				}
+			}
+
+			protected void genReturnAs( DescriptionBuilder _cb, Type _type )
+			{
+				if (Type.INT_TYPE.equals( _type )) {
+					_cb.appendLine( "compileConversionFromInt();" );
+				}
+				else {
+					_cb.append( "compileConversionFrom( " ).append( typeToJavaConst( _type ) ).appendLine( " );" );
+				}
+			}
+
+			protected final String typeToJavaConst( Type _paramType )
+			{
+				if (_paramType.equals( STRING_TYPE )) return "String.class";
+				else if (_paramType.equals( Type.INT_TYPE )) return "Integer.TYPE";
+				else if (_paramType.equals( Type.BOOLEAN_TYPE )) return "Boolean.TYPE";
+				else throw new IllegalArgumentException( "The type "
+						+ _paramType.toString() + " is not supported by automatic conversion." );
+			}
+
+		}
+
+
+		private static class Numeric extends AbstractDual
+		{
+			private final Type ownType;
+
+			public Numeric(Type _ownType)
+			{
+				super();
+				this.ownType = _ownType;
+			}
+
+			@Override
+			protected Type ownType()
+			{
+				return this.ownType;
+			}
+
+			@Override
+			protected void extendConstructorFormals( DescriptionBuilder _cb )
+			{
+				_cb.append( ", NumericType _numericType" );
+			}
+
+			@Override
+			protected void extendConstructorArgumentsForSuper( DescriptionBuilder _cb )
+			{
+				_cb.append( ", _numericType" );
+			}
+
+			@Override
+			protected void genAccessAs( DescriptionBuilder _cb, TemplateMethodGenerator _generator, int _paramIdx,
+					Type _paramType )
+			{
+				if (_paramType.equals( STRING_TYPE )) {
+					genStr( _cb, _generator );
+					_cb.append( "str.compile( _" ).append( _generator.paramName( _paramIdx ) ).appendLine( " );" );
+				}
+				else {
+					_cb.append( "compile( _" ).append( _generator.paramName( _paramIdx ) ).appendLine( " );" );
+					_cb.append( "compileConversionTo( " ).append( typeToJavaConst( _paramType ) ).appendLine( " );" );
+				}
+			}
+
+			private static final String STR_COMP = "str";
+
+			private void genStr( DescriptionBuilder _cb, TemplateMethodGenerator _generator )
+			{
+				if (!_generator.defs.containsKey( STR_COMP )) {
+					_cb.appendLine( "final ExpressionCompilerForStrings str = method().stringCompiler();" );
+					_generator.defs.put( STR_COMP, null );
+				}
+			}
+
+		}
+
+
+		private static class Adjusted extends Numeric
+		{
+
+			public Adjusted(Type _ownType)
+			{
+				super( _ownType );
+			}
+
+			@Override
+			protected void genValueAdjustment( DescriptionBuilder _cb, TemplateMethodGenerator _generator )
+			{
+				if (!hasAnnotation( _generator.mtdNode, "Lsej/internal/templates/ReturnsAdjustedValue;" )) {
+					_cb.appendLine( "compileValueAdjustment();" );
+				}
+			}
+
+		}
+
+
+		private static class Strings extends AbstractDual
+		{
+
+			@Override
+			protected Type ownType()
+			{
+				return STRING_TYPE;
+			}
+
+			@Override
+			protected void genAccessAs( DescriptionBuilder _cb, TemplateMethodGenerator _generator, int _paramIdx,
+					Type _paramType )
+			{
+				genNum( _cb, _generator );
+				_cb.append( "num.compile( _" ).append( _generator.paramName( _paramIdx ) ).appendLine( " );" );
+				if (Type.INT_TYPE.equals( _paramType )) {
+					_cb.appendLine( "num.compileConversionToInt();" );
+				}
+				else {
+					_cb.append( "num.compileConversionTo( " ).append( typeToJavaConst( _paramType ) ).appendLine( " );" );
+				}
+			}
+
+			private static final String NUM_COMP = "num";
+
+			private void genNum( DescriptionBuilder _cb, TemplateMethodGenerator _generator )
+			{
+				if (!_generator.defs.containsKey( NUM_COMP )) {
+					_cb.appendLine( "final ExpressionCompilerForNumbers num = method().numericCompiler();" );
+					_generator.defs.put( NUM_COMP, null );
+				}
+			}
+
 		}
 
 	}
 
 
-	private static class Strings extends AbstractDual
+	final static boolean hasAnnotation( MethodNode _mtdNode, String _className )
 	{
-
-		@Override
-		protected Type ownType()
-		{
-			return STRING_TYPE;
-		}
-
-		@Override
-		protected void genAccessAs( DescriptionBuilder _cb, TemplateMethodGenerator _generator, int _paramIdx,
-				Type _paramType )
-		{
-			genNum( _cb, _generator );
-			_cb.append( "num.compile( _" ).append( _generator.paramName( _paramIdx ) ).appendLine( " );" );
-			if (Type.INT_TYPE.equals( _paramType )) {
-				_cb.appendLine( "num.compileConversionToInt();" );
-			}
-			else {
-				_cb.append( "num.compileConversionTo( " ).append( typeToJavaConst( _paramType ) ).appendLine( " );" );
+		if (null != _mtdNode.invisibleAnnotations) {
+			for (final Object annObj : _mtdNode.invisibleAnnotations) {
+				final AnnotationNode annNode = (AnnotationNode) annObj;
+				if (annNode.desc.equals( _className )) {
+					return true;
+				}
 			}
 		}
-
-		private static final String NUM_COMP = "num";
-
-		private void genNum( DescriptionBuilder _cb, TemplateMethodGenerator _generator )
-		{
-			if (!_generator.defs.containsKey( NUM_COMP )) {
-				_cb.appendLine( "final ExpressionCompilerForNumbers num = method().numericCompiler();" );
-				_generator.defs.put( NUM_COMP, null );
-			}
-		}
-
+		return false;
 	}
-
 
 }

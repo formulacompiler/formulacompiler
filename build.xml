@@ -151,6 +151,7 @@
 
 	<target name="-compile-bootstrap" depends="-prepare, generate-parsers">
 		<delete failonerror="no">
+			<fileset dir="${temp.classes-gen.dir}/sej/internal/model/util" includes="*.java" />
 			<fileset dir="${temp.classes-gen.dir}/sej/internal/model/rewriting" includes="*.java" />
 			<fileset dir="${temp.classes-gen-jre.dir}/sej/internal/bytecode/compiler" includes="*.java" />
 		</delete>

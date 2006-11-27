@@ -26,7 +26,7 @@ import java.util.Date;
 
 import sej.internal.runtime.RuntimeDouble_v1;
 
-public abstract class ExpressionTemplatesForDoubles
+public final class ExpressionTemplatesForDoubles
 {
 
 
@@ -215,7 +215,7 @@ public abstract class ExpressionTemplatesForDoubles
 
 	// Leave this comment in. It is used to cite the code into the documentation.
 	// ---- fun_ABS
-	double fun_ABS( double a )
+	public double fun_ABS( double a )
 	{
 		return Math.abs( a );
 	}
@@ -223,7 +223,7 @@ public abstract class ExpressionTemplatesForDoubles
 
 	// Leave this comment in. It is used to cite the code into the documentation.
 	// ---- fun_ROUND
-	double fun_ROUND( double a, double b )
+	public double fun_ROUND( double a, double b )
 	{
 		return RuntimeDouble_v1.round( a, (int) b );
 	}
@@ -233,7 +233,7 @@ public abstract class ExpressionTemplatesForDoubles
 	// ------------------------------------------------ Combinatorics
 
 
-	double fun_FACT( double a )
+	public double fun_FACT( double a )
 	{
 		return RuntimeDouble_v1.fun_FACT( a );
 	}
@@ -242,7 +242,7 @@ public abstract class ExpressionTemplatesForDoubles
 	// ------------------------------------------------ Date Functions
 
 
-	double fun_TODAY()
+	public double fun_TODAY()
 	{
 		return RuntimeDouble_v1.fun_TODAY();
 	}
