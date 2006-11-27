@@ -18,8 +18,50 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.templates;
+package sej.internal.model.templates;
 
-public @interface ReturnsAdjustedValue {
-	// marker
+import sej.internal.runtime.Runtime_v1;
+
+
+@SuppressWarnings("unqualified-field-access")
+public final class ExpressionTemplatesForNumbers
+{
+
+	/**
+	 * The "String" argument is automatically compiled using the String expression compiler. The
+	 * "int" return is automatically converted to the proper output type.
+	 */
+	public int fun_LEN( String a )
+	{
+		return a.length();
+	}
+
+
+	public boolean fun_EXACT( String a, String b )
+	{
+		return Runtime_v1.stdEXACT( a, b );
+	}
+
+
+	public int fun_SEARCH( String _what, String _within )
+	{
+		return Runtime_v1.stdSEARCH( _what, _within, 1 );
+	}
+
+	public int fun_SEARCH( String _what, String _within, int _startingAt )
+	{
+		return Runtime_v1.stdSEARCH( _what, _within, _startingAt );
+	}
+
+
+	public int fun_FIND( String _what, String _within )
+	{
+		return Runtime_v1.stdFIND( _what, _within, 1 );
+	}
+
+	public int fun_FIND( String _what, String _within, int _startingAt )
+	{
+		return Runtime_v1.stdFIND( _what, _within, _startingAt );
+	}
+
 }

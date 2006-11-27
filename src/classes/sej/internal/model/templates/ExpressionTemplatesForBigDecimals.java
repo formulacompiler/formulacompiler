@@ -18,7 +18,7 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.templates;
+package sej.internal.model.templates;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -193,12 +193,6 @@ public final class ExpressionTemplatesForBigDecimals
 
 	// ------------------------------------------------ Operators
 
-
-	@ReturnsAdjustedValue
-	public BigDecimal op_INTERNAL_NOOP( BigDecimal a )
-	{
-		return a;
-	}
 
 	@ReturnsAdjustedValue
 	public BigDecimal op_PLUS( BigDecimal a, BigDecimal b )

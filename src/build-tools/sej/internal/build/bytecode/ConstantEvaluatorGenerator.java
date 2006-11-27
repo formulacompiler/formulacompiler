@@ -68,7 +68,7 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 		cb.appendLine( "import sej.Operator;" );
 		cb.appendLine( "import sej.internal.expressions.ExpressionNode;" );
 		cb.appendLine( "import sej.internal.expressions.ExpressionNodeForFunction;" );
-		cb.append( "import sej.internal.templates." ).append( clsName ).appendLine( ";" );
+		cb.append( "import sej.internal.model.templates." ).append( clsName ).appendLine( ";" );
 		cb.newLine();
 		cb.newLine();
 		cb.appendLine( "@SuppressWarnings(\"unused\")" );

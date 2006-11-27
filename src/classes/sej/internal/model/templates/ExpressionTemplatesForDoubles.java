@@ -18,7 +18,7 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.templates;
+package sej.internal.model.templates;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -151,11 +151,6 @@ public final class ExpressionTemplatesForDoubles
 
 	// ------------------------------------------------ Operators
 
-
-	public double op_INTERNAL_NOOP( double a )
-	{
-		return a;
-	}
 
 	public double op_PLUS( double a, double b )
 	{

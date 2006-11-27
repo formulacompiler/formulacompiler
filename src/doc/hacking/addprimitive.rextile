@@ -122,11 +122,11 @@ h4. Template Methods
 
 SEJ is, like @javac@, a byte-code compiler for the JVM(Java Virtual Machine). But, luckily, you don't have to know the "JVM byte code instruction set":-jvminsns to add primitive functions like @ABS()@ to SEJ. Instead, you write simple _template methods_ in plain Java, like this:
 
-	[jc:sej.internal.templates.ExpressionTemplatesForDoubles:---- fun_ROUND]
+	[jc:sej.internal.model.templates.ExpressionTemplatesForDoubles:---- fun_ROUND]
 
 Any method you put into the class
 
-	sej.internal.templates.ExpressionTemplatesForDoubles
+	sej.internal.model.templates.ExpressionTemplatesForDoubles
 	
 that is called @fun_XY@ is automatically decompiled by SEJ's build process to generate a byte-code compiler for expression nodes of the kind @new ExpressionNodeForFunction( Function.XY )@.
 
@@ -144,15 +144,15 @@ h4. Numeric Types
 
 This would be very easy to do for @ABS()@ too. But @ABS()@ is really so basic, we will implement it directly instead:
 
-	[jc:sej.internal.templates.ExpressionTemplatesForDoubles:---- fun_ABS]
+	[jc:sej.internal.model.templates.ExpressionTemplatesForDoubles:---- fun_ABS]
 
-This covers @double@. We also need to handle @BigDecimal@ and scaled @long@. This is done in the template class @sej.internal.templates.ExpressionTemplatesForScaledLongs@:
+This covers @double@. We also need to handle @BigDecimal@ and scaled @long@. This is done in the template class @sej.internal.model.templates.ExpressionTemplatesForScaledLongs@:
 
-	[jc:sej.internal.templates.ExpressionTemplatesForScaledLongs:---- fun_ABS]
+	[jc:sej.internal.model.templates.ExpressionTemplatesForScaledLongs:---- fun_ABS]
 	
-and in @sej.internal.templates.ExpressionTemplatesForBigDecimals@:
+and in @sej.internal.model.templates.ExpressionTemplatesForBigDecimals@:
 
-	[jc:sej.internal.templates.ExpressionTemplatesForBigDecimals:---- fun_ABS]
+	[jc:sej.internal.model.templates.ExpressionTemplatesForBigDecimals:---- fun_ABS]
 
 The annotation @@ReturnsAdjustedValue@ means that the method result already has the proper scale. If you omit it, SEJ will generate rescaling code after your method body. Once this is done, run "@ant generate@":build.htm to rebuild the compiler code from the template methods.
 
