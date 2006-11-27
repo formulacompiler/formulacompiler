@@ -20,134 +20,14 @@
  */
 package sej.internal.model.util;
 
-import sej.Function;
 import sej.NumericType;
-import sej.Operator;
-import sej.internal.runtime.RuntimeDouble_v1;
 
-final class InterpretedDoubleType extends InterpretedNumericType
+final class InterpretedDoubleType extends InterpretedDoubleType_Generated
 {
 
 	public InterpretedDoubleType(NumericType _type)
 	{
 		super( _type );
-	}
-
-
-	@Override
-	public Object adjustConstantValue( Object _value )
-	{
-		return _value;
-	}
-
-	@Override
-	public Object compute( Operator _operator, Object... _args )
-	{
-		switch (_operator) {
-
-			case PLUS: {
-				double result = 0.0;
-				for (Object arg : _args) {
-					result += valueToDoubleOrZero( arg );
-				}
-				return result;
-			}
-
-			case MINUS: {
-				switch (_args.length) {
-					case 1:
-						return -valueToDoubleOrZero( _args[ 0 ] );
-					case 2:
-						return valueToDoubleOrZero( _args[ 0 ] ) - valueToDoubleOrZero( _args[ 1 ] );
-				}
-				break;
-			}
-
-			case TIMES: {
-				double result = 1.0;
-				for (Object arg : _args) {
-					result *= valueToDoubleOrZero( arg );
-				}
-				return result;
-			}
-
-			case DIV: {
-				switch (_args.length) {
-					case 2:
-						return valueToDoubleOrZero( _args[ 0 ] ) / valueToDoubleOrZero( _args[ 1 ] );
-				}
-				break;
-			}
-
-			case EXP: {
-				switch (_args.length) {
-					case 2:
-						return Math.pow( valueToDoubleOrZero( _args[ 0 ] ), valueToDoubleOrZero( _args[ 1 ] ) );
-				}
-				break;
-			}
-
-			case PERCENT: {
-				switch (_args.length) {
-					case 1:
-						return valueToDoubleOrZero( _args[ 0 ] ) / 100;
-				}
-				break;
-			}
-
-		}
-		return super.compute( _operator, _args );
-	}
-
-	@Override
-	public Object compute( Function _function, Object... _args )
-	{
-		final int cardinality = _args.length;
-		switch (_function) {
-
-			case ROUND: {
-				switch (cardinality) {
-					case 2:
-						double val = valueToDoubleOrZero( _args[ 0 ] );
-						int maxFrac = valueToIntOrZero( _args[ 1 ] );
-						return RuntimeDouble_v1.round( val, maxFrac );
-				}
-				break;
-			}
-
-			case MATCH: {
-				switch (cardinality) {
-					case 2:
-						return (double) InterpretedNumericType.match( _args[ 0 ], _args[ 1 ], 1 ) + 1;
-					case 3:
-						return (double) InterpretedNumericType.match( _args[ 0 ], _args[ 1 ], valueToIntOrOne( _args[ 2 ] ) ) + 1;
-				}
-				break;
-			}
-			
-		}
-		return super.compute( _function, _args );
-	}
-
-	@Override
-	protected int compareNumerically( Object _a, Object _b )
-	{
-		double a = valueToDoubleOrZero( _a );
-		double b = valueToDoubleOrZero( _b );
-		return Double.compare( a, b );
-	}
-
-
-	private double valueToDouble( Object _value, double _ifNull )
-	{
-		if (_value instanceof Number) return ((Number) _value).doubleValue();
-		if (_value instanceof String) return Double.valueOf( (String) _value );
-		return _ifNull;
-	}
-
-	private double valueToDoubleOrZero( Object _value )
-	{
-		return valueToDouble( _value, 0.0 );
 	}
 
 }

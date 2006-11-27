@@ -18,50 +18,56 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.templates;
+package sej.internal.build.bytecode;
 
-import sej.internal.runtime.Runtime_v1;
+import sej.describable.DescriptionBuilder;
 
-
-@SuppressWarnings("unqualified-field-access")
-public final class ExpressionTemplatesForNumbers
+final class DispatchBuilder extends DescriptionBuilder
 {
+	String pending;
 
-	/**
-	 * The "String" argument is automatically compiled using the String expression compiler. The
-	 * "int" return is automatically converted to the proper output type.
-	 */
-	public int fun_LEN( String a )
+	@Override
+	public String toString()
 	{
-		return a.length();
+		closePending();
+		return super.toString();
 	}
 
-
-	public boolean fun_EXACT( String a, String b )
+	void closePending()
 	{
-		return Runtime_v1.stdEXACT( a, b );
+		if (null != this.pending) {
+			appendLine( this.pending );
+			this.pending = null;
+		}
 	}
 
+	private String lastDispatch = "";
 
-	public int fun_SEARCH( String _what, String _within )
+	protected boolean genDispatchCase( String _enumName )
 	{
-		return Runtime_v1.stdSEARCH( _what, _within, 1 );
+		if (!this.lastDispatch.equals( _enumName )) {
+			closePending();
+			append( "case " ).append( _enumName ).appendLine( ":" );
+			this.lastDispatch = _enumName;
+			return true;
+		}
+		return false;
 	}
 
-	public int fun_SEARCH( String _what, String _within, int _startingAt )
+	protected void genDispatchIf( String _ifCond )
 	{
-		return Runtime_v1.stdSEARCH( _what, _within, _startingAt );
+		if (null != _ifCond) {
+			append( "if (" ).append( _ifCond ).appendLine( "()) {" );
+			indent();
+		}
 	}
 
-
-	public int fun_FIND( String _what, String _within )
+	protected void genDispatchEndIf( String _ifCond )
 	{
-		return Runtime_v1.stdFIND( _what, _within, 1 );
-	}
-
-	public int fun_FIND( String _what, String _within, int _startingAt )
-	{
-		return Runtime_v1.stdFIND( _what, _within, _startingAt );
+		if (null != _ifCond) {
+			outdent();
+			appendLine( "}" );
+		}
 	}
 
 }

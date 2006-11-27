@@ -28,12 +28,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.IincInsnNode;
 import org.objectweb.asm.tree.InsnNode;
@@ -51,46 +49,31 @@ import sej.describable.DescriptionBuilder;
 import sej.internal.build.Util;
 
 @SuppressWarnings("unqualified-field-access")
-final class ByteCodeCompilerGenerator
+final class ByteCodeCompilerGenerator extends AbstractGenerator
 {
-	static final String IF_CLAUSE = "__if_";
-	static final int IF_CLAUSE_LEN = IF_CLAUSE.length();
 	static final int INIT_BACKING_VAR_ON_ACCESS = -1;
 
-	final DescriptionBuilder classBuilder = new DescriptionBuilder();
 	final DispatchBuilder unaryOperatorDispatchBuilder = new DispatchBuilder();
 	final DispatchBuilder binaryOperatorDispatchBuilder = new DispatchBuilder();
-	final DispatchBuilder functionDispatchBuilder = new DispatchBuilder();
-	final String superName;
-	final String typeName;
-	final Class cls;
-	final ClassNode clsNode;
 	final Customization customization;
 
-	public ByteCodeCompilerGenerator(PatternCompiler _compiler, Class _cls, String _typeName, String _superName,
-			Customization _customization) throws IOException
+	public ByteCodeCompilerGenerator(Class _cls, String _typeName, String _superName, Customization _customization)
+			throws IOException
 	{
-		this.superName = _superName;
-		this.typeName = _typeName;
-		this.cls = _cls;
+		super( _cls, _typeName, _superName );
 		this.customization = _customization;
-		this.clsNode = new ClassNode();
-		new ClassReader( _cls.getCanonicalName() ).accept( clsNode, true );
-
 		this.unaryOperatorDispatchBuilder.indent( 4 );
 		this.binaryOperatorDispatchBuilder.indent( 4 );
-		this.functionDispatchBuilder.indent( 3 );
 	}
 
-	public ByteCodeCompilerGenerator(PatternCompiler _compiler, Class _cls, String _typeName,
-			Customization _customization) throws IOException
+	public ByteCodeCompilerGenerator(Class _cls, String _typeName, Customization _customization) throws IOException
 	{
-		this( _compiler, _cls, _typeName, "ExpressionCompilerFor" + _typeName + "_Base", _customization );
+		this( _cls, _typeName, "ExpressionCompilerFor" + _typeName + "_Base", _customization );
 	}
 
-	public ByteCodeCompilerGenerator(PatternCompiler _compiler, Class _cls, String _typeName) throws IOException
+	public ByteCodeCompilerGenerator(Class _cls, String _typeName) throws IOException
 	{
-		this( _compiler, _cls, _typeName, new Customization() );
+		this( _cls, _typeName, new Customization() );
 	}
 
 
@@ -247,67 +230,10 @@ final class ByteCodeCompilerGenerator
 	}
 
 
-	final class DispatchBuilder extends DescriptionBuilder
+	abstract class TemplateMethodGenerator extends AbstractMethodTemplateGenerator
 	{
-		String pending;
-
-		@Override
-		public String toString()
-		{
-			closePending();
-			return super.toString();
-		}
-
-		void closePending()
-		{
-			if (null != pending) {
-				appendLine( pending );
-				pending = null;
-			}
-		}
-
-		private String lastDispatch = "";
-
-		protected boolean genDispatchCase( String _enumName )
-		{
-			if (!lastDispatch.equals( _enumName )) {
-				closePending();
-				append( "case " ).append( _enumName ).appendLine( ":" );
-				lastDispatch = _enumName;
-				return true;
-			}
-			return false;
-		}
-
-		protected void genDispatchIf( String _ifCond )
-		{
-			if (null != _ifCond) {
-				append( "if (" ).append( _ifCond ).appendLine( "()) {" );
-				indent();
-			}
-		}
-
-		protected void genDispatchEndIf( String _ifCond )
-		{
-			if (null != _ifCond) {
-				outdent();
-				appendLine( "}" );
-			}
-		}
-
-	}
-
-
-	abstract class TemplateMethodGenerator
-	{
-		final MethodNode mtdNode;
-		final Type[] argTypes;
-		final Type returnType;
-		final int cardinality;
 		final int firstVarInLocals;
 		final List<Label> labels = new ArrayList<Label>();
-		final String enumName;
-		final String ifCond;
 		final Iterator insns;
 		final Map<String, Object> defs = new HashMap<String, Object>();
 
@@ -317,34 +243,12 @@ final class ByteCodeCompilerGenerator
 
 		public TemplateMethodGenerator(MethodNode _mtdNode)
 		{
-			this.mtdNode = _mtdNode;
-			this.argTypes = Type.getArgumentTypes( mtdNode.desc );
-			this.returnType = Type.getReturnType( mtdNode.desc );
-			this.cardinality = argTypes.length;
+			super( _mtdNode );
 			this.sizeOfLocals = mtdNode.maxLocals;
 			this.firstVarInLocals = 1 + totalSizeOf( argTypes ); // add 1 for "this"
 			this.sizeOfVarsInLocals = sizeOfLocals - firstVarInLocals;
 			this.backingVars = new int[ cardinality ];
 			this.insns = _mtdNode.instructions.iterator();
-			// split name
-			final String n = _mtdNode.name;
-			final int p = n.indexOf( '_' );
-			if (p < 0) {
-				this.enumName = "";
-				this.ifCond = "";
-			}
-			else {
-				final String s = n.substring( p + 1 );
-				final int pp = s.indexOf( IF_CLAUSE );
-				if (pp < 0) {
-					this.enumName = s;
-					this.ifCond = null;
-				}
-				else {
-					this.enumName = s.substring( 0, pp );
-					this.ifCond = s.substring( pp + IF_CLAUSE_LEN );
-				}
-			}
 		}
 
 		private final int totalSizeOf( Type[] _argTypes )
