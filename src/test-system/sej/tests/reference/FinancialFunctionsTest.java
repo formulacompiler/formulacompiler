@@ -18,29 +18,10 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.model.rewriting;
-
-import java.util.Iterator;
-
-import sej.Function;
-import sej.Operator;
-import sej.internal.expressions.*;
+package sej.tests.reference;
 
 
-/**
- * THIS IS GENERATED CODE. DO NOT MODIFY.
- */
-final class GeneratedFunctionRewriter extends AbstractExpressionRewriter
+public class FinancialFunctionsTest extends AbstractReferenceTest
 {
-
-	public final ExpressionNode rewrite( ExpressionNodeForFunction _fun )
-	{
-		switch (_fun.getFunction()) {
-__SWITCH__
-		}
-		return _fun;
-	}
-
-
-__METHODS__
+	// configured automagically
 }

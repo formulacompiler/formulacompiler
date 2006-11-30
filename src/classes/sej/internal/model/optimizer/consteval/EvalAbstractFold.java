@@ -51,13 +51,18 @@ abstract class EvalAbstractFold extends EvalShadow
 		for (int i = i0; i < args.length; i++) {
 			args[ i ] = evaluateArgument( i );
 		}
+		return evaluateToConstOrExprWithConstantArgsFixed( args, i0 );
+	}
 
+
+	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object[] _args, int _firstFoldedArg )
+	{
 		final Collection<ExpressionNode> dynArgs = new ArrayList<ExpressionNode>();
-		final Object initialAcc = initial( args );
+		final Object initialAcc = initial( _args );
 		Object acc = initialAcc;
 		if (isConstant( acc )) {
-			for (int i = args.length - 1; i >= i0; i--) {
-				final Object xi = args[ i ];
+			for (int i = _args.length - 1; i >= _firstFoldedArg; i--) {
+				final Object xi = _args[ i ];
 				if (xi instanceof ExpressionNodeForSubstitution) {
 					acc = foldMany( acc, ((ExpressionNodeForSubstitution) xi).arguments(), dynArgs );
 				}
@@ -73,11 +78,11 @@ abstract class EvalAbstractFold extends EvalShadow
 			}
 			else {
 				final boolean sameAcc = (acc == initialAcc) || (acc != null && acc.equals( initialAcc ));
-				return partialFold( acc, !sameAcc, args, dynArgs );
+				return partialFold( acc, !sameAcc, _args, dynArgs );
 			}
 		}
 		else {
-			return evaluateToNode( args );
+			return evaluateToNode( _args );
 		}
 	}
 
@@ -86,20 +91,24 @@ abstract class EvalAbstractFold extends EvalShadow
 	{
 		int i0 = _i0;
 		_args[ i0++ ] = evaluateArgument( 0 ); // initial
+		_args[ i0++ ] = evalFoldingStep( _args );
+		this.foldEval = shadow( (ExpressionNode) _args[ i0 - 1 ], type() );
+		return i0;
+	}
 
+
+	protected Object evalFoldingStep( final Object[] _args )
+	{
 		// Temporarily undefine the names so they don't capture outer defs.
 		letDict().let( this.accName, null, EvalLetVar.UNDEF );
 		letDict().let( this.eltName, null, EvalLetVar.UNDEF );
 		try {
-			_args[ i0++ ] = evaluateArgument( 1 ); // fold
+			return evaluateArgument( 1 ); // fold
 		}
 		finally {
 			letDict().unlet( this.eltName );
 			letDict().unlet( this.accName );
 		}
-
-		this.foldEval = shadow( (ExpressionNode) _args[ i0 - 1 ], type() );
-		return i0;
 	}
 
 

@@ -23,6 +23,8 @@ package sej.internal.model.util;
 import java.math.BigDecimal;
 
 import sej.NumericType;
+import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.model.RangeValue;
 import sej.internal.runtime.RuntimeBigDecimal_v1;
 
 abstract class InterpretedBigDecimalType_Base extends InterpretedNumericType
@@ -67,8 +69,8 @@ abstract class InterpretedBigDecimalType_Base extends InterpretedNumericType
 		}
 		return _value;
 	}
-	
-	
+
+
 	@Override
 	public Object toNumeric( Number _value )
 	{
@@ -102,22 +104,36 @@ abstract class InterpretedBigDecimalType_Base extends InterpretedNumericType
 		return valueToBigDecimal( _value, RuntimeBigDecimal_v1.ZERO );
 	}
 
-	
+
 	// Conversions for generated code:
-	
-	protected final BigDecimal to_BigDecimal( Object _o )
-	{
-		return valueToBigDecimalOrZero( _o );
-	}
-	
+
 	protected final boolean needsValueAdjustment()
 	{
 		return (NumericType.UNDEFINED_SCALE != this.scale);
 	}
-	
+
 	protected final BigDecimal adjustReturnedValue( BigDecimal _b )
 	{
 		return adjustScale( _b );
 	}
-	
+
+	protected final BigDecimal to_BigDecimal( Object _o )
+	{
+		return valueToBigDecimalOrZero( _o );
+	}
+
+	protected final BigDecimal[] to_array( Object _value )
+	{
+		final ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _value;
+		final RangeValue rangeValue = (RangeValue) constNode.getValue();
+		final BigDecimal[] r = new BigDecimal[ rangeValue.getNumberOfColumns()
+				* rangeValue.getNumberOfRows() * rangeValue.getNumberOfSheets() ];
+		int i = 0;
+		for (Object cst : rangeValue) {
+			r[ i ] = to_BigDecimal( cst );
+		}
+		return r;
+	}
+
+
 }

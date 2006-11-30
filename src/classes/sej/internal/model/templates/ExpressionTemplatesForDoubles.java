@@ -149,6 +149,32 @@ public final class ExpressionTemplatesForDoubles
 	}
 
 
+	// ------------------------------------------------ Array Fold
+
+
+	double foldArray( double[] _a )
+	{
+		final double[] a = _a;
+		double acc = foldInitial();
+		int i = 1;
+		for (double ai : a) {
+			acc = foldElement( acc, ai, i );
+			i++;
+		}
+		return acc;
+	}
+	
+	private double foldInitial() // abstract, really
+	{
+		return 0;
+	}
+
+	private double foldElement( double _acc, double _d, int _i ) // abstract, really
+	{
+		return 0;
+	}
+
+
 	// ------------------------------------------------ Operators
 
 
@@ -231,6 +257,15 @@ public final class ExpressionTemplatesForDoubles
 	public double fun_FACT( double a )
 	{
 		return RuntimeDouble_v1.fun_FACT( a );
+	}
+
+
+	// ------------------------------------------------ Financials
+
+
+	public double fun_IRR( double[] _values, double _guess )
+	{
+		return RuntimeDouble_v1.fun_IRR( _values, _guess );
 	}
 
 

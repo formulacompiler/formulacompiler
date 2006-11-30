@@ -24,9 +24,11 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
 import sej.internal.expressions.ExpressionNodeForFold1st;
+import sej.internal.expressions.ExpressionNodeForFoldArray;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
+import sej.internal.expressions.ExpressionNodeForMakeArray;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.expressions.ExpressionNodeShadow;
 import sej.internal.model.ExpressionNodeForCellModel;
@@ -58,6 +60,8 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 		else if (_node instanceof ExpressionNodeForLetVar) return new EvalLetVar( (ExpressionNodeForLetVar) _node, this.type );
 		else if (_node instanceof ExpressionNodeForFold) return new EvalFold( (ExpressionNodeForFold) _node, this.type );
 		else if (_node instanceof ExpressionNodeForFold1st) return new EvalFold1st( (ExpressionNodeForFold1st) _node, this.type );
+		else if (_node instanceof ExpressionNodeForFoldArray) return new EvalFoldArray( (ExpressionNodeForFoldArray) _node, this.type );
+		else if (_node instanceof ExpressionNodeForMakeArray) return new EvalPassthrough( _node );
 		else return new EvalNonFoldable( _node );
 	}
 

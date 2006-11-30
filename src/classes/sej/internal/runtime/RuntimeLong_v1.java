@@ -54,7 +54,7 @@ public final class RuntimeLong_v1 extends Runtime_v1
 			this.one = ONE_AT_SCALE[ _scale ];
 			this.oneAsDouble = this.one;
 		}
-		
+
 		public final int scale()
 		{
 			return this.scale;
@@ -76,6 +76,16 @@ public final class RuntimeLong_v1 extends Runtime_v1
 			else {
 				return _value / this.oneAsDouble;
 			}
+		}
+
+		double[] toDoubles( long[] _longs )
+		{
+			final int len = _longs.length;
+			final double[] doubles = new double[ len ];
+			for (int i = 0; i < len; i++) {
+				doubles[ i ] = toDouble( _longs[ i ] );
+			}
+			return doubles;
 		}
 
 		long fromDouble( double _value )
@@ -298,6 +308,11 @@ public final class RuntimeLong_v1 extends Runtime_v1
 				throw new ArithmeticException( "Overflow in FACT() using (scaled) long." );
 			}
 		}
+	}
+
+	public static long fun_IRR( long[] _values, long _guess, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v1.fun_IRR( _cx.toDoubles( _values ), _cx.toDouble( _guess ) ) );
 	}
 
 }

@@ -236,7 +236,8 @@ final class Function
     new Function(0x1c, "lookup", 2);
   public static final Function INDEX =
     new Function(0x1d, "index", 3);
-  public static final Function REPT =  new Function(0x1e, "rept", 2);
+  public static final Function REPT =
+    new Function(0x1e, "rept", 2);
   public static final Function MID =
     new Function(0x1f, "mid", 3);
   public static final Function LEN =
@@ -293,8 +294,8 @@ final class Function
     new Function(0x3b, "pmt", 0xff);
   public static final Function RATE =
     new Function(0x3c, "rate", 0xff);
-  //public static final Function MIRR =  new Function(0x3d, "MIRR",);
-  //public static final Function IRR =  new Function(0x3e, "IRR",);
+  public static final Function MIRR =  new Function(0x3d, "mirr", 3); // No idea why MIRR has 3 fixed args, but IRR is VARARG.
+  public static final Function IRR =  new Function(0x3e, "irr", 0xff);
   public static final Function RAND =
     new Function(0x3f, "rand", 0);
   public static final Function MATCH =

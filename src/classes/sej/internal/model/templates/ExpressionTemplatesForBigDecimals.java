@@ -191,6 +191,32 @@ public final class ExpressionTemplatesForBigDecimals
 	}
 
 
+	// ------------------------------------------------ Array Fold
+
+
+	BigDecimal foldArray( BigDecimal[] _a )
+	{
+		final BigDecimal[] a = _a;
+		BigDecimal acc = foldInitial();
+		int i = 1;
+		for (BigDecimal ai : a) {
+			acc = foldElement( acc, ai, i );
+			i++;
+		}
+		return acc;
+	}
+	
+	private BigDecimal foldInitial() // abstract, really
+	{
+		return null;
+	}
+
+	private BigDecimal foldElement( BigDecimal _acc, BigDecimal _d, int _i ) // abstract, really
+	{
+		return null;
+	}
+
+
 	// ------------------------------------------------ Operators
 
 

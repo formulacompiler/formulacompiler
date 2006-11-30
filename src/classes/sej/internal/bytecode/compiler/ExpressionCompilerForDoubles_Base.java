@@ -33,14 +33,14 @@ abstract class ExpressionCompilerForDoubles_Base extends ExpressionCompilerForNu
 	public ExpressionCompilerForDoubles_Base(MethodCompiler _methodCompiler, NumericType _numericType)
 	{
 		super( _methodCompiler, _numericType );
-	}	
+	}
 
 	@Override
 	protected boolean isScaled()
 	{
 		return false;
 	}
-	
+
 	@Override
 	protected boolean isNativeType( Class _type )
 	{
@@ -70,15 +70,28 @@ abstract class ExpressionCompilerForDoubles_Base extends ExpressionCompilerForNu
 		return _ifOpcode;
 	}
 
-	
+
 	@Override
 	protected void compileDup()
 	{
 		mv().visitInsn( Opcodes.DUP2 );
 	}
 
+
+	@Override
+	protected void compileNewArray()
+	{
+		mv().visitIntInsn( Opcodes.NEWARRAY, Opcodes.T_DOUBLE );
+	}
+
+	@Override
+	protected int arrayStoreOpcode()
+	{
+		return Opcodes.DASTORE;
+	}
+
 	
 	protected abstract void compile_util_fromScaledLong( long _scale ) throws CompilerException;
 	protected abstract void compile_util_toScaledLong( long _scale ) throws CompilerException;
-	
+
 }

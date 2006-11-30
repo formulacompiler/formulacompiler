@@ -22,6 +22,7 @@ package sej.internal.spreadsheet.loader.excel;
 
 import java.io.StringReader;
 
+import sej.internal.Settings;
 import sej.internal.expressions.ExpressionNode;
 
 public final class RewriteLanguageParser
@@ -34,8 +35,22 @@ public final class RewriteLanguageParser
 
 		final GeneratedParser parser = new GeneratedParser( scanner );
 		parser.excelParser = new ExcelExpressionParser( null );
-		parser.parse();
 
+		try {
+			if (Settings.isDebugParserEnabled()) {
+				parser.debug_parse();
+			}
+			else {
+				parser.parse();
+			}
+		}
+		catch (ExcelExpressionParserError e) {
+			throw e;
+		}
+		catch (Exception e) {
+			throw new ExcelExpressionParserError( e, _expr, scanner.charsRead() );
+		}
+		
 		return parser.rootNode;
 	}
 

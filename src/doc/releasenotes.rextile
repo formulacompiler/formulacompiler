@@ -14,6 +14,11 @@ h5. *Changed!*
 
 	* Dropped support for @Operator.MIN@, @Operator.MAX@, and @Operator.NOOP@. Use @Function.MIN@ and @Function.MAX@ instead.
 	
+h5. New
+
+	* @NPV()@ and @IRR()@ are now supported (not over dynamic sections, though).
+	* @_MAKE_ARRAY()@ and @_FOLD_ARRAY()@ added to internal rewriting language.
+	
 h5. Better
 
 	* The constant folder now uses the template methods in @sej.internal.templates@ to evaluate templated operators and functions. This got rid of a lot of redundant code, and it ensures that newly added templates automatically get constant folding support.

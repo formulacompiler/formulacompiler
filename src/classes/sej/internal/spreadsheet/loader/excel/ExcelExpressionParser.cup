@@ -38,6 +38,7 @@ terminal IF, AND, OR, NOT;
 terminal SUM, PRODUCT, COUNT, AVERAGE, MIN, MAX, VAR, VARP;
 terminal MATCH, INDEX, ROUND, ABS;
 terminal FACT, COMBIN;
+terminal NPV, IRR;
 terminal TODAY;
 terminal CONCATENATE, LEN, MID, LEFT, RIGHT, SUBSTITUTE, REPLACE, SEARCH, FIND, EXACT, LOWER, UPPER, PROPER;
 terminal Integer INT;
@@ -50,7 +51,7 @@ terminal String CELLR1C1;
 terminal String COL;
 terminal String ROW;
 
-terminal LET, FOLD, FOLD1ST, FOLD1STOK;
+terminal LET, FOLD, FOLD1ST, FOLD1STOK, FOLDARRAY;
 terminal String LETVAR;
 
 non terminal expr_root;
@@ -224,6 +225,9 @@ expr ::=
 	|	FOLD1ST LPAREN NAME:x0 COLON expr:v0 SEMICOLON NAME:acc NAME:xi COLON expr:fold SEMICOLON expr:other SEMICOLON args:args RPAREN
 				{: RESULT = new ExpressionNodeForFold1st( x0, v0, acc, xi, fold, other, args ); :}
 
+	|	FOLDARRAY LPAREN NAME:acc COLON expr:init SEMICOLON NAME:x COMMA NAME:i COLON expr:fold SEMICOLON expr:arr RPAREN
+				{: RESULT = new ExpressionNodeForFoldArray( acc, init, x, i, fold, arr ); :}
+
 	|	IF LPAREN expr:test COMMA expr:t COMMA expr:f RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.IF, cell( test ), cell( t ), cell( f )); :}
 				
@@ -295,6 +299,15 @@ expr ::=
 				
 	|	COMBIN LPAREN expr:n COMMA expr:k RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.COMBIN, n, k ); :}
+				
+	|	NPV LPAREN expr:rate COMMA shapedrangeexpr:vals RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.NPV, rate, vals ); :}
+				
+	|	IRR LPAREN shapedrangeexpr:vals COMMA expr:guess RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.IRR, vals, guess ); :}
+				
+	|	IRR LPAREN shapedrangeexpr:vals RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.IRR, vals, new ExpressionNodeForConstantValue( 0.1 )); :}
 				
 	;
 

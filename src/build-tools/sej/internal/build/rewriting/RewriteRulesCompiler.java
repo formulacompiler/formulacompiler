@@ -127,6 +127,14 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		// ---- fun_COMBIN
 
 
+		begin( Function.NPV, "rate", "vs#" );
+		{
+			body( "_LET( rate1: `rate + 1;" );
+			body( "  _FOLD_ARRAY( r: 0; vi, i: `r + `vi / `rate1 ^ `i; `vs ))" );
+		}
+		end();
+
+
 		// Leave this comment in. It is used to cite the code into the documentation.
 		// ---- fun_COMBIN
 	}

@@ -141,6 +141,8 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 					return "long";
 				case Type.SHORT:
 					return "short";
+				case Type.ARRAY:
+					return "array";
 				case Type.OBJECT:
 					return convName( _argType.getInternalName() );
 				default:

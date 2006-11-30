@@ -42,6 +42,10 @@ public enum Function {
 	// Combinatorics
 	
 	FACT, COMBIN,
+	
+	// Financials
+	
+	NPV, IRR,
 
 	// Dates
 	

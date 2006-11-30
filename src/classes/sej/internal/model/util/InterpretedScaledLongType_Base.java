@@ -24,6 +24,8 @@ import java.math.BigDecimal;
 
 import sej.internal.NumericTypeImpl;
 import sej.internal.NumericTypeImpl.AbstractLongType;
+import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.model.RangeValue;
 import sej.internal.runtime.RuntimeLong_v1;
 
 abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
@@ -139,14 +141,27 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 	
 	// Conversions for generated code:
 	
+	protected final boolean isScaled()
+	{
+		return getScale() != 0;
+	}
+
 	protected final long to_long( Object _o )
 	{
 		return valueToScaledLongOrZero( _o );
 	}
 
-	protected final boolean isScaled()
+	protected final long[] to_array( Object _value )
 	{
-		return getScale() != 0;
+		final ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _value;
+		final RangeValue rangeValue = (RangeValue) constNode.getValue();
+		final long[] r = new long[ rangeValue.getNumberOfColumns()
+				* rangeValue.getNumberOfRows() * rangeValue.getNumberOfSheets() ];
+		int i = 0;
+		for (Object cst : rangeValue) {
+			r[ i ] = to_long( cst );
+		}
+		return r;
 	}
 
 	
