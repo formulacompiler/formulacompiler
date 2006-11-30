@@ -33,6 +33,7 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
 import sej.internal.expressions.ExpressionNodeForFold1st;
+import sej.internal.expressions.ExpressionNodeForFoldArray;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
@@ -157,15 +158,25 @@ public abstract class AbstractRewriteRulesCompiler
 					b.append( "final ExpressionNode " ).append( param ).appendLine( " = substitution( args );" );
 					this.params.set( iParam, param );
 				}
-				else if (occursMoreThanOnce( expr, param )) {
-					b.append( "final ExpressionNode " ).append( param ).appendLine( "_ = args.next();" );
-					b.append( "final ExpressionNode " ).append( param ).append( " = var( \"" ).append( param ).appendLine(
-							"\" );" );
-					prefix.append( "let( \"" ).append( param ).append( "\", " ).append( param ).append( "_, " );
-					suffix.append( " )" );
-				}
 				else {
-					b.append( "final ExpressionNode " ).append( param ).appendLine( " = substitution( args.next() );" );
+					String paramExpr = "args.next()";
+					if (param.endsWith( "#" )) {
+						param = param.substring( 0, param.length() - 1 );
+						paramExpr = "new ExpressionNodeForMakeArray( args.next() )";
+						this.params.set( iParam, param );
+					}
+					if (occursMoreThanOnce( expr, param )) {
+						b.append( "final ExpressionNode " ).append( param ).append( "_ = " ).append( paramExpr ).appendLine(
+								";" );
+						b.append( "final ExpressionNode " ).append( param ).append( " = var( \"" ).append( param )
+								.appendLine( "\" );" );
+						prefix.append( "let( \"" ).append( param ).append( "\", " ).append( param ).append( "_, " );
+						suffix.append( " )" );
+					}
+					else {
+						b.append( "final ExpressionNode " ).append( param ).append( " = substitution( " ).append( paramExpr )
+								.appendLine( " );" );
+					}
 				}
 				iParam++;
 			}
@@ -246,6 +257,7 @@ public abstract class AbstractRewriteRulesCompiler
 		else if (_node instanceof ExpressionNodeForLet) compileLet( (ExpressionNodeForLet) _node, _b );
 		else if (_node instanceof ExpressionNodeForFold) compileFold( (ExpressionNodeForFold) _node, _b );
 		else if (_node instanceof ExpressionNodeForFold1st) compileFold1st( (ExpressionNodeForFold1st) _node, _b );
+		else if (_node instanceof ExpressionNodeForFoldArray) compileFoldArray( (ExpressionNodeForFoldArray) _node, _b );
 		else throw new Exception( "Unsupported expression: " + _node.toString() );
 	}
 
@@ -346,6 +358,18 @@ public abstract class AbstractRewriteRulesCompiler
 		compileExpr( _fold.accumulatingStep(), _b );
 		_b.append( ", " );
 		compileExpr( _fold.emptyValue(), _b );
+		_b.append( ", " );
+		compileArgs( _fold.elements(), _b );
+		_b.append( " )" );
+	}
+
+
+	private void compileFoldArray( ExpressionNodeForFoldArray _fold, DescriptionBuilder _b ) throws Exception
+	{
+		_b.append( "folda( \"" ).append( _fold.accumulatorName() ).append( "\", " );
+		compileExpr( _fold.initialAccumulatorValue(), _b );
+		_b.append( ", \"" ).append( _fold.elementName() ).append( "\", \"" ).append( _fold.indexName() ).append( "\", " );
+		compileExpr( _fold.accumulatingStep(), _b );
 		_b.append( ", " );
 		compileArgs( _fold.elements(), _b );
 		_b.append( " )" );

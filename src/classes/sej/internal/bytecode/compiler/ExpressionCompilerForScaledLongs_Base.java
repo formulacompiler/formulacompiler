@@ -144,7 +144,20 @@ abstract class ExpressionCompilerForScaledLongs_Base extends ExpressionCompilerF
 		mv().visitInsn( Opcodes.DUP2 );
 	}
 
+	
+	@Override
+	protected void compileNewArray()
+	{
+		mv().visitIntInsn( Opcodes.NEWARRAY, Opcodes.T_LONG );
+	}
 
+	@Override
+	protected int arrayStoreOpcode()
+	{
+		return Opcodes.LASTORE;
+	}
+
+	
 	protected abstract void compile_util_scaleUp( long _one ) throws CompilerException;
 	protected abstract void compile_util_scaleDown( long _one ) throws CompilerException;
 

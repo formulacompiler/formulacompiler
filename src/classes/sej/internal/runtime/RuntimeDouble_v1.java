@@ -186,4 +186,42 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	}
 
 
+	/**
+	 * Computes IRR using Newton's method, where x[i+1] = x[i] - f( x[i] ) / f'( x[i] )
+	 */
+	public static double fun_IRR( double[] _values, double _guess )
+	{
+		final double EXCEL_EPSILON = 0.0000001;
+		final double EXCEL_MAX_ITER = 20;
+
+		double x = _guess;
+		int iter = 0;
+		while (iter++ < EXCEL_MAX_ITER) {
+
+			final double x1 = 1.0 + x;
+			double fx = 0.0;
+			double dfx = 0.0;
+			for (int i = 0; i < _values.length; i++) {
+				final double v = _values[ i ];
+				fx += v / Math.pow( x1, i );
+				dfx += -i * v / Math.pow( x1, i + 1 );
+			}
+			final double new_x = x - fx / dfx;
+			final double epsilon = Math.abs( new_x - x );
+
+			if (epsilon <= EXCEL_EPSILON) {
+				if (_guess == 0.0 && Math.abs( new_x ) <= EXCEL_EPSILON) {
+					return 0.0; // OpenOffice calc does this
+				}
+				else {
+					return new_x;
+				}
+			}
+			x = new_x;
+			
+		}
+		return Double.NaN;
+	}
+
+
 }

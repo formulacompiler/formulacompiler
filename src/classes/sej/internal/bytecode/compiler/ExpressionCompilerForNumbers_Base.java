@@ -932,6 +932,15 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	}
 
 
+	protected static interface FoldArrayCompilation
+	{
+		void compileInitial() throws CompilerException;
+		void compileFold( int _acc, int _xi, int _i ) throws CompilerException;
+	}
+
+	protected abstract void compile_foldArray( FoldArrayCompilation _fold ) throws CompilerException;
+
+
 	@Override
 	public String toString()
 	{

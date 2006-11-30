@@ -104,7 +104,20 @@ abstract class ExpressionCompilerForBigDecimals_Base extends ExpressionCompilerF
 		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "compareTo", B2I );
 		return _ifOpcode;
 	}
-
+	
+	
+	@Override
+	protected void compileNewArray()
+	{
+		mv().visitTypeInsn( Opcodes.ANEWARRAY, BNAME );
+	}
+	
+	@Override
+	protected int arrayStoreOpcode()
+	{
+		return Opcodes.AASTORE;
+	}
+	
 
 	protected abstract void compile_util_adjustValue() throws CompilerException;
 	protected abstract void compile_util_fromScaledLong( int _b ) throws CompilerException;

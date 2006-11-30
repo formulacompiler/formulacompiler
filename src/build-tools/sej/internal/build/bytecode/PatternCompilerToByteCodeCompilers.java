@@ -147,6 +147,9 @@ class PatternCompilerToByteCodeCompilers
 				genStr( _cb, _generator );
 				_cb.append( "str.compile( _" ).append( _generator.paramName( _paramIdx ) ).appendLine( " );" );
 			}
+			else if (_paramType.getSort() == Type.ARRAY) {
+				_cb.append( "compileArray( _" ).append( _generator.paramName( _paramIdx ) ).appendLine( " );" );
+			}
 			else {
 				_cb.append( "compile( _" ).append( _generator.paramName( _paramIdx ) ).appendLine( " );" );
 				_cb.append( "compileConversionTo( " ).append( typeToJavaConst( _paramType ) ).appendLine( " );" );

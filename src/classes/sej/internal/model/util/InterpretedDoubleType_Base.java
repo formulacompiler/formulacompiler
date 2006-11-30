@@ -21,6 +21,8 @@
 package sej.internal.model.util;
 
 import sej.NumericType;
+import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.model.RangeValue;
 
 abstract class InterpretedDoubleType_Base extends InterpretedNumericType
 {
@@ -36,15 +38,15 @@ abstract class InterpretedDoubleType_Base extends InterpretedNumericType
 	{
 		return _value;
 	}
-	
-	
+
+
 	@Override
 	public Object toNumeric( Number _value )
 	{
 		return valueToDoubleOrZero( _value );
 	}
 
-	
+
 	@Override
 	protected int compareNumerically( Object _a, Object _b )
 	{
@@ -65,13 +67,27 @@ abstract class InterpretedDoubleType_Base extends InterpretedNumericType
 	{
 		return valueToDouble( _value, 0.0 );
 	}
-	
+
 
 	// Conversions for generated code:
-	
+
 	protected final double to_double( Object _value )
 	{
 		return valueToDoubleOrZero( _value );
 	}
+
+	protected final double[] to_array( Object _value )
+	{
+		final ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _value;
+		final RangeValue rangeValue = (RangeValue) constNode.getValue();
+		final double[] r = new double[ rangeValue.getNumberOfColumns()
+				* rangeValue.getNumberOfRows() * rangeValue.getNumberOfSheets() ];
+		int i = 0;
+		for (Object cst : rangeValue) {
+			r[ i ] = to_double( cst );
+		}
+		return r;
+	}
+
 
 }

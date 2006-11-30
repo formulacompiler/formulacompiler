@@ -18,29 +18,44 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.model.rewriting;
+package sej.internal.expressions;
 
-import java.util.Iterator;
+import java.io.IOException;
+import java.util.Collection;
 
-import sej.Function;
-import sej.Operator;
-import sej.internal.expressions.*;
+import sej.describable.DescriptionBuilder;
 
-
-/**
- * THIS IS GENERATED CODE. DO NOT MODIFY.
- */
-final class GeneratedFunctionRewriter extends AbstractExpressionRewriter
+public final class ExpressionNodeForMakeArray extends ExpressionNode
 {
 
-	public final ExpressionNode rewrite( ExpressionNodeForFunction _fun )
+	protected ExpressionNodeForMakeArray()
 	{
-		switch (_fun.getFunction()) {
-__SWITCH__
-		}
-		return _fun;
+		super();
+	}
+
+	public ExpressionNodeForMakeArray(Collection _args)
+	{
+		super( _args );
+	}
+
+	public ExpressionNodeForMakeArray(ExpressionNode... _args)
+	{
+		super( _args );
 	}
 
 
-__METHODS__
+	@Override
+	public ExpressionNode innerCloneWithoutArguments()
+	{
+		return new ExpressionNodeForMakeArray();
+	}
+
+
+	@Override
+	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
+	{
+		_to.append( "_MAKE_ARRAY " );
+		describeArgumentListTo( _to, _cfg );
+	}
+
 }

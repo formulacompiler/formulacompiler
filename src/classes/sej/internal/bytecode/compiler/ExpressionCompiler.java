@@ -38,16 +38,20 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
 import sej.internal.expressions.ExpressionNodeForFold1st;
+import sej.internal.expressions.ExpressionNodeForFoldArray;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
+import sej.internal.expressions.ExpressionNodeForMakeArray;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.expressions.LetDictionary;
 import sej.internal.expressions.LetDictionary.LetEntry;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
+import sej.internal.model.ExpressionNodeForRangeValue;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
+import sej.internal.model.RangeValue;
 
 abstract class ExpressionCompiler
 {
@@ -243,6 +247,16 @@ abstract class ExpressionCompiler
 			compileFold1st( node );
 		}
 
+		else if (_node instanceof ExpressionNodeForFoldArray) {
+			final ExpressionNodeForFoldArray node = (ExpressionNodeForFoldArray) _node;
+			compileFoldArray( node );
+		}
+
+		else if (_node instanceof ExpressionNodeForMakeArray) {
+			final ExpressionNodeForMakeArray node = (ExpressionNodeForMakeArray) _node;
+			compileMakeArray( node );
+		}
+
 		else {
 			throw new CompilerException.UnsupportedExpression( "Internal error: unsupported node type "
 					+ _node.describe() + "." );
@@ -268,7 +282,12 @@ abstract class ExpressionCompiler
 
 	protected final void compileConst( Object _value ) throws CompilerException
 	{
-		typeCompiler().compileConst( mv(), _value );
+		if (_value instanceof RangeValue) {
+			compileConstArray( (RangeValue) _value );
+		}
+		else {
+			typeCompiler().compileConst( mv(), _value );
+		}
 	}
 
 
@@ -484,7 +503,7 @@ abstract class ExpressionCompiler
 			this.local = _local;
 			this.node = _node;
 		}
-		
+
 		@Override
 		public String toString()
 		{
@@ -682,6 +701,14 @@ abstract class ExpressionCompiler
 		}
 	}
 
+	private final void compileFoldArray( ExpressionNodeForFoldArray _node ) throws CompilerException
+	{
+		final FoldContext foldContext = new FoldContext( _node, section().engineCompiler() );
+		Iterable<LetEntry> closure = closureOf( _node );
+		compileHelpedExpr( new HelperCompilerForArrayFold( sectionInContext(), _node.array(), foldContext, closure ),
+				closure );
+	}
+
 	final boolean isSubSectionIn( Iterable<ExpressionNode> _elts )
 	{
 		for (ExpressionNode elt : _elts) {
@@ -739,6 +766,12 @@ abstract class ExpressionCompiler
 	}
 
 
+	private final void compileMakeArray( ExpressionNodeForMakeArray _node ) throws CompilerException
+	{
+		compileArray( _node.argument( 0 ) );
+	}
+
+
 	final void compileHelpedExpr( HelperCompiler _compiler, Iterable<LetEntry> _closure ) throws CompilerException
 	{
 		_compiler.compile();
@@ -778,5 +811,46 @@ abstract class ExpressionCompiler
 
 	protected abstract void compile_scanArrayWithFirst( ForEachElementWithFirstCompilation _forElement )
 			throws CompilerException;
+
+
+	protected final void compileArray( ExpressionNode _rangeNode ) throws CompilerException
+	{
+		final GeneratorAdapter mv = mv();
+		if (_rangeNode instanceof ExpressionNodeForRangeValue) {
+			final ExpressionNodeForRangeValue rangeNode = (ExpressionNodeForRangeValue) _rangeNode;
+			final RangeValue rangeValue = rangeNode.getRangeValue();
+			mv.push( rangeValue.getNumberOfColumns() * rangeValue.getNumberOfRows() * rangeValue.getNumberOfSheets() );
+			compileNewArray();
+			int i = 0;
+			for (ExpressionNode arg : _rangeNode.arguments()) {
+				mv.visitInsn( Opcodes.DUP );
+				mv.push( i++ );
+				compile( arg );
+				mv.visitInsn( arrayStoreOpcode() );
+			}
+		}
+		else if (_rangeNode instanceof ExpressionNodeForConstantValue) {
+			final ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _rangeNode;
+			compileConstArray( (RangeValue) constNode.getValue() );
+		}
+	}
+
+	protected final void compileConstArray( RangeValue _rangeValue ) throws CompilerException
+	{
+		final GeneratorAdapter mv = mv();
+		mv.push( _rangeValue.getNumberOfColumns() * _rangeValue.getNumberOfRows() * _rangeValue.getNumberOfSheets() );
+		compileNewArray();
+		int i = 0;
+		for (Object cst : _rangeValue) {
+			mv.visitInsn( Opcodes.DUP );
+			mv.push( i++ );
+			compileConst( cst );
+			mv.visitInsn( arrayStoreOpcode() );
+		}
+	}
+
+	protected abstract void compileNewArray();
+	protected abstract int arrayStoreOpcode();
+
 
 }

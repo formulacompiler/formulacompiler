@@ -112,6 +112,9 @@ FN		= "@"?
 {FN} "FACT"		{ return new Symbol( GeneratedSymbols.FACT, "FACT" ); }
 {FN} "COMBIN"	{ return new Symbol( GeneratedSymbols.COMBIN, "COMBIN" ); }
 
+{FN} "NPV"		{ return new Symbol( GeneratedSymbols.NPV, "NPV" ); }
+{FN} "IRR"		{ return new Symbol( GeneratedSymbols.IRR, "IRR" ); }
+
 {FN} "TODAY"	{ return new Symbol( GeneratedSymbols.TODAY, "TODAY" ); }
 
 {FN} "CONCATENATE"	{ return new Symbol( GeneratedSymbols.CONCATENATE, "CONCATENATE" ); }

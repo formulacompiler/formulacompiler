@@ -39,7 +39,7 @@ public final class DebugTest extends AbstractReferenceTest
 	 * Options you might wish to enable.
 	 */
 	static {
-		Settings.LOG_CONSTEVAL.setEnabled( false );
+		Settings.LOG_CONSTEVAL.setEnabled( true );
 		Settings.LOG_LETVARS.setEnabled( false );
 	}
 
@@ -52,9 +52,12 @@ public final class DebugTest extends AbstractReferenceTest
 	 */
 	public DebugTest()
 	{
-		super( "StringComparisons" );
+		// super( "StringComparisons" );
 		// super( "StringComparisons", 74 );
 		// super( "StringComparisons", 9, NumType.DOUBLE, Integer.valueOf( "1", 2 ), false );
+
+		super( "FinancialFunctions" );
+		// super( "FinancialFunctions", 2, NumType.DOUBLE, Integer.valueOf( "1", 2 ), false );
 	}
 
 
