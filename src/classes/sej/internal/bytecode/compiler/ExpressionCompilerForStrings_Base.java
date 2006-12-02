@@ -30,6 +30,7 @@ import sej.CompilerException;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForOperator;
+import sej.internal.model.ExpressionNodeForCount;
 
 abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAll_Generated
 {
@@ -157,7 +158,7 @@ abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAl
 			 * This may seem counter-intuitive here, but the contract is to return 0 for equality.
 			 * Boolean true, however, is 1. So we invert the test for EQ and NE.
 			 */
-			
+
 			case Opcodes.IFEQ:
 				mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, SNAME, "equalsIgnoreCase", S2Z );
 				return Opcodes.IFNE;
@@ -179,13 +180,20 @@ abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAl
 	{
 		mv().visitTypeInsn( Opcodes.ANEWARRAY, SNAME );
 	}
-	
+
 	@Override
 	protected int arrayStoreOpcode()
 	{
 		return Opcodes.AASTORE;
 	}
-	
+
+
+	@Override
+	protected void compileCount( ExpressionNodeForCount _node ) throws CompilerException
+	{
+		throw new AbstractMethodError();
+	}
+
 
 	@Override
 	public String toString()

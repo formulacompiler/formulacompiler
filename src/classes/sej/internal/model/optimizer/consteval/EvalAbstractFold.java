@@ -23,6 +23,7 @@ package sej.internal.model.optimizer.consteval;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForAbstractFold;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
@@ -44,7 +45,7 @@ abstract class EvalAbstractFold extends EvalShadow
 
 
 	@Override
-	protected final Object eval()
+	protected final Object eval() throws CompilerException
 	{
 		final Object[] args = new Object[ node().arguments().size() ];
 		final int i0 = evalFixedArgs( args, 0 );
@@ -56,6 +57,7 @@ abstract class EvalAbstractFold extends EvalShadow
 
 
 	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object[] _args, int _firstFoldedArg )
+			throws CompilerException
 	{
 		final Collection<ExpressionNode> dynArgs = new ArrayList<ExpressionNode>();
 		final Object initialAcc = initial( _args );
@@ -87,7 +89,7 @@ abstract class EvalAbstractFold extends EvalShadow
 	}
 
 
-	protected int evalFixedArgs( final Object[] _args, final int _i0 )
+	protected int evalFixedArgs( final Object[] _args, final int _i0 ) throws CompilerException
 	{
 		int i0 = _i0;
 		_args[ i0++ ] = evaluateArgument( 0 ); // initial
@@ -97,7 +99,7 @@ abstract class EvalAbstractFold extends EvalShadow
 	}
 
 
-	protected Object evalFoldingStep( final Object[] _args )
+	protected Object evalFoldingStep( final Object[] _args ) throws CompilerException
 	{
 		// Temporarily undefine the names so they don't capture outer defs.
 		letDict().let( this.accName, null, EvalLetVar.UNDEF );
@@ -119,7 +121,7 @@ abstract class EvalAbstractFold extends EvalShadow
 
 
 	private final Object foldMany( final Object _acc, final Iterable<ExpressionNode> _nodes,
-			Collection<ExpressionNode> _dynArgs )
+			Collection<ExpressionNode> _dynArgs ) throws CompilerException
 	{
 		Object acc = _acc;
 		for (final ExpressionNode node : _nodes) {
@@ -139,6 +141,7 @@ abstract class EvalAbstractFold extends EvalShadow
 
 
 	protected Object foldOne( final Object _acc, final Object _val, Collection<ExpressionNode> _dynArgs )
+			throws CompilerException
 	{
 		letDict().let( this.accName, null, _acc );
 		letDict().let( this.eltName, null, _val );

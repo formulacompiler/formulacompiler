@@ -20,6 +20,7 @@
  */
 package sej.internal.model.optimizer.consteval;
 
+import sej.CompilerException;
 import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.model.util.InterpretedNumericType;
 
@@ -35,7 +36,7 @@ final class EvalLet extends EvalShadow
 
 
 	@Override
-	protected Object eval()
+	protected Object eval() throws CompilerException
 	{
 		final Object val = evaluateArgument( 0 );
 		letDict().let( this.varName, null, val );

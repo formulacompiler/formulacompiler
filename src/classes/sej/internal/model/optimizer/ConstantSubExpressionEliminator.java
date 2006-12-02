@@ -84,7 +84,7 @@ final public class ConstantSubExpressionEliminator extends AbstractComputationMo
 	}
 
 
-	private Object eliminateConstantsFrom( ExpressionNode _expr, SectionModel _section )
+	private Object eliminateConstantsFrom( ExpressionNode _expr, SectionModel _section ) throws CompilerException
 	{
 		if (null == _expr) return null;
 		return EvalShadow.evaluate( _expr, getNumericType() );

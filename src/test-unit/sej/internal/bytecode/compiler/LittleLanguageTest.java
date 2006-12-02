@@ -40,6 +40,7 @@ import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.SectionModel;
 import sej.internal.model.analysis.TypeAnnotator;
+import sej.internal.model.optimizer.ConstantSubExpressionEliminator;
 import sej.internal.model.optimizer.IntermediateResultsInliner;
 import sej.internal.model.rewriting.ModelRewriter;
 import sej.internal.model.rewriting.SubstitutionInliner;
@@ -255,6 +256,7 @@ public class LittleLanguageTest extends AbstractTestBase
 		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
 
 		engineModel.traverse( new ModelRewriter() );
+		engineModel.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 		engineModel.traverse( new SubstitutionInliner() );
 
 		final Inputs i = this.inputs;
@@ -284,21 +286,22 @@ public class LittleLanguageTest extends AbstractTestBase
 		r.setExpression( new ExpressionNodeForFunction( Function.VARP, args ) );
 
 		subModel.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
-	
+
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
 		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
 		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
 
 		engineModel.traverse( new ModelRewriter() );
+		engineModel.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 		engineModel.traverse( new SubstitutionInliner() );
 
 		final Inputs i = this.inputs;
 		final double[] vals = new double[ N_DET * 2 + 1 ];
-		vals[0] = i.getDoubleA();
+		vals[ 0 ] = i.getDoubleA();
 		for (int j = 0; j < N_DET; j++) {
-			vals[j * 2 + 1] = i.getDoubleB();
-			vals[j * 2 + 2] = i.getDoubleC();
+			vals[ j * 2 + 1 ] = i.getDoubleB();
+			vals[ j * 2 + 2 ] = i.getDoubleC();
 		}
 		final double expected = varp( vals );
 		assertDoubleResult( expected, engineModel );

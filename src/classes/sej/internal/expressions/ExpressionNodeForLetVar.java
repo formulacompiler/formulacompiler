@@ -28,14 +28,14 @@ import sej.describable.DescriptionBuilder;
 public final class ExpressionNodeForLetVar extends ExpressionNode
 {
 	private final String varName;
-	
-	public ExpressionNodeForLetVar( String _varName )
+
+	public ExpressionNodeForLetVar(String _varName)
 	{
 		super();
 		this.varName = _varName;
 	}
-	
-	
+
+
 	public final String varName()
 	{
 		return this.varName;
@@ -47,30 +47,30 @@ public final class ExpressionNodeForLetVar extends ExpressionNode
 	{
 		return new ExpressionNodeForLetVar( varName() );
 	}
-	
-	
+
+
 	@Override
 	protected int countValuesCore( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
 	{
-		final LetDictionary.LetEntry e = _letDict.find( varName() );
-		if (e.value instanceof ExpressionNode) {
-			return ((ExpressionNode) e.value).countValues( _letDict, _uncountables );
+		final Object val = _letDict.lookup( varName() );
+		if (val instanceof ExpressionNode) {
+			return ((ExpressionNode) val).countValues( _letDict, _uncountables );
 		}
-		else if (null != e.arrayDescriptor) {
-			return e.arrayDescriptor.getNumberOfElements();
+		else if (val instanceof ArrayDescriptor) {
+			return ((ArrayDescriptor) val).getNumberOfElements();
 		}
 		else {
 			return 1;
 		}
 	}
-	
+
 	@Override
 	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
 	{
 		throw new AbstractMethodError();
 	}
 
-	
+
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{

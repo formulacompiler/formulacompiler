@@ -20,6 +20,7 @@
  */
 package sej.internal.model.optimizer.consteval;
 
+import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.util.InterpretedNumericType;
 
@@ -33,7 +34,7 @@ public class EvalIf extends EvalFunction
 
 
 	@Override
-	protected Object eval()
+	protected Object eval() throws CompilerException
 	{
 		final int card = cardinality();
 		if (card > 0) {

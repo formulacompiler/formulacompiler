@@ -20,6 +20,7 @@
  */
 package sej.internal.model.optimizer.consteval;
 
+import sej.CompilerException;
 import sej.internal.Settings;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
@@ -35,7 +36,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	public static final Log LOG = Settings.LOG_CONSTEVAL;
 
 
-	public static Object evaluate( ExpressionNode _expr, InterpretedNumericType _type )
+	public static Object evaluate( ExpressionNode _expr, InterpretedNumericType _type ) throws CompilerException
 	{
 		EvalShadow shadow = shadow( _expr, _type );
 		return shadow.evalIn( new EvalShadowContext() );
@@ -63,7 +64,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 
 	private EvalShadowContext context;
 
-	protected final Object evalIn( EvalShadowContext _context )
+	protected final Object evalIn( EvalShadowContext _context ) throws CompilerException
 	{
 		this.context = _context;
 
@@ -87,7 +88,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	}
 
 
-	protected Object eval()
+	protected Object eval() throws CompilerException
 	{
 		final Object[] argValues = evaluateArguments();
 		return evaluateToConstOrExprWithConstantArgsFixed( argValues );
@@ -104,7 +105,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	}
 
 
-	private final Object[] evaluateArguments()
+	private final Object[] evaluateArguments() throws CompilerException
 	{
 		final int card = cardinality();
 		final Object[] argValues = new Object[ card ];
@@ -115,18 +116,18 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	}
 
 
-	protected final Object evaluateArgument( int _index )
+	protected final Object evaluateArgument( int _index ) throws CompilerException
 	{
 		return evaluateArgument( (EvalShadow) arguments().get( _index ) );
 	}
 
-	protected final Object evaluateArgument( EvalShadow _arg )
+	protected final Object evaluateArgument( EvalShadow _arg ) throws CompilerException
 	{
 		return (_arg == null) ? null : _arg.evalIn( context() );
 	}
 
 
-	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object[] _args )
+	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object[] _args ) throws CompilerException
 	{
 		if (hasOnlyConstantArgs( _args )) {
 			return evaluateToConst( _args );
@@ -179,7 +180,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		return result;
 	}
 
-	protected abstract Object evaluateToConst( Object[] _args );
+	protected abstract Object evaluateToConst( Object[] _args ) throws CompilerException;
 
 
 	protected final ExpressionNode valueToNode( Object _value )
