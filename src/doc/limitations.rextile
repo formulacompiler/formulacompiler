@@ -41,6 +41,7 @@ h5. BigDecimal
 
 	* Can only compute exponentiation with integer exponents. The exponent is silently truncated.
 	* @IRR()@ throws @IllegalArgumentException@ when the function does not converge.
+	* @MIRR()@ is not supported because it needs fractional exponents.
 
 
 h2. Interfacing with Java
