@@ -82,7 +82,7 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 
 	public static BigDecimal pow( final BigDecimal x, final BigDecimal n )
 	{
-		return x.pow( n.intValue() );
+		return x.pow( n.intValueExact() );
 	}
 
 	public static BigDecimal min( BigDecimal a, BigDecimal b )
@@ -216,5 +216,78 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 			return r;
 		}
 	}
+
+
+	private static final BigDecimal EXCEL_EPSILON = new BigDecimal( 0.0000001 );
+
+	/**
+	 * Computes IRR using Newton's method, where x[i+1] = x[i] - f( x[i] ) / f'( x[i] )
+	 */
+	public static BigDecimal fun_IRR( BigDecimal[] _values, BigDecimal _guess )
+	{
+		final int EXCEL_MAX_ITER = 20;
+
+		BigDecimal x = _guess;
+		int iter = 0;
+		while (iter++ < EXCEL_MAX_ITER) {
+
+			final BigDecimal x1 = x.add( BigDecimal.ONE );
+			BigDecimal fx = BigDecimal.ZERO;
+			BigDecimal dfx = BigDecimal.ZERO;
+			for (int i = 0; i < _values.length; i++) {
+				final BigDecimal v = _values[ i ];
+				fx = fx.add( v.divide( x1.pow( i ) ) );
+				dfx = dfx.add( v.divide( x1.pow( i + 1 ) ).multiply( BigDecimal.valueOf( -i ) ) );
+			}
+			final BigDecimal new_x = x.subtract( fx.divide( dfx ) );
+			final BigDecimal epsilon = new_x.subtract( x ).abs();
+
+			if (epsilon.compareTo( EXCEL_EPSILON ) <= 0) {
+				if (_guess.compareTo( BigDecimal.ZERO ) == 0 && new_x.abs().compareTo( EXCEL_EPSILON ) <= 0) {
+					return BigDecimal.ZERO; // OpenOffice calc does this
+				}
+				else {
+					return new_x;
+				}
+			}
+			x = new_x;
+
+		}
+		throw new IllegalArgumentException( "IRR does not converge" );
+	}
+
+	public static BigDecimal fun_IRR( BigDecimal[] _values, BigDecimal _guess, int _fixedScale, int _roudingMode )
+	{
+		final int EXCEL_MAX_ITER = 20;
+
+		BigDecimal x = _guess;
+		int iter = 0;
+		while (iter++ < EXCEL_MAX_ITER) {
+
+			final BigDecimal x1 = x.add( BigDecimal.ONE );
+			BigDecimal fx = BigDecimal.ZERO;
+			BigDecimal dfx = BigDecimal.ZERO;
+			for (int i = 0; i < _values.length; i++) {
+				final BigDecimal v = _values[ i ];
+				fx = fx.add( v.divide( x1.pow( i ), _fixedScale, _roudingMode ) );
+				dfx = dfx.add( v.divide( x1.pow( i + 1 ), _fixedScale, _roudingMode ).multiply( BigDecimal.valueOf( -i ) ) );
+			}
+			final BigDecimal new_x = x.subtract( fx.divide( dfx, _fixedScale, _roudingMode ) );
+			final BigDecimal epsilon = new_x.subtract( x ).abs();
+
+			if (epsilon.compareTo( EXCEL_EPSILON ) <= 0) {
+				if (_guess.compareTo( BigDecimal.ZERO ) == 0 && new_x.abs().compareTo( EXCEL_EPSILON ) <= 0) {
+					return BigDecimal.ZERO; // OpenOffice calc does this
+				}
+				else {
+					return new_x;
+				}
+			}
+			x = new_x;
+
+		}
+		return BigDecimal.ZERO; // LATER: NaN
+	}
+
 
 }

@@ -24,6 +24,7 @@ h5. Better
 	* The constant folder now uses the template methods in @sej.internal.templates@ to evaluate templated operators and functions. This got rid of a lot of redundant code, and it ensures that newly added templates automatically get constant folding support.
 	* Moved @sej.internal.templates@ to @sej.internal.model.templates@.
 	* Cleaned up the implementation of @COUNT()@.
+	* @BigDecimal@ exponentiation now fails with an internal @ArithmeticException@ "Rounding necessary" if the exponent is not an integer.
 
 h5. Documented
 

@@ -36,6 +36,9 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		new RewriteRulesCompiler().run();
 	}
 
+	
+	// FIXME Get rid of `
+	
 
 	// Leave this comment in. It is used to cite the code into the documentation.
 	// ---- fun_COMBIN

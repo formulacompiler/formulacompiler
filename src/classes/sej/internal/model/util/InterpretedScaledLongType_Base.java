@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 
 import sej.internal.NumericTypeImpl;
 import sej.internal.NumericTypeImpl.AbstractLongType;
-import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ArrayValue;
 import sej.internal.runtime.RuntimeLong_v1;
 
@@ -41,10 +40,10 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 		this.runtimeCx = new RuntimeLong_v1.Context( _type.getScale() );
 	}
 
-	
+
 	protected final RuntimeLong_v1.Context getContext()
 	{
-		return this.runtimeCx;		
+		return this.runtimeCx;
 	}
 
 	private final int getScale()
@@ -77,8 +76,8 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 		return _value;
 
 	}
-	
-	
+
+
 	@Override
 	public Object toNumeric( Number _value )
 	{
@@ -127,7 +126,7 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 		return (a == b) ? 0 : (a < b) ? -1 : 1;
 	}
 
-	
+
 	@Override
 	protected final int valueToInt( Object _value, int _ifNull )
 	{
@@ -138,9 +137,9 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 		return super.valueToInt( _value, _ifNull );
 	}
 
-	
+
 	// Conversions for generated code:
-	
+
 	protected final boolean isScaled()
 	{
 		return getScale() != 0;
@@ -153,16 +152,19 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 
 	protected final long[] to_array( Object _value )
 	{
-		final ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _value;
-		final ArrayValue rangeValue = (ArrayValue) constNode.value();
-		final long[] r = new long[ rangeValue.getNumberOfColumns()
-				* rangeValue.getNumberOfRows() * rangeValue.getNumberOfSheets() ];
-		int i = 0;
-		for (Object cst : rangeValue) {
-			r[ i ] = to_long( cst );
+		if (_value instanceof ArrayValue) {
+			final ArrayValue _array = (ArrayValue) _value;
+			final long[] r = new long[ _array.getNumberOfElements() ];
+			int i = 0;
+			for (Object cst : _array) {
+				r[ i++ ] = to_long( cst );
+			}
+			return r;
 		}
-		return r;
+		else {
+			throw new IllegalArgumentException();
+		}
 	}
 
-	
+
 }

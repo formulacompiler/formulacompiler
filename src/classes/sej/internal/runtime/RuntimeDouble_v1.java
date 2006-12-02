@@ -192,7 +192,7 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	public static double fun_IRR( double[] _values, double _guess )
 	{
 		final double EXCEL_EPSILON = 0.0000001;
-		final double EXCEL_MAX_ITER = 20;
+		final int EXCEL_MAX_ITER = 20;
 
 		double x = _guess;
 		int iter = 0;
