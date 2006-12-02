@@ -23,10 +23,10 @@ package sej.internal.model.optimizer.consteval;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import sej.internal.expressions.AbstractExpressionNodeForFold;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForAbstractFold;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
-import sej.internal.model.ExpressionNodeForSubstitution;
+import sej.internal.expressions.ExpressionNodeForSubstitution;
 import sej.internal.model.util.InterpretedNumericType;
 
 abstract class EvalAbstractFold extends EvalShadow
@@ -35,7 +35,7 @@ abstract class EvalAbstractFold extends EvalShadow
 	protected final String eltName;
 	protected EvalShadow foldEval;
 
-	public EvalAbstractFold(AbstractExpressionNodeForFold _node, InterpretedNumericType _type)
+	public EvalAbstractFold(ExpressionNodeForAbstractFold _node, InterpretedNumericType _type)
 	{
 		super( _node, _type );
 		this.accName = _node.accumulatorName();
@@ -125,7 +125,7 @@ abstract class EvalAbstractFold extends EvalShadow
 		for (final ExpressionNode node : _nodes) {
 			if (node instanceof ExpressionNodeForConstantValue) {
 				final ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) node;
-				acc = foldOne( acc, constNode.getValue(), _dynArgs );
+				acc = foldOne( acc, constNode.value(), _dynArgs );
 			}
 			else if (node instanceof ExpressionNodeForSubstitution) {
 				acc = foldMany( acc, node.arguments(), _dynArgs );

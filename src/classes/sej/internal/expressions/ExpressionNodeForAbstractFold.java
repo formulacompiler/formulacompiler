@@ -26,13 +26,13 @@ import java.util.Iterator;
 
 import sej.describable.DescriptionBuilder;
 
-public abstract class AbstractExpressionNodeForFold extends ExpressionNode
+public abstract class ExpressionNodeForAbstractFold extends ExpressionNode
 {
 	private final String accumulatorName;
 	private final String elementName;
 	private boolean canInlineFirst;
 
-	protected AbstractExpressionNodeForFold(String _accumulatorName, String _elementName, boolean _canInlineFirst)
+	protected ExpressionNodeForAbstractFold(String _accumulatorName, String _elementName, boolean _canInlineFirst)
 	{
 		super();
 		this.accumulatorName = _accumulatorName;
@@ -116,4 +116,12 @@ public abstract class AbstractExpressionNodeForFold extends ExpressionNode
 		_to.append( " )" );
 	}
 
+	
+	@Override
+	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
+	{
+		return 1;
+	}
+	
+	
 }

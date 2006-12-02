@@ -71,7 +71,7 @@ final class HelperCompilerForArrayFold extends HelperCompiler
 				
 				mv().visitIntInsn( Opcodes.ILOAD, _i );
 				expc.compileConversionFromInt();
-				final int i_num = expc.compileStoreToNewLocal();
+				final int i_num = expc.compileStoreToNewLocal( false );
 
 				letDict.let( accName, foldNode.initialAccumulatorValue().getDataType(), _acc );
 				letDict.let( eltName, foldNode.array().getDataType(), _xi );

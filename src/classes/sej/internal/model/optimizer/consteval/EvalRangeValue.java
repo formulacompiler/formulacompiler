@@ -20,9 +20,9 @@
  */
 package sej.internal.model.optimizer.consteval;
 
+import sej.internal.expressions.ArrayValue;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.model.ExpressionNodeForRangeValue;
-import sej.internal.model.RangeValue;
+import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.model.util.InterpretedNumericType;
 
 public class EvalRangeValue extends EvalShadow
@@ -36,9 +36,8 @@ public class EvalRangeValue extends EvalShadow
 	@Override
 	protected Object evaluateToConst( Object[] _args )
 	{
-		ExpressionNodeForRangeValue rangeNode = (ExpressionNodeForRangeValue) node();
-		RangeValue result = (RangeValue) rangeNode.getRangeValue().clone();
-		assert result.size() == 0;
+		final ExpressionNodeForArrayReference rangeNode = (ExpressionNodeForArrayReference) node();
+		final ArrayValue result = new ArrayValue( rangeNode.arrayDescriptor() );
 		for (Object arg : _args) {
 			result.add( arg );
 		}

@@ -18,14 +18,12 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.model;
+package sej.internal.expressions;
 
 import java.io.IOException;
 import java.util.Collection;
 
 import sej.describable.DescriptionBuilder;
-import sej.internal.expressions.ExpressionDescriptionConfig;
-import sej.internal.expressions.ExpressionNode;
 
 public final class ExpressionNodeForSubstitution extends ExpressionNode
 {
@@ -51,6 +49,20 @@ public final class ExpressionNodeForSubstitution extends ExpressionNode
 	{
 		return new ExpressionNodeForSubstitution();
 	}
+
+
+	@Override
+	protected int countValuesCore( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
+	{
+		return countArgumentValues( _letDict, _uncountables );
+	}
+	
+	@Override
+	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
+	{
+		throw new AbstractMethodError();
+	}
+
 
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException

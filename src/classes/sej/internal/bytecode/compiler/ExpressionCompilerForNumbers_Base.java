@@ -23,6 +23,8 @@ package sej.internal.bytecode.compiler;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -577,11 +579,11 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	private final void compileCount( ExpressionNodeForFunction _node ) throws CompilerException
 	{
 		final GeneratorAdapter mv = mv();
+		final Collection<ExpressionNode> uncountables = new ArrayList<ExpressionNode>();
+		final int staticValueCount = _node.countArgumentValues( letDict(), uncountables );
+		mv.push( staticValueCount );
 
-		int statics = countStatics( _node, 0 );
-		mv.push( statics );
-
-		for (ExpressionNode arg : _node.arguments()) {
+		for (ExpressionNode arg : uncountables) {
 			if (arg instanceof ExpressionNodeForSubSectionModel) {
 				ExpressionNodeForSubSectionModel subArg = (ExpressionNodeForSubSectionModel) arg;
 				SubSectionCompiler sub = sectionInContext().subSectionCompiler( subArg.getSectionModel() );
@@ -594,20 +596,12 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 				mv.visitInsn( Opcodes.IADD );
 
 			}
+			else {
+				throw new CompilerException.UnsupportedExpression( "Unknown uncountable " + arg.toString() + " in COUNT" );
+			}
 		}
 
 		compileConversionFromInt();
-	}
-
-	private int countStatics( ExpressionNode _node, int _n )
-	{
-		int n = _n;
-		for (ExpressionNode arg : _node.arguments()) {
-			if (!(arg instanceof ExpressionNodeForSubSectionModel)) {
-				n++;
-			}
-		}
-		return n;
 	}
 
 

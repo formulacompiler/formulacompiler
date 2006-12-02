@@ -21,6 +21,7 @@
 package sej.internal.model;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionDescriptionConfig;
@@ -41,8 +42,16 @@ public class ExpressionNodeForSubSectionModel extends ExpressionNodeForSectionMo
 	{
 		return new ExpressionNodeForSubSectionModel( getSectionModel() );
 	}
-	
-	
+
+
+	@Override
+	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
+	{
+		_uncountables.add( this );
+		return 0;
+	}
+
+
 	@Override
 	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{

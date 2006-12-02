@@ -24,7 +24,7 @@ import java.math.BigDecimal;
 
 import sej.NumericType;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
-import sej.internal.model.RangeValue;
+import sej.internal.expressions.ArrayValue;
 import sej.internal.runtime.RuntimeBigDecimal_v1;
 
 abstract class InterpretedBigDecimalType_Base extends InterpretedNumericType
@@ -125,7 +125,7 @@ abstract class InterpretedBigDecimalType_Base extends InterpretedNumericType
 	protected final BigDecimal[] to_array( Object _value )
 	{
 		final ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _value;
-		final RangeValue rangeValue = (RangeValue) constNode.getValue();
+		final ArrayValue rangeValue = (ArrayValue) constNode.value();
 		final BigDecimal[] r = new BigDecimal[ rangeValue.getNumberOfColumns()
 				* rangeValue.getNumberOfRows() * rangeValue.getNumberOfSheets() ];
 		int i = 0;

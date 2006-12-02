@@ -24,7 +24,7 @@ import java.util.Collection;
 
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForFoldArray;
-import sej.internal.model.RangeValue;
+import sej.internal.expressions.ArrayValue;
 import sej.internal.model.util.InterpretedNumericType;
 
 final class EvalFoldArray extends EvalAbstractFold
@@ -55,8 +55,8 @@ final class EvalFoldArray extends EvalAbstractFold
 	@Override
 	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object[] _args, int _firstFoldedArg )
 	{
-		if (isConstant( _args[ 0 ] ) && _args[ 1 ] instanceof ExpressionNode && _args[ 2 ] instanceof RangeValue) {
-			final Object result = fold( _args[ 0 ], (ExpressionNode) _args[ 1 ], (RangeValue) _args[ 2 ] );
+		if (isConstant( _args[ 0 ] ) && _args[ 1 ] instanceof ExpressionNode && _args[ 2 ] instanceof ArrayValue) {
+			final Object result = fold( _args[ 0 ], (ExpressionNode) _args[ 1 ], (ArrayValue) _args[ 2 ] );
 			if (result != null) {
 				return result;
 			}
@@ -65,7 +65,7 @@ final class EvalFoldArray extends EvalAbstractFold
 	}
 
 
-	private final Object fold( Object _initial, ExpressionNode _step, RangeValue _array )
+	private final Object fold( Object _initial, ExpressionNode _step, ArrayValue _array )
 	{
 		Object result = _initial;
 		int i = 1;

@@ -18,29 +18,33 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.model;
+package sej.internal.expressions;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
 
-public class RangeValue extends AbstractDescribable implements Iterable<Object>, Cloneable
+public class ArrayDescriptor extends AbstractDescribable
 {
 	private final int numberOfSheets;
 	private final int numberOfRows;
 	private final int numberOfColumns;
-	private final List<Object> values = new ArrayList<Object>();
 
 
-	public RangeValue(int _numberOfSheets, int _numberOfRows, int _numberOfColumns)
+	public ArrayDescriptor(int _numberOfSheets, int _numberOfRows, int _numberOfColumns)
 	{
 		this.numberOfSheets = _numberOfSheets;
 		this.numberOfRows = _numberOfRows;
 		this.numberOfColumns = _numberOfColumns;
+	}
+
+
+	public ArrayDescriptor(ArrayDescriptor _template)
+	{
+		this.numberOfSheets = _template.numberOfSheets;
+		this.numberOfRows = _template.numberOfRows;
+		this.numberOfColumns = _template.numberOfColumns;
 	}
 
 
@@ -62,50 +66,19 @@ public class RangeValue extends AbstractDescribable implements Iterable<Object>,
 	}
 
 
-	public void add( Object _value )
+	public int getNumberOfElements()
 	{
-		this.values.add( _value );
+		return this.numberOfSheets * this.numberOfRows * this.numberOfColumns;
 	}
 
-
-	public int size()
-	{
-		return this.values.size();
-	}
-
-
-	public Object get( int _index )
-	{
-		return this.values.get( _index );
-	}
-
-
-	public Iterator<Object> iterator()
-	{
-		return this.values.iterator();
-	}
-
-
-	@Override
-	public Object clone()
-	{
-		RangeValue cloned = new RangeValue( this.numberOfSheets, this.numberOfRows, this.numberOfColumns );
-		cloned.values.addAll( this.values );
-		return cloned;
-	}
-
-
+	
 	@Override
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
-		_to.append( '{' );
-		boolean isFirst = true;
-		for (Object val : this.values) {
-			if (isFirst) isFirst = false;
-			else _to.append( ", " );
-			_to.append( val.toString() );
-		}
-		_to.append( '}' );
+		_to.append( "#(" ).append( getNumberOfSheets() );
+		_to.append( ',' ).append( getNumberOfRows() );
+		_to.append( ',' ).append( getNumberOfColumns() ).append( ')' );
 	}
+
 
 }

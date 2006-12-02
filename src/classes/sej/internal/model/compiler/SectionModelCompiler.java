@@ -24,12 +24,12 @@ import java.util.Collection;
 
 import sej.CompilerException;
 import sej.SpreadsheetException;
+import sej.internal.expressions.ArrayDescriptor;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
-import sej.internal.model.ExpressionNodeForRangeValue;
-import sej.internal.model.RangeValue;
 import sej.internal.model.SectionModel;
 import sej.internal.model.util.InterpretedNumericType;
 import sej.internal.spreadsheet.CellIndex;
@@ -220,7 +220,7 @@ public final class SectionModelCompiler
 		}
 		else if (_exprDef instanceof ExpressionNodeForConstantValue) {
 			final ExpressionNodeForConstantValue cst = (ExpressionNodeForConstantValue) _exprDef;
-			return new ExpressionNodeForConstantValue( getNumericType().adjustConstantValue( cst.getValue() ) );
+			return new ExpressionNodeForConstantValue( getNumericType().adjustConstantValue( cst.value() ) );
 		}
 		else if (_exprDef instanceof ExpressionNodeForCell) {
 			final CellIndex cell = ((ExpressionNodeForCell) _exprDef).getCellIndex();
@@ -290,8 +290,8 @@ public final class SectionModelCompiler
 		final int sheets = _range.getTo().sheetIndex - _range.getFrom().sheetIndex + 1;
 		final int rows = _range.getTo().rowIndex - _range.getFrom().rowIndex + 1;
 		final int cols = _range.getTo().columnIndex - _range.getFrom().columnIndex + 1;
-		final RangeValue rangeValue = new RangeValue( sheets, rows, cols );
-		final ExpressionNode result = new ExpressionNodeForRangeValue( rangeValue );
+		final ArrayDescriptor arrDesc = new ArrayDescriptor( sheets, rows, cols );
+		final ExpressionNode result = new ExpressionNodeForArrayReference( arrDesc );
 		for (CellIndex element : _range) {
 			final ExpressionNode elementNode = buildExpressionModel( element );
 			result.arguments().add( elementNode );
@@ -302,7 +302,7 @@ public final class SectionModelCompiler
 
 	private Object peelNodeForRangeValue( final ExpressionNode _node )
 	{
-		if (_node instanceof ExpressionNodeForRangeValue) {
+		if (_node instanceof ExpressionNodeForArrayReference) {
 			return _node.arguments();
 		}
 		else {

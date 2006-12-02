@@ -56,8 +56,8 @@ public final class DebugTest extends AbstractReferenceTest
 		// super( "StringComparisons", 74 );
 		// super( "StringComparisons", 9, NumType.DOUBLE, Integer.valueOf( "1", 2 ), false );
 
-		super( "FinancialFunctions" );
-		// super( "FinancialFunctions", 2, NumType.DOUBLE, Integer.valueOf( "1", 2 ), false );
+		// super( "FinancialFunctions" );
+		super( "FinancialFunctions", 5, NumType.DOUBLE, Integer.valueOf( "1", 2 ), false );
 	}
 
 

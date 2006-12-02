@@ -26,7 +26,7 @@ import java.util.Iterator;
 
 import sej.describable.DescriptionBuilder;
 
-public class ExpressionNodeForFold1st extends AbstractExpressionNodeForFold
+public class ExpressionNodeForFold1st extends ExpressionNodeForAbstractFold
 {
 	private final String firstName;
 

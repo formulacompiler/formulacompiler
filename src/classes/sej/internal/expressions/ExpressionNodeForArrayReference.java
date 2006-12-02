@@ -18,51 +18,57 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.spreadsheet;
+package sej.internal.expressions;
 
 import java.io.IOException;
 import java.util.Collection;
 
 import sej.describable.DescriptionBuilder;
-import sej.internal.expressions.ExpressionDescriptionConfig;
-import sej.internal.expressions.ExpressionNode;
 
-public final class ExpressionNodeForRangeShape extends ExpressionNode
+public final class ExpressionNodeForArrayReference extends ExpressionNode
 {
+	private final ArrayDescriptor arrayDescriptor;
 
-	public ExpressionNodeForRangeShape()
-	{
-		super();
-	}
 
-	public ExpressionNodeForRangeShape(Collection _args)
+	public ExpressionNodeForArrayReference(ArrayDescriptor _descriptor, ExpressionNode... _args)
 	{
 		super( _args );
+		this.arrayDescriptor = _descriptor;
 	}
 
-	public ExpressionNodeForRangeShape(ExpressionNode... _args)
+
+	public ArrayDescriptor arrayDescriptor()
 	{
-		super( _args );
+		return this.arrayDescriptor;
 	}
+
 
 	@Override
 	public ExpressionNode innerCloneWithoutArguments()
 	{
-		return new ExpressionNodeForRangeShape();
+		return new ExpressionNodeForArrayReference( new ArrayDescriptor( arrayDescriptor() ) );
+	}
+	
+	
+	@Override
+	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
+	{
+		return arrayDescriptor().getNumberOfElements();
 	}
 
 
 	@Override
-	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
-	{
-		throw new AbstractMethodError();
-	}
-
-
-@Override
 	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
-		describeArgumentOrArgumentListTo( _to, _cfg );
+		arrayDescriptor().describeTo( _to );
+		_to.append( '{' );
+		boolean isFirst = true;
+		for (ExpressionNode arg : arguments()) {
+			if (isFirst) isFirst = false;
+			else _to.append( ", " );
+			arg.describeTo( _to, _cfg );
+		}
+		_to.append( '}' );
 	}
 
 }

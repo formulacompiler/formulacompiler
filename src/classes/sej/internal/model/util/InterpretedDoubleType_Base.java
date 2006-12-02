@@ -22,7 +22,7 @@ package sej.internal.model.util;
 
 import sej.NumericType;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
-import sej.internal.model.RangeValue;
+import sej.internal.expressions.ArrayValue;
 
 abstract class InterpretedDoubleType_Base extends InterpretedNumericType
 {
@@ -79,7 +79,7 @@ abstract class InterpretedDoubleType_Base extends InterpretedNumericType
 	protected final double[] to_array( Object _value )
 	{
 		final ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _value;
-		final RangeValue rangeValue = (RangeValue) constNode.getValue();
+		final ArrayValue rangeValue = (ArrayValue) constNode.value();
 		final double[] r = new double[ rangeValue.getNumberOfColumns()
 				* rangeValue.getNumberOfRows() * rangeValue.getNumberOfSheets() ];
 		int i = 0;

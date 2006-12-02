@@ -244,12 +244,38 @@ public abstract class ExpressionNode extends AbstractDescribable
 		}
 	}
 
-
 	private final ExpressionContextProvider getNearestContextProvider()
 	{
 		final ExpressionContextProvider prov = getContextProvider();
 		return (null == prov) ? getOrigin().getContextProvider() : prov;
 	}
 
+	
+	public final int countValues( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
+	{
+		return countValuesCore( _letDict, _uncountables );
+	}
+	
+	public final int countArgumentValues( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
+	{
+		return countValuesIn( _letDict, arguments(), _uncountables );
+	}
+	
+	protected final int countValuesIn( LetDictionary _letDict, Iterable<ExpressionNode> _in, Collection<ExpressionNode> _uncountables )
+	{
+		int result = 0;
+		for (ExpressionNode arg : _in) {
+			result += arg.countValues( _letDict, _uncountables );
+		}
+		return result;
+	}
+	
+	protected int countValuesCore( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
+	{
+		return countValuesCore( _uncountables );
+	}
+		
+	protected abstract int countValuesCore( Collection<ExpressionNode> _uncountables );
 
+	
 }

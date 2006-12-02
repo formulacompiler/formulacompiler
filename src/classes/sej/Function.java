@@ -45,7 +45,7 @@ public enum Function {
 	
 	// Financials
 	
-	NPV, IRR,
+	NPV, MIRR, IRR,
 
 	// Dates
 	

@@ -107,14 +107,23 @@ public final class LetDictionary
 		public final String name;
 		public final DataType type;
 		public final Object value;
+		public final ArrayDescriptor arrayDescriptor;
 
-		public LetEntry(String _name, DataType _type, Object _value)
+		// FIXME Look for occurrences!
+		public LetEntry(String _name, DataType _type, Object _value, ArrayDescriptor _array)
 		{
 			super();
 			this.name = _name;
 			this.type = _type;
 			this.value = _value;
+			this.arrayDescriptor = _array;
 		}
+		
+		public LetEntry(String _name, DataType _type, Object _value)
+		{
+			this( _name, _type, _value, null );
+		}
+		
 	}
 
 

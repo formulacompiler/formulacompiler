@@ -60,8 +60,15 @@ public class ExpressionNodeForOperator extends ExpressionNode
 	{
 		return new ExpressionNodeForOperator( this.operator );
 	}
-
-
+	
+	
+	@Override
+	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
+	{
+		return 1;
+	}
+	
+	
 	@Override
 	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{

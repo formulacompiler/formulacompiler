@@ -290,7 +290,7 @@ public abstract class AbstractRewriteRulesCompiler
 	{
 		_b.append( "cst( " );
 
-		final Object value = _value.getValue();
+		final Object value = _value.value();
 		if (value instanceof String) {
 			_b.append( '"' ).append( ((String) value).replaceAll( "\"", "\\\"" ) ).append( '"' );
 		}

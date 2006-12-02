@@ -113,6 +113,7 @@ FN		= "@"?
 {FN} "COMBIN"	{ return new Symbol( GeneratedSymbols.COMBIN, "COMBIN" ); }
 
 {FN} "NPV"		{ return new Symbol( GeneratedSymbols.NPV, "NPV" ); }
+{FN} "MIRR"		{ return new Symbol( GeneratedSymbols.MIRR, "MIRR" ); }
 {FN} "IRR"		{ return new Symbol( GeneratedSymbols.IRR, "IRR" ); }
 
 {FN} "TODAY"	{ return new Symbol( GeneratedSymbols.TODAY, "TODAY" ); }

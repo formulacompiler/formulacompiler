@@ -30,11 +30,11 @@ import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
 import sej.internal.expressions.ExpressionNodeForMakeArray;
 import sej.internal.expressions.ExpressionNodeForOperator;
+import sej.internal.expressions.ExpressionNodeForArrayReference;
+import sej.internal.expressions.ExpressionNodeForSubstitution;
 import sej.internal.expressions.ExpressionNodeShadow;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
-import sej.internal.model.ExpressionNodeForRangeValue;
-import sej.internal.model.ExpressionNodeForSubstitution;
 import sej.internal.model.util.InterpretedNumericType;
 
 public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
@@ -50,7 +50,7 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 	public ExpressionNodeShadow shadow( ExpressionNode _node )
 	{
 		if (_node instanceof ExpressionNodeForConstantValue) return new EvalConstantValue( _node, this.type );
-		else if (_node instanceof ExpressionNodeForRangeValue) return new EvalRangeValue( _node, this.type );
+		else if (_node instanceof ExpressionNodeForArrayReference) return new EvalRangeValue( _node, this.type );
 		else if (_node instanceof ExpressionNodeForOperator) return new EvalOperator( _node, this.type );
 		else if (_node instanceof ExpressionNodeForFunction) return newEvalFunction( (ExpressionNodeForFunction) _node );
 		else if (_node instanceof ExpressionNodeForCellModel) return new EvalCell( _node, this.type );
