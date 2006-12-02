@@ -21,9 +21,11 @@
 package sej.internal.model.analysis;
 
 import sej.CompilerException;
+import sej.internal.expressions.ArrayValue;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForAbstractFold;
+import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
 import sej.internal.expressions.ExpressionNodeForFold1st;
@@ -33,12 +35,11 @@ import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
 import sej.internal.expressions.ExpressionNodeForMakeArray;
 import sej.internal.expressions.ExpressionNodeForOperator;
-import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.LetDictionary;
-import sej.internal.expressions.ArrayValue;
 import sej.internal.model.AbstractComputationModelVisitor;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
+import sej.internal.model.ExpressionNodeForCount;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 
@@ -113,6 +114,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		if (_expr instanceof ExpressionNodeForParentSectionModel)
 			return typeOf( (ExpressionNodeForParentSectionModel) _expr );
 		if (_expr instanceof ExpressionNodeForSubSectionModel) return typeOf( (ExpressionNodeForSubSectionModel) _expr );
+		if (_expr instanceof ExpressionNodeForCount) return DataType.NUMERIC;
 
 		if (_expr instanceof ExpressionNodeForLet) return typeOf( (ExpressionNodeForLet) _expr );
 		if (_expr instanceof ExpressionNodeForLetVar) return typeOf( (ExpressionNodeForLetVar) _expr );
@@ -120,7 +122,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		if (_expr instanceof ExpressionNodeForFold1st) return typeOf( (ExpressionNodeForFold1st) _expr );
 		if (_expr instanceof ExpressionNodeForFoldArray) return typeOf( (ExpressionNodeForFoldArray) _expr );
 		if (_expr instanceof ExpressionNodeForMakeArray) return typeOf( (ExpressionNodeForMakeArray) _expr );
-
+		
 		unsupported( _expr );
 		return null;
 	}

@@ -20,6 +20,7 @@
  */
 package sej.internal.model.optimizer.consteval;
 
+import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
@@ -34,7 +35,7 @@ public class EvalCell extends EvalShadow
 	}
 
 	@Override
-	protected Object evaluateToConst( Object[] _args )
+	protected Object evaluateToConst( Object[] _args ) throws CompilerException
 	{
 		final ExpressionNodeForCellModel cellNode = (ExpressionNodeForCellModel) node();
 		final CellModel cellModel = cellNode.getCellModel();
@@ -60,11 +61,11 @@ public class EvalCell extends EvalShadow
 		if (null != expression) {
 			final Object constResult = EvalShadow.evaluate( expression, type() );
 			if (constResult instanceof ExpressionNode) {
-				
+
 				// Do not need to clone leaf node.
 				assert node().arguments().size() == 0;
 				return node();
-				
+
 			}
 			else {
 				return constResult;

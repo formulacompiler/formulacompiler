@@ -23,8 +23,6 @@ package sej.internal.bytecode.compiler;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +40,8 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.expressions.LetDictionary.LetEntry;
-import sej.internal.model.ExpressionNodeForSubSectionModel;
+import sej.internal.model.ExpressionNodeForCount;
+import sej.internal.model.SectionModel;
 import sej.runtime.ScaledLong;
 
 abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAll_Generated
@@ -526,10 +525,6 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 				compileHelpedExpr( new HelperCompilerForMatch( sectionInContext(), _node, closure ), closure );
 				return;
 
-			case COUNT:
-				compileCount( _node );
-				return;
-
 		}
 		super.compileFunction( _node );
 	}
@@ -576,29 +571,22 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	protected abstract void compile_util_round( int _maxFractionalDigits ) throws CompilerException;
 
 
-	private final void compileCount( ExpressionNodeForFunction _node ) throws CompilerException
+	@Override
+	protected final void compileCount( ExpressionNodeForCount _node ) throws CompilerException
 	{
 		final GeneratorAdapter mv = mv();
-		final Collection<ExpressionNode> uncountables = new ArrayList<ExpressionNode>();
-		final int staticValueCount = _node.countArgumentValues( letDict(), uncountables );
-		mv.push( staticValueCount );
+		mv.push( _node.staticValueCount() );
 
-		for (ExpressionNode arg : uncountables) {
-			if (arg instanceof ExpressionNodeForSubSectionModel) {
-				ExpressionNodeForSubSectionModel subArg = (ExpressionNodeForSubSectionModel) arg;
-				SubSectionCompiler sub = sectionInContext().subSectionCompiler( subArg.getSectionModel() );
-
-				mv.visitVarInsn( Opcodes.ALOAD, method().objectInContext() );
-				sectionInContext().compileCallToGetterFor( mv, sub );
-				mv.arrayLength();
-				mv.push( subArg.arguments().size() );
-				mv.visitInsn( Opcodes.IMUL );
-				mv.visitInsn( Opcodes.IADD );
-
-			}
-			else {
-				throw new CompilerException.UnsupportedExpression( "Unknown uncountable " + arg.toString() + " in COUNT" );
-			}
+		final SectionModel[] subs = _node.subSectionModels();
+		final int[] cnts = _node.subSectionStaticValueCounts();
+		for (int i = 0; i < subs.length; i++) {
+			SubSectionCompiler sub = sectionInContext().subSectionCompiler( subs[ i ] );
+			mv.visitVarInsn( Opcodes.ALOAD, method().objectInContext() );
+			sectionInContext().compileCallToGetterFor( mv, sub );
+			mv.arrayLength();
+			mv.push( cnts[ i ] );
+			mv.visitInsn( Opcodes.IMUL );
+			mv.visitInsn( Opcodes.IADD );
 		}
 
 		compileConversionFromInt();

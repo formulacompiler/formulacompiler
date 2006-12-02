@@ -50,6 +50,7 @@ import sej.internal.expressions.LetDictionary;
 import sej.internal.expressions.LetDictionary.LetEntry;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
+import sej.internal.model.ExpressionNodeForCount;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 
@@ -225,6 +226,11 @@ abstract class ExpressionCompiler
 				default:
 					compileFunction( node );
 			}
+		}
+
+		else if (_node instanceof ExpressionNodeForCount) {
+			final ExpressionNodeForCount node = (ExpressionNodeForCount) _node;
+			compileCount( node );
 		}
 
 		else if (_node instanceof ExpressionNodeForLet) {
@@ -633,6 +639,9 @@ abstract class ExpressionCompiler
 			return false;
 		}
 	}
+	
+	
+	protected abstract void compileCount( ExpressionNodeForCount _node ) throws CompilerException;
 
 
 	private final void compileLet( ExpressionNodeForLet _node ) throws CompilerException

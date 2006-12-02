@@ -22,6 +22,7 @@ package sej.internal.model.optimizer.consteval;
 
 import java.util.Collection;
 
+import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
@@ -43,7 +44,7 @@ final class EvalFold1st extends EvalAbstractFold
 
 
 	@Override
-	protected int evalFixedArgs( Object[] _args, int _i0 )
+	protected int evalFixedArgs( Object[] _args, int _i0 ) throws CompilerException
 	{
 		int i0 = super.evalFixedArgs( _args, _i0 );
 
@@ -69,7 +70,7 @@ final class EvalFold1st extends EvalAbstractFold
 
 
 	@Override
-	protected Object foldOne( Object _acc, Object _val, Collection<ExpressionNode> _dynArgs )
+	protected Object foldOne( Object _acc, Object _val, Collection<ExpressionNode> _dynArgs ) throws CompilerException
 	{
 		if (_acc == NO_VALUE) {
 			letDict().let( this.firstName, null, _val );
