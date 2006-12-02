@@ -37,9 +37,6 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 	}
 
 	
-	// FIXME Get rid of `
-	
-
 	// Leave this comment in. It is used to cite the code into the documentation.
 	// ---- fun_COMBIN
 	@Override
