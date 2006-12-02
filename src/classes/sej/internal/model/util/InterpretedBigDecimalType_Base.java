@@ -23,7 +23,6 @@ package sej.internal.model.util;
 import java.math.BigDecimal;
 
 import sej.NumericType;
-import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ArrayValue;
 import sej.internal.runtime.RuntimeBigDecimal_v1;
 
@@ -124,15 +123,18 @@ abstract class InterpretedBigDecimalType_Base extends InterpretedNumericType
 
 	protected final BigDecimal[] to_array( Object _value )
 	{
-		final ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _value;
-		final ArrayValue rangeValue = (ArrayValue) constNode.value();
-		final BigDecimal[] r = new BigDecimal[ rangeValue.getNumberOfColumns()
-				* rangeValue.getNumberOfRows() * rangeValue.getNumberOfSheets() ];
-		int i = 0;
-		for (Object cst : rangeValue) {
-			r[ i ] = to_BigDecimal( cst );
+		if (_value instanceof ArrayValue) {
+			final ArrayValue _array = (ArrayValue) _value;
+			final BigDecimal[] r = new BigDecimal[ _array.getNumberOfElements() ];
+			int i = 0;
+			for (Object cst : _array) {
+				r[ i++ ] = to_BigDecimal( cst );
+			}
+			return r;
 		}
-		return r;
+		else {
+			throw new IllegalArgumentException();
+		}
 	}
 
 

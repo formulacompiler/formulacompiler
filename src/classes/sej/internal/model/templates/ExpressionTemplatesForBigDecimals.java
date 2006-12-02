@@ -312,6 +312,20 @@ public final class ExpressionTemplatesForBigDecimals
 	}
 
 
+	// ------------------------------------------------ Financials
+
+
+	public BigDecimal fun_IRR__if_needsValueAdjustment( BigDecimal[] _values, BigDecimal _guess )
+	{
+		return RuntimeBigDecimal_v1.fun_IRR( _values, _guess, fixedScale, roundingMode );
+	}
+
+	public BigDecimal fun_IRR( BigDecimal[] _values, BigDecimal _guess )
+	{
+		return RuntimeBigDecimal_v1.fun_IRR( _values, _guess );
+	}
+
+
 	// ------------------------------------------------ Date Functions
 
 

@@ -40,6 +40,7 @@ h5. Scaled Long
 h5. BigDecimal
 
 	* Can only compute exponentiation with integer exponents. The exponent is silently truncated.
+	* @IRR()@ throws @IllegalArgumentException@ when the function does not converge.
 
 
 h2. Interfacing with Java
