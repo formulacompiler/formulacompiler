@@ -49,7 +49,7 @@ class HelperCompilerForIndex extends HelperCompiler
 	{
 		final List<ExpressionNode> args = node().arguments();
 		if (args.size() > 0) {
-			final ExpressionNode[] rangeElements = rangeElements( node(), args.get( 0 ) );
+			final ExpressionNode[] rangeElements = arrayRefElements( node(), args.get( 0 ) );
 			switch (node().cardinality()) {
 
 				case 2:
@@ -101,7 +101,7 @@ class HelperCompilerForIndex extends HelperCompiler
 			mv.push( 1 );
 			mv.visitInsn( Opcodes.ISUB );
 
-			mv.push( range( node(), node().arguments().get( 0 ) ).getNumberOfColumns() );
+			mv.push( arrayDescriptor( node(), node().arguments().get( 0 ) ).getNumberOfColumns() );
 			mv.visitInsn( Opcodes.IMUL );
 
 			numCompiler.compile( _col );
@@ -201,7 +201,7 @@ class HelperCompilerForIndex extends HelperCompiler
 				ci.visitInsn( Opcodes.DUP );
 				ci.visitIntInsn( Opcodes.BIPUSH, i );
 				ExpressionNodeForConstantValue constVal = (ExpressionNodeForConstantValue) val;
-				valTypeCompiler.compileConst( ci, constVal.getValue() );
+				valTypeCompiler.compileConst( ci, constVal.value() );
 				ci.arrayStore( valType );
 			}
 			i++;
@@ -217,7 +217,7 @@ class HelperCompilerForIndex extends HelperCompiler
 		if (_node == null) return true;
 		if (_node instanceof ExpressionNodeForConstantValue) {
 			ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _node;
-			return (constNode.getValue() == null);
+			return (constNode.value() == null);
 		}
 		return false;
 	}

@@ -35,7 +35,7 @@ import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
 import sej.internal.expressions.ExpressionNodeForOperator;
-import sej.internal.model.ExpressionNodeForSubstitution;
+import sej.internal.expressions.ExpressionNodeForSubstitution;
 
 abstract class AbstractExpressionRewriter
 {

@@ -21,10 +21,12 @@
 package sej.internal.model;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionDescriptionConfig;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.LetDictionary;
 
 public class ExpressionNodeForParentSectionModel extends ExpressionNodeForSectionModel
 {
@@ -41,6 +43,20 @@ public class ExpressionNodeForParentSectionModel extends ExpressionNodeForSectio
 	{
 		return new ExpressionNodeForParentSectionModel( getSectionModel() );
 	}
+
+	
+	@Override
+	protected int countValuesCore( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
+	{
+		return countArgumentValues( _letDict, _uncountables );
+	}
+	
+	@Override
+	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
+	{
+		throw new AbstractMethodError();
+	}
+
 
 
 	@Override

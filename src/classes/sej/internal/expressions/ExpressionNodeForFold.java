@@ -25,7 +25,7 @@ import java.util.Collection;
 
 import sej.describable.DescriptionBuilder;
 
-public final class ExpressionNodeForFold extends AbstractExpressionNodeForFold
+public final class ExpressionNodeForFold extends ExpressionNodeForAbstractFold
 {
 
 	private ExpressionNodeForFold(String _accumulatorName, String _elementName, boolean _canInlineFirst)

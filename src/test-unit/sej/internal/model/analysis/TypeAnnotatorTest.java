@@ -24,8 +24,10 @@ import java.util.Calendar;
 
 import sej.Function;
 import sej.Operator;
+import sej.internal.expressions.ArrayDescriptor;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
@@ -33,9 +35,7 @@ import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
-import sej.internal.model.ExpressionNodeForRangeValue;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
-import sej.internal.model.RangeValue;
 import sej.internal.model.SectionModel;
 import junit.framework.TestCase;
 
@@ -175,7 +175,7 @@ public class TypeAnnotatorTest extends TestCase
 			cells[ i ] = cell( cell );
 		}
 		CellModel c = new CellModel( r, "Result" );
-		c.setExpression( new ExpressionNodeForRangeValue( new RangeValue( 1, 1, _values.length ), cells ) );
+		c.setExpression( new ExpressionNodeForArrayReference( new ArrayDescriptor( 1, 1, _values.length ), cells ) );
 
 		m.traverse( new TypeAnnotator() );
 
@@ -262,7 +262,7 @@ public class TypeAnnotatorTest extends TestCase
 				CellModel re = new CellModel( _root, "RangeEnd" );
 				re.setConstantValue( _value );
 
-				_cell.setExpression( fun( Function.INDEX, new ExpressionNodeForRangeValue( new RangeValue( 1, 1, 2 ),
+				_cell.setExpression( fun( Function.INDEX, new ExpressionNodeForArrayReference( new ArrayDescriptor( 1, 1, 2 ),
 						cell( rs ), cell( re ) ) ) );
 			}
 
@@ -362,7 +362,7 @@ public class TypeAnnotatorTest extends TestCase
 		ComputationModel m = new ComputationModel( In.class, Out.class );
 		SectionModel r = m.getRoot();
 		CellModel c = new CellModel( r, "Result" );
-		c.setExpression( new ExpressionNodeForRangeValue( new RangeValue( 1, 1, 2 ), null, null ) );
+		c.setExpression( new ExpressionNodeForArrayReference( new ArrayDescriptor( 1, 1, 2 ), null, null ) );
 
 		m.traverse( new TypeAnnotator() );
 

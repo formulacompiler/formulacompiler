@@ -53,7 +53,7 @@ final class HelperCompilerForMatch extends HelperCompiler
 				final ExpressionNode typeArg = node().arguments().get( 2 );
 				if (typeArg instanceof ExpressionNodeForConstantValue) {
 					final ExpressionNodeForConstantValue constTypeArg = (ExpressionNodeForConstantValue) typeArg;
-					final Object typeVal = constTypeArg.getValue();
+					final Object typeVal = constTypeArg.value();
 					if (typeVal instanceof Number) {
 						compileWithConstType( ((Number) typeVal).intValue() );
 					}
@@ -81,7 +81,7 @@ final class HelperCompilerForMatch extends HelperCompiler
 					"MATCH must have the same type of argument in the first and second slot." );
 		}
 
-		final ExpressionNode[] candidates = rangeElements( node(), candidateNode );
+		final ExpressionNode[] candidates = arrayRefElements( node(), candidateNode );
 		final ExpressionCompilerForNumbers numCompiler = numericCompiler();
 		final ExpressionCompiler valCompiler = expressionCompiler( valNode.getDataType() );
 		final Type valType = valCompiler.type();

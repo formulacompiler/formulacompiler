@@ -59,6 +59,13 @@ public class ExpressionNodeForFunction extends ExpressionNode
 
 
 	@Override
+	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
+	{
+		return 1;
+	}
+	
+	
+	@Override
 	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
 		_to.append( this.function.getName() );

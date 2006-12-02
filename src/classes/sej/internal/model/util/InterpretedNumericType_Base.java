@@ -23,7 +23,7 @@ package sej.internal.model.util;
 import sej.Function;
 import sej.NumericType;
 import sej.Operator;
-import sej.internal.model.RangeValue;
+import sej.internal.expressions.ArrayValue;
 
 abstract class InterpretedNumericType_Base
 {
@@ -199,9 +199,9 @@ abstract class InterpretedNumericType_Base
 			case INDEX: {
 				switch (cardinality) {
 					case 2:
-						return evalIndex( (RangeValue) _args[ 0 ], _args[ 1 ] );
+						return evalIndex( (ArrayValue) _args[ 0 ], _args[ 1 ] );
 					case 3:
-						return evalIndex( (RangeValue) _args[ 0 ], _args[ 1 ], _args[ 2 ] );
+						return evalIndex( (ArrayValue) _args[ 0 ], _args[ 1 ], _args[ 2 ] );
 				}
 				break;
 			}
@@ -226,14 +226,14 @@ abstract class InterpretedNumericType_Base
 	}
 
 
-	private Object evalIndex( RangeValue _range, Object _index )
+	private Object evalIndex( ArrayValue _range, Object _index )
 	{
 		int index = valueToIntOrZero( _index );
 		return _range.get( index - 1 );
 	}
 
 
-	private Object evalIndex( RangeValue _range, Object _rowIndex, Object _colIndex )
+	private Object evalIndex( ArrayValue _range, Object _rowIndex, Object _colIndex )
 	{
 		int iRow = valueToIntOrOne( _rowIndex ) - 1;
 		int iCol = valueToIntOrOne( _colIndex ) - 1;
@@ -257,7 +257,7 @@ abstract class InterpretedNumericType_Base
 			return -1;
 		}
 		else {
-			final RangeValue range = (RangeValue) _in;
+			final ArrayValue range = (ArrayValue) _in;
 			if (0 == _type) {
 				int iObj = 0;
 				for (Object elt : range) {

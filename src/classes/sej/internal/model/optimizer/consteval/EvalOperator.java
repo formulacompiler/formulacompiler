@@ -69,10 +69,10 @@ public class EvalOperator extends EvalShadow
 			if (arg instanceof ExpressionNodeForConstantValue) {
 				final ExpressionNodeForConstantValue constArg = (ExpressionNodeForConstantValue) arg;
 				if (buildUp == null) {
-					buildUp = new StringBuilder( type().toString( constArg.getValue() ) );
+					buildUp = new StringBuilder( type().toString( constArg.value() ) );
 				}
 				else {
-					buildUp.append( type().toString( constArg.getValue() ) );
+					buildUp.append( type().toString( constArg.value() ) );
 					modified = true;
 				}
 			}

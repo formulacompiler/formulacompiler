@@ -24,12 +24,13 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import sej.CompilerException;
+import sej.internal.expressions.ArrayDescriptor;
+import sej.internal.expressions.ArrayValue;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.LetDictionary.LetEntry;
-import sej.internal.model.ExpressionNodeForRangeValue;
-import sej.internal.model.RangeValue;
 
 
 abstract class HelperCompiler extends ValueMethodCompiler
@@ -51,9 +52,15 @@ abstract class HelperCompiler extends ValueMethodCompiler
 
 	private static final String descriptorOf( SectionCompiler _section, Iterable<LetEntry> _closure )
 	{
+
 		StringBuffer b = new StringBuffer();
 		for (LetEntry entry : _closure) {
-			b.append( _section.engineCompiler().typeCompiler( entry.type ).typeDescriptor() );
+			if (ExpressionCompiler.isArray( entry )) {
+				b.append( '[' ).append( _section.engineCompiler().typeCompiler( entry.type ).typeDescriptor() );
+			}
+			else {
+				b.append( _section.engineCompiler().typeCompiler( entry.type ).typeDescriptor() );
+			}
 		}
 		return b.toString();
 	}
@@ -63,53 +70,61 @@ abstract class HelperCompiler extends ValueMethodCompiler
 		return this.node;
 	}
 
-	
+
 	private final void addClosureToLetDict( Iterable<LetEntry> _closure )
 	{
 		int iArg = 1; // 0 is "this"
 		for (LetEntry entry : _closure) {
-			letDict().let( entry.name, entry.type, Integer.valueOf( iArg ) );
-			iArg += section().engineCompiler().typeCompiler( entry.type ).type().getSize();
+			if (ExpressionCompiler.isArray( entry )) {
+				letDict().let( entry.name, entry.type, Integer.valueOf( -iArg ) );
+				iArg++;
+			}
+			else {
+				letDict().let( entry.name, entry.type, Integer.valueOf( iArg ) );
+				iArg += section().engineCompiler().typeCompiler( entry.type ).type().getSize();
+			}
 		}
 	}
 
 
-	protected final ExpressionNode[] rangeElements( ExpressionNode _outerNode, ExpressionNode _rangeNode )
+	protected final ExpressionNode[] arrayRefElements( ExpressionNode _outerNode, ExpressionNode _arrayRefNode )
 			throws CompilerException
 	{
-		if (_rangeNode instanceof ExpressionNodeForRangeValue) {
-			final Collection<ExpressionNode> args = _rangeNode.arguments();
+		if (_arrayRefNode instanceof ExpressionNodeForArrayReference) {
+			final Collection<ExpressionNode> args = _arrayRefNode.arguments();
 			return args.toArray( new ExpressionNode[ args.size() ] );
 		}
-		else if (_rangeNode instanceof ExpressionNodeForConstantValue) {
-			final DataType rangeType = _rangeNode.getDataType();
-			final RangeValue rangeVal = (RangeValue) ((ExpressionNodeForConstantValue) _rangeNode).getValue();
-			final int rangeSize = rangeVal.getNumberOfSheets()
-					* rangeVal.getNumberOfRows() * rangeVal.getNumberOfColumns();
-			ExpressionNode[] result = new ExpressionNode[ rangeSize ];
-			final Iterator<Object> rangeIter = rangeVal.iterator();
+		else if (_arrayRefNode instanceof ExpressionNodeForConstantValue) {
+			final ArrayValue arrVal = (ArrayValue) ((ExpressionNodeForConstantValue) _arrayRefNode).value();
+			final DataType arrType = _arrayRefNode.getDataType();
+			final int arrSize = arrVal.getNumberOfElements();
+			final ExpressionNode[] result = new ExpressionNode[ arrSize ];
+			final Iterator<Object> arrIter = arrVal.iterator();
 			int i = 0;
-			while (rangeIter.hasNext()) {
-				result[ i++ ] = new ExpressionNodeForConstantValue( rangeIter.next(), rangeType );
+			while (arrIter.hasNext()) {
+				result[ i++ ] = new ExpressionNodeForConstantValue( arrIter.next(), arrType );
 			}
 			return result;
 		}
 		else {
-			throw new CompilerException.UnsupportedExpression( "Range expected in " + _outerNode.describe() + "." );
+			throw new CompilerException.UnsupportedExpression( "Array reference expected in "
+					+ _outerNode.describe() + "." );
 		}
 	}
 
 
-	protected final RangeValue range( ExpressionNode _outerNode, ExpressionNode _rangeNode ) throws CompilerException
+	protected final ArrayDescriptor arrayDescriptor( ExpressionNode _outerNode, ExpressionNode _rangeNode )
+			throws CompilerException
 	{
-		if (_rangeNode instanceof ExpressionNodeForRangeValue) {
-			return ((ExpressionNodeForRangeValue) _rangeNode).getRangeValue();
+		if (_rangeNode instanceof ExpressionNodeForArrayReference) {
+			return ((ExpressionNodeForArrayReference) _rangeNode).arrayDescriptor();
 		}
 		else if (_rangeNode instanceof ExpressionNodeForConstantValue) {
-			return (RangeValue) ((ExpressionNodeForConstantValue) _rangeNode).getValue();
+			return (ArrayValue) ((ExpressionNodeForConstantValue) _rangeNode).value();
 		}
 		else {
-			throw new CompilerException.UnsupportedExpression( "Range expected in " + _outerNode.describe() + "." );
+			throw new CompilerException.UnsupportedExpression( "Array reference expected in "
+					+ _outerNode.describe() + "." );
 		}
 	}
 

@@ -23,12 +23,12 @@ package sej.internal.model.optimizer;
 import sej.Function;
 import sej.NumericType;
 import sej.SEJ;
+import sej.internal.expressions.ArrayDescriptor;
+import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
-import sej.internal.model.ExpressionNodeForRangeValue;
-import sej.internal.model.RangeValue;
 import sej.internal.model.rewriting.ModelRewriter;
 
 public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
@@ -133,8 +133,8 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		c.setExpression( new ExpressionNodeForConstantValue( 4.0 ) );
 
 		CellModel index = new CellModel( root, "index" );
-		index.setExpression( new ExpressionNodeForFunction( Function.INDEX, new ExpressionNodeForRangeValue(
-				new RangeValue( 1, 1, 3 ), new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
+		index.setExpression( new ExpressionNodeForFunction( Function.INDEX, new ExpressionNodeForArrayReference(
+				new ArrayDescriptor( 1, 1, 3 ), new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
 				new ExpressionNodeForCellModel( c ) ), new ExpressionNodeForCellModel( i ), null ) );
 
 		optimize( SEJ.DOUBLE );
@@ -155,8 +155,8 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		c.makeInput( getInput( "getThree" ) );
 
 		CellModel index = new CellModel( root, "index" );
-		index.setExpression( new ExpressionNodeForFunction( Function.INDEX, new ExpressionNodeForRangeValue(
-				new RangeValue( 1, 1, 3 ), new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
+		index.setExpression( new ExpressionNodeForFunction( Function.INDEX, new ExpressionNodeForArrayReference(
+				new ArrayDescriptor( 1, 1, 3 ), new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
 				new ExpressionNodeForCellModel( c ) ), new ExpressionNodeForCellModel( i ), null ) );
 
 		optimize( SEJ.DOUBLE );
@@ -177,13 +177,13 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		c.setExpression( new ExpressionNodeForConstantValue( 4.0 ) );
 
 		CellModel index = new CellModel( root, "index" );
-		index.setExpression( new ExpressionNodeForFunction( Function.INDEX, new ExpressionNodeForRangeValue(
-				new RangeValue( 1, 1, 3 ), new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
+		index.setExpression( new ExpressionNodeForFunction( Function.INDEX, new ExpressionNodeForArrayReference(
+				new ArrayDescriptor( 1, 1, 3 ), new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
 				new ExpressionNodeForCellModel( c ) ), new ExpressionNodeForCellModel( i ), null ) );
 
 		optimize( SEJ.DOUBLE );
 
-		assertExpr( "INDEX( {2.0, 3.0, 4.0}, Inputs.getOne() )", index );
+		assertExpr( "INDEX( #(1,1,3){2.0, 3.0, 4.0}, Inputs.getOne() )", index );
 	}
 
 }

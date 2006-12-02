@@ -18,55 +18,62 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.model;
+package sej.internal.expressions;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import sej.describable.DescriptionBuilder;
-import sej.internal.expressions.ExpressionDescriptionConfig;
-import sej.internal.expressions.ExpressionNode;
 
-public class ExpressionNodeForRangeValue extends ExpressionNode
+public final class ArrayValue extends ArrayDescriptor implements Iterable<Object>
 {
-	private RangeValue rangeValue;
+	private final List<Object> values = new ArrayList<Object>();
 
 
-	public ExpressionNodeForRangeValue(RangeValue _rangeValue, ExpressionNode... _args)
+	public ArrayValue(ArrayDescriptor _template)
 	{
-		super( _args );
-		this.rangeValue = _rangeValue;
+		super( _template );
 	}
 
 
-	public RangeValue getRangeValue()
+	public void add( Object _value )
 	{
-		return this.rangeValue;
+		this.values.add( _value );
+	}
+
+
+	public int size()
+	{
+		return this.values.size();
+	}
+
+
+	public Object get( int _index )
+	{
+		return this.values.get( _index );
+	}
+
+
+	public Iterator<Object> iterator()
+	{
+		return this.values.iterator();
 	}
 
 
 	@Override
-	public ExpressionNode innerCloneWithoutArguments()
+	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
-		return new ExpressionNodeForRangeValue( (RangeValue) getRangeValue().clone() );
-	}
-
-
-	@Override
-	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
-	{
-		if (arguments().size() == 1) {
-			describeArgumentTo( _to, _cfg, 0 );
+		super.describeTo( _to );
+		_to.append( '{' );
+		boolean isFirst = true;
+		for (Object val : this.values) {
+			if (isFirst) isFirst = false;
+			else _to.append( ", " );
+			_to.append( val.toString() );
 		}
-		else {
-			_to.append( '{' );
-			boolean isFirst = true;
-			for (ExpressionNode arg : arguments()) {
-				if (isFirst) isFirst = false;
-				else _to.append( ", " );
-				arg.describeTo( _to, _cfg );
-			}
-			_to.append( '}' );
-		}
+		_to.append( '}' );
 	}
 
 }

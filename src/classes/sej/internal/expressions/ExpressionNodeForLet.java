@@ -21,6 +21,7 @@
 package sej.internal.expressions;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import sej.describable.DescriptionBuilder;
 
@@ -61,6 +62,13 @@ public final class ExpressionNodeForLet extends ExpressionNode
 	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForLet( this.varName );
+	}
+
+
+	@Override
+	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
+	{
+		throw new IllegalStateException( "COUNT not supported over _LET" );
 	}
 
 

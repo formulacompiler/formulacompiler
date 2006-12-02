@@ -33,8 +33,10 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 import sej.CompilerException;
 import sej.Function;
 import sej.Operator;
+import sej.internal.expressions.ArrayValue;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
 import sej.internal.expressions.ExpressionNodeForFold1st;
@@ -49,9 +51,7 @@ import sej.internal.expressions.LetDictionary.LetEntry;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
-import sej.internal.model.ExpressionNodeForRangeValue;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
-import sej.internal.model.RangeValue;
 
 abstract class ExpressionCompiler
 {
@@ -176,7 +176,7 @@ abstract class ExpressionCompiler
 
 		else if (_node instanceof ExpressionNodeForConstantValue) {
 			final ExpressionNodeForConstantValue node = (ExpressionNodeForConstantValue) _node;
-			compileConst( node.getValue() );
+			compileConst( node.value() );
 		}
 
 		else if (_node instanceof ExpressionNodeForCellModel) {
@@ -282,8 +282,8 @@ abstract class ExpressionCompiler
 
 	protected final void compileConst( Object _value ) throws CompilerException
 	{
-		if (_value instanceof RangeValue) {
-			compileConstArray( (RangeValue) _value );
+		if (_value instanceof ArrayValue) {
+			compileConstArray( (ArrayValue) _value );
 		}
 		else {
 			typeCompiler().compileConst( mv(), _value );
@@ -566,6 +566,13 @@ abstract class ExpressionCompiler
 			addToClosure( _closure, fold.emptyValue() );
 			addToClosure( _closure, fold.elements() );
 		}
+		else if (_node instanceof ExpressionNodeForFoldArray) {
+			final ExpressionNodeForFoldArray fold = (ExpressionNodeForFoldArray) _node;
+			addToClosure( _closure, fold.initialAccumulatorValue() );
+			addToClosureWithInnerDefs( _closure, fold.accumulatingStep(), fold.accumulatorName(), fold.elementName(), fold
+					.indexName() );
+			addToClosure( _closure, fold.array() );
+		}
 		else {
 			addToClosure( _closure, _node.arguments() );
 		}
@@ -587,12 +594,54 @@ abstract class ExpressionCompiler
 	}
 
 
+	protected final static boolean isArray( ExpressionNode _node )
+	{
+		if (_node instanceof ExpressionNodeForArrayReference) {
+			return true;
+		}
+		else if (_node instanceof ExpressionNodeForMakeArray) {
+			return true;
+		}
+		else if (_node instanceof ExpressionNodeForConstantValue
+				&& ((ExpressionNodeForConstantValue) _node).value() instanceof ArrayValue) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	protected final static boolean isArray( int _local )
+	{
+		return _local < 0;
+	}
+
+	protected final static boolean isArray( LetDictionary.LetEntry _e )
+	{
+		if (_e.value instanceof EvaluateIntoLocal) {
+			EvaluateIntoLocal eval = (EvaluateIntoLocal) _e.value;
+			return isArray( eval.local );
+		}
+		else if (_e.value instanceof Integer) {
+			int local = (Integer) _e.value;
+			return isArray( local );
+		}
+		else if (_e.value instanceof ExpressionNode) {
+			return isArray( (ExpressionNode) _e.value );
+		}
+		else {
+			return false;
+		}
+	}
+
+
 	private final void compileLet( ExpressionNodeForLet _node ) throws CompilerException
 	{
 		// Note: It is important to allocate the local here rather than at the point of first
 		// evaluation. Otherwise it could get reused when the first evaluation is within a local
 		// scope.
-		letDict().let( _node.varName(), _node.getDataType(), new EvaluateIntoLocal( compileNewLocal(), _node.value() ) );
+		final int local = compileNewLocal( isArray( _node.value() ) );
+		letDict().let( _node.varName(), _node.getDataType(), new EvaluateIntoLocal( local, _node.value() ) );
 		try {
 			compile( _node.in() );
 		}
@@ -619,7 +668,7 @@ abstract class ExpressionCompiler
 		else if (_value instanceof EvaluateIntoLocal) {
 			final EvaluateIntoLocal eval = (EvaluateIntoLocal) _value;
 			compile( eval.node );
-			compileDup();
+			compileDup( isArray( eval.local ) );
 			compileStoreLocal( eval.local );
 			letDict().set( _name, eval.local );
 		}
@@ -631,22 +680,37 @@ abstract class ExpressionCompiler
 		}
 	}
 
-	protected final int compileStoreToNewLocal()
+	protected final int compileStoreToNewLocal( boolean _isArray )
 	{
-		final int local = compileNewLocal();
+		final int local = compileNewLocal( _isArray );
 		compileStoreLocal( local );
 		return local;
 	}
 
-	protected final int compileDupAndStoreToNewLocal()
+	protected final int compileDupAndStoreToNewLocal( boolean _isArray )
 	{
-		compileDup();
-		return compileStoreToNewLocal();
+		compileDup( _isArray );
+		return compileStoreToNewLocal( _isArray );
 	}
 
-	protected final int compileNewLocal()
+	protected final int compileNewLocal( boolean _isArray )
 	{
-		return method().newLocal( type().getSize() );
+		if (_isArray) {
+			return -method().newLocal( 1 );
+		}
+		else {
+			return method().newLocal( type().getSize() );
+		}
+	}
+
+	protected final void compileDup( boolean _isArray )
+	{
+		if (_isArray) {
+			mv().visitInsn( Opcodes.DUP );
+		}
+		else {
+			compileDup();
+		}
 	}
 
 	protected void compileDup()
@@ -656,12 +720,22 @@ abstract class ExpressionCompiler
 
 	protected final void compileStoreLocal( int _local )
 	{
-		mv().visitVarInsn( type().getOpcode( Opcodes.ISTORE ), _local );
+		if (isArray( _local )) {
+			mv().visitVarInsn( Opcodes.ASTORE, -_local );
+		}
+		else {
+			mv().visitVarInsn( type().getOpcode( Opcodes.ISTORE ), _local );
+		}
 	}
 
 	protected final void compileLoadLocal( int _local )
 	{
-		mv().visitVarInsn( type().getOpcode( Opcodes.ILOAD ), _local );
+		if (isArray( _local )) {
+			mv().visitVarInsn( Opcodes.ALOAD, -_local );
+		}
+		else {
+			mv().visitVarInsn( type().getOpcode( Opcodes.ILOAD ), _local );
+		}
 	}
 
 
@@ -813,32 +887,31 @@ abstract class ExpressionCompiler
 			throws CompilerException;
 
 
-	protected final void compileArray( ExpressionNode _rangeNode ) throws CompilerException
+	protected final void compileArray( ExpressionNode _arrayNode ) throws CompilerException
 	{
 		final GeneratorAdapter mv = mv();
-		if (_rangeNode instanceof ExpressionNodeForRangeValue) {
-			final ExpressionNodeForRangeValue rangeNode = (ExpressionNodeForRangeValue) _rangeNode;
-			final RangeValue rangeValue = rangeNode.getRangeValue();
-			mv.push( rangeValue.getNumberOfColumns() * rangeValue.getNumberOfRows() * rangeValue.getNumberOfSheets() );
+		if (_arrayNode instanceof ExpressionNodeForArrayReference) {
+			final ExpressionNodeForArrayReference arrayRef = (ExpressionNodeForArrayReference) _arrayNode;
+			mv.push( arrayRef.arrayDescriptor().getNumberOfElements() );
 			compileNewArray();
 			int i = 0;
-			for (ExpressionNode arg : _rangeNode.arguments()) {
+			for (ExpressionNode arg : _arrayNode.arguments()) {
 				mv.visitInsn( Opcodes.DUP );
 				mv.push( i++ );
 				compile( arg );
 				mv.visitInsn( arrayStoreOpcode() );
 			}
 		}
-		else if (_rangeNode instanceof ExpressionNodeForConstantValue) {
-			final ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _rangeNode;
-			compileConstArray( (RangeValue) constNode.getValue() );
+		else if (_arrayNode instanceof ExpressionNodeForConstantValue) {
+			final ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _arrayNode;
+			compileConstArray( (ArrayValue) constNode.value() );
 		}
 	}
 
-	protected final void compileConstArray( RangeValue _rangeValue ) throws CompilerException
+	protected final void compileConstArray( ArrayValue _rangeValue ) throws CompilerException
 	{
 		final GeneratorAdapter mv = mv();
-		mv.push( _rangeValue.getNumberOfColumns() * _rangeValue.getNumberOfRows() * _rangeValue.getNumberOfSheets() );
+		mv.push( _rangeValue.getNumberOfElements() );
 		compileNewArray();
 		int i = 0;
 		for (Object cst : _rangeValue) {

@@ -24,7 +24,7 @@ import java.io.IOException;
 
 import sej.describable.DescriptionBuilder;
 
-public final class ExpressionNodeForFoldArray extends AbstractExpressionNodeForFold
+public final class ExpressionNodeForFoldArray extends ExpressionNodeForAbstractFold
 {
 	private final String indexName;
 

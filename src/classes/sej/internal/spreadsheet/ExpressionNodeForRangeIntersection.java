@@ -21,6 +21,7 @@
 package sej.internal.spreadsheet;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionDescriptionConfig;
@@ -49,7 +50,15 @@ public final class ExpressionNodeForRangeIntersection extends ExpressionNode
 		return new ExpressionNodeForRangeIntersection();
 	}
 
+
 	@Override
+	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
+	{
+		throw new AbstractMethodError();
+	}
+
+
+@Override
 	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
 		describeArgumentTo( _to, _cfg, 0 );

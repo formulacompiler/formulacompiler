@@ -22,16 +22,16 @@ package sej.internal.bytecode.compiler;
 
 import org.objectweb.asm.Type;
 
-import sej.internal.expressions.AbstractExpressionNodeForFold;
+import sej.internal.expressions.ExpressionNodeForAbstractFold;
 
 final class FoldContext
 {
-	final AbstractExpressionNodeForFold node;
+	final ExpressionNodeForAbstractFold node;
 	final Type accumulatorType;
 	int localHaveFirst;
 
 
-	public FoldContext(AbstractExpressionNodeForFold _node, ByteCodeEngineCompiler _engine)
+	public FoldContext(ExpressionNodeForAbstractFold _node, ByteCodeEngineCompiler _engine)
 	{
 		super();
 		this.node = _node;

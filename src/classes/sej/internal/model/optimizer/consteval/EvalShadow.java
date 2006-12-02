@@ -23,11 +23,11 @@ package sej.internal.model.optimizer.consteval;
 import sej.internal.Settings;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.ExpressionNodeForSubstitution;
 import sej.internal.expressions.ExpressionNodeShadow;
 import sej.internal.expressions.LetDictionary;
 import sej.internal.logging.Log;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
-import sej.internal.model.ExpressionNodeForSubstitution;
 import sej.internal.model.util.InterpretedNumericType;
 
 public abstract class EvalShadow extends ExpressionNodeShadow

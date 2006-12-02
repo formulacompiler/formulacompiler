@@ -134,6 +134,30 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		}
 		end();
 
+		/*
+		begin( Function.MIRR, "vs#", "frate", "rrate" );
+		{
+			body( "_LET( n: COUNT( `vs );" );
+			body( "  ((-NPV( `rrate, _MAP_ARRAY( vi: IF( `vi > 0, `vi, 0 ))) * (1 + `rrate) ^ `n)" );
+			body( "   / (NPV( `frate, _MAP_ARRAY( vi: IF( `vi < 0, `vi, 0 ))) * (1 + `frate)))" );
+			body( "  ^ (1 / (`n - 1))" );
+			body( "  - 1 )" );
+		}
+		end();
+		*/
+
+		begin( Function.MIRR, "vs#", "frate", "rrate" );
+		{
+			body( "_LET( n: COUNT( `vs );" );
+			body( "_LET( rrate1: `rrate + 1;" );
+			body( "_LET( frate1: `frate + 1;" );
+			body( "  ((-_FOLD_ARRAY( r: 0; vi, i: `r + IF( `vi > 0, `vi, 0 ) * `rrate1 ^ (`n - `i); `vs ))" );
+			body( "   / _FOLD_ARRAY( r: 0; vi, i: `r + IF( `vi < 0, `vi, 0 ) / `frate1 ^ (`i - 1); `vs ))" );
+			body( "  ^ (1 / (`n - 1))" );
+			body( "  - 1 )))" );
+		}
+		end();
+
 
 		// Leave this comment in. It is used to cite the code into the documentation.
 		// ---- fun_COMBIN

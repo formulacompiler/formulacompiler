@@ -20,12 +20,14 @@
  */
 package sej.internal.expressions;
 
+import java.util.Collection;
+
 import sej.describable.DescriptionBuilder;
 
 
-public class ExpressionNodeForConstantValue extends ExpressionNode
+public final class ExpressionNodeForConstantValue extends ExpressionNode
 {
-	private Object value;
+	private final Object value;
 
 
 	public ExpressionNodeForConstantValue(Object _value)
@@ -41,7 +43,7 @@ public class ExpressionNodeForConstantValue extends ExpressionNode
 	}
 
 
-	public Object getValue()
+	public Object value()
 	{
 		return this.value;
 	}
@@ -51,6 +53,19 @@ public class ExpressionNodeForConstantValue extends ExpressionNode
 	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForConstantValue( this.value );
+	}
+
+
+	@Override
+	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
+	{
+		if (this.value instanceof ArrayValue) {
+			ArrayValue array = (ArrayValue) this.value;
+			return array.getNumberOfElements();
+		}
+		else {
+			return 1;
+		}
 	}
 
 

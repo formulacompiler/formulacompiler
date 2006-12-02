@@ -21,6 +21,7 @@
 package sej.internal.expressions;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import sej.describable.DescriptionBuilder;
 
@@ -45,6 +46,28 @@ public final class ExpressionNodeForLetVar extends ExpressionNode
 	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForLetVar( varName() );
+	}
+	
+	
+	@Override
+	protected int countValuesCore( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
+	{
+		final LetDictionary.LetEntry e = _letDict.find( varName() );
+		if (e.value instanceof ExpressionNode) {
+			return ((ExpressionNode) e.value).countValues( _letDict, _uncountables );
+		}
+		else if (null != e.arrayDescriptor) {
+			return e.arrayDescriptor.getNumberOfElements();
+		}
+		else {
+			return 1;
+		}
+	}
+	
+	@Override
+	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
+	{
+		throw new AbstractMethodError();
 	}
 
 	

@@ -21,9 +21,9 @@
 package sej.internal.model.analysis;
 
 import sej.CompilerException;
-import sej.internal.expressions.AbstractExpressionNodeForFold;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForAbstractFold;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
 import sej.internal.expressions.ExpressionNodeForFold1st;
@@ -33,14 +33,14 @@ import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
 import sej.internal.expressions.ExpressionNodeForMakeArray;
 import sej.internal.expressions.ExpressionNodeForOperator;
+import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.LetDictionary;
+import sej.internal.expressions.ArrayValue;
 import sej.internal.model.AbstractComputationModelVisitor;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
-import sej.internal.model.ExpressionNodeForRangeValue;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
-import sej.internal.model.RangeValue;
 
 
 public final class TypeAnnotator extends AbstractComputationModelVisitor
@@ -107,7 +107,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 	{
 		if (_expr instanceof ExpressionNodeForConstantValue) return typeOf( (ExpressionNodeForConstantValue) _expr );
 		if (_expr instanceof ExpressionNodeForCellModel) return typeOf( (ExpressionNodeForCellModel) _expr );
-		if (_expr instanceof ExpressionNodeForRangeValue) return typeOf( (ExpressionNodeForRangeValue) _expr );
+		if (_expr instanceof ExpressionNodeForArrayReference) return typeOf( (ExpressionNodeForArrayReference) _expr );
 		if (_expr instanceof ExpressionNodeForOperator) return typeOf( (ExpressionNodeForOperator) _expr );
 		if (_expr instanceof ExpressionNodeForFunction) return typeOf( (ExpressionNodeForFunction) _expr );
 		if (_expr instanceof ExpressionNodeForParentSectionModel)
@@ -141,8 +141,8 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		else if (_value instanceof String) {
 			return DataType.STRING;
 		}
-		else if (_value instanceof RangeValue) {
-			final RangeValue range = (RangeValue) _value;
+		else if (_value instanceof ArrayValue) {
+			final ArrayValue range = (ArrayValue) _value;
 			if (range.size() > 0) {
 				return typeOfConstant( range.get( 0 ) );
 			}
@@ -175,7 +175,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 
 	private DataType typeOf( ExpressionNodeForConstantValue _expr )
 	{
-		return typeOfConstant( _expr.getValue() );
+		return typeOfConstant( _expr.value() );
 	}
 
 	private DataType typeOf( ExpressionNodeForCellModel _expr ) throws CompilerException
@@ -183,7 +183,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		return annotate( _expr.getCellModel() );
 	}
 
-	private DataType typeOf( ExpressionNodeForRangeValue _expr ) throws CompilerException
+	private DataType typeOf( ExpressionNodeForArrayReference _expr ) throws CompilerException
 	{
 		annotateArgs( _expr );
 		return typeOf( _expr.arguments() );
@@ -317,7 +317,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		return _expr.initialAccumulatorValue().getDataType();
 	}
 
-	private DataType annotateFold( AbstractExpressionNodeForFold _expr ) throws CompilerException 
+	private DataType annotateFold( ExpressionNodeForAbstractFold _expr ) throws CompilerException 
 	{
 		for (final ExpressionNode elt : _expr.elements()) {
 			annotate( elt );

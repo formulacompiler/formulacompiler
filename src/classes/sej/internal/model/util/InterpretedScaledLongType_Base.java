@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 import sej.internal.NumericTypeImpl;
 import sej.internal.NumericTypeImpl.AbstractLongType;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
-import sej.internal.model.RangeValue;
+import sej.internal.expressions.ArrayValue;
 import sej.internal.runtime.RuntimeLong_v1;
 
 abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
@@ -154,7 +154,7 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 	protected final long[] to_array( Object _value )
 	{
 		final ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _value;
-		final RangeValue rangeValue = (RangeValue) constNode.getValue();
+		final ArrayValue rangeValue = (ArrayValue) constNode.value();
 		final long[] r = new long[ rangeValue.getNumberOfColumns()
 				* rangeValue.getNumberOfRows() * rangeValue.getNumberOfSheets() ];
 		int i = 0;

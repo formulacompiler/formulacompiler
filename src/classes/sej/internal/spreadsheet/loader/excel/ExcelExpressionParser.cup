@@ -38,7 +38,7 @@ terminal IF, AND, OR, NOT;
 terminal SUM, PRODUCT, COUNT, AVERAGE, MIN, MAX, VAR, VARP;
 terminal MATCH, INDEX, ROUND, ABS;
 terminal FACT, COMBIN;
-terminal NPV, IRR;
+terminal NPV, MIRR, IRR;
 terminal TODAY;
 terminal CONCATENATE, LEN, MID, LEFT, RIGHT, SUBSTITUTE, REPLACE, SEARCH, FIND, EXACT, LOWER, UPPER, PROPER;
 terminal Integer INT;
@@ -302,6 +302,9 @@ expr ::=
 				
 	|	NPV LPAREN expr:rate COMMA shapedrangeexpr:vals RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.NPV, rate, vals ); :}
+				
+	|	MIRR LPAREN shapedrangeexpr:vals COMMA expr:frate COMMA expr:rrate RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.MIRR, vals, frate, rrate ); :}
 				
 	|	IRR LPAREN shapedrangeexpr:vals COMMA expr:guess RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.IRR, vals, guess ); :}

@@ -16,7 +16,7 @@ h5. *Changed!*
 	
 h5. New
 
-	* @NPV()@ and @IRR()@ are now supported (not over dynamic sections, though).
+	* @NPV()@, @MIRR()@, and @IRR()@ are now supported (not over dynamic sections, though).
 	* @_MAKE_ARRAY()@ and @_FOLD_ARRAY()@ added to internal rewriting language.
 	
 h5. Better

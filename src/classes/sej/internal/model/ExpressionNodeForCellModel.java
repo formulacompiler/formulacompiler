@@ -21,6 +21,7 @@
 package sej.internal.model;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionDescriptionConfig;
@@ -56,6 +57,13 @@ public class ExpressionNodeForCellModel extends ExpressionNode
 	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForCellModel( this.cellModel );
+	}
+	
+	
+	@Override
+	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
+	{
+		return 1;
 	}
 
 

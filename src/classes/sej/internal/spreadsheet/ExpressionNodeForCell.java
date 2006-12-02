@@ -21,6 +21,7 @@
 package sej.internal.spreadsheet;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionDescriptionConfig;
@@ -60,6 +61,13 @@ public final class ExpressionNodeForCell extends ExpressionNode
 	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForCell( this.cellIndex );
+	}
+	
+	
+	@Override
+	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
+	{
+		return 1;
 	}
 
 

@@ -25,13 +25,23 @@ h2. MIRR(Modified Internal Rate of Return)
 
 @MIRR()@ is like @NPV()@. Its implementation makes use of @NPV()@. So I would like to write:
 
-	MIRR( vs#, frate, rrate ) = _LET( n: COUNT( `vs );
-		((-NPV( `rrate, _MAP_ARRAY( vi: IF( `vi > 0, `vi, 0 ))) * (1 + `rrate) ^ `n)
-		 / (NPV( `frate, _MAP_ARRAY( vi: IF( `vi < 0, `vi, 0 ))) * (1 + `frate)))
-		^ (1 / (`n - 1))
-		- 1 )
+	MIRR( vs#, frate, rrate ) =
+		_LET( n: COUNT( `vs );
+			((-NPV( `rrate, _MAP_ARRAY( vi: IF( `vi > 0, `vi, 0 ))) * (1 + `rrate) ^ `n)
+			 / (NPV( `frate, _MAP_ARRAY( vi: IF( `vi < 0, `vi, 0 ))) * (1 + `frate)))
+			^ (1 / (`n - 1))
+			- 1 )
 
-Note that SEJ will have to properly determine that the result of the new function @_MAP_ARRAY()@ already is an array when passing it to @NPV()@.
+Note that SEJ will have to properly determine that the result of the new function @_MAP_ARRAY()@ already is an array when passing it to @NPV()@. A little bit of math, however, shows that this can be formulated more efficiently as:
+
+	MIRR( vs#, frate, rrate ) = 
+		_LET( n: COUNT( `vs );
+		_LET( rrate1: `rrate + 1;
+		_LET( frate1: `frate + 1;
+			((-_FOLD_ARRAY( r: 0; vi, i: `r + IF( `vi > 0, `vi, 0 ) * `rrate1 ^ (`n - `i); `vs ))
+			 / _FOLD_ARRAY( r: 0; vi, i: `r + IF( `vi < 0, `vi, 0 ) / `frate1 ^ (`i - 1); `vs ))
+			^ (1 / (`n - 1))
+			- 1 )))
 
 
 h2. IRR(Internal Rate of Return)
