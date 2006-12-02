@@ -24,7 +24,9 @@
  */
 package sej.internal.bytecode.compiler;
 
+import sej.CompilerException;
 import sej.NumericType;
+import sej.internal.bytecode.compiler.ExpressionCompilerForNumbers_Base.FoldArrayCompilation;
 
 /**
  * This is a dummy class for boot-strap compilation of the class that will compile the actual
@@ -39,4 +41,9 @@ abstract class ExpressionCompilerForNumbers_Generated extends ExpressionCompiler
 		super( _methodCompiler, _numericType );
 	}
 
+	protected void compile_foldArray( FoldArrayCompilation _fold )
+	{
+		// ignore
+	}
+	
 }
