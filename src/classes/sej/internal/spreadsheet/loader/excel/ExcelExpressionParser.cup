@@ -225,7 +225,7 @@ expr ::=
 	|	FOLD1ST LPAREN NAME:x0 COLON expr:v0 SEMICOLON NAME:acc NAME:xi COLON expr:fold SEMICOLON expr:other SEMICOLON args:args RPAREN
 				{: RESULT = new ExpressionNodeForFold1st( x0, v0, acc, xi, fold, other, args ); :}
 
-	|	FOLDARRAY LPAREN NAME:acc COLON expr:init SEMICOLON NAME:x COMMA NAME:i COLON expr:fold SEMICOLON expr:arr RPAREN
+	|	FOLDARRAY LPAREN NAME:acc COLON expr:init SEMICOLON NAME:x NAME:i COLON expr:fold SEMICOLON expr:arr RPAREN
 				{: RESULT = new ExpressionNodeForFoldArray( acc, init, x, i, fold, arr ); :}
 
 	|	IF LPAREN expr:test COMMA expr:t COMMA expr:f RPAREN
