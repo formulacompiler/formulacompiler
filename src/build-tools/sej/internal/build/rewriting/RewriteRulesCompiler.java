@@ -133,7 +133,7 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		begin( Function.NPV, "rate", "vs#" );
 		{
 			body( "_LET( rate1: `rate + 1;" );
-			body( "  _FOLD_ARRAY( r: 0; vi, i: `r + `vi / `rate1 ^ `i; `vs ))" );
+			body( "  _FOLD_ARRAY( r: 0; vi i: `r + `vi / `rate1 ^ `i; `vs ))" );
 		}
 		end();
 
@@ -154,8 +154,8 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 			body( "_LET( n: COUNT( `vs );" );
 			body( "_LET( rrate1: `rrate + 1;" );
 			body( "_LET( frate1: `frate + 1;" );
-			body( "  ((-_FOLD_ARRAY( r: 0; vi, i: `r + IF( `vi > 0, `vi, 0 ) * `rrate1 ^ (`n - `i); `vs ))" );
-			body( "   / _FOLD_ARRAY( r: 0; vi, i: `r + IF( `vi < 0, `vi, 0 ) / `frate1 ^ (`i - 1); `vs ))" );
+			body( "  ((-_FOLD_ARRAY( r: 0; vi i: `r + IF( `vi > 0, `vi, 0 ) * `rrate1 ^ (`n - `i); `vs ))" );
+			body( "   / _FOLD_ARRAY( r: 0; vi i: `r + IF( `vi < 0, `vi, 0 ) / `frate1 ^ (`i - 1); `vs ))" );
 			body( "  ^ (1 / (`n - 1))" );
 			body( "  - 1 )))" );
 		}
