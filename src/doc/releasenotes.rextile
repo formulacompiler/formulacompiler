@@ -13,6 +13,7 @@ h2. Release 0.8.2
 h5. *Changed!*
 
 	* Dropped support for @Operator.MIN@, @Operator.MAX@, and @Operator.NOOP@. Use @Function.MIN@ and @Function.MAX@ instead.
+	* Renamed "internal rewrite functions":hacking/rewrite_functions.htm @_FOLD_1ST@ to @_REDUCE@ and @_FOLD_1STOK@ to @_FOLD_OR_REDUCE@. Simplified @_REDUCE@.
 	
 h5. New
 
@@ -30,6 +31,8 @@ h5. Documented
 
 	* Checked whether "the engine format needs to be more robust":dev/2007-11-22_robust_storage.htm for the future. It's OK already.
 	* Added a "breakdown of missing spreadsheet functions":hacking/functions_to_implement.htm.
+	* Added documentation of "internal rewrite functions":hacking/rewrite_functions.htm.
+	* Documented how to "add an array computation":hacking/addarray.xhtml.
 	
 	
 h2. Release 0.8.1
