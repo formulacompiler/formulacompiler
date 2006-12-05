@@ -26,39 +26,16 @@ import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
-import sej.internal.expressions.ExpressionNodeForFold1st;
+import sej.internal.expressions.ExpressionNodeForReduce;
 import sej.internal.model.util.InterpretedNumericType;
 
-final class EvalFold1st extends EvalAbstractFold
+final class EvalReduce extends EvalAbstractFold
 {
 	private static final Object NO_VALUE = new Object();
 
-	private final String firstName;
-	private EvalShadow initialEval;
-
-	public EvalFold1st(ExpressionNodeForFold1st _node, InterpretedNumericType _type)
+	public EvalReduce(ExpressionNodeForReduce _node, InterpretedNumericType _type)
 	{
 		super( _node, _type );
-		this.firstName = _node.firstName();
-	}
-
-
-	@Override
-	protected int evalFixedArgs( Object[] _args, int _i0 ) throws CompilerException
-	{
-		int i0 = super.evalFixedArgs( _args, _i0 );
-
-		// Temporarily undefine the names so they don't capture outer defs.
-		letDict().let( this.firstName, null, EvalLetVar.UNDEF );
-		try {
-			_args[ i0++ ] = evaluateArgument( 2 ); // initial
-		}
-		finally {
-			letDict().unlet( this.firstName );
-		}
-
-		this.initialEval = shadow( (ExpressionNode) _args[ i0 - 1 ], type() );
-		return i0;
 	}
 
 
@@ -73,19 +50,12 @@ final class EvalFold1st extends EvalAbstractFold
 	protected Object foldOne( Object _acc, Object _val, Collection<ExpressionNode> _dynArgs ) throws CompilerException
 	{
 		if (_acc == NO_VALUE) {
-			letDict().let( this.firstName, null, _val );
-			try {
-				final Object val = this.initialEval.evalIn( context() );
-				if (isConstant( val )) {
-					return val;
-				}
-				else {
-					_dynArgs.add( (ExpressionNode) val );
-					return _acc;
-				}
+			if (isConstant( _val )) {
+				return _val;
 			}
-			finally {
-				letDict().unlet( this.firstName );
+			else {
+				_dynArgs.add( (ExpressionNode) _val );
+				return _acc;
 			}
 		}
 		else {
@@ -105,10 +75,9 @@ final class EvalFold1st extends EvalAbstractFold
 			return result;
 		}
 		else {
-			ExpressionNodeForFold1st result = (ExpressionNodeForFold1st) node().cloneWithoutArguments();
+			ExpressionNodeForReduce result = (ExpressionNodeForReduce) node().cloneWithoutArguments();
 			result.addArgument( valueToNode( _args[ 0 ] ) ); // empty
 			result.addArgument( valueToNode( _args[ 1 ] ) ); // fold
-			result.addArgument( valueToNode( _args[ 2 ] ) ); // initial
 			result.arguments().addAll( _dynArgs );
 			return result;
 		}

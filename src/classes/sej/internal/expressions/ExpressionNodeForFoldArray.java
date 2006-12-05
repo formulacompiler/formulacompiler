@@ -43,19 +43,19 @@ public final class ExpressionNodeForFoldArray extends ExpressionNodeForAbstractF
 		addArgument( _accumulatingStep );
 		addArgument( _array );
 	}
-	
-	
+
+
 	public final String indexName()
 	{
 		return this.indexName;
 	}
-	
+
 	public final ExpressionNode array()
 	{
 		return elements().iterator().next();
 	}
 
-	
+
 	@Override
 	public ExpressionNode innerCloneWithoutArguments()
 	{
@@ -68,7 +68,7 @@ public final class ExpressionNodeForFoldArray extends ExpressionNodeForAbstractF
 	{
 		_to.append( "_FOLD_ARRAY( " ).append( accumulatorName() ).append( ": " );
 		initialAccumulatorValue().describeTo( _to, _cfg );
-		_to.append( "; " ).append( elementName() ).append( ": " );
+		_to.append( "; " ).append( elementName() ).append( ", " ).append( indexName() ).append( ": " );
 		accumulatingStep().describeTo( _to, _cfg );
 		_to.append( "; " );
 		describeElements( _to, _cfg );

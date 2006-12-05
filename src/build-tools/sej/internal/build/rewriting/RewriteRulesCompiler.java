@@ -45,10 +45,10 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		// ---- fun_COMBIN
 
 		/*
-		 * PRODUCT must return 0 for empty sections, so I cannot use _FOLDL_1ST_OK as the initial
+		 * PRODUCT must return 0 for empty sections, so I cannot use _FOLD_OR_REDUCE as the initial
 		 * value would then be 1.
 		 */
-		def( Function.PRODUCT, "xs*", "_FOLD_1ST( x0: `x0; r xi: `r * `xi; 0; `xs )" );
+		def( Function.PRODUCT, "xs*", "_REDUCE( r, xi: `r * `xi; 0; `xs )" );
 
 		/*
 		 * The first argument to SUM can be used as the initial value to get rid of one addition. But
@@ -56,7 +56,7 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		 */
 		// Leave this comment in. It is used to cite the code into the documentation.
 		// ---- fun_SUM
-		def( Function.SUM, "xs*", "_FOLD_1STOK( r: 0; xi: `r + `xi; `xs )" );
+		def( Function.SUM, "xs*", "_FOLD_OR_REDUCE( r: 0; xi: `r + `xi; `xs )" );
 		// ---- fun_SUM
 
 		/*
@@ -65,8 +65,8 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		 */
 		// Leave this comment in. It is used to cite the code into the documentation.
 		// ---- fun_MINMAX
-		def( Function.MIN, "xs*", "_FOLD_1ST( x0: `x0; r xi: `r _min_ `xi; 0; `xs )" );
-		def( Function.MAX, "xs*", "_FOLD_1ST( x0: `x0; r xi: `r _max_ `xi; 0; `xs )" );
+		def( Function.MIN, "xs*", "_REDUCE( r, xi: `r _min_ `xi; 0; `xs )" );
+		def( Function.MAX, "xs*", "_REDUCE( r, xi: `r _max_ `xi; 0; `xs )" );
 		// ---- fun_MINMAX
 
 		/*
@@ -130,7 +130,7 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		begin( Function.NPV, "rate", "vs#" );
 		{
 			body( "_LET( rate1: `rate + 1;" );
-			body( "  _FOLD_ARRAY( r: 0; vi i: `r + `vi / `rate1 ^ `i; `vs ))" );
+			body( "  _FOLD_ARRAY( r: 0; vi, i: `r + `vi / `rate1 ^ `i; `vs ))" );
 		}
 		end();
 
@@ -151,8 +151,8 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 			body( "_LET( n: COUNT( `vs );" );
 			body( "_LET( rrate1: `rrate + 1;" );
 			body( "_LET( frate1: `frate + 1;" );
-			body( "  ((-_FOLD_ARRAY( r: 0; vi i: `r + IF( `vi > 0, `vi, 0 ) * `rrate1 ^ (`n - `i); `vs ))" );
-			body( "   / _FOLD_ARRAY( r: 0; vi i: `r + IF( `vi < 0, `vi, 0 ) / `frate1 ^ (`i - 1); `vs ))" );
+			body( "  ((-_FOLD_ARRAY( r: 0; vi, i: `r + IF( `vi > 0, `vi, 0 ) * `rrate1 ^ (`n - `i); `vs ))" );
+			body( "   / _FOLD_ARRAY( r: 0; vi, i: `r + IF( `vi < 0, `vi, 0 ) / `frate1 ^ (`i - 1); `vs ))" );
 			body( "  ^ (1 / (`n - 1))" );
 			body( "  - 1 )))" );
 		}

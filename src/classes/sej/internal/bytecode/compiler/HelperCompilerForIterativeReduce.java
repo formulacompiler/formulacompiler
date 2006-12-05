@@ -25,21 +25,21 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.expressions.ExpressionNodeForFold1st;
+import sej.internal.expressions.ExpressionNodeForReduce;
 import sej.internal.expressions.LetDictionary.LetEntry;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 
 
-final class HelperCompilerForIterativeFold1st extends HelperCompilerForIterativeFold
+final class HelperCompilerForIterativeReduce extends HelperCompilerForIterativeFold
 {
-	private final ExpressionNodeForFold1st fold;
+	private final ExpressionNodeForReduce fold;
 	private boolean needFirstDetection = true;
 
-	public HelperCompilerForIterativeFold1st(SectionCompiler _section, Iterable<ExpressionNode> _elts,
+	public HelperCompilerForIterativeReduce(SectionCompiler _section, Iterable<ExpressionNode> _elts,
 			FoldContext _context, Iterable<LetEntry> _closure)
 	{
 		super( _section, _elts, _context, _closure );
-		this.fold = (ExpressionNodeForFold1st) _context.node;
+		this.fold = (ExpressionNodeForReduce) _context.node;
 	}
 
 
@@ -50,7 +50,7 @@ final class HelperCompilerForIterativeFold1st extends HelperCompilerForIterative
 		final ExpressionNode first = expc().firstStaticElementIn( _elts );
 		if (first != null) {
 			this.needFirstDetection = false;
-			expc().compileElementAccess( _context, this.fold.firstName(), first, this.fold.firstValue() );
+			expc().compile( first );
 			compileFoldWithChainedInitialValue( _context, _elts, _localResult, first );
 		}
 		else {
@@ -97,7 +97,6 @@ final class HelperCompilerForIterativeFold1st extends HelperCompilerForIterative
 		sectionInContext().compileCallToGetterFor( mv, subSection );
 		final Iterable<ExpressionNode> subElts = _elt.arguments();
 		final int haveFirst = _context.localHaveFirst;
-		final ExpressionNodeForFold1st fold = this.fold;
 
 		expc().compile_scanArrayWithFirst( new ExpressionCompiler.ForEachElementWithFirstCompilation()
 		{
@@ -120,13 +119,13 @@ final class HelperCompilerForIterativeFold1st extends HelperCompilerForIterative
 				try {
 					setObjectInContext( subSection, _x0 );
 
-					HelperCompilerForIterativeFold1st.this.needFirstDetection = false;
+					HelperCompilerForIterativeReduce.this.needFirstDetection = false;
 
-					expc().compileElementAccess( _context, fold.firstName(), _firstNonRepeatingElement, fold.firstValue() );
+					expc().compile( _firstNonRepeatingElement );
 					expc().compileChainedFoldOverNonRepeatingElements( _context, subElts, _firstNonRepeatingElement );
 					compileAccumulatorStore( _localAccumulator );
 					compileIterativeFoldOverRepeatingElements( _context, subElts, _localAccumulator );
-					
+
 				}
 				finally {
 					setObjectInContext( oldSection, oldObject );

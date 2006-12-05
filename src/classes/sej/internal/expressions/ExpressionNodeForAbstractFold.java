@@ -30,19 +30,24 @@ public abstract class ExpressionNodeForAbstractFold extends ExpressionNode
 {
 	private final String accumulatorName;
 	private final String elementName;
-	private boolean canInlineFirst;
+	private boolean mayReduce;
 
-	protected ExpressionNodeForAbstractFold(String _accumulatorName, String _elementName, boolean _canInlineFirst)
+	protected ExpressionNodeForAbstractFold(String _accumulatorName, String _elementName, boolean _mayReduce)
 	{
 		super();
 		this.accumulatorName = _accumulatorName;
 		this.elementName = _elementName;
-		this.canInlineFirst = _canInlineFirst;
+		this.mayReduce = _mayReduce;
 	}
 
-	protected final void setCanInlineFirst( boolean _value )
+	public final boolean mayReduce()
 	{
-		this.canInlineFirst = _value;
+		return this.mayReduce;
+	}
+
+	protected final void setMayReduce( boolean _value )
+	{
+		this.mayReduce = _value;
 	}
 
 	
@@ -78,11 +83,6 @@ public abstract class ExpressionNodeForAbstractFold extends ExpressionNode
 		return argument( 1 );
 	}
 	
-	public final boolean canInlineFirst()
-	{
-		return this.canInlineFirst;
-	}
-
 	public final Iterable<ExpressionNode> elements()
 	{
 		return new Iterable<ExpressionNode>()

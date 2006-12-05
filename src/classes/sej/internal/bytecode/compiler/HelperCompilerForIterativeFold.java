@@ -63,7 +63,7 @@ class HelperCompilerForIterativeFold extends HelperCompiler
 			throws CompilerException
 	{
 		ExpressionNode first;
-		if (_context.node.canInlineFirst() && (first = expc().firstStaticElementIn( _elts )) != null) {
+		if (_context.node.mayReduce() && (first = expc().firstStaticElementIn( _elts )) != null) {
 			expc().compile( first );
 			compileFoldWithChainedInitialValue( _context, _elts, _localResult, first );
 		}
