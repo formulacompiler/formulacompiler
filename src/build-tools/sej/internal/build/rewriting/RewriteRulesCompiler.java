@@ -36,7 +36,7 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		new RewriteRulesCompiler().run();
 	}
 
-	
+
 	// Leave this comment in. It is used to cite the code into the documentation.
 	// ---- fun_COMBIN
 	@Override
@@ -80,6 +80,10 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		 * An efficient implementation of VARP for large datasets would require a helper function
 		 * returning _both_ the sum and the count in one pass. We don't do cursor-style aggregation
 		 * yet, so the following is quite OK.
+		 * 
+		 * One might also consider turning this into an ARRAY function (xs# instead of xs*).
+		 * Currently, SEJ does not support converting arbitrary range unions with possibly dynamic
+		 * sections into arrays.
 		 * 
 		 * I am inlining AVERAGE here because COUNT is already known.
 		 */
@@ -127,25 +131,22 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		// ---- fun_COMBIN
 
 
+		// Leave this comment in. It is used to cite the code into the documentation.
+		// ---- fun_NPV
+		// ...
 		begin( Function.NPV, "rate", "vs#" );
 		{
 			body( "_LET( rate1: `rate + 1;" );
 			body( "  _FOLD_ARRAY( r: 0; vi, i: `r + `vi / `rate1 ^ `i; `vs ))" );
 		}
 		end();
+		// ...
+		// ---- fun_NPV
 
 		/*
-		begin( Function.MIRR, "vs#", "frate", "rrate" );
-		{
-			body( "_LET( n: COUNT( `vs );" );
-			body( "  ((-NPV( `rrate, _MAP_ARRAY( vi: IF( `vi > 0, `vi, 0 ))) * (1 + `rrate) ^ `n)" );
-			body( "   / (NPV( `frate, _MAP_ARRAY( vi: IF( `vi < 0, `vi, 0 ))) * (1 + `frate)))" );
-			body( "  ^ (1 / (`n - 1))" );
-			body( "  - 1 )" );
-		}
-		end();
-		*/
-
+		 * MIRR could use NPV internally (array passing is not yet supported by the compiler, though),
+		 * but a little math shows that the following is equivalent but quicker.
+		 */
 		begin( Function.MIRR, "vs#", "frate", "rrate" );
 		{
 			body( "_LET( n: COUNT( `vs );" );

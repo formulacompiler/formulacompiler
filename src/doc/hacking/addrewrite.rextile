@@ -32,7 +32,7 @@ h2. Rewriting It
 
 Now we get to the interesting part. We rewrite @COMBIN(n,k)@ in terms of lower-level Excel and SEJ functions. From the Excel help file we see that @COMBIN(n,k)@ is
 
-<notextile><math xmlns="http://www.w3.org/1998/Math/MathML">
+<notextile><math xmlns="http://www.w3.org/1998/Math/MathML" display='block'>
 	<mfrac>
 		<mrow><mi>n</mi><mo>!</mo></mrow>
 		<mrow><mi>k</mi><mo>! (</mo><mi>n</mi><mo>-</mo><mi>k</mi><mo>)!</mo></mrow>

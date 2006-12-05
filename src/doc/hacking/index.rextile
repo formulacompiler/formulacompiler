@@ -14,9 +14,11 @@ h2. Getting Started
 h2. Reference
 
 	* "Automated Reference Tests":-reftest
+	* "Special Rewrite Functions":-refrewrite
 	* "Adding A Primitive Function":-prim
 	* "Adding A High-Level Function":-high
-	* "Adding An Aggregator":-high
+	* "Adding An Aggregator":-agg
+	* "Adding An Array Computation":-arr
 	
 	* "House Rules":rules.htm
 	* "Java Code Style":style.htm

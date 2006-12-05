@@ -33,15 +33,15 @@ h2. Mathematical Definition
 	
 The function @VAR()@ is defined in the Excel help file as follows:
 
-<notextile><math xmlns='http://www.w3.org/1998/Math/MathML'>
+<notextile><math xmlns='http://www.w3.org/1998/Math/MathML' display='block'>
 	<mfrac><mrow><mo lspace="thinmathspace" rspace="thinmathspace">&#8721;</mo>
 	<mrow><mo>(</mo>
 	<mi>x</mi><mo>-</mo><mover><mrow><mi>x</mi>
-	</mrow><mo>&#x000AF;</mo></mover><msup><mo>)</mo> <mn>2</mn></msup></mrow></mrow><mrow><mo>(</mo>
-	<mi>n</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow></mfrac>
+	</mrow><mo>&#x000AF;</mo></mover><msup><mo>)</mo> <mn>2</mn></msup></mrow></mrow><mrow>
+	<mi>n</mi><mo>-</mo><mn>1</mn></mrow></mfrac>
 </math></notextile>
 
-Clearly, what we have here is a sum over a function on _all of the elements_ in the range. How can we rewrite this using Excel functions? We cannot. But SEJ defines a couple of functions of its own that help.
+Clearly, what we have here is a sum over a function on _all of the elements_ in the range. How can we rewrite this using Excel functions? We cannot. But SEJ defines a couple of "functions of its own":-refrewrite that help.
 
 
 h2. Folding Functions
@@ -56,42 +56,37 @@ So the "folding function":-funfold iterates over a list of arguments. For every 
 
 h4. Special First Argument
 
-The version of @_FOLD()@ I used here, @_FOLD_1STOK()@, is simply @_FOLD()@ with a hint that it is OK to directly use the first argument as the starting value, instead of the specified value 0. This is a performance optimization.
+The version of @_FOLD()@ I used here, @_FOLD_OR_REDUCE()@, is simply @_FOLD()@ with a hint that it is OK to directly use the first argument as the starting value, instead of the specified value 0. This is a performance optimization.
 
-There are also cases when it is _mandatory_ to use the first argument directly. @MIN()@ and @MAX()@ are such cases (so we don't need some arbitrary starting extremal value). For them you need to use @_FOLD_1ST@:
+There are also cases when it is _mandatory_ to use the first argument directly. @MIN()@ and @MAX()@ are such cases (so we don't need some arbitrary starting extremal value). For them you need to use @_REDUCE()@:
 
 	[jc:sej.internal.build.rewriting.RewriteRulesCompiler:---- fun_MINMAX]
 
 You read this as follows:
 
-	* The accumulator is initialized with an expression involving the first list element, @x0@. Here, we simply return it unchanged.
-	* For all other list elements, @xi@, and the current accumulator, @r@, the new accumulator is the result of applying the binary min/max operator to the two values. These operators are "primitive operators":-prim I added to SEJ precisely so I could then use @_FOLD_1ST()@ for @MIN()@ and @MAX()@.
+	* The accumulator is implicitly initialized with the first list element unchanged.
+	* For all other list elements, @xi@, and the current accumulator, @r@, the new accumulator is the result of applying the binary min/max operator to the two values. These operators are "primitive operators":-prim I added to SEJ precisely so I could then use @_REDUCE()@ for @MIN()@ and @MAX()@.
 	* If the list is empty, the result is 0 (as specified in the third argument).
 	* Otherwise, the final result is, again, the value of the accumulator at the end of the list.
 
 
 h2. Rewriting It
 
-Let's recap the mathematical definition, augmented by explicit limits:
+Let's recap the mathematical definition:
 
-<notextile><math xmlns='http://www.w3.org/1998/Math/MathML'>
-	<mfrac><mrow><msubsup><mo lspace="thinmathspace" rspace="thinmathspace">&#8721;</mo> <mrow><mi>i</mi>
-	<mo>=</mo><mn>1</mn></mrow> <mi>n</mi></msubsup>
-	<mrow><mo>(</mo>
-	<msub><mi>x</mi> <mi>i</mi></msub><mo>-</mo><mover><mrow><mi>x</mi>
-	</mrow><mo>&#x000AF;</mo></mover><msup><mo>)</mo> <mn>2</mn></msup></mrow></mrow><mrow><mo>(</mo>
-	<mi>n</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow></mfrac>
+<notextile><math xmlns='http://www.w3.org/1998/Math/MathML' display='block'>
+	<mfrac><mrow><mo lspace="thinmathspace" rspace="thinmathspace">&#8721;</mo>
+	<mo>(</mo><msub><mi>x</mi> <mi>i</mi></msub><mo>-</mo><mover><mrow><mi>x</mi>
+	</mrow><mo>&#x000AF;</mo></mover><msup><mo>)</mo> <mn>2</mn></msup></mrow><mrow><mi>n</mi>
+	<mo>-</mo><mn>1</mn></mrow></mfrac>
 </math></notextile>
 
 where the average is, of course, defined as:
 
-<notextile><math xmlns='http://www.w3.org/1998/Math/MathML'>
-	<mover><mrow><mi>x</mi>
-	</mrow><mo>&#x000AF;</mo></mover>
-	<mo>=</mo><mfrac><mrow><munderover><mo lspace="thinmathspace" rspace="thinmathspace">&#8721;</mo> <mrow><mi>i</mi>
-	<mo>=</mo><mn>1</mn></mrow> <mi>n</mi></munderover>
-	<mrow><msub><mi>x</mi> <mi>i</mi></msub>
-	</mrow></mrow><mrow><mi>n</mi>
+<notextile><math xmlns='http://www.w3.org/1998/Math/MathML' display='block'>
+	<mover><mi>x</mi><mo>&#x000AF;</mo></mover>
+	<mo>=</mo><mfrac><mrow><mo lspace="thinmathspace" rspace="thinmathspace">&#8721;</mo>
+	<msub><mi>x</mi> <mi>i</mi></msub></mrow><mrow><mi>n</mi>
 	</mrow></mfrac>
 </math></notextile>
 
