@@ -36,16 +36,17 @@ import sej.Operator;
 import sej.internal.expressions.ArrayValue;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForAbstractFold;
 import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
-import sej.internal.expressions.ExpressionNodeForFold1st;
 import sej.internal.expressions.ExpressionNodeForFoldArray;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
 import sej.internal.expressions.ExpressionNodeForMakeArray;
 import sej.internal.expressions.ExpressionNodeForOperator;
+import sej.internal.expressions.ExpressionNodeForReduce;
 import sej.internal.expressions.LetDictionary;
 import sej.internal.expressions.LetDictionary.LetEntry;
 import sej.internal.model.CellModel;
@@ -248,9 +249,9 @@ abstract class ExpressionCompiler
 			compileFold( node );
 		}
 
-		else if (_node instanceof ExpressionNodeForFold1st) {
-			final ExpressionNodeForFold1st node = (ExpressionNodeForFold1st) _node;
-			compileFold1st( node );
+		else if (_node instanceof ExpressionNodeForReduce) {
+			final ExpressionNodeForReduce node = (ExpressionNodeForReduce) _node;
+			compileReduce( node );
 		}
 
 		else if (_node instanceof ExpressionNodeForFoldArray) {
@@ -558,26 +559,18 @@ abstract class ExpressionCompiler
 			addToClosure( _closure, let.value() );
 			addToClosureWithInnerDefs( _closure, let.in(), let.varName() );
 		}
-		else if (_node instanceof ExpressionNodeForFold) {
-			final ExpressionNodeForFold fold = (ExpressionNodeForFold) _node;
-			addToClosure( _closure, fold.initialAccumulatorValue() );
-			addToClosureWithInnerDefs( _closure, fold.accumulatingStep(), fold.accumulatorName(), fold.elementName() );
-			addToClosure( _closure, fold.elements() );
-		}
-		else if (_node instanceof ExpressionNodeForFold1st) {
-			final ExpressionNodeForFold1st fold = (ExpressionNodeForFold1st) _node;
-			addToClosure( _closure, fold.initialAccumulatorValue() );
-			addToClosureWithInnerDefs( _closure, fold.firstValue(), fold.firstName() );
-			addToClosureWithInnerDefs( _closure, fold.accumulatingStep(), fold.accumulatorName(), fold.elementName() );
-			addToClosure( _closure, fold.emptyValue() );
-			addToClosure( _closure, fold.elements() );
-		}
 		else if (_node instanceof ExpressionNodeForFoldArray) {
 			final ExpressionNodeForFoldArray fold = (ExpressionNodeForFoldArray) _node;
 			addToClosure( _closure, fold.initialAccumulatorValue() );
 			addToClosureWithInnerDefs( _closure, fold.accumulatingStep(), fold.accumulatorName(), fold.elementName(), fold
 					.indexName() );
 			addToClosure( _closure, fold.array() );
+		}
+		else if (_node instanceof ExpressionNodeForAbstractFold) {
+			final ExpressionNodeForAbstractFold fold = (ExpressionNodeForAbstractFold) _node;
+			addToClosure( _closure, fold.initialAccumulatorValue() );
+			addToClosureWithInnerDefs( _closure, fold.accumulatingStep(), fold.accumulatorName(), fold.elementName() );
+			addToClosure( _closure, fold.elements() );
 		}
 		else {
 			addToClosure( _closure, _node.arguments() );
@@ -756,7 +749,7 @@ abstract class ExpressionCompiler
 			compileHelpedExpr( new HelperCompilerForIterativeFold( sectionInContext(), _node.elements(), foldContext,
 					closure ), closure );
 		}
-		else if (_node.canInlineFirst()) {
+		else if (_node.mayReduce()) {
 			final Iterable<ExpressionNode> elts = _node.elements();
 			final ExpressionNode first = firstStaticElementIn( elts );
 			compile( first );
@@ -768,18 +761,18 @@ abstract class ExpressionCompiler
 		}
 	}
 
-	private final void compileFold1st( ExpressionNodeForFold1st _node ) throws CompilerException
+	private final void compileReduce( ExpressionNodeForReduce _node ) throws CompilerException
 	{
 		final FoldContext foldContext = new FoldContext( _node, section().engineCompiler() );
 		if (isSubSectionIn( _node.elements() )) {
 			Iterable<LetEntry> closure = closureOf( _node );
-			compileHelpedExpr( new HelperCompilerForIterativeFold1st( sectionInContext(), _node.elements(), foldContext,
+			compileHelpedExpr( new HelperCompilerForIterativeReduce( sectionInContext(), _node.elements(), foldContext,
 					closure ), closure );
 		}
 		else {
 			final Iterable<ExpressionNode> elts = foldContext.node.elements();
 			final ExpressionNode first = firstStaticElementIn( elts );
-			compileElementAccess( foldContext, _node.firstName(), first, _node.firstValue() );
+			compile( first );
 			compileChainedFoldOverNonRepeatingElements( foldContext, elts, first );
 		}
 	}

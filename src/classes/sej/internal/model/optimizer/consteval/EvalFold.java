@@ -44,7 +44,7 @@ final class EvalFold extends EvalAbstractFold
 		result.addArgument( new ExpressionNodeForConstantValue( _acc ) ); // initial
 		result.addArgument( valueToNode( _args[ 1 ] ) ); // fold
 		result.arguments().addAll( _dynArgs );
-		if (_accChanged) result.neverInlineFirst();
+		if (_accChanged) result.neverReduce();
 		return result;
 	}
 

@@ -28,47 +28,47 @@ import sej.describable.DescriptionBuilder;
 public final class ExpressionNodeForFold extends ExpressionNodeForAbstractFold
 {
 
-	private ExpressionNodeForFold(String _accumulatorName, String _elementName, boolean _canInlineFirst)
+	private ExpressionNodeForFold(String _accumulatorName, String _elementName, boolean _mayReduce)
 	{
-		super( _accumulatorName, _elementName, _canInlineFirst );
+		super( _accumulatorName, _elementName, _mayReduce );
 	}
 
 	public ExpressionNodeForFold(String _accumulatorName, ExpressionNode _initialAccumulatorValue, String _elementName,
-			ExpressionNode _accumulatingStep, boolean _canInlineFirst, ExpressionNode... _elements)
+			ExpressionNode _accumulatingStep, boolean _mayReduce, ExpressionNode... _elements)
 	{
-		this( _accumulatorName, _elementName, _canInlineFirst );
+		this( _accumulatorName, _elementName, _mayReduce );
 		addArgument( _initialAccumulatorValue );
 		addArgument( _accumulatingStep );
 		addArguments( _elements );
 	}
 
 	public ExpressionNodeForFold(String _accumulatorName, ExpressionNode _initialAccumulatorValue, String _elementName,
-			ExpressionNode _accumulatingStep, boolean _canInlineFirst, Collection<ExpressionNode> _elements)
+			ExpressionNode _accumulatingStep, boolean _mayReduce, Collection<ExpressionNode> _elements)
 	{
-		this( _accumulatorName, _elementName, _canInlineFirst );
+		this( _accumulatorName, _elementName, _mayReduce );
 		addArgument( _initialAccumulatorValue );
 		addArgument( _accumulatingStep );
 		arguments().addAll( _elements );
 	}
 
 	
-	public final void neverInlineFirst()
+	public final void neverReduce()
 	{
-		setCanInlineFirst( false );
+		setMayReduce( false );
 	}
 	
 
 	@Override
 	public ExpressionNode innerCloneWithoutArguments()
 	{
-		return new ExpressionNodeForFold( accumulatorName(), elementName(), canInlineFirst() );
+		return new ExpressionNodeForFold( accumulatorName(), elementName(), mayReduce() );
 	}
 
 
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
-		_to.append( canInlineFirst() ? "_FOLD_1STOK( " : "_FOLD( " ).append( accumulatorName() ).append( ": " );
+		_to.append( mayReduce() ? "_FOLD_OR_REDUCE( " : "_FOLD( " ).append( accumulatorName() ).append( ": " );
 		initialAccumulatorValue().describeTo( _to, _cfg );
 		_to.append( "; " ).append( elementName() ).append( ": " );
 		accumulatingStep().describeTo( _to, _cfg );

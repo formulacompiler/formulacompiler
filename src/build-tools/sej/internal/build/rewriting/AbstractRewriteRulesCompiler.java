@@ -30,14 +30,15 @@ import sej.Function;
 import sej.describable.DescriptionBuilder;
 import sej.internal.build.Util;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForAbstractFold;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
-import sej.internal.expressions.ExpressionNodeForFold1st;
 import sej.internal.expressions.ExpressionNodeForFoldArray;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
 import sej.internal.expressions.ExpressionNodeForOperator;
+import sej.internal.expressions.ExpressionNodeForReduce;
 import sej.internal.spreadsheet.loader.excel.RewriteLanguageParser;
 
 public abstract class AbstractRewriteRulesCompiler
@@ -210,21 +211,19 @@ public abstract class AbstractRewriteRulesCompiler
 			}
 			return countOccurrences_atLeast2( letNode.in(), _param );
 		}
-		else if (_expr instanceof ExpressionNodeForFold) {
-			final ExpressionNodeForFold foldNode = (ExpressionNodeForFold) _expr;
+		else if (_expr instanceof ExpressionNodeForFoldArray) {
+			final ExpressionNodeForFoldArray foldNode = (ExpressionNodeForFoldArray) _expr;
 			int occ = countOccurrences_atLeast2( foldNode.initialAccumulatorValue(), _param );
-			if (!foldNode.accumulatorName().equals( _param ) && !foldNode.elementName().equals( _param )) {
+			if (!foldNode.accumulatorName().equals( _param )
+					&& !foldNode.elementName().equals( _param ) && !foldNode.indexName().equals( _param )) {
 				// If it occurs here, multiple since this is repeated -> always aliased.
 				occ += countOccurrences_atLeast2( foldNode.accumulatingStep(), _param ) * 2;
 			}
 			return occ;
 		}
-		else if (_expr instanceof ExpressionNodeForFold1st) {
-			final ExpressionNodeForFold1st foldNode = (ExpressionNodeForFold1st) _expr;
-			int occ = countOccurrences_atLeast2( foldNode.emptyValue(), _param );
-			if (!foldNode.firstName().equals( _param )) {
-				occ += countOccurrences_atLeast2( foldNode.firstValue(), _param );
-			}
+		else if (_expr instanceof ExpressionNodeForAbstractFold) {
+			final ExpressionNodeForAbstractFold foldNode = (ExpressionNodeForAbstractFold) _expr;
+			int occ = countOccurrences_atLeast2( foldNode.initialAccumulatorValue(), _param );
 			if (!foldNode.accumulatorName().equals( _param ) && !foldNode.elementName().equals( _param )) {
 				// If it occurs here, multiple since this is repeated -> always aliased.
 				occ += countOccurrences_atLeast2( foldNode.accumulatingStep(), _param ) * 2;
@@ -256,7 +255,7 @@ public abstract class AbstractRewriteRulesCompiler
 		else if (_node instanceof ExpressionNodeForLetVar) compileLetVar( (ExpressionNodeForLetVar) _node, _b );
 		else if (_node instanceof ExpressionNodeForLet) compileLet( (ExpressionNodeForLet) _node, _b );
 		else if (_node instanceof ExpressionNodeForFold) compileFold( (ExpressionNodeForFold) _node, _b );
-		else if (_node instanceof ExpressionNodeForFold1st) compileFold1st( (ExpressionNodeForFold1st) _node, _b );
+		else if (_node instanceof ExpressionNodeForReduce) compileReduce( (ExpressionNodeForReduce) _node, _b );
 		else if (_node instanceof ExpressionNodeForFoldArray) compileFoldArray( (ExpressionNodeForFoldArray) _node, _b );
 		else throw new Exception( "Unsupported expression: " + _node.toString() );
 	}
@@ -339,22 +338,20 @@ public abstract class AbstractRewriteRulesCompiler
 
 	private void compileFold( ExpressionNodeForFold _fold, DescriptionBuilder _b ) throws Exception
 	{
-		_b.append( "foldl( \"" ).append( _fold.accumulatorName() ).append( "\", " );
+		_b.append( "fold( \"" ).append( _fold.accumulatorName() ).append( "\", " );
 		compileExpr( _fold.initialAccumulatorValue(), _b );
 		_b.append( ", \"" ).append( _fold.elementName() ).append( "\", " );
 		compileExpr( _fold.accumulatingStep(), _b );
-		_b.append( ", " ).append( _fold.canInlineFirst() ? "true" : "false" ).append( ", " );
+		_b.append( ", " ).append( _fold.mayReduce() ? "true" : "false" ).append( ", " );
 		compileArgs( _fold.elements(), _b );
 		_b.append( " )" );
 	}
 
 
-	private void compileFold1st( ExpressionNodeForFold1st _fold, DescriptionBuilder _b ) throws Exception
+	private void compileReduce( ExpressionNodeForReduce _fold, DescriptionBuilder _b ) throws Exception
 	{
-		_b.append( "foldl1( \"" ).append( _fold.firstName() ).append( "\", " );
-		compileExpr( _fold.firstValue(), _b );
-		_b.append( ", \"" ).append( _fold.accumulatorName() ).append( "\", \"" ).append( _fold.elementName() ).append(
-				"\", " );
+		_b.append( "reduce( \"" ).append( _fold.accumulatorName() ).append( "\", \"" ).append( _fold.elementName() )
+				.append( "\", " );
 		compileExpr( _fold.accumulatingStep(), _b );
 		_b.append( ", " );
 		compileExpr( _fold.emptyValue(), _b );

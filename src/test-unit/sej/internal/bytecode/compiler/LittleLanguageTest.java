@@ -29,7 +29,7 @@ import sej.SaveableEngine;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
-import sej.internal.expressions.ExpressionNodeForFold1st;
+import sej.internal.expressions.ExpressionNodeForReduce;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
@@ -95,7 +95,7 @@ public class LittleLanguageTest extends AbstractTestBase
 		checkFold( false );
 	}
 
-	public void testFold1stOK() throws Exception
+	public void testFoldOrReduce() throws Exception
 	{
 		checkFold( true );
 	}
@@ -136,7 +136,7 @@ public class LittleLanguageTest extends AbstractTestBase
 		checkFoldOverSection( false, false );
 	}
 
-	public void testFold1stOKOverSection() throws Exception
+	public void testFoldOrReduceOverSection() throws Exception
 	{
 		checkFoldOverSection( true, false );
 	}
@@ -146,7 +146,7 @@ public class LittleLanguageTest extends AbstractTestBase
 		checkFoldOverSection( false, true );
 	}
 
-	public void testFold1stOKOverSectionOnly() throws Exception
+	public void testFoldOrReduceOverSectionOnly() throws Exception
 	{
 		checkFoldOverSection( true, true );
 	}
@@ -330,7 +330,7 @@ public class LittleLanguageTest extends AbstractTestBase
 	}
 
 
-	public void testFold1st() throws Exception
+	public void testReduce() throws Exception
 	{
 		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
 		final SectionModel rootModel = engineModel.getRoot();
@@ -344,15 +344,12 @@ public class LittleLanguageTest extends AbstractTestBase
 		c.setConstantValue( 3.0 );
 
 		final ExpressionNode other = new ExpressionNodeForConstantValue( 17 );
-		final ExpressionNode init = new ExpressionNodeForOperator( Operator.DIV, new ExpressionNodeForLetVar( "x0" ),
-				new ExpressionNodeForConstantValue( 2 ) );
 		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
-				new ExpressionNodeForOperator( Operator.DIV, new ExpressionNodeForLetVar( "xi" ),
-						new ExpressionNodeForConstantValue( 2 ) ) );
+				new ExpressionNodeForLetVar( "xi" ) );
 		final ExpressionNode[] args = new ExpressionNode[] { new ExpressionNodeForCellModel( a ),
 				new ExpressionNodeForCellModel( b ), new ExpressionNodeForCellModel( c ) };
 
-		r.setExpression( new ExpressionNodeForFold1st( "x0", init, "acc", "xi", fold, other, args ) );
+		r.setExpression( new ExpressionNodeForReduce( "acc", "xi", fold, other, args ) );
 
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
@@ -360,11 +357,11 @@ public class LittleLanguageTest extends AbstractTestBase
 		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
 
 		final Inputs i = this.inputs;
-		assertDoubleResult( i.getDoubleA() / 2 + i.getDoubleB() / 2 + i.getDoubleC() / 2, engineModel );
+		assertDoubleResult( i.getDoubleA() + i.getDoubleB() + i.getDoubleC(), engineModel );
 	}
 
 
-	public void testFold1stOverSectionAndCell() throws Exception
+	public void testReduceOverSectionAndCell() throws Exception
 	{
 		final ComputationModel engineModel = new ComputationModel( Inputs.class, Outputs.class );
 		final SectionModel rootModel = engineModel.getRoot();
@@ -379,16 +376,13 @@ public class LittleLanguageTest extends AbstractTestBase
 		c.setConstantValue( 3.0 );
 
 		final ExpressionNode other = new ExpressionNodeForConstantValue( 17 );
-		final ExpressionNode init = new ExpressionNodeForOperator( Operator.DIV, new ExpressionNodeForLetVar( "x0" ),
-				new ExpressionNodeForConstantValue( 2 ) );
 		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
-				new ExpressionNodeForOperator( Operator.DIV, new ExpressionNodeForLetVar( "xi" ),
-						new ExpressionNodeForConstantValue( 2 ) ) );
+				new ExpressionNodeForLetVar( "xi" ) );
 		final ExpressionNode[] args = new ExpressionNode[] {
 				new ExpressionNodeForSubSectionModel( subModel, new ExpressionNodeForCellModel( c ) ),
 				new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ) };
 
-		r.setExpression( new ExpressionNodeForFold1st( "x0", init, "acc", "xi", fold, other, args ) );
+		r.setExpression( new ExpressionNodeForReduce( "acc", "xi", fold, other, args ) );
 
 		subModel.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
@@ -397,11 +391,11 @@ public class LittleLanguageTest extends AbstractTestBase
 		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
 
 		final Inputs i = this.inputs;
-		assertDoubleResult( i.getDoubleA() / 2 + i.getDoubleB() / 2 + i.getDoubleC() / 2 * N_DET, engineModel );
+		assertDoubleResult( i.getDoubleA() + i.getDoubleB() + i.getDoubleC() * N_DET, engineModel );
 	}
 
 
-	public void testFold1stOverTwoSections() throws Exception
+	public void testReduceOverTwoSections() throws Exception
 	{
 		final ComputationModel engineModel = new ComputationModel( Inputs.class, Outputs.class );
 		final SectionModel rootModel = engineModel.getRoot();
@@ -417,17 +411,14 @@ public class LittleLanguageTest extends AbstractTestBase
 		c.setConstantValue( 3.0 );
 
 		final ExpressionNode other = new ExpressionNodeForConstantValue( 17 );
-		final ExpressionNode init = new ExpressionNodeForOperator( Operator.DIV, new ExpressionNodeForLetVar( "x0" ),
-				new ExpressionNodeForConstantValue( 2 ) );
 		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
-				new ExpressionNodeForOperator( Operator.DIV, new ExpressionNodeForLetVar( "xi" ),
-						new ExpressionNodeForConstantValue( 2 ) ) );
+				new ExpressionNodeForLetVar( "xi" ) );
 		final ExpressionNode[] args = new ExpressionNode[] {
 				new ExpressionNodeForSubSectionModel( subModel1, new ExpressionNodeForCellModel( a ),
 						new ExpressionNodeForCellModel( b ) ),
 				new ExpressionNodeForSubSectionModel( subModel2, new ExpressionNodeForCellModel( c ) ) };
 
-		r.setExpression( new ExpressionNodeForFold1st( "x0", init, "acc", "xi", fold, other, args ) );
+		r.setExpression( new ExpressionNodeForReduce( "acc", "xi", fold, other, args ) );
 
 		subModel1.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
 		subModel2.makeInput( new CallFrame( Inputs.class.getMethod( "getOtherDetails" ) ) );
@@ -445,12 +436,12 @@ public class LittleLanguageTest extends AbstractTestBase
 		final Outputs outputs = (Outputs) newOutputs( engineModel, SEJ.DOUBLE );
 
 		outputs.reset();
-		assertEquals( i.getDoubleA() / 2 * N_DET + i.getDoubleB() / 2 * N_DET + i.getDoubleC() / 2 * N_OTHER, outputs
-				.getResult(), 0.0000001 );
+		assertEquals( i.getDoubleA() * N_DET + i.getDoubleB() * N_DET + i.getDoubleC() * N_OTHER, outputs.getResult(),
+				0.0000001 );
 
 		i.getDetails().clear();
 		outputs.reset();
-		assertEquals( i.getDoubleC() / 2 * N_OTHER, outputs.getResult(), 0.0000001 );
+		assertEquals( i.getDoubleC() * N_OTHER, outputs.getResult(), 0.0000001 );
 
 		i.getOtherDetails().clear();
 		outputs.reset();
@@ -459,7 +450,7 @@ public class LittleLanguageTest extends AbstractTestBase
 	}
 
 
-	public void testFold1stOverNestedSections() throws Exception
+	public void testReduceOverNestedSections() throws Exception
 	{
 		final ComputationModel engineModel = new ComputationModel( Inputs.class, Outputs.class );
 		final SectionModel rootModel = engineModel.getRoot();
@@ -478,11 +469,8 @@ public class LittleLanguageTest extends AbstractTestBase
 		d.setConstantValue( 4.0 );
 
 		final ExpressionNode other = new ExpressionNodeForConstantValue( 17 );
-		final ExpressionNode init = new ExpressionNodeForOperator( Operator.DIV, new ExpressionNodeForLetVar( "x0" ),
-				new ExpressionNodeForConstantValue( 2 ) );
 		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
-				new ExpressionNodeForOperator( Operator.DIV, new ExpressionNodeForLetVar( "xi" ),
-						new ExpressionNodeForConstantValue( 2 ) ) );
+				new ExpressionNodeForLetVar( "xi" ) );
 
 		final ExpressionNode[] args = new ExpressionNode[] {
 				new ExpressionNodeForSubSectionModel( subModel1, new ExpressionNodeForCellModel( a ),
@@ -490,7 +478,7 @@ public class LittleLanguageTest extends AbstractTestBase
 				new ExpressionNodeForSubSectionModel( subModel2, new ExpressionNodeForSubSectionModel( subsubModel,
 						new ExpressionNodeForCellModel( d ) ), new ExpressionNodeForCellModel( c ) ) };
 
-		r.setExpression( new ExpressionNodeForFold1st( "x0", init, "acc", "xi", fold, other, args ) );
+		r.setExpression( new ExpressionNodeForReduce( "acc", "xi", fold, other, args ) );
 
 		subModel1.makeInput( new CallFrame( Inputs.class.getMethod( "getOtherDetails" ) ) );
 		subModel2.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
@@ -510,17 +498,16 @@ public class LittleLanguageTest extends AbstractTestBase
 
 		outputs.reset();
 		assertEquals( i.getDoubleA()
-				/ 2 * N_OTHER + i.getDoubleB() / 2 * N_OTHER + i.getDoubleC() / 2 * N_DET + i.getDoubleA() / 2 * N_DET
-				* N_DET, outputs.getResult(), 0.0000001 );
+				* N_OTHER + i.getDoubleB() * N_OTHER + i.getDoubleC() * N_DET + i.getDoubleA() * N_DET * N_DET, outputs
+				.getResult(), 0.0000001 );
 
 		i.getOtherDetails().clear();
 		outputs.reset();
-		assertEquals( i.getDoubleC() / 2 * N_DET + i.getDoubleA() / 2 * N_DET * N_DET, outputs.getResult(), 0.0000001 );
+		assertEquals( i.getDoubleC() * N_DET + i.getDoubleA() * N_DET * N_DET, outputs.getResult(), 0.0000001 );
 
 		i.getDetails().iterator().next().getDetails().clear();
 		outputs.reset();
-		assertEquals( i.getDoubleC() / 2 * N_DET + i.getDoubleA() / 2 * N_DET * (N_DET - 1), outputs.getResult(),
-				0.0000001 );
+		assertEquals( i.getDoubleC() * N_DET + i.getDoubleA() * N_DET * (N_DET - 1), outputs.getResult(), 0.0000001 );
 
 		i.getDetails().clear();
 		outputs.reset();

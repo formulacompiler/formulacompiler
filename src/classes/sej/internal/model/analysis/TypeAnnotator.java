@@ -27,8 +27,6 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForAbstractFold;
 import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
-import sej.internal.expressions.ExpressionNodeForFold;
-import sej.internal.expressions.ExpressionNodeForFold1st;
 import sej.internal.expressions.ExpressionNodeForFoldArray;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForLet;
@@ -118,9 +116,8 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 
 		if (_expr instanceof ExpressionNodeForLet) return typeOf( (ExpressionNodeForLet) _expr );
 		if (_expr instanceof ExpressionNodeForLetVar) return typeOf( (ExpressionNodeForLetVar) _expr );
-		if (_expr instanceof ExpressionNodeForFold) return typeOf( (ExpressionNodeForFold) _expr );
-		if (_expr instanceof ExpressionNodeForFold1st) return typeOf( (ExpressionNodeForFold1st) _expr );
 		if (_expr instanceof ExpressionNodeForFoldArray) return typeOf( (ExpressionNodeForFoldArray) _expr );
+		if (_expr instanceof ExpressionNodeForAbstractFold) return typeOf( (ExpressionNodeForAbstractFold) _expr );
 		if (_expr instanceof ExpressionNodeForMakeArray) return typeOf( (ExpressionNodeForMakeArray) _expr );
 		
 		unsupported( _expr );
@@ -271,28 +268,28 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		return letDict().lookupType( _expr.varName() );
 	}
 
-	private DataType typeOf( ExpressionNodeForFold _expr ) throws CompilerException
+	private DataType typeOf( ExpressionNodeForAbstractFold _expr ) throws CompilerException
 	{
-		annotateFold( _expr );
+		for (final ExpressionNode elt : _expr.elements()) {
+			annotate( elt );
+		}
+		final DataType eltType = typeOf( _expr.elements() );
+		final DataType resultType = annotate( _expr.initialAccumulatorValue() );
+		
+		final String accName = _expr.accumulatorName();
+		final String eltName = _expr.elementName();
+		letDict().let( accName, resultType, null );
+		letDict().let( eltName, eltType, null );
+		try {
+			annotate( _expr.accumulatingStep() );
+		}
+		finally {
+			letDict().unlet( eltName );
+			letDict().unlet( accName );
+		}
 		return _expr.initialAccumulatorValue().getDataType();
 	}
 
-	private DataType typeOf( ExpressionNodeForFold1st _expr ) throws CompilerException
-	{
-		final DataType eltType = annotateFold( _expr );
-
-		final String firstName = _expr.firstName();
-		letDict().let( firstName, eltType, null );
-		try {
-			annotate( _expr.firstValue() );
-		}
-		finally {
-			letDict().unlet( firstName );
-		}
-
-		return _expr.emptyValue().getDataType();
-	}
-	
 	private DataType typeOf( ExpressionNodeForFoldArray _expr ) throws CompilerException
 	{
 		for (final ExpressionNode elt : _expr.elements()) {
@@ -318,30 +315,6 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 
 		return _expr.initialAccumulatorValue().getDataType();
 	}
-
-	private DataType annotateFold( ExpressionNodeForAbstractFold _expr ) throws CompilerException 
-	{
-		for (final ExpressionNode elt : _expr.elements()) {
-			annotate( elt );
-		}
-		final DataType eltType = typeOf( _expr.elements() );
-		final DataType resultType = annotate( _expr.initialAccumulatorValue() );
-
-		final String accName = _expr.accumulatorName();
-		final String eltName = _expr.elementName();
-		letDict().let( accName, resultType, null );
-		letDict().let( eltName, eltType, null );
-		try {
-			annotate( _expr.accumulatingStep() );
-		}
-		finally {
-			letDict().unlet( eltName );
-			letDict().unlet( accName );
-		}
-
-		return eltType;
-	}
-
 
 	private DataType typeOf( ExpressionNodeForMakeArray _expr ) throws CompilerException
 	{

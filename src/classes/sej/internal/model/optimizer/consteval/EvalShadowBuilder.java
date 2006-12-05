@@ -23,7 +23,7 @@ package sej.internal.model.optimizer.consteval;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
-import sej.internal.expressions.ExpressionNodeForFold1st;
+import sej.internal.expressions.ExpressionNodeForReduce;
 import sej.internal.expressions.ExpressionNodeForFoldArray;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForLet;
@@ -59,7 +59,7 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 		else if (_node instanceof ExpressionNodeForLet) return new EvalLet( (ExpressionNodeForLet) _node, this.type );
 		else if (_node instanceof ExpressionNodeForLetVar) return new EvalLetVar( (ExpressionNodeForLetVar) _node, this.type );
 		else if (_node instanceof ExpressionNodeForFold) return new EvalFold( (ExpressionNodeForFold) _node, this.type );
-		else if (_node instanceof ExpressionNodeForFold1st) return new EvalFold1st( (ExpressionNodeForFold1st) _node, this.type );
+		else if (_node instanceof ExpressionNodeForReduce) return new EvalReduce( (ExpressionNodeForReduce) _node, this.type );
 		else if (_node instanceof ExpressionNodeForFoldArray) return new EvalFoldArray( (ExpressionNodeForFoldArray) _node, this.type );
 		else if (_node instanceof ExpressionNodeForMakeArray) return new EvalPassthrough( _node );
 		else return new EvalNonFoldable( _node );

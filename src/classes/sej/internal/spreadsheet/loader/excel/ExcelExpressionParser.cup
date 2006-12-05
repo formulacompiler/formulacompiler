@@ -51,7 +51,7 @@ terminal String CELLR1C1;
 terminal String COL;
 terminal String ROW;
 
-terminal LET, FOLD, FOLD1ST, FOLD1STOK, FOLDARRAY;
+terminal LET, FOLD, REDUCE, FOLDORREDUCE, FOLDARRAY;
 terminal String LETVAR;
 
 non terminal expr_root;
@@ -219,13 +219,13 @@ expr ::=
 	|	FOLD LPAREN NAME:acc COLON expr:init SEMICOLON NAME:x COLON expr:fold SEMICOLON args:args RPAREN
 				{: RESULT = new ExpressionNodeForFold( acc, init, x, fold, false, args ); :}
 
-	|	FOLD1STOK LPAREN NAME:acc COLON expr:init SEMICOLON NAME:x COLON expr:fold SEMICOLON args:args RPAREN
+	|	FOLDORREDUCE LPAREN NAME:acc COLON expr:init SEMICOLON NAME:x COLON expr:fold SEMICOLON args:args RPAREN
 				{: RESULT = new ExpressionNodeForFold( acc, init, x, fold, true, args ); :}
 
-	|	FOLD1ST LPAREN NAME:x0 COLON expr:v0 SEMICOLON NAME:acc NAME:xi COLON expr:fold SEMICOLON expr:other SEMICOLON args:args RPAREN
-				{: RESULT = new ExpressionNodeForFold1st( x0, v0, acc, xi, fold, other, args ); :}
+	|	REDUCE LPAREN NAME:acc COMMA NAME:xi COLON expr:reduce SEMICOLON expr:empty SEMICOLON args:args RPAREN
+				{: RESULT = new ExpressionNodeForReduce( acc, xi, reduce, empty, args ); :}
 
-	|	FOLDARRAY LPAREN NAME:acc COLON expr:init SEMICOLON NAME:x NAME:i COLON expr:fold SEMICOLON expr:arr RPAREN
+	|	FOLDARRAY LPAREN NAME:acc COLON expr:init SEMICOLON NAME:x COMMA NAME:i COLON expr:fold SEMICOLON expr:arr RPAREN
 				{: RESULT = new ExpressionNodeForFoldArray( acc, init, x, i, fold, arr ); :}
 
 	|	IF LPAREN expr:test COMMA expr:t COMMA expr:f RPAREN
