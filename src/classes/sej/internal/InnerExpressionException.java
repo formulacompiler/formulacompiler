@@ -18,27 +18,28 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.bytecode.compiler;
+package sej.internal;
 
 import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 
-final class InnerExpressionException extends CompilerException
+public final class InnerExpressionException extends CompilerException
 {
 	private final ExpressionNode errorNode;
 
 	
-	InnerExpressionException(ExpressionNode _errorNode, CompilerException _cause)
+	public InnerExpressionException(ExpressionNode _errorNode, CompilerException _cause)
 	{
 		super( _cause.getMessage(), _cause );
 		this.errorNode = _errorNode;
 	}
 
 	
-	ExpressionNode getErrorNode()
+	public ExpressionNode getErrorNode()
 	{
 		return this.errorNode;
 	}
+	
 	
 	@Override
 	public CompilerException getCause()

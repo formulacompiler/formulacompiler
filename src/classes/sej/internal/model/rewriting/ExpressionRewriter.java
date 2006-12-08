@@ -23,6 +23,7 @@ package sej.internal.model.rewriting;
 import java.util.List;
 
 import sej.CompilerException;
+import sej.internal.InnerExpressionException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.model.util.InterpretedNumericType;
@@ -44,8 +45,16 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 	public final ExpressionNode rewrite( ExpressionNode _expr ) throws CompilerException
 	{
 		ExpressionNode result = _expr;
-		if (_expr instanceof ExpressionNodeForFunction) {
-			result = rewriteFun( (ExpressionNodeForFunction) _expr );
+		try {
+			if (_expr instanceof ExpressionNodeForFunction) {
+				result = rewriteFun( (ExpressionNodeForFunction) _expr );
+			}
+		}
+		catch (InnerExpressionException e) {
+			throw e;
+		}
+		catch (CompilerException e) {
+			throw new InnerExpressionException( _expr, e );
 		}
 		return rewriteArgsOf( result );
 	}

@@ -42,6 +42,7 @@ public class ErrorUnsupportedConversionFromInput extends TestCase
 		catch (/**/CompilerException.UnsupportedDataType e/**/) {
 			String err = /**/"Cannot convert from a java.lang.String to a double."
 					+ "\nCaused by return type of input 'public java.lang.String sej.tutorials.ErrorUnsupportedConversionFromInput$MyInputs.value()'."
+					+ "\nCell containing expression is B2."
 					+ "\nReferenced by cell B2."/**/;
 			assertEquals( err, e.getMessage() );
 		}
