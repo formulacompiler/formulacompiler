@@ -50,61 +50,36 @@ final class CellMethodCompiler extends NullaryValueMethodCompiler
 	{
 		final CellModel cell = this.cellComputation.getCell();
 
-		try {
+		if (cell.isOutput()) {
+			compileOutputGetter();
+		}
 
-			if (cell.isOutput()) {
-				compileOutputGetter();
+		if (cell.isInput()) {
+			if (shouldCache( cell )) {
+				compileCacheBegin();
+				compileInput( cell.getCallChainToCall() );
+				compileCacheEnd();
 			}
-
-			if (cell.isInput()) {
+			else {
+				compileInput( cell.getCallChainToCall() );
+			}
+		}
+		else {
+			final ExpressionNode cellExpr = cell.getExpression();
+			if (null != cellExpr) {
 				if (shouldCache( cell )) {
 					compileCacheBegin();
-					compileInput( cell.getCallChainToCall() );
+					compileExpression( cellExpr );
 					compileCacheEnd();
 				}
 				else {
-					compileInput( cell.getCallChainToCall() );
+					compileExpression( cellExpr );
 				}
 			}
 			else {
-				final ExpressionNode cellExpr = cell.getExpression();
-				if (null != cellExpr) {
-					try {
-						if (shouldCache( cell )) {
-							compileCacheBegin();
-							compileExpression( cellExpr );
-							compileCacheEnd();
-						}
-						else {
-							compileExpression( cellExpr );
-						}
-					}
-					catch (InnerExpressionException e) {
-						final CompilerException cause = e.getCause();
-						final ExpressionNode errorNode = e.getErrorNode();
-						if (null != errorNode) {
-							cause.addMessageContext( errorNode.getContext( errorNode ) );
-						}
-						else {
-							cause.addMessageContext( cellExpr.getContext( null ) );
-						}
-						throw cause;
-					}
-					catch (CompilerException e) {
-						e.addMessageContext( cellExpr.getContext( null ) );
-						throw e;
-					}
-				}
-				else {
-					final Object constantValue = cell.getConstantValue();
-					expressionCompiler().compileConst( constantValue );
-				}
+				final Object constantValue = cell.getConstantValue();
+				expressionCompiler().compileConst( constantValue );
 			}
-
-		}
-		catch (CompilerException e) {
-			e.addMessageContext( "\nReferenced by cell " + cell.getOriginalName() + "." );
-			throw e;
 		}
 	}
 

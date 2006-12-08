@@ -21,6 +21,8 @@
 package sej.internal.model;
 
 import sej.CompilerException;
+import sej.internal.InnerExpressionException;
+import sej.internal.expressions.ExpressionNode;
 import sej.runtime.SEJException;
 
 @SuppressWarnings("unused")
@@ -86,10 +88,33 @@ public abstract class AbstractComputationModelVisitor implements ComputationMode
 	public final boolean visit( CellModel _cell ) throws CompilerException
 	{
 		try {
-			return visitCell( _cell );
+			try {
+				return visitCell( _cell );
+			}
+			catch (InnerExpressionException e) {
+				final CompilerException cause = e.getCause();
+				final ExpressionNode errorNode = e.getErrorNode();
+				if (null != errorNode) {
+					cause.addMessageContext( errorNode.getContext( errorNode ) );
+				}
+				else {
+					final ExpressionNode cellExpr = _cell.getExpression();
+					if (null != cellExpr) {
+						cause.addMessageContext( cellExpr.getContext( null ) );
+					}
+					else {
+						cause.addMessageContext( "\nCell containing expression is " + _cell.getOriginalName() + "." );
+					}
+				}
+				throw cause;
+			}
+			catch (CompilerException e) {
+				e.addMessageContext( "\nCell containing expression is " + _cell.getOriginalName() + "." );
+				throw e;
+			}
 		}
 		catch (CompilerException e) {
-			e.addMessageContext( "\nCell containing expression is " + _cell.getName() + "." );
+			e.addMessageContext( "\nReferenced by cell " + _cell.getOriginalName() + "." );
 			throw e;
 		}
 	}

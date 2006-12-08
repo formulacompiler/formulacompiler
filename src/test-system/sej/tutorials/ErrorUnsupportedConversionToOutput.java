@@ -42,6 +42,7 @@ public class ErrorUnsupportedConversionToOutput extends TestCase
 		catch (/**/CompilerException.UnsupportedDataType e/**/) {
 			String err = /**/"Cannot convert from a string to a int."
 					+ "\nCaused by return type of input 'public abstract int sej.tutorials.ErrorUnsupportedConversionToOutput$MyComputation.result()'."
+					+ "\nCell containing expression is A1."
 					+ "\nReferenced by cell A1."/**/;
 			assertEquals( err, e.getMessage() );
 		}
