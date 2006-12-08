@@ -71,6 +71,14 @@ abstract class InterpretedBigDecimalType_Base extends InterpretedNumericType
 
 
 	@Override
+	public Number fromString( String _s )
+	{
+		// FIXME parseBigDecimal
+		return new BigDecimal( _s );
+	}
+
+
+	@Override
 	public Object toNumeric( Number _value )
 	{
 		return valueToBigDecimalOrZero( _value );

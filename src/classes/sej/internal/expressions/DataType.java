@@ -22,6 +22,6 @@ package sej.internal.expressions;
 
 public enum DataType {
 
-	NUMERIC, STRING, NULL;
+	NUMERIC, STRING, BOOLEAN, NULL;
 	
 }

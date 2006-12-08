@@ -23,6 +23,7 @@ package sej.internal.model.optimizer;
 import sej.SEJ;
 import sej.internal.model.CellModel;
 import sej.internal.model.rewriting.ModelRewriter;
+import sej.internal.model.util.InterpretedNumericType;
 
 public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 {
@@ -30,7 +31,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 	@SuppressWarnings("unqualified-field-access")
 	protected final void optimize( ) throws Exception
 	{
-		model.traverse( new ModelRewriter() );
+		model.traverse( new ModelRewriter(InterpretedNumericType.typeFor( SEJ.DOUBLE )) );
 		model.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 		model.traverse( new IntermediateResultsInliner() );
 	}

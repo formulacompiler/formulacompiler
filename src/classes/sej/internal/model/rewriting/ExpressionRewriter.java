@@ -22,21 +22,26 @@ package sej.internal.model.rewriting;
 
 import java.util.List;
 
+import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForFunction;
+import sej.internal.model.util.InterpretedNumericType;
 
 final class ExpressionRewriter extends AbstractExpressionRewriter
 {
-	private final GeneratedFunctionRewriter generatedRules = new GeneratedFunctionRewriter();
+	private final GeneratedFunctionRewriter generatedRules;
+	private final InterpretedNumericType numericType;
 
 
-	public ExpressionRewriter()
+	public ExpressionRewriter(InterpretedNumericType _type)
 	{
 		super();
+		this.numericType = _type;
+		this.generatedRules = new GeneratedFunctionRewriter();
 	}
 
 
-	public final ExpressionNode rewrite( ExpressionNode _expr )
+	public final ExpressionNode rewrite( ExpressionNode _expr ) throws CompilerException
 	{
 		ExpressionNode result = _expr;
 		if (_expr instanceof ExpressionNodeForFunction) {
@@ -46,7 +51,7 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 	}
 
 
-	private ExpressionNode rewriteArgsOf( ExpressionNode _expr )
+	private ExpressionNode rewriteArgsOf( ExpressionNode _expr ) throws CompilerException
 	{
 		if (null == _expr) {
 			return null;
@@ -65,8 +70,12 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 	}
 
 
-	private ExpressionNode rewriteFun( ExpressionNodeForFunction _fun )
+	private ExpressionNode rewriteFun( ExpressionNodeForFunction _fun ) throws CompilerException
 	{
+		switch (_fun.getFunction()) {
+			case DSUM:
+				return new FunctionRewriterForDSUM( _fun, this.numericType ).rewrite();
+		}
 		return this.generatedRules.rewrite( _fun );
 	}
 

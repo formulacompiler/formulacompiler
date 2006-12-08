@@ -35,6 +35,12 @@ public final class ExpressionNodeForLet extends ExpressionNode
 		this.varName = _varName;
 	}
 
+	public ExpressionNodeForLet(String _varName, ExpressionNode _value)
+	{
+		super( _value );
+		this.varName = _varName;
+	}
+
 	private ExpressionNodeForLet(String _varName)
 	{
 		super();

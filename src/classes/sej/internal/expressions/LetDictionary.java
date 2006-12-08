@@ -71,6 +71,14 @@ public final class LetDictionary
 		if (LOG.e()) LOG.o().a( "Unletting " ).a( _name ).lf();
 	}
 
+	public final void unlet( int _numberOfUnlets )
+	{
+		for (int i = 0; i < _numberOfUnlets; i++) {
+			final LetEntry was = this.stack.pop();
+			if (LOG.e()) LOG.o().a( "Unletting " ).a( was.name ).lf();
+		}
+	}
+
 
 	public final Object lookup( String _name )
 	{

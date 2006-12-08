@@ -30,6 +30,7 @@ import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.rewriting.ModelRewriter;
+import sej.internal.model.util.InterpretedNumericType;
 
 public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 {
@@ -37,7 +38,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 	@SuppressWarnings("unqualified-field-access")
 	protected final void optimize( NumericType _type ) throws Exception
 	{
-		model.traverse( new ModelRewriter() );
+		model.traverse( new ModelRewriter( InterpretedNumericType.typeFor( _type ) ) );
 		model.traverse( new ConstantSubExpressionEliminator( _type ) );
 	}
 

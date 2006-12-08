@@ -30,6 +30,7 @@ import sej.internal.expressions.ArrayDescriptor;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.ExpressionNodeForDatabaseFold;
 import sej.internal.expressions.ExpressionNodeForFold;
 import sej.internal.expressions.ExpressionNodeForFoldArray;
 import sej.internal.expressions.ExpressionNodeForFunction;
@@ -48,6 +49,7 @@ import sej.internal.model.optimizer.ConstantSubExpressionEliminator;
 import sej.internal.model.optimizer.IntermediateResultsInliner;
 import sej.internal.model.rewriting.ModelRewriter;
 import sej.internal.model.rewriting.SubstitutionInliner;
+import sej.internal.model.util.InterpretedNumericType;
 import sej.runtime.ComputationFactory;
 import sej.tests.utils.AbstractTestBase;
 import sej.tests.utils.Inputs;
@@ -58,6 +60,7 @@ public class LittleLanguageTest extends AbstractTestBase
 {
 	private static final int N_DET = 3;
 	private final Inputs inputs = new Inputs();
+	private SectionModel rootModel;
 
 	@Override
 	protected void setUp() throws Exception
@@ -259,7 +262,7 @@ public class LittleLanguageTest extends AbstractTestBase
 		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
 		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
 
-		engineModel.traverse( new ModelRewriter() );
+		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( SEJ.DOUBLE ) ) );
 		engineModel.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 		engineModel.traverse( new SubstitutionInliner() );
 
@@ -296,7 +299,7 @@ public class LittleLanguageTest extends AbstractTestBase
 		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
 		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
 
-		engineModel.traverse( new ModelRewriter() );
+		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( SEJ.DOUBLE ) ) );
 		engineModel.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
 		engineModel.traverse( new SubstitutionInliner() );
 
@@ -554,6 +557,66 @@ public class LittleLanguageTest extends AbstractTestBase
 	}
 
 
+	public void testDatabaseFold() throws Exception
+	{
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final SectionModel rootModel = engineModel.getRoot();
+		this.rootModel = rootModel;
+
+		final ExpressionNode table = makeRange( new Object[][] { new Object[] { "Apple", 18.0, 20.0, 14.0, 105.0 },
+				new Object[] { "Pear", 12.0, 12.0, 10.0, 96.0 }, new Object[] { "Cherry", 13.0, 14.0, 9.0, 105.00 },
+				new Object[] { "Apple", 14.0, 15.0, 10.0, 75.00 }, new Object[] { "Pear", 9.0, 8.0, 8.0, 76.80 },
+				new Object[] { "Apple", 8.0, 9.0, 6.0, 45.00 } } );
+
+		final ExpressionNode filter = new ExpressionNodeForOperator( Operator.EQUAL,
+				new ExpressionNodeForLetVar( "col0" ), new ExpressionNodeForConstantValue( "Apple" ) );
+
+		final ExpressionNode col = new ExpressionNodeForConstantValue( 3 );
+
+		final CellModel r = new CellModel( rootModel, "r" );
+		r.setExpression( new ExpressionNodeForDatabaseFold( "col", filter, "r",
+				new ExpressionNodeForConstantValue( 0.0 ), "xi", new ExpressionNodeForOperator( Operator.PLUS,
+						new ExpressionNodeForLetVar( "r" ), new ExpressionNodeForLetVar( "xi" ) ), col, table ) );
+
+		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+
+		assertDoubleResult( 225.0, engineModel );
+	}
+
+
+	public void testDatabaseFoldWithDynamicCriteria() throws Exception
+	{
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final SectionModel rootModel = engineModel.getRoot();
+		this.rootModel = rootModel;
+
+		final ExpressionNode table = makeRange( new Object[][] { new Object[] { "Apple", 18.0, 20.0, 14.0, 105.0 },
+				new Object[] { "Pear", 12.0, 12.0, 10.0, 96.0 }, new Object[] { "Cherry", 13.0, 14.0, 9.0, 105.00 },
+				new Object[] { "Apple", 14.0, 15.0, 10.0, 75.00 }, new Object[] { "Pear", 2.0, 8.0, 8.0, 76.80 },
+				new Object[] { "Apple", 8.0, 9.0, 6.0, 45.00 } } );
+
+		final CellModel a = new CellModel( rootModel, "a" );
+		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
+
+		// Note: -var is a let that is evaluated every time it is accessed. Used here as a closure
+		// param for the helper method.
+		final ExpressionNode filter = new ExpressionNodeForOperator( Operator.GREATER,
+				new ExpressionNodeForLetVar( "col1" ), new ExpressionNodeForLetVar( "-crit0" ) );
+
+		final ExpressionNode col = new ExpressionNodeForConstantValue( 3 );
+
+		final CellModel r = new CellModel( rootModel, "r" );
+		r.setExpression( new ExpressionNodeForLet( "-crit0", new ExpressionNodeForCellModel( a ),
+				new ExpressionNodeForDatabaseFold( "col", filter, "r", new ExpressionNodeForConstantValue( 0.0 ), "xi",
+						new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "r" ),
+								new ExpressionNodeForLetVar( "xi" ) ), col, table ) ) );
+
+		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+
+		assertDoubleResult( 426.0, engineModel );
+	}
+
+
 	// LATER ITER-support
 	/*
 	 * public void testBlock() throws Exception { final ComputationModel engineModel = new
@@ -611,6 +674,37 @@ public class LittleLanguageTest extends AbstractTestBase
 
 		final ComputationFactory factory = engine.getComputationFactory();
 		return (OutputsWithoutCaching) factory.newComputation( this.inputs );
+	}
+
+	private final ExpressionNodeForArrayReference makeRange( Object[][] _rows )
+	{
+		final int nrows = _rows.length;
+		final int ncols = _rows[ 0 ].length;
+
+		final ExpressionNodeForArrayReference result = new ExpressionNodeForArrayReference( new ArrayDescriptor( 1,
+				nrows, ncols ) );
+
+		for (Object[] row : _rows) {
+			for (Object cell : row) {
+				result.addArgument( makeNode( cell ) );
+			}
+		}
+
+		return result;
+	}
+
+	private ExpressionNode makeNode( Object _value )
+	{
+		if (_value instanceof ExpressionNode) {
+			return (ExpressionNode) _value;
+		}
+		if (_value instanceof String) {
+			String str = (String) _value;
+			if (str.startsWith( "#" )) {
+				return new ExpressionNodeForCellModel( new CellModel( this.rootModel, str.substring( 1 ) ) );
+			}
+		}
+		return new ExpressionNodeForConstantValue( _value );
 	}
 
 }

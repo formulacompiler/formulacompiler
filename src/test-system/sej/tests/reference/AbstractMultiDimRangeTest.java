@@ -21,34 +21,25 @@
 package sej.tests.reference;
 
 import sej.SaveableEngine;
+import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
 
-public abstract class AbstractReferenceTest extends AbstractSheetBasedTest
+public abstract class AbstractMultiDimRangeTest extends AbstractSheetBasedTest
 {
-	private static final int STARTING_ROW = 1;
-	private static final int EXPECTED_COL = 0;
-	private static final int FORMULA_COL = 1;
-	private static final int INPUTS_COL = 2;
-	private static final int INPUTCOUNT_COL = 9;
-	private static final int NAME_COL = 10;
-	private static final int HIGHLIGHT_COL = 11;
-	private static final int EXCELSAYS_COL = 12;
-	private static final int SKIPFOR_COL = 13;
 
-
-	protected AbstractReferenceTest()
+	protected AbstractMultiDimRangeTest()
 	{
 		super();
 	}
 
-	protected AbstractReferenceTest(String _baseName, int _startingRowNumber)
+	protected AbstractMultiDimRangeTest(String _baseName, int _startingRowNumber)
 	{
 		super( _baseName, _startingRowNumber );
 	}
 
-	protected AbstractReferenceTest(String _baseName, int _onlyRowNumbered, NumType _onlyType, int _onlyInputVariant,
+	protected AbstractMultiDimRangeTest(String _baseName, int _onlyRowNumbered, NumType _onlyType, int _onlyInputVariant,
 			boolean _caching)
 	{
 		super( _baseName, _onlyRowNumbered, _onlyType, _onlyInputVariant, _caching );
@@ -64,70 +55,70 @@ public abstract class AbstractReferenceTest extends AbstractSheetBasedTest
 
 	private final class SheetRunner extends AbstractSheetRunner
 	{
+		private final int defaultStartingRow;
+		private final int leftMostTestColumn;
+
 
 		public SheetRunner(SpreadsheetImpl _book)
 		{
 			super( _book );
+			final CellIndex testStart = (CellIndex) _book.getRange( "TestHeader" ).getTopLeft();
+			this.defaultStartingRow = testStart.rowIndex + 1;
+			this.leftMostTestColumn = testStart.columnIndex;
 		}
 
 		@Override
 		protected int expectedCol()
 		{
-			return EXPECTED_COL;
+			return this.leftMostTestColumn + 0;
 		}
 
 		@Override
 		protected int formulaCol()
 		{
-			return FORMULA_COL;
+			return this.leftMostTestColumn + 1;
 		}
 
 		@Override
 		protected int firstInputCol()
 		{
-			return INPUTS_COL;
+			return this.leftMostTestColumn + 2;
 		}
 
 		@Override
 		protected int nameCol()
 		{
-			return NAME_COL;
+			return this.leftMostTestColumn + 5;
 		}
 
 		@Override
 		protected int highlightCol()
 		{
-			return HIGHLIGHT_COL;
+			return this.leftMostTestColumn + 6;
 		}
 
 		@Override
 		protected int excelSaysCol()
 		{
-			return EXCELSAYS_COL;
+			return this.leftMostTestColumn + 7;
 		}
 
 		@Override
 		protected int skipForCol()
 		{
-			return SKIPFOR_COL;
+			return this.leftMostTestColumn + 8;
 		}
 
 		@Override
 		protected int getDefaultStartingRow()
 		{
-			return STARTING_ROW;
+			return this.defaultStartingRow;
 		}
 
 		@Override
 		protected int inputColumnCountFor( RowImpl _row )
 		{
-			int result = INPUTCOUNT_COL - INPUTS_COL;
-			int iCol = INPUTCOUNT_COL - 1;
-			while (iCol >= INPUTS_COL) {
-				if (null != _row.getCellOrNull( iCol-- )) break;
-				result--;
-			}
-			return 2 + result;
+			return (null != _row.getCellOrNull( firstInputCol() )) ? 3 : 2;
 		}
 
 		@Override
@@ -149,16 +140,12 @@ public abstract class AbstractReferenceTest extends AbstractSheetBasedTest
 			@Override
 			protected void extractInputsFrom( RowImpl _valueRow )
 			{
-				final CellInstance inputCountCell = _valueRow.getCellOrNull( INPUTCOUNT_COL );
-				if (null != inputCountCell) {
-					final int inputCount = ((Number) valueOf( inputCountCell )).intValue();
-					this.inputs = new Object[ inputCount ];
-					this.inputTypes = new ValueType[ inputCount ];
-					for (int i = 0; i < inputCount; i++) {
-						final CellInstance inputCell = _valueRow.getCellOrNull( INPUTS_COL + i );
-						this.inputs[ i ] = (null == inputCell) ? null : valueOf( inputCell );
-						this.inputTypes[ i ] = valueTypeOf( this.inputs[ i ] );
-					}
+				if (null != _valueRow.getCellOrNull( firstInputCol() )) {
+					this.inputs = new Object[ 1 ];
+					this.inputTypes = new ValueType[ 1 ];
+					final CellInstance inputCell = _valueRow.getCellOrNull( firstInputCol() );
+					this.inputs[ 0 ] = (null == inputCell) ? null : valueOf( inputCell );
+					this.inputTypes[ 0 ] = valueTypeOf( this.inputs[ 0 ] );
 				}
 			}
 
