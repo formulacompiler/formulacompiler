@@ -102,8 +102,8 @@ public class ModelRewriterTest extends TestCase
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( SEJ.DOUBLE ) ) );
 
 		assertBeginsWith(
-				"_LET( crit0: a; _LET( crit1: b; _LET( crit2: c; _LET( crit3: d; "
-						+ "_DFOLD( col: OR( AND( (`col0 = `crit0), (`col1 > `crit1), (`col1 < `crit2) ), (`col0 = `crit3) ); r: 0.0; xi: (`r + `xi); 3; #(1,2,5){",
+				"_LET( -crit0: a; _LET( -crit1: b; _LET( -crit2: c; _LET( -crit3: d; "
+						+ "_DFOLD( col: OR( AND( (`col0 = `-crit0), (`col1 > `-crit1), (`col1 < `-crit2) ), (`col0 = `-crit3) ); r: 0.0; xi: (`r + `xi); 3; #(1,2,5){",
 				r.getExpression().toString() );
 	}
 

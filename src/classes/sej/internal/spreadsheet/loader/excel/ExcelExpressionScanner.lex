@@ -106,6 +106,8 @@ FN		= "@"?
 {FN} "MATCH"	{ return new Symbol( GeneratedSymbols.MATCH, "MATCH" ); }
 {FN} "INDEX"	{ return new Symbol( GeneratedSymbols.INDEX, "INDEX" ); }
 
+{FN} "DSUM"	{ return new Symbol( GeneratedSymbols.DSUM, "DSUM" ); }
+
 {FN} "ABS"		{ return new Symbol( GeneratedSymbols.ABS, "ABS" ); }
 {FN} "ROUND"	{ return new Symbol( GeneratedSymbols.ROUND, "ROUND" ); }
 

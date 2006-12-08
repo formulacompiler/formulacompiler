@@ -36,7 +36,9 @@ terminal LPAREN, RPAREN, LBRACK, RBRACK;
 terminal EQUAL, NOTEQUAL, GREATER, GREATEROREQUAL, LESS, LESSOREQUAL;
 terminal IF, AND, OR, NOT;
 terminal SUM, PRODUCT, COUNT, AVERAGE, MIN, MAX, VAR, VARP;
-terminal MATCH, INDEX, ROUND, ABS;
+terminal MATCH, INDEX;
+terminal DSUM;
+terminal ROUND, ABS;
 terminal FACT, COMBIN;
 terminal NPV, MIRR, IRR;
 terminal TODAY;
@@ -67,6 +69,7 @@ non terminal CellRange range;
 non terminal ExpressionNode rangeunion;
 non terminal ExpressionNode rangeintersection;
 non terminal Function agg;
+non terminal Function dagg;
 non terminal ExpressionNode concat;
 
 precedence left OPMIN, OPMAX;
@@ -240,6 +243,9 @@ expr ::=
 	|	agg:a LPAREN rangeunion:l RPAREN
 				{: RESULT = new ExpressionNodeForFunction( a, l.arguments() ); :}
 				
+	|	dagg:a LPAREN shapedrangeexpr:table COMMA expr:colref COMMA shapedrangeexpr:crit RPAREN
+				{: RESULT = new ExpressionNodeForFunction( a, table, colref, crit ); :}
+				
 	|	MATCH LPAREN expr:lookupvalue COMMA shapedrangeexpr:array optarg:matchtype RPAREN
 				{: RESULT = new ExpressionNodeForFunction( Function.MATCH, cell( lookupvalue ), array, matchtype ); :}
 				
@@ -398,6 +404,13 @@ agg ::=
 				{: RESULT = Function.OR; :}
 				
 	;
+	
+	
+dagg ::=
+
+		DSUM
+				{: RESULT = Function.DSUM; :}
+		;
 	
 	
 rangeunion ::=

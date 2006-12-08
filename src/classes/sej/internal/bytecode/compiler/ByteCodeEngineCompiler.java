@@ -188,18 +188,18 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		}
 
 		@Override
-		public boolean visit( SectionModel _section ) throws CompilerException
+		protected boolean visitSection( SectionModel _section ) throws CompilerException
 		{
-			final boolean result = super.visit( _section );
+			final boolean result = super.visitSection( _section );
 			getSection().beginCompilation();
 			return result;
 		}
 
 		@Override
-		public boolean visited( SectionModel _section )
+		protected boolean visitedSection( SectionModel _section )
 		{
 			getSection().endCompilation();
-			return super.visited( _section );
+			return super.visitedSection( _section );
 		}
 
 		@Override
@@ -240,7 +240,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		}
 
 		@Override
-		public boolean visit( SectionModel _section ) throws CompilerException
+		protected boolean visitSection( SectionModel _section ) throws CompilerException
 		{
 			if (null == this.section) {
 				this.section = this.root;
@@ -253,7 +253,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		}
 
 		@Override
-		public boolean visited( SectionModel _section )
+		protected boolean visitedSection( SectionModel _section )
 		{
 			this.section = this.section.parentSectionCompiler();
 			return true;
@@ -262,7 +262,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 		protected abstract SectionCompiler accessSubSection( SectionModel _section ) throws CompilerException;
 
 		@Override
-		public boolean visit( CellModel _cell ) throws CompilerException
+		protected boolean visitCell( CellModel _cell ) throws CompilerException
 		{
 			final int refCnt = _cell.getReferenceCount();
 			if ((_cell.isInput() && refCnt >= 1) || _cell.isOutput() || refCnt >= 2) {

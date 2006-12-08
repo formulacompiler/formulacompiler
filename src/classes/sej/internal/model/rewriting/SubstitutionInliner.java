@@ -40,7 +40,7 @@ public final class SubstitutionInliner extends AbstractComputationModelVisitor
 
 
 	@Override
-	public boolean visit( CellModel _cell ) throws CompilerException
+	protected boolean visitCell( CellModel _cell ) throws CompilerException
 	{
 		final ExpressionNode expr = _cell.getExpression();
 		if (null != expr) {

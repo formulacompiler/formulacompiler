@@ -63,7 +63,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 
 
 	@Override
-	public boolean visit( CellModel _cell ) throws CompilerException
+	protected boolean visitCell( CellModel _cell ) throws CompilerException
 	{
 		annotate( _cell );
 		return true;
