@@ -63,7 +63,7 @@ final class EvalDatabaseFold extends EvalAbstractFold
 
 
 	@Override
-	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object[] _args ) throws CompilerException
+	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object[] _args, int _firstFoldedArg ) throws CompilerException
 	{
 		return evaluateToNode( _args );
 	}
