@@ -21,16 +21,17 @@
 package sej.internal.model.optimizer.consteval;
 
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.ExpressionNodeForDatabaseFold;
 import sej.internal.expressions.ExpressionNodeForFold;
-import sej.internal.expressions.ExpressionNodeForReduce;
 import sej.internal.expressions.ExpressionNodeForFoldArray;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
 import sej.internal.expressions.ExpressionNodeForMakeArray;
 import sej.internal.expressions.ExpressionNodeForOperator;
-import sej.internal.expressions.ExpressionNodeForArrayReference;
+import sej.internal.expressions.ExpressionNodeForReduce;
 import sej.internal.expressions.ExpressionNodeForSubstitution;
 import sej.internal.expressions.ExpressionNodeShadow;
 import sej.internal.model.ExpressionNodeForCellModel;
@@ -61,6 +62,7 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 		else if (_node instanceof ExpressionNodeForFold) return new EvalFold( (ExpressionNodeForFold) _node, this.type );
 		else if (_node instanceof ExpressionNodeForReduce) return new EvalReduce( (ExpressionNodeForReduce) _node, this.type );
 		else if (_node instanceof ExpressionNodeForFoldArray) return new EvalFoldArray( (ExpressionNodeForFoldArray) _node, this.type );
+		else if (_node instanceof ExpressionNodeForDatabaseFold) return new EvalDatabaseFold( (ExpressionNodeForDatabaseFold) _node, this.type );
 		else if (_node instanceof ExpressionNodeForMakeArray) return new EvalPassthrough( _node );
 		else return new EvalNonFoldable( _node );
 	}

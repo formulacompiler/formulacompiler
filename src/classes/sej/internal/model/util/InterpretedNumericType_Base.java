@@ -70,8 +70,11 @@ abstract class InterpretedNumericType_Base
 	{
 		return this.num.getZero();
 	}
+	
+	
+	public abstract Number fromString( String _s );
 
-
+	
 	public boolean toBoolean( Object _value )
 	{
 		return valueToBoolean( _value, false );

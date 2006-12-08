@@ -68,6 +68,13 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 
 
 	@Override
+	public Number fromString( String _s )
+	{
+		return parse( _s );
+	}
+
+
+	@Override
 	public final Object adjustConstantValue( Object _value )
 	{
 		if (_value instanceof Number) {

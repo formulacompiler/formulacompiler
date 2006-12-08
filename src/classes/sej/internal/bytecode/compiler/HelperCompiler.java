@@ -50,40 +50,9 @@ abstract class HelperCompiler extends ValueMethodCompiler
 		this( _section, 0, _node, _closure );
 	}
 
-	private static final String descriptorOf( SectionCompiler _section, Iterable<LetEntry> _closure )
-	{
-
-		StringBuffer b = new StringBuffer();
-		for (LetEntry entry : _closure) {
-			if (ExpressionCompiler.isArray( entry )) {
-				b.append( '[' ).append( _section.engineCompiler().typeCompiler( entry.type ).typeDescriptor() );
-			}
-			else {
-				b.append( _section.engineCompiler().typeCompiler( entry.type ).typeDescriptor() );
-			}
-		}
-		return b.toString();
-	}
-
 	protected final ExpressionNode node()
 	{
 		return this.node;
-	}
-
-
-	private final void addClosureToLetDict( Iterable<LetEntry> _closure )
-	{
-		int iArg = 1; // 0 is "this"
-		for (LetEntry entry : _closure) {
-			if (ExpressionCompiler.isArray( entry )) {
-				letDict().let( entry.name, entry.type, Integer.valueOf( -iArg ) );
-				iArg++;
-			}
-			else {
-				letDict().let( entry.name, entry.type, Integer.valueOf( iArg ) );
-				iArg += section().engineCompiler().typeCompiler( entry.type ).type().getSize();
-			}
-		}
 	}
 
 

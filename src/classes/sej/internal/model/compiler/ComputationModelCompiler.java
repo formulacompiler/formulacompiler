@@ -188,7 +188,7 @@ public final class ComputationModelCompiler
 
 	private void rewriteExpressions() throws CompilerException
 	{
-		this.computationModel.traverse( new ModelRewriter() );
+		this.computationModel.traverse( new ModelRewriter( getNumericType() ) );
 	}
 
 

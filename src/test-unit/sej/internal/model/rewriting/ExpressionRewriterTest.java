@@ -20,7 +20,9 @@
  */
 package sej.internal.model.rewriting;
 
+import sej.SEJ;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.model.util.InterpretedNumericType;
 import sej.internal.spreadsheet.CellRefFormat;
 import sej.internal.spreadsheet.CellWithLazilyParsedExpression;
 import sej.internal.spreadsheet.RowImpl;
@@ -61,7 +63,7 @@ public class ExpressionRewriterTest extends TestCase
 		CellWithLazilyParsedExpression c = new CellWithLazilyParsedExpression( r );
 		ExcelExpressionParserAccessor p = new ExcelExpressionParserAccessor( c );
 		ExpressionNode e = p.parseText( _original, CellRefFormat.A1 );
-		ExpressionRewriter rw = new ExpressionRewriter();
+		ExpressionRewriter rw = new ExpressionRewriter( InterpretedNumericType.typeFor( SEJ.DOUBLE ) );
 		ExpressionNode re = rw.rewrite( e );
 
 		assertEquals( _rewritten, re.toString() );

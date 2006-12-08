@@ -18,34 +18,14 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.model.rewriting;
+package sej.tests.reference;
 
-import sej.CompilerException;
-import sej.internal.expressions.ExpressionNode;
-import sej.internal.model.AbstractComputationModelVisitor;
-import sej.internal.model.CellModel;
-import sej.internal.model.util.InterpretedNumericType;
-
-
-public final class ModelRewriter extends AbstractComputationModelVisitor
+public final class DatabaseAggregatorsTest extends AbstractMultiDimRangeTest
 {
-	private final ExpressionRewriter rewriter;
 
-	public ModelRewriter(InterpretedNumericType _type)
+	public DatabaseAggregatorsTest()
 	{
 		super();
-		this.rewriter = new ExpressionRewriter( _type );
 	}
-
-
-	@Override
-	public boolean visit( CellModel _cell ) throws CompilerException
-	{
-		final ExpressionNode expr = _cell.getExpression();
-		if (null != expr) {
-			_cell.setExpression( this.rewriter.rewrite( expr ) );
-		}
-		return true;
-	}
-
+	
 }

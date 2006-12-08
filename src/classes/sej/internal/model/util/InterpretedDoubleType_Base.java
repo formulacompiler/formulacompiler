@@ -37,6 +37,14 @@ abstract class InterpretedDoubleType_Base extends InterpretedNumericType
 	{
 		return _value;
 	}
+	
+	
+	@Override
+	public Number fromString( String _s )
+	{
+		// FIXME parseDouble
+		return Double.parseDouble( _s );
+	}
 
 
 	@Override

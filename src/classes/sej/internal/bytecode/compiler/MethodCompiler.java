@@ -22,6 +22,8 @@ package sej.internal.bytecode.compiler;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import org.objectweb.asm.ClassWriter;
@@ -33,7 +35,13 @@ import sej.CallFrame;
 import sej.CompilerException;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForAbstractFold;
+import sej.internal.expressions.ExpressionNodeForDatabaseFold;
+import sej.internal.expressions.ExpressionNodeForFoldArray;
+import sej.internal.expressions.ExpressionNodeForLet;
+import sej.internal.expressions.ExpressionNodeForLetVar;
 import sej.internal.expressions.LetDictionary;
+import sej.internal.expressions.LetDictionary.LetEntry;
 
 
 abstract class MethodCompiler
@@ -46,7 +54,7 @@ abstract class MethodCompiler
 
 	private ExpressionCompilerForStrings stringCompiler;
 	private ExpressionCompilerForNumbers numericCompiler;
-	
+
 	private SectionCompiler sectionInContext;
 	private int objectInContext;
 
@@ -70,34 +78,48 @@ abstract class MethodCompiler
 			result += t.getSize();
 		return result;
 	}
-	
+
+	protected static final String descriptorOf( SectionCompiler _section, Iterable<LetEntry> _closure )
+	{
+		StringBuffer b = new StringBuffer();
+		for (LetEntry entry : _closure) {
+			if (ExpressionCompiler.isArray( entry )) {
+				b.append( '[' ).append( _section.engineCompiler().typeCompiler( entry.type ).typeDescriptor() );
+			}
+			else {
+				b.append( _section.engineCompiler().typeCompiler( entry.type ).typeDescriptor() );
+			}
+		}
+		return b.toString();
+	}
+
 
 	final SectionCompiler section()
 	{
 		return this.section;
 	}
-	
+
 	final LetDictionary letDict()
 	{
 		return this.letDict;
 	}
-	
+
 	final int objectInContext()
 	{
 		return this.objectInContext;
 	}
-	
+
 	public SectionCompiler sectionInContext()
 	{
 		return this.sectionInContext;
 	}
-	
+
 	final void setObjectInContext( SectionCompiler _section, int _object )
 	{
 		this.sectionInContext = _section;
 		this.objectInContext = _object;
 	}
-	
+
 
 	final ExpressionCompiler expressionCompiler( DataType _type )
 	{
@@ -290,21 +312,128 @@ abstract class MethodCompiler
 					+ _type + "' is not supported as an input method parameter." );
 		}
 	}
-	
-	
+
+
 	protected final void compileExpression( ExpressionNode _node ) throws CompilerException
 	{
 		expressionCompiler( _node.getDataType() ).compile( _node );
 	}
 
+
+	protected final Iterable<LetEntry> closureOf( Iterable<ExpressionNode> _nodes )
+	{
+		final Collection<LetEntry> closure = new ArrayList<LetEntry>();
+		addToClosure( closure, _nodes );
+		return closure;
+	}
+
+	protected final Iterable<LetEntry> closureOf( ExpressionNode _node )
+	{
+		final Collection<LetEntry> closure = new ArrayList<LetEntry>();
+		addToClosure( closure, _node );
+		return closure;
+	}
+
+	private void addToClosure( Collection<LetEntry> _closure, Iterable<ExpressionNode> _nodes )
+	{
+		for (ExpressionNode node : _nodes)
+			addToClosure( _closure, node );
+	}
+
+	private static final Object INNER_DEF = new Object();
+
+	private final void addToClosure( Collection<LetEntry> _closure, ExpressionNode _node )
+	{
+		if (null == _node) {
+			// ignore
+		}
+		else if (_node instanceof ExpressionNodeForLetVar) {
+			final ExpressionNodeForLetVar letVar = (ExpressionNodeForLetVar) _node;
+			final LetEntry found = letDict().find( letVar.varName() );
+			if (null != found && INNER_DEF != found.value) {
+				_closure.add( found );
+			}
+		}
+		else if (_node instanceof ExpressionNodeForLet) {
+			final ExpressionNodeForLet let = (ExpressionNodeForLet) _node;
+			addToClosure( _closure, let.value() );
+			addToClosureWithInnerDefs( _closure, let.in(), let.varName() );
+		}
+		else if (_node instanceof ExpressionNodeForFoldArray) {
+			final ExpressionNodeForFoldArray fold = (ExpressionNodeForFoldArray) _node;
+			addToClosure( _closure, fold.initialAccumulatorValue() );
+			addToClosureWithInnerDefs( _closure, fold.accumulatingStep(), fold.accumulatorName(), fold.elementName(), fold
+					.indexName() );
+			addToClosure( _closure, fold.array() );
+		}
+		else if (_node instanceof ExpressionNodeForDatabaseFold) {
+			final ExpressionNodeForDatabaseFold fold = (ExpressionNodeForDatabaseFold) _node;
+			addToClosure( _closure, fold.initialAccumulatorValue() );
+			addToClosureWithInnerDefs( _closure, fold.accumulatingStep(), fold.accumulatorName(), fold.elementName() );
+			addToClosureWithInnerDefs( _closure, fold.filter(), fold.filterColumnNames() );
+			addToClosure( _closure, fold.foldedColumnIndex() );
+			addToClosure( _closure, fold.table() );
+		}
+		else if (_node instanceof ExpressionNodeForAbstractFold) {
+			final ExpressionNodeForAbstractFold fold = (ExpressionNodeForAbstractFold) _node;
+			addToClosure( _closure, fold.initialAccumulatorValue() );
+			addToClosureWithInnerDefs( _closure, fold.accumulatingStep(), fold.accumulatorName(), fold.elementName() );
+			addToClosure( _closure, fold.elements() );
+		}
+		else {
+			addToClosure( _closure, _node.arguments() );
+		}
+	}
+
+	private void addToClosureWithInnerDefs( Collection<LetEntry> _closure, ExpressionNode _node, String... _names )
+	{
+		for (int i = 0; i < _names.length; i++) {
+			letDict().let( _names[ i ], null, INNER_DEF );
+		}
+		try {
+			addToClosure( _closure, _node );
+		}
+		finally {
+			for (int i = _names.length - 1; i >= 0; i--) {
+				letDict().unlet( _names[ i ] );
+			}
+		}
+	}
+
+
+	final void addClosureToLetDict( Iterable<LetEntry> _closure )
+	{
+		int iArg = 1; // 0 is "this"
+		for (LetEntry entry : _closure) {
+			if (ExpressionCompiler.isArray( entry )) {
+				letDict().let( entry.name, entry.type, Integer.valueOf( -iArg ) );
+				iArg++;
+			}
+			else {
+				letDict().let( entry.name, entry.type, Integer.valueOf( iArg ) );
+				iArg += section().engineCompiler().typeCompiler( entry.type ).type().getSize();
+			}
+		}
+	}
+
 	
+	final void compileClosure( Iterable<LetEntry> _closure ) throws CompilerException
+	{
+		final GeneratorAdapter mv = mv();
+		mv.visitVarInsn( Opcodes.ALOAD, objectInContext() );
+		for (LetEntry entry : _closure) {
+			expressionCompiler( entry.type ).compileLetValue( entry.name, entry.value );
+		}
+	}
+
+
 	private int localsOffset = 0;
-	
+
 	protected final int localsOffset()
 	{
 		return this.localsOffset;
 	}
-	
+
 	protected final void incLocalsOffset( int _by )
 	{
 		this.localsOffset += _by;
