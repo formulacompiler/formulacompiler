@@ -35,7 +35,7 @@ final public class IntermediateResultsInliner extends AbstractComputationModelVi
 
 
 	@Override
-	public boolean visit( ComputationModel _model ) throws CompilerException
+	protected boolean visitModel( ComputationModel _model ) throws CompilerException
 	{
 		_model.traverse( new ReferenceCounter() );
 		return true;
@@ -43,7 +43,7 @@ final public class IntermediateResultsInliner extends AbstractComputationModelVi
 
 
 	@Override
-	public boolean visited( ComputationModel _model ) throws CompilerException
+	protected boolean visitedModel( ComputationModel _model ) throws CompilerException
 	{
 		_model.traverse( new InlinedCellRemover() );
 		return true;
@@ -51,7 +51,7 @@ final public class IntermediateResultsInliner extends AbstractComputationModelVi
 
 
 	@Override
-	public boolean visit( CellModel _cell )
+	protected boolean visitCell( CellModel _cell )
 	{
 		if (!isInlineable( _cell )) {
 			ExpressionNode expr = _cell.getExpression();

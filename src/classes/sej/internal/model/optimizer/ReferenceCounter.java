@@ -31,7 +31,7 @@ public final class ReferenceCounter extends AbstractComputationModelVisitor
 
 
 	@Override
-	public boolean visit( CellModel _cell )
+	protected boolean visitCell( CellModel _cell )
 	{
 		if (_cell.isOutput()) {
 			reference( _cell );

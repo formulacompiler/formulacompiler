@@ -55,29 +55,23 @@ final public class ConstantSubExpressionEliminator extends AbstractComputationMo
 
 
 	@Override
-	public boolean visit( CellModel _cell ) throws CompilerException
+	protected boolean visitCell( CellModel _cell ) throws CompilerException
 	{
 		ExpressionNode sourceExpr = _cell.getExpression();
 		if (null != sourceExpr) {
 			try {
-				try {
-					Object optimizedResult = eliminateConstantsFrom( sourceExpr, _cell.getSection() );
-					if (optimizedResult instanceof ExpressionNode) {
-						ExpressionNode optimizedExpr = (ExpressionNode) optimizedResult;
-						_cell.setExpression( optimizedExpr );
-					}
-					else {
-						_cell.setExpression( null );
-						_cell.setConstantValue( optimizedResult );
-					}
+				Object optimizedResult = eliminateConstantsFrom( sourceExpr, _cell.getSection() );
+				if (optimizedResult instanceof ExpressionNode) {
+					ExpressionNode optimizedExpr = (ExpressionNode) optimizedResult;
+					_cell.setExpression( optimizedExpr );
 				}
-				catch (Throwable t) {
-					throw new CompilerException.UnsupportedExpression( t );
+				else {
+					_cell.setExpression( null );
+					_cell.setConstantValue( optimizedResult );
 				}
 			}
-			catch (CompilerException e) {
-				e.addMessageContext( "\nCell containing expression is " + _cell.getName() + "." );
-				throw e;
+			catch (Throwable t) {
+				throw new CompilerException.UnsupportedExpression( t );
 			}
 		}
 		return true;

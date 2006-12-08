@@ -21,23 +21,46 @@
 package sej.internal.model;
 
 import sej.CompilerException;
+import sej.runtime.SEJException;
 
+@SuppressWarnings("unused")
 public abstract class AbstractComputationModelVisitor implements ComputationModelVisitor
 {
 
-	public boolean visit( ComputationModel _model ) throws CompilerException
+	public final boolean visit( ComputationModel _model ) throws CompilerException
+	{
+		return visitModel( _model );
+	}
+
+	protected boolean visitModel( ComputationModel _model ) throws CompilerException
 	{
 		return true;
 	}
 
 
-	public boolean visited( ComputationModel _model ) throws CompilerException
+	public final boolean visited( ComputationModel _model ) throws CompilerException
+	{
+		return visitedModel( _model );
+	}
+
+	protected boolean visitedModel( ComputationModel _model ) throws CompilerException
 	{
 		return true;
 	}
 
 
-	public boolean visit( SectionModel _section ) throws CompilerException
+	public final boolean visit( SectionModel _section ) throws CompilerException
+	{
+		try {
+			return visitSection( _section );
+		}
+		catch (CompilerException e) {
+			e.addMessageContext( "\nSection containing expression is " + _section.getName() + "." );
+			throw e;
+		}
+	}
+
+	protected boolean visitSection( SectionModel _section ) throws CompilerException
 	{
 		return true;
 	}
@@ -45,13 +68,36 @@ public abstract class AbstractComputationModelVisitor implements ComputationMode
 
 	public boolean visited( SectionModel _section ) throws CompilerException
 	{
-		return true;
+		try {
+			return visitedSection( _section );
+		}
+		catch (CompilerException e) {
+			e.addMessageContext( "\nSection containing expression is " + _section.getName() + "." );
+			throw e;
+		}
 	}
 
-
-	public boolean visit( CellModel _cell ) throws CompilerException
+	protected boolean visitedSection( SectionModel _section ) throws CompilerException
 	{
 		return true;
 	}
+
+
+	public final boolean visit( CellModel _cell ) throws CompilerException
+	{
+		try {
+			return visitCell( _cell );
+		}
+		catch (CompilerException e) {
+			e.addMessageContext( "\nCell containing expression is " + _cell.getName() + "." );
+			throw e;
+		}
+	}
+
+	protected boolean visitCell( CellModel _cell ) throws CompilerException
+	{
+		return true;
+	}
+
 
 }

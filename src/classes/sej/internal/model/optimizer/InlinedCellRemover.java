@@ -32,7 +32,7 @@ final class InlinedCellRemover extends AbstractComputationModelVisitor
 	
 	
 	@Override
-	public boolean visit( SectionModel _band )
+	protected boolean visitSection( SectionModel _band )
 	{
 		Collection<CellModel> cellsToRemove = new ArrayList<CellModel>( _band.getCells().size() );
 		for (CellModel cell : _band.getCells()) {

@@ -99,7 +99,7 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 				result.add( lbl.value().toString() );
 			}
 			else {
-				throw new CompilerException.UnsupportedExpression( "Database table/criteria labels must be constant values" );
+				throw new CompilerException.UnsupportedExpression( "Database table/criteria labels must be constant values." );
 			}
 		}
 		return result;
@@ -329,7 +329,7 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 				return op( _comparison, var( colName ), _criterion );
 			}
 			else {
-				final String critName = "crit" + this.nextCritID++;
+				final String critName = "-crit" + this.nextCritID++;
 
 				final ExpressionNodeForLet newLet = new ExpressionNodeForLet( critName, _criterion );
 				if (this.lastLet == null) {
