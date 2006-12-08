@@ -28,18 +28,30 @@ import sej.describable.DescriptionBuilder;
 public final class ExpressionNodeForArrayReference extends ExpressionNode
 {
 	private final ArrayDescriptor arrayDescriptor;
+	private final boolean canFold;
 
 
-	public ExpressionNodeForArrayReference(ArrayDescriptor _descriptor, ExpressionNode... _args)
+	public ExpressionNodeForArrayReference(ArrayDescriptor _descriptor, boolean _canFold, ExpressionNode... _args)
 	{
 		super( _args );
 		this.arrayDescriptor = _descriptor;
+		this.canFold = _canFold;
+	}
+
+	public ExpressionNodeForArrayReference(ArrayDescriptor _descriptor, ExpressionNode... _args)
+	{
+		this( _descriptor, true, _args  );
 	}
 
 
 	public ArrayDescriptor arrayDescriptor()
 	{
 		return this.arrayDescriptor;
+	}
+	
+	public boolean canFold()
+	{
+		return this.canFold;
 	}
 
 
@@ -48,8 +60,8 @@ public final class ExpressionNodeForArrayReference extends ExpressionNode
 	{
 		return new ExpressionNodeForArrayReference( new ArrayDescriptor( arrayDescriptor() ) );
 	}
-	
-	
+
+
 	@Override
 	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
 	{

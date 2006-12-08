@@ -37,11 +37,17 @@ public class EvalRangeValue extends EvalShadow
 	protected Object evaluateToConst( Object[] _args )
 	{
 		final ExpressionNodeForArrayReference rangeNode = (ExpressionNodeForArrayReference) node();
-		final ArrayValue result = new ArrayValue( rangeNode.arrayDescriptor() );
-		for (Object arg : _args) {
-			result.add( arg );
+		if (rangeNode.canFold()) {
+			final ArrayValue result = new ArrayValue( rangeNode.arrayDescriptor() );
+			for (Object arg : _args) {
+				result.add( arg );
+			}
+			return result;
 		}
-		return result;
+		else {
+			return evaluateToNode( _args );
+		}
 	}
+
 
 }

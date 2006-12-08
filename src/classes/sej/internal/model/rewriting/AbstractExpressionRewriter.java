@@ -125,7 +125,9 @@ abstract class AbstractExpressionRewriter
 	}
 
 	
-	protected final Object constantValueOf( ExpressionNode _node ) throws NotConstantException
+	protected static final Object NOT_CONST = new Object();
+	
+	protected final Object constantValueOf( ExpressionNode _node )
 	{
 		if (_node instanceof ExpressionNodeForConstantValue) {
 			final ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _node;
@@ -134,17 +136,15 @@ abstract class AbstractExpressionRewriter
 		else if (_node instanceof ExpressionNodeForCellModel) {
 			final ExpressionNodeForCellModel cellNode = (ExpressionNodeForCellModel) _node;
 			final CellModel cell = cellNode.getCellModel();
-			if (null == cell.getExpression()) {
+			if (null == cell) {
+				return null;
+			}
+			else if (null == cell.getExpression()) {
 				return cell.getConstantValue();
 			}
 		}
-		throw new NotConstantException();
+		return NOT_CONST;
 	}
 	
-	protected final class NotConstantException extends Exception
-	{
-		// internal
-	}
-
 	
 }

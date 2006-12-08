@@ -91,17 +91,17 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 	private List<String> getLabelsFromTable( ArrayDescriptor _tableDesc, Iterator<ExpressionNode> _tableElements )
 			throws CompilerException
 	{
-		try {
-			final List<String> result = new ArrayList<String>();
-			final int nCol = _tableDesc.getNumberOfColumns();
-			for (int iCol = 0; iCol < nCol; iCol++) {
-				result.add( constantValueOf( _tableElements.next() ).toString() );
+		final List<String> result = new ArrayList<String>();
+		final int nCol = _tableDesc.getNumberOfColumns();
+		for (int iCol = 0; iCol < nCol; iCol++) {
+			final Object cst = constantValueOf( _tableElements.next() );
+			if (NOT_CONST == cst) {
+				throw new CompilerException.UnsupportedExpression(
+						"Database table/criteria labels must be constant values." );
 			}
-			return result;
+			result.add( cst.toString() );
 		}
-		catch (NotConstantException e) {
-			throw new CompilerException.UnsupportedExpression( "Database table/criteria labels must be constant values." );
-		}
+		return result;
 	}
 
 
@@ -111,7 +111,7 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 		final ArrayDescriptor td = _tableDesc;
 		final int cols = td.getNumberOfColumns();
 		final ArrayDescriptor dd = new ArrayDescriptor( td.getNumberOfSheets(), td.getNumberOfRows() - 1, cols );
-		final ExpressionNodeForArrayReference result = new ExpressionNodeForArrayReference( dd );
+		final ExpressionNodeForArrayReference result = new ExpressionNodeForArrayReference( dd, false );
 
 		int iCol = 0;
 		while (_tableElements.hasNext()) {
@@ -220,29 +220,22 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 
 		private ExpressionNode buildFilterByExample( int _tableCol, ExpressionNode _criterion, DataType _type )
 		{
-			if (_criterion instanceof ExpressionNodeForConstantValue) {
-				final ExpressionNodeForConstantValue cst = (ExpressionNodeForConstantValue) _criterion;
-				final Object val = cst.value();
-				if (null == val) {
-					return null;
-				}
-				else if (val instanceof String) {
-					return buildFilterByExample( _tableCol, (String) val, _type );
-				}
+			final Object cst = constantValueOf( _criterion );
+			if (null == cst) {
+				return null;
+			}
+			else if (cst instanceof String) {
+				return buildFilterByExample( _tableCol, (String) cst, _type );
 			}
 			else if (_criterion instanceof ExpressionNodeForOperator) {
 				ExpressionNodeForOperator op = (ExpressionNodeForOperator) _criterion;
 				switch (op.getOperator()) {
 					case CONCAT: {
-						final ExpressionNode arg0 = op.argument( 0 );
-						if (arg0 instanceof ExpressionNodeForConstantValue) {
-							ExpressionNodeForConstantValue cst = (ExpressionNodeForConstantValue) arg0;
-							final Object val = cst.value();
-							if (val instanceof String) {
-								final List<ExpressionNode> args = op.arguments();
-								args.remove( 0 );
-								return buildFilterByExample( _tableCol, (String) val, args, _criterion );
-							}
+						final Object cst0 = constantValueOf( op.argument( 0 ) );
+						if (cst0 instanceof String) {
+							final List<ExpressionNode> args = op.arguments();
+							args.remove( 0 );
+							return buildFilterByExample( _tableCol, (String) cst0, args, _criterion );
 						}
 					}
 				}
@@ -325,7 +318,7 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 
 			// Unfortunately, constant folding has not been done, because the folder relies on the
 			// rewriter having run first.
-			if (_criterion instanceof ExpressionNodeForConstantValue) {
+			if (NOT_CONST != constantValueOf( _criterion )) {
 				return op( _comparison, var( colName ), _criterion );
 			}
 			else {
