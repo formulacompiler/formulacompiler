@@ -91,18 +91,17 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 	private List<String> getLabelsFromTable( ArrayDescriptor _tableDesc, Iterator<ExpressionNode> _tableElements )
 			throws CompilerException
 	{
-		final List<String> result = new ArrayList<String>();
-		for (int i = 0; i < _tableDesc.getNumberOfColumns(); i++) {
-			final ExpressionNode elt = _tableElements.next();
-			if (elt instanceof ExpressionNodeForConstantValue) {
-				final ExpressionNodeForConstantValue lbl = (ExpressionNodeForConstantValue) elt;
-				result.add( lbl.value().toString() );
+		try {
+			final List<String> result = new ArrayList<String>();
+			final int nCol = _tableDesc.getNumberOfColumns();
+			for (int iCol = 0; iCol < nCol; iCol++) {
+				result.add( constantValueOf( _tableElements.next() ).toString() );
 			}
-			else {
-				throw new CompilerException.UnsupportedExpression( "Database table/criteria labels must be constant values." );
-			}
+			return result;
 		}
-		return result;
+		catch (NotConstantException e) {
+			throw new CompilerException.UnsupportedExpression( "Database table/criteria labels must be constant values." );
+		}
 	}
 
 
@@ -324,7 +323,8 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 		{
 			final String colName = "col" + _tableCol;
 
-			// Unfortunately, constant folding has not been done, because the folder relies on the rewriter having run first.
+			// Unfortunately, constant folding has not been done, because the folder relies on the
+			// rewriter having run first.
 			if (_criterion instanceof ExpressionNodeForConstantValue) {
 				return op( _comparison, var( colName ), _criterion );
 			}
@@ -339,7 +339,7 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 					this.lastLet.addArgument( newLet );
 					this.lastLet = newLet;
 				}
-				
+
 				return op( _comparison, var( colName ), var( critName ) );
 			}
 		}

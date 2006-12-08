@@ -36,6 +36,8 @@ import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.expressions.ExpressionNodeForSubstitution;
+import sej.internal.model.CellModel;
+import sej.internal.model.ExpressionNodeForCellModel;
 
 abstract class AbstractExpressionRewriter
 {
@@ -122,5 +124,27 @@ abstract class AbstractExpressionRewriter
 		return new ExpressionNodeForConstantValue( _value );
 	}
 
+	
+	protected final Object constantValueOf( ExpressionNode _node ) throws NotConstantException
+	{
+		if (_node instanceof ExpressionNodeForConstantValue) {
+			final ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _node;
+			return constNode.value();
+		}
+		else if (_node instanceof ExpressionNodeForCellModel) {
+			final ExpressionNodeForCellModel cellNode = (ExpressionNodeForCellModel) _node;
+			final CellModel cell = cellNode.getCellModel();
+			if (null == cell.getExpression()) {
+				return cell.getConstantValue();
+			}
+		}
+		throw new NotConstantException();
+	}
+	
+	protected final class NotConstantException extends Exception
+	{
+		// internal
+	}
 
+	
 }
