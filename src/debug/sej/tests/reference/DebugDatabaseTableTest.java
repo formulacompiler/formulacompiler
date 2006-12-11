@@ -51,7 +51,7 @@ public final class DebugDatabaseTableTest extends AbstractDatabaseTableTest
 	 */
 	public DebugDatabaseTableTest()
 	{
-		super( "DatabaseAggregators", 23, NumType.DOUBLE, Integer.valueOf( "1", 2 ), false );
+		super( "DatabaseAggregators", 31, NumType.DOUBLE, Integer.valueOf( "0", 2 ), false );
 	}
 
 
