@@ -31,14 +31,19 @@ public final class ExpressionNodeForDatabaseFold extends ExpressionNodeForAbstra
 	private final int staticFoldedColumnIndex;
 	private final int[] foldableColumnKeys;
 	private final String[] filterColumnNames;
+	private final boolean isReduce;
+	private final boolean isZeroForEmptySelection;
 
 	public ExpressionNodeForDatabaseFold(ArrayDescriptor _tableDescriptor, String _filterColNamePrefix,
-			String _accumulatorName, String _elementName, int _staticFoldedColumnIndex, int[] _foldableColumnKeys)
+			String _accumulatorName, String _elementName, int _staticFoldedColumnIndex, int[] _foldableColumnKeys,
+			boolean _isReduce, boolean _isZeroForEmptySelection)
 	{
 		super( _accumulatorName, _elementName, false );
 		this.filterColumnNamePrefix = _filterColNamePrefix;
 		this.staticFoldedColumnIndex = _staticFoldedColumnIndex;
 		this.foldableColumnKeys = _foldableColumnKeys;
+		this.isReduce = _isReduce;
+		this.isZeroForEmptySelection = _isZeroForEmptySelection;
 
 		final int nCol = _tableDescriptor.getNumberOfColumns();
 		this.filterColumnNames = new String[ nCol ];
@@ -50,10 +55,11 @@ public final class ExpressionNodeForDatabaseFold extends ExpressionNodeForAbstra
 	public ExpressionNodeForDatabaseFold(ArrayDescriptor _tableDescriptor, String _filterColNamePrefix,
 			ExpressionNode _filter, String _accumulatorName, ExpressionNode _initialValue, String _elementName,
 			ExpressionNode _foldingStep, int _staticFoldedColumnIndex, int[] _foldableColumnKeys,
-			ExpressionNode _foldedColumnIndex, ExpressionNode _arrayRef)
+			ExpressionNode _foldedColumnIndex, boolean _isReduce, boolean _isZeroForEmptySelection,
+			ExpressionNode _arrayRef)
 	{
 		this( _tableDescriptor, _filterColNamePrefix, _accumulatorName, _elementName, _staticFoldedColumnIndex,
-				_foldableColumnKeys );
+				_foldableColumnKeys, _isReduce, _isZeroForEmptySelection );
 		addArgument( _initialValue );
 		addArgument( _foldingStep );
 		addArgument( _filter );
@@ -97,6 +103,16 @@ public final class ExpressionNodeForDatabaseFold extends ExpressionNodeForAbstra
 		return this.filterColumnNames;
 	}
 
+	public final boolean isReduce()
+	{
+		return this.isReduce;
+	}
+
+	public final boolean isZeroForEmptySelection()
+	{
+		return this.isZeroForEmptySelection;
+	}
+
 
 	@Override
 	protected void skipToElements( Iterator<ExpressionNode> _iterator )
@@ -110,14 +126,22 @@ public final class ExpressionNodeForDatabaseFold extends ExpressionNodeForAbstra
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
-		_to.append( "_DFOLD( " ).append( filterColumnNamePrefix() ).append( ": " );
+		if (isReduce()) _to.append( "_DREDUCE( " );
+		else if (isZeroForEmptySelection()) _to.append( "_DFOLD0( " );
+		else _to.append( "_DFOLD( " );
+		_to.append( filterColumnNamePrefix() ).append( ": " );
 		filter().describeTo( _to, _cfg );
 		_to.append( "; " ).append( accumulatorName() ).append( ": " );
 		initialAccumulatorValue().describeTo( _to, _cfg );
 		_to.append( "; " ).append( elementName() ).append( ": " );
 		accumulatingStep().describeTo( _to, _cfg );
 		_to.append( "; " );
-		foldedColumnIndex().describeTo( _to, _cfg );
+		if (staticFoldedColumnIndex() >= 0) {
+			_to.append( '#' ).append( staticFoldedColumnIndex() );
+		}
+		else {
+			foldedColumnIndex().describeTo( _to, _cfg );
+		}
 		_to.append( "; " );
 		describeElements( _to, _cfg );
 	}
@@ -127,7 +151,7 @@ public final class ExpressionNodeForDatabaseFold extends ExpressionNodeForAbstra
 	protected ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForDatabaseFold( table().arrayDescriptor(), filterColumnNamePrefix(), accumulatorName(),
-				elementName(), staticFoldedColumnIndex(), foldableColumnKeys() );
+				elementName(), staticFoldedColumnIndex(), foldableColumnKeys(), isReduce(), isZeroForEmptySelection() );
 	}
 
 

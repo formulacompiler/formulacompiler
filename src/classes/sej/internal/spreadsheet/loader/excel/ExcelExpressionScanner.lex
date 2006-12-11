@@ -107,6 +107,10 @@ FN		= "@"?
 {FN} "INDEX"	{ return new Symbol( GeneratedSymbols.INDEX, "INDEX" ); }
 
 {FN} "DSUM"	{ return new Symbol( GeneratedSymbols.DSUM, "DSUM" ); }
+{FN} "DPRODUCT"	{ return new Symbol( GeneratedSymbols.DPRODUCT, "DPRODUCT" ); }
+{FN} "DCOUNT"	{ return new Symbol( GeneratedSymbols.DCOUNT, "DCOUNT" ); }
+{FN} "DMIN"	{ return new Symbol( GeneratedSymbols.DMIN, "DMIN" ); }
+{FN} "DMAX"	{ return new Symbol( GeneratedSymbols.DMAX, "DMAX" ); }
 
 {FN} "ABS"		{ return new Symbol( GeneratedSymbols.ABS, "ABS" ); }
 {FN} "ROUND"	{ return new Symbol( GeneratedSymbols.ROUND, "ROUND" ); }

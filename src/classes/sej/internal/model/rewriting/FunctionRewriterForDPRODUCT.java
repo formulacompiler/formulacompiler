@@ -18,78 +18,41 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej;
+package sej.internal.model.rewriting;
 
+import sej.Operator;
+import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForFunction;
+import sej.internal.model.util.InterpretedNumericType;
 
-/**
- * Lists all the functions supported by SEJ.
- * 
- * @author peo
- * 
- * @see SpreadsheetBuilder#fun(Function, sej.SpreadsheetBuilder.ExprNode[])
- */
-public enum Function {
+final class FunctionRewriterForDPRODUCT extends AbstractFunctionRewriterForDatabaseAggregator
+{
 
-	// Logic
-
-	IF, NOT,
-
-	// Math
-
-	ABS, ROUND,
-
-	// Combinatorics
-
-	FACT, COMBIN,
-
-	// Financials
-
-	NPV, MIRR, IRR,
-
-	// Dates
-
-	TODAY {
-		@Override
-		public boolean isVolatile()
-		{
-			return true;
-		}
-	},
-
-	// Lookup
-
-	MATCH, INDEX,
-
-	// String
-
-	CONCATENATE, LEN, MID, LEFT, RIGHT, SUBSTITUTE, REPLACE, SEARCH, FIND, EXACT, LOWER, UPPER, PROPER,
-
-	// Aggregators
-	// Don't forget to update AGGREGATORS below!
-
-	SUM, PRODUCT, MIN, MAX, COUNT, AVERAGE, VAR, VARP, AND, OR,
-
-	// Database aggregators
-	DSUM, DPRODUCT, DCOUNT, DMIN, DMAX;
-
-
-	private static final Function[] AGGREGATORS = new Function[] { SUM, PRODUCT, MIN, MAX, COUNT, AVERAGE, VAR, VARP,
-			AND, OR };
-
-
-	public String getName()
+	public FunctionRewriterForDPRODUCT(ExpressionNodeForFunction _fun, InterpretedNumericType _type)
 	{
-		return toString();
+		super( _fun, _type );
 	}
 
-	public boolean isVolatile()
+
+	@Override
+	protected ExpressionNode initialAccumulatorValue()
 	{
-		return false;
+		return cst( 1.0 );
 	}
 
-	public static Function[] aggregators()
+
+	@Override
+	protected Operator foldingOperator()
 	{
-		return AGGREGATORS;
+		return Operator.TIMES;
 	}
+
+
+	@Override
+	protected boolean isZeroForEmptySelection()
+	{
+		return true;
+	}
+
 
 }

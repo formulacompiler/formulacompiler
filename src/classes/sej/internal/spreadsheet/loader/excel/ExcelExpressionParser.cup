@@ -37,7 +37,7 @@ terminal EQUAL, NOTEQUAL, GREATER, GREATEROREQUAL, LESS, LESSOREQUAL;
 terminal IF, AND, OR, NOT;
 terminal SUM, PRODUCT, COUNT, AVERAGE, MIN, MAX, VAR, VARP;
 terminal MATCH, INDEX;
-terminal DSUM;
+terminal DSUM, DPRODUCT, DCOUNT, DMIN, DMAX;
 terminal ROUND, ABS;
 terminal FACT, COMBIN;
 terminal NPV, MIRR, IRR;
@@ -410,7 +410,20 @@ dagg ::=
 
 		DSUM
 				{: RESULT = Function.DSUM; :}
-		;
+
+	|	DPRODUCT
+				{: RESULT = Function.DPRODUCT; :}
+				
+	|	DCOUNT
+				{: RESULT = Function.DCOUNT; :}
+				
+	|	DMIN
+				{: RESULT = Function.DMIN; :}
+				
+	|	DMAX
+				{: RESULT = Function.DMAX; :}
+				
+	;
 	
 	
 rangeunion ::=

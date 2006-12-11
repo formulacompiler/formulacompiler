@@ -20,6 +20,7 @@
  */
 package sej.internal.model.rewriting;
 
+import sej.CallFrame;
 import sej.Function;
 import sej.Operator;
 import sej.SEJ;
@@ -79,7 +80,7 @@ public class ModelRewriterTest extends TestCase
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( SEJ.DOUBLE ) ) );
 
 		assertBeginsWith(
-				"_DFOLD( col: OR( AND( (`col0 = \"Apple\"), (`col1 > 10.0), (`col1 < 16.0) ), (`col0 = \"Pear\") ); r: 0.0; xi: (`r + `xi); 3; #(1,2,5){",
+				"_DFOLD( col: OR( AND( (`col0 = \"Apple\"), (`col1 > 10.0), (`col1 < 16.0) ), (`col0 = \"Pear\") ); r: 0.0; xi: (`r + `xi); #3; #(1,2,5)_nofold{",
 				r.getExpression().toString() );
 	}
 
@@ -102,8 +103,8 @@ public class ModelRewriterTest extends TestCase
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( SEJ.DOUBLE ) ) );
 
 		assertBeginsWith(
-				"_LET( -crit0: a; _LET( -crit1: b; _LET( -crit2: c; _LET( -crit3: d; "
-						+ "_DFOLD( col: OR( AND( (`col0 = `-crit0), (`col1 > `-crit1), (`col1 < `-crit2) ), (`col0 = `-crit3) ); r: 0.0; xi: (`r + `xi); 3; #(1,2,5){",
+				"_LET_nofold( -crit0: Inputs.getOne(); _LET_nofold( -crit1: Inputs.getOne(); _LET_nofold( -crit2: Inputs.getOne(); _LET_nofold( -crit3: Inputs.getOne(); "
+						+ "_DFOLD( col: OR( AND( (`col0 = `-crit0), (`col1 > `-crit1), (`col1 < `-crit2) ), (`col0 = `-crit3) ); r: 0.0; xi: (`r + `xi); #3; #(1,2,5)_nofold{",
 				r.getExpression().toString() );
 	}
 
@@ -117,7 +118,7 @@ public class ModelRewriterTest extends TestCase
 	}
 
 
-	private final ExpressionNodeForArrayReference makeRange( Object[][] _rows )
+	private final ExpressionNodeForArrayReference makeRange( Object[][] _rows ) throws Exception
 	{
 		final int nrows = _rows.length;
 		final int ncols = _rows[ 0 ].length;
@@ -134,13 +135,13 @@ public class ModelRewriterTest extends TestCase
 		return result;
 	}
 
-	private Object compare( String _comparison, Object _value )
+	private Object compare( String _comparison, Object _value ) throws Exception
 	{
 		return new ExpressionNodeForOperator( Operator.CONCAT, new ExpressionNodeForConstantValue( _comparison ),
 				makeNode( _value ) );
 	}
 
-	private ExpressionNode makeNode( Object _value )
+	private ExpressionNode makeNode( Object _value ) throws Exception
 	{
 		if (_value instanceof ExpressionNode) {
 			return (ExpressionNode) _value;
@@ -148,7 +149,9 @@ public class ModelRewriterTest extends TestCase
 		if (_value instanceof String) {
 			String str = (String) _value;
 			if (str.startsWith( "#" )) {
-				return new ExpressionNodeForCellModel( new CellModel( rootModel, str.substring( 1 ) ) );
+				final CellModel cellModel = new CellModel( rootModel, str.substring( 1 ) );
+				cellModel.makeInput( new CallFrame( Inputs.class.getMethod( "getOne" ) ) );
+				return new ExpressionNodeForCellModel( cellModel );
 			}
 		}
 		return new ExpressionNodeForConstantValue( _value );
