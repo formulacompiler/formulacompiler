@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.commons.GeneratorAdapter;
 
 import sej.CompilerException;
 import sej.internal.expressions.ArrayDescriptor;
@@ -38,8 +39,7 @@ final class HelperCompilerForDatabaseFold extends HelperCompilerForIterativeFold
 	private final ExpressionNodeForArrayReference table;
 	private final ArrayDescriptor tableDescriptor;
 	private final String[] colNames;
-	private final ExpressionNode filter;
-
+	private final ExpressionNode filterExpr;
 
 	public HelperCompilerForDatabaseFold(SectionCompiler _section, ExpressionNodeForDatabaseFold _node,
 			FoldContext _foldContext, Iterable<LetEntry> _closure)
@@ -48,7 +48,7 @@ final class HelperCompilerForDatabaseFold extends HelperCompilerForIterativeFold
 		this.table = _node.table();
 		this.tableDescriptor = _node.table().arrayDescriptor();
 		this.colNames = _node.filterColumnNames();
-		this.filter = _node.filter();
+		this.filterExpr = _node.filter();
 	}
 
 
@@ -56,6 +56,21 @@ final class HelperCompilerForDatabaseFold extends HelperCompilerForIterativeFold
 	protected void compileFold( FoldContext _context, Iterable<ExpressionNode> _elts, int _localResult )
 			throws CompilerException
 	{
+		final ExpressionNodeForDatabaseFold node = (ExpressionNodeForDatabaseFold) _context.node;
+		final int colIdx = node.staticFoldedColumnIndex();
+		if (colIdx >= 0) {
+			compileFold( _context, colIdx, _localResult );
+		}
+		else {
+			final ExpressionNode colIdxExpr = node.foldedColumnIndex();
+			compileSwitchedFold( _context, colIdxExpr, _localResult );
+		}
+	}
+
+
+	private final void compileFold( FoldContext _context, int _foldedCol, int _localResult ) throws CompilerException
+	{
+		final GeneratorAdapter mv = mv();
 		final int nRows = this.tableDescriptor.getNumberOfRows();
 		final int nCols = this.tableDescriptor.getNumberOfColumns();
 		final List<ExpressionNode> elts = this.table.arguments();
@@ -68,33 +83,34 @@ final class HelperCompilerForDatabaseFold extends HelperCompilerForIterativeFold
 		int iElt = 0;
 		MethodCompiler matcher = null;
 		for (int iRow = 0; iRow < nRows; iRow++) {
+			final int iFoldedElt = iElt + _foldedCol;
 
 			try {
 				for (int iCol = 0; iCol < nCols; iCol++) {
 					final ExpressionNode elt = elts.get( iElt++ );
 					letDict().let( this.colNames[ iCol ], elt.getDataType(), elt );
 				}
-				final Iterable<LetEntry> closure = closureOf( this.filter );
+				final Iterable<LetEntry> closure = closureOf( this.filterExpr );
 				compileClosure( closure );
 				if (matcher == null) {
-					matcher = new HelperCompilerForDatabaseMatch( section(), this.filter, closure );
+					matcher = new HelperCompilerForDatabaseMatch( section(), this.filterExpr, closure );
 					matcher.compile();
 				}
-				mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, sectionInContext().classInternalName(), matcher.methodName(),
+				mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, sectionInContext().classInternalName(), matcher.methodName(),
 						matcher.methodDescriptor() );
 			}
 			finally {
 				letDict().unlet( nCols );
 			}
 
-			Label noMatch = mv().newLabel();
-			mv().ifZCmp( Opcodes.IFEQ, noMatch );
+			Label noMatch = mv.newLabel();
+			mv.ifZCmp( Opcodes.IFEQ, noMatch );
 
 			compileAccumulatorLoad( _localResult );
 			letDict().let( accName, accType, ExpressionCompiler.CHAINED_FIRST_ARG );
 			try {
 				final int reuseLocalsAt = localsOffset();
-				final ExpressionNode foldedElt = elts.get( iRow * nCols + 4 ); // FIXME
+				final ExpressionNode foldedElt = elts.get( iFoldedElt );
 				expc().compileElementFold( _context, foldedElt );
 				resetLocalsTo( reuseLocalsAt );
 			}
@@ -103,10 +119,40 @@ final class HelperCompilerForDatabaseFold extends HelperCompilerForIterativeFold
 			}
 			compileAccumulatorStore( _localResult );
 
-			mv().mark( noMatch );
+			mv.mark( noMatch );
 		}
 
 		compileAccumulatorLoad( _localResult );
+	}
+
+
+	private void compileSwitchedFold( final FoldContext _context, ExpressionNode _colIdxExpr, final int _localResult )
+			throws CompilerException
+	{
+		final ExpressionCompilerForNumbers num = numericCompiler();
+		final ExpressionNodeForDatabaseFold node = (ExpressionNodeForDatabaseFold) _context.node;
+
+		num.compile( _colIdxExpr );
+		num.compileConversionToInt();
+		compileTableSwitch( node.foldableColumnKeys(), new TableSwitchGenerator()
+		{
+
+			@Override
+			protected void generateCase( int _key, Label _end ) throws CompilerException
+			{
+				final int iCol = _key - 1;
+				compileFold( _context, iCol, _localResult );
+				mv().goTo( _end );
+			}
+
+			@Override
+			protected void generateDefault() throws CompilerException
+			{
+				num.compileZero();
+			}
+
+		} );
+
 	}
 
 

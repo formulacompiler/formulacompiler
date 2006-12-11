@@ -28,18 +28,32 @@ import sej.describable.DescriptionBuilder;
 public final class ExpressionNodeForDatabaseFold extends ExpressionNodeForAbstractFold
 {
 	private final String filterColumnNamePrefix;
+	private final int staticFoldedColumnIndex;
+	private final int[] foldableColumnKeys;
+	private final String[] filterColumnNames;
 
-	public ExpressionNodeForDatabaseFold(String _filterColNamePrefix, String _accumulatorName, String _elementName)
+	public ExpressionNodeForDatabaseFold(ArrayDescriptor _tableDescriptor, String _filterColNamePrefix,
+			String _accumulatorName, String _elementName, int _staticFoldedColumnIndex, int[] _foldableColumnKeys)
 	{
 		super( _accumulatorName, _elementName, false );
 		this.filterColumnNamePrefix = _filterColNamePrefix;
+		this.staticFoldedColumnIndex = _staticFoldedColumnIndex;
+		this.foldableColumnKeys = _foldableColumnKeys;
+
+		final int nCol = _tableDescriptor.getNumberOfColumns();
+		this.filterColumnNames = new String[ nCol ];
+		for (int iCol = 0; iCol < nCol; iCol++) {
+			this.filterColumnNames[ iCol ] = filterColumnNamePrefix() + iCol;
+		}
 	}
 
-	public ExpressionNodeForDatabaseFold(String _filterColNamePrefix, ExpressionNode _filter, String _accumulatorName,
-			ExpressionNode _initialValue, String _elementName, ExpressionNode _foldingStep,
+	public ExpressionNodeForDatabaseFold(ArrayDescriptor _tableDescriptor, String _filterColNamePrefix,
+			ExpressionNode _filter, String _accumulatorName, ExpressionNode _initialValue, String _elementName,
+			ExpressionNode _foldingStep, int _staticFoldedColumnIndex, int[] _foldableColumnKeys,
 			ExpressionNode _foldedColumnIndex, ExpressionNode _arrayRef)
 	{
-		this( _filterColNamePrefix, _accumulatorName, _elementName );
+		this( _tableDescriptor, _filterColNamePrefix, _accumulatorName, _elementName, _staticFoldedColumnIndex,
+				_foldableColumnKeys );
 		addArgument( _initialValue );
 		addArgument( _foldingStep );
 		addArgument( _filter );
@@ -58,27 +72,32 @@ public final class ExpressionNodeForDatabaseFold extends ExpressionNodeForAbstra
 		return argument( 2 );
 	}
 
+	public final int staticFoldedColumnIndex()
+	{
+		return this.staticFoldedColumnIndex;
+	}
+
+	public final int[] foldableColumnKeys()
+	{
+		return this.foldableColumnKeys;
+	}
+
 	public final ExpressionNode foldedColumnIndex()
 	{
 		return argument( 3 );
 	}
-	
+
 	public final ExpressionNodeForArrayReference table()
 	{
 		return (ExpressionNodeForArrayReference) argument( 4 );
 	}
-	
+
 	public final String[] filterColumnNames()
 	{
-		final int nCol = table().arrayDescriptor().getNumberOfColumns();
-		final String[] cols = new String[nCol];
-		for (int iCol = 0; iCol < nCol; iCol++) {
-			cols[ iCol ] = filterColumnNamePrefix() + iCol;
-		}
-		return cols;
+		return this.filterColumnNames;
 	}
 
-	
+
 	@Override
 	protected void skipToElements( Iterator<ExpressionNode> _iterator )
 	{
@@ -107,7 +126,8 @@ public final class ExpressionNodeForDatabaseFold extends ExpressionNodeForAbstra
 	@Override
 	protected ExpressionNode innerCloneWithoutArguments()
 	{
-		return new ExpressionNodeForDatabaseFold( filterColumnNamePrefix(), accumulatorName(), elementName() );
+		return new ExpressionNodeForDatabaseFold( table().arrayDescriptor(), filterColumnNamePrefix(), accumulatorName(),
+				elementName(), staticFoldedColumnIndex(), foldableColumnKeys() );
 	}
 
 

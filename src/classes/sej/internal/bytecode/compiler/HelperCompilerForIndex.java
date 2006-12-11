@@ -27,7 +27,6 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
-import org.objectweb.asm.commons.TableSwitchGenerator;
 
 import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
@@ -127,32 +126,18 @@ class HelperCompilerForIndex extends HelperCompiler
 			System.arraycopy( nonConstValIdxs, 0, keys, 0, nonConstValCnt );
 
 			mv.loadLocal( l_i );
-			try {
-				mv.tableSwitch( keys, new TableSwitchGenerator()
+			compileTableSwitch( keys, new TableSwitchGenerator()
+			{
+
+				@Override
+				protected void generateCase( int _key, Label _end ) throws CompilerException
 				{
+					final ExpressionNode val = _vals[ _key ];
+					valCompiler.compile( val );
+					mv.visitInsn( valCompiler.typeCompiler().returnOpcode() );
+				}
 
-					public void generateCase( int _key, Label _end )
-					{
-						final ExpressionNode val = _vals[ _key ];
-						try {
-							valCompiler.compile( val );
-							mv.visitInsn( valCompiler.typeCompiler().returnOpcode() );
-						}
-						catch (CompilerException e) {
-							throw new InnerException( e );
-						}
-					}
-
-					public void generateDefault()
-					{
-						// fall through
-					}
-
-				} );
-			}
-			catch (InnerException e) {
-				throw (CompilerException) e.getCause();
-			}
+			} );
 		}
 
 		// return (i >= 0 && i < getStaticIndex_Consts.length) ? getStaticIndex_Consts[ i ] : 0;
@@ -220,17 +205,6 @@ class HelperCompilerForIndex extends HelperCompiler
 			return (constNode.value() == null);
 		}
 		return false;
-	}
-
-
-	private static final class InnerException extends RuntimeException
-	{
-
-		public InnerException(Throwable _cause)
-		{
-			super( _cause );
-		}
-
 	}
 
 

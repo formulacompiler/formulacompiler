@@ -28,19 +28,19 @@ import sej.describable.DescriptionBuilder;
 public final class ExpressionNodeForArrayReference extends ExpressionNode
 {
 	private final ArrayDescriptor arrayDescriptor;
-	private final boolean canFold;
+	private final boolean mayFold;
 
 
-	public ExpressionNodeForArrayReference(ArrayDescriptor _descriptor, boolean _canFold, ExpressionNode... _args)
+	public ExpressionNodeForArrayReference(ArrayDescriptor _descriptor, boolean _mayFold, ExpressionNode... _args)
 	{
 		super( _args );
 		this.arrayDescriptor = _descriptor;
-		this.canFold = _canFold;
+		this.mayFold = _mayFold;
 	}
 
 	public ExpressionNodeForArrayReference(ArrayDescriptor _descriptor, ExpressionNode... _args)
 	{
-		this( _descriptor, true, _args  );
+		this( _descriptor, true, _args );
 	}
 
 
@@ -48,10 +48,10 @@ public final class ExpressionNodeForArrayReference extends ExpressionNode
 	{
 		return this.arrayDescriptor;
 	}
-	
-	public boolean canFold()
+
+	public boolean mayFold()
 	{
-		return this.canFold;
+		return this.mayFold;
 	}
 
 
@@ -73,7 +73,7 @@ public final class ExpressionNodeForArrayReference extends ExpressionNode
 	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
 		arrayDescriptor().describeTo( _to );
-		_to.append( '{' );
+		_to.append( mayFold() ? "{" : "_nofold{" );
 		boolean isFirst = true;
 		for (ExpressionNode arg : arguments()) {
 			if (isFirst) isFirst = false;

@@ -124,9 +124,9 @@ abstract class AbstractExpressionRewriter
 		return new ExpressionNodeForConstantValue( _value );
 	}
 
-	
+
 	protected static final Object NOT_CONST = new Object();
-	
+
 	protected final Object constantValueOf( ExpressionNode _node )
 	{
 		if (_node instanceof ExpressionNodeForConstantValue) {
@@ -139,12 +139,29 @@ abstract class AbstractExpressionRewriter
 			if (null == cell) {
 				return null;
 			}
-			else if (null == cell.getExpression()) {
-				return cell.getConstantValue();
+			else if (!cell.isInput()) {
+				if (null == cell.getExpression()) {
+					return cell.getConstantValue();
+				}
+				else {
+					return constantValueOf( cell.getExpression() );
+				}
 			}
 		}
 		return NOT_CONST;
 	}
-	
-	
+
+	protected final ExpressionNode expressionOf( ExpressionNode _node )
+	{
+		if (_node instanceof ExpressionNodeForCellModel) {
+			final ExpressionNodeForCellModel cellNode = (ExpressionNodeForCellModel) _node;
+			final CellModel cell = cellNode.getCellModel();
+			if (null != cell && !cell.isInput() && null != cell.getExpression()) {
+				return expressionOf( cell.getExpression() );
+			}
+		}
+		return _node;
+	}
+
+
 }
