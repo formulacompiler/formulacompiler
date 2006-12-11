@@ -563,10 +563,10 @@ public class LittleLanguageTest extends AbstractTestBase
 		final SectionModel rootModel = engineModel.getRoot();
 		this.rootModel = rootModel;
 
-		final ExpressionNode table = makeRange( new Object[][] { new Object[] { "Apple", 18.0, 20.0, 14.0, 105.0 },
-				new Object[] { "Pear", 12.0, 12.0, 10.0, 96.0 }, new Object[] { "Cherry", 13.0, 14.0, 9.0, 105.00 },
-				new Object[] { "Apple", 14.0, 15.0, 10.0, 75.00 }, new Object[] { "Pear", 9.0, 8.0, 8.0, 76.80 },
-				new Object[] { "Apple", 8.0, 9.0, 6.0, 45.00 } } );
+		final ExpressionNodeForArrayReference table = makeRange( new Object[][] {
+				new Object[] { "Apple", 18.0, 20.0, 14.0, 105.0 }, new Object[] { "Pear", 12.0, 12.0, 10.0, 96.0 },
+				new Object[] { "Cherry", 13.0, 14.0, 9.0, 105.00 }, new Object[] { "Apple", 14.0, 15.0, 10.0, 75.00 },
+				new Object[] { "Pear", 9.0, 8.0, 8.0, 76.80 }, new Object[] { "Apple", 8.0, 9.0, 6.0, 45.00 } } );
 
 		final ExpressionNode filter = new ExpressionNodeForOperator( Operator.EQUAL,
 				new ExpressionNodeForLetVar( "col0" ), new ExpressionNodeForConstantValue( "Apple" ) );
@@ -574,9 +574,9 @@ public class LittleLanguageTest extends AbstractTestBase
 		final ExpressionNode col = new ExpressionNodeForConstantValue( 3 );
 
 		final CellModel r = new CellModel( rootModel, "r" );
-		r.setExpression( new ExpressionNodeForDatabaseFold( "col", filter, "r",
+		r.setExpression( new ExpressionNodeForDatabaseFold( table.arrayDescriptor(), "col", filter, "r",
 				new ExpressionNodeForConstantValue( 0.0 ), "xi", new ExpressionNodeForOperator( Operator.PLUS,
-						new ExpressionNodeForLetVar( "r" ), new ExpressionNodeForLetVar( "xi" ) ), col, table ) );
+						new ExpressionNodeForLetVar( "r" ), new ExpressionNodeForLetVar( "xi" ) ), 2, null, col, table ) );
 
 		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
 
@@ -590,26 +590,28 @@ public class LittleLanguageTest extends AbstractTestBase
 		final SectionModel rootModel = engineModel.getRoot();
 		this.rootModel = rootModel;
 
-		final ExpressionNode table = makeRange( new Object[][] { new Object[] { "Apple", 18.0, 20.0, 14.0, 105.0 },
-				new Object[] { "Pear", 12.0, 12.0, 10.0, 96.0 }, new Object[] { "Cherry", 13.0, 14.0, 9.0, 105.00 },
-				new Object[] { "Apple", 14.0, 15.0, 10.0, 75.00 }, new Object[] { "Pear", 2.0, 8.0, 8.0, 76.80 },
-				new Object[] { "Apple", 8.0, 9.0, 6.0, 45.00 } } );
+		final ExpressionNodeForArrayReference table = makeRange( new Object[][] {
+				new Object[] { "Apple", 18.0, 20.0, 14.0, 105.0 }, new Object[] { "Pear", 12.0, 12.0, 10.0, 96.0 },
+				new Object[] { "Cherry", 13.0, 14.0, 9.0, 105.00 }, new Object[] { "Apple", 14.0, 15.0, 10.0, 75.00 },
+				new Object[] { "Pear", 2.0, 8.0, 8.0, 76.80 }, new Object[] { "Apple", 8.0, 9.0, 6.0, 45.00 } } );
 
 		final CellModel a = new CellModel( rootModel, "a" );
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
 
 		// Note: -var is a let that is evaluated every time it is accessed. Used here as a closure
 		// param for the helper method.
-		final ExpressionNode filter = new ExpressionNodeForOperator( Operator.GREATER,
-				new ExpressionNodeForLetVar( "col1" ), new ExpressionNodeForLetVar( "-crit0" ) );
+		final ExpressionNode filter = new ExpressionNodeForOperator( Operator.GREATER, new ExpressionNodeForLetVar(
+				"col1" ), new ExpressionNodeForLetVar( "-crit0" ) );
 
 		final ExpressionNode col = new ExpressionNodeForConstantValue( 3 );
 
 		final CellModel r = new CellModel( rootModel, "r" );
-		r.setExpression( new ExpressionNodeForLet( "-crit0", new ExpressionNodeForCellModel( a ),
-				new ExpressionNodeForDatabaseFold( "col", filter, "r", new ExpressionNodeForConstantValue( 0.0 ), "xi",
-						new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "r" ),
-								new ExpressionNodeForLetVar( "xi" ) ), col, table ) ) );
+		r
+				.setExpression( new ExpressionNodeForLet( "-crit0", new ExpressionNodeForCellModel( a ),
+						new ExpressionNodeForDatabaseFold( table.arrayDescriptor(), "col", filter, "r",
+								new ExpressionNodeForConstantValue( 0.0 ), "xi", new ExpressionNodeForOperator( Operator.PLUS,
+										new ExpressionNodeForLetVar( "r" ), new ExpressionNodeForLetVar( "xi" ) ), 2, null, col,
+								table ) ) );
 
 		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
 

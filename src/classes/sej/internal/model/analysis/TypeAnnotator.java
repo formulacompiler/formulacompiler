@@ -333,10 +333,12 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		
 		final String[] colNames = _expr.filterColumnNames();
 		final Iterator<ExpressionNode> elts = _expr.table().arguments().iterator();
-		// skip labels
+
+		// skip label row
 		for (int iCol = 0; iCol < colNames.length; iCol++) {
 			elts.next();
 		}
+		
 		for (int iCol = 0; iCol < colNames.length; iCol++) {
 			letDict().let( colNames[ iCol ], elts.next().getDataType(), null );
 		}

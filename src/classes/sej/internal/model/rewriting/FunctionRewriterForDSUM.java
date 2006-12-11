@@ -32,7 +32,6 @@ import sej.internal.expressions.ArrayDescriptor;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForArrayReference;
-import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForDatabaseFold;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForLet;
@@ -70,19 +69,27 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 			colTypes[ i ] = DataType.NULL;
 		}
 		final ExpressionNode data = getShapedDataAndTypesFromTable( tableDescriptor, tableIterator, colTypes );
+		final int[] foldableColumnKeys = getFoldableColumnKeys( colTypes );
 
 		final ArrayDescriptor critDescriptor = this.criteria.arrayDescriptor();
 		final Iterator<ExpressionNode> critIterator = this.criteria.arguments().iterator();
 		final List<String> critLabels = getLabelsFromTable( critDescriptor, critIterator );
 		final int[] critCols = associateCriteriaColumnsWithTableLabels( tableLabels, critLabels );
 
-		final ExpressionNode folded = buildFoldedColumnIndex( this.valueColumn, tableLabels );
+		final int foldedColumnIndex = buildFoldedColumnIndex( this.valueColumn, tableLabels );
+		if (foldedColumnIndex < 0) {
+			if (DataType.NUMERIC != TypeAnnotator.annotateExpr( this.valueColumn )) {
+				throw new CompilerException.UnsupportedExpression(
+						"The value column must either be a constant name or an index. It cannot be a computed name." );
+			}
+		}
 
 		final FilterBuilder filterBuilder = new FilterBuilder();
 		final ExpressionNode filter = filterBuilder.buildFilter( critCols, critIterator, colTypes );
 
-		final ExpressionNodeForDatabaseFold fold = new ExpressionNodeForDatabaseFold( "col", filter, "r", cst( 0.0 ),
-				"xi", op( Operator.PLUS, var( "r" ), var( "xi" ) ), folded, data );
+		final ExpressionNodeForDatabaseFold fold = new ExpressionNodeForDatabaseFold( tableDescriptor, "col", filter,
+				"r", cst( 0.0 ), "xi", op( Operator.PLUS, var( "r" ), var( "xi" ) ), foldedColumnIndex, foldableColumnKeys,
+				this.valueColumn, data );
 
 		return filterBuilder.encloseFoldInLets( fold );
 	}
@@ -136,6 +143,25 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 	}
 
 
+	private int[] getFoldableColumnKeys( DataType[] _colTypes )
+	{
+		int nKeys = 0;
+		for (int iCol = 0; iCol < _colTypes.length; iCol++) {
+			if (_colTypes[ iCol ] == DataType.NUMERIC) {
+				nKeys++;
+			}
+		}
+		final int[] keys = new int[ nKeys ];
+		int iKey = 0;
+		for (int iCol = 0; iCol < _colTypes.length; iCol++) {
+			if (_colTypes[ iCol ] == DataType.NUMERIC) {
+				keys[ iKey++ ] = iCol + 1; // Keys are 1-based.
+			}
+		}
+		return keys;
+	}
+
+
 	private static final int FREE_FORM = -1;
 
 	private int[] associateCriteriaColumnsWithTableLabels( List<String> _tableLabels, List<String> _critLabels )
@@ -148,22 +174,26 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 	}
 
 
-	private ExpressionNode buildFoldedColumnIndex( ExpressionNode _valueColumn, List<String> _tableLabels )
+	private int buildFoldedColumnIndex( ExpressionNode _valueColumn, List<String> _tableLabels )
 			throws CompilerException
 	{
-		if (_valueColumn instanceof ExpressionNodeForConstantValue) {
-			final ExpressionNodeForConstantValue cst = (ExpressionNodeForConstantValue) _valueColumn;
-			final Object val = cst.value();
+		Object val = constantValueOf( _valueColumn );
+		if (NOT_CONST != val) {
 			if (val instanceof String) {
-				String colName = (String) val;
-				return cst( _tableLabels.indexOf( colName ) );
+				return _tableLabels.indexOf( val );
+			}
+			else if (val instanceof Number) {
+				final int iCol = numericType().toInt( val, 0 ) - 1;
+				if (iCol >= 0 && iCol < _tableLabels.size()) {
+					return iCol;
+				}
+				else {
+					throw new CompilerException.UnsupportedExpression( "The constant column index must be between 1 and "
+							+ _tableLabels.size() + " - it is " + (iCol + 1) + "." );
+				}
 			}
 		}
-		if (DataType.NUMERIC != TypeAnnotator.annotateExpr( _valueColumn )) {
-			throw new CompilerException.UnsupportedExpression(
-					"The value column must either be a constant name or an index. It cannot be a computed name." );
-		}
-		return _valueColumn;
+		return -1;
 	}
 
 
@@ -201,22 +231,17 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 		{
 			final int len = _critCols.length;
 			final Collection<ExpressionNode> result = new ArrayList<ExpressionNode>( len );
-			for (int i = 0; i < len; i++) {
-				final ExpressionNode colFilter = buildColFilter( _critCols[ i ], _critIterator.next(), _colTypes[ i ] );
+			for (int iCrit = 0; iCrit < len; iCrit++) {
+				final int iCol = _critCols[ iCrit ];
+				final ExpressionNode criterion = _critIterator.next();
+				final ExpressionNode colFilter = (iCol == FREE_FORM) ? buildFreeFormFilter( criterion )
+						: buildFilterByExample( iCol, criterion, _colTypes[ iCol ] );
 				if (null != colFilter) {
 					result.add( colFilter );
 				}
 			}
 			return result;
 		}
-
-		private ExpressionNode buildColFilter( int _tableCol, ExpressionNode _criterion, DataType _type )
-				throws CompilerException
-		{
-			return (_tableCol == FREE_FORM) ? buildFreeFormFilter( _criterion ) : buildFilterByExample( _tableCol,
-					_criterion, _type );
-		}
-
 
 		private ExpressionNode buildFilterByExample( int _tableCol, ExpressionNode _criterion, DataType _type )
 		{
@@ -227,15 +252,18 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 			else if (cst instanceof String) {
 				return buildFilterByExample( _tableCol, (String) cst, _type );
 			}
-			else if (_criterion instanceof ExpressionNodeForOperator) {
-				ExpressionNodeForOperator op = (ExpressionNodeForOperator) _criterion;
-				switch (op.getOperator()) {
-					case CONCAT: {
-						final Object cst0 = constantValueOf( op.argument( 0 ) );
-						if (cst0 instanceof String) {
-							final List<ExpressionNode> args = op.arguments();
-							args.remove( 0 );
-							return buildFilterByExample( _tableCol, (String) cst0, args, _criterion );
+			else {
+				final ExpressionNode critExpr = expressionOf( _criterion );
+				if (critExpr instanceof ExpressionNodeForOperator) {
+					ExpressionNodeForOperator op = (ExpressionNodeForOperator) critExpr;
+					switch (op.getOperator()) {
+						case CONCAT: {
+							final Object cst0 = constantValueOf( op.argument( 0 ) );
+							if (cst0 instanceof String) {
+								final List<ExpressionNode> args = op.arguments();
+								args.remove( 0 );
+								return buildFilterByExample( _tableCol, (String) cst0, args, _criterion );
+							}
 						}
 					}
 				}
@@ -324,7 +352,7 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 			else {
 				final String critName = "-crit" + this.nextCritID++;
 
-				final ExpressionNodeForLet newLet = new ExpressionNodeForLet( critName, _criterion );
+				final ExpressionNodeForLet newLet = new ExpressionNodeForLet( critName, false, _criterion );
 				if (this.lastLet == null) {
 					this.firstLet = this.lastLet = newLet;
 				}

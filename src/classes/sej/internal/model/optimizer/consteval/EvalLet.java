@@ -27,28 +27,46 @@ import sej.internal.model.util.InterpretedNumericType;
 final class EvalLet extends EvalShadow
 {
 	private final String varName;
+	private final boolean mayFold;
 
 	public EvalLet(ExpressionNodeForLet _node, InterpretedNumericType _type)
 	{
 		super( _node, _type );
 		this.varName = _node.varName();
+		this.mayFold = _node.mayFold();
 	}
 
 
 	@Override
 	protected Object eval() throws CompilerException
 	{
-		final Object val = evaluateArgument( 0 );
-		letDict().let( this.varName, null, val );
-		try {
-			final Object result = evaluateArgument( 1 );
-			if (isConstant( result )) {
-				return result;
+		if (this.mayFold) {
+			final Object val = evaluateArgument( 0 );
+			letDict().let( this.varName, null, val );
+			try {
+				final Object result = evaluateArgument( 1 );
+				if (isConstant( result )) {
+					return result;
+				}
+				return evaluateToNode( new Object[] { val, result } );
 			}
-			return evaluateToNode( new Object[] { val, result } );
+			finally {
+				letDict().unlet( this.varName );
+			}
 		}
-		finally {
-			letDict().unlet( this.varName );
+		else {
+			letDict().let( this.varName, null, EvalLetVar.UNDEF );
+			try {
+				final Object result = evaluateArgument( 1 );
+				if (isConstant( result )) {
+					return result;
+				}
+				final Object val = evaluateArgument( 0 );
+				return evaluateToNode( new Object[] { val, result } );
+			}
+			finally {
+				letDict().unlet( this.varName );
+			}
 		}
 	}
 

@@ -238,7 +238,7 @@ public abstract class ExpressionNode extends AbstractDescribable
 			prov.buildContext( _builder, _focusedNode );
 		}
 		else {
-			_builder.append( " in expression " );
+			_builder.append( "\nIn expression " );
 			describeTo( _builder );
 			_builder.append( "." );
 		}

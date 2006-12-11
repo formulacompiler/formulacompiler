@@ -566,7 +566,7 @@ abstract class ExpressionCompiler
 			// Note: This hack with names prefixed by '-' is used internally to pass outer values as
 			// method arguments to helper methods by wrapping the construct in a series of LETs. The
 			// closure then automatically declares the parameters and passes the values to them.
-			letDict().let( _node.varName(), _node.getDataType(), _node.value() );
+			letDict().let( _node.varName(), _node.value().getDataType(), _node.value() );
 			try {
 				compile( _node.in() );
 			}
@@ -579,7 +579,7 @@ abstract class ExpressionCompiler
 			// evaluation. Otherwise it could get reused when the first evaluation is within a local
 			// scope.
 			final int local = compileNewLocal( isArray( _node.value() ) );
-			letDict().let( _node.varName(), _node.getDataType(), new EvaluateIntoLocal( local, _node.value() ) );
+			letDict().let( _node.varName(), _node.value().getDataType(), new EvaluateIntoLocal( local, _node.value() ) );
 			try {
 				compile( _node.in() );
 			}
@@ -788,22 +788,12 @@ abstract class ExpressionCompiler
 	final void compileHelpedExpr( HelperCompiler _compiler, Iterable<LetEntry> _closure ) throws CompilerException
 	{
 		_compiler.compile();
-		compileClosure( _closure );
+		method().compileClosure( _closure );
 		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, sectionInContext().classInternalName(), _compiler.methodName(),
 				_compiler.methodDescriptor() );
 	}
 
 	
-	final void compileClosure( Iterable<LetEntry> _closure ) throws CompilerException
-	{
-		final GeneratorAdapter mv = mv();
-		mv.visitVarInsn( Opcodes.ALOAD, method().objectInContext() );
-		for (LetEntry entry : _closure) {
-			compileLetValue( entry.name, entry.value );
-		}
-	}
-
-
 	protected final void compileRuntimeMethod( String _methodName, String _methodSig )
 	{
 		typeCompiler().compileRuntimeMethod( mv(), _methodName, _methodSig );

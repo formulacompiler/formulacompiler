@@ -20,27 +20,34 @@
  */
 package sej.tests.reference;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
 import sej.SaveableEngine;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
+import sej.internal.spreadsheet.CellRange;
+import sej.internal.spreadsheet.CellWithConstant;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
 
-public abstract class AbstractMultiDimRangeTest extends AbstractSheetBasedTest
+
+public abstract class AbstractDatabaseTableTest extends AbstractSheetBasedTest
 {
 
-	protected AbstractMultiDimRangeTest()
+	protected AbstractDatabaseTableTest()
 	{
 		super();
 	}
 
-	protected AbstractMultiDimRangeTest(String _baseName, int _startingRowNumber)
+	protected AbstractDatabaseTableTest(String _baseName, int _startingRowNumber)
 	{
 		super( _baseName, _startingRowNumber );
 	}
 
-	protected AbstractMultiDimRangeTest(String _baseName, int _onlyRowNumbered, NumType _onlyType, int _onlyInputVariant,
-			boolean _caching)
+	protected AbstractDatabaseTableTest(String _baseName, int _onlyRowNumbered, NumType _onlyType,
+			int _onlyInputVariant, boolean _caching)
 	{
 		super( _baseName, _onlyRowNumbered, _onlyType, _onlyInputVariant, _caching );
 	}
@@ -131,6 +138,9 @@ public abstract class AbstractMultiDimRangeTest extends AbstractSheetBasedTest
 
 		private final class RowRunner extends AbstractRowRunner
 		{
+			private static final int TABLE_NAME_OFFS = 1;
+			private static final int CRIT_NAME_OFFS = 2;
+			private int nRowInputs = 0;
 
 			public RowRunner(RowImpl _formulaRow, RowImpl _valueRow, int _rowNumber, SaveableEngine[] _engines)
 			{
@@ -140,14 +150,55 @@ public abstract class AbstractMultiDimRangeTest extends AbstractSheetBasedTest
 			@Override
 			protected void extractInputsFrom( RowImpl _valueRow )
 			{
-				if (null != _valueRow.getCellOrNull( firstInputCol() )) {
-					this.inputs = new Object[ 1 ];
-					this.inputTypes = new ValueType[ 1 ];
-					final CellInstance inputCell = _valueRow.getCellOrNull( firstInputCol() );
-					this.inputs[ 0 ] = (null == inputCell) ? null : valueOf( inputCell );
-					this.inputTypes[ 0 ] = valueTypeOf( this.inputs[ 0 ] );
+				int iInput = 0;
+
+				final Collection<CellInstance> adds = new ArrayList<CellInstance>();
+				extractInputsFromNamedRange( _valueRow.getCellOrNull( firstInputCol() + TABLE_NAME_OFFS ), adds );
+				extractInputsFromNamedRange( _valueRow.getCellOrNull( firstInputCol() + CRIT_NAME_OFFS ), adds );
+
+				final CellInstance colRefCell = _valueRow.getCellOrNull( firstInputCol() );
+				if (null != colRefCell) {
+					sizeInputs( 1 + adds.size() );
+					extractInputFrom( colRefCell, iInput++ );
+					this.nRowInputs = 1;
+				}
+				else {
+					sizeInputs( adds.size() );
+				}
+
+				for (CellInstance add : adds) {
+					extractInputFrom( add, iInput++ );
 				}
 			}
+
+			private void extractInputsFromNamedRange( CellInstance _rangeNameCell, Collection<CellInstance> _cells )
+			{
+				if (_rangeNameCell instanceof CellWithConstant) {
+					final CellWithConstant constCell = (CellWithConstant) _rangeNameCell;
+					final Object constVal = constCell.getValue();
+					if (constVal != null) {
+						final String rangeName = constVal.toString();
+						final SpreadsheetImpl sheet = _rangeNameCell.getRow().getSheet().getSpreadsheet();
+						final CellRange range = (CellRange) sheet.getRange( rangeName );
+						final Iterator<CellIndex> cells = range.iterator();
+						while (cells.hasNext()) {
+							final CellInstance cell = cells.next().getCell();
+							if (cell != null) _cells.add( cell );
+						}
+					}
+				}
+			}
+
+
+			@Override
+			protected CellInstance getValueCell( RowImpl _valueRow, int _iInput )
+			{
+				if (_iInput < this.nRowInputs) {
+					return _valueRow.getCellOrNull( _iInput + firstInputCol() );
+				}
+				return this.inputCells[ _iInput ];
+			}
+
 
 		}
 

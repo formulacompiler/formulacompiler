@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
@@ -416,7 +417,7 @@ abstract class MethodCompiler
 		}
 	}
 
-	
+
 	final void compileClosure( Iterable<LetEntry> _closure ) throws CompilerException
 	{
 		final GeneratorAdapter mv = mv();
@@ -450,5 +451,74 @@ abstract class MethodCompiler
 		incLocalsOffset( _size );
 		return local;
 	}
+
+
+	protected final void compileTableSwitch( int[] _keys, final TableSwitchGenerator _generator )
+			throws CompilerException
+	{
+		try {
+			mv().tableSwitch( _keys, new org.objectweb.asm.commons.TableSwitchGenerator()
+			{
+
+				public void generateCase( int _key, Label _end )
+				{
+					try {
+						_generator.generateCase( _key, _end );
+					}
+					catch (CompilerException e) {
+						throw new InnerException( e );
+					}
+				}
+
+				public void generateDefault()
+				{
+					try {
+						_generator.generateDefault();
+					}
+					catch (CompilerException e) {
+						throw new InnerException( e );
+					}
+				}
+
+			} );
+		}
+		catch (InnerException e) {
+			throw (CompilerException) e.getCause();
+		}
+
+	}
+
+	protected static abstract class TableSwitchGenerator
+	{
+
+		/**
+		 * Generates the code for a switch case.
+		 * 
+		 * @param key the switch case key.
+		 * @param end a label that corresponds to the end of the switch statement.
+		 */
+		protected abstract void generateCase( int key, Label end ) throws CompilerException;
+
+		/**
+		 * Generates the code for the default switch case.
+		 */
+		@SuppressWarnings("unused")
+		protected void generateDefault() throws CompilerException
+		{
+			// fall through
+		}
+
+	}
+
+	private static final class InnerException extends RuntimeException
+	{
+
+		public InnerException(Throwable _cause)
+		{
+			super( _cause );
+		}
+
+	}
+
 
 }

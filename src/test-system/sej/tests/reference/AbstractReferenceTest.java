@@ -152,14 +152,17 @@ public abstract class AbstractReferenceTest extends AbstractSheetBasedTest
 				final CellInstance inputCountCell = _valueRow.getCellOrNull( INPUTCOUNT_COL );
 				if (null != inputCountCell) {
 					final int inputCount = ((Number) valueOf( inputCountCell )).intValue();
-					this.inputs = new Object[ inputCount ];
-					this.inputTypes = new ValueType[ inputCount ];
+					sizeInputs( inputCount );
 					for (int i = 0; i < inputCount; i++) {
-						final CellInstance inputCell = _valueRow.getCellOrNull( INPUTS_COL + i );
-						this.inputs[ i ] = (null == inputCell) ? null : valueOf( inputCell );
-						this.inputTypes[ i ] = valueTypeOf( this.inputs[ i ] );
+						extractInputFrom( _valueRow.getCellOrNull( INPUTS_COL + i ), i );
 					}
 				}
+			}
+
+			@Override
+			protected CellInstance getValueCell( RowImpl _valueRow, int _iInput )
+			{
+				return _valueRow.getCellOrNull( _iInput + INPUTS_COL );
 			}
 
 		}

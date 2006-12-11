@@ -28,23 +28,27 @@ import sej.describable.DescriptionBuilder;
 public final class ExpressionNodeForLet extends ExpressionNode
 {
 	private final String varName;
+	private final boolean mayFold;
 
 	public ExpressionNodeForLet(String _varName, ExpressionNode _value, ExpressionNode _in)
 	{
 		super( _value, _in );
 		this.varName = _varName;
+		this.mayFold = true;
 	}
 
-	public ExpressionNodeForLet(String _varName, ExpressionNode _value)
+	public ExpressionNodeForLet(String _varName, boolean _mayFold, ExpressionNode _value)
 	{
 		super( _value );
 		this.varName = _varName;
+		this.mayFold = _mayFold;
 	}
 
-	private ExpressionNodeForLet(String _varName)
+	private ExpressionNodeForLet(String _varName, boolean _mayFold)
 	{
 		super();
 		this.varName = _varName;
+		this.mayFold = _mayFold;
 	}
 
 
@@ -63,11 +67,16 @@ public final class ExpressionNodeForLet extends ExpressionNode
 		return argument( 1 );
 	}
 
+	public final boolean mayFold()
+	{
+		return this.mayFold;
+	}
+
 
 	@Override
 	public ExpressionNode innerCloneWithoutArguments()
 	{
-		return new ExpressionNodeForLet( this.varName );
+		return new ExpressionNodeForLet( this.varName, this.mayFold );
 	}
 
 
@@ -81,7 +90,7 @@ public final class ExpressionNodeForLet extends ExpressionNode
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
-		_to.append( "_LET( " ).append( varName() ).append( ": " );
+		_to.append( mayFold()? "_LET( " : "_LET_nofold( " ).append( varName() ).append( ": " );
 		value().describeTo( _to, _cfg );
 		_to.append( "; " );
 		in().describeTo( _to, _cfg );

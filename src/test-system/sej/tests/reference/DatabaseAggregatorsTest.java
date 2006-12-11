@@ -20,12 +20,13 @@
  */
 package sej.tests.reference;
 
-public final class DatabaseAggregatorsTest extends AbstractMultiDimRangeTest
+
+public class DatabaseAggregatorsTest extends AbstractDatabaseTableTest
 {
 
 	public DatabaseAggregatorsTest()
 	{
 		super();
 	}
-	
+
 }
