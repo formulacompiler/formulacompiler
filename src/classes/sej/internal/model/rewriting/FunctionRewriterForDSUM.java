@@ -36,6 +36,8 @@ import sej.internal.expressions.ExpressionNodeForDatabaseFold;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForOperator;
+import sej.internal.model.CellModel;
+import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.analysis.TypeAnnotator;
 import sej.internal.model.util.InterpretedNumericType;
 
@@ -55,6 +57,11 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 		this.criteria = (ExpressionNodeForArrayReference) _fun.argument( 2 );
 	}
 
+	final ExpressionNodeForArrayReference table()
+	{
+		return this.table;
+	}
+
 
 	public final ExpressionNode rewrite() throws CompilerException
 	{
@@ -68,7 +75,9 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 		for (int i = 0; i < colTypes.length; i++) {
 			colTypes[ i ] = DataType.NULL;
 		}
-		final ExpressionNode data = getShapedDataAndTypesFromTable( tableDescriptor, tableIterator, colTypes );
+		final List<CellModel> firstRow = new ArrayList<CellModel>( colTypes.length );
+		final ExpressionNode data = getShapedDataAndTypesAndFirstRowFromTable( tableDescriptor, tableIterator, colTypes,
+				firstRow );
 		final int[] foldableColumnKeys = getFoldableColumnKeys( colTypes );
 
 		final ArrayDescriptor critDescriptor = this.criteria.arrayDescriptor();
@@ -85,7 +94,7 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 		}
 
 		final FilterBuilder filterBuilder = new FilterBuilder();
-		final ExpressionNode filter = filterBuilder.buildFilter( critCols, critIterator, colTypes );
+		final ExpressionNode filter = filterBuilder.buildFilter( critCols, critIterator, colTypes, firstRow );
 
 		final ExpressionNodeForDatabaseFold fold = new ExpressionNodeForDatabaseFold( tableDescriptor, "col", filter,
 				"r", cst( 0.0 ), "xi", op( Operator.PLUS, var( "r" ), var( "xi" ) ), foldedColumnIndex, foldableColumnKeys,
@@ -112,14 +121,16 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 	}
 
 
-	private ExpressionNodeForArrayReference getShapedDataAndTypesFromTable( ArrayDescriptor _tableDesc,
-			Iterator<ExpressionNode> _tableElements, DataType[] _colTypes ) throws CompilerException
+	private ExpressionNodeForArrayReference getShapedDataAndTypesAndFirstRowFromTable( ArrayDescriptor _tableDesc,
+			Iterator<ExpressionNode> _tableElements, DataType[] _colTypes, Collection<CellModel> _firstRow )
+			throws CompilerException
 	{
 		final ArrayDescriptor td = _tableDesc;
 		final int cols = td.getNumberOfColumns();
 		final ArrayDescriptor dd = new ArrayDescriptor( td.getNumberOfSheets(), td.getNumberOfRows() - 1, cols );
 		final ExpressionNodeForArrayReference result = new ExpressionNodeForArrayReference( dd, false );
 
+		boolean inFirstRow = true;
 		int iCol = 0;
 		while (_tableElements.hasNext()) {
 			final ExpressionNode elt = _tableElements.next();
@@ -136,7 +147,17 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 								+ (iCol + 1) + " the value " + elt.describe() + " is not a " + colType + "." );
 			}
 
-			if (++iCol == cols) iCol = 0;
+			if (inFirstRow) {
+				if (elt instanceof ExpressionNodeForCellModel) {
+					ExpressionNodeForCellModel cellElt = (ExpressionNodeForCellModel) elt;
+					_firstRow.add( cellElt.getCellModel() );
+				}
+			}
+
+			if (++iCol == cols) {
+				iCol = 0;
+				inFirstRow = false;
+			}
 		}
 
 		return result;
@@ -204,37 +225,37 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 		private int nextCritID = 0;
 
 
-		public ExpressionNode buildFilter( int[] _critCols, Iterator<ExpressionNode> _critIterator, DataType[] _colTypes )
-				throws CompilerException
+		public ExpressionNode buildFilter( int[] _critCols, Iterator<ExpressionNode> _critIterator, DataType[] _colTypes,
+				List<CellModel> _firstRow ) throws CompilerException
 		{
-			return join( Function.OR, buildRowFilters( _critCols, _critIterator, _colTypes ) );
+			return join( Function.OR, buildRowFilters( _critCols, _critIterator, _colTypes, _firstRow ) );
 		}
 
 		private Collection<ExpressionNode> buildRowFilters( int[] _critCols, Iterator<ExpressionNode> _critIterator,
-				DataType[] _colTypes ) throws CompilerException
+				DataType[] _colTypes, List<CellModel> _firstRow ) throws CompilerException
 		{
 			final Collection<ExpressionNode> result = new ArrayList<ExpressionNode>();
 			while (_critIterator.hasNext()) {
-				result.add( buildRowFilter( _critCols, _critIterator, _colTypes ) );
+				result.add( buildRowFilter( _critCols, _critIterator, _colTypes, _firstRow ) );
 			}
 			return result;
 		}
 
 		private ExpressionNode buildRowFilter( int[] _critCols, Iterator<ExpressionNode> _critIterator,
-				DataType[] _colTypes ) throws CompilerException
+				DataType[] _colTypes, List<CellModel> _firstRow ) throws CompilerException
 		{
-			return join( Function.AND, buildColFilters( _critCols, _critIterator, _colTypes ) );
+			return join( Function.AND, buildColFilters( _critCols, _critIterator, _colTypes, _firstRow ) );
 		}
 
 		private Collection<ExpressionNode> buildColFilters( int[] _critCols, Iterator<ExpressionNode> _critIterator,
-				DataType[] _colTypes ) throws CompilerException
+				DataType[] _colTypes, List<CellModel> _firstRow ) throws CompilerException
 		{
 			final int len = _critCols.length;
 			final Collection<ExpressionNode> result = new ArrayList<ExpressionNode>( len );
 			for (int iCrit = 0; iCrit < len; iCrit++) {
 				final int iCol = _critCols[ iCrit ];
 				final ExpressionNode criterion = _critIterator.next();
-				final ExpressionNode colFilter = (iCol == FREE_FORM) ? buildFreeFormFilter( criterion )
+				final ExpressionNode colFilter = (iCol == FREE_FORM) ? buildFreeFormFilter( criterion, _firstRow )
 						: buildFilterByExample( iCol, criterion, _colTypes[ iCol ] );
 				if (null != colFilter) {
 					result.add( colFilter );
@@ -366,10 +387,34 @@ final class FunctionRewriterForDSUM extends AbstractExpressionRewriter
 		}
 
 
-		private ExpressionNode buildFreeFormFilter( ExpressionNode _criterion ) throws CompilerException
+		private ExpressionNode buildFreeFormFilter( ExpressionNode _criterion, List<CellModel> _firstRow )
+				throws CompilerException
 		{
-			// FIXME Free-form
-			throw new CompilerException.UnsupportedExpression( "Free form filters not supported yet." );
+			final ExpressionNode critExpr = expressionOf( _criterion );
+			return replaceTableCellsByColRefs( critExpr, _firstRow );
+		}
+
+		private ExpressionNode replaceTableCellsByColRefs( ExpressionNode _node, List<CellModel> _firstRow )
+				throws CompilerException
+		{
+			if (_node instanceof ExpressionNodeForCellModel) {
+				final ExpressionNodeForCellModel cellNode = (ExpressionNodeForCellModel) _node;
+				final CellModel cellModel = cellNode.getCellModel();
+				final int iCol = _firstRow.indexOf( cellModel );
+				if (iCol >= 0) {
+					return var( "col" + iCol );
+				}
+				else {
+					return _node;
+				}
+			}
+			else {
+				final ExpressionNode clone = _node.cloneWithoutArguments();
+				for (ExpressionNode arg : _node.arguments()) {
+					clone.addArgument( replaceTableCellsByColRefs( arg, _firstRow ) );
+				}
+				return clone;
+			}
 		}
 
 
