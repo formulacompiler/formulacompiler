@@ -84,6 +84,14 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 		switch (_fun.getFunction()) {
 			case DSUM:
 				return new FunctionRewriterForDSUM( _fun, this.numericType ).rewrite();
+			case DPRODUCT:
+				return new FunctionRewriterForDPRODUCT( _fun, this.numericType ).rewrite();
+			case DCOUNT:
+				return new FunctionRewriterForDCOUNT( _fun, this.numericType ).rewrite();
+			case DMIN:
+				return new FunctionRewriterForDMIN( _fun, this.numericType ).rewrite();
+			case DMAX:
+				return new FunctionRewriterForDMAX( _fun, this.numericType ).rewrite();
 		}
 		return this.generatedRules.rewrite( _fun );
 	}
