@@ -24,6 +24,7 @@ Since SEJ only supports "Microsoft Excel":-excel spreadsheets as input at the mo
 <%= summary 'Boolean Functions And IF', 'booleans', ['BooleanFunctions', 'FunctionIF'] %>
 <%= summary 'Date Functions', 'datefuncs', ['DateFunctions'] %>
 <%= summary 'Aggregators', 'aggregators', ['FunctionSUM', 'Aggregators'] %>
+<%= summary 'Database Table Aggregators', 'dbaggregators', ['DatabaseAggregators'] %>
 <%= summary 'Lookup Functions', 'lookupfuncs', ['LookupFunctions'] %>
 
 

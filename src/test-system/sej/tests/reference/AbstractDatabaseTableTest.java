@@ -147,6 +147,7 @@ public abstract class AbstractDatabaseTableTest extends AbstractSheetBasedTest
 				super( _formulaRow, _valueRow, _rowNumber, _engines );
 			}
 
+			
 			@Override
 			protected void extractInputsFrom( RowImpl _valueRow )
 			{
