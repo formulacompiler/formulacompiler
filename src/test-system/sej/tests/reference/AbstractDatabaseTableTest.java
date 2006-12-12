@@ -152,12 +152,12 @@ public abstract class AbstractDatabaseTableTest extends AbstractSheetBasedTest
 			{
 				int iInput = 0;
 
-				final Collection<CellInstance> adds = new ArrayList<CellInstance>();
+				final Collection<CellIndex> adds = new ArrayList<CellIndex>();
 				extractInputsFromNamedRange( _valueRow.getCellOrNull( firstInputCol() + TABLE_NAME_OFFS ), adds );
 				extractInputsFromNamedRange( _valueRow.getCellOrNull( firstInputCol() + CRIT_NAME_OFFS ), adds );
 
-				final CellInstance colRefCell = _valueRow.getCellOrNull( firstInputCol() );
-				if (null != colRefCell) {
+				final CellIndex colRefCell = _valueRow.getCellIndex( firstInputCol() );
+				if (null != colRefCell.getCell()) {
 					sizeInputs( 1 + adds.size() );
 					extractInputFrom( colRefCell, iInput++ );
 					this.nRowInputs = 1;
@@ -166,12 +166,12 @@ public abstract class AbstractDatabaseTableTest extends AbstractSheetBasedTest
 					sizeInputs( adds.size() );
 				}
 
-				for (CellInstance add : adds) {
+				for (CellIndex add : adds) {
 					extractInputFrom( add, iInput++ );
 				}
 			}
 
-			private void extractInputsFromNamedRange( CellInstance _rangeNameCell, Collection<CellInstance> _cells )
+			private void extractInputsFromNamedRange( CellInstance _rangeNameCell, Collection<CellIndex> _cells )
 			{
 				if (_rangeNameCell instanceof CellWithConstant) {
 					final CellWithConstant constCell = (CellWithConstant) _rangeNameCell;
@@ -182,8 +182,7 @@ public abstract class AbstractDatabaseTableTest extends AbstractSheetBasedTest
 						final CellRange range = (CellRange) sheet.getRange( rangeName );
 						final Iterator<CellIndex> cells = range.iterator();
 						while (cells.hasNext()) {
-							final CellInstance cell = cells.next().getCell();
-							if (cell != null) _cells.add( cell );
+							_cells.add( cells.next() );
 						}
 					}
 				}
@@ -196,7 +195,7 @@ public abstract class AbstractDatabaseTableTest extends AbstractSheetBasedTest
 				if (_iInput < this.nRowInputs) {
 					return _valueRow.getCellOrNull( _iInput + firstInputCol() );
 				}
-				return this.inputCells[ _iInput ];
+				return this.inputCells[ _iInput ].getCell();
 			}
 
 
