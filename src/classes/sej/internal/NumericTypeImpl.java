@@ -45,7 +45,7 @@ public abstract class NumericTypeImpl implements NumericType
 	private final int roundingMode;
 
 	// LATER Switch to MathContext
-	
+
 	/**
 	 * To ensure compatibility with JRE 1.4 I cannot use a MathContext here.
 	 */
@@ -428,7 +428,7 @@ public abstract class NumericTypeImpl implements NumericType
 		public long parse( String _value )
 		{
 			String value = _value;
-			if (value.indexOf( 'E' ) >= 0) {
+			if (value.indexOf( 'E' ) >= 0 || value.indexOf( 'e' ) >= 0) {
 				value = new BigDecimal( value ).toPlainString();
 			}
 			final int posOfDecPoint = value.indexOf( '.' );
