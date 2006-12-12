@@ -154,8 +154,8 @@ public abstract class AbstractDatabaseTableTest extends AbstractSheetBasedTest
 				int iInput = 0;
 
 				final Collection<CellIndex> adds = new ArrayList<CellIndex>();
-				//FIXME extractInputsFromNamedRange( _valueRow.getCellOrNull( firstInputCol() + TABLE_NAME_OFFS ), adds );
-				//	FIXME extractInputsFromNamedRange( _valueRow.getCellOrNull( firstInputCol() + CRIT_NAME_OFFS ), adds );
+				extractInputsFromNamedRange( _valueRow.getCellOrNull( firstInputCol() + TABLE_NAME_OFFS ), adds );
+				extractInputsFromNamedRange( _valueRow.getCellOrNull( firstInputCol() + CRIT_NAME_OFFS ), adds );
 
 				final CellIndex colRefCell = _valueRow.getCellIndex( firstInputCol() );
 				if (null != colRefCell.getCell()) {
