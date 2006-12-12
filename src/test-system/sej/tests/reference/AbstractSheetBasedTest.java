@@ -38,6 +38,7 @@ import sej.SpreadsheetBinder.Section;
 import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.logging.Log;
+import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellRefFormat;
 import sej.internal.spreadsheet.CellWithConstant;
@@ -343,7 +344,7 @@ public abstract class AbstractSheetBasedTest extends TestCase
 			private final SaveableEngine[] fullyParametrizedTestEngines;
 			private final String skipFor;
 			protected Object[] inputs;
-			protected CellInstance[] inputCells;
+			protected CellIndex[] inputCells;
 			protected ValueType[] inputTypes;
 
 			public AbstractRowRunner(RowImpl _formulaRow, RowImpl _valueRow, int _rowNumber, SaveableEngine[] _engines)
@@ -371,19 +372,22 @@ public abstract class AbstractSheetBasedTest extends TestCase
 
 			protected final void sizeInputs( final int _nInput )
 			{
-				this.inputCells = new CellInstance[ _nInput ];
+				this.inputCells = new CellIndex[ _nInput ];
 				this.inputs = new Object[ _nInput ];
 				this.inputTypes = new ValueType[ _nInput ];
 			}
-			
-			protected final void extractInputFrom( CellInstance _inputCell, int _iInput )
+
+			protected final void extractInputFrom( CellIndex _inputCell, int _iInput )
 			{
+				assert null != _inputCell;
+				final CellInstance inputCell = _inputCell.getCell();
+				final Object inputValue = valueOf( inputCell );
 				this.inputCells[ _iInput ] = _inputCell;
-				this.inputs[ _iInput ] = (null == _inputCell) ? null : valueOf( _inputCell );
-				this.inputTypes[ _iInput ] = valueTypeOf( this.inputs[ _iInput ] );
+				this.inputs[ _iInput ] = inputValue;
+				this.inputTypes[ _iInput ] = valueTypeOf( inputValue );
 			}
 
-			
+
 			private static final long SECS_PER_DAY = 24 * 60 * 60;
 			private static final long MS_PER_SEC = 1000;
 			private static final long MS_PER_DAY = SECS_PER_DAY * MS_PER_SEC;
@@ -420,8 +424,8 @@ public abstract class AbstractSheetBasedTest extends TestCase
 			}
 
 			protected abstract CellInstance getValueCell( RowImpl _valueRow, int _iInput );
-			
-			
+
+
 			public final SaveableEngine[] run() throws Exception
 			{
 				testExpressionConversion();
@@ -463,7 +467,8 @@ public abstract class AbstractSheetBasedTest extends TestCase
 
 			private final TestRunner newTestRunner( int _activationBits )
 			{
-				return newTestRunner( this.rowName + " @ " + Integer.toBinaryString( _activationBits ), _activationBits, null );
+				return newTestRunner( this.rowName + " @ " + Integer.toBinaryString( _activationBits ), _activationBits,
+						null );
 			}
 
 			private final TestRunner newTestRunner( int _activationBits, SaveableEngine[] _fullyParametrizedTestEngines )
@@ -715,15 +720,15 @@ public abstract class AbstractSheetBasedTest extends TestCase
 						else {
 							final RowImpl formulaRow = AbstractRowRunner.this.formulaRow;
 							final Object[] inputs = AbstractRowRunner.this.inputs;
-							final CellInstance[] inputCells = AbstractRowRunner.this.inputCells;
+							final CellIndex[] inputCells = AbstractRowRunner.this.inputCells;
 							final CellWithConstant[] originalCells = new CellWithConstant[ inputs.length ];
 							final Object[] originalCellValues = new Object[ inputs.length ];
 							try {
 								for (int i = 0; i < inputs.length; i++) {
 									if (((1 << i) & TestRunner.this.inputActivationBits) != 0) {
 										final ValueType inputType = AbstractRowRunner.this.inputTypes[ i ];
-										b.defineInputCell( inputCells[ i ].getCellIndex(), new CallFrame( b.getInputClass()
-												.getMethod( "get" + inputType.toString(), Integer.TYPE ), i ) );
+										b.defineInputCell( inputCells[ i ], new CallFrame( b.getInputClass().getMethod(
+												"get" + inputType.toString(), Integer.TYPE ), i ) );
 										final CellInstance valueCell = getValueCell( formulaRow, i );
 										if (valueCell instanceof CellWithConstant) {
 											final CellWithConstant constCell = (CellWithConstant) valueCell;

@@ -154,7 +154,7 @@ public abstract class AbstractReferenceTest extends AbstractSheetBasedTest
 					final int inputCount = ((Number) valueOf( inputCountCell )).intValue();
 					sizeInputs( inputCount );
 					for (int i = 0; i < inputCount; i++) {
-						extractInputFrom( _valueRow.getCellOrNull( INPUTS_COL + i ), i );
+						extractInputFrom( _valueRow.getCellIndex( INPUTS_COL + i ), i );
 					}
 				}
 			}
