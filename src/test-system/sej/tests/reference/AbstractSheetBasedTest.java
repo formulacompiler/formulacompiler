@@ -294,13 +294,14 @@ public abstract class AbstractSheetBasedTest extends TestCase
 		private void emitNameToHtml()
 		{
 			final DescriptionBuilder h = this.html;
+			final int leftMostCol = 'A' + expectedCol();
 			if (h.length() > 0) {
 				h.appendLine( "</tbody></table><p/>" );
 			}
 			h.append( "<h5 class=\"ref\">" ).append( htmlize( this.sequenceName ) ).appendLine( "</h5>" );
 			h.append( "<table class=\"xl ref\"><thead><tr><td/>" );
 			for (int col = 0; col < this.columnCount; col++) {
-				h.append( "<td>" ).append( (char) ('A' + col) ).append( "</td>" );
+				h.append( "<td>" ).append( (char) (leftMostCol + col) ).append( "</td>" );
 			}
 			h.appendLine( "</tr></thead><tbody>" );
 			this.lastNormalizedExprShown = "";
@@ -540,8 +541,8 @@ public abstract class AbstractSheetBasedTest extends TestCase
 					h.append( "<td" ).append( expectedCls ).append( ">" ).append( expected ).append( "</td>" );
 					h.append( "<td class=\"xl-exp\">" ).append( expr ).append( exprPrec ).append( "</td>" );
 
-					final int columnCount = AbstractSheetRunner.this.columnCount;
-					for (int col = firstInputCol(); col < columnCount; col++) {
+					final int rightMostColumn = expectedCol() + AbstractSheetRunner.this.columnCount - 1;
+					for (int col = firstInputCol(); col <= rightMostColumn; col++) {
 						final CellInstance inputCell = valueRow.getCellOrNull( col );
 						if (inputCell != null) {
 							final Object input = inputCell.getValue();

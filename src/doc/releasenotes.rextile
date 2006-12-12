@@ -17,8 +17,10 @@ h5. *Changed!*
 	
 h5. New
 
-	* @NPV()@, @MIRR()@, and @IRR()@ are now supported (not over dynamic sections, though).
-	* @_MAKE_ARRAY()@ and @_FOLD_ARRAY()@ added to internal rewriting language.
+	* @NPV()@, @MIRR()@, and @IRR()@ are now supported (not yet over dynamic sections, though).
+	* @DSUM()@, @DPRODUCT()@, @DCOUNT()@, @DMIN()@, @DMAX()@ are now supported (not yet over dynamic sections, though).
+	* @_MAKE_ARRAY()@, @_FOLD_ARRAY()@ added to internal rewriting language.
+	* Added @_DFOLD()@ to the internal expression AST, but not the rewriting language. This is because rewriting a database fold like @DSUM()@ is too complex for a simple rewrite. The rewriting is done in a specialized Java class.
 	
 h5. Better
 

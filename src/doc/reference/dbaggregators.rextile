@@ -1,0 +1,21 @@
+
+h1. Database Table Aggregators In SEJ
+
+
+Database table aggregators are functions that compute values over contiguous ranges of values that are structured like a database table. This means they have a header row of column labels. The table aggregators can filter the table prior to aggregating it.
+
+<%= toc 2, 5 %>
+
+
+h2. Test Sheet
+
+The following test cases reference this sheet:
+
+	[xc:testdata/sej/tests/reference/DatabaseAggregators.xls:BaseData]
+
+	
+h2. Aggregators
+
+	[inc:DatabaseAggregators.htm]
+
+
