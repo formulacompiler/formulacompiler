@@ -40,6 +40,7 @@ import sej.runtime.Resettable;
 import sej.runtime.ScaledLong;
 import junit.framework.TestCase;
 
+@SuppressWarnings("unchecked")
 public class BonusPerEmployee extends TestCase
 {
 	private static final String SHEETPATH = "src/test-system/testdata/sej/tutorials/BonusPerEmployee.xls";

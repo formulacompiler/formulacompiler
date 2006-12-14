@@ -283,6 +283,7 @@ class SectionCompiler extends ClassCompiler
 		endMethod( mv );
 	}
 
+	@SuppressWarnings("unchecked")
 	private void callInheritedConstructor( GeneratorAdapter _mv, int _inputsVar ) throws CompilerException
 	{
 		try {
@@ -302,6 +303,7 @@ class SectionCompiler extends ClassCompiler
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	protected boolean callConstructorWithInputs( GeneratorAdapter _mv, int _inputsVar )
 	{
 		try {

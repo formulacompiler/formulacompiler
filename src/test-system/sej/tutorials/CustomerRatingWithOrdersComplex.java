@@ -37,6 +37,7 @@ import sej.runtime.Engine;
 import sej.runtime.Resettable;
 import junit.framework.TestCase;
 
+@SuppressWarnings("unchecked")
 public class CustomerRatingWithOrdersComplex extends TestCase
 {
 	private static final Calendar TODAY = today();

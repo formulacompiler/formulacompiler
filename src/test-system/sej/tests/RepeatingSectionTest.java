@@ -198,6 +198,7 @@ public class RepeatingSectionTest extends TestCase
 		return call( Output.class, _name );
 	}
 
+	@SuppressWarnings("unchecked")
 	private CallFrame call( Class _class, String _name ) throws NoSuchMethodException
 	{
 		return new CallFrame( _class.getMethod( _name ) );

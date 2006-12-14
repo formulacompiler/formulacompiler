@@ -55,7 +55,6 @@ public class RepeatingSectionTestSuite extends TestSuite
 	{
 		try {
 			addTestsIn( "SectionTests.xls" );
-			// LATER addTestsIn( "Tests.xml" );
 		}
 		catch (Exception e) {
 			e.printStackTrace();

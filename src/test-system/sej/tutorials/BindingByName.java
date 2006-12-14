@@ -35,6 +35,7 @@ import sej.runtime.ComputationFactory;
 import junit.framework.TestCase;
 
 
+@SuppressWarnings("unchecked")
 public class BindingByName extends TestCase
 {
 

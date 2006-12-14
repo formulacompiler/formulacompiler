@@ -53,6 +53,7 @@ import sej.runtime.Resettable;
 import sej.runtime.ScaledLong;
 import junit.framework.TestCase;
 
+@SuppressWarnings("unchecked")
 public abstract class AbstractSheetBasedTest extends TestCase
 {
 	public static final Log LOG = new Log();
