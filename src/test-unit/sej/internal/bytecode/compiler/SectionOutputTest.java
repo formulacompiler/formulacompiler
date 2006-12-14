@@ -182,6 +182,7 @@ public class SectionOutputTest extends AbstractTestBase
 		dets.defineOutputCell( _sht.getCell( "SectionOutput" + _type ), call( DetailOutput.class, "output" ) );
 	}
 
+	@SuppressWarnings("unchecked")
 	private CallFrame call( Class _cls, String _mtd ) throws Exception
 	{
 		return new CallFrame( _cls.getMethod( _mtd ) );

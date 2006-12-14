@@ -81,6 +81,7 @@ final class SubSectionCompiler extends SectionCompiler
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected boolean callConstructorWithInputs( GeneratorAdapter _mv, int _inputsVar )
 	{

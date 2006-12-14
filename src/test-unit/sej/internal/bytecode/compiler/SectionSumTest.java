@@ -151,6 +151,7 @@ public class SectionSumTest extends AbstractTestBase
 		_bnd.defineOutputCell( _sht.getCell( _prefix + "Sums" ), call( RootOutput.class, _prefix + "Sums" ) );
 	}
 
+	@SuppressWarnings("unchecked")
 	private CallFrame call( Class _cls, String _mtd ) throws Exception
 	{
 		return new CallFrame( _cls.getMethod( _mtd ) );

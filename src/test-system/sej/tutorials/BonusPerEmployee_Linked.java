@@ -40,6 +40,7 @@ import sej.tutorials.BonusPerEmployee.EmployeeBonusData;
 import sej.tutorials.BonusPerEmployee.EmployeeBonusDataImpl;
 import junit.framework.TestCase;
 
+@SuppressWarnings("unchecked")
 public class BonusPerEmployee_Linked extends TestCase
 {
 	private static final String SHEETPATH = "src/test-system/testdata/sej/tutorials/BonusPerEmployee.xls";

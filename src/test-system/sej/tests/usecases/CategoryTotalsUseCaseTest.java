@@ -30,6 +30,7 @@ import sej.runtime.Resettable;
 public class CategoryTotalsUseCaseTest extends AbstractUseCaseTest
 {
 
+	@SuppressWarnings("unchecked")
 	CallFrame call( Class _cls, String _name ) throws Exception
 	{
 		return new CallFrame( _cls.getMethod( _name ) );

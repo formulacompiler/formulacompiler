@@ -33,6 +33,7 @@ import sej.Spreadsheet;
 import sej.SpreadsheetBinder;
 
 
+@SuppressWarnings("unchecked")
 public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 {
 
