@@ -43,7 +43,19 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 	protected void defineFunctions() throws Exception
 	{
 		// ---- fun_COMBIN
+		
+		defineAggregators();
+		defineStatistical();
+		defineFinancial();
 
+		// Leave this comment in. It is used to cite the code into the documentation.
+		// ---- fun_COMBIN
+	}
+	// ---- fun_COMBIN
+
+
+	private void defineAggregators() throws Exception
+	{
 		/*
 		 * PRODUCT must return 0 for empty sections, so I cannot use _FOLD_OR_REDUCE as the initial
 		 * value would then be 1.
@@ -112,7 +124,12 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		end();
 		// ---- fun_VAR
 
-
+	}
+	
+	
+	private void defineStatistical() throws Exception
+	{
+		
 		// Leave this comment in. It is used to cite the code into the documentation.
 		// ---- fun_COMBIN
 		// ...
@@ -130,7 +147,12 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		// ...
 		// ---- fun_COMBIN
 
-
+	}
+	
+	
+	private void defineFinancial() throws Exception
+	{
+		
 		// Leave this comment in. It is used to cite the code into the documentation.
 		// ---- fun_NPV
 		// ...
@@ -158,12 +180,8 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 			body( "  - 1 )))" );
 		}
 		end();
-
-
-		// Leave this comment in. It is used to cite the code into the documentation.
-		// ---- fun_COMBIN
+		
 	}
-	// ---- fun_COMBIN
 
 
 }
