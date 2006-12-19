@@ -263,7 +263,7 @@ public class SEJ extends SEJRuntime
 	 * @param _config contains the configuration for the new instance.
 	 * @return the new instance.
 	 */
-	private static SpreadsheetByNameBinder newSpreadsheetByNameBinder( SpreadsheetByNameBinder.Config _config )
+	public static SpreadsheetByNameBinder newSpreadsheetByNameBinder( SpreadsheetByNameBinder.Config _config )
 	{
 		return new SpreadsheetByNameBinderImpl( _config );
 	}
