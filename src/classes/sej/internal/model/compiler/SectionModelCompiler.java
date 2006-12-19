@@ -160,7 +160,7 @@ public final class SectionModelCompiler
 		model.makeInput( _sectionDef.getCallChainToCall() );
 		if (_sectionDef.getCallToImplement() != null) {
 			model.makeOutput( _sectionDef.getCallToImplement() );
-		}		
+		}
 		return new SectionModelCompiler( this.compiler, this, _sectionDef, model );
 	}
 
@@ -347,7 +347,7 @@ public final class SectionModelCompiler
 			}
 			else {
 				result = new SectionPath( this );
-				result.setTargetRange( _range );
+				result.setTargetRange( _range != null ? _range : new CellRange( _cell, _cell ) );
 				result.stepInto( innerDef );
 				result.buildStepsInto( _cell );
 			}
@@ -359,14 +359,6 @@ public final class SectionModelCompiler
 			result.buildStepsTo( _cell );
 		}
 		return result;
-	}
-	
-	
-	private void compileRange( CellRange _range ) throws CompilerException
-	{
-		// Intersect the range with my own range.
-		// Compile any outlying rects as parent references. Corner rects are treated separately from side rects.
-		
 	}
 
 

@@ -54,10 +54,9 @@ public class ErrorImproperInnerSectionReference extends TestCase
 			builder.compile();
 			fail();
 		}
-		catch (/**/CompilerException.ReferenceToInnerCellNotAggregated e/**/) {
-			String err = /**/"Cannot reference an inner cell of a section from an outer cell without aggregating it.\n"
-					+ "In expression  >> C2 << ; error location indicated by >>..<<.\n"
-					+ "Cell containing expression is B10.\n" + "Referenced by cell B10."/**/;
+		catch (/**/CompilerException.SectionExtentNotCovered e/**/) {
+			String err = /**/"Range C2:C2 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
+					+ "Referenced by cell B10."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- badRef
@@ -120,8 +119,8 @@ public class ErrorImproperInnerSectionReference extends TestCase
 			fail();
 		}
 		catch (/**/CompilerException.SectionExtentNotCovered e/**/) {
-			String err = /**/"Cell C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
-					+ "Referenced by cell B11."/**/;
+			String err = /**/"Range C3:C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
+					+ "Referenced by cell B14."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- badRange4
@@ -144,8 +143,8 @@ public class ErrorImproperInnerSectionReference extends TestCase
 		CallFrame call = new CallFrame( MyInputs.class.getMethod( "section" ) );
 		Class target = MyElement.class;
 		Section section = root.defineRepeatingSection( range, Orientation.REPEAT_ROWS, call, target, null, null );
-		section.defineInputCell( sheet.getCell( "Name" ), new CallFrame( target.getMethod( "name" ) ) );
-		section.defineInputCell( sheet.getCell( "Value" ), new CallFrame( target.getMethod( "value" ) ) );
+		section.defineInputCell( sheet.getRange( "Name" ).getTopLeft(), new CallFrame( target.getMethod( "name" ) ) );
+		section.defineInputCell( sheet.getRange( "Value" ).getTopLeft(), new CallFrame( target.getMethod( "value" ) ) );
 		// ---- bindSection
 
 		return builder;

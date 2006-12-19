@@ -22,6 +22,7 @@ package sej.internal.model.compiler;
 
 import java.text.NumberFormat;
 
+import sej.CompilerException;
 import sej.Function;
 import sej.Operator;
 import sej.Orientation;
@@ -260,20 +261,26 @@ public class ComputationModelCompilerTest extends AbstractTestBase
 		outputsDef.defineOutputCell( o1.getCellIndex(), getOutput( "getA" ) );
 
 		ComputationModelCompiler compiler = new ComputationModelCompiler( def.getBinding(), SEJ.DOUBLE );
-		ComputationModel model = compiler.buildNewModel();
-		SectionModel root = model.getRoot();
-
-		assertEquals( 0, root.getCells().size() );
-		assertEquals( 2, root.getSections().size() );
-
-		SectionModel outputs = root.getSections().get( 0 );
-		SectionModel inputs = root.getSections().get( 1 );
-
-		assertEquals( "Inputs.getDetails()", outputs.getName() );
-		assertEquals( "Inputs.getDetails()", inputs.getName() );
-
-		final CellModel output = outputs.getCells().get( 0 );
-		assertEquals( "SUM( <~Inputs.getDetails()~>Inputs.getOne() )", output.getExpression().describe() );
+		try {
+			ComputationModel model = compiler.buildNewModel();
+			SectionModel root = model.getRoot();
+	
+			assertEquals( 0, root.getCells().size() );
+			assertEquals( 2, root.getSections().size() );
+	
+			SectionModel outputs = root.getSections().get( 0 );
+			SectionModel inputs = root.getSections().get( 1 );
+	
+			assertEquals( "Inputs.getDetails()", outputs.getName() );
+			assertEquals( "Inputs.getDetails()", inputs.getName() );
+	
+			final CellModel output = outputs.getCells().get( 0 );
+			assertEquals( "SUM( <~Inputs.getDetails()~>Inputs.getOne() )", output.getExpression().describe() );
+			fail();
+		}
+		catch (CompilerException.ReferenceToOuterInnerCell e) {
+			// expected
+		}
 	}
 
 

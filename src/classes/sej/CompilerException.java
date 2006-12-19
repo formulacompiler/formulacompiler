@@ -300,11 +300,30 @@ public class CompilerException extends SEJException
 	public static final class ReferenceToInnerCellNotAggregated extends CompilerException
 	{
 
-		public ReferenceToInnerCellNotAggregated(String _message)
+		public ReferenceToInnerCellNotAggregated()
 		{
-			super( _message );
+			super( "Cannot reference an inner cell of a section from an outer cell without aggregating it." );
 		}
 
 	}
+
+
+	/**
+	 * A cell references another cell which is itside the first cell's section, but contained within
+	 * a sibling subsection of their common parent section. This is not yet supported, even in
+	 * aggregations. You should instead reference an outer aggregation over the sibling section.
+	 * 
+	 * @author peo
+	 */
+	public static final class ReferenceToOuterInnerCell extends CompilerException
+	{
+
+		public ReferenceToOuterInnerCell()
+		{
+			super( "Cannot reference a cell in a sibling section of the current one." );
+		}
+
+	}
+
 
 }

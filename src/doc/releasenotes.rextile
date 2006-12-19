@@ -14,6 +14,7 @@ h5. *Changed!*
 
 	* Dropped support for @Operator.MIN@, @Operator.MAX@, and @Operator.NOOP@. Use @Function.MIN@ and @Function.MAX@ instead.
 	* Renamed "internal rewrite functions":hacking/rewrite_functions.htm @_FOLD_1ST@ to @_REDUCE@ and @_FOLD_1STOK@ to @_FOLD_OR_REDUCE@. Simplified @_REDUCE@.
+	* Dropped support for automatically aggregating outer sibling sections. You need to use an outer cell which aggregates the sibling section explicitly. This will probably be enabled more fully again later on.
 	
 h5. New
 
