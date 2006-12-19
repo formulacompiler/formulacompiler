@@ -4,8 +4,8 @@ h1. SEJ - Spreadsheet Engine for Java
 
 <div class="news">
 
-"Release 0.8.2":releasenotes.htm ...
-<br/>%(when)November ?, 2006%
+"Release 0.8.2":releasenotes.htm with new array and database table functions.
+<br/>%(when)December 20, 2006%
 
 "Release 0.8.1":releasenotes.htm supports "string comparisons":reference/strings.htm.
 <br/>%(when)November 17, 2006%
@@ -21,6 +21,7 @@ The Spreadsheet Engine for Java (SEJ, for short) makes it possible to use comput
 	* "Function Reference (Supported Formulas)":reference/index.htm
 	* "API Reference (JavaDoc)":javadoc/index.html
 	* "Design Document":design.htm
+	* "Sample Applications":examples/index.htm
 
 	* "Release Notes":releasenotes.htm
 	* "Limitations":limitations.htm

@@ -272,8 +272,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 		int isTo = to.getIndex( this.orientation );
 
 		if ((isFrom != wantFrom) || (isTo != wantTo)) {
-			throw new CompilerException.SectionExtentNotCovered( _range.toString(), this.toString(), this.getRange()
-					.toString() );
+			throw new CompilerException.SectionExtentNotCovered( _range.toString(), this.toString(), this.orientation );
 		}
 		if (!contains( _range.getFrom() ) || !contains( _range.getTo() )) {
 			throw new CompilerException.NotInSection( null, _range.toString(), this.toString(), this.getRange().toString() );
@@ -327,8 +326,9 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
 		getRange().describeTo( _to );
-		_to.append( " repeats " );
+		_to.append( " (which iterates " );
 		getCallChainToCall().describeTo( _to );
+		_to.append( ")" );
 	}
 
 }

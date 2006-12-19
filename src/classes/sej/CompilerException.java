@@ -118,11 +118,11 @@ public class CompilerException extends SEJException
 	public static class SectionExtentNotCovered extends CompilerException
 	{
 
-		public SectionExtentNotCovered(String _rangeAt, String _sectionName, String _sectionAt)
+		public SectionExtentNotCovered(String _rangeAt, String _sectionName, Orientation _orientation)
 		{
 			super( "Range "
-					+ _rangeAt + " does not fully cover the variable extent of its parent section " + _sectionName + " at "
-					+ _sectionAt + "." );
+					+ _rangeAt + " does not fully cover the " + (_orientation == Orientation.VERTICAL ? "height" : "width")
+					+ " of its parent section " + _sectionName + "." );
 		}
 	}
 

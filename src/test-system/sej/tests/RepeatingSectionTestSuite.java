@@ -43,6 +43,13 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+
+// FIXME ErrorImproperSectionDefinition
+// FIXME SectionReferences
+// FIXME Test section consistency: all rows equal except in input cells
+// FIXME Test section consistency: 1: repetitions in 1:n are equal to first elt or NULL
+
+
 public class RepeatingSectionTestSuite extends TestSuite
 {
 	private static final int FIRST_TEST_ROW = 5;
@@ -100,7 +107,7 @@ public class RepeatingSectionTestSuite extends TestSuite
 
 						final TestSuite rangeSuite = new RangeTestSuite( testName, formulaCell, rangeName );
 
-						// if (iRow == 32) // FIX-ME
+						if (iRow == 56) // FIXME
 						fileSuite.addTest( rangeSuite );
 
 					}

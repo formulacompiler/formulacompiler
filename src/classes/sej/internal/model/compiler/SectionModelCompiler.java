@@ -246,7 +246,7 @@ public final class SectionModelCompiler
 
 	ExpressionNode buildExpressionModel( CellIndex _cellIndex ) throws CompilerException
 	{
-		SectionPath sectionPath = getSectionPathFor( _cellIndex );
+		final SectionPath sectionPath = getSectionPathFor( _cellIndex );
 		if (null == sectionPath) {
 			return buildExpressionModelForContainedCell( _cellIndex );
 		}
@@ -359,6 +359,14 @@ public final class SectionModelCompiler
 			result.buildStepsTo( _cell );
 		}
 		return result;
+	}
+	
+	
+	private void compileRange( CellRange _range ) throws CompilerException
+	{
+		// Intersect the range with my own range.
+		// Compile any outlying rects as parent references. Corner rects are treated separately from side rects.
+		
 	}
 
 
