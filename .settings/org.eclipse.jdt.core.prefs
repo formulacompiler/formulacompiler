@@ -1,4 +1,4 @@
-#Wed Nov 15 11:27:25 CET 2006
+#Tue Dec 19 15:11:12 CET 2006
 eclipse.preferences.version=1
 org.eclipse.jdt.core.builder.cleanOutputFolder=clean
 org.eclipse.jdt.core.builder.duplicateResourceTask=warning
@@ -90,7 +90,7 @@ org.eclipse.jdt.core.formatter.alignment_for_arguments_in_qualified_allocation_e
 org.eclipse.jdt.core.formatter.alignment_for_assignment=0
 org.eclipse.jdt.core.formatter.alignment_for_binary_expression=32
 org.eclipse.jdt.core.formatter.alignment_for_compact_if=16
-org.eclipse.jdt.core.formatter.alignment_for_conditional_expression=80
+org.eclipse.jdt.core.formatter.alignment_for_conditional_expression=48
 org.eclipse.jdt.core.formatter.alignment_for_enum_constants=0
 org.eclipse.jdt.core.formatter.alignment_for_expressions_in_array_initializer=16
 org.eclipse.jdt.core.formatter.alignment_for_multiple_fields=16
@@ -111,6 +111,7 @@ org.eclipse.jdt.core.formatter.blank_lines_before_member_type=1
 org.eclipse.jdt.core.formatter.blank_lines_before_method=0
 org.eclipse.jdt.core.formatter.blank_lines_before_new_chunk=0
 org.eclipse.jdt.core.formatter.blank_lines_before_package=0
+org.eclipse.jdt.core.formatter.blank_lines_between_import_groups=1
 org.eclipse.jdt.core.formatter.blank_lines_between_type_declarations=1
 org.eclipse.jdt.core.formatter.brace_position_for_annotation_type_declaration=end_of_line
 org.eclipse.jdt.core.formatter.brace_position_for_anonymous_type_declaration=next_line
@@ -301,6 +302,7 @@ org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_switch=inser
 org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_synchronized=insert
 org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_while=insert
 org.eclipse.jdt.core.formatter.insert_space_before_parenthesized_expression_in_return=insert
+org.eclipse.jdt.core.formatter.insert_space_before_parenthesized_expression_in_throw=insert
 org.eclipse.jdt.core.formatter.insert_space_before_postfix_operator=do not insert
 org.eclipse.jdt.core.formatter.insert_space_before_prefix_operator=do not insert
 org.eclipse.jdt.core.formatter.insert_space_before_question_in_conditional=insert

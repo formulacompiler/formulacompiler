@@ -65,7 +65,7 @@ public class RepeatingSectionTestSuite extends TestSuite
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			addTest( warning( e.getMessage() ) );
+			addTest( warn( e.getMessage() ) );
 		}
 	}
 
@@ -257,7 +257,7 @@ public class RepeatingSectionTestSuite extends TestSuite
 	}
 
 
-	private static Test warning( final String message )
+	private static Test warn( final String message )
 	{
 		return new TestCase( "warning" )
 		{

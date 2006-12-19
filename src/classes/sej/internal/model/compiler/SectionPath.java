@@ -120,12 +120,22 @@ final class SectionPath
 	}
 
 
+	/**
+	 * For the moment, we don't allow stepping back into subsections. That would require knowledge
+	 * about whether we're aggregating.
+	 * 
+	 * @see ComputationModelCompilerTest#testBandCellWithSumOverOuterBand()
+	 */
 	public void buildStepsTo( CellIndex _cellIndex ) throws CompilerException
 	{
 		while (!this.targetSectionCompiler.getSectionDef().contains( _cellIndex )) {
 			stepOut();
 		}
-		buildStepsInto( _cellIndex );
+		final SectionBinding containingSection = this.targetSectionCompiler.getSectionDef().getContainingSection(
+				_cellIndex );
+		if (null != containingSection) {
+			throw new CompilerException.ReferenceToOuterInnerCell();
+		}
 	}
 
 

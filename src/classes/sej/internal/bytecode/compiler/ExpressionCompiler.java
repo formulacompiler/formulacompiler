@@ -490,8 +490,7 @@ abstract class ExpressionCompiler
 
 	private final void compileRef( ExpressionNodeForSubSectionModel _node ) throws CompilerException
 	{
-		throw new CompilerException.ReferenceToInnerCellNotAggregated(
-				"Cannot reference an inner cell of a section from an outer cell without aggregating it." );
+		throw new CompilerException.ReferenceToInnerCellNotAggregated( );
 	}
 
 
