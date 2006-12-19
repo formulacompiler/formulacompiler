@@ -17,8 +17,8 @@ h5. *Changed!*
 	
 h5. New
 
-	* @NPV()@, @MIRR()@, and @IRR()@ are now supported (not yet over dynamic sections, though).
-	* @DSUM()@, @DPRODUCT()@, @DCOUNT()@, @DMIN()@, @DMAX()@ are now supported (not yet over dynamic sections, though).
+	* @NPV()@, @MIRR()@, and @IRR()@ are now "supported":reference/financialfuncs.htm (not yet over dynamic sections, though).
+	* @DSUM()@, @DPRODUCT()@, @DCOUNT()@, @DMIN()@, @DMAX()@ are now "supported":reference/dbaggregators.htm (not yet over dynamic sections, though).
 	* @_MAKE_ARRAY()@, @_FOLD_ARRAY()@ added to internal rewriting language.
 	* Added @_DFOLD()@ to the internal expression AST, but not the rewriting language. This is because rewriting a database fold like @DSUM()@ is too complex for a simple rewrite. The rewriting is done in a specialized Java class.
 	
@@ -35,6 +35,7 @@ h5. Documented
 	* Added a "breakdown of missing spreadsheet functions":hacking/functions_to_implement.htm.
 	* Added documentation of "internal rewrite functions":hacking/rewrite_functions.htm.
 	* Documented how to "add an array computation":hacking/addarray.xhtml.
+	* A few entries in the "developer's journal":dev/index.htm.
 	
 	
 h2. Release 0.8.1
@@ -42,7 +43,7 @@ h2. Release 0.8.1
 h5. Better
 
 	* Added support for naive "string comparisons":reference/strings.htm. By _naive_ I mean that they do not handle the fancy code-page stuff in Excel yet. It's basically @String.compareToIgnoreCase()@.
-	* Redid the "dev journal":dev/index.htm so it indexes automatically. Added two entries.
+	* Redid the "developer's journal":dev/index.htm so it indexes automatically. Added two entries.
 	
 	
 h2. Release 0.8.0

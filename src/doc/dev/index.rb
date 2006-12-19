@@ -6,11 +6,11 @@ def index_all_except( all_like, except_like )
 	dir = File.dirname @rextile_name
 	paths = Dir.glob( File.join( dir, '*.rextile' ) )
 	paths = paths.find_all {|path| path =~ all_like }.reject {|path| path =~ except_like }
-	files = paths.map {|path| File.new(path) }
-	files = files.sort_by {|file| file.mtime }.reverse
+	files = paths.map {|path| [File.new(path), extract_date_from(File.basename(path))] }
+	files = files.sort_by {|file, date| date }.reverse
 
 	curr_month = DateTime.new( 2099, 1, 1 )
-	files.each do |file|
+	files.each do |file, date|
 		path = file.path
 		puts '  * ' + path
 
@@ -22,7 +22,6 @@ def index_all_except( all_like, except_like )
 		title = (dom%:h1).inner_html
 		teaser = (dom%:p).inner_html
 		link = File.basename( html_path )
-		date = extract_date_from( link )
 
 		if date < curr_month
 			month_title = date.strftime( '%B %Y' )

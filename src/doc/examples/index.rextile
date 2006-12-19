@@ -1,0 +1,17 @@
+
+h1. Sample Applications
+
+SEJ comes with a few sample applications that complement the "tutorial":-tut. All examples are located in
+
+	/path/to/sej/src/examples
+	
+
+dt. @sej.examples.BasicUsageDemo@ : A super trivial example of how to load and compile an Excel sheet, and how to use the resulting computation engine.
+
+dt. @sej.examples.EngineSerializationDemo@ : Same as the trivial example, but saves and then reloads the compiled engine before using it.
+
+dt. @sej.examples.EngineDeserializationDemo@ : Loads and runs the engine saved by the serialization demo. This demo can be run with only the minimal @sej-runtime.jar@, showing the part of an app that only uses precompiled engines.
+
+dt. @sej.examples.interactive.InteractiveDemo@ : A prototype Swing application in which you can load a spreadsheet, define inputs and outputs, and then compile and run an engine.
+
+dt. "@sej.examples.xmlproc.XmlProc@":xmlproc.htm : A batch application that reads an input XML file with data, an spreadsheet file with an engine definition, and writes out another XML file with data computed from the input data using the spreadsheet.

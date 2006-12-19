@@ -2,7 +2,7 @@
 h1. Errors
 
 
-SEJ tries hard to give meaningful error messages which clearly identify both the problem and its source. This document shows the most typical errors, why they occur, and what to do about them.
+SEJ does its best to give meaningful error messages which clearly identify both the problem and its source. This document shows the most typical errors, why they occur, and what to do about them.
 
 <%= toc 2, 3 %>
 
@@ -110,3 +110,55 @@ we get the following exception:
 	[jc:sej.tutorials.ErrorUnsupportedConversionFromInput:---- StringAsInt]
 
 (Note that binding _numOutput_ to an @int@ again works as SEJ does automatically convert from @int@ to @String@.)
+
+
+h2. Improper Inner Section References
+
+SEJ supports "repeating sections":repeatingsections.htm of dynamic width or height. These can even be nested. However, outer sections may only reference inner sections as range arguments to functions - otherwise it would not be clear which element is meant to be accessed. Inner sections may, of course, reference outer cells as simple values. In addition, the range arguments must always cover the full variable extent (width or height) of the inner section.
+
+h5. Hint
+
+Do reference a section cell directly. Use an aggregator like @SUM()@ over the _entire_ section column (for vertically repeating sections) or row (for horizontally repeating sections) instead.
+
+h5. Examples
+
+Consider the following sheet:
+
+	[xc:testdata/sej/tutorials/ErrorImproperInnerSectionReference.xls]
+
+The range _Section_ is bound as a repeating section, as follows:
+
+	[jc:sej.tutorials.ErrorImproperInnerSectionReference:---- bindSection]
+
+	
+h5. This works
+
+Binding the cell _GoodRef_ yields
+
+	[jc:sej.tutorials.ErrorImproperInnerSectionReference:---- goodRef]
+
+	
+h5. Bad cell ref
+
+If, on the other hand, we bind the cell _BadRef_ to an output, we get
+
+	[jc:sej.tutorials.ErrorImproperInnerSectionReference:---- badRef]
+
+	
+h5. Bad ranges
+
+Binding the cells with range specifications that don't fully cover the height of the section also results in an error:
+
+	[jc:sej.tutorials.ErrorImproperInnerSectionReference:---- badRange1]
+
+	[jc:sej.tutorials.ErrorImproperInnerSectionReference:---- badRange2]
+
+	[jc:sej.tutorials.ErrorImproperInnerSectionReference:---- badRange3]
+
+	
+h5. Bad cell sum
+	
+Using a sum over a single cell in the section does not work either:
+
+	[jc:sej.tutorials.ErrorImproperInnerSectionReference:---- badRange4]
+

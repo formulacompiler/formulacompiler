@@ -20,6 +20,7 @@ Since SEJ only supports "Microsoft Excel":-excel spreadsheets as input at the mo
 
 <%= summary 'Numeric Operators', 'numops', ['NumericOperators', 'NumericComparisons'] %>
 <%= summary 'Numeric Functions', 'numfuncs', ['NumericFunctions'] %>
+<%= summary 'Financial Functions', 'financialfuncs', ['FinancialFunctions'] %>
 <%= summary 'String Support', 'strings', ['Strings', 'StringComparisons'] %>
 <%= summary 'Boolean Functions And IF', 'booleans', ['BooleanFunctions', 'FunctionIF'] %>
 <%= summary 'Date Functions', 'datefuncs', ['DateFunctions'] %>

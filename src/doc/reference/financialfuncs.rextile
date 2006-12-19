@@ -1,0 +1,11 @@
+
+h1. Financial Functions In SEJ
+
+
+<%= toc 2, 5 %>
+
+h3. Financial Functions
+
+The supported numeric functions are shown by example below:
+
+	[inc:FinancialFunctions.htm]
