@@ -27,6 +27,8 @@ import sej.describable.DescriptionBuilder;
 
 public class ArrayDescriptor extends AbstractDescribable
 {
+	public static final int DYNAMIC = Integer.MAX_VALUE;
+
 	private final int numberOfSheets;
 	private final int numberOfRows;
 	private final int numberOfColumns;
@@ -71,13 +73,18 @@ public class ArrayDescriptor extends AbstractDescribable
 		return this.numberOfSheets * this.numberOfRows * this.numberOfColumns;
 	}
 
-	
+
 	@Override
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
 		_to.append( "#(" ).append( getNumberOfSheets() );
-		_to.append( ',' ).append( getNumberOfRows() );
-		_to.append( ',' ).append( getNumberOfColumns() ).append( ')' );
+		_to.append( ',' ).append( numberOrDynamic( getNumberOfRows() ) );
+		_to.append( ',' ).append( numberOrDynamic( getNumberOfColumns() ) ).append( ')' );
+	}
+
+	private final String numberOrDynamic( int _number )
+	{
+		return (_number == DYNAMIC) ? "*" : Integer.toString( _number );
 	}
 
 

@@ -20,14 +20,17 @@
  */
 package sej.internal.model.compiler;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import sej.CompilerException;
+import sej.Orientation;
 import sej.SpreadsheetException;
 import sej.internal.expressions.ArrayDescriptor;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.ExpressionNodeForSubstitution;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.SectionModel;
@@ -187,8 +190,7 @@ public final class SectionModelCompiler
 	private void buildCellModel( CellModel _cellModel, CellWithLazilyParsedExpression _cell ) throws CompilerException
 	{
 		try {
-			final ExpressionNode exprDef = _cell.getExpression();
-			final ExpressionNode exprModel = (ExpressionNode) buildExpressionModel( exprDef );
+			final ExpressionNode exprModel = buildExpressionModel( _cell.getExpression() );
 			_cellModel.setExpression( exprModel );
 		}
 		catch (SpreadsheetException cause) {
@@ -201,19 +203,18 @@ public final class SectionModelCompiler
 	}
 
 
-	private Object buildExpressionModel( ExpressionNode _exprDef ) throws CompilerException
+	private ExpressionNode buildExpressionModel( ExpressionNode _exprDef ) throws CompilerException
 	{
-		final Object result = buildRawExpressionModel( _exprDef );
-		if (result instanceof ExpressionNode) {
-			final ExpressionNode resNode = (ExpressionNode) result;
-			resNode.setDerivedFrom( _exprDef );
+		final ExpressionNode result = buildRawExpressionModel( _exprDef );
+		if (result != null) {
+			result.setDerivedFrom( _exprDef );
 		}
 		return result;
 	}
 
 
 	@SuppressWarnings("unchecked")
-	private Object buildRawExpressionModel( ExpressionNode _exprDef ) throws CompilerException
+	private ExpressionNode buildRawExpressionModel( ExpressionNode _exprDef ) throws CompilerException
 	{
 		if (null == _exprDef) {
 			return null;
@@ -224,142 +225,252 @@ public final class SectionModelCompiler
 		}
 		else if (_exprDef instanceof ExpressionNodeForCell) {
 			final CellIndex cell = ((ExpressionNodeForCell) _exprDef).getCellIndex();
-			return buildExpressionModel( cell );
+			return buildExpressionModelForCell( cell );
 		}
 		else if (_exprDef instanceof ExpressionNodeForRangeShape) {
 			final CellRange range = ((ExpressionNodeForRange) _exprDef.arguments().get( 0 )).getRange();
-			return buildExpressionModel( range );
+			return new RangeExpressionBuilder( range, true ).build();
 		}
 		else if (_exprDef instanceof ExpressionNodeForRange) {
 			final CellRange range = ((ExpressionNodeForRange) _exprDef).getRange();
-			return peelNodeForRangeValue( buildExpressionModel( range ) );
+			return new RangeExpressionBuilder( range, false ).build();
 		}
 		else {
 			final ExpressionNode result = _exprDef.cloneWithoutArguments();
-			for (ExpressionNode _arg : _exprDef.arguments()) {
-				addArgumentsTo( result, buildExpressionModel( _arg ) );
+			for (ExpressionNode arg : _exprDef.arguments()) {
+				final ExpressionNode argResult = buildExpressionModel( arg );
+				if (argResult instanceof ExpressionNodeForSubstitution) {
+					result.arguments().addAll( argResult.arguments() );
+				}
+				else {
+					result.addArgument( argResult );
+				}
 			}
 			return result;
 		}
 	}
 
 
-	ExpressionNode buildExpressionModel( CellIndex _cellIndex ) throws CompilerException
+	ExpressionNode buildExpressionModelForCell( CellIndex _cellIndex ) throws CompilerException
 	{
-		final SectionPath sectionPath = getSectionPathFor( _cellIndex );
-		if (null == sectionPath) {
-			return buildExpressionModelForContainedCell( _cellIndex );
+		if (this.sectionDef.contains( _cellIndex )) {
+			final SectionBinding containingSection = this.sectionDef.getContainingSection( _cellIndex );
+			if (null != containingSection) {
+				return new RangeExpressionBuilder( new CellRange( _cellIndex, _cellIndex ), false ).build();
+			}
+			return buildExpressionModelForLocalCell( _cellIndex );
 		}
 		else {
-			final ExpressionNode cellNode = sectionPath.getSectionCompiler().buildExpressionModelForContainedCell(
-					_cellIndex );
-			final ExpressionNode targetNode = sectionPath.getTargetNode();
-			targetNode.arguments().add( cellNode );
-			return sectionPath.getRootNode();
+			return buildExpressionModelForOuterCell( _cellIndex );
 		}
 	}
 
-
-	private ExpressionNode buildExpressionModelForContainedCell( CellIndex _cellIndex ) throws CompilerException
+	private ExpressionNode buildExpressionModelForLocalCell( CellIndex _cellIndex ) throws CompilerException
 	{
 		final CellModel cellModel = getOrCreateCellModel( _cellIndex );
 		return new ExpressionNodeForCellModel( cellModel );
 	}
 
 
-	@SuppressWarnings("unchecked")
-	private ExpressionNode buildExpressionModel( CellRange _range ) throws CompilerException
+	private ExpressionNode buildExpressionModelForOuterCell( CellIndex _cellIndex ) throws CompilerException
 	{
-		final SectionPath sectionPath = getSectionPathFor( _range );
-		if (null == sectionPath) {
-			return buildExpressionModelForContainedRange( _range );
-		}
-		else {
-			final ExpressionNode rangeNode = sectionPath.getSectionCompiler().buildExpressionModelForContainedRange(
-					sectionPath.getTargetRange() );
-			final ExpressionNode targetNode = sectionPath.getTargetNode();
-			addArgumentsTo( targetNode, peelNodeForRangeValue( rangeNode ) );
-			return sectionPath.getRootNode();
-		}
+		final SectionPath path = new SectionPath( this );
+		path.stepOut();
+		path.stepOutTo( _cellIndex );
+		return path.wrapAround( path.getSectionCompiler().buildExpressionModelForLocalCell( _cellIndex ) );
 	}
 
 
-	private ExpressionNode buildExpressionModelForContainedRange( CellRange _range ) throws CompilerException
+	@SuppressWarnings( { "unqualified-field-access", "hiding" })
+	private final class RangeExpressionBuilder
 	{
+		private final SectionBinding sectionDef = SectionModelCompiler.this.sectionDef;
+		private final RangeExpressionBuilder parent;
+		private final boolean shaped;
+		private final boolean stepOutOnly;
+		private final CellRange range;
+		private final int sheets;
+		private int rows;
+		private int cols;
 
-		final int sheets = _range.getTo().sheetIndex - _range.getFrom().sheetIndex + 1;
-		final int rows = _range.getTo().rowIndex - _range.getFrom().rowIndex + 1;
-		final int cols = _range.getTo().columnIndex - _range.getFrom().columnIndex + 1;
-		final ArrayDescriptor arrDesc = new ArrayDescriptor( sheets, rows, cols );
-		final ExpressionNode result = new ExpressionNodeForArrayReference( arrDesc );
-		for (CellIndex element : _range) {
-			final ExpressionNode elementNode = buildExpressionModel( element );
-			result.arguments().add( elementNode );
+		private RangeExpressionBuilder(RangeExpressionBuilder _parent, CellRange _range, boolean _shaped, boolean _stepOutOnly)
+		{
+			super();
+			this.parent = _parent;
+			this.range = _range;
+			this.shaped = _shaped;
+			this.stepOutOnly = _stepOutOnly;
+			final CellIndex from = range.getFrom();
+			final CellIndex to = range.getTo();
+			this.sheets = to.sheetIndex - from.sheetIndex + 1;
+			this.rows = to.rowIndex - from.rowIndex + 1;
+			this.cols = to.columnIndex - from.columnIndex + 1;
 		}
-		return result;
-	}
 
-
-	private Object peelNodeForRangeValue( final ExpressionNode _node )
-	{
-		if (_node instanceof ExpressionNodeForArrayReference) {
-			return _node.arguments();
+		private RangeExpressionBuilder(RangeExpressionBuilder _parent, CellRange _range, boolean _shaped)
+		{
+			this( _parent, _range, _shaped, false );
 		}
-		else {
-			return _node;
+		
+		private RangeExpressionBuilder(CellRange _range, boolean _shaped, boolean _stepOutOnly )
+		{
+			this( null, _range, _shaped, _stepOutOnly );
 		}
-	}
 
-	@SuppressWarnings("unchecked")
-	private void addArgumentsTo( final ExpressionNode _result, final Object _argOrArgs )
-	{
-		if (_argOrArgs == null) {
-			_result.arguments().add( null );
+		public RangeExpressionBuilder(CellRange _range, boolean _shaped)
+		{
+			this( null, _range, _shaped );
 		}
-		else if (_argOrArgs instanceof ExpressionNode) {
-			_result.arguments().add( (ExpressionNode) _argOrArgs );
-		}
-		else {
-			_result.arguments().addAll( (Collection<ExpressionNode>) _argOrArgs );
-		}
-	}
 
-
-	private SectionPath getSectionPathFor( CellIndex _cell ) throws CompilerException
-	{
-		return getSectionPathFor( _cell, null );
-	}
-
-
-	private SectionPath getSectionPathFor( CellRange _range ) throws CompilerException
-	{
-		return getSectionPathFor( _range.getFrom(), _range );
-	}
-
-
-	private SectionPath getSectionPathFor( CellIndex _cell, CellRange _range ) throws CompilerException
-	{
-		SectionPath result = null;
-		if (this.sectionDef.contains( _cell )) {
-			SectionBinding innerDef = this.sectionDef.getContainingSection( _cell );
-			if (null == innerDef) {
-				return null;
+		private void makeDynamic( Orientation _orient )
+		{
+			if (_orient == Orientation.HORIZONTAL) {
+				this.cols = ArrayDescriptor.DYNAMIC;
 			}
 			else {
-				result = new SectionPath( this );
-				result.setTargetRange( _range != null ? _range : new CellRange( _cell, _cell ) );
-				result.stepInto( innerDef );
-				result.buildStepsInto( _cell );
+				this.rows = ArrayDescriptor.DYNAMIC;
+			}
+			if (null != this.parent) {
+				this.parent.makeDynamic( _orient );
 			}
 		}
-		else {
-			result = new SectionPath( this );
-			result.setTargetRange( _range );
-			result.stepOut();
-			result.buildStepsTo( _cell );
-		}
-		return result;
-	}
 
+		public ExpressionNode build() throws CompilerException
+		{
+			final CellRange[] tiling = range.tilingAround( sectionDef.getRange(), sectionDef.getOrientation() );
+			switch (tiling.length) {
+				case CellRange.NO_INTERSECTION:
+					return buildOuterRange();
+				case CellRange.CONTAINED:
+					return buildContainedRange();
+				default:
+					throw new CompilerException.SectionSpan( range.toString(), sectionDef.toString() );
+			}
+		}
+
+		private ExpressionNode buildOuterRange() throws CompilerException
+		{
+			final SectionPath path = new SectionPath( SectionModelCompiler.this );
+			path.stepOut();
+			final ExpressionNode outer = path.getSectionCompiler().new RangeExpressionBuilder( range, shaped, true ).build();
+			if (shaped) {
+				return path.wrapAround( outer );
+			}
+			else {
+				return path.wrapAround( outer.arguments() );
+			}
+		}
+
+		private ExpressionNode buildContainedRange() throws CompilerException
+		{
+			final Orientation ownOrient = this.sectionDef.getOrientation();
+			final Collection<ExpressionNode> elts = new ArrayList<ExpressionNode>();
+
+			/*
+			 * This loop relies on the subsections of the current section being sorted in ascending
+			 * flow order.
+			 */
+			CellRange next = range;
+			for (SectionBinding inner : this.sectionDef.getSections()) {
+				final CellRange innerRange = inner.getRange();
+				final Orientation innerOrient = inner.getOrientation();
+				final CellRange[] tiling = (innerOrient == ownOrient) ? next.tilingAround( innerRange, innerOrient ) : next
+						.tilingAround( innerRange );
+				switch (tiling.length) {
+
+					case CellRange.NO_INTERSECTION:
+						break;
+
+					case CellRange.CONTAINED: {
+						final ExpressionNode expr = buildExpressionModelForInnerRange( inner, next );
+						elts.add( expr );
+						next = null;
+						break;
+					}
+
+					case CellRange.FLOW_TILES: {
+						final CellRange before = tiling[ CellRange.FLOW_BEFORE ];
+						if (null != before) {
+							/*
+							 * This is where we rely on proper sorting. It ensures that `before` cannot
+							 * possibly overlap one of the remaining inner section to scan.
+							 */
+							if (shaped) {
+								elts.add( buildExpressionModelForLocalRange( before ) );
+							}
+							else {
+								buildExpressionModelsForLocalRangeCells( before, elts );
+							}
+						}
+						elts.add( buildExpressionModelForInnerRange( inner, tiling[ CellRange.FLOW_INNER ] ) );
+						next = tiling[ CellRange.FLOW_AFTER ];
+						break;
+					}
+
+					default:
+						throw new CompilerException.SectionSpan( range.toString(), inner.toString() );
+
+				}
+				if (null == next) break;
+			}
+			if (null != next) {
+				if (0 == elts.size() || !shaped) {
+					buildExpressionModelsForLocalRangeCells( next, elts );
+				}
+				else {
+					elts.add( buildExpressionModelForLocalRange( next ) );
+				}
+			}
+
+			final ExpressionNode result = (shaped) ? new ExpressionNodeForArrayReference( new ArrayDescriptor( sheets,
+					rows, cols ) ) : new ExpressionNodeForSubstitution();
+			result.arguments().addAll( elts );
+			return result;
+		}
+
+		private ExpressionNode buildExpressionModelForInnerRange( SectionBinding _inner, CellRange _range )
+				throws CompilerException
+		{
+			if (this.stepOutOnly) {
+				throw new CompilerException.ReferenceToOuterInnerCell();
+			}
+			
+			makeDynamic( _inner.getOrientation() );
+			final CellRange innerRange = _inner.getPrototypeRange( _range );
+			final SectionPath path = new SectionPath( SectionModelCompiler.this );
+			path.stepInto( _inner );
+			final SectionModelCompiler innerDef = path.getSectionCompiler();
+			final ExpressionNode expr = innerDef.new RangeExpressionBuilder( this, innerRange, shaped )
+					.buildContainedRange();
+			if (shaped) {
+				return path.wrapAround( expr );
+			}
+			else {
+				return path.wrapAround( expr.arguments() );
+			}
+		}
+
+		private ExpressionNode buildExpressionModelForLocalRange( CellRange _range ) throws CompilerException
+		{
+			final CellIndex from = _range.getFrom();
+			final CellIndex to = _range.getTo();
+			final int sheets = to.sheetIndex - from.sheetIndex + 1;
+			final int rows = to.rowIndex - from.rowIndex + 1;
+			final int cols = to.columnIndex - from.columnIndex + 1;
+			final ExpressionNode result = new ExpressionNodeForArrayReference( new ArrayDescriptor( sheets, rows, cols ) );
+			buildExpressionModelsForLocalRangeCells( _range, result.arguments() );
+			return result;
+		}
+
+		private void buildExpressionModelsForLocalRangeCells( CellRange _range, Collection<ExpressionNode> _elts )
+				throws CompilerException
+		{
+			for (CellIndex element : _range) {
+				final ExpressionNode elementNode = buildExpressionModelForCell( element );
+				_elts.add( elementNode );
+			}
+		}
+
+	}
 
 }

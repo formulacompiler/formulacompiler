@@ -125,7 +125,7 @@ abstract class ExpressionCompiler
 	{
 		return method().letDict();
 	}
-	
+
 	protected final Iterable<LetEntry> closureOf( ExpressionNode _node )
 	{
 		return method().closureOf( _node );
@@ -194,6 +194,10 @@ abstract class ExpressionCompiler
 
 		else if (_node instanceof ExpressionNodeForSubSectionModel) {
 			compileRef( (ExpressionNodeForSubSectionModel) _node );
+		}
+		
+		else if (_node instanceof ExpressionNodeForArrayReference) {
+			compileRef( (ExpressionNodeForArrayReference) _node );
 		}
 
 		else if (_node instanceof ExpressionNodeForOperator) {
@@ -490,7 +494,13 @@ abstract class ExpressionCompiler
 
 	private final void compileRef( ExpressionNodeForSubSectionModel _node ) throws CompilerException
 	{
-		throw new CompilerException.ReferenceToInnerCellNotAggregated( );
+		throw new CompilerException.ReferenceToInnerCellNotAggregated();
+	}
+
+
+	private final void compileRef( ExpressionNodeForArrayReference _node ) throws CompilerException
+	{
+		throw new CompilerException.ReferenceToArrayNotAggregated();
 	}
 
 
@@ -792,7 +802,7 @@ abstract class ExpressionCompiler
 				_compiler.methodDescriptor() );
 	}
 
-	
+
 	protected final void compileRuntimeMethod( String _methodName, String _methodSig )
 	{
 		typeCompiler().compileRuntimeMethod( mv(), _methodName, _methodSig );

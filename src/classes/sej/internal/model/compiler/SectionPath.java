@@ -20,13 +20,14 @@
  */
 package sej.internal.model.compiler;
 
+import java.util.Collection;
+
 import sej.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.SectionModel;
 import sej.internal.spreadsheet.CellIndex;
-import sej.internal.spreadsheet.CellRange;
 import sej.internal.spreadsheet.binding.SectionBinding;
 
 final class SectionPath
@@ -34,7 +35,6 @@ final class SectionPath
 	private ExpressionNode rootNode;
 	private ExpressionNode targetNode;
 	private SectionModelCompiler targetSectionCompiler;
-	private CellRange targetRange;
 
 
 	public SectionPath(SectionModelCompiler _target)
@@ -61,28 +61,13 @@ final class SectionPath
 	}
 
 
-	public CellRange getTargetRange()
-	{
-		return this.targetRange;
-	}
-
-
-	public void setTargetRange( CellRange _targetRange )
-	{
-		this.targetRange = _targetRange;
-	}
-
-
-	public void stepInto( SectionBinding _sectionDef ) throws CompilerException
+	public void stepInto( SectionBinding _sectionDef )
 	{
 		SectionModelCompiler sectionCompiler = this.targetSectionCompiler.getOrCreateSectionCompiler( _sectionDef );
 		SectionModel sectionModel = sectionCompiler.getSectionModel();
 		ExpressionNode step = new ExpressionNodeForSubSectionModel( sectionModel );
 		add( step );
 		this.targetSectionCompiler = sectionCompiler;
-		if (null != this.targetRange) {
-			this.targetRange = _sectionDef.getPrototypeRange( this.targetRange );
-		}
 	}
 
 
@@ -111,7 +96,7 @@ final class SectionPath
 	}
 
 
-	public void buildStepsInto( CellIndex _cellIndex ) throws CompilerException
+	public void buildStepsInto( CellIndex _cellIndex )
 	{
 		SectionBinding section;
 		while (null != (section = this.targetSectionCompiler.getSectionDef().getContainingSection( _cellIndex ))) {
@@ -126,7 +111,7 @@ final class SectionPath
 	 * 
 	 * @see ComputationModelCompilerTest#testBandCellWithSumOverOuterBand()
 	 */
-	public void buildStepsTo( CellIndex _cellIndex ) throws CompilerException
+	public void stepOutTo( CellIndex _cellIndex ) throws CompilerException
 	{
 		while (!this.targetSectionCompiler.getSectionDef().contains( _cellIndex )) {
 			stepOut();
@@ -136,6 +121,19 @@ final class SectionPath
 		if (null != containingSection) {
 			throw new CompilerException.ReferenceToOuterInnerCell();
 		}
+	}
+
+
+	public ExpressionNode wrapAround( ExpressionNode _innerNode )
+	{
+		getTargetNode().arguments().add( _innerNode );
+		return getRootNode();
+	}
+
+	public ExpressionNode wrapAround( Collection<ExpressionNode> _innerNodes )
+	{
+		getTargetNode().arguments().addAll( _innerNodes );
+		return getRootNode();
 	}
 
 
