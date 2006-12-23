@@ -124,6 +124,23 @@ public class CompilerException extends SEJException
 					+ _rangeAt + " does not fully cover the " + (_orientation == Orientation.VERTICAL ? "height" : "width")
 					+ " of its parent section " + _sectionName + "." );
 		}
+
+	}
+
+
+	/**
+	 * You attempted to aggregate a range that spans cells and/or subsections in an unsupported way.
+	 * 
+	 * @author peo
+	 */
+	public static class SectionSpan extends CompilerException
+	{
+
+		public SectionSpan(String _rangeName, String _sectionName)
+		{
+			super( "Range " + _rangeName + " overlaps section " + _sectionName + " in an unsupported way." );
+		}
+
 	}
 
 
@@ -285,6 +302,26 @@ public class CompilerException extends SEJException
 		{
 			super( "The output type "
 					+ _class + " must implement the " + Resettable.class + " interface to support repeating sections." );
+		}
+
+	}
+
+
+	/**
+	 * An expression references an array (range) without aggregating it. For example,
+	 * {@code A3 = A1:A2} is illegal. This error could also be caused by an outer reference to a cell
+	 * within a repeating section.
+	 * 
+	 * @author peo
+	 * 
+	 * @see ReferenceToInnerCellNotAggregated
+	 */
+	public static final class ReferenceToArrayNotAggregated extends CompilerException
+	{
+
+		public ReferenceToArrayNotAggregated()
+		{
+			super( "Cannot reference an array without aggregating it." );
 		}
 
 	}

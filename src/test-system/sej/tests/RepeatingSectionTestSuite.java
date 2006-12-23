@@ -44,10 +44,11 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 
-// FIXME ErrorImproperSectionDefinition
-// FIXME SectionReferences
-// FIXME Test section consistency: all rows equal except in input cells
-// FIXME Test section consistency: 1: repetitions in 1:n are equal to first elt or NULL
+// TODO ErrorImproperSectionDefinition
+// TODO ErrorImproperInnerSectionReference: horizontal flow tiling
+// TODO SectionReferences
+// TODO Test section consistency: all rows equal except in input cells
+// TODO Test section consistency: 1: repetitions in 1:n are equal to first elt or NULL
 
 
 public class RepeatingSectionTestSuite extends TestSuite
@@ -56,6 +57,12 @@ public class RepeatingSectionTestSuite extends TestSuite
 	private static final int NAME_COL = 0;
 	private static final int FORMULA_COL = 1;
 	private static final int RANGE_NAME_COL = 2;
+	
+	
+	static  {
+		// FIX-ME
+		// Settings.LOG_CONSTEVAL.setEnabled( true );
+	}
 
 
 	public RepeatingSectionTestSuite()
@@ -107,7 +114,7 @@ public class RepeatingSectionTestSuite extends TestSuite
 
 						final TestSuite rangeSuite = new RangeTestSuite( testName, formulaCell, rangeName );
 
-						if (iRow == 56) // FIXME
+						// if (iRow == 74) // FIX-ME
 						fileSuite.addTest( rangeSuite );
 
 					}

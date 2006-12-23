@@ -77,7 +77,7 @@ public class RepeatingSectionTest extends TestCase
 					sb.nameRange( sb.range( rangeStart, rangeEnd ), "Section" );
 
 					sb.newRow();
-					sb.newCell( sb.fun( agg, sb.ref( rangeStart ) ) );
+					sb.newCell( sb.fun( agg, sb.ref( sb.range( rangeStart, rangeEnd ) ) ) );
 					sb.nameCell( "Result" );
 
 					EngineBuilder eb = SEJ.newEngineBuilder();

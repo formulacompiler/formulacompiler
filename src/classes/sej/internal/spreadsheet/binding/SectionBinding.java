@@ -37,6 +37,11 @@ import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellRange;
 import sej.runtime.Resettable;
 
+/**
+ * Subsections are sorted
+ * 
+ * @author peo
+ */
 public class SectionBinding extends ElementBinding implements Comparable<SectionBinding>
 {
 	private final WorkbookBinding workbook;
@@ -70,13 +75,18 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	}
 
 
+	/**
+	 * Constructs the root binding of a workbook, which encompasses the entire workbook, but does not
+	 * constitute a repeating section. Nevertheless, it has a default orientation, vertical, which
+	 * determines the sort order of its subsections.
+	 */
 	public SectionBinding(WorkbookBinding _workbook, Class _inputClass, Class _outputClass)
 	{
 		super( null );
 		this.workbook = _workbook;
 		this.callChainToCall = null;
 		this.callToImplement = null;
-		this.range = CellRange.getEntireSheet( _workbook.getWorkbook() );
+		this.range = CellRange.getEntireWorkbook( _workbook.getWorkbook() );
 		this.orientation = Orientation.VERTICAL;
 		this.inputClass = _inputClass;
 		this.outputClass = _outputClass;
@@ -125,6 +135,10 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	}
 
 
+	/**
+	 * The subsections are sorted to enable efficient splitting of aggregated ranges into the parts
+	 * overlapping sections.
+	 */
 	public SortedSet<SectionBinding> getSections()
 	{
 		return this.sections;
@@ -232,13 +246,8 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 
 	public boolean contains( CellIndex _cellIndex )
 	{
-		int from = getRange().getFrom().getIndex( getOrientation() );
-		int to = getRange().getTo().getIndex( getOrientation() );
-		int cellAt = _cellIndex.getIndex( getOrientation() );
-
-		return (cellAt >= from) && (cellAt <= to);
+		return getRange().contains( _cellIndex );
 	}
-
 
 	public SectionBinding getContainingSection( CellIndex _cellIndex )
 	{
@@ -247,7 +256,6 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 		}
 		return null;
 	}
-
 
 	public SectionBinding getSectionFor( CellIndex _index )
 	{
@@ -330,5 +338,6 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 		getCallChainToCall().describeTo( _to );
 		_to.append( ")" );
 	}
+
 
 }
