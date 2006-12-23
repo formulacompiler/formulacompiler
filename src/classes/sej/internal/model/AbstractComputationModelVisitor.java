@@ -23,7 +23,6 @@ package sej.internal.model;
 import sej.CompilerException;
 import sej.internal.InnerExpressionException;
 import sej.internal.expressions.ExpressionNode;
-import sej.runtime.SEJException;
 
 @SuppressWarnings("unused")
 public abstract class AbstractComputationModelVisitor implements ComputationModelVisitor
