@@ -20,10 +20,15 @@
  */
 package sej.internal.model.util;
 
+import java.math.BigDecimal;
+
 import sej.Function;
 import sej.NumericType;
 import sej.Operator;
-import sej.internal.expressions.ArrayValue;
+import sej.internal.expressions.ArrayDescriptor;
+import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForArrayReference;
+import sej.internal.expressions.ExpressionNodeForConstantValue;
 
 abstract class InterpretedNumericType_Base
 {
@@ -65,16 +70,16 @@ abstract class InterpretedNumericType_Base
 
 	protected abstract int compareNumerically( Object _a, Object _b );
 
-	
+
 	public final Number zero()
 	{
 		return this.num.getZero();
 	}
-	
-	
+
+
 	public abstract Number fromString( String _s );
 
-	
+
 	public boolean toBoolean( Object _value )
 	{
 		return valueToBoolean( _value, false );
@@ -106,8 +111,8 @@ abstract class InterpretedNumericType_Base
 		if (_value == null) return _ifNull;
 		return valueToInt( _value, _ifNull );
 	}
-	
-	
+
+
 	public abstract Object toNumeric( Number _value );
 
 
@@ -202,19 +207,20 @@ abstract class InterpretedNumericType_Base
 			case INDEX: {
 				switch (cardinality) {
 					case 2:
-						return evalIndex( (ArrayValue) _args[ 0 ], _args[ 1 ] );
+						return evalIndex( (ExpressionNodeForArrayReference) _args[ 0 ], _args[ 1 ] );
 					case 3:
-						return evalIndex( (ArrayValue) _args[ 0 ], _args[ 1 ], _args[ 2 ] );
+						return evalIndex( (ExpressionNodeForArrayReference) _args[ 0 ], _args[ 1 ], _args[ 2 ] );
 				}
 				break;
 			}
-			
+
 			case MATCH: {
 				switch (cardinality) {
 					case 2:
 						return toNumeric( InterpretedNumericType.match( _args[ 0 ], _args[ 1 ], 1 ) + 1 );
 					case 3:
-						return toNumeric( InterpretedNumericType.match( _args[ 0 ], _args[ 1 ], valueToIntOrOne( _args[ 2 ] ) ) + 1 );
+						return toNumeric( InterpretedNumericType
+								.match( _args[ 0 ], _args[ 1 ], valueToIntOrOne( _args[ 2 ] ) ) + 1 );
 				}
 				break;
 			}
@@ -229,27 +235,28 @@ abstract class InterpretedNumericType_Base
 	}
 
 
-	private Object evalIndex( ArrayValue _range, Object _index )
+	private Object evalIndex( ExpressionNodeForArrayReference _range, Object _index )
 	{
 		int index = valueToIntOrZero( _index );
-		return _range.get( index - 1 );
+		return ((ExpressionNodeForConstantValue) _range.argument( index - 1 )).value();
 	}
 
 
-	private Object evalIndex( ArrayValue _range, Object _rowIndex, Object _colIndex )
+	private Object evalIndex( ExpressionNodeForArrayReference _range, Object _rowIndex, Object _colIndex )
 	{
-		int iRow = valueToIntOrOne( _rowIndex ) - 1;
-		int iCol = valueToIntOrOne( _colIndex ) - 1;
+		final ArrayDescriptor desc = _range.arrayDescriptor();
+		final int iRow = valueToIntOrOne( _rowIndex ) - 1;
+		final int iCol = valueToIntOrOne( _colIndex ) - 1;
 		int iValue;
-		if (iRow < 0 || iRow >= _range.getNumberOfRows()) return null;
-		if (iCol < 0 || iCol >= _range.getNumberOfColumns()) return null;
+		if (iRow < 0 || iRow >= desc.getNumberOfRows()) return null;
+		if (iCol < 0 || iCol >= desc.getNumberOfColumns()) return null;
 		if (null != _rowIndex && null != _colIndex) {
-			iValue = iRow * _range.getNumberOfColumns() + iCol;
+			iValue = iRow * desc.getNumberOfColumns() + iCol;
 		}
 		else {
 			iValue = iRow + iCol;
 		}
-		return _range.get( iValue );
+		return ((ExpressionNodeForConstantValue) _range.argument( iValue )).value();
 	}
 
 
@@ -260,10 +267,11 @@ abstract class InterpretedNumericType_Base
 			return -1;
 		}
 		else {
-			final ArrayValue range = (ArrayValue) _in;
+			final ExpressionNodeForArrayReference range = (ExpressionNodeForArrayReference) _in;
 			if (0 == _type) {
 				int iObj = 0;
-				for (Object elt : range) {
+				for (Object arg : range.arguments()) {
+					final Object elt = ((ExpressionNodeForConstantValue) arg).value();
 					if (_lookup.equals( elt )) return iObj;
 					iObj++;
 				}
@@ -273,12 +281,13 @@ abstract class InterpretedNumericType_Base
 				final Comparable comp = (Comparable) _lookup;
 				final int compResIndicatingMatch = (_type < 0) ? 1 : -1;
 				int iObj = 0;
-				for (Object elt : range) {
+				for (Object arg : range.arguments()) {
+					final Object elt = ((ExpressionNodeForConstantValue) arg).value();
 					final int compRes = comp.compareTo( elt );
 					if (compRes == compResIndicatingMatch) return iObj - 1;
 					iObj++;
 				}
-				return range.size() - 1;
+				return range.arguments().size() - 1;
 			}
 		}
 	}
@@ -309,18 +318,35 @@ abstract class InterpretedNumericType_Base
 		return _ifNull;
 	}
 
-	
+
 	// Conversions for generated code:
-	
+
 	protected final int to_int( Object _o )
 	{
 		return valueToIntOrOne( _o );
 	}
-	
+
 	protected final String to_String( Object _o )
 	{
 		return toString( _o );
 	}
 
-	
+
+	protected final Object[] asArrayOfConsts( Object _value )
+	{
+		if (_value instanceof ExpressionNodeForArrayReference) {
+			final ExpressionNodeForArrayReference array = (ExpressionNodeForArrayReference) _value;
+			final Object[] r = new BigDecimal[ array.arrayDescriptor().getNumberOfElements() ];
+			int i = 0;
+			for (ExpressionNode cst : array.arguments()) {
+				r[ i++ ] = ((ExpressionNodeForConstantValue) cst).value();
+			}
+			return r;
+		}
+		else {
+			throw new IllegalArgumentException();
+		}
+
+	}
+
 }

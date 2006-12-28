@@ -21,7 +21,6 @@
 package sej.internal.model.analysis;
 
 import sej.CompilerException;
-import sej.internal.expressions.ArrayValue;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForAbstractFold;
@@ -148,15 +147,6 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		}
 		else if (_value instanceof String) {
 			return DataType.STRING;
-		}
-		else if (_value instanceof ArrayValue) {
-			final ArrayValue range = (ArrayValue) _value;
-			if (range.size() > 0) {
-				return typeOfConstant( range.get( 0 ) );
-			}
-			else {
-				return DataType.NULL;
-			}
 		}
 		else {
 			return DataType.NUMERIC;

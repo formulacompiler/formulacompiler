@@ -23,6 +23,7 @@ package sej.internal.model.optimizer.consteval;
 import sej.CompilerException;
 import sej.internal.Settings;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForSubstitution;
 import sej.internal.expressions.ExpressionNodeShadow;
@@ -149,9 +150,9 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	protected final boolean isConstant( Object _arg )
 	{
 		return !(_arg instanceof ExpressionNode)
-				|| ((_arg instanceof ExpressionNodeForSubstitution) && areConstant( ((ExpressionNode) _arg).arguments() ));
+				|| ((_arg instanceof ExpressionNodeForSubstitution) && areConstant( ((ExpressionNode) _arg).arguments() ))
+				|| ((_arg instanceof ExpressionNodeForArrayReference) && areConstant( ((ExpressionNode) _arg).arguments() ));
 	}
-
 	private final boolean areConstant( Iterable<ExpressionNode> _args )
 	{
 		for (ExpressionNode arg : _args) {
@@ -160,7 +161,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		return true;
 	}
 
-	
+
 	protected final boolean isInSubSection( Object _arg )
 	{
 		return (_arg instanceof ExpressionNodeForSubSectionModel);
@@ -170,11 +171,11 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	{
 		ExpressionNode result = node().cloneWithoutArguments();
 		for (final Object arg : _args) {
-			if (isConstant( arg )) {
-				result.addArgument( new ExpressionNodeForConstantValue( arg ) );
+			if (arg instanceof ExpressionNode) {
+				result.addArgument( (ExpressionNode) arg );
 			}
 			else {
-				result.addArgument( (ExpressionNode) arg );
+				result.addArgument( new ExpressionNodeForConstantValue( arg ) );
 			}
 		}
 		return result;
@@ -185,7 +186,16 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 
 	protected final ExpressionNode valueToNode( Object _value )
 	{
-		return isConstant( _value ) ? new ExpressionNodeForConstantValue( _value ) : (ExpressionNode) _value;
+		return (_value instanceof ExpressionNode) ? (ExpressionNode) _value : new ExpressionNodeForConstantValue( _value );
+	}
+
+	protected final Object valueOf( Object _valueOrNode )
+	{
+		if (_valueOrNode instanceof ExpressionNodeForConstantValue) {
+			ExpressionNodeForConstantValue cst = (ExpressionNodeForConstantValue) _valueOrNode;
+			return cst.value();
+		}
+		return _valueOrNode;
 	}
 
 }

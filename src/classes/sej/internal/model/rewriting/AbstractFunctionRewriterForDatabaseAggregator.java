@@ -41,6 +41,7 @@ import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.analysis.TypeAnnotator;
 import sej.internal.model.util.InterpretedNumericType;
+import sej.internal.util.New;
 
 abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExpressionRewriter
 {
@@ -101,19 +102,17 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 		TypeAnnotator.annotateExpr( this.table );
 
 		final List<ExpressionNode> tableElements = this.table.arguments();
-		final Iterator<ExpressionNode> tableIterator = tableElements.iterator();
-		final List<String> tableLabels = getLabelsFromTable( tableDescriptor, tableIterator );
-		final List<CellModel> firstRow = getFirstRowFromTable( tableDescriptor, tableIterator );
+		final List<String> tableLabels = getLabelsFromTable( tableDescriptor, tableElements );
+		final List<ExpressionNode> dataElements = stripLabelsFromTable( tableDescriptor, tableElements );
+		final List<CellModel> firstRow = getFirstRowFromTable( tableDescriptor, dataElements );
 		final DataType[] colTypes = getColTypesFromFirstRow( firstRow );
 		final int[] foldableColumnKeys = getFoldableColumnKeys( colTypes );
-
-		final Iterator<ExpressionNode> dataIterator = tableElements.iterator();
-		getLabelsFromTable( tableDescriptor, dataIterator ); // Skip label row
-		final ExpressionNode data = getShapedDataFromTable( tableDescriptor, dataIterator );
+		final ExpressionNode data = getShapedDataFromTable( tableDescriptor, dataElements );
 
 		final ArrayDescriptor critDescriptor = this.criteria.arrayDescriptor();
-		final Iterator<ExpressionNode> critIterator = this.criteria.arguments().iterator();
-		final List<String> critLabels = getLabelsFromTable( critDescriptor, critIterator );
+		final List<ExpressionNode> critElements = this.criteria.arguments();
+		final List<String> critLabels = getLabelsFromTable( critDescriptor, critElements );
+		final List<ExpressionNode> critData = stripLabelsFromTable( critDescriptor, critElements );
 		final int[] critCols = associateCriteriaColumnsWithTableLabels( tableLabels, critLabels );
 
 		final int foldedColumnIndex = buildFoldedColumnIndex( this.valueColumn, tableLabels );
@@ -125,7 +124,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 		}
 
 		final FilterBuilder filterBuilder = new FilterBuilder();
-		final ExpressionNode filter = filterBuilder.buildFilter( critCols, critIterator, colTypes, firstRow );
+		final ExpressionNode filter = filterBuilder.buildFilter( critCols, critData, colTypes, firstRow );
 
 		final ExpressionNodeForDatabaseFold fold = new ExpressionNodeForDatabaseFold( tableDescriptor, "col", filter,
 				"r", initialAccumulatorValue(), "xi", foldingStep( "r", "xi" ), foldedColumnIndex, foldableColumnKeys,
@@ -135,45 +134,80 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 	}
 
 
-	private List<String> getLabelsFromTable( ArrayDescriptor _tableDesc, Iterator<ExpressionNode> _tableElements )
+	private List<String> getLabelsFromTable( ArrayDescriptor _tableDesc, List<ExpressionNode> _tableElements )
 			throws CompilerException
 	{
-		final int nCol = _tableDesc.getNumberOfColumns();
-		final List<String> result = new ArrayList<String>( nCol );
-		for (int iCol = 0; iCol < nCol; iCol++) {
-			final ExpressionNode next = _tableElements.next();
-			if (next instanceof ExpressionNodeForArrayReference) {
-				return getLabelsFromTable( _tableDesc, next.arguments().iterator() );
-			}
-
-			final Object cst = constantValueOf( next );
-			if (NOT_CONST == cst) {
-				throw new CompilerException.UnsupportedExpression(
-						"Database table/criteria labels must be constant values." );
-			}
-			result.add( cst.toString() );
+		final ExpressionNode first = _tableElements.get( 0 );
+		if (first instanceof ExpressionNodeForArrayReference) {
+			return getLabelsFromTable( _tableDesc, first.arguments() );
 		}
+		else {
+			final int nCol = _tableDesc.getNumberOfColumns();
+			final List<String> result = New.newList( nCol );
+			final Iterator<ExpressionNode> iElt = _tableElements.iterator();
+			for (int iCol = 0; iCol < nCol; iCol++) {
+				final Object cst = constantValueOf( iElt.next() );
+				if (NOT_CONST == cst) {
+					throw new CompilerException.UnsupportedExpression(
+							"Database table/criteria labels must be constant values." );
+				}
+				result.add( cst.toString() );
+			}
+			return result;
+		}
+	}
+
+	private List<ExpressionNode> stripLabelsFromTable( ArrayDescriptor _tableDesc, List<ExpressionNode> _tableElements )
+	{
+		final List<ExpressionNode> result = New.newList( _tableElements.size() - 1 ); // heuristic
+		stripLabelsFromTableInto( _tableDesc, _tableElements, result );
 		return result;
 	}
 
+	private void stripLabelsFromTableInto( ArrayDescriptor _tableDesc, List<ExpressionNode> _tableElements,
+			List<ExpressionNode> _result )
+	{
+		final Iterator<ExpressionNode> iElt = _tableElements.iterator();
+		final ExpressionNode first = iElt.next();
+		if (first instanceof ExpressionNodeForArrayReference) {
+			final ExpressionNodeForArrayReference firstArr = (ExpressionNodeForArrayReference) first;
+			final ArrayDescriptor firstArrDesc = firstArr.arrayDescriptor();
+			final int firstArrRows = firstArrDesc.getNumberOfRows();
+			if (firstArrRows > 1) {
+				final ExpressionNodeForArrayReference newFirstArr = new ExpressionNodeForArrayReference(
+						new ArrayDescriptor( firstArrDesc, 0, -1, 0 ) );
+				stripLabelsFromTableInto( firstArrDesc, firstArr.arguments(), newFirstArr.arguments() );
+				_result.add( newFirstArr );
+			}
+		}
+		else {
+			final int nCol = _tableDesc.getNumberOfColumns();
+			for (int iCol = 1; iCol < nCol; iCol++) {
+				iElt.next();
+			}
+		}
+		while (iElt.hasNext()) {
+			_result.add( iElt.next() );
+		}
+	}
 
-	private List<CellModel> getFirstRowFromTable( ArrayDescriptor _tableDesc, Iterator<ExpressionNode> _dataElements )
+	private List<CellModel> getFirstRowFromTable( ArrayDescriptor _tableDesc, List<ExpressionNode> _dataElements )
 			throws CompilerException
 	{
 		final int nCol = _tableDesc.getNumberOfColumns();
-		final List<CellModel> result = new ArrayList<CellModel>( nCol );
-		addColumnsOfRowFromIterator( 0, nCol, result, _dataElements );
+		final List<CellModel> result = New.newList( nCol );
+		getFirstRowFromTableInto( 0, nCol, _dataElements.iterator(), result );
 		return result;
 	}
 
-	private int addColumnsOfRowFromIterator( int _iCol, int _nCol, Collection<CellModel> _row,
-			Iterator<ExpressionNode> _dataElements ) throws CompilerException
+	private int getFirstRowFromTableInto( int _iCol, int _nCol, Iterator<ExpressionNode> _dataElements,
+			Collection<CellModel> _row ) throws CompilerException
 	{
 		int iCol = _iCol;
 		while (iCol < _nCol && _dataElements.hasNext()) {
 			final ExpressionNode next = _dataElements.next();
 			if (next instanceof ExpressionNodeForArrayReference || next instanceof ExpressionNodeForSubSectionModel) {
-				iCol = addColumnsOfRowFromIterator( iCol, _nCol, _row, next.arguments().iterator() );
+				iCol = getFirstRowFromTableInto( iCol, _nCol, next.arguments().iterator(), _row );
 			}
 			else {
 				if (!(next instanceof ExpressionNodeForCellModel)) {
@@ -200,17 +234,11 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 
 
 	private ExpressionNodeForArrayReference getShapedDataFromTable( ArrayDescriptor _tableDesc,
-			Iterator<ExpressionNode> _tableElements )
+			List<ExpressionNode> _tableElements )
 	{
-		final ArrayDescriptor td = _tableDesc;
-		final int sheets = td.getNumberOfSheets();
-		final int rows = td.getNumberOfRows();
-		final int cols = td.getNumberOfColumns();
-		final ArrayDescriptor dd = new ArrayDescriptor( sheets, (rows == ArrayDescriptor.DYNAMIC) ? rows : rows - 1, cols );
-		final ExpressionNodeForArrayReference result = new ExpressionNodeForArrayReference( dd, false );
-		while (_tableElements.hasNext()) {
-			result.addArgument( _tableElements.next() );
-		}
+		final ArrayDescriptor dd = new ArrayDescriptor( _tableDesc, 0, -1, 0 );
+		final ExpressionNodeForArrayReference result = new ExpressionNodeForArrayReference( dd );
+		result.arguments().addAll( _tableElements );
 		return result;
 	}
 
@@ -275,10 +303,10 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 		private int nextCritID = 0;
 
 
-		public ExpressionNode buildFilter( int[] _critCols, Iterator<ExpressionNode> _critIterator, DataType[] _colTypes,
+		public ExpressionNode buildFilter( int[] _critCols, List<ExpressionNode> _critData, DataType[] _colTypes,
 				List<CellModel> _firstRow ) throws CompilerException
 		{
-			return join( Function.OR, buildRowFilters( _critCols, _critIterator, _colTypes, _firstRow ) );
+			return join( Function.OR, buildRowFilters( _critCols, _critData.iterator(), _colTypes, _firstRow ) );
 		}
 
 		private Collection<ExpressionNode> buildRowFilters( int[] _critCols, Iterator<ExpressionNode> _critIterator,
@@ -301,7 +329,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 				DataType[] _colTypes, List<CellModel> _firstRow ) throws CompilerException
 		{
 			final int len = _critCols.length;
-			final Collection<ExpressionNode> result = new ArrayList<ExpressionNode>( len );
+			final Collection<ExpressionNode> result = New.newList( len );
 			for (int iCrit = 0; iCrit < len; iCrit++) {
 				final int iCol = _critCols[ iCrit ];
 				final ExpressionNode criterion = _critIterator.next();

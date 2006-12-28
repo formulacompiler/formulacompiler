@@ -120,7 +120,7 @@ final class HelperCompilerForDatabaseFold extends HelperCompilerForIterativeFold
 			final ExpressionNode foldedElt = _elts.get( iFoldedElt );
 			final Label noMatch = mv.newLabel();
 
-			compileCallToMatcherAndBuildInFirstPass( _elts, _iElt );
+			compileCallToMatcherAndBuildItInFirstPass( _elts, _iElt );
 			compileSkipFoldIfNoMatch( noMatch );
 			if (this.isReduce) {
 				compileFirstMatchCheckAndInit( noMatch, foldedElt );
@@ -166,7 +166,7 @@ final class HelperCompilerForDatabaseFold extends HelperCompilerForIterativeFold
 		resetLocalsTo( reuseLocalsAt );
 	}
 
-	private void compileCallToMatcherAndBuildInFirstPass( List<ExpressionNode> _elts, int _iElt )
+	private void compileCallToMatcherAndBuildItInFirstPass( List<ExpressionNode> _elts, int _iElt )
 			throws CompilerException
 	{
 		final int nCols = this.tableDescriptor.getNumberOfColumns();

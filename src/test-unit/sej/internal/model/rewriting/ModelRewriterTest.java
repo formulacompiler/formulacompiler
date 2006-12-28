@@ -80,7 +80,7 @@ public class ModelRewriterTest extends TestCase
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( SEJ.DOUBLE ) ) );
 
 		assertBeginsWith(
-				"_DFOLD( col: OR( AND( (`col0 = \"Apple\"), (`col1 > 10.0), (`col1 < 16.0) ), (`col0 = \"Pear\") ); r: 0.0; xi: (`r + `xi); #3; #(1,2,5)_nofold{",
+				"_DFOLD( col: OR( AND( (`col0 = \"Apple\"), (`col1 > 10.0), (`col1 < 16.0) ), (`col0 = \"Pear\") ); r: 0.0; xi: (`r + `xi); #3; #(1,2,5){",
 				r.getExpression().toString() );
 	}
 
@@ -104,7 +104,7 @@ public class ModelRewriterTest extends TestCase
 
 		assertBeginsWith(
 				"_LET_nofold( -crit0: Inputs.getOne(); _LET_nofold( -crit1: Inputs.getOne(); _LET_nofold( -crit2: Inputs.getOne(); _LET_nofold( -crit3: Inputs.getOne(); "
-						+ "_DFOLD( col: OR( AND( (`col0 = `-crit0), (`col1 > `-crit1), (`col1 < `-crit2) ), (`col0 = `-crit3) ); r: 0.0; xi: (`r + `xi); #3; #(1,2,5)_nofold{",
+						+ "_DFOLD( col: OR( AND( (`col0 = `-crit0), (`col1 > `-crit1), (`col1 < `-crit2) ), (`col0 = `-crit3) ); r: 0.0; xi: (`r + `xi); #3; #(1,2,5){",
 				r.getExpression().toString() );
 	}
 

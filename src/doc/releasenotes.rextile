@@ -19,7 +19,7 @@ h5. *Changed!*
 h5. New
 
 	* @NPV()@, @MIRR()@, and @IRR()@ are now "supported":reference/financialfuncs.htm (not yet over dynamic sections, though).
-	* @DSUM()@, @DPRODUCT()@, @DCOUNT()@, @DMIN()@, @DMAX()@ are now "supported":reference/dbaggregators.htm (not yet over dynamic sections, though).
+	* @DSUM()@, @DPRODUCT()@, @DCOUNT()@, @DMIN()@, @DMAX()@ are now "supported":reference/dbaggregators.htm.
 	* @_MAKE_ARRAY()@, @_FOLD_ARRAY()@ added to internal rewriting language.
 	* Added @_DFOLD()@ to the internal expression AST, but not the rewriting language. This is because rewriting a database fold like @DSUM()@ is too complex for a simple rewrite. The rewriting is done in a specialized Java class.
 	

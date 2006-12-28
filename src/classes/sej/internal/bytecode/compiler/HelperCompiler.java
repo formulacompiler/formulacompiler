@@ -21,15 +21,11 @@
 package sej.internal.bytecode.compiler;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import sej.CompilerException;
 import sej.internal.expressions.ArrayDescriptor;
-import sej.internal.expressions.ArrayValue;
-import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForArrayReference;
-import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.LetDictionary.LetEntry;
 
 
@@ -63,18 +59,6 @@ abstract class HelperCompiler extends ValueMethodCompiler
 			final Collection<ExpressionNode> args = _arrayRefNode.arguments();
 			return args.toArray( new ExpressionNode[ args.size() ] );
 		}
-		else if (_arrayRefNode instanceof ExpressionNodeForConstantValue) {
-			final ArrayValue arrVal = (ArrayValue) ((ExpressionNodeForConstantValue) _arrayRefNode).value();
-			final DataType arrType = _arrayRefNode.getDataType();
-			final int arrSize = arrVal.getNumberOfElements();
-			final ExpressionNode[] result = new ExpressionNode[ arrSize ];
-			final Iterator<Object> arrIter = arrVal.iterator();
-			int i = 0;
-			while (arrIter.hasNext()) {
-				result[ i++ ] = new ExpressionNodeForConstantValue( arrIter.next(), arrType );
-			}
-			return result;
-		}
 		else {
 			throw new CompilerException.UnsupportedExpression( "Array reference expected in "
 					+ _outerNode.describe() + "." );
@@ -87,9 +71,6 @@ abstract class HelperCompiler extends ValueMethodCompiler
 	{
 		if (_rangeNode instanceof ExpressionNodeForArrayReference) {
 			return ((ExpressionNodeForArrayReference) _rangeNode).arrayDescriptor();
-		}
-		else if (_rangeNode instanceof ExpressionNodeForConstantValue) {
-			return (ArrayValue) ((ExpressionNodeForConstantValue) _rangeNode).value();
 		}
 		else {
 			throw new CompilerException.UnsupportedExpression( "Array reference expected in "

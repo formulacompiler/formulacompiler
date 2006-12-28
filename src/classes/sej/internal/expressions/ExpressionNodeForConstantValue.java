@@ -32,12 +32,14 @@ public final class ExpressionNodeForConstantValue extends ExpressionNode
 
 	public ExpressionNodeForConstantValue(Object _value)
 	{
+		assert !(_value instanceof ExpressionNode);
 		this.value = _value;
 	}
 
 
 	public ExpressionNodeForConstantValue(Object _value, DataType _type)
 	{
+		assert !(_value instanceof ExpressionNode);
 		this.value = _value;
 		setDataType( _type );
 	}
@@ -59,13 +61,7 @@ public final class ExpressionNodeForConstantValue extends ExpressionNode
 	@Override
 	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
 	{
-		if (this.value instanceof ArrayValue) {
-			ArrayValue array = (ArrayValue) this.value;
-			return array.getNumberOfElements();
-		}
-		else {
-			return 1;
-		}
+		return 1;
 	}
 
 

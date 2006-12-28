@@ -21,7 +21,6 @@
 package sej.internal.model.util;
 
 import sej.NumericType;
-import sej.internal.expressions.ArrayValue;
 
 abstract class InterpretedDoubleType_Base extends InterpretedNumericType
 {
@@ -37,8 +36,8 @@ abstract class InterpretedDoubleType_Base extends InterpretedNumericType
 	{
 		return _value;
 	}
-	
-	
+
+
 	@Override
 	public Number fromString( String _s )
 	{
@@ -84,18 +83,13 @@ abstract class InterpretedDoubleType_Base extends InterpretedNumericType
 
 	protected final double[] to_array( Object _value )
 	{
-		if (_value instanceof ArrayValue) {
-			final ArrayValue _array = (ArrayValue) _value;
-			final double[] r = new double[ _array.getNumberOfElements() ];
-			int i = 0;
-			for (Object cst : _array) {
-				r[ i++ ] = to_double( cst );
-			}
-			return r;
+		final Object[] consts = asArrayOfConsts( _value );
+		final double[] r = new double[ consts.length ];
+		int i = 0;
+		for (Object cst : consts) {
+			r[ i++ ] = to_double( cst );
 		}
-		else {
-			throw new IllegalArgumentException();
-		}
+		return r;
 	}
 
 }
