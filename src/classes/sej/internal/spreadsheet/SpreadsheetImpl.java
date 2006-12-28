@@ -21,7 +21,6 @@
 package sej.internal.spreadsheet;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -42,7 +41,7 @@ import sej.util.New;
 public final class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
 {
 	private List<SheetImpl> sheets = New.newList();
-	private Map<String, Reference> names = new HashMap<String, Reference>();
+	private Map<String, Reference> names = New.newMap();
 
 
 	public List<SheetImpl> getSheetList()

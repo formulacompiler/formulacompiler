@@ -34,6 +34,7 @@ import sej.Spreadsheet.Cell;
 import sej.SpreadsheetBinder.Section;
 import sej.runtime.ComputationFactory;
 import sej.runtime.SEJException;
+import sej.util.New;
 
 
 public class MainWindowController
@@ -110,7 +111,7 @@ public class MainWindowController
 
 	public abstract class DataModel
 	{
-		private final List<ControllerListener> listeners = new ArrayList<ControllerListener>();
+		private final List<ControllerListener> listeners = New.newList();
 
 
 		public List<ControllerListener> getListeners()

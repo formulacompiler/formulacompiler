@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -40,6 +39,7 @@ import sej.internal.spreadsheet.Reference;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
+import sej.util.New;
 
 import jxl.Cell;
 import jxl.CellView;
@@ -224,8 +224,8 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	}
 
 
-	private final Map<String, CellView> colStyles = new HashMap<String, CellView>();
-	private final Map<String, CellView> rowStyles = new HashMap<String, CellView>();
+	private final Map<String, CellView> colStyles = New.newMap();
+	private final Map<String, CellView> rowStyles = New.newMap();
 
 	private CellView getRowStyle( String _styleName )
 	{
@@ -267,7 +267,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	}
 
 
-	private final Map<String, CellFormat> cellStyles = new HashMap<String, CellFormat>();
+	private final Map<String, CellFormat> cellStyles = New.newMap();
 
 	private void extractCellFormatsFrom( WritableWorkbook _xwb )
 	{

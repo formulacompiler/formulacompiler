@@ -22,7 +22,7 @@ package sej.internal.bytecode.compiler;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.HashMap;
+import java.util.Map;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Type;
@@ -39,6 +39,7 @@ import sej.runtime.Computation;
 import sej.runtime.Engine;
 import sej.runtime.EngineException;
 import sej.runtime.Resettable;
+import sej.util.New;
 
 
 public class ByteCodeEngineCompiler extends AbstractEngineCompiler
@@ -126,7 +127,7 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 	@Override
 	public SaveableEngine compile() throws CompilerException, EngineException
 	{
-		final HashMap<String, byte[]> classNamesAndBytes = new HashMap<String, byte[]>();
+		final Map<String, byte[]> classNamesAndBytes = New.newMap();
 
 		final SectionCompiler rootCompiler = new SectionCompiler( this, getModel().getRoot() );
 		this.rootCompiler = rootCompiler;

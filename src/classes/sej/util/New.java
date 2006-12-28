@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public final class New
 {
@@ -47,6 +49,11 @@ public final class New
 	public static <K, V> Map<K, V> newMap()
 	{
 		return newHashMap();
+	}
+
+	public static <T> SortedSet<T> newSortedSet()
+	{
+		return new TreeSet<T>();
 	}
 
 }

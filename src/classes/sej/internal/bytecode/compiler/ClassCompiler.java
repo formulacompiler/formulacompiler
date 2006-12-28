@@ -20,7 +20,7 @@
  */
 package sej.internal.bytecode.compiler;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
@@ -164,7 +164,7 @@ abstract class ClassCompiler
 	}
 
 
-	void collectClassNamesAndBytes( HashMap<String, byte[]> _result )
+	void collectClassNamesAndBytes( Map<String, byte[]> _result )
 	{
 		_result.put( classInternalName().replace( '/', '.' ), getClassBytes() );
 	}

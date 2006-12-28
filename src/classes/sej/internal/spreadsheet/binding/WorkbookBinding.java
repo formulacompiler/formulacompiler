@@ -20,7 +20,6 @@
  */
 package sej.internal.spreadsheet.binding;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +35,7 @@ public class WorkbookBinding implements SpreadsheetBinding
 {
 	protected final SpreadsheetImpl workbook;
 	protected final SectionBinding root;
-	protected Map<CellIndex, InputCellBinding> inputs = new HashMap<CellIndex, InputCellBinding>();
+	protected Map<CellIndex, InputCellBinding> inputs = New.newMap();
 	protected List<OutputCellBinding> outputs = New.newList();
 	protected List<SectionBinding> sections = New.newList();
 

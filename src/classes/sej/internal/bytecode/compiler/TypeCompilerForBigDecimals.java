@@ -22,7 +22,6 @@ package sej.internal.bytecode.compiler;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.objectweb.asm.ClassWriter;
@@ -35,6 +34,7 @@ import sej.CompilerException;
 import sej.NumericType;
 import sej.internal.runtime.RuntimeBigDecimal_v1;
 import sej.internal.runtime.RuntimeDouble_v1;
+import sej.util.New;
 
 
 public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
@@ -144,7 +144,7 @@ public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 	}
 
 
-	private final Map<String, String> constantPool = new HashMap<String, String>();
+	private final Map<String, String> constantPool = New.newMap();
 
 	/** The max value of a long is 9,223,372,036,854,775,807, so its max precision is 6 * 3 = 18. */
 	private static final int MAX_LONG_PREC = 18;

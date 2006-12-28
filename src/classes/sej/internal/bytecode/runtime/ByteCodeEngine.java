@@ -20,19 +20,19 @@
  */
 package sej.internal.bytecode.runtime;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import sej.runtime.ComputationFactory;
 import sej.runtime.Engine;
 import sej.runtime.EngineException;
+import sej.util.New;
 
 public class ByteCodeEngine extends ClassLoader implements Engine
 {
 	public static final String GEN_PACKAGE_NAME = "sej.gen.";
 	public static final String GEN_FACTORY_NAME = "$Factory";
 
-	protected final Map<String, byte[]> classNamesAndBytes = new HashMap<String, byte[]>();
+	protected final Map<String, byte[]> classNamesAndBytes = New.newMap();
 	private final Class factoryClass;
 	private final ComputationFactory factory;
 
