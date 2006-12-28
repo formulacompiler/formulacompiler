@@ -20,7 +20,6 @@
  */
 package sej.internal.model.optimizer.consteval;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import sej.CompilerException;
@@ -32,6 +31,7 @@ import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.SectionModel;
 import sej.internal.model.util.EvalNotPossibleException;
 import sej.internal.model.util.InterpretedNumericType;
+import sej.util.New;
 
 public class EvalFunction extends EvalShadow
 {
@@ -55,7 +55,7 @@ public class EvalFunction extends EvalShadow
 				return evalBooleanSequence( true );
 
 			case COUNT: {
-				final Collection<ExpressionNode> uncountables = new ArrayList<ExpressionNode>();
+				final Collection<ExpressionNode> uncountables = New.newCollection();
 				final int staticValueCount = node().countArgumentValues( context().letDict, uncountables );
 				final int subCount = uncountables.size();
 				if (subCount == 0) {
@@ -68,7 +68,7 @@ public class EvalFunction extends EvalShadow
 					for (ExpressionNode uncountable : uncountables) {
 						final ExpressionNodeForSubSectionModel sub = (ExpressionNodeForSubSectionModel) uncountable;
 						subs[i] = sub.getSectionModel();
-						final Collection<ExpressionNode> subUncountables = new ArrayList<ExpressionNode>();
+						final Collection<ExpressionNode> subUncountables = New.newCollection();
 						subCounts[i] = sub.countArgumentValues( context().letDict, subUncountables );
 						if (subUncountables.size() > 0) {
 							throw new CompilerException.UnsupportedExpression( "COUNT of nested sections not supported" );
@@ -88,7 +88,7 @@ public class EvalFunction extends EvalShadow
 	private final Object evalBooleanSequence( boolean _returnThisIfFound ) throws CompilerException
 	{
 		final InterpretedNumericType type = type();
-		final Collection<ExpressionNode> dynArgs = new ArrayList<ExpressionNode>();
+		final Collection<ExpressionNode> dynArgs = New.newCollection();
 		final int n = cardinality();
 		for (int i = 0; i < n; i++) {
 			final Object arg = evaluateArgument( i );

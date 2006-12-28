@@ -21,10 +21,10 @@
 package sej.tests.utils;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import sej.runtime.ScaledLong;
+import sej.util.New;
 
 
 @ScaledLong(4)
@@ -36,8 +36,8 @@ public class Inputs implements InputInterface
 	private BigDecimal bigOne;
 	private BigDecimal bigTwo;
 	private BigDecimal bigThree;
-	private final Collection<Inputs> details = new ArrayList<Inputs>();
-	private final Collection<Inputs> otherDetails = new ArrayList<Inputs>();
+	private final Collection<Inputs> details = New.newCollection();
+	private final Collection<Inputs> otherDetails = New.newCollection();
 	private double doubleIncr = 1;
 
 	public Inputs(final double _one, final double _two, final double _three)

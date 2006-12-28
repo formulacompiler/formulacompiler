@@ -22,12 +22,12 @@ package sej.internal.spreadsheet.loader;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import sej.Spreadsheet;
 import sej.SpreadsheetException;
 import sej.internal.spreadsheet.loader.excel.xls.ExcelXLSLoader;
+import sej.util.New;
 
 /**
  * Central dispatcher for the loaders for the various spreadsheet file formats supported by SEJ. You
@@ -37,7 +37,7 @@ import sej.internal.spreadsheet.loader.excel.xls.ExcelXLSLoader;
  */
 public final class AnyFormatSpreadsheetLoader
 {
-	private static Collection<Factory> factories = new ArrayList<Factory>();
+	private static Collection<Factory> factories = New.newCollection();
 	
 	static {
 		ExcelXLSLoader.register();

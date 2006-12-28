@@ -20,14 +20,15 @@
  */
 package sej.internal.expressions;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import sej.util.New;
 
 
 public abstract class ExpressionNodeShadow
 {
 	private final ExpressionNode node;
-	private final List<ExpressionNodeShadow> arguments = new ArrayList<ExpressionNodeShadow>();
+	private final List<ExpressionNodeShadow> arguments = New.newList();
 
 	public ExpressionNodeShadow(ExpressionNode _node)
 	{

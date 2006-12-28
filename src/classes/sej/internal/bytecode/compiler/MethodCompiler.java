@@ -22,7 +22,6 @@ package sej.internal.bytecode.compiler;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -43,6 +42,7 @@ import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
 import sej.internal.expressions.LetDictionary;
 import sej.internal.expressions.LetDictionary.LetEntry;
+import sej.util.New;
 
 
 abstract class MethodCompiler
@@ -323,14 +323,14 @@ abstract class MethodCompiler
 
 	protected final Iterable<LetEntry> closureOf( Iterable<ExpressionNode> _nodes )
 	{
-		final Collection<LetEntry> closure = new ArrayList<LetEntry>();
+		final Collection<LetEntry> closure = New.newCollection();
 		addToClosure( closure, _nodes );
 		return closure;
 	}
 
 	protected final Iterable<LetEntry> closureOf( ExpressionNode _node )
 	{
-		final Collection<LetEntry> closure = new ArrayList<LetEntry>();
+		final Collection<LetEntry> closure = New.newCollection();
 		addToClosure( closure, _node );
 		return closure;
 	}

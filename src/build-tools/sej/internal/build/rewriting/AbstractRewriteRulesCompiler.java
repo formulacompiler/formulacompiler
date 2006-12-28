@@ -22,7 +22,6 @@ package sej.internal.build.rewriting;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -40,6 +39,7 @@ import sej.internal.expressions.ExpressionNodeForLetVar;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.expressions.ExpressionNodeForReduce;
 import sej.internal.spreadsheet.loader.excel.RewriteLanguageParser;
+import sej.util.New;
 
 public abstract class AbstractRewriteRulesCompiler
 {
@@ -65,7 +65,7 @@ public abstract class AbstractRewriteRulesCompiler
 	protected final void begin( Function _fun, String... _params )
 	{
 		this.fun = _fun;
-		this.params = new ArrayList<String>();
+		this.params = New.newList();
 		for (String p : _params)
 			param( p );
 		this.body = new StringBuilder();

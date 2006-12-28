@@ -21,7 +21,6 @@
 package sej.tutorials;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -38,6 +37,7 @@ import sej.Spreadsheet.Range;
 import sej.SpreadsheetBinder.Section;
 import sej.runtime.Resettable;
 import sej.runtime.ScaledLong;
+import sej.util.New;
 import junit.framework.TestCase;
 
 @SuppressWarnings("unchecked")
@@ -312,7 +312,7 @@ public class BonusPerEmployee extends TestCase
 	{
 		private final long bonusTotal;
 		private final long overtimeSalaryPerHour;
-		private final Collection<EmployeeBonusData> employees = new ArrayList<EmployeeBonusData>();
+		private final Collection<EmployeeBonusData> employees = New.newCollection();
 
 		public BonusDataImpl(long _bonusTotal, long _overtimeSalaryPerHour)
 		{

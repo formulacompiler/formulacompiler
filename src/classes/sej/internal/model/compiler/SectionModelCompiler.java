@@ -20,7 +20,6 @@
  */
 package sej.internal.model.compiler;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import sej.CompilerException;
@@ -47,6 +46,7 @@ import sej.internal.spreadsheet.binding.CellBinding;
 import sej.internal.spreadsheet.binding.InputCellBinding;
 import sej.internal.spreadsheet.binding.SectionBinding;
 import sej.internal.spreadsheet.binding.WorkbookBinding;
+import sej.util.New;
 
 
 public final class SectionModelCompiler
@@ -364,7 +364,7 @@ public final class SectionModelCompiler
 		private ExpressionNode buildContainedRange() throws CompilerException
 		{
 			final Orientation ownOrient = this.sectionDef.getOrientation();
-			final Collection<ExpressionNode> elts = new ArrayList<ExpressionNode>();
+			final Collection<ExpressionNode> elts = New.newCollection();
 
 			/*
 			 * This loop relies on the subsections of the current section being sorted in ascending

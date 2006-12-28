@@ -21,16 +21,16 @@
 package sej.internal.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import sej.CompilerException;
 import sej.describable.DescriptionBuilder;
+import sej.util.New;
 
 public class SectionModel extends ElementModel
 {
-	private final List<SectionModel> sections = new ArrayList<SectionModel>();
-	private final List<CellModel> cells = new ArrayList<CellModel>();
+	private final List<SectionModel> sections = New.newList();
+	private final List<CellModel> cells = New.newList();
 	private final Class inputClass;
 	private final Class outputClass;
 
@@ -109,5 +109,5 @@ public class SectionModel extends ElementModel
 		_to.outdent();
 		_to.appendLine( "</section>" );
 	}
-	
+
 }

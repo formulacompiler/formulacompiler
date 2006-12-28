@@ -20,11 +20,11 @@
  */
 package sej.internal.model;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import sej.CallFrame;
 import sej.describable.AbstractDescribable;
+import sej.util.New;
 
 
 public abstract class ElementModel extends AbstractDescribable
@@ -34,7 +34,7 @@ public abstract class ElementModel extends AbstractDescribable
 	private String name;
 	private String originalName;
 	private CallFrame callChainToCall;
-	private final Collection<CallFrame> callsToImplement = new ArrayList<CallFrame>();
+	private final Collection<CallFrame> callsToImplement = New.newCollection();
 
 
 	public ElementModel(SectionModel _section, String _name)
@@ -67,13 +67,13 @@ public abstract class ElementModel extends AbstractDescribable
 	{
 		return this.section;
 	}
-	
+
 	public String getName()
 	{
 		return this.name;
 	}
-	
-	
+
+
 	public final String getOriginalName()
 	{
 		return this.originalName;
@@ -98,7 +98,8 @@ public abstract class ElementModel extends AbstractDescribable
 	public void makeInput( CallFrame _callChainToCall )
 	{
 		this.callChainToCall = _callChainToCall;
-		this.name = _callChainToCall.getHead().getMethod().getDeclaringClass().getSimpleName() + "." + _callChainToCall.toString();
+		this.name = _callChainToCall.getHead().getMethod().getDeclaringClass().getSimpleName()
+				+ "." + _callChainToCall.toString();
 	}
 
 
