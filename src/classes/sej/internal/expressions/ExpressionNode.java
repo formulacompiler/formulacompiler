@@ -21,17 +21,17 @@
 package sej.internal.expressions;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
+import sej.util.New;
 
 
 public abstract class ExpressionNode extends AbstractDescribable
 {
-	private List<ExpressionNode> arguments = new ArrayList<ExpressionNode>();
+	private List<ExpressionNode> arguments = New.newList();
 	private DataType dataType;
 	private ExpressionNode derivedFrom;
 	private ExpressionContextProvider contextProvider;

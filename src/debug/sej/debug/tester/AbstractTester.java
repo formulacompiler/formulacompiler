@@ -1,7 +1,6 @@
 package sej.debug.tester;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -19,6 +18,7 @@ import sej.Spreadsheet.RangeNameDefinition;
 import sej.SpreadsheetBinder.Section;
 import sej.internal.Debug;
 import sej.runtime.Resettable;
+import sej.util.New;
 
 public abstract class AbstractTester
 {
@@ -129,9 +129,9 @@ public abstract class AbstractTester
 	{
 		private final Section binder;
 		private final Range range;
-		private final List<SectionDef> subs = new ArrayList<SectionDef>();
+		private final List<SectionDef> subs = New.newList();
 		private final Inputs input;
-		private final List<String> outputNames = new ArrayList<String>();
+		private final List<String> outputNames = New.newList();
 		private int nextSectionIndex = 0;
 
 		public SectionDef(SectionDef _parent, Range _range, Section _binder, Inputs _input) throws Exception
@@ -228,8 +228,8 @@ public abstract class AbstractTester
 
 	public static final class Inputs
 	{
-		private final List<Object> values = new ArrayList<Object>();
-		private final List<Inputs[]> subs = new ArrayList<Inputs[]>();
+		private final List<Object> values = New.newList();
+		private final List<Inputs[]> subs = New.newList();
 
 		public int addSub()
 		{

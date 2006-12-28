@@ -20,7 +20,6 @@
  */
 package sej.internal.bytecode.compiler;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -40,6 +39,7 @@ import sej.SpreadsheetBuilder.CellRef;
 import sej.runtime.Computation;
 import sej.runtime.Resettable;
 import sej.tests.utils.AbstractTestBase;
+import sej.util.New;
 
 
 /**
@@ -69,7 +69,8 @@ public class SectionSumTest extends AbstractTestBase
 		assertSums( _expected, _expectedDiffWithoutLast, newRootEngine( _input ), _input, "SEJ" );
 	}
 
-	private void assertSums( int _expected, int _expectedDiffWithoutLast, RootOutput _output, RootInput _input, String _engName )
+	private void assertSums( int _expected, int _expectedDiffWithoutLast, RootOutput _output, RootInput _input,
+			String _engName )
 	{
 		assertSums( _expected, _output, _engName );
 		if (_expectedDiffWithoutLast != 0) {
@@ -162,7 +163,10 @@ public class SectionSumTest extends AbstractTestBase
 	{
 		public abstract long arraySums();
 		public abstract long iteratorSums();
-		public long iterableSums() { return 0; }
+		public long iterableSums()
+		{
+			return 0;
+		}
 		public abstract long collectionSums();
 	}
 
@@ -254,7 +258,7 @@ public class SectionSumTest extends AbstractTestBase
 				final Iterator<DetailInput> ds = this.inputs.getiterator();
 				if (ds != null) {
 
-					final Collection<DetailPrototype> coll = new ArrayList<DetailPrototype>();
+					final Collection<DetailPrototype> coll = New.newList();
 					while (ds.hasNext()) {
 						coll.add( new DetailPrototype( ds.next(), this ) );
 					}
@@ -299,7 +303,7 @@ public class SectionSumTest extends AbstractTestBase
 				final Iterator<DetailInput> ds = this.inputs.getiterable().iterator();
 				if (ds != null) {
 
-					final Collection<DetailPrototype> coll = new ArrayList<DetailPrototype>();
+					final Collection<DetailPrototype> coll = New.newList();
 					while (ds.hasNext()) {
 						coll.add( new DetailPrototype( ds.next(), this ) );
 					}
@@ -425,7 +429,7 @@ public class SectionSumTest extends AbstractTestBase
 
 		public Collection<DetailInput> getcollection()
 		{
-			ArrayList<DetailInput> r = new ArrayList<DetailInput>( this.detailLen );
+			final Collection<DetailInput> r = New.newList( this.detailLen );
 			for (int i = 0; i < this.detailLen; i++) {
 				r.add( this.details[ i ] );
 			}

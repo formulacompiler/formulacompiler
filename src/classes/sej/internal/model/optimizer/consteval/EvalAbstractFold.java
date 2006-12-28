@@ -20,7 +20,6 @@
  */
 package sej.internal.model.optimizer.consteval;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import sej.CompilerException;
@@ -29,6 +28,7 @@ import sej.internal.expressions.ExpressionNodeForAbstractFold;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForSubstitution;
 import sej.internal.model.util.InterpretedNumericType;
+import sej.util.New;
 
 abstract class EvalAbstractFold extends EvalShadow
 {
@@ -59,7 +59,7 @@ abstract class EvalAbstractFold extends EvalShadow
 	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object[] _args, int _firstFoldedArg )
 			throws CompilerException
 	{
-		final Collection<ExpressionNode> dynArgs = new ArrayList<ExpressionNode>();
+		final Collection<ExpressionNode> dynArgs = New.newCollection();
 		final Object initialAcc = initial( _args );
 		Object acc = initialAcc;
 		if (isConstant( acc )) {

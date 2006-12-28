@@ -20,7 +20,6 @@
  */
 package sej.internal.bytecode.compiler;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -40,6 +39,7 @@ import sej.SpreadsheetBuilder.CellRef;
 import sej.runtime.Computation;
 import sej.runtime.Resettable;
 import sej.tests.utils.AbstractTestBase;
+import sej.util.New;
 
 
 /**
@@ -267,7 +267,7 @@ public class SectionOutputTest extends AbstractTestBase
 		public List<DetailOutput> outputsList()
 		{
 			final DetailPrototype[] arr = outs();
-			final ArrayList<DetailOutput> res = new ArrayList<DetailOutput>( arr.length );
+			final List<DetailOutput> res = New.newList( arr.length );
 			for (DetailPrototype det : arr)
 				res.add( det );
 			return res;

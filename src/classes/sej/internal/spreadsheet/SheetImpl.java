@@ -21,13 +21,13 @@
 package sej.internal.spreadsheet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import sej.Spreadsheet;
 import sej.Spreadsheet.Row;
 import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
+import sej.util.New;
 
 
 public final class SheetImpl extends AbstractDescribable implements Spreadsheet.Sheet
@@ -35,7 +35,7 @@ public final class SheetImpl extends AbstractDescribable implements Spreadsheet.
 	private final SpreadsheetImpl spreadsheet;
 	private final int sheetIndex;
 	private final String name;
-	private final List<RowImpl> rows = new ArrayList<RowImpl>();
+	private final List<RowImpl> rows = New.newList();
 
 
 	public SheetImpl(SpreadsheetImpl _spreadsheet)

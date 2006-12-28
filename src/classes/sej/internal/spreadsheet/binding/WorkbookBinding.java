@@ -20,7 +20,6 @@
  */
 package sej.internal.spreadsheet.binding;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,14 +30,15 @@ import sej.SpreadsheetBinding;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.SpreadsheetImpl;
 import sej.runtime.Resettable;
+import sej.util.New;
 
 public class WorkbookBinding implements SpreadsheetBinding
 {
 	protected final SpreadsheetImpl workbook;
 	protected final SectionBinding root;
 	protected Map<CellIndex, InputCellBinding> inputs = new HashMap<CellIndex, InputCellBinding>();
-	protected List<OutputCellBinding> outputs = new ArrayList<OutputCellBinding>();
-	protected List<SectionBinding> sections = new ArrayList<SectionBinding>();
+	protected List<OutputCellBinding> outputs = New.newList();
+	protected List<SectionBinding> sections = New.newList();
 
 
 	public WorkbookBinding(SpreadsheetImpl _workbook, Class _inputClass, Class _outputClass)

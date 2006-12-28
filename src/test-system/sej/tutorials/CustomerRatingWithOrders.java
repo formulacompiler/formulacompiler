@@ -21,7 +21,6 @@
 package sej.tutorials;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -36,18 +35,18 @@ import sej.Spreadsheet.Range;
 import sej.SpreadsheetBinder.Section;
 import sej.runtime.Engine;
 import sej.runtime.Resettable;
+import sej.util.New;
 import junit.framework.TestCase;
 
 public class CustomerRatingWithOrders extends TestCase
 {
 	private static final String SHEETPATH = "src/test-system/testdata/sej/tutorials/CustomerRating.xls";
 
-	private static enum AccessorVersion
-	{
+	private static enum AccessorVersion {
 		ARRAY, ITERABLE, ITERATOR;
 	}
 
-	
+
 	public void testCustomerRatingWithArray() throws Exception
 	{
 		doTestCustomerRating( AccessorVersion.ARRAY );
@@ -88,7 +87,8 @@ public class CustomerRatingWithOrders extends TestCase
 	}
 
 
-	private void bindElements( EngineBuilder _builder, AccessorVersion _version ) throws CompilerException, NoSuchMethodException
+	private void bindElements( EngineBuilder _builder, AccessorVersion _version ) throws CompilerException,
+			NoSuchMethodException
 	{
 		Spreadsheet sheet = _builder.getSpreadsheet();
 		// ---- bindOrders
@@ -118,7 +118,7 @@ public class CustomerRatingWithOrders extends TestCase
 		Orientation orient = Orientation.VERTICAL;
 		Class input = /**/OrderData/**/.class;
 
-		Section /**/orders/**/ = binder./**/defineRepeatingSection/**/( range, orient, call, input, null, null );
+		Section /**/orders/**/= binder./**/defineRepeatingSection/**/( range, orient, call, input, null, null );
 		// ---- bindOrders
 
 		// ---- bindOrderValues
@@ -149,16 +149,17 @@ public class CustomerRatingWithOrders extends TestCase
 	{
 		public String rating();
 	}
+
 	// ---- CustomerRating
 
 
 	// ---- CustomerData
 	public static interface CustomerData
 	{
-		public /**/OrderData[]/**/ ordersForLastNDays( int _days );
+		public/**/OrderData[]/**/ordersForLastNDays( int _days );
 		// -- CustomerDataAlternatives
-		public /**/Iterable<OrderData>/**/ ordersForLastNDaysIterable( int _days );
-		public /**/Iterator<OrderData>/**/ ordersForLastNDaysIterator( int _days );
+		public/**/Iterable<OrderData>/**/ordersForLastNDaysIterable( int _days );
+		public/**/Iterator<OrderData>/**/ordersForLastNDaysIterator( int _days );
 		// -- CustomerDataAlternatives
 	}
 
@@ -190,11 +191,12 @@ public class CustomerRatingWithOrders extends TestCase
 		{
 			return this.orders;
 		}
-		
+
 		public Iterable<OrderData> ordersForLastNDaysIterable( int _days )
 		{
-			Collection<OrderData> result = new ArrayList<OrderData>( this.orders.length );
-			for (OrderData order : this.orders) result.add( order );
+			final Collection<OrderData> result = New.newCollection( this.orders.length );
+			for (OrderData order : this.orders)
+				result.add( order );
 			return result;
 		}
 

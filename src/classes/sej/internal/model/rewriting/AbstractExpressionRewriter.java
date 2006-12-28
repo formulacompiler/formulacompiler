@@ -20,7 +20,6 @@
  */
 package sej.internal.model.rewriting;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -38,6 +37,7 @@ import sej.internal.expressions.ExpressionNodeForReduce;
 import sej.internal.expressions.ExpressionNodeForSubstitution;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
+import sej.util.New;
 
 abstract class AbstractExpressionRewriter
 {
@@ -61,7 +61,7 @@ abstract class AbstractExpressionRewriter
 
 	protected final ExpressionNode substitution( Iterator<ExpressionNode> _exprs )
 	{
-		Collection<ExpressionNode> coll = new ArrayList<ExpressionNode>();
+		Collection<ExpressionNode> coll = New.newCollection();
 		while (_exprs.hasNext())
 			coll.add( _exprs.next() );
 		return substitution( coll );

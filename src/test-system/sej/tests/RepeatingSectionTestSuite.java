@@ -48,7 +48,7 @@ import junit.framework.TestSuite;
 // TODO ErrorImproperInnerSectionReference: horizontal flow tiling
 // TODO SectionReferences
 // TODO Test section consistency: all rows equal except in input cells
-// TODO Test section consistency: 1: repetitions in 1:n are equal to first elt or NULL
+// LATER Test section consistency: 1: repetitions in 1:n are equal to first elt or NULL
 
 
 public class RepeatingSectionTestSuite extends TestSuite

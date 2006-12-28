@@ -20,12 +20,12 @@
  */
 package sej.internal.model.optimizer;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import sej.internal.model.AbstractComputationModelVisitor;
 import sej.internal.model.CellModel;
 import sej.internal.model.SectionModel;
+import sej.util.New;
 
 final class InlinedCellRemover extends AbstractComputationModelVisitor
 {
@@ -34,7 +34,7 @@ final class InlinedCellRemover extends AbstractComputationModelVisitor
 	@Override
 	protected boolean visitSection( SectionModel _band )
 	{
-		Collection<CellModel> cellsToRemove = new ArrayList<CellModel>( _band.getCells().size() );
+		Collection<CellModel> cellsToRemove = New.newCollection( _band.getCells().size() );
 		for (CellModel cell : _band.getCells()) {
 			if (IntermediateResultsInliner.isInlineable( cell )) {
 				cellsToRemove.add( cell );

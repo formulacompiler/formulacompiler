@@ -21,7 +21,6 @@
 package sej.tests.usecases;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -31,6 +30,7 @@ import sej.CallFrame;
 import sej.SaveableEngine;
 import sej.Spreadsheet;
 import sej.SpreadsheetBinder;
+import sej.util.New;
 
 
 @SuppressWarnings("unchecked")
@@ -101,10 +101,10 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 
 		private Object[] getArguments( Method _method, String _name )
 		{
-			Collection<Object> args = new ArrayList<Object>();
-			StringTokenizer tokenizer = new StringTokenizer( _name, "_" );
+			final Collection<Object> args = New.newCollection();
+			final StringTokenizer tokenizer = new StringTokenizer( _name, "_" );
 			tokenizer.nextToken();
-			Class[] paramTypes = _method.getParameterTypes();
+			final Class[] paramTypes = _method.getParameterTypes();
 			int paramIndex = 0;
 			while (tokenizer.hasMoreTokens()) {
 				String argAsString = tokenizer.nextToken();

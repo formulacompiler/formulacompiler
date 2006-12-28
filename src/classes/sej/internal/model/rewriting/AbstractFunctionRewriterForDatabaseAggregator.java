@@ -20,7 +20,6 @@
  */
 package sej.internal.model.rewriting;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -41,7 +40,7 @@ import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.analysis.TypeAnnotator;
 import sej.internal.model.util.InterpretedNumericType;
-import sej.internal.util.New;
+import sej.util.New;
 
 abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExpressionRewriter
 {
@@ -312,7 +311,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 		private Collection<ExpressionNode> buildRowFilters( int[] _critCols, Iterator<ExpressionNode> _critIterator,
 				DataType[] _colTypes, List<CellModel> _firstRow ) throws CompilerException
 		{
-			final Collection<ExpressionNode> result = new ArrayList<ExpressionNode>();
+			final Collection<ExpressionNode> result = New.newCollection();
 			while (_critIterator.hasNext()) {
 				result.add( buildRowFilter( _critCols, _critIterator, _colTypes, _firstRow ) );
 			}

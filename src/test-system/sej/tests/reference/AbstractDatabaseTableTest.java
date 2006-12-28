@@ -20,7 +20,6 @@
  */
 package sej.tests.reference;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -31,6 +30,7 @@ import sej.internal.spreadsheet.CellRange;
 import sej.internal.spreadsheet.CellWithConstant;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
+import sej.util.New;
 
 
 public abstract class AbstractDatabaseTableTest extends AbstractSheetBasedTest
@@ -153,7 +153,7 @@ public abstract class AbstractDatabaseTableTest extends AbstractSheetBasedTest
 			{
 				int iInput = 0;
 
-				final Collection<CellIndex> adds = new ArrayList<CellIndex>();
+				final Collection<CellIndex> adds = New.newCollection();
 				extractInputsFromNamedRange( _valueRow.getCellOrNull( firstInputCol() + TABLE_NAME_OFFS ), adds );
 				extractInputsFromNamedRange( _valueRow.getCellOrNull( firstInputCol() + CRIT_NAME_OFFS ), adds );
 

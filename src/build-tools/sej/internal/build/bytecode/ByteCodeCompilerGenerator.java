@@ -22,8 +22,6 @@ package sej.internal.build.bytecode;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +45,7 @@ import org.objectweb.asm.util.AbstractVisitor;
 
 import sej.describable.DescriptionBuilder;
 import sej.internal.build.Util;
+import sej.util.New;
 
 @SuppressWarnings("unqualified-field-access")
 final class ByteCodeCompilerGenerator extends AbstractGenerator
@@ -232,9 +231,9 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 	abstract class TemplateMethodGenerator extends AbstractMethodTemplateGenerator
 	{
 		final int firstVarInLocals;
-		final List<Label> labels = new ArrayList<Label>();
+		final List<Label> labels = New.newList();
 		final Iterator insns;
-		final Map<String, Object> defs = new HashMap<String, Object>();
+		final Map<String, Object> defs = New.newMap();
 
 		int sizeOfLocals;
 		int sizeOfVarsInLocals;

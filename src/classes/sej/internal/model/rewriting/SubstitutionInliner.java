@@ -20,7 +20,6 @@
  */
 package sej.internal.model.rewriting;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import sej.CompilerException;
@@ -28,6 +27,7 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForSubstitution;
 import sej.internal.model.AbstractComputationModelVisitor;
 import sej.internal.model.CellModel;
+import sej.util.New;
 
 
 public final class SubstitutionInliner extends AbstractComputationModelVisitor
@@ -60,7 +60,7 @@ public final class SubstitutionInliner extends AbstractComputationModelVisitor
 
 	private List<ExpressionNode> inline( List<ExpressionNode> _list )
 	{
-		List<ExpressionNode> result = new ArrayList<ExpressionNode>();
+		List<ExpressionNode> result = New.newList();
 		for (final ExpressionNode node : _list) {
 			inline( node, result );
 		}

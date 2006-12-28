@@ -20,7 +20,6 @@
  */
 package sej.internal.model.optimizer.consteval;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import sej.Operator;
@@ -28,6 +27,7 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.util.InterpretedNumericType;
+import sej.util.New;
 
 public class EvalOperator extends EvalShadow
 {
@@ -62,7 +62,7 @@ public class EvalOperator extends EvalShadow
 
 	private final ExpressionNodeForOperator concatConsecutiveConstArgsOf( ExpressionNodeForOperator _opNode )
 	{
-		final Collection<ExpressionNode> newArgs = new ArrayList<ExpressionNode>( _opNode.arguments().size() );
+		final Collection<ExpressionNode> newArgs = New.newCollection( _opNode.arguments().size() );
 		boolean modified = false;
 		StringBuilder buildUp = null;
 		for (final ExpressionNode arg : _opNode.arguments()) {
