@@ -20,8 +20,6 @@
  */
 package sej.internal.model.util;
 
-import java.math.BigDecimal;
-
 import sej.Function;
 import sej.NumericType;
 import sej.Operator;
