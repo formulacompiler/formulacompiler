@@ -336,7 +336,7 @@ abstract class InterpretedNumericType_Base
 	{
 		if (_value instanceof ExpressionNodeForArrayReference) {
 			final ExpressionNodeForArrayReference array = (ExpressionNodeForArrayReference) _value;
-			final Object[] r = new BigDecimal[ array.arrayDescriptor().getNumberOfElements() ];
+			final Object[] r = new Object[ array.arrayDescriptor().getNumberOfElements() ];
 			int i = 0;
 			for (ExpressionNode cst : array.arguments()) {
 				r[ i++ ] = ((ExpressionNodeForConstantValue) cst).value();

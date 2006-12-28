@@ -63,7 +63,7 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 		else if (_node instanceof ExpressionNodeForReduce) return new EvalReduce( (ExpressionNodeForReduce) _node, this.type );
 		else if (_node instanceof ExpressionNodeForFoldArray) return new EvalFoldArray( (ExpressionNodeForFoldArray) _node, this.type );
 		else if (_node instanceof ExpressionNodeForDatabaseFold) return new EvalDatabaseFold( (ExpressionNodeForDatabaseFold) _node, this.type );
-		else if (_node instanceof ExpressionNodeForMakeArray) return new EvalPassthrough( _node );
+		else if (_node instanceof ExpressionNodeForMakeArray) return new EvalMakeArray( _node );
 		else return new EvalNonFoldable( _node );
 	}
 
