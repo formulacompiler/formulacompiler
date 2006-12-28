@@ -34,11 +34,11 @@ public class ArrayDescriptor extends AbstractDescribable
 	private final int numberOfColumns;
 
 
-	public ArrayDescriptor(int _numberOfSheets, int _numberOfRows, int _numberOfColumns)
+	public ArrayDescriptor(int _nSheets, int _nRows, int _nColumns)
 	{
-		this.numberOfSheets = _numberOfSheets;
-		this.numberOfRows = _numberOfRows;
-		this.numberOfColumns = _numberOfColumns;
+		this.numberOfSheets = _nSheets;
+		this.numberOfRows = _nRows;
+		this.numberOfColumns = _nColumns;
 	}
 
 
@@ -47,6 +47,19 @@ public class ArrayDescriptor extends AbstractDescribable
 		this.numberOfSheets = _template.numberOfSheets;
 		this.numberOfRows = _template.numberOfRows;
 		this.numberOfColumns = _template.numberOfColumns;
+	}
+
+
+	public ArrayDescriptor(ArrayDescriptor _template, int _sheetsDelta, int _rowsDelta, int _columnsDelta)
+	{
+		this.numberOfSheets = incBy( _template.numberOfSheets, _sheetsDelta );
+		this.numberOfRows = incBy( _template.numberOfRows, _rowsDelta );
+		this.numberOfColumns = incBy( _template.numberOfColumns, _columnsDelta );
+	}
+
+	private static int incBy( int _n, int _delta )
+	{
+		return (_n == DYNAMIC) ? _n : _n + _delta;
 	}
 
 

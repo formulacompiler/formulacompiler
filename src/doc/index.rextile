@@ -5,7 +5,7 @@ h1. SEJ - Spreadsheet Engine for Java
 <div class="news">
 
 "Release 0.8.2":releasenotes.htm with new array and database table functions.
-<br/>%(when)December 20, 2006%
+<br/>%(when)December 28, 2006%
 
 "Release 0.8.1":releasenotes.htm supports "string comparisons":reference/strings.htm.
 <br/>%(when)November 17, 2006%

@@ -19,3 +19,10 @@ h2. Aggregators
 	[inc:DatabaseAggregators.htm]
 
 
+h2. Repeating Section Support
+
+You can use vertically repeating sections in the data area. They must not, however, cover the label area, and they must always cover exactly the width of the table. You can mix them with static rows. An example is shown below:
+
+	[xc:testdata/sej/tests/SectionTests.xls:DSUM_Example]
+
+TODO: Multiple siblings

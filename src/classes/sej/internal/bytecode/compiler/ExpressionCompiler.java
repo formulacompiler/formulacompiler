@@ -32,7 +32,6 @@ import sej.CompilerException;
 import sej.Function;
 import sej.Operator;
 import sej.internal.InnerExpressionException;
-import sej.internal.expressions.ArrayValue;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForArrayReference;
@@ -195,7 +194,7 @@ abstract class ExpressionCompiler
 		else if (_node instanceof ExpressionNodeForSubSectionModel) {
 			compileRef( (ExpressionNodeForSubSectionModel) _node );
 		}
-		
+
 		else if (_node instanceof ExpressionNodeForArrayReference) {
 			compileRef( (ExpressionNodeForArrayReference) _node );
 		}
@@ -289,12 +288,7 @@ abstract class ExpressionCompiler
 
 	protected final void compileConst( Object _value ) throws CompilerException
 	{
-		if (_value instanceof ArrayValue) {
-			compileConstArray( (ArrayValue) _value );
-		}
-		else {
-			typeCompiler().compileConst( mv(), _value );
-		}
+		typeCompiler().compileConst( mv(), _value );
 	}
 
 
@@ -531,10 +525,6 @@ abstract class ExpressionCompiler
 			return true;
 		}
 		else if (_node instanceof ExpressionNodeForMakeArray) {
-			return true;
-		}
-		else if (_node instanceof ExpressionNodeForConstantValue
-				&& ((ExpressionNodeForConstantValue) _node).value() instanceof ArrayValue) {
 			return true;
 		}
 		else {
@@ -832,34 +822,14 @@ abstract class ExpressionCompiler
 	protected final void compileArray( ExpressionNode _arrayNode ) throws CompilerException
 	{
 		final GeneratorAdapter mv = mv();
-		if (_arrayNode instanceof ExpressionNodeForArrayReference) {
-			final ExpressionNodeForArrayReference arrayRef = (ExpressionNodeForArrayReference) _arrayNode;
-			mv.push( arrayRef.arrayDescriptor().getNumberOfElements() );
-			compileNewArray();
-			int i = 0;
-			for (ExpressionNode arg : _arrayNode.arguments()) {
-				mv.visitInsn( Opcodes.DUP );
-				mv.push( i++ );
-				compile( arg );
-				mv.visitInsn( arrayStoreOpcode() );
-			}
-		}
-		else if (_arrayNode instanceof ExpressionNodeForConstantValue) {
-			final ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _arrayNode;
-			compileConstArray( (ArrayValue) constNode.value() );
-		}
-	}
-
-	protected final void compileConstArray( ArrayValue _rangeValue ) throws CompilerException
-	{
-		final GeneratorAdapter mv = mv();
-		mv.push( _rangeValue.getNumberOfElements() );
+		final ExpressionNodeForArrayReference arr = (ExpressionNodeForArrayReference) _arrayNode;
+		mv.push( arr.arrayDescriptor().getNumberOfElements() );
 		compileNewArray();
 		int i = 0;
-		for (Object cst : _rangeValue) {
+		for (ExpressionNode arg : arr.arguments()) {
 			mv.visitInsn( Opcodes.DUP );
 			mv.push( i++ );
-			compileConst( cst );
+			compile( arg );
 			mv.visitInsn( arrayStoreOpcode() );
 		}
 	}

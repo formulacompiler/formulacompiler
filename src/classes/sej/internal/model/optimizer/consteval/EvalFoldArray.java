@@ -23,8 +23,8 @@ package sej.internal.model.optimizer.consteval;
 import java.util.Collection;
 
 import sej.CompilerException;
-import sej.internal.expressions.ArrayValue;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.ExpressionNodeForFoldArray;
 import sej.internal.model.util.InterpretedNumericType;
 
@@ -54,10 +54,13 @@ final class EvalFoldArray extends EvalAbstractFold
 
 
 	@Override
-	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object[] _args, int _firstFoldedArg ) throws CompilerException
+	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object[] _args, int _firstFoldedArg )
+			throws CompilerException
 	{
-		if (isConstant( _args[ 0 ] ) && _args[ 1 ] instanceof ExpressionNode && _args[ 2 ] instanceof ArrayValue) {
-			final Object result = fold( _args[ 0 ], (ExpressionNode) _args[ 1 ], (ArrayValue) _args[ 2 ] );
+		if ((isConstant( _args[ 0 ] ) && isConstant( _args[ 2 ] ))
+				&& _args[ 1 ] instanceof ExpressionNode && _args[ 2 ] instanceof ExpressionNodeForArrayReference) {
+			final Object result = fold( _args[ 0 ], (ExpressionNode) _args[ 1 ],
+					(ExpressionNodeForArrayReference) _args[ 2 ] );
 			if (result != null) {
 				return result;
 			}
@@ -66,14 +69,15 @@ final class EvalFoldArray extends EvalAbstractFold
 	}
 
 
-	private final Object fold( Object _initial, ExpressionNode _step, ArrayValue _array ) throws CompilerException
+	private final Object fold( Object _initial, ExpressionNode _step, ExpressionNodeForArrayReference _array )
+			throws CompilerException
 	{
 		Object result = _initial;
 		int i = 1;
-		for (Object ai : _array) {
+		for (ExpressionNode ai : _array.arguments()) {
 
 			letDict().let( this.accName, null, result );
-			letDict().let( this.eltName, null, ai );
+			letDict().let( this.eltName, null, valueOf( ai ) );
 			letDict().let( this.idxName, null, i++ );
 			try {
 				result = this.foldEval.evalIn( context() );

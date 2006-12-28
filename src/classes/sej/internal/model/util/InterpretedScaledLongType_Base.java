@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 
 import sej.internal.NumericTypeImpl;
 import sej.internal.NumericTypeImpl.AbstractLongType;
-import sej.internal.expressions.ArrayValue;
 import sej.internal.runtime.RuntimeLong_v1;
 
 abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
@@ -159,18 +158,13 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 
 	protected final long[] to_array( Object _value )
 	{
-		if (_value instanceof ArrayValue) {
-			final ArrayValue _array = (ArrayValue) _value;
-			final long[] r = new long[ _array.getNumberOfElements() ];
-			int i = 0;
-			for (Object cst : _array) {
-				r[ i++ ] = to_long( cst );
-			}
-			return r;
+		final Object[] consts = asArrayOfConsts( _value );
+		final long[] r = new long[ consts.length ];
+		int i = 0;
+		for (Object cst : consts) {
+			r[ i++ ] = to_long( cst );
 		}
-		else {
-			throw new IllegalArgumentException();
-		}
+		return r;
 	}
 
 
