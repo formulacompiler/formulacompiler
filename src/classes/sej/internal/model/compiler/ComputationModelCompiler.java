@@ -20,7 +20,6 @@
  */
 package sej.internal.model.compiler;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -41,15 +40,16 @@ import sej.internal.spreadsheet.binding.InputCellBinding;
 import sej.internal.spreadsheet.binding.OutputCellBinding;
 import sej.internal.spreadsheet.binding.SectionBinding;
 import sej.internal.spreadsheet.binding.WorkbookBinding;
+import sej.util.New;
 
 
 public final class ComputationModelCompiler
 {
 	private final WorkbookBinding binding;
 	private final InterpretedNumericType numericType;
-	private final Map<CellIndex, CellModel> cellModels = new HashMap<CellIndex, CellModel>();
-	private final Map<SectionBinding, SectionModelCompiler> sectionCompilers = new HashMap<SectionBinding, SectionModelCompiler>();
-	private final Map<SectionModel, SectionModelCompiler> sectionCompilersByModel = new HashMap<SectionModel, SectionModelCompiler>();
+	private final Map<CellIndex, CellModel> cellModels = New.newMap();
+	private final Map<SectionBinding, SectionModelCompiler> sectionCompilers = New.newMap();
+	private final Map<SectionModel, SectionModelCompiler> sectionCompilersByModel = New.newMap();
 	private ComputationModel computationModel;
 
 

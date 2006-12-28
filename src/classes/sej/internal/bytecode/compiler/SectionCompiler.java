@@ -21,7 +21,6 @@
 package sej.internal.bytecode.compiler;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.objectweb.asm.Opcodes;
@@ -34,13 +33,14 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.LetDictionary.LetEntry;
 import sej.internal.model.CellModel;
 import sej.internal.model.SectionModel;
+import sej.util.New;
 
 
 class SectionCompiler extends ClassCompiler
 {
-	private final Map<SectionModel, SubSectionCompiler> subSectionCompilers = new HashMap<SectionModel, SubSectionCompiler>();
-	private final Map<CellModel, CellComputation> cellComputations = new HashMap<CellModel, CellComputation>();
-	private final Map<Method, OutputDistributorCompiler> outputDistributors = new HashMap<Method, OutputDistributorCompiler>();
+	private final Map<SectionModel, SubSectionCompiler> subSectionCompilers = New.newMap();
+	private final Map<CellModel, CellComputation> cellComputations = New.newMap();
+	private final Map<Method, OutputDistributorCompiler> outputDistributors = New.newMap();
 	private final SectionModel model;
 	private final Type inputs;
 	private final Type outputs;
@@ -327,7 +327,7 @@ class SectionCompiler extends ClassCompiler
 	}
 
 	@Override
-	void collectClassNamesAndBytes( HashMap<String, byte[]> _result )
+	void collectClassNamesAndBytes( Map<String, byte[]> _result )
 	{
 		super.collectClassNamesAndBytes( _result );
 		for (ClassCompiler sub : this.subSectionCompilers.values()) {

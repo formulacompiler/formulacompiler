@@ -22,10 +22,8 @@ package sej.internal.spreadsheet.binding;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedSet;
-import java.util.TreeSet;
 
 import sej.CallFrame;
 import sej.CompilerException;
@@ -36,6 +34,7 @@ import sej.internal.Util;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellRange;
 import sej.runtime.Resettable;
+import sej.util.New;
 
 /**
  * Subsections are sorted
@@ -51,9 +50,9 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	private final Orientation orientation;
 	private final Class inputClass;
 	private final Class outputClass;
-	private final Map<CellIndex, InputCellBinding> inputs = new HashMap<CellIndex, InputCellBinding>();
-	private final Map<CallFrame, OutputCellBinding> outputs = new HashMap<CallFrame, OutputCellBinding>();
-	private final SortedSet<SectionBinding> sections = new TreeSet<SectionBinding>();
+	private final Map<CellIndex, InputCellBinding> inputs = New.newMap();
+	private final Map<CallFrame, OutputCellBinding> outputs = New.newMap();
+	private final SortedSet<SectionBinding> sections = New.newSortedSet();
 
 
 	private SectionBinding(SectionBinding _space, CallFrame _callChainToCall, Class _inputClass,

@@ -22,12 +22,13 @@ package sej.internal.spreadsheet.loader.excel;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.HashMap;
 import java.util.Map;
+
+import sej.util.New;
 
 public final class ExcelNumberFormat
 {
-	private static Map<String, NumberFormat> standardFormats = new HashMap<String, NumberFormat>();
+	private static Map<String, NumberFormat> standardFormats = New.newMap();
 
 
 	static {

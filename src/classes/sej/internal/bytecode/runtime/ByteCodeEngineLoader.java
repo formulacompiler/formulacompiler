@@ -23,7 +23,6 @@ package sej.internal.bytecode.runtime;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -31,6 +30,7 @@ import java.util.zip.ZipInputStream;
 import sej.runtime.Engine;
 import sej.runtime.EngineException;
 import sej.runtime.EngineLoader;
+import sej.util.New;
 
 public final class ByteCodeEngineLoader implements EngineLoader
 {
@@ -46,7 +46,7 @@ public final class ByteCodeEngineLoader implements EngineLoader
 	
 	public Engine loadEngineData( InputStream _stream ) throws IOException, EngineException
 	{
-		final Map<String, byte[]> classNamesAndBytes = new HashMap<String, byte[]>();
+		final Map<String, byte[]> classNamesAndBytes = New.newMap();
 
 		final ZipInputStream jarStream = new ZipInputStream( _stream );
 		try {

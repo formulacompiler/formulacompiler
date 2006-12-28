@@ -1,11 +1,11 @@
 package sej.internal.spreadsheet.loader.excel;
 
 import java.util.Collection;
-import java.util.ArrayList;
 import java_cup.runtime.*;
 import sej.*;
 import sej.internal.expressions.*;
 import sej.internal.spreadsheet.*;
+import sej.util.*;
 
 parser code {:
 
@@ -363,7 +363,7 @@ optexpr ::=
 args ::=
 
 		expr:e
-				{: RESULT = new ArrayList<ExpressionNode>(); RESULT.add( e ); :}
+				{: RESULT = New.newCollection(); RESULT.add( e ); :}
 		
 	|	args:a COMMA expr:e
 				{: a.add( e ); RESULT = a; :}

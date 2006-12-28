@@ -20,17 +20,17 @@
  */
 package sej.examples.interactive.ui;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import sej.examples.interactive.controller.ControllerListener;
+import sej.util.New;
 
 public abstract class AbstractTableModel implements TableModel
 {
-	protected final Collection<TableModelListener> listeners = new ArrayList<TableModelListener>();
+	protected final Collection<TableModelListener> listeners = New.newCollection();
 
 
 	public void addTableModelListener( TableModelListener _l )

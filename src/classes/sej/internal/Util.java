@@ -22,12 +22,12 @@ package sej.internal;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.objectweb.asm.Type;
 
 import sej.internal.runtime.Runtime_v1;
+import sej.util.New;
 
 public final class Util
 {
@@ -140,7 +140,7 @@ public final class Util
 
 	public static Map<String, Method> abstractMethodsOf( final Class _class )
 	{
-		final Map<String, Method> result = new HashMap<String, Method>();
+		final Map<String, Method> result = New.newMap();
 		collectAbstractMethods( _class, result );
 		return result;
 	}
