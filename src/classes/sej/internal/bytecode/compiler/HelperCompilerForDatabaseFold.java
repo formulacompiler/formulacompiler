@@ -33,6 +33,7 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.ExpressionNodeForDatabaseFold;
 import sej.internal.expressions.LetDictionary.LetEntry;
+import sej.internal.model.ExpressionNodeForSectionModel;
 
 final class HelperCompilerForDatabaseFold extends HelperCompilerForIterativeFold
 {
@@ -56,88 +57,138 @@ final class HelperCompilerForDatabaseFold extends HelperCompilerForIterativeFold
 	}
 
 
+	private int localResult;
+
 	@Override
 	protected void compileFold( FoldContext _context, Iterable<ExpressionNode> _elts, int _localResult )
 			throws CompilerException
 	{
+		this.localResult = _localResult;
 		final ExpressionNodeForDatabaseFold node = (ExpressionNodeForDatabaseFold) _context.node;
 		final int colIdx = node.staticFoldedColumnIndex();
 		if (colIdx >= 0) {
-			compileFold( _context, colIdx, _localResult );
+			compileFold( _context, colIdx );
 		}
 		else {
 			final ExpressionNode colIdxExpr = node.foldedColumnIndex();
-			compileSwitchedFold( _context, colIdxExpr, _localResult );
+			compileSwitchedFold( _context, colIdxExpr );
 		}
 	}
 
 
-	private final void compileFold( FoldContext _context, int _foldedCol, int _localResult ) throws CompilerException
+	private MethodCompiler matcher;
+	private int haveMatchBooleanVar;
+
+	private final void compileFold( FoldContext _context, int _foldedCol ) throws CompilerException
 	{
-		final GeneratorAdapter mv = mv();
-		final int nRows = this.tableDescriptor.getNumberOfRows();
-		final int nCols = this.tableDescriptor.getNumberOfColumns();
 		final List<ExpressionNode> elts = this.table.arguments();
-		final int haveMatchBooleanVar = (this.isZeroForEmptySelection) ? newLocal( 1 ) : -1;
+		this.haveMatchBooleanVar = (this.isZeroForEmptySelection) ? newLocal( 1 ) : -1;
 
 		if (this.isZeroForEmptySelection) {
-			compileSetHaveMatch( haveMatchBooleanVar, false );
+			compileSetHaveMatch( false );
 		}
 		expc().compile( _context.node.initialAccumulatorValue() );
-		compileAccumulatorStore( _localResult );
+		compileAccumulatorStore( this.localResult );
 
+		final int nElt = elts.size();
 		int iElt = 0;
-		MethodCompiler matcher = null;
-		for (int iRow = 0; iRow < nRows; iRow++) {
-			final int iFoldedElt = iElt + _foldedCol;
-			final ExpressionNode foldedElt = elts.get( iFoldedElt );
+		while (iElt < nElt) {
+			iElt = compileRowFold( _context, _foldedCol, elts, iElt );
+		}
+
+		if (this.isZeroForEmptySelection) {
+			compileReturnZeroIfNoMatch();
+		}
+		compileAccumulatorLoad( this.localResult );
+	}
+
+	private int compileRowFold( FoldContext _context, int _foldedCol, List<ExpressionNode> _elts, int _iElt )
+			throws CompilerException
+	{
+		final ExpressionNode elt = _elts.get( _iElt );
+		if (elt instanceof ExpressionNodeForArrayReference) {
+			compileRowFold( _context, _foldedCol, elt.arguments(), 0 );
+			return _iElt + 1;
+		}
+		else if (elt instanceof ExpressionNodeForSectionModel) {
+			compileSubSectionFold( _context, _foldedCol, (ExpressionNodeForSectionModel) elt );
+			return _iElt + 1;
+		}
+		else {
+			final GeneratorAdapter mv = mv();
+			final int iFoldedElt = _iElt + _foldedCol;
+			final ExpressionNode foldedElt = _elts.get( iFoldedElt );
 			final Label noMatch = mv.newLabel();
 
-			matcher = compileCallToMatcherAndBuildInFirstPass( nCols, elts, iElt, matcher );
+			compileCallToMatcherAndBuildInFirstPass( _elts, _iElt );
 			compileSkipFoldIfNoMatch( noMatch );
 			if (this.isReduce) {
-				compileFirstMatchCheckAndInit( _localResult, haveMatchBooleanVar, noMatch, foldedElt );
+				compileFirstMatchCheckAndInit( noMatch, foldedElt );
 			}
 
-			compileElementFold( _context, _localResult, foldedElt );
+			compileElementFold( _context, foldedElt );
 
 			if (!this.isReduce && this.isZeroForEmptySelection) {
-				compileSetHaveMatch( haveMatchBooleanVar, true );
+				compileSetHaveMatch( true );
 			}
 			mv.mark( noMatch );
 
-			iElt += nCols;
+			return _iElt + this.tableDescriptor.getNumberOfColumns();
 		}
-
-		if (this.isZeroForEmptySelection) {
-			compileReturnZeroIfNoMatch( haveMatchBooleanVar );
-		}
-		compileAccumulatorLoad( _localResult );
 	}
 
-	private MethodCompiler compileCallToMatcherAndBuildInFirstPass( int _nCols, List<ExpressionNode> _elts, int _iElt,
-			MethodCompiler _matcher ) throws CompilerException
+	private void compileSubSectionFold( final FoldContext _context, final int _foldedCol,
+			final ExpressionNodeForSectionModel _sub ) throws CompilerException
 	{
-		MethodCompiler result = _matcher;
+		final int reuseLocalsAt = localsOffset();
+		final SubSectionCompiler subSection = sectionInContext().subSectionCompiler( _sub.getSectionModel() );
+		final GeneratorAdapter mv = mv();
+		mv.visitVarInsn( Opcodes.ALOAD, objectInContext() );
+		sectionInContext().compileCallToGetterFor( mv, subSection );
+		expc().compile_scanArray( new ExpressionCompiler.ForEachElementCompilation()
+		{
+
+			public void compile( int _xi ) throws CompilerException
+			{
+				final SectionCompiler oldSection = sectionInContext();
+				final int oldObject = objectInContext();
+				try {
+					setObjectInContext( subSection, _xi );
+					compileRowFold( _context, _foldedCol, _sub.arguments(), 0 );
+				}
+				finally {
+					setObjectInContext( oldSection, oldObject );
+				}
+			}
+
+		} );
+
+		resetLocalsTo( reuseLocalsAt );
+	}
+
+	private void compileCallToMatcherAndBuildInFirstPass( List<ExpressionNode> _elts, int _iElt )
+			throws CompilerException
+	{
+		final int nCols = this.tableDescriptor.getNumberOfColumns();
 		final GeneratorAdapter mv = mv();
 		try {
-			for (int iCol = 0; iCol < _nCols; iCol++) {
+			for (int iCol = 0; iCol < nCols; iCol++) {
 				final ExpressionNode elt = _elts.get( _iElt + iCol );
 				letDict().let( this.colNames[ iCol ], elt.getDataType(), elt );
 			}
 			final Iterable<LetEntry> closure = closureOf( this.filterExpr );
+			mv().loadThis();
 			compileClosure( closure );
-			if (_matcher == null) {
-				result = new HelperCompilerForDatabaseMatch( section(), this.filterExpr, closure );
-				result.compile();
+			if (this.matcher == null) {
+				this.matcher = new HelperCompilerForDatabaseMatch( section(), this.filterExpr, closure );
+				this.matcher.compile();
 			}
-			mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, sectionInContext().classInternalName(), result.methodName(), result
-					.methodDescriptor() );
+			mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, section().classInternalName(), this.matcher.methodName(),
+					this.matcher.methodDescriptor() );
 		}
 		finally {
-			letDict().unlet( _nCols );
+			letDict().unlet( nCols );
 		}
-		return result;
 	}
 
 	private void compileSkipFoldIfNoMatch( final Label _noMatch )
@@ -145,27 +196,25 @@ final class HelperCompilerForDatabaseFold extends HelperCompilerForIterativeFold
 		mv().ifZCmp( Opcodes.IFEQ, _noMatch );
 	}
 
-	private void compileFirstMatchCheckAndInit( int _localResult, int _haveMatchBooleanVar, Label _noMatch,
-			ExpressionNode _foldedElt ) throws CompilerException
+	private void compileFirstMatchCheckAndInit( Label _noMatch, ExpressionNode _foldedElt ) throws CompilerException
 	{
 		final GeneratorAdapter mv = mv();
 		final Label haveMatch = mv.newLabel();
-		mv.visitVarInsn( Opcodes.ILOAD, _haveMatchBooleanVar );
+		mv.visitVarInsn( Opcodes.ILOAD, this.haveMatchBooleanVar );
 		mv.ifZCmp( Opcodes.IFNE, haveMatch );
 		mv.push( true );
-		mv.visitVarInsn( Opcodes.ISTORE, _haveMatchBooleanVar );
+		mv.visitVarInsn( Opcodes.ISTORE, this.haveMatchBooleanVar );
 		expc().compile( _foldedElt );
-		compileAccumulatorStore( _localResult );
+		compileAccumulatorStore( this.localResult );
 		mv.goTo( _noMatch );
 		mv.mark( haveMatch );
 	}
 
-	private void compileElementFold( FoldContext _context, int _localResult, ExpressionNode _foldedElt )
-			throws CompilerException
+	private void compileElementFold( FoldContext _context, ExpressionNode _foldedElt ) throws CompilerException
 	{
 		final String accName = _context.node.accumulatorName();
 		final DataType accType = _context.node.initialAccumulatorValue().getDataType();
-		compileAccumulatorLoad( _localResult );
+		compileAccumulatorLoad( this.localResult );
 		letDict().let( accName, accType, ExpressionCompiler.CHAINED_FIRST_ARG );
 		try {
 			final int reuseLocalsAt = localsOffset();
@@ -175,21 +224,21 @@ final class HelperCompilerForDatabaseFold extends HelperCompilerForIterativeFold
 		finally {
 			letDict().unlet( accName );
 		}
-		compileAccumulatorStore( _localResult );
+		compileAccumulatorStore( this.localResult );
 	}
 
-	private void compileSetHaveMatch( int _haveMatchBooleanVar, boolean _value )
+	private void compileSetHaveMatch( boolean _value )
 	{
 		final GeneratorAdapter mv = mv();
 		mv.push( _value );
-		mv.visitVarInsn( Opcodes.ISTORE, _haveMatchBooleanVar );
+		mv.visitVarInsn( Opcodes.ISTORE, this.haveMatchBooleanVar );
 	}
 
-	private void compileReturnZeroIfNoMatch( int _haveMatchBooleanVar ) throws CompilerException
+	private void compileReturnZeroIfNoMatch() throws CompilerException
 	{
 		final GeneratorAdapter mv = mv();
 		final Label haveMatch = mv.newLabel();
-		mv.visitVarInsn( Opcodes.ILOAD, _haveMatchBooleanVar );
+		mv.visitVarInsn( Opcodes.ILOAD, this.haveMatchBooleanVar );
 		mv.ifZCmp( Opcodes.IFNE, haveMatch );
 		numericCompiler().compileZero();
 		mv.visitInsn( typeCompiler().returnOpcode() );
@@ -197,8 +246,7 @@ final class HelperCompilerForDatabaseFold extends HelperCompilerForIterativeFold
 	}
 
 
-	private void compileSwitchedFold( final FoldContext _context, ExpressionNode _colIdxExpr, final int _localResult )
-			throws CompilerException
+	private void compileSwitchedFold( final FoldContext _context, ExpressionNode _colIdxExpr ) throws CompilerException
 	{
 		final ExpressionCompilerForNumbers num = numericCompiler();
 		final ExpressionNodeForDatabaseFold node = (ExpressionNodeForDatabaseFold) _context.node;
@@ -212,7 +260,7 @@ final class HelperCompilerForDatabaseFold extends HelperCompilerForIterativeFold
 			protected void generateCase( int _key, Label _end ) throws CompilerException
 			{
 				final int iCol = _key - 1;
-				compileFold( _context, iCol, _localResult );
+				compileFold( _context, iCol );
 				mv().goTo( _end );
 			}
 

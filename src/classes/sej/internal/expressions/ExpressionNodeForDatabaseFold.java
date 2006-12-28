@@ -31,12 +31,13 @@ public final class ExpressionNodeForDatabaseFold extends ExpressionNodeForAbstra
 	private final int staticFoldedColumnIndex;
 	private final int[] foldableColumnKeys;
 	private final String[] filterColumnNames;
+	private final DataType[] filterColumnTypes;
 	private final boolean isReduce;
 	private final boolean isZeroForEmptySelection;
 
 	public ExpressionNodeForDatabaseFold(ArrayDescriptor _tableDescriptor, String _filterColNamePrefix,
 			String _accumulatorName, String _elementName, int _staticFoldedColumnIndex, int[] _foldableColumnKeys,
-			boolean _isReduce, boolean _isZeroForEmptySelection)
+			DataType[] _filterColumnTypes, boolean _isReduce, boolean _isZeroForEmptySelection)
 	{
 		super( _accumulatorName, _elementName, false );
 		this.filterColumnNamePrefix = _filterColNamePrefix;
@@ -50,16 +51,17 @@ public final class ExpressionNodeForDatabaseFold extends ExpressionNodeForAbstra
 		for (int iCol = 0; iCol < nCol; iCol++) {
 			this.filterColumnNames[ iCol ] = filterColumnNamePrefix() + iCol;
 		}
+		this.filterColumnTypes = _filterColumnTypes;
 	}
 
 	public ExpressionNodeForDatabaseFold(ArrayDescriptor _tableDescriptor, String _filterColNamePrefix,
 			ExpressionNode _filter, String _accumulatorName, ExpressionNode _initialValue, String _elementName,
 			ExpressionNode _foldingStep, int _staticFoldedColumnIndex, int[] _foldableColumnKeys,
-			ExpressionNode _foldedColumnIndex, boolean _isReduce, boolean _isZeroForEmptySelection,
-			ExpressionNode _arrayRef)
+			ExpressionNode _foldedColumnIndex, DataType[] _filterColumnTypes, boolean _isReduce,
+			boolean _isZeroForEmptySelection, ExpressionNode _arrayRef)
 	{
 		this( _tableDescriptor, _filterColNamePrefix, _accumulatorName, _elementName, _staticFoldedColumnIndex,
-				_foldableColumnKeys, _isReduce, _isZeroForEmptySelection );
+				_foldableColumnKeys, _filterColumnTypes, _isReduce, _isZeroForEmptySelection );
 		addArgument( _initialValue );
 		addArgument( _foldingStep );
 		addArgument( _filter );
@@ -101,6 +103,11 @@ public final class ExpressionNodeForDatabaseFold extends ExpressionNodeForAbstra
 	public final String[] filterColumnNames()
 	{
 		return this.filterColumnNames;
+	}
+
+	public DataType[] filterColumnTypes()
+	{
+		return this.filterColumnTypes;
 	}
 
 	public final boolean isReduce()
@@ -151,7 +158,8 @@ public final class ExpressionNodeForDatabaseFold extends ExpressionNodeForAbstra
 	protected ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForDatabaseFold( table().arrayDescriptor(), filterColumnNamePrefix(), accumulatorName(),
-				elementName(), staticFoldedColumnIndex(), foldableColumnKeys(), isReduce(), isZeroForEmptySelection() );
+				elementName(), staticFoldedColumnIndex(), foldableColumnKeys(), filterColumnTypes(), isReduce(),
+				isZeroForEmptySelection() );
 	}
 
 

@@ -57,10 +57,10 @@ public class RepeatingSectionTestSuite extends TestSuite
 	private static final int NAME_COL = 0;
 	private static final int FORMULA_COL = 1;
 	private static final int RANGE_NAME_COL = 2;
-	
-	
-	static  {
-		// FIX-ME
+
+
+	static {
+		// FIX-ME Debug
 		// Settings.LOG_CONSTEVAL.setEnabled( true );
 	}
 
@@ -114,7 +114,7 @@ public class RepeatingSectionTestSuite extends TestSuite
 
 						final TestSuite rangeSuite = new RangeTestSuite( testName, formulaCell, rangeName );
 
-						// if (iRow == 74) // FIX-ME
+						// if (iRow == 74) // FIX-ME Debug
 						fileSuite.addTest( rangeSuite );
 
 					}
@@ -192,7 +192,7 @@ public class RepeatingSectionTestSuite extends TestSuite
 				}
 
 				SaveableEngine eng = eb.compile();
-				// Debug.saveEngine( eng, "/temp/sect.jar" );  // FIX-ME
+				// Debug.saveEngine( eng, "/temp/sect.jar" ); // FIX-ME Debug
 
 				ComputationFactory fact = eng.getComputationFactory();
 

@@ -797,7 +797,7 @@ abstract class ExpressionCompiler
 	final void compileHelpedExpr( HelperCompiler _compiler, Iterable<LetEntry> _closure ) throws CompilerException
 	{
 		_compiler.compile();
-		method().compileClosure( _closure );
+		method().compileCalleeAndClosure( _closure );
 		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, sectionInContext().classInternalName(), _compiler.methodName(),
 				_compiler.methodDescriptor() );
 	}

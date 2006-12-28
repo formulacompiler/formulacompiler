@@ -154,7 +154,11 @@ public class ModelRewriterTest extends TestCase
 				return new ExpressionNodeForCellModel( cellModel );
 			}
 		}
-		return new ExpressionNodeForConstantValue( _value );
+
+		final String name = (_value == null) ? "!null!" : "!" + _value.toString() + "!";
+		final CellModel cellModel = new CellModel( rootModel, name );
+		cellModel.setConstantValue( _value );
+		return new ExpressionNodeForCellModel( cellModel );
 	}
 
 

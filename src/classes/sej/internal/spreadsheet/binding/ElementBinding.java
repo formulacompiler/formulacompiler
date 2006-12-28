@@ -42,12 +42,6 @@ public abstract class ElementBinding extends AbstractDescribable
 	}
 
 
-	public boolean isInSection( SectionBinding _space )
-	{
-		return (_space == this.section);
-	}
-
-
 	protected void notInSection( String _name, Reference _ref ) throws CompilerException.NotInSection
 	{
 		throw new CompilerException.NotInSection( _name, _ref.toString(), getSection().toString(), getSection().getRange()

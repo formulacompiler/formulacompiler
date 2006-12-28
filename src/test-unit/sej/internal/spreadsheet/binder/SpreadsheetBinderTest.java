@@ -106,19 +106,14 @@ public class SpreadsheetBinderTest extends AbstractTestBase
 	}
 
 
-	public void testNoMixedBands() throws Exception
+	public void testAllowMixedBands() throws Exception
 	{
 		CellRange vert = new CellRange( this.dyn.r1c1.getCellIndex(), this.dyn.r1c1.getCellIndex() );
 		this.def.defineRepeatingSection( vert, Orientation.VERTICAL, getInput( "getDetails" ), Inputs.class, null, null );
 
 		CellRange horiz = new CellRange( this.dyn.r2c2.getCellIndex(), this.dyn.r2c2.getCellIndex() );
-		try {
-			this.def.defineRepeatingSection( horiz, Orientation.HORIZONTAL, getInput( "getSubDetails" ), Inputs.class, null, null );
-			fail();
-		}
-		catch (CompilerException.SectionOrientation e) {
-			// expected
-		}
+		this.def.defineRepeatingSection( horiz, Orientation.HORIZONTAL, getInput( "getSubDetails" ), Inputs.class, null,
+				null );
 	}
 
 
@@ -205,7 +200,8 @@ public class SpreadsheetBinderTest extends AbstractTestBase
 	public void testNoDefsOutsideBand() throws Exception
 	{
 		CellRange one = new CellRange( this.dyn.r2c2.getCellIndex(), this.dyn.r3c3.getCellIndex() );
-		Section band = this.def.defineRepeatingSection( one, Orientation.VERTICAL, getInput( "getDetails" ), Inputs.class, null, null );
+		Section band = this.def.defineRepeatingSection( one, Orientation.VERTICAL, getInput( "getDetails" ),
+				Inputs.class, null, null );
 
 		failForOutsideDef( band, this.dyn.r1c1 );
 		failForOutsideDef( band, this.dyn.r4c1 );
@@ -232,7 +228,9 @@ public class SpreadsheetBinderTest extends AbstractTestBase
 	{
 		CellRange rng = new CellRange( _from.getCellIndex(), _to.getCellIndex() );
 		try {
-			_band.defineRepeatingSection( rng, Orientation.VERTICAL, getInput( "getSubDetails" ), Inputs.class, null, null );
+			_band
+					.defineRepeatingSection( rng, Orientation.VERTICAL, getInput( "getSubDetails" ), Inputs.class, null,
+							null );
 			fail( "Definition for " + rng + " accepted, but was not in band" );
 		}
 		catch (CompilerException.NotInSection e) {
@@ -252,7 +250,7 @@ public class SpreadsheetBinderTest extends AbstractTestBase
 		cfg.spreadsheet = null;
 		assertInvalid( cfg, "spreadsheet" );
 		cfg.spreadsheet = this.workbook;
-		
+
 		// LATER more tests here
 	}
 

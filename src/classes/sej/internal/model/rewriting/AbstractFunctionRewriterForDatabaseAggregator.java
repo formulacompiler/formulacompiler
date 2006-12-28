@@ -38,11 +38,13 @@ import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
+import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.analysis.TypeAnnotator;
 import sej.internal.model.util.InterpretedNumericType;
 
 abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExpressionRewriter
 {
+	private final ExpressionNodeForFunction fun;
 	private final InterpretedNumericType numericType;
 	private final ExpressionNodeForArrayReference table;
 	private final ExpressionNode valueColumn;
@@ -51,6 +53,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 	public AbstractFunctionRewriterForDatabaseAggregator(ExpressionNodeForFunction _fun, InterpretedNumericType _type)
 	{
 		super();
+		this.fun = _fun;
 		this.numericType = _type;
 		this.table = (ExpressionNodeForArrayReference) _fun.argument( 0 );
 		this.valueColumn = _fun.argument( 1 );
@@ -88,20 +91,25 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 
 	public final ExpressionNode rewrite() throws CompilerException
 	{
+		final ArrayDescriptor tableDescriptor = this.table.arrayDescriptor();
+		if (tableDescriptor.getNumberOfColumns() == ArrayDescriptor.DYNAMIC) {
+			throw new CompilerException.SectionOrientation( "The function "
+					+ this.fun.getFunction() + " can only operate on vertically repeating sections." );
+		}
+
 		// We need the type info to properly treat by-example criteria contained in strings.
 		TypeAnnotator.annotateExpr( this.table );
 
-		final ArrayDescriptor tableDescriptor = this.table.arrayDescriptor();
-		final Iterator<ExpressionNode> tableIterator = this.table.arguments().iterator();
+		final List<ExpressionNode> tableElements = this.table.arguments();
+		final Iterator<ExpressionNode> tableIterator = tableElements.iterator();
 		final List<String> tableLabels = getLabelsFromTable( tableDescriptor, tableIterator );
-		final DataType[] colTypes = new DataType[ tableLabels.size() ];
-		for (int i = 0; i < colTypes.length; i++) {
-			colTypes[ i ] = DataType.NULL;
-		}
-		final List<CellModel> firstRow = new ArrayList<CellModel>( colTypes.length );
-		final ExpressionNode data = getShapedDataAndTypesAndFirstRowFromTable( tableDescriptor, tableIterator, colTypes,
-				firstRow );
+		final List<CellModel> firstRow = getFirstRowFromTable( tableDescriptor, tableIterator );
+		final DataType[] colTypes = getColTypesFromFirstRow( firstRow );
 		final int[] foldableColumnKeys = getFoldableColumnKeys( colTypes );
+
+		final Iterator<ExpressionNode> dataIterator = tableElements.iterator();
+		getLabelsFromTable( tableDescriptor, dataIterator ); // Skip label row
+		final ExpressionNode data = getShapedDataFromTable( tableDescriptor, dataIterator );
 
 		final ArrayDescriptor critDescriptor = this.criteria.arrayDescriptor();
 		final Iterator<ExpressionNode> critIterator = this.criteria.arguments().iterator();
@@ -121,7 +129,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 
 		final ExpressionNodeForDatabaseFold fold = new ExpressionNodeForDatabaseFold( tableDescriptor, "col", filter,
 				"r", initialAccumulatorValue(), "xi", foldingStep( "r", "xi" ), foldedColumnIndex, foldableColumnKeys,
-				this.valueColumn, isReduce(), isZeroForEmptySelection(), data );
+				this.valueColumn, colTypes, isReduce(), isZeroForEmptySelection(), data );
 
 		return filterBuilder.encloseFoldInLets( fold );
 	}
@@ -130,10 +138,15 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 	private List<String> getLabelsFromTable( ArrayDescriptor _tableDesc, Iterator<ExpressionNode> _tableElements )
 			throws CompilerException
 	{
-		final List<String> result = new ArrayList<String>();
 		final int nCol = _tableDesc.getNumberOfColumns();
+		final List<String> result = new ArrayList<String>( nCol );
 		for (int iCol = 0; iCol < nCol; iCol++) {
-			final Object cst = constantValueOf( _tableElements.next() );
+			final ExpressionNode next = _tableElements.next();
+			if (next instanceof ExpressionNodeForArrayReference) {
+				return getLabelsFromTable( _tableDesc, next.arguments().iterator() );
+			}
+
+			final Object cst = constantValueOf( next );
 			if (NOT_CONST == cst) {
 				throw new CompilerException.UnsupportedExpression(
 						"Database table/criteria labels must be constant values." );
@@ -144,48 +157,62 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 	}
 
 
-	private ExpressionNodeForArrayReference getShapedDataAndTypesAndFirstRowFromTable( ArrayDescriptor _tableDesc,
-			Iterator<ExpressionNode> _tableElements, DataType[] _colTypes, Collection<CellModel> _firstRow )
+	private List<CellModel> getFirstRowFromTable( ArrayDescriptor _tableDesc, Iterator<ExpressionNode> _dataElements )
 			throws CompilerException
 	{
-		final ArrayDescriptor td = _tableDesc;
-		final int cols = td.getNumberOfColumns();
-		final ArrayDescriptor dd = new ArrayDescriptor( td.getNumberOfSheets(), td.getNumberOfRows() - 1, cols );
-		final ExpressionNodeForArrayReference result = new ExpressionNodeForArrayReference( dd, false );
-
-		boolean inFirstRow = true;
-		int iCol = 0;
-		while (_tableElements.hasNext()) {
-			final ExpressionNode elt = _tableElements.next();
-			result.addArgument( elt );
-
-			final DataType eltType = elt.getDataType();
-			final DataType colType = _colTypes[ iCol ];
-			if (colType == DataType.NULL) {
-				_colTypes[ iCol ] = eltType;
-			}
-			else if (eltType != DataType.NULL & colType != eltType) {
-				throw new CompilerException.UnsupportedExpression(
-						"Database table columns must have a consistent data type; in column "
-								+ (iCol + 1) + " the value " + elt.describe() + " is not a " + colType + "." );
-			}
-
-			if (inFirstRow) {
-				if (elt instanceof ExpressionNodeForCellModel) {
-					ExpressionNodeForCellModel cellElt = (ExpressionNodeForCellModel) elt;
-					_firstRow.add( cellElt.getCellModel() );
-				}
-			}
-
-			if (++iCol == cols) {
-				iCol = 0;
-				inFirstRow = false;
-			}
-		}
-
+		final int nCol = _tableDesc.getNumberOfColumns();
+		final List<CellModel> result = new ArrayList<CellModel>( nCol );
+		addColumnsOfRowFromIterator( 0, nCol, result, _dataElements );
 		return result;
 	}
 
+	private int addColumnsOfRowFromIterator( int _iCol, int _nCol, Collection<CellModel> _row,
+			Iterator<ExpressionNode> _dataElements ) throws CompilerException
+	{
+		int iCol = _iCol;
+		while (iCol < _nCol && _dataElements.hasNext()) {
+			final ExpressionNode next = _dataElements.next();
+			if (next instanceof ExpressionNodeForArrayReference || next instanceof ExpressionNodeForSubSectionModel) {
+				iCol = addColumnsOfRowFromIterator( iCol, _nCol, _row, next.arguments().iterator() );
+			}
+			else {
+				if (!(next instanceof ExpressionNodeForCellModel)) {
+					throw new CompilerException.UnsupportedExpression( "Database table data must be cells." );
+				}
+				ExpressionNodeForCellModel cellElt = (ExpressionNodeForCellModel) next;
+				_row.add( cellElt.getCellModel() );
+				iCol++;
+			}
+		}
+		return iCol;
+	}
+
+
+	private DataType[] getColTypesFromFirstRow( List<CellModel> _firstRow )
+	{
+		final DataType[] result = new DataType[ _firstRow.size() ];
+		int i = 0;
+		for (CellModel cell : _firstRow) {
+			result[ i++ ] = cell.getDataType();
+		}
+		return result;
+	}
+
+
+	private ExpressionNodeForArrayReference getShapedDataFromTable( ArrayDescriptor _tableDesc,
+			Iterator<ExpressionNode> _tableElements )
+	{
+		final ArrayDescriptor td = _tableDesc;
+		final int sheets = td.getNumberOfSheets();
+		final int rows = td.getNumberOfRows();
+		final int cols = td.getNumberOfColumns();
+		final ArrayDescriptor dd = new ArrayDescriptor( sheets, (rows == ArrayDescriptor.DYNAMIC) ? rows : rows - 1, cols );
+		final ExpressionNodeForArrayReference result = new ExpressionNodeForArrayReference( dd, false );
+		while (_tableElements.hasNext()) {
+			result.addArgument( _tableElements.next() );
+		}
+		return result;
+	}
 
 	private int[] getFoldableColumnKeys( DataType[] _colTypes )
 	{

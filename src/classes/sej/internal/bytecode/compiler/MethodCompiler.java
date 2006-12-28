@@ -420,11 +420,15 @@ abstract class MethodCompiler
 
 	final void compileClosure( Iterable<LetEntry> _closure ) throws CompilerException
 	{
-		final GeneratorAdapter mv = mv();
-		mv.visitVarInsn( Opcodes.ALOAD, objectInContext() );
 		for (LetEntry entry : _closure) {
 			expressionCompiler( entry.type ).compileLetValue( entry.name, entry.value );
 		}
+	}
+
+	final void compileCalleeAndClosure( Iterable<LetEntry> _closure ) throws CompilerException
+	{
+		mv().visitVarInsn( Opcodes.ALOAD, objectInContext() );
+		compileClosure( _closure );
 	}
 
 
