@@ -145,7 +145,8 @@ public class CompilerException extends SEJException
 
 
 	/**
-	 * You attempted to nest sections of the same variable dimension.
+	 * The aggregator function you used does not support repeating sections of the given orientation.
+	 * Typically, database aggregators don't accept horizontally repeating sections.
 	 * 
 	 * @author peo
 	 */

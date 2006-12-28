@@ -27,6 +27,7 @@ import sej.Operator;
 import sej.SEJ;
 import sej.SaveableEngine;
 import sej.internal.expressions.ArrayDescriptor;
+import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
@@ -557,16 +558,21 @@ public class LittleLanguageTest extends AbstractTestBase
 	}
 
 
+	private static final Object[][] DATATABLE = new Object[][] { new Object[] { "Apple", 18.0, 20.0, 14.0, 105.0 },
+			new Object[] { "Pear", 12.0, 12.0, 10.0, 96.0 }, new Object[] { "Cherry", 13.0, 14.0, 9.0, 105.00 },
+			new Object[] { "Apple", 14.0, 15.0, 10.0, 75.00 }, new Object[] { "Pear", 9.0, 8.0, 8.0, 76.80 },
+			new Object[] { "Apple", 8.0, 9.0, 6.0, 45.00 } };
+
+	private static final DataType[] DATATYPES = new DataType[] { DataType.STRING, DataType.NUMERIC, DataType.NUMERIC,
+			DataType.NUMERIC, DataType.NUMERIC };
+
 	public void testDatabaseFold() throws Exception
 	{
 		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
 		final SectionModel rootModel = engineModel.getRoot();
 		this.rootModel = rootModel;
 
-		final ExpressionNodeForArrayReference table = makeRange( new Object[][] {
-				new Object[] { "Apple", 18.0, 20.0, 14.0, 105.0 }, new Object[] { "Pear", 12.0, 12.0, 10.0, 96.0 },
-				new Object[] { "Cherry", 13.0, 14.0, 9.0, 105.00 }, new Object[] { "Apple", 14.0, 15.0, 10.0, 75.00 },
-				new Object[] { "Pear", 9.0, 8.0, 8.0, 76.80 }, new Object[] { "Apple", 8.0, 9.0, 6.0, 45.00 } } );
+		final ExpressionNodeForArrayReference table = makeRange( DATATABLE );
 
 		final ExpressionNode filter = new ExpressionNodeForOperator( Operator.EQUAL,
 				new ExpressionNodeForLetVar( "col0" ), new ExpressionNodeForConstantValue( "Apple" ) );
@@ -578,7 +584,7 @@ public class LittleLanguageTest extends AbstractTestBase
 		final ExpressionNodeForOperator fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar(
 				"r" ), new ExpressionNodeForLetVar( "xi" ) );
 		r.setExpression( new ExpressionNodeForDatabaseFold( table.arrayDescriptor(), "col", filter, "r", init, "xi",
-				fold, 4, null, col, false, false, table ) );
+				fold, 4, null, col, DATATYPES, false, false, table ) );
 
 		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
 
@@ -613,7 +619,7 @@ public class LittleLanguageTest extends AbstractTestBase
 				"r" ), new ExpressionNodeForLetVar( "xi" ) );
 		r.setExpression( new ExpressionNodeForLet( "-crit0", new ExpressionNodeForCellModel( a ),
 				new ExpressionNodeForDatabaseFold( table.arrayDescriptor(), "col", filter, "r", init, "xi", fold, 4, null,
-						col, false, false, table ) ) );
+						col, DATATYPES, false, false, table ) ) );
 
 		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
 
@@ -627,10 +633,7 @@ public class LittleLanguageTest extends AbstractTestBase
 		final SectionModel rootModel = engineModel.getRoot();
 		this.rootModel = rootModel;
 
-		final ExpressionNodeForArrayReference table = makeRange( new Object[][] {
-				new Object[] { "Apple", 18.0, 20.0, 14.0, 105.0 }, new Object[] { "Pear", 12.0, 12.0, 10.0, 96.0 },
-				new Object[] { "Cherry", 13.0, 14.0, 9.0, 105.00 }, new Object[] { "Apple", 14.0, 15.0, 10.0, 75.00 },
-				new Object[] { "Pear", 9.0, 8.0, 8.0, 76.80 }, new Object[] { "Apple", 8.0, 9.0, 6.0, 45.00 } } );
+		final ExpressionNodeForArrayReference table = makeRange( DATATABLE );
 
 		final ExpressionNode filter = new ExpressionNodeForOperator( Operator.EQUAL,
 				new ExpressionNodeForLetVar( "col0" ), new ExpressionNodeForConstantValue( "NotHere" ) );
@@ -642,7 +645,7 @@ public class LittleLanguageTest extends AbstractTestBase
 		final ExpressionNodeForOperator fold = new ExpressionNodeForOperator( Operator.TIMES,
 				new ExpressionNodeForLetVar( "r" ), new ExpressionNodeForLetVar( "xi" ) );
 		r.setExpression( new ExpressionNodeForDatabaseFold( table.arrayDescriptor(), "col", filter, "r", init, "xi",
-				fold, 4, null, col, false, true, table ) );
+				fold, 4, null, col, DATATYPES, false, true, table ) );
 
 		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
 
@@ -671,7 +674,7 @@ public class LittleLanguageTest extends AbstractTestBase
 		final ExpressionNodeForOperator fold = new ExpressionNodeForOperator( Operator.INTERNAL_MAX,
 				new ExpressionNodeForLetVar( "r" ), new ExpressionNodeForLetVar( "xi" ) );
 		r.setExpression( new ExpressionNodeForDatabaseFold( table.arrayDescriptor(), "col", filter, "r", init, "xi",
-				fold, 4, null, col, true, true, table ) );
+				fold, 4, null, col, DATATYPES, true, true, table ) );
 
 		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
 

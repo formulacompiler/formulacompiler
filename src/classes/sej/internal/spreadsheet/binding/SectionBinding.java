@@ -218,16 +218,10 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 
 	protected void checkSection( CellRange _range, Orientation _orientation ) throws CompilerException
 	{
-		for (SectionBinding other : this.workbook.getSections()) {
-			if (other.isInSection( this )) {
-				if (other.getOrientation() != _orientation) {
-					throw new CompilerException.SectionOrientation( "Section '"
-							+ _range.toString() + "' has a different orientation than '" + other.toString() + "'" );
-				}
-				if (other.getRange().overlaps( _range, _orientation )) {
-					throw new CompilerException.SectionOverlap( "Section '"
-							+ _range.toString() + "' overlaps '" + other.toString() + "'" );
-				}
+		for (SectionBinding sub : this.getSections()) {
+			if (sub.getRange().overlaps( _range, _orientation )) {
+				throw new CompilerException.SectionOverlap( "Section '"
+						+ _range.toString() + "' overlaps '" + sub.toString() + "'" );
 			}
 		}
 	}
