@@ -50,6 +50,7 @@ h2. Interfacing with Java
 	* There is no support for @null@ yet (see also the note on "empty cells":reference/values.htm).
 	* When binding a @String@-valued output method to a date field in Excel, the resulting value is not formatted as a date, but as a number. This is because, internally, dates are treated as numbers. This is the same behaviour as that shown by @CONCATENATE@ and @&@ in Excel itself.
 	* When binding a @String@-valued output method to a numeric field with a special cell format, that format is not respected. This is the same behaviour as that shown by @CONCATENATE@ and @&@ in Excel itself.
+	* Aggregators "spanning nested sections":dev/2007-12-15_ranges_overlapping_sections.htm are not yet supported, except for the special case which is useful for "@DSUM@ et al.":reference/dbaggregators.htm.
 
 
 h2. Engine Persistence

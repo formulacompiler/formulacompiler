@@ -2,13 +2,15 @@
 h1. SEJ Roadmap
 
 	* Ensure the constant folder folds shared expressions only once.
-	* Make the constant folder use the template methods so we get automatic folding support for primitives.
+	* Verify that all formulas in rows/columns in a repeating section are structurally equivalent.
+	* Extend the tests for section bindings (see ErrorImproperSectionDefinition.xls).
 	* Simplify manual binding, including sections.
 	* Make cell namer not fail on unbound cells, but offer support for warning users about which cells are unbound.
 	* Extend cell namer so it only handles sections of the sheet.
 	* Extend cell associator so it only handles names matching or not matching a given regex.
 	* Support @MATCH@ and @INDEX@ over repeating sections.
-	* Fully document API.
+	* Reactivate the Excel .xls parser.
+	* Implement an OpenOffice Calc parser.
 	* Check whether it would make sense to replace JDOM with something built into the JRE. It seems that using either a SAX or a DOM parser from javax.xml.parsers would be ideal.
 	* Implement handling of empty cells past edge for @PRODUCT@.
 	* Think about signing the .jar files for security reasons.
@@ -23,9 +25,7 @@ h1. SEJ Roadmap
 	* Improve tests for binder config validation
 	* Support returning an array from 2-dimensional @INDEX@.
 
-
 You may also want to look at the "known limitations":limitations.htm.
-
 
 
 h2. Tests and Ideas
