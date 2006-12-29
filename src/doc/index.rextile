@@ -4,8 +4,8 @@ h1. SEJ - Spreadsheet Engine for Java
 
 <div class="news">
 
-"Release 0.8.2":releasenotes.htm with new array and database table functions.
-<br/>%(when)December 28, 2006%
+"Release 0.8.2":releasenotes.htm with new "array":reference/financialfuncs.htm and "database table":reference/dbaggregators.htm functions.
+<br/>%(when)December 29	, 2006%
 
 "Release 0.8.1":releasenotes.htm supports "string comparisons":reference/strings.htm.
 <br/>%(when)November 17, 2006%
@@ -17,10 +17,10 @@ h1. SEJ - Spreadsheet Engine for Java
 
 The Spreadsheet Engine for Java (SEJ, for short) makes it possible to use computations defined in spreadsheet files within normal Java applications. SEJ was designed from the ground up for high performance, low memory usage and thread-safety. For detailed information, look at one of
 
+	* "Design Document":design.htm
 	* "Tutorial":tutorial/index.htm
 	* "Function Reference (Supported Formulas)":reference/index.htm
 	* "API Reference (JavaDoc)":javadoc/index.html
-	* "Design Document":design.htm
 	* "Sample Applications":examples/index.htm
 
 	* "Release Notes":releasenotes.htm

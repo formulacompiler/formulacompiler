@@ -25,4 +25,8 @@ You can use vertically repeating sections in the data area. They must not, howev
 
 	[xc:testdata/sej/tests/SectionTests.xls:DSUM_Example]
 
-TODO: Multiple siblings
+It is also possible to have multiple sibling sections in the data table, as shown below:
+
+	[xc:testdata/sej/tests/reference/DSUM_with_sibling_sections.xls:Cited_Example]
+
+TODO: This example is not automatically tested yet!

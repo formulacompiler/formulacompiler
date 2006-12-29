@@ -79,34 +79,31 @@ Derived from the design goals above is a clear separation of phases and concerns
 
 !compiler.png(Compiler Overview)!
 
+dt. API Facade : (Not shown in diagram.) Defines the public API to all of SEJ. For example, the interfaces @Engine@ and @Computation@.
 
-<dl>
+dt. Spreadsheet Model : An in-memory representation of a spreadsheet which is constructed by loaders and consumed by engine builders. It thus decouples the engine compilers from the various spreadsheet formats supported by SEJ. Cell formulas are represented by expression trees with special nodes denoting cell references. Parsing of cell formulas into expression trees can be done lazily so that only the formulas actually used by an engine builder are parsed.
 
-<dt>API Facade</dt><dd>(Not shown in diagram.) Defines the public API to all of SEJ. For example, the interfaces @Engine@ and @Computation@.</dd>
+dt. Computation Model : An in-memory representation of the relevant computation extracted from a spreadsheet model. This model is hierarchical to represent dynamic sections and has no longer any notion of rows and columns, only of expressions referencing inputs or other expressions.
 
-<dt>Spreadsheet Model</dt><dd>An in-memory representation of a spreadsheet which is constructed by loaders and consumed by engine builders. It thus decouples the engine compilers from the various spreadsheet formats supported by SEJ. Cell formulas are represented by expression trees with special nodes denoting cell references. Parsing of cell formulas into expression trees can be done lazily so that only the formulas actually used by an engine builder are parsed.</dd>
+dt. Expression Trees : A syntax tree representation of the formulas found in a spreadsheet or an internal computation model.
 
-<dt>Computation Model</dt><dd>An in-memory representation of the relevant computation extracted from a spreadsheet model. This model is hierarchical to represent dynamic sections and has no longer any notion of rows and columns, only of expressions referencing inputs or other expressions.</dd>
+dt. Spreadsheet Compiler : Compiles a spreadsheet model into an internal computation model. Uses the engine definition (inputs and outputs) to extract only the relevant parts.
 
-<dt>Expression Trees</dt><dd>A syntax tree representation of the formulas found in a spreadsheet or an internal computation model.</dd>
+dt. Optimizer : Performs constant folding and expression inlining on the internal computation model.
 
-<dt>Spreadsheet Compiler</dt><dd>Compiles a spreadsheet model into an internal computation model. Uses the engine definition (inputs and outputs) to extract only the relevant parts.</dd>
+dt. Abstract Excel Loader : Common base for the different Microsoft Excel spreadsheet file loaders (.xls and .xml). Implements lazy parsing of Excel formulas into SEJ's expression trees. The expression parser is generated using the open-source JFlex and CUP components.
 
-<dt>Optimizer</dt><dd>Performs constant folding and expression inlining on the internal computation model.</dd>
+dt. Excel .xls Loader : Loads spreadsheet files in Microsoft Excel's native .xls format into an SEJ spreadsheet model. Uses the open-source JExcelAPI library to parse the .xls format.
 
-<dt>Abstract Excel Loader</dt><dd>Common base for the different Microsoft Excel spreadsheet file loaders (.xls and .xml). Implements lazy parsing of Excel formulas into SEJ's expression trees. The expression parser is generated using the open-source JFlex and CUP components.</dd>
+dt. Excel .xml Loader : Loads spreadsheet files in Microsoft Excel's .xml format into an SEJ spreadsheet model. Uses the open-source JDOM library to parse the XML file into a DOM.
 
-<dt>Excel .xls Loader</dt><dd>Loads spreadsheet files in Microsoft Excel's native .xls format into an SEJ spreadsheet model. Uses the open-source JExcelAPI library to parse the .xls format.</dd>
+dt. OpenOffice .ods Loader : Envisioned loader(s) for the OpenOffice spreadsheet file format(s).
 
-<dt>Excel .xml Loader</dt><dd>Loads spreadsheet files in Microsoft Excel's .xml format into an SEJ spreadsheet model. Uses the open-source JDOM library to parse the XML file into a DOM.</dd>
+dt. SEJ Bytecode Compiler : Builds an SEJ engine given an internal computation model. Uses the open-source ASM library to generate the new engine class and the methods which compute the spreadsheet formulas. The generated class can be used directly to instantiate an engine, or else stored somewhere for later instantiation. It is thus possible to build the engine in a separate configuration program and then install only the generated class file with its minimal dependencies in a server application.
 
-<dt>OpenOffice .ods Loader</dt><dd>Envisioned loader(s) for the OpenOffice spreadsheet file format(s).</dd>
+dt. SEJ Sourcecode Compiler (planned) : Generates the Java source code for an SEJ engine given an internal computation model. This is planned mainly for debugging and for inspecting generated engines.
 
-<dt>SEJ Bytecode Compiler</dt><dd>Builds an SEJ engine given an internal computation model. Uses the open-source ASM library to generate the new engine class and the methods which compute the spreadsheet formulas. The generated class can be used directly to instantiate an engine, or else stored somewhere for later instantiation. It is thus possible to build the engine in a separate configuration program and then install only the generated class file with its minimal dependencies in a server application.</dd>
-
-<dt>Engine Instance</dt><dd>Expression evaluation engine that computes formulas using native Java byte code methods. Some computations of core spreadsheet functions are delegated to a SEJ runtime library (not shown). This implementation of an engine is very fast and space efficient. It also has no other dependencies on external components. It is, therefore, an ideal choice for heavily used server-side computations.</dd>
-</dl>
-
+dt. Engine Instance : Expression evaluation engine that computes formulas using native Java byte code methods. Some computations of core spreadsheet functions are delegated to a SEJ runtime library (not shown). This implementation of an engine is very fast and space efficient. It also has no other dependencies on external components. It is, therefore, an ideal choice for heavily used server-side computations.
 
 
 
@@ -184,6 +181,8 @@ Test-driven development should ensure that all supported features are clearly do
 
 h3. Trustworthiness
 
-While not implemented yet, SEJ will be able to generate Java source code as well as byte-code:
+While not implemented yet, it is planned that SEJ will be able to generate Java source code as well as byte-code:
 
 !compilesrc_and_use.png(Source Compilation)!
+
+However, you can already today use Java decompilers like "JODE":-jode to have a look at the generated code in an understandable format. SEJ does, in fact, take great care to produce byte-code that is the equivalent of code produced by @javac@ from Java sources.

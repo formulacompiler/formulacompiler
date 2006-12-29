@@ -5,6 +5,8 @@ _XmlProc_ is a batch application that reads an input XML file with data, an spre
 
 *This example is not done yet!*
 
+_And I just thought that, for a first version, it might be easier to use another Excel sheet for input
+data, and maybe yet another one for outputs, though that is more debatable._
 
 <%= toc %>
 

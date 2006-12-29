@@ -29,6 +29,7 @@ h5. Better
 	* Moved @sej.internal.templates@ to @sej.internal.model.templates@.
 	* Cleaned up the implementation of @COUNT()@.
 	* @BigDecimal@ exponentiation now fails with an internal @ArithmeticException@ "Rounding necessary" if the exponent is not an integer.
+	* Introduced @sej.util.New@ which provides generic static getters to leverage Java 5 type inference (as suggested by Josh Bloch in his new slides on "Effective Java Reloaded").
 
 h5. Documented
 

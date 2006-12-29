@@ -20,9 +20,7 @@
  */
 package sej.tests.reference;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -37,7 +35,6 @@ import sej.SaveableEngine;
 import sej.SpreadsheetBinder.Section;
 import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.logging.Log;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellRefFormat;
@@ -51,16 +48,12 @@ import sej.internal.spreadsheet.saver.excel.xls.ExcelXLSExpressionFormatter;
 import sej.runtime.ComputationFactory;
 import sej.runtime.Resettable;
 import sej.runtime.ScaledLong;
-import junit.framework.TestCase;
 
 @SuppressWarnings("unchecked")
-public abstract class AbstractSheetBasedTest extends TestCase
+public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 {
-	public static final Log LOG = new Log();
-
-	private static final File SPREADSHEET_PATH = new File( "src/test-system/testdata/sej/tests/reference" );
 	private static final File HTML_PATH = new File( "temp/reference" );
-
+	
 	private static final Double DOUBLE_DUMMY = 23974.239874;
 	private static final BigDecimal BIGDECIMAL_DUMMY = BigDecimal.valueOf( 023974.239874 );
 	private static final Long LONG_DUMMY = 923748L;
@@ -69,10 +62,8 @@ public abstract class AbstractSheetBasedTest extends TestCase
 
 	protected static final int CACHING_VARIANTS = 2;
 	protected static final int TYPE_VARIANTS = 3;
-	private static final int UNDEFINED_STARTING_ROW = -1;
 
-	private final String baseName;
-	private final String spreadsheetName;
+	private static final int UNDEFINED_STARTING_ROW = -1;
 
 	private int givenStartingRow;
 	private int runOnlyRowNumbered = -1;
@@ -81,106 +72,41 @@ public abstract class AbstractSheetBasedTest extends TestCase
 	private Boolean runOnlyCacheVariant = null;
 	private int numberOfEnginesCompiled = 0;
 
-	protected static enum NumType {
-		DOUBLE, BIGDECIMAL, LONG;
-	}
-
-
 	static {
 		HTML_PATH.mkdirs();
 	}
-
+	
 
 	protected AbstractSheetBasedTest()
 	{
 		super();
 		this.givenStartingRow = UNDEFINED_STARTING_ROW;
-		this.baseName = extractBaseNameFrom( getClass().getSimpleName() );
-		this.spreadsheetName = this.baseName + ".xls";
 	}
 
 	protected AbstractSheetBasedTest(String _baseName, int _startingRowNumber)
 	{
-		super();
-		this.baseName = _baseName;
-		this.spreadsheetName = this.baseName + ".xls";
+		super( _baseName );
 		this.givenStartingRow = _startingRowNumber - 1;
 	}
 
 	protected AbstractSheetBasedTest(String _baseName, int _onlyRowNumbered, NumType _onlyType, int _onlyInputVariant,
 			boolean _caching)
 	{
-		super();
-		this.baseName = _baseName;
-		this.spreadsheetName = this.baseName + ".xls";
+		super( _baseName );
 		this.runOnlyRowNumbered = _onlyRowNumbered;
 		this.runOnlyType = _onlyType;
 		this.runOnlyInputVariant = _onlyInputVariant;
 		this.runOnlyCacheVariant = _caching;
 	}
 
-
-	private static String extractBaseNameFrom( String _name )
-	{
-		if (_name.endsWith( "Test" )) {
-			return _name.substring( 0, _name.length() - 4 );
-		}
-		else {
-			return _name;
-		}
-	}
-
-	private static void writeStringTo( String _value, File _target ) throws IOException
-	{
-		BufferedWriter writer = new BufferedWriter( new FileWriter( _target ) );
-		try {
-			if (null != _value) writer.write( _value );
-		}
-		finally {
-			writer.close();
-		}
-	}
-
-
-	public void testExpressions() throws Exception
-	{
-		final EngineBuilder eb = SEJ.newEngineBuilder();
-		eb.loadSpreadsheet( new File( SPREADSHEET_PATH, this.spreadsheetName ) );
-		newSheetRunner( (SpreadsheetImpl) eb.getSpreadsheet() ).run();
-	}
-
-	protected abstract AbstractSheetRunner newSheetRunner( SpreadsheetImpl _impl );
-
-
-	private void reportTestRun( String _testName )
-	{
-		LOG.a( _testName ).lf().i();
-	}
-
-	protected void reportDefectiveEngine( SaveableEngine _engine, String _testName )
-	{
-		// overridable
-	}
-
-	private void reportEndOfTestRun( String _testName )
-	{
-		LOG.o();
-	}
-
-	protected final String htmlize( String _text )
-	{
-		return _text.replace( "&", "&amp;" ).replace( "<", "&lt;" ).replace( ">", "&gt;" );
-	}
-
+	
 	protected final int getNumberOfEnginesCompiled()
 	{
 		return this.numberOfEnginesCompiled;
 	}
 
-
-	protected abstract class AbstractSheetRunner
+	protected abstract class AbstractSheetRunner extends AbstractWorkbookBasedTest.AbstractSheetRunner
 	{
-		protected final SpreadsheetImpl book;
 		protected final DescriptionBuilder html = new DescriptionBuilder();
 		protected final DescriptionBuilder terms = new DescriptionBuilder();
 		protected String sequenceName;
@@ -190,10 +116,8 @@ public abstract class AbstractSheetBasedTest extends TestCase
 
 		public AbstractSheetRunner(SpreadsheetImpl _book)
 		{
-			super();
-			this.book = _book;
+			super( _book );
 		}
-
 
 		protected abstract int expectedCol();
 		protected abstract int formulaCol();
@@ -205,6 +129,7 @@ public abstract class AbstractSheetBasedTest extends TestCase
 		protected abstract int inputColumnCountFor( RowImpl _row );
 
 
+		@Override
 		public final void run() throws Exception
 		{
 			startHtml();
@@ -415,14 +340,6 @@ public abstract class AbstractSheetBasedTest extends TestCase
 					}
 				}
 				return _value;
-			}
-
-			protected ValueType valueTypeOf( Object _value )
-			{
-				if (_value instanceof String) return ValueType.STRING;
-				if (_value instanceof Date) return ValueType.DATE;
-				if (_value instanceof Boolean) return ValueType.BOOL;
-				return ValueType.NUMBER;
 			}
 
 			protected abstract CellInstance getValueCell( RowImpl _valueRow, int _iInput );
@@ -995,9 +912,5 @@ public abstract class AbstractSheetBasedTest extends TestCase
 		// Nothing new here.
 	}
 
-
-	protected static enum ValueType {
-		NUMBER, STRING, DATE, BOOL;
-	}
 
 }
