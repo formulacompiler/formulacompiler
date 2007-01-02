@@ -73,8 +73,7 @@ public enum Function {
 	DSUM, DPRODUCT, DCOUNT, DMIN, DMAX;
 
 
-	private static final Function[] AGGREGATORS = new Function[] { SUM, PRODUCT, MIN, MAX, COUNT, AVERAGE, VAR, VARP,
-			AND, OR };
+	private static final Function[] AGGREGATORS = { SUM, PRODUCT, MIN, MAX, COUNT, AVERAGE, VAR, VARP, AND, OR };
 
 
 	public String getName()

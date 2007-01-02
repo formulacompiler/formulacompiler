@@ -31,7 +31,7 @@ public class EvalPassthrough extends EvalShadow
 	}
 
 	@Override
-	protected Object evaluateToConst( Object[] _args )
+	protected Object evaluateToConst( Object... _args )
 	{
 		return _args[0];
 	}

@@ -46,7 +46,7 @@ public class SpreadsheetTest extends TestCase
 
 		assertEquals( 8, rows.length );
 
-		int[] rowLengths = new int[] { 1, 0, 1, 2, 2, 0, 1, 2 };
+		int[] rowLengths = { 1, 0, 1, 2, 2, 0, 1, 2 };
 		for (int i = 0; i < rows.length; i++) {
 			Row row = rows[ i ];
 

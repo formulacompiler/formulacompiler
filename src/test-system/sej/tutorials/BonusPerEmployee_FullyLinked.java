@@ -45,7 +45,7 @@ public class BonusPerEmployee_FullyLinked extends TestCase
 {
 	private static final String SHEETPATH = "src/test-system/testdata/sej/tutorials/BonusPerEmployee.xls";
 
-	
+
 	public void testBonusPerEmployee() throws Exception
 	{
 		EngineBuilder builder = SEJ.newEngineBuilder();
@@ -57,15 +57,15 @@ public class BonusPerEmployee_FullyLinked extends TestCase
 		bindElements( builder );
 
 		SaveableEngine engine = builder.compile();
-		
+
 		BonusComputationFactory factory = (BonusComputationFactory) engine.getComputationFactory();
 
 		{
 			long bonusTotal = 200000000L;
 			long overtimeSalaryPerHour = 500000L;
-			long[] salaries = new long[] { 56000000L, 54000000L, 55000000L };
-			int[] hoursOvertime = new int[] { 20, 15, 0 };
-			long[] bonuses = new long[] { 72328800L, 67397300L, 60274000L };
+			long[] salaries = { 56000000L, 54000000L, 55000000L };
+			int[] hoursOvertime = { 20, 15, 0 };
+			long[] bonuses = { 72328800L, 67397300L, 60274000L };
 			assertBonuses( factory, bonusTotal, overtimeSalaryPerHour, salaries, hoursOvertime, bonuses );
 		}
 	}
@@ -74,7 +74,7 @@ public class BonusPerEmployee_FullyLinked extends TestCase
 	private void bindElements( EngineBuilder _builder ) throws CompilerException, NoSuchMethodException
 	{
 		Spreadsheet sheet = _builder.getSpreadsheet();
-		
+
 		Section binder = _builder.getRootBinder();
 
 		Cell bonusTotalCell = sheet.getCell( "BonusTotal" );
@@ -86,22 +86,21 @@ public class BonusPerEmployee_FullyLinked extends TestCase
 		binder.defineInputCell( overtimeRateCell, new CallFrame( overtimeRateMethod ) );
 
 		Range range = sheet.getRange( "Employees" );
-		
+
 		// input
-		Method inputMethod = BonusData.class.getMethod( "employees");
+		Method inputMethod = BonusData.class.getMethod( "employees" );
 		CallFrame inputCall = new CallFrame( inputMethod );
 		Class inputType = EmployeeBonusData.class;
 
 		// output
-		Method outputMethod = BonusComputation.class.getMethod( "employees");
+		Method outputMethod = BonusComputation.class.getMethod( "employees" );
 		CallFrame outputCall = new CallFrame( outputMethod );
 		Class outputType = EmployeeBonusComputation.class;
 
 		Orientation orient = Orientation.VERTICAL;
 
-		Section employees = binder.defineRepeatingSection( range, orient, inputCall, inputType,
-				outputCall, outputType );
-		
+		Section employees = binder.defineRepeatingSection( range, orient, inputCall, inputType, outputCall, outputType );
+
 		Cell salaryCell = sheet.getCell( "BaseSalary" );
 		Method salaryMethod = inputType.getMethod( "baseSalary" );
 		employees.defineInputCell( salaryCell, new CallFrame( salaryMethod ) );
@@ -132,10 +131,10 @@ public class BonusPerEmployee_FullyLinked extends TestCase
 			/**/assertSame( comp, empOutputs[ i ].parent() );/**/
 		}
 		// ---- consumeOutputs
-		
+
 	}
-	
-	
+
+
 	public static interface BonusComputationFactory
 	{
 		public BonusComputation newComputation( BonusData _data );
@@ -154,17 +153,17 @@ public class BonusPerEmployee_FullyLinked extends TestCase
 	{
 		private final BonusComputation parent;
 
-		public EmployeeBonusComputation( EmployeeBonusData _inputs, /**/BonusComputation _parent/**/ ) 
+		public EmployeeBonusComputation(EmployeeBonusData _inputs, /**/BonusComputation _parent/**/)
 		{
 			super();
 			this.parent = _parent;
 		}
-		
-		public /**/BonusComputation parent()/**/
+
+		public/**/BonusComputation parent()/**/
 		{
 			return this.parent;
 		}
-		
+
 		public abstract long bonusAmount();
 	}
 	// ---- Outputs

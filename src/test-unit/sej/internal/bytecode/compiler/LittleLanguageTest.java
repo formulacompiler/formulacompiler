@@ -124,8 +124,8 @@ public class LittleLanguageTest extends AbstractTestBase
 		final ExpressionNode init = new ExpressionNodeForConstantValue( _mayReduce ? 17 : 0 );
 		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
 				new ExpressionNodeForLetVar( "xi" ) );
-		final ExpressionNode[] args = new ExpressionNode[] { new ExpressionNodeForCellModel( a ),
-				new ExpressionNodeForCellModel( b ), new ExpressionNodeForCellModel( c ) };
+		final ExpressionNode[] args = { new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
+				new ExpressionNodeForCellModel( c ) };
 
 		r.setExpression( new ExpressionNodeForFold( "acc", init, "xi", fold, _mayReduce, args ) );
 
@@ -219,7 +219,7 @@ public class LittleLanguageTest extends AbstractTestBase
 		final ExpressionNode init = new ExpressionNodeForConstantValue( 0 );
 		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
 				new ExpressionNodeForLetVar( "xi" ) );
-		final ExpressionNode[] args = new ExpressionNode[] {
+		final ExpressionNode[] args = {
 				new ExpressionNodeForCellModel( a ),
 				new ExpressionNodeForCellModel( b ),
 				new ExpressionNodeForSubSectionModel( subModel, new ExpressionNodeForSubSectionModel( subsubModel,
@@ -253,8 +253,8 @@ public class LittleLanguageTest extends AbstractTestBase
 		b.setConstantValue( 2.0 );
 		c.setConstantValue( 3.0 );
 
-		final ExpressionNode[] args = new ExpressionNode[] { new ExpressionNodeForCellModel( a ),
-				new ExpressionNodeForCellModel( b ), new ExpressionNodeForCellModel( c ) };
+		final ExpressionNode[] args = { new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
+				new ExpressionNodeForCellModel( c ) };
 
 		r.setExpression( new ExpressionNodeForFunction( Function.VARP, args ) );
 
@@ -286,7 +286,7 @@ public class LittleLanguageTest extends AbstractTestBase
 		b.setConstantValue( 2.0 );
 		c.setConstantValue( 3.0 );
 
-		final ExpressionNode[] args = new ExpressionNode[] {
+		final ExpressionNode[] args = {
 				new ExpressionNodeForCellModel( a ),
 				new ExpressionNodeForSubSectionModel( subModel, new ExpressionNodeForCellModel( b ),
 						new ExpressionNodeForCellModel( c ) ) };
@@ -354,8 +354,8 @@ public class LittleLanguageTest extends AbstractTestBase
 		final ExpressionNode other = new ExpressionNodeForConstantValue( 17 );
 		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
 				new ExpressionNodeForLetVar( "xi" ) );
-		final ExpressionNode[] args = new ExpressionNode[] { new ExpressionNodeForCellModel( a ),
-				new ExpressionNodeForCellModel( b ), new ExpressionNodeForCellModel( c ) };
+		final ExpressionNode[] args = { new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
+				new ExpressionNodeForCellModel( c ) };
 
 		r.setExpression( new ExpressionNodeForReduce( "acc", "xi", fold, other, args ) );
 
@@ -386,7 +386,7 @@ public class LittleLanguageTest extends AbstractTestBase
 		final ExpressionNode other = new ExpressionNodeForConstantValue( 17 );
 		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
 				new ExpressionNodeForLetVar( "xi" ) );
-		final ExpressionNode[] args = new ExpressionNode[] {
+		final ExpressionNode[] args = {
 				new ExpressionNodeForSubSectionModel( subModel, new ExpressionNodeForCellModel( c ) ),
 				new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ) };
 
@@ -421,7 +421,7 @@ public class LittleLanguageTest extends AbstractTestBase
 		final ExpressionNode other = new ExpressionNodeForConstantValue( 17 );
 		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
 				new ExpressionNodeForLetVar( "xi" ) );
-		final ExpressionNode[] args = new ExpressionNode[] {
+		final ExpressionNode[] args = {
 				new ExpressionNodeForSubSectionModel( subModel1, new ExpressionNodeForCellModel( a ),
 						new ExpressionNodeForCellModel( b ) ),
 				new ExpressionNodeForSubSectionModel( subModel2, new ExpressionNodeForCellModel( c ) ) };
@@ -480,7 +480,7 @@ public class LittleLanguageTest extends AbstractTestBase
 		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
 				new ExpressionNodeForLetVar( "xi" ) );
 
-		final ExpressionNode[] args = new ExpressionNode[] {
+		final ExpressionNode[] args = {
 				new ExpressionNodeForSubSectionModel( subModel1, new ExpressionNodeForCellModel( a ),
 						new ExpressionNodeForCellModel( b ) ),
 				new ExpressionNodeForSubSectionModel( subModel2, new ExpressionNodeForSubSectionModel( subsubModel,
@@ -541,8 +541,8 @@ public class LittleLanguageTest extends AbstractTestBase
 		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
 				new ExpressionNodeForOperator( Operator.TIMES, new ExpressionNodeForLetVar( "xi" ),
 						new ExpressionNodeForLetVar( "i" ) ) );
-		final ExpressionNode[] args = new ExpressionNode[] { new ExpressionNodeForCellModel( a ),
-				new ExpressionNodeForCellModel( b ), new ExpressionNodeForCellModel( c ) };
+		final ExpressionNode[] args = { new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
+				new ExpressionNodeForCellModel( c ) };
 		final ExpressionNode arr = new ExpressionNodeForMakeArray( new ExpressionNodeForArrayReference(
 				new ArrayDescriptor( 1, 1, 3 ), args ) );
 
@@ -558,13 +558,12 @@ public class LittleLanguageTest extends AbstractTestBase
 	}
 
 
-	private static final Object[][] DATATABLE = new Object[][] { new Object[] { "Apple", 18.0, 20.0, 14.0, 105.0 },
-			new Object[] { "Pear", 12.0, 12.0, 10.0, 96.0 }, new Object[] { "Cherry", 13.0, 14.0, 9.0, 105.00 },
-			new Object[] { "Apple", 14.0, 15.0, 10.0, 75.00 }, new Object[] { "Pear", 9.0, 8.0, 8.0, 76.80 },
-			new Object[] { "Apple", 8.0, 9.0, 6.0, 45.00 } };
+	private static final Object[][] DATATABLE = { { "Apple", 18.0, 20.0, 14.0, 105.0 },
+			{ "Pear", 12.0, 12.0, 10.0, 96.0 }, { "Cherry", 13.0, 14.0, 9.0, 105.00 },
+			{ "Apple", 14.0, 15.0, 10.0, 75.00 }, { "Pear", 9.0, 8.0, 8.0, 76.80 }, { "Apple", 8.0, 9.0, 6.0, 45.00 } };
 
-	private static final DataType[] DATATYPES = new DataType[] { DataType.STRING, DataType.NUMERIC, DataType.NUMERIC,
-			DataType.NUMERIC, DataType.NUMERIC };
+	private static final DataType[] DATATYPES = { DataType.STRING, DataType.NUMERIC, DataType.NUMERIC, DataType.NUMERIC,
+			DataType.NUMERIC };
 
 	public void testDatabaseFold() throws Exception
 	{
@@ -598,10 +597,10 @@ public class LittleLanguageTest extends AbstractTestBase
 		final SectionModel rootModel = engineModel.getRoot();
 		this.rootModel = rootModel;
 
-		final ExpressionNodeForArrayReference table = makeRange( new Object[][] {
-				new Object[] { "Apple", 18.0, 20.0, 14.0, 105.0 }, new Object[] { "Pear", 12.0, 12.0, 10.0, 96.0 },
-				new Object[] { "Cherry", 13.0, 14.0, 9.0, 105.00 }, new Object[] { "Apple", 14.0, 15.0, 10.0, 75.00 },
-				new Object[] { "Pear", 2.0, 8.0, 8.0, 76.80 }, new Object[] { "Apple", 8.0, 9.0, 6.0, 45.00 } } );
+		final Object[][] data = { { "Apple", 18.0, 20.0, 14.0, 105.0 }, { "Pear", 12.0, 12.0, 10.0, 96.0 },
+				{ "Cherry", 13.0, 14.0, 9.0, 105.00 }, { "Apple", 14.0, 15.0, 10.0, 75.00 },
+				{ "Pear", 2.0, 8.0, 8.0, 76.80 }, { "Apple", 8.0, 9.0, 6.0, 45.00 } };
+		final ExpressionNodeForArrayReference table = makeRange( data );
 
 		final CellModel a = new CellModel( rootModel, "a" );
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
@@ -659,10 +658,10 @@ public class LittleLanguageTest extends AbstractTestBase
 		final SectionModel rootModel = engineModel.getRoot();
 		this.rootModel = rootModel;
 
-		final ExpressionNodeForArrayReference table = makeRange( new Object[][] {
-				new Object[] { "Apple", 18.0, 20.0, 14.0, -105.0 }, new Object[] { "Pear", 12.0, 12.0, 10.0, -96.0 },
-				new Object[] { "Cherry", 13.0, 14.0, 9.0, -105.00 }, new Object[] { "Apple", 14.0, 15.0, 10.0, -75.00 },
-				new Object[] { "Pear", 9.0, 8.0, 8.0, -76.80 }, new Object[] { "Apple", 8.0, 9.0, 6.0, -45.00 } } );
+		final Object[][] data = { { "Apple", 18.0, 20.0, 14.0, -105.0 }, { "Pear", 12.0, 12.0, 10.0, -96.0 },
+				{ "Cherry", 13.0, 14.0, 9.0, -105.00 }, { "Apple", 14.0, 15.0, 10.0, -75.00 },
+				{ "Pear", 9.0, 8.0, 8.0, -76.80 }, { "Apple", 8.0, 9.0, 6.0, -45.00 } };
+		final ExpressionNodeForArrayReference table = makeRange( data );
 
 		final ExpressionNode filter = new ExpressionNodeForOperator( Operator.EQUAL,
 				new ExpressionNodeForLetVar( "col0" ), new ExpressionNodeForConstantValue( "Apple" ) );
@@ -692,7 +691,7 @@ public class LittleLanguageTest extends AbstractTestBase
 	 * 
 	 * a.setConstantValue( 1.0 ); b.setConstantValue( 2.0 ); c.setConstantValue( 3.0 );
 	 * 
-	 * final ExpressionNode[] args = new ExpressionNode[] { new ExpressionNodeForCellModel( a ), new
+	 * final ExpressionNode[] args = { new ExpressionNodeForCellModel( a ), new
 	 * ExpressionNodeForCellModel( b ), new ExpressionNodeForCellModel( c ) }; final ExpressionNode
 	 * s0 = new ExpressionNodeForSet( "s", new ExpressionNodeForConstantValue( 0 ) ); final
 	 * ExpressionNode ss0 = new ExpressionNodeForSet( "ss", new ExpressionNodeForConstantValue( 0 ) );

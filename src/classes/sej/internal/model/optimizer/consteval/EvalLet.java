@@ -48,7 +48,7 @@ final class EvalLet extends EvalShadow
 				if (isConstant( result )) {
 					return result;
 				}
-				return evaluateToNode( new Object[] { val, result } );
+				return evaluateToNode( val, result );
 			}
 			finally {
 				letDict().unlet( this.varName );
@@ -62,7 +62,7 @@ final class EvalLet extends EvalShadow
 					return result;
 				}
 				final Object val = evaluateArgument( 0 );
-				return evaluateToNode( new Object[] { val, result } );
+				return evaluateToNode( val, result );
 			}
 			finally {
 				letDict().unlet( this.varName );
@@ -71,7 +71,7 @@ final class EvalLet extends EvalShadow
 	}
 
 	@Override
-	protected Object evaluateToConst( Object[] _args )
+	protected Object evaluateToConst( Object... _args )
 	{
 		throw new IllegalStateException( "EvalLet.evaluateToConst() should never be called" );
 	}

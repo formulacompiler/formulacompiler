@@ -167,7 +167,7 @@ abstract class EvalAbstractFold extends EvalShadow
 
 
 	@Override
-	protected Object evaluateToConst( Object[] _args )
+	protected Object evaluateToConst( Object... _args )
 	{
 		throw new IllegalStateException( "EvalFold.evaluateToConst() should never be called" );
 	}

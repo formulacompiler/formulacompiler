@@ -114,7 +114,7 @@ public class EvalFunction extends EvalShadow
 
 
 	@Override
-	protected Object evaluateToConst( Object[] _args )
+	protected Object evaluateToConst( Object... _args )
 	{
 		final Function function = ((ExpressionNodeForFunction) node()).getFunction();
 		if (function.isVolatile()) {
