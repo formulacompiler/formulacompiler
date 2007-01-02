@@ -128,7 +128,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	}
 
 
-	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object[] _args ) throws CompilerException
+	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object... _args ) throws CompilerException
 	{
 		if (hasOnlyConstantArgs( _args )) {
 			return evaluateToConst( _args );
@@ -139,7 +139,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	}
 
 
-	protected final boolean hasOnlyConstantArgs( Object[] _args )
+	protected final boolean hasOnlyConstantArgs( Object... _args )
 	{
 		for (Object arg : _args) {
 			if (!isConstant( arg )) return false;
@@ -167,7 +167,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		return (_arg instanceof ExpressionNodeForSubSectionModel);
 	}
 
-	protected Object evaluateToNode( Object[] _args )
+	protected Object evaluateToNode( Object... _args )
 	{
 		ExpressionNode result = node().cloneWithoutArguments();
 		for (final Object arg : _args) {
@@ -181,7 +181,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		return result;
 	}
 
-	protected abstract Object evaluateToConst( Object[] _args ) throws CompilerException;
+	protected abstract Object evaluateToConst( Object... _args ) throws CompilerException;
 
 
 	protected final ExpressionNode valueToNode( Object _value )

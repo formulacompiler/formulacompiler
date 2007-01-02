@@ -54,8 +54,8 @@ public class RepeatingSectionTest extends TestCase
 		testAggregators( SEJ.SCALEDLONG4 );
 	}
 
-	private static final Function[] TESTED_AGGREGATORS = new Function[] { Function.SUM, Function.PRODUCT, Function.MIN,
-			Function.MAX, Function.COUNT, Function.AVERAGE };
+	private static final Function[] TESTED_AGGREGATORS = { Function.SUM, Function.PRODUCT, Function.MIN, Function.MAX,
+			Function.COUNT, Function.AVERAGE };
 
 	// LATER Add AND, OR above.
 

@@ -55,7 +55,7 @@ final class EvalLetVar extends EvalShadow
 	}
 
 	@Override
-	protected Object evaluateToConst( Object[] _args )
+	protected Object evaluateToConst( Object... _args )
 	{
 		throw new IllegalStateException( "EvalLetVar.evaluateToConst() should never be called" );
 	}

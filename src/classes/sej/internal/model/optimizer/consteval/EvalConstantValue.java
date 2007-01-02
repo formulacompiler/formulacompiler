@@ -33,7 +33,7 @@ public class EvalConstantValue extends EvalShadow
 	}
 
 	@Override
-	protected Object evaluateToConst( Object[] _args )
+	protected Object evaluateToConst( Object... _args )
 	{
 		return ((ExpressionNodeForConstantValue) node()).value();
 	}

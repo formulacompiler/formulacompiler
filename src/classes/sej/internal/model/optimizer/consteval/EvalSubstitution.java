@@ -31,7 +31,7 @@ public class EvalSubstitution extends EvalShadow
 	}
 
 	@Override
-	protected Object evaluateToConst( Object[] _args )
+	protected Object evaluateToConst( Object... _args )
 	{
 		if (_args.length == 1) {
 			// Skip the substitution node right away.
@@ -43,7 +43,7 @@ public class EvalSubstitution extends EvalShadow
 	}
 
 	@Override
-	protected Object evaluateToNode( Object[] _args )
+	protected Object evaluateToNode( Object... _args )
 	{
 		if (_args.length == 1) {
 			// Skip the substitution node right away.

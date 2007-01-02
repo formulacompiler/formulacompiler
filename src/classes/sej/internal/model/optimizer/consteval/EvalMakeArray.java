@@ -32,13 +32,13 @@ public class EvalMakeArray extends EvalShadow
 	}
 
 	@Override
-	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object[] _args ) throws CompilerException
+	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object... _args ) throws CompilerException
 	{
 		return evaluateToNode( _args );
 	}
 
 	@Override
-	protected Object evaluateToConst( Object[] _args )
+	protected Object evaluateToConst( Object... _args )
 	{
 		throw new AbstractMethodError();
 	}

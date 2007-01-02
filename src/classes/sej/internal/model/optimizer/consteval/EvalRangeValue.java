@@ -36,7 +36,7 @@ public class EvalRangeValue extends EvalShadow
 	}
 
 	@Override
-	protected Object evaluateToConst( Object[] _args )
+	protected Object evaluateToConst( Object... _args )
 	{
 		final ExpressionNodeForArrayReference rangeNode = (ExpressionNodeForArrayReference) node();
 		final ExpressionNodeForArrayReference result = new ExpressionNodeForArrayReference( rangeNode.arrayDescriptor() );

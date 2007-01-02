@@ -35,7 +35,7 @@ public class EvalCell extends EvalShadow
 	}
 
 	@Override
-	protected Object evaluateToConst( Object[] _args ) throws CompilerException
+	protected Object evaluateToConst( Object... _args ) throws CompilerException
 	{
 		final ExpressionNodeForCellModel cellNode = (ExpressionNodeForCellModel) node();
 		final CellModel cellModel = cellNode.getCellModel();

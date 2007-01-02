@@ -111,19 +111,21 @@ public class ExcelExpressionParserTest extends TestCase
 		assertParseableA1( "SUM( A1:B2, C5, A1:B5 A2:E8, (A1 + A2) )", "SUM( A1:B2, C5, A1:B5 A2:E8, A1+A2 )" );
 		assertParseableA1( "(SUM( A1:B1, A2:B2 A1:A2, B1:B2, A1:B2 ) + B2)", "SUM( _1_, _2_ _A_, _B_, _ALL_ ) + _2_" );
 
-		// LATER assertParseableA1( "(SUM( A1:A2, A1:A2 A1:A2 ))", "SUM( A1:_A2_, _A1_:A2 _A1_:_A2_ )" );
+		// LATER assertParseableA1( "(SUM( A1:A2, A1:A2 A1:A2 ))", "SUM( A1:_A2_, _A1_:A2 _A1_:_A2_ )"
+		// );
 	}
 
 
 	public void testTrueFalse() throws Exception
 	{
-		assertParseableAll( "AND( 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0 )", "AND( TRUE, FALSE, true, false, @TRUE, @FALSE, @true, @false )" );
+		assertParseableAll( "AND( 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0 )",
+				"AND( TRUE, FALSE, true, false, @TRUE, @FALSE, @true, @false )" );
 	}
 
 
 	public void testNames() throws Exception
 	{
-		final String[] names = new String[] { "_A1", "A.1", "A1.", "A_1", "A.B", "_A", "_1", "_.", "A.B.C", "R1C.", "R1C3A" };
+		final String[] names = { "_A1", "A.1", "A1.", "A_1", "A.B", "_A", "_1", "_.", "A.B.C", "R1C.", "R1C3A" };
 
 		final CellIndex a1 = this.cell11.getCellIndex();
 		for (String n : names) {
@@ -145,11 +147,12 @@ public class ExcelExpressionParserTest extends TestCase
 
 	public void testUnsupported() throws Exception
 	{
-		assertErr( "2 + SOMEFUNC(A2)",
+		assertErr(
+				"2 + SOMEFUNC(A2)",
 				"Undefined name or unsupported function encountered in expression 2 + SOMEFUNC( <<? A2); error location indicated by <<?." );
 	}
-	
-	
+
+
 	public void testReferenceToSecondarySheet() throws Exception
 	{
 		new SheetImpl( this.workbook, "Two" );

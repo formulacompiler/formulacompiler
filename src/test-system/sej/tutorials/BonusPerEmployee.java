@@ -45,13 +45,12 @@ public class BonusPerEmployee extends TestCase
 {
 	private static final String SHEETPATH = "src/test-system/testdata/sej/tutorials/BonusPerEmployee.xls";
 
-	
-	private static enum AccessorVersion
-	{
+
+	private static enum AccessorVersion {
 		ARRAY, LIST, COLLECTION, ITERATOR;
 	}
-	
-	
+
+
 	public void testWithArray() throws Exception
 	{
 		doTest( AccessorVersion.ARRAY );
@@ -72,7 +71,7 @@ public class BonusPerEmployee extends TestCase
 		doTest( AccessorVersion.ITERATOR );
 	}
 
-	
+
 	public void doTest( AccessorVersion _version ) throws Exception
 	{
 		EngineBuilder builder = SEJ.newEngineBuilder();
@@ -85,27 +84,29 @@ public class BonusPerEmployee extends TestCase
 		bindElements( builder, _version );
 
 		SaveableEngine engine = builder.compile();
-		
+
 		BonusComputationFactory factory = (BonusComputationFactory) engine.getComputationFactory();
 
 		{
 			long bonusTotal = 200000000L;
 			long overtimeSalaryPerHour = 500000L;
-			long[] salaries = new long[] { 56000000L, 54000000L, 55000000L };
-			int[] hoursOvertime = new int[] { 20, 15, 0 };
-			// Expected results; not the same as in the sample because LONG4 is less precise than the DOUBLE in Excel
-			long[] bonuses = new long[] { 72320000L, 67380000L, 60260000L };  
+			long[] salaries = { 56000000L, 54000000L, 55000000L };
+			int[] hoursOvertime = { 20, 15, 0 };
+			// Expected results; not the same as in the sample because LONG4 is less precise than the
+			// DOUBLE in Excel
+			long[] bonuses = { 72320000L, 67380000L, 60260000L };
 			assertBonuses( factory, bonusTotal, overtimeSalaryPerHour, salaries, hoursOvertime, bonuses, _version );
 		}
 	}
 
 
-	private void bindElements( EngineBuilder _builder, AccessorVersion _version ) throws CompilerException, NoSuchMethodException
+	private void bindElements( EngineBuilder _builder, AccessorVersion _version ) throws CompilerException,
+			NoSuchMethodException
 	{
 		Spreadsheet sheet = _builder.getSpreadsheet();
-		
+
 		// LATER Create simplified section binding on EngineBuilder
-		
+
 		// ---- bindSections
 		Section binder = _builder.getRootBinder();
 		// ---- bindSections
@@ -122,7 +123,7 @@ public class BonusPerEmployee extends TestCase
 
 		// ---- bindSections
 		Range range = sheet.getRange( "Employees" );
-		
+
 		// input
 		Method inputMethod = /**/BonusData/**/.class.getMethod( /**/"employees"/**/);
 		CallFrame inputCall = new CallFrame( inputMethod );
@@ -148,10 +149,10 @@ public class BonusPerEmployee extends TestCase
 
 		Orientation orient = Orientation.VERTICAL;
 
-		Section /**/employees/**/ = binder./**/defineRepeatingSection/**/( range, orient, inputCall, inputType,
+		Section /**/employees/**/= binder./**/defineRepeatingSection/**/( range, orient, inputCall, inputType,
 				outputCall, outputType );
 		// ---- bindSections
-		
+
 		// ---- bindEmployeeInputs
 		Cell salaryCell = sheet.getCell( "BaseSalary" );
 		Method salaryMethod = /**/inputType/**/.getMethod( "baseSalary" );
@@ -173,7 +174,7 @@ public class BonusPerEmployee extends TestCase
 	private void assertBonuses( BonusComputationFactory _factory, long _bonusTotal, long _overtimeSalaryPerHour,
 			long[] _salaries, int[] _hoursOvertime, long[] _expectedBonusAmounts, AccessorVersion _version )
 	{
-		
+
 		// ---- setupInputs
 		BonusDataImpl data = new BonusDataImpl( _bonusTotal, _overtimeSalaryPerHour );
 		for (int i = 0; i < _salaries.length; i++) {
@@ -182,7 +183,7 @@ public class BonusPerEmployee extends TestCase
 		}
 		BonusComputation computation = _factory.newComputation( data );
 		// ---- setupInputs
-		
+
 		switch (_version) {
 
 			case ARRAY:
@@ -195,7 +196,7 @@ public class BonusPerEmployee extends TestCase
 				}
 				// ---- consumeOutputs
 				break;
-		
+
 			case LIST:
 				// ---- consumeOutputsList
 				List<EmployeeBonusComputation> /**/empList = computation.employeesList()/**/;
@@ -219,7 +220,7 @@ public class BonusPerEmployee extends TestCase
 				}
 				// ---- consumeOutputsCollection
 				break;
-				
+
 			case ITERATOR:
 				// ---- consumeOutputsIterator
 				Iterator<EmployeeBonusComputation> /**/empIter = computation.employeesIterator()/**/;
@@ -232,7 +233,7 @@ public class BonusPerEmployee extends TestCase
 				// ---- consumeOutputsIterator
 				break;
 		}
-		
+
 	}
 
 
@@ -241,6 +242,7 @@ public class BonusPerEmployee extends TestCase
 	{
 		public BonusComputation newComputation( BonusData _data );
 	}
+
 	// ---- OutputFactory
 
 
@@ -248,11 +250,11 @@ public class BonusPerEmployee extends TestCase
 	@ScaledLong(4)
 	public static interface BonusComputation extends Resettable
 	{
-		/**/EmployeeBonusComputation[]/**/ employees();
+		/**/EmployeeBonusComputation[]/**/employees();
 		// -- OutputsAlternatives
-		/**/List<EmployeeBonusComputation>/**/ employeesList();
-		/**/Collection<EmployeeBonusComputation>/**/ employeesCollection();
-		/**/Iterator<EmployeeBonusComputation>/**/ employeesIterator();
+		/**/List<EmployeeBonusComputation>/**/employeesList();
+		/**/Collection<EmployeeBonusComputation>/**/employeesCollection();
+		/**/Iterator<EmployeeBonusComputation>/**/employeesIterator();
 		// -- OutputsAlternatives
 	}
 
@@ -261,9 +263,10 @@ public class BonusPerEmployee extends TestCase
 	{
 		long bonusAmount();
 	}
+
 	// ---- Outputs
 
-	
+
 	public static abstract class BonusComputationDefaults implements BonusComputation
 	{
 
@@ -288,7 +291,7 @@ public class BonusPerEmployee extends TestCase
 		}
 
 	}
-	
+
 
 	// ---- Inputs
 	@ScaledLong(4)
@@ -296,7 +299,7 @@ public class BonusPerEmployee extends TestCase
 	{
 		long bonusTotal();
 		long overtimeSalaryPerHour();
-		/**/EmployeeBonusData[]/**/ employees();
+		/**/EmployeeBonusData[]/**/employees();
 	}
 
 	@ScaledLong(4)
@@ -305,6 +308,7 @@ public class BonusPerEmployee extends TestCase
 		long baseSalary();
 		int hoursOvertime();
 	}
+
 	// ---- Inputs
 
 

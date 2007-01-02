@@ -131,7 +131,7 @@ public class SectionOutputTest extends AbstractTestBase
 
 	private RootOutput newRootEngine( RootInput _input ) throws Exception
 	{
-		final String[] types = new String[] { "Array", "Iterator", "Iterable", "Collection", "List" };
+		final String[] types = { "Array", "Iterator", "Iterable", "Collection", "List" };
 
 		SpreadsheetBuilder bld = SEJ.newSpreadsheetBuilder();
 
