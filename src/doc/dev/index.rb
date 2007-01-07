@@ -30,7 +30,7 @@ def index_all_except( all_like, except_like )
 		end
 
 		timestamp = date.strftime( '%b %d' )
-		index << "h4. #{timestamp}\n\n\"#{title}\":#{link} - "
+		index << "h4. #{timestamp}\n\n\<a href=\"#{link}\">#{title}</a> - "
 		index << "#{teaser} <span class=\"when\">...<a href=\"#{link}\">more</a></span>\n\n"
 	end
 	index
