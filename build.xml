@@ -264,6 +264,7 @@
 				</fileset>
 				<fileset dir="${temp.test-system.dir}">
 					<include name="**/*Test*.class" />
+					<include name="sej/examples/*Demo.class" />
 					<include name="sej/tutorials/*.class" />
 					<exclude name="**/Abstract*" />
 					<exclude name="**/*$*" />
