@@ -23,27 +23,27 @@ package sej.examples;
 import sej.EngineBuilder;
 import sej.SEJ;
 import sej.runtime.Engine;
+import junit.framework.TestCase;
 
-public class BasicUsageDemo
+public class BasicUsageDemo extends TestCase
 {
 
-
-	public static void main( String[] args ) throws Exception
+	private double compute() throws Exception
 	{
 
 		// ---- BasicUsage
 		// ---- Construction
 		// Get an engine builder (represents SEJ's simplified API).
 		EngineBuilder builder = SEJ.newEngineBuilder();
-		
+
 		// Load and parse the spreadsheet file into memory.
-		builder.loadSpreadsheet( "src/examples/testdata/sej/examples/Test.xls" );
-		
+		builder.loadSpreadsheet( DATA_PATH + "Test.xls" );
+
 		// Set the factory interface to implement. This interface defines the method
 		// Outputs newInstance( Inputs _inputs ), from which SEJ derives the input
 		// and output interfaces.
 		builder.setFactoryClass( OutputFactory.class );
-		
+
 		// Define which cells will be variable inputs to the engine, and which will be
 		// computable outputs, by cell name. All cells whose name correspond to a method
 		// on the output interface will be outputs, and similarly for inputs.
@@ -53,24 +53,36 @@ public class BasicUsageDemo
 
 		// Build an engine for the given spreadsheet, inputs, and outputs.
 		Engine engine = builder.compile();
-		
+
 		// Get the factory instance from the compiled engine.
 		OutputFactory factory = (OutputFactory) engine.getComputationFactory();
 		// ---- Construction
 
 		// ---- Computation
 		// Compute an actual output value for a given set of actual input values.
-		// This code is not dependent on SEJ. It is a simple instance of the strategy 
+		// This code is not dependent on SEJ. It is a simple instance of the strategy
 		// pattern.
 		Inputs inputs = new Inputs( 4, 40 );
 		Outputs outputs = factory.newInstance( inputs );
 		double result = outputs.getResult();
 		// ---- Computation
 
-		System.out.printf( "Result is: %f", result );
+		return result;
 		// ---- BasicUsage
 
 	}
 
+
+	private static final String DATA_PATH = "src/test-system/testdata/sej/examples/";
+	
+	public static void main( String[] args ) throws Exception
+	{
+		System.out.printf( "Result is: %f", new BasicUsageDemo().compute() );
+	}
+
+	public void testComputation() throws Exception
+	{
+		assertEquals( 160.0, compute(), 0.0001 );
+	}
 
 }

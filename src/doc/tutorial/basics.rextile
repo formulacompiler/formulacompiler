@@ -64,7 +64,7 @@ h5. Row titles for cell names
 
 For many users, entering an managing cell names is not straightforward, at least in Microsoft Excel. Neither are the names obvious when looking at a spreadsheet.
 
-SEJ therefore can use row titles instead of cell names to resolve references. Row titles are simply string values in column _A_ of a spreadsheet, with the cell they name right next to it in column _B_. If a spreadsheet contains no named cells, SEJ automatically assumes row titles.
+SEJ therefore can use row titles instead of cell names to resolve references. Row titles are simply string values in column <em>A</em> of a spreadsheet, with the cell they name right next to it in column <em>B</em>. If a spreadsheet contains no named cells, SEJ automatically assumes row titles.
 
 h5. Example
 
@@ -90,6 +90,12 @@ SEJ compiles a complete factory and strategy implementation to our specs, so usi
 
 	[jc:sej.tutorials.Basics:---- UseCompiledFactory]
 
+	
+h2. Generated Engine
+	
+The compiled engine, when "decompiled":decompile.htm to Java source code, looks like this:
+
+	[jc:basics/sej.gen.$Root]
 
 
 h2. Outlook

@@ -22,12 +22,16 @@ package sej.tests.utils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -158,9 +162,56 @@ public abstract class AbstractTestBase extends TestCase
 
 	protected void assertEqualFiles( String _nameOfExpectedFile, String _nameOfActualFile ) throws Exception
 	{
+		assertEqualFiles( new File( _nameOfExpectedFile ), new File( _nameOfActualFile ) );
+	}
+
+	protected void assertEqualFiles( File _nameOfExpectedFile, File _nameOfActualFile ) throws Exception
+	{
 		final InputStream exp = new BufferedInputStream( new FileInputStream( _nameOfExpectedFile ) );
 		final InputStream act = new BufferedInputStream( new FileInputStream( _nameOfActualFile ) );
 		assertEqualStreams( "Comparing files " + _nameOfExpectedFile + " and " + _nameOfActualFile, exp, act );
+	}
+
+
+	protected void assertEqualToFile( String _nameOfExpectedFile, String _actual ) throws Exception
+	{
+		final String expected = normalizeLineEndings( readStringFrom( new File( _nameOfExpectedFile ) ) );
+		final String actual = normalizeLineEndings( _actual );
+		assertEquals( _nameOfExpectedFile, expected, actual );
+	}
+
+
+	protected static String readStringFrom( File _source ) throws IOException
+	{
+		StringBuffer sb = new StringBuffer( 1024 );
+		BufferedReader reader = new BufferedReader( new FileReader( _source ) );
+		try {
+			char[] chars = new char[ 1024 ];
+			int red;
+			while ((red = reader.read( chars )) > -1) {
+				sb.append( String.valueOf( chars, 0, red ) );
+			}
+		}
+		finally {
+			reader.close();
+		}
+		return sb.toString();
+	}
+
+	protected static void writeStringTo( String _value, File _target ) throws IOException
+	{
+		BufferedWriter writer = new BufferedWriter( new FileWriter( _target ) );
+		try {
+			if (null != _value) writer.write( _value );
+		}
+		finally {
+			writer.close();
+		}
+	}
+
+	protected static String normalizeLineEndings( String _s )
+	{
+		return _s.replace( "\r\n", "\n" ).replace( '\r', '\n' );
 	}
 
 

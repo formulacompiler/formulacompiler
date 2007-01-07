@@ -4,8 +4,8 @@ h1. SEJ Design Document
 
 <div class="news">
 
-More and better diagrams!
-<br/>%(when)May 17, 2006%
+Decompilation instead of source generation.
+<br/>%(when)January 2, 2007%
 
 </div>
 
@@ -20,6 +20,9 @@ Here's an overview of how SEJ does this. Blue is your code, red is SEJ's, green 
 
 !embedded.png(Overview)!
 
+
+h3. Example
+
 For example, compute the value of the cell _B3_ given the values of the cells _B1_ and _B2_ as inputs in:
 
 	[xc:testdata/sej/examples/test.xls]
@@ -28,6 +31,16 @@ The following code does this:
 
 	[jc:sej.examples.BasicUsageDemo:---- BasicUsage; strip ---- Computation; strip ---- Construction]
 
+	
+h3. Generated Code
+	
+The call to @builder.compile()@ internally generates JVM byte code. When decompiled, the code looks as follows. It consists of the computation engine:
+
+	[jc:basicusage.sej.gen.$Root]
+
+and its factory:
+
+	[jc:basicusage.sej.gen.$Factory]
 
 
 h2. Design Goals

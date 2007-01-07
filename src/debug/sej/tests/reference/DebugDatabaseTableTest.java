@@ -71,6 +71,8 @@ public final class DebugDatabaseTableTest extends AbstractDatabaseTableTest
 			try {
 				Debug.saveEngine( _engine, "/temp/debug.jar" );
 				System.out.println( ".. dumped to /temp/debug.jar" );
+				Debug.decompileEngine( _engine, "/temp/debug.src" );
+				System.out.println( ".. decompiled to /temp/debug.src" );
 			}
 			catch (IOException e) {
 				e.printStackTrace();

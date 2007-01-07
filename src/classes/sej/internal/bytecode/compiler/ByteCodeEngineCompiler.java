@@ -44,31 +44,6 @@ import sej.util.New;
 
 public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 {
-
-	// ------------------------------------------------ Configuration & Factory
-
-	public static void register()
-	{
-		setFactory( new Factory()
-		{
-
-			@Override
-			protected AbstractEngineCompiler newInstance( Config _config )
-			{
-				return new ByteCodeEngineCompiler( _config );
-			}
-
-		} );
-	}
-
-	public static AbstractEngineCompiler newInstance( Config _config )
-	{
-		return new ByteCodeEngineCompiler( _config );
-	}
-
-
-	// ------------------------------------------------ Construction
-
 	static final String GEN_PACKAGE_PATH = ByteCodeEngine.GEN_PACKAGE_NAME.replace( '.', '/' );
 	static final String GEN_FACTORY_PATH = GEN_PACKAGE_PATH + ByteCodeEngine.GEN_FACTORY_NAME;
 	static final String GEN_FACTORY_DESC = "L" + GEN_FACTORY_PATH + ";";

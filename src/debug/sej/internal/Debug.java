@@ -1,10 +1,12 @@
 package sej.internal;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import sej.SEJ;
 import sej.SaveableEngine;
 
 /**
@@ -19,14 +21,12 @@ public final class Debug
 	 * Use like "if (Debug.TRUE) ..." to guard debug statements.
 	 */
 	public static final boolean TRUE = true;
-	
+
 
 	/**
-	 * Use to temporarily save engines for debugging purposes.
-	 * 
-	 * @param _engine
-	 * @param _fileName
-	 * @throws IOException
+	 * Use to temporarily save engines for debugging purposes. Using this instead of
+	 * {@link SaveableEngine#saveTo(OutputStream)} ensures that debugging code does not compile in
+	 * release builds.
 	 */
 	public static void saveEngine( SaveableEngine _engine, String _fileName ) throws IOException
 	{
@@ -37,6 +37,17 @@ public final class Debug
 		finally {
 			os.close();
 		}
+	}
+
+
+	/**
+	 * Use to temporarily decompile engines for debugging purposes. Using this instead of
+	 * {@link SEJ#decompileEngine(sej.runtime.Engine)} ensures that debugging code does not compile
+	 * in release builds.
+	 */
+	public static void decompileEngine( SaveableEngine _engine, String _folderName ) throws IOException
+	{
+		SEJ.decompileEngine( _engine ).saveTo( new File( _folderName ) );
 	}
 
 

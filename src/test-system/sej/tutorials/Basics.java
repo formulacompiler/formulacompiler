@@ -23,6 +23,7 @@ package sej.tutorials;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -280,6 +281,9 @@ public class Basics extends AbstractTestBase
 		builder./**/setFactoryClass/**/( RebateComputationFactory.class );
 		builder./**/bindAllByName/**/();
 		Engine engine = builder./**/compile/**/();
+		// ---- CompileFactory
+		SEJ.decompileEngine( engine ).saveTo( new File( "temp/decompiled/basics" ) );
+		// ---- CompileFactory
 		return (RebateComputationFactory) engine./**/getComputationFactory/**/();
 	}
 
@@ -365,12 +369,12 @@ public class Basics extends AbstractTestBase
 	{
 		// ---- GenerateStream
 		Spreadsheet s = buildSpreadsheet();
-		ByteArrayOutputStream /**/os/**/ = new ByteArrayOutputStream();
+		ByteArrayOutputStream /**/os/**/= new ByteArrayOutputStream();
 
 		SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
 		cfg.spreadsheet = s;
-		cfg./**/typeExtension/**/ = ".xls";
-		cfg./**/outputStream/**/ = os;
+		cfg./**/typeExtension/**/= ".xls";
+		cfg./**/outputStream/**/= os;
 		/**/SEJ.newSpreadsheetSaver( cfg ).save();/**/
 		// ---- GenerateStream
 		checkSpreadsheetStream( s, new ByteArrayInputStream( os.toByteArray() ), GENFILE );
@@ -381,7 +385,7 @@ public class Basics extends AbstractTestBase
 	{
 		// ---- GenerateTemplatedFile
 		Spreadsheet s = buildTemplatedSpreadsheet();
-		SEJ.saveSpreadsheet( s, GENTEMPLATEDFILE, /**/TEMPLATEFILE/**/ );
+		SEJ.saveSpreadsheet( s, GENTEMPLATEDFILE, /**/TEMPLATEFILE/**/);
 		// ---- GenerateTemplatedFile
 		assertEqualFiles( EXPECTEDGENTEMPLATEDFILE, GENTEMPLATEDFILE );
 	}
@@ -392,31 +396,31 @@ public class Basics extends AbstractTestBase
 		// ---- GenerateTemplatedStream
 		Spreadsheet s = buildTemplatedSpreadsheet();
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		InputStream /**/ts/**/ = new BufferedInputStream( new FileInputStream( TEMPLATEFILE )); 
+		InputStream /**/ts/**/= new BufferedInputStream( new FileInputStream( TEMPLATEFILE ) );
 
 		SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
 		cfg.spreadsheet = s;
 		cfg.typeExtension = ".xls";
 		cfg.outputStream = os;
-		cfg./**/templateInputStream/**/ = ts;
+		cfg./**/templateInputStream/**/= ts;
 		SEJ.newSpreadsheetSaver( cfg ).save();
 		// ---- GenerateTemplatedStream
-		
+
 		ts.close();
 		os.close();
 		final byte[] bytes = os.toByteArray();
-		final InputStream exp = new BufferedInputStream( new FileInputStream( EXPECTEDGENTEMPLATEDFILE ));
+		final InputStream exp = new BufferedInputStream( new FileInputStream( EXPECTEDGENTEMPLATEDFILE ) );
 		final InputStream act = new ByteArrayInputStream( bytes );
-		
-		copy( new ByteArrayInputStream( bytes ), new FileOutputStream( GENTEMPLATEDFILE ));
-		
+
+		copy( new ByteArrayInputStream( bytes ), new FileOutputStream( GENTEMPLATEDFILE ) );
+
 		assertEqualStreams( "Comparing generated templated sheets", exp, act );
 	}
 
 
 	private void copy( InputStream _in, OutputStream _out ) throws Exception
 	{
-		final byte[] buf = new byte[1024]; 
+		final byte[] buf = new byte[ 1024 ];
 		int l;
 		while (0 < (l = _in.read( buf ))) {
 			_out.write( buf, 0, l );
@@ -435,15 +439,15 @@ public class Basics extends AbstractTestBase
 		final String IN_D = "DateInputValue";
 		final String OUT_P = "PercentOutputValue";
 		final String INTER = "IntermediateValue";
-		
-		SpreadsheetBuilder b = SEJ.newSpreadsheetBuilder();
-		
-		b.newCell().newCell( b.cst( "Styled" )).newCell( b.cst( "Plain" ));
 
-		b.newRow()./**/styleRow( CAPTION )/**/.newCell( b.cst( "Inputs" ))./**/styleCell( CAPTION )/**/.newRow();
-		b.newCell( b.cst( "CustomerRebate" ))./**/styleCell( LBL )/**/;
-		b.newCell( b.cst( 0.1 ))./**/styleCell( IN_P )/**/;
-		b.newCell( b.cst( 0.1 ));
+		SpreadsheetBuilder b = SEJ.newSpreadsheetBuilder();
+
+		b.newCell().newCell( b.cst( "Styled" ) ).newCell( b.cst( "Plain" ) );
+
+		b.newRow()./**/styleRow( CAPTION )/**/.newCell( b.cst( "Inputs" ) )./**/styleCell( CAPTION )/**/.newRow();
+		b.newCell( b.cst( "CustomerRebate" ) )./**/styleCell( LBL )/**/;
+		b.newCell( b.cst( 0.1 ) )./**/styleCell( IN_P )/**/;
+		b.newCell( b.cst( 0.1 ) );
 		SpreadsheetBuilder.CellRef cr = b.currentCell();
 
 		b.newRow();
@@ -451,31 +455,32 @@ public class Basics extends AbstractTestBase
 		b.newCell( b.cst( 0.05 ) )./**/styleCell( IN_P )/**/;
 		b.newCell( b.cst( 0.05 ) );
 		SpreadsheetBuilder.CellRef ar = b.currentCell();
-		
+
 		final Calendar cal = Calendar.getInstance();
 		cal.setTimeInMillis( 0 );
 		cal.set( 2006, 9, 29 );
 		Date orderDateSampleValue = cal.getTime();
-		
+
 		b.newRow();
 		b.newCell( b.cst( "OrderDate" ) )./**/styleCell( LBL )/**/;
 		b.newCell( b.cst( orderDateSampleValue ) )./**/styleCell( IN_D )/**/;
 		b.newCell( b.cst( orderDateSampleValue ) );
-		
+
 		b.newRow();
 		b.newCell( b.cst( "IsKeyAccount" ) )./**/styleCell( LBL )/**/;
 		b.newCell( b.cst( true ) )./**/styleCell( IN )/**/;
 		b.newCell( b.cst( true ) );
-		
-		b.newRow()./**/styleRow( CAPTION )/**/.newCell( b.cst( "Outputs" ))./**/styleCell( CAPTION )/**/.newRow();
-		b.newCell( b.cst( "Rebate" ) )./**/styleCell( LBL )/**/;
-		b.newCell( b.op( Operator.PLUS, b.ref( cr ), b.ref( ar ) ))./**/styleCell( OUT_P )/**/;
 
-		b.newRow()./**/styleRow( CAPTION )/**/.newCell( b.cst( "Intermediate Values" ))./**/styleCell( CAPTION )/**/.newRow();
+		b.newRow()./**/styleRow( CAPTION )/**/.newCell( b.cst( "Outputs" ) )./**/styleCell( CAPTION )/**/.newRow();
+		b.newCell( b.cst( "Rebate" ) )./**/styleCell( LBL )/**/;
+		b.newCell( b.op( Operator.PLUS, b.ref( cr ), b.ref( ar ) ) )./**/styleCell( OUT_P )/**/;
+
+		b.newRow()./**/styleRow( CAPTION )/**/.newCell( b.cst( "Intermediate Values" ) )./**/styleCell( CAPTION )
+				/**/.newRow();
 		b.newCell( b.cst( "(sample only)" ) )./**/styleCell( LBL )/**/;
 		b.newCell()./**/styleCell( INTER )/**/;
 		b.newCell();
-		
+
 		return b.getSpreadsheet();
 		// ---- BuildTemplatedSheet
 	}

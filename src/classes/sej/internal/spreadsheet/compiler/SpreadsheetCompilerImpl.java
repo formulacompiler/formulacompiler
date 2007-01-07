@@ -27,7 +27,7 @@ import sej.NumericType;
 import sej.SaveableEngine;
 import sej.SpreadsheetBinding;
 import sej.SpreadsheetCompiler;
-import sej.internal.engine.compiler.AbstractEngineCompiler;
+import sej.internal.bytecode.compiler.ByteCodeEngineCompiler;
 import sej.internal.engine.compiler.EngineCompiler;
 import sej.internal.model.ComputationModel;
 import sej.internal.model.compiler.ComputationModelCompiler;
@@ -68,7 +68,7 @@ public class SpreadsheetCompilerImpl implements SpreadsheetCompiler
 		ecc.factoryClass = this.factoryClass;
 		ecc.factoryMethod = this.factoryMethod;
 		ecc.parentClassLoader = this.parentClassLoader;
-		EngineCompiler ec = AbstractEngineCompiler.newInstance( ecc );
+		EngineCompiler ec = new ByteCodeEngineCompiler( ecc );
 
 		return ec.compile();
 	}
