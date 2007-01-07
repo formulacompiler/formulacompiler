@@ -30,29 +30,6 @@ import sej.runtime.EngineException;
 
 public abstract class AbstractEngineCompiler implements EngineCompiler
 {
-
-	// ------------------------------------------------ Configuration & Factory
-
-	private static Factory factory;
-
-	public static EngineCompiler newInstance( EngineCompiler.Config _config )
-	{
-		return factory.newInstance( _config );
-	}
-
-	protected static void setFactory( Factory _factory )
-	{
-		factory = _factory;
-	}
-
-	protected static abstract class Factory
-	{
-		protected abstract EngineCompiler newInstance( EngineCompiler.Config _config );
-	}
-
-
-	// ------------------------------------------------ Interface
-
 	private final ComputationModel model;
 	private final NumericType numericType;
 	private final Class factoryClass;
@@ -99,6 +76,5 @@ public abstract class AbstractEngineCompiler implements EngineCompiler
 
 	
 	public abstract SaveableEngine compile() throws CompilerException, EngineException;
-
 
 }

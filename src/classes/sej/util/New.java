@@ -25,7 +25,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
@@ -80,6 +82,11 @@ public final class New
 	public static <T> SortedSet<T> newSortedSet()
 	{
 		return new TreeSet<T>();
+	}
+
+	public static SortedMap<String, String> newSortedMap()
+	{
+		return new TreeMap<String, String>();
 	}
 
 }

@@ -55,7 +55,7 @@ final class SaveableByteCodeEngine extends ByteCodeEngine implements SaveableEng
 		final ZipOutputStream jarStream = new JarOutputStream( _stream );
 		try {
 			jarStream.setMethod( JarOutputStream.DEFLATED );
-			for (Entry<String, byte[]> classNameAndBytes : this.classNamesAndBytes.entrySet()) {
+			for (Entry<String, byte[]> classNameAndBytes : this.getClassNamesAndBytes().entrySet()) {
 				final String fileName = classNameAndBytes.getKey().replace( '.', '/' ) + ".class";
 				final byte[] fileData = classNameAndBytes.getValue();
 				ZipEntry jarEntry = new ZipEntry( fileName );

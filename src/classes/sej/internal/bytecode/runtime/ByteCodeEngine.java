@@ -20,6 +20,7 @@
  */
 package sej.internal.bytecode.runtime;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ public class ByteCodeEngine extends ClassLoader implements Engine
 	public static final String GEN_PACKAGE_NAME = "sej.gen.";
 	public static final String GEN_FACTORY_NAME = "$Factory";
 
-	protected final Map<String, byte[]> classNamesAndBytes = new HashMap<String, byte[]>();
+	private final Map<String, byte[]> classNamesAndBytes = new HashMap<String, byte[]>();
 	private final Class factoryClass;
 	private final ComputationFactory factory;
 
@@ -61,6 +62,12 @@ public class ByteCodeEngine extends ClassLoader implements Engine
 	public ComputationFactory getComputationFactory()
 	{
 		return this.factory;
+	}
+	
+	
+	public Map<String, byte[]> getClassNamesAndBytes()
+	{
+		return Collections.unmodifiableMap( this.classNamesAndBytes );
 	}
 
 

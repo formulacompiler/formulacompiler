@@ -466,6 +466,8 @@
 			<arg value="-sp" />
 			<arg path="${temp.dir}/reference" />
 			<arg value="-sp" />
+			<arg path="${temp.dir}/decompiled" />
+			<arg value="-sp" />
 			<arg path="${temp.dir}" />
 			<arg value="-r" />
 			<arg value="-i" />

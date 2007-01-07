@@ -29,26 +29,28 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import sej.EngineBuilder;
+import sej.EngineDescription;
 import sej.SEJ;
 import sej.SaveableEngine;
 import sej.runtime.Engine;
 import sej.runtime.SEJRuntime;
+import junit.framework.TestCase;
 
-public class EngineSerializationDemo
+public class EngineSerializationDemo extends TestCase
 {
 
-	public static void main( String[] args ) throws Exception
+	private void compileAndSave() throws Exception
 	{
 		// ---- Serialization
 		// Build an engine for the given spreadsheet, inputs, and outputs.
 		EngineBuilder builder = SEJ.newEngineBuilder();
-		builder.loadSpreadsheet( "src/examples/testdata/sej/examples/Test.xls" );
+		builder.loadSpreadsheet( DATA_PATH + "Test.xls" );
 		builder.setFactoryClass( OutputFactory.class );
 		builder.bindAllByName();
 		SaveableEngine compiledEngine = builder.compile();
 
 		// Write the engine out to its serialized form, then drop the reference to it.
-		File engineSerializationFile = new File( "/temp/Engine.jar" );
+		File engineSerializationFile = new File( TEMP_ENGINE_JAR );
 		OutputStream outStream = new BufferedOutputStream( new FileOutputStream( engineSerializationFile ) );
 		try {
 			compiledEngine.saveTo( outStream );
@@ -57,9 +59,13 @@ public class EngineSerializationDemo
 			outStream.close();
 		}
 		// ---- Serialization
+	}
 
+	private double loadAndCompute() throws Exception
+	{
 		// ---- Deserialization
 		// Instantiate an engine from the serialized form.
+		File engineSerializationFile = new File( TEMP_ENGINE_JAR );
 		InputStream inStream = new BufferedInputStream( new FileInputStream( engineSerializationFile ) );
 		Engine loadedEngine = SEJRuntime.loadEngine( inStream );
 		OutputFactory factory = (OutputFactory) loadedEngine.getComputationFactory();
@@ -69,8 +75,36 @@ public class EngineSerializationDemo
 		Outputs outputs = factory.newInstance( inputs );
 		double result = outputs.getResult();
 
-		System.out.printf( "Result is: %f", result );
+		return result;
 		// ---- Deserialization
-
 	}
+
+
+	private static final String DATA_PATH = "src/test-system/testdata/sej/examples/";
+	private static final String TEMP_ENGINE_JAR = "temp/Engine.jar";
+
+	public static void main( String[] args ) throws Exception
+	{
+		EngineSerializationDemo demo = new EngineSerializationDemo();
+		demo.compileAndSave();
+		System.out.printf( "Result is: %f", demo.loadAndCompute() );
+	}
+
+	public void testComputation() throws Exception
+	{
+		compileAndSave();
+		assertEquals( 160.0, loadAndCompute(), 0.0001 );
+		decompile();
+	}
+
+
+	private void decompile() throws Exception
+	{
+		File engineSerializationFile = new File( TEMP_ENGINE_JAR );
+		InputStream inStream = new BufferedInputStream( new FileInputStream( engineSerializationFile ) );
+		Engine loadedEngine = SEJRuntime.loadEngine( inStream );
+		EngineDescription description = SEJ.decompileEngine( loadedEngine );
+		description.saveTo( new File( "temp/decompiled/basicusage" ) );
+	}
+
 }

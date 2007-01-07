@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src/classes"/>
 	<classpathentry kind="src" path="src/test-accessors"/>
-	<classpathentry kind="src" path="src/test-unit"/>
-	<classpathentry kind="src" path="src/test-system"/>
-	<classpathentry kind="src" path="src/examples"/>
+	<classpathentry excluding="testdata/" kind="src" path="src/test-unit"/>
+	<classpathentry excluding="testdata/" kind="src" path="src/test-system"/>
+	<classpathentry excluding="testdata/" kind="src" path="src/examples"/>
 	<classpathentry kind="src" path="src/build-tools"/>
 	<classpathentry kind="src" path="src/debug"/>
 	<classpathentry kind="src" path="src/scratchpad"/>
@@ -28,6 +28,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/java-cup-11a-runtime.jar" sourcepath="J:/java-cup-11a/src"/>
+	<classpathentry kind="lib" path="D:/Java/projects/sej/trunk/lib/jode-decompiler.jar" sourcepath="/jode-trunk/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3.8.1"/>
 	<classpathentry kind="output" path="temp/classes/dev"/>

@@ -18,39 +18,27 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.examples;
+package sej.internal.engine.compiler;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.IOException;
 
+import sej.EngineDescription;
 import sej.runtime.Engine;
-import sej.runtime.SEJRuntime;
 
-/**
- * Shows how an engine serialized by a 1.5 configuration application can be loaded into and used by
- * a 1.4 server.
- * 
- * @author peo
- */
-public class EngineDeserializationDemo
+public interface EngineDecompiler
 {
 
-	public static void main( String[] args ) throws Exception
+	public static class Config
 	{
-		// Instantiate an engine from the serialized form.
-		File engineSerializationFile = new File( "/temp/Engine.jar" );
-		InputStream inStream = new BufferedInputStream( new FileInputStream( engineSerializationFile ) );
-		Engine loadedEngine = SEJRuntime.loadEngine( inStream );
-		OutputFactory factory = (OutputFactory) loadedEngine.getComputationFactory();
+		public Engine engine;
 
-		// Compute an actual output value for a given set of actual input values.
-		Inputs inputs = new Inputs( 4, 40 );
-		Outputs outputs = factory.newInstance( inputs );
-		double result = outputs.getResult();
-
-		System.out.printf( "Result is: %f", result );
+		public void validate()
+		{
+			if (this.engine == null) throw new IllegalArgumentException( "engine is null" );
+		}
 	}
+
+
+	public abstract EngineDescription decompile() throws IOException;
 
 }
