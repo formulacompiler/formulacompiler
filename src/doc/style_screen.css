@@ -380,6 +380,8 @@ table.xl td.xl-row, table.xl thead td {
 	text-align: center;
 	padding-left: 2px;
 	padding-right: 2px;
+	color: gray;
+	font-size: smaller;
 }
 
 table.xl td.xl-num, table.xl td.xl-date {
@@ -388,6 +390,11 @@ table.xl td.xl-num, table.xl td.xl-date {
 	
 span.xl-exp {
 	font-size: x-small;
+	font-family: monospace;
+	color: maroon;
+}
+
+span.xl-exp-only {
 	font-family: monospace;
 	color: maroon;
 }

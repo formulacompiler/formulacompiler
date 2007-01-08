@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import sej.CallFrame;
 import sej.EngineBuilder;
@@ -34,6 +35,7 @@ import sej.SEJ;
 import sej.SaveableEngine;
 import sej.SpreadsheetBinder.Section;
 import sej.describable.DescriptionBuilder;
+import sej.internal.bytecode.decompiler.ByteCodeEngineDecompiler.ByteCodeEngineDescription;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
@@ -53,7 +55,8 @@ import sej.runtime.ScaledLong;
 public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 {
 	private static final File HTML_PATH = new File( "temp/reference" );
-	
+	private static final boolean EMIT_ENABLED = (null != System.getProperty( "emit_tests" ));
+
 	private static final Double DOUBLE_DUMMY = 23974.239874;
 	private static final BigDecimal BIGDECIMAL_DUMMY = BigDecimal.valueOf( 023974.239874 );
 	private static final Long LONG_DUMMY = 923748L;
@@ -75,7 +78,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 	static {
 		HTML_PATH.mkdirs();
 	}
-	
+
 
 	protected AbstractSheetBasedTest()
 	{
@@ -99,7 +102,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 		this.runOnlyCacheVariant = _caching;
 	}
 
-	
+
 	protected final int getNumberOfEnginesCompiled()
 	{
 		return this.numberOfEnginesCompiled;
@@ -351,8 +354,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 
 				if (null == this.inputs) {
 					final TestRunner test = newTestRunner();
-					test.emitTestToHtml();
-					test.run();
+					test.runAndEmitToHtml( false );
 					return null;
 				}
 				else {
@@ -362,20 +364,19 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 					TestRunner test;
 					if (onlyVariant >= 0) {
 						test = newTestRunner( onlyVariant );
+						return test.run();
 					}
 					else if (this.formulaRow == this.valueRow) {
 						for (int activationBits = 0; activationBits < inputVariations - 1; activationBits++) {
 							newTestRunner( activationBits ).run();
 						}
 						test = newTestRunner( inputVariations - 1 );
-						test.emitTestToHtml();
+						return test.runAndEmitToHtml( true );
 					}
 					else {
 						test = newTestRunner( inputVariations - 1, this.fullyParametrizedTestEngines );
-						test.emitTestToHtml();
+						return test.runAndEmitToHtml( false );
 					}
-
-					return test.run();
 				}
 			}
 
@@ -420,6 +421,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 
 			protected class TestRunner
 			{
+				private static final String ELLIPSIS = "...";
 				private final String testName;
 				private final int inputActivationBits;
 				private final SaveableEngine[] testEngines;
@@ -432,24 +434,74 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 					this.testEngines = _engines;
 				}
 
-				public final void emitTestToHtml()
+
+				public final SaveableEngine[] run() throws Exception
+				{
+					final SaveableEngine[] result = (this.testEngines != null) ? this.testEngines
+							: new SaveableEngine[ CACHING_VARIANTS * TYPE_VARIANTS ];
+					final Boolean onlyCache = AbstractSheetBasedTest.this.runOnlyCacheVariant;
+					if (null != onlyCache) {
+						run( result, onlyCache );
+					}
+					else {
+						run( result, false );
+						run( result, true );
+					}
+					return result;
+				}
+
+				private final void run( SaveableEngine[] _engines, boolean _caching ) throws Exception
+				{
+					final NumType onlyType = AbstractSheetBasedTest.this.runOnlyType;
+					final String skipFor = AbstractRowRunner.this.skipFor;
+					final int offsEngine = _caching ? TYPE_VARIANTS : 0;
+					int iEngine;
+					if ((null == onlyType || NumType.DOUBLE == onlyType) && !skipFor.contains( "double" )) {
+						iEngine = offsEngine + 0;
+						_engines[ iEngine ] = new DoubleTestRunner( _caching ).run( _engines[ iEngine ] );
+					}
+					if ((null == onlyType || NumType.BIGDECIMAL == onlyType) && !skipFor.contains( "big" )) {
+						iEngine = offsEngine + 1;
+						_engines[ iEngine ] = new BigDecimalTestRunner( _caching ).run( _engines[ iEngine ] );
+					}
+					if ((null == onlyType || NumType.LONG == onlyType) && !skipFor.contains( "long" )) {
+						iEngine = offsEngine + 2;
+						_engines[ iEngine ] = new ScaledLongTestRunner( _caching ).run( _engines[ iEngine ] );
+					}
+				}
+
+
+				public SaveableEngine[] runAndEmitToHtml( boolean _decompile ) throws Exception
+				{
+					final SaveableEngine[] engines = run();
+					if (EMIT_ENABLED) {
+						emitTestToHtml( _decompile, engines );
+					}
+					return engines;
+				}
+
+				private final void emitTestToHtml( boolean _decompile, SaveableEngine[] _engines ) throws Exception
 				{
 					final DescriptionBuilder h = AbstractSheetRunner.this.html;
 
-					String expr = "...";
+					String expr = ELLIPSIS;
 					String exprPrec = "";
 					final RowImpl valueRow = AbstractRowRunner.this.valueRow;
 					if (valueRow == AbstractRowRunner.this.formulaRow) {
 						final CellWithLazilyParsedExpression exprCell = (CellWithLazilyParsedExpression) AbstractRowRunner.this.formula;
-						expr = "=" + highlightTermIn( htmlize( exprCell.getExpressionParser().getSource() ) );
+						final String plainExpr = exprCell.getExpressionParser().getSource();
+						expr = "=" + highlightTermIn( htmlize( plainExpr ) );
 						exprPrec = htmlPrecision( exprCell );
 						final String exprNormalized = expr
 								.replace( Integer.toString( AbstractRowRunner.this.rowNumber ), "?" );
 						if (exprNormalized.equals( AbstractSheetRunner.this.lastNormalizedExprShown )) {
-							expr = "...";
+							expr = ELLIPSIS;
 						}
 						else {
 							AbstractSheetRunner.this.lastNormalizedExprShown = exprNormalized;
+						}
+						if (_decompile && !ELLIPSIS.equals( expr ) && null != _engines && _engines.length > 0) {
+							expr = decompileTestToHtml( _engines[ 0 ], plainExpr, expr );
 						}
 					}
 
@@ -531,41 +583,39 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 					return result;
 				}
 
-
-				public final SaveableEngine[] run() throws Exception
+				private final String decompileTestToHtml( SaveableEngine _engine, String _exprText, String _linkText )
+						throws Exception
 				{
-					final SaveableEngine[] result = (this.testEngines != null) ? this.testEngines
-							: new SaveableEngine[ CACHING_VARIANTS * TYPE_VARIANTS ];
-					final Boolean onlyCache = AbstractSheetBasedTest.this.runOnlyCacheVariant;
-					if (null != onlyCache) {
-						run( result, onlyCache );
+					final String targetFileName = AbstractSheetBasedTest.this.baseName
+							+ "_" + AbstractRowRunner.this.rowNumber;
+					final DescriptionBuilder rex = new DescriptionBuilder();
+
+					rex.append( "h1. Decompiled Code For <code>" ).append( _exprText ).appendLine( "</code>" );
+					rex.newLine();
+					rex.appendLine( "The expression" );
+					rex.newLine();
+					rex.append( "<pre><code>" ).append( _exprText ).appendLine( "</code></pre>" );
+					rex.newLine();
+					rex.appendLine( "is compiled to the following class(es):" );
+					rex.newLine();
+
+					final ByteCodeEngineDescription decompiled = (ByteCodeEngineDescription) SEJ.decompileEngine( _engine );
+					final Map<String, String> classes = decompiled.getSortedClasses();
+					boolean needToSkipFactory = true;
+					for (final String source : classes.values()) {
+						if (needToSkipFactory) {
+							needToSkipFactory = false;
+						}
+						else {
+							rex.append( "<notextile><pre jcite=\"jc\">" ).append( source ).appendLine( "</pre></notextile>" );
+							rex.newLine();
+						}
 					}
-					else {
-						run( result, false );
-						run( result, true );
-					}
-					return result;
+
+					writeStringTo( rex.toString(), new File( HTML_PATH, targetFileName + ".rextile" ) );
+					return "<a href=\"" + targetFileName + ".htm\">" + _linkText + "</a>";
 				}
 
-				private final void run( SaveableEngine[] _engines, boolean _caching ) throws Exception
-				{
-					final NumType onlyType = AbstractSheetBasedTest.this.runOnlyType;
-					final String skipFor = AbstractRowRunner.this.skipFor;
-					final int offsEngine = _caching ? TYPE_VARIANTS : 0;
-					int iEngine;
-					if ((null == onlyType || NumType.DOUBLE == onlyType) && !skipFor.contains( "double" )) {
-						iEngine = offsEngine + 0;
-						_engines[ iEngine ] = new DoubleTestRunner( _caching ).run( _engines[ iEngine ] );
-					}
-					if ((null == onlyType || NumType.BIGDECIMAL == onlyType) && !skipFor.contains( "big" )) {
-						iEngine = offsEngine + 1;
-						_engines[ iEngine ] = new BigDecimalTestRunner( _caching ).run( _engines[ iEngine ] );
-					}
-					if ((null == onlyType || NumType.LONG == onlyType) && !skipFor.contains( "long" )) {
-						iEngine = offsEngine + 2;
-						_engines[ iEngine ] = new ScaledLongTestRunner( _caching ).run( _engines[ iEngine ] );
-					}
-				}
 
 				private abstract class TypedTestRunner
 				{

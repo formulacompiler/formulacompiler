@@ -61,12 +61,12 @@ public final class ExpressionTemplatesForDoubles
 
 	double util_fromNumber( Number a )
 	{
-		return a == null ? 0 : a.doubleValue();
+		return RuntimeDouble_v1.numberToNum( a );
 	}
 
 	double util_fromBoolean( boolean a )
 	{
-		return a ? 1 : 0;
+		return RuntimeDouble_v1.booleanToNum( a );
 	}
 
 	double util_fromDate( Date a )
@@ -117,9 +117,7 @@ public final class ExpressionTemplatesForDoubles
 
 	boolean util_toBoolean( double a )
 	{
-		// Use a local so the conditional does not span the return instruction.
-		final boolean b = a != 0;
-		return b;
+		return RuntimeDouble_v1.booleanFromNum( a );
 	}
 
 	char util_toCharacter( double a )

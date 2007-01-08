@@ -27,6 +27,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.util.Collections;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -121,13 +122,18 @@ public class ByteCodeEngineDecompiler implements EngineDecompiler
 	}
 
 
-	private static final class ByteCodeEngineDescription extends AbstractDescribable implements EngineDescription
+	public static final class ByteCodeEngineDescription extends AbstractDescribable implements EngineDescription
 	{
 		private final SortedMap<String, String> classes = New.newSortedMap();
 
 		public ByteCodeEngineDescription(Map<String, String> _classes)
 		{
 			this.classes.putAll( _classes );
+		}
+		
+		public Map<String, String> getSortedClasses()
+		{
+			return Collections.unmodifiableMap( this.classes );
 		}
 
 		@Override
