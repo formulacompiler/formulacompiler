@@ -7,7 +7,7 @@
 
 	<property name="Name" value="SEJ" />
 	<property name="name" value="sej" />
-	<property name="dist.version" value="0.8.2" />
+	<property name="dist.version" value="0.9.0" />
 
 	<property name="src.dir" location="${basedir}/src" />
 	<property name="lib.dir" location="${basedir}/lib" />
@@ -35,6 +35,8 @@
 	<property name="temp.classes-gen.dir" location="${temp.dir}/gen-src/classes" />
 	<property name="temp.classes-gen-jre.dir" location="${temp.dir}/gen-src/classes-jre${ant.java.version}" />
 	<property name="temp.testresults.dir" location="${temp.dir}/testresults" />
+	<property name="temp.reference.dir" location="${temp.dir}/reference" />
+	<property name="temp.doc.dir" location="${temp.dir}/doc" />
 
 	<property name="dist.dir" location="${basedir}/dist" />
 
@@ -244,6 +246,7 @@
 		<mkdir dir="${temp.testresults.dir}" />
 
 		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+			<jvmarg value="-Demit_tests"/>
 
 			<assertions enablesystemassertions="yes" />
 
@@ -275,6 +278,7 @@
 		</junit>
 
 		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+			<jvmarg value="-Demit_tests"/>
 
 			<assertions enablesystemassertions="yes" />
 
@@ -304,7 +308,8 @@
 		<mkdir dir="${temp.testresults.dir}" />
 
 		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
-
+			<jvmarg value="-Demit_tests"/>
+			
 			<assertions enablesystemassertions="yes" />
 
 			<formatter type="plain" usefile="yes" />
@@ -320,7 +325,7 @@
 				<fileset dir="${temp.test-system.dir}">
 
 					<!-- CHANGE HERE -->
-					<include name="sej/tutorials/TypeConversion.class" />
+					<include name="sej/tests/reference/FunctionIFTest.class" />
 
 				</fileset>
 			</batchtest>
@@ -420,10 +425,23 @@
 
 	<target name="rextile" depends="-prepare" description="Rebuilds documentation in doc/ from Rextile sources (does not cite).">
 
+		<delete dir="${temp.doc.dir}" />
+		<mkdir dir="${temp.doc.dir}" />
+		<copy todir="${temp.doc.dir}">
+			<fileset dir="${src.doc.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<copy todir="${temp.doc.dir}/reference">
+			<fileset dir="${temp.reference.dir}">
+				<include name="**/*.rextile" />
+			</fileset>
+		</copy>
+		
 		<delete dir="${doc.dir}" />
 		<mkdir dir="${doc.dir}" />
 		<copy todir="${doc.dir}">
-			<fileset dir="${src.doc.dir}">
+			<fileset dir="${temp.doc.dir}">
 				<include name="**/*.gif" />
 				<include name="**/*.jpeg" />
 				<include name="**/*.jpg" />
@@ -437,7 +455,7 @@
 			<fileset file="${basedir}\LICENSE.html" />
 		</copy>
 
-		<exec dir="${src.doc.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true" >
+		<exec dir="${temp.doc.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true" >
 		</exec>
 
 	</target>
@@ -465,7 +483,7 @@
 			<arg value="-sp" />
 			<arg path="${src.dir}/scratchpad" />
 			<arg value="-sp" />
-			<arg path="${temp.dir}/reference" />
+			<arg path="${temp.reference.dir}" />
 			<arg value="-sp" />
 			<arg path="${temp.dir}/decompiled" />
 			<arg value="-sp" />
@@ -491,7 +509,7 @@
 			<arg value="-sp" />
 			<arg path="${src.dir}/scratchpad" />
 			<arg value="-sp" />
-			<arg path="${temp.dir}/reference" />
+			<arg path="${temp.reference.dir}" />
 			<arg value="-sp" />
 			<arg path="${temp.dir}" />
 			<arg value="-r" />

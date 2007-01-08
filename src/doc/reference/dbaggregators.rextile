@@ -11,7 +11,7 @@ h2. Test Sheet
 
 The following test cases reference this sheet:
 
-	[xc:testdata/sej/tests/reference/DatabaseAggregators.xls:BaseData]
+	[xc:testdata/sej/tests/reference/DatabaseAggregators.xls:BaseData;fo]
 
 	
 h2. Aggregators

@@ -20,6 +20,8 @@
  */
 package sej.internal.model.templates;
 
+import sej.internal.runtime.Runtime_v1;
+
 
 @SuppressWarnings("unqualified-field-access")
 public abstract class ExpressionTemplatesForAll
@@ -31,42 +33,42 @@ public abstract class ExpressionTemplatesForAll
 
 	byte util_unboxByte( Byte a )
 	{
-		return a == null ? 0 : a;
+		return Runtime_v1.unboxByte( a );
 	}
 
 	short util_unboxShort( Short a )
 	{
-		return a == null ? 0 : a;
+		return Runtime_v1.unboxShort( a );
 	}
 
 	int util_unboxInteger( Integer a )
 	{
-		return a == null ? 0 : a;
+		return Runtime_v1.unboxInteger( a );
 	}
 
 	long util_unboxLong( Long a )
 	{
-		return a == null ? 0 : a;
+		return Runtime_v1.unboxLong( a );
 	}
 
 	float util_unboxFloat( Float a )
 	{
-		return a == null ? 0 : a;
+		return Runtime_v1.unboxFloat( a );
 	}
 
 	double util_unboxDouble( Double a )
 	{
-		return a == null ? 0 : a;
+		return Runtime_v1.unboxDouble( a );
 	}
 
 	char util_unboxCharacter( Character a )
 	{
-		return a == null ? 0 : a;
+		return Runtime_v1.unboxCharacter( a );
 	}
 
 	boolean util_unboxBoolean( Boolean a )
 	{
-		return a == null ? false : a;
+		return Runtime_v1.unboxBoolean( a );
 	}
 
 

@@ -41,14 +41,44 @@ public abstract class Runtime_v1
 	static final boolean BASED_ON_1904 = false;
 
 
-	public static boolean unboxBoolean( Boolean _boxed )
+	public static byte unboxByte( Byte _boxed )
 	{
-		return (_boxed == null) ? false : _boxed;
+		return (_boxed == null) ? 0 : _boxed;
+	}
+
+	public static short unboxShort( Short _boxed )
+	{
+		return (_boxed == null) ? 0 : _boxed;
+	}
+
+	public static int unboxInteger( Integer _boxed )
+	{
+		return (_boxed == null) ? 0 : _boxed;
 	}
 
 	public static long unboxLong( Long _boxed )
 	{
 		return (_boxed == null) ? 0L : _boxed;
+	}
+
+	public static float unboxFloat( Float _boxed )
+	{
+		return (_boxed == null) ? 0 : _boxed;
+	}
+
+	public static double unboxDouble( Double _boxed )
+	{
+		return (_boxed == null) ? 0 : _boxed;
+	}
+
+	public static boolean unboxBoolean( Boolean _boxed )
+	{
+		return (_boxed == null) ? false : _boxed;
+	}
+
+	public static char unboxCharacter( Character _boxed )
+	{
+		return (_boxed == null) ? 0 : _boxed;
 	}
 
 
