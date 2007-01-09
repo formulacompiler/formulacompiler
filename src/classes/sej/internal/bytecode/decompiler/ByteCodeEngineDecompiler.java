@@ -130,7 +130,7 @@ public class ByteCodeEngineDecompiler implements EngineDecompiler
 		{
 			this.classes.putAll( _classes );
 		}
-		
+
 		public Map<String, String> getSortedClasses()
 		{
 			return Collections.unmodifiableMap( this.classes );
@@ -171,6 +171,11 @@ public class ByteCodeEngineDecompiler implements EngineDecompiler
 					writer.close();
 				}
 			}
+		}
+
+		public void saveTo( String _targetPath ) throws IOException
+		{
+			saveTo( new File( _targetPath ) );
 		}
 
 	}

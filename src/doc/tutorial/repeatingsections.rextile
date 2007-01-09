@@ -77,6 +77,17 @@ h5. Note
 Given the return type @OrderData[]@, SEJ could infer the input interface for the section by itself. Unfortunately, this is not possible when the return type is a @Collection@ or an @Iterator@. Even @Collection<OrderData>@ does not help because the generics annotations are erased at runtime. SEJ therefore generally mandates that you pass it the interface type to use.
 
 
+h2. Generated Code
+
+SEJ generates a separate engine class for each repeating section:
+
+	[jc:customerRatingWithOrders/sej.gen.$Sect0]
+	
+Its instances are built in the main engine when the repeating section is first accessed. You can see this in the method @get$Sect0()@ below:
+
+	[jc:customerRatingWithOrders/sej.gen.$Root]
+
+
 
 h2. Intermediate Values In A Repeating Section
 
@@ -105,3 +116,4 @@ SEJ handles all of this correctly. You do, however, have to follow a few rules:
 The only remaining thing is to bind the order date in a fashion similar to the order total (assuming the name _OrderDate_ is defined in the spreadsheet as @C3@):
 
 	[jc:sej.tutorials.CustomerRatingWithOrdersComplex:---- bindOrderValues]
+

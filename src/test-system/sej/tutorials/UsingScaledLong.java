@@ -51,6 +51,8 @@ public class UsingScaledLong extends TestCase
 		Output output = factory.newInstance( new Input( 6 ) );
 		assertEquals( /**/1166L/**/, output.getResult() );
 		// ---- checkResult
+
+		SEJ.decompileEngine( engine ).saveTo( "temp/decompiled/numeric_type/scaledlong3" );
 	}
 
 
@@ -73,6 +75,8 @@ public class UsingScaledLong extends TestCase
 		Output4 output = (Output4) factory.newComputation( new Input4( 6 ) );
 		assertEquals( /**/11666L/**/, output.getResult() );
 		// ---- checkResult4
+
+		SEJ.decompileEngine( engine ).saveTo( "temp/decompiled/numeric_type/scaledlong4" );
 	}
 
 
@@ -96,6 +100,7 @@ public class UsingScaledLong extends TestCase
 		assertEquals( /**/1L/**/, output.getResult() );
 		// ---- checkResult0
 
+		SEJ.decompileEngine( engine ).saveTo( "temp/decompiled/numeric_type/scaledlong0" );
 	}
 
 

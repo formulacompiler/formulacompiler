@@ -45,5 +45,10 @@ public interface EngineDescription extends Describable
 	 * @throws IOException
 	 */
 	public void saveTo( File _target ) throws IOException;
+	
+	/**
+	 * Like {@link #saveTo(File)}, but takes a string path instead of a file.
+	 */
+	public void saveTo( String _targetPath ) throws IOException;
 
 }

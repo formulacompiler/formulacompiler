@@ -31,7 +31,7 @@ public class UsingDouble extends TestCase
 	public void testUsingDouble() throws Exception
 	{
 		String path = "src/test-system/testdata/sej/tutorials/UsingNumericTypes.xls";
-		
+
 		// ---- buildCompiler
 		EngineBuilder builder = SEJ.newEngineBuilder();
 		builder.loadSpreadsheet( path );
@@ -46,6 +46,8 @@ public class UsingDouble extends TestCase
 		Output output = factory.newInstance( new Input() );
 		assertEquals( /**/"1.1666666666666667"/**/, String.valueOf( output.getResult()) );
 		// ---- checkResult
+
+		SEJ.decompileEngine( engine ).saveTo( "temp/decompiled/numeric_type/double" );
 	}
 
 

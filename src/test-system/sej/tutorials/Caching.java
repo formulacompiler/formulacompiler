@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 
 import sej.EngineBuilder;
 import sej.SEJ;
+import sej.SaveableEngine;
 import sej.runtime.ComputationFactory;
 import sej.runtime.Resettable;
 import sej.runtime.SEJException;
@@ -38,7 +39,7 @@ public class Caching extends TestCase
 
 	public void testNoCachingWithModifiedInputs() throws Exception
 	{
-		ComputationFactory factory = compile( PlainOutput.class );
+		ComputationFactory factory = compile( PlainOutput.class, "plain" );
 
 		// ---- noCache
 		Input input = new Input();
@@ -55,29 +56,9 @@ public class Caching extends TestCase
 	}
 
 
-	public static class NonCachingEngine
-	{
-		private Input input;
-		// ---- noCacheEngine
-		private BigDecimal getSide()
-		{
-			return this.input.getSide();
-		}
-		public BigDecimal getArea()
-		{
-			return getSide().multiply( getSide() );
-		}
-		public BigDecimal getVolume()
-		{
-			return getArea().multiply( getSide() );
-		}
-		// ---- noCacheEngine
-	}
-
-
 	public void testCachingWithModifiedInputs() throws Exception
 	{
-		ComputationFactory factory = compile( CachingOutput.class );
+		ComputationFactory factory = compile( CachingOutput.class, "caching" );
 
 		// ---- cache
 		Input input = new Input();
@@ -101,59 +82,12 @@ public class Caching extends TestCase
 	}
 
 
-	public static class CachingEngine
-	{
-		private Input input;
-		// ---- cacheEngine
-		private boolean haveSide;
-		private BigDecimal cacheSide;
-		private BigDecimal getSide()
-		{
-			if (!this.haveSide) {
-				this.cacheSide = this.input.getSide();
-				this.haveSide = true;
-			}
-			return this.cacheSide;
-		}
-
-		private boolean haveArea;
-		private BigDecimal cacheArea;
-		public BigDecimal getArea()
-		{
-			if (!this.haveArea) {
-				this.cacheArea = getSide().multiply( getSide() );
-				this.haveArea = true;
-			}
-			return this.cacheArea;
-		}
-
-		private boolean haveVolume;
-		private BigDecimal cacheVolume;
-		public BigDecimal getVolume()
-		{
-			if (!this.haveVolume) {
-				this.cacheVolume = getArea().multiply( getSide() );
-				this.haveVolume = true;
-			}
-			return this.cacheVolume;
-		}
-
-		public void reset()
-		{
-			this.haveSide = false;
-			this.haveArea = false;
-			this.haveVolume = false;
-		}
-		// ---- cacheEngine
-	}
-
-
 	public void testSpeed() throws Exception
 	{
 		if (Boolean.getBoolean( "sej.tutorials.Caching.testSpeed.disabled" )) return;
 		
-		ComputationFactory plainFactory = compile( PlainOutput.class );
-		ComputationFactory cachingFactory = compile( CachingPlainOutput.class );
+		ComputationFactory plainFactory = compile( PlainOutput.class, null );
+		ComputationFactory cachingFactory = compile( CachingPlainOutput.class, null );
 		Input input = new Input();
 
 		// ---- timing
@@ -217,7 +151,7 @@ public class Caching extends TestCase
 	// ---- CachingOutput
 
 
-	private ComputationFactory compile( Class _outputClass ) throws FileNotFoundException, IOException, SEJException
+	private ComputationFactory compile( Class _outputClass, String _path ) throws FileNotFoundException, IOException, SEJException
 	{
 		EngineBuilder builder = SEJ.newEngineBuilder();
 		builder.loadSpreadsheet( path );
@@ -225,7 +159,11 @@ public class Caching extends TestCase
 		builder.setOutputClass( _outputClass );
 		builder.setNumericType( SEJ.getNumericType( BigDecimal.class, 0, BigDecimal.ROUND_HALF_UP ) );
 		builder.bindAllByName();
-		return builder.compile().getComputationFactory();
+		SaveableEngine engine = builder.compile();
+		if (null != _path) {
+			SEJ.decompileEngine( engine ).saveTo( "temp/decompiled/caching/" + _path );
+		}
+		return engine.getComputationFactory();
 	}
 
 }

@@ -8,14 +8,20 @@ SEJ comes with an "build script":build.htm in @build.xml@. This document lists t
 
 h2. Setup
 
-Many open-source libraries in the Java world include in the download everything needed to build a product from its sources. With SEJ, I have relaxed this a little. The source download does include all of the required run-time libraries, as well as all the libraries required to build its main .jar file, @sej.jar@, with the exception of Ant itself. It does _not_ include all the libraries and tools to build an entire distribution. Those are described here, with instructions on how to get and configure them.
+Many open-source libraries in the Java world include in the download everything needed to build a product from its sources. With SEJ, I have relaxed this a little. The source download does include all of the required run-time libraries, as well as all the libraries required to build its main .jar file, @sej.jar@, with the exception of "Ant":-ant itself.
 
-Except for Ant and JUnit, all of the tools should be configured in @build.properties@. Look in @build.default.properties@ to see what you can configure.
+It does _not_ include all the libraries and tools to build an entire distribution. Those are described here, with instructions on how to get and configure them. Except for Ant and JUnit, all of the tools should be configured in @build.properties@. Look in @build.default.properties@ to see what you can configure.
 
 
 h2. Prepackaged Download
 
 The easiest setup is to simply download @sej-x.y.z-tools.zip@, unpack it to a central folder, and then set @tools.dir@ to this folder in @build.properties@. If you unpack it into SEJ's install folder as @tools/@, then you don't even have to create @build.properties@.
+
+The download contains "Ant":-ant and, contained within it, "JUnit 3.x":-junit. So running
+
+	tools/apache-ant-1.6.5/bin/ant
+	
+should properly build SEJ.
 
 h5. Note
 
