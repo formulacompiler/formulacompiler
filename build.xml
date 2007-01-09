@@ -8,6 +8,7 @@
 	<property name="Name" value="SEJ" />
 	<property name="name" value="sej" />
 	<property name="dist.version" value="0.9.0" />
+	<property name="tools.version" value="0.9.0" />
 
 	<property name="src.dir" location="${basedir}/src" />
 	<property name="lib.dir" location="${basedir}/lib" />
@@ -682,6 +683,16 @@
 	<!-- dist -->
 
 	<target name="dist" depends="clobber,test,validate,doc,jar,srcjar,pack" description="Rebuilds distribution packages from scratch. Run this for a clean package build.">
+	</target>
+
+	<!-- pack -->
+
+	<target name="pack-tools" depends="-prepare" description="Rebuilds the tools package from the tools dir.">
+		<echo>Bundling tools: ${tools.version}</echo>
+		<property name="tools.name" value="${name}-${tools.version}-tools.zip" />
+		<property name="tools.file" value="${tools.name}" />
+		<delete file="${tools.file}" />
+		<zip basedir="${tools.dir}" destfile="${tools.file}" filesonly="no" />
 	</target>
 
 	<!-- cover -->
