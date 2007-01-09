@@ -106,6 +106,13 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 	{
 		return booleanToNum( booleanFromNum( a ) || booleanFromNum( b ) );
 	}
+	
+	
+	public static BigDecimal toNum( final BigDecimal _val )
+	{
+		return _val == null? ZERO : _val; 
+	}
+	
 
 	public static boolean booleanFromNum( final BigDecimal _val )
 	{

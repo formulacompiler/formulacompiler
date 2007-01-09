@@ -82,7 +82,7 @@ public final class ExpressionTemplatesForBigDecimals
 
 	BigDecimal util_fromBigDecimal( BigDecimal a )
 	{
-		return a == null ? BigDecimal.ZERO : a;
+		return RuntimeBigDecimal_v1.toNum( a );
 	}
 
 	BigDecimal util_fromBigInteger( BigInteger a )
