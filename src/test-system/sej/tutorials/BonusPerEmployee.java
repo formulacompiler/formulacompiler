@@ -84,6 +84,9 @@ public class BonusPerEmployee extends TestCase
 		bindElements( builder, _version );
 
 		SaveableEngine engine = builder.compile();
+		if (_version == AccessorVersion.ARRAY) {
+			SEJ.decompileEngine( engine ).saveTo( "temp/decompiled/bonusPerEmployee" );
+		}
 
 		BonusComputationFactory factory = (BonusComputationFactory) engine.getComputationFactory();
 

@@ -74,6 +74,9 @@ public class CustomerRatingWithOrders extends TestCase
 		bindElements( builder, _version );
 
 		Engine engine = builder.compile();
+		if (_version == AccessorVersion.ARRAY) {
+			SEJ.decompileEngine( engine ).saveTo( "temp/decompiled/customerRatingWithOrders" );
+		}
 		CustomerRatingFactory factory = (CustomerRatingFactory) engine.getComputationFactory();
 
 		// Original sheet has five rows in the section. First, we pass the same number of values.

@@ -4,14 +4,11 @@ h1. Numeric Types in SEJ
 
 Besides the default @double@, SEJ supports a number of alternative numeric types you can choose from for the computations performed by generated engines. This is because @double@ is not precise enough for financial applications. The choices are:
 
-<dl>
+dt. "@double@":#double : is the default. It is what Excel and other spreadsheet applications use internally. So this choice is consistent with how the original spreadsheet behaves.
 
-<dt>"@double@":#double</dt><dd>is the default. It is what Excel and other spreadsheet applications use internally. So this choice is consistent with how the original spreadsheet behaves.</dd>
+dt. "@BigDecimal@":#BigDecimal : can be used with either its internal scaling, or using a fixed scale. With a fixed scale, this type is a good choice for financial applications which must be able to cope with very high values.
 
-<dt>"@BigDecimal@":#BigDecimal</dt><dd>can be used with either its internal scaling, or using a fixed scale. With a fixed scale, this type is a good choice for financial applications which must be able to cope with very high values.</dd>
-
-<dt>"@long@":#long</dt><dd>can be used either as an integer type, or using a fixed scale. With a fixed scale of 4 decimal places, this type corresponds to the @currency@ type found in Microsoft COM and Borland Delphi.</dd>
-</dl>
+dt. "@long@":#long : can be used either as an integer type, or using a fixed scale. With a fixed scale of 4 decimal places, this type corresponds to the @currency@ type found in Microsoft COM and Borland Delphi.
 
 Note that the choice of numeric type "affects the entire engine":#GlobalSetting compiled by a given compiler, not just individual cells.
 
@@ -30,6 +27,10 @@ When using @double@, the natural type for our numeric inputs and outputs is, of 
 In this example, we divide _InputA_ by _InputB_ and add _InputA_, ie. 1 + 1/6. The result is returned with @double@'s precision:
 
 	[jc:sej.tutorials.UsingDouble:---- checkResult]
+	
+as is witnessed by the generated engine:
+
+	[jc:numeric_type/double/sej.gen.$Root]
 
 
 
@@ -47,6 +48,10 @@ We again compute 1 + 1/6. The result is returned with the increased precision we
 
 	[jc:sej.tutorials.UsingBigDecimal:---- checkResult]
 
+as is again witnessed by the generated engine:
+
+	[jc:numeric_type/bigdecimal20/sej.gen.$Root]
+
 
 h3. Predefined @BIGDECIMAL8@
 
@@ -62,6 +67,10 @@ If, instead, we compute 1 + 1/3, we get a result that is rounded down since the 
 
 	[jc:sej.tutorials.UsingBigDecimal:---- checkResult8b]
 
+as is again witnessed by the generated engine:
+
+	[jc:numeric_type/bigdecimal8/sej.gen.$Root]
+
 
 h3. Unscaled @BigDecimal@
 
@@ -76,6 +85,10 @@ With this beast, you have to be very careful about the computations your users s
 But 1 + 1/3 does not have a finite decimal representation, so @BigDecimal@ faults:
 
 	[jc:sej.tutorials.UsingBigDecimal:---- checkResultNb]
+
+as is again witnessed by the generated engine:
+
+	[jc:numeric_type/bigdecimal0/sej.gen.$Root]
 
 
 
@@ -105,6 +118,10 @@ We again compute 1 + 1/6. The result is a scaled @long@ (so @1166L@ is the scale
 
 	[jc:sej.tutorials.UsingScaledLong:---- checkResult]
 
+as is again witnessed by the generated engine:
+
+	[jc:numeric_type/scaledlong3/sej.gen.$Root]
+
 
 h3. Predefined @LONG4@
 
@@ -116,6 +133,10 @@ We again compute 1 + 1/6. The result is returned with the defined 4 decimals aft
 
 	[jc:sej.tutorials.UsingScaledLong:---- checkResult4]
 
+as is again witnessed by the generated engine:
+
+	[jc:numeric_type/scaledlong4/sej.gen.$Root]
+
 
 h3. Unscaled @long@
 
@@ -126,6 +147,10 @@ Let's use a @long@ without decimal places (@Input0@ and @Output0@ specify @@Scal
 If we compute 1 + 1/6 here, we simply get 0:
 
 	[jc:sej.tutorials.UsingScaledLong:---- checkResult0]
+
+as is again witnessed by the generated engine:
+
+	[jc:numeric_type/scaledlong0/sej.gen.$Root]
 
 
 

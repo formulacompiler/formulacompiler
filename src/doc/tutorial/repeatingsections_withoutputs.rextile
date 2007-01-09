@@ -94,6 +94,16 @@ Or, using the other supported return types @List@, @Collection@, and @Iterator@:
 
 	[jc:sej.tutorials.BonusPerEmployee:---- consumeOutputsIterator]
 
+	
+h2. Generated Code
+
+As in the simpler "input-only case":repeatingsections.htm, SEJ generates a separate engine class for the repeating section. This time, however, it implements our output interface, @EmployeeBonusComputation@:
+
+	[jc:bonusPerEmployee/sej.gen.$Sect0]
+	
+Its instances are again built in the main engine when the repeating section is first accessed. In particular, this now happens when our section output accessor @employees()@ is called:
+
+	[jc:bonusPerEmployee/sej.gen.$Root]
 
 
 h2. Linking Outputs To Inputs

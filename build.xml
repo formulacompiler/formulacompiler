@@ -322,10 +322,11 @@
 			</classpath>
 
 			<batchtest todir="${temp.testresults.dir}">
-				<fileset dir="${temp.test-system.dir}">
+				<fileset dir="${temp.test-unit.dir}">
 
 					<!-- CHANGE HERE -->
-					<include name="sej/tests/reference/FunctionIFTest.class" />
+					<include name="sej/internal/bytecode/compiler/ByteCodeCompilerOnEngineModelTest.class" />
+					<include name="sej/internal/bytecode/compiler/ByteCodeCompilerOnWorkbookTest.class" />
 
 				</fileset>
 			</batchtest>
@@ -456,6 +457,30 @@
 		</copy>
 
 		<exec dir="${temp.doc.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true" >
+		</exec>
+
+	</target>
+
+	<!-- rextile-quick -->
+
+	<target name="rextile-quick" depends="-prepare" description="Rebuilds documentation in doc/ from manual Rextile sources only (does not cite).">
+
+		<copy todir="${doc.dir}">
+			<fileset dir="${src.doc.dir}">
+				<include name="**/*.gif" />
+				<include name="**/*.jpeg" />
+				<include name="**/*.jpg" />
+				<include name="**/*.png" />
+				<include name="**/*.pdf" />
+				<include name="**/*.svg" />
+				<include name="**/*.html" />
+				<include name="**/*.css" />
+				<include name="**/*.js" />
+			</fileset>
+			<fileset file="${basedir}\LICENSE.html" />
+		</copy>
+
+		<exec dir="${src.doc.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true" >
 		</exec>
 
 	</target>

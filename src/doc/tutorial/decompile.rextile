@@ -59,3 +59,4 @@ This mode is ideal to get the generated source into your IDE, or, for example, t
 and:
 
 	[jc:testdata/sej/tutorials/decompiler/sej.gen.$Factory]
+

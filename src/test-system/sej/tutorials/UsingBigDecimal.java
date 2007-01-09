@@ -50,6 +50,8 @@ public class UsingBigDecimal extends TestCase
 		Output output = factory.newInstance( new Input( 6 ) );
 		assertEquals( /**/"1.16666666666666666667"/**/, output.getResult().toPlainString() );
 		// ---- checkResult
+
+		SEJ.decompileEngine( engine ).saveTo( "temp/decompiled/numeric_type/bigdecimal20" );
 	}
 
 
@@ -80,6 +82,8 @@ public class UsingBigDecimal extends TestCase
 			assertEquals( /**/"1.33333333"/**/, output.getResult().toPlainString() );
 			// ---- checkResult8b
 		}
+
+		SEJ.decompileEngine( engine ).saveTo( "temp/decompiled/numeric_type/bigdecimal8" );
 	}
 
 
@@ -113,6 +117,8 @@ public class UsingBigDecimal extends TestCase
 			assertEquals( "Non-terminating decimal expansion; no exact representable decimal result.", e.getMessage() );
 		}
 		// ---- checkResultNb
+
+		SEJ.decompileEngine( engine ).saveTo( "temp/decompiled/numeric_type/bigdecimal0" );
 	}
 
 
