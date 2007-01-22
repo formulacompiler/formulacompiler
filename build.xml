@@ -7,8 +7,8 @@
 
 	<property name="Name" value="SEJ" />
 	<property name="name" value="sej" />
-	<property name="dist.version" value="0.9.0" />
-	<property name="tools.version" value="0.9.0" />
+	<property name="dist.version" value="0.8.3" />
+	<property name="tools.version" value="0.8.3" />
 
 	<property name="src.dir" location="${basedir}/src" />
 	<property name="lib.dir" location="${basedir}/lib" />

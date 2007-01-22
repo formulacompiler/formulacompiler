@@ -1,6 +1,7 @@
 
 h1. SEJ Roadmap
 
+	* Improve internal modularization using @ServiceLoader@ concept.
 	* Ensure the constant folder folds shared expressions only once.
 	* Verify that all formulas in rows/columns in a repeating section are structurally equivalent.
 	* Extend the tests for section bindings (see ErrorImproperSectionDefinition.xls).
@@ -14,7 +15,6 @@ h1. SEJ Roadmap
 	* Check whether it would make sense to replace JDOM with something built into the JRE. It seems that using either a SAX or a DOM parser from javax.xml.parsers would be ideal.
 	* Implement handling of empty cells past edge for @PRODUCT@.
 	* Think about signing the .jar files for security reasons.
-	* Implement Java source code generation and hybrid tests. This will naturally surface the exception and partial implementation of interfaces problem.
 	* Add an option to SEJ so engines throw exceptions when values are truncated.
 	* Scan the Eclipse task list for @// LATER@ comments:
 	* Native scaled long date conversion
