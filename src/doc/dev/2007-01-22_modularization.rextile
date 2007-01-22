@@ -73,4 +73,4 @@ Checkstyle contains an import check which, like Macker, can test for illegal imp
 
 
 [-pico]http://www.picocontainer.org/
-[-maven2]http://maven.apache.org/
+[-maven]http://maven.apache.org/
