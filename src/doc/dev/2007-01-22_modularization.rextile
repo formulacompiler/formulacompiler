@@ -1,0 +1,76 @@
+
+h1. Modularization
+
+SEJ is quite nicely modularized in theory. In practice, though, there are a number of problems in the current project setup. 
+
+<%= toc %>
+
+
+h2. Problems
+
+The @sej.SEJ@ class has dependencies to all the subsystems, while at the same time most of those subsystems depend on @sej.SEJ@ in turn. This is because @sej.SEJ@ serves as a static factory for all the interface implementations provided by the subsystems.
+
+One consequence is that the full build is needlessly complicated because
+
+	* the rewrite rules compiler depends on the Excel expression parser,
+	* the Excel parser depends on @sej.SEJ@,
+	* @sej.SEJ@ depends on the model transforms and the byte-code compiler,
+	* the model transforms depend on the code the rewrite rule compiler would generate.
+	
+In the same vein, the byte-code compiler depends on the code the pattern compiler generates.
+
+This makes dummy implementations of the would-be generated code necessary to allow initial compilation of the build tools.
+
+Module boundaries are not enforced in the IDE. They are only enforced by Macker rules, which have become fairly complex.
+
+There is no graphical view of either the actual dependencies, or of the rules that are enforced during builds. There is only the desired state as shown in the design document.
+
+Because there are circular module dependencies, it is not possible to package, for example, only the core of SEJ which compiles an internal model to an engine.
+
+The Excel .xls loader is always registered, even though the required JXL package is rather large. This is not satisfactory.
+
+So, in essence:
+
+	* Circular dependencies caused by @sej.SEJ@.
+	* Dummies needed for generated code during clean build.
+	* Dependency definitions too complex, using Macker instead of build paths.
+	* Supported spreadsheet formats are hard-wired.
+
+
+h2. Reasons
+
+Why did I design the SEJ this way? Basically, I did not know or care about @java.util.ServiceLoader@ yet. SEJ really has a two-tiered core API. The first tier defines all the interfaces implemented by the various subsystems. The second tier, which is @sej.SEJ@, holds them all together and plays the role of the central factory. This factory is mostly hardwired because I did not see a way to make configuration of registered subsystems transparent enough. This is all the more important as many of SEJ's subsystems are not really replaceable. A fundamental problem, then, is that the subsystems sometimes themselves depend on the factory aspect of SEJ for when they need access to interface implementations of other subsystems.
+
+Also, it just seemed to much of a hassle to split SEJ up into a multitude of Eclipse projects, what with the overhead of having to manage multiple project definitions etc.
+
+
+h2. Solutions
+
+h5. Factory
+
+I have tried solutions in a branch. To solve the cyclic dependency and transparent configuration problem, I have adopted a technique similar to Java 6's service provider API, meaning to scan the classpath for implementation factories. This works very well.
+
+h5. Dependencies
+
+To simplify dependency management, I could either really do the split into different Eclipse projects, or else use more separate physical source folders, one for each module. Then, the build could compile each source folder separately, with just the dependencies enabled to which it should have access. I might also do both, so the eclipse project structure does not predetermine the source layout. The eclipse projects would then reference the different source folders from the central source location.
+
+I have experimented with both approaches. They both do not satisfy me yet. SEJ is internally segmented into a heck of a lot of modules. Parts of their boundaries can be handled by package visibility, but many cannot, so far. This is because internal modules are granted more access to other internal modules than is the public API. This means that there is a ton of Eclipse projects and/or source paths in the IDE. And the modules often contain just one class. Looks weird. And I had to invent a Ruby-based configuration system so I can generate all the repetitive Eclipse project and Ant build script definitions given module visibility rules. So maybe Eclipse's rule of fairplay (no privileged access to other modules) is really also about keeping access rules manageable.
+
+
+h2. Tools
+
+h5. Pico, Plexus
+
+I have experimented with "Pico Container":-pico, but its lack of support for requesting instances with instance-dynamic constructor parameters makes it nearly worthless in the context of SEJ. Too, it is rather big (100K) for the value it would generate. The Plexus container (codehaus.org) looks good too, but is still under very active development and even bigger than Pico.
+
+h5. Maven2
+
+I also checked out the way "Maven2":-maven works. It would be a close fit, but I am not quite ready to jump onto the repository bandwagon yet, although it really seems very appealing. Worse, for me, is that I don't find it very intuitive how to add custom build steps, and SEJ's build is fairly intricate.
+
+h5. Checkstyle
+
+Checkstyle contains an import check which, like Macker, can test for illegal imports. If I continue to rely on such a tool instead of physically separated source paths, then using Checkstyle instead of macker might reduce the need for external tools by one (Checkstyle is used already). Also, the rules are less flexible, but more concise.
+
+
+[-pico]http://www.picocontainer.org/
+[-maven2]http://maven.apache.org/
