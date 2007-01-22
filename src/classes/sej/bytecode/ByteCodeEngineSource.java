@@ -28,6 +28,8 @@ import java.util.Map;
 /**
  * Exposes the reverse-engineered source code of a compiled bytecode engine. Implements
  * {@link #toString()} for quick inspection.
+ * 
+ *  @author peo
  */
 public interface ByteCodeEngineSource
 {
