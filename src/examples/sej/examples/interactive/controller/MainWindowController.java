@@ -33,8 +33,8 @@ import sej.SpreadsheetException;
 import sej.Spreadsheet.Cell;
 import sej.SpreadsheetBinder.Section;
 import sej.runtime.ComputationFactory;
+import sej.runtime.New;
 import sej.runtime.SEJException;
-import sej.util.New;
 
 
 public class MainWindowController

@@ -27,7 +27,7 @@ import sej.Spreadsheet;
 import sej.Spreadsheet.Row;
 import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
-import sej.util.New;
+import sej.runtime.New;
 
 
 public final class SheetImpl extends AbstractDescribable implements Spreadsheet.Sheet

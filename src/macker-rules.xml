@@ -463,11 +463,28 @@
             <deny>
             	<from> 
             		<include pattern="int.sheet.compiler" />
+            		<exclude class="${base}.internal.spreadsheet.compiler.SpreadsheetCompilerImpl" />
             	</from>
                 <to>
                 	<include pattern="int-sub" />
                 	<exclude pattern="int.model.compiler" />
                 	<exclude pattern="int.engine.compiler" />
+                </to>
+            </deny>
+        </access-rule>
+
+
+        <access-rule>
+            <message>sej.internal.spreadsheet.compiler.SpreadsheetCompilerImpl</message>
+            <deny>
+            	<from> 
+            		<include class="${base}.internal.spreadsheet.compiler.SpreadsheetCompilerImpl" />
+            	</from>
+                <to>
+                	<include pattern="int-sub" />
+                	<exclude pattern="int.model.compiler" />
+                	<exclude pattern="int.engine.compiler" />
+                	<exclude class="${base}.internal.bytecode.compiler.ByteCodeEngineCompiler" />
                 </to>
             </deny>
         </access-rule>

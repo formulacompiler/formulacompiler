@@ -29,9 +29,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import sej.EngineBuilder;
-import sej.EngineDescription;
 import sej.SEJ;
 import sej.SaveableEngine;
+import sej.bytecode.ByteCodeEngineSource;
+import sej.bytecode.SEJByteCode;
 import sej.runtime.Engine;
 import sej.runtime.SEJRuntime;
 import junit.framework.TestCase;
@@ -103,8 +104,8 @@ public class EngineSerializationDemo extends TestCase
 		File engineSerializationFile = new File( TEMP_ENGINE_JAR );
 		InputStream inStream = new BufferedInputStream( new FileInputStream( engineSerializationFile ) );
 		Engine loadedEngine = SEJRuntime.loadEngine( inStream );
-		EngineDescription description = SEJ.decompileEngine( loadedEngine );
-		description.saveTo( new File( "temp/decompiled/basicusage" ) );
+		ByteCodeEngineSource source = SEJByteCode.decompile( loadedEngine );
+		source.saveTo( new File( "temp/decompiled/basicusage" ) );
 	}
 
 }

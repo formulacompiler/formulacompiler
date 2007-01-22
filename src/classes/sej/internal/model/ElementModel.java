@@ -24,7 +24,7 @@ import java.util.Collection;
 
 import sej.CallFrame;
 import sej.describable.AbstractDescribable;
-import sej.util.New;
+import sej.runtime.New;
 
 
 public abstract class ElementModel extends AbstractDescribable

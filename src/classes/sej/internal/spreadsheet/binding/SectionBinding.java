@@ -33,8 +33,8 @@ import sej.describable.DescriptionBuilder;
 import sej.internal.Util;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellRange;
+import sej.runtime.New;
 import sej.runtime.Resettable;
-import sej.util.New;
 
 /**
  * Subsections are sorted

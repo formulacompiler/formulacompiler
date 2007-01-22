@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 
 import sej.EngineBuilder;
 import sej.SEJ;
+import sej.bytecode.SEJByteCode;
 import sej.runtime.Engine;
 import junit.framework.TestCase;
 
@@ -51,7 +52,7 @@ public class UsingBigDecimal extends TestCase
 		assertEquals( /**/"1.16666666666666666667"/**/, output.getResult().toPlainString() );
 		// ---- checkResult
 
-		SEJ.decompileEngine( engine ).saveTo( "temp/decompiled/numeric_type/bigdecimal20" );
+		SEJByteCode.decompile( engine ).saveTo( "temp/decompiled/numeric_type/bigdecimal20" );
 	}
 
 
@@ -83,7 +84,7 @@ public class UsingBigDecimal extends TestCase
 			// ---- checkResult8b
 		}
 
-		SEJ.decompileEngine( engine ).saveTo( "temp/decompiled/numeric_type/bigdecimal8" );
+		SEJByteCode.decompile( engine ).saveTo( "temp/decompiled/numeric_type/bigdecimal8" );
 	}
 
 
@@ -118,7 +119,7 @@ public class UsingBigDecimal extends TestCase
 		}
 		// ---- checkResultNb
 
-		SEJ.decompileEngine( engine ).saveTo( "temp/decompiled/numeric_type/bigdecimal0" );
+		SEJByteCode.decompile( engine ).saveTo( "temp/decompiled/numeric_type/bigdecimal0" );
 	}
 
 

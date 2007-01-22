@@ -35,9 +35,10 @@ import sej.Spreadsheet;
 import sej.Spreadsheet.Cell;
 import sej.Spreadsheet.Range;
 import sej.SpreadsheetBinder.Section;
+import sej.bytecode.SEJByteCode;
+import sej.runtime.New;
 import sej.runtime.Resettable;
 import sej.runtime.ScaledLong;
-import sej.util.New;
 import junit.framework.TestCase;
 
 @SuppressWarnings("unchecked")
@@ -85,7 +86,7 @@ public class BonusPerEmployee extends TestCase
 
 		SaveableEngine engine = builder.compile();
 		if (_version == AccessorVersion.ARRAY) {
-			SEJ.decompileEngine( engine ).saveTo( "temp/decompiled/bonusPerEmployee" );
+			SEJByteCode.decompile( engine ).saveTo( "temp/decompiled/bonusPerEmployee" );
 		}
 
 		BonusComputationFactory factory = (BonusComputationFactory) engine.getComputationFactory();

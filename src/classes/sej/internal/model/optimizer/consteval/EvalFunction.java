@@ -31,7 +31,7 @@ import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.SectionModel;
 import sej.internal.model.util.EvalNotPossibleException;
 import sej.internal.model.util.InterpretedNumericType;
-import sej.util.New;
+import sej.runtime.New;
 
 public class EvalFunction extends EvalShadow
 {

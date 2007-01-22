@@ -20,7 +20,6 @@
  */
 package sej.internal.bytecode.compiler;
 
-import java.lang.reflect.Modifier;
 import java.util.Map;
 
 import org.objectweb.asm.ClassWriter;

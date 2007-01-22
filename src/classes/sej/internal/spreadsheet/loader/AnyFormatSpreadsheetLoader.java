@@ -27,7 +27,7 @@ import java.util.Collection;
 import sej.Spreadsheet;
 import sej.SpreadsheetException;
 import sej.internal.spreadsheet.loader.excel.xls.ExcelXLSLoader;
-import sej.util.New;
+import sej.runtime.New;
 
 /**
  * Central dispatcher for the loaders for the various spreadsheet file formats supported by SEJ. You

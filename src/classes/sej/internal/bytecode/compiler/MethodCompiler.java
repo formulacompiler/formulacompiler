@@ -42,7 +42,7 @@ import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
 import sej.internal.expressions.LetDictionary;
 import sej.internal.expressions.LetDictionary.LetEntry;
-import sej.util.New;
+import sej.runtime.New;
 
 
 abstract class MethodCompiler

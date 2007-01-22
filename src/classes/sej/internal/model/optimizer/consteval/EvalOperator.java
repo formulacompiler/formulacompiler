@@ -27,7 +27,7 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.util.InterpretedNumericType;
-import sej.util.New;
+import sej.runtime.New;
 
 public class EvalOperator extends EvalShadow
 {

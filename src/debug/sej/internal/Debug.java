@@ -6,8 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import sej.SEJ;
 import sej.SaveableEngine;
+import sej.bytecode.SEJByteCode;
 
 /**
  * Debugging class whose use is rejected in release builds.
@@ -42,12 +42,12 @@ public final class Debug
 
 	/**
 	 * Use to temporarily decompile engines for debugging purposes. Using this instead of
-	 * {@link SEJ#decompileEngine(sej.runtime.Engine)} ensures that debugging code does not compile
+	 * {@link SEJByteCode#decompile(sej.runtime.Engine)} ensures that debugging code does not compile
 	 * in release builds.
 	 */
 	public static void decompileEngine( SaveableEngine _engine, String _folderName ) throws IOException
 	{
-		SEJ.decompileEngine( _engine ).saveTo( new File( _folderName ) );
+		SEJByteCode.decompile( _engine ).saveTo( new File( _folderName ) );
 	}
 
 

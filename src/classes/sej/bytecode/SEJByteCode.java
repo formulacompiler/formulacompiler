@@ -18,52 +18,28 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.expressions;
+package sej.bytecode;
 
-import java.util.List;
+import java.io.IOException;
 
-import sej.runtime.New;
+import sej.internal.bytecode.decompiler.ByteCodeEngineDecompilerImpl;
+import sej.runtime.Engine;
+import sej.runtime.SEJRuntime;
 
-
-public abstract class ExpressionNodeShadow
+/**
+ * Provides methods specific to the JVM bytecode generating backend of SEJ.
+ */
+public final class SEJByteCode extends SEJRuntime
 {
-	private final ExpressionNode node;
-	private final List<ExpressionNodeShadow> arguments = New.newList();
 
-	public ExpressionNodeShadow(ExpressionNode _node)
+	/**
+	 * Returns an object describing a compiled engine as decompiled Java source code.
+	 */
+	public static final ByteCodeEngineSource decompile( Engine _engine ) throws IOException
 	{
-		super();
-		this.node = _node;
-	}
-
-	public ExpressionNode node()
-	{
-		return this.node;
-	}
-
-	public List<ExpressionNodeShadow> arguments()
-	{
-		return this.arguments;
-	}
-
-	public static ExpressionNodeShadow shadow( ExpressionNode _node, Builder _builder )
-	{
-		if (_node == null) {
-			return null;
-		}
-		else {
-			final ExpressionNodeShadow result = _builder.shadow( _node );
-			final List<ExpressionNodeShadow> resultArgs = result.arguments();
-			for (ExpressionNode argNode : _node.arguments()) {
-				resultArgs.add( shadow( argNode, _builder ) );
-			}
-			return result;
-		}
-	}
-
-	public static interface Builder
-	{
-		ExpressionNodeShadow shadow( ExpressionNode _node );
+		final ByteCodeEngineDecompiler.Config cfg = new ByteCodeEngineDecompiler.Config();
+		cfg.engine = _engine;
+		return new ByteCodeEngineDecompilerImpl( cfg ).decompile();
 	}
 
 }

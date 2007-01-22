@@ -34,7 +34,7 @@ import sej.CompilerException;
 import sej.NumericType;
 import sej.internal.runtime.RuntimeBigDecimal_v1;
 import sej.internal.runtime.RuntimeDouble_v1;
-import sej.util.New;
+import sej.runtime.New;
 
 
 public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers

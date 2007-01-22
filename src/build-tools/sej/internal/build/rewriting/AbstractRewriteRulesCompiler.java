@@ -39,7 +39,7 @@ import sej.internal.expressions.ExpressionNodeForLetVar;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.expressions.ExpressionNodeForReduce;
 import sej.internal.spreadsheet.loader.excel.RewriteLanguageParser;
-import sej.util.New;
+import sej.runtime.New;
 
 public abstract class AbstractRewriteRulesCompiler
 {

@@ -37,6 +37,7 @@ import sej.SEJ;
 import sej.Spreadsheet;
 import sej.SpreadsheetBuilder;
 import sej.SpreadsheetSaver;
+import sej.bytecode.SEJByteCode;
 import sej.runtime.Engine;
 import sej.runtime.SEJException;
 import sej.tests.utils.AbstractTestBase;
@@ -282,7 +283,7 @@ public class Basics extends AbstractTestBase
 		builder./**/bindAllByName/**/();
 		Engine engine = builder./**/compile/**/();
 		// ---- CompileFactory
-		SEJ.decompileEngine( engine ).saveTo( new File( "temp/decompiled/basics" ) );
+		SEJByteCode.decompile( engine ).saveTo( new File( "temp/decompiled/basics" ) );
 		// ---- CompileFactory
 		return (RebateComputationFactory) engine./**/getComputationFactory/**/();
 	}

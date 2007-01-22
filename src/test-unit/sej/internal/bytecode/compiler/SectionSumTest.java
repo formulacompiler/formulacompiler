@@ -37,9 +37,9 @@ import sej.Spreadsheet.Range;
 import sej.SpreadsheetBinder.Section;
 import sej.SpreadsheetBuilder.CellRef;
 import sej.runtime.Computation;
+import sej.runtime.New;
 import sej.runtime.Resettable;
 import sej.tests.utils.AbstractTestBase;
-import sej.util.New;
 
 
 /**

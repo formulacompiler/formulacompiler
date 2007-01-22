@@ -38,8 +38,8 @@ import sej.internal.model.SectionModel;
 import sej.runtime.Computation;
 import sej.runtime.Engine;
 import sej.runtime.EngineException;
+import sej.runtime.New;
 import sej.runtime.Resettable;
-import sej.util.New;
 
 
 public class ByteCodeEngineCompiler extends AbstractEngineCompiler

@@ -28,8 +28,8 @@ import sej.Spreadsheet;
 import sej.SpreadsheetBinding;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.SpreadsheetImpl;
+import sej.runtime.New;
 import sej.runtime.Resettable;
-import sej.util.New;
 
 public class WorkbookBinding implements SpreadsheetBinding
 {

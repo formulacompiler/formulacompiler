@@ -27,7 +27,7 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForSubstitution;
 import sej.internal.model.AbstractComputationModelVisitor;
 import sej.internal.model.CellModel;
-import sej.util.New;
+import sej.runtime.New;
 
 
 public final class SubstitutionInliner extends AbstractComputationModelVisitor

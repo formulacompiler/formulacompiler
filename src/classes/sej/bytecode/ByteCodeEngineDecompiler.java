@@ -18,52 +18,30 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.expressions;
+package sej.bytecode;
 
-import java.util.List;
+import java.io.IOException;
 
-import sej.runtime.New;
+import sej.runtime.Engine;
 
-
-public abstract class ExpressionNodeShadow
+/**
+ * Decompiles a JVM byte code engine back to Java source using the <a
+ * href="jode.sourceforge.net">JODE</a> library.
+ */
+public interface ByteCodeEngineDecompiler
 {
-	private final ExpressionNode node;
-	private final List<ExpressionNodeShadow> arguments = New.newList();
 
-	public ExpressionNodeShadow(ExpressionNode _node)
+	public static class Config
 	{
-		super();
-		this.node = _node;
-	}
+		public Engine engine;
 
-	public ExpressionNode node()
-	{
-		return this.node;
-	}
-
-	public List<ExpressionNodeShadow> arguments()
-	{
-		return this.arguments;
-	}
-
-	public static ExpressionNodeShadow shadow( ExpressionNode _node, Builder _builder )
-	{
-		if (_node == null) {
-			return null;
-		}
-		else {
-			final ExpressionNodeShadow result = _builder.shadow( _node );
-			final List<ExpressionNodeShadow> resultArgs = result.arguments();
-			for (ExpressionNode argNode : _node.arguments()) {
-				resultArgs.add( shadow( argNode, _builder ) );
-			}
-			return result;
+		public void validate()
+		{
+			if (this.engine == null) throw new IllegalArgumentException( "engine is null" );
 		}
 	}
 
-	public static interface Builder
-	{
-		ExpressionNodeShadow shadow( ExpressionNode _node );
-	}
+
+	public abstract ByteCodeEngineSource decompile() throws IOException;
 
 }

@@ -26,7 +26,7 @@ import java.util.List;
 
 import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
-import sej.util.New;
+import sej.runtime.New;
 
 
 public abstract class ExpressionNode extends AbstractDescribable

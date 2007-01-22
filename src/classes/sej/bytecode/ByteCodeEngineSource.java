@@ -18,52 +18,38 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.expressions;
+package sej.bytecode;
 
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 
-import sej.runtime.New;
 
-
-public abstract class ExpressionNodeShadow
+/**
+ * Exposes the reverse-engineered source code of a compiled bytecode engine. Implements
+ * {@link #toString()} for quick inspection.
+ */
+public interface ByteCodeEngineSource
 {
-	private final ExpressionNode node;
-	private final List<ExpressionNodeShadow> arguments = New.newList();
 
-	public ExpressionNodeShadow(ExpressionNode _node)
-	{
-		super();
-		this.node = _node;
-	}
+	/**
+	 * Returns a map with class names and class sources, sorted by class name. 
+	 */
+	public Map<String, String> getSortedClasses();
+	
+	/**
+	 * Saves the decompiled engine's source to a target folder into which a proper java
+	 * package/source structure is written.
+	 * 
+	 * @param _targetFolder is the folder to save to. Created if it does not exist yet.
+	 * 
+	 * @throws IOException
+	 */
+	public void saveTo( File _targetFolder ) throws IOException;
 
-	public ExpressionNode node()
-	{
-		return this.node;
-	}
-
-	public List<ExpressionNodeShadow> arguments()
-	{
-		return this.arguments;
-	}
-
-	public static ExpressionNodeShadow shadow( ExpressionNode _node, Builder _builder )
-	{
-		if (_node == null) {
-			return null;
-		}
-		else {
-			final ExpressionNodeShadow result = _builder.shadow( _node );
-			final List<ExpressionNodeShadow> resultArgs = result.arguments();
-			for (ExpressionNode argNode : _node.arguments()) {
-				resultArgs.add( shadow( argNode, _builder ) );
-			}
-			return result;
-		}
-	}
-
-	public static interface Builder
-	{
-		ExpressionNodeShadow shadow( ExpressionNode _node );
-	}
+	/**
+	 * Like {@link #saveTo(File)}, but takes a string path instead of a file.
+	 */
+	public void saveTo( String _targetPath ) throws IOException;
 
 }
