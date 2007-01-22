@@ -25,7 +25,7 @@ import java.util.List;
 
 import sej.CompilerException;
 import sej.describable.DescriptionBuilder;
-import sej.util.New;
+import sej.runtime.New;
 
 public class SectionModel extends ElementModel
 {

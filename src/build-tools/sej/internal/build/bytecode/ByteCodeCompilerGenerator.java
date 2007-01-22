@@ -45,7 +45,7 @@ import org.objectweb.asm.util.AbstractVisitor;
 
 import sej.describable.DescriptionBuilder;
 import sej.internal.build.Util;
-import sej.util.New;
+import sej.runtime.New;
 
 @SuppressWarnings("unqualified-field-access")
 final class ByteCodeCompilerGenerator extends AbstractGenerator

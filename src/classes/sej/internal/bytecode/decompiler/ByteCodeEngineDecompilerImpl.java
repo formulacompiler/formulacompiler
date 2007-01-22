@@ -20,39 +20,32 @@
  */
 package sej.internal.bytecode.decompiler;
 
-import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.util.Collections;
 import java.util.Map;
-import java.util.SortedMap;
 
 import net.sf.jode.bytecode.ClassPath;
 import net.sf.jode.decompiler.Decompiler;
-import sej.EngineDescription;
-import sej.describable.AbstractDescribable;
-import sej.describable.DescriptionBuilder;
+import sej.bytecode.ByteCodeEngineDecompiler;
+import sej.bytecode.ByteCodeEngineSource;
 import sej.internal.bytecode.runtime.ByteCodeEngine;
-import sej.internal.engine.compiler.EngineDecompiler;
-import sej.util.New;
+import sej.runtime.New;
 
-public class ByteCodeEngineDecompiler implements EngineDecompiler
+public class ByteCodeEngineDecompilerImpl implements ByteCodeEngineDecompiler
 {
 	private final ByteCodeEngine engine;
 
 
-	public ByteCodeEngineDecompiler(Config _config)
+	public ByteCodeEngineDecompilerImpl(Config _config)
 	{
 		super();
 		this.engine = (ByteCodeEngine) _config.engine;
 	}
 
 
-	public EngineDescription decompile() throws IOException
+	public ByteCodeEngineSource decompile() throws IOException
 	{
 		final Map<String, String> classes = New.newMap();
 
@@ -73,7 +66,7 @@ public class ByteCodeEngineDecompiler implements EngineDecompiler
 			classes.put( className, source );
 		}
 
-		return new ByteCodeEngineDescription( classes );
+		return new ByteCodeEngineSourceImpl( classes );
 	}
 
 
@@ -117,65 +110,6 @@ public class ByteCodeEngineDecompiler implements EngineDecompiler
 		protected InputStream getFile( String _file ) throws IOException
 		{
 			return new ByteArrayInputStream( this.classFileNameAndBytes.get( _file ) );
-		}
-
-	}
-
-
-	public static final class ByteCodeEngineDescription extends AbstractDescribable implements EngineDescription
-	{
-		private final SortedMap<String, String> classes = New.newSortedMap();
-
-		public ByteCodeEngineDescription(Map<String, String> _classes)
-		{
-			this.classes.putAll( _classes );
-		}
-
-		public Map<String, String> getSortedClasses()
-		{
-			return Collections.unmodifiableMap( this.classes );
-		}
-
-		@Override
-		public void describeTo( DescriptionBuilder _to ) throws IOException
-		{
-			boolean first = true;
-			for (Map.Entry<String, String> entry : this.classes.entrySet()) {
-				if (first) {
-					first = false;
-				}
-				else {
-					_to.newLine();
-					_to.newLine();
-				}
-				_to.append( "// -------------------------- " );
-				_to.appendLine( entry.getKey() );
-				_to.newLine();
-				_to.append( entry.getValue() );
-			}
-		}
-
-		public void saveTo( File _target ) throws IOException
-		{
-			for (Map.Entry<String, String> entry : this.classes.entrySet()) {
-				final String name = entry.getKey();
-				final String source = entry.getValue();
-				final File sourceFile = new File( _target, name.replace( '.', '/' ) + ".java" );
-				final File sourceFolder = sourceFile.getParentFile();
-				sourceFolder.mkdirs();
-				final BufferedWriter writer = new BufferedWriter( new FileWriter( sourceFile ) );
-				try {
-					writer.append( source );
-				}
-				finally {
-					writer.close();
-				}
-			}
-		}
-
-		public void saveTo( String _targetPath ) throws IOException
-		{
-			saveTo( new File( _targetPath ) );
 		}
 
 	}

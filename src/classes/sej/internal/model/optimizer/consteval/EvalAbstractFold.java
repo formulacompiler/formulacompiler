@@ -28,7 +28,7 @@ import sej.internal.expressions.ExpressionNodeForAbstractFold;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForSubstitution;
 import sej.internal.model.util.InterpretedNumericType;
-import sej.util.New;
+import sej.runtime.New;
 
 abstract class EvalAbstractFold extends EvalShadow
 {

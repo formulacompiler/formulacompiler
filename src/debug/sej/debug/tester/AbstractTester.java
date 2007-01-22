@@ -17,8 +17,8 @@ import sej.Spreadsheet.Range;
 import sej.Spreadsheet.RangeNameDefinition;
 import sej.SpreadsheetBinder.Section;
 import sej.internal.Debug;
+import sej.runtime.New;
 import sej.runtime.Resettable;
-import sej.util.New;
 
 public abstract class AbstractTester
 {

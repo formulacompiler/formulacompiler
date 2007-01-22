@@ -27,6 +27,7 @@ import java.math.BigDecimal;
 import sej.EngineBuilder;
 import sej.SEJ;
 import sej.SaveableEngine;
+import sej.bytecode.SEJByteCode;
 import sej.runtime.ComputationFactory;
 import sej.runtime.Resettable;
 import sej.runtime.SEJException;
@@ -161,7 +162,7 @@ public class Caching extends TestCase
 		builder.bindAllByName();
 		SaveableEngine engine = builder.compile();
 		if (null != _path) {
-			SEJ.decompileEngine( engine ).saveTo( "temp/decompiled/caching/" + _path );
+			SEJByteCode.decompile( engine ).saveTo( "temp/decompiled/caching/" + _path );
 		}
 		return engine.getComputationFactory();
 	}

@@ -30,7 +30,7 @@ import sej.internal.spreadsheet.CellRange;
 import sej.internal.spreadsheet.CellWithConstant;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
-import sej.util.New;
+import sej.runtime.New;
 
 
 public abstract class AbstractDatabaseTableTest extends AbstractSheetBasedTest

@@ -23,8 +23,8 @@ package sej.tests.utils;
 import java.math.BigDecimal;
 import java.util.Collection;
 
+import sej.runtime.New;
 import sej.runtime.ScaledLong;
-import sej.util.New;
 
 
 @ScaledLong(4)

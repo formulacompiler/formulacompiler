@@ -26,7 +26,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import sej.examples.interactive.controller.ControllerListener;
-import sej.util.New;
+import sej.runtime.New;
 
 public abstract class AbstractTableModel implements TableModel
 {

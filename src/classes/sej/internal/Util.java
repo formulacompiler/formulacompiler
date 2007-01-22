@@ -27,7 +27,7 @@ import java.util.Map;
 import org.objectweb.asm.Type;
 
 import sej.internal.runtime.Runtime_v1;
-import sej.util.New;
+import sej.runtime.New;
 
 public final class Util
 {

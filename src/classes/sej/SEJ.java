@@ -33,8 +33,6 @@ import java.math.BigDecimal;
 
 import sej.internal.NumericTypeImpl;
 import sej.internal.Util;
-import sej.internal.bytecode.decompiler.ByteCodeEngineDecompiler;
-import sej.internal.engine.compiler.EngineDecompiler;
 import sej.internal.spreadsheet.binder.SpreadsheetBinderImpl;
 import sej.internal.spreadsheet.builder.SpreadsheetBuilderImpl;
 import sej.internal.spreadsheet.compiler.SpreadsheetCompilerImpl;
@@ -43,7 +41,6 @@ import sej.internal.spreadsheet.saver.excel.xls.ExcelXLSSaver;
 import sej.internal.util.EngineBuilderImpl;
 import sej.internal.util.SpreadsheetByNameBinderImpl;
 import sej.internal.util.SpreadsheetNameCreatorImpl;
-import sej.runtime.Engine;
 import sej.runtime.EngineException;
 import sej.runtime.SEJRuntime;
 
@@ -362,25 +359,6 @@ public class SEJ extends SEJRuntime
 		cfg.binding = _binding;
 		cfg.numericType = _numericType;
 		return newSpreadsheetCompiler( cfg ).compile();
-	}
-
-
-	/**
-	 * Returns an object describing a compiled engine. For byte-code engines, this is decompiled Java
-	 * source code.
-	 * 
-	 * @return Either a description object, or {@code null} if no description is available.
-	 */
-	public static EngineDescription decompileEngine( Engine _engine ) throws IOException
-	{
-		final EngineDecompiler.Config cfg = new EngineDecompiler.Config();
-		cfg.engine = _engine;
-		return newEngineDecompiler( cfg ).decompile();
-	}
-	
-	private static EngineDecompiler newEngineDecompiler( EngineDecompiler.Config _config )
-	{
-		return new ByteCodeEngineDecompiler( _config );
 	}
 
 

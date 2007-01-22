@@ -39,7 +39,7 @@ import sej.internal.spreadsheet.Reference;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
-import sej.util.New;
+import sej.runtime.New;
 
 import jxl.Cell;
 import jxl.CellView;

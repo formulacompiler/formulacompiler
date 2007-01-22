@@ -46,7 +46,7 @@ import sej.internal.spreadsheet.binding.CellBinding;
 import sej.internal.spreadsheet.binding.InputCellBinding;
 import sej.internal.spreadsheet.binding.SectionBinding;
 import sej.internal.spreadsheet.binding.WorkbookBinding;
-import sej.util.New;
+import sej.runtime.New;
 
 
 public final class SectionModelCompiler

@@ -26,7 +26,7 @@ import java.util.List;
 import sej.Spreadsheet;
 import sej.Spreadsheet.Cell;
 import sej.describable.DescriptionBuilder;
-import sej.util.New;
+import sej.runtime.New;
 
 public final class RowImpl extends AbstractStyledElement implements Spreadsheet.Row
 {

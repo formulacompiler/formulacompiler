@@ -24,7 +24,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Map;
 
-import sej.util.New;
+import sej.runtime.New;
 
 public final class ExcelNumberFormat
 {

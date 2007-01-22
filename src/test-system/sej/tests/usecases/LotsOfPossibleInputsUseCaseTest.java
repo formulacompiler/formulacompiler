@@ -30,7 +30,7 @@ import sej.CallFrame;
 import sej.SaveableEngine;
 import sej.Spreadsheet;
 import sej.SpreadsheetBinder;
-import sej.util.New;
+import sej.runtime.New;
 
 
 @SuppressWarnings("unchecked")

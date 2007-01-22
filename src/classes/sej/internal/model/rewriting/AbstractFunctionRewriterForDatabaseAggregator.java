@@ -40,7 +40,7 @@ import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.analysis.TypeAnnotator;
 import sej.internal.model.util.InterpretedNumericType;
-import sej.util.New;
+import sej.runtime.New;
 
 abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExpressionRewriter
 {

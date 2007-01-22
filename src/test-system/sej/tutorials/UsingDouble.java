@@ -22,6 +22,7 @@ package sej.tutorials;
 
 import sej.EngineBuilder;
 import sej.SEJ;
+import sej.bytecode.SEJByteCode;
 import sej.runtime.Engine;
 import junit.framework.TestCase;
 
@@ -47,7 +48,7 @@ public class UsingDouble extends TestCase
 		assertEquals( /**/"1.1666666666666667"/**/, String.valueOf( output.getResult()) );
 		// ---- checkResult
 
-		SEJ.decompileEngine( engine ).saveTo( "temp/decompiled/numeric_type/double" );
+		SEJByteCode.decompile( engine ).saveTo( "temp/decompiled/numeric_type/double" );
 	}
 
 

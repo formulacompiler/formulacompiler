@@ -37,7 +37,7 @@ import sej.internal.expressions.ExpressionNodeForReduce;
 import sej.internal.expressions.ExpressionNodeForSubstitution;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
-import sej.util.New;
+import sej.runtime.New;
 
 abstract class AbstractExpressionRewriter
 {

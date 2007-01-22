@@ -34,8 +34,9 @@ import sej.NumericType;
 import sej.SEJ;
 import sej.SaveableEngine;
 import sej.SpreadsheetBinder.Section;
+import sej.bytecode.ByteCodeEngineSource;
+import sej.bytecode.SEJByteCode;
 import sej.describable.DescriptionBuilder;
-import sej.internal.bytecode.decompiler.ByteCodeEngineDecompiler.ByteCodeEngineDescription;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
@@ -599,7 +600,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 					rex.appendLine( "is compiled to the following class(es):" );
 					rex.newLine();
 
-					final ByteCodeEngineDescription decompiled = (ByteCodeEngineDescription) SEJ.decompileEngine( _engine );
+					final ByteCodeEngineSource decompiled = SEJByteCode.decompile( _engine );
 					final Map<String, String> classes = decompiled.getSortedClasses();
 					boolean needToSkipFactory = true;
 					for (final String source : classes.values()) {

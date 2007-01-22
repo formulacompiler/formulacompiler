@@ -25,7 +25,7 @@ import java.util.Collection;
 import sej.internal.model.AbstractComputationModelVisitor;
 import sej.internal.model.CellModel;
 import sej.internal.model.SectionModel;
-import sej.util.New;
+import sej.runtime.New;
 
 final class InlinedCellRemover extends AbstractComputationModelVisitor
 {

@@ -33,9 +33,10 @@ import sej.Spreadsheet;
 import sej.Spreadsheet.Cell;
 import sej.Spreadsheet.Range;
 import sej.SpreadsheetBinder.Section;
+import sej.bytecode.SEJByteCode;
 import sej.runtime.Engine;
+import sej.runtime.New;
 import sej.runtime.Resettable;
-import sej.util.New;
 import junit.framework.TestCase;
 
 public class CustomerRatingWithOrders extends TestCase
@@ -75,7 +76,7 @@ public class CustomerRatingWithOrders extends TestCase
 
 		Engine engine = builder.compile();
 		if (_version == AccessorVersion.ARRAY) {
-			SEJ.decompileEngine( engine ).saveTo( "temp/decompiled/customerRatingWithOrders" );
+			SEJByteCode.decompile( engine ).saveTo( "temp/decompiled/customerRatingWithOrders" );
 		}
 		CustomerRatingFactory factory = (CustomerRatingFactory) engine.getComputationFactory();
 

@@ -23,12 +23,13 @@ package sej.tutorials;
 import java.io.File;
 
 import sej.EngineBuilder;
-import sej.EngineDescription;
 import sej.Function;
 import sej.SEJ;
 import sej.SaveableEngine;
 import sej.Spreadsheet;
 import sej.SpreadsheetBuilder;
+import sej.bytecode.ByteCodeEngineSource;
+import sej.bytecode.SEJByteCode;
 import sej.tests.utils.AbstractTestBase;
 
 public class Decompilation extends AbstractTestBase
@@ -44,8 +45,8 @@ public class Decompilation extends AbstractTestBase
 		// ---- asString
 		// ... set up engine definition
 		SaveableEngine engine = builder.compile();
-		EngineDescription description = SEJ.decompileEngine( engine );
-		String text = description.describe();
+		ByteCodeEngineSource source = SEJByteCode.decompile( engine );
+		String text = source.toString();
 		// ---- asString
 		assertEqualToFile( "src/test-system/testdata/sej/tutorials/decompiler/asString.txt", text );
 	}
@@ -63,8 +64,8 @@ public class Decompilation extends AbstractTestBase
 		// ---- saveTo
 		// ... set up engine definition
 		SaveableEngine engine = builder.compile();
-		EngineDescription description = SEJ.decompileEngine( engine );
-		description.saveTo( new File( pathToTargetFolder ) );
+		ByteCodeEngineSource source = SEJByteCode.decompile( engine );
+		source.saveTo( new File( pathToTargetFolder ) );
 		// ---- saveTo
 		File tgt = new File( pathToTargetFolder );
 		File src = new File( "src/test-system/testdata/sej/tutorials/decompiler" );

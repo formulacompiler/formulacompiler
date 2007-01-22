@@ -33,7 +33,7 @@ import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.LetDictionary.LetEntry;
 import sej.internal.model.CellModel;
 import sej.internal.model.SectionModel;
-import sej.util.New;
+import sej.runtime.New;
 
 
 class SectionCompiler extends ClassCompiler
