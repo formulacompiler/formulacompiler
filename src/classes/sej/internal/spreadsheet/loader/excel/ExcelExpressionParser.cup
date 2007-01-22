@@ -5,7 +5,7 @@ import java_cup.runtime.*;
 import sej.*;
 import sej.internal.expressions.*;
 import sej.internal.spreadsheet.*;
-import sej.util.*;
+import sej.runtime.*;
 
 parser code {:
 
