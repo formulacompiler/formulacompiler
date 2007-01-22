@@ -23,18 +23,37 @@ package sej.bytecode;
 import java.io.IOException;
 
 import sej.runtime.Engine;
+import sej.runtime.SEJException;
 
 /**
  * Decompiles a JVM byte code engine back to Java source using the <a
  * href="jode.sourceforge.net">JODE</a> library.
+ * 
+ * @author peo
  */
 public interface ByteCodeEngineDecompiler
 {
 
+	/**
+	 * Configuration data for new instances of {@link sej.bytecode.ByteCodeEngineDecompiler}.
+	 * 
+	 * @author peo
+	 * 
+	 * @see SEJByteCode#decompile(Engine)
+	 */
 	public static class Config
 	{
+		
+		/**
+		 * The engine to decompile.
+		 */
 		public Engine engine;
 
+		/**
+		 * Validates the configuration for missing or improperly set values.
+		 * 
+		 * @throws IllegalArgumentException
+		 */
 		public void validate()
 		{
 			if (this.engine == null) throw new IllegalArgumentException( "engine is null" );
@@ -42,6 +61,12 @@ public interface ByteCodeEngineDecompiler
 	}
 
 
-	public abstract ByteCodeEngineSource decompile() throws IOException;
+	/**
+	 * Decompiles the engine and returns a source code description object.
+	 * 
+	 * @throws IOException
+	 * @throws SEJException
+	 */
+	public abstract ByteCodeEngineSource decompile() throws IOException, SEJException;
 
 }

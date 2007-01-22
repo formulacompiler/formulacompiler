@@ -28,6 +28,8 @@ import sej.runtime.SEJRuntime;
 
 /**
  * Provides methods specific to the JVM bytecode generating backend of SEJ.
+ * 
+ * @author peo
  */
 public final class SEJByteCode extends SEJRuntime
 {

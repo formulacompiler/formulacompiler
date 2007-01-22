@@ -404,9 +404,11 @@
 			</fileset>
 			<fileset dir="${src.test-unit.dir}">
 				<include name="**/*.java" />
+				<exclude name="testdata/**/*.java" />
 			</fileset>
 			<fileset dir="${src.test-system.dir}">
 				<include name="**/*.java" />
+				<exclude name="testdata/**/*.java" />
 			</fileset>
 			<fileset dir="${src.examples.dir}">
 				<include name="**/*.java" />
