@@ -33,6 +33,7 @@ final class FactoryCompiler extends ClassCompiler
 	private final Class userFactoryClass;
 	private final Method userFactoryMethod;
 	private final Type userFactoryType;
+	private final Class userInputClass;
 	private final Type userInputType;
 
 
@@ -42,7 +43,8 @@ final class FactoryCompiler extends ClassCompiler
 		this.userFactoryClass = _factoryClass;
 		this.userFactoryMethod = _factoryMethod;
 		this.userFactoryType = (_factoryClass != null) ? Type.getType( _factoryClass ) : null;
-		this.userInputType = Type.getType( engineCompiler().getModel().getInputClass() );
+		this.userInputClass = engineCompiler().getModel().getInputClass();
+		this.userInputType = Type.getType( this.userInputClass );
 	}
 
 
@@ -77,6 +79,7 @@ final class FactoryCompiler extends ClassCompiler
 		mv.newInstance( ByteCodeEngineCompiler.GEN_ROOT_CLASS );
 		mv.dup();
 		mv.loadArg( 0 );
+		compileClassRef( this.userInputClass, this.userInputType );
 		mv.checkCast( this.userInputType );
 		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, ByteCodeEngineCompiler.GEN_ROOT_CLASS.getInternalName(), "<init>", "("
 				+ this.userInputType.getDescriptor() + ")V" );

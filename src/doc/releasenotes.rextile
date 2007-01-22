@@ -12,7 +12,11 @@ h2. Release 0.8.3
 
 h5. New
 
-	* Added support for "decompilation of generated engines":-tutorial/decomile.htm.
+	* Added support for "decompilation of generated engines":tutorial/decompile.htm.
+	
+h5. Fixed
+
+	* SEJ generates the @InnerClass@ attribute needed for proper decompilation and "required by the JVM spec":http://java.sun.com/docs/books/vmspec/2nd-edition/html/ClassFile.doc.html#79996 when a factory or computation is based on a public static inner class.
 	
 h5. Documented
 	

@@ -20,6 +20,7 @@
  */
 package sej.internal.bytecode.compiler;
 
+import java.lang.reflect.Modifier;
 import java.util.Map;
 
 import org.objectweb.asm.ClassWriter;
@@ -99,11 +100,15 @@ abstract class ClassCompiler
 		}
 		final int access = Opcodes.ACC_FINAL | (this.classPublic ? Opcodes.ACC_PUBLIC : 0);
 		cw().visit( Opcodes.V1_4, access, classInternalName(), null, parentType.getInternalName(), interfaces );
+
+		if (_parentClassOrInterface != null) {
+			compileClassRef( _parentClassOrInterface, _parentTypeOrInterface );
+		}
+
 		cw().visitSource( null, null );
 
 		return parentType;
 	}
-
 
 	protected void finalizeClass()
 	{
@@ -132,6 +137,24 @@ abstract class ClassCompiler
 	}
 
 
+	public void compileClassRef( Class _class )
+	{
+		compileClassRef( _class, Type.getType( _class ));
+	}
+
+	public void compileClassRef( Class _class, Type _type )
+	{
+		if (_class.isMemberClass()) {
+			final Class outerClass = _class.getDeclaringClass();
+			final Type outerType = Type.getType( outerClass );
+			final String innerIntName = _type.getInternalName();
+			final String outerIntName = outerType.getInternalName();
+			final String innerName = innerIntName.substring( outerIntName.length() + 1 );
+			cw().visitInnerClass( innerIntName, outerIntName, innerName, _class.getModifiers() );
+		}
+	}
+
+	
 	private GeneratorAdapter initializer;
 
 	protected final GeneratorAdapter initializer()
