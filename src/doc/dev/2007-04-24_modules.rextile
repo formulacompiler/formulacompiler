@@ -1,0 +1,8 @@
+
+h1. Modules and IDEs
+
+I have implemented the internal modularization as "described earlier on":2007-01-22_modularization.htm. However, I have not split the project up into modules. Here's why.
+
+The reasons already outlined mainly address the hassle incurred for project committers. An even stronger reason in the end was to not deter the occasional would-be patch contributor, or even just the occasional code browser. It seems very important to me that incorporating the source of SEJ into a foreign project be extremly easy, be it in order to trace and debug, or just to have it in place. And this should be easy directly from SVN, so the layout in SVN must be simple enough for this.
+
+I have myself seen the value of this with JExcelAPI and JODE, which are used by SEJ.

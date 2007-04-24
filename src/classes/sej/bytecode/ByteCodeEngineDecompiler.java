@@ -23,7 +23,6 @@ package sej.bytecode;
 import java.io.IOException;
 
 import sej.runtime.Engine;
-import sej.runtime.SEJException;
 
 /**
  * Decompiles a JVM byte code engine back to Java source using the <a
@@ -65,8 +64,18 @@ public interface ByteCodeEngineDecompiler
 	 * Decompiles the engine and returns a source code description object.
 	 * 
 	 * @throws IOException
-	 * @throws SEJException
 	 */
-	public abstract ByteCodeEngineSource decompile() throws IOException, SEJException;
+	public abstract ByteCodeEngineSource decompile() throws IOException;
+
+	/**
+	 * Factory interface for {@link sej.runtime.ImplementationLocator#getInstance(Class)}.
+	 */
+	public static interface Factory
+	{
+		/**
+		 * Factory method.
+		 */
+		public ByteCodeEngineDecompiler newInstance( Config _config );
+	}
 
 }

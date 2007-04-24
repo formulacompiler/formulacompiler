@@ -21,6 +21,7 @@
 package sej;
 
 
+
 /**
  * Utility interface that supports simple cell binding using the cell names in the spreadsheet and
  * reflection on the input and output types.
@@ -115,6 +116,18 @@ public interface SpreadsheetByNameBinder
 		 */
 		public void bindAllNamedCellsToMethods() throws CompilerException;
 
+	}
+
+	
+	/**
+	 * Factory interface for {@link sej.runtime.ImplementationLocator#getInstance(Class)}.
+	 */
+	public static interface Factory
+	{
+		/**
+		 * Factory method.
+		 */
+		SpreadsheetByNameBinder newInstance( Config _config );
 	}
 
 }

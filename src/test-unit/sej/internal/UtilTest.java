@@ -137,7 +137,7 @@ public class UtilTest extends TestCase
 	{
 		abstract void notTangible();
 	}
-	
+
 	static interface AbstractTestIntf extends TestIntf
 	{
 		void other();

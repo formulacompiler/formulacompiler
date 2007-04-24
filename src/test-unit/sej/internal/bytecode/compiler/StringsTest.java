@@ -30,9 +30,9 @@ import sej.SpreadsheetBuilder;
 import sej.SpreadsheetBinder.Section;
 import sej.SpreadsheetBuilder.CellRef;
 import sej.runtime.Resettable;
-import sej.tests.utils.AbstractTestBase;
+import sej.tests.utils.AbstractIOTestBase;
 
-public class StringsTest extends AbstractTestBase
+public class StringsTest extends AbstractIOTestBase
 {
 	private static final String DYNAMIC_STRING = "This is a dynamic string.";
 	private static final String STATIC_STRING = "This is a string.";

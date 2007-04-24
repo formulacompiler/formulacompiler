@@ -39,6 +39,7 @@ import sej.internal.spreadsheet.Reference;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
+import sej.internal.spreadsheet.saver.SpreadsheetSaverDispatcher;
 import sej.runtime.New;
 
 import jxl.Cell;
@@ -60,21 +61,52 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	private final Spreadsheet model;
 	private final OutputStream outputStream;
 	private final ExcelXLSExpressionFormatter formatter = new ExcelXLSExpressionFormatter();
-	private final Workbook template;
-	private final Sheet templateSheet;
+	private final InputStream templateInputStream;
+	private Workbook template;
+	private Sheet templateSheet;
 
 
-	public ExcelXLSSaver(Config _config) throws IOException, SpreadsheetException
+	public ExcelXLSSaver(Config _config)
 	{
 		super();
 		this.model = _config.spreadsheet;
 		this.outputStream = _config.outputStream;
-		this.template = (null == _config.templateInputStream) ? null : loadTemplate( _config.templateInputStream );
-		this.templateSheet = (null == this.template) ? null : this.template.getSheet( 0 );
+		this.templateInputStream = _config.templateInputStream;
 	}
 
 
-	private static Workbook loadTemplate( InputStream _stream ) throws IOException, SpreadsheetException
+	public static final class Factory implements SpreadsheetSaverDispatcher.Factory
+	{
+		public SpreadsheetSaver newInstance( Config _config )
+		{
+			return new ExcelXLSSaver( _config );
+		}
+
+		public boolean canHandle( String _fileName )
+		{
+			return _fileName.toLowerCase().endsWith( ".xls" );
+		}
+	}
+
+
+	public void save() throws IOException, SpreadsheetException
+	{
+		this.template = (null == this.templateInputStream) ? null : loadTemplate( this.templateInputStream );
+		this.templateSheet = (null == this.template) ? null : this.template.getSheet( 0 );
+
+		final SpreadsheetImpl wb = (SpreadsheetImpl) this.model;
+		final WritableWorkbook xwb = createWorkbook();
+		try {
+			saveWorkbook( wb, xwb );
+			xwb.write();
+			xwb.close();
+		}
+		catch (JXLException e) {
+			throw new SpreadsheetException.SaveError( e );
+		}
+	}
+
+	private Workbook loadTemplate( InputStream _stream ) throws IOException, SpreadsheetException
 	{
 		try {
 			return Workbook.getWorkbook( _stream );
@@ -87,21 +119,6 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	private Cell getTemplateCell( String _styleName )
 	{
 		return (null == this.template) ? null : this.template.findCellByName( _styleName );
-	}
-
-
-	public void save() throws IOException, SpreadsheetException
-	{
-		final SpreadsheetImpl wb = (SpreadsheetImpl) this.model;
-		final WritableWorkbook xwb = createWorkbook();
-		try {
-			saveWorkbook( wb, xwb );
-			xwb.write();
-			xwb.close();
-		}
-		catch (JXLException e) {
-			throw new SpreadsheetException.SaveError( e );
-		}
 	}
 
 	private WritableWorkbook createWorkbook() throws IOException
@@ -307,5 +324,5 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 		}
 	}
 
-	
+
 }

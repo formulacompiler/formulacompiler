@@ -14,6 +14,7 @@
 	<property name="lib.dir" location="${basedir}/lib" />
 	<property name="doc.dir" location="${basedir}/doc" />
 	<property name="src.classes.dir" location="${src.dir}/classes" />
+	<property name="src.resources.dir" location="${src.dir}/resources" />
 	<property name="src.classes-bootstrap.dir" location="${src.dir}/classes-bootstrap-dummies" />
 	<property name="src.classes-build-tools.dir" location="${src.dir}/build-tools" />
 	<property name="src.test-accessors.dir" location="${src.dir}/test-accessors" />
@@ -176,6 +177,12 @@
 			<exclude name="sej/internal/spreadsheet/loader/excel/RewriteLanguageParser*" />
 			<exclude name="sej/internal/spreadsheet/loader/excel/Generated*Internal*" />
 		</javac>
+		<copy todir="${temp.classes.dir}">
+			<fileset dir="${src.resources.dir}">
+				<include name="**/*" />
+				<exclude name="**/.svn/**" />
+			</fileset>
+		</copy>
 	</target>
 
 	<!-- jars -->
@@ -194,6 +201,7 @@
 				<include name="sej/runtime/*.class" />
 				<include name="sej/internal/runtime/*.class" />
 				<include name="sej/internal/bytecode/runtime/*.class" />
+				<include name="META-INF/services/sej.runtime.*" />
 			</fileset>
 		</jar>
 
@@ -236,6 +244,11 @@
 		<javac srcdir="${src.test-unit.dir}" destdir="${temp.test-unit.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/**" />
 		</javac>
+		<copy todir="${temp.test-unit.dir}">
+			<fileset dir="${src.test-unit.dir}">
+				<include name="META-INF/services/*" />
+			</fileset>
+		</copy>
 		<javac srcdir="${src.test-system.dir}" destdir="${temp.test-system.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/**" />
 		</javac>

@@ -21,9 +21,8 @@
 package sej.internal.spreadsheet.saver.excel.xls;
 
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.spreadsheet.saver.ExpressionFormatter;
 
-public final class ExcelXLSExpressionFormatter implements ExpressionFormatter
+public final class ExcelXLSExpressionFormatter
 {
 
 	public ExcelXLSExpressionFormatter()

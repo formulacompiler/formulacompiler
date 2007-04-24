@@ -23,8 +23,6 @@ package sej.runtime;
 import java.io.IOException;
 import java.io.InputStream;
 
-import sej.SaveableEngine;
-
 
 /**
  * Interface for deserializing instances of the {@link Engine} class.
@@ -63,7 +61,7 @@ public interface EngineLoader
 
 	/**
 	 * Loads an engine. It must have been saved using
-	 * {@link SaveableEngine#saveTo(java.io.OutputStream)}.
+	 * {@link sej.SaveableEngine#saveTo(java.io.OutputStream)}.
 	 * 
 	 * @param _stream is an input stream which must support the {@link InputStream#mark(int)}
 	 *           operation.
@@ -73,5 +71,17 @@ public interface EngineLoader
 	 * @throws EngineException
 	 */
 	public Engine loadEngineData( InputStream _stream ) throws IOException, EngineException;
+
+
+	/**
+	 * Factory interface for {@link sej.runtime.ImplementationLocator#getInstance(Class)}.
+	 */
+	public static interface Factory
+	{
+		/**
+		 * Factory method.
+		 */
+		EngineLoader newInstance( Config _config );
+	}
 
 }

@@ -32,12 +32,12 @@ import sej.internal.spreadsheet.CellWithLazilyParsedExpression;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
-import sej.tests.utils.AbstractTestBase;
+import sej.tests.utils.AbstractSpreadsheetTestBase;
 import sej.tests.utils.Inputs;
 import sej.tests.utils.Outputs;
 import sej.tests.utils.WorksheetBuilderWithBands;
 
-public class SpreadsheetBinderTest extends AbstractTestBase
+public class SpreadsheetBinderTest extends AbstractSpreadsheetTestBase
 {
 	protected SpreadsheetImpl workbook;
 	protected SheetImpl sheet;

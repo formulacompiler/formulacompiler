@@ -20,6 +20,8 @@
  */
 package sej;
 
+import sej.runtime.SEJRuntime;
+
 /**
  * Immutable class representing the type to be used by the numeric computations of generated
  * engines.
@@ -32,7 +34,7 @@ public interface NumericType
 	/**
 	 * For BigDecimal types, indicates that no explicit scaling should be performed by the engine.
 	 */
-	public static final int UNDEFINED_SCALE = Integer.MAX_VALUE;
+	public static final int UNDEFINED_SCALE = SEJRuntime.UNDEFINED_SCALE;
 
 	/**
 	 * Returns the Java class of the base type.
@@ -79,5 +81,17 @@ public interface NumericType
 	 * point. Null returns the empty string. Uses scientific display the way Excel does.
 	 */
 	public String valueToConciseString( Number _value );
+
+
+	/**
+	 * Factory interface for {@link sej.runtime.ImplementationLocator#getInstance(Class)}.
+	 */
+	public static interface Factory
+	{
+		/**
+		 * Factory method.
+		 */
+		NumericType getInstance( Class _valueType, int _scale, int _roundingMode );
+	}
 
 }

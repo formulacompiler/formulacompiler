@@ -43,8 +43,17 @@ public final class SpreadsheetBinderImpl implements SpreadsheetBinder
 		super();
 		_config.validate();
 		this.spreadsheet = _config.spreadsheet;
-		this.binding = new WorkbookBinding( (SpreadsheetImpl) _config.spreadsheet, _config.inputClass, _config.outputClass );
+		this.binding = new WorkbookBinding( (SpreadsheetImpl) _config.spreadsheet, _config.inputClass,
+				_config.outputClass );
 		this.root = new SectionBinderImpl( this.binding.getRoot() );
+	}
+
+	public static final class Factory implements SpreadsheetBinder.Factory
+	{
+		public SpreadsheetBinder newInstance( Config _config )
+		{
+			return new SpreadsheetBinderImpl( _config );
+		}
 	}
 
 

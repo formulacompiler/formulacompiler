@@ -88,6 +88,15 @@ public abstract class NumericTypeImpl implements NumericType
 	}
 
 
+	public static final class Factory implements NumericType.Factory
+	{
+		public NumericType getInstance( Class _valueType, int _scale, int _roundingMode )
+		{
+			return NumericTypeImpl.getInstance( _valueType, _scale, _roundingMode );
+		}
+	}
+
+
 	public Class getValueType()
 	{
 		return this.valueType;
@@ -232,6 +241,8 @@ public abstract class NumericTypeImpl implements NumericType
 	 */
 	public static final class BigDecimalType extends NumericTypeImpl
 	{
+		private final BigDecimal zero = adjustScale( BigDecimal.ZERO );
+		private final BigDecimal one = adjustScale( BigDecimal.ONE );
 
 		protected BigDecimalType(int _scale, int _roundingMode)
 		{
@@ -241,33 +252,41 @@ public abstract class NumericTypeImpl implements NumericType
 		@Override
 		public Number getZero()
 		{
-			return BigDecimal.valueOf( 0 ); // BigDecimal.ZERO is not available in JRE 1.4
+			return this.zero;
 		}
 
 		@Override
 		public Number getOne()
 		{
-			return BigDecimal.valueOf( 1 ); // BigDecimal.ONE is not available in JRE 1.4
+			return this.one;
 		}
 
 		@Override
 		protected Number convertFromNumber( Number _value )
 		{
-			if (_value instanceof BigDecimal) return _value;
-			if (_value instanceof Long) return BigDecimal.valueOf( _value.longValue() );
-			if (_value instanceof Integer) return BigDecimal.valueOf( _value.longValue() );
-			if (_value instanceof Byte) return BigDecimal.valueOf( _value.longValue() );
-			return BigDecimal.valueOf( _value.doubleValue() );
+			BigDecimal v;
+			if (_value instanceof BigDecimal) {
+				v = (BigDecimal) _value;
+			}
+			else if (_value instanceof Long) {
+				v = BigDecimal.valueOf( _value.longValue() );
+			}
+			else if (_value instanceof Integer) {
+				v = BigDecimal.valueOf( _value.longValue() );
+			}
+			else if (_value instanceof Byte) {
+				v = BigDecimal.valueOf( _value.longValue() );
+			}
+			else {
+				v = BigDecimal.valueOf( _value.doubleValue() );
+			}
+			return adjustScale( v );
 		}
 
 		@Override
 		protected Number convertFromString( String _value )
 		{
-			BigDecimal result = new BigDecimal( _value );
-			if (getScale() != UNDEFINED_SCALE) {
-				result = result.setScale( getScale(), getRoundingMode() );
-			}
-			return result;
+			return adjustScale( new BigDecimal( _value ) );
 		}
 
 		@Override
@@ -280,6 +299,14 @@ public abstract class NumericTypeImpl implements NumericType
 		protected String convertToConciseString( Number _value )
 		{
 			return RuntimeBigDecimal_v1.toExcelString( (BigDecimal) _value );
+		}
+
+		private BigDecimal adjustScale( BigDecimal _value )
+		{
+			if (NumericType.UNDEFINED_SCALE != getScale()) {
+				return _value.setScale( getScale(), getRoundingMode() );
+			}
+			return _value;
 		}
 
 	}

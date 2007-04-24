@@ -23,7 +23,7 @@ package sej.internal.model.rewriting;
 import sej.CallFrame;
 import sej.Function;
 import sej.Operator;
-import sej.SEJ;
+import sej.SEJCompiler;
 import sej.internal.expressions.ArrayDescriptor;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForArrayReference;
@@ -57,7 +57,7 @@ public class ModelRewriterTest extends TestCase
 				new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
 				new ExpressionNodeForCellModel( c ) } ) );
 
-		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( SEJ.DOUBLE ) ) );
+		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( SEJCompiler.DOUBLE ) ) );
 
 		assertEquals( "_FOLD_OR_REDUCE( r: 0.0; xi: (`r + `xi); @( a, b, c ) )", r.getExpression().toString() );
 	}
@@ -77,7 +77,7 @@ public class ModelRewriterTest extends TestCase
 		final CellModel r = new CellModel( rootModel, "r" );
 		r.setExpression( new ExpressionNodeForFunction( Function.DSUM, table, col, crit ) );
 
-		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( SEJ.DOUBLE ) ) );
+		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( SEJCompiler.DOUBLE ) ) );
 
 		assertBeginsWith(
 				"_DFOLD( col: OR( AND( (`col0 = \"Apple\"), (`col1 > 10.0), (`col1 < 16.0) ), (`col0 = \"Pear\") ); r: 0.0; xi: (`r + `xi); #3; #(1,2,5){",
@@ -100,7 +100,7 @@ public class ModelRewriterTest extends TestCase
 		final CellModel r = new CellModel( rootModel, "r" );
 		r.setExpression( new ExpressionNodeForFunction( Function.DSUM, table, col, crit ) );
 
-		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( SEJ.DOUBLE ) ) );
+		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( SEJCompiler.DOUBLE ) ) );
 
 		assertBeginsWith(
 				"_LET_nofold( -crit0: Inputs.getOne(); _LET_nofold( -crit1: Inputs.getOne(); _LET_nofold( -crit2: Inputs.getOne(); _LET_nofold( -crit3: Inputs.getOne(); "

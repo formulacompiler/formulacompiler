@@ -281,4 +281,15 @@ public interface SpreadsheetBuilder
 	}
 
 
+	/**
+	 * Factory interface for {@link sej.runtime.ImplementationLocator#getInstance(Class)}.
+	 */
+	public static interface Factory
+	{
+		/**
+		 * Factory method.
+		 */
+		SpreadsheetBuilder newInstance();
+	}
+
 }

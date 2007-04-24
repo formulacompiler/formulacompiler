@@ -24,7 +24,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import sej.internal.bytecode.runtime.ByteCodeEngineLoader;
+import sej.runtime.EngineLoader.Config;
 
 
 /**
@@ -35,6 +35,11 @@ import sej.internal.bytecode.runtime.ByteCodeEngineLoader;
  */
 public class SEJRuntime
 {
+
+	/**
+	 * For BigDecimal types, indicates that no explicit scaling should be performed by the engine.
+	 */
+	public static final int UNDEFINED_SCALE = Integer.MAX_VALUE;
 
 	/**
 	 * Not supposed to be instantiated!
@@ -84,7 +89,31 @@ public class SEJRuntime
 		}
 		assert input.markSupported();
 
-		return new ByteCodeEngineLoader( _config ).loadEngineData( _stream );
+		return ENGINE_LOADER_FACTORY.newInstance( _config ).loadEngineData( _stream );
+	}
+
+	private static final EngineLoader.Factory ENGINE_LOADER_FACTORY = getLoaderFactory();
+
+	private static final EngineLoader.Factory getLoaderFactory()
+	{
+		try {
+			return ImplementationLocator.getInstance( EngineLoader.Factory.class );
+		}
+		catch (ImplementationLocator.ConfigurationMissingException e) {
+			return new EngineLoader.Factory()
+			{
+				public EngineLoader newInstance( Config _config )
+				{
+					return new EngineLoader()
+					{
+						public Engine loadEngineData( InputStream _stream ) throws IOException, EngineException
+						{
+							throw new EngineException( "No engine loader configured." );
+						}
+					};
+				}
+			};
+		}
 	}
 
 }

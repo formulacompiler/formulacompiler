@@ -68,8 +68,8 @@ public interface SpreadsheetBinder
 			if (this.inputClass == null) throw new IllegalArgumentException( "inputClass is null" );
 			if (this.outputClass == null) throw new IllegalArgumentException( "outputClass is null" );
 
-			SEJ.validateIsAccessible( this.inputClass, "inputClass" );
-			SEJ.validateIsImplementable( this.outputClass, "outputClass" );
+			Validation.SINGLETON.validateIsAccessible( this.inputClass, "inputClass" );
+			Validation.SINGLETON.validateIsImplementable( this.outputClass, "outputClass" );
 		}
 	}
 
@@ -195,6 +195,18 @@ public interface SpreadsheetBinder
 				Class _outputClass ) throws CompilerException;
 
 
+	}
+
+	
+	/**
+	 * Factory interface for {@link sej.runtime.ImplementationLocator#getInstance(Class)}.
+	 */
+	public static interface Factory
+	{
+		/**
+		 * Factory method.
+		 */
+		SpreadsheetBinder newInstance( Config _config );
 	}
 
 }
