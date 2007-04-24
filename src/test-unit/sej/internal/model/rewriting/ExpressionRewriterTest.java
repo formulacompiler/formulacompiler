@@ -20,15 +20,12 @@
  */
 package sej.internal.model.rewriting;
 
-import sej.SEJ;
+import sej.Function;
+import sej.SEJCompiler;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.ExpressionNodeForConstantValue;
+import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.model.util.InterpretedNumericType;
-import sej.internal.spreadsheet.CellRefFormat;
-import sej.internal.spreadsheet.CellWithLazilyParsedExpression;
-import sej.internal.spreadsheet.RowImpl;
-import sej.internal.spreadsheet.SheetImpl;
-import sej.internal.spreadsheet.SpreadsheetImpl;
-import sej.internal.spreadsheet.loader.excel.ExcelExpressionParserAccessor;
 import junit.framework.TestCase;
 
 
@@ -38,32 +35,27 @@ public class ExpressionRewriterTest extends TestCase
 
 	public void testSUM() throws Exception
 	{
-		assertRewrite( "_FOLD_OR_REDUCE( r: 0.0; xi: (`r + `xi); @( A1:A2 ) )", "SUM( A1:A2 )" );
+		assertRewrite( "_FOLD_OR_REDUCE( r: 0.0; xi: (`r + `xi); @( \"[args]\" ) )", Function.SUM );
 	}
 
 	public void testAVERAGE() throws Exception
 	{
-		assertRewrite( "(_FOLD_OR_REDUCE( r: 0.0; xi: (`r + `xi); @( A1:A2 ) ) / COUNT( @( A1:A2 ) ))",
-				"AVERAGE( A1:A2 )" );
+		assertRewrite( "(_FOLD_OR_REDUCE( r: 0.0; xi: (`r + `xi); @( \"[args]\" ) ) / COUNT( @( \"[args]\" ) ))", Function.AVERAGE );
 	}
 
 	public void testVARP() throws Exception
 	{
 		assertRewrite(
-				"_LET( n: COUNT( @( A1:A2 ) ); (_LET( m: (_FOLD_OR_REDUCE( r: 0.0; xi: (`r + `xi); @( A1:A2 ) ) / `n); _FOLD( r: 0.0; xi: _LET( ei: (`xi - `m); (`r + (`ei * `ei)) ); @( A1:A2 ) ) ) / `n) )",
-				"VARP( A1:A2 )" );
+				"_LET( n: COUNT( @( \"[args]\" ) ); (_LET( m: (_FOLD_OR_REDUCE( r: 0.0; xi: (`r + `xi); @( \"[args]\" ) ) / `n); _FOLD( r: 0.0; xi: _LET( ei: (`xi - `m); (`r + (`ei * `ei)) ); @( \"[args]\" ) ) ) / `n) )",
+				Function.VARP );
 	}
 
 
-	private void assertRewrite( String _rewritten, String _original ) throws Exception
+	private void assertRewrite( String _rewritten, Function _function ) throws Exception
 	{
-		SpreadsheetImpl ss = new SpreadsheetImpl();
-		SheetImpl s = new SheetImpl( ss );
-		RowImpl r = new RowImpl( s );
-		CellWithLazilyParsedExpression c = new CellWithLazilyParsedExpression( r );
-		ExcelExpressionParserAccessor p = new ExcelExpressionParserAccessor( c );
-		ExpressionNode e = p.parseText( _original, CellRefFormat.A1 );
-		ExpressionRewriter rw = new ExpressionRewriter( InterpretedNumericType.typeFor( SEJ.DOUBLE ) );
+		ExpressionNode args = new ExpressionNodeForConstantValue( "[args]" );
+		ExpressionNode e = new ExpressionNodeForFunction( _function, args );
+		ExpressionRewriter rw = new ExpressionRewriter( InterpretedNumericType.typeFor( SEJCompiler.DOUBLE ) );
 		ExpressionNode re = rw.rewrite( e );
 
 		assertEquals( _rewritten, re.toString() );

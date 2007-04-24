@@ -44,6 +44,14 @@ public class ByteCodeEngineDecompilerImpl implements ByteCodeEngineDecompiler
 		this.engine = (ByteCodeEngine) _config.engine;
 	}
 
+	public static final class Factory implements ByteCodeEngineDecompiler.Factory
+	{
+		public ByteCodeEngineDecompiler newInstance( Config _config )
+		{
+			return new ByteCodeEngineDecompilerImpl( _config );
+		}
+	}
+
 
 	public ByteCodeEngineSource decompile() throws IOException
 	{

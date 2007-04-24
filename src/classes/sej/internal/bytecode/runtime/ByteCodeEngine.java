@@ -38,13 +38,25 @@ public class ByteCodeEngine extends ClassLoader implements Engine
 	private final ComputationFactory factory;
 
 
-	public ByteCodeEngine(ClassLoader _parentClassLoader, Map<String, byte[]> _classNamesAndBytes) throws EngineException
+	public ByteCodeEngine(ClassLoader _parentClassLoader, Map<String, byte[]> _classNamesAndBytes)
+			throws EngineException
 	{
 		super( _parentClassLoader );
 		assert _classNamesAndBytes != null;
 		this.classNamesAndBytes.putAll( _classNamesAndBytes );
 		try {
-			this.factoryClass = loadClass( GEN_PACKAGE_NAME + GEN_FACTORY_NAME );
+
+			/*
+			 * Force all classes to be loaded from this context, overriding similarly named classes in
+			 * the parent class loader.
+			 */
+			for (String className : _classNamesAndBytes.keySet()) {
+				findClass( className );
+			}
+
+			final String factoryClassName = GEN_PACKAGE_NAME + GEN_FACTORY_NAME;
+			this.factoryClass = loadClass( factoryClassName );
+			assert this.factoryClass.getClassLoader() == this : "Class loader mismatch";
 			this.factory = (ComputationFactory) this.factoryClass.newInstance();
 		}
 		catch (ClassNotFoundException e) {
@@ -63,8 +75,8 @@ public class ByteCodeEngine extends ClassLoader implements Engine
 	{
 		return this.factory;
 	}
-	
-	
+
+
 	public Map<String, byte[]> getClassNamesAndBytes()
 	{
 		return Collections.unmodifiableMap( this.classNamesAndBytes );

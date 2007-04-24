@@ -22,7 +22,7 @@ package sej.internal.model.optimizer;
 
 import sej.Function;
 import sej.NumericType;
-import sej.SEJ;
+import sej.SEJCompiler;
 import sej.internal.expressions.ArrayDescriptor;
 import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
@@ -46,7 +46,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 	@SuppressWarnings("unqualified-field-access")
 	public void testConstantCells() throws Exception
 	{
-		optimize( SEJ.DOUBLE );
+		optimize( SEJCompiler.DOUBLE );
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -62,7 +62,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 	@SuppressWarnings("unqualified-field-access")
 	public void testConstantCellsBigDecimal() throws Exception
 	{
-		optimize( SEJ.BIGDECIMAL8 );
+		optimize( SEJCompiler.BIGDECIMAL8 );
 
 		// assertBigConst( "1", constCell ); -- still double because model was constructed that way
 		// assertBigConst( "3", constExpr );
@@ -80,7 +80,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 	{
 		makeConstCellInput();
 
-		optimize( SEJ.DOUBLE );
+		optimize( SEJCompiler.DOUBLE );
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -101,7 +101,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		CellModel sumOverInputsAndConsts = new CellModel( root, "SumOverInputsAndConsts" );
 		sumOverInputsAndConsts.setExpression( sum( ref( constCell ), ref( constExpr ), ref( constSum ) ) );
 
-		optimize( SEJ.DOUBLE );
+		optimize( SEJCompiler.DOUBLE );
 
 		assertExpr( "_FOLD( r: 5.0; xi: (`r + `xi); Inputs.getOne() )", sumOverInputsAndConsts );
 	}
@@ -115,7 +115,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		CellModel sumOverBand = new CellModel( root, "SumOverBand" );
 		sumOverBand.setExpression( sum( inner( band, ref( bandExpr ) ) ) );
 
-		optimize( SEJ.DOUBLE );
+		optimize( SEJCompiler.DOUBLE );
 
 		assertExpr( "_FOLD_OR_REDUCE( r: 0.0; xi: (`r + `xi); Band~>10.0 )", sumOverBand );
 	}
@@ -138,7 +138,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 				new ArrayDescriptor( 1, 1, 3 ), new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
 				new ExpressionNodeForCellModel( c ) ), new ExpressionNodeForCellModel( i ), null ) );
 
-		optimize( SEJ.DOUBLE );
+		optimize( SEJCompiler.DOUBLE );
 
 		assertConst( 2.0, index );
 	}
@@ -160,7 +160,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 				new ArrayDescriptor( 1, 1, 3 ), new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
 				new ExpressionNodeForCellModel( c ) ), new ExpressionNodeForCellModel( i ), null ) );
 
-		optimize( SEJ.DOUBLE );
+		optimize( SEJCompiler.DOUBLE );
 
 		assertExpr( "Inputs.getOne()", index );
 	}
@@ -182,7 +182,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 				new ArrayDescriptor( 1, 1, 3 ), new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
 				new ExpressionNodeForCellModel( c ) ), new ExpressionNodeForCellModel( i ), null ) );
 
-		optimize( SEJ.DOUBLE );
+		optimize( SEJCompiler.DOUBLE );
 
 		assertExpr( "INDEX( #(1,1,3){2.0, 3.0, 4.0}, Inputs.getOne() )", index );
 	}

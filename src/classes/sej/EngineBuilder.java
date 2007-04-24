@@ -297,4 +297,16 @@ public interface EngineBuilder
 	 */
 	public SaveableEngine compile() throws CompilerException, EngineException;
 
+	
+	/**
+	 * Factory interface for {@link sej.runtime.ImplementationLocator#getInstance(Class)}.
+	 */
+	public interface Factory
+	{
+		/**
+		 * Factory method.
+		 */
+		EngineBuilder newInstance();
+	}
+
 }

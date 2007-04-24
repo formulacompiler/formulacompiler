@@ -24,7 +24,7 @@ import sej.CallFrame;
 import sej.Function;
 import sej.NumericType;
 import sej.Operator;
-import sej.SEJ;
+import sej.SEJCompiler;
 import sej.SaveableEngine;
 import sej.internal.expressions.ArrayDescriptor;
 import sej.internal.expressions.DataType;
@@ -52,12 +52,12 @@ import sej.internal.model.rewriting.ModelRewriter;
 import sej.internal.model.rewriting.SubstitutionInliner;
 import sej.internal.model.util.InterpretedNumericType;
 import sej.runtime.ComputationFactory;
-import sej.tests.utils.AbstractTestBase;
+import sej.tests.utils.AbstractIOTestBase;
 import sej.tests.utils.Inputs;
 import sej.tests.utils.Outputs;
 import sej.tests.utils.OutputsWithoutCaching;
 
-public class LittleLanguageTest extends AbstractTestBase
+public class LittleLanguageTest extends AbstractIOTestBase
 {
 	private static final int N_DET = 3;
 	private final Inputs inputs = new Inputs();
@@ -263,8 +263,8 @@ public class LittleLanguageTest extends AbstractTestBase
 		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
 		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
 
-		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( SEJ.DOUBLE ) ) );
-		engineModel.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
+		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( SEJCompiler.DOUBLE ) ) );
+		engineModel.traverse( new ConstantSubExpressionEliminator( SEJCompiler.DOUBLE ) );
 		engineModel.traverse( new SubstitutionInliner() );
 
 		final Inputs i = this.inputs;
@@ -300,8 +300,8 @@ public class LittleLanguageTest extends AbstractTestBase
 		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
 		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
 
-		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( SEJ.DOUBLE ) ) );
-		engineModel.traverse( new ConstantSubExpressionEliminator( SEJ.DOUBLE ) );
+		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( SEJCompiler.DOUBLE ) ) );
+		engineModel.traverse( new ConstantSubExpressionEliminator( SEJCompiler.DOUBLE ) );
 		engineModel.traverse( new SubstitutionInliner() );
 
 		final Inputs i = this.inputs;
@@ -441,7 +441,7 @@ public class LittleLanguageTest extends AbstractTestBase
 		for (int j = 0; j < N_OTHER; j++) {
 			i.getOtherDetails().add( new Inputs() );
 		}
-		final Outputs outputs = (Outputs) newOutputs( engineModel, SEJ.DOUBLE );
+		final Outputs outputs = (Outputs) newOutputs( engineModel, SEJCompiler.DOUBLE );
 
 		outputs.reset();
 		assertEquals( i.getDoubleA() * N_DET + i.getDoubleB() * N_DET + i.getDoubleC() * N_OTHER, outputs.getResult(),
@@ -502,7 +502,7 @@ public class LittleLanguageTest extends AbstractTestBase
 		for (int j = 0; j < N_OTHER; j++) {
 			i.getOtherDetails().add( new Inputs() );
 		}
-		final Outputs outputs = (Outputs) newOutputs( engineModel, SEJ.DOUBLE );
+		final Outputs outputs = (Outputs) newOutputs( engineModel, SEJCompiler.DOUBLE );
 
 		outputs.reset();
 		assertEquals( i.getDoubleA()
@@ -719,7 +719,7 @@ public class LittleLanguageTest extends AbstractTestBase
 	private void assertDoubleResult( final double _expectedResult, final ComputationModel _engineModel )
 			throws Exception
 	{
-		final OutputsWithoutCaching outputs = newOutputs( _engineModel, SEJ.DOUBLE );
+		final OutputsWithoutCaching outputs = newOutputs( _engineModel, SEJCompiler.DOUBLE );
 		final double d = outputs.getResult();
 		assertEquals( _expectedResult, d, 0.000001 );
 	}

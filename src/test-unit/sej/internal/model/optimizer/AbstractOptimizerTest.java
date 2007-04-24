@@ -24,7 +24,7 @@ import java.math.BigDecimal;
 
 import sej.Function;
 import sej.Operator;
-import sej.SEJ;
+import sej.SEJCompiler;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
@@ -35,11 +35,11 @@ import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.SectionModel;
-import sej.tests.utils.AbstractTestBase;
+import sej.tests.utils.AbstractIOTestBase;
 import sej.tests.utils.Inputs;
 import sej.tests.utils.Outputs;
 
-public abstract class AbstractOptimizerTest extends AbstractTestBase
+public abstract class AbstractOptimizerTest extends AbstractIOTestBase
 {
 	protected ComputationModel model;
 	protected SectionModel root;
@@ -100,7 +100,7 @@ public abstract class AbstractOptimizerTest extends AbstractTestBase
 	{
 		BigDecimal value = (BigDecimal) _constCell.getConstantValue();
 		assertNotNull( _expected, value );
-		String actual = SEJ.BIGDECIMAL8.valueToConciseString( value );
+		String actual = SEJCompiler.BIGDECIMAL8.valueToConciseString( value );
 		assertEquals( _expected, actual );
 	}
 

@@ -24,7 +24,6 @@ import java.lang.reflect.Method;
 
 import sej.CompilerException;
 import sej.NumericType;
-import sej.SEJ;
 import sej.SaveableEngine;
 import sej.internal.Util;
 import sej.internal.model.ComputationModel;
@@ -35,9 +34,9 @@ public interface EngineCompiler
 
 	public static class Config
 	{
-		public ClassLoader parentClassLoader = ClassLoader.getSystemClassLoader();
+		public ClassLoader parentClassLoader = getClass().getClassLoader();
 		public ComputationModel model;
-		public NumericType numericType = SEJ.DEFAULT_NUMERIC_TYPE;
+		public NumericType numericType;
 		public Class factoryClass;
 		public Method factoryMethod;
 
@@ -55,5 +54,11 @@ public interface EngineCompiler
 
 
 	public abstract SaveableEngine compile() throws CompilerException, EngineException;
+
+
+	public static interface Factory
+	{
+		public EngineCompiler newInstance( Config _config );
+	}
 
 }

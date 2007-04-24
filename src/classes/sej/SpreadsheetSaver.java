@@ -90,4 +90,16 @@ public interface SpreadsheetSaver
 	 */
 	public void save() throws IOException, SpreadsheetException;
 
+
+	/**
+	 * Factory interface for {@link sej.runtime.ImplementationLocator#getInstance(Class)}.
+	 */
+	public static interface Factory
+	{
+		/**
+		 * Factory method.
+		 */
+		SpreadsheetSaver newInstance( Config _config );
+	}
+
 }

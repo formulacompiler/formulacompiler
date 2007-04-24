@@ -44,7 +44,7 @@ import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
 import sej.runtime.ComputationFactory;
 import sej.runtime.Engine;
-import sej.tests.utils.AbstractTestBase;
+import sej.tests.utils.AbstractIOTestBase;
 import sej.tests.utils.InputInterface;
 import sej.tests.utils.Inputs;
 import sej.tests.utils.OutputInterface;
@@ -52,7 +52,7 @@ import sej.tests.utils.Outputs;
 import sej.tests.utils.WorksheetBuilderWithBands;
 
 
-public class ByteCodeCompilerOnWorkbookTest extends AbstractTestBase
+public class ByteCodeCompilerOnWorkbookTest extends AbstractIOTestBase
 {
 	protected SpreadsheetImpl workbook;
 	protected SheetImpl sheet;

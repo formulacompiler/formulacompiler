@@ -54,7 +54,7 @@ public interface SpreadsheetCompiler
 		/**
 		 * The numeric type to use for all internal computations.
 		 */
-		public NumericType numericType = SEJ.DEFAULT_NUMERIC_TYPE;
+		public NumericType numericType = SEJCompiler.DEFAULT_NUMERIC_TYPE;
 
 		/**
 		 * Specifies either a class from which to descend the generated computation factory, or an
@@ -88,8 +88,8 @@ public interface SpreadsheetCompiler
 			if (this.binding == null) throw new IllegalArgumentException( "binding is null" );
 			if (this.numericType == null) throw new IllegalArgumentException( "numericType is null" );
 
-			SEJ.validateFactory( this.factoryClass, this.factoryMethod, this.binding.getInputClass(), this.binding
-					.getOutputClass() );
+			Validation.SINGLETON.validateFactory( this.factoryClass, this.factoryMethod, this.binding.getInputClass(),
+					this.binding.getOutputClass() );
 		}
 	}
 
@@ -105,5 +105,16 @@ public interface SpreadsheetCompiler
 	 */
 	public SaveableEngine compile() throws CompilerException, EngineException;
 
+
+	/**
+	 * Factory interface for {@link sej.runtime.ImplementationLocator#getInstance(Class)}.
+	 */
+	public static interface Factory
+	{
+		/**
+		 * Factory method.
+		 */
+		SpreadsheetCompiler newInstance( Config _config );
+	}
 
 }

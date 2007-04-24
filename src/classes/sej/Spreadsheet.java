@@ -21,14 +21,13 @@
 package sej;
 
 import sej.describable.Describable;
-import sej.internal.spreadsheet.loader.SpreadsheetLoader;
 
 /**
  * Represents a spreadsheet model in memory. It can be constructed from different spreadsheet file
  * formats, for example Excel .xls and .xml, and OpenOffice Calc (see
- * {@code SpreadsheetLoader.loadFromFile()}). It serves as input to the {@link SpreadsheetCompiler}
- * implementations and thus decouples engine compilation from the different spreadsheet file formats
- * supported by SEJ.
+ * {@link SEJ#loadSpreadsheet(java.io.File)}). It serves as input to the
+ * {@link SpreadsheetCompiler} implementations and thus decouples engine compilation from the
+ * different spreadsheet file formats supported by SEJ.
  * 
  * @see SpreadsheetLoader
  * @see SpreadsheetBuilder

@@ -55,6 +55,14 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 		newSheet();
 	}
 
+	public static final class Factory implements SpreadsheetBuilder.Factory
+	{
+		public SpreadsheetBuilder newInstance()
+		{
+			return new SpreadsheetBuilderImpl();
+		}
+	}
+
 
 	public Spreadsheet getSpreadsheet()
 	{
@@ -77,7 +85,7 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 		return this;
 	}
 
-	
+
 	public SpreadsheetBuilder newCell( Constant _const )
 	{
 		this.cell = new CellWithConstant( this.row, valueOf( _const ) );
@@ -89,7 +97,7 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 		this.cell = new CellWithLazilyParsedExpression( this.row, nodeOf( _expr ) );
 		return this;
 	}
-	
+
 	public SpreadsheetBuilder newCell()
 	{
 		this.cell = new CellWithConstant( this.row, null );
@@ -114,17 +122,17 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 	{
 		final CellIndex a = cellOf( _oneCorner ).getCellIndex();
 		final CellIndex b = cellOf( _otherCorner ).getCellIndex();
-		
+
 		int sheetMin = Math.min( a.sheetIndex, b.sheetIndex );
 		int sheetMax = Math.max( a.sheetIndex, b.sheetIndex );
 		int rowMin = Math.min( a.rowIndex, b.rowIndex );
 		int rowMax = Math.max( a.rowIndex, b.rowIndex );
 		int colMin = Math.min( a.columnIndex, b.columnIndex );
 		int colMax = Math.max( a.columnIndex, b.columnIndex );
-		
+
 		final CellIndex min = new CellIndex( this.spreadsheet, sheetMin, colMin, rowMin );
 		final CellIndex max = new CellIndex( this.spreadsheet, sheetMax, colMax, rowMax );
-		
+
 		return new RangeRefImpl( new CellRange( min, max ) );
 	}
 
@@ -178,12 +186,12 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 	{
 		return new ExprNodeImpl( new ExpressionNodeForCell( cellOf( _cell ) ) );
 	}
-	
+
 	public ExprNode ref( RangeRef _rng )
 	{
 		return new ExprNodeImpl( new ExpressionNodeForRange( rangeOf( _rng ) ) );
 	}
-	
+
 
 	public ExprNode op( Operator _op, ExprNode... _args )
 	{

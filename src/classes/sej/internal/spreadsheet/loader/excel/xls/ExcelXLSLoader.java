@@ -27,6 +27,7 @@ import java.util.Locale;
 
 import sej.Spreadsheet;
 import sej.SpreadsheetException;
+import sej.SpreadsheetLoader;
 import sej.internal.runtime.RuntimeDouble_v1;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
@@ -36,8 +37,7 @@ import sej.internal.spreadsheet.CellWithLazilyParsedExpression;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
-import sej.internal.spreadsheet.loader.AnyFormatSpreadsheetLoader;
-import sej.internal.spreadsheet.loader.SpreadsheetLoader;
+import sej.internal.spreadsheet.loader.SpreadsheetLoaderDispatcher;
 import sej.internal.spreadsheet.loader.excel.ExcelLazyExpressionParser;
 
 import jxl.CellType;
@@ -55,27 +55,24 @@ import jxl.WorkbookSettings;
 public final class ExcelXLSLoader implements SpreadsheetLoader
 {
 
-
-	public static void register()
+	public static final class Factory implements SpreadsheetLoaderDispatcher.Factory
 	{
-		AnyFormatSpreadsheetLoader.registerLoader( new AnyFormatSpreadsheetLoader.Factory()
+
+		public SpreadsheetLoader newInstance()
 		{
+			return new ExcelXLSLoader();
+		}
 
-			public SpreadsheetLoader newWorkbookLoader()
-			{
-				return new ExcelXLSLoader();
-			}
+		public boolean canHandle( String _fileName )
+		{
+			return _fileName.toLowerCase().endsWith( ".xls" );
+		}
 
-			public boolean canHandle( String _fileName )
-			{
-				return _fileName.toLowerCase().endsWith( ".xls" );
-			}
-
-		} );
 	}
 
 
-	public Spreadsheet loadFrom( InputStream _stream ) throws IOException, SpreadsheetException
+	public Spreadsheet loadFrom( String _originalFileName, InputStream _stream ) throws IOException,
+			SpreadsheetException
 	{
 		final WorkbookSettings xlsSettings = new WorkbookSettings();
 		xlsSettings.setLocale( Locale.ENGLISH );

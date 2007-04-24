@@ -30,7 +30,8 @@ import org.objectweb.asm.Type;
 import sej.CompilerException;
 import sej.SaveableEngine;
 import sej.internal.bytecode.runtime.ByteCodeEngine;
-import sej.internal.engine.compiler.AbstractEngineCompiler;
+import sej.internal.engine.compiler.AbstractModelToEngineCompiler;
+import sej.internal.engine.compiler.ModelToEngineCompiler;
 import sej.internal.expressions.DataType;
 import sej.internal.model.AbstractComputationModelVisitor;
 import sej.internal.model.CellModel;
@@ -42,7 +43,7 @@ import sej.runtime.New;
 import sej.runtime.Resettable;
 
 
-public class ByteCodeEngineCompiler extends AbstractEngineCompiler
+public class ByteCodeEngineCompiler extends AbstractModelToEngineCompiler
 {
 	static final String GEN_PACKAGE_PATH = ByteCodeEngine.GEN_PACKAGE_NAME.replace( '.', '/' );
 	static final String GEN_FACTORY_PATH = GEN_PACKAGE_PATH + ByteCodeEngine.GEN_FACTORY_NAME;
@@ -76,6 +77,14 @@ public class ByteCodeEngineCompiler extends AbstractEngineCompiler
 	{
 		super( _config );
 		this.canCache = Resettable.class.isAssignableFrom( getModel().getRoot().getOutputClass() );
+	}
+
+	public static final class Factory implements ModelToEngineCompiler.Factory
+	{
+		public ModelToEngineCompiler newInstance( Config _config )
+		{
+			return new ByteCodeEngineCompiler( _config );
+		}
 	}
 
 

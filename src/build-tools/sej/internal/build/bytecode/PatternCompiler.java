@@ -25,7 +25,7 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import sej.internal.model.templates.ReturnsAdjustedValue;
+import sej.internal.templates.ReturnsAdjustedValue;
 
 
 public final class PatternCompiler

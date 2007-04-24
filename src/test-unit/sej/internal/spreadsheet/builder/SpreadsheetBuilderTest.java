@@ -20,14 +20,12 @@
  */
 package sej.internal.spreadsheet.builder;
 
-import sej.EngineBuilder;
 import sej.Function;
 import sej.SEJ;
 import sej.Spreadsheet;
 import sej.SpreadsheetBuilder;
 import sej.Spreadsheet.Row;
 import sej.Spreadsheet.Sheet;
-import sej.runtime.Engine;
 import junit.framework.TestCase;
 
 public class SpreadsheetBuilderTest extends TestCase
@@ -70,20 +68,25 @@ public class SpreadsheetBuilderTest extends TestCase
 		Row[] rows = sheet.getRows();
 
 		assertEquals( 4, rows.length );
-		assertNotNull( s.getCell( "RebateOp" ) );
-		assertNotNull( s.getCell( "RebateAgg" ) );
-		assertNotNull( s.getRange( "Rebates" ) );
 
-		EngineBuilder c = SEJ.newEngineBuilder();
-		c.setSpreadsheet( s );
-		c.setInputClass( Input.class );
-		c.setOutputClass( Output.class );
-		c.bindAllByName();
-		Engine e = c.compile();
+		assertEquals( "CustomerRebate", rows[ 0 ].getCells()[ 0 ].getConstantValue() );
+		assertEquals( 0.1, (Double) rows[ 0 ].getCells()[ 1 ].getConstantValue(), 0.0001 );
+		assertEquals( "ArticleRebate", rows[ 1 ].getCells()[ 0 ].getConstantValue() );
+		assertEquals( 0.05, (Double) rows[ 1 ].getCells()[ 1 ].getConstantValue(), 0.0001 );
 
-		Output o = (Output) e.getComputationFactory().newComputation( new Input() );
-		assertEquals( 0.1, o.getRebateOp(), 0.00001 );
-		assertEquals( 0.1, o.getRebateAgg(), 0.00001 );
+		assertEquals( "Rebates", rows[ 3 ].getCells()[ 0 ].getConstantValue() );
+		assertEquals( "MAX( B1, B2 )", rows[ 3 ].getCells()[ 1 ].getExpressionText() );
+		assertEquals( "MAX( B1:B2 )", rows[ 3 ].getCells()[ 2 ].getExpressionText() );
+
+		assertEquals( "MAX( B1, B2 )", s.getCell( "RebateOp" ).getExpressionText() );
+		assertEquals( "MAX( B1:B2 )", s.getCell( "RebateAgg" ).getExpressionText() );
+
+		assertTrue( s.getRange( "Rebates" ).contains( rows[ 0 ].getCells()[ 1 ] ) );
+		assertTrue( s.getRange( "Rebates" ).contains( rows[ 1 ].getCells()[ 1 ] ) );
+		assertFalse( s.getRange( "Rebates" ).contains( rows[ 0 ].getCells()[ 0 ] ) );
+		assertFalse( s.getRange( "Rebates" ).contains( rows[ 1 ].getCells()[ 0 ] ) );
+		assertFalse( s.getRange( "Rebates" ).contains( rows[ 3 ].getCells()[ 1 ] ) );
+
 	}
 
 

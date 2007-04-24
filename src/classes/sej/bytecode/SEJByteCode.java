@@ -22,8 +22,8 @@ package sej.bytecode;
 
 import java.io.IOException;
 
-import sej.internal.bytecode.decompiler.ByteCodeEngineDecompilerImpl;
 import sej.runtime.Engine;
+import sej.runtime.ImplementationLocator;
 import sej.runtime.SEJRuntime;
 
 /**
@@ -41,7 +41,10 @@ public final class SEJByteCode extends SEJRuntime
 	{
 		final ByteCodeEngineDecompiler.Config cfg = new ByteCodeEngineDecompiler.Config();
 		cfg.engine = _engine;
-		return new ByteCodeEngineDecompilerImpl( cfg ).decompile();
+		return DECOMPILER_FACTORY.newInstance( cfg ).decompile();
 	}
+
+	private static final ByteCodeEngineDecompiler.Factory DECOMPILER_FACTORY = ImplementationLocator
+			.getInstance( ByteCodeEngineDecompiler.Factory.class );
 
 }

@@ -39,7 +39,7 @@ import sej.SpreadsheetBuilder.CellRef;
 import sej.runtime.Computation;
 import sej.runtime.New;
 import sej.runtime.Resettable;
-import sej.tests.utils.AbstractTestBase;
+import sej.tests.utils.AbstractIOTestBase;
 
 
 /**
@@ -47,7 +47,7 @@ import sej.tests.utils.AbstractTestBase;
  * 
  * @author peo
  */
-public class SectionSumTest extends AbstractTestBase
+public class SectionSumTest extends AbstractIOTestBase
 {
 
 	public void testSums() throws Exception

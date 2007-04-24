@@ -21,128 +21,19 @@
 package sej.tests.utils;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
-import sej.CallFrame;
-import sej.SEJ;
-import sej.SaveableEngine;
-import sej.Spreadsheet;
-import sej.internal.Settings;
-import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 public abstract class AbstractTestBase extends TestCase
 {
-
-
-	protected CallFrame getInput( String _name ) throws SecurityException, NoSuchMethodException
-	{
-		return new CallFrame( Inputs.class.getMethod( _name ) );
-	}
-
-
-	protected CallFrame getOutput( String _name ) throws SecurityException, NoSuchMethodException
-	{
-		return new CallFrame( Outputs.class.getMethod( _name ) );
-	}
-
-
-	protected void checkSpreadsheetStream( Spreadsheet _expected, InputStream _stream, String _typeExtensionOrFileName )
-			throws Exception
-	{
-		Spreadsheet actual = SEJ.loadSpreadsheet( _typeExtensionOrFileName, _stream );
-		touchExpressions( actual );
-		assertEquals( _expected.describe(), actual.describe() );
-	}
-
-
-	protected void touchExpressions( Spreadsheet _ss ) throws Exception
-	{
-		for (Spreadsheet.Sheet s : _ss.getSheets()) {
-			for (Spreadsheet.Row r : s.getRows()) {
-				for (Spreadsheet.Cell c : r.getCells()) {
-					c.getExpressionText();
-				}
-			}
-		}
-	}
-
-
-	private static final File JAR_PATH = new File( "src/testdata/enginejars/jre-" + jdkVersion() );
-
-	private static final String jdkVersion()
-	{
-		final String ver = System.getProperty( "java.version" );
-		return ver.substring( 0, 3 );
-	}
-
-	private int nextCheckId = 1;
-
-	protected void checkEngine( SaveableEngine _engine ) throws Exception
-	{
-		checkEngine( _engine, "default_" + Integer.toString( this.nextCheckId++ ) );
-	}
-
-	protected void checkEngine( SaveableEngine _engine, String _id ) throws Exception
-	{
-		final File jars = new File( JAR_PATH, getClass().getSimpleName() + '/' + getName() );
-		jars.mkdirs();
-
-		// Make sure dates in .zip files are 0ed out so .zips are comparable:
-		Settings.setDebugCompilationEnabled( true );
-
-		final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		_engine.saveTo( outputStream );
-		final byte[] actualBytes = outputStream.toByteArray();
-		final InputStream actual = new ByteArrayInputStream( actualBytes );
-		final File expectedFile = new File( jars, _id + ".jar" );
-		if (expectedFile.exists()) {
-			final InputStream expected = new BufferedInputStream( new FileInputStream( expectedFile ) );
-			try {
-				try {
-					assertEqualStreams( "Comparing engines for " + _id + "; actual engine written to ...-actual.jar",
-							expected, actual );
-				}
-				catch (AssertionFailedError t) {
-					writeStreamToFile( new ByteArrayInputStream( actualBytes ), new File( jars, _id + "-actual.jar" ) );
-					throw t;
-				}
-			}
-			finally {
-				expected.close();
-			}
-		}
-		else {
-			writeStreamToFile( actual, expectedFile );
-		}
-	}
-
-
-	private void writeStreamToFile( InputStream _actual, File _file ) throws FileNotFoundException, IOException
-	{
-		final OutputStream expected = new BufferedOutputStream( new FileOutputStream( _file ) );
-		try {
-			int red;
-			while ((red = _actual.read()) >= 0)
-				expected.write( red );
-		}
-		finally {
-			expected.close();
-		}
-	}
 
 
 	protected void assertEqualStreams( String _message, InputStream _expected, InputStream _actual ) throws Exception

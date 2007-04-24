@@ -64,4 +64,15 @@ public interface SpreadsheetNameCreator
 	public void createCellNamesFromRowTitles();
 
 
+	/**
+	 * Factory interface for {@link sej.runtime.ImplementationLocator#getInstance(Class)}.
+	 */
+	public static interface Factory
+	{
+		/**
+		 * Factory method.
+		 */
+		SpreadsheetNameCreator newInstance( Config _config );
+	}
+
 }

@@ -40,9 +40,9 @@ import sej.SpreadsheetSaver;
 import sej.bytecode.SEJByteCode;
 import sej.runtime.Engine;
 import sej.runtime.SEJException;
-import sej.tests.utils.AbstractTestBase;
+import sej.tests.utils.AbstractSpreadsheetTestBase;
 
-public class Basics extends AbstractTestBase
+public class Basics extends AbstractSpreadsheetTestBase
 {
 
 

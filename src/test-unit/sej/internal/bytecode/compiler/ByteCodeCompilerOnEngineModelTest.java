@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 import sej.CallFrame;
 import sej.NumericType;
 import sej.Operator;
-import sej.SEJ;
+import sej.SEJCompiler;
 import sej.SaveableEngine;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.CellModel;
@@ -35,12 +35,12 @@ import sej.internal.model.SectionModel;
 import sej.internal.model.analysis.TypeAnnotator;
 import sej.internal.model.optimizer.IntermediateResultsInliner;
 import sej.runtime.ComputationFactory;
-import sej.tests.utils.AbstractTestBase;
+import sej.tests.utils.AbstractIOTestBase;
 import sej.tests.utils.Inputs;
 import sej.tests.utils.Outputs;
 
 
-public class ByteCodeCompilerOnEngineModelTest extends AbstractTestBase
+public class ByteCodeCompilerOnEngineModelTest extends AbstractIOTestBase
 {
 
 
@@ -112,7 +112,7 @@ public class ByteCodeCompilerOnEngineModelTest extends AbstractTestBase
 	private void assertDoubleResult( final double _expectedResult, final ComputationModel _engineModel, final String _id )
 			throws Exception
 	{
-		final Outputs outputs = newOutputs( _engineModel, SEJ.DOUBLE, _id + "_double" );
+		final Outputs outputs = newOutputs( _engineModel, SEJCompiler.DOUBLE, _id + "_double" );
 		final double d = outputs.getResult();
 		assertEquals( _expectedResult, d, 0.000001 );
 	}
@@ -155,7 +155,7 @@ public class ByteCodeCompilerOnEngineModelTest extends AbstractTestBase
 	private void assertBigDecimalResult( final double _expectedResult, final ComputationModel _engineModel,
 			final String _id ) throws Exception
 	{
-		final Outputs outputs = newOutputs( _engineModel, SEJ.BIGDECIMAL8, _id + "_big" );
+		final Outputs outputs = newOutputs( _engineModel, SEJCompiler.BIGDECIMAL8, _id + "_big" );
 		final BigDecimal v = outputs.getBigDecimalA();
 		final double d = v.doubleValue();
 		assertEquals( _expectedResult, d, 0.000001 );
@@ -199,9 +199,9 @@ public class ByteCodeCompilerOnEngineModelTest extends AbstractTestBase
 	private void assertScaledLongResult( final double _expectedResult, final ComputationModel _engineModel,
 			final String _id ) throws Exception
 	{
-		final Outputs outputs = newOutputs( _engineModel, SEJ.SCALEDLONG4, _id + "_long4" );
+		final Outputs outputs = newOutputs( _engineModel, SEJCompiler.SCALEDLONG4, _id + "_long4" );
 		final long actual = outputs.getScaledLongA();
-		final long expected = SEJ.SCALEDLONG4.valueOf( _expectedResult ).longValue();
+		final long expected = SEJCompiler.SCALEDLONG4.valueOf( _expectedResult ).longValue();
 		final long diff = actual - expected;
 		if (diff > 1 || diff < -1) {
 			// accept difference in the last decimal due to rounding problems with division

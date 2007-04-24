@@ -25,11 +25,11 @@ import java.io.IOException;
 
 import sej.describable.DescriptionBuilder;
 import sej.internal.build.bytecode.ConstantEvaluatorGenerator.AbstractMethodEvaluatorGenerator;
-import sej.internal.model.templates.ExpressionTemplatesForBigDecimals;
-import sej.internal.model.templates.ExpressionTemplatesForDoubles;
-import sej.internal.model.templates.ExpressionTemplatesForNumbers;
-import sej.internal.model.templates.ExpressionTemplatesForScaledLongs;
-import sej.internal.model.templates.ExpressionTemplatesForStrings;
+import sej.internal.templates.ExpressionTemplatesForBigDecimals;
+import sej.internal.templates.ExpressionTemplatesForDoubles;
+import sej.internal.templates.ExpressionTemplatesForNumbers;
+import sej.internal.templates.ExpressionTemplatesForScaledLongs;
+import sej.internal.templates.ExpressionTemplatesForStrings;
 
 class PatternCompilerToConstantEvaluators
 {
@@ -71,7 +71,7 @@ class PatternCompilerToConstantEvaluators
 			cb.append( "public " ).append( _generator.typeName ).appendLine( "(NumericType _type) {" );
 			cb.indent();
 			cb.appendLine( "super( _type );" );
-			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine( "( _type );" );
+			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine( "( _type.getScale(), _type.getRoundingMode() );" );
 			cb.outdent();
 			cb.appendLine( "}" );
 		}

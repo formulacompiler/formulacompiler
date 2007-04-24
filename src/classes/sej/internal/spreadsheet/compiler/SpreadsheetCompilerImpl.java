@@ -27,14 +27,12 @@ import sej.NumericType;
 import sej.SaveableEngine;
 import sej.SpreadsheetBinding;
 import sej.SpreadsheetCompiler;
-import sej.internal.bytecode.compiler.ByteCodeEngineCompiler;
 import sej.internal.engine.compiler.EngineCompiler;
+import sej.internal.engine.compiler.TransformingEngineCompilerImpl;
 import sej.internal.model.ComputationModel;
-import sej.internal.model.compiler.ComputationModelCompiler;
 import sej.runtime.EngineException;
 
-
-public class SpreadsheetCompilerImpl implements SpreadsheetCompiler
+public final class SpreadsheetCompilerImpl implements SpreadsheetCompiler
 {
 	private final SpreadsheetBinding binding;
 	private final NumericType numericType;
@@ -42,7 +40,7 @@ public class SpreadsheetCompilerImpl implements SpreadsheetCompiler
 	private final Method factoryMethod;
 	private final ClassLoader parentClassLoader;
 
-	
+
 	public SpreadsheetCompilerImpl(Config _config)
 	{
 		super();
@@ -56,19 +54,27 @@ public class SpreadsheetCompilerImpl implements SpreadsheetCompiler
 		this.parentClassLoader = _config.parentClassLoader;
 	}
 
+	public static final class Factory implements SpreadsheetCompiler.Factory
+	{
+		public SpreadsheetCompiler newInstance( Config _config )
+		{
+			return new SpreadsheetCompilerImpl( _config );
+		}
+	}
+
 
 	public SaveableEngine compile() throws CompilerException, EngineException
 	{
-		ComputationModelCompiler cc = new ComputationModelCompiler( this.binding, this.numericType );
+		final SpreadsheetToModelCompiler cc = new SpreadsheetToModelCompiler( this.binding, this.numericType );
 		ComputationModel cm = cc.compile();
 
-		EngineCompiler.Config ecc = new EngineCompiler.Config();
+		final EngineCompiler.Config ecc = new EngineCompiler.Config();
 		ecc.model = cm;
 		ecc.numericType = this.numericType;
 		ecc.factoryClass = this.factoryClass;
 		ecc.factoryMethod = this.factoryMethod;
 		ecc.parentClassLoader = this.parentClassLoader;
-		EngineCompiler ec = new ByteCodeEngineCompiler( ecc );
+		final EngineCompiler ec = new TransformingEngineCompilerImpl( ecc );
 
 		return ec.compile();
 	}

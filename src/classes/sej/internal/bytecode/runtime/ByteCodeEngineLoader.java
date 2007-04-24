@@ -23,6 +23,7 @@ package sej.internal.bytecode.runtime;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -30,23 +31,30 @@ import java.util.zip.ZipInputStream;
 import sej.runtime.Engine;
 import sej.runtime.EngineException;
 import sej.runtime.EngineLoader;
-import sej.runtime.New;
 
 public final class ByteCodeEngineLoader implements EngineLoader
 {
 	private final ClassLoader parentClassLoader;
 
-	
+
 	public ByteCodeEngineLoader(EngineLoader.Config _config)
 	{
 		super();
 		this.parentClassLoader = _config.parentClassLoader;
 	}
 
-	
+	public static final class Factory implements EngineLoader.Factory
+	{
+		public EngineLoader newInstance( Config _config )
+		{
+			return new ByteCodeEngineLoader( _config );
+		}
+	}
+
+
 	public Engine loadEngineData( InputStream _stream ) throws IOException, EngineException
 	{
-		final Map<String, byte[]> classNamesAndBytes = New.newMap();
+		final Map<String, byte[]> classNamesAndBytes = new HashMap<String, byte[]>();
 
 		final ZipInputStream jarStream = new ZipInputStream( _stream );
 		try {

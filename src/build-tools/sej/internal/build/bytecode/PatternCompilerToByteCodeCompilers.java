@@ -29,12 +29,12 @@ import org.objectweb.asm.Type;
 import sej.describable.DescriptionBuilder;
 import sej.internal.build.Util;
 import sej.internal.build.bytecode.ByteCodeCompilerGenerator.TemplateMethodGenerator;
-import sej.internal.model.templates.ExpressionTemplatesForAll;
-import sej.internal.model.templates.ExpressionTemplatesForBigDecimals;
-import sej.internal.model.templates.ExpressionTemplatesForDoubles;
-import sej.internal.model.templates.ExpressionTemplatesForNumbers;
-import sej.internal.model.templates.ExpressionTemplatesForScaledLongs;
-import sej.internal.model.templates.ExpressionTemplatesForStrings;
+import sej.internal.templates.ExpressionTemplatesForAll;
+import sej.internal.templates.ExpressionTemplatesForBigDecimals;
+import sej.internal.templates.ExpressionTemplatesForDoubles;
+import sej.internal.templates.ExpressionTemplatesForNumbers;
+import sej.internal.templates.ExpressionTemplatesForScaledLongs;
+import sej.internal.templates.ExpressionTemplatesForStrings;
 
 class PatternCompilerToByteCodeCompilers
 {
