@@ -36,6 +36,8 @@ import java.util.Map;
  * <p>
  * It currently does not use {@code java.util.ServiceLoader} internally because I do not yet want to
  * assume Java 6.
+ * 
+ * @author peo
  */
 public class ImplementationLocator
 {

@@ -90,7 +90,7 @@ public abstract class AbstractIOTestBase extends AbstractTestBase
 				}
 				catch (AssertionFailedError t) {
 					writeStreamToFile( new ByteArrayInputStream( actualBytes ), new File( jars, _id + "-actual.jar" ) );
-					// TODO Decompile engines
+					// LATER Automatically decompile engines
 					throw t;
 				}
 			}

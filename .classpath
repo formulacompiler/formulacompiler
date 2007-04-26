@@ -11,6 +11,7 @@
 	<classpathentry kind="src" path="src/scratchpad"/>
 	<classpathentry kind="src" path="temp/gen-src/classes-jre1.6"/>
 	<classpathentry kind="src" path="temp/gen-src/classes"/>
+	<classpathentry kind="src" path="temp/gen-src/build-tools"/>
 	<classpathentry kind="lib" path="lib/asm-2.2.1.jar" sourcepath="J:/asm-2.2.1/src.zip">
 		<attributes>
 			<attribute name="javadoc_location" value="file:/J:/asm-2.2.1/doc/javadoc/user"/>

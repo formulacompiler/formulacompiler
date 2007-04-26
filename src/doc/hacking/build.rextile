@@ -19,7 +19,7 @@ dt. dist : rebuilds the distribution packages from scratch. It first erases all 
 
 h2. Developer Targets
 
-dt. generate : rebuilds generated Java source files. This includes the expression scanners and parsers, the expression "rewriting rules":addrewrite.htm, and the "template-driven byte-code compilers":addprimitive.htm.
+dt. generate-parsers : rebuilds generated Java source files for the expression scanners and parsers, but _not_ the expression "rewriting rules":addrewrite.htm, and the "template-driven byte-code compilers":addprimitive.htm. The latter are generated as part of the @compile@ target.
 
 dt. compile : compiles the product source code (not tests and examples). Invokes @generate@ first.
 
