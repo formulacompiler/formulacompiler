@@ -30,6 +30,8 @@ import sej.SpreadsheetException;
  * Allows loading of spreadsheets from external sources (like Excel files).
  * 
  * @see SEJ#loadSpreadsheet(String, InputStream)
+ * 
+ * @author peo
  */
 public interface SpreadsheetLoader
 {

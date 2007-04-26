@@ -20,18 +20,15 @@
  */
 package sej.tutorials;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.lang.reflect.Method;
 
 import sej.CallFrame;
 import sej.EngineBuilder;
 import sej.SEJ;
-import sej.SaveableEngine;
 import sej.Spreadsheet;
 import sej.SpreadsheetBinder;
 import sej.runtime.ComputationFactory;
+import sej.runtime.Engine;
 import junit.framework.TestCase;
 
 
@@ -244,16 +241,7 @@ public class BindingByName extends TestCase
 		
 		bnd.defineOutputCell( ss.getCell( "result" ), new CallFrame( SimpleOutput.class.getMethod( "getResult" )) );
 
-		SaveableEngine engine = builder.compile();
-		
-		OutputStream out = new BufferedOutputStream( new FileOutputStream( "/temp/inp.jar"));
-		try {
-			engine.saveTo( out );
-		}
-		finally {
-			out.close();
-		}
-		
+		Engine engine = builder.compile();
 		ComputationFactory factory = engine.getComputationFactory();
 		InputVariants input = new InputVariants();
 		SimpleOutput output = (SimpleOutput) factory.newComputation( input );

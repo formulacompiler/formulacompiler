@@ -13,6 +13,7 @@ h2. Release 0.8.4
 h5. Better
 
 	* Moved from hardwired service implementor constructors (in, for example, the class @SEJ@) to dynamically configured implementors. This mimics Java 6's @java.util.ServiceLoader@, but also works on Java 5. For details, see the "discussion in the dev journal":dev/2007-01-22_modularization.htm and also the "reasons for not splitting the project up into modules":dev/2007-04-24_modules.htm.
+	* Updated build script so the bootstrap dummy implementations for code that gets generated later on is no longer necessary.
 	
 	
 h2. Release 0.8.3

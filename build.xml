@@ -7,15 +7,14 @@
 
 	<property name="Name" value="SEJ" />
 	<property name="name" value="sej" />
-	<property name="dist.version" value="0.8.3" />
-	<property name="tools.version" value="0.8.3" />
+	<property name="dist.version" value="0.8.4" />
+	<property name="tools.version" value="0.8.4" />
 
 	<property name="src.dir" location="${basedir}/src" />
 	<property name="lib.dir" location="${basedir}/lib" />
 	<property name="doc.dir" location="${basedir}/doc" />
 	<property name="src.classes.dir" location="${src.dir}/classes" />
 	<property name="src.resources.dir" location="${src.dir}/resources" />
-	<property name="src.classes-bootstrap.dir" location="${src.dir}/classes-bootstrap-dummies" />
 	<property name="src.classes-build-tools.dir" location="${src.dir}/build-tools" />
 	<property name="src.test-accessors.dir" location="${src.dir}/test-accessors" />
 	<property name="src.test-unit.dir" location="${src.dir}/test-unit" />
@@ -30,12 +29,13 @@
 
 	<property name="temp.dir" location="${basedir}/temp" />
 	<property name="temp.classes.dir" location="${temp.dir}/classes/main" />
-	<property name="temp.classes-bootstrap.dir" location="${temp.dir}/classes/bootstrap" />
+	<property name="temp.classes-build-tools.dir" location="${temp.dir}/classes/build-tools" />
 	<property name="temp.test-unit.dir" location="${temp.dir}/classes/test-unit" />
 	<property name="temp.test-system.dir" location="${temp.dir}/classes/test-system" />
 	<property name="temp.examples.dir" location="${temp.dir}/classes/examples" />
 	<property name="temp.classes-gen.dir" location="${temp.dir}/gen-src/classes" />
 	<property name="temp.classes-gen-jre.dir" location="${temp.dir}/gen-src/classes-jre${ant.java.version}" />
+	<property name="temp.build-tools-gen.dir" location="${temp.dir}/gen-src/build-tools" />
 	<property name="temp.testresults.dir" location="${temp.dir}/testresults" />
 	<property name="temp.reference.dir" location="${temp.dir}/reference" />
 	<property name="temp.doc.dir" location="${temp.dir}/doc" />
@@ -65,9 +65,9 @@
 	</path>
 	<property name="lib.classpath" refid="lib.classpath" />
 	<property name="tools.classpath" refid="lib.classpath" />
-	
+
 	<!-- global taskdefs -->
-	
+
 	<taskdef name="jflex" classname="JFlex.anttask.JFlexTask" classpath="${lib.dir}/build-only/incompatible/JFlex.jar" />
 	<taskdef name="cup" classname="java_cup.anttask.CUPTask" classpath="${lib.dir}/build-only/incompatible/java-cup-11a.jar" />
 
@@ -75,12 +75,13 @@
 
 	<target name="-prepare">
 		<echo>Running on ${java.version}.</echo>
-		
+
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${temp.dir}" />
 		<mkdir dir="${temp.classes.dir}" />
-		<mkdir dir="${temp.classes-bootstrap.dir}" />
+		<mkdir dir="${temp.classes-build-tools.dir}" />
 		<mkdir dir="${temp.classes-gen.dir}" />
+		<mkdir dir="${temp.build-tools-gen.dir}" />
 		<mkdir dir="${temp.classes-gen-jre.dir}" />
 
 		<path id="run.classpath">
@@ -111,11 +112,11 @@
 	<!-- generate scanners/parsers -->
 
 	<target name="-lexgen">
-		<loadfile property="lex.regexps" srcfile="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}_RegExps.lex">
+		<loadfile property="lex.regexps" srcfile="${src}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}_RegExps.lex">
 		</loadfile>
-		<loadfile property="lex.scan" srcfile="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}_Scan.lex">
+		<loadfile property="lex.scan" srcfile="${src}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}_Scan.lex">
 		</loadfile>
-		<copy file="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner.lex" tofile="${temp.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}.lex" overwrite="true">
+		<copy file="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner.lex" tofile="${tgt}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}.lex" overwrite="true">
 			<filterchain>
 				<replacetokens>
 					<token key="cellstyle" value="${style}" />
@@ -129,54 +130,73 @@
 	<target name="-lexinput" depends="-prepare">
 		<antcall target="-lexgen">
 			<param name="style" value="A1" />
+			<param name="src" value="${src.classes.dir}" />
+			<param name="tgt" value="${temp.classes-gen.dir}" /> 
 		</antcall>
 		<antcall target="-lexgen">
 			<param name="style" value="R1C1" />
+			<param name="src" value="${src.classes.dir}" />
+			<param name="tgt" value="${temp.classes-gen.dir}" /> 
 		</antcall>
 		<antcall target="-lexgen">
 			<param name="style" value="Internal" />
+			<param name="src" value="${src.classes-build-tools.dir}" />
+			<param name="tgt" value="${temp.build-tools-gen.dir}" /> 
 		</antcall>
 	</target>
 
 	<target name="-lex" depends="-prepare, -lexinput">
 		<jflex file="${temp.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerA1.lex" destdir="${temp.classes-gen.dir}" />
 		<jflex file="${temp.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerR1C1.lex" destdir="${temp.classes-gen.dir}" />
-		<jflex file="${temp.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerInternal.lex" destdir="${temp.classes-gen.dir}" />
+		<jflex file="${temp.build-tools-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerInternal.lex" destdir="${temp.build-tools-gen.dir}" />
 	</target>
 
 	<target name="-cup" depends="-prepare">
 		<cup srcfile="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionParser.cup" destdir="${temp.classes-gen.dir}" parser="GeneratedParser" symbols="GeneratedSymbols" nopositions="true" nosummary="true" nowarn="true" />
 	</target>
-	
+
 	<target name="generate-parsers" depends="-lex, -cup" description="Generates Java source for the expression parsers.">
 	</target>
 
 	<!-- compile -->
 
-	<target name="-compile-bootstrap" depends="-prepare, generate-parsers">
+	<target name="compile" depends="-prepare, generate-parsers" description="Compiles and also generates some of the Java source code for sej.jar.">
+		<javac srcdir="${src.classes.dir}:${temp.classes-gen.dir}" destdir="${temp.classes.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+			<include name="sej/*" />
+			<include name="sej/bytecode/*" />
+			<include name="sej/describable/*" />
+			<include name="sej/runtime/*" />
+			<include name="sej/internal/*" />
+			<include name="sej/internal/expressions/*" />
+			<include name="sej/internal/logging/*" />
+			<include name="sej/internal/model/*" />
+			<include name="sej/internal/model/analysis/*" />
+			<include name="sej/internal/runtime/*" />
+			<include name="sej/internal/spreadsheet/**" />
+			<include name="sej/internal/templates/*" />
+		</javac>
+		<javac srcdir="${src.classes-build-tools.dir}:${temp.build-tools-gen.dir}" destdir="${temp.classes-build-tools.dir}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+			<classpath>
+				<path refid="lib.classpath" />
+				<pathelement location="${temp.classes.dir}" />
+			</classpath>
+			<include name="sej/**" />
+		</javac>
+
 		<delete failonerror="no">
 			<fileset dir="${temp.classes-gen.dir}/sej/internal/model/util" includes="*.java" />
 			<fileset dir="${temp.classes-gen.dir}/sej/internal/model/rewriting" includes="*.java" />
 			<fileset dir="${temp.classes-gen-jre.dir}/sej/internal/bytecode/compiler" includes="*.java" />
 		</delete>
-		<javac srcdir="${src.classes.dir}:${temp.classes-gen.dir}:${src.classes-bootstrap.dir}:${src.classes-build-tools.dir}" destdir="${temp.classes-bootstrap.dir}" classpath="${tools.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
-			<include name="sej/**" />
-		</javac>
-	</target>
-
-	<target name="generate" depends="generate-parsers, -compile-bootstrap" description="Generates all non-hand written Java source code.">
-		<property name="tools-path" value="${tools.classpath}:${temp.classes-bootstrap.dir}" />
+		<property name="tools-path" value="${tools.classpath}:${temp.classes.dir}:${temp.classes-build-tools.dir}" />
 		<java classpath="${tools-path}" classname="sej.internal.build.rewriting.RewriteRulesCompiler" />
 		<java classpath="${tools-path}" classname="sej.internal.build.bytecode.PatternCompiler" fork="true" />
-	</target>
-
-	<target name="compile" depends="generate" description="Compiles the Java source code for sej.jar.">
+		
 		<javac srcdir="${src.classes.dir}:${temp.classes-gen-jre.dir}:${temp.classes-gen.dir}" destdir="${temp.classes.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
-			<include name="sej/**" />
-			<!-- Not needed at runtime so far: -->
-			<exclude name="sej/internal/spreadsheet/loader/excel/RewriteLanguageParser*" />
-			<exclude name="sej/internal/spreadsheet/loader/excel/Generated*Internal*" />
+			<include name="sej/internal/model/**" />
+			<include name="sej/internal/bytecode/**" />
 		</javac>
+		
 		<copy todir="${temp.classes.dir}">
 			<fileset dir="${src.resources.dir}">
 				<include name="**/*" />
@@ -323,7 +343,7 @@
 
 		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
 			<jvmarg value="-Demit_tests"/>
-			
+
 			<assertions enablesystemassertions="yes" />
 
 			<formatter type="plain" usefile="yes" />
@@ -403,7 +423,7 @@
 	<target name="style" depends="-prepare" description="Validates Java source code style against src/checkstyle-config.xml.">
 
 		<taskdef resource="checkstyletask.properties" classpath="${checkstyle-all.jar}" />
-		
+
 		<checkstyle config="${src.dir}\checkstyle-config-apionly.xml">
 			<fileset dir="${src.classes.dir}">
 				<include name="**/*.java" />
@@ -424,9 +444,6 @@
 				<exclude name="testdata/**/*.java" />
 			</fileset>
 			<fileset dir="${src.examples.dir}">
-				<include name="**/*.java" />
-			</fileset>
-			<fileset dir="${src.classes-bootstrap.dir}">
 				<include name="**/*.java" />
 			</fileset>
 			<fileset dir="${src.classes-build-tools.dir}">
@@ -454,7 +471,7 @@
 				<include name="**/*.rextile" />
 			</fileset>
 		</copy>
-		
+
 		<delete dir="${doc.dir}" />
 		<mkdir dir="${doc.dir}" />
 		<copy todir="${doc.dir}">
@@ -509,7 +526,7 @@
 			<fileset dir="${jcite.build.dir}"  includes="*.jar" />
 			<fileset dir="${jcite.lib.dir}" includes="*.jar" />
 		</path>
-		
+
 		<java classname="ch.arrenbrecht.jcite.JCite" classpathref="jcite.classpath" failonerror="yes">
 			<arg value="-sp" />
 			<arg path="${src.classes.dir}" />

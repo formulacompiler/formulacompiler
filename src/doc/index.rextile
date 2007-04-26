@@ -4,6 +4,8 @@ h1. SEJ - Spreadsheet Engine for Java
 
 <div class="news">
 
+RELEASE 0.8.4 MISSING HERE
+
 "Release 0.8.3":releasenotes.htm supports "byte-code decompilation":tutorial/decompile.htm.
 <br/>%(when)January 22, 2007%
 
@@ -38,8 +40,8 @@ SEJ is *not open source*. It is the property of Abacus Research AG, Switzerland.
 
 h2. Download
 
-<% sej_ver = '0.8.3' %>
-<% tools_ver = '0.8.3' %>
+<% sej_ver = '0.8.4' %>
+<% tools_ver = '0.8.4' %>
 
 dt. "sej-<%=sej_ver%>-bin.zip":http://arrenbrecht.ch/sej/dist/sej-<%=sej_ver%>-bin.zip : Binary release, including documentation and all required third-party libraries.
 

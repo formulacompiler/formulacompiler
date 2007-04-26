@@ -26,7 +26,6 @@ import java.util.Map;
 
 import org.objectweb.asm.Type;
 
-import sej.ValidationImpl;
 import sej.internal.runtime.Runtime_v1;
 import sej.runtime.New;
 
