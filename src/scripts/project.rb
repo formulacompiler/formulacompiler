@@ -49,9 +49,10 @@ class Group < Element
 		sub_prefix = name + '.'
 		@comps = (yaml['comps'] || []).map { |y| Comp.new( project, self, y, sub_prefix ) }
 		@groups = (yaml['groups'] || []).map {|y| Group.new( project, self, y, sub_prefix ) }
+		@jar = yaml['jar']
 	end
 	
-	attr_reader :groups, :comps
+	attr_reader :groups, :comps, :jar
 		
 end	
 
