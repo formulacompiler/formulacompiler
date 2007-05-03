@@ -22,9 +22,9 @@ package sej.internal.model.optimizer;
 
 import java.math.BigDecimal;
 
-import sej.Function;
-import sej.Operator;
-import sej.SEJCompiler;
+import sej.compiler.Function;
+import sej.compiler.Operator;
+import sej.compiler.SEJCompiler;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;

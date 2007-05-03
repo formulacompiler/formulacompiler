@@ -22,7 +22,7 @@ package sej.internal.model.rewriting;
 
 import java.util.List;
 
-import sej.CompilerException;
+import sej.compiler.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForSubstitution;
 import sej.internal.model.AbstractComputationModelVisitor;

@@ -21,7 +21,7 @@
 package sej.internal.model.optimizer.consteval;
 
 import sej.internal.expressions.ExpressionNodeForLetVar;
-import sej.internal.model.util.InterpretedNumericType;
+import sej.internal.model.interpreter.InterpretedNumericType;
 
 final class EvalLetVar extends EvalShadow
 {

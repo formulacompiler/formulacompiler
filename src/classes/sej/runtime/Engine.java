@@ -22,14 +22,14 @@ package sej.runtime;
 
 
 /**
- * API to a computation engine. You normally use a {@link sej.EngineBuilder} to build one from a
+ * API to a computation engine. You normally use a {@link sej.spreadsheet.EngineBuilder} to build one from a
  * given spreadsheet file, or else instantiate one constructed earlier from persistent storage using
  * {@link SEJRuntime#loadEngine(java.io.InputStream)}, without requiring access to the original
  * spreadsheet file. An engine manages a computation factory, from which you instantiate individual
  * computations.
  * 
  * @author peo
- * @see sej.EngineBuilder
+ * @see sej.spreadsheet.EngineBuilder
  * @see #getComputationFactory()
  */
 public interface Engine

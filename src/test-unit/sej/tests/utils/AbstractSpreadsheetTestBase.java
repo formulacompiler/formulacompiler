@@ -22,8 +22,8 @@ package sej.tests.utils;
 
 import java.io.InputStream;
 
-import sej.SEJ;
-import sej.Spreadsheet;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet;
 
 public abstract class AbstractSpreadsheetTestBase extends AbstractIOTestBase
 {

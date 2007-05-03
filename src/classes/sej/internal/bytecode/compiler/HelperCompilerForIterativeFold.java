@@ -23,7 +23,7 @@ package sej.internal.bytecode.compiler;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
-import sej.CompilerException;
+import sej.compiler.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.LetDictionary.LetEntry;
 import sej.internal.model.ExpressionNodeForSubSectionModel;

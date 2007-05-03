@@ -27,8 +27,8 @@ import java.util.Map;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Type;
 
-import sej.CompilerException;
-import sej.SaveableEngine;
+import sej.compiler.CompilerException;
+import sej.compiler.SaveableEngine;
 import sej.internal.bytecode.runtime.ByteCodeEngine;
 import sej.internal.engine.compiler.AbstractModelToEngineCompiler;
 import sej.internal.engine.compiler.ModelToEngineCompiler;

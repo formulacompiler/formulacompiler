@@ -23,11 +23,11 @@ package sej.internal.spreadsheet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import sej.Orientation;
-import sej.Spreadsheet;
-import sej.SpreadsheetException;
-import sej.Spreadsheet.Cell;
 import sej.describable.DescriptionBuilder;
+import sej.spreadsheet.Orientation;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetException;
+import sej.spreadsheet.Spreadsheet.Cell;
 
 
 public final class CellRange extends Reference implements Spreadsheet.Range, Iterable<CellIndex>

@@ -20,17 +20,17 @@
  */
 package sej.internal.model.optimizer;
 
-import sej.Function;
-import sej.NumericType;
-import sej.SEJCompiler;
+import sej.compiler.Function;
+import sej.compiler.NumericType;
+import sej.compiler.SEJCompiler;
 import sej.internal.expressions.ArrayDescriptor;
 import sej.internal.expressions.ExpressionNodeForArrayReference;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.model.CellModel;
 import sej.internal.model.ExpressionNodeForCellModel;
+import sej.internal.model.interpreter.InterpretedNumericType;
 import sej.internal.model.rewriting.ModelRewriter;
-import sej.internal.model.util.InterpretedNumericType;
 
 public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 {

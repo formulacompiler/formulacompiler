@@ -25,9 +25,6 @@ import java.io.InputStream;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import sej.Spreadsheet;
-import sej.SpreadsheetException;
-import sej.SpreadsheetLoader;
 import sej.internal.runtime.RuntimeDouble_v1;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
@@ -39,6 +36,9 @@ import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
 import sej.internal.spreadsheet.loader.SpreadsheetLoaderDispatcher;
 import sej.internal.spreadsheet.loader.excel.ExcelLazyExpressionParser;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetException;
+import sej.spreadsheet.SpreadsheetLoader;
 
 import jxl.CellType;
 import jxl.DateCell;

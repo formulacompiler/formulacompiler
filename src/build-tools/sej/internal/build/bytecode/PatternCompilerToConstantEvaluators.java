@@ -36,7 +36,7 @@ class PatternCompilerToConstantEvaluators
 
 	public void run() throws IOException
 	{
-		final File p = new File( "temp/gen-src/classes/sej/internal/model/util" );
+		final File p = new File( "temp/gen-src/classes/sej/internal/model/interpreter" );
 		p.mkdirs();
 
 		new ConstantEvaluatorGenerator( ExpressionTemplatesForNumbers.class, "InterpretedNumericType_Generated",

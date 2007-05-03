@@ -20,9 +20,9 @@
  */
 package sej.internal.spreadsheet.binding;
 
-import sej.CompilerException;
 import sej.describable.AbstractDescribable;
 import sej.internal.spreadsheet.Reference;
+import sej.spreadsheet.SpreadsheetException;
 
 public abstract class ElementBinding extends AbstractDescribable
 {
@@ -42,9 +42,9 @@ public abstract class ElementBinding extends AbstractDescribable
 	}
 
 
-	protected void notInSection( String _name, Reference _ref ) throws CompilerException.NotInSection
+	protected void notInSection( String _name, Reference _ref ) throws SpreadsheetException.NotInSection
 	{
-		throw new CompilerException.NotInSection( _name, _ref.toString(), getSection().toString(), getSection().getRange()
+		throw new SpreadsheetException.NotInSection( _name, _ref.toString(), getSection().toString(), getSection().getRange()
 				.toString() );
 	}
 

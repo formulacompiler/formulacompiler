@@ -22,15 +22,15 @@ package sej.internal.spreadsheet.compiler;
 
 import java.lang.reflect.Method;
 
-import sej.CompilerException;
-import sej.NumericType;
-import sej.SaveableEngine;
-import sej.SpreadsheetBinding;
-import sej.SpreadsheetCompiler;
+import sej.compiler.CompilerException;
+import sej.compiler.NumericType;
+import sej.compiler.SaveableEngine;
 import sej.internal.engine.compiler.EngineCompiler;
 import sej.internal.engine.compiler.TransformingEngineCompilerImpl;
 import sej.internal.model.ComputationModel;
 import sej.runtime.EngineException;
+import sej.spreadsheet.SpreadsheetBinding;
+import sej.spreadsheet.SpreadsheetCompiler;
 
 public final class SpreadsheetCompilerImpl implements SpreadsheetCompiler
 {

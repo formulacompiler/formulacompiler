@@ -60,12 +60,12 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 				.appendLine( "." );
 		cb.append( " * Generated using jdk-" ).append( System.getProperty( "java.version" ) ).appendLine( "." );
 		cb.appendLine( " */" );
-		cb.appendLine( "package sej.internal.model.util;" );
+		cb.appendLine( "package sej.internal.model.interpreter;" );
 		cb.newLine();
-		cb.appendLine( "import sej.CompilerException;" );
-		cb.appendLine( "import sej.Function;" );
-		cb.appendLine( "import sej.NumericType;" );
-		cb.appendLine( "import sej.Operator;" );
+		cb.appendLine( "import sej.compiler.CompilerException;" );
+		cb.appendLine( "import sej.compiler.Function;" );
+		cb.appendLine( "import sej.compiler.NumericType;" );
+		cb.appendLine( "import sej.compiler.Operator;" );
 		cb.appendLine( "import sej.internal.expressions.ExpressionNode;" );
 		cb.appendLine( "import sej.internal.expressions.ExpressionNodeForFunction;" );
 		cb.append( "import sej.internal.templates." ).append( clsName ).appendLine( ";" );

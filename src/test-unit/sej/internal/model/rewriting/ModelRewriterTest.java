@@ -20,10 +20,10 @@
  */
 package sej.internal.model.rewriting;
 
-import sej.CallFrame;
-import sej.Function;
-import sej.Operator;
-import sej.SEJCompiler;
+import sej.compiler.CallFrame;
+import sej.compiler.Function;
+import sej.compiler.Operator;
+import sej.compiler.SEJCompiler;
 import sej.internal.expressions.ArrayDescriptor;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForArrayReference;
@@ -34,7 +34,7 @@ import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.SectionModel;
-import sej.internal.model.util.InterpretedNumericType;
+import sej.internal.model.interpreter.InterpretedNumericType;
 import sej.tests.utils.Inputs;
 import sej.tests.utils.OutputsWithoutCaching;
 import junit.framework.TestCase;

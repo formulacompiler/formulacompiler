@@ -28,8 +28,8 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
-import sej.CompilerException;
-import sej.NumericType;
+import sej.compiler.CompilerException;
+import sej.compiler.NumericType;
 import sej.internal.NumericTypeImpl;
 import sej.internal.runtime.RuntimeDouble_v1;
 import sej.internal.runtime.RuntimeLong_v1;

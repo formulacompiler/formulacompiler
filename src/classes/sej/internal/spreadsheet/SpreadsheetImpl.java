@@ -26,11 +26,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import sej.Spreadsheet;
-import sej.SpreadsheetException;
 import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
 import sej.runtime.New;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetException;
 
 
 /**

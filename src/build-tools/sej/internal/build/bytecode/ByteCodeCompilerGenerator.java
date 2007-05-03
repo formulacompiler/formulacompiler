@@ -91,9 +91,9 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 		cb.appendLine( "import org.objectweb.asm.Type;" );
 		cb.appendLine( "import org.objectweb.asm.commons.GeneratorAdapter;" );
 		cb.newLine();
-		cb.appendLine( "import sej.CompilerException;" );
-		cb.appendLine( "import sej.Operator;" );
-		cb.appendLine( "import sej.NumericType;" );
+		cb.appendLine( "import sej.compiler.CompilerException;" );
+		cb.appendLine( "import sej.compiler.Operator;" );
+		cb.appendLine( "import sej.compiler.NumericType;" );
 		cb.appendLine( "import sej.internal.expressions.ExpressionNode;" );
 		cb.appendLine( "import sej.internal.expressions.ExpressionNodeForFunction;" );
 		cb.newLine();

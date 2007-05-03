@@ -23,7 +23,7 @@ package sej.internal.expressions;
 import java.io.IOException;
 import java.util.Collection;
 
-import sej.Function;
+import sej.compiler.Function;
 import sej.describable.DescriptionBuilder;
 
 public class ExpressionNodeForFunction extends ExpressionNode

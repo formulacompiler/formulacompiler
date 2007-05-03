@@ -24,19 +24,19 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
 
-import sej.CallFrame;
-import sej.CompilerException;
-import sej.EngineBuilder;
-import sej.Orientation;
-import sej.SEJ;
-import sej.Spreadsheet;
-import sej.Spreadsheet.Cell;
-import sej.Spreadsheet.Range;
-import sej.SpreadsheetBinder.Section;
-import sej.bytecode.SEJByteCode;
+import sej.compiler.CallFrame;
+import sej.compiler.CompilerException;
+import sej.decompiler.SEJByteCode;
 import sej.runtime.Engine;
 import sej.runtime.New;
 import sej.runtime.Resettable;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.Orientation;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.Spreadsheet.Cell;
+import sej.spreadsheet.Spreadsheet.Range;
+import sej.spreadsheet.SpreadsheetBinder.Section;
 import junit.framework.TestCase;
 
 public class CustomerRatingWithOrders extends TestCase

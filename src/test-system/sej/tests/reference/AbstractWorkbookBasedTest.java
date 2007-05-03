@@ -26,11 +26,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 
-import sej.EngineBuilder;
-import sej.SEJ;
-import sej.SaveableEngine;
+import sej.compiler.SaveableEngine;
 import sej.internal.logging.Log;
 import sej.internal.spreadsheet.SpreadsheetImpl;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.SEJ;
 import junit.framework.TestCase;
 
 @SuppressWarnings("unchecked")

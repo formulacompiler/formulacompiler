@@ -20,12 +20,12 @@
  */
 package sej.internal.model.rewriting;
 
-import sej.Function;
-import sej.SEJCompiler;
+import sej.compiler.Function;
+import sej.compiler.SEJCompiler;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
-import sej.internal.model.util.InterpretedNumericType;
+import sej.internal.model.interpreter.InterpretedNumericType;
 import junit.framework.TestCase;
 
 

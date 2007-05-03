@@ -25,7 +25,7 @@ import java.util.Collection;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;
-import sej.internal.model.util.InterpretedNumericType;
+import sej.internal.model.interpreter.InterpretedNumericType;
 
 final class EvalFold extends EvalAbstractFold
 {

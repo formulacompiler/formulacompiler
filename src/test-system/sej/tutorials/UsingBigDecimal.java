@@ -22,10 +22,10 @@ package sej.tutorials;
 
 import java.math.BigDecimal;
 
-import sej.EngineBuilder;
-import sej.SEJ;
-import sej.bytecode.SEJByteCode;
+import sej.decompiler.SEJByteCode;
 import sej.runtime.Engine;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.SEJ;
 import junit.framework.TestCase;
 
 public class UsingBigDecimal extends TestCase

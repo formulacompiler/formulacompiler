@@ -20,12 +20,12 @@
  */
 package sej.tests.usecases;
 
-import sej.CallFrame;
-import sej.Orientation;
-import sej.SaveableEngine;
-import sej.Spreadsheet;
-import sej.SpreadsheetBinder;
+import sej.compiler.CallFrame;
+import sej.compiler.SaveableEngine;
 import sej.runtime.Resettable;
+import sej.spreadsheet.Orientation;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetBinder;
 
 public class CategoryTotalsUseCaseTest extends AbstractUseCaseTest
 {

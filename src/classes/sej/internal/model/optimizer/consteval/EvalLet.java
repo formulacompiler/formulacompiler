@@ -20,9 +20,9 @@
  */
 package sej.internal.model.optimizer.consteval;
 
-import sej.CompilerException;
+import sej.compiler.CompilerException;
 import sej.internal.expressions.ExpressionNodeForLet;
-import sej.internal.model.util.InterpretedNumericType;
+import sej.internal.model.interpreter.InterpretedNumericType;
 
 final class EvalLet extends EvalShadow
 {

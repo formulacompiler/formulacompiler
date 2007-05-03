@@ -23,7 +23,7 @@ package sej.tests.reference;
 import java.util.Collection;
 import java.util.Iterator;
 
-import sej.SaveableEngine;
+import sej.compiler.SaveableEngine;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellRange;

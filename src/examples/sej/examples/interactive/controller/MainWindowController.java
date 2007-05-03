@@ -25,16 +25,16 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import sej.CallFrame;
-import sej.EngineBuilder;
-import sej.SEJ;
-import sej.Spreadsheet;
-import sej.SpreadsheetException;
-import sej.Spreadsheet.Cell;
-import sej.SpreadsheetBinder.Section;
+import sej.compiler.CallFrame;
 import sej.runtime.ComputationFactory;
 import sej.runtime.New;
 import sej.runtime.SEJException;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetException;
+import sej.spreadsheet.Spreadsheet.Cell;
+import sej.spreadsheet.SpreadsheetBinder.Section;
 
 
 public class MainWindowController

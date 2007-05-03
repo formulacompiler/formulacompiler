@@ -20,7 +20,7 @@
  */
 package sej.tests.reference;
 
-import sej.SaveableEngine;
+import sej.compiler.SaveableEngine;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;

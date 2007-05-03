@@ -22,14 +22,9 @@ package sej.internal.spreadsheet.compiler;
 
 import java.text.NumberFormat;
 
-import sej.CompilerException;
-import sej.Function;
-import sej.Operator;
-import sej.Orientation;
-import sej.SEJ;
-import sej.SpreadsheetBinder;
-import sej.CompilerException.SectionExtentNotCovered;
-import sej.SpreadsheetBinder.Section;
+import sej.compiler.CompilerException;
+import sej.compiler.Function;
+import sej.compiler.Operator;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
@@ -46,6 +41,11 @@ import sej.internal.spreadsheet.ExpressionNodeForRange;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
+import sej.spreadsheet.Orientation;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.SpreadsheetBinder;
+import sej.spreadsheet.SpreadsheetException;
+import sej.spreadsheet.SpreadsheetBinder.Section;
 import sej.tests.utils.AbstractIOTestBase;
 import sej.tests.utils.Inputs;
 import sej.tests.utils.Outputs;
@@ -382,7 +382,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 			compiler.buildNewModel();
 			fail( "Definition for " + output + " accepted even though it does not cover the full range." );
 		}
-		catch (SectionExtentNotCovered e) {
+		catch (SpreadsheetException.SectionExtentNotCovered e) {
 			// expected
 		}
 	}

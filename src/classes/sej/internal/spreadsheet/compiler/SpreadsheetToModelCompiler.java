@@ -23,9 +23,8 @@ package sej.internal.spreadsheet.compiler;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import sej.CompilerException;
-import sej.NumericType;
-import sej.SpreadsheetBinding;
+import sej.compiler.CompilerException;
+import sej.compiler.NumericType;
 import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;
 import sej.internal.model.SectionModel;
@@ -35,6 +34,7 @@ import sej.internal.spreadsheet.binding.OutputCellBinding;
 import sej.internal.spreadsheet.binding.SectionBinding;
 import sej.internal.spreadsheet.binding.WorkbookBinding;
 import sej.runtime.New;
+import sej.spreadsheet.SpreadsheetBinding;
 
 
 public final class SpreadsheetToModelCompiler

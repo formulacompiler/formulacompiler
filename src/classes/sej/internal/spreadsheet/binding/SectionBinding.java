@@ -25,16 +25,17 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.SortedSet;
 
-import sej.CallFrame;
-import sej.CompilerException;
-import sej.Orientation;
-import sej.Spreadsheet;
+import sej.compiler.CallFrame;
+import sej.compiler.CompilerException;
 import sej.describable.DescriptionBuilder;
 import sej.internal.Util;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellRange;
 import sej.runtime.New;
 import sej.runtime.Resettable;
+import sej.spreadsheet.Orientation;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetException;
 
 /**
  * Subsections are sorted
@@ -219,7 +220,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	{
 		for (SectionBinding sub : this.getSections()) {
 			if (sub.getRange().overlaps( _range, _orientation )) {
-				throw new CompilerException.SectionOverlap( "Section '"
+				throw new SpreadsheetException.SectionOverlap( "Section '"
 						+ _range.toString() + "' overlaps '" + sub.toString() + "'" );
 			}
 		}
@@ -273,10 +274,10 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 		int isTo = to.getIndex( this.orientation );
 
 		if ((isFrom != wantFrom) || (isTo != wantTo)) {
-			throw new CompilerException.SectionExtentNotCovered( _range.toString(), this.toString(), this.orientation );
+			throw new SpreadsheetException.SectionExtentNotCovered( _range.toString(), this.toString(), this.orientation );
 		}
 		if (!contains( _range.getFrom() ) || !contains( _range.getTo() )) {
-			throw new CompilerException.NotInSection( null, _range.toString(), this.toString(), this.getRange().toString() );
+			throw new SpreadsheetException.NotInSection( null, _range.toString(), this.toString(), this.getRange().toString() );
 		}
 
 		if (isTo > isFrom) {

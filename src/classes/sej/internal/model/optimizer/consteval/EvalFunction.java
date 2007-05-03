@@ -22,15 +22,15 @@ package sej.internal.model.optimizer.consteval;
 
 import java.util.Collection;
 
-import sej.CompilerException;
-import sej.Function;
+import sej.compiler.CompilerException;
+import sej.compiler.Function;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.model.ExpressionNodeForCount;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.SectionModel;
-import sej.internal.model.util.EvalNotPossibleException;
-import sej.internal.model.util.InterpretedNumericType;
+import sej.internal.model.interpreter.EvalNotPossibleException;
+import sej.internal.model.interpreter.InterpretedNumericType;
 import sej.runtime.New;
 
 public class EvalFunction extends EvalShadow

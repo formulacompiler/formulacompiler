@@ -22,7 +22,7 @@ package sej.internal.bytecode.compiler;
 
 import java.util.Collection;
 
-import sej.CompilerException;
+import sej.compiler.CompilerException;
 import sej.internal.expressions.ArrayDescriptor;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForArrayReference;

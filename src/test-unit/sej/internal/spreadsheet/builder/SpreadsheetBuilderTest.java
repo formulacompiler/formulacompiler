@@ -20,12 +20,12 @@
  */
 package sej.internal.spreadsheet.builder;
 
-import sej.Function;
-import sej.SEJ;
-import sej.Spreadsheet;
-import sej.SpreadsheetBuilder;
-import sej.Spreadsheet.Row;
-import sej.Spreadsheet.Sheet;
+import sej.compiler.Function;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetBuilder;
+import sej.spreadsheet.Spreadsheet.Row;
+import sej.spreadsheet.Spreadsheet.Sheet;
 import junit.framework.TestCase;
 
 public class SpreadsheetBuilderTest extends TestCase

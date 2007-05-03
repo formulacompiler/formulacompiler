@@ -20,10 +20,10 @@
  */
 package sej.internal.spreadsheet.util;
 
-import sej.Spreadsheet;
-import sej.SpreadsheetNameCreator;
-import sej.Spreadsheet.Cell;
-import sej.Spreadsheet.Sheet;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetNameCreator;
+import sej.spreadsheet.Spreadsheet.Cell;
+import sej.spreadsheet.Spreadsheet.Sheet;
 
 public final class SpreadsheetNameCreatorImpl implements SpreadsheetNameCreator
 {

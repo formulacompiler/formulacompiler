@@ -24,7 +24,7 @@ import java.math.BigDecimal;
 
 import org.objectweb.asm.Type;
 
-import sej.NumericType;
+import sej.compiler.NumericType;
 import sej.internal.expressions.DataType;
 
 abstract class TypeCompilerForNumbers extends TypeCompiler

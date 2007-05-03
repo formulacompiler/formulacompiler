@@ -36,7 +36,7 @@ import sej.internal.expressions.ExpressionNodeForSubstitution;
 import sej.internal.expressions.ExpressionNodeShadow;
 import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
-import sej.internal.model.util.InterpretedNumericType;
+import sej.internal.model.interpreter.InterpretedNumericType;
 
 public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 {

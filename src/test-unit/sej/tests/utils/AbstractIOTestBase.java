@@ -32,8 +32,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import sej.CallFrame;
-import sej.SaveableEngine;
+import sej.compiler.CallFrame;
+import sej.compiler.SaveableEngine;
 import sej.internal.Settings;
 import junit.framework.AssertionFailedError;
 

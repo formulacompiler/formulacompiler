@@ -22,10 +22,8 @@ package sej.internal.spreadsheet.compiler;
 
 import java.util.Collection;
 
-import sej.CompilerException;
-import sej.NumericType;
-import sej.Orientation;
-import sej.SpreadsheetException;
+import sej.compiler.CompilerException;
+import sej.compiler.NumericType;
 import sej.internal.expressions.ArrayDescriptor;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForArrayReference;
@@ -47,6 +45,8 @@ import sej.internal.spreadsheet.binding.InputCellBinding;
 import sej.internal.spreadsheet.binding.SectionBinding;
 import sej.internal.spreadsheet.binding.WorkbookBinding;
 import sej.runtime.New;
+import sej.spreadsheet.Orientation;
+import sej.spreadsheet.SpreadsheetException;
 
 
 public final class SectionModelCompiler
@@ -353,7 +353,7 @@ public final class SectionModelCompiler
 				case CellRange.CONTAINED:
 					return buildContainedRange();
 				default:
-					throw new CompilerException.SectionSpan( range.toString(), sectionDef.toString() );
+					throw new SpreadsheetException.SectionSpan( range.toString(), sectionDef.toString() );
 			}
 		}
 
@@ -418,7 +418,7 @@ public final class SectionModelCompiler
 					}
 
 					default:
-						throw new CompilerException.SectionSpan( range.toString(), inner.toString() );
+						throw new SpreadsheetException.SectionSpan( range.toString(), inner.toString() );
 
 				}
 				if (null == next) break;

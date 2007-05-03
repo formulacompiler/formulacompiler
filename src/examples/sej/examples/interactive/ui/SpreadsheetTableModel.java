@@ -20,11 +20,11 @@
  */
 package sej.examples.interactive.ui;
 
-import sej.Spreadsheet;
-import sej.Spreadsheet.Cell;
-import sej.Spreadsheet.Row;
-import sej.Spreadsheet.Sheet;
 import sej.examples.interactive.controller.MainWindowController.SpreadsheetModel;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.Spreadsheet.Cell;
+import sej.spreadsheet.Spreadsheet.Row;
+import sej.spreadsheet.Spreadsheet.Sheet;
 
 public class SpreadsheetTableModel extends AbstractTableModel
 {

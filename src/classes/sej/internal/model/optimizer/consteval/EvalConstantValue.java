@@ -22,7 +22,7 @@ package sej.internal.model.optimizer.consteval;
 
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
-import sej.internal.model.util.InterpretedNumericType;
+import sej.internal.model.interpreter.InterpretedNumericType;
 
 public class EvalConstantValue extends EvalShadow
 {

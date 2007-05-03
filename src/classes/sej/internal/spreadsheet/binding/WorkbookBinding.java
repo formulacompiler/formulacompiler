@@ -23,13 +23,13 @@ package sej.internal.spreadsheet.binding;
 import java.util.List;
 import java.util.Map;
 
-import sej.CompilerException;
-import sej.Spreadsheet;
-import sej.SpreadsheetBinding;
+import sej.compiler.CompilerException;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.SpreadsheetImpl;
 import sej.runtime.New;
 import sej.runtime.Resettable;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetBinding;
 
 public class WorkbookBinding implements SpreadsheetBinding
 {

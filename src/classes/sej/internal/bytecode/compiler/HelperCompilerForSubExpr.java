@@ -20,7 +20,7 @@
  */
 package sej.internal.bytecode.compiler;
 
-import sej.CompilerException;
+import sej.compiler.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.LetDictionary.LetEntry;
 

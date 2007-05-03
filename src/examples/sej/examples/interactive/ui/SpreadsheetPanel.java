@@ -30,8 +30,8 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileFilter;
 
-import sej.SpreadsheetException;
 import sej.examples.interactive.controller.MainWindowController;
+import sej.spreadsheet.SpreadsheetException;
 
 public class SpreadsheetPanel extends BottomButtonsPanel
 {

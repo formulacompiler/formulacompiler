@@ -24,11 +24,11 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
-import sej.EngineBuilder;
-import sej.NumericType;
-import sej.SEJ;
+import sej.compiler.NumericType;
 import sej.runtime.Engine;
 import sej.runtime.ScaledLong;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.SEJ;
 import sej.tests.utils.Util;
 import junit.framework.TestCase;
 

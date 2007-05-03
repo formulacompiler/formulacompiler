@@ -20,12 +20,12 @@
  */
 package sej.tutorials;
 
-import sej.CallFrame;
-import sej.CompilerException;
-import sej.EngineBuilder;
-import sej.SEJ;
-import sej.SaveableEngine;
-import sej.Spreadsheet.Cell;
+import sej.compiler.CallFrame;
+import sej.compiler.CompilerException;
+import sej.compiler.SaveableEngine;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet.Cell;
 import junit.framework.TestCase;
 
 public class ErrorUnsupportedFunctionVariant extends TestCase

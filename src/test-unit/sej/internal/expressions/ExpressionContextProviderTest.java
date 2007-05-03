@@ -20,8 +20,8 @@
  */
 package sej.internal.expressions;
 
-import sej.Function;
-import sej.Operator;
+import sej.compiler.Function;
+import sej.compiler.Operator;
 import sej.describable.DescriptionBuilder;
 import junit.framework.TestCase;
 

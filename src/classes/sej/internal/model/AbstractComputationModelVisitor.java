@@ -20,9 +20,9 @@
  */
 package sej.internal.model;
 
-import sej.CompilerException;
-import sej.internal.InnerExpressionException;
+import sej.compiler.CompilerException;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.InnerExpressionException;
 
 @SuppressWarnings("unused")
 public abstract class AbstractComputationModelVisitor implements ComputationModelVisitor

@@ -2,10 +2,11 @@ package sej.internal.spreadsheet.loader.excel;
 
 import java.util.Collection;
 import java_cup.runtime.*;
-import sej.*;
+import sej.runtime.*;
+import sej.compiler.*;
+import sej.spreadsheet.*;
 import sej.internal.expressions.*;
 import sej.internal.spreadsheet.*;
-import sej.runtime.*;
 
 parser code {:
 

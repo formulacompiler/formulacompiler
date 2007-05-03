@@ -22,7 +22,7 @@ package sej.internal.model;
 
 import java.util.Collection;
 
-import sej.CallFrame;
+import sej.compiler.CallFrame;
 import sej.describable.AbstractDescribable;
 import sej.runtime.New;
 

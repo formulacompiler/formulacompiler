@@ -28,9 +28,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import sej.Spreadsheet;
-import sej.SpreadsheetException;
-import sej.SpreadsheetSaver;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
@@ -41,6 +38,9 @@ import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
 import sej.internal.spreadsheet.saver.SpreadsheetSaverDispatcher;
 import sej.runtime.New;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetException;
+import sej.spreadsheet.SpreadsheetSaver;
 
 import jxl.Cell;
 import jxl.CellView;

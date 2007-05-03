@@ -26,11 +26,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-import sej.CallFrame;
-import sej.SaveableEngine;
-import sej.Spreadsheet;
-import sej.SpreadsheetBinder;
+import sej.compiler.CallFrame;
+import sej.compiler.SaveableEngine;
 import sej.runtime.New;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetBinder;
 
 
 @SuppressWarnings("unchecked")

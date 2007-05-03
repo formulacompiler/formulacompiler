@@ -23,8 +23,8 @@ package sej.internal.model.rewriting;
 import java.util.Collection;
 import java.util.Iterator;
 
-import sej.Function;
-import sej.Operator;
+import sej.compiler.Function;
+import sej.compiler.Operator;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFold;

@@ -20,11 +20,11 @@
  */
 package sej.internal.model.rewriting;
 
-import sej.CompilerException;
+import sej.compiler.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.AbstractComputationModelVisitor;
 import sej.internal.model.CellModel;
-import sej.internal.model.util.InterpretedNumericType;
+import sej.internal.model.interpreter.InterpretedNumericType;
 
 
 public final class ModelRewriter extends AbstractComputationModelVisitor

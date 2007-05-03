@@ -1,10 +1,10 @@
 package sej.devjournal.cse;
 
-import sej.EngineBuilder;
-import sej.SEJ;
-import sej.SaveableEngine;
+import sej.compiler.SaveableEngine;
 import sej.internal.Debug;
 import sej.runtime.ComputationFactory;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.SEJ;
 
 public final class InsuranceModel
 {

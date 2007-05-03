@@ -20,12 +20,12 @@
  */
 package sej.internal.bytecode.compiler;
 
-import sej.CallFrame;
-import sej.Function;
-import sej.NumericType;
-import sej.Operator;
-import sej.SEJCompiler;
-import sej.SaveableEngine;
+import sej.compiler.CallFrame;
+import sej.compiler.Function;
+import sej.compiler.NumericType;
+import sej.compiler.Operator;
+import sej.compiler.SEJCompiler;
+import sej.compiler.SaveableEngine;
 import sej.internal.expressions.ArrayDescriptor;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
@@ -46,11 +46,11 @@ import sej.internal.model.ExpressionNodeForCellModel;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
 import sej.internal.model.SectionModel;
 import sej.internal.model.analysis.TypeAnnotator;
+import sej.internal.model.interpreter.InterpretedNumericType;
 import sej.internal.model.optimizer.ConstantSubExpressionEliminator;
 import sej.internal.model.optimizer.IntermediateResultsInliner;
 import sej.internal.model.rewriting.ModelRewriter;
 import sej.internal.model.rewriting.SubstitutionInliner;
-import sej.internal.model.util.InterpretedNumericType;
 import sej.runtime.ComputationFactory;
 import sej.tests.utils.AbstractIOTestBase;
 import sej.tests.utils.Inputs;

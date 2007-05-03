@@ -6,8 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import sej.SaveableEngine;
-import sej.bytecode.SEJByteCode;
+import sej.compiler.SaveableEngine;
+import sej.decompiler.SEJByteCode;
 
 /**
  * Debugging class whose use is rejected in release builds.

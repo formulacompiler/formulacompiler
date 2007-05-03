@@ -22,8 +22,8 @@ package sej.internal.bytecode.compiler;
 
 import org.objectweb.asm.Opcodes;
 
-import sej.CompilerException;
-import sej.NumericType;
+import sej.compiler.CompilerException;
+import sej.compiler.NumericType;
 import sej.internal.NumericTypeImpl;
 import sej.runtime.ScaledLong;
 import sej.runtime.ScaledLongSupport;

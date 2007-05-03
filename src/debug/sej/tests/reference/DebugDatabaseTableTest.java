@@ -22,7 +22,7 @@ package sej.tests.reference;
 
 import java.io.IOException;
 
-import sej.SaveableEngine;
+import sej.compiler.SaveableEngine;
 import sej.internal.Debug;
 import sej.internal.Settings;
 

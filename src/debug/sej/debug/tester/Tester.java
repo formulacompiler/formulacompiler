@@ -1,6 +1,6 @@
 package sej.debug.tester;
 
-import sej.SEJ;
+import sej.spreadsheet.SEJ;
 
 public final class Tester extends AbstractTester
 {

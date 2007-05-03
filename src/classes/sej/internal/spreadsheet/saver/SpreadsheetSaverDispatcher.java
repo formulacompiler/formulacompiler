@@ -23,9 +23,9 @@ package sej.internal.spreadsheet.saver;
 import java.io.IOException;
 import java.util.Collection;
 
-import sej.SpreadsheetException;
-import sej.SpreadsheetSaver;
 import sej.runtime.ImplementationLocator;
+import sej.spreadsheet.SpreadsheetException;
+import sej.spreadsheet.SpreadsheetSaver;
 
 /**
  * Central dispatcher for the savers for the various spreadsheet file formats supported by SEJ.

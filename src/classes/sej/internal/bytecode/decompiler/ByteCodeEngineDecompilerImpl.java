@@ -28,8 +28,8 @@ import java.util.Map;
 
 import net.sf.jode.bytecode.ClassPath;
 import net.sf.jode.decompiler.Decompiler;
-import sej.bytecode.ByteCodeEngineDecompiler;
-import sej.bytecode.ByteCodeEngineSource;
+import sej.decompiler.ByteCodeEngineDecompiler;
+import sej.decompiler.ByteCodeEngineSource;
 import sej.internal.bytecode.runtime.ByteCodeEngine;
 import sej.runtime.New;
 

@@ -24,13 +24,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import sej.EngineBuilder;
-import sej.SEJ;
-import sej.SaveableEngine;
-import sej.bytecode.SEJByteCode;
+import sej.compiler.SaveableEngine;
+import sej.decompiler.SEJByteCode;
 import sej.runtime.ComputationFactory;
 import sej.runtime.Resettable;
 import sej.runtime.SEJException;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.SEJ;
 import junit.framework.TestCase;
 
 public class Caching extends TestCase

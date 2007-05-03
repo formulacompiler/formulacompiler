@@ -26,7 +26,7 @@ import java.util.List;
 
 import org.objectweb.asm.Opcodes;
 
-import sej.CompilerException;
+import sej.compiler.CompilerException;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForOperator;

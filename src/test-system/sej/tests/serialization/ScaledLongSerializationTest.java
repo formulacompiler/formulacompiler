@@ -20,8 +20,8 @@
  */
 package sej.tests.serialization;
 
-import sej.NumericType;
-import sej.SEJ;
+import sej.compiler.NumericType;
+import sej.spreadsheet.SEJ;
 
 public final class ScaledLongSerializationTest extends AbstractSerializationTest
 {

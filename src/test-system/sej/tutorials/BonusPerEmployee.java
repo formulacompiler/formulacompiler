@@ -25,20 +25,20 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import sej.CallFrame;
-import sej.CompilerException;
-import sej.EngineBuilder;
-import sej.Orientation;
-import sej.SEJ;
-import sej.SaveableEngine;
-import sej.Spreadsheet;
-import sej.Spreadsheet.Cell;
-import sej.Spreadsheet.Range;
-import sej.SpreadsheetBinder.Section;
-import sej.bytecode.SEJByteCode;
+import sej.compiler.CallFrame;
+import sej.compiler.CompilerException;
+import sej.compiler.SaveableEngine;
+import sej.decompiler.SEJByteCode;
 import sej.runtime.New;
 import sej.runtime.Resettable;
 import sej.runtime.ScaledLong;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.Orientation;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.Spreadsheet.Cell;
+import sej.spreadsheet.Spreadsheet.Range;
+import sej.spreadsheet.SpreadsheetBinder.Section;
 import junit.framework.TestCase;
 
 @SuppressWarnings("unchecked")

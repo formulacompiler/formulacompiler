@@ -24,8 +24,8 @@ import java.math.BigDecimal;
 
 import org.objectweb.asm.Opcodes;
 
-import sej.CompilerException;
-import sej.NumericType;
+import sej.compiler.CompilerException;
+import sej.compiler.NumericType;
 import sej.runtime.ScaledLong;
 
 abstract class ExpressionCompilerForBigDecimals_Base extends ExpressionCompilerForNumbers

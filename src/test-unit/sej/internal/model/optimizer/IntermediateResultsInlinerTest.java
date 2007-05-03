@@ -20,10 +20,10 @@
  */
 package sej.internal.model.optimizer;
 
-import sej.SEJCompiler;
+import sej.compiler.SEJCompiler;
 import sej.internal.model.CellModel;
+import sej.internal.model.interpreter.InterpretedNumericType;
 import sej.internal.model.rewriting.ModelRewriter;
-import sej.internal.model.util.InterpretedNumericType;
 
 public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 {
