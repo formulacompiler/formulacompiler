@@ -31,6 +31,7 @@ import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;
 import sej.internal.model.SectionModel;
+import sej.internal.model.optimizer.ReferenceCounter;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellRange;
@@ -88,7 +89,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(), SEJ.DOUBLE );
 		ComputationModel model = compiler.buildNewModel();
 
-		// FIXME model.traverse( new ReferenceCounter() );
+		model.traverse( new ReferenceCounter() );
 		SectionModel root = model.getRoot();
 
 		assertEquals( 0, root.getSections().size() );
@@ -97,7 +98,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		assertEquals( "C1", o1m.getName() );
 		assertEquals( false, o1m.isInput() );
 		assertEquals( true, o1m.isOutput() );
-		// FIXME assertEquals( 1, o1m.getReferenceCount() );
+		assertEquals( 1, o1m.getReferenceCount() );
 		assertEquals( CellModel.UNLIMITED, o1m.getMaxFractionalDigits() );
 		assertEquals( 2.0, (Double) o1m.getConstantValue(), 0.1 );
 
@@ -105,7 +106,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		assertEquals( "H1", o2m.getName() );
 		assertEquals( false, o2m.isInput() );
 		assertEquals( true, o2m.isOutput() );
-		// FIXME assertEquals( 1, o2m.getReferenceCount() );
+		assertEquals( 1, o2m.getReferenceCount() );
 		assertEquals( 2, o2m.getMaxFractionalDigits() );
 		assertEquals( "(((Inputs.getOne() + D1) + F1) + #NULL)", o2m.getExpression().describe() );
 
@@ -113,7 +114,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		assertEquals( "Inputs.getOne()", i1m.getName() );
 		assertEquals( true, i1m.isInput() );
 		assertEquals( false, i1m.isOutput() );
-		// FIXME assertEquals( 1, i1m.getReferenceCount() );
+		assertEquals( 1, i1m.getReferenceCount() );
 		assertEquals( CellModel.UNLIMITED, i1m.getMaxFractionalDigits() );
 		assertEquals( 1.0, (Double) i1m.getConstantValue(), 0.1 );
 
@@ -121,7 +122,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		assertEquals( "D1", x1m.getName() );
 		assertEquals( false, x1m.isInput() );
 		assertEquals( false, x1m.isOutput() );
-		// FIXME assertEquals( 2, x1m.getReferenceCount() );
+		assertEquals( 2, x1m.getReferenceCount() );
 		assertEquals( CellModel.UNLIMITED, x1m.getMaxFractionalDigits() );
 		assertEquals( 3.0, (Double) x1m.getConstantValue(), 0.1 );
 
@@ -129,7 +130,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		assertEquals( "F1", x3m.getName() );
 		assertEquals( false, x3m.isInput() );
 		assertEquals( false, x3m.isOutput() );
-		// FIXME assertEquals( 1, x3m.getReferenceCount() );
+		assertEquals( 1, x3m.getReferenceCount() );
 		assertEquals( CellModel.UNLIMITED, x3m.getMaxFractionalDigits() );
 		assertEquals( "(E1 + D1)", x3m.getExpression().describe() );
 		assertSame( x3.getExpression(), x3m.getExpression().getDerivedFrom() );
@@ -139,7 +140,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		assertEquals( "E1", x2m.getName() );
 		assertEquals( false, x2m.isInput() );
 		assertEquals( false, x2m.isOutput() );
-		// FIXME assertEquals( 1, x2m.getReferenceCount() );
+		assertEquals( 1, x2m.getReferenceCount() );
 		assertEquals( CellModel.UNLIMITED, x2m.getMaxFractionalDigits() );
 		assertEquals( 4.0, (Double) x2m.getConstantValue(), 0.1 );
 
@@ -147,7 +148,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		assertEquals( "Inputs.getThree()", io1m.getName() );
 		assertEquals( true, io1m.isInput() );
 		assertEquals( true, io1m.isOutput() );
-		// FIXME assertEquals( 1, io1m.getReferenceCount() );
+		assertEquals( 1, io1m.getReferenceCount() );
 		assertEquals( CellModel.UNLIMITED, io1m.getMaxFractionalDigits() );
 		assertEquals( 7.0, (Double) io1m.getConstantValue(), 0.1 );
 
