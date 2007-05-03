@@ -24,7 +24,7 @@ package sej.spreadsheet;
  * Lists the two possible options for the variable extend of a section.
  * 
  * @see sej.spreadsheet.SpreadsheetBinder.Section#defineRepeatingSection(sej.spreadsheet.Spreadsheet.Range, Orientation,
- *      sej.spreadsheet.core.CallFrame, Class, sej.spreadsheet.core.CallFrame, Class)
+ *      sej.compiler.CallFrame, Class, sej.compiler.CallFrame, Class)
  * 
  * @author peo
  */
