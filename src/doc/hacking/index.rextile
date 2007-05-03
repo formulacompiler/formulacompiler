@@ -21,6 +21,7 @@ h2. Reference
 	* "Adding An Array Computation":-arr
 	
 	* "House Rules":rules.htm
+    * "Package Dependencies":dependencies.htm
 	* "Java Code Style":style.htm
 
 	* "Missing Function Breakdown":functions_to_implement.htm

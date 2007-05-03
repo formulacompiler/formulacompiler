@@ -8,6 +8,7 @@
 [-reftest]referencetests.htm
 [-dbgtest]referencetests.htm#debug
 [-refrewrite]rewrite_functions.htm
+[-dep]dependencies.htm
 
 [-ref]../reference/index.htm
 [-tut]../tutorial/index.htm

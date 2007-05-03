@@ -38,13 +38,17 @@ dt. "Ant":-ant : You do, of course, need. Since Ant is rather big and such a wid
 
 dt. "JUnit":-junit : is needed to run the tests with @ant test@. As per "the instructions":http://ant.apache.org/manual/OptionalTasks/junit.html and, in particular, "this discussion":http://ant.apache.org/faq.html#delegating-classloader, I suggest that you copy @junit.jar@ to the @lib/@ folder of your Ant installation.
 
-dt. "Macker":-macker : is a tool for checking class and package dependencies. SEJ uses it to enforce the most important dependency rules. Configure it in @build.properties@ (see above).
+dt. "Macker":-macker : checks class and package dependencies. SEJ uses it to enforce the most important dependency rules. Configure it in @build.properties@ (see above).
 
-dt. "CheckStyle":-checkstyle : is a tool for checking source code conformance. SEJ uses it to check for missing JavaDoc tags and header comments. Configure it in @build.properties@ (see above).
+dt. "CheckStyle":-checkstyle : checks source code conformance. SEJ uses it to check for missing JavaDoc tags and header comments. Configure it in @build.properties@ (see above).
 
-dt. "Rextile":-rex : is a "Ruby":-rb tool for compiling documentation sources in "Textile":-tex format to XHTML. SEJ's main documentation (this here, too) is written in Rextile's format. Please observe Rextile's own "installation instructions":-rexinst. Configure it in @build.properties@ (see above).
+dt. "Ruby":-rb : runs configuration scripts.
 
-dt. "JCite":-jcite : is a tool for citing Java source code and Excel sheets into HTML documentation. SEJ "uses this extensively":../tutorial/basics.htm. Configure it in @build.properties@ (see above).
+dt. "Rextile":-rex : compiles documentation sources in "Textile":-tex format to XHTML. SEJ's main documentation (this here, too) is written in Rextile's format. Please observe Rextile's own "installation instructions":-rexinst. Configure it in @build.properties@ (see above).
+
+dt. "JCite":-jcite : cites Java source code and Excel sheets into HTML documentation. SEJ "uses this extensively":../tutorial/basics.htm. Configure it in @build.properties@ (see above).
+
+dt. "GraphViz":-dot : renders textual specifications of graphs to .png images.
 
 
 h3. Optional Tools

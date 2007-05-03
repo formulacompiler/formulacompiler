@@ -500,11 +500,21 @@
 	</target>
 
 	<!-- rextile -->
-
-	<target name="rextile" depends="-prepare" description="Rebuilds documentation in doc/ from Rextile sources (does not cite).">
-
+	
+	<target name="-clean-temp-doc" depends="-prepare" >
 		<delete dir="${temp.doc.dir}" />
 		<mkdir dir="${temp.doc.dir}" />
+	</target>
+	
+	<target name="make-rextinc" depends="-prepare" description="Regenerates .rextinc files from scripts." >
+		<mkdir dir="${temp.doc.dir}/hacking"/>
+		<exec dir="${src.scripts.dir}" executable="ruby" vmlauncher="false" failonerror="true">
+			<arg value="gen-component-overview.rb" />
+		</exec>
+	</target>
+
+	<target name="rextile" depends="-prepare, -clean-temp-doc, make-rextinc" description="Rebuilds documentation in doc/ from Rextile sources (does not cite).">
+
 		<copy todir="${temp.doc.dir}">
 			<fileset dir="${src.doc.dir}">
 				<include name="**/*" />
@@ -697,7 +707,7 @@
 
 	<!-- doc -->
 
-	<target name="doc" depends="compile-examples, test, rextile, dot, cite, javadoc" description="Rebuilds entire documentation in doc/ (runs tests first).">
+	<target name="doc" depends="compile-examples, test, -clean-temp-doc, make-rextinc, rextile, dot, cite, javadoc" description="Rebuilds entire documentation in doc/ (runs tests first).">
 	</target>
 
 	<!-- clean -->

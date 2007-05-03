@@ -14,3 +14,7 @@ dt. "Add A High-Level Function":-high (contains "MathML":-mathml, use "Firefox t
 dt. "Add A High-Level Aggregator":-agg (contains "MathML":-mathml, use "Firefox to view":-mozmath) : How to add an aggregator function, @VAR()@, which is defined by rewriting it using @_LET()@, @_FOLD()@, and lower-level functions.
 
 dt. "Add A High-Level Array Computation":-arr (contains "MathML":-mathml, use "Firefox to view":-mozmath) : How to add an array computation function, @NPV()@, which is defined by rewriting it using @_LET()@, @_FOLD_ARRAY()@, and lower-level functions.
+
+Once you leave these well-documented paths, you will have to read the code itself for guidance. There is one more crucial aspect, however.
+
+dt. "Package Dependencies":-dep : SEJ's build enforces package dependency rules over and above the ones governed by the @public@ keyword.
