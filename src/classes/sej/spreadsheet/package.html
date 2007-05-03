@@ -9,9 +9,10 @@
 </head>
 <body>
 
-<p>Contains the public compile-time API of SEJ. All of the functionality is accessed using the
-factory methods in {@link sej.SEJ}. This class inherits from {@link sej.runtime.SEJRuntime}, which
-contains only the elements necessary for loading and using engines at run-time.</p>
+<p>Contains the public compile-time API of SEJ's spreadsheet compiler, which extends the core functional model compiler.
+All of the functionality is accessed using the factory methods in {@link sej.spreadsheet.SEJ}.
+This class inherits from {@link sej.compiler.SEJCompiler}, which contains only the elements necessary 
+for compiling functional model, as well as loading and using engines at run-time.</p>
 
 <p>For most uses, you should be able to confine yourself to the types defined here and in {@link
 sej.runtime}.</p>

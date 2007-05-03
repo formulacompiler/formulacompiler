@@ -1,4 +1,4 @@
---- # project
+--- # WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
 groups:
 
   - id: ext

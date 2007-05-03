@@ -13,7 +13,7 @@ class ImportGenerator
 	attr_reader :project, :packages, :checked_packages
 
 	def run
-		subst_file 'macker-rules-template.xml', '../macker-rules.xml'
+		subst_file 'macker-rules-template.xml', '../../temp/macker-rules.xml'
 	end
 	
 end

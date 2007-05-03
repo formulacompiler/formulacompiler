@@ -13,8 +13,9 @@ for example, in
 or
 <a href="http://www.openoffice.org/">OpenOffice Calc</a>
 . SEJ reads the spreadsheet files and builds corresponding Java-based formula evaluation engines
-using a {@link sej.EngineBuilder}, or the lower-level API defined in the package {@link sej}. A
-compiled {@link sej.runtime.Engine} computes output values given a set of input values. For example,
+using a {@link sej.spreadsheet.EngineBuilder}, or the lower-level API defined in the packages 
+{@link sej.spreadsheet} and {@link sej.compiler}.
+A compiled {@link sej.runtime.Engine} computes output values given a set of input values. For example,
 compute the value of the cell B3 given the values of the cells B1 and B2 as inputs.
 </p>
 
@@ -23,7 +24,7 @@ compute the value of the cell B3 given the values of the cells B1 and B2 as inpu
 	<li><a href="../index.htm" target="window">Full Documentation</a></li>
 </ul>
 
-@see sej.EngineBuilder
+@see sej.spreadsheet.EngineBuilder
 @see sej.runtime.Engine
 @see sej.runtime.ComputationFactory
 @see sej.runtime.Computation
