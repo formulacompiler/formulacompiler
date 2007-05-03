@@ -21,6 +21,7 @@
 	<property name="src.test-system.dir" location="${src.dir}/test-system" />
 	<property name="src.examples.dir" location="${src.dir}/examples" />
 	<property name="src.doc.dir" location="${src.dir}/doc" />
+	<property name="src.scripts.dir" location="${src.dir}/scripts" />
 
 	<property name="javac.source" value="1.5" />
 	<property name="javac.target" value="1.5" />
@@ -39,6 +40,7 @@
 	<property name="temp.testresults.dir" location="${temp.dir}/testresults" />
 	<property name="temp.reference.dir" location="${temp.dir}/reference" />
 	<property name="temp.doc.dir" location="${temp.dir}/doc" />
+	<property name="temp.macker-rules.file" location="${temp}/macker-rules.xml" />
 
 	<property name="dist.dir" location="${basedir}/dist" />
 
@@ -131,17 +133,17 @@
 		<antcall target="-lexgen">
 			<param name="style" value="A1" />
 			<param name="src" value="${src.classes.dir}" />
-			<param name="tgt" value="${temp.classes-gen.dir}" /> 
+			<param name="tgt" value="${temp.classes-gen.dir}" />
 		</antcall>
 		<antcall target="-lexgen">
 			<param name="style" value="R1C1" />
 			<param name="src" value="${src.classes.dir}" />
-			<param name="tgt" value="${temp.classes-gen.dir}" /> 
+			<param name="tgt" value="${temp.classes-gen.dir}" />
 		</antcall>
 		<antcall target="-lexgen">
 			<param name="style" value="Internal" />
 			<param name="src" value="${src.classes-build-tools.dir}" />
-			<param name="tgt" value="${temp.build-tools-gen.dir}" /> 
+			<param name="tgt" value="${temp.build-tools-gen.dir}" />
 		</antcall>
 	</target>
 
@@ -191,12 +193,12 @@
 		<property name="tools-path" value="${tools.classpath}:${temp.classes.dir}:${temp.classes-build-tools.dir}" />
 		<java classpath="${tools-path}" classname="sej.internal.build.rewriting.RewriteRulesCompiler" />
 		<java classpath="${tools-path}" classname="sej.internal.build.bytecode.PatternCompiler" fork="true" />
-		
+
 		<javac srcdir="${src.classes.dir}:${temp.classes-gen-jre.dir}:${temp.classes-gen.dir}" destdir="${temp.classes.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/internal/model/**" />
 			<include name="sej/internal/bytecode/**" />
 		</javac>
-		
+
 		<copy todir="${temp.classes.dir}">
 			<fileset dir="${src.resources.dir}">
 				<include name="**/*" />
@@ -204,41 +206,41 @@
 			</fileset>
 		</copy>
 	</target>
-	
-	<property name="staged.dir" value="${temp.dir}/staged"/>
-	
+
+	<property name="staged.dir" value="${temp.dir}/staged" />
+
 	<target name="-c-rt-api" depends="-prepare">
-		<mkdir dir="${staged.dir}/rt-api"/>
+		<mkdir dir="${staged.dir}/rt-api" />
 		<javac srcdir="${src.classes.dir}" destdir="${staged.dir}/rt-api" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/runtime/*" />
 		</javac>
 	</target>
-	
+
 	<target name="-c-rt-impl" depends="-c-rt-api">
-		<mkdir dir="${staged.dir}/rt-impl"/>
+		<mkdir dir="${staged.dir}/rt-impl" />
 		<javac srcdir="${src.classes.dir}" destdir="${staged.dir}/rt-impl" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/internal/runtime/*" />
 			<classpath>
-				<pathelement location="${staged.dir}/rt-api"/>
+				<pathelement location="${staged.dir}/rt-api" />
 			</classpath>
 		</javac>
 	</target>
-	
+
 	<target name="-c-rt-jvm" depends="-c-rt-api, -c-rt-impl">
-		<mkdir dir="${staged.dir}/rt-jvm"/>
+		<mkdir dir="${staged.dir}/rt-jvm" />
 		<javac srcdir="${src.classes.dir}" destdir="${staged.dir}/rt-jvm" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/internal/bytecode/runtime/*" />
 			<classpath>
-				<pathelement location="${staged.dir}/rt-api"/>
-				<pathelement location="${staged.dir}/rt-impl"/>
+				<pathelement location="${staged.dir}/rt-api" />
+				<pathelement location="${staged.dir}/rt-impl" />
 			</classpath>
 		</javac>
 	</target>
-	
+
 	<target name="c" depends="-prepare, -c-rt-api, -c-rt-impl, -c-rt-jvm">
-				
+
 	</target>
-	
+
 	<!-- jars -->
 
 	<target name="jar" depends="compile" description="Creates sej.jar and sej-runtime.jar.">
@@ -314,7 +316,7 @@
 		<mkdir dir="${temp.testresults.dir}" />
 
 		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
-			<jvmarg value="-Demit_tests"/>
+			<jvmarg value="-Demit_tests" />
 
 			<assertions enablesystemassertions="yes" />
 
@@ -346,7 +348,7 @@
 		</junit>
 
 		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
-			<jvmarg value="-Demit_tests"/>
+			<jvmarg value="-Demit_tests" />
 
 			<assertions enablesystemassertions="yes" />
 
@@ -376,7 +378,7 @@
 		<mkdir dir="${temp.testresults.dir}" />
 
 		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
-			<jvmarg value="-Demit_tests"/>
+			<jvmarg value="-Demit_tests" />
 
 			<assertions enablesystemassertions="yes" />
 
@@ -421,12 +423,19 @@
 
 	<!-- validate -->
 
-	<target name="validate" depends="compile, compile-tests, compile-examples, dependencies, style" description="Validates the Java source code (compilation and static analysis).">
+	<target name="validate" depends="compile, compile-tests, compile-examples, deps, style" description="Validates the Java source code (compilation and static analysis).">
 	</target>
 
 	<!-- dependencies -->
 
-	<target name="dependencies-only" depends="-prepare" description="Validates Java package dependencies of existing compiled source against src/macker-rules.xml.">
+	<target name="make-deps" depends="-prepare" description="Generates the dependency checking rules for the deps-only target.">
+		<delete file="${temp.macker-rules.file}" />
+		<exec dir="${src.scripts.dir}" executable="ruby" vmlauncher="false" failonerror="true">
+			<arg value="gen-macker-rules.rb" />
+		</exec>
+	</target>
+
+	<target name="deps-only" depends="-prepare" description="Validates Java package dependencies of existing compiled source against src/macker-rules.xml.">
 
 		<path id="macker.classpath">
 			<pathelement path="${macker.jar}" />
@@ -435,7 +444,7 @@
 		<taskdef name="macker" classname="net.innig.macker.ant.MackerAntTask" classpathref="macker.classpath" />
 
 		<macker>
-			<rules dir="${src.dir}" includes="macker-rules.xml" />
+			<rules dir="${temp.dir}" includes="macker-rules.xml" />
 			<classes dir="${temp.classes.dir}">
 				<include name="**/*.class" />
 				<exclude name="**/CUP*.class" />
@@ -447,10 +456,10 @@
 				<include name="**/*.class" />
 			</classes>
 		</macker>
-		
+
 	</target>
 
-	<target name="dependencies" depends="compile, compile-tests, compile-examples, dependencies-only" description="Validates Java package dependencies against src/macker-rules.xml.">
+	<target name="deps" depends="compile, compile-tests, compile-examples, make-deps, deps-only" description="Validates Java package dependencies against src/macker-rules.xml.">
 	</target>
 
 	<!-- style -->
@@ -524,7 +533,7 @@
 			<fileset file="${basedir}\LICENSE.html" />
 		</copy>
 
-		<exec dir="${temp.doc.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true" >
+		<exec dir="${temp.doc.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true">
 		</exec>
 
 	</target>
@@ -548,9 +557,51 @@
 			<fileset file="${basedir}\LICENSE.html" />
 		</copy>
 
-		<exec dir="${src.doc.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true" >
+		<exec dir="${src.doc.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true">
 		</exec>
 
+	</target>
+
+	<!-- dot -->
+
+	<target name="make-dot" depends="-prepare" description="Generates .dot input files from scripts.">
+		<mkdir dir="${temp.doc.dir}/hacking" />
+		<exec dir="${src.scripts.dir}" executable="ruby" vmlauncher="false" failonerror="true">
+			<arg value="gen-dependency-graph.rb" />
+		</exec>
+	</target>
+
+	<target name="dot" depends="make-dot" description="Generates .png images from .dot sources.">
+		<mkdir dir="${doc.dir}/hacking" />
+		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
+			<arg value="-Tpng" />
+			<arg value="-Gsize=6,6" />
+			<arg value="-odoc/compile_and_use.png" />
+			<arg file="${src.doc.dir}/compile_and_use.dot" />
+		</exec>
+		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
+			<arg value="-Tpng" />
+			<arg value="-Gsize=6,6" />
+			<arg value="-odoc/compilesrc_and_use.png" />
+			<arg file="${src.doc.dir}/compilesrc_and_use.dot" />
+		</exec>
+		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
+			<arg value="-Tpng" />
+			<arg value="-Gsize=6,6" />
+			<arg value="-odoc/compiler.png" />
+			<arg file="${src.doc.dir}/compiler.dot" />
+		</exec>
+		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
+			<arg value="-Tpng" />
+			<arg value="-Gsize=6,6" />
+			<arg value="-odoc/embedded.png" />
+			<arg file="${src.doc.dir}/embedded.dot" />
+		</exec>
+		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
+			<arg value="-Tpng" />
+			<arg value="-odoc/hacking/dependency-graph.png" />
+			<arg file="${temp.doc.dir}/hacking/dependency-graph.dot" />
+		</exec>
 	</target>
 
 	<!-- cite -->
@@ -558,7 +609,7 @@
 	<target name="cite" depends="-prepare" description="Cites code fragments into documentation in doc/ (needs successful test run).">
 
 		<path id="jcite.classpath">
-			<fileset dir="${jcite.build.dir}"  includes="*.jar" />
+			<fileset dir="${jcite.build.dir}" includes="*.jar" />
 			<fileset dir="${jcite.lib.dir}" includes="*.jar" />
 		</path>
 
@@ -623,7 +674,7 @@
 		<mkdir dir="${javadoc.dir}" />
 
 		<javadoc sourcepath="${src.classes.dir}" destdir="${javadoc.dir}" public="true" windowtitle="${javadoc.title}" use="true" 
-			packagenames="sej,sej.runtime,sej.describable,sej.expressions" 
+			packagenames="sej.runtime,sej.describable,sej.compiler,sej.decompiler,sej.spreadsheet" 
 			additionalParam="-tagletPath ${jcite.build.dir}/jcite.jar;${jcite.lib.dir}/java2html.jar -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${src.cite.path}" 
 			stylesheetfile="${src.doc.dir}/javadoc/style.css" 
 			overview="${src.classes.dir}/overview.html">
@@ -646,7 +697,7 @@
 
 	<!-- doc -->
 
-	<target name="doc" depends="compile-examples, test, rextile, cite, javadoc" description="Rebuilds entire documentation in doc/ (runs tests first).">
+	<target name="doc" depends="compile-examples, test, rextile, dot, cite, javadoc" description="Rebuilds entire documentation in doc/ (runs tests first).">
 	</target>
 
 	<!-- clean -->

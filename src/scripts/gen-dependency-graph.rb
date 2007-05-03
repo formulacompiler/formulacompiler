@@ -12,7 +12,7 @@ class DotGenerator
 	attr_reader :project
 	
 	def run
-		write_file '../doc/hacking/dependency-graph.dot', gen
+		write_file '../../temp/doc/hacking/dependency-graph.dot', gen
 	end
 	
 	def gen
