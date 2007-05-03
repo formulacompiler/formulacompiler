@@ -20,18 +20,19 @@
  */
 package sej.internal.spreadsheet.binder;
 
-import sej.CompilerException;
-import sej.Orientation;
-import sej.SEJ;
-import sej.SpreadsheetBinder;
-import sej.SpreadsheetBinder.Config;
-import sej.SpreadsheetBinder.Section;
+import sej.compiler.CompilerException;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellRange;
 import sej.internal.spreadsheet.CellWithLazilyParsedExpression;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
+import sej.spreadsheet.Orientation;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.SpreadsheetBinder;
+import sej.spreadsheet.SpreadsheetException;
+import sej.spreadsheet.SpreadsheetBinder.Config;
+import sej.spreadsheet.SpreadsheetBinder.Section;
 import sej.tests.utils.AbstractSpreadsheetTestBase;
 import sej.tests.utils.Inputs;
 import sej.tests.utils.Outputs;
@@ -171,7 +172,7 @@ public class SpreadsheetBinderTest extends AbstractSpreadsheetTestBase
 			_def.defineRepeatingSection( two, _orientation, getInput( "getDetails" ), Inputs.class, null, null );
 			fail( "No overlap reported for " + two );
 		}
-		catch (CompilerException.SectionOverlap e) {
+		catch (SpreadsheetException.SectionOverlap e) {
 			// expected
 		}
 	}
@@ -218,7 +219,7 @@ public class SpreadsheetBinderTest extends AbstractSpreadsheetTestBase
 			_band.defineInputCell( _cell.getCellIndex(), getInput( "getOne" ) );
 			fail( "Definition for " + _cell.getCellIndex() + " accepted, but was not in band" );
 		}
-		catch (CompilerException.NotInSection e) {
+		catch (SpreadsheetException.NotInSection e) {
 			// expected
 		}
 	}
@@ -233,7 +234,7 @@ public class SpreadsheetBinderTest extends AbstractSpreadsheetTestBase
 							null );
 			fail( "Definition for " + rng + " accepted, but was not in band" );
 		}
-		catch (CompilerException.NotInSection e) {
+		catch (SpreadsheetException.NotInSection e) {
 			// expected
 		}
 	}

@@ -22,14 +22,14 @@ package sej.tutorials;
 
 import java.io.File;
 
-import sej.EngineBuilder;
-import sej.Function;
-import sej.SEJ;
-import sej.SaveableEngine;
-import sej.Spreadsheet;
-import sej.SpreadsheetBuilder;
-import sej.bytecode.ByteCodeEngineSource;
-import sej.bytecode.SEJByteCode;
+import sej.compiler.Function;
+import sej.compiler.SaveableEngine;
+import sej.decompiler.ByteCodeEngineSource;
+import sej.decompiler.SEJByteCode;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetBuilder;
 import sej.tests.utils.AbstractTestBase;
 
 public class Decompilation extends AbstractTestBase

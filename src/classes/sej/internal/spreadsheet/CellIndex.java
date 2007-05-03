@@ -20,10 +20,10 @@
  */
 package sej.internal.spreadsheet;
 
-import sej.Orientation;
-import sej.SpreadsheetException;
-import sej.Spreadsheet.Cell;
 import sej.describable.DescriptionBuilder;
+import sej.spreadsheet.Orientation;
+import sej.spreadsheet.SpreadsheetException;
+import sej.spreadsheet.Spreadsheet.Cell;
 
 public final class CellIndex extends Reference implements Cell
 {

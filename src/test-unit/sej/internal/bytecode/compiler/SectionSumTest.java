@@ -23,22 +23,22 @@ package sej.internal.bytecode.compiler;
 import java.util.Collection;
 import java.util.Iterator;
 
-import sej.CallFrame;
-import sej.CompilerException;
-import sej.EngineBuilder;
-import sej.Function;
-import sej.Operator;
-import sej.Orientation;
-import sej.SEJ;
-import sej.SaveableEngine;
-import sej.Spreadsheet;
-import sej.SpreadsheetBuilder;
-import sej.Spreadsheet.Range;
-import sej.SpreadsheetBinder.Section;
-import sej.SpreadsheetBuilder.CellRef;
+import sej.compiler.CallFrame;
+import sej.compiler.CompilerException;
+import sej.compiler.Function;
+import sej.compiler.Operator;
+import sej.compiler.SaveableEngine;
 import sej.runtime.Computation;
 import sej.runtime.New;
 import sej.runtime.Resettable;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.Orientation;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetBuilder;
+import sej.spreadsheet.Spreadsheet.Range;
+import sej.spreadsheet.SpreadsheetBinder.Section;
+import sej.spreadsheet.SpreadsheetBuilder.CellRef;
 import sej.tests.utils.AbstractIOTestBase;
 
 

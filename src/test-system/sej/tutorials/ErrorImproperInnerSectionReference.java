@@ -20,16 +20,16 @@
  */
 package sej.tutorials;
 
-import sej.CallFrame;
-import sej.CompilerException;
-import sej.EngineBuilder;
-import sej.Orientation;
-import sej.SEJ;
-import sej.Spreadsheet;
-import sej.Spreadsheet.Range;
-import sej.SpreadsheetBinder.Section;
+import sej.compiler.CallFrame;
 import sej.runtime.Engine;
 import sej.runtime.Resettable;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.Orientation;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetException;
+import sej.spreadsheet.Spreadsheet.Range;
+import sej.spreadsheet.SpreadsheetBinder.Section;
 import junit.framework.TestCase;
 
 public class ErrorImproperInnerSectionReference extends TestCase
@@ -54,7 +54,7 @@ public class ErrorImproperInnerSectionReference extends TestCase
 			builder.compile();
 			fail();
 		}
-		catch (/**/CompilerException.SectionExtentNotCovered e/**/) {
+		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
 			String err = /**/"Range C2:C2 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
 					+ "Referenced by cell B10."/**/;
 			assertEquals( err, e.getMessage() );
@@ -70,7 +70,7 @@ public class ErrorImproperInnerSectionReference extends TestCase
 			builder.compile();
 			fail();
 		}
-		catch (/**/CompilerException.SectionExtentNotCovered e/**/) {
+		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
 			String err = /**/"Range C2:C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
 					+ "Referenced by cell B11."/**/;
 			assertEquals( err, e.getMessage() );
@@ -86,7 +86,7 @@ public class ErrorImproperInnerSectionReference extends TestCase
 			builder.compile();
 			fail();
 		}
-		catch (/**/CompilerException.SectionExtentNotCovered e/**/) {
+		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
 			String err = /**/"Range C3:C4 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
 					+ "Referenced by cell B12."/**/;
 			assertEquals( err, e.getMessage() );
@@ -102,7 +102,7 @@ public class ErrorImproperInnerSectionReference extends TestCase
 			builder.compile();
 			fail();
 		}
-		catch (/**/CompilerException.SectionExtentNotCovered e/**/) {
+		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
 			String err = /**/"Range C3:C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
 					+ "Referenced by cell B13."/**/;
 			assertEquals( err, e.getMessage() );
@@ -118,7 +118,7 @@ public class ErrorImproperInnerSectionReference extends TestCase
 			builder.compile();
 			fail();
 		}
-		catch (/**/CompilerException.SectionExtentNotCovered e/**/) {
+		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
 			String err = /**/"Range C3:C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
 					+ "Referenced by cell B14."/**/;
 			assertEquals( err, e.getMessage() );

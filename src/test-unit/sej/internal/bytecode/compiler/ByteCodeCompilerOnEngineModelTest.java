@@ -22,11 +22,11 @@ package sej.internal.bytecode.compiler;
 
 import java.math.BigDecimal;
 
-import sej.CallFrame;
-import sej.NumericType;
-import sej.Operator;
-import sej.SEJCompiler;
-import sej.SaveableEngine;
+import sej.compiler.CallFrame;
+import sej.compiler.NumericType;
+import sej.compiler.Operator;
+import sej.compiler.SEJCompiler;
+import sej.compiler.SaveableEngine;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.model.CellModel;
 import sej.internal.model.ComputationModel;

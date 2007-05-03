@@ -20,7 +20,7 @@
  */
 package sej.internal.model.analysis;
 
-import sej.CompilerException;
+import sej.compiler.CompilerException;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForAbstractFold;

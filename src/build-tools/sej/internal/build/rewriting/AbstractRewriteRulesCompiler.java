@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import sej.Function;
+import sej.compiler.Function;
 import sej.describable.DescriptionBuilder;
 import sej.internal.build.Util;
 import sej.internal.expressions.ExpressionNode;

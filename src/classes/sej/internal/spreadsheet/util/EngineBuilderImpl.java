@@ -26,18 +26,18 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import sej.CompilerException;
-import sej.EngineBuilder;
-import sej.NumericType;
-import sej.SEJ;
-import sej.SaveableEngine;
-import sej.Spreadsheet;
-import sej.SpreadsheetBinder;
-import sej.SpreadsheetBinding;
-import sej.SpreadsheetByNameBinder;
-import sej.SpreadsheetException;
-import sej.SpreadsheetNameCreator;
+import sej.compiler.CompilerException;
+import sej.compiler.NumericType;
+import sej.compiler.SaveableEngine;
 import sej.runtime.EngineException;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetBinder;
+import sej.spreadsheet.SpreadsheetBinding;
+import sej.spreadsheet.SpreadsheetByNameBinder;
+import sej.spreadsheet.SpreadsheetException;
+import sej.spreadsheet.SpreadsheetNameCreator;
 
 
 public class EngineBuilderImpl implements EngineBuilder

@@ -20,16 +20,16 @@
  */
 package sej.internal.bytecode.compiler;
 
-import sej.CallFrame;
-import sej.EngineBuilder;
-import sej.Operator;
-import sej.SEJ;
-import sej.SaveableEngine;
-import sej.Spreadsheet;
-import sej.SpreadsheetBuilder;
-import sej.SpreadsheetBinder.Section;
-import sej.SpreadsheetBuilder.CellRef;
+import sej.compiler.CallFrame;
+import sej.compiler.Operator;
+import sej.compiler.SaveableEngine;
 import sej.runtime.Resettable;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetBuilder;
+import sej.spreadsheet.SpreadsheetBinder.Section;
+import sej.spreadsheet.SpreadsheetBuilder.CellRef;
 import sej.tests.utils.AbstractIOTestBase;
 
 public class StringsTest extends AbstractIOTestBase

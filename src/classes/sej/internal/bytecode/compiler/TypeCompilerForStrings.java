@@ -24,7 +24,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
-import sej.CompilerException;
+import sej.compiler.CompilerException;
 import sej.internal.expressions.DataType;
 import sej.internal.runtime.Runtime_v1;
 

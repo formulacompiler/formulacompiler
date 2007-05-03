@@ -26,7 +26,7 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
-import sej.CompilerException;
+import sej.compiler.CompilerException;
 import sej.internal.expressions.ArrayDescriptor;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;

@@ -22,7 +22,7 @@ package sej.internal.spreadsheet.compiler;
 
 import java.util.Collection;
 
-import sej.CompilerException;
+import sej.compiler.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.ExpressionNodeForParentSectionModel;
 import sej.internal.model.ExpressionNodeForSubSectionModel;

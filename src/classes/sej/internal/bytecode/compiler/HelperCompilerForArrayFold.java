@@ -22,7 +22,7 @@ package sej.internal.bytecode.compiler;
 
 import org.objectweb.asm.Opcodes;
 
-import sej.CompilerException;
+import sej.compiler.CompilerException;
 import sej.internal.bytecode.compiler.ExpressionCompilerForNumbers_Base.FoldArrayCompilation;
 import sej.internal.expressions.DataType;
 import sej.internal.expressions.ExpressionNode;

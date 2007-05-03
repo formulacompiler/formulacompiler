@@ -20,9 +20,9 @@
  */
 package sej.internal.model.rewriting;
 
-import sej.Operator;
+import sej.compiler.Operator;
 import sej.internal.expressions.ExpressionNodeForFunction;
-import sej.internal.model.util.InterpretedNumericType;
+import sej.internal.model.interpreter.InterpretedNumericType;
 
 final class FunctionRewriterForDMIN extends AbstractFunctionRewriterForDatabaseAggregator
 {

@@ -22,10 +22,8 @@ package sej.internal.spreadsheet.builder;
 
 import java.util.Date;
 
-import sej.Function;
-import sej.Operator;
-import sej.Spreadsheet;
-import sej.SpreadsheetBuilder;
+import sej.compiler.Function;
+import sej.compiler.Operator;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
@@ -40,6 +38,8 @@ import sej.internal.spreadsheet.ExpressionNodeForRange;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetBuilder;
 
 public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 {

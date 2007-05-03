@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 
-import sej.Validation;
+import sej.compiler.Validation;
 
 public final class ValidationImpl implements Validation
 {

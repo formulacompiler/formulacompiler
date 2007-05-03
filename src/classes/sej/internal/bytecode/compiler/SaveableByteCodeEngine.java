@@ -28,7 +28,7 @@ import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import sej.SaveableEngine;
+import sej.compiler.SaveableEngine;
 import sej.internal.Settings;
 import sej.internal.bytecode.runtime.ByteCodeEngine;
 import sej.runtime.EngineException;

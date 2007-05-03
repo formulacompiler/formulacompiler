@@ -23,8 +23,8 @@ package sej.internal.spreadsheet.loader;
 import java.io.IOException;
 import java.io.InputStream;
 
-import sej.Spreadsheet;
-import sej.SpreadsheetException;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetException;
 
 public interface SpreadsheetLoader
 {

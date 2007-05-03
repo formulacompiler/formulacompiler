@@ -21,14 +21,10 @@
 package sej.tests.utils;
 
 
-import sej.CallFrame;
-import sej.CompilerException;
-import sej.Function;
-import sej.Operator;
-import sej.Orientation;
-import sej.SEJ;
-import sej.SpreadsheetBinder;
-import sej.CompilerException.SectionOverlap;
+import sej.compiler.CallFrame;
+import sej.compiler.CompilerException;
+import sej.compiler.Function;
+import sej.compiler.Operator;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForFunction;
 import sej.internal.expressions.ExpressionNodeForOperator;
@@ -41,6 +37,10 @@ import sej.internal.spreadsheet.ExpressionNodeForCell;
 import sej.internal.spreadsheet.ExpressionNodeForRange;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
+import sej.spreadsheet.Orientation;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.SpreadsheetBinder;
+import sej.spreadsheet.SpreadsheetException;
 
 /**
  * Construct the following sheet:
@@ -108,7 +108,7 @@ public class WorksheetBuilderWithBands
 	/**
 	 * Define a binder and set the 3x4 values cells as a dynamic input range.
 	 * 
-	 * @throws SectionOverlap
+	 * @throws SpreadsheetException.SectionOverlap
 	 */
 	@SuppressWarnings("unqualified-field-access")
 	public SpreadsheetBinder newBinder() throws CompilerException

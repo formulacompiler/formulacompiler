@@ -20,8 +20,8 @@
  */
 package sej.internal;
 
-import sej.NumericType;
-import sej.SEJCompiler;
+import sej.compiler.NumericType;
+import sej.compiler.SEJCompiler;
 
 public class BigDecimalTypeTest extends AbstractNumericTypeTest
 {

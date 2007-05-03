@@ -20,7 +20,7 @@
  */
 package sej.internal.model.optimizer.consteval;
 
-import sej.CompilerException;
+import sej.compiler.CompilerException;
 import sej.internal.Settings;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForArrayReference;
@@ -30,7 +30,7 @@ import sej.internal.expressions.ExpressionNodeShadow;
 import sej.internal.expressions.LetDictionary;
 import sej.internal.logging.Log;
 import sej.internal.model.ExpressionNodeForSubSectionModel;
-import sej.internal.model.util.InterpretedNumericType;
+import sej.internal.model.interpreter.InterpretedNumericType;
 
 public abstract class EvalShadow extends ExpressionNodeShadow
 {

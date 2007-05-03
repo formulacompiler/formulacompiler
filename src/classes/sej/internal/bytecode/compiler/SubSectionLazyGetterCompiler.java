@@ -29,8 +29,8 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
-import sej.CallFrame;
-import sej.CompilerException;
+import sej.compiler.CallFrame;
+import sej.compiler.CompilerException;
 
 final class SubSectionLazyGetterCompiler extends MethodCompiler
 {

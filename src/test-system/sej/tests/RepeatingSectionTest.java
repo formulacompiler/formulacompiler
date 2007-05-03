@@ -20,19 +20,19 @@
  */
 package sej.tests;
 
-import sej.CallFrame;
-import sej.EngineBuilder;
-import sej.Function;
-import sej.NumericType;
-import sej.Orientation;
-import sej.SEJ;
-import sej.SaveableEngine;
-import sej.Spreadsheet;
-import sej.SpreadsheetBuilder;
-import sej.SpreadsheetBinder.Section;
-import sej.SpreadsheetBuilder.CellRef;
+import sej.compiler.CallFrame;
+import sej.compiler.Function;
+import sej.compiler.NumericType;
+import sej.compiler.SaveableEngine;
 import sej.runtime.ComputationFactory;
 import sej.runtime.Resettable;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.Orientation;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetBuilder;
+import sej.spreadsheet.SpreadsheetBinder.Section;
+import sej.spreadsheet.SpreadsheetBuilder.CellRef;
 import junit.framework.TestCase;
 
 public class RepeatingSectionTest extends TestCase

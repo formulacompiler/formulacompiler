@@ -20,13 +20,13 @@
  */
 package sej.tutorials;
 
-import sej.EngineBuilder;
-import sej.SEJ;
-import sej.bytecode.SEJByteCode;
+import sej.decompiler.SEJByteCode;
 import sej.runtime.ComputationFactory;
 import sej.runtime.Engine;
 import sej.runtime.ScaledLong;
 import sej.runtime.ScaledLongSupport;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.SEJ;
 import junit.framework.TestCase;
 
 public class UsingScaledLong extends TestCase

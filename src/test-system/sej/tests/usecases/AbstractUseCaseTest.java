@@ -20,11 +20,11 @@
  */
 package sej.tests.usecases;
 
-import sej.EngineBuilder;
-import sej.SEJ;
-import sej.SaveableEngine;
-import sej.Spreadsheet;
-import sej.SpreadsheetBinder;
+import sej.compiler.SaveableEngine;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetBinder;
 import junit.framework.TestCase;
 
 abstract class AbstractUseCaseTest extends TestCase

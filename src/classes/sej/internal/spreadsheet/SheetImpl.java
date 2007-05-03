@@ -23,11 +23,11 @@ package sej.internal.spreadsheet;
 import java.io.IOException;
 import java.util.List;
 
-import sej.Spreadsheet;
-import sej.Spreadsheet.Row;
 import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
 import sej.runtime.New;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.Spreadsheet.Row;
 
 
 public final class SheetImpl extends AbstractDescribable implements Spreadsheet.Sheet

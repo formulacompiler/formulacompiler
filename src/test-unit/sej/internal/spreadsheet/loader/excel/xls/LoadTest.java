@@ -20,10 +20,10 @@
  */
 package sej.internal.spreadsheet.loader.excel.xls;
 
-import sej.SEJ;
-import sej.Spreadsheet;
-import sej.Spreadsheet.Row;
-import sej.Spreadsheet.Sheet;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.Spreadsheet.Row;
+import sej.spreadsheet.Spreadsheet.Sheet;
 import junit.framework.TestCase;
 
 public class LoadTest extends TestCase

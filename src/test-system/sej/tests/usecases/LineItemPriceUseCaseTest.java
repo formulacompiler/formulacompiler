@@ -20,11 +20,11 @@
  */
 package sej.tests.usecases;
 
-import sej.CallFrame;
-import sej.SaveableEngine;
-import sej.Spreadsheet;
-import sej.SpreadsheetBinder.Section;
+import sej.compiler.CallFrame;
+import sej.compiler.SaveableEngine;
 import sej.runtime.Engine;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetBinder.Section;
 
 public class LineItemPriceUseCaseTest extends AbstractUseCaseTest
 {

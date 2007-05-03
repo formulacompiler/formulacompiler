@@ -24,10 +24,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 
-import sej.Spreadsheet;
-import sej.SpreadsheetException;
-import sej.SpreadsheetLoader;
 import sej.runtime.ImplementationLocator;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetException;
+import sej.spreadsheet.SpreadsheetLoader;
 
 /**
  * Central dispatcher for the loaders for the various spreadsheet file formats supported by SEJ.

@@ -61,7 +61,7 @@ public interface EngineLoader
 
 	/**
 	 * Loads an engine. It must have been saved using
-	 * {@link sej.SaveableEngine#saveTo(java.io.OutputStream)}.
+	 * {@link sej.compiler.SaveableEngine#saveTo(java.io.OutputStream)}.
 	 * 
 	 * @param _stream is an input stream which must support the {@link InputStream#mark(int)}
 	 *           operation.

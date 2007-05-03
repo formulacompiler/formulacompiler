@@ -28,7 +28,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.SortedMap;
 
-import sej.bytecode.ByteCodeEngineSource;
+import sej.decompiler.ByteCodeEngineSource;
 import sej.runtime.New;
 
 public final class ByteCodeEngineSourceImpl implements ByteCodeEngineSource

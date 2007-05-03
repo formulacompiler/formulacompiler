@@ -20,7 +20,7 @@
  */
 package sej.internal;
 
-import sej.NumericType;
+import sej.compiler.NumericType;
 import junit.framework.TestCase;
 
 public abstract class AbstractNumericTypeTest extends TestCase

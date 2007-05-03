@@ -28,9 +28,9 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
-import sej.CallFrame;
-import sej.CompilerException;
-import sej.CompilerException.UnsupportedDataType;
+import sej.compiler.CallFrame;
+import sej.compiler.CompilerException;
+import sej.compiler.CompilerException.UnsupportedDataType;
 
 final class OutputDistributorCompiler
 {

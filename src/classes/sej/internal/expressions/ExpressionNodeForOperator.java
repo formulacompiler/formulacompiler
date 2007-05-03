@@ -23,7 +23,7 @@ package sej.internal.expressions;
 import java.io.IOException;
 import java.util.Collection;
 
-import sej.Operator;
+import sej.compiler.Operator;
 import sej.describable.DescriptionBuilder;
 
 

@@ -13,6 +13,7 @@
 [-tex]http://en.wikipedia.org/wiki/Textile_%28markup_language%29
 [-rex]http://arrenbrecht.ch/rextile/
 [-rb]http://ruby-lang.org/
+[-yaml]http://www.yaml.org/
 [-jflex]http://www.jflex.de/
 [-ofspec]http://www.oasis-open.org/committees/documents.php?wg_abbrev=office-formula
 [-jedox]http://www.jedox.com/
@@ -20,3 +21,4 @@
 [-mozmath]http://www.mozilla.org/projects/mathml/
 [-scheme]http://en.wikipedia.org/wiki/Scheme_%28programming_language%29
 [-jode]http://jode.sourceforge.net/
+[-dot]http://www.graphviz.org/

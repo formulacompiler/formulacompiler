@@ -22,8 +22,7 @@ package sej.internal.spreadsheet.loader.excel;
 
 import java.io.StringReader;
 
-import sej.CompilerException;
-import sej.SpreadsheetException;
+import sej.compiler.CompilerException;
 import sej.internal.Settings;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.spreadsheet.CellIndex;
@@ -35,6 +34,7 @@ import sej.internal.spreadsheet.ExpressionNodeForRange;
 import sej.internal.spreadsheet.Reference;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
+import sej.spreadsheet.SpreadsheetException;
 
 
 final class ExcelExpressionParser

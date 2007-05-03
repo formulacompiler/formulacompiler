@@ -28,14 +28,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import sej.CallFrame;
-import sej.EngineBuilder;
-import sej.NumericType;
-import sej.SEJ;
-import sej.SaveableEngine;
-import sej.SpreadsheetBinder.Section;
-import sej.bytecode.ByteCodeEngineSource;
-import sej.bytecode.SEJByteCode;
+import sej.compiler.CallFrame;
+import sej.compiler.NumericType;
+import sej.compiler.SaveableEngine;
+import sej.decompiler.ByteCodeEngineSource;
+import sej.decompiler.SEJByteCode;
 import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.spreadsheet.CellIndex;
@@ -51,6 +48,9 @@ import sej.internal.spreadsheet.saver.excel.xls.ExcelXLSExpressionFormatter;
 import sej.runtime.ComputationFactory;
 import sej.runtime.Resettable;
 import sej.runtime.ScaledLong;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.SpreadsheetBinder.Section;
 
 @SuppressWarnings("unchecked")
 public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest

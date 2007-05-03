@@ -22,11 +22,11 @@ package sej.internal.model.optimizer.consteval;
 
 import java.util.Collection;
 
-import sej.Operator;
+import sej.compiler.Operator;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForOperator;
-import sej.internal.model.util.InterpretedNumericType;
+import sej.internal.model.interpreter.InterpretedNumericType;
 import sej.runtime.New;
 
 public class EvalOperator extends EvalShadow

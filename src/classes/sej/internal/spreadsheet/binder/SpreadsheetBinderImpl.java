@@ -20,17 +20,17 @@
  */
 package sej.internal.spreadsheet.binder;
 
-import sej.CallFrame;
-import sej.CompilerException;
-import sej.Orientation;
-import sej.Spreadsheet;
-import sej.SpreadsheetBinder;
-import sej.SpreadsheetBinding;
-import sej.Spreadsheet.Cell;
-import sej.Spreadsheet.Range;
+import sej.compiler.CallFrame;
+import sej.compiler.CompilerException;
 import sej.internal.spreadsheet.SpreadsheetImpl;
 import sej.internal.spreadsheet.binding.SectionBinding;
 import sej.internal.spreadsheet.binding.WorkbookBinding;
+import sej.spreadsheet.Orientation;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetBinder;
+import sej.spreadsheet.SpreadsheetBinding;
+import sej.spreadsheet.Spreadsheet.Cell;
+import sej.spreadsheet.Spreadsheet.Range;
 
 public final class SpreadsheetBinderImpl implements SpreadsheetBinder
 {

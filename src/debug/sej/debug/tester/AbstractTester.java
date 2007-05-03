@@ -4,21 +4,21 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import sej.CallFrame;
-import sej.EngineBuilder;
-import sej.NumericType;
-import sej.Orientation;
-import sej.SEJ;
-import sej.SaveableEngine;
-import sej.Spreadsheet.Cell;
-import sej.Spreadsheet.CellNameDefinition;
-import sej.Spreadsheet.NameDefinition;
-import sej.Spreadsheet.Range;
-import sej.Spreadsheet.RangeNameDefinition;
-import sej.SpreadsheetBinder.Section;
+import sej.compiler.CallFrame;
+import sej.compiler.NumericType;
+import sej.compiler.SaveableEngine;
 import sej.internal.Debug;
 import sej.runtime.New;
 import sej.runtime.Resettable;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.Orientation;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet.Cell;
+import sej.spreadsheet.Spreadsheet.CellNameDefinition;
+import sej.spreadsheet.Spreadsheet.NameDefinition;
+import sej.spreadsheet.Spreadsheet.Range;
+import sej.spreadsheet.Spreadsheet.RangeNameDefinition;
+import sej.spreadsheet.SpreadsheetBinder.Section;
 
 public abstract class AbstractTester
 {

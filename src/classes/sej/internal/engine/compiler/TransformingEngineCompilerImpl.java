@@ -20,8 +20,8 @@
  */
 package sej.internal.engine.compiler;
 
-import sej.CompilerException;
-import sej.SaveableEngine;
+import sej.compiler.CompilerException;
+import sej.compiler.SaveableEngine;
 import sej.internal.model.ComputationModel;
 import sej.internal.model.ComputationModelTransformer;
 import sej.runtime.EngineException;

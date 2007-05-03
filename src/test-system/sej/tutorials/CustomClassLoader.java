@@ -23,12 +23,12 @@ package sej.tutorials;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-import sej.EngineBuilder;
-import sej.SEJ;
-import sej.SaveableEngine;
+import sej.compiler.SaveableEngine;
 import sej.runtime.Engine;
 import sej.runtime.EngineLoader;
 import sej.runtime.SEJRuntime;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.SEJ;
 import junit.framework.TestCase;
 
 public class CustomClassLoader extends TestCase

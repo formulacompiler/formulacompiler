@@ -22,7 +22,7 @@ package sej.internal.model;
 
 import java.io.IOException;
 
-import sej.CompilerException;
+import sej.compiler.CompilerException;
 import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
 

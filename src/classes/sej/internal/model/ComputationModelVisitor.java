@@ -20,7 +20,7 @@
  */
 package sej.internal.model;
 
-import sej.CompilerException;
+import sej.compiler.CompilerException;
 
 public interface ComputationModelVisitor
 {

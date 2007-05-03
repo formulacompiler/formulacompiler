@@ -28,13 +28,13 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import sej.EngineBuilder;
-import sej.SEJ;
-import sej.SaveableEngine;
-import sej.bytecode.ByteCodeEngineSource;
-import sej.bytecode.SEJByteCode;
+import sej.compiler.SaveableEngine;
+import sej.decompiler.ByteCodeEngineSource;
+import sej.decompiler.SEJByteCode;
 import sej.runtime.Engine;
 import sej.runtime.SEJRuntime;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.SEJ;
 import junit.framework.TestCase;
 
 public class EngineSerializationDemo extends TestCase

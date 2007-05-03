@@ -22,12 +22,12 @@ package sej.internal.model.optimizer.consteval;
 
 import java.util.Collection;
 
-import sej.CompilerException;
+import sej.compiler.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForAbstractFold;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForSubstitution;
-import sej.internal.model.util.InterpretedNumericType;
+import sej.internal.model.interpreter.InterpretedNumericType;
 import sej.runtime.New;
 
 abstract class EvalAbstractFold extends EvalShadow

@@ -20,7 +20,7 @@
  */
 package sej.internal.build.rewriting;
 
-import sej.Function;
+import sej.compiler.Function;
 
 public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 {

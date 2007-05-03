@@ -24,11 +24,11 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import sej.CompilerException;
-import sej.internal.InnerExpressionException;
+import sej.compiler.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.expressions.ExpressionNodeForFunction;
+import sej.internal.expressions.InnerExpressionException;
 import sej.internal.expressions.LetDictionary.LetEntry;
 
 final class HelperCompilerForMatch extends HelperCompiler

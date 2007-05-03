@@ -22,13 +22,13 @@ package sej.internal.spreadsheet.loader.excel;
 
 import java.io.IOException;
 
-import sej.SpreadsheetException;
 import sej.describable.AbstractDescribable;
 import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellWithLazilyParsedExpression;
 import sej.internal.spreadsheet.LazyExpressionParser;
+import sej.spreadsheet.SpreadsheetException;
 
 
 public final class ExcelLazyExpressionParser extends AbstractDescribable implements LazyExpressionParser

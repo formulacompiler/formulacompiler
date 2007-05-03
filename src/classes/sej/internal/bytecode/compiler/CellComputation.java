@@ -20,8 +20,8 @@
  */
 package sej.internal.bytecode.compiler;
 
-import sej.CallFrame;
-import sej.CompilerException;
+import sej.compiler.CallFrame;
+import sej.compiler.CompilerException;
 import sej.internal.NumericTypeImpl;
 import sej.internal.model.CellModel;
 

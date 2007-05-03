@@ -23,10 +23,10 @@ package sej.internal.spreadsheet;
 import java.io.IOException;
 import java.util.List;
 
-import sej.Spreadsheet;
-import sej.Spreadsheet.Cell;
 import sej.describable.DescriptionBuilder;
 import sej.runtime.New;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.Spreadsheet.Cell;
 
 public final class RowImpl extends AbstractStyledElement implements Spreadsheet.Row
 {

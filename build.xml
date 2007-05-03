@@ -163,7 +163,7 @@
 	<target name="compile" depends="-prepare, generate-parsers" description="Compiles and also generates some of the Java source code for sej.jar.">
 		<javac srcdir="${src.classes.dir}:${temp.classes-gen.dir}" destdir="${temp.classes.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/*" />
-			<include name="sej/bytecode/*" />
+			<include name="sej/decompiler/*" />
 			<include name="sej/describable/*" />
 			<include name="sej/runtime/*" />
 			<include name="sej/internal/*" />
@@ -204,7 +204,41 @@
 			</fileset>
 		</copy>
 	</target>
-
+	
+	<property name="staged.dir" value="${temp.dir}/staged"/>
+	
+	<target name="-c-rt-api" depends="-prepare">
+		<mkdir dir="${staged.dir}/rt-api"/>
+		<javac srcdir="${src.classes.dir}" destdir="${staged.dir}/rt-api" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+			<include name="sej/runtime/*" />
+		</javac>
+	</target>
+	
+	<target name="-c-rt-impl" depends="-c-rt-api">
+		<mkdir dir="${staged.dir}/rt-impl"/>
+		<javac srcdir="${src.classes.dir}" destdir="${staged.dir}/rt-impl" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+			<include name="sej/internal/runtime/*" />
+			<classpath>
+				<pathelement location="${staged.dir}/rt-api"/>
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="-c-rt-jvm" depends="-c-rt-api, -c-rt-impl">
+		<mkdir dir="${staged.dir}/rt-jvm"/>
+		<javac srcdir="${src.classes.dir}" destdir="${staged.dir}/rt-jvm" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+			<include name="sej/internal/bytecode/runtime/*" />
+			<classpath>
+				<pathelement location="${staged.dir}/rt-api"/>
+				<pathelement location="${staged.dir}/rt-impl"/>
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="c" depends="-prepare, -c-rt-api, -c-rt-impl, -c-rt-jvm">
+				
+	</target>
+	
 	<!-- jars -->
 
 	<target name="jar" depends="compile" description="Creates sej.jar and sej-runtime.jar.">
@@ -413,6 +447,7 @@
 				<include name="**/*.class" />
 			</classes>
 		</macker>
+		
 	</target>
 
 	<target name="dependencies" depends="compile, compile-tests, compile-examples, dependencies-only" description="Validates Java package dependencies against src/macker-rules.xml.">

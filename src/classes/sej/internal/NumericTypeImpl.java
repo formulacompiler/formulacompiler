@@ -25,8 +25,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
-import sej.CompilerException;
-import sej.NumericType;
+import sej.compiler.CompilerException;
+import sej.compiler.NumericType;
 import sej.internal.runtime.RuntimeBigDecimal_v1;
 import sej.internal.runtime.RuntimeDouble_v1;
 import sej.internal.runtime.RuntimeLong_v1;

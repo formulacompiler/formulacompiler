@@ -20,9 +20,9 @@
  */
 package sej.examples;
 
-import sej.EngineBuilder;
-import sej.SEJ;
 import sej.runtime.Engine;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.SEJ;
 import junit.framework.TestCase;
 
 public class BasicUsageDemo extends TestCase

@@ -20,8 +20,8 @@
  */
 package sej.internal.spreadsheet;
 
-import sej.SpreadsheetException;
 import sej.internal.expressions.ExpressionNode;
+import sej.spreadsheet.SpreadsheetException;
 
 
 public interface LazyExpressionParser 

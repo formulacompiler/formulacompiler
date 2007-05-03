@@ -22,9 +22,9 @@ package sej.internal.engine.compiler;
 
 import java.lang.reflect.Method;
 
-import sej.CompilerException;
-import sej.NumericType;
-import sej.SaveableEngine;
+import sej.compiler.CompilerException;
+import sej.compiler.NumericType;
+import sej.compiler.SaveableEngine;
 import sej.internal.model.ComputationModel;
 import sej.runtime.EngineException;
 

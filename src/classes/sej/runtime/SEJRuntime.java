@@ -29,7 +29,7 @@ import sej.runtime.EngineLoader.Config;
 
 /**
  * Static class defining factory methods for run-time-only elements of SEJ. This class is extended
- * by {@link sej.SEJ} which provides factory methods for compile-time elements.
+ * by {@link sej.spreadsheet.SEJ} which provides factory methods for compile-time elements.
  * 
  * @author peo
  */
@@ -51,7 +51,7 @@ public class SEJRuntime
 
 	/**
 	 * Returns a new engine deserialized by a registered engine loader (see {@code register()}) - it
-	 * must have been saved using {@link sej.SaveableEngine#saveTo(java.io.OutputStream)}.
+	 * must have been saved using {@link sej.compiler.SaveableEngine#saveTo(java.io.OutputStream)}.
 	 * 
 	 * @param _stream is an input stream. If it does not support the {@link InputStream#mark(int)}
 	 *           operation, it is automatically wrapped within a {@link BufferedInputStream}.

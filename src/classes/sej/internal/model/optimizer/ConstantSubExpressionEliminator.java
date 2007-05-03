@@ -20,14 +20,14 @@
  */
 package sej.internal.model.optimizer;
 
-import sej.CompilerException;
-import sej.NumericType;
+import sej.compiler.CompilerException;
+import sej.compiler.NumericType;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.model.AbstractComputationModelVisitor;
 import sej.internal.model.CellModel;
 import sej.internal.model.SectionModel;
+import sej.internal.model.interpreter.InterpretedNumericType;
 import sej.internal.model.optimizer.consteval.EvalShadow;
-import sej.internal.model.util.InterpretedNumericType;
 
 
 final public class ConstantSubExpressionEliminator extends AbstractComputationModelVisitor

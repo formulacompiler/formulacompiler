@@ -22,8 +22,8 @@ package sej.internal.spreadsheet.binding;
 
 import java.io.IOException;
 
-import sej.CallFrame;
-import sej.CompilerException;
+import sej.compiler.CallFrame;
+import sej.compiler.CompilerException;
 import sej.describable.DescriptionBuilder;
 import sej.internal.spreadsheet.CellIndex;
 

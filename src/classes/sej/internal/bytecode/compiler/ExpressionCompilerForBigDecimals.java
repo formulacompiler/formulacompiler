@@ -20,7 +20,7 @@
  */
 package sej.internal.bytecode.compiler;
 
-import sej.NumericType;
+import sej.compiler.NumericType;
 
 final class ExpressionCompilerForBigDecimals extends ExpressionCompilerForBigDecimals_Generated
 {

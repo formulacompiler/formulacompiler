@@ -22,12 +22,12 @@ package sej.tutorials;
 
 import java.lang.reflect.Method;
 
-import sej.CallFrame;
-import sej.EngineBuilder;
-import sej.Orientation;
-import sej.SEJ;
-import sej.Spreadsheet;
-import sej.SpreadsheetBinder;
+import sej.compiler.CallFrame;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.Orientation;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetBinder;
 
 
 public class BindingRepeatingSections

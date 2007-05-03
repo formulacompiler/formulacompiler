@@ -22,12 +22,12 @@ package sej.tutorials;
 
 import java.lang.reflect.Method;
 
-import sej.CallFrame;
-import sej.EngineBuilder;
-import sej.SEJ;
-import sej.Spreadsheet;
-import sej.SpreadsheetBinder;
+import sej.compiler.CallFrame;
 import sej.runtime.ComputationFactory;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetBinder;
 import junit.framework.TestCase;
 
 

@@ -22,7 +22,7 @@ package sej.internal.model.optimizer;
 
 import java.util.List;
 
-import sej.CompilerException;
+import sej.compiler.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForConstantValue;
 import sej.internal.model.AbstractComputationModelVisitor;

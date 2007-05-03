@@ -20,7 +20,7 @@
  */
 package sej.internal.spreadsheet;
 
-import sej.SpreadsheetException;
+import sej.spreadsheet.SpreadsheetException;
 import junit.framework.TestCase;
 
 public class CellRangeTest extends TestCase

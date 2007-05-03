@@ -22,11 +22,11 @@ package sej.internal.model.rewriting;
 
 import java.util.List;
 
-import sej.CompilerException;
-import sej.internal.InnerExpressionException;
+import sej.compiler.CompilerException;
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.expressions.ExpressionNodeForFunction;
-import sej.internal.model.util.InterpretedNumericType;
+import sej.internal.expressions.InnerExpressionException;
+import sej.internal.model.interpreter.InterpretedNumericType;
 
 final class ExpressionRewriter extends AbstractExpressionRewriter
 {

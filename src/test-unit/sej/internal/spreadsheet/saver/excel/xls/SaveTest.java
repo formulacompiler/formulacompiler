@@ -23,13 +23,13 @@ package sej.internal.spreadsheet.saver.excel.xls;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-import sej.Function;
-import sej.SEJ;
-import sej.Spreadsheet;
-import sej.SpreadsheetBuilder;
-import sej.SpreadsheetSaver;
-import sej.SpreadsheetBuilder.CellRef;
-import sej.SpreadsheetBuilder.RangeRef;
+import sej.compiler.Function;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetBuilder;
+import sej.spreadsheet.SpreadsheetSaver;
+import sej.spreadsheet.SpreadsheetBuilder.CellRef;
+import sej.spreadsheet.SpreadsheetBuilder.RangeRef;
 import sej.tests.utils.AbstractSpreadsheetTestBase;
 
 public class SaveTest extends AbstractSpreadsheetTestBase

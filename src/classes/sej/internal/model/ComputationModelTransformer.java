@@ -20,8 +20,8 @@
  */
 package sej.internal.model;
 
-import sej.CompilerException;
-import sej.NumericType;
+import sej.compiler.CompilerException;
+import sej.compiler.NumericType;
 import sej.runtime.EngineException;
 
 public interface ComputationModelTransformer

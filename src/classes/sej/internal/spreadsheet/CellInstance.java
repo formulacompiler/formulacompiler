@@ -23,9 +23,9 @@ package sej.internal.spreadsheet;
 import java.io.IOException;
 import java.text.NumberFormat;
 
-import sej.SpreadsheetException;
 import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionNode;
+import sej.spreadsheet.SpreadsheetException;
 
 
 public abstract class CellInstance extends AbstractStyledElement

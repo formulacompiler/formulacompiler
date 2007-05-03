@@ -31,15 +31,15 @@ import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.Date;
 
-import sej.EngineBuilder;
-import sej.Operator;
-import sej.SEJ;
-import sej.Spreadsheet;
-import sej.SpreadsheetBuilder;
-import sej.SpreadsheetSaver;
-import sej.bytecode.SEJByteCode;
+import sej.compiler.Operator;
+import sej.decompiler.SEJByteCode;
 import sej.runtime.Engine;
 import sej.runtime.SEJException;
+import sej.spreadsheet.EngineBuilder;
+import sej.spreadsheet.SEJ;
+import sej.spreadsheet.Spreadsheet;
+import sej.spreadsheet.SpreadsheetBuilder;
+import sej.spreadsheet.SpreadsheetSaver;
 import sej.tests.utils.AbstractSpreadsheetTestBase;
 
 public class Basics extends AbstractSpreadsheetTestBase

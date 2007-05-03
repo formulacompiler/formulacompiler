@@ -20,7 +20,7 @@
  */
 package sej.internal.bytecode.compiler;
 
-import sej.NumericType;
+import sej.compiler.NumericType;
 
 abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers_Generated
 {
