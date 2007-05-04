@@ -73,8 +73,11 @@ class HelperCompilerForIndex extends HelperCompiler
 		final Type valType = valCompiler.type();
 		final String arrayFieldName = methodName() + "_Consts";
 		final String arrayType = "[" + valCompiler.typeDescriptor();
+		final boolean arrayPresent = isAnyConstant( _vals );
 
-		compileStaticArrayField( _vals, arrayFieldName );
+		if (arrayPresent) {
+			compileStaticArrayField( _vals, arrayFieldName );
+		}
 
 		final GeneratorAdapter mv = mv();
 
@@ -117,7 +120,7 @@ class HelperCompilerForIndex extends HelperCompiler
 		int nonConstValCnt = 0;
 		for (int i = 0; i < _vals.length; i++) {
 			final ExpressionNode val = _vals[ i ];
-			if (!(val instanceof ExpressionNodeForConstantValue)) {
+			if (!isConstant( val )) {
 				nonConstValIdxs[ nonConstValCnt++ ] = i;
 			}
 		}
@@ -140,25 +143,41 @@ class HelperCompilerForIndex extends HelperCompiler
 			} );
 		}
 
-		// return (i >= 0 && i < getStaticIndex_Consts.length) ? getStaticIndex_Consts[ i ] : 0;
-		final Label outOfRange = mv.newLabel();
-		mv.loadLocal( l_i );
-		mv.visitJumpInsn( Opcodes.IFLT, outOfRange );
+		if (arrayPresent) {
+			// return (i >= 0 && i < getStaticIndex_Consts.length) ? getStaticIndex_Consts[ i ] : 0;
+			final Label outOfRange = mv.newLabel();
+			mv.loadLocal( l_i );
+			mv.visitJumpInsn( Opcodes.IFLT, outOfRange );
 
-		mv.loadLocal( l_i );
-		mv.visitFieldInsn( Opcodes.GETSTATIC, section().classInternalName(), arrayFieldName, arrayType );
-		mv.arrayLength();
-		mv.visitJumpInsn( Opcodes.IF_ICMPGE, outOfRange );
+			mv.loadLocal( l_i );
+			mv.visitFieldInsn( Opcodes.GETSTATIC, section().classInternalName(), arrayFieldName, arrayType );
+			mv.arrayLength();
+			mv.visitJumpInsn( Opcodes.IF_ICMPGE, outOfRange );
 
-		mv.visitFieldInsn( Opcodes.GETSTATIC, section().classInternalName(), arrayFieldName, arrayType );
-		mv.loadLocal( l_i );
-		mv.arrayLoad( valType );
-		mv.visitInsn( valCompiler.typeCompiler().returnOpcode() );
+			mv.visitFieldInsn( Opcodes.GETSTATIC, section().classInternalName(), arrayFieldName, arrayType );
+			mv.loadLocal( l_i );
+			mv.arrayLoad( valType );
+			mv.visitInsn( valCompiler.typeCompiler().returnOpcode() );
 
-		mv.mark( outOfRange );
-
+			mv.mark( outOfRange );
+		}
 		valCompiler.compileZero();
 	}
+
+
+	private boolean isConstant( final ExpressionNode _node )
+	{
+		return (_node instanceof ExpressionNodeForConstantValue);
+	}
+
+	private boolean isAnyConstant( ExpressionNode[] _nodes )
+	{
+		for (ExpressionNode n : _nodes) {
+			if (isConstant( n )) return true;
+		}
+		return false;
+	}
+	
 
 	private void compileStaticArrayField( ExpressionNode[] _vals, String _name ) throws CompilerException
 	{
