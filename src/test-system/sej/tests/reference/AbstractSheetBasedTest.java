@@ -43,7 +43,7 @@ import sej.internal.spreadsheet.CellWithLazilyParsedExpression;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
-import sej.internal.spreadsheet.loader.excel.ExcelExpressionParserAccessor;
+import sej.internal.spreadsheet.parser.SpreadsheetExpressionParser;
 import sej.internal.spreadsheet.saver.excel.xls.ExcelXLSExpressionFormatter;
 import sej.runtime.ComputationFactory;
 import sej.runtime.Resettable;
@@ -327,16 +327,15 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 			{
 				if (_value instanceof String) {
 					if (_value.toString().equals( "(days from 2006)" )) {
-						final Calendar start = Calendar.getInstance();
-						start.clear();
-						start.set( 2006, Calendar.JANUARY, 1 );
 						final Calendar time = Calendar.getInstance();
-						time.set( Calendar.HOUR, 0 );
-						time.set( Calendar.MINUTE, 0 );
-						time.set( Calendar.SECOND, 0 );
-						time.set( Calendar.MILLISECOND, 0 );
-						final long diff = time.getTimeInMillis() - start.getTimeInMillis();
-						final long days = diff / MS_PER_DAY;
+						final Calendar start = (Calendar) time.clone();
+						time.set( time.get( Calendar.YEAR ), time.get( Calendar.MONTH ), time.get( Calendar.DAY_OF_MONTH ) );
+						start.set( 2006, Calendar.JANUARY, 1 );
+						final long timeMS = time.getTimeInMillis();
+						final long startMS = start.getTimeInMillis();
+						final long timeDays = timeMS / MS_PER_DAY;
+						final long startDays = startMS / MS_PER_DAY;
+						final long days = timeDays - startDays;
 						return Double.valueOf( days );
 					}
 					if (_value.toString().equals( "Infinity" )) {
@@ -411,9 +410,10 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 					final CellWithLazilyParsedExpression exprCell = (CellWithLazilyParsedExpression) this.formula;
 					final ExpressionNode expr = exprCell.getExpression();
 					final ExcelXLSExpressionFormatter formatter = new ExcelXLSExpressionFormatter();
-					final ExcelExpressionParserAccessor parser = new ExcelExpressionParserAccessor( this.formula );
 					final String expected = formatter.format( expr );
-					final ExpressionNode parsed = parser.parseText( expected, CellRefFormat.A1 );
+					final SpreadsheetExpressionParser parser = SpreadsheetExpressionParser.newParser( expected, exprCell,
+							CellRefFormat.A1 );
+					final ExpressionNode parsed = parser.parse();
 					final String actual = formatter.format( parsed );
 					assertEquals( expected, actual );
 				}

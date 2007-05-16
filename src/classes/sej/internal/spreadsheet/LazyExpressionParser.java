@@ -20,12 +20,12 @@
  */
 package sej.internal.spreadsheet;
 
+import sej.compiler.CompilerException;
 import sej.internal.expressions.ExpressionNode;
-import sej.spreadsheet.SpreadsheetException;
 
 
 public interface LazyExpressionParser 
 {
-	ExpressionNode parseExpression( CellWithLazilyParsedExpression _cell ) throws SpreadsheetException;
+	ExpressionNode parseExpression( CellWithLazilyParsedExpression _cell ) throws CompilerException;
 	String getSource();
 }

@@ -31,10 +31,9 @@ import sej.internal.expressions.ExpressionNode;
 public final class ExpressionNodeForRangeIntersection extends ExpressionNode
 {
 
-	public ExpressionNodeForRangeIntersection(ExpressionNode _firstArg)
+	public ExpressionNodeForRangeIntersection(Collection<ExpressionNode> _args)
 	{
-		super();
-		addArgument( _firstArg );
+		super( _args );
 	}
 
 
@@ -58,7 +57,7 @@ public final class ExpressionNodeForRangeIntersection extends ExpressionNode
 	}
 
 
-@Override
+	@Override
 	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
 		describeArgumentTo( _to, _cfg, 0 );

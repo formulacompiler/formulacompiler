@@ -38,7 +38,7 @@ import sej.internal.expressions.ExpressionNodeForLet;
 import sej.internal.expressions.ExpressionNodeForLetVar;
 import sej.internal.expressions.ExpressionNodeForOperator;
 import sej.internal.expressions.ExpressionNodeForReduce;
-import sej.internal.spreadsheet.loader.excel.RewriteLanguageParser;
+import sej.internal.expressions.parser.ExpressionParser;
 import sej.runtime.New;
 
 public abstract class AbstractRewriteRulesCompiler
@@ -243,7 +243,7 @@ public abstract class AbstractRewriteRulesCompiler
 
 	private final ExpressionNode parse( String _body ) throws Exception
 	{
-		return RewriteLanguageParser.parse( _body );
+		return new ExpressionParser( _body ).parse();
 	}
 
 

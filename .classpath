@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src/classes"/>
 	<classpathentry kind="src" path="src/resources"/>
-	<classpathentry kind="src" path="src/test-accessors"/>
 	<classpathentry excluding="testdata/" kind="src" path="src/test-unit"/>
 	<classpathentry excluding="testdata/" kind="src" path="src/test-system"/>
 	<classpathentry excluding="testdata/" kind="src" path="src/examples"/>
@@ -11,7 +10,6 @@
 	<classpathentry kind="src" path="src/scratchpad"/>
 	<classpathentry kind="src" path="temp/gen-src/classes-jre1.6"/>
 	<classpathentry kind="src" path="temp/gen-src/classes"/>
-	<classpathentry kind="src" path="temp/gen-src/build-tools"/>
 	<classpathentry kind="lib" path="lib/asm-2.2.1.jar" sourcepath="J:/asm-2.2.1/src.zip">
 		<attributes>
 			<attribute name="javadoc_location" value="file:/J:/asm-2.2.1/doc/javadoc/user"/>
@@ -29,7 +27,6 @@
 			<attribute name="javadoc_location" value="file:/J:/jexcelapi-2.5.9/docs/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/java-cup-11a-runtime.jar" sourcepath="J:/java-cup-11a/src"/>
 	<classpathentry kind="lib" path="D:/Java/projects/sej/trunk/lib/jode-decompiler.jar" sourcepath="/jode-trunk/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3.8.1"/>

@@ -18,50 +18,44 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.spreadsheet.loader.excel;
+package sej.internal.expressions.parser;
 
-import java.io.IOException;
-
-import sej.describable.AbstractDescribable;
-import sej.describable.DescriptionBuilder;
+import sej.compiler.CompilerException;
 import sej.internal.expressions.ExpressionNode;
-import sej.internal.spreadsheet.CellInstance;
-import sej.internal.spreadsheet.CellWithLazilyParsedExpression;
-import sej.internal.spreadsheet.LazyExpressionParser;
-import sej.spreadsheet.SpreadsheetException;
 
-
-public final class ExcelLazyExpressionParser extends AbstractDescribable implements LazyExpressionParser
+public class ExpressionParser extends GeneratedExpressionParser
 {
-	private CellInstance cell;
-	private String expressionText;
+	private final String exprText;
 
 
-	public ExcelLazyExpressionParser(CellWithLazilyParsedExpression _cell, String _expressionText)
+	public ExpressionParser(String _exprText)
 	{
-		this.cell = _cell;
-		this.expressionText = _expressionText;
+		super( new StringCharStream( _exprText ) );
+		this.exprText = _exprText;
 	}
 
 
-	public ExpressionNode parseExpression( CellWithLazilyParsedExpression _cell ) throws SpreadsheetException
+	public ExpressionNode parse() throws CompilerException
 	{
-		return new ExcelExpressionParser( this.cell ).parseText( this.expressionText, _cell.getCellRefFormat() );
-	}
-	
-	
-	public String getSource()
-	{
-		return this.expressionText;
-	}
-
-
-	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
-	{
-		_to.append( "src=" );
-		_to.append( this.expressionText );
+		try {
+			rootExpr();
+			return popNode();
+		}
+		catch (InnerParserException e) {
+			throw adorn( e.getCause() );
+		}
+		catch (ParseException e) {
+			throw adorn( e );
+		}
 	}
 
+
+	private CompilerException adorn( Throwable _e )
+	{
+		if (_e instanceof CompilerException.UnsupportedExpressionSource) {
+			return (CompilerException.UnsupportedExpressionSource) _e;
+		}
+		return new CompilerException.UnsupportedExpressionSource( _e, this.exprText, this.token.beginColumn );
+	}
 
 }

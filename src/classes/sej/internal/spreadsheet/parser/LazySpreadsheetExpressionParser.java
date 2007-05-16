@@ -18,40 +18,48 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.spreadsheet.loader.excel;
+package sej.internal.spreadsheet.parser;
 
-import java.io.StringReader;
+import java.io.IOException;
 
-import sej.internal.Settings;
+import sej.compiler.CompilerException;
+import sej.describable.AbstractDescribable;
+import sej.describable.DescriptionBuilder;
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.spreadsheet.CellInstance;
+import sej.internal.spreadsheet.CellWithLazilyParsedExpression;
+import sej.internal.spreadsheet.LazyExpressionParser;
 
-public final class RewriteLanguageParser
+public class LazySpreadsheetExpressionParser extends AbstractDescribable implements LazyExpressionParser
 {
+	private CellInstance cell;
+	private String expressionText;
 
-	public static final ExpressionNode parse( String _expr ) throws Exception
+
+	public LazySpreadsheetExpressionParser(CellWithLazilyParsedExpression _cell, String _expressionText)
 	{
-		final GeneratedScannerInternal scanner = new GeneratedScannerInternal( new StringReader( _expr ) );
-		scanner.setSource( _expr );
+		this.cell = _cell;
+		this.expressionText = _expressionText;
+	}
 
-		final GeneratedParser parser = new GeneratedParser( scanner );
-		parser.excelParser = new ExcelExpressionParser( null );
 
-		try {
-			if (Settings.isDebugParserEnabled()) {
-				parser.debug_parse();
-			}
-			else {
-				parser.parse();
-			}
-		}
-		catch (ExcelExpressionParserError e) {
-			throw e;
-		}
-		catch (Exception e) {
-			throw new ExcelExpressionParserError( e, _expr, scanner.charsRead() );
-		}
-		
-		return parser.rootNode;
+	public ExpressionNode parseExpression( CellWithLazilyParsedExpression _cell ) throws CompilerException
+	{
+		return SpreadsheetExpressionParser.newParser( this.expressionText, this.cell, _cell.getCellRefFormat() ).parse();
+	}
+
+
+	public String getSource()
+	{
+		return this.expressionText;
+	}
+
+
+	@Override
+	public void describeTo( DescriptionBuilder _to ) throws IOException
+	{
+		_to.append( "src=" );
+		_to.append( this.expressionText );
 	}
 
 }

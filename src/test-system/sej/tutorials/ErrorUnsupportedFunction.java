@@ -40,7 +40,7 @@ public class ErrorUnsupportedFunction extends TestCase
 			fail();
 		}
 		catch (/**/CompilerException.UnsupportedExpression e/**/) {
-			String err = /**/"Unsupported element in expression 1.0+INFO( <<? B1); error location indicated by <<?." 
+			String err = /**/"Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?." 
 				+ "\nCell containing expression is A1."/**/;
 			assertEquals( err, e.getMessage() );
 		}
@@ -56,7 +56,7 @@ public class ErrorUnsupportedFunction extends TestCase
 			fail();
 		}
 		catch (CompilerException.UnsupportedExpression e) {
-			String err = "Unsupported element in expression 1.0+INFO( <<? B1); error location indicated by <<?." 
+			String err = "Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?." 
 				+ "\nCell containing expression is A1."
 				+ /**/"\nReferenced by cell A2."/**/;
 			assertEquals( err, e.getMessage() );

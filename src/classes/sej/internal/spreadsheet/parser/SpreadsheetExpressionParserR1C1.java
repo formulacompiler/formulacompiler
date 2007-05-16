@@ -18,30 +18,16 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.spreadsheet.loader.excel;
+package sej.internal.spreadsheet.parser;
 
-final class ExcelExpressionParserError extends RuntimeException
+import sej.internal.spreadsheet.CellInstance;
+
+public class SpreadsheetExpressionParserR1C1 extends SpreadsheetExpressionParser
 {
 
-	private static String addPositionInfoTo( String _message, String _source, int _atPosition )
+	public SpreadsheetExpressionParserR1C1(String _exprText, CellInstance _parseRelativeTo)
 	{
-		final String sourceBeforeError = _source.substring( 0, _atPosition );
-		final String sourceAfterError = _source.substring( _atPosition );
-
-		StringBuilder result = new StringBuilder( _message );
-		result.append( " in expression " ).append( sourceBeforeError ).append( " <<? " ).append( sourceAfterError ).append( "; error location indicated by <<?." );
-		return result.toString();
-	}
-
-
-	public ExcelExpressionParserError(Exception _originalError, String _source, int _atPosition)
-	{
-		super( addPositionInfoTo( _originalError.getMessage(), _source, _atPosition ), _originalError );
-	}
-
-	public ExcelExpressionParserError(String _message, String _source, int _atPosition)
-	{
-		super( addPositionInfoTo( _message, _source, _atPosition ) );
+		super( _exprText, _parseRelativeTo );
 	}
 
 }

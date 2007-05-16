@@ -20,8 +20,10 @@
  */
 package sej.runtime;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,6 +89,16 @@ public final class New
 	public static SortedMap<String, String> newSortedMap()
 	{
 		return new TreeMap<String, String>();
+	}
+
+	public static <T> Deque<T> newDeque()
+	{
+		return newArrayDeque();
+	}
+
+	public static <T> Deque<T> newArrayDeque()
+	{
+		return new ArrayDeque<T>();
 	}
 
 }

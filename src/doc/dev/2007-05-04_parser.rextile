@@ -1,0 +1,24 @@
+
+h1. Who Parses Function Names?
+
+We are running against a table size limit in "CUP":-cup. What do we do? Work around it by moving function name parsing out of the generated parser? Or switch generators?
+
+Currently, we parse functions in expressions directly in the grammar, as in
+
+<pre>| NOT LPAREN expr:arg RPAREN
+  {: RESULT = new ExpressionNodeForFunction( Function.NOT, cell( arg )); :}
+</pre>
+
+This is handy, as most of the checking of allowed argument combinations can be specified right here. On the other hand, the "CUP web site":-cup says very prominently:
+
+dt. Method is exceeding the 65536 bytes limit : In almost all computer languages You would choose not to hardcode subcommands or functions as language keywords, but as identifiers, thus eliminating ever growing grammars, as Your language evolves? This is also a way to surpass the Java Bytecode Formats limitation of not allowing methods bigger than 65k.
+
+
+h2. Alternatives
+
+I investigated some alternatives to JFlex/CUP. Here are some links:
+
+    * http://beust.com/weblog/archives/000145.html
+    * http://www.javaworld.com/javaworld/jw-12-1996/jw-12-jack.html
+
+Not considered for the moment where SableCC and Grammatica.

@@ -35,7 +35,7 @@ import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
 import sej.internal.spreadsheet.loader.SpreadsheetLoaderDispatcher;
-import sej.internal.spreadsheet.loader.excel.ExcelLazyExpressionParser;
+import sej.internal.spreadsheet.parser.LazySpreadsheetExpressionParser;
 import sej.spreadsheet.Spreadsheet;
 import sej.spreadsheet.SpreadsheetException;
 import sej.spreadsheet.SpreadsheetLoader;
@@ -129,7 +129,7 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 			jxl.FormulaCell xlsFormulaCell = (jxl.FormulaCell) _xlsCell;
 			CellWithLazilyParsedExpression exprCell = new CellWithLazilyParsedExpression( _row );
 			try {
-				exprCell.setExpressionParser( new ExcelLazyExpressionParser( exprCell, xlsFormulaCell.getFormula() ) );
+				exprCell.setExpressionParser( new LazySpreadsheetExpressionParser( exprCell, xlsFormulaCell.getFormula() ) );
 			}
 			catch (jxl.biff.formula.FormulaException e) {
 				throw new SpreadsheetException.LoadError( e );
