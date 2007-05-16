@@ -18,25 +18,32 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.spreadsheet.loader.excel;
+package sej.internal.spreadsheet.parser;
 
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.expressions.parser.Token;
 import sej.internal.spreadsheet.CellInstance;
-import sej.internal.spreadsheet.CellRefFormat;
 
-public final class ExcelExpressionParserAccessor
+public class SpreadsheetExpressionParserA1 extends SpreadsheetExpressionParser
 {
-	private final ExcelExpressionParser parser;
 
-	public ExcelExpressionParserAccessor( CellInstance _cell )
+	public SpreadsheetExpressionParserA1(String _exprText, CellInstance _parseRelativeTo)
 	{
-		super();
-		this.parser = new ExcelExpressionParser( _cell );
+		super( _exprText, _parseRelativeTo );
 	}
-
-	public ExpressionNode parseText( String _text, CellRefFormat _cellRefFormat )
+	
+	
+	@Override
+	protected ExpressionNode makeCellR1C1( Token _cell )
 	{
-		return this.parser.parseText( _text, _cellRefFormat );
+		return super.makeCellA1( _cell );
 	}
+	
+	@Override
+	protected ExpressionNode makeCellR1C1( Token _cell, Token _sheet )
+	{
+		return super.makeCellA1( _cell, _sheet );
+	}
+	
 
 }

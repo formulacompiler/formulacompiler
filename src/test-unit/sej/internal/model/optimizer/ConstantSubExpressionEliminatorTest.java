@@ -117,7 +117,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 		optimize( SEJCompiler.DOUBLE );
 
-		assertExpr( "_FOLD_OR_REDUCE( r: 0.0; xi: (`r + `xi); Band~>10.0 )", sumOverBand );
+		assertExpr( "_FOLD_OR_REDUCE( r: 0; xi: (`r + `xi); Band~>10.0 )", sumOverBand );
 	}
 
 

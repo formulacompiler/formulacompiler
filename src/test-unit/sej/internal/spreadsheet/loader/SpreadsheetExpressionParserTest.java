@@ -18,7 +18,7 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package sej.internal.spreadsheet.loader.excel;
+package sej.internal.spreadsheet.loader;
 
 import sej.internal.expressions.ExpressionNode;
 import sej.internal.spreadsheet.CellIndex;
@@ -30,10 +30,10 @@ import sej.internal.spreadsheet.ExpressionNodeForCell;
 import sej.internal.spreadsheet.RowImpl;
 import sej.internal.spreadsheet.SheetImpl;
 import sej.internal.spreadsheet.SpreadsheetImpl;
+import sej.internal.spreadsheet.parser.SpreadsheetExpressionParser;
 import junit.framework.TestCase;
 
-
-public class ExcelExpressionParserTest extends TestCase
+public class SpreadsheetExpressionParserTest extends TestCase
 {
 	SpreadsheetImpl workbook = new SpreadsheetImpl();
 	SheetImpl sheet = new SheetImpl( this.workbook, "One" );
@@ -43,7 +43,8 @@ public class ExcelExpressionParserTest extends TestCase
 	RowImpl row2 = new RowImpl( this.sheet );
 	CellInstance cell21 = new CellWithConstant( this.row2, 123 );
 	CellInstance cell22 = new CellWithConstant( this.row2, 123 );
-	ExcelExpressionParser parser = new ExcelExpressionParser( this.cell22 );
+	CellInstance parseRelativeTo = this.cell22;
+
 
 	@Override
 	protected void setUp() throws Exception
@@ -60,6 +61,7 @@ public class ExcelExpressionParserTest extends TestCase
 		this.workbook.getNameMap().put( "_ALL_", new CellRange( this.cell11.getCellIndex(), this.cell22.getCellIndex() ) );
 	}
 
+
 	public void testRC() throws Exception
 	{
 		assertRefR1C1( "B2", "RC" );
@@ -73,13 +75,19 @@ public class ExcelExpressionParserTest extends TestCase
 	}
 
 
-	public void testAbs() throws Exception
+	public void testA1() throws Exception
 	{
 		assertRefA1( "B2", "B2" );
 		assertRefA1( "D4", "D4" );
 		assertRefA1( "D4", "$D$4" );
 		assertRefA1( "D4", "$D4" );
 		assertRefA1( "D4", "D$4" );
+		/*
+		 * This tests the special case where an R1C1-style reference is a valid A1-style reference. It
+		 * explains the need for the CellRefFormat parser option.
+		 */
+		assertRefA1( "RC1", "RC1" );
+		assertRefA1( "RC11", "R1C1" ); // LATER Raise an error instead of doing this erroneous parse
 	}
 
 
@@ -91,7 +99,7 @@ public class ExcelExpressionParserTest extends TestCase
 	}
 
 
-	public void testOperators()
+	public void testOperators() throws Exception
 	{
 		assertParseableA1( "((((A1 + (-B1)) + B2) - B3) - (-B4))", "A1 + -B1 + +B2 - +B3 - -B4" );
 		assertParseableA1( "(A1 + (A2 * A3))", "A1 + A2 * A3" );
@@ -100,9 +108,9 @@ public class ExcelExpressionParserTest extends TestCase
 
 	public void testConcat() throws Exception
 	{
-		assertParseableAll( "(1.0 & 2.0 & 3.0 & 4.0)", "1 & 2 & 3 & 4" );
-		assertParseableAll( "(1.0 & (2.0 & 3.0) & 4.0)", "1 & (2 & 3) & 4" );
-		assertParseableAll( "(1.0 & 2.0 & 3.0 & 4.0)", "CONCATENATE( 1, 2, 3, 4 )" );
+		assertParseableAll( "(1 & 2 & 3 & 4)", "1 & 2 & 3 & 4" );
+		assertParseableAll( "(1 & (2 & 3) & 4)", "1 & (2 & 3) & 4" );
+		assertParseableAll( "(1 & 2 & 3 & 4)", "CONCATENATE( 1, 2, 3, 4 )" );
 	}
 
 
@@ -118,7 +126,7 @@ public class ExcelExpressionParserTest extends TestCase
 
 	public void testTrueFalse() throws Exception
 	{
-		assertParseableAll( "AND( 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0 )",
+		assertParseableAll( "AND( 1, 0, 1, 0, 1, 0, 1, 0 )",
 				"AND( TRUE, FALSE, true, false, @TRUE, @FALSE, @true, @false )" );
 	}
 
@@ -140,8 +148,8 @@ public class ExcelExpressionParserTest extends TestCase
 
 	public void testOldStyleFunctions() throws Exception
 	{
-		assertParseableA1( "((1.0 + ROUND( A1, 2.0 )) + 2.0)", "1 + @ROUND(A1,2) + 2" );
-		assertParseableA1( "((1.0 + ROUND( A1, 2.0 )) + 2.0)", "1 + ROUND(A1,2) + 2" );
+		assertParseableA1( "((1 + ROUND( A1, 2 )) + 2)", "1 + @ROUND(A1,2) + 2" );
+		assertParseableA1( "((1 + ROUND( A1, 2 )) + 2)", "1 + ROUND(A1,2) + 2" );
 	}
 
 
@@ -149,7 +157,7 @@ public class ExcelExpressionParserTest extends TestCase
 	{
 		assertErr(
 				"2 + SOMEFUNC(A2)",
-				"Undefined name or unsupported function encountered in expression 2 + SOMEFUNC( <<? A2); error location indicated by <<?." );
+				"Unsupported function SOMEFUNC encountered in expression 2 + SOMEFUNC( <<? A2); error location indicated by <<?." );
 	}
 
 
@@ -169,7 +177,7 @@ public class ExcelExpressionParserTest extends TestCase
 		SheetImpl sheet2 = new SheetImpl( this.workbook, "Two" );
 		RowImpl row21 = new RowImpl( sheet2 );
 		CellInstance cell211 = new CellWithConstant( row21, 4711 );
-		this.parser = new ExcelExpressionParser( cell211 );
+		this.parseRelativeTo = cell211;
 		assertRefA1( "'Two'!A2", "A2" );
 		assertRefA1( "A2", "One!A2" );
 		assertRefR1C1( "'Two'!A2", "R2C1" );
@@ -185,28 +193,28 @@ public class ExcelExpressionParserTest extends TestCase
 	}
 
 
-	private void assertParseableAll( String _expected, String _string )
+	private void assertParseableAll( String _expected, String _string ) throws Exception
 	{
 		assertParseableA1( _expected, _string );
 		assertParseableR1C1( _expected, _string );
 	}
 
 
-	private void assertParseableA1( String _expected, String _string )
+	private void assertParseableA1( String _expected, String _string ) throws Exception
 	{
 		assertParseable( _expected, _string, CellRefFormat.A1 );
 	}
 
 
-	private void assertParseableR1C1( String _expected, String _string )
+	private void assertParseableR1C1( String _expected, String _string ) throws Exception
 	{
 		assertParseable( _expected, _string, CellRefFormat.R1C1 );
 	}
 
 
-	private void assertParseable( String _expected, String _expr, CellRefFormat _format )
+	private void assertParseable( String _expected, String _expr, CellRefFormat _format ) throws Exception
 	{
-		final ExpressionNode node = this.parser.parseText( _expr, _format );
+		final ExpressionNode node = newParser( _expr, _format ).parse();
 		final String actual = node.describe();
 		assertEquals( _expected, actual );
 	}
@@ -224,9 +232,10 @@ public class ExcelExpressionParserTest extends TestCase
 	}
 
 
-	private void assertRef( String _canonicalName, String _ref, CellRefFormat _format )
+	private void assertRef( String _canonicalName, String _ref, CellRefFormat _format ) throws Exception
 	{
-		ExpressionNode parsed = this.parser.parseText( _ref, _format );
+		SpreadsheetExpressionParser parser = newParser( _ref, _format );
+		ExpressionNode parsed = parser.parse();
 		ExpressionNodeForCell node = (ExpressionNodeForCell) parsed;
 		CellIndex ref = node.getCellIndex();
 		String actual = ref.toString();
@@ -237,13 +246,18 @@ public class ExcelExpressionParserTest extends TestCase
 	private void assertErr( String _ref, String _msg ) throws Exception
 	{
 		try {
-			this.parser.parseText( _ref, CellRefFormat.A1 );
+			newParser( _ref, CellRefFormat.A1 ).parse();
 			fail( "Expected exception: " + _msg );
 		}
-		catch (ExcelExpressionParserError e) {
+		catch (Exception e) {
 			assertEquals( _msg, e.getMessage() );
 		}
 	}
 
+
+	private SpreadsheetExpressionParser newParser( String _ref, CellRefFormat _format )
+	{
+		return SpreadsheetExpressionParser.newParser( _ref, this.parseRelativeTo, _format );
+	}
 
 }

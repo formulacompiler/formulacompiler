@@ -36,7 +36,6 @@
 	<property name="temp.examples.dir" location="${temp.dir}/classes/examples" />
 	<property name="temp.classes-gen.dir" location="${temp.dir}/gen-src/classes" />
 	<property name="temp.classes-gen-jre.dir" location="${temp.dir}/gen-src/classes-jre${ant.java.version}" />
-	<property name="temp.build-tools-gen.dir" location="${temp.dir}/gen-src/build-tools" />
 	<property name="temp.testresults.dir" location="${temp.dir}/testresults" />
 	<property name="temp.reference.dir" location="${temp.dir}/reference" />
 	<property name="temp.doc.dir" location="${temp.dir}/doc" />
@@ -68,11 +67,6 @@
 	<property name="lib.classpath" refid="lib.classpath" />
 	<property name="tools.classpath" refid="lib.classpath" />
 
-	<!-- global taskdefs -->
-
-	<taskdef name="jflex" classname="JFlex.anttask.JFlexTask" classpath="${lib.dir}/build-only/incompatible/JFlex.jar" />
-	<taskdef name="cup" classname="java_cup.anttask.CUPTask" classpath="${lib.dir}/build-only/incompatible/java-cup-11a.jar" />
-
 	<!-- prepare -->
 
 	<target name="-prepare">
@@ -83,7 +77,6 @@
 		<mkdir dir="${temp.classes.dir}" />
 		<mkdir dir="${temp.classes-build-tools.dir}" />
 		<mkdir dir="${temp.classes-gen.dir}" />
-		<mkdir dir="${temp.build-tools-gen.dir}" />
 		<mkdir dir="${temp.classes-gen-jre.dir}" />
 
 		<path id="run.classpath">
@@ -113,51 +106,14 @@
 
 	<!-- generate scanners/parsers -->
 
-	<target name="-lexgen">
-		<loadfile property="lex.regexps" srcfile="${src}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}_RegExps.lex">
-		</loadfile>
-		<loadfile property="lex.scan" srcfile="${src}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}_Scan.lex">
-		</loadfile>
-		<copy file="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner.lex" tofile="${tgt}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScanner${style}.lex" overwrite="true">
-			<filterchain>
-				<replacetokens>
-					<token key="cellstyle" value="${style}" />
-					<token key="cellregexp" value="${lex.regexps}" />
-					<token key="cellscan" value="${lex.scan}" />
-				</replacetokens>
-			</filterchain>
-		</copy>
-	</target>
-
-	<target name="-lexinput" depends="-prepare">
-		<antcall target="-lexgen">
-			<param name="style" value="A1" />
-			<param name="src" value="${src.classes.dir}" />
-			<param name="tgt" value="${temp.classes-gen.dir}" />
-		</antcall>
-		<antcall target="-lexgen">
-			<param name="style" value="R1C1" />
-			<param name="src" value="${src.classes.dir}" />
-			<param name="tgt" value="${temp.classes-gen.dir}" />
-		</antcall>
-		<antcall target="-lexgen">
-			<param name="style" value="Internal" />
-			<param name="src" value="${src.classes-build-tools.dir}" />
-			<param name="tgt" value="${temp.build-tools-gen.dir}" />
-		</antcall>
-	</target>
-
-	<target name="-lex" depends="-prepare, -lexinput">
-		<jflex file="${temp.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerA1.lex" destdir="${temp.classes-gen.dir}" />
-		<jflex file="${temp.classes-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerR1C1.lex" destdir="${temp.classes-gen.dir}" />
-		<jflex file="${temp.build-tools-gen.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionScannerInternal.lex" destdir="${temp.build-tools-gen.dir}" />
-	</target>
-
-	<target name="-cup" depends="-prepare">
-		<cup srcfile="${src.classes.dir}/sej/internal/spreadsheet/loader/excel/ExcelExpressionParser.cup" destdir="${temp.classes-gen.dir}" parser="GeneratedParser" symbols="GeneratedSymbols" nopositions="true" nosummary="true" nowarn="true" />
-	</target>
-
-	<target name="generate-parsers" depends="-lex, -cup" description="Generates Java source for the expression parsers.">
+	<target name="generate-parsers" depends="-prepare" description="Generates Java source for the expression parsers.">
+		<mkdir dir="${temp.classes-gen.dir}/sej/internal/expressions/parser"/>
+		<javacc javacchome="${lib.dir}/build-only/javacc-4.0" 
+			target="${src.classes.dir}/sej/internal/expressions/parser/ExpressionParser.jj"
+			outputdirectory="${temp.classes-gen.dir}/sej/internal/expressions/parser"
+		/>
+		<echo>A total of 6 warnings is expected.
+One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 	</target>
 
 	<!-- compile -->
@@ -169,7 +125,7 @@
 			<include name="sej/describable/*" />
 			<include name="sej/runtime/*" />
 			<include name="sej/internal/*" />
-			<include name="sej/internal/expressions/*" />
+			<include name="sej/internal/expressions/**" />
 			<include name="sej/internal/logging/*" />
 			<include name="sej/internal/model/*" />
 			<include name="sej/internal/model/analysis/*" />
@@ -177,7 +133,7 @@
 			<include name="sej/internal/spreadsheet/**" />
 			<include name="sej/internal/templates/*" />
 		</javac>
-		<javac srcdir="${src.classes-build-tools.dir}:${temp.build-tools-gen.dir}" destdir="${temp.classes-build-tools.dir}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+		<javac srcdir="${src.classes-build-tools.dir}" destdir="${temp.classes-build-tools.dir}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<classpath>
 				<path refid="lib.classpath" />
 				<pathelement location="${temp.classes.dir}" />

@@ -23,12 +23,6 @@ groups:
           - net.sf.jode.bytecode
           - net.sf.jode.decompiler
 
-      - id: javacup.runtime
-        jars:
-          - java-cup-runtime.jar
-        pkgs:
-          - java_cup.runtime
-
       - id: jexcelapi
         jars:
           - jxl.jar
@@ -114,6 +108,12 @@ groups:
               - sej.internal.expressions
             api_deps:
               - core.compiler.core
+
+          - id: expressions.parser
+            pkgs:
+              - sej.internal.expressions.parser
+            api_deps:
+              - core.compiler.expressions
 
           - id: templates
             desc:
@@ -310,11 +310,10 @@ groups:
             desc:
                 Base for the spreadsheet function parsers following Excel and OpenFormula specification.
             pkgs:
-              - sej.internal.spreadsheet.loader.excel
+              - sej.internal.spreadsheet.parser
             api_deps:
               - spreadsheet.compiler.model
-            deps:
-              - ext.javacup.runtime
+              - core.compiler.expressions.parser
 
           - id: load
             desc:

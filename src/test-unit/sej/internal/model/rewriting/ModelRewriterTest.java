@@ -59,7 +59,7 @@ public class ModelRewriterTest extends TestCase
 
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( SEJCompiler.DOUBLE ) ) );
 
-		assertEquals( "_FOLD_OR_REDUCE( r: 0.0; xi: (`r + `xi); @( a, b, c ) )", r.getExpression().toString() );
+		assertEquals( "_FOLD_OR_REDUCE( r: 0; xi: (`r + `xi); @( a, b, c ) )", r.getExpression().toString() );
 	}
 
 

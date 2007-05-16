@@ -294,4 +294,36 @@ public class CompilerException extends SEJException
 	}
 
 
+	/**
+	 * The formula you tried to parse contains an error or an unsupported element.
+	 * 
+	 * @author peo
+	 */
+	public static class UnsupportedExpressionSource extends CompilerException
+	{
+
+		private static String addPositionInfoTo( String _message, String _source, int _atPosition )
+		{
+			final String sourceBeforeError = _source.substring( 0, _atPosition );
+			final String sourceAfterError = _source.substring( _atPosition );
+
+			StringBuilder result = new StringBuilder( _message );
+			result.append( " in expression " ).append( sourceBeforeError ).append( " <<? " ).append( sourceAfterError )
+					.append( "; error location indicated by <<?." );
+			return result.toString();
+		}
+
+
+		public UnsupportedExpressionSource(Throwable _originalError, String _source, int _atPosition)
+		{
+			super( addPositionInfoTo( _originalError.getMessage(), _source, _atPosition ), _originalError );
+		}
+
+		public UnsupportedExpressionSource(String _message, String _source, int _atPosition)
+		{
+			super( addPositionInfoTo( _message, _source, _atPosition ) );
+		}
+
+	}
+
 }
