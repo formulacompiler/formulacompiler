@@ -27,7 +27,7 @@
 			<attribute name="javadoc_location" value="file:/J:/jexcelapi-2.5.9/docs/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/Java/projects/sej/trunk/lib/jode-decompiler.jar" sourcepath="/jode-trunk/src"/>
+	<classpathentry kind="lib" path="lib/jode-decompiler.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3.8.1"/>
 	<classpathentry kind="output" path="temp/classes/dev"/>
