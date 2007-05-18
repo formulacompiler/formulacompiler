@@ -119,6 +119,8 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 	<!-- compile -->
 
 	<target name="compile" depends="-prepare, generate-parsers" description="Compiles and also generates some of the Java source code for sej.jar.">
+		
+		<echo>Compiling base classes...</echo>
 		<javac srcdir="${src.classes.dir}:${temp.classes-gen.dir}" destdir="${temp.classes.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/*" />
 			<include name="sej/decompiler/*" />
@@ -133,6 +135,8 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 			<include name="sej/internal/spreadsheet/**" />
 			<include name="sej/internal/templates/*" />
 		</javac>
+		
+		<echo>Compiling build tools...</echo>
 		<javac srcdir="${src.classes-build-tools.dir}" destdir="${temp.classes-build-tools.dir}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<classpath>
 				<path refid="lib.classpath" />
@@ -147,14 +151,20 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 			<fileset dir="${temp.classes-gen-jre.dir}/sej/internal/bytecode/compiler" includes="*.java" />
 		</delete>
 		<property name="tools-path" value="${tools.classpath}:${temp.classes.dir}:${temp.classes-build-tools.dir}" />
+		
+		<echo>Generating rewrite rules...</echo>
 		<java classpath="${tools-path}" classname="sej.internal.build.rewriting.RewriteRulesCompiler" />
+
+		<echo>Generating bytecode compilers...</echo>
 		<java classpath="${tools-path}" classname="sej.internal.build.bytecode.PatternCompiler" fork="true" />
 
+		<echo>Compiling classes dependent on code generated above...</echo>
 		<javac srcdir="${src.classes.dir}:${temp.classes-gen-jre.dir}:${temp.classes-gen.dir}" destdir="${temp.classes.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/internal/model/**" />
 			<include name="sej/internal/bytecode/**" />
 		</javac>
 
+		<echo>Copying resources...</echo>
 		<copy todir="${temp.classes.dir}">
 			<fileset dir="${src.resources.dir}">
 				<include name="**/*" />

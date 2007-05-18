@@ -1,5 +1,5 @@
 /*
- * Copyright © 2006 by Abacus Research AG, Switzerland.
+ * Copyright (c) 2006 by Abacus Research AG, Switzerland.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without 
@@ -244,7 +244,7 @@ public abstract class Runtime_v1
 
 	private static final Pattern patternFor( String _stringWithWildcards )
 	{
-		final StringBuilder src = new StringBuilder(); // using "(?i)" has trouble with ä and Ä!
+		final StringBuilder src = new StringBuilder(); // using "(?i)" has trouble with umlauts
 		int i = 0;
 		while (i < _stringWithWildcards.length()) {
 			char c = _stringWithWildcards.charAt( i++ );
