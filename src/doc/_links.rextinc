@@ -8,13 +8,11 @@
 [-ec]http://www.eclipse.org/
 [-ecrules]http://udig.refractions.net/confluence/display/UDIG/Eclipse+House+Rules
 [-ecasm]http://asm.objectweb.org/eclipse/index.html
-[-cup]http://www2.in.tum.de/projects/cup/
 [-jvminsns]http://www.cat.nyu.edu/~meyer/jvmref/ref-Java.html
 [-tex]http://en.wikipedia.org/wiki/Textile_%28markup_language%29
 [-rex]http://arrenbrecht.ch/rextile/
 [-rb]http://ruby-lang.org/
 [-yaml]http://www.yaml.org/
-[-jflex]http://www.jflex.de/
 [-ofspec]http://www.oasis-open.org/committees/documents.php?wg_abbrev=office-formula
 [-jedox]http://www.jedox.com/
 [-mathml]http://www.w3.org/Math/
@@ -22,3 +20,6 @@
 [-scheme]http://en.wikipedia.org/wiki/Scheme_%28programming_language%29
 [-jode]http://jode.sourceforge.net/
 [-dot]http://www.graphviz.org/
+[-javacc]https://javacc.dev.java.net/
+[-xcup]http://www2.in.tum.de/projects/cup/
+[-xjflex]http://www.jflex.de/
