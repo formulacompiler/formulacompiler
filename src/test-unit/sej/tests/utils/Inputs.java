@@ -161,6 +161,16 @@ public class Inputs implements InputInterface
 		return 47.11;
 	}
 
+	public double getDoubleD()
+	{
+		return 47.11;
+	}
+
+	public double getDoubleE()
+	{
+		return 47.11;
+	}
+
 	public double getDoubleIncr()
 	{
 		return this.doubleIncr++;
@@ -223,6 +233,11 @@ public class Inputs implements InputInterface
 				return 2;
 		}
 		return 0;
+	}
+
+	public void setOne( int _i )
+	{
+		this.one = _i;
 	}
 
 }

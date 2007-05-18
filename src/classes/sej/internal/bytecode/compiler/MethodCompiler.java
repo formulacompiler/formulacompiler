@@ -24,6 +24,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
@@ -524,5 +525,42 @@ abstract class MethodCompiler
 
 	}
 
+
+	private Set<DelayedLet> trackedSetsOfOuterLets = null;
+	private int letTrackingNestingLevel = 0;
+
+	final Object beginTrackingSetsOfOuterLets()
+	{
+		final Object oldState = this.trackedSetsOfOuterLets;
+		this.trackedSetsOfOuterLets = New.newSet();
+		this.letTrackingNestingLevel++;
+		return oldState;
+	}
+
+	@SuppressWarnings("unchecked")
+	final Set<DelayedLet> endTrackingSetsOfOuterLets( Object _oldState )
+	{
+		final Set<DelayedLet> currentState = this.trackedSetsOfOuterLets;
+		this.letTrackingNestingLevel--;
+		this.trackedSetsOfOuterLets = (Set<DelayedLet>) _oldState;
+		return currentState;
+	}
+
+	final Set<DelayedLet> trackedSetsOfOuterLets()
+	{
+		return this.trackedSetsOfOuterLets; // No defensive copy here - package internal.
+	}
+
+	final void trackSetOfLet( DelayedLet _let )
+	{
+		if (_let.nestingLevel < this.letTrackingNestingLevel) {
+			this.trackedSetsOfOuterLets.add( _let );
+		}
+	}
+
+	final int letTrackingNestingLevel()
+	{
+		return this.letTrackingNestingLevel;
+	}
 
 }

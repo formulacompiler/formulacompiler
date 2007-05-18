@@ -22,6 +22,7 @@ package sej.internal.bytecode.compiler;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Set;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -414,14 +415,42 @@ abstract class ExpressionCompiler
 
 		method().numericCompiler().compileTest( _test, notMet );
 
-		compile( _ifTrue );
+		final Set<DelayedLet> outerSetsInTrueBranch = compileTrackingSetsOfOuterLets( _ifTrue );
+		revertSetsOfOuterLets( outerSetsInTrueBranch, null );
 
 		mv.visitJumpInsn( Opcodes.GOTO, done );
 		mv.mark( notMet );
 
-		compile( _ifFalse );
+		final Set<DelayedLet> outerSetsInFalseBranch = compileTrackingSetsOfOuterLets( _ifFalse );
+		revertSetsOfOuterLets( outerSetsInFalseBranch, outerSetsInTrueBranch );
 
 		mv.mark( done );
+	}
+
+	private final Set<DelayedLet> compileTrackingSetsOfOuterLets( final ExpressionNode _node ) throws CompilerException
+	{
+		final Object oldState = method().beginTrackingSetsOfOuterLets();
+		try {
+
+			compile( _node );
+
+			return method().trackedSetsOfOuterLets();
+		}
+		finally {
+			method().endTrackingSetsOfOuterLets( oldState );
+		}
+	}
+
+	private final void revertSetsOfOuterLets( Set<DelayedLet> _ifInThisSetOnly, Set<DelayedLet> _notIfInThisSetToo )
+	{
+		for (final DelayedLet let : _ifInThisSetOnly) {
+			if (_notIfInThisSetToo != null && _notIfInThisSetToo.contains( let )) {
+				method().trackSetOfLet( let );
+			}
+			else {
+				method().letDict().set( let.name, let );
+			}
+		}
 	}
 
 
@@ -498,27 +527,6 @@ abstract class ExpressionCompiler
 	}
 
 
-	private static final class EvaluateIntoLocal
-	{
-		final ExpressionNode node;
-		final int local;
-
-		public EvaluateIntoLocal(int _local, ExpressionNode _node)
-		{
-			super();
-			this.local = _local;
-			this.node = _node;
-		}
-
-		@Override
-		public String toString()
-		{
-			return this.node.toString() + " @ " + String.valueOf( this.local );
-		}
-
-	}
-
-
 	protected final static boolean isArray( ExpressionNode _node )
 	{
 		if (_node instanceof ExpressionNodeForArrayReference) {
@@ -539,8 +547,8 @@ abstract class ExpressionCompiler
 
 	protected final static boolean isArray( LetDictionary.LetEntry _e )
 	{
-		if (_e.value instanceof EvaluateIntoLocal) {
-			EvaluateIntoLocal eval = (EvaluateIntoLocal) _e.value;
+		if (_e.value instanceof DelayedLet) {
+			DelayedLet eval = (DelayedLet) _e.value;
 			return isArray( eval.local );
 		}
 		else if (_e.value instanceof Integer) {
@@ -561,16 +569,17 @@ abstract class ExpressionCompiler
 
 	private final void compileLet( ExpressionNodeForLet _node ) throws CompilerException
 	{
-		if (_node.varName().charAt( 0 ) == '-') {
+		final String varName = _node.varName();
+		if (varName.charAt( 0 ) == '-') {
 			// Note: This hack with names prefixed by '-' is used internally to pass outer values as
 			// method arguments to helper methods by wrapping the construct in a series of LETs. The
 			// closure then automatically declares the parameters and passes the values to them.
-			letDict().let( _node.varName(), _node.value().getDataType(), _node.value() );
+			letDict().let( varName, _node.value().getDataType(), _node.value() );
 			try {
 				compile( _node.in() );
 			}
 			finally {
-				letDict().unlet( _node.varName() );
+				letDict().unlet( varName );
 			}
 		}
 		else {
@@ -578,12 +587,13 @@ abstract class ExpressionCompiler
 			// evaluation. Otherwise it could get reused when the first evaluation is within a local
 			// scope.
 			final int local = compileNewLocal( isArray( _node.value() ) );
-			letDict().let( _node.varName(), _node.value().getDataType(), new EvaluateIntoLocal( local, _node.value() ) );
+			letDict().let( varName, _node.value().getDataType(),
+					new DelayedLet( varName, local, _node.value(), method().letTrackingNestingLevel() ) );
 			try {
 				compile( _node.in() );
 			}
 			finally {
-				letDict().unlet( _node.varName() );
+				letDict().unlet( varName );
 			}
 		}
 	}
@@ -603,12 +613,13 @@ abstract class ExpressionCompiler
 		else if (_value instanceof ExpressionNode) {
 			compile( (ExpressionNode) _value );
 		}
-		else if (_value instanceof EvaluateIntoLocal) {
-			final EvaluateIntoLocal eval = (EvaluateIntoLocal) _value;
-			compile( eval.node );
-			compileDup( isArray( eval.local ) );
-			compileStoreLocal( eval.local );
-			letDict().set( _name, eval.local );
+		else if (_value instanceof DelayedLet) {
+			final DelayedLet letDef = (DelayedLet) _value;
+			compile( letDef.node );
+			compileDup( isArray( letDef.local ) );
+			compileStoreLocal( letDef.local );
+			letDict().set( _name, letDef.local );
+			method().trackSetOfLet( letDef );
 		}
 		else if (_value instanceof Integer) {
 			compileLoadLocal( (Integer) _value );

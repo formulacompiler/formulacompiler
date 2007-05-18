@@ -98,6 +98,127 @@ public class LittleLanguageTest extends AbstractIOTestBase
 	}
 
 
+	public void testLetUsedInIfAndElse() throws Exception
+	{
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final SectionModel rootModel = engineModel.getRoot();
+		final CellModel a = new CellModel( rootModel, "a" );
+		final CellModel b = new CellModel( rootModel, "b" );
+		final CellModel r = new CellModel( rootModel, "r" );
+
+		a.setConstantValue( 1.0 );
+		b.setConstantValue( 2.0 );
+
+		final ExpressionNode ca = new ExpressionNodeForCellModel( a );
+		final ExpressionNode cb = new ExpressionNodeForCellModel( b );
+		final ExpressionNode x = new ExpressionNodeForLetVar( "x" );
+		final ExpressionNode one = new ExpressionNodeForConstantValue( 1 );
+		final ExpressionNode plus = new ExpressionNodeForOperator( Operator.PLUS, x, x );
+		final ExpressionNode cond = new ExpressionNodeForOperator( Operator.EQUAL, cb, one );
+		final ExpressionNode ifElse = new ExpressionNodeForFunction( Function.IF, cond, plus, x );
+		final ExpressionNode test = new ExpressionNodeForOperator( Operator.PLUS, ifElse, x );
+		r.setExpression( new ExpressionNodeForLet( "x", ca, test ) );
+
+		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleIncr" ) ) );
+		b.makeInput( new CallFrame( Inputs.class.getMethod( "getOne" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+
+		// Test true branch
+		final Inputs in = new Inputs();
+		assertDoubleResult( in.getDoubleIncr() * 3, engineModel );
+
+		// Test false branch
+		this.inputs.setDoubleIncr( 1 );
+		this.inputs.setOne( 2 );
+		final Inputs in2 = new Inputs();
+		assertDoubleResult( in2.getDoubleIncr() * 2, engineModel );
+	}
+
+	public void testLetUsedInIfOnly() throws Exception
+	{
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final SectionModel rootModel = engineModel.getRoot();
+		final CellModel a = new CellModel( rootModel, "a" );
+		final CellModel b = new CellModel( rootModel, "b" );
+		final CellModel r = new CellModel( rootModel, "r" );
+
+		a.setConstantValue( 1.0 );
+		b.setConstantValue( 2.0 );
+
+		final ExpressionNode ca = new ExpressionNodeForCellModel( a );
+		final ExpressionNode cb = new ExpressionNodeForCellModel( b );
+		final ExpressionNode x = new ExpressionNodeForLetVar( "x" );
+		final ExpressionNode one = new ExpressionNodeForConstantValue( 1 );
+		final ExpressionNode plus = new ExpressionNodeForOperator( Operator.PLUS, x, x );
+		final ExpressionNode cond = new ExpressionNodeForOperator( Operator.EQUAL, cb, one );
+		final ExpressionNode ifElse = new ExpressionNodeForFunction( Function.IF, cond, plus, one );
+		final ExpressionNode test = new ExpressionNodeForOperator( Operator.PLUS, ifElse, x );
+		r.setExpression( new ExpressionNodeForLet( "x", ca, test ) );
+
+		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleIncr" ) ) );
+		b.makeInput( new CallFrame( Inputs.class.getMethod( "getOne" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+
+		/*
+		 * Since we are initializing x only in one branch of the IF, the final access to x outside of
+		 * the IF has to retrieve incr() again. So we are seeing two calls to incr() here.
+		 */
+
+		// Test true branch
+		final Inputs in = new Inputs();
+		assertDoubleResult( in.getDoubleIncr() * 2 + in.getDoubleIncr(), engineModel );
+
+		// Test false branch
+		this.inputs.setDoubleIncr( 1 );
+		this.inputs.setOne( 2 );
+		final Inputs in2 = new Inputs();
+		assertDoubleResult( 1.0 + in2.getDoubleIncr(), engineModel );
+	}
+
+	public void testLetUsedInElseOnly() throws Exception
+	{
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final SectionModel rootModel = engineModel.getRoot();
+		final CellModel a = new CellModel( rootModel, "a" );
+		final CellModel b = new CellModel( rootModel, "b" );
+		final CellModel r = new CellModel( rootModel, "r" );
+
+		a.setConstantValue( 1.0 );
+		b.setConstantValue( 2.0 );
+
+		final ExpressionNode ca = new ExpressionNodeForCellModel( a );
+		final ExpressionNode cb = new ExpressionNodeForCellModel( b );
+		final ExpressionNode x = new ExpressionNodeForLetVar( "x" );
+		final ExpressionNode one = new ExpressionNodeForConstantValue( 1 );
+		final ExpressionNode plus = new ExpressionNodeForOperator( Operator.PLUS, x, x );
+		final ExpressionNode cond = new ExpressionNodeForOperator( Operator.EQUAL, cb, one );
+		final ExpressionNode ifElse = new ExpressionNodeForFunction( Function.IF, cond, one, plus );
+		final ExpressionNode test = new ExpressionNodeForOperator( Operator.PLUS, ifElse, x );
+		r.setExpression( new ExpressionNodeForLet( "x", ca, test ) );
+
+		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleIncr" ) ) );
+		b.makeInput( new CallFrame( Inputs.class.getMethod( "getOne" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+
+		/*
+		 * Since we are initializing x only in one branch of the IF, the final access to x outside of
+		 * the IF has to retrieve incr() again. So we are seeing two calls to incr() here.
+		 */
+
+		// Test true branch
+		final Inputs in = new Inputs();
+		assertDoubleResult( 1.0 + in.getDoubleIncr(), engineModel );
+
+		// Test false branch
+		this.inputs.setDoubleIncr( 1 );
+		this.inputs.setOne( 2 );
+		final Inputs in2 = new Inputs();
+		assertDoubleResult( in2.getDoubleIncr() * 2 + in2.getDoubleIncr(), engineModel );
+	}
+
+	// TODO NestedIFs
+
+
 	public void testFold() throws Exception
 	{
 		checkFold( false );
