@@ -25,8 +25,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -86,9 +88,14 @@ public final class New
 		return new TreeSet<T>();
 	}
 
-	public static SortedMap<String, String> newSortedMap()
+	public static <K, V> SortedMap<K, V> newSortedMap()
 	{
-		return new TreeMap<String, String>();
+		return new TreeMap<K, V>();
+	}
+
+	public static <T> Set<T> newSet()
+	{
+		return new HashSet<T>();
 	}
 
 	public static <T> Deque<T> newDeque()
