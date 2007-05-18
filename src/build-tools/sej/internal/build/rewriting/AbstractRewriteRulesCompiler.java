@@ -206,10 +206,12 @@ public abstract class AbstractRewriteRulesCompiler
 		}
 		else if (_expr instanceof ExpressionNodeForLet) {
 			final ExpressionNodeForLet letNode = (ExpressionNodeForLet) _expr;
-			if (letNode.varName().equals( _param )) {
-				return 0; // shadowed
+			int occ = countOccurrences_atLeast2( letNode.value(), _param ); 
+			if (!letNode.varName().equals( _param )) {
+				// not shadowed
+				occ += countOccurrences_atLeast2( letNode.in(), _param );
 			}
-			return countOccurrences_atLeast2( letNode.in(), _param );
+			return occ;
 		}
 		else if (_expr instanceof ExpressionNodeForFoldArray) {
 			final ExpressionNodeForFoldArray foldNode = (ExpressionNodeForFoldArray) _expr;
