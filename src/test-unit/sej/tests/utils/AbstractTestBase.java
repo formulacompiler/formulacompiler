@@ -29,6 +29,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 
 import junit.framework.TestCase;
 
@@ -61,6 +62,36 @@ public abstract class AbstractTestBase extends TestCase
 		final InputStream exp = new BufferedInputStream( new FileInputStream( _nameOfExpectedFile ) );
 		final InputStream act = new BufferedInputStream( new FileInputStream( _nameOfActualFile ) );
 		assertEqualStreams( "Comparing files " + _nameOfExpectedFile + " and " + _nameOfActualFile, exp, act );
+	}
+
+
+	protected void assertEqualReaders( String _message, Reader _expected, Reader _actual ) throws Exception
+	{
+		int line = 1;
+		final BufferedReader expected = _expected instanceof BufferedReader ? (BufferedReader) _expected : new BufferedReader( _expected );
+		final BufferedReader actual = _actual instanceof BufferedReader ? (BufferedReader) _actual : new BufferedReader( _actual );
+		while (true) {
+			final String e = expected.readLine();
+			final String a = actual.readLine();
+			if (e == null && a == null) break;
+			if (e == null || !e.equals( a )) {
+				assertEquals( _message + " at line " + line, e, a );
+			}
+			line++;
+		}
+	}
+
+
+	protected void assertEqualTextFiles( String _nameOfExpectedFile, String _nameOfActualFile ) throws Exception
+	{
+		assertEqualTextFiles( new File( _nameOfExpectedFile ), new File( _nameOfActualFile ) );
+	}
+
+	protected void assertEqualTextFiles( File _nameOfExpectedFile, File _nameOfActualFile ) throws Exception
+	{
+		final Reader exp = new FileReader( _nameOfExpectedFile );
+		final Reader act = new FileReader( _nameOfActualFile );
+		assertEqualReaders( "Comparing files " + _nameOfExpectedFile + " and " + _nameOfActualFile, exp, act );
 	}
 
 

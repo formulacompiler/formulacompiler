@@ -88,16 +88,19 @@ public final class RuntimeLong_v1 extends Runtime_v1
 			return doubles;
 		}
 
-		long fromDouble( double _value )
+		long fromDouble( final double _value )
 		{
 			if (_value == 0.0) {
 				return 0L;
 			}
+			else if (Double.isNaN( _value ) || Double.isInfinite( _value )) {
+				return 0L; // Excel #NUM
+			}
 			else if (this.scale == 0) {
-				return (long) _value;
+				return Math.round( _value );
 			}
 			else {
-				return (long) (_value * this.oneAsDouble);
+				return Math.round( _value * this.oneAsDouble );
 			}
 		}
 
@@ -125,7 +128,7 @@ public final class RuntimeLong_v1 extends Runtime_v1
 			}
 		}
 
-		long fromBigDecimal( BigDecimal _value )
+		public long fromBigDecimal( BigDecimal _value )
 		{
 			if (_value == null) {
 				return 0L;
@@ -164,6 +167,7 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		return a <= b ? a : b;
 	}
 
+	@Deprecated
 	public static long pow( final long x, final long n, Context _cx )
 	{
 		return _cx.fromDouble( Math.pow( _cx.toDouble( x ), _cx.toDouble( n ) ) );
@@ -190,6 +194,18 @@ public final class RuntimeLong_v1 extends Runtime_v1
 				// So: (v - 50) / 100 * 100
 				return (_val - roundingCorrection) / shiftFactor * shiftFactor;
 			}
+		}
+	}
+
+	public static long trunc( final long _val, final int _maxFrac, Context _cx )
+	{
+		if (_val == 0 || _maxFrac >= _cx.scale) {
+			return _val;
+		}
+		else {
+			final int truncateAt = _cx.scale - _maxFrac;
+			final long shiftFactor = ONE_AT_SCALE[ truncateAt ];
+			return _val / shiftFactor * shiftFactor;
 		}
 	}
 
@@ -278,15 +294,177 @@ public final class RuntimeLong_v1 extends Runtime_v1
 	}
 
 
-	public static long op_EXP( final long x, final long n, Context _cx )
+	public static long fun_ACOS( final long _val, Context _cx )
 	{
-		return _cx.fromDouble( Math.pow( _cx.toDouble( x ), _cx.toDouble( n ) ) );
+		return _cx.fromDouble( RuntimeDouble_v1.fun_ACOS( _cx.toDouble( _val ) ) );
+	}
+
+	public static long fun_ASIN( final long _val, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v1.fun_ASIN( _cx.toDouble( _val ) ) );
+	}
+
+	public static long fun_ATAN( final long _val, Context _cx )
+	{
+		final double a = _cx.toDouble( _val );
+		return _cx.fromDouble( Math.atan( a ) );
+	}
+
+	public static long fun_ATAN2( final long _x, final long _y, Context _cx )
+	{
+		final double x = _cx.toDouble( _x );
+		final double y = _cx.toDouble( _y );
+		return _cx.fromDouble( Math.atan2( y, x ) );
+	}
+
+	public static long fun_COS( final long _val, Context _cx )
+	{
+		final double a = _cx.toDouble( _val );
+		return _cx.fromDouble( Math.cos( a ) );
+	}
+
+	public static long fun_SIN( final long _val, Context _cx )
+	{
+		final double a = _cx.toDouble( _val );
+		return _cx.fromDouble( Math.sin( a ) );
+	}
+
+	public static long fun_TAN( final long _val, Context _cx )
+	{
+		final double a = _cx.toDouble( _val );
+		return _cx.fromDouble( Math.tan( a ) );
+	}
+
+	public static long fun_DEGREES( long _a, Context _cx )
+	{
+		return _cx.fromDouble( Math.toDegrees( _cx.toDouble( _a ) ) );
+	}
+
+	public static long fun_RADIANS( long _a, Context _cx )
+	{
+		return _cx.fromDouble( Math.toRadians( _cx.toDouble( _a ) ) );
+	}
+
+	public static long fun_PI( Context _cx )
+	{
+		return _cx.fromDouble( Math.PI );
 	}
 
 	public static long fun_ROUND( final long _val, final long _maxFrac, Context _cx )
 	{
 		if (_cx.scale == 0) return round( _val, (int) _maxFrac, _cx );
 		return round( _val, (int) (_maxFrac / _cx.one), _cx );
+	}
+
+	public static long fun_TRUNC( final long _val, final long _maxFrac, Context _cx )
+	{
+		if (_cx.scale == 0) return trunc( _val, (int) _maxFrac, _cx );
+		return trunc( _val, (int) (_maxFrac / _cx.one), _cx );
+	}
+
+	public static long fun_TRUNC( final long _val, Context _cx )
+	{
+		return trunc( _val, 0, _cx );
+	}
+
+	public static long fun_EVEN( final long _val, Context _cx )
+	{
+		final long shiftFactor = ONE_AT_SCALE[ _cx.scale ] * 2;
+		final long truncated = _val / shiftFactor * shiftFactor;
+		if (_val == truncated) {
+			return truncated;
+		}
+		else if (_val < 0) {
+			return truncated - shiftFactor;
+		}
+		else {
+			return truncated + shiftFactor;
+		}
+	}
+
+	public static long fun_ODD( final long _val, Context _cx )
+	{
+		final long oneAtScale = ONE_AT_SCALE[ _cx.scale ];
+		final long shiftFactor = oneAtScale * 2;
+		if (_val < 0) {
+			final long truncated = (_val - oneAtScale) / shiftFactor * shiftFactor + oneAtScale;
+			if (truncated == _val) {
+				return truncated;
+			}
+			else {
+				return truncated - shiftFactor;
+			}
+		}
+		else {
+			final long truncated = (_val + oneAtScale) / shiftFactor * shiftFactor - oneAtScale;
+			if (truncated == _val) {
+				return truncated;
+			}
+			else {
+				return truncated + shiftFactor;
+			}
+		}
+	}
+
+	public static long fun_INT( final long _val, Context _cx )
+	{
+		if (_cx.scale == 0) {
+			return _val;
+		}
+		else {
+			final long shiftFactor = ONE_AT_SCALE[ _cx.scale ];
+			final long truncated = _val / shiftFactor * shiftFactor;
+			if (_val < 0 && _val != truncated) {
+				return truncated - shiftFactor;
+			}
+			else {
+				return truncated;
+			}
+		}
+	}
+
+	public static long fun_EXP( long _p, Context _cx )
+	{
+		return _cx.fromDouble( Math.exp( _cx.toDouble( _p ) ) );
+	}
+
+	public static long fun_POWER( long _n, long _p, Context _cx )
+	{
+		return _cx.fromDouble( Math.pow( _cx.toDouble( _n ), _cx.toDouble( _p ) ) );
+	}
+
+	public static long fun_LN( long _p, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v1.fun_LN( _cx.toDouble( _p ) ) );
+	}
+
+	public static long fun_LOG( long _n, long _x, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v1.fun_LOG( _cx.toDouble( _n ), _cx.toDouble( _x ) ) );
+	}
+
+	public static long fun_LOG10( long _p, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v1.fun_LOG10( _cx.toDouble( _p ) ) );
+	}
+
+	public static long fun_MOD( final long _n, final long _d, final Context _cx )
+	{
+		if (_d == 0) {
+			return 0; // Excel #DIV/0!
+		}
+		final long remainder = _n % _d;
+		if (remainder != 0 && Long.signum( remainder ) != Long.signum( _d )) {
+			return remainder + _d;
+		}
+		else {
+			return remainder;
+		}
+	}
+
+	public static long fun_SQRT( final long _n, final Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v1.fun_SQRT( _cx.toDouble( _n ) ) );
 	}
 
 	public static long fun_TODAY( Context _cx )
@@ -313,6 +491,27 @@ public final class RuntimeLong_v1 extends Runtime_v1
 	public static long fun_IRR( long[] _values, long _guess, Context _cx )
 	{
 		return _cx.fromDouble( RuntimeDouble_v1.fun_IRR( _cx.toDoubles( _values ), _cx.toDouble( _guess ) ) );
+	}
+
+	public static long fun_DB( long _cost, long _salvage, long _life, long _period, long _month, Context _cx )
+	{
+		final long month = _month / _cx.one(); // unscaled
+		final long rate = round( _cx.fromDouble( 1 - Math.pow( (double) _salvage / (double) _cost, (double) _cx.one()
+				/ (double) _life ) ), 3, _cx );
+		final long depreciation1 = _cost * rate * month / (12 * _cx.one());
+		long depreciation = depreciation1;
+		if (_period / _cx.one() > 1) {
+			long totalDepreciation = depreciation1;
+			final int maxPeriod = (int) ((_life > _period ? _period : _life) / _cx.one());
+			for (int i = 2; i <= maxPeriod; i++) {
+				depreciation = (_cost - totalDepreciation) * rate / _cx.one();
+				totalDepreciation += depreciation;
+			}
+			if (_period > _life) {
+				depreciation = (_cost - totalDepreciation) * rate * (12 - month) / (12 * _cx.one());
+			}
+		}
+		return depreciation;
 	}
 
 }

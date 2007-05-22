@@ -234,48 +234,81 @@ void lexer_test(): {}
 // Please keep this list in alphabetical order.
 void fun(): {}
 	{	"ABS"	fun1( Function.ABS )
+	|	"ACOS" fun1( Function.ACOS )
+	|	"ASIN" fun1( Function.ASIN )
+	|	"ATAN" fun1( Function.ATAN )
+	|	"ATAN2" fun2( Function.ATAN2 )
 	|	"AND" aggN( Function.AND )
 	|	"AVERAGE" aggN( Function.AVERAGE )
 	|	"COMBIN" fun2( Function.COMBIN )
 	|	"CONCATENATE" open() expr() commaExprs() closeOp( Operator.CONCAT )
+	|	"COS" fun1( Function.COS )
 	|	"COUNT" aggN( Function.COUNT )
+	|	"DB" fun4to5( Function.DB )
 	|	"DCOUNT" dbAggN( Function.DCOUNT )
+	|	"DDB" fun4to5( Function.DDB )
+	|	"DEGREES" fun1( Function.DEGREES )
 	|	"DMAX" dbAggN( Function.DMAX )
 	|	"DMIN" dbAggN( Function.DMIN )
 	|	"DPRODUCT" dbAggN( Function.DPRODUCT )
 	|	"DSUM" dbAggN( Function.DSUM )
 	|	"EXACT" fun2( Function.EXACT )
+	|	"EVEN" fun1( Function.EVEN )
+	|	"EXP" fun1( Function.EXP )
 	|	"FACT" fun1( Function.FACT )
 	// The warnings on the following two lines about "(" are OK. They are caused by the annoying range intersection syntax. 
 	|	"FALSE" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 0 )); }
 	|	"false" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 0 )); }
-	|	"FIND" open() expr() commaExpr() optCommaExpr() closeFun( Function.FIND )
+	|	"FIND" fun2to3( Function.FIND )
+	|	"FV" fun3to5( Function.FV )
 	|	"IF" fun3( Function.IF )
 	|	"INDEX" open() shapedRangeExpr() "," exprOrNull() optCommaExpr() closeFun( Function.INDEX )
+	|	"INT" fun1( Function.INT )
 	|	"IRR" open() shapedRangeExpr() optCommaExprOr(0.1) closeFun( Function.IRR )
-	|	"LEFT" open() expr() optCommaExpr() closeFun( Function.LEFT )
+	|	"LEFT" fun1to2( Function.LEFT )
 	|	"LEN" fun1( Function.LEN )
+	|	"LENB" fun1( Function.LENB )
+	|	"LN" fun1( Function.LN )
+	|	"LOG" fun1to2( Function.LOG )
+	|	"LOG10" fun1( Function.LOG10 )
 	|	"LOWER" fun1( Function.LOWER )
 	|	"MAX" aggN( Function.MAX )
 	|	"MATCH" open() expr() "," shapedRangeExpr() optCommaExpr() closeFun( Function.MATCH )
 	|	"MID" fun3( Function.MID )  
 	|	"MIN" aggN( Function.MIN )
 	|	"MIRR" open() shapedRangeExpr() commaExpr() commaExpr() closeFun( Function.MIRR )
+	|	"MOD" fun2( Function.MOD )  
 	|	"NOT" fun1( Function.NOT )
+	|	"NPER" fun3to5( Function.NPER )
 	|	"NPV" open() expr() "," shapedRangeExpr() closeFun( Function.NPV )
+	|	"ODD" fun1( Function.ODD )
 	|	"OR" aggN( Function.OR )
+	|	"PI" fun0( Function.PI )
+	|	"PMT" fun3to5( Function.PMT )
+	|	"POWER" fun2( Function.POWER )
 	|	"PRODUCT" aggN( Function.PRODUCT )
 	|	"PROPER" fun1( Function.PROPER )
+	|	"PV" fun3to5( Function.PV )
+	|	"RADIANS" fun1( Function.RADIANS )
+	|	"RATE" fun3to6( Function.RATE )
 	|	"REPLACE" fun4( Function.REPLACE )
-	|	"RIGHT" open() expr() optCommaExpr() closeFun( Function.RIGHT )
+	|	"REPT" fun2( Function.REPT )
+	|	"RIGHT" fun1to2( Function.RIGHT )
 	|	"ROUND" fun2( Function.ROUND )
-	|	"SEARCH" open() expr() commaExpr() optCommaExpr() closeFun( Function.SEARCH )
-	|	"SUBSTITUTE" open() expr() commaExpr() commaExpr() optCommaExpr() closeFun( Function.SUBSTITUTE )
+	|	"SEARCH" fun2to3( Function.SEARCH )
+	|	"SIN" fun1( Function.SIN )
+	|	"SLN" fun3( Function.SLN )
+	|	"SQRT" fun1( Function.SQRT )
+	|	"SUBSTITUTE" fun3to4( Function.SUBSTITUTE )
 	|	"SUM" aggN( Function.SUM )
+	|	"SYD" fun4( Function.SYD )
+	|	"TAN" fun1( Function.TAN )
 	|	"TODAY" fun0( Function.TODAY )
+	|	"TRIM" fun1( Function.TRIM )
 	// The warnings on the following two lines about "(" are OK. They are caused by the annoying range intersection syntax.
 	|	"TRUE" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 1 )); }
 	|	"true" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 1 )); }
+	|	"TRUNC" fun1to2( Function.TRUNC )
 	|	"UPPER" fun1( Function.UPPER )
 	|	"VAR" aggN( Function.VAR )
 	|	"VARP" aggN( Function.VARP )
@@ -288,6 +321,14 @@ void open(): {}
 
 void commaExpr(): {}
 	{	"," expr()
+	}
+
+void commaExprOrNull():
+	{	boolean needDefault = true; }
+	{	"," [expr()
+			{ needDefault = false; }
+		]
+			{ if(needDefault) pushNode( null ); }
 	}
 
 void optCommaExpr(): {}
@@ -348,6 +389,31 @@ void fun4(Function f): {}
 	{	"(" expr() commaExpr() commaExpr() commaExpr() ")"
 			{ pushNode( new ExpressionNodeForFunction( f, popNodes( 4 ) )); }
 	}
+
+void fun1to2(Function f): {}
+	{	open() expr() optCommaExpr() closeFun( f )
+	}
+		
+void fun2to3(Function f): {}
+	{	open() expr() commaExpr() optCommaExpr() closeFun( f )
+	}
+		
+void fun3to4(Function f): {}
+	{	open() expr() commaExpr() commaExpr() optCommaExpr() closeFun( f )
+	}
+		
+void fun4to5(Function f): {}
+	{	open() expr() commaExpr() commaExpr() commaExpr() optCommaExpr() closeFun( f )
+	}
+		
+void fun3to5(Function f): {}
+	{	open() expr() commaExpr() commaExpr() [commaExprOrNull() optCommaExpr()] closeFun( f )
+	}
+		
+void fun3to6(Function f): {}
+	{	open() expr() commaExpr() commaExpr() [commaExprOrNull() [commaExprOrNull() optCommaExpr()]] closeFun( f )
+	}
+		
 
 /*	LATER This is what we really want. 
 	But the current compiler only handles multiple arguments to the aggregator directly. 

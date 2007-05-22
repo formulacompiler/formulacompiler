@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
+import sej.internal.runtime.RuntimeBigDecimal_v1;
 import sej.internal.runtime.RuntimeLong_v1;
 
 
@@ -263,7 +264,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long op_EXP( long a, long b )
 	{
-		return RuntimeLong_v1.op_EXP( a, b, context );
+		return RuntimeLong_v1.fun_POWER( a, b, context );
 	}
 
 	public long op_PERCENT( long a )
@@ -300,9 +301,124 @@ public final class ExpressionTemplatesForScaledLongs
 	}
 	// ---- fun_ABS
 
+	public long fun_ACOS( long a )
+	{
+		return RuntimeLong_v1.fun_ACOS( a, context );
+	}
+
+	public long fun_ASIN( long a )
+	{
+		return RuntimeLong_v1.fun_ASIN( a, context );
+	}
+
+	public long fun_ATAN( long a )
+	{
+		return RuntimeLong_v1.fun_ATAN( a, context );
+	}
+
+	public long fun_ATAN2( long x, long y )
+	{
+		return RuntimeLong_v1.fun_ATAN2( x, y, context );
+	}
+
+	public long fun_COS( long a )
+	{
+		return RuntimeLong_v1.fun_COS( a, context );
+	}
+
+	public long fun_SIN( long a )
+	{
+		return RuntimeLong_v1.fun_SIN( a, context );
+	}
+
+	public long fun_TAN( long a )
+	{
+		return RuntimeLong_v1.fun_TAN( a, context );
+	}
+
+	public long fun_DEGREES( long a )
+	{
+		return RuntimeLong_v1.fun_DEGREES( a, context );
+	}
+
+	public long fun_RADIANS( long a )
+	{
+		return RuntimeLong_v1.fun_RADIANS( a, context );
+	}
+
+	public long fun_PI()
+	{
+		return RuntimeLong_v1.fun_PI( context );
+	}
+
 	public long fun_ROUND( long a, long b )
 	{
 		return RuntimeLong_v1.fun_ROUND( a, b, context );
+	}
+
+	public long fun_TRUNC( long a, long b )
+	{
+		return RuntimeLong_v1.fun_TRUNC( a, b, context );
+	}
+
+	public long fun_TRUNC( long a )
+	{
+		return RuntimeLong_v1.fun_TRUNC( a, context );
+	}
+
+	public long fun_EVEN( long a )
+	{
+		return RuntimeLong_v1.fun_EVEN( a, context );
+	}
+
+	public long fun_ODD( long a )
+	{
+		return RuntimeLong_v1.fun_ODD( a, context );
+	}
+
+	public long fun_INT( long a )
+	{
+		return RuntimeLong_v1.fun_INT( a, context );
+	}
+
+	public long fun_EXP( long p )
+	{
+		return RuntimeLong_v1.fun_EXP( p, context );
+	}
+
+	public long fun_POWER( long n, long p )
+	{
+		return RuntimeLong_v1.fun_POWER( n, p, context );
+	}
+
+	public long fun_LN( long p )
+	{
+		return RuntimeLong_v1.fun_LN( p, context );
+	}
+
+	public long fun_LOG( long p )
+	{
+		return RuntimeLong_v1.fun_LOG10( p, context );
+	}
+
+	public long fun_LOG( long n, long x )
+	{
+		return RuntimeLong_v1.fun_LOG( n, x, context );
+	}
+
+	public long fun_LOG10( long p )
+	{
+		return RuntimeLong_v1.fun_LOG10( p, context );
+	}
+
+	public long fun_MOD( long n, long d )
+	{
+		return RuntimeLong_v1.fun_MOD( n, d, context );
+	}
+
+	public long fun_SQRT( long n )
+	{
+		return RuntimeLong_v1.fun_SQRT( n, context );
 	}
 
 
@@ -326,6 +442,218 @@ public final class ExpressionTemplatesForScaledLongs
 	public long fun_IRR( long[] _values, long _guess )
 	{
 		return RuntimeLong_v1.fun_IRR( _values, _guess, context );
+	}
+
+	public long fun_DB( long _cost, long _salvage, long _life, long _period, long _month )
+	{
+		return RuntimeLong_v1.fun_DB( _cost, _salvage, _life, _period, _month, context );
+	}
+
+	public long fun_DB( long _cost, long _salvage, long _life, long _period )
+	{
+		return RuntimeLong_v1.fun_DB( _cost, _salvage, _life, _period, 12 * context.one(), context );
+	}
+
+	public long fun_DDB( long _cost, long _salvage, long _life, long _period, long _factor )
+	{
+		final BigDecimal cost = context.toBigDecimal( _cost );
+		final BigDecimal salvage = context.toBigDecimal( _salvage );
+		final BigDecimal life = context.toBigDecimal( _life );
+		final BigDecimal period = context.toBigDecimal( _period );
+		final BigDecimal factor = context.toBigDecimal( _factor );
+		final BigDecimal result = RuntimeBigDecimal_v1.fun_DDB( cost, salvage, life, period, factor );
+		return context.fromBigDecimal( result );
+	}
+
+	public long fun_DDB( long _cost, long _salvage, long _life, long _period )
+	{
+		final BigDecimal cost = context.toBigDecimal( _cost );
+		final BigDecimal salvage = context.toBigDecimal( _salvage );
+		final BigDecimal life = context.toBigDecimal( _life );
+		final BigDecimal period = context.toBigDecimal( _period );
+		final BigDecimal factor = RuntimeBigDecimal_v1.TWO;
+		final BigDecimal result = RuntimeBigDecimal_v1.fun_DDB( cost, salvage, life, period, factor );
+		return context.fromBigDecimal( result );
+	}
+
+	public long fun_FV( long _rate, long _nper, long _pmt, long _pv, long _type )
+	{
+		final BigDecimal rate = context.toBigDecimal( _rate );
+		final BigDecimal nper = context.toBigDecimal( _nper );
+		final BigDecimal pmt = context.toBigDecimal( _pmt );
+		final BigDecimal pv = context.toBigDecimal( _pv );
+		final BigDecimal type = context.toBigDecimal( _type );
+		final BigDecimal result = RuntimeBigDecimal_v1.fun_FV( rate, nper, pmt, pv, type );
+		return context.fromBigDecimal( result );
+	}
+
+	public long fun_FV( long _rate, long _nper, long _pmt, long _pv )
+	{
+		final BigDecimal rate = context.toBigDecimal( _rate );
+		final BigDecimal nper = context.toBigDecimal( _nper );
+		final BigDecimal pmt = context.toBigDecimal( _pmt );
+		final BigDecimal pv = context.toBigDecimal( _pv );
+		final BigDecimal type = RuntimeBigDecimal_v1.ZERO;
+		final BigDecimal result = RuntimeBigDecimal_v1.fun_FV( rate, nper, pmt, pv, type );
+		return context.fromBigDecimal( result );
+	}
+
+	public long fun_FV( long _rate, long _nper, long _pmt )
+	{
+		final BigDecimal rate = context.toBigDecimal( _rate );
+		final BigDecimal nper = context.toBigDecimal( _nper );
+		final BigDecimal pmt = context.toBigDecimal( _pmt );
+		final BigDecimal pv = RuntimeBigDecimal_v1.ZERO;
+		final BigDecimal type = RuntimeBigDecimal_v1.ZERO;
+		final BigDecimal result = RuntimeBigDecimal_v1.fun_FV( rate, nper, pmt, pv, type );
+		return context.fromBigDecimal( result );
+	}
+
+	public long fun_NPER( long _rate, long _pmt, long _pv, long _fv, long _type )
+	{
+		final BigDecimal rate = context.toBigDecimal( _rate );
+		final BigDecimal pmt = context.toBigDecimal( _pmt );
+		final BigDecimal pv = context.toBigDecimal( _pv );
+		final BigDecimal fv = context.toBigDecimal( _fv );
+		final BigDecimal type = context.toBigDecimal( _type );
+		final BigDecimal result = RuntimeBigDecimal_v1.fun_NPER( rate, pmt, pv, fv, type );
+		return context.fromBigDecimal( result );
+	}
+
+	public long fun_NPER( long _rate, long _pmt, long _pv, long _fv )
+	{
+		final BigDecimal rate = context.toBigDecimal( _rate );
+		final BigDecimal pmt = context.toBigDecimal( _pmt );
+		final BigDecimal pv = context.toBigDecimal( _pv );
+		final BigDecimal fv = context.toBigDecimal( _fv );
+		final BigDecimal type = RuntimeBigDecimal_v1.ZERO;
+		final BigDecimal result = RuntimeBigDecimal_v1.fun_NPER( rate, pmt, pv, fv, type );
+		return context.fromBigDecimal( result );
+	}
+
+	public long fun_NPER( long _rate, long _pmt, long _pv )
+	{
+		final BigDecimal rate = context.toBigDecimal( _rate );
+		final BigDecimal pmt = context.toBigDecimal( _pmt );
+		final BigDecimal pv = context.toBigDecimal( _pv );
+		final BigDecimal fv = RuntimeBigDecimal_v1.ZERO;
+		final BigDecimal type = RuntimeBigDecimal_v1.ZERO;
+		final BigDecimal result = RuntimeBigDecimal_v1.fun_NPER( rate, pmt, pv, fv, type );
+		return context.fromBigDecimal( result );
+	}
+
+	public long fun_PMT( long _rate, long _nper, long _pv, long _fv, long _type )
+	{
+		final BigDecimal rate = context.toBigDecimal( _rate );
+		final BigDecimal nper = context.toBigDecimal( _nper );
+		final BigDecimal pv = context.toBigDecimal( _pv );
+		final BigDecimal fv = context.toBigDecimal( _fv );
+		final BigDecimal type = context.toBigDecimal( _type );
+		final BigDecimal result = RuntimeBigDecimal_v1.fun_PMT( rate, nper, pv, fv, type );
+		return context.fromBigDecimal( result );
+	}
+
+	public long fun_PMT( long _rate, long _nper, long _pv, long _fv )
+	{
+		final BigDecimal rate = context.toBigDecimal( _rate );
+		final BigDecimal nper = context.toBigDecimal( _nper );
+		final BigDecimal pv = context.toBigDecimal( _pv );
+		final BigDecimal fv = context.toBigDecimal( _fv );
+		final BigDecimal type = RuntimeBigDecimal_v1.ZERO;
+		final BigDecimal result = RuntimeBigDecimal_v1.fun_PMT( rate, nper, pv, fv, type );
+		return context.fromBigDecimal( result );
+	}
+
+	public long fun_PMT( long _rate, long _nper, long _pv )
+	{
+		final BigDecimal rate = context.toBigDecimal( _rate );
+		final BigDecimal nper = context.toBigDecimal( _nper );
+		final BigDecimal pv = context.toBigDecimal( _pv );
+		final BigDecimal fv = RuntimeBigDecimal_v1.ZERO;
+		final BigDecimal type = RuntimeBigDecimal_v1.ZERO;
+		final BigDecimal result = RuntimeBigDecimal_v1.fun_PMT( rate, nper, pv, fv, type );
+		return context.fromBigDecimal( result );
+	}
+
+	public long fun_PV( long _rate, long _nper, long _pmt, long _fv, long _type )
+	{
+		final BigDecimal rate = context.toBigDecimal( _rate );
+		final BigDecimal nper = context.toBigDecimal( _nper );
+		final BigDecimal pmt = context.toBigDecimal( _pmt );
+		final BigDecimal fv = context.toBigDecimal( _fv );
+		final BigDecimal type = context.toBigDecimal( _type );
+		final BigDecimal result = RuntimeBigDecimal_v1.fun_PV( rate, nper, pmt, fv, type );
+		return context.fromBigDecimal( result );
+	}
+
+	public long fun_PV( long _rate, long _nper, long _pmt, long _fv )
+	{
+		final BigDecimal rate = context.toBigDecimal( _rate );
+		final BigDecimal nper = context.toBigDecimal( _nper );
+		final BigDecimal pmt = context.toBigDecimal( _pmt );
+		final BigDecimal fv = context.toBigDecimal( _fv );
+		final BigDecimal type = RuntimeBigDecimal_v1.ZERO;
+		final BigDecimal result = RuntimeBigDecimal_v1.fun_PV( rate, nper, pmt, fv, type );
+		return context.fromBigDecimal( result );
+	}
+
+	public long fun_PV( long _rate, long _nper, long _pmt )
+	{
+		final BigDecimal rate = context.toBigDecimal( _rate );
+		final BigDecimal nper = context.toBigDecimal( _nper );
+		final BigDecimal pmt = context.toBigDecimal( _pmt );
+		final BigDecimal fv = RuntimeBigDecimal_v1.ZERO;
+		final BigDecimal type = RuntimeBigDecimal_v1.ZERO;
+		final BigDecimal result = RuntimeBigDecimal_v1.fun_PV( rate, nper, pmt, fv, type );
+		return context.fromBigDecimal( result );
+	}
+
+	public long fun_RATE( long _nper, long _pmt, long _pv, long _fv, long _type, long _guess )
+	{
+		final BigDecimal nper = context.toBigDecimal( _nper );
+		final BigDecimal pmt = context.toBigDecimal( _pmt );
+		final BigDecimal pv = context.toBigDecimal( _pv );
+		final BigDecimal fv = context.toBigDecimal( _fv );
+		final BigDecimal type = context.toBigDecimal( _type );
+		final BigDecimal guess = context.toBigDecimal( _guess );
+		final BigDecimal result = RuntimeBigDecimal_v1.fun_RATE( nper, pmt, pv, fv, type, guess );
+		return context.fromBigDecimal( result );
+	}
+
+	public long fun_RATE( long _nper, long _pmt, long _pv, long _fv, long _type )
+	{
+		final BigDecimal nper = context.toBigDecimal( _nper );
+		final BigDecimal pmt = context.toBigDecimal( _pmt );
+		final BigDecimal pv = context.toBigDecimal( _pv );
+		final BigDecimal fv = context.toBigDecimal( _fv );
+		final BigDecimal type = context.toBigDecimal( _type );
+		final BigDecimal guess = BigDecimal.valueOf( 0.1 );
+		final BigDecimal result = RuntimeBigDecimal_v1.fun_RATE( nper, pmt, pv, fv, type, guess );
+		return context.fromBigDecimal( result );
+	}
+
+	public long fun_RATE( long _nper, long _pmt, long _pv, long _fv )
+	{
+		final BigDecimal nper = context.toBigDecimal( _nper );
+		final BigDecimal pmt = context.toBigDecimal( _pmt );
+		final BigDecimal pv = context.toBigDecimal( _pv );
+		final BigDecimal fv = context.toBigDecimal( _fv );
+		final BigDecimal type = RuntimeBigDecimal_v1.ZERO;
+		final BigDecimal guess = BigDecimal.valueOf( 0.1 );
+		final BigDecimal result = RuntimeBigDecimal_v1.fun_RATE( nper, pmt, pv, fv, type, guess );
+		return context.fromBigDecimal( result );
+	}
+
+	public long fun_RATE( long _nper, long _pmt, long _pv )
+	{
+		final BigDecimal nper = context.toBigDecimal( _nper );
+		final BigDecimal pmt = context.toBigDecimal( _pmt );
+		final BigDecimal pv = context.toBigDecimal( _pv );
+		final BigDecimal fv = RuntimeBigDecimal_v1.ZERO;
+		final BigDecimal type = RuntimeBigDecimal_v1.ZERO;
+		final BigDecimal guess = BigDecimal.valueOf( 0.1 );
+		final BigDecimal result = RuntimeBigDecimal_v1.fun_RATE( nper, pmt, pv, fv, type, guess );
+		return context.fromBigDecimal( result );
 	}
 
 

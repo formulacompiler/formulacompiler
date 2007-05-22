@@ -36,7 +36,8 @@ public enum Function {
 
 	// Math
 
-	ABS, ROUND,
+	ABS, ACOS, ASIN, ATAN, ATAN2, COS, SIN, TAN, DEGREES, RADIANS, PI, ROUND, TRUNC, EVEN, ODD, INT,
+	EXP, POWER, LN, LOG, LOG10, MOD, SQRT, 
 
 	// Combinatorics
 
@@ -44,7 +45,7 @@ public enum Function {
 
 	// Financials
 
-	NPV, MIRR, IRR,
+	NPV, MIRR, IRR, DB, DDB, SLN, SYD, FV, NPER, PMT, PV, RATE,
 
 	// Dates
 
@@ -62,7 +63,7 @@ public enum Function {
 
 	// String
 
-	CONCATENATE, LEN, MID, LEFT, RIGHT, SUBSTITUTE, REPLACE, SEARCH, FIND, EXACT, LOWER, UPPER, PROPER,
+	CONCATENATE, LEN, LENB, MID, LEFT, RIGHT, SUBSTITUTE, REPLACE, SEARCH, FIND, EXACT, LOWER, UPPER, PROPER, REPT, TRIM,
 
 	// Aggregators
 	// Don't forget to update AGGREGATORS below!

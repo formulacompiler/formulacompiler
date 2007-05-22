@@ -51,12 +51,21 @@ public class ScaledLongTypeTest extends AbstractNumericTypeTest
 		assertEquals( -12340, dec2.parse( "-123.4" ) );
 
 		assertEquals( 12345, dec2.parse( "123.454" ) );
-		assertEquals( 12345, dec2.parse( "123.455" ) );
-		assertEquals( 12345, dec2.parse( "123.456" ) );
+		assertEquals( 12346, dec2.parse( "123.455" ) );
+		assertEquals( 12346, dec2.parse( "123.456" ) );
 
 		assertEquals( -12345, dec2.parse( "-123.454" ) );
-		assertEquals( -12345, dec2.parse( "-123.455" ) );
-		assertEquals( -12345, dec2.parse( "-123.456" ) );
+		assertEquals( -12346, dec2.parse( "-123.455" ) );
+		assertEquals( -12346, dec2.parse( "-123.456" ) );
+
+		assertEquals( -2, dec2.parse( "-0.015" ) );
+		assertEquals( -1, dec2.parse( "-0.014" ) );
+		assertEquals( -1, dec2.parse( "-0.005" ) );
+		assertEquals( 0, dec2.parse( "-0.004" ) );
+		assertEquals( 0, dec2.parse( "0.004" ) );
+		assertEquals( 1, dec2.parse( "0.005" ) );
+		assertEquals( 1, dec2.parse( "0.014" ) );
+		assertEquals( 2, dec2.parse( "0.015" ) );
 	}
 
 
@@ -80,6 +89,20 @@ public class ScaledLongTypeTest extends AbstractNumericTypeTest
 		assertEquals( "-0.01", dec2.format( -1 ) );
 		assertEquals( "-0.1", dec2.format( -10 ) );
 		assertEquals( "-1", dec2.format( -100 ) );
+	}
+
+	public void testDoubleToScaledLong()
+	{
+		final NumericTypeImpl.AbstractLongType dec2 = new NumericTypeImpl.ScaledLongType( 2 );
+
+		assertEquals( -2, dec2.valueOf( -0.015 ).longValue() );
+		assertEquals( -1, dec2.valueOf( -0.014 ).longValue() );
+		assertEquals( -1, dec2.valueOf( -0.005 ).longValue() );
+		assertEquals( 0, dec2.valueOf( -0.004 ).longValue() );
+		assertEquals( 0, dec2.valueOf( 0.004 ).longValue() );
+		assertEquals( 1, dec2.valueOf( 0.005 ).longValue() );
+		assertEquals( 1, dec2.valueOf( 0.014 ).longValue() );
+		assertEquals( 2, dec2.valueOf( 0.015 ).longValue() );
 	}
 
 

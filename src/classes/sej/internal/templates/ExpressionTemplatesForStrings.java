@@ -73,8 +73,20 @@ public final class ExpressionTemplatesForStrings
 		return Runtime_v1.stdUPPER( a );
 	}
 
-	// LATER fun_PROPER
+	public String fun_PROPER( String a )
+	{
+		return Runtime_v1.stdPROPER( a );
+	}
 
+	public String fun_REPT( String a, int n )
+	{
+		return Runtime_v1.stdREPT( a, n );
+	}
+
+	public String fun_TRIM( String a )
+	{
+		return Runtime_v1.stdTRIM( a );
+	}
 
 	public String fun_MID( String s, int start, int len )
 	{

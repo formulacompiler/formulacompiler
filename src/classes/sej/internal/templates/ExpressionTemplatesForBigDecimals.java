@@ -205,7 +205,7 @@ public final class ExpressionTemplatesForBigDecimals
 		}
 		return acc;
 	}
-
+	
 	private BigDecimal foldInitial() // abstract, really
 	{
 		return null;
@@ -257,7 +257,7 @@ public final class ExpressionTemplatesForBigDecimals
 
 	public BigDecimal op_EXP( BigDecimal a, BigDecimal b )
 	{
-		return RuntimeBigDecimal_v1.pow( a, b );
+		return RuntimeBigDecimal_v1.fun_POWER( a, b );
 	}
 
 	public BigDecimal op_PERCENT( BigDecimal a )
@@ -297,9 +297,124 @@ public final class ExpressionTemplatesForBigDecimals
 	}
 	// ---- fun_ABS
 
+	public BigDecimal fun_ACOS( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v1.fun_ACOS( a );
+	}
+
+	public BigDecimal fun_ASIN( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v1.fun_ASIN( a );
+	}
+
+	public BigDecimal fun_ATAN( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v1.fun_ATAN( a );
+	}
+
+	public BigDecimal fun_ATAN2( BigDecimal x, BigDecimal y )
+	{
+		return RuntimeBigDecimal_v1.fun_ATAN2( x, y );
+	}
+
+	public BigDecimal fun_COS( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v1.fun_COS( a );
+	}
+
+	public BigDecimal fun_SIN( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v1.fun_SIN( a );
+	}
+
+	public BigDecimal fun_TAN( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v1.fun_TAN( a );
+	}
+
+	public BigDecimal fun_DEGREES( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v1.fun_DEGREES( a );
+	}
+
+	public BigDecimal fun_RADIANS( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v1.fun_RADIANS( a );
+	}
+
+	public BigDecimal fun_PI()
+	{
+		return RuntimeBigDecimal_v1.fun_PI();
+	}
+
 	public BigDecimal fun_ROUND( BigDecimal a, BigDecimal b )
 	{
 		return RuntimeBigDecimal_v1.fun_ROUND( a, b );
+	}
+
+	public BigDecimal fun_TRUNC( BigDecimal a, BigDecimal b )
+	{
+		return RuntimeBigDecimal_v1.fun_TRUNC( a, b );
+	}
+
+	public BigDecimal fun_TRUNC( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v1.fun_TRUNC( a );
+	}
+
+	public BigDecimal fun_EVEN( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v1.fun_EVEN( a );
+	}
+
+	public BigDecimal fun_ODD( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v1.fun_ODD( a );
+	}
+
+	public BigDecimal fun_INT( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v1.fun_INT( a );
+	}
+
+	public BigDecimal fun_EXP( BigDecimal p )
+	{
+		return BigDecimal.valueOf( Math.exp( p.doubleValue() ) );
+	}
+
+	public BigDecimal fun_POWER( BigDecimal n, BigDecimal p )
+	{
+		return RuntimeBigDecimal_v1.fun_POWER( n, p );
+	}
+
+	public BigDecimal fun_LN( BigDecimal p )
+	{
+		return RuntimeBigDecimal_v1.fun_LN( p );
+	}
+
+	public BigDecimal fun_LOG( BigDecimal p )
+	{
+		return RuntimeBigDecimal_v1.fun_LOG10( p );
+	}
+
+	public BigDecimal fun_LOG( BigDecimal n, BigDecimal x )
+	{
+		return RuntimeBigDecimal_v1.fun_LOG( n, x );
+	}
+
+	public BigDecimal fun_LOG10( BigDecimal p )
+	{
+		return RuntimeBigDecimal_v1.fun_LOG10( p );
+	}
+
+	public BigDecimal fun_MOD( BigDecimal n, BigDecimal d )
+	{
+		return RuntimeBigDecimal_v1.fun_MOD( n, d );
+	}
+
+	public BigDecimal fun_SQRT( BigDecimal n )
+	{
+		return RuntimeBigDecimal_v1.fun_SQRT( n );
 	}
 
 
@@ -323,6 +438,106 @@ public final class ExpressionTemplatesForBigDecimals
 	public BigDecimal fun_IRR( BigDecimal[] _values, BigDecimal _guess )
 	{
 		return RuntimeBigDecimal_v1.fun_IRR( _values, _guess );
+	}
+
+	public BigDecimal fun_DB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _period, BigDecimal _month )
+	{
+		return RuntimeBigDecimal_v1.fun_DB( _cost, _salvage, _life, _period, _month );
+	}
+
+	public BigDecimal fun_DB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _period )
+	{
+		return RuntimeBigDecimal_v1.fun_DB( _cost, _salvage, _life, _period, BigDecimal.valueOf( 12 ) );
+	}
+
+	public BigDecimal fun_DDB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _period, BigDecimal _factor )
+	{
+		return RuntimeBigDecimal_v1.fun_DDB( _cost, _salvage, _life, _period, _factor );
+	}
+
+	public BigDecimal fun_DDB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _period )
+	{
+		return RuntimeBigDecimal_v1.fun_DDB( _cost, _salvage, _life, _period, RuntimeBigDecimal_v1.TWO );
+	}
+
+	public BigDecimal fun_FV( BigDecimal _rate, BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv, BigDecimal _type )
+	{
+		return RuntimeBigDecimal_v1.fun_FV( _rate, _nper, _pmt, _pv, _type );
+	}
+
+	public BigDecimal fun_FV( BigDecimal _rate, BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv )
+	{
+		return RuntimeBigDecimal_v1.fun_FV( _rate, _nper, _pmt, _pv, RuntimeBigDecimal_v1.ZERO );
+	}
+
+	public BigDecimal fun_FV( BigDecimal _rate, BigDecimal _nper, BigDecimal _pmt )
+	{
+		return RuntimeBigDecimal_v1.fun_FV( _rate, _nper, _pmt, RuntimeBigDecimal_v1.ZERO, RuntimeBigDecimal_v1.ZERO );
+	}
+
+	public BigDecimal fun_NPER( BigDecimal _rate, BigDecimal _pmt, BigDecimal _pv, BigDecimal _fv, BigDecimal _type )
+	{
+		return RuntimeBigDecimal_v1.fun_NPER( _rate, _pmt, _pv, _fv, _type );
+	}
+
+	public BigDecimal fun_NPER( BigDecimal _rate, BigDecimal _pmt, BigDecimal _pv, BigDecimal _fv )
+	{
+		return RuntimeBigDecimal_v1.fun_NPER( _rate, _pmt, _pv, _fv, RuntimeBigDecimal_v1.ZERO );
+	}
+
+	public BigDecimal fun_NPER( BigDecimal _rate, BigDecimal _pmt, BigDecimal _pv )
+	{
+		return RuntimeBigDecimal_v1.fun_NPER( _rate, _pmt, _pv, RuntimeBigDecimal_v1.ZERO, RuntimeBigDecimal_v1.ZERO );
+	}
+
+	public BigDecimal fun_PMT( BigDecimal _rate, BigDecimal _nper, BigDecimal _pv, BigDecimal _fv, BigDecimal _type )
+	{
+		return RuntimeBigDecimal_v1.fun_PMT( _rate, _nper, _pv, _fv, _type );
+	}
+
+	public BigDecimal fun_PMT( BigDecimal _rate, BigDecimal _nper, BigDecimal _pv, BigDecimal _fv )
+	{
+		return RuntimeBigDecimal_v1.fun_PMT( _rate, _nper, _pv, _fv, RuntimeBigDecimal_v1.ZERO );
+	}
+
+	public BigDecimal fun_PMT( BigDecimal _rate, BigDecimal _nper, BigDecimal _pv )
+	{
+		return RuntimeBigDecimal_v1.fun_PMT( _rate, _nper, _pv, RuntimeBigDecimal_v1.ZERO, RuntimeBigDecimal_v1.ZERO );
+	}
+
+	public BigDecimal fun_PV( BigDecimal _rate, BigDecimal _nper, BigDecimal _pmt, BigDecimal _fv, BigDecimal _type )
+	{
+		return RuntimeBigDecimal_v1.fun_PV( _rate, _nper, _pmt, _fv, _type );
+	}
+
+	public BigDecimal fun_PV( BigDecimal _rate, BigDecimal _nper, BigDecimal _pmt, BigDecimal _fv )
+	{
+		return RuntimeBigDecimal_v1.fun_PV( _rate, _nper, _pmt, _fv, RuntimeBigDecimal_v1.ZERO );
+	}
+
+	public BigDecimal fun_PV( BigDecimal _rate, BigDecimal _nper, BigDecimal _pmt )
+	{
+		return RuntimeBigDecimal_v1.fun_PV( _rate, _nper, _pmt, RuntimeBigDecimal_v1.ZERO, RuntimeBigDecimal_v1.ZERO );
+	}
+
+	public BigDecimal fun_RATE( BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv, BigDecimal _fv, BigDecimal _type, BigDecimal _guess )
+	{
+		return RuntimeBigDecimal_v1.fun_RATE( _nper, _pmt, _pv, _fv, _type, _guess );
+	}
+
+	public BigDecimal fun_RATE( BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv, BigDecimal _fv, BigDecimal _type )
+	{
+		return RuntimeBigDecimal_v1.fun_RATE( _nper, _pmt, _pv, _fv, _type, BigDecimal.valueOf( 0.1 ) );
+	}
+
+	public BigDecimal fun_RATE( BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv, BigDecimal _fv )
+	{
+		return RuntimeBigDecimal_v1.fun_RATE( _nper, _pmt, _pv, _fv, RuntimeBigDecimal_v1.ZERO, BigDecimal.valueOf( 0.1 ) );
+	}
+
+	public BigDecimal fun_RATE( BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv )
+	{
+		return RuntimeBigDecimal_v1.fun_RATE( _nper, _pmt, _pv, RuntimeBigDecimal_v1.ZERO, RuntimeBigDecimal_v1.ZERO, BigDecimal.valueOf( 0.1 ) );
 	}
 
 

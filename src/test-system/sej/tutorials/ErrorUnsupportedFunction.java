@@ -84,8 +84,8 @@ public class ErrorUnsupportedFunction extends TestCase
 			fail();
 		}
 		catch (CompilerException.UnsupportedExpression e) {
-			String err = /**/"Function PROPER is not supported for string engines."/**/
-				+ /**/"\nIn expression LEN(  >> PROPER( B4 ) <<  ); error location indicated by >>..<<."/**/
+			String err = /**/"Function LENB is not supported for double engines."/**/
+				+ /**/"\nIn expression LEN(  >> LENB( B4 ) <<  ); error location indicated by >>..<<."/**/
 				+ "\nCell containing expression is A4."
 				+ "\nReferenced by cell A4.";
 			assertEquals( err, e.getMessage() );
