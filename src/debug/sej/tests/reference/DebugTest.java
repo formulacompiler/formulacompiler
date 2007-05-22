@@ -57,7 +57,7 @@ public final class DebugTest extends AbstractReferenceTest
 		// super( "StringComparisons", 9, NumType.DOUBLE, Integer.valueOf( "1", 2 ), false );
 
 		// super( "FinancialFunctions" );
-		super( "FinancialFunctions", 7, NumType.DOUBLE, Integer.valueOf( "0", 2 ), false );
+		super( "FinancialFunctions", 38, NumType.DOUBLE, Integer.valueOf( "1111", 2 ), false );
 	}
 
 
@@ -75,10 +75,10 @@ public final class DebugTest extends AbstractReferenceTest
 	{
 		if (_engine != null) {
 			try {
-				Debug.saveEngine( _engine, "/temp/debug.jar" );
-				System.out.println( ".. dumped to /temp/debug.jar" );
-				Debug.decompileEngine( _engine, "/temp/debug.src" );
-				System.out.println( ".. decompiled to /temp/debug.src" );
+				Debug.saveEngine( _engine, "temp/debug.jar" );
+				System.out.println( ".. dumped to temp/debug.jar" );
+				Debug.decompileEngine( _engine, "temp/debug.src" );
+				System.out.println( ".. decompiled to temp/debug.src" );
 			}
 			catch (IOException e) {
 				e.printStackTrace();
