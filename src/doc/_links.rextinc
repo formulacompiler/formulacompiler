@@ -21,5 +21,5 @@
 [-jode]http://jode.sourceforge.net/
 [-dot]http://www.graphviz.org/
 [-javacc]https://javacc.dev.java.net/
-[-xcup]http://www2.in.tum.de/projects/cup/
-[-xjflex]http://www.jflex.de/
+[-cup]http://www2.in.tum.de/projects/cup/
+[-jflex]http://www.jflex.de/
