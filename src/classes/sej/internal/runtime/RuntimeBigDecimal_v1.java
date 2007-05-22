@@ -22,13 +22,18 @@ package sej.internal.runtime;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Date;
 
 
 public class RuntimeBigDecimal_v1 extends Runtime_v1
 {
-	public static BigDecimal ZERO = BigDecimal.ZERO;
-	public static BigDecimal ONE = BigDecimal.ONE;
+	public static final BigDecimal ZERO = BigDecimal.ZERO;
+	public static final BigDecimal ONE = BigDecimal.ONE;
+	public static final BigDecimal TWO = BigDecimal.valueOf( 2 );
+	private static final BigDecimal PI = BigDecimal.valueOf( Math.PI );
+	private static final MathContext INTERNAL_HIGH_PREC_CONTEXT = MathContext.DECIMAL128;
 
 
 	public static BigDecimal newBigDecimal( final String _value )
@@ -80,11 +85,6 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return dateToNum( today() );
 	}
 
-	public static BigDecimal pow( final BigDecimal x, final BigDecimal n )
-	{
-		return x.pow( n.intValueExact() );
-	}
-
 	public static BigDecimal min( BigDecimal a, BigDecimal b )
 	{
 		return (a.compareTo( b ) <= 0) ? a : b;
@@ -106,13 +106,13 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 	{
 		return booleanToNum( booleanFromNum( a ) || booleanFromNum( b ) );
 	}
-	
-	
+
+
 	public static BigDecimal toNum( final BigDecimal _val )
 	{
-		return _val == null? ZERO : _val; 
+		return _val == null ? ZERO : _val;
 	}
-	
+
 
 	public static boolean booleanFromNum( final BigDecimal _val )
 	{
@@ -143,7 +143,7 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 
 	public static long toScaledLong( BigDecimal _value, int _scale )
 	{
-		return toScaledLong( _value, _scale, BigDecimal.ROUND_DOWN );
+		return toScaledLong( _value, _scale, BigDecimal.ROUND_HALF_UP );
 	}
 
 	public static long toScaledLong( BigDecimal _value, int _scale, int _roundingMode )
@@ -190,6 +190,16 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return value;
 	}
 
+	private static BigDecimal valueOrZero( final double _value )
+	{
+		if (Double.isNaN( _value ) || Double.isInfinite( _value )) {
+			return ZERO; // Excel #NUM!
+		}
+		else {
+			return BigDecimal.valueOf( _value );
+		}
+	}
+
 
 	public static String toExcelString( BigDecimal _num )
 	{
@@ -197,9 +207,182 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 	}
 
 
+	public static BigDecimal fun_ACOS( BigDecimal _a )
+	{
+		final double a = _a.doubleValue();
+		if (a > 1 || a < -1) {
+			return ZERO; // Excel #NUM!
+		}
+		return BigDecimal.valueOf( Math.acos( a ) );
+	}
+
+	public static BigDecimal fun_ASIN( BigDecimal _a )
+	{
+		final double a = _a.doubleValue();
+		if (a > 1 || a < -1) {
+			return ZERO; // Excel #NUM!
+		}
+		return BigDecimal.valueOf( Math.asin( a ) );
+	}
+
+	public static BigDecimal fun_ATAN( BigDecimal _a )
+	{
+		final double a = _a.doubleValue();
+		return BigDecimal.valueOf( Math.atan( a ) );
+	}
+
+	public static BigDecimal fun_ATAN2( BigDecimal _x, BigDecimal _y )
+	{
+		final double x = _x.doubleValue();
+		final double y = _y.doubleValue();
+		return BigDecimal.valueOf( Math.atan2( y, x ) );
+	}
+
+	public static BigDecimal fun_COS( BigDecimal _a )
+	{
+		final double a = _a.doubleValue();
+		return BigDecimal.valueOf( Math.cos( a ) );
+	}
+
+	public static BigDecimal fun_SIN( BigDecimal _a )
+	{
+		final double a = _a.doubleValue();
+		return BigDecimal.valueOf( Math.sin( a ) );
+	}
+
+	public static BigDecimal fun_TAN( BigDecimal _a )
+	{
+		final double a = _a.doubleValue();
+		return BigDecimal.valueOf( Math.tan( a ) );
+	}
+
+	public static BigDecimal fun_DEGREES( BigDecimal _a )
+	{
+		final BigDecimal product = _a.multiply( BigDecimal.valueOf( 180 ) );
+		return product.divide( PI, RoundingMode.HALF_UP );
+	}
+
+	public static BigDecimal fun_RADIANS( BigDecimal _a )
+	{
+		final BigDecimal product = _a.multiply( PI );
+		return product.divide( BigDecimal.valueOf( 180 ), RoundingMode.HALF_UP );
+	}
+
+	public static BigDecimal fun_PI()
+	{
+		return PI;
+	}
+
 	public static BigDecimal fun_ROUND( final BigDecimal _val, final BigDecimal _maxFrac )
 	{
 		return round( _val, _maxFrac.intValue() );
+	}
+
+	public static BigDecimal fun_TRUNC( final BigDecimal _val, final BigDecimal _maxFrac )
+	{
+		return _val.setScale( _maxFrac.intValue(), RoundingMode.DOWN );
+	}
+
+	public static BigDecimal fun_TRUNC( final BigDecimal _val )
+	{
+		return _val.setScale( 0, RoundingMode.DOWN );
+	}
+
+	public static BigDecimal fun_EVEN( final BigDecimal _val )
+	{
+		final BigDecimal rounded = _val.divide( TWO, 0, RoundingMode.UP );
+		return rounded.multiply( TWO );
+	}
+
+	public static BigDecimal fun_ODD( final BigDecimal _val )
+	{
+		switch (_val.signum()) {
+			case -1:
+				return _val.subtract( ONE ).divide( TWO, 0, RoundingMode.UP ).multiply( TWO ).add( ONE );
+			case 1:
+				return _val.add( ONE ).divide( TWO, 0, RoundingMode.UP ).multiply( TWO ).subtract( ONE );
+			default: // zero
+				return ONE;
+		}
+	}
+
+	public static BigDecimal fun_INT( final BigDecimal _val )
+	{
+		return _val.setScale( 0, RoundingMode.FLOOR );
+	}
+
+	public static BigDecimal fun_POWER( BigDecimal _n, BigDecimal _p )
+	{
+		final BigDecimal pNormalized = _p.stripTrailingZeros();
+		if (pNormalized.scale() <= 0) {
+			final int p = pNormalized.intValueExact();
+			if (p >= 0 && p <= 999999999) {
+				return _n.pow( p );
+			}
+		}
+		return valueOrZero( Math.pow( _n.doubleValue(), _p.doubleValue() ) );
+	}
+
+	public static BigDecimal fun_LN( final BigDecimal _p )
+	{
+		final double result = Math.log( _p.doubleValue() );
+		return valueOrZero( result );
+	}
+
+	public static BigDecimal fun_LOG10( final BigDecimal _p )
+	{
+		final double result = Math.log10( _p.doubleValue() );
+		return valueOrZero( result );
+	}
+
+	public static BigDecimal fun_LOG( final BigDecimal _n, final BigDecimal _x )
+	{
+		final double lnN = Math.log( _n.doubleValue() );
+		if (Double.isNaN( lnN ) || Double.isInfinite( lnN )) {
+			return ZERO; // Excel #NUM!
+		}
+		final double lnX = Math.log( _x.doubleValue() );
+		if (Double.isNaN( lnX ) || Double.isInfinite( lnX )) {
+			return ZERO; // Excel #NUM!
+		}
+		if (lnX == 0) {
+			return ZERO; //Excel #DIV/0!
+		}
+		return BigDecimal.valueOf( lnN ).divide( BigDecimal.valueOf( lnX ), RoundingMode.HALF_UP );
+	}
+
+	public static BigDecimal fun_MOD( final BigDecimal _n, final BigDecimal _d )
+	{
+		if (_d.signum() == 0) {
+			return ZERO; // Excel #DIV/0!
+		}
+		final BigDecimal remainder = _n.remainder( _d );
+		if (remainder.signum() != 0 && remainder.signum() != _d.signum()) {
+			return remainder.add( _d );
+		}
+		else {
+			return remainder;
+		}
+	}
+
+	public static BigDecimal fun_SQRT( BigDecimal _n )
+	{
+		if (_n.signum() < 0) {
+			return ZERO; // Excel #NUM!
+		}
+
+		// the Babylonian square root method (Newton's method)
+		BigDecimal x0 = ZERO;
+		BigDecimal x1 = new BigDecimal( Math.sqrt( _n.doubleValue() ) );
+
+		while (x0.compareTo( x1 ) != 0) {
+			x0 = x1;
+			final BigDecimal a = _n.divide( x0, INTERNAL_HIGH_PREC_CONTEXT );
+			final BigDecimal b = a.add( x0, INTERNAL_HIGH_PREC_CONTEXT );
+			x1 = b.divide( TWO, INTERNAL_HIGH_PREC_CONTEXT );
+		}
+
+		return x1;
 	}
 
 	public static BigDecimal fun_TODAY()
@@ -294,6 +477,164 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 
 		}
 		return BigDecimal.ZERO; // LATER: NaN
+	}
+
+	public static BigDecimal fun_DB( final BigDecimal _cost, final BigDecimal _salvage, final BigDecimal _life,
+			final BigDecimal _period, final BigDecimal _month )
+	{
+		final BigDecimal month = _month.setScale( 0, RoundingMode.FLOOR );
+		final BigDecimal rate = BigDecimal.valueOf(
+				1 - Math.pow( (_salvage.doubleValue() / _cost.doubleValue()), (1 / _life.doubleValue()) ) ).setScale( 3,
+				RoundingMode.HALF_UP );
+		final BigDecimal twelve = BigDecimal.valueOf( 12 );
+		final BigDecimal depreciation1 = _cost.multiply( rate ).multiply( _month ).divide( twelve, RoundingMode.HALF_UP );
+		BigDecimal depreciation = depreciation1;
+		if (_period.intValue() > 1) {
+			BigDecimal totalDepreciation = depreciation1;
+			final int maxPeriod = (_life.compareTo( _period ) > 0 ? _period : _life).intValue();
+			for (int i = 2; i <= maxPeriod; i++) {
+				depreciation = _cost.subtract( totalDepreciation ).multiply( rate );
+				totalDepreciation = totalDepreciation.add( depreciation );
+			}
+			if (_period.compareTo( _life ) > 0) {
+				depreciation = _cost.subtract( totalDepreciation ).multiply( rate ).multiply( twelve.subtract( month ) )
+						.divide( twelve, RoundingMode.HALF_UP );
+			}
+		}
+		return depreciation;
+	}
+
+	public static BigDecimal fun_DDB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _period,
+			BigDecimal _factor )
+	{
+		final BigDecimal remainingCost;
+		double k = ONE.subtract( _factor.divide( _life, INTERNAL_HIGH_PREC_CONTEXT ) ).doubleValue();
+		final double period = _period.doubleValue();
+		if (k <= 0) {
+			k = 0;
+			remainingCost = period == 1 ? _cost : ZERO;
+		}
+		else {
+			remainingCost = _cost.multiply( BigDecimal.valueOf( Math.pow( k, period - 1 ) ) );
+		}
+		final BigDecimal newCost = _cost.multiply( BigDecimal.valueOf( Math.pow( k, period ) ) );
+
+		BigDecimal depreciation = remainingCost.subtract( (newCost.compareTo( _salvage ) < 0 ? _salvage : newCost) );
+		if (depreciation.signum() < 0) {
+			depreciation = ZERO;
+		}
+		return depreciation;
+	}
+
+	public static BigDecimal fun_FV( BigDecimal _rate, BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv,
+			BigDecimal _type )
+	{
+		final BigDecimal fv;
+		if (_rate.signum() == 0) {
+			fv = _pv.negate().subtract( _pmt.multiply( _nper ) );
+		}
+		else {
+			final BigDecimal p = BigDecimal.valueOf( Math.pow( _rate.doubleValue() + 1, _nper.doubleValue() ) );
+			final BigDecimal k = _type.signum() > 0 ? _rate.add( ONE ) : ONE;
+			final BigDecimal s = _pmt.multiply( p.subtract( ONE ) ).multiply( k ).divide( _rate,
+					INTERNAL_HIGH_PREC_CONTEXT );
+			fv = _pv.negate().multiply( p ).subtract( s );
+		}
+		return fv;
+	}
+
+	public static BigDecimal fun_NPER( BigDecimal _rate, BigDecimal _pmt, BigDecimal _pv, BigDecimal _fv,
+			BigDecimal _type )
+	{
+		final BigDecimal nper;
+		if (_rate.signum() == 0) nper = _pv.add( _fv ).negate().divide( _pmt, INTERNAL_HIGH_PREC_CONTEXT );
+		else {
+			final BigDecimal a = _type.signum() > 0 ? _pmt.multiply( ONE.add( _rate ) ) : _pmt;
+			final BigDecimal b = _rate.multiply( _fv ).subtract( a ).divide( _rate.multiply( _pv ).add( a ),
+					INTERNAL_HIGH_PREC_CONTEXT ).negate();
+			nper = BigDecimal.valueOf( Math.log( b.doubleValue() ) / Math.log( 1 + _rate.doubleValue() ) );
+		}
+		return nper;
+	}
+
+	public static BigDecimal fun_PMT( BigDecimal _rate, BigDecimal _nper, BigDecimal _pv, BigDecimal _fv,
+			BigDecimal _type )
+	{
+		final BigDecimal pmt;
+		if (_rate.signum() == 0) {
+			pmt = _pv.add( _fv ).divide( _nper, INTERNAL_HIGH_PREC_CONTEXT ).negate();
+		}
+		else {
+			final BigDecimal a = BigDecimal.valueOf( Math.pow( _rate.add( ONE ).doubleValue(), _nper.doubleValue() ) );
+			final BigDecimal b = _pv.divide( ONE.subtract( ONE.divide( a, INTERNAL_HIGH_PREC_CONTEXT ) ),
+					INTERNAL_HIGH_PREC_CONTEXT );
+			final BigDecimal c = _fv.divide( a.subtract( ONE ), INTERNAL_HIGH_PREC_CONTEXT );
+			final BigDecimal d = b.add( c ).multiply( _rate.negate() );
+			pmt = _type.signum() > 0 ? d.divide( _rate.add( ONE ), INTERNAL_HIGH_PREC_CONTEXT ) : d;
+		}
+		return pmt;
+	}
+
+	public static BigDecimal fun_PV( BigDecimal _rate, BigDecimal _nper, BigDecimal _pmt, BigDecimal _fv,
+			BigDecimal _type )
+	{
+		final BigDecimal pv;
+		if (_rate.signum() == 0) {
+			pv = _fv.negate().subtract( _pmt.multiply( _nper ) );
+		}
+		else {
+			final BigDecimal a = BigDecimal.valueOf( Math.pow( _rate.add( ONE ).doubleValue(), -_nper.doubleValue() ) );
+			final BigDecimal k = _fv.multiply( a ).negate();
+			if (_type.signum() > 0) {
+				final BigDecimal b = BigDecimal.valueOf( Math.pow( _rate.add( ONE ).doubleValue(), ONE.subtract( _nper )
+						.doubleValue() ) );
+				pv = k.add( _pmt.multiply( b.subtract( ONE ) ).divide( _rate, INTERNAL_HIGH_PREC_CONTEXT ) )
+						.subtract( _pmt );
+			}
+			else {
+				final BigDecimal b = BigDecimal.valueOf( Math.pow( _rate.add( ONE ).doubleValue(), _nper.negate()
+						.doubleValue() ) );
+				pv = k.add( _pmt.multiply( b.subtract( ONE ) ).divide( _rate, INTERNAL_HIGH_PREC_CONTEXT ) );
+			}
+		}
+		return pv;
+	}
+
+	public static BigDecimal fun_RATE( BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv, BigDecimal _fv,
+			BigDecimal _type, BigDecimal _guess )
+	{
+		final int MAX_ITER = 50;
+		final boolean type = _type.signum() != 0;
+		BigDecimal eps = ONE;
+		BigDecimal rate0 = _guess;
+		for (int count = 0; eps.compareTo( EXCEL_EPSILON ) > 0 && count < MAX_ITER; count++) {
+			final BigDecimal rate1;
+			if (rate0.signum() == 0) {
+				final BigDecimal a = _pmt.multiply( _nper );
+				final BigDecimal b = a.add( type ? _pmt : _pmt.negate() );
+				final BigDecimal c = _pv.add( _fv ).add( a );
+				final BigDecimal d = _nper.multiply( _pv.add( b.divide( TWO, INTERNAL_HIGH_PREC_CONTEXT ) ) );
+				rate1 = rate0.subtract( c.divide( d, INTERNAL_HIGH_PREC_CONTEXT ) );
+			}
+			else {
+				final BigDecimal a = rate0.add( ONE );
+				final BigDecimal b = BigDecimal.valueOf( Math.pow( a.doubleValue(), _nper.subtract( ONE ).doubleValue() ) );
+				final BigDecimal c = b.multiply( a );
+				final BigDecimal d = _pmt.multiply( ONE.add( type ? rate0 : ZERO ) );
+				final BigDecimal e = rate0.multiply( _nper ).multiply( b );
+				final BigDecimal f = c.subtract( ONE );
+				final BigDecimal g = rate0.multiply( _pv );
+				final BigDecimal h = g.multiply( c ).add( d.multiply( f ) ).add( rate0.multiply( _fv ) );
+				final BigDecimal k = g.multiply( e ).subtract( _pmt.multiply( f ) ).add( d.multiply( e ) );
+				rate1 = rate0.multiply( ONE.subtract( h.divide( k, INTERNAL_HIGH_PREC_CONTEXT ) ) );
+			}
+			eps = rate1.subtract( rate0 ).abs();
+			rate0 = rate1;
+		}
+		if (eps.compareTo( EXCEL_EPSILON ) >= 0) {
+			return ZERO; // Excel #NUM!
+		}
+		return rate0;
 	}
 
 

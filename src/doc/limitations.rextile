@@ -40,7 +40,7 @@ h5. Scaled Long
 
 h5. BigDecimal
 
-	* Can only compute exponentiation with integer exponents. The exponent is silently truncated.
+	* @POWER()@ and the @^@ operator with non-integer exponents are converted to @double@ operations.
 	* @IRR()@ throws @IllegalArgumentException@ when the function does not converge.
 	* @MIRR()@ is not supported because it needs fractional exponents.
 

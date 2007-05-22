@@ -45,7 +45,7 @@ public class EngineSerializationDemo extends TestCase
 		// ---- Serialization
 		// Build an engine for the given spreadsheet, inputs, and outputs.
 		EngineBuilder builder = SEJ.newEngineBuilder();
-		builder.loadSpreadsheet( DATA_PATH + "Test.xls" );
+		builder.loadSpreadsheet( DATA_PATH + "test.xls" );
 		builder.setFactoryClass( OutputFactory.class );
 		builder.bindAllByName();
 		SaveableEngine compiledEngine = builder.compile();

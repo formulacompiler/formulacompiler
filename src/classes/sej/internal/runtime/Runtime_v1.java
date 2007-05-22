@@ -273,8 +273,8 @@ public abstract class Runtime_v1
 
 	private static final void appendLiteral( final StringBuilder _src, char _char )
 	{
-		_src.append( "\\x" );
-		_src.append( Integer.toHexString( _char ) );
+		_src.append( "\\u" );
+		_src.append( Integer.toHexString( 0x10000 | _char ).substring( 1 ) );
 	}
 
 
@@ -288,15 +288,66 @@ public abstract class Runtime_v1
 		return _s.toUpperCase();
 	}
 
-	// LATER stdPROPER
-	/*
-	 * static final String toTitleCase( String _str ) { // Unfinished! needs unit tests final
-	 * StringBuffer sb = new StringBuffer(); final String str = _str.toLowerCase(); final
-	 * BreakIterator i = BreakIterator.getWordInstance(); i.setText( str ); int wasAt = 0; int at =
-	 * i.next(); if (at >= 0) { sb.append( str.substring( wasAt, at ) ); sb.append( str.substring(
-	 * at, 1 ).toUpperCase() ); wasAt = at + 1; } sb.append( str.substring( wasAt )); return
-	 * sb.toString(); }
+
+	public static String stdPROPER( String _s )
+	{
+		final StringBuilder sb = new StringBuilder();
+		final String str = _s.toLowerCase();
+		boolean wordMiddle = false;
+		for (int i = 0; i < str.length(); i++) {
+			char c = str.charAt( i );
+			if (Character.isLetter( c )) {
+				if (wordMiddle) {
+					sb.append( c );
+				}
+				else {
+					sb.append( Character.toUpperCase( c ) );
+					wordMiddle = true;
+				}
+			}
+			else {
+				sb.append( c );
+				wordMiddle = false;
+			}
+		}
+		return sb.toString();
+	}
+
+	public static String stdREPT( String _text, int _num )
+	{
+		final StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < _num; i++) {
+			sb.append( _text );
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * Strips leading and trailing blanks, and collapses runs of multiple blanks to just one.
 	 */
+	public static String stdTRIM( String _text )
+	{
+		final StringBuilder sb = new StringBuilder();
+		boolean whiteSpaceMet = false;
+		boolean nonWhiteSpaceMet = false;
+		for (int i = 0; i < _text.length(); i++) {
+			char c = _text.charAt( i );
+			if (c == ' ') {
+				if (nonWhiteSpaceMet) {
+					whiteSpaceMet = true;
+				}
+			}
+			else {
+				nonWhiteSpaceMet = true;
+				if (whiteSpaceMet) {
+					sb.append( ' ' );
+					whiteSpaceMet = false;
+				}
+				sb.append( c );
+			}
+		}
+		return sb.toString();
+	}
 
 
 	protected static final long[] FACTORIALS = { 1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800,

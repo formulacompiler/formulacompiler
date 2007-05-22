@@ -49,7 +49,7 @@ public abstract class NumericTypeImpl implements NumericType
 	/**
 	 * To ensure compatibility with JRE 1.4 I cannot use a MathContext here.
 	 */
-	protected NumericTypeImpl(Class _valueType, int _scale, int _roundingMode)
+	protected NumericTypeImpl( Class _valueType, int _scale, int _roundingMode )
 	{
 		super();
 		this.valueType = _valueType;
@@ -468,7 +468,19 @@ public abstract class NumericTypeImpl implements NumericType
 				final int scaleOfDigits = (scaleOfValue > scaleOfResult) ? scaleOfResult : scaleOfValue;
 				final String digits = value.substring( 0, posOfDecPoint )
 						+ value.substring( posOfDecPoint + 1, posOfDecPoint + 1 + scaleOfDigits );
-				final long unscaled = Long.parseLong( digits );
+				final boolean roundUp;
+				if (scaleOfValue > scaleOfDigits) {
+					final char nextDigit = value.charAt( posOfDecPoint + 1 + scaleOfDigits );
+					roundUp = nextDigit >= '5';
+				}
+				else {
+					roundUp = false;
+				}
+				long unscaled = Long.parseLong( digits );
+				if (roundUp) {
+					final boolean negative = value.charAt( 0 ) == '-';
+					unscaled += negative ? -1 : 1;
+				}
 				if (scaleOfDigits == scaleOfResult) {
 					return unscaled;
 				}
@@ -490,7 +502,7 @@ public abstract class NumericTypeImpl implements NumericType
 		protected Number convertFromNumber( Number _value )
 		{
 			if (_value instanceof Long) return _value;
-			return (long) (RuntimeDouble_v1.round( _value.doubleValue(), getScale() ) * one());
+			return Math.round( RuntimeDouble_v1.round( _value.doubleValue(), getScale() ) * one() );
 		}
 
 		@Override

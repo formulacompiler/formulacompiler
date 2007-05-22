@@ -180,7 +180,10 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 			body( "  - 1 )))" );
 		}
 		end();
-		
+
+		def( Function.SLN, "cost", "salvage", "life", "(`cost - `salvage) / `life" );
+		def( Function.SYD, "cost", "salvage", "life", "per",
+				"(`cost - `salvage) * (`life - `per + 1) * 2 / (`life * (`life + 1))" );
 	}
 
 

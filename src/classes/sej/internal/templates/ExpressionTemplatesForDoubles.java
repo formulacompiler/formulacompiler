@@ -240,6 +240,56 @@ public final class ExpressionTemplatesForDoubles
 	}
 	// ---- fun_ABS
 
+	public double fun_ACOS( double a )
+	{
+		return RuntimeDouble_v1.fun_ACOS( a );
+	}
+
+	public double fun_ASIN( double a )
+	{
+		return RuntimeDouble_v1.fun_ASIN( a );
+	}
+
+	public double fun_ATAN( double a )
+	{
+		return Math.atan( a );
+	}
+
+	public double fun_ATAN2( double x, double y )
+	{
+		return Math.atan2( y, x );
+	}
+
+	public double fun_COS( double a )
+	{
+		return Math.cos( a );
+	}
+
+	public double fun_SIN( double a )
+	{
+		return Math.sin( a );
+	}
+
+	public double fun_TAN( double a )
+	{
+		return Math.tan( a );
+	}
+
+	public double fun_DEGREES( double a )
+	{
+		return Math.toDegrees( a );
+	}
+
+	public double fun_RADIANS( double a )
+	{
+		return Math.toRadians( a );
+	}
+
+	public double fun_PI()
+	{
+		return Math.PI;
+	}
+
 	// Leave this comment in. It is used to cite the code into the documentation.
 	// ---- fun_ROUND
 	public double fun_ROUND( double a, double b )
@@ -248,6 +298,70 @@ public final class ExpressionTemplatesForDoubles
 	}
 	// ---- fun_ROUND
 
+	public double fun_TRUNC( double a, double b )
+	{
+		return RuntimeDouble_v1.trunc( a, (int) b );
+	}
+
+	public double fun_TRUNC( double a )
+	{
+		return RuntimeDouble_v1.fun_TRUNC( a );
+	}
+
+	public double fun_EVEN( double a )
+	{
+		return RuntimeDouble_v1.fun_EVEN( a );
+	}
+
+	public double fun_ODD( double a )
+	{
+		return RuntimeDouble_v1.fun_ODD( a );
+	}
+
+	public double fun_INT( double a )
+	{
+		return Math.floor( a );
+	}
+
+	public double fun_EXP( double p )
+	{
+		return Math.exp( p );
+	}
+
+	public double fun_POWER( double n, double p )
+	{
+		return RuntimeDouble_v1.fun_POWER( n, p );
+	}
+
+	public double fun_LN( double p )
+	{
+		return RuntimeDouble_v1.fun_LN( p );
+	}
+
+	public double fun_LOG( double p )
+	{
+		return RuntimeDouble_v1.fun_LOG10( p );
+	}
+
+	public double fun_LOG( double n, double x )
+	{
+		return RuntimeDouble_v1.fun_LOG( n, x );
+	}
+
+	public double fun_LOG10( double p )
+	{
+		return RuntimeDouble_v1.fun_LOG10( p );
+	}
+
+	public double fun_MOD( double n, double d )
+	{
+		return RuntimeDouble_v1.fun_MOD( n, d );
+	}
+
+	public double fun_SQRT( double n )
+	{
+		return RuntimeDouble_v1.fun_SQRT( n );
+	}
 
 	// ------------------------------------------------ Combinatorics
 
@@ -264,6 +378,106 @@ public final class ExpressionTemplatesForDoubles
 	public double fun_IRR( double[] _values, double _guess )
 	{
 		return RuntimeDouble_v1.fun_IRR( _values, _guess );
+	}
+
+	public double fun_DB( double _cost, double _salvage, double _life, double _period, double _month )
+	{
+		return RuntimeDouble_v1.fun_DB( _cost, _salvage, _life, _period, _month );
+	}
+
+	public double fun_DB( double _cost, double _salvage, double _life, double _period )
+	{
+		return RuntimeDouble_v1.fun_DB( _cost, _salvage, _life, _period, 12 );
+	}
+
+	public double fun_DDB( double _cost, double _salvage, double _life, double _period, double _factor )
+	{
+		return RuntimeDouble_v1.fun_DDB( _cost, _salvage, _life, _period, _factor );
+	}
+
+	public double fun_DDB( double _cost, double _salvage, double _life, double _period )
+	{
+		return RuntimeDouble_v1.fun_DDB( _cost, _salvage, _life, _period, 2 );
+	}
+
+	public double fun_FV( double _rate, double _nper, double _pmt, double _pv, double _type )
+	{
+		return RuntimeDouble_v1.fun_FV( _rate, _nper, _pmt, _pv, _type );
+	}
+
+	public double fun_FV( double _rate, double _nper, double _pmt, double _pv )
+	{
+		return RuntimeDouble_v1.fun_FV( _rate, _nper, _pmt, _pv, 0 );
+	}
+
+	public double fun_FV( double _rate, double _nper, double _pmt )
+	{
+		return RuntimeDouble_v1.fun_FV( _rate, _nper, _pmt, 0, 0 );
+	}
+
+	public double fun_NPER( double _rate, double _pmt, double _pv, double _fv, double _type )
+	{
+		return RuntimeDouble_v1.fun_NPER( _rate, _pmt, _pv, _fv, _type );
+	}
+
+	public double fun_NPER( double _rate, double _pmt, double _pv, double _fv )
+	{
+		return RuntimeDouble_v1.fun_NPER( _rate, _pmt, _pv, _fv, 0 );
+	}
+
+	public double fun_NPER( double _rate, double _pmt, double _pv )
+	{
+		return RuntimeDouble_v1.fun_NPER( _rate, _pmt, _pv, 0, 0 );
+	}
+
+	public double fun_PMT( double _rate, double _nper, double _pv, double _fv, double _type )
+	{
+		return RuntimeDouble_v1.fun_PMT( _rate, _nper, _pv, _fv, _type );
+	}
+
+	public double fun_PMT( double _rate, double _nper, double _pv, double _fv )
+	{
+		return RuntimeDouble_v1.fun_PMT( _rate, _nper, _pv, _fv, 0 );
+	}
+
+	public double fun_PMT( double _rate, double _nper, double _pv )
+	{
+		return RuntimeDouble_v1.fun_PMT( _rate, _nper, _pv, 0, 0 );
+	}
+
+	public double fun_PV( double _rate, double _nper, double _pmt, double _fv, double _type )
+	{
+		return RuntimeDouble_v1.fun_PV( _rate, _nper, _pmt, _fv, _type );
+	}
+
+	public double fun_PV( double _rate, double _nper, double _pmt, double _fv )
+	{
+		return RuntimeDouble_v1.fun_PV( _rate, _nper, _pmt, _fv, 0 );
+	}
+
+	public double fun_PV( double _rate, double _nper, double _pmt )
+	{
+		return RuntimeDouble_v1.fun_PV( _rate, _nper, _pmt, 0, 0 );
+	}
+
+	public double fun_RATE( double _nper, double _pmt, double _pv, double _fv, double _type, double _guess )
+	{
+		return RuntimeDouble_v1.fun_RATE( _nper, _pmt, _pv, _fv, _type, _guess );
+	}
+
+	public double fun_RATE( double _nper, double _pmt, double _pv, double _fv, double _type )
+	{
+		return RuntimeDouble_v1.fun_RATE( _nper, _pmt, _pv, _fv, _type, 0.1 );
+	}
+
+	public double fun_RATE( double _nper, double _pmt, double _pv, double _fv )
+	{
+		return RuntimeDouble_v1.fun_RATE( _nper, _pmt, _pv, _fv, 0, 0.1 );
+	}
+
+	public double fun_RATE( double _nper, double _pmt, double _pv )
+	{
+		return RuntimeDouble_v1.fun_RATE( _nper, _pmt, _pv, 0, 0, 0.1 );
 	}
 
 

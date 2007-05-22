@@ -76,7 +76,7 @@ public class Decompilation extends AbstractTestBase
 
 	private void assertGeneratedFile( File _src, File _tgt, String _class ) throws Exception
 	{
-		assertEqualFiles( new File( _src, _class ), new File( _tgt, _class ) );
+		assertEqualTextFiles( new File( _src, _class ), new File( _tgt, _class ) );
 	}
 
 
