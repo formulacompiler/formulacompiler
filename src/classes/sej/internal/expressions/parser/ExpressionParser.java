@@ -55,7 +55,7 @@ public class ExpressionParser extends GeneratedExpressionParser
 		if (_e instanceof CompilerException.UnsupportedExpressionSource) {
 			return (CompilerException.UnsupportedExpressionSource) _e;
 		}
-		return new CompilerException.UnsupportedExpressionSource( _e, this.exprText, this.token.beginColumn );
+		return new CompilerException.UnsupportedExpressionSource( _e, this.exprText, this.token.endColumn - 1 );
 	}
 
 }
