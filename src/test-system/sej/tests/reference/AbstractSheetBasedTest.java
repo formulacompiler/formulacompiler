@@ -25,8 +25,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import sej.compiler.CallFrame;
 import sej.compiler.NumericType;
@@ -327,15 +329,17 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 			{
 				if (_value instanceof String) {
 					if (_value.toString().equals( "(days from 2006)" )) {
-						final Calendar time = Calendar.getInstance();
-						final Calendar start = (Calendar) time.clone();
-						time.set( time.get( Calendar.YEAR ), time.get( Calendar.MONTH ), time.get( Calendar.DAY_OF_MONTH ) );
-						start.set( 2006, Calendar.JANUARY, 1 );
-						final long timeMS = time.getTimeInMillis();
-						final long startMS = start.getTimeInMillis();
-						final long timeDays = timeMS / MS_PER_DAY;
-						final long startDays = startMS / MS_PER_DAY;
-						final long days = timeDays - startDays;
+						final Calendar calendar = new GregorianCalendar();
+						final int year = calendar.get( Calendar.YEAR );
+						final int month = calendar.get( Calendar.MONTH );
+						final int dayOfMonth = calendar.get( Calendar.DAY_OF_MONTH );
+						calendar.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
+						calendar.setTimeInMillis( 0 );
+						calendar.set( year, month, dayOfMonth );
+						final long endMillis = calendar.getTimeInMillis();
+						calendar.set( 2006, Calendar.JANUARY, 1 );
+						final long startMillis = calendar.getTimeInMillis();
+						final long days = (endMillis - startMillis) / MS_PER_DAY;
 						return Double.valueOf( days );
 					}
 					if (_value.toString().equals( "Infinity" )) {
