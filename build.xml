@@ -16,7 +16,6 @@
 	<property name="src.classes.dir" location="${src.dir}/classes" />
 	<property name="src.resources.dir" location="${src.dir}/resources" />
 	<property name="src.classes-build-tools.dir" location="${src.dir}/build-tools" />
-	<property name="src.test-accessors.dir" location="${src.dir}/test-accessors" />
 	<property name="src.test-unit.dir" location="${src.dir}/test-unit" />
 	<property name="src.test-system.dir" location="${src.dir}/test-system" />
 	<property name="src.examples.dir" location="${src.dir}/examples" />
@@ -260,9 +259,6 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 		<mkdir dir="${temp.test-unit.dir}" />
 		<mkdir dir="${temp.test-system.dir}" />
 
-		<javac srcdir="${src.test-accessors.dir}" destdir="${temp.test-unit.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
-			<include name="sej/**" />
-		</javac>
 		<javac srcdir="${src.test-unit.dir}" destdir="${temp.test-unit.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/**" />
 		</javac>
