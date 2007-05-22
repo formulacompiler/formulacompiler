@@ -78,8 +78,20 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 		}
 	}
 
-
+	
 	private ExpressionNode rewriteFun( ExpressionNodeForFunction _fun ) throws CompilerException
+	{
+		ExpressionNodeForFunction curr = _fun; 
+		ExpressionNode rewritten = rewriteFunOnce( curr );
+		while (rewritten != curr && rewritten instanceof ExpressionNodeForFunction) {
+			curr = (ExpressionNodeForFunction) rewritten;
+			rewritten = rewriteFunOnce( curr );
+		}
+		return rewritten;
+	}
+	
+
+	private ExpressionNode rewriteFunOnce( ExpressionNodeForFunction _fun ) throws CompilerException
 	{
 		switch (_fun.getFunction()) {
 			case DSUM:
