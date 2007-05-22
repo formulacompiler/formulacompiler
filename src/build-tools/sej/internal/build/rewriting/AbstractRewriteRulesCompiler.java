@@ -118,14 +118,13 @@ public abstract class AbstractRewriteRulesCompiler
 		} );
 
 		Function currCase = null;
-		for (int i = 0; i < this.rules.size(); i++) {
-			final Rule rule = this.rules.get( i );
+		for (final Rule rule : this.rules) {
 			if (rule.fun == currCase) {
 				rule.compileSubCase();
 			}
 			else {
 				if (null != currCase) closeSubSwitch();
-				final boolean needSubSwitch = (i < this.rules.size() - 1) && (this.rules.get( i + 1 ).fun == rule.fun);
+				final boolean needSubSwitch = !rule.is_n_ary();
 				if (needSubSwitch) {
 					currCase = rule.fun;
 					rule.compileCase();
@@ -295,7 +294,15 @@ public abstract class AbstractRewriteRulesCompiler
 
 		private final String mtdName()
 		{
+			if (is_n_ary()) {
+				return "rewrite" + this.fun.getName();
+			}
 			return "rewrite" + this.fun.getName() + "_" + this.params.size();
+		}
+
+		private final boolean is_n_ary()
+		{
+			return this.params.get( this.params.size() - 1 ).endsWith( "*" );
 		}
 
 		private final boolean occursMoreThanOnce( final ExpressionNode _expr, String _param )
