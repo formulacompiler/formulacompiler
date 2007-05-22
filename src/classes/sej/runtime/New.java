@@ -20,10 +20,8 @@
  */
 package sej.runtime;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -96,16 +94,6 @@ public final class New
 	public static <T> Set<T> newSet()
 	{
 		return new HashSet<T>();
-	}
-
-	public static <T> Deque<T> newDeque()
-	{
-		return newArrayDeque();
-	}
-
-	public static <T> Deque<T> newArrayDeque()
-	{
-		return new ArrayDeque<T>();
 	}
 
 }
