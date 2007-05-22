@@ -21,8 +21,8 @@
 package sej.internal.expressions.parser;
 
 import java.util.Collection;
-import java.util.Deque;
 import java.util.List;
+import java.util.Stack;
 
 import sej.compiler.CompilerException;
 import sej.internal.expressions.ExpressionNode;
@@ -81,7 +81,7 @@ abstract class ExpressionParserBase
 	}
 
 
-	private Deque<Integer> marks = New.newDeque();
+	private Stack<Integer> marks = new Stack<Integer>();
 
 	/**
 	 * Remembers the current node stack pointer for {@code popMarkedNodes()}. Calls are nestable.
