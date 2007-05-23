@@ -585,7 +585,7 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 			<fileset dir="${jcite.lib.dir}" includes="*.jar" />
 		</path>
 
-		<java classname="ch.arrenbrecht.jcite.JCite" classpathref="jcite.classpath" failonerror="yes">
+		<java classname="ch.arrenbrecht.jcite.JCite" classpathref="jcite.classpath" failonerror="yes" fork="true">
 			<arg value="-sp" />
 			<arg path="${src.classes.dir}" />
 			<arg value="-sp" />
@@ -611,7 +611,7 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 			<arg file="${doc.dir}" />
 		</java>
 
-		<java classname="ch.arrenbrecht.jcite.JCite" classpathref="jcite.classpath" failonerror="yes">
+		<java classname="ch.arrenbrecht.jcite.JCite" classpathref="jcite.classpath" failonerror="yes" fork="true">
 			<arg value="-sp" />
 			<arg path="${src.classes.dir}" />
 			<arg value="-sp" />
