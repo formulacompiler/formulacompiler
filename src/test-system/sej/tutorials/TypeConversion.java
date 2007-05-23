@@ -158,7 +158,7 @@ public class TypeConversion extends TestCase
 		BigDecimal getBigDecimal();
 		BigInteger getBigInteger();
 
-		// Date is converted to a number à la Excel
+		// Date is converted to a number a la Excel
 		Date getDate();
 		
 		// String cannot be used for numbers, but for string-valued cells
@@ -207,7 +207,7 @@ public class TypeConversion extends TestCase
 		BigDecimal calcBigDecimal();
 		BigInteger calcBigInteger();
 
-		// Date is converted from a number à la Excel
+		// Date is converted from a number ï¿½ la Excel
 		Date calcDate();
 		
 		// Strings are converted according to Java's settings
