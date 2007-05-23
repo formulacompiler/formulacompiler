@@ -198,6 +198,19 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		end();
 		def( Function.FV, "rate", "nper", "pmt", "pv", "FV( `rate, `nper, `pmt, `pv, 0 )" );
 		def( Function.FV, "rate", "nper", "pmt", "FV( `rate, `nper, `pmt, 0, 0 )" );
+
+		begin( Function.NPER, "rate", "pmt", "pv", "fv", "type" );
+		{
+			body( "IF(`rate = 0," );
+			body( "  -(`pv + `fv) / `pmt," );
+			body( "  _LET( a: IF(`type > 0 , `pmt * (1 + `rate) , `pmt);" );
+			body( "    LOG( -(`rate * `fv - `a) / (`rate * `pv + `a), 1 + `rate )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
+		def( Function.NPER, "rate", "pmt", "pv", "fv", "NPER( `rate, `pmt, `pv, `fv, 0 )" );
+		def( Function.NPER, "rate", "pmt", "pv", "NPER( `rate, `pmt, `pv, 0, 0 )" );
 	}
 
 
