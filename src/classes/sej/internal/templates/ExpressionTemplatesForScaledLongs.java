@@ -476,39 +476,6 @@ public final class ExpressionTemplatesForScaledLongs
 		return context.fromBigDecimal( result );
 	}
 
-	public long fun_FV( long _rate, long _nper, long _pmt, long _pv, long _type )
-	{
-		final BigDecimal rate = context.toBigDecimal( _rate );
-		final BigDecimal nper = context.toBigDecimal( _nper );
-		final BigDecimal pmt = context.toBigDecimal( _pmt );
-		final BigDecimal pv = context.toBigDecimal( _pv );
-		final BigDecimal type = context.toBigDecimal( _type );
-		final BigDecimal result = RuntimeBigDecimal_v1.fun_FV( rate, nper, pmt, pv, type );
-		return context.fromBigDecimal( result );
-	}
-
-	public long fun_FV( long _rate, long _nper, long _pmt, long _pv )
-	{
-		final BigDecimal rate = context.toBigDecimal( _rate );
-		final BigDecimal nper = context.toBigDecimal( _nper );
-		final BigDecimal pmt = context.toBigDecimal( _pmt );
-		final BigDecimal pv = context.toBigDecimal( _pv );
-		final BigDecimal type = RuntimeBigDecimal_v1.ZERO;
-		final BigDecimal result = RuntimeBigDecimal_v1.fun_FV( rate, nper, pmt, pv, type );
-		return context.fromBigDecimal( result );
-	}
-
-	public long fun_FV( long _rate, long _nper, long _pmt )
-	{
-		final BigDecimal rate = context.toBigDecimal( _rate );
-		final BigDecimal nper = context.toBigDecimal( _nper );
-		final BigDecimal pmt = context.toBigDecimal( _pmt );
-		final BigDecimal pv = RuntimeBigDecimal_v1.ZERO;
-		final BigDecimal type = RuntimeBigDecimal_v1.ZERO;
-		final BigDecimal result = RuntimeBigDecimal_v1.fun_FV( rate, nper, pmt, pv, type );
-		return context.fromBigDecimal( result );
-	}
-
 	public long fun_NPER( long _rate, long _pmt, long _pv, long _fv, long _type )
 	{
 		final BigDecimal rate = context.toBigDecimal( _rate );

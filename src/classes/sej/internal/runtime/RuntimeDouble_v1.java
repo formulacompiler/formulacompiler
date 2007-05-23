@@ -387,20 +387,6 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		return depreciation;
 	}
 
-	public static double fun_FV( double _rate, double _nper, double _pmt, double _pv, double _type )
-	{
-		final double fv;
-		if (_rate == 0) {
-			fv = -_pv - _pmt * _nper;
-		}
-		else {
-			final double p = Math.pow( _rate + 1, _nper );
-			final double k = _type > 0 ? _rate + 1 : 1;
-			fv = -_pv * p - _pmt * (p - 1) * k / _rate;
-		}
-		return fv;
-	}
-
 	public static double fun_NPER( double _rate, double _pmt, double _pv, double _fv, double _type )
 	{
 		final double nper;

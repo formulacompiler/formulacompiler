@@ -184,6 +184,20 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		def( Function.SLN, "cost", "salvage", "life", "(`cost - `salvage) / `life" );
 		def( Function.SYD, "cost", "salvage", "life", "per",
 				"(`cost - `salvage) * (`life - `per + 1) * 2 / (`life * (`life + 1))" );
+
+		begin( Function.FV, "rate", "nper", "pmt", "pv", "type" );
+		{
+			body( "IF( `rate = 0," );
+			body( "  -`pv - `pmt * `nper," );
+			body( "  _LET( p: (`rate + 1) ^ `nper;" );
+			body( "  _LET( k: IF (`type > 0, `rate + 1, 1);" );
+			body( "  -`pv * `p - `pmt * (`p - 1) * `k / `rate" );
+			body( "  ))" );
+			body( ")" );
+		}
+		end();
+		def( Function.FV, "rate", "nper", "pmt", "pv", "FV( `rate, `nper, `pmt, `pv, 0 )" );
+		def( Function.FV, "rate", "nper", "pmt", "FV( `rate, `nper, `pmt, 0, 0 )" );
 	}
 
 
