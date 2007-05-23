@@ -164,30 +164,7 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 
 	public static BigDecimal dateToNum( final Date _date )
 	{
-		final long utcValue = (_date == null) ? 0 : _date.getTime();
-		final boolean time = (utcValue < MS_PER_DAY);
-
-		// Convert this to the number of days, plus fractions of a day since
-		// 01 Jan 1970
-		final BigDecimal utcDays = new BigDecimal( utcValue ).divide( MSINADAY, 8, BigDecimal.ROUND_HALF_UP );
-
-		// Add in the offset to get the number of days since 01 Jan 1900
-		BigDecimal value = utcDays.add( UTCOFFSETDAYS );
-
-		// Work round a bug in Excel. Excel seems to think there is a date
-		// called the 29th Feb, 1900 - but this was not a leap year.
-		// Therefore for values less than 61, we must subtract 1. Only do
-		// this for full dates, not times
-		if (!time && value.compareTo( NONLEAPDAY ) < 0) {
-			value = value.subtract( ONE );
-		}
-
-		// If this refers to a time, then get rid of the integer part
-		if (time) {
-			value = value.subtract( new BigDecimal( value.toBigInteger() ) );
-		}
-
-		return value;
+		return BigDecimal.valueOf( RuntimeDouble_v1.dateToNum( _date ) );
 	}
 
 	private static BigDecimal valueOrZero( final double _value )

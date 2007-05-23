@@ -84,9 +84,12 @@ public abstract class Runtime_v1
 
 	public static Date today()
 	{
-		long now = Calendar.getInstance().getTime().getTime();
-		long today = now / MS_PER_DAY * MS_PER_DAY;
-		return new Date( today );
+		final Calendar calendar = Calendar.getInstance();
+		calendar.set( Calendar.HOUR_OF_DAY, 0 );
+		calendar.set( Calendar.MINUTE, 0 );
+		calendar.set( Calendar.SECOND, 0 );
+		calendar.set( Calendar.MILLISECOND, 0 );
+		return calendar.getTime();
 	}
 
 

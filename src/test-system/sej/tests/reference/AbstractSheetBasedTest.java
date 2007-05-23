@@ -334,7 +334,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 						final int month = calendar.get( Calendar.MONTH );
 						final int dayOfMonth = calendar.get( Calendar.DAY_OF_MONTH );
 						calendar.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
-						calendar.setTimeInMillis( 0 );
+						calendar.clear();
 						calendar.set( year, month, dayOfMonth );
 						final long endMillis = calendar.getTimeInMillis();
 						calendar.set( 2006, Calendar.JANUARY, 1 );

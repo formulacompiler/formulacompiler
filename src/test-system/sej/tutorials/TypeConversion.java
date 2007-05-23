@@ -22,6 +22,7 @@ package sej.tutorials;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Calendar;
 import java.util.Date;
 
 import sej.compiler.NumericType;
@@ -35,7 +36,14 @@ import junit.framework.TestCase;
 public class TypeConversion extends TestCase
 {
 	private static final long ONE_DAY = 1000 * 60 * 60 * 24; // ms
-	private static final Date CREATION_TIME = new Date( 100 * ONE_DAY );
+	private static final Date CREATION_TIME;
+
+	static {
+		final Calendar calendar = Calendar.getInstance();
+		calendar.clear();
+		calendar.set( Calendar.DAY_OF_YEAR, 100 );
+		CREATION_TIME = calendar.getTime();
+	}
 
 
 	public void testAllTypesWithDouble() throws Exception
