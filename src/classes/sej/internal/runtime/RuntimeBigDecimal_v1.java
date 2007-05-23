@@ -526,20 +526,6 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return depreciation;
 	}
 
-	public static BigDecimal fun_NPER( BigDecimal _rate, BigDecimal _pmt, BigDecimal _pv, BigDecimal _fv,
-			BigDecimal _type )
-	{
-		final BigDecimal nper;
-		if (_rate.signum() == 0) nper = _pv.add( _fv ).negate().divide( _pmt, INTERNAL_HIGH_PREC_CONTEXT );
-		else {
-			final BigDecimal a = _type.signum() > 0 ? _pmt.multiply( ONE.add( _rate ) ) : _pmt;
-			final BigDecimal b = _rate.multiply( _fv ).subtract( a ).divide( _rate.multiply( _pv ).add( a ),
-					INTERNAL_HIGH_PREC_CONTEXT ).negate();
-			nper = BigDecimal.valueOf( Math.log( b.doubleValue() ) / Math.log( 1 + _rate.doubleValue() ) );
-		}
-		return nper;
-	}
-
 	public static BigDecimal fun_PMT( BigDecimal _rate, BigDecimal _nper, BigDecimal _pv, BigDecimal _fv,
 			BigDecimal _type )
 	{

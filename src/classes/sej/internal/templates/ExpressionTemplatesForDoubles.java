@@ -400,21 +400,6 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v1.fun_DDB( _cost, _salvage, _life, _period, 2 );
 	}
 
-	public double fun_NPER( double _rate, double _pmt, double _pv, double _fv, double _type )
-	{
-		return RuntimeDouble_v1.fun_NPER( _rate, _pmt, _pv, _fv, _type );
-	}
-
-	public double fun_NPER( double _rate, double _pmt, double _pv, double _fv )
-	{
-		return RuntimeDouble_v1.fun_NPER( _rate, _pmt, _pv, _fv, 0 );
-	}
-
-	public double fun_NPER( double _rate, double _pmt, double _pv )
-	{
-		return RuntimeDouble_v1.fun_NPER( _rate, _pmt, _pv, 0, 0 );
-	}
-
 	public double fun_PMT( double _rate, double _nper, double _pv, double _fv, double _type )
 	{
 		return RuntimeDouble_v1.fun_PMT( _rate, _nper, _pv, _fv, _type );
