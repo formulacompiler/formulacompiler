@@ -152,7 +152,7 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 		}
 		else if (CellType.DATE == xlsType) {
 			DateCell xlsDateCell = (jxl.DateCell) _xlsCell;
-			new CellWithConstant( _row, RuntimeDouble_v1.dateToNum( xlsDateCell.getDate() ) );
+			new CellWithConstant( _row, RuntimeDouble_v1.utcDateToNum( xlsDateCell.getDate() ) );
 		}
 		else if (jxl.CellType.LABEL == xlsType) {
 			new CellWithConstant( _row, ((jxl.LabelCell) _xlsCell).getString() );

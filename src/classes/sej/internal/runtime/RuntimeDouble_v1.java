@@ -22,6 +22,7 @@ package sej.internal.runtime;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.TimeZone;
 
 
 public final class RuntimeDouble_v1 extends Runtime_v1
@@ -118,9 +119,14 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	}
 
 
+	public static Date dateFromNum( final double _excel )
+	{
+		return dateFromNum( _excel, TimeZone.getDefault() );
+	}
+
 	// ---- Excel date conversion; copied from JExcelAPI (DateRecord.java)
 
-	public static Date dateFromNum( final double _excel )
+	public static Date dateFromNum( final double _excel, TimeZone _timeZone )
 	{
 		final boolean time = (Math.abs( _excel ) < 1);
 		double numValue = _excel;
@@ -142,10 +148,29 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		// to a rounding feature of Excel (contributed by Jurgen
 		long utcValue = Math.round( utcDays * SECS_PER_DAY ) * MS_PER_SEC;
 
-		return new Date( utcValue );
+		final int offset = _timeZone.getOffset( utcValue - _timeZone.getRawOffset() );
+
+		return new Date( utcValue - offset );
 	}
 
 	public static double dateToNum( final Date _date )
+	{
+		return dateToNum( _date, TimeZone.getDefault() );
+	}
+
+	public static double dateToNum( final Date _date, TimeZone _timeZone )
+	{
+		if (_date == null) {
+			return 0;
+		}
+		else {
+			final long dateMillis = _date.getTime();
+			final int offset = _timeZone.getOffset( dateMillis );
+			return utcDateToNum( new Date( dateMillis + offset ) );
+		}
+	}
+
+	public static double utcDateToNum( final Date _date )
 	{
 		final long utcValue = (_date == null) ? 0 : _date.getTime();
 		final boolean time = (utcValue < MS_PER_DAY);
