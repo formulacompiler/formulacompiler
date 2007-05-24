@@ -735,8 +735,9 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 
 	<target name="pack-tools" depends="-prepare" description="Rebuilds the tools package from the tools dir.">
 		<echo>Bundling tools: ${tools.version}</echo>
+		<mkdir dir="${dist.dir}" />
 		<property name="tools.name" value="${name}-${tools.version}-tools.zip" />
-		<property name="tools.file" value="${tools.name}" />
+		<property name="tools.file" value="${dist.dir}/${tools.name}" />
 		<delete file="${tools.file}" />
 		<zip basedir="${tools.dir}" destfile="${tools.file}" filesonly="no" />
 	</target>
