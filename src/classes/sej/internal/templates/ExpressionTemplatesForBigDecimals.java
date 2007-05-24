@@ -475,21 +475,6 @@ public final class ExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v1.fun_PMT( _rate, _nper, _pv, RuntimeBigDecimal_v1.ZERO, RuntimeBigDecimal_v1.ZERO );
 	}
 
-	public BigDecimal fun_PV( BigDecimal _rate, BigDecimal _nper, BigDecimal _pmt, BigDecimal _fv, BigDecimal _type )
-	{
-		return RuntimeBigDecimal_v1.fun_PV( _rate, _nper, _pmt, _fv, _type );
-	}
-
-	public BigDecimal fun_PV( BigDecimal _rate, BigDecimal _nper, BigDecimal _pmt, BigDecimal _fv )
-	{
-		return RuntimeBigDecimal_v1.fun_PV( _rate, _nper, _pmt, _fv, RuntimeBigDecimal_v1.ZERO );
-	}
-
-	public BigDecimal fun_PV( BigDecimal _rate, BigDecimal _nper, BigDecimal _pmt )
-	{
-		return RuntimeBigDecimal_v1.fun_PV( _rate, _nper, _pmt, RuntimeBigDecimal_v1.ZERO, RuntimeBigDecimal_v1.ZERO );
-	}
-
 	public BigDecimal fun_RATE( BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv, BigDecimal _fv, BigDecimal _type, BigDecimal _guess )
 	{
 		return RuntimeBigDecimal_v1.fun_RATE( _nper, _pmt, _pv, _fv, _type, _guess );
