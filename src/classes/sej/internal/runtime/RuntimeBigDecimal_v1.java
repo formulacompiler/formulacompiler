@@ -152,11 +152,6 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 	}
 
 
-	private static BigDecimal MSINADAY = new BigDecimal( MS_PER_DAY );
-	private static BigDecimal NONLEAPDAY = new BigDecimal( NON_LEAP_DAY );
-	private static BigDecimal UTCOFFSETDAYS = new BigDecimal( UTC_OFFSET_DAYS );
-
-
 	public static Date dateFromNum( final BigDecimal _excel )
 	{
 		return RuntimeDouble_v1.dateFromNum( _excel.doubleValue() );
