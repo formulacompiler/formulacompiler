@@ -227,6 +227,22 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		end();
 		def( Function.PV, "rate", "nper", "pmt", "fv", "PV (`rate, `nper, `pmt, `fv, 0 )" );
 		def( Function.PV, "rate", "nper", "pmt", "PV (`rate, `nper, `pmt, 0, 0 )" );
+
+		begin( Function.PMT, "rate", "nper", "pv", "fv", "type" );
+		{
+			body( "IF( `rate = 0," );
+			body( "  -(`pv + `fv) / `nper," );
+			body( "  _LET( a: (1 + `rate) ^ `nper;" );
+			body( "  _LET( b: `pv / (1 - 1 / `a);" );
+			body( "  _LET( c: `fv / (`a - 1);" );
+			body( "  _LET( d: -(`b + `c) * `rate;" );
+			body( "  IF( `type > 0 , `d / (1 + `rate) , `d)" );
+			body( "  ))))" );
+			body( ")" );
+		}
+		end();
+		def( Function.PMT, "rate", "nper", "pv", "fv", "PMT (`rate, `nper, `pv, `fv, 0 )" );
+		def( Function.PMT, "rate", "nper", "pv", "PMT (`rate, `nper, `pv, 0, 0 )" );
 	}
 
 
