@@ -118,7 +118,7 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 	<!-- compile -->
 
 	<target name="compile" depends="-prepare, generate-parsers" description="Compiles and also generates some of the Java source code for sej.jar.">
-		
+
 		<echo>Compiling base classes...</echo>
 		<javac srcdir="${src.classes.dir}:${temp.classes-gen.dir}" destdir="${temp.classes.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<include name="sej/*" />
@@ -134,7 +134,7 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 			<include name="sej/internal/spreadsheet/**" />
 			<include name="sej/internal/templates/*" />
 		</javac>
-		
+
 		<echo>Compiling build tools...</echo>
 		<javac srcdir="${src.classes-build-tools.dir}" destdir="${temp.classes-build-tools.dir}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
 			<classpath>
@@ -150,7 +150,7 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 			<fileset dir="${temp.classes-gen-jre.dir}/sej/internal/bytecode/compiler" includes="*.java" />
 		</delete>
 		<property name="tools-path" value="${tools.classpath}:${temp.classes.dir}:${temp.classes-build-tools.dir}" />
-		
+
 		<echo>Generating rewrite rules...</echo>
 		<java classpath="${tools-path}" classname="sej.internal.build.rewriting.RewriteRulesCompiler" />
 
@@ -428,14 +428,14 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 	</target>
 
 	<!-- rextile -->
-	
-	<target name="-clean-temp-doc" depends="-prepare" >
+
+	<target name="-clean-temp-doc" depends="-prepare">
 		<delete dir="${temp.doc.dir}" />
 		<mkdir dir="${temp.doc.dir}" />
 	</target>
-	
-	<target name="make-rextinc" depends="-prepare" description="Regenerates .rextinc files from scripts." >
-		<mkdir dir="${temp.doc.dir}/hacking"/>
+
+	<target name="make-rextinc" depends="-prepare" description="Regenerates .rextinc files from scripts.">
+		<mkdir dir="${temp.doc.dir}/hacking" />
 		<exec dir="${src.scripts.dir}" executable="ruby" vmlauncher="false" failonerror="true">
 			<arg value="gen-component-overview.rb" />
 		</exec>
@@ -718,7 +718,14 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 
 	<!-- dist -->
 
-	<target name="dist" depends="clobber,test,validate,doc,jar,srcjar,pack" description="Rebuilds distribution packages from scratch. Run this for a clean package build.">
+	<target name="dist" depends="check-jre1.5,clobber,test,validate,doc,jar,srcjar,pack" description="Rebuilds distribution packages from scratch. Run this for a clean package build.">
+	</target>
+
+	<target name="check-jre1.5" description="Checks that ANT is running on JRE 1.5.">
+		<condition property="is.jre15">
+			<matches pattern="^1\.5\.0.*" string="${java.version}" />
+		</condition>
+		<fail message="Distributions must be built with JDK 1.5.0. Aborting." unless="is.jre15" />
 	</target>
 
 	<!-- pack -->
