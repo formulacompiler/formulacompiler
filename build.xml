@@ -172,40 +172,6 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 		</copy>
 	</target>
 
-	<property name="staged.dir" value="${temp.dir}/staged" />
-
-	<target name="-c-rt-api" depends="-prepare">
-		<mkdir dir="${staged.dir}/rt-api" />
-		<javac srcdir="${src.classes.dir}" destdir="${staged.dir}/rt-api" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
-			<include name="sej/runtime/*" />
-		</javac>
-	</target>
-
-	<target name="-c-rt-impl" depends="-c-rt-api">
-		<mkdir dir="${staged.dir}/rt-impl" />
-		<javac srcdir="${src.classes.dir}" destdir="${staged.dir}/rt-impl" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
-			<include name="sej/internal/runtime/*" />
-			<classpath>
-				<pathelement location="${staged.dir}/rt-api" />
-			</classpath>
-		</javac>
-	</target>
-
-	<target name="-c-rt-jvm" depends="-c-rt-api, -c-rt-impl">
-		<mkdir dir="${staged.dir}/rt-jvm" />
-		<javac srcdir="${src.classes.dir}" destdir="${staged.dir}/rt-jvm" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
-			<include name="sej/internal/bytecode/runtime/*" />
-			<classpath>
-				<pathelement location="${staged.dir}/rt-api" />
-				<pathelement location="${staged.dir}/rt-impl" />
-			</classpath>
-		</javac>
-	</target>
-
-	<target name="c" depends="-prepare, -c-rt-api, -c-rt-impl, -c-rt-jvm">
-
-	</target>
-
 	<!-- jars -->
 
 	<target name="jar" depends="compile" description="Creates sej.jar and sej-runtime.jar.">
@@ -607,32 +573,12 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 			<arg value="-r" />
 			<arg value="-i" />
 			<arg file="${doc.dir}/*.htm" />
-			<arg value="-o" />
-			<arg file="${doc.dir}" />
-		</java>
-
-		<java classname="ch.arrenbrecht.jcite.JCite" classpathref="jcite.classpath" failonerror="yes" fork="true">
-			<arg value="-sp" />
-			<arg path="${src.classes.dir}" />
-			<arg value="-sp" />
-			<arg path="${src.examples.dir}" />
-			<arg value="-sp" />
-			<arg path="${src.test-system.dir}" />
-			<arg value="-sp" />
-			<arg path="${src.classes-build-tools.dir}" />
-			<arg value="-sp" />
-			<arg path="${src.dir}/debug" />
-			<arg value="-sp" />
-			<arg path="${src.dir}/scratchpad" />
-			<arg value="-sp" />
-			<arg path="${temp.reference.dir}" />
-			<arg value="-sp" />
-			<arg path="${temp.dir}" />
-			<arg value="-r" />
 			<arg value="-i" />
 			<arg file="${doc.dir}/*.xhtml" />
 			<arg value="-o" />
 			<arg file="${doc.dir}" />
+			<arg value="--tripwire-file" />
+			<arg file="${src.dir}/jcite-tripwires.txt" />
 		</java>
 
 	</target>
