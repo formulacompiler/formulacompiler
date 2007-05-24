@@ -521,31 +521,6 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return pmt;
 	}
 
-	public static BigDecimal fun_PV( BigDecimal _rate, BigDecimal _nper, BigDecimal _pmt, BigDecimal _fv,
-			BigDecimal _type )
-	{
-		final BigDecimal pv;
-		if (_rate.signum() == 0) {
-			pv = _fv.negate().subtract( _pmt.multiply( _nper ) );
-		}
-		else {
-			final BigDecimal a = BigDecimal.valueOf( Math.pow( _rate.add( ONE ).doubleValue(), -_nper.doubleValue() ) );
-			final BigDecimal k = _fv.multiply( a ).negate();
-			if (_type.signum() > 0) {
-				final BigDecimal b = BigDecimal.valueOf( Math.pow( _rate.add( ONE ).doubleValue(), ONE.subtract( _nper )
-						.doubleValue() ) );
-				pv = k.add( _pmt.multiply( b.subtract( ONE ) ).divide( _rate, INTERNAL_HIGH_PREC_CONTEXT ) )
-						.subtract( _pmt );
-			}
-			else {
-				final BigDecimal b = BigDecimal.valueOf( Math.pow( _rate.add( ONE ).doubleValue(), _nper.negate()
-						.doubleValue() ) );
-				pv = k.add( _pmt.multiply( b.subtract( ONE ) ).divide( _rate, INTERNAL_HIGH_PREC_CONTEXT ) );
-			}
-		}
-		return pv;
-	}
-
 	public static BigDecimal fun_RATE( BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv, BigDecimal _fv,
 			BigDecimal _type, BigDecimal _guess )
 	{

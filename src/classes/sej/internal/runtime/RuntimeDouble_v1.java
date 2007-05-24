@@ -428,24 +428,6 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		return pmt;
 	}
 
-	public static double fun_PV( double _rate, double _nper, double _pmt, double _fv, double _type )
-	{
-		final double pv;
-		if (_rate == 0) {
-			pv = -_fv - _pmt * _nper;
-		}
-		else {
-			final double k = -_fv * Math.pow( 1 + _rate, -_nper );
-			if (_type > 0) {
-				pv = k + (_pmt * (Math.pow( 1 + _rate, -_nper + 1 ) - 1) / _rate) - _pmt;
-			}
-			else {
-				pv = k + (_pmt * (Math.pow( 1 + _rate, -_nper ) - 1) / _rate);
-			}
-		}
-		return pv;
-	}
-
 	public static double fun_RATE( double _nper, double _pmt, double _pv, double _fv, double _type, double _guess )
 	{
 		final int MAX_ITER = 50;

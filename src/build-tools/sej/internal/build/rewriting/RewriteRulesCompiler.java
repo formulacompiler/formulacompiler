@@ -201,7 +201,7 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 
 		begin( Function.NPER, "rate", "pmt", "pv", "fv", "type" );
 		{
-			body( "IF(`rate = 0," );
+			body( "IF( `rate = 0," );
 			body( "  -(`pv + `fv) / `pmt," );
 			body( "  _LET( a: IF(`type > 0 , `pmt * (1 + `rate) , `pmt);" );
 			body( "    LOG( -(`rate * `fv - `a) / (`rate * `pv + `a), 1 + `rate )" );
@@ -211,6 +211,22 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		end();
 		def( Function.NPER, "rate", "pmt", "pv", "fv", "NPER( `rate, `pmt, `pv, `fv, 0 )" );
 		def( Function.NPER, "rate", "pmt", "pv", "NPER( `rate, `pmt, `pv, 0, 0 )" );
+
+		begin( Function.PV, "rate", "nper", "pmt", "fv", "type" );
+		{
+			body( "IF( `rate = 0," );
+			body( "  -`fv - `pmt * `nper," );
+			body( "  _LET( a: 1 + `rate;" );
+			body( "  _LET( b: -`fv * ( `a ^ -`nper );" );
+			body( "  IF( `type > 0," );
+			body( "    `b + (`pmt * (( `a ^ ( -`nper + 1 )) - 1) / `rate) - `pmt," );
+			body( "    `b + (`pmt * (( `a ^ -`nper ) - 1) / `rate)" );
+			body( "  )))" );
+			body( ")" );
+		}
+		end();
+		def( Function.PV, "rate", "nper", "pmt", "fv", "PV (`rate, `nper, `pmt, `fv, 0 )" );
+		def( Function.PV, "rate", "nper", "pmt", "PV (`rate, `nper, `pmt, 0, 0 )" );
 	}
 
 
