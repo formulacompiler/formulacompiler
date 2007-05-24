@@ -723,9 +723,12 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 
 	<target name="check-jre1.5" description="Checks that ANT is running on JRE 1.5.">
 		<condition property="is.jre15">
-			<matches pattern="^1\.5\.0.*" string="${java.version}" />
+			<and>
+				<equals arg1="Sun Microsystems Inc." arg2="${java.vendor}" />
+				<contains substring="1.5.0" string="${java.runtime.version}" />
+			</and>
 		</condition>
-		<fail message="Distributions must be built with JDK 1.5.0. Aborting." unless="is.jre15" />
+		<fail message="Distributions must be built with Sun JDK 1.5.0. Aborting." unless="is.jre15" />
 	</target>
 
 	<!-- pack -->
