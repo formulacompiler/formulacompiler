@@ -1,123 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="sej" default="build" basedir=".">
-	<description>Builds, tests, and packages SEJ.</description>
+	<description>Builds, tests, and packages SEJ. See doc/hacking/build.htm for details.</description>
 
-	<property file="build.properties" />
-	<property file="build.default.properties" />
+	<!--	Conventions used in this build script:
+	
+		All top-level targets are simple redirects to corresponding internal targets.
+		This gives a quick overview and ensures a clean separation between API and implementation.
+	
+		All targets that do something start with @.
+		They have no dependencies except for @init and are thus very reusable.
+		They are accessible to users for those who know what they are doing. :)
+		
+		Dependencies are managed by internal targets starting with -.
+		They use the @ targets to do the actual work.
+		
+		External configuration is initialized by build.default.properties.
+		Values in build.properties (if it exists) take precedence. 
+	-->
+	
+	
+	<!-- version info -->
 
-	<property name="Name" value="SEJ" />
-	<property name="name" value="sej" />
 	<property name="dist.version" value="0.8.4" />
 	<property name="tools.version" value="0.8.4" />
 
-	<property name="src.dir" location="${basedir}/src" />
-	<property name="lib.dir" location="${basedir}/lib" />
-	<property name="doc.dir" location="${basedir}/doc" />
-	<property name="src.classes.dir" location="${src.dir}/classes" />
-	<property name="src.resources.dir" location="${src.dir}/resources" />
-	<property name="src.classes-build-tools.dir" location="${src.dir}/build-tools" />
-	<property name="src.test-unit.dir" location="${src.dir}/test-unit" />
-	<property name="src.test-system.dir" location="${src.dir}/test-system" />
-	<property name="src.examples.dir" location="${src.dir}/examples" />
-	<property name="src.doc.dir" location="${src.dir}/doc" />
-	<property name="src.scripts.dir" location="${src.dir}/scripts" />
 
-	<property name="javac.source" value="1.5" />
-	<property name="javac.target" value="1.5" />
+	<!-- top-level targets -->
 
-	<property name="build.dir" location="${basedir}/build" />
+	<target name="build" description="Builds the .jar files in build/." depends="-build" />
 
-	<property name="temp.dir" location="${basedir}/temp" />
-	<property name="temp.classes.dir" location="${temp.dir}/classes/main" />
-	<property name="temp.classes-build-tools.dir" location="${temp.dir}/classes/build-tools" />
-	<property name="temp.test-unit.dir" location="${temp.dir}/classes/test-unit" />
-	<property name="temp.test-system.dir" location="${temp.dir}/classes/test-system" />
-	<property name="temp.examples.dir" location="${temp.dir}/classes/examples" />
-	<property name="temp.classes-gen.dir" location="${temp.dir}/gen-src/classes" />
-	<property name="temp.classes-gen-jre.dir" location="${temp.dir}/gen-src/classes-jre${ant.java.version}" />
-	<property name="temp.testresults.dir" location="${temp.dir}/testresults" />
-	<property name="temp.reference.dir" location="${temp.dir}/reference" />
-	<property name="temp.doc.dir" location="${temp.dir}/doc" />
-	<property name="temp.macker-rules.file" location="${temp}/macker-rules.xml" />
+	<target name="compile" description="Generates and compiles all source code." depends="-compile" />
+	<target name="compile-main" description="Generates and compiles all source code for the .jar files." depends="-compile-main" />
 
-	<property name="dist.dir" location="${basedir}/dist" />
+	<target name="test" description="Runs all functional tests (takes a while)." depends="-test" />
+	<target name="test-main" description="Runs all functional tests except reference tests (quicker)." depends="-test-main" />
+	<target name="test-single" description="Runs a single functional test suite (for debugging purposes)." depends="-test-single" />
 
-	<property name="jar.file" location="${build.dir}/${name}.jar" />
-	<property name="jar.runtime.file" location="${build.dir}/${name}-runtime.jar" />
-	<property name="jar.src.file" location="${build.dir}/${name}-src.jar" />
-	<property name="jar.doc.file" location="${build.dir}/${name}-doc.jar" />
-	<property name="javadoc.dir" location="${doc.dir}/javadoc" />
+	<target name="doc" description="Generates complete documentation (takes a while)." depends="-doc" />
+	<target name="doc-main" description="Generates main documentation except for API and reference docs (quicker)." depends="-doc-main" />
+	<target name="doc-main-quick" description="Updates main documentation without test runs (even quicker)." depends="-doc-main-quick" />
+	<target name="doc-api" description="Generates API docs (javadoc) only." depends="-doc-api" />
+	<target name="doc-img" description="Updates all documentation images from sources." depends="-doc-img" />
 
-	<path id="build.classpath">
-		<fileset dir="${lib.dir}" includes="*.jar" />
-	</path>
-	<property name="build.classpath" refid="build.classpath" />
+	<target name="check" description="Runs all code conformance checks." depends="-check" />
+	<target name="check-style" description="Runs all source code style checks." depends="-check-style" />
+	<target name="check-deps" description="Runs all package dependency checks." depends="-check-deps" />
 
-	<path id="cite.path">
-		<dirset dir="${src.classes.dir}" />
-		<dirset dir="${src.test-system.dir}" />
-		<dirset dir="${src.examples.dir}" />
-	</path>
-	<property name="src.cite.path" refid="cite.path" />
+	<target name="dist" description="Rebuilds the distribution archives from scratch (takes a while). Clobbers first." depends="-dist" />
+	<target name="tools" description="Rebuilds the tools archive from tools/." depends="-tools" />
 
-	<path id="lib.classpath">
-		<fileset dir="${lib.dir}" includes="**/*.jar" excludes="**/incompatible/*" />
-	</path>
-	<property name="lib.classpath" refid="lib.classpath" />
-	<property name="tools.classpath" refid="lib.classpath" />
+	<target name="clean" description="Removes all temporary build files." depends="-clean" />
+	<target name="clobber" description="Removes all files produced by build actions, including distribution archives." depends="-clobber" />
 
-	<!-- prepare -->
+	<target name="cover" description="Runs the default code coverage analysis on the functional tests." depends="-cover" />
+	<target name="cover-cobertura" description="Runs a code coverage analysis on the functional tests using Cobertura." depends="-cover-cobertura" />
+	<target name="cover-emma" description="Runs a code coverage analysis on the functional tests using Emma." depends="-cover-emma" />
 
-	<target name="-prepare">
-		<echo>Running on ${java.version}.</echo>
 
-		<mkdir dir="${build.dir}" />
-		<mkdir dir="${temp.dir}" />
-		<mkdir dir="${temp.classes.dir}" />
-		<mkdir dir="${temp.classes-build-tools.dir}" />
-		<mkdir dir="${temp.classes-gen.dir}" />
-		<mkdir dir="${temp.classes-gen-jre.dir}" />
+	<!-- internal targets -->
 
-		<path id="run.classpath">
-			<pathelement location="${temp.classes.dir}" />
-			<fileset dir="${lib.dir}" includes="**/*.jar" />
-		</path>
-		<property name="run.classpath" refid="run.classpath" />
+	<!-- build / dist -->
 
-		<path id="test.classpath">
-			<pathelement location="${temp.test-unit.dir}" />
-			<pathelement location="${temp.test-system.dir}" />
-			<path refid="run.classpath" />
-		</path>
-		<property name="test.classpath" refid="test.classpath" />
+	<target name="-dist" depends="@check-jre1.5,-clobber,-test,-check,-doc,@jar,@pack" />
+	<target name="-build" depends="-compile-main, @jar-main" />
+	<target name="-tools" depends="@pack-tools" />
 
-		<path id="examples.classpath">
-			<pathelement location="${temp.examples.dir}" />
-			<path refid="run.classpath" />
-		</path>
-		<property name="examples.classpath" refid="examples.classpath" />
-
-		<tstamp>
-			<format property="timestamp" pattern="yyyy/MM/dd HH:mm:ss z" locale="en" />
-		</tstamp>
-		<property name="dist.version.long" value="${dist.version} [${timestamp}]" />
-	</target>
-
-	<!-- generate scanners/parsers -->
-
-	<target name="generate-parsers" depends="-prepare" description="Generates Java source for the expression parsers.">
-		<mkdir dir="${temp.classes-gen.dir}/sej/internal/expressions/parser"/>
-		<javacc javacchome="${lib.dir}/build-only/javacc-4.0" 
-			target="${src.classes.dir}/sej/internal/expressions/parser/ExpressionParser.jj"
-			outputdirectory="${temp.classes-gen.dir}/sej/internal/expressions/parser"
-		/>
-		<echo>A total of 6 warnings is expected.
-One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
+	<target name="@check-jre1.5">
+		<condition property="is.jre15">
+			<and>
+				<equals arg1="Sun Microsystems Inc." arg2="${java.vendor}" />
+				<contains substring="1.5.0" string="${java.runtime.version}" />
+			</and>
+		</condition>
+		<fail message="Distributions must be built with Sun JDK 1.5.0. Aborting." unless="is.jre15" />
 	</target>
 
 	<!-- compile -->
 
-	<target name="compile" depends="-prepare, generate-parsers" description="Compiles and also generates some of the Java source code for sej.jar.">
+	<target name="-compile" depends="-compile-main, @compile-tests, @compile-examples" />
+	<target name="-compile-main" depends="@compile-parsers, @compile-classes" />
+
+	<target name="@compile-parsers" depends="@init">
+		<mkdir dir="${temp.classes-gen.dir}/sej/internal/expressions/parser" />
+		<javacc javacchome="${lib.dir}/build-only/javacc-4.0" target="${src.classes.dir}/sej/internal/expressions/parser/ExpressionParser.jj" outputdirectory="${temp.classes-gen.dir}/sej/internal/expressions/parser" />
+		<echo>6 warnings are expected, one for OUTPUT@DIR, one for "+", and 4 for "(".</echo>
+	</target>
+
+	<target name="@compile-classes" depends="@init">
 
 		<echo>Compiling base classes...</echo>
 		<javac srcdir="${src.classes.dir}:${temp.classes-gen.dir}" destdir="${temp.classes.dir}" classpath="${build.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
@@ -172,9 +141,40 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 		</copy>
 	</target>
 
-	<!-- jars -->
+	<target name="@compile-tests" depends="@init">
 
-	<target name="jar" depends="compile" description="Creates sej.jar and sej-runtime.jar.">
+		<mkdir dir="${temp.test-unit.dir}" />
+		<mkdir dir="${temp.test-system.dir}" />
+
+		<javac srcdir="${src.test-unit.dir}" destdir="${temp.test-unit.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+			<include name="sej/**" />
+		</javac>
+		<copy todir="${temp.test-unit.dir}">
+			<fileset dir="${src.test-unit.dir}">
+				<include name="META-INF/services/*" />
+			</fileset>
+		</copy>
+		<javac srcdir="${src.test-system.dir}" destdir="${temp.test-system.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+			<include name="sej/**" />
+		</javac>
+	</target>
+
+	<target name="@compile-examples" depends="@init">
+
+		<mkdir dir="${temp.examples.dir}" />
+
+		<javac srcdir="${src.examples.dir}" destdir="${temp.examples.dir}" classpath="${examples.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
+			<include name="**" />
+		</javac>
+	</target>
+
+	<!-- jar -->
+
+	<target name="-jar-main" depends="-compile-main, @jar-main" />
+
+	<target name="@jar" depends="@jar-main, @jar-src, @jar-doc" />
+
+	<target name="@jar-main" depends="@init">
 
 		<delete file="${jar.file}" />
 		<jar jarfile="${jar.file}" compress="true">
@@ -194,7 +194,25 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 
 	</target>
 
-	<target name="srcjar" depends="-prepare, validate, javadoc" description="Creates the source and documenation .jar files.">
+	<target name="@jar-src" depends="@init">
+
+		<delete file="${jar.src.file}" />
+		<jar jarfile="${jar.src.file}" compress="true">
+			<fileset dir="${src.classes.dir}">
+				<include name="**/*.java" />
+				<exclude name="net/sf/retrotranslator/**" />
+			</fileset>
+			<fileset dir="${temp.classes-gen.dir}">
+				<include name="**/*.java" />
+			</fileset>
+			<fileset dir="${temp.classes-gen-jre.dir}">
+				<include name="**/*.java" />
+			</fileset>
+		</jar>
+
+	</target>
+
+	<target name="@jar-doc" depends="@init">
 
 		<delete file="${jar.src.file}" />
 		<jar jarfile="${jar.src.file}" compress="true">
@@ -220,31 +238,21 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 
 	<!-- test -->
 
-	<target name="compile-tests" depends="compile" description="Compiles the Java source code for the automated tests.">
+	<target name="-test" depends="-jar-main, @compile-tests, @test-clean, @test-main, @test-ref" />
+	<target name="-test-main" depends="-jar-main, @compile-tests, @test-clean, @test-main" />
+	<target name="-test-ref" depends="-jar-main, @compile-tests, @test-clean, @test-ref" />
+	<target name="-test-single" depends="-jar-main, @compile-tests, @test-single" />
 
-		<mkdir dir="${temp.test-unit.dir}" />
-		<mkdir dir="${temp.test-system.dir}" />
-
-		<javac srcdir="${src.test-unit.dir}" destdir="${temp.test-unit.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
-			<include name="sej/**" />
-		</javac>
-		<copy todir="${temp.test-unit.dir}">
-			<fileset dir="${src.test-unit.dir}">
-				<include name="META-INF/services/*" />
-			</fileset>
-		</copy>
-		<javac srcdir="${src.test-system.dir}" destdir="${temp.test-system.dir}" classpath="${test.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
-			<include name="sej/**" />
-		</javac>
+	<target name="@test-clean" depends="@init">
+		<delete dir="${temp.testresults.dir}" />
 	</target>
 
-	<target name="test" depends="jar, compile-tests" description="Compiles and runs all automated tests using sej.jar.">
+	<target name="@test-main" depends="@init">
 
-		<delete dir="${temp.testresults.dir}" />
 		<mkdir dir="${temp.testresults.dir}" />
-
+		
 		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
-			<jvmarg value="-Demit_tests" />
+			<jvmarg value="-Demit@tests" />
 
 			<assertions enablesystemassertions="yes" />
 
@@ -267,6 +275,7 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 					<include name="**/*Test*.class" />
 					<include name="sej/examples/*Demo.class" />
 					<include name="sej/tutorials/*.class" />
+					<exclude name="sej/tests/reference/*.class" />
 					<exclude name="**/Abstract*" />
 					<exclude name="**/*$*" />
 					<exclude name="**/*DeserializationTest.class" />
@@ -276,7 +285,7 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 		</junit>
 
 		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
-			<jvmarg value="-Demit_tests" />
+			<jvmarg value="-Demit@tests" />
 
 			<assertions enablesystemassertions="yes" />
 
@@ -300,13 +309,42 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 
 	</target>
 
-	<target name="dbg" depends="jar, compile-tests" description="Runs a single automated test suite (for debugging purposes).">
+	<target name="@test-ref" depends="@init">
 
-		<delete dir="${temp.testresults.dir}" />
 		<mkdir dir="${temp.testresults.dir}" />
-
+		
 		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
-			<jvmarg value="-Demit_tests" />
+			<jvmarg value="-Demit@tests" />
+
+			<assertions enablesystemassertions="yes" />
+
+			<formatter type="plain" usefile="yes" />
+
+			<classpath>
+				<path refid="build.classpath" />
+				<pathelement path="${temp.test-unit.dir}" />
+				<pathelement path="${temp.test-system.dir}" />
+				<pathelement location="${jar.file}" />
+			</classpath>
+
+			<batchtest todir="${temp.testresults.dir}">
+				<fileset dir="${temp.test-system.dir}">
+					<include name="sej/tests/reference/*Test.class" />
+					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+
+	</target>
+
+	<target name="@test-single" depends="@init">
+
+		<mkdir dir="${temp.testresults.dir}" />
+		
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+			<jvmarg value="-Demit@tests" />
 
 			<assertions enablesystemassertions="yes" />
 
@@ -321,11 +359,7 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 
 			<batchtest todir="${temp.testresults.dir}">
 				<fileset dir="${temp.test-unit.dir}">
-
-					<!-- CHANGE HERE -->
-					<include name="sej/internal/bytecode/compiler/ByteCodeCompilerOnEngineModelTest.class" />
-					<include name="sej/internal/bytecode/compiler/ByteCodeCompilerOnWorkbookTest.class" />
-
+					<include name="${test-single.class}" />
 				</fileset>
 			</batchtest>
 
@@ -333,37 +367,20 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 
 	</target>
 
-	<!-- examples -->
+	<!-- check -->
 
-	<target name="compile-examples" depends="compile" description="Compiles the Java source code for the examples.">
+	<target name="-check" depends="-compile, -check-deps, -check-style" />
+	<target name="-check-deps" depends="-compile, @check-deps-make, @check-deps" />
+	<target name="-check-style" depends="@check-style" />
 
-		<mkdir dir="${temp.examples.dir}" />
-
-		<javac srcdir="${src.examples.dir}" destdir="${temp.examples.dir}" classpath="${examples.classpath}" debug="true" deprecation="on" source="${javac.source}" target="${javac.target}">
-			<include name="**" />
-		</javac>
-	</target>
-
-	<!-- build -->
-
-	<target name="build" depends="jar" description="Builds the default library target (jar).">
-	</target>
-
-	<!-- validate -->
-
-	<target name="validate" depends="compile, compile-tests, compile-examples, deps, style" description="Validates the Java source code (compilation and static analysis).">
-	</target>
-
-	<!-- dependencies -->
-
-	<target name="make-deps" depends="-prepare" description="Generates the dependency checking rules for the deps-only target.">
+	<target name="@check-deps-make" depends="@init">
 		<delete file="${temp.macker-rules.file}" />
 		<exec dir="${src.scripts.dir}" executable="ruby" vmlauncher="false" failonerror="true">
 			<arg value="gen-macker-rules.rb" />
 		</exec>
 	</target>
 
-	<target name="deps-only" depends="-prepare" description="Validates Java package dependencies of existing compiled source against src/macker-rules.xml.">
+	<target name="@check-deps" depends="@init">
 
 		<path id="macker.classpath">
 			<pathelement path="${macker.jar}" />
@@ -387,12 +404,7 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 
 	</target>
 
-	<target name="deps" depends="compile, compile-tests, compile-examples, make-deps, deps-only" description="Validates Java package dependencies against src/macker-rules.xml.">
-	</target>
-
-	<!-- style -->
-
-	<target name="style" depends="-prepare" description="Validates Java source code style against src/checkstyle-config.xml.">
+	<target name="@check-style" depends="@init">
 
 		<taskdef resource="checkstyletask.properties" classpath="${checkstyle-all.jar}" />
 
@@ -427,89 +439,31 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 		</checkstyle>
 	</target>
 
-	<!-- rextile -->
+	<!-- doc -->
 
-	<target name="-clean-temp-doc" depends="-prepare">
+	<target name="-doc" depends="@doc-clean, -doc-main-setup, -doc-ref-setup, @doc-rextile, @doc-cite, -doc-img, -doc-api" />
+	<target name="-doc-main" depends="@doc-clean, -doc-main-setup, @doc-rextile, @doc-cite" />
+	<target name="-doc-main-quick" depends="@doc-main-copy, @doc-main-make, @doc-rextile, @doc-cite" />
+	<target name="-doc-api" depends="@doc-api" />
+	<target name="-doc-img" depends="@doc-img-make, @doc-img" />
+	<target name="-doc-main-setup" depends="-test-main, @doc-main-copy, @doc-main-make" />
+	<target name="-doc-ref-setup" depends="-test-ref, @doc-ref-copy, @doc-ref-make" />
+
+	<target name="@doc-clean" depends="@init">
 		<delete dir="${temp.doc.dir}" />
 		<mkdir dir="${temp.doc.dir}" />
-	</target>
-
-	<target name="make-rextinc" depends="-prepare" description="Regenerates .rextinc files from scripts.">
-		<mkdir dir="${temp.doc.dir}/hacking" />
-		<exec dir="${src.scripts.dir}" executable="ruby" vmlauncher="false" failonerror="true">
-			<arg value="gen-component-overview.rb" />
-		</exec>
-	</target>
-
-	<target name="rextile" depends="-prepare, -clean-temp-doc, make-rextinc" description="Rebuilds documentation in doc/ from Rextile sources (does not cite).">
-
-		<copy todir="${temp.doc.dir}">
-			<fileset dir="${src.doc.dir}">
-				<include name="**/*" />
-			</fileset>
-		</copy>
-		<copy todir="${temp.doc.dir}/reference">
-			<fileset dir="${temp.reference.dir}">
-				<include name="**/*.rextile" />
-			</fileset>
-		</copy>
-
 		<delete dir="${doc.dir}" />
 		<mkdir dir="${doc.dir}" />
-		<copy todir="${doc.dir}">
-			<fileset dir="${temp.doc.dir}">
-				<include name="**/*.gif" />
-				<include name="**/*.jpeg" />
-				<include name="**/*.jpg" />
-				<include name="**/*.png" />
-				<include name="**/*.pdf" />
-				<include name="**/*.svg" />
-				<include name="**/*.html" />
-				<include name="**/*.css" />
-				<include name="**/*.js" />
-			</fileset>
-			<fileset file="${basedir}\LICENSE.html" />
-		</copy>
-
-		<exec dir="${temp.doc.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true">
-		</exec>
-
 	</target>
 
-	<!-- rextile-quick -->
-
-	<target name="rextile-quick" depends="-prepare" description="Rebuilds documentation in doc/ from manual Rextile sources only (does not cite).">
-
-		<copy todir="${doc.dir}">
-			<fileset dir="${src.doc.dir}">
-				<include name="**/*.gif" />
-				<include name="**/*.jpeg" />
-				<include name="**/*.jpg" />
-				<include name="**/*.png" />
-				<include name="**/*.pdf" />
-				<include name="**/*.svg" />
-				<include name="**/*.html" />
-				<include name="**/*.css" />
-				<include name="**/*.js" />
-			</fileset>
-			<fileset file="${basedir}\LICENSE.html" />
-		</copy>
-
-		<exec dir="${src.doc.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true">
-		</exec>
-
-	</target>
-
-	<!-- dot -->
-
-	<target name="make-dot" depends="-prepare" description="Generates .dot input files from scripts.">
+	<target name="@doc-img-make" depends="@init">
 		<mkdir dir="${temp.doc.dir}/hacking" />
 		<exec dir="${src.scripts.dir}" executable="ruby" vmlauncher="false" failonerror="true">
 			<arg value="gen-dependency-graph.rb" />
 		</exec>
 	</target>
 
-	<target name="dot" depends="make-dot" description="Generates .png images from .dot sources.">
+	<target name="@doc-img" depends="@init">
 		<mkdir dir="${doc.dir}/hacking" />
 		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
 			<arg value="-Tpng" />
@@ -542,16 +496,78 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 		</exec>
 	</target>
 
-	<!-- cite -->
+	<target name="@doc-main-make" depends="@init">
+		<mkdir dir="${temp.doc.dir}/hacking" />
+		<exec dir="${src.scripts.dir}" executable="ruby" vmlauncher="false" failonerror="true">
+			<arg value="gen-component-overview.rb" />
+		</exec>
+	</target>
 
-	<target name="cite" depends="-prepare" description="Cites code fragments into documentation in doc/ (needs successful test run).">
+	<target name="@doc-main-copy" depends="@init">
+
+		<mkdir dir="${temp.doc.dir}" />
+		<copy todir="${temp.doc.dir}">
+			<fileset dir="${src.doc.dir}">
+				<include name="**/*" />
+				<exclude name="reference/**/*" />
+			</fileset>
+		</copy>
+
+	</target>
+
+	<target name="@doc-ref-make" depends="@init">
+
+		<mkdir dir="${temp.doc.dir}/reference" />
+
+		<copy todir="${temp.doc.dir}/reference">
+			<fileset dir="${temp.reference.dir}">
+				<include name="**/*.rextile" />
+			</fileset>
+		</copy>
+
+	</target>
+
+	<target name="@doc-ref-copy" depends="@init">
+
+		<mkdir dir="${temp.doc.dir}/reference" />
+
+		<copy todir="${temp.doc.dir}/reference">
+			<fileset dir="${src.doc.dir}/reference">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+	</target>
+
+	<target name="@doc-rextile" depends="@init">
+
+		<copy todir="${doc.dir}">
+			<fileset dir="${temp.doc.dir}">
+				<include name="**/*.gif" />
+				<include name="**/*.jpeg" />
+				<include name="**/*.jpg" />
+				<include name="**/*.png" />
+				<include name="**/*.pdf" />
+				<include name="**/*.svg" />
+				<include name="**/*.html" />
+				<include name="**/*.css" />
+				<include name="**/*.js" />
+			</fileset>
+			<fileset file="${basedir}\LICENSE.html" />
+		</copy>
+
+		<exec dir="${temp.doc.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true" />
+
+	</target>
+
+	<target name="@doc-cite" depends="@init">
 
 		<path id="jcite.classpath">
 			<fileset dir="${jcite.build.dir}" includes="*.jar" />
 			<fileset dir="${jcite.lib.dir}" includes="*.jar" />
 		</path>
 
-		<java classname="ch.arrenbrecht.jcite.JCite" classpathref="jcite.classpath" failonerror="yes" fork="true">
+		<java classname="ch.arrenbrecht.jcite.JCite" classpathref="jcite.classpath" failonerror="yes" fork="false">
 			<arg value="-sp" />
 			<arg path="${src.classes.dir}" />
 			<arg value="-sp" />
@@ -565,76 +581,36 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 			<arg value="-sp" />
 			<arg path="${src.dir}/scratchpad" />
 			<arg value="-sp" />
-			<arg path="${temp.reference.dir}" />
-			<arg value="-sp" />
 			<arg path="${temp.dir}/decompiled" />
+			<arg value="-sp" />
+			<arg path="${temp.reference.dir}" />
 			<arg value="-sp" />
 			<arg path="${temp.dir}" />
 			<arg value="-r" />
 			<arg value="-i" />
 			<arg file="${doc.dir}/*.htm" />
-			<arg value="-i" />
-			<arg file="${doc.dir}/*.xhtml" />
 			<arg value="-o" />
 			<arg file="${doc.dir}" />
-			<arg value="--tripwire-file" />
-			<arg file="${src.dir}/jcite-tripwires.txt" />
 		</java>
 
 	</target>
 
-	<!-- javadoc -->
+	<target name="@doc-api" depends="@init">
 
-	<target name="javadoc" depends="-prepare" description="Rebuilds API documentation in doc/javadoc/.">
-
-		<property name="javadoc.title" value="${Name} API ${dist.version.long}" />
+		<property name="javadoc.title" value="${Name} API ${dist.version}" />
 		<delete dir="${javadoc.dir}" />
 		<mkdir dir="${javadoc.dir}" />
 
-		<javadoc sourcepath="${src.classes.dir}" destdir="${javadoc.dir}" public="true" windowtitle="${javadoc.title}" use="true" 
-			packagenames="sej.runtime,sej.describable,sej.compiler,sej.decompiler,sej.spreadsheet" 
-			additionalParam="-tagletPath ${jcite.build.dir}/jcite.jar;${jcite.lib.dir}/java2html.jar -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${src.cite.path}" 
-			stylesheetfile="${src.doc.dir}/javadoc/style.css" 
-			overview="${src.classes.dir}/overview.html">
+		<javadoc sourcepath="${src.classes.dir}" destdir="${javadoc.dir}" public="true" windowtitle="${javadoc.title}" use="true" packagenames="sej.runtime,sej.describable,sej.compiler,sej.decompiler,sej.spreadsheet" additionalParam="-tagletPath ${jcite.build.dir}/jcite.jar;${jcite.lib.dir}/java2html.jar -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${src.cite.path}" stylesheetfile="${src.doc.dir}/javadoc/style.css" overview="${src.classes.dir}/overview.html">
 			<classpath refid="build.classpath" />
 			<link href="http://java.sun.com/j2se/1.5/docs/api/" />
 		</javadoc>
 
-		<copy todir="${javadoc.dir}">
-			<fileset dir="${src.classes.dir}">
-				<include name="**/*.gif" />
-				<include name="**/*.jpeg" />
-				<include name="**/*.jpg" />
-				<include name="**/*.png" />
-				<include name="**/*.pdf" />
-				<include name="**/*.svg" />
-			</fileset>
-		</copy>
-
-	</target>
-
-	<!-- doc -->
-
-	<target name="doc" depends="compile-examples, test, -clean-temp-doc, make-rextinc, rextile, dot, cite, javadoc" description="Rebuilds entire documentation in doc/ (runs tests first).">
-	</target>
-
-	<!-- clean -->
-
-	<target name="clean" description="Removes all temporary files (temp/).">
-		<delete dir="${temp.dir}" />
-	</target>
-
-	<!-- clobber -->
-
-	<target name="clobber" depends="clean" description="Removes all temporary and built files (temp/, doc/, build/, dist/).">
-		<delete dir="${doc.dir}" />
-		<delete dir="${build.dir}" />
-		<delete dir="${dist.dir}" />
 	</target>
 
 	<!-- pack -->
 
-	<target name="pack" depends="-prepare" description="Rebuilds distribution packages from built files (needs build/, doc/).">
+	<target name="@pack" depends="@init">
 		<echo>Bundling dist: ${dist.version}</echo>
 		<mkdir dir="${dist.dir}" />
 		<property name="dist.name" value="${name}-${dist.version}" />
@@ -655,7 +631,7 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 				<include name="*.html" />
 				<include name="*.css" />
 				<include name="doc/**" />
-				<exclude name="**/.DS_Store" />
+				<exclude name="**/.DS@Store" />
 			</fileset>
 		</copy>
 		<copy todir="${dist.staging.dir}" overwrite="yes">
@@ -683,7 +659,7 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 				<include name=".project" />
 				<include name=".classpath" />
 				<include name=".settings/**" />
-				<exclude name="**/.DS_Store" />
+				<exclude name="**/.DS@Store" />
 			</fileset>
 		</copy>
 		<copy todir="${dist.staging.dir}" overwrite="yes">
@@ -711,29 +687,12 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 			<fileset dir="${basedir}" includes="LICENSE.html" />
 		</copy>
 		<!-- tar basedir="${dist.tmp.dir}" destfile="${dist.file}-srcjar.tar.gz" compression="gzip" longfile="gnu" / -->
-		<zip basedir="${dist.tmp.dir}" destfile="${dist.file}-srcjar.zip" filesonly="no" />
+		<zip basedir="${dist.tmp.dir}" destfile="${dist.file}---jar-src.zip" filesonly="no" />
 
 		<delete dir="${dist.tmp.dir}" />
 	</target>
 
-	<!-- dist -->
-
-	<target name="dist" depends="check-jre1.5,clobber,test,validate,doc,jar,srcjar,pack" description="Rebuilds distribution packages from scratch. Run this for a clean package build.">
-	</target>
-
-	<target name="check-jre1.5" description="Checks that ANT is running on JRE 1.5.">
-		<condition property="is.jre15">
-			<and>
-				<equals arg1="Sun Microsystems Inc." arg2="${java.vendor}" />
-				<contains substring="1.5.0" string="${java.runtime.version}" />
-			</and>
-		</condition>
-		<fail message="Distributions must be built with Sun JDK 1.5.0. Aborting." unless="is.jre15" />
-	</target>
-
-	<!-- pack -->
-
-	<target name="pack-tools" depends="-prepare" description="Rebuilds the tools package from the tools dir.">
+	<target name="@pack-tools" depends="@init">
 		<echo>Bundling tools: ${tools.version}</echo>
 		<mkdir dir="${dist.dir}" />
 		<property name="tools.name" value="${name}-${tools.version}-tools.zip" />
@@ -742,9 +701,28 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 		<zip basedir="${tools.dir}" destfile="${tools.file}" filesonly="no" />
 	</target>
 
+	<!-- clean -->
+
+	<target name="-clobber" depends="-clean, @clobber" />
+	<target name="-clean" depends="@clean" />
+
+	<target name="@clean">
+		<delete dir="${temp.dir}" />
+	</target>
+
+	<target name="@clobber">
+		<delete dir="${doc.dir}" />
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+
 	<!-- cover -->
 
-	<target name="cover" depends="compile, compile-tests" description="Runs code coverage analysis using Cobertura (output in temp/coverage/).">
+	<target name="-cover" depends="-cover-cobertura" />
+	<target name="-cover-cobertura" depends="-compile, @cover-cobertura" />
+	<target name="-cover-emma" depends="-compile, @cover-emma" />
+
+	<target name="@cover-cobertura" depends="@init">
 
 		<path id="cobertura.classpath">
 			<pathelement path="${cobertura.jar}" />
@@ -821,14 +799,12 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 
 	</target>
 
-	<!-- emma -->
-
-	<target name="emma" depends="compile, compile-tests" description="Runs code coverage analysis using Emma (output in temp/coverage/).">
+	<target name="@cover-emma" depends="@init">
 
 		<path id="emma.classpath">
 			<fileset dir="${emma.lib.dir}" includes="*.jar" />
 		</path>
-		<taskdef classpathref="emma.classpath" resource="emma_ant.properties" />
+		<taskdef classpathref="emma.classpath" resource="emma@ant.properties" />
 
 		<property name="temp.instr.dir" value="${temp.dir}/instrumented" />
 		<property name="temp.cover.dir" value="${temp.dir}/coverage" />
@@ -902,6 +878,110 @@ One about the OUTPUT_DIR, one about "+" and 4 about "(".</echo>
 
 
 	</target>
+
+	<!-- init -->
+
+	<target name="@init">
+		<echo>Running on JRE ${java.runtime.version} by ${java.vendor}; ANT detected ${ant.java.version}.</echo>
+
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${temp.dir}" />
+		<mkdir dir="${temp.classes.dir}" />
+		<mkdir dir="${temp.classes-build-tools.dir}" />
+		<mkdir dir="${temp.classes-gen.dir}" />
+		<mkdir dir="${temp.classes-gen-jre.dir}" />
+
+		<path id="run.classpath">
+			<pathelement location="${temp.classes.dir}" />
+			<fileset dir="${lib.dir}" includes="**/*.jar" />
+		</path>
+		<property name="run.classpath" refid="run.classpath" />
+
+		<path id="test.classpath">
+			<pathelement location="${temp.test-unit.dir}" />
+			<pathelement location="${temp.test-system.dir}" />
+			<path refid="run.classpath" />
+		</path>
+		<property name="test.classpath" refid="test.classpath" />
+
+		<path id="examples.classpath">
+			<pathelement location="${temp.examples.dir}" />
+			<path refid="run.classpath" />
+		</path>
+		<property name="examples.classpath" refid="examples.classpath" />
+
+		<tstamp>
+			<format property="timestamp" pattern="yyyy/MM/dd HH:mm:ss z" locale="en" />
+		</tstamp>
+		<property name="dist.version.long" value="${dist.version} [${timestamp}]" />
+	</target>
+
+
+	<!-- global properties -->
+
+	<property file="build.properties" />
+	<property file="build.default.properties" />
+
+	<property name="Name" value="SEJ" />
+	<property name="name" value="sej" />
+	<property name="dist.version" value="0.8.4" />
+	<property name="tools.version" value="0.8.4" />
+
+	<property name="src.dir" location="${basedir}/src" />
+	<property name="lib.dir" location="${basedir}/lib" />
+	<property name="doc.dir" location="${basedir}/doc" />
+	<property name="src.classes.dir" location="${src.dir}/classes" />
+	<property name="src.resources.dir" location="${src.dir}/resources" />
+	<property name="src.classes-build-tools.dir" location="${src.dir}/build-tools" />
+	<property name="src.test-unit.dir" location="${src.dir}/test-unit" />
+	<property name="src.test-system.dir" location="${src.dir}/test-system" />
+	<property name="src.examples.dir" location="${src.dir}/examples" />
+	<property name="src.doc.dir" location="${src.dir}/doc" />
+	<property name="src.scripts.dir" location="${src.dir}/scripts" />
+
+	<property name="javac.source" value="1.5" />
+	<property name="javac.target" value="1.5" />
+
+	<property name="build.dir" location="${basedir}/build" />
+
+	<property name="temp.dir" location="${basedir}/temp" />
+	<property name="temp.classes.dir" location="${temp.dir}/classes/main" />
+	<property name="temp.classes-build-tools.dir" location="${temp.dir}/classes/build-tools" />
+	<property name="temp.test-unit.dir" location="${temp.dir}/classes/test-unit" />
+	<property name="temp.test-system.dir" location="${temp.dir}/classes/test-system" />
+	<property name="temp.examples.dir" location="${temp.dir}/classes/examples" />
+	<property name="temp.classes-gen.dir" location="${temp.dir}/gen-src/classes" />
+	<property name="temp.classes-gen-jre.dir" location="${temp.dir}/gen-src/classes-jre${ant.java.version}" />
+	<property name="temp.testresults.dir" location="${temp.dir}/testresults" />
+	<property name="temp.reference.dir" location="${temp.dir}/reference" />
+	<property name="temp.doc.dir" location="${temp.dir}/doc" />
+	<property name="temp.macker-rules.file" location="${temp}/macker-rules.xml" />
+
+	<property name="dist.dir" location="${basedir}/dist" />
+
+	<property name="jar.file" location="${build.dir}/${name}.jar" />
+	<property name="jar.runtime.file" location="${build.dir}/${name}-runtime.jar" />
+	<property name="jar.src.file" location="${build.dir}/${name}-src.jar" />
+	<property name="jar.doc.file" location="${build.dir}/${name}-doc.jar" />
+	<property name="javadoc.dir" location="${doc.dir}/javadoc" />
+
+	<path id="build.classpath">
+		<fileset dir="${lib.dir}" includes="*.jar" />
+	</path>
+	<property name="build.classpath" refid="build.classpath" />
+
+	<path id="cite.path">
+		<dirset dir="${src.classes.dir}" />
+		<dirset dir="${src.test-system.dir}" />
+		<dirset dir="${src.examples.dir}" />
+	</path>
+	<property name="src.cite.path" refid="cite.path" />
+
+	<path id="lib.classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" excludes="**/incompatible/*" />
+	</path>
+	<property name="lib.classpath" refid="lib.classpath" />
+	<property name="tools.classpath" refid="lib.classpath" />
 
 
 </project>
