@@ -4,13 +4,11 @@ h1. SEJ - Spreadsheet Engine for Java
 
 <div class="news">
 
-RELEASE 0.8.4 MISSING HERE
+"Release 0.8.4":releasenotes.htm with a host of new functions and internal improvements.
+<br/>%(when)May 24, 2007%
 
 "Release 0.8.3":releasenotes.htm supports "byte-code decompilation":tutorial/decompile.htm.
 <br/>%(when)January 22, 2007%
-
-"Release 0.8.2":releasenotes.htm with new "array":reference/financialfuncs.htm and "database table":reference/dbaggregators.htm functions.
-<br/>%(when)December 29, 2006%
 
 </div>
 
