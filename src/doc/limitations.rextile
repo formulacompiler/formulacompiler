@@ -11,11 +11,11 @@ h2. Spreadsheet Formats
 
 	* Excel .xml support is missing (parked for resurrection in an earlier version).
 	* OpenOffice Calc spreadsheet loader is not done at all.
-	* The Excel .xls loader does not yet handle references to other sheets and labels in formulas.
+	* The Excel .xls loader does not yet handle references to labels in formulas.
 
 h5. Excel
 
-	* SEJ currently supports only subset of Excel documented in this "reference":reference/index.htm.
+	* SEJ currently supports only the subset of Excel documented in this "reference":reference/index.htm.
 	* "Null values":reference/values.htm (empty cells) are not yet supported. In particular, an @AVERAGE@ involving empty cells will return a different result than Excel.
 	* Range intersections are parsed but not evaluated correctly.
 	* Ranges specified using named cells as endpoints are not supported. "Named ranges":reference/values.htm, however, are.
@@ -51,11 +51,6 @@ h2. Interfacing with Java
 	* When binding a @String@-valued output method to a date field in Excel, the resulting value is not formatted as a date, but as a number. This is because, internally, dates are treated as numbers. This is the same behaviour as that shown by @CONCATENATE@ and @&@ in Excel itself.
 	* When binding a @String@-valued output method to a numeric field with a special cell format, that format is not respected. This is the same behaviour as that shown by @CONCATENATE@ and @&@ in Excel itself.
 	* Aggregators "spanning nested sections":dev/2007-12-15_ranges_overlapping_sections.htm are not yet supported, except for the special case which is useful for "@DSUM@ et al.":reference/dbaggregators.htm.
-
-
-h2. Engine Persistence
-
-	* The engines stored by SEJ are not quite in the definitive format yet. It is currently a standard .jar file's contents, with no versioning information. I will improve this so the .jar contains an XML description of the computation which could be used to recompile the engine. And maybe some sort of signature to guarantee that the loaded .jar is actually one produced by SEJ in the first place.
 
 
 h2. Miscellaneous
