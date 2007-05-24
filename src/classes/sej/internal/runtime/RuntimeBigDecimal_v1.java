@@ -498,24 +498,6 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return depreciation;
 	}
 
-	public static BigDecimal fun_PMT( BigDecimal _rate, BigDecimal _nper, BigDecimal _pv, BigDecimal _fv,
-			BigDecimal _type )
-	{
-		final BigDecimal pmt;
-		if (_rate.signum() == 0) {
-			pmt = _pv.add( _fv ).divide( _nper, INTERNAL_HIGH_PREC_CONTEXT ).negate();
-		}
-		else {
-			final BigDecimal a = BigDecimal.valueOf( Math.pow( _rate.add( ONE ).doubleValue(), _nper.doubleValue() ) );
-			final BigDecimal b = _pv.divide( ONE.subtract( ONE.divide( a, INTERNAL_HIGH_PREC_CONTEXT ) ),
-					INTERNAL_HIGH_PREC_CONTEXT );
-			final BigDecimal c = _fv.divide( a.subtract( ONE ), INTERNAL_HIGH_PREC_CONTEXT );
-			final BigDecimal d = b.add( c ).multiply( _rate.negate() );
-			pmt = _type.signum() > 0 ? d.divide( _rate.add( ONE ), INTERNAL_HIGH_PREC_CONTEXT ) : d;
-		}
-		return pmt;
-	}
-
 	public static BigDecimal fun_RATE( BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv, BigDecimal _fv,
 			BigDecimal _type, BigDecimal _guess )
 	{

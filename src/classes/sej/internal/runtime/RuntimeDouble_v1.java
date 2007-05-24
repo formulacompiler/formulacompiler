@@ -412,22 +412,6 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		return depreciation;
 	}
 
-	public static double fun_PMT( double _rate, double _nper, double _pv, double _fv, double _type )
-	{
-		final double pmt;
-		if (_rate == 0) {
-			pmt = -(_pv + _fv) / _nper;
-		}
-		else {
-			final double a = Math.pow( 1 + _rate, _nper );
-			final double b = _pv / (1 - 1 / a);
-			final double c = _fv / (a - 1);
-			final double d = -(b + c) * _rate;
-			pmt = _type > 0 ? d / (1 + _rate) : d;
-		}
-		return pmt;
-	}
-
 	public static double fun_RATE( double _nper, double _pmt, double _pv, double _fv, double _type, double _guess )
 	{
 		final int MAX_ITER = 50;
