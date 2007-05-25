@@ -23,6 +23,7 @@ package sej.internal.runtime;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -90,6 +91,19 @@ public abstract class Runtime_v1
 		calendar.set( Calendar.SECOND, 0 );
 		calendar.set( Calendar.MILLISECOND, 0 );
 		return calendar.getTime();
+	}
+
+	public static long dateToMsSinceLocal1970( Date _date )
+	{
+		return dateToMsSinceLocal1970( _date, TimeZone.getDefault() );
+	}
+
+	public static long dateToMsSinceLocal1970( Date _date, TimeZone _timeZone )
+	{
+		final long msSinceUTC1970 = _date.getTime();
+		final int timeZoneOffset = _timeZone.getOffset( msSinceUTC1970 );
+		final long msSinceLocal1970 = msSinceUTC1970 + timeZoneOffset;
+		return msSinceLocal1970;
 	}
 
 
