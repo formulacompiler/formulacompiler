@@ -625,6 +625,7 @@
 		<copy todir="${dist.staging.dir}">
 			<fileset dir="${basedir}">
 				<include name="lib/*" />
+				<exclude name="lib/build-only" />
 				<include name="build/*.jar" />
 				<exclude name="build/sej-src.jar" />
 				<exclude name="build/sej-doc.jar" />
@@ -649,8 +650,7 @@
 		<mkdir dir="${dist.staging.dir}" />
 		<copy todir="${dist.staging.dir}">
 			<fileset dir="${basedir}">
-				<include name="lib/*" />
-				<include name="lib/build-only/*" />
+				<include name="lib/**/*" />
 				<include name="*.html" />
 				<include name="*.css" />
 				<include name="src/**" />
