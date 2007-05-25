@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import sej.internal.expressions.ExpressionNode;
+import sej.internal.runtime.Runtime_v1;
 import sej.internal.spreadsheet.CellIndex;
 import sej.internal.spreadsheet.CellInstance;
 import sej.internal.spreadsheet.CellRange;
@@ -228,7 +229,9 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 				return new jxl.write.Label( _col, _row, ((String) val) );
 			}
 			if (val instanceof Date) {
-				return new jxl.write.DateTime( _col, _row, ((Date) val), jxl.write.DateTime.GMT );
+				final Date date = (Date) val;
+				final long msSinceLocal1970 = Runtime_v1.dateToMsSinceLocal1970( date );
+				return new jxl.write.DateTime( _col, _row, new Date( msSinceLocal1970 ), jxl.write.DateTime.GMT );
 			}
 			if (val instanceof Boolean) {
 				return new jxl.write.Boolean( _col, _row, ((Boolean) val) );

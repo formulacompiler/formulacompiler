@@ -146,11 +146,11 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		// Convert this into utc by multiplying by the number of milliseconds
 		// in a day. Use the round function prior to ms conversion due
 		// to a rounding feature of Excel (contributed by Jurgen
-		long utcValue = Math.round( utcDays * SECS_PER_DAY ) * MS_PER_SEC;
+		long msSinceLocal1970 = Math.round( utcDays * SECS_PER_DAY ) * MS_PER_SEC;
 
-		final int offset = _timeZone.getOffset( utcValue - _timeZone.getRawOffset() );
-
-		return new Date( utcValue - offset );
+		final int timeZoneOffset = _timeZone.getOffset( msSinceLocal1970 - _timeZone.getRawOffset() );
+		final long msSinceUTC1970 = msSinceLocal1970 - timeZoneOffset;
+		return new Date( msSinceUTC1970 );
 	}
 
 	public static double dateToNum( final Date _date )
@@ -164,20 +164,18 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 			return 0;
 		}
 		else {
-			final long dateMillis = _date.getTime();
-			final int offset = _timeZone.getOffset( dateMillis );
-			return utcDateToNum( new Date( dateMillis + offset ) );
+			final long msSinceLocal1970 = dateToMsSinceLocal1970( _date, _timeZone );
+			return msSinceLocal1970ToNum( msSinceLocal1970 );
 		}
 	}
 
-	public static double utcDateToNum( final Date _date )
+	public static double msSinceLocal1970ToNum( final long msSinceLocal1970 )
 	{
-		final long utcValue = (_date == null) ? 0 : _date.getTime();
-		final boolean time = (utcValue < MS_PER_DAY);
+		final boolean time = (msSinceLocal1970 < MS_PER_DAY);
 
 		// Convert this to the number of days, plus fractions of a day since
 		// 01 Jan 1970
-		final double utcDays = (double) utcValue / (double) MS_PER_DAY;
+		final double utcDays = (double) msSinceLocal1970 / (double) MS_PER_DAY;
 
 		// Add in the offset to get the number of days since 01 Jan 1900
 		double value = utcDays + UTC_OFFSET_DAYS;

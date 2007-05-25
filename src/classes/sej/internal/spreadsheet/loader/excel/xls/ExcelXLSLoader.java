@@ -23,6 +23,7 @@ package sej.internal.spreadsheet.loader.excel.xls;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import sej.internal.runtime.RuntimeDouble_v1;
@@ -151,8 +152,10 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 			numCell.setNumberFormat( convertNumberFormat( xlsNumCell, xlsNumCell.getNumberFormat() ) );
 		}
 		else if (CellType.DATE == xlsType) {
-			DateCell xlsDateCell = (jxl.DateCell) _xlsCell;
-			new CellWithConstant( _row, RuntimeDouble_v1.utcDateToNum( xlsDateCell.getDate() ) );
+			final DateCell xlsDateCell = (jxl.DateCell) _xlsCell;
+			final Date date = xlsDateCell.getDate();
+			final long msSinceLocal1970 = (date == null) ? 0 : date.getTime();
+			new CellWithConstant( _row, RuntimeDouble_v1.msSinceLocal1970ToNum( msSinceLocal1970 ) );
 		}
 		else if (jxl.CellType.LABEL == xlsType) {
 			new CellWithConstant( _row, ((jxl.LabelCell) _xlsCell).getString() );

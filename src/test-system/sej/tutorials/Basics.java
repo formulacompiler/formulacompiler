@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import sej.compiler.Operator;
 import sej.decompiler.SEJByteCode;
@@ -457,9 +458,9 @@ public class Basics extends AbstractSpreadsheetTestBase
 		b.newCell( b.cst( 0.05 ) );
 		SpreadsheetBuilder.CellRef ar = b.currentCell();
 
-		final Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis( 0 );
-		cal.set( 2006, 9, 29 );
+		final Calendar cal = new GregorianCalendar();
+		cal.clear();
+		cal.set( 2006, Calendar.OCTOBER, 29 );
 		Date orderDateSampleValue = cal.getTime();
 
 		b.newRow();
