@@ -1,6 +1,14 @@
-diff -ur jexcelapi-2.6.3/src/jxl/biff/formula/Function.java jexcelapi-2.6.3-patched/src/jxl/biff/formula/Function.java
---- jexcelapi-2.6.3/src/jxl/biff/formula/Function.java	2006-09-21 15:55:32.000000000 +0300
-+++ jexcelapi-2.6.3-patched/src/jxl/biff/formula/Function.java	2007-04-05 15:39:25.000000000 +0300
+--- jexcelapi-2.6.4/src/jxl/biff/formula/Function.java	2007-05-29 13:04:19.000000000 +0300
++++ jexcelapi-2.6.4-patched/src/jxl/biff/formula/Function.java	2007-05-29 15:51:47.000000000 +0300
+@@ -213,7 +213,7 @@
+   public static final Function TAN =
+     new Function(0x11, "tan", 1);
+   public static final Function ATAN =
+-    new Function(0x12, "atan", 2);
++    new Function(0x12, "atan", 1);
+   public static final Function PI =
+     new Function(0x13, "pi", 0);
+   public static final Function SQRT =
 @@ -293,8 +293,10 @@
      new Function(0x3b, "pmt", 0xff);
    public static final Function RATE =
