@@ -153,9 +153,7 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 		}
 		else if (CellType.DATE == xlsType) {
 			final DateCell xlsDateCell = (jxl.DateCell) _xlsCell;
-			final Date date = xlsDateCell.getDate();
-			final long msSinceLocal1970 = (date == null) ? 0 : date.getTime();
-			new CellWithConstant( _row, RuntimeDouble_v1.msSinceLocal1970ToNum( msSinceLocal1970 ) );
+			new CellWithConstant( _row, xlsDateCell.getValue() );
 		}
 		else if (jxl.CellType.LABEL == xlsType) {
 			new CellWithConstant( _row, ((jxl.LabelCell) _xlsCell).getString() );
