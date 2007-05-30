@@ -169,7 +169,7 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		}
 	}
 
-	public static double msSinceLocal1970ToNum( final long msSinceLocal1970 )
+	private static double msSinceLocal1970ToNum( final long msSinceLocal1970 )
 	{
 		final boolean time = (msSinceLocal1970 < MS_PER_DAY);
 
