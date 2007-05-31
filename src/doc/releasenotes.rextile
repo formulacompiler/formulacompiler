@@ -10,6 +10,10 @@ Lists the new features, improvements, and fixes for each release of SEJ. You may
     
 h2. Release 0.9.0
 
+h5. New
+
+    * Date functions: @DATE()@ is now supported.
+
 h5. Better
 
     * Reorganized "build targets":hacking/build.htm to make @build.xml@ more manageable.

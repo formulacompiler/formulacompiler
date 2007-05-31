@@ -528,6 +528,11 @@ public final class ExpressionTemplatesForScaledLongs
 	// ------------------------------------------------ Date Functions
 
 
+	public long fun_DATE( long _year, long _month, long _day )
+	{
+		return RuntimeLong_v1.fun_DATE( _year, _month, _day, context );
+	}
+
 	public long fun_TODAY()
 	{
 		return RuntimeLong_v1.fun_TODAY( context );

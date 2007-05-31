@@ -244,6 +244,7 @@ void fun(): {}
 	|	"CONCATENATE" open() expr() commaExprs() closeOp( Operator.CONCAT )
 	|	"COS" fun1( Function.COS )
 	|	"COUNT" aggN( Function.COUNT )
+	|	"DATE" fun3( Function.DATE )
 	|	"DB" fun4to5( Function.DB )
 	|	"DCOUNT" dbAggN( Function.DCOUNT )
 	|	"DDB" fun4to5( Function.DDB )

@@ -21,7 +21,9 @@
 package sej.internal.runtime;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 
@@ -171,8 +173,6 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 
 	private static double msSinceLocal1970ToNum( final long msSinceLocal1970 )
 	{
-		final boolean time = (msSinceLocal1970 < MS_PER_DAY);
-
 		// Convert this to the number of days, plus fractions of a day since
 		// 01 Jan 1970
 		final double utcDays = (double) msSinceLocal1970 / (double) MS_PER_DAY;
@@ -184,13 +184,8 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		// called the 29th Feb, 1900 - but this was not a leap year.
 		// Therefore for values less than 61, we must subtract 1. Only do
 		// this for full dates, not times
-		if (!time && value < NON_LEAP_DAY) {
+		if (value < NON_LEAP_DAY) {
 			value -= 1;
-		}
-
-		// If this refers to a time, then get rid of the integer part
-		if (time) {
-			value = value - (int) value;
 		}
 
 		return value;
@@ -204,6 +199,25 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		return _value;
 	}
 
+
+	public static double excelDateToNum( final int _year, final int _month, final int _day )
+	{
+		final int year = _year < 1899 ? _year + 1900 : _year;
+		return dateToNum( year, _month, _day );
+	}
+
+	public static double dateToNum( final int _year, final int _month, final int _day )
+	{
+		final Calendar calendar = new GregorianCalendar();
+		calendar.clear();
+		calendar.setLenient( true );
+		calendar.set( Calendar.YEAR, _year );
+		calendar.set( Calendar.MONTH, _month - 1 );
+		calendar.set( Calendar.DAY_OF_MONTH, _day );
+		final Date date = calendar.getTime();
+		final TimeZone timeZone = calendar.getTimeZone();
+		return dateToNum( date, timeZone );
+	}
 
 	public static double fun_TODAY()
 	{

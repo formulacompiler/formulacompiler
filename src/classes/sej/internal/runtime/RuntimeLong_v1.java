@@ -467,6 +467,15 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		return _cx.fromDouble( RuntimeDouble_v1.fun_SQRT( _cx.toDouble( _n ) ) );
 	}
 
+	public static long fun_DATE( final long _year, final long _month, final long _day, final Context _cx )
+	{
+		final long one = _cx.one();
+		final int year = (int) (_year / one);
+		final int month = (int) (_month / one);
+		final int day = (int) (_day / one);
+		return _cx.fromDouble( RuntimeDouble_v1.excelDateToNum( year, month, day ) );
+	}
+
 	public static long fun_TODAY( Context _cx )
 	{
 		return dateToNum( today(), _cx );
