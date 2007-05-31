@@ -49,6 +49,7 @@ public enum Function {
 
 	// Dates
 
+	DATE,
 	TODAY {
 		@Override
 		public boolean isVolatile()

@@ -357,6 +357,15 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return x1;
 	}
 
+	public static BigDecimal fun_DATE( BigDecimal _year, BigDecimal _month, BigDecimal _day )
+	{
+		final int year = _year.intValue();
+		final int month = _month.intValue();
+		final int day = _day.intValue();
+		final double result = RuntimeDouble_v1.excelDateToNum( year, month, day );
+		return BigDecimal.valueOf( result );
+	}
+
 	public static BigDecimal fun_TODAY()
 	{
 		return dateToNum( today() );
