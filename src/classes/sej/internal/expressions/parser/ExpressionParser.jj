@@ -245,6 +245,7 @@ void fun(): {}
 	|	"COS" fun1( Function.COS )
 	|	"COUNT" aggN( Function.COUNT )
 	|	"DATE" fun3( Function.DATE )
+	|	"DAY" fun1( Function.DAY )
 	|	"DB" fun4to5( Function.DB )
 	|	"DCOUNT" dbAggN( Function.DCOUNT )
 	|	"DDB" fun4to5( Function.DDB )
@@ -279,6 +280,7 @@ void fun(): {}
 	|	"MIN" aggN( Function.MIN )
 	|	"MIRR" open() shapedRangeExpr() commaExpr() commaExpr() closeFun( Function.MIRR )
 	|	"MOD" fun2( Function.MOD )  
+	|	"MONTH" fun1( Function.MONTH )
 	|	"NOT" fun1( Function.NOT )
 	|	"NPER" fun3to5( Function.NPER )
 	|	"NPV" open() expr() "," shapedRangeExpr() closeFun( Function.NPV )
@@ -313,6 +315,7 @@ void fun(): {}
 	|	"UPPER" fun1( Function.UPPER )
 	|	"VAR" aggN( Function.VAR )
 	|	"VARP" aggN( Function.VARP )
+	|	"YEAR" fun1( Function.YEAR )
 	}
 
 void open(): {}
