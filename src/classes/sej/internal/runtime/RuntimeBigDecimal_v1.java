@@ -366,6 +366,27 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return BigDecimal.valueOf( result );
 	}
 
+	public static BigDecimal fun_DAY( BigDecimal _date )
+	{
+		final double date = _date.doubleValue();
+		final int result = RuntimeDouble_v1.getDayFromNum( date );
+		return BigDecimal.valueOf( result );
+	}
+
+	public static BigDecimal fun_MONTH( BigDecimal _date )
+	{
+		final double date = _date.doubleValue();
+		final int result = RuntimeDouble_v1.getMonthFromNum( date );
+		return BigDecimal.valueOf( result );
+	}
+
+	public static BigDecimal fun_YEAR( BigDecimal _date )
+	{
+		final double date = _date.doubleValue();
+		final int result = RuntimeDouble_v1.getYearFromNum( date );
+		return BigDecimal.valueOf( result );
+	}
+
 	public static BigDecimal fun_TODAY()
 	{
 		return dateToNum( today() );

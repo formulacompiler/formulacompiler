@@ -219,6 +219,30 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		return dateToNum( date, timeZone );
 	}
 
+	public static int getDayFromNum( final double _date )
+	{
+		return getCalendarValueFromNum( _date, Calendar.DAY_OF_MONTH );
+	}
+
+	public static int getMonthFromNum( final double _date )
+	{
+		return getCalendarValueFromNum( _date, Calendar.MONTH ) + 1;
+	}
+
+	public static int getYearFromNum( final double _date )
+	{
+		return getCalendarValueFromNum( _date, Calendar.YEAR );
+	}
+
+	private static int getCalendarValueFromNum( double _date, int _field )
+	{
+		final Calendar calendar = new GregorianCalendar();
+		final TimeZone timeZone = calendar.getTimeZone();
+		final Date date = dateFromNum( _date, timeZone );
+		calendar.setTime( date );
+		return calendar.get( _field );
+	}
+
 	public static double fun_TODAY()
 	{
 		return dateToNum( today() );

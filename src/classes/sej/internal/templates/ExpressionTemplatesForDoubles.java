@@ -429,6 +429,21 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v1.excelDateToNum( (int) _year, (int) _month, (int) _day );
 	}
 
+	public double fun_DAY( double _date )
+	{
+		return RuntimeDouble_v1.getDayFromNum( _date );
+	}
+
+	public double fun_MONTH( double _date )
+	{
+		return RuntimeDouble_v1.getMonthFromNum( _date );
+	}
+
+	public double fun_YEAR( double _date )
+	{
+		return RuntimeDouble_v1.getYearFromNum( _date );
+	}
+
 	public double fun_TODAY()
 	{
 		return RuntimeDouble_v1.fun_TODAY();
