@@ -489,6 +489,11 @@ public final class ExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v1.fun_DATE( _year, _month, _day );
 	}
 
+	public BigDecimal fun_TIME( BigDecimal _hour, BigDecimal _minute, BigDecimal _second )
+	{
+		return RuntimeBigDecimal_v1.fun_TIME( _hour, _minute, _second );
+	}
+
 	public BigDecimal fun_DAY( BigDecimal _date )
 	{
 		return RuntimeBigDecimal_v1.fun_DAY( _date );

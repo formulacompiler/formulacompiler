@@ -533,6 +533,11 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v1.fun_DATE( _year, _month, _day, context );
 	}
 
+	public long fun_TIME( long _hour, long _minute, long _second )
+	{
+		return RuntimeLong_v1.fun_TIME( _hour, _minute, _second, context );
+	}
+
 	public long fun_DAY( long _date )
 	{
 		return RuntimeLong_v1.fun_DAY( _date, context );

@@ -33,6 +33,9 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 	public static final BigDecimal ONE = BigDecimal.ONE;
 	public static final BigDecimal TWO = BigDecimal.valueOf( 2 );
 	private static final BigDecimal PI = BigDecimal.valueOf( Math.PI );
+	private static final BigDecimal SECS_PER_MINUTE = BigDecimal.valueOf( 60 );
+	private static final BigDecimal SECS_PER_HOUR = BigDecimal.valueOf( 3600 );
+	private static final BigDecimal SECS_PER_DAY = BigDecimal.valueOf( Runtime_v1.SECS_PER_DAY );
 	private static final MathContext INTERNAL_HIGH_PREC_CONTEXT = MathContext.DECIMAL128;
 
 
@@ -391,6 +394,13 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 	{
 		return dateToNum( today() );
 	}
+
+	public static BigDecimal fun_TIME( BigDecimal _hour, BigDecimal _minute, BigDecimal _second )
+	{
+		final BigDecimal seconds = _hour.multiply( SECS_PER_HOUR ).add( _minute.multiply( SECS_PER_MINUTE ) ).add( _second ).remainder( SECS_PER_DAY );
+		return seconds.divide( SECS_PER_DAY, INTERNAL_HIGH_PREC_CONTEXT );
+	}
+
 
 	public static BigDecimal fun_FACT( BigDecimal _a )
 	{
