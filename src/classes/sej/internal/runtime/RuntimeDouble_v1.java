@@ -248,6 +248,12 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		return dateToNum( today() );
 	}
 
+	public static double fun_TIME( double _hour, double _minute, double _second )
+	{
+		final long seconds = ((long) _hour * 3600 + (long) _minute * 60 + (long) _second) % SECS_PER_DAY;
+		return (double) seconds / SECS_PER_DAY;
+	}
+
 
 	public static double fun_ACOS( double _a )
 	{

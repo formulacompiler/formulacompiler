@@ -306,6 +306,7 @@ void fun(): {}
 	|	"SUM" aggN( Function.SUM )
 	|	"SYD" fun4( Function.SYD )
 	|	"TAN" fun1( Function.TAN )
+	|	"TIME" fun3( Function.TIME )
 	|	"TODAY" fun0( Function.TODAY )
 	|	"TRIM" fun1( Function.TRIM )
 	// The warnings on the following two lines about "(" are OK. They are caused by the annoying range intersection syntax.
