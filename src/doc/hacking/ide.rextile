@@ -8,7 +8,7 @@ This is pretty straightforward. Just add a few .jars and source paths, run an in
 
 h2. Rebuild Sources
 
-SEJ consists partially of generated Java sources. Before you can work in the IDE, these need to be regenerated.
+AFC consists partially of generated Java sources. Before you can work in the IDE, these need to be regenerated.
 
 Run "@ant generate@":build.htm to rebuild all the generated Java sources and source paths. Make sure that @ant@ runs on the same version of the JDK as your IDE uses. I, for example, run default @ant@ on JDK 1.5, but Eclipse runs on JDK 1.6. So I have to make sure I run @ant generate@ on JDK 1.6 here. This is because some of the generated sources differ by JDK version and are put into separate folders (see below).
 
@@ -26,7 +26,7 @@ To use "Eclipse":-ec (as I do), you can simply use the existing definition in @.
 	* Create a new project.
 	* Choose _Java Project_.
 	* Choose _Create project from existing source_.
-	* Specify the folder where you unpacked the SEJ source distribution.
+	* Specify the folder where you unpacked the AFC source distribution.
 	* Give the project a name (_sej-trunk_, for instance).
 	* Choose _Finish_.
 
@@ -72,10 +72,10 @@ and the following test source folders:
 	
 h4. Tests
 
-Now make sure that, when running tests, the current folder is set to where you unpacked the SEJ source distribution.
+Now make sure that, when running tests, the current folder is set to where you unpacked the AFC source distribution.
 
 h4. Code Style
 
-Finally, you may want to update Java source code formatter rules for the preferred "code style":style.htm to use with SEJ.
+Finally, you may want to update Java source code formatter rules for the preferred "code style":style.htm to use with AFC.
 
 That's it. You're "ready to roll":contributing.htm.

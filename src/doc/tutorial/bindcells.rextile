@@ -1,5 +1,5 @@
 
-h1. Binding Cells in AFC
+h1. Binding Cells
 
 
 Input and output cells of a computation defined through a spreadsheet are bound to methods of plain Java interfaces or classes.

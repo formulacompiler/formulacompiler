@@ -1,5 +1,5 @@
 
-h1. Numeric Types in AFC
+h1. Numeric Types
 
 
 Besides the default @double@, AFC supports a number of alternative numeric types you can choose from for the computations performed by generated engines. This is because @double@ is not precise enough for financial applications. The choices are:

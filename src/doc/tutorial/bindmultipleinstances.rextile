@@ -1,5 +1,5 @@
 
-h1. Binding To Multiple Interface Instances in AFC
+h1. Binding To Multiple Interface Instances
 
 
 What if you need to provide multiple separate instances of source interfaces as input providers, or need AFC to implement multiple separate instances of output interfaces?

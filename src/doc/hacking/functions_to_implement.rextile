@@ -1,7 +1,7 @@
 
 h1. Spreadsheet Functions To Implement
 
-This document is based mainly on the requirements set forth in the "OpenDocument OpenFormula specification":-ofspec. The first goal is to achieve reasonable compatibility with the "Small" group of functionality, then "Medium". _Reasonable_ here means where other important goals of SEJ do not conflict with the demands of the spec. An example is nulls and error values, which conflict with SEJ's goal to compile to primitive types.
+This document is based mainly on the requirements set forth in the "OpenDocument OpenFormula specification":-ofspec. The first goal is to achieve reasonable compatibility with the "Small" group of functionality, then "Medium". _Reasonable_ here means where other important goals of AFC do not conflict with the demands of the spec. An example is nulls and error values, which conflict with AFC's goal to compile to primitive types.
 
 Another source is the set of functions implemented in "Jedox's Worksheet Server":-jedox. It adds little to the "Medium" group, so I suggest we aim first for "Medium" and then for the Jedox set.
 
@@ -72,15 +72,15 @@ h4. Syntax
 	* Omitting the leading @0@ in decimals, as in @.54@.
 	* Duplicate double quote as escape for double quote in the string.
 	* The cell reference notation @[.A1]@.
-	* SEJ does not handle errors as special values.
+	* AFC does not handle errors as special values.
 
 
 h4. Conversions
 
-	* SEJ currently does not filter out non-numeric cells from aggregators such as @SUM; @. Nor does it filter booleans.
-	* SEJ currently does not treat @'true@ as @TRUE@ and @'false@ as @FALSE@.
-	* SEJ, since it does not differentiate boolean types, cannot convert @TRUE@ to @'true@ and @FALSE@ to @'false@.
-	* SEJ does not yet have functions taking date or time arguments. So date/time conversion is not applicable and not done yet.
+	* AFC currently does not filter out non-numeric cells from aggregators such as @SUM; @. Nor does it filter booleans.
+	* AFC currently does not treat @'true@ as @TRUE@ and @'false@ as @FALSE@.
+	* AFC, since it does not differentiate boolean types, cannot convert @TRUE@ to @'true@ and @FALSE@ to @'false@.
+	* AFC does not yet have functions taking date or time arguments. So date/time conversion is not applicable and not done yet.
 
 
 h4. Operators
@@ -274,6 +274,6 @@ h4. "Medium"
 
 CHECKBOX; HYPERLINK; IPMT; ISNUMERIC; ISREF; LIN; PPMT; RMZ; SEARCH; TEXT
 
-h3. What does SEJ already support?
+h3. What does AFC already support?
 
 CONCATENATE; SEARCH

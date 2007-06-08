@@ -1,9 +1,9 @@
 
-h1. Contributing To SEJ
+h1. Contributing To AFC
 
-Thank you! You want to contribute to SEJ. I appreciate it. In these pages I will tell you how to go about it.
+Thank you! You want to contribute to AFC. I appreciate it. In these pages I will tell you how to go about it.
 
-We have to cover quite a bit of ground. This is because SEJ was -- and is -- developed with great attention to quality. But never fear, the examples will make it all clear.
+We have to cover quite a bit of ground. This is because AFC was -- and is -- developed with great attention to quality. But never fear, the examples will make it all clear.
 
 dt. "House Rules":-rules : Basic rules to help you and everyone else produce a consistent and high-quality product.
 
@@ -17,4 +17,4 @@ dt. "Add A High-Level Array Computation":-arr (contains "MathML":-mathml, use "F
 
 Once you leave these well-documented paths, you will have to read the code itself for guidance. There is one more crucial aspect, however.
 
-dt. "Package Dependencies":-dep : SEJ's build enforces package dependency rules over and above the ones governed by the @public@ keyword.
+dt. "Package Dependencies":-dep : AFC's build enforces package dependency rules over and above the ones governed by the @public@ keyword.

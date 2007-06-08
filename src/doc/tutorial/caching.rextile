@@ -1,5 +1,5 @@
 
-h1. Caching Of Values in AFC
+h1. Caching Of Values
 
 
 Many computations can be sped up considerably by caching intermediate results. Here I show how to make an engine cache input values and intermediate cell values internally.

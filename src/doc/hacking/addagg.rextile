@@ -1,6 +1,6 @@
 <% @html_name = html_name.chomp( '.htm' ) + '.xhtml' %>
 
-h1. Adding A New Aggregator Function To SEJ
+h1. Adding A New Aggregator Function To AFC
 
 An aggregator is a (typically statistical) function that computes a single value from a range of values. @SUM()@ is the prime example. Here, we shall look at how I implemented @VAR()@. So let's assume @VAR()@ has not been implemented yet.
 
@@ -41,12 +41,12 @@ The function @VAR()@ is defined in the Excel help file as follows:
 	<mi>n</mi><mo>-</mo><mn>1</mn></mrow></mfrac>
 </math></notextile>
 
-Clearly, what we have here is a sum over a function on _all of the elements_ in the range. How can we rewrite this using Excel functions? We cannot. But SEJ defines a couple of "functions of its own":-refrewrite that help.
+Clearly, what we have here is a sum over a function on _all of the elements_ in the range. How can we rewrite this using Excel functions? We cannot. But AFC defines a couple of "functions of its own":-refrewrite that help.
 
 
 h2. Folding Functions
 
-For a quick example, let's look at how the rewrite rule for @SUM()@ is defined in SEJ:
+For a quick example, let's look at how the rewrite rule for @SUM()@ is defined in AFC:
 
 	[jc:org.formulacompiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_SUM]
 
@@ -65,7 +65,7 @@ There are also cases when it is _mandatory_ to use the first argument directly. 
 You read this as follows:
 
 	* The accumulator is implicitly initialized with the first list element unchanged.
-	* For all other list elements, @xi@, and the current accumulator, @r@, the new accumulator is the result of applying the binary min/max operator to the two values. These operators are "primitive operators":-prim I added to SEJ precisely so I could then use @_REDUCE()@ for @MIN()@ and @MAX()@.
+	* For all other list elements, @xi@, and the current accumulator, @r@, the new accumulator is the result of applying the binary min/max operator to the two values. These operators are "primitive operators":-prim I added to AFC precisely so I could then use @_REDUCE()@ for @MIN()@ and @MAX()@.
 	* If the list is empty, the result is 0 (as specified in the third argument).
 	* Otherwise, the final result is, again, the value of the accumulator at the end of the list.
 
@@ -95,8 +95,8 @@ Clearly, we will need the two auxiliary values
 	* _n_ = @COUNT(xs)@, and
 	* _m_ = @AVERAGE(xs)@ = @SUM(xs) / COUNT(xs)@ = @SUM(xs) / `n@
 
-to define the overall result. In SEJ's rewriting rules you can define auxiliary values using the @_LET()@ function. So we arrive at:
+to define the overall result. In AFC's rewriting rules you can define auxiliary values using the @_LET()@ function. So we arrive at:
 
 	[jc:org.formulacompiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_VAR]
 
-Note how we can use @SUM()@ in the rule, even though it is itself a high-level aggregation with a rewrite rule of its own. SEJ applies rewrites recursively until there is no more to rewrite.
+Note how we can use @SUM()@ in the rule, even though it is itself a high-level aggregation with a rewrite rule of its own. AFC applies rewrites recursively until there is no more to rewrite.

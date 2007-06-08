@@ -1,5 +1,5 @@
 
-h1. Binding To Multiple Interfaces in AFC
+h1. Binding To Multiple Interfaces
 
 
 AFC allows you to set only a single interface to provide inputs to or obtain outputs from a computation. How can you work around this?
