@@ -1,3 +1,0 @@
-# Configures the multiple implementations of sej.runtime.Bar
-sej.runtime.BarImpl1
-sej.runtime.BarImpl2

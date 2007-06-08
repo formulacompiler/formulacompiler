@@ -1,8 +1,0 @@
-
-h1. XmlProc
-
-I have had an idea for a very convincing demo application for SEJ (I think). It is a batch processor that transforms XML data using a spreadsheet-defined computation. See "here":../examples/xmlproc.htm.
-
-This engine seems ideal to fomulate the tests for nested sections concisely, however, supporting proper data types in it requires special annotations or schemas. So it's quickly becoming too complex for the moment, I think.
-
-Nevertheless, I took to the opportunity to give an "overview of the example applications":../examples/index.htm in the documentation.
