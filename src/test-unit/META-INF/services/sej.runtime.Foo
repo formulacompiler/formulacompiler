@@ -1,2 +1,0 @@
-# Configures the canonical implementation of sej.runtime.Foo
-sej.runtime.FooImpl # here it is
