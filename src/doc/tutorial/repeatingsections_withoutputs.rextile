@@ -1,5 +1,5 @@
 
-h1. Outputs in Repeating Sections with AFC
+h1. Outputs in Repeating Sections
 
 
 Sometimes you need to compute distinct output values for each of the elements of a variable-length data series. This is what we did before, in the "customer rating":repeatingsections.htm example, where the application loops of the customers itself. There are cases, however, where doing the loop yourself severely limits the range of computations your users can formulate. Mainly this is because they then cannot aggregate over the whole series. For this case, AFC supports per-element outputs in repeating sections.

@@ -12,7 +12,7 @@ First and foremost, I ask you to read the documentation for the area you wish to
 	
 h2. FTFR(Follow The F... Rules)
 
-When developing for "Eclipse":-ec, you need to follow "Eclipse's house rules":-ecrules. They help you and everyone else produce a consistent and high-quality product. It's the same with SEJ, only we have fewer rules. Here they are:
+When developing for "Eclipse":-ec, you need to follow "Eclipse's house rules":-ecrules. They help you and everyone else produce a consistent and high-quality product. It's the same with AFC, only we have fewer rules. Here they are:
 
 	# Document first
 	# Cite tests

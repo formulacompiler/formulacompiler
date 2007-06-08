@@ -1,27 +1,27 @@
 
 h1. Build Tools
 
-SEJ comes with an "build script":build.htm in @build.xml@. This document lists the tools required to run it.
+AFC comes with an "build script":build.htm in @build.xml@. This document lists the tools required to run it.
 
 <%= toc 2, 4 %>
 
 
 h2. Setup
 
-Many open-source libraries in the Java world include in the download everything needed to build a product from its sources. With SEJ, I have relaxed this a little. The source download does include all of the required run-time libraries, as well as all the libraries required to build its main .jar file, @sej.jar@, with the exception of "Ant":-ant itself.
+Many open-source libraries in the Java world include in the download everything needed to build a product from its sources. With AFC, I have relaxed this a little. The source download does include all of the required run-time libraries, as well as all the libraries required to build its main .jar file, @sej.jar@, with the exception of "Ant":-ant itself.
 
 It does _not_ include all the libraries and tools to build an entire distribution. Those are described here, with instructions on how to get and configure them. Except for Ant and JUnit, all of the tools should be configured in @build.properties@. Look in @build.default.properties@ to see what you can configure.
 
 
 h2. Prepackaged Download
 
-The easiest setup is to simply download @sej-x.y.z-tools.zip@, unpack it to a central folder, and then set @tools.dir@ to this folder in @build.properties@. If you unpack it into SEJ's install folder as @tools/@, then you don't even have to create @build.properties@.
+The easiest setup is to simply download @sej-x.y.z-tools.zip@, unpack it to a central folder, and then set @tools.dir@ to this folder in @build.properties@. If you unpack it into AFC's install folder as @tools/@, then you don't even have to create @build.properties@.
 
 The download contains "Ant":-ant and, contained within it, "JUnit 3.x":-junit. So running
 
 	tools/apache-ant-1.7.0/bin/ant
 	
-should properly build SEJ.
+should properly build AFC.
 
 h5. Note
 
@@ -32,21 +32,21 @@ h2. Manual Setup
 
 h3. Mandatory Tools
 
-The following are the tools you need to set up in order to build a complete new distribution package for SEJ. I strongly suggest you install them all if you consider "contributing to SEJ":contributing.htm.
+The following are the tools you need to set up in order to build a complete new distribution package for AFC. I strongly suggest you install them all if you consider "contributing to AFC":contributing.htm.
 
-dt. "Ant":-ant : You do, of course, need. Since Ant is rather big and such a widespread tool, I have chosen to not include it with SEJ's source distribution. This is the only install you need to run @ant build@ which builds @sej.jar@.
+dt. "Ant":-ant : You do, of course, need. Since Ant is rather big and such a widespread tool, I have chosen to not include it with AFC's source distribution. This is the only install you need to run @ant build@ which builds @sej.jar@.
 
 dt. "JUnit":-junit : is needed to run the tests with @ant test@. As per "the instructions":http://ant.apache.org/manual/OptionalTasks/junit.html and, in particular, "this discussion":http://ant.apache.org/faq.html#delegating-classloader, I suggest that you copy @junit.jar@ to the @lib/@ folder of your Ant installation.
 
-dt. "Macker":-macker : checks class and package dependencies. SEJ uses it to enforce the most important dependency rules. Configure it in @build.properties@ (see above).
+dt. "Macker":-macker : checks class and package dependencies. AFC uses it to enforce the most important dependency rules. Configure it in @build.properties@ (see above).
 
-dt. "CheckStyle":-checkstyle : checks source code conformance. SEJ uses it to check for missing JavaDoc tags and header comments. Configure it in @build.properties@ (see above).
+dt. "CheckStyle":-checkstyle : checks source code conformance. AFC uses it to check for missing JavaDoc tags and header comments. Configure it in @build.properties@ (see above).
 
 dt. "Ruby":-rb : runs configuration scripts.
 
-dt. "Rextile":-rex : compiles documentation sources in "Textile":-tex format to XHTML. SEJ's main documentation (this here, too) is written in Rextile's format. Please observe Rextile's own "installation instructions":-rexinst. Configure it in @build.properties@ (see above).
+dt. "Rextile":-rex : compiles documentation sources in "Textile":-tex format to XHTML. AFC's main documentation (this here, too) is written in Rextile's format. Please observe Rextile's own "installation instructions":-rexinst. Configure it in @build.properties@ (see above).
 
-dt. "JCite":-jcite : cites Java source code and Excel sheets into HTML documentation. SEJ "uses this extensively":../tutorial/basics.htm. Configure it in @build.properties@ (see above).
+dt. "JCite":-jcite : cites Java source code and Excel sheets into HTML documentation. AFC "uses this extensively":../tutorial/basics.htm. Configure it in @build.properties@ (see above).
 
 dt. "GraphViz":-dot : renders textual specifications of graphs to .png images.
 

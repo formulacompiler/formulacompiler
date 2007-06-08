@@ -1,5 +1,5 @@
 
-h1. Binding By Name in AFC
+h1. Binding By Name
 
 
 If you have a generic system where the set of possible input and/or output values cannot be determined at compile-time, you have to resort to some sort of late binding, or binding by name.

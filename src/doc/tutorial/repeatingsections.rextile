@@ -1,5 +1,5 @@
 
-h1. Repeating Sections with AFC
+h1. Repeating Sections
 
 
 AFC allows you to define _repeating sections_ in a spreadsheet. Such sections are different from ordinary ranges in Excel in that the width or height of the section varies with each use of the computation.

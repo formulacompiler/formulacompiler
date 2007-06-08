@@ -1,6 +1,5 @@
 
-h1. Life before AFC
-
+h1. Life Before the Abacus Formula Compiler
 
 Let's assume we are doing a typical order processing application. This application needs to compute a rebate for every line item entered. The rebate computation is currently hard-wired as follows:
 

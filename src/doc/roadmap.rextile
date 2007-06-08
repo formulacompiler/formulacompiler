@@ -1,5 +1,5 @@
 
-h1. AFC Roadmap
+h1. Roadmap
 
 	* Ensure the constant folder folds shared expressions only once.
 	* Verify that all formulas in rows/columns in a repeating section are structurally equivalent.

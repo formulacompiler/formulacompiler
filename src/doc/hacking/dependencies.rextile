@@ -1,7 +1,7 @@
 
 h1. Package Dependencies
 
-SEJ's build enforces package dependency rules over and above the ones governed by the @public@ keyword. This is done using the definitions @src/scripts/components.yaml@, a "YAML":-yaml file. From it, we produce checking rules for "Macker":-macker and this
+AFC's build enforces package dependency rules over and above the ones governed by the @public@ keyword. This is done using the definitions @src/scripts/components.yaml@, a "YAML":-yaml file. From it, we produce checking rules for "Macker":-macker and this
 
     * "dependency graph":dependency-graph.png.
 

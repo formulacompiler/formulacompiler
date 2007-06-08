@@ -1,7 +1,7 @@
 
 h1. Special Rewrite Functions
 
-SEJ contains a number of special, internal functions that you can use to rewrite spreadsheet functions using simpler base functions.
+AFC contains a number of special, internal functions that you can use to rewrite spreadsheet functions using simpler base functions.
 
 <%= toc %>
 
@@ -16,7 +16,7 @@ defines a local constant @name@ as the result of @expr@ during the evaluation of
 
 	_LET( n: COUNT(`xs); `n * `n )
 	
-In the generated Java code, SEJ allocates a local variable for the result and initializes it inline at its first occurrence. Like so:
+In the generated Java code, AFC allocates a local variable for the result and initializes it inline at its first occurrence. Like so:
 
 	double n;
 	return (n = count(xs)) * n;
@@ -32,7 +32,7 @@ aggregates a list of values @value-list@ into a single result value. The list ca
 
 	SUM( xs ) := _FOLD( r: 0; xi: `r + `xi; `xs )
 
-In the generated Java code, SEJ treats dynamic sections and static cell ranges differently. If the list contains dynamic sections, SEJ uses a helper method to compute the fold. Otherwise, it simply unrolls the fold. Unrolling
+In the generated Java code, AFC treats dynamic sections and static cell ranges differently. If the list contains dynamic sections, AFC uses a helper method to compute the fold. Otherwise, it simply unrolls the fold. Unrolling
 
 	_FOLD( r: 0; xi: `r + `xi; A1:A3, B1 )
 	
@@ -40,7 +40,7 @@ results in
 
 	return 0 + getA1() + getA2() + getA3() + getB1();
 	
-When there are dynamic sections, SEJ compiles loops over those sections (which is why it needs a helper method). Cells within a section are again folded using unrolling. Assuming @A1:A3@ to be a dynamic section, we get something like:
+When there are dynamic sections, AFC compiles loops over those sections (which is why it needs a helper method). Cells within a section are again folded using unrolling. Assuming @A1:A3@ to be a dynamic section, we get something like:
 
 	return foldHelper();
 	
@@ -95,7 +95,7 @@ we get
 		return r;
 	}
 
-So here SEJ decided that using the @seed-value@ is more efficient.
+So here AFC decided that using the @seed-value@ is more efficient.
 
 
 h2. REDUCE

@@ -1,8 +1,8 @@
 <% @html_name = html_name.chomp( '.htm' ) + '.xhtml' %>
 
-h1. Adding A New High-Level Spreadsheet Function To SEJ
+h1. Adding A New High-Level Spreadsheet Function To AFC
 
-A _high-level function_, in this context, is one that can be defined by rewriting it in terms of other, lower-level Excel functions. Doing this makes it immediately available to the constant folder, and to all the different "numeric types":-types supported by SEJ.
+A _high-level function_, in this context, is one that can be defined by rewriting it in terms of other, lower-level Excel functions. Doing this makes it immediately available to the constant folder, and to all the different "numeric types":-types supported by AFC.
 
 As a example of a _high-level_ function we will look at how I added @COMBIN()@ to the list of supported spreadsheet functions. So for the rest of this page, we will assume @COMBIN()@ has not been implemented yet.
 
@@ -30,7 +30,7 @@ Making @COMBIN()@ known to the parser is again just like we did it for @ABS()@. 
 	
 h2. Rewriting It
 
-Now we get to the interesting part. We rewrite @COMBIN(n,k)@ in terms of lower-level Excel and SEJ functions. From the Excel help file we see that @COMBIN(n,k)@ is
+Now we get to the interesting part. We rewrite @COMBIN(n,k)@ in terms of lower-level Excel and AFC functions. From the Excel help file we see that @COMBIN(n,k)@ is
 
 <notextile><math xmlns="http://www.w3.org/1998/Math/MathML" display='block'>
 	<mfrac>
@@ -39,7 +39,7 @@ Now we get to the interesting part. We rewrite @COMBIN(n,k)@ in terms of lower-l
 	</mfrac>
 </math></notextile>
 
-where, in Excel, the factorial _n!_ is @FACT(n)@. So we would like to define, in SEJ:
+where, in Excel, the factorial _n!_ is @FACT(n)@. So we would like to define, in AFC:
 
 	COMBIN(n,k) = FACT(n) / FACT(k) / FACT(n - k)
 
@@ -52,7 +52,7 @@ This shows that we need to add a few tests for invalid arguments. We can do this
 
 h2. Rewrite Rule
 
-To define a rewrite rule in SEJ, you need to add the rule to the class
+To define a rewrite rule in AFC, you need to add the rule to the class
 
 	sej.internal.build.rewriting.RewriteRulesCompiler
 
@@ -68,7 +68,7 @@ Running @ant build@ regenerates the rewriter so it includes the new definition. 
 
 h4. Parameter Reuse
 
-When you access a parameter more than once (as we do above), SEJ's rule compiler automatically inserts a @_LET()@ around the parameter in question. This ensures that parameters are not evaluated more than once. For example, an application like
+When you access a parameter more than once (as we do above), AFC's rule compiler automatically inserts a @_LET()@ around the parameter in question. This ensures that parameters are not evaluated more than once. For example, an application like
 
 	COMBIN( A1+A2, B1-B2 )
 

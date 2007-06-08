@@ -1,7 +1,7 @@
 
-h1. SEJ Developer Documentation
+h1. AFC Developer Documentation
 
-This section covers the internals of SEJ. It should give you a quick start when your are considering fixing something, or contributing a new function or feature to SEJ.
+This section covers the internals of AFC. It should give you a quick start when your are considering fixing something, or contributing a new function or feature to AFC.
 
 h2. Getting Started
 
@@ -9,7 +9,7 @@ h2. Getting Started
 	* "Build Tools Setup":tools.htm
 	* "Build Process":build.htm
 	* "IDE Setup":ide.htm
-	* "Contributing To SEJ":contributing.htm
+	* "Contributing To AFC":contributing.htm
 
 h2. Reference
 
