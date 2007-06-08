@@ -26,11 +26,10 @@ import org.formulacompiler.runtime.ImplementationLocator;
 import org.formulacompiler.runtime.FormulaRuntime;
 
 
-
 /**
  * Static class defining factory methods for the various elements of the core AFC compiler. This
- * class is extends by {@link org.formulacompiler.runtime.FormulaRuntime} which provides factory methods for the
- * run-time-only elements.
+ * class is extends by {@link org.formulacompiler.runtime.FormulaRuntime} which provides factory
+ * methods for the run-time-only elements.
  * 
  * @author peo
  */
@@ -101,9 +100,16 @@ public class FormulaCompiler extends FormulaRuntime
 
 	/**
 	 * {@code long} scaled to 4 decimal places for fast, fixed point computations (similar to the
-	 * currency type found in Microsoft COM and Borland Delphi).
+	 * currency type found in Borland Delphi). Beware: this type has insufficient precision for
+	 * seconds in time values.
 	 */
 	public static final NumericType SCALEDLONG4 = getNumericType( Long.TYPE, 4 );
+
+	/**
+	 * {@code long} scaled to 6 decimal places for fast, fixed point computations with sufficient
+	 * precision for seconds in time values.
+	 */
+	public static final NumericType SCALEDLONG6 = getNumericType( Long.TYPE, 6 );
 
 	/**
 	 * Scaled {@code long} with 4 decimal places. Corresponds to the Currency type found in Microsoft

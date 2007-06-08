@@ -124,9 +124,21 @@ as is again witnessed by the generated engine:
 
 h3. Beware!
 
-The choice of numeric type "affects the entire engine":#GlobalSetting. This is particularly problematic for scaled longs because of their limited precision. Consider the case of a @ScaledLong(6)@ engine being used to compute...
+h4. Scaled Multiplication
 
-TODO TODO TODO
+The choice of numeric type "affects the entire engine":#GlobalSetting. This is particularly problematic for scaled longs because of their limited precision. Consider the case of a @ScaledLong(6)@ engine being used to compute 1.2 * 10'000'000. The result, 12'000'000 would easily fit into the scaled long, but the problem is the intermediate result, which is at double the scale for every multiplication. If we look at the actual long values used, it becomes clear:
+
+	[jc:org.formulacompiler.tutorials.UsingScaledLong:---- problemWithMultiplication]
+
+whereas multiplying by only 10'000 works ok:
+
+	[jc:org.formulacompiler.tutorials.UsingScaledLong:---- workingMultiplication]
+    
+So, in essence, you lose the size of the scale in precision as soon as you start doing multiplication.
+
+h4. Seconds
+
+Another issue is that all time values in Excel are stored as numbers internally. To represent seconds, you need at least a @ScaledLong(6)@.
 
 
 h3. Predefined @LONG4@
