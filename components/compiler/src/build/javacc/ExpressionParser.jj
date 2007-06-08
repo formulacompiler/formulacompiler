@@ -1,0 +1,580 @@
+/*
+ * Copyright (c) 2006 by Abacus Research AG, Switzerland.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are prohibited, unless you have been explicitly granted 
+ * more rights by Abacus Research AG.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
+ * OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
+ * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
+ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+ 
+ 
+// NOTE: A total of 6 warnings about "+" and "(" can be ignored.
+// They are caused by the annoying range intersection syntax.
+
+ 
+options {
+	JDK_VERSION = "1.5";
+	STATIC = false;
+	USER_CHAR_STREAM = true;
+	OUTPUT_DIRECTORY = "../../../temp/impl/java/org/formulacompiler/compiler/internal/expressions/parser";
+}
+
+PARSER_BEGIN( GeneratedExpressionParser )
+package org.formulacompiler.compiler.internal.expressions.parser;
+
+import java.util.Collection;
+import org.formulacompiler.runtime.*;
+import org.formulacompiler.compiler.*;
+import org.formulacompiler.compiler.internal.expressions.*;
+
+class GeneratedExpressionParser extends ExpressionParserBase 
+{
+}
+PARSER_END( GeneratedExpressionParser )
+
+SKIP: 
+	{	" "
+	|	"\r"
+	|	"\n"
+	|	"\t"
+	|	"\f"
+	}
+	
+TOKEN: /* Helpers */
+	{	<#DIGITS: (<DIGIT>)+ >
+	|	<#DIGIT: ["0"-"9"] >
+	|	<#ALPHAS: (<ALPHA>)+ >
+	|	<#ALPHA: ["a"-"z", "A"-"Z"] >
+	|	<#CAPS: (<CAP>)+ >
+	|	<#CAP: ["A"-"Z"] >
+	}
+
+TOKEN: /* Numeric constants */
+	{	<INT_CONST: <DIGITS> >
+	|	<DBL_CONST
+			:	<DIGITS> "." (<DIGIT>)* (<EXPONENT>)?
+      		|	"." <DIGITS> (<EXPONENT>)?
+			|	<DIGITS> <EXPONENT>
+		>
+	|	<#EXPONENT: ["e","E"] (["+","-"])? <DIGITS> >
+	}
+	
+TOKEN: /* String constants */
+	{	<STR_CONST: "\"" (~["\""])* "\"" >
+	}
+	
+
+/* Expression parsing */
+
+void rootExpr(): {}
+	{	expr() <EOF>
+	}
+
+void expr(): {}
+	{	minMaxTerm() 
+	}
+
+void minMaxTerm(): {}
+	{	comparisonTerm()
+		(	"_min_" comparisonTerm()
+				{ pushNode( new ExpressionNodeForOperator( Operator.INTERNAL_MIN, popNodes( 2 ) )); }
+		|	"_max_" comparisonTerm()
+				{ pushNode( new ExpressionNodeForOperator( Operator.INTERNAL_MAX, popNodes( 2 ) )); }
+		)*
+	}
+
+void comparisonTerm(): {}
+	{	concatTerm()
+		(	"=" concatTerm()
+				{ pushNode( new ExpressionNodeForOperator( Operator.EQUAL, popNodes( 2 ) )); }
+		|	"<>" concatTerm()
+				{ pushNode( new ExpressionNodeForOperator( Operator.NOTEQUAL, popNodes( 2 ) )); }
+		|	"<" concatTerm()
+				{ pushNode( new ExpressionNodeForOperator( Operator.LESS, popNodes( 2 ) )); }
+		|	"<=" concatTerm()
+				{ pushNode( new ExpressionNodeForOperator( Operator.LESSOREQUAL, popNodes( 2 ) )); }
+		|	">" concatTerm()
+				{ pushNode( new ExpressionNodeForOperator( Operator.GREATER, popNodes( 2 ) )); }
+		|	">=" concatTerm()
+				{ pushNode( new ExpressionNodeForOperator( Operator.GREATEROREQUAL, popNodes( 2 ) )); }
+		)*
+	}
+
+void concatTerm(): {}
+	{	addTerm()
+		[	"&" addTerm()
+				{ pushNode( new ExpressionNodeForOperator( Operator.CONCAT, popNodes( 2 ) )); }
+			( "&" addTerm()
+				{ popNodeAndMergeIntoTopNode(); }
+			)*
+		]
+	}
+
+// The warning in the following rule about "+" can be ignored. It is caused by the annoying range intersection syntax.
+void addTerm(): {}
+	{	mulTerm()
+		(	"+" mulTerm()
+				{ pushNode( new ExpressionNodeForOperator( Operator.PLUS, popNodes( 2 ) )); }
+		|	"-" mulTerm()
+				{ pushNode( new ExpressionNodeForOperator( Operator.MINUS, popNodes( 2 ) )); }
+		)*
+	}
+
+void mulTerm(): {}
+	{	expTerm()
+		(	"*" expTerm()
+				{ pushNode( new ExpressionNodeForOperator( Operator.TIMES, popNodes( 2 ) )); }
+		|	"/" expTerm()
+				{ pushNode( new ExpressionNodeForOperator( Operator.DIV, popNodes( 2 ) )); }
+		)*
+	}
+
+void expTerm() : {}
+	{	signedTerm() ( "^" signedTerm()
+			{ pushNode( new ExpressionNodeForOperator( Operator.EXP, popNodes( 2 ) )); }
+		)*
+	} 
+
+void signedTerm(): {}
+	{	"-" signedTerm()
+			{ pushNode( new ExpressionNodeForOperator( Operator.MINUS, popNode() )); }
+	|	"+" signedTerm()
+	|	percentTerm()
+	}
+
+void percentTerm() : {}
+	{	value() ("%"
+			{ pushNode( new ExpressionNodeForOperator( Operator.PERCENT, popNode() )); }
+		)*
+	}
+	
+void value(): 
+	{	Token n = null; }
+	{	intConst()
+	|	dblConst()
+	|	strConst()
+	|	letvar()
+	|	"(" expr() ")"
+	|	LOOKAHEAD(2) "@" fun()
+	|	"@" n = <NAME> "(" { unsupportedFunction( n ); }
+	|	fun()
+	|	rewrite()
+	|	LOOKAHEAD(2) n = <NAME> "(" { unsupportedFunction( n ); }
+	|	cellRef()
+	|	namedCellRef()
+	}
+
+void intConst():
+	{	Token c = null; }
+	{	c = <INT_CONST>
+			{ pushNode( new ExpressionNodeForConstantValue( parseInt( c.image ))); }
+	}
+
+void dblConst():
+	{	Token c = null; }
+	{	c = <DBL_CONST>
+			{ pushNode( new ExpressionNodeForConstantValue( parseDouble( c.image ))); }
+	}
+
+void strConst():
+	{	Token c = null; String s = null; int l = 0; }
+	{	c = <STR_CONST>
+			{ s = c.image; l = s.length(); pushNode( new ExpressionNodeForConstantValue( s.substring( 1, l - 1 ))); }
+	}
+
+void cellRef():
+	{	Token c = null, s = null; }
+	{	c = <CELLA1>
+			{ pushNode( makeCellA1( c )); } 
+	|	c = <CELLR1C1>
+			{ pushNode( makeCellR1C1( c )); } 
+	|	LOOKAHEAD(2)
+		s = <SHEET> c = <CELLA1>
+			{ pushNode( makeCellA1( c, s )); } 
+	|	LOOKAHEAD(2)
+		s = <SHEET> c = <CELLR1C1>
+			{ pushNode( makeCellR1C1( c, s )); } 
+	}
+
+void namedCellRef():
+	{	Token n = null; }
+	{	n = <NAME>
+			{ pushNode( makeNamedCellRef( n )); } 
+	}
+
+void letvar():
+	{	Token n = null; }
+	{	"`" n = <NAME>
+			{ pushNode( new ExpressionNodeForLetVar( n.image )); } 
+	}
+
+
+/* Function parsing. */
+
+/* Enable this here and in value() to verify that JavaCC can handle all the function names properly.
+void lexer_test(): {}
+	{	"ACOS" | "AND" | "ASIN" | "ATAN" | "ATAN2" | "AVERAGE" | "CHOOSE" | "COLUMNS" | "COS" | "COUNT" | "COUNTA" | "COUNTBLANK" | "COUNTIF" | "DATE" | "DAVERAGE" | "DAY" | "DCOUNT" | "DCOUNTA" | "DDB" | "DEGREES" | "DGET" | "DMAX" | "DMIN" | "DPRODUCT" | "DSTDEV" | "DSTDEVP" | "DSUM" | "DVAR" | "DVARP" | "EVEN" | "EXACT" | "EXP" | "FACT" | "FALSE" | "FIND" | "FV" | "HLOOKUP" | "HOUR" | "IF" | "INDEX" | "INT" | "IRR" | "ISBLANK" | "ISERR" | "ISERROR" | "ISLOGICAL" | "ISNA" | "ISNONTEXT" | "ISNUMBER" | "ISTEXT" | "LEFT" | "LEN" | "LN" | "LOG" | "LOG10" | "LOWER" | "MATCH" | "MAX" | "MID" | "MIN" | "MINUTE" | "MOD" | "MONTH" | "N" | "NA" | "NOT" | "NOW" | "NPER" | "NPV" | "ODD" | "OR" | "PI" | "PMT" | "POWER" | "PROPER" | "PV" | "RADIANS" | "RATE" | "REPLACE" | "REPT" | "RIGHT" | "ROWS" | "SECOND" | "SIN" | "SLN" | "SQRT" | "STDEV" | "STDEVP" | "SUBSTITUTE" | "SUMIF" | "SYD" | "T" | "TAN" | "TIME" | "TODAY" | "TRIM" | "TRUE" | "TRUNC" | "UPPER" | "VALUE" | "VAR" | "VARP" | "VLOOKUP" | "WEEKDAY" | "YEAR"
+	|	"ACCRINT" | "ACCRINTM" | "ACOSH" | "ADDRESS" | "ASINH" | "ATANH" | "AVEDEV" | "BESSELI" | "BESSELJ" | "BESSELK" | "BESSELY" | "BETADIST" | "BETAINV" | "BINOMDIST" | "CEILING" | "CELL" | "CHAR" | "CHIDIST" | "CHIINV" | "CHITEST" | "CLEAN" | "CODE" | "COLUMN" | "COMBIN" | "CONCATENATE" | "CONFIDENCE" | "CONVERT" | "CORREL" | "COSH" | "COUPDAYBS" | "COUPDAYS" | "COUPDAYSNC" | "COUPNCD" | "COUPNUM" | "COUPPCD" | "COVAR" | "CRITBINOM" | "CUMIPMT" | "CUMPRINC" | "DATEDIF" | "DATEVALUE" | "DAYS360" | "DB" | "DEVSQ" | "DISC" | "DOLLAR" | "DOLLARDE" | "DOLLARFR" | "DURATION" | "EOMONTH" | "ERF" | "ERFC" | "EXPONDIST" | "FDIST" | "FINV" | "FISHER" | "FISHERINV" | "FIXED" | "FLOOR" | "FORECAST" | "FTEST" | "GAMMADIST" | "GAMMAINV" | "GAMMALN" | "GCD" | "GEOMEAN" | "HARMEAN" | "HYPGEOMDIST" | "INTERCEPT" | "INTRATE" | "ISEVEN" | "ISODD" | "KURT" | "LARGE" | "LCM" | "LINEST" | "LOGINV" | "LOGNORMDIST" | "LOOKUP" | "MDURATION" | "MEDIAN" | "MINVERSE" | "MIRR" | "MMULT" | "MODE" | "MROUND" | "MULTINOMIAL" | "NEGBINOMDIST" | "NETWORKDAYS" | "NOMINAL" | "NORMDIST" | "NORMINV" | "NORMSDIST" | "NORMSINV" | "ODDFPRICE" | "ODDFYIELD" | "ODDLPRICE" | "ODDLYIELD" | "OFFSET" | "PEARSON" | "PERCENTILE" | "PERCENTRANK" | "PERMUT" | "POISSON" | "PRICE" | "PRICEMAT" | "PROB" | "QUARTILE" | "QUOTIENT" | "RAND" | "RANDBETWEEN" | "RANK" | "RECEIVED" | "ROMAN" | "ROUNDDOWN" | "ROUNDUP" | "ROW" | "RSQ" | "SERIESSUM" | "SIGN" | "SINH" | "SKEW" | "SLOPE" | "SMALL" | "SQRTPI" | "STANDARDIZE" | "STDEVPA" | "STEYX" | "SUBTOTAL" | "SUMPRODUCT" | "SUMSQ" | "SUMX2MY2" | "SUMX2PY2" | "SUMXMY2" | "TANH" | "TBILLEQ" | "TBILLPRICE" | "TBILLYIELD" | "TDIST" | "TIMEVALUE" | "TINV" | "TRANSPOSE" | "TREND" | "TRIMMEAN" | "TTEST" | "TYPE" | "VARA" | "VDB" | "WEEKNUM" | "WEIBULL" | "WORKDAY" | "XIRR" | "XNPV" | "YEARFRAC" | "YIELD" | "YIELDDISC" | "YIELDMAT" | "ZTEST"
+	|	"ACOT" | "ACOTH" | "AMORDEGRC" | "AMORLINC" | "ARABIC" | "AREAS" | "ASC" | "AVERAGEA" | "B" | "BAHTTEXT" | "BASE" | "BIN2DEC" | "BIN2HEX" | "BIN2OCT" | "BITAND" | "BITLSHIFT" | "BITOR" | "BITRSHIFT" | "BITXORCEILING" | "COMBINA" | "COMPLEX" | "COT" | "COTH" | "CURRENT" | "DAYS" | "DBSC" | "DDE" | "DEC2BIN" | "DEC2HEX" | "DEC2OCT" | "DECIMAL" | "DELTA" | "EDATE" | "EFFECT" | "EFFECTIVE" | "ERROR.TYPE" | "FACTDOUBLE" | "FINDB" | "FORMULA" | "FREQUENCY" | "FVSCHEDULE" | "GAMMA" | "GAUSS" | "GESTEP" | "GETPIVOTDATA" | "GROWTH" | "HEX2BIN" | "HEX2DEC" | "HEX2OCT" | "HYPERLINK" | "HYPGEOMVERT" | "IMABS" | "IMAGINARY" | "IMARGUMENT" | "IMCONJUGATE" | "IMCOS" | "IMDIV" | "IMEXP" | "IMLN" | "IMLOG10" | "IMLOG2" | "IMPOWER" | "IMPRODUCT" | "IMREAL" | "IMSIN" | "IMSQRT" | "IMSUB" | "IMSUM" | "INDIRECT" | "INFO" | "IPMT" | "ISFORMULA" | "ISPMT" | "ISREF" | "LEFTB" | "LENB" | "MAXA" | "MDETERM" | "MUNIT" | "MIDB" | "MINA" | "MNORMSINV" | "NUMBERSTRING" | "OCT2BIN" | "OCT2DEC" | "OCT2HEX" | "PERMUTATIONA" | "PHI" | "PHONETIC" | "PPMT" | "PRICEDISC" | "REPLACEB" | "RIGHTB" | "RRI" | "RTD" | "SEARCH" | "SEARCHB" | "SHEET" | "SHEETS" | "TEXT" | "USDOLLAR" | "VALUEL" | "VARPA" | "XOR"		
+	} 
+*/
+
+// Please keep this list in alphabetical order.
+void fun(): {}
+	{	"ABS"	fun1( Function.ABS )
+	|	"ACOS" fun1( Function.ACOS )
+	|	"ASIN" fun1( Function.ASIN )
+	|	"ATAN" fun1( Function.ATAN )
+	|	"ATAN2" fun2( Function.ATAN2 )
+	|	"AND" aggN( Function.AND )
+	|	"AVERAGE" aggN( Function.AVERAGE )
+	|	"COMBIN" fun2( Function.COMBIN )
+	|	"CONCATENATE" open() expr() commaExprs() closeOp( Operator.CONCAT )
+	|	"COS" fun1( Function.COS )
+	|	"COUNT" aggN( Function.COUNT )
+	|	"DATE" fun3( Function.DATE )
+	|	"DAY" fun1( Function.DAY )
+	|	"DB" fun4to5( Function.DB )
+	|	"DCOUNT" dbAggN( Function.DCOUNT )
+	|	"DDB" fun4to5( Function.DDB )
+	|	"DEGREES" fun1( Function.DEGREES )
+	|	"DMAX" dbAggN( Function.DMAX )
+	|	"DMIN" dbAggN( Function.DMIN )
+	|	"DPRODUCT" dbAggN( Function.DPRODUCT )
+	|	"DSUM" dbAggN( Function.DSUM )
+	|	"EXACT" fun2( Function.EXACT )
+	|	"EVEN" fun1( Function.EVEN )
+	|	"EXP" fun1( Function.EXP )
+	|	"FACT" fun1( Function.FACT )
+	// The warnings on the following two lines about "(" are OK. They are caused by the annoying range intersection syntax. 
+	|	"FALSE" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 0 )); }
+	|	"false" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 0 )); }
+	|	"FIND" fun2to3( Function.FIND )
+	|	"FV" fun3to5( Function.FV )
+	|	"IF" fun3( Function.IF )
+	|	"INDEX" open() shapedRangeExpr() "," exprOrNull() optCommaExpr() closeFun( Function.INDEX )
+	|	"INT" fun1( Function.INT )
+	|	"IRR" open() shapedRangeExpr() optCommaExprOr(0.1) closeFun( Function.IRR )
+	|	"LEFT" fun1to2( Function.LEFT )
+	|	"LEN" fun1( Function.LEN )
+	|	"LENB" fun1( Function.LENB )
+	|	"LN" fun1( Function.LN )
+	|	"LOG" fun1to2( Function.LOG )
+	|	"LOG10" fun1( Function.LOG10 )
+	|	"LOWER" fun1( Function.LOWER )
+	|	"MAX" aggN( Function.MAX )
+	|	"MATCH" open() expr() "," shapedRangeExpr() optCommaExpr() closeFun( Function.MATCH )
+	|	"MID" fun3( Function.MID )  
+	|	"MIN" aggN( Function.MIN )
+	|	"MIRR" open() shapedRangeExpr() commaExpr() commaExpr() closeFun( Function.MIRR )
+	|	"MOD" fun2( Function.MOD )  
+	|	"MONTH" fun1( Function.MONTH )
+	|	"NOT" fun1( Function.NOT )
+	|	"NPER" fun3to5( Function.NPER )
+	|	"NPV" open() expr() "," shapedRangeExpr() closeFun( Function.NPV )
+	|	"ODD" fun1( Function.ODD )
+	|	"OR" aggN( Function.OR )
+	|	"PI" fun0( Function.PI )
+	|	"PMT" fun3to5( Function.PMT )
+	|	"POWER" fun2( Function.POWER )
+	|	"PRODUCT" aggN( Function.PRODUCT )
+	|	"PROPER" fun1( Function.PROPER )
+	|	"PV" fun3to5( Function.PV )
+	|	"RADIANS" fun1( Function.RADIANS )
+	|	"RATE" fun3to6( Function.RATE )
+	|	"REPLACE" fun4( Function.REPLACE )
+	|	"REPT" fun2( Function.REPT )
+	|	"RIGHT" fun1to2( Function.RIGHT )
+	|	"ROUND" fun2( Function.ROUND )
+	|	"SEARCH" fun2to3( Function.SEARCH )
+	|	"SIN" fun1( Function.SIN )
+	|	"SLN" fun3( Function.SLN )
+	|	"SQRT" fun1( Function.SQRT )
+	|	"SUBSTITUTE" fun3to4( Function.SUBSTITUTE )
+	|	"SUM" aggN( Function.SUM )
+	|	"SYD" fun4( Function.SYD )
+	|	"TAN" fun1( Function.TAN )
+	|	"TIME" fun3( Function.TIME )
+	|	"TODAY" fun0( Function.TODAY )
+	|	"TRIM" fun1( Function.TRIM )
+	// The warnings on the following two lines about "(" are OK. They are caused by the annoying range intersection syntax.
+	|	"TRUE" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 1 )); }
+	|	"true" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 1 )); }
+	|	"TRUNC" fun1to2( Function.TRUNC )
+	|	"UPPER" fun1( Function.UPPER )
+	|	"VAR" aggN( Function.VAR )
+	|	"VARP" aggN( Function.VARP )
+	|	"YEAR" fun1( Function.YEAR )
+	}
+
+void open(): {}
+	{	"("
+			{ mark(); }
+	}
+
+void commaExpr(): {}
+	{	"," expr()
+	}
+
+void commaExprOrNull():
+	{	boolean needDefault = true; }
+	{	"," [expr()
+			{ needDefault = false; }
+		]
+			{ if(needDefault) pushNode( null ); }
+	}
+
+void optCommaExpr(): {}
+	{	["," [expr()]]
+	}
+
+void optCommaExprOr(Object v):
+	{	boolean needDefault = true; }
+	{	["," [expr()
+			{ needDefault = false; }
+		]]
+			{ if(needDefault) pushNode( new ExpressionNodeForConstantValue( v )); }
+	}
+
+void exprOrNull():
+	{	boolean needDefault = true; }
+	{	[expr()
+			{ needDefault = false; }
+		]
+			{ if(needDefault) pushNode( null ); }
+	}
+
+void commaExprs(): {}
+	{	( "," expr() )*
+	}
+
+void closeFun(Function f): {}
+	{	")"
+			{ pushNode( new ExpressionNodeForFunction( f, popMarkedNodes() )); }
+	}
+
+void closeOp(Operator o): {}
+	{	")"
+			{ pushNode( new ExpressionNodeForOperator( o, popMarkedNodes() )); }
+	}
+
+void fun0(Function f): {}
+	{	"(" ")"
+			{ pushNode( new ExpressionNodeForFunction( f )); }
+	}
+
+void fun1(Function f): {}
+	{	"(" expr() ")"
+			{ pushNode( new ExpressionNodeForFunction( f, popNode() )); }
+	}
+
+void fun2(Function f): {}
+	{	"(" expr() commaExpr() ")"
+			{ pushNode( new ExpressionNodeForFunction( f, popNodes( 2 ) )); }
+	}
+
+void fun3(Function f): {}
+	{	"(" expr() commaExpr() commaExpr() ")"
+			{ pushNode( new ExpressionNodeForFunction( f, popNodes( 3 ) )); }
+	}
+
+void fun4(Function f): {}
+	{	"(" expr() commaExpr() commaExpr() commaExpr() ")"
+			{ pushNode( new ExpressionNodeForFunction( f, popNodes( 4 ) )); }
+	}
+
+void fun1to2(Function f): {}
+	{	open() expr() optCommaExpr() closeFun( f )
+	}
+		
+void fun2to3(Function f): {}
+	{	open() expr() commaExpr() optCommaExpr() closeFun( f )
+	}
+		
+void fun3to4(Function f): {}
+	{	open() expr() commaExpr() commaExpr() optCommaExpr() closeFun( f )
+	}
+		
+void fun4to5(Function f): {}
+	{	open() expr() commaExpr() commaExpr() commaExpr() optCommaExpr() closeFun( f )
+	}
+		
+void fun3to5(Function f): {}
+	{	open() expr() commaExpr() commaExpr() [commaExprOrNull() optCommaExpr()] closeFun( f )
+	}
+		
+void fun3to6(Function f): {}
+	{	open() expr() commaExpr() commaExpr() [commaExprOrNull() [commaExprOrNull() optCommaExpr()]] closeFun( f )
+	}
+		
+
+/*	LATER This is what we really want. 
+	But the current compiler only handles multiple arguments to the aggregator directly. 
+void aggN(Function f): {}
+	{	"(" rangeUnion() ")"
+			 { pushNode( new ExpressionNodeForFunction( f, popNode() )); }
+	}
+*/
+
+void aggN(Function f): {}
+	{	open() rangeIntersection() ( "," rangeIntersection() )* closeFun( f )
+	}
+
+void dbAggN(Function f): {}
+	{	"(" shapedRangeExpr() "," expr() "," shapedRangeExpr() ")"
+			 { pushNode( new ExpressionNodeForFunction( f, popNodes( 3 ) )); }
+	}
+
+
+/* Range parsing. */
+	
+void rangeUnion(): {}
+	{	rangeIntersection()
+		[	"," rangeIntersection()
+				{ pushNode( makeRangeUnion( popNodes( 2 ) )); }
+			( "," rangeIntersection()
+				{ popNodeAndMergeIntoTopNode(); }
+			)*
+		]
+	}
+
+void rangeIntersection(): {}
+	{	rangeExpr()
+		[	rangeExpr()
+				{ pushNode( makeRangeIntersection( popNodes( 2 ) )); }
+			( rangeExpr()
+				{ popNodeAndMergeIntoTopNode(); }
+			)*
+		]
+	}
+
+// The warning in the following rule about "<NAME>" can be ignored.
+void rangeExpr():
+	{	Object r = null; }
+	{	LOOKAHEAD(3)
+		r = range()
+			{ pushNode( makeNodeForReference( r )); }
+	|	LOOKAHEAD({ isRangeName( getToken( 1 )) })
+		namedRangeRef()
+	|	expr()
+	}
+
+void shapedRangeExpr(): {}
+	{	rangeExpr()
+			{ pushNode( makeShapedRange( popNode() )); }
+	}
+
+Object range():
+	{	Token a = null, b = null; }
+	{	cellRef() ":" cellRef()
+			{ return makeCellRange( popNodes( 2 )); }
+	}
+
+void namedRangeRef():
+	{	Token n = null; }
+	{	n = <NAME>
+			{ pushNode( makeNamedRangeRef( n )); } 
+	}
+
+
+/* Rewrite functions. */
+
+void rewrite(): {}
+	{	"_LET" let()
+	|	"_FOLD" fold( false )
+	|	"_FOLD_OR_REDUCE" fold( true )
+	|	"_REDUCE" reduce()
+	|	"_FOLD_ARRAY" foldArray()
+	}
+
+void let():
+	{	Token name = null;
+		ExpressionNode in = null, val = null;
+	}
+	{	"(" name=<NAME> ":" expr()
+		";" expr()
+		")"
+			{	in = popNode();
+				val = popNode();
+				pushNode( new ExpressionNodeForLet( name.image, val, in ));
+			}
+	}
+
+void fold( boolean _mayReduce ):
+	{	Token acc = null, xi = null;
+		ExpressionNode init = null, fold = null, args = null;
+	}
+	{
+		"(" acc=<NAME> ":" expr()
+		";" xi=<NAME> ":" expr()
+		";" expr() 
+		")"
+			{	args = popNode(); 
+				fold = popNode();
+				init = popNode();
+				pushNode( new ExpressionNodeForFold( acc.image, init, xi.image, fold, _mayReduce, args )); 
+			}
+	}
+
+void reduce():
+	{	Token acc = null, xi = null;
+		ExpressionNode fold = null, empty = null, args = null;
+	}
+	{	"(" acc=<NAME> "," xi=<NAME> ":" expr()
+		";" expr()
+		";" expr() 
+		")"
+			{	args = popNode(); 
+				empty = popNode();
+				fold = popNode();
+				pushNode( new ExpressionNodeForReduce( acc.image, xi.image, fold, empty, args )); 
+			}
+	}
+
+void foldArray():
+	{	Token acc = null, xi = null, i = null;
+		ExpressionNode init = null, fold = null, args = null;
+	}
+	{	"(" acc=<NAME> ":" expr()
+		";" xi=<NAME> "," i=<NAME> ":" expr()
+		";" expr() 
+		")"
+			{	args = popNode(); 
+				fold = popNode();
+				init = popNode();
+				pushNode( new ExpressionNodeForFoldArray( acc.image, init, xi.image, i.image, fold, args )); 
+			}
+	}
+
+
+
+/* It is crucial that the <NAME> and <CELL..> tokens be defined after all of the function and aggregator names. */
+/* Otherwise they would all get lexed as <NAME>. */ 
+	
+TOKEN: /* Cell references */
+	{	<CELLR1C1: <ROW> <COL> >
+	|	<#ROW: "R" (<IDX>)? >
+	|	<#COL: "C" (<IDX>)? >
+	|	<CELLA1: <ABS> <CAPS> <ABS> <DIGITS> >
+	|	<SHEET:	<NAME> "!" | "'" (~["'"])* "'" "!" >
+	|	<#IDX: "[" ("-")? <DIGITS> "]" | <DIGITS> >
+	|	<#ABS: ("$")? >
+	}
+
+TOKEN: /* Names */
+	{	<NAME: (<ALPHA> | "_") (<ALPHA> | "_" | "." | ["0"-"9"])* >
+	}
+
+

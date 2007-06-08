@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/intf/java"/>
+	<classpathentry kind="src" path="src/impl/java"/>
+	<classpathentry kind="src" path="src/impl/java-debug"/>
+	<classpathentry kind="src" path="src/impl/resources"/>
+	<classpathentry kind="src" path="src/build/javacc"/>
+	<classpathentry kind="src" path="src/build/java"/>
+	<classpathentry kind="src" path="src/build/resources"/>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry kind="src" path="src/test/data"/>
+	<classpathentry kind="src" path="temp/impl/java"/>
+	<classpathentry kind="src" path="temp/impl/java-1.5"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/afc-runtime"/>
+	<classpathentry kind="lib" path="lib/impl/asm-2.2.3.jar" sourcepath="J:/asm-2.2.3/src"/>
+	<classpathentry kind="lib" path="lib/impl/asm-commons-2.2.3.jar" sourcepath="J:/asm-2.2.3/src"/>
+	<classpathentry kind="lib" path="lib/build/asm-util-2.2.3.jar" sourcepath="J:/asm-2.2.3/src"/>
+	<classpathentry kind="lib" path="lib/build/asm-tree-2.2.3.jar" sourcepath="J:/asm-2.2.3/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/afc-decompiler"/>
+	<classpathentry kind="output" path="temp/eclipse"/>
+</classpath>

@@ -1,0 +1,198 @@
+
+h1. Numeric Types in AFC
+
+
+Besides the default @double@, AFC supports a number of alternative numeric types you can choose from for the computations performed by generated engines. This is because @double@ is not precise enough for financial applications. The choices are:
+
+dt. "@double@":#double : is the default. It is what Excel and other spreadsheet applications use internally. So this choice is consistent with how the original spreadsheet behaves.
+
+dt. "@BigDecimal@":#BigDecimal : can be used with either its internal scaling, or using a fixed scale. With a fixed scale, this type is a good choice for financial applications which must be able to cope with very high values.
+
+dt. "@long@":#long : can be used either as an integer type, or using a fixed scale. With a fixed scale of 4 decimal places, this type corresponds to the @currency@ type found in Microsoft COM and Borland Delphi.
+
+Note that the choice of numeric type "affects the entire engine":#GlobalSetting compiled by a given compiler, not just individual cells.
+
+
+
+h2. <a name="double">Using @double@</a>
+
+Since @double@ is the default, you can simply use the default engine builder, without specifying the type. If you want to give the type explicitly, use:
+
+	[jc:org.formulacompiler.tutorials.UsingDouble:---- buildCompiler]
+
+When using @double@, the natural type for our numeric inputs and outputs is, of course, @double@ as well. Other types are "converted by AFC":type_conversion.htm to a @double@ prior to using them in the computation.
+
+	[jc:org.formulacompiler.tutorials.UsingDouble:---- IO]
+
+In this example, we divide _InputA_ by _InputB_ and add _InputA_, ie. 1 + 1/6. The result is returned with @double@'s precision:
+
+	[jc:org.formulacompiler.tutorials.UsingDouble:---- checkResult]
+	
+as is witnessed by the generated engine:
+
+	[jc:numeric_type/double/org.formulacompiler.gen.$Root]
+
+
+
+h2. <a name="BigDecimal">Using @BigDecimal@</a>
+
+As I explained before, @BigDecimal@ can be used with an arbitrary, fixed scale and defined rounding mode. In this example, we choose greater precision than @double@ offers (namely 20 decimals after the point) and always round up. We only need to change one line compared to the builder setup for the "@double@ example":#double:
+
+	[jc:org.formulacompiler.tutorials.UsingBigDecimal:---- buildCompiler]
+
+The natural type for our numeric inputs and outputs is now @BigDecimal@. Again, other types are "converted by AFC":type_conversion.htm to a @BigDecimal@ prior to using them in the computation.
+
+	[jc:org.formulacompiler.tutorials.UsingBigDecimal:---- IO]
+
+We again compute 1 + 1/6. The result is returned with the increased precision we demanded, rounded up:
+
+	[jc:org.formulacompiler.tutorials.UsingBigDecimal:---- checkResult]
+
+as is again witnessed by the generated engine:
+
+	[jc:numeric_type/bigdecimal20/org.formulacompiler.gen.$Root]
+
+
+h3. Predefined @BIGDECIMAL8@
+
+A good choice for financial applications is the predefined type @BIGDECIMAL8@. This type has a fixed scale of 8 and rounds halves up:
+
+	[jc:org.formulacompiler.tutorials.UsingBigDecimal:---- buildCompiler8]
+
+We again compute 1 + 1/6. The result is returned with the defined 8 decimals after the point, rounded up since the last @6@ is higher than a half:
+
+	[jc:org.formulacompiler.tutorials.UsingBigDecimal:---- checkResult8a]
+
+If, instead, we compute 1 + 1/3, we get a result that is rounded down since the last @3@ is less than a half:
+
+	[jc:org.formulacompiler.tutorials.UsingBigDecimal:---- checkResult8b]
+
+as is again witnessed by the generated engine:
+
+	[jc:numeric_type/bigdecimal8/org.formulacompiler.gen.$Root]
+
+
+h3. Unscaled @BigDecimal@
+
+Let's use a @BigDecimal@ without a fixed scale:
+
+	[jc:org.formulacompiler.tutorials.UsingBigDecimal:---- buildCompilerN]
+
+With this beast, you have to be very careful about the computations your users specify in the spreadsheets. This is because @BigDecimal@ will fail for non-representable fractions. The value of 1 + 1/4 can be computed ok:
+
+	[jc:org.formulacompiler.tutorials.UsingBigDecimal:---- checkResultNa]
+
+But 1 + 1/3 does not have a finite decimal representation, so @BigDecimal@ faults:
+
+	[jc:org.formulacompiler.tutorials.UsingBigDecimal:---- checkResultNb]
+
+as is again witnessed by the generated engine:
+
+	[jc:numeric_type/bigdecimal0/org.formulacompiler.gen.$Root]
+
+
+
+h2. <a name="long">Using scaled @long@</a>
+
+The @long@ type can be used either as an integer type, or in scaled mode. In scaled mode, it is still a long, but interpreted as if the _n_ rightmost digits were decimal places. In this example, we choose 3 digits after the decimal point. Note that as of release 0.4.1, scaled long does not support rounding modes. It always truncates. Again, we only need to change one line compared to the builder setup for the "@double@ example":#double:
+
+	[jc:org.formulacompiler.tutorials.UsingScaledLong:---- buildCompiler]
+
+The natural type for our numeric inputs and outputs is now @long@. But we have a problem here: @long@ is not normally scaled. So AFC needs a way to differentiate between values that are normal, unscaled @long@ values, and values that are scaled.
+
+AFC does not simply assume all @long@ values to be scaled. This would be unexpected behaviour. And it would prohibit using the same interface for engines of different numeric types. For example, you could have a base interface you use for both scaled and unscaled @long@ computations, which has a @long getNumberOfItems()@ method.
+
+There are two ways you can tell AFC that a @long@ is already scaled:
+
+	* Use the annotation @@ScaledLong@ on the input or output method.
+	* Use the annotation @@ScaledLong@ on the entire input or output type. This sets the default for all @long@ return types of method of the type that don't override the scale themselves.
+
+
+The annotation controls the scale of the value obtained or returned by AFC. This scale is independent of the scale AFC uses for the internal computations. If the scales equal, then no "conversion":type_conversion.htm is needed. Otherwise AFC rescales the values appropriately.
+
+Since scaled long support depends on annotations, you cannot (I think) declare them in AFC's Java 1.4 compatibility mode. But generated engines should run perfectly well on Java 1.4.
+
+	[jc:org.formulacompiler.tutorials.UsingScaledLong:---- IO]
+
+We again compute 1 + 1/6. The result is a scaled @long@ (so @1166L@ is the scaled @long@ equivalent of 1.166). We get 1.166 and not 1.167 because the scaled long always truncates results (this is how @long@ itself works in Java):
+
+	[jc:org.formulacompiler.tutorials.UsingScaledLong:---- checkResult]
+
+as is again witnessed by the generated engine:
+
+	[jc:numeric_type/scaledlong3/org.formulacompiler.gen.$Root]
+
+h3. Beware!
+
+The choice of numeric type "affects the entire engine":#GlobalSetting. This is particularly problematic for scaled longs because of their limited precision. Consider the case of a @ScaledLong(6)@ engine being used to compute...
+
+TODO TODO TODO
+
+
+h3. Predefined @LONG4@
+
+A possible choice for financial applications is the predefined type @LONG4@. This type has a fixed scale of 4 and behaves much like the _currency_ type "found in Borland Delphi":http://www.delphibasics.co.uk/RTL.asp?Name=Currency. To use it, we need to switch to a version of the output interface with proper scaling (@Input4@ and @Output4@ specify @@ScaledLong(4)@).
+
+	[jc:org.formulacompiler.tutorials.UsingScaledLong:---- buildCompiler4]
+
+We again compute 1 + 1/6. The result is returned with the defined 4 decimals after the point, truncated:
+
+	[jc:org.formulacompiler.tutorials.UsingScaledLong:---- checkResult4]
+
+as is again witnessed by the generated engine:
+
+	[jc:numeric_type/scaledlong4/org.formulacompiler.gen.$Root]
+
+
+h3. Unscaled @long@
+
+Let's use a @long@ without decimal places (@Input0@ and @Output0@ specify @@ScaledLong(0)@):
+
+	[jc:org.formulacompiler.tutorials.UsingScaledLong:---- buildCompiler0]
+
+If we compute 1 + 1/6 here, we simply get 0:
+
+	[jc:org.formulacompiler.tutorials.UsingScaledLong:---- checkResult0]
+
+as is again witnessed by the generated engine:
+
+	[jc:numeric_type/scaledlong0/org.formulacompiler.gen.$Root]
+
+
+
+h2. <a name="GlobalSetting">Numeric Type Is A Global Setting</a>
+
+Why is the numeric type set once per compiler, and not individually, per input or output cell? After all, consider a computation where we have as input the integer lengths of the three sides of a block in millimetres, and the price per millimetre cubed. We want the total price. So, typically:
+
+<pre><code
+>total := (width * height * depth) * price_per_mm3;
+</code></pre>
+
+Since all of the dimensions are integer, we might code this as:
+
+<pre><code
+>long width, height, depth;
+BigDecimal total, price_per_mm3;
+</code></pre>
+
+This would ensure that the two multiplications computing the volume would run at @long@-speed. Is this correct? It depends. If you can be sure that the volume will always fit into the @long@ range, then yes. But even if this were so, once you use AFC to outsource this computation to a spreadsheet, you lose control over the exact way the computation is performed. It could, for instance, be changed by one user to:
+
+<pre><code
+>total := (width / 1000) * (height / 1000) * (depth / 1000) * price_per_m3;
+</code></pre>
+
+where @price_per_m3@ is looked up in a table. What should AFC choose as the data type for the intermediate divisions? Hmm.
+
+An even simpler change, building a slight oversize into the computation, would be:
+
+<pre><code
+>total := ((width + 2) * (height + 2) * (depth + 2)) * price_per_mm3;
+</code></pre>
+
+So you - the programmer - may have been sure before that the volume would always fit into a @long@. But how can AFC be sure that the slightly larger volume computed above will still fit? It cannot.
+
+In view of these overflow and precision problems, AFC does not try to be clever about inferring fast types. Every simple addition of input values already forces escalation to a bigger and slower type, so without hints from outside, AFC would have to infer slow types for nearly everything very quickly. Who could give the hints? You, the programmer, cannot, because you do not know the computations performed by the sheets defined by users later on. So it would have to be the sheet designers. I cannot imagine them caring about and being able to specify overflow conditions.
+
+What you can tell AFC is the general class of computation you are dealing with. You simply specify the type being used for all numeric computations by a particular engine.
+
+The responsibility for this choice, and for communicating its consequences to the sheet designers, rests fully with you, the programmer. But it does allow you to generate engines suited for precise financial or very fast pure integer computations.

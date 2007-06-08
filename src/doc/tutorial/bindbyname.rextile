@@ -1,0 +1,114 @@
+
+h1. Binding By Name in AFC
+
+
+If you have a generic system where the set of possible input and/or output values cannot be determined at compile-time, you have to resort to some sort of late binding, or binding by name.
+
+By _name_, I mean anything that helps you to identify a value, be it a @String@, @int@, or @long@ value, or even a combination thereof.
+
+<%= toc 2, 3 %>
+
+
+h2. Inputs
+
+To bind inputs by name, you bind them to parametrized calls to a single dispatch method (or multiple ones - it's your choice). Here's an example of such a method:
+
+	[jc:org.formulacompiler.tutorials.BindingByName:---- Input]
+
+With this interface, you could, for instance, bind cells by name as follows:
+
+	[jc:org.formulacompiler.tutorials.BindingByName:---- bindNamedInputs]
+
+In the implementation of @getInput(String)@ you are free to look up the actual value of the named input in any way that seems fit. Like this, for example:
+
+	[jc:org.formulacompiler.tutorials.BindingByName:---- InputSample]
+
+
+h3. Supported Types
+
+AFC currently supports the following parameter types:
+
+	[jc:org.formulacompiler.tutorials.BindingByName:---- InputVariants; omit]
+
+Note in particular that custom, application defined enumeration constants are supported. Here's the definition for the @MyEnum@ type bound above:
+
+	[jc:org.formulacompiler.tutorials.BindingByName:---- MyEnum]
+
+When binding, you have to take care that you are passing in values of the proper type (@Integer@ for @int@ and @Integer@, @Byte@ for @byte@ and @Byte@, etc.). This example uses autoboxing, but it still needs to take care to pass the proper native type to the boxing magic:
+
+	[jc:org.formulacompiler.tutorials.BindingByName:---- bindInputVariants]
+
+
+h3. Multiple Parameters
+
+You can also bind to parametrized methods with multiple parameters as long as all the parameter types are supported. Here's such a method:
+
+	[jc:org.formulacompiler.tutorials.BindingByName:---- InputCombination; omit]
+
+and how to bind to it:
+
+	[jc:org.formulacompiler.tutorials.BindingByName:---- bindInputCombination]
+
+
+
+h2. Outputs
+
+To bind output values by name, you use an analogous construct:
+
+	[jc:org.formulacompiler.tutorials.BindingByName:---- Output]
+
+and:
+
+	[jc:org.formulacompiler.tutorials.BindingByName:---- bindNamedOutputs]
+
+Here's how you would use the generated engine:
+
+	[jc:org.formulacompiler.tutorials.BindingByName:---- checkResults]
+
+AFC must generate code that implements this by-name lookup for you to make this work. Here's how AFC goes about it, assuming the spreadsheet contained two cells named _O_ONETWOTHREE_ and _O_SUMINTER_:
+
+	[jc:org.formulacompiler.tutorials.BindingByName:---- GeneratedGetter]
+
+The example shows why we must supply a default implementation for @getResult(String)@.
+
+
+h3. Supported Types
+
+Parametrized outputs are supported for the following parameter types:
+
+	* @Object@ and subtypes that properly implement @equals()@
+	* @int@, compared using @==@
+	* @long@, compared using @==@
+
+
+h3. Multiple Parameters
+
+When there are multiple parameters, AFC generates comparisons for all of the supplied values, joined by a logical and.
+
+Thus, the complex output method:
+
+	[jc:org.formulacompiler.tutorials.BindingByName:---- ComplexOutput]
+
+is bound as:
+
+	[jc:org.formulacompiler.tutorials.BindingByName:---- bindComplexOutput]
+
+and called as:
+
+	[jc:org.formulacompiler.tutorials.BindingByName:---- checkComplexResults]
+
+Here's an idea of what AFC generates in this situation:
+
+	[jc:org.formulacompiler.tutorials.BindingByName:---- GeneratedComplexGetter]
+
+
+
+h2. Why This Magic?
+
+Why does AFC provide such black-box magic here when, for the inputs, it was stated as an explicit design goal to avoid such things? Well, providing the outputs is what AFC _does_. So the implementation of the output interface must be AFC's responsibility. We could have chosen an implementation where you could register multiple output interfaces, each with a distinct string name. You might then bind output cells to such a named interface. However, to access the named interface on a computation, there would again have to be a by-name lookup:
+
+	Computation c = engine.newComputation();
+	Output o = (Output) c.getNamedOutput( "SomeOutput" );
+	double v = o.getValue();
+
+So we gain nothing but lose the close duality of how the input and output definitions work.

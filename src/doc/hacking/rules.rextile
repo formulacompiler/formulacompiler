@@ -1,0 +1,22 @@
+h1. House Rules
+
+
+h2. RTFM(Read The F... Manual)
+
+First and foremost, I ask you to read the documentation for the area you wish to contribute to. This includes the
+
+	* "tutorial":-tut, the
+	* "reference":-ref, and the
+	* "developer's journal":-dev, which you might want to skim through.
+
+	
+h2. FTFR(Follow The F... Rules)
+
+When developing for "Eclipse":-ec, you need to follow "Eclipse's house rules":-ecrules. They help you and everyone else produce a consistent and high-quality product. It's the same with SEJ, only we have fewer rules. Here they are:
+
+	# Document first
+	# Cite tests
+	# Mimick existing code (see also: "code style":style.htm)
+	# Implement only what the tests require
+
+Simple enough. Now go see them in action: "add a missing function":-prim. That will make them clear.

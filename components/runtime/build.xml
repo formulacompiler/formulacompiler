@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.formulacompiler.runtime" default="build" basedir=".">
+	<description>Builds, tests, and packages the AFC runtime. See ~/doc/hacking/build.htm for details.</description>
+
+	<!--	Conventions used in this build script:
+	
+		All top-level targets are simple redirects to corresponding internal targets.
+		This gives a quick overview and ensures a clean separation between API and implementation.
+	
+		All targets that do something start with @.
+		They have no dependencies except for @init and are thus very reusable.
+		They are accessible to users for those who know what they are doing. :)
+		
+		Dependencies are managed by internal targets starting with -.
+		They use the @ targets to do the actual work.
+		
+		External configuration is initialized by build.default.properties.
+		Values in build.properties (if it exists) take precedence. 
+	-->
+
+
+	<!-- global properties -->
+
+	<property file="../../build.properties" />
+	<property file="../../build.default.properties" />
+	
+	<property name="Name" value="${BaseName} Runtime" />
+	<property name="name" value="${basename}-runtime" />
+
+	<path id="intf.deps.classpath" />
+	<path id="impl.deps.classpath" />
+	<path id="test.deps.classpath" />
+	
+	<import file="../build-common.xml" />
+
+	
+</project>
