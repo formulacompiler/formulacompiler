@@ -104,6 +104,40 @@ public class UsingScaledLong extends TestCase
 
 		FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/numeric_type/scaledlong0" );
 	}
+	
+	
+	public void testWorkingMultiplication() throws Exception
+	{
+		// ---- workingMultiplication
+		long scale = 1000000L;
+		long a = (long) (1.2 * scale);
+		long b = 100000L * scale;
+		long intermediate = a * b;
+		long result = intermediate / scale;
+		
+		assertEquals( 1200000L, a );
+		assertEquals( 100000000000L, b );
+		assertEquals( 120000000000000000L, intermediate );
+		assertEquals( 120000000000L, result );
+		// ---- workingMultiplication
+	}
+
+
+	public void testProblemWithMultiplication() throws Exception
+	{
+		// ---- problemWithMultiplication
+		long scale = 1000000L;
+		long a = (long) (1.2 * scale);
+		long b = 10000000L * scale;
+		long intermediate = a * b;
+		long result = intermediate / scale;
+		
+		assertEquals( 1200000L, a );
+		assertEquals( 10000000000000L, b );
+		assertEquals( -6446744073709551616L, intermediate ); // silent integer overflow!
+		assertEquals( -6446744073709L, result );
+		// ---- problemWithMultiplication
+	}
 
 
 	// ---- IO
