@@ -1,0 +1,50 @@
+<% @html_name = html_name.chomp( '.htm' ) + '.xhtml' %>
+
+h1. Adding A New Array Computation To SEJ
+
+An array computation is a (typically financial) function that computes a single value from an array of values. Here, we shall look at how I implemented @NPV()@. So let's assume @NPV()@ has not been implemented yet.
+
+_Note: You must have read the topics on adding "primitive functions":-prim and "high-level functions":-high to understand this section._
+
+<%= toc 2, 4 %>
+
+
+h2. Docs and Tests
+
+As always, we start with the announcement in the release notes, and the tests:
+
+	[xc:org/formulacompiler/tests/reference/FinancialFunctions.xls:HeaderRange,NPVRange]
+
+	
+h2. Parsing
+
+Making @NPV()@ known to the parser is much like what we did for @ABS()@. Array functions, however, need to accept array arguments, not just simple values. These are denoted by @shapedrangeexpr@:
+
+		...
+		|	NPV LPAREN expr:rate COMMA shapedrangeexpr:vals RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.NPV, rate, vals ); :}
+		...
+
+
+h2. Mathematical Definition
+	
+The function @NPV()@ is defined in the Excel help file as follows:
+
+<notextile><math xmlns='http://www.w3.org/1998/Math/MathML' display='block'>
+	<munderover><mo lspace="thinmathspace" rspace="thinmathspace">&#8721;</mo> <mrow><mi>i</mi>
+	<mo>=</mo><mn>1</mn></mrow> <mi>n</mi></munderover>
+	<mfrac><mrow><msub><mi>values</mi> <mi>i</mi></msub>
+	</mrow><mrow><mo>(</mo>
+	<mn>1</mn><mo>+</mo><mi>rate</mi><msup><mo>)</mo> <mi>i</mi></msup></mrow></mfrac>
+</math></notextile>
+
+What we need here is a "folding function":-refrewrite that gives us access to the current index @i@. @_FOLD_ARRAY()@ does this.
+
+
+h2. Rewriting It
+
+@_FOLD_ARRAY()@ expects an _array_ to fold, not just a list of values as @_FOLD()@ does. We can make SEJ compile the parsed value range into an array using the @#@-suffix notation:
+
+	[jc:org.formulacompiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_NPV]
+
+Note how I used @_LET()@ here to move the common subexpression out of the folding loop.

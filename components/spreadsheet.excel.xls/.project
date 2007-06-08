@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>afc-spreadsheet-excel-xls</name>
+	<comment></comment>
+	<projects>
+		<project>sej-reorg-compiler</project>
+		<project>sej-reorg-runtime</project>
+		<project>sej-reorg-spreadsheet</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+</projectDescription>

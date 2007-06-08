@@ -1,0 +1,85 @@
+<% @html_name = html_name.chomp( '.htm' ) + '.xhtml' %>
+
+h1. Adding A New High-Level Spreadsheet Function To SEJ
+
+A _high-level function_, in this context, is one that can be defined by rewriting it in terms of other, lower-level Excel functions. Doing this makes it immediately available to the constant folder, and to all the different "numeric types":-types supported by SEJ.
+
+As a example of a _high-level_ function we will look at how I added @COMBIN()@ to the list of supported spreadsheet functions. So for the rest of this page, we will assume @COMBIN()@ has not been implemented yet.
+
+_Note: You must have read "adding a new primitive function":-prim to understand this section._
+
+<%= toc 2, 4 %>
+
+
+h2. Docs and Tests
+
+As with "ABS":-prim, we start with documentation (announcing @COMBIN()@ in the release notes), and the citable test cases:
+
+	[xc:org/formulacompiler/tests/reference/NumericFunctions.xls:HeaderRange,COMBINRange]
+
+	
+h2. Parsing
+
+Making @COMBIN()@ known to the parser is again just like we did it for @ABS()@. The only point worth noting is that we need two arguments:
+
+	...
+	|	COMBIN LPAREN expr:n COMMA expr:k RPAREN
+				{: RESULT = new ExpressionNodeForFunction( Function.COMBIN, n, k ); :}
+	...
+
+	
+h2. Rewriting It
+
+Now we get to the interesting part. We rewrite @COMBIN(n,k)@ in terms of lower-level Excel and SEJ functions. From the Excel help file we see that @COMBIN(n,k)@ is
+
+<notextile><math xmlns="http://www.w3.org/1998/Math/MathML" display='block'>
+	<mfrac>
+		<mrow><mi>n</mi><mo>!</mo></mrow>
+		<mrow><mi>k</mi><mo>! (</mo><mi>n</mi><mo>-</mo><mi>k</mi><mo>)!</mo></mrow>
+	</mfrac>
+</math></notextile>
+
+where, in Excel, the factorial _n!_ is @FACT(n)@. So we would like to define, in SEJ:
+
+	COMBIN(n,k) = FACT(n) / FACT(k) / FACT(n - k)
+
+However, we should also test for error cases, like the following:
+
+	[xc:org/formulacompiler/tests/reference/NumericFunctions.xls:HeaderRange,COMBINErrors]
+
+This shows that we need to add a few tests for invalid arguments. We can do this with @IF@, as you can see further below.
+
+
+h2. Rewrite Rule
+
+To define a rewrite rule in SEJ, you need to add the rule to the class
+
+	sej.internal.build.rewriting.RewriteRulesCompiler
+
+which is in @src/build-tools@. This is done as follows:
+
+	[jc:org.formulacompiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_COMBIN]
+
+(Note that I have added two optimizations for _n = k_ and _k = 1_ here.)
+
+The definition should look straightforward. The backticks, as in @`n@ and @`k@, must be there to help the parser tell apart symbolic names and cell references.
+
+Running @ant build@ regenerates the rewriter so it includes the new definition. (In the IDE, you can simply run the class @RewriteRulesCompiler@, which we just modified, to regenerate.)
+
+h4. Parameter Reuse
+
+When you access a parameter more than once (as we do above), SEJ's rule compiler automatically inserts a @_LET()@ around the parameter in question. This ensures that parameters are not evaluated more than once. For example, an application like
+
+	COMBIN( A1+A2, B1-B2 )
+
+results in inlined code like
+
+	int n, k;
+	return ... fac((n = A1+A2)) / fac((k = B1-B2)) / fac(n - k) ...
+	
+where @fac()@ is the runtime support function for @FACT()@.
+
+h4. No Runtime
+
+A rewrite rule always generates code directly into the computation. There is no option to move support code into the runtime, as there is for "primitive functions":-prim (see @fac()@ above). This may change in a future release.
+

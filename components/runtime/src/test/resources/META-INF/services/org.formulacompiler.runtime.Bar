@@ -1,0 +1,3 @@
+# Configures the multiple implementations of sej.runtime.Bar
+org.formulacompiler.runtime.BarImpl1
+org.formulacompiler.runtime.BarImpl2
