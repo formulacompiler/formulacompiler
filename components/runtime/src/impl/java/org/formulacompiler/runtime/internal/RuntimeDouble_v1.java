@@ -219,6 +219,27 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		return dateToNum( date, timeZone );
 	}
 
+	public static int getWeekDayFromNum( final double _date, int _type )
+	{
+		final int dayOfWeek = getCalendarValueFromNum( _date, Calendar.DAY_OF_WEEK );
+		switch (_type) {
+			case 1:
+				return dayOfWeek;
+			case 2:
+				return dayOfWeek > 1 ? dayOfWeek - 1 : 7;
+			case 3:
+				return dayOfWeek > 1 ? dayOfWeek - 2 : 6;
+			default:
+				return 0; // Excel #NUM
+		}
+	}
+
+	public static long getDaySecondsFromNum( final double _time )
+	{
+		final double time = _time % 1;
+		return Math.round( time * SECS_PER_DAY );
+	}
+
 	public static int getDayFromNum( final double _date )
 	{
 		return getCalendarValueFromNum( _date, Calendar.DAY_OF_MONTH );
@@ -250,8 +271,26 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 
 	public static double fun_TIME( double _hour, double _minute, double _second )
 	{
-		final long seconds = ((long) _hour * 3600 + (long) _minute * 60 + (long) _second) % SECS_PER_DAY;
+		final long seconds = ((long) _hour * SECS_PER_HOUR + (long) _minute * 60 + (long) _second) % SECS_PER_DAY;
 		return (double) seconds / SECS_PER_DAY;
+	}
+
+	public static double fun_SECOND( double _date )
+	{
+		final long seconds = getDaySecondsFromNum( _date ) % 60;
+		return (double) seconds;
+	}
+
+	public static double fun_MINUTE( double _date )
+	{
+		final long minutes = getDaySecondsFromNum( _date ) / 60 % 60;
+		return (double) minutes;
+	}
+
+	public static double fun_HOUR( double _date )
+	{
+		final long hours = getDaySecondsFromNum( _date ) / SECS_PER_HOUR % 24;
+		return (double) hours;
 	}
 
 

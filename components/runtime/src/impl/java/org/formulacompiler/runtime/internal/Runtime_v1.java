@@ -33,7 +33,8 @@ public abstract class Runtime_v1
 
 	// ---- Excel date conversion; copied from JExcelAPI (DateRecord.java)
 
-	static final long SECS_PER_DAY = 24 * 60 * 60;
+	static final long SECS_PER_HOUR = 60 * 60;
+	static final long SECS_PER_DAY = 24 * SECS_PER_HOUR;
 	static final long MS_PER_SEC = 1000;
 	static final long MS_PER_DAY = SECS_PER_DAY * MS_PER_SEC;
 	static final int NON_LEAP_DAY = 61;
