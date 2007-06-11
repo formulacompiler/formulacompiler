@@ -302,6 +302,7 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/afc.iml" filepath="$PROJECT_DIR$/afc.iml" />
       <module fileurl="file://$PROJECT_DIR$/components/compiler/afc-compiler.iml" filepath="$PROJECT_DIR$/components/compiler/afc-compiler.iml" />
       <module fileurl="file://$PROJECT_DIR$/components/decompiler/afc-decompiler.iml" filepath="$PROJECT_DIR$/components/decompiler/afc-decompiler.iml" />
       <module fileurl="file://$PROJECT_DIR$/components/runtime/afc-runtime.iml" filepath="$PROJECT_DIR$/components/runtime/afc-runtime.iml" />
