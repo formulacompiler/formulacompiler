@@ -832,7 +832,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 
 					public ScaledLongTestRunner(boolean _caching)
 					{
-						super( SpreadsheetCompiler.SCALEDLONG4, _caching );
+						super( SpreadsheetCompiler.SCALEDLONG6, _caching );
 					}
 
 					@Override
@@ -851,9 +851,11 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 					@Override
 					protected void assertNumber( String _name, Outputs o, double _expected )
 					{
-						final long expected = ((Long) SpreadsheetCompiler.SCALEDLONG4.valueOf( _expected )).longValue();
+						final long expected = ((Long) SpreadsheetCompiler.SCALEDLONG6.valueOf( _expected )).longValue();
 						final long actual = ((ScaledLongOutputs) o).getNUMBER();
-						assertEquals( _name, expected, actual );
+						if (Math.abs( expected - actual ) > 1) {
+							assertEquals( _name, expected, actual );
+						}
 					}
 
 				}
@@ -895,13 +897,13 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 				}
 			}
 
-			@ScaledLong(4)
+			@ScaledLong(6)
 			public final class ScaledLongInputs extends Inputs
 			{
 				public Long getNUMBER( int i )
 				{
 					final Object val = AbstractRowRunner.this.inputs[ i ];
-					return (val == null) ? null : (Long) SpreadsheetCompiler.SCALEDLONG4.valueOf( (Double) val );
+					return (val == null) ? null : (Long) SpreadsheetCompiler.SCALEDLONG6.valueOf( (Double) val );
 				}
 			}
 
@@ -954,7 +956,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 		// Nothing new here.
 	}
 
-	@ScaledLong(4)
+	@ScaledLong(6)
 	public static class ScaledLongOutputs extends Outputs
 	{
 		public long getNUMBER()
