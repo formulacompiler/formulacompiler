@@ -435,6 +435,31 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v1.fun_TIME( _hour, _minute, _second );
 	}
 
+	public double fun_SECOND( double _date )
+	{
+		return RuntimeDouble_v1.fun_SECOND( _date );
+	}
+
+	public double fun_MINUTE( double _date )
+	{
+		return RuntimeDouble_v1.fun_MINUTE( _date );
+	}
+
+	public double fun_HOUR( double _date )
+	{
+		return RuntimeDouble_v1.fun_HOUR( _date );
+	}
+
+	public double fun_WEEKDAY( double _date, double _type )
+	{
+		return RuntimeDouble_v1.getWeekDayFromNum( _date, (int) Math.round( _type ) );
+	}
+
+	public double fun_WEEKDAY( double _date )
+	{
+		return RuntimeDouble_v1.getWeekDayFromNum( _date, 1 );
+	}
+
 	public double fun_DAY( double _date )
 	{
 		return RuntimeDouble_v1.getDayFromNum( _date );

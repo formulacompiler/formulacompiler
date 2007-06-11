@@ -17,7 +17,7 @@ h5. *Changed!*
 
 h5. New
 
-    * Date functions: @DATE()@, @TIME()@, @DAY()@, @MONTH()@, and @YEAR()@ are now supported.
+    * Date functions: @DATE()@, @TIME()@, @SECOND()@, @MINUTE()@, @HOUR()@, @WEEKDAY()@, @DAY()@, @MONTH()@, and @YEAR()@ are now supported.
 
 h5. Better
 

@@ -539,6 +539,31 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v1.fun_TIME( _hour, _minute, _second, context );
 	}
 
+	public long fun_SECOND( long _date )
+	{
+		return RuntimeLong_v1.fun_SECOND( _date, context );
+	}
+
+	public long fun_MINUTE( long _date )
+	{
+		return RuntimeLong_v1.fun_MINUTE( _date, context );
+	}
+
+	public long fun_HOUR( long _date )
+	{
+		return RuntimeLong_v1.fun_HOUR( _date, context );
+	}
+
+	public long fun_WEEKDAY( long _date, long _type )
+	{
+		return RuntimeLong_v1.fun_WEEKDAY( _date, _type, context );
+	}
+
+	public long fun_WEEKDAY( long _date )
+	{
+		return RuntimeLong_v1.fun_WEEKDAY( _date, context.one(), context );
+	}
+
 	public long fun_DAY( long _date )
 	{
 		return RuntimeLong_v1.fun_DAY( _date, context );

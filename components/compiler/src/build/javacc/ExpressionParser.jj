@@ -263,6 +263,7 @@ void fun(): {}
 	|	"false" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 0 )); }
 	|	"FIND" fun2to3( Function.FIND )
 	|	"FV" fun3to5( Function.FV )
+	|	"HOUR" fun1( Function.HOUR )
 	|	"IF" fun3( Function.IF )
 	|	"INDEX" open() shapedRangeExpr() "," exprOrNull() optCommaExpr() closeFun( Function.INDEX )
 	|	"INT" fun1( Function.INT )
@@ -278,6 +279,7 @@ void fun(): {}
 	|	"MATCH" open() expr() "," shapedRangeExpr() optCommaExpr() closeFun( Function.MATCH )
 	|	"MID" fun3( Function.MID )  
 	|	"MIN" aggN( Function.MIN )
+	|	"MINUTE" fun1( Function.MINUTE )
 	|	"MIRR" open() shapedRangeExpr() commaExpr() commaExpr() closeFun( Function.MIRR )
 	|	"MOD" fun2( Function.MOD )  
 	|	"MONTH" fun1( Function.MONTH )
@@ -299,6 +301,7 @@ void fun(): {}
 	|	"RIGHT" fun1to2( Function.RIGHT )
 	|	"ROUND" fun2( Function.ROUND )
 	|	"SEARCH" fun2to3( Function.SEARCH )
+	|	"SECOND" fun1( Function.SECOND )
 	|	"SIN" fun1( Function.SIN )
 	|	"SLN" fun3( Function.SLN )
 	|	"SQRT" fun1( Function.SQRT )
@@ -316,6 +319,7 @@ void fun(): {}
 	|	"UPPER" fun1( Function.UPPER )
 	|	"VAR" aggN( Function.VAR )
 	|	"VARP" aggN( Function.VARP )
+	|	"WEEKDAY" fun1to2( Function.WEEKDAY )
 	|	"YEAR" fun1( Function.YEAR )
 	}
 

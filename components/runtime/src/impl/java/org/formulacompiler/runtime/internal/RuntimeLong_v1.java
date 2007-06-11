@@ -479,8 +479,34 @@ public final class RuntimeLong_v1 extends Runtime_v1
 
 	public static long fun_TIME( long _hour, long _minute, long _second, Context _cx )
 	{
-		final long seconds = (_hour * 3600 + _minute * 60 + _second) % (SECS_PER_DAY * _cx.one());
+		final long seconds = (_hour * SECS_PER_HOUR + _minute * 60 + _second) % (SECS_PER_DAY * _cx.one());
 		return seconds / SECS_PER_DAY;
+	}
+
+	public static long fun_SECOND( long _date, Context _cx )
+	{
+		final long seconds = RuntimeDouble_v1.getDaySecondsFromNum( _cx.toDouble( _date ) ) % 60;
+		return seconds * _cx.one();
+	}
+
+	public static long fun_MINUTE( long _date, Context _cx )
+	{
+		final long minutes = RuntimeDouble_v1.getDaySecondsFromNum( _cx.toDouble( _date ) ) / 60 % 60;
+		return minutes * _cx.one();
+	}
+
+	public static long fun_HOUR( long _date, Context _cx )
+	{
+		final long hours = RuntimeDouble_v1.getDaySecondsFromNum( _cx.toDouble( _date ) ) / SECS_PER_HOUR % 24;
+		return hours * _cx.one();
+	}
+
+	public static long fun_WEEKDAY( final long _date, final long _type, final Context _cx )
+	{
+		final double date = _cx.toDouble( _date );
+		final int type = (int) (_type / _cx.one());
+		final int result = RuntimeDouble_v1.getWeekDayFromNum( date, type );
+		return result * _cx.one();
 	}
 
 	public static long fun_DAY( long _date, final Context _cx )

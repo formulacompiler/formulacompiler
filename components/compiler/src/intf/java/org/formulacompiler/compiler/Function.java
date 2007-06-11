@@ -47,7 +47,7 @@ public enum Function {
 
 	// Dates
 
-	DATE, TIME, DAY, MONTH, YEAR,
+	DATE, TIME, SECOND, MINUTE, HOUR, WEEKDAY, DAY, MONTH, YEAR,
 	TODAY {
 		@Override
 		public boolean isVolatile()

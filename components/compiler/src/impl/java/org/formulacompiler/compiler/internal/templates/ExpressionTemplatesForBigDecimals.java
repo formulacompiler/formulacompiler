@@ -495,6 +495,31 @@ public final class ExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v1.fun_TIME( _hour, _minute, _second );
 	}
 
+	public BigDecimal fun_SECOND( BigDecimal _date )
+	{
+		return RuntimeBigDecimal_v1.fun_SECOND( _date );
+	}
+
+	public BigDecimal fun_MINUTE( BigDecimal _date )
+	{
+		return RuntimeBigDecimal_v1.fun_MINUTE( _date );
+	}
+
+	public BigDecimal fun_HOUR( BigDecimal _date )
+	{
+		return RuntimeBigDecimal_v1.fun_HOUR( _date );
+	}
+
+	public BigDecimal fun_WEEKDAY( BigDecimal _date, BigDecimal _type )
+	{
+		return RuntimeBigDecimal_v1.fun_WEEKDAY( _date, _type );
+	}
+
+	public BigDecimal fun_WEEKDAY( BigDecimal _date )
+	{
+		return RuntimeBigDecimal_v1.fun_WEEKDAY( _date, RuntimeBigDecimal_v1.ONE );
+	}
+
 	public BigDecimal fun_DAY( BigDecimal _date )
 	{
 		return RuntimeBigDecimal_v1.fun_DAY( _date );
