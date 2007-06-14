@@ -17,7 +17,9 @@ h2. Disassembling
 
 During debugging and problem analysis, however, the .jar file comes in handy. You can disassemble it using the JDK's "@javap@":-javap tool. Here's how:
 
-	javap -c -private -classpath <jarfile> sej/gen/<classname>
+<pre><code
+>javap -c -private -classpath <jarfile> org/formulacompiler/gen/<classname>
+</code></pre>
 
 where @<jarfile>@ is the path to the saved engine file and @<classname>@ is the name of the class to disassemble. AFC generates the following classes:
 
@@ -44,9 +46,11 @@ The API supports two methods to get the decompiled result. The first returns a s
 	
 The second version saves the decompiled sources to a folder, in the proper package structure. So saving to @/temp@ will generate:
 
-	/temp/sej/gen/$Factory.java
-	/temp/sej/gen/$Root.java
-	/temp/sej/gen/$Sect<n>.java
+<pre><code
+>/temp/org/formulacompiler/gen/$Factory.java
+/temp/org/formulacompiler/gen/$Root.java
+/temp/org/formulacompiler/gen/$Sect<n>.java
+</code></pre>
 
 Here's how:
 
