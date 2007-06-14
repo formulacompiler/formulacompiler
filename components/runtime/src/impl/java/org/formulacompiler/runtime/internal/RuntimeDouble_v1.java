@@ -278,19 +278,19 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	public static double fun_SECOND( double _date )
 	{
 		final long seconds = getDaySecondsFromNum( _date ) % 60;
-		return (double) seconds;
+		return seconds;
 	}
 
 	public static double fun_MINUTE( double _date )
 	{
 		final long minutes = getDaySecondsFromNum( _date ) / 60 % 60;
-		return (double) minutes;
+		return minutes;
 	}
 
 	public static double fun_HOUR( double _date )
 	{
 		final long hours = getDaySecondsFromNum( _date ) / SECS_PER_HOUR % 24;
-		return (double) hours;
+		return hours;
 	}
 
 
