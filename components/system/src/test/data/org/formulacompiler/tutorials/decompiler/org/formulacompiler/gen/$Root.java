@@ -1,14 +1,17 @@
 package org.formulacompiler.gen;
 import org.formulacompiler.runtime.Computation;
+import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
 import org.formulacompiler.tutorials.Decompilation;
 
-final class $Root implements Computation, Decompilation.Outputs
+final class $Root implements Computation, Decompilation.MyOutputs
 {
-    private final Decompilation.Inputs $inputs;
+    private final Decompilation.MyInputs $inputs;
+    final Environment $environment;
     
-    $Root(Decompilation.Inputs inputs) {
-        $inputs = inputs;
+    $Root(Decompilation.MyInputs myinputs, Environment environment) {
+        $environment = environment;
+        $inputs = myinputs;
     }
     
     final double get$0() {

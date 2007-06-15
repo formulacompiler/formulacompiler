@@ -45,4 +45,17 @@ public interface Engine
 	 */
 	public ComputationFactory getComputationFactory();
 
+	/**
+	 * Returns a factory with explicit computation environment configuration for computations
+	 * implemented by this engine.
+	 * 
+	 * @param _cfg is configuration for the execution environment for the computations produced by
+	 *           the returned factory.
+	 * @return The generated factory. Besides AFC's own factory interface, the returned factory also
+	 *         implements your own factory interface, if you specified one (which is recommended). So
+	 *         you can simply cast the returned factory to your own interface.
+	 */
+	public ComputationFactory getComputationFactory( Computation.Config _cfg );
+
+
 }

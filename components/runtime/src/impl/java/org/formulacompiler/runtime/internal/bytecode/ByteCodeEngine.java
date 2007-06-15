@@ -20,13 +20,17 @@
  */
 package org.formulacompiler.runtime.internal.bytecode;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.Map;
 
+import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.runtime.EngineException;
 import org.formulacompiler.runtime.New;
+import org.formulacompiler.runtime.internal.Environment;
 
 
 public class ByteCodeEngine extends ClassLoader implements Engine
@@ -35,10 +39,12 @@ public class ByteCodeEngine extends ClassLoader implements Engine
 	public static final String GEN_FACTORY_NAME = "$Factory";
 
 	private final Map<String, byte[]> classNamesAndBytes = New.newMap();
-	private final Class factoryClass;
-	private final ComputationFactory factory;
+	private final Class<ComputationFactory> factoryClass;
+	private final Constructor<ComputationFactory> factoryConstructor;
+	private final ComputationFactory defaultFactory;
 
 
+	@SuppressWarnings("unchecked")
 	public ByteCodeEngine(ClassLoader _parentClassLoader, Map<String, byte[]> _classNamesAndBytes)
 			throws EngineException
 	{
@@ -56,9 +62,10 @@ public class ByteCodeEngine extends ClassLoader implements Engine
 			}
 
 			final String factoryClassName = GEN_PACKAGE_NAME + GEN_FACTORY_NAME;
-			this.factoryClass = loadClass( factoryClassName );
+			this.factoryClass = (Class<ComputationFactory>) loadClass( factoryClassName );
 			assert this.factoryClass.getClassLoader() == this : "Class loader mismatch";
-			this.factory = (ComputationFactory) this.factoryClass.newInstance();
+			this.factoryConstructor = this.factoryClass.getDeclaredConstructor( Environment.class );
+			this.defaultFactory = this.factoryConstructor.newInstance( Environment.DEFAULT );
 		}
 		catch (ClassNotFoundException e) {
 			throw new EngineException( e );
@@ -69,12 +76,42 @@ public class ByteCodeEngine extends ClassLoader implements Engine
 		catch (IllegalAccessException e) {
 			throw new EngineException( e );
 		}
+		catch (SecurityException e) {
+			throw new EngineException( e );
+		}
+		catch (NoSuchMethodException e) {
+			throw new EngineException( e );
+		}
+		catch (InvocationTargetException e) {
+			throw new EngineException( e );
+		}
 	}
 
 
 	public ComputationFactory getComputationFactory()
 	{
-		return this.factory;
+		return this.defaultFactory;
+	}
+
+
+	public ComputationFactory getComputationFactory( Computation.Config _cfg )
+	{
+		try {
+			return this.factoryConstructor.newInstance( new Environment( _cfg ) );
+		}
+		/*
+		 * I'm throwing IllegalStateException here because the instantiation already worked once in
+		 * the constructor above, so it's not supposed to fail here.
+		 */
+		catch (InstantiationException e) {
+			throw new IllegalStateException( e );
+		}
+		catch (IllegalAccessException e) {
+			throw new IllegalStateException( e );
+		}
+		catch (InvocationTargetException e) {
+			throw new IllegalStateException( e );
+		}
 	}
 
 

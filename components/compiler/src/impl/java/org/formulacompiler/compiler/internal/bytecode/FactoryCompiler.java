@@ -30,6 +30,8 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 final class FactoryCompiler extends ClassCompiler
 {
+	static final String ENV_CONSTRUCTOR_SIG = "(" + ByteCodeEngineCompiler.ENV_DESC + ")V";
+
 	private final Class userFactoryClass;
 	private final Method userFactoryMethod;
 	private final Type userFactoryType;
@@ -52,6 +54,7 @@ final class FactoryCompiler extends ClassCompiler
 	{
 		final Type parentType = initializeClass( this.userFactoryClass, this.userFactoryType,
 				ByteCodeEngineCompiler.FACTORY_INTF );
+		buildEnvironmentField();
 		buildDefaultConstructor( parentType );
 		buildComputationFactoryMethod();
 		if (this.userFactoryMethod != null) {
@@ -61,12 +64,21 @@ final class FactoryCompiler extends ClassCompiler
 	}
 
 
+	private void buildEnvironmentField()
+	{
+		newField( Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL, ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_DESC );
+	}
+
+
 	private void buildDefaultConstructor( Type _parentType )
 	{
-		GeneratorAdapter mv = newMethod( Opcodes.ACC_PUBLIC, "<init>", "()V" );
+		GeneratorAdapter mv = newMethod( Opcodes.ACC_PUBLIC, "<init>", ENV_CONSTRUCTOR_SIG );
 		mv.visitCode();
-		mv.visitVarInsn( Opcodes.ALOAD, 0 );
+		mv.loadThis();
 		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, _parentType.getInternalName(), "<init>", "()V" );
+		mv.loadThis();
+		mv.loadArg( 0 );
+		mv.putField( this.classType(), ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_CLASS );
 		mv.visitInsn( Opcodes.RETURN );
 		endMethod( mv );
 	}
@@ -81,8 +93,10 @@ final class FactoryCompiler extends ClassCompiler
 		mv.loadArg( 0 );
 		compileClassRef( this.userInputClass, this.userInputType );
 		mv.checkCast( this.userInputType );
+		mv.loadThis();
+		mv.getField( classType(), ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_CLASS );
 		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, ByteCodeEngineCompiler.GEN_ROOT_CLASS.getInternalName(), "<init>", "("
-				+ this.userInputType.getDescriptor() + ")V" );
+				+ this.userInputType.getDescriptor() + ByteCodeEngineCompiler.ENV_DESC + ")V" );
 		mv.visitInsn( Opcodes.ARETURN );
 		endMethod( mv );
 	}
@@ -95,8 +109,10 @@ final class FactoryCompiler extends ClassCompiler
 		mv.newInstance( ByteCodeEngineCompiler.GEN_ROOT_CLASS );
 		mv.dup();
 		mv.loadArg( 0 );
+		mv.loadThis();
+		mv.getField( classType(), ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_CLASS );
 		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, ByteCodeEngineCompiler.GEN_ROOT_CLASS.getInternalName(), "<init>", "("
-				+ this.userInputType.getDescriptor() + ")V" );
+				+ this.userInputType.getDescriptor() + ByteCodeEngineCompiler.ENV_DESC + ")V" );
 		mv.visitInsn( Opcodes.ARETURN );
 		endMethod( mv );
 	}

@@ -27,5 +27,12 @@ abstract class ExpressionCompilerForAll_Base extends ExpressionCompiler
 	{
 		super( _methodCompiler );
 	}
+	
+	
+	protected void compile_environment()
+	{
+		mv().loadThis();
+		mv().getField( section().classType(), ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_CLASS );
+	}
 
 }
