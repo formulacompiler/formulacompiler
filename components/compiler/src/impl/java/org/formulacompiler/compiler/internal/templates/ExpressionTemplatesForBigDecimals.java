@@ -179,6 +179,11 @@ public final class ExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v1.toExcelString( a );
 	}
 
+	Number util_toNumber( BigDecimal a )
+	{
+		return a;
+	}
+
 
 	BigDecimal util_fromScaledLong( long a, int _scale )
 	{

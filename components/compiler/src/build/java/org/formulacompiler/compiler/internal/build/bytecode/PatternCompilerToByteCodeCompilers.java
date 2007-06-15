@@ -102,6 +102,7 @@ class PatternCompilerToByteCodeCompilers
 		protected final String typeToJavaConst( Type _paramType )
 		{
 			if (_paramType.equals( PatternCompiler.STRING_TYPE )) return "String.class";
+			else if (_paramType.equals( PatternCompiler.NUMBER_TYPE )) return "Number.class";
 			else if (_paramType.equals( Type.INT_TYPE )) return "Integer.TYPE";
 			else if (_paramType.equals( Type.BOOLEAN_TYPE )) return "Boolean.TYPE";
 			else throw new IllegalArgumentException( "The type "

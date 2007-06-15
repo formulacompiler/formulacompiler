@@ -30,6 +30,7 @@ import org.objectweb.asm.tree.MethodNode;
 public final class PatternCompiler
 {
 	static final Type STRING_TYPE = Type.getType( String.class );
+	static final Type NUMBER_TYPE = Type.getType( Number.class );
 	static final Type RETURNS_ADJUSTED_VALUE_TYPE = Type.getType( ReturnsAdjustedValue.class );
 	static final String RETURNS_ADJUSTED_VALUE_DESC = RETURNS_ADJUSTED_VALUE_TYPE.getDescriptor();
 
