@@ -1,3 +1,4 @@
+require 'date'
 
 # Build a page index of all pages matching @all_like@, except for those matching @except_like@.
 # 
@@ -16,7 +17,7 @@ def index_all_except( all_like, except_like )
 
 		process path # make sure it is fully processed so we can load its DOM
 
-		html_path = '../../doc/' + path.chomp( '.rextile' ) + '.htm'
+		html_path = @html_path + path.chomp( '.rextile' ) + '.htm'
 		dom = Hpricot( read_file( html_path ))
 
 		title = (dom%:h1).inner_html
