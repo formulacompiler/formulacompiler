@@ -30,6 +30,7 @@
 	<target name="doc" description="Generates complete documentation (takes a while)." depends="-doc" />
 	<target name="doc-main" description="Generates main documentation except for API and reference docs (quicker)." depends="-doc-main" />
 	<target name="doc-main-quick" description="Updates main documentation without test runs (even quicker)." depends="-doc-main-quick" />
+	<target name="doc-main-quick-accept" description="Updates main documentation and accepts changed citations." depends="-doc-main-quick-accept" />
 	<target name="doc-api" description="Generates API docs (javadoc) only." depends="-doc-api" />
 	<target name="doc-img" description="Updates all documentation images from sources." depends="-doc-img" />
 
@@ -62,28 +63,13 @@
 	<property name="temp.dir" location="temp" />
 	<property name="dist.dir" location="dist" />
 
+	<property name="temp.rextile.dir" location="${temp.dir}/rextile" />
 	<property name="temp.doc.dir" location="${temp.dir}/doc" />
 	<property name="temp.macker-rules.file" location="${temp}/macker-rules.xml" />
 
 	<property name="jar.src.file" location="${build.dir}/${basename}-src.jar" />
 	<property name="jar.doc.file" location="${build.dir}/${basename}-doc.jar" />
 	<property name="javadoc.dir" location="${doc.dir}/javadoc" />
-
-	<path id="javadoc.src.path">
-		<pathelement location="${comps.dir}/runtime/src/intf/java" />
-		<pathelement location="${comps.dir}/compiler/src/intf/java" />
-		<pathelement location="${comps.dir}/decompiler/src/intf/java" />
-		<pathelement location="${comps.dir}/spreadsheet/src/intf/java" />
-	</path>
-	<property name="javadoc.src.path" refid="javadoc.src.path" />
-
-	<path id="javadoc.cite.path">
-		<pathelement location="${comps.dir}/system/src/test/java" />
-		<pathelement location="${comps.dir}/system/src/test/data" />
-		<pathelement location="${comps.dir}/system/src/examples/java" />
-		<pathelement location="${comps.dir}/system/src/examples/data" />
-	</path>
-	<property name="javadoc.cite.path" refid="javadoc.cite.path" />
 
 
 	<!-- internal targets -->
@@ -266,18 +252,19 @@
 	<target name="-doc" depends="@doc-clean, -doc-main-setup, -doc-ref-setup, @doc-rextile, @doc-cite, -doc-img, -doc-api" />
 	<target name="-doc-main" depends="@doc-clean, -doc-main-setup, @doc-rextile, @doc-cite" />
 	<target name="-doc-main-quick" depends="@doc-main-copy, @doc-main-make, @doc-rextile, @doc-cite" />
+	<target name="-doc-main-quick-accept" depends="@doc-cite-accept, @doc-main-copy, @doc-main-make, @doc-rextile, @doc-cite" />
 	<target name="-doc-api" depends="@doc-api" />
 	<target name="-doc-img" depends="@doc-img-make, @doc-img" />
 	<target name="-doc-main-setup" depends="-test-main, @doc-main-copy, @doc-main-make" />
 	<target name="-doc-ref-setup" depends="-test-ref, @doc-ref-copy, @doc-ref-make" />
 
 	<target name="@doc-clean" depends="@init">
-		<delete dir="${temp.doc.dir}" />
+		<delete dir="${temp.rextile.dir}" />
 		<delete dir="${doc.dir}" />
 	</target>
 
 	<target name="@doc-img-make" depends="@init">
-		<mkdir dir="${temp.doc.dir}/hacking" />
+		<mkdir dir="${temp.rextile.dir}/hacking" />
 		<exec dir="${scripts.dir}" executable="ruby" vmlauncher="false" failonerror="true">
 			<arg value="gen-dependency-graph.rb" />
 		</exec>
@@ -306,57 +293,48 @@
 		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
 			<arg value="-Tpng" />
 			<arg value="-odoc/hacking/dependency-graph.png" />
-			<arg file="${temp.doc.dir}/hacking/dependency-graph.dot" />
+			<arg file="${temp.rextile.dir}/hacking/dependency-graph.dot" />
 		</exec>
 	</target>
 
 	<target name="@doc-main-make" depends="@init">
-		<mkdir dir="${temp.doc.dir}/hacking" />
+		<mkdir dir="${temp.rextile.dir}/hacking" />
 		<exec dir="${scripts.dir}" executable="ruby" vmlauncher="false" failonerror="true">
 			<arg value="gen-component-overview.rb" />
 		</exec>
 	</target>
 
 	<target name="@doc-main-copy" depends="@init">
-
-		<mkdir dir="${temp.doc.dir}" />
-		<copy todir="${temp.doc.dir}">
+		<mkdir dir="${temp.rextile.dir}" />
+		<copy todir="${temp.rextile.dir}">
 			<fileset dir="${src.doc.dir}">
 				<include name="**/*" />
 				<exclude name="reference/**/*" />
 			</fileset>
 		</copy>
-
 	</target>
 
 	<target name="@doc-ref-make" depends="@init">
-
-		<mkdir dir="${temp.doc.dir}/reference" />
-
-		<copy todir="${temp.doc.dir}/reference">
+		<mkdir dir="${temp.rextile.dir}/reference" />
+		<copy todir="${temp.rextile.dir}/reference">
 			<fileset dir="${comps.dir}/system/temp/test-reference/doc">
 				<include name="**/*.rextile" />
 			</fileset>
 		</copy>
-
 	</target>
 
 	<target name="@doc-ref-copy" depends="@init">
-
-		<mkdir dir="${temp.doc.dir}/reference" />
-
-		<copy todir="${temp.doc.dir}/reference">
+		<mkdir dir="${temp.rextile.dir}/reference" />
+		<copy todir="${temp.rextile.dir}/reference">
 			<fileset dir="${src.doc.dir}/reference">
 				<include name="**/*" />
 			</fileset>
 		</copy>
-
 	</target>
 
 	<target name="@doc-rextile" depends="@init">
-
-		<copy todir="${doc.dir}">
-			<fileset dir="${temp.doc.dir}">
+		<copy todir="${temp.doc.dir}">
+			<fileset dir="${temp.rextile.dir}">
 				<include name="**/*.gif" />
 				<include name="**/*.jpeg" />
 				<include name="**/*.jpg" />
@@ -369,67 +347,78 @@
 			</fileset>
 			<fileset file="${basedir}\LICENSE.html" />
 		</copy>
+		
+		<exec dir="${temp.rextile.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true" />
+		
+	</target>
 
-		<exec dir="${temp.doc.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true" />
+	<path id="jcite.classpath">
+		<fileset dir="${jcite.build.dir}" includes="*.jar" />
+		<fileset dir="${jcite.lib.dir}" includes="*.jar" />
+	</path>
+	<property name="jcite.classpath" refid="jcite.classpath" />
+	<taskdef name="jcite" classname="ch.arrenbrecht.jcite.JCiteTask" classpathref="jcite.classpath" />
+
+	<target name="@doc-cite" depends="@init, @doc-cite-no-accept">
+
+		<copy todir="${doc.dir}">
+			<fileset dir="${temp.rextile.dir}">
+				<include name="**/*.gif" />
+				<include name="**/*.jpeg" />
+				<include name="**/*.jpg" />
+				<include name="**/*.png" />
+				<include name="**/*.pdf" />
+				<include name="**/*.svg" />
+				<include name="**/*.html" />
+				<include name="**/*.css" />
+				<include name="**/*.js" />
+			</fileset>
+			<fileset file="${basedir}\LICENSE.html" />
+		</copy>
+		
+		<path id="jcite.sourcepath">
+			<pathelement location="${comps.dir}/runtime/src/intf/java" />
+			<pathelement location="${comps.dir}/runtime/src/impl/java" />
+
+			<pathelement location="${comps.dir}/compiler/src/impl/java" />
+			<pathelement location="${comps.dir}/compiler/src/impl/java-debug" />
+			<pathelement location="${comps.dir}/compiler/src/build/java" />
+
+			<pathelement location="${comps.dir}/system/src/examples/java" />
+			<pathelement location="${comps.dir}/system/src/examples/data" />
+
+			<pathelement location="${comps.dir}/system/src/test/java" />
+			<pathelement location="${comps.dir}/system/src/test/data" />
+			<pathelement location="${comps.dir}/system/temp/test/data" />
+			<pathelement location="${comps.dir}/system/temp/test/decompiled" />
+
+			<pathelement location="${comps.dir}/system/src/test-reference/java" />
+			<pathelement location="${comps.dir}/system/src/test-reference/java-debug" />
+			<pathelement location="${comps.dir}/system/src/test-reference/data" />
+			<pathelement location="${comps.dir}/system/temp/test-reference/doc" />
+
+			<pathelement location="${comps.dir}/system/src/scratchpad/java" />
+			<pathelement location="${comps.dir}/system/src/scratchpad/data" />
+		</path>
+
+		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}" sourcepathref="jcite.sourcepath" 
+				tripwireFile="${src.dir}/jcite-tripwires.txt"
+				acceptChanges="${tripups.accept}"
+				diffPath="${temp.dir}/tripups"
+				differ="/usr/bin/diff">
+			<include name="**/*.htm*" />
+			<exclude name="reference/**/*" />
+		</jcite>
+
+		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}" sourcepathref="jcite.sourcepath">
+			<include name="reference/**/*.htm*" />
+		</jcite>
 
 	</target>
 
-	<target name="@doc-cite" depends="@init">
-
-		<path id="jcite.classpath">
-			<fileset dir="${jcite.build.dir}" includes="*.jar" />
-			<fileset dir="${jcite.lib.dir}" includes="*.jar" />
-		</path>
-
-		<java classname="ch.arrenbrecht.jcite.JCite" classpathref="jcite.classpath" failonerror="yes" fork="false">
-
-			<arg value="-sp" />
-			<arg path="${comps.dir}/runtime/src/intf/java" />
-			<arg value="-sp" />
-			<arg path="${comps.dir}/runtime/src/impl/java" />
-			
-			<arg value="-sp" />
-			<arg path="${comps.dir}/compiler/src/impl/java" />
-			<arg value="-sp" />
-			<arg path="${comps.dir}/compiler/src/impl/java-debug" />
-			<arg value="-sp" />
-			<arg path="${comps.dir}/compiler/src/build/java" />
-
-			<arg value="-sp" />
-			<arg path="${comps.dir}/system/src/examples/java" />
-			<arg value="-sp" />
-			<arg path="${comps.dir}/system/src/examples/data" />
-
-			<arg value="-sp" />
-			<arg path="${comps.dir}/system/src/test/java" />
-			<arg value="-sp" />
-			<arg path="${comps.dir}/system/src/test/data" />
-			<arg value="-sp" />
-			<arg path="${comps.dir}/system/temp/test/data" />
-			<arg value="-sp" />
-			<arg path="${comps.dir}/system/temp/test/decompiled" />
-
-			<arg value="-sp" />
-			<arg path="${comps.dir}/system/src/test-reference/java" />
-			<arg value="-sp" />
-			<arg path="${comps.dir}/system/src/test-reference/java-debug" />
-			<arg value="-sp" />
-			<arg path="${comps.dir}/system/src/test-reference/data" />
-			<arg value="-sp" />
-			<arg path="${comps.dir}/system/temp/test-reference/doc" />
-
-			<arg value="-sp" />
-			<arg path="${comps.dir}/system/src/scratchpad/java" />
-			<arg value="-sp" />
-			<arg path="${comps.dir}/system/src/scratchpad/data" />
-
-			<arg value="-r" />
-			<arg value="-i" />
-			<arg file="${doc.dir}/*.htm" />
-			<arg value="-o" />
-			<arg file="${doc.dir}" />
-		</java>
-
+	<target name="@doc-cite-no-accept" unless="tripups.accept" />
+	<target name="@doc-cite-accept">
+		<property name="tripups.accept" value="true" />
 	</target>
 
 	<target name="@doc-api" depends="@init">
@@ -438,7 +427,23 @@
 		<delete dir="${javadoc.dir}" />
 		<mkdir dir="${javadoc.dir}" />
 
-		<javadoc destdir="${javadoc.dir}" public="true" windowtitle="${javadoc.title}" use="true" sourcepath="${javadoc.src.path}" additionalParam="-tagletPath ${jcite.build.dir}/jcite.jar;${jcite.lib.dir}/java2html.jar -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${javadoc.cite.path}" stylesheetfile="${src.doc.dir}/javadoc/style.css" overview="${src.doc.dir}/javadoc/overview.html">
+		<path id="javadoc.src.path">
+			<pathelement location="${comps.dir}/runtime/src/intf/java" />
+			<pathelement location="${comps.dir}/compiler/src/intf/java" />
+			<pathelement location="${comps.dir}/decompiler/src/intf/java" />
+			<pathelement location="${comps.dir}/spreadsheet/src/intf/java" />
+		</path>
+		<property name="javadoc.src.path" refid="javadoc.src.path" />
+
+		<path id="javadoc.cite.path">
+			<pathelement location="${comps.dir}/system/src/test/java" />
+			<pathelement location="${comps.dir}/system/src/test/data" />
+			<pathelement location="${comps.dir}/system/src/examples/java" />
+			<pathelement location="${comps.dir}/system/src/examples/data" />
+		</path>
+		<property name="javadoc.cite.path" refid="javadoc.cite.path" />
+
+		<javadoc destdir="${javadoc.dir}" public="true" windowtitle="${javadoc.title}" use="true" sourcepath="${javadoc.src.path}" additionalParam="-tagletPath ${jcite.classpath} -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${javadoc.cite.path}" stylesheetfile="${src.doc.dir}/javadoc/style.css" overview="${src.doc.dir}/javadoc/overview.html">
 			<link href="http://java.sun.com/j2se/1.5/docs/api/" />
 		</javadoc>
 

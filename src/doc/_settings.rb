@@ -5,5 +5,6 @@
 @crumbs << 'AFC'
 
 # Redirect to output path and enforce it exists.
-@html_name = '../../doc/' + html_name
+@html_path = '../../temp/doc/'
+@html_name = @html_path + html_name
 FileUtils.mkpath File.dirname( html_name )

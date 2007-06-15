@@ -19,10 +19,12 @@ h5. New
 
     * Date functions: @DATE()@, @TIME()@, @SECOND()@, @MINUTE()@, @HOUR()@, @WEEKDAY()@, @DAY()@, @MONTH()@, and @YEAR()@ are now supported.
     * Conversion functions: @VALUE()@ is now partially supported, parsing dates and currency is not supported yet.
+    * You can optionally "configure an explicit locale and time zone":tutorial/locale.htm for engine factories. Great for server applications with users all over the world.
 
 h5. Better
 
     * Reorganized "build targets":hacking/build.htm to make @build.xml@ more manageable.
+    * Cited examples now serve as "tripwires":http://arrenbrecht.ch/jcite/tripwire.htm in the documentation.
     
 
 h2. Release 0.8.4
