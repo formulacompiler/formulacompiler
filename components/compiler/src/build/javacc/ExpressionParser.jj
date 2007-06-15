@@ -309,6 +309,7 @@ void fun(): {}
 	|	"SUM" aggN( Function.SUM )
 	|	"SYD" fun4( Function.SYD )
 	|	"TAN" fun1( Function.TAN )
+	|	"TEXT" fun2( Function.TEXT )
 	|	"TIME" fun3( Function.TIME )
 	|	"TODAY" fun0( Function.TODAY )
 	|	"TRIM" fun1( Function.TRIM )

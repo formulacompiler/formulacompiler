@@ -20,12 +20,15 @@
  */
 package org.formulacompiler.compiler.internal.templates;
 
+import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.Runtime_v1;
 
 
 @SuppressWarnings("unqualified-field-access")
 public final class ExpressionTemplatesForStrings
 {
+	public Environment environment = null;
+	
 
 	String util_fromString( String a )
 	{
@@ -127,5 +130,11 @@ public final class ExpressionTemplatesForStrings
 	{
 		return Runtime_v1.stdREPLACE( s, at, len, repl );
 	}
+
+	public String fun_TEXT( Number _num, String _format )
+	{
+		return Runtime_v1.stdTEXT( _num, _format, this.environment );
+	}
+
 
 }

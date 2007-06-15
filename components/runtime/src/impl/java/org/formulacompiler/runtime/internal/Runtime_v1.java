@@ -367,8 +367,15 @@ public abstract class Runtime_v1
 		return sb.toString();
 	}
 
+	public static String stdTEXT( Number _num, String _format, Environment _environment )
+	{
+		// FIXME This is a bogus implementation. It only serves to show how to get at the environment.
+		return _num.longValue() + " as " + _format + " in " + _environment.locale.getLanguage();
+	}
+
 
 	protected static final long[] FACTORIALS = { 1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800,
 			479001600 };
+
 
 }
