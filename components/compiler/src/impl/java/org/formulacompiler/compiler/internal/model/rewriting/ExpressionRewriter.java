@@ -23,9 +23,11 @@ package org.formulacompiler.compiler.internal.model.rewriting;
 import java.util.List;
 
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
 import org.formulacompiler.compiler.internal.expressions.InnerExpressionException;
+import org.formulacompiler.compiler.internal.model.analysis.TypeAnnotator;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 
@@ -105,6 +107,12 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 				return new FunctionRewriterForDMIN( _fun, this.numericType ).rewrite();
 			case DMAX:
 				return new FunctionRewriterForDMAX( _fun, this.numericType ).rewrite();
+			case VALUE:
+				final ExpressionNode arg = _fun.argument( 0 );
+				TypeAnnotator.annotateExpr( arg );
+				if (DataType.NUMERIC == arg.getDataType()) {
+					return arg;
+				}
 		}
 		return this.generatedRules.rewrite( _fun );
 	}

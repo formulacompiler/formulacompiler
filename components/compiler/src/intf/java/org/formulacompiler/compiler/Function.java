@@ -72,6 +72,16 @@ public enum Function {
 		}
 	},
 
+	// Conversions
+
+	VALUE {
+		@Override
+		public boolean isVolatile()
+		{
+			return true;
+		}
+	},
+
 	// Aggregators
 	// Don't forget to update AGGREGATORS below!
 

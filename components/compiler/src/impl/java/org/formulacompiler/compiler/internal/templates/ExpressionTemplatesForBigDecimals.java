@@ -25,6 +25,7 @@ import java.math.BigInteger;
 import java.util.Date;
 
 import org.formulacompiler.runtime.FormulaRuntime;
+import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
 
 
@@ -32,6 +33,7 @@ import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
 @SuppressWarnings("unqualified-field-access")
 public final class ExpressionTemplatesForBigDecimals
 {
+	private Environment environment = null;
 	final boolean isScaled;
 	final int fixedScale;
 	final int roundingMode;
@@ -543,6 +545,16 @@ public final class ExpressionTemplatesForBigDecimals
 	public BigDecimal fun_TODAY()
 	{
 		return RuntimeBigDecimal_v1.fun_TODAY();
+	}
+
+
+	// ------------------------------------------------ Conversions Functions
+
+
+	// TODO Parse date and time values
+	public BigDecimal fun_VALUE( String _text )
+	{
+		return RuntimeBigDecimal_v1.fun_VALUE( _text, this.environment );
 	}
 
 

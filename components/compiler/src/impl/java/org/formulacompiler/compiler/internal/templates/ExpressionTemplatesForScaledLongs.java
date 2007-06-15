@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
+import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
 import org.formulacompiler.runtime.internal.RuntimeLong_v1;
 
@@ -31,6 +32,7 @@ import org.formulacompiler.runtime.internal.RuntimeLong_v1;
 @SuppressWarnings("unqualified-field-access")
 public final class ExpressionTemplatesForScaledLongs
 {
+	private Environment environment = null;
 	final RuntimeLong_v1.Context context;
 	final int scale;
 	final long one;
@@ -592,6 +594,16 @@ public final class ExpressionTemplatesForScaledLongs
 	public long fun_TODAY()
 	{
 		return RuntimeLong_v1.fun_TODAY( context );
+	}
+
+
+	// ------------------------------------------------ Conversions Functions
+
+
+	// TODO Parse date and time values
+	public long fun_VALUE( String _text )
+	{
+		return RuntimeLong_v1.fun_VALUE( _text, this.context, this.environment );
 	}
 
 

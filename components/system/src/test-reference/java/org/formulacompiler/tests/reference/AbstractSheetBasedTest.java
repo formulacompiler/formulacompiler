@@ -37,12 +37,13 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.decompiler.ByteCodeEngineSource;
 import org.formulacompiler.decompiler.FormulaDecompiler;
 import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.runtime.ScaledLong;
 import org.formulacompiler.spreadsheet.EngineBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRefFormat;
@@ -78,6 +79,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 	private int runOnlyInputVariant = -1;
 	private Boolean runOnlyCacheVariant = null;
 	private int numberOfEnginesCompiled = 0;
+	private Computation.Config config;
 
 	static {
 		HTML_PATH.mkdirs();
@@ -104,6 +106,12 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 		this.runOnlyType = _onlyType;
 		this.runOnlyInputVariant = _onlyInputVariant;
 		this.runOnlyCacheVariant = _caching;
+	}
+
+
+	protected void setConfig( final Computation.Config _config )
+	{
+		this.config = _config;
 	}
 
 
@@ -646,7 +654,9 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 						try {
 							e = (_engine == null) ? compileEngine() : _engine;
 
-							final ComputationFactory f = e.getComputationFactory();
+							final ComputationFactory f = AbstractSheetBasedTest.this.config != null ?
+									e.getComputationFactory( AbstractSheetBasedTest.this.config ) :
+									e.getComputationFactory();
 
 							final Outputs o = (Outputs) f.newComputation( newInputs() );
 

@@ -318,6 +318,7 @@ void fun(): {}
 	|	"true" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 1 )); }
 	|	"TRUNC" fun1to2( Function.TRUNC )
 	|	"UPPER" fun1( Function.UPPER )
+	|	"VALUE" fun1( Function.VALUE )
 	|	"VAR" aggN( Function.VAR )
 	|	"VARP" aggN( Function.VARP )
 	|	"WEEKDAY" fun1to2( Function.WEEKDAY )
