@@ -90,8 +90,11 @@ public abstract class AbstractIOTestBase extends AbstractTestBase
 							expected, actual );
 				}
 				catch (AssertionFailedError t) {
-					writeStreamToFile( new ByteArrayInputStream( actualBytes ), new File( jars, _id + "-actual.jar" ) );
-					// LATER Automatically decompile engines
+					final File actualFile = new File( jars, _id + "-actual.jar" );
+					writeStreamToFile( new ByteArrayInputStream( actualBytes ), actualFile );
+					final String actualDisasm = Util.disassemble( actualFile );
+					final String expectedDisasm = Util.disassemble( expectedFile );
+					assertEquals( t.getMessage(), expectedDisasm, actualDisasm );
 					throw t;
 				}
 			}
