@@ -233,6 +233,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 			case PROPER:
 			case REPT:
 			case TRIM:
+			case TEXT:
 				return DataType.STRING;
 
 			default:

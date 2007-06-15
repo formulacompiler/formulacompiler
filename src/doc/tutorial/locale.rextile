@@ -1,0 +1,40 @@
+
+h1. Locale and Time Zone
+
+There are a few spreadsheet functions that need to take a locale and time zone into account. The default is to use the current settings of the JVM, of course. Server-side applications, however, might want to override those on a per-session basis. This topic tells you how.
+
+<%= toc 2, 3 %>
+
+
+h2. Background
+
+Why the need for locale information, anyway? The @TEXT(num,fmt)@ function, for example, must know the names of the days of the week when it sees @dddd@ in the format string. Conversely, the @VALUE(text)@ function needs to know the number and date format settings to correctly parse text into values.
+
+
+h2. Configuration
+
+So, to define a specific locale and time zone for a set of computations, you request from AFC a computation _factory_ configured accordingly. Here's how:
+
+    [jc:org.formulacompiler.tutorials.EnvironmentConfig:---- customLocaleFactory]
+
+Actual use of the factory and the computations created by it remains unchanged:
+
+    [jc:org.formulacompiler.tutorials.EnvironmentConfig:---- customLocaleUse]
+
+The class "@Computation.Config@":../javadoc/org/formulacompiler/runtime/Computation.Config.html currently supports locale and time zone information, but could be extended by other environment information we might need.
+
+
+h2. Why this design?
+
+Why not simply
+
+    outputs = factory.newComputation( inputs, new Computation.Config( locale ));
+
+Well, because it would pollute the factory interface with an element specific to AFC: @Computation.Config@. This interface, however, is part of a "strategy pattern instance":reason.htm which is _not_ specific to AFC. In a similar vein, we believe that locale and time zone information ought to be handled by the underlying user and session management (technical domain), not in the application interfaces (problem domain).
+
+Then why not
+
+    factory.setConfig( new Computation.Config( locale ));
+    outputs = factory.newComputation( inputs );
+
+Because then the factory would be stateful, which could lead to all sorts of side effects and problems with thread-safety.

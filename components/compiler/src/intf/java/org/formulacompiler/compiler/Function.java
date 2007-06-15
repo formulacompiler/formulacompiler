@@ -63,6 +63,14 @@ public enum Function {
 	// String
 
 	CONCATENATE, LEN, LENB, MID, LEFT, RIGHT, SUBSTITUTE, REPLACE, SEARCH, FIND, EXACT, LOWER, UPPER, PROPER, REPT, TRIM,
+	
+	TEXT {
+		@Override
+		public boolean isVolatile()
+		{
+			return true;
+		}
+	},
 
 	// Aggregators
 	// Don't forget to update AGGREGATORS below!
