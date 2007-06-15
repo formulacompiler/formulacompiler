@@ -135,6 +135,11 @@ public final class ExpressionTemplatesForDoubles
 	{
 		return RuntimeDouble_v1.toExcelString( a );
 	}
+	
+	Number util_toNumber( double a )
+	{
+		return a;
+	}
 
 
 	double util_fromScaledLong( long a, long _scalingFactor )

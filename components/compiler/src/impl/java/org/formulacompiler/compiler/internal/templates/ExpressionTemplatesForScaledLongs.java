@@ -28,15 +28,14 @@ import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
 import org.formulacompiler.runtime.internal.RuntimeLong_v1;
 
 
-
 @SuppressWarnings("unqualified-field-access")
 public final class ExpressionTemplatesForScaledLongs
 {
 	final RuntimeLong_v1.Context context;
 	final int scale;
 	final long one;
-	
-	public ExpressionTemplatesForScaledLongs( RuntimeLong_v1.Context _context )
+
+	public ExpressionTemplatesForScaledLongs(RuntimeLong_v1.Context _context)
 	{
 		super();
 		this.context = _context;
@@ -198,6 +197,17 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v1.toExcelString( a, context );
 	}
 
+	Number util_toNumber( long a )
+	{
+		return a;
+	}
+
+	Number util_toNumber_Scaled( long a )
+	{
+		// We don't want to pass around scaled longs as Number (where the scale is non-obvious), so convert to BigDecimal.
+		return RuntimeLong_v1.toBigDecimal( a, context );
+	}
+
 
 	// ------------------------------------------------ Array Fold
 
@@ -213,7 +223,7 @@ public final class ExpressionTemplatesForScaledLongs
 		}
 		return acc;
 	}
-	
+
 	private long foldInitial() // abstract, really
 	{
 		return 0;
@@ -438,8 +448,8 @@ public final class ExpressionTemplatesForScaledLongs
 
 
 	// ------------------------------------------------ Financials
-	
-	
+
+
 	public long fun_IRR( long[] _values, long _guess )
 	{
 		return RuntimeLong_v1.fun_IRR( _values, _guess, context );

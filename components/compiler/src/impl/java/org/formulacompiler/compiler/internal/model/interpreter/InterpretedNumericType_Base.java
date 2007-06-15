@@ -328,6 +328,11 @@ abstract class InterpretedNumericType_Base
 	{
 		return toString( _o );
 	}
+	
+	protected final Number to_Number( Object _o )
+	{
+		return (Number) _o;
+	}
 
 
 	protected final Object[] asArrayOfConsts( Object _value )

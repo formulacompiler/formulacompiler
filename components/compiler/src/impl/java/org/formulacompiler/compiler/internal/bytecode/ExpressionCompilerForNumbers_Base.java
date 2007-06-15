@@ -103,17 +103,27 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		compile_util_toInt();
 	}
 
+	protected final void compileConversionToNumber() throws CompilerException
+	{
+		compile_util_toNumber();
+	}
+
 
 	@Override
 	protected void compileConversionTo( Class _class ) throws CompilerException
 	{
-		final Class unboxed = unboxed( _class );
-		if (null == unboxed) {
-			compileConversionToUnboxed( _class );
+		if (_class == Number.class) {
+			compileConversionToNumber();
 		}
 		else {
-			compileConversionToUnboxed( unboxed );
-			compileBoxing( _class );
+			final Class unboxed = unboxed( _class );
+			if (null == unboxed) {
+				compileConversionToUnboxed( _class );
+			}
+			else {
+				compileConversionToUnboxed( unboxed );
+				compileBoxing( _class );
+			}
 		}
 	}
 
@@ -222,6 +232,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	protected abstract void compile_util_toCharacter() throws CompilerException;
 	protected abstract void compile_util_toDate() throws CompilerException;
 	protected abstract void compile_util_toString() throws CompilerException;
+	protected abstract void compile_util_toNumber() throws CompilerException;
 
 	@SuppressWarnings("unused")
 	protected void compile_util_toDouble_Scaled() throws CompilerException
