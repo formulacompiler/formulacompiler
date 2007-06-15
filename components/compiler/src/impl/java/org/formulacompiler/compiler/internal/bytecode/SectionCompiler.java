@@ -35,7 +35,6 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 
-
 class SectionCompiler extends ClassCompiler
 {
 	private final Map<SectionModel, SubSectionCompiler> subSectionCompilers = New.newMap();
@@ -149,6 +148,7 @@ class SectionCompiler extends ClassCompiler
 		initializeClass( outputClass(), this.outputs, ByteCodeEngineCompiler.COMPUTATION_INTF );
 		if (hasParent()) buildParentMember();
 		if (hasInputs()) buildInputMember();
+		buildEnvironmentMember();
 		buildConstructorWithInputs();
 		if (engineCompiler().canCache()) {
 			buildReset();
@@ -239,6 +239,12 @@ class SectionCompiler extends ClassCompiler
 	}
 
 
+	private void buildEnvironmentMember()
+	{
+		// Package visible so subsection constructors can read it. See buildConstructorWithInputs() below.
+		newField( Opcodes.ACC_FINAL, ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_DESC );
+	}
+
 	private void buildParentMember()
 	{
 		if (!hasParent()) throw new IllegalStateException();
@@ -248,7 +254,8 @@ class SectionCompiler extends ClassCompiler
 	private void buildInputMember()
 	{
 		if (!hasInputs()) throw new IllegalStateException();
-		newField( Opcodes.ACC_FINAL + Opcodes.ACC_PRIVATE, ByteCodeEngineCompiler.INPUTS_MEMBER_NAME, inputType().getDescriptor() );
+		newField( Opcodes.ACC_FINAL + Opcodes.ACC_PRIVATE, ByteCodeEngineCompiler.INPUTS_MEMBER_NAME, inputType()
+				.getDescriptor() );
 	}
 
 	private void storeInputs( GeneratorAdapter _mv )
@@ -260,7 +267,8 @@ class SectionCompiler extends ClassCompiler
 	private void buildConstructorWithInputs() throws CompilerException
 	{
 		GeneratorAdapter mv = newMethod( 0, "<init>", "("
-				+ this.inputs.getDescriptor() + (hasParent() ? parentType().getDescriptor() : "") + ")V" );
+				+ this.inputs.getDescriptor()
+				+ (hasParent() ? parentType().getDescriptor() : ByteCodeEngineCompiler.ENV_DESC) + ")V" );
 
 		// super( _inputs ); or super(); or, if has parent, super( _inputs, _parent );
 		callInheritedConstructor( mv, 1 );
@@ -270,6 +278,18 @@ class SectionCompiler extends ClassCompiler
 			mv.loadThis();
 			mv.loadArg( 1 );
 			mv.putField( classType(), ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parentType() );
+			// this.environment = _parent.environment;
+			mv.loadThis();
+			mv.loadArg( 1 );
+			// the parent's field is package visible
+			mv.getField( parentType(), ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_CLASS );
+			mv.putField( this.classType(), ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_CLASS );
+		}
+		else {
+			// this.environment = _environment;
+			mv.loadThis();
+			mv.loadArg( 1 );
+			mv.putField( this.classType(), ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_CLASS );
 		}
 
 		// this.inputs = _inputs;

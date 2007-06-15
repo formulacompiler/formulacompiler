@@ -22,6 +22,7 @@ package org.formulacompiler.tutorials;
 
 import java.io.File;
 
+import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.decompiler.ByteCodeEngineSource;
@@ -36,13 +37,10 @@ import org.formulacompiler.tests.utils.AbstractTestBase;
 public class Decompilation extends AbstractTestBase
 {
 
+	
 	public void testAsString() throws Exception
 	{
-		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.setSpreadsheet( makeSpreadsheet() );
-		builder.setInputClass( Inputs.class );
-		builder.setOutputClass( Outputs.class );
-		builder.bindAllByName();
+		EngineBuilder builder = makeBuilder();
 		// ---- asString
 		// ... set up engine definition
 		SaveableEngine engine = builder.compile();
@@ -57,11 +55,7 @@ public class Decompilation extends AbstractTestBase
 	{
 		final String pathToTargetFolder = "temp/test/decompiled/test";
 		
-		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.setSpreadsheet( makeSpreadsheet() );
-		builder.setInputClass( Inputs.class );
-		builder.setOutputClass( Outputs.class );
-		builder.bindAllByName();
+		EngineBuilder builder = makeBuilder();
 		// ---- saveTo
 		// ... set up engine definition
 		SaveableEngine engine = builder.compile();
@@ -78,6 +72,16 @@ public class Decompilation extends AbstractTestBase
 	private void assertGeneratedFile( File _src, File _tgt, String _class ) throws Exception
 	{
 		assertEqualTextFiles( new File( _src, _class ), new File( _tgt, _class ) );
+	}
+
+
+	private EngineBuilder makeBuilder() throws Exception, CompilerException
+	{
+		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
+		builder.setSpreadsheet( makeSpreadsheet() );
+		builder.setFactoryClass( MyFactory.class );
+		builder.bindAllByName();
+		return builder;
 	}
 
 
@@ -106,8 +110,8 @@ public class Decompilation extends AbstractTestBase
 		return b.getSpreadsheet();
 	}
 
-
-	public static final class Inputs
+	
+	public static final class MyInputs
 	{
 		public double customerRebate()
 		{
@@ -119,8 +123,12 @@ public class Decompilation extends AbstractTestBase
 		}
 	}
 
+	public static interface MyFactory
+	{
+		public MyOutputs newOutputs( MyInputs _inputs );
+	}
 
-	public static interface Outputs
+	public static interface MyOutputs
 	{
 		public double rebateOp();
 	}
