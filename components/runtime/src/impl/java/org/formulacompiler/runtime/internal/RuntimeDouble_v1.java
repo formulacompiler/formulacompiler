@@ -526,4 +526,15 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	}
 
 
+	public static double fun_VALUE( String _text, final Environment _environment )
+	{
+		final String text = _text.trim();
+		final Number number = parseNumber( text, false, _environment.locale );
+		if (number != null) {
+			return number.doubleValue();
+		}
+		return 0.0; // Excel #NUM!
+	}
+
+
 }

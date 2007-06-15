@@ -21,8 +21,13 @@
 package org.formulacompiler.runtime.internal;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -105,6 +110,69 @@ public abstract class Runtime_v1
 		final int timeZoneOffset = _timeZone.getOffset( msSinceUTC1970 );
 		final long msSinceLocal1970 = msSinceUTC1970 + timeZoneOffset;
 		return msSinceLocal1970;
+	}
+
+
+	protected static Number parseNumber( String _text, boolean _parseBigDecimal, Locale _locale )
+	{
+		final String text = _text.toUpperCase( _locale );
+
+		final NumberFormat numberFormat = NumberFormat.getNumberInstance( _locale );
+		if (numberFormat instanceof DecimalFormat) {
+			final DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
+			decimalFormat.setParseBigDecimal( _parseBigDecimal );
+		}
+		Number result = parseNumber( text, numberFormat );
+		if (result != null) {
+			return result;
+		}
+
+		if (numberFormat instanceof DecimalFormat) {
+			final DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
+			final DecimalFormatSymbols formatSymbols = decimalFormat.getDecimalFormatSymbols();
+			final char c = formatSymbols.getGroupingSeparator();
+			if (Character.isSpaceChar( c )) {
+				formatSymbols.setGroupingSeparator( '\u0020' );
+				decimalFormat.setDecimalFormatSymbols( formatSymbols );
+				result = parseNumber( text, decimalFormat );
+				if (result != null) {
+					return result;
+				}
+			}
+		}
+
+		final NumberFormat percentFormat = NumberFormat.getPercentInstance( _locale );
+		if (numberFormat instanceof DecimalFormat) {
+			final DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
+			decimalFormat.setParseBigDecimal( _parseBigDecimal );
+		}
+		result = parseNumber( text, percentFormat );
+		if (result != null) {
+			return result;
+		}
+
+		final DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols( _locale );
+		final DecimalFormat scientificFormat = new DecimalFormat( "#0.###E0", formatSymbols );
+		scientificFormat.setParseBigDecimal( _parseBigDecimal );
+		result = parseNumber( text, numberFormat );
+		if (result != null) {
+			return result;
+		}
+
+		return null;
+	}
+
+	private static Number parseNumber( String _text, NumberFormat _numberFormat )
+	{
+		final ParsePosition parsePosition = new ParsePosition( 0 );
+		final Number number = _numberFormat.parse( _text, parsePosition );
+		final int index = parsePosition.getIndex();
+		if (_text.length() == index) {
+			return number;
+		}
+		else {
+			return null;
+		}
 	}
 
 

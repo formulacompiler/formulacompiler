@@ -24,11 +24,13 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
+import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
 
 
 public final class ExpressionTemplatesForDoubles
 {
+	public Environment environment = null;
 
 
 	// ------------------------------------------------ Utils
@@ -483,6 +485,16 @@ public final class ExpressionTemplatesForDoubles
 	public double fun_TODAY()
 	{
 		return RuntimeDouble_v1.fun_TODAY();
+	}
+
+
+	// ------------------------------------------------ Conversions Functions
+
+
+	// TODO Parse date and time values
+	public double fun_VALUE( String _text )
+	{
+		return RuntimeDouble_v1.fun_VALUE( _text, this.environment );
 	}
 
 

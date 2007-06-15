@@ -26,7 +26,6 @@ import java.util.Date;
 import org.formulacompiler.runtime.ScaledLongSupport;
 
 
-
 public final class RuntimeLong_v1 extends Runtime_v1
 {
 	public static long[] ONE_AT_SCALE = ScaledLongSupport.ONE;
@@ -576,5 +575,24 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		}
 		return depreciation;
 	}
+
+
+	public static long fun_VALUE( String _text, Context _cx, final Environment _environment )
+	{
+		final String text = _text.trim();
+		final Number number = parseNumber( text, false, _environment.locale );
+		if (number != null) {
+			if (number instanceof Long) {
+				return number.longValue() * _cx.one();
+			}
+			else {
+				return _cx.fromDouble( number.doubleValue() );
+			}
+		}
+		else {
+			return 0; // Excel #NUM!
+		}
+	}
+
 
 }
