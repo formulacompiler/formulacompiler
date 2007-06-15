@@ -40,6 +40,7 @@
         <option name="SPACE_WITHIN_METHOD_PARENTHESES" value="true" />
         <option name="SPACE_WITHIN_BRACKETS" value="true" />
         <option name="SPACE_WITHIN_ARRAY_INITIALIZER_BRACES" value="true" />
+        <option name="PARAMETER_NAME_PREFIX" value="_" />
         <option name="GENERATE_FINAL_LOCALS" value="true" />
         <option name="GENERATE_FINAL_PARAMETERS" value="true" />
         <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="9" />
