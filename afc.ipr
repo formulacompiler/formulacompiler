@@ -53,6 +53,8 @@
             <package name="java" withSubpackages="true" />
             <package name="javax" withSubpackages="true" />
             <emptyLine />
+            <package name="org.formulacompiler" withSubpackages="true" />
+            <emptyLine />
             <package name="" withSubpackages="true" />
           </value>
         </option>
