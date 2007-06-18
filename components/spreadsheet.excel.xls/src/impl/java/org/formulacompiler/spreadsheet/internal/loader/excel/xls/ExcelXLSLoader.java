@@ -77,6 +77,7 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 		xlsSettings.setLocale( Locale.ENGLISH );
 		xlsSettings.setExcelDisplayLanguage( "EN" );
 		xlsSettings.setExcelRegionalSettings( "EN" );
+		xlsSettings.setEncoding( "ISO-8859-1" );
 		try {
 			final jxl.Workbook xlsWorkbook = jxl.Workbook.getWorkbook( _stream, xlsSettings );
 			final SpreadsheetImpl workbook = new SpreadsheetImpl();
