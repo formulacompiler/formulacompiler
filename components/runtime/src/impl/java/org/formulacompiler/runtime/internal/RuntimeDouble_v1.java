@@ -84,7 +84,7 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	@Deprecated
 	public static double stdTODAY()
 	{
-		return dateToNum( today() );
+		return dateToNum( today(), TimeZone.getDefault() );
 	}
 
 
@@ -203,7 +203,7 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 
 	public static double dateToNum( final int _year, final int _month, final int _day )
 	{
-		final Calendar calendar = new GregorianCalendar();
+		final Calendar calendar = new GregorianCalendar( TimeZone.getTimeZone( "GMT" ) );
 		calendar.clear();
 		calendar.setLenient( true );
 		calendar.set( Calendar.YEAR, _year );
@@ -252,7 +252,7 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 
 	private static int getCalendarValueFromNum( double _date, int _field )
 	{
-		final Calendar calendar = new GregorianCalendar();
+		final Calendar calendar = new GregorianCalendar( TimeZone.getTimeZone( "GMT" ) );
 		final TimeZone timeZone = calendar.getTimeZone();
 		final Date date = dateFromNum( _date, timeZone );
 		calendar.setTime( date );
