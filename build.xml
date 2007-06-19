@@ -302,6 +302,9 @@
 		<exec dir="${scripts.dir}" executable="ruby" vmlauncher="false" failonerror="true">
 			<arg value="gen-component-overview.rb" />
 		</exec>
+		<exec dir="${scripts.dir}" executable="ruby" vmlauncher="false" failonerror="true">
+			<arg value="gen-dependency-overview.rb" />
+		</exec>
 	</target>
 
 	<target name="@doc-main-copy" depends="@init">
