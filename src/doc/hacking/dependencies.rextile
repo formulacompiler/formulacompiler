@@ -10,5 +10,5 @@ What follows is a subsystem and package breakdown generated from @components.yam
 <%= toc 2, 4 %>
 
 
-<%= inc_file('hacking/components.rextinc') %>
+<%= inc_file('hacking/packages.rextinc') %>
 

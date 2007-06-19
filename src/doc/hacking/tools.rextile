@@ -15,7 +15,7 @@ It does _not_ include all the libraries and tools to build an entire distributio
 
 h2. Prepackaged Download
 
-The easiest setup is to simply download @sej-x.y.z-tools.zip@, unpack it to a central folder, and then set @tools.dir@ to this folder in @build.properties@. If you unpack it into AFC's install folder as @tools/@, then you don't even have to create @build.properties@.
+The easiest setup is to simply download @formulacompiler-x.y.z-tools.zip@, unpack it to a central folder, and then set @tools.dir@ to this folder in @build.properties@. If you unpack it into AFC's install folder as @tools/@, then you don't even have to create @build.properties@.
 
 The download contains "Ant":-ant and, contained within it, "JUnit 3.x":-junit. So running
 
@@ -34,7 +34,7 @@ h3. Mandatory Tools
 
 The following are the tools you need to set up in order to build a complete new distribution package for AFC. I strongly suggest you install them all if you consider "contributing to AFC":contributing.htm.
 
-dt. "Ant":-ant : You do, of course, need. Since Ant is rather big and such a widespread tool, I have chosen to not include it with AFC's source distribution. This is the only install you need to run @ant build@ which builds @sej.jar@.
+dt. "Ant":-ant : You do, of course, need. Since Ant is rather big and such a widespread tool, I have chosen to not include it with AFC's source distribution. This is the only install you need to run @ant build@ which builds the AFC jars.
 
 dt. "JUnit":-junit : is needed to run the tests with @ant test@. As per "the instructions":http://ant.apache.org/manual/OptionalTasks/junit.html and, in particular, "this discussion":http://ant.apache.org/faq.html#delegating-classloader, I suggest that you copy @junit.jar@ to the @lib/@ folder of your Ant installation.
 

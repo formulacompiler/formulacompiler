@@ -12,7 +12,7 @@ class OverviewGenerator
 	attr_reader :project
 	
 	def run
-		write_file '../../temp/rextile/hacking/components.rextinc', gen
+		write_file '../../temp/rextile/hacking/packages.rextinc', gen
 	end
 	
 	def gen
@@ -22,13 +22,20 @@ class OverviewGenerator
 	end
 	
 	def gen_subsys( g )
-		rex = "\nh3. #{beautify(g.id)}\n\n#{[g.desc, g.notes].join(' ')}\n"
+		rex = "\nh2. #{beautify(g.id)}\n\n#{[g.desc, g.notes].join(' ')}\n"
 		g.groups.each { |g| rex += gen_jar g }
 		rex
 	end
 	
 	def gen_jar( g )
-		rex = "\ndt. #{beautify(g.id)} (#{g.jar}) : #{[g.desc, g.notes].join(' ')}\n"
+		rex = "\nh3. #{beautify(g.id)} (#{g.jar})\n\n#{[g.desc, g.notes].join(' ')}\n"
+		g.comps.each { |c| rex += gen_comp c }
+		rex
+	end
+	
+	def gen_comp( c )
+		rex = "\nh4. #{beautify(c.id)}\n\n#{[c.desc, c.notes].join(' ')}\n\n"
+		rex += '<pre>' + c.pkgs.join("\n") + '</pre>' + "\n"
 		rex
 	end
 	
