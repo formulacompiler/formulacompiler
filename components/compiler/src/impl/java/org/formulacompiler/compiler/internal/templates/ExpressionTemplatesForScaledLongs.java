@@ -118,7 +118,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	long util_fromDate( Date a )
 	{
-		return RuntimeLong_v1.dateToNum( a, context );
+		return RuntimeLong_v1.dateToNum( a, this.context, this.environment.timeZone );
 	}
 
 
@@ -191,7 +191,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	Date util_toDate( long a )
 	{
-		return RuntimeLong_v1.dateFromNum( a, context );
+		return RuntimeLong_v1.dateFromNum( a, context, environment.timeZone );
 	}
 
 	String util_toString( long a )
@@ -593,7 +593,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long fun_TODAY()
 	{
-		return RuntimeLong_v1.fun_TODAY( context );
+		return RuntimeLong_v1.fun_TODAY( this.context, this.environment );
 	}
 
 

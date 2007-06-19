@@ -121,11 +121,6 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	}
 
 
-	public static Date dateFromNum( final double _excel )
-	{
-		return dateFromNum( _excel, TimeZone.getDefault() );
-	}
-
 	// ---- Excel date conversion; copied from JExcelAPI (DateRecord.java)
 
 	public static Date dateFromNum( final double _excel, TimeZone _timeZone )
@@ -264,9 +259,9 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		return calendar.get( _field );
 	}
 
-	public static double fun_TODAY()
+	public static double fun_TODAY( final Environment _environment )
 	{
-		return dateToNum( today() );
+		return dateToNum( today(), _environment.timeZone );
 	}
 
 	public static double fun_TIME( double _hour, double _minute, double _second )

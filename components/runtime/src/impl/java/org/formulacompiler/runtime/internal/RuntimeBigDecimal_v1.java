@@ -25,6 +25,7 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Date;
+import java.util.TimeZone;
 
 
 public class RuntimeBigDecimal_v1 extends Runtime_v1
@@ -85,7 +86,7 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 	@Deprecated
 	public static BigDecimal stdTODAY()
 	{
-		return dateToNum( today() );
+		return dateToNum( today(), TimeZone.getDefault() );
 	}
 
 	public static BigDecimal min( BigDecimal a, BigDecimal b )
@@ -155,14 +156,14 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 	}
 
 
-	public static Date dateFromNum( final BigDecimal _excel )
+	public static Date dateFromNum( final BigDecimal _excel, final TimeZone _timeZone )
 	{
-		return RuntimeDouble_v1.dateFromNum( _excel.doubleValue() );
+		return RuntimeDouble_v1.dateFromNum( _excel.doubleValue(), _timeZone );
 	}
 
-	public static BigDecimal dateToNum( final Date _date )
+	public static BigDecimal dateToNum( final Date _date, final TimeZone _timeZone )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v1.dateToNum( _date ) );
+		return BigDecimal.valueOf( RuntimeDouble_v1.dateToNum( _date, _timeZone ) );
 	}
 
 	private static BigDecimal valueOrZero( final double _value )
@@ -398,9 +399,9 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return BigDecimal.valueOf( result );
 	}
 
-	public static BigDecimal fun_TODAY()
+	public static BigDecimal fun_TODAY( final Environment _environment )
 	{
-		return dateToNum( today() );
+		return dateToNum( today(), _environment.timeZone );
 	}
 
 	public static BigDecimal fun_TIME( BigDecimal _hour, BigDecimal _minute, BigDecimal _second )

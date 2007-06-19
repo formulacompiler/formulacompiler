@@ -105,7 +105,7 @@ public final class ExpressionTemplatesForBigDecimals
 
 	BigDecimal util_fromDate( Date a )
 	{
-		return RuntimeBigDecimal_v1.dateToNum( a );
+		return RuntimeBigDecimal_v1.dateToNum( a, environment.timeZone );
 	}
 
 
@@ -172,7 +172,7 @@ public final class ExpressionTemplatesForBigDecimals
 	@ReturnsAdjustedValue
 	Date util_toDate( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v1.dateFromNum( a );
+		return RuntimeBigDecimal_v1.dateFromNum( a, environment.timeZone );
 	}
 
 	@ReturnsAdjustedValue
@@ -544,7 +544,7 @@ public final class ExpressionTemplatesForBigDecimals
 
 	public BigDecimal fun_TODAY()
 	{
-		return RuntimeBigDecimal_v1.fun_TODAY();
+		return RuntimeBigDecimal_v1.fun_TODAY( this.environment );
 	}
 
 
