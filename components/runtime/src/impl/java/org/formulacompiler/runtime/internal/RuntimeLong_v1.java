@@ -22,6 +22,7 @@ package org.formulacompiler.runtime.internal;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.TimeZone;
 
 import org.formulacompiler.runtime.ScaledLongSupport;
 
@@ -219,7 +220,7 @@ public final class RuntimeLong_v1 extends Runtime_v1
 	@Deprecated
 	public static long stdTODAY( Context _cx )
 	{
-		return dateToNum( today(), _cx );
+		return dateToNum( today(), _cx, TimeZone.getDefault() );
 	}
 
 
@@ -233,14 +234,14 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		return _val ? _cx.one : 0;
 	}
 
-	public static Date dateFromNum( final long _val, Context _cx )
+	public static Date dateFromNum( final long _val, Context _cx, final TimeZone _timeZone )
 	{
-		return RuntimeDouble_v1.dateFromNum( toDouble( _val, _cx ) );
+		return RuntimeDouble_v1.dateFromNum( toDouble( _val, _cx ), _timeZone );
 	}
 
-	public static long dateToNum( final Date _val, Context _cx )
+	public static long dateToNum( final Date _val, Context _cx, final TimeZone _timeZone )
 	{
-		return fromDouble( RuntimeDouble_v1.dateToNum( _val ), _cx );
+		return fromDouble( RuntimeDouble_v1.dateToNum( _val, _timeZone ), _cx );
 	}
 
 	@Deprecated
@@ -529,9 +530,9 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		return result * _cx.one();
 	}
 
-	public static long fun_TODAY( Context _cx )
+	public static long fun_TODAY( Context _cx, final Environment _environment )
 	{
-		return dateToNum( today(), _cx );
+		return dateToNum( today(), _cx, _environment.timeZone );
 	}
 
 	public static long fun_FACT( long _a )
