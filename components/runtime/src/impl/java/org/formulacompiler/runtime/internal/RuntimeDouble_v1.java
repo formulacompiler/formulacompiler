@@ -84,7 +84,8 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	@Deprecated
 	public static double stdTODAY()
 	{
-		return dateToNum( today(), TimeZone.getDefault() );
+		final TimeZone timeZone = TimeZone.getDefault();
+		return dateToNum( today( timeZone ), timeZone );
 	}
 
 
@@ -266,7 +267,8 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 
 	public static double fun_TODAY( final Environment _environment )
 	{
-		return dateToNum( today(), _environment.timeZone );
+		final TimeZone timeZone = _environment.timeZone;
+		return dateToNum( today( timeZone ), timeZone );
 	}
 
 	public static double fun_TIME( double _hour, double _minute, double _second )

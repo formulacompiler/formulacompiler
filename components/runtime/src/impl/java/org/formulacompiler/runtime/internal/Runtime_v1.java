@@ -95,9 +95,9 @@ public abstract class Runtime_v1
 		return new Date( millis / MS_PER_SEC * MS_PER_SEC );
 	}
 
-	public static Date today()
+	public static Date today( TimeZone _timeZone )
 	{
-		final Calendar calendar = Calendar.getInstance();
+		final Calendar calendar = Calendar.getInstance( _timeZone );
 		calendar.set( Calendar.HOUR_OF_DAY, 0 );
 		calendar.set( Calendar.MINUTE, 0 );
 		calendar.set( Calendar.SECOND, 0 );

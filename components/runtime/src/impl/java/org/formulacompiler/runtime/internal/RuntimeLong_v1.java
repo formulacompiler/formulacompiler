@@ -220,7 +220,8 @@ public final class RuntimeLong_v1 extends Runtime_v1
 	@Deprecated
 	public static long stdTODAY( Context _cx )
 	{
-		return dateToNum( today(), _cx, TimeZone.getDefault() );
+		final TimeZone timeZone = TimeZone.getDefault();
+		return dateToNum( today( timeZone ), _cx, timeZone );
 	}
 
 
@@ -537,7 +538,8 @@ public final class RuntimeLong_v1 extends Runtime_v1
 
 	public static long fun_TODAY( Context _cx, final Environment _environment )
 	{
-		return dateToNum( today(), _cx, _environment.timeZone );
+		final TimeZone timeZone = _environment.timeZone;
+		return dateToNum( today( timeZone ), _cx, timeZone );
 	}
 
 	public static long fun_FACT( long _a )
