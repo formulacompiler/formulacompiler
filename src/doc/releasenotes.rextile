@@ -17,7 +17,7 @@ h5. *Changed!*
 
 h5. New
 
-    * Date functions: @DATE()@, @TIME()@, @SECOND()@, @MINUTE()@, @HOUR()@, @WEEKDAY()@, @DAY()@, @MONTH()@, and @YEAR()@ are now supported.
+    * Date functions: @NOW()@, @DATE()@, @TIME()@, @SECOND()@, @MINUTE()@, @HOUR()@, @WEEKDAY()@, @DAY()@, @MONTH()@, and @YEAR()@ are now supported.
     * Conversion functions: @VALUE()@ is now partially supported, parsing dates and currency is not supported yet.
     * You can optionally "configure an explicit locale and time zone":tutorial/locale.htm for engine factories. Great for server applications with users all over the world.
 
