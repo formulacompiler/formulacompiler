@@ -74,7 +74,7 @@ public final class ExpressionTemplatesForDoubles
 
 	double util_fromDate( Date a )
 	{
-		return RuntimeDouble_v1.dateToNum( a, environment.timeZone );
+		return RuntimeDouble_v1.dateToNum( a, this.environment.timeZone );
 	}
 
 
@@ -130,7 +130,7 @@ public final class ExpressionTemplatesForDoubles
 
 	Date util_toDate( double a )
 	{
-		return RuntimeDouble_v1.dateFromNum( a, environment.timeZone );
+		return RuntimeDouble_v1.dateFromNum( a, this.environment.timeZone );
 	}
 
 	String util_toString( double a )

@@ -29,7 +29,6 @@ import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
 import org.formulacompiler.runtime.internal.RuntimeLong_v1;
 
 
-@SuppressWarnings("unqualified-field-access")
 public final class ExpressionTemplatesForScaledLongs
 {
 	private Environment environment = null;
@@ -51,7 +50,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	long util_round( long a, int _maxFrac )
 	{
-		return RuntimeLong_v1.round( a, _maxFrac, context );
+		return RuntimeLong_v1.round( a, _maxFrac, this.context );
 	}
 
 
@@ -83,7 +82,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	long util_fromDouble_Scaled( double a )
 	{
-		return RuntimeLong_v1.fromDouble( a, context );
+		return RuntimeLong_v1.fromDouble( a, this.context );
 	}
 
 	long util_fromFloat( float a )
@@ -93,17 +92,17 @@ public final class ExpressionTemplatesForScaledLongs
 
 	long util_fromFloat_Scaled( float a )
 	{
-		return RuntimeLong_v1.fromDouble( a, context );
+		return RuntimeLong_v1.fromDouble( a, this.context );
 	}
 
 	long util_fromBigDecimal( BigDecimal a )
 	{
-		return RuntimeLong_v1.fromBigDecimal( a, context );
+		return RuntimeLong_v1.fromBigDecimal( a, this.context );
 	}
 
 	long util_fromBigDecimal_Scaled( BigDecimal a )
 	{
-		return RuntimeLong_v1.fromBigDecimal( a, context );
+		return RuntimeLong_v1.fromBigDecimal( a, this.context );
 	}
 
 	long util_fromNumber( Number a )
@@ -113,7 +112,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	long util_fromBoolean( boolean a )
 	{
-		return a ? one : 0;
+		return a ? this.one : 0;
 	}
 
 	long util_fromDate( Date a )
@@ -149,7 +148,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	double util_toDouble_Scaled( long a )
 	{
-		return RuntimeLong_v1.toDouble( a, context );
+		return RuntimeLong_v1.toDouble( a, this.context );
 	}
 
 	float util_toFloat( long a )
@@ -159,7 +158,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	float util_toFloat_Scaled( long a )
 	{
-		return (float) RuntimeLong_v1.toDouble( a, context );
+		return (float) RuntimeLong_v1.toDouble( a, this.context );
 	}
 
 	BigInteger util_toBigInteger( long a )
@@ -174,7 +173,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	BigDecimal util_toBigDecimal_Scaled( long a )
 	{
-		return RuntimeLong_v1.toBigDecimal( a, context );
+		return RuntimeLong_v1.toBigDecimal( a, this.context );
 	}
 
 	boolean util_toBoolean( long a )
@@ -191,12 +190,12 @@ public final class ExpressionTemplatesForScaledLongs
 
 	Date util_toDate( long a )
 	{
-		return RuntimeLong_v1.dateFromNum( a, context, environment.timeZone );
+		return RuntimeLong_v1.dateFromNum( a, this.context, this.environment.timeZone );
 	}
 
 	String util_toString( long a )
 	{
-		return RuntimeLong_v1.toExcelString( a, context );
+		return RuntimeLong_v1.toExcelString( a, this.context );
 	}
 
 	Number util_toNumber( long a )
@@ -207,7 +206,7 @@ public final class ExpressionTemplatesForScaledLongs
 	Number util_toNumber_Scaled( long a )
 	{
 		// We don't want to pass around scaled longs as Number (where the scale is non-obvious), so convert to BigDecimal.
-		return RuntimeLong_v1.toBigDecimal( a, context );
+		return RuntimeLong_v1.toBigDecimal( a, this.context );
 	}
 
 
@@ -257,7 +256,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long op_TIMES__if_isScaled( long a, long b )
 	{
-		return a * b / one;
+		return a * b / this.one;
 	}
 
 	public long op_TIMES( long a, long b )
@@ -267,7 +266,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long op_DIV__if_isScaled( long a, long b )
 	{
-		return a * one / b;
+		return a * this.one / b;
 	}
 
 	public long op_DIV( long a, long b )
@@ -277,7 +276,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long op_EXP( long a, long b )
 	{
-		return RuntimeLong_v1.fun_POWER( a, b, context );
+		return RuntimeLong_v1.fun_POWER( a, b, this.context );
 	}
 
 	public long op_PERCENT( long a )
@@ -316,122 +315,122 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long fun_ACOS( long a )
 	{
-		return RuntimeLong_v1.fun_ACOS( a, context );
+		return RuntimeLong_v1.fun_ACOS( a, this.context );
 	}
 
 	public long fun_ASIN( long a )
 	{
-		return RuntimeLong_v1.fun_ASIN( a, context );
+		return RuntimeLong_v1.fun_ASIN( a, this.context );
 	}
 
 	public long fun_ATAN( long a )
 	{
-		return RuntimeLong_v1.fun_ATAN( a, context );
+		return RuntimeLong_v1.fun_ATAN( a, this.context );
 	}
 
 	public long fun_ATAN2( long x, long y )
 	{
-		return RuntimeLong_v1.fun_ATAN2( x, y, context );
+		return RuntimeLong_v1.fun_ATAN2( x, y, this.context );
 	}
 
 	public long fun_COS( long a )
 	{
-		return RuntimeLong_v1.fun_COS( a, context );
+		return RuntimeLong_v1.fun_COS( a, this.context );
 	}
 
 	public long fun_SIN( long a )
 	{
-		return RuntimeLong_v1.fun_SIN( a, context );
+		return RuntimeLong_v1.fun_SIN( a, this.context );
 	}
 
 	public long fun_TAN( long a )
 	{
-		return RuntimeLong_v1.fun_TAN( a, context );
+		return RuntimeLong_v1.fun_TAN( a, this.context );
 	}
 
 	public long fun_DEGREES( long a )
 	{
-		return RuntimeLong_v1.fun_DEGREES( a, context );
+		return RuntimeLong_v1.fun_DEGREES( a, this.context );
 	}
 
 	public long fun_RADIANS( long a )
 	{
-		return RuntimeLong_v1.fun_RADIANS( a, context );
+		return RuntimeLong_v1.fun_RADIANS( a, this.context );
 	}
 
 	public long fun_PI()
 	{
-		return RuntimeLong_v1.fun_PI( context );
+		return RuntimeLong_v1.fun_PI( this.context );
 	}
 
 	public long fun_ROUND( long a, long b )
 	{
-		return RuntimeLong_v1.fun_ROUND( a, b, context );
+		return RuntimeLong_v1.fun_ROUND( a, b, this.context );
 	}
 
 	public long fun_TRUNC( long a, long b )
 	{
-		return RuntimeLong_v1.fun_TRUNC( a, b, context );
+		return RuntimeLong_v1.fun_TRUNC( a, b, this.context );
 	}
 
 	public long fun_TRUNC( long a )
 	{
-		return RuntimeLong_v1.fun_TRUNC( a, context );
+		return RuntimeLong_v1.fun_TRUNC( a, this.context );
 	}
 
 	public long fun_EVEN( long a )
 	{
-		return RuntimeLong_v1.fun_EVEN( a, context );
+		return RuntimeLong_v1.fun_EVEN( a, this.context );
 	}
 
 	public long fun_ODD( long a )
 	{
-		return RuntimeLong_v1.fun_ODD( a, context );
+		return RuntimeLong_v1.fun_ODD( a, this.context );
 	}
 
 	public long fun_INT( long a )
 	{
-		return RuntimeLong_v1.fun_INT( a, context );
+		return RuntimeLong_v1.fun_INT( a, this.context );
 	}
 
 	public long fun_EXP( long p )
 	{
-		return RuntimeLong_v1.fun_EXP( p, context );
+		return RuntimeLong_v1.fun_EXP( p, this.context );
 	}
 
 	public long fun_POWER( long n, long p )
 	{
-		return RuntimeLong_v1.fun_POWER( n, p, context );
+		return RuntimeLong_v1.fun_POWER( n, p, this.context );
 	}
 
 	public long fun_LN( long p )
 	{
-		return RuntimeLong_v1.fun_LN( p, context );
+		return RuntimeLong_v1.fun_LN( p, this.context );
 	}
 
 	public long fun_LOG( long p )
 	{
-		return RuntimeLong_v1.fun_LOG10( p, context );
+		return RuntimeLong_v1.fun_LOG10( p, this.context );
 	}
 
 	public long fun_LOG( long n, long x )
 	{
-		return RuntimeLong_v1.fun_LOG( n, x, context );
+		return RuntimeLong_v1.fun_LOG( n, x, this.context );
 	}
 
 	public long fun_LOG10( long p )
 	{
-		return RuntimeLong_v1.fun_LOG10( p, context );
+		return RuntimeLong_v1.fun_LOG10( p, this.context );
 	}
 
 	public long fun_MOD( long n, long d )
 	{
-		return RuntimeLong_v1.fun_MOD( n, d, context );
+		return RuntimeLong_v1.fun_MOD( n, d, this.context );
 	}
 
 	public long fun_SQRT( long n )
 	{
-		return RuntimeLong_v1.fun_SQRT( n, context );
+		return RuntimeLong_v1.fun_SQRT( n, this.context );
 	}
 
 
@@ -440,7 +439,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long fun_FACT__if_isScaled( long a )
 	{
-		return RuntimeLong_v1.fun_FACT( a / one ) * one;
+		return RuntimeLong_v1.fun_FACT( a / this.one ) * this.one;
 	}
 
 	public long fun_FACT( long a )
@@ -454,87 +453,87 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long fun_IRR( long[] _values, long _guess )
 	{
-		return RuntimeLong_v1.fun_IRR( _values, _guess, context );
+		return RuntimeLong_v1.fun_IRR( _values, _guess, this.context );
 	}
 
 	public long fun_DB( long _cost, long _salvage, long _life, long _period, long _month )
 	{
-		return RuntimeLong_v1.fun_DB( _cost, _salvage, _life, _period, _month, context );
+		return RuntimeLong_v1.fun_DB( _cost, _salvage, _life, _period, _month, this.context );
 	}
 
 	public long fun_DB( long _cost, long _salvage, long _life, long _period )
 	{
-		return RuntimeLong_v1.fun_DB( _cost, _salvage, _life, _period, 12 * context.one(), context );
+		return RuntimeLong_v1.fun_DB( _cost, _salvage, _life, _period, 12 * this.context.one(), this.context );
 	}
 
 	public long fun_DDB( long _cost, long _salvage, long _life, long _period, long _factor )
 	{
-		final BigDecimal cost = context.toBigDecimal( _cost );
-		final BigDecimal salvage = context.toBigDecimal( _salvage );
-		final BigDecimal life = context.toBigDecimal( _life );
-		final BigDecimal period = context.toBigDecimal( _period );
-		final BigDecimal factor = context.toBigDecimal( _factor );
+		final BigDecimal cost = this.context.toBigDecimal( _cost );
+		final BigDecimal salvage = this.context.toBigDecimal( _salvage );
+		final BigDecimal life = this.context.toBigDecimal( _life );
+		final BigDecimal period = this.context.toBigDecimal( _period );
+		final BigDecimal factor = this.context.toBigDecimal( _factor );
 		final BigDecimal result = RuntimeBigDecimal_v1.fun_DDB( cost, salvage, life, period, factor );
-		return context.fromBigDecimal( result );
+		return this.context.fromBigDecimal( result );
 	}
 
 	public long fun_DDB( long _cost, long _salvage, long _life, long _period )
 	{
-		final BigDecimal cost = context.toBigDecimal( _cost );
-		final BigDecimal salvage = context.toBigDecimal( _salvage );
-		final BigDecimal life = context.toBigDecimal( _life );
-		final BigDecimal period = context.toBigDecimal( _period );
+		final BigDecimal cost = this.context.toBigDecimal( _cost );
+		final BigDecimal salvage = this.context.toBigDecimal( _salvage );
+		final BigDecimal life = this.context.toBigDecimal( _life );
+		final BigDecimal period = this.context.toBigDecimal( _period );
 		final BigDecimal factor = RuntimeBigDecimal_v1.TWO;
 		final BigDecimal result = RuntimeBigDecimal_v1.fun_DDB( cost, salvage, life, period, factor );
-		return context.fromBigDecimal( result );
+		return this.context.fromBigDecimal( result );
 	}
 
 	public long fun_RATE( long _nper, long _pmt, long _pv, long _fv, long _type, long _guess )
 	{
-		final BigDecimal nper = context.toBigDecimal( _nper );
-		final BigDecimal pmt = context.toBigDecimal( _pmt );
-		final BigDecimal pv = context.toBigDecimal( _pv );
-		final BigDecimal fv = context.toBigDecimal( _fv );
-		final BigDecimal type = context.toBigDecimal( _type );
-		final BigDecimal guess = context.toBigDecimal( _guess );
+		final BigDecimal nper = this.context.toBigDecimal( _nper );
+		final BigDecimal pmt = this.context.toBigDecimal( _pmt );
+		final BigDecimal pv = this.context.toBigDecimal( _pv );
+		final BigDecimal fv = this.context.toBigDecimal( _fv );
+		final BigDecimal type = this.context.toBigDecimal( _type );
+		final BigDecimal guess = this.context.toBigDecimal( _guess );
 		final BigDecimal result = RuntimeBigDecimal_v1.fun_RATE( nper, pmt, pv, fv, type, guess );
-		return context.fromBigDecimal( result );
+		return this.context.fromBigDecimal( result );
 	}
 
 	public long fun_RATE( long _nper, long _pmt, long _pv, long _fv, long _type )
 	{
-		final BigDecimal nper = context.toBigDecimal( _nper );
-		final BigDecimal pmt = context.toBigDecimal( _pmt );
-		final BigDecimal pv = context.toBigDecimal( _pv );
-		final BigDecimal fv = context.toBigDecimal( _fv );
-		final BigDecimal type = context.toBigDecimal( _type );
+		final BigDecimal nper = this.context.toBigDecimal( _nper );
+		final BigDecimal pmt = this.context.toBigDecimal( _pmt );
+		final BigDecimal pv = this.context.toBigDecimal( _pv );
+		final BigDecimal fv = this.context.toBigDecimal( _fv );
+		final BigDecimal type = this.context.toBigDecimal( _type );
 		final BigDecimal guess = BigDecimal.valueOf( 0.1 );
 		final BigDecimal result = RuntimeBigDecimal_v1.fun_RATE( nper, pmt, pv, fv, type, guess );
-		return context.fromBigDecimal( result );
+		return this.context.fromBigDecimal( result );
 	}
 
 	public long fun_RATE( long _nper, long _pmt, long _pv, long _fv )
 	{
-		final BigDecimal nper = context.toBigDecimal( _nper );
-		final BigDecimal pmt = context.toBigDecimal( _pmt );
-		final BigDecimal pv = context.toBigDecimal( _pv );
-		final BigDecimal fv = context.toBigDecimal( _fv );
+		final BigDecimal nper = this.context.toBigDecimal( _nper );
+		final BigDecimal pmt = this.context.toBigDecimal( _pmt );
+		final BigDecimal pv = this.context.toBigDecimal( _pv );
+		final BigDecimal fv = this.context.toBigDecimal( _fv );
 		final BigDecimal type = RuntimeBigDecimal_v1.ZERO;
 		final BigDecimal guess = BigDecimal.valueOf( 0.1 );
 		final BigDecimal result = RuntimeBigDecimal_v1.fun_RATE( nper, pmt, pv, fv, type, guess );
-		return context.fromBigDecimal( result );
+		return this.context.fromBigDecimal( result );
 	}
 
 	public long fun_RATE( long _nper, long _pmt, long _pv )
 	{
-		final BigDecimal nper = context.toBigDecimal( _nper );
-		final BigDecimal pmt = context.toBigDecimal( _pmt );
-		final BigDecimal pv = context.toBigDecimal( _pv );
+		final BigDecimal nper = this.context.toBigDecimal( _nper );
+		final BigDecimal pmt = this.context.toBigDecimal( _pmt );
+		final BigDecimal pv = this.context.toBigDecimal( _pv );
 		final BigDecimal fv = RuntimeBigDecimal_v1.ZERO;
 		final BigDecimal type = RuntimeBigDecimal_v1.ZERO;
 		final BigDecimal guess = BigDecimal.valueOf( 0.1 );
 		final BigDecimal result = RuntimeBigDecimal_v1.fun_RATE( nper, pmt, pv, fv, type, guess );
-		return context.fromBigDecimal( result );
+		return this.context.fromBigDecimal( result );
 	}
 
 
@@ -543,52 +542,52 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long fun_DATE( long _year, long _month, long _day )
 	{
-		return RuntimeLong_v1.fun_DATE( _year, _month, _day, context );
+		return RuntimeLong_v1.fun_DATE( _year, _month, _day, this.context );
 	}
 
 	public long fun_TIME( long _hour, long _minute, long _second )
 	{
-		return RuntimeLong_v1.fun_TIME( _hour, _minute, _second, context );
+		return RuntimeLong_v1.fun_TIME( _hour, _minute, _second, this.context );
 	}
 
 	public long fun_SECOND( long _date )
 	{
-		return RuntimeLong_v1.fun_SECOND( _date, context );
+		return RuntimeLong_v1.fun_SECOND( _date, this.context );
 	}
 
 	public long fun_MINUTE( long _date )
 	{
-		return RuntimeLong_v1.fun_MINUTE( _date, context );
+		return RuntimeLong_v1.fun_MINUTE( _date, this.context );
 	}
 
 	public long fun_HOUR( long _date )
 	{
-		return RuntimeLong_v1.fun_HOUR( _date, context );
+		return RuntimeLong_v1.fun_HOUR( _date, this.context );
 	}
 
 	public long fun_WEEKDAY( long _date, long _type )
 	{
-		return RuntimeLong_v1.fun_WEEKDAY( _date, _type, context );
+		return RuntimeLong_v1.fun_WEEKDAY( _date, _type, this.context );
 	}
 
 	public long fun_WEEKDAY( long _date )
 	{
-		return RuntimeLong_v1.fun_WEEKDAY( _date, context.one(), context );
+		return RuntimeLong_v1.fun_WEEKDAY( _date, this.context.one(), this.context );
 	}
 
 	public long fun_DAY( long _date )
 	{
-		return RuntimeLong_v1.fun_DAY( _date, context );
+		return RuntimeLong_v1.fun_DAY( _date, this.context );
 	}
 
 	public long fun_MONTH( long _date )
 	{
-		return RuntimeLong_v1.fun_MONTH( _date, context );
+		return RuntimeLong_v1.fun_MONTH( _date, this.context );
 	}
 
 	public long fun_YEAR( long _date )
 	{
-		return RuntimeLong_v1.fun_YEAR( _date, context );
+		return RuntimeLong_v1.fun_YEAR( _date, this.context );
 	}
 
 	public long fun_NOW()

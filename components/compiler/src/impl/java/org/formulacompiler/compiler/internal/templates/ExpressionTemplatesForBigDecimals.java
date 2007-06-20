@@ -29,8 +29,6 @@ import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
 
 
-
-@SuppressWarnings("unqualified-field-access")
 public final class ExpressionTemplatesForBigDecimals
 {
 	private Environment environment = null;
@@ -53,7 +51,7 @@ public final class ExpressionTemplatesForBigDecimals
 	@ReturnsAdjustedValue
 	BigDecimal util_adjustValue( BigDecimal a )
 	{
-		return a.setScale( fixedScale, roundingMode );
+		return a.setScale( this.fixedScale, this.roundingMode );
 	}
 
 
@@ -105,7 +103,7 @@ public final class ExpressionTemplatesForBigDecimals
 
 	BigDecimal util_fromDate( Date a )
 	{
-		return RuntimeBigDecimal_v1.dateToNum( a, environment.timeZone );
+		return RuntimeBigDecimal_v1.dateToNum( a, this.environment.timeZone );
 	}
 
 
@@ -172,7 +170,7 @@ public final class ExpressionTemplatesForBigDecimals
 	@ReturnsAdjustedValue
 	Date util_toDate( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v1.dateFromNum( a, environment.timeZone );
+		return RuntimeBigDecimal_v1.dateFromNum( a, this.environment.timeZone );
 	}
 
 	@ReturnsAdjustedValue
@@ -254,7 +252,7 @@ public final class ExpressionTemplatesForBigDecimals
 	@ReturnsAdjustedValue
 	public BigDecimal op_DIV__if_needsValueAdjustment( BigDecimal a, BigDecimal b )
 	{
-		return a.divide( b, fixedScale, roundingMode );
+		return a.divide( b, this.fixedScale, this.roundingMode );
 	}
 
 	@ReturnsAdjustedValue
@@ -440,7 +438,7 @@ public final class ExpressionTemplatesForBigDecimals
 
 	public BigDecimal fun_IRR__if_needsValueAdjustment( BigDecimal[] _values, BigDecimal _guess )
 	{
-		return RuntimeBigDecimal_v1.fun_IRR( _values, _guess, fixedScale, roundingMode );
+		return RuntimeBigDecimal_v1.fun_IRR( _values, _guess, this.fixedScale, this.roundingMode );
 	}
 
 	public BigDecimal fun_IRR( BigDecimal[] _values, BigDecimal _guess )
