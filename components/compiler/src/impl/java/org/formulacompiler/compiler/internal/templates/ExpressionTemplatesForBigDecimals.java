@@ -542,6 +542,11 @@ public final class ExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v1.fun_YEAR( _date );
 	}
 
+	public BigDecimal fun_NOW()
+	{
+		return RuntimeBigDecimal_v1.fun_NOW( this.environment );
+	}
+
 	public BigDecimal fun_TODAY()
 	{
 		return RuntimeBigDecimal_v1.fun_TODAY( this.environment );

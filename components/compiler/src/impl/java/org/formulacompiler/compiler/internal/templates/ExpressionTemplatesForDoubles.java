@@ -482,6 +482,11 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v1.getYearFromNum( _date );
 	}
 
+	public double fun_NOW()
+	{
+		return RuntimeDouble_v1.fun_NOW( this.environment );
+	}
+
 	public double fun_TODAY()
 	{
 		return RuntimeDouble_v1.fun_TODAY( this.environment );

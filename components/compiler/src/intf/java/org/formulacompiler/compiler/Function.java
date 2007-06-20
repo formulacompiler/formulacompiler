@@ -48,6 +48,13 @@ public enum Function {
 	// Dates
 
 	DATE, TIME, SECOND, MINUTE, HOUR, WEEKDAY, DAY, MONTH, YEAR,
+	NOW {
+		@Override
+		public boolean isVolatile()
+		{
+			return true;
+		}
+	},
 	TODAY {
 		@Override
 		public boolean isVolatile()

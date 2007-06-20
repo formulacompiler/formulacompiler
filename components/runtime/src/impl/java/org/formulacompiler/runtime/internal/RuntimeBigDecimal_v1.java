@@ -399,6 +399,11 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return BigDecimal.valueOf( result );
 	}
 
+	public static BigDecimal fun_NOW( final Environment _environment )
+	{
+		return dateToNum( now(), _environment.timeZone );
+	}
+
 	public static BigDecimal fun_TODAY( final Environment _environment )
 	{
 		return dateToNum( today(), _environment.timeZone );

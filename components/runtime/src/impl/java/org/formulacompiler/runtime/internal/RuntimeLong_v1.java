@@ -530,6 +530,11 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		return result * _cx.one();
 	}
 
+	public static long fun_NOW( Context _cx, final Environment _environment )
+	{
+		return dateToNum( now(), _cx, _environment.timeZone );
+	}
+
 	public static long fun_TODAY( Context _cx, final Environment _environment )
 	{
 		return dateToNum( today(), _cx, _environment.timeZone );

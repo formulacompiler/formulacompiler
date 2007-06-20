@@ -259,6 +259,11 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		return calendar.get( _field );
 	}
 
+	public static double fun_NOW( final Environment _environment )
+	{
+		return dateToNum( now(), _environment.timeZone );
+	}
+
 	public static double fun_TODAY( final Environment _environment )
 	{
 		return dateToNum( today(), _environment.timeZone );

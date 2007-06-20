@@ -89,6 +89,12 @@ public abstract class Runtime_v1
 	}
 
 
+	public static Date now()
+	{
+		final long millis = System.currentTimeMillis();
+		return new Date( millis / MS_PER_SEC * MS_PER_SEC );
+	}
+
 	public static Date today()
 	{
 		final Calendar calendar = Calendar.getInstance();
