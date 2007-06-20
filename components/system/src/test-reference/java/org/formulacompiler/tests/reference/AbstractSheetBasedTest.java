@@ -338,6 +338,14 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 			{
 				if (_value instanceof String) {
 					if (_value.toString().equals( "(days from 2006)" )) {
+						final long endMillis = System.currentTimeMillis() / MS_PER_SEC * MS_PER_SEC;
+						final Calendar calendar = new GregorianCalendar();
+						calendar.clear();
+						calendar.set( 2006, Calendar.JANUARY, 1 );
+						final long startMillis = calendar.getTimeInMillis();
+						return (double) (endMillis - startMillis) / MS_PER_DAY;
+					}
+					if (_value.toString().equals( "(full days from 2006)" )) {
 						final Calendar calendar = new GregorianCalendar();
 						final int year = calendar.get( Calendar.YEAR );
 						final int month = calendar.get( Calendar.MONTH );

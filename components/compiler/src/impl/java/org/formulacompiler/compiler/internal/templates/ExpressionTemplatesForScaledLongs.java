@@ -591,6 +591,11 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v1.fun_YEAR( _date, context );
 	}
 
+	public long fun_NOW()
+	{
+		return RuntimeLong_v1.fun_NOW( this.context, this.environment );
+	}
+
 	public long fun_TODAY()
 	{
 		return RuntimeLong_v1.fun_TODAY( this.context, this.environment );

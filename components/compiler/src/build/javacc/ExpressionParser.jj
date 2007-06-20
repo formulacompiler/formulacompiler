@@ -284,6 +284,7 @@ void fun(): {}
 	|	"MOD" fun2( Function.MOD )  
 	|	"MONTH" fun1( Function.MONTH )
 	|	"NOT" fun1( Function.NOT )
+	|	"NOW" fun0( Function.NOW )
 	|	"NPER" fun3to5( Function.NPER )
 	|	"NPV" open() expr() "," shapedRangeExpr() closeFun( Function.NPV )
 	|	"ODD" fun1( Function.ODD )
