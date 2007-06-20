@@ -24,10 +24,9 @@ import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.Runtime_v1;
 
 
-@SuppressWarnings("unqualified-field-access")
 public final class ExpressionTemplatesForStrings
 {
-	public Environment environment = null;
+	private Environment environment = null; // not supposed to be called at compile-time
 	
 
 	String util_fromString( String a )

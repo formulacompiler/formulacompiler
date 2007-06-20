@@ -31,11 +31,12 @@ import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
 
 public final class ExpressionTemplatesForBigDecimals
 {
-	private Environment environment = null;
 	final boolean isScaled;
 	final int fixedScale;
 	final int roundingMode;
+	private Environment environment = null; // not supposed to be called at compile-time
 
+	
 	public ExpressionTemplatesForBigDecimals(int _scale, int _roundingMode)
 	{
 		super();
