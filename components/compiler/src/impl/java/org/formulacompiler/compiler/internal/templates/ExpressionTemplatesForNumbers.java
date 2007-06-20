@@ -23,7 +23,6 @@ package org.formulacompiler.compiler.internal.templates;
 import org.formulacompiler.runtime.internal.Runtime_v1;
 
 
-@SuppressWarnings("unqualified-field-access")
 public final class ExpressionTemplatesForNumbers
 {
 

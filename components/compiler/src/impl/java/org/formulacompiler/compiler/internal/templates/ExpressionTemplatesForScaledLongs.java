@@ -31,11 +31,12 @@ import org.formulacompiler.runtime.internal.RuntimeLong_v1;
 
 public final class ExpressionTemplatesForScaledLongs
 {
-	private Environment environment = null;
 	final RuntimeLong_v1.Context context;
 	final int scale;
 	final long one;
+	private Environment environment = null; // not supposed to be called at compile-time
 
+	
 	public ExpressionTemplatesForScaledLongs(RuntimeLong_v1.Context _context)
 	{
 		super();

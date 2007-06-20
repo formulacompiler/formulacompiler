@@ -30,7 +30,7 @@ import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
 
 public final class ExpressionTemplatesForDoubles
 {
-	public Environment environment = null;
+	private Environment environment = null; // not supposed to be called at compile-time
 
 
 	// ------------------------------------------------ Utils
