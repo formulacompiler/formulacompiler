@@ -125,7 +125,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	private WritableWorkbook createWorkbook() throws IOException
 	{
 		final WorkbookSettings xset = new WorkbookSettings();
-		xset.setLocale( new Locale( "en", "EN" ) );
+		xset.setLocale( Locale.ENGLISH );
 		if (null == this.template) {
 			return Workbook.createWorkbook( this.outputStream, xset );
 		}
