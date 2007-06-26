@@ -235,35 +235,56 @@
 			
 		<property name="temp.ref.dir" location="${temp.dir}/test-reference" />
 		<mkdir dir="${temp.ref.dir}/results" />
-		<junit printsummary="no" 
-			showoutput="yes" 
-			haltonerror="no" 
-			haltonfailure="no" 
-			failureproperty="tests.failed"
-			fork="yes" forkmode="once" 
-			dir="." tempdir="${temp.dir}"
-		>
-			<jvmarg value="-Demit_tests" />
-			<assertions enablesystemassertions="yes" />
-			<formatter type="plain" usefile="yes" />
 
-			<classpath>
-				<path refid="test.compiletime.classpath" />
-				<pathelement path="${temp.ref.dir}/classes" />
-			</classpath>
+		<parallel threadcount="1" threadsperprocessor="1">
 
-			<batchtest todir="${temp.ref.dir}/results">
-				<fileset dir="${temp.ref.dir}/classes">
-					<include name="**/*Test.class" />
-					<exclude name="**/Abstract*" />
-					<exclude name="**/*$*" />
-				</fileset>
-			</batchtest>
+			<junit printsummary="no" showoutput="yes" haltonerror="no" haltonfailure="no" failureproperty="tests.failed.a" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+				<jvmarg value="-Demit_tests" />
+				<assertions enablesystemassertions="yes" />
+				<formatter type="plain" usefile="yes" />
 
-		</junit>
+				<classpath>
+					<path refid="test.compiletime.classpath" />
+					<pathelement path="${temp.ref.dir}/classes" />
+				</classpath>
 
-		<fail if="tests.failed" />
+				<batchtest todir="${temp.ref.dir}/results">
+					<fileset dir="${temp.ref.dir}/classes">
+						<include name="**/*Test.class" />
+						<exclude name="**/*Aggregators*Test.class" />
+						<exclude name="**/Abstract*" />
+						<exclude name="**/*$*" />
+					</fileset>
+				</batchtest>
+
+			</junit>
+
+			<junit printsummary="no" showoutput="yes" haltonerror="no" haltonfailure="no" failureproperty="tests.failed.b" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+				<jvmarg value="-Demit_tests" />
+				<assertions enablesystemassertions="yes" />
+				<formatter type="plain" usefile="yes" />
+
+				<classpath>
+					<path refid="test.compiletime.classpath" />
+					<pathelement path="${temp.ref.dir}/classes" />
+				</classpath>
+
+				<batchtest todir="${temp.ref.dir}/results">
+					<fileset dir="${temp.ref.dir}/classes">
+						<include name="**/*Aggregators*Test.class" />
+						<exclude name="**/Abstract*" />
+						<exclude name="**/*$*" />
+					</fileset>
+				</batchtest>
+
+			</junit>
+
+		</parallel>
+
+		<fail if="tests.failed.a" />
+		<fail if="tests.failed.b" />
 
 	</target>
+	
 	
 </project>
