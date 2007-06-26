@@ -80,7 +80,7 @@ groups:
 
           - id: describable
             pkgs:
-              - org.formulacompiler.compiler.describable
+              - org.formulacompiler.describable
 
           - id: api
             pkgs:
