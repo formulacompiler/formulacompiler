@@ -33,6 +33,7 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 	public static final BigDecimal ZERO = BigDecimal.ZERO;
 	public static final BigDecimal ONE = BigDecimal.ONE;
 	public static final BigDecimal TWO = BigDecimal.valueOf( 2 );
+
 	private static final BigDecimal PI = BigDecimal.valueOf( Math.PI );
 	private static final BigDecimal BIG_SECS_PER_MINUTE = BigDecimal.valueOf( 60 );
 	private static final BigDecimal BIG_SECS_PER_HOUR = BigDecimal.valueOf( Runtime_v1.SECS_PER_HOUR );
@@ -402,18 +403,19 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 
 	public static BigDecimal fun_NOW( final Environment _environment )
 	{
-		return dateToNum( now(), _environment.timeZone );
+		return dateToNum( now(), _environment.timeZone() );
 	}
 
 	public static BigDecimal fun_TODAY( final Environment _environment )
 	{
-		final TimeZone timeZone = _environment.timeZone;
+		final TimeZone timeZone = _environment.timeZone();
 		return dateToNum( today( timeZone ), timeZone );
 	}
 
 	public static BigDecimal fun_TIME( BigDecimal _hour, BigDecimal _minute, BigDecimal _second )
 	{
-		final BigDecimal seconds = _hour.multiply( BIG_SECS_PER_HOUR ).add( _minute.multiply( BIG_SECS_PER_MINUTE ) ).add( _second ).remainder( BIG_SECS_PER_DAY );
+		final BigDecimal seconds = _hour.multiply( BIG_SECS_PER_HOUR ).add( _minute.multiply( BIG_SECS_PER_MINUTE ) )
+				.add( _second ).remainder( BIG_SECS_PER_DAY );
 		return seconds.divide( BIG_SECS_PER_DAY, INTERNAL_HIGH_PREC_CONTEXT );
 	}
 
@@ -437,7 +439,8 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 
 	private static long getDaySecondsFromNum( final BigDecimal _time )
 	{
-		return _time.multiply( BIG_SECS_PER_DAY ).remainder( BIG_SECS_PER_DAY ).setScale( 0, RoundingMode.HALF_UP ).longValue();
+		return _time.multiply( BIG_SECS_PER_DAY ).remainder( BIG_SECS_PER_DAY ).setScale( 0, RoundingMode.HALF_UP )
+				.longValue();
 	}
 
 
@@ -618,7 +621,7 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 	public static BigDecimal fun_VALUE( String _text, final Environment _environment )
 	{
 		final String text = _text.trim();
-		final Number number = parseNumber( text, true, _environment.locale );
+		final Number number = parseNumber( text, true, _environment.locale() );
 		if (number != null) {
 			if (number instanceof BigDecimal) {
 				return (BigDecimal) number;

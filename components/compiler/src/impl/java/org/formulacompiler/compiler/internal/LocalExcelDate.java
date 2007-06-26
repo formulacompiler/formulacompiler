@@ -18,36 +18,31 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.runtime.internal;
+package org.formulacompiler.compiler.internal;
 
-import java.util.Locale;
+import java.util.Date;
 import java.util.TimeZone;
 
-import org.formulacompiler.runtime.Computation;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
 
-public final class Environment
+public final class LocalExcelDate
 {
-	public static final Environment DEFAULT = new Environment( new Computation.Config() );
+	private final double value;
 
-	private final Locale locale;
-	private final TimeZone timeZone;
-
-	public Environment(Computation.Config _cfg)
+	public LocalExcelDate(double _value)
 	{
-		this.locale = _cfg.locale;
-
-		// Defensive copy below as TimeZone is mutable.
-		this.timeZone = (null == _cfg.timeZone) ? null : (TimeZone) _cfg.timeZone.clone();
+		super();
+		this.value = _value;
 	}
 
-	public Locale locale()
+	public LocalExcelDate(Date _date, TimeZone _timeZone)
 	{
-		return (null == this.locale)? Locale.getDefault() : this.locale;
+		this( RuntimeDouble_v1.dateToNum( _date, _timeZone ) );
 	}
 
-	public TimeZone timeZone()
+	public double value()
 	{
-		return (null == this.timeZone)? TimeZone.getDefault() : this.timeZone;
+		return this.value;
 	}
 
 }

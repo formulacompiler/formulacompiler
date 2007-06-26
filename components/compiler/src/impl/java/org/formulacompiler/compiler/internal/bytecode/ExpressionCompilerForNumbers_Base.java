@@ -37,7 +37,9 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperat
 import org.formulacompiler.compiler.internal.expressions.LetDictionary.LetEntry;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCount;
 import org.formulacompiler.compiler.internal.model.SectionModel;
+import org.formulacompiler.runtime.MillisecondsSinceUTC1970;
 import org.formulacompiler.runtime.ScaledLong;
+import org.formulacompiler.runtime.Milliseconds;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -462,11 +464,31 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	}
 
 
+	protected abstract void compile_util_fromMs() throws CompilerException;
+	protected abstract void compile_util_fromMsSinceUTC1970() throws CompilerException;
+
 	@Override
 	protected void innerCompileConversionFromResultOf( Method _method ) throws CompilerException
 	{
 		final Class returnType = _method.getReturnType();
 		if (returnType == Long.TYPE || returnType == Long.class) {
+
+			if ((_method.getAnnotation( Milliseconds.class ) != null)) {
+				if (returnType == Long.class) {
+					compile_util_unboxLong();
+				}
+				compile_util_fromMs();
+				return;
+			}
+			
+			if ((_method.getAnnotation( MillisecondsSinceUTC1970.class ) != null)) {
+				if (returnType == Long.class) {
+					compile_util_unboxLong();
+				}
+				compile_util_fromMsSinceUTC1970();
+				return;
+			}
+
 			final ScaledLong scale = scaleOf( _method );
 			if (scale != null && scale.value() != 0) {
 				if (returnType == Long.class) {
@@ -477,16 +499,37 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 				}
 				return;
 			}
+			
 		}
 		compileConversionFrom( returnType );
 	}
 
 
+	protected abstract void compile_util_toMs() throws CompilerException;
+	protected abstract void compile_util_toMsSinceUTC1970() throws CompilerException;
+	
 	@Override
 	protected void innerCompileConversionToResultOf( Method _method ) throws CompilerException
 	{
 		final Class returnType = _method.getReturnType();
 		if (returnType == Long.TYPE || returnType == Long.class) {
+
+			if ((_method.getAnnotation( Milliseconds.class ) != null)) {
+				compile_util_toMs();
+				if (returnType == Long.class) {
+					compile_util_boxLong();
+				}
+				return;
+			}
+			
+			if ((_method.getAnnotation( MillisecondsSinceUTC1970.class ) != null)) {
+				compile_util_toMsSinceUTC1970();
+				if (returnType == Long.class) {
+					compile_util_boxLong();
+				}
+				return;
+			}
+
 			final ScaledLong scale = scaleOf( _method );
 			if (scale != null && scale.value() != 0) {
 				if (compileConversionTo( scale )) {
@@ -499,6 +542,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 				}
 				return;
 			}
+
 		}
 		if (!isNativeType( returnType )) {
 			compileConversionTo( returnType );
@@ -522,6 +566,19 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		final GeneratorAdapter mv = mv();
 		for (int conv : _conversionOpcodes) {
 			mv.visitInsn( conv );
+		}
+	}
+
+
+	@Override
+	protected void compileConst( Object _value ) throws CompilerException
+	{
+		if (_value instanceof Date) {
+			mv().push( ((Date) _value).getTime() );
+			compile_util_fromMsSinceUTC1970();
+		}
+		else {
+			super.compileConst( _value );
 		}
 	}
 

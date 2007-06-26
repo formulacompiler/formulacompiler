@@ -6,14 +6,21 @@ There are a few spreadsheet functions that need to take a locale and time zone i
 <%= toc 2, 3 %>
 
 
-h2. Background
-
-Why the need for locale information, anyway? The @TEXT(num,fmt)@ function, for example, must know the names of the days of the week when it sees @dddd@ in the format string. Conversely, the @VALUE(text)@ function needs to know the number and date format settings to correctly parse text into values.
-
-
 h2. Configuration
 
-So, to define a specific locale and time zone for a set of computations, you request from AFC a computation _factory_ configured accordingly. Here's how:
+
+h4. System Defaults
+
+The easiest way is to simply override the system defaults:
+
+    [jc:org.formulacompiler.tutorials.EnvironmentConfig:---- defaultLocaleTest]
+
+But in a multi-threaded server application, this will not do.
+
+
+h4. Explicit Configuration
+
+To define a locale and time zone for only a specific set of computations, you request from AFC a computation _factory_ configured accordingly. Here's how:
 
     [jc:org.formulacompiler.tutorials.EnvironmentConfig:---- customLocaleFactory]
 
@@ -21,16 +28,20 @@ Actual use of the factory and the computations created by it remains unchanged:
 
     [jc:org.formulacompiler.tutorials.EnvironmentConfig:---- customLocaleUse]
 
+but still reacts to the configuration:
+
+    [jc:org.formulacompiler.tutorials.EnvironmentConfig:---- customLocaleTest]
+      
 The class "@Computation.Config@":../javadoc/org/formulacompiler/runtime/Computation.Config.html currently supports locale and time zone information, but could be extended by other environment information we might need.
 
 
 h2. Why this design?
 
-Why not simply
+Why do we not simply configure a computation, as in
 
     outputs = factory.newComputation( inputs, new Computation.Config( locale ));
 
-Well, because it would pollute the factory interface with an element specific to AFC: @Computation.Config@. This interface, however, is part of a "strategy pattern instance":reason.htm which is _not_ specific to AFC. In a similar vein, we believe that locale and time zone information ought to be handled by the underlying user and session management (technical domain), not in the application interfaces (problem domain).
+Well, because it would "pollute the factory interface":avoid_dependencies.htm with an element specific to AFC: @Computation.Config@. This interface, however, is part of a "strategy pattern instance":reason.htm which is _not_ specific to AFC. In a similar vein, we believe that locale and time zone information ought to be handled by the underlying user and session management (technical domain), not in the application interfaces (problem domain).
 
 Then why not
 
@@ -38,3 +49,10 @@ Then why not
     outputs = factory.newComputation( inputs );
 
 Because then the factory would be stateful, which could lead to all sorts of side effects and problems with thread-safety.
+
+
+h2. Background
+
+Why do we need locale information? For example, the @TEXT(num,fmt)@ function must know the names of the days of the week when it sees @dddd@ in the format string. Conversely, the @VALUE(text)@ function needs to know the number and date format settings to correctly parse text into values.
+
+And why a time zone? Because Excel and Java have "different ideas about date/time values":datetime.htm.

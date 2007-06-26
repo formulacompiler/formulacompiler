@@ -74,7 +74,17 @@ public final class ExpressionTemplatesForDoubles
 
 	double util_fromDate( Date a )
 	{
-		return RuntimeDouble_v1.dateToNum( a, this.environment.timeZone );
+		return RuntimeDouble_v1.dateToNum( a, this.environment.timeZone() );
+	}
+
+	double util_fromMsSinceUTC1970( long a )
+	{
+		return RuntimeDouble_v1.msSinceUTC1970ToNum( a, this.environment.timeZone() );
+	}
+
+	double util_fromMs( long a )
+	{
+		return RuntimeDouble_v1.msToNum( a );
 	}
 
 
@@ -130,7 +140,17 @@ public final class ExpressionTemplatesForDoubles
 
 	Date util_toDate( double a )
 	{
-		return RuntimeDouble_v1.dateFromNum( a, this.environment.timeZone );
+		return RuntimeDouble_v1.dateFromNum( a, this.environment.timeZone() );
+	}
+
+	long util_toMsSinceUTC1970( double a )
+	{
+		return RuntimeDouble_v1.msSinceUTC1970FromNum( a, this.environment.timeZone() );
+	}
+
+	long util_toMs( double a )
+	{
+		return RuntimeDouble_v1.msFromNum( a );
 	}
 
 	String util_toString( double a )
@@ -153,8 +173,8 @@ public final class ExpressionTemplatesForDoubles
 	{
 		return RuntimeDouble_v1.toScaledLong( a, _scalingFactor );
 	}
-
-
+	
+	
 	// ------------------------------------------------ Array Fold
 
 
@@ -496,7 +516,6 @@ public final class ExpressionTemplatesForDoubles
 	// ------------------------------------------------ Conversions Functions
 
 
-	// TODO Parse date and time values
 	public double fun_VALUE( String _text )
 	{
 		return RuntimeDouble_v1.fun_VALUE( _text, this.environment );

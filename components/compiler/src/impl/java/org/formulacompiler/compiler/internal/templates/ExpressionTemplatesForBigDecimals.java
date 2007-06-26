@@ -27,6 +27,7 @@ import java.util.Date;
 import org.formulacompiler.runtime.FormulaRuntime;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
 
 
 public final class ExpressionTemplatesForBigDecimals
@@ -36,7 +37,7 @@ public final class ExpressionTemplatesForBigDecimals
 	final int roundingMode;
 	private Environment environment = null; // not supposed to be called at compile-time
 
-	
+
 	public ExpressionTemplatesForBigDecimals(int _scale, int _roundingMode)
 	{
 		super();
@@ -104,7 +105,17 @@ public final class ExpressionTemplatesForBigDecimals
 
 	BigDecimal util_fromDate( Date a )
 	{
-		return RuntimeBigDecimal_v1.dateToNum( a, this.environment.timeZone );
+		return RuntimeBigDecimal_v1.dateToNum( a, this.environment.timeZone() );
+	}
+
+	BigDecimal util_fromMsSinceUTC1970( long a )
+	{
+		return BigDecimal.valueOf( RuntimeDouble_v1.msSinceUTC1970ToNum( a, this.environment.timeZone() ) );
+	}
+
+	BigDecimal util_fromMs( long a )
+	{
+		return BigDecimal.valueOf( RuntimeDouble_v1.msToNum( a ) );
 	}
 
 
@@ -171,7 +182,19 @@ public final class ExpressionTemplatesForBigDecimals
 	@ReturnsAdjustedValue
 	Date util_toDate( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v1.dateFromNum( a, this.environment.timeZone );
+		return RuntimeBigDecimal_v1.dateFromNum( a, this.environment.timeZone() );
+	}
+
+	@ReturnsAdjustedValue
+	long util_toMsSinceUTC1970( BigDecimal a )
+	{
+		return RuntimeDouble_v1.msSinceUTC1970FromNum( a.doubleValue(), this.environment.timeZone() );
+	}
+
+	@ReturnsAdjustedValue
+	long util_toMs( BigDecimal a )
+	{
+		return RuntimeDouble_v1.msFromNum( a.doubleValue() );
 	}
 
 	@ReturnsAdjustedValue
@@ -212,7 +235,7 @@ public final class ExpressionTemplatesForBigDecimals
 		}
 		return acc;
 	}
-	
+
 	private BigDecimal foldInitial() // abstract, really
 	{
 		return null;
@@ -555,7 +578,6 @@ public final class ExpressionTemplatesForBigDecimals
 	// ------------------------------------------------ Conversions Functions
 
 
-	// TODO Parse date and time values
 	public BigDecimal fun_VALUE( String _text )
 	{
 		return RuntimeBigDecimal_v1.fun_VALUE( _text, this.environment );

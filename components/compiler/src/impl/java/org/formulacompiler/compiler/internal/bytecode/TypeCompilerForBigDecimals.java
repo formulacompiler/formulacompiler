@@ -21,14 +21,13 @@
 package org.formulacompiler.compiler.internal.bytecode;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.Map;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
+import org.formulacompiler.compiler.internal.LocalExcelDate;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
-import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -133,8 +132,8 @@ public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 				compileZero( _mv );
 			}
 		}
-		else if (_value instanceof Date) {
-			final double dbl = RuntimeDouble_v1.dateToNum( (Date) _value );
+		else if (_value instanceof LocalExcelDate) {
+			final double dbl = ((LocalExcelDate) _value ).value();
 			compileStaticConstant( _mv, Double.toString( dbl ) );
 		}
 		else {

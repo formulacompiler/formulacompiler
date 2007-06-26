@@ -20,6 +20,9 @@ h5. New
     * Date functions: @NOW()@, @DATE()@, @TIME()@, @SECOND()@, @MINUTE()@, @HOUR()@, @WEEKDAY()@, @DAY()@, @MONTH()@, and @YEAR()@ are now supported.
     * Conversion functions: @VALUE()@ is now partially supported, parsing dates and currency is not supported yet.
     * You can optionally "configure an explicit locale and time zone":tutorial/locale.htm for engine factories. Great for server applications with users all over the world.
+    * You can make AFC treat Excel constant date/times as "time-zone adjusted global times":tutorial/datetime.htm.
+    * You can "pass pure times":tutorial/datetime.htm properly to a computation.
+    * You can "pass dates as unboxed milliseconds since 1970":tutorial/type_conversion.htm to a computation.
 
 h5. Better
 

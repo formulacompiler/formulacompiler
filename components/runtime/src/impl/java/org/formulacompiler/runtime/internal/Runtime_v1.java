@@ -119,6 +119,7 @@ public abstract class Runtime_v1
 	}
 
 
+	// LATER Parse date and time values
 	protected static Number parseNumber( String _text, boolean _parseBigDecimal, Locale _locale )
 	{
 		final String text = _text.toUpperCase( _locale );
@@ -443,8 +444,11 @@ public abstract class Runtime_v1
 
 	public static String stdTEXT( Number _num, String _format, Environment _environment )
 	{
-		// FIXME This is a bogus implementation. It only serves to show how to get at the environment.
-		return _num.longValue() + " as " + _format + " in " + _environment.locale.getLanguage();
+		if ("__BOGUS__".equals( _format )) {
+			// LATER This is a bogus implementation. It only serves to show how to get at the environment.
+			return _num.longValue() + " in " + _environment.locale().getLanguage();
+		}
+		throw new IllegalArgumentException( "TEXT() is not properly supported yet." );
 	}
 
 

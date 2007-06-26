@@ -19,7 +19,9 @@ dt. "Numeric Type":numeric_type.htm : AFC normally does all numeric calculations
 
 dt. "Type Conversions":type_conversion.htm : Your input and output interfaces should ideally not be tailored to AFC. AFC therefore can convert a variety of numeric input and output data types from/to its internal numeric type.
 
-dt. "Locale and Time Zone":locale.htm : There are a few spreadsheet functions that need to take a locale and time zone into account. While the default is to use the current settings, server-side applications might want to override them.
+dt. "Locale and Time Zone":locale.htm : There are a few spreadsheet functions that need to take a user's locale and time zone into account. While the default is to use the current settings, server-side applications might want to override them.
+
+dt. "Dates, Times, Durations and Time Zones":datetime.htm : The proper handling of time zones can be more complex than just setting the user's time zone correctly.
 
 dt. "Caching Of Values":caching.htm : Many computations can be sped up considerably by caching intermediate results. Here I show how to make an engine cache input values and intermediate cell values internally.
 

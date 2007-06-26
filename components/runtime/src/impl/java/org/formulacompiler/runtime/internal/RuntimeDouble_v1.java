@@ -33,11 +33,12 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	private static final double EXCEL_EPSILON = 0.0000001;
 
 
-	public static void logDouble( final double _value, final String _message )
+	public static double logDouble( final double _value, final String _message )
 	{
 		System.out.print( _message );
 		System.out.print( _value );
 		System.out.println();
+		return _value;
 	}
 
 	public static double max( final double a, final double b )
@@ -126,29 +127,21 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 
 	public static Date dateFromNum( final double _excel, TimeZone _timeZone )
 	{
-		final boolean time = (Math.abs( _excel ) < 1);
-		double numValue = _excel;
+		return new Date( msSinceUTC1970FromNum( _excel, _timeZone ) );
+	}
 
-		// Work round a bug in excel. Excel seems to think there is a date
-		// called the 29th Feb, 1900 - but in actual fact this was not a leap year.
-		// Therefore for values less than 61 in the 1900 date system,
-		// add one to the numeric value
-		if (!BASED_ON_1904 && !time && numValue < NON_LEAP_DAY) {
-			numValue += 1;
-		}
-
-		// Convert this to the number of days since 01 Jan 1970
-		int offsetDays = BASED_ON_1904 ? UTC_OFFSET_DAYS_1904 : UTC_OFFSET_DAYS;
-		double utcDays = numValue - offsetDays;
-
-		// Convert this into utc by multiplying by the number of milliseconds
-		// in a day. Use the round function prior to ms conversion due
-		// to a rounding feature of Excel (contributed by Jurgen
-		long msSinceLocal1970 = Math.round( utcDays * SECS_PER_DAY ) * MS_PER_SEC;
-
+	public static long msSinceUTC1970FromNum( final double _excel, TimeZone _timeZone )
+	{
+		final long msSinceLocal1970 = msSinceLocal1970FromExcelDate( _excel );
 		final int timeZoneOffset = _timeZone.getOffset( msSinceLocal1970 - _timeZone.getRawOffset() );
 		final long msSinceUTC1970 = msSinceLocal1970 - timeZoneOffset;
-		return new Date( msSinceUTC1970 );
+		return msSinceUTC1970;
+	}
+
+	public static long msFromNum( final double _excel )
+	{
+		final long ms = Math.round( _excel * SECS_PER_DAY ) * MS_PER_SEC;
+		return ms;
 	}
 
 	public static double dateToNum( final Date _date )
@@ -163,15 +156,54 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		}
 		else {
 			final long msSinceLocal1970 = dateToMsSinceLocal1970( _date, _timeZone );
-			return msSinceLocal1970ToNum( msSinceLocal1970 );
+			final double excel = msSinceLocal1970ToExcelDate( msSinceLocal1970 );
+			return excel;
 		}
 	}
 
-	private static double msSinceLocal1970ToNum( final long msSinceLocal1970 )
+	public static double msSinceUTC1970ToNum( final long _msSinceUTC1970, TimeZone _timeZone )
+	{
+		final int timeZoneOffset = _timeZone.getOffset( _msSinceUTC1970 );
+		final long msSinceLocal1970 = _msSinceUTC1970 + timeZoneOffset;
+		final double excel = msSinceLocal1970ToExcelDate( msSinceLocal1970 );
+		return excel;
+	}
+
+	public static double msToNum( final long _ms )
+	{
+		final double excel = (double) _ms / (double) MS_PER_DAY;
+		return excel;
+	}
+
+	public static long msSinceLocal1970FromExcelDate( final double _excelDate )
+	{
+		final boolean time = (Math.abs( _excelDate ) < 1);
+		double numValue = _excelDate;
+
+		// Work round a bug in excel. Excel seems to think there is a date
+		// called the 29th Feb, 1900 - but in actual fact this was not a leap year.
+		// Therefore for values less than 61 in the 1900 date system,
+		// add one to the numeric value
+		if (!BASED_ON_1904 && !time && numValue < NON_LEAP_DAY) {
+			numValue += 1;
+		}
+
+		// Convert this to the number of days since 01 Jan 1970
+		final int offsetDays = BASED_ON_1904 ? UTC_OFFSET_DAYS_1904 : UTC_OFFSET_DAYS;
+		final double utcDays = numValue - offsetDays;
+
+		// Convert this into utc by multiplying by the number of milliseconds
+		// in a day. Use the round function prior to ms conversion due
+		// to a rounding feature of Excel (contributed by Jurgen
+		final long msSinceLocal1970 = Math.round( utcDays * SECS_PER_DAY ) * MS_PER_SEC;
+		return msSinceLocal1970;
+	}
+
+	public static double msSinceLocal1970ToExcelDate( final long _msSinceLocal1970 )
 	{
 		// Convert this to the number of days, plus fractions of a day since
 		// 01 Jan 1970
-		final double utcDays = (double) msSinceLocal1970 / (double) MS_PER_DAY;
+		final double utcDays = (double) _msSinceLocal1970 / (double) MS_PER_DAY;
 
 		// Add in the offset to get the number of days since 01 Jan 1900
 		double value = utcDays + UTC_OFFSET_DAYS;
@@ -262,12 +294,12 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 
 	public static double fun_NOW( final Environment _environment )
 	{
-		return dateToNum( now(), _environment.timeZone );
+		return dateToNum( now(), _environment.timeZone() );
 	}
 
 	public static double fun_TODAY( final Environment _environment )
 	{
-		final TimeZone timeZone = _environment.timeZone;
+		final TimeZone timeZone = _environment.timeZone();
 		return dateToNum( today( timeZone ), timeZone );
 	}
 
@@ -531,7 +563,7 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	public static double fun_VALUE( String _text, final Environment _environment )
 	{
 		final String text = _text.trim();
-		final Number number = parseNumber( text, false, _environment.locale );
+		final Number number = parseNumber( text, false, _environment.locale() );
 		if (number != null) {
 			return number.doubleValue();
 		}
