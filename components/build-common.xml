@@ -81,6 +81,49 @@
 	<!-- build / dist -->
 
 	<target name="-build" depends="-jar-main" />
+	<target name="-copy-jars" depends="@copy-init, @copy-build, @copy-lib-intf, @copy-lib-impl" />
+	
+	<property name="outer.build" value="../../build" />
+	<property name="outer.lib" value="${outer.build}/lib" />
+	
+	<target name="@copy-init" depends="@init">
+		<condition property="@no-build">
+			<not>
+				<available type="dir" file="${build.dir}" />
+			</not>
+		</condition>
+		<condition property="@no-lib-intf">
+			<not>
+				<available type="dir" file="${lib.dir}/intf" />
+			</not>
+		</condition>
+		<condition property="@no-lib-impl">
+			<not>
+				<available type="dir" file="${lib.dir}/impl" />
+			</not>
+		</condition>
+	</target>
+	
+	<target name="@copy-build" depends="@copy-init" unless="@no-build">
+		<mkdir dir="${outer.build}"/>
+		<copy todir="${outer.build}">
+			<fileset dir="${build.dir}" includes="*.jar" />
+		</copy>
+	</target>
+
+	<target name="@copy-lib-intf" depends="@copy-init" unless="@no-lib-intf">
+		<mkdir dir="${outer.lib}"/>
+		<copy todir="${outer.lib}">
+			<fileset dir="${lib.dir}/intf" includes="*.*" excludes=".*" />
+		</copy>
+	</target>
+
+	<target name="@copy-lib-impl" depends="@copy-init" unless="@no-lib-impl">
+		<mkdir dir="${outer.lib}"/>
+		<copy todir="${outer.lib}">
+			<fileset dir="${lib.dir}/impl" includes="*.*" excludes=".*" />
+		</copy>
+	</target>
 
 	<!-- compile -->
 

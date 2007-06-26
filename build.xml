@@ -67,8 +67,9 @@
 	<property name="temp.doc.dir" location="${temp.dir}/doc" />
 	<property name="temp.macker-rules.file" location="${temp}/macker-rules.xml" />
 
-	<property name="jar.src.file" location="${build.dir}/${basename}-src.jar" />
-	<property name="jar.doc.file" location="${build.dir}/${basename}-doc.jar" />
+	<property name="build.IDE.dir" location="build/IDE" />
+	<property name="jar.src.file" location="${build.IDE.dir}/${basename}-IDE-src.jar" />
+	<property name="jar.doc.file" location="${build.IDE.dir}/${basename}-IDE-doc.jar" />
 	<property name="javadoc.dir" location="${doc.dir}/javadoc" />
 
 
@@ -76,8 +77,8 @@
 
 	<!-- build / dist -->
 
-	<target name="-dist" depends="@check-jre1.5, -clobber, -test, -check, -doc, @jar, @pack" />
-	<target name="-build" depends="@jar-main" />
+	<target name="-dist" depends="@check-jre1.5, -clobber, -test, -check, -doc, -jar, @pack" />
+	<target name="-build" depends="-jar-main" />
 	<target name="-tools" depends="@pack-tools" />
 
 	<target name="@check-jre1.5">
@@ -130,7 +131,8 @@
 
 	<!-- jar -->
 
-	<target name="@jar" depends="@jar-main, @jar-src, @jar-doc" />
+	<target name="-jar" depends="-jar-main, @jar-src, @jar-doc" />
+	<target name="-jar-main" depends="@jar-main, @copy-jars" />
 
 	<target name="@jar-main" depends="@init">
 		<antcall target="--comps-do">
@@ -138,22 +140,39 @@
 		</antcall>
 	</target>
 
+	<target name="@copy-jars" depends="@init">
+		<antcall target="--comps-do">
+			<param name="target" value="-copy-jars" />
+		</antcall>
+	</target>
+
 	<target name="@jar-src" depends="@init">
+		<mkdir dir="${build.IDE.dir}" />
 		<jar jarfile="${jar.src.file}" compress="true">
-			<fileset dir="${src.classes.dir}">
-				<include name="**/*.java" />
-				<exclude name="net/sf/retrotranslator/**" />
-			</fileset>
-			<fileset dir="${temp.classes-gen.dir}">
-				<include name="**/*.java" />
-			</fileset>
-			<fileset dir="${temp.classes-gen-jre.dir}">
-				<include name="**/*.java" />
-			</fileset>
+
+			<!-- Unfortunately, the following is not robust as new source folders are not automatically captured. -->
+			
+			<fileset dir="${comps.dir}/runtime/src/intf/java" includes="**/*.java" />
+			<fileset dir="${comps.dir}/runtime/src/impl/java" includes="**/*.java" />
+
+			<fileset dir="${comps.dir}/decompiler/src/intf/java" includes="**/*.java" />
+			<fileset dir="${comps.dir}/decompiler/src/impl/java" includes="**/*.java" />
+
+			<fileset dir="${comps.dir}/compiler/src/intf/java" includes="**/*.java" />
+			<fileset dir="${comps.dir}/compiler/src/impl/java" includes="**/*.java" />
+			<fileset dir="${comps.dir}/compiler/temp/impl/java" includes="**/*.java" />
+			<fileset dir="${comps.dir}/compiler/temp/impl/java-${ant.java.version}" includes="**/*.java" />
+
+			<fileset dir="${comps.dir}/spreadsheet/src/intf/java" includes="**/*.java" />
+			<fileset dir="${comps.dir}/spreadsheet/src/impl/java" includes="**/*.java" />
+
+			<fileset dir="${comps.dir}/spreadsheet.excel.xls/src/impl/java" includes="**/*.java" />
+
 		</jar>
 	</target>
 
 	<target name="@jar-doc" depends="@init">
+		<mkdir dir="${build.IDE.dir}" />
 		<jar jarfile="${jar.doc.file}" compress="true">
 			<fileset dir="${javadoc.dir}">
 			</fileset>
@@ -192,6 +211,7 @@
 
 	<target name="@check-deps-make" depends="@init">
 		<delete file="${temp.macker-rules.file}" />
+		<mkdir dir="${temp.dir}" />
 		<exec dir="${scripts.dir}" executable="ruby" vmlauncher="false" failonerror="true">
 			<arg value="gen-macker-rules.rb" />
 		</exec>
@@ -350,9 +370,9 @@
 			</fileset>
 			<fileset file="${basedir}\LICENSE.html" />
 		</copy>
-		
+
 		<exec dir="${temp.rextile.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true" />
-		
+
 	</target>
 
 	<path id="jcite.classpath">
@@ -378,7 +398,7 @@
 			</fileset>
 			<fileset file="${basedir}\LICENSE.html" />
 		</copy>
-		
+
 		<path id="jcite.sourcepath">
 			<pathelement location="${comps.dir}/runtime/src/intf/java" />
 			<pathelement location="${comps.dir}/runtime/src/impl/java" />
@@ -404,11 +424,7 @@
 			<pathelement location="${comps.dir}/system/src/scratchpad/data" />
 		</path>
 
-		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}" sourcepathref="jcite.sourcepath" 
-				tripwireFile="${src.dir}/jcite-tripwires.txt"
-				acceptChanges="${tripups.accept}"
-				diffPath="${temp.dir}/tripups"
-				differ="${jcite.differ}">
+		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}" sourcepathref="jcite.sourcepath" tripwireFile="${src.dir}/jcite-tripwires.txt" acceptChanges="${tripups.accept}" diffPath="${temp.dir}/tripups" differ="${jcite.differ}">
 			<include name="**/*.htm*" />
 			<exclude name="reference/**/*" />
 		</jcite>
@@ -457,7 +473,7 @@
 	<target name="@pack" depends="@init">
 		<echo>Bundling dist: ${dist.version}</echo>
 		<mkdir dir="${dist.dir}" />
-		<property name="dist.name" value="${name}-${dist.version}" />
+		<property name="dist.name" value="${basename}-${dist.version}" />
 		<property name="dist.file" value="${dist.dir}/${dist.name}" />
 
 		<property name="dist.tmp.dir" value="${temp.dir}/dist" />
@@ -468,23 +484,15 @@
 		<mkdir dir="${dist.staging.dir}" />
 		<copy todir="${dist.staging.dir}">
 			<fileset dir="${basedir}">
-				<include name="lib/*" />
-				<exclude name="lib/build-only" />
-				<include name="build/*.jar" />
-				<exclude name="build/sej-src.jar" />
-				<exclude name="build/sej-doc.jar" />
 				<include name="*.html" />
 				<include name="*.css" />
+				<include name="build/**" />
+				<exclude name="build/IDE/**" />
+				<exclude name="build/IDE" />
 				<include name="doc/**" />
 				<exclude name="**/.DS@Store" />
+				<exclude name="**/.svn" />
 			</fileset>
-		</copy>
-		<copy todir="${dist.staging.dir}" overwrite="yes">
-			<filterset>
-				<filter token="dist.version" value="${dist.version}" />
-				<filter token="dist.version.long" value="${dist.version.long}" />
-			</filterset>
-			<fileset dir="${basedir}" includes="README.html" />
 		</copy>
 		<!-- tar basedir="${dist.tmp.dir}" destfile="${dist.file}-bin.tar.gz" compression="gzip" longfile="gnu" / -->
 		<zip basedir="${dist.tmp.dir}" destfile="${dist.file}-bin.zip" filesonly="no" />
@@ -494,44 +502,46 @@
 		<mkdir dir="${dist.staging.dir}" />
 		<copy todir="${dist.staging.dir}">
 			<fileset dir="${basedir}">
-				<include name="lib/**/*" />
 				<include name="*.html" />
 				<include name="*.css" />
+				
+				<include name="**/build.xml" />
+				<include name="**/build.default.properties" />
+				<include name="**/.project" />
+				<include name="**/.classpath" />
+				<include name="**/.settings/**" />
+				<include name="**/*.iml" />
+				<include name="**/*.ipr" />
+
+				<include name="lib/**" />
 				<include name="src/**" />
-				<include name="build.xml" />
-				<include name="build.default.properties" />
-				<include name=".project" />
-				<include name=".classpath" />
-				<include name=".settings/**" />
+				
+				<include name="components/*" />
+				<include name="components/*/src/**" />
+				<include name="components/*/lib/**" />
+					
 				<exclude name="**/.DS@Store" />
+				<exclude name="**/.svn" />
 			</fileset>
-		</copy>
-		<copy todir="${dist.staging.dir}" overwrite="yes">
-			<filterset>
-				<filter token="dist.version" value="${dist.version}" />
-				<filter token="dist.version.long" value="${dist.version.long}" />
-			</filterset>
-			<fileset dir="${basedir}" includes="README.html" />
 		</copy>
 		<!-- tar basedir="${dist.tmp.dir}" destfile="${dist.file}-src.tar.gz" compression="gzip" longfile="gnu" / -->
 		<zip basedir="${dist.tmp.dir}" destfile="${dist.file}-src.zip" filesonly="no" />
-
-		<delete dir="${dist.tmp.dir}" />
 
 		<!-- zipped source -->
 		<delete dir="${dist.tmp.dir}" />
 		<mkdir dir="${dist.staging.dir}" />
 		<copy todir="${dist.staging.dir}">
 			<fileset dir="${basedir}">
-				<include name="build/sej-src.jar" />
-				<include name="build/sej-doc.jar" />
+				<include name="build/IDE/**" />
+				<exclude name="**/.DS@Store" />
+				<exclude name="**/.svn" />
 			</fileset>
 		</copy>
 		<copy todir="${dist.staging.dir}" overwrite="yes">
 			<fileset dir="${basedir}" includes="LICENSE.html" />
 		</copy>
 		<!-- tar basedir="${dist.tmp.dir}" destfile="${dist.file}-srcjar.tar.gz" compression="gzip" longfile="gnu" / -->
-		<zip basedir="${dist.tmp.dir}" destfile="${dist.file}---jar-src.zip" filesonly="no" />
+		<zip basedir="${dist.tmp.dir}" destfile="${dist.file}-IDE-src.zip" filesonly="no" />
 
 		<delete dir="${dist.tmp.dir}" />
 	</target>
