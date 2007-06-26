@@ -46,15 +46,17 @@ public interface Computation
 	{
 
 		/**
-		 * Locale to use for, for example, labelling weekdays and months.
+		 * Locale to use for, for example, labelling weekdays and months. If left {@code null} will
+		 * use the default locale at the time the computation is run.
 		 */
-		public Locale locale = Locale.getDefault();
+		public Locale locale = null;
 
 		/**
 		 * Time zone to use to, for example, convert spreadsheet-internal numeric dates to
-		 * {@link java.util.Date}.
+		 * {@link java.util.Date}. If left {@code null} will use the default time zone at the time
+		 * the computation is run.
 		 */
-		public TimeZone timeZone = TimeZone.getDefault();
+		public TimeZone timeZone = null;
 
 
 		/**

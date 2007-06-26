@@ -24,8 +24,8 @@ import java.util.Date;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
+import org.formulacompiler.compiler.internal.LocalExcelDate;
 import org.formulacompiler.compiler.internal.NumericTypeImpl;
-import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
 import org.formulacompiler.runtime.internal.RuntimeLong_v1;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.FieldVisitor;
@@ -70,18 +70,18 @@ final class TypeCompilerForScaledLongs extends TypeCompilerForNumbers
 		return Opcodes.LRETURN;
 	}
 
-	
+
 	private boolean staticContextBuilt = false;
 
 	final void buildStaticContext()
 	{
 		if (this.staticContextBuilt) return;
 		this.staticContextBuilt = true;
-		
+
 		final SectionCompiler root = engineCompiler().rootCompiler();
 		final ClassWriter cw = root.cw();
-		final FieldVisitor fv = cw.visitField( Opcodes.ACC_STATIC + Opcodes.ACC_FINAL,
-				RUNTIME_CONTEXT_NAME, RUNTIME_CONTEXT_TYPE.getDescriptor(), null, null );
+		final FieldVisitor fv = cw.visitField( Opcodes.ACC_STATIC + Opcodes.ACC_FINAL, RUNTIME_CONTEXT_NAME,
+				RUNTIME_CONTEXT_TYPE.getDescriptor(), null, null );
 		fv.visitEnd();
 
 		final GeneratorAdapter mv = root.initializer();
@@ -89,7 +89,8 @@ final class TypeCompilerForScaledLongs extends TypeCompilerForNumbers
 		mv.visitInsn( Opcodes.DUP );
 		mv.push( numericType().getScale() );
 		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, RUNTIME_CONTEXT_TYPE.getInternalName(), "<init>", "(I)V" );
-		mv.visitFieldInsn( Opcodes.PUTSTATIC, root.classInternalName(), RUNTIME_CONTEXT_NAME, RUNTIME_CONTEXT_DESCRIPTOR );	}
+		mv.visitFieldInsn( Opcodes.PUTSTATIC, root.classInternalName(), RUNTIME_CONTEXT_NAME, RUNTIME_CONTEXT_DESCRIPTOR );
+	}
 
 
 	@Override
@@ -111,9 +112,8 @@ final class TypeCompilerForScaledLongs extends TypeCompilerForNumbers
 			_mv.push( val );
 		}
 		else if (_value instanceof Date) {
-			Date date = (Date) _value;
-			// LATER Native scaled long implementation of dateToExcel?
-			long val = numericType().valueOf( RuntimeDouble_v1.dateToNum( date ) ).longValue();
+			final double dbl = ((LocalExcelDate) _value ).value();
+			long val = numericType().valueOf( dbl ).longValue();
 			_mv.push( val );
 		}
 		else {

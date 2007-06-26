@@ -2563,6 +2563,24 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"ReferencesBad"/**
 			assertEquals( err, e.getMessage() );
 		}
 ___@_@___
+jc:org.formulacompiler.tutorials.TimeZones:---- setupDateOfBirth
+__@@__
+Calendar calendar = Calendar.getInstance( _timeZone );
+		calendar.clear();
+		calendar.set( _y, _m, _d );
+___@_@___
+jc:org.formulacompiler.tutorials.TimeZones:---- setupTime
+__@@__
+long millis = (_hour * 60L + _minute) * 60L * 1000L;
+___@_@___
+jc:org.formulacompiler.tutorials.TimeZones:---- timeInput
+__@@__
+@Milliseconds 
+		public long time()
+		{
+			return this.millis;
+		}
+___@_@___
 jc:org.formulacompiler.tutorials.TypeConversion:---- Input
 __@@__
 // Native types
@@ -2570,7 +2588,7 @@ __@@__
 		short getShort();
 		int getInt();
 		long getLong();
-		@ScaledLong(6) long getLong6();
+		@ScaledLong(7) long getLong7();
 		double getDouble();
 		float getFloat();
 		boolean getBoolean();
@@ -2580,7 +2598,7 @@ __@@__
 		Short getBoxedShort();
 		Integer getBoxedInt();
 		Long getBoxedLong();
-		@ScaledLong(6) Long getBoxedLong6();
+		@ScaledLong(7) Long getBoxedLong7();
 		Double getBoxedDouble();
 		Float getBoxedFloat();
 		Boolean getBoxedBoolean();
@@ -2589,9 +2607,17 @@ __@@__
 		BigDecimal getBigDecimal();
 		BigInteger getBigInteger();
 
-		// Date is converted to a number a la Excel
+		// Date is converted to a number as in Excel; can also use long value as returned by Date.getTime().
+		// These values are time-zone adjusted.
 		Date getDate();
-		
+		@MillisecondsSinceUTC1970 long getDateMs();
+		@MillisecondsSinceUTC1970 Long getBoxedDateMs();
+
+		// With @Milliseconds annotation, long is treated as a time duration in milliseconds for an Excel time cell.
+		// These values or *not* time-zone adjusted.
+		@Milliseconds long getTime();
+		@Milliseconds Long getBoxedTime();
+
 		// String cannot be used for numbers, but for string-valued cells
 		String getString();
 ___@_@___
@@ -2621,9 +2647,17 @@ __@@__
 		BigDecimal calcBigDecimal();
 		BigInteger calcBigInteger();
 
-		// Date is converted from a number � la Excel
+		// Date is converted from a number as in Excel; can also use long value as in "new Date(long)".
+		// These values are time-zone adjusted.
 		Date calcDate();
-		
+		@MillisecondsSinceUTC1970 long calcDateMs();
+		@MillisecondsSinceUTC1970 Long calcBoxedDateMs();
+
+		// With @Milliseconds annotation, long is converted from an Excel time cell to a time duration in milliseconds.
+		// These values are *not* time-zone adjusted.
+		@Milliseconds long calcTime();
+		@Milliseconds Long calcBoxedTime();
+
 		// Strings are converted according to Java's settings
 		String calcString();
 ___@_@___
@@ -5501,6 +5535,117 @@ __@@__
 			<td class="xl-row">9</td>
 			<td style="text-align: right">IntermediateValue</td>
 			<td class="xl-num">123.45<br/><span class="xl-name">(IntermediateValue)</span></td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
+xc:org/formulacompiler/tutorials/TimeZones.xls:DemarcationDate
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>B</td>
+			<td>C</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">8</td>
+			<td>DateOfBirth</td>
+			<td class="xl-date">01/01/1981<br/><span class="xl-name">(DateOfBirth)</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">9</td>
+			<td>Demarcation</td>
+			<td class="xl-date">01/01/1981</td>
+		</tr>
+		<tr>
+			<td class="xl-row">10</td>
+			<td>IsBeforeDate</td>
+			<td><b>false</b><br/><span class="xl-exp">=C8<C9</span><br/><span class="xl-name">(IsBeforeDate)</span></td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
+xc:org/formulacompiler/tutorials/TimeZones.xls:DemarcationDateTime
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>B</td>
+			<td>C</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">20</td>
+			<td>DateTimeOfBirth</td>
+			<td class="xl-date">1/1/81 12:00<br/><span class="xl-name">(DateTimeOfBirth)</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">21</td>
+			<td>Demarcation (CET)</td>
+			<td class="xl-date">01 01 1981 12:00:00</td>
+		</tr>
+		<tr>
+			<td class="xl-row">22</td>
+			<td>IsBeforeDateTime</td>
+			<td><b>false</b><br/><span class="xl-exp">=C20<C21</span><br/><span class="xl-name">(IsBeforeDateTime)</span></td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
+xc:org/formulacompiler/tutorials/TimeZones.xls:DemarcationTime
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>B</td>
+			<td>C</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">14</td>
+			<td>TimeOfBirth</td>
+			<td class="xl-date">12:00<br/><span class="xl-name">(TimeOfBirth)</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">15</td>
+			<td>Demarcation</td>
+			<td class="xl-date">12:00</td>
+		</tr>
+		<tr>
+			<td class="xl-row">16</td>
+			<td>IsBeforeTime</td>
+			<td><b>false</b><br/><span class="xl-exp">=C14<C15</span><br/><span class="xl-name">(IsBeforeTime)</span></td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
+xc:org/formulacompiler/tutorials/TimeZones.xls:GlobalTimeSettings
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>B</td>
+			<td>C</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">3</td>
+			<td>GlobalTimeZoneName</td>
+			<td>CET<br/><span class="xl-name">(GlobalTimeZoneName)</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">4</td>
+			<td>GlobalTimeFormat</td>
+			<td class="xl-date">01 01 2000 11:12:00<br/><span class="xl-name">(GlobalTimeFormat)</span></td>
 		</tr>
 	</tbody>
 </table>

@@ -287,7 +287,7 @@ abstract class ExpressionCompiler
 	}
 
 
-	protected final void compileConst( Object _value ) throws CompilerException
+	protected void compileConst( Object _value ) throws CompilerException
 	{
 		typeCompiler().compileConst( mv(), _value );
 	}
@@ -807,6 +807,12 @@ abstract class ExpressionCompiler
 	protected final void compileRuntimeMethod( String _methodName, String _methodSig )
 	{
 		typeCompiler().compileRuntimeMethod( mv(), _methodName, _methodSig );
+	}
+
+	protected void compile_environment()
+	{
+		mv().loadThis();
+		mv().getField( section().classType(), ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_CLASS );
 	}
 
 

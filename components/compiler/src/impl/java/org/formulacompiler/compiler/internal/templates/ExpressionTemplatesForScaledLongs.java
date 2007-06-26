@@ -36,7 +36,7 @@ public final class ExpressionTemplatesForScaledLongs
 	final long one;
 	private Environment environment = null; // not supposed to be called at compile-time
 
-	
+
 	public ExpressionTemplatesForScaledLongs(RuntimeLong_v1.Context _context)
 	{
 		super();
@@ -118,7 +118,17 @@ public final class ExpressionTemplatesForScaledLongs
 
 	long util_fromDate( Date a )
 	{
-		return RuntimeLong_v1.dateToNum( a, this.context, this.environment.timeZone );
+		return RuntimeLong_v1.dateToNum( a, this.context, this.environment.timeZone() );
+	}
+
+	long util_fromMsSinceUTC1970( long a )
+	{
+		return RuntimeLong_v1.msSinceUTC1970ToNum( a, this.context, this.environment.timeZone() );
+	}
+
+	long util_fromMs( long a )
+	{
+		return RuntimeLong_v1.msToNum( a, this.context );
 	}
 
 
@@ -191,7 +201,17 @@ public final class ExpressionTemplatesForScaledLongs
 
 	Date util_toDate( long a )
 	{
-		return RuntimeLong_v1.dateFromNum( a, this.context, this.environment.timeZone );
+		return RuntimeLong_v1.dateFromNum( a, this.context, this.environment.timeZone() );
+	}
+
+	long util_toMsSinceUTC1970( long a )
+	{
+		return RuntimeLong_v1.msSinceUTC1970FromNum( a, this.context, this.environment.timeZone() );
+	}
+
+	long util_toMs( long a )
+	{
+		return RuntimeLong_v1.msFromNum( a, this.context );
 	}
 
 	String util_toString( long a )
@@ -605,7 +625,6 @@ public final class ExpressionTemplatesForScaledLongs
 	// ------------------------------------------------ Conversions Functions
 
 
-	// TODO Parse date and time values
 	public long fun_VALUE( String _text )
 	{
 		return RuntimeLong_v1.fun_VALUE( _text, this.context, this.environment );

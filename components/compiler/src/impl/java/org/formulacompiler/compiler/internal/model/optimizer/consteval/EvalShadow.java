@@ -20,6 +20,8 @@
  */
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
+import java.util.Date;
+
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.Settings;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
@@ -150,10 +152,16 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 
 	protected final boolean isConstant( Object _arg )
 	{
-		return !(_arg instanceof ExpressionNode)
-				|| ((_arg instanceof ExpressionNodeForSubstitution) && areConstant( ((ExpressionNode) _arg).arguments() ))
-				|| ((_arg instanceof ExpressionNodeForArrayReference) && areConstant( ((ExpressionNode) _arg).arguments() ));
+		if (_arg instanceof ExpressionNode) {
+			return ((_arg instanceof ExpressionNodeForSubstitution) && areConstant( ((ExpressionNode) _arg).arguments() ))
+					|| ((_arg instanceof ExpressionNodeForArrayReference) && areConstant( ((ExpressionNode) _arg)
+							.arguments() ));
+		}
+		else {
+			return (!(_arg instanceof Date)); // Must be converted to current time-zone at runtime.
+		}
 	}
+
 	private final boolean areConstant( Iterable<ExpressionNode> _args )
 	{
 		for (ExpressionNode arg : _args) {

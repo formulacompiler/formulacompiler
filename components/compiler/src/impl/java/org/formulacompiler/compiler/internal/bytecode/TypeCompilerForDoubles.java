@@ -20,10 +20,9 @@
  */
 package org.formulacompiler.compiler.internal.bytecode;
 
-import java.util.Date;
-
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
+import org.formulacompiler.compiler.internal.LocalExcelDate;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -72,10 +71,8 @@ final class TypeCompilerForDoubles extends TypeCompilerForNumbers
 			final double val = ((Boolean) _value) ? 1 : 0;
 			_mv.push( val );
 		}
-		else if (_value instanceof Date) {
-			final Date date = (Date) _value;
-			final double val = RuntimeDouble_v1.dateToNum( date );
-			_mv.push( val );
+		else if (_value instanceof LocalExcelDate) {
+			_mv.push( ((LocalExcelDate) _value).value() );
 		}
 		else {
 			throw new CompilerException.UnsupportedDataType( "Double constant cannot be of type "
@@ -89,6 +86,6 @@ final class TypeCompilerForDoubles extends TypeCompilerForNumbers
 	{
 		_mv.visitInsn( Opcodes.DCONST_0 );
 	}
-	
-	
+
+
 }

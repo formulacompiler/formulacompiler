@@ -240,9 +240,29 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		return RuntimeDouble_v1.dateFromNum( toDouble( _val, _cx ), _timeZone );
 	}
 
+	public static long msSinceUTC1970FromNum( long _msSinceUTC1970, Context _cx, TimeZone _timeZone )
+	{
+		return RuntimeDouble_v1.msSinceUTC1970FromNum( toDouble( _msSinceUTC1970, _cx ), _timeZone );
+	}
+
+	public static long msFromNum( long _msSinceUTC1970, Context _cx )
+	{
+		return RuntimeDouble_v1.msFromNum( toDouble( _msSinceUTC1970, _cx ) );
+	}
+
 	public static long dateToNum( final Date _val, Context _cx, final TimeZone _timeZone )
 	{
 		return fromDouble( RuntimeDouble_v1.dateToNum( _val, _timeZone ), _cx );
+	}
+
+	public static long msSinceUTC1970ToNum( long _msSinceUTC1970, Context _cx, TimeZone _timeZone )
+	{
+		return fromDouble( RuntimeDouble_v1.msSinceUTC1970ToNum( _msSinceUTC1970, _timeZone ), _cx );
+	}
+
+	public static long msToNum( long _msSinceUTC1970, Context _cx )
+	{
+		return fromDouble( RuntimeDouble_v1.msToNum( _msSinceUTC1970 ), _cx );
 	}
 
 	@Deprecated
@@ -533,12 +553,12 @@ public final class RuntimeLong_v1 extends Runtime_v1
 
 	public static long fun_NOW( Context _cx, final Environment _environment )
 	{
-		return dateToNum( now(), _cx, _environment.timeZone );
+		return dateToNum( now(), _cx, _environment.timeZone() );
 	}
 
 	public static long fun_TODAY( Context _cx, final Environment _environment )
 	{
-		final TimeZone timeZone = _environment.timeZone;
+		final TimeZone timeZone = _environment.timeZone();
 		return dateToNum( today( timeZone ), _cx, timeZone );
 	}
 
@@ -588,7 +608,7 @@ public final class RuntimeLong_v1 extends Runtime_v1
 	public static long fun_VALUE( String _text, Context _cx, final Environment _environment )
 	{
 		final String text = _text.trim();
-		final Number number = parseNumber( text, false, _environment.locale );
+		final Number number = parseNumber( text, false, _environment.locale() );
 		if (number != null) {
 			if (number instanceof Long) {
 				return number.longValue() * _cx.one();

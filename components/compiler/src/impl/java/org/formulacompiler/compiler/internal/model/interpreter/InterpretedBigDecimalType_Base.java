@@ -21,8 +21,10 @@
 package org.formulacompiler.compiler.internal.model.interpreter;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.formulacompiler.compiler.NumericType;
+import org.formulacompiler.compiler.internal.LocalExcelDate;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
 
 
@@ -101,6 +103,10 @@ abstract class InterpretedBigDecimalType_Base extends InterpretedNumericType
 		else if (_value instanceof Integer) result = BigDecimal.valueOf( (Integer) _value );
 		else if (_value instanceof Long) result = BigDecimal.valueOf( (Long) _value );
 		else if (_value instanceof String) result = new BigDecimal( (String) _value );
+		else if (_value instanceof LocalExcelDate) result = BigDecimal.valueOf( ((LocalExcelDate) _value).value() );
+		else if (_value instanceof Date) {
+			throw new IllegalArgumentException( "Cannot interpret java.util.Date - it is runtime time-zone specific." );
+		}
 		else result = _ifNull;
 		return adjustScale( result );
 	}

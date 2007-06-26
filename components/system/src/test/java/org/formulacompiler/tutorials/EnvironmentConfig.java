@@ -38,8 +38,8 @@ import junit.framework.TestCase;
 
 public final class EnvironmentConfig extends TestCase
 {
-
-
+	
+	
 	public void testCustomLocaleTZ() throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
@@ -59,8 +59,31 @@ public final class EnvironmentConfig extends TestCase
 
 	private void assertComputations( Engine _engine )
 	{
-		assertComputation( "37287 as TTTT, T. MMMM JJJJ in de", _engine, Locale.GERMAN );
-		assertComputation( "37287 as TTTT, T. MMMM JJJJ in fr", _engine, Locale.FRENCH );
+		// ---- customLocaleTest
+		assertComputation( "37287 in de", _engine, Locale.GERMAN );
+		assertComputation( "37287 in fr", _engine, Locale.FRENCH );
+		// ---- customLocaleTest
+		assertDefaultLocaleIsPickedUp( _engine );
+	}
+
+	private void assertDefaultLocaleIsPickedUp( Engine _engine )
+	{
+		Locale def = Locale.getDefault();
+		try {
+			if (Locale.GERMAN == def) {
+				// ---- defaultLocaleTest
+				Locale.setDefault( Locale.FRENCH );
+				assertComputation( "37287 in fr", (MyFactory) _engine.getComputationFactory() );
+				// ---- defaultLocaleTest
+			}
+			else {
+				Locale.setDefault( Locale.GERMAN );
+				assertComputation( "37287 in de", (MyFactory) _engine.getComputationFactory() );
+			}
+		}
+		finally {
+			Locale.setDefault( def );
+		}
 	}
 
 	private void assertComputation( String _expected, Engine _engine, final Locale _locale )
@@ -71,8 +94,13 @@ public final class EnvironmentConfig extends TestCase
 		MyFactory factory = (MyFactory) _engine.getComputationFactory( /**/config/**/);
 		// ---- customLocaleFactory
 
+		assertComputation( _expected, factory );
+	}
+
+	private void assertComputation( String _expected, MyFactory _factory )
+	{
 		// ---- customLocaleUse
-		MyComputation computation = factory.newComputation( new MyInputs() );
+		MyComputation computation = _factory.newComputation( new MyInputs() );
 		String actual = computation.formatted();
 		// ---- customLocaleUse
 

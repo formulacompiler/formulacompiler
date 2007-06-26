@@ -21,7 +21,9 @@
 package org.formulacompiler.compiler.internal.model.interpreter;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
+import org.formulacompiler.compiler.internal.LocalExcelDate;
 import org.formulacompiler.compiler.internal.NumericTypeImpl;
 import org.formulacompiler.compiler.internal.NumericTypeImpl.AbstractLongType;
 import org.formulacompiler.runtime.internal.RuntimeLong_v1;
@@ -112,6 +114,10 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 		if (_value instanceof Long) return (Long) _value;
 		if (_value instanceof Number) return numberToScaledLong( (Number) _value );
 		if (_value instanceof String) return parse( (String) _value );
+		if (_value instanceof LocalExcelDate) return numberToScaledLong( ((LocalExcelDate) _value).value() );
+		if (_value instanceof Date) {
+			throw new IllegalArgumentException( "Cannot interpret java.util.Date - it is runtime time-zone specific." );
+		}
 		return zeroL();
 	}
 

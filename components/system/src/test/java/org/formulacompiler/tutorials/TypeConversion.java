@@ -27,7 +27,9 @@ import java.util.Date;
 
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.runtime.Engine;
+import org.formulacompiler.runtime.MillisecondsSinceUTC1970;
 import org.formulacompiler.runtime.ScaledLong;
+import org.formulacompiler.runtime.Milliseconds;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.tests.utils.Util;
@@ -36,9 +38,9 @@ import junit.framework.TestCase;
 
 public class TypeConversion extends TestCase
 {
-	private static final long ONE_DAY = 1000 * 60 * 60 * 24; // ms
+	private static final long ONE_HOUR = 1000 * 60 * 60; // ms
+	private static final long ONE_DAY = ONE_HOUR * 24; // ms
 	private static final Date CREATION_TIME;
-
 	static {
 		final Calendar calendar = Calendar.getInstance();
 		calendar.clear();
@@ -49,21 +51,21 @@ public class TypeConversion extends TestCase
 
 	public void testAllTypesWithDouble() throws Exception
 	{
-		testAllTypesWith( SpreadsheetCompiler.DOUBLE, false );
+		testAllTypesWith( SpreadsheetCompiler.DOUBLE );
 	}
 
 	public void testAllTypesWithBigDecimal() throws Exception
 	{
-		testAllTypesWith( SpreadsheetCompiler.getNumericType( BigDecimal.class, 4, BigDecimal.ROUND_DOWN ), true );
+		testAllTypesWith( SpreadsheetCompiler.getNumericType( BigDecimal.class, 6, BigDecimal.ROUND_DOWN ) );
 	}
 
-	public void testAllTypesWithLong4() throws Exception
+	public void testAllTypesWithLong6() throws Exception
 	{
-		testAllTypesWith( SpreadsheetCompiler.SCALEDLONG4, true );
+		testAllTypesWith( SpreadsheetCompiler.SCALEDLONG6 );
 	}
 
 
-	private void testAllTypesWith( final NumericType _numericType, boolean _truncatesAt4 ) throws Exception
+	private void testAllTypesWith( final NumericType _numericType ) throws Exception
 	{
 		String path = "src/test/data/org/formulacompiler/tutorials/TypeConversion.xls";
 
@@ -73,7 +75,7 @@ public class TypeConversion extends TestCase
 		builder.setNumericType( _numericType );
 		builder.bindAllByName();
 		Engine engine = builder.compile();
-		
+
 		AllTypesFactory factory = (AllTypesFactory) engine.getComputationFactory();
 
 		AllPossibleInput input = new AllPossibleInputImpl();
@@ -97,29 +99,27 @@ public class TypeConversion extends TestCase
 		assertEquals( "6a", !input.getBoolean(), output.calcBoxedBoolean().booleanValue() );
 
 		// Big types
-		assertEquals( "1b", asString( input.getBigDecimal().add( BigDecimal.ONE ) ), 
-				asString( output.calcBigDecimal() ) );
-		assertEquals( "2b", asString( input.getBigInteger().add( new BigInteger( "1" ) ) ),
-				asString( output.calcBigInteger() ) );
+		assertEquals( "1b", asString( input.getBigDecimal().add( BigDecimal.ONE ) ), asString( output.calcBigDecimal() ) );
+		assertEquals( "2b", asString( input.getBigInteger().add( new BigInteger( "1" ) ) ), asString( output
+				.calcBigInteger() ) );
 
 		// Date
 		assertEquals( "1c", input.getDate().getTime() + ONE_DAY, output.calcDate().getTime() );
+		assertEquals( "2c", input.getDateMs() + ONE_DAY, output.calcDateMs() );
+		assertEquals( "3c", input.getDateMs() + ONE_DAY, output.calcBoxedDateMs().longValue() );
+
+		// Time
+		assertEquals( "4c", input.getTime() * 2, output.calcTime() );
 
 		// Scaled long
-		if (_truncatesAt4) {
-			assertEquals( "1d", input.getLong6() / 100 * 2 * 10, output.calcLong5() );
-			assertEquals( "2d", input.getLong6() / 100 * 2 * 10, output.calcBoxedLong5().longValue() );
-		}
-		else {
-			assertEquals( "1d", input.getLong6() * 2 / 10, output.calcLong5() );
-			assertEquals( "2d", input.getLong6() * 2 / 10, output.calcBoxedLong5().longValue() );
-		}
-		
+		assertTrue( "1d", Math.abs( input.getLong7() * 2 / 100 - output.calcLong5() ) <= 1 );
+		assertTrue( "2d", Math.abs( input.getLong7() * 2 / 100 - output.calcBoxedLong5().longValue() ) <= 1 );
+
 		// String
 		assertEquals( "Hello, world!", output.calcString() );
 		// ---- checkAllTypes
 	}
-	
+
 	private String asString( BigDecimal _value )
 	{
 		return Util.trimTrailingZerosAndPoint( _value.toPlainString() );
@@ -133,14 +133,14 @@ public class TypeConversion extends TestCase
 
 	public static interface AllPossibleInput
 	{
-		
+
 		// ---- Input
 		// Native types
 		byte getByte();
 		short getShort();
 		int getInt();
 		long getLong();
-		@ScaledLong(6) long getLong6();
+		@ScaledLong(7) long getLong7();
 		double getDouble();
 		float getFloat();
 		boolean getBoolean();
@@ -150,7 +150,7 @@ public class TypeConversion extends TestCase
 		Short getBoxedShort();
 		Integer getBoxedInt();
 		Long getBoxedLong();
-		@ScaledLong(6) Long getBoxedLong6();
+		@ScaledLong(7) Long getBoxedLong7();
 		Double getBoxedDouble();
 		Float getBoxedFloat();
 		Boolean getBoxedBoolean();
@@ -159,25 +159,36 @@ public class TypeConversion extends TestCase
 		BigDecimal getBigDecimal();
 		BigInteger getBigInteger();
 
-		// Date is converted to a number a la Excel
+		// Date is converted to a number as in Excel; can also use long value as returned by Date.getTime().
+		// These values are time-zone adjusted.
 		Date getDate();
-		
+		@MillisecondsSinceUTC1970 long getDateMs();
+		@MillisecondsSinceUTC1970 Long getBoxedDateMs();
+
+		// With @Milliseconds annotation, long is treated as a time duration in milliseconds for an Excel time cell.
+		// These values or *not* time-zone adjusted.
+		@Milliseconds long getTime();
+		@Milliseconds Long getBoxedTime();
+
 		// String cannot be used for numbers, but for string-valued cells
 		String getString();
 		// ---- Input
-		
+
 		// Null values are treated as zero
 		Byte getNullByte();
 		Short getNullShort();
 		Integer getNullInt();
 		Long getNullLong();
-		@ScaledLong(6) Long getNullLong6();
+		@ScaledLong(7) Long getNullLong7();
 		Double getNullDouble();
 		Float getNullFloat();
 		Boolean getNullBoolean();
 		BigDecimal getNullBigDecimal();
 		BigInteger getNullBigInteger();
 		Date getNullDate();
+		@MillisecondsSinceUTC1970 Long getNullDateMs();
+		@Milliseconds Long getNullTime();
+
 	}
 
 
@@ -208,11 +219,19 @@ public class TypeConversion extends TestCase
 		BigDecimal calcBigDecimal();
 		BigInteger calcBigInteger();
 
-		// Date is converted from a number � la Excel
+		// Date is converted from a number as in Excel; can also use long value as in "new Date(long)".
+		// These values are time-zone adjusted.
 		Date calcDate();
-		
+		@MillisecondsSinceUTC1970 long calcDateMs();
+		@MillisecondsSinceUTC1970 Long calcBoxedDateMs();
+
+		// With @Milliseconds annotation, long is converted from an Excel time cell to a time duration in milliseconds.
+		// These values are *not* time-zone adjusted.
+		@Milliseconds long calcTime();
+		@Milliseconds Long calcBoxedTime();
+
 		// Strings are converted according to Java's settings
-		String calcString();	
+		String calcString();
 		// ---- Output
 	}
 
@@ -290,7 +309,27 @@ public class TypeConversion extends TestCase
 		{
 			return CREATION_TIME;
 		}
-		
+
+		public long getDateMs()
+		{
+			return CREATION_TIME.getTime();
+		}
+
+		public Long getBoxedDateMs()
+		{
+			return getDateMs();
+		}
+
+		public long getTime()
+		{
+			return ONE_HOUR * 2;
+		}
+
+		public Long getBoxedTime()
+		{
+			return getTime();
+		}
+
 		public String getString()
 		{
 			return "Hello, world!";
@@ -337,15 +376,25 @@ public class TypeConversion extends TestCase
 			return null;
 		}
 
-		public long getLong6()
+		public Long getNullDateMs()
+		{
+			return null;
+		}
+
+		public Long getNullTime()
+		{
+			return null;
+		}
+
+		public long getLong7()
 		{
 			return 12345678;
 		}
-		public Long getBoxedLong6()
+		public Long getBoxedLong7()
 		{
-			return getLong6();
+			return getLong7();
 		}
-		public Long getNullLong6()
+		public Long getNullLong7()
 		{
 			return null;
 		}

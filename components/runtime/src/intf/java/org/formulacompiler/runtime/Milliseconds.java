@@ -18,36 +18,22 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.runtime.internal;
+package org.formulacompiler.runtime;
 
-import java.util.Locale;
-import java.util.TimeZone;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-import org.formulacompiler.runtime.Computation;
-
-public final class Environment
-{
-	public static final Environment DEFAULT = new Environment( new Computation.Config() );
-
-	private final Locale locale;
-	private final TimeZone timeZone;
-
-	public Environment(Computation.Config _cfg)
-	{
-		this.locale = _cfg.locale;
-
-		// Defensive copy below as TimeZone is mutable.
-		this.timeZone = (null == _cfg.timeZone) ? null : (TimeZone) _cfg.timeZone.clone();
-	}
-
-	public Locale locale()
-	{
-		return (null == this.locale)? Locale.getDefault() : this.locale;
-	}
-
-	public TimeZone timeZone()
-	{
-		return (null == this.timeZone)? TimeZone.getDefault() : this.timeZone;
-	}
-
+/**
+ * Indicates to AFC that a {@code long} value is actually a number of milliseconds for an Excel
+ * time-of-day or time duration cell. You should never use {@link java.util.Date} for pure time
+ * cells.
+ * 
+ * <p>
+ * See the <a href="../../tutorial/numeric_type.htm#long">tutorial</a> for details.
+ * 
+ * @author peo
+ */
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Milliseconds {
+	// Indicator only.
 }

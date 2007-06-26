@@ -24,7 +24,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.TimeZone;
 
+import org.formulacompiler.compiler.internal.LocalExcelDate;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
@@ -39,9 +42,11 @@ import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 import org.formulacompiler.spreadsheet.internal.loader.SpreadsheetLoaderDispatcher;
 import org.formulacompiler.spreadsheet.internal.parser.LazySpreadsheetExpressionParser;
 
+import jxl.Cell;
 import jxl.CellType;
 import jxl.DateCell;
 import jxl.NumberFormulaCell;
+import jxl.Workbook;
 import jxl.WorkbookSettings;
 
 
@@ -82,6 +87,8 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 			final jxl.Workbook xlsWorkbook = jxl.Workbook.getWorkbook( _stream, xlsSettings );
 			final SpreadsheetImpl workbook = new SpreadsheetImpl();
 
+			loadConfig( xlsWorkbook );
+
 			for (final jxl.Sheet xlsSheet : xlsWorkbook.getSheets()) {
 				final SheetImpl sheet = new SheetImpl( workbook, xlsSheet.getName() );
 				loadRows( xlsSheet, sheet );
@@ -94,6 +101,22 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 		}
 		catch (jxl.read.biff.BiffException e) {
 			throw new SpreadsheetException.LoadError( e );
+		}
+	}
+
+
+	private String globalTimeFormat = null;
+	private TimeZone globalTimeZone = TimeZone.getDefault();
+
+	private void loadConfig( Workbook _xlsWorkbook )
+	{
+		final Cell gtFormatCell = _xlsWorkbook.findCellByName( "GlobalTimeFormat" );
+		if (null != gtFormatCell) {
+			this.globalTimeFormat = gtFormatCell.getCellFormat().getFormat().getFormatString();
+		}
+		final Cell gtZoneNameCell = _xlsWorkbook.findCellByName( "GlobalTimeZoneName" );
+		if (null != gtZoneNameCell) {
+			this.globalTimeZone = TimeZone.getTimeZone( gtZoneNameCell.getContents() );
 		}
 	}
 
@@ -152,7 +175,15 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 		}
 		else if (CellType.DATE == xlsType) {
 			final DateCell xlsDateCell = (jxl.DateCell) _xlsCell;
-			new CellWithConstant( _row, xlsDateCell.getValue() );
+			Object value;
+			if (null != this.globalTimeFormat
+					&& this.globalTimeFormat.equals( xlsDateCell.getCellFormat().getFormat().getFormatString() )) {
+				value = RuntimeDouble_v1.dateFromNum( xlsDateCell.getValue(), this.globalTimeZone );
+			}
+			else {
+				value = new LocalExcelDate( xlsDateCell.getValue() );
+			}
+			new CellWithConstant( _row, value );
 		}
 		else if (jxl.CellType.LABEL == xlsType) {
 			new CellWithConstant( _row, ((jxl.LabelCell) _xlsCell).getString() );
