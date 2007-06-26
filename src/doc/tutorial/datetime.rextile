@@ -1,0 +1,119 @@
+
+h1. Dates, Times, Durations and Time Zones
+
+Apart from "setting the current runtime time-zone":locale.htm, there are other caveats with dates and times in Java and Excel. Pure times need special treatment, in particular.
+
+<%= toc 2, 3 %>
+
+
+h2. Time-Of-Day and Durations
+
+It is problematic to use @java.util.Date@ as a container for time-only values, like a time of day or a time duration. Java always does time-zone adjustment, so one has to be very careful to only use @java.util.Date@ with the UTC time zone for time-only values. So we don't think it is a good idea to use @java.util.Date@ here.
+
+AFC therefore accepts and returns time-only values as a number of milliseconds in a @long@, not in a @java.util.Date@. To make it clear that you are passing a time value, you have to annotate the method in question with @Milliseconds@. For time of day values, you simply pass it the number of milliseconds since 00:00 am.
+
+As an example, we check the local time of day someone was born:
+
+    [xc:org/formulacompiler/tutorials/TimeZones.xls:DemarcationTime]
+
+Here's the input interface:
+
+    [jc:org.formulacompiler.tutorials.TimeZones:---- timeInput]
+
+And the input value setup code:
+    
+    [jc:org.formulacompiler.tutorials.TimeZones:---- setupTime]
+
+(If you still want to use @java.util.Date@ for time-only values and are careful to always do this in the UTC time zone, then calling @Date.getTime()@ will return the proper value to pass to AFC, and @new Date(long)@ will convert a value from AFC to a @java.util.Date@.)
+
+
+h2. Local and Global Time
+
+As described in the "background information":#background below, we need to differentiate local and global times in Excel date/time constants. The examples below assume a hypothetical need to classify people by elements of their date and time of birth.
+
+
+h3. Date only
+
+We check if people were born before 1981/01/01. Here's a very simple sheet for this:
+
+    [xc:org/formulacompiler/tutorials/TimeZones.xls:DemarcationDate]
+
+Local time is perfectly suitable for this.
+
+In fact, time-zone adjustment of the constant "1981/1/1" would be a problem here. Say we set up the input for the date of birth as follows:
+
+    [jc:org.formulacompiler.tutorials.TimeZones:---- setupDateOfBirth]
+
+A time-zone adjustment of the constant would occasionally lead to wrong results. This is because the comparison is with 1981/01/01 _00:00 am_ internally. And 00:00 am in the sheet designer's time-zone would not always be 00:00 am in the user's time-zone. So people born exactly on 1981/01/01 from time-zones where 00:00 am is before 00:00 am in the designer's time-zone would be considered born before 1981/01/01.
+
+
+h3. Point in time
+
+Now we check if people were born before 1981/01/01 _12:00 am CET_. The constant is now a global point in time. So we do need time-zone adjustment. Here's the sheet:
+
+    [xc:org/formulacompiler/tutorials/TimeZones.xls:DemarcationDateTime]
+
+As shown, this will not work properly because AFC still treats the constant as local time. So we need a way to make AFC treat the constant as global time. When I say "we" here, I really mean us as sheet designers, not as application programmers. So the setup is something we do in the sheet, not the application code:
+
+    [xc:org/formulacompiler/tutorials/TimeZones.xls:GlobalTimeSettings]
+
+Here's the recipe:
+
+    * Choose a new cell in the sheet.
+    * Name it @GlobalTimeFormat@.
+    * Enter a sample date/time into it.
+    * Apply a distinctive date format to it. A good format includes date, time, and a designation of your (the sheet designer's) time zone. I use @TT.MM.JJJJ hh:mm "CET"@ (German format string).
+    * Apply the same distinctive format to all cells you want AFC to treat as global time, and only those.
+
+    * Choose another new cell in the sheet.
+    * Name it @GlobalTimeZoneName@.
+    * Enter into it the identifier of the time zone your global times are specified in, for example "CET", "EET", "PST", "EST". See @TimeZone getTimeZone(String)@ in the @java.util.TimeZone@ class for details.
+
+Now the constant is considered global time and converted to UTC when the sheet is compiled. Then, when the compiled engine run, it is again adjusted for the current runtime time-zone.
+
+If you don't set up a cell named @GlobalTimeZoneName@, AFC simply uses the default time zone active when compiling the sheet. This may not be what you wanted.
+
+
+h2. <a name="background">Background</a>
+
+Excel and Java have different ideas about date/time values. Consider the value "1983/02/21 3:45 am" (in yyyy/mm/dd notation).
+
+h3. Excel
+
+If you enter this date into an Excel sheet in Zurich (GMT+1), save the sheet, and then reopen it in Kharkov (GMT+2), it still reads "1983/02/21 3:45 am" (assuming the date _format_ is set to yyyy/mm/dd in both places). So a date/time in Excel represents a value in relation to your local time zone, wherever you are. We will call this a _local date/time_. Significantly, its string representation does _not_ indicate a time zone.
+
+This is suitable for 
+
+    * plain dates (no time component), or
+    * plain times of day or durations (no date component).
+   
+h3. Java
+
+However, if you convert the string "1983/02/21 3:45 am" to a @java.util.Date@ in Zurich (GMT+1), serialize it, then deserialize it in Kharkov (GMT+2) and convert it back to a string, you will get "1983/02/21 4:45 am". So a @java.util.Date@ represents an absolute point in time, internally expressed as a "UTC(Coordinated Universal Time)":-utc value. We will call this a _global time_ (we don't call it _global date/time_ because it makes no sense without a date). Its complete string representation contains a time zone, so "1983/02/21 2:45 am UTC" or "1983/02/21 4:45 am EET".
+
+This is suitable for 
+
+    * points in time (both date and time component).
+
+h3. Conversion
+
+Trouble strikes when we convert values. Consider an Excel cell with the value "1981/01/01 00:00 am" in it. You compare this cell to a date obtained from an input method. Did you mean to compare local time, so essentially compare the calendar day only? Or did you mean to compare global time, so "1981/01/01 00:00 am CET" (assuming you compile the sheet in CET)?
+
+Currently, AFC makes no attempt to be especially clever. It simply treats Excel date/time fields like Excel does. (We have thought hard about cleverer rules, but found none that was totally satisfying.) But you can override this behaviour.
+
+A conversion thus becomes a source of trouble if
+
+    * the sheet contains _hard-coded_ date/time values which are _meant to be_ absolute time references but treated by Excel and AFC as relative,
+    * it is designed in one time zone (so the absolute references are expressed in that time zone), and
+    * the resulting engine is run in _another_ time zone.
+
+So we need a change in time zone. Users accessing a server-side service from all over the world cause this. Moving compiled engines to different time zones does, too.
+
+Do we have plausible AFC usage scenarios where there are hard-coded date/time cells meant to be absolute?
+
+    * One class of scenario uses demarcation dates, which make a computation go one way if a specified date is before the demarcation date, and another way if it is after (see the examples above).
+
+    * Another class involves lookup tables, where the compiled engine returns date/time values depending on some input data. This class would probably be solved more typically in databases, but people might still want to use AFC for it.
+
+
+[-utc]http://en.wikipedia.org/wiki/Coordinated_Universal_Time
