@@ -24,7 +24,6 @@ import java.util.Locale;
 
 import org.formulacompiler.runtime.Computation;
 
-
 public class ConversionFunctions_ru_RUTest extends AbstractReferenceTest
 {
 	public ConversionFunctions_ru_RUTest()
