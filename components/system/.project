@@ -3,11 +3,11 @@
 	<name>afc-system</name>
 	<comment></comment>
 	<projects>
-		<project>sej-reorg-compiler</project>
-		<project>sej-reorg-decompiler</project>
-		<project>sej-reorg-runtime</project>
-		<project>sej-reorg-spreadsheet</project>
-		<project>sej-reorg-spreadsheet-excel-xls</project>
+		<project>afc-compiler</project>
+		<project>afc-decompiler</project>
+		<project>afc-runtime</project>
+		<project>afc-spreadsheet</project>
+		<project>afc-spreadsheet-excel-xls</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -3,8 +3,8 @@
 	<name>afc-compiler</name>
 	<comment></comment>
 	<projects>
-		<project>sej-reorg-decompiler</project>
-		<project>sej-reorg-runtime</project>
+		<project>afc-decompiler</project>
+		<project>afc-runtime</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

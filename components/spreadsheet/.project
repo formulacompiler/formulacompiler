@@ -3,8 +3,9 @@
 	<name>afc-spreadsheet</name>
 	<comment></comment>
 	<projects>
-		<project>sej-reorg-compiler</project>
-		<project>sej-reorg-runtime</project>
+		<project>afc-compiler</project>
+		<project>afc-decompiler</project>
+		<project>afc-runtime</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
