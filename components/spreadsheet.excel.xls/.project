@@ -3,9 +3,10 @@
 	<name>afc-spreadsheet-excel-xls</name>
 	<comment></comment>
 	<projects>
-		<project>sej-reorg-compiler</project>
-		<project>sej-reorg-runtime</project>
-		<project>sej-reorg-spreadsheet</project>
+		<project>afc-compiler</project>
+		<project>afc-decompiler</project>
+		<project>afc-runtime</project>
+		<project>afc-spreadsheet</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
