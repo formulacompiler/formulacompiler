@@ -408,7 +408,7 @@
 				tripwireFile="${src.dir}/jcite-tripwires.txt"
 				acceptChanges="${tripups.accept}"
 				diffPath="${temp.dir}/tripups"
-				differ="/usr/bin/diff">
+				differ="${jcite.differ}">
 			<include name="**/*.htm*" />
 			<exclude name="reference/**/*" />
 		</jcite>
