@@ -2,20 +2,20 @@
  * Copyright (c) 2006 by Abacus Research AG, Switzerland.
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
- * modification, are prohibited, unless you have been explicitly granted 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are prohibited, unless you have been explicitly granted
  * more rights by Abacus Research AG.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
- * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
- * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
- * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
- * OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
- * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ * OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
+ * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.formulacompiler.tests.reference;
@@ -41,9 +41,12 @@ import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.runtime.ScaledLong;
+import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
+import org.formulacompiler.runtime.internal.RuntimeLong_v1;
 import org.formulacompiler.spreadsheet.EngineBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRefFormat;
@@ -67,6 +70,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 	private static final Long LONG_DUMMY = 923748L;
 	private static final Date DATE_DUMMY = Calendar.getInstance().getTime();
 	private static final String STRING_DUMMY = "-DUMMY-";
+	private static final Object NOW;
 
 	protected static final int CACHING_VARIANTS = 2;
 	protected static final int TYPE_VARIANTS = 3;
@@ -83,6 +87,11 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 
 	static {
 		HTML_PATH.mkdirs();
+
+		class Now
+		{
+		}
+		NOW = new Now();
 	}
 
 
@@ -337,13 +346,8 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 			private Object expectedValueOf( Object _value )
 			{
 				if (_value instanceof String) {
-					if (_value.toString().equals( "(days from 2006)" )) {
-						final long endMillis = System.currentTimeMillis() / MS_PER_SEC * MS_PER_SEC;
-						final Calendar calendar = new GregorianCalendar();
-						calendar.clear();
-						calendar.set( 2006, Calendar.JANUARY, 1 );
-						final long startMillis = calendar.getTimeInMillis();
-						return (double) (endMillis - startMillis) / MS_PER_DAY;
+					if (_value.toString().equals( "(now)" )) {
+						return NOW;
 					}
 					if (_value.toString().equals( "(full days from 2006)" )) {
 						final Calendar calendar = new GregorianCalendar();
@@ -670,7 +674,12 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 
 							switch (AbstractRowRunner.this.expectedType) {
 								case NUMBER:
-									assertNumber( this.typedTestName, o, ((Number) expected).doubleValue() );
+									if (NOW.equals( expected )) {
+										assertNow( this.typedTestName, o );
+									}
+									else {
+										assertNumber( this.typedTestName, o, ((Number) expected).doubleValue() );
+									}
 									break;
 								case STRING:
 									assertEquals( this.typedTestName, (String) expected, o.getSTRING() );
@@ -768,9 +777,26 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 					}
 
 
+					private void assertNow( String _name, Outputs o )
+					{
+						final Computation.Config config = AbstractSheetBasedTest.this.config;
+						TimeZone timeZone = config != null ? config.timeZone : null;
+						if (timeZone == null) {
+							timeZone = TimeZone.getDefault();
+						}
+
+						final long notBefore = System.currentTimeMillis() / MS_PER_SEC;
+						final long actual = getDate( o, timeZone ).getTime() / MS_PER_SEC;
+						final long notAfter = System.currentTimeMillis() / MS_PER_SEC;
+						assertTrue( _name, actual >= notBefore );
+						assertTrue( _name, actual <= notAfter );
+					}
+
+
 					protected abstract void configureInterface( EngineBuilder eb, boolean _caching );
 					protected abstract Inputs newInputs();
 					protected abstract void assertNumber( String _name, Outputs o, double _expected );
+					protected abstract Date getDate( Outputs o, TimeZone _timeZone );
 
 				}
 
@@ -801,6 +827,12 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 					{
 						final double actual = ((DoubleOutputs) o).getNUMBER();
 						assertEquals( _name, expected, actual, 0.0000001 );
+					}
+
+					@Override
+					protected Date getDate( final Outputs o, final TimeZone _timeZone )
+					{
+						return RuntimeDouble_v1.dateFromNum( ((DoubleOutputs) o).getNUMBER(), _timeZone );
 					}
 
 				}
@@ -839,6 +871,12 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 						}
 					}
 
+					@Override
+					protected Date getDate( Outputs o, TimeZone _timeZone )
+					{
+						return RuntimeBigDecimal_v1.dateFromNum( ((BigDecimalOutputs) o).getNUMBER(), _timeZone );
+					}
+
 				}
 
 
@@ -871,6 +909,13 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 						if (Math.abs( expected - actual ) > 1) {
 							assertEquals( _name, expected, actual );
 						}
+					}
+
+					@Override
+					protected Date getDate( Outputs o, TimeZone _timeZone )
+					{
+						final RuntimeLong_v1.Context context = new RuntimeLong_v1.Context( SpreadsheetCompiler.SCALEDLONG6.getScale() );
+						return RuntimeLong_v1.dateFromNum( ((ScaledLongOutputs) o).getNUMBER(), context, _timeZone );
 					}
 
 				}
