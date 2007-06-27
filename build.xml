@@ -152,7 +152,7 @@
 		<jar jarfile="${jar.src.file}" compress="true">
 
 			<!-- Unfortunately, the following is not robust as new source folders are not automatically captured. -->
-			
+
 			<fileset dir="${comps.dir}/runtime/src/intf/java" includes="**/*.java" />
 			<fileset dir="${comps.dir}/runtime/src/impl/java" includes="**/*.java" />
 
@@ -383,14 +383,16 @@
 
 	</target>
 
-	<path id="jcite.classpath">
-		<fileset dir="${jcite.build.dir}" includes="*.jar" />
-		<fileset dir="${jcite.lib.dir}" includes="*.jar" />
-	</path>
-	<property name="jcite.classpath" refid="jcite.classpath" />
-	<taskdef name="jcite" classname="ch.arrenbrecht.jcite.JCiteTask" classpathref="jcite.classpath" />
+	<target name="@cite-init" depends="@init">
+		<path id="jcite.classpath">
+			<fileset dir="${jcite.build.dir}" includes="*.jar" />
+			<fileset dir="${jcite.lib.dir}" includes="*.jar" />
+		</path>
+		<property name="jcite.classpath" refid="jcite.classpath" />
+		<taskdef name="jcite" classname="ch.arrenbrecht.jcite.JCiteTask" classpathref="jcite.classpath" />
+	</target>
 
-	<target name="@doc-cite" depends="@init, @doc-cite-no-accept">
+	<target name="@doc-cite" depends="@cite-init, @doc-cite-no-accept">
 
 		<copy todir="${doc.dir}">
 			<fileset dir="${temp.rextile.dir}">
@@ -448,7 +450,7 @@
 		<property name="tripups.accept" value="true" />
 	</target>
 
-	<target name="@doc-api" depends="@init">
+	<target name="@doc-api" depends="@cite-init">
 
 		<property name="javadoc.title" value="${BaseName} API (Version ${dist.version})" />
 		<delete dir="${javadoc.dir}" />
@@ -512,7 +514,7 @@
 			<fileset dir="${basedir}">
 				<include name="*.html" />
 				<include name="*.css" />
-				
+
 				<include name="**/build.xml" />
 				<include name="**/build.default.properties" />
 				<include name="**/.project" />
@@ -523,11 +525,11 @@
 
 				<include name="lib/**" />
 				<include name="src/**" />
-				
+
 				<include name="components/*" />
 				<include name="components/*/src/**" />
 				<include name="components/*/lib/**" />
-					
+
 				<exclude name="**/.DS@Store" />
 				<exclude name="**/.svn" />
 			</fileset>
