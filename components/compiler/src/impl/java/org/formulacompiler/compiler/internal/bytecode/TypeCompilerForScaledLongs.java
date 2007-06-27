@@ -20,8 +20,6 @@
  */
 package org.formulacompiler.compiler.internal.bytecode;
 
-import java.util.Date;
-
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.LocalExcelDate;
