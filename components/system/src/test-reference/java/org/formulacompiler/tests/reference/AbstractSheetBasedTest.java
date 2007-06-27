@@ -87,11 +87,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 
 	static {
 		HTML_PATH.mkdirs();
-
-		class Now
-		{
-		}
-		NOW = new Now();
+		NOW = new Object();
 	}
 
 
@@ -914,7 +910,8 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 					@Override
 					protected Date getDate( Outputs o, TimeZone _timeZone )
 					{
-						final RuntimeLong_v1.Context context = new RuntimeLong_v1.Context( SpreadsheetCompiler.SCALEDLONG6.getScale() );
+						final RuntimeLong_v1.Context context = new RuntimeLong_v1.Context( SpreadsheetCompiler.SCALEDLONG6
+								.getScale() );
 						return RuntimeLong_v1.dateFromNum( ((ScaledLongOutputs) o).getNUMBER(), context, _timeZone );
 					}
 
