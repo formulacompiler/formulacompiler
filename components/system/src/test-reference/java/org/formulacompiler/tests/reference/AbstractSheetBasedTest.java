@@ -355,7 +355,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 						return NOW;
 					}
 					if (_value.toString().equals( "(full days from 2006)" )) {
-						final Calendar calendar = new GregorianCalendar();
+						final Calendar calendar = new GregorianCalendar( getTimeZone() );
 						final int year = calendar.get( Calendar.YEAR );
 						final int month = calendar.get( Calendar.MONTH );
 						final int dayOfMonth = calendar.get( Calendar.DAY_OF_MONTH );
@@ -373,6 +373,16 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 					}
 				}
 				return _value;
+			}
+
+			private TimeZone getTimeZone()
+			{
+				final Computation.Config config = AbstractSheetBasedTest.this.config;
+				TimeZone timeZone = config != null ? config.timeZone : null;
+				if (timeZone == null) {
+					timeZone = TimeZone.getDefault();
+				}
+				return timeZone;
 			}
 
 			protected abstract CellInstance getValueCell( RowImpl _valueRow, int _iInput );
@@ -784,12 +794,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 
 					private void assertNow( String _name, Outputs o )
 					{
-						final Computation.Config config = AbstractSheetBasedTest.this.config;
-						TimeZone timeZone = config != null ? config.timeZone : null;
-						if (timeZone == null) {
-							timeZone = TimeZone.getDefault();
-						}
-
+						final TimeZone timeZone = getTimeZone();
 						final long notBefore = System.currentTimeMillis() / MS_PER_SEC;
 						final long actual = getDate( o, timeZone ).getTime() / MS_PER_SEC;
 						final long notAfter = System.currentTimeMillis() / MS_PER_SEC;
