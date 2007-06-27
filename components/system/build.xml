@@ -194,7 +194,7 @@
 
 		<parallel threadcount="1" threadsperprocessor="1">
 
-			<junit printsummary="no" showoutput="yes" haltonerror="no" haltonfailure="no" failureproperty="tests.failed.a" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+			<junit printsummary="no" showoutput="no" haltonerror="no" haltonfailure="no" failureproperty="tests.failed.a" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
 				<jvmarg value="-Demit_tests" />
 				<assertions enablesystemassertions="yes" />
 				<formatter type="plain" usefile="yes" />
@@ -215,7 +215,7 @@
 
 			</junit>
 
-			<junit printsummary="no" showoutput="yes" haltonerror="no" haltonfailure="no" failureproperty="tests.failed.b" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+			<junit printsummary="no" showoutput="no" haltonerror="no" haltonfailure="no" failureproperty="tests.failed.b" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
 				<jvmarg value="-Demit_tests" />
 				<assertions enablesystemassertions="yes" />
 				<formatter type="plain" usefile="yes" />
