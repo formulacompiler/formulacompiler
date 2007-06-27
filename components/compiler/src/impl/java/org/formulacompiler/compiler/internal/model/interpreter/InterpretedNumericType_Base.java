@@ -23,6 +23,7 @@ package org.formulacompiler.compiler.internal.model.interpreter;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.Operator;
+import org.formulacompiler.compiler.internal.LocalExcelDate;
 import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
@@ -94,12 +95,13 @@ abstract class InterpretedNumericType_Base
 			return (String) _value;
 		}
 		else if (_value instanceof Number) {
-			Number number = (Number) _value;
-			return this.num.valueToConciseString( number );
+			return this.num.valueToConciseString( (Number) _value );
+		}
+		else if (_value instanceof LocalExcelDate) {
+			return this.num.valueToConciseString( toNumeric( ((LocalExcelDate) _value).value() ) );
 		}
 		else if (_value instanceof Boolean) {
-			Boolean bool = (Boolean) _value;
-			return bool ? "1" : "0";
+			return ((Boolean) _value) ? "1" : "0";
 		}
 		return _value.toString();
 	}
@@ -112,7 +114,7 @@ abstract class InterpretedNumericType_Base
 	}
 
 
-	public abstract Object toNumeric( Number _value );
+	public abstract Number toNumeric( Number _value );
 
 
 	public Object compute( Operator _operator, Object... _args )

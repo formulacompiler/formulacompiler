@@ -88,7 +88,7 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 
 
 	@Override
-	public Object toNumeric( Number _value )
+	public Number toNumeric( Number _value )
 	{
 		return valueToScaledLongOrZero( _value );
 	}

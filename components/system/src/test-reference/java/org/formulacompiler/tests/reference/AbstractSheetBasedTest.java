@@ -33,6 +33,7 @@ import java.util.TimeZone;
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
+import org.formulacompiler.compiler.internal.LocalExcelDate;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.decompiler.ByteCodeEngineSource;
 import org.formulacompiler.decompiler.FormulaDecompiler;
@@ -662,9 +663,8 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 						try {
 							e = (_engine == null) ? compileEngine() : _engine;
 
-							final ComputationFactory f = AbstractSheetBasedTest.this.config != null ?
-									e.getComputationFactory( AbstractSheetBasedTest.this.config ) :
-									e.getComputationFactory();
+							final ComputationFactory f = AbstractSheetBasedTest.this.config != null ? e
+									.getComputationFactory( AbstractSheetBasedTest.this.config ) : e.getComputationFactory();
 
 							final Outputs o = (Outputs) f.newComputation( newInputs() );
 
@@ -882,19 +882,35 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 
 			public abstract class Inputs
 			{
+
+				protected Object getInput( int i )
+				{
+					return AbstractRowRunner.this.inputs[ i ];
+				}
+
+				protected Double getDouble( int i )
+				{
+					Object input = getInput( i );
+					if (input instanceof LocalExcelDate) {
+						LocalExcelDate date = (LocalExcelDate) input;
+						return date.value();
+					}
+					return (Double) input;
+				}
+
 				public String getSTRING( int i )
 				{
-					return (String) AbstractRowRunner.this.inputs[ i ];
+					return (String) getInput( i );
 				}
 
 				public Date getDATE( int i )
 				{
-					return (Date) AbstractRowRunner.this.inputs[ i ];
+					return (Date) getInput( i );
 				}
 
 				public boolean getBOOL( int i )
 				{
-					return (Boolean) AbstractRowRunner.this.inputs[ i ];
+					return (Boolean) getInput( i );
 				}
 			}
 
@@ -902,7 +918,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 			{
 				public Double getNUMBER( int i )
 				{
-					return (Double) AbstractRowRunner.this.inputs[ i ];
+					return getDouble( i );
 				}
 			}
 
@@ -910,8 +926,8 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 			{
 				public BigDecimal getNUMBER( int i )
 				{
-					final Object val = AbstractRowRunner.this.inputs[ i ];
-					return (val == null) ? null : BigDecimal.valueOf( (Double) val );
+					final Double val = getDouble( i );
+					return (val == null) ? null : BigDecimal.valueOf( val );
 				}
 			}
 
@@ -920,8 +936,8 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 			{
 				public Long getNUMBER( int i )
 				{
-					final Object val = AbstractRowRunner.this.inputs[ i ];
-					return (val == null) ? null : (Long) SpreadsheetCompiler.SCALEDLONG6.valueOf( (Double) val );
+					final Double val = getDouble( i );
+					return (val == null) ? null : (Long) SpreadsheetCompiler.SCALEDLONG6.valueOf( val );
 				}
 			}
 
