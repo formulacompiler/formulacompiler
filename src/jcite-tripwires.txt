@@ -2345,10 +2345,20 @@ __@@__
 /**/Computation.Config config = new Computation.Config( _locale );/**/
 		MyFactory factory = (MyFactory) _engine.getComputationFactory( /**/config/**/);
 ___@_@___
+jc:org.formulacompiler.tutorials.EnvironmentConfig:---- customLocaleTest
+__@@__
+assertComputation( "37287 in de", _engine, Locale.GERMAN );
+		assertComputation( "37287 in fr", _engine, Locale.FRENCH );
+___@_@___
 jc:org.formulacompiler.tutorials.EnvironmentConfig:---- customLocaleUse
 __@@__
-MyComputation computation = factory.newComputation( new MyInputs() );
+MyComputation computation = _factory.newComputation( new MyInputs() );
 		String actual = computation.formatted();
+___@_@___
+jc:org.formulacompiler.tutorials.EnvironmentConfig:---- defaultLocaleTest
+__@@__
+Locale.setDefault( Locale.FRENCH );
+				assertComputation( "37287 in fr", (MyFactory) _engine.getComputationFactory() );
 ___@_@___
 jc:org.formulacompiler.tutorials.ErrorImproperInnerSectionReference:---- badRange1
 __@@__

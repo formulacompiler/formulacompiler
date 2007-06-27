@@ -28,10 +28,9 @@
 	<target name="test-ref" description="Runs all reference tests (takes a while)." depends="-test-ref" />
 	<target name="test-failures" description="Lists all test failures recorded earlier (don't use -q with this)." depends="-test-failures" />
 
-	<target name="doc" description="Generates complete documentation (takes a while)." depends="-doc" />
+	<target name="doc" description="Generates complete documentation (takes a while; needs successful test run)." depends="-doc" />
 	<target name="doc-main" description="Generates main documentation except for API and reference docs (quicker)." depends="-doc-main" />
-	<target name="doc-main-quick" description="Updates main documentation without test runs (even quicker)." depends="-doc-main-quick" />
-	<target name="doc-main-quick-accept" description="Updates main documentation and accepts changed citations." depends="-doc-main-quick-accept" />
+	<target name="doc-main-accept" description="Updates main documentation and accepts changed citations." depends="-doc-main-accept" />
 	<target name="doc-api" description="Generates API docs (javadoc) only." depends="-doc-api" />
 	<target name="doc-img" description="Updates all documentation images from sources." depends="-doc-img" />
 
@@ -279,12 +278,11 @@
 
 	<target name="-doc" depends="@doc-clean, -doc-main-setup, -doc-ref-setup, @doc-rextile, @doc-cite, -doc-img, -doc-api" />
 	<target name="-doc-main" depends="@doc-clean, -doc-main-setup, @doc-rextile, @doc-cite" />
-	<target name="-doc-main-quick" depends="@doc-main-copy, @doc-main-make, @doc-rextile, @doc-cite" />
-	<target name="-doc-main-quick-accept" depends="@doc-cite-accept, @doc-main-copy, @doc-main-make, @doc-rextile, @doc-cite" />
+	<target name="-doc-main-accept" depends="@doc-cite-accept, -doc-main" />
 	<target name="-doc-api" depends="@doc-api" />
 	<target name="-doc-img" depends="@doc-img-make, @doc-img" />
-	<target name="-doc-main-setup" depends="-test-main, @doc-main-copy, @doc-main-make" />
-	<target name="-doc-ref-setup" depends="-test-ref, @doc-ref-copy, @doc-ref-make" />
+	<target name="-doc-main-setup" depends="@doc-main-copy, @doc-main-make" />
+	<target name="-doc-ref-setup" depends="@doc-ref-copy, @doc-ref-make" />
 
 	<target name="@doc-clean" depends="@init">
 		<delete dir="${temp.rextile.dir}" />
