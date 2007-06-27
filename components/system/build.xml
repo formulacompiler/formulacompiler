@@ -27,11 +27,11 @@
 	
 	<!-- global properties -->
 
-	<property file="${parent.dir}/build.properties" />
-	<property file="${parent.dir}/build.default.properties" />
+	<property file="../../build.properties" />
+	<property file="../../build.default.properties" />
 	
-	<property name="Name" value="${BaseName}" />
-	<property name="name" value="${basename}" />
+	<property name="Name" value="${BaseName} System" />
+	<property name="name" value="${basename}-system" />
 	
 	<path id="intf.deps.classpath">
 		<pathelement location="../runtime/temp/intf/classes" />
