@@ -44,6 +44,11 @@ public abstract class AbstractReferenceTest extends AbstractSheetBasedTest
 		super();
 	}
 
+	protected AbstractReferenceTest( String _baseName )
+	{
+		super( _baseName );
+	}
+
 	protected AbstractReferenceTest(String _baseName, int _startingRowNumber)
 	{
 		super( _baseName, _startingRowNumber );

@@ -29,23 +29,16 @@ import org.formulacompiler.runtime.Computation;
 
 public class DateFunctionsWithPresetTimeZoneTest extends AbstractReferenceTest
 {
-	private static final TimeZone CHATHAM_TIME_ZONE = TimeZone.getTimeZone( "Pacific/Chatham" );
-	private static final TimeZone MARQUESAS_TIME_ZONE = TimeZone.getTimeZone( "Pacific/Marquesas" );
+	private static final TimeZone TIME_ZONE_1 = TimeZone.getTimeZone( "GMT+12" );
+	private static final TimeZone TIME_ZONE_2 = TimeZone.getTimeZone( "GMT-12" );
 
 	public DateFunctionsWithPresetTimeZoneTest()
 	{
+		super( "DateFunctions" );
 		final TimeZone defaultTimeZone = TimeZone.getDefault();
-		final TimeZone timeZone;
-		if (getDayOfYear( defaultTimeZone ) != getDayOfYear( CHATHAM_TIME_ZONE )) {
-			timeZone = CHATHAM_TIME_ZONE;
-		}
-		else if (defaultTimeZone.getRawOffset() != MARQUESAS_TIME_ZONE.getRawOffset()) {
-			timeZone = MARQUESAS_TIME_ZONE;
-		}
-		else {
-			timeZone = CHATHAM_TIME_ZONE;
-		}
-
+		final TimeZone timeZone = getDayOfYear( defaultTimeZone ) != getDayOfYear( TIME_ZONE_1 ) ?
+				TIME_ZONE_1 : TIME_ZONE_2;
+		assertTrue( "The day must be different from local.", getDayOfYear( defaultTimeZone ) != getDayOfYear( timeZone ) );
 		setConfig( new Computation.Config( timeZone ) );
 	}
 
