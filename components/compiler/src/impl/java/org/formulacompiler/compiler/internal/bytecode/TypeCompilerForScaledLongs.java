@@ -111,7 +111,7 @@ final class TypeCompilerForScaledLongs extends TypeCompilerForNumbers
 			long val = ((Boolean) _value) ? this.one : 0;
 			_mv.push( val );
 		}
-		else if (_value instanceof Date) {
+		else if (_value instanceof LocalExcelDate) {
 			final double dbl = ((LocalExcelDate) _value ).value();
 			long val = numericType().valueOf( dbl ).longValue();
 			_mv.push( val );
