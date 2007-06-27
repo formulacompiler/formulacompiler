@@ -23,7 +23,6 @@ package org.formulacompiler.compiler.internal.model.interpreter;
 import java.util.Date;
 
 import org.formulacompiler.compiler.NumericType;
-import org.formulacompiler.compiler.internal.LocalExcelDate;
 
 
 abstract class InterpretedDoubleType_Base extends InterpretedNumericType
@@ -69,7 +68,6 @@ abstract class InterpretedDoubleType_Base extends InterpretedNumericType
 	{
 		if (_value instanceof Number) return ((Number) _value).doubleValue();
 		if (_value instanceof String) return Double.valueOf( (String) _value );
-		if (_value instanceof LocalExcelDate) return ((LocalExcelDate) _value).value();
 		if (_value instanceof Date) {
 			throw new IllegalArgumentException( "Cannot interpret java.util.Date - it is runtime time-zone specific." );
 		}
