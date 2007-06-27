@@ -22,7 +22,6 @@ package org.formulacompiler.compiler.internal.bytecode;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
-import org.formulacompiler.compiler.internal.LocalExcelDate;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -70,9 +69,6 @@ final class TypeCompilerForDoubles extends TypeCompilerForNumbers
 		else if (_value instanceof Boolean) {
 			final double val = ((Boolean) _value) ? 1 : 0;
 			_mv.push( val );
-		}
-		else if (_value instanceof LocalExcelDate) {
-			_mv.push( ((LocalExcelDate) _value).value() );
 		}
 		else {
 			throw new CompilerException.UnsupportedDataType( "Double constant cannot be of type "

@@ -33,7 +33,6 @@ import java.util.TimeZone;
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
-import org.formulacompiler.compiler.internal.LocalExcelDate;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.decompiler.ByteCodeEngineSource;
 import org.formulacompiler.decompiler.FormulaDecompiler;
@@ -43,8 +42,8 @@ import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.runtime.ScaledLong;
 import org.formulacompiler.spreadsheet.EngineBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRefFormat;
@@ -667,22 +666,20 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 									.getComputationFactory( AbstractSheetBasedTest.this.config ) : e.getComputationFactory();
 
 							final Outputs o = (Outputs) f.newComputation( newInputs() );
+							final Object expected = AbstractRowRunner.this.expected;
 
 							switch (AbstractRowRunner.this.expectedType) {
 								case NUMBER:
-									assertNumber( this.typedTestName, o, ((Double) AbstractRowRunner.this.expected)
-											.doubleValue() );
+									assertNumber( this.typedTestName, o, ((Number) expected).doubleValue() );
 									break;
 								case STRING:
-									assertEquals( this.typedTestName, (String) AbstractRowRunner.this.expected, o.getSTRING() );
+									assertEquals( this.typedTestName, (String) expected, o.getSTRING() );
 									break;
 								case DATE:
-									assertEquals( this.typedTestName, AbstractRowRunner.this.expected.toString(), o.getDATE()
-											.toString() );
+									assertEquals( this.typedTestName, expected.toString(), o.getDATE().toString() );
 									break;
 								case BOOL:
-									assertEquals( this.typedTestName,
-											((Boolean) AbstractRowRunner.this.expected).booleanValue(), o.getBOOL() );
+									assertEquals( this.typedTestName, ((Boolean) expected).booleanValue(), o.getBOOL() );
 									break;
 							}
 						}
@@ -890,12 +887,14 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 
 				protected Double getDouble( int i )
 				{
-					Object input = getInput( i );
-					if (input instanceof LocalExcelDate) {
-						LocalExcelDate date = (LocalExcelDate) input;
-						return date.value();
+					Number input = (Number) getInput( i );
+					if (null == input) {
+						return null;
 					}
-					return (Double) input;
+					if (input instanceof Double) {
+						return (Double) input;
+					}
+					return input.doubleValue();
 				}
 
 				public String getSTRING( int i )

@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
-import org.formulacompiler.compiler.internal.LocalExcelDate;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
 import org.objectweb.asm.ClassWriter;
@@ -131,10 +130,6 @@ public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 			else {
 				compileZero( _mv );
 			}
-		}
-		else if (_value instanceof LocalExcelDate) {
-			final double dbl = ((LocalExcelDate) _value ).value();
-			compileStaticConstant( _mv, Double.toString( dbl ) );
 		}
 		else {
 			throw new CompilerException.UnsupportedDataType( "BigDecimal constant cannot be of type "

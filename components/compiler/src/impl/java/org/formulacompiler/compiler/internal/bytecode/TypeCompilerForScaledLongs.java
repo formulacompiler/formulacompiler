@@ -22,7 +22,6 @@ package org.formulacompiler.compiler.internal.bytecode;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
-import org.formulacompiler.compiler.internal.LocalExcelDate;
 import org.formulacompiler.compiler.internal.NumericTypeImpl;
 import org.formulacompiler.runtime.internal.RuntimeLong_v1;
 import org.objectweb.asm.ClassWriter;
@@ -107,11 +106,6 @@ final class TypeCompilerForScaledLongs extends TypeCompilerForNumbers
 		}
 		else if (_value instanceof Boolean) {
 			long val = ((Boolean) _value) ? this.one : 0;
-			_mv.push( val );
-		}
-		else if (_value instanceof LocalExcelDate) {
-			final double dbl = ((LocalExcelDate) _value ).value();
-			long val = numericType().valueOf( dbl ).longValue();
 			_mv.push( val );
 		}
 		else {

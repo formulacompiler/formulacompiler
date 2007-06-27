@@ -25,7 +25,7 @@ import java.util.TimeZone;
 
 import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
 
-public final class LocalExcelDate
+public final class LocalExcelDate extends Number
 {
 	private final double value;
 
@@ -43,6 +43,37 @@ public final class LocalExcelDate
 	public double value()
 	{
 		return this.value;
+	}
+
+
+	@Override
+	public double doubleValue()
+	{
+		return value();
+	}
+
+	@Override
+	public float floatValue()
+	{
+		return (float) value();
+	}
+
+	@Override
+	public int intValue()
+	{
+		return (int) value();
+	}
+
+	@Override
+	public long longValue()
+	{
+		return (long) value();
+	}
+
+	@Override
+	public String toString()
+	{
+		return Double.toString( value() );
 	}
 
 }
