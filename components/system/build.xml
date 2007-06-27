@@ -27,8 +27,8 @@
 	
 	<!-- global properties -->
 
-	<property file="../../build.properties" />
-	<property file="../../build.default.properties" />
+	<property file="${parent.dir}/build.properties" />
+	<property file="${parent.dir}/build.default.properties" />
 	
 	<property name="Name" value="${BaseName}" />
 	<property name="name" value="${basename}" />
@@ -81,23 +81,7 @@
 	</path>
 	
 	
-	<property name="doc.dir" location="../../doc" />
-	<property name="javadoc.dir" location="${doc.dir}/javadoc" />
-
-	<property name="jar.src.file" location="${build.dir}/${name}-src.jar" />
-	<property name="jar.doc.file" location="${build.dir}/${name}-doc.jar" />
-
-	
 	<!-- internal targets -->
-
-	<!-- clean -->
-
-	<target name="@clean">
-		<delete dir="${temp.dir}" />
-		<delete dir="${doc.dir}" />
-		<delete file="${jar.src.file}" />
-		<delete file="${jar.doc.file}" />
-	</target>
 
 	<!-- build / dist -->
 
@@ -126,36 +110,7 @@
 
 	<!-- jar -->
 
-	<target name="-jar" depends="@jar-src, @jar-doc" />
-
-	<target name="@jar-main" depends="@init" />
-
-	<target name="@jar-src" depends="@init">
-		<echo>main: generating ${name}-src.jar</echo>
-
-		<mkdir dir="${build.dir}" />
-		<jar jarfile="${jar.src.file}" compress="true">
-			<fileset dir="../runtime/src/main/java" includes="**/*.java" />
-			<fileset dir="../compiler/src/main/java" includes="**/*.java" />
-			<fileset dir="../compiler/temp/main/java" includes="**/*.java" />
-			<fileset dir="../compiler/temp/main/java-${ant.java.version}" includes="**/*.java" />
-			<fileset dir="../decompiler/src/main/java" includes="**/*.java" />
-			<fileset dir="../spreadsheet/src/main/java" includes="**/*.java" />
-			<fileset dir="../spreadsheet.excel.xls/src/main/java" includes="**/*.java" />
-		</jar>
-		
-	</target>
-
-	<target name="@jar-doc" depends="@init">
-		<echo>main: generating ${name}-doc.jar</echo>
-
-		<mkdir dir="${build.dir}" />
-		<jar jarfile="${jar.doc.file}" compress="true">
-			<fileset dir="${javadoc.dir}">
-			</fileset>
-		</jar>
-
-	</target>
+	<target name="-jar" />
 
 	<!-- test -->
 	
@@ -230,10 +185,11 @@
 
 	</target>
 
+	<property name="temp.ref.dir" location="${temp.dir}/test-reference" />
+	
 	<target name="@test-ref" depends="@init">
 		<echo>test: running reference tests...</echo>
 			
-		<property name="temp.ref.dir" location="${temp.dir}/test-reference" />
 		<mkdir dir="${temp.ref.dir}/results" />
 
 		<parallel threadcount="1" threadsperprocessor="1">
@@ -280,11 +236,22 @@
 			</junit>
 
 		</parallel>
-
+		
 		<fail if="tests.failed.a" />
 		<fail if="tests.failed.b" />
 
 	</target>
 	
+	<target name="-test-failures" depends="@test-failures, @test-ref-failures" />
+	
+	<target name="@test-ref-failures" depends="@init">
+		<exec executable="grep" outputproperty="grep-ref-out" failonerror="no" >
+			<arg value="--no-messages" />
+			<arg value="--fixed-strings" />
+			<arg value="--file=${parent.dir}/src/junit-error-strings.txt" />
+			<arg value="${temp.ref.dir}/results/*.txt" />
+		</exec>
+		<echo>${grep-ref-out}</echo>
+	</target>
 	
 </project>
