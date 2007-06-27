@@ -26,6 +26,7 @@
 	<target name="test" description="Runs all functional tests (takes a while)." depends="-test" />
 	<target name="test-main" description="Runs all functional tests except reference tests (quicker)." depends="-test-main" />
 	<target name="test-ref" description="Runs all reference tests (takes a while)." depends="-test-ref" />
+	<target name="test-failures" description="Lists all test failures recorded earlier (don't use -q with this)." depends="-test-failures" />
 
 	<target name="doc" description="Generates complete documentation (takes a while)." depends="-doc" />
 	<target name="doc-main" description="Generates main documentation except for API and reference docs (quicker)." depends="-doc-main" />
@@ -184,6 +185,7 @@
 	<target name="-test" depends="-build, @test" />
 	<target name="-test-main" depends="-build, @test-main" />
 	<target name="-test-ref" depends="-build, @test-ref" />
+	<target name="-test-failures" depends="@test-failures" />
 
 	<target name="@test" depends="@init">
 		<antcall target="--comps-do">
@@ -200,6 +202,12 @@
 	<target name="@test-ref" depends="@init">
 		<antcall target="--comps-do">
 			<param name="target" value="-test-ref-assuming-jar" />
+		</antcall>
+	</target>
+
+	<target name="@test-failures" depends="@init">
+		<antcall target="--comps-do">
+			<param name="target" value="-test-failures" />
 		</antcall>
 	</target>
 
