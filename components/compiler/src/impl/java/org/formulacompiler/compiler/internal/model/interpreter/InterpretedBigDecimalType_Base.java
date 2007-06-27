@@ -80,7 +80,7 @@ abstract class InterpretedBigDecimalType_Base extends InterpretedNumericType
 
 
 	@Override
-	public Object toNumeric( Number _value )
+	public Number toNumeric( Number _value )
 	{
 		return valueToBigDecimalOrZero( _value );
 	}

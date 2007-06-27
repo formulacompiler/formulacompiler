@@ -50,7 +50,7 @@ abstract class InterpretedDoubleType_Base extends InterpretedNumericType
 
 
 	@Override
-	public Object toNumeric( Number _value )
+	public Number toNumeric( Number _value )
 	{
 		return valueToDoubleOrZero( _value );
 	}
