@@ -70,7 +70,17 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 	private static final Long LONG_DUMMY = 923748L;
 	private static final Date DATE_DUMMY = Calendar.getInstance().getTime();
 	private static final String STRING_DUMMY = "-DUMMY-";
-	private static final Object NOW = new Object();
+	
+	private static final Object NOW = new Object()
+	{
+		
+		@Override
+		public String toString()
+		{
+			return "(now)";
+		}
+		
+	};
 
 	protected static final int CACHING_VARIANTS = 2;
 	protected static final int TYPE_VARIANTS = 3;
