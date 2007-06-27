@@ -106,6 +106,12 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 		this.givenStartingRow = UNDEFINED_STARTING_ROW;
 	}
 
+	protected AbstractSheetBasedTest( String _baseName )
+	{
+		super( _baseName );
+		this.givenStartingRow = UNDEFINED_STARTING_ROW;
+	}
+
 	protected AbstractSheetBasedTest(String _baseName, int _startingRowNumber)
 	{
 		super( _baseName );
