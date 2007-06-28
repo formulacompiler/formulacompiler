@@ -23,6 +23,7 @@ package org.formulacompiler.tutorials;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.GregorianCalendar;
 
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.SaveableEngine;
@@ -216,7 +217,7 @@ public final class TimeZones extends TestCase
 
 		public Date inWinter()
 		{
-			Calendar w = Calendar.getInstance();
+			Calendar w = new GregorianCalendar( CET );
 			w.clear();
 			w.set( 1981, 0, 1, 12, 0 );
 			return w.getTime();
@@ -224,7 +225,7 @@ public final class TimeZones extends TestCase
 
 		public Date inSummer()
 		{
-			Calendar s = Calendar.getInstance();
+			Calendar s = new GregorianCalendar( CET );
 			s.clear();
 			s.set( 1981, 6, 1, 12, 0 );
 			return s.getTime();
