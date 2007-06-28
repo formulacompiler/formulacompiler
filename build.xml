@@ -559,7 +559,7 @@
 	<target name="@pack-tools" depends="@init">
 		<echo>Bundling tools: ${tools.version}</echo>
 		<mkdir dir="${dist.dir}" />
-		<property name="tools.name" value="${name}-${tools.version}-tools.zip" />
+		<property name="tools.name" value="${basename}-${tools.version}-tools.zip" />
 		<property name="tools.file" value="${dist.dir}/${tools.name}" />
 		<delete file="${tools.file}" />
 		<zip basedir="${tools.dir}" destfile="${tools.file}" filesonly="no" />
