@@ -58,7 +58,7 @@ To define a rewrite rule in AFC, you need to add the rule to the class
 
 which is in @src/build-tools@. This is done as follows:
 
-	[jc:org.formulacompiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_COMBIN]
+	[jc:org.formulacompiler.compiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_COMBIN]
 
 (Note that I have added two optimizations for _n = k_ and _k = 1_ here.)
 
