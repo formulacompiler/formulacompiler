@@ -760,6 +760,59 @@ final class $Root implements Computation, UsingScaledLong.Output4
     }
 }
 ___@_@___
+jc:org.formulacompiler.compiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_COMBIN
+__@@__
+@Override
+	protected void defineFunctions() throws Exception
+	{
+	}
+		// ...
+		begin( Function.COMBIN, "n", "k" );
+		{
+			body( "IF( OR( `n <= 0, `k < 0, `n < `k ), 0," );
+			body( "  IF( `n = `k, 1," );
+			body( "    IF( `k = 1, `n," );
+			body( "      FACT(`n) / FACT(`k) / FACT(`n - `k)" );
+			body( "    )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
+		// ...
+___@_@___
+jc:org.formulacompiler.compiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_MINMAX
+__@@__
+def( Function.MIN, "xs*", "_REDUCE( r, xi: `r _min_ `xi; 0; `xs )" );
+		def( Function.MAX, "xs*", "_REDUCE( r, xi: `r _max_ `xi; 0; `xs )" );
+___@_@___
+jc:org.formulacompiler.compiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_NPV
+__@@__
+// ...
+		begin( Function.NPV, "rate", "vs#" );
+		{
+			body( "_LET( rate1: `rate + 1;" );
+			body( "  _FOLD_ARRAY( r: 0; vi, i: `r + `vi / `rate1 ^ `i; `vs ))" );
+		}
+		end();
+		// ...
+___@_@___
+jc:org.formulacompiler.compiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_SUM
+__@@__
+def( Function.SUM, "xs*", "_FOLD_OR_REDUCE( r: 0; xi: `r + `xi; `xs )" );
+___@_@___
+jc:org.formulacompiler.compiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_VAR
+__@@__
+begin( Function.VAR, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "  _LET( m: SUM(`xs) / `n;" );
+			body( "    _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
+			body( "  )" );
+			body( "  / (`n - 1)" );
+			body( ")" );
+		}
+		end();
+___@_@___
 jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForBigDecimals:---- fun_ABS
 __@@__
 @ReturnsAdjustedValue
@@ -4099,6 +4152,120 @@ __@@__
 </table>
 <br/><span class="xl-r1">B2:G7</span> <span class="xl-name">(Employees)</span><br/><span class="xl-r2">D2:G4</span> <span class="xl-name">(Entries)</span>
 ___@_@___
+xc:org/formulacompiler/tests/reference/Aggregators.xls:CiteHeader,CiteVAR
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>A</td>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+			<td>G</td>
+			<td>H</td>
+			<td>I</td>
+			<td>J</td>
+			<td>K</td>
+			<td>L</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">1</td>
+			<td><span style="text-decoration: underline;">Expected</span></td>
+			<td><span style="text-decoration: underline;">Actual</span></td>
+			<td><span style="text-decoration: underline;">Inputs</span></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td><span style="text-decoration: underline;"># of Inputs</span></td>
+			<td><span style="text-decoration: underline;">Name</span></td>
+			<td><span style="text-decoration: underline;">Highlight</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">146</td>
+			<td class="xl-num">0.5</td>
+			<td class="xl-num">0.5<br/><span class="xl-exp">=VAR(C146,D146)</span></td>
+			<td class="xl-num">1</td>
+			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">2</td>
+			<td>VAR</td>
+			<td>VAR</td>
+		</tr>
+		<tr>
+			<td class="xl-row">147</td>
+			<td class="xl-num">0.5</td>
+			<td class="xl-num">0.5<br/><span class="xl-exp">=VAR(C147,D147)</span></td>
+			<td class="xl-num">4</td>
+			<td class="xl-num">5</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">2</td>
+			<td>...</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">148</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">149</td>
+			<td class="xl-num">5.8</td>
+			<td class="xl-num">5.8<br/><span class="xl-exp">=VAR(C149:E149,G149,I149)</span></td>
+			<td class="xl-num">1</td>
+			<td class="xl-num">2</td>
+			<td class="xl-num">3</td>
+			<td class="xl-num">100</td>
+			<td class="xl-num">5</td>
+			<td class="xl-num">200</td>
+			<td class="xl-num">7</td>
+			<td class="xl-num">7</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">150</td>
+			<td class="xl-num">2.5</td>
+			<td class="xl-num">2.5<br/><span class="xl-exp">=VAR(C150:E150,G150,I150)</span></td>
+			<td class="xl-num">6</td>
+			<td class="xl-num">7</td>
+			<td class="xl-num">8</td>
+			<td class="xl-num">80</td>
+			<td class="xl-num">9</td>
+			<td></td>
+			<td class="xl-num">10</td>
+			<td class="xl-num">7</td>
+			<td>...</td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
 xc:org/formulacompiler/tests/reference/DatabaseAggregators.xls:BaseData
 __@@__
 <table class="xl">
@@ -4289,6 +4456,83 @@ __@@__
 </table>
 <br/><span class="xl-r1">B3:E4</span> <span class="xl-name">(Data1)</span><br/><span class="xl-r3">B11:B12</span> <span class="xl-name">(Vals1)</span><br/><span class="xl-r4">E15:G15</span> <span class="xl-name">(Vals2)</span>
 ___@_@___
+xc:org/formulacompiler/tests/reference/FinancialFunctions.xls:HeaderRange,NPVRange
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>A</td>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+			<td>G</td>
+			<td>H</td>
+			<td>I</td>
+			<td>J</td>
+			<td>K</td>
+			<td>L</td>
+			<td>M</td>
+			<td>N</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">1</td>
+			<td><span style="text-decoration: underline;">Expected</span></td>
+			<td><span style="text-decoration: underline;">Actual</span></td>
+			<td><span style="text-decoration: underline;">Inputs</span></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td><span style="text-decoration: underline;"># of Inputs</span></td>
+			<td><span style="text-decoration: underline;">Name</span></td>
+			<td><span style="text-decoration: underline;">Highlight</span></td>
+			<td><span style="text-decoration: underline;">Excel says</span></td>
+			<td><span style="text-decoration: underline;">Skip for</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">2</td>
+			<td class="xl-num">1.188</td>
+			<td class="xl-num">1.188<br/><span class="xl-exp">=NPV(C2,D2:G2)</span></td>
+			<td class="xl-num">10%</td>
+			<td class="xl-num">-10</td>
+			<td class="xl-num">3</td>
+			<td class="xl-num">4.2</td>
+			<td class="xl-num">6.8</td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">5</td>
+			<td>NPV</td>
+			<td>NPV</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">3</td>
+			<td class="xl-num">1.922</td>
+			<td class="xl-num">1.922<br/><span class="xl-exp">=NPV(C3,E3:I3)+D3</span></td>
+			<td class="xl-num">8%</td>
+			<td class="xl-num">-40</td>
+			<td class="xl-num">8</td>
+			<td class="xl-num">9.2</td>
+			<td class="xl-num">10</td>
+			<td class="xl-num">12</td>
+			<td class="xl-num">14.5</td>
+			<td class="xl-num">7</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>long, bigdecimal</td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
 xc:org/formulacompiler/tests/reference/NumericFunctions.xls:HeaderRange,ABSRange
 __@@__
 <table class="xl">
@@ -4477,6 +4721,347 @@ __@@__
 			<td></td>
 			<td></td>
 			<td class="xl-num">1</td>
+			<td>...</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
+xc:org/formulacompiler/tests/reference/NumericFunctions.xls:HeaderRange,COMBINErrors
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>A</td>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+			<td>G</td>
+			<td>H</td>
+			<td>I</td>
+			<td>J</td>
+			<td>K</td>
+			<td>L</td>
+			<td>M</td>
+			<td>N</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">1</td>
+			<td><span style="text-decoration: underline;">Expected</span><br/><span class="xl-name">(COMBINLarge)</span></td>
+			<td><span style="text-decoration: underline;">Actual</span></td>
+			<td><span style="text-decoration: underline;">Inputs</span></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td><span style="text-decoration: underline;"># of Inputs</span></td>
+			<td><span style="text-decoration: underline;">Name</span></td>
+			<td><span style="text-decoration: underline;">Highlight</span></td>
+			<td><span style="text-decoration: underline;">Excel says</span></td>
+			<td><span style="text-decoration: underline;">Skip for</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">304</td>
+			<td class="xl-num">0</td>
+			<td>#NUM!<br/><span class="xl-exp">=COMBIN(C304,D304)</span></td>
+			<td class="xl-num">0</td>
+			<td class="xl-num">1</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td>#NUM!</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">305</td>
+			<td class="xl-num">0</td>
+			<td>#NUM!<br/><span class="xl-exp">=COMBIN(C305,D305)</span></td>
+			<td class="xl-num">1</td>
+			<td class="xl-num">-1</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td>#NUM!</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">306</td>
+			<td class="xl-num">0</td>
+			<td>#NUM!<br/><span class="xl-exp">=COMBIN(C306,D306)</span></td>
+			<td class="xl-num">-1</td>
+			<td class="xl-num">1</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td>#NUM!</td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
+xc:org/formulacompiler/tests/reference/NumericFunctions.xls:HeaderRange,COMBINRange
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>A</td>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+			<td>G</td>
+			<td>H</td>
+			<td>I</td>
+			<td>J</td>
+			<td>K</td>
+			<td>L</td>
+			<td>M</td>
+			<td>N</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">1</td>
+			<td><span style="text-decoration: underline;">Expected</span><br/><span class="xl-name">(COMBINLarge)</span></td>
+			<td><span style="text-decoration: underline;">Actual</span></td>
+			<td><span style="text-decoration: underline;">Inputs</span></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td><span style="text-decoration: underline;"># of Inputs</span></td>
+			<td><span style="text-decoration: underline;">Name</span></td>
+			<td><span style="text-decoration: underline;">Highlight</span></td>
+			<td><span style="text-decoration: underline;">Excel says</span></td>
+			<td><span style="text-decoration: underline;">Skip for</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">292</td>
+			<td class="xl-num">1</td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C292,D292)</span></td>
+			<td class="xl-num">1</td>
+			<td class="xl-num">0</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">2</td>
+			<td>COMBIN</td>
+			<td>COMBIN</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">293</td>
+			<td class="xl-num">1</td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C293,D293)</span></td>
+			<td class="xl-num">1</td>
+			<td class="xl-num">1</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">294</td>
+			<td class="xl-num">1</td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C294,D294)</span></td>
+			<td class="xl-num">2</td>
+			<td class="xl-num">0</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">295</td>
+			<td class="xl-num">2</td>
+			<td class="xl-num">2<br/><span class="xl-exp">=COMBIN(C295,D295)</span></td>
+			<td class="xl-num">2</td>
+			<td class="xl-num">1</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">296</td>
+			<td class="xl-num">1</td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C296,D296)</span></td>
+			<td class="xl-num">2</td>
+			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">297</td>
+			<td class="xl-num">1</td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C297,D297)</span></td>
+			<td class="xl-num">3</td>
+			<td class="xl-num">0</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">298</td>
+			<td class="xl-num">3</td>
+			<td class="xl-num">3<br/><span class="xl-exp">=COMBIN(C298,D298)</span></td>
+			<td class="xl-num">3</td>
+			<td class="xl-num">1</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">299</td>
+			<td class="xl-num">3</td>
+			<td class="xl-num">3<br/><span class="xl-exp">=COMBIN(C299,D299)</span></td>
+			<td class="xl-num">3</td>
+			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">300</td>
+			<td class="xl-num">1</td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C300,D300)</span></td>
+			<td class="xl-num">3</td>
+			<td class="xl-num">3</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">301</td>
+			<td class="xl-num">10</td>
+			<td class="xl-num">10<br/><span class="xl-exp">=COMBIN(C301,D301)</span></td>
+			<td class="xl-num">10</td>
+			<td class="xl-num">1</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">302</td>
+			<td class="xl-num">252</td>
+			<td class="xl-num">252<br/><span class="xl-exp">=COMBIN(C302,D302)</span></td>
+			<td class="xl-num">10</td>
+			<td class="xl-num">5</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">303</td>
+			<td class="xl-num">120</td>
+			<td class="xl-num">120<br/><span class="xl-exp">=COMBIN(C303,D303)</span></td>
+			<td class="xl-num">10</td>
+			<td class="xl-num">7</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">2</td>
 			<td>...</td>
 			<td></td>
 			<td></td>
