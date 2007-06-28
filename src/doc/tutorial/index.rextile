@@ -6,7 +6,10 @@ This is the tutorial for the Abacus Formula Compiler (AFC). It is organized as a
 
 h5. Note
 
-To ensure its correctness, all the sample code in this tutorial has been "cited from automated tests":-jcite that are run with every release build (unless stated otherwise). The tests can be found in @src/test-system/sej/tutorials@ in the source distribution of AFC. The accompanying data is in @src/test-system/org/formulacompiler/tutorials@.
+To ensure its correctness, all the sample code in this tutorial has been "cited from automated tests":-jcite that are run with every release build (unless stated otherwise). The tests and data can be found in in the source distribution of AFC in
+
+    * @components/system/src/test/java@
+    * @components/system/src/test/data@
 
 
 h2. Fundamentals
