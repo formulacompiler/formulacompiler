@@ -3090,7 +3090,7 @@ __@@__
 			<td class="xl-row">12</td>
 			<td></td>
 			<td class="xl-num">20</td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D12,InsuredAmount<=E12)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D12,InsuredAmount&lt;=E12)</span></td>
 			<td class="xl-num">20<br/><span class="xl-exp">=B12</span></td>
 			<td class="xl-num">$5,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3102,7 +3102,7 @@ __@@__
 			<td class="xl-row">13</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D13,InsuredAmount<=E13)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D13,InsuredAmount&lt;=E13)</span></td>
 			<td class="xl-num">20<br/><span class="xl-exp">=B12</span></td>
 			<td class="xl-num">$6,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3114,7 +3114,7 @@ __@@__
 			<td class="xl-row">14</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D14,InsuredAmount<=E14)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D14,InsuredAmount&lt;=E14)</span></td>
 			<td class="xl-num">20<br/><span class="xl-exp">=B12</span></td>
 			<td class="xl-num">$8,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3126,7 +3126,7 @@ __@@__
 			<td class="xl-row">15</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D15,InsuredAmount<=E15)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D15,InsuredAmount&lt;=E15)</span></td>
 			<td class="xl-num">20<br/><span class="xl-exp">=B12</span></td>
 			<td class="xl-num">$10,000.00</td>
 			<td class="xl-num">4%</td>
@@ -3138,7 +3138,7 @@ __@@__
 			<td class="xl-row">16</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D16,InsuredAmount<=E16)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D16,InsuredAmount&lt;=E16)</span></td>
 			<td class="xl-num">20<br/><span class="xl-exp">=B12</span></td>
 			<td class="xl-num">$13,000.00</td>
 			<td class="xl-num">4%</td>
@@ -3150,7 +3150,7 @@ __@@__
 			<td class="xl-row">17</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D17,InsuredAmount<=E17)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D17,InsuredAmount&lt;=E17)</span></td>
 			<td class="xl-num">20<br/><span class="xl-exp">=B12</span></td>
 			<td class="xl-num">$16,000.00</td>
 			<td class="xl-num">4%</td>
@@ -3162,7 +3162,7 @@ __@@__
 			<td class="xl-row">18</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D18,InsuredAmount<=E18)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D18,InsuredAmount&lt;=E18)</span></td>
 			<td class="xl-num">20<br/><span class="xl-exp">=B12</span></td>
 			<td class="xl-num">$20,000.00</td>
 			<td class="xl-num">5%</td>
@@ -3174,7 +3174,7 @@ __@@__
 			<td class="xl-row">19</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D19,InsuredAmount<=E19)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D19,InsuredAmount&lt;=E19)</span></td>
 			<td class="xl-num">20<br/><span class="xl-exp">=B12</span></td>
 			<td class="xl-num">$25,000.00</td>
 			<td class="xl-num">5%</td>
@@ -3186,7 +3186,7 @@ __@@__
 			<td class="xl-row">20</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D20,InsuredAmount<=E20)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D20,InsuredAmount&lt;=E20)</span></td>
 			<td class="xl-num">20<br/><span class="xl-exp">=B12</span></td>
 			<td class="xl-num">$30,000.00</td>
 			<td class="xl-num">5%</td>
@@ -3198,7 +3198,7 @@ __@@__
 			<td class="xl-row">21</td>
 			<td></td>
 			<td class="xl-num">22</td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D21,InsuredAmount<=E21)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D21,InsuredAmount&lt;=E21)</span></td>
 			<td class="xl-num">22<br/><span class="xl-exp">=B21</span></td>
 			<td class="xl-num">$5,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3210,7 +3210,7 @@ __@@__
 			<td class="xl-row">22</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D22,InsuredAmount<=E22)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D22,InsuredAmount&lt;=E22)</span></td>
 			<td class="xl-num">22<br/><span class="xl-exp">=B21</span></td>
 			<td class="xl-num">$6,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3222,7 +3222,7 @@ __@@__
 			<td class="xl-row">23</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D23,InsuredAmount<=E23)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D23,InsuredAmount&lt;=E23)</span></td>
 			<td class="xl-num">22<br/><span class="xl-exp">=B21</span></td>
 			<td class="xl-num">$8,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3234,7 +3234,7 @@ __@@__
 			<td class="xl-row">24</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D24,InsuredAmount<=E24)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D24,InsuredAmount&lt;=E24)</span></td>
 			<td class="xl-num">22<br/><span class="xl-exp">=B21</span></td>
 			<td class="xl-num">$10,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3246,7 +3246,7 @@ __@@__
 			<td class="xl-row">25</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D25,InsuredAmount<=E25)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D25,InsuredAmount&lt;=E25)</span></td>
 			<td class="xl-num">22<br/><span class="xl-exp">=B21</span></td>
 			<td class="xl-num">$13,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3258,7 +3258,7 @@ __@@__
 			<td class="xl-row">26</td>
 			<td></td>
 			<td></td>
-			<td>true<br/><span class="xl-exp">=AND(Age<=D26,InsuredAmount<=E26)</span></td>
+			<td>true<br/><span class="xl-exp">=AND(Age&lt;=D26,InsuredAmount&lt;=E26)</span></td>
 			<td class="xl-num">22<br/><span class="xl-exp">=B21</span></td>
 			<td class="xl-num">$16,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3270,7 +3270,7 @@ __@@__
 			<td class="xl-row">27</td>
 			<td></td>
 			<td></td>
-			<td>true<br/><span class="xl-exp">=AND(Age<=D27,InsuredAmount<=E27)</span></td>
+			<td>true<br/><span class="xl-exp">=AND(Age&lt;=D27,InsuredAmount&lt;=E27)</span></td>
 			<td class="xl-num">22<br/><span class="xl-exp">=B21</span></td>
 			<td class="xl-num">$20,000.00</td>
 			<td class="xl-num">4%</td>
@@ -3282,7 +3282,7 @@ __@@__
 			<td class="xl-row">28</td>
 			<td></td>
 			<td></td>
-			<td>true<br/><span class="xl-exp">=AND(Age<=D28,InsuredAmount<=E28)</span></td>
+			<td>true<br/><span class="xl-exp">=AND(Age&lt;=D28,InsuredAmount&lt;=E28)</span></td>
 			<td class="xl-num">22<br/><span class="xl-exp">=B21</span></td>
 			<td class="xl-num">$25,000.00</td>
 			<td class="xl-num">4%</td>
@@ -3294,7 +3294,7 @@ __@@__
 			<td class="xl-row">29</td>
 			<td></td>
 			<td></td>
-			<td>true<br/><span class="xl-exp">=AND(Age<=D29,InsuredAmount<=E29)</span></td>
+			<td>true<br/><span class="xl-exp">=AND(Age&lt;=D29,InsuredAmount&lt;=E29)</span></td>
 			<td class="xl-num">22<br/><span class="xl-exp">=B21</span></td>
 			<td class="xl-num">$30,000.00</td>
 			<td class="xl-num">4%</td>
@@ -3306,7 +3306,7 @@ __@@__
 			<td class="xl-row">30</td>
 			<td></td>
 			<td class="xl-num">25</td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D30,InsuredAmount<=E30)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D30,InsuredAmount&lt;=E30)</span></td>
 			<td class="xl-num">25<br/><span class="xl-exp">=B30</span></td>
 			<td class="xl-num">$5,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3318,7 +3318,7 @@ __@@__
 			<td class="xl-row">31</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D31,InsuredAmount<=E31)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D31,InsuredAmount&lt;=E31)</span></td>
 			<td class="xl-num">25<br/><span class="xl-exp">=B30</span></td>
 			<td class="xl-num">$6,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3330,7 +3330,7 @@ __@@__
 			<td class="xl-row">32</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D32,InsuredAmount<=E32)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D32,InsuredAmount&lt;=E32)</span></td>
 			<td class="xl-num">25<br/><span class="xl-exp">=B30</span></td>
 			<td class="xl-num">$8,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3342,7 +3342,7 @@ __@@__
 			<td class="xl-row">33</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D33,InsuredAmount<=E33)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D33,InsuredAmount&lt;=E33)</span></td>
 			<td class="xl-num">25<br/><span class="xl-exp">=B30</span></td>
 			<td class="xl-num">$10,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3354,7 +3354,7 @@ __@@__
 			<td class="xl-row">34</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D34,InsuredAmount<=E34)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D34,InsuredAmount&lt;=E34)</span></td>
 			<td class="xl-num">25<br/><span class="xl-exp">=B30</span></td>
 			<td class="xl-num">$13,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3366,7 +3366,7 @@ __@@__
 			<td class="xl-row">35</td>
 			<td></td>
 			<td></td>
-			<td>true<br/><span class="xl-exp">=AND(Age<=D35,InsuredAmount<=E35)</span></td>
+			<td>true<br/><span class="xl-exp">=AND(Age&lt;=D35,InsuredAmount&lt;=E35)</span></td>
 			<td class="xl-num">25<br/><span class="xl-exp">=B30</span></td>
 			<td class="xl-num">$16,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3378,7 +3378,7 @@ __@@__
 			<td class="xl-row">36</td>
 			<td></td>
 			<td></td>
-			<td>true<br/><span class="xl-exp">=AND(Age<=D36,InsuredAmount<=E36)</span></td>
+			<td>true<br/><span class="xl-exp">=AND(Age&lt;=D36,InsuredAmount&lt;=E36)</span></td>
 			<td class="xl-num">25<br/><span class="xl-exp">=B30</span></td>
 			<td class="xl-num">$20,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3390,7 +3390,7 @@ __@@__
 			<td class="xl-row">37</td>
 			<td></td>
 			<td></td>
-			<td>true<br/><span class="xl-exp">=AND(Age<=D37,InsuredAmount<=E37)</span></td>
+			<td>true<br/><span class="xl-exp">=AND(Age&lt;=D37,InsuredAmount&lt;=E37)</span></td>
 			<td class="xl-num">25<br/><span class="xl-exp">=B30</span></td>
 			<td class="xl-num">$25,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3402,7 +3402,7 @@ __@@__
 			<td class="xl-row">38</td>
 			<td></td>
 			<td></td>
-			<td>true<br/><span class="xl-exp">=AND(Age<=D38,InsuredAmount<=E38)</span></td>
+			<td>true<br/><span class="xl-exp">=AND(Age&lt;=D38,InsuredAmount&lt;=E38)</span></td>
 			<td class="xl-num">25<br/><span class="xl-exp">=B30</span></td>
 			<td class="xl-num">$30,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3414,7 +3414,7 @@ __@@__
 			<td class="xl-row">39</td>
 			<td></td>
 			<td class="xl-num">60</td>
-			<td>true<br/><span class="xl-exp">=AND(Age<=D39,InsuredAmount<=E39)</span></td>
+			<td>true<br/><span class="xl-exp">=AND(Age&lt;=D39,InsuredAmount&lt;=E39)</span></td>
 			<td class="xl-num">60<br/><span class="xl-exp">=B39</span></td>
 			<td class="xl-num">$30,000.00</td>
 			<td class="xl-num">3.1600%<br/><span class="xl-exp">=2.0%+ABS(Age-50.0)/25.0*1.0%</span></td>
@@ -3426,7 +3426,7 @@ __@@__
 			<td class="xl-row">40</td>
 			<td></td>
 			<td class="xl-num">200</td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D40,InsuredAmount<=E40)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D40,InsuredAmount&lt;=E40)</span></td>
 			<td class="xl-num">200<br/><span class="xl-exp">=B40</span></td>
 			<td class="xl-num">$5,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3438,7 +3438,7 @@ __@@__
 			<td class="xl-row">41</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D41,InsuredAmount<=E41)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D41,InsuredAmount&lt;=E41)</span></td>
 			<td class="xl-num">200<br/><span class="xl-exp">=B40</span></td>
 			<td class="xl-num">$6,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3450,7 +3450,7 @@ __@@__
 			<td class="xl-row">42</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D42,InsuredAmount<=E42)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D42,InsuredAmount&lt;=E42)</span></td>
 			<td class="xl-num">200<br/><span class="xl-exp">=B40</span></td>
 			<td class="xl-num">$8,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3462,7 +3462,7 @@ __@@__
 			<td class="xl-row">43</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D43,InsuredAmount<=E43)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D43,InsuredAmount&lt;=E43)</span></td>
 			<td class="xl-num">200<br/><span class="xl-exp">=B40</span></td>
 			<td class="xl-num">$10,000.00</td>
 			<td class="xl-num">4%</td>
@@ -3474,7 +3474,7 @@ __@@__
 			<td class="xl-row">44</td>
 			<td></td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(Age<=D44,InsuredAmount<=E44)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D44,InsuredAmount&lt;=E44)</span></td>
 			<td class="xl-num">200<br/><span class="xl-exp">=B40</span></td>
 			<td class="xl-num">$13,000.00</td>
 			<td class="xl-num">4%</td>
@@ -3486,7 +3486,7 @@ __@@__
 			<td class="xl-row">45</td>
 			<td></td>
 			<td></td>
-			<td>true<br/><span class="xl-exp">=AND(Age<=D45,InsuredAmount<=E45)</span></td>
+			<td>true<br/><span class="xl-exp">=AND(Age&lt;=D45,InsuredAmount&lt;=E45)</span></td>
 			<td class="xl-num">200<br/><span class="xl-exp">=B40</span></td>
 			<td class="xl-num">$16,000.00</td>
 			<td class="xl-num">4%</td>
@@ -3498,7 +3498,7 @@ __@@__
 			<td class="xl-row">46</td>
 			<td></td>
 			<td></td>
-			<td>true<br/><span class="xl-exp">=AND(Age<=D46,InsuredAmount<=E46)</span></td>
+			<td>true<br/><span class="xl-exp">=AND(Age&lt;=D46,InsuredAmount&lt;=E46)</span></td>
 			<td class="xl-num">200<br/><span class="xl-exp">=B40</span></td>
 			<td class="xl-num">$20,000.00</td>
 			<td class="xl-num">5%</td>
@@ -3510,7 +3510,7 @@ __@@__
 			<td class="xl-row">47</td>
 			<td></td>
 			<td></td>
-			<td>true<br/><span class="xl-exp">=AND(Age<=D47,InsuredAmount<=E47)</span></td>
+			<td>true<br/><span class="xl-exp">=AND(Age&lt;=D47,InsuredAmount&lt;=E47)</span></td>
 			<td class="xl-num">200<br/><span class="xl-exp">=B40</span></td>
 			<td class="xl-num">$25,000.00</td>
 			<td class="xl-num">5%</td>
@@ -3522,7 +3522,7 @@ __@@__
 			<td class="xl-row">48</td>
 			<td></td>
 			<td></td>
-			<td>true<br/><span class="xl-exp">=AND(Age<=D48,InsuredAmount<=E48)</span></td>
+			<td>true<br/><span class="xl-exp">=AND(Age&lt;=D48,InsuredAmount&lt;=E48)</span></td>
 			<td class="xl-num">200<br/><span class="xl-exp">=B40</span></td>
 			<td class="xl-num">$30,000.00</td>
 			<td class="xl-num">5%</td>
@@ -3703,7 +3703,7 @@ __@@__
 			<td class="xl-row">16</td>
 			<td></td>
 			<td class="xl-num">20</td>
-			<td class="xl-num"><br/><span class="xl-exp">=AND(Age<=D16,InsuredAmount<=E16)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D16,InsuredAmount&lt;=E16)</span></td>
 			<td class="xl-num">20<br/><span class="xl-exp">=B16</span></td>
 			<td class="xl-num">$5,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3713,7 +3713,7 @@ __@@__
 			<td class="xl-row">17</td>
 			<td></td>
 			<td></td>
-			<td class="xl-num"><br/><span class="xl-exp">=AND(Age<=D17,InsuredAmount<=E17)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D17,InsuredAmount&lt;=E17)</span></td>
 			<td class="xl-num">20<br/><span class="xl-exp">=B16</span></td>
 			<td class="xl-num">$6,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3723,7 +3723,7 @@ __@@__
 			<td class="xl-row">18</td>
 			<td></td>
 			<td></td>
-			<td class="xl-num"><br/><span class="xl-exp">=AND(Age<=D18,InsuredAmount<=E18)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D18,InsuredAmount&lt;=E18)</span></td>
 			<td class="xl-num">20<br/><span class="xl-exp">=B16</span></td>
 			<td class="xl-num">$8,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3854,7 +3854,7 @@ __@@__
 			<td class="xl-row">9</td>
 			<td></td>
 			<td class="xl-num">20</td>
-			<td class="xl-num"><br/><span class="xl-exp">=AND(Age<=D9,InsuredAmount<=E9)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D9,InsuredAmount&lt;=E9)</span></td>
 			<td class="xl-num">20<br/><span class="xl-exp">=B9</span></td>
 			<td class="xl-num">$5,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3868,7 +3868,7 @@ __@@__
 			<td class="xl-row">10</td>
 			<td></td>
 			<td></td>
-			<td class="xl-num"><br/><span class="xl-exp">=AND(Age<=D10,InsuredAmount<=E10)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D10,InsuredAmount&lt;=E10)</span></td>
 			<td class="xl-num">20<br/><span class="xl-exp">=B9</span></td>
 			<td class="xl-num">$6,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3882,7 +3882,7 @@ __@@__
 			<td class="xl-row">11</td>
 			<td></td>
 			<td></td>
-			<td class="xl-num"><br/><span class="xl-exp">=AND(Age<=D11,InsuredAmount<=E11)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(Age&lt;=D11,InsuredAmount&lt;=E11)</span></td>
 			<td class="xl-num">20<br/><span class="xl-exp">=B9</span></td>
 			<td class="xl-num">$8,000.00</td>
 			<td class="xl-num">3%</td>
@@ -3980,7 +3980,7 @@ __@@__
 			<td></td>
 			<td class="xl-r1">Sample<br/><span class="xl-name">(Name)</span></td>
 			<td class="xl-r1">Joe<br/><span class="xl-name">(FirstName)</span></td>
-			<td class="xl-date xl-r2">01/01/2006<br/><span class="xl-name">(Date)</span></td>
+			<td class="xl-date xl-r2">01.01.06<br/><span class="xl-name">(Date)</span></td>
 			<td class="xl-date xl-r2">8:30<br/><span class="xl-name">(Time)</span></td>
 			<td class="xl-date xl-r2">2:30<br/><span class="xl-name">(Duration)</span></td>
 			<td class="xl-r2">Foo<br/><span class="xl-name">(Job)</span></td>
@@ -3990,7 +3990,7 @@ __@@__
 			<td></td>
 			<td class="xl-r1"></td>
 			<td class="xl-r1"></td>
-			<td class="xl-date xl-r2">01/01/2006</td>
+			<td class="xl-date xl-r2">01.01.06</td>
 			<td class="xl-date xl-r2">13:00</td>
 			<td class="xl-date xl-r2">4:00</td>
 			<td class="xl-r2">Bar</td>
@@ -4000,7 +4000,7 @@ __@@__
 			<td></td>
 			<td class="xl-r1"></td>
 			<td class="xl-r1"></td>
-			<td class="xl-date xl-r2">02/01/2006</td>
+			<td class="xl-date xl-r2">02.01.06</td>
 			<td class="xl-date xl-r2">8:00</td>
 			<td class="xl-date xl-r2">4:00</td>
 			<td class="xl-r2">Foo</td>
@@ -4010,7 +4010,7 @@ __@@__
 			<td></td>
 			<td class="xl-r1">Exemplum</td>
 			<td class="xl-r1">Per</td>
-			<td class="xl-date xl-r1">01/01/2006</td>
+			<td class="xl-date xl-r1">01.01.06</td>
 			<td class="xl-date xl-r1">8:30</td>
 			<td class="xl-date xl-r1">2:30</td>
 			<td class="xl-r1">Foo</td>
@@ -4020,7 +4020,7 @@ __@@__
 			<td></td>
 			<td class="xl-r1"></td>
 			<td class="xl-r1"></td>
-			<td class="xl-date xl-r1">01/01/2006</td>
+			<td class="xl-date xl-r1">01.01.06</td>
 			<td class="xl-date xl-r1">13:00</td>
 			<td class="xl-date xl-r1">4:00</td>
 			<td class="xl-r1">Bar</td>
@@ -4030,7 +4030,7 @@ __@@__
 			<td></td>
 			<td class="xl-r1"></td>
 			<td class="xl-r1"></td>
-			<td class="xl-date xl-r1">02/01/2006</td>
+			<td class="xl-date xl-r1">02.01.06</td>
 			<td class="xl-date xl-r1">8:00</td>
 			<td class="xl-date xl-r1">4:00</td>
 			<td class="xl-r1">Foo</td>
@@ -4209,10 +4209,10 @@ __@@__
 			<td class="xl-row">11</td>
 			<td></td>
 			<td class="xl-r3">Apple</td>
-			<td>>10</td>
-			<td><16</td>
+			<td>&gt;10</td>
+			<td>&lt;16</td>
 			<td>Nonexistent</td>
-			<td><1.4e6</td>
+			<td>&lt;1.4e6</td>
 			<td></td>
 		</tr>
 		<tr>
@@ -4249,8 +4249,8 @@ __@@__
 			<td class="xl-row">15</td>
 			<td></td>
 			<td>Apple<br/><span class="xl-exp">=E15</span></td>
-			<td>>10<br/><span class="xl-exp">=">"&F15</span></td>
-			<td><16<br/><span class="xl-exp">=CONCATENATE("<",G15)</span></td>
+			<td>&gt;10<br/><span class="xl-exp">="&gt;"&amp;F15</span></td>
+			<td>&lt;16<br/><span class="xl-exp">=CONCATENATE("&lt;",G15)</span></td>
 			<td class="xl-r4">Apple</td>
 			<td class="xl-num xl-r4">10</td>
 			<td class="xl-num xl-r4">16</td>
@@ -4278,7 +4278,7 @@ __@@__
 		<tr>
 			<td class="xl-row">18</td>
 			<td></td>
-			<td>false<br/><span class="xl-exp">=AND(B3="Apple",C3>$F$15,C3<$G$15)</span></td>
+			<td>false<br/><span class="xl-exp">=AND(B3="Apple",C3&gt;$F$15,C3&lt;$G$15)</span></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -4314,7 +4314,7 @@ __@@__
 	<tbody>
 		<tr>
 			<td class="xl-row">1</td>
-			<td><span style="text-decoration: underline;">Expected</span></td>
+			<td><span style="text-decoration: underline;">Expected</span><br/><span class="xl-name">(COMBINLarge)</span></td>
 			<td><span style="text-decoration: underline;">Actual</span></td>
 			<td><span style="text-decoration: underline;">Inputs</span></td>
 			<td></td>
@@ -4874,7 +4874,7 @@ __@@__
 			<td class="xl-row">3</td>
 			<td></td>
 			<td class="xl-num xl-r1">$450.00<br/><span class="xl-name">(OrderTotal)</span></td>
-			<td class="xl-date xl-r1">13/04/2006<br/><span class="xl-exp">=B$11-89.0</span><br/><span class="xl-name">(OrderDate)</span></td>
+			<td class="xl-date xl-r1">13.04.06<br/><span class="xl-exp">=B$11-89.0</span><br/><span class="xl-name">(OrderDate)</span></td>
 			<td class="xl-num xl-r1">89<br/><span class="xl-exp">=B$11-C3</span></td>
 			<td class="xl-num xl-r1">1%<br/><span class="xl-exp">=(90.0-D3)/90.0</span></td>
 			<td class="xl-num xl-r1">$5.00<br/><span class="xl-exp">=B3*E3</span></td>
@@ -4884,7 +4884,7 @@ __@@__
 			<td class="xl-row">4</td>
 			<td></td>
 			<td class="xl-num xl-r1">$1,320.00</td>
-			<td class="xl-date xl-r1">02/05/2006<br/><span class="xl-exp">=B$11-70.0</span></td>
+			<td class="xl-date xl-r1">02.05.06<br/><span class="xl-exp">=B$11-70.0</span></td>
 			<td class="xl-num xl-r1">70<br/><span class="xl-exp">=B$11-C4</span></td>
 			<td class="xl-num xl-r1">22%<br/><span class="xl-exp">=(90.0-D4)/90.0</span></td>
 			<td class="xl-num xl-r1">$293.33<br/><span class="xl-exp">=B4*E4</span></td>
@@ -4894,7 +4894,7 @@ __@@__
 			<td class="xl-row">5</td>
 			<td></td>
 			<td class="xl-num xl-r1">$1,540.00</td>
-			<td class="xl-date xl-r1">27/05/2006<br/><span class="xl-exp">=B$11-45.0</span></td>
+			<td class="xl-date xl-r1">27.05.06<br/><span class="xl-exp">=B$11-45.0</span></td>
 			<td class="xl-num xl-r1">45<br/><span class="xl-exp">=B$11-C5</span></td>
 			<td class="xl-num xl-r1">50%<br/><span class="xl-exp">=(90.0-D5)/90.0</span></td>
 			<td class="xl-num xl-r1">$770.00<br/><span class="xl-exp">=B5*E5</span></td>
@@ -4904,7 +4904,7 @@ __@@__
 			<td class="xl-row">6</td>
 			<td></td>
 			<td class="xl-num xl-r1">$60.00</td>
-			<td class="xl-date xl-r1">11/06/2006<br/><span class="xl-exp">=B$11-30.0</span></td>
+			<td class="xl-date xl-r1">11.06.06<br/><span class="xl-exp">=B$11-30.0</span></td>
 			<td class="xl-num xl-r1">30<br/><span class="xl-exp">=B$11-C6</span></td>
 			<td class="xl-num xl-r1">67%<br/><span class="xl-exp">=(90.0-D6)/90.0</span></td>
 			<td class="xl-num xl-r1">$40.00<br/><span class="xl-exp">=B6*E6</span></td>
@@ -4914,7 +4914,7 @@ __@@__
 			<td class="xl-row">7</td>
 			<td></td>
 			<td class="xl-num xl-r1">$5,870.00</td>
-			<td class="xl-date xl-r1">08/07/2006<br/><span class="xl-exp">=B$11-3.0</span></td>
+			<td class="xl-date xl-r1">08.07.06<br/><span class="xl-exp">=B$11-3.0</span></td>
 			<td class="xl-num xl-r1">3<br/><span class="xl-exp">=B$11-C7</span></td>
 			<td class="xl-num xl-r1">97%<br/><span class="xl-exp">=(90.0-D7)/90.0</span></td>
 			<td class="xl-num xl-r1">$5,674.33<br/><span class="xl-exp">=B7*E7</span></td>
@@ -4953,7 +4953,7 @@ __@@__
 		<tr>
 			<td class="xl-row">11</td>
 			<td>current date</td>
-			<td class="xl-date">11/07/2006<br/><span class="xl-exp">=TODAY()</span></td>
+			<td class="xl-date">11.07.06<br/><span class="xl-exp">=TODAY()</span></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -5514,7 +5514,7 @@ __@@__
 		<tr>
 			<td class="xl-row">3</td>
 			<td style="text-align: right">DateInputValue</td>
-			<td class="xl-date">01/01/1970<br/><span class="xl-name">(DateInputValue)</span></td>
+			<td class="xl-date">01.01.70<br/><span class="xl-name">(DateInputValue)</span></td>
 		</tr>
 		<tr>
 			<td class="xl-row">4</td>
@@ -5563,17 +5563,17 @@ __@@__
 		<tr>
 			<td class="xl-row">8</td>
 			<td>DateOfBirth</td>
-			<td class="xl-date">01/01/1981<br/><span class="xl-name">(DateOfBirth)</span></td>
+			<td class="xl-date">01.01.81<br/><span class="xl-name">(DateOfBirth)</span></td>
 		</tr>
 		<tr>
 			<td class="xl-row">9</td>
 			<td>Demarcation</td>
-			<td class="xl-date">01/01/1981</td>
+			<td class="xl-date">01.01.81</td>
 		</tr>
 		<tr>
 			<td class="xl-row">10</td>
 			<td>IsBeforeDate</td>
-			<td><b>false</b><br/><span class="xl-exp">=C8<C9</span><br/><span class="xl-name">(IsBeforeDate)</span></td>
+			<td><b>false</b><br/><span class="xl-exp">=C8&lt;C9</span><br/><span class="xl-name">(IsBeforeDate)</span></td>
 		</tr>
 	</tbody>
 </table>
@@ -5602,7 +5602,7 @@ __@@__
 		<tr>
 			<td class="xl-row">22</td>
 			<td>IsBeforeDateTime</td>
-			<td><b>false</b><br/><span class="xl-exp">=C20<C21</span><br/><span class="xl-name">(IsBeforeDateTime)</span></td>
+			<td><b>false</b><br/><span class="xl-exp">=C20&lt;C21</span><br/><span class="xl-name">(IsBeforeDateTime)</span></td>
 		</tr>
 	</tbody>
 </table>
@@ -5631,7 +5631,7 @@ __@@__
 		<tr>
 			<td class="xl-row">16</td>
 			<td>IsBeforeTime</td>
-			<td><b>false</b><br/><span class="xl-exp">=C14<C15</span><br/><span class="xl-name">(IsBeforeTime)</span></td>
+			<td><b>false</b><br/><span class="xl-exp">=C14&lt;C15</span><br/><span class="xl-name">(IsBeforeTime)</span></td>
 		</tr>
 	</tbody>
 </table>
