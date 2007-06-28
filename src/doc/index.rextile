@@ -43,7 +43,7 @@ h2. Download
 
 dt. "formulacompiler-<%=afc_ver%>-bin.zip":http://arrenbrecht.ch/afc/dist/formulacompiler-<%=afc_ver%>-bin.zip : Binary release, including documentation and all required third-party libraries.
 
-dt. "formulacompiler-<%=afc_ver%>-srcjar.zip":http://arrenbrecht.ch/afc/dist/formulacompiler-<%=afc_ver%>-srcjar.zip : Source code and documentation for AFC in .jar files: @afc-src.jar@ and @afc-doc.jar@. Makes attaching source and doc in IDEs simple.
+dt. "formulacompiler-<%=afc_ver%>-IDE-src.zip":http://arrenbrecht.ch/afc/dist/formulacompiler-<%=afc_ver%>-IDE-src.zip : Source code and documentation for AFC in .jar files. Makes attaching source and doc in IDEs simple.
 
 dt. "formulacompiler-<%=afc_ver%>-src.zip":http://arrenbrecht.ch/afc/dist/formulacompiler-<%=afc_ver%>-src.zip : Complete source code for AFC, including tests and examples. Needs external tools to run (see below). Setup instructions are "here":hacking/tools.htm.
 
