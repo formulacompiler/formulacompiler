@@ -26,7 +26,6 @@ import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.runtime.FormulaCompilerException;
 
 
-
 /**
  * Defines all the errors raised by the functional model compiler of AFC.
  * 
@@ -205,8 +204,8 @@ public class CompilerException extends FormulaCompilerException
 
 
 	/**
-	 * Your output type does not implement the {@link org.formulacompiler.runtime.Resettable} interface, as is
-	 * required by computations with repeating sections.
+	 * Your output type does not implement the {@link org.formulacompiler.runtime.Resettable}
+	 * interface, as is required by computations with repeating sections.
 	 * 
 	 * @author peo
 	 */
@@ -305,8 +304,11 @@ public class CompilerException extends FormulaCompilerException
 
 		private static String addPositionInfoTo( String _message, String _source, int _atPosition )
 		{
-			final String sourceBeforeError = _source.substring( 0, _atPosition );
-			final String sourceAfterError = _source.substring( _atPosition );
+			int at = _atPosition;
+			if (at < 0) at = 0;
+			if (at >= _source.length()) at = _source.length() - 1;
+			final String sourceBeforeError = _source.substring( 0, at );
+			final String sourceAfterError = _source.substring( at );
 
 			StringBuilder result = new StringBuilder( _message );
 			result.append( " in expression " ).append( sourceBeforeError ).append( " <<? " ).append( sourceAfterError )
