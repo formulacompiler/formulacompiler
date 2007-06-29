@@ -104,7 +104,7 @@ dt. src/checkstyle-config-apionly.xml : Extended configuration of "CheckStyle":-
 
 dt. src/copyright-header.txt : Required copyright header text for all Java sources (see @checkstyle-config.xml@).
 	
-dt. src/jcite-tripwires.txt : "Tripwire database":http://arrenbrecht.ch/jcite/tripwire.htm for "JCite":-jcite.
+dt. src/jcite-tripwires.txt : "Tripwire database":-tripwire for "JCite":-jcite.
 
 
 h2. Scripts

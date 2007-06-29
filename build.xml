@@ -22,6 +22,7 @@
 	<!-- top-level targets -->
 
 	<target name="build" description="Builds the .jar files in build/." depends="-build" />
+	<target name="compile" description="Compiles all source files." depends="-compile" />
 
 	<target name="test" description="Runs all functional tests (takes a while)." depends="-test" />
 	<target name="test-main" description="Runs all functional tests except reference tests (quicker)." depends="-test-main" />
@@ -77,8 +78,9 @@
 
 	<!-- build / dist -->
 
-	<target name="-dist" depends="@check-jre1.5, -clobber, -test, -check, -doc, -jar, @pack" />
+	<target name="-dist" depends="@check-jre1.5, -clobber, -build, -check, -test, -doc, -jar, @pack" />
 	<target name="-build" depends="-jar-main" />
+	<target name="-compile" depends="@compile" />
 	<target name="-tools" depends="@pack-tools" />
 
 	<target name="@check-jre1.5">
@@ -127,6 +129,14 @@
 		</ant>
 
 		<echo>${target} done.</echo>
+	</target>
+
+	<!-- compile -->
+	
+	<target name="@compile" depends="@init">
+		<antcall target="--comps-do">
+			<param name="target" value="compile" />
+		</antcall>
 	</target>
 
 	<!-- jar -->
