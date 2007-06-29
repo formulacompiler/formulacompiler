@@ -7,6 +7,8 @@ To get a quick overview of all available build targets, run @ant -p@ in AFC's ro
 
 The individual components also each have their own @components/xy/build.xml@. Again, run @ant -p@ in a component's folder to see the available targets.
 
+For consise output, run the targets with @ant -q ...@. Otherwise you will get swamped by intermediate target logs.
+
 <%= toc 2, 4 %>
 
 

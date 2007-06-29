@@ -1,16 +1,18 @@
 
 h1. IDE Setup
 
-This is pretty straightforward. Just add a few .jars and source paths, run an initial @ant generate@, and you're all set.
+AFC is split into a number of components. Ideally, each is managed in its own IDE project. Then, internally, each component's source is again split into a number of source paths covering areas like API (@intf@), implementation (@impl@), tests (@test@), and again into @java@, @resources@, etc. Each component's @lib@ folder is split into areas likewise.
+
+This keeps the project well organized, but it makes IDE setup a bit of bore. If you are using "Eclipse":-ec or "IDEA":-idea, then the project definitions are already there, but still need to be opened or imported.
+
+Before you setup the IDE, you have to run an initial build so the generated sources are in place.    
 
 <%= toc %>
 
 
 h2. Rebuild Sources
 
-AFC consists partially of generated Java sources. Before you can work in the IDE, these need to be regenerated.
-
-Run "@ant generate@":build.htm to rebuild all the generated Java sources and source paths. Make sure that @ant@ runs on the same version of the JDK as your IDE uses. I, for example, run default @ant@ on JDK 1.5, but Eclipse runs on JDK 1.6. So I have to make sure I run @ant generate@ on JDK 1.6 here. This is because some of the generated sources differ by JDK version and are put into separate folders (see below).
+Run "@ant -q build@":build.htm to rebuild all the generated Java sources and source paths. Make sure that @ant@ runs on the same version of the JDK as you configure for the projects in your IDE. This is because some of the generated sources differ by JDK version and are put into separate folders (see below).
 
 
 h2. Eclipse
@@ -19,26 +21,42 @@ h4. Sources
 
 _Don't forget to rebuild the generated sources first! (See above.)_
 
+h4. Subversion
+
+AFC consists of a master project, @afc@, and the component projects in @components/.../@ like @afc-runtime@, @afc-compiler@, etc. As of June 2007, "Subclipse":http://subclipse.tigris.org/ cannot handle nested projects (it hangs the IDE). So if you want the @afc@ project in Eclipse (contains master build and script and documentation source), then you have to either use "Subversive":http://www.polarion.org/index.php?page=overview&project=subversive or no team support at all.
+
 h4. Setup
 
-To use "Eclipse":-ec (as I do), you can simply use the existing definition in @.project/.classpath@:
+To use "Eclipse":-ec (as I do), you can simply import the existing projects:
 
-	* Create a new project.
-	* Choose _Java Project_.
-	* Choose _Create project from existing source_.
-	* Specify the folder where you unpacked the AFC source distribution.
-	* Give the project a name (_sej-trunk_, for instance).
-	* Choose _Finish_.
+dt. afc : in the root folder (optional; see Subversion above)
 
-FIXME FIXME
-	
-If you are running on JDK 1.6, then all should be well. If you're on JDK 1.5, then you must change the source path @temp/gen-src/classes-jre1.6@ to @temp/gen-src/classes-jre1.5@.
+dt. afc-runtime : in @components/runtime/@
+
+dt. afc-compiler : in @components/compiler/@
+
+dt. afc-decompiler : in @components/decompiler/@
+
+dt. afc-spreadsheet : in @components/spreadsheet/@
+
+dt. afc-spreadsheetdt.excel-xls : in @components/spreadsheet.excel.xls/@
+
+Unfortunately as of Eclipse 3.3 you have to import each project separately using "File -> Import".
 
 h4. Code Style
 
-The default Eclipse project has a project-specific "code style":style.htm already set.
+The default Eclipse projects have a project-specific "code style":style.htm already set.
 
-That's it. You're "ready to roll":contributing.htm.
+
+h2. IDEA
+
+h4. Sources
+
+_Don't forget to rebuild the generated sources first! (See above.)_
+
+h4. Setup
+
+The project definitions are in place. Since I don't use IDEA, I cannot tell you how to import/open them.
 
 
 h2. Other IDEs
@@ -49,33 +67,14 @@ _Don't forget to rebuild the generated sources first! (See above.)_
 
 h4. Setup
 
-Add the following .jars to the build path:
+Ideally, set up each component in its own project. Then you can define project dependencies to make sure you don't violate ".jar boundaries":dependencies.htm. The components are in @components/@. Each component has a bunch of source folders in @components/.../src/.../@. They might also have external jars in @components/.../lib/.../@ (see the "files overview":files.htm).
 
-	* @lib/*.jar@
-	* @lib/build-only/asm-*-x.y.z.jar@
+Make sure you also add @components/compiler/temp/java@ and @components/compiler/temp/java15@ to the compiler component's source path (generated sources). 
 
-Add the following source folders:
-
-	* @src/classes/@
-	* @src/examples/@
-	* @src/build-tools/@
-	* @src/debug/@
-	* @temp/gen-src/classes@
-	* @temp/gen-src/classes-jre1.x@ (where @x@ is your JDK/JRE version; see above)
-	* @src/scratchpad/@ (optional)
-	
-and the following test source folders:
-
-	* @src/test-accessors/@
-	* @src/test-unit/@
-	* @src/test-system/@
-	
 h4. Tests
 
-Now make sure that, when running tests, the current folder is set to where you unpacked the AFC source distribution.
+Now make sure that, when running tests for a component, the current folder is set to the component's folder (@components/compiler@, for example).
 
 h4. Code Style
 
 Finally, you may want to update Java source code formatter rules for the preferred "code style":style.htm to use with AFC.
-
-That's it. You're "ready to roll":contributing.htm.
