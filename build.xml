@@ -275,7 +275,8 @@
 		<checkstyle config="${src.dir}\checkstyle-config.xml">
 			<property key="checkstyle.header.file" file="${src.dir}\copyright-header.txt" />
 			<fileset dir="${comps.dir}">
-				<include name="*/src/*/java/**/*.java" />
+				<include name="*/src/**/java*/**/*.java" />
+				<include name="*/src/**/java*/**/*.jj" />
 				<!--  the following two files have differing licences  -->
 				<exclude name="**/internal/build/Util.java" />
 				<exclude name="**/internal/build/bytecode/ASMHelpers.java" />
