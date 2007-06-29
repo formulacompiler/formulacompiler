@@ -1,14 +1,14 @@
 
 h1. Build Tools
 
-AFC comes with an "build script":build.htm in @build.xml@. This document lists the tools required to run it.
+AFC comes with an Ant "build script":build.htm in @build.xml@. This document lists the tools required to run it.
 
 <%= toc 2, 4 %>
 
 
 h2. Setup
 
-Many open-source libraries in the Java world include in the download everything needed to build a product from its sources. With AFC, I have relaxed this a little. The source download does include all of the required run-time libraries, as well as all the libraries required to build its main .jar file, @sej.jar@, with the exception of "Ant":-ant itself.
+Many open-source libraries in the Java world include in the download everything needed to build a product from its sources. With AFC, I have relaxed this a little. The source download does include all of the required run-time libraries, as well as all the libraries required to build the .jar files, with the exception of "Ant":-ant itself.
 
 It does _not_ include all the libraries and tools to build an entire distribution. Those are described here, with instructions on how to get and configure them. Except for Ant and JUnit, all of the tools should be configured in @build.properties@. Look in @build.default.properties@ to see what you can configure.
 
@@ -25,7 +25,7 @@ should properly build AFC.
 
 h5. Note
 
-You still need to "install the prerequisites for Rextile":-rexinst and "Graphviz":-dot properly.
+You still need to "install the prerequisites for Rextile":-rexinst and "Graphviz":-dot.
 
 
 h2. Manual Setup
@@ -44,11 +44,11 @@ dt. "CheckStyle":-checkstyle : checks source code conformance. AFC uses it to ch
 
 dt. "Ruby":-rb : runs configuration scripts.
 
-dt. "Rextile":-rex : compiles documentation sources in "Textile":-tex format to XHTML. AFC's main documentation (this here, too) is written in Rextile's format. Please observe Rextile's own "installation instructions":-rexinst. Configure it in @build.properties@ (see above).
+dt. "Rextile":-rex : compiles documentation sources in "Textile":-tex format to XHTML. AFC's main documentation is written in Rextile's format (this here, too). Please observe Rextile's own "installation instructions":-rexinst. Configure it in @build.properties@ (see above).
 
 dt. "JCite":-jcite : cites Java source code and Excel sheets into HTML documentation. AFC "uses this extensively":../tutorial/basics.htm. Configure it in @build.properties@ (see above).
 
-dt. "GraphViz":-dot : renders textual specifications of graphs to .png images.
+dt. "GraphViz":-dot : renders textual specifications of graphs to .png images. The @dot@ command must be available on the system path.
 
 
 h3. Optional Tools
