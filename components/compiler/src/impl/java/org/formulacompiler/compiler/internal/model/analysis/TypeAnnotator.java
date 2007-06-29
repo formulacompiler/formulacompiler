@@ -42,7 +42,6 @@ import org.formulacompiler.compiler.internal.model.ExpressionNodeForParentSectio
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionModel;
 
 
-
 public final class TypeAnnotator extends AbstractComputationModelVisitor
 {
 
@@ -199,10 +198,14 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		}
 	}
 
+	// Leave this comment in. It is used to cite the code into the documentation.
+	// ---- typeOfFun
 	private DataType typeOf( ExpressionNodeForFunction _expr ) throws CompilerException
 	{
 		annotateArgs( _expr );
 		switch (_expr.getFunction()) {
+			// ...
+			// ---- typeOfFun
 
 			case IF:
 				if (_expr.arguments().size() >= 2) {
@@ -222,8 +225,11 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 					return DataType.NULL;
 				}
 
+				// ---- typeOfFun
 			case CONCATENATE:
 			case MID:
+				// ...
+				// ---- typeOfFun
 			case LEFT:
 			case RIGHT:
 			case SUBSTITUTE:
@@ -234,12 +240,14 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 			case REPT:
 			case TRIM:
 			case TEXT:
+				// ---- typeOfFun
 				return DataType.STRING;
 
 			default:
 				return DataType.NUMERIC;
 		}
 	}
+	// ---- typeOfFun
 
 	private DataType typeOf( ExpressionNodeForParentSectionModel _expr ) throws CompilerException
 	{

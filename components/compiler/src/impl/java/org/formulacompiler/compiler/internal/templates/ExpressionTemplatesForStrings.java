@@ -90,10 +90,13 @@ public final class ExpressionTemplatesForStrings
 		return Runtime_v1.stdTRIM( a );
 	}
 
+	// Leave this comment in. It is used to cite the code into the documentation.
+	// ---- fun_MID
 	public String fun_MID( String s, int start, int len )
 	{
 		return Runtime_v1.stdMID( s, start, len );
 	}
+	// ---- fun_MID
 
 	public String fun_LEFT( String s )
 	{
