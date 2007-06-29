@@ -18,15 +18,11 @@ As always, we start with the announcement in the release notes, and the tests:
 	
 h2. Parsing
 
-Making @VAR()@ known to the parser is much like what we did for @ABS()@. Aggregators, however, need to accept range arguments, not just simple values. For the standard aggregators which treat all their arguments as a single range, we can extend the definition of @agg@ as follows:
+Making @VAR()@ known to the parser is much like what we did for @ABS()@. Aggregators, however, need to accept range arguments, not just simple values. For the standard aggregators which treat all their arguments as a single range, we can mimick the definition of @SUM()@ as follows:
 
-	agg ::=
-			SUM
-					{: RESULT = Function.SUM; :}
-		...
-		| 	VAR
-					{: RESULT = Function.VAR; :}		
-		...
+	...
+	|	"VAR" aggN( Function.VAR )
+	...
 
 
 h2. Mathematical Definition

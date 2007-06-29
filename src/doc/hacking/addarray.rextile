@@ -18,13 +18,19 @@ As always, we start with the announcement in the release notes, and the tests:
 	
 h2. Parsing
 
-Making @NPV()@ known to the parser is much like what we did for @ABS()@. Array functions, however, need to accept array arguments, not just simple values. These are denoted by @shapedrangeexpr@:
+Making @NPV()@ known to the parser is much like what we did for @ABS()@. Array functions, however, need to accept array arguments, not just simple values. These are denoted by @shapedRangeExpr()@:
 
-		...
-		|	NPV LPAREN expr:rate COMMA shapedrangeexpr:vals RPAREN
-				{: RESULT = new ExpressionNodeForFunction( Function.NPV, rate, vals ); :}
-		...
+	...
+	|	"NPV" open() expr() "," shapedRangeExpr() closeFun( Function.NPV )
+	...
 
+This means:
+
+	* @open()@ - open parenthesis, start collecting function arguments.
+	* @expr()@ - single-valued expression.
+	* @shapedRangeExpr()@ - array range expression with shape information (width, height) available to compiler.
+	* @closeFun( Function.NPV )@ - packs collected function arguments into a function expression node. 
+	
 
 h2. Mathematical Definition
 	

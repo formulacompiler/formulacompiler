@@ -1,7 +1,11 @@
 
 h1. Automated Formula Tests
 
-The spreadsheet files in @src/test-system/org/formulacompiler/tests/reference/@ contain formula tests. AFC's build system runs them automatically for all the supported "numeric types":-types and with and without "caching":../tutorial/caching.htm enabled. It also makes them citable by writing out documentation fragments describing them.
+The spreadsheet files in
+
+	compononents/system/src/test-reference/data/org/formulacompiler/tests/reference
+
+contain formula tests. AFC's build system runs them automatically for all the supported "numeric types":-types and with and without "caching":../tutorial/caching.htm enabled. It also makes them citable by writing out documentation fragments describing them.
 
 <%= toc %>
 
@@ -47,11 +51,19 @@ To check alternate input sets, you use the value @...@ in the _Name_ column K. T
 
 h2. Running Tests
 
-Every formula test sheet corresponds to a test class in @src/test-system/sej/tests/reference/@. For the sheet @NumericFunctions.xls@, we need to run the test class @NumericFunctionsTest@, etc.
+Every formula test sheet corresponds to a test class in
+
+	compononents/system/src/test-reference/java/org.formulacompiler.tests.reference
+ 
+For the sheet @NumericFunctions.xls@, we need to run the test class @NumericFunctionsTest@, etc.
 
 h2. <a name="debug">Debug Test</a>
 
-Running these tests can take quite a while. To speed up debugging, you can use the special test case @sej.tests.reference.DebugTest@ in @src/debug/@ in your IDE. Here it is:
+Running these tests can take quite a while. To speed up debugging, you can use the special test case @org.formulacompiler.tests.reference.DebugTest@ in your IDE. Make sure you have added the following source path for this (not included in release builds):
+
+  compononents/system/src/test-reference/java-debug
+ 
+Here is the test class:
 
 	[jc:org.formulacompiler.tests.reference.DebugTest:---- DebugTest]
 

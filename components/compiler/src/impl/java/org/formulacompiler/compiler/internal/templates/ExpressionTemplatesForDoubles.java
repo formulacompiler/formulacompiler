@@ -516,10 +516,13 @@ public final class ExpressionTemplatesForDoubles
 	// ------------------------------------------------ Conversions Functions
 
 
+	// Leave this comment in. It is used to cite the code into the documentation.
+	// ---- fun_VALUE
 	public double fun_VALUE( String _text )
 	{
 		return RuntimeDouble_v1.fun_VALUE( _text, this.environment );
 	}
+	// ---- fun_VALUE
 
 
 }

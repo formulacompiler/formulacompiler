@@ -20,11 +20,10 @@ As with "ABS":-prim, we start with documentation (announcing @COMBIN()@ in the r
 	
 h2. Parsing
 
-Making @COMBIN()@ known to the parser is again just like we did it for @ABS()@. The only point worth noting is that we need two arguments:
+Making @COMBIN()@ known to the parser is again just like what we did for @ABS()@. The only point worth noting is that we need two arguments:
 
 	...
-	|	COMBIN LPAREN expr:n COMMA expr:k RPAREN
-				{: RESULT = new ExpressionNodeForFunction( Function.COMBIN, n, k ); :}
+	|	"COMBIN" fun2( Function.COMBIN )
 	...
 
 	
