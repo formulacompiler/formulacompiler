@@ -37,14 +37,13 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary.LetEntry;
+import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.runtime.New;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
-
-
 
 abstract class MethodCompiler
 {
@@ -147,6 +146,12 @@ abstract class MethodCompiler
 		return this.numericCompiler;
 	}
 
+	@SuppressWarnings("unchecked")
+	private ExpressionCompiler expressionCompilerFor( Class _clazz )
+	{
+		return (_clazz.isAssignableFrom( String.class ))? stringCompiler() : numericCompiler();
+	}
+
 	final String methodName()
 	{
 		return this.methodName;
@@ -210,7 +215,15 @@ abstract class MethodCompiler
 				for (int i = 0; i < args.length; i++) {
 					final Object arg = args[ i ];
 					final Class type = types[ i ];
-					pushConstParam( type, arg );
+					if (arg instanceof CellModel) {
+						final CellModel argCell = (CellModel) arg;
+						final ExpressionCompiler ex = expressionCompilerFor( type );
+						ex.compileRef( argCell );
+						ex.compileConversionTo( type );
+					}
+					else {
+						pushConstParam( type, arg );
+					}
 				}
 			}
 			int opcode = Opcodes.INVOKEVIRTUAL;

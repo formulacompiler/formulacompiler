@@ -15,7 +15,7 @@ To bind spreadsheet cells to variable input values, you must have an interface o
 
 In order for the interface to be accessible to the generated engine, it must be @public@. This is because the engine is not loaded by the same class loader as your own classes (read "why this matters":http://www.artima.com/insidejvm/ed2/security2.html).
 
-This type you provide to the engine builder prior to using it:
+You have to provide this type to the engine builder:
 
 	[jc:org.formulacompiler.tutorials.BindingCells:---- setupBuilder; highlight -in-; strip -out-]
 
@@ -23,16 +23,20 @@ In the "simple usage scenario":basics.htm, you just passed a factory, and AFC in
 
 	[jc:org.formulacompiler.tutorials.BindingCells:---- getBinder]
 
-You then tell the binder which cells are input cells, and to which getter methods on your type to bind them:
+You then tell the binder which cells are input cells, and to which getter methods they should be bound:
 
 	[jc:org.formulacompiler.tutorials.BindingCells:---- bindPlainInputs]
 
 
 h3. Parameters
 
-You can also bind to parametrized methods. The arguments to the method are, however, determined at compile-time of the engine. This is where the @CallFrame@ comes into play:
+You can also bind to parametrized methods. The arguments to the method are either constant values determined at compile-time of the engine, or else cell values computed by the engine. This is where the @CallFrame@ comes into play. First, an example with only constant parameters:
 
 	[jc:org.formulacompiler.tutorials.BindingCells:---- bindParamInputs]
+
+Binding to cell values computed at run-time is equally easy (you can use any of the spreadsheet methods returning a cell reference):
+
+	[jc:org.formulacompiler.tutorials.BindingCells:---- bindDynamicParamInputs]
 
 With the call frame, you can even chain calls. In this example, we do the equivalent of @getName().length()@, where @getName()@ returns a @String@:
 
@@ -64,7 +68,6 @@ h3. Parameters
 Like inputs, you can also bind outputs to parametrized methods. This is explained in detail in the topic on "binding by name":bindbyname.htm.
 
 
-
 h2. <a name="Defaults">Defaults</a>
 
 If you supply implementations for your output methods, they serve as defaults in case they are not bound to an output cell of the spreadsheet. This is mainly useful when outputs are bound generically (by cell name, for instance).
@@ -80,3 +83,14 @@ When used together with a factory class, you often want the factory method to us
 AFC supports this. Simply override the output class in the @EngineBuilder@ so it does not get inferred from the factory method. Like this:
 
 	[jc:org.formulacompiler.tutorials.BindingCells:---- setupBuilderWithDefaults]
+
+
+h2. Generated Code
+
+The above bindings, together with this spreadsheet:
+
+	[xc:org/formulacompiler/tutorials/BindingCells.xls]
+
+result in the following compiled code (when not using defaults for the outputs):
+
+	[jc:binding/org.formulacompiler.gen.$Root]

@@ -23,6 +23,7 @@ package org.formulacompiler.spreadsheet.internal.compiler;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.model.CellModel;
@@ -70,8 +71,8 @@ public final class SpreadsheetToModelCompiler
 	{
 		return this.binding;
 	}
-	
-	
+
+
 	public NumericType numericType()
 	{
 		return this.numericType;
@@ -102,9 +103,35 @@ public final class SpreadsheetToModelCompiler
 			InputCellBinding inputDef = inputEntry.getValue();
 			CellModel model = getCellModel( inputDef.getIndex() );
 			if (null != model) {
-				model.makeInput( inputDef.getCallChainToCall() );
+				model.makeInput( mapDynamicParams( inputDef.getCallChainToCall() ) );
 			}
 		}
+	}
+
+
+	private CallFrame mapDynamicParams( CallFrame _frame ) throws CompilerException
+	{
+		if (null == _frame) return null;
+		CallFrame prev = mapDynamicParams( _frame.getPrev() );
+		final Object[] args = _frame.getArgs();
+		boolean changed = false;
+		if (null != args) {
+			for (int i = 0; i < args.length; i++) {
+				if (args[ i ] instanceof CellIndex) {
+					CellIndex cell = (CellIndex) args[ i ];
+					CellModel model = getOrCreateCellModel( cell );
+					args[ i ] = model;
+					changed = true;
+				}
+			}
+		}
+		if (null != prev) {
+			return prev.chain( _frame.getMethod(), args );
+		}
+		else if (changed) {
+			return new CallFrame( _frame.getMethod(), args );
+		}
+		return _frame;
 	}
 
 

@@ -20,6 +20,7 @@
  */
 package org.formulacompiler.compiler.internal.model.optimizer;
 
+import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.model.AbstractComputationModelVisitor;
 import org.formulacompiler.compiler.internal.model.CellModel;
@@ -34,22 +35,21 @@ public final class ReferenceCounter extends AbstractComputationModelVisitor
 	protected boolean visitCell( CellModel _cell )
 	{
 		if (_cell.isOutput()) {
-			reference( _cell );
+			reference( _cell, false );
 		}
 		return true;
 	}
 
 
-	void reference( CellModel _cell )
+	void reference( CellModel _cell, boolean _makeSureIsCallable )
 	{
 		if (null == _cell) throw new IllegalArgumentException();
 		boolean notAnalyzedYet = (0 == _cell.getReferenceCount());
 		_cell.addReference();
+		if (_makeSureIsCallable) _cell.addReference();
 		if (notAnalyzedYet) {
-			ExpressionNode expr = _cell.getExpression();
-			if (null != expr) {
-				addRefToEverythingReferencedBy( expr, false );
-			}
+			addRefToEverythingReferencedBy( _cell.getExpression(), false );
+			addRefToEverythingReferencedBy( _cell.getCallChainToCall() );
 		}
 	}
 
@@ -63,8 +63,7 @@ public final class ReferenceCounter extends AbstractComputationModelVisitor
 			ExpressionNodeForCellModel cellNode = (ExpressionNodeForCellModel) _expr;
 			CellModel cellModel = cellNode.getCellModel();
 			if (null != cellModel) {
-				reference( cellModel );
-				if (_accessedBySubBand) cellModel.addReference();
+				reference( cellModel, _accessedBySubBand );
 			}
 		}
 		else {
@@ -74,4 +73,19 @@ public final class ReferenceCounter extends AbstractComputationModelVisitor
 			}
 		}
 	}
+
+
+	private void addRefToEverythingReferencedBy( CallFrame _callChainToCall )
+	{
+		if (null == _callChainToCall) return;
+		for (Object arg : _callChainToCall.getArgs()) {
+			if (arg instanceof CellModel) {
+				CellModel cell = (CellModel) arg;
+				reference( cell, true );
+			}
+		}
+		addRefToEverythingReferencedBy( _callChainToCall.getPrev() );
+	}
+
+
 }

@@ -6,12 +6,24 @@ Lists the new features, improvements, and fixes for each release of AFC. Note th
 	* "Current Limitations":limitations.htm
 	* "Roadmap":roadmap.htm
 
+
+h2. Release 0.9.1
+
+h5. New
+
+	* You can now "bind parameters of input methods to computed cells":tutorial/bindcells.htm.
+	* New "build target":hacking/build.htm @compile@ added.
+
+h5. Fixed
+
+	* The "hacking docs":hacking/index.htm have been updated to reflect the new project layout.
+
     
 h2. Release 0.9.0
 
 h5. *Changed!*
 
-    * The packages have been renamed. The prefix @sej.@ has become @org.formulacompiler.@.
+    * The packages have been renamed. The prefix @sej.@ has become @org.formulacompiler.@. Old compiled engines are *not* compatible with this release!
     * The central API has changed. @sej.runtime.SEJRuntime@ has become @org.formulacompiler.runtime.FormulaRuntime@. @sej.SEJ@ has been split up into @org.formulacompiler.compiler.FormulaCompiler@ and, derived from this, @org.formulacompiler.spreadsheet.SpreadsheetCompiler@.
     * The folder layout has changed. The code is now split up into a separate component per .jar file (despite the earlier "reasons for not splitting the project up into modules":dev/2007-04-24_modules.htm). The components live in the @components/@ folder and each has its own @lib/@ and @build/@ folder. This shows clearly which AFC .jars need which supporting external .jars.
 
