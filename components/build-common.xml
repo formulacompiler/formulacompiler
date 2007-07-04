@@ -27,7 +27,6 @@
 	<target name="compile-main" description="Generates and compiles all source code for the .jar files." depends="-compile-main" />
 
 	<target name="test" description="Runs all functional tests." depends="-test" />
-	<target name="test-failures" description="Lists all test failures recorded earlier (don't use -q with this)." depends="-test-failures" />
 
 	<target name="clean" description="Removes all temporary build files." depends="-clean" />
 	<target name="clobber" description="Removes all files produced by build actions, including distribution archives." depends="-clobber" />
@@ -215,7 +214,6 @@
 	<target name="-test-assuming-jar" depends="-test-main-assuming-jar, -test-ref-assuming-jar" />
 	<target name="-test-main-assuming-jar" depends="@init, -compile-tests-assuming-jar, @test-clean, @test-main" />
 	<target name="-test-ref-assuming-jar" />
-	<target name="-test-failures" depends="@init, @test-failures" />
 
 	<target name="@compile-tests" depends="@init" unless="@no-tests">
 		<antcall target="--compile-comp">
@@ -256,17 +254,6 @@
 
 	</target>
 
-	<target name="@test-failures" depends="@init">
-		<exec executable="grep" outputproperty="grep-test-out" failonerror="false" >
-			<arg value="-s" />
-			<arg value="-F" />
-			<arg value="-f" />
-			<arg value="${parent.dir}/src/junit-error-strings.txt" />
-			<arg value="${temp.dir}/test/results/*.txt" />
-		</exec>
-		<echo>${grep-test-out}</echo>
-	</target>
-	
 	<!-- init -->
 
 	<target name="@init" depends="@echo-jre">
