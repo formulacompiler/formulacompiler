@@ -197,6 +197,8 @@
 
 			<junit printsummary="no" showoutput="no" haltonerror="no" haltonfailure="no" failureproperty="tests.failed.a" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
 				<jvmarg value="-Demit_tests" />
+				<jvmarg value="-DrunOnlyType=${test-ref-only-type}" />
+				<jvmarg value="-DrunOnlyCacheVariant=${test-ref-only-caching}" />
 				<assertions enablesystemassertions="yes" />
 				<formatter type="plain" usefile="yes" />
 
@@ -241,18 +243,6 @@
 		<fail if="tests.failed.a" />
 		<fail if="tests.failed.b" />
 
-	</target>
-	
-	<target name="-test-failures" depends="@test-failures, @test-ref-failures" />
-	
-	<target name="@test-ref-failures" depends="@init">
-		<exec executable="grep" outputproperty="grep-ref-out" failonerror="no" >
-			<arg value="--no-messages" />
-			<arg value="--fixed-strings" />
-			<arg value="--file=${parent.dir}/src/junit-error-strings.txt" />
-			<arg value="${temp.ref.dir}/results/*.txt" />
-		</exec>
-		<echo>${grep-ref-out}</echo>
 	</target>
 	
 </project>
