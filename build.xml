@@ -215,9 +215,16 @@
 	</target>
 
 	<target name="@test-failures" depends="@init">
-		<antcall target="--comps-do">
-			<param name="target" value="-test-failures" />
-		</antcall>
+		<exec executable="grep" failonerror="false" outputproperty="grep-test-out" >
+			<arg value="-r" />
+			<arg value="-F" />
+			<arg value="-f" />
+			<arg value="${src.dir}/junit-error-strings.txt" />
+			<arg value="--include" />
+			<arg value="TEST-*.txt" />
+			<arg value="." />
+		</exec>
+		<echo>${grep-test-out}</echo>
 	</target>
 
 	<!-- check -->
