@@ -1,3 +1,4 @@
-#Wed Nov 15 11:30:01 CET 2006
+#Wed Jul 04 10:36:16 CEST 2007
 eclipse.preferences.version=1
+instance/org.eclipse.core.net/org.eclipse.core.net.hasMigrated=true
 org.eclipse.ltk.core.refactoring.enable.project.refactoring.history=false
