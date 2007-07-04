@@ -78,7 +78,7 @@ public final class CallFrame extends AbstractDescribable
 	}
 
 	/**
-	 * Constructs an call, possibly the initial call in a chain of calls.
+	 * Constructs a call, possibly the initial call in a chain of calls.
 	 * 
 	 * @param _method is the method to be called.
 	 * @param _args is the list of arguments for the method's parameters.
@@ -168,6 +168,17 @@ public final class CallFrame extends AbstractDescribable
 	}
 
 
+	/**
+	 * The previous call in the chain of calls.
+	 *  
+	 * @return The previous call, or {@code null}.
+	 */
+	public CallFrame getPrev()
+	{
+		return this.prev;
+	}
+
+	
 	/**
 	 * The first call in the chain of calls.
 	 * 

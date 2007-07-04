@@ -20,14 +20,18 @@
  */
 package org.formulacompiler.tutorials;
 
+import java.io.File;
 import java.lang.reflect.Method;
 
 import org.formulacompiler.compiler.CallFrame;
+import org.formulacompiler.compiler.SaveableEngine;
+import org.formulacompiler.decompiler.ByteCodeEngineSource;
+import org.formulacompiler.decompiler.FormulaDecompiler;
 import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.spreadsheet.EngineBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 
 import junit.framework.TestCase;
 
@@ -38,6 +42,7 @@ public class BindingCells extends TestCase
 	public void testBindingCells() throws Exception
 	{
 		final String path = "src/test/data/org/formulacompiler/tutorials/BindingCells.xls";
+		final String pathToTargetFolder = "temp/test/decompiled/binding";
 
 		// ---- setupBuilder
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
@@ -64,11 +69,21 @@ public class BindingCells extends TestCase
 		binder.defineInputCell( cell, new CallFrame( method ) );
 		// ---- bindPlainInputs
 
+		cell = spreadsheet.getCell( "DECADE_X" );
+		method = Input.class.getMethod( "getDecade" );
+		binder.defineInputCell( cell, new CallFrame( method ) );
+
 		// ---- bindParamInputs
 		cell = spreadsheet.getCell( "YEAR_1994" );
 		method = Input.class.getMethod( "getValueForYear", /**/Integer.TYPE/**/ );
 		binder.defineInputCell( cell, new CallFrame( method, /**/1994/**/ ) );
 		// ---- bindParamInputs
+
+		// ---- bindDynamicParamInputs
+		cell = spreadsheet.getCell( "YEAR_x" );
+		method = Input.class.getMethod( "getValueForYear", /**/Integer.TYPE/**/ );
+		binder.defineInputCell( cell, new CallFrame( method, /**/spreadsheet.getCell( "x" )/**/ ) );
+		// ---- bindDynamicParamInputs
 
 		// ---- bindChainedInputs
 		cell = spreadsheet.getCell( "NAME_LENGTH" );
@@ -86,12 +101,19 @@ public class BindingCells extends TestCase
 		method = Output.class.getMethod( "getCoefficient" );
 		binder.defineOutputCell( cell, new CallFrame( method ) );
 		// ---- bindPlainOutputs
-		
-		ComputationFactory factory = builder.compile().getComputationFactory();
+
+		SaveableEngine engine = builder.compile();
+
+		ByteCodeEngineSource source = FormulaDecompiler.decompile( engine );
+		source.saveTo( new File( pathToTargetFolder ) );
+
+		ComputationFactory factory = engine.getComputationFactory();
 		Input input = new InputImpl();
 		Output output = (Output) factory.newComputation( input );
-		
-		assertEquals( input.getValueForYear( 1994 ) + input.getName().length(), output.getResult(), 0.001 );
+
+		assertEquals( input.getValueForYear( 1994 )
+				+ input.getValueForYear( 1900 + input.getDecade() * 10 ) + input.getName().length(), output.getResult(),
+				0.001 );
 		assertEquals( input.getSomeValue() + input.getAnotherValue(), output.getCoefficient(), 0.00001 );
 	}
 
@@ -101,9 +123,11 @@ public class BindingCells extends TestCase
 	{
 		double getSomeValue();
 		double getAnotherValue();
+		int getDecade();
 		double getValueForYear( int year );
 		String getName();
 	}
+
 	// ---- Input
 
 
@@ -113,15 +137,16 @@ public class BindingCells extends TestCase
 		double getResult();
 		double getCoefficient();
 	}
+
 	// ---- Output
 
 
 	// ---- OutputWithDefaults
-	public static abstract class OutputWithDefault /**/implements Output/**/ 
+	public static abstract class OutputWithDefault /**/implements Output/**/
 	{
 		private final Input input;
 
-		public OutputWithDefault(/**/Input _input/**/)
+		public OutputWithDefault( /**/Input _input/**/ )
 		{
 			super();
 			this.input = _input;
@@ -134,6 +159,7 @@ public class BindingCells extends TestCase
 			return /**/this.input.getSomeValue()/**/ * 0.02;
 		}
 	}
+
 	// ---- OutputWithDefaults
 
 	// ---- Factory
@@ -142,7 +168,7 @@ public class BindingCells extends TestCase
 		/**/Output/**/ newInstance( Input _input );
 	}
 	// ---- Factory
-	
+
 	public void testDefaults() throws Exception
 	{
 		final String path = "src/test/data/org/formulacompiler/tutorials/BindingCells.xls";
@@ -163,15 +189,15 @@ public class BindingCells extends TestCase
 		cell = spreadsheet.getCell( "RESULT" );
 		method = Output.class.getMethod( "getResult" );
 		binder.defineOutputCell( cell, new CallFrame( method ) );
-		
+
 		Factory factory = (Factory) builder.compile().getComputationFactory();
 		Input input = new InputImpl();
 		Output output = factory.newInstance( input );
-		
+
 		assertEquals( input.getSomeValue() * 0.02, output.getCoefficient(), 0.00001 );
 	}
 
-	
+
 	private static class InputImpl implements Input
 	{
 
@@ -190,11 +216,16 @@ public class BindingCells extends TestCase
 			return 43.21;
 		}
 
+		public int getDecade()
+		{
+			return 4;
+		}
+
 		public double getValueForYear( int _year )
 		{
 			return _year - 1900;
 		}
-		
+
 	}
 
 }

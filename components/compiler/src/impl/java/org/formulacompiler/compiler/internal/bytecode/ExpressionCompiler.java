@@ -474,7 +474,7 @@ abstract class ExpressionCompiler
 	}
 
 
-	private final void compileRef( CellModel _cell )
+	final void compileRef( CellModel _cell )
 	{
 		compileRef( sectionInContext().cellComputation( _cell ) );
 	}
