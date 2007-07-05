@@ -13,6 +13,10 @@ h5. New
 
 	* You can now "bind parameters of input methods to computed cells":tutorial/bindcells.htm.
 	* New "build target":hacking/build.htm @compile@ added.
+	
+h5. Better
+
+	* Upgraded to "ASM 3.0":http://asm.objectweb.org/jdiff223to30/changes.html.
 
 h5. Fixed
 
