@@ -35,7 +35,7 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 
-class SectionCompiler extends ClassCompiler
+abstract class SectionCompiler extends ClassCompiler
 {
 	private final Map<SectionModel, SubSectionCompiler> subSectionCompilers = New.newMap();
 	private final Map<CellModel, CellComputation> cellComputations = New.newMap();
@@ -45,7 +45,7 @@ class SectionCompiler extends ClassCompiler
 	private final Type outputs;
 
 
-	SectionCompiler(ByteCodeEngineCompiler _compiler, SectionModel _model, String _name)
+	protected SectionCompiler( ByteCodeEngineCompiler _compiler, SectionModel _model, String _name )
 	{
 		super( _compiler, _name, false );
 		this.model = _model;
@@ -53,21 +53,14 @@ class SectionCompiler extends ClassCompiler
 		this.outputs = typeFor( outputClass() );
 	}
 
-	SectionCompiler(ByteCodeEngineCompiler _compiler, SectionModel _model)
-	{
-		this( _compiler, _model, ByteCodeEngineCompiler.GEN_ROOT_NAME );
-	}
-
 	private Type typeFor( Class _inputClass )
 	{
-		return (null == _inputClass) ? Type.getType( Object.class ) : Type.getType( _inputClass );
+		return (null == _inputClass)? Type.getType( Object.class ) : Type.getType( _inputClass );
 	}
 
 
-	SectionCompiler parentSectionCompiler()
-	{
-		return null;
-	}
+	protected abstract SectionCompiler parentSectionCompiler();
+	protected abstract RootSectionCompiler rootSectionCompiler();
 
 	SubSectionCompiler subSectionCompiler( SectionModel _section )
 	{
@@ -119,16 +112,6 @@ class SectionCompiler extends ClassCompiler
 		return this.outputs;
 	}
 
-	protected Type parentType()
-	{
-		return null;
-	}
-
-	boolean hasParent()
-	{
-		return (null != parentType());
-	}
-
 
 	private int getterId;
 
@@ -146,13 +129,16 @@ class SectionCompiler extends ClassCompiler
 		this.compilationStarted = true;
 
 		initializeClass( outputClass(), this.outputs, ByteCodeEngineCompiler.COMPUTATION_INTF );
-		if (hasParent()) buildParentMember();
-		if (hasInputs()) buildInputMember();
-		buildEnvironmentMember();
+		buildMembers();
 		buildConstructorWithInputs();
 		if (engineCompiler().canCache()) {
 			buildReset();
 		}
+	}
+
+	protected void buildMembers()
+	{
+		if (hasInputs()) buildInputMember();
 	}
 
 	void compileAccessTo( SubSectionCompiler _sub ) throws CompilerException
@@ -214,7 +200,7 @@ class SectionCompiler extends ClassCompiler
 
 	GeneratorAdapter resetter()
 	{
-		assert null != this.resetter : "Resetter is null";
+		assert null != this.resetter: "Resetter is null";
 		return this.resetter;
 	}
 
@@ -239,18 +225,6 @@ class SectionCompiler extends ClassCompiler
 	}
 
 
-	private void buildEnvironmentMember()
-	{
-		// Package visible so subsection constructors can read it. See buildConstructorWithInputs() below.
-		newField( Opcodes.ACC_FINAL, ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_DESC );
-	}
-
-	private void buildParentMember()
-	{
-		if (!hasParent()) throw new IllegalStateException();
-		newField( Opcodes.ACC_FINAL, ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parentType().getDescriptor() );
-	}
-
 	private void buildInputMember()
 	{
 		if (!hasInputs()) throw new IllegalStateException();
@@ -258,53 +232,17 @@ class SectionCompiler extends ClassCompiler
 				.getDescriptor() );
 	}
 
-	private void storeInputs( GeneratorAdapter _mv )
+	protected abstract void buildConstructorWithInputs() throws CompilerException;
+
+	protected void storeInputs( GeneratorAdapter _mv )
 	{
 		if (!hasInputs()) throw new IllegalStateException();
 		_mv.putField( classType(), ByteCodeEngineCompiler.INPUTS_MEMBER_NAME, inputType() );
 	}
 
-	private void buildConstructorWithInputs() throws CompilerException
-	{
-		GeneratorAdapter mv = newMethod( 0, "<init>", "("
-				+ this.inputs.getDescriptor()
-				+ (hasParent() ? parentType().getDescriptor() : ByteCodeEngineCompiler.ENV_DESC) + ")V" );
 
-		// super( _inputs ); or super(); or, if has parent, super( _inputs, _parent );
-		callInheritedConstructor( mv, 1 );
-
-		// this.parent = _parent;
-		if (hasParent()) {
-			mv.loadThis();
-			mv.loadArg( 1 );
-			mv.putField( classType(), ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parentType() );
-			// this.environment = _parent.environment;
-			mv.loadThis();
-			mv.loadArg( 1 );
-			// the parent's field is package visible
-			mv.getField( parentType(), ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_CLASS );
-			mv.putField( this.classType(), ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_CLASS );
-		}
-		else {
-			// this.environment = _environment;
-			mv.loadThis();
-			mv.loadArg( 1 );
-			mv.putField( this.classType(), ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_CLASS );
-		}
-
-		// this.inputs = _inputs;
-		if (hasInputs()) {
-			mv.loadThis();
-			mv.loadArg( 0 );
-			storeInputs( mv );
-		}
-
-		mv.visitInsn( Opcodes.RETURN );
-		endMethod( mv );
-	}
-
-	@SuppressWarnings("unchecked")
-	private void callInheritedConstructor( GeneratorAdapter _mv, int _inputsVar ) throws CompilerException
+	@SuppressWarnings( "unchecked" )
+	protected void callInheritedConstructor( GeneratorAdapter _mv, int _inputsVar ) throws CompilerException
 	{
 		try {
 			if (outputClass() == null || outputClass().isInterface()) {
@@ -323,7 +261,7 @@ class SectionCompiler extends ClassCompiler
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( "unchecked" )
 	protected boolean callConstructorWithInputs( GeneratorAdapter _mv, int _inputsVar )
 	{
 		try {
@@ -354,5 +292,7 @@ class SectionCompiler extends ClassCompiler
 			sub.collectClassNamesAndBytes( _result );
 		}
 	}
+
+	protected abstract void compileEnvironmentAccess( GeneratorAdapter _mv );
 
 }

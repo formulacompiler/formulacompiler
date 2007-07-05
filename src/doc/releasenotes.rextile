@@ -17,6 +17,7 @@ h5. New
 h5. Better
 
 	* Upgraded to "ASM 3.0":http://asm.objectweb.org/jdiff223to30/changes.html.
+	* Pass a root pointer instead of the environment to subengines. This is in preparation for having the root engine contain things like the current computation's value of @NOW()@.
 
 h5. Fixed
 

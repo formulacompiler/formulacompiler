@@ -44,7 +44,6 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Type;
 
 
-
 public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompiler
 {
 	static final String GEN_PACKAGE_PATH = ByteCodeEngine.GEN_PACKAGE_NAME.replace( '.', '/' );
@@ -55,6 +54,7 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 	static final String GEN_ROOT_DESC = "L" + GEN_PACKAGE_PATH + GEN_ROOT_NAME + ";";
 	static final String INPUTS_MEMBER_NAME = "$inputs";
 	static final String PARENT_MEMBER_NAME = "$parent";
+	static final String ROOT_MEMBER_NAME = "$root";
 
 	static final Type GEN_FACTORY_CLASS = Type.getType( GEN_FACTORY_DESC );
 	static final Type GEN_ROOT_CLASS = Type.getType( GEN_ROOT_DESC );
@@ -70,8 +70,8 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 	static final Type ENV_CLASS = Type.getType( Environment.class );
 	static final String ENV_DESC = ENV_CLASS.getDescriptor();
 	static final String ENV_MEMBER_NAME = "$environment";
-	
-	
+
+
 	static final Type ILLEGALARGUMENT_CLASS = Type.getType( IllegalArgumentException.class );
 
 	private final TypeCompilerForNumbers numberCompiler = TypeCompilerForNumbers.compilerFor( this, this
@@ -80,7 +80,7 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 	private final boolean canCache;
 
 
-	public ByteCodeEngineCompiler(Config _config)
+	public ByteCodeEngineCompiler( Config _config )
 	{
 		super( _config );
 		this.canCache = Resettable.class.isAssignableFrom( getModel().getRoot().getOutputClass() );
@@ -120,7 +120,7 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 	{
 		final Map<String, byte[]> classNamesAndBytes = New.newMap();
 
-		final SectionCompiler rootCompiler = new SectionCompiler( this, getModel().getRoot() );
+		final SectionCompiler rootCompiler = new RootSectionCompiler( this, getModel().getRoot() );
 		this.rootCompiler = rootCompiler;
 		try {
 
@@ -151,7 +151,7 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 	final class ElementCreator extends AbstractElementVisitor
 	{
 
-		public ElementCreator(SectionCompiler _rootCompiler)
+		public ElementCreator( SectionCompiler _rootCompiler )
 		{
 			super( _rootCompiler );
 		}
@@ -174,7 +174,7 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 	final class ElementCompiler extends AbstractElementVisitor
 	{
 
-		public ElementCompiler(SectionCompiler _rootCompiler)
+		public ElementCompiler( SectionCompiler _rootCompiler )
 		{
 			super( _rootCompiler );
 		}
@@ -216,7 +216,7 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 		private final SectionCompiler root;
 		private SectionCompiler section;
 
-		public AbstractElementVisitor(SectionCompiler _rootCompiler)
+		public AbstractElementVisitor( SectionCompiler _rootCompiler )
 		{
 			this.root = _rootCompiler;
 		}

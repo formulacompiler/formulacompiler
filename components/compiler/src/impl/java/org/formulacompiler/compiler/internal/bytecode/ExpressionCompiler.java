@@ -811,8 +811,7 @@ abstract class ExpressionCompiler
 
 	protected void compile_environment()
 	{
-		mv().loadThis();
-		mv().getField( section().classType(), ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_CLASS );
+		section().compileEnvironmentAccess( mv() );
 	}
 
 
