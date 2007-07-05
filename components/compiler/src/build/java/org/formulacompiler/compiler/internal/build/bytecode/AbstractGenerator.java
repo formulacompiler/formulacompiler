@@ -29,12 +29,12 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
 
-@SuppressWarnings("unqualified-field-access")
+@SuppressWarnings( "unqualified-field-access" )
 abstract class AbstractGenerator
 {
 	static final String IF_CLAUSE = "__if_";
 	static final int IF_CLAUSE_LEN = IF_CLAUSE.length();
-	
+
 	final DescriptionBuilder classBuilder = new DescriptionBuilder();
 	final DispatchBuilder unaryOperatorDispatchBuilder = new DispatchBuilder();
 	final DispatchBuilder binaryOperatorDispatchBuilder = new DispatchBuilder();
@@ -43,19 +43,19 @@ abstract class AbstractGenerator
 	final String typeName;
 	final Class cls;
 	final ClassNode clsNode;
-	
+
 	static boolean verbose = false;
 
 
-	public AbstractGenerator(Class _template, String _typeName, String _superName)
-			throws IOException
+	public AbstractGenerator( Class _template, String _typeName, String _superName ) throws IOException
 	{
 		super();
 		this.cls = _template;
 		this.typeName = _typeName;
 		this.superName = _superName;
 		this.clsNode = new ClassNode();
-		new ClassReader( _template.getCanonicalName() ).accept( clsNode, true );
+		new ClassReader( _template.getCanonicalName() )
+				.accept( clsNode, ClassReader.SKIP_FRAMES | ClassReader.SKIP_DEBUG );
 		this.unaryOperatorDispatchBuilder.indent( 4 );
 		this.binaryOperatorDispatchBuilder.indent( 4 );
 		this.functionDispatchBuilder.indent( 3 );
@@ -71,7 +71,7 @@ abstract class AbstractGenerator
 		final String enumName;
 		final String ifCond;
 
-		public AbstractMethodTemplateGenerator(MethodNode _mtdNode)
+		public AbstractMethodTemplateGenerator( MethodNode _mtdNode )
 		{
 			super();
 			this.mtdNode = _mtdNode;
@@ -101,5 +101,5 @@ abstract class AbstractGenerator
 
 	}
 
-	
+
 }

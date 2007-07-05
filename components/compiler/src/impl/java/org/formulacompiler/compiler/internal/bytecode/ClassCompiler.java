@@ -36,7 +36,7 @@ abstract class ClassCompiler
 	private final String classInternalName;
 	private final String classDescriptor;
 	private final Type classType;
-	private final ClassWriter cw = new ClassWriter( true );
+	private final ClassWriter cw = new ClassWriter( ClassWriter.COMPUTE_MAXS );
 
 
 	public ClassCompiler(ByteCodeEngineCompiler _compiler, String _className, boolean _public)

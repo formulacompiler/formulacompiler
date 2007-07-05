@@ -323,10 +323,10 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 		{
 			final DescriptionBuilder cb = classBuilder;
 			int iLabel = 0;
-			for (Object insnObj : mtdNode.instructions) {
+			for (Object insnObj : mtdNode.instructions.toArray()) {
 				if (insnObj instanceof JumpInsnNode) {
 					final JumpInsnNode jumpNode = (JumpInsnNode) insnObj;
-					final Label label = jumpNode.label;
+					final Label label = jumpNode.label.getLabel();
 					if (!labels.contains( label )) {
 						labels.add( label );
 						cb.append( "Label l_" ).append( iLabel++ ).appendLine( " = new Label();" );
@@ -581,13 +581,13 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 		private void genInsn( JumpInsnNode _node )
 		{
 			startInsn( _node );
-			classBuilder.append( ", l_" ).append( labels.indexOf( _node.label ) );
+			classBuilder.append( ", l_" ).append( labels.indexOf( _node.label.getLabel() ) );
 			endInsn();
 		}
 
 		private void genInsn( LabelNode _node )
 		{
-			classBuilder.append( "mv.visitLabel( l_" ).append( labels.indexOf( _node.label ) ).appendLine( " );" );
+			classBuilder.append( "mv.visitLabel( l_" ).append( labels.indexOf( _node.getLabel() ) ).appendLine( " );" );
 		}
 
 		private void genInsn( IntInsnNode _node )
