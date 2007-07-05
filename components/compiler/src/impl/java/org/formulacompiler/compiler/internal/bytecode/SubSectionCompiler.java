@@ -20,6 +20,7 @@
  */
 package org.formulacompiler.compiler.internal.bytecode;
 
+import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -35,7 +36,7 @@ final class SubSectionCompiler extends SectionCompiler
 	private final String getterDescriptor;
 
 
-	SubSectionCompiler(SectionCompiler _parent, SectionModel _model)
+	SubSectionCompiler( SectionCompiler _parent, SectionModel _model )
 	{
 		super( _parent.engineCompiler(), _model, _parent.engineCompiler().newSubClassName() );
 		this.parentSectionCompiler = _parent;
@@ -48,10 +49,17 @@ final class SubSectionCompiler extends SectionCompiler
 
 
 	@Override
-	SectionCompiler parentSectionCompiler()
+	protected SectionCompiler parentSectionCompiler()
 	{
 		return this.parentSectionCompiler;
 	}
+
+	@Override
+	protected RootSectionCompiler rootSectionCompiler()
+	{
+		return parentSectionCompiler().rootSectionCompiler();
+	}
+
 
 	String arrayDescriptor()
 	{
@@ -74,22 +82,87 @@ final class SubSectionCompiler extends SectionCompiler
 	}
 
 
-	@Override
-	protected Type parentType() 
+	private Type parentType()
 	{
 		return parentSectionCompiler().classType();
 	}
 
-	
-	@SuppressWarnings("unchecked")
+	private Type rootType()
+	{
+		return rootSectionCompiler().classType();
+	}
+
+
+	@Override
+	protected void buildMembers()
+	{
+		super.buildMembers();
+		buildParentMember();
+		buildRootMember();
+	}
+
+	private void buildParentMember()
+	{
+		// Package visible so subsections can read it.
+		newField( Opcodes.ACC_FINAL, ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parentType().getDescriptor() );
+	}
+
+	private void buildRootMember()
+	{
+		// Package visible so subsections can read it.
+		newField( Opcodes.ACC_FINAL, ByteCodeEngineCompiler.ROOT_MEMBER_NAME, rootType().getDescriptor() );
+	}
+
+
+	@Override
+	protected void buildConstructorWithInputs() throws CompilerException
+	{
+		GeneratorAdapter mv = newMethod( 0, "<init>", "("
+				+ inputType().getDescriptor() + parentType().getDescriptor() + ")V" );
+
+		// super( _inputs ); or super(); or super( _inputs, _parent );
+		callInheritedConstructor( mv, 1 );
+
+		// this.parent = _parent;
+		mv.loadThis();
+		mv.loadArg( 1 );
+		mv.putField( classType(), ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parentType() );
+		// this.root = _parent.root();
+		mv.loadThis();
+		mv.loadArg( 1 );
+		final Type rootType = rootSectionCompiler().classType();
+		if (!(parentSectionCompiler() instanceof RootSectionCompiler)) {
+			// parent.root is package visible
+			mv.getField( parentType(), ByteCodeEngineCompiler.ROOT_MEMBER_NAME, rootType );
+		}
+		mv.putField( this.classType(), ByteCodeEngineCompiler.ROOT_MEMBER_NAME, rootType );
+
+		// this.inputs = _inputs;
+		if (hasInputs()) {
+			mv.loadThis();
+			mv.loadArg( 0 );
+			storeInputs( mv );
+		}
+
+		mv.visitInsn( Opcodes.RETURN );
+		endMethod( mv );
+	}
+
+
+	@SuppressWarnings( "unchecked" )
 	@Override
 	protected boolean callConstructorWithInputs( GeneratorAdapter _mv, int _inputsVar )
 	{
 		final int P_PARENT = 2;
-		
+
 		// try super( _inputs, _parent );
 		try {
-			outputClass().getConstructor( inputClass(), parentSectionCompiler().model().getOutputClass() ); // ensure it is here and accessible
+			outputClass().getConstructor( inputClass(), parentSectionCompiler().model().getOutputClass() ); // ensure
+			// it
+			// is
+			// here
+			// and
+			// accessible
 		}
 		catch (NoSuchMethodException e) {
 			return super.callConstructorWithInputs( _mv, _inputsVar );
@@ -107,6 +180,16 @@ final class SubSectionCompiler extends SectionCompiler
 				+ inputType().getDescriptor() + parentSectionCompiler().outputType().getDescriptor() + ")V" );
 
 		return true;
+	}
+
+
+	@Override
+	protected void compileEnvironmentAccess( GeneratorAdapter _mv )
+	{
+		final Type rootType = rootType();
+		_mv.loadThis();
+		_mv.getField( classType(), ByteCodeEngineCompiler.ROOT_MEMBER_NAME, rootType );
+		_mv.getField( rootType, ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_CLASS );
 	}
 
 	
