@@ -364,7 +364,9 @@
         <root url="jar://$PROJECT_DIR$/lib/test/junit.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/lib/IDE/junit.jar!/" />
+      </SOURCES>
     </library>
   </component>
   <component name="uidesigner-configuration">
