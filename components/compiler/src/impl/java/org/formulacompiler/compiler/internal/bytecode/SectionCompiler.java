@@ -20,6 +20,9 @@
  */
 package org.formulacompiler.compiler.internal.bytecode;
 
+import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.COMPUTATION_INTF;
+import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.INPUTS_MEMBER_NAME;
+
 import java.lang.reflect.Method;
 import java.util.Map;
 
@@ -128,7 +131,7 @@ abstract class SectionCompiler extends ClassCompiler
 		if (this.compilationStarted) return;
 		this.compilationStarted = true;
 
-		initializeClass( outputClass(), this.outputs, ByteCodeEngineCompiler.COMPUTATION_INTF );
+		initializeClass( outputClass(), this.outputs, COMPUTATION_INTF );
 		buildMembers();
 		buildConstructorWithInputs();
 		if (engineCompiler().canCache()) {
@@ -174,8 +177,9 @@ abstract class SectionCompiler extends ClassCompiler
 		return result;
 	}
 
-	void endCompilation()
+	void endCompilation() throws CompilerException
 	{
+		finalizeConstructor();
 		finalizeOutputDistributors();
 		finalizeReset();
 		finalizeClass();
@@ -196,6 +200,11 @@ abstract class SectionCompiler extends ClassCompiler
 			endMethod( this.resetter );
 			this.resetter = null;
 		}
+	}
+
+	boolean hasReset()
+	{
+		return null != this.resetter;
 	}
 
 	GeneratorAdapter resetter()
@@ -228,16 +237,16 @@ abstract class SectionCompiler extends ClassCompiler
 	private void buildInputMember()
 	{
 		if (!hasInputs()) throw new IllegalStateException();
-		newField( Opcodes.ACC_FINAL + Opcodes.ACC_PRIVATE, ByteCodeEngineCompiler.INPUTS_MEMBER_NAME, inputType()
-				.getDescriptor() );
+		newField( Opcodes.ACC_FINAL + Opcodes.ACC_PRIVATE, INPUTS_MEMBER_NAME, inputType().getDescriptor() );
 	}
 
 	protected abstract void buildConstructorWithInputs() throws CompilerException;
+	protected abstract void finalizeConstructor() throws CompilerException;
 
 	protected void storeInputs( GeneratorAdapter _mv )
 	{
 		if (!hasInputs()) throw new IllegalStateException();
-		_mv.putField( classType(), ByteCodeEngineCompiler.INPUTS_MEMBER_NAME, inputType() );
+		_mv.putField( classType(), INPUTS_MEMBER_NAME, inputType() );
 	}
 
 
@@ -294,5 +303,6 @@ abstract class SectionCompiler extends ClassCompiler
 	}
 
 	protected abstract void compileEnvironmentAccess( GeneratorAdapter _mv );
+	protected abstract void compileComputationTimeAccess( GeneratorAdapter _mv );
 
 }

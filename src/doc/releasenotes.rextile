@@ -22,6 +22,7 @@ h5. Better
 h5. Fixed
 
 	* The "hacking docs":hacking/index.htm have been updated to reflect the new project layout.
+	* @NOW()@ and @TODAY()@ functions now return the same value for the same computation. This value can be reset when output class implements @Resettable@ by invoking @reset()@.
 
     
 h2. Release 0.9.0

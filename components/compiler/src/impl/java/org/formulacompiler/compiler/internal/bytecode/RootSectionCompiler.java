@@ -20,6 +20,14 @@
  */
 package org.formulacompiler.compiler.internal.bytecode;
 
+import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.COMP_TIME_CLASS;
+import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.COMP_TIME_DESC;
+import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.COMP_TIME_MEMBER_NAME;
+import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.ENV_CLASS;
+import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.ENV_DESC;
+import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.ENV_MEMBER_NAME;
+import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.GEN_ROOT_NAME;
+
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.objectweb.asm.Opcodes;
@@ -27,10 +35,15 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 final class RootSectionCompiler extends SectionCompiler
 {
+	private static final org.objectweb.asm.commons.Method EMPTY_CONSTRUCTOR_METHOD = org.objectweb.asm.commons.Method
+			.getMethod( "void <init>()" );
+	private static final org.objectweb.asm.commons.Method RESET_METHOD = org.objectweb.asm.commons.Method
+			.getMethod( "void reset()" );
+
 
 	RootSectionCompiler( ByteCodeEngineCompiler _compiler, SectionModel _model )
 	{
-		super( _compiler, _model, ByteCodeEngineCompiler.GEN_ROOT_NAME );
+		super( _compiler, _model, GEN_ROOT_NAME );
 	}
 
 	@Override
@@ -56,15 +69,16 @@ final class RootSectionCompiler extends SectionCompiler
 	private void buildEnvironmentMember()
 	{
 		// Package visible so subsections can read it.
-		newField( Opcodes.ACC_FINAL, ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_DESC );
+		newField( Opcodes.ACC_FINAL, ENV_MEMBER_NAME, ENV_DESC );
 	}
 
+
+	private GeneratorAdapter constructor;
 
 	@Override
 	protected void buildConstructorWithInputs() throws CompilerException
 	{
-		GeneratorAdapter mv = newMethod( 0, "<init>", "("
-				+ inputType().getDescriptor() + ByteCodeEngineCompiler.ENV_DESC + ")V" );
+		GeneratorAdapter mv = newMethod( 0, "<init>", "(" + inputType().getDescriptor() + ENV_DESC + ")V" );
 
 		// super( _inputs ); or super();
 		callInheritedConstructor( mv, 1 );
@@ -72,7 +86,7 @@ final class RootSectionCompiler extends SectionCompiler
 		// this.environment = _environment;
 		mv.loadThis();
 		mv.loadArg( 1 );
-		mv.putField( this.classType(), ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_CLASS );
+		mv.putField( this.classType(), ENV_MEMBER_NAME, ENV_CLASS );
 
 		// this.inputs = _inputs;
 		if (hasInputs()) {
@@ -81,17 +95,61 @@ final class RootSectionCompiler extends SectionCompiler
 			storeInputs( mv );
 		}
 
+		this.constructor = mv;
+	}
+
+	@Override
+	protected void finalizeConstructor() throws CompilerException
+	{
+		if (this.computationTimeCompiled) {
+			this.constructor.loadThis();
+			this.constructor.newInstance( COMP_TIME_CLASS );
+			this.constructor.dup();
+			this.constructor.invokeConstructor( COMP_TIME_CLASS, EMPTY_CONSTRUCTOR_METHOD );
+			this.constructor.putField( this.classType(), COMP_TIME_MEMBER_NAME, COMP_TIME_CLASS );
+		}
+
+		GeneratorAdapter mv = this.constructor;
 		mv.visitInsn( Opcodes.RETURN );
 		endMethod( mv );
 	}
 
-	
+
 	@Override
 	protected void compileEnvironmentAccess( GeneratorAdapter _mv )
 	{
 		_mv.loadThis();
-		_mv.getField( classType(), ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_CLASS );
+		_mv.getField( classType(), ENV_MEMBER_NAME, ENV_CLASS );
 	}
 
-	
+
+	private boolean computationTimeCompiled = false;
+
+	private void compileComputationTime()
+	{
+		if (!this.computationTimeCompiled) {
+			newField( Opcodes.ACC_FINAL, COMP_TIME_MEMBER_NAME, COMP_TIME_DESC );
+			if (hasReset()) {
+				GeneratorAdapter mv = resetter();
+				mv.loadThis();
+				mv.getField( classType(), COMP_TIME_MEMBER_NAME, COMP_TIME_CLASS );
+				mv.invokeVirtual( COMP_TIME_CLASS, RESET_METHOD );
+			}
+			this.computationTimeCompiled = true;
+		}
+	}
+
+	@Override
+	protected void compileComputationTimeAccess( GeneratorAdapter _mv )
+	{
+		_mv.loadThis();
+		compileComputationTimeAccessGivenThis( _mv );
+	}
+
+	void compileComputationTimeAccessGivenThis( GeneratorAdapter _mv )
+	{
+		compileComputationTime();
+		_mv.getField( classType(), COMP_TIME_MEMBER_NAME, COMP_TIME_CLASS );
+	}
+
 }

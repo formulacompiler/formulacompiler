@@ -814,6 +814,11 @@ abstract class ExpressionCompiler
 		section().compileEnvironmentAccess( mv() );
 	}
 
+	protected void compile_computationTime()
+	{
+		method().section().compileComputationTimeAccess( mv() );
+	}
+
 
 	protected static interface ForEachElementCompilation
 	{

@@ -38,6 +38,7 @@ import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.runtime.EngineException;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.Resettable;
+import org.formulacompiler.runtime.internal.ComputationTime;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.bytecode.ByteCodeEngine;
 import org.objectweb.asm.ClassWriter;
@@ -71,6 +72,9 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 	static final String ENV_DESC = ENV_CLASS.getDescriptor();
 	static final String ENV_MEMBER_NAME = "$environment";
 
+	static final Type COMP_TIME_CLASS = Type.getType( ComputationTime.class );
+	static final String COMP_TIME_DESC = COMP_TIME_CLASS.getDescriptor();
+	static final String COMP_TIME_MEMBER_NAME = "$computationTime";
 
 	static final Type ILLEGALARGUMENT_CLASS = Type.getType( IllegalArgumentException.class );
 
@@ -188,7 +192,7 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 		}
 
 		@Override
-		protected boolean visitedSection( SectionModel _section )
+		protected boolean visitedSection( SectionModel _section ) throws CompilerException
 		{
 			getSection().endCompilation();
 			return super.visitedSection( _section );
@@ -245,7 +249,7 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 		}
 
 		@Override
-		protected boolean visitedSection( SectionModel _section )
+		protected boolean visitedSection( SectionModel _section ) throws CompilerException
 		{
 			this.section = this.section.parentSectionCompiler();
 			return true;
