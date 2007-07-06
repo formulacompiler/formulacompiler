@@ -88,7 +88,7 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 	public static BigDecimal stdTODAY()
 	{
 		final TimeZone timeZone = TimeZone.getDefault();
-		return dateToNum( today( timeZone ), timeZone );
+		return dateToNum( today( timeZone, new ComputationTime() ), timeZone );
 	}
 
 	public static BigDecimal min( BigDecimal a, BigDecimal b )
@@ -401,15 +401,15 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return BigDecimal.valueOf( result );
 	}
 
-	public static BigDecimal fun_NOW( final Environment _environment )
+	public static BigDecimal fun_NOW( final Environment _environment, final ComputationTime _computationTime )
 	{
-		return dateToNum( now(), _environment.timeZone() );
+		return dateToNum( now( _computationTime ), _environment.timeZone() );
 	}
 
-	public static BigDecimal fun_TODAY( final Environment _environment )
+	public static BigDecimal fun_TODAY( final Environment _environment, final ComputationTime _computationTime )
 	{
 		final TimeZone timeZone = _environment.timeZone();
-		return dateToNum( today( timeZone ), timeZone );
+		return dateToNum( today( timeZone, _computationTime ), timeZone );
 	}
 
 	public static BigDecimal fun_TIME( BigDecimal _hour, BigDecimal _minute, BigDecimal _second )

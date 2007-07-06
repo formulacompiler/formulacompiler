@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
+import org.formulacompiler.runtime.internal.ComputationTime;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
 import org.formulacompiler.runtime.internal.RuntimeLong_v1;
@@ -35,6 +36,7 @@ public final class ExpressionTemplatesForScaledLongs
 	final int scale;
 	final long one;
 	private Environment environment = null; // not supposed to be called at compile-time
+	private ComputationTime computationTime = null; // not supposed to be called at compile-time
 
 
 	public ExpressionTemplatesForScaledLongs(RuntimeLong_v1.Context _context)
@@ -613,12 +615,12 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long fun_NOW()
 	{
-		return RuntimeLong_v1.fun_NOW( this.context, this.environment );
+		return RuntimeLong_v1.fun_NOW( this.context, this.environment, this.computationTime );
 	}
 
 	public long fun_TODAY()
 	{
-		return RuntimeLong_v1.fun_TODAY( this.context, this.environment );
+		return RuntimeLong_v1.fun_TODAY( this.context, this.environment, this.computationTime );
 	}
 
 

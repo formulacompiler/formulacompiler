@@ -25,6 +25,7 @@ import java.math.BigInteger;
 import java.util.Date;
 
 import org.formulacompiler.runtime.FormulaRuntime;
+import org.formulacompiler.runtime.internal.ComputationTime;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
@@ -36,6 +37,7 @@ public final class ExpressionTemplatesForBigDecimals
 	final int fixedScale;
 	final int roundingMode;
 	private Environment environment = null; // not supposed to be called at compile-time
+	private ComputationTime computationTime = null; // not supposed to be called at compile-time
 
 
 	public ExpressionTemplatesForBigDecimals(int _scale, int _roundingMode)
@@ -566,12 +568,12 @@ public final class ExpressionTemplatesForBigDecimals
 
 	public BigDecimal fun_NOW()
 	{
-		return RuntimeBigDecimal_v1.fun_NOW( this.environment );
+		return RuntimeBigDecimal_v1.fun_NOW( this.environment, this.computationTime );
 	}
 
 	public BigDecimal fun_TODAY()
 	{
-		return RuntimeBigDecimal_v1.fun_TODAY( this.environment );
+		return RuntimeBigDecimal_v1.fun_TODAY( this.environment, this.computationTime );
 	}
 
 

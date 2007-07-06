@@ -89,15 +89,15 @@ public abstract class Runtime_v1
 	}
 
 
-	public static Date now()
+	protected static Date now( final ComputationTime _computationTime )
 	{
-		final long millis = System.currentTimeMillis();
-		return new Date( millis / MS_PER_SEC * MS_PER_SEC );
+		return new Date( _computationTime.getNowMillis() );
 	}
 
-	public static Date today( TimeZone _timeZone )
+	protected static Date today( TimeZone _timeZone, final ComputationTime _computationTime )
 	{
 		final Calendar calendar = Calendar.getInstance( _timeZone );
+		calendar.setTimeInMillis( _computationTime.getNowMillis() );
 		calendar.set( Calendar.HOUR_OF_DAY, 0 );
 		calendar.set( Calendar.MINUTE, 0 );
 		calendar.set( Calendar.SECOND, 0 );

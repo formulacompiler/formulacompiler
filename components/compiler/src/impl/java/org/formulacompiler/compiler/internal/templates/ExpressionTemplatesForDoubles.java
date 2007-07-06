@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
+import org.formulacompiler.runtime.internal.ComputationTime;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
 
@@ -31,6 +32,7 @@ import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
 public final class ExpressionTemplatesForDoubles
 {
 	private Environment environment = null; // not supposed to be called at compile-time
+	private ComputationTime computationTime = null; // not supposed to be called at compile-time
 
 
 	// ------------------------------------------------ Utils
@@ -504,12 +506,12 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_NOW()
 	{
-		return RuntimeDouble_v1.fun_NOW( this.environment );
+		return RuntimeDouble_v1.fun_NOW( this.environment, this.computationTime );
 	}
 
 	public double fun_TODAY()
 	{
-		return RuntimeDouble_v1.fun_TODAY( this.environment );
+		return RuntimeDouble_v1.fun_TODAY( this.environment, this.computationTime );
 	}
 
 

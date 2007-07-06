@@ -20,6 +20,11 @@
  */
 package org.formulacompiler.compiler.internal.bytecode;
 
+import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.ENV_CLASS;
+import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.ENV_MEMBER_NAME;
+import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.PARENT_MEMBER_NAME;
+import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.ROOT_MEMBER_NAME;
+
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.objectweb.asm.Opcodes;
@@ -104,13 +109,13 @@ final class SubSectionCompiler extends SectionCompiler
 	private void buildParentMember()
 	{
 		// Package visible so subsections can read it.
-		newField( Opcodes.ACC_FINAL, ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parentType().getDescriptor() );
+		newField( Opcodes.ACC_FINAL, PARENT_MEMBER_NAME, parentType().getDescriptor() );
 	}
 
 	private void buildRootMember()
 	{
 		// Package visible so subsections can read it.
-		newField( Opcodes.ACC_FINAL, ByteCodeEngineCompiler.ROOT_MEMBER_NAME, rootType().getDescriptor() );
+		newField( Opcodes.ACC_FINAL, ROOT_MEMBER_NAME, rootType().getDescriptor() );
 	}
 
 
@@ -126,16 +131,16 @@ final class SubSectionCompiler extends SectionCompiler
 		// this.parent = _parent;
 		mv.loadThis();
 		mv.loadArg( 1 );
-		mv.putField( classType(), ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parentType() );
+		mv.putField( classType(), PARENT_MEMBER_NAME, parentType() );
 		// this.root = _parent.root();
 		mv.loadThis();
 		mv.loadArg( 1 );
 		final Type rootType = rootSectionCompiler().classType();
 		if (!(parentSectionCompiler() instanceof RootSectionCompiler)) {
 			// parent.root is package visible
-			mv.getField( parentType(), ByteCodeEngineCompiler.ROOT_MEMBER_NAME, rootType );
+			mv.getField( parentType(), ROOT_MEMBER_NAME, rootType );
 		}
-		mv.putField( this.classType(), ByteCodeEngineCompiler.ROOT_MEMBER_NAME, rootType );
+		mv.putField( this.classType(), ROOT_MEMBER_NAME, rootType );
 
 		// this.inputs = _inputs;
 		if (hasInputs()) {
@@ -146,6 +151,12 @@ final class SubSectionCompiler extends SectionCompiler
 
 		mv.visitInsn( Opcodes.RETURN );
 		endMethod( mv );
+	}
+
+	@Override
+	protected void finalizeConstructor() throws CompilerException
+	{
+		// Finalized already.
 	}
 
 
@@ -188,9 +199,18 @@ final class SubSectionCompiler extends SectionCompiler
 	{
 		final Type rootType = rootType();
 		_mv.loadThis();
-		_mv.getField( classType(), ByteCodeEngineCompiler.ROOT_MEMBER_NAME, rootType );
-		_mv.getField( rootType, ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_CLASS );
+		_mv.getField( classType(), ROOT_MEMBER_NAME, rootType );
+		_mv.getField( rootType, ENV_MEMBER_NAME, ENV_CLASS );
 	}
 
-	
+	@Override
+	protected void compileComputationTimeAccess( GeneratorAdapter _mv )
+	{
+		final Type rootType = rootType();
+		_mv.loadThis();
+		_mv.getField( classType(), ROOT_MEMBER_NAME, rootType );
+		rootSectionCompiler().compileComputationTimeAccessGivenThis( _mv );
+	}
+
+
 }

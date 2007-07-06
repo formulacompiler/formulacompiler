@@ -86,7 +86,7 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	public static double stdTODAY()
 	{
 		final TimeZone timeZone = TimeZone.getDefault();
-		return dateToNum( today( timeZone ), timeZone );
+		return dateToNum( today( timeZone, new ComputationTime() ), timeZone );
 	}
 
 
@@ -292,15 +292,15 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		return calendar.get( _field );
 	}
 
-	public static double fun_NOW( final Environment _environment )
+	public static double fun_NOW( final Environment _environment, final ComputationTime _computationTime )
 	{
-		return dateToNum( now(), _environment.timeZone() );
+		return dateToNum( now( _computationTime ), _environment.timeZone() );
 	}
 
-	public static double fun_TODAY( final Environment _environment )
+	public static double fun_TODAY( final Environment _environment, final ComputationTime _computationTime )
 	{
 		final TimeZone timeZone = _environment.timeZone();
-		return dateToNum( today( timeZone ), timeZone );
+		return dateToNum( today( timeZone, _computationTime ), timeZone );
 	}
 
 	public static double fun_TIME( double _hour, double _minute, double _second )
