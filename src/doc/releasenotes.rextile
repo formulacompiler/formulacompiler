@@ -12,17 +12,20 @@ h2. Release 0.9.1
 h5. New
 
 	* You can now "bind parameters of input methods to computed cells":tutorial/bindcells.htm.
-	* New "build target":hacking/build.htm @compile@ added.
 	
 h5. Better
 
 	* Upgraded to "ASM 3.0":http://asm.objectweb.org/jdiff223to30/changes.html.
-	* Pass a root pointer instead of the environment to subengines. This is in preparation for having the root engine contain things like the current computation's value of @NOW()@.
 
 h5. Fixed
 
 	* The "hacking docs":hacking/index.htm have been updated to reflect the new project layout.
 	* @NOW()@ and @TODAY()@ functions now return the same value for the same computation. This value can be reset when output class implements @Resettable@ by invoking @reset()@.
+
+h5. Internals
+
+	* New "build target":hacking/build.htm @compile@ added.
+	* Pass a root pointer instead of the environment to subengines. This is in preparation for having the root engine contain things like the current computation's value of @NOW()@.
 
     
 h2. Release 0.9.0

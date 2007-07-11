@@ -27,6 +27,7 @@ h5. Excel
 	* Functions like @NPV()@, @MIRR()@, and @IRR()@ cannot be used over repeating sections.
 	* Array expressions are not supported (such as @{=INDEX({1,2;3,4};0;2)}@).
 	* In Excel, a formula like @(A1 = 0)@ returns false when @A1@ is @FALSE@. In AFC it is true. In both AFC and Excel, @(A1 + 0 = 0)@ returns true.
+	* In Excel, @SUM@ ignores booleans. In AFC it does not. In both, numeric operators like @+@ treat booleans as numbers.
 	* String comparisons don't sort umlauts and such the way Excel does (see "String Comparisons":reference/strings.htm).
 	* The options flag "Precision as displayed" is not supported. AFC always uses the full precision of the configured numeric type internally and only rounds final outputs.
 

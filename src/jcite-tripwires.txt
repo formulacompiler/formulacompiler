@@ -102,6 +102,68 @@ final class $Root implements Computation, Outputs
     }
 }
 ___@_@___
+jc:binding/org.formulacompiler.gen.$Root
+__@@__
+package org.formulacompiler.gen;
+import org.formulacompiler.runtime.Computation;
+import org.formulacompiler.runtime.internal.Environment;
+import org.formulacompiler.tutorials.BindingCells;
+
+final class $Root implements Computation, BindingCells.Output
+{
+    private final BindingCells.Input $inputs;
+    final Environment $environment;
+    
+    $Root(BindingCells.Input input, Environment environment) {
+        $environment = environment;
+        $inputs = input;
+    }
+    
+    final double get$0() {
+        return get$1() + get$2() + get$3();
+    }
+    
+    public final double getResult() {
+        return get$0();
+    }
+    
+    final double get$1() {
+        return $inputs.getValueForYear(1994);
+    }
+    
+    final double get$2() {
+        return $inputs.getValueForYear((int) get$7());
+    }
+    
+    final double get$3() {
+        return (double) $inputs.getName().length();
+    }
+    
+    final double get$4() {
+        return get$5() + get$6();
+    }
+    
+    public final double getCoefficient() {
+        return get$4();
+    }
+    
+    final double get$5() {
+        return $inputs.getSomeValue();
+    }
+    
+    final double get$6() {
+        return $inputs.getAnotherValue();
+    }
+    
+    final double get$7() {
+        return get$8() * 10.0 + 1900.0;
+    }
+    
+    final double get$8() {
+        return (double) $inputs.getDecade();
+    }
+}
+___@_@___
 jc:bonusPerEmployee/org.formulacompiler.gen.$Root
 __@@__
 package org.formulacompiler.gen;
@@ -197,16 +259,15 @@ jc:bonusPerEmployee/org.formulacompiler.gen.$Sect0
 __@@__
 package org.formulacompiler.gen;
 import org.formulacompiler.runtime.Computation;
-import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeLong_v1;
 import org.formulacompiler.tutorials.BonusPerEmployee;
 
 final class $Sect0
     implements Computation, BonusPerEmployee.EmployeeBonusComputation
 {
-    final $Root $parent;
     private final BonusPerEmployee.EmployeeBonusData $inputs;
-    final Environment $environment;
+    final $Root $parent;
+    final $Root $root;
     private boolean h$get$0;
     private long c$get$0;
     private boolean h$get$1;
@@ -218,7 +279,7 @@ final class $Sect0
     
     $Sect0(BonusPerEmployee.EmployeeBonusData employeebonusdata, $Root root) {
         $parent = root;
-        $environment = root.$environment;
+        $root = root;
         $inputs = employeebonusdata;
     }
     
@@ -483,20 +544,19 @@ jc:customerRatingWithOrders/org.formulacompiler.gen.$Sect0
 __@@__
 package org.formulacompiler.gen;
 import org.formulacompiler.runtime.Computation;
-import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.tutorials.CustomerRatingWithOrders;
 
 final class $Sect0 implements Computation
 {
-    final $Root $parent;
     private final CustomerRatingWithOrders.OrderData $inputs;
-    final Environment $environment;
+    final $Root $parent;
+    final $Root $root;
     private boolean h$get$0;
     private double c$get$0;
     
     $Sect0(CustomerRatingWithOrders.OrderData orderdata, $Root root) {
         $parent = root;
-        $environment = root.$environment;
+        $root = root;
         $inputs = orderdata;
     }
     
@@ -813,6 +873,23 @@ begin( Function.VAR, "xs*" );
 		}
 		end();
 ___@_@___
+jc:org.formulacompiler.compiler.internal.model.analysis.TypeAnnotator:---- typeOfFun
+__@@__
+private DataType typeOf( ExpressionNodeForFunction _expr ) throws CompilerException
+	{
+		annotateArgs( _expr );
+		switch (_expr.getFunction()) {
+			// ...
+			case CONCATENATE:
+			case MID:
+				// ...
+				return DataType.STRING;
+
+			default:
+				return DataType.NUMERIC;
+		}
+	}
+___@_@___
 jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForBigDecimals:---- fun_ABS
 __@@__
 @ReturnsAdjustedValue
@@ -835,11 +912,25 @@ public double fun_ROUND( double a, double b )
 		return RuntimeDouble_v1.round( a, (int) b );
 	}
 ___@_@___
+jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForDoubles:---- fun_VALUE
+__@@__
+public double fun_VALUE( String _text )
+	{
+		return RuntimeDouble_v1.fun_VALUE( _text, this.environment );
+	}
+___@_@___
 jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForScaledLongs:---- fun_ABS
 __@@__
 public long fun_ABS( long a )
 	{
 		return (a < 0) ? -a : a;
+	}
+___@_@___
+jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForStrings:---- fun_MID
+__@@__
+public String fun_MID( String s, int start, int len )
+	{
+		return Runtime_v1.stdMID( s, start, len );
 	}
 ___@_@___
 jc:org.formulacompiler.devjournal.cse.InsuranceModel:---- OutputsCurrent
@@ -1184,7 +1275,7 @@ public final class DebugTest extends AbstractReferenceTest
 		// super( "StringComparisons", 74 );
 		// super( "StringComparisons", 9, NumType.DOUBLE, Integer.valueOf( "1", 2 ), false );
 
-		super( "Strings", 228, NumType.LONG, Integer.valueOf( "0", 2 ), false );
+		super( "NumericFunctions", 2, NumType.DOUBLE, Integer.valueOf( "0", 2 ), false );
 	}
 
 
@@ -1669,6 +1760,7 @@ public static interface Input
 	{
 		double getSomeValue();
 		double getAnotherValue();
+		int getDecade();
 		double getValueForYear( int year );
 		String getName();
 	}
@@ -1683,11 +1775,11 @@ public static interface Output
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingCells:---- OutputWithDefaults
 __@@__
-public static abstract class OutputWithDefault /**/implements Output/**/ 
+public static abstract class OutputWithDefault /**/implements Output/**/
 	{
 		private final Input input;
 
-		public OutputWithDefault(/**/Input _input/**/)
+		public OutputWithDefault( /**/Input _input/**/ )
 		{
 			super();
 			this.input = _input;
@@ -1707,6 +1799,12 @@ cell = spreadsheet.getCell( "NAME_LENGTH" );
 		method = Input.class.getMethod( "getName" );
 		chainedMethod = String.class.getMethod( "length" );
 		binder.defineInputCell( cell, new CallFrame( method )/**/.chain/**/( chainedMethod ) );
+___@_@___
+jc:org.formulacompiler.tutorials.BindingCells:---- bindDynamicParamInputs
+__@@__
+cell = spreadsheet.getCell( "YEAR_x" );
+		method = Input.class.getMethod( "getValueForYear", /**/Integer.TYPE/**/ );
+		binder.defineInputCell( cell, new CallFrame( method, /**/spreadsheet.getCell( "x" )/**/ ) );
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingCells:---- bindParamInputs
 __@@__
@@ -4033,7 +4131,7 @@ __@@__
 			<td></td>
 			<td class="xl-r1">Sample<br/><span class="xl-name">(Name)</span></td>
 			<td class="xl-r1">Joe<br/><span class="xl-name">(FirstName)</span></td>
-			<td class="xl-date xl-r2">01.01.06<br/><span class="xl-name">(Date)</span></td>
+			<td class="xl-date xl-r2">1/1/06<br/><span class="xl-name">(Date)</span></td>
 			<td class="xl-date xl-r2">8:30<br/><span class="xl-name">(Time)</span></td>
 			<td class="xl-date xl-r2">2:30<br/><span class="xl-name">(Duration)</span></td>
 			<td class="xl-r2">Foo<br/><span class="xl-name">(Job)</span></td>
@@ -4043,7 +4141,7 @@ __@@__
 			<td></td>
 			<td class="xl-r1"></td>
 			<td class="xl-r1"></td>
-			<td class="xl-date xl-r2">01.01.06</td>
+			<td class="xl-date xl-r2">1/1/06</td>
 			<td class="xl-date xl-r2">13:00</td>
 			<td class="xl-date xl-r2">4:00</td>
 			<td class="xl-r2">Bar</td>
@@ -4053,7 +4151,7 @@ __@@__
 			<td></td>
 			<td class="xl-r1"></td>
 			<td class="xl-r1"></td>
-			<td class="xl-date xl-r2">02.01.06</td>
+			<td class="xl-date xl-r2">1/2/06</td>
 			<td class="xl-date xl-r2">8:00</td>
 			<td class="xl-date xl-r2">4:00</td>
 			<td class="xl-r2">Foo</td>
@@ -4063,7 +4161,7 @@ __@@__
 			<td></td>
 			<td class="xl-r1">Exemplum</td>
 			<td class="xl-r1">Per</td>
-			<td class="xl-date xl-r1">01.01.06</td>
+			<td class="xl-date xl-r1">1/1/06</td>
 			<td class="xl-date xl-r1">8:30</td>
 			<td class="xl-date xl-r1">2:30</td>
 			<td class="xl-r1">Foo</td>
@@ -4073,7 +4171,7 @@ __@@__
 			<td></td>
 			<td class="xl-r1"></td>
 			<td class="xl-r1"></td>
-			<td class="xl-date xl-r1">01.01.06</td>
+			<td class="xl-date xl-r1">1/1/06</td>
 			<td class="xl-date xl-r1">13:00</td>
 			<td class="xl-date xl-r1">4:00</td>
 			<td class="xl-r1">Bar</td>
@@ -4083,7 +4181,7 @@ __@@__
 			<td></td>
 			<td class="xl-r1"></td>
 			<td class="xl-r1"></td>
-			<td class="xl-date xl-r1">02.01.06</td>
+			<td class="xl-date xl-r1">1/2/06</td>
 			<td class="xl-date xl-r1">8:00</td>
 			<td class="xl-date xl-r1">4:00</td>
 			<td class="xl-r1">Foo</td>
@@ -5143,6 +5241,90 @@ __@@__
 	</tbody>
 </table>
 ___@_@___
+xc:org/formulacompiler/tutorials/BindingCells.xls
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>A</td>
+			<td>B</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">1</td>
+			<td><b><span style="text-decoration: underline;">Inputs</span></b></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">2</td>
+			<td>Some_Value</td>
+			<td class="xl-num">3.4</td>
+		</tr>
+		<tr>
+			<td class="xl-row">3</td>
+			<td>Other_Value</td>
+			<td class="xl-num">4.5</td>
+		</tr>
+		<tr>
+			<td class="xl-row">4</td>
+			<td>Decade_x</td>
+			<td class="xl-num">5</td>
+		</tr>
+		<tr>
+			<td class="xl-row">5</td>
+			<td>Year_1994</td>
+			<td class="xl-num">20</td>
+		</tr>
+		<tr>
+			<td class="xl-row">6</td>
+			<td>Year_x</td>
+			<td class="xl-num">30</td>
+		</tr>
+		<tr>
+			<td class="xl-row">7</td>
+			<td>Name_Length</td>
+			<td class="xl-num">20</td>
+		</tr>
+		<tr>
+			<td class="xl-row">8</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">9</td>
+			<td><b><span style="text-decoration: underline;">Intermediates</span></b></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">10</td>
+			<td>x</td>
+			<td class="xl-num">1950<br/><span class="xl-exp">=B4*10.0+1900.0</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">11</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">12</td>
+			<td><b><span style="text-decoration: underline;">Outputs</span></b></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">13</td>
+			<td>Result</td>
+			<td class="xl-num">70<br/><span class="xl-exp">=SUM(B5:B7)</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">14</td>
+			<td>Coeff</td>
+			<td class="xl-num">7.9<br/><span class="xl-exp">=SUM(B2:B3)</span></td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
 xc:org/formulacompiler/tutorials/BonusPerEmployee.xls
 __@@__
 <table class="xl">
@@ -5459,7 +5641,7 @@ __@@__
 			<td class="xl-row">3</td>
 			<td></td>
 			<td class="xl-num xl-r1">$450.00<br/><span class="xl-name">(OrderTotal)</span></td>
-			<td class="xl-date xl-r1">13.04.06<br/><span class="xl-exp">=B$11-89.0</span><br/><span class="xl-name">(OrderDate)</span></td>
+			<td class="xl-date xl-r1">4/13/06<br/><span class="xl-exp">=B$11-89.0</span><br/><span class="xl-name">(OrderDate)</span></td>
 			<td class="xl-num xl-r1">89<br/><span class="xl-exp">=B$11-C3</span></td>
 			<td class="xl-num xl-r1">1%<br/><span class="xl-exp">=(90.0-D3)/90.0</span></td>
 			<td class="xl-num xl-r1">$5.00<br/><span class="xl-exp">=B3*E3</span></td>
@@ -5469,7 +5651,7 @@ __@@__
 			<td class="xl-row">4</td>
 			<td></td>
 			<td class="xl-num xl-r1">$1,320.00</td>
-			<td class="xl-date xl-r1">02.05.06<br/><span class="xl-exp">=B$11-70.0</span></td>
+			<td class="xl-date xl-r1">5/2/06<br/><span class="xl-exp">=B$11-70.0</span></td>
 			<td class="xl-num xl-r1">70<br/><span class="xl-exp">=B$11-C4</span></td>
 			<td class="xl-num xl-r1">22%<br/><span class="xl-exp">=(90.0-D4)/90.0</span></td>
 			<td class="xl-num xl-r1">$293.33<br/><span class="xl-exp">=B4*E4</span></td>
@@ -5479,7 +5661,7 @@ __@@__
 			<td class="xl-row">5</td>
 			<td></td>
 			<td class="xl-num xl-r1">$1,540.00</td>
-			<td class="xl-date xl-r1">27.05.06<br/><span class="xl-exp">=B$11-45.0</span></td>
+			<td class="xl-date xl-r1">5/27/06<br/><span class="xl-exp">=B$11-45.0</span></td>
 			<td class="xl-num xl-r1">45<br/><span class="xl-exp">=B$11-C5</span></td>
 			<td class="xl-num xl-r1">50%<br/><span class="xl-exp">=(90.0-D5)/90.0</span></td>
 			<td class="xl-num xl-r1">$770.00<br/><span class="xl-exp">=B5*E5</span></td>
@@ -5489,7 +5671,7 @@ __@@__
 			<td class="xl-row">6</td>
 			<td></td>
 			<td class="xl-num xl-r1">$60.00</td>
-			<td class="xl-date xl-r1">11.06.06<br/><span class="xl-exp">=B$11-30.0</span></td>
+			<td class="xl-date xl-r1">6/11/06<br/><span class="xl-exp">=B$11-30.0</span></td>
 			<td class="xl-num xl-r1">30<br/><span class="xl-exp">=B$11-C6</span></td>
 			<td class="xl-num xl-r1">67%<br/><span class="xl-exp">=(90.0-D6)/90.0</span></td>
 			<td class="xl-num xl-r1">$40.00<br/><span class="xl-exp">=B6*E6</span></td>
@@ -5499,7 +5681,7 @@ __@@__
 			<td class="xl-row">7</td>
 			<td></td>
 			<td class="xl-num xl-r1">$5,870.00</td>
-			<td class="xl-date xl-r1">08.07.06<br/><span class="xl-exp">=B$11-3.0</span></td>
+			<td class="xl-date xl-r1">7/8/06<br/><span class="xl-exp">=B$11-3.0</span></td>
 			<td class="xl-num xl-r1">3<br/><span class="xl-exp">=B$11-C7</span></td>
 			<td class="xl-num xl-r1">97%<br/><span class="xl-exp">=(90.0-D7)/90.0</span></td>
 			<td class="xl-num xl-r1">$5,674.33<br/><span class="xl-exp">=B7*E7</span></td>
@@ -5538,7 +5720,7 @@ __@@__
 		<tr>
 			<td class="xl-row">11</td>
 			<td>current date</td>
-			<td class="xl-date">11.07.06<br/><span class="xl-exp">=TODAY()</span></td>
+			<td class="xl-date">7/11/06<br/><span class="xl-exp">=TODAY()</span></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -6099,7 +6281,7 @@ __@@__
 		<tr>
 			<td class="xl-row">3</td>
 			<td style="text-align: right">DateInputValue</td>
-			<td class="xl-date">01.01.70<br/><span class="xl-name">(DateInputValue)</span></td>
+			<td class="xl-date">1/1/70<br/><span class="xl-name">(DateInputValue)</span></td>
 		</tr>
 		<tr>
 			<td class="xl-row">4</td>
@@ -6148,12 +6330,12 @@ __@@__
 		<tr>
 			<td class="xl-row">8</td>
 			<td>DateOfBirth</td>
-			<td class="xl-date">01.01.81<br/><span class="xl-name">(DateOfBirth)</span></td>
+			<td class="xl-date">1/1/81<br/><span class="xl-name">(DateOfBirth)</span></td>
 		</tr>
 		<tr>
 			<td class="xl-row">9</td>
 			<td>Demarcation</td>
-			<td class="xl-date">01.01.81</td>
+			<td class="xl-date">1/1/81</td>
 		</tr>
 		<tr>
 			<td class="xl-row">10</td>
