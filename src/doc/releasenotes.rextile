@@ -7,6 +7,13 @@ Lists the new features, improvements, and fixes for each release of AFC. Note th
 	* "Roadmap":roadmap.htm
 
 
+h2. Release 0.10.0
+
+h5. New
+
+	* @STDEV()@ and @STDEVP()@ are now "supported":reference/aggregators.htm.
+
+
 h2. Release 0.9.1
 
 h5. New
