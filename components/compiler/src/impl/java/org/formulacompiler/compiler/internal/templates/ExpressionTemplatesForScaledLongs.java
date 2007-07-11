@@ -218,7 +218,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	String util_toString( long a )
 	{
-		return RuntimeLong_v1.toExcelString( a, this.context );
+		return RuntimeLong_v1.toExcelString( a, this.context, this.environment.locale() );
 	}
 
 	Number util_toNumber( long a )

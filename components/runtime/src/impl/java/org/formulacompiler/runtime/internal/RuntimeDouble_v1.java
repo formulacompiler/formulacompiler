@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.TimeZone;
 
 
@@ -117,9 +118,15 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	}
 
 
+	public static String toExcelString( double _value, Locale _locale )
+	{
+		return stringFromBigDecimal( BigDecimal.valueOf( _value ), _locale );
+	}
+
+	@Deprecated
 	public static String toExcelString( double _value )
 	{
-		return stringFromBigDecimal( BigDecimal.valueOf( _value ) );
+		return toExcelString( _value, Locale.ENGLISH );
 	}
 
 

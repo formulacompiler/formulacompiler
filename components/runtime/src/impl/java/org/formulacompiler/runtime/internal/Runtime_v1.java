@@ -205,7 +205,7 @@ public abstract class Runtime_v1
 		return (_str == null) ? "" : _str;
 	}
 
-	public static String stringFromBigDecimal( BigDecimal _value )
+	public static String stringFromBigDecimal( BigDecimal _value, Locale _locale )
 	{
 		if (_value.compareTo( BigDecimal.ZERO ) == 0) return "0"; // avoid "0.0"
 		final BigDecimal stripped = _value.stripTrailingZeros();
@@ -213,10 +213,13 @@ public abstract class Runtime_v1
 		final int prec = stripped.precision();
 		final int ints = prec - scale;
 		if (ints > 20) {
-			return stripped.toString();
+			return stripped.toString(); //TODO  use NumberFormat
 		}
 		else {
-			return stripped.toPlainString();
+			final NumberFormat numberFormat = NumberFormat.getInstance( _locale );
+			numberFormat.setGroupingUsed( false );
+			numberFormat.setMaximumFractionDigits( scale );
+			return numberFormat.format( stripped );
 		}
 	}
 
