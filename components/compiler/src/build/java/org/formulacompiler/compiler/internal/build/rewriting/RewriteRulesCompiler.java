@@ -125,6 +125,8 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		end();
 		// ---- fun_VAR
 
+		def( Function.STDEV, "xs*", "SQRT( VAR( `xs ) )" );
+		def( Function.STDEVP, "xs*", "SQRT( VARP( `xs ) )" );
 	}
 	
 	

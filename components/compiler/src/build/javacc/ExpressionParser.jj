@@ -306,6 +306,8 @@ void fun(): {}
 	|	"SIN" fun1( Function.SIN )
 	|	"SLN" fun3( Function.SLN )
 	|	"SQRT" fun1( Function.SQRT )
+	|	"STDEV" aggN( Function.STDEV )
+	|	"STDEVP" aggN( Function.STDEVP )
 	|	"SUBSTITUTE" fun3to4( Function.SUBSTITUTE )
 	|	"SUM" aggN( Function.SUM )
 	|	"SYD" fun4( Function.SYD )
