@@ -450,7 +450,12 @@
 			<pathelement location="${comps.dir}/system/src/scratchpad/data" />
 		</path>
 
-		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}" sourcepathref="jcite.sourcepath" tripwireFile="${src.dir}/jcite-tripwires.txt" acceptChanges="${tripups.accept}" diffPath="${temp.dir}/tripups" differ="${jcite.differ}">
+		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}" sourcepathref="jcite.sourcepath" 
+				tripwireFile="${src.dir}/jcite-tripwires.txt"
+				tripwireNewLine="\r\n"
+				acceptChanges="${tripups.accept}" 
+				diffPath="${temp.dir}/tripups" 
+				differ="${jcite.differ}">
 			<include name="**/*.htm" />
 			<include name="**/*.html" />
 			<include name="**/*.xhtml" />
