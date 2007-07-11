@@ -22,6 +22,7 @@ package org.formulacompiler.runtime.internal;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import org.formulacompiler.runtime.ScaledLongSupport;
@@ -297,11 +298,25 @@ public final class RuntimeLong_v1 extends Runtime_v1
 	}
 
 
-	public static String toExcelString( long _val, Context _cx )
+	public static String toExcelString( long _val, Context _cx, Locale _locale )
 	{
-		return toExcelString( _val, _cx.scale );
+		return toExcelString( _val, _cx.scale, _locale );
 	}
 
+	public static String toExcelString( long _value, int _scale, Locale _locale )
+	{
+		if (_value == 0) {
+			return "0";
+		}
+		else if (_scale == 0) {
+			return Long.toString( _value );
+		}
+		else {
+			return stringFromBigDecimal( RuntimeBigDecimal_v1.fromScaledLong( _value, _scale ), _locale );
+		}
+	}
+
+	@Deprecated
 	public static String toExcelString( long _value, int _scale )
 	{
 		if (_value == 0) {
@@ -311,7 +326,7 @@ public final class RuntimeLong_v1 extends Runtime_v1
 			return Long.toString( _value );
 		}
 		else {
-			return stringFromBigDecimal( RuntimeBigDecimal_v1.fromScaledLong( _value, _scale ) );
+			return stringFromBigDecimal( RuntimeBigDecimal_v1.fromScaledLong( _value, _scale ), Locale.ENGLISH );
 		}
 	}
 

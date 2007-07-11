@@ -202,7 +202,7 @@ public final class ExpressionTemplatesForBigDecimals
 	@ReturnsAdjustedValue
 	String util_toString( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v1.toExcelString( a );
+		return RuntimeBigDecimal_v1.toExcelString( a, this.environment.locale() );
 	}
 
 	Number util_toNumber( BigDecimal a )

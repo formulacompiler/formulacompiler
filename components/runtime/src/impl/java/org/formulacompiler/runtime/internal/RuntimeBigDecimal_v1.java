@@ -25,6 +25,7 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 
@@ -179,9 +180,15 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 	}
 
 
+	public static String toExcelString( BigDecimal _num, final Locale _locale )
+	{
+		return stringFromBigDecimal( _num, _locale );
+	}
+
+	@Deprecated
 	public static String toExcelString( BigDecimal _num )
 	{
-		return stringFromBigDecimal( _num );
+		return stringFromBigDecimal( _num, Locale.ENGLISH );
 	}
 
 
