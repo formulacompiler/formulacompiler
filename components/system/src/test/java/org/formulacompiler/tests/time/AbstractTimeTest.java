@@ -40,20 +40,21 @@ public abstract class AbstractTimeTest extends TestCase
 	public AbstractTimeTest( String _name, NumericType _numericType, Class _outputClass )
 	{
 		super( _name );
-		numericType = _numericType;
-		outputClass = _outputClass;
+		this.numericType = _numericType;
+		this.outputClass = _outputClass;
 	}
 
+	@Override
 	protected void setUp() throws Exception
 	{
 		final EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tests/time/TimeTest.xls" );
-		builder.setNumericType( numericType );
+		builder.setNumericType( this.numericType );
 		builder.setInputClass( Object.class );
-		builder.setOutputClass( outputClass );
+		builder.setOutputClass( this.outputClass );
 		builder.bindAllByName();
 		final Engine engine = builder.compile();
-		computationFactory = engine.getComputationFactory();
+		this.computationFactory = engine.getComputationFactory();
 	}
 
 	public void testSameTimeInSameCell() throws Exception
@@ -76,6 +77,6 @@ public abstract class AbstractTimeTest extends TestCase
 
 	protected Outputs getOutputs()
 	{
-		return (Outputs) computationFactory.newComputation( null );
+		return (Outputs) this.computationFactory.newComputation( null );
 	}
 }
