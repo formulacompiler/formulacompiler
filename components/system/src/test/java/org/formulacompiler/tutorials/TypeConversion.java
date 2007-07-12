@@ -61,7 +61,7 @@ public class TypeConversion extends TestCase
 
 	public void testAllTypesWithLong6() throws Exception
 	{
-		testAllTypesWith( SpreadsheetCompiler.SCALEDLONG6 );
+		testAllTypesWith( SpreadsheetCompiler.LONG_SCALE6 );
 	}
 
 

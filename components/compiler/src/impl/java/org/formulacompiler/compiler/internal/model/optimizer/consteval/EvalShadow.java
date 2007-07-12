@@ -182,6 +182,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		return (_arg instanceof ExpressionNodeForSubSectionModel);
 	}
 
+	@SuppressWarnings("unused")
 	protected Object evaluateToNode( Object... _args ) throws InterpreterException
 	{
 		ExpressionNode result = node().cloneWithoutArguments();

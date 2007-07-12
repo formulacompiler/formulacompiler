@@ -24,44 +24,24 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
-import org.formulacompiler.runtime.FormulaRuntime;
 import org.formulacompiler.runtime.internal.ComputationTime;
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
+import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
 
 
-public final class ExpressionTemplatesForBigDecimals
+abstract class AbstractExpressionTemplatesForBigDecimals
 {
-	final boolean isScaled;
-	final int fixedScale;
-	final int roundingMode;
-	private Environment environment = null; // not supposed to be called at compile-time
+	protected Environment environment = null; // not supposed to be called at compile-time
 	private ComputationTime computationTime = null; // not supposed to be called at compile-time
-
-
-	public ExpressionTemplatesForBigDecimals(int _scale, int _roundingMode)
-	{
-		super();
-		this.isScaled = (_scale != FormulaRuntime.UNDEFINED_SCALE);
-		this.fixedScale = _scale;
-		this.roundingMode = _roundingMode;
-	}
 
 
 	// ------------------------------------------------ Utils
 
 
-	@ReturnsAdjustedValue
-	BigDecimal util_adjustValue( BigDecimal a )
-	{
-		return a.setScale( this.fixedScale, this.roundingMode );
-	}
-
-
 	BigDecimal util_round( BigDecimal a, int _maxFrac )
 	{
-		return RuntimeBigDecimal_v1.round( a, _maxFrac );
+		return RuntimeBigDecimal_v2.round( a, _maxFrac );
 	}
 
 
@@ -87,7 +67,7 @@ public final class ExpressionTemplatesForBigDecimals
 
 	BigDecimal util_fromBigDecimal( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v1.toNum( a );
+		return RuntimeBigDecimal_v2.toNum( a );
 	}
 
 	BigDecimal util_fromBigInteger( BigInteger a )
@@ -102,12 +82,12 @@ public final class ExpressionTemplatesForBigDecimals
 
 	BigDecimal util_fromBoolean( boolean a )
 	{
-		return RuntimeBigDecimal_v1.booleanToNum( a );
+		return RuntimeBigDecimal_v2.booleanToNum( a );
 	}
 
 	BigDecimal util_fromDate( Date a )
 	{
-		return RuntimeBigDecimal_v1.dateToNum( a, this.environment.timeZone() );
+		return RuntimeBigDecimal_v2.dateToNum( a, this.environment.timeZone() );
 	}
 
 	BigDecimal util_fromMsSinceUTC1970( long a )
@@ -172,7 +152,7 @@ public final class ExpressionTemplatesForBigDecimals
 	@ReturnsAdjustedValue
 	boolean util_toBoolean( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v1.booleanFromNum( a );
+		return RuntimeBigDecimal_v2.booleanFromNum( a );
 	}
 
 	@ReturnsAdjustedValue
@@ -184,7 +164,7 @@ public final class ExpressionTemplatesForBigDecimals
 	@ReturnsAdjustedValue
 	Date util_toDate( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v1.dateFromNum( a, this.environment.timeZone() );
+		return RuntimeBigDecimal_v2.dateFromNum( a, this.environment.timeZone() );
 	}
 
 	@ReturnsAdjustedValue
@@ -202,7 +182,7 @@ public final class ExpressionTemplatesForBigDecimals
 	@ReturnsAdjustedValue
 	String util_toString( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v1.toExcelString( a, this.environment.locale() );
+		return RuntimeBigDecimal_v2.toExcelString( a, this.environment.locale() );
 	}
 
 	Number util_toNumber( BigDecimal a )
@@ -213,13 +193,13 @@ public final class ExpressionTemplatesForBigDecimals
 
 	BigDecimal util_fromScaledLong( long a, int _scale )
 	{
-		return RuntimeBigDecimal_v1.fromScaledLong( a, _scale );
+		return RuntimeBigDecimal_v2.fromScaledLong( a, _scale );
 	}
 
 	@ReturnsAdjustedValue
 	long util_toScaledLong( BigDecimal a, int _scale )
 	{
-		return RuntimeBigDecimal_v1.toScaledLong( a, _scale );
+		return RuntimeBigDecimal_v2.toScaledLong( a, _scale );
 	}
 
 
@@ -253,48 +233,9 @@ public final class ExpressionTemplatesForBigDecimals
 
 
 	@ReturnsAdjustedValue
-	public BigDecimal op_PLUS( BigDecimal a, BigDecimal b )
-	{
-		return a.add( b );
-	}
-
-	@ReturnsAdjustedValue
-	public BigDecimal op_MINUS( BigDecimal a, BigDecimal b )
-	{
-		return a.subtract( b );
-	}
-
-	@ReturnsAdjustedValue
 	public BigDecimal op_MINUS( BigDecimal a )
 	{
 		return a.negate();
-	}
-
-	public BigDecimal op_TIMES( BigDecimal a, BigDecimal b )
-	{
-		return a.multiply( b );
-	}
-
-	@ReturnsAdjustedValue
-	public BigDecimal op_DIV__if_needsValueAdjustment( BigDecimal a, BigDecimal b )
-	{
-		return a.divide( b, this.fixedScale, this.roundingMode );
-	}
-
-	@ReturnsAdjustedValue
-	public BigDecimal op_DIV( BigDecimal a, BigDecimal b )
-	{
-		return a.divide( b );
-	}
-
-	public BigDecimal op_EXP( BigDecimal a, BigDecimal b )
-	{
-		return RuntimeBigDecimal_v1.fun_POWER( a, b );
-	}
-
-	public BigDecimal op_PERCENT( BigDecimal a )
-	{
-		return a.movePointLeft( 2 );
 	}
 
 	@ReturnsAdjustedValue
@@ -307,13 +248,13 @@ public final class ExpressionTemplatesForBigDecimals
 		 * 
 		 * generates too much code for inlining.
 		 */
-		return RuntimeBigDecimal_v1.min( a, b );
+		return RuntimeBigDecimal_v2.min( a, b );
 	}
 
 	@ReturnsAdjustedValue
 	public BigDecimal op_INTERNAL_MAX( BigDecimal a, BigDecimal b )
 	{
-		return RuntimeBigDecimal_v1.max( a, b );
+		return RuntimeBigDecimal_v2.max( a, b );
 	}
 
 
@@ -331,82 +272,72 @@ public final class ExpressionTemplatesForBigDecimals
 
 	public BigDecimal fun_ACOS( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v1.fun_ACOS( a );
+		return RuntimeBigDecimal_v2.fun_ACOS( a );
 	}
 
 	public BigDecimal fun_ASIN( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v1.fun_ASIN( a );
+		return RuntimeBigDecimal_v2.fun_ASIN( a );
 	}
 
 	public BigDecimal fun_ATAN( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v1.fun_ATAN( a );
+		return RuntimeBigDecimal_v2.fun_ATAN( a );
 	}
 
 	public BigDecimal fun_ATAN2( BigDecimal x, BigDecimal y )
 	{
-		return RuntimeBigDecimal_v1.fun_ATAN2( x, y );
+		return RuntimeBigDecimal_v2.fun_ATAN2( x, y );
 	}
 
 	public BigDecimal fun_COS( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v1.fun_COS( a );
+		return RuntimeBigDecimal_v2.fun_COS( a );
 	}
 
 	public BigDecimal fun_SIN( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v1.fun_SIN( a );
+		return RuntimeBigDecimal_v2.fun_SIN( a );
 	}
 
 	public BigDecimal fun_TAN( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v1.fun_TAN( a );
-	}
-
-	public BigDecimal fun_DEGREES( BigDecimal a )
-	{
-		return RuntimeBigDecimal_v1.fun_DEGREES( a );
-	}
-
-	public BigDecimal fun_RADIANS( BigDecimal a )
-	{
-		return RuntimeBigDecimal_v1.fun_RADIANS( a );
+		return RuntimeBigDecimal_v2.fun_TAN( a );
 	}
 
 	public BigDecimal fun_PI()
 	{
-		return RuntimeBigDecimal_v1.fun_PI();
+		return RuntimeBigDecimal_v2.fun_PI();
 	}
 
 	public BigDecimal fun_ROUND( BigDecimal a, BigDecimal b )
 	{
-		return RuntimeBigDecimal_v1.fun_ROUND( a, b );
+		return RuntimeBigDecimal_v2.fun_ROUND( a, b );
 	}
 
 	public BigDecimal fun_TRUNC( BigDecimal a, BigDecimal b )
 	{
-		return RuntimeBigDecimal_v1.fun_TRUNC( a, b );
+		return RuntimeBigDecimal_v2.fun_TRUNC( a, b );
 	}
 
 	public BigDecimal fun_TRUNC( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v1.fun_TRUNC( a );
+		return RuntimeBigDecimal_v2.fun_TRUNC( a );
 	}
 
 	public BigDecimal fun_EVEN( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v1.fun_EVEN( a );
+		return RuntimeBigDecimal_v2.fun_EVEN( a );
 	}
 
 	public BigDecimal fun_ODD( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v1.fun_ODD( a );
+		return RuntimeBigDecimal_v2.fun_ODD( a );
 	}
 
 	public BigDecimal fun_INT( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v1.fun_INT( a );
+		return RuntimeBigDecimal_v2.fun_INT( a );
 	}
 
 	public BigDecimal fun_EXP( BigDecimal p )
@@ -414,102 +345,29 @@ public final class ExpressionTemplatesForBigDecimals
 		return BigDecimal.valueOf( Math.exp( p.doubleValue() ) );
 	}
 
-	public BigDecimal fun_POWER( BigDecimal n, BigDecimal p )
-	{
-		return RuntimeBigDecimal_v1.fun_POWER( n, p );
-	}
-
 	public BigDecimal fun_LN( BigDecimal p )
 	{
-		return RuntimeBigDecimal_v1.fun_LN( p );
+		return RuntimeBigDecimal_v2.fun_LN( p );
 	}
 
 	public BigDecimal fun_LOG( BigDecimal p )
 	{
-		return RuntimeBigDecimal_v1.fun_LOG10( p );
+		return RuntimeBigDecimal_v2.fun_LOG10( p );
 	}
 
 	public BigDecimal fun_LOG( BigDecimal n, BigDecimal x )
 	{
-		return RuntimeBigDecimal_v1.fun_LOG( n, x );
+		return RuntimeBigDecimal_v2.fun_LOG( n, x );
 	}
 
 	public BigDecimal fun_LOG10( BigDecimal p )
 	{
-		return RuntimeBigDecimal_v1.fun_LOG10( p );
+		return RuntimeBigDecimal_v2.fun_LOG10( p );
 	}
 
 	public BigDecimal fun_MOD( BigDecimal n, BigDecimal d )
 	{
-		return RuntimeBigDecimal_v1.fun_MOD( n, d );
-	}
-
-	public BigDecimal fun_SQRT( BigDecimal n )
-	{
-		return RuntimeBigDecimal_v1.fun_SQRT( n );
-	}
-
-
-	// ------------------------------------------------ Combinatorics
-
-
-	public BigDecimal fun_FACT( BigDecimal a )
-	{
-		return RuntimeBigDecimal_v1.fun_FACT( a );
-	}
-
-
-	// ------------------------------------------------ Financials
-
-
-	public BigDecimal fun_IRR__if_needsValueAdjustment( BigDecimal[] _values, BigDecimal _guess )
-	{
-		return RuntimeBigDecimal_v1.fun_IRR( _values, _guess, this.fixedScale, this.roundingMode );
-	}
-
-	public BigDecimal fun_IRR( BigDecimal[] _values, BigDecimal _guess )
-	{
-		return RuntimeBigDecimal_v1.fun_IRR( _values, _guess );
-	}
-
-	public BigDecimal fun_DB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _period, BigDecimal _month )
-	{
-		return RuntimeBigDecimal_v1.fun_DB( _cost, _salvage, _life, _period, _month );
-	}
-
-	public BigDecimal fun_DB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _period )
-	{
-		return RuntimeBigDecimal_v1.fun_DB( _cost, _salvage, _life, _period, BigDecimal.valueOf( 12 ) );
-	}
-
-	public BigDecimal fun_DDB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _period, BigDecimal _factor )
-	{
-		return RuntimeBigDecimal_v1.fun_DDB( _cost, _salvage, _life, _period, _factor );
-	}
-
-	public BigDecimal fun_DDB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _period )
-	{
-		return RuntimeBigDecimal_v1.fun_DDB( _cost, _salvage, _life, _period, RuntimeBigDecimal_v1.TWO );
-	}
-
-	public BigDecimal fun_RATE( BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv, BigDecimal _fv, BigDecimal _type, BigDecimal _guess )
-	{
-		return RuntimeBigDecimal_v1.fun_RATE( _nper, _pmt, _pv, _fv, _type, _guess );
-	}
-
-	public BigDecimal fun_RATE( BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv, BigDecimal _fv, BigDecimal _type )
-	{
-		return RuntimeBigDecimal_v1.fun_RATE( _nper, _pmt, _pv, _fv, _type, BigDecimal.valueOf( 0.1 ) );
-	}
-
-	public BigDecimal fun_RATE( BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv, BigDecimal _fv )
-	{
-		return RuntimeBigDecimal_v1.fun_RATE( _nper, _pmt, _pv, _fv, RuntimeBigDecimal_v1.ZERO, BigDecimal.valueOf( 0.1 ) );
-	}
-
-	public BigDecimal fun_RATE( BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv )
-	{
-		return RuntimeBigDecimal_v1.fun_RATE( _nper, _pmt, _pv, RuntimeBigDecimal_v1.ZERO, RuntimeBigDecimal_v1.ZERO, BigDecimal.valueOf( 0.1 ) );
+		return RuntimeBigDecimal_v2.fun_MOD( n, d );
 	}
 
 
@@ -518,62 +376,57 @@ public final class ExpressionTemplatesForBigDecimals
 
 	public BigDecimal fun_DATE( BigDecimal _year, BigDecimal _month, BigDecimal _day )
 	{
-		return RuntimeBigDecimal_v1.fun_DATE( _year, _month, _day );
-	}
-
-	public BigDecimal fun_TIME( BigDecimal _hour, BigDecimal _minute, BigDecimal _second )
-	{
-		return RuntimeBigDecimal_v1.fun_TIME( _hour, _minute, _second );
+		return RuntimeBigDecimal_v2.fun_DATE( _year, _month, _day );
 	}
 
 	public BigDecimal fun_SECOND( BigDecimal _date )
 	{
-		return RuntimeBigDecimal_v1.fun_SECOND( _date );
+		return RuntimeBigDecimal_v2.fun_SECOND( _date );
 	}
 
 	public BigDecimal fun_MINUTE( BigDecimal _date )
 	{
-		return RuntimeBigDecimal_v1.fun_MINUTE( _date );
+		return RuntimeBigDecimal_v2.fun_MINUTE( _date );
 	}
 
 	public BigDecimal fun_HOUR( BigDecimal _date )
 	{
-		return RuntimeBigDecimal_v1.fun_HOUR( _date );
+		return RuntimeBigDecimal_v2.fun_HOUR( _date );
 	}
 
 	public BigDecimal fun_WEEKDAY( BigDecimal _date, BigDecimal _type )
 	{
-		return RuntimeBigDecimal_v1.fun_WEEKDAY( _date, _type );
+		return RuntimeBigDecimal_v2.fun_WEEKDAY( _date, _type );
 	}
 
 	public BigDecimal fun_WEEKDAY( BigDecimal _date )
 	{
-		return RuntimeBigDecimal_v1.fun_WEEKDAY( _date, RuntimeBigDecimal_v1.ONE );
+		return RuntimeBigDecimal_v2.fun_WEEKDAY( _date, RuntimeBigDecimal_v2.ONE );
 	}
 
 	public BigDecimal fun_DAY( BigDecimal _date )
 	{
-		return RuntimeBigDecimal_v1.fun_DAY( _date );
+		return RuntimeBigDecimal_v2.fun_DAY( _date );
 	}
 
 	public BigDecimal fun_MONTH( BigDecimal _date )
 	{
-		return RuntimeBigDecimal_v1.fun_MONTH( _date );
+		return RuntimeBigDecimal_v2.fun_MONTH( _date );
 	}
 
 	public BigDecimal fun_YEAR( BigDecimal _date )
 	{
-		return RuntimeBigDecimal_v1.fun_YEAR( _date );
+		return RuntimeBigDecimal_v2.fun_YEAR( _date );
 	}
 
 	public BigDecimal fun_NOW()
 	{
-		return RuntimeBigDecimal_v1.fun_NOW( this.environment, this.computationTime );
+		return RuntimeBigDecimal_v2.fun_NOW( this.environment, this.computationTime );
 	}
 
 	public BigDecimal fun_TODAY()
 	{
-		return RuntimeBigDecimal_v1.fun_TODAY( this.environment, this.computationTime );
+		return RuntimeBigDecimal_v2.fun_TODAY( this.environment, this.computationTime );
 	}
 
 
@@ -582,7 +435,7 @@ public final class ExpressionTemplatesForBigDecimals
 
 	public BigDecimal fun_VALUE( String _text )
 	{
-		return RuntimeBigDecimal_v1.fun_VALUE( _text, this.environment );
+		return RuntimeBigDecimal_v2.fun_VALUE( _text, this.environment );
 	}
 
 

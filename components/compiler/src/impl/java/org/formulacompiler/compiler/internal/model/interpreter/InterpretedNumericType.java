@@ -23,23 +23,28 @@ package org.formulacompiler.compiler.internal.model.interpreter;
 import java.math.BigDecimal;
 
 import org.formulacompiler.compiler.NumericType;
-import org.formulacompiler.compiler.internal.NumericTypeImpl;
+import org.formulacompiler.compiler.internal.AbstractLongType;
 
 
 public abstract class InterpretedNumericType extends InterpretedNumericType_GeneratedStrings
 {
 
-	
+
 	public static InterpretedNumericType typeFor( NumericType _type )
 	{
-		if (Double.TYPE == _type.getValueType()) {
+		if (Double.TYPE == _type.valueType()) {
 			return new InterpretedDoubleType( _type );
 		}
-		else if (BigDecimal.class == _type.getValueType()) {
-			return new InterpretedBigDecimalType( _type );
+		else if (BigDecimal.class == _type.valueType()) {
+			if (null != _type.mathContext()) {
+				return new InterpretedPrecisionBigDecimalType( _type );
+			}
+			else {
+				return new InterpretedScaledBigDecimalType( _type );
+			}
 		}
-		else if (Long.TYPE == _type.getValueType()) {
-			return new InterpretedScaledLongType( (NumericTypeImpl.AbstractLongType) _type );
+		else if (Long.TYPE == _type.valueType()) {
+			return new InterpretedScaledLongType( (AbstractLongType) _type );
 		}
 		else {
 			throw new IllegalArgumentException( "Unsupported numeric type for run-time interpretation." );
@@ -52,5 +57,5 @@ public abstract class InterpretedNumericType extends InterpretedNumericType_Gene
 		super( _type );
 	}
 
-	
+
 }

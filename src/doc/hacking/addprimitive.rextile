@@ -121,15 +121,25 @@ This would be very easy to do for @ABS()@ too. But @ABS()@ is really so basic, w
 
 	[jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForDoubles:---- fun_ABS]
 
-This covers @double@. We also need to handle @BigDecimal@ and scaled @long@. This is done in the template class @org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForScaledLongs@:
+This covers @double@. We also need to handle @BigDecimal@ and scaled @long@. This is done in the template class @...templates.ExpressionTemplatesForScaledLongs@:
 
 	[jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForScaledLongs:---- fun_ABS]
 	
-and in @org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForBigDecimals@:
+and in @...templates.AbstractExpressionTemplatesForBigDecimals@:
 
-	[jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForBigDecimals:---- fun_ABS]
+	[jc:org.formulacompiler.compiler.internal.templates.AbstractExpressionTemplatesForBigDecimals:---- fun_ABS]
 
-The annotation @ReturnsAdjustedValue@ means that the method result already has the proper scale. If you omit it, AFC will generate rescaling code after your method body. Once this is done, run "@ant -q build@":build.htm to rebuild the compiler code from the template methods.
+The latter is OK if you don't need to take the @MathContext@ or scaling into account. If you do, as does the @+@ operator, then you have to use @...templates.ExpressionTemplatesForPrecisionBigDecimals@:
+
+	[jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForPrecisionBigDecimals:---- op_PLUS]
+
+and @...templates.ExpressionTemplatesForScaledBigDecimals@:
+
+	[jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForScaledBigDecimals:---- op_PLUS]
+
+The annotation @ReturnsAdjustedValue@ means that the method result already has the proper scale. If you omit it, AFC will generate rescaling code after your method body.
+
+Once all this is done, run "@ant -q build@":build.htm to rebuild the compiler code from the template methods.
 
 dt. Note : With "Eclipse":-ec, it is crucial to use @ant -q build@ to update the compiler code rather than running @org.formulacompiler.compiler.internal.build.bytecode.PatternCompiler@ directly from within the IDE. This is because Eclipse's compiler produces different byte-code sequences for the pattern methods than @javac@ as invoked by AFC's "build script":build.htm. While Eclipse's version is also correct, it breaks the binary comparisons of generated engines with reference versions in some of the unit tests for AFC (see @org.formulacompiler.tests.utils.AbstractTestBase.checkEngine()@.
 

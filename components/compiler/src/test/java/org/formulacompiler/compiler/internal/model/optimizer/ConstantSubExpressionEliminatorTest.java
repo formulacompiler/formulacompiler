@@ -63,7 +63,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 	@SuppressWarnings("unqualified-field-access")
 	public void testConstantCellsBigDecimal() throws Exception
 	{
-		optimize( FormulaCompiler.BIGDECIMAL8 );
+		optimize( FormulaCompiler.BIGDECIMAL_SCALE8 );
 
 		// assertBigConst( "1", constCell ); -- still double because model was constructed that way
 		// assertBigConst( "3", constExpr );

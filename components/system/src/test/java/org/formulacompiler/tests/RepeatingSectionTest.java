@@ -47,12 +47,12 @@ public class RepeatingSectionTest extends TestCase
 
 	public void testBigDecimalAggregators() throws Exception
 	{
-		testAggregators( SpreadsheetCompiler.BIGDECIMAL8 );
+		testAggregators( SpreadsheetCompiler.BIGDECIMAL_SCALE8 );
 	}
 
 	public void testLong4Aggregators() throws Exception
 	{
-		testAggregators( SpreadsheetCompiler.SCALEDLONG4 );
+		testAggregators( SpreadsheetCompiler.LONG_SCALE4 );
 	}
 
 	private static final Function[] TESTED_AGGREGATORS = { Function.SUM, Function.PRODUCT, Function.MIN, Function.MAX,

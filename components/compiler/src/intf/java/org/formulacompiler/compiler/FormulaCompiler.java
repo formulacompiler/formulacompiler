@@ -21,6 +21,7 @@
 package org.formulacompiler.compiler;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 import org.formulacompiler.runtime.ImplementationLocator;
 import org.formulacompiler.runtime.FormulaRuntime;
@@ -74,6 +75,19 @@ public class FormulaCompiler extends FormulaRuntime
 		return getNumericType( _valueType, _scale, BigDecimal.ROUND_DOWN );
 	}
 
+	/**
+	 * Returns the numeric type instance with the specified attributes.
+	 * 
+	 * @param _valueType must be {@code BigDecimal.class}.
+	 * @param _mathContext defines the precision and rounding mode used to limit intermediate and
+	 *           final results.
+	 * @return the instance.
+	 */
+	public static NumericType getNumericType( Class _valueType, MathContext _mathContext )
+	{
+		return NUMERIC_TYPE_FACTORY.getInstance( _valueType, _mathContext );
+	}
+
 
 	/**
 	 * Default type, consistent with the type used internally by Excel and other spreadsheet
@@ -82,16 +96,30 @@ public class FormulaCompiler extends FormulaRuntime
 	public static final NumericType DOUBLE = getNumericType( Double.TYPE );
 
 	/**
-	 * BigDecimal with a fixed scale of 8 and using {@link BigDecimal#ROUND_HALF_UP}. A good choice
-	 * for financial applications.
+	 * BigDecimal with the {@link java.math.MathContext#DECIMAL32} math context.
 	 */
-	public static final NumericType BIGDECIMAL8 = getNumericType( BigDecimal.class, 8, BigDecimal.ROUND_HALF_UP );
+	public static final NumericType BIGDECIMAL32 = getNumericType( BigDecimal.class, MathContext.DECIMAL32 );
+
+	/**
+	 * BigDecimal with the {@link java.math.MathContext#DECIMAL64} math context.
+	 */
+	public static final NumericType BIGDECIMAL64 = getNumericType( BigDecimal.class, MathContext.DECIMAL64 );
+
+	/**
+	 * BigDecimal with the {@link java.math.MathContext#DECIMAL128} math context.
+	 */
+	public static final NumericType BIGDECIMAL128 = getNumericType( BigDecimal.class, MathContext.DECIMAL128 );
+
+	/**
+	 * BigDecimal with a fixed scale of 8 and using {@link BigDecimal#ROUND_HALF_UP}.
+	 */
+	public static final NumericType BIGDECIMAL_SCALE8 = getNumericType( BigDecimal.class, 8, BigDecimal.ROUND_HALF_UP );
 
 	/**
 	 * BigDecimal with a fixed scale of 9 and using {@link BigDecimal#ROUND_HALF_UP}. This type has
 	 * the same precision as {@link #DOUBLE} for the automated tests.
 	 */
-	public static final NumericType BIGDECIMAL9 = getNumericType( BigDecimal.class, 9, BigDecimal.ROUND_HALF_UP );
+	public static final NumericType BIGDECIMAL_SCALE9 = getNumericType( BigDecimal.class, 9, BigDecimal.ROUND_HALF_UP );
 
 	/**
 	 * Unscaled {@code long} for fast, strictly integer computations.
@@ -103,19 +131,13 @@ public class FormulaCompiler extends FormulaRuntime
 	 * currency type found in Borland Delphi). Beware: this type has insufficient precision for
 	 * seconds in time values.
 	 */
-	public static final NumericType SCALEDLONG4 = getNumericType( Long.TYPE, 4 );
+	public static final NumericType LONG_SCALE4 = getNumericType( Long.TYPE, 4 );
 
 	/**
 	 * {@code long} scaled to 6 decimal places for fast, fixed point computations with sufficient
 	 * precision for seconds in time values.
 	 */
-	public static final NumericType SCALEDLONG6 = getNumericType( Long.TYPE, 6 );
-
-	/**
-	 * Scaled {@code long} with 4 decimal places. Corresponds to the Currency type found in Microsoft
-	 * COM and Borland Delphi.
-	 */
-	public static final NumericType CURRENCY = SCALEDLONG4;
+	public static final NumericType LONG_SCALE6 = getNumericType( Long.TYPE, 6 );
 
 	/**
 	 * Default type used when no explicit type is specified.

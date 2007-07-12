@@ -134,7 +134,8 @@ public class ByteCodeCompilerOnEngineModelTest extends AbstractIOTestBase
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getBigDecimalB" ) ) );
 		r.makeOutput( new CallFrame( Outputs.class.getMethod( "getBigDecimalA" ) ) );
 
-		assertBigDecimalResult( _expectedResult, engineModel, _operator.toString() );
+		assertBigDecimalResult( _expectedResult, engineModel, _operator.toString(), FormulaCompiler.BIGDECIMAL_SCALE8, "_big" );
+		assertBigDecimalResult( _expectedResult, engineModel, _operator.toString(), FormulaCompiler.BIGDECIMAL64, "_bigp" );
 	}
 
 
@@ -150,14 +151,15 @@ public class ByteCodeCompilerOnEngineModelTest extends AbstractIOTestBase
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getBigDecimalA" ) ) );
 		r.makeOutput( new CallFrame( Outputs.class.getMethod( "getBigDecimalA" ) ) );
 
-		assertBigDecimalResult( _expectedResult, engineModel, "Unary_" + _operator.toString() );
+		assertBigDecimalResult( _expectedResult, engineModel, "Unary_" + _operator.toString(), FormulaCompiler.BIGDECIMAL_SCALE8, "_big" );
+		assertBigDecimalResult( _expectedResult, engineModel, "Unary_" + _operator.toString(), FormulaCompiler.BIGDECIMAL64, "_bigp" );
 	}
 
 
 	private void assertBigDecimalResult( final double _expectedResult, final ComputationModel _engineModel,
-			final String _id ) throws Exception
+			final String _id, NumericType _numericType, String _suffix ) throws Exception
 	{
-		final Outputs outputs = newOutputs( _engineModel, FormulaCompiler.BIGDECIMAL8, _id + "_big" );
+		final Outputs outputs = newOutputs( _engineModel, _numericType, _id + _suffix );
 		final BigDecimal v = outputs.getBigDecimalA();
 		final double d = v.doubleValue();
 		assertEquals( _expectedResult, d, 0.000001 );
@@ -201,9 +203,9 @@ public class ByteCodeCompilerOnEngineModelTest extends AbstractIOTestBase
 	private void assertScaledLongResult( final double _expectedResult, final ComputationModel _engineModel,
 			final String _id ) throws Exception
 	{
-		final Outputs outputs = newOutputs( _engineModel, FormulaCompiler.SCALEDLONG4, _id + "_long4" );
+		final Outputs outputs = newOutputs( _engineModel, FormulaCompiler.LONG_SCALE4, _id + "_long4" );
 		final long actual = outputs.getScaledLongA();
-		final long expected = FormulaCompiler.SCALEDLONG4.valueOf( _expectedResult ).longValue();
+		final long expected = FormulaCompiler.LONG_SCALE4.valueOf( _expectedResult ).longValue();
 		final long diff = actual - expected;
 		if (diff > 1 || diff < -1) {
 			// accept difference in the last decimal due to rounding problems with division

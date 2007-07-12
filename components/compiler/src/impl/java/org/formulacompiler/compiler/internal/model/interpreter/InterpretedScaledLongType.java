@@ -20,7 +20,7 @@
  */
 package org.formulacompiler.compiler.internal.model.interpreter;
 
-import org.formulacompiler.compiler.internal.NumericTypeImpl.AbstractLongType;
+import org.formulacompiler.compiler.internal.AbstractLongType;
 
 
 final class InterpretedScaledLongType extends InterpretedScaledLongType_Generated

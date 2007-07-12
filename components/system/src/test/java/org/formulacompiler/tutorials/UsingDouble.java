@@ -63,6 +63,7 @@ public class UsingDouble extends TestCase
 	public static interface Output
 	{
 		/**/double/**/ getResult();
+		/**/double/**/ getNegated();
 	}
 
 	public static interface Factory

@@ -20,6 +20,7 @@
  */
 package org.formulacompiler.compiler;
 
+import java.math.MathContext;
 import java.text.ParseException;
 import java.util.Locale;
 
@@ -42,17 +43,22 @@ public interface NumericType
 	/**
 	 * Returns the Java class of the base type.
 	 */
-	public Class getValueType();
+	public Class valueType();
+	
+	/**
+	 * Returns the MathContext to use, or else {@code null}.
+	 */
+	public MathContext mathContext();
 
 	/**
 	 * Returns the fixed scale, or else {@link #UNDEFINED_SCALE}.
 	 */
-	public int getScale();
+	public int scale();
 
 	/**
 	 * Returns the rounding mode.
 	 */
-	public int getRoundingMode();
+	public int roundingMode();
 
 	/**
 	 * Returns the number 0.
@@ -69,7 +75,7 @@ public interface NumericType
 	 * 
 	 * @return an instance of the corresponding (boxed) Java number type, or null.
 	 * 
-	 * @see #getValueType()
+	 * @see #valueType()
 	 */
 	public Number valueOf( Number _value );
 
@@ -82,7 +88,7 @@ public interface NumericType
 	 * @throws ParseException
 	 * 
 	 * @see #valueOf(String, Locale)
-	 * @see #getValueType()
+	 * @see #valueType()
 	 */
 	public Number valueOf( String _value ) throws ParseException;
 
@@ -94,7 +100,7 @@ public interface NumericType
 	 * @return an instance of the corresponding (boxed) Java number type.
 	 * @throws ParseException
 	 * 
-	 * @see #getValueType()
+	 * @see #valueType()
 	 */
 	public Number valueOf( String _value, Locale _locale ) throws ParseException;
 
@@ -105,7 +111,7 @@ public interface NumericType
 	 * @param _value must be an instance of the corresponding (boxed) Java number type, or null.
 	 * 
 	 * @see #valueToString(Number, Locale)
-	 * @see #getValueType()
+	 * @see #valueType()
 	 */
 	public String valueToString( Number _value );
 
@@ -116,7 +122,7 @@ public interface NumericType
 	 * @param _value must be an instance of the corresponding (boxed) Java number type, or null.
 	 * @param _locale determines formatting options; must not be {@code null}.
 	 * 
-	 * @see #getValueType()
+	 * @see #valueType()
 	 */
 	public String valueToString( Number _value, Locale _locale );
 
@@ -128,7 +134,7 @@ public interface NumericType
 	 * @param _value must be an instance of the corresponding (boxed) Java number type, or null.
 	 * 
 	 * @see #valueToConciseString(Number, Locale)
-	 * @see #getValueType()
+	 * @see #valueType()
 	 */
 	public String valueToConciseString( Number _value );
 
@@ -140,7 +146,7 @@ public interface NumericType
 	 * @param _value must be an instance of the corresponding (boxed) Java number type, or null.
 	 * @param _locale determines formatting options; must not be {@code null}.
 	 * 
-	 * @see #getValueType()
+	 * @see #valueType()
 	 */
 	public String valueToConciseString( Number _value, Locale _locale );
 
@@ -155,6 +161,11 @@ public interface NumericType
 		 * Factory method.
 		 */
 		NumericType getInstance( Class _valueType, int _scale, int _roundingMode );
+
+		/**
+		 * Factory method.
+		 */
+		NumericType getInstance( Class _valueType, MathContext _mathContext );
 	}
 
 }

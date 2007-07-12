@@ -101,7 +101,7 @@ public abstract class AbstractOptimizerTest extends AbstractIOTestBase
 	{
 		BigDecimal value = (BigDecimal) _constCell.getConstantValue();
 		assertNotNull( _expected, value );
-		String actual = FormulaCompiler.BIGDECIMAL8.valueToConciseString( value );
+		String actual = FormulaCompiler.BIGDECIMAL_SCALE8.valueToConciseString( value );
 		assertEquals( _expected, actual );
 	}
 

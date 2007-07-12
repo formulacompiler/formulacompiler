@@ -31,18 +31,23 @@ abstract class TypeCompilerForNumbers extends TypeCompiler
 {
 	protected final static Type NUMBER_CLASS = Type.getType( Number.class );
 	protected final static String N = NUMBER_CLASS.getDescriptor();
-	
-	
+
+
 	public static TypeCompilerForNumbers compilerFor( ByteCodeEngineCompiler _engineCompiler, NumericType _numericType )
 	{
-		if (Double.TYPE == _numericType.getValueType()) {
+		if (Double.TYPE == _numericType.valueType()) {
 			return new TypeCompilerForDoubles( _engineCompiler, _numericType );
 		}
-		else if (Long.TYPE == _numericType.getValueType()) {
-			return new TypeCompilerForScaledLongs( _engineCompiler, _numericType ); 
+		else if (Long.TYPE == _numericType.valueType()) {
+			return new TypeCompilerForScaledLongs( _engineCompiler, _numericType );
 		}
-		else if (BigDecimal.class == _numericType.getValueType()) {
-			return new TypeCompilerForBigDecimals( _engineCompiler, _numericType ); 
+		else if (BigDecimal.class == _numericType.valueType()) {
+			if (null != _numericType.mathContext()) {
+				return new TypeCompilerForPrecisionBigDecimals( _engineCompiler, _numericType );
+			}
+			else {
+				return new TypeCompilerForScaledBigDecimals( _engineCompiler, _numericType );
+			}
 		}
 		else {
 			throw new IllegalArgumentException( "Unsupported data type " + _numericType + " for byte code compilation." );
@@ -62,7 +67,7 @@ abstract class TypeCompilerForNumbers extends TypeCompiler
 	{
 		return DataType.NUMERIC;
 	}
-	
+
 	protected final NumericType numericType()
 	{
 		return this.numericType;

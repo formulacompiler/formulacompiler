@@ -143,8 +143,8 @@ public class RepeatingSectionTestSuite extends TestSuite
 			outerRefCells = extractRangeCells( outerRefsRange, orientation );
 
 			addTest( new SectionTestCase( SpreadsheetCompiler.DOUBLE ) );
-			addTest( new SectionTestCase( SpreadsheetCompiler.BIGDECIMAL8 ) );
-			addTest( new SectionTestCase( SpreadsheetCompiler.SCALEDLONG4 ) );
+			addTest( new SectionTestCase( SpreadsheetCompiler.BIGDECIMAL_SCALE8 ) );
+			addTest( new SectionTestCase( SpreadsheetCompiler.LONG_SCALE4 ) );
 		}
 
 

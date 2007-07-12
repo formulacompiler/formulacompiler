@@ -26,16 +26,13 @@ import java.util.Map;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.runtime.New;
-import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
-
-
-public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
+abstract class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 {
 	static final String BNAME = ByteCodeEngineCompiler.BIGDECIMAL_CLASS.getInternalName();
 	static final String B = ByteCodeEngineCompiler.BIGDECIMAL_CLASS.getDescriptor();
@@ -51,23 +48,9 @@ public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 	static final String N2L = "(" + N + ")" + Type.LONG_TYPE.getDescriptor();
 	static final String N2D = "(" + N + ")D";
 
-	private static final Type RUNTIME_TYPE = Type.getType( RuntimeBigDecimal_v1.class );
-
-	private final int fixedScale;
-	private final int roundingMode;
-
-
 	protected TypeCompilerForBigDecimals(ByteCodeEngineCompiler _engineCompiler, NumericType _numericType)
 	{
 		super( _engineCompiler, _numericType );
-		this.fixedScale = _numericType.getScale();
-		this.roundingMode = _numericType.getRoundingMode();
-	}
-
-	@Override
-	protected Type runtimeType()
-	{
-		return RUNTIME_TYPE;
 	}
 
 	@Override
@@ -83,19 +66,9 @@ public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 	}
 
 
-	final boolean needsAdjustment()
-	{
-		return NumericType.UNDEFINED_SCALE != this.fixedScale;
-	}
-
-	final void compileAdjustment( GeneratorAdapter _mv )
-	{
-		if (needsAdjustment()) {
-			_mv.push( this.fixedScale );
-			_mv.push( this.roundingMode );
-			_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "setScale", "(II)" + B );
-		}
-	}
+	abstract boolean needsAdjustment();
+	abstract boolean needsAdjustment( BigDecimal _value );
+	abstract void compileAdjustment( GeneratorAdapter _mv );
 
 
 	@Override
@@ -104,7 +77,6 @@ public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 		_mv.getStatic( runtimeType(), "ZERO", ByteCodeEngineCompiler.BIGDECIMAL_CLASS );
 		compileAdjustment( _mv );
 	}
-
 
 	private final void compileOne( GeneratorAdapter _mv )
 	{
@@ -157,7 +129,7 @@ public class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 				ci.push( longValue );
 				ci.push( bigValue.scale() );
 				ci.visitMethodInsn( Opcodes.INVOKESTATIC, BNAME, "valueOf", LI2B );
-				if (bigValue.scale() != this.fixedScale) {
+				if (needsAdjustment( bigValue ) ) {
 					compileAdjustment( ci );
 				}
 			}

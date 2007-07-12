@@ -24,9 +24,10 @@ import java.io.File;
 import java.io.IOException;
 
 import org.formulacompiler.compiler.internal.build.bytecode.ConstantEvaluatorGenerator.AbstractMethodEvaluatorGenerator;
-import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForBigDecimals;
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForDoubles;
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForNumbers;
+import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForPrecisionBigDecimals;
+import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForScaledBigDecimals;
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForScaledLongs;
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForStrings;
 import org.formulacompiler.describable.DescriptionBuilder;
@@ -47,19 +48,18 @@ class PatternCompilerToConstantEvaluators
 
 		new ConstantEvaluatorGenerator( ExpressionTemplatesForDoubles.class, "InterpretedDoubleType_Generated",
 				"InterpretedDoubleType_Base" ).generate( p );
-		new ConstantEvaluatorGenerator( ExpressionTemplatesForBigDecimals.class, "InterpretedBigDecimalType_Generated",
-				"InterpretedBigDecimalType_Base", new BigDecimalCustomization() ).generate( p );
+		new ConstantEvaluatorGenerator( ExpressionTemplatesForPrecisionBigDecimals.class,
+				"InterpretedPrecisionBigDecimalType_Generated", "InterpretedPrecisionBigDecimalType_Base",
+				new PrecisionBigDecimalCustomization() ).generate( p );
+		new ConstantEvaluatorGenerator( ExpressionTemplatesForScaledBigDecimals.class,
+				"InterpretedScaledBigDecimalType_Generated", "InterpretedScaledBigDecimalType_Base",
+				new ScaledBigDecimalCustomization() ).generate( p );
 		new ConstantEvaluatorGenerator( ExpressionTemplatesForScaledLongs.class, "InterpretedScaledLongType_Generated",
 				"InterpretedScaledLongType_Base", new ScaledLongCustomization() ).generate( p );
 	}
 
-	private static class BigDecimalCustomization extends ConstantEvaluatorGenerator.Customization
+	private static class PrecisionBigDecimalCustomization extends ConstantEvaluatorGenerator.Customization
 	{
-
-		public BigDecimalCustomization()
-		{
-			super();
-		}
 
 		@Override
 		protected void genConstructor( DescriptionBuilder _cb, ConstantEvaluatorGenerator _generator )
@@ -72,7 +72,46 @@ class PatternCompilerToConstantEvaluators
 			cb.append( "public " ).append( _generator.typeName ).appendLine( "(NumericType _type) {" );
 			cb.indent();
 			cb.appendLine( "super( _type );" );
-			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine( "( _type.getScale(), _type.getRoundingMode() );" );
+			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine(
+					"( _type.mathContext() );" );
+			cb.outdent();
+			cb.appendLine( "}" );
+		}
+
+		@Override
+		protected String templateName()
+		{
+			return "this.template";
+		}
+
+		@Override
+		protected String genValueAdjustment( DescriptionBuilder _cb, AbstractMethodEvaluatorGenerator _generator )
+		{
+			if (!PatternCompiler.hasAnnotation( _generator.mtdNode, PatternCompiler.RETURNS_ADJUSTED_VALUE_DESC )) {
+				_cb.append( "adjustReturnedValue( " );
+				return " )";
+			}
+			return "";
+		}
+
+	}
+
+	private static class ScaledBigDecimalCustomization extends ConstantEvaluatorGenerator.Customization
+	{
+
+		@Override
+		protected void genConstructor( DescriptionBuilder _cb, ConstantEvaluatorGenerator _generator )
+		{
+			final DescriptionBuilder cb = _cb;
+
+			cb.append( "private final " ).append( _generator.clsName ).appendLine( " template;" );
+
+			cb.newLine();
+			cb.append( "public " ).append( _generator.typeName ).appendLine( "(NumericType _type) {" );
+			cb.indent();
+			cb.appendLine( "super( _type );" );
+			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine(
+					"( _type.scale(), _type.roundingMode() );" );
 			cb.outdent();
 			cb.appendLine( "}" );
 		}
@@ -98,11 +137,6 @@ class PatternCompilerToConstantEvaluators
 	private static class ScaledLongCustomization extends ConstantEvaluatorGenerator.Customization
 	{
 
-		public ScaledLongCustomization()
-		{
-			super();
-		}
-
 		@Override
 		protected void genConstructor( DescriptionBuilder _cb, ConstantEvaluatorGenerator _generator )
 		{
@@ -112,7 +146,7 @@ class PatternCompilerToConstantEvaluators
 
 			cb.newLine();
 			cb.append( "public " ).append( _generator.typeName ).appendLine(
-					"(org.formulacompiler.compiler.internal.NumericTypeImpl.AbstractLongType _type) {" );
+					"(org.formulacompiler.compiler.internal.AbstractLongType _type) {" );
 			cb.indent();
 			cb.appendLine( "super( _type );" );
 			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine( "( getContext() );" );

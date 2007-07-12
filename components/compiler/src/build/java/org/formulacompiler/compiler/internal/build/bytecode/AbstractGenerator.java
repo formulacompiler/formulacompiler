@@ -21,6 +21,7 @@
 package org.formulacompiler.compiler.internal.build.bytecode;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.formulacompiler.describable.DescriptionBuilder;
 import org.objectweb.asm.ClassReader;
@@ -34,6 +35,8 @@ abstract class AbstractGenerator
 {
 	static final String IF_CLAUSE = "__if_";
 	static final int IF_CLAUSE_LEN = IF_CLAUSE.length();
+
+	private static final int ACCEPT_FLAGS = ClassReader.SKIP_FRAMES | ClassReader.SKIP_DEBUG;
 
 	final DescriptionBuilder classBuilder = new DescriptionBuilder();
 	final DispatchBuilder unaryOperatorDispatchBuilder = new DispatchBuilder();
@@ -54,12 +57,24 @@ abstract class AbstractGenerator
 		this.typeName = _typeName;
 		this.superName = _superName;
 		this.clsNode = new ClassNode();
-		new ClassReader( _template.getCanonicalName() )
-				.accept( clsNode, ClassReader.SKIP_FRAMES | ClassReader.SKIP_DEBUG );
+		new ClassReader( _template.getCanonicalName() ).accept( clsNode, ACCEPT_FLAGS );
 		this.unaryOperatorDispatchBuilder.indent( 4 );
 		this.binaryOperatorDispatchBuilder.indent( 4 );
 		this.functionDispatchBuilder.indent( 3 );
 	}
+
+
+	protected void genMethods() throws IOException
+	{
+		genMethods( clsNode.methods );
+		if (!"java/lang/Object".equals( clsNode.superName )) {
+			final ClassNode outer = new ClassNode();
+			new ClassReader( clsNode.superName ).accept( outer, ACCEPT_FLAGS );
+			genMethods( outer.methods );
+		}
+	}
+
+	protected abstract void genMethods( List _methods );
 
 
 	protected abstract class AbstractMethodTemplateGenerator

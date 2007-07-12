@@ -22,7 +22,7 @@ package org.formulacompiler.compiler.internal.bytecode;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
-import org.formulacompiler.compiler.internal.NumericTypeImpl;
+import org.formulacompiler.compiler.internal.AbstractLongType;
 import org.formulacompiler.runtime.ScaledLong;
 import org.formulacompiler.runtime.ScaledLongSupport;
 import org.objectweb.asm.Opcodes;
@@ -41,8 +41,8 @@ abstract class ExpressionCompilerForScaledLongs_Base extends ExpressionCompilerF
 	public ExpressionCompilerForScaledLongs_Base(MethodCompiler _methodCompiler, NumericType _numericType)
 	{
 		super( _methodCompiler, _numericType );
-		this.scale = _numericType.getScale();
-		this.one = ((NumericTypeImpl.AbstractLongType) _numericType).one();
+		this.scale = _numericType.scale();
+		this.one = ((AbstractLongType) _numericType).one();
 	}
 
 

@@ -20,13 +20,15 @@
  */
 package org.formulacompiler.compiler.internal.templates;
 
+import static org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2.HIGHPREC;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
 import org.formulacompiler.runtime.internal.ComputationTime;
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
+import org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2;
 import org.formulacompiler.runtime.internal.RuntimeLong_v1;
 
 
@@ -496,7 +498,7 @@ public final class ExpressionTemplatesForScaledLongs
 		final BigDecimal life = this.context.toBigDecimal( _life );
 		final BigDecimal period = this.context.toBigDecimal( _period );
 		final BigDecimal factor = this.context.toBigDecimal( _factor );
-		final BigDecimal result = RuntimeBigDecimal_v1.fun_DDB( cost, salvage, life, period, factor );
+		final BigDecimal result = RuntimeScaledBigDecimal_v2.fun_DDB( cost, salvage, life, period, factor, HIGHPREC );
 		return this.context.fromBigDecimal( result );
 	}
 
@@ -506,8 +508,8 @@ public final class ExpressionTemplatesForScaledLongs
 		final BigDecimal salvage = this.context.toBigDecimal( _salvage );
 		final BigDecimal life = this.context.toBigDecimal( _life );
 		final BigDecimal period = this.context.toBigDecimal( _period );
-		final BigDecimal factor = RuntimeBigDecimal_v1.TWO;
-		final BigDecimal result = RuntimeBigDecimal_v1.fun_DDB( cost, salvage, life, period, factor );
+		final BigDecimal factor = RuntimeScaledBigDecimal_v2.TWO;
+		final BigDecimal result = RuntimeScaledBigDecimal_v2.fun_DDB( cost, salvage, life, period, factor, HIGHPREC );
 		return this.context.fromBigDecimal( result );
 	}
 
@@ -519,7 +521,7 @@ public final class ExpressionTemplatesForScaledLongs
 		final BigDecimal fv = this.context.toBigDecimal( _fv );
 		final BigDecimal type = this.context.toBigDecimal( _type );
 		final BigDecimal guess = this.context.toBigDecimal( _guess );
-		final BigDecimal result = RuntimeBigDecimal_v1.fun_RATE( nper, pmt, pv, fv, type, guess );
+		final BigDecimal result = RuntimeScaledBigDecimal_v2.fun_RATE( nper, pmt, pv, fv, type, guess, HIGHPREC );
 		return this.context.fromBigDecimal( result );
 	}
 
@@ -530,8 +532,8 @@ public final class ExpressionTemplatesForScaledLongs
 		final BigDecimal pv = this.context.toBigDecimal( _pv );
 		final BigDecimal fv = this.context.toBigDecimal( _fv );
 		final BigDecimal type = this.context.toBigDecimal( _type );
-		final BigDecimal guess = BigDecimal.valueOf( 0.1 );
-		final BigDecimal result = RuntimeBigDecimal_v1.fun_RATE( nper, pmt, pv, fv, type, guess );
+		final BigDecimal guess =RuntimeScaledBigDecimal_v2.TENTH;
+		final BigDecimal result = RuntimeScaledBigDecimal_v2.fun_RATE( nper, pmt, pv, fv, type, guess, HIGHPREC );
 		return this.context.fromBigDecimal( result );
 	}
 
@@ -541,9 +543,9 @@ public final class ExpressionTemplatesForScaledLongs
 		final BigDecimal pmt = this.context.toBigDecimal( _pmt );
 		final BigDecimal pv = this.context.toBigDecimal( _pv );
 		final BigDecimal fv = this.context.toBigDecimal( _fv );
-		final BigDecimal type = RuntimeBigDecimal_v1.ZERO;
-		final BigDecimal guess = BigDecimal.valueOf( 0.1 );
-		final BigDecimal result = RuntimeBigDecimal_v1.fun_RATE( nper, pmt, pv, fv, type, guess );
+		final BigDecimal type = RuntimeScaledBigDecimal_v2.ZERO;
+		final BigDecimal guess = RuntimeScaledBigDecimal_v2.TENTH;
+		final BigDecimal result = RuntimeScaledBigDecimal_v2.fun_RATE( nper, pmt, pv, fv, type, guess, HIGHPREC );
 		return this.context.fromBigDecimal( result );
 	}
 
@@ -552,10 +554,10 @@ public final class ExpressionTemplatesForScaledLongs
 		final BigDecimal nper = this.context.toBigDecimal( _nper );
 		final BigDecimal pmt = this.context.toBigDecimal( _pmt );
 		final BigDecimal pv = this.context.toBigDecimal( _pv );
-		final BigDecimal fv = RuntimeBigDecimal_v1.ZERO;
-		final BigDecimal type = RuntimeBigDecimal_v1.ZERO;
-		final BigDecimal guess = BigDecimal.valueOf( 0.1 );
-		final BigDecimal result = RuntimeBigDecimal_v1.fun_RATE( nper, pmt, pv, fv, type, guess );
+		final BigDecimal fv = RuntimeScaledBigDecimal_v2.ZERO;
+		final BigDecimal type = RuntimeScaledBigDecimal_v2.ZERO;
+		final BigDecimal guess = RuntimeScaledBigDecimal_v2.TENTH;
+		final BigDecimal result = RuntimeScaledBigDecimal_v2.fun_RATE( nper, pmt, pv, fv, type, guess, HIGHPREC );
 		return this.context.fromBigDecimal( result );
 	}
 
