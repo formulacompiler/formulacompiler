@@ -23,14 +23,13 @@ package org.formulacompiler.compiler.internal.model.interpreter;
 import java.text.ParseException;
 import java.util.Date;
 
-import org.formulacompiler.compiler.internal.NumericTypeImpl;
-import org.formulacompiler.compiler.internal.NumericTypeImpl.AbstractLongType;
+import org.formulacompiler.compiler.internal.AbstractLongType;
 import org.formulacompiler.runtime.internal.RuntimeLong_v1;
 
 
 abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 {
-	private final NumericTypeImpl.AbstractLongType num;
+	private final AbstractLongType num;
 	private final RuntimeLong_v1.Context runtimeCx;
 
 
@@ -38,7 +37,7 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 	{
 		super( _type );
 		this.num = _type;
-		this.runtimeCx = new RuntimeLong_v1.Context( _type.getScale() );
+		this.runtimeCx = new RuntimeLong_v1.Context( _type.scale() );
 	}
 
 
@@ -49,7 +48,7 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 
 	private final int getScale()
 	{
-		return this.num.getScale();
+		return this.num.scale();
 	}
 
 	private final long getScalingFactor()

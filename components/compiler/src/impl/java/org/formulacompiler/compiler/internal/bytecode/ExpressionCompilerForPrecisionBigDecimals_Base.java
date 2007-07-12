@@ -28,21 +28,21 @@ import org.formulacompiler.runtime.ScaledLong;
 import org.objectweb.asm.Opcodes;
 
 
-abstract class ExpressionCompilerForBigDecimals_Base extends ExpressionCompilerForNumbers
+abstract class ExpressionCompilerForPrecisionBigDecimals_Base extends ExpressionCompilerForNumbers
 {
+	protected static final String RUNTIME_CONTEXT_DESCRIPTOR = TypeCompilerForPrecisionBigDecimals.RUNTIME_CONTEXT_DESCRIPTOR;
+	protected static final String RUNTIME_CONTEXT_NAME = TypeCompilerForPrecisionBigDecimals.RUNTIME_CONTEXT_NAME;
+
 	private static final String BNAME = TypeCompilerForBigDecimals.BNAME;
 	private static final String B = TypeCompilerForBigDecimals.B;
 	private static final String B2I = "(" + B + ")I";
 
-	protected final int fixedScale;
-	protected final int roundingMode;
+	protected final TypeCompilerForPrecisionBigDecimals bigCompiler = ((TypeCompilerForPrecisionBigDecimals) typeCompiler());
 
 
-	public ExpressionCompilerForBigDecimals_Base(MethodCompiler _methodCompiler, NumericType _numericType)
+	public ExpressionCompilerForPrecisionBigDecimals_Base(MethodCompiler _methodCompiler, NumericType _numericType)
 	{
 		super( _methodCompiler, _numericType );
-		this.fixedScale = _numericType.getScale();
-		this.roundingMode = _numericType.getRoundingMode();
 	}
 
 
@@ -53,28 +53,19 @@ abstract class ExpressionCompilerForBigDecimals_Base extends ExpressionCompilerF
 	}
 
 
-	protected final void compile_fixedScale()
+	protected final void compile_mathContext()
 	{
-		mv().push( this.fixedScale );
+		this.bigCompiler.buildStaticContext();
+		mv().visitFieldInsn( Opcodes.GETSTATIC, typeCompiler().rootCompiler().classInternalName(), RUNTIME_CONTEXT_NAME,
+				RUNTIME_CONTEXT_DESCRIPTOR );
+	}
+	
+	
+	protected final void compileValueAdjustment()
+	{
+		// No adjustment as precision is only a minimum, not an absolute.
 	}
 
-	protected final void compile_roundingMode()
-	{
-		mv().push( this.roundingMode );
-	}
-
-
-	protected final boolean needsValueAdjustment()
-	{
-		return (this.fixedScale != NumericType.UNDEFINED_SCALE);
-	}
-
-	protected final void compileValueAdjustment() throws CompilerException
-	{
-		if (needsValueAdjustment()) {
-			compile_util_adjustValue();
-		}
-	}
 
 	@Override
 	protected boolean isNativeType( Class _type )
@@ -104,22 +95,21 @@ abstract class ExpressionCompilerForBigDecimals_Base extends ExpressionCompilerF
 		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "compareTo", B2I );
 		return _ifOpcode;
 	}
-	
-	
+
+
 	@Override
 	protected void compileNewArray()
 	{
 		mv().visitTypeInsn( Opcodes.ANEWARRAY, BNAME );
 	}
-	
+
 	@Override
 	protected int arrayStoreOpcode()
 	{
 		return Opcodes.AASTORE;
 	}
-	
 
-	protected abstract void compile_util_adjustValue() throws CompilerException;
+
 	protected abstract void compile_util_fromScaledLong( int _b ) throws CompilerException;
 	protected abstract void compile_util_toScaledLong( int _b ) throws CompilerException;
 

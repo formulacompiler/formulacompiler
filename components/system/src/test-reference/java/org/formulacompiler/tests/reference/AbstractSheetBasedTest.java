@@ -41,12 +41,12 @@ import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.runtime.ScaledLong;
-import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
+import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
 import org.formulacompiler.runtime.internal.RuntimeLong_v1;
 import org.formulacompiler.spreadsheet.EngineBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRefFormat;
@@ -63,30 +63,33 @@ import org.formulacompiler.spreadsheet.internal.saver.excel.xls.ExcelXLSExpressi
 public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 {
 	private static final File HTML_PATH = new File( "temp/test-reference/doc" );
-	private static final boolean EMIT_ENABLED = (null != System.getProperty( "emit_tests" ));
 
 	private static final Double DOUBLE_DUMMY = 23974.239874;
 	private static final BigDecimal BIGDECIMAL_DUMMY = BigDecimal.valueOf( 023974.239874 );
 	private static final Long LONG_DUMMY = 923748L;
 	private static final Date DATE_DUMMY = Calendar.getInstance().getTime();
 	private static final String STRING_DUMMY = "-DUMMY-";
+
+	static final double EPSILON = 0.0000001;
+	static final BigDecimal BIG_EPSILON = BigDecimal.valueOf( EPSILON );
 	
 	private static final Object NOW = new Object()
 	{
-		
+
 		@Override
 		public String toString()
 		{
 			return "(now)";
 		}
-		
+
 	};
 
 	protected static final int CACHING_VARIANTS = 2;
-	protected static final int TYPE_VARIANTS = 3;
+	protected static final int TYPE_VARIANTS = NumType.values().length;
 
 	private static final int UNDEFINED_STARTING_ROW = -1;
 
+	private boolean emitDocs = (null != System.getProperty( "emit_tests" ));
 	private int givenStartingRow;
 	private int runOnlyRowNumbered = -1;
 	private NumType runOnlyType = null;
@@ -104,18 +107,21 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 	{
 		super();
 		this.givenStartingRow = UNDEFINED_STARTING_ROW;
+		configureFromProperties();
 	}
 
-	protected AbstractSheetBasedTest( String _baseName )
+	protected AbstractSheetBasedTest(String _baseName)
 	{
 		super( _baseName );
 		this.givenStartingRow = UNDEFINED_STARTING_ROW;
+		configureFromProperties();
 	}
 
 	protected AbstractSheetBasedTest(String _baseName, int _startingRowNumber)
 	{
 		super( _baseName );
 		this.givenStartingRow = _startingRowNumber - 1;
+		this.emitDocs = false;
 	}
 
 	protected AbstractSheetBasedTest(String _baseName, int _onlyRowNumbered, NumType _onlyType, int _onlyInputVariant,
@@ -126,6 +132,22 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 		this.runOnlyType = _onlyType;
 		this.runOnlyInputVariant = _onlyInputVariant;
 		this.runOnlyCacheVariant = _caching;
+		this.emitDocs = false;
+	}
+
+
+	private void configureFromProperties()
+	{
+		String onlyType = System.getProperty( "runOnlyType" );
+		if (null != onlyType && !"".equals( onlyType )) {
+			this.runOnlyType = NumType.valueOf( onlyType );
+			this.emitDocs = false;
+		}
+		String onlyCache = System.getProperty( "runOnlyCacheVariant" );
+		if (null != onlyCache && !"".equals( onlyCache )) {
+			this.runOnlyCacheVariant = Boolean.valueOf( onlyCache );
+			this.emitDocs = false;
+		}
 	}
 
 
@@ -507,12 +529,20 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 						iEngine = offsEngine + 0;
 						_engines[ iEngine ] = new DoubleTestRunner( _caching ).run( _engines[ iEngine ] );
 					}
-					if ((null == onlyType || NumType.BIGDECIMAL == onlyType) && !skipFor.contains( "big" )) {
+					if ((null == onlyType || NumType.PRECISION_BIGDECIMAL == onlyType) && !skipFor.contains( "bprec" )) {
 						iEngine = offsEngine + 1;
-						_engines[ iEngine ] = new BigDecimalTestRunner( _caching ).run( _engines[ iEngine ] );
+						_engines[ iEngine ] = new PrecisionBigDecimalTestRunner( _caching ).run( _engines[ iEngine ] );
+					}
+					/*
+					 * "big" is legacy support here.
+					 */
+					if ((null == onlyType || NumType.SCALED_BIGDECIMAL == onlyType)
+							&& !skipFor.contains( "bscale" ) && !skipFor.contains( "big" )) {
+						iEngine = offsEngine + 2;
+						_engines[ iEngine ] = new ScaledBigDecimalTestRunner( _caching ).run( _engines[ iEngine ] );
 					}
 					if ((null == onlyType || NumType.LONG == onlyType) && !skipFor.contains( "long" )) {
-						iEngine = offsEngine + 2;
+						iEngine = offsEngine + 3;
 						_engines[ iEngine ] = new ScaledLongTestRunner( _caching ).run( _engines[ iEngine ] );
 					}
 				}
@@ -521,7 +551,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 				public SaveableEngine[] runAndEmitToHtml( boolean _decompile ) throws Exception
 				{
 					final SaveableEngine[] engines = run();
-					if (EMIT_ENABLED) {
+					if (AbstractSheetBasedTest.this.emitDocs) {
 						emitTestToHtml( _decompile, engines );
 					}
 					return engines;
@@ -842,7 +872,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 					protected void assertNumber( String _name, Outputs o, double expected )
 					{
 						final double actual = ((DoubleOutputs) o).getNUMBER();
-						assertEquals( _name, expected, actual, 0.0000001 );
+						assertEquals( _name, expected, actual, EPSILON );
 					}
 
 					@Override
@@ -854,12 +884,12 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 				}
 
 
-				private final class BigDecimalTestRunner extends TypedTestRunner
+				private abstract class AbstractBigDecimalTestRunner extends TypedTestRunner
 				{
 
-					public BigDecimalTestRunner(boolean _caching)
+					public AbstractBigDecimalTestRunner(NumericType _type, boolean _caching)
 					{
-						super( SpreadsheetCompiler.BIGDECIMAL8, _caching );
+						super( _type, _caching );
 					}
 
 					@Override
@@ -876,6 +906,43 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 					}
 
 					@Override
+					protected Date getDate( Outputs o, TimeZone _timeZone )
+					{
+						return RuntimeBigDecimal_v2.dateFromNum( ((BigDecimalOutputs) o).getNUMBER(), _timeZone );
+					}
+
+				}
+
+				private final class PrecisionBigDecimalTestRunner extends AbstractBigDecimalTestRunner
+				{
+
+					public PrecisionBigDecimalTestRunner(boolean _caching)
+					{
+						super( SpreadsheetCompiler.BIGDECIMAL64, _caching );
+					}
+
+					@Override
+					protected void assertNumber( String _name, Outputs o, double _expected )
+					{
+						// Use toString because using the double is imprecise on JRE 1.4!
+						final BigDecimal expected = BigDecimal.valueOf( _expected );
+						final BigDecimal actual = ((BigDecimalOutputs) o).getNUMBER();
+						if (actual.subtract( expected ).abs().compareTo( BIG_EPSILON ) > 0) {
+							assertEquals( _name, expected.toPlainString(), actual.toPlainString() );
+						}
+					}
+
+				}
+
+				private final class ScaledBigDecimalTestRunner extends AbstractBigDecimalTestRunner
+				{
+
+					public ScaledBigDecimalTestRunner(boolean _caching)
+					{
+						super( SpreadsheetCompiler.BIGDECIMAL_SCALE8, _caching );
+					}
+
+					@Override
 					protected void assertNumber( String _name, Outputs o, double _expected )
 					{
 						// Use toString because using the double is imprecise on JRE 1.4!
@@ -887,12 +954,6 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 						}
 					}
 
-					@Override
-					protected Date getDate( Outputs o, TimeZone _timeZone )
-					{
-						return RuntimeBigDecimal_v1.dateFromNum( ((BigDecimalOutputs) o).getNUMBER(), _timeZone );
-					}
-
 				}
 
 
@@ -901,7 +962,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 
 					public ScaledLongTestRunner(boolean _caching)
 					{
-						super( SpreadsheetCompiler.SCALEDLONG6, _caching );
+						super( SpreadsheetCompiler.LONG_SCALE6, _caching );
 					}
 
 					@Override
@@ -920,7 +981,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 					@Override
 					protected void assertNumber( String _name, Outputs o, double _expected )
 					{
-						final long expected = ((Long) SpreadsheetCompiler.SCALEDLONG6.valueOf( _expected )).longValue();
+						final long expected = ((Long) SpreadsheetCompiler.LONG_SCALE6.valueOf( _expected )).longValue();
 						final long actual = ((ScaledLongOutputs) o).getNUMBER();
 						if (Math.abs( expected - actual ) > 1) {
 							assertEquals( _name, expected, actual );
@@ -930,8 +991,8 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 					@Override
 					protected Date getDate( Outputs o, TimeZone _timeZone )
 					{
-						final RuntimeLong_v1.Context context = new RuntimeLong_v1.Context( SpreadsheetCompiler.SCALEDLONG6
-								.getScale() );
+						final RuntimeLong_v1.Context context = new RuntimeLong_v1.Context( SpreadsheetCompiler.LONG_SCALE6
+								.scale() );
 						return RuntimeLong_v1.dateFromNum( ((ScaledLongOutputs) o).getNUMBER(), context, _timeZone );
 					}
 
@@ -998,7 +1059,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 				public Long getNUMBER( int i )
 				{
 					final Double val = getDouble( i );
-					return (val == null) ? null : (Long) SpreadsheetCompiler.SCALEDLONG6.valueOf( val );
+					return (val == null) ? null : (Long) SpreadsheetCompiler.LONG_SCALE6.valueOf( val );
 				}
 			}
 

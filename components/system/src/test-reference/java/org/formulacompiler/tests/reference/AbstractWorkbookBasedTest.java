@@ -45,7 +45,7 @@ public abstract class AbstractWorkbookBasedTest extends TestCase
 	protected final String spreadsheetName;
 
 	protected static enum NumType {
-		DOUBLE, BIGDECIMAL, LONG;
+		DOUBLE, PRECISION_BIGDECIMAL, SCALED_BIGDECIMAL, LONG;
 	}
 
 

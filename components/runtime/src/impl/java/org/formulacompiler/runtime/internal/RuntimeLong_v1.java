@@ -139,20 +139,20 @@ public final class RuntimeLong_v1 extends Runtime_v1
 				return _value.longValue();
 			}
 			else {
-				return RuntimeBigDecimal_v1.toScaledLong( _value, this.scale );
+				return RuntimeScaledBigDecimal_v2.toScaledLong( _value, this.scale );
 			}
 		}
 
 		public BigDecimal toBigDecimal( long _value )
 		{
 			if (_value == 0) {
-				return RuntimeBigDecimal_v1.ZERO;
+				return RuntimeScaledBigDecimal_v2.ZERO;
 			}
 			else if (this.scale == 0) {
 				return BigDecimal.valueOf( _value );
 			}
 			else {
-				return RuntimeBigDecimal_v1.fromScaledLong( _value, this.scale );
+				return RuntimeScaledBigDecimal_v2.fromScaledLong( _value, this.scale );
 			}
 		}
 
@@ -312,7 +312,7 @@ public final class RuntimeLong_v1 extends Runtime_v1
 			return Long.toString( _value );
 		}
 		else {
-			return stringFromBigDecimal( RuntimeBigDecimal_v1.fromScaledLong( _value, _scale ), _locale );
+			return stringFromBigDecimal( RuntimeScaledBigDecimal_v2.fromScaledLong( _value, _scale ), _locale );
 		}
 	}
 

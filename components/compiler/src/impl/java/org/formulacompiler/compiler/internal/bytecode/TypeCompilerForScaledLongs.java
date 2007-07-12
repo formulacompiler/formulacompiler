@@ -22,7 +22,7 @@ package org.formulacompiler.compiler.internal.bytecode;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
-import org.formulacompiler.compiler.internal.NumericTypeImpl;
+import org.formulacompiler.compiler.internal.AbstractLongType;
 import org.formulacompiler.runtime.internal.RuntimeLong_v1;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.FieldVisitor;
@@ -45,7 +45,7 @@ final class TypeCompilerForScaledLongs extends TypeCompilerForNumbers
 	protected TypeCompilerForScaledLongs(ByteCodeEngineCompiler _engineCompiler, NumericType _numericType)
 	{
 		super( _engineCompiler, _numericType );
-		this.one = ((NumericTypeImpl.AbstractLongType) _numericType).one();
+		this.one = ((AbstractLongType) _numericType).one();
 	}
 
 
@@ -84,7 +84,7 @@ final class TypeCompilerForScaledLongs extends TypeCompilerForNumbers
 		final GeneratorAdapter mv = root.initializer();
 		mv.visitTypeInsn( Opcodes.NEW, RUNTIME_CONTEXT_TYPE.getInternalName() );
 		mv.visitInsn( Opcodes.DUP );
-		mv.push( numericType().getScale() );
+		mv.push( numericType().scale() );
 		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, RUNTIME_CONTEXT_TYPE.getInternalName(), "<init>", "(I)V" );
 		mv.visitFieldInsn( Opcodes.PUTSTATIC, root.classInternalName(), RUNTIME_CONTEXT_NAME, RUNTIME_CONTEXT_DESCRIPTOR );
 	}

@@ -58,31 +58,7 @@ public class UsingScaledLong extends TestCase
 	}
 
 
-	public void testUsingScaledLong4() throws Exception
-	{
-		String path = PATH;
-
-		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
-		builder.setInputClass( Input.class );
-		builder.setOutputClass( Output4.class );
-		// ---- buildCompiler4
-		builder.setNumericType( /**/SpreadsheetCompiler.SCALEDLONG4/**/ );
-		// ---- buildCompiler4
-		builder.bindAllByName();
-		Engine engine = builder.compile();
-		ComputationFactory factory = engine.getComputationFactory();
-
-		// ---- checkResult4
-		Output4 output = (Output4) factory.newComputation( new Input4( 6 ) );
-		assertEquals( /**/11666L/**/, output.getResult() );
-		// ---- checkResult4
-
-		FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/numeric_type/scaledlong4" );
-	}
-
-
-	public void testUsingScaledLong0() throws Exception
+	public void testUsingLong() throws Exception
 	{
 		String path = PATH;
 
@@ -102,7 +78,7 @@ public class UsingScaledLong extends TestCase
 		assertEquals( /**/1L/**/, output.getResult() );
 		// ---- checkResult0
 
-		FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/numeric_type/scaledlong0" );
+		FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/numeric_type/long" );
 	}
 	
 	
@@ -153,6 +129,7 @@ public class UsingScaledLong extends TestCase
 	public static interface Output
 	{
 		/**/long/**/ getResult();
+		/**/long/**/ getNegated();
 	}
 	// ---- IO
 
@@ -162,23 +139,6 @@ public class UsingScaledLong extends TestCase
 	}
 	
 	
-	/**/@ScaledLong(4)/**/
-	public static class Input4 extends Input
-	{
-		public Input4(int _b)
-		{
-			super( _b );
-		}
-	}
-
-	/**/@ScaledLong(4)/**/
-	public static interface Output4
-	{
-		/**/long/**/ getResult();
-	}
-
-	
-	/**/@ScaledLong(0)/**/
 	public static class Input0 extends Input
 	{
 		public Input0(int _b)
@@ -187,10 +147,10 @@ public class UsingScaledLong extends TestCase
 		}
 	}
 
-	/**/@ScaledLong(0)/**/
 	public static interface Output0
 	{
 		/**/long/**/ getResult();
+		/**/long/**/ getNegated();
 	}
 
 }

@@ -50,7 +50,7 @@ public class BonusPerEmployee_FullyLinked extends TestCase
 	public void testBonusPerEmployee() throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.setNumericType( SpreadsheetCompiler.SCALEDLONG4 );
+		builder.setNumericType( SpreadsheetCompiler.LONG_SCALE4 );
 		builder.loadSpreadsheet( SHEETPATH );
 		builder.setFactoryClass( BonusComputationFactory.class );
 

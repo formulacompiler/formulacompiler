@@ -468,8 +468,10 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 			double dfx = 0.0;
 			for (int i = 0; i < _values.length; i++) {
 				final double v = _values[ i ];
-				fx += v / Math.pow( x1, i );
-				dfx += -i * v / Math.pow( x1, i + 1 );
+				final double x1_i = Math.pow( x1, i );
+				fx += v / x1_i;
+				final double x1_i1 = x1_i * x1;
+				dfx += -i * v / x1_i1;
 			}
 			final double new_x = x - fx / dfx;
 			final double epsilon = Math.abs( new_x - x );
@@ -511,15 +513,18 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 	public static double fun_DDB( double _cost, double _salvage, double _life, double _period, double _factor )
 	{
 		final double remainingCost;
-		double k = 1 - _factor / _life;
+		final double newCost;
+		final double k = 1 - _factor / _life;
 		if (k <= 0) {
-			k = 0;
 			remainingCost = _period == 1 ? _cost : 0;
+			newCost = _period == 0 ? _cost : 0;
 		}
 		else {
-			remainingCost = _cost * Math.pow( k, _period - 1 );
+			final double k_p1 = Math.pow( k, _period - 1 );
+			final double k_p = k_p1 * k;
+			remainingCost = _cost * k_p1;
+			newCost = _cost * k_p;
 		}
-		final double newCost = _cost * Math.pow( k, _period );
 
 		double depreciation = remainingCost - (newCost < _salvage ? _salvage : newCost);
 		if (depreciation < 0) {

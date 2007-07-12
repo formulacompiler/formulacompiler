@@ -30,7 +30,7 @@ public final class ScaledLongSerializationTest extends AbstractSerializationTest
 	@Override
 	protected NumericType getNumericType()
 	{
-		return SpreadsheetCompiler.SCALEDLONG4;
+		return SpreadsheetCompiler.LONG_SCALE4;
 	}
 
 	@Override

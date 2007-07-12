@@ -26,7 +26,7 @@ import org.formulacompiler.compiler.FormulaCompiler;
 
 public class BigDecimalTypeTest extends AbstractNumericTypeTest
 {
-	private final NumericType type = FormulaCompiler.BIGDECIMAL8;
+	private final NumericType type = FormulaCompiler.BIGDECIMAL_SCALE8;
 	
 	@Override
 	protected NumericType getType()

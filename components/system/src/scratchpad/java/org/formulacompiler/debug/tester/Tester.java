@@ -41,7 +41,7 @@ public final class Tester extends AbstractTester
 	@Override
 	protected void define() throws Exception
 	{
-		setNumericType( SpreadsheetCompiler.BIGDECIMAL8 );
+		setNumericType( SpreadsheetCompiler.BIGDECIMAL_SCALE8 );
 
 		defineSection( "POSITIONS" );
 		defineInputsFromNames( "IN_.*" );

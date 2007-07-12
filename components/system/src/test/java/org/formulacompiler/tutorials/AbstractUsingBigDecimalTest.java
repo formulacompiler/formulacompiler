@@ -18,17 +18,37 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.compiler.internal.bytecode;
+package org.formulacompiler.tutorials;
 
-import org.formulacompiler.compiler.NumericType;
+import java.math.BigDecimal;
 
+import junit.framework.TestCase;
 
-final class ExpressionCompilerForBigDecimals extends ExpressionCompilerForBigDecimals_Generated
+public class AbstractUsingBigDecimalTest extends TestCase
 {
+	protected static final String PATH = "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes.xls";
 
-	public ExpressionCompilerForBigDecimals(MethodCompiler _methodCompiler, NumericType _numericType)
+	
+	// ---- IO
+	public static class Input
 	{
-		super( _methodCompiler, _numericType );
+		public Input( double a, double b ) { this.a = BigDecimal.valueOf(a); this.b = BigDecimal.valueOf(b); }
+		public /**/BigDecimal/**/ getA() { return this.a; }
+		public /**/BigDecimal/**/ getB() { return this.b; }
+		private final BigDecimal a;
+		private final BigDecimal b;
+	}
+
+	public static interface Output
+	{
+		/**/BigDecimal/**/getResult();
+		/**/BigDecimal/**/getNegated();
+	}
+	// ---- IO
+
+	public static interface Factory
+	{
+		Output newInstance( Input _input );
 	}
 
 }

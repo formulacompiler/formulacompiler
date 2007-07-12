@@ -23,8 +23,7 @@ package org.formulacompiler.compiler.internal;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
+import java.math.MathContext;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Date;
@@ -32,9 +31,6 @@ import java.util.Locale;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
-import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
-import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
-import org.formulacompiler.runtime.internal.RuntimeLong_v1;
 
 
 /**
@@ -45,81 +41,101 @@ import org.formulacompiler.runtime.internal.RuntimeLong_v1;
  */
 public abstract class NumericTypeImpl implements NumericType
 {
+
+
+	public static final class Factory implements NumericType.Factory
+	{
+
+		public NumericType getInstance( Class _valueType, int _scale, int _roundingMode )
+		{
+			if (_valueType == Double.TYPE) {
+				if (_scale != NumericTypeImpl.UNDEFINED_SCALE)
+					throw new IllegalArgumentException( "Scale is not supported for double" );
+				if (_roundingMode != BigDecimal.ROUND_DOWN)
+					throw new IllegalArgumentException( "Rounding is not supported for double" );
+				return new DoubleType();
+			}
+			else if (_valueType == Long.TYPE) {
+				if (_scale == 0) {
+					if (_roundingMode != BigDecimal.ROUND_DOWN)
+						throw new IllegalArgumentException( "Unscaled long can only be rounded down" );
+					return new LongType();
+				}
+				else {
+					if (_roundingMode != BigDecimal.ROUND_DOWN)
+						throw new IllegalArgumentException( "Scaled long can only be rounded down" );
+					return new ScaledLongType( _scale );
+				}
+			}
+			else if (_valueType == BigDecimal.class) {
+				return new ScaledBigDecimalType( _scale, _roundingMode );
+			}
+			throw new IllegalArgumentException( "Unsupported numeric type" );
+		}
+
+		public NumericType getInstance( Class _valueType, MathContext _mathContext )
+		{
+			if (_valueType == BigDecimal.class) {
+				return new PrecisionBigDecimalType( _mathContext );
+			}
+			throw new IllegalArgumentException( "Unsupported numeric type" );
+		}
+
+	}
+
+
+	/*
+	 * The combination of MathContext and explicit scale/rounding mode looks kludgy - and it is. We
+	 * would really need multiple inheritance here to have common base for BigDec-based types and
+	 * scaled vs precision-based types.
+	 */
 	private final Class valueType;
 	private final int scale;
 	private final int roundingMode;
+	private final MathContext mathContext;
 
-	// LATER Switch to MathContext
 
-	/**
-	 * To ensure compatibility with JRE 1.4 I cannot use a MathContext here.
-	 */
-	protected NumericTypeImpl( Class _valueType, int _scale, int _roundingMode )
+	protected NumericTypeImpl(Class _valueType, int _scale, int _roundingMode)
 	{
 		super();
 		this.valueType = _valueType;
 		this.scale = _scale;
 		this.roundingMode = _roundingMode;
+		this.mathContext = null;
 	}
 
-
-	/**
-	 * Returns an instance with the specified attributes.
-	 */
-	public static NumericType getInstance( Class _valueType, int _scale, int _roundingMode )
+	protected NumericTypeImpl(Class _valueType, MathContext _mathContext)
 	{
-		if (_valueType == Double.TYPE) {
-			if (_scale != UNDEFINED_SCALE) throw new IllegalArgumentException( "Scale is not supported for double" );
-			if (_roundingMode != BigDecimal.ROUND_DOWN)
-				throw new IllegalArgumentException( "Rounding is not supported for double" );
-			return new DoubleType();
-		}
-		else if (_valueType == Long.TYPE) {
-			if (_scale == 0) {
-				if (_roundingMode != BigDecimal.ROUND_DOWN)
-					throw new IllegalArgumentException( "Unscaled long can only be rounded down" );
-				return new LongType();
-			}
-			else {
-				if (_roundingMode != BigDecimal.ROUND_DOWN)
-					throw new IllegalArgumentException( "Scaled long can only be rounded down" );
-				return new ScaledLongType( _scale );
-			}
-		}
-		else if (_valueType == BigDecimal.class) {
-			return new BigDecimalType( _scale, _roundingMode );
-		}
-		throw new IllegalArgumentException( "Unsupported numeric type" );
+		super();
+		this.valueType = _valueType;
+		this.mathContext = _mathContext;
+		this.scale = UNDEFINED_SCALE;
+		this.roundingMode = _mathContext.getRoundingMode().ordinal();
 	}
 
 
-	public static final class Factory implements NumericType.Factory
-	{
-		public NumericType getInstance( Class _valueType, int _scale, int _roundingMode )
-		{
-			return NumericTypeImpl.getInstance( _valueType, _scale, _roundingMode );
-		}
-	}
-
-
-	public Class getValueType()
+	public Class valueType()
 	{
 		return this.valueType;
 	}
 
-	public int getScale()
+	public int scale()
 	{
 		return this.scale;
 	}
 
-	public int getRoundingMode()
+	public int roundingMode()
 	{
 		return this.roundingMode;
 	}
 
+	public MathContext mathContext()
+	{
+		return this.mathContext;
+	}
+
 
 	public abstract Number getZero();
-
 	public abstract Number getOne();
 
 
@@ -210,267 +226,10 @@ public abstract class NumericTypeImpl implements NumericType
 	@Override
 	public String toString()
 	{
-		return getValueType().getName() + ((UNDEFINED_SCALE != getScale())? "." + Integer.toString( getScale() ) : "");
-	}
-
-
-	public static final class DoubleType extends NumericTypeImpl
-	{
-
-		protected DoubleType()
-		{
-			super( Double.TYPE, UNDEFINED_SCALE, BigDecimal.ROUND_UNNECESSARY );
+		if (null != mathContext()) {
+			return valueType().getName() + "." + mathContext().toString();
 		}
-
-		@Override
-		public Number getZero()
-		{
-			return Double.valueOf( 0.0 );
-		}
-
-		@Override
-		public Number getOne()
-		{
-			return Double.valueOf( 1.0 );
-		}
-
-		@Override
-		protected Double assertProperNumberType( Number _value )
-		{
-			return (Double) _value;
-		}
-
-		@Override
-		protected Number convertFromAnyNumber( Number _value )
-		{
-			if (_value instanceof Double) return _value;
-			return _value.doubleValue();
-		}
-
-		@Override
-		protected String convertToConciseString( Number _value, Locale _locale )
-		{
-			// We want to be sure this is a double here.
-			return RuntimeDouble_v1.toExcelString( _value.doubleValue(), _locale );
-		}
-
-	}
-
-
-	public static final class BigDecimalType extends NumericTypeImpl
-	{
-		private final BigDecimal zero = adjustScale( BigDecimal.ZERO );
-		private final BigDecimal one = adjustScale( BigDecimal.ONE );
-
-		protected BigDecimalType( int _scale, int _roundingMode )
-		{
-			super( BigDecimal.class, _scale, _roundingMode );
-		}
-
-		@Override
-		public Number getZero()
-		{
-			return this.zero;
-		}
-
-		@Override
-		public Number getOne()
-		{
-			return this.one;
-		}
-
-		@Override
-		protected BigDecimal assertProperNumberType( Number _value )
-		{
-			return (BigDecimal) _value;
-		}
-
-		@Override
-		protected BigDecimal convertFromAnyNumber( Number _value )
-		{
-			BigDecimal v;
-			if (_value instanceof BigDecimal) {
-				v = (BigDecimal) _value;
-			}
-			else if (_value instanceof Long) {
-				v = BigDecimal.valueOf( _value.longValue() );
-			}
-			else if (_value instanceof Integer) {
-				v = BigDecimal.valueOf( _value.longValue() );
-			}
-			else if (_value instanceof Byte) {
-				v = BigDecimal.valueOf( _value.longValue() );
-			}
-			else {
-				v = BigDecimal.valueOf( _value.doubleValue() );
-			}
-			return adjustScale( v );
-		}
-
-		@Override
-		protected String convertToConciseString( Number _value, Locale _locale )
-		{
-			return RuntimeBigDecimal_v1.toExcelString( (BigDecimal) _value, _locale );
-		}
-
-		private BigDecimal adjustScale( BigDecimal _value )
-		{
-			if (NumericType.UNDEFINED_SCALE != getScale()) {
-				return _value.setScale( getScale(), getRoundingMode() );
-			}
-			return _value;
-		}
-
-	}
-
-
-	public static abstract class AbstractLongType extends NumericTypeImpl
-	{
-
-		protected AbstractLongType( int _scale, int _roundingMode )
-		{
-			super( Long.TYPE, _scale, _roundingMode );
-		}
-
-		@Override
-		public Number getZero()
-		{
-			return Long.valueOf( zero() );
-		}
-
-		@Override
-		public Number getOne()
-		{
-			return Long.valueOf( one() );
-		}
-
-		@Override
-		protected Long assertProperNumberType( Number _value )
-		{
-			return (Long) _value;
-		}
-
-		public long zero()
-		{
-			return 0L;
-		}
-
-		public abstract long one();
-
-	}
-
-
-	public static final class LongType extends AbstractLongType
-	{
-
-		protected LongType()
-		{
-			super( 0, BigDecimal.ROUND_DOWN );
-		}
-
-		@Override
-		public long one()
-		{
-			return 1;
-		}
-
-		@Override
-		protected Number convertFromAnyNumber( Number _value )
-		{
-			if (_value instanceof Long) return _value;
-			return _value.longValue();
-		}
-
-	}
-
-
-	public static final class ScaledLongType extends AbstractLongType
-	{
-		private static long[] SCALING_FACTORS = { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000,
-				1000000000, 10000000000L, 100000000000L, 1000000000000L, 10000000000000L, 100000000000000L,
-				1000000000000000L, 10000000000000000L, 100000000000000000L, 1000000000000000000L };
-
-		private final long scalingFactor;
-
-		protected ScaledLongType( int _scale )
-		{
-			super( _scale, BigDecimal.ROUND_DOWN );
-			if (_scale < 1 || _scale >= SCALING_FACTORS.length) {
-				throw new IllegalArgumentException( "Scale is out of range" );
-			}
-			this.scalingFactor = SCALING_FACTORS[ _scale ];
-		}
-
-		@Override
-		public long one()
-		{
-			return this.scalingFactor;
-		}
-
-		@Override
-		protected final Number convertFromString( String _value, Locale _locale )
-		{
-			return parse( _value, _locale );
-		}
-
-		public long parse( String _value, Locale _locale )
-		{
-			final DecimalFormatSymbols syms = ((DecimalFormat) NumberFormat.getNumberInstance( _locale ))
-					.getDecimalFormatSymbols();
-			final char decSep = syms.getDecimalSeparator();
-			final char minusSign = syms.getMinusSign();
-
-			String value = _value;
-			if (value.indexOf( 'E' ) >= 0 || value.indexOf( 'e' ) >= 0) {
-				value = new BigDecimal( value ).toPlainString();
-			}
-			final int posOfDecPoint = value.indexOf( decSep );
-			if (posOfDecPoint < 0) {
-				return Long.parseLong( value ) * this.scalingFactor;
-			}
-			else {
-				final int scaleOfResult = getScale();
-				final int scaleOfValue = value.length() - posOfDecPoint - 1;
-				final int scaleOfDigits = (scaleOfValue > scaleOfResult)? scaleOfResult : scaleOfValue;
-				final String digits = value.substring( 0, posOfDecPoint )
-						+ value.substring( posOfDecPoint + 1, posOfDecPoint + 1 + scaleOfDigits );
-				final boolean roundUp;
-				if (scaleOfValue > scaleOfDigits) {
-					final char nextDigit = value.charAt( posOfDecPoint + 1 + scaleOfDigits );
-					roundUp = nextDigit >= '5';
-				}
-				else {
-					roundUp = false;
-				}
-				long unscaled = Long.parseLong( digits );
-				if (roundUp) {
-					final boolean negative = value.charAt( 0 ) == minusSign;
-					unscaled += negative? -1 : 1;
-				}
-				if (scaleOfDigits == scaleOfResult) {
-					return unscaled;
-				}
-				else {
-					assert scaleOfDigits < scaleOfResult;
-					final long rescalingFactor = SCALING_FACTORS[ scaleOfResult - scaleOfDigits ];
-					return unscaled * rescalingFactor;
-				}
-			}
-		}
-
-		@Override
-		protected Number convertFromAnyNumber( Number _value )
-		{
-			if (_value instanceof Long) return _value.longValue() * one();
-			return Math.round( RuntimeDouble_v1.round( _value.doubleValue(), getScale() ) * one() );
-		}
-
-		@Override
-		protected String convertToString( Number _value, Locale _locale )
-		{
-			return RuntimeLong_v1.toExcelString( (Long) _value, getScale(), _locale );
-		}
-
+		return valueType().getName() + ((UNDEFINED_SCALE != scale()) ? "." + Integer.toString( scale() ) : "");
 	}
 
 }

@@ -30,7 +30,7 @@ public final class BigDecimalSerializationTest extends AbstractSerializationTest
 	@Override
 	protected NumericType getNumericType()
 	{
-		return SpreadsheetCompiler.BIGDECIMAL8;
+		return SpreadsheetCompiler.BIGDECIMAL_SCALE8;
 	}
 
 	@Override

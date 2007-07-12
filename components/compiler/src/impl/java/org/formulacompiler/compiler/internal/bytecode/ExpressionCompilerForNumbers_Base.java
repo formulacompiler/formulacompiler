@@ -53,14 +53,19 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 
 	static ExpressionCompilerForNumbers compilerFor( MethodCompiler _methodCompiler, NumericType _numericType )
 	{
-		if (Double.TYPE == _numericType.getValueType()) {
+		if (Double.TYPE == _numericType.valueType()) {
 			return new ExpressionCompilerForDoubles( _methodCompiler, _numericType );
 		}
-		else if (Long.TYPE == _numericType.getValueType()) {
+		else if (Long.TYPE == _numericType.valueType()) {
 			return new ExpressionCompilerForScaledLongs( _methodCompiler, _numericType );
 		}
-		else if (BigDecimal.class == _numericType.getValueType()) {
-			return new ExpressionCompilerForBigDecimals( _methodCompiler, _numericType );
+		else if (BigDecimal.class == _numericType.valueType()) {
+			if (null != _numericType.mathContext()) {
+				return new ExpressionCompilerForPrecisionBigDecimals( _methodCompiler, _numericType );
+			}
+			else {
+				return new ExpressionCompilerForScaledBigDecimals( _methodCompiler, _numericType );
+			}
 		}
 		else {
 			throw new IllegalArgumentException( "Unsupported data type " + _numericType + " for byte code compilation." );
@@ -480,7 +485,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 				compile_util_fromMs();
 				return;
 			}
-			
+
 			if ((_method.getAnnotation( MillisecondsSinceUTC1970.class ) != null)) {
 				if (returnType == Long.class) {
 					compile_util_unboxLong();
@@ -499,7 +504,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 				}
 				return;
 			}
-			
+
 		}
 		compileConversionFrom( returnType );
 	}
@@ -507,7 +512,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 
 	protected abstract void compile_util_toMs() throws CompilerException;
 	protected abstract void compile_util_toMsSinceUTC1970() throws CompilerException;
-	
+
 	@Override
 	protected void innerCompileConversionToResultOf( Method _method ) throws CompilerException
 	{
@@ -521,7 +526,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 				}
 				return;
 			}
-			
+
 			if ((_method.getAnnotation( MillisecondsSinceUTC1970.class ) != null)) {
 				compile_util_toMsSinceUTC1970();
 				if (returnType == Long.class) {

@@ -131,9 +131,10 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 		}
 	}
 
-	private void genMethods()
+	@Override
+	protected final void genMethods( List _methods )
 	{
-		for (Object mtdObj : clsNode.methods) {
+		for (Object mtdObj : _methods) {
 			final MethodNode mtdNode = (MethodNode) mtdObj;
 			if (mtdNode.name.startsWith( "fun_" )) {
 				new FunctionTemplateGenerator( mtdNode ).generate();

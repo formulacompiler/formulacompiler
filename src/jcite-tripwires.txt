@@ -343,7 +343,7 @@ import java.math.BigDecimal;
 
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
+import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
 import org.formulacompiler.tutorials.Caching;
 
 final class $Root implements Computation, Caching.CachingOutput
@@ -383,7 +383,7 @@ final class $Root implements Computation, Caching.CachingOutput
     final BigDecimal get$1() {
         if (!h$get$1) {
             c$get$1
-                = RuntimeBigDecimal_v1.toNum($inputs.getSide()).setScale(0, 4);
+                = RuntimeBigDecimal_v2.toNum($inputs.getSide()).setScale(0, 4);
             h$get$1 = true;
         }
         return c$get$1;
@@ -409,7 +409,7 @@ import java.math.BigDecimal;
 
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
+import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
 import org.formulacompiler.tutorials.Caching;
 
 final class $Root implements Computation, Caching.PlainOutput
@@ -431,7 +431,7 @@ final class $Root implements Computation, Caching.PlainOutput
     }
     
     final BigDecimal get$1() {
-        return RuntimeBigDecimal_v1.toNum($inputs.getSide()).setScale(0, 4);
+        return RuntimeBigDecimal_v2.toNum($inputs.getSide()).setScale(0, 4);
     }
     
     final BigDecimal get$2() {
@@ -580,15 +580,15 @@ import java.math.BigDecimal;
 
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
-import org.formulacompiler.tutorials.UsingBigDecimal;
+import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
+import org.formulacompiler.tutorials.AbstractUsingBigDecimalTest;
 
-final class $Root implements Computation, UsingBigDecimal.Output
+final class $Root implements Computation, AbstractUsingBigDecimalTest.Output
 {
-    private final UsingBigDecimal.Input $inputs;
+    private final AbstractUsingBigDecimalTest.Input $inputs;
     final Environment $environment;
     
-    $Root(UsingBigDecimal.Input input, Environment environment) {
+    $Root(AbstractUsingBigDecimalTest.Input input, Environment environment) {
         $environment = environment;
         $inputs = input;
     }
@@ -602,36 +602,46 @@ final class $Root implements Computation, UsingBigDecimal.Output
     }
     
     final BigDecimal get$1() {
-        return RuntimeBigDecimal_v1.toNum($inputs.getA());
+        return RuntimeBigDecimal_v2.toNum($inputs.getA());
     }
     
     final BigDecimal get$2() {
-        return RuntimeBigDecimal_v1.toNum($inputs.getB());
+        return RuntimeBigDecimal_v2.toNum($inputs.getB());
+    }
+    
+    final BigDecimal get$3() {
+        return get$1().negate();
+    }
+    
+    public final BigDecimal getNegated() {
+        return get$3();
     }
 }
 ___@_@___
-jc:numeric_type/bigdecimal20/org.formulacompiler.gen.$Root
+jc:numeric_type/bigdecimal_prec34/org.formulacompiler.gen.$Root
 __@@__
 package org.formulacompiler.gen;
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
-import org.formulacompiler.tutorials.UsingBigDecimal;
+import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
+import org.formulacompiler.tutorials.AbstractUsingBigDecimalTest;
 
-final class $Root implements Computation, UsingBigDecimal.Output
+final class $Root implements Computation, AbstractUsingBigDecimalTest.Output
 {
-    private final UsingBigDecimal.Input $inputs;
+    private final AbstractUsingBigDecimalTest.Input $inputs;
     final Environment $environment;
+    static final MathContext mathContext = MathContext.DECIMAL128;
     
-    $Root(UsingBigDecimal.Input input, Environment environment) {
+    $Root(AbstractUsingBigDecimalTest.Input input, Environment environment) {
         $environment = environment;
         $inputs = input;
     }
     
     final BigDecimal get$0() {
-        return get$1().divide(get$2(), 20, 0).add(get$1());
+        return get$1().divide(get$2(), mathContext).add(get$1(), mathContext);
     }
     
     public final BigDecimal getResult() {
@@ -639,36 +649,44 @@ final class $Root implements Computation, UsingBigDecimal.Output
     }
     
     final BigDecimal get$1() {
-        return RuntimeBigDecimal_v1.toNum($inputs.getA()).setScale(20, 0);
+        return RuntimeBigDecimal_v2.toNum($inputs.getA());
     }
     
     final BigDecimal get$2() {
-        return RuntimeBigDecimal_v1.toNum($inputs.getB()).setScale(20, 0);
+        return RuntimeBigDecimal_v2.toNum($inputs.getB());
+    }
+    
+    final BigDecimal get$3() {
+        return get$1().negate();
+    }
+    
+    public final BigDecimal getNegated() {
+        return get$3();
     }
 }
 ___@_@___
-jc:numeric_type/bigdecimal8/org.formulacompiler.gen.$Root
+jc:numeric_type/bigdecimal_scale4/org.formulacompiler.gen.$Root
 __@@__
 package org.formulacompiler.gen;
 import java.math.BigDecimal;
 
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
-import org.formulacompiler.tutorials.UsingBigDecimal;
+import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
+import org.formulacompiler.tutorials.AbstractUsingBigDecimalTest;
 
-final class $Root implements Computation, UsingBigDecimal.Output
+final class $Root implements Computation, AbstractUsingBigDecimalTest.Output
 {
-    private final UsingBigDecimal.Input $inputs;
+    private final AbstractUsingBigDecimalTest.Input $inputs;
     final Environment $environment;
     
-    $Root(UsingBigDecimal.Input input, Environment environment) {
+    $Root(AbstractUsingBigDecimalTest.Input input, Environment environment) {
         $environment = environment;
         $inputs = input;
     }
     
     final BigDecimal get$0() {
-        return get$1().divide(get$2(), 8, 4).add(get$1());
+        return get$1().divide(get$2(), 4, 0).add(get$1());
     }
     
     public final BigDecimal getResult() {
@@ -676,11 +694,19 @@ final class $Root implements Computation, UsingBigDecimal.Output
     }
     
     final BigDecimal get$1() {
-        return RuntimeBigDecimal_v1.toNum($inputs.getA()).setScale(8, 4);
+        return RuntimeBigDecimal_v2.toNum($inputs.getA()).setScale(4, 0);
     }
     
     final BigDecimal get$2() {
-        return RuntimeBigDecimal_v1.toNum($inputs.getB()).setScale(8, 4);
+        return RuntimeBigDecimal_v2.toNum($inputs.getB()).setScale(4, 0);
+    }
+    
+    final BigDecimal get$3() {
+        return get$1().negate();
+    }
+    
+    public final BigDecimal getNegated() {
+        return get$3();
     }
 }
 ___@_@___
@@ -716,9 +742,17 @@ final class $Root implements Computation, UsingDouble.Output
     final double get$2() {
         return $inputs.getB();
     }
+    
+    final double get$3() {
+        return -get$1();
+    }
+    
+    public final double getNegated() {
+        return get$3();
+    }
 }
 ___@_@___
-jc:numeric_type/scaledlong0/org.formulacompiler.gen.$Root
+jc:numeric_type/long/org.formulacompiler.gen.$Root
 __@@__
 package org.formulacompiler.gen;
 import org.formulacompiler.runtime.Computation;
@@ -749,6 +783,14 @@ final class $Root implements Computation, UsingScaledLong.Output0
     
     final long get$2() {
         return $inputs.getB() / 1000L;
+    }
+    
+    final long get$3() {
+        return -get$1();
+    }
+    
+    public final long getNegated() {
+        return get$3();
     }
 }
 ___@_@___
@@ -784,39 +826,13 @@ final class $Root implements Computation, UsingScaledLong.Output
     final long get$2() {
         return $inputs.getB();
     }
-}
-___@_@___
-jc:numeric_type/scaledlong4/org.formulacompiler.gen.$Root
-__@@__
-package org.formulacompiler.gen;
-import org.formulacompiler.runtime.Computation;
-import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.tutorials.UsingScaledLong;
-
-final class $Root implements Computation, UsingScaledLong.Output4
-{
-    private final UsingScaledLong.Input $inputs;
-    final Environment $environment;
     
-    $Root(UsingScaledLong.Input input, Environment environment) {
-        $environment = environment;
-        $inputs = input;
+    final long get$3() {
+        return -get$1();
     }
     
-    final long get$0() {
-        return get$1() * 10000L / get$2() + get$1();
-    }
-    
-    public final long getResult() {
-        return get$0();
-    }
-    
-    final long get$1() {
-        return $inputs.getA() * 10000L;
-    }
-    
-    final long get$2() {
-        return $inputs.getB() * 10L;
+    public final long getNegated() {
+        return get$3();
     }
 }
 ___@_@___
@@ -890,7 +906,7 @@ private DataType typeOf( ExpressionNodeForFunction _expr ) throws CompilerExcept
 		}
 	}
 ___@_@___
-jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForBigDecimals:---- fun_ABS
+jc:org.formulacompiler.compiler.internal.templates.AbstractExpressionTemplatesForBigDecimals:---- fun_ABS
 __@@__
 @ReturnsAdjustedValue
 	public BigDecimal fun_ABS( BigDecimal a )
@@ -917,6 +933,22 @@ __@@__
 public double fun_VALUE( String _text )
 	{
 		return RuntimeDouble_v1.fun_VALUE( _text, this.environment );
+	}
+___@_@___
+jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForPrecisionBigDecimals:---- op_PLUS
+__@@__
+@ReturnsAdjustedValue
+	public BigDecimal op_PLUS( BigDecimal a, BigDecimal b )
+	{
+		return a.add( b, this.mathContext );
+	}
+___@_@___
+jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForScaledBigDecimals:---- op_PLUS
+__@@__
+@ReturnsAdjustedValue
+	public BigDecimal op_PLUS( BigDecimal a, BigDecimal b )
+	{
+		return a.add( b );
 	}
 ___@_@___
 jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForScaledLongs:---- fun_ABS
@@ -1307,6 +1339,23 @@ public final class DebugTest extends AbstractReferenceTest
 	}
 
 }
+___@_@___
+jc:org.formulacompiler.tutorials.AbstractUsingBigDecimalTest:---- IO
+__@@__
+public static class Input
+	{
+		public Input( double a, double b ) { this.a = BigDecimal.valueOf(a); this.b = BigDecimal.valueOf(b); }
+		public /**/BigDecimal/**/ getA() { return this.a; }
+		public /**/BigDecimal/**/ getB() { return this.b; }
+		private final BigDecimal a;
+		private final BigDecimal b;
+	}
+
+	public static interface Output
+	{
+		/**/BigDecimal/**/getResult();
+		/**/BigDecimal/**/getNegated();
+	}
 ___@_@___
 jc:org.formulacompiler.tutorials.Basics:---- BuildTemplatedSheet
 __@@__
@@ -2822,73 +2871,6 @@ __@@__
 		// Strings are converted according to Java's settings
 		String calcString();
 ___@_@___
-jc:org.formulacompiler.tutorials.UsingBigDecimal:---- IO
-__@@__
-public static class Input
-	{
-		public Input(int b)
-		{
-			this.b = b;
-		}
-		public/**/BigDecimal/**/getA()
-		{
-			return BigDecimal.valueOf( 1 );
-		}
-		public/**/BigDecimal/**/getB()
-		{
-			return BigDecimal.valueOf( this.b );
-		}
-		private final int b;
-	}
-
-	public static interface Output
-	{
-		/**/BigDecimal/**/getResult();
-	}
-___@_@___
-jc:org.formulacompiler.tutorials.UsingBigDecimal:---- buildCompiler
-__@@__
-builder.setNumericType( /**/SpreadsheetCompiler.getNumericType( BigDecimal.class, 20, BigDecimal.ROUND_UP )/**/);
-___@_@___
-jc:org.formulacompiler.tutorials.UsingBigDecimal:---- buildCompiler8
-__@@__
-builder.setNumericType( /**/SpreadsheetCompiler.BIGDECIMAL8/**/);
-___@_@___
-jc:org.formulacompiler.tutorials.UsingBigDecimal:---- buildCompilerN
-__@@__
-builder.setNumericType( /**/SpreadsheetCompiler.getNumericType( BigDecimal.class )/**/);
-___@_@___
-jc:org.formulacompiler.tutorials.UsingBigDecimal:---- checkResult
-__@@__
-Output output = factory.newInstance( new Input( 6 ) );
-		assertEquals( /**/"1.16666666666666666667"/**/, output.getResult().toPlainString() );
-___@_@___
-jc:org.formulacompiler.tutorials.UsingBigDecimal:---- checkResult8a
-__@@__
-Output output = factory.newInstance( new Input( 6 ) );
-			assertEquals( /**/"1.16666667"/**/, output.getResult().toPlainString() );
-___@_@___
-jc:org.formulacompiler.tutorials.UsingBigDecimal:---- checkResult8b
-__@@__
-Output output = factory.newInstance( new Input( /**/3/**/) );
-			assertEquals( /**/"1.33333333"/**/, output.getResult().toPlainString() );
-___@_@___
-jc:org.formulacompiler.tutorials.UsingBigDecimal:---- checkResultNa
-__@@__
-Output output = factory.newInstance( new Input( /**/4/**/) );
-			assertEquals( /**/"1.25"/**/, output.getResult().toPlainString() );
-___@_@___
-jc:org.formulacompiler.tutorials.UsingBigDecimal:---- checkResultNb
-__@@__
-try {
-			Output output = factory.newInstance( new Input( /**/3/**/) );
-			output.getResult();
-			fail( "ArithmeticException expected" );
-		}
-		catch (/**/ArithmeticException e/**/) {
-			assertEquals( "Non-terminating decimal expansion; no exact representable decimal result.", e.getMessage() );
-		}
-___@_@___
 jc:org.formulacompiler.tutorials.UsingDouble:---- IO
 __@@__
 public static class Input
@@ -2900,6 +2882,7 @@ public static class Input
 	public static interface Output
 	{
 		/**/double/**/ getResult();
+		/**/double/**/ getNegated();
 	}
 
 	public static interface Factory
@@ -2922,6 +2905,59 @@ __@@__
 Output output = factory.newInstance( new Input() );
 		assertEquals( /**/"1.1666666666666667"/**/, String.valueOf( output.getResult()) );
 ___@_@___
+jc:org.formulacompiler.tutorials.UsingPrecisionBigDecimal:---- buildCompiler34
+__@@__
+builder.setNumericType( /**/SpreadsheetCompiler.BIGDECIMAL128/**/ );
+___@_@___
+jc:org.formulacompiler.tutorials.UsingPrecisionBigDecimal:---- buildCompiler4
+__@@__
+MathContext mathContext = /**/new MathContext( 4, RoundingMode.HALF_UP )/**/;
+		builder.setNumericType( /**/SpreadsheetCompiler.getNumericType( BigDecimal.class, mathContext )/**/ );
+___@_@___
+jc:org.formulacompiler.tutorials.UsingPrecisionBigDecimal:---- checkResult34a
+__@@__
+Output output = factory.newInstance( new Input( 1, 6 ) );
+			assertEquals( /**/"1.166666666666666666666666666666667"/**/, output.getResult().toPlainString() );
+___@_@___
+jc:org.formulacompiler.tutorials.UsingPrecisionBigDecimal:---- checkResult34c
+__@@__
+Output output = factory.newInstance( new Input( 1, /**/3/**/ ) );
+			assertEquals( /**/"1.333333333333333333333333333333333"/**/, output.getResult().toPlainString() );
+___@_@___
+jc:org.formulacompiler.tutorials.UsingPrecisionBigDecimal:---- checkResult4a
+__@@__
+Output output = factory.newInstance( new Input( 1, 6 ) );
+			assertEquals( /**/"1.167"/**/, output.getResult().toPlainString() );
+___@_@___
+jc:org.formulacompiler.tutorials.UsingPrecisionBigDecimal:---- checkResult4b
+__@@__
+Output output = factory.newInstance( new Input( 1000000, 6 ) );
+			assertEquals( /**/"1167000"/**/, output.getResult().toPlainString() );
+___@_@___
+jc:org.formulacompiler.tutorials.UsingPrecisionBigDecimal:---- checkResult4c
+__@@__
+Output output = factory.newInstance( new Input( /**/12345678/**/, 1 ) );
+			assertEquals( /**/"-12345678"/**/, output.getNegated().toPlainString() );
+___@_@___
+jc:org.formulacompiler.tutorials.UsingScaledBigDecimal:---- buildCompiler
+__@@__
+builder.setNumericType( /**/SpreadsheetCompiler.getNumericType( BigDecimal.class, 4, BigDecimal.ROUND_UP )/**/ );
+___@_@___
+jc:org.formulacompiler.tutorials.UsingScaledBigDecimal:---- checkResult4a
+__@@__
+Output output = factory.newInstance( new Input( 1, 6 ) );
+			assertEquals( /**/"1.1667"/**/, output.getResult().toPlainString() );
+___@_@___
+jc:org.formulacompiler.tutorials.UsingScaledBigDecimal:---- checkResult4b
+__@@__
+Output output = factory.newInstance( new Input( 1000000, 6 ) );
+			assertEquals( /**/"1166666.6667"/**/, output.getResult().toPlainString() );
+___@_@___
+jc:org.formulacompiler.tutorials.UsingScaledBigDecimal:---- checkResult4c
+__@@__
+Output output = factory.newInstance( new Input( /**/12.345678/**/, 1 ) );
+			assertEquals( /**/"-12.3457"/**/, output.getNegated().toPlainString() );
+___@_@___
 jc:org.formulacompiler.tutorials.UsingScaledLong:---- IO
 __@@__
 public static class Input
@@ -2936,6 +2972,7 @@ public static class Input
 	public static interface Output
 	{
 		/**/long/**/ getResult();
+		/**/long/**/ getNegated();
 	}
 ___@_@___
 jc:org.formulacompiler.tutorials.UsingScaledLong:---- buildCompiler
@@ -2946,10 +2983,6 @@ jc:org.formulacompiler.tutorials.UsingScaledLong:---- buildCompiler0
 __@@__
 builder.setNumericType( /**/SpreadsheetCompiler.LONG/**/ );
 ___@_@___
-jc:org.formulacompiler.tutorials.UsingScaledLong:---- buildCompiler4
-__@@__
-builder.setNumericType( /**/SpreadsheetCompiler.SCALEDLONG4/**/ );
-___@_@___
 jc:org.formulacompiler.tutorials.UsingScaledLong:---- checkResult
 __@@__
 Output output = factory.newInstance( new Input( 6 ) );
@@ -2959,11 +2992,6 @@ jc:org.formulacompiler.tutorials.UsingScaledLong:---- checkResult0
 __@@__
 Output0 output = (Output0) factory.newComputation( new Input0( 6 ) );
 		assertEquals( /**/1L/**/, output.getResult() );
-___@_@___
-jc:org.formulacompiler.tutorials.UsingScaledLong:---- checkResult4
-__@@__
-Output4 output = (Output4) factory.newComputation( new Input4( 6 ) );
-		assertEquals( /**/11666L/**/, output.getResult() );
 ___@_@___
 jc:org.formulacompiler.tutorials.UsingScaledLong:---- problemWithMultiplication
 __@@__
@@ -2990,6 +3018,26 @@ long scale = 1000000L;
 		assertEquals( 100000000000L, b );
 		assertEquals( 120000000000000000L, intermediate );
 		assertEquals( 120000000000L, result );
+___@_@___
+jc:org.formulacompiler.tutorials.UsingUnlimitedBigDecimal:---- buildCompilerN
+__@@__
+builder.setNumericType( /**/SpreadsheetCompiler.getNumericType( BigDecimal.class )/**/ );
+___@_@___
+jc:org.formulacompiler.tutorials.UsingUnlimitedBigDecimal:---- checkResultNa
+__@@__
+Output output = factory.newInstance( new Input( /**/1, 4/**/ ) );
+			assertEquals( /**/"1.25"/**/, output.getResult().toPlainString() );
+___@_@___
+jc:org.formulacompiler.tutorials.UsingUnlimitedBigDecimal:---- checkResultNb
+__@@__
+try {
+				Output output = factory.newInstance( new Input( 1, /**/3/**/ ) );
+				output.getResult();
+				fail( "ArithmeticException expected" );
+			}
+			catch (/**/ArithmeticException e/**/) {
+				assertEquals( "Non-terminating decimal expansion; no exact representable decimal result.", e.getMessage() );
+			}
 ___@_@___
 jc:org/formulacompiler/tutorials/decompiler/org.formulacompiler.gen.$Factory
 __@@__

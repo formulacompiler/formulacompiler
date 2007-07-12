@@ -27,9 +27,10 @@ import java.math.BigDecimal;
 import org.formulacompiler.compiler.internal.build.Util;
 import org.formulacompiler.compiler.internal.build.bytecode.ByteCodeCompilerGenerator.TemplateMethodGenerator;
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForAll;
-import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForBigDecimals;
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForDoubles;
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForNumbers;
+import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForPrecisionBigDecimals;
+import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForScaledBigDecimals;
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForScaledLongs;
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForStrings;
 import org.formulacompiler.describable.DescriptionBuilder;
@@ -49,10 +50,12 @@ class PatternCompilerToByteCodeCompilers
 				.getType( Number.class ) ) ).generate( p );
 		new ByteCodeCompilerGenerator( ExpressionTemplatesForDoubles.class, "Doubles", new Numeric( Type.DOUBLE_TYPE ) )
 				.generate( p );
+		new ByteCodeCompilerGenerator( ExpressionTemplatesForPrecisionBigDecimals.class, "PrecisionBigDecimals", new Adjusted( Type
+				.getType( BigDecimal.class ) ) ).generate( p );
+		new ByteCodeCompilerGenerator( ExpressionTemplatesForScaledBigDecimals.class, "ScaledBigDecimals", new Adjusted( Type
+				.getType( BigDecimal.class ) ) ).generate( p );
 		new ByteCodeCompilerGenerator( ExpressionTemplatesForScaledLongs.class, "ScaledLongs", new Numeric(
 				Type.LONG_TYPE ) ).generate( p );
-		new ByteCodeCompilerGenerator( ExpressionTemplatesForBigDecimals.class, "BigDecimals", new Adjusted( Type
-				.getType( BigDecimal.class ) ) ).generate( p );
 		new ByteCodeCompilerGenerator( ExpressionTemplatesForStrings.class, "Strings", new Strings() ).generate( p );
 	}
 

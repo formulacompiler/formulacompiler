@@ -627,7 +627,8 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractIOTestBase
 	{
 		makeBinderFor( Inputs.class, Outputs.class );
 		setupBigBinder( _inputs );
-		assertBigEngineResult( _expected, newEngine( SpreadsheetCompiler.BIGDECIMAL8 ), _values );
+		assertBigEngineResult( _expected, newEngine( SpreadsheetCompiler.BIGDECIMAL_SCALE8 ), _values );
+		assertBigEngineResult( _expected, newEngine( SpreadsheetCompiler.BIGDECIMAL64 ), _values );
 	}
 
 	private void setupBigBinder( CellInstance[] _inputs ) throws Exception

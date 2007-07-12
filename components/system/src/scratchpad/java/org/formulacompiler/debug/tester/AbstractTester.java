@@ -88,7 +88,7 @@ public abstract class AbstractTester
 	protected final void setNumericType( NumericType _type )
 	{
 		this.builder.setNumericType( _type );
-		this.typeName = _type.getValueType().getSimpleName();
+		this.typeName = _type.valueType().getSimpleName();
 	}
 
 

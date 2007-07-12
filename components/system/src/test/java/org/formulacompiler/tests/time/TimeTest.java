@@ -34,8 +34,8 @@ public class TimeTest
 		final TestSuite testSuite = new ActiveTestSuite();
 		testSuite.addTest( new ActiveTestSuite( DoubleCachedTimeTest.class ) );
 		testSuite.addTest( new ActiveTestSuite( DoubleNonCachedTimeTest.class ) );
-		testSuite.addTest( new ActiveTestSuite( BigDecimalCachedTimeTest.class ) );
-		testSuite.addTest( new ActiveTestSuite( BigDecimalNonCachedTimeTest.class ) );
+		testSuite.addTest( new ActiveTestSuite( ScaledBigDecimalCachedTimeTest.class ) );
+		testSuite.addTest( new ActiveTestSuite( ScaledBigDecimalNonCachedTimeTest.class ) );
 		testSuite.addTest( new ActiveTestSuite( ScaledLongCachedTimeTest.class ) );
 		testSuite.addTest( new ActiveTestSuite( ScaledLongNonCachedTimeTest.class ) );
 		return testSuite;
@@ -49,11 +49,19 @@ public class TimeTest
 		}
 	}
 
-	public static class BigDecimalNonCachedTimeTest extends AbstractNonCachedTimeTest
+	public static class PrecisionBigDecimalNonCachedTimeTest extends AbstractNonCachedTimeTest
 	{
-		public BigDecimalNonCachedTimeTest( String _name )
+		public PrecisionBigDecimalNonCachedTimeTest( String _name )
 		{
-			super( _name, SpreadsheetCompiler.BIGDECIMAL8 );
+			super( _name, SpreadsheetCompiler.BIGDECIMAL64 );
+		}
+	}
+
+	public static class ScaledBigDecimalNonCachedTimeTest extends AbstractNonCachedTimeTest
+	{
+		public ScaledBigDecimalNonCachedTimeTest( String _name )
+		{
+			super( _name, SpreadsheetCompiler.BIGDECIMAL_SCALE8 );
 		}
 	}
 
@@ -61,7 +69,7 @@ public class TimeTest
 	{
 		public ScaledLongNonCachedTimeTest( String _name )
 		{
-			super( _name, SpreadsheetCompiler.SCALEDLONG6 );
+			super( _name, SpreadsheetCompiler.LONG_SCALE6 );
 		}
 	}
 
@@ -73,11 +81,19 @@ public class TimeTest
 		}
 	}
 
-	public static class BigDecimalCachedTimeTest extends AbstractCachedTimeTest
+	public static class PrecisionBigDecimalCachedTimeTest extends AbstractCachedTimeTest
 	{
-		public BigDecimalCachedTimeTest( String _name )
+		public PrecisionBigDecimalCachedTimeTest( String _name )
 		{
-			super( _name, SpreadsheetCompiler.BIGDECIMAL8 );
+			super( _name, SpreadsheetCompiler.BIGDECIMAL64 );
+		}
+	}
+
+	public static class ScaledBigDecimalCachedTimeTest extends AbstractCachedTimeTest
+	{
+		public ScaledBigDecimalCachedTimeTest( String _name )
+		{
+			super( _name, SpreadsheetCompiler.BIGDECIMAL_SCALE8 );
 		}
 	}
 
@@ -85,7 +101,7 @@ public class TimeTest
 	{
 		public ScaledLongCachedTimeTest( String _name )
 		{
-			super( _name, SpreadsheetCompiler.SCALEDLONG6 );
+			super( _name, SpreadsheetCompiler.LONG_SCALE6 );
 		}
 	}
 }

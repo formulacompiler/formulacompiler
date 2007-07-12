@@ -181,6 +181,7 @@ abstract class InterpretedNumericType_Base
 		throw new EvalNotPossibleException();
 	}
 
+	@SuppressWarnings("unused")
 	public Object compute( Function _function, Object... _args ) throws InterpreterException
 	{
 		final int cardinality = _args.length;

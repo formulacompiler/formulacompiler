@@ -31,8 +31,8 @@ import org.formulacompiler.compiler.NumericType;
 
 public class ScaledLongTypeTest extends AbstractNumericTypeTest
 {
-	private static final NumericType type = FormulaCompiler.SCALEDLONG4;
-	private static final NumericTypeImpl.AbstractLongType dec2 = new NumericTypeImpl.ScaledLongType( 2 );
+	private static final NumericType type = FormulaCompiler.LONG_SCALE4;
+	private static final AbstractLongType dec2 = new ScaledLongType( 2 );
 
 	@Override
 	protected NumericType getType()
@@ -128,8 +128,6 @@ public class ScaledLongTypeTest extends AbstractNumericTypeTest
 
 	public void testDoubleToScaledLong()
 	{
-		final NumericTypeImpl.AbstractLongType dec2 = new NumericTypeImpl.ScaledLongType( 2 );
-
 		assertEquals( -2, dec2.valueOf( -0.015 ).longValue() );
 		assertEquals( -1, dec2.valueOf( -0.014 ).longValue() );
 		assertEquals( -1, dec2.valueOf( -0.005 ).longValue() );

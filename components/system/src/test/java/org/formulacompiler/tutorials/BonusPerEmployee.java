@@ -77,7 +77,7 @@ public class BonusPerEmployee extends TestCase
 	public void doTest( AccessorVersion _version ) throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.setNumericType( SpreadsheetCompiler.SCALEDLONG4 );
+		builder.setNumericType( SpreadsheetCompiler.LONG_SCALE4 );
 		builder.loadSpreadsheet( SHEETPATH );
 		builder.setFactoryClass( BonusComputationFactory.class );
 		builder.setOutputClass( BonusComputationDefaults.class );
