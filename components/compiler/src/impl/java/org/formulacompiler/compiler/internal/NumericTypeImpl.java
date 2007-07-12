@@ -23,14 +23,18 @@ package org.formulacompiler.compiler.internal;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Date;
+import java.util.Locale;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v1;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
 import org.formulacompiler.runtime.internal.RuntimeLong_v1;
-
 
 
 /**
@@ -122,33 +126,61 @@ public abstract class NumericTypeImpl implements NumericType
 	public Number valueOf( Number _value )
 	{
 		if (null == _value) return null;
-		return convertFromNumber( _value );
+		return assertProperNumberType( convertFromAnyNumber( _value ) );
 	}
 
-	public final Number valueOf( String _value )
+	public final Number valueOf( String _value ) throws ParseException
+	{
+		return assertProperNumberType( valueOf( _value, Locale.getDefault() ) );
+	}
+
+	public final Number valueOf( String _value, Locale _locale ) throws ParseException
 	{
 		if (null == _value) return getZero();
 		if (0 == _value.length()) return getZero();
-		return convertFromString( _value );
+		return assertProperNumberType( convertFromString( _value, _locale ) );
 	}
 
 	public final String valueToString( Number _value )
 	{
+		return valueToString( _value, Locale.getDefault() );
+	}
+
+	public final String valueToString( Number _value, Locale _locale )
+	{
 		if (null == _value) return "";
-		return convertToString( _value );
+		return convertToString( assertProperNumberType( _value ), _locale );
 	}
 
 	public final String valueToConciseString( Number _value )
 	{
+		return valueToConciseString( _value, Locale.getDefault() );
+	}
+
+	public final String valueToConciseString( Number _value, Locale _locale )
+	{
 		if (null == _value) return "";
-		return convertToConciseString( _value );
+		return convertToConciseString( assertProperNumberType( _value ), _locale );
 	}
 
 
-	protected abstract Number convertFromNumber( Number _value );
-	protected abstract Number convertFromString( String _value );
-	protected abstract String convertToString( Number _value );
-	protected abstract String convertToConciseString( Number _value );
+	protected abstract Number convertFromAnyNumber( Number _value );
+	protected abstract Number assertProperNumberType( Number _value );
+
+	protected Number convertFromString( String _value, Locale _locale ) throws ParseException
+	{
+		return convertFromAnyNumber( NumberFormat.getNumberInstance( _locale ).parse( _value ) );
+	}
+
+	protected String convertToString( Number _value, Locale _locale )
+	{
+		return NumberFormat.getNumberInstance( _locale ).format( _value );
+	}
+
+	protected String convertToConciseString( Number _value, Locale _locale )
+	{
+		return convertToString( _value, _locale );
+	}
 
 
 	public void validateReturnTypeForCell( Method _method ) throws CompilerException
@@ -178,7 +210,7 @@ public abstract class NumericTypeImpl implements NumericType
 	@Override
 	public String toString()
 	{
-		return getValueType().getName() + ((UNDEFINED_SCALE != getScale()) ? "." + Integer.toString( getScale() ) : "");
+		return getValueType().getName() + ((UNDEFINED_SCALE != getScale())? "." + Integer.toString( getScale() ) : "");
 	}
 
 
@@ -203,28 +235,23 @@ public abstract class NumericTypeImpl implements NumericType
 		}
 
 		@Override
-		protected Number convertFromNumber( Number _value )
+		protected Double assertProperNumberType( Number _value )
+		{
+			return (Double) _value;
+		}
+
+		@Override
+		protected Number convertFromAnyNumber( Number _value )
 		{
 			if (_value instanceof Double) return _value;
 			return _value.doubleValue();
 		}
 
 		@Override
-		protected Number convertFromString( String _value )
+		protected String convertToConciseString( Number _value, Locale _locale )
 		{
-			return Double.valueOf( _value );
-		}
-
-		@Override
-		protected String convertToString( Number _value )
-		{
-			return _value.toString();
-		}
-
-		@Override
-		protected String convertToConciseString( Number _value )
-		{
-			return RuntimeDouble_v1.toExcelString( _value.doubleValue() );
+			// We want to be sure this is a double here.
+			return RuntimeDouble_v1.toExcelString( _value.doubleValue(), _locale );
 		}
 
 	}
@@ -235,7 +262,7 @@ public abstract class NumericTypeImpl implements NumericType
 		private final BigDecimal zero = adjustScale( BigDecimal.ZERO );
 		private final BigDecimal one = adjustScale( BigDecimal.ONE );
 
-		protected BigDecimalType(int _scale, int _roundingMode)
+		protected BigDecimalType( int _scale, int _roundingMode )
 		{
 			super( BigDecimal.class, _scale, _roundingMode );
 		}
@@ -253,7 +280,13 @@ public abstract class NumericTypeImpl implements NumericType
 		}
 
 		@Override
-		protected Number convertFromNumber( Number _value )
+		protected BigDecimal assertProperNumberType( Number _value )
+		{
+			return (BigDecimal) _value;
+		}
+
+		@Override
+		protected BigDecimal convertFromAnyNumber( Number _value )
 		{
 			BigDecimal v;
 			if (_value instanceof BigDecimal) {
@@ -275,21 +308,9 @@ public abstract class NumericTypeImpl implements NumericType
 		}
 
 		@Override
-		protected Number convertFromString( String _value )
+		protected String convertToConciseString( Number _value, Locale _locale )
 		{
-			return adjustScale( new BigDecimal( _value ) );
-		}
-
-		@Override
-		protected String convertToString( Number _value )
-		{
-			return ((BigDecimal) _value).toPlainString();
-		}
-
-		@Override
-		protected String convertToConciseString( Number _value )
-		{
-			return RuntimeBigDecimal_v1.toExcelString( (BigDecimal) _value );
+			return RuntimeBigDecimal_v1.toExcelString( (BigDecimal) _value, _locale );
 		}
 
 		private BigDecimal adjustScale( BigDecimal _value )
@@ -306,7 +327,7 @@ public abstract class NumericTypeImpl implements NumericType
 	public static abstract class AbstractLongType extends NumericTypeImpl
 	{
 
-		protected AbstractLongType(int _scale, int _roundingMode)
+		protected AbstractLongType( int _scale, int _roundingMode )
 		{
 			super( Long.TYPE, _scale, _roundingMode );
 		}
@@ -323,48 +344,18 @@ public abstract class NumericTypeImpl implements NumericType
 			return Long.valueOf( one() );
 		}
 
+		@Override
+		protected Long assertProperNumberType( Number _value )
+		{
+			return (Long) _value;
+		}
+
 		public long zero()
 		{
 			return 0L;
 		}
 
 		public abstract long one();
-
-		public abstract long parse( String _value );
-
-		public abstract String format( long _value );
-
-		public final long fromNumber( Number _value )
-		{
-			String asString;
-			if (_value instanceof BigDecimal) {
-				final BigDecimal big = (BigDecimal) _value;
-				asString = big.toPlainString();
-			}
-			else {
-				asString = _value.toString();
-			}
-			return parse( asString );
-		}
-
-		@Override
-		protected Number convertFromNumber( Number _value )
-		{
-			if (_value instanceof Long) return _value;
-			return _value.longValue();
-		}
-
-		@Override
-		protected final Number convertFromString( String _value )
-		{
-			return Long.valueOf( parse( _value ) );
-		}
-
-		@Override
-		protected final String convertToString( Number _value )
-		{
-			return format( _value.longValue() );
-		}
 
 	}
 
@@ -384,21 +375,10 @@ public abstract class NumericTypeImpl implements NumericType
 		}
 
 		@Override
-		public long parse( String _value )
+		protected Number convertFromAnyNumber( Number _value )
 		{
-			return Long.parseLong( Util.trimTrailingZerosAndPoint( _value ) );
-		}
-
-		@Override
-		public String format( long _value )
-		{
-			return Long.toString( _value );
-		}
-
-		@Override
-		protected String convertToConciseString( Number _value )
-		{
-			return convertToString( _value ); // Need no trimming here.
+			if (_value instanceof Long) return _value;
+			return _value.longValue();
 		}
 
 	}
@@ -412,7 +392,7 @@ public abstract class NumericTypeImpl implements NumericType
 
 		private final long scalingFactor;
 
-		protected ScaledLongType(int _scale)
+		protected ScaledLongType( int _scale )
 		{
 			super( _scale, BigDecimal.ROUND_DOWN );
 			if (_scale < 1 || _scale >= SCALING_FACTORS.length) {
@@ -428,20 +408,30 @@ public abstract class NumericTypeImpl implements NumericType
 		}
 
 		@Override
-		public long parse( String _value )
+		protected final Number convertFromString( String _value, Locale _locale )
 		{
+			return parse( _value, _locale );
+		}
+
+		public long parse( String _value, Locale _locale )
+		{
+			final DecimalFormatSymbols syms = ((DecimalFormat) NumberFormat.getNumberInstance( _locale ))
+					.getDecimalFormatSymbols();
+			final char decSep = syms.getDecimalSeparator();
+			final char minusSign = syms.getMinusSign();
+
 			String value = _value;
 			if (value.indexOf( 'E' ) >= 0 || value.indexOf( 'e' ) >= 0) {
 				value = new BigDecimal( value ).toPlainString();
 			}
-			final int posOfDecPoint = value.indexOf( '.' );
+			final int posOfDecPoint = value.indexOf( decSep );
 			if (posOfDecPoint < 0) {
 				return Long.parseLong( value ) * this.scalingFactor;
 			}
 			else {
 				final int scaleOfResult = getScale();
 				final int scaleOfValue = value.length() - posOfDecPoint - 1;
-				final int scaleOfDigits = (scaleOfValue > scaleOfResult) ? scaleOfResult : scaleOfValue;
+				final int scaleOfDigits = (scaleOfValue > scaleOfResult)? scaleOfResult : scaleOfValue;
 				final String digits = value.substring( 0, posOfDecPoint )
 						+ value.substring( posOfDecPoint + 1, posOfDecPoint + 1 + scaleOfDigits );
 				final boolean roundUp;
@@ -454,8 +444,8 @@ public abstract class NumericTypeImpl implements NumericType
 				}
 				long unscaled = Long.parseLong( digits );
 				if (roundUp) {
-					final boolean negative = value.charAt( 0 ) == '-';
-					unscaled += negative ? -1 : 1;
+					final boolean negative = value.charAt( 0 ) == minusSign;
+					unscaled += negative? -1 : 1;
 				}
 				if (scaleOfDigits == scaleOfResult) {
 					return unscaled;
@@ -469,22 +459,16 @@ public abstract class NumericTypeImpl implements NumericType
 		}
 
 		@Override
-		public String format( long _value )
+		protected Number convertFromAnyNumber( Number _value )
 		{
-			return RuntimeLong_v1.toExcelString( _value, getScale() );
-		}
-
-		@Override
-		protected Number convertFromNumber( Number _value )
-		{
-			if (_value instanceof Long) return _value;
+			if (_value instanceof Long) return _value.longValue() * one();
 			return Math.round( RuntimeDouble_v1.round( _value.doubleValue(), getScale() ) * one() );
 		}
 
 		@Override
-		protected String convertToConciseString( Number _value )
+		protected String convertToString( Number _value, Locale _locale )
 		{
-			return RuntimeLong_v1.toExcelString( (Long) _value, getScale() );
+			return RuntimeLong_v1.toExcelString( (Long) _value, getScale(), _locale );
 		}
 
 	}

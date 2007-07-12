@@ -21,6 +21,7 @@
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.model.interpreter.InterpreterException;
 
 public class EvalNonFoldable extends EvalShadow
 {
@@ -31,7 +32,7 @@ public class EvalNonFoldable extends EvalShadow
 	}
 
 	@Override
-	protected Object evaluateToConst( Object... _args )
+	protected Object evaluateToConst( Object... _args ) throws InterpreterException
 	{
 		return evaluateToNode( _args );
 	}

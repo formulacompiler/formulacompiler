@@ -20,6 +20,8 @@
  */
 package org.formulacompiler.compiler.internal.model.interpreter;
 
+import java.text.ParseException;
+
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.Operator;
@@ -44,7 +46,7 @@ abstract class InterpretedNumericType_Base
 	public abstract Object adjustConstantValue( Object _value );
 
 
-	protected final int compare( Object _a, Object _b )
+	protected final int compare( Object _a, Object _b ) throws InterpreterException
 	{
 		if (_a instanceof String) {
 			if (_b instanceof String || null == _b) {
@@ -76,7 +78,8 @@ abstract class InterpretedNumericType_Base
 	}
 
 
-	public abstract Number fromString( String _s );
+	// LATER Need a compiler locale here, really.
+	public abstract Number fromString( String _s ) throws ParseException;
 
 
 	public boolean toBoolean( Object _value )
@@ -85,7 +88,7 @@ abstract class InterpretedNumericType_Base
 	}
 
 
-	public String toString( Object _value )
+	public String toString( Object _value ) throws InterpreterException
 	{
 		if (_value == null) {
 			return "";
@@ -94,7 +97,7 @@ abstract class InterpretedNumericType_Base
 			return (String) _value;
 		}
 		else if (_value instanceof Number) {
-			return this.num.valueToConciseString( (Number) _value );
+			throw new InterpreterException.IsRuntimeEnvironmentDependent(); // Needs locale.
 		}
 		else if (_value instanceof Boolean) {
 			return ((Boolean) _value) ? "1" : "0";
@@ -113,7 +116,7 @@ abstract class InterpretedNumericType_Base
 	public abstract Number toNumeric( Number _value );
 
 
-	public Object compute( Operator _operator, Object... _args )
+	public Object compute( Operator _operator, Object... _args ) throws InterpreterException
 	{
 		switch (_operator) {
 
@@ -178,7 +181,7 @@ abstract class InterpretedNumericType_Base
 		throw new EvalNotPossibleException();
 	}
 
-	public Object compute( Function _function, Object... _args )
+	public Object compute( Function _function, Object... _args ) throws InterpreterException
 	{
 		final int cardinality = _args.length;
 		switch (_function) {
@@ -322,7 +325,7 @@ abstract class InterpretedNumericType_Base
 		return valueToIntOrOne( _o );
 	}
 
-	protected final String to_String( Object _o )
+	protected final String to_String( Object _o ) throws InterpreterException
 	{
 		return toString( _o );
 	}

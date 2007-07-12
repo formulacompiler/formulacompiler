@@ -31,6 +31,7 @@ import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionMo
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.compiler.internal.model.interpreter.EvalNotPossibleException;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
+import org.formulacompiler.compiler.internal.model.interpreter.InterpreterException;
 import org.formulacompiler.runtime.New;
 
 
@@ -115,7 +116,7 @@ public class EvalFunction extends EvalShadow
 
 
 	@Override
-	protected Object evaluateToConst( Object... _args )
+	protected Object evaluateToConst( Object... _args ) throws InterpreterException
 	{
 		final Function function = ((ExpressionNodeForFunction) node()).getFunction();
 		if (function.isVolatile()) {

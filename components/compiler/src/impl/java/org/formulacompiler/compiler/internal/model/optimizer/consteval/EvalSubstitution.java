@@ -21,6 +21,7 @@
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.model.interpreter.InterpreterException;
 
 public class EvalSubstitution extends EvalShadow
 {
@@ -31,7 +32,7 @@ public class EvalSubstitution extends EvalShadow
 	}
 
 	@Override
-	protected Object evaluateToConst( Object... _args )
+	protected Object evaluateToConst( Object... _args ) throws InterpreterException
 	{
 		if (_args.length == 1) {
 			// Skip the substitution node right away.
@@ -43,7 +44,7 @@ public class EvalSubstitution extends EvalShadow
 	}
 
 	@Override
-	protected Object evaluateToNode( Object... _args )
+	protected Object evaluateToNode( Object... _args ) throws InterpreterException
 	{
 		if (_args.length == 1) {
 			// Skip the substitution node right away.

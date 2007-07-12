@@ -25,7 +25,6 @@ import java.lang.reflect.Modifier;
 import java.util.Map;
 
 import org.formulacompiler.runtime.New;
-import org.formulacompiler.runtime.internal.Runtime_v1;
 import org.objectweb.asm.Type;
 
 
@@ -35,12 +34,6 @@ public final class Util
 	private Util()
 	{
 		super();
-	}
-
-
-	public static String trimTrailingZerosAndPoint( String _string )
-	{
-		return Runtime_v1.trimTrailingZerosAndPoint( _string );
 	}
 
 

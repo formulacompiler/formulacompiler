@@ -33,6 +33,7 @@ import org.formulacompiler.compiler.internal.expressions.LetDictionary;
 import org.formulacompiler.compiler.internal.logging.Log;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
+import org.formulacompiler.compiler.internal.model.interpreter.InterpreterException;
 
 
 public abstract class EvalShadow extends ExpressionNodeShadow
@@ -54,7 +55,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 
 	private final InterpretedNumericType type;
 
-	EvalShadow(ExpressionNode _node, InterpretedNumericType _type)
+	EvalShadow( ExpressionNode _node, InterpretedNumericType _type )
 	{
 		super( _node );
 		this.type = _type;
@@ -127,14 +128,19 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 
 	protected final Object evaluateArgument( EvalShadow _arg ) throws CompilerException
 	{
-		return (_arg == null) ? null : _arg.evalIn( context() );
+		return (_arg == null)? null : _arg.evalIn( context() );
 	}
 
 
 	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object... _args ) throws CompilerException
 	{
 		if (hasOnlyConstantArgs( _args )) {
-			return evaluateToConst( _args );
+			try {
+				return evaluateToConst( _args );
+			}
+			catch (InterpreterException.IsRuntimeEnvironmentDependent e) {
+				return evaluateToNode( _args );
+			}
 		}
 		else {
 			return evaluateToNode( _args );
@@ -176,7 +182,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		return (_arg instanceof ExpressionNodeForSubSectionModel);
 	}
 
-	protected Object evaluateToNode( Object... _args )
+	protected Object evaluateToNode( Object... _args ) throws InterpreterException
 	{
 		ExpressionNode result = node().cloneWithoutArguments();
 		for (final Object arg : _args) {
@@ -195,7 +201,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 
 	protected final ExpressionNode valueToNode( Object _value )
 	{
-		return (_value instanceof ExpressionNode) ? (ExpressionNode) _value : new ExpressionNodeForConstantValue( _value );
+		return (_value instanceof ExpressionNode)? (ExpressionNode) _value : new ExpressionNodeForConstantValue( _value );
 	}
 
 	protected final Object valueOf( Object _valueOrNode )

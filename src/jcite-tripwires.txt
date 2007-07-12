@@ -4298,7 +4298,7 @@ __@@__
 			<td></td>
 			<td></td>
 			<td class="xl-num">2</td>
-			<td>VAR</td>
+			<td>VAR (does not support blanks!)</td>
 			<td>VAR</td>
 		</tr>
 		<tr>

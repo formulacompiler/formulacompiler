@@ -254,7 +254,7 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 		final DescriptionBuilder cb = classBuilder;
 		cb.newLine();
 		cb.appendLine( "@Override" );
-		cb.appendLine( "public Object compute( Operator _operator, Object... _args )" );
+		cb.appendLine( "public Object compute( Operator _operator, Object... _args ) throws InterpreterException" );
 		cb.appendLine( "{" );
 		cb.indent();
 
@@ -297,7 +297,7 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 		final DescriptionBuilder cb = classBuilder;
 		cb.newLine();
 		cb.appendLine( "@Override" );
-		cb.appendLine( "public Object compute( Function _function, Object... _args )" );
+		cb.appendLine( "public Object compute( Function _function, Object... _args ) throws InterpreterException" );
 		cb.appendLine( "{" );
 		cb.indent();
 

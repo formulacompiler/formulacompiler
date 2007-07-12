@@ -27,20 +27,21 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
+import org.formulacompiler.compiler.internal.model.interpreter.InterpreterException;
 import org.formulacompiler.runtime.New;
 
 
 public class EvalOperator extends EvalShadow
 {
 
-	EvalOperator(ExpressionNode _node, InterpretedNumericType _type)
+	EvalOperator( ExpressionNode _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
 	}
 
 
 	@Override
-	protected Object evaluateToConst( Object... _args )
+	protected Object evaluateToConst( Object... _args ) throws InterpreterException
 	{
 		final Operator operator = ((ExpressionNodeForOperator) node()).getOperator();
 		return type().compute( operator, _args );
@@ -48,7 +49,7 @@ public class EvalOperator extends EvalShadow
 
 
 	@Override
-	protected Object evaluateToNode( Object... _args )
+	protected Object evaluateToNode( Object... _args ) throws InterpreterException
 	{
 		final Object result = super.evaluateToNode( _args );
 		if (result instanceof ExpressionNodeForOperator) {
@@ -62,22 +63,30 @@ public class EvalOperator extends EvalShadow
 
 
 	private final ExpressionNodeForOperator concatConsecutiveConstArgsOf( ExpressionNodeForOperator _opNode )
+			throws InterpreterException
 	{
 		final Collection<ExpressionNode> newArgs = New.newCollection( _opNode.arguments().size() );
 		boolean modified = false;
 		StringBuilder buildUp = null;
 		for (final ExpressionNode arg : _opNode.arguments()) {
+			boolean isConst = false;
 			if (arg instanceof ExpressionNodeForConstantValue) {
-				final ExpressionNodeForConstantValue constArg = (ExpressionNodeForConstantValue) arg;
-				if (buildUp == null) {
-					buildUp = new StringBuilder( type().toString( constArg.value() ) );
+				try {
+					final ExpressionNodeForConstantValue constArg = (ExpressionNodeForConstantValue) arg;
+					if (buildUp == null) {
+						buildUp = new StringBuilder( type().toString( constArg.value() ) );
+					}
+					else {
+						buildUp.append( type().toString( constArg.value() ) );
+						modified = true;
+					}
+					isConst = true;
 				}
-				else {
-					buildUp.append( type().toString( constArg.value() ) );
-					modified = true;
+				catch (InterpreterException.IsRuntimeEnvironmentDependent e) {
+					isConst = false;
 				}
 			}
-			else {
+			if (!isConst) {
 				if (buildUp != null) {
 					newArgs.add( new ExpressionNodeForConstantValue( buildUp.toString() ) );
 					buildUp = null;

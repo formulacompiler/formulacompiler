@@ -316,20 +316,6 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		}
 	}
 
-	@Deprecated
-	public static String toExcelString( long _value, int _scale )
-	{
-		if (_value == 0) {
-			return "0";
-		}
-		else if (_scale == 0) {
-			return Long.toString( _value );
-		}
-		else {
-			return stringFromBigDecimal( RuntimeBigDecimal_v1.fromScaledLong( _value, _scale ), Locale.ENGLISH );
-		}
-	}
-
 
 	public static long fun_ACOS( final long _val, Context _cx )
 	{

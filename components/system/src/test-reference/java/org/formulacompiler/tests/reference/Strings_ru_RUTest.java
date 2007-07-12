@@ -24,16 +24,12 @@ import java.util.Locale;
 
 import org.formulacompiler.runtime.Computation;
 
-
 public class Strings_ru_RUTest extends AbstractReferenceTest
 {
+	
 	public Strings_ru_RUTest()
 	{
 		setConfig( new Computation.Config( new Locale( "ru", "RU" ) ) );
 	}
 
-
-	public void testExpressions() throws Exception
-	{
-	}
 }

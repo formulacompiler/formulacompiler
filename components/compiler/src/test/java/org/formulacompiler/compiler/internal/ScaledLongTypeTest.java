@@ -20,14 +20,19 @@
  */
 package org.formulacompiler.compiler.internal;
 
-import org.formulacompiler.compiler.NumericType;
-import org.formulacompiler.compiler.FormulaCompiler;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 
+import org.formulacompiler.compiler.FormulaCompiler;
+import org.formulacompiler.compiler.NumericType;
 
 
 public class ScaledLongTypeTest extends AbstractNumericTypeTest
 {
-	private final NumericType type = FormulaCompiler.SCALEDLONG4;
+	private static final NumericType type = FormulaCompiler.SCALEDLONG4;
+	private static final NumericTypeImpl.AbstractLongType dec2 = new NumericTypeImpl.ScaledLongType( 2 );
 
 	@Override
 	protected NumericType getType()
@@ -36,61 +41,90 @@ public class ScaledLongTypeTest extends AbstractNumericTypeTest
 	}
 
 
-	public void testStringToScaledLong()
+	public void testStringToScaledLong_de() throws Exception
 	{
-		final NumericTypeImpl.AbstractLongType dec2 = new NumericTypeImpl.ScaledLongType( 2 );
+		doTestStringToScaledLong( Locale.GERMANY );
+	}
 
-		assertEquals( 12345, dec2.parse( "123.45" ) );
-		assertEquals( 12345, dec2.parse( "123.452" ) );
-		assertEquals( 12340, dec2.parse( "123.4" ) );
-		assertEquals( 12340, dec2.parse( "123.400" ) );
-		assertEquals( 12300, dec2.parse( "123" ) );
-		assertEquals( 12300, dec2.parse( "123.0" ) );
-		assertEquals( -12300, dec2.parse( "-123" ) );
-		assertEquals( -12300, dec2.parse( "-123.0" ) );
-		assertEquals( -12345, dec2.parse( "-123.452" ) );
-		assertEquals( -12340, dec2.parse( "-123.4" ) );
-
-		assertEquals( 12345, dec2.parse( "123.454" ) );
-		assertEquals( 12346, dec2.parse( "123.455" ) );
-		assertEquals( 12346, dec2.parse( "123.456" ) );
-
-		assertEquals( -12345, dec2.parse( "-123.454" ) );
-		assertEquals( -12346, dec2.parse( "-123.455" ) );
-		assertEquals( -12346, dec2.parse( "-123.456" ) );
-
-		assertEquals( -2, dec2.parse( "-0.015" ) );
-		assertEquals( -1, dec2.parse( "-0.014" ) );
-		assertEquals( -1, dec2.parse( "-0.005" ) );
-		assertEquals( 0, dec2.parse( "-0.004" ) );
-		assertEquals( 0, dec2.parse( "0.004" ) );
-		assertEquals( 1, dec2.parse( "0.005" ) );
-		assertEquals( 1, dec2.parse( "0.014" ) );
-		assertEquals( 2, dec2.parse( "0.015" ) );
+	public void testStringToScaledLong_us() throws Exception
+	{
+		doTestStringToScaledLong( Locale.US );
 	}
 
 
-	public void testScaledLongToString()
+	public void doTestStringToScaledLong( Locale _locale ) throws ParseException
 	{
-		final NumericTypeImpl.AbstractLongType dec2 = new NumericTypeImpl.ScaledLongType( 2 );
-
-		assertEquals( "123.45", dec2.format( 12345 ) );
-		assertEquals( "123.4", dec2.format( 12340 ) );
-		assertEquals( "123", dec2.format( 12300 ) );
-		assertEquals( "-123.45", dec2.format( -12345 ) );
-		assertEquals( "-123.4", dec2.format( -12340 ) );
-		assertEquals( "-123", dec2.format( -12300 ) );
+		DecimalFormat df = (DecimalFormat) NumberFormat.getNumberInstance( _locale );
 		
-		assertEquals( "0", dec2.format( 0 ) );
-		assertEquals( "0.01", dec2.format( 1 ) );
-		assertEquals( "0.1", dec2.format( 10 ) );
-		assertEquals( "1", dec2.format( 100 ) );
+		assertParse( 12345, "123.45", _locale, df );
+		assertParse( 12345, "123.452", _locale, df );
+		assertParse( 12340, "123.4", _locale, df );
+		assertParse( 12340, "123.400", _locale, df );
+		assertParse( 12300, "123", _locale, df );
+		assertParse( 12300, "123.0", _locale, df );
+		assertParse( -12300, "-123", _locale, df );
+		assertParse( -12300, "-123.0", _locale, df );
+		assertParse( -12345, "-123.452", _locale, df );
+		assertParse( -12340, "-123.4", _locale, df );
 
-		assertEquals( "0", dec2.format( -0 ) );
-		assertEquals( "-0.01", dec2.format( -1 ) );
-		assertEquals( "-0.1", dec2.format( -10 ) );
-		assertEquals( "-1", dec2.format( -100 ) );
+		assertParse( 12345, "123.454", _locale, df );
+		assertParse( 12346, "123.455", _locale, df );
+		assertParse( 12346, "123.456", _locale, df );
+
+		assertParse( -12345, "-123.454", _locale, df );
+		assertParse( -12346, "-123.455", _locale, df );
+		assertParse( -12346, "-123.456", _locale, df );
+
+		assertParse( -2, "-0.015", _locale, df );
+		assertParse( -1, "-0.014", _locale, df );
+		assertParse( -1, "-0.005", _locale, df );
+		assertParse( 0, "-0.004", _locale, df );
+		assertParse( 0, "0.004", _locale, df );
+		assertParse( 1, "0.005", _locale, df );
+		assertParse( 1, "0.014", _locale, df );
+		assertParse( 2, "0.015", _locale, df );
 	}
+
+	private void assertParse( long _expected, String _input, Locale _locale, DecimalFormat _df ) throws ParseException
+	{
+		String input = _input.replace( '.', _df.getDecimalFormatSymbols().getDecimalSeparator() );
+		assertEquals( _expected, dec2.valueOf( input, _locale ) );
+	}
+
+
+	public void testScaledLongToString_de()
+	{
+		doTestScaledLongToString( Locale.GERMANY );
+	}
+
+	public void doTestScaledLongToString( Locale _locale )
+	{
+		DecimalFormat df = (DecimalFormat) NumberFormat.getNumberInstance( _locale );
+
+		assertFormat( "123.45", 12345, _locale, df );
+		assertFormat( "123.4", 12340, _locale, df );
+		assertFormat( "123", 12300, _locale, df );
+		assertFormat( "-123.45", -12345, _locale, df );
+		assertFormat( "-123.4", -12340, _locale, df );
+		assertFormat( "-123", -12300, _locale, df );
+
+		assertFormat( "0", 0, _locale, df );
+		assertFormat( "0.01", 1, _locale, df );
+		assertFormat( "0.1", 10, _locale, df );
+		assertFormat( "1", 100, _locale, df );
+
+		assertFormat( "0", -0, _locale, df );
+		assertFormat( "-0.01", -1, _locale, df );
+		assertFormat( "-0.1", -10, _locale, df );
+		assertFormat( "-1", -100, _locale, df );
+	}
+
+	private void assertFormat( String _expected, long _input, Locale _locale, DecimalFormat _df )
+	{
+		String expected = _expected.replace( '.', _df.getDecimalFormatSymbols().getDecimalSeparator() );
+		assertEquals( expected, dec2.convertToString( _input, _locale ) );
+	}
+
 
 	public void testDoubleToScaledLong()
 	{

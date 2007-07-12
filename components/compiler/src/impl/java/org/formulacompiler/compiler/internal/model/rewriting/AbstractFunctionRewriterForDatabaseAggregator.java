@@ -20,6 +20,7 @@
  */
 package org.formulacompiler.compiler.internal.model.rewriting;
 
+import java.text.ParseException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -342,7 +343,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 			return result;
 		}
 
-		private ExpressionNode buildFilterByExample( int _tableCol, ExpressionNode _criterion, DataType _type )
+		private ExpressionNode buildFilterByExample( int _tableCol, ExpressionNode _criterion, DataType _type ) throws CompilerException
 		{
 			final Object cst = constantValueOf( _criterion );
 			if (null == cst) {
@@ -370,7 +371,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 			return buildComparison( Operator.EQUAL, _tableCol, _criterion );
 		}
 
-		private ExpressionNode buildFilterByExample( int _tableCol, final String _criterion, DataType _type )
+		private ExpressionNode buildFilterByExample( int _tableCol, final String _criterion, DataType _type ) throws CompilerException
 		{
 			Operator comparison = Operator.EQUAL;
 			int valueStartsAt = 0;
@@ -402,7 +403,12 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 			Object compareTo;
 			switch (_type) {
 				case NUMERIC:
-					compareTo = numericType().fromString( compareToStr );
+					try {
+						compareTo = numericType().fromString( compareToStr );
+					}
+					catch (ParseException e) {
+						throw new CompilerException.UnsupportedExpression( e );
+					}
 					break;
 				default:
 					compareTo = compareToStr;
