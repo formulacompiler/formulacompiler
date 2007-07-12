@@ -51,6 +51,11 @@ public class CompilerException extends FormulaCompilerException
 		super( _cause );
 	}
 
+	public CompilerException()
+	{
+		super();
+	}
+
 
 	/**
 	 * Indicates that a required named element was not found.

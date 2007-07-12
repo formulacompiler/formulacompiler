@@ -185,12 +185,6 @@ public class RuntimeBigDecimal_v1 extends Runtime_v1
 		return stringFromBigDecimal( _num, _locale );
 	}
 
-	@Deprecated
-	public static String toExcelString( BigDecimal _num )
-	{
-		return stringFromBigDecimal( _num, Locale.ENGLISH );
-	}
-
 
 	public static BigDecimal fun_ACOS( BigDecimal _a )
 	{

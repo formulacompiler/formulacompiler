@@ -13,6 +13,10 @@ h5. New
 
 	* @STDEV()@ and @STDEVP()@ are now "supported":reference/aggregators.htm.
 
+h5. Fixed
+
+	* Number to string conversions now all use the configured runtime locale. This means they are no longer computed at compile-time, even if constant  
+
 
 h2. Release 0.9.1
 

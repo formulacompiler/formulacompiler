@@ -123,12 +123,6 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		return stringFromBigDecimal( BigDecimal.valueOf( _value ), _locale );
 	}
 
-	@Deprecated
-	public static String toExcelString( double _value )
-	{
-		return toExcelString( _value, Locale.ENGLISH );
-	}
-
 
 	// ---- Excel date conversion; copied from JExcelAPI (DateRecord.java)
 

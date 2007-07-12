@@ -50,42 +50,42 @@ public abstract class Runtime_v1
 
 	public static byte unboxByte( Byte _boxed )
 	{
-		return (_boxed == null) ? 0 : _boxed;
+		return (_boxed == null)? 0 : _boxed;
 	}
 
 	public static short unboxShort( Short _boxed )
 	{
-		return (_boxed == null) ? 0 : _boxed;
+		return (_boxed == null)? 0 : _boxed;
 	}
 
 	public static int unboxInteger( Integer _boxed )
 	{
-		return (_boxed == null) ? 0 : _boxed;
+		return (_boxed == null)? 0 : _boxed;
 	}
 
 	public static long unboxLong( Long _boxed )
 	{
-		return (_boxed == null) ? 0L : _boxed;
+		return (_boxed == null)? 0L : _boxed;
 	}
 
 	public static float unboxFloat( Float _boxed )
 	{
-		return (_boxed == null) ? 0 : _boxed;
+		return (_boxed == null)? 0 : _boxed;
 	}
 
 	public static double unboxDouble( Double _boxed )
 	{
-		return (_boxed == null) ? 0 : _boxed;
+		return (_boxed == null)? 0 : _boxed;
 	}
 
 	public static boolean unboxBoolean( Boolean _boxed )
 	{
-		return (_boxed == null) ? false : _boxed;
+		return (_boxed == null)? false : _boxed;
 	}
 
 	public static char unboxCharacter( Character _boxed )
 	{
-		return (_boxed == null) ? 0 : _boxed;
+		return (_boxed == null)? 0 : _boxed;
 	}
 
 
@@ -197,12 +197,12 @@ public abstract class Runtime_v1
 
 	public static String stringFromObject( Object _obj )
 	{
-		return (_obj == null) ? "" : _obj.toString();
+		return (_obj == null)? "" : _obj.toString();
 	}
 
 	public static String stringFromString( String _str )
 	{
-		return (_str == null) ? "" : _str;
+		return (_str == null)? "" : _str;
 	}
 
 	public static String stringFromBigDecimal( BigDecimal _value, Locale _locale )
@@ -212,28 +212,17 @@ public abstract class Runtime_v1
 		final int scale = stripped.scale();
 		final int prec = stripped.precision();
 		final int ints = prec - scale;
+		final NumberFormat numberFormat = NumberFormat.getInstance( _locale );
 		if (ints > 20) {
-			return stripped.toString(); //TODO  use NumberFormat
+			final DecimalFormatSymbols syms = ((DecimalFormat) numberFormat).getDecimalFormatSymbols();
+			// Note: '.' is hard-coded in BigDecimal.toString().
+			return stripped.toString().replace( '.', syms.getDecimalSeparator() );
 		}
 		else {
-			final NumberFormat numberFormat = NumberFormat.getInstance( _locale );
 			numberFormat.setGroupingUsed( false );
 			numberFormat.setMaximumFractionDigits( scale );
 			return numberFormat.format( stripped );
 		}
-	}
-
-	public static String trimTrailingZerosAndPoint( String _string )
-	{
-		String result = _string;
-		if (result.contains( "." )) {
-			int l = result.length();
-			while ('0' == result.charAt( l - 1 ))
-				l--;
-			if ('.' == result.charAt( l - 1 )) l--;
-			result = result.substring( 0, l );
-		}
-		return result;
 	}
 
 
@@ -244,7 +233,7 @@ public abstract class Runtime_v1
 
 	private static String notNull( String _s )
 	{
-		return (_s == null) ? "" : _s;
+		return (_s == null)? "" : _s;
 	}
 
 
@@ -254,7 +243,7 @@ public abstract class Runtime_v1
 		if (start < 0) return "";
 		if (start >= _s.length()) return "";
 		if (_len < 0) return "";
-		final int pastEnd = (start + _len >= _s.length()) ? _s.length() : start + _len;
+		final int pastEnd = (start + _len >= _s.length())? _s.length() : start + _len;
 		return _s.substring( start, pastEnd );
 	}
 
@@ -270,7 +259,7 @@ public abstract class Runtime_v1
 		if (_len < 1) return "";
 		if (_len >= _s.length()) return _s;
 		final int max = _s.length();
-		final int len = (_len > max) ? max : _len;
+		final int len = (_len > max)? max : _len;
 		return _s.substring( max - len );
 	}
 
@@ -448,7 +437,8 @@ public abstract class Runtime_v1
 	public static String stdTEXT( Number _num, String _format, Environment _environment )
 	{
 		if ("__BOGUS__".equals( _format )) {
-			// LATER This is a bogus implementation. It only serves to show how to get at the environment.
+			// LATER This is a bogus implementation. It only serves to show how to get at the
+			// environment.
 			return _num.longValue() + " in " + _environment.locale().getLanguage();
 		}
 		throw new IllegalArgumentException( "TEXT() is not properly supported yet." );
