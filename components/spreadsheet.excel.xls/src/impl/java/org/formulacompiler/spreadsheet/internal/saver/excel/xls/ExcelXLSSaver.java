@@ -30,7 +30,7 @@ import java.util.Map.Entry;
 
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.runtime.New;
-import org.formulacompiler.runtime.internal.Runtime_v1;
+import org.formulacompiler.runtime.internal.Runtime_v2;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.SpreadsheetSaver;
@@ -230,7 +230,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 			}
 			if (val instanceof Date) {
 				final Date date = (Date) val;
-				final long msSinceLocal1970 = Runtime_v1.dateToMsSinceLocal1970( date );
+				final long msSinceLocal1970 = Runtime_v2.dateToMsSinceLocal1970( date );
 				return new jxl.write.DateTime( _col, _row, new Date( msSinceLocal1970 ), jxl.write.DateTime.GMT );
 			}
 			if (val instanceof Boolean) {

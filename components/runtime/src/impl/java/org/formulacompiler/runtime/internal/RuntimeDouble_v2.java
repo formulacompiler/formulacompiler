@@ -28,9 +28,8 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 
-public final class RuntimeDouble_v1 extends Runtime_v1
+public final class RuntimeDouble_v2 extends Runtime_v2
 {
-
 	private static final double EXCEL_EPSILON = 0.0000001;
 
 
@@ -75,19 +74,6 @@ public final class RuntimeDouble_v1 extends Runtime_v1
 		else {
 			return Math.floor( _val * shift ) / shift;
 		}
-	}
-
-	@Deprecated
-	public static double stdROUND( final double _val, final double _maxFrac )
-	{
-		return round( _val, (int) _maxFrac );
-	}
-
-	@Deprecated
-	public static double stdTODAY()
-	{
-		final TimeZone timeZone = TimeZone.getDefault();
-		return dateToNum( today( timeZone, new ComputationTime() ), timeZone );
 	}
 
 

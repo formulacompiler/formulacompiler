@@ -20,7 +20,7 @@
  */
 package org.formulacompiler.compiler.internal.templates;
 
-import org.formulacompiler.runtime.internal.Runtime_v1;
+import org.formulacompiler.runtime.internal.Runtime_v2;
 
 
 public final class ExpressionTemplatesForNumbers
@@ -38,29 +38,29 @@ public final class ExpressionTemplatesForNumbers
 
 	public boolean fun_EXACT( String a, String b )
 	{
-		return Runtime_v1.stdEXACT( a, b );
+		return Runtime_v2.fun_EXACT( a, b );
 	}
 
 
 	public int fun_SEARCH( String _what, String _within )
 	{
-		return Runtime_v1.stdSEARCH( _what, _within, 1 );
+		return Runtime_v2.fun_SEARCH( _what, _within, 1 );
 	}
 
 	public int fun_SEARCH( String _what, String _within, int _startingAt )
 	{
-		return Runtime_v1.stdSEARCH( _what, _within, _startingAt );
+		return Runtime_v2.fun_SEARCH( _what, _within, _startingAt );
 	}
 
 
 	public int fun_FIND( String _what, String _within )
 	{
-		return Runtime_v1.stdFIND( _what, _within, 1 );
+		return Runtime_v2.fun_FIND( _what, _within, 1 );
 	}
 
 	public int fun_FIND( String _what, String _within, int _startingAt )
 	{
-		return Runtime_v1.stdFIND( _what, _within, _startingAt );
+		return Runtime_v2.fun_FIND( _what, _within, _startingAt );
 	}
 
 }

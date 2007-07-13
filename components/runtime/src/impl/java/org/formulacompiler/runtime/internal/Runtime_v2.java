@@ -33,7 +33,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public abstract class Runtime_v1
+public abstract class Runtime_v2
 {
 
 	// ---- Excel date conversion; copied from JExcelAPI (DateRecord.java)
@@ -183,18 +183,6 @@ public abstract class Runtime_v1
 	}
 
 
-	@Deprecated
-	public static StringBuilder newStringBuilder( String _first )
-	{
-		return new StringBuilder( _first );
-	}
-
-	@Deprecated
-	public static StringBuffer newStringBuffer( String _first )
-	{
-		return new StringBuffer( _first );
-	}
-
 	public static String stringFromObject( Object _obj )
 	{
 		return (_obj == null)? "" : _obj.toString();
@@ -237,7 +225,7 @@ public abstract class Runtime_v1
 	}
 
 
-	public static String stdMID( String _s, int _start, int _len )
+	public static String fun_MID( String _s, int _start, int _len )
 	{
 		final int start = _start - 1;
 		if (start < 0) return "";
@@ -247,14 +235,14 @@ public abstract class Runtime_v1
 		return _s.substring( start, pastEnd );
 	}
 
-	public static String stdLEFT( String _s, int _len )
+	public static String fun_LEFT( String _s, int _len )
 	{
 		if (_len < 1) return "";
 		if (_len >= _s.length()) return _s;
 		return _s.substring( 0, _len );
 	}
 
-	public static String stdRIGHT( String _s, int _len )
+	public static String fun_RIGHT( String _s, int _len )
 	{
 		if (_len < 1) return "";
 		if (_len >= _s.length()) return _s;
@@ -263,14 +251,14 @@ public abstract class Runtime_v1
 		return _s.substring( max - len );
 	}
 
-	public static String stdSUBSTITUTE( String _s, String _src, String _tgt )
+	public static String fun_SUBSTITUTE( String _s, String _src, String _tgt )
 	{
 		if (_s == null || _s.equals( "" )) return _s;
 		if (_src == null || _src.equals( "" ) || _src.equals( _tgt )) return _s;
 		return _s.replace( notNull( _src ), notNull( _tgt ) );
 	}
 
-	public static String stdSUBSTITUTE( String _s, String _src, String _tgt, int _occurrence )
+	public static String fun_SUBSTITUTE( String _s, String _src, String _tgt, int _occurrence )
 	{
 		if (_occurrence <= 0) return _s;
 		if (_s == null || _s.equals( "" )) return _s;
@@ -288,7 +276,7 @@ public abstract class Runtime_v1
 		return _s;
 	}
 
-	public static String stdREPLACE( String _s, int _at, int _len, String _repl )
+	public static String fun_REPLACE( String _s, int _at, int _len, String _repl )
 	{
 		if (_at < 1) return "";
 		if (_len < 0) return "";
@@ -299,19 +287,19 @@ public abstract class Runtime_v1
 		return _s.substring( 0, at ) + _repl + _s.substring( at + _len );
 	}
 
-	public static boolean stdEXACT( String _a, String _b )
+	public static boolean fun_EXACT( String _a, String _b )
 	{
 		return _a.equals( _b );
 	}
 
-	public static int stdFIND( String _what, String _within, int _startingAt )
+	public static int fun_FIND( String _what, String _within, int _startingAt )
 	{
 		if (_what == null || _what.equals( "" )) return 1;
 		if (_within == null || _within.equals( "" )) return 0;
 		return _within.indexOf( _what, _startingAt - 1 ) + 1;
 	}
 
-	public static int stdSEARCH( String _what, String _within, int _startingAt )
+	public static int fun_SEARCH( String _what, String _within, int _startingAt )
 	{
 		if (_within == null || _within.equals( "" )) return 0;
 		if (_what == null || _what.equals( "" )) return 1;
@@ -363,18 +351,18 @@ public abstract class Runtime_v1
 	}
 
 
-	public static String stdLOWER( String _s )
+	public static String fun_LOWER( String _s )
 	{
 		return _s.toLowerCase();
 	}
 
-	public static String stdUPPER( String _s )
+	public static String fun_UPPER( String _s )
 	{
 		return _s.toUpperCase();
 	}
 
 
-	public static String stdPROPER( String _s )
+	public static String fun_PROPER( String _s )
 	{
 		final StringBuilder sb = new StringBuilder();
 		final String str = _s.toLowerCase();
@@ -398,7 +386,7 @@ public abstract class Runtime_v1
 		return sb.toString();
 	}
 
-	public static String stdREPT( String _text, int _num )
+	public static String fun_REPT( String _text, int _num )
 	{
 		final StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < _num; i++) {
@@ -410,7 +398,7 @@ public abstract class Runtime_v1
 	/**
 	 * Strips leading and trailing blanks, and collapses runs of multiple blanks to just one.
 	 */
-	public static String stdTRIM( String _text )
+	public static String fun_TRIM( String _text )
 	{
 		final StringBuilder sb = new StringBuilder();
 		boolean whiteSpaceMet = false;
@@ -434,7 +422,7 @@ public abstract class Runtime_v1
 		return sb.toString();
 	}
 
-	public static String stdTEXT( Number _num, String _format, Environment _environment )
+	public static String fun_TEXT( Number _num, String _format, Environment _environment )
 	{
 		if ("__BOGUS__".equals( _format )) {
 			// LATER This is a bogus implementation. It only serves to show how to get at the

@@ -22,7 +22,7 @@ package org.formulacompiler.compiler.internal.bytecode;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
-import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
@@ -30,7 +30,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 final class TypeCompilerForDoubles extends TypeCompilerForNumbers
 {
-	private static final Type RUNTIME_TYPE = Type.getType( RuntimeDouble_v1.class );
+	private static final Type RUNTIME_TYPE = Type.getType( RuntimeDouble_v2.class );
 
 	protected TypeCompilerForDoubles(ByteCodeEngineCompiler _engineCompiler, NumericType _numericType)
 	{

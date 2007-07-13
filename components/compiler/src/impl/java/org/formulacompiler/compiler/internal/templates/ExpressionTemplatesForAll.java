@@ -20,7 +20,7 @@
  */
 package org.formulacompiler.compiler.internal.templates;
 
-import org.formulacompiler.runtime.internal.Runtime_v1;
+import org.formulacompiler.runtime.internal.Runtime_v2;
 
 
 public abstract class ExpressionTemplatesForAll
@@ -32,42 +32,42 @@ public abstract class ExpressionTemplatesForAll
 
 	byte util_unboxByte( Byte a )
 	{
-		return Runtime_v1.unboxByte( a );
+		return Runtime_v2.unboxByte( a );
 	}
 
 	short util_unboxShort( Short a )
 	{
-		return Runtime_v1.unboxShort( a );
+		return Runtime_v2.unboxShort( a );
 	}
 
 	int util_unboxInteger( Integer a )
 	{
-		return Runtime_v1.unboxInteger( a );
+		return Runtime_v2.unboxInteger( a );
 	}
 
 	long util_unboxLong( Long a )
 	{
-		return Runtime_v1.unboxLong( a );
+		return Runtime_v2.unboxLong( a );
 	}
 
 	float util_unboxFloat( Float a )
 	{
-		return Runtime_v1.unboxFloat( a );
+		return Runtime_v2.unboxFloat( a );
 	}
 
 	double util_unboxDouble( Double a )
 	{
-		return Runtime_v1.unboxDouble( a );
+		return Runtime_v2.unboxDouble( a );
 	}
 
 	char util_unboxCharacter( Character a )
 	{
-		return Runtime_v1.unboxCharacter( a );
+		return Runtime_v2.unboxCharacter( a );
 	}
 
 	boolean util_unboxBoolean( Boolean a )
 	{
-		return Runtime_v1.unboxBoolean( a );
+		return Runtime_v2.unboxBoolean( a );
 	}
 
 

@@ -23,7 +23,7 @@ package org.formulacompiler.compiler.internal;
 import java.math.BigDecimal;
 import java.util.Locale;
 
-import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 
 public final class DoubleType extends NumericTypeImpl
 {
@@ -62,7 +62,7 @@ public final class DoubleType extends NumericTypeImpl
 	protected String convertToConciseString( Number _value, Locale _locale )
 	{
 		// We want to be sure this is a double here.
-		return RuntimeDouble_v1.toExcelString( _value.doubleValue(), _locale );
+		return RuntimeDouble_v2.toExcelString( _value.doubleValue(), _locale );
 	}
 
 }
