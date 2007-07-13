@@ -42,8 +42,8 @@ import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.runtime.ScaledLong;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
-import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
-import org.formulacompiler.runtime.internal.RuntimeLong_v1;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
+import org.formulacompiler.runtime.internal.RuntimeLong_v2;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
@@ -878,7 +878,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 					@Override
 					protected Date getDate( final Outputs o, final TimeZone _timeZone )
 					{
-						return RuntimeDouble_v1.dateFromNum( ((DoubleOutputs) o).getNUMBER(), _timeZone );
+						return RuntimeDouble_v2.dateFromNum( ((DoubleOutputs) o).getNUMBER(), _timeZone );
 					}
 
 				}
@@ -991,9 +991,9 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 					@Override
 					protected Date getDate( Outputs o, TimeZone _timeZone )
 					{
-						final RuntimeLong_v1.Context context = new RuntimeLong_v1.Context( SpreadsheetCompiler.LONG_SCALE6
+						final RuntimeLong_v2.Context context = new RuntimeLong_v2.Context( SpreadsheetCompiler.LONG_SCALE6
 								.scale() );
-						return RuntimeLong_v1.dateFromNum( ((ScaledLongOutputs) o).getNUMBER(), context, _timeZone );
+						return RuntimeLong_v2.dateFromNum( ((ScaledLongOutputs) o).getNUMBER(), context, _timeZone );
 					}
 
 				}

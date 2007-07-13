@@ -23,7 +23,7 @@ package org.formulacompiler.compiler.internal.bytecode;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.AbstractLongType;
-import org.formulacompiler.runtime.internal.RuntimeLong_v1;
+import org.formulacompiler.runtime.internal.RuntimeLong_v2;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Opcodes;
@@ -33,8 +33,8 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 final class TypeCompilerForScaledLongs extends TypeCompilerForNumbers
 {
-	private static final Type RUNTIME_TYPE = Type.getType( RuntimeLong_v1.class );
-	private static final Type RUNTIME_CONTEXT_TYPE = Type.getType( RuntimeLong_v1.Context.class );
+	private static final Type RUNTIME_TYPE = Type.getType( RuntimeLong_v2.class );
+	private static final Type RUNTIME_CONTEXT_TYPE = Type.getType( RuntimeLong_v2.Context.class );
 
 	static final String RUNTIME_CONTEXT_DESCRIPTOR = RUNTIME_CONTEXT_TYPE.getDescriptor();
 	static final String RUNTIME_CONTEXT_NAME = "runtimeContext";

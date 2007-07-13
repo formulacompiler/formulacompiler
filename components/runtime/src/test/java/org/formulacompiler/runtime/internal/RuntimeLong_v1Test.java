@@ -27,27 +27,27 @@ public class RuntimeLong_v1Test extends TestCase
 	
 	public void testFromDouble()
 	{
-		final RuntimeLong_v1.Context context2 = new RuntimeLong_v1.Context( 2 );
+		final RuntimeLong_v2.Context context2 = new RuntimeLong_v2.Context( 2 );
 
-		assertEquals( -2, RuntimeLong_v1.fromDouble( -0.0150001, context2 ) );
-		assertEquals( -1, RuntimeLong_v1.fromDouble( -0.0149999, context2 ) );
-		assertEquals( -1, RuntimeLong_v1.fromDouble( -0.0050001, context2 ) );
-		assertEquals( 0, RuntimeLong_v1.fromDouble( -0.0049999, context2 ) );
-		assertEquals( 0, RuntimeLong_v1.fromDouble( 0.0049999, context2 ) );
-		assertEquals( 1, RuntimeLong_v1.fromDouble( 0.0050001, context2 ) );
-		assertEquals( 1, RuntimeLong_v1.fromDouble( 0.0149999, context2 ) );
-		assertEquals( 2, RuntimeLong_v1.fromDouble( 0.0150001, context2 ) );
+		assertEquals( -2, RuntimeLong_v2.fromDouble( -0.0150001, context2 ) );
+		assertEquals( -1, RuntimeLong_v2.fromDouble( -0.0149999, context2 ) );
+		assertEquals( -1, RuntimeLong_v2.fromDouble( -0.0050001, context2 ) );
+		assertEquals( 0, RuntimeLong_v2.fromDouble( -0.0049999, context2 ) );
+		assertEquals( 0, RuntimeLong_v2.fromDouble( 0.0049999, context2 ) );
+		assertEquals( 1, RuntimeLong_v2.fromDouble( 0.0050001, context2 ) );
+		assertEquals( 1, RuntimeLong_v2.fromDouble( 0.0149999, context2 ) );
+		assertEquals( 2, RuntimeLong_v2.fromDouble( 0.0150001, context2 ) );
 
-		final RuntimeLong_v1.Context context0 = new RuntimeLong_v1.Context( 0 );
+		final RuntimeLong_v2.Context context0 = new RuntimeLong_v2.Context( 0 );
 
-		assertEquals( -2, RuntimeLong_v1.fromDouble( -1.50001, context0 ) );
-		assertEquals( -1, RuntimeLong_v1.fromDouble( -1.49999, context0 ) );
-		assertEquals( -1, RuntimeLong_v1.fromDouble( -0.50001, context0 ) );
-		assertEquals( 0, RuntimeLong_v1.fromDouble( -0.49999, context0 ) );
-		assertEquals( 0, RuntimeLong_v1.fromDouble( 0.49999, context0 ) );
-		assertEquals( 1, RuntimeLong_v1.fromDouble( 0.50001, context0 ) );
-		assertEquals( 1, RuntimeLong_v1.fromDouble( 1.49999, context0 ) );
-		assertEquals( 2, RuntimeLong_v1.fromDouble( 1.50001, context0 ) );
+		assertEquals( -2, RuntimeLong_v2.fromDouble( -1.50001, context0 ) );
+		assertEquals( -1, RuntimeLong_v2.fromDouble( -1.49999, context0 ) );
+		assertEquals( -1, RuntimeLong_v2.fromDouble( -0.50001, context0 ) );
+		assertEquals( 0, RuntimeLong_v2.fromDouble( -0.49999, context0 ) );
+		assertEquals( 0, RuntimeLong_v2.fromDouble( 0.49999, context0 ) );
+		assertEquals( 1, RuntimeLong_v2.fromDouble( 0.50001, context0 ) );
+		assertEquals( 1, RuntimeLong_v2.fromDouble( 1.49999, context0 ) );
+		assertEquals( 2, RuntimeLong_v2.fromDouble( 1.50001, context0 ) );
 	}
 	
 }

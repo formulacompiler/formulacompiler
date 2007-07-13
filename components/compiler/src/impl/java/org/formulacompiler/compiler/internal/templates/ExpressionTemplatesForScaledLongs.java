@@ -29,19 +29,19 @@ import java.util.Date;
 import org.formulacompiler.runtime.internal.ComputationTime;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2;
-import org.formulacompiler.runtime.internal.RuntimeLong_v1;
+import org.formulacompiler.runtime.internal.RuntimeLong_v2;
 
 
 public final class ExpressionTemplatesForScaledLongs
 {
-	final RuntimeLong_v1.Context context;
+	final RuntimeLong_v2.Context context;
 	final int scale;
 	final long one;
 	private Environment environment = null; // not supposed to be called at compile-time
 	private ComputationTime computationTime = null; // not supposed to be called at compile-time
 
 
-	public ExpressionTemplatesForScaledLongs(RuntimeLong_v1.Context _context)
+	public ExpressionTemplatesForScaledLongs(RuntimeLong_v2.Context _context)
 	{
 		super();
 		this.context = _context;
@@ -55,7 +55,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	long util_round( long a, int _maxFrac )
 	{
-		return RuntimeLong_v1.round( a, _maxFrac, this.context );
+		return RuntimeLong_v2.round( a, _maxFrac, this.context );
 	}
 
 
@@ -87,7 +87,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	long util_fromDouble_Scaled( double a )
 	{
-		return RuntimeLong_v1.fromDouble( a, this.context );
+		return RuntimeLong_v2.fromDouble( a, this.context );
 	}
 
 	long util_fromFloat( float a )
@@ -97,17 +97,17 @@ public final class ExpressionTemplatesForScaledLongs
 
 	long util_fromFloat_Scaled( float a )
 	{
-		return RuntimeLong_v1.fromDouble( a, this.context );
+		return RuntimeLong_v2.fromDouble( a, this.context );
 	}
 
 	long util_fromBigDecimal( BigDecimal a )
 	{
-		return RuntimeLong_v1.fromBigDecimal( a, this.context );
+		return RuntimeLong_v2.fromBigDecimal( a, this.context );
 	}
 
 	long util_fromBigDecimal_Scaled( BigDecimal a )
 	{
-		return RuntimeLong_v1.fromBigDecimal( a, this.context );
+		return RuntimeLong_v2.fromBigDecimal( a, this.context );
 	}
 
 	long util_fromNumber( Number a )
@@ -122,17 +122,17 @@ public final class ExpressionTemplatesForScaledLongs
 
 	long util_fromDate( Date a )
 	{
-		return RuntimeLong_v1.dateToNum( a, this.context, this.environment.timeZone() );
+		return RuntimeLong_v2.dateToNum( a, this.context, this.environment.timeZone() );
 	}
 
 	long util_fromMsSinceUTC1970( long a )
 	{
-		return RuntimeLong_v1.msSinceUTC1970ToNum( a, this.context, this.environment.timeZone() );
+		return RuntimeLong_v2.msSinceUTC1970ToNum( a, this.context, this.environment.timeZone() );
 	}
 
 	long util_fromMs( long a )
 	{
-		return RuntimeLong_v1.msToNum( a, this.context );
+		return RuntimeLong_v2.msToNum( a, this.context );
 	}
 
 
@@ -163,7 +163,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	double util_toDouble_Scaled( long a )
 	{
-		return RuntimeLong_v1.toDouble( a, this.context );
+		return RuntimeLong_v2.toDouble( a, this.context );
 	}
 
 	float util_toFloat( long a )
@@ -173,7 +173,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	float util_toFloat_Scaled( long a )
 	{
-		return (float) RuntimeLong_v1.toDouble( a, this.context );
+		return (float) RuntimeLong_v2.toDouble( a, this.context );
 	}
 
 	BigInteger util_toBigInteger( long a )
@@ -188,7 +188,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	BigDecimal util_toBigDecimal_Scaled( long a )
 	{
-		return RuntimeLong_v1.toBigDecimal( a, this.context );
+		return RuntimeLong_v2.toBigDecimal( a, this.context );
 	}
 
 	boolean util_toBoolean( long a )
@@ -205,22 +205,22 @@ public final class ExpressionTemplatesForScaledLongs
 
 	Date util_toDate( long a )
 	{
-		return RuntimeLong_v1.dateFromNum( a, this.context, this.environment.timeZone() );
+		return RuntimeLong_v2.dateFromNum( a, this.context, this.environment.timeZone() );
 	}
 
 	long util_toMsSinceUTC1970( long a )
 	{
-		return RuntimeLong_v1.msSinceUTC1970FromNum( a, this.context, this.environment.timeZone() );
+		return RuntimeLong_v2.msSinceUTC1970FromNum( a, this.context, this.environment.timeZone() );
 	}
 
 	long util_toMs( long a )
 	{
-		return RuntimeLong_v1.msFromNum( a, this.context );
+		return RuntimeLong_v2.msFromNum( a, this.context );
 	}
 
 	String util_toString( long a )
 	{
-		return RuntimeLong_v1.toExcelString( a, this.context, this.environment.locale() );
+		return RuntimeLong_v2.toExcelString( a, this.context, this.environment.locale() );
 	}
 
 	Number util_toNumber( long a )
@@ -231,7 +231,7 @@ public final class ExpressionTemplatesForScaledLongs
 	Number util_toNumber_Scaled( long a )
 	{
 		// We don't want to pass around scaled longs as Number (where the scale is non-obvious), so convert to BigDecimal.
-		return RuntimeLong_v1.toBigDecimal( a, this.context );
+		return RuntimeLong_v2.toBigDecimal( a, this.context );
 	}
 
 
@@ -301,7 +301,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long op_EXP( long a, long b )
 	{
-		return RuntimeLong_v1.fun_POWER( a, b, this.context );
+		return RuntimeLong_v2.fun_POWER( a, b, this.context );
 	}
 
 	public long op_PERCENT( long a )
@@ -318,12 +318,12 @@ public final class ExpressionTemplatesForScaledLongs
 		 * 
 		 * generates too much code for inlining.
 		 */
-		return RuntimeLong_v1.min( a, b );
+		return RuntimeLong_v2.min( a, b );
 	}
 
 	public long op_INTERNAL_MAX( long a, long b )
 	{
-		return RuntimeLong_v1.max( a, b );
+		return RuntimeLong_v2.max( a, b );
 	}
 
 
@@ -340,122 +340,122 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long fun_ACOS( long a )
 	{
-		return RuntimeLong_v1.fun_ACOS( a, this.context );
+		return RuntimeLong_v2.fun_ACOS( a, this.context );
 	}
 
 	public long fun_ASIN( long a )
 	{
-		return RuntimeLong_v1.fun_ASIN( a, this.context );
+		return RuntimeLong_v2.fun_ASIN( a, this.context );
 	}
 
 	public long fun_ATAN( long a )
 	{
-		return RuntimeLong_v1.fun_ATAN( a, this.context );
+		return RuntimeLong_v2.fun_ATAN( a, this.context );
 	}
 
 	public long fun_ATAN2( long x, long y )
 	{
-		return RuntimeLong_v1.fun_ATAN2( x, y, this.context );
+		return RuntimeLong_v2.fun_ATAN2( x, y, this.context );
 	}
 
 	public long fun_COS( long a )
 	{
-		return RuntimeLong_v1.fun_COS( a, this.context );
+		return RuntimeLong_v2.fun_COS( a, this.context );
 	}
 
 	public long fun_SIN( long a )
 	{
-		return RuntimeLong_v1.fun_SIN( a, this.context );
+		return RuntimeLong_v2.fun_SIN( a, this.context );
 	}
 
 	public long fun_TAN( long a )
 	{
-		return RuntimeLong_v1.fun_TAN( a, this.context );
+		return RuntimeLong_v2.fun_TAN( a, this.context );
 	}
 
 	public long fun_DEGREES( long a )
 	{
-		return RuntimeLong_v1.fun_DEGREES( a, this.context );
+		return RuntimeLong_v2.fun_DEGREES( a, this.context );
 	}
 
 	public long fun_RADIANS( long a )
 	{
-		return RuntimeLong_v1.fun_RADIANS( a, this.context );
+		return RuntimeLong_v2.fun_RADIANS( a, this.context );
 	}
 
 	public long fun_PI()
 	{
-		return RuntimeLong_v1.fun_PI( this.context );
+		return RuntimeLong_v2.fun_PI( this.context );
 	}
 
 	public long fun_ROUND( long a, long b )
 	{
-		return RuntimeLong_v1.fun_ROUND( a, b, this.context );
+		return RuntimeLong_v2.fun_ROUND( a, b, this.context );
 	}
 
 	public long fun_TRUNC( long a, long b )
 	{
-		return RuntimeLong_v1.fun_TRUNC( a, b, this.context );
+		return RuntimeLong_v2.fun_TRUNC( a, b, this.context );
 	}
 
 	public long fun_TRUNC( long a )
 	{
-		return RuntimeLong_v1.fun_TRUNC( a, this.context );
+		return RuntimeLong_v2.fun_TRUNC( a, this.context );
 	}
 
 	public long fun_EVEN( long a )
 	{
-		return RuntimeLong_v1.fun_EVEN( a, this.context );
+		return RuntimeLong_v2.fun_EVEN( a, this.context );
 	}
 
 	public long fun_ODD( long a )
 	{
-		return RuntimeLong_v1.fun_ODD( a, this.context );
+		return RuntimeLong_v2.fun_ODD( a, this.context );
 	}
 
 	public long fun_INT( long a )
 	{
-		return RuntimeLong_v1.fun_INT( a, this.context );
+		return RuntimeLong_v2.fun_INT( a, this.context );
 	}
 
 	public long fun_EXP( long p )
 	{
-		return RuntimeLong_v1.fun_EXP( p, this.context );
+		return RuntimeLong_v2.fun_EXP( p, this.context );
 	}
 
 	public long fun_POWER( long n, long p )
 	{
-		return RuntimeLong_v1.fun_POWER( n, p, this.context );
+		return RuntimeLong_v2.fun_POWER( n, p, this.context );
 	}
 
 	public long fun_LN( long p )
 	{
-		return RuntimeLong_v1.fun_LN( p, this.context );
+		return RuntimeLong_v2.fun_LN( p, this.context );
 	}
 
 	public long fun_LOG( long p )
 	{
-		return RuntimeLong_v1.fun_LOG10( p, this.context );
+		return RuntimeLong_v2.fun_LOG10( p, this.context );
 	}
 
 	public long fun_LOG( long n, long x )
 	{
-		return RuntimeLong_v1.fun_LOG( n, x, this.context );
+		return RuntimeLong_v2.fun_LOG( n, x, this.context );
 	}
 
 	public long fun_LOG10( long p )
 	{
-		return RuntimeLong_v1.fun_LOG10( p, this.context );
+		return RuntimeLong_v2.fun_LOG10( p, this.context );
 	}
 
 	public long fun_MOD( long n, long d )
 	{
-		return RuntimeLong_v1.fun_MOD( n, d, this.context );
+		return RuntimeLong_v2.fun_MOD( n, d, this.context );
 	}
 
 	public long fun_SQRT( long n )
 	{
-		return RuntimeLong_v1.fun_SQRT( n, this.context );
+		return RuntimeLong_v2.fun_SQRT( n, this.context );
 	}
 
 
@@ -464,12 +464,12 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long fun_FACT__if_isScaled( long a )
 	{
-		return RuntimeLong_v1.fun_FACT( a / this.one ) * this.one;
+		return RuntimeLong_v2.fun_FACT( a / this.one ) * this.one;
 	}
 
 	public long fun_FACT( long a )
 	{
-		return RuntimeLong_v1.fun_FACT( a );
+		return RuntimeLong_v2.fun_FACT( a );
 	}
 
 
@@ -478,17 +478,17 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long fun_IRR( long[] _values, long _guess )
 	{
-		return RuntimeLong_v1.fun_IRR( _values, _guess, this.context );
+		return RuntimeLong_v2.fun_IRR( _values, _guess, this.context );
 	}
 
 	public long fun_DB( long _cost, long _salvage, long _life, long _period, long _month )
 	{
-		return RuntimeLong_v1.fun_DB( _cost, _salvage, _life, _period, _month, this.context );
+		return RuntimeLong_v2.fun_DB( _cost, _salvage, _life, _period, _month, this.context );
 	}
 
 	public long fun_DB( long _cost, long _salvage, long _life, long _period )
 	{
-		return RuntimeLong_v1.fun_DB( _cost, _salvage, _life, _period, 12 * this.context.one(), this.context );
+		return RuntimeLong_v2.fun_DB( _cost, _salvage, _life, _period, 12 * this.context.one(), this.context );
 	}
 
 	public long fun_DDB( long _cost, long _salvage, long _life, long _period, long _factor )
@@ -567,62 +567,62 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long fun_DATE( long _year, long _month, long _day )
 	{
-		return RuntimeLong_v1.fun_DATE( _year, _month, _day, this.context );
+		return RuntimeLong_v2.fun_DATE( _year, _month, _day, this.context );
 	}
 
 	public long fun_TIME( long _hour, long _minute, long _second )
 	{
-		return RuntimeLong_v1.fun_TIME( _hour, _minute, _second, this.context );
+		return RuntimeLong_v2.fun_TIME( _hour, _minute, _second, this.context );
 	}
 
 	public long fun_SECOND( long _date )
 	{
-		return RuntimeLong_v1.fun_SECOND( _date, this.context );
+		return RuntimeLong_v2.fun_SECOND( _date, this.context );
 	}
 
 	public long fun_MINUTE( long _date )
 	{
-		return RuntimeLong_v1.fun_MINUTE( _date, this.context );
+		return RuntimeLong_v2.fun_MINUTE( _date, this.context );
 	}
 
 	public long fun_HOUR( long _date )
 	{
-		return RuntimeLong_v1.fun_HOUR( _date, this.context );
+		return RuntimeLong_v2.fun_HOUR( _date, this.context );
 	}
 
 	public long fun_WEEKDAY( long _date, long _type )
 	{
-		return RuntimeLong_v1.fun_WEEKDAY( _date, _type, this.context );
+		return RuntimeLong_v2.fun_WEEKDAY( _date, _type, this.context );
 	}
 
 	public long fun_WEEKDAY( long _date )
 	{
-		return RuntimeLong_v1.fun_WEEKDAY( _date, this.context.one(), this.context );
+		return RuntimeLong_v2.fun_WEEKDAY( _date, this.context.one(), this.context );
 	}
 
 	public long fun_DAY( long _date )
 	{
-		return RuntimeLong_v1.fun_DAY( _date, this.context );
+		return RuntimeLong_v2.fun_DAY( _date, this.context );
 	}
 
 	public long fun_MONTH( long _date )
 	{
-		return RuntimeLong_v1.fun_MONTH( _date, this.context );
+		return RuntimeLong_v2.fun_MONTH( _date, this.context );
 	}
 
 	public long fun_YEAR( long _date )
 	{
-		return RuntimeLong_v1.fun_YEAR( _date, this.context );
+		return RuntimeLong_v2.fun_YEAR( _date, this.context );
 	}
 
 	public long fun_NOW()
 	{
-		return RuntimeLong_v1.fun_NOW( this.context, this.environment, this.computationTime );
+		return RuntimeLong_v2.fun_NOW( this.context, this.environment, this.computationTime );
 	}
 
 	public long fun_TODAY()
 	{
-		return RuntimeLong_v1.fun_TODAY( this.context, this.environment, this.computationTime );
+		return RuntimeLong_v2.fun_TODAY( this.context, this.environment, this.computationTime );
 	}
 
 
@@ -631,7 +631,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long fun_VALUE( String _text )
 	{
-		return RuntimeLong_v1.fun_VALUE( _text, this.context, this.environment );
+		return RuntimeLong_v2.fun_VALUE( _text, this.context, this.environment );
 	}
 
 

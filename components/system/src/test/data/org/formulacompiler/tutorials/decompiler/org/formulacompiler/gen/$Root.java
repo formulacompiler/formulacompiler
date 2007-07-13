@@ -1,7 +1,7 @@
 package org.formulacompiler.gen;
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.tutorials.Decompilation;
 
 final class $Root implements Computation, Decompilation.MyOutputs
@@ -15,7 +15,7 @@ final class $Root implements Computation, Decompilation.MyOutputs
     }
     
     final double get$0() {
-        return RuntimeDouble_v1.max(get$1(), get$2());
+        return RuntimeDouble_v2.max(get$1(), get$2());
     }
     
     public final double rebateOp() {

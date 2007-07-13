@@ -26,7 +26,7 @@ import java.util.Date;
 
 import org.formulacompiler.runtime.internal.ComputationTime;
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 
 
 public final class ExpressionTemplatesForDoubles
@@ -40,7 +40,7 @@ public final class ExpressionTemplatesForDoubles
 
 	double util_round( double a, int _maxFrac )
 	{
-		return RuntimeDouble_v1.round( a, _maxFrac );
+		return RuntimeDouble_v2.round( a, _maxFrac );
 	}
 
 
@@ -66,27 +66,27 @@ public final class ExpressionTemplatesForDoubles
 
 	double util_fromNumber( Number a )
 	{
-		return RuntimeDouble_v1.numberToNum( a );
+		return RuntimeDouble_v2.numberToNum( a );
 	}
 
 	double util_fromBoolean( boolean a )
 	{
-		return RuntimeDouble_v1.booleanToNum( a );
+		return RuntimeDouble_v2.booleanToNum( a );
 	}
 
 	double util_fromDate( Date a )
 	{
-		return RuntimeDouble_v1.dateToNum( a, this.environment.timeZone() );
+		return RuntimeDouble_v2.dateToNum( a, this.environment.timeZone() );
 	}
 
 	double util_fromMsSinceUTC1970( long a )
 	{
-		return RuntimeDouble_v1.msSinceUTC1970ToNum( a, this.environment.timeZone() );
+		return RuntimeDouble_v2.msSinceUTC1970ToNum( a, this.environment.timeZone() );
 	}
 
 	double util_fromMs( long a )
 	{
-		return RuntimeDouble_v1.msToNum( a );
+		return RuntimeDouble_v2.msToNum( a );
 	}
 
 
@@ -132,7 +132,7 @@ public final class ExpressionTemplatesForDoubles
 
 	boolean util_toBoolean( double a )
 	{
-		return RuntimeDouble_v1.booleanFromNum( a );
+		return RuntimeDouble_v2.booleanFromNum( a );
 	}
 
 	char util_toCharacter( double a )
@@ -142,22 +142,22 @@ public final class ExpressionTemplatesForDoubles
 
 	Date util_toDate( double a )
 	{
-		return RuntimeDouble_v1.dateFromNum( a, this.environment.timeZone() );
+		return RuntimeDouble_v2.dateFromNum( a, this.environment.timeZone() );
 	}
 
 	long util_toMsSinceUTC1970( double a )
 	{
-		return RuntimeDouble_v1.msSinceUTC1970FromNum( a, this.environment.timeZone() );
+		return RuntimeDouble_v2.msSinceUTC1970FromNum( a, this.environment.timeZone() );
 	}
 
 	long util_toMs( double a )
 	{
-		return RuntimeDouble_v1.msFromNum( a );
+		return RuntimeDouble_v2.msFromNum( a );
 	}
 
 	String util_toString( double a )
 	{
-		return RuntimeDouble_v1.toExcelString( a, this.environment.locale() );
+		return RuntimeDouble_v2.toExcelString( a, this.environment.locale() );
 	}
 	
 	Number util_toNumber( double a )
@@ -168,12 +168,12 @@ public final class ExpressionTemplatesForDoubles
 
 	double util_fromScaledLong( long a, long _scalingFactor )
 	{
-		return RuntimeDouble_v1.fromScaledLong( a, _scalingFactor );
+		return RuntimeDouble_v2.fromScaledLong( a, _scalingFactor );
 	}
 
 	long util_toScaledLong( double a, long _scalingFactor )
 	{
-		return RuntimeDouble_v1.toScaledLong( a, _scalingFactor );
+		return RuntimeDouble_v2.toScaledLong( a, _scalingFactor );
 	}
 	
 	
@@ -250,12 +250,12 @@ public final class ExpressionTemplatesForDoubles
 		 * 
 		 * generates too much code for inlining.
 		 */
-		return RuntimeDouble_v1.min( a, b );
+		return RuntimeDouble_v2.min( a, b );
 	}
 
 	public double op_INTERNAL_MAX( double a, double b )
 	{
-		return RuntimeDouble_v1.max( a, b );
+		return RuntimeDouble_v2.max( a, b );
 	}
 
 
@@ -272,12 +272,12 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_ACOS( double a )
 	{
-		return RuntimeDouble_v1.fun_ACOS( a );
+		return RuntimeDouble_v2.fun_ACOS( a );
 	}
 
 	public double fun_ASIN( double a )
 	{
-		return RuntimeDouble_v1.fun_ASIN( a );
+		return RuntimeDouble_v2.fun_ASIN( a );
 	}
 
 	public double fun_ATAN( double a )
@@ -324,28 +324,28 @@ public final class ExpressionTemplatesForDoubles
 	// ---- fun_ROUND
 	public double fun_ROUND( double a, double b )
 	{
-		return RuntimeDouble_v1.round( a, (int) b );
+		return RuntimeDouble_v2.round( a, (int) b );
 	}
 	// ---- fun_ROUND
 
 	public double fun_TRUNC( double a, double b )
 	{
-		return RuntimeDouble_v1.trunc( a, (int) b );
+		return RuntimeDouble_v2.trunc( a, (int) b );
 	}
 
 	public double fun_TRUNC( double a )
 	{
-		return RuntimeDouble_v1.fun_TRUNC( a );
+		return RuntimeDouble_v2.fun_TRUNC( a );
 	}
 
 	public double fun_EVEN( double a )
 	{
-		return RuntimeDouble_v1.fun_EVEN( a );
+		return RuntimeDouble_v2.fun_EVEN( a );
 	}
 
 	public double fun_ODD( double a )
 	{
-		return RuntimeDouble_v1.fun_ODD( a );
+		return RuntimeDouble_v2.fun_ODD( a );
 	}
 
 	public double fun_INT( double a )
@@ -360,37 +360,37 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_POWER( double n, double p )
 	{
-		return RuntimeDouble_v1.fun_POWER( n, p );
+		return RuntimeDouble_v2.fun_POWER( n, p );
 	}
 
 	public double fun_LN( double p )
 	{
-		return RuntimeDouble_v1.fun_LN( p );
+		return RuntimeDouble_v2.fun_LN( p );
 	}
 
 	public double fun_LOG( double p )
 	{
-		return RuntimeDouble_v1.fun_LOG10( p );
+		return RuntimeDouble_v2.fun_LOG10( p );
 	}
 
 	public double fun_LOG( double n, double x )
 	{
-		return RuntimeDouble_v1.fun_LOG( n, x );
+		return RuntimeDouble_v2.fun_LOG( n, x );
 	}
 
 	public double fun_LOG10( double p )
 	{
-		return RuntimeDouble_v1.fun_LOG10( p );
+		return RuntimeDouble_v2.fun_LOG10( p );
 	}
 
 	public double fun_MOD( double n, double d )
 	{
-		return RuntimeDouble_v1.fun_MOD( n, d );
+		return RuntimeDouble_v2.fun_MOD( n, d );
 	}
 
 	public double fun_SQRT( double n )
 	{
-		return RuntimeDouble_v1.fun_SQRT( n );
+		return RuntimeDouble_v2.fun_SQRT( n );
 	}
 
 	// ------------------------------------------------ Combinatorics
@@ -398,7 +398,7 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_FACT( double a )
 	{
-		return RuntimeDouble_v1.fun_FACT( a );
+		return RuntimeDouble_v2.fun_FACT( a );
 	}
 
 
@@ -407,47 +407,47 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_IRR( double[] _values, double _guess )
 	{
-		return RuntimeDouble_v1.fun_IRR( _values, _guess );
+		return RuntimeDouble_v2.fun_IRR( _values, _guess );
 	}
 
 	public double fun_DB( double _cost, double _salvage, double _life, double _period, double _month )
 	{
-		return RuntimeDouble_v1.fun_DB( _cost, _salvage, _life, _period, _month );
+		return RuntimeDouble_v2.fun_DB( _cost, _salvage, _life, _period, _month );
 	}
 
 	public double fun_DB( double _cost, double _salvage, double _life, double _period )
 	{
-		return RuntimeDouble_v1.fun_DB( _cost, _salvage, _life, _period, 12 );
+		return RuntimeDouble_v2.fun_DB( _cost, _salvage, _life, _period, 12 );
 	}
 
 	public double fun_DDB( double _cost, double _salvage, double _life, double _period, double _factor )
 	{
-		return RuntimeDouble_v1.fun_DDB( _cost, _salvage, _life, _period, _factor );
+		return RuntimeDouble_v2.fun_DDB( _cost, _salvage, _life, _period, _factor );
 	}
 
 	public double fun_DDB( double _cost, double _salvage, double _life, double _period )
 	{
-		return RuntimeDouble_v1.fun_DDB( _cost, _salvage, _life, _period, 2 );
+		return RuntimeDouble_v2.fun_DDB( _cost, _salvage, _life, _period, 2 );
 	}
 
 	public double fun_RATE( double _nper, double _pmt, double _pv, double _fv, double _type, double _guess )
 	{
-		return RuntimeDouble_v1.fun_RATE( _nper, _pmt, _pv, _fv, _type, _guess );
+		return RuntimeDouble_v2.fun_RATE( _nper, _pmt, _pv, _fv, _type, _guess );
 	}
 
 	public double fun_RATE( double _nper, double _pmt, double _pv, double _fv, double _type )
 	{
-		return RuntimeDouble_v1.fun_RATE( _nper, _pmt, _pv, _fv, _type, 0.1 );
+		return RuntimeDouble_v2.fun_RATE( _nper, _pmt, _pv, _fv, _type, 0.1 );
 	}
 
 	public double fun_RATE( double _nper, double _pmt, double _pv, double _fv )
 	{
-		return RuntimeDouble_v1.fun_RATE( _nper, _pmt, _pv, _fv, 0, 0.1 );
+		return RuntimeDouble_v2.fun_RATE( _nper, _pmt, _pv, _fv, 0, 0.1 );
 	}
 
 	public double fun_RATE( double _nper, double _pmt, double _pv )
 	{
-		return RuntimeDouble_v1.fun_RATE( _nper, _pmt, _pv, 0, 0, 0.1 );
+		return RuntimeDouble_v2.fun_RATE( _nper, _pmt, _pv, 0, 0, 0.1 );
 	}
 
 
@@ -456,62 +456,62 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_DATE( double _year, double _month, double _day )
 	{
-		return RuntimeDouble_v1.excelDateToNum( (int) _year, (int) _month, (int) _day );
+		return RuntimeDouble_v2.excelDateToNum( (int) _year, (int) _month, (int) _day );
 	}
 
 	public double fun_TIME( double _hour, double _minute, double _second )
 	{
-		return RuntimeDouble_v1.fun_TIME( _hour, _minute, _second );
+		return RuntimeDouble_v2.fun_TIME( _hour, _minute, _second );
 	}
 
 	public double fun_SECOND( double _date )
 	{
-		return RuntimeDouble_v1.fun_SECOND( _date );
+		return RuntimeDouble_v2.fun_SECOND( _date );
 	}
 
 	public double fun_MINUTE( double _date )
 	{
-		return RuntimeDouble_v1.fun_MINUTE( _date );
+		return RuntimeDouble_v2.fun_MINUTE( _date );
 	}
 
 	public double fun_HOUR( double _date )
 	{
-		return RuntimeDouble_v1.fun_HOUR( _date );
+		return RuntimeDouble_v2.fun_HOUR( _date );
 	}
 
 	public double fun_WEEKDAY( double _date, double _type )
 	{
-		return RuntimeDouble_v1.getWeekDayFromNum( _date, (int) Math.round( _type ) );
+		return RuntimeDouble_v2.getWeekDayFromNum( _date, (int) Math.round( _type ) );
 	}
 
 	public double fun_WEEKDAY( double _date )
 	{
-		return RuntimeDouble_v1.getWeekDayFromNum( _date, 1 );
+		return RuntimeDouble_v2.getWeekDayFromNum( _date, 1 );
 	}
 
 	public double fun_DAY( double _date )
 	{
-		return RuntimeDouble_v1.getDayFromNum( _date );
+		return RuntimeDouble_v2.getDayFromNum( _date );
 	}
 
 	public double fun_MONTH( double _date )
 	{
-		return RuntimeDouble_v1.getMonthFromNum( _date );
+		return RuntimeDouble_v2.getMonthFromNum( _date );
 	}
 
 	public double fun_YEAR( double _date )
 	{
-		return RuntimeDouble_v1.getYearFromNum( _date );
+		return RuntimeDouble_v2.getYearFromNum( _date );
 	}
 
 	public double fun_NOW()
 	{
-		return RuntimeDouble_v1.fun_NOW( this.environment, this.computationTime );
+		return RuntimeDouble_v2.fun_NOW( this.environment, this.computationTime );
 	}
 
 	public double fun_TODAY()
 	{
-		return RuntimeDouble_v1.fun_TODAY( this.environment, this.computationTime );
+		return RuntimeDouble_v2.fun_TODAY( this.environment, this.computationTime );
 	}
 
 
@@ -522,7 +522,7 @@ public final class ExpressionTemplatesForDoubles
 	// ---- fun_VALUE
 	public double fun_VALUE( String _text )
 	{
-		return RuntimeDouble_v1.fun_VALUE( _text, this.environment );
+		return RuntimeDouble_v2.fun_VALUE( _text, this.environment );
 	}
 	// ---- fun_VALUE
 

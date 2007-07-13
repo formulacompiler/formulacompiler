@@ -26,8 +26,8 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
-import org.formulacompiler.runtime.internal.RuntimeLong_v1;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
+import org.formulacompiler.runtime.internal.RuntimeLong_v2;
 
 public final class ScaledLongType extends AbstractLongType
 {
@@ -107,13 +107,13 @@ public final class ScaledLongType extends AbstractLongType
 	protected Number convertFromAnyNumber( Number _value )
 	{
 		if (_value instanceof Long) return _value.longValue() * one();
-		return Math.round( RuntimeDouble_v1.round( _value.doubleValue(), scale() ) * one() );
+		return Math.round( RuntimeDouble_v2.round( _value.doubleValue(), scale() ) * one() );
 	}
 
 	@Override
 	protected String convertToString( Number _value, Locale _locale )
 	{
-		return RuntimeLong_v1.toExcelString( (Long) _value, scale(), _locale );
+		return RuntimeLong_v2.toExcelString( (Long) _value, scale(), _locale );
 	}
 
 }

@@ -29,7 +29,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 
-public abstract class RuntimeBigDecimal_v2 extends Runtime_v1
+public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 {
 	public static final BigDecimal ZERO = BigDecimal.ZERO;
 	public static final BigDecimal ONE = BigDecimal.ONE;
@@ -39,8 +39,8 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v1
 
 	protected static final BigDecimal PI = BigDecimal.valueOf( Math.PI );
 	protected static final BigDecimal BIG_SECS_PER_MINUTE = BigDecimal.valueOf( 60 );
-	protected static final BigDecimal BIG_SECS_PER_HOUR = BigDecimal.valueOf( Runtime_v1.SECS_PER_HOUR );
-	protected static final BigDecimal BIG_SECS_PER_DAY = BigDecimal.valueOf( Runtime_v1.SECS_PER_DAY );
+	protected static final BigDecimal BIG_SECS_PER_HOUR = BigDecimal.valueOf( Runtime_v2.SECS_PER_HOUR );
+	protected static final BigDecimal BIG_SECS_PER_DAY = BigDecimal.valueOf( Runtime_v2.SECS_PER_DAY );
 
 	private static final BigDecimal EXCEL_EPSILON = new BigDecimal( 0.0000001 );
 
@@ -118,12 +118,12 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v1
 
 	public static Date dateFromNum( final BigDecimal _excel, final TimeZone _timeZone )
 	{
-		return RuntimeDouble_v1.dateFromNum( _excel.doubleValue(), _timeZone );
+		return RuntimeDouble_v2.dateFromNum( _excel.doubleValue(), _timeZone );
 	}
 
 	public static BigDecimal dateToNum( final Date _date, final TimeZone _timeZone )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v1.dateToNum( _date, _timeZone ) );
+		return BigDecimal.valueOf( RuntimeDouble_v2.dateToNum( _date, _timeZone ) );
 	}
 
 	protected static BigDecimal valueOrZero( final double _value )
@@ -344,7 +344,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v1
 		final int year = _year.intValue();
 		final int month = _month.intValue();
 		final int day = _day.intValue();
-		final double result = RuntimeDouble_v1.excelDateToNum( year, month, day );
+		final double result = RuntimeDouble_v2.excelDateToNum( year, month, day );
 		return BigDecimal.valueOf( result );
 	}
 
@@ -352,28 +352,28 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v1
 	{
 		final double date = _date.doubleValue();
 		final int type = _type.intValue();
-		final int result = RuntimeDouble_v1.getWeekDayFromNum( date, type );
+		final int result = RuntimeDouble_v2.getWeekDayFromNum( date, type );
 		return BigDecimal.valueOf( result );
 	}
 
 	public static BigDecimal fun_DAY( BigDecimal _date )
 	{
 		final double date = _date.doubleValue();
-		final int result = RuntimeDouble_v1.getDayFromNum( date );
+		final int result = RuntimeDouble_v2.getDayFromNum( date );
 		return BigDecimal.valueOf( result );
 	}
 
 	public static BigDecimal fun_MONTH( BigDecimal _date )
 	{
 		final double date = _date.doubleValue();
-		final int result = RuntimeDouble_v1.getMonthFromNum( date );
+		final int result = RuntimeDouble_v2.getMonthFromNum( date );
 		return BigDecimal.valueOf( result );
 	}
 
 	public static BigDecimal fun_YEAR( BigDecimal _date )
 	{
 		final double date = _date.doubleValue();
-		final int result = RuntimeDouble_v1.getYearFromNum( date );
+		final int result = RuntimeDouble_v2.getYearFromNum( date );
 		return BigDecimal.valueOf( result );
 	}
 
@@ -409,7 +409,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v1
 
 	public static BigDecimal fun_HOUR( BigDecimal _date )
 	{
-		final long hours = getDaySecondsFromNum( _date ) / Runtime_v1.SECS_PER_HOUR % 24;
+		final long hours = getDaySecondsFromNum( _date ) / Runtime_v2.SECS_PER_HOUR % 24;
 		return BigDecimal.valueOf( hours );
 	}
 

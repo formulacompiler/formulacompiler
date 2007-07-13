@@ -30,7 +30,7 @@ public class ComputationTime
 	{
 		if (this.unset) {
 			// round to seconds
-			this.nowMillis = System.currentTimeMillis() / Runtime_v1.MS_PER_SEC * Runtime_v1.MS_PER_SEC;
+			this.nowMillis = System.currentTimeMillis() / Runtime_v2.MS_PER_SEC * Runtime_v2.MS_PER_SEC;
 
 			this.unset = false;
 		}

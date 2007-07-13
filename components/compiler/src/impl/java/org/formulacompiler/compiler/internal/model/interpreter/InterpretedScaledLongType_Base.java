@@ -24,24 +24,24 @@ import java.text.ParseException;
 import java.util.Date;
 
 import org.formulacompiler.compiler.internal.AbstractLongType;
-import org.formulacompiler.runtime.internal.RuntimeLong_v1;
+import org.formulacompiler.runtime.internal.RuntimeLong_v2;
 
 
 abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 {
 	private final AbstractLongType num;
-	private final RuntimeLong_v1.Context runtimeCx;
+	private final RuntimeLong_v2.Context runtimeCx;
 
 
 	public InterpretedScaledLongType_Base( AbstractLongType _type )
 	{
 		super( _type );
 		this.num = _type;
-		this.runtimeCx = new RuntimeLong_v1.Context( _type.scale() );
+		this.runtimeCx = new RuntimeLong_v2.Context( _type.scale() );
 	}
 
 
-	protected final RuntimeLong_v1.Context getContext()
+	protected final RuntimeLong_v2.Context getContext()
 	{
 		return this.runtimeCx;
 	}

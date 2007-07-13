@@ -28,7 +28,7 @@ import java.util.TimeZone;
 import org.formulacompiler.runtime.ScaledLongSupport;
 
 
-public final class RuntimeLong_v1 extends Runtime_v1
+public final class RuntimeLong_v2 extends Runtime_v2
 {
 	public static long[] ONE_AT_SCALE = ScaledLongSupport.ONE;
 	public static long[] HALF_AT_SCALE = new long[ ONE_AT_SCALE.length ];
@@ -116,20 +116,6 @@ public final class RuntimeLong_v1 extends Runtime_v1
 			}
 		}
 
-		@Deprecated
-		long fromNumber( Number _value )
-		{
-			if (_value == null) {
-				return 0L;
-			}
-			else if (this.scale == 0) {
-				return _value.longValue();
-			}
-			else {
-				return _value.longValue() * this.one;
-			}
-		}
-
 		public long fromBigDecimal( BigDecimal _value )
 		{
 			if (_value == null) {
@@ -169,12 +155,6 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		return a <= b ? a : b;
 	}
 
-	@Deprecated
-	public static long pow( final long x, final long n, Context _cx )
-	{
-		return _cx.fromDouble( Math.pow( _cx.toDouble( x ), _cx.toDouble( n ) ) );
-	}
-
 	public static long round( final long _val, final int _maxFrac, Context _cx )
 	{
 		if (_val == 0 || _maxFrac >= _cx.scale) {
@@ -211,21 +191,6 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		}
 	}
 
-	@Deprecated
-	public static long stdROUND( final long _val, final long _maxFrac, Context _cx )
-	{
-		if (_cx.scale == 0) return round( _val, (int) _maxFrac, _cx );
-		return round( _val, (int) (_maxFrac / _cx.one), _cx );
-	}
-
-	@Deprecated
-	public static long stdTODAY( Context _cx )
-	{
-		final TimeZone timeZone = TimeZone.getDefault();
-		return dateToNum( today( timeZone, new ComputationTime() ), _cx, timeZone );
-	}
-
-
 	public static boolean booleanFromNum( final long _val )
 	{
 		return (_val != 0);
@@ -238,38 +203,32 @@ public final class RuntimeLong_v1 extends Runtime_v1
 
 	public static Date dateFromNum( final long _val, Context _cx, final TimeZone _timeZone )
 	{
-		return RuntimeDouble_v1.dateFromNum( toDouble( _val, _cx ), _timeZone );
+		return RuntimeDouble_v2.dateFromNum( toDouble( _val, _cx ), _timeZone );
 	}
 
 	public static long msSinceUTC1970FromNum( long _msSinceUTC1970, Context _cx, TimeZone _timeZone )
 	{
-		return RuntimeDouble_v1.msSinceUTC1970FromNum( toDouble( _msSinceUTC1970, _cx ), _timeZone );
+		return RuntimeDouble_v2.msSinceUTC1970FromNum( toDouble( _msSinceUTC1970, _cx ), _timeZone );
 	}
 
 	public static long msFromNum( long _msSinceUTC1970, Context _cx )
 	{
-		return RuntimeDouble_v1.msFromNum( toDouble( _msSinceUTC1970, _cx ) );
+		return RuntimeDouble_v2.msFromNum( toDouble( _msSinceUTC1970, _cx ) );
 	}
 
 	public static long dateToNum( final Date _val, Context _cx, final TimeZone _timeZone )
 	{
-		return fromDouble( RuntimeDouble_v1.dateToNum( _val, _timeZone ), _cx );
+		return fromDouble( RuntimeDouble_v2.dateToNum( _val, _timeZone ), _cx );
 	}
 
 	public static long msSinceUTC1970ToNum( long _msSinceUTC1970, Context _cx, TimeZone _timeZone )
 	{
-		return fromDouble( RuntimeDouble_v1.msSinceUTC1970ToNum( _msSinceUTC1970, _timeZone ), _cx );
+		return fromDouble( RuntimeDouble_v2.msSinceUTC1970ToNum( _msSinceUTC1970, _timeZone ), _cx );
 	}
 
 	public static long msToNum( long _msSinceUTC1970, Context _cx )
 	{
-		return fromDouble( RuntimeDouble_v1.msToNum( _msSinceUTC1970 ), _cx );
-	}
-
-	@Deprecated
-	public static long fromNumber( Number _val, Context _cx )
-	{
-		return _cx.fromNumber( _val );
+		return fromDouble( RuntimeDouble_v2.msToNum( _msSinceUTC1970 ), _cx );
 	}
 
 	public static long fromDouble( double _val, Context _cx )
@@ -319,12 +278,12 @@ public final class RuntimeLong_v1 extends Runtime_v1
 
 	public static long fun_ACOS( final long _val, Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v1.fun_ACOS( _cx.toDouble( _val ) ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_ACOS( _cx.toDouble( _val ) ) );
 	}
 
 	public static long fun_ASIN( final long _val, Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v1.fun_ASIN( _cx.toDouble( _val ) ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_ASIN( _cx.toDouble( _val ) ) );
 	}
 
 	public static long fun_ATAN( final long _val, Context _cx )
@@ -458,17 +417,17 @@ public final class RuntimeLong_v1 extends Runtime_v1
 
 	public static long fun_LN( long _p, Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v1.fun_LN( _cx.toDouble( _p ) ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_LN( _cx.toDouble( _p ) ) );
 	}
 
 	public static long fun_LOG( long _n, long _x, Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v1.fun_LOG( _cx.toDouble( _n ), _cx.toDouble( _x ) ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_LOG( _cx.toDouble( _n ), _cx.toDouble( _x ) ) );
 	}
 
 	public static long fun_LOG10( long _p, Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v1.fun_LOG10( _cx.toDouble( _p ) ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_LOG10( _cx.toDouble( _p ) ) );
 	}
 
 	public static long fun_MOD( final long _n, final long _d, final Context _cx )
@@ -487,7 +446,7 @@ public final class RuntimeLong_v1 extends Runtime_v1
 
 	public static long fun_SQRT( final long _n, final Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v1.fun_SQRT( _cx.toDouble( _n ) ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_SQRT( _cx.toDouble( _n ) ) );
 	}
 
 	public static long fun_DATE( final long _year, final long _month, final long _day, final Context _cx )
@@ -496,7 +455,7 @@ public final class RuntimeLong_v1 extends Runtime_v1
 		final int year = (int) (_year / one);
 		final int month = (int) (_month / one);
 		final int day = (int) (_day / one);
-		return _cx.fromDouble( RuntimeDouble_v1.excelDateToNum( year, month, day ) );
+		return _cx.fromDouble( RuntimeDouble_v2.excelDateToNum( year, month, day ) );
 	}
 
 	public static long fun_TIME( long _hour, long _minute, long _second, Context _cx )
@@ -507,19 +466,19 @@ public final class RuntimeLong_v1 extends Runtime_v1
 
 	public static long fun_SECOND( long _date, Context _cx )
 	{
-		final long seconds = RuntimeDouble_v1.getDaySecondsFromNum( _cx.toDouble( _date ) ) % 60;
+		final long seconds = RuntimeDouble_v2.getDaySecondsFromNum( _cx.toDouble( _date ) ) % 60;
 		return seconds * _cx.one();
 	}
 
 	public static long fun_MINUTE( long _date, Context _cx )
 	{
-		final long minutes = RuntimeDouble_v1.getDaySecondsFromNum( _cx.toDouble( _date ) ) / 60 % 60;
+		final long minutes = RuntimeDouble_v2.getDaySecondsFromNum( _cx.toDouble( _date ) ) / 60 % 60;
 		return minutes * _cx.one();
 	}
 
 	public static long fun_HOUR( long _date, Context _cx )
 	{
-		final long hours = RuntimeDouble_v1.getDaySecondsFromNum( _cx.toDouble( _date ) ) / SECS_PER_HOUR % 24;
+		final long hours = RuntimeDouble_v2.getDaySecondsFromNum( _cx.toDouble( _date ) ) / SECS_PER_HOUR % 24;
 		return hours * _cx.one();
 	}
 
@@ -527,28 +486,28 @@ public final class RuntimeLong_v1 extends Runtime_v1
 	{
 		final double date = _cx.toDouble( _date );
 		final int type = (int) (_type / _cx.one());
-		final int result = RuntimeDouble_v1.getWeekDayFromNum( date, type );
+		final int result = RuntimeDouble_v2.getWeekDayFromNum( date, type );
 		return result * _cx.one();
 	}
 
 	public static long fun_DAY( long _date, final Context _cx )
 	{
 		final double date = _cx.toDouble( _date );
-		final int result = RuntimeDouble_v1.getDayFromNum( date );
+		final int result = RuntimeDouble_v2.getDayFromNum( date );
 		return result * _cx.one();
 	}
 
 	public static long fun_MONTH( long _date, final Context _cx )
 	{
 		final double date = _cx.toDouble( _date );
-		final int result = RuntimeDouble_v1.getMonthFromNum( date );
+		final int result = RuntimeDouble_v2.getMonthFromNum( date );
 		return result * _cx.one();
 	}
 
 	public static long fun_YEAR( long _date, final Context _cx )
 	{
 		final double date = _cx.toDouble( _date );
-		final int result = RuntimeDouble_v1.getYearFromNum( date );
+		final int result = RuntimeDouble_v2.getYearFromNum( date );
 		return result * _cx.one();
 	}
 
@@ -581,7 +540,7 @@ public final class RuntimeLong_v1 extends Runtime_v1
 
 	public static long fun_IRR( long[] _values, long _guess, Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v1.fun_IRR( _cx.toDoubles( _values ), _cx.toDouble( _guess ) ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_IRR( _cx.toDoubles( _values ), _cx.toDouble( _guess ) ) );
 	}
 
 	public static long fun_DB( long _cost, long _salvage, long _life, long _period, long _month, Context _cx )

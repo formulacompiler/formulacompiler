@@ -3,7 +3,7 @@ __@@__
 package org.formulacompiler.gen;
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.tutorials.Basics;
 
 final class $Root extends Basics.RebateComputation implements Computation
@@ -19,11 +19,11 @@ final class $Root extends Basics.RebateComputation implements Computation
     
     final double get$0() {
         return (get$1() == 1.0 ? get$2() + get$3()
-                : RuntimeDouble_v1.max(get$2(), get$3()));
+                : RuntimeDouble_v2.max(get$2(), get$3()));
     }
     
     public final double getRebate() {
-        return RuntimeDouble_v1.round(get$0(), 2);
+        return RuntimeDouble_v2.round(get$0(), 2);
     }
     
     final double get$1() {
@@ -73,7 +73,7 @@ import org.formulacompiler.examples.Inputs;
 import org.formulacompiler.examples.Outputs;
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 
 final class $Root implements Computation, Outputs
 {
@@ -90,7 +90,7 @@ final class $Root implements Computation, Outputs
     }
     
     public final double getResult() {
-        return RuntimeDouble_v1.round(get$0(), 2);
+        return RuntimeDouble_v2.round(get$0(), 2);
     }
     
     final double get$1() {
@@ -169,7 +169,7 @@ __@@__
 package org.formulacompiler.gen;
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.RuntimeLong_v1;
+import org.formulacompiler.runtime.internal.RuntimeLong_v2;
 import org.formulacompiler.tutorials.BonusPerEmployee;
 
 final class $Root extends BonusPerEmployee.BonusComputationDefaults
@@ -184,8 +184,8 @@ final class $Root extends BonusPerEmployee.BonusComputationDefaults
     private boolean h$get$2;
     private long c$get$2;
     private $Sect0[] get$Sect0;
-    static final RuntimeLong_v1.Context runtimeContext
-        = new RuntimeLong_v1.Context(4);
+    static final RuntimeLong_v2.Context runtimeContext
+        = new RuntimeLong_v2.Context(4);
     
     $Root(BonusPerEmployee.BonusData bonusdata, Environment environment) {
         $environment = environment;
@@ -259,7 +259,7 @@ jc:bonusPerEmployee/org.formulacompiler.gen.$Sect0
 __@@__
 package org.formulacompiler.gen;
 import org.formulacompiler.runtime.Computation;
-import org.formulacompiler.runtime.internal.RuntimeLong_v1;
+import org.formulacompiler.runtime.internal.RuntimeLong_v2;
 import org.formulacompiler.tutorials.BonusPerEmployee;
 
 final class $Sect0
@@ -304,7 +304,7 @@ final class $Sect0
     }
     
     public final long bonusAmount() {
-        return RuntimeLong_v1.round(get$0(), 2, $Root.runtimeContext);
+        return RuntimeLong_v2.round(get$0(), 2, $Root.runtimeContext);
     }
     
     final long get$1() {
@@ -448,7 +448,7 @@ __@@__
 package org.formulacompiler.gen;
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.Runtime_v1;
+import org.formulacompiler.runtime.internal.Runtime_v2;
 import org.formulacompiler.tutorials.CustomerRatingWithOrders;
 
 final class $Root
@@ -489,7 +489,7 @@ final class $Root
         int i = (int) get$2() - 1;
         if (i >= 0 && i < get$1_Consts.length)
             return get$1_Consts[i];
-        return Runtime_v1.emptyString();
+        return Runtime_v2.emptyString();
     }
     
     final double get$2() {
@@ -925,14 +925,14 @@ jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForDoubles
 __@@__
 public double fun_ROUND( double a, double b )
 	{
-		return RuntimeDouble_v1.round( a, (int) b );
+		return RuntimeDouble_v2.round( a, (int) b );
 	}
 ___@_@___
 jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForDoubles:---- fun_VALUE
 __@@__
 public double fun_VALUE( String _text )
 	{
-		return RuntimeDouble_v1.fun_VALUE( _text, this.environment );
+		return RuntimeDouble_v2.fun_VALUE( _text, this.environment );
 	}
 ___@_@___
 jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForPrecisionBigDecimals:---- op_PLUS
@@ -962,7 +962,7 @@ jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForStrings
 __@@__
 public String fun_MID( String s, int start, int len )
 	{
-		return Runtime_v1.stdMID( s, start, len );
+		return Runtime_v2.fun_MID( s, start, len );
 	}
 ___@_@___
 jc:org.formulacompiler.devjournal.cse.InsuranceModel:---- OutputsCurrent
@@ -1264,7 +1264,7 @@ public interface Resettable
 
 }
 ___@_@___
-jc:org.formulacompiler.runtime.internal.RuntimeDouble_v1:---- round
+jc:org.formulacompiler.runtime.internal.RuntimeDouble_v2:---- round
 __@@__
 public static double round( final double _val, final int _maxFrac )
 	{
@@ -3071,7 +3071,7 @@ __@@__
 package org.formulacompiler.gen;
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.tutorials.Decompilation;
 
 final class $Root implements Computation, Decompilation.MyOutputs
@@ -3085,7 +3085,7 @@ final class $Root implements Computation, Decompilation.MyOutputs
     }
     
     final double get$0() {
-        return RuntimeDouble_v1.max(get$1(), get$2());
+        return RuntimeDouble_v2.max(get$1(), get$2());
     }
     
     public final double rebateOp() {

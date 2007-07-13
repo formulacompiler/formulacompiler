@@ -22,7 +22,7 @@ package org.formulacompiler.compiler.internal.bytecode;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.DataType;
-import org.formulacompiler.runtime.internal.Runtime_v1;
+import org.formulacompiler.runtime.internal.Runtime_v2;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
@@ -30,7 +30,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 final class TypeCompilerForStrings extends TypeCompiler
 {
-	private static final Type RUNTIME_TYPE = Type.getType( Runtime_v1.class );
+	private static final Type RUNTIME_TYPE = Type.getType( Runtime_v2.class );
 	static final String SNAME = ByteCodeEngineCompiler.STRING_CLASS.getInternalName();
 	static final String S = ByteCodeEngineCompiler.STRING_CLASS.getDescriptor();
 

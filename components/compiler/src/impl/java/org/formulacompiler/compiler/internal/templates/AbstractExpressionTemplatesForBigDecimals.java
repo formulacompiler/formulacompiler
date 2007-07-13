@@ -27,7 +27,7 @@ import java.util.Date;
 import org.formulacompiler.runtime.internal.ComputationTime;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
-import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 
 
 abstract class AbstractExpressionTemplatesForBigDecimals
@@ -92,12 +92,12 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 
 	BigDecimal util_fromMsSinceUTC1970( long a )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v1.msSinceUTC1970ToNum( a, this.environment.timeZone() ) );
+		return BigDecimal.valueOf( RuntimeDouble_v2.msSinceUTC1970ToNum( a, this.environment.timeZone() ) );
 	}
 
 	BigDecimal util_fromMs( long a )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v1.msToNum( a ) );
+		return BigDecimal.valueOf( RuntimeDouble_v2.msToNum( a ) );
 	}
 
 
@@ -170,13 +170,13 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 	@ReturnsAdjustedValue
 	long util_toMsSinceUTC1970( BigDecimal a )
 	{
-		return RuntimeDouble_v1.msSinceUTC1970FromNum( a.doubleValue(), this.environment.timeZone() );
+		return RuntimeDouble_v2.msSinceUTC1970FromNum( a.doubleValue(), this.environment.timeZone() );
 	}
 
 	@ReturnsAdjustedValue
 	long util_toMs( BigDecimal a )
 	{
-		return RuntimeDouble_v1.msFromNum( a.doubleValue() );
+		return RuntimeDouble_v2.msFromNum( a.doubleValue() );
 	}
 
 	@ReturnsAdjustedValue

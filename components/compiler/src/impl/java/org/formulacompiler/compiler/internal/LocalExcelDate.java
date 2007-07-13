@@ -23,7 +23,7 @@ package org.formulacompiler.compiler.internal;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.formulacompiler.runtime.internal.RuntimeDouble_v1;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 
 public final class LocalExcelDate extends Number
 {
@@ -37,7 +37,7 @@ public final class LocalExcelDate extends Number
 
 	public LocalExcelDate(Date _date, TimeZone _timeZone)
 	{
-		this( RuntimeDouble_v1.dateToNum( _date, _timeZone ) );
+		this( RuntimeDouble_v2.dateToNum( _date, _timeZone ) );
 	}
 
 	public double value()

@@ -111,9 +111,9 @@ There is another approach for functions that can be rewritten to expressions inv
 
 h4. Runtime Support
 
-As you can see, @ROUND()@ is not implemented directly, but mapped to a runtime support function. The runtime is subclassed for each supported "numeric type":-types. It is also versioned so AFC can easily provide backwards compatibility with older compiled engines. Here is the implementation from @org.formulacompiler.runtime.internal.RuntimeDouble_v1@:
+As you can see, @ROUND()@ is not implemented directly, but mapped to a runtime support function. The runtime is subclassed for each supported "numeric type":-types. It is also versioned so AFC can easily provide backwards compatibility with older compiled engines. Here is the implementation from @org.formulacompiler.runtime.internal.RuntimeDouble_v2@:
 
-	[jc:org.formulacompiler.runtime.internal.RuntimeDouble_v1:---- round]
+	[jc:org.formulacompiler.runtime.internal.RuntimeDouble_v2:---- round]
 
 h4. Numeric Types
 

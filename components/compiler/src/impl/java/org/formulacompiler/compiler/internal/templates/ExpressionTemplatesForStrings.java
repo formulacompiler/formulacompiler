@@ -21,7 +21,7 @@
 package org.formulacompiler.compiler.internal.templates;
 
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.Runtime_v1;
+import org.formulacompiler.runtime.internal.Runtime_v2;
 
 
 public final class ExpressionTemplatesForStrings
@@ -31,17 +31,17 @@ public final class ExpressionTemplatesForStrings
 
 	String util_fromString( String a )
 	{
-		return Runtime_v1.stringFromString( a );
+		return Runtime_v2.stringFromString( a );
 	}
 
 	String util_fromObject( Object a )
 	{
-		return Runtime_v1.stringFromObject( a );
+		return Runtime_v2.stringFromObject( a );
 	}
 
 	String util_fromNull()
 	{
-		return Runtime_v1.emptyString();
+		return Runtime_v2.emptyString();
 	}
 
 
@@ -67,75 +67,75 @@ public final class ExpressionTemplatesForStrings
 
 	public String fun_LOWER( String a )
 	{
-		return Runtime_v1.stdLOWER( a );
+		return Runtime_v2.fun_LOWER( a );
 	}
 
 	public String fun_UPPER( String a )
 	{
-		return Runtime_v1.stdUPPER( a );
+		return Runtime_v2.fun_UPPER( a );
 	}
 
 	public String fun_PROPER( String a )
 	{
-		return Runtime_v1.stdPROPER( a );
+		return Runtime_v2.fun_PROPER( a );
 	}
 
 	public String fun_REPT( String a, int n )
 	{
-		return Runtime_v1.stdREPT( a, n );
+		return Runtime_v2.fun_REPT( a, n );
 	}
 
 	public String fun_TRIM( String a )
 	{
-		return Runtime_v1.stdTRIM( a );
+		return Runtime_v2.fun_TRIM( a );
 	}
 
 	// Leave this comment in. It is used to cite the code into the documentation.
 	// ---- fun_MID
 	public String fun_MID( String s, int start, int len )
 	{
-		return Runtime_v1.stdMID( s, start, len );
+		return Runtime_v2.fun_MID( s, start, len );
 	}
 	// ---- fun_MID
 
 	public String fun_LEFT( String s )
 	{
-		return Runtime_v1.stdLEFT( s, 1 );
+		return Runtime_v2.fun_LEFT( s, 1 );
 	}
 
 	public String fun_LEFT( String s, int len )
 	{
-		return Runtime_v1.stdLEFT( s, len );
+		return Runtime_v2.fun_LEFT( s, len );
 	}
 
 	public String fun_RIGHT( String s )
 	{
-		return Runtime_v1.stdRIGHT( s, 1 );
+		return Runtime_v2.fun_RIGHT( s, 1 );
 	}
 
 	public String fun_RIGHT( String s, int len )
 	{
-		return Runtime_v1.stdRIGHT( s, len );
+		return Runtime_v2.fun_RIGHT( s, len );
 	}
 
 	public String fun_SUBSTITUTE( String s, String src, String tgt )
 	{
-		return Runtime_v1.stdSUBSTITUTE( s, src, tgt );
+		return Runtime_v2.fun_SUBSTITUTE( s, src, tgt );
 	}
 
 	public String fun_SUBSTITUTE( String s, String src, String tgt, int occurrence )
 	{
-		return Runtime_v1.stdSUBSTITUTE( s, src, tgt, occurrence );
+		return Runtime_v2.fun_SUBSTITUTE( s, src, tgt, occurrence );
 	}
 
 	public String fun_REPLACE( String s, int at, int len, String repl )
 	{
-		return Runtime_v1.stdREPLACE( s, at, len, repl );
+		return Runtime_v2.fun_REPLACE( s, at, len, repl );
 	}
 
 	public String fun_TEXT( Number _num, String _format )
 	{
-		return Runtime_v1.stdTEXT( _num, _format, this.environment );
+		return Runtime_v2.fun_TEXT( _num, _format, this.environment );
 	}
 
 
