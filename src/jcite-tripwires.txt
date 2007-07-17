@@ -2773,6 +2773,47 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"ReferencesBad"/**
 			assertEquals( err, e.getMessage() );
 		}
 ___@_@___
+jc:org.formulacompiler.tutorials.TimeZones:---- DLS_Consts
+__@@__
+private static final long JAVA_DIFF_HOURS = 4343L;
+	private static final long EXCEL_DIFF_HOURS = 4344L;
+___@_@___
+jc:org.formulacompiler.tutorials.TimeZones:---- DLS_Excel
+__@@__
+DLSInput input = new DLSInput();
+		DLSOutput out = (DLSOutput) factory.newComputation( input );
+		assertEquals( "input", EXCEL_DIFF_HOURS, out.inputDiff() );
+		assertEquals( "CET", EXCEL_DIFF_HOURS, out.constCETDiff() );
+		assertEquals( "local", EXCEL_DIFF_HOURS, out.constLocalDiff() );
+___@_@___
+jc:org.formulacompiler.tutorials.TimeZones:---- DLS_Input
+__@@__
+public class DLSInput {
+
+		public Date inWinter() {
+			Calendar w = new GregorianCalendar( CET );
+			w.clear();
+			w.set( 1981, 0, 1, 12, 0 );
+			return w.getTime();
+		}
+
+		public Date inSummer() {
+			Calendar s = new GregorianCalendar( CET );
+			s.clear();
+			s.set( 1981, 6, 1, 12, 0 );
+			return s.getTime();
+		}
+
+	}
+___@_@___
+jc:org.formulacompiler.tutorials.TimeZones:---- DLS_Java
+__@@__
+DLSInput input = new DLSInput();
+		Date w = input.inWinter();
+		Date s = input.inSummer();
+		long diffHours = (s.getTime() - w.getTime()) / 1000 / 3600;
+		assertEquals( JAVA_DIFF_HOURS, diffHours );
+___@_@___
 jc:org.formulacompiler.tutorials.TimeZones:---- setupDateOfBirth
 __@@__
 Calendar calendar = Calendar.getInstance( _timeZone );
@@ -2785,7 +2826,7 @@ long millis = (_hour * 60L + _minute) * 60L * 1000L;
 ___@_@___
 jc:org.formulacompiler.tutorials.TimeZones:---- timeInput
 __@@__
-@Milliseconds 
+@Milliseconds
 		public long time()
 		{
 			return this.millis;
@@ -6360,6 +6401,65 @@ __@@__
 			<td class="xl-row">9</td>
 			<td style="text-align: right">IntermediateValue</td>
 			<td class="xl-num">123.45<br/><span class="xl-name">(IntermediateValue)</span></td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
+xc:org/formulacompiler/tutorials/TimeZones.xls:DLSDiff
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>B</td>
+			<td>C</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">26</td>
+			<td>InWinter</td>
+			<td class="xl-date">1/1/81 12:00<br/><span class="xl-name">(InWinter)</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">27</td>
+			<td>InSummer</td>
+			<td class="xl-date">7/1/81 12:00<br/><span class="xl-name">(InSummer)</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">28</td>
+			<td>Const in winter (CET)</td>
+			<td class="xl-date">01 01 1981 12:00:00</td>
+		</tr>
+		<tr>
+			<td class="xl-row">29</td>
+			<td>Const in summer (CET)</td>
+			<td class="xl-date">01 07 1981 12:00:00</td>
+		</tr>
+		<tr>
+			<td class="xl-row">30</td>
+			<td>Const in winter (local)</td>
+			<td class="xl-date">1/1/81 12:00</td>
+		</tr>
+		<tr>
+			<td class="xl-row">31</td>
+			<td>Const in summer (local)</td>
+			<td class="xl-date">7/1/81 12:00</td>
+		</tr>
+		<tr>
+			<td class="xl-row">32</td>
+			<td>InputDiff</td>
+			<td class="xl-num"><b>4344</b><br/><span class="xl-exp">=(C27-C26)*24.0</span><br/><span class="xl-name">(InputDiff)</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">33</td>
+			<td>ConstCETDiff</td>
+			<td class="xl-num"><b>4344</b><br/><span class="xl-exp">=(C29-C28)*24.0</span><br/><span class="xl-name">(ConstCETDiff)</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">34</td>
+			<td>ConstLocalDiff</td>
+			<td class="xl-num"><b>4344</b><br/><span class="xl-exp">=(C31-C30)*24.0</span><br/><span class="xl-name">(ConstLocalDiff)</span></td>
 		</tr>
 	</tbody>
 </table>

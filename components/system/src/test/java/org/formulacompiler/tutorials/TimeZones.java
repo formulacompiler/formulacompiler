@@ -152,7 +152,7 @@ public final class TimeZones extends TestCase
 	{
 		private final long millis;
 
-		public DateInput(long _millis)
+		public DateInput( long _millis )
 		{
 			super();
 			this.millis = _millis;
@@ -164,7 +164,7 @@ public final class TimeZones extends TestCase
 		}
 
 		// ---- timeInput
-		@Milliseconds 
+		@Milliseconds
 		public long time()
 		{
 			return this.millis;
@@ -178,18 +178,20 @@ public final class TimeZones extends TestCase
 	}
 
 
-	private static final long JAVA_DIFF = 4343L;
-	private static final long EXCEL_DIFF = 4344L;
+	// ---- DLS_Consts
+	private static final long JAVA_DIFF_HOURS = 4343L;
+	private static final long EXCEL_DIFF_HOURS = 4344L;
+	// ---- DLS_Consts
 
 	public void testDLS() throws Exception
 	{
+		// ---- DLS_Java
 		DLSInput input = new DLSInput();
 		Date w = input.inWinter();
 		Date s = input.inSummer();
-		/*
-		 * But Excel and AFC will say 4344 because Excel date values do not handle DLS and time zones!
-		 */
-		assertEquals( JAVA_DIFF, (s.getTime() - w.getTime()) / 1000 / 3600 );
+		long diffHours = (s.getTime() - w.getTime()) / 1000 / 3600;
+		assertEquals( JAVA_DIFF_HOURS, diffHours );
+		// ---- DLS_Java
 	}
 
 	public void testDLSInSheet() throws Exception
@@ -204,27 +206,27 @@ public final class TimeZones extends TestCase
 
 		SaveableEngine engine = builder.compile();
 		ComputationFactory factory = engine.getComputationFactory( new Computation.Config( CET ) );
-		DLSInput in = new DLSInput();
-		DLSOutput out = (DLSOutput) factory.newComputation( in );
-
-		assertEquals( "input", EXCEL_DIFF, out.inputDiff() );
-		assertEquals( "CET", EXCEL_DIFF, out.constCETDiff() );
-		assertEquals( "local", EXCEL_DIFF, out.constLocalDiff() );
+		// ---- DLS_Excel
+		DLSInput input = new DLSInput();
+		DLSOutput out = (DLSOutput) factory.newComputation( input );
+		assertEquals( "input", EXCEL_DIFF_HOURS, out.inputDiff() );
+		assertEquals( "CET", EXCEL_DIFF_HOURS, out.constCETDiff() );
+		assertEquals( "local", EXCEL_DIFF_HOURS, out.constLocalDiff() );
+		// ---- DLS_Excel
 	}
 
-	public class DLSInput
-	{
+	// DO NOT REFORMAT BELOW THIS LINE
+	// ---- DLS_Input
+	public class DLSInput {
 
-		public Date inWinter()
-		{
+		public Date inWinter() {
 			Calendar w = new GregorianCalendar( CET );
 			w.clear();
 			w.set( 1981, 0, 1, 12, 0 );
 			return w.getTime();
 		}
 
-		public Date inSummer()
-		{
+		public Date inSummer() {
 			Calendar s = new GregorianCalendar( CET );
 			s.clear();
 			s.set( 1981, 6, 1, 12, 0 );
@@ -232,6 +234,8 @@ public final class TimeZones extends TestCase
 		}
 
 	}
+	// ---- DLS_Input
+	// DO NOT REFORMAT ABOVE THIS LINE
 
 	public interface DLSOutput
 	{

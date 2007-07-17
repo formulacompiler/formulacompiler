@@ -8,7 +8,7 @@ Apart from "setting the current runtime time-zone":locale.htm, there are other c
 
 h2. Time-Of-Day and Durations
 
-It is problematic to use @java.util.Date@ as a container for time-only values, like a time of day or a time duration. Java always does time-zone adjustment, so one has to be very careful to only use @java.util.Date@ with the UTC time zone for time-only values. So we don't think it is a good idea to use @java.util.Date@ here.
+It is problematic to use @java.util.Date@ as a container for time-only values, like a time of day or a time duration. Java always does time-zone adjustment, so one has to be very careful to only use @java.util.Date@ with the UTC time zone for time-only values. We therefore don't think it is a good idea to use @java.util.Date@ here.
 
 AFC therefore accepts and returns time-only values as a number of milliseconds in a @long@, not in a @java.util.Date@. To make it clear that you are passing a time value, you have to annotate the method in question with @Milliseconds@. For time of day values, you simply pass it the number of milliseconds since 00:00 am.
 
@@ -72,6 +72,28 @@ Here's the recipe:
 Now the constant is considered global time and converted to UTC when the sheet is compiled. Then, when the compiled engine run, it is again adjusted for the current runtime time-zone.
 
 If you don't set up a cell named @GlobalTimeZoneName@, AFC simply uses the default time zone active when compiling the sheet. This may not be what you wanted.
+
+
+h2. Durations Between Points In Time
+
+Because Excel and AFC treat date/time values as local time, computing a difference between two such values sometimes differs from what you would get in Java. The reason is daylight saving. In Java, when you do
+
+    [jc:org.formulacompiler.tutorials.TimeZones:---- DLS_Java]
+
+where
+
+    [jc:org.formulacompiler.tutorials.TimeZones:---- DLS_Consts]
+
+    [jc:org.formulacompiler.tutorials.TimeZones:---- DLS_Input]
+
+you get a difference that takes the daylight saving in summer into account. The same thing in Excel does not:
+
+	[xc:org/formulacompiler/tutorials/TimeZones.xls:DLSDiff]
+
+and neither does AFC:
+
+    [jc:org.formulacompiler.tutorials.TimeZones:---- DLS_Excel]
+
 
 
 h2. <a name="background">Background</a>
