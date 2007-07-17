@@ -21,7 +21,7 @@ Since AFC only supports "Microsoft Excel":-excel spreadsheets as input at the mo
 <%= summary 'Numeric Operators', 'numops', ['NumericOperators', 'NumericComparisons'] %>
 <%= summary 'Numeric Functions', 'numfuncs', ['NumericFunctions'] %>
 <%= summary 'Financial Functions', 'financialfuncs', ['FinancialFunctions'] %>
-<%= summary 'String Support', 'strings', ['Strings', 'StringComparisons'] %>
+<%= summary 'String Support', 'strings', ['Strings_en_US', 'Strings_ru_RU', 'StringComparisons'] %>
 <%= summary 'Boolean Functions And IF', 'booleans', ['BooleanFunctions', 'FunctionIF'] %>
 <%= summary 'Date Functions', 'datefuncs', ['DateFunctions'] %>
 <%= summary 'Conversion Functions', 'convfuncs', ['ConversionFunctions_en_US', 'ConversionFunctions_ru_RU'] %>
