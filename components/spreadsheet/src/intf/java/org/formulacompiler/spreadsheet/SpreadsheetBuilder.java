@@ -32,7 +32,7 @@ import org.formulacompiler.compiler.Operator;
  * instead of loading one from a file or other source.
  * 
  * <p>
- * See the <a href="../../tutorial/buildsheet.htm">tutorial</a> for details.
+ * See the <a target="_top" href="{@docRoot}/../tutorial/buildsheet.htm">tutorial</a> for details.
  * 
  * @author peo
  * 

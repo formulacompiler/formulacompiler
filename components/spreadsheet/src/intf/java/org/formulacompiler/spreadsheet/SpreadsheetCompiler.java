@@ -138,7 +138,7 @@ public class SpreadsheetCompiler extends FormulaCompiler
 	/**
 	 * Saves a spreadsheet model to a new spreadsheet file. Use this primarily to build an initial
 	 * spreadsheet file for users wanting to customize a particular aspect of your application using
-	 * AFC. See the <a href="../../tutorial/generatesheet.htm" target="_top">tutorial</a> for details.
+	 * AFC. See the <a target="_top" href="{@docRoot}/../tutorial/generatesheet.htm" target="_top">tutorial</a> for details.
 	 * 
 	 * @param _model is the internal spreadsheet model that defines the file to be written. Use
 	 *           {@link #newSpreadsheetBuilder()} to build this model.

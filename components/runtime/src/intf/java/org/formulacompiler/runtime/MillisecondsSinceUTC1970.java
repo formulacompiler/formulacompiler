@@ -28,7 +28,7 @@ import java.lang.annotation.RetentionPolicy;
  * alternative is to use a {@link java.util.Date}.
  * 
  * <p>
- * See the <a href="../../tutorial/numeric_type.htm#long">tutorial</a> for details.
+ * See the <a target="_top" href="{@docRoot}/../tutorial/numeric_type.htm#long">tutorial</a> for details.
  * 
  * @author peo
  */

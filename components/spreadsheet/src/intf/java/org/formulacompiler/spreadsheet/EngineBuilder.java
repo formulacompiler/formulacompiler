@@ -35,7 +35,7 @@ import org.formulacompiler.runtime.EngineException;
  * Simplified interface to AFC's spreadsheet compiler functionality for the most typical use-cases.
  * Typical example: {@.jcite org.formulacompiler.tutorials.Basics:---- CompileFactory}
  * <p>
- * Please refer to the <a href="../../tutorial/basics.htm" target="_top">tutorial</a> for details.
+ * Please refer to the <a target="_top" href="{@docRoot}/../tutorial/basics.htm" target="_top">tutorial</a> for details.
  * </p>
  * 
  * @author peo
@@ -52,7 +52,7 @@ public interface EngineBuilder
 	 * Sets the numeric type to be used by computations compiled by this builder.
 	 * 
 	 * <p>
-	 * See the <a href="../../tutorial/numeric_type.htm">tutorial</a> for details.
+	 * See the <a target="_top" href="{@docRoot}/../tutorial/numeric_type.htm">tutorial</a> for details.
 	 */
 	public void setNumericType( NumericType _type );
 
@@ -115,7 +115,7 @@ public interface EngineBuilder
 	 * provided, then this class must be assignable from the factory method's single argument.
 	 * 
 	 * <p>
-	 * See the <a href="../../tutorial/basics.htm#Convention">tutorial</a> for details.
+	 * See the <a target="_top" href="{@docRoot}/../tutorial/basics.htm#Convention">tutorial</a> for details.
 	 * 
 	 * @see #setFactoryMethod(Method)
 	 */
@@ -138,7 +138,7 @@ public interface EngineBuilder
 	 * assignable from this class.
 	 * 
 	 * <p>
-	 * See the <a href="../../tutorial/basics.htm#Convention">tutorial</a> for details.
+	 * See the <a target="_top" href="{@docRoot}/../tutorial/basics.htm#Convention">tutorial</a> for details.
 	 * 
 	 * @see #setFactoryMethod(Method)
 	 */
@@ -164,7 +164,7 @@ public interface EngineBuilder
 	 * proper application-specific computation factory signature.
 	 * 
 	 * <p>
-	 * See the <a href="../../tutorial/basics.htm#Convention">tutorial</a> for details.
+	 * See the <a target="_top" href="{@docRoot}/../tutorial/basics.htm#Convention">tutorial</a> for details.
 	 */
 	public void setFactoryClass( Class _class );
 
@@ -194,7 +194,7 @@ public interface EngineBuilder
 	 * the output type.
 	 * 
 	 * <p>
-	 * See the <a href="../../tutorial/basics.htm#Convention">tutorial</a> for details.
+	 * See the <a target="_top" href="{@docRoot}/../tutorial/basics.htm#Convention">tutorial</a> for details.
 	 */
 	public void setFactoryMethod( Method _factoryMethod );
 
@@ -211,7 +211,7 @@ public interface EngineBuilder
 	 * {@link #areAnyNamesDefined()} returns {@code false}.
 	 * 
 	 * <p>
-	 * See the <a href="../../tutorial/basics.htm#Convention">tutorial</a> for details.
+	 * See the <a target="_top" href="{@docRoot}/../tutorial/basics.htm#Convention">tutorial</a> for details.
 	 */
 	public void createCellNamesFromRowTitles();
 
@@ -245,7 +245,7 @@ public interface EngineBuilder
 	 * input and output types.
 	 * 
 	 * <p>
-	 * See the <a href="../../tutorial/basics.htm#Convention">tutorial</a> for details.
+	 * See the <a target="_top" href="{@docRoot}/../tutorial/basics.htm#Convention">tutorial</a> for details.
 	 * 
 	 * @throws CompilerException
 	 */
@@ -282,7 +282,7 @@ public interface EngineBuilder
 	 * spreadsheet cells to methods.
 	 * 
 	 * <p>
-	 * See the <a href="../../tutorial/basics.htm">tutorial</a> for details.
+	 * See the <a target="_top" href="{@docRoot}/../tutorial/basics.htm">tutorial</a> for details.
 	 * 
 	 * @return the compiled engine, ready to be used immediately, or saved to persistent storage for
 	 *         later use.
