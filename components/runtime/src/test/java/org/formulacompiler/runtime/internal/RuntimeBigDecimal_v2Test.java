@@ -25,22 +25,22 @@ import java.util.Locale;
 
 import junit.framework.TestCase;
 
-public class Runtime_v1Test extends TestCase
+public class RuntimeBigDecimal_v2Test extends TestCase
 {
 
 
 	public void testStringFromBigDecimal() throws Exception
 	{
 		final Locale locale = Locale.ENGLISH;
-		assertEquals( "1.2", Runtime_v2.stringFromBigDecimal( BigDecimal.valueOf( 1.2 ), locale ) );
-		assertEquals( "12", Runtime_v2.stringFromBigDecimal( BigDecimal.valueOf( 12 ), locale ) );
-		assertEquals( "120", Runtime_v2.stringFromBigDecimal( BigDecimal.valueOf( 120 ), locale ) );
-		assertEquals( "12000000000000000000", Runtime_v2.stringFromBigDecimal( BigDecimal.valueOf( 1.2e19 ), locale ) );
-		assertEquals( "1.2E+20", Runtime_v2.stringFromBigDecimal( BigDecimal.valueOf( 1.2e20 ), locale ) );
-		assertEquals( "12340000000000000000", Runtime_v2.stringFromBigDecimal( BigDecimal.valueOf( 12.34e18 ), locale ) );
-		assertEquals( "1.234E+20", Runtime_v2.stringFromBigDecimal( BigDecimal.valueOf( 12.34e19 ), locale ) );
-		assertEquals( "-12340000000000000000", Runtime_v2.stringFromBigDecimal( BigDecimal.valueOf( -12.34e18 ), locale ) );
-		assertEquals( "-1.234E+20", Runtime_v2.stringFromBigDecimal( BigDecimal.valueOf( -12.34e19 ), locale ) );
+		assertEquals( "1.2", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 1.2 ), locale ) );
+		assertEquals( "12", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 12 ), locale ) );
+		assertEquals( "120", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 120 ), locale ) );
+		assertEquals( "12000000000000000000", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 1.2e19 ), locale ) );
+		assertEquals( "1.2E+20", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 1.2e20 ), locale ) );
+		assertEquals( "12340000000000000000", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 12.34e18 ), locale ) );
+		assertEquals( "1.234E+20", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 12.34e19 ), locale ) );
+		assertEquals( "-12340000000000000000", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( -12.34e18 ), locale ) );
+		assertEquals( "-1.234E+20", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( -12.34e19 ), locale ) );
 	}
 
 

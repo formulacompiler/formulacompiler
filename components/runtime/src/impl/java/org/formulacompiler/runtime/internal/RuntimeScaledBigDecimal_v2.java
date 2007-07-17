@@ -43,25 +43,4 @@ public class RuntimeScaledBigDecimal_v2 extends RuntimeBigDecimal_v2
 	}
 
 
-	public static BigDecimal fun_VALUE( String _text, final Environment _environment )
-	{
-		final String text = _text.trim();
-		final Number number = parseNumber( text, true, _environment.locale() );
-		if (number != null) {
-			if (number instanceof BigDecimal) {
-				return (BigDecimal) number;
-			}
-			else if (number instanceof Long) {
-				return BigDecimal.valueOf( number.longValue() );
-			}
-			else {
-				return BigDecimal.valueOf( number.doubleValue() );
-			}
-		}
-		else {
-			return ZERO; // Excel #NUM!
-		}
-	}
-
-
 }
