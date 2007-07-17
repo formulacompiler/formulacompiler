@@ -38,7 +38,7 @@ import junit.framework.TestCase;
 
 public final class EnvironmentConfig extends TestCase
 {
-	
+
 
 	public void testCustomLocaleTZ() throws Exception
 	{
@@ -60,8 +60,8 @@ public final class EnvironmentConfig extends TestCase
 	private void assertComputations( Engine _engine )
 	{
 		// ---- customLocaleTest
-		assertComputation( "37287,4211", _engine, Locale.GERMAN );
-		assertComputation( "37287.4211", _engine, Locale.ENGLISH );
+		assertComputation( /**/"37287,4211"/**/, _engine, Locale./**/GERMAN/**/ );
+		assertComputation( /**/"37287.4211"/**/, _engine, Locale./**/ENGLISH/**/ );
 		// ---- customLocaleTest
 		assertDefaultLocaleIsPickedUp( _engine );
 	}
@@ -70,16 +70,12 @@ public final class EnvironmentConfig extends TestCase
 	{
 		Locale def = Locale.getDefault();
 		try {
-			if (Locale.GERMAN.equals( def )) {
-				// ---- defaultLocaleTest
-				Locale.setDefault( Locale.ENGLISH );
-				assertComputation( "37287.4211", (MyFactory) _engine.getComputationFactory() );
-				// ---- defaultLocaleTest
-			}
-			else {
-				Locale.setDefault( Locale.GERMAN );
-				assertComputation( "37287,4211", (MyFactory) _engine.getComputationFactory() );
-			}
+			// ---- defaultLocaleTest
+			/**/Locale.setDefault/**/( Locale.GERMAN );
+			assertComputation( "37287,4211", (MyFactory) _engine.getComputationFactory() );
+			/**/Locale.setDefault/**/( Locale.ENGLISH );
+			assertComputation( "37287.4211", (MyFactory) _engine.getComputationFactory() );
+			// ---- defaultLocaleTest
 		}
 		finally {
 			Locale.setDefault( def );
@@ -90,8 +86,8 @@ public final class EnvironmentConfig extends TestCase
 	{
 
 		// ---- customLocaleFactory
-		/**/Computation.Config config = new Computation.Config( _locale );/**/
-		MyFactory factory = (MyFactory) _engine.getComputationFactory( /**/config/**/);
+		Computation.Config /**/config/**/ = new Computation.Config( /**/_locale/**/ );
+		MyFactory factory = (MyFactory) _engine./**/getComputationFactory( config )/**/;
 		// ---- customLocaleFactory
 
 		assertComputation( _expected, factory );
