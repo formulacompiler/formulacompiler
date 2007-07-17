@@ -97,7 +97,7 @@ public interface SpreadsheetByNameBinder
 		 * This is so {@link #bindAllNamedCellsToMethods()} does not attempt to bind them again.
 		 * 
 		 * <p>
-		 * See the <a href="../../tutorial/basics.htm#Convention">tutorial</a> for details.
+		 * See the <a target="_top" href="{@docRoot}/../tutorial/basics.htm#Convention">tutorial</a> for details.
 		 * 
 		 * @throws CompilerException
 		 */
@@ -110,7 +110,7 @@ public interface SpreadsheetByNameBinder
 		 * {@link org.formulacompiler.spreadsheet.SpreadsheetByNameBinder#inputs()}).
 		 * 
 		 * <p>
-		 * See the <a href="../../tutorial/basics.htm#Convention">tutorial</a> for details.
+		 * See the <a target="_top" href="{@docRoot}/../tutorial/basics.htm#Convention">tutorial</a> for details.
 		 * 
 		 * @throws CompilerException
 		 * 

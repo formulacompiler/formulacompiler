@@ -23,7 +23,7 @@ package org.formulacompiler.runtime;
 /**
  * Support class for handling scaled longs.
  * <p>
- * See the <a href="../../tutorial/numeric_type.htm#long" target="_top">tutorial</a> for details.
+ * See the <a target="_top" href="{@docRoot}/../tutorial/numeric_type.htm#long" target="_top">tutorial</a> for details.
  * 
  * @author peo
  * 

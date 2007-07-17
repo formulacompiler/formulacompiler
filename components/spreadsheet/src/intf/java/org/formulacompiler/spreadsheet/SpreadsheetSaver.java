@@ -30,7 +30,7 @@ import java.io.OutputStream;
  * constructed in memory.
  * 
  * <p>
- * See the <a href="../../tutorial/generatesheet.htm" target="_top">tutorial</a> for details.
+ * See the <a target="_top" href="{@docRoot}/../tutorial/generatesheet.htm" target="_top">tutorial</a> for details.
  * 
  * @author peo
  * 

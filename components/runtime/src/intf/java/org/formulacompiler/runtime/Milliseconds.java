@@ -29,7 +29,7 @@ import java.lang.annotation.RetentionPolicy;
  * cells.
  * 
  * <p>
- * See the <a href="../../tutorial/numeric_type.htm#long">tutorial</a> for details.
+ * See the <a target="_top" href="{@docRoot}/../tutorial/numeric_type.htm#long">tutorial</a> for details.
  * 
  * @author peo
  */
