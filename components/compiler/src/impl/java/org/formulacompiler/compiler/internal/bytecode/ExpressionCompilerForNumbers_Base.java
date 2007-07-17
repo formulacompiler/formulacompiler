@@ -37,9 +37,9 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperat
 import org.formulacompiler.compiler.internal.expressions.LetDictionary.LetEntry;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCount;
 import org.formulacompiler.compiler.internal.model.SectionModel;
+import org.formulacompiler.runtime.Milliseconds;
 import org.formulacompiler.runtime.MillisecondsSinceUTC1970;
 import org.formulacompiler.runtime.ScaledLong;
-import org.formulacompiler.runtime.Milliseconds;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -112,7 +112,12 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 
 	protected final void compileConversionToNumber() throws CompilerException
 	{
-		compile_util_toNumber();
+		if (isScaled()) {
+			compile_util_toNumber_Scaled();
+		}
+		else {
+			compile_util_toNumber();
+		}
 	}
 
 
@@ -255,6 +260,12 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 
 	@SuppressWarnings("unused")
 	protected void compile_util_toBigDecimal_Scaled() throws CompilerException
+	{
+		throw new IllegalStateException( "No scaling for " + toString() );
+	}
+
+	@SuppressWarnings("unused")
+	protected void compile_util_toNumber_Scaled() throws CompilerException
 	{
 		throw new IllegalStateException( "No scaling for " + toString() );
 	}
