@@ -33,14 +33,6 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	private static final double EXCEL_EPSILON = 0.0000001;
 
 
-	public static double logDouble( final double _value, final String _message )
-	{
-		System.out.print( _message );
-		System.out.print( _value );
-		System.out.println();
-		return _value;
-	}
-
 	public static double max( final double a, final double b )
 	{
 		return a >= b ? a : b;
@@ -131,11 +123,6 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return ms;
 	}
 
-	public static double dateToNum( final Date _date )
-	{
-		return dateToNum( _date, TimeZone.getDefault() );
-	}
-
 	public static double dateToNum( final Date _date, TimeZone _timeZone )
 	{
 		if (_date == null) {
@@ -162,7 +149,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return excel;
 	}
 
-	public static long msSinceLocal1970FromExcelDate( final double _excelDate )
+	private static long msSinceLocal1970FromExcelDate( final double _excelDate )
 	{
 		final boolean time = (Math.abs( _excelDate ) < 1);
 		double numValue = _excelDate;
@@ -186,7 +173,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return msSinceLocal1970;
 	}
 
-	public static double msSinceLocal1970ToExcelDate( final long _msSinceLocal1970 )
+	private static double msSinceLocal1970ToExcelDate( final long _msSinceLocal1970 )
 	{
 		// Convert this to the number of days, plus fractions of a day since
 		// 01 Jan 1970
@@ -215,13 +202,13 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	}
 
 
-	public static double excelDateToNum( final int _year, final int _month, final int _day )
+	public static double fun_DATE( final int _year, final int _month, final int _day )
 	{
 		final int year = _year < 1899 ? _year + 1900 : _year;
 		return dateToNum( year, _month, _day );
 	}
 
-	public static double dateToNum( final int _year, final int _month, final int _day )
+	private static double dateToNum( final int _year, final int _month, final int _day )
 	{
 		final Calendar calendar = new GregorianCalendar( TimeZone.getTimeZone( "GMT" ) );
 		calendar.clear();
@@ -234,7 +221,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return dateToNum( date, timeZone );
 	}
 
-	public static int getWeekDayFromNum( final double _date, int _type )
+	public static int fun_WEEKDAY( final double _date, int _type )
 	{
 		final int dayOfWeek = getCalendarValueFromNum( _date, Calendar.DAY_OF_WEEK );
 		switch (_type) {
@@ -249,23 +236,23 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		}
 	}
 
-	public static long getDaySecondsFromNum( final double _time )
+	static long getDaySecondsFromNum( final double _time )
 	{
 		final double time = _time % 1;
 		return Math.round( time * SECS_PER_DAY );
 	}
 
-	public static int getDayFromNum( final double _date )
+	public static int fun_DAY( final double _date )
 	{
 		return getCalendarValueFromNum( _date, Calendar.DAY_OF_MONTH );
 	}
 
-	public static int getMonthFromNum( final double _date )
+	public static int fun_MONTH( final double _date )
 	{
 		return getCalendarValueFromNum( _date, Calendar.MONTH ) + 1;
 	}
 
-	public static int getYearFromNum( final double _date )
+	public static int fun_YEAR( final double _date )
 	{
 		return getCalendarValueFromNum( _date, Calendar.YEAR );
 	}

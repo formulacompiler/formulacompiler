@@ -37,11 +37,11 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	public static final BigDecimal TWELVE = BigDecimal.valueOf( 12 );
 	public static final BigDecimal TENTH = BigDecimal.valueOf( 0.1 );
 
-	protected static final BigDecimal PI = BigDecimal.valueOf( Math.PI );
-	protected static final BigDecimal BIG_SECS_PER_MINUTE = BigDecimal.valueOf( 60 );
-	protected static final BigDecimal BIG_SECS_PER_HOUR = BigDecimal.valueOf( Runtime_v2.SECS_PER_HOUR );
-	protected static final BigDecimal BIG_SECS_PER_DAY = BigDecimal.valueOf( Runtime_v2.SECS_PER_DAY );
+	static final BigDecimal PI = BigDecimal.valueOf( Math.PI );
 
+	private static final BigDecimal BIG_SECS_PER_MINUTE = BigDecimal.valueOf( 60 );
+	private static final BigDecimal BIG_SECS_PER_HOUR = BigDecimal.valueOf( Runtime_v2.SECS_PER_HOUR );
+	private static final BigDecimal BIG_SECS_PER_DAY = BigDecimal.valueOf( Runtime_v2.SECS_PER_DAY );
 	private static final BigDecimal EXCEL_EPSILON = new BigDecimal( 0.0000001 );
 
 
@@ -89,17 +89,6 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	}
 
 
-	public static long numberToLong( final Number _val )
-	{
-		return (_val == null)? 0L : _val.longValue();
-	}
-
-	public static double numberToDouble( final Number _val )
-	{
-		return (_val == null)? 0.0 : _val.doubleValue();
-	}
-
-
 	public static BigDecimal fromScaledLong( long _scaled, int _scale )
 	{
 		return BigDecimal.valueOf( _scaled, _scale );
@@ -110,7 +99,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		return toScaledLong( _value, _scale, BigDecimal.ROUND_HALF_UP );
 	}
 
-	public static long toScaledLong( BigDecimal _value, int _scale, int _roundingMode )
+	private static long toScaledLong( BigDecimal _value, int _scale, int _roundingMode )
 	{
 		return _value.setScale( _scale, _roundingMode ).movePointRight( _scale ).longValue();
 	}
@@ -126,7 +115,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		return BigDecimal.valueOf( RuntimeDouble_v2.dateToNum( _date, _timeZone ) );
 	}
 
-	protected static BigDecimal valueOrZero( final double _value )
+	private static BigDecimal valueOrZero( final double _value )
 	{
 		if (Double.isNaN( _value ) || Double.isInfinite( _value )) {
 			return ZERO; // Excel #NUM!
@@ -344,7 +333,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		final int year = _year.intValue();
 		final int month = _month.intValue();
 		final int day = _day.intValue();
-		final double result = RuntimeDouble_v2.excelDateToNum( year, month, day );
+		final double result = RuntimeDouble_v2.fun_DATE( year, month, day );
 		return BigDecimal.valueOf( result );
 	}
 
@@ -352,28 +341,28 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	{
 		final double date = _date.doubleValue();
 		final int type = _type.intValue();
-		final int result = RuntimeDouble_v2.getWeekDayFromNum( date, type );
+		final int result = RuntimeDouble_v2.fun_WEEKDAY( date, type );
 		return BigDecimal.valueOf( result );
 	}
 
 	public static BigDecimal fun_DAY( BigDecimal _date )
 	{
 		final double date = _date.doubleValue();
-		final int result = RuntimeDouble_v2.getDayFromNum( date );
+		final int result = RuntimeDouble_v2.fun_DAY( date );
 		return BigDecimal.valueOf( result );
 	}
 
 	public static BigDecimal fun_MONTH( BigDecimal _date )
 	{
 		final double date = _date.doubleValue();
-		final int result = RuntimeDouble_v2.getMonthFromNum( date );
+		final int result = RuntimeDouble_v2.fun_MONTH( date );
 		return BigDecimal.valueOf( result );
 	}
 
 	public static BigDecimal fun_YEAR( BigDecimal _date )
 	{
 		final double date = _date.doubleValue();
-		final int result = RuntimeDouble_v2.getYearFromNum( date );
+		final int result = RuntimeDouble_v2.fun_YEAR( date );
 		return BigDecimal.valueOf( result );
 	}
 

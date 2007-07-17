@@ -456,7 +456,7 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_DATE( double _year, double _month, double _day )
 	{
-		return RuntimeDouble_v2.excelDateToNum( (int) _year, (int) _month, (int) _day );
+		return RuntimeDouble_v2.fun_DATE( (int) _year, (int) _month, (int) _day );
 	}
 
 	public double fun_TIME( double _hour, double _minute, double _second )
@@ -481,27 +481,27 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_WEEKDAY( double _date, double _type )
 	{
-		return RuntimeDouble_v2.getWeekDayFromNum( _date, (int) Math.round( _type ) );
+		return RuntimeDouble_v2.fun_WEEKDAY( _date, (int) Math.round( _type ) );
 	}
 
 	public double fun_WEEKDAY( double _date )
 	{
-		return RuntimeDouble_v2.getWeekDayFromNum( _date, 1 );
+		return RuntimeDouble_v2.fun_WEEKDAY( _date, 1 );
 	}
 
 	public double fun_DAY( double _date )
 	{
-		return RuntimeDouble_v2.getDayFromNum( _date );
+		return RuntimeDouble_v2.fun_DAY( _date );
 	}
 
 	public double fun_MONTH( double _date )
 	{
-		return RuntimeDouble_v2.getMonthFromNum( _date );
+		return RuntimeDouble_v2.fun_MONTH( _date );
 	}
 
 	public double fun_YEAR( double _date )
 	{
-		return RuntimeDouble_v2.getYearFromNum( _date );
+		return RuntimeDouble_v2.fun_YEAR( _date );
 	}
 
 	public double fun_NOW()

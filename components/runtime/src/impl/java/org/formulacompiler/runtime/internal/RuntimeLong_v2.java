@@ -30,8 +30,8 @@ import org.formulacompiler.runtime.ScaledLongSupport;
 
 public final class RuntimeLong_v2 extends Runtime_v2
 {
-	public static long[] ONE_AT_SCALE = ScaledLongSupport.ONE;
-	public static long[] HALF_AT_SCALE = new long[ ONE_AT_SCALE.length ];
+	private static final long[] ONE_AT_SCALE = ScaledLongSupport.ONE;
+	private static final long[] HALF_AT_SCALE = new long[ ONE_AT_SCALE.length ];
 
 	static {
 		for (int i = 0; i < ONE_AT_SCALE.length; i++) {
@@ -106,16 +106,6 @@ public final class RuntimeLong_v2 extends Runtime_v2
 			}
 		}
 
-		long fromBoxedDouble( Number _value )
-		{
-			if (_value == null) {
-				return 0L;
-			}
-			else {
-				return fromDouble( _value.doubleValue() );
-			}
-		}
-
 		public long fromBigDecimal( BigDecimal _value )
 		{
 			if (_value == null) {
@@ -179,7 +169,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		}
 	}
 
-	public static long trunc( final long _val, final int _maxFrac, Context _cx )
+	private static long trunc( final long _val, final int _maxFrac, Context _cx )
 	{
 		if (_val == 0 || _maxFrac >= _cx.scale) {
 			return _val;
@@ -189,16 +179,6 @@ public final class RuntimeLong_v2 extends Runtime_v2
 			final long shiftFactor = ONE_AT_SCALE[ truncateAt ];
 			return _val / shiftFactor * shiftFactor;
 		}
-	}
-
-	public static boolean booleanFromNum( final long _val )
-	{
-		return (_val != 0);
-	}
-
-	public static long booleanToNum( final boolean _val, Context _cx )
-	{
-		return _val ? _cx.one : 0;
 	}
 
 	public static Date dateFromNum( final long _val, Context _cx, final TimeZone _timeZone )
@@ -234,11 +214,6 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	public static long fromDouble( double _val, Context _cx )
 	{
 		return _cx.fromDouble( _val );
-	}
-
-	public static long fromBoxedDouble( Number _val, Context _cx )
-	{
-		return _cx.fromBoxedDouble( _val );
 	}
 
 	public static double toDouble( long _val, Context _cx )
@@ -455,7 +430,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		final int year = (int) (_year / one);
 		final int month = (int) (_month / one);
 		final int day = (int) (_day / one);
-		return _cx.fromDouble( RuntimeDouble_v2.excelDateToNum( year, month, day ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_DATE( year, month, day ) );
 	}
 
 	public static long fun_TIME( long _hour, long _minute, long _second, Context _cx )
@@ -486,28 +461,28 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	{
 		final double date = _cx.toDouble( _date );
 		final int type = (int) (_type / _cx.one());
-		final int result = RuntimeDouble_v2.getWeekDayFromNum( date, type );
+		final int result = RuntimeDouble_v2.fun_WEEKDAY( date, type );
 		return result * _cx.one();
 	}
 
 	public static long fun_DAY( long _date, final Context _cx )
 	{
 		final double date = _cx.toDouble( _date );
-		final int result = RuntimeDouble_v2.getDayFromNum( date );
+		final int result = RuntimeDouble_v2.fun_DAY( date );
 		return result * _cx.one();
 	}
 
 	public static long fun_MONTH( long _date, final Context _cx )
 	{
 		final double date = _cx.toDouble( _date );
-		final int result = RuntimeDouble_v2.getMonthFromNum( date );
+		final int result = RuntimeDouble_v2.fun_MONTH( date );
 		return result * _cx.one();
 	}
 
 	public static long fun_YEAR( long _date, final Context _cx )
 	{
 		final double date = _cx.toDouble( _date );
-		final int result = RuntimeDouble_v2.getYearFromNum( date );
+		final int result = RuntimeDouble_v2.fun_YEAR( date );
 		return result * _cx.one();
 	}
 

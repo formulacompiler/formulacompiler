@@ -92,12 +92,12 @@ public abstract class Runtime_v2
 	}
 
 
-	protected static Date now( final ComputationTime _computationTime )
+	static Date now( final ComputationTime _computationTime )
 	{
 		return new Date( _computationTime.getNowMillis() );
 	}
 
-	protected static Date today( TimeZone _timeZone, final ComputationTime _computationTime )
+	static Date today( TimeZone _timeZone, final ComputationTime _computationTime )
 	{
 		final Calendar calendar = Calendar.getInstance( _timeZone );
 		calendar.setTimeInMillis( _computationTime.getNowMillis() );
@@ -106,11 +106,6 @@ public abstract class Runtime_v2
 		calendar.set( Calendar.SECOND, 0 );
 		calendar.set( Calendar.MILLISECOND, 0 );
 		return calendar.getTime();
-	}
-
-	public static long dateToMsSinceLocal1970( Date _date )
-	{
-		return dateToMsSinceLocal1970( _date, TimeZone.getDefault() );
 	}
 
 	public static long dateToMsSinceLocal1970( Date _date, TimeZone _timeZone )
@@ -123,7 +118,7 @@ public abstract class Runtime_v2
 
 
 	// LATER Parse date and time values
-	protected static Number parseNumber( String _text, boolean _parseBigDecimal, Locale _locale )
+	static Number parseNumber( String _text, boolean _parseBigDecimal, Locale _locale )
 	{
 		final String text = _text.toUpperCase( _locale );
 
@@ -196,7 +191,7 @@ public abstract class Runtime_v2
 		return (_str == null)? "" : _str;
 	}
 
-	public static String stringFromBigDecimal( BigDecimal _value, Locale _locale )
+	static String stringFromBigDecimal( BigDecimal _value, Locale _locale )
 	{
 		if (_value.compareTo( BigDecimal.ZERO ) == 0) return "0"; // avoid "0.0"
 		final BigDecimal stripped = _value.stripTrailingZeros();
@@ -312,7 +307,7 @@ public abstract class Runtime_v2
 	{
 		if (_occurrence <= 0) return _s;
 		if (_s == null || _s.equals( "" )) return _s;
-		if (_src == null || _src == "" || _src.equals( _tgt )) return _s;
+		if (_src == null || _src.equals( "" ) || _src.equals( _tgt )) return _s;
 		int at = 0;
 		int seen = 0;
 		while (at < _s.length()) {
@@ -483,7 +478,7 @@ public abstract class Runtime_v2
 	}
 
 
-	protected static final long[] FACTORIALS = { 1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800,
+	static final long[] FACTORIALS = { 1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800,
 			479001600 };
 
 
