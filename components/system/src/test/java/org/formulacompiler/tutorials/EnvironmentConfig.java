@@ -39,7 +39,7 @@ import junit.framework.TestCase;
 public final class EnvironmentConfig extends TestCase
 {
 	
-	
+
 	public void testCustomLocaleTZ() throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
@@ -60,8 +60,8 @@ public final class EnvironmentConfig extends TestCase
 	private void assertComputations( Engine _engine )
 	{
 		// ---- customLocaleTest
-		assertComputation( "37287 in de", _engine, Locale.GERMAN );
-		assertComputation( "37287 in fr", _engine, Locale.FRENCH );
+		assertComputation( "37287,4211", _engine, Locale.GERMAN );
+		assertComputation( "37287.4211", _engine, Locale.ENGLISH );
 		// ---- customLocaleTest
 		assertDefaultLocaleIsPickedUp( _engine );
 	}
@@ -70,15 +70,15 @@ public final class EnvironmentConfig extends TestCase
 	{
 		Locale def = Locale.getDefault();
 		try {
-			if (Locale.GERMAN == def) {
+			if (Locale.GERMAN.equals( def )) {
 				// ---- defaultLocaleTest
-				Locale.setDefault( Locale.FRENCH );
-				assertComputation( "37287 in fr", (MyFactory) _engine.getComputationFactory() );
+				Locale.setDefault( Locale.ENGLISH );
+				assertComputation( "37287.4211", (MyFactory) _engine.getComputationFactory() );
 				// ---- defaultLocaleTest
 			}
 			else {
 				Locale.setDefault( Locale.GERMAN );
-				assertComputation( "37287 in de", (MyFactory) _engine.getComputationFactory() );
+				assertComputation( "37287,4211", (MyFactory) _engine.getComputationFactory() );
 			}
 		}
 		finally {
@@ -118,7 +118,8 @@ public final class EnvironmentConfig extends TestCase
 		public Date date()
 		{
 			final Calendar cal = Calendar.getInstance();
-			cal.set( 2001, 12, 31 );
+			cal.clear();
+			cal.set( 2001, 12, 31, 10, 6, 23 );
 			return cal.getTime();
 		}
 	}
