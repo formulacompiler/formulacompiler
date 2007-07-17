@@ -21,9 +21,7 @@
 package org.formulacompiler.compiler.internal;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.util.Locale;
 
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
@@ -60,8 +58,7 @@ public final class ScaledLongType extends AbstractLongType
 
 	public long parse( String _value, Locale _locale )
 	{
-		final DecimalFormatSymbols syms = ((DecimalFormat) NumberFormat.getNumberInstance( _locale ))
-				.getDecimalFormatSymbols();
+		final DecimalFormatSymbols syms = new DecimalFormatSymbols( _locale );
 		final char decSep = syms.getDecimalSeparator();
 		final char minusSign = syms.getMinusSign();
 
