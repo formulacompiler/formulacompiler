@@ -25,6 +25,7 @@ import java.util.List;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
 import org.formulacompiler.compiler.internal.expressions.InnerExpressionException;
 import org.formulacompiler.compiler.internal.model.analysis.TypeAnnotator;
@@ -107,12 +108,41 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 				return new FunctionRewriterForDMIN( _fun, this.numericType ).rewrite();
 			case DMAX:
 				return new FunctionRewriterForDMAX( _fun, this.numericType ).rewrite();
-			case VALUE:
+			case VALUE: {
 				final ExpressionNode arg = _fun.argument( 0 );
 				TypeAnnotator.annotateExpr( arg );
 				if (DataType.NUMERIC == arg.getDataType()) {
 					return arg;
 				}
+				break;
+			}
+			case N: {
+				final ExpressionNode arg = _fun.argument( 0 );
+				TypeAnnotator.annotateExpr( arg );
+				if (DataType.NUMERIC == arg.getDataType()) {
+					return arg;
+				}
+				else {
+					return new ExpressionNodeForConstantValue( numericType.zero(), DataType.NUMERIC );
+				}
+			}
+			case T: {
+				final ExpressionNode arg = _fun.argument( 0 );
+				TypeAnnotator.annotateExpr( arg );
+				if (DataType.STRING == arg.getDataType()) {
+					return arg;
+				}
+				else {
+					return new ExpressionNodeForConstantValue( "", DataType.STRING );
+				}
+			}
+			case TEXT: {
+				final ExpressionNode arg = _fun.argument( 0 );
+				TypeAnnotator.annotateExpr( arg );
+				if (DataType.STRING == arg.getDataType()) {
+					return arg;
+				}
+			}
 		}
 		return this.generatedRules.rewrite( _fun );
 	}
