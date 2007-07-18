@@ -71,17 +71,18 @@ public enum Function {
 
 	CONCATENATE, LEN, LENB, MID, LEFT, RIGHT, SUBSTITUTE, REPLACE, SEARCH, FIND, EXACT, LOWER, UPPER, PROPER, REPT, TRIM,
 	
-	TEXT {
+	// Conversions
+
+	N, T,
+	VALUE {
 		@Override
 		public boolean isVolatile()
 		{
 			return true;
 		}
 	},
-
-	// Conversions
-
-	VALUE {
+	TEXT
+	{
 		@Override
 		public boolean isVolatile()
 		{
