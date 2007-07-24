@@ -66,9 +66,6 @@ abstract class ExpressionCompiler
 
 	protected static final Object CHAINED_FIRST_ARG = new Object();
 
-	private static final ExpressionNode TRUENODE = new ExpressionNodeForConstantValue( Boolean.TRUE, DataType.NUMERIC );
-	private static final ExpressionNode FALSENODE = new ExpressionNodeForConstantValue( Boolean.FALSE, DataType.NUMERIC );
-
 	private final MethodCompiler methodCompiler;
 	private final GeneratorAdapter mv;
 
@@ -203,7 +200,7 @@ abstract class ExpressionCompiler
 		else if (_node instanceof ExpressionNodeForOperator) {
 			final ExpressionNodeForOperator node = (ExpressionNodeForOperator) _node;
 			if (needsIf( node.getOperator() )) {
-				compileIf( node, TRUENODE, FALSENODE );
+				compileIf( node, ExpressionNode.TRUENODE, ExpressionNode.FALSENODE );
 			}
 			else {
 				compileOperator( node );
@@ -219,12 +216,12 @@ abstract class ExpressionCompiler
 					break;
 
 				case NOT:
-					compileIf( node, TRUENODE, FALSENODE );
+					compileIf( node, ExpressionNode.TRUENODE, ExpressionNode.FALSENODE );
 					break;
 
 				case AND:
 				case OR:
-					compileIf( node, TRUENODE, FALSENODE );
+					compileIf( node, ExpressionNode.TRUENODE, ExpressionNode.FALSENODE );
 					break;
 
 				default:

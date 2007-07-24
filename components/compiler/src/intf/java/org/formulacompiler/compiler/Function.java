@@ -90,6 +90,10 @@ public enum Function {
 		}
 	},
 
+	//Types
+
+	ISBLANK, ISERR, ISERROR, ISLOGICAL, ISNA, ISNONTEXT, ISNUMBER, ISTEXT,
+
 	// Aggregators
 	// Don't forget to update AGGREGATORS below!
 
