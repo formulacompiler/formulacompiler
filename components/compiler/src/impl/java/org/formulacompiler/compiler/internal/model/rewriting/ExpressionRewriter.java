@@ -108,6 +108,21 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 				return new FunctionRewriterForDMIN( _fun, this.numericType ).rewrite();
 			case DMAX:
 				return new FunctionRewriterForDMAX( _fun, this.numericType ).rewrite();
+			case ISNONTEXT: {
+				final ExpressionNode arg = _fun.argument( 0 );
+				TypeAnnotator.annotateExpr( arg );
+				return DataType.STRING != arg.getDataType() ? ExpressionNode.TRUENODE : ExpressionNode.FALSENODE;
+			}
+			case ISNUMBER: {
+				final ExpressionNode arg = _fun.argument( 0 );
+				TypeAnnotator.annotateExpr( arg );
+				return DataType.NUMERIC == arg.getDataType() ? ExpressionNode.TRUENODE : ExpressionNode.FALSENODE;
+			}
+			case ISTEXT: {
+				final ExpressionNode arg = _fun.argument( 0 );
+				TypeAnnotator.annotateExpr( arg );
+				return DataType.STRING == arg.getDataType() ? ExpressionNode.TRUENODE : ExpressionNode.FALSENODE;
+			}
 			case VALUE: {
 				final ExpressionNode arg = _fun.argument( 0 );
 				TypeAnnotator.annotateExpr( arg );
