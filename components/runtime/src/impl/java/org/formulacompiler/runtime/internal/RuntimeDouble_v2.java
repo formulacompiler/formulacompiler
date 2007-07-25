@@ -119,9 +119,9 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	}
 
 
-	public static String toExcelString( double _value, Locale _locale )
+	public static String toExcelString( double _value, Environment _environment )
 	{
-		return stringFromBigDecimal( BigDecimal.valueOf( _value ), _locale );
+		return stringFromBigDecimal( BigDecimal.valueOf( _value ), _environment );
 	}
 
 
@@ -555,7 +555,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	public static double fun_VALUE( String _text, final Environment _environment )
 	{
 		final String text = _text.trim();
-		final Number number = parseNumber( text, false, _environment.locale() );
+		final Number number = parseNumber( text, false, _environment );
 		if (number != null) {
 			return number.doubleValue();
 		}

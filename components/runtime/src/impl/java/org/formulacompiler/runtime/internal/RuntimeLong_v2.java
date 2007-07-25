@@ -22,7 +22,6 @@ package org.formulacompiler.runtime.internal;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import org.formulacompiler.runtime.ScaledLongSupport;
@@ -232,12 +231,12 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	}
 
 
-	public static String toExcelString( long _val, Context _cx, Locale _locale )
+	public static String toExcelString( long _val, Context _cx, Environment _environment )
 	{
-		return toExcelString( _val, _cx.scale, _locale );
+		return toExcelString( _val, _cx.scale, _environment );
 	}
 
-	public static String toExcelString( long _value, int _scale, Locale _locale )
+	public static String toExcelString( long _value, int _scale, Environment _environment )
 	{
 		if (_value == 0) {
 			return "0";
@@ -246,7 +245,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 			return Long.toString( _value );
 		}
 		else {
-			return stringFromBigDecimal( RuntimeScaledBigDecimal_v2.fromScaledLong( _value, _scale ), _locale );
+			return stringFromBigDecimal( RuntimeScaledBigDecimal_v2.fromScaledLong( _value, _scale ), _environment );
 		}
 	}
 
@@ -564,7 +563,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	public static long fun_VALUE( String _text, Context _cx, final Environment _environment )
 	{
 		final String text = _text.trim();
-		final Number number = parseNumber( text, false, _environment.locale() );
+		final Number number = parseNumber( text, false, _environment );
 		if (number != null) {
 			if (number instanceof Long) {
 				return number.longValue() * _cx.one();

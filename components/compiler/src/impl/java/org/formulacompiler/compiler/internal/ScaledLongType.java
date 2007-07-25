@@ -24,6 +24,8 @@ import java.math.BigDecimal;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
+import org.formulacompiler.runtime.Computation;
+import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.runtime.internal.RuntimeLong_v2;
 
@@ -110,7 +112,8 @@ public final class ScaledLongType extends AbstractLongType
 	@Override
 	protected String convertToString( Number _value, Locale _locale )
 	{
-		return RuntimeLong_v2.toExcelString( (Long) _value, scale(), _locale );
+		final Environment environment = new Environment( new Computation.Config( _locale ) ); //FIXME Environment should be passed as a parameter
+		return RuntimeLong_v2.toExcelString( (Long) _value, scale(), environment );
 	}
 
 }

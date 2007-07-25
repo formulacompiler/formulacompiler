@@ -182,7 +182,7 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 	@ReturnsAdjustedValue
 	String util_toString( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v2.toExcelString( a, this.environment.locale() );
+		return RuntimeBigDecimal_v2.toExcelString( a, this.environment );
 	}
 
 	Number util_toNumber( BigDecimal a )

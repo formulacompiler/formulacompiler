@@ -126,9 +126,9 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	}
 
 
-	public static String toExcelString( BigDecimal _num, Locale _locale )
+	public static String toExcelString( BigDecimal _num, Environment _environment )
 	{
-		return stringFromBigDecimal( _num, _locale );
+		return stringFromBigDecimal( _num, _environment );
 	}
 
 
@@ -550,7 +550,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	public static BigDecimal fun_VALUE( String _text, final Environment _environment )
 	{
 		final String text = _text.trim();
-		final Number number = parseNumber( text, true, _environment.locale() );
+		final Number number = parseNumber( text, true, _environment );
 		if (number != null) {
 			if (number instanceof BigDecimal) {
 				return (BigDecimal) number;

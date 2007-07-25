@@ -28,7 +28,6 @@ import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -118,15 +117,12 @@ public abstract class Runtime_v2
 
 
 	// LATER Parse date and time values
-	static Number parseNumber( String _text, boolean _parseBigDecimal, Locale _locale )
+	static Number parseNumber( String _text, boolean _parseBigDecimal, Environment _environment )
 	{
-		final String text = _text.toUpperCase( _locale );
+		final String text = _text.toUpperCase( _environment.locale() );
 
-		final NumberFormat numberFormat = NumberFormat.getNumberInstance( _locale );
-		if (numberFormat instanceof DecimalFormat) {
-			final DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
-			decimalFormat.setParseBigDecimal( _parseBigDecimal );
-		}
+		final NumberFormat numberFormat = getNumberFormat( _environment );
+		setParseBigDecimal( numberFormat, _parseBigDecimal );
 		Number result = parseNumber( text, numberFormat );
 		if (result != null) {
 			return result;
@@ -146,17 +142,14 @@ public abstract class Runtime_v2
 			}
 		}
 
-		final NumberFormat percentFormat = NumberFormat.getPercentInstance( _locale );
-		if (numberFormat instanceof DecimalFormat) {
-			final DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
-			decimalFormat.setParseBigDecimal( _parseBigDecimal );
-		}
+		final NumberFormat percentFormat = getPercentFormat( _environment );
+		setParseBigDecimal( percentFormat, _parseBigDecimal );
 		result = parseNumber( text, percentFormat );
 		if (result != null) {
 			return result;
 		}
 
-		final DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols( _locale );
+		final DecimalFormatSymbols formatSymbols = getDecimalFormatSymbols( _environment );
 		final DecimalFormat scientificFormat = new DecimalFormat( "#0.###E0", formatSymbols );
 		scientificFormat.setParseBigDecimal( _parseBigDecimal );
 		result = parseNumber( text, numberFormat );
@@ -180,6 +173,37 @@ public abstract class Runtime_v2
 		}
 	}
 
+	private static NumberFormat getPercentFormat( final Environment _environment )
+	{
+		final NumberFormat format = NumberFormat.getPercentInstance( _environment.locale() );
+		setDecimalFormatSymbols( format, _environment );
+		return format;
+	}
+
+	private static NumberFormat getNumberFormat( final Environment _environment )
+	{
+		final NumberFormat format = NumberFormat.getInstance( _environment.locale() );
+		setDecimalFormatSymbols( format, _environment );
+		return format;
+	}
+
+	private static void setDecimalFormatSymbols( final NumberFormat _format, final Environment _environment )
+	{
+		final DecimalFormatSymbols envSymbols = _environment.decimalFormatSymbols();
+		if (envSymbols != null && _format instanceof DecimalFormat) {
+			final DecimalFormat decimalFormat = (DecimalFormat) _format;
+			decimalFormat.setDecimalFormatSymbols( envSymbols );
+		}
+	}
+
+	private static void setParseBigDecimal( final NumberFormat _format, final boolean _parseBigDecimal )
+	{
+		if (_format instanceof DecimalFormat) {
+			final DecimalFormat decimalFormat = (DecimalFormat) _format;
+			decimalFormat.setParseBigDecimal( _parseBigDecimal );
+		}
+	}
+
 
 	public static String stringFromObject( Object _obj )
 	{
@@ -191,27 +215,27 @@ public abstract class Runtime_v2
 		return (_str == null)? "" : _str;
 	}
 
-	static String stringFromBigDecimal( BigDecimal _value, Locale _locale )
+	static String stringFromBigDecimal( BigDecimal _value, Environment _environment )
 	{
 		if (_value.compareTo( BigDecimal.ZERO ) == 0) return "0"; // avoid "0.0"
 		final BigDecimal stripped = _value.stripTrailingZeros();
 		final int scale = stripped.scale();
 		final int prec = stripped.precision();
 		final int ints = prec - scale;
-		final NumberFormat numberFormat = NumberFormat.getInstance( _locale );
 		if (ints > 20) {
-			final DecimalFormatSymbols syms = ((DecimalFormat) numberFormat).getDecimalFormatSymbols();
+			final DecimalFormatSymbols syms = getDecimalFormatSymbols( _environment );
 			// Note: '.' is hard-coded in BigDecimal.toString().
 			return stripped.toString().replace( '.', syms.getDecimalSeparator() );
 		}
 		else {
+			final NumberFormat numberFormat = getNumberFormat( _environment );
 			numberFormat.setGroupingUsed( false );
 			numberFormat.setMaximumFractionDigits( scale );
 			return numberFormat.format( stripped );
 		}
 	}
 
-	private static String stringFromBigDecimal( BigDecimal _value, Locale _locale, int _intDigitsLimitFrac, int _intDigitsLimitInt )
+	private static String stringFromBigDecimal( BigDecimal _value, Environment _environment, int _intDigitsLimitFrac, int _intDigitsLimitInt )
 	{
 		if (_value.compareTo( BigDecimal.ZERO ) == 0) {
 			return "0"; // avoid "0.0"
@@ -222,27 +246,27 @@ public abstract class Runtime_v2
 		final int precision = stripped.precision();
 		final int integerDigits = precision - scale;
 		if (integerDigits > _intDigitsLimitInt) {
-			return formatExp( stripped, _locale );
+			return formatExp( stripped, _environment );
 		}
 		if (scale > 9 && integerDigits <= 0 && _value.abs().compareTo( MAX_EXP_VALUE ) < 0) {
-			return formatExp( stripped, _locale );
+			return formatExp( stripped, _environment );
 		}
 		final int fractionDigits = _intDigitsLimitFrac - integerDigits;
-		final int maximumFractionDigits = fractionDigits > 0? Math.min( fractionDigits, _intDigitsLimitFrac - 1 ) : 0;
+		final int maximumFractionDigits = fractionDigits > 0 ? Math.min( fractionDigits, _intDigitsLimitFrac - 1 ) : 0;
 		if (scale > maximumFractionDigits) {
 			final BigDecimal scaled = stripped.setScale( maximumFractionDigits, RoundingMode.HALF_UP );
-			return stringFromBigDecimal( scaled, _locale, _intDigitsLimitFrac, _intDigitsLimitInt );
+			return stringFromBigDecimal( scaled, _environment, _intDigitsLimitFrac, _intDigitsLimitInt );
 		}
 
-		final NumberFormat numberFormat = NumberFormat.getInstance( _locale );
+		final NumberFormat numberFormat = getNumberFormat( _environment );
 		numberFormat.setGroupingUsed( false );
 		numberFormat.setMaximumFractionDigits( maximumFractionDigits );
 		return numberFormat.format( stripped );
 	}
 
-	private static String formatExp( BigDecimal _value, Locale _locale )
+	private static String formatExp( BigDecimal _value, Environment _environment )
 	{
-		final DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols( _locale );
+		final DecimalFormatSymbols formatSymbols = getDecimalFormatSymbols( _environment );
 		final DecimalFormat scientificFormat = new DecimalFormat( "0.#####E00", formatSymbols );
 		final String numStr = scientificFormat.format( _value );
 		final int expIndex = numStr.indexOf( 'E' );
@@ -256,6 +280,12 @@ public abstract class Runtime_v2
 		else {
 			return numStr;
 		}
+	}
+
+	private static DecimalFormatSymbols getDecimalFormatSymbols( Environment _environment )
+	{
+		final DecimalFormatSymbols envSymbols = _environment.decimalFormatSymbols();
+		return envSymbols != null ? envSymbols : new DecimalFormatSymbols( _environment.locale() );
 	}
 
 
@@ -472,7 +502,7 @@ public abstract class Runtime_v2
 		if ("@".equals( _format )) {
 			final BigDecimal num = _num instanceof BigDecimal ?
 					(BigDecimal) _num : BigDecimal.valueOf( _num.doubleValue() );
-			return stringFromBigDecimal( num, _environment.locale(), 10, 11 );
+			return stringFromBigDecimal( num, _environment, 10, 11 );
 		}
 		throw new IllegalArgumentException( "TEXT() is not properly supported yet." );
 	}

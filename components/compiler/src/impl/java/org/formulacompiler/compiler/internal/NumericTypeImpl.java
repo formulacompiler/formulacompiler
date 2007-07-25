@@ -157,6 +157,7 @@ public abstract class NumericTypeImpl implements NumericType
 		return assertProperNumberType( convertFromString( _value, _locale ) );
 	}
 
+	@Deprecated
 	public final String valueToString( Number _value )
 	{
 		return valueToString( _value, Locale.getDefault() );
@@ -168,6 +169,7 @@ public abstract class NumericTypeImpl implements NumericType
 		return convertToString( assertProperNumberType( _value ), _locale );
 	}
 
+	@Deprecated
 	public final String valueToConciseString( Number _value )
 	{
 		return valueToConciseString( _value, Locale.getDefault() );
