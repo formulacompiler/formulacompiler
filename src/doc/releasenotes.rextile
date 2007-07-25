@@ -21,6 +21,7 @@ h5. New
 	* @STDEV()@ and @STDEVP()@ are now "supported":reference/aggregators.htm.
 	* @N()@ and @T()@ are now "supported":reference/convfuncs.htm.
 	* @ISTEXT()@, @ISNONTEXT()@, and @ISNUMBER()@ are now "supported":reference/typefuncs.htm.
+	* @ROUNDDOWN()@ and @ROUNDUP()@ are now "supported":reference/numfuncs.htm.
 
 h5. Better
 

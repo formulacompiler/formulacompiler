@@ -328,6 +328,16 @@ public final class ExpressionTemplatesForDoubles
 	}
 	// ---- fun_ROUND
 
+	public double fun_ROUNDDOWN( double a, double b )
+	{
+		return RuntimeDouble_v2.fun_ROUNDDOWN( a, (int) b );
+	}
+
+	public double fun_ROUNDUP( double a, double b )
+	{
+		return RuntimeDouble_v2.fun_ROUNDUP( a, (int) b );
+	}
+
 	public double fun_TRUNC( double a, double b )
 	{
 		return RuntimeDouble_v2.trunc( a, (int) b );

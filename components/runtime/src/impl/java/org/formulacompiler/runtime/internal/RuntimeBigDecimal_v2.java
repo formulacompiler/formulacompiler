@@ -58,7 +58,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 
 	public static BigDecimal round( final BigDecimal _val, final int _maxFrac )
 	{
-		return _val.setScale( _maxFrac, BigDecimal.ROUND_HALF_UP );
+		return _val.setScale( _maxFrac, RoundingMode.HALF_UP );
 	}
 
 	public static BigDecimal min( BigDecimal a, BigDecimal b )
@@ -96,10 +96,10 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 
 	public static long toScaledLong( BigDecimal _value, int _scale )
 	{
-		return toScaledLong( _value, _scale, BigDecimal.ROUND_HALF_UP );
+		return toScaledLong( _value, _scale, RoundingMode.HALF_UP );
 	}
 
-	private static long toScaledLong( BigDecimal _value, int _scale, int _roundingMode )
+	private static long toScaledLong( BigDecimal _value, int _scale, RoundingMode _roundingMode )
 	{
 		return _value.setScale( _scale, _roundingMode ).movePointRight( _scale ).longValue();
 	}
@@ -213,6 +213,16 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	public static BigDecimal fun_ROUND( final BigDecimal _val, final BigDecimal _maxFrac )
 	{
 		return round( _val, _maxFrac.intValue() );
+	}
+
+	public static BigDecimal fun_ROUNDDOWN( final BigDecimal _val, final BigDecimal _maxFrac )
+	{
+		return _val.setScale( _maxFrac.intValue(), RoundingMode.DOWN );
+	}
+
+	public static BigDecimal fun_ROUNDUP( final BigDecimal _val, final BigDecimal _maxFrac )
+	{
+		return _val.setScale( _maxFrac.intValue(), RoundingMode.UP );
 	}
 
 	public static BigDecimal fun_TRUNC( final BigDecimal _val, final BigDecimal _maxFrac )
