@@ -20,6 +20,7 @@
  */
 package org.formulacompiler.runtime;
 
+import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -30,7 +31,7 @@ import java.util.TimeZone;
  * output type you supplied to AFC's compiler. If you specify an application-specific factory to
  * AFC, then this cast is not necessary as the factory already returns the proper
  * application-specific computation type.
- * 
+ *
  * @author peo
  */
 public interface Computation
@@ -39,7 +40,7 @@ public interface Computation
 
 	/**
 	 * Provides configuration information for an execution environment for computations.
-	 * 
+	 *
 	 * @author peo
 	 */
 	public final class Config
@@ -50,6 +51,12 @@ public interface Computation
 		 * use the default locale at the time the computation is run.
 		 */
 		public Locale locale = null;
+
+		/**
+		 * A set of symbols (such as the decimal separator, the grouping separator, and so on)
+		 * needed to format numbers. If this field is not set, the default values for the {@link #locale} are used.
+		 */
+		public DecimalFormatSymbols decimalFormatSymbols = null;
 
 		/**
 		 * Time zone to use to, for example, convert spreadsheet-internal numeric dates to
@@ -89,6 +96,25 @@ public interface Computation
 		public Config(Locale _locale, TimeZone _timeZone)
 		{
 			this.locale = _locale;
+			this.timeZone = _timeZone;
+		}
+
+		/**
+		 * Overrides the {@link #locale}, and {@link #decimalFormatSymbols} fields.
+		 */
+		public Config( Locale _locale, DecimalFormatSymbols _decimalFormatSymbols )
+		{
+			this.locale = _locale;
+			this.decimalFormatSymbols = _decimalFormatSymbols;
+		}
+
+		/**
+		 * Overrides the {@link #locale}, and {@link #decimalFormatSymbols}, and {@link #timeZone} fields.
+		 */
+		public Config( Locale _locale, DecimalFormatSymbols _decimalFormatSymbols, TimeZone _timeZone )
+		{
+			this.locale = _locale;
+			this.decimalFormatSymbols = _decimalFormatSymbols;
 			this.timeZone = _timeZone;
 		}
 

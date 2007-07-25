@@ -157,7 +157,7 @@ public final class ExpressionTemplatesForDoubles
 
 	String util_toString( double a )
 	{
-		return RuntimeDouble_v2.toExcelString( a, this.environment.locale() );
+		return RuntimeDouble_v2.toExcelString( a, this.environment );
 	}
 	
 	Number util_toNumber( double a )

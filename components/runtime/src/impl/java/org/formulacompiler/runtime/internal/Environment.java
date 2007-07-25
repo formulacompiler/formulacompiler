@@ -20,6 +20,7 @@
  */
 package org.formulacompiler.runtime.internal;
 
+import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -30,11 +31,13 @@ public final class Environment
 	public static final Environment DEFAULT = new Environment( new Computation.Config() );
 
 	private final Locale locale;
+	private final DecimalFormatSymbols decimalFormatSymbols;
 	private final TimeZone timeZone;
 
 	public Environment(Computation.Config _cfg)
 	{
 		this.locale = _cfg.locale;
+		this.decimalFormatSymbols = _cfg.decimalFormatSymbols;
 
 		// Defensive copy below as TimeZone is mutable.
 		this.timeZone = (null == _cfg.timeZone) ? null : (TimeZone) _cfg.timeZone.clone();
@@ -43,6 +46,11 @@ public final class Environment
 	public Locale locale()
 	{
 		return (null == this.locale)? Locale.getDefault() : this.locale;
+	}
+
+	public DecimalFormatSymbols decimalFormatSymbols()
+	{
+		return decimalFormatSymbols;
 	}
 
 	public TimeZone timeZone()

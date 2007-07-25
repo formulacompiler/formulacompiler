@@ -25,6 +25,8 @@ import java.math.MathContext;
 import java.text.ParseException;
 import java.util.Locale;
 
+import org.formulacompiler.runtime.Computation;
+import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
 
 public abstract class AbstractBigDecimalType extends NumericTypeImpl
@@ -77,7 +79,8 @@ public abstract class AbstractBigDecimalType extends NumericTypeImpl
 	@Override
 	protected String convertToConciseString( Number _value, Locale _locale )
 	{
-		return RuntimeBigDecimal_v2.toExcelString( (BigDecimal) _value, _locale );
+		final Environment environment = new Environment( new Computation.Config( _locale ) ); //FIXME Environment should be passed as a parameter
+		return RuntimeBigDecimal_v2.toExcelString( (BigDecimal) _value, environment );
 	}
 
 	protected abstract BigDecimal adjustConvertedValue( BigDecimal _value );
