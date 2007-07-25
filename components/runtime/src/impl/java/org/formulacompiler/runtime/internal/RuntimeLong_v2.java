@@ -313,9 +313,30 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return round( _val, (int) (_maxFrac / _cx.one), _cx );
 	}
 
+	public static long fun_ROUNDDOWN( final long _val, final long _maxFrac, Context _cx )
+	{
+		return trunc( _val, (int) (_maxFrac / _cx.one), _cx );
+	}
+
+	public static long fun_ROUNDUP( final long _val, final long _maxFrac, Context _cx )
+	{
+		final int maxFrac = (int) (_maxFrac / _cx.one);
+		final int truncateAt = _cx.scale - maxFrac;
+		final long shiftFactor = ONE_AT_SCALE[ truncateAt ];
+		final long truncated = _val / shiftFactor * shiftFactor;
+		if (_val == truncated) {
+			return truncated;
+		}
+		else if (_val < 0) {
+			return truncated - shiftFactor;
+		}
+		else {
+			return truncated + shiftFactor;
+		}
+	}
+
 	public static long fun_TRUNC( final long _val, final long _maxFrac, Context _cx )
 	{
-		if (_cx.scale == 0) return trunc( _val, (int) _maxFrac, _cx );
 		return trunc( _val, (int) (_maxFrac / _cx.one), _cx );
 	}
 
@@ -326,7 +347,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 
 	public static long fun_EVEN( final long _val, Context _cx )
 	{
-		final long shiftFactor = ONE_AT_SCALE[ _cx.scale ] * 2;
+		final long shiftFactor = _cx.one * 2;
 		final long truncated = _val / shiftFactor * shiftFactor;
 		if (_val == truncated) {
 			return truncated;
@@ -341,7 +362,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 
 	public static long fun_ODD( final long _val, Context _cx )
 	{
-		final long oneAtScale = ONE_AT_SCALE[ _cx.scale ];
+		final long oneAtScale = _cx.one;
 		final long shiftFactor = oneAtScale * 2;
 		if (_val < 0) {
 			final long truncated = (_val - oneAtScale) / shiftFactor * shiftFactor + oneAtScale;
@@ -369,7 +390,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 			return _val;
 		}
 		else {
-			final long shiftFactor = ONE_AT_SCALE[ _cx.scale ];
+			final long shiftFactor = _cx.one;
 			final long truncated = _val / shiftFactor * shiftFactor;
 			if (_val < 0 && _val != truncated) {
 				return truncated - shiftFactor;

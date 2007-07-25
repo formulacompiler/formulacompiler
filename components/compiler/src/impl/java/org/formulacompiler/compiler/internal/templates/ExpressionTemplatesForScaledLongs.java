@@ -393,6 +393,16 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_ROUND( a, b, this.context );
 	}
 
+	public long fun_ROUNDDOWN( long a, long b )
+	{
+		return RuntimeLong_v2.fun_ROUNDDOWN( a, b, this.context );
+	}
+
+	public long fun_ROUNDUP( long a, long b )
+	{
+		return RuntimeLong_v2.fun_ROUNDUP( a, b, this.context );
+	}
+
 	public long fun_TRUNC( long a, long b )
 	{
 		return RuntimeLong_v2.fun_TRUNC( a, b, this.context );

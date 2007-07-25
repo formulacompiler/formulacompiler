@@ -315,6 +315,16 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_ROUND( a, b );
 	}
 
+	public BigDecimal fun_ROUNDDOWN( BigDecimal a, BigDecimal b )
+	{
+		return RuntimeBigDecimal_v2.fun_ROUNDDOWN( a, b );
+	}
+
+	public BigDecimal fun_ROUNDUP( BigDecimal a, BigDecimal b )
+	{
+		return RuntimeBigDecimal_v2.fun_ROUNDUP( a, b );
+	}
+
 	public BigDecimal fun_TRUNC( BigDecimal a, BigDecimal b )
 	{
 		return RuntimeBigDecimal_v2.fun_TRUNC( a, b );

@@ -310,6 +310,8 @@ void fun(): {}
 	|	"REPT" fun2( Function.REPT )
 	|	"RIGHT" fun1to2( Function.RIGHT )
 	|	"ROUND" fun2( Function.ROUND )
+	|	"ROUNDDOWN" fun2( Function.ROUNDDOWN )
+	|	"ROUNDUP" fun2( Function.ROUNDUP )
 	|	"SEARCH" fun2to3( Function.SEARCH )
 	|	"SECOND" fun1( Function.SECOND )
 	|	"SIN" fun1( Function.SIN )

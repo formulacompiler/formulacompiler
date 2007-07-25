@@ -31,6 +31,8 @@ import java.util.TimeZone;
 public final class RuntimeDouble_v2 extends Runtime_v2
 {
 	private static final double EXCEL_EPSILON = 0.0000001;
+	private static final double[] POW10 = { 1E-10, 1E-9, 1E-8, 1E-7, 1E-6, 1E-5, 1E-4, 1E-3, 1E-2, 1E-1, 1,
+			1E+1, 1E+2, 1E+3, 1E+4, 1E+5, 1E+6, 1E+7, 1E+8, 1E+9, 1E+10 };
 
 
 	public static double max( final double a, final double b )
@@ -47,7 +49,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	// ---- round
 	public static double round( final double _val, final int _maxFrac )
 	{
-		final double shift = Math.pow( 10, _maxFrac );
+		final double shift = pow10( _maxFrac );
 		if (0 > _val) {
 			return Math.ceil( _val * shift - 0.5 ) / shift;
 		}
@@ -57,17 +59,38 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	}
 	// ---- round
 
-	public static double trunc( final double _val, final int _maxFrac )
+	public static double fun_ROUNDDOWN( final double _val, final int _maxFrac )
 	{
-		final double shift = Math.pow( 10, _maxFrac );
-		if (0 > _val) {
-			return Math.ceil( _val * shift ) / shift;
-		}
-		else {
-			return Math.floor( _val * shift ) / shift;
-		}
+		final double shift = pow10( _maxFrac );
+		return roundDown( _val * shift ) / shift;
 	}
 
+	public static double fun_ROUNDUP( final double _val, final int _maxFrac )
+	{
+		final double shift = pow10( _maxFrac );
+		return roundUp( _val * shift ) / shift;
+	}
+
+	public static double trunc( final double _val, final int _maxFrac )
+	{
+		final double shift = pow10( _maxFrac );
+		return roundDown( _val * shift ) / shift;
+	}
+
+	private static double roundDown( final double _val )
+	{
+		return 0 > _val ? Math.ceil( _val ) : Math.floor( _val );
+	}
+
+	private static double roundUp( final double _val )
+	{
+		return 0 > _val ? Math.floor( _val ) : Math.ceil( _val );
+	}
+
+	private static double pow10( final int _exp )
+	{
+		return (_exp >= -10 && _exp <= 10) ? POW10[ _exp + 10 ] : Math.pow( 10, _exp );
+	}
 
 	public static boolean booleanFromNum( final double _val )
 	{
@@ -324,22 +347,12 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_TRUNC( final double _val )
 	{
-		if (0 > _val) {
-			return Math.ceil( _val );
-		}
-		else {
-			return Math.floor( _val );
-		}
+		return roundDown( _val );
 	}
 
 	public static double fun_EVEN( final double _val )
 	{
-		if (0 > _val) {
-			return Math.floor( _val / 2 ) * 2;
-		}
-		else {
-			return Math.ceil( _val / 2 ) * 2;
-		}
+		return roundUp( _val / 2 ) * 2;
 	}
 
 	public static double fun_ODD( final double _val )
