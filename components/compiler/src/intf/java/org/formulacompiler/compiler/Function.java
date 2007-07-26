@@ -98,13 +98,13 @@ public enum Function {
 	// Aggregators
 	// Don't forget to update AGGREGATORS below!
 
-	SUM, PRODUCT, MIN, MAX, COUNT, AVERAGE, VAR, VARP, AND, OR, STDEV, STDEVP,
+	SUM, PRODUCT, MIN, MAX, COUNT, AVERAGE, VAR, VARP, AND, OR, SKEW, STDEV, STDEVP,
 
 	// Database aggregators
 	DSUM, DPRODUCT, DCOUNT, DMIN, DMAX;
 
 
-	private static final Function[] AGGREGATORS = { SUM, PRODUCT, MIN, MAX, COUNT, AVERAGE, VAR, VARP, AND, OR, STDEV, STDEVP };
+	private static final Function[] AGGREGATORS = { SUM, PRODUCT, MIN, MAX, COUNT, AVERAGE, VAR, VARP, AND, OR, SKEW, STDEV, STDEVP };
 
 
 	public String getName()

@@ -317,6 +317,7 @@ void fun(): {}
 	|	"SEARCH" fun2to3( Function.SEARCH )
 	|	"SECOND" fun1( Function.SECOND )
 	|	"SIN" fun1( Function.SIN )
+	|	"SKEW" aggN( Function.SKEW )
 	|	"SLN" fun3( Function.SLN )
 	|	"SQRT" fun1( Function.SQRT )
 	|	"STDEV" aggN( Function.STDEV )
