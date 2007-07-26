@@ -25,7 +25,6 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Date;
-import java.util.Locale;
 import java.util.TimeZone;
 
 
@@ -208,6 +207,24 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			}
 		}
 		return valueOrZero( Math.pow( _n.doubleValue(), _p.doubleValue() ) );
+	}
+
+	public static BigDecimal fun_CEILING( BigDecimal _number, BigDecimal _significance, MathContext _cx )
+	{
+		final BigDecimal a = _number.divide( _significance, _cx );
+		if (a.signum() < 0) {
+			return ZERO; // Excel #NUM!
+		}
+		return a.setScale( 0, RoundingMode.UP ).multiply( _significance, _cx );
+	}
+
+	public static BigDecimal fun_FLOOR( BigDecimal _number, BigDecimal _significance, MathContext _cx )
+	{
+		final BigDecimal a = _number.divide( _significance, _cx );
+		if (a.signum() < 0) {
+			return ZERO; // Excel #NUM!
+		}
+		return a.setScale( 0, RoundingMode.DOWN ).multiply( _significance, _cx );
 	}
 
 	public static BigDecimal fun_ROUND( final BigDecimal _val, final BigDecimal _maxFrac )

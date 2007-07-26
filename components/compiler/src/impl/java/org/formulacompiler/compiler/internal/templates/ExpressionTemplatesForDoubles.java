@@ -320,6 +320,16 @@ public final class ExpressionTemplatesForDoubles
 		return Math.PI;
 	}
 
+	public double fun_CEILING(double _number, double _significance)
+	{
+		return RuntimeDouble_v2.fun_CEILING( _number, _significance );
+	}
+
+	public double fun_FLOOR( double _number, double _significance )
+	{
+		return RuntimeDouble_v2.fun_FLOOR( _number, _significance );
+	}
+
 	// Leave this comment in. It is used to cite the code into the documentation.
 	// ---- fun_ROUND
 	public double fun_ROUND( double a, double b )

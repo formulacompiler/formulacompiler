@@ -28,8 +28,8 @@ import java.util.Date;
 
 import org.formulacompiler.runtime.internal.ComputationTime;
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2;
 import org.formulacompiler.runtime.internal.RuntimeLong_v2;
+import org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2;
 
 
 public final class ExpressionTemplatesForScaledLongs
@@ -386,6 +386,16 @@ public final class ExpressionTemplatesForScaledLongs
 	public long fun_PI()
 	{
 		return RuntimeLong_v2.fun_PI( this.context );
+	}
+
+	public long fun_CEILING( long _number, long _significance )
+	{
+		return RuntimeLong_v2.fun_CEILING( _number, _significance, this.context );
+	}
+
+	public long fun_FLOOR( long _number, long _significance )
+	{
+		return RuntimeLong_v2.fun_FLOOR( _number, _significance, this.context );
 	}
 
 	public long fun_ROUND( long a, long b )

@@ -240,6 +240,7 @@ void fun(): {}
 	|	"ATAN2" fun2( Function.ATAN2 )
 	|	"AND" aggN( Function.AND )
 	|	"AVERAGE" aggN( Function.AVERAGE )
+	|	"CEILING" fun2( Function.CEILING )
 	|	"COMBIN" fun2( Function.COMBIN )
 	|	"CONCATENATE" open() expr() commaExprs() closeOp( Operator.CONCAT )
 	|	"COS" fun1( Function.COS )
@@ -262,6 +263,7 @@ void fun(): {}
 	|	"FALSE" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 0 )); }
 	|	"false" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 0 )); }
 	|	"FIND" fun2to3( Function.FIND )
+	|	"FLOOR" fun2( Function.FLOOR )
 	|	"FV" fun3to5( Function.FV )
 	|	"HOUR" fun1( Function.HOUR )
 	|	"IF" fun3( Function.IF )
