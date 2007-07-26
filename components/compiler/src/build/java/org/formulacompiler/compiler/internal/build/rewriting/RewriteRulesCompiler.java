@@ -125,6 +125,20 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		end();
 		// ---- fun_VAR
 
+		begin( Function.SKEW, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "  _LET( s3: _LET( s: STDEV(`xs); `s*`s*`s);" );
+			body( "    _LET( m: SUM(`xs) / `n;" );
+			body( "      _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei*`ei ); `xs )" );
+			body( "    )" );
+			body( "    / `s3" );
+			body( "  )" );
+			body( "  * `n / ((`n - 1) * (`n - 2))" );
+			body( ")" );
+		}
+		end();
+
 		def( Function.STDEV, "xs*", "SQRT( VAR( `xs ) )" );
 		def( Function.STDEVP, "xs*", "SQRT( VARP( `xs ) )" );
 	}
