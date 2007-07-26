@@ -21,7 +21,7 @@ h5. New
 	* @STDEV()@ and @STDEVP()@ are now "supported":reference/aggregators.htm.
 	* @N()@ and @T()@ are now "supported":reference/convfuncs.htm.
 	* @ISTEXT()@, @ISNONTEXT()@, and @ISNUMBER()@ are now "supported":reference/typefuncs.htm.
-	* @ROUNDDOWN()@ and @ROUNDUP()@ are now "supported":reference/numfuncs.htm.
+	* @CEILING()@, @FLOOR()@, @ROUNDDOWN()@, and @ROUNDUP()@ are now "supported":reference/numfuncs.htm.
 	* You can optionally configure symbols (such as the decimal separator, the grouping separator, and so on) needed to format numbers.
 
 h5. Better

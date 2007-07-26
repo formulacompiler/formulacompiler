@@ -30,6 +30,7 @@ import static org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2.UN
 import java.math.BigDecimal;
 
 import org.formulacompiler.runtime.FormulaRuntime;
+import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
 import org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2;
 
 
@@ -116,6 +117,16 @@ public final class ExpressionTemplatesForScaledBigDecimals extends AbstractExpre
 	public BigDecimal fun_RADIANS( BigDecimal a )
 	{
 		return RuntimeScaledBigDecimal_v2.fun_RADIANS( a );
+	}
+
+	public BigDecimal fun_CEILING( BigDecimal _number, BigDecimal _significance )
+	{
+		return RuntimeBigDecimal_v2.fun_CEILING( _number, _significance, HIGHPREC );
+	}
+
+	public BigDecimal fun_FLOOR( BigDecimal _number, BigDecimal _significance )
+	{
+		return RuntimeBigDecimal_v2.fun_FLOOR( _number, _significance, HIGHPREC );
 	}
 
 	public BigDecimal fun_POWER( BigDecimal n, BigDecimal p )

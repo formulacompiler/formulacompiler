@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 import java.util.TimeZone;
 
 
@@ -43,6 +42,24 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	public static double min( final double a, final double b )
 	{
 		return a <= b ? a : b;
+	}
+
+	public static double fun_CEILING( final double _number, final double _significance )
+	{
+		final double a = _number / _significance;
+		if (a < 0) {
+			return 0.0; // Excel #NUM
+		}
+		return roundUp( a ) * _significance;
+	}
+
+	public static double fun_FLOOR( final double _number, final double _significance )
+	{
+		final double a = _number / _significance;
+		if (a < 0) {
+			return 0.0; // Excel #NUM
+		}
+		return roundDown( a ) * _significance;
 	}
 
 	// Leave this comment in. It is used to cite the code into the documentation.

@@ -306,6 +306,27 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return _cx.fromDouble( Math.PI );
 	}
 
+	public static long fun_CEILING( final long _number, final long _significance, final Context _cx )
+	{
+		long a = _number / _significance;
+		if (a < 0) {
+			return 0; // Excel #NUM
+		}
+		if (a * _significance != _number) {
+			a++;
+		}
+		return a * _significance;
+	}
+
+	public static long fun_FLOOR( final long _number, final long _significance, final Context _cx )
+	{
+		final long a = _number / _significance;
+		if (a < 0) {
+			return 0; // Excel #NUM
+		}
+		return a * _significance;
+	}
+
 	public static long fun_ROUND( final long _val, final long _maxFrac, Context _cx )
 	{
 		if (_cx.scale == 0) return round( _val, (int) _maxFrac, _cx );

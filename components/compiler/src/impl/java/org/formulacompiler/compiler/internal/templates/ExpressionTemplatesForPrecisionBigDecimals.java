@@ -119,6 +119,18 @@ public final class ExpressionTemplatesForPrecisionBigDecimals extends AbstractEx
 	}
 
 	@ReturnsAdjustedValue
+	public BigDecimal fun_CEILING( BigDecimal _number, BigDecimal _significance )
+	{
+		return RuntimeBigDecimal_v2.fun_CEILING( _number, _significance, this.mathContext );
+	}
+
+	@ReturnsAdjustedValue
+	public BigDecimal fun_FLOOR( BigDecimal _number, BigDecimal _significance )
+	{
+		return RuntimeBigDecimal_v2.fun_FLOOR( _number, _significance, this.mathContext );
+	}
+
+	@ReturnsAdjustedValue
 	public BigDecimal fun_POWER( BigDecimal n, BigDecimal p )
 	{
 		return RuntimeBigDecimal_v2.fun_POWER( n, p, this.mathContext );
