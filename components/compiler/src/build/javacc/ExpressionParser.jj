@@ -278,6 +278,7 @@ void fun(): {}
 	|	"ISNONTEXT" fun1( Function.ISNONTEXT )
 	|	"ISNUMBER" fun1( Function.ISNUMBER )
 	|	"ISTEXT" fun1( Function.ISTEXT )
+	|	"KURT" aggN( Function.KURT )
 	|	"LEFT" fun1to2( Function.LEFT )
 	|	"LEN" fun1( Function.LEN )
 	|	"LENB" fun1( Function.LENB )

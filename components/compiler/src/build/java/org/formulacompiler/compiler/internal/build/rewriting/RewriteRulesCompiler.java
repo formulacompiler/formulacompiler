@@ -125,6 +125,26 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		end();
 		// ---- fun_VAR
 
+		begin( Function.KURT, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "  _LET( a: `n - 1;" );
+			body( "    _LET( b: (`n - 2) * (`n - 3);" );
+			body( "      _LET( s: STDEV(`xs);" );
+			body( "        _LET( m: SUM(`xs) / `n;" );
+			body( "          _FOLD( r: 0; xi:" );
+			body( "            _LET( ei2:" );
+			body( "              _LET( ei: (`xi - `m) / `s; `ei*`ei );" );
+			body( "            `r + `ei2*`ei2 );" );
+			body( "          `xs )" );
+			body( "        )" );
+			body( "      ) * `n * (`n + 1) / (`a * `b) - 3 * `a * `a / `b" );
+			body( "    )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
+
 		begin( Function.SKEW, "xs*" );
 		{
 			body( "_LET( n: COUNT(`xs);" );
