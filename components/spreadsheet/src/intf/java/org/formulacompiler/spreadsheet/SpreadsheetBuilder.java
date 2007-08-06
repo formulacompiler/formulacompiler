@@ -231,6 +231,7 @@ public interface SpreadsheetBuilder
 	 * @see org.formulacompiler.spreadsheet.SpreadsheetBuilder#cst(String)
 	 * @see org.formulacompiler.spreadsheet.SpreadsheetBuilder#cst(Date)
 	 * @see org.formulacompiler.spreadsheet.SpreadsheetBuilder#cst(boolean)
+	 * @see org.formulacompiler.spreadsheet.SpreadsheetBuilder#ref(org.formulacompiler.spreadsheet.SpreadsheetBuilder.Constant)
 	 */
 	public static interface Constant
 	{
