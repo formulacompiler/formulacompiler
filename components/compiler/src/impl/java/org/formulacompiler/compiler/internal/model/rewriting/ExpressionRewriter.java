@@ -138,7 +138,7 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 					return arg;
 				}
 				else {
-					return new ExpressionNodeForConstantValue( numericType.zero(), DataType.NUMERIC );
+					return new ExpressionNodeForConstantValue( this.numericType.zero(), DataType.NUMERIC );
 				}
 			}
 			case T: {
