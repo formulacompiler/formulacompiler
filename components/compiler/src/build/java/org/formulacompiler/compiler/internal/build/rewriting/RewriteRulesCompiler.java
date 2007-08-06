@@ -38,19 +38,31 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 	}
 
 
-	// Leave this comment in. It is used to cite the code into the documentation.
+	// Leave these comments in. They are used to cite the code into the documentation.
 	// ---- fun_COMBIN
 	@Override
 	protected void defineFunctions() throws Exception
 	{
 		// ---- fun_COMBIN
-		
+
 		defineAggregators();
-		defineStatistical();
 		defineFinancial();
 
-		// Leave this comment in. It is used to cite the code into the documentation.
+		// Please leave this rule here. It is cited into the documentation.
 		// ---- fun_COMBIN
+		// ...
+		begin( Function.COMBIN, "n", "k" );
+		{
+			body( "IF( OR( `n <= 0, `k < 0, `n < `k ), 0," );
+			body( "  IF( `n = `k, 1," );
+			body( "    IF( `k = 1, `n," );
+			body( "      FACT(`n) / FACT(`k) / FACT(`n - `k)" );
+			body( "    )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
+		// ...
 	}
 	// ---- fun_COMBIN
 
@@ -162,34 +174,11 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		def( Function.STDEV, "xs*", "SQRT( VAR( `xs ) )" );
 		def( Function.STDEVP, "xs*", "SQRT( VARP( `xs ) )" );
 	}
-	
-	
-	private void defineStatistical() throws Exception
-	{
-		
-		// Leave this comment in. It is used to cite the code into the documentation.
-		// ---- fun_COMBIN
-		// ...
-		begin( Function.COMBIN, "n", "k" );
-		{
-			body( "IF( OR( `n <= 0, `k < 0, `n < `k ), 0," );
-			body( "  IF( `n = `k, 1," );
-			body( "    IF( `k = 1, `n," );
-			body( "      FACT(`n) / FACT(`k) / FACT(`n - `k)" );
-			body( "    )" );
-			body( "  )" );
-			body( ")" );
-		}
-		end();
-		// ...
-		// ---- fun_COMBIN
 
-	}
-	
-	
+
 	private void defineFinancial() throws Exception
 	{
-		
+
 		// Leave this comment in. It is used to cite the code into the documentation.
 		// ---- fun_NPV
 		// ...
