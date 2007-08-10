@@ -115,7 +115,7 @@ public class SpreadsheetCompiler extends FormulaCompiler
 	public static Spreadsheet loadSpreadsheet( String _originalFileName, InputStream _stream ) throws IOException,
 			SpreadsheetException
 	{
-		return LOADER_FACTORY.newInstance( null ).loadFrom( _originalFileName, _stream );
+		return loadSpreadsheet( _originalFileName, _stream, null );
 	}
 
 	/**
@@ -133,7 +133,8 @@ public class SpreadsheetCompiler extends FormulaCompiler
 	public static Spreadsheet loadSpreadsheet( String _originalFileName, InputStream _stream,
 			SpreadsheetLoader.Config _config ) throws IOException, SpreadsheetException
 	{
-		return LOADER_FACTORY.newInstance( _config ).loadFrom( _originalFileName, _stream );
+		final SpreadsheetLoader.Config cfg = (_config == null)? new SpreadsheetLoader.Config() : _config;
+		return LOADER_FACTORY.newInstance( cfg ).loadFrom( _originalFileName, _stream );
 	}
 
 	private static final SpreadsheetLoader.Factory LOADER_FACTORY = ImplementationLocator
