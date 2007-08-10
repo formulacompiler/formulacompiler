@@ -48,13 +48,6 @@ public final class CellWithLazilyParsedExpression extends CellInstance
 
 
 	@Override
-	public Object getValue()
-	{
-		return null;
-	}
-
-
-	@Override
 	public synchronized ExpressionNode getExpression() throws SpreadsheetException
 	{
 		final ExpressionNode own = this.expression;

@@ -33,6 +33,7 @@ public abstract class CellInstance extends AbstractStyledElement
 	private final RowImpl row;
 	private final int columnIndex;
 	private NumberFormat numberFormat;
+	private Object value;
 
 
 	public CellInstance(RowImpl _row)
@@ -60,7 +61,6 @@ public abstract class CellInstance extends AbstractStyledElement
 		return this.numberFormat;
 	}
 
-
 	public void setNumberFormat( NumberFormat _numberFormat )
 	{
 		this.numberFormat = _numberFormat;
@@ -70,7 +70,15 @@ public abstract class CellInstance extends AbstractStyledElement
 	public abstract ExpressionNode getExpression() throws SpreadsheetException;
 
 
-	public abstract Object getValue();
+	public Object getValue()
+	{
+		return this.value;
+	}
+
+	public void setValue( Object _value )
+	{
+		this.value = _value;
+	}
 
 
 	public String getCanonicalName()

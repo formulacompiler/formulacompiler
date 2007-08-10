@@ -36,8 +36,8 @@ public final class CellIndex extends Reference implements Cell
 	public final boolean isRowIndexAbsolute;
 
 
-	public CellIndex(SpreadsheetImpl _spreadsheet, int _sheetIndex, int _columnIndex, boolean _columnIndexAbsolute,
-			int _rowIndex, boolean _rowIndexAbsolute)
+	public CellIndex( SpreadsheetImpl _spreadsheet, int _sheetIndex, int _columnIndex, boolean _columnIndexAbsolute,
+			int _rowIndex, boolean _rowIndexAbsolute )
 	{
 		this.spreadsheet = _spreadsheet;
 		this.sheetIndex = _sheetIndex;
@@ -49,7 +49,7 @@ public final class CellIndex extends Reference implements Cell
 	}
 
 
-	public CellIndex(SpreadsheetImpl _spreadsheet, int _sheetIndex, int _columnIndex, int _rowIndex)
+	public CellIndex( SpreadsheetImpl _spreadsheet, int _sheetIndex, int _columnIndex, int _rowIndex )
 	{
 		this( _spreadsheet, _sheetIndex, _columnIndex, false, _rowIndex, false );
 	}
@@ -132,11 +132,18 @@ public final class CellIndex extends Reference implements Cell
 	{
 		final CellInstance cell = getCell();
 		if (cell instanceof CellWithConstant) {
-			return ((CellWithConstant) cell).getValue();
+			return cell.getValue();
 		}
 		else {
 			return null;
 		}
+	}
+
+
+	public Object getValue()
+	{
+		final CellInstance cell = getCell();
+		return (cell == null)? null : cell.getValue();
 	}
 
 
@@ -189,7 +196,8 @@ public final class CellIndex extends Reference implements Cell
 	public String toString()
 	{
 		if (this.sheetIndex > 0) {
-			return "'" + getSheet().getName() + "'!" + SheetImpl.getCanonicalNameForCellIndex( this.columnIndex, this.rowIndex );
+			return "'"
+					+ getSheet().getName() + "'!" + SheetImpl.getCanonicalNameForCellIndex( this.columnIndex, this.rowIndex );
 		}
 		else {
 			return SheetImpl.getCanonicalNameForCellIndex( this.columnIndex, this.rowIndex );

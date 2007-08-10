@@ -26,26 +26,11 @@ import org.formulacompiler.describable.DescriptionBuilder;
 
 public final class CellWithConstant extends CellInstance
 {
-	private Object value;
-
 
 	public CellWithConstant(RowImpl _row, Object _value)
 	{
 		super( _row );
-		this.value = _value;
-	}
-
-
-	@Override
-	public Object getValue()
-	{
-		return this.value;
-	}
-
-
-	public void setValue( Object _value )
-	{
-		this.value = _value;
+		setValue( _value );
 	}
 
 
@@ -60,7 +45,7 @@ public final class CellWithConstant extends CellInstance
 	protected void describeDefinitionTo( DescriptionBuilder _to )
 	{
 		_to.append( "<value>" );
-		_to.append( this.value );
+		_to.append( getValue().toString() );
 		_to.append( "</value>" );
 		_to.newLine();
 	}
