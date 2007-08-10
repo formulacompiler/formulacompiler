@@ -22,7 +22,6 @@ package org.formulacompiler.compiler;
 
 import java.lang.reflect.Method;
 
-import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.runtime.FormulaCompilerException;
 
 
@@ -203,24 +202,6 @@ public class CompilerException extends FormulaCompilerException
 		{
 			super( "The abstract method '"
 					+ _m + "' is not implemented; you should bind it to an element (cell or section)" );
-		}
-
-	}
-
-
-	/**
-	 * Your output type does not implement the {@link org.formulacompiler.runtime.Resettable}
-	 * interface, as is required by computations with repeating sections.
-	 * 
-	 * @author peo
-	 */
-	public static final class MustBeResettable extends CompilerException
-	{
-
-		public MustBeResettable(Class _class)
-		{
-			super( "The output type "
-					+ _class + " must implement the " + Resettable.class + " interface to support repeating sections." );
 		}
 
 	}

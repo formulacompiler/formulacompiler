@@ -38,6 +38,7 @@ public final class SpreadsheetToEngineCompilerImpl implements SpreadsheetToEngin
 	private final NumericType numericType;
 	private final Class factoryClass;
 	private final Method factoryMethod;
+	private boolean fullCaching;
 	private final ClassLoader parentClassLoader;
 
 
@@ -51,6 +52,7 @@ public final class SpreadsheetToEngineCompilerImpl implements SpreadsheetToEngin
 		this.numericType = _config.numericType;
 		this.factoryClass = _config.factoryClass;
 		this.factoryMethod = _config.factoryMethod;
+		this.fullCaching = _config.fullCaching;
 		this.parentClassLoader = _config.parentClassLoader;
 	}
 
@@ -74,6 +76,7 @@ public final class SpreadsheetToEngineCompilerImpl implements SpreadsheetToEngin
 		ecc.factoryClass = this.factoryClass;
 		ecc.factoryMethod = this.factoryMethod;
 		ecc.parentClassLoader = this.parentClassLoader;
+		ecc.fullCaching = this.fullCaching;
 		final ModelToEngineCompiler ec = new ModelToEngineCompilerImpl( ecc );
 
 		return ec.compile();

@@ -24,7 +24,8 @@ package org.formulacompiler.runtime;
 // ---- resettable
 /**
  * Interface that must be implemented by an output class (or extended by an output interface) of
- * computations that need internal caching of values.
+ * computations that need to reset internal caches of values - typically for reuse on modified input
+ * values.
  * 
  * @author peo
  */

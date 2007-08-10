@@ -82,6 +82,12 @@ public interface SpreadsheetToEngineCompiler
 		public Method factoryMethod = null;
 
 		/**
+		 * Controls whether AFC should compile the computation with full internal caching of values,
+		 * or only (usually minimal) caching at its own discretion.
+		 */
+		public boolean fullCaching;
+
+		/**
 		 * The parent class loader to use for the compiled engine.
 		 */
 		public ClassLoader parentClassLoader = ClassLoader.getSystemClassLoader();

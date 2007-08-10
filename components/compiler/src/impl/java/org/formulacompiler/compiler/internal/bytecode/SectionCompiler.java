@@ -134,7 +134,7 @@ abstract class SectionCompiler extends ClassCompiler
 		initializeClass( outputClass(), this.outputs, COMPUTATION_INTF );
 		buildMembers();
 		buildConstructorWithInputs();
-		if (engineCompiler().canCache()) {
+		if (engineCompiler().isResettable()) {
 			buildReset();
 		}
 	}
@@ -155,11 +155,13 @@ abstract class SectionCompiler extends ClassCompiler
 		}
 
 		// In reset(), do:
-		// $<section> = null;
-		GeneratorAdapter r = resetter();
-		r.loadThis();
-		r.visitInsn( Opcodes.ACONST_NULL );
-		r.putField( classType(), _sub.getterName(), _sub.arrayType() );
+		if (hasReset()) {
+			// $<section> = null;
+			GeneratorAdapter r = resetter();
+			r.loadThis();
+			r.visitInsn( Opcodes.ACONST_NULL );
+			r.putField( classType(), _sub.getterName(), _sub.arrayType() );
+		}
 	}
 
 	public void compileCallToGetterFor( GeneratorAdapter _mv, SubSectionCompiler _sub )

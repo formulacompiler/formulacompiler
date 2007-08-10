@@ -350,6 +350,8 @@ public class SpreadsheetCompiler extends FormulaCompiler
 	 *           {@link org.formulacompiler.spreadsheet.SpreadsheetToEngineCompiler.Config#factoryClass}.
 	 * @param _factoryMethod see
 	 *           {@link org.formulacompiler.spreadsheet.SpreadsheetToEngineCompiler.Config#factoryMethod}.
+	 * @param _fullCaching see
+	 *           {@link org.formulacompiler.spreadsheet.SpreadsheetToEngineCompiler.Config#fullCaching}.
 	 * @param _parentClassLoader see
 	 *           {@link org.formulacompiler.spreadsheet.SpreadsheetToEngineCompiler.Config#parentClassLoader}.
 	 * @return the new instance.
@@ -358,28 +360,31 @@ public class SpreadsheetCompiler extends FormulaCompiler
 	 * @throws EngineException
 	 */
 	public static SaveableEngine compileEngine( SpreadsheetBinding _binding, NumericType _numericType,
-			Class _factoryClass, Method _factoryMethod, ClassLoader _parentClassLoader ) throws CompilerException,
-			EngineException
+			Class _factoryClass, Method _factoryMethod, boolean _fullCaching, ClassLoader _parentClassLoader )
+			throws CompilerException, EngineException
 	{
 		final SpreadsheetToEngineCompiler.Config cfg = new SpreadsheetToEngineCompiler.Config();
 		cfg.binding = _binding;
 		cfg.numericType = _numericType;
 		cfg.factoryClass = _factoryClass;
 		cfg.factoryMethod = _factoryMethod;
+		cfg.fullCaching = _fullCaching;
 		cfg.parentClassLoader = _parentClassLoader;
 		return newSpreadsheetCompiler( cfg ).compile();
 	}
 
 	/**
-	 * Same as {@link #compileEngine(SpreadsheetBinding, NumericType, Class, Method, ClassLoader)},
+	 * Same as
+	 * {@link #compileEngine(SpreadsheetBinding, NumericType, Class, Method, boolean, ClassLoader)},
 	 * leaving the factory class and method unspecified.
 	 */
-	public static SaveableEngine compileEngine( SpreadsheetBinding _binding, NumericType _numericType )
-			throws CompilerException, EngineException
+	public static SaveableEngine compileEngine( SpreadsheetBinding _binding, NumericType _numericType,
+			boolean _fullCaching ) throws CompilerException, EngineException
 	{
 		final SpreadsheetToEngineCompiler.Config cfg = new SpreadsheetToEngineCompiler.Config();
 		cfg.binding = _binding;
 		cfg.numericType = _numericType;
+		cfg.fullCaching = _fullCaching;
 		return newSpreadsheetCompiler( cfg ).compile();
 	}
 

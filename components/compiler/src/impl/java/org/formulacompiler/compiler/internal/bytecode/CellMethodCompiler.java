@@ -32,13 +32,12 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 
-
 final class CellMethodCompiler extends NullaryValueMethodCompiler
 {
 	private final CellComputation cellComputation;
 
 
-	CellMethodCompiler(CellComputation _computation)
+	CellMethodCompiler( CellComputation _computation )
 	{
 		super( _computation.getSection(), 0, _computation.getMethodName(), _computation.getCell().getDataType() );
 		this.cellComputation = _computation;
@@ -93,7 +92,7 @@ final class CellMethodCompiler extends NullaryValueMethodCompiler
 
 	private final boolean shouldCache( CellModel _cell )
 	{
-		return section().engineCompiler().canCache() && _cell.isCachingCandidate();
+		return section().engineCompiler().isFullyCaching() && _cell.isCachingCandidate();
 	}
 
 
@@ -143,11 +142,13 @@ final class CellMethodCompiler extends NullaryValueMethodCompiler
 		mv().getField( classType(), cacheName, typeCompiler().type() );
 
 		// In reset(), do:
-		// h$<x> = false;
-		GeneratorAdapter r = section().resetter();
-		r.loadThis();
-		r.push( false );
-		r.putField( classType(), cachedIndicatorName, Type.BOOLEAN_TYPE );
+		if (section().hasReset()) {
+			// h$<x> = false;
+			GeneratorAdapter r = section().resetter();
+			r.loadThis();
+			r.push( false );
+			r.putField( classType(), cachedIndicatorName, Type.BOOLEAN_TYPE );
+		}
 	}
 
 

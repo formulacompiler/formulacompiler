@@ -81,14 +81,8 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 	private final TypeCompilerForNumbers numberCompiler = TypeCompilerForNumbers.compilerFor( this, this
 			.getNumericType() );
 	private final TypeCompiler stringCompiler = new TypeCompilerForStrings( this );
-	private final boolean canCache;
+	private final boolean isResettable;
 
-
-	public ByteCodeEngineCompiler( Config _config )
-	{
-		super( _config );
-		this.canCache = Resettable.class.isAssignableFrom( getModel().getRoot().getOutputClass() );
-	}
 
 	public static final class Factory implements OptimizedModelToEngineCompiler.Factory
 	{
@@ -98,10 +92,15 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 		}
 	}
 
-
-	boolean canCache()
+	public ByteCodeEngineCompiler( Config _config )
 	{
-		return this.canCache;
+		super( _config );
+		this.isResettable = Resettable.class.isAssignableFrom( getModel().getRoot().getOutputClass() );
+	}
+
+	boolean isResettable()
+	{
+		return this.isResettable;
 	}
 
 

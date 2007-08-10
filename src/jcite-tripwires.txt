@@ -177,12 +177,6 @@ final class $Root extends BonusPerEmployee.BonusComputationDefaults
 {
     private final BonusPerEmployee.BonusData $inputs;
     final Environment $environment;
-    private boolean h$get$0;
-    private long c$get$0;
-    private boolean h$get$1;
-    private long c$get$1;
-    private boolean h$get$2;
-    private long c$get$2;
     private $Sect0[] get$Sect0;
     static final RuntimeLong_v2.Context runtimeContext
         = new RuntimeLong_v2.Context(4);
@@ -193,34 +187,19 @@ final class $Root extends BonusPerEmployee.BonusComputationDefaults
     }
     
     public void reset() {
-        h$get$0 = false;
-        h$get$1 = false;
-        h$get$2 = false;
         get$Sect0 = null;
     }
     
     final long get$0() {
-        if (!h$get$0) {
-            c$get$0 = $inputs.bonusTotal();
-            h$get$0 = true;
-        }
-        return c$get$0;
+        return $inputs.bonusTotal();
     }
     
     final long get$1() {
-        if (!h$get$1) {
-            c$get$1 = $inputs.overtimeSalaryPerHour();
-            h$get$1 = true;
-        }
-        return c$get$1;
+        return $inputs.overtimeSalaryPerHour();
     }
     
     final long get$2() {
-        if (!h$get$2) {
-            c$get$2 = get$3();
-            h$get$2 = true;
-        }
-        return c$get$2;
+        return get$3();
     }
     
     final long get$3() {
@@ -268,14 +247,6 @@ final class $Sect0
     private final BonusPerEmployee.EmployeeBonusData $inputs;
     final $Root $parent;
     final $Root $root;
-    private boolean h$get$0;
-    private long c$get$0;
-    private boolean h$get$1;
-    private long c$get$1;
-    private boolean h$get$2;
-    private long c$get$2;
-    private boolean h$get$3;
-    private long c$get$3;
     
     $Sect0(BonusPerEmployee.EmployeeBonusData employeebonusdata, $Root root) {
         $parent = root;
@@ -284,23 +255,15 @@ final class $Sect0
     }
     
     public void reset() {
-        h$get$0 = false;
-        h$get$1 = false;
-        h$get$2 = false;
-        h$get$3 = false;
+        /* empty */
     }
     
     final long get$0() {
-        if (!h$get$0) {
-            $Sect0 sect0_0_ = this;
-            $Root root = $parent;
-            long l = root.get$0();
-            long l_1_ = get$1() * 10000L;
-            $Root root_2_ = $parent;
-            sect0_0_.c$get$0 = l * (l_1_ / root_2_.get$2()) / 10000L;
-            h$get$0 = true;
-        }
-        return c$get$0;
+        $Root root = $parent;
+        long l = root.get$0();
+        long l_0_ = get$1() * 10000L;
+        $Root root_1_ = $parent;
+        return l * (l_0_ / root_1_.get$2()) / 10000L;
     }
     
     public final long bonusAmount() {
@@ -308,31 +271,18 @@ final class $Sect0
     }
     
     final long get$1() {
-        if (!h$get$1) {
-            $Sect0 sect0_3_ = this;
-            long l = get$2();
-            long l_4_ = get$3();
-            $Root root = $parent;
-            sect0_3_.c$get$1 = l + l_4_ * root.get$1() / 10000L;
-            h$get$1 = true;
-        }
-        return c$get$1;
+        long l = get$2();
+        long l_2_ = get$3();
+        $Root root = $parent;
+        return l + l_2_ * root.get$1() / 10000L;
     }
     
     final long get$2() {
-        if (!h$get$2) {
-            c$get$2 = $inputs.baseSalary();
-            h$get$2 = true;
-        }
-        return c$get$2;
+        return $inputs.baseSalary();
     }
     
     final long get$3() {
-        if (!h$get$3) {
-            c$get$3 = (long) $inputs.hoursOvertime() * 10000L;
-            h$get$3 = true;
-        }
-        return c$get$3;
+        return (long) $inputs.hoursOvertime() * 10000L;
     }
 }
 ___@_@___
@@ -346,7 +296,7 @@ import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
 import org.formulacompiler.tutorials.Caching;
 
-final class $Root implements Computation, Caching.CachingOutput
+final class $Root implements Computation, Caching.Output
 {
     private final Caching.Input $inputs;
     final Environment $environment;
@@ -412,7 +362,7 @@ import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
 import org.formulacompiler.tutorials.Caching;
 
-final class $Root implements Computation, Caching.PlainOutput
+final class $Root implements Computation, Caching.Output
 {
     private final Caching.Input $inputs;
     final Environment $environment;
@@ -420,6 +370,10 @@ final class $Root implements Computation, Caching.PlainOutput
     $Root(Caching.Input input, Environment environment) {
         $environment = environment;
         $inputs = input;
+    }
+    
+    public void reset() {
+        /* empty */
     }
     
     final BigDecimal get$0() {
@@ -456,8 +410,6 @@ final class $Root
 {
     private final CustomerRatingWithOrders.CustomerData $inputs;
     final Environment $environment;
-    private boolean h$get$0;
-    private String c$get$0;
     private static final String[] get$1_Consts
         = { "Abysmal", "Poor", "Average", "Good", "Excellent" };
     private $Sect0[] get$Sect0;
@@ -468,17 +420,8 @@ final class $Root
         $inputs = customerdata;
     }
     
-    public void reset() {
-        h$get$0 = false;
-        get$Sect0 = null;
-    }
-    
     final String get$0() {
-        if (!h$get$0) {
-            c$get$0 = get$1();
-            h$get$0 = true;
-        }
-        return c$get$0;
+        return get$1();
     }
     
     public final String rating() {
@@ -551,8 +494,6 @@ final class $Sect0 implements Computation
     private final CustomerRatingWithOrders.OrderData $inputs;
     final $Root $parent;
     final $Root $root;
-    private boolean h$get$0;
-    private double c$get$0;
     
     $Sect0(CustomerRatingWithOrders.OrderData orderdata, $Root root) {
         $parent = root;
@@ -560,16 +501,8 @@ final class $Sect0 implements Computation
         $inputs = orderdata;
     }
     
-    public void reset() {
-        h$get$0 = false;
-    }
-    
     final double get$0() {
-        if (!h$get$0) {
-            c$get$0 = $inputs.total();
-            h$get$0 = true;
-        }
-        return c$get$0;
+        return $inputs.total();
     }
 }
 ___@_@___
@@ -841,7 +774,6 @@ __@@__
 @Override
 	protected void defineFunctions() throws Exception
 	{
-	}
 		// ...
 		begin( Function.COMBIN, "n", "k" );
 		{
@@ -855,6 +787,7 @@ __@@__
 		}
 		end();
 		// ...
+	}
 ___@_@___
 jc:org.formulacompiler.compiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_MINMAX
 __@@__
@@ -1247,7 +1180,8 @@ jc:org.formulacompiler.runtime.Resettable:---- resettable
 __@@__
 /**
  * Interface that must be implemented by an output class (or extended by an output interface) of
- * computations that need internal caching of values.
+ * computations that need to reset internal caches of values - typically for reuse on modified input
+ * values.
  * 
  * @author peo
  */
@@ -1268,7 +1202,7 @@ jc:org.formulacompiler.runtime.internal.RuntimeDouble_v2:---- round
 __@@__
 public static double round( final double _val, final int _maxFrac )
 	{
-		final double shift = Math.pow( 10, _maxFrac );
+		final double shift = pow10( _maxFrac );
 		if (0 > _val) {
 			return Math.ceil( _val * shift - 0.5 ) / shift;
 		}
@@ -2375,9 +2309,9 @@ BonusComputation comp = _factory.newComputation( data );
 			/**/assertSame( empInputs[ i ], empOutputs[ i ].inputs() );/**/
 		}
 ___@_@___
-jc:org.formulacompiler.tutorials.Caching:---- CachingOutput
+jc:org.formulacompiler.tutorials.Caching:---- Output
 __@@__
-public static interface CachingOutput /**/extends Resettable/**/
+public static interface Output /**/extends Resettable/**/
 	{
 		BigDecimal getArea();
 		BigDecimal getVolume();
@@ -2386,7 +2320,7 @@ ___@_@___
 jc:org.formulacompiler.tutorials.Caching:---- cache
 __@@__
 Input input = new Input();
-		CachingOutput output = (CachingOutput) factory.newComputation( input );
+		Output output = (Output) factory.newComputation( input );
 
 		input.setSide( "10" );
 		assertEquals( "100", output.getArea().toPlainString() );
@@ -2396,22 +2330,57 @@ Input input = new Input();
 		assertEquals( /**/"100"/**/, output.getArea().toPlainString() );
 		assertEquals( /**/"1000"/**/, output.getVolume().toPlainString() );
 ___@_@___
+jc:org.formulacompiler.tutorials.Caching:---- cacheAccesses
+__@@__
+Input input = new Input();
+		Output output = (Output) factory.newComputation( input );
+		assertEquals( /**/0/**/, input.getNumberOfAccessesToSide() );
+		output./**/getArea()/**/;
+		assertEquals( /**/1/**/, input.getNumberOfAccessesToSide() );
+		output./**/getVolume()/**/;
+		assertEquals( /**/1/**/, input.getNumberOfAccessesToSide() );
+___@_@___
+jc:org.formulacompiler.tutorials.Caching:---- compile
+__@@__
+EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
+		builder.loadSpreadsheet( path );
+		builder.setInputClass( Input.class );
+		builder.setOutputClass( Output.class );
+		builder.setNumericType( unboundedBigDecimal );
+		/**/builder.setFullCaching( true );/**/
+		builder.bindAllByName();
+		SaveableEngine engine = builder.compile();
+___@_@___
 jc:org.formulacompiler.tutorials.Caching:---- noCache
 __@@__
 Input input = new Input();
-		PlainOutput output = (PlainOutput) factory.newComputation( input );
+		Output output = (Output) factory.newComputation( input );
 
-		input.setSide( /**/"10"/**/);
+		input.setSide( /**/"10"/**/ );
 		assertEquals( /**/"100"/**/, output.getArea().toPlainString() );
 		assertEquals( /**/"1000"/**/, output.getVolume().toPlainString() );
 
-		input.setSide( /**/"5"/**/);
+		input.setSide( /**/"5"/**/ );
 		assertEquals( /**/"25"/**/, output.getArea().toPlainString() );
 		assertEquals( /**/"125"/**/, output.getVolume().toPlainString() );
 ___@_@___
+jc:org.formulacompiler.tutorials.Caching:---- noCacheAccesses
+__@@__
+Input input = new Input();
+		Output output = (Output) factory.newComputation( input );
+		assertEquals( /**/0/**/, input.getNumberOfAccessesToSide() );
+		output./**/getArea()/**/;
+		assertEquals( /**/2/**/, input.getNumberOfAccessesToSide() );
+		output./**/getVolume()/**/;
+		assertEquals( /**/5/**/, input.getNumberOfAccessesToSide() );
+___@_@___
 jc:org.formulacompiler.tutorials.Caching:---- reset
 __@@__
-input.setSide( "5" );
+input.setSide( "10" );
+		assertEquals( "100", output.getArea().toPlainString() );
+		assertEquals( "1000", output.getVolume().toPlainString() );
+
+		input.setSide( "5" );
 		/**/output.reset();/**/
 		assertEquals( /**/"25"/**/, output.getArea().toPlainString() );
 		assertEquals( /**/"125"/**/, output.getVolume().toPlainString() );
@@ -2421,10 +2390,7 @@ __@@__
 long startTime = System.nanoTime();
 			output.getArea();
 			output.getVolume();
-			long endTime = System.nanoTime();
-			result += (endTime - startTime);
-		}
-		return result;
+			long timeTaken = System.nanoTime() - startTime;
 ___@_@___
 jc:org.formulacompiler.tutorials.Caching:---- timing
 __@@__
@@ -2461,13 +2427,6 @@ public static interface CustomerData
 		public/**/Iterable<OrderData>/**/ordersForLastNDaysIterable( int _days );
 		public/**/Iterator<OrderData>/**/ordersForLastNDaysIterator( int _days );
 		// -- CustomerDataAlternatives
-	}
-___@_@___
-jc:org.formulacompiler.tutorials.CustomerRatingWithOrders:---- CustomerRating
-__@@__
-public static interface CustomerRating /**/extends Resettable/**/
-	{
-		public String rating();
 	}
 ___@_@___
 jc:org.formulacompiler.tutorials.CustomerRatingWithOrders:---- OrderData
@@ -4959,9 +4918,9 @@ __@@__
 			<td><span style="text-decoration: underline;">Skip for</span></td>
 		</tr>
 		<tr>
-			<td class="xl-row">304</td>
+			<td class="xl-row">338</td>
 			<td class="xl-num">0</td>
-			<td>#NUM!<br/><span class="xl-exp">=COMBIN(C304,D304)</span></td>
+			<td>#NUM!<br/><span class="xl-exp">=COMBIN(C338,D338)</span></td>
 			<td class="xl-num">0</td>
 			<td class="xl-num">1</td>
 			<td></td>
@@ -4976,9 +4935,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">305</td>
+			<td class="xl-row">339</td>
 			<td class="xl-num">0</td>
-			<td>#NUM!<br/><span class="xl-exp">=COMBIN(C305,D305)</span></td>
+			<td>#NUM!<br/><span class="xl-exp">=COMBIN(C339,D339)</span></td>
 			<td class="xl-num">1</td>
 			<td class="xl-num">-1</td>
 			<td></td>
@@ -4993,9 +4952,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">306</td>
+			<td class="xl-row">340</td>
 			<td class="xl-num">0</td>
-			<td>#NUM!<br/><span class="xl-exp">=COMBIN(C306,D306)</span></td>
+			<td>#NUM!<br/><span class="xl-exp">=COMBIN(C340,D340)</span></td>
 			<td class="xl-num">-1</td>
 			<td class="xl-num">1</td>
 			<td></td>
@@ -5053,9 +5012,9 @@ __@@__
 			<td><span style="text-decoration: underline;">Skip for</span></td>
 		</tr>
 		<tr>
-			<td class="xl-row">292</td>
+			<td class="xl-row">326</td>
 			<td class="xl-num">1</td>
-			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C292,D292)</span></td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C326,D326)</span></td>
 			<td class="xl-num">1</td>
 			<td class="xl-num">0</td>
 			<td></td>
@@ -5070,9 +5029,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">293</td>
+			<td class="xl-row">327</td>
 			<td class="xl-num">1</td>
-			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C293,D293)</span></td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C327,D327)</span></td>
 			<td class="xl-num">1</td>
 			<td class="xl-num">1</td>
 			<td></td>
@@ -5087,9 +5046,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">294</td>
+			<td class="xl-row">328</td>
 			<td class="xl-num">1</td>
-			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C294,D294)</span></td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C328,D328)</span></td>
 			<td class="xl-num">2</td>
 			<td class="xl-num">0</td>
 			<td></td>
@@ -5104,9 +5063,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">295</td>
+			<td class="xl-row">329</td>
 			<td class="xl-num">2</td>
-			<td class="xl-num">2<br/><span class="xl-exp">=COMBIN(C295,D295)</span></td>
+			<td class="xl-num">2<br/><span class="xl-exp">=COMBIN(C329,D329)</span></td>
 			<td class="xl-num">2</td>
 			<td class="xl-num">1</td>
 			<td></td>
@@ -5121,9 +5080,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">296</td>
+			<td class="xl-row">330</td>
 			<td class="xl-num">1</td>
-			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C296,D296)</span></td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C330,D330)</span></td>
 			<td class="xl-num">2</td>
 			<td class="xl-num">2</td>
 			<td></td>
@@ -5138,9 +5097,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">297</td>
+			<td class="xl-row">331</td>
 			<td class="xl-num">1</td>
-			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C297,D297)</span></td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C331,D331)</span></td>
 			<td class="xl-num">3</td>
 			<td class="xl-num">0</td>
 			<td></td>
@@ -5155,9 +5114,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">298</td>
+			<td class="xl-row">332</td>
 			<td class="xl-num">3</td>
-			<td class="xl-num">3<br/><span class="xl-exp">=COMBIN(C298,D298)</span></td>
+			<td class="xl-num">3<br/><span class="xl-exp">=COMBIN(C332,D332)</span></td>
 			<td class="xl-num">3</td>
 			<td class="xl-num">1</td>
 			<td></td>
@@ -5172,9 +5131,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">299</td>
+			<td class="xl-row">333</td>
 			<td class="xl-num">3</td>
-			<td class="xl-num">3<br/><span class="xl-exp">=COMBIN(C299,D299)</span></td>
+			<td class="xl-num">3<br/><span class="xl-exp">=COMBIN(C333,D333)</span></td>
 			<td class="xl-num">3</td>
 			<td class="xl-num">2</td>
 			<td></td>
@@ -5189,9 +5148,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">300</td>
+			<td class="xl-row">334</td>
 			<td class="xl-num">1</td>
-			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C300,D300)</span></td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C334,D334)</span></td>
 			<td class="xl-num">3</td>
 			<td class="xl-num">3</td>
 			<td></td>
@@ -5206,9 +5165,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">301</td>
+			<td class="xl-row">335</td>
 			<td class="xl-num">10</td>
-			<td class="xl-num">10<br/><span class="xl-exp">=COMBIN(C301,D301)</span></td>
+			<td class="xl-num">10<br/><span class="xl-exp">=COMBIN(C335,D335)</span></td>
 			<td class="xl-num">10</td>
 			<td class="xl-num">1</td>
 			<td></td>
@@ -5223,9 +5182,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">302</td>
+			<td class="xl-row">336</td>
 			<td class="xl-num">252</td>
-			<td class="xl-num">252<br/><span class="xl-exp">=COMBIN(C302,D302)</span></td>
+			<td class="xl-num">252<br/><span class="xl-exp">=COMBIN(C336,D336)</span></td>
 			<td class="xl-num">10</td>
 			<td class="xl-num">5</td>
 			<td></td>
@@ -5240,9 +5199,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">303</td>
+			<td class="xl-row">337</td>
 			<td class="xl-num">120</td>
-			<td class="xl-num">120<br/><span class="xl-exp">=COMBIN(C303,D303)</span></td>
+			<td class="xl-num">120<br/><span class="xl-exp">=COMBIN(C337,D337)</span></td>
 			<td class="xl-num">10</td>
 			<td class="xl-num">7</td>
 			<td></td>

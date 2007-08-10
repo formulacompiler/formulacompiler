@@ -11,9 +11,10 @@ h2. Release 0.10.0
 
 h5. *Changed!*
 
-	* Changed the names of the predefined scaled @BigDecimal@ and @long@ numeric types.
 	* Changed the names of the runtimes to @Runtime..._v2@ and removed deprecated features.
     <br/>*Your engines won't run anymore. Recompile.*
+	* Changed the names of the predefined scaled @BigDecimal@ and @long@ numeric types.
+    * Changed the way "internal caching":tutorial/caching.htm is controlled.
 
 h5. New
 
@@ -28,6 +29,7 @@ h5. New
 h5. Better
 
 	* Documented different way of computing date/time differences in AFC/Excel and Java in "Date Tutorial":tutorial/datetime.htm.
+	* Computations involving repeating sections no longer need to implement @Resettable@.
 
 h5. Fixed
 

@@ -217,6 +217,23 @@ public interface EngineBuilder
 	 */
 	public void setFactoryMethod( Method _factoryMethod );
 
+	
+	/**
+	 * Indicates whether AFC should compile the computation with full internal caching of values, or
+	 * only (usually minimal) caching at its own discretion.
+	 * 
+	 * @see #setFullCaching(boolean)
+	 */
+	public boolean getFullCaching();
+
+	/**
+	 * Controls whether AFC should compile the computation with full internal caching of values, or
+	 * only (usually minimal) caching at its own discretion.
+	 * 
+	 * @see #getFullCaching()
+	 */
+	public void setFullCaching( boolean _enabled );
+
 
 	/**
 	 * Checks whether the spreadsheet contains any named cells or ranges.
@@ -315,6 +332,7 @@ public interface EngineBuilder
 	 * @see #setInputClass(Class)
 	 * @see #setOutputClass(Class)
 	 * @see #setFactoryClass(Class)
+	 * @see #setFullCaching(boolean)
 	 * @see #bindAllByName()
 	 * @see #setParentClassLoaderForEngine(ClassLoader)
 	 */

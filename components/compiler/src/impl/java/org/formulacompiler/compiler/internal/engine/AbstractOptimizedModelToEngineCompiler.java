@@ -31,51 +31,53 @@ import org.formulacompiler.runtime.EngineException;
 
 public abstract class AbstractOptimizedModelToEngineCompiler implements OptimizedModelToEngineCompiler
 {
-	private final ComputationModel model;
-	private final NumericType numericType;
-	private final Class factoryClass;
-	private final Method factoryMethod;
-	private final ClassLoader parentClassLoader;
-
+	private final Config config;
 
 	protected AbstractOptimizedModelToEngineCompiler(OptimizedModelToEngineCompiler.Config _config)
 	{
 		super();
 		_config.validate();
-		this.model = _config.model;
-		this.numericType = _config.numericType;
-		this.factoryClass = _config.factoryClass;
-		this.factoryMethod = _config.factoryMethod;
-		this.parentClassLoader = _config.parentClassLoader;
+		this.config = _config.clone();
 	}
 
-
-	public ComputationModel getModel()
+	
+	public Config config()
 	{
-		return this.model;
-	}
-
-	public NumericType getNumericType()
-	{
-		return this.numericType;
-	}
-
-	public Class getFactoryClass()
-	{
-		return this.factoryClass;
-	}
-
-	public Method getFactoryMethod()
-	{
-		return this.factoryMethod;
+		return this.config;
 	}
 	
-	public ClassLoader getParentClassLoader()
+	public NumericType getNumericType()
 	{
-		return this.parentClassLoader;
+		return config().numericType;
+	}
+	
+	public ComputationModel getModel()
+	{
+		return config().model;
+	}
+	
+	public Class getFactoryClass()
+	{
+		return config().factoryClass;
+	}
+	
+	public Method getFactoryMethod()
+	{
+		return config().factoryMethod;
+	}
+	
+	public boolean isFullyCaching()
+	{
+		return config().fullCaching;
 	}
 
+	public ClassLoader getParentClassLoader()
+	{
+		return config().parentClassLoader;
+	}
+	
 	
 	public abstract SaveableEngine compile() throws CompilerException, EngineException;
 
+	
 }

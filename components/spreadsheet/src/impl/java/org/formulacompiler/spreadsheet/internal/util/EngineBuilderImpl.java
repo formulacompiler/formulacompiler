@@ -38,8 +38,8 @@ import org.formulacompiler.spreadsheet.SpreadsheetBinding;
 import org.formulacompiler.spreadsheet.SpreadsheetByNameBinder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
-import org.formulacompiler.spreadsheet.SpreadsheetNameCreator;
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
+import org.formulacompiler.spreadsheet.SpreadsheetNameCreator;
 
 
 public class EngineBuilderImpl implements EngineBuilder
@@ -50,6 +50,7 @@ public class EngineBuilderImpl implements EngineBuilder
 	private Class outputClass;
 	private Class factoryClass;
 	private Method factoryMethod;
+	private boolean fullCaching;
 	private SpreadsheetBinder binder;
 	private SpreadsheetByNameBinder byNameBinder;
 	private ClassLoader parentClassLoaderForEngine = ClassLoader.getSystemClassLoader();
@@ -250,6 +251,20 @@ public class EngineBuilderImpl implements EngineBuilder
 	}
 
 
+	// ------------------------------------------------ Caching
+
+
+	public boolean getFullCaching()
+	{
+		return this.fullCaching;
+	}
+
+	public void setFullCaching( boolean _enabled )
+	{
+		this.fullCaching = _enabled;
+	}
+
+
 	// ------------------------------------------------ Name creation
 
 
@@ -336,7 +351,7 @@ public class EngineBuilderImpl implements EngineBuilder
 	{
 		final SpreadsheetBinding binding = getBinder().getBinding();
 		return SpreadsheetCompiler.compileEngine( binding, this.numericType, this.factoryClass, this.factoryMethod,
-				this.parentClassLoaderForEngine );
+				this.fullCaching, this.parentClassLoaderForEngine );
 	}
 
 
