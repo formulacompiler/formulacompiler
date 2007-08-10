@@ -21,6 +21,7 @@
 package org.formulacompiler.spreadsheet.internal.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -31,13 +32,14 @@ import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.EngineException;
 import org.formulacompiler.spreadsheet.EngineBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
 import org.formulacompiler.spreadsheet.SpreadsheetBinding;
 import org.formulacompiler.spreadsheet.SpreadsheetByNameBinder;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.SpreadsheetNameCreator;
+import org.formulacompiler.spreadsheet.SpreadsheetLoader;
 
 
 public class EngineBuilderImpl implements EngineBuilder
@@ -52,7 +54,7 @@ public class EngineBuilderImpl implements EngineBuilder
 	private SpreadsheetByNameBinder byNameBinder;
 	private ClassLoader parentClassLoaderForEngine = ClassLoader.getSystemClassLoader();
 
-	
+
 	public static final class Factory implements EngineBuilder.Factory
 	{
 		public EngineBuilder newInstance()
@@ -60,7 +62,7 @@ public class EngineBuilderImpl implements EngineBuilder
 			return new EngineBuilderImpl();
 		}
 	}
-	
+
 
 	// ------------------------------------------------ Numeric Type
 
@@ -91,9 +93,19 @@ public class EngineBuilderImpl implements EngineBuilder
 	}
 
 
+	private boolean loadAllCellValues = false;
+
+	public void setLoadAllCellValues( boolean _value )
+	{
+		this.loadAllCellValues = _value;
+	}
+
+
 	public void loadSpreadsheet( File _file ) throws FileNotFoundException, IOException, SpreadsheetException
 	{
-		setSpreadsheet( SpreadsheetCompiler.loadSpreadsheet( _file ) );
+		final SpreadsheetLoader.Config cfg = new SpreadsheetLoader.Config();
+		cfg.loadAllCellValues = this.loadAllCellValues;
+		setSpreadsheet( SpreadsheetCompiler.loadSpreadsheet( _file.getName(), new FileInputStream( _file ), cfg ) );
 	}
 
 
@@ -249,7 +261,8 @@ public class EngineBuilderImpl implements EngineBuilder
 
 	public void createCellNamesFromRowTitles()
 	{
-		final SpreadsheetNameCreator creator = SpreadsheetCompiler.newSpreadsheetCellNameCreator( getSpreadsheet().getSheets()[ 0 ] );
+		final SpreadsheetNameCreator creator = SpreadsheetCompiler.newSpreadsheetCellNameCreator( getSpreadsheet()
+				.getSheets()[ 0 ] );
 		creator.createCellNamesFromRowTitles();
 	}
 
@@ -307,22 +320,23 @@ public class EngineBuilderImpl implements EngineBuilder
 
 	// ------------------------------------------------ Compilation
 
-	
+
 	public ClassLoader getParentClassLoaderForEngine()
 	{
 		return this.parentClassLoaderForEngine;
 	}
-	
+
 	public void setParentClassLoaderForEngine( ClassLoader _value )
 	{
 		this.parentClassLoaderForEngine = _value;
 	}
-	
+
 
 	public SaveableEngine compile() throws CompilerException, EngineException
 	{
 		final SpreadsheetBinding binding = getBinder().getBinding();
-		return SpreadsheetCompiler.compileEngine( binding, this.numericType, this.factoryClass, this.factoryMethod, this.parentClassLoaderForEngine );
+		return SpreadsheetCompiler.compileEngine( binding, this.numericType, this.factoryClass, this.factoryMethod,
+				this.parentClassLoaderForEngine );
 	}
 
 

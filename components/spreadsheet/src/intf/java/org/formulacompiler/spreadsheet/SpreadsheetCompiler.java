@@ -100,7 +100,9 @@ public class SpreadsheetCompiler extends FormulaCompiler
 	}
 
 	/**
-	 * Loads a spreadsheet from a file and constructs an internal representation of it.
+	 * Loads a spreadsheet from a file and constructs an internal representation of it. Like
+	 * {@link #loadSpreadsheet(String, InputStream, org.formulacompiler.spreadsheet.SpreadsheetLoader.Config)}
+	 * with {@code _config} set to {@code null}.
 	 * 
 	 * @param _originalFileName is the name of the spreadsheet file to which the input stream
 	 *           corresponds.
@@ -113,7 +115,25 @@ public class SpreadsheetCompiler extends FormulaCompiler
 	public static Spreadsheet loadSpreadsheet( String _originalFileName, InputStream _stream ) throws IOException,
 			SpreadsheetException
 	{
-		return LOADER_FACTORY.newInstance().loadFrom( _originalFileName, _stream );
+		return LOADER_FACTORY.newInstance( null ).loadFrom( _originalFileName, _stream );
+	}
+
+	/**
+	 * Loads a spreadsheet from a file and constructs an internal representation of it.
+	 * 
+	 * @param _originalFileName is the name of the spreadsheet file to which the input stream
+	 *           corresponds.
+	 * @param _stream is the stream from which to load the spreadsheet.
+	 * @param _config configures the loader; can be set to {@code null}.
+	 * @return the loaded spreadsheet representation.
+	 * 
+	 * @throws IOException
+	 * @throws SpreadsheetException
+	 */
+	public static Spreadsheet loadSpreadsheet( String _originalFileName, InputStream _stream,
+			SpreadsheetLoader.Config _config ) throws IOException, SpreadsheetException
+	{
+		return LOADER_FACTORY.newInstance( _config ).loadFrom( _originalFileName, _stream );
 	}
 
 	private static final SpreadsheetLoader.Factory LOADER_FACTORY = ImplementationLocator
@@ -138,7 +158,8 @@ public class SpreadsheetCompiler extends FormulaCompiler
 	/**
 	 * Saves a spreadsheet model to a new spreadsheet file. Use this primarily to build an initial
 	 * spreadsheet file for users wanting to customize a particular aspect of your application using
-	 * AFC. See the <a target="_top" href="{@docRoot}/../tutorial/generatesheet.htm" target="_top">tutorial</a> for details.
+	 * AFC. See the <a target="_top" href="{@docRoot}/../tutorial/generatesheet.htm"
+	 * target="_top">tutorial</a> for details.
 	 * 
 	 * @param _model is the internal spreadsheet model that defines the file to be written. Use
 	 *           {@link #newSpreadsheetBuilder()} to build this model.
@@ -152,7 +173,7 @@ public class SpreadsheetCompiler extends FormulaCompiler
 	public static void saveSpreadsheet( Spreadsheet _model, String _outputFileName, String _templateFileNameOrNull )
 			throws IOException, SpreadsheetException
 	{
-		saveSpreadsheet( _model, new File( _outputFileName ), (null == _templateFileNameOrNull) ? null : new File(
+		saveSpreadsheet( _model, new File( _outputFileName ), (null == _templateFileNameOrNull)? null : new File(
 				_templateFileNameOrNull ) );
 	}
 
