@@ -59,7 +59,7 @@ import org.formulacompiler.spreadsheet.internal.parser.SpreadsheetExpressionPars
 import org.formulacompiler.spreadsheet.internal.saver.excel.xls.ExcelXLSExpressionFormatter;
 
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings( "unchecked" )
 public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 {
 	private static final File HTML_PATH = new File( "temp/test-reference/doc" );
@@ -72,7 +72,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 
 	static final double EPSILON = 0.0000001;
 	static final BigDecimal BIG_EPSILON = BigDecimal.valueOf( EPSILON );
-	
+
 	private static final Object NOW = new Object()
 	{
 
@@ -97,6 +97,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 	private Boolean runOnlyCacheVariant = null;
 	private int numberOfEnginesCompiled = 0;
 	private Computation.Config config;
+	private boolean alwaysReportEngine = false;
 
 	static {
 		HTML_PATH.mkdirs();
@@ -110,22 +111,22 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 		configureFromProperties();
 	}
 
-	protected AbstractSheetBasedTest(String _baseName)
+	protected AbstractSheetBasedTest( String _baseName )
 	{
 		super( _baseName );
 		this.givenStartingRow = UNDEFINED_STARTING_ROW;
 		configureFromProperties();
 	}
 
-	protected AbstractSheetBasedTest(String _baseName, int _startingRowNumber)
+	protected AbstractSheetBasedTest( String _baseName, int _startingRowNumber )
 	{
 		super( _baseName );
 		this.givenStartingRow = _startingRowNumber - 1;
 		this.emitDocs = false;
 	}
 
-	protected AbstractSheetBasedTest(String _baseName, int _onlyRowNumbered, NumType _onlyType, int _onlyInputVariant,
-			boolean _caching)
+	protected AbstractSheetBasedTest( String _baseName, int _onlyRowNumbered, NumType _onlyType, int _onlyInputVariant,
+			boolean _caching )
 	{
 		super( _baseName );
 		this.runOnlyRowNumbered = _onlyRowNumbered;
@@ -133,6 +134,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 		this.runOnlyInputVariant = _onlyInputVariant;
 		this.runOnlyCacheVariant = _caching;
 		this.emitDocs = false;
+		this.alwaysReportEngine = true;
 	}
 
 
@@ -162,6 +164,13 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 		return this.numberOfEnginesCompiled;
 	}
 
+
+	private boolean getAlwaysReportEngine()
+	{
+		return this.alwaysReportEngine;
+	}
+
+
 	protected abstract class AbstractSheetRunner extends AbstractWorkbookBasedTest.AbstractSheetRunner
 	{
 		protected final DescriptionBuilder html = new DescriptionBuilder();
@@ -171,7 +180,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 		protected int columnCount = 2;
 		protected String lastNormalizedExprShown = "";
 
-		public AbstractSheetRunner(SpreadsheetImpl _book)
+		public AbstractSheetRunner( SpreadsheetImpl _book )
 		{
 			super( _book );
 		}
@@ -245,7 +254,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 		private final int getStartingRow()
 		{
 			final int given = AbstractSheetBasedTest.this.givenStartingRow;
-			return given == UNDEFINED_STARTING_ROW ? getDefaultStartingRow() : given;
+			return given == UNDEFINED_STARTING_ROW? getDefaultStartingRow() : given;
 		}
 
 		protected abstract int getDefaultStartingRow();
@@ -331,7 +340,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 			protected CellIndex[] inputCells;
 			protected ValueType[] inputTypes;
 
-			public AbstractRowRunner(RowImpl _formulaRow, RowImpl _valueRow, int _rowNumber, SaveableEngine[] _engines)
+			public AbstractRowRunner( RowImpl _formulaRow, RowImpl _valueRow, int _rowNumber, SaveableEngine[] _engines )
 			{
 				super();
 				this.rowNumber = _rowNumber;
@@ -343,13 +352,13 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 				this.formula = _formulaRow.getCellOrNull( formulaCol() );
 				this.fullyParametrizedTestEngines = _engines;
 				final CellInstance skipForCell = _valueRow.getCellOrNull( skipForCol() );
-				this.skipFor = (skipForCell == null) ? "" : valueOf( skipForCell ).toString();
+				this.skipFor = (skipForCell == null)? "" : valueOf( skipForCell ).toString();
 				extractInputsFrom( _valueRow );
 			}
 
 			protected final Object valueOf( final CellInstance _cell )
 			{
-				return (_cell == null) ? null : _cell.getValue();
+				return (_cell == null)? null : _cell.getValue();
 			}
 
 			protected abstract void extractInputsFrom( RowImpl _valueRow );
@@ -406,7 +415,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 			private TimeZone getTimeZone()
 			{
 				final Computation.Config config = AbstractSheetBasedTest.this.config;
-				TimeZone timeZone = config != null ? config.timeZone : null;
+				TimeZone timeZone = config != null? config.timeZone : null;
 				if (timeZone == null) {
 					timeZone = TimeZone.getDefault();
 				}
@@ -495,7 +504,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 				private final int inputActivationBits;
 				private final SaveableEngine[] testEngines;
 
-				public TestRunner(String _testName, int _activationBits, SaveableEngine[] _engines)
+				public TestRunner( String _testName, int _activationBits, SaveableEngine[] _engines )
 				{
 					super();
 					this.testName = _testName;
@@ -506,7 +515,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 
 				public final SaveableEngine[] run() throws Exception
 				{
-					final SaveableEngine[] result = (this.testEngines != null) ? this.testEngines
+					final SaveableEngine[] result = (this.testEngines != null)? this.testEngines
 							: new SaveableEngine[ CACHING_VARIANTS * TYPE_VARIANTS ];
 					final Boolean onlyCache = AbstractSheetBasedTest.this.runOnlyCacheVariant;
 					if (null != onlyCache) {
@@ -523,7 +532,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 				{
 					final NumType onlyType = AbstractSheetBasedTest.this.runOnlyType;
 					final String skipFor = AbstractRowRunner.this.skipFor;
-					final int offsEngine = _caching ? TYPE_VARIANTS : 0;
+					final int offsEngine = _caching? TYPE_VARIANTS : 0;
 					int iEngine;
 					if ((null == onlyType || NumType.DOUBLE == onlyType) && !skipFor.contains( "double" )) {
 						iEngine = offsEngine + 0;
@@ -700,14 +709,13 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 					private final NumericType numericType;
 					private final boolean caching;
 
-					protected TypedTestRunner(NumericType _type, boolean _caching)
+					protected TypedTestRunner( NumericType _type, boolean _caching )
 					{
 						super();
-						this.typedTestName = TestRunner.this.testName + " using " + _type + (_caching ? " (caching)" : "");
+						this.typedTestName = TestRunner.this.testName + " using " + _type + (_caching? " (caching)" : "");
 						this.numericType = _type;
 						this.caching = _caching;
 					}
-
 
 					public final SaveableEngine run( SaveableEngine _engine ) throws Exception
 					{
@@ -715,9 +723,13 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 
 						SaveableEngine e = null;
 						try {
-							e = (_engine == null) ? compileEngine() : _engine;
+							e = (_engine == null)? compileEngine() : _engine;
 
-							final ComputationFactory f = AbstractSheetBasedTest.this.config != null ? e
+							if (getAlwaysReportEngine()) {
+								reportDefectiveEngine( e, this.typedTestName );
+							}
+
+							final ComputationFactory f = AbstractSheetBasedTest.this.config != null? e
 									.getComputationFactory( AbstractSheetBasedTest.this.config ) : e.getComputationFactory();
 
 							final Outputs o = (Outputs) f.newComputation( newInputs() );
@@ -850,7 +862,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 				private final class DoubleTestRunner extends TypedTestRunner
 				{
 
-					public DoubleTestRunner(boolean _caching)
+					public DoubleTestRunner( boolean _caching )
 					{
 						super( SpreadsheetCompiler.DOUBLE, _caching );
 					}
@@ -887,7 +899,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 				private abstract class AbstractBigDecimalTestRunner extends TypedTestRunner
 				{
 
-					public AbstractBigDecimalTestRunner(NumericType _type, boolean _caching)
+					public AbstractBigDecimalTestRunner( NumericType _type, boolean _caching )
 					{
 						super( _type, _caching );
 					}
@@ -916,7 +928,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 				private final class PrecisionBigDecimalTestRunner extends AbstractBigDecimalTestRunner
 				{
 
-					public PrecisionBigDecimalTestRunner(boolean _caching)
+					public PrecisionBigDecimalTestRunner( boolean _caching )
 					{
 						super( SpreadsheetCompiler.BIGDECIMAL64, _caching );
 					}
@@ -937,7 +949,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 				private final class ScaledBigDecimalTestRunner extends AbstractBigDecimalTestRunner
 				{
 
-					public ScaledBigDecimalTestRunner(boolean _caching)
+					public ScaledBigDecimalTestRunner( boolean _caching )
 					{
 						super( SpreadsheetCompiler.BIGDECIMAL_SCALE8, _caching );
 					}
@@ -960,7 +972,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 				private final class ScaledLongTestRunner extends TypedTestRunner
 				{
 
-					public ScaledLongTestRunner(boolean _caching)
+					public ScaledLongTestRunner( boolean _caching )
 					{
 						super( SpreadsheetCompiler.LONG_SCALE6, _caching );
 					}
@@ -1049,17 +1061,17 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 				public BigDecimal getNUMBER( int i )
 				{
 					final Double val = getDouble( i );
-					return (val == null) ? null : BigDecimal.valueOf( val );
+					return (val == null)? null : BigDecimal.valueOf( val );
 				}
 			}
 
-			@ScaledLong(6)
+			@ScaledLong( 6 )
 			public final class ScaledLongInputs extends Inputs
 			{
 				public Long getNUMBER( int i )
 				{
 					final Double val = getDouble( i );
-					return (val == null) ? null : (Long) SpreadsheetCompiler.LONG_SCALE6.valueOf( val );
+					return (val == null)? null : (Long) SpreadsheetCompiler.LONG_SCALE6.valueOf( val );
 				}
 			}
 
@@ -1112,7 +1124,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 		// Nothing new here.
 	}
 
-	@ScaledLong(6)
+	@ScaledLong( 6 )
 	public static class ScaledLongOutputs extends Outputs
 	{
 		public long getNUMBER()
