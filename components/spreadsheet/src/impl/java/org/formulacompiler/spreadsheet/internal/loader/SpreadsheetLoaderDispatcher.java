@@ -70,6 +70,7 @@ public final class SpreadsheetLoaderDispatcher implements SpreadsheetLoader
 	{
 		public SpreadsheetLoader newInstance( Config _config )
 		{
+			_config.validate();
 			return new SpreadsheetLoaderDispatcher( _config );
 		}
 	}
