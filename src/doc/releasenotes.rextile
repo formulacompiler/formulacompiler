@@ -12,7 +12,7 @@ h2. Release 0.10.0
 h5. *Changed!*
 
 	* Changed the names of the predefined scaled @BigDecimal@ and @long@ numeric types.
-    * Changed the names of the runtimes to @Runtime..._v2@ and removed deprecated features.
+	* Changed the names of the runtimes to @Runtime..._v2@ and removed deprecated features.
     <br/>*Your engines won't run anymore. Recompile.*
 
 h5. New
