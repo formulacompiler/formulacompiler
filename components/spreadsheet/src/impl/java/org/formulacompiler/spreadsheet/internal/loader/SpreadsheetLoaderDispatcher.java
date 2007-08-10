@@ -35,6 +35,12 @@ import org.formulacompiler.spreadsheet.SpreadsheetLoader;
 public final class SpreadsheetLoaderDispatcher implements SpreadsheetLoader
 {
 	private static final Collection<Factory> FACTORIES = ImplementationLocator.getInstances( Factory.class );
+	private final Config config;
+
+	private  SpreadsheetLoaderDispatcher( Config _config )
+	{
+		this.config = _config;
+	}
 
 
 	public Spreadsheet loadFrom( String _originalFileName, InputStream _stream ) throws IOException,
@@ -42,7 +48,7 @@ public final class SpreadsheetLoaderDispatcher implements SpreadsheetLoader
 	{
 		for (Factory factory : FACTORIES) {
 			if (factory.canHandle( _originalFileName )) {
-				SpreadsheetLoader loader = factory.newInstance();
+				SpreadsheetLoader loader = factory.newInstance( this.config );
 				return loader.loadFrom( _originalFileName, _stream );
 			}
 		}
@@ -62,9 +68,9 @@ public final class SpreadsheetLoaderDispatcher implements SpreadsheetLoader
 
 	public static final class FactoryImpl implements SpreadsheetLoader.Factory
 	{
-		public SpreadsheetLoader newInstance()
+		public SpreadsheetLoader newInstance( Config _config )
 		{
-			return new SpreadsheetLoaderDispatcher();
+			return new SpreadsheetLoaderDispatcher( _config );
 		}
 	}
 

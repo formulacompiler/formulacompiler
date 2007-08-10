@@ -26,12 +26,36 @@ import java.io.InputStream;
 /**
  * Allows loading of spreadsheets from external sources (like Excel files).
  * 
- * @see SpreadsheetCompiler#loadSpreadsheet(String, InputStream)
+ * @see SpreadsheetCompiler#loadSpreadsheet(String, InputStream, Config)
  * 
  * @author peo
  */
 public interface SpreadsheetLoader
 {
+	
+	/**
+	 * Configuration data for new instances of {@link SpreadsheetLoader}.
+	 * 
+	 * @author peo
+	 */
+	public static class Config
+	{
+		
+		/**
+		 * The sheet of the spreadsheet representation in which to name cells.
+		 */
+		public boolean loadAllCellValues = false;
+
+		/**
+		 * Validates the configuration.
+		 * @throws IllegalArgumentException
+		 */
+		public void validate()
+		{
+			// Nothing to validate so far.
+		}
+		
+	}
 
 	
 	/**
@@ -57,7 +81,7 @@ public interface SpreadsheetLoader
 		/**
 		 * Factory method.
 		 */
-		SpreadsheetLoader newInstance();
+		SpreadsheetLoader newInstance( Config __config);
 	}
 
 }

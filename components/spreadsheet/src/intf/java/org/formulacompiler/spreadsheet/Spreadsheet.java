@@ -167,8 +167,19 @@ public interface Spreadsheet extends Describable
 		 * Returns the constant value of the cell, as defined in the spreadsheet.
 		 * 
 		 * @return the value, or {@code null} if the cell is empty or computed by a formula.
+		 * 
+		 * @see #getValue()
 		 */
 		public Object getConstantValue();
+
+		/**
+		 * Returns the value of the cell, as saved in the spreadsheet.
+		 * 
+		 * @return the value, or {@code null} if the cell is empty.
+		 * 
+		 * @see #getConstantValue()
+		 */
+		public Object getValue();
 
 		/**
 		 * Returns the expression text of the cell, as parsed from the spreadsheet by AFC.

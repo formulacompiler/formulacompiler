@@ -42,10 +42,13 @@ import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 import org.formulacompiler.spreadsheet.internal.loader.SpreadsheetLoaderDispatcher;
 import org.formulacompiler.spreadsheet.internal.parser.LazySpreadsheetExpressionParser;
 
+import jxl.BooleanFormulaCell;
 import jxl.Cell;
 import jxl.CellType;
 import jxl.DateCell;
+import jxl.DateFormulaCell;
 import jxl.NumberFormulaCell;
+import jxl.StringFormulaCell;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
 
@@ -62,9 +65,9 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 	public static final class Factory implements SpreadsheetLoaderDispatcher.Factory
 	{
 
-		public SpreadsheetLoader newInstance()
+		public SpreadsheetLoader newInstance( Config _config )
 		{
-			return new ExcelXLSLoader();
+			return new ExcelXLSLoader( _config );
 		}
 
 		public boolean canHandle( String _fileName )
@@ -72,6 +75,14 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 			return _fileName.toLowerCase().endsWith( ".xls" );
 		}
 
+	}
+
+
+	private final Config config;
+
+	public ExcelXLSLoader( Config _config )
+	{
+		this.config = _config;
 	}
 
 
@@ -160,6 +171,20 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 			if (xlsFormulaCell instanceof NumberFormulaCell) {
 				NumberFormulaCell xlsNumFormulaCell = ((NumberFormulaCell) xlsFormulaCell);
 				exprCell.setNumberFormat( convertNumberFormat( xlsNumFormulaCell, xlsNumFormulaCell.getNumberFormat() ) );
+			}
+			if (this.config.loadAllCellValues) {
+				if (xlsFormulaCell instanceof NumberFormulaCell) {
+					exprCell.setValue( ((NumberFormulaCell) xlsFormulaCell).getValue() );
+				}
+				else if (xlsFormulaCell instanceof DateFormulaCell) {
+					exprCell.setValue( ((DateFormulaCell) xlsFormulaCell).getValue() );
+				}
+				else if (xlsFormulaCell instanceof BooleanFormulaCell) {
+					exprCell.setValue( ((BooleanFormulaCell) xlsFormulaCell).getValue() );
+				}
+				else if (xlsFormulaCell instanceof StringFormulaCell) {
+					exprCell.setValue( ((StringFormulaCell) xlsFormulaCell).getString() );
+				}
 			}
 		}
 		else if (jxl.CellType.EMPTY == xlsType) {
