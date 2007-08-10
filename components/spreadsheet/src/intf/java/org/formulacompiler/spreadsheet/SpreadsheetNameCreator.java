@@ -31,7 +31,7 @@ public interface SpreadsheetNameCreator
 	
 	
 	/**
-	 * Configuration data for new instances of {@link org.formulacompiler.spreadsheet.SpreadsheetNameCreator}.
+	 * Configuration data for new instances of {@link SpreadsheetNameCreator}.
 	 * 
 	 * @author peo
 	 */
