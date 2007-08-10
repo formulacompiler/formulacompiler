@@ -1,7 +1,6 @@
 
 h1. Repeating Sections
 
-
 AFC allows you to define _repeating sections_ in a spreadsheet. Such sections are different from ordinary ranges in Excel in that the width or height of the section varies with each use of the computation.
 
 <%= toc 2, 3 %>
@@ -21,7 +20,6 @@ Let me show you a very simple spreadsheet that computes such a customer rating. 
 The row range @3:7@ will be our repeating section with variable height. Cell @B10@, the _Total_, sums the five rows 3..7. For every actual computation, AFC will shrink or extend the range within the sum in @B10@ to match the number of order totals we actually passed in.
 
 
-
 h2. Spreadsheet Rules
 
 The fact that my original spreadsheet has exactly five order total rows is irrelevant to AFC. What matters is that
@@ -35,7 +33,6 @@ Generally speaking, if you reference cells of a repeating section from outside t
 So we could just as well have used ten, or only two example rows. (In fact, we can get away with just one example row. I don't recommend this, though, because you might then forget to use @SUM@ over the rows.)
 
 In any case, AFC uses *only the first row* as a template for making the _n_ rows later on, at runtime. This will be important later when I show you a more complex spreadsheet.
-
 
 
 h2. Hooking It Up
@@ -68,9 +65,9 @@ Binding the outputs is straightforward, as we are only binding global values, no
 
 	[jc:org.formulacompiler.tutorials.CustomerRatingWithOrders:---- bindRating]
 
-We do, however, have to make our output interface "resettable":caching.htm. This is because AFC always caches the elements of a repeatable section internally. Here it is, then:
+h5. Internal Caching
 
-	[jc:org.formulacompiler.tutorials.CustomerRatingWithOrders:---- CustomerRating]
+Using repeating sections introduces a certain amount of internal caching to the computation. Including @Resettable@ in your output interface allows you to "control this cache":caching.htm#reuse.
 
 h5. Note
 
@@ -86,7 +83,6 @@ AFC generates a separate engine class for each repeating section:
 Its instances are built in the main engine when the repeating section is first accessed. You can see this in the method @get$Sect0()@ below:
 
 	[jc:customerRatingWithOrders/org.formulacompiler.gen.$Root]
-
 
 
 h2. Intermediate Values In A Repeating Section

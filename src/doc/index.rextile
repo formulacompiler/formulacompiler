@@ -4,11 +4,11 @@ h1. AFC - Abacus Formula Compiler for Java
 
 <div class="news">
 
+"Release 0.10.0":releasenotes.htm with streamlined runtimes, better caching control, and a host of newly supported functions.
+<br/>%(when)August TODO, 2007%
+
 "Release 0.9.1":releasenotes.htm adds binding of input params to cell values.
 <br/>%(when)July 11, 2007%
-
-"Release 0.9.0":releasenotes.htm is no longer called SEJ, but AFC, and has a lot of new features.
-<br/>%(when)June 28, 2007%
 
 </div>
 
@@ -38,8 +38,8 @@ AFC is *not open source*. It is the property of Abacus Research AG, Switzerland.
 
 h2. Download
 
-<% afc_ver = '0.9.1' %>
-<% tools_ver = '0.9.1' %>
+<% afc_ver = '0.10.0' %>
+<% tools_ver = '0.10.0' %>
 
 dt. "formulacompiler-<%=afc_ver%>-bin.zip":http://arrenbrecht.ch/afc/dist/formulacompiler-<%=afc_ver%>-bin.zip : Binary release, including documentation and all required third-party libraries.
 

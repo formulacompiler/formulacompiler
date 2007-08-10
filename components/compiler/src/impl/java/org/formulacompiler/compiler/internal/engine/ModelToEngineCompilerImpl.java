@@ -32,7 +32,7 @@ public final class ModelToEngineCompilerImpl extends AbstractOptimizedModelToEng
 		ModelToEngineCompiler
 {
 
-	public ModelToEngineCompilerImpl(Config _config)
+	public ModelToEngineCompilerImpl( Config _config )
 	{
 		super( _config );
 	}
@@ -50,17 +50,14 @@ public final class ModelToEngineCompilerImpl extends AbstractOptimizedModelToEng
 	public SaveableEngine compile() throws CompilerException, EngineException
 	{
 		final ComputationModelTransformer.Config mtcfg = new ComputationModelTransformer.Config();
-		mtcfg.model = getModel();
-		mtcfg.numericType = getNumericType();
+		final Config cfg = config();
+		mtcfg.model = cfg.model;
+		mtcfg.numericType = cfg.numericType;
 		final ComputationModelTransformer mt = TRANSFORMER_FACTORY.newInstance( mtcfg );
 		final ComputationModel transformed = mt.destructiveTransform();
 
-		final OptimizedModelToEngineCompiler.Config eccfg = new OptimizedModelToEngineCompiler.Config();
+		final Config eccfg = cfg.clone();
 		eccfg.model = transformed;
-		eccfg.numericType = getNumericType();
-		eccfg.factoryClass = getFactoryClass();
-		eccfg.factoryMethod = getFactoryMethod();
-		eccfg.parentClassLoader = getParentClassLoader();
 		final OptimizedModelToEngineCompiler ec = COMPILER_FACTORY.newInstance( eccfg );
 		return ec.compile();
 	}

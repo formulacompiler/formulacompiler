@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.runtime.New;
-import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinding;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
@@ -109,11 +108,6 @@ public class WorkbookBinding implements SpreadsheetBinding
 
 	public void validate() throws CompilerException
 	{
-		if (this.root.getSections().size() > 0) {
-			if (!Resettable.class.isAssignableFrom( getOutputClass() )) {
-				throw new CompilerException.MustBeResettable( getOutputClass() );
-			}
-		}
 		this.root.validate();
 	}
 

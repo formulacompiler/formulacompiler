@@ -29,11 +29,10 @@ import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.decompiler.FormulaDecompiler;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.runtime.New;
-import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
@@ -149,13 +148,10 @@ public class CustomerRatingWithOrders extends TestCase
 	}
 
 
-	// ---- CustomerRating
-	public static interface CustomerRating /**/extends Resettable/**/
+	public static interface CustomerRating
 	{
 		public String rating();
 	}
-
-	// ---- CustomerRating
 
 
 	// ---- CustomerData

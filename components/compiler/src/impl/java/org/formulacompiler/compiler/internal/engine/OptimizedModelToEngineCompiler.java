@@ -33,13 +33,14 @@ import org.formulacompiler.runtime.EngineException;
 public interface OptimizedModelToEngineCompiler
 {
 
-	public static class Config
+	public static class Config implements Cloneable
 	{
 		public ClassLoader parentClassLoader = getClass().getClassLoader();
 		public ComputationModel model;
 		public NumericType numericType;
 		public Class factoryClass;
 		public Method factoryMethod;
+		public boolean fullCaching;
 
 		public void validate()
 		{
@@ -51,6 +52,18 @@ public interface OptimizedModelToEngineCompiler
 			Util.validateFactory( this.factoryClass, this.factoryMethod, this.model.getInputClass(), this.model
 					.getOutputClass() );
 		}
+
+		@Override
+		protected Config clone()
+		{
+			try {
+				return (Config) super.clone();
+			}
+			catch (CloneNotSupportedException e) {
+				throw new IllegalArgumentException( e );
+			}
+		}
+
 	}
 
 

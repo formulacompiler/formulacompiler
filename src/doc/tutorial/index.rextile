@@ -1,7 +1,6 @@
 
 h1. Tutorial
 
-
 This is the tutorial for the Abacus Formula Compiler (AFC). It is organized as a collection of examples and reference topics, which are best read in the order presented here. You might also want to have a look at the "Function Reference":../reference/index.htm and the "API Reference":../javadoc/index.html.
 
 h5. Note
@@ -14,7 +13,7 @@ To ensure its correctness, all the sample code in this tutorial has been "cited 
 
 h2. Fundamentals
 
-dt. "The Reason":reason.htm : To demonstrate the raison d'être for AFC, I introduce a simple example: an order entry application where the line item rebate is made customizable. The shortcomings of this solution are overcome in the topic below, which introduces AFC.
+dt. "The Reason":reason.htm : To demonstrate why AFC was built, I introduce a simple example: an order entry application where the line item rebate is made customizable. The shortcomings of this solution are overcome in the topic below, which introduces AFC.
 
 dt. "The Basics":basics.htm : Line item pricing revisited: a simple case study that introduces the main concepts of AFC.
 
@@ -26,8 +25,7 @@ dt. "Locale and Time Zone":locale.htm : There are a few spreadsheet functions th
 
 dt. "Dates, Times, Durations and Time Zones":datetime.htm : The proper handling of time zones can be more complex than just setting the user's time zone correctly.
 
-dt. "Caching Of Values":caching.htm : Many computations can be sped up considerably by caching intermediate results. Here I show how to make an engine cache input values and intermediate cell values internally.
-
+dt. "Caching Of Values and Reusing Computations":caching.htm : Many computations can be sped up by turning on internal caching of cell values. And some functions (@NOW@ and @MATCH@, for example), or repeating sections, _always_ use internal caches. Caches, however, introduce state. You need to reset this state when reusing computations on modified inputs.
 
 
 h2. Repeating Sections
