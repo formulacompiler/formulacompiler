@@ -50,7 +50,7 @@ public final class Environment
 
 	public DecimalFormatSymbols decimalFormatSymbols()
 	{
-		return decimalFormatSymbols;
+		return this.decimalFormatSymbols;
 	}
 
 	public TimeZone timeZone()
