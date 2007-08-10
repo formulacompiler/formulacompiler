@@ -31,6 +31,7 @@
 
 	<target name="doc" description="Generates complete documentation (takes a while; needs successful test run)." depends="-doc" />
 	<target name="doc-main" description="Generates main documentation except for API and reference docs (quicker)." depends="-doc-main" />
+	<target name="doc-main-update" description="Updates main documentation." depends="-doc-main-update" />
 	<target name="doc-main-accept" description="Updates main documentation and accepts changed citations." depends="-doc-main-accept" />
 	<target name="doc-api" description="Generates API docs (javadoc) only." depends="-doc-api" />
 	<target name="doc-img" description="Updates all documentation images from sources." depends="-doc-img" />
@@ -295,8 +296,9 @@
 	<!-- doc -->
 
 	<target name="-doc" depends="@doc-clean, -doc-main-setup, -doc-ref-setup, @doc-rextile, @doc-cite, -doc-img, -doc-api" />
-	<target name="-doc-main" depends="@doc-clean, -doc-main-setup, @doc-rextile, @doc-cite" />
-	<target name="-doc-main-accept" depends="@doc-cite-accept, -doc-main" />
+	<target name="-doc-main" depends="@doc-clean, -doc-main-update" />
+	<target name="-doc-main-update" depends="-doc-main-setup, @doc-rextile, @doc-cite" />
+	<target name="-doc-main-accept" depends="@doc-cite-accept, -doc-main-update" />
 	<target name="-doc-api" depends="@doc-api" />
 	<target name="-doc-img" depends="@doc-img-make, @doc-img" />
 	<target name="-doc-main-setup" depends="@doc-main-copy, @doc-main-make" />
@@ -304,7 +306,9 @@
 
 	<target name="@doc-clean" depends="@init">
 		<delete dir="${temp.rextile.dir}" />
+		<delete dir="${temp.doc.dir}" />
 		<delete dir="${doc.dir}" />
+		<delete file="${temp.dir}/rextile.deps" />
 	</target>
 
 	<target name="@doc-img-make" depends="@init">
@@ -353,7 +357,7 @@
 
 	<target name="@doc-main-copy" depends="@init">
 		<mkdir dir="${temp.rextile.dir}" />
-		<copy todir="${temp.rextile.dir}">
+		<copy todir="${temp.rextile.dir}" preservelastmodified="true" >
 			<fileset dir="${src.doc.dir}">
 				<include name="**/*" />
 				<exclude name="reference/**/*" />
@@ -372,7 +376,7 @@
 
 	<target name="@doc-ref-copy" depends="@init">
 		<mkdir dir="${temp.rextile.dir}/reference" />
-		<copy todir="${temp.rextile.dir}/reference">
+		<copy todir="${temp.rextile.dir}/reference" preservelastmodified="true" >
 			<fileset dir="${src.doc.dir}/reference">
 				<include name="**/*" />
 			</fileset>
