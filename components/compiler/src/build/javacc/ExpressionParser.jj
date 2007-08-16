@@ -265,6 +265,7 @@ void fun(): {}
 	|	"FIND" fun2to3( Function.FIND )
 	|	"FLOOR" fun2( Function.FLOOR )
 	|	"FV" fun3to5( Function.FV )
+	|	"HLOOKUP" hvLookup( Function.HLOOKUP )
 	|	"HOUR" fun1( Function.HOUR )
 	|	"IF" fun3( Function.IF )
 	|	"INDEX" open() shapedRangeExpr() "," exprOrNull() optCommaExpr() closeFun( Function.INDEX )
@@ -285,6 +286,7 @@ void fun(): {}
 	|	"LN" fun1( Function.LN )
 	|	"LOG" fun1to2( Function.LOG )
 	|	"LOG10" fun1( Function.LOG10 )
+	|	"LOOKUP" open() expr() "," shapedRangeExpr() [ "," shapedRangeExpr() ] closeFun( Function.LOOKUP )
 	|	"LOWER" fun1( Function.LOWER )
 	|	"MAX" aggN( Function.MAX )
 	|	"MATCH" open() expr() "," shapedRangeExpr() optCommaExpr() closeFun( Function.MATCH )
@@ -340,6 +342,7 @@ void fun(): {}
 	|	"VALUE" fun1( Function.VALUE )
 	|	"VAR" aggN( Function.VAR )
 	|	"VARP" aggN( Function.VARP )
+	|	"VLOOKUP" hvLookup( Function.VLOOKUP )
 	|	"WEEKDAY" fun1to2( Function.WEEKDAY )
 	|	"YEAR" fun1( Function.YEAR )
 	}
@@ -443,7 +446,10 @@ void fun3to5(Function f): {}
 void fun3to6(Function f): {}
 	{	open() expr() commaExpr() commaExpr() [commaExprOrNull() [commaExprOrNull() optCommaExpr()]] closeFun( f )
 	}
-		
+
+void hvLookup(Function f): {}
+	{	open() expr() "," shapedRangeExpr() commaExpr() optCommaExpr() closeFun( f )
+	}		
 
 /*	LATER This is what we really want. 
 	But the current compiler only handles multiple arguments to the aggregator directly. 

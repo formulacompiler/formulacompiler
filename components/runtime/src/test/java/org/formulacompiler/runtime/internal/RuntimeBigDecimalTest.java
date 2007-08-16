@@ -27,7 +27,7 @@ import org.formulacompiler.runtime.Computation;
 
 import junit.framework.TestCase;
 
-public class RuntimeBigDecimal_v2Test extends TestCase
+public class RuntimeBigDecimalTest extends TestCase
 {
 
 

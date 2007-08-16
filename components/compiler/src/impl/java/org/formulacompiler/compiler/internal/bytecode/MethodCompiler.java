@@ -22,8 +22,8 @@ package org.formulacompiler.compiler.internal.bytecode;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 import java.util.Set;
 
 import org.formulacompiler.compiler.CallFrame;
@@ -31,10 +31,12 @@ import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForAbstractFold;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForDatabaseFold;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldArray;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMakeArray;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary.LetEntry;
 import org.formulacompiler.compiler.internal.model.CellModel;
@@ -60,7 +62,7 @@ abstract class MethodCompiler
 	private int objectInContext;
 
 
-	MethodCompiler(SectionCompiler _section, int _access, String _methodName, String _descriptor)
+	MethodCompiler( SectionCompiler _section, int _access, String _methodName, String _descriptor )
 	{
 		super();
 		this.section = _section;
@@ -84,7 +86,7 @@ abstract class MethodCompiler
 	{
 		StringBuffer b = new StringBuffer();
 		for (LetEntry entry : _closure) {
-			if (ExpressionCompiler.isArray( entry )) {
+			if (isArray( entry )) {
 				b.append( '[' ).append( _section.engineCompiler().typeCompiler( entry.type ).typeDescriptor() );
 			}
 			else {
@@ -146,7 +148,7 @@ abstract class MethodCompiler
 		return this.numericCompiler;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( "unchecked" )
 	private ExpressionCompiler expressionCompilerFor( Class _clazz )
 	{
 		return (_clazz.isAssignableFrom( String.class ))? stringCompiler() : numericCompiler();
@@ -196,6 +198,12 @@ abstract class MethodCompiler
 	protected abstract void compileBody() throws CompilerException;
 
 
+	final void compileCall( GeneratorAdapter _mv )
+	{
+		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, section().classInternalName(), methodName(), methodDescriptor() );
+	}
+
+	
 	final void compileInputGetterCall( CallFrame _callChainToCall ) throws CompilerException
 	{
 		final CallFrame[] frames = _callChainToCall.getFrames();
@@ -337,19 +345,20 @@ abstract class MethodCompiler
 
 	protected final Iterable<LetEntry> closureOf( Iterable<ExpressionNode> _nodes )
 	{
-		final Collection<LetEntry> closure = New.newCollection();
+		// Using sorted map to make engines reproducible.
+		final Map<String, LetEntry> closure = New.newSortedMap();
 		addToClosure( closure, _nodes );
-		return closure;
+		return closure.values();
 	}
 
 	protected final Iterable<LetEntry> closureOf( ExpressionNode _node )
 	{
-		final Collection<LetEntry> closure = New.newCollection();
+		final Map<String, LetEntry> closure = New.newSortedMap();
 		addToClosure( closure, _node );
-		return closure;
+		return closure.values();
 	}
 
-	private void addToClosure( Collection<LetEntry> _closure, Iterable<ExpressionNode> _nodes )
+	private void addToClosure( Map<String, LetEntry> _closure, Iterable<ExpressionNode> _nodes )
 	{
 		for (ExpressionNode node : _nodes)
 			addToClosure( _closure, node );
@@ -357,7 +366,7 @@ abstract class MethodCompiler
 
 	private static final Object INNER_DEF = new Object();
 
-	private final void addToClosure( Collection<LetEntry> _closure, ExpressionNode _node )
+	private final void addToClosure( Map<String, LetEntry> _closure, ExpressionNode _node )
 	{
 		if (null == _node) {
 			// ignore
@@ -366,7 +375,8 @@ abstract class MethodCompiler
 			final ExpressionNodeForLetVar letVar = (ExpressionNodeForLetVar) _node;
 			final LetEntry found = letDict().find( letVar.varName() );
 			if (null != found && INNER_DEF != found.value) {
-				_closure.add( found );
+				// Don't treat repeated occurrences separately.
+				_closure.put( found.name, found );
 			}
 		}
 		else if (_node instanceof ExpressionNodeForLet) {
@@ -400,7 +410,7 @@ abstract class MethodCompiler
 		}
 	}
 
-	private void addToClosureWithInnerDefs( Collection<LetEntry> _closure, ExpressionNode _node, String... _names )
+	private void addToClosureWithInnerDefs( Map<String, LetEntry> _closure, ExpressionNode _node, String... _names )
 	{
 		for (int i = 0; i < _names.length; i++) {
 			letDict().let( _names[ i ], null, INNER_DEF );
@@ -416,19 +426,24 @@ abstract class MethodCompiler
 	}
 
 
-	final void addClosureToLetDict( Iterable<LetEntry> _closure )
+	final void addClosureToLetDict( Iterable<LetEntry> _closure, int _leadingParamSize )
 	{
-		int iArg = 1; // 0 is "this"
+		int iArg = 1 + _leadingParamSize; // 0 is "this"
 		for (LetEntry entry : _closure) {
-			if (ExpressionCompiler.isArray( entry )) {
-				letDict().let( entry.name, entry.type, Integer.valueOf( -iArg ) );
+			if (isArray( entry )) {
+				letDict().let( entry.name, entry.type, new LocalArrayRef( iArg ) );
 				iArg++;
 			}
 			else {
-				letDict().let( entry.name, entry.type, Integer.valueOf( iArg ) );
+				letDict().let( entry.name, entry.type, new LocalValueRef( iArg ) );
 				iArg += section().engineCompiler().typeCompiler( entry.type ).type().getSize();
 			}
 		}
+	}
+
+	final void addClosureToLetDict( Iterable<LetEntry> _closure )
+	{
+		addClosureToLetDict( _closure, 0 );
 	}
 
 
@@ -520,7 +535,7 @@ abstract class MethodCompiler
 		/**
 		 * Generates the code for the default switch case.
 		 */
-		@SuppressWarnings("unused")
+		@SuppressWarnings( "unused" )
 		protected void generateDefault() throws CompilerException
 		{
 			// fall through
@@ -531,7 +546,7 @@ abstract class MethodCompiler
 	private static final class InnerException extends RuntimeException
 	{
 
-		public InnerException(Throwable _cause)
+		public InnerException( Throwable _cause )
 		{
 			super( _cause );
 		}
@@ -550,7 +565,7 @@ abstract class MethodCompiler
 		return oldState;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( "unchecked" )
 	final Set<DelayedLet> endTrackingSetsOfOuterLets( Object _oldState )
 	{
 		final Set<DelayedLet> currentState = this.trackedSetsOfOuterLets;
@@ -574,6 +589,95 @@ abstract class MethodCompiler
 	final int letTrackingNestingLevel()
 	{
 		return this.letTrackingNestingLevel;
+	}
+
+
+	protected final static boolean isArray( ExpressionNode _node )
+	{
+		if (_node instanceof ExpressionNodeForArrayReference) {
+			return true;
+		}
+		else if (_node instanceof ExpressionNodeForMakeArray) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	protected final static boolean isArray( LetDictionary.LetEntry _e )
+	{
+		if (_e.value instanceof DelayedLet) {
+			return ((DelayedLet) _e.value).isArray();
+		}
+		else if (_e.value instanceof LocalRef) {
+			return ((LocalRef) _e.value).isArray();
+		}
+		else if (_e.value instanceof ExpressionNode) {
+			return isArray( (ExpressionNode) _e.value );
+		}
+		else {
+			return false;
+		}
+	}
+
+
+	// LATER Might convert constructors to static getters reusing values.
+
+	static abstract class LocalRef
+	{
+		final int offset;
+
+		public LocalRef( int _offset )
+		{
+			this.offset = _offset;
+		}
+
+		public abstract boolean isArray();
+	}
+
+	static final class LocalValueRef extends LocalRef
+	{
+
+		public LocalValueRef( int _offset )
+		{
+			super( _offset );
+		}
+
+		@Override
+		public String toString()
+		{
+			return "local_val(" + this.offset + ")";
+		}
+
+		@Override
+		public boolean isArray()
+		{
+			return false;
+		}
+
+	}
+
+	static final class LocalArrayRef extends LocalRef
+	{
+
+		public LocalArrayRef( int _offset )
+		{
+			super( _offset );
+		}
+
+		@Override
+		public String toString()
+		{
+			return "local_array(" + this.offset + ")";
+		}
+
+		@Override
+		public boolean isArray()
+		{
+			return true;
+		}
+
 	}
 
 }

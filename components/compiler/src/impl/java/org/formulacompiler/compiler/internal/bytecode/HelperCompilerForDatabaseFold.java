@@ -133,7 +133,7 @@ final class HelperCompilerForDatabaseFold extends HelperCompilerForIterativeFold
 			}
 			mv.mark( noMatch );
 
-			return _iElt + this.tableDescriptor.getNumberOfColumns();
+			return _iElt + this.tableDescriptor.numberOfColumns();
 		}
 	}
 
@@ -169,7 +169,7 @@ final class HelperCompilerForDatabaseFold extends HelperCompilerForIterativeFold
 	private void compileCallToMatcherAndBuildItInFirstPass( List<ExpressionNode> _elts, int _iElt )
 			throws CompilerException
 	{
-		final int nCols = this.tableDescriptor.getNumberOfColumns();
+		final int nCols = this.tableDescriptor.numberOfColumns();
 		final GeneratorAdapter mv = mv();
 		try {
 			for (int iCol = 0; iCol < nCols; iCol++) {
@@ -251,8 +251,7 @@ final class HelperCompilerForDatabaseFold extends HelperCompilerForIterativeFold
 		final ExpressionCompilerForNumbers num = numericCompiler();
 		final ExpressionNodeForDatabaseFold node = (ExpressionNodeForDatabaseFold) _context.node;
 
-		num.compile( _colIdxExpr );
-		num.compileConversionToInt();
+		num.compileInt( _colIdxExpr );
 		compileTableSwitch( node.foldableColumnKeys(), new TableSwitchGenerator()
 		{
 

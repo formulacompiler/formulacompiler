@@ -30,18 +30,18 @@ import java.util.TimeZone;
 public final class RuntimeDouble_v2 extends Runtime_v2
 {
 	private static final double EXCEL_EPSILON = 0.0000001;
-	private static final double[] POW10 = { 1E-10, 1E-9, 1E-8, 1E-7, 1E-6, 1E-5, 1E-4, 1E-3, 1E-2, 1E-1, 1,
-			1E+1, 1E+2, 1E+3, 1E+4, 1E+5, 1E+6, 1E+7, 1E+8, 1E+9, 1E+10 };
+	private static final double[] POW10 = { 1E-10, 1E-9, 1E-8, 1E-7, 1E-6, 1E-5, 1E-4, 1E-3, 1E-2, 1E-1, 1, 1E+1, 1E+2,
+			1E+3, 1E+4, 1E+5, 1E+6, 1E+7, 1E+8, 1E+9, 1E+10 };
 
 
 	public static double max( final double a, final double b )
 	{
-		return a >= b ? a : b;
+		return a >= b? a : b;
 	}
 
 	public static double min( final double a, final double b )
 	{
-		return a <= b ? a : b;
+		return a <= b? a : b;
 	}
 
 	public static double fun_CEILING( final double _number, final double _significance )
@@ -96,17 +96,17 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	private static double roundDown( final double _val )
 	{
-		return 0 > _val ? Math.ceil( _val ) : Math.floor( _val );
+		return 0 > _val? Math.ceil( _val ) : Math.floor( _val );
 	}
 
 	private static double roundUp( final double _val )
 	{
-		return 0 > _val ? Math.floor( _val ) : Math.ceil( _val );
+		return 0 > _val? Math.floor( _val ) : Math.ceil( _val );
 	}
 
 	private static double pow10( final int _exp )
 	{
-		return (_exp >= -10 && _exp <= 10) ? POW10[ _exp + 10 ] : Math.pow( 10, _exp );
+		return (_exp >= -10 && _exp <= 10)? POW10[ _exp + 10 ] : Math.pow( 10, _exp );
 	}
 
 	public static boolean booleanFromNum( final double _val )
@@ -116,12 +116,12 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double booleanToNum( final boolean _val )
 	{
-		return _val ? 1.0 : 0.0;
+		return _val? 1.0 : 0.0;
 	}
 
 	public static double numberToNum( final Number _num )
 	{
-		return (_num == null) ? 0.0 : _num.doubleValue();
+		return (_num == null)? 0.0 : _num.doubleValue();
 	}
 
 
@@ -203,7 +203,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		}
 
 		// Convert this to the number of days since 01 Jan 1970
-		final int offsetDays = BASED_ON_1904 ? UTC_OFFSET_DAYS_1904 : UTC_OFFSET_DAYS;
+		final int offsetDays = BASED_ON_1904? UTC_OFFSET_DAYS_1904 : UTC_OFFSET_DAYS;
 		final double utcDays = numValue - offsetDays;
 
 		// Convert this into utc by multiplying by the number of milliseconds
@@ -244,7 +244,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_DATE( final int _year, final int _month, final int _day )
 	{
-		final int year = _year < 1899 ? _year + 1900 : _year;
+		final int year = _year < 1899? _year + 1900 : _year;
 		return dateToNum( year, _month, _day );
 	}
 
@@ -268,9 +268,9 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			case 1:
 				return dayOfWeek;
 			case 2:
-				return dayOfWeek > 1 ? dayOfWeek - 1 : 7;
+				return dayOfWeek > 1? dayOfWeek - 1 : 7;
 			case 3:
-				return dayOfWeek > 1 ? dayOfWeek - 2 : 6;
+				return dayOfWeek > 1? dayOfWeek - 2 : 6;
 			default:
 				return 0; // Excel #NUM
 		}
@@ -403,7 +403,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			return 0; // Excel #NUM!
 		}
 		if (lnX == 0) {
-			return 0; //Excel #DIV/0!
+			return 0; // Excel #DIV/0!
 		}
 		return lnN / lnX;
 	}
@@ -501,7 +501,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		double depreciation = depreciation1;
 		if ((int) _period > 1) {
 			double totalDepreciation = depreciation1;
-			final int maxPeriod = (int) (_life > _period ? _period : _life);
+			final int maxPeriod = (int) (_life > _period? _period : _life);
 			for (int i = 2; i <= maxPeriod; i++) {
 				depreciation = (_cost - totalDepreciation) * rate;
 				totalDepreciation += depreciation;
@@ -519,8 +519,8 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		final double newCost;
 		final double k = 1 - _factor / _life;
 		if (k <= 0) {
-			remainingCost = _period == 1 ? _cost : 0;
-			newCost = _period == 0 ? _cost : 0;
+			remainingCost = _period == 1? _cost : 0;
+			newCost = _period == 0? _cost : 0;
 		}
 		else {
 			final double k_p1 = Math.pow( k, _period - 1 );
@@ -529,7 +529,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			newCost = _cost * k_p;
 		}
 
-		double depreciation = remainingCost - (newCost < _salvage ? _salvage : newCost);
+		double depreciation = remainingCost - (newCost < _salvage? _salvage : newCost);
 		if (depreciation < 0) {
 			depreciation = 0;
 		}
@@ -546,14 +546,14 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			final double rate1;
 			if (rate0 == 0) {
 				final double a = _pmt * _nper;
-				final double b = a + (type ? _pmt : -_pmt);
+				final double b = a + (type? _pmt : -_pmt);
 				rate1 = rate0 - (_pv + _fv + a) / (_nper * (_pv + b / 2));
 			}
 			else {
 				final double a = 1 + rate0;
 				final double b = Math.pow( a, _nper - 1 );
 				final double c = b * a;
-				final double d = _pmt * (1 + (type ? rate0 : 0));
+				final double d = _pmt * (1 + (type? rate0 : 0));
 				final double e = rate0 * _nper * b;
 				final double f = c - 1;
 				final double g = rate0 * _pv;
@@ -577,6 +577,43 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			return number.doubleValue();
 		}
 		return 0.0; // Excel #NUM!
+	}
+
+
+	public static int fun_MATCH_Exact( double _x, double[] _xs )
+	{
+		for (int i = 0; i < _xs.length; i++) {
+			if (_x == _xs[ i ]) return i + 1; // Excel is 1-based
+		}
+		return 0;
+	}
+
+	public static int fun_MATCH_Ascending( double _x, double[] _xs )
+	{
+		final int iLast = _xs.length - 1;
+		int iLeft = 0;
+		int iRight = iLast;
+		while (iLeft < iRight) {
+			final int iMid = iLeft + ((iRight - iLeft) >> 1);
+			if (_x > _xs[ iMid ]) iLeft = iMid + 1;
+			else iRight = iMid;
+		}
+		if (iLeft > iLast || _x < _xs[ iLeft ]) iLeft--;
+		return iLeft + 1; // Excel is 1-based
+	}
+
+	public static int fun_MATCH_Descending( double _x, double[] _xs )
+	{
+		final int iLast = _xs.length - 1;
+		int iLeft = 0;
+		int iRight = iLast;
+		while (iLeft < iRight) {
+			final int iMid = iLeft + ((iRight - iLeft) >> 1);
+			if (_x < _xs[ iMid ]) iLeft = iMid + 1;
+			else iRight = iMid;
+		}
+		if (iLeft > iLast || _x > _xs[ iLeft ]) iLeft--;
+		return iLeft + 1; // Excel is 1-based
 	}
 
 

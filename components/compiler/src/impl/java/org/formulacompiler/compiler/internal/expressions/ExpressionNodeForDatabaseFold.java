@@ -47,7 +47,7 @@ public final class ExpressionNodeForDatabaseFold extends ExpressionNodeForAbstra
 		this.isReduce = _isReduce;
 		this.isZeroForEmptySelection = _isZeroForEmptySelection;
 
-		final int nCol = _tableDescriptor.getNumberOfColumns();
+		final int nCol = _tableDescriptor.numberOfColumns();
 		this.filterColumnNames = new String[ nCol ];
 		for (int iCol = 0; iCol < nCol; iCol++) {
 			this.filterColumnNames[ iCol ] = filterColumnNamePrefix() + iCol;

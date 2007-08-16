@@ -599,4 +599,41 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	}
 
 
+	public static int fun_MATCH_Exact( long _x, long[] _xs )
+	{
+		for (int i = 0; i < _xs.length; i++) {
+			if (_x == _xs[ i ]) return i + 1; // Excel is 1-based
+		}
+		return 0;
+	}
+
+	public static int fun_MATCH_Ascending( long _x, long[] _xs )
+	{
+		final int iLast = _xs.length - 1;
+		int iLeft = 0;
+		int iRight = iLast;
+		while (iLeft < iRight) {
+			final int iMid = iLeft + ((iRight - iLeft) >> 1);
+			if (_x > _xs[ iMid ]) iLeft = iMid + 1;
+			else iRight = iMid;
+		}
+		if (iLeft > iLast || _x < _xs[ iLeft ]) iLeft--;
+		return iLeft + 1; // Excel is 1-based
+	}
+
+	public static int fun_MATCH_Descending( long _x, long[] _xs )
+	{
+		final int iLast = _xs.length - 1;
+		int iLeft = 0;
+		int iRight = iLast;
+		while (iLeft < iRight) {
+			final int iMid = iLeft + ((iRight - iLeft) >> 1);
+			if (_x < _xs[ iMid ]) iLeft = iMid + 1;
+			else iRight = iMid;
+		}
+		if (iLeft > iLast || _x > _xs[ iLeft ]) iLeft--;
+		return iLeft + 1; // Excel is 1-based
+	}
+
+
 }

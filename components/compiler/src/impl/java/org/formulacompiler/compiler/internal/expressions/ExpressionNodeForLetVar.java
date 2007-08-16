@@ -58,7 +58,7 @@ public final class ExpressionNodeForLetVar extends ExpressionNode
 			return ((ExpressionNode) val).countValues( _letDict, _uncountables );
 		}
 		else if (val instanceof ArrayDescriptor) {
-			return ((ArrayDescriptor) val).getNumberOfElements();
+			return ((ArrayDescriptor) val).numberOfElements();
 		}
 		else {
 			return 1;

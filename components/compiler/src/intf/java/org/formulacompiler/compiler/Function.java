@@ -30,13 +30,11 @@ public enum Function {
 
 	// Logic
 
-	IF, NOT,
+	IF, NOT, 
 
 	// Math
 
-	ABS, ACOS, ASIN, ATAN, ATAN2, COS, SIN, TAN, DEGREES, RADIANS, PI,
-	CEILING, FLOOR, ROUND, ROUNDDOWN, ROUNDUP, TRUNC, EVEN, ODD, INT,
-	EXP, POWER, LN, LOG, LOG10, MOD, SQRT,
+	ABS, ACOS, ASIN, ATAN, ATAN2, COS, SIN, TAN, DEGREES, RADIANS, PI, CEILING, FLOOR, ROUND, ROUNDDOWN, ROUNDUP, TRUNC, EVEN, ODD, INT, EXP, POWER, LN, LOG, LOG10, MOD, SQRT,
 
 	// Combinatorics
 
@@ -48,15 +46,16 @@ public enum Function {
 
 	// Dates
 
-	DATE, TIME, SECOND, MINUTE, HOUR, WEEKDAY, DAY, MONTH, YEAR,
-	NOW {
+	DATE, TIME, SECOND, MINUTE, HOUR, WEEKDAY, DAY, MONTH, YEAR, NOW
+	{
 		@Override
 		public boolean isVolatile()
 		{
 			return true;
 		}
 	},
-	TODAY {
+	TODAY
+	{
 		@Override
 		public boolean isVolatile()
 		{
@@ -66,16 +65,23 @@ public enum Function {
 
 	// Lookup
 
-	MATCH, INDEX,
+	MATCH, INDEX, LOOKUP, HLOOKUP, VLOOKUP, INTERNAL_MATCH_INT
+	{
+		@Override
+		public boolean returnsInt()
+		{
+			return true;
+		}
+	},
 
 	// String
 
 	CONCATENATE, LEN, LENB, MID, LEFT, RIGHT, SUBSTITUTE, REPLACE, SEARCH, FIND, EXACT, LOWER, UPPER, PROPER, REPT, TRIM,
-	
+
 	// Conversions
 
-	N, T,
-	VALUE {
+	N, T, VALUE
+	{
 		@Override
 		public boolean isVolatile()
 		{
@@ -91,7 +97,7 @@ public enum Function {
 		}
 	},
 
-	//Types
+	// Types
 
 	ISBLANK, ISERR, ISERROR, ISLOGICAL, ISNA, ISNONTEXT, ISNUMBER, ISTEXT,
 
@@ -104,7 +110,8 @@ public enum Function {
 	DSUM, DPRODUCT, DCOUNT, DMIN, DMAX;
 
 
-	private static final Function[] AGGREGATORS = { SUM, PRODUCT, MIN, MAX, COUNT, AVERAGE, VAR, VARP, AND, OR, KURT, SKEW, STDEV, STDEVP };
+	private static final Function[] AGGREGATORS = { SUM, PRODUCT, MIN, MAX, COUNT, AVERAGE, VAR, VARP, AND, OR, KURT,
+			SKEW, STDEV, STDEVP };
 
 
 	public String getName()
@@ -113,6 +120,11 @@ public enum Function {
 	}
 
 	public boolean isVolatile()
+	{
+		return false;
+	}
+
+	public boolean returnsInt()
 	{
 		return false;
 	}
