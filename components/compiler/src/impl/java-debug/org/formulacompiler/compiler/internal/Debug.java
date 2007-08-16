@@ -37,7 +37,8 @@ import org.formulacompiler.decompiler.FormulaDecompiler;
  */
 public final class Debug
 {
-
+	private static final String TEMP_DECOMPILED = "temp/debug/decompiled";
+	
 	/**
 	 * Use like "if (Debug.TRUE) ..." to guard debug statements.
 	 */
@@ -63,12 +64,37 @@ public final class Debug
 
 	/**
 	 * Use to temporarily decompile engines for debugging purposes. Using this instead of
-	 * {@link FormulaDecompiler#decompile(org.formulacompiler.runtime.Engine)} ensures that debugging code does not compile
-	 * in release builds.
+	 * {@link FormulaDecompiler#decompile(org.formulacompiler.runtime.Engine)} ensures that debugging
+	 * code does not compile in release builds.
+	 * 
+	 * @see #decompileEngine(SaveableEngine)
 	 */
 	public static void decompileEngine( SaveableEngine _engine, String _folderName ) throws IOException
 	{
 		FormulaDecompiler.decompile( _engine ).saveTo( new File( _folderName ) );
+	}
+
+
+	/**
+	 * Use to temporarily decompile an engine for debugging purposes to "temp/debug/decompiled/".
+	 * Using this instead of {@link FormulaDecompiler#decompile(org.formulacompiler.runtime.Engine)}
+	 * ensures that debugging code does not compile in release builds.
+	 * 
+	 * @see #decompileEngine(SaveableEngine, String)
+	 */
+	public static void decompileEngine( SaveableEngine _engine ) throws IOException
+	{
+		decompileEngine( _engine, TEMP_DECOMPILED );
+	}
+
+
+	/**
+	 * Like {@link #decompileEngine(SaveableEngine)}, but runs the result in "gedit" (Linux).
+	 */
+	public static void decompileAndShowEngine( SaveableEngine _engine ) throws IOException
+	{
+		decompileEngine( _engine );
+		Runtime.getRuntime().exec( "gedit " + TEMP_DECOMPILED + "/org/formulacompiler/gen/$Root.java" );
 	}
 
 
