@@ -151,9 +151,7 @@ public final class CallFrame extends AbstractDescribable
 	public Object[] getArgs()
 	{
 		assert (null != this.args);
-		Object[] result = new Object[ this.args.length ];
-		System.arraycopy( this.args, 0, result, 0, this.args.length );
-		return result;
+		return this.args.clone();
 	}
 
 
