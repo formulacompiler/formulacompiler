@@ -22,6 +22,7 @@ package org.formulacompiler.compiler.internal.expressions;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.ListIterator;
 
 import org.formulacompiler.describable.DescriptionBuilder;
 
@@ -30,7 +31,7 @@ public final class ExpressionNodeForArrayReference extends ExpressionNode
 {
 	private final ArrayDescriptor arrayDescriptor;
 
-	public ExpressionNodeForArrayReference(ArrayDescriptor _descriptor, ExpressionNode... _args)
+	public ExpressionNodeForArrayReference( ArrayDescriptor _descriptor, ExpressionNode... _args )
 	{
 		super( _args );
 		this.arrayDescriptor = _descriptor;
@@ -53,7 +54,7 @@ public final class ExpressionNodeForArrayReference extends ExpressionNode
 	@Override
 	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
 	{
-		return arrayDescriptor().getNumberOfElements();
+		return arrayDescriptor().numberOfElements();
 	}
 
 
@@ -71,4 +72,28 @@ public final class ExpressionNodeForArrayReference extends ExpressionNode
 		_to.append( '}' );
 	}
 
+
+	public final ExpressionNodeForArrayReference subArray( int _firstRow, int _nRows, int _firstCol, int _nCols )
+	{
+		final ArrayDescriptor myDesc = arrayDescriptor();
+		final int myCols = myDesc.numberOfColumns();
+		if (myDesc.numberOfSheets() != 1)
+			throw new IllegalArgumentException( "Cannot handle arrays spanning sheets in subArray()" );
+
+		final ArrayDescriptor subDesc = new ArrayDescriptor( myDesc, _firstRow, _firstCol,
+				_nRows - myDesc.extent().row(), _nCols - myDesc.extent().col() );
+		final ExpressionNodeForArrayReference sub = new ExpressionNodeForArrayReference( subDesc );
+
+		final ListIterator<ExpressionNode> vals = arguments().listIterator( _firstRow * myCols );
+		final int lastCol = _firstCol + _nCols - 1;
+		for (int iRow = 0; iRow < _nRows; iRow++) {
+			for (int iCol = 0; iCol < myCols; iCol++) {
+				final ExpressionNode val = vals.next();
+				if (_firstCol <= iCol && iCol <= lastCol) {
+					sub.addArgument( val );
+				}
+			}
+		}
+		return sub;
+	}
 }

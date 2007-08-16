@@ -30,6 +30,19 @@ public class EvalSubstitution extends EvalShadow
 	{
 		super( _node, null );
 	}
+	
+	
+	@Override
+	protected EvalShadow unsubstituted()
+	{
+		if (cardinality() == 1) {
+			return unsubstitutedArgument( 0 );
+		}
+		else {
+			return this;
+		}
+	}
+	
 
 	@Override
 	protected Object evaluateToConst( Object... _args ) throws InterpreterException

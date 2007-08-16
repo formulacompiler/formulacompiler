@@ -52,7 +52,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 	private final ExpressionNode valueColumn;
 	private final ExpressionNodeForArrayReference criteria;
 
-	public AbstractFunctionRewriterForDatabaseAggregator(ExpressionNodeForFunction _fun, InterpretedNumericType _type)
+	public AbstractFunctionRewriterForDatabaseAggregator( ExpressionNodeForFunction _fun, InterpretedNumericType _type )
 	{
 		super();
 		this.fun = _fun;
@@ -94,7 +94,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 	public final ExpressionNode rewrite() throws CompilerException
 	{
 		final ArrayDescriptor tableDescriptor = this.table.arrayDescriptor();
-		if (tableDescriptor.getNumberOfColumns() == ArrayDescriptor.DYNAMIC) {
+		if (tableDescriptor.numberOfColumns() == ArrayDescriptor.DYNAMIC) {
 			throw new CompilerException.SectionOrientation( "The function "
 					+ this.fun.getFunction() + " can only operate on vertically repeating sections." );
 		}
@@ -143,7 +143,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 			return getLabelsFromTable( _tableDesc, first.arguments() );
 		}
 		else {
-			final int nCol = _tableDesc.getNumberOfColumns();
+			final int nCol = _tableDesc.numberOfColumns();
 			final List<String> result = New.newList( nCol );
 			final Iterator<ExpressionNode> iElt = _tableElements.iterator();
 			for (int iCol = 0; iCol < nCol; iCol++) {
@@ -173,16 +173,16 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 		if (first instanceof ExpressionNodeForArrayReference) {
 			final ExpressionNodeForArrayReference firstArr = (ExpressionNodeForArrayReference) first;
 			final ArrayDescriptor firstArrDesc = firstArr.arrayDescriptor();
-			final int firstArrRows = firstArrDesc.getNumberOfRows();
+			final int firstArrRows = firstArrDesc.numberOfRows();
 			if (firstArrRows > 1) {
 				final ExpressionNodeForArrayReference newFirstArr = new ExpressionNodeForArrayReference(
-						new ArrayDescriptor( firstArrDesc, 0, -1, 0 ) );
+						new ArrayDescriptor( firstArrDesc, +0, 0, -1, 0 ) );
 				stripLabelsFromTableInto( firstArrDesc, firstArr.arguments(), newFirstArr.arguments() );
 				_result.add( newFirstArr );
 			}
 		}
 		else {
-			final int nCol = _tableDesc.getNumberOfColumns();
+			final int nCol = _tableDesc.numberOfColumns();
 			for (int iCol = 1; iCol < nCol; iCol++) {
 				iElt.next();
 			}
@@ -195,7 +195,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 	private List<CellModel> getFirstRowFromTable( ArrayDescriptor _tableDesc, List<ExpressionNode> _dataElements )
 			throws CompilerException
 	{
-		final int nCol = _tableDesc.getNumberOfColumns();
+		final int nCol = _tableDesc.numberOfColumns();
 		final List<CellModel> result = New.newList( nCol );
 		getFirstRowFromTableInto( 0, nCol, _dataElements.iterator(), result );
 		return result;
@@ -237,7 +237,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 	private ExpressionNodeForArrayReference getShapedDataFromTable( ArrayDescriptor _tableDesc,
 			List<ExpressionNode> _tableElements )
 	{
-		final ArrayDescriptor dd = new ArrayDescriptor( _tableDesc, 0, -1, 0 );
+		final ArrayDescriptor dd = new ArrayDescriptor( _tableDesc, +1, 0, -1, 0 );
 		final ExpressionNodeForArrayReference result = new ExpressionNodeForArrayReference( dd );
 		result.arguments().addAll( _tableElements );
 		return result;
@@ -334,7 +334,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 			for (int iCrit = 0; iCrit < len; iCrit++) {
 				final int iCol = _critCols[ iCrit ];
 				final ExpressionNode criterion = _critIterator.next();
-				final ExpressionNode colFilter = (iCol == FREE_FORM) ? buildFreeFormFilter( criterion, _firstRow )
+				final ExpressionNode colFilter = (iCol == FREE_FORM)? buildFreeFormFilter( criterion, _firstRow )
 						: buildFilterByExample( iCol, criterion, _colTypes[ iCol ] );
 				if (null != colFilter) {
 					result.add( colFilter );
@@ -343,7 +343,8 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 			return result;
 		}
 
-		private ExpressionNode buildFilterByExample( int _tableCol, ExpressionNode _criterion, DataType _type ) throws CompilerException
+		private ExpressionNode buildFilterByExample( int _tableCol, ExpressionNode _criterion, DataType _type )
+				throws CompilerException
 		{
 			final Object cst = constantValueOf( _criterion );
 			if (null == cst) {
@@ -371,7 +372,8 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 			return buildComparison( Operator.EQUAL, _tableCol, _criterion );
 		}
 
-		private ExpressionNode buildFilterByExample( int _tableCol, final String _criterion, DataType _type ) throws CompilerException
+		private ExpressionNode buildFilterByExample( int _tableCol, final String _criterion, DataType _type )
+				throws CompilerException
 		{
 			Operator comparison = Operator.EQUAL;
 			int valueStartsAt = 0;
@@ -455,9 +457,10 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 				return op( _comparison, var( colName ), _criterion );
 			}
 			else {
-				final String critName = "-crit" + this.nextCritID++;
+				final String critName = "crit" + this.nextCritID++;
 
 				final ExpressionNodeForLet newLet = new ExpressionNodeForLet( critName, false, _criterion );
+				newLet.setShouldCache( false );
 				if (this.lastLet == null) {
 					this.firstLet = this.lastLet = newLet;
 				}

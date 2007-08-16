@@ -113,6 +113,13 @@ abstract class AbstractExpressionRewriter
 		return new ExpressionNodeForLet( _n, _value, _in );
 	}
 
+	protected final ExpressionNode symbolicLet( String _n, ExpressionNode _value, ExpressionNode _in )
+	{
+		final ExpressionNodeForLet let = new ExpressionNodeForLet( _n, _value, _in );
+		let.setSymbolic( true );
+		return let;
+	}
+
 
 	protected final ExpressionNodeForLetVar var( String _a )
 	{

@@ -32,9 +32,11 @@ import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
-import org.formulacompiler.compiler.internal.expressions.LetDictionary.LetEntry;
+import org.formulacompiler.compiler.internal.expressions.InnerExpressionException;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCount;
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.runtime.Milliseconds;
@@ -75,7 +77,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 
 	private final NumericType numericType;
 
-	public ExpressionCompilerForNumbers_Base(MethodCompiler _methodCompiler, NumericType _numericType)
+	public ExpressionCompilerForNumbers_Base( MethodCompiler _methodCompiler, NumericType _numericType )
 	{
 		super( _methodCompiler );
 		this.numericType = _numericType;
@@ -104,7 +106,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		compileScaleUp();
 	}
 
-	protected final void compileConversionToInt() throws CompilerException
+	private final void compileConversionToInt() throws CompilerException
 	{
 		compileScaleDown();
 		compile_util_toInt();
@@ -117,6 +119,15 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		}
 		else {
 			compile_util_toNumber();
+		}
+	}
+
+	protected final void compileInt( ExpressionNode _node ) throws CompilerException
+	{
+		compile( _node );
+		if (!(_node instanceof ExpressionNodeForFunction)
+				|| !((ExpressionNodeForFunction) _node).getFunction().returnsInt()) {
+			compileConversionToInt();
 		}
 	}
 
@@ -142,13 +153,13 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 
 	protected abstract boolean isScaled();
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings( "unused" )
 	protected void compileScaleUp() throws CompilerException
 	{
 		if (isScaled()) throw new IllegalStateException( "No scaling for " + toString() );
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings( "unused" )
 	protected void compileScaleDown() throws CompilerException
 	{
 		if (isScaled()) throw new IllegalStateException( "No scaling for " + toString() );
@@ -246,25 +257,25 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	protected abstract void compile_util_toString() throws CompilerException;
 	protected abstract void compile_util_toNumber() throws CompilerException;
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings( "unused" )
 	protected void compile_util_toDouble_Scaled() throws CompilerException
 	{
 		throw new IllegalStateException( "No scaling for " + toString() );
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings( "unused" )
 	protected void compile_util_toFloat_Scaled() throws CompilerException
 	{
 		throw new IllegalStateException( "No scaling for " + toString() );
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings( "unused" )
 	protected void compile_util_toBigDecimal_Scaled() throws CompilerException
 	{
 		throw new IllegalStateException( "No scaling for " + toString() );
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings( "unused" )
 	protected void compile_util_toNumber_Scaled() throws CompilerException
 	{
 		throw new IllegalStateException( "No scaling for " + toString() );
@@ -423,19 +434,19 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		compile_util_fromNumber();
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings( "unused" )
 	protected void compile_util_fromDouble_Scaled() throws CompilerException
 	{
 		throw new IllegalStateException( "No scaling for " + toString() );
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings( "unused" )
 	protected void compile_util_fromFloat_Scaled() throws CompilerException
 	{
 		throw new IllegalStateException( "No scaling for " + toString() );
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings( "unused" )
 	protected void compile_util_fromBigDecimal_Scaled() throws CompilerException
 	{
 		throw new IllegalStateException( "No scaling for " + toString() );
@@ -572,7 +583,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	{
 		final ScaledLong typeScale = _method.getDeclaringClass().getAnnotation( ScaledLong.class );
 		final ScaledLong mtdScale = _method.getAnnotation( ScaledLong.class );
-		final ScaledLong scale = (mtdScale != null) ? mtdScale : typeScale;
+		final ScaledLong scale = (mtdScale != null)? mtdScale : typeScale;
 		return scale;
 	}
 
@@ -605,12 +616,71 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		switch (_node.getFunction()) {
 
 			case MATCH:
-				Iterable<LetEntry> closure = closureOf( _node );
-				compileHelpedExpr( new HelperCompilerForMatch( sectionInContext(), _node, closure ), closure );
+			case INTERNAL_MATCH_INT:
+				compileMatch( _node );
 				return;
 
 		}
 		super.compileFunction( _node );
+	}
+
+
+	private void compileMatch( ExpressionNodeForFunction _node ) throws CompilerException
+	{
+		switch (_node.cardinality()) {
+
+			case 2: {
+				compileMatch( _node, 1 );
+				return;
+			}
+
+			case 3: {
+				final ExpressionNode typeArg = _node.arguments().get( 2 );
+				if (typeArg instanceof ExpressionNodeForConstantValue) {
+					final ExpressionNodeForConstantValue constTypeArg = (ExpressionNodeForConstantValue) typeArg;
+					final Object typeVal = constTypeArg.value();
+					if (typeVal instanceof Number) {
+						compileMatch( _node, ((Number) typeVal).intValue() );
+					}
+					else {
+						compileMatch( _node, 1 );
+					}
+					return;
+				}
+				throw new InnerExpressionException( typeArg, new CompilerException.UnsupportedExpression(
+						"The last argument to MATCH, the match type, must be constant, but is " + typeArg.describe() + "." ) );
+			}
+
+		}
+		throw new CompilerException.UnsupportedExpression( "MATCH must have two or three arguments." );
+	}
+
+	private static final String[] TYPE_SUFFIXES = { "Descending", "Exact", "Ascending" };
+
+	private void compileMatch( ExpressionNodeForFunction _node, int _type ) throws CompilerException
+	{
+		final ExpressionNode valNode = _node.argument( 0 );
+		final ExpressionNodeForArrayReference arrayNode = (ExpressionNodeForArrayReference) _node.argument( 1 );
+		if (valNode.getDataType() != arrayNode.getDataType()) {
+			throw new CompilerException.UnsupportedExpression(
+					"MATCH must have the same type of argument in the first and second slot." );
+		}
+		final int type = (_type > 0)? +1 : (_type < 0)? -1 : 0;
+
+		final ExpressionCompilerForNumbers numCompiler = method().numericCompiler();
+		final ExpressionCompiler valCompiler = method().expressionCompiler( valNode.getDataType() );
+		final ArrayAccessorCompiler acc = section().getArrayAccessorForFullData( arrayNode );
+
+		// return Runtime.fun_MATCH_xy( val, vals );
+		valCompiler.compile( valNode );
+		mv().loadThis();
+		acc.compileCall( mv() );
+		valCompiler.compileRuntimeMethod( "fun_MATCH_" + TYPE_SUFFIXES[ type + 1 ], "("
+				+ acc.elementDescriptor() + acc.arrayDescriptor() + ")I" );
+
+		if (_node.getFunction() != Function.INTERNAL_MATCH_INT) {
+			numCompiler.compileConversionFromInt();
+		}
 	}
 
 
@@ -688,7 +758,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		protected ExpressionNode node;
 		protected Label branchTo;
 
-		TestCompiler(ExpressionNode _node, Label _branchTo)
+		TestCompiler( ExpressionNode _node, Label _branchTo )
 		{
 			super();
 			this.node = _node;
@@ -754,7 +824,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 				compileStaticComparisonResult( _operator, -1 );
 			}
 			else {
-				final ExpressionCompiler comparisonCompiler = (leftIsString || rightIsString) ? method().stringCompiler()
+				final ExpressionCompiler comparisonCompiler = (leftIsString || rightIsString)? method().stringCompiler()
 						: method().numericCompiler();
 				comparisonCompiler.compile( _left );
 				comparisonCompiler.compile( _right );
@@ -827,7 +897,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	private class TestCompilerBranchingWhenFalse extends TestCompiler
 	{
 
-		TestCompilerBranchingWhenFalse(ExpressionNode _node, Label _branchTo)
+		TestCompilerBranchingWhenFalse( ExpressionNode _node, Label _branchTo )
 		{
 			super( _node, _branchTo );
 		}
@@ -914,7 +984,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	private class TestCompilerBranchingWhenTrue extends TestCompiler
 	{
 
-		TestCompilerBranchingWhenTrue(ExpressionNode _node, Label _branchTo)
+		TestCompilerBranchingWhenTrue( ExpressionNode _node, Label _branchTo )
 		{
 			super( _node, _branchTo );
 		}

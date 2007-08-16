@@ -22,6 +22,7 @@ The Abacus Formula Compiler (AFC) makes it possible to use computations defined 
 	* "Function Reference (Supported Formulas)":reference/index.htm
 	* "API Reference (JavaDoc)":javadoc/index.html
 	* "Sample Applications":examples/index.htm
+	* "Implementation Details":impl/index.htm
 
 	* "Release Notes":releasenotes.htm
 	* "Limitations":limitations.htm

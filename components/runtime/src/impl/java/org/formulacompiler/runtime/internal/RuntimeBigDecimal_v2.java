@@ -585,4 +585,41 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	}
 
 
+	public static int fun_MATCH_Exact( BigDecimal _x, BigDecimal[] _xs )
+	{
+		for (int i = 0; i < _xs.length; i++) {
+			if (_x.equals( _xs[ i ] )) return i + 1; // Excel is 1-based
+		}
+		return 0;
+	}
+
+	public static int fun_MATCH_Ascending( BigDecimal _x, BigDecimal[] _xs )
+	{
+		final int iLast = _xs.length - 1;
+		int iLeft = 0;
+		int iRight = iLast;
+		while (iLeft < iRight) {
+			final int iMid = iLeft + ((iRight - iLeft) >> 1);
+			if (_x.compareTo( _xs[ iMid ] ) > 0) iLeft = iMid + 1;
+			else iRight = iMid;
+		}
+		if (iLeft > iLast || _x.compareTo( _xs[ iLeft ] ) < 0) iLeft--;
+		return iLeft + 1; // Excel is 1-based
+	}
+
+	public static int fun_MATCH_Descending( BigDecimal _x, BigDecimal[] _xs )
+	{
+		final int iLast = _xs.length - 1;
+		int iLeft = 0;
+		int iRight = iLast;
+		while (iLeft < iRight) {
+			final int iMid = iLeft + ((iRight - iLeft) >> 1);
+			if (_x.compareTo( _xs[ iMid ] ) < 0) iLeft = iMid + 1;
+			else iRight = iMid;
+		}
+		if (iLeft > iLast || _x.compareTo( _xs[ iLeft ] ) > 0) iLeft--;
+		return iLeft + 1; // Excel is 1-based
+	}
+
+
 }

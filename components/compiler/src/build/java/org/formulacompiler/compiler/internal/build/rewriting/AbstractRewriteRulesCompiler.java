@@ -39,7 +39,6 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForReduce;
-import org.formulacompiler.compiler.internal.expressions.parser.ExpressionParser;
 import org.formulacompiler.describable.DescriptionBuilder;
 import org.formulacompiler.runtime.New;
 
@@ -113,7 +112,7 @@ public abstract class AbstractRewriteRulesCompiler
 			public int compare( Rule _a, Rule _b )
 			{
 				int r = _a.fun.compareTo( _b.fun );
-				if (r == 0) r = _a.params.size() < _b.params.size() ? -1 : +1;
+				if (r == 0) r = _a.params.size() < _b.params.size()? -1 : +1;
 				return r;
 			}
 		} );
@@ -191,11 +190,15 @@ public abstract class AbstractRewriteRulesCompiler
 
 	private final class Rule
 	{
+		private static final String ARRAY_MARKER = "#";
+		private static final String RANGE_MARKER = "*";
+		private static final String SYMBOLIC_MARKER = "+";
+
 		private final Function fun;
 		private final List<String> params;
 		private final StringBuilder body = new StringBuilder();
 
-		public Rule(Function _fun, String... _params)
+		public Rule( Function _fun, String... _params )
 		{
 			super();
 			this.fun = _fun;
@@ -255,17 +258,19 @@ public abstract class AbstractRewriteRulesCompiler
 				final StringBuilder suffix = new StringBuilder();
 				int iParam = 0;
 				for (String param : this.params) {
-					if (param.endsWith( "*" )) {
-						param = param.substring( 0, param.length() - 1 );
+					if (param.endsWith( RANGE_MARKER )) {
+						param = dropLastCharInParamName( iParam, param );
 						b.append( "final ExpressionNode " ).append( param ).appendLine( " = substitution( args );" );
-						this.params.set( iParam, param );
+					}
+					else if (param.endsWith( SYMBOLIC_MARKER )) {
+						param = dropLastCharInParamName( iParam, param );
+						b.append( "final ExpressionNode " ).append( param ).appendLine( " = substitution( args.next() );" );
 					}
 					else {
 						String paramExpr = "args.next()";
-						if (param.endsWith( "#" )) {
-							param = param.substring( 0, param.length() - 1 );
+						if (param.endsWith( ARRAY_MARKER )) {
+							param = dropLastCharInParamName( iParam, param );
 							paramExpr = "new ExpressionNodeForMakeArray( args.next() )";
-							this.params.set( iParam, param );
 						}
 						if (occursMoreThanOnce( expr, param )) {
 							b.append( "final ExpressionNode " ).append( param ).append( "_ = " ).append( paramExpr )
@@ -294,6 +299,13 @@ public abstract class AbstractRewriteRulesCompiler
 			b.newLine();
 		}
 
+		private String dropLastCharInParamName( int _index, String _name )
+		{
+			final String result = _name.substring( 0, _name.length() - 1 );
+			this.params.set( _index, result );
+			return result;
+		}
+
 		private final String mtdName()
 		{
 			if (is_n_ary()) {
@@ -304,7 +316,7 @@ public abstract class AbstractRewriteRulesCompiler
 
 		private final boolean is_n_ary()
 		{
-			return this.params.get( this.params.size() - 1 ).endsWith( "*" );
+			return this.params.get( this.params.size() - 1 ).endsWith( RANGE_MARKER );
 		}
 
 		private final boolean occursMoreThanOnce( final ExpressionNode _expr, String _param )
@@ -316,7 +328,7 @@ public abstract class AbstractRewriteRulesCompiler
 		{
 			if (_expr instanceof ExpressionNodeForLetVar) {
 				final ExpressionNodeForLetVar varNode = (ExpressionNodeForLetVar) _expr;
-				return varNode.varName().equals( _param ) ? 1 : 0;
+				return varNode.varName().equals( _param )? 1 : 0;
 			}
 			else if (_expr instanceof ExpressionNodeForLet) {
 				final ExpressionNodeForLet letNode = (ExpressionNodeForLet) _expr;
@@ -359,7 +371,7 @@ public abstract class AbstractRewriteRulesCompiler
 
 		private final ExpressionNode parse( String _body ) throws Exception
 		{
-			return new ExpressionParser( _body ).parse();
+			return new RewriteRuleExpressionParser( _body ).parse();
 		}
 
 
@@ -458,7 +470,7 @@ public abstract class AbstractRewriteRulesCompiler
 			compileExpr( _fold.initialAccumulatorValue(), _b );
 			_b.append( ", \"" ).append( _fold.elementName() ).append( "\", " );
 			compileExpr( _fold.accumulatingStep(), _b );
-			_b.append( ", " ).append( _fold.mayReduce() ? "true" : "false" ).append( ", " );
+			_b.append( ", " ).append( _fold.mayReduce()? "true" : "false" ).append( ", " );
 			compileArgs( _fold.elements(), _b );
 			_b.append( " )" );
 		}

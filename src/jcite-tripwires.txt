@@ -186,7 +186,7 @@ final class $Root extends BonusPerEmployee.BonusComputationDefaults
         $inputs = bonusdata;
     }
     
-    public void reset() {
+    public final void reset() {
         get$Sect0 = null;
     }
     
@@ -254,7 +254,7 @@ final class $Sect0
         $inputs = employeebonusdata;
     }
     
-    public void reset() {
+    public final void reset() {
         /* empty */
     }
     
@@ -312,7 +312,7 @@ final class $Root implements Computation, Caching.Output
         $inputs = input;
     }
     
-    public void reset() {
+    public final void reset() {
         h$get$0 = false;
         h$get$1 = false;
         h$get$2 = false;
@@ -372,7 +372,7 @@ final class $Root implements Computation, Caching.Output
         $inputs = input;
     }
     
-    public void reset() {
+    public final void reset() {
         /* empty */
     }
     
@@ -402,6 +402,7 @@ __@@__
 package org.formulacompiler.gen;
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.internal.Environment;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.runtime.internal.Runtime_v2;
 import org.formulacompiler.tutorials.CustomerRatingWithOrders;
 
@@ -410,8 +411,7 @@ final class $Root
 {
     private final CustomerRatingWithOrders.CustomerData $inputs;
     final Environment $environment;
-    private static final String[] get$1_Consts
-        = { "Abysmal", "Poor", "Average", "Good", "Excellent" };
+    private double[] $constarr$0;
     private $Sect0[] get$Sect0;
     
     $Root(CustomerRatingWithOrders.CustomerData customerdata,
@@ -421,41 +421,22 @@ final class $Root
     }
     
     final String get$0() {
-        return get$1();
+        return $idx$0(RuntimeDouble_v2.fun_MATCH_Ascending(get$1(),
+                                                           $constarr$0()) - 1);
     }
     
     public final String rating() {
         return get$0();
     }
     
-    final String get$1() {
-        int i = (int) get$2() - 1;
-        if (i >= 0 && i < get$1_Consts.length)
-            return get$1_Consts[i];
-        return Runtime_v2.emptyString();
+    final double[] $constarr$0() {
+        if ($constarr$0 == null)
+            $constarr$0
+                = new double[] { 0.0, 2000.0, 5000.0, 7500.0, 10000.0 };
+        return $constarr$0;
     }
     
-    final double get$2() {
-        double d = get$3();
-        int i = 0;
-        if (!(d < 0.0)) {
-            i++;
-            if (!(d < 2000.0)) {
-                i++;
-                if (!(d < 5000.0)) {
-                    i++;
-                    if (!(d < 7500.0)) {
-                        i++;
-                        if (!(d < 10000.0))
-                            i++;
-                    }
-                }
-            }
-        }
-        return (double) i;
-    }
-    
-    final double get$3() {
+    final double get$1() {
         double d = 0.0;
         $Sect0[] sect0s = get$Sect0();
         int i = sect0s.length;
@@ -464,6 +445,23 @@ final class $Root
             d += sect0.get$0();
         }
         return d;
+    }
+    
+    final String $idx$0(int i) {
+        switch (i) {
+        case 0:
+            return "Abysmal";
+        case 1:
+            return "Poor";
+        case 2:
+            return "Average";
+        case 3:
+            return "Good";
+        case 4:
+            return "Excellent";
+        default:
+            return Runtime_v2.emptyString();
+        }
     }
     
     final $Sect0[] get$Sect0() {
@@ -505,6 +503,166 @@ final class $Sect0 implements Computation
         return $inputs.total();
     }
 }
+___@_@___
+jc:impl/lookup/hlookupinputs/org.formulacompiler.gen.$Root:---- fragment
+__@@__
+final double get$0() {
+        return get$5((double) RuntimeDouble_v2.fun_MATCH_Ascending
+                              (get$1(), $constarr$0()));
+    }
+    final double get$5(double d) {
+        switch ((int) get$2()) {
+        case 1:
+            return $idx$0((int) d - 1);
+        case 2:
+            return $idx$1((int) d - 1);
+        case 3:
+            return $idx$2((int) d - 1);
+        default:
+            return 0.0;
+        }
+    }
+___@_@___
+jc:impl/lookup/indexconsts/org.formulacompiler.gen.$Root:---- fragment
+__@@__
+final double get$0() {
+        return $idx$0((int) get$1() - 1);
+    }
+    final double $idx$0(int i) {
+        switch (i) {
+        case 0:
+            return 10.0;
+        case 1:
+            return 15.0;
+        case 2:
+            return 20.0;
+        case 3:
+            return 25.0;
+        case 4:
+            return 30.0;
+        default:
+            return 0.0;
+        }
+    }
+___@_@___
+jc:impl/lookup/indexinputs/org.formulacompiler.gen.$Root:---- fragment
+__@@__
+final double get$0() {
+        return $idx$0((int) get$3() - 1);
+    }
+    final double $idx$0(int i) {
+        switch (i) {
+        case 0:
+            return 10.0;
+        case 1:
+            return get$1();
+        case 2:
+            return get$2();
+        case 3:
+            return 25.0;
+        case 4:
+            return 30.0;
+        default:
+            return 0.0;
+        }
+    }
+___@_@___
+jc:impl/lookup/indexmatchconsts/org.formulacompiler.gen.$Root:---- fragment
+__@@__
+final double get$0() {
+        return $idx$0(RuntimeDouble_v2.fun_MATCH_Ascending(get$1(),
+                                                           $constarr$0()) - 1);
+    }
+___@_@___
+jc:impl/lookup/lookupconsts/org.formulacompiler.gen.$Root:---- fragment
+__@@__
+final double get$0() {
+        return $idx$0(RuntimeDouble_v2.fun_MATCH_Ascending(get$1(),
+                                                           $constarr$0()) - 1);
+    }
+___@_@___
+jc:impl/lookup/matchconsts/org.formulacompiler.gen.$Root:---- fragment
+__@@__
+final double get$0() {
+        return (double) RuntimeDouble_v2.fun_MATCH_Ascending(get$1(),
+                                                             $constarr$0());
+    }
+    final double[] $constarr$0() {
+        if ($constarr$0 == null)
+            $constarr$0 = new double[] { 10.0, 15.0, 20.0, 25.0, 30.0 };
+        return $constarr$0;
+    }
+___@_@___
+jc:impl/lookup/matchinputs/org.formulacompiler.gen.$Root:---- fragment
+__@@__
+public final void reset() {
+        $arr$0$init = false;
+    }
+    final double get$0() {
+        return (double) RuntimeDouble_v2.fun_MATCH_Ascending(get$1(),
+                                                             $arr$0());
+    }
+    final double[] $arr$0() {
+        if (!$arr$0$init) {
+            $arr$0$init = true;
+            double[] ds = $constarr$0();
+            ds[1] = get$2();
+            ds[2] = get$3();
+            return ds;
+        }
+        return $constarr$0();
+    }
+    final double[] $constarr$0() {
+        if ($constarr$0 == null)
+            $constarr$0 = new double[] { 10.0, 0.0, 0.0, 25.0, 30.0 };
+        return $constarr$0;
+    }
+___@_@___
+jc:impl/lookup/multiindexconsts/org.formulacompiler.gen.$Root:---- fragment
+__@@__
+final double get$0() {
+        return $idx$0((int) get$1() - 1);
+    }
+    final double get$2() {
+        return $idx$0((int) get$3() - 1);
+    }
+___@_@___
+jc:impl/lookup/multilookupconsts/org.formulacompiler.gen.$Root:---- fragment
+__@@__
+final double get$0() {
+        return $idx$0(RuntimeDouble_v2.fun_MATCH_Ascending(get$1(),
+                                                           $constarr$0()) - 1);
+    }
+    final double get$2() {
+        return $idx$0(RuntimeDouble_v2.fun_MATCH_Ascending(get$3(),
+                                                           $constarr$0()) - 1);
+    }
+___@_@___
+jc:impl/lookup/multimatchconsts/org.formulacompiler.gen.$Root:---- fragment
+__@@__
+final double get$0() {
+        return (double) RuntimeDouble_v2.fun_MATCH_Ascending(get$1(),
+                                                             $constarr$0());
+    }
+    final double get$2() {
+        return (double) RuntimeDouble_v2.fun_MATCH_Ascending(get$3(),
+                                                             $constarr$0());
+    }
+___@_@___
+jc:impl/lookup/subarrayconsts/org.formulacompiler.gen.$Root:---- fragment
+__@@__
+final double get$0() {
+        return $idx$0(RuntimeDouble_v2.fun_MATCH_Ascending(get$1(),
+                                                           $constarr$0()) - 1);
+    }
+    final double get$2() {
+        return (double) RuntimeDouble_v2.fun_MATCH_Ascending(get$1(),
+                                                             $constarr$0());
+    }
+    final double get$3() {
+        return $idx$1(RuntimeDouble_v2.fun_MATCH_Ascending(get$1(),
+                                                           $constarr$0()) - 1);
+    }
 ___@_@___
 jc:numeric_type/bigdecimal0/org.formulacompiler.gen.$Root
 __@@__
@@ -4300,6 +4458,288 @@ __@@__
 </table>
 <br/><span class="xl-r1">B2:G7</span> <span class="xl-name">(Employees)</span><br/><span class="xl-r2">D2:G4</span> <span class="xl-name">(Entries)</span>
 ___@_@___
+xc:org/formulacompiler/tests/LookupTest.xls:HLookupInputs
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+			<td>G</td>
+			<td>H</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">23</td>
+			<td class="xl-num">12<br/><span class="xl-exp">=HLOOKUP(C23,D23:G25,H23)</span><br/><span class="xl-name">(HLI_Out_1)</span></td>
+			<td class="xl-num">19<br/><span class="xl-name">(HLI_In)</span></td>
+			<td class="xl-num">10</td>
+			<td class="xl-num">15</td>
+			<td class="xl-num">20</td>
+			<td class="xl-num">25</td>
+			<td class="xl-num">2<br/><span class="xl-name">(HLI_In_1)</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">24</td>
+			<td class="xl-num">22<br/><span class="xl-exp">=HLOOKUP(C23,D23:G25,H24)</span><br/><span class="xl-name">(HLI_Out_2)</span></td>
+			<td></td>
+			<td class="xl-num">11</td>
+			<td class="xl-num">12</td>
+			<td class="xl-num">13</td>
+			<td class="xl-num">14</td>
+			<td class="xl-num">3<br/><span class="xl-name">(HLI_In_2)</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">25</td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">21</td>
+			<td class="xl-num">22</td>
+			<td class="xl-num">23</td>
+			<td class="xl-num">24</td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
+xc:org/formulacompiler/tests/LookupTest.xls:IndexConsts
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+			<td>G</td>
+			<td>H</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">4</td>
+			<td class="xl-num">20<br/><span class="xl-exp">=INDEX(D4:H4,1.0,C4)</span><br/><span class="xl-name">(IC_Out)</span></td>
+			<td class="xl-num">3<br/><span class="xl-name">(IC_In)</span></td>
+			<td class="xl-num">10</td>
+			<td class="xl-num">15</td>
+			<td class="xl-num">20</td>
+			<td class="xl-num">25</td>
+			<td class="xl-num">30</td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
+xc:org/formulacompiler/tests/LookupTest.xls:IndexMatchConsts
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+			<td>G</td>
+			<td>H</td>
+			<td>I</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">10</td>
+			<td class="xl-num">12<br/><span class="xl-exp">=INDEX(G10:I10,1.0,MATCH(C10,D10:F10))</span><br/><span class="xl-name">(IMC_Out)</span></td>
+			<td class="xl-num">2<br/><span class="xl-name">(IMC_In)</span></td>
+			<td class="xl-num">1</td>
+			<td class="xl-num">2</td>
+			<td class="xl-num">3</td>
+			<td class="xl-num">11</td>
+			<td class="xl-num">12</td>
+			<td class="xl-num">13</td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
+xc:org/formulacompiler/tests/LookupTest.xls:LookupConsts
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+			<td>G</td>
+			<td>H</td>
+			<td>I</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">7</td>
+			<td class="xl-num">12<br/><span class="xl-exp">=LOOKUP(C7,D7:F7,G7:I7)</span><br/><span class="xl-name">(LC_Out)</span></td>
+			<td class="xl-num">2<br/><span class="xl-name">(LC_In)</span></td>
+			<td class="xl-num">1</td>
+			<td class="xl-num">2</td>
+			<td class="xl-num">3</td>
+			<td class="xl-num">11</td>
+			<td class="xl-num">12</td>
+			<td class="xl-num">13</td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
+xc:org/formulacompiler/tests/LookupTest.xls:MatchConsts
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+			<td>G</td>
+			<td>H</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">1</td>
+			<td class="xl-num">2<br/><span class="xl-exp">=MATCH(C1,D1:H1)</span><br/><span class="xl-name">(MC_Out)</span></td>
+			<td class="xl-num">15<br/><span class="xl-name">(MC_In)</span></td>
+			<td class="xl-num">10</td>
+			<td class="xl-num">15</td>
+			<td class="xl-num">20</td>
+			<td class="xl-num">25</td>
+			<td class="xl-num">30</td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
+xc:org/formulacompiler/tests/LookupTest.xls:MatchInputs
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+			<td>G</td>
+			<td>H</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">2</td>
+			<td class="xl-num">2<br/><span class="xl-exp">=MATCH(C2,D2:H2)</span><br/><span class="xl-name">(MI_Out)</span></td>
+			<td class="xl-num">15<br/><span class="xl-name">(MI_In)</span></td>
+			<td class="xl-num">10</td>
+			<td class="xl-num">15<br/><span class="xl-name">(MI_In_1)</span></td>
+			<td class="xl-num">20<br/><span class="xl-name">(MI_In_2)</span></td>
+			<td class="xl-num">25</td>
+			<td class="xl-num">30</td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
+xc:org/formulacompiler/tests/LookupTest.xls:MultiMatchConsts
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+			<td>G</td>
+			<td>H</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">12</td>
+			<td class="xl-num">2<br/><span class="xl-exp">=MATCH(C12,D12:H12)</span><br/><span class="xl-name">(MMC_Out_1)</span></td>
+			<td class="xl-num">15<br/><span class="xl-name">(MMC_In_1)</span></td>
+			<td class="xl-num">10</td>
+			<td class="xl-num">15</td>
+			<td class="xl-num">20</td>
+			<td class="xl-num">25</td>
+			<td class="xl-num">30</td>
+		</tr>
+		<tr>
+			<td class="xl-row">13</td>
+			<td class="xl-num">4<br/><span class="xl-exp">=MATCH(C13,D12:H12)</span><br/><span class="xl-name">(MMC_Out_2)</span></td>
+			<td class="xl-num">27<br/><span class="xl-name">(MMC_In_2)</span></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
+xc:org/formulacompiler/tests/LookupTest.xls:SubArrayConsts
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+			<td>G</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">19</td>
+			<td class="xl-num">12<br/><span class="xl-exp">=HLOOKUP(C19,D19:G21,2.0)</span><br/><span class="xl-name">(SAC_Out_1)</span></td>
+			<td class="xl-num">19<br/><span class="xl-name">(SAC_In_1)</span></td>
+			<td class="xl-num">10</td>
+			<td class="xl-num">15</td>
+			<td class="xl-num">20</td>
+			<td class="xl-num">25</td>
+		</tr>
+		<tr>
+			<td class="xl-row">20</td>
+			<td class="xl-num">22<br/><span class="xl-exp">=HLOOKUP(C19,D19:G21,3.0)</span><br/><span class="xl-name">(SAC_Out_2)</span></td>
+			<td></td>
+			<td class="xl-num">11</td>
+			<td class="xl-num">12</td>
+			<td class="xl-num">13</td>
+			<td class="xl-num">14</td>
+		</tr>
+		<tr>
+			<td class="xl-row">21</td>
+			<td class="xl-num">2<br/><span class="xl-exp">=MATCH(C19,D19:G19)</span><br/><span class="xl-name">(SAC_Out_3)</span></td>
+			<td></td>
+			<td class="xl-num">21</td>
+			<td class="xl-num">22</td>
+			<td class="xl-num">23</td>
+			<td class="xl-num">24</td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
 xc:org/formulacompiler/tests/reference/Aggregators.xls:CiteHeader,CiteVAR
 __@@__
 <table class="xl">
@@ -5609,26 +6049,16 @@ __@@__
 		</tr>
 		<tr>
 			<td class="xl-row">11</td>
-			<td>index</td>
-			<td class="xl-num">4<br/><span class="xl-exp">=MATCH(B10,C11:G11)</span></td>
-			<td class="xl-num">$0.00</td>
-			<td class="xl-num">$2,000.00</td>
-			<td class="xl-num">$5,000.00</td>
-			<td class="xl-num">$7,500.00</td>
-			<td class="xl-num">$10,000.00</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td class="xl-row">12</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td class="xl-row">13</td>
 			<td><b><span style="text-decoration: underline;">Outputs</span></b></td>
 			<td></td>
 			<td></td>
@@ -5638,9 +6068,19 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">14</td>
+			<td class="xl-row">13</td>
 			<td>Rating</td>
-			<td>Good<br/><span class="xl-exp">=INDEX(C14:G14,B11)</span><br/><span class="xl-name">(Rating)</span></td>
+			<td>Good<br/><span class="xl-exp">=HLOOKUP(B10,C13:G14,2.0)</span><br/><span class="xl-name">(Rating)</span></td>
+			<td class="xl-num">$0.00</td>
+			<td class="xl-num">$2,000.00</td>
+			<td class="xl-num">$5,000.00</td>
+			<td class="xl-num">$7,500.00</td>
+			<td class="xl-num">$10,000.00</td>
+		</tr>
+		<tr>
+			<td class="xl-row">14</td>
+			<td></td>
+			<td></td>
 			<td>Abysmal</td>
 			<td>Poor</td>
 			<td>Average</td>

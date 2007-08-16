@@ -30,6 +30,9 @@ public final class ExpressionNodeForLet extends ExpressionNode
 {
 	private final String varName;
 	private final boolean mayFold;
+	private boolean symbolic;
+	private boolean shouldCache = true;
+	
 
 	public ExpressionNodeForLet(String _varName, ExpressionNode _value, ExpressionNode _in)
 	{
@@ -45,11 +48,13 @@ public final class ExpressionNodeForLet extends ExpressionNode
 		this.mayFold = _mayFold;
 	}
 
-	private ExpressionNodeForLet(String _varName, boolean _mayFold)
+	private ExpressionNodeForLet(String _varName, boolean _mayFold, boolean _symbolic, boolean _shouldCache)
 	{
 		super();
 		this.varName = _varName;
 		this.mayFold = _mayFold;
+		this.symbolic = _symbolic;
+		this.shouldCache = _shouldCache;
 	}
 
 
@@ -72,12 +77,32 @@ public final class ExpressionNodeForLet extends ExpressionNode
 	{
 		return this.mayFold;
 	}
+	
+	public boolean isSymbolic()
+	{
+		return this.symbolic;
+	}
+	
+	public void setSymbolic( boolean _symbolic )
+	{
+		this.symbolic = _symbolic;
+	}
+	
+	public boolean shouldCache()
+	{
+		return this.shouldCache;
+	}
+	
+	public void setShouldCache( boolean _shouldCache )
+	{
+		this.shouldCache = _shouldCache;
+	}
 
 
 	@Override
 	public ExpressionNode innerCloneWithoutArguments()
 	{
-		return new ExpressionNodeForLet( this.varName, this.mayFold );
+		return new ExpressionNodeForLet( this.varName, this.mayFold, this.symbolic, this.shouldCache );
 	}
 
 

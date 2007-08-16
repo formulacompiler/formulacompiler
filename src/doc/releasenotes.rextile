@@ -24,6 +24,7 @@ h5. New
 	* @N()@ and @T()@ are now "supported":reference/convfuncs.htm.
 	* @ISTEXT()@, @ISNONTEXT()@, and @ISNUMBER()@ are now "supported":reference/typefuncs.htm.
 	* @CEILING()@, @FLOOR()@, @ROUNDDOWN()@, and @ROUNDUP()@ are now "supported":reference/numfuncs.htm.
+	* @LOOKUP()@, @HLOOKUP()@, and @VLOOKUP()@ are now "supported":reference/lookupfuncs.htm.
 	* You can optionally configure symbols (such as the decimal separator, the grouping separator, and so on) needed to format numbers.
 	* Added option to load cell values of _all_ cells, even computed ones, into the internal spreadsheet model. This is mainly useful to write automated tests (see @EngineBuilder.setLoadAllCellValues@ and @Spreadsheet.Cell.getValue@).
 
@@ -31,6 +32,7 @@ h5. Better
 
 	* Documented different way of computing date/time differences in AFC/Excel and Java in "Date Tutorial":tutorial/datetime.htm.
 	* Computations involving repeating sections no longer need to implement @Resettable@.
+	* Improved "the way @MATCH()@ and @INDEX()@ are compiled":impl/lookup.htm.
 
 h5. Fixed
 

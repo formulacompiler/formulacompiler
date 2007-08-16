@@ -21,6 +21,7 @@
 package org.formulacompiler.compiler.internal.model.interpreter;
 
 import java.text.ParseException;
+import java.util.List;
 
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.NumericType;
@@ -36,7 +37,7 @@ abstract class InterpretedNumericType_Base
 	private final NumericType num;
 
 
-	InterpretedNumericType_Base(NumericType _type)
+	InterpretedNumericType_Base( NumericType _type )
 	{
 		super();
 		this.num = _type;
@@ -58,7 +59,7 @@ abstract class InterpretedNumericType_Base
 		}
 		else if (_b instanceof String) {
 			if (null == _a) {
-				return ((String) _b).length() == 0 ? 0 : -1;
+				return ((String) _b).length() == 0? 0 : -1;
 			}
 			else {
 				return -1; // Number always less than string in Excel.
@@ -100,7 +101,7 @@ abstract class InterpretedNumericType_Base
 			throw new InterpreterException.IsRuntimeEnvironmentDependent(); // Needs locale.
 		}
 		else if (_value instanceof Boolean) {
-			return ((Boolean) _value) ? "1" : "0";
+			return ((Boolean) _value)? "1" : "0";
 		}
 		return _value.toString();
 	}
@@ -181,7 +182,7 @@ abstract class InterpretedNumericType_Base
 		throw new EvalNotPossibleException();
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings( "unused" )
 	public Object compute( Function _function, Object... _args ) throws InterpreterException
 	{
 		final int cardinality = _args.length;
@@ -190,9 +191,9 @@ abstract class InterpretedNumericType_Base
 			case IF: { // short-circuit eval
 				switch (cardinality) {
 					case 2:
-						return toBoolean( _args[ 0 ] ) ? _args[ 1 ] : false;
+						return toBoolean( _args[ 0 ] )? _args[ 1 ] : false;
 					case 3:
-						return toBoolean( _args[ 0 ] ) ? _args[ 1 ] : _args[ 2 ];
+						return toBoolean( _args[ 0 ] )? _args[ 1 ] : _args[ 2 ];
 				}
 				break;
 			}
@@ -248,10 +249,10 @@ abstract class InterpretedNumericType_Base
 		final int iRow = valueToIntOrOne( _rowIndex ) - 1;
 		final int iCol = valueToIntOrOne( _colIndex ) - 1;
 		int iValue;
-		if (iRow < 0 || iRow >= desc.getNumberOfRows()) return null;
-		if (iCol < 0 || iCol >= desc.getNumberOfColumns()) return null;
+		if (iRow < 0 || iRow >= desc.numberOfRows()) return null;
+		if (iCol < 0 || iCol >= desc.numberOfColumns()) return null;
 		if (null != _rowIndex && null != _colIndex) {
-			iValue = iRow * desc.getNumberOfColumns() + iCol;
+			iValue = iRow * desc.numberOfColumns() + iCol;
 		}
 		else {
 			iValue = iRow + iCol;
@@ -260,7 +261,7 @@ abstract class InterpretedNumericType_Base
 	}
 
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( "unchecked" )
 	public static int match( Object _lookup, Object _in, int _type )
 	{
 		if (null == _in) {
@@ -279,15 +280,26 @@ abstract class InterpretedNumericType_Base
 			}
 			else {
 				final Comparable comp = (Comparable) _lookup;
-				final int compResIndicatingMatch = (_type < 0) ? 1 : -1;
-				int iObj = 0;
-				for (Object arg : range.arguments()) {
+				final int isToRightWhenComparesAs = (_type > 0)? 1 : -1;
+				final List<ExpressionNode> args = range.arguments();
+				final int iLast = args.size() - 1;
+				int iLeft = 0;
+				int iRight = iLast;
+				while (iLeft < iRight) {
+					final int iMid = iLeft + ((iRight - iLeft) >> 1);
+					final Object arg = args.get( iMid );
 					final Object elt = ((ExpressionNodeForConstantValue) arg).value();
 					final int compRes = comp.compareTo( elt );
-					if (compRes == compResIndicatingMatch) return iObj - 1;
-					iObj++;
+					if (compRes == isToRightWhenComparesAs) iLeft = iMid + 1;
+					else iRight = iMid;
 				}
-				return range.arguments().size() - 1;
+				if (iLeft <= iLast) {
+					final Object arg = args.get( iLeft );
+					final Object elt = ((ExpressionNodeForConstantValue) arg).value();
+					final int compRes = comp.compareTo( elt );
+					if (compRes == 0 || compRes == isToRightWhenComparesAs) return iLeft;
+				}
+				return iLeft - 1;
 			}
 		}
 	}
@@ -330,7 +342,7 @@ abstract class InterpretedNumericType_Base
 	{
 		return toString( _o );
 	}
-	
+
 	protected final Number to_Number( Object _o )
 	{
 		return (Number) _o;
@@ -341,7 +353,7 @@ abstract class InterpretedNumericType_Base
 	{
 		if (_value instanceof ExpressionNodeForArrayReference) {
 			final ExpressionNodeForArrayReference array = (ExpressionNodeForArrayReference) _value;
-			final Object[] r = new Object[ array.arrayDescriptor().getNumberOfElements() ];
+			final Object[] r = new Object[ array.arrayDescriptor().numberOfElements() ];
 			int i = 0;
 			for (ExpressionNode cst : array.arguments()) {
 				r[ i++ ] = ((ExpressionNodeForConstantValue) cst).value();

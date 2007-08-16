@@ -22,7 +22,7 @@ package org.formulacompiler.runtime.internal;
 
 import junit.framework.TestCase;
 
-public class RuntimeLong_v1Test extends TestCase
+public class RuntimeLongTest extends TestCase
 {
 	
 	public void testFromDouble()

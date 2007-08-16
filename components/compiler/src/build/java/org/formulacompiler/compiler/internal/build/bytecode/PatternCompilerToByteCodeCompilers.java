@@ -206,11 +206,11 @@ class PatternCompilerToByteCodeCompilers
 				Type _paramType )
 		{
 			genNum( _cb, _generator );
-			_cb.append( "num.compile( _" ).append( _generator.paramName( _paramIdx ) ).appendLine( " );" );
 			if (Type.INT_TYPE.equals( _paramType )) {
-				_cb.appendLine( "num.compileConversionToInt();" );
+				_cb.append( "num.compileInt( _" ).append( _generator.paramName( _paramIdx ) ).appendLine( " );" );
 			}
 			else {
+				_cb.append( "num.compile( _" ).append( _generator.paramName( _paramIdx ) ).appendLine( " );" );
 				_cb.append( "num.compileConversionTo( " ).append( typeToJavaConst( _paramType ) ).appendLine( " );" );
 			}
 		}

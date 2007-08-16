@@ -20,18 +20,15 @@
  */
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
-import java.util.List;
-
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeShadow;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 
 public class EvalIndex extends EvalFunction
 {
 
-	public EvalIndex(ExpressionNode _node, InterpretedNumericType _type)
+	public EvalIndex( ExpressionNode _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
 	}
@@ -42,7 +39,7 @@ public class EvalIndex extends EvalFunction
 	{
 		final int card = cardinality();
 		switch (card) {
-			
+
 			case 2: { // one-dimensional lookup
 				final Object indexArg = evaluateArgument( 1 );
 				if (isConstant( indexArg )) {
@@ -50,19 +47,17 @@ public class EvalIndex extends EvalFunction
 					if (index < 0) {
 						return null;
 					}
-					final EvalRangeValue rangeArg = (EvalRangeValue) arguments().get( 0 );
-					final List<ExpressionNodeShadow> args = rangeArg.arguments();
-					if (index >= args.size()) {
+					final EvalRangeValue range = (EvalRangeValue) unsubstitutedArgument( 0 );
+					if (index >= range.arguments().size()) {
 						return null;
 					}
-					final EvalShadow arg = (EvalShadow) args.get( index );
-					return evaluateArgument( arg );
+					return range.evaluateArgument( index );
 				}
 				break;
 			}
-				
+
 		}
-		
+
 		return super.eval();
 	}
 

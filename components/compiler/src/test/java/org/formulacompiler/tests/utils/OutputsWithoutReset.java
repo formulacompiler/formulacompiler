@@ -32,7 +32,7 @@ import org.formulacompiler.runtime.ScaledLong;
  * @author peo
  */
 @ScaledLong(4)
-public class OutputsWithoutCaching implements OutputInterface
+public class OutputsWithoutReset implements OutputInterface
 {
 	public double getResult()
 	{
@@ -50,7 +50,7 @@ public class OutputsWithoutCaching implements OutputInterface
 	{
 		throw new AbstractMethodError( "" );
 	}
-	public Iterable<OutputsWithoutCaching> getDetails()
+	public Iterable<OutputsWithoutReset> getDetails()
 	{
 		throw new AbstractMethodError( "" );
 	}

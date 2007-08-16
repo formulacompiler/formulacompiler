@@ -36,14 +36,14 @@ import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 import org.formulacompiler.tests.utils.Inputs;
-import org.formulacompiler.tests.utils.OutputsWithoutCaching;
+import org.formulacompiler.tests.utils.OutputsWithoutReset;
 
 import junit.framework.TestCase;
 
 @SuppressWarnings("unqualified-field-access")
 public class ModelRewriterTest extends TestCase
 {
-	private final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+	private final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutReset.class );
 	private final SectionModel rootModel = engineModel.getRoot();
 
 
@@ -104,8 +104,8 @@ public class ModelRewriterTest extends TestCase
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ) ) );
 
 		assertBeginsWith(
-				"_LET_nofold( -crit0: Inputs.getOne(); _LET_nofold( -crit1: Inputs.getOne(); _LET_nofold( -crit2: Inputs.getOne(); _LET_nofold( -crit3: Inputs.getOne(); "
-						+ "_DFOLD( col: OR( AND( (`col0 = `-crit0), (`col1 > `-crit1), (`col1 < `-crit2) ), (`col0 = `-crit3) ); r: 0.0; xi: (`r + `xi); #3; #(1,2,5){",
+				"_LET_nofold( crit0: Inputs.getOne(); _LET_nofold( crit1: Inputs.getOne(); _LET_nofold( crit2: Inputs.getOne(); _LET_nofold( crit3: Inputs.getOne(); "
+						+ "_DFOLD( col: OR( AND( (`col0 = `crit0), (`col1 > `crit1), (`col1 < `crit2) ), (`col0 = `crit3) ); r: 0.0; xi: (`r + `xi); #3; #(1,2,5){",
 				r.getExpression().toString() );
 	}
 

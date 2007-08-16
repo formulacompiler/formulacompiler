@@ -59,8 +59,8 @@ public final class SectionModelCompiler
 	private final NumericType numericType;
 
 
-	public SectionModelCompiler(SpreadsheetToModelCompiler _compiler, SectionModelCompiler _section,
-			SectionBinding _sectionDef, SectionModel _model)
+	public SectionModelCompiler( SpreadsheetToModelCompiler _compiler, SectionModelCompiler _section,
+			SectionBinding _sectionDef, SectionModel _model )
 	{
 		this.compiler = _compiler;
 		this.engineDef = _compiler.getEngineDef();
@@ -91,8 +91,8 @@ public final class SectionModelCompiler
 	{
 		return this.numericType;
 	}
-	
-	
+
+
 	public CellModel createCellModel( CellBinding _cellDef ) throws CompilerException
 	{
 		final boolean isInput = _cellDef instanceof InputCellBinding;
@@ -212,7 +212,7 @@ public final class SectionModelCompiler
 	}
 
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( "unchecked" )
 	private ExpressionNode buildRawExpressionModel( ExpressionNode _exprDef ) throws CompilerException
 	{
 		if (null == _exprDef) {
@@ -289,7 +289,7 @@ public final class SectionModelCompiler
 	}
 
 
-	@SuppressWarnings( { "unqualified-field-access", "hiding" })
+	@SuppressWarnings( { "unqualified-field-access", "hiding" } )
 	private final class RangeExpressionBuilder
 	{
 		private final SectionBinding sectionDef = SectionModelCompiler.this.sectionDef;
@@ -301,8 +301,8 @@ public final class SectionModelCompiler
 		private int rows;
 		private int cols;
 
-		private RangeExpressionBuilder(RangeExpressionBuilder _parent, CellRange _range, boolean _shaped,
-				boolean _stepOutOnly)
+		private RangeExpressionBuilder( RangeExpressionBuilder _parent, CellRange _range, boolean _shaped,
+				boolean _stepOutOnly )
 		{
 			super();
 			this.parent = _parent;
@@ -316,17 +316,17 @@ public final class SectionModelCompiler
 			this.cols = to.columnIndex - from.columnIndex + 1;
 		}
 
-		private RangeExpressionBuilder(RangeExpressionBuilder _parent, CellRange _range, boolean _shaped)
+		private RangeExpressionBuilder( RangeExpressionBuilder _parent, CellRange _range, boolean _shaped )
 		{
 			this( _parent, _range, _shaped, false );
 		}
 
-		private RangeExpressionBuilder(CellRange _range, boolean _shaped, boolean _stepOutOnly)
+		private RangeExpressionBuilder( CellRange _range, boolean _shaped, boolean _stepOutOnly )
 		{
 			this( null, _range, _shaped, _stepOutOnly );
 		}
 
-		public RangeExpressionBuilder(CellRange _range, boolean _shaped)
+		public RangeExpressionBuilder( CellRange _range, boolean _shaped )
 		{
 			this( null, _range, _shaped );
 		}
@@ -384,7 +384,7 @@ public final class SectionModelCompiler
 			for (SectionBinding inner : this.sectionDef.getSections()) {
 				final CellRange innerRange = inner.getRange();
 				final Orientation innerOrient = inner.getOrientation();
-				final CellRange[] tiling = (innerOrient == ownOrient) ? next.tilingAround( innerRange, innerOrient ) : next
+				final CellRange[] tiling = (innerOrient == ownOrient)? next.tilingAround( innerRange, innerOrient ) : next
 						.tilingAround( innerRange );
 				switch (tiling.length) {
 
@@ -432,8 +432,10 @@ public final class SectionModelCompiler
 				}
 			}
 
-			final ExpressionNode result = (shaped) ? new ExpressionNodeForArrayReference( new ArrayDescriptor( sheets,
-					rows, cols ) ) : new ExpressionNodeForSubstitution();
+			final CellIndex from = range.getFrom();
+			final ExpressionNode result = (shaped)? new ExpressionNodeForArrayReference( new ArrayDescriptor(
+					from.sheetIndex, from.rowIndex, from.columnIndex, sheets, rows, cols ) )
+					: new ExpressionNodeForSubstitution();
 			result.arguments().addAll( elts );
 			return result;
 		}
@@ -467,7 +469,8 @@ public final class SectionModelCompiler
 			final int sheets = to.sheetIndex - from.sheetIndex + 1;
 			final int rows = to.rowIndex - from.rowIndex + 1;
 			final int cols = to.columnIndex - from.columnIndex + 1;
-			final ExpressionNode result = new ExpressionNodeForArrayReference( new ArrayDescriptor( sheets, rows, cols ) );
+			final ExpressionNode result = new ExpressionNodeForArrayReference( new ArrayDescriptor( from.sheetIndex,
+					from.rowIndex, from.columnIndex, sheets, rows, cols ) );
 			buildExpressionModelsForLocalRangeCells( _range, result.arguments() );
 			return result;
 		}

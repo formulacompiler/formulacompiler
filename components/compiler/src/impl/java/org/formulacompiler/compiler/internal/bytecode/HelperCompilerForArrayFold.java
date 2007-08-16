@@ -30,15 +30,14 @@ import org.formulacompiler.compiler.internal.expressions.LetDictionary.LetEntry;
 import org.objectweb.asm.Opcodes;
 
 
-
 final class HelperCompilerForArrayFold extends HelperCompiler
 {
 	protected final FoldContext foldContext;
 	protected final ExpressionNode array;
 
 
-	public HelperCompilerForArrayFold(SectionCompiler _section, ExpressionNode _array, FoldContext _context,
-			Iterable<LetEntry> _closure)
+	public HelperCompilerForArrayFold( SectionCompiler _section, ExpressionNode _array, FoldContext _context,
+			Iterable<LetEntry> _closure )
 	{
 		super( _section, _context.node, _closure );
 		this.foldContext = _context;
@@ -51,9 +50,9 @@ final class HelperCompilerForArrayFold extends HelperCompiler
 	{
 		final ExpressionCompilerForNumbers expc = numericCompiler();
 		final ExpressionNodeForFoldArray foldNode = (ExpressionNodeForFoldArray) this.foldContext.node;
-		
+
 		expc.compile( foldNode.array() );
-		
+
 		expc.compile_foldArray( new FoldArrayCompilation()
 		{
 
@@ -64,14 +63,19 @@ final class HelperCompilerForArrayFold extends HelperCompiler
 
 			public void compileFold( int _acc, int _xi, int _i ) throws CompilerException
 			{
+				compileFold( new LocalValueRef( _acc ), new LocalValueRef( _xi ), _i );
+			}
+
+			public void compileFold( LocalRef _acc, LocalRef _xi, int _i ) throws CompilerException
+			{
 				final LetDictionary letDict = expc.letDict();
 				final String accName = foldNode.accumulatorName();
 				final String eltName = foldNode.elementName();
 				final String idxName = foldNode.indexName();
-				
+
 				mv().visitIntInsn( Opcodes.ILOAD, _i );
 				expc.compileConversionFromInt();
-				final int i_num = expc.compileStoreToNewLocal( false );
+				final LocalRef i_num = expc.compileStoreToNewLocal( false );
 
 				letDict.let( accName, foldNode.initialAccumulatorValue().getDataType(), _acc );
 				letDict.let( eltName, foldNode.array().getDataType(), _xi );
@@ -88,6 +92,5 @@ final class HelperCompilerForArrayFold extends HelperCompiler
 
 		} );
 	}
-
 
 }

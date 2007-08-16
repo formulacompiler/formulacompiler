@@ -30,7 +30,7 @@ import org.formulacompiler.runtime.ScaledLong;
  * @author peo
  */
 @ScaledLong(4)
-public class Outputs extends OutputsWithoutCaching implements Resettable
+public class Outputs extends OutputsWithoutReset implements Resettable
 {
 	public void reset()
 	{

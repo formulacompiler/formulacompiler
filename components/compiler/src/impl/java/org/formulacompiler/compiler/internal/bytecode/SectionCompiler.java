@@ -24,11 +24,14 @@ import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompi
 import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.INPUTS_MEMBER_NAME;
 
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary.LetEntry;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.SectionModel;
@@ -42,7 +45,6 @@ abstract class SectionCompiler extends ClassCompiler
 {
 	private final Map<SectionModel, SubSectionCompiler> subSectionCompilers = New.newMap();
 	private final Map<CellModel, CellComputation> cellComputations = New.newMap();
-	private final Map<Method, OutputDistributorCompiler> outputDistributors = New.newMap();
 	private final SectionModel model;
 	private final Type inputs;
 	private final Type outputs;
@@ -60,7 +62,6 @@ abstract class SectionCompiler extends ClassCompiler
 	{
 		return (null == _inputClass)? Type.getType( Object.class ) : Type.getType( _inputClass );
 	}
-
 
 	protected abstract SectionCompiler parentSectionCompiler();
 	protected abstract RootSectionCompiler rootSectionCompiler();
@@ -179,6 +180,7 @@ abstract class SectionCompiler extends ClassCompiler
 		return result;
 	}
 
+
 	void endCompilation() throws CompilerException
 	{
 		finalizeConstructor();
@@ -192,7 +194,7 @@ abstract class SectionCompiler extends ClassCompiler
 
 	private void buildReset()
 	{
-		this.resetter = newMethod( Opcodes.ACC_PUBLIC, "reset", "()V" );
+		this.resetter = newMethod( Opcodes.ACC_FINAL | Opcodes.ACC_PUBLIC, "reset", "()V" );
 	}
 
 	private void finalizeReset()
@@ -216,6 +218,8 @@ abstract class SectionCompiler extends ClassCompiler
 	}
 
 
+	private final Map<Method, OutputDistributorCompiler> outputDistributors = New.newMap();
+
 	public OutputDistributorCompiler getOutputDistributorFor( Method _method )
 	{
 		OutputDistributorCompiler dist = this.outputDistributors.get( _method );
@@ -226,7 +230,6 @@ abstract class SectionCompiler extends ClassCompiler
 		}
 		return dist;
 	}
-
 
 	private void finalizeOutputDistributors()
 	{
@@ -306,5 +309,67 @@ abstract class SectionCompiler extends ClassCompiler
 
 	protected abstract void compileEnvironmentAccess( GeneratorAdapter _mv );
 	protected abstract void compileComputationTimeAccess( GeneratorAdapter _mv );
+
+
+	private final Map<String, ArrayAccessorCompiler> arrayAccessorsForConstData = New.newMap();
+
+	public ArrayAccessorCompiler getArrayAccessorForConstDataOnly( ExpressionNodeForArrayReference _arrayNode )
+			throws CompilerException
+	{
+		final String name = _arrayNode.arrayDescriptor().name();
+		ArrayAccessorCompiler acc = this.arrayAccessorsForConstData.get( name );
+		if (null == acc) {
+			final String internalName = Integer.toString( this.arrayAccessorsForConstData.size() );
+			acc = new ArrayAccessorForConstDataCompiler( this, internalName, _arrayNode );
+			acc.compile();
+			this.arrayAccessorsForConstData.put( name, acc );
+		}
+		return acc;
+	}
+
+
+	private final Map<String, ArrayAccessorCompiler> arrayAccessorsForFullData = New.newMap();
+
+	public ArrayAccessorCompiler getArrayAccessorForFullData( ExpressionNodeForArrayReference _arrayNode )
+			throws CompilerException
+	{
+		if (areAllConstant( _arrayNode.arguments() )) {
+			return getArrayAccessorForConstDataOnly( _arrayNode );
+		}
+
+		final String name = _arrayNode.arrayDescriptor().name();
+		ArrayAccessorCompiler acc = this.arrayAccessorsForFullData.get( name );
+		if (null == acc) {
+			final String internalName = Integer.toString( this.arrayAccessorsForFullData.size() );
+			acc = new ArrayAccessorForFullDataCompiler( this, internalName, _arrayNode );
+			acc.compile();
+			this.arrayAccessorsForFullData.put( name, acc );
+		}
+		return acc;
+	}
+
+	boolean areAllConstant( List<ExpressionNode> _arguments )
+	{
+		for (ExpressionNode arg : _arguments) {
+			if (!(arg instanceof ExpressionNodeForConstantValue)) return false;
+		}
+		return true;
+	}
+
+
+	private final Map<String, IndexerCompiler> indexers = New.newMap();
+
+	public IndexerCompiler getIndexerFor( ExpressionNodeForArrayReference _arrayNode ) throws CompilerException
+	{
+		final String name = _arrayNode.arrayDescriptor().name();
+		IndexerCompiler idx = this.indexers.get( name );
+		if (null == idx) {
+			final String internalName = Integer.toString( this.indexers.size() );
+			idx = new IndexerCompiler( this, internalName, _arrayNode );
+			idx.compile();
+			this.indexers.put( name, idx );
+		}
+		return idx;
+	}
 
 }

@@ -27,6 +27,10 @@ import java.util.Set;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.Operator;
+import org.formulacompiler.compiler.internal.bytecode.MethodCompiler.LocalArrayRef;
+import org.formulacompiler.compiler.internal.bytecode.MethodCompiler.LocalRef;
+import org.formulacompiler.compiler.internal.bytecode.MethodCompiler.LocalValueRef;
+import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
 import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
@@ -40,6 +44,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMakeArray;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForReduce;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitch;
 import org.formulacompiler.compiler.internal.expressions.InnerExpressionException;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary.LetEntry;
@@ -69,7 +74,7 @@ abstract class ExpressionCompiler
 	private final MethodCompiler methodCompiler;
 	private final GeneratorAdapter mv;
 
-	ExpressionCompiler(MethodCompiler _methodCompiler)
+	ExpressionCompiler( MethodCompiler _methodCompiler )
 	{
 		super();
 		this.methodCompiler = _methodCompiler;
@@ -229,6 +234,10 @@ abstract class ExpressionCompiler
 			}
 		}
 
+		else if (_node instanceof ExpressionNodeForSwitch) {
+			compileSwitch( (ExpressionNodeForSwitch) _node );
+		}
+
 		else if (_node instanceof ExpressionNodeForCount) {
 			compileCount( (ExpressionNodeForCount) _node );
 		}
@@ -386,14 +395,106 @@ abstract class ExpressionCompiler
 		switch (fun) {
 
 			case INDEX:
-				final Iterable<LetEntry> closure = closureOf( _node );
-				compileHelpedExpr( new HelperCompilerForIndex( sectionInContext(), _node, closure ), closure );
+				compileIndex( _node );
 				break;
 
 			default:
 				throw new CompilerException.UnsupportedExpression( "Function "
 						+ fun + " is not supported for " + this + " engines." );
 		}
+	}
+
+
+	private final void compileIndex( ExpressionNodeForFunction _node ) throws CompilerException
+	{
+		final ExpressionNodeForArrayReference array = (ExpressionNodeForArrayReference) _node.argument( 0 );
+		switch (_node.cardinality()) {
+			case 2:
+				if (array.arrayDescriptor().numberOfColumns() == 1) {
+					compileIndex( array, _node.argument( 1 ), null );
+				}
+				else if (array.arrayDescriptor().numberOfRows() == 1) {
+					compileIndex( array, null, _node.argument( 1 ) );
+				}
+				else {
+					throw new CompilerException.UnsupportedExpression(
+							"INDEX with single index expression must not have two-dimensional range argument." );
+				}
+				return;
+			case 3:
+				compileIndex( array, _node.argument( 1 ), _node.argument( 2 ) );
+				return;
+		}
+		throw new CompilerException.UnsupportedExpression( "INDEX must have two or three arguments." );
+	}
+
+	private final void compileIndex( ExpressionNodeForArrayReference _array, ExpressionNode _row, ExpressionNode _col )
+			throws CompilerException
+	{
+		final GeneratorAdapter mv = mv();
+		final MethodCompiler mtd = method();
+		final ExpressionCompilerForNumbers numCompiler = mtd.numericCompiler();
+
+		// Push receiver for index switch method.
+		mtd.mv().visitVarInsn( Opcodes.ALOAD, mtd.objectInContext() );
+
+		// Compute index value.
+		final ArrayDescriptor desc = _array.arrayDescriptor();
+		final int cols = desc.numberOfColumns();
+		if (cols == 1) {
+			if (!isNullOrOne( _col )) {
+				throw new CompilerException.UnsupportedExpression( "Column index must be 1." );
+			}
+			// <row> - 1;
+			numCompiler.compileInt( _row );
+			mv.push( 1 );
+			mv.visitInsn( Opcodes.ISUB );
+		}
+		else if (desc.numberOfRows() == 1) {
+			if (!isNullOrOne( _row )) {
+				throw new CompilerException.UnsupportedExpression( "Row index must be 1." );
+			}
+			// <col> - 1;
+			numCompiler.compileInt( _col );
+			mv.push( 1 );
+			mv.visitInsn( Opcodes.ISUB );
+		}
+		else {
+			// (<row> - 1) * <num_cols>) + (<col> - 1);
+			if (isNullOrOne( _row )) {
+				numCompiler.compileInt( _col );
+				mv.push( 1 );
+				mv.visitInsn( Opcodes.ISUB );
+			}
+			else {
+				numCompiler.compileInt( _row );
+				mv.push( 1 );
+				mv.visitInsn( Opcodes.ISUB );
+
+				mv.push( cols );
+				mv.visitInsn( Opcodes.IMUL );
+
+				numCompiler.compileInt( _col );
+				mv.push( 1 );
+				mv.visitInsn( Opcodes.ISUB );
+
+				mv.visitInsn( Opcodes.IADD );
+			}
+		}
+
+		IndexerCompiler indexer = section().getIndexerFor( _array );
+		indexer.compileCall( mv );
+	}
+
+	private final boolean isNullOrOne( ExpressionNode _node )
+	{
+		if (_node == null) return true;
+		if (_node instanceof ExpressionNodeForConstantValue) {
+			ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _node;
+			final Number constValue = (Number) constNode.value();
+			return (constValue == null || constValue.intValue() == 1);
+		}
+		return false;
 	}
 
 
@@ -448,6 +549,13 @@ abstract class ExpressionCompiler
 				method().letDict().set( let.name, let );
 			}
 		}
+	}
+
+
+	private void compileSwitch( ExpressionNodeForSwitch _node ) throws CompilerException
+	{
+		final Iterable<LetEntry> closure = closureOf( _node );
+		compileHelpedExpr( new HelperCompilerForSwitch( sectionInContext(), _node, closure ), closure );
 	}
 
 
@@ -524,53 +632,21 @@ abstract class ExpressionCompiler
 	}
 
 
-	protected final static boolean isArray( ExpressionNode _node )
-	{
-		if (_node instanceof ExpressionNodeForArrayReference) {
-			return true;
-		}
-		else if (_node instanceof ExpressionNodeForMakeArray) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	protected final static boolean isArray( int _local )
-	{
-		return _local < 0;
-	}
-
-	protected final static boolean isArray( LetDictionary.LetEntry _e )
-	{
-		if (_e.value instanceof DelayedLet) {
-			DelayedLet eval = (DelayedLet) _e.value;
-			return isArray( eval.local );
-		}
-		else if (_e.value instanceof Integer) {
-			int local = (Integer) _e.value;
-			return isArray( local );
-		}
-		else if (_e.value instanceof ExpressionNode) {
-			return isArray( (ExpressionNode) _e.value );
-		}
-		else {
-			return false;
-		}
-	}
-
-
 	protected abstract void compileCount( ExpressionNodeForCount _node ) throws CompilerException;
 
 
 	private final void compileLet( ExpressionNodeForLet _node ) throws CompilerException
 	{
 		final String varName = _node.varName();
-		if (varName.charAt( 0 ) == '-') {
-			// Note: This hack with names prefixed by '-' is used internally to pass outer values as
-			// method arguments to helper methods by wrapping the construct in a series of LETs. The
-			// closure then automatically declares the parameters and passes the values to them.
+		if (_node.isSymbolic()) {
+			throw new IllegalArgumentException( "Cannot compile symbolic lets." );
+		}
+		else if (!_node.shouldCache()) {
+			/*
+			 * Note: Used internally to pass outer values as single-eval method arguments to helper
+			 * methods by wrapping the construct in a series of LETs. The closure then automatically
+			 * declares the parameters and passes the values to them.
+			 */
 			letDict().let( varName, _node.value().getDataType(), _node.value() );
 			try {
 				compile( _node.in() );
@@ -580,10 +656,12 @@ abstract class ExpressionCompiler
 			}
 		}
 		else {
-			// Note: It is important to allocate the local here rather than at the point of first
-			// evaluation. Otherwise it could get reused when the first evaluation is within a local
-			// scope.
-			final int local = compileNewLocal( isArray( _node.value() ) );
+			/*
+			 * Note: It is important to allocate the local here rather than at the point of first
+			 * evaluation. Otherwise it could get reused when the first evaluation is within a local
+			 * scope.
+			 */
+			final LocalRef local = compileNewLocal( method().isArray( _node.value() ) );
 			letDict().let( varName, _node.value().getDataType(),
 					new DelayedLet( varName, local, _node.value(), method().letTrackingNestingLevel() ) );
 			try {
@@ -613,39 +691,39 @@ abstract class ExpressionCompiler
 		else if (_value instanceof DelayedLet) {
 			final DelayedLet letDef = (DelayedLet) _value;
 			compile( letDef.node );
-			compileDup( isArray( letDef.local ) );
+			compileDup( letDef.local.isArray() );
 			compileStoreLocal( letDef.local );
 			letDict().set( _name, letDef.local );
 			method().trackSetOfLet( letDef );
 		}
-		else if (_value instanceof Integer) {
-			compileLoadLocal( (Integer) _value );
+		else if (_value instanceof LocalRef) {
+			compileLoadLocal( (LocalRef) _value );
 		}
 		else {
 			throw new CompilerException.NameNotFound( "The variable " + _name + " is not bound in this context." );
 		}
 	}
 
-	protected final int compileStoreToNewLocal( boolean _isArray )
+	protected final LocalRef compileStoreToNewLocal( boolean _isArray )
 	{
-		final int local = compileNewLocal( _isArray );
+		final LocalRef local = compileNewLocal( _isArray );
 		compileStoreLocal( local );
 		return local;
 	}
 
-	protected final int compileDupAndStoreToNewLocal( boolean _isArray )
+	protected final LocalRef compileDupAndStoreToNewLocal( boolean _isArray )
 	{
 		compileDup( _isArray );
 		return compileStoreToNewLocal( _isArray );
 	}
 
-	protected final int compileNewLocal( boolean _isArray )
+	protected final LocalRef compileNewLocal( boolean _isArray )
 	{
 		if (_isArray) {
-			return -method().newLocal( 1 );
+			return new LocalArrayRef( method().newLocal( 1 ) );
 		}
 		else {
-			return method().newLocal( type().getSize() );
+			return new LocalValueRef( method().newLocal( type().getSize() ) );
 		}
 	}
 
@@ -664,23 +742,23 @@ abstract class ExpressionCompiler
 		mv().visitInsn( Opcodes.DUP );
 	}
 
-	protected final void compileStoreLocal( int _local )
+	protected final void compileStoreLocal( LocalRef _local )
 	{
-		if (isArray( _local )) {
-			mv().visitVarInsn( Opcodes.ASTORE, -_local );
+		if (_local.isArray()) {
+			mv().visitVarInsn( Opcodes.ASTORE, _local.offset );
 		}
 		else {
-			mv().visitVarInsn( type().getOpcode( Opcodes.ISTORE ), _local );
+			mv().visitVarInsn( type().getOpcode( Opcodes.ISTORE ), _local.offset );
 		}
 	}
 
-	protected final void compileLoadLocal( int _local )
+	protected final void compileLoadLocal( LocalRef _localRef )
 	{
-		if (isArray( _local )) {
-			mv().visitVarInsn( Opcodes.ALOAD, -_local );
+		if (_localRef instanceof LocalArrayRef) {
+			mv().visitVarInsn( Opcodes.ALOAD, _localRef.offset );
 		}
 		else {
-			mv().visitVarInsn( type().getOpcode( Opcodes.ILOAD ), _local );
+			mv().visitVarInsn( type().getOpcode( Opcodes.ILOAD ), _localRef.offset );
 		}
 	}
 
@@ -841,7 +919,7 @@ abstract class ExpressionCompiler
 	{
 		final GeneratorAdapter mv = mv();
 		final ExpressionNodeForArrayReference arr = (ExpressionNodeForArrayReference) _arrayNode;
-		mv.push( arr.arrayDescriptor().getNumberOfElements() );
+		mv.push( arr.arrayDescriptor().numberOfElements() );
 		compileNewArray();
 		int i = 0;
 		for (ExpressionNode arg : arr.arguments()) {

@@ -33,6 +33,8 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMakeArray;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitch;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitchCase;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary;
 import org.formulacompiler.compiler.internal.model.AbstractComputationModelVisitor;
 import org.formulacompiler.compiler.internal.model.CellModel;
@@ -116,6 +118,8 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		if (_expr instanceof ExpressionNodeForArrayReference) return typeOf( (ExpressionNodeForArrayReference) _expr );
 		if (_expr instanceof ExpressionNodeForOperator) return typeOf( (ExpressionNodeForOperator) _expr );
 		if (_expr instanceof ExpressionNodeForFunction) return typeOf( (ExpressionNodeForFunction) _expr );
+		if (_expr instanceof ExpressionNodeForSwitch) return typeOf( (ExpressionNodeForSwitch) _expr );
+		if (_expr instanceof ExpressionNodeForSwitchCase) return typeOf( (ExpressionNodeForSwitchCase) _expr );
 		if (_expr instanceof ExpressionNodeForParentSectionModel)
 			return typeOf( (ExpressionNodeForParentSectionModel) _expr );
 		if (_expr instanceof ExpressionNodeForSubSectionModel) return typeOf( (ExpressionNodeForSubSectionModel) _expr );
@@ -131,6 +135,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		unsupported( _expr );
 		return null;
 	}
+
 
 	private void annotateArgs( ExpressionNode _expr ) throws CompilerException
 	{
@@ -248,6 +253,18 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		}
 	}
 	// ---- typeOfFun
+
+	private DataType typeOf( ExpressionNodeForSwitch _expr ) throws CompilerException
+	{
+		annotateArgs( _expr );
+		return _expr.defaultValue().getDataType();
+	}
+
+	private DataType typeOf( ExpressionNodeForSwitchCase _expr ) throws CompilerException
+	{
+		annotateArgs( _expr );
+		return _expr.value().getDataType();
+	}
 
 	private DataType typeOf( ExpressionNodeForParentSectionModel _expr ) throws CompilerException
 	{

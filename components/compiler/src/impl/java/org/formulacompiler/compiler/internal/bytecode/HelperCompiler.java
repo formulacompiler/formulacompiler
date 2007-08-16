@@ -26,8 +26,9 @@ import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary.LetEntry;
-
+import org.objectweb.asm.Type;
 
 
 abstract class HelperCompiler extends ValueMethodCompiler
@@ -35,17 +36,38 @@ abstract class HelperCompiler extends ValueMethodCompiler
 	private final ExpressionNode node;
 
 
-	HelperCompiler(SectionCompiler _section, int _access, ExpressionNode _node, Iterable<LetEntry> _closure)
+	HelperCompiler( SectionCompiler _section, int _access, ExpressionNode _node, Iterable<LetEntry> _closure,
+			Type... _params )
 	{
-		super( _section, _access, _section.newGetterName(), descriptorOf( _section, _closure ), _node.getDataType() );
+		super( _section, _access, _section.newGetterName(), descriptorOf( _params ) + descriptorOf( _section, _closure ),
+				_node.getDataType() );
 		this.node = _node;
-		addClosureToLetDict( _closure );
+		addClosureToLetDict( _closure, sizeOf( _params ) );
 	}
 
-	HelperCompiler(SectionCompiler _section, ExpressionNode _node, Iterable<LetEntry> _closure)
+	HelperCompiler( SectionCompiler _section, ExpressionNode _node, Iterable<LetEntry> _closure )
 	{
 		this( _section, 0, _node, _closure );
 	}
+
+	private static String descriptorOf( Type[] _params )
+	{
+		StringBuffer b = new StringBuffer();
+		for (Type param : _params) {
+			b.append( param.getDescriptor() );
+		}
+		return b.toString();
+	}
+
+	private int sizeOf( Type[] _params )
+	{
+		int size = 0;
+		for (Type param : _params) {
+			size += param.getSize();
+		}
+		return size;
+	}
+
 
 	protected final ExpressionNode node()
 	{
@@ -59,6 +81,12 @@ abstract class HelperCompiler extends ValueMethodCompiler
 		if (_arrayRefNode instanceof ExpressionNodeForArrayReference) {
 			final Collection<ExpressionNode> args = _arrayRefNode.arguments();
 			return args.toArray( new ExpressionNode[ args.size() ] );
+		}
+		else if (_arrayRefNode instanceof ExpressionNodeForLetVar) {
+			final ExpressionNodeForLetVar var = (ExpressionNodeForLetVar) _arrayRefNode;
+			final Object res = letDict().lookup( var.varName() );
+			final ExpressionNode val = (ExpressionNode) res;
+			return arrayRefElements( _outerNode, val );
 		}
 		else {
 			throw new CompilerException.UnsupportedExpression( "Array reference expected in "

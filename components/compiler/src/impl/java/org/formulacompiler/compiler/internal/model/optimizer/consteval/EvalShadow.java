@@ -109,7 +109,18 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		return result;
 	}
 
+	
+	protected final EvalShadow unsubstitutedArgument( int _index )
+	{
+		return ((EvalShadow) arguments().get( _index )).unsubstituted();
+	}
 
+	protected EvalShadow unsubstituted()
+	{
+		return this;
+	}
+
+	
 	private final Object[] evaluateArguments() throws CompilerException
 	{
 		final int card = cardinality();

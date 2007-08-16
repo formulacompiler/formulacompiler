@@ -20,22 +20,28 @@
  */
 package org.formulacompiler.compiler.internal.bytecode;
 
+import org.formulacompiler.compiler.internal.bytecode.MethodCompiler.LocalRef;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 
 final class DelayedLet
 {
 	final String name;
 	final ExpressionNode node;
-	final int local;
+	final LocalRef local;
 	final int nestingLevel;
 
-	public DelayedLet(String _name, int _local, ExpressionNode _node, int _nesting)
+	public DelayedLet(String _name, LocalRef _local, ExpressionNode _node, int _nesting)
 	{
 		super();
 		this.name = _name;
 		this.local = _local;
 		this.node = _node;
 		this.nestingLevel = _nesting;
+	}
+	
+	public boolean isArray()
+	{
+		return this.local.isArray();
 	}
 
 	@Override

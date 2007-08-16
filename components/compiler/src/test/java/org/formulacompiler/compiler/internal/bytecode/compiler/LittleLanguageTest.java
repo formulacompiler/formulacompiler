@@ -21,10 +21,10 @@
 package org.formulacompiler.compiler.internal.bytecode.compiler;
 
 import org.formulacompiler.compiler.CallFrame;
+import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.Operator;
-import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler;
 import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
@@ -41,6 +41,8 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMakeArray;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForReduce;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitch;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitchCase;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
@@ -56,7 +58,7 @@ import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.tests.utils.AbstractIOTestBase;
 import org.formulacompiler.tests.utils.Inputs;
 import org.formulacompiler.tests.utils.Outputs;
-import org.formulacompiler.tests.utils.OutputsWithoutCaching;
+import org.formulacompiler.tests.utils.OutputsWithoutReset;
 
 
 public class LittleLanguageTest extends AbstractIOTestBase
@@ -81,7 +83,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 
 	public void testLet() throws Exception
 	{
-		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutReset.class );
 		final SectionModel rootModel = engineModel.getRoot();
 		final CellModel a = new CellModel( rootModel, "a" );
 		final CellModel r = new CellModel( rootModel, "r" );
@@ -94,7 +96,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		r.setExpression( new ExpressionNodeForLet( "x", val, expr ) );
 
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleIncr" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
 
 		assertDoubleResult( new Inputs().getDoubleIncr() * 2, engineModel );
 	}
@@ -102,7 +104,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 
 	public void testLetUsedInIfAndElse() throws Exception
 	{
-		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutReset.class );
 		final SectionModel rootModel = engineModel.getRoot();
 		final CellModel a = new CellModel( rootModel, "a" );
 		final CellModel b = new CellModel( rootModel, "b" );
@@ -123,7 +125,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleIncr" ) ) );
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getOne" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
 
 		// Test true branch
 		final Inputs in = new Inputs();
@@ -138,7 +140,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 
 	public void testLetUsedInIfOnly() throws Exception
 	{
-		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutReset.class );
 		final SectionModel rootModel = engineModel.getRoot();
 		final CellModel a = new CellModel( rootModel, "a" );
 		final CellModel b = new CellModel( rootModel, "b" );
@@ -159,7 +161,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleIncr" ) ) );
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getOne" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
 
 		/*
 		 * Since we are initializing x only in one branch of the IF, the final access to x outside of
@@ -179,7 +181,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 
 	public void testLetUsedInElseOnly() throws Exception
 	{
-		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutReset.class );
 		final SectionModel rootModel = engineModel.getRoot();
 		final CellModel a = new CellModel( rootModel, "a" );
 		final CellModel b = new CellModel( rootModel, "b" );
@@ -200,7 +202,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleIncr" ) ) );
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getOne" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
 
 		/*
 		 * Since we are initializing x only in one branch of the IF, the final access to x outside of
@@ -233,7 +235,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 
 	private void checkFold( boolean _mayReduce ) throws Exception
 	{
-		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutReset.class );
 		final SectionModel rootModel = engineModel.getRoot();
 		final CellModel a = new CellModel( rootModel, "a" );
 		final CellModel b = new CellModel( rootModel, "b" );
@@ -244,7 +246,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		b.setConstantValue( 2.0 );
 		c.setConstantValue( 3.0 );
 
-		final ExpressionNode init = new ExpressionNodeForConstantValue( _mayReduce ? 17 : 0 );
+		final ExpressionNode init = new ExpressionNodeForConstantValue( _mayReduce? 17 : 0 );
 		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
 				new ExpressionNodeForLetVar( "xi" ) );
 		final ExpressionNode[] args = { new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
@@ -255,7 +257,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
 		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
 
 		final Inputs i = this.inputs;
 		assertDoubleResult( i.getDoubleA() + i.getDoubleB() + i.getDoubleC(), engineModel );
@@ -296,7 +298,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		b.setConstantValue( 2.0 );
 		c.setConstantValue( 3.0 );
 
-		final ExpressionNode init = new ExpressionNodeForConstantValue( _1stOK && !_sectionOnly ? 17 : 0 );
+		final ExpressionNode init = new ExpressionNodeForConstantValue( _1stOK && !_sectionOnly? 17 : 0 );
 		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
 				new ExpressionNodeForLetVar( "xi" ) );
 		ExpressionNode[] args;
@@ -315,10 +317,10 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
 		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
 
 		final Inputs i = this.inputs;
-		assertDoubleResult( (_sectionOnly ? 0 : i.getDoubleA() + i.getDoubleB()) + i.getDoubleC() * N_DET, engineModel );
+		assertDoubleResult( (_sectionOnly? 0 : i.getDoubleA() + i.getDoubleB()) + i.getDoubleC() * N_DET, engineModel );
 	}
 
 
@@ -356,7 +358,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
 		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
 		d.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
 
 		final Inputs i = this.inputs;
 		assertDoubleResult( i.getDoubleA() * (N_DET * N_DET + 1) + i.getDoubleB() + i.getDoubleC() * N_DET, engineModel );
@@ -365,7 +367,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 
 	public void testRewritingOfVARP() throws Exception
 	{
-		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutReset.class );
 		final SectionModel rootModel = engineModel.getRoot();
 		final CellModel a = new CellModel( rootModel, "a" );
 		final CellModel b = new CellModel( rootModel, "b" );
@@ -384,7 +386,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
 		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
 
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ) ) );
 		engineModel.traverse( new ConstantSubExpressionEliminator( FormulaCompiler.DOUBLE ) );
@@ -421,7 +423,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
 		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
 
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ) ) );
 		engineModel.traverse( new ConstantSubExpressionEliminator( FormulaCompiler.DOUBLE ) );
@@ -463,7 +465,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 
 	public void testReduce() throws Exception
 	{
-		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutReset.class );
 		final SectionModel rootModel = engineModel.getRoot();
 		final CellModel a = new CellModel( rootModel, "a" );
 		final CellModel b = new CellModel( rootModel, "b" );
@@ -485,7 +487,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
 		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
 
 		final Inputs i = this.inputs;
 		assertDoubleResult( i.getDoubleA() + i.getDoubleB() + i.getDoubleC(), engineModel );
@@ -519,7 +521,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
 		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
 
 		final Inputs i = this.inputs;
 		assertDoubleResult( i.getDoubleA() + i.getDoubleB() + i.getDoubleC() * N_DET, engineModel );
@@ -556,7 +558,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
 		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
 
 		final Inputs i = this.inputs;
 
@@ -618,7 +620,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
 		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
 		d.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
 
 		final Inputs i = this.inputs;
 		final int N_OTHER = 4;
@@ -649,7 +651,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 
 	public void testFoldArray() throws Exception
 	{
-		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutReset.class );
 		final SectionModel rootModel = engineModel.getRoot();
 		final CellModel a = new CellModel( rootModel, "a" );
 		final CellModel b = new CellModel( rootModel, "b" );
@@ -674,7 +676,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
 		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
 		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
 
 		final Inputs i = this.inputs;
 		assertDoubleResult( i.getDoubleA() + i.getDoubleB() * 2 + i.getDoubleC() * 3, engineModel );
@@ -690,7 +692,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 
 	public void testDatabaseFold() throws Exception
 	{
-		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutReset.class );
 		final SectionModel rootModel = engineModel.getRoot();
 		this.rootModel = rootModel;
 
@@ -708,7 +710,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		r.setExpression( new ExpressionNodeForDatabaseFold( table.arrayDescriptor(), "col", filter, "r", init, "xi",
 				fold, 4, null, col, DATATYPES, false, false, table ) );
 
-		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
 
 		assertDoubleResult( 225.0, engineModel );
 	}
@@ -716,7 +718,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 
 	public void testDatabaseFoldWithDynamicCriteria() throws Exception
 	{
-		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutReset.class );
 		final SectionModel rootModel = engineModel.getRoot();
 		this.rootModel = rootModel;
 
@@ -731,7 +733,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		// Note: -var is a let that is evaluated every time it is accessed. Used here as a closure
 		// param for the helper method.
 		final ExpressionNode filter = new ExpressionNodeForOperator( Operator.GREATER, new ExpressionNodeForLetVar(
-				"col1" ), new ExpressionNodeForLetVar( "-crit0" ) );
+				"col1" ), new ExpressionNodeForLetVar( "crit0" ) );
 
 		final ExpressionNode col = new ExpressionNodeForConstantValue( 5 );
 
@@ -739,11 +741,13 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		final ExpressionNodeForConstantValue init = new ExpressionNodeForConstantValue( 0.0 );
 		final ExpressionNodeForOperator fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar(
 				"r" ), new ExpressionNodeForLetVar( "xi" ) );
-		r.setExpression( new ExpressionNodeForLet( "-crit0", new ExpressionNodeForCellModel( a ),
+		final ExpressionNodeForLet letCrit = new ExpressionNodeForLet( "crit0", new ExpressionNodeForCellModel( a ),
 				new ExpressionNodeForDatabaseFold( table.arrayDescriptor(), "col", filter, "r", init, "xi", fold, 4, null,
-						col, DATATYPES, false, false, table ) ) );
+						col, DATATYPES, false, false, table ) );
+		letCrit.setShouldCache( false );
+		r.setExpression( letCrit );
 
-		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
 
 		assertDoubleResult( 426.0, engineModel );
 	}
@@ -751,7 +755,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 
 	public void testDatabaseFoldZeroWhenEmpty() throws Exception
 	{
-		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutReset.class );
 		final SectionModel rootModel = engineModel.getRoot();
 		this.rootModel = rootModel;
 
@@ -769,7 +773,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		r.setExpression( new ExpressionNodeForDatabaseFold( table.arrayDescriptor(), "col", filter, "r", init, "xi",
 				fold, 4, null, col, DATATYPES, false, true, table ) );
 
-		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
 
 		assertDoubleResult( 0.0, engineModel );
 	}
@@ -777,7 +781,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 
 	public void testDatabaseReduce() throws Exception
 	{
-		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutCaching.class );
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutReset.class );
 		final SectionModel rootModel = engineModel.getRoot();
 		this.rootModel = rootModel;
 
@@ -798,9 +802,41 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		r.setExpression( new ExpressionNodeForDatabaseFold( table.arrayDescriptor(), "col", filter, "r", init, "xi",
 				fold, 4, null, col, DATATYPES, true, true, table ) );
 
-		r.makeOutput( new CallFrame( OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
 
 		assertDoubleResult( -45.0, engineModel );
+	}
+
+
+	public void testSwitch() throws Exception
+	{
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutReset.class );
+		final SectionModel rootModel = engineModel.getRoot();
+		this.rootModel = rootModel;
+
+		final CellModel v = new CellModel( rootModel, "i" );
+		final CellModel r = new CellModel( rootModel, "r" );
+
+		v.setConstantValue( 2 );
+		v.makeInput( new CallFrame( Inputs.class.getMethod( "getTwo" ) ) );
+
+		final ExpressionNode valueNode = new ExpressionNodeForCellModel( v );
+		final ExpressionNode defaultNode = new ExpressionNodeForConstantValue( -10 );
+		final ExpressionNodeForSwitchCase caseNode1 = new ExpressionNodeForSwitchCase(
+				new ExpressionNodeForConstantValue( 10 ), 1 );
+		final ExpressionNodeForSwitchCase caseNode2 = new ExpressionNodeForSwitchCase(
+				new ExpressionNodeForConstantValue( 20 ), 2 );
+		final ExpressionNodeForSwitchCase caseNode3 = new ExpressionNodeForSwitchCase(
+				new ExpressionNodeForConstantValue( 30 ), 3 );
+		final ExpressionNode switchNode = new ExpressionNodeForSwitch( valueNode, defaultNode, caseNode1, caseNode2,
+				caseNode3 );
+		final ExpressionNode plusNode = new ExpressionNodeForOperator( Operator.PLUS, switchNode,
+				new ExpressionNodeForConstantValue( 100 ) );
+
+		r.setExpression( plusNode );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+
+		assertDoubleResult( 120.0, engineModel );
 	}
 
 
@@ -842,12 +878,12 @@ public class LittleLanguageTest extends AbstractIOTestBase
 	private void assertDoubleResult( final double _expectedResult, final ComputationModel _engineModel )
 			throws Exception
 	{
-		final OutputsWithoutCaching outputs = newOutputs( _engineModel, FormulaCompiler.DOUBLE );
+		final OutputsWithoutReset outputs = newOutputs( _engineModel, FormulaCompiler.DOUBLE );
 		final double d = outputs.getResult();
 		assertEquals( _expectedResult, d, 0.000001 );
 	}
 
-	private OutputsWithoutCaching newOutputs( ComputationModel _engineModel, NumericType _numericType ) throws Exception
+	private OutputsWithoutReset newOutputs( ComputationModel _engineModel, NumericType _numericType ) throws Exception
 	{
 		_engineModel.traverse( new IntermediateResultsInliner() );
 		_engineModel.traverse( new TypeAnnotator() );
@@ -860,7 +896,7 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		checkEngine( engine );
 
 		final ComputationFactory factory = engine.getComputationFactory();
-		return (OutputsWithoutCaching) factory.newComputation( this.inputs );
+		return (OutputsWithoutReset) factory.newComputation( this.inputs );
 	}
 
 	private final ExpressionNodeForArrayReference makeRange( Object[][] _rows )
