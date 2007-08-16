@@ -20,7 +20,9 @@
  */
 package org.formulacompiler.runtime.internal;
 
+import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -34,28 +36,36 @@ public final class Environment
 	private final DecimalFormatSymbols decimalFormatSymbols;
 	private final TimeZone timeZone;
 
-	public Environment(Computation.Config _cfg)
+	public static Environment getInstance( Computation.Config _cfg )
 	{
-		this.locale = _cfg.locale;
-		this.decimalFormatSymbols = _cfg.decimalFormatSymbols;
-
-		// Defensive copy below as TimeZone is mutable.
-		this.timeZone = (null == _cfg.timeZone) ? null : (TimeZone) _cfg.timeZone.clone();
+		return new Environment( _cfg );
 	}
+
+	private Environment( Computation.Config _cfg )
+	{
+		super();
+		this.locale = _cfg.locale;
+		// Defensive copies of mutable structures:
+		this.decimalFormatSymbols = (null == _cfg.decimalFormatSymbols)? null
+				: (DecimalFormatSymbols) _cfg.decimalFormatSymbols.clone();
+		this.timeZone = (null == _cfg.timeZone)? null : (TimeZone) _cfg.timeZone.clone();
+	}
+
 
 	public Locale locale()
 	{
-		return (null == this.locale)? Locale.getDefault() : this.locale;
+		return (null != this.locale)? this.locale : Locale.getDefault();
 	}
 
 	public DecimalFormatSymbols decimalFormatSymbols()
 	{
-		return this.decimalFormatSymbols;
+		return (null != this.decimalFormatSymbols)? this.decimalFormatSymbols : ((DecimalFormat) NumberFormat
+				.getNumberInstance( locale() )).getDecimalFormatSymbols();
 	}
 
 	public TimeZone timeZone()
 	{
-		return (null == this.timeZone)? TimeZone.getDefault() : this.timeZone;
+		return (null != this.timeZone)? this.timeZone : TimeZone.getDefault();
 	}
 
 }

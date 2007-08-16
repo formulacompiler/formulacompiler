@@ -22,22 +22,20 @@ package org.formulacompiler.compiler.internal;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormatSymbols;
-import java.util.Locale;
 
-import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.runtime.internal.RuntimeLong_v2;
 
 public final class ScaledLongType extends AbstractLongType
 {
-	private static long[] SCALING_FACTORS = { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000,
-			1000000000, 10000000000L, 100000000000L, 1000000000000L, 10000000000000L, 100000000000000L,
-			1000000000000000L, 10000000000000000L, 100000000000000000L, 1000000000000000000L };
+	private static long[] SCALING_FACTORS = { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000,
+			10000000000L, 100000000000L, 1000000000000L, 10000000000000L, 100000000000000L, 1000000000000000L,
+			10000000000000000L, 100000000000000000L, 1000000000000000000L };
 
 	private final long scalingFactor;
 
-	protected ScaledLongType(int _scale)
+	protected ScaledLongType( int _scale )
 	{
 		super( _scale, BigDecimal.ROUND_DOWN );
 		if (_scale < 1 || _scale >= SCALING_FACTORS.length) {
@@ -53,14 +51,14 @@ public final class ScaledLongType extends AbstractLongType
 	}
 
 	@Override
-	protected final Number convertFromString( String _value, Locale _locale )
+	protected final Number convertFromString( String _value, Environment _env )
 	{
-		return parse( _value, _locale );
+		return parse( _value, _env );
 	}
 
-	public long parse( String _value, Locale _locale )
+	public long parse( String _value, Environment _env )
 	{
-		final DecimalFormatSymbols syms = new DecimalFormatSymbols( _locale );
+		final DecimalFormatSymbols syms = new DecimalFormatSymbols( _env.locale() );
 		final char decSep = syms.getDecimalSeparator();
 		final char minusSign = syms.getMinusSign();
 
@@ -110,10 +108,9 @@ public final class ScaledLongType extends AbstractLongType
 	}
 
 	@Override
-	protected String convertToString( Number _value, Locale _locale )
+	protected String convertToString( Number _value, Environment _env )
 	{
-		final Environment environment = new Environment( new Computation.Config( _locale ) ); //FIXME Environment should be passed as a parameter
-		return RuntimeLong_v2.toExcelString( (Long) _value, scale(), environment );
+		return RuntimeLong_v2.toExcelString( (Long) _value, scale(), _env );
 	}
 
 }

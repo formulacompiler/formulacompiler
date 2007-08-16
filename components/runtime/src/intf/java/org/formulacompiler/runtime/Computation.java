@@ -31,7 +31,7 @@ import java.util.TimeZone;
  * output type you supplied to AFC's compiler. If you specify an application-specific factory to
  * AFC, then this cast is not necessary as the factory already returns the proper
  * application-specific computation type.
- *
+ * 
  * @author peo
  */
 public interface Computation
@@ -40,7 +40,7 @@ public interface Computation
 
 	/**
 	 * Provides configuration information for an execution environment for computations.
-	 *
+	 * 
 	 * @author peo
 	 */
 	public final class Config
@@ -53,8 +53,9 @@ public interface Computation
 		public Locale locale = null;
 
 		/**
-		 * A set of symbols (such as the decimal separator, the grouping separator, and so on)
-		 * needed to format numbers. If this field is not set, the default values for the {@link #locale} are used.
+		 * A set of symbols (such as the decimal separator, the grouping separator, and so on) needed
+		 * to format numbers. If this field is not set, the default values for the {@link #locale} are
+		 * used.
 		 */
 		public DecimalFormatSymbols decimalFormatSymbols = null;
 
@@ -77,7 +78,7 @@ public interface Computation
 		/**
 		 * Overrides the {@link #locale} field.
 		 */
-		public Config(Locale _locale)
+		public Config( Locale _locale )
 		{
 			this.locale = _locale;
 		}
@@ -85,7 +86,7 @@ public interface Computation
 		/**
 		 * Overrides the {@link #timeZone} field.
 		 */
-		public Config(TimeZone _timeZone)
+		public Config( TimeZone _timeZone )
 		{
 			this.timeZone = _timeZone;
 		}
@@ -93,7 +94,7 @@ public interface Computation
 		/**
 		 * Overrides the {@link #locale} and {@link #timeZone} fields.
 		 */
-		public Config(Locale _locale, TimeZone _timeZone)
+		public Config( Locale _locale, TimeZone _timeZone )
 		{
 			this.locale = _locale;
 			this.timeZone = _timeZone;
@@ -109,7 +110,8 @@ public interface Computation
 		}
 
 		/**
-		 * Overrides the {@link #locale}, and {@link #decimalFormatSymbols}, and {@link #timeZone} fields.
+		 * Overrides the {@link #locale}, and {@link #decimalFormatSymbols}, and {@link #timeZone}
+		 * fields.
 		 */
 		public Config( Locale _locale, DecimalFormatSymbols _decimalFormatSymbols, TimeZone _timeZone )
 		{

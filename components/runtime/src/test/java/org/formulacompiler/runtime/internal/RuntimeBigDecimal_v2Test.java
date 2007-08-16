@@ -34,7 +34,7 @@ public class RuntimeBigDecimal_v2Test extends TestCase
 	public void testStringFromBigDecimal() throws Exception
 	{
 		final Locale locale = Locale.ENGLISH;
-		final Environment environment = new Environment( new Computation.Config( locale ) );
+		final Environment environment = Environment.getInstance( new Computation.Config( locale ) );
 		assertEquals( "1.2", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 1.2 ), environment ) );
 		assertEquals( "12", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 12 ), environment ) );
 		assertEquals( "120", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 120 ), environment ) );

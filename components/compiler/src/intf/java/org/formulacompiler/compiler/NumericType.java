@@ -22,8 +22,8 @@ package org.formulacompiler.compiler;
 
 import java.math.MathContext;
 import java.text.ParseException;
-import java.util.Locale;
 
+import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.FormulaRuntime;
 
 /**
@@ -44,7 +44,7 @@ public interface NumericType
 	 * Returns the Java class of the base type.
 	 */
 	public Class valueType();
-	
+
 	/**
 	 * Returns the MathContext to use, or else {@code null}.
 	 */
@@ -80,75 +80,75 @@ public interface NumericType
 	public Number valueOf( Number _value );
 
 	/**
-	 * Parses a string into a value using the default locale. Null and the empty string return zero
-	 * (see {@link #getZero()}).
+	 * Parses a string into a value using the default environment config. Null and the empty string
+	 * return zero (see {@link #getZero()}).
 	 * 
 	 * @return an instance of the corresponding (boxed) Java number type.
 	 * 
 	 * @throws ParseException
 	 * 
-	 * @see #valueOf(String, Locale)
+	 * @see #valueOf(String, Computation.Config)
 	 * @see #valueType()
 	 */
 	public Number valueOf( String _value ) throws ParseException;
 
 	/**
-	 * Parses a string into a value using the given locale. Null and the empty string return zero
-	 * (see {@link #getZero()}).
+	 * Parses a string into a value using the given environment config. Null and the empty string
+	 * return zero (see {@link #getZero()}).
 	 * 
-	 * @param _locale determines formatting options; must not be {@code null}.
+	 * @param _config determines formatting options; must not be {@code null}.
 	 * @return an instance of the corresponding (boxed) Java number type.
 	 * @throws ParseException
 	 * 
 	 * @see #valueType()
 	 */
-	public Number valueOf( String _value, Locale _locale ) throws ParseException;
+	public Number valueOf( String _value, Computation.Config _config ) throws ParseException;
 
 	/**
-	 * Returns the value as a string in its canonical representation using the default locale. Null
-	 * returns the empty string.
+	 * Returns the value as a string in its canonical representation using the default environment
+	 * config. Null returns the empty string.
 	 * 
 	 * @param _value must be an instance of the corresponding (boxed) Java number type, or null.
 	 * 
-	 * @see #valueToString(Number, Locale)
+	 * @see #valueToString(Number, Computation.Config)
 	 * @see #valueType()
 	 */
 	public String valueToString( Number _value );
 
 	/**
-	 * Returns the value as a string in its canonical representation using the given locale. Null
-	 * returns the empty string.
+	 * Returns the value as a string in its canonical representation using the given environment
+	 * config. Null returns the empty string.
 	 * 
 	 * @param _value must be an instance of the corresponding (boxed) Java number type, or null.
-	 * @param _locale determines formatting options; must not be {@code null}.
+	 * @param _config determines formatting options; must not be {@code null}.
 	 * 
 	 * @see #valueType()
 	 */
-	public String valueToString( Number _value, Locale _locale );
+	public String valueToString( Number _value, Computation.Config _config );
 
 	/**
 	 * Returns the value as a string with no superfluous leading or trailing zeroes and decimal point
-	 * using the default locale. Null returns the empty string. Uses scientific display the way Excel
-	 * does.
+	 * using the default environment config. Null returns the empty string. Uses scientific display
+	 * the way Excel does.
 	 * 
 	 * @param _value must be an instance of the corresponding (boxed) Java number type, or null.
 	 * 
-	 * @see #valueToConciseString(Number, Locale)
+	 * @see #valueToConciseString(Number, Computation.Config)
 	 * @see #valueType()
 	 */
 	public String valueToConciseString( Number _value );
 
 	/**
 	 * Returns the value as a string with no superfluous leading or trailing zeroes and decimal point
-	 * using the given locale. Null returns the empty string. Uses scientific display the way Excel
-	 * does.
+	 * using the given environment config. Null returns the empty string. Uses scientific display the
+	 * way Excel does.
 	 * 
 	 * @param _value must be an instance of the corresponding (boxed) Java number type, or null.
-	 * @param _locale determines formatting options; must not be {@code null}.
+	 * @param _config determines formatting options; must not be {@code null}.
 	 * 
 	 * @see #valueType()
 	 */
-	public String valueToConciseString( Number _value, Locale _locale );
+	public String valueToConciseString( Number _value, Computation.Config _config );
 
 
 	/**
