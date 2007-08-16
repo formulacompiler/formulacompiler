@@ -5,7 +5,7 @@ require 'date'
 def index_all_except( all_like, except_like )
 	index = []
 	dir = File.dirname @rextile_name
-	paths = Dir.glob( File.join( dir, '*.rextile' ) )
+	paths = glob( File.join( dir, '*.rextile' ) )
 	paths = paths.find_all {|path| path =~ all_like }.reject {|path| path =~ except_like }
 	files = paths.map {|path| [File.new(path), extract_date_from(File.basename(path))] }
 	files = files.sort_by {|file, date| date }.reverse
@@ -31,7 +31,7 @@ def index_all_except( all_like, except_like )
 		end
 
 		timestamp = date.strftime( '%b %d' )
-		index << "h4. #{timestamp}\n\n\<a href=\"#{link}\">#{title}</a> - "
+		index << "h4. #{timestamp}\n\n<a href=\"#{link}\">#{title}</a> - "
 		index << "#{teaser} <span class=\"when\">...<a href=\"#{link}\">more</a></span>\n\n"
 	end
 	index
