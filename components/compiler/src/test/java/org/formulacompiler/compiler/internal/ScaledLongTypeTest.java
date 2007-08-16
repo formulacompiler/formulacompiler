@@ -20,13 +20,13 @@
  */
 package org.formulacompiler.compiler.internal;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
 import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.NumericType;
+import org.formulacompiler.runtime.Computation;
+import org.formulacompiler.runtime.internal.Environment;
 
 
 public class ScaledLongTypeTest extends AbstractNumericTypeTest
@@ -54,41 +54,41 @@ public class ScaledLongTypeTest extends AbstractNumericTypeTest
 
 	public void doTestStringToScaledLong( Locale _locale ) throws ParseException
 	{
-		DecimalFormat df = (DecimalFormat) NumberFormat.getNumberInstance( _locale );
-		
-		assertParse( 12345, "123.45", _locale, df );
-		assertParse( 12345, "123.452", _locale, df );
-		assertParse( 12340, "123.4", _locale, df );
-		assertParse( 12340, "123.400", _locale, df );
-		assertParse( 12300, "123", _locale, df );
-		assertParse( 12300, "123.0", _locale, df );
-		assertParse( -12300, "-123", _locale, df );
-		assertParse( -12300, "-123.0", _locale, df );
-		assertParse( -12345, "-123.452", _locale, df );
-		assertParse( -12340, "-123.4", _locale, df );
+		final Environment env = Environment.getInstance( new Computation.Config( _locale ) );
 
-		assertParse( 12345, "123.454", _locale, df );
-		assertParse( 12346, "123.455", _locale, df );
-		assertParse( 12346, "123.456", _locale, df );
+		assertParse( 12345, "123.45", env );
+		assertParse( 12345, "123.452", env );
+		assertParse( 12340, "123.4", env );
+		assertParse( 12340, "123.400", env );
+		assertParse( 12300, "123", env );
+		assertParse( 12300, "123.0", env );
+		assertParse( -12300, "-123", env );
+		assertParse( -12300, "-123.0", env );
+		assertParse( -12345, "-123.452", env );
+		assertParse( -12340, "-123.4", env );
 
-		assertParse( -12345, "-123.454", _locale, df );
-		assertParse( -12346, "-123.455", _locale, df );
-		assertParse( -12346, "-123.456", _locale, df );
+		assertParse( 12345, "123.454", env );
+		assertParse( 12346, "123.455", env );
+		assertParse( 12346, "123.456", env );
 
-		assertParse( -2, "-0.015", _locale, df );
-		assertParse( -1, "-0.014", _locale, df );
-		assertParse( -1, "-0.005", _locale, df );
-		assertParse( 0, "-0.004", _locale, df );
-		assertParse( 0, "0.004", _locale, df );
-		assertParse( 1, "0.005", _locale, df );
-		assertParse( 1, "0.014", _locale, df );
-		assertParse( 2, "0.015", _locale, df );
+		assertParse( -12345, "-123.454", env );
+		assertParse( -12346, "-123.455", env );
+		assertParse( -12346, "-123.456", env );
+
+		assertParse( -2, "-0.015", env );
+		assertParse( -1, "-0.014", env );
+		assertParse( -1, "-0.005", env );
+		assertParse( 0, "-0.004", env );
+		assertParse( 0, "0.004", env );
+		assertParse( 1, "0.005", env );
+		assertParse( 1, "0.014", env );
+		assertParse( 2, "0.015", env );
 	}
 
-	private void assertParse( long _expected, String _input, Locale _locale, DecimalFormat _df ) throws ParseException
+	private void assertParse( long _expected, String _input, Environment _env ) throws ParseException
 	{
-		String input = _input.replace( '.', _df.getDecimalFormatSymbols().getDecimalSeparator() );
-		assertEquals( _expected, dec2.valueOf( input, _locale ) );
+		String input = _input.replace( '.', _env.decimalFormatSymbols().getDecimalSeparator() );
+		assertEquals( _expected, dec2.valueOf( input, _env ) );
 	}
 
 
@@ -99,30 +99,30 @@ public class ScaledLongTypeTest extends AbstractNumericTypeTest
 
 	public void doTestScaledLongToString( Locale _locale )
 	{
-		DecimalFormat df = (DecimalFormat) NumberFormat.getNumberInstance( _locale );
+		final Environment env = Environment.getInstance( new Computation.Config( _locale ) );
 
-		assertFormat( "123.45", 12345, _locale, df );
-		assertFormat( "123.4", 12340, _locale, df );
-		assertFormat( "123", 12300, _locale, df );
-		assertFormat( "-123.45", -12345, _locale, df );
-		assertFormat( "-123.4", -12340, _locale, df );
-		assertFormat( "-123", -12300, _locale, df );
+		assertFormat( "123.45", 12345, env );
+		assertFormat( "123.4", 12340, env );
+		assertFormat( "123", 12300, env );
+		assertFormat( "-123.45", -12345, env );
+		assertFormat( "-123.4", -12340, env );
+		assertFormat( "-123", -12300, env );
 
-		assertFormat( "0", 0, _locale, df );
-		assertFormat( "0.01", 1, _locale, df );
-		assertFormat( "0.1", 10, _locale, df );
-		assertFormat( "1", 100, _locale, df );
+		assertFormat( "0", 0, env );
+		assertFormat( "0.01", 1, env );
+		assertFormat( "0.1", 10, env );
+		assertFormat( "1", 100, env );
 
-		assertFormat( "0", -0, _locale, df );
-		assertFormat( "-0.01", -1, _locale, df );
-		assertFormat( "-0.1", -10, _locale, df );
-		assertFormat( "-1", -100, _locale, df );
+		assertFormat( "0", -0, env );
+		assertFormat( "-0.01", -1, env );
+		assertFormat( "-0.1", -10, env );
+		assertFormat( "-1", -100, env );
 	}
 
-	private void assertFormat( String _expected, long _input, Locale _locale, DecimalFormat _df )
+	private void assertFormat( String _expected, long _input, Environment _env )
 	{
-		String expected = _expected.replace( '.', _df.getDecimalFormatSymbols().getDecimalSeparator() );
-		assertEquals( expected, dec2.convertToString( _input, _locale ) );
+		String expected = _expected.replace( '.', _env.decimalFormatSymbols().getDecimalSeparator() );
+		assertEquals( expected, dec2.convertToString( _input, _env ) );
 	}
 
 

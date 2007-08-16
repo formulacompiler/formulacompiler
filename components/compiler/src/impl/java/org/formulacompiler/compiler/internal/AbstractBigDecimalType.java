@@ -23,21 +23,19 @@ package org.formulacompiler.compiler.internal;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.text.ParseException;
-import java.util.Locale;
 
-import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
 
 public abstract class AbstractBigDecimalType extends NumericTypeImpl
 {
 
-	protected AbstractBigDecimalType(int _scale, int _roundingMode)
+	protected AbstractBigDecimalType( int _scale, int _roundingMode )
 	{
 		super( BigDecimal.class, _scale, _roundingMode );
 	}
 
-	protected AbstractBigDecimalType(MathContext _mathContext)
+	protected AbstractBigDecimalType( MathContext _mathContext )
 	{
 		super( BigDecimal.class, _mathContext );
 	}
@@ -69,18 +67,17 @@ public abstract class AbstractBigDecimalType extends NumericTypeImpl
 		}
 		return adjustConvertedValue( v );
 	}
-	
+
 	@Override
-	protected Number convertFromString( String _value, Locale _locale ) throws ParseException
+	protected Number convertFromString( String _value, Environment _env ) throws ParseException
 	{
-		return adjustConvertedValue( (BigDecimal) super.convertFromString( _value, _locale ));
+		return adjustConvertedValue( (BigDecimal) super.convertFromString( _value, _env ) );
 	}
 
 	@Override
-	protected String convertToConciseString( Number _value, Locale _locale )
+	protected String convertToConciseString( Number _value, Environment _env )
 	{
-		final Environment environment = new Environment( new Computation.Config( _locale ) ); //FIXME Environment should be passed as a parameter
-		return RuntimeBigDecimal_v2.toExcelString( (BigDecimal) _value, environment );
+		return RuntimeBigDecimal_v2.toExcelString( (BigDecimal) _value, _env );
 	}
 
 	protected abstract BigDecimal adjustConvertedValue( BigDecimal _value );

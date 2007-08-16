@@ -15,6 +15,7 @@ h5. *Changed!*
     <br/>*Your engines won't run anymore. Recompile.*
 	* Changed the names of the predefined scaled @BigDecimal@ and @long@ numeric types.
     * Changed the way "internal caching":tutorial/caching.htm is controlled.
+    * Changed the API for manual value conversions using a given locale. Now uses a @Computation.Config@ instead.
 
 h5. New
 

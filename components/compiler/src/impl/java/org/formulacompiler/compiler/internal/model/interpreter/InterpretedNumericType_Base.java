@@ -78,7 +78,7 @@ abstract class InterpretedNumericType_Base
 	}
 
 
-	// LATER Need a compiler locale here, really.
+	// FIXME Need a compiler locale here, really.
 	public abstract Number fromString( String _s ) throws ParseException;
 
 

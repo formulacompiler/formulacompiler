@@ -21,9 +21,7 @@
 package org.formulacompiler.compiler.internal;
 
 import java.math.BigDecimal;
-import java.util.Locale;
 
-import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 
@@ -61,11 +59,10 @@ public final class DoubleType extends NumericTypeImpl
 	}
 
 	@Override
-	protected String convertToConciseString( Number _value, Locale _locale )
+	protected String convertToConciseString( Number _value, Environment _env )
 	{
-		final Environment environment = new Environment( new Computation.Config( _locale ) ); //FIXME Environment should be passed as a parameter
 		// We want to be sure this is a double here.
-		return RuntimeDouble_v2.toExcelString( _value.doubleValue(), environment );
+		return RuntimeDouble_v2.toExcelString( _value.doubleValue(), _env );
 	}
 
 }

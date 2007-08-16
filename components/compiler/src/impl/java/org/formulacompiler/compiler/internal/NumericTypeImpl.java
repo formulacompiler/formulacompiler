@@ -27,10 +27,11 @@ import java.math.MathContext;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Date;
-import java.util.Locale;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
+import org.formulacompiler.runtime.Computation;
+import org.formulacompiler.runtime.internal.Environment;
 
 
 /**
@@ -95,7 +96,7 @@ public abstract class NumericTypeImpl implements NumericType
 	private final MathContext mathContext;
 
 
-	protected NumericTypeImpl(Class _valueType, int _scale, int _roundingMode)
+	protected NumericTypeImpl( Class _valueType, int _scale, int _roundingMode )
 	{
 		super();
 		this.valueType = _valueType;
@@ -104,7 +105,7 @@ public abstract class NumericTypeImpl implements NumericType
 		this.mathContext = null;
 	}
 
-	protected NumericTypeImpl(Class _valueType, MathContext _mathContext)
+	protected NumericTypeImpl( Class _valueType, MathContext _mathContext )
 	{
 		super();
 		this.valueType = _valueType;
@@ -145,59 +146,75 @@ public abstract class NumericTypeImpl implements NumericType
 		return assertProperNumberType( convertFromAnyNumber( _value ) );
 	}
 
+	@Deprecated
 	public final Number valueOf( String _value ) throws ParseException
 	{
-		return assertProperNumberType( valueOf( _value, Locale.getDefault() ) );
+		return valueOf( _value, Environment.DEFAULT );
 	}
 
-	public final Number valueOf( String _value, Locale _locale ) throws ParseException
+	public final Number valueOf( String _value, Computation.Config _config ) throws ParseException
+	{
+		return valueOf( _value, Environment.getInstance( _config ) );
+	}
+
+	public final Number valueOf( String _value, Environment _env ) throws ParseException
 	{
 		if (null == _value) return getZero();
 		if (0 == _value.length()) return getZero();
-		return assertProperNumberType( convertFromString( _value, _locale ) );
+		return assertProperNumberType( convertFromString( _value, _env ) );
 	}
 
 	@Deprecated
 	public final String valueToString( Number _value )
 	{
-		return valueToString( _value, Locale.getDefault() );
+		return valueToString( _value, Environment.DEFAULT );
 	}
 
-	public final String valueToString( Number _value, Locale _locale )
+	public final String valueToString( Number _value, Computation.Config _config )
+	{
+		return valueToString( _value, Environment.getInstance( _config ) );
+	}
+
+	public final String valueToString( Number _value, Environment _env )
 	{
 		if (null == _value) return "";
-		return convertToString( assertProperNumberType( _value ), _locale );
+		return convertToString( assertProperNumberType( _value ), _env );
 	}
 
 	@Deprecated
 	public final String valueToConciseString( Number _value )
 	{
-		return valueToConciseString( _value, Locale.getDefault() );
+		return valueToConciseString( _value, Environment.DEFAULT );
 	}
 
-	public final String valueToConciseString( Number _value, Locale _locale )
+	public final String valueToConciseString( Number _value, Computation.Config _config )
+	{
+		return valueToConciseString( _value, Environment.getInstance( _config ) );
+	}
+
+	public final String valueToConciseString( Number _value, Environment _env )
 	{
 		if (null == _value) return "";
-		return convertToConciseString( assertProperNumberType( _value ), _locale );
+		return convertToConciseString( assertProperNumberType( _value ), _env );
 	}
 
 
 	protected abstract Number convertFromAnyNumber( Number _value );
 	protected abstract Number assertProperNumberType( Number _value );
 
-	protected Number convertFromString( String _value, Locale _locale ) throws ParseException
+	protected Number convertFromString( String _value, Environment _env ) throws ParseException
 	{
-		return convertFromAnyNumber( NumberFormat.getNumberInstance( _locale ).parse( _value ) );
+		return convertFromAnyNumber( NumberFormat.getNumberInstance( _env.locale() ).parse( _value ) );
 	}
 
-	protected String convertToString( Number _value, Locale _locale )
+	protected String convertToString( Number _value, Environment _env )
 	{
-		return NumberFormat.getNumberInstance( _locale ).format( _value );
+		return NumberFormat.getNumberInstance( _env.locale() ).format( _value );
 	}
 
-	protected String convertToConciseString( Number _value, Locale _locale )
+	protected String convertToConciseString( Number _value, Environment _env )
 	{
-		return convertToString( _value, _locale );
+		return convertToString( _value, _env );
 	}
 
 
@@ -231,7 +248,7 @@ public abstract class NumericTypeImpl implements NumericType
 		if (null != mathContext()) {
 			return valueType().getName() + "." + mathContext().toString();
 		}
-		return valueType().getName() + ((UNDEFINED_SCALE != scale()) ? "." + Integer.toString( scale() ) : "");
+		return valueType().getName() + ((UNDEFINED_SCALE != scale())? "." + Integer.toString( scale() ) : "");
 	}
 
 }

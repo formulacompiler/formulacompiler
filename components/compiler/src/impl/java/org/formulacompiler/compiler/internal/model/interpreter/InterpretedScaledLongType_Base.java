@@ -24,6 +24,7 @@ import java.text.ParseException;
 import java.util.Date;
 
 import org.formulacompiler.compiler.internal.AbstractLongType;
+import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeLong_v2;
 
 
@@ -65,7 +66,8 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 	@Override
 	public Number fromString( String _s ) throws ParseException
 	{
-		return this.num.valueOf( _s );
+		// FIXME Need a compiler locale here, really.
+		return this.num.valueOf( _s, Environment.DEFAULT );
 	}
 
 

@@ -97,7 +97,7 @@ public class ByteCodeEngine extends ClassLoader implements Engine
 	public ComputationFactory getComputationFactory( Computation.Config _cfg )
 	{
 		try {
-			return this.factoryConstructor.newInstance( new Environment( _cfg ) );
+			return this.factoryConstructor.newInstance( Environment.getInstance( _cfg ) );
 		}
 		/*
 		 * I'm throwing IllegalStateException here because the instantiation already worked once in
