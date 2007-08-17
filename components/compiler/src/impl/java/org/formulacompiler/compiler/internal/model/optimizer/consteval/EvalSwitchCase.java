@@ -18,58 +18,24 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.compiler.internal.expressions;
+package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
-import java.io.IOException;
-import java.util.Collection;
+import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitchCase;
+import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
-import org.formulacompiler.describable.DescriptionBuilder;
-
-public final class ExpressionNodeForSwitchCase extends ExpressionNode
+final class EvalSwitchCase extends EvalShadow
 {
-	private final int caseValue;
 
-	public ExpressionNodeForSwitchCase( ExpressionNode _value, int _caseValue )
+	public EvalSwitchCase( ExpressionNodeForSwitchCase _node, InterpretedNumericType _type )
 	{
-		super( _value );
-		this.caseValue = _caseValue;
-	}
-
-	protected ExpressionNodeForSwitchCase( int _caseValue )
-	{
-		super();
-		this.caseValue = _caseValue;
-	}
-
-
-	public int caseValue()
-	{
-		return this.caseValue;
-	}
-
-	public ExpressionNode value()
-	{
-		return argument( 0 );
-	}
-
-
-	@Override
-	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
-	{
-		return 1;
+		super( _node, _type );
 	}
 
 	@Override
-	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
+	protected Object evaluateToConst( Object... _args ) throws CompilerException
 	{
-		_to.append( "CASE( " ).append( this.caseValue ).append( " ): " );
-		value().describeToWithConfig( _to, _cfg );
-	}
-
-	@Override
-	protected ExpressionNode innerCloneWithoutArguments()
-	{
-		return new ExpressionNodeForSwitchCase( this.caseValue );
+		return evaluateToNode( _args );
 	}
 
 }

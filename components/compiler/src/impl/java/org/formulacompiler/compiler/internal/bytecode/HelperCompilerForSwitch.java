@@ -41,22 +41,17 @@ final class HelperCompilerForSwitch extends HelperCompiler
 		final ExpressionNodeForSwitch switchNode = (ExpressionNodeForSwitch) node();
 		numericCompiler().compileInt( switchNode.selector() );
 
-		int nCases = 0;
-		for (ExpressionNodeForSwitchCase caze : switchNode.cases()) {
-			nCases += caze.caseValues().length;
-		}
-
+		int nCases = switchNode.numberOfCases();
 		if (nCases > 0) {
 			final int[] switchValues = new int[ nCases ];
 			final ExpressionNodeForSwitchCase[] switchValueCases = new ExpressionNodeForSwitchCase[ nCases ];
 			int iSwitchValue = 0;
 			for (ExpressionNodeForSwitchCase caze : switchNode.cases()) {
 				switchValueCases[ iSwitchValue ] = caze;
-				final int[] caseValues = caze.caseValues();
-				System.arraycopy( caseValues, 0, switchValues, iSwitchValue, caseValues.length );
-				iSwitchValue += caseValues.length;
+				switchValues[ iSwitchValue ] = caze.caseValue();
+				iSwitchValue++;
 			}
-			
+
 			compileTableSwitch( switchValues, new TableSwitchGenerator()
 			{
 				private final int valReturn = expressionCompiler().typeCompiler().returnOpcode();
