@@ -52,18 +52,20 @@ public final class ExpressionNodeForSwitch extends ExpressionNode
 	{
 		return argument( 1 );
 	}
-	
+
 	public Iterable<ExpressionNodeForSwitchCase> cases()
 	{
-		return new Iterable<ExpressionNodeForSwitchCase>() {
+		return new Iterable<ExpressionNodeForSwitchCase>()
+		{
 
 			public Iterator<ExpressionNodeForSwitchCase> iterator()
 			{
 				final Iterator<ExpressionNode> args = arguments().iterator();
-				args.next();
-				args.next();
-				
-				return new Iterator<ExpressionNodeForSwitchCase>() {
+				for (int i = 0; i < offsetOfCasesInArguments(); i++)
+					args.next();
+
+				return new Iterator<ExpressionNodeForSwitchCase>()
+				{
 
 					public boolean hasNext()
 					{
@@ -79,11 +81,31 @@ public final class ExpressionNodeForSwitch extends ExpressionNode
 					{
 						throw new IllegalArgumentException();
 					}
-					
+
 				};
 			}
-			
+
 		};
+	}
+
+	public int offsetOfValueInArguments()
+	{
+		return 0;
+	}
+
+	public int offsetOfDefaultInArguments()
+	{
+		return 1;
+	}
+
+	public int offsetOfCasesInArguments()
+	{
+		return 2;
+	}
+
+	public int numberOfCases()
+	{
+		return arguments().size() - offsetOfCasesInArguments();
 	}
 
 

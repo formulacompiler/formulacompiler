@@ -142,6 +142,12 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		return (_arg == null)? null : _arg.evalIn( context() );
 	}
 
+	protected final Object evaluateArgument( int _index, EvalShadowContext _context ) throws CompilerException
+	{
+		this.context = _context;
+		return evaluateArgument( _index );
+	}
+	
 
 	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object... _args ) throws CompilerException
 	{

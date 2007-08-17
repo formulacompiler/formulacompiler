@@ -54,9 +54,6 @@ public class LookupTest extends TestCase
 	}
 
 	
-	// FIXME Switch in interpreter
-	
-
 	public void testMatchConsts() throws Exception
 	{
 		final String test = "MatchConsts";

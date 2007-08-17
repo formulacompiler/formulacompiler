@@ -33,6 +33,8 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMakeAr
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForReduce;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSubstitution;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitch;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitchCase;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeShadow;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForParentSectionModel;
@@ -59,6 +61,8 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 		else if (_node instanceof ExpressionNodeForParentSectionModel) return new EvalPassthrough( _node );
 		else if (_node instanceof ExpressionNodeForSubstitution) return new EvalSubstitution( _node );
 		else if (_node instanceof ExpressionNodeForLet) return new EvalLet( (ExpressionNodeForLet) _node, this.type );
+		else if (_node instanceof ExpressionNodeForSwitch) return new EvalSwitch( (ExpressionNodeForSwitch) _node, this.type );
+		else if (_node instanceof ExpressionNodeForSwitchCase) return new EvalSwitchCase( (ExpressionNodeForSwitchCase) _node, this.type );
 		else if (_node instanceof ExpressionNodeForLetVar) return new EvalLetVar( (ExpressionNodeForLetVar) _node, this.type );
 		else if (_node instanceof ExpressionNodeForFold) return new EvalFold( (ExpressionNodeForFold) _node, this.type );
 		else if (_node instanceof ExpressionNodeForReduce) return new EvalReduce( (ExpressionNodeForReduce) _node, this.type );
