@@ -65,7 +65,7 @@ public enum Function {
 
 	// Lookup
 
-	MATCH, INDEX, LOOKUP, HLOOKUP, VLOOKUP, INTERNAL_MATCH_INT
+	CHOOSE, MATCH, INDEX, LOOKUP, HLOOKUP, VLOOKUP, INTERNAL_MATCH_INT
 	{
 		@Override
 		public boolean returnsInt()

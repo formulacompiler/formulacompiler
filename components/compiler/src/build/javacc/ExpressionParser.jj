@@ -241,6 +241,7 @@ void fun(): {}
 	|	"AND" aggN( Function.AND )
 	|	"AVERAGE" aggN( Function.AVERAGE )
 	|	"CEILING" fun2( Function.CEILING )
+	|	"CHOOSE" open() expr() commaExprs() closeFun( Function.CHOOSE )
 	|	"COMBIN" fun2( Function.COMBIN )
 	|	"CONCATENATE" open() expr() commaExprs() closeOp( Operator.CONCAT )
 	|	"COS" fun1( Function.COS )
