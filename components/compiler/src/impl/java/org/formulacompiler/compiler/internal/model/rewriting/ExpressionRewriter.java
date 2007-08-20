@@ -42,6 +42,10 @@ import org.formulacompiler.runtime.New;
 
 final class ExpressionRewriter extends AbstractExpressionRewriter
 {
+	private static final ExpressionNodeForConstantValue ZERO_NODE = new ExpressionNodeForConstantValue( 0 );
+	private static final ExpressionNodeForConstantValue ONE_NODE = new ExpressionNodeForConstantValue( 1 );
+	private static final ExpressionNodeForConstantValue EMPTY_STRING_NODE = new ExpressionNodeForConstantValue( "",
+			DataType.STRING );
 	private final GeneratedFunctionRewriter generatedRules;
 	private final InterpretedNumericType numericType;
 
@@ -156,7 +160,7 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 					return arg;
 				}
 				else {
-					return new ExpressionNodeForConstantValue( "", DataType.STRING );
+					return EMPTY_STRING_NODE;
 				}
 			}
 			case TEXT: {
@@ -184,6 +188,8 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 				return rewriteHVLookup( _fun );
 			case INDEX:
 				return rewriteIndex( _fun );
+			case CHOOSE:
+				return rewriteChoose( _fun );
 
 		}
 		return this.generatedRules.rewrite( _fun );
@@ -228,7 +234,7 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 			index = cols;
 		}
 		return new ExpressionNodeForFunction( lookupFun, _fun.argument( 0 ), _fun.argument( 1 ),
-				new ExpressionNodeForConstantValue( index ), new ExpressionNodeForConstantValue( 1 ) );
+				new ExpressionNodeForConstantValue( index ), ONE_NODE );
 	}
 
 
@@ -261,7 +267,7 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 			final String matchRefName = "x";
 			final ExpressionNode matchRefNode = new ExpressionNodeForLetVar( matchRefName );
 			final ExpressionNode selectorNode = indexNode;
-			final ExpressionNode defaultNode = new ExpressionNodeForConstantValue( 0 );
+			final ExpressionNode defaultNode = ZERO_NODE;
 
 			final ArrayDescriptor desc = arrayNode.arrayDescriptor();
 			final int nArrays = (fun == Function.HLOOKUP)? desc.numberOfRows() : desc.numberOfColumns();
@@ -293,6 +299,9 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 	}
 
 
+	/**
+	 * Rewrites an inner MATCH to MATCH_INT in the first argument to get rid of unnecessary casts.
+	 */
 	private ExpressionNode rewriteIndex( ExpressionNodeForFunction _fun )
 	{
 		final List<ExpressionNode> newArgs = New.newList();
@@ -314,6 +323,19 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 			return newFun;
 		}
 		return _fun;
+	}
+
+
+	/**
+	 * Rewrites CHOOSE to SWITCH.
+	 */
+	private ExpressionNode rewriteChoose( ExpressionNodeForFunction _fun )
+	{
+		final ExpressionNodeForSwitch result = new ExpressionNodeForSwitch( _fun.argument( 0 ), ZERO_NODE );
+		for (int iCase = 1; iCase < _fun.cardinality(); iCase++) {
+			result.addArgument( new ExpressionNodeForSwitchCase( _fun.argument( iCase ), iCase ) );
+		}
+		return result;
 	}
 
 
