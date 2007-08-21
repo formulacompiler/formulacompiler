@@ -68,7 +68,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	private Sheet templateSheet;
 
 
-	public ExcelXLSSaver(Config _config)
+	public ExcelXLSSaver( Config _config )
 	{
 		super();
 		this.model = _config.spreadsheet;
@@ -93,8 +93,8 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 
 	public void save() throws IOException, SpreadsheetException
 	{
-		this.template = (null == this.templateInputStream) ? null : loadTemplate( this.templateInputStream );
-		this.templateSheet = (null == this.template) ? null : this.template.getSheet( 0 );
+		this.template = (null == this.templateInputStream)? null : loadTemplate( this.templateInputStream );
+		this.templateSheet = (null == this.template)? null : this.template.getSheet( 0 );
 
 		final SpreadsheetImpl wb = (SpreadsheetImpl) this.model;
 		final WritableWorkbook xwb = createWorkbook();
@@ -120,7 +120,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 
 	private Cell getTemplateCell( String _styleName )
 	{
-		return (null == this.template) ? null : this.template.findCellByName( _styleName );
+		return (null == this.template)? null : this.template.findCellByName( _styleName );
 	}
 
 	private WritableWorkbook createWorkbook() throws IOException
@@ -143,7 +143,9 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 		for (int i = _xwb.getSheets().length - 1; i >= 0; i--) {
 			_xwb.removeSheet( i );
 		}
-		_xwb.removeAllAreaNames();
+		for (String name : _xwb.getRangeNames()) {
+			_xwb.removeRangeName( name );
+		}
 	}
 
 
@@ -231,7 +233,8 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 			}
 			if (val instanceof Date) {
 				final Date date = (Date) val;
-				final long msSinceLocal1970 = Runtime_v2.dateToMsSinceLocal1970( date, TimeZone.getDefault() ); //FIXME pass TimeZome here
+				// FIXME pass TimeZome here
+				final long msSinceLocal1970 = Runtime_v2.dateToMsSinceLocal1970( date, TimeZone.getDefault() ); 
 				return new jxl.write.DateTime( _col, _row, new Date( msSinceLocal1970 ), jxl.write.DateTime.GMT );
 			}
 			if (val instanceof Boolean) {
@@ -266,7 +269,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 		else {
 			final Cell styleCell = getTemplateCell( _styleName );
 			if (null != styleCell) {
-				final CellView styleFormat = _isRow ? this.templateSheet.getRowView( styleCell.getRow() )
+				final CellView styleFormat = _isRow? this.templateSheet.getRowView( styleCell.getRow() )
 						: this.templateSheet.getColumnView( styleCell.getColumn() );
 				final CellView targetFormat = new CellView();
 

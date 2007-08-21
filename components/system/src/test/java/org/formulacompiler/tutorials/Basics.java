@@ -120,7 +120,7 @@ public class Basics extends AbstractSpreadsheetTestBase
 	{
 		private final LineItem item;
 
-		public RebateInputsAdaptor(LineItem _item)
+		public RebateInputsAdaptor( LineItem _item )
 		{
 			super();
 			this.item = _item;
@@ -166,7 +166,7 @@ public class Basics extends AbstractSpreadsheetTestBase
 
 		protected final RebateInputs inputs;
 
-		public RebateComputation(RebateInputs _inputs)
+		public RebateComputation( RebateInputs _inputs )
 		{
 			super();
 			this.inputs = _inputs;
@@ -188,7 +188,7 @@ public class Basics extends AbstractSpreadsheetTestBase
 	// ---- StandardStrategy
 	static class StandardRebateComputation extends RebateComputation
 	{
-		public StandardRebateComputation(RebateInputs _inputs)
+		public StandardRebateComputation( RebateInputs _inputs )
 		{
 			super( _inputs );
 		}
@@ -226,7 +226,7 @@ public class Basics extends AbstractSpreadsheetTestBase
 
 	static class AlternativeRebateComputation extends RebateComputation
 	{
-		public AlternativeRebateComputation(RebateInputs _inputs)
+		public AlternativeRebateComputation( RebateInputs _inputs )
 		{
 			super( _inputs );
 		}
@@ -325,8 +325,8 @@ public class Basics extends AbstractSpreadsheetTestBase
 	{
 		SpreadsheetBuilder b = SpreadsheetCompiler./**/newSpreadsheetBuilder/**/();
 
-		b./**/newCell/**/( b./**/cst( "CustomerRebate" )/**/);
-		b.newCell( b./**/cst( 0.1 )/**/);
+		b./**/newCell/**/( b./**/cst( "CustomerRebate" )/**/ );
+		b.newCell( b./**/cst( 0.1 )/**/ );
 		// -- defCalc
 		/* -hlCalc- */SpreadsheetBuilder.CellRef cr = b.currentCell();/* -hlCalc- */
 		// -- defCalc
@@ -340,7 +340,7 @@ public class Basics extends AbstractSpreadsheetTestBase
 		b.newRow();
 		b.newRow();
 		b.newCell( b.cst( "Rebate" ) );
-		b.newCell( /* -hlCalc- */b.op( Operator.PLUS, b.ref( cr ), b.ref( ar ) )/* -hlCalc- */);
+		b.newCell( /* -hlCalc- */b.op( Operator.PLUS, b.ref( cr ), b.ref( ar ) )/* -hlCalc- */ );
 		// -- defCalc
 
 		return b./**/getSpreadsheet/**/();
@@ -352,10 +352,15 @@ public class Basics extends AbstractSpreadsheetTestBase
 	// ------------------------------------------------ Generate Initial Sheet
 
 
-	private static final String GENFILE = "temp/test/data/GeneratedSheet.xls";
-	private static final String GENTEMPLATEDFILE = "temp/test/data/GeneratedTemplatedSheet.xls";
+	private static final String GENDIR = "temp/test/data";
+	private static final String GENFILE = GENDIR + "/GeneratedSheet.xls";
+	private static final String GENTEMPLATEDFILE = GENDIR + "/GeneratedTemplatedSheet.xls";
 	private static final String TEMPLATEFILE = "src/test/data/org/formulacompiler/tutorials/Template.xls";
 	private static final String EXPECTEDGENTEMPLATEDFILE = "src/test/data/org/formulacompiler/tutorials/ExpectedTemplatedSheet.xls";
+
+	static {
+		new File( GENDIR ).mkdirs();
+	}
 
 
 	public void testGenerateFile() throws Exception
@@ -372,12 +377,12 @@ public class Basics extends AbstractSpreadsheetTestBase
 	{
 		// ---- GenerateStream
 		Spreadsheet s = buildSpreadsheet();
-		ByteArrayOutputStream /**/os/**/= new ByteArrayOutputStream();
+		ByteArrayOutputStream /**/os/**/ = new ByteArrayOutputStream();
 
 		SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
 		cfg.spreadsheet = s;
-		cfg./**/typeExtension/**/= ".xls";
-		cfg./**/outputStream/**/= os;
+		cfg./**/typeExtension/**/ = ".xls";
+		cfg./**/outputStream/**/ = os;
 		/**/SpreadsheetCompiler.newSpreadsheetSaver( cfg ).save();/**/
 		// ---- GenerateStream
 		checkSpreadsheetStream( s, new ByteArrayInputStream( os.toByteArray() ), GENFILE );
@@ -388,7 +393,7 @@ public class Basics extends AbstractSpreadsheetTestBase
 	{
 		// ---- GenerateTemplatedFile
 		Spreadsheet s = buildTemplatedSpreadsheet();
-		SpreadsheetCompiler.saveSpreadsheet( s, GENTEMPLATEDFILE, /**/TEMPLATEFILE/**/);
+		SpreadsheetCompiler.saveSpreadsheet( s, GENTEMPLATEDFILE, /**/TEMPLATEFILE/**/ );
 		// ---- GenerateTemplatedFile
 		assertEqualFiles( EXPECTEDGENTEMPLATEDFILE, GENTEMPLATEDFILE );
 	}
@@ -399,13 +404,13 @@ public class Basics extends AbstractSpreadsheetTestBase
 		// ---- GenerateTemplatedStream
 		Spreadsheet s = buildTemplatedSpreadsheet();
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		InputStream /**/ts/**/= new BufferedInputStream( new FileInputStream( TEMPLATEFILE ) );
+		InputStream /**/ts/**/ = new BufferedInputStream( new FileInputStream( TEMPLATEFILE ) );
 
 		SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
 		cfg.spreadsheet = s;
 		cfg.typeExtension = ".xls";
 		cfg.outputStream = os;
-		cfg./**/templateInputStream/**/= ts;
+		cfg./**/templateInputStream/**/ = ts;
 		SpreadsheetCompiler.newSpreadsheetSaver( cfg ).save();
 		// ---- GenerateTemplatedStream
 
@@ -479,7 +484,7 @@ public class Basics extends AbstractSpreadsheetTestBase
 		b.newCell( b.op( Operator.PLUS, b.ref( cr ), b.ref( ar ) ) )./**/styleCell( OUT_P )/**/;
 
 		b.newRow()./**/styleRow( CAPTION )/**/.newCell( b.cst( "Intermediate Values" ) )./**/styleCell( CAPTION )
-				/**/.newRow();
+		/**/.newRow();
 		b.newCell( b.cst( "(sample only)" ) )./**/styleCell( LBL )/**/;
 		b.newCell()./**/styleCell( INTER )/**/;
 		b.newCell();
