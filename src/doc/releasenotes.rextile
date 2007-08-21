@@ -11,7 +11,7 @@ h2. Release 0.10.1
 
 h5. New
 
-	* @AVEDEV()@ and @DEVSQ()@ are now "supported":reference/aggregators.htm.
+	* @AVEDEV()@, @DEVSQ()@, and @SUMSQ()@ are now "supported":reference/aggregators.htm.
 
 
 h2. Release 0.10.0

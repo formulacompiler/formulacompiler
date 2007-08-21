@@ -193,6 +193,8 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 			body( ")" );
 		}
 		end();
+
+		def( Function.SUMSQ, "xs*", "_FOLD( r: 0; xi: `r + `xi*`xi; `xs )" );
 	}
 
 

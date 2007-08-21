@@ -329,6 +329,7 @@ void fun(): {}
 	|	"STDEVP" aggN( Function.STDEVP )
 	|	"SUBSTITUTE" fun3to4( Function.SUBSTITUTE )
 	|	"SUM" aggN( Function.SUM )
+	|	"SUMSQ" aggN( Function.SUMSQ )
 	|	"SYD" fun4( Function.SYD )
 	|	"T" fun1( Function.T )
 	|	"TAN" fun1( Function.TAN )
