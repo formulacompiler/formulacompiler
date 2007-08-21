@@ -69,6 +69,9 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 
 	private void defineAggregators() throws Exception
 	{
+
+		def( Function.COUNTA, "xs*", "COUNT( `xs )" );
+
 		/*
 		 * PRODUCT must return 0 for empty sections, so I cannot use _FOLD_OR_REDUCE as the initial
 		 * value would then be 1.

@@ -20,7 +20,7 @@ h5. *Changed!*
 h5. New
 
 	* "@BigDecimal@ with @MathContext@":tutorial/numeric_type.htm now supported. Older scaled @BigDecimal@ no longer recommended and may be phased out in the future.
-	* @KURT()@, @SKEW()@, @STDEV()@, and @STDEVP()@ are now "supported":reference/aggregators.htm.
+	* @COUNTA()@, @KURT()@, @SKEW()@, @STDEV()@, and @STDEVP()@ are now "supported":reference/aggregators.htm.
 	* @N()@ and @T()@ are now "supported":reference/convfuncs.htm.
 	* @ISTEXT()@, @ISNONTEXT()@, and @ISNUMBER()@ are now "supported":reference/typefuncs.htm.
 	* @CEILING()@, @FLOOR()@, @ROUNDDOWN()@, and @ROUNDUP()@ are now "supported":reference/numfuncs.htm.
