@@ -173,6 +173,26 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 
 		def( Function.STDEV, "xs*", "SQRT( VAR( `xs ) )" );
 		def( Function.STDEVP, "xs*", "SQRT( VARP( `xs ) )" );
+
+		begin( Function.AVEDEV, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "  _LET( m: SUM(`xs) / `n;" );
+			body( "    _FOLD( r:0; xi: `r + ABS( `m - `xi ); `xs )" );
+			body( "  ) / `n" );
+			body( ")" );
+		}
+		end();
+
+		begin( Function.DEVSQ, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "  _LET( m: SUM(`xs) / `n;" );
+			body( "    _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
 	}
 
 
