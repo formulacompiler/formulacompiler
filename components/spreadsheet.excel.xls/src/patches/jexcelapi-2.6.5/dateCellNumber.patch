@@ -1,6 +1,6 @@
-diff -ur jexcelapi-2.6.4/src/jxl/DateCell.java jexcelapi-2.6.4-patched-date/src/jxl/DateCell.java
---- jexcelapi-2.6.4/src/jxl/DateCell.java	2007-05-29 13:04:19.000000000 +0300
-+++ jexcelapi-2.6.4-patched-date/src/jxl/DateCell.java	2007-05-30 16:41:03.000000000 +0300
+diff -ur jexcelapi-2.6.5/src/jxl/DateCell.java jexcelapi-2.6.5-patched-dateCellNumber/src/jxl/DateCell.java
+--- jexcelapi-2.6.5/src/jxl/DateCell.java	2007-08-22 14:13:54.000000000 +0300
++++ jexcelapi-2.6.5-patched-dateCellNumber/src/jxl/DateCell.java	2007-08-22 16:53:12.000000000 +0300
 @@ -35,6 +35,13 @@
    public Date getDate();
  
@@ -15,9 +15,9 @@ diff -ur jexcelapi-2.6.4/src/jxl/DateCell.java jexcelapi-2.6.4-patched-date/src/
     * Indicates whether the date value contained in this cell refers to a date,
     * or merely a time
     *
-diff -ur jexcelapi-2.6.4/src/jxl/read/biff/DateFormulaRecord.java jexcelapi-2.6.4-patched-date/src/jxl/read/biff/DateFormulaRecord.java
---- jexcelapi-2.6.4/src/jxl/read/biff/DateFormulaRecord.java	2007-05-29 13:04:19.000000000 +0300
-+++ jexcelapi-2.6.4-patched-date/src/jxl/read/biff/DateFormulaRecord.java	2007-05-30 16:41:03.000000000 +0300
+diff -ur jexcelapi-2.6.5/src/jxl/read/biff/DateFormulaRecord.java jexcelapi-2.6.5-patched-dateCellNumber/src/jxl/read/biff/DateFormulaRecord.java
+--- jexcelapi-2.6.5/src/jxl/read/biff/DateFormulaRecord.java	2007-08-22 14:13:53.000000000 +0300
++++ jexcelapi-2.6.5-patched-dateCellNumber/src/jxl/read/biff/DateFormulaRecord.java	2007-08-22 16:53:12.000000000 +0300
 @@ -130,16 +130,6 @@
    }
  
@@ -35,9 +35,9 @@ diff -ur jexcelapi-2.6.4/src/jxl/read/biff/DateFormulaRecord.java jexcelapi-2.6.
     * Dummy implementation in order to adhere to the NumberCell interface
     *
     * @return NULL
-diff -ur jexcelapi-2.6.4/src/jxl/read/biff/DateRecord.java jexcelapi-2.6.4-patched-date/src/jxl/read/biff/DateRecord.java
---- jexcelapi-2.6.4/src/jxl/read/biff/DateRecord.java	2007-05-29 13:04:19.000000000 +0300
-+++ jexcelapi-2.6.4-patched-date/src/jxl/read/biff/DateRecord.java	2007-05-30 16:41:03.000000000 +0300
+diff -ur jexcelapi-2.6.5/src/jxl/read/biff/DateRecord.java jexcelapi-2.6.5-patched-dateCellNumber/src/jxl/read/biff/DateRecord.java
+--- jexcelapi-2.6.5/src/jxl/read/biff/DateRecord.java	2007-08-22 14:13:53.000000000 +0300
++++ jexcelapi-2.6.5-patched-dateCellNumber/src/jxl/read/biff/DateRecord.java	2007-08-22 16:53:12.000000000 +0300
 @@ -45,6 +45,10 @@
    private static Logger logger  = Logger.getLogger(DateRecord.class);
  
@@ -74,9 +74,9 @@ diff -ur jexcelapi-2.6.4/src/jxl/read/biff/DateRecord.java jexcelapi-2.6.4-patch
     * Gets the cell contents as a string.  This method will use the java
     * equivalent of the excel formatting string
     *
-diff -ur jexcelapi-2.6.4/src/jxl/write/biff/DateRecord.java jexcelapi-2.6.4-patched-date/src/jxl/write/biff/DateRecord.java
---- jexcelapi-2.6.4/src/jxl/write/biff/DateRecord.java	2007-05-29 13:04:19.000000000 +0300
-+++ jexcelapi-2.6.4-patched-date/src/jxl/write/biff/DateRecord.java	2007-05-30 16:48:40.000000000 +0300
+diff -ur jexcelapi-2.6.5/src/jxl/write/biff/DateRecord.java jexcelapi-2.6.5-patched-dateCellNumber/src/jxl/write/biff/DateRecord.java
+--- jexcelapi-2.6.5/src/jxl/write/biff/DateRecord.java	2007-08-22 14:13:53.000000000 +0300
++++ jexcelapi-2.6.5-patched-dateCellNumber/src/jxl/write/biff/DateRecord.java	2007-08-22 16:53:12.000000000 +0300
 @@ -36,7 +36,7 @@
  /**
   * A date stored in the database
@@ -103,9 +103,9 @@ diff -ur jexcelapi-2.6.4/src/jxl/write/biff/DateRecord.java jexcelapi-2.6.4-patc
     * Indicates whether the date value contained in this cell refers to a date,
     * or merely a time.  When writing a cell, all dates are fully defined,
     * even if they refer to a time
-diff -ur jexcelapi-2.6.4/src/jxl/write/biff/ReadDateFormulaRecord.java jexcelapi-2.6.4-patched-date/src/jxl/write/biff/ReadDateFormulaRecord.java
---- jexcelapi-2.6.4/src/jxl/write/biff/ReadDateFormulaRecord.java	2007-05-29 13:04:19.000000000 +0300
-+++ jexcelapi-2.6.4-patched-date/src/jxl/write/biff/ReadDateFormulaRecord.java	2007-05-30 16:41:03.000000000 +0300
+diff -ur jexcelapi-2.6.5/src/jxl/write/biff/ReadDateFormulaRecord.java jexcelapi-2.6.5-patched-dateCellNumber/src/jxl/write/biff/ReadDateFormulaRecord.java
+--- jexcelapi-2.6.5/src/jxl/write/biff/ReadDateFormulaRecord.java	2007-08-22 14:13:53.000000000 +0300
++++ jexcelapi-2.6.5-patched-dateCellNumber/src/jxl/write/biff/ReadDateFormulaRecord.java	2007-08-22 16:53:12.000000000 +0300
 @@ -52,6 +52,16 @@
    }
  

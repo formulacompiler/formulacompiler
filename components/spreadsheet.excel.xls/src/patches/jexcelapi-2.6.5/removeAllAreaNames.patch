@@ -1,0 +1,34 @@
+diff -ur jexcelapi-2.6.5/src/jxl/write/biff/WritableWorkbookImpl.java jexcelapi-2.6.5-patched-removeAllAreaNames/src/jxl/write/biff/WritableWorkbookImpl.java
+--- jexcelapi-2.6.5/src/jxl/write/biff/WritableWorkbookImpl.java	2007-08-22 14:13:53.000000000 +0300
++++ jexcelapi-2.6.5-patched-removeAllAreaNames/src/jxl/write/biff/WritableWorkbookImpl.java	2007-08-22 16:59:53.000000000 +0300
+@@ -1811,6 +1811,15 @@
+   }  
+   
+   /**
++   * Remove all area names from this workbook.
++   */
++  public void removeAllAreaNames()
++  {
++    nameRecords.clear();
++    names = null;
++  }
++
++  /**
+    * Accessor for the workbook settings
+    */
+   WorkbookSettings getSettings()
+diff -ur jexcelapi-2.6.5/src/jxl/write/WritableWorkbook.java jexcelapi-2.6.5-patched-removeAllAreaNames/src/jxl/write/WritableWorkbook.java
+--- jexcelapi-2.6.5/src/jxl/write/WritableWorkbook.java	2007-08-22 14:13:53.000000000 +0300
++++ jexcelapi-2.6.5-patched-removeAllAreaNames/src/jxl/write/WritableWorkbook.java	2007-08-22 16:59:53.000000000 +0300
+@@ -296,6 +296,11 @@
+                                    int lastRow);
+ 
+   /**
++   * Remove all area names from this workbook.
++   */
++  public abstract void removeAllAreaNames();
++
++  /**
+    * Sets a new output file.  This allows the same workbook to be
+    * written to various different output files without having to
+    * read in any templates again
