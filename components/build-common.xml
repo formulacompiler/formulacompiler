@@ -27,6 +27,7 @@
 	<target name="compile-main" description="Generates and compiles all source code for the .jar files." depends="-compile-main" />
 
 	<target name="test" description="Runs all functional tests." depends="-test" />
+	<target name="test-given" description="Runs a single test, given using -Dtest.class" depends="-test-given" />
 
 	<target name="clean" description="Removes all temporary build files." depends="-clean" />
 	<target name="clobber" description="Removes all files produced by build actions, including distribution archives." depends="-clobber" />
@@ -214,6 +215,7 @@
 	<target name="-test-assuming-jar" depends="-test-main-assuming-jar, -test-ref-assuming-jar" />
 	<target name="-test-main-assuming-jar" depends="@init, -compile-tests-assuming-jar, @test-clean, @test-main" />
 	<target name="-test-ref-assuming-jar" />
+	<target name="-test-given" depends="@init, @test-given" />
 
 	<target name="@compile-tests" depends="@init" unless="@no-tests">
 		<antcall target="--compile-comp">
@@ -251,6 +253,30 @@
 		</junit>
 
 		<fail if="tests.failed" />
+
+	</target>
+
+	<target name="@test-given" depends="@init" if="test.class">
+
+		<echo>test: running given test...</echo>
+		<mkdir dir="${temp.dir}/test/results" />
+		<junit printsummary="no" showoutput="yes" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+			<jvmarg value="-Demit_tests" />
+			<assertions enablesystemassertions="yes" />
+			<formatter type="plain" usefile="no" />
+
+			<classpath>
+				<path refid="lib.test.classpath" />
+				<pathelement path="${temp.dir}/test/classes" />
+			</classpath>
+			
+			<batchtest todir="${temp.dir}/test/results">
+				<fileset dir="${temp.dir}/test/classes">
+					<include name="**/${test.class}.class" />
+				</fileset>
+			</batchtest>
+			
+		</junit>
 
 	</target>
 

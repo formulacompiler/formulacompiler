@@ -186,6 +186,30 @@
 
 	</target>
 
+	<target name="@test-given" depends="@init" if="test.class">
+
+		<echo>test: running given test...</echo>
+		<mkdir dir="${temp.dir}/test/results" />
+		<junit printsummary="no" showoutput="yes" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+			<jvmarg value="-Demit_tests" />
+			<assertions enablesystemassertions="yes" />
+			<formatter type="plain" usefile="no" />
+
+			<classpath>
+				<path refid="test.compiletime.classpath" />
+				<pathelement path="${temp.dir}/test/classes" />
+			</classpath>
+			
+			<batchtest todir="${temp.dir}/test/results">
+				<fileset dir="${temp.dir}/test/classes">
+					<include name="**/${test.class}.class" />
+				</fileset>
+			</batchtest>
+			
+		</junit>
+
+	</target>
+
 	<property name="temp.ref.dir" location="${temp.dir}/test-reference" />
 	
 	<target name="@test-ref" depends="@init">
