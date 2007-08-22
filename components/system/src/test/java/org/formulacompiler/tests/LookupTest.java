@@ -48,12 +48,12 @@ import junit.framework.TestCase;
 public class LookupTest extends TestCase
 {
 	private static final File DECOMP_PATH = new File( "temp/test/decompiled/impl/lookup" );
-	
+
 	static {
 		DECOMP_PATH.mkdirs();
 	}
 
-	
+
 	public void testMatchConsts() throws Exception
 	{
 		final String test = "MatchConsts";
@@ -110,7 +110,7 @@ public class LookupTest extends TestCase
 		assertSheet( test, "IMC_" );
 		markInDecompiledSource( test, "    ", "final double get$0() {", "}" );
 	}
-	
+
 	public void testMultiMatchConsts() throws Exception
 	{
 		final String test = "MultiMatchConsts";
@@ -143,7 +143,7 @@ public class LookupTest extends TestCase
 		markInDecompiledSource( test, "    ", "final double get$2() {", "}" );
 		markInDecompiledSource( test, "    ", "final double get$3() {", "}" );
 	}
-	
+
 	public void testHLookupInputs() throws Exception
 	{
 		final String test = "HLookupInputs";
@@ -151,7 +151,7 @@ public class LookupTest extends TestCase
 		markInDecompiledSource( test, "    ", "final double get$0() {", "}" );
 		markInDecompiledSource( test, "    ", "final double get$5(double d) {", "}" );
 	}
-	
+
 
 	private void assertSheet( String _testName, String _paramPrefix ) throws Exception
 	{
@@ -257,8 +257,8 @@ public class LookupTest extends TestCase
 		final File decompFile = new File( DECOMP_PATH, _testName.toLowerCase() + "/org/formulacompiler/gen/$Root.java" );
 		if (decompFile.exists()) {
 			final String decomp = readStringFrom( decompFile );
-			final String start = "\n" + _indentation + _start + "\n";
-			final String end = "\n" + _indentation + _end + "\n";
+			final String start = lineSep() + _indentation + _start + lineSep();
+			final String end = lineSep() + _indentation + _end + lineSep();
 			final int iFrom = decomp.indexOf( start ) + 1;
 			final int iUpToExcl = decomp.indexOf( end, iFrom ) + end.length() - 1;
 
@@ -266,11 +266,18 @@ public class LookupTest extends TestCase
 			assertTrue( _end + " not found in decompiled source", iUpToExcl > iFrom );
 
 			final String marked = decomp.substring( 0, iFrom )
-					+ "\n" + _indentation + "// ---- fragment\n" + decomp.substring( iFrom, iUpToExcl ) + "\n"
-					+ _indentation + "// ---- fragment\n" + decomp.substring( iUpToExcl );
+					+ lineSep() + _indentation + "// ---- fragment" + lineSep() + decomp.substring( iFrom, iUpToExcl )
+					+ lineSep() + _indentation + "// ---- fragment" + lineSep() + decomp.substring( iUpToExcl );
 
 			writeStringTo( marked, decompFile );
 		}
+	}
+
+	// Not static so line.separator is already properly set:
+	private final String lineSep = System.getProperty( "line.separator" );
+	public String lineSep()
+	{
+		return this.lineSep;
 	}
 
 	protected static String readStringFrom( File _source ) throws IOException
