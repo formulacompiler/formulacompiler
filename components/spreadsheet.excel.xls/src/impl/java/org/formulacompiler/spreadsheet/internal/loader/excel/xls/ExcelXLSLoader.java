@@ -94,6 +94,12 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 		xlsSettings.setExcelDisplayLanguage( "EN" );
 		xlsSettings.setExcelRegionalSettings( "EN" );
 		xlsSettings.setEncoding( "ISO-8859-1" );
+		xlsSettings.setAutoFilterDisabled( true );
+		xlsSettings.setCellValidationDisabled( true );
+		xlsSettings.setDrawingsDisabled( true );
+		xlsSettings.setMergedCellChecking( false );
+		xlsSettings.setPropertySets( false );
+		xlsSettings.setSuppressWarnings( true );
 		try {
 			final jxl.Workbook xlsWorkbook = jxl.Workbook.getWorkbook( _stream, xlsSettings );
 			final SpreadsheetImpl workbook = new SpreadsheetImpl();
