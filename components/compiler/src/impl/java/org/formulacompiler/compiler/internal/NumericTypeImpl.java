@@ -26,6 +26,7 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.util.Date;
 
 import org.formulacompiler.compiler.CompilerException;
@@ -204,7 +205,19 @@ public abstract class NumericTypeImpl implements NumericType
 
 	protected Number convertFromString( String _value, Environment _env ) throws ParseException
 	{
-		return convertFromAnyNumber( NumberFormat.getNumberInstance( _env.locale() ).parse( _value ) );
+		ParsePosition parsePosition = new ParsePosition( 0 );
+		final NumberFormat format = _env.decimalFormat();
+		final Number number = format.parse( normalizeExponentialChar( _value, format ), parsePosition );
+		if (parsePosition.getIndex() < _value.length()) {
+			throw new ParseException( "Unparseable number: \"" + _value + "\"", parsePosition.getIndex() );
+		}
+		return convertFromAnyNumber( number );
+	}
+
+	protected String normalizeExponentialChar( String _value, NumberFormat _format )
+	{
+		// LATER DecimalFormatSymbols.getExponentialSymbol(); once it's made public
+		return _value.replace( 'e', 'E' );
 	}
 
 	protected String convertToString( Number _value, Environment _env )
