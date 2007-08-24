@@ -5,7 +5,7 @@ h1. AFC - Abacus Formula Compiler for Java
 <div class="news">
 
 "Release 0.10.0":releasenotes.htm with streamlined runtimes, better caching control, and a host of newly supported functions.
-<br/>%(when)August TODO, 2007%
+<br/>%(when)August 24, 2007%
 
 "Release 0.9.1":releasenotes.htm adds binding of input params to cell values.
 <br/>%(when)July 11, 2007%
