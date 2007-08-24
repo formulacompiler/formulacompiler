@@ -21,7 +21,9 @@
 package org.formulacompiler.compiler.internal;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
@@ -51,20 +53,28 @@ public final class ScaledLongType extends AbstractLongType
 	}
 
 	@Override
-	protected final Number convertFromString( String _value, Environment _env )
+	protected final Number convertFromString( String _value, Environment _env ) throws ParseException
 	{
 		return parse( _value, _env );
 	}
 
-	public long parse( String _value, Environment _env )
+	public long parse( String _value, Environment _env ) throws ParseException
 	{
-		final DecimalFormatSymbols syms = new DecimalFormatSymbols( _env.locale() );
+		final DecimalFormat format = _env.decimalFormat();
+		final DecimalFormatSymbols syms = _env.decimalFormatSymbols();
 		final char decSep = syms.getDecimalSeparator();
 		final char minusSign = syms.getMinusSign();
+		final char expSign = 'E'; // LATER syms.getExponentialSymbol(); once it's made public
 
 		String value = _value;
-		if (value.indexOf( 'E' ) >= 0 || value.indexOf( 'e' ) >= 0) {
-			value = new BigDecimal( value ).toPlainString();
+		if (value.indexOf( Character.toLowerCase( expSign ) ) >= 0
+				|| value.indexOf( Character.toUpperCase( expSign ) ) >= 0) {
+			_env.decimalFormat().setParseBigDecimal( true );
+			final Number number = super.convertFromString( _value, _env );
+			return fromAnyNumber( number );
+		}
+		if (format.isGroupingUsed()) {
+			value = value.replace( String.valueOf( syms.getGroupingSeparator() ), "" );
 		}
 		final int posOfDecPoint = value.indexOf( decSep );
 		if (posOfDecPoint < 0) {
@@ -102,6 +112,11 @@ public final class ScaledLongType extends AbstractLongType
 
 	@Override
 	protected Number convertFromAnyNumber( Number _value )
+	{
+		return fromAnyNumber( _value );
+	}
+
+	private final long fromAnyNumber( Number _value )
 	{
 		if (_value instanceof Long) return _value.longValue() * one();
 		return Math.round( RuntimeDouble_v2.round( _value.doubleValue(), scale() ) * one() );
