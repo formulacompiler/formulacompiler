@@ -89,6 +89,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 	protected static final int TYPE_VARIANTS = NumType.values().length;
 
 	private static final int UNDEFINED_STARTING_ROW = -1;
+	private static final int ONLY_MAX_PARAM = 0xffff;
 
 	private boolean emitDocs = (null != System.getProperty( "emit_tests" ));
 	private int givenStartingRow;
@@ -151,6 +152,12 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 			this.runOnlyCacheVariant = Boolean.valueOf( onlyCache );
 			this.emitDocs = false;
 		}
+		String quick = System.getProperty( "runQuickTests" );
+		if (null != quick && !"".equals( quick )) {
+			this.runOnlyType = NumType.DOUBLE;
+			this.runOnlyCacheVariant = false;
+			this.runOnlyInputVariant = ONLY_MAX_PARAM;
+		}
 	}
 
 
@@ -164,6 +171,11 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 		this.config = _config;
 	}
 
+	
+	protected final boolean runningQuickTests()
+	{
+		return this.runOnlyInputVariant == ONLY_MAX_PARAM;
+	}
 
 	protected final int getNumberOfEnginesCompiled()
 	{
@@ -445,13 +457,15 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 					final int inputVariations = (int) Math.pow( 2, inputLength );
 					final int onlyVariant = AbstractSheetBasedTest.this.runOnlyInputVariant;
 					TestRunner test;
-					if (onlyVariant >= 0) {
+					if (onlyVariant >= 0 && onlyVariant != ONLY_MAX_PARAM) {
 						test = newTestRunner( onlyVariant );
 						return test.run();
 					}
 					else if (this.formulaRow == this.valueRow) {
-						for (int activationBits = 0; activationBits < inputVariations - 1; activationBits++) {
-							newTestRunner( activationBits ).run();
+						if (onlyVariant != ONLY_MAX_PARAM) {
+							for (int activationBits = 0; activationBits < inputVariations - 1; activationBits++) {
+								newTestRunner( activationBits ).run();
+							}
 						}
 						test = newTestRunner( inputVariations - 1 );
 						return test.runAndEmitToHtml( true );

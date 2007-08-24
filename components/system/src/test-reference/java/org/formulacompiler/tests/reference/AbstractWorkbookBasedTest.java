@@ -143,4 +143,12 @@ public abstract class AbstractWorkbookBasedTest extends TestCase
 		return ValueType.NUMBER;
 	}
 
+
+	protected void assertContains( final String _string, final String _part )
+	{
+		if (!_string.contains( _part )) {
+			fail( "<" + _string + "> does not contain <" + _part + ">" );
+		}
+	}
+
 }
