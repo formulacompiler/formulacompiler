@@ -35,6 +35,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitch;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitchCase;
 import org.formulacompiler.compiler.internal.expressions.InnerExpressionException;
+import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.analysis.TypeAnnotator;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 import org.formulacompiler.runtime.New;
@@ -58,8 +59,29 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 	}
 
 
-	public final ExpressionNode rewrite( ExpressionNode _expr ) throws CompilerException
+	private ComputationModel model;
+
+	public ComputationModel model()
 	{
+		return this.model;
+	}
+
+
+	public final ExpressionNode rewrite( ComputationModel _model, ExpressionNode _expr ) throws CompilerException
+	{
+		this.model = _model;
+		try {
+			return rewrite( _expr );
+		}
+		finally {
+			this.model = null;
+		}
+	}
+
+
+	protected final ExpressionNode rewrite( ExpressionNode _expr ) throws CompilerException
+	{
+		assert this.model != null;
 		ExpressionNode result = _expr;
 		try {
 			if (_expr instanceof ExpressionNodeForFunction) {
@@ -111,15 +133,15 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 	{
 		switch (_fun.getFunction()) {
 			case DSUM:
-				return new FunctionRewriterForDSUM( _fun, this.numericType ).rewrite();
+				return new FunctionRewriterForDSUM( model(), _fun, this.numericType ).rewrite();
 			case DPRODUCT:
-				return new FunctionRewriterForDPRODUCT( _fun, this.numericType ).rewrite();
+				return new FunctionRewriterForDPRODUCT( model(), _fun, this.numericType ).rewrite();
 			case DCOUNT:
-				return new FunctionRewriterForDCOUNT( _fun, this.numericType ).rewrite();
+				return new FunctionRewriterForDCOUNT( model(), _fun, this.numericType ).rewrite();
 			case DMIN:
-				return new FunctionRewriterForDMIN( _fun, this.numericType ).rewrite();
+				return new FunctionRewriterForDMIN( model(), _fun, this.numericType ).rewrite();
 			case DMAX:
-				return new FunctionRewriterForDMAX( _fun, this.numericType ).rewrite();
+				return new FunctionRewriterForDMAX( model(), _fun, this.numericType ).rewrite();
 			case ISNONTEXT: {
 				final ExpressionNode arg = _fun.argument( 0 );
 				TypeAnnotator.annotateExpr( arg );

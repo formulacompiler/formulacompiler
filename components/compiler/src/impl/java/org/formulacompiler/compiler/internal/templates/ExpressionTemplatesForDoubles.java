@@ -31,9 +31,15 @@ import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 
 public final class ExpressionTemplatesForDoubles
 {
-	private Environment environment = null; // not supposed to be called at compile-time
 	private ComputationTime computationTime = null; // not supposed to be called at compile-time
 
+	private final Environment environment;
+
+	public ExpressionTemplatesForDoubles( Environment _env )
+	{
+		this.environment = _env;
+	}
+	
 
 	// ------------------------------------------------ Utils
 

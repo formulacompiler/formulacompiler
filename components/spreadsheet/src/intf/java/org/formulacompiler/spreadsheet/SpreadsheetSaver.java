@@ -23,6 +23,7 @@ package org.formulacompiler.spreadsheet;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.TimeZone;
 
 
 /**
@@ -30,7 +31,8 @@ import java.io.OutputStream;
  * constructed in memory.
  * 
  * <p>
- * See the <a target="_top" href="{@docRoot}/../tutorial/generatesheet.htm" target="_top">tutorial</a> for details.
+ * See the <a target="_top" href="{@docRoot}/../tutorial/generatesheet.htm" target="_top">tutorial</a>
+ * for details.
  * 
  * @author peo
  * 
@@ -40,7 +42,8 @@ public interface SpreadsheetSaver
 {
 
 	/**
-	 * Configuration data for new instances of {@link org.formulacompiler.spreadsheet.SpreadsheetSaver}.
+	 * Configuration data for new instances of
+	 * {@link org.formulacompiler.spreadsheet.SpreadsheetSaver}.
 	 * 
 	 * @author peo
 	 * 
@@ -72,6 +75,15 @@ public interface SpreadsheetSaver
 		public InputStream templateInputStream;
 
 		/**
+		 * Optional time zone to use for converting date constants, or {@code null} which signifies to
+		 * use the JRE default time zone.
+		 * <p>
+		 * See the <a target="_top" href="{@docRoot}/../tutorial/locale.htm#save"
+		 * target="_top">tutorial</a> for details.
+		 */
+		public TimeZone timeZone;
+
+		/**
 		 * Validates the configuration.
 		 * 
 		 * @throws IllegalArgumentException
@@ -92,7 +104,8 @@ public interface SpreadsheetSaver
 
 
 	/**
-	 * Factory interface for {@link org.formulacompiler.runtime.ImplementationLocator#getInstance(Class)}.
+	 * Factory interface for
+	 * {@link org.formulacompiler.runtime.ImplementationLocator#getInstance(Class)}.
 	 */
 	public static interface Factory
 	{

@@ -30,14 +30,14 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.MethodNode;
 
 
-@SuppressWarnings("unqualified-field-access")
+@SuppressWarnings( "unqualified-field-access" )
 final class ConstantEvaluatorGenerator extends AbstractGenerator
 {
 	final String clsName;
 	final Customization customization;
 
 
-	public ConstantEvaluatorGenerator(Class _template, String _typeName, String _superName, Customization _customization)
+	public ConstantEvaluatorGenerator( Class _template, String _typeName, String _superName, Customization _customization )
 			throws IOException
 	{
 		super( _template, _typeName, _superName );
@@ -45,7 +45,7 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 		this.customization = _customization;
 	}
 
-	public ConstantEvaluatorGenerator(Class _template, String _typeName, String _superName) throws IOException
+	public ConstantEvaluatorGenerator( Class _template, String _typeName, String _superName ) throws IOException
 	{
 		this( _template, _typeName, _superName, new Customization() );
 	}
@@ -70,6 +70,7 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 		cb.appendLine( "import org.formulacompiler.compiler.internal.expressions.ExpressionNode;" );
 		cb.appendLine( "import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;" );
 		cb.append( "import org.formulacompiler.compiler.internal.templates." ).append( clsName ).appendLine( ";" );
+		cb.appendLine( "import org.formulacompiler.runtime.internal.Environment;" );
 		cb.newLine();
 		cb.newLine();
 		cb.appendLine( "@SuppressWarnings(\"unused\")" );
@@ -114,7 +115,7 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 	abstract class AbstractMethodEvaluatorGenerator extends AbstractMethodTemplateGenerator
 	{
 
-		public AbstractMethodEvaluatorGenerator(MethodNode _mtdNode)
+		public AbstractMethodEvaluatorGenerator( MethodNode _mtdNode )
 		{
 			super( _mtdNode );
 		}
@@ -166,7 +167,7 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 	final class OperatorEvaluatorGenerator extends AbstractMethodEvaluatorGenerator
 	{
 
-		public OperatorEvaluatorGenerator(MethodNode _mtdNode)
+		public OperatorEvaluatorGenerator( MethodNode _mtdNode )
 		{
 			super( _mtdNode );
 		}
@@ -175,7 +176,7 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 		{
 			if (verbose) System.out.println( "  " + mtdNode.name );
 
-			final DispatchBuilder db = (cardinality == 1) ? unaryOperatorDispatchBuilder : binaryOperatorDispatchBuilder;
+			final DispatchBuilder db = (cardinality == 1)? unaryOperatorDispatchBuilder : binaryOperatorDispatchBuilder;
 			db.genDispatchCase( enumName );
 			db.indent();
 			db.genDispatchIf( ifCond );
@@ -207,7 +208,7 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 	final class FunctionEvaluatorGenerator extends AbstractMethodEvaluatorGenerator
 	{
 
-		public FunctionEvaluatorGenerator(MethodNode _mtdNode)
+		public FunctionEvaluatorGenerator( MethodNode _mtdNode )
 		{
 			super( _mtdNode );
 		}
@@ -325,19 +326,19 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 		protected void genConstructor( DescriptionBuilder _cb, ConstantEvaluatorGenerator _generator )
 		{
 			final DescriptionBuilder cb = _cb;
-			cb.append( "private final static " ).append( _generator.clsName ).append( " TEMPLATE = new " ).append(
-					_generator.clsName ).appendLine( "( );" );
+			cb.append( "private final " ).append( _generator.clsName ).appendLine( " template;" );
 			cb.newLine();
-			cb.append( "public " ).append( _generator.typeName ).appendLine( "(NumericType _type) {" );
+			cb.append( "public " ).append( _generator.typeName ).appendLine( "( NumericType _type, Environment _env ) {" );
 			cb.indent();
-			cb.appendLine( "super( _type );" );
+			cb.appendLine( "super( _type, _env );" );
+			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine( "( _env );" );
 			cb.outdent();
 			cb.appendLine( "}" );
 		}
 
 		protected String templateName()
 		{
-			return "TEMPLATE";
+			return "this.template";
 		}
 
 		protected String genValueAdjustment( DescriptionBuilder _cb, AbstractMethodEvaluatorGenerator _generator )

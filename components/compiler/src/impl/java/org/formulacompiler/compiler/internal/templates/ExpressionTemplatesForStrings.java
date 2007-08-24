@@ -26,8 +26,13 @@ import org.formulacompiler.runtime.internal.Runtime_v2;
 
 public final class ExpressionTemplatesForStrings
 {
-	private Environment environment = null; // not supposed to be called at compile-time
-	
+	private final Environment environment;
+
+	public ExpressionTemplatesForStrings( Environment _env )
+	{
+		this.environment = _env;
+	}
+
 
 	String util_fromString( String a )
 	{

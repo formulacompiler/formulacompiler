@@ -24,6 +24,7 @@ import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.model.AbstractComputationModelVisitor;
 import org.formulacompiler.compiler.internal.model.CellModel;
+import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 
@@ -31,6 +32,7 @@ import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumeri
 public final class ModelRewriter extends AbstractComputationModelVisitor
 {
 	private final ExpressionRewriter rewriter;
+	private ComputationModel model;
 
 	public ModelRewriter(InterpretedNumericType _type)
 	{
@@ -38,13 +40,28 @@ public final class ModelRewriter extends AbstractComputationModelVisitor
 		this.rewriter = new ExpressionRewriter( _type );
 	}
 
+	
+	@Override
+	protected boolean visitModel( ComputationModel _model ) throws CompilerException
+	{
+		this.model = _model;
+		return super.visitModel( _model );
+	}
+	
+	@Override
+	protected boolean visitedModel( ComputationModel _model ) throws CompilerException
+	{
+		this.model = null;
+		return super.visitedModel( _model );
+	}
+	
 
 	@Override
 	protected boolean visitCell( CellModel _cell ) throws CompilerException
 	{
 		final ExpressionNode expr = _cell.getExpression();
 		if (null != expr) {
-			_cell.setExpression( this.rewriter.rewrite( expr ) );
+			_cell.setExpression( this.rewriter.rewrite( this.model, expr ) );
 		}
 		return true;
 	}

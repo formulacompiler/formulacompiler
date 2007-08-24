@@ -131,6 +131,8 @@ groups:
               - org.formulacompiler.compiler.internal.model
             api_deps:
               - core.compiler.expressions
+            deps:
+              - core.runtime.core
 
           - id: compiler
             desc:
@@ -170,6 +172,7 @@ groups:
             deps:
               - core.compiler.analysis
               - core.compiler.interpreter
+              - core.runtime.core
 
           - id: optimizer
             desc:
@@ -181,6 +184,7 @@ groups:
               - core.compiler.model
             deps:
               - core.compiler.interpreter
+              - core.runtime.core
 
           - id: transformer
             desc:
@@ -265,6 +269,8 @@ groups:
               - org.formulacompiler.spreadsheet.internal.binding
             api_deps:
               - spreadsheet.compiler.model
+            deps:
+              - core.runtime.core
 
           - id: binder
             desc:

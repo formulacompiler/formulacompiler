@@ -64,6 +64,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	private final OutputStream outputStream;
 	private final ExcelXLSExpressionFormatter formatter = new ExcelXLSExpressionFormatter();
 	private final InputStream templateInputStream;
+	private final TimeZone timeZone;
 	private Workbook template;
 	private Sheet templateSheet;
 
@@ -74,6 +75,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 		this.model = _config.spreadsheet;
 		this.outputStream = _config.outputStream;
 		this.templateInputStream = _config.templateInputStream;
+		this.timeZone = (_config.timeZone != null)? _config.timeZone : TimeZone.getDefault();
 	}
 
 
@@ -233,8 +235,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 			}
 			if (val instanceof Date) {
 				final Date date = (Date) val;
-				// FIXME pass TimeZome here
-				final long msSinceLocal1970 = Runtime_v2.dateToMsSinceLocal1970( date, TimeZone.getDefault() ); 
+				final long msSinceLocal1970 = Runtime_v2.dateToMsSinceLocal1970( date, this.timeZone );
 				return new jxl.write.DateTime( _col, _row, new Date( msSinceLocal1970 ), jxl.write.DateTime.GMT );
 			}
 			if (val instanceof Boolean) {

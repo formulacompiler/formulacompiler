@@ -69,11 +69,11 @@ class PatternCompilerToConstantEvaluators
 			cb.append( "private final " ).append( _generator.clsName ).appendLine( " template;" );
 
 			cb.newLine();
-			cb.append( "public " ).append( _generator.typeName ).appendLine( "(NumericType _type) {" );
+			cb.append( "public " ).append( _generator.typeName ).appendLine( "( NumericType _type, Environment _env ) {" );
 			cb.indent();
-			cb.appendLine( "super( _type );" );
+			cb.appendLine( "super( _type, _env );" );
 			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine(
-					"( _type.mathContext() );" );
+					"( _type.mathContext(), _env );" );
 			cb.outdent();
 			cb.appendLine( "}" );
 		}
@@ -107,11 +107,11 @@ class PatternCompilerToConstantEvaluators
 			cb.append( "private final " ).append( _generator.clsName ).appendLine( " template;" );
 
 			cb.newLine();
-			cb.append( "public " ).append( _generator.typeName ).appendLine( "(NumericType _type) {" );
+			cb.append( "public " ).append( _generator.typeName ).appendLine( "( NumericType _type, Environment _env ) {" );
 			cb.indent();
-			cb.appendLine( "super( _type );" );
+			cb.appendLine( "super( _type, _env );" );
 			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine(
-					"( _type.scale(), _type.roundingMode() );" );
+					"( _type.scale(), _type.roundingMode(), _env );" );
 			cb.outdent();
 			cb.appendLine( "}" );
 		}
@@ -146,10 +146,10 @@ class PatternCompilerToConstantEvaluators
 
 			cb.newLine();
 			cb.append( "public " ).append( _generator.typeName ).appendLine(
-					"(org.formulacompiler.compiler.internal.AbstractLongType _type) {" );
+					"( org.formulacompiler.compiler.internal.AbstractLongType _type, Environment _env ) {" );
 			cb.indent();
-			cb.appendLine( "super( _type );" );
-			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine( "( getContext() );" );
+			cb.appendLine( "super( _type, _env );" );
+			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine( "( getContext(), _env );" );
 			cb.outdent();
 			cb.appendLine( "}" );
 		}

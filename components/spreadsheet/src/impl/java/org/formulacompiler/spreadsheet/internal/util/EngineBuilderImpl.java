@@ -30,6 +30,7 @@ import java.lang.reflect.Modifier;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
+import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.EngineException;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
@@ -40,6 +41,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
 import org.formulacompiler.spreadsheet.SpreadsheetNameCreator;
+import org.formulacompiler.spreadsheet.SpreadsheetBinder.Config;
 
 
 public class EngineBuilderImpl implements EngineBuilder
@@ -51,6 +53,7 @@ public class EngineBuilderImpl implements EngineBuilder
 	private Class factoryClass;
 	private Method factoryMethod;
 	private boolean fullCaching;
+	private Computation.Config compileTimeConfig;
 	private SpreadsheetBinder binder;
 	private SpreadsheetByNameBinder byNameBinder;
 	private ClassLoader parentClassLoaderForEngine = ClassLoader.getSystemClassLoader();
@@ -265,6 +268,23 @@ public class EngineBuilderImpl implements EngineBuilder
 	}
 
 
+	// ------------------------------------------------ Compile-time configuration
+
+
+	public Computation.Config getCompileTimeConfig()
+	{
+		if (this.compileTimeConfig == null) {
+			this.compileTimeConfig = new Computation.Config();
+		}
+		return this.compileTimeConfig;
+	}
+
+	public void setCompileTimeConfig( Computation.Config _value )
+	{
+		this.compileTimeConfig = _value;
+	}
+
+
 	// ------------------------------------------------ Name creation
 
 
@@ -295,7 +315,12 @@ public class EngineBuilderImpl implements EngineBuilder
 	{
 		configureClasses();
 		validateClasses();
-		return SpreadsheetCompiler.newSpreadsheetBinder( this.spreadsheet, this.inputClass, this.outputClass );
+		final Config cfg = new SpreadsheetBinder.Config();
+		cfg.spreadsheet = this.spreadsheet;
+		cfg.inputClass = this.inputClass;
+		cfg.outputClass = this.outputClass;
+		cfg.compileTimeConfig = this.compileTimeConfig;
+		return SpreadsheetCompiler.newSpreadsheetBinder( cfg );
 	}
 
 	private void failIfBinderExists()

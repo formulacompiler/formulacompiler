@@ -21,14 +21,15 @@
 package org.formulacompiler.compiler.internal.model.interpreter;
 
 import org.formulacompiler.compiler.NumericType;
+import org.formulacompiler.runtime.internal.Environment;
 
 
 final class InterpretedScaledBigDecimalType extends InterpretedScaledBigDecimalType_Generated
 {
 
-	public InterpretedScaledBigDecimalType(NumericType _type)
+	public InterpretedScaledBigDecimalType(NumericType _type, Environment _env)
 	{
-		super( _type );
+		super( _type, _env );
 	}
 
 }

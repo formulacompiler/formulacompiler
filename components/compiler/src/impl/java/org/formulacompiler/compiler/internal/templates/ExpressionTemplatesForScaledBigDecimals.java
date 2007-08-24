@@ -30,6 +30,7 @@ import static org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2.UN
 import java.math.BigDecimal;
 
 import org.formulacompiler.runtime.FormulaRuntime;
+import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
 import org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2;
 
@@ -41,9 +42,9 @@ public final class ExpressionTemplatesForScaledBigDecimals extends AbstractExpre
 	final int roundingMode;
 
 
-	public ExpressionTemplatesForScaledBigDecimals(int _scale, int _roundingMode)
+	public ExpressionTemplatesForScaledBigDecimals( int _scale, int _roundingMode, Environment _env )
 	{
-		super();
+		super( _env );
 		this.isScaled = (_scale != FormulaRuntime.UNDEFINED_SCALE);
 		this.fixedScale = _scale;
 		this.roundingMode = _roundingMode;
@@ -105,7 +106,7 @@ public final class ExpressionTemplatesForScaledBigDecimals extends AbstractExpre
 		return a.movePointLeft( 2 );
 	}
 
-	
+
 	// ------------------------------------------------ Numeric Functions
 
 
@@ -154,10 +155,11 @@ public final class ExpressionTemplatesForScaledBigDecimals extends AbstractExpre
 
 	public BigDecimal fun_IRR( BigDecimal[] _values, BigDecimal _guess )
 	{
-		return RuntimeScaledBigDecimal_v2.fun_IRR( _values, _guess, HIGHPREC  );
+		return RuntimeScaledBigDecimal_v2.fun_IRR( _values, _guess, HIGHPREC );
 	}
 
-	public BigDecimal fun_DB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _period, BigDecimal _month )
+	public BigDecimal fun_DB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _period,
+			BigDecimal _month )
 	{
 		return RuntimeScaledBigDecimal_v2.fun_DB( _cost, _salvage, _life, _period, _month, HIGHPREC );
 	}
@@ -167,7 +169,8 @@ public final class ExpressionTemplatesForScaledBigDecimals extends AbstractExpre
 		return RuntimeScaledBigDecimal_v2.fun_DB( _cost, _salvage, _life, _period, TWELVE, HIGHPREC );
 	}
 
-	public BigDecimal fun_DDB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _period, BigDecimal _factor )
+	public BigDecimal fun_DDB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _period,
+			BigDecimal _factor )
 	{
 		return RuntimeScaledBigDecimal_v2.fun_DDB( _cost, _salvage, _life, _period, _factor, HIGHPREC );
 	}
@@ -177,7 +180,8 @@ public final class ExpressionTemplatesForScaledBigDecimals extends AbstractExpre
 		return RuntimeScaledBigDecimal_v2.fun_DDB( _cost, _salvage, _life, _period, TWO, HIGHPREC );
 	}
 
-	public BigDecimal fun_RATE( BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv, BigDecimal _fv, BigDecimal _type, BigDecimal _guess )
+	public BigDecimal fun_RATE( BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv, BigDecimal _fv, BigDecimal _type,
+			BigDecimal _guess )
 	{
 		return RuntimeScaledBigDecimal_v2.fun_RATE( _nper, _pmt, _pv, _fv, _type, _guess, HIGHPREC );
 	}

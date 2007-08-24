@@ -21,14 +21,15 @@
 package org.formulacompiler.compiler.internal.model.interpreter;
 
 import org.formulacompiler.compiler.internal.AbstractLongType;
+import org.formulacompiler.runtime.internal.Environment;
 
 
 final class InterpretedScaledLongType extends InterpretedScaledLongType_Generated
 {
 
-	public InterpretedScaledLongType(AbstractLongType _type)
+	public InterpretedScaledLongType(AbstractLongType _type, Environment _env)
 	{
-		super( _type );
+		super( _type, _env );
 	}
 
 }

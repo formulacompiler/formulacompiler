@@ -25,15 +25,16 @@ import java.util.Date;
 
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.LocalExcelDate;
+import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2;
 
 
 abstract class InterpretedBigDecimalType extends InterpretedNumericType
 {
 
-	protected InterpretedBigDecimalType(NumericType _type)
+	protected InterpretedBigDecimalType(NumericType _type, Environment _env)
 	{
-		super( _type );
+		super( _type, _env );
 	}
 
 
@@ -56,13 +57,6 @@ abstract class InterpretedBigDecimalType extends InterpretedNumericType
 			return adjustConvertedValue( BigDecimal.valueOf( number.longValue() ) );
 		}
 		return _value;
-	}
-
-
-	@Override
-	public Number fromString( String _s )
-	{
-		return new BigDecimal( _s );
 	}
 
 

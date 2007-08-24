@@ -28,6 +28,7 @@ import java.lang.reflect.Method;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
+import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.EngineException;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 
@@ -217,7 +218,7 @@ public interface EngineBuilder
 	 */
 	public void setFactoryMethod( Method _factoryMethod );
 
-	
+
 	/**
 	 * Indicates whether AFC should compile the computation with full internal caching of values, or
 	 * only (usually minimal) caching at its own discretion.
@@ -312,6 +313,30 @@ public interface EngineBuilder
 	 * @see #compile()
 	 */
 	public void setParentClassLoaderForEngine( ClassLoader _value );
+
+
+	/**
+	 * Let's you control the compile-time locale and timezone configuration by setting fields of the
+	 * returned object.
+	 * <p>
+	 * Please refer to the <a target="_top" href="{@docRoot}/../tutorial/locale.htm#compile"
+	 * target="_top">tutorial</a> for details.
+	 * </p>
+	 * 
+	 * @return The current configuration. Never {@code null}.
+	 * 
+	 * @see #setCompileTimeConfig(Computation.Config)
+	 */
+	public Computation.Config getCompileTimeConfig();
+
+	/**
+	 * Let's you replace the entire compile-time configuration in one go.
+	 * 
+	 * @param _value is the new configuration; must not be {@code null}.
+	 * 
+	 * @see #getCompileTimeConfig()
+	 */
+	public void setCompileTimeConfig( Computation.Config _value );
 
 
 	/**

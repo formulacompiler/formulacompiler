@@ -23,15 +23,16 @@ package org.formulacompiler.compiler.internal.model.rewriting;
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
+import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 
 final class FunctionRewriterForDCOUNT extends AbstractFunctionRewriterForDatabaseAggregator
 {
 
-	public FunctionRewriterForDCOUNT(ExpressionNodeForFunction _fun, InterpretedNumericType _type)
+	public FunctionRewriterForDCOUNT(ComputationModel _model, ExpressionNodeForFunction _fun, InterpretedNumericType _type)
 	{
-		super( _fun, _type );
+		super( _model, _fun, _type );
 	}
 
 

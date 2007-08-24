@@ -18,32 +18,19 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.compiler.internal.model.interpreter;
+package org.formulacompiler.tests.reference;
 
-import java.math.BigDecimal;
+import java.util.Locale;
 
-import org.formulacompiler.compiler.NumericType;
-import org.formulacompiler.runtime.internal.Environment;
+import org.formulacompiler.runtime.Computation;
 
 
-abstract class InterpretedPrecisionBigDecimalType_Base extends InterpretedBigDecimalType
+public class DatabaseAggregators_de_DETest extends AbstractDatabaseTableTest
 {
 
-	public InterpretedPrecisionBigDecimalType_Base( NumericType _type, Environment _env )
+	public DatabaseAggregators_de_DETest()
 	{
-		super( _type, _env );
-	}
-
-
-	@Override
-	protected BigDecimal adjustConvertedValue( BigDecimal _value )
-	{
-		return _value;
-	}
-
-	protected final BigDecimal adjustReturnedValue( BigDecimal _value )
-	{
-		return _value;
+		setConfig( new Computation.Config( new Locale( "de", "DE" ) ) );
 	}
 
 }

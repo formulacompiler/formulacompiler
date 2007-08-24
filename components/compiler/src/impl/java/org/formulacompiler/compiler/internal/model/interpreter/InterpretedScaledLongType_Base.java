@@ -20,7 +20,6 @@
  */
 package org.formulacompiler.compiler.internal.model.interpreter;
 
-import java.text.ParseException;
 import java.util.Date;
 
 import org.formulacompiler.compiler.internal.AbstractLongType;
@@ -34,9 +33,9 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 	private final RuntimeLong_v2.Context runtimeCx;
 
 
-	public InterpretedScaledLongType_Base( AbstractLongType _type )
+	public InterpretedScaledLongType_Base( AbstractLongType _type, Environment _env )
 	{
-		super( _type );
+		super( _type, _env );
 		this.num = _type;
 		this.runtimeCx = new RuntimeLong_v2.Context( _type.scale() );
 	}
@@ -60,14 +59,6 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 	private final long zeroL()
 	{
 		return this.num.zero();
-	}
-
-
-	@Override
-	public Number fromString( String _s ) throws ParseException
-	{
-		// FIXME Need a compiler locale here, really.
-		return this.num.valueOf( _s, Environment.DEFAULT );
 	}
 
 

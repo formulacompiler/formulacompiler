@@ -40,6 +40,10 @@ public interface Computation
 
 	/**
 	 * Provides configuration information for an execution environment for computations.
+	 * <p>
+	 * Please refer to the <a target="_top" href="{@docRoot}/../tutorial/locale.htm"
+	 * target="_top">tutorial</a> for details.
+	 * </p>
 	 * 
 	 * @author peo
 	 */
@@ -118,6 +122,16 @@ public interface Computation
 			this.locale = _locale;
 			this.decimalFormatSymbols = _decimalFormatSymbols;
 			this.timeZone = _timeZone;
+		}
+
+		/**
+		 * Validates the configuration for missing or improperly set values.
+		 * 
+		 * @throws IllegalArgumentException
+		 */
+		public void validate()
+		{
+			// Nothing so far.
 		}
 
 	}
