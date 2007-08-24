@@ -71,6 +71,7 @@ public abstract class AbstractBigDecimalType extends NumericTypeImpl
 	@Override
 	protected Number convertFromString( String _value, Environment _env ) throws ParseException
 	{
+		_env.decimalFormat().setParseBigDecimal( true );
 		return adjustConvertedValue( (BigDecimal) super.convertFromString( _value, _env ) );
 	}
 
