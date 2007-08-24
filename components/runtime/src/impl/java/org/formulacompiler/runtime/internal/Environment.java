@@ -38,6 +38,9 @@ public final class Environment
 
 	public static Environment getInstance( Computation.Config _cfg )
 	{
+		if (_cfg == null) {
+			return DEFAULT;
+		}
 		return new Environment( _cfg );
 	}
 
@@ -57,10 +60,14 @@ public final class Environment
 		return (null != this.locale)? this.locale : Locale.getDefault();
 	}
 
+	public DecimalFormat decimalFormat()
+	{
+		return (DecimalFormat) NumberFormat.getNumberInstance( locale() );
+	}
+
 	public DecimalFormatSymbols decimalFormatSymbols()
 	{
-		return (null != this.decimalFormatSymbols)? this.decimalFormatSymbols : ((DecimalFormat) NumberFormat
-				.getNumberInstance( locale() )).getDecimalFormatSymbols();
+		return (null != this.decimalFormatSymbols)? this.decimalFormatSymbols : decimalFormat().getDecimalFormatSymbols();
 	}
 
 	public TimeZone timeZone()
