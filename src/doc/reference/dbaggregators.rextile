@@ -11,12 +11,12 @@ h2. Test Sheet
 
 The following test cases reference this sheet:
 
-	[xc:org/formulacompiler/tests/reference/DatabaseAggregators.xls:BaseData;fo]
+	[xc:org/formulacompiler/tests/reference/DatabaseAggregators_de_CH.xls:BaseData;fo]
 
 	
 h2. Aggregators
 
-	[inc:DatabaseAggregators.htm]
+	[inc:DatabaseAggregators_de_CH.htm]
 
 
 h2. Repeating Section Support
