@@ -439,6 +439,7 @@ public class Basics extends AbstractSpreadsheetTestBase
 
 	private Spreadsheet buildTemplatedSpreadsheet()
 	{
+		// DO NOT REFORMAT BELOW THIS LINE
 		// ---- BuildTemplatedSheet
 		final String CAPTION = "Caption";
 		final String LBL = "Label";
@@ -483,14 +484,14 @@ public class Basics extends AbstractSpreadsheetTestBase
 		b.newCell( b.cst( "Rebate" ) )./**/styleCell( LBL )/**/;
 		b.newCell( b.op( Operator.PLUS, b.ref( cr ), b.ref( ar ) ) )./**/styleCell( OUT_P )/**/;
 
-		b.newRow()./**/styleRow( CAPTION )/**/.newCell( b.cst( "Intermediate Values" ) )./**/styleCell( CAPTION )
-		/**/.newRow();
+		b.newRow()./**/styleRow( CAPTION )/**/.newCell( b.cst( "Intermediate Values" ) )./**/styleCell( CAPTION )/**/.newRow();
 		b.newCell( b.cst( "(sample only)" ) )./**/styleCell( LBL )/**/;
 		b.newCell()./**/styleCell( INTER )/**/;
 		b.newCell();
 
 		return b.getSpreadsheet();
 		// ---- BuildTemplatedSheet
+		// DO NOT REFORMAT ABOVE THIS LINE
 	}
 
 	static abstract class LineItem
