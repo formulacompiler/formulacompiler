@@ -118,4 +118,19 @@ public final class Util
 		}
 	}
 
+
+	/**
+	 * Assert that we are running JUnit tests. Used for public methods that should only be used by
+	 * tests. Simply tests that JUnit is loaded.
+	 */
+	public static void assertTesting()
+	{
+		try {
+			Class.forName( "junit.framework.TestCase" );
+		}
+		catch (ClassNotFoundException e) {
+			throw new IllegalStateException( "This method must only be used by JUnit tests." );
+		}
+	}
+
 }
