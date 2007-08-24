@@ -80,16 +80,12 @@ public enum Function {
 
 	// Conversions
 
-	N, T, VALUE
+	N, T, VALUE, TEXT
 	{
-		@Override
-		public boolean isVolatile()
-		{
-			return true;
-		}
-	},
-	TEXT
-	{
+		/**
+		 * {@code TEXT} is volatile because all to-text conversions are considered dependent on the
+		 * runtime locale/time-zone configuration.
+		 */
 		@Override
 		public boolean isVolatile()
 		{

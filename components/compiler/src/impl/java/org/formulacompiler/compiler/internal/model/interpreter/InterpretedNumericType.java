@@ -24,37 +24,45 @@ import java.math.BigDecimal;
 
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.AbstractLongType;
+import org.formulacompiler.compiler.internal.Util;
+import org.formulacompiler.runtime.internal.Environment;
 
 
 public abstract class InterpretedNumericType extends InterpretedNumericType_GeneratedStrings
 {
 
 
-	public static InterpretedNumericType typeFor( NumericType _type )
+	public static InterpretedNumericType typeFor( NumericType _type, Environment _env )
 	{
 		if (Double.TYPE == _type.valueType()) {
-			return new InterpretedDoubleType( _type );
+			return new InterpretedDoubleType( _type, _env );
 		}
 		else if (BigDecimal.class == _type.valueType()) {
 			if (null != _type.mathContext()) {
-				return new InterpretedPrecisionBigDecimalType( _type );
+				return new InterpretedPrecisionBigDecimalType( _type, _env );
 			}
 			else {
-				return new InterpretedScaledBigDecimalType( _type );
+				return new InterpretedScaledBigDecimalType( _type, _env );
 			}
 		}
 		else if (Long.TYPE == _type.valueType()) {
-			return new InterpretedScaledLongType( (AbstractLongType) _type );
+			return new InterpretedScaledLongType( (AbstractLongType) _type, _env );
 		}
 		else {
 			throw new IllegalArgumentException( "Unsupported numeric type for run-time interpretation." );
 		}
 	}
 
-
-	InterpretedNumericType(NumericType _type)
+	public static InterpretedNumericType typeFor( NumericType _type )
 	{
-		super( _type );
+		Util.assertTesting();
+		return typeFor( _type, Environment.DEFAULT );
+	}
+
+
+	InterpretedNumericType( NumericType _type, Environment _env )
+	{
+		super( _type, _env );
 	}
 
 

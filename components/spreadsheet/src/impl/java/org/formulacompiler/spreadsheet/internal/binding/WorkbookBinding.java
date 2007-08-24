@@ -24,7 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.New;
+import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinding;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
@@ -34,16 +36,18 @@ public class WorkbookBinding implements SpreadsheetBinding
 {
 	protected final SpreadsheetImpl workbook;
 	protected final SectionBinding root;
+	private final Environment environment;
 	protected Map<CellIndex, InputCellBinding> inputs = New.newMap();
 	protected List<OutputCellBinding> outputs = New.newList();
 	protected List<SectionBinding> sections = New.newList();
 
 
-	public WorkbookBinding(SpreadsheetImpl _workbook, Class _inputClass, Class _outputClass)
+	public WorkbookBinding(SpreadsheetImpl _workbook, Class _inputClass, Class _outputClass, Computation.Config _compileTimeConfig)
 	{
 		super();
 		this.workbook = _workbook;
 		this.root = new SectionBinding( this, _inputClass, _outputClass );
+		this.environment = Environment.getInstance( _compileTimeConfig );
 	}
 
 
@@ -64,6 +68,11 @@ public class WorkbookBinding implements SpreadsheetBinding
 	public Class getOutputClass()
 	{
 		return this.root.getOutputClass();
+	}
+
+	public Environment getEnvironment()
+	{
+		return this.environment;
 	}
 
 
@@ -110,5 +119,6 @@ public class WorkbookBinding implements SpreadsheetBinding
 	{
 		this.root.validate();
 	}
+
 
 }

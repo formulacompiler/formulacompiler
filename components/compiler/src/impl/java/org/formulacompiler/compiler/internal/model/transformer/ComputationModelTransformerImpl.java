@@ -79,13 +79,13 @@ public final class ComputationModelTransformerImpl implements ComputationModelTr
 
 	private void rewriteExpressions() throws CompilerException
 	{
-		this.model.traverse( new ModelRewriter( InterpretedNumericType.typeFor( getNumericType() ) ) );
+		this.model.traverse( new ModelRewriter( InterpretedNumericType.typeFor( getNumericType(), this.model.getEnvironment() ) ) );
 	}
 
 
 	private void eliminateConstantSubExpressions() throws CompilerException
 	{
-		this.model.traverse( new ConstantSubExpressionEliminator( getNumericType() ) );
+		this.model.traverse( new ConstantSubExpressionEliminator( getNumericType(), this.model.getEnvironment() ) );
 	}
 
 

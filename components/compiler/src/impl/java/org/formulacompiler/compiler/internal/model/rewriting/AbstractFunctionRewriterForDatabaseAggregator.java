@@ -37,24 +37,29 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFuncti
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.compiler.internal.model.CellModel;
+import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionModel;
 import org.formulacompiler.compiler.internal.model.analysis.TypeAnnotator;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 import org.formulacompiler.runtime.New;
+import org.formulacompiler.runtime.internal.Environment;
 
 
 abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExpressionRewriter
 {
+	private final ComputationModel model;
 	private final ExpressionNodeForFunction fun;
 	private final InterpretedNumericType numericType;
 	private final ExpressionNodeForArrayReference table;
 	private final ExpressionNode valueColumn;
 	private final ExpressionNodeForArrayReference criteria;
 
-	public AbstractFunctionRewriterForDatabaseAggregator( ExpressionNodeForFunction _fun, InterpretedNumericType _type )
+	public AbstractFunctionRewriterForDatabaseAggregator( ComputationModel _model, ExpressionNodeForFunction _fun,
+			InterpretedNumericType _type )
 	{
 		super();
+		this.model = _model;
 		this.fun = _fun;
 		this.numericType = _type;
 		this.table = (ExpressionNodeForArrayReference) _fun.argument( 0 );
@@ -406,7 +411,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 			switch (_type) {
 				case NUMERIC:
 					try {
-						compareTo = numericType().fromString( compareToStr );
+						compareTo = numericType().fromString( compareToStr, environment() );
 					}
 					catch (ParseException e) {
 						throw new CompilerException.UnsupportedExpression( e );
@@ -534,6 +539,12 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 	private final InterpretedNumericType numericType()
 	{
 		return this.numericType;
+	}
+
+
+	protected final Environment environment()
+	{
+		return this.model.getEnvironment();
 	}
 
 

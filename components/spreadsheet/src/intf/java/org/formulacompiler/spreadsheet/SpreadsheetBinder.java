@@ -23,6 +23,7 @@ package org.formulacompiler.spreadsheet;
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.Validation;
+import org.formulacompiler.runtime.Computation;
 
 /**
  * Defines the bindings of spreadsheet cells and sections to Java elements.
@@ -37,7 +38,8 @@ public interface SpreadsheetBinder
 
 
 	/**
-	 * Configuration data for new instances of {@link org.formulacompiler.spreadsheet.SpreadsheetBinder}.
+	 * Configuration data for new instances of
+	 * {@link org.formulacompiler.spreadsheet.SpreadsheetBinder}.
 	 * 
 	 * @author peo
 	 * 
@@ -47,19 +49,30 @@ public interface SpreadsheetBinder
 	{
 
 		/**
-		 * The spreadsheet whose elements you want to bind.
+		 * The spreadsheet whose elements you want to bind; must not be {@code null}.
 		 */
 		public Spreadsheet spreadsheet;
 
 		/**
-		 * The class of the input type to whose methods you want to bind input elements.
+		 * The class of the input type to whose methods you want to bind input elements; must not be
+		 * {@code null}.
 		 */
 		public Class inputClass;
 
 		/**
-		 * The class of the output type whose methods you want to bind to output elements.
+		 * The class of the output type whose methods you want to bind to output elements; must not be
+		 * {@code null}.
 		 */
 		public Class outputClass;
+
+		/**
+		 * The compile-time configuration to use; may be left {@code null}.
+		 * <p>
+		 * Please refer to the <a target="_top" href="{@docRoot}/../tutorial/locale.htm#compile"
+		 * target="_top">tutorial</a> for details.
+		 * </p>
+		 */
+		public Computation.Config compileTimeConfig;
 
 		/**
 		 * Validates the configuration for missing or improperly set values.
@@ -201,9 +214,10 @@ public interface SpreadsheetBinder
 
 	}
 
-	
+
 	/**
-	 * Factory interface for {@link org.formulacompiler.runtime.ImplementationLocator#getInstance(Class)}.
+	 * Factory interface for
+	 * {@link org.formulacompiler.runtime.ImplementationLocator#getInstance(Class)}.
 	 */
 	public static interface Factory
 	{

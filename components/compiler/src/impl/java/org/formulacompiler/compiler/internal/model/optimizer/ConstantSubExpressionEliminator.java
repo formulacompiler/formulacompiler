@@ -22,13 +22,14 @@ package org.formulacompiler.compiler.internal.model.optimizer;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
+import org.formulacompiler.compiler.internal.Util;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.model.AbstractComputationModelVisitor;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 import org.formulacompiler.compiler.internal.model.optimizer.consteval.EvalShadow;
-
+import org.formulacompiler.runtime.internal.Environment;
 
 
 final public class ConstantSubExpressionEliminator extends AbstractComputationModelVisitor
@@ -36,16 +37,21 @@ final public class ConstantSubExpressionEliminator extends AbstractComputationMo
 	private final InterpretedNumericType numericType;
 
 
-	public ConstantSubExpressionEliminator(InterpretedNumericType _type)
+	public ConstantSubExpressionEliminator( InterpretedNumericType _type )
 	{
 		super();
 		this.numericType = _type;
 	}
 
-
-	public ConstantSubExpressionEliminator(NumericType _type)
+	public ConstantSubExpressionEliminator( NumericType _type, Environment _env )
 	{
-		this( InterpretedNumericType.typeFor( _type ) );
+		this( InterpretedNumericType.typeFor( _type, _env ) );
+	}
+
+	public ConstantSubExpressionEliminator( NumericType _type )
+	{
+		this( InterpretedNumericType.typeFor( _type, Environment.DEFAULT ) );
+		Util.assertTesting();
 	}
 
 

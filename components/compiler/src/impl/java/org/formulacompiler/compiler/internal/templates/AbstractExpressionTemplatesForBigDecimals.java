@@ -32,8 +32,14 @@ import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 
 abstract class AbstractExpressionTemplatesForBigDecimals
 {
-	protected Environment environment = null; // not supposed to be called at compile-time
 	private ComputationTime computationTime = null; // not supposed to be called at compile-time
+
+	protected final Environment environment;
+
+	public AbstractExpressionTemplatesForBigDecimals( Environment _env )
+	{
+		this.environment = _env;
+	}
 
 
 	// ------------------------------------------------ Utils
@@ -72,12 +78,12 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 
 	BigDecimal util_fromBigInteger( BigInteger a )
 	{
-		return a == null ? BigDecimal.ZERO : new BigDecimal( a );
+		return a == null? BigDecimal.ZERO : new BigDecimal( a );
 	}
 
 	BigDecimal util_fromNumber( Number a )
 	{
-		return a == null ? BigDecimal.ZERO : new BigDecimal( a.toString() );
+		return a == null? BigDecimal.ZERO : new BigDecimal( a.toString() );
 	}
 
 	BigDecimal util_fromBoolean( boolean a )

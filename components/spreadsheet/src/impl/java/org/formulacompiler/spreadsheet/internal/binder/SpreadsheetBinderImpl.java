@@ -38,13 +38,13 @@ public final class SpreadsheetBinderImpl implements SpreadsheetBinder
 	private final WorkbookBinding binding;
 	private final SectionBinderImpl root;
 
-	public SpreadsheetBinderImpl(Config _config)
+	public SpreadsheetBinderImpl( Config _config )
 	{
 		super();
 		_config.validate();
 		this.spreadsheet = _config.spreadsheet;
 		this.binding = new WorkbookBinding( (SpreadsheetImpl) _config.spreadsheet, _config.inputClass,
-				_config.outputClass );
+				_config.outputClass, _config.compileTimeConfig );
 		this.root = new SectionBinderImpl( this.binding.getRoot() );
 	}
 
@@ -83,7 +83,7 @@ public final class SpreadsheetBinderImpl implements SpreadsheetBinder
 	{
 		private final SectionBinding sectionBinding;
 
-		public SectionBinderImpl(SectionBinding _binding)
+		public SectionBinderImpl( SectionBinding _binding )
 		{
 			super();
 			this.sectionBinding = _binding;

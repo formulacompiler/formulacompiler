@@ -30,6 +30,7 @@ import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.runtime.New;
+import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.spreadsheet.SpreadsheetBinding;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.binding.InputCellBinding;
@@ -48,12 +49,12 @@ public final class SpreadsheetToModelCompiler
 	private ComputationModel computationModel;
 
 
-	public SpreadsheetToModelCompiler(SpreadsheetBinding _binding, NumericType _numericType)
+	public SpreadsheetToModelCompiler( SpreadsheetBinding _binding, NumericType _numericType )
 	{
 		super();
 
-		assert _binding != null : "Binding must not be null";
-		assert _binding instanceof WorkbookBinding : "Binding must be a WorkbookBinding";
+		assert _binding != null: "Binding must not be null";
+		assert _binding instanceof WorkbookBinding: "Binding must be a WorkbookBinding";
 
 		this.binding = (WorkbookBinding) _binding;
 		this.numericType = _numericType;
@@ -83,8 +84,9 @@ public final class SpreadsheetToModelCompiler
 	{
 		assert null == this.computationModel;
 
-		SectionBinding rootDef = this.binding.getRoot();
-		this.computationModel = new ComputationModel( rootDef.getInputClass(), rootDef.getOutputClass() );
+		final SectionBinding rootDef = this.binding.getRoot();
+		final Environment env = this.binding.getEnvironment();
+		this.computationModel = new ComputationModel( rootDef.getInputClass(), rootDef.getOutputClass(), env );
 		new SectionModelCompiler( this, null, rootDef, this.computationModel.getRoot() );
 
 		buildModel();

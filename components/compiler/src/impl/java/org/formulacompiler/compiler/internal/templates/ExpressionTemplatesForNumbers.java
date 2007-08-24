@@ -20,11 +20,18 @@
  */
 package org.formulacompiler.compiler.internal.templates;
 
+import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.Runtime_v2;
 
 
 public final class ExpressionTemplatesForNumbers
 {
+
+	public ExpressionTemplatesForNumbers( Environment _env )
+	{
+		super();
+	}
+
 
 	/**
 	 * The "String" argument is automatically compiled using the String expression compiler. The

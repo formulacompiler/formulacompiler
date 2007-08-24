@@ -20,13 +20,17 @@
  */
 package org.formulacompiler.tests.reference;
 
+import java.util.Locale;
 
-public class DatabaseAggregatorsTest extends AbstractDatabaseTableTest
+import org.formulacompiler.runtime.Computation;
+
+
+public class DatabaseAggregators_de_CHTest extends AbstractDatabaseTableTest
 {
 
-	public DatabaseAggregatorsTest()
+	public DatabaseAggregators_de_CHTest()
 	{
-		super();
+		setConfig( new Computation.Config( new Locale( "de", "CH" ) ) );
 	}
 
 }

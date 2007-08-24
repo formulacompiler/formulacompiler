@@ -23,8 +23,10 @@ package org.formulacompiler.compiler.internal.model;
 import java.io.IOException;
 
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.internal.Util;
 import org.formulacompiler.describable.AbstractDescribable;
 import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.runtime.internal.Environment;
 
 
 public class ComputationModel extends AbstractDescribable
@@ -32,11 +34,23 @@ public class ComputationModel extends AbstractDescribable
 	public static final String ROOTNAME = "_ROOT_";
 
 	private final SectionModel root;
+	private final Environment env;
 
 
-	public ComputationModel(Class _inputClass, Class _outputClass)
+	public ComputationModel( Class _inputClass, Class _outputClass, Environment _env )
 	{
+		if (null == _env) throw new IllegalArgumentException();
 		this.root = new SectionModel( this, ROOTNAME, _inputClass, _outputClass );
+		this.env = _env;
+	}
+
+	/**
+	 * For tests only! 
+	 */
+	public ComputationModel( Class _inputClass, Class _outputClass )
+	{
+		this( _inputClass, _outputClass, Environment.DEFAULT );
+		Util.assertTesting();
 	}
 
 
@@ -55,6 +69,12 @@ public class ComputationModel extends AbstractDescribable
 	public Class getOutputClass()
 	{
 		return getRoot().getOutputClass();
+	}
+
+
+	public Environment getEnvironment()
+	{
+		return this.env;
 	}
 
 

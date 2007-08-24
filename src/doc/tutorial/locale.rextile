@@ -1,26 +1,47 @@
 
 h1. Locale and Time Zone
 
-There are a few spreadsheet functions that need to take a locale and time zone into account. The default is to use the current settings of the JVM, of course. Server-side applications, however, might want to override those on a per-session basis. This topic tells you how.
+There are a few spreadsheet functions that need to take a locale and time zone into account. When compiled engines are run, the default is to use the current settings of the JVM. Server-side applications, however, might want to override those on a per-session basis. And when compiling engines, the compiler has to know about the regional settings used by the creator of the sheet.
 
 <%= toc 2, 3 %>
 
 
-h2. Configuration
+h2. Background
+
+Why do we need locale information? For example, the @TEXT(num,fmt)@ function must know the names of the days of the week when it sees @dddd@ in the format string, or the decimal separator. Conversely, the @VALUE(text)@ function needs to know the number and date format settings to correctly parse text into values.
+
+And why a time zone? Because Excel and Java have "different ideas about date/time values":datetime.htm#background.
+
+There are three different AFC components that need locale-specific configuration:
+
+dt. Computation : The computation configuration controls how compiled engines compute, for example, the result of the @TEXT()@ function.
+
+dt. Compiler : The compiler configuration controls how constant text values in the compiled spreadsheet are converted to numeric or date values during compilation, if this should prove necessary (the inverse, conversion to text, is never performed at compile-time). So it should reflect the locale used by the sheet author.
+
+dt. Spreadsheet Saver : The spreadsheet saver configuration controls how constant date values in the internal spreadsheet model are converted to "local Excel dates":datetime.htm#background.
+
+An example is the compilation of
+
+	[xc:org/formulacompiler/tutorials/Locale_en_US.xls:ValueExample;formulas-only]
+
+If we don't bind @ValueInput@ to an input method, this should clearly be done using the regional settings used by the sheet author - the compiler configuration. If we do bind @ValueInput@ to an input method, the conversion in @ValueResult@ becomes a runtime call and so uses the computation configuration, as the value fed to @ValueInput@ at runtime is expected to be in the runtime number format.
+
+h4. Warning!
+
+What if we mix the two? Consider
+
+	[xc:org/formulacompiler/tutorials/Locale_en_US.xls:MixedExample;formulas-only]
+
+where only @MixedInput@ is bound to an input method. This will fail unless the number format of the computation also has @.@ as decimal separator. The reason is AFC will compile @MixedResult@ as a runtime invocation of @VALUE@, which always uses the computation's number format.
 
 
-h4. System Defaults
+h2. <a name="run">Computation Configuration</a>
 
-The easiest way is to simply override the system defaults:
+How do you configure what locale and time zone a compiled computation is to use? The easiest way is to simply override the system defaults:
 
     [jc:org.formulacompiler.tutorials.EnvironmentConfig:---- defaultLocaleTest]
 
-But in a multi-threaded server application, this will not do.
-
-
-h4. Explicit Configuration
-
-To define a locale and time zone for only a specific set of computations, you request from AFC a computation _factory_ configured accordingly. Here's how:
+But in a multi-threaded, internationally used server application, this will not do. To define a locale and time zone for only a specific set of computations, you request from AFC a computation _factory_ configured accordingly. Here's how:
 
     [jc:org.formulacompiler.tutorials.EnvironmentConfig:---- customLocaleFactory]
 
@@ -34,8 +55,7 @@ but still reacts to the configuration:
       
 The class "@Computation.Config@":../javadoc/org/formulacompiler/runtime/Computation.Config.html currently supports locale and time zone information, but could be extended by other environment information we might need.
 
-
-h2. Why this design?
+h4. Why this design?
 
 Why do we not simply configure a computation, as in
 
@@ -51,8 +71,49 @@ Then why not
 Because then the factory would be stateful, which could lead to all sorts of side effects and problems with thread-safety.
 
 
-h2. Background
+h2. <a name="compile">Compiler Configuration</a>
 
-Why do we need locale information? For example, the @TEXT(num,fmt)@ function must know the names of the days of the week when it sees @dddd@ in the format string. Conversely, the @VALUE(text)@ function needs to know the number and date format settings to correctly parse text into values.
+Like with the runtime configuration, you could change the compile-time settings by changing the JRE's default locale. Again, this is not recommended. Let's look again at the example mentioned above to see how it's done properly:
 
-And why a time zone? Because Excel and Java have "different ideas about date/time values":datetime.htm.
+	[xc:org/formulacompiler/tutorials/Locale_en_US.xls:ValueExample;formulas-only]
+
+In the following example, we deliberately switch to a German locale which has a comma as the decimal separator, and then test compiling a sheet authored in the US locale:
+
+    [jc:org.formulacompiler.tutorials.EnvironmentConfig:---- constantValue]
+
+
+h4. Runtime Variant
+
+If, however, we bind @ValueInput@, we need to pass a string in the runtime format (which we switched to German):
+
+    [jc:org.formulacompiler.tutorials.EnvironmentConfig:---- boundValueInput]
+
+and get it back properly:
+
+    [jc:org.formulacompiler.tutorials.EnvironmentConfig:---- boundValue]
+
+
+h4. Why not use the saved info?
+
+Excel saves the country code of the regional settings that were active when a sheet was saved. Why does AFC not use this?
+
+	* The settings might have been overridden in the Windows regional settings dialog.
+	* The decimal point and thousands separator might have been overridden in Excel's configuration.
+
+
+h2. <a name="save">Spreadsheet Saver Configuration</a>
+
+When "saving generated spreadsheets":generatesheet.htm, AFC needs to know which time zone to use to convert @java.util.Date@ constants to "Excel's internal local time format":datetime.htm#background. Let's consider an example:
+
+    [jc:org.formulacompiler.tutorials.EnvironmentConfig:---- setupDateConst]
+
+We need to tell the saver that the embedded @java.util.Date@ constant is to be taken relative to GMT+2. Here's how:
+
+    [jc:org.formulacompiler.tutorials.EnvironmentConfig:---- saveDateConst]
+
+When we load, compile and use this spreadsheet again, but using a different time zone in the computation configuration, the distance in hours between the two time zones can be noticed:
+
+    [jc:org.formulacompiler.tutorials.EnvironmentConfig:---- loadDateConst]
+
+This demonstrates the effect of local Excel dates. The constant was created as 1970-06-13 12:13 (GMT+2), saved as just 1970-06-13 12:13 irrespective of time zone, then reinterpreted by the computation as 1970-06-13 12:13 (GMT+6). Hence the difference of 4 hours between the original and the final date.
+

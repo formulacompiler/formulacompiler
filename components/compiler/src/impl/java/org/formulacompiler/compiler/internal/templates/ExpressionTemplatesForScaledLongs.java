@@ -34,19 +34,21 @@ import org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2;
 
 public final class ExpressionTemplatesForScaledLongs
 {
+	private ComputationTime computationTime = null; // not supposed to be called at compile-time
+
 	final RuntimeLong_v2.Context context;
 	final int scale;
 	final long one;
-	private Environment environment = null; // not supposed to be called at compile-time
-	private ComputationTime computationTime = null; // not supposed to be called at compile-time
+	private final Environment environment;
 
 
-	public ExpressionTemplatesForScaledLongs(RuntimeLong_v2.Context _context)
+	public ExpressionTemplatesForScaledLongs( RuntimeLong_v2.Context _context, Environment _env )
 	{
 		super();
 		this.context = _context;
 		this.scale = _context.scale();
 		this.one = _context.one();
+		this.environment = _env;
 	}
 
 
@@ -112,12 +114,12 @@ public final class ExpressionTemplatesForScaledLongs
 
 	long util_fromNumber( Number a )
 	{
-		return (a == null) ? 0 : a.longValue();
+		return (a == null)? 0 : a.longValue();
 	}
 
 	long util_fromBoolean( boolean a )
 	{
-		return a ? this.one : 0;
+		return a? this.one : 0;
 	}
 
 	long util_fromDate( Date a )
@@ -230,7 +232,8 @@ public final class ExpressionTemplatesForScaledLongs
 
 	Number util_toNumber_Scaled( long a )
 	{
-		// We don't want to pass around scaled longs as Number (where the scale is non-obvious), so convert to BigDecimal.
+		// We don't want to pass around scaled longs as Number (where the scale is non-obvious), so
+		// convert to BigDecimal.
 		return RuntimeLong_v2.toBigDecimal( a, this.context );
 	}
 
@@ -334,7 +337,7 @@ public final class ExpressionTemplatesForScaledLongs
 	// ---- fun_ABS
 	public long fun_ABS( long a )
 	{
-		return (a < 0) ? -a : a;
+		return (a < 0)? -a : a;
 	}
 	// ---- fun_ABS
 
@@ -552,7 +555,7 @@ public final class ExpressionTemplatesForScaledLongs
 		final BigDecimal pv = this.context.toBigDecimal( _pv );
 		final BigDecimal fv = this.context.toBigDecimal( _fv );
 		final BigDecimal type = this.context.toBigDecimal( _type );
-		final BigDecimal guess =RuntimeScaledBigDecimal_v2.TENTH;
+		final BigDecimal guess = RuntimeScaledBigDecimal_v2.TENTH;
 		final BigDecimal result = RuntimeScaledBigDecimal_v2.fun_RATE( nper, pmt, pv, fv, type, guess, HIGHPREC );
 		return this.context.fromBigDecimal( result );
 	}

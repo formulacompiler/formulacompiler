@@ -22,15 +22,16 @@ package org.formulacompiler.compiler.internal.model.rewriting;
 
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
+import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 
 final class FunctionRewriterForDMAX extends AbstractFunctionRewriterForDatabaseAggregator
 {
 
-	public FunctionRewriterForDMAX(ExpressionNodeForFunction _fun, InterpretedNumericType _type)
+	public FunctionRewriterForDMAX(ComputationModel _model, ExpressionNodeForFunction _fun, InterpretedNumericType _type)
 	{
-		super( _fun, _type );
+		super( _model, _fun, _type );
 	}
 
 

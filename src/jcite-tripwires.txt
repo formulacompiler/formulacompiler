@@ -1046,7 +1046,7 @@ jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForScaledL
 __@@__
 public long fun_ABS( long a )
 	{
-		return (a < 0) ? -a : a;
+		return (a < 0)? -a : a;
 	}
 ___@_@___
 jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForStrings:---- fun_MID
@@ -1494,8 +1494,7 @@ final String CAPTION = "Caption";
 		b.newCell( b.cst( "Rebate" ) )./**/styleCell( LBL )/**/;
 		b.newCell( b.op( Operator.PLUS, b.ref( cr ), b.ref( ar ) ) )./**/styleCell( OUT_P )/**/;
 
-		b.newRow()./**/styleRow( CAPTION )/**/.newCell( b.cst( "Intermediate Values" ) )./**/styleCell( CAPTION )
-				/**/.newRow();
+		b.newRow()./**/styleRow( CAPTION )/**/.newCell( b.cst( "Intermediate Values" ) )./**/styleCell( CAPTION )/**/.newRow();
 		b.newCell( b.cst( "(sample only)" ) )./**/styleCell( LBL )/**/;
 		b.newCell()./**/styleCell( INTER )/**/;
 		b.newCell();
@@ -1529,30 +1528,30 @@ ___@_@___
 jc:org.formulacompiler.tutorials.Basics:---- GenerateStream
 __@@__
 Spreadsheet s = buildSpreadsheet();
-		ByteArrayOutputStream /**/os/**/= new ByteArrayOutputStream();
+		ByteArrayOutputStream /**/os/**/ = new ByteArrayOutputStream();
 
 		SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
 		cfg.spreadsheet = s;
-		cfg./**/typeExtension/**/= ".xls";
-		cfg./**/outputStream/**/= os;
+		cfg./**/typeExtension/**/ = ".xls";
+		cfg./**/outputStream/**/ = os;
 		/**/SpreadsheetCompiler.newSpreadsheetSaver( cfg ).save();/**/
 ___@_@___
 jc:org.formulacompiler.tutorials.Basics:---- GenerateTemplatedFile
 __@@__
 Spreadsheet s = buildTemplatedSpreadsheet();
-		SpreadsheetCompiler.saveSpreadsheet( s, GENTEMPLATEDFILE, /**/TEMPLATEFILE/**/);
+		SpreadsheetCompiler.saveSpreadsheet( s, GENTEMPLATEDFILE, /**/TEMPLATEFILE/**/ );
 ___@_@___
 jc:org.formulacompiler.tutorials.Basics:---- GenerateTemplatedStream
 __@@__
 Spreadsheet s = buildTemplatedSpreadsheet();
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		InputStream /**/ts/**/= new BufferedInputStream( new FileInputStream( TEMPLATEFILE ) );
+		InputStream /**/ts/**/ = new BufferedInputStream( new FileInputStream( TEMPLATEFILE ) );
 
 		SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
 		cfg.spreadsheet = s;
 		cfg.typeExtension = ".xls";
 		cfg.outputStream = os;
-		cfg./**/templateInputStream/**/= ts;
+		cfg./**/templateInputStream/**/ = ts;
 		SpreadsheetCompiler.newSpreadsheetSaver( cfg ).save();
 ___@_@___
 jc:org.formulacompiler.tutorials.Basics:---- OwnUISheet; highlight -hlCalc-; strip -- defCalc; strip
@@ -1561,8 +1560,8 @@ private Spreadsheet buildSpreadsheet()
 	{
 		SpreadsheetBuilder b = SpreadsheetCompiler./**/newSpreadsheetBuilder/**/();
 
-		b./**/newCell/**/( b./**/cst( "CustomerRebate" )/**/);
-		b.newCell( b./**/cst( 0.1 )/**/);
+		b./**/newCell/**/( b./**/cst( "CustomerRebate" )/**/ );
+		b.newCell( b./**/cst( 0.1 )/**/ );
 		// -- defCalc
 		/* -hlCalc- */SpreadsheetBuilder.CellRef cr = b.currentCell();/* -hlCalc- */
 		// -- defCalc
@@ -1576,7 +1575,7 @@ private Spreadsheet buildSpreadsheet()
 		b.newRow();
 		b.newRow();
 		b.newCell( b.cst( "Rebate" ) );
-		b.newCell( /* -hlCalc- */b.op( Operator.PLUS, b.ref( cr ), b.ref( ar ) )/* -hlCalc- */);
+		b.newCell( /* -hlCalc- */b.op( Operator.PLUS, b.ref( cr ), b.ref( ar ) )/* -hlCalc- */ );
 		// -- defCalc
 
 		return b./**/getSpreadsheet/**/();
@@ -1588,8 +1587,8 @@ private Spreadsheet buildSpreadsheet()
 	{
 		SpreadsheetBuilder b = SpreadsheetCompiler./**/newSpreadsheetBuilder/**/();
 
-		b./**/newCell/**/( b./**/cst( "CustomerRebate" )/**/);
-		b.newCell( b./**/cst( 0.1 )/**/);
+		b./**/newCell/**/( b./**/cst( "CustomerRebate" )/**/ );
+		b.newCell( b./**/cst( 0.1 )/**/ );
 		// -- defCalc
 		/* -hlCalc- */SpreadsheetBuilder.CellRef cr = b.currentCell();/* -hlCalc- */
 		// -- defCalc
@@ -1603,7 +1602,7 @@ private Spreadsheet buildSpreadsheet()
 		b.newRow();
 		b.newRow();
 		b.newCell( b.cst( "Rebate" ) );
-		b.newCell( /* -hlCalc- */b.op( Operator.PLUS, b.ref( cr ), b.ref( ar ) )/* -hlCalc- */);
+		b.newCell( /* -hlCalc- */b.op( Operator.PLUS, b.ref( cr ), b.ref( ar ) )/* -hlCalc- */ );
 		// -- defCalc
 
 		return b./**/getSpreadsheet/**/();
@@ -1624,7 +1623,7 @@ jc:org.formulacompiler.tutorials.Basics:---- StandardStrategy
 __@@__
 static class StandardRebateComputation extends RebateComputation
 	{
-		public StandardRebateComputation(RebateInputs _inputs)
+		public StandardRebateComputation( RebateInputs _inputs )
 		{
 			super( _inputs );
 		}
@@ -1649,7 +1648,7 @@ public static abstract class RebateComputation
 
 		protected final RebateInputs inputs;
 
-		public RebateComputation(RebateInputs _inputs)
+		public RebateComputation( RebateInputs _inputs )
 		{
 			super();
 			this.inputs = _inputs;
@@ -2657,6 +2656,54 @@ __@@__
 		ByteCodeEngineSource source = FormulaDecompiler.decompile( engine );
 		source.saveTo( new File( pathToTargetFolder ) );
 ___@_@___
+jc:org.formulacompiler.tutorials.EnvironmentConfig:---- boundValue
+__@@__
+Locale oldLocale = Locale.getDefault();
+		Locale.setDefault( Locale.GERMANY );
+		try {
+			DecimalFormat decimalFormat = ((DecimalFormat) NumberFormat.getInstance());
+			assertEquals( ',', decimalFormat.getDecimalFormatSymbols().getDecimalSeparator() );
+
+			EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
+			builder.loadSpreadsheet( DATA_PATH + "Locale_en_US.xls" );
+			builder.setFactoryClass( ValueFactory.class );
+			builder.getByNameBinder().outputs().bindAllMethodsToNamedCells();
+			builder.getByNameBinder()./**/inputs().bindAllMethodsToNamedCells()/**/;
+			Engine engine = builder.compile();
+			ValueFactory factory = (ValueFactory) engine.getComputationFactory();
+			ValueComputation computation = factory.newComputation( new ValueInputs() );
+			assertEquals( /**/6543.21/**/, computation.valueResult(), 0.00001 );
+		}
+		finally {
+			Locale.setDefault( oldLocale );
+		}
+___@_@___
+jc:org.formulacompiler.tutorials.EnvironmentConfig:---- boundValueInput
+__@@__
+public String valueInput() { return /**/"6.543,21"/**/; }
+___@_@___
+jc:org.formulacompiler.tutorials.EnvironmentConfig:---- constantValue
+__@@__
+Locale oldLocale = Locale.getDefault();
+		Locale./**/setDefault( Locale.GERMANY )/**/;
+		try {
+			DecimalFormat decimalFormat = ((DecimalFormat) NumberFormat.getInstance());
+			assertEquals( /**/','/**/, decimalFormat.getDecimalFormatSymbols().getDecimalSeparator() );
+
+			EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
+			builder.loadSpreadsheet( filePath );
+			/**/builder.getCompileTimeConfig().locale = Locale.US;/**/
+			builder.setFactoryClass( ValueFactory.class );
+			builder.getByNameBinder().outputs().bindAllMethodsToNamedCells();
+			Engine engine = builder.compile();
+			ValueFactory factory = (ValueFactory) engine.getComputationFactory();
+			ValueComputation computation = factory.newComputation( null );
+			assertEquals( /**/1234.56/**/, computation.valueResult(), 0.00001 );
+		}
+		finally {
+			Locale.setDefault( oldLocale );
+		}
+___@_@___
 jc:org.formulacompiler.tutorials.EnvironmentConfig:---- customLocaleFactory
 __@@__
 Computation.Config /**/config/**/ = new Computation.Config( /**/_locale/**/ );
@@ -2678,6 +2725,43 @@ __@@__
 			assertComputation( "37287,4211", (MyFactory) _engine.getComputationFactory() );
 			/**/Locale.setDefault/**/( Locale.ENGLISH );
 			assertComputation( "37287.4211", (MyFactory) _engine.getComputationFactory() );
+___@_@___
+jc:org.formulacompiler.tutorials.EnvironmentConfig:---- loadDateConst
+__@@__
+Spreadsheet loaded = SpreadsheetCompiler.loadSpreadsheet( ".xls", inputStream );
+			EngineBuilder eb = SpreadsheetCompiler.newEngineBuilder();
+			eb.setSpreadsheet( loaded );
+			eb.setInputClass( Object.class );
+			eb.setOutputClass( DateComputation.class );
+			eb.bindAllByName();
+			SaveableEngine e = eb.compile();
+
+			TimeZone /**/gmt6/**/ = TimeZone.getTimeZone( "GMT+6:00" );
+			ComputationFactory f = e.getComputationFactory( new Computation.Config( /**/gmt6/**/ ) );
+			DateComputation c = (DateComputation) f.newComputation( null );
+			Date result = c.result();
+			assertEquals( /**/fourHoursInMS/**/, date.getTime() - result.getTime() );
+___@_@___
+jc:org.formulacompiler.tutorials.EnvironmentConfig:---- saveDateConst
+__@@__
+SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
+			cfg.spreadsheet = b.getSpreadsheet();
+			cfg.typeExtension = ".xls";
+			cfg.outputStream = outputStream;
+			/**/cfg.timeZone = gmt2;/**/
+			SpreadsheetCompiler.newSpreadsheetSaver( cfg ).save();
+___@_@___
+jc:org.formulacompiler.tutorials.EnvironmentConfig:---- setupDateConst
+__@@__
+TimeZone /**/gmt2/**/ = TimeZone.getTimeZone( "GMT+2:00" );
+			Calendar cal = Calendar.getInstance( /**/gmt2/**/ );
+			cal.clear();
+			cal.set( 1970, 6, 13, 12, 13 );
+			Date date = cal.getTime();
+
+			SpreadsheetBuilder b = SpreadsheetCompiler.newSpreadsheetBuilder();
+			b.newCell( /**/b.cst( date )/**/ );
+			b.nameCell( "result" );
 ___@_@___
 jc:org.formulacompiler.tutorials.ErrorImproperInnerSectionReference:---- badRange1
 __@@__
@@ -4777,9 +4861,9 @@ __@@__
 			<td><span style="text-decoration: underline;">Highlight</span></td>
 		</tr>
 		<tr>
-			<td class="xl-row">146</td>
+			<td class="xl-row">152</td>
 			<td class="xl-num">0.5</td>
-			<td class="xl-num">0.5<br/><span class="xl-exp">=VAR(C146,D146)</span></td>
+			<td class="xl-num">0.5<br/><span class="xl-exp">=VAR(C152,D152)</span></td>
 			<td class="xl-num">1</td>
 			<td class="xl-num">2</td>
 			<td></td>
@@ -4792,9 +4876,9 @@ __@@__
 			<td>VAR</td>
 		</tr>
 		<tr>
-			<td class="xl-row">147</td>
+			<td class="xl-row">153</td>
 			<td class="xl-num">0.5</td>
-			<td class="xl-num">0.5<br/><span class="xl-exp">=VAR(C147,D147)</span></td>
+			<td class="xl-num">0.5<br/><span class="xl-exp">=VAR(C153,D153)</span></td>
 			<td class="xl-num">4</td>
 			<td class="xl-num">5</td>
 			<td></td>
@@ -4807,7 +4891,7 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">148</td>
+			<td class="xl-row">154</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -4822,9 +4906,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">149</td>
+			<td class="xl-row">155</td>
 			<td class="xl-num">5.8</td>
-			<td class="xl-num">5.8<br/><span class="xl-exp">=VAR(C149:E149,G149,I149)</span></td>
+			<td class="xl-num">5.8<br/><span class="xl-exp">=VAR(C155:E155,G155,I155)</span></td>
 			<td class="xl-num">1</td>
 			<td class="xl-num">2</td>
 			<td class="xl-num">3</td>
@@ -4837,9 +4921,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">150</td>
+			<td class="xl-row">156</td>
 			<td class="xl-num">2.5</td>
-			<td class="xl-num">2.5<br/><span class="xl-exp">=VAR(C150:E150,G150,I150)</span></td>
+			<td class="xl-num">2.5<br/><span class="xl-exp">=VAR(C156:E156,G156,I156)</span></td>
 			<td class="xl-num">6</td>
 			<td class="xl-num">7</td>
 			<td class="xl-num">8</td>
@@ -4854,7 +4938,7 @@ __@@__
 	</tbody>
 </table>
 ___@_@___
-xc:org/formulacompiler/tests/reference/DatabaseAggregators.xls:BaseData
+xc:org/formulacompiler/tests/reference/DatabaseAggregators_de_CH.xls:BaseData
 __@@__
 <table class="xl">
 	<thead>
@@ -4964,7 +5048,7 @@ __@@__
 			<td class="xl-row">11</td>
 			<td></td>
 			<td class="xl-r3">Apple</td>
-			<td>&gt;10</td>
+			<td>&gt;10.0</td>
 			<td>&lt;16</td>
 			<td>Nonexistent</td>
 			<td>&lt;1.4e6</td>
@@ -4975,7 +5059,7 @@ __@@__
 			<td></td>
 			<td class="xl-r3">Pear</td>
 			<td></td>
-			<td></td>
+			<td>&lt;1'000</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -6445,6 +6529,46 @@ __@@__
 	</tbody>
 </table>
 <br/><span class="xl-r1">A4:A4</span> <span class="xl-name">(Unsupported)</span>
+___@_@___
+xc:org/formulacompiler/tutorials/Locale_en_US.xls:MixedExample;formulas-only
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>A</td>
+			<td>B</td>
+			<td>C</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">2</td>
+			<td class="xl-num"><span class="xl-exp-only">=VALUE(B2&amp;C2)</span><br/><span class="xl-name">(MixedResult)</span></td>
+			<td>0.</td>
+			<td>6<br/><span class="xl-name">(MixedInput)</span></td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
+xc:org/formulacompiler/tutorials/Locale_en_US.xls:ValueExample;formulas-only
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>A</td>
+			<td>B</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">1</td>
+			<td class="xl-num"><span class="xl-exp-only">=VALUE(B1)</span><br/><span class="xl-name">(ValueResult)</span></td>
+			<td>1,234.56<br/><span class="xl-name">(ValueInput)</span></td>
+		</tr>
+	</tbody>
+</table>
 ___@_@___
 xc:org/formulacompiler/tutorials/SectionReferences.xls:Data
 __@@__

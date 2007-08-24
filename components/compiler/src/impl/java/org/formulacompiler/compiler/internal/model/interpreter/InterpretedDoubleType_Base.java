@@ -23,14 +23,15 @@ package org.formulacompiler.compiler.internal.model.interpreter;
 import java.util.Date;
 
 import org.formulacompiler.compiler.NumericType;
+import org.formulacompiler.runtime.internal.Environment;
 
 
 abstract class InterpretedDoubleType_Base extends InterpretedNumericType
 {
 
-	public InterpretedDoubleType_Base(NumericType _type)
+	public InterpretedDoubleType_Base( NumericType _type, Environment _env )
 	{
-		super( _type );
+		super( _type, _env );
 	}
 
 
@@ -38,13 +39,6 @@ abstract class InterpretedDoubleType_Base extends InterpretedNumericType
 	public Object adjustConstantValue( Object _value )
 	{
 		return _value;
-	}
-
-
-	@Override
-	public Number fromString( String _s )
-	{
-		return Double.parseDouble( _s );
 	}
 
 

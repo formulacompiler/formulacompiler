@@ -22,17 +22,25 @@ package org.formulacompiler.tutorials;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.Computation;
+import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.runtime.EngineLoader;
 import org.formulacompiler.runtime.FormulaRuntime;
 import org.formulacompiler.spreadsheet.EngineBuilder;
+import org.formulacompiler.spreadsheet.Spreadsheet;
+import org.formulacompiler.spreadsheet.SpreadsheetBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.spreadsheet.SpreadsheetSaver;
 
 import junit.framework.TestCase;
 
@@ -40,10 +48,12 @@ public final class EnvironmentConfig extends TestCase
 {
 
 
+	private static final String DATA_PATH = "src/test/data/org/formulacompiler/tutorials/";
+
 	public void testCustomLocaleTZ() throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tutorials/LocaleAndTimeZone.xls" );
+		builder.loadSpreadsheet( DATA_PATH + "LocaleAndTimeZone.xls" );
 		builder.setFactoryClass( MyFactory.class );
 		builder.bindAllByName();
 		SaveableEngine compiledEngine = builder.compile();
@@ -125,5 +135,139 @@ public final class EnvironmentConfig extends TestCase
 		public String formatted();
 	}
 
+
+	public void testCompilerConversion() throws Exception
+	{
+		final String filePath = DATA_PATH + "Locale_en_US.xls";
+		// ---- constantValue
+		Locale oldLocale = Locale.getDefault();
+		Locale./**/setDefault( Locale.GERMANY )/**/;
+		try {
+			DecimalFormat decimalFormat = ((DecimalFormat) NumberFormat.getInstance());
+			assertEquals( /**/','/**/, decimalFormat.getDecimalFormatSymbols().getDecimalSeparator() );
+
+			EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
+			builder.loadSpreadsheet( filePath );
+			/**/builder.getCompileTimeConfig().locale = Locale.US;/**/
+			builder.setFactoryClass( ValueFactory.class );
+			builder.getByNameBinder().outputs().bindAllMethodsToNamedCells();
+			Engine engine = builder.compile();
+			ValueFactory factory = (ValueFactory) engine.getComputationFactory();
+			ValueComputation computation = factory.newComputation( null );
+			assertEquals( /**/1234.56/**/, computation.valueResult(), 0.00001 );
+		}
+		finally {
+			Locale.setDefault( oldLocale );
+		}
+		// ---- constantValue
+	}
+
+	public void testRuntimeConversion() throws Exception
+	{
+		// ---- boundValue
+		Locale oldLocale = Locale.getDefault();
+		Locale.setDefault( Locale.GERMANY );
+		try {
+			DecimalFormat decimalFormat = ((DecimalFormat) NumberFormat.getInstance());
+			assertEquals( ',', decimalFormat.getDecimalFormatSymbols().getDecimalSeparator() );
+
+			EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
+			builder.loadSpreadsheet( DATA_PATH + "Locale_en_US.xls" );
+			builder.setFactoryClass( ValueFactory.class );
+			builder.getByNameBinder().outputs().bindAllMethodsToNamedCells();
+			builder.getByNameBinder()./**/inputs().bindAllMethodsToNamedCells()/**/;
+			Engine engine = builder.compile();
+			ValueFactory factory = (ValueFactory) engine.getComputationFactory();
+			ValueComputation computation = factory.newComputation( new ValueInputs() );
+			assertEquals( /**/6543.21/**/, computation.valueResult(), 0.00001 );
+		}
+		finally {
+			Locale.setDefault( oldLocale );
+		}
+		// ---- boundValue
+	}
+
+	public static interface ValueFactory
+	{
+		public ValueComputation newComputation( ValueInputs _inputs );
+	}
+
+	public static class ValueInputs
+	{
+		// DO NOT REFORMAT BELOW THIS LINE
+		// ---- boundValueInput
+		public String valueInput() { return /**/"6.543,21"/**/; }
+		// ---- boundValueInput
+		// DO NOT REFORMAT ABOVE THIS LINE
+	}
+
+	public static interface ValueComputation
+	{
+		public double valueResult();
+	}
+
+
+	public void testSavingDateConstant() throws Exception
+	{
+		int fourHoursInMS = 4 * 1000 * 60 * 60;
+
+		TimeZone oldTZ = TimeZone.getDefault();
+		try {
+			TimeZone.setDefault( TimeZone.getTimeZone( "GMT" ) );
+
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+			// ---- setupDateConst
+			TimeZone /**/gmt2/**/ = TimeZone.getTimeZone( "GMT+2:00" );
+			Calendar cal = Calendar.getInstance( /**/gmt2/**/ );
+			cal.clear();
+			cal.set( 1970, 6, 13, 12, 13 );
+			Date date = cal.getTime();
+
+			SpreadsheetBuilder b = SpreadsheetCompiler.newSpreadsheetBuilder();
+			b.newCell( /**/b.cst( date )/**/ );
+			b.nameCell( "result" );
+			// ---- setupDateConst
+
+			// ---- saveDateConst
+			SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
+			cfg.spreadsheet = b.getSpreadsheet();
+			cfg.typeExtension = ".xls";
+			cfg.outputStream = outputStream;
+			/**/cfg.timeZone = gmt2;/**/
+			SpreadsheetCompiler.newSpreadsheetSaver( cfg ).save();
+			// ---- saveDateConst
+
+			outputStream.close();
+			byte[] bytes = outputStream.toByteArray();
+			InputStream inputStream = new ByteArrayInputStream( bytes );
+
+			// ---- loadDateConst
+			Spreadsheet loaded = SpreadsheetCompiler.loadSpreadsheet( ".xls", inputStream );
+			EngineBuilder eb = SpreadsheetCompiler.newEngineBuilder();
+			eb.setSpreadsheet( loaded );
+			eb.setInputClass( Object.class );
+			eb.setOutputClass( DateComputation.class );
+			eb.bindAllByName();
+			SaveableEngine e = eb.compile();
+
+			TimeZone /**/gmt6/**/ = TimeZone.getTimeZone( "GMT+6:00" );
+			ComputationFactory f = e.getComputationFactory( new Computation.Config( /**/gmt6/**/ ) );
+			DateComputation c = (DateComputation) f.newComputation( null );
+			Date result = c.result();
+			assertEquals( /**/fourHoursInMS/**/, date.getTime() - result.getTime() );
+			// ---- loadDateConst
+
+		}
+		finally {
+			TimeZone.setDefault( oldTZ );
+		}
+	}
+
+
+	public static interface DateComputation
+	{
+		Date result();
+	}
 
 }

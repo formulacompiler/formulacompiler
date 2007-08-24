@@ -15,7 +15,7 @@ h2. Base Data
 
 In the following examples, I will always consider references to this sheet:
 
-	[xc:org/formulacompiler/tests/reference/DatabaseAggregators.xls:BaseData]
+	[xc:org/formulacompiler/tests/reference/DatabaseAggregators_de_CH.xls:BaseData]
 
 	
 h2. Simple Sum

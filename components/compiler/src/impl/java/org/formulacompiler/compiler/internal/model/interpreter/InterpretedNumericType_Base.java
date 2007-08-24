@@ -26,21 +26,23 @@ import java.util.List;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.Operator;
+import org.formulacompiler.compiler.internal.NumericTypeImpl;
 import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
+import org.formulacompiler.runtime.internal.Environment;
 
 
 abstract class InterpretedNumericType_Base
 {
-	private final NumericType num;
+	private final NumericTypeImpl num;
 
 
-	InterpretedNumericType_Base( NumericType _type )
+	InterpretedNumericType_Base( NumericType _type, Environment _env )
 	{
 		super();
-		this.num = _type;
+		this.num = (NumericTypeImpl) _type;
 	}
 
 
@@ -79,8 +81,10 @@ abstract class InterpretedNumericType_Base
 	}
 
 
-	// FIXME Need a compiler locale here, really.
-	public abstract Number fromString( String _s ) throws ParseException;
+	public final Number fromString( String _s, Environment _env ) throws ParseException
+	{
+		return this.num.valueOf( _s, _env );
+	}
 
 
 	public boolean toBoolean( Object _value )

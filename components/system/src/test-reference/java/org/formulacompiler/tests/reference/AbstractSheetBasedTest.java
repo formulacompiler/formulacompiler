@@ -41,6 +41,7 @@ import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.runtime.ScaledLong;
+import org.formulacompiler.runtime.Computation.Config;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.runtime.internal.RuntimeLong_v2;
@@ -152,6 +153,11 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 		}
 	}
 
+
+	protected Computation.Config getConfig()
+	{
+		return this.config;
+	}
 
 	protected void setConfig( final Computation.Config _config )
 	{
@@ -414,7 +420,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 
 			private TimeZone getTimeZone()
 			{
-				final Computation.Config config = AbstractSheetBasedTest.this.config;
+				final Computation.Config config = getConfig();
 				TimeZone timeZone = config != null? config.timeZone : null;
 				if (timeZone == null) {
 					timeZone = TimeZone.getDefault();
@@ -729,8 +735,9 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 								reportDefectiveEngine( e, this.typedTestName );
 							}
 
-							final ComputationFactory f = AbstractSheetBasedTest.this.config != null? e
-									.getComputationFactory( AbstractSheetBasedTest.this.config ) : e.getComputationFactory();
+							final Config cfg = getConfig();
+							final ComputationFactory f = (cfg != null)? e.getComputationFactory( cfg ) : e
+									.getComputationFactory();
 
 							final Outputs o = (Outputs) f.newComputation( newInputs() );
 							final Object expected = AbstractRowRunner.this.expected;
@@ -770,6 +777,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 						final EngineBuilder eb = SpreadsheetCompiler.newEngineBuilder();
 						eb.setSpreadsheet( AbstractRowRunner.this.formulaRow.getSheet().getSpreadsheet() );
 						eb.setNumericType( this.numericType );
+						eb.setCompileTimeConfig( getConfig() );
 						configureInterface( eb, this.caching );
 						final Section b = eb.getRootBinder();
 						b.defineOutputCell( AbstractRowRunner.this.formula.getCellIndex(), new CallFrame( b.getOutputClass()
