@@ -35,11 +35,14 @@ public class BadAlternativeResultTest extends AbstractReferenceTest
 			fail( "Failing test did not fail" );
 		}
 		catch (AssertionFailedError e) {
-			assertEquals( "R3: Testing failing on alternative input @ 11 using double expected:<3.0> but was:<7.0>", e
-					.getMessage() );
+			final String msg = e.getMessage();
+			assertContains( msg, "R3: Testing failing on alternative input @ " );
+			assertContains( msg, "using double expected:<3.0> but was:<7.0>" );
 		}
-		assertEquals( "Number of engines compiled", (1 << INPUTS) * CACHING_VARIANTS * TYPE_VARIANTS,
-				getNumberOfEnginesCompiled() );
+		if (!runningQuickTests()) {
+			assertEquals( "Number of engines compiled", (1 << INPUTS) * CACHING_VARIANTS * TYPE_VARIANTS,
+					getNumberOfEnginesCompiled() );
+		}
 	}
 
 }

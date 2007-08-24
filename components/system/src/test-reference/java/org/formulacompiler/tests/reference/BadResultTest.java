@@ -34,7 +34,10 @@ public class BadResultTest extends AbstractReferenceTest
 			fail( "Failing test did not fail" );
 		}
 		catch (AssertionFailedError e) {
-			assertEquals( "R2: Failing Test @ 0 using double expected:<4.0> but was:<3.0>", e.getMessage() );
+			final String msg = e.getMessage();
+			final String sub = "R2: Failing Test";
+			assertContains( msg, sub );
+			assertContains( msg, "using double expected:<4.0> but was:<3.0>" );
 		}
 	}
 

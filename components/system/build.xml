@@ -223,6 +223,7 @@
 				<jvmarg value="-Demit_tests" />
 				<jvmarg value="-DrunOnlyType=${test-ref-only-type}" />
 				<jvmarg value="-DrunOnlyCacheVariant=${test-ref-only-caching}" />
+				<jvmarg value="-DrunQuickTests=${test-ref-quick}" />
 				<assertions enablesystemassertions="yes" />
 				<formatter type="plain" usefile="yes" />
 
@@ -244,6 +245,9 @@
 
 			<junit printsummary="no" showoutput="no" haltonerror="no" haltonfailure="no" failureproperty="tests.failed.b" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
 				<jvmarg value="-Demit_tests" />
+				<jvmarg value="-DrunOnlyType=${test-ref-only-type}" />
+				<jvmarg value="-DrunOnlyCacheVariant=${test-ref-only-caching}" />
+				<jvmarg value="-DrunQuickTests=${test-ref-quick}" />
 				<assertions enablesystemassertions="yes" />
 				<formatter type="plain" usefile="yes" />
 
