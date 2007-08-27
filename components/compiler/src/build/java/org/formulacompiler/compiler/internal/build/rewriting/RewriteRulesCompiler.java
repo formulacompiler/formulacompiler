@@ -47,6 +47,7 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 
 		defineAggregators();
 		defineFinancial();
+		defineStatistical();
 
 		// Please leave this rule here. It is cited into the documentation.
 		// ---- fun_COMBIN
@@ -291,6 +292,19 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		end();
 		def( Function.PMT, "rate", "nper", "pv", "fv", "PMT (`rate, `nper, `pv, `fv, 0 )" );
 		def( Function.PMT, "rate", "nper", "pv", "PMT (`rate, `nper, `pv, 0, 0 )" );
+	}
+
+
+	private void defineStatistical() throws Exception
+	{
+		begin( Function.RANK, "number", "ref#", "order" );
+		{
+			body( "_FOLD_ARRAY( r: 1; refi, i: " );
+			body( "  `r + IF( IF( `order = 0, `number < `refi, `number > `refi ), 1, 0); " );
+			body( "`ref )" );
+		}
+		end();
+		def( Function.RANK, "number+", "ref+", "RANK (`number, `ref, 0 )" );
 	}
 
 

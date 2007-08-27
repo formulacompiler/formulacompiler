@@ -312,6 +312,7 @@ void fun(): {}
 	|	"PROPER" fun1( Function.PROPER )
 	|	"PV" fun3to5( Function.PV )
 	|	"RADIANS" fun1( Function.RADIANS )
+	|	"RANK" open() expr() "," shapedRangeExpr() optCommaExpr() closeFun( Function.RANK )
 	|	"RATE" fun3to6( Function.RATE )
 	|	"REPLACE" fun4( Function.REPLACE )
 	|	"REPT" fun2( Function.REPT )
