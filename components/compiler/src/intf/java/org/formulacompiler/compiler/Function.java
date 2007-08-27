@@ -44,6 +44,10 @@ public enum Function {
 
 	NPV, MIRR, IRR, DB, DDB, SLN, SYD, FV, NPER, PMT, PV, RATE,
 
+	//Statistical
+
+	RANK,
+
 	// Dates
 
 	DATE, TIME, SECOND, MINUTE, HOUR, WEEKDAY, DAY, MONTH, YEAR, NOW
