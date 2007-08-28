@@ -46,7 +46,7 @@ public enum Function {
 
 	//Statistical
 
-	RANK,
+	RANK, VAR, VARP, STDEV, STDEVP, AVEDEV, DEVSQ, SKEW, KURT,
 
 	// Dates
 
@@ -108,7 +108,7 @@ public enum Function {
 	// Aggregators
 	// Don't forget to update AGGREGATORS below!
 
-	SUM, PRODUCT, MIN, MAX, COUNT, AVERAGE, VAR, VARP, AND, OR, KURT, SKEW, STDEV, STDEVP, AVEDEV, DEVSQ, SUMSQ,
+	SUM, PRODUCT, MIN, MAX, COUNT, AVERAGE, AND, OR, SUMSQ,
 
 	// Database aggregators
 	DSUM, DPRODUCT, DCOUNT, DMIN, DMAX;
