@@ -46,7 +46,7 @@ public enum Function {
 
 	// Statistical
 
-	RANK, VAR, VARP, STDEV, STDEVP, AVEDEV, DEVSQ, SKEW, KURT, CONFIDENCE,
+	RANK, VAR, VARP, STDEV, STDEVP, AVEDEV, DEVSQ, SKEW, KURT, CONFIDENCE, NORMINV, NORMSINV,
 
 	// Dates
 
@@ -107,10 +107,7 @@ public enum Function {
 	SUM, PRODUCT, MIN, MAX, COUNT, COUNTA, AVERAGE, AND, OR, SUMSQ,
 
 	// Database aggregators
-	DSUM, DPRODUCT, DCOUNT, DMIN, DMAX,
-
-	//Internal
-	_GAUSSINV;
+	DSUM, DPRODUCT, DCOUNT, DMIN, DMAX;
 
 
 	private static final Function[] AGGREGATORS = { SUM, PRODUCT, MIN, MAX, COUNT, COUNTA, AVERAGE, VAR, VARP, AND, OR,
