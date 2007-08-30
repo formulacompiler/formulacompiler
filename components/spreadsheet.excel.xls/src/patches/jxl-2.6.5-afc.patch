@@ -1,11 +1,11 @@
 diff -r 36cdddf74514 .hgtags
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/.hgtags	Tue Aug 28 15:16:44 2007 +0200
++++ b/.hgtags	Tue Aug 28 16:32:00 2007 +0300
 @@ -0,0 +1,1 @@
 +36cdddf74514430c65f636a1cb541b331d86a036 2.6.5
 diff -r 36cdddf74514 src/jxl/DateCell.java
 --- a/src/jxl/DateCell.java	Tue Aug 28 15:16:42 2007 +0200
-+++ b/src/jxl/DateCell.java	Tue Aug 28 15:16:44 2007 +0200
++++ b/src/jxl/DateCell.java	Tue Aug 28 16:32:02 2007 +0300
 @@ -35,6 +35,13 @@ public interface DateCell extends Cell
    public Date getDate();
  
@@ -22,7 +22,7 @@ diff -r 36cdddf74514 src/jxl/DateCell.java
     *
 diff -r 36cdddf74514 src/jxl/biff/formula/Attribute.java
 --- a/src/jxl/biff/formula/Attribute.java	Tue Aug 28 15:16:42 2007 +0200
-+++ b/src/jxl/biff/formula/Attribute.java	Tue Aug 28 15:16:44 2007 +0200
++++ b/src/jxl/biff/formula/Attribute.java	Tue Aug 28 16:32:02 2007 +0300
 @@ -54,6 +54,7 @@ class Attribute extends Operator impleme
  
    private static final int SUM_MASK  = 0x10;
@@ -63,7 +63,7 @@ diff -r 36cdddf74514 src/jxl/biff/formula/Attribute.java
    /**
 diff -r 36cdddf74514 src/jxl/biff/formula/Function.java
 --- a/src/jxl/biff/formula/Function.java	Tue Aug 28 15:16:42 2007 +0200
-+++ b/src/jxl/biff/formula/Function.java	Tue Aug 28 15:16:44 2007 +0200
++++ b/src/jxl/biff/formula/Function.java	Wed Aug 29 12:57:02 2007 +0300
 @@ -293,8 +293,10 @@ final class Function
      new Function(0x3b, "pmt", 0xff);
    public static final Function RATE =
@@ -113,9 +113,18 @@ diff -r 36cdddf74514 src/jxl/biff/formula/Function.java
    public static final Function FORECAST =
      new Function(0x135, "forecast", 0xff);
    public static final Function FTEST =
+@@ -670,7 +674,7 @@ final class Function
+   public static final Function MODE =
+     new Function(0x14a, "mode", 0xff);
+   public static final Function TRIMMEAN =
+-    new Function(0x14b, "trimmean", 0xff);
++    new Function(0x14b, "trimmean", 2);
+   public static final Function TINV =
+     new Function(0x14c, "tinv", 2);
+   public static final Function CONCATENATE =
 diff -r 36cdddf74514 src/jxl/read/biff/DateFormulaRecord.java
 --- a/src/jxl/read/biff/DateFormulaRecord.java	Tue Aug 28 15:16:42 2007 +0200
-+++ b/src/jxl/read/biff/DateFormulaRecord.java	Tue Aug 28 15:16:44 2007 +0200
++++ b/src/jxl/read/biff/DateFormulaRecord.java	Tue Aug 28 16:32:02 2007 +0300
 @@ -130,16 +130,6 @@ class DateFormulaRecord extends DateReco
    }
  
@@ -135,7 +144,7 @@ diff -r 36cdddf74514 src/jxl/read/biff/DateFormulaRecord.java
     * @return NULL
 diff -r 36cdddf74514 src/jxl/read/biff/DateRecord.java
 --- a/src/jxl/read/biff/DateRecord.java	Tue Aug 28 15:16:42 2007 +0200
-+++ b/src/jxl/read/biff/DateRecord.java	Tue Aug 28 15:16:44 2007 +0200
++++ b/src/jxl/read/biff/DateRecord.java	Tue Aug 28 16:32:02 2007 +0300
 @@ -45,6 +45,10 @@ class DateRecord implements DateCell, Ce
    private static Logger logger  = Logger.getLogger(DateRecord.class);
  
@@ -174,7 +183,7 @@ diff -r 36cdddf74514 src/jxl/read/biff/DateRecord.java
     *
 diff -r 36cdddf74514 src/jxl/write/biff/DateRecord.java
 --- a/src/jxl/write/biff/DateRecord.java	Tue Aug 28 15:16:42 2007 +0200
-+++ b/src/jxl/write/biff/DateRecord.java	Tue Aug 28 15:16:44 2007 +0200
++++ b/src/jxl/write/biff/DateRecord.java	Tue Aug 28 16:32:02 2007 +0300
 @@ -36,7 +36,7 @@ import jxl.write.WritableCellFormat;
  /**
   * A date stored in the database
@@ -203,7 +212,7 @@ diff -r 36cdddf74514 src/jxl/write/biff/DateRecord.java
     * even if they refer to a time
 diff -r 36cdddf74514 src/jxl/write/biff/ReadDateFormulaRecord.java
 --- a/src/jxl/write/biff/ReadDateFormulaRecord.java	Tue Aug 28 15:16:42 2007 +0200
-+++ b/src/jxl/write/biff/ReadDateFormulaRecord.java	Tue Aug 28 15:16:44 2007 +0200
++++ b/src/jxl/write/biff/ReadDateFormulaRecord.java	Tue Aug 28 16:32:02 2007 +0300
 @@ -52,6 +52,16 @@ class ReadDateFormulaRecord extends Read
    }
  
