@@ -44,6 +44,10 @@ public enum Function {
 
 	NPV, MIRR, IRR, DB, DDB, SLN, SYD, FV, NPER, PMT, PV, RATE,
 
+	// Statistical
+
+	RANK, VAR, VARP, STDEV, STDEVP, AVEDEV, DEVSQ, SKEW, KURT,
+
 	// Dates
 
 	DATE, TIME, SECOND, MINUTE, HOUR, WEEKDAY, DAY, MONTH, YEAR, NOW
@@ -100,14 +104,14 @@ public enum Function {
 	// Aggregators
 	// Don't forget to update AGGREGATORS below!
 
-	SUM, PRODUCT, MIN, MAX, COUNT, COUNTA, AVERAGE, VAR, VARP, AND, OR, KURT, SKEW, STDEV, STDEVP,
+	SUM, PRODUCT, MIN, MAX, COUNT, COUNTA, AVERAGE, AND, OR, SUMSQ,
 
 	// Database aggregators
 	DSUM, DPRODUCT, DCOUNT, DMIN, DMAX;
 
 
 	private static final Function[] AGGREGATORS = { SUM, PRODUCT, MIN, MAX, COUNT, COUNTA, AVERAGE, VAR, VARP, AND, OR,
-			KURT, SKEW, STDEV, STDEVP };
+			KURT, SKEW, STDEV, STDEVP, AVEDEV, DEVSQ, SUMSQ };
 
 
 	public String getName()
