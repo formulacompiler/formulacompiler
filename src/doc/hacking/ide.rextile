@@ -1,0 +1,80 @@
+
+h1. IDE Setup
+
+AFC is split into a number of components. Ideally, each is managed in its own IDE project. Then, internally, each component's source is again split into a number of source paths covering areas like API (@intf@), implementation (@impl@), tests (@test@), and again into @java@, @resources@, etc. Each component's @lib@ folder is split into areas likewise.
+
+This keeps the project well organized, but it makes IDE setup a bit of bore. If you are using "Eclipse":-ec or "IDEA":-idea, then the project definitions are already there, but still need to be opened or imported.
+
+Before you setup the IDE, you have to run an initial build so the generated sources are in place.    
+
+<%= toc %>
+
+
+h2. Rebuild Sources
+
+Run "@ant -q build@":build.htm to rebuild all the generated Java sources and source paths. Make sure that @ant@ runs on the same version of the JDK as you configure for the projects in your IDE. This is because some of the generated sources differ by JDK version and are put into separate folders (see below).
+
+
+h2. Eclipse
+
+h4. Sources
+
+_Don't forget to rebuild the generated sources first! (See above.)_
+
+h4. Subversion
+
+AFC consists of a master project, @afc@, and the component projects in @components/.../@ like @afc-runtime@, @afc-compiler@, etc. As of June 2007, "Subclipse":http://subclipse.tigris.org/ cannot handle nested projects (it hangs the IDE). So if you want the @afc@ project in Eclipse (contains master build and script and documentation source), then you have to either use "Subversive":http://www.polarion.org/index.php?page=overview&project=subversive or no team support at all.
+
+h4. Setup
+
+To use "Eclipse":-ec (as I do), you can simply import the existing projects:
+
+dt. afc : in the root folder (optional; see Subversion above)
+
+dt. afc-runtime : in @components/runtime/@
+
+dt. afc-compiler : in @components/compiler/@
+
+dt. afc-decompiler : in @components/decompiler/@
+
+dt. afc-spreadsheet : in @components/spreadsheet/@
+
+dt. afc-spreadsheetdt.excel-xls : in @components/spreadsheet.excel.xls/@
+
+Unfortunately as of Eclipse 3.3 you have to import each project separately using "File -> Import".
+
+h4. Code Style
+
+The default Eclipse projects have a project-specific "code style":style.htm already set.
+
+
+h2. IDEA
+
+h4. Sources
+
+_Don't forget to rebuild the generated sources first! (See above.)_
+
+h4. Setup
+
+The project definitions are in place. Since I don't use IDEA, I cannot tell you how to import/open them.
+
+
+h2. Other IDEs
+
+h4. Sources
+
+_Don't forget to rebuild the generated sources first! (See above.)_
+
+h4. Setup
+
+Ideally, set up each component in its own project. Then you can define project dependencies to make sure you don't violate ".jar boundaries":dependencies.htm. The components are in @components/@. Each component has a bunch of source folders in @components/.../src/.../@. They might also have external jars in @components/.../lib/.../@ (see the "files overview":files.htm).
+
+Make sure you also add @components/compiler/temp/java@ and @components/compiler/temp/java15@ to the compiler component's source path (generated sources). 
+
+h4. Tests
+
+Now make sure that, when running tests for a component, the current folder is set to the component's folder (@components/compiler@, for example).
+
+h4. Code Style
+
+Finally, you may want to update Java source code formatter rules for the preferred "code style":style.htm to use with AFC.

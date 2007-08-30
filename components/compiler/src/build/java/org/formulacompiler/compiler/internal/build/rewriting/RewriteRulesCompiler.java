@@ -1,0 +1,425 @@
+/*
+ * Copyright (c) 2006 by Abacus Research AG, Switzerland.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are prohibited, unless you have been explicitly granted
+ * more rights by Abacus Research AG.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ * OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
+ * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+package org.formulacompiler.compiler.internal.build.rewriting;
+
+import org.formulacompiler.compiler.Function;
+
+
+public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
+{
+
+	private RewriteRulesCompiler()
+	{
+		super();
+	}
+
+
+	public static void main( String[] args ) throws Exception
+	{
+		new RewriteRulesCompiler().run();
+	}
+
+
+	// Leave these comments in. They are used to cite the code into the documentation.
+	// ---- fun_COMBIN
+	@Override
+	protected void defineFunctions() throws Exception
+	{
+		// ---- fun_COMBIN
+
+		defineAggregators();
+		defineFinancial();
+		defineStatistical();
+
+		// Please leave this rule here. It is cited into the documentation.
+		// ---- fun_COMBIN
+		// ...
+		begin( Function.COMBIN, "n", "k" );
+		{
+			body( "IF( OR( `n <= 0, `k < 0, `n < `k ), 0," );
+			body( "  IF( `n = `k, 1," );
+			body( "    IF( `k = 1, `n," );
+			body( "      FACT(`n) / FACT(`k) / FACT(`n - `k)" );
+			body( "    )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
+		// ...
+	}
+	// ---- fun_COMBIN
+
+
+	private void defineAggregators() throws Exception
+	{
+
+		def( Function.COUNTA, "xs*", "COUNT( `xs )" );
+
+		/*
+		 * PRODUCT must return 0 for empty sections, so I cannot use _FOLD_OR_REDUCE as the initial
+		 * value would then be 1.
+		 */
+		def( Function.PRODUCT, "xs*", "_REDUCE( r, xi: `r * `xi; 0; `xs )" );
+
+		/*
+		 * The first argument to SUM can be used as the initial value to get rid of one addition. But
+		 * the single addition is not worth the overhead of _FOLDL_1ST. So use _FOLDL_1ST_OK.
+		 */
+		// Leave this comment in. It is used to cite the code into the documentation.
+		// ---- fun_SUM
+		def( Function.SUM, "xs*", "_FOLD_OR_REDUCE( r: 0; xi: `r + `xi; `xs )" );
+		// ---- fun_SUM
+
+		/*
+		 * It is clearer for MIN and MAX to always act on the first arg and not some arbitrary
+		 * extremal initial value. So use _FOLDL_1ST.
+		 */
+		// Leave this comment in. It is used to cite the code into the documentation.
+		// ---- fun_MINMAX
+		def( Function.MIN, "xs*", "_REDUCE( r, xi: `r _min_ `xi; 0; `xs )" );
+		def( Function.MAX, "xs*", "_REDUCE( r, xi: `r _max_ `xi; 0; `xs )" );
+		// ---- fun_MINMAX
+
+		/*
+		 * This definition of AVERAGE is not really suitable for large, non-cached sections. It is
+		 * also not good for when NULL is properly supported. Since both of these features are not yet
+		 * done, I'll leave it for the moment.
+		 */
+		def( Function.AVERAGE, "xs*", "SUM( `xs ) / COUNT( `xs )" );
+
+		def( Function.SUMSQ, "xs*", "_FOLD( r: 0; xi: `r + `xi*`xi; `xs )" );
+	}
+
+
+	private void defineFinancial() throws Exception
+	{
+
+		// Leave this comment in. It is used to cite the code into the documentation.
+		// ---- fun_NPV
+		// ...
+		begin( Function.NPV, "rate", "vs#" );
+		{
+			body( "_LET( rate1: `rate + 1;" );
+			body( "  _FOLD_ARRAY( r: 0; vi, i: `r + `vi / `rate1 ^ `i; `vs ))" );
+		}
+		end();
+		// ...
+		// ---- fun_NPV
+
+		/*
+		 * MIRR could use NPV internally (array passing is not yet supported by the compiler, though),
+		 * but a little math shows that the following is equivalent but quicker.
+		 */
+		begin( Function.MIRR, "vs#", "frate", "rrate" );
+		{
+			body( "_LET( n: COUNT( `vs );" );
+			body( "_LET( rrate1: `rrate + 1;" );
+			body( "_LET( frate1: `frate + 1;" );
+			body( "  ((-_FOLD_ARRAY( r: 0; vi, i: `r + IF( `vi > 0, `vi, 0 ) * `rrate1 ^ (`n - `i); `vs ))" );
+			body( "   / _FOLD_ARRAY( r: 0; vi, i: `r + IF( `vi < 0, `vi, 0 ) / `frate1 ^ (`i - 1); `vs ))" );
+			body( "  ^ (1 / (`n - 1))" );
+			body( "  - 1 )))" );
+		}
+		end();
+
+		def( Function.SLN, "cost", "salvage", "life", "(`cost - `salvage) / `life" );
+		def( Function.SYD, "cost", "salvage", "life", "per",
+				"(`cost - `salvage) * (`life - `per + 1) * 2 / (`life * (`life + 1))" );
+
+		begin( Function.FV, "rate", "nper", "pmt", "pv", "type" );
+		{
+			body( "IF( `rate = 0," );
+			body( "  -`pv - `pmt * `nper," );
+			body( "  _LET( p: (`rate + 1) ^ `nper;" );
+			body( "  _LET( k: IF (`type > 0, `rate + 1, 1);" );
+			body( "  -`pv * `p - `pmt * (`p - 1) * `k / `rate" );
+			body( "  ))" );
+			body( ")" );
+		}
+		end();
+		def( Function.FV, "rate", "nper", "pmt", "pv", "FV( `rate, `nper, `pmt, `pv, 0 )" );
+		def( Function.FV, "rate", "nper", "pmt", "FV( `rate, `nper, `pmt, 0, 0 )" );
+
+		begin( Function.NPER, "rate", "pmt", "pv", "fv", "type" );
+		{
+			body( "IF( `rate = 0," );
+			body( "  -(`pv + `fv) / `pmt," );
+			body( "  _LET( a: IF(`type > 0 , `pmt * (1 + `rate) , `pmt);" );
+			body( "    LOG( -(`rate * `fv - `a) / (`rate * `pv + `a), 1 + `rate )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
+		def( Function.NPER, "rate", "pmt", "pv", "fv", "NPER( `rate, `pmt, `pv, `fv, 0 )" );
+		def( Function.NPER, "rate", "pmt", "pv", "NPER( `rate, `pmt, `pv, 0, 0 )" );
+
+		begin( Function.PV, "rate", "nper", "pmt", "fv", "type" );
+		{
+			body( "IF( `rate = 0," );
+			body( "  -`fv - `pmt * `nper," );
+			body( "  _LET( a: 1 + `rate;" );
+			body( "  _LET( b: -`fv * ( `a ^ -`nper );" );
+			body( "  IF( `type > 0," );
+			body( "    `b + (`pmt * (( `a ^ ( -`nper + 1 )) - 1) / `rate) - `pmt," );
+			body( "    `b + (`pmt * (( `a ^ -`nper ) - 1) / `rate)" );
+			body( "  )))" );
+			body( ")" );
+		}
+		end();
+		def( Function.PV, "rate", "nper", "pmt", "fv", "PV (`rate, `nper, `pmt, `fv, 0 )" );
+		def( Function.PV, "rate", "nper", "pmt", "PV (`rate, `nper, `pmt, 0, 0 )" );
+
+		begin( Function.PMT, "rate", "nper", "pv", "fv", "type" );
+		{
+			body( "IF( `rate = 0," );
+			body( "  -(`pv + `fv) / `nper," );
+			body( "  _LET( a: (1 + `rate) ^ `nper;" );
+			body( "  _LET( b: `pv / (1 - 1 / `a);" );
+			body( "  _LET( c: `fv / (`a - 1);" );
+			body( "  _LET( d: -(`b + `c) * `rate;" );
+			body( "  IF( `type > 0 , `d / (1 + `rate) , `d)" );
+			body( "  ))))" );
+			body( ")" );
+		}
+		end();
+		def( Function.PMT, "rate", "nper", "pv", "fv", "PMT (`rate, `nper, `pv, `fv, 0 )" );
+		def( Function.PMT, "rate", "nper", "pv", "PMT (`rate, `nper, `pv, 0, 0 )" );
+	}
+
+
+	private void defineStatistical() throws Exception
+	{
+		// Based on gaussinv() implementation for OpenOffice.org Calc by Martin Eitzenberger
+		begin( Function._GAUSSINV, "x" );
+		{
+			body( "_LET( q: `x - 0.5;" );
+			body( "  _LET( z:" );
+			body( "    IF( ABS( `q ) <= 0.425," );
+			body( "      _LET( t: 0.180625 - `q * `q;" );
+			body( "        `q *" );
+			body( "        (" );
+			body( "          (" );
+			body( "            (" );
+			body( "              (" );
+			body( "                (" );
+			body( "                  (" );
+			body( "                    (`t * 2509.0809287301226727 + 33430.575583588128105)" );
+			body( "                  * `t + 67265.770927008700853)" );
+			body( "                * `t + 45921.953931549871457)" );
+			body( "              * `t + 13731.693765509461125)" );
+			body( "            * `t + 1971.5909503065514427)" );
+			body( "          * `t + 133.14166789178437745)" );
+			body( "        * `t + 3.387132872796366608)" );
+			body( "        /" );
+			body( "        (" );
+			body( "          (" );
+			body( "            (" );
+			body( "              (" );
+			body( "                (" );
+			body( "                  (" );
+			body( "                    (`t * 5226.495278852854561 + 28729.085735721942674)" );
+			body( "                  * `t + 39307.89580009271061)" );
+			body( "                * `t + 21213.794301586595867)" );
+			body( "              * `t + 5394.1960214247511077)" );
+			body( "            * `t + 687.1870074920579083)" );
+			body( "          * `t + 42.313330701600911252)" );
+			body( "        * `t + 1.0)" );
+			body( "      )" );
+			body( "    ," );
+			body( "      _LET( tt: SQRT( -LN( IF( `q > 0, 1 - `x, `x ) ) );" );
+			body( "        IF( `tt <= 5.0," );
+			body( "          _LET( t: `tt - 1.6;" );
+			body( "            (" );
+			body( "              (" );
+			body( "                (" );
+			body( "                  (" );
+			body( "                    (" );
+			body( "                      (" );
+			body( "                        (`t * 7.7454501427834140764e-4 + 0.0227238449892691845833)" );
+			body( "                      * `t + 0.24178072517745061177)" );
+			body( "                    * `t + 1.27045825245236838258)" );
+			body( "                  * `t + 3.64784832476320460504)" );
+			body( "                * `t + 5.7694972214606914055)" );
+			body( "              * `t + 4.6303378461565452959)" );
+			body( "            * `t + 1.42343711074968357734)" );
+			body( "            /" );
+			body( "            (" );
+			body( "              (" );
+			body( "                (" );
+			body( "                  (" );
+			body( "                    (" );
+			body( "                      (" );
+			body( "                        (`t * 1.05075007164441684324e-9 + 5.475938084995344946e-4)" );
+			body( "                      * `t + 0.0151986665636164571966)" );
+			body( "                    * `t + 0.14810397642748007459)" );
+			body( "                  * `t + 0.68976733498510000455)" );
+			body( "                * `t + 1.6763848301838038494)" );
+			body( "              * `t + 2.05319162663775882187)" );
+			body( "            * `t + 1.0)" );
+			body( "          )" );
+			body( "        ," );
+			body( "          _LET( t: `tt - 5.0;" );
+			body( "            (" );
+			body( "              (" );
+			body( "                (" );
+			body( "                  (" );
+			body( "                    (" );
+			body( "                      (" );
+			body( "                        (`t * 2.01033439929228813265e-7 + 2.71155556874348757815e-5)" );
+			body( "                      * `t + 0.0012426609473880784386)" );
+			body( "                    * `t + 0.026532189526576123093)" );
+			body( "                  * `t + 0.29656057182850489123)" );
+			body( "                * `t + 1.7848265399172913358)" );
+			body( "              * `t + 5.4637849111641143699)" );
+			body( "            * `t + 6.6579046435011037772)" );
+			body( "            /" );
+			body( "            (" );
+			body( "              (" );
+			body( "                (" );
+			body( "                  (" );
+			body( "                    (" );
+			body( "                      (" );
+			body( "                        (`t * 2.04426310338993978564e-15 + 1.4215117583164458887e-7)" );
+			body( "                      * `t + 1.8463183175100546818e-5)" );
+			body( "                    * `t + 7.868691311456132591e-4)" );
+			body( "                  * `t + 0.0148753612908506148525)" );
+			body( "                * `t + 0.13692988092273580531)" );
+			body( "              * `t + 0.59983220655588793769)" );
+			body( "            * `t + 1.0)" );
+			body( "          )" );
+			body( "        )" );
+			body( "      )" );
+			body( "    );" );
+			body( "    IF( `q < 0.0, -`z, `z )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
+
+
+		def( Function.CONFIDENCE, "alpha", "sigma", "n", "_GAUSSINV( 1.0 - `alpha / 2.0) * `sigma / SQRT( INT( `n ) )");
+
+
+		begin( Function.RANK, "number", "ref#", "order" );
+		{
+			body( "_FOLD_ARRAY( r: 1; refi, i: " );
+			body( "  `r + IF( IF( `order = 0, `number < `refi, `number > `refi ), 1, 0); " );
+			body( "`ref )" );
+		}
+		end();
+		def( Function.RANK, "number+", "ref+", "RANK (`number, `ref, 0 )" );
+
+		/*
+		 * An efficient implementation of VARP for large datasets would require a helper function
+		 * returning _both_ the sum and the count in one pass. We don't do cursor-style aggregation
+		 * yet, so the following is quite OK.
+		 *
+		 * One might also consider turning this into an ARRAY function (xs# instead of xs*).
+		 * Currently, AFC does not support converting arbitrary range unions with possibly dynamic
+		 * sections into arrays.
+		 *
+		 * I am inlining AVERAGE here because COUNT is already known.
+		 */
+		begin( Function.VARP, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "	 _LET( m: SUM(`xs) / `n;" );
+			body( "    _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
+			body( "  )" );
+			body( "  / `n" );
+			body( ")" );
+		}
+		end();
+
+		// Leave this comment in. It is used to cite the code into the documentation.
+		// ---- fun_VAR
+		begin( Function.VAR, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "  _LET( m: SUM(`xs) / `n;" );
+			body( "    _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
+			body( "  )" );
+			body( "  / (`n - 1)" );
+			body( ")" );
+		}
+		end();
+		// ---- fun_VAR
+
+		begin( Function.KURT, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "  _LET( a: `n - 1;" );
+			body( "    _LET( b: (`n - 2) * (`n - 3);" );
+			body( "      _LET( s: STDEV(`xs);" );
+			body( "        _LET( m: SUM(`xs) / `n;" );
+			body( "          _FOLD( r: 0; xi:" );
+			body( "            _LET( ei2:" );
+			body( "              _LET( ei: (`xi - `m) / `s; `ei*`ei );" );
+			body( "            `r + `ei2*`ei2 );" );
+			body( "          `xs )" );
+			body( "        )" );
+			body( "      ) * `n * (`n + 1) / (`a * `b) - 3 * `a * `a / `b" );
+			body( "    )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
+
+		begin( Function.SKEW, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "  _LET( s3: _LET( s: STDEV(`xs); `s*`s*`s);" );
+			body( "    _LET( m: SUM(`xs) / `n;" );
+			body( "      _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei*`ei ); `xs )" );
+			body( "    )" );
+			body( "    / `s3" );
+			body( "  )" );
+			body( "  * `n / ((`n - 1) * (`n - 2))" );
+			body( ")" );
+		}
+		end();
+
+		def( Function.STDEV, "xs*", "SQRT( VAR( `xs ) )" );
+		def( Function.STDEVP, "xs*", "SQRT( VARP( `xs ) )" );
+
+		begin( Function.AVEDEV, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "  _LET( m: SUM(`xs) / `n;" );
+			body( "    _FOLD( r:0; xi: `r + ABS( `m - `xi ); `xs )" );
+			body( "  ) / `n" );
+			body( ")" );
+		}
+		end();
+
+		begin( Function.DEVSQ, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "  _LET( m: SUM(`xs) / `n;" );
+			body( "    _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
+	}
+
+
+}
