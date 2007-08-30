@@ -208,42 +208,42 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 	private void defineStatistical() throws Exception
 	{
 		// Based on gaussinv() implementation for OpenOffice.org Calc by Martin Eitzenberger
-		begin( Function._GAUSSINV, "x" );
+		begin( Function.NORMSINV, "x" );
 		{
 			body( "_LET( q: `x - 0.5;" );
-			body( "  _LET( z:" );
-			body( "    IF( ABS( `q ) <= 0.425," );
-			body( "      _LET( t: 0.180625 - `q * `q;" );
-			body( "        `q *" );
+			body( "  IF( ABS( `q ) <= 0.425," );
+			body( "    _LET( t: 0.180625 - `q * `q;" );
+			body( "      `q *" );
+			body( "      (" );
 			body( "        (" );
 			body( "          (" );
 			body( "            (" );
 			body( "              (" );
 			body( "                (" );
-			body( "                  (" );
-			body( "                    (`t * 2509.0809287301226727 + 33430.575583588128105)" );
-			body( "                  * `t + 67265.770927008700853)" );
-			body( "                * `t + 45921.953931549871457)" );
-			body( "              * `t + 13731.693765509461125)" );
-			body( "            * `t + 1971.5909503065514427)" );
-			body( "          * `t + 133.14166789178437745)" );
-			body( "        * `t + 3.387132872796366608)" );
-			body( "        /" );
+			body( "                  (`t * 2509.0809287301226727 + 33430.575583588128105)" );
+			body( "                * `t + 67265.770927008700853)" );
+			body( "              * `t + 45921.953931549871457)" );
+			body( "            * `t + 13731.693765509461125)" );
+			body( "          * `t + 1971.5909503065514427)" );
+			body( "        * `t + 133.14166789178437745)" );
+			body( "      * `t + 3.387132872796366608)" );
+			body( "      /" );
+			body( "      (" );
 			body( "        (" );
 			body( "          (" );
 			body( "            (" );
 			body( "              (" );
 			body( "                (" );
-			body( "                  (" );
-			body( "                    (`t * 5226.495278852854561 + 28729.085735721942674)" );
-			body( "                  * `t + 39307.89580009271061)" );
-			body( "                * `t + 21213.794301586595867)" );
-			body( "              * `t + 5394.1960214247511077)" );
-			body( "            * `t + 687.1870074920579083)" );
-			body( "          * `t + 42.313330701600911252)" );
-			body( "        * `t + 1.0)" );
-			body( "      )" );
-			body( "    ," );
+			body( "                  (`t * 5226.495278852854561 + 28729.085735721942674)" );
+			body( "                * `t + 39307.89580009271061)" );
+			body( "              * `t + 21213.794301586595867)" );
+			body( "            * `t + 5394.1960214247511077)" );
+			body( "          * `t + 687.1870074920579083)" );
+			body( "        * `t + 42.313330701600911252)" );
+			body( "      * `t + 1.0)" );
+			body( "    )" );
+			body( "  ," );
+			body( "    _LET( z:" );
 			body( "      _LET( tt: SQRT( -LN( IF( `q > 0, 1 - `x, `x ) ) );" );
 			body( "        IF( `tt <= 5.0," );
 			body( "          _LET( t: `tt - 1.6;" );
@@ -306,16 +306,19 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 			body( "            * `t + 1.0)" );
 			body( "          )" );
 			body( "        )" );
-			body( "      )" );
-			body( "    );" );
-			body( "    IF( `q < 0.0, -`z, `z )" );
+			body( "      );" );
+			body( "      IF( `q < 0.0, -`z, `z )" );
+			body( "    )" );
 			body( "  )" );
 			body( ")" );
 		}
 		end();
 
 
-		def( Function.CONFIDENCE, "alpha", "sigma", "n", "_GAUSSINV( 1.0 - `alpha / 2.0) * `sigma / SQRT( INT( `n ) )");
+		def( Function.NORMINV, "x", "mue", "sigma", "NORMSINV( `x ) * `sigma + `mue" );
+		
+
+		def( Function.CONFIDENCE, "alpha", "sigma", "n", "NORMSINV( 1.0 - `alpha / 2.0) * `sigma / SQRT( INT( `n ) )");
 
 
 		begin( Function.RANK, "number", "ref#", "order" );

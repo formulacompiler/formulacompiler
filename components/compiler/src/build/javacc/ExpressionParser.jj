@@ -170,7 +170,6 @@ void value():
 	|	LOOKAHEAD(2) "@" fun()
 	|	"@" n = <NAME> "(" { unsupportedFunction( n ); }
 	|	fun()
-	|	internalFun()
 	|	rewrite()
 	|	LOOKAHEAD(2) n = <NAME> "(" { unsupportedFunction( n ); }
 	|	cellRef()
@@ -303,6 +302,8 @@ void fun(): {}
 	|	"MOD" fun2( Function.MOD )  
 	|	"MONTH" fun1( Function.MONTH )
 	|	"N" fun1( Function.N )
+	|	"NORMINV" fun3( Function.NORMINV )
+	|	"NORMSINV" fun1( Function.NORMSINV )
 	|	"NOT" fun1( Function.NOT )
 	|	"NOW" fun0( Function.NOW )
 	|	"NPER" fun3to5( Function.NPER )
@@ -353,10 +354,6 @@ void fun(): {}
 	|	"VLOOKUP" hvLookup( Function.VLOOKUP )
 	|	"WEEKDAY" fun1to2( Function.WEEKDAY )
 	|	"YEAR" fun1( Function.YEAR )
-	}
-
-void internalFun(): {}
-	{	"_GAUSSINV" fun1( Function._GAUSSINV )
 	}
 
 void open(): {}
