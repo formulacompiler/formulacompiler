@@ -4861,9 +4861,9 @@ __@@__
 			<td><span style="text-decoration: underline;">Highlight</span></td>
 		</tr>
 		<tr>
-			<td class="xl-row">152</td>
+			<td class="xl-row">149</td>
 			<td class="xl-num">0.5</td>
-			<td class="xl-num">0.5<br/><span class="xl-exp">=VAR(C152,D152)</span></td>
+			<td class="xl-num">0.5<br/><span class="xl-exp">=VAR(C149,D149)</span></td>
 			<td class="xl-num">1</td>
 			<td class="xl-num">2</td>
 			<td></td>
@@ -4876,9 +4876,9 @@ __@@__
 			<td>VAR</td>
 		</tr>
 		<tr>
-			<td class="xl-row">153</td>
+			<td class="xl-row">150</td>
 			<td class="xl-num">0.5</td>
-			<td class="xl-num">0.5<br/><span class="xl-exp">=VAR(C153,D153)</span></td>
+			<td class="xl-num">0.5<br/><span class="xl-exp">=VAR(C150,D150)</span></td>
 			<td class="xl-num">4</td>
 			<td class="xl-num">5</td>
 			<td></td>
@@ -4891,7 +4891,7 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">154</td>
+			<td class="xl-row">151</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -4906,9 +4906,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">155</td>
+			<td class="xl-row">152</td>
 			<td class="xl-num">5.8</td>
-			<td class="xl-num">5.8<br/><span class="xl-exp">=VAR(C155:E155,G155,I155)</span></td>
+			<td class="xl-num">5.8<br/><span class="xl-exp">=VAR(C152:E152,G152,I152)</span></td>
 			<td class="xl-num">1</td>
 			<td class="xl-num">2</td>
 			<td class="xl-num">3</td>
@@ -4921,9 +4921,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">156</td>
+			<td class="xl-row">153</td>
 			<td class="xl-num">2.5</td>
-			<td class="xl-num">2.5<br/><span class="xl-exp">=VAR(C156:E156,G156,I156)</span></td>
+			<td class="xl-num">2.5<br/><span class="xl-exp">=VAR(C153:E153,G153,I153)</span></td>
 			<td class="xl-num">6</td>
 			<td class="xl-num">7</td>
 			<td class="xl-num">8</td>

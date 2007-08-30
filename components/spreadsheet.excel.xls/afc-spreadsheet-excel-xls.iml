@@ -20,7 +20,9 @@
           <root url="jar://$MODULE_DIR$/lib/impl/jxl.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/lib/IDE/jxl-src.zip!/" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="library" name="junit" level="project" />

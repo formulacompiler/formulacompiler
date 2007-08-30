@@ -47,6 +47,7 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 
 		defineAggregators();
 		defineFinancial();
+		defineStatistical();
 
 		// Please leave this rule here. It is cited into the documentation.
 		// ---- fun_COMBIN
@@ -104,78 +105,7 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		 */
 		def( Function.AVERAGE, "xs*", "SUM( `xs ) / COUNT( `xs )" );
 
-		/*
-		 * An efficient implementation of VARP for large datasets would require a helper function
-		 * returning _both_ the sum and the count in one pass. We don't do cursor-style aggregation
-		 * yet, so the following is quite OK.
-		 * 
-		 * One might also consider turning this into an ARRAY function (xs# instead of xs*).
-		 * Currently, AFC does not support converting arbitrary range unions with possibly dynamic
-		 * sections into arrays.
-		 * 
-		 * I am inlining AVERAGE here because COUNT is already known.
-		 */
-		begin( Function.VARP, "xs*" );
-		{
-			body( "_LET( n: COUNT(`xs);" );
-			body( "	 _LET( m: SUM(`xs) / `n;" );
-			body( "    _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
-			body( "  )" );
-			body( "  / `n" );
-			body( ")" );
-		}
-		end();
-
-		// Leave this comment in. It is used to cite the code into the documentation.
-		// ---- fun_VAR
-		begin( Function.VAR, "xs*" );
-		{
-			body( "_LET( n: COUNT(`xs);" );
-			body( "  _LET( m: SUM(`xs) / `n;" );
-			body( "    _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
-			body( "  )" );
-			body( "  / (`n - 1)" );
-			body( ")" );
-		}
-		end();
-		// ---- fun_VAR
-
-		begin( Function.KURT, "xs*" );
-		{
-			body( "_LET( n: COUNT(`xs);" );
-			body( "  _LET( a: `n - 1;" );
-			body( "    _LET( b: (`n - 2) * (`n - 3);" );
-			body( "      _LET( s: STDEV(`xs);" );
-			body( "        _LET( m: SUM(`xs) / `n;" );
-			body( "          _FOLD( r: 0; xi:" );
-			body( "            _LET( ei2:" );
-			body( "              _LET( ei: (`xi - `m) / `s; `ei*`ei );" );
-			body( "            `r + `ei2*`ei2 );" );
-			body( "          `xs )" );
-			body( "        )" );
-			body( "      ) * `n * (`n + 1) / (`a * `b) - 3 * `a * `a / `b" );
-			body( "    )" );
-			body( "  )" );
-			body( ")" );
-		}
-		end();
-
-		begin( Function.SKEW, "xs*" );
-		{
-			body( "_LET( n: COUNT(`xs);" );
-			body( "  _LET( s3: _LET( s: STDEV(`xs); `s*`s*`s);" );
-			body( "    _LET( m: SUM(`xs) / `n;" );
-			body( "      _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei*`ei ); `xs )" );
-			body( "    )" );
-			body( "    / `s3" );
-			body( "  )" );
-			body( "  * `n / ((`n - 1) * (`n - 2))" );
-			body( ")" );
-		}
-		end();
-
-		def( Function.STDEV, "xs*", "SQRT( VAR( `xs ) )" );
-		def( Function.STDEVP, "xs*", "SQRT( VARP( `xs ) )" );
+		def( Function.SUMSQ, "xs*", "_FOLD( r: 0; xi: `r + `xi*`xi; `xs )" );
 	}
 
 
@@ -272,6 +202,112 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		end();
 		def( Function.PMT, "rate", "nper", "pv", "fv", "PMT (`rate, `nper, `pv, `fv, 0 )" );
 		def( Function.PMT, "rate", "nper", "pv", "PMT (`rate, `nper, `pv, 0, 0 )" );
+	}
+
+
+	private void defineStatistical() throws Exception
+	{
+		begin( Function.RANK, "number", "ref#", "order" );
+		{
+			body( "_FOLD_ARRAY( r: 1; refi, i: " );
+			body( "  `r + IF( IF( `order = 0, `number < `refi, `number > `refi ), 1, 0); " );
+			body( "`ref )" );
+		}
+		end();
+		def( Function.RANK, "number+", "ref+", "RANK (`number, `ref, 0 )" );
+
+		/*
+		 * An efficient implementation of VARP for large datasets would require a helper function
+		 * returning _both_ the sum and the count in one pass. We don't do cursor-style aggregation
+		 * yet, so the following is quite OK.
+		 *
+		 * One might also consider turning this into an ARRAY function (xs# instead of xs*).
+		 * Currently, AFC does not support converting arbitrary range unions with possibly dynamic
+		 * sections into arrays.
+		 *
+		 * I am inlining AVERAGE here because COUNT is already known.
+		 */
+		begin( Function.VARP, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "	 _LET( m: SUM(`xs) / `n;" );
+			body( "    _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
+			body( "  )" );
+			body( "  / `n" );
+			body( ")" );
+		}
+		end();
+
+		// Leave this comment in. It is used to cite the code into the documentation.
+		// ---- fun_VAR
+		begin( Function.VAR, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "  _LET( m: SUM(`xs) / `n;" );
+			body( "    _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
+			body( "  )" );
+			body( "  / (`n - 1)" );
+			body( ")" );
+		}
+		end();
+		// ---- fun_VAR
+
+		begin( Function.KURT, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "  _LET( a: `n - 1;" );
+			body( "    _LET( b: (`n - 2) * (`n - 3);" );
+			body( "      _LET( s: STDEV(`xs);" );
+			body( "        _LET( m: SUM(`xs) / `n;" );
+			body( "          _FOLD( r: 0; xi:" );
+			body( "            _LET( ei2:" );
+			body( "              _LET( ei: (`xi - `m) / `s; `ei*`ei );" );
+			body( "            `r + `ei2*`ei2 );" );
+			body( "          `xs )" );
+			body( "        )" );
+			body( "      ) * `n * (`n + 1) / (`a * `b) - 3 * `a * `a / `b" );
+			body( "    )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
+
+		begin( Function.SKEW, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "  _LET( s3: _LET( s: STDEV(`xs); `s*`s*`s);" );
+			body( "    _LET( m: SUM(`xs) / `n;" );
+			body( "      _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei*`ei ); `xs )" );
+			body( "    )" );
+			body( "    / `s3" );
+			body( "  )" );
+			body( "  * `n / ((`n - 1) * (`n - 2))" );
+			body( ")" );
+		}
+		end();
+
+		def( Function.STDEV, "xs*", "SQRT( VAR( `xs ) )" );
+		def( Function.STDEVP, "xs*", "SQRT( VARP( `xs ) )" );
+
+		begin( Function.AVEDEV, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "  _LET( m: SUM(`xs) / `n;" );
+			body( "    _FOLD( r:0; xi: `r + ABS( `m - `xi ); `xs )" );
+			body( "  ) / `n" );
+			body( ")" );
+		}
+		end();
+
+		begin( Function.DEVSQ, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "  _LET( m: SUM(`xs) / `n;" );
+			body( "    _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
 	}
 
 

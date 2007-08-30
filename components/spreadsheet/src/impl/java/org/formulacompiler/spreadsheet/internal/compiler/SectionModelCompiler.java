@@ -227,7 +227,18 @@ public final class SectionModelCompiler
 			return buildExpressionModelForCell( cell );
 		}
 		else if (_exprDef instanceof ExpressionNodeForRangeShape) {
-			final CellRange range = ((ExpressionNodeForRange) _exprDef.arguments().get( 0 )).getRange();
+			final ExpressionNode expressionNode = _exprDef.arguments().get( 0 );
+			final CellRange range;
+			if (expressionNode instanceof ExpressionNodeForRange) {
+				range = ((ExpressionNodeForRange) expressionNode).getRange();
+			}
+			else if (expressionNode instanceof ExpressionNodeForCell) {
+				final CellIndex cellIndex = ((ExpressionNodeForCell) expressionNode).getCellIndex();
+				range = new CellRange( cellIndex, cellIndex );
+			}
+			else {
+				throw new IllegalArgumentException();
+			}
 			return new RangeExpressionBuilder( range, true ).build();
 		}
 		else if (_exprDef instanceof ExpressionNodeForRange) {
