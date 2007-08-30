@@ -170,6 +170,7 @@ void value():
 	|	LOOKAHEAD(2) "@" fun()
 	|	"@" n = <NAME> "(" { unsupportedFunction( n ); }
 	|	fun()
+	|	internalFun()
 	|	rewrite()
 	|	LOOKAHEAD(2) n = <NAME> "(" { unsupportedFunction( n ); }
 	|	cellRef()
@@ -245,6 +246,7 @@ void fun(): {}
 	|	"CHOOSE" open() expr() commaExprs() closeFun( Function.CHOOSE )
 	|	"COMBIN" fun2( Function.COMBIN )
 	|	"CONCATENATE" open() expr() commaExprs() closeOp( Operator.CONCAT )
+	|	"CONFIDENCE" fun3( Function.CONFIDENCE )
 	|	"COS" fun1( Function.COS )
 	|	"COUNT" aggN( Function.COUNT )
 	|	"COUNTA" aggN( Function.COUNTA )
@@ -351,6 +353,10 @@ void fun(): {}
 	|	"VLOOKUP" hvLookup( Function.VLOOKUP )
 	|	"WEEKDAY" fun1to2( Function.WEEKDAY )
 	|	"YEAR" fun1( Function.YEAR )
+	}
+
+void internalFun(): {}
+	{	"_GAUSSINV" fun1( Function._GAUSSINV )
 	}
 
 void open(): {}
