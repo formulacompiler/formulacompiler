@@ -316,7 +316,10 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 
 
 		def( Function.NORMINV, "x", "mue", "sigma", "NORMSINV( `x ) * `sigma + `mue" );
-		
+
+
+		def( Function.LOGINV, "x", "mue", "sigma", "EXP( NORMSINV( `x ) * `sigma + `mue )" );
+
 
 		def( Function.CONFIDENCE, "alpha", "sigma", "n", "NORMSINV( 1.0 - `alpha / 2.0) * `sigma / SQRT( INT( `n ) )");
 
