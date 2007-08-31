@@ -337,6 +337,10 @@
       </method>
     </configuration>
   </component>
+  <component name="RUBY_DOC_SETTINGS">
+    <RUBY_DOC NAME="DEFAULTS" VALUE="TRUE" />
+    <RUBY_DOC NAME="NUMBER" VALUE="0" />
+  </component>
   <component name="ResourceManagerContainer">
     <option name="myResourceBundles">
       <value>
