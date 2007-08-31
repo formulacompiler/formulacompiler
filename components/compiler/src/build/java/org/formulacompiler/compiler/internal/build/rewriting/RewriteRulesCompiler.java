@@ -207,6 +207,123 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 
 	private void defineStatistical() throws Exception
 	{
+		// Based on gaussinv() implementation for OpenOffice.org Calc by Martin Eitzenberger
+		begin( Function.NORMSINV, "x" );
+		{
+			body( "_LET( q: `x - 0.5;" );
+			body( "  IF( ABS( `q ) <= 0.425," );
+			body( "    _LET( t: 0.180625 - `q * `q;" );
+			body( "      `q *" );
+			body( "      (" );
+			body( "        (" );
+			body( "          (" );
+			body( "            (" );
+			body( "              (" );
+			body( "                (" );
+			body( "                  (`t * 2509.0809287301226727 + 33430.575583588128105)" );
+			body( "                * `t + 67265.770927008700853)" );
+			body( "              * `t + 45921.953931549871457)" );
+			body( "            * `t + 13731.693765509461125)" );
+			body( "          * `t + 1971.5909503065514427)" );
+			body( "        * `t + 133.14166789178437745)" );
+			body( "      * `t + 3.387132872796366608)" );
+			body( "      /" );
+			body( "      (" );
+			body( "        (" );
+			body( "          (" );
+			body( "            (" );
+			body( "              (" );
+			body( "                (" );
+			body( "                  (`t * 5226.495278852854561 + 28729.085735721942674)" );
+			body( "                * `t + 39307.89580009271061)" );
+			body( "              * `t + 21213.794301586595867)" );
+			body( "            * `t + 5394.1960214247511077)" );
+			body( "          * `t + 687.1870074920579083)" );
+			body( "        * `t + 42.313330701600911252)" );
+			body( "      * `t + 1.0)" );
+			body( "    )" );
+			body( "  ," );
+			body( "    _LET( z:" );
+			body( "      _LET( tt: SQRT( -LN( IF( `q > 0, 1 - `x, `x ) ) );" );
+			body( "        IF( `tt <= 5.0," );
+			body( "          _LET( t: `tt - 1.6;" );
+			body( "            (" );
+			body( "              (" );
+			body( "                (" );
+			body( "                  (" );
+			body( "                    (" );
+			body( "                      (" );
+			body( "                        (`t * 7.7454501427834140764e-4 + 0.0227238449892691845833)" );
+			body( "                      * `t + 0.24178072517745061177)" );
+			body( "                    * `t + 1.27045825245236838258)" );
+			body( "                  * `t + 3.64784832476320460504)" );
+			body( "                * `t + 5.7694972214606914055)" );
+			body( "              * `t + 4.6303378461565452959)" );
+			body( "            * `t + 1.42343711074968357734)" );
+			body( "            /" );
+			body( "            (" );
+			body( "              (" );
+			body( "                (" );
+			body( "                  (" );
+			body( "                    (" );
+			body( "                      (" );
+			body( "                        (`t * 1.05075007164441684324e-9 + 5.475938084995344946e-4)" );
+			body( "                      * `t + 0.0151986665636164571966)" );
+			body( "                    * `t + 0.14810397642748007459)" );
+			body( "                  * `t + 0.68976733498510000455)" );
+			body( "                * `t + 1.6763848301838038494)" );
+			body( "              * `t + 2.05319162663775882187)" );
+			body( "            * `t + 1.0)" );
+			body( "          )" );
+			body( "        ," );
+			body( "          _LET( t: `tt - 5.0;" );
+			body( "            (" );
+			body( "              (" );
+			body( "                (" );
+			body( "                  (" );
+			body( "                    (" );
+			body( "                      (" );
+			body( "                        (`t * 2.01033439929228813265e-7 + 2.71155556874348757815e-5)" );
+			body( "                      * `t + 0.0012426609473880784386)" );
+			body( "                    * `t + 0.026532189526576123093)" );
+			body( "                  * `t + 0.29656057182850489123)" );
+			body( "                * `t + 1.7848265399172913358)" );
+			body( "              * `t + 5.4637849111641143699)" );
+			body( "            * `t + 6.6579046435011037772)" );
+			body( "            /" );
+			body( "            (" );
+			body( "              (" );
+			body( "                (" );
+			body( "                  (" );
+			body( "                    (" );
+			body( "                      (" );
+			body( "                        (`t * 2.04426310338993978564e-15 + 1.4215117583164458887e-7)" );
+			body( "                      * `t + 1.8463183175100546818e-5)" );
+			body( "                    * `t + 7.868691311456132591e-4)" );
+			body( "                  * `t + 0.0148753612908506148525)" );
+			body( "                * `t + 0.13692988092273580531)" );
+			body( "              * `t + 0.59983220655588793769)" );
+			body( "            * `t + 1.0)" );
+			body( "          )" );
+			body( "        )" );
+			body( "      );" );
+			body( "      IF( `q < 0.0, -`z, `z )" );
+			body( "    )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
+
+
+		def( Function.NORMINV, "x", "mue", "sigma", "NORMSINV( `x ) * `sigma + `mue" );
+
+
+		def( Function.LOGINV, "x", "mue", "sigma", "EXP( NORMSINV( `x ) * `sigma + `mue )" );
+
+
+		def( Function.CONFIDENCE, "alpha", "sigma", "n", "NORMSINV( 1.0 - `alpha / 2.0) * `sigma / SQRT( INT( `n ) )");
+
+
 		begin( Function.RANK, "number", "ref#", "order" );
 		{
 			body( "_FOLD_ARRAY( r: 1; refi, i: " );

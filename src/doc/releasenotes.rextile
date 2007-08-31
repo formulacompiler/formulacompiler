@@ -12,7 +12,7 @@ h2. Release 0.10.1
 h5. New
 
 	* @SUMSQ()@ is now "supported":reference/aggregators.htm.
-	* @AVEDEV()@, @DEVSQ()@, and @RANK()@ are now "supported":reference/statisticalfuncs.htm.
+	* @CONFIDENCE()@, @NORMINV()@, @NORMSINV()@, @LOGINV()@, @AVEDEV()@, @DEVSQ()@, and @RANK()@ are now "supported":reference/statisticalfuncs.htm.
 
 
 h2. Release 0.10.0
