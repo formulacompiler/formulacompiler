@@ -446,6 +446,11 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return _cx.fromDouble( RuntimeDouble_v2.fun_LOG10( _cx.toDouble( _p ) ) );
 	}
 
+	public static long fun_NORMSDIST( long _z, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_NORMSDIST( _cx.toDouble( _z ) ) );
+	}
+
 	public static long fun_MOD( final long _n, final long _d, final Context _cx )
 	{
 		if (_d == 0) {
