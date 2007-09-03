@@ -287,6 +287,11 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		return valueOrZero( result );
 	}
 
+	public static BigDecimal fun_NORMSDIST( BigDecimal _z )
+	{
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_NORMSDIST( _z.doubleValue() ) );
+	}
+
 	public static BigDecimal fun_LOG( final BigDecimal _n, final BigDecimal _x )
 	{
 		final double lnN = Math.log( _n.doubleValue() );

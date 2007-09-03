@@ -471,6 +471,11 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_LOG10( p, this.context );
 	}
 
+	public long fun_NORMSDIST( long z )
+	{
+		return RuntimeLong_v2.fun_NORMSDIST( z, this.context );
+	}
+
 	public long fun_MOD( long n, long d )
 	{
 		return RuntimeLong_v2.fun_MOD( n, d, this.context );
