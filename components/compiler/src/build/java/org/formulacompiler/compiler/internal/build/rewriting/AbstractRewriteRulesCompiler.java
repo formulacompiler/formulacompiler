@@ -396,18 +396,15 @@ public abstract class AbstractRewriteRulesCompiler
 
 		private void compileArgs( Iterator<ExpressionNode> _args, DescriptionBuilder _b ) throws Exception
 		{
-			boolean first = true;
 			while (_args.hasNext()) {
 				final ExpressionNode arg = _args.next();
-				if (first) first = false;
-				else _b.append( ", " );
+				_b.append( ", " );
 				compileExpr( arg, _b );
 			}
 		}
 
 		private void compileArgList( ExpressionNode _node, DescriptionBuilder _b ) throws Exception
 		{
-			_b.append( ", " );
 			compileArgs( _node.arguments(), _b );
 			_b.append( " )" );
 		}
@@ -470,7 +467,7 @@ public abstract class AbstractRewriteRulesCompiler
 			compileExpr( _fold.initialAccumulatorValue(), _b );
 			_b.append( ", \"" ).append( _fold.elementName() ).append( "\", " );
 			compileExpr( _fold.accumulatingStep(), _b );
-			_b.append( ", " ).append( _fold.mayReduce()? "true" : "false" ).append( ", " );
+			_b.append( ", " ).append( _fold.mayReduce()? "true" : "false" );
 			compileArgs( _fold.elements(), _b );
 			_b.append( " )" );
 		}
@@ -483,7 +480,6 @@ public abstract class AbstractRewriteRulesCompiler
 			compileExpr( _fold.accumulatingStep(), _b );
 			_b.append( ", " );
 			compileExpr( _fold.emptyValue(), _b );
-			_b.append( ", " );
 			compileArgs( _fold.elements(), _b );
 			_b.append( " )" );
 		}
@@ -496,7 +492,6 @@ public abstract class AbstractRewriteRulesCompiler
 			_b.append( ", \"" ).append( _fold.elementName() ).append( "\", \"" ).append( _fold.indexName() ).append(
 					"\", " );
 			compileExpr( _fold.accumulatingStep(), _b );
-			_b.append( ", " );
 			compileArgs( _fold.elements(), _b );
 			_b.append( " )" );
 		}
