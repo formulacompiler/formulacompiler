@@ -207,6 +207,20 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 
 	private void defineStatistical() throws Exception
 	{
+		begin( Function.NORMDIST, "x", "mue", "sigma", "cumulative" );
+		{
+			body( "IF( `cumulative," );
+			body( "  NORMSDIST( (`x - `mue) / `sigma )" );
+			body( "," );
+			body( "  EXP( _LET ( x1: `x - `mue; `x1 * `x1 ) / (-2 * `sigma * `sigma) ) / (SQRT( 2 * PI() ) * `sigma)" );
+			body( ")" );
+		}
+		end();
+
+
+		def( Function.LOGNORMDIST, "x", "mue", "sigma", "NORMSDIST( (LN( `x ) - `mue) / `sigma )" );
+
+
 		// Based on gaussinv() implementation for OpenOffice.org Calc by Martin Eitzenberger
 		begin( Function.NORMSINV, "x" );
 		{
