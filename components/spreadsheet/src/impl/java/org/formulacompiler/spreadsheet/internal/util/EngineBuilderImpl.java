@@ -357,6 +357,31 @@ public class EngineBuilderImpl implements EngineBuilder
 		// ---- bindAllByName
 	}
 
+	public void failIfByNameBindingLeftNamedCellsUnbound() throws CompilerException
+	{
+		getByNameBinder().failIfCellNamesAreStillUnbound();
+	}
+
+
+	public void bindAllByName( String _inputPrefix, String _outputPrefix ) throws CompilerException
+	{
+		// ---- bindAllByNamePrefixed
+		if (!areAnyNamesDefined()) {
+			createCellNamesFromRowTitles();
+		}
+		SpreadsheetByNameBinder bn = getByNameBinder();
+		bn.outputs().bindAllMethodsToPrefixedNamedCells( _outputPrefix );
+		bn.inputs().bindAllPrefixedNamedCellsToMethods( _inputPrefix );
+		// ---- bindAllByNamePrefixed
+	}
+	
+	public void failIfByNameBindingLeftNamedCellsUnbound( String _inputPrefix, String _outputPrefix )
+			throws CompilerException
+	{
+		getByNameBinder().inputs().failIfCellNamesAreStillUnbound( _inputPrefix );
+		getByNameBinder().outputs().failIfCellNamesAreStillUnbound( _outputPrefix );
+	}
+
 
 	// ------------------------------------------------ Compilation
 

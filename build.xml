@@ -437,6 +437,8 @@
 			<pathelement location="${comps.dir}/compiler/src/impl/java-debug" />
 			<pathelement location="${comps.dir}/compiler/src/build/java" />
 
+			<pathelement location="${comps.dir}/spreadsheet/src/test/java" />
+			
 			<pathelement location="${comps.dir}/system/src/examples/java" />
 			<pathelement location="${comps.dir}/system/src/examples/data" />
 
@@ -492,6 +494,7 @@
 		<property name="javadoc.src.path" refid="javadoc.src.path" />
 
 		<path id="javadoc.cite.path">
+			<pathelement location="${comps.dir}/spreadsheet/src/impl/java" />
 			<pathelement location="${comps.dir}/system/src/test/java" />
 			<pathelement location="${comps.dir}/system/src/test/data" />
 			<pathelement location="${comps.dir}/system/src/examples/java" />

@@ -79,6 +79,18 @@ public final class SpreadsheetBinderImpl implements SpreadsheetBinder
 	}
 
 
+	public boolean isInputCell( Cell _cell )
+	{
+		return this.binding.getInputs().containsKey( _cell );
+	}
+
+
+	public boolean isOutputCell( Cell _cell )
+	{
+		return this.binding.getOutputsCells().contains( _cell );
+	}
+
+
 	private class SectionBinderImpl implements SpreadsheetBinder.Section
 	{
 		private final SectionBinding sectionBinding;
