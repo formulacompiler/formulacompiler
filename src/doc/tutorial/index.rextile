@@ -43,7 +43,7 @@ Advanced use cases concerning the binding of the input and output cells of a spr
 
 dt. "Binding Cells":bindcells.htm : How to explicitly bind specific input and output cells of a spreadsheet to methods of plain Java interfaces or classes.
 
-dt. "Binding Data By Name":bindbyname.htm : If you have a generic system where the set of possible input and/or output values cannot be determined at compile-time, you have to resort to some sort of late binding, or binding by name.
+dt. "Binding To Parametrized Methods":bindparams.htm : If you have a generic system where the set of possible input and/or output values cannot be determined at compile-time, you have to resort to some sort of binding to parametrized methods.
 
 dt. "Binding To Multiple Interfaces":bindmultipleinterfaces.htm : AFC only allows you to set a single interface to provide inputs to or obtain outputs from a computation. How can you work around this?
 

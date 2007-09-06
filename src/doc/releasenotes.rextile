@@ -9,10 +9,26 @@ Lists the new features, improvements, and fixes for each release of AFC. Note th
 
 h2. Release 0.10.1
 
+h5. *Changed!*
+
+	* The method "@bindAllByName()@":-bindall no longer throws an exception if cell remain unbound. Use "@failIfByNameBindingLeftNamedCellsUnbound()@":-failif after @bindAllByName()@ if you want this behaviour back.
+
+[-bindall]javadoc/org/formulacompiler/spreadsheet/EngineBuilder.html#bindAllByName()
+[-failif]javadoc/org/formulacompiler/spreadsheet/EngineBuilder.html#failIfByNameBindingLeftNamedCellsUnbound()
+
 h5. New
 
 	* @SUMSQ()@ is now "supported":reference/aggregators.htm.
 	* @CONFIDENCE()@, @NORMDIST()@, @NORMSDIST()@, @LOGNORMSDIST()@, @NORMINV()@, @NORMSINV()@, @LOGINV()@, @AVEDEV()@, @DEVSQ()@, and @RANK()@ are now "supported":reference/statisticalfuncs.htm.
+	* By name binding now supports "binding only cells with a given input and output prefix":-bindprefix.
+
+[-bindprefix]javadoc/org/formulacompiler/spreadsheet/EngineBuilder.html#bindAllByName(java.lang.String,%20java.lang.String)
+
+h5. Better
+
+	* You can "query the named cells":-unbound still unbound to warn users about potential automatic by-name binding problems.
+
+[-unbound]javadoc/org/formulacompiler/spreadsheet/SpreadsheetByNameBinder.html#cellNamesLeftUnbound()
 
 
 h2. Release 0.10.0

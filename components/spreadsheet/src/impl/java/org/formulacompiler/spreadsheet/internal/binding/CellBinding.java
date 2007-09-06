@@ -20,6 +20,7 @@
  */
 package org.formulacompiler.spreadsheet.internal.binding;
 
+import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 
@@ -42,5 +43,8 @@ public abstract class CellBinding extends ElementBinding
 	{
 		return this.index;
 	}
+	
+	
+	public abstract CallFrame boundCall();
 
 }

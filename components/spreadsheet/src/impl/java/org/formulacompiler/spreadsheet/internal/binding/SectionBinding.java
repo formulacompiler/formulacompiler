@@ -157,7 +157,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 		}
 		final InputCellBinding def = new InputCellBinding( this, _callChainToCall, cellIndex );
 		this.inputs.put( def.getIndex(), def );
-		this.workbook.getInputs().put( cellIndex, def );
+		this.workbook.add( def );
 	}
 
 
@@ -170,7 +170,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 		final CellIndex cellIndex = (CellIndex) _cell;
 		final OutputCellBinding def = new OutputCellBinding( this, _call, cellIndex );
 		this.outputs.put( _call, def );
-		this.workbook.getOutputs().add( def );
+		this.workbook.add( def );
 	}
 
 
@@ -192,7 +192,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 		SectionBinding result = new SectionBinding( this, _inputCallChainReturningIterable, _inputClass,
 				_outputCallToImplementIterable, _outputClass, cellRange, _orientation );
 		this.sections.add( result );
-		this.workbook.getSections().add( result );
+		this.workbook.add(  result );
 		return result;
 	}
 

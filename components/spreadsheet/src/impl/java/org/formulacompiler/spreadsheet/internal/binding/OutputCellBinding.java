@@ -42,6 +42,12 @@ public class OutputCellBinding extends CellBinding
 	}
 
 	@Override
+	public CallFrame boundCall()
+	{
+		return this.callToImplement;
+	}
+	
+	@Override
 	public void describeTo( DescriptionBuilder _to )
 	{
 		getIndex().describeTo( _to );
