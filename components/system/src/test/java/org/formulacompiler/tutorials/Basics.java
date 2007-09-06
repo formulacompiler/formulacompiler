@@ -29,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -37,9 +38,9 @@ import org.formulacompiler.decompiler.FormulaDecompiler;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.runtime.FormulaCompilerException;
 import org.formulacompiler.spreadsheet.EngineBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetSaver;
 import org.formulacompiler.tests.utils.AbstractSpreadsheetTestBase;
 
@@ -283,6 +284,8 @@ public class Basics extends AbstractSpreadsheetTestBase
 		builder./**/loadSpreadsheet/**/( _sheetName );
 		builder./**/setFactoryClass/**/( RebateComputationFactory.class );
 		builder./**/bindAllByName/**/();
+		builder./**/failIfByNameBindingLeftNamedCellsUnbound/**/();
+		
 		Engine engine = builder./**/compile/**/();
 		// ---- CompileFactory
 		FormulaDecompiler.decompile( engine ).saveTo( new File( "temp/test/decompiled/basics" ) );

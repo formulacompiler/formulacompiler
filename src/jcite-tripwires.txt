@@ -1369,6 +1369,74 @@ public static double round( final double _val, final int _maxFrac )
 		}
 	}
 ___@_@___
+jc:org.formulacompiler.spreadsheet.internal.util.SpreadsheetByNameBinderTest:---- Inputs
+__@@__
+public abstract double getGetter();
+		public abstract double plain();
+		public abstract double both();
+		public abstract double getBoth();
+		public abstract double isAbstract();
+		public double isImplemented() { return 0.0; }
+		public final double isFinal() { return 0.0; }
+		public static double isStatic() { return 0.0; }
+		public abstract double hasParameters( int _p );
+___@_@___
+jc:org.formulacompiler.spreadsheet.internal.util.SpreadsheetByNameBinderTest:---- testInputs
+__@@__
+bindsTo( "getter", Inputs.class.getMethod( "getGetter" ) );
+			binds( "getGetter" );
+			binds( "plain" );
+			doesNotBind( "getPlain" ); // there is no method "getPlain()" or "getGetPlain()"
+			binds( "both" ); // precise name is used if found
+			binds( "getBoth" ); // ditto
+			doesNotBind( "unbound" );
+			binds( "isAbstract" );
+			binds( "isImplemented" );
+			binds( "isFinal" );
+			binds( "isStatic" );
+			doesNotBind( "hasParameters" );
+___@_@___
+jc:org.formulacompiler.spreadsheet.internal.util.SpreadsheetByNameBinderTest:---- testInputsWithPrefix
+__@@__
+doesNotBind( "getter" );
+			doesNotBind( "getGetter" );
+			doesNotBind( "plain" );
+			doesNotBind( "getPlain" );
+			bindsTo( "P_getter", Inputs.class.getMethod( "getGetter" ) );
+			bindsTo( "P_getGetter", Inputs.class.getMethod( "getGetter" ) );
+			bindsTo( "P_plain", Inputs.class.getMethod( "plain" ) );
+			doesNotBind( "P_getPlain" );
+			bindsTo( "P_both", Inputs.class.getMethod( "both" ) );
+			bindsTo( "P_getBoth", Inputs.class.getMethod( "getBoth" ) );
+___@_@___
+jc:org.formulacompiler.spreadsheet.internal.util.SpreadsheetByNameBinderTest:---- testOutputs; omit -skip-
+__@@__
+bindsTo( "getter", Outputs.class.getMethod( "getGetter" ) );
+			binds( "getGetter" );
+			binds( "plain" );
+			doesNotBind( "getPlain" );
+			binds( "both" );
+			binds( "getBoth" );
+			doesNotBind( "unbound" );
+			binds( "isAbstract"/* -skip- */, OutputsWithAbstractMethod.class/* -skip- */ );
+			binds( "isImplemented" );
+			/**/doesNotBind( "isFinal" );/**/
+			/**/doesNotBind( "isStatic" );/**/
+			doesNotBind( "hasParameters" );
+___@_@___
+jc:org.formulacompiler.spreadsheet.internal.util.SpreadsheetByNameBinderTest:---- testOutputsWithPrefix
+__@@__
+doesNotBind( "getter" );
+			doesNotBind( "getGetter" );
+			doesNotBind( "plain" );
+			doesNotBind( "getPlain" );
+			bindsTo( "P_getter", Outputs.class.getMethod( "getGetter" ) );
+			bindsTo( "P_getGetter", Outputs.class.getMethod( "getGetter" ) );
+			bindsTo( "P_plain", Outputs.class.getMethod( "plain" ) );
+			doesNotBind( "P_getPlain" );
+			bindsTo( "P_both", Outputs.class.getMethod( "both" ) );
+			bindsTo( "P_getBoth", Outputs.class.getMethod( "getBoth" ) );
+___@_@___
 jc:org.formulacompiler.tests.reference.DebugTest:---- DebugTest
 __@@__
 /**
@@ -1509,6 +1577,8 @@ private RebateComputationFactory compileFactoryFromSpreadsheet( String _sheetNam
 		builder./**/loadSpreadsheet/**/( _sheetName );
 		builder./**/setFactoryClass/**/( RebateComputationFactory.class );
 		builder./**/bindAllByName/**/();
+		builder./**/failIfByNameBindingLeftNamedCellsUnbound/**/();
+		
 		Engine engine = builder./**/compile/**/();
 		return (RebateComputationFactory) engine./**/getComputationFactory/**/();
 	}
@@ -1694,199 +1764,6 @@ double computeRebate()
 			return comp.getRebate();
 		}
 ___@_@___
-jc:org.formulacompiler.tutorials.BindingByName:---- ComplexOutput
-__@@__
-public static abstract class ComplexOutput
-	{
-		public double getComplex( int _int, long _long, String _string )
-		{
-			return -1;
-		}
-	}
-___@_@___
-jc:org.formulacompiler.tutorials.BindingByName:---- GeneratedComplexGetter
-__@@__
-@Override
-		public double getComplex( int _int, long _long, String _string )
-		{
-			if (_int == 1 && _long == 2 && _string.equals( "THREE" )) return getComplex__1();
-			// ... other bound outputs
-			return super.getComplex( _int, _long, _string );
-		}
-___@_@___
-jc:org.formulacompiler.tutorials.BindingByName:---- GeneratedGetter
-__@@__
-@Override
-		public double getOutput( String _valueName )
-		{
-			if (_valueName.equals( "ONETWOTHREE" )) return getOutput__1();
-			if (_valueName.equals( "SUMINTER" )) return getOutput__2();
-			// ... other bound outputs
-			return super.getOutput( _valueName );
-		}
-
-		private double getOutput__1()
-		{
-			// Generated computation for cell ONETWOTHREE (corresponds to test spreadsheet):
-			return getInput__1() + getInput__2() + getInput__3();
-		}
-
-		private double getOutput__2()
-		{
-			// Generated computation for cell SUMINTER (corresponds to test spreadsheet):
-			return getInter__1() + getInter__2();
-		}
-___@_@___
-jc:org.formulacompiler.tutorials.BindingByName:---- Input
-__@@__
-public static interface Input
-	{
-		double getInput( /**/String _valueName/**/);
-	}
-___@_@___
-jc:org.formulacompiler.tutorials.BindingByName:---- InputCombination; omit
-__@@__
-public double getInput( int _a, boolean _b, String _c ) /**/{ return _a + Integer.valueOf( _c ); }/**/
-___@_@___
-jc:org.formulacompiler.tutorials.BindingByName:---- InputSample
-__@@__
-public double getInput( String _valueName )
-		{
-			if (_valueName.equals( "ONE" )) return 1.0;
-			if (_valueName.equals( "TWO" )) return 2.0;
-			if (_valueName.equals( "THREE" )) return 3.0;
-			return 0.0;
-		}
-___@_@___
-jc:org.formulacompiler.tutorials.BindingByName:---- InputVariants; omit
-__@@__
-// Native types
-		public double getInput( byte _param ) /**/{ return _param; }/**/
-		public double getInput( short _param ) /**/{ return _param; }/**/
-		public double getInput( int _param ) /**/{ return _param; }/**/
-		public double getInput( long _param ) /**/{ return _param; }/**/
-		public double getInput( double _param ) /**/{ return _param; }/**/
-		public double getInput( float _param ) /**/{ return _param; }/**/
-		public double getInput( char _param ) /**/{ return _param; }/**/
-		public double getInput( boolean _param ) /**/{ return (_param? 1 : 0); }/**/
-		
-		// Boxed types
-		public double getInput( Byte _param ) /**/{ return _param; }/**/
-		public double getInput( Short _param ) /**/{ return _param; }/**/
-		public double getInput( Integer _param ) /**/{ return _param; }/**/
-		public double getInput( Long _param ) /**/{ return _param; }/**/
-		public double getInput( Double _param ) /**/{ return _param; }/**/
-		public double getInput( Float _param ) /**/{ return _param; }/**/
-		public double getInput( Character _param ) /**/{ return _param; }/**/
-		public double getInput( Boolean _param ) /**/{ return (_param? 1 : 0); }/**/
-
-		// Other types
-		public double getInput( String _param ) /**/{ return Double.valueOf( _param ); }/**/
-		
-		// Application-defined enumerations
-		public double getInput( MyEnum _param ) /**/{ return _param.ordinal(); };/**/
-___@_@___
-jc:org.formulacompiler.tutorials.BindingByName:---- MyEnum
-__@@__
-public static enum MyEnum
-	{
-		ZERO, ONE, TWO;
-	}
-___@_@___
-jc:org.formulacompiler.tutorials.BindingByName:---- Output
-__@@__
-public static abstract class Output
-	{
-		public double getOutput( /**/String _valueName/**/)
-		{
-			return -1;
-		}
-	}
-___@_@___
-jc:org.formulacompiler.tutorials.BindingByName:---- bindComplexOutput
-__@@__
-Method outputMethod = ComplexOutput.class./**/getMethod( "getComplex", Integer.TYPE, Long.TYPE, String.class )/**/;
-		binder
-				.defineOutputCell( spreadsheet.getCell( "Complex" ), /**/new CallFrame( outputMethod, 1, 2, "THREE" )/**/);
-___@_@___
-jc:org.formulacompiler.tutorials.BindingByName:---- bindInputCombination
-__@@__
-Method mtd = ic.getMethod( "getInput", /**/Integer.TYPE, Boolean.TYPE, String.class/**/ );
-		bnd.defineInputCell( ss.getCell( "comb" ), new CallFrame( mtd, /**/12, true, "24"/**/ ) );
-___@_@___
-jc:org.formulacompiler.tutorials.BindingByName:---- bindInputVariants
-__@@__
-// Native types
-		bnd.defineInputCell( ss.getCell( "byte" ), new CallFrame( ic.getMethod( "getInput", Byte.TYPE ), (byte) 123 ) );
-		bnd.defineInputCell( ss.getCell( "short" ), new CallFrame( ic.getMethod( "getInput", Short.TYPE ), (short) 1234 ) );
-		bnd.defineInputCell( ss.getCell( "int" ), new CallFrame( ic.getMethod( "getInput", Integer.TYPE ), 12345 ) );
-		bnd.defineInputCell( ss.getCell( "long" ), new CallFrame( ic.getMethod( "getInput", Long.TYPE ), 123456L ) );
-		bnd.defineInputCell( ss.getCell( "double" ), new CallFrame( ic.getMethod( "getInput", Double.TYPE ), 123.45 ) );
-		bnd.defineInputCell( ss.getCell( "float" ), new CallFrame( ic.getMethod( "getInput", Float.TYPE ), 123.456F ) );
-		bnd.defineInputCell( ss.getCell( "char" ), new CallFrame( ic.getMethod( "getInput", Character.TYPE ), 'a' ) );
-		bnd.defineInputCell( ss.getCell( "bool" ), new CallFrame( ic.getMethod( "getInput", Boolean.TYPE ), true ) );
-
-		// Boxed types
-		bnd.defineInputCell( ss.getCell( "bbyte" ), new CallFrame( ic.getMethod( "getInput", Byte.class ), (byte) 123 ) );
-		bnd.defineInputCell( ss.getCell( "bshort" ), new CallFrame( ic.getMethod( "getInput", Short.class ), (short) 1234 ) );
-		bnd.defineInputCell( ss.getCell( "bint" ), new CallFrame( ic.getMethod( "getInput", Integer.class ), 12345 ) );
-		bnd.defineInputCell( ss.getCell( "blong" ), new CallFrame( ic.getMethod( "getInput", Long.class ), 123456L ) );
-		bnd.defineInputCell( ss.getCell( "bdouble" ), new CallFrame( ic.getMethod( "getInput", Double.class ), 123.45 ) );
-		bnd.defineInputCell( ss.getCell( "bfloat" ), new CallFrame( ic.getMethod( "getInput", Float.class ), 123.456F ) );
-		bnd.defineInputCell( ss.getCell( "bchar" ), new CallFrame( ic.getMethod( "getInput", Character.class ), 'a' ) );
-		bnd.defineInputCell( ss.getCell( "bbool" ), new CallFrame( ic.getMethod( "getInput", Boolean.class ), true ) );
-
-		// Other types
-		bnd.defineInputCell( ss.getCell( "string" ), new CallFrame( ic.getMethod( "getInput", String.class ), "123.4567" ) );
-
-		// Application-defined enumerations
-		bnd.defineInputCell( ss.getCell( "enum" ), new CallFrame( ic.getMethod( "getInput", MyEnum.class ), MyEnum.TWO ) );
-___@_@___
-jc:org.formulacompiler.tutorials.BindingByName:---- bindNamedInputs
-__@@__
-final Method inputMethod = Input.class./**/getMethod( "getInput", String.class )/**/;
-		for (Spreadsheet.NameDefinition def : /**/spreadsheet.getDefinedNames()/**/) {
-			if (def instanceof Spreadsheet.CellNameDefinition) {
-				final Spreadsheet.CellNameDefinition cellDef = (Spreadsheet.CellNameDefinition) def;
-				final String /**/cellName/**/= cellDef.getName();
-				if ("I_".equals( cellName.substring( 0, 2 ) )) {
-					final Spreadsheet.Cell cell = cellDef.getCell();
-					final String /**/valueName/**/= cellName.substring( 2 ).toUpperCase();
-					binder.defineInputCell( cell, /**/new CallFrame( inputMethod, valueName )/**/);
-				}
-			}
-		}
-___@_@___
-jc:org.formulacompiler.tutorials.BindingByName:---- bindNamedOutputs
-__@@__
-final Method outputMethod = Output.class./**/getMethod( "getOutput", String.class )/**/;
-		for (Spreadsheet.NameDefinition def : /**/spreadsheet.getDefinedNames()/**/) {
-			if (def instanceof Spreadsheet.CellNameDefinition) {
-				final Spreadsheet.CellNameDefinition cellDef = (Spreadsheet.CellNameDefinition) def;
-				final String /**/cellName/**/= cellDef.getName();
-				if ("O_".equals( cellName.substring( 0, 2 ) )) {
-					final Spreadsheet.Cell cell = cellDef.getCell();
-					final String /**/valueName/**/= cellName.substring( 2 ).toUpperCase();
-					binder.defineOutputCell( cell, /**/new CallFrame( outputMethod, valueName )/**/);
-				}
-			}
-		}
-___@_@___
-jc:org.formulacompiler.tutorials.BindingByName:---- checkComplexResults
-__@@__
-assertEquals( 5.0, output.getComplex( 1, 2, "THREE" ), 0.001 );
-
-		// Check undefined results by incrementing each argument in turn:
-		assertEquals( -1.0, output.getComplex( 2, 2, "THREE" ), 0.001 );
-		assertEquals( -1.0, output.getComplex( 1, 3, "THREE" ), 0.001 );
-		assertEquals( -1.0, output.getComplex( 1, 2, "FOUR" ), 0.001 );
-___@_@___
-jc:org.formulacompiler.tutorials.BindingByName:---- checkResults
-__@@__
-assertEquals( 6.0, output.getOutput( "ONETWOTHREE" ), 0.001 );
-		assertEquals( 8.0, output.getOutput( "SUMINTER" ), 0.001 );
-		assertEquals( -1.0, output.getOutput( "UNDEF" ), 0.001 );
-___@_@___
 jc:org.formulacompiler.tutorials.BindingCells:---- Factory
 __@@__
 public static interface Factory
@@ -1997,6 +1874,199 @@ EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( path );
 		/**/builder.setFactoryClass( Factory.class );/**/
 		/**/builder.setOutputClass( OutputWithDefault.class );/**/
+___@_@___
+jc:org.formulacompiler.tutorials.BindingParams:---- ComplexOutput
+__@@__
+public static abstract class ComplexOutput
+	{
+		public double getComplex( int _int, long _long, String _string )
+		{
+			return -1;
+		}
+	}
+___@_@___
+jc:org.formulacompiler.tutorials.BindingParams:---- GeneratedComplexGetter
+__@@__
+@Override
+		public double getComplex( int _int, long _long, String _string )
+		{
+			if (_int == 1 && _long == 2 && _string.equals( "THREE" )) return getComplex__1();
+			// ... other bound outputs
+			return super.getComplex( _int, _long, _string );
+		}
+___@_@___
+jc:org.formulacompiler.tutorials.BindingParams:---- GeneratedGetter
+__@@__
+@Override
+		public double getOutput( String _valueName )
+		{
+			if (_valueName.equals( "ONETWOTHREE" )) return getOutput__1();
+			if (_valueName.equals( "SUMINTER" )) return getOutput__2();
+			// ... other bound outputs
+			return super.getOutput( _valueName );
+		}
+
+		private double getOutput__1()
+		{
+			// Generated computation for cell ONETWOTHREE (corresponds to test spreadsheet):
+			return getInput__1() + getInput__2() + getInput__3();
+		}
+
+		private double getOutput__2()
+		{
+			// Generated computation for cell SUMINTER (corresponds to test spreadsheet):
+			return getInter__1() + getInter__2();
+		}
+___@_@___
+jc:org.formulacompiler.tutorials.BindingParams:---- Input
+__@@__
+public static interface Input
+	{
+		double getInput( /**/String _valueName/**/);
+	}
+___@_@___
+jc:org.formulacompiler.tutorials.BindingParams:---- InputCombination; omit
+__@@__
+public double getInput( int _a, boolean _b, String _c ) /**/{ return _a + Integer.valueOf( _c ); }/**/
+___@_@___
+jc:org.formulacompiler.tutorials.BindingParams:---- InputSample
+__@@__
+public double getInput( String _valueName )
+		{
+			if (_valueName.equals( "ONE" )) return 1.0;
+			if (_valueName.equals( "TWO" )) return 2.0;
+			if (_valueName.equals( "THREE" )) return 3.0;
+			return 0.0;
+		}
+___@_@___
+jc:org.formulacompiler.tutorials.BindingParams:---- InputVariants; omit
+__@@__
+// Native types
+		public double getInput( byte _param ) /**/{ return _param; }/**/
+		public double getInput( short _param ) /**/{ return _param; }/**/
+		public double getInput( int _param ) /**/{ return _param; }/**/
+		public double getInput( long _param ) /**/{ return _param; }/**/
+		public double getInput( double _param ) /**/{ return _param; }/**/
+		public double getInput( float _param ) /**/{ return _param; }/**/
+		public double getInput( char _param ) /**/{ return _param; }/**/
+		public double getInput( boolean _param ) /**/{ return (_param? 1 : 0); }/**/
+		
+		// Boxed types
+		public double getInput( Byte _param ) /**/{ return _param; }/**/
+		public double getInput( Short _param ) /**/{ return _param; }/**/
+		public double getInput( Integer _param ) /**/{ return _param; }/**/
+		public double getInput( Long _param ) /**/{ return _param; }/**/
+		public double getInput( Double _param ) /**/{ return _param; }/**/
+		public double getInput( Float _param ) /**/{ return _param; }/**/
+		public double getInput( Character _param ) /**/{ return _param; }/**/
+		public double getInput( Boolean _param ) /**/{ return (_param? 1 : 0); }/**/
+
+		// Other types
+		public double getInput( String _param ) /**/{ return Double.valueOf( _param ); }/**/
+		
+		// Application-defined enumerations
+		public double getInput( MyEnum _param ) /**/{ return _param.ordinal(); };/**/
+___@_@___
+jc:org.formulacompiler.tutorials.BindingParams:---- MyEnum
+__@@__
+public static enum MyEnum
+	{
+		ZERO, ONE, TWO;
+	}
+___@_@___
+jc:org.formulacompiler.tutorials.BindingParams:---- Output
+__@@__
+public static abstract class Output
+	{
+		public double getOutput( /**/String _valueName/**/)
+		{
+			return -1;
+		}
+	}
+___@_@___
+jc:org.formulacompiler.tutorials.BindingParams:---- bindComplexOutput
+__@@__
+Method outputMethod = ComplexOutput.class./**/getMethod( "getComplex", Integer.TYPE, Long.TYPE, String.class )/**/;
+		binder
+				.defineOutputCell( spreadsheet.getCell( "Complex" ), /**/new CallFrame( outputMethod, 1, 2, "THREE" )/**/);
+___@_@___
+jc:org.formulacompiler.tutorials.BindingParams:---- bindInputCombination
+__@@__
+Method mtd = ic.getMethod( "getInput", /**/Integer.TYPE, Boolean.TYPE, String.class/**/ );
+		bnd.defineInputCell( ss.getCell( "comb" ), new CallFrame( mtd, /**/12, true, "24"/**/ ) );
+___@_@___
+jc:org.formulacompiler.tutorials.BindingParams:---- bindInputVariants
+__@@__
+// Native types
+		bnd.defineInputCell( ss.getCell( "byte" ), new CallFrame( ic.getMethod( "getInput", Byte.TYPE ), (byte) 123 ) );
+		bnd.defineInputCell( ss.getCell( "short" ), new CallFrame( ic.getMethod( "getInput", Short.TYPE ), (short) 1234 ) );
+		bnd.defineInputCell( ss.getCell( "int" ), new CallFrame( ic.getMethod( "getInput", Integer.TYPE ), 12345 ) );
+		bnd.defineInputCell( ss.getCell( "long" ), new CallFrame( ic.getMethod( "getInput", Long.TYPE ), 123456L ) );
+		bnd.defineInputCell( ss.getCell( "double" ), new CallFrame( ic.getMethod( "getInput", Double.TYPE ), 123.45 ) );
+		bnd.defineInputCell( ss.getCell( "float" ), new CallFrame( ic.getMethod( "getInput", Float.TYPE ), 123.456F ) );
+		bnd.defineInputCell( ss.getCell( "char" ), new CallFrame( ic.getMethod( "getInput", Character.TYPE ), 'a' ) );
+		bnd.defineInputCell( ss.getCell( "bool" ), new CallFrame( ic.getMethod( "getInput", Boolean.TYPE ), true ) );
+
+		// Boxed types
+		bnd.defineInputCell( ss.getCell( "bbyte" ), new CallFrame( ic.getMethod( "getInput", Byte.class ), (byte) 123 ) );
+		bnd.defineInputCell( ss.getCell( "bshort" ), new CallFrame( ic.getMethod( "getInput", Short.class ), (short) 1234 ) );
+		bnd.defineInputCell( ss.getCell( "bint" ), new CallFrame( ic.getMethod( "getInput", Integer.class ), 12345 ) );
+		bnd.defineInputCell( ss.getCell( "blong" ), new CallFrame( ic.getMethod( "getInput", Long.class ), 123456L ) );
+		bnd.defineInputCell( ss.getCell( "bdouble" ), new CallFrame( ic.getMethod( "getInput", Double.class ), 123.45 ) );
+		bnd.defineInputCell( ss.getCell( "bfloat" ), new CallFrame( ic.getMethod( "getInput", Float.class ), 123.456F ) );
+		bnd.defineInputCell( ss.getCell( "bchar" ), new CallFrame( ic.getMethod( "getInput", Character.class ), 'a' ) );
+		bnd.defineInputCell( ss.getCell( "bbool" ), new CallFrame( ic.getMethod( "getInput", Boolean.class ), true ) );
+
+		// Other types
+		bnd.defineInputCell( ss.getCell( "string" ), new CallFrame( ic.getMethod( "getInput", String.class ), "123.4567" ) );
+
+		// Application-defined enumerations
+		bnd.defineInputCell( ss.getCell( "enum" ), new CallFrame( ic.getMethod( "getInput", MyEnum.class ), MyEnum.TWO ) );
+___@_@___
+jc:org.formulacompiler.tutorials.BindingParams:---- bindNamedInputs
+__@@__
+final Method inputMethod = Input.class./**/getMethod( "getInput", String.class )/**/;
+		for (Spreadsheet.NameDefinition def : /**/spreadsheet.getDefinedNames()/**/) {
+			if (def instanceof Spreadsheet.CellNameDefinition) {
+				final Spreadsheet.CellNameDefinition cellDef = (Spreadsheet.CellNameDefinition) def;
+				final String /**/cellName/**/= cellDef.getName();
+				if ("I_".equals( cellName.substring( 0, 2 ) )) {
+					final Spreadsheet.Cell cell = cellDef.getCell();
+					final String /**/valueName/**/= cellName.substring( 2 ).toUpperCase();
+					binder.defineInputCell( cell, /**/new CallFrame( inputMethod, valueName )/**/);
+				}
+			}
+		}
+___@_@___
+jc:org.formulacompiler.tutorials.BindingParams:---- bindNamedOutputs
+__@@__
+final Method outputMethod = Output.class./**/getMethod( "getOutput", String.class )/**/;
+		for (Spreadsheet.NameDefinition def : /**/spreadsheet.getDefinedNames()/**/) {
+			if (def instanceof Spreadsheet.CellNameDefinition) {
+				final Spreadsheet.CellNameDefinition cellDef = (Spreadsheet.CellNameDefinition) def;
+				final String /**/cellName/**/= cellDef.getName();
+				if ("O_".equals( cellName.substring( 0, 2 ) )) {
+					final Spreadsheet.Cell cell = cellDef.getCell();
+					final String /**/valueName/**/= cellName.substring( 2 ).toUpperCase();
+					binder.defineOutputCell( cell, /**/new CallFrame( outputMethod, valueName )/**/);
+				}
+			}
+		}
+___@_@___
+jc:org.formulacompiler.tutorials.BindingParams:---- checkComplexResults
+__@@__
+assertEquals( 5.0, output.getComplex( 1, 2, "THREE" ), 0.001 );
+
+		// Check undefined results by incrementing each argument in turn:
+		assertEquals( -1.0, output.getComplex( 2, 2, "THREE" ), 0.001 );
+		assertEquals( -1.0, output.getComplex( 1, 3, "THREE" ), 0.001 );
+		assertEquals( -1.0, output.getComplex( 1, 2, "FOUR" ), 0.001 );
+___@_@___
+jc:org.formulacompiler.tutorials.BindingParams:---- checkResults
+__@@__
+assertEquals( 6.0, output.getOutput( "ONETWOTHREE" ), 0.001 );
+		assertEquals( 8.0, output.getOutput( "SUMINTER" ), 0.001 );
+		assertEquals( -1.0, output.getOutput( "UNDEF" ), 0.001 );
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingToMultipleInstances:---- CC
 __@@__

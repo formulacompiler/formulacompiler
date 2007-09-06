@@ -117,6 +117,29 @@ public interface SpreadsheetBinder
 
 
 	/**
+	 * Checks if a given cell already is bound to an input method. Cells may not be bound to multiple
+	 * inputs.
+	 * 
+	 * @param _cell is the cell to check.
+	 * @return {@code true} if the cell is already bound to an input method, {@code false} otherwise.
+	 * 
+	 * @see #isOutputCell(Spreadsheet.Cell)
+	 */
+	public boolean isInputCell( Spreadsheet.Cell _cell );
+
+	/**
+	 * Checks if a given cell already is bound to an output method.
+	 * 
+	 * @param _cell is the cell to check.
+	 * @return {@code true} if the cell is already bound to an output method, {@code false}
+	 *         otherwise.
+	 * 
+	 * @see #isInputCell(Spreadsheet.Cell)
+	 */
+	public boolean isOutputCell( Spreadsheet.Cell _cell );
+
+
+	/**
 	 * Represents both the container for the definitions of global spreadsheet cells and instances of
 	 * horizontal or vertical sections within a spreadsheet. See the tutorial for details on <a
 	 * href="{@docRoot}/../tutorial/binding.htm#BindRepeatingSections">sections</a>.

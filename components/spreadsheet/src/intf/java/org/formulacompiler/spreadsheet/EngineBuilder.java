@@ -280,15 +280,80 @@ public interface EngineBuilder
 
 	/**
 	 * Uses reflection to bind all named cells in the spreadsheet to corresponding methods on the
-	 * input and output types.
+	 * input and output types. More precisely:
+	 * <ul>
+	 * <li>Outputs and inputs are bound independently; the same cell can be bound to both (the
+	 * output is then a direct passthrough to the corresponding input).</li>
+	 * <li>Multiple cells can be bound to the same input method (cells "GETXY" and "XY" to
+	 * {@code xy()}).</li>
+	 * <li>Multiple output methods can be bound to the same cell ({@code getXY()} and {@code xy()}
+	 * to cell "XY").</li>
+	 * <li>In both cases, the exact name of the cell/method takes precedence.</li>
+	 * </ul>
 	 * 
 	 * <p>
 	 * See the <a target="_top" href="{@docRoot}/../tutorial/basics.htm#Convention">tutorial</a>
 	 * for details.
 	 * 
+	 * <p>
+	 * Here's what this method does:
+	 * {@.jcite org.formulacompiler.spreadsheet.internal.util.EngineBuilderImpl:---- bindAllByName}
+	 * 
 	 * @throws CompilerException
+	 * 
+	 * @see #bindAllByName(String, String)
+	 * @see #failIfByNameBindingLeftNamedCellsUnbound()
 	 */
 	public void bindAllByName() throws CompilerException;
+
+	/**
+	 * Uses reflection to bind all named cells in the spreadsheet to corresponding methods on the
+	 * input and output types, provided the cell names have the specified prefixes.
+	 * 
+	 * <p>
+	 * See the <a target="_top" href="{@docRoot}/../tutorial/basics.htm#Convention">tutorial</a>
+	 * for details.
+	 * 
+	 * <p>
+	 * Here's what this method does:
+	 * {@.jcite org.formulacompiler.spreadsheet.internal.util.EngineBuilderImpl:---- bindAllByNamePrefixed}
+	 * 
+	 * @param _inputPrefix is what cell names used for input methods must start with.
+	 * @param _outputPrefix is what cell names used for output methods must start with.
+	 * 
+	 * @throws CompilerException
+	 * 
+	 * @see #bindAllByName()
+	 * @see #failIfByNameBindingLeftNamedCellsUnbound()
+	 */
+	public void bindAllByName( String _inputPrefix, String _outputPrefix ) throws CompilerException;
+
+
+	/**
+	 * Raises an exception if there are named cells that were not bound.
+	 * 
+	 * @throws SpreadsheetException.NameNotFound if there is an unbound name.
+	 * 
+	 * @see #bindAllByName()
+	 * @see #getByNameBinder()
+	 */
+	public void failIfByNameBindingLeftNamedCellsUnbound() throws CompilerException;
+
+
+	/**
+	 * Raises an exception if there are named cells with one of the given prefixes that were not
+	 * bound.
+	 * 
+	 * @param _inputPrefix is what cell names used for input methods must start with.
+	 * @param _outputPrefix is what cell names used for output methods must start with.
+	 * 
+	 * @throws SpreadsheetException.NameNotFound if there is an unbound name.
+	 * 
+	 * @see #bindAllByName()
+	 * @see #getByNameBinder()
+	 */
+	public void failIfByNameBindingLeftNamedCellsUnbound( String _inputPrefix, String _outputPrefix )
+			throws CompilerException;
 
 
 	/**
