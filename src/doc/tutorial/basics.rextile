@@ -55,13 +55,35 @@ If our spreadsheet contains user-defined cell names (the names you can enter in 
 
 	* For every abstract method on the output interface, AFC looks for a cell named like the method, which is used to implement the method. That is, the cell's value or formula is compiled as the body of the output method. If there is no such cell, an error is raised.
 	* For every non-abstract output method, AFC does the same as above, only it is no error of there is no matching cell.
-	* For all remaining cell names, AFC looks for a matching method on the input interface. If found, it binds the cell to it. That is, instead of using the value or formula specified in the spreadsheet to compile the computation of the cell's value, it compiles a call to the input method instead. If there is no such input method, an error is raised.
+	* For all remaining cell names, AFC looks for a matching method on the input interface. If found, it binds the cell to it. So when the computation accesses the cell, it calls the input method instead of using the value or formula specified in the spreadsheet.
 	* When matching a cell name _XY_ to a method, AFC always considers both @xy()@ and @getXY()@ as method names. The match is _not_ case-sensitive.
+	* If you wish, you can tell AFC to raise an error if any unbound named cells remain after this. Alternatively, you can query the list of unbound cell names to do with as you please (perhaps just alerting users to the unbound cells).
 
+There is also a variant where only cell names with a given prefix are considered, for example only cell names starting with "I_" for inputs and "O_" for outputs.
+
+More precisely, given the methods
+
+	[jc:org.formulacompiler.spreadsheet.internal.util.SpreadsheetByNameBinderTest:---- Inputs]
+
+the following holds for binding input values:
+
+	[jc:org.formulacompiler.spreadsheet.internal.util.SpreadsheetByNameBinderTest:---- testInputs]
+
+When using the prefix @P_@, we have:
+
+	[jc:org.formulacompiler.spreadsheet.internal.util.SpreadsheetByNameBinderTest:---- testInputsWithPrefix]
+
+The same holds for binding output values, except that @final@ and @static@ methods do not bind:
+
+	[jc:org.formulacompiler.spreadsheet.internal.util.SpreadsheetByNameBinderTest:---- testOutputs; omit -skip-]
+
+When using the prefix @P_@, we again have:
+
+	[jc:org.formulacompiler.spreadsheet.internal.util.SpreadsheetByNameBinderTest:---- testOutputsWithPrefix]
 
 h5. Row titles for cell names
 
-For many users, entering an managing cell names is not straightforward, at least in Microsoft Excel. Neither are the names obvious when looking at a spreadsheet.
+For many users, entering an managing cell names is not straightforward, at least in Microsoft Excel. Neither are the names easily visible when looking at a spreadsheet.
 
 AFC therefore can use row titles instead of cell names to resolve references. Row titles are simply string values in column <em>A</em> of a spreadsheet, with the cell they name right next to it in column <em>B</em>. If a spreadsheet contains no named cells, AFC automatically assumes row titles.
 

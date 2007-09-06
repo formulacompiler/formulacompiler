@@ -42,6 +42,13 @@ public class InputCellBinding extends CellBinding
 	{
 		return this.callChainToCall;
 	}
+	
+	
+	@Override
+	public CallFrame boundCall()
+	{
+		return this.callChainToCall;
+	}
 
 
 	@Override

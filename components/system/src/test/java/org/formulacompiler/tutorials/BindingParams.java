@@ -34,13 +34,13 @@ import junit.framework.TestCase;
 
 
 @SuppressWarnings("unchecked")
-public class BindingByName extends TestCase
+public class BindingParams extends TestCase
 {
 
 
 	public void testBindingByName() throws Exception
 	{
-		final String path = "src/test/data/org/formulacompiler/tutorials/BindingByName.xls";
+		final String path = "src/test/data/org/formulacompiler/tutorials/BindingParams.xls";
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( path );
@@ -195,7 +195,7 @@ public class BindingByName extends TestCase
 	
 	public void testInputVariants() throws Exception
 	{
-		final String path = "src/test/data/org/formulacompiler/tutorials/BindingByName_InputVariants.xls";
+		final String path = "src/test/data/org/formulacompiler/tutorials/BindingParams_InputVariants.xls";
 		
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( path );
@@ -306,7 +306,7 @@ public class BindingByName extends TestCase
 
 	public void testComplexOutputBinding() throws Exception
 	{
-		final String path = "src/test/data/org/formulacompiler/tutorials/BindingByName.xls";
+		final String path = "src/test/data/org/formulacompiler/tutorials/BindingParams.xls";
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( path );

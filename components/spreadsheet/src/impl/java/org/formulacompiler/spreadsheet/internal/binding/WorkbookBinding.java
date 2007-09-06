@@ -22,6 +22,7 @@ package org.formulacompiler.spreadsheet.internal.binding;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.runtime.Computation;
@@ -34,12 +35,13 @@ import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
 public class WorkbookBinding implements SpreadsheetBinding
 {
-	protected final SpreadsheetImpl workbook;
-	protected final SectionBinding root;
+	private final SpreadsheetImpl workbook;
+	private final SectionBinding root;
 	private final Environment environment;
-	protected Map<CellIndex, InputCellBinding> inputs = New.newMap();
-	protected List<OutputCellBinding> outputs = New.newList();
-	protected List<SectionBinding> sections = New.newList();
+	private final Map<CellIndex, InputCellBinding> inputs = New.newMap();
+	private final List<OutputCellBinding> outputs = New.newList();
+	private final Set<CellIndex> outputCells = New.newSet();
+	private final List<SectionBinding> sections = New.newList();
 
 
 	public WorkbookBinding(SpreadsheetImpl _workbook, Class _inputClass, Class _outputClass, Computation.Config _compileTimeConfig)
@@ -101,6 +103,11 @@ public class WorkbookBinding implements SpreadsheetBinding
 	{
 		return this.outputs;
 	}
+	
+	public Set<CellIndex> getOutputsCells()
+	{
+		return this.outputCells;
+	}
 
 
 	public List<SectionBinding> getSections()
@@ -115,10 +122,26 @@ public class WorkbookBinding implements SpreadsheetBinding
 	}
 
 
+	public void add( InputCellBinding _binding )
+	{
+		this.inputs.put( _binding.getIndex(), _binding );
+	}
+
+	public void add( OutputCellBinding _binding )
+	{
+		this.outputs.add( _binding );
+		this.outputCells.add( _binding.getIndex() );
+	}
+
+	public void add( SectionBinding _binding )
+	{
+		this.sections.add( _binding );
+	}
+
+
 	public void validate() throws CompilerException
 	{
 		this.root.validate();
 	}
-
 
 }
