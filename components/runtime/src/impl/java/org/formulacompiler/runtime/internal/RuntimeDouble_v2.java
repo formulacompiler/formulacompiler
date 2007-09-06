@@ -435,7 +435,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	 * <p/>
 	 * <p/>
 	 * This code is adopted from <a href="http://dsd.lbl.gov/~hoschek/colt/">Colt Library</a>.
-	 * Copyright © 1999 CERN - European Organization for Nuclear Research.
+	 * Copyright (c) 1999 CERN - European Organization for Nuclear Research.
 	 *
 	 * @param x    argument to the polynomial.
 	 * @param coef the coefficients of the polynomial.
@@ -468,7 +468,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	 * <p/>
 	 * <p/>
 	 * This code is adopted from <a href="http://dsd.lbl.gov/~hoschek/colt/">Colt Library</a>.
-	 * Copyright © 1999 CERN - European Organization for Nuclear Research.
+	 * Copyright (c) 1999 CERN - European Organization for Nuclear Research.
 	 *
 	 * @param x    argument to the polynomial.
 	 * @param coef the coefficients of the polynomial.
@@ -506,11 +506,11 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	 * <p/>
 	 * <p/>
 	 * This code is adopted from <a href="http://dsd.lbl.gov/~hoschek/colt/">Colt Library</a>.
-	 * Copyright © 1999 CERN - European Organization for Nuclear Research.
+	 * Copyright (c) 1999 CERN - European Organization for Nuclear Research.
 	 *
 	 * @param x the argument to the function.
 	 */
-	private static double errorFunction( double x )
+	public static double fun_ERF( double x )
 	{
 		final double T[] = {
 				9.60497373987051638749E0,
@@ -528,7 +528,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		};
 
 		if (Math.abs( x ) > 1.0) {
-			return 1.0 - errorFunctionComplemented( x );
+			return 1.0 - fun_ERFC( x );
 		}
 		final double z = x * x;
 		final double y = x * polevl( z, T, 4 ) / p1evl( z, U, 5 );
@@ -557,11 +557,11 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	 * <p/>
 	 * <p/>
 	 * This code is adopted from <a href="http://dsd.lbl.gov/~hoschek/colt/">Colt Library</a>.
-	 * Copyright © 1999 CERN - European Organization for Nuclear Research.
+	 * Copyright (c) 1999 CERN - European Organization for Nuclear Research.
 	 *
 	 * @param a the argument to the function.
 	 */
-	private static double errorFunctionComplemented( double a )
+	public static double fun_ERFC( double a )
 	{
 		final double MAXLOG = 7.09782712893383996732E2;
 		final double P[] = {
@@ -606,7 +606,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		final double x = a < 0.0 ? -a : a;
 
 		if (x < 1.0) {
-			return 1.0 - errorFunction( a );
+			return 1.0 - fun_ERF( a );
 		}
 
 		double z = -a * a;
@@ -635,29 +635,6 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 		if (y == 0.0) {
 			return a < 0 ? 2.0 : 0.0;
-		}
-
-		return y;
-	}
-
-	/**
-	 * This code is adopted from <a href="http://dsd.lbl.gov/~hoschek/colt/">Colt Library</a>.
-	 * Copyright © 1999 CERN - European Organization for Nuclear Research.
-	 */
-	public static double fun_NORMSDIST( double _a )
-	{
-		final double SQRTH = 7.07106781186547524401E-1;
-
-		final double x = _a * SQRTH;
-		final double z = Math.abs( x );
-
-		double y;
-		if (z < SQRTH) {
-			y = 0.5 + 0.5 * errorFunction( x );
-		}
-		else {
-			y = 0.5 * errorFunctionComplemented( z );
-			if (x > 0) y = 1.0 - y;
 		}
 
 		return y;

@@ -381,9 +381,14 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_LOG10( p );
 	}
 
-	public BigDecimal fun_NORMSDIST( BigDecimal z )
+	public BigDecimal fun_ERF( BigDecimal x )
 	{
-		return RuntimeBigDecimal_v2.fun_NORMSDIST( z );
+		return RuntimeBigDecimal_v2.fun_ERF( x );
+	}
+
+	public BigDecimal fun_ERFC( BigDecimal x )
+	{
+		return RuntimeBigDecimal_v2.fun_ERFC( x );
 	}
 
 	public BigDecimal fun_MOD( BigDecimal n, BigDecimal d )

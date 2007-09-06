@@ -207,12 +207,30 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 
 	private void defineStatistical() throws Exception
 	{
+		// This code is adopted from Colt Library (http://dsd.lbl.gov/~hoschek/colt/).
+		begin( Function.NORMSDIST, "a" );
+		{
+			body( "_LET( sqrth: 7.07106781186547524401E-1;" );
+			body( "  _LET( b: `a * `sqrth;" );
+			body( "    _LET( z: ABS( `b );" );
+			body( "      IF( `z < `sqrth," );
+			body( "        0.5 + 0.5 * ERF( `b )" );
+			body( "      ," );
+			body( "        _LET( y1: 0.5 * ERFC( `z ); IF( `b > 0, 1.0 - `y1, `y1 ) )" );
+			body( "      )" );
+			body( "    )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
+
+
 		begin( Function.NORMDIST, "x", "mue", "sigma", "cumulative" );
 		{
 			body( "IF( `cumulative," );
 			body( "  NORMSDIST( (`x - `mue) / `sigma )" );
 			body( "," );
-			body( "  EXP( _LET ( x1: `x - `mue; `x1 * `x1 ) / (-2 * `sigma * `sigma) ) / (SQRT( 2 * PI() ) * `sigma)" );
+			body( "  EXP( _LET( x1: `x - `mue; `x1 * `x1 ) / (-2 * `sigma * `sigma) ) / (SQRT( 2 * PI() ) * `sigma)" );
 			body( ")" );
 		}
 		end();
