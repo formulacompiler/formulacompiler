@@ -409,9 +409,14 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v2.fun_LOG10( p );
 	}
 
-	public double fun_NORMSDIST( double _z )
+	public double fun_ERF( double _x )
 	{
-		return RuntimeDouble_v2.fun_NORMSDIST( _z );
+		return RuntimeDouble_v2.fun_ERF( _x );
+	}
+
+	public double fun_ERFC( double _x )
+	{
+		return RuntimeDouble_v2.fun_ERFC( _x );
 	}
 
 	public double fun_MOD( double n, double d )

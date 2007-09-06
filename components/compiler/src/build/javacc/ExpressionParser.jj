@@ -260,6 +260,8 @@ void fun(): {}
 	|	"DMIN" dbAggN( Function.DMIN )
 	|	"DPRODUCT" dbAggN( Function.DPRODUCT )
 	|	"DSUM" dbAggN( Function.DSUM )
+	|	"ERF" fun1to2( Function.ERF )
+	|	"ERFC" fun1( Function.ERFC )
 	|	"EXACT" fun2( Function.EXACT )
 	|	"EVEN" fun1( Function.EVEN )
 	|	"EXP" fun1( Function.EXP )
