@@ -53,6 +53,7 @@ import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCount;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForParentSectionModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionModel;
+import org.formulacompiler.runtime.New;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -676,6 +677,10 @@ abstract class ExpressionCompiler
 
 	private final void compileLetVar( String _varName ) throws CompilerException
 	{
+		if (this.forbiddenLetVars.contains( _varName )) {
+			throw new IllegalArgumentException( "Cannot compile a letvar named "
+					+ _varName + " when already compiling one of that name - rewriter bug?" );
+		}
 		final Object val = letDict().lookup( _varName );
 		compileLetValue( _varName, val );
 	}
@@ -690,7 +695,13 @@ abstract class ExpressionCompiler
 		}
 		else if (_value instanceof DelayedLet) {
 			final DelayedLet letDef = (DelayedLet) _value;
-			compile( letDef.node );
+			this.forbiddenLetVars.add( letDef.name );
+			try {
+				compile( letDef.node );
+			}
+			finally {
+				this.forbiddenLetVars.remove( letDef.name );
+			}
 			compileDup( letDef.local.isArray() );
 			compileStoreLocal( letDef.local );
 			letDict().set( _name, letDef.local );
@@ -703,6 +714,9 @@ abstract class ExpressionCompiler
 			throw new CompilerException.NameNotFound( "The variable " + _name + " is not bound in this context." );
 		}
 	}
+
+	private final Set<String> forbiddenLetVars = New.newSet();
+
 
 	protected final LocalRef compileStoreToNewLocal( boolean _isArray )
 	{
