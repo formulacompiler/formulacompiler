@@ -1,0 +1,13 @@
+
+h1. Modules and IDEs
+
+I have implemented the internal modularization as "described earlier on":2007-01-22_modularization.htm. However, I have not split the project up into modules. Here's why.
+
+The reasons already outlined mainly address the hassle incurred for project committers. An even stronger reason in the end was to not deter the occasional would-be patch contributor, or even just the occasional code browser. It seems very important to me that incorporating the source of SEJ into a foreign project be extremly easy, be it in order to trace and debug, or just to have it in place. And this should be easy directly from SVN, so the layout in SVN must be simple enough for this. I have myself seen the value of this with JExcelAPI and JODE, which are used by SEJ.
+
+So I tried simply using CheckStyle's ImportControl task to do the dependency checks. Turns out it has a bug with nested classes, so it is no use right now. I am reverting to Macker.
+
+Meanwhile, I just discovered this "article by Gilad Bracha of Sun":-gilad which triggered "JSR 294":-jsr to help deal with the situation. Although, sadly, it still addresses only part of the problem.
+
+[-gilad]http://blogs.sun.com/gbracha/entry/developing_modules_for_development
+[-jsr]http://jcp.org/en/jsr/detail?id=294

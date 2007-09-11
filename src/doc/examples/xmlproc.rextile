@@ -1,0 +1,37 @@
+
+h1. AFC XML Processor
+
+_XmlProc_ is a batch application that reads an input XML file with data, an spreadsheet file with an engine definition, and writes out another XML file with data computed from the input data using the spreadsheet.
+
+*This example is not done yet!*
+
+_And I just thought that, for a first version, it might be easier to use another Excel sheet for input
+data, and maybe yet another one for outputs, though that is more debatable._
+
+<%= toc %>
+
+
+h2. Input File
+
+A typical input file looks like this:
+
+<pre><code
+><data>
+	<employee name="Arrenbrecht" firstname="Peter">
+		<entry date="2006-12-14" time="9:30" duration="2:30" job="DSUM" />
+		<entry date="2006-12-14" time="13:30" duration="3:00" job="DSUM" />
+	</employee>
+	<employee name="Testerson" firstname="Test">
+		<entry date="2006-12-13" time="9:00" duration="3:00" job="DSUM" />
+		<entry date="2006-12-14" time="8:30" duration="4:30" job="Docs" />
+	</employee>
+</data>
+</code></pre>
+
+
+h2. Spreadsheet File
+
+A spreadsheet defining a computation over the input data might look like this:
+
+	[xc:org/formulacompiler/examples/xmlproc/EmployeeTracking.xls]
+	

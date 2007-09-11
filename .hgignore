@@ -1,0 +1,8 @@
+syntax: regexp
+
+^(build|temp)/.*
+^components/[a-z\.]*/(build|temp)/.*
+^doc/.*
+^tools/.*
+^build\.properties
+^afc\.iws$
