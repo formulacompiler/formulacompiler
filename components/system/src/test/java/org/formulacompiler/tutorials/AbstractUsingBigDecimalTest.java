@@ -24,7 +24,7 @@ import java.math.BigDecimal;
 
 import junit.framework.TestCase;
 
-public class AbstractUsingBigDecimalTest extends TestCase
+public abstract class AbstractUsingBigDecimalTest extends TestCase
 {
 	protected static final String PATH = "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes.xls";
 
