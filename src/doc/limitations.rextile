@@ -12,6 +12,7 @@ h2. Spreadsheet Formats
 	* Excel .xml support is missing (parked for resurrection in an earlier version).
 	* OpenOffice Calc spreadsheet loader is not done at all.
 	* The Excel .xls loader does not yet handle references to labels in formulas.
+	* The following functions are not supported by the Excel .xls loader now: ERF, ERFC, GCD, ISEVEN, ISODD, MROUND, MULTINOMIAL, QUOTIENT, RANDBETWEEN, SQRTPI, SERIESSUM.
 
 h5. Excel
 
