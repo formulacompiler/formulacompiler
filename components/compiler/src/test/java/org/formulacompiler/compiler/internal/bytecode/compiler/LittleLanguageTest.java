@@ -102,6 +102,37 @@ public class LittleLanguageTest extends AbstractIOTestBase
 	}
 
 
+	public void testNestedLetWithSameName() throws Exception
+	{
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutReset.class );
+		final SectionModel rootModel = engineModel.getRoot();
+		final CellModel a = new CellModel( rootModel, "a" );
+		final CellModel r = new CellModel( rootModel, "r" );
+
+		a.setConstantValue( 1.0 );
+
+		final ExpressionNode val = new ExpressionNodeForCellModel( a );
+		final ExpressionNode outerX = new ExpressionNodeForLetVar( "x" );
+		final ExpressionNode innerX = new ExpressionNodeForLetVar( "x" );
+		final ExpressionNode innerLet = new ExpressionNodeForLet( "x", outerX, innerX );
+		final ExpressionNode outerLet = new ExpressionNodeForLet( "x", val, innerLet );
+		r.setExpression( outerLet );
+
+		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleIncr" ) ) );
+		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+
+		final Inputs inp = new Inputs();
+		try {
+			assertDoubleResult( inp.getDoubleIncr() * 2 + inp.getDoubleIncr(), engineModel );
+			fail( "Exception expected" );
+		}
+		catch (IllegalArgumentException e) {
+			assertEquals( "Cannot compile a letvar named x when already compiling one of that name - rewriter bug?", e
+					.getMessage() );
+		}
+	}
+
+
 	public void testLetUsedInIfAndElse() throws Exception
 	{
 		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutReset.class );
