@@ -31,6 +31,7 @@ import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.internal.Environment;
+import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinding;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.binding.InputCellBinding;
@@ -43,6 +44,7 @@ public final class SpreadsheetToModelCompiler
 {
 	private final WorkbookBinding binding;
 	private final NumericType numericType;
+	private final boolean copyCellNames;
 	private final Map<CellIndex, CellModel> cellModels = New.newMap();
 	private final Map<SectionBinding, SectionModelCompiler> sectionCompilers = New.newMap();
 	private final Map<SectionModel, SectionModelCompiler> sectionCompilersByModel = New.newMap();
@@ -51,6 +53,11 @@ public final class SpreadsheetToModelCompiler
 
 	public SpreadsheetToModelCompiler( SpreadsheetBinding _binding, NumericType _numericType )
 	{
+		this( _binding, _numericType, false );
+	}
+
+	public SpreadsheetToModelCompiler( SpreadsheetBinding _binding, NumericType _numericType, boolean _copyCellNames )
+	{
 		super();
 
 		assert _binding != null: "Binding must not be null";
@@ -58,6 +65,7 @@ public final class SpreadsheetToModelCompiler
 
 		this.binding = (WorkbookBinding) _binding;
 		this.numericType = _numericType;
+		this.copyCellNames = _copyCellNames;
 	}
 
 
@@ -89,6 +97,10 @@ public final class SpreadsheetToModelCompiler
 		new SectionModelCompiler( this, null, rootDef, this.computationModel.getRoot() );
 
 		buildModel();
+
+		if (this.copyCellNames) {
+			nameModel();
+		}
 
 		return this.computationModel;
 	}
@@ -202,5 +214,19 @@ public final class SpreadsheetToModelCompiler
 		return parentCompiler.createSectionCompiler( _sectionDef );
 	}
 
+
+	private void nameModel()
+	{
+		final Spreadsheet ss = this.binding.getSpreadsheet();
+		for (Spreadsheet.NameDefinition nameDef : ss.getDefinedNames()) {
+			if (nameDef instanceof Spreadsheet.CellNameDefinition) {
+				final Spreadsheet.CellNameDefinition cellNameDef = (Spreadsheet.CellNameDefinition) nameDef;
+				final CellModel cellModel = getCellModel( (CellIndex) cellNameDef.getCell() );
+				if (null != cellModel) {
+					cellModel.setName( cellNameDef.getName() );
+				}
+			}
+		}
+	}
 
 }

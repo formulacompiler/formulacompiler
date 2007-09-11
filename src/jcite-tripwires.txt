@@ -2719,6 +2719,30 @@ __@@__
 		ByteCodeEngineSource source = FormulaDecompiler.decompile( engine );
 		String text = source.toString();
 ___@_@___
+jc:org.formulacompiler.tutorials.Decompilation:---- makeSheet
+__@@__
+b.newCell( b.cst( 0.1 ) );
+		b.nameCell( "CustomerRebate" );
+		cr = b.currentCell();
+
+		b.newRow();
+		b.newCell( b.cst( 0.05 ) );
+		b.nameCell( "ArticleRebate" );
+		ar = b.currentCell();
+
+		b.newRow();
+		b.newRow();
+		b.newCell( b.fun( Function.MAX, b.ref( cr ), b.ref( ar ) ) );
+		b.nameCell( "Rebate" );
+___@_@___
+jc:org.formulacompiler.tutorials.Decompilation:---- saveReadable
+__@@__
+// ... set up engine definition
+		builder./**/setCompileToReadableCode/**/( true );
+		SaveableEngine engine = builder.compile();
+		ByteCodeEngineSource source = FormulaDecompiler.decompile( engine );
+		source.saveTo( new File( pathToTargetFolder ) );
+___@_@___
 jc:org.formulacompiler.tutorials.Decompilation:---- saveTo
 __@@__
 // ... set up engine definition
@@ -3353,7 +3377,42 @@ try {
 				assertEquals( "Non-terminating decimal expansion; no exact representable decimal result.", e.getMessage() );
 			}
 ___@_@___
-jc:org/formulacompiler/tutorials/decompiler/org.formulacompiler.gen.$Factory
+jc:org/formulacompiler/tutorials/decompiler/readable/org.formulacompiler.gen.$Root
+__@@__
+package org.formulacompiler.gen;
+import org.formulacompiler.runtime.Computation;
+import org.formulacompiler.runtime.internal.Environment;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
+import org.formulacompiler.tutorials.Decompilation;
+
+final class $Root implements Computation, Decompilation.MyOutputs
+{
+    private final Decompilation.MyInputs $inputs;
+    final Environment $environment;
+    
+    $Root(Decompilation.MyInputs myinputs, Environment environment) {
+        $environment = environment;
+        $inputs = myinputs;
+    }
+    
+    final double get$REBATE() {
+        return RuntimeDouble_v2.max(get$CUSTOMERREBATE(), get$ARTICLEREBATE());
+    }
+    
+    public final double rebate() {
+        return get$REBATE();
+    }
+    
+    final double get$CUSTOMERREBATE() {
+        return $inputs.customerRebate();
+    }
+    
+    final double get$ARTICLEREBATE() {
+        return $inputs.articleRebate();
+    }
+}
+___@_@___
+jc:org/formulacompiler/tutorials/decompiler/std/org.formulacompiler.gen.$Factory
 __@@__
 package org.formulacompiler.gen;
 import org.formulacompiler.runtime.Computation;
@@ -3380,7 +3439,7 @@ public final class $Factory
     }
 }
 ___@_@___
-jc:org/formulacompiler/tutorials/decompiler/org.formulacompiler.gen.$Root
+jc:org/formulacompiler/tutorials/decompiler/std/org.formulacompiler.gen.$Root
 __@@__
 package org.formulacompiler.gen;
 import org.formulacompiler.runtime.Computation;
@@ -3402,7 +3461,7 @@ final class $Root implements Computation, Decompilation.MyOutputs
         return RuntimeDouble_v2.max(get$1(), get$2());
     }
     
-    public final double rebateOp() {
+    public final double rebate() {
         return get$0();
     }
     

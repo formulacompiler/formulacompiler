@@ -47,7 +47,7 @@ final class $Root implements Computation, Decompilation.MyOutputs
         return RuntimeDouble_v2.max(get$1(), get$2());
     }
     
-    public final double rebateOp() {
+    public final double rebate() {
         return get$0();
     }
     

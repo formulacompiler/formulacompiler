@@ -93,6 +93,12 @@ public interface SpreadsheetToEngineCompiler
 		public ClassLoader parentClassLoader = ClassLoader.getSystemClassLoader();
 
 		/**
+		 * Controls whether AFC should attempt to compile more readable code (when decompiled),
+		 * possibly at the expense of engine size and performance.
+		 */
+		public boolean compileToReadableCode = false;
+
+		/**
 		 * Validates the configuration.
 		 * 
 		 * @throws IllegalArgumentException
