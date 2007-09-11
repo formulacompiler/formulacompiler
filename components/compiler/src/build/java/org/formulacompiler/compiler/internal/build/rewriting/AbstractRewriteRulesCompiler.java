@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.internal.build.Util;
@@ -39,6 +40,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForReduce;
+import org.formulacompiler.compiler.internal.expressions.LetDictionary;
 import org.formulacompiler.describable.DescriptionBuilder;
 import org.formulacompiler.runtime.New;
 
@@ -244,11 +246,55 @@ public abstract class AbstractRewriteRulesCompiler
 			b.outdent();
 		}
 
+
+		private final LetDictionary letDict = new LetDictionary();
+		private final Set<String> letVars = New.newSet();
+		private char nextLetVarSuffix = 'a';
+
+		private final UniqueLetVarName compileUniqueLetVarName( String _name )
+		{
+			final String varName;
+			if (this.letVars.contains( _name )) {
+				varName = _name + '$' + this.nextLetVarSuffix++;
+			}
+			else {
+				this.letVars.add( _name );
+				varName = _name;
+			}
+			final UniqueLetVarName result = new UniqueLetVarName( _name, varName );
+			final DescriptionBuilder b = declBuilder();
+			b.append( "final String " ).append( result.constName ).append( " = \"" ).append( result.varName ).appendLine(
+					"__\" + newSanitizingSuffix();" );
+			b.append( "final ExpressionNode " ).append( result.varName ).append( " = var( " ).append( result.constName )
+					.appendLine( " );" );
+			return result;
+		}
+
+		private final void let( UniqueLetVarName _let )
+		{
+			this.letDict.let( _let.letName, null, _let.varName );
+		}
+
+		private final void unlet( UniqueLetVarName _let )
+		{
+			this.letDict.unlet( _let.letName );
+		}
+
+		private final void resetLetVars()
+		{
+			this.letVars.clear();
+			this.letDict.clear();
+		}
+
+
 		final void compileMethod() throws Exception
 		{
 			final String mtdName = mtdName();
 			final DescriptionBuilder b = methods();
 			final ExpressionNode expr = parse( this.body.toString() );
+
+			resetLetVars();
+
 			b.append( "private final ExpressionNode " ).append( mtdName ).appendLine(
 					"( ExpressionNodeForFunction _fun ) {" );
 			b.indent();
@@ -273,12 +319,13 @@ public abstract class AbstractRewriteRulesCompiler
 							paramExpr = "new ExpressionNodeForMakeArray( args.next() )";
 						}
 						if (occursMoreThanOnce( expr, param )) {
-							b.append( "final ExpressionNode " ).append( param ).append( "_ = " ).append( paramExpr )
+							final UniqueLetVarName var = compileUniqueLetVarName( param );
+							b.append( "final ExpressionNode " ).append( var.varName ).append( "$$ = " ).append( paramExpr )
 									.appendLine( ";" );
-							b.append( "final ExpressionNode " ).append( param ).append( " = var( \"" ).append( param )
-									.appendLine( "\" );" );
-							prefix.append( "let( \"" ).append( param ).append( "\", " ).append( param ).append( "_, " );
+							prefix.append( "let( " ).append( var.constName ).append( ", " ).append( var.varName ).append(
+									"$$, " );
 							suffix.append( " )" );
+							let( var );
 						}
 						else {
 							b.append( "final ExpressionNode " ).append( param ).append( " = substitution( " ).append(
@@ -288,16 +335,16 @@ public abstract class AbstractRewriteRulesCompiler
 					iParam++;
 				}
 
-				b.append( "return " );
-				b.append( prefix );
-				compileExpr( expr, b );
-				b.append( suffix );
-				b.appendLine( ";" );
+				final DescriptionBuilder exprBuilder = new DescriptionBuilder();
+				compileExpr( expr, exprBuilder );
+
+				b.append( "return " ).append( prefix ).append( exprBuilder ).append( suffix ).appendLine( ";" );
 			}
 			b.outdent();
 			b.appendLine( "}" );
 			b.newLine();
 		}
+
 
 		private String dropLastCharInParamName( int _index, String _name )
 		{
@@ -375,6 +422,12 @@ public abstract class AbstractRewriteRulesCompiler
 		}
 
 
+		private final DescriptionBuilder declBuilder()
+		{
+			return methods();
+		}
+
+
 		private final void compileExpr( ExpressionNode _node, DescriptionBuilder _b ) throws Exception
 		{
 			if (_node instanceof ExpressionNodeForConstantValue) compileConst( (ExpressionNodeForConstantValue) _node, _b );
@@ -441,32 +494,38 @@ public abstract class AbstractRewriteRulesCompiler
 
 		private void compileLetVar( ExpressionNodeForLetVar _node, DescriptionBuilder _b )
 		{
-			final String varName = _node.varName();
-			if (this.params.contains( varName )) {
-				_b.append( varName );
-			}
-			else {
-				_b.append( "var( \"" ).append( varName ).append( "\" )" );
-			}
+			final String letName = _node.varName();
+			final String varName = (String) this.letDict.lookup( letName );
+			_b.append( (null == varName)? letName : varName );
 		}
 
 
 		private void compileLet( ExpressionNodeForLet _node, DescriptionBuilder _b ) throws Exception
 		{
-			_b.append( "let( \"" ).append( _node.varName() ).append( "\", " );
+			final UniqueLetVarName var = compileUniqueLetVarName( _node.varName() );
+			_b.append( "let( " ).append( var.constName ).append( ", " );
 			compileExpr( _node.value(), _b );
 			_b.append( ", " );
+			let( var );
 			compileExpr( _node.in(), _b );
+			unlet( var );
 			_b.append( " )" );
 		}
 
 
 		private void compileFold( ExpressionNodeForFold _fold, DescriptionBuilder _b ) throws Exception
 		{
-			_b.append( "fold( \"" ).append( _fold.accumulatorName() ).append( "\", " );
+			final UniqueLetVarName acc = compileUniqueLetVarName( _fold.accumulatorName() );
+			final UniqueLetVarName elt = compileUniqueLetVarName( _fold.elementName() );
+
+			_b.append( "fold( " ).append( acc.constName ).append( ", " );
 			compileExpr( _fold.initialAccumulatorValue(), _b );
-			_b.append( ", \"" ).append( _fold.elementName() ).append( "\", " );
+			_b.append( ", " ).append( elt.constName ).append( ", " );
+			let( acc );
+			let( elt );
 			compileExpr( _fold.accumulatingStep(), _b );
+			unlet( elt );
+			unlet( acc );
 			_b.append( ", " ).append( _fold.mayReduce()? "true" : "false" );
 			compileArgs( _fold.elements(), _b );
 			_b.append( " )" );
@@ -475,9 +534,15 @@ public abstract class AbstractRewriteRulesCompiler
 
 		private void compileReduce( ExpressionNodeForReduce _fold, DescriptionBuilder _b ) throws Exception
 		{
-			_b.append( "reduce( \"" ).append( _fold.accumulatorName() ).append( "\", \"" ).append( _fold.elementName() )
-					.append( "\", " );
+			final UniqueLetVarName acc = compileUniqueLetVarName( _fold.accumulatorName() );
+			final UniqueLetVarName elt = compileUniqueLetVarName( _fold.elementName() );
+
+			_b.append( "reduce( " ).append( acc.constName ).append( ", " ).append( elt.constName ).append( ", " );
+			let( acc );
+			let( elt );
 			compileExpr( _fold.accumulatingStep(), _b );
+			unlet( elt );
+			unlet( acc );
 			_b.append( ", " );
 			compileExpr( _fold.emptyValue(), _b );
 			compileArgs( _fold.elements(), _b );
@@ -487,15 +552,39 @@ public abstract class AbstractRewriteRulesCompiler
 
 		private void compileFoldArray( ExpressionNodeForFoldArray _fold, DescriptionBuilder _b ) throws Exception
 		{
-			_b.append( "folda( \"" ).append( _fold.accumulatorName() ).append( "\", " );
+			final UniqueLetVarName acc = compileUniqueLetVarName( _fold.accumulatorName() );
+			final UniqueLetVarName elt = compileUniqueLetVarName( _fold.elementName() );
+			final UniqueLetVarName idx = compileUniqueLetVarName( _fold.indexName() );
+
+			_b.append( "folda( " ).append( acc.constName ).append( ", " );
 			compileExpr( _fold.initialAccumulatorValue(), _b );
-			_b.append( ", \"" ).append( _fold.elementName() ).append( "\", \"" ).append( _fold.indexName() ).append(
-					"\", " );
+			_b.append( ", " ).append( elt.constName ).append( ", " ).append( idx.constName ).append( ", " );
+			let( acc );
+			let( elt );
+			let( idx );
 			compileExpr( _fold.accumulatingStep(), _b );
+			unlet( idx );
+			unlet( elt );
+			unlet( acc );
 			compileArgs( _fold.elements(), _b );
 			_b.append( " )" );
 		}
 
+	}
+
+	private static final class UniqueLetVarName
+	{
+		public final String letName;
+		public final String varName;
+		public final String constName;
+
+		public UniqueLetVarName( String _letName, String _varName )
+		{
+			super();
+			this.letName = _letName;
+			this.varName = _varName;
+			this.constName = _varName + "$";
+		}
 	}
 
 }

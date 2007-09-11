@@ -36,18 +36,20 @@ public class ExpressionRewriterTest extends TestCase
 
 	public void testSUM() throws Exception
 	{
-		assertRewrite( "_FOLD_OR_REDUCE( r: 0; xi: (`r + `xi); @( \"[args]\" ) )", Function.SUM );
+		assertRewrite( "_FOLD_OR_REDUCE( r__1: 0; xi__2: (`r__1 + `xi__2); @( \"[args]\" ) )", Function.SUM );
 	}
 
 	public void testAVERAGE() throws Exception
 	{
-		assertRewrite( "(_FOLD_OR_REDUCE( r: 0; xi: (`r + `xi); @( \"[args]\" ) ) / COUNT( @( \"[args]\" ) ))", Function.AVERAGE );
+		assertRewrite(
+				"(_FOLD_OR_REDUCE( r__1: 0; xi__2: (`r__1 + `xi__2); @( \"[args]\" ) ) / COUNT( @( \"[args]\" ) ))",
+				Function.AVERAGE );
 	}
 
 	public void testVARP() throws Exception
 	{
 		assertRewrite(
-				"_LET( n: COUNT( @( \"[args]\" ) ); (_LET( m: (_FOLD_OR_REDUCE( r: 0; xi: (`r + `xi); @( \"[args]\" ) ) / `n); _FOLD( r: 0; xi: _LET( ei: (`xi - `m); (`r + (`ei * `ei)) ); @( \"[args]\" ) ) ) / `n) )",
+				"_LET( n__1: COUNT( @( \"[args]\" ) ); (_LET( m__2: (_FOLD_OR_REDUCE( r__6: 0; xi__7: (`r__6 + `xi__7); @( \"[args]\" ) ) / `n__1); _FOLD( r__3: 0; xi__4: _LET( ei__5: (`xi__4 - `m__2); (`r__3 + (`ei__5 * `ei__5)) ); @( \"[args]\" ) ) ) / `n__1) )",
 				Function.VARP );
 	}
 

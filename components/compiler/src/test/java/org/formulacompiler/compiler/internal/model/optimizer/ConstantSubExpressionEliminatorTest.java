@@ -104,7 +104,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 		optimize( FormulaCompiler.DOUBLE );
 
-		assertExpr( "_FOLD( r: 5.0; xi: (`r + `xi); Inputs.getOne() )", sumOverInputsAndConsts );
+		assertExpr( "_FOLD( r__1: 5.0; xi__2: (`r__1 + `xi__2); Inputs.getOne() )", sumOverInputsAndConsts );
 	}
 
 
@@ -118,7 +118,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 		optimize( FormulaCompiler.DOUBLE );
 
-		assertExpr( "_FOLD_OR_REDUCE( r: 0; xi: (`r + `xi); Band~>10.0 )", sumOverBand );
+		assertExpr( "_FOLD_OR_REDUCE( r__1: 0; xi__2: (`r__1 + `xi__2); Band~>10.0 )", sumOverBand );
 	}
 
 

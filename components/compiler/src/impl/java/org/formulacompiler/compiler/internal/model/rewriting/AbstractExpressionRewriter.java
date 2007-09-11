@@ -42,6 +42,13 @@ import org.formulacompiler.runtime.New;
 
 abstract class AbstractExpressionRewriter
 {
+	private int nextSanitizingId = 1;
+
+
+	protected final String newSanitizingSuffix()
+	{
+		return String.valueOf( this.nextSanitizingId++ );
+	}
 
 
 	protected final ExpressionNode substitution( ExpressionNode _expr )
