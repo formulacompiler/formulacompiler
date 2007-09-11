@@ -211,12 +211,12 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		begin( Function.NORMSDIST, "a" );
 		{
 			body( "_LET( sqrth: 7.07106781186547524401E-1;" );
-			body( "  _LET( b: `a * `sqrth;" );
-			body( "    _LET( z: ABS( `b );" );
+			body( "  _LET( x: `a * `sqrth;" );
+			body( "    _LET( z: ABS( `x );" );
 			body( "      IF( `z < `sqrth," );
-			body( "        0.5 + 0.5 * ERF( `b )" );
+			body( "        0.5 + 0.5 * ERF( `x )" );
 			body( "      ," );
-			body( "        _LET( y1: 0.5 * ERFC( `z ); IF( `b > 0, 1.0 - `y1, `y1 ) )" );
+			body( "        _LET( y1: 0.5 * ERFC( `z ); IF( `x > 0, 1.0 - `y1, `y1 ) )" );
 			body( "      )" );
 			body( "    )" );
 			body( "  )" );
