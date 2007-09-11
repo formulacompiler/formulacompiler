@@ -63,8 +63,7 @@ public final class SpreadsheetToModelCompiler
 
 	public ComputationModel compile() throws CompilerException
 	{
-		buildNewModel();
-		return this.computationModel;
+		return buildNewModel();
 	}
 
 
@@ -80,7 +79,7 @@ public final class SpreadsheetToModelCompiler
 	}
 
 
-	ComputationModel buildNewModel() throws CompilerException
+	private ComputationModel buildNewModel() throws CompilerException
 	{
 		assert null == this.computationModel;
 
