@@ -87,7 +87,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		rootDef.defineOutputCell( io1.getCellIndex(), getOutput( "getC" ) );
 
 		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(), SpreadsheetCompiler.DOUBLE );
-		ComputationModel model = compiler.buildNewModel();
+		ComputationModel model = compiler.compile();
 
 		model.traverse( new ReferenceCounter() );
 		SectionModel root = model.getRoot();
@@ -168,7 +168,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		bld.defineWorkbook( def.getRoot() );
 
 		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(), SpreadsheetCompiler.DOUBLE );
-		ComputationModel model = compiler.buildNewModel();
+		ComputationModel model = compiler.compile();
 		SectionModel root = model.getRoot();
 
 		assertEquals( 2, root.getCells().size() );
@@ -214,7 +214,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		bld.details.defineOutputCell( bld.r1c4.getCellIndex(), getInput( "getOne" ) );
 
 		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(), SpreadsheetCompiler.DOUBLE );
-		ComputationModel model = compiler.buildNewModel();
+		ComputationModel model = compiler.compile();
 		SectionModel root = model.getRoot();
 
 		assertEquals( 1, root.getCells().size() );
@@ -264,7 +264,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 
 		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(), SpreadsheetCompiler.DOUBLE );
 		try {
-			ComputationModel model = compiler.buildNewModel();
+			ComputationModel model = compiler.compile();
 			SectionModel root = model.getRoot();
 
 			assertEquals( 0, root.getCells().size() );
@@ -310,7 +310,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		rootDef.defineOutputCell( o2.getCellIndex(), getOutput( "getB" ) );
 
 		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(), SpreadsheetCompiler.DOUBLE );
-		ComputationModel model = compiler.buildNewModel();
+		ComputationModel model = compiler.compile();
 		SectionModel root = model.getRoot();
 
 		assertEquals( 2, root.getCells().size() );
@@ -380,7 +380,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 
 		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(), SpreadsheetCompiler.DOUBLE );
 		try {
-			compiler.buildNewModel();
+			compiler.compile();
 			fail( "Definition for " + output + " accepted even though it does not cover the full range." );
 		}
 		catch (SpreadsheetException.SectionExtentNotCovered e) {
@@ -406,7 +406,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		rootDef.defineOutputCell( o1.getCellIndex(), getOutput( "getResult" ) );
 
 		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(), SpreadsheetCompiler.DOUBLE );
-		ComputationModel model = compiler.buildNewModel();
+		ComputationModel model = compiler.compile();
 		SectionModel root = model.getRoot();
 
 		assertEquals( 2, root.getCells().size() );
@@ -437,7 +437,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		rootDef.defineOutputCell( o1.getCellIndex(), getOutput( "getResult" ) );
 
 		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(), SpreadsheetCompiler.DOUBLE );
-		ComputationModel model = compiler.buildNewModel();
+		ComputationModel model = compiler.compile();
 		SectionModel root = model.getRoot();
 
 		assertEquals( 2, root.getCells().size() );
