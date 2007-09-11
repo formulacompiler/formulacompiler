@@ -840,41 +840,6 @@ public class LittleLanguageTest extends AbstractIOTestBase
 	}
 
 
-	// LATER ITER-support
-	/*
-	 * public void testBlock() throws Exception { final ComputationModel engineModel = new
-	 * ComputationModel( Inputs.class, OutputsWithoutCaching.class ); final SectionModel rootModel =
-	 * engineModel.getRoot(); final CellModel a = new CellModel( rootModel, "a" ); final CellModel b =
-	 * new CellModel( rootModel, "b" ); final CellModel c = new CellModel( rootModel, "c" ); final
-	 * CellModel r = new CellModel( rootModel, "r" );
-	 * 
-	 * a.setConstantValue( 1.0 ); b.setConstantValue( 2.0 ); c.setConstantValue( 3.0 );
-	 * 
-	 * final ExpressionNode[] args = { new ExpressionNodeForCellModel( a ), new
-	 * ExpressionNodeForCellModel( b ), new ExpressionNodeForCellModel( c ) }; final ExpressionNode
-	 * s0 = new ExpressionNodeForSet( "s", new ExpressionNodeForConstantValue( 0 ) ); final
-	 * ExpressionNode ss0 = new ExpressionNodeForSet( "ss", new ExpressionNodeForConstantValue( 0 ) );
-	 * final ExpressionNode splus = new ExpressionNodeForSet( "s", new ExpressionNodeForOperator(
-	 * Operator.PLUS, new ExpressionNodeForLetVar( "s" ), new ExpressionNodeForLetVar( "xi" ) ) );
-	 * final ExpressionNode ssplus = new ExpressionNodeForSet( "ss", new ExpressionNodeForOperator(
-	 * Operator.PLUS, new ExpressionNodeForLetVar( "ss" ), new ExpressionNodeForOperator(
-	 * Operator.TIMES, new ExpressionNodeForLetVar( "xi" ), new ExpressionNodeForLetVar( "xi" ) ) ) );
-	 * final ExpressionNode letin = new ExpressionNodeForSeq( splus, ssplus ); final ExpressionNode
-	 * letall = new ExpressionNodeForLetAll( "xi", letin, args );
-	 * 
-	 * r.setExpression( new ExpressionNodeForBlock( new String[] { "s", "ss" }, s0, ss0, letall, done ) );
-	 * 
-	 * a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) ); b.makeInput( new
-	 * CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) ); c.makeInput( new CallFrame(
-	 * Inputs.class.getMethod( "getDoubleC" ) ) ); r.makeOutput( new CallFrame(
-	 * OutputsWithoutCaching.class.getMethod( "getResult" ) ) );
-	 * 
-	 * final Inputs i = new Inputs();
-	 * 
-	 * assertDoubleResult( i.getDoubleA() + i.getDoubleB() + i.getDoubleC(), engineModel ); }
-	 */
-
-
 	private void assertDoubleResult( final double _expectedResult, final ComputationModel _engineModel )
 			throws Exception
 	{
