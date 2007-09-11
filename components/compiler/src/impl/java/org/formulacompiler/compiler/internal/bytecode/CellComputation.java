@@ -26,7 +26,6 @@ import org.formulacompiler.compiler.internal.NumericTypeImpl;
 import org.formulacompiler.compiler.internal.model.CellModel;
 
 
-
 final class CellComputation
 {
 	private final SectionCompiler section;
@@ -34,13 +33,31 @@ final class CellComputation
 	private final String methodName;
 
 
-	CellComputation(SectionCompiler _section, CellModel _cell)
+	CellComputation( SectionCompiler _section, CellModel _cell )
 	{
 		super();
 		this.section = _section;
 		this.cell = _cell;
-		this.methodName = _section.newGetterName();
+		if (_section.engineCompiler().getCompileToReadableCode()) {
+			this.methodName = "get$" + cellNameToIdent( _cell.getName() );
+		}
+		else {
+			this.methodName = _section.newGetterName();
+		}
 		_section.addCellComputation( _cell, this );
+	}
+
+	private static final String cellNameToIdent( String _name )
+	{
+		String result = _name;
+		final int posOfDot = result.indexOf( '.' );
+		if (posOfDot >= 0) {
+			result = result.substring( posOfDot + 1 );
+		}
+		if (result.endsWith( "()" )) {
+			result = result.substring( 0, result.length() - 2 );
+		}
+		return result;
 	}
 
 

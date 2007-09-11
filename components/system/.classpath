@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/test/java"/>
-	<classpathentry excluding="org/formulacompiler/tutorials/decompiler/org/formulacompiler/gen/" kind="src" path="src/test/data"/>
+	<classpathentry excluding="org/formulacompiler/tutorials/decompiler/readable/org/formulacompiler/gen/|org/formulacompiler/tutorials/decompiler/std/org/formulacompiler/gen/" kind="src" path="src/test/data"/>
 	<classpathentry kind="src" path="src/test-reference/java"/>
 	<classpathentry kind="src" path="src/test-reference/java-debug"/>
 	<classpathentry kind="src" path="src/test-reference/data"/>

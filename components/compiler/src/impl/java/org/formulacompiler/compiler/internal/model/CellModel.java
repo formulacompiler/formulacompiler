@@ -47,6 +47,13 @@ public class CellModel extends ElementModel
 	}
 
 
+	@Override
+	public void setName( String _name )
+	{
+		super.setName( _name );
+	}
+
+
 	public Object getConstantValue()
 	{
 		return this.constantValue;

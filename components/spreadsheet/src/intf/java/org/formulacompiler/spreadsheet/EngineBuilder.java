@@ -403,6 +403,25 @@ public interface EngineBuilder
 	 */
 	public void setCompileTimeConfig( Computation.Config _value );
 
+	
+	/**
+	 * Controls whether AFC should attempt to compile more readable code (when decompiled), possibly
+	 * at the expense of engine size and performance.
+	 * 
+	 * @return {@code true} means make more readable, {@code false} means make more efficient
+	 *         (default).
+	 */
+	public boolean getCompileToReadableCode();
+	
+	/**
+	 * Controls whether AFC should attempt to compile more readable code (when decompiled), possibly
+	 * at the expense of engine size and performance.
+	 * 
+	 * @param _value : {@code true} means make more readable, {@code false} means make more efficient
+	 *           (default).
+	 */
+	public void setCompileToReadableCode( boolean _value );
+		
 
 	/**
 	 * Compiles an executable computation engine from the inputs to this builder. In particular, you

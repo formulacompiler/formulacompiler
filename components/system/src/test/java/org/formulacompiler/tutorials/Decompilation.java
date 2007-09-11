@@ -53,7 +53,7 @@ public class Decompilation extends AbstractTestBase
 
 	public void testSaveTo() throws Exception
 	{
-		final String pathToTargetFolder = "temp/test/decompiled/test";
+		final String pathToTargetFolder = "temp/test/decompiled/test/std";
 		
 		EngineBuilder builder = makeBuilder();
 		// ---- saveTo
@@ -63,7 +63,26 @@ public class Decompilation extends AbstractTestBase
 		source.saveTo( new File( pathToTargetFolder ) );
 		// ---- saveTo
 		File tgt = new File( pathToTargetFolder );
-		File src = new File( "src/test/data/org/formulacompiler/tutorials/decompiler" );
+		File src = new File( "src/test/data/org/formulacompiler/tutorials/decompiler/std" );
+		assertGeneratedFile( src, tgt, "org/formulacompiler/gen/$Factory.java" );
+		assertGeneratedFile( src, tgt, "org/formulacompiler/gen/$Root.java" );
+	}
+
+
+	public void testSaveToReadableCode() throws Exception
+	{
+		final String pathToTargetFolder = "temp/test/decompiled/test/readable";
+		
+		EngineBuilder builder = makeBuilder();
+		// ---- saveReadable
+		// ... set up engine definition
+		builder./**/setCompileToReadableCode/**/( true );
+		SaveableEngine engine = builder.compile();
+		ByteCodeEngineSource source = FormulaDecompiler.decompile( engine );
+		source.saveTo( new File( pathToTargetFolder ) );
+		// ---- saveReadable
+		File tgt = new File( pathToTargetFolder );
+		File src = new File( "src/test/data/org/formulacompiler/tutorials/decompiler/readable" );
 		assertGeneratedFile( src, tgt, "org/formulacompiler/gen/$Factory.java" );
 		assertGeneratedFile( src, tgt, "org/formulacompiler/gen/$Root.java" );
 	}
@@ -90,22 +109,21 @@ public class Decompilation extends AbstractTestBase
 		SpreadsheetBuilder b = SpreadsheetCompiler.newSpreadsheetBuilder();
 		SpreadsheetBuilder.CellRef cr, ar;
 
-		b.newCell( b.cst( "CustomerRebate" ) );
+		// ---- makeSheet
 		b.newCell( b.cst( 0.1 ) );
 		b.nameCell( "CustomerRebate" );
 		cr = b.currentCell();
 
 		b.newRow();
-		b.newCell( b.cst( "ArticleRebate" ) );
 		b.newCell( b.cst( 0.05 ) );
 		b.nameCell( "ArticleRebate" );
 		ar = b.currentCell();
 
 		b.newRow();
 		b.newRow();
-		b.newCell( b.cst( "Rebates" ) );
 		b.newCell( b.fun( Function.MAX, b.ref( cr ), b.ref( ar ) ) );
-		b.nameCell( "RebateOp" );
+		b.nameCell( "Rebate" );
+		// ---- makeSheet
 
 		return b.getSpreadsheet();
 	}
@@ -130,7 +148,7 @@ public class Decompilation extends AbstractTestBase
 
 	public static interface MyOutputs
 	{
-		public double rebateOp();
+		public double rebate();
 	}
 
 

@@ -31,8 +31,8 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 
 import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.FormulaCompiler;
+import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.EngineException;
 import org.formulacompiler.runtime.ImplementationLocator;
@@ -352,16 +352,13 @@ public class SpreadsheetCompiler extends FormulaCompiler
 	 *           {@link org.formulacompiler.spreadsheet.SpreadsheetToEngineCompiler.Config#factoryMethod}.
 	 * @param _fullCaching see
 	 *           {@link org.formulacompiler.spreadsheet.SpreadsheetToEngineCompiler.Config#fullCaching}.
-	 * @param _parentClassLoader see
-	 *           {@link org.formulacompiler.spreadsheet.SpreadsheetToEngineCompiler.Config#parentClassLoader}.
 	 * @return the new instance.
 	 * 
 	 * @throws CompilerException
 	 * @throws EngineException
 	 */
 	public static SaveableEngine compileEngine( SpreadsheetBinding _binding, NumericType _numericType,
-			Class _factoryClass, Method _factoryMethod, boolean _fullCaching, ClassLoader _parentClassLoader )
-			throws CompilerException, EngineException
+			Class _factoryClass, Method _factoryMethod, boolean _fullCaching ) throws CompilerException, EngineException
 	{
 		final SpreadsheetToEngineCompiler.Config cfg = new SpreadsheetToEngineCompiler.Config();
 		cfg.binding = _binding;
@@ -369,13 +366,11 @@ public class SpreadsheetCompiler extends FormulaCompiler
 		cfg.factoryClass = _factoryClass;
 		cfg.factoryMethod = _factoryMethod;
 		cfg.fullCaching = _fullCaching;
-		cfg.parentClassLoader = _parentClassLoader;
 		return newSpreadsheetCompiler( cfg ).compile();
 	}
 
 	/**
-	 * Same as
-	 * {@link #compileEngine(SpreadsheetBinding, NumericType, Class, Method, boolean, ClassLoader)},
+	 * Same as {@link #compileEngine(SpreadsheetBinding, NumericType, Class, Method, boolean)},
 	 * leaving the factory class and method unspecified.
 	 */
 	public static SaveableEngine compileEngine( SpreadsheetBinding _binding, NumericType _numericType,

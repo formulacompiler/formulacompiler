@@ -70,6 +70,11 @@ public abstract class AbstractOptimizedModelToEngineCompiler implements Optimize
 	{
 		return config().fullCaching;
 	}
+	
+	public boolean getCompileToReadableCode()
+	{
+		return config().compileToReadableCode;
+	}
 
 	public ClassLoader getParentClassLoader()
 	{

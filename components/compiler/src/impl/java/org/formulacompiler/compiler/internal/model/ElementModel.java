@@ -74,6 +74,11 @@ public abstract class ElementModel extends AbstractDescribable
 		return this.name;
 	}
 
+	protected void setName( String _name )
+	{
+		this.name = _name;
+	}
+
 
 	public final String getOriginalName()
 	{

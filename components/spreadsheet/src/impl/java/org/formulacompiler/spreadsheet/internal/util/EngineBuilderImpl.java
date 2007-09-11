@@ -35,12 +35,12 @@ import org.formulacompiler.runtime.EngineException;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
-import org.formulacompiler.spreadsheet.SpreadsheetBinding;
 import org.formulacompiler.spreadsheet.SpreadsheetByNameBinder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
 import org.formulacompiler.spreadsheet.SpreadsheetNameCreator;
+import org.formulacompiler.spreadsheet.SpreadsheetToEngineCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Config;
 
 
@@ -57,6 +57,7 @@ public class EngineBuilderImpl implements EngineBuilder
 	private SpreadsheetBinder binder;
 	private SpreadsheetByNameBinder byNameBinder;
 	private ClassLoader parentClassLoaderForEngine = ClassLoader.getSystemClassLoader();
+	private boolean compileToReadableCode = false;
 
 
 	public static final class Factory implements EngineBuilder.Factory
@@ -395,13 +396,30 @@ public class EngineBuilderImpl implements EngineBuilder
 	{
 		this.parentClassLoaderForEngine = _value;
 	}
+	
+	
+	public boolean getCompileToReadableCode()
+	{
+		return this.compileToReadableCode;
+	}
+	
+	public void setCompileToReadableCode( boolean _value )
+	{
+		this.compileToReadableCode = _value;
+	}
 
 
 	public SaveableEngine compile() throws CompilerException, EngineException
 	{
-		final SpreadsheetBinding binding = getBinder().getBinding();
-		return SpreadsheetCompiler.compileEngine( binding, this.numericType, this.factoryClass, this.factoryMethod,
-				this.fullCaching, this.parentClassLoaderForEngine );
+		final SpreadsheetToEngineCompiler.Config cfg = new SpreadsheetToEngineCompiler.Config();
+		cfg.binding = getBinder().getBinding();
+		cfg.numericType = this.numericType;
+		cfg.factoryClass = this.factoryClass;
+		cfg.factoryMethod = this.factoryMethod;
+		cfg.fullCaching = this.fullCaching;
+		cfg.parentClassLoader = this.parentClassLoaderForEngine;
+		cfg.compileToReadableCode = this.compileToReadableCode;
+		return SpreadsheetCompiler.newSpreadsheetCompiler( cfg ).compile();
 	}
 
 
