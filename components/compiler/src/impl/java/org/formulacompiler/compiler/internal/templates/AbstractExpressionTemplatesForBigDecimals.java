@@ -281,14 +281,29 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_ACOS( a );
 	}
 
+	public BigDecimal fun_ACOSH( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v2.fun_ACOSH( a );
+	}
+
 	public BigDecimal fun_ASIN( BigDecimal a )
 	{
 		return RuntimeBigDecimal_v2.fun_ASIN( a );
 	}
 
+	public BigDecimal fun_ASINH( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v2.fun_ASINH( a );
+	}
+
 	public BigDecimal fun_ATAN( BigDecimal a )
 	{
 		return RuntimeBigDecimal_v2.fun_ATAN( a );
+	}
+
+	public BigDecimal fun_ATANH( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v2.fun_ATANH( a );
 	}
 
 	public BigDecimal fun_ATAN2( BigDecimal x, BigDecimal y )
@@ -301,9 +316,24 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_COS( a );
 	}
 
+	public BigDecimal fun_COSH( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v2.fun_COSH( a );
+	}
+
 	public BigDecimal fun_SIN( BigDecimal a )
 	{
 		return RuntimeBigDecimal_v2.fun_SIN( a );
+	}
+
+	public BigDecimal fun_SINH( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v2.fun_SINH( a );
+	}
+
+	public BigDecimal fun_SIGN( BigDecimal _a )
+	{
+		return BigDecimal.valueOf( _a.signum() );
 	}
 
 	public BigDecimal fun_TAN( BigDecimal a )
@@ -311,9 +341,19 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_TAN( a );
 	}
 
+	public BigDecimal fun_TANH( BigDecimal a )
+	{
+		return RuntimeBigDecimal_v2.fun_TANH( a );
+	}
+
 	public BigDecimal fun_PI()
 	{
 		return RuntimeBigDecimal_v2.fun_PI();
+	}
+
+	public BigDecimal fun_RAND()
+	{
+		return RuntimeBigDecimal_v2.fun_RAND();
 	}
 
 	public BigDecimal fun_ROUND( BigDecimal a, BigDecimal b )
