@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>peo</Author>
+  <LastAuthor>vkorenev</LastAuthor>
+  <Created>2006-06-28T11:41:53Z</Created>
+  <LastSaved>2006-06-28T15:12:41Z</LastSaved>
+  <Company>arrenbrecht.ch</Company>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>15480</WindowHeight>
+  <WindowWidth>19020</WindowWidth>
+  <WindowTopX>360</WindowTopX>
+  <WindowTopY>330</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s21">
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Bold="1" ss:Underline="Single"/>
+  </Style>
+ </Styles>
+ <Names>
+  <NamedRange ss:Name="Complex" ss:RefersTo="=Sheet1!R14C2"/>
+  <NamedRange ss:Name="I_One" ss:RefersTo="=Sheet1!R3C2"/>
+  <NamedRange ss:Name="I_Three" ss:RefersTo="=Sheet1!R5C2"/>
+  <NamedRange ss:Name="I_Two" ss:RefersTo="=Sheet1!R4C2"/>
+  <NamedRange ss:Name="O_OneTwoThree" ss:RefersTo="=Sheet1!R12C2"/>
+  <NamedRange ss:Name="O_SumInter" ss:RefersTo="=Sheet1!R13C2"/>
+  <NamedRange ss:Name="OneTwo" ss:RefersTo="=Sheet1!R8C2"/>
+  <NamedRange ss:Name="TwoThree" ss:RefersTo="=Sheet1!R9C2"/>
+ </Names>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="2" ss:ExpandedRowCount="14" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:AutoFitWidth="0" ss:Width="98.25"/>
+   <Row ss:Index="2">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Inputs</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">I_One</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data><NamedCell ss:Name="I_One"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">I_Two</Data></Cell>
+    <Cell><Data ss:Type="Number">20</Data><NamedCell ss:Name="I_Two"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">I_Three</Data></Cell>
+    <Cell><Data ss:Type="Number">30</Data><NamedCell ss:Name="I_Three"/></Cell>
+   </Row>
+   <Row ss:Index="7">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Intermediates</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">OneTwo</Data></Cell>
+    <Cell ss:Formula="=SUM(I_One,I_Two)"><Data ss:Type="Number">30</Data><NamedCell
+      ss:Name="OneTwo"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">TwoThree</Data></Cell>
+    <Cell ss:Formula="=SUM(I_Two,I_Three)"><Data ss:Type="Number">50</Data><NamedCell
+      ss:Name="TwoThree"/></Cell>
+   </Row>
+   <Row ss:Index="11">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Outputs</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">O_OneTwoThree</Data></Cell>
+    <Cell ss:Formula="=SUM(R[-9]C:R[-7]C)"><Data ss:Type="Number">60</Data><NamedCell
+      ss:Name="O_OneTwoThree"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">O_SumInter</Data></Cell>
+    <Cell ss:Formula="=SUM(R[-5]C:R[-4]C)"><Data ss:Type="Number">80</Data><NamedCell
+      ss:Name="O_SumInter"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Complex</Data></Cell>
+    <Cell ss:Formula="=SUM(R[-11]C:R[-9]C)-1"><Data ss:Type="Number">59</Data><NamedCell
+      ss:Name="Complex"/></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>16</ActiveRow>
+     <ActiveCol>1</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

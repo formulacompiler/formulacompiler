@@ -8,7 +8,7 @@
  <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
   <LastAuthor>vkorenev</LastAuthor>
   <Created>2005-10-06T09:09:37Z</Created>
-  <LastSaved>2006-07-11T13:04:54Z</LastSaved>
+  <LastSaved>2006-06-14T08:06:41Z</LastSaved>
   <Version>11.8132</Version>
  </DocumentProperties>
  <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
@@ -33,24 +33,27 @@
     ss:Format="_ &quot;SFr.&quot;\ * #,##0.00_ ;_ &quot;SFr.&quot;\ * \-#,##0.00_ ;_ &quot;SFr.&quot;\ * &quot;-&quot;??_ ;_ @_ "/>
   </Style>
   <Style ss:ID="s22">
-   <Font ss:FontName="Verdana" ss:Underline="Single"/>
+   <NumberFormat ss:Format="0%"/>
   </Style>
   <Style ss:ID="s23">
+   <Font ss:FontName="Verdana" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s24">
    <Font ss:FontName="Verdana" x:Family="Swiss" ss:Bold="1" ss:Underline="Single"/>
   </Style>
-  <Style ss:ID="s24" ss:Parent="s18">
+  <Style ss:ID="s25" ss:Parent="s18">
    <Font ss:FontName="Verdana" ss:Underline="Single"/>
   </Style>
  </Styles>
  <Worksheet ss:Name="test">
-  <Table ss:ExpandedColumnCount="2" ss:ExpandedRowCount="8" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="2" ss:ExpandedRowCount="14" x:FullColumns="1"
    x:FullRows="1" ss:DefaultColumnWidth="54">
    <Column ss:Width="56.25"/>
    <Column ss:Width="79.5"/>
    <Row>
-    <Cell ss:StyleID="s23"><Data ss:Type="String">Demo computation for SEJ</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Demo computation for SEJ</Data></Cell>
    </Row>
-   <Row ss:Index="3" ss:StyleID="s22">
+   <Row ss:Index="3" ss:StyleID="s23">
     <Cell><Data ss:Type="String">Inputs</Data></Cell>
    </Row>
    <Row>
@@ -64,13 +67,22 @@
    <Row>
     <Cell ss:Index="2" ss:StyleID="s18"/>
    </Row>
-   <Row ss:StyleID="s22">
+   <Row ss:StyleID="s23">
     <Cell><Data ss:Type="String">Outputs</Data></Cell>
-    <Cell ss:StyleID="s24"/>
+    <Cell ss:StyleID="s25"/>
    </Row>
    <Row>
     <Cell><Data ss:Type="String">Result</Data></Cell>
     <Cell ss:StyleID="s18" ss:Formula="=R[-4]C*R[-3]C"><Data ss:Type="Number">1000</Data></Cell>
+   </Row>
+   <Row ss:Index="12">
+    <Cell ss:Index="2" ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s22"/>
    </Row>
   </Table>
   <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
@@ -83,8 +95,8 @@
    <Panes>
     <Pane>
      <Number>3</Number>
-     <ActiveRow>13</ActiveRow>
-     <ActiveCol>2</ActiveCol>
+     <ActiveRow>10</ActiveRow>
+     <ActiveCol>8</ActiveCol>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>

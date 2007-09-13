@@ -1,0 +1,402 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>peo</Author>
+  <LastAuthor>vkorenev</LastAuthor>
+  <Created>2006-12-15T10:24:36Z</Created>
+  <LastSaved>2006-12-19T08:12:35Z</LastSaved>
+  <Company>arrenbrecht.ch</Company>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>15480</WindowHeight>
+  <WindowWidth>19320</WindowWidth>
+  <WindowTopX>480</WindowTopX>
+  <WindowTopY>60</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s21">
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s22">
+   <Font ss:FontName="Verdana" x:Family="Swiss"/>
+  </Style>
+  <Style ss:ID="s23">
+   <Interior ss:Color="#CCFFFF" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s24">
+   <Interior ss:Color="#FFFF99" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s25">
+   <Interior/>
+  </Style>
+ </Styles>
+ <Names>
+  <NamedRange ss:Name="Data" ss:RefersTo="=Sheet1!R1C1:R11C13"/>
+  <NamedRange ss:Name="Section" ss:RefersTo="=Sheet1!R3C2:R6C12"/>
+  <NamedRange ss:Name="Section2" ss:RefersTo="=Sheet1!R8C2:R10C6"/>
+  <NamedRange ss:Name="Section3" ss:RefersTo="=Sheet1!R8C7:R10C9"/>
+  <NamedRange ss:Name="Subsection" ss:RefersTo="=Sheet1!R3C5:R4C7"/>
+  <NamedRange ss:Name="Tests" ss:RefersTo="=Sheet1!R14C1:R30C2"/>
+ </Names>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="13" ss:ExpandedRowCount="32" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:Width="223.5"/>
+   <Column ss:Index="9" ss:Width="60"/>
+   <Column ss:Width="61.5"/>
+   <Row>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Vertically repeating section:</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Name</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Value</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">RepValue</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">SubName</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">SubValue</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">SubRef</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">InnerRef</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">InnerSum</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">SelfSum</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">OuterSum</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Value2</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Outer cells</Data><NamedCell
+      ss:Name="Data"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Outer cells:</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s21"><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">-1</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">-1</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s21"><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">-10</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s22"><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s22"><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s21"><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s21"><NamedCell ss:Name="Data"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s24"><Data ss:Type="String">One</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">1</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">1</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">One.A</Data><NamedCell
+      ss:Name="Subsection"/><NamedCell ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">10</Data><NamedCell
+      ss:Name="Subsection"/><NamedCell ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s23" ss:Formula="=RC[-1]+RC[-4]"><Data ss:Type="Number">11</Data><NamedCell
+      ss:Name="Subsection"/><NamedCell ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24" ss:Formula="=RC[-5]+1"><Data ss:Type="Number">2</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24" ss:Formula="=SUM(RC[-3]:R[1]C[-2])"><Data
+      ss:Type="Number">62</Data><NamedCell ss:Name="Section"/><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24" ss:Formula="=SUM(R3C[-7]:R6C[-7]) + RC[-7]"><Data
+      ss:Type="Number">7</Data><NamedCell ss:Name="Section"/><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24" ss:Formula="=SUM(R2C[-5]:R11C[-5]) + RC[-8]"><Data
+      ss:Type="Number">241</Data><NamedCell ss:Name="Section"/><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">3</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell><Data ss:Type="Number">4711</Data><NamedCell ss:Name="Data"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s24"><NamedCell ss:Name="Section"/><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><NamedCell ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">1</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">One.B</Data><NamedCell
+      ss:Name="Subsection"/><NamedCell ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">20</Data><NamedCell
+      ss:Name="Subsection"/><NamedCell ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s23" ss:Formula="=RC[-1]+R[-1]C[-4]"><Data ss:Type="Number">21</Data><NamedCell
+      ss:Name="Subsection"/><NamedCell ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><NamedCell ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><NamedCell ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><NamedCell ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><NamedCell ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><NamedCell ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell><Data ss:Type="Number">4712</Data><NamedCell ss:Name="Data"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s24"><Data ss:Type="String">Two</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">2</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">2</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Two.A</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">30</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24" ss:Formula="=RC[-1]+RC[-4]"><Data ss:Type="Number">32</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24" ss:Formula="=RC[-5]+1"><Data ss:Type="Number">3</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24" ss:Formula="=SUM(RC[-3]:RC[-2])"><Data ss:Type="Number">62</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24" ss:Formula="=SUM(R3C[-7]:R6C[-7]) + RC[-7]"><Data
+      ss:Type="Number">8</Data><NamedCell ss:Name="Section"/><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24" ss:Formula="=SUM(R2C[-5]:R11C[-5]) + RC[-8]"><Data
+      ss:Type="Number">242</Data><NamedCell ss:Name="Section"/><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">2</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell><Data ss:Type="Number">4713</Data><NamedCell ss:Name="Data"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s24"><Data ss:Type="String">Three</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">3</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">3</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Three.A</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">40</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24" ss:Formula="=RC[-1]+RC[-4]"><Data ss:Type="Number">43</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24" ss:Formula="=RC[-5]+1"><Data ss:Type="Number">4</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24" ss:Formula="=SUM(RC[-3]:RC[-2])"><Data ss:Type="Number">83</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24" ss:Formula="=SUM(R3C[-7]:R6C[-7]) + RC[-7]"><Data
+      ss:Type="Number">9</Data><NamedCell ss:Name="Section"/><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24" ss:Formula="=SUM(R2C[-5]:R11C[-5]) + RC[-8]"><Data
+      ss:Type="Number">243</Data><NamedCell ss:Name="Section"/><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">1</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell><Data ss:Type="Number">4714</Data><NamedCell ss:Name="Data"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Outer cells:</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:Index="3" ss:StyleID="s25"><Data ss:Type="Number">4</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">4</Data><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:Index="6"><Data ss:Type="Number">50</Data><NamedCell ss:Name="Data"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Another vertical section:</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Eins</Data><NamedCell
+      ss:Name="Section2"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">1</Data><NamedCell
+      ss:Name="Section2"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">1</Data><NamedCell
+      ss:Name="Section2"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><NamedCell ss:Name="Section2"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">10</Data><NamedCell
+      ss:Name="Section2"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">1</Data><NamedCell
+      ss:Name="Section3"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">2</Data><NamedCell
+      ss:Name="Section3"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">3</Data><NamedCell
+      ss:Name="Section3"/><NamedCell ss:Name="Data"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">with horizontal section to the right:</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Zwei</Data><NamedCell
+      ss:Name="Section2"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">2</Data><NamedCell
+      ss:Name="Section2"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">2</Data><NamedCell
+      ss:Name="Section2"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><NamedCell ss:Name="Section2"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">20</Data><NamedCell
+      ss:Name="Section2"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">0.1</Data><NamedCell
+      ss:Name="Section3"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">0.2</Data><NamedCell
+      ss:Name="Section3"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">0.3</Data><NamedCell
+      ss:Name="Section3"/><NamedCell ss:Name="Data"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s21"><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Drei</Data><NamedCell
+      ss:Name="Section2"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">3</Data><NamedCell
+      ss:Name="Section2"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">3</Data><NamedCell
+      ss:Name="Section2"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><NamedCell ss:Name="Section2"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="Number">30</Data><NamedCell
+      ss:Name="Section2"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">0.01</Data><NamedCell
+      ss:Name="Section3"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">0.02</Data><NamedCell
+      ss:Name="Section3"/><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">0.03</Data><NamedCell
+      ss:Name="Section3"/><NamedCell ss:Name="Data"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Outer cells:</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:Index="3" ss:StyleID="s25"><Data ss:Type="Number">5</Data><NamedCell
+      ss:Name="Data"/></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">5</Data><NamedCell ss:Name="Data"/></Cell>
+    <Cell ss:Index="6"><Data ss:Type="Number">40</Data><NamedCell ss:Name="Data"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s21"/>
+    <Cell ss:Index="3" ss:StyleID="s25"/>
+    <Cell ss:StyleID="s25"/>
+   </Row>
+   <Row ss:Index="14">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">This works:</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+    <Cell ss:Index="3" ss:StyleID="s21"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Nested sum</Data><NamedCell ss:Name="Tests"/></Cell>
+    <Cell ss:Formula="=SUM(R[-12]C[4]:R[-9]C[4])"><Data ss:Type="Number">100</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Sum spanning multiple sections</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+    <Cell ss:Formula="=SUM(R[-14]C[1]:R[-5]C[1])"><Data ss:Type="Number">20</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">Sum spanning multiple sections (shaped)</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+    <Cell ss:Formula="=SUM(R[-15]C[1]:R[-6]C[2])"><Data ss:Type="Number">41</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Sum spanning multiple and nested sections</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+    <Cell ss:Formula="=SUM(R[-16]C[4]:R[-7]C[4])"><Data ss:Type="Number">240</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Sum over inner refs</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+    <Cell ss:Formula="=SUM(R[-16]C[6]:R[-13]C[6])"><Data ss:Type="Number">9</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Sum over inner sums</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+    <Cell ss:Formula="=SUM(R[-17]C[7]:R[-14]C[7])"><Data ss:Type="Number">207</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Sum over inner self sums</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+    <Cell ss:Formula="=SUM(R[-18]C[8]:R[-15]C[8])"><Data ss:Type="Number">24</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Sum over inner outer nested sums</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+    <Cell ss:Formula="=SUM(R[-19]C[9]:R[-16]C[9])"><Data ss:Type="Number">726</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Sum over nested and inner section in parallel</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+    <Cell ss:Formula="=SUM(R[-20]C[5]:R[-17]C[6])"><Data ss:Type="Number">116</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Sum over section and cells in parallel</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+    <Cell ss:Formula="=SUM(R[-21]C[10]:R[-18]C[11])"><Data ss:Type="Number">18856</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Sum over mixed section extents</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+    <Cell ss:Formula="=SUM(R[-17]C[4]:R[-15]C[7])"><Data ss:Type="Number">66.66</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+   </Row>
+   <Row ss:Index="27">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Errors:</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Only nested inner section summed</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+    <Cell ss:Formula="=SUM(R[-25]C[4]:R[-24]C[4])"><Data ss:Type="Number">30</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Only part of section summed</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+    <Cell ss:Formula="=SUM(R[-27]C[1]:R[-24]C[1])"><Data ss:Type="Number">2</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">... Again</Data><NamedCell ss:Name="Tests"/></Cell>
+    <Cell ss:Formula="=SUM(R[-26]C[1]:R[-23]C[1])"><Data ss:Type="Number">9</Data><NamedCell
+      ss:Name="Tests"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Mixed sections not fully covered</Data></Cell>
+    <Cell ss:Formula="=SUM(R[-23]C[4]:R[-23]C[7])"><Data ss:Type="Number">16</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">... Again</Data></Cell>
+    <Cell ss:Formula="=SUM(R[-24]C[4]:R[-22]C[5])"><Data ss:Type="Number">61.11</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>13</ActiveRow>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

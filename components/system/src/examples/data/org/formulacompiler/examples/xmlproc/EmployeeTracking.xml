@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>peo</Author>
+  <LastAuthor>vkorenev</LastAuthor>
+  <Created>2006-12-14T14:40:50Z</Created>
+  <LastSaved>2006-12-14T15:02:29Z</LastSaved>
+  <Company>arrenbrecht.ch</Company>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>13935</WindowHeight>
+  <WindowWidth>19320</WindowWidth>
+  <WindowTopX>240</WindowTopX>
+  <WindowTopY>90</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s21">
+   <NumberFormat ss:Format="Short Date"/>
+  </Style>
+  <Style ss:ID="s22">
+   <NumberFormat ss:Format="Short Time"/>
+  </Style>
+  <Style ss:ID="s23">
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Bold="1" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s24">
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Italic="1" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s25">
+   <NumberFormat/>
+  </Style>
+ </Styles>
+ <Names>
+  <NamedRange ss:Name="Date" ss:RefersTo="=Sheet1!R2C4"/>
+  <NamedRange ss:Name="Duration" ss:RefersTo="=Sheet1!R2C6"/>
+  <NamedRange ss:Name="Employees" ss:RefersTo="=Sheet1!R2C2:R7C7"/>
+  <NamedRange ss:Name="Entries" ss:RefersTo="=Sheet1!R2C4:R4C7"/>
+  <NamedRange ss:Name="FirstName" ss:RefersTo="=Sheet1!R2C3"/>
+  <NamedRange ss:Name="Job" ss:RefersTo="=Sheet1!R2C7"/>
+  <NamedRange ss:Name="Name" ss:RefersTo="=Sheet1!R2C2"/>
+  <NamedRange ss:Name="Result" ss:RefersTo="=Sheet1!R13C2"/>
+  <NamedRange ss:Name="Time" ss:RefersTo="=Sheet1!R2C5"/>
+ </Names>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="13" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:Width="82.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="65.25" ss:Span="1"/>
+   <Column ss:Index="4" ss:AutoFitWidth="0" ss:Width="66" ss:Span="3"/>
+   <Row ss:StyleID="s23">
+    <Cell><Data ss:Type="String">Data</Data></Cell>
+    <Cell><Data ss:Type="String">Name</Data></Cell>
+    <Cell><Data ss:Type="String">First name</Data></Cell>
+    <Cell><Data ss:Type="String">Date</Data></Cell>
+    <Cell><Data ss:Type="String">Time</Data></Cell>
+    <Cell><Data ss:Type="String">Duration</Data></Cell>
+    <Cell><Data ss:Type="String">Job</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Sample</Data><NamedCell
+      ss:Name="Name"/><NamedCell ss:Name="Employees"/></Cell>
+    <Cell><Data ss:Type="String">Joe</Data><NamedCell ss:Name="FirstName"/><NamedCell
+      ss:Name="Employees"/></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="DateTime">2006-01-01T00:00:00.000</Data><NamedCell
+      ss:Name="Date"/><NamedCell ss:Name="Entries"/><NamedCell ss:Name="Employees"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="DateTime">1899-12-31T08:30:00.000</Data><NamedCell
+      ss:Name="Time"/><NamedCell ss:Name="Entries"/><NamedCell ss:Name="Employees"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="DateTime">1899-12-31T02:30:00.000</Data><NamedCell
+      ss:Name="Duration"/><NamedCell ss:Name="Entries"/><NamedCell
+      ss:Name="Employees"/></Cell>
+    <Cell><Data ss:Type="String">Foo</Data><NamedCell ss:Name="Job"/><NamedCell
+      ss:Name="Entries"/><NamedCell ss:Name="Employees"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="4" ss:StyleID="s21"><Data ss:Type="DateTime">2006-01-01T00:00:00.000</Data><NamedCell
+      ss:Name="Entries"/><NamedCell ss:Name="Employees"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="DateTime">1899-12-31T13:00:00.000</Data><NamedCell
+      ss:Name="Entries"/><NamedCell ss:Name="Employees"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="DateTime">1899-12-31T04:00:00.000</Data><NamedCell
+      ss:Name="Entries"/><NamedCell ss:Name="Employees"/></Cell>
+    <Cell><Data ss:Type="String">Bar</Data><NamedCell ss:Name="Entries"/><NamedCell
+      ss:Name="Employees"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="4" ss:StyleID="s21"><Data ss:Type="DateTime">2006-01-02T00:00:00.000</Data><NamedCell
+      ss:Name="Entries"/><NamedCell ss:Name="Employees"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="DateTime">1899-12-31T08:00:00.000</Data><NamedCell
+      ss:Name="Entries"/><NamedCell ss:Name="Employees"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="DateTime">1899-12-31T04:00:00.000</Data><NamedCell
+      ss:Name="Entries"/><NamedCell ss:Name="Employees"/></Cell>
+    <Cell><Data ss:Type="String">Foo</Data><NamedCell ss:Name="Entries"/><NamedCell
+      ss:Name="Employees"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Exemplum</Data><NamedCell
+      ss:Name="Employees"/></Cell>
+    <Cell><Data ss:Type="String">Per</Data><NamedCell ss:Name="Employees"/></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="DateTime">2006-01-01T00:00:00.000</Data><NamedCell
+      ss:Name="Employees"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="DateTime">1899-12-31T08:30:00.000</Data><NamedCell
+      ss:Name="Employees"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="DateTime">1899-12-31T02:30:00.000</Data><NamedCell
+      ss:Name="Employees"/></Cell>
+    <Cell><Data ss:Type="String">Foo</Data><NamedCell ss:Name="Employees"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="4" ss:StyleID="s21"><Data ss:Type="DateTime">2006-01-01T00:00:00.000</Data><NamedCell
+      ss:Name="Employees"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="DateTime">1899-12-31T13:00:00.000</Data><NamedCell
+      ss:Name="Employees"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="DateTime">1899-12-31T04:00:00.000</Data><NamedCell
+      ss:Name="Employees"/></Cell>
+    <Cell><Data ss:Type="String">Bar</Data><NamedCell ss:Name="Employees"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="4" ss:StyleID="s21"><Data ss:Type="DateTime">2006-01-02T00:00:00.000</Data><NamedCell
+      ss:Name="Employees"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="DateTime">1899-12-31T08:00:00.000</Data><NamedCell
+      ss:Name="Employees"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="DateTime">1899-12-31T04:00:00.000</Data><NamedCell
+      ss:Name="Employees"/></Cell>
+    <Cell><Data ss:Type="String">Foo</Data><NamedCell ss:Name="Employees"/></Cell>
+   </Row>
+   <Row ss:Index="9">
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Selection</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Name</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">First name</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Date</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Time</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Duration</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Job</Data></Cell>
+   </Row>
+   <Row ss:Index="13">
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Hours worked</Data></Cell>
+    <Cell ss:StyleID="s25" ss:Formula="=SUM(R[-11]C[4]:R[-6]C[4])*24"><Data
+      ss:Type="Number">20.999999999999996</Data><NamedCell ss:Name="Result"/></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>13</ActiveRow>
+     <ActiveCol>2</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>
