@@ -1,0 +1,13 @@
+
+h1. Vector Operators
+
+I just discovered that Excel supports vector operators. Both combinations of vectors and scalars are supported, as well as combination of vectors with vectors (which are pairwise operations returning another vector).
+
+The example I found in the JExcelAPI newsgroup was this:
+
+	SUMPRODUCT(--(E5:E6>0),--(F5:F6="D"),(E5:E6))
+	
+The idiom @--(vector comparison value)@ returns a vector with ones wherever the condition holds in the vector, zeros otherwise. The double negation is a quick way to enforce conversion from a boolean to a number.
+
+This is a fairly big area that SEJ does not support at all yet. Once supported over dynamic sections, however, SEJ might make using them for computing something over multiple datasets much more attractive than in Excel itself. This is because in Excel, when you have an array formula to compute a column from other columns, you can no longer insert new rows! (If you only use the computed vector as an intermediate result within an expression, this limitation does not apply.)
+

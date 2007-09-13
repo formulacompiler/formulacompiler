@@ -1,0 +1,6 @@
+
+h1. Implementation Details
+
+This section gives details on the implementation of particular spreadsheet functions in the generated computations.
+
+<%= index_all_except( /.*\.rextile/, /index\.rextile/ ) %>

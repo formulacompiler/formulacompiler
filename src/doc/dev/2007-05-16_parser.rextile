@@ -1,0 +1,54 @@
+
+h1. Who Parses Function Names?
+
+We have been running against a table size limit in "CUP":-cup. So I replaced CUP by "JavaCC":-javacc. With great results so far.
+
+<%= toc %>
+
+
+h2. Why not CUP?
+
+The table size issue came up because we parse functions in expressions directly in the grammar, as in (CUP notation):
+
+<pre>| NOT LPAREN expr:arg RPAREN
+  {: RESULT = new ExpressionNodeForFunction( Function.NOT, cell( arg )); :}
+</pre>
+
+This is handy, as most of the checking of allowed argument combinations can be specified right in the grammar. On the other hand, the "CUP web site":-cup says very prominently:
+
+dt. Method is exceeding the 65536 bytes limit : In almost all computer languages You would choose not to hardcode subcommands or functions as language keywords, but as identifiers, thus eliminating ever growing grammars, as Your language evolves? This is also a way to surpass the Java Bytecode Formats limitation of not allowing methods bigger than 65k.
+
+
+h2. Why JavaCC?
+
+As alternatives to JFlex/CUP I investigated "ANTLR":http://www.antlr.org/ and "JavaCC":-javacc. Both are widely used generators. Not considered were SableCC and Grammatica, because they were not mainstream enough. In the end, I settled on JavaCC because ANTLR needs a runtime and is currently undergoing a major redesign.
+
+I then ported the lexer rules and grammar from JFlex/CUP over to JavaCC and, just to be sure, added all of the function names from "this document":../hacking/functions_to_implement.htm as dummy functions. With JavaCC, no problem at all.
+
+
+h2. What's so great now?
+
+h4. Ease of use
+
+Adding new functions is much easier. You don't have to touch multiple places to add a new function to the rules. And adding functions with simple syntax is really a snap:
+
+    "FACT" fun1( Function.FACT )
+
+What's at work here is that with JavaCC you can have lexer and grammar rules in the same file. You can even use lexer definitions inline in the grammar rules. And your grammar rules can be parametrized, as is @fun1@ above.
+
+h4. Less code
+
+The old parser was generated three times with minor variations to handle differences in the parsing of A1-style and R1C1-style expressions, and internal rewrite rules. The new parser is just one big base parser which is then overridden for the different variations.
+
+h4. One less .jar
+
+JavaCC does not need a runtime .jar. That's one runtime-dependency less for the SEJ compiler.
+
+h4. Debugging
+
+JavaCC generates top-down recursive-descent parsers. Those are fairly easy to read and debug.
+
+h4. Extensibility
+
+The generated parser can be called with different entry rules. This makes it possible to easily define a high-level format for the rewrite rules compiler which uses the @expr()@ rule internally.
+

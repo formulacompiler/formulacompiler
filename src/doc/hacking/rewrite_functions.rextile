@@ -1,0 +1,149 @@
+
+h1. Special Rewrite Functions
+
+AFC contains a number of special, internal functions that you can use to rewrite spreadsheet functions using simpler base functions.
+
+<%= toc %>
+
+
+h2. LET
+
+The function
+
+	_LET( name: expr; body )
+	
+defines a local constant @name@ as the result of @expr@ during the evaluation of @body@. Within @body@, the constant can be referenced as @`name@ (note the leading backtick). It may be referenced more than once (which is the reason @_LET()@ exists). Example:
+
+	_LET( n: COUNT(`xs); `n * `n )
+	
+In the generated Java code, AFC allocates a local variable for the result and initializes it inline at its first occurrence. Like so:
+
+	double n;
+	return (n = count(xs)) * n;
+	
+
+h2. FOLD
+
+The "folding function":-funfold
+
+	_FOLD( acc-name: seed-value; value-name: folding-expr; value-list )
+	
+aggregates a list of values @value-list@ into a single result value. The list can be any range union. It initializes an internal _accumulator_ value with @seed-value@. Then, for every value in the list, it computes the @folding-expr@, which may reference the current list value as @`value-name@, and the current accumulator value as @`acc-name@ (note the backticks). The result becomes the new accumulator value. The final result is the accumulator value at the end of the list. It makes no guarantee as to the order in which the list values are processed. Example:
+
+	SUM( xs ) := _FOLD( r: 0; xi: `r + `xi; `xs )
+
+In the generated Java code, AFC treats dynamic sections and static cell ranges differently. If the list contains dynamic sections, AFC uses a helper method to compute the fold. Otherwise, it simply unrolls the fold. Unrolling
+
+	_FOLD( r: 0; xi: `r + `xi; A1:A3, B1 )
+	
+results in
+
+	return 0 + getA1() + getA2() + getA3() + getB1();
+	
+When there are dynamic sections, AFC compiles loops over those sections (which is why it needs a helper method). Cells within a section are again folded using unrolling. Assuming @A1:A3@ to be a dynamic section, we get something like:
+
+	return foldHelper();
+	
+where
+
+	double foldHelper() {
+		double r = 0 + getB1();
+		for (SectionHelper e : getSectionElements()) {
+			r += e.getA1() + e.getA2() + e.getA3();
+		}
+		return r;
+	}
+	
+As stated above, @_FOLD()@ makes no guarantee about the order list values are processed. Here, it moved B1 before the As.
+	
+
+h2. FOLD_OR_REDUCE
+
+In the case of @SUM()@ as shown above, we see that the initial addition involving @0@ is unnecessary. The function
+
+	_FOLD_OR_REDUCE( acc-name: seed-value; value-name: folding-expr; value-list )
+	
+is like @_FOLD()@, but uses _any_ suitable list value to initialize the accumulator instead of @seed-value@, if this seems reasonable. What's with the _reasonable_ here? Using a list value as a seed is only efficient if there is one that is not contained within a dynamic section. So
+
+	_FOLD_OR_REDUCE( r: 0; xi: `r + `xi; A1:A3, B1 )
+	
+results in
+
+	return getA1() + getA2() + getA3() + getB1();
+
+if there are no dynamic sections involved. If @A1:A3@ is a dynamic section, we get
+
+	double foldHelper() {
+		double r = getB1();
+		for (SectionHelper e : getSectionElements()) {
+			r += e.getA1() + e.getA2() + e.getA3();
+		}
+		return r;
+	}
+
+For
+
+ 	_FOLD_OR_REDUCE( r: 0; xi: `r + `xi; A1:A3 )
+	
+we get
+
+	double foldHelper() {
+		double r = 0;
+		for (SectionHelper e : getSectionElements()) {
+			r += e.getA1() + e.getA2() + e.getA3();
+		}
+		return r;
+	}
+
+So here AFC decided that using the @seed-value@ is more efficient.
+
+
+h2. REDUCE
+
+There are cases when it is _mandatory_ to use a list value to initialize the accumulator. @MIN()@ and @MAX()@ are such cases (so we don't need some arbitrary starting extremal value). For them you need to use proper @_REDUCE()@:
+
+	_REDUCE( acc-name, value-name: folding-expr; value-list )
+	
+The only difference to @_FOLD_OR_REDUCE()@ is that it _always_ uses a list value to initialize the accumulator. The last example from above,
+
+ 	_REDUCE( r, xi: `r + `xi; A1:A3 )
+	
+then becomes something like
+
+	double foldHelper() {
+		double r;
+		boolean need_init = true;
+		for (SectionHelper e : getSectionElements()) {
+			if (need_init) {
+				r = e.getA1() + e.getA2() + e.getA3();
+				need_init = false;
+			}
+			else {
+				r += e.getA1() + e.getA2() + e.getA3();
+			}
+		}
+		return r;
+	}
+
+This should make it clear why @_FOLD_OR_REDUCE@ can be more efficient than proper @_REDUCE@.
+
+
+h2. MAKE_ARRAY
+
+The function
+
+	_MAKE_ARRAY( range-ref )
+	
+turns a single spreadsheet range @range-ref@ into an internal Java array. Currently, the range must be of the form @A1:B2@ and cannot be a union. It must have been specified using @shapedrangeexpr@ in the formula parser definition. You normally don't use this function directly, but instead annotate a rewrite argument with @#@.
+
+
+h2. FOLD_ARRAY
+
+The function
+
+	_FOLD_ARRAY( acc-name: seed-value; value-name, index-name: folding-expr; array-ref )
+
+is like @_FOLD()@, but for arrays. In addition to the current value, you can also reference the current array index as @`index-name@ in the folding expression. The value for @array-ref@ must be a result of @_MAKE_ARRAY()@ or reference a @#@-suffixed rewrite parameter. Example:
+
+	_FOLD_ARRAY( r: 0; xi, i: `xi * `i; `xs )
+	

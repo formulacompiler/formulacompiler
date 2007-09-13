@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module relativePaths="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/../../temp/idea/production/afc-decompiler" />
+    <exclude-output />
+    <output-test url="file://$MODULE_DIR$/../../temp/idea/test/afc-decompiler" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/impl/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/impl/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/intf/java" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="afc-runtime" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/impl/jode-decompiler.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntryProperties />
+  </component>
+</module>
+

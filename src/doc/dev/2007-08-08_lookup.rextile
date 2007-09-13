@@ -1,0 +1,103 @@
+
+h1. Implementation of @LOOKUP@, @MATCH@, and @INDEX@
+
+The @LOOKUP@ function, and its foundations @MATCH@ and @INDEX@, are likely to be heavily used in Abacus' financial applications. So they must be implemented efficiently both space- and runtime-wise. 
+
+<%= toc %>
+
+
+h2. Fixed-size Tables
+
+Most lookup tables are going to be constant, I predict. Often they will be largish tables of data imported from official sources, like tax rates of different sorts. Such data is most efficiently handled in arrays. So a natural implementation of @MATCH@ would take a form like
+
+	final double val = get$1();
+	final double[] vals = new double[] { 1.0, 2.0, ... };
+	// ...
+	return RuntimeDouble.fun_MATCH( val, vals, type );
+
+where @fun_MATCH@ performs a binary search when @type@ is -1 or 1, as Excel does. If the value array contains only a few values computed at runtime, then augmenting this to something like
+
+	final double val = get$1();
+	final double[] vals = new double[] { 1.0, 2.0, ... };
+	vals[3] = get$2();
+	vals[10] = get$3();
+	// ...
+	return RuntimeDouble.fun_MATCH( val, vals, type );
+
+would work nicely. Similarly, @INDEX@ would be something like
+
+	// ...
+	return vals[ (int) val ]; // range check omitted
+
+or, more efficiently when dynamic values are involved
+
+	final double[] vals = new double[] { 1.0, 2.0, ... };
+	final int v = (int) val;
+	switch (v) {
+	case 3:
+		return get$2();
+	case 10:
+		return get$3();
+	default:
+		return vals[ v ]; // range check omitted
+	}
+
+And since all the variants of @LOOKUP@ are mapped to @INDEX@ and @MATCH@, this covers the lot. However, I think @LOOKUP@ should not be rewritten to @INDEX@ and @MATCH@, but instead mapped by the compiler. This allows me to avoid the conversion of @MATCH@'s result to a @double@ and back to @int@ in @INDEX@.	 
+
+
+h5. Multiple Lookups
+
+But what if multiple, different values are looked up? Consider
+
+	A1 =MATCH( B1, C$1:Z$1 )
+	A2 =MATCH( B2, C$1:Z$1 )
+
+We clearly need to factor the common construction of the array for @C$1:Z$1@ out of the generated code for the cells A1 and A2. To do this, we first need to recognise the commonality. This is hard to do efficiently for the computation model compiler as it has no notion of cell adjacency and, thus, no notion of contiguous arrays. So I think the spreadsheet compiler will have to name instances of @ExpressionNodeForArrayReference@ it generates to help the computation model compiler recognize repeated occurrences. So we might get
+
+	private double[] vals$1 = null;
+	private get$vals$1() {
+		if (vals$1 == null) {
+			vals$1 = new double[] { 1.0, 2.0, ... };
+			vals$1[3] = get$2();
+			vals$1[10] = get$3();
+		}
+		return vals$1;
+	}
+
+and then
+
+	return RuntimeDouble.fun_MATCH( val, get$vals$1(), type );
+
+Which leaves us with _state_ in the computation. However, this is no longer new, as @NOW()@ already introduced state even when caching is off. So I'm going to change caching configuration to be independent of @Resettable@ and document clearly that you cannot expect computations to be stateless, even if caching is off.
+
+The same goes for @INDEX@, but the common code includes the generated @switch@. So we need to factor out not just @get$vals$1@, but something like
+
+	private get$index$1( int v ) {
+		final double[] vals = get$static$vals$1();
+		switch (v) {
+			// ...
+		default:
+			return vals[ v ]; // range check omitted
+		}
+	}
+
+where @get$static$vals$1()@ is modelled after @get$vals$1()@ but sets only the static values and we would change @get$vals$1()@ so it uses @get$static$vals$1()@ to initialize @vals$1@.
+
+
+h5. Unrolling
+
+When most or all array values are computed, and maybe even expensive to compute, then this is probably not the best approach. Unrolling the linear or binary search in the generated code might be better as it avoids computing cells not touched by the search. But this sounds like a highly improbable scenario, so I won't address it.
+
+However, lookups into very small tables might also perform better if implemented as unrolled code. Array setup might just turn out to be too expensive for them. But, while nifty, this adds too much complexity for too little gain, I believe. And people needing the speed can rewrite their small lookups to nested @IF@s anyway.
+
+
+h2. Input Tables of Varying Size
+
+What if the lookup table is a repeating section? For the moment, I will not support this. Still, here are my current ideas on it.
+
+In the current implementation of repeating sections where every element is represented by its own sub-computation instance, I see two options:
+
+	* Build the arrays used above from the repeating data, then proceed as before. Adds additional arrays, but also caches lookup tables. This sounds like a good choice for @MATCH@.
+	* Generate code that directly works on the internal sub-instance arrays for @MATCH@ and @INDEX@. Avoids the additional arrays, but repeatedly evaluates the values touched during lookup. This sounds like a good choice for @INDEX@.
+
+If AFC ever supports memory-efficient forward-only iteration of largish repeating sections, then this would have to change. @MATCH@ and @INDEX@ would have to sequentially scan the section until the result is found. @LOOKUP@ would have to be implemented directly as scanning twice for @MATCH@ and then @INDEX@ would be silly.

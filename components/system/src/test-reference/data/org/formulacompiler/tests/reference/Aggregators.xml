@@ -1,0 +1,1419 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>Peter Arrenbrecht</Author>
+  <LastAuthor>vkorenev</LastAuthor>
+  <Created>2005-11-22T20:05:38Z</Created>
+  <LastSaved>2007-08-28T09:01:31Z</LastSaved>
+  <Company>Opus Software AG</Company>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>13905</WindowHeight>
+  <WindowWidth>14460</WindowWidth>
+  <WindowTopX>360</WindowTopX>
+  <WindowTopY>90</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s23">
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Italic="1"/>
+  </Style>
+  <Style ss:ID="s24">
+   <Alignment ss:Vertical="Center"/>
+   <Font ss:FontName="Verdana" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s25">
+   <Alignment ss:Vertical="Center"/>
+   <Font ss:FontName="Verdana" ss:Italic="1" ss:Underline="Single"/>
+  </Style>
+ </Styles>
+ <Names>
+  <NamedRange ss:Name="AverageRange" ss:RefersTo="=Sheet1!R80C3:R80C5"/>
+  <NamedRange ss:Name="CiteHeader" ss:RefersTo="=Sheet1!R1C1:R1C12"/>
+  <NamedRange ss:Name="CiteVAR" ss:RefersTo="=Sheet1!R149C1:R153C12"/>
+  <NamedRange ss:Name="CountRange" ss:RefersTo="=Sheet1!R50C3:R50C5"/>
+  <NamedRange ss:Name="MaxRange" ss:RefersTo="=Sheet1!R134C3:R134C5"/>
+  <NamedRange ss:Name="MinRange" ss:RefersTo="=Sheet1!R107C3:R107C5"/>
+  <NamedRange ss:Name="ProductRange" ss:RefersTo="=Sheet1!R23C3:R23C5"/>
+ </Names>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="197" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:Width="71.25"/>
+   <Column ss:Width="85.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="36.75" ss:Span="6"/>
+   <Column ss:Index="10" ss:StyleID="s23" ss:AutoFitWidth="0" ss:Width="61.5"/>
+   <Column ss:Width="191.25"/>
+   <Column ss:Index="14" ss:AutoFitWidth="0" ss:Width="93"/>
+   <Row ss:AutoFitHeight="0" ss:Height="25.5" ss:StyleID="s24">
+    <Cell><Data ss:Type="String">Expected</Data><NamedCell ss:Name="CiteHeader"/></Cell>
+    <Cell><Data ss:Type="String">Actual</Data><NamedCell ss:Name="CiteHeader"/></Cell>
+    <Cell><Data ss:Type="String">Inputs</Data><NamedCell ss:Name="CiteHeader"/></Cell>
+    <Cell ss:Index="10" ss:StyleID="s25"><Data ss:Type="String"># of Inputs</Data><NamedCell
+      ss:Name="CiteHeader"/></Cell>
+    <Cell><Data ss:Type="String">Name</Data><NamedCell ss:Name="CiteHeader"/></Cell>
+    <Cell><Data ss:Type="String">Highlight</Data><NamedCell ss:Name="CiteHeader"/></Cell>
+    <Cell><Data ss:Type="String">Excel says</Data></Cell>
+    <Cell><Data ss:Type="String">Skip for</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Formula="=PRODUCT(RC[1]:RC[3])"><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">PRODUCT (does not support blanks!)</Data></Cell>
+    <Cell><Data ss:Type="String">PRODUCT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">120</Data></Cell>
+    <Cell ss:Formula="=PRODUCT(RC[1]:RC[3])"><Data ss:Type="Number">120</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="5">
+    <Cell><Data ss:Type="Number">720</Data></Cell>
+    <Cell ss:Formula="=PRODUCT(RC[1]:R[1]C[3])"><Data ss:Type="Number">720</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">14400</Data></Cell>
+    <Cell ss:Formula="=PRODUCT(RC[1]:RC[3])^2"><Data ss:Type="Number">14400</Data><Comment
+      ss:Author="peo"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">peo:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Lower row is always constant, upper row takes on input values!</Font></ss:Data></Comment></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="8">
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=PRODUCT(RC[1])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=PRODUCT(RC[1])"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="11">
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Formula="=PRODUCT(RC[1],RC[2])"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">20</Data></Cell>
+    <Cell ss:Formula="=PRODUCT(RC[1],RC[2])"><Data ss:Type="Number">20</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="14">
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Formula="=PRODUCT(RC[1],RC[2],RC[3])"><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">120</Data></Cell>
+    <Cell ss:Formula="=PRODUCT(RC[1],RC[2],RC[3])"><Data ss:Type="Number">120</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="17">
+    <Cell><Data ss:Type="Number">70</Data></Cell>
+    <Cell ss:Formula="=PRODUCT(RC[1],RC[5],RC[2],RC[7])"><Data ss:Type="Number">70</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">126</Data></Cell>
+    <Cell ss:Formula="=PRODUCT(RC[1],RC[5],RC[2],RC[7])"><Data ss:Type="Number">126</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="20">
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=PRODUCT(RC[2],RC[1],RC[1],RC[2])"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">400</Data></Cell>
+    <Cell ss:Formula="=PRODUCT(RC[2],RC[1],RC[1],RC[2])"><Data ss:Type="Number">400</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="23">
+    <Cell><Data ss:Type="Number">120</Data></Cell>
+    <Cell ss:Formula="=PRODUCT(ProductRange)"><Data ss:Type="Number">120</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data><NamedCell ss:Name="ProductRange"/></Cell>
+    <Cell><Data ss:Type="Number">5</Data><NamedCell ss:Name="ProductRange"/></Cell>
+    <Cell><Data ss:Type="Number">6</Data><NamedCell ss:Name="ProductRange"/></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Formula="=PRODUCT(RC[1]:RC[3])"><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="26">
+    <Cell><Data ss:Type="Number">210</Data></Cell>
+    <Cell ss:Formula="=PRODUCT(RC[1]:RC[3],RC[5],RC[7])"><Data ss:Type="Number">210</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">200</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">30240</Data></Cell>
+    <Cell ss:Formula="=PRODUCT(RC[1]:RC[3],RC[5],RC[7])"><Data ss:Type="Number">30240</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+    <Cell><Data ss:Type="Number">80</Data></Cell>
+    <Cell><Data ss:Type="Number">9</Data></Cell>
+    <Cell ss:Index="9"><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="29">
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=COUNT(RC[1]:RC[3])"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">COUNT (does not support blanks!)</Data></Cell>
+    <Cell><Data ss:Type="String">COUNT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=COUNT(RC[1]:RC[3])"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="32">
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Formula="=COUNT(RC[1]:R[1]C[3])"><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Formula="=COUNT(RC[1]:RC[3])*2"><Data ss:Type="Number">6</Data><Comment
+      ss:Author="peo"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">peo:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Lower row is always constant, upper row takes on input values!</Font></ss:Data></Comment></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="35">
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=COUNT(RC[1])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=COUNT(RC[1])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="38">
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Formula="=COUNT(RC[1],RC[2])"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Formula="=COUNT(RC[1],RC[2])"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="41">
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=COUNT(RC[1],RC[2],RC[3])"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=COUNT(RC[1],RC[2],RC[3])"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="44">
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=COUNT(RC[1],RC[5],RC[2],RC[7])"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=COUNT(RC[1],RC[5],RC[2],RC[7])"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="47">
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=COUNT(RC[2],RC[1],RC[1],RC[2])"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=COUNT(RC[2],RC[1],RC[1],RC[2])"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="50">
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=COUNT(CountRange)"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data><NamedCell ss:Name="CountRange"/></Cell>
+    <Cell><Data ss:Type="Number">5</Data><NamedCell ss:Name="CountRange"/></Cell>
+    <Cell><Data ss:Type="Number">6</Data><NamedCell ss:Name="CountRange"/></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=COUNT(RC[1]:RC[3])"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="53">
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=COUNT(RC[1]:RC[3],RC[5],RC[7])"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">200</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=COUNT(RC[1]:RC[3],RC[5],RC[7])"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+    <Cell><Data ss:Type="Number">80</Data></Cell>
+    <Cell><Data ss:Type="Number">9</Data></Cell>
+    <Cell ss:Index="9"><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="56">
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=COUNTA(RC[1]:RC[3])"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String" x:Ticked="1"> </Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">COUNTA</Data></Cell>
+    <Cell><Data ss:Type="String">COUNTA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=COUNTA(RC[1]:RC[3])"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="String" x:Ticked="1">Hello</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="59">
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Formula="=AVERAGE(RC[1]:RC[3])"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">AVERAGE (does not support blanks!)</Data></Cell>
+    <Cell><Data ss:Type="String">AVERAGE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=AVERAGE(RC[1]:RC[3])"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="62">
+    <Cell><Data ss:Type="Number">3.5</Data></Cell>
+    <Cell ss:Formula="=AVERAGE(RC[1]:R[1]C[3])"><Data ss:Type="Number">3.5</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=AVERAGE(RC[1]:RC[3],RC[1]:RC[3])"><Data ss:Type="Number">5</Data><Comment
+      ss:Author="peo"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">peo:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Lower row is always constant, upper row takes on input values!</Font></ss:Data></Comment></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="65">
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=AVERAGE(RC[1])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=AVERAGE(RC[1])"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="68">
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell ss:Formula="=AVERAGE(RC[1],RC[2])"><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4.5</Data></Cell>
+    <Cell ss:Formula="=AVERAGE(RC[1],RC[2])"><Data ss:Type="Number">4.5</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="71">
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Formula="=AVERAGE(RC[1],RC[2],RC[3])"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=AVERAGE(RC[1],RC[2],RC[3])"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="74">
+    <Cell><Data ss:Type="Number">3.75</Data></Cell>
+    <Cell ss:Formula="=AVERAGE(RC[1],RC[5],RC[2],RC[7])"><Data ss:Type="Number">3.75</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4.25</Data></Cell>
+    <Cell ss:Formula="=AVERAGE(RC[1],RC[5],RC[2],RC[7])"><Data ss:Type="Number">4.25</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="77">
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell ss:Formula="=AVERAGE(RC[2],RC[1],RC[1],RC[2])"><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4.5</Data></Cell>
+    <Cell ss:Formula="=AVERAGE(RC[2],RC[1],RC[1],RC[2])"><Data ss:Type="Number">4.5</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="80">
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=AVERAGE(AverageRange)"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data><NamedCell ss:Name="AverageRange"/></Cell>
+    <Cell><Data ss:Type="Number">5</Data><NamedCell ss:Name="AverageRange"/></Cell>
+    <Cell><Data ss:Type="Number">6</Data><NamedCell ss:Name="AverageRange"/></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Formula="=AVERAGE(RC[1]:RC[3])"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="83">
+    <Cell><Data ss:Type="Number">3.6</Data></Cell>
+    <Cell ss:Formula="=AVERAGE(RC[1]:RC[3],RC[5],RC[7])"><Data ss:Type="Number">3.6</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">200</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+    <Cell ss:Formula="=AVERAGE(RC[1]:RC[3],RC[5],RC[7])"><Data ss:Type="Number">8</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+    <Cell><Data ss:Type="Number">80</Data></Cell>
+    <Cell><Data ss:Type="Number">9</Data></Cell>
+    <Cell ss:Index="9"><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="86">
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:Formula="=MIN(RC[1]:RC[3])"><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">MIN (does not support blanks!)</Data></Cell>
+    <Cell><Data ss:Type="String">MIN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=MIN(RC[1]:RC[3])"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="89">
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=MIN(RC[1]:R[1]C[3])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=MIN(RC[1]:RC[3])"><Data ss:Type="Number">4</Data><Comment
+      ss:Author="peo"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">peo:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Lower row is always constant, upper row takes on input values!</Font></ss:Data></Comment></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="92">
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=MIN(RC[1])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=MIN(RC[1])"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="95">
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=MIN(RC[1],RC[2])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=MIN(RC[1],RC[2])"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="98">
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=MIN(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">-6</Data></Cell>
+    <Cell ss:Formula="=MIN(RC[1],RC[2],RC[3])"><Data ss:Type="Number">-6</Data></Cell>
+    <Cell><Data ss:Type="Number">-4</Data></Cell>
+    <Cell><Data ss:Type="Number">-5</Data></Cell>
+    <Cell><Data ss:Type="Number">-6</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="101">
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=MIN(RC[1],RC[5],RC[2],RC[7])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=MIN(RC[1],RC[5],RC[2],RC[7])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="104">
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=MIN(RC[2],RC[1],RC[1],RC[2])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=MIN(RC[2],RC[1],RC[1],RC[2])"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="107">
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=MIN(MinRange)"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data><NamedCell ss:Name="MinRange"/></Cell>
+    <Cell><Data ss:Type="Number">5</Data><NamedCell ss:Name="MinRange"/></Cell>
+    <Cell><Data ss:Type="Number">6</Data><NamedCell ss:Name="MinRange"/></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=MIN(RC[1]:RC[3])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="110">
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=MIN(RC[1]:RC[3],RC[5],RC[7])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">200</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Formula="=MIN(RC[1]:RC[3],RC[5],RC[7])"><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+    <Cell><Data ss:Type="Number">80</Data></Cell>
+    <Cell><Data ss:Type="Number">9</Data></Cell>
+    <Cell ss:Index="9"><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="113">
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Formula="=MAX(RC[1]:RC[3])"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">MAX (does not support blanks!)</Data></Cell>
+    <Cell><Data ss:Type="String">MAX</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Formula="=MAX(RC[1]:RC[3])"><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="116">
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Formula="=MAX(RC[1]:R[1]C[3])"><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Formula="=MAX(RC[1]:RC[3])"><Data ss:Type="Number">6</Data><Comment
+      ss:Author="peo"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">peo:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Lower row is always constant, upper row takes on input values!</Font></ss:Data></Comment></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="119">
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=MAX(RC[1])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=MAX(RC[1])"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="122">
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Formula="=MAX(RC[1],RC[2])"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=MAX(RC[1],RC[2])"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="125">
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=MAX(RC[1],RC[2],RC[3])"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">-4</Data></Cell>
+    <Cell ss:Formula="=MAX(RC[1],RC[2],RC[3])"><Data ss:Type="Number">-4</Data></Cell>
+    <Cell><Data ss:Type="Number">-4</Data></Cell>
+    <Cell><Data ss:Type="Number">-5</Data></Cell>
+    <Cell><Data ss:Type="Number">-6</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="128">
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:Formula="=MAX(RC[1],RC[5],RC[2],RC[7])"><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:Formula="=MAX(RC[1],RC[5],RC[2],RC[7])"><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="131">
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Formula="=MAX(RC[2],RC[1],RC[1],RC[2])"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=MAX(RC[2],RC[1],RC[1],RC[2])"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="134">
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Formula="=MAX(MaxRange)"><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data><NamedCell ss:Name="MaxRange"/></Cell>
+    <Cell><Data ss:Type="Number">5</Data><NamedCell ss:Name="MaxRange"/></Cell>
+    <Cell><Data ss:Type="Number">6</Data><NamedCell ss:Name="MaxRange"/></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=MAX(RC[1]:RC[3])"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="137">
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:Formula="=MAX(RC[1]:RC[3],RC[5],RC[7])"><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">200</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Formula="=MAX(RC[1]:RC[3],RC[5],RC[7])"><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+    <Cell><Data ss:Type="Number">80</Data></Cell>
+    <Cell><Data ss:Type="Number">9</Data></Cell>
+    <Cell ss:Index="9"><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="140">
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=VARP(RC[1])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">VARP (does not support blanks!)</Data></Cell>
+    <Cell><Data ss:Type="String">VARP</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=VARP(RC[1])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="143">
+    <Cell><Data ss:Type="Number">0.25</Data></Cell>
+    <Cell ss:Formula="=VARP(RC[1],RC[2])"><Data ss:Type="Number">0.25</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.25</Data></Cell>
+    <Cell ss:Formula="=VARP(RC[1],RC[2])"><Data ss:Type="Number">0.25</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="146">
+    <Cell><Data ss:Type="Number">4.64</Data></Cell>
+    <Cell ss:Formula="=VARP(RC[1]:RC[3],RC[5],RC[7])"><Data ss:Type="Number">4.64</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">200</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Formula="=VARP(RC[1]:RC[3],RC[5],RC[7])"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+    <Cell><Data ss:Type="Number">80</Data></Cell>
+    <Cell><Data ss:Type="Number">9</Data></Cell>
+    <Cell ss:Index="9"><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="149">
+    <Cell><Data ss:Type="Number">0.5</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell ss:Formula="=VAR(RC[1],RC[2])"><Data ss:Type="Number">0.5</Data><NamedCell
+      ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="Number">1</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="Number">2</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="String">VAR (does not support blanks!)</Data><NamedCell
+      ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="String">VAR</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.5</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell ss:Formula="=VAR(RC[1],RC[2])"><Data ss:Type="Number">0.5</Data><NamedCell
+      ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="Number">4</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="Number">5</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="String">...</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+   </Row>
+   <Row ss:Index="152">
+    <Cell><Data ss:Type="Number">5.8</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell ss:Formula="=VAR(RC[1]:RC[3],RC[5],RC[7])"><Data ss:Type="Number">5.8000000000000007</Data><NamedCell
+      ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="Number">1</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="Number">2</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="Number">3</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="Number">100</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="Number">5</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="Number">200</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="Number">7</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="Number">7</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2.5</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell ss:Formula="=VAR(RC[1]:RC[3],RC[5],RC[7])"><Data ss:Type="Number">2.5</Data><NamedCell
+      ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="Number">6</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="Number">7</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="Number">8</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="Number">80</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="Number">9</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell ss:Index="9"><Data ss:Type="Number">10</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="Number">7</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+    <Cell><Data ss:Type="String">...</Data><NamedCell ss:Name="CiteVAR"/></Cell>
+   </Row>
+   <Row ss:Index="155">
+    <Cell><Data ss:Type="Number">2.8284271247461903</Data></Cell>
+    <Cell ss:Formula="=STDEV(RC[1],RC[2])"><Data ss:Type="Number">2.8284271247461903</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">STDEV (does not support blanks!)</Data></Cell>
+    <Cell><Data ss:Type="String">STDEV</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2.0816659994661326</Data></Cell>
+    <Cell ss:Formula="=STDEV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">2.0816659994661326</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data><Comment ss:Author="vkorenev"><ss:Data
+       xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
+         html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;TODO: Test empty cell</Font></ss:Data></Comment></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row ss:Index="158">
+    <Cell><Data ss:Type="Number">40.688718279617696</Data></Cell>
+    <Cell ss:Formula="=STDEV(RC[1]:RC[3],RC[4]:RC[6],RC[7])"><Data ss:Type="Number">40.688718279617696</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">5.45</Data></Cell>
+    <Cell><Data ss:Type="Number">7.62</Data></Cell>
+    <Cell><Data ss:Type="Number">12.7</Data></Cell>
+    <Cell><Data ss:Type="Number">14.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-100</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4.1518785191880596</Data></Cell>
+    <Cell ss:Formula="=STDEV(RC[1]:RC[3],RC[4]:RC[6],RC[7])"><Data ss:Type="Number">4.1518785191880596</Data></Cell>
+    <Cell><Data ss:Type="Number">-10</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data><Comment ss:Author="vkorenev"><ss:Data
+       xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
+         html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;TODO: Test empty cell</Font></ss:Data></Comment></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">-2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="161">
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=STDEVP(RC[1])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">STDEVP (does not support blanks!)</Data></Cell>
+    <Cell><Data ss:Type="String">STDEVP</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell ss:Formula="=STDEVP(RC[1],RC[2])"><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2.0548046676563256</Data></Cell>
+    <Cell ss:Formula="=STDEVP(RC[1],RC[2],RC[3])"><Data ss:Type="Number">2.0548046676563256</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data><Comment ss:Author="vkorenev"><ss:Data
+       xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
+         html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;TODO: Test empty cell</Font></ss:Data></Comment></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row ss:Index="165">
+    <Cell><Data ss:Type="Number">37.670433217252899</Data></Cell>
+    <Cell ss:Formula="=STDEVP(RC[1]:RC[3],RC[4]:RC[6],RC[7])"><Data
+      ss:Type="Number">37.670433217252899</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">5.45</Data></Cell>
+    <Cell><Data ss:Type="Number">7.62</Data></Cell>
+    <Cell><Data ss:Type="Number">12.7</Data></Cell>
+    <Cell><Data ss:Type="Number">14.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-100</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">3.8438925848782031</Data></Cell>
+    <Cell ss:Formula="=STDEVP(RC[1]:RC[3],RC[4]:RC[6],RC[7])"><Data
+      ss:Type="Number">3.8438925848782031</Data></Cell>
+    <Cell><Data ss:Type="Number">-10</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data><Comment ss:Author="vkorenev"><ss:Data
+       xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
+         html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;TODO: Test empty cell</Font></ss:Data></Comment></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">-2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Index="168">
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=AVEDEV(RC[1])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">40</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">AVEDEV (does not support blanks!)</Data></Cell>
+    <Cell><Data ss:Type="String">AVEDEV</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Formula="=AVEDEV(RC[1],RC[2])"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1.5555555555555554</Data></Cell>
+    <Cell ss:Formula="=AVEDEV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1.5555555555555554</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data><Comment ss:Author="vkorenev"><ss:Data
+       xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
+         html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;TODO: Test empty cell</Font></ss:Data></Comment></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row ss:Index="172">
+    <Cell><Data ss:Type="Number">26.092653061224492</Data></Cell>
+    <Cell ss:Formula="=AVEDEV(RC[1]:RC[3],RC[4]:RC[6],RC[7])"><Data
+      ss:Type="Number">26.092653061224492</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">5.45</Data></Cell>
+    <Cell><Data ss:Type="Number">7.62</Data></Cell>
+    <Cell><Data ss:Type="Number">12.7</Data></Cell>
+    <Cell><Data ss:Type="Number">14.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-100</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2.693877551020408</Data></Cell>
+    <Cell ss:Formula="=AVEDEV(RC[1]:RC[3],RC[4]:RC[6],RC[7])"><Data
+      ss:Type="Number">2.693877551020408</Data></Cell>
+    <Cell><Data ss:Type="Number">-10</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data><Comment ss:Author="vkorenev"><ss:Data
+       xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
+         html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;TODO: Test empty cell</Font></ss:Data></Comment></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">-2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="175">
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=DEVSQ(RC[1])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">40</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">DEVSQ (does not support blanks!)</Data></Cell>
+    <Cell><Data ss:Type="String">DEVSQ</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+    <Cell ss:Formula="=DEVSQ(RC[1],RC[2])"><Data ss:Type="Number">8</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">8.6666666666666679</Data></Cell>
+    <Cell ss:Formula="=DEVSQ(RC[1],RC[2],RC[3])"><Data ss:Type="Number">8.6666666666666679</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data><Comment ss:Author="vkorenev"><ss:Data
+       xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
+         html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;TODO: Test empty cell</Font></ss:Data></Comment></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Index="179">
+    <Cell><Data ss:Type="Number">9933.4307714285715</Data></Cell>
+    <Cell ss:Formula="=DEVSQ(RC[1]:RC[3],RC[4]:RC[6],RC[7])"><Data ss:Type="Number">9933.4307714285715</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">5.45</Data></Cell>
+    <Cell><Data ss:Type="Number">7.62</Data></Cell>
+    <Cell><Data ss:Type="Number">12.7</Data></Cell>
+    <Cell><Data ss:Type="Number">14.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-100</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">103.4285714285714</Data></Cell>
+    <Cell ss:Formula="=DEVSQ(RC[1]:RC[3],RC[4]:RC[6],RC[7])"><Data ss:Type="Number">103.4285714285714</Data></Cell>
+    <Cell><Data ss:Type="Number">-10</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data><Comment ss:Author="vkorenev"><ss:Data
+       xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
+         html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;TODO: Test empty cell</Font></ss:Data></Comment></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">-2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Index="182">
+    <Cell><Data ss:Type="Number">0.93521952958282351</Data></Cell>
+    <Cell ss:Formula="=SKEW(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.93521952958282351</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">SKEW (does not support blanks!)</Data></Cell>
+    <Cell><Data ss:Type="String">SKEW</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Index="184">
+    <Cell><Data ss:Type="Number">-2.5327066435041319</Data></Cell>
+    <Cell ss:Formula="=SKEW(RC[1]:RC[3],RC[4]:RC[6],RC[7])"><Data ss:Type="Number">-2.5327066435041319</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">5.45</Data></Cell>
+    <Cell><Data ss:Type="Number">7.62</Data></Cell>
+    <Cell><Data ss:Type="Number">12.7</Data></Cell>
+    <Cell><Data ss:Type="Number">14.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-100</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">-1.8491263727532468</Data></Cell>
+    <Cell ss:Formula="=SKEW(RC[1]:RC[3],RC[4]:RC[6],RC[7])"><Data ss:Type="Number">-1.8491263727532468</Data></Cell>
+    <Cell><Data ss:Type="Number">-10</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data><Comment ss:Author="vkorenev"><ss:Data
+       xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
+         html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;TODO: Test empty cell</Font></ss:Data></Comment></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">-2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="187">
+    <Cell><Data ss:Type="Number">0.39053254437869889</Data></Cell>
+    <Cell ss:Formula="=KURT(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.39053254437869889</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">KURT (does not support blanks!)</Data></Cell>
+    <Cell><Data ss:Type="String">KURT</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Index="189">
+    <Cell><Data ss:Type="Number">6.5478454980828005</Data></Cell>
+    <Cell ss:Formula="=KURT(RC[1]:RC[3],RC[4]:RC[6],RC[7])"><Data ss:Type="Number">6.5478454980828005</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">5.45</Data></Cell>
+    <Cell><Data ss:Type="Number">7.62</Data></Cell>
+    <Cell><Data ss:Type="Number">12.7</Data></Cell>
+    <Cell><Data ss:Type="Number">14.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-100</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4.2380757608131585</Data></Cell>
+    <Cell ss:Formula="=KURT(RC[1]:RC[3],RC[4]:RC[6],RC[7])"><Data ss:Type="Number">4.2380757608131585</Data></Cell>
+    <Cell><Data ss:Type="Number">-10</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data><Comment ss:Author="vkorenev"><ss:Data
+       xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
+         html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;TODO: Test empty cell</Font></ss:Data></Comment></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">-2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Index="192">
+    <Cell><Data ss:Type="Number">49</Data></Cell>
+    <Cell ss:Formula="=SUMSQ(RC[1])"><Data ss:Type="Number">49</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">SUMSQ</Data></Cell>
+    <Cell><Data ss:Type="String">SUMSQ</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">29</Data></Cell>
+    <Cell ss:Formula="=SUMSQ(RC[1],RC[2])"><Data ss:Type="Number">29</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">29</Data></Cell>
+    <Cell ss:Formula="=SUMSQ(RC[1],RC[2],RC[3])"><Data ss:Type="Number">29</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row ss:Index="196">
+    <Cell><Data ss:Type="Number">10460.3069</Data></Cell>
+    <Cell ss:Formula="=SUMSQ(RC[1]:RC[3],RC[4]:RC[6],RC[7])"><Data ss:Type="Number">10460.3069</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">5.45</Data></Cell>
+    <Cell><Data ss:Type="Number">7.62</Data></Cell>
+    <Cell><Data ss:Type="Number">12.7</Data></Cell>
+    <Cell><Data ss:Type="Number">14.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-100</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">115</Data></Cell>
+    <Cell ss:Formula="=SUMSQ(RC[1]:RC[3],RC[4]:RC[6],RC[7])"><Data ss:Type="Number">115</Data></Cell>
+    <Cell><Data ss:Type="Number">-10</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">-2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+   </Print>
+   <Selected/>
+   <TopRowVisible>21</TopRowVisible>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>62</ActiveRow>
+     <ActiveCol>8</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+  <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
+   <Range>R2C3:R200C9</Range>
+   <Condition>
+    <Value1>RC10&gt;COLUMN(RC)-3</Value1>
+    <Format Style='background:#CCFFCC'/>
+   </Condition>
+  </ConditionalFormatting>
+ </Worksheet>
+</Workbook>
