@@ -255,15 +255,33 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return _cx.fromDouble( RuntimeDouble_v2.fun_ACOS( _cx.toDouble( _val ) ) );
 	}
 
+	public static long fun_ACOSH( final long _val, Context _cx )
+	{
+		final double a = _cx.toDouble( _val );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_ACOSH( a ) );
+	}
+
 	public static long fun_ASIN( final long _val, Context _cx )
 	{
 		return _cx.fromDouble( RuntimeDouble_v2.fun_ASIN( _cx.toDouble( _val ) ) );
+	}
+
+	public static long fun_ASINH( final long _val, Context _cx )
+	{
+		final double a = _cx.toDouble( _val );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_ASINH( a ) );
 	}
 
 	public static long fun_ATAN( final long _val, Context _cx )
 	{
 		final double a = _cx.toDouble( _val );
 		return _cx.fromDouble( Math.atan( a ) );
+	}
+
+	public static long fun_ATANH( final long _val, Context _cx )
+	{
+		final double a = _cx.toDouble( _val );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_ATANH( a ) );
 	}
 
 	public static long fun_ATAN2( final long _x, final long _y, Context _cx )
@@ -279,16 +297,35 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return _cx.fromDouble( Math.cos( a ) );
 	}
 
+	public static long fun_COSH( final long _val, Context _cx )
+	{
+		final double a = _cx.toDouble( _val );
+		return _cx.fromDouble( Math.cosh( a ) );
+	}
+
+
 	public static long fun_SIN( final long _val, Context _cx )
 	{
 		final double a = _cx.toDouble( _val );
 		return _cx.fromDouble( Math.sin( a ) );
 	}
 
+	public static long fun_SINH( final long _val, Context _cx )
+	{
+		final double a = _cx.toDouble( _val );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_SINH( a ) );
+	}
+
 	public static long fun_TAN( final long _val, Context _cx )
 	{
 		final double a = _cx.toDouble( _val );
 		return _cx.fromDouble( Math.tan( a ) );
+	}
+
+	public static long fun_TANH( final long _val, Context _cx )
+	{
+		final double a = _cx.toDouble( _val );
+		return _cx.fromDouble( Math.tanh( a ) );
 	}
 
 	public static long fun_DEGREES( long _a, Context _cx )
@@ -331,6 +368,11 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	{
 		if (_cx.scale == 0) return round( _val, (int) _maxFrac, _cx );
 		return round( _val, (int) (_maxFrac / _cx.one), _cx );
+	}
+
+	public static long fun_RAND( Context _cx )
+	{
+		return _cx.fromDouble( generator.nextDouble() );
 	}
 
 	public static long fun_ROUNDDOWN( final long _val, final long _maxFrac, Context _cx )
@@ -540,6 +582,12 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	public static long fun_NOW( Context _cx, final Environment _environment, final ComputationTime _computationTime )
 	{
 		return dateToNum( now( _computationTime ), _cx, _environment.timeZone() );
+	}
+
+	public static long fun_SIGN( long _a, Context _cx )
+	{
+		final double a = _cx.toDouble( _a );
+		return _cx.fromDouble( Math.signum( a ) );
 	}
 
 	public static long fun_TODAY( Context _cx, final Environment _environment, final ComputationTime _computationTime )

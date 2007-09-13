@@ -140,6 +140,12 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		return BigDecimal.valueOf( Math.acos( a ) );
 	}
 
+	public static BigDecimal fun_ACOSH( BigDecimal _a )
+	{
+		final double a = _a.doubleValue();
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_ACOSH( a ) );
+	}
+
 	public static BigDecimal fun_ASIN( BigDecimal _a )
 	{
 		final double a = _a.doubleValue();
@@ -149,10 +155,22 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		return BigDecimal.valueOf( Math.asin( a ) );
 	}
 
+	public static BigDecimal fun_ASINH( BigDecimal _a )
+	{
+		final double a = _a.doubleValue();
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_ASINH( a ) );
+	}
+
 	public static BigDecimal fun_ATAN( BigDecimal _a )
 	{
 		final double a = _a.doubleValue();
 		return BigDecimal.valueOf( Math.atan( a ) );
+	}
+
+	public static BigDecimal fun_ATANH( BigDecimal _a )
+	{
+		final double a = _a.doubleValue();
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_ATANH( a ) );
 	}
 
 	public static BigDecimal fun_ATAN2( BigDecimal _x, BigDecimal _y )
@@ -168,16 +186,34 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		return BigDecimal.valueOf( Math.cos( a ) );
 	}
 
+	public static BigDecimal fun_COSH( BigDecimal _a )
+	{
+		final double a = _a.doubleValue();
+		return BigDecimal.valueOf( Math.cosh( a ) );
+	}
+
 	public static BigDecimal fun_SIN( BigDecimal _a )
 	{
 		final double a = _a.doubleValue();
 		return BigDecimal.valueOf( Math.sin( a ) );
 	}
 
+	public static BigDecimal fun_SINH( BigDecimal _a )
+	{
+		final double a = _a.doubleValue();
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_SINH( a ) );
+	}
+
 	public static BigDecimal fun_TAN( BigDecimal _a )
 	{
 		final double a = _a.doubleValue();
 		return BigDecimal.valueOf( Math.tan( a ) );
+	}
+
+	public static BigDecimal fun_TANH( BigDecimal _a )
+	{
+		final double a = _a.doubleValue();
+		return BigDecimal.valueOf( Math.tanh( a ) );
 	}
 
 	public static BigDecimal fun_DEGREES( BigDecimal _a, MathContext _cx )
@@ -225,6 +261,11 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			return ZERO; // Excel #NUM!
 		}
 		return a.setScale( 0, RoundingMode.DOWN ).multiply( _significance, _cx );
+	}
+
+	public static BigDecimal fun_RAND()
+	{
+		return BigDecimal.valueOf(generator.nextDouble());
 	}
 
 	public static BigDecimal fun_ROUND( final BigDecimal _val, final BigDecimal _maxFrac )

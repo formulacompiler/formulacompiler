@@ -29,6 +29,7 @@ import java.text.ParsePosition;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,6 +47,7 @@ public abstract class Runtime_v2
 	static final int UTC_OFFSET_DAYS = 25569;
 	static final int UTC_OFFSET_DAYS_1904 = 24107;
 	static final boolean BASED_ON_1904 = false;
+	protected static Random generator = new Random();
 
 	private static final BigDecimal MAX_EXP_VALUE = BigDecimal.valueOf( 1, 4 ); //1E-4
 

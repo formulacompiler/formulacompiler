@@ -281,14 +281,29 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v2.fun_ACOS( a );
 	}
 
+	public double fun_ACOSH( double a )
+	{
+		return RuntimeDouble_v2.fun_ACOSH( a );
+	}
+
 	public double fun_ASIN( double a )
 	{
 		return RuntimeDouble_v2.fun_ASIN( a );
 	}
 
+	public double fun_ASINH( double a )
+	{
+		return RuntimeDouble_v2.fun_ASINH( a );
+	}
+
 	public double fun_ATAN( double a )
 	{
 		return Math.atan( a );
+	}
+
+	public double fun_ATANH( double a )
+	{
+		return RuntimeDouble_v2.fun_ATANH( a );
 	}
 
 	public double fun_ATAN2( double x, double y )
@@ -301,14 +316,34 @@ public final class ExpressionTemplatesForDoubles
 		return Math.cos( a );
 	}
 
+	public double fun_COSH( double a )
+	{
+		return Math.cosh( a );
+	}
+
 	public double fun_SIN( double a )
 	{
 		return Math.sin( a );
 	}
 
+	public double fun_SINH( double a )
+	{
+		return RuntimeDouble_v2.fun_SINH( a );
+	}
+
+	public double fun_SIGN( double _a )
+	{
+		return Math.signum( _a );
+	}
+
 	public double fun_TAN( double a )
 	{
 		return Math.tan( a );
+	}
+
+	public double fun_TANH( double a )
+	{
+		return Math.tanh( a );
 	}
 
 	public double fun_DEGREES( double a )
@@ -319,6 +354,11 @@ public final class ExpressionTemplatesForDoubles
 	public double fun_RADIANS( double a )
 	{
 		return Math.toRadians( a );
+	}
+
+	public double fun_RAND()
+	{
+		return RuntimeDouble_v2.fun_RAND();
 	}
 
 	public double fun_PI()
