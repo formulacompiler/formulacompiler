@@ -48,6 +48,7 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		defineAggregators();
 		defineFinancial();
 		defineStatistical();
+		defineMathematical();
 
 		// Please leave this rule here. It is cited into the documentation.
 		// ---- fun_COMBIN
@@ -457,6 +458,48 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 			body( ")" );
 		}
 		end();
+
+	}
+
+	private void defineMathematical() throws Exception
+	{
+		begin( Function.GEOMEAN, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "  _LET( m: PRODUCT(`xs);" );
+			body( "    IF( OR( `n = 0, `m < 0 ), 0," );
+			body( "       POWER( `m, 1 / `n ))" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
+
+		begin( Function.HARMEAN, "xs*" );
+		{
+			body( "_LET( n: COUNT(`xs);" );
+			body( "  _LET( m: PRODUCT(`xs);" );
+			body( "    IF( OR( `n = 0, `m <= 0 ), 0," );
+			body( "      `n / _FOLD( r: 0; xi: 1 / `xi + `r; `xs ) " );
+			body( "    )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
+
+		begin( Function.PERMUT, "n", "k" );
+		{
+			body( "_LET( ni: INT(`n);" );
+			body( "  _LET( ki: INT(`k);" );
+			body( "    IF( OR( `ni < 0, `ki < 0 ), 0," );
+			body( "      IF( `ni < `ki, 0," );
+			body( "        FACT( `ni ) / FACT( `ni - `ki )" );
+			body( "      )" );
+			body( "    )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
+
 	}
 
 

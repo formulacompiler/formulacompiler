@@ -62,6 +62,11 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return roundDown( a ) * _significance;
 	}
 
+	public static double fun_RAND()
+	{
+		return generator.nextDouble();
+	}
+
 	// Leave this comment in. It is used to cite the code into the documentation.
 	// ---- round
 	public static double round( final double _val, final int _maxFrac )
@@ -86,6 +91,42 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	{
 		final double shift = pow10( _maxFrac );
 		return roundUp( _val * shift ) / shift;
+	}
+
+	// In case a>709 Excel returns error (too large value)
+	public static double fun_SINH( final double a )
+	{
+		if (a > 709) {
+			return 0;
+		}
+		else {
+			return Math.sinh( a );
+		}
+	}
+
+	public static double fun_ACOSH( final double a )
+	{
+		if (a < 1) {
+			return 0;
+		}
+		else {
+			return Math.log( a + Math.sqrt( a * a - 1 ) );
+		}
+	}
+
+	public static double fun_ASINH( final double a )
+	{
+		return Math.log( a + Math.sqrt( a * a + 1 ) );
+	}
+
+	public static double fun_ATANH( final double a )
+	{
+		if (a <= -1 | a >= 1) {
+			return 0;
+		}
+		else {
+			return Math.log( (1 + a) / (1 - a) ) / 2;
+		}
 	}
 
 	public static double trunc( final double _val, final int _maxFrac )

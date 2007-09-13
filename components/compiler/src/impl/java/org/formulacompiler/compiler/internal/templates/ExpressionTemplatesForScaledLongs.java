@@ -20,8 +20,6 @@
  */
 package org.formulacompiler.compiler.internal.templates;
 
-import static org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2.HIGHPREC;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
@@ -30,6 +28,7 @@ import org.formulacompiler.runtime.internal.ComputationTime;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeLong_v2;
 import org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2;
+import static org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2.HIGHPREC;
 
 
 public final class ExpressionTemplatesForScaledLongs
@@ -346,14 +345,29 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_ACOS( a, this.context );
 	}
 
+	public long fun_ACOSH( long a )
+	{
+		return RuntimeLong_v2.fun_ACOSH( a, this.context );
+	}
+
 	public long fun_ASIN( long a )
 	{
 		return RuntimeLong_v2.fun_ASIN( a, this.context );
 	}
 
+	public long fun_ASINH( long a )
+	{
+		return RuntimeLong_v2.fun_ASINH( a, this.context );
+	}
+
 	public long fun_ATAN( long a )
 	{
 		return RuntimeLong_v2.fun_ATAN( a, this.context );
+	}
+
+	public long fun_ATANH( long a )
+	{
+		return RuntimeLong_v2.fun_ATANH( a, this.context );
 	}
 
 	public long fun_ATAN2( long x, long y )
@@ -366,14 +380,34 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_COS( a, this.context );
 	}
 
+	public long fun_COSH( long a )
+	{
+		return RuntimeLong_v2.fun_COSH( a, this.context );
+	}
+
 	public long fun_SIN( long a )
 	{
 		return RuntimeLong_v2.fun_SIN( a, this.context );
 	}
 
+	public long fun_SINH( long a )
+	{
+		return RuntimeLong_v2.fun_SINH( a, this.context );
+	}
+
+	public long fun_SIGN( long _date )
+	{
+		return RuntimeLong_v2.fun_SIGN( _date, this.context );
+	}
+
 	public long fun_TAN( long a )
 	{
 		return RuntimeLong_v2.fun_TAN( a, this.context );
+	}
+
+	public long fun_TANH( long a )
+	{
+		return RuntimeLong_v2.fun_TANH( a, this.context );
 	}
 
 	public long fun_DEGREES( long a )
@@ -399,6 +433,11 @@ public final class ExpressionTemplatesForScaledLongs
 	public long fun_FLOOR( long _number, long _significance )
 	{
 		return RuntimeLong_v2.fun_FLOOR( _number, _significance, this.context );
+	}
+
+	public long fun_RAND()
+	{
+		return RuntimeLong_v2.fun_RAND( this.context );
 	}
 
 	public long fun_ROUND( long a, long b )
