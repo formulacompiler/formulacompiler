@@ -1,0 +1,460 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>Peter Arrenbrecht</Author>
+  <LastAuthor>vkorenev</LastAuthor>
+  <Created>2005-11-22T20:05:38Z</Created>
+  <LastSaved>2007-07-19T11:43:03Z</LastSaved>
+  <Company>Opus Software AG</Company>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>13080</WindowHeight>
+  <WindowWidth>14460</WindowWidth>
+  <WindowTopX>360</WindowTopX>
+  <WindowTopY>90</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s23">
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Italic="1"/>
+  </Style>
+  <Style ss:ID="s24">
+   <Alignment ss:Vertical="Center"/>
+   <Font ss:FontName="Verdana" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s25">
+   <Alignment ss:Vertical="Center"/>
+   <Font ss:FontName="Verdana" ss:Italic="1" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s26">
+   <NumberFormat ss:Format="Short Date"/>
+  </Style>
+  <Style ss:ID="s27">
+   <NumberFormat/>
+  </Style>
+  <Style ss:ID="s28">
+   <NumberFormat ss:Format="dd/mm/yy\ h:mm;@"/>
+  </Style>
+  <Style ss:ID="s29">
+   <NumberFormat ss:Format="[$-F400]h:mm:ss\ AM/PM"/>
+  </Style>
+  <Style ss:ID="s30">
+   <NumberFormat ss:Format="h:mm:ss"/>
+  </Style>
+  <Style ss:ID="s31">
+   <NumberFormat ss:Format="yyyy\-mm\-dd\ h:mm:ss"/>
+  </Style>
+  <Style ss:ID="s32">
+   <NumberFormat ss:Format="yyyy\-mm\-dd\ hh:mm:ss;@"/>
+  </Style>
+  <Style ss:ID="s33">
+   <Alignment ss:Vertical="Center"/>
+   <Font ss:FontName="Verdana" ss:Underline="Single"/>
+   <NumberFormat/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="68" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:AutoFitWidth="0" ss:Width="93.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="125.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="130.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="36.75" ss:Span="5"/>
+   <Column ss:Index="10" ss:StyleID="s23" ss:AutoFitWidth="0" ss:Width="61.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="145.5"/>
+   <Row ss:AutoFitHeight="0" ss:Height="25.5" ss:StyleID="s24">
+    <Cell><Data ss:Type="String">Expected</Data></Cell>
+    <Cell><Data ss:Type="String">Actual</Data></Cell>
+    <Cell><Data ss:Type="String">Inputs</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s25"><Data ss:Type="String"># of Inputs</Data></Cell>
+    <Cell><Data ss:Type="String">Name</Data></Cell>
+    <Cell><Data ss:Type="String">Highlight</Data></Cell>
+    <Cell ss:StyleID="s33"><Data ss:Type="String">Excel says</Data></Cell>
+    <Cell><Data ss:Type="String">Skip for</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">(now)</Data></Cell>
+    <Cell ss:StyleID="s32" ss:Formula="=NOW()"><Data ss:Type="DateTime">2007-09-13T15:46:23.420</Data></Cell>
+    <Cell ss:StyleID="s26"/>
+    <Cell ss:Index="10"><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="String">NOW</Data></Cell>
+    <Cell><Data ss:Type="String">NOW</Data></Cell>
+   </Row>
+   <Row ss:Index="4">
+    <Cell><Data ss:Type="String">(full days from 2006)</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=TODAY()-RC[1]"><Data ss:Type="Number">620</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">2006-01-01T00:00:00.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">TODAY (compared to 1.1.2006)</Data></Cell>
+    <Cell><Data ss:Type="String">TODAY</Data></Cell>
+   </Row>
+   <Row ss:Index="6">
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">2007-12-31T00:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=DATE(RC[1],RC[2],RC[3])"><Data
+      ss:Type="DateTime">2007-12-31T00:00:00.000</Data></Cell>
+    <Cell><Data ss:Type="Number">2007</Data></Cell>
+    <Cell><Data ss:Type="Number">12</Data></Cell>
+    <Cell><Data ss:Type="Number">31</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">DATE</Data></Cell>
+    <Cell><Data ss:Type="String">DATE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">1961-04-12T00:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=DATE(RC[1],RC[2],RC[3])"><Data
+      ss:Type="DateTime">1961-04-12T00:00:00.000</Data></Cell>
+    <Cell><Data ss:Type="Number">1961</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">12</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">1907-06-05T00:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=DATE(RC[1],RC[2],RC[3])"><Data
+      ss:Type="DateTime">1907-06-05T00:00:00.000</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">2005-01-04T00:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=DATE(RC[1],RC[2],RC[3])"><Data
+      ss:Type="DateTime">2005-01-04T00:00:00.000</Data></Cell>
+    <Cell><Data ss:Type="Number">2003</Data></Cell>
+    <Cell><Data ss:Type="Number">23</Data></Cell>
+    <Cell><Data ss:Type="Number">65</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">2006-11-19T00:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=DATE(RC[1],RC[2],RC[3])"><Data
+      ss:Type="DateTime">2006-11-19T00:00:00.000</Data></Cell>
+    <Cell><Data ss:Type="Number">2008</Data></Cell>
+    <Cell><Data ss:Type="Number">-10</Data></Cell>
+    <Cell><Data ss:Type="Number">-73</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s26"/>
+    <Cell ss:StyleID="s26"/>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s29"><Data ss:Type="DateTime">1899-12-31T02:03:04.000</Data></Cell>
+    <Cell ss:StyleID="s29" ss:Formula="=TIME(RC[1],RC[2],RC[3])"><Data
+      ss:Type="DateTime">1899-12-31T02:03:04.000</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">TIME</Data></Cell>
+    <Cell><Data ss:Type="String">TIME</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s29"><Data ss:Type="DateTime">1899-12-31T16:55:59.000</Data></Cell>
+    <Cell ss:StyleID="s29" ss:Formula="=TIME(RC[1],RC[2],RC[3])"><Data
+      ss:Type="DateTime">1899-12-31T16:55:59.000</Data></Cell>
+    <Cell><Data ss:Type="Number">16</Data></Cell>
+    <Cell><Data ss:Type="Number">55</Data></Cell>
+    <Cell><Data ss:Type="Number">59</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s29"><Data ss:Type="DateTime">1899-12-31T16:19:16.000</Data></Cell>
+    <Cell ss:StyleID="s29" ss:Formula="=TIME(RC[1],RC[2],RC[3])"><Data
+      ss:Type="DateTime">1899-12-31T16:19:16.000</Data></Cell>
+    <Cell><Data ss:Type="Number">39</Data></Cell>
+    <Cell><Data ss:Type="Number">78</Data></Cell>
+    <Cell><Data ss:Type="Number">76</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s29"><Data ss:Type="DateTime">1899-12-31T23:33:20.000</Data></Cell>
+    <Cell ss:StyleID="s29" ss:Formula="=TIME(RC[1],RC[2],RC[3])"><Data
+      ss:Type="DateTime">1899-12-31T23:33:20.000</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">-200</Data></Cell>
+    <Cell><Data ss:Type="Number">-4000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row ss:Index="17">
+    <Cell><Data ss:Type="Number">45</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=SECOND(RC[1])"><Data ss:Type="Number">45</Data></Cell>
+    <Cell ss:StyleID="s30"><Data ss:Type="DateTime">1899-12-31T12:30:45.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">SECOND</Data></Cell>
+    <Cell><Data ss:Type="String">SECOND</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=SECOND(RC[1])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s31"><Data ss:Type="DateTime">1996-06-06T12:00:00.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">59</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=SECOND(RC[1])"><Data ss:Type="Number">59</Data></Cell>
+    <Cell ss:StyleID="s31"><Data ss:Type="DateTime">1909-12-31T23:59:59.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">59</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=SECOND(RC[1])"><Data ss:Type="Number">59</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">3653.9999939999998</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=SECOND(RC[1])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">3653.9999950000001</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s27"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">30</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=MINUTE(RC[1])"><Data ss:Type="Number">30</Data></Cell>
+    <Cell ss:StyleID="s30"><Data ss:Type="DateTime">1899-12-31T12:30:45.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">MINUTE</Data></Cell>
+    <Cell><Data ss:Type="String">MINUTE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=MINUTE(RC[1])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s31"><Data ss:Type="DateTime">1996-06-06T12:00:00.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">59</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=MINUTE(RC[1])"><Data ss:Type="Number">59</Data></Cell>
+    <Cell ss:StyleID="s31"><Data ss:Type="DateTime">1909-12-31T23:59:59.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">59</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=MINUTE(RC[1])"><Data ss:Type="Number">59</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">3653.9999939999998</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=MINUTE(RC[1])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">3653.9999950000001</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s27"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">12</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=HOUR(RC[1])"><Data ss:Type="Number">12</Data></Cell>
+    <Cell ss:StyleID="s30"><Data ss:Type="DateTime">1899-12-31T12:30:45.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">HOUR</Data></Cell>
+    <Cell><Data ss:Type="String">HOUR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">12</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=HOUR(RC[1])"><Data ss:Type="Number">12</Data></Cell>
+    <Cell ss:StyleID="s31"><Data ss:Type="DateTime">1996-06-06T12:00:00.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">23</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=HOUR(RC[1])"><Data ss:Type="Number">23</Data></Cell>
+    <Cell ss:StyleID="s31"><Data ss:Type="DateTime">1909-12-31T23:59:59.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">23</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=HOUR(RC[1])"><Data ss:Type="Number">23</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">3653.9999939999998</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=HOUR(RC[1])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">3653.9999950000001</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:Index="35">
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=WEEKDAY(RC[1])"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">2008-01-05T00:00:00.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">WEEKDAY</Data></Cell>
+    <Cell><Data ss:Type="String">WEEKDAY</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=WEEKDAY(RC[1])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">2008-01-06T00:00:00.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=WEEKDAY(RC[1],RC[2])"><Data
+      ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">2008-01-05T00:00:00.000</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=WEEKDAY(RC[1],RC[2])"><Data
+      ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">2008-01-06T00:00:00.000</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=WEEKDAY(RC[1],RC[2])"><Data
+      ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">2008-01-06T00:00:00.000</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=WEEKDAY(RC[1],RC[2])"><Data
+      ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">2008-01-07T00:00:00.000</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=WEEKDAY(RC[1],RC[2])"><Data
+      ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">2008-01-06T00:00:00.000</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=WEEKDAY(RC[1],RC[2])"><Data
+      ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">2008-01-07T00:00:00.000</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row ss:Index="44">
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=DAY(RC[1])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">2010-01-01T00:00:00.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">DAY</Data></Cell>
+    <Cell><Data ss:Type="String">DAY</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=DAY(RC[1])"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="DateTime">1996-06-06T12:00:00.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">31</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=DAY(RC[1])"><Data ss:Type="Number">31</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">1909-12-31T00:00:00.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s27"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=MONTH(RC[1])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">2010-01-01T00:00:00.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">MONTH</Data></Cell>
+    <Cell><Data ss:Type="String">MONTH</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=MONTH(RC[1])"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="DateTime">1996-06-06T12:00:00.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">12</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=MONTH(RC[1])"><Data ss:Type="Number">12</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">1909-12-31T00:00:00.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s27"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2010</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=YEAR(RC[1])"><Data ss:Type="Number">2010</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">2010-01-01T00:00:00.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">YEAR</Data></Cell>
+    <Cell><Data ss:Type="String">YEAR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1996</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=YEAR(RC[1])"><Data ss:Type="Number">1996</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="DateTime">1996-06-06T12:00:00.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1909</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=YEAR(RC[1])"><Data ss:Type="Number">1909</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="DateTime">1909-12-31T00:00:00.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:Index="61">
+    <Cell ss:Index="3" ss:StyleID="s29"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s29"/>
+   </Row>
+   <Row ss:Index="68">
+    <Cell ss:Index="3" ss:StyleID="s29"/>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveCol>12</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+  <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
+   <Range>R26C3:R27C9,R52C3:R54C3,R34C4:R47C9,R4C4:R22C9,R4C3:R25C3,R29C3:R31C3,R34C3:R50C3,R32C3:R33C9,R2C3:R3C9</Range>
+   <Condition>
+    <Value1>RC10&gt;COLUMN(RC)-3</Value1>
+    <Format Style='background:#CCFFCC'/>
+   </Condition>
+  </ConditionalFormatting>
+ </Worksheet>
+</Workbook>

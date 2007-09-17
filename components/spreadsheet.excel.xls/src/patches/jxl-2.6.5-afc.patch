@@ -1,0 +1,232 @@
+diff -r 36cdddf74514 .hgtags
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/.hgtags	Tue Aug 28 16:32:00 2007 +0300
+@@ -0,0 +1,1 @@
++36cdddf74514430c65f636a1cb541b331d86a036 2.6.5
+diff -r 36cdddf74514 src/jxl/DateCell.java
+--- a/src/jxl/DateCell.java	Tue Aug 28 15:16:42 2007 +0200
++++ b/src/jxl/DateCell.java	Tue Aug 28 16:32:02 2007 +0300
+@@ -35,6 +35,13 @@ public interface DateCell extends Cell
+   public Date getDate();
+ 
+   /**
++   * Gets the contents for this cell as a number.
++   *
++   * @return the cell contents
++   */
++  public double getValue();
++
++  /**
+    * Indicates whether the date value contained in this cell refers to a date,
+    * or merely a time
+    *
+diff -r 36cdddf74514 src/jxl/biff/formula/Attribute.java
+--- a/src/jxl/biff/formula/Attribute.java	Tue Aug 28 15:16:42 2007 +0200
++++ b/src/jxl/biff/formula/Attribute.java	Tue Aug 28 16:32:02 2007 +0300
+@@ -54,6 +54,7 @@ class Attribute extends Operator impleme
+ 
+   private static final int SUM_MASK  = 0x10;
+   private static final int IF_MASK   = 0x02;
++  private static final int CHOOSE_MASK = 0x04;
+   private static final int GOTO_MASK = 0x08;
+ 
+   /**
+@@ -116,7 +117,11 @@ class Attribute extends Operator impleme
+   {
+     options = data[pos];
+     word = IntegerHelper.getInt(data[pos + 1], data[pos + 2]);
+-    return 3;
++    if (!isChoose()) return 3;
++    // See http://sc.openoffice.org/excelfileformat.pdf, page 69
++    // "word" contains the number of jumps by index.
++    // And there is an additional final jump to the choose function itself.
++    return 3 + (word + 1) * 2;
+   }
+ 
+   /**
+@@ -147,6 +152,16 @@ class Attribute extends Operator impleme
+   public boolean isIf()
+   {
+     return (options & IF_MASK) != 0;
++  }
++
++  /**
++   * Queries whether this attribute is a CHOOSE
++   *
++   * @return TRUE if this is a CHOOSE, FALSE otherwise
++   */
++  public boolean isChoose()
++  {
++    return (options & CHOOSE_MASK) != 0;
+   }
+ 
+   /**
+diff -r 36cdddf74514 src/jxl/biff/formula/Function.java
+--- a/src/jxl/biff/formula/Function.java	Tue Aug 28 15:16:42 2007 +0200
++++ b/src/jxl/biff/formula/Function.java	Wed Aug 29 12:57:02 2007 +0300
+@@ -293,8 +293,10 @@ final class Function
+     new Function(0x3b, "pmt", 0xff);
+   public static final Function RATE =
+     new Function(0x3c, "rate", 0xff);
+-  //public static final Function MIRR =  new Function(0x3d, "MIRR",);
+-  //public static final Function IRR =  new Function(0x3e, "IRR",);
++  public static final Function MIRR =
++    new Function(0x3d, "mirr", 3);
++  public static final Function IRR =
++    new Function(0x3e, "irr", 2);
+   public static final Function RAND =
+     new Function(0x3f, "rand", 0);
+   public static final Function MATCH =
+@@ -349,7 +351,7 @@ final class Function
+   //public static final Function SELECTION =  new Function(0x5f,"SELECTION",);
+   //public static final Function RESULT =  new Function(0x60, "RESULT",);
+   public static final Function ATAN2  =
+-    new Function(0x61, "atan2", 1);
++    new Function(0x61, "atan2", 2);
+   public static final Function ASIN =
+     new Function(0x62, "asin", 1);
+   public static final Function ACOS =
+@@ -425,7 +427,7 @@ final class Function
+   public static final Function SLN =
+     new Function(0x8e, "sln", 3);
+   public static final Function SYD =
+-    new Function(0x8f, "syd", 3);
++    new Function(0x8f, "syd", 4);
+   public static final Function DDB =
+     new Function(0x90, "ddb", 0xff);
+   //public static final Function GETDEF =  new Function(0x91, "GETDEF",);
+@@ -545,6 +547,8 @@ final class Function
+     new Function(0xea, "atanh", 1);
+   public static final Function INFO =
+     new Function(0xf4, "info", 1);
++  public static final Function DB =
++	new Function(0xf7, "db", 0xff);
+   public static final Function AVEDEV =
+     new Function(0x10d, "avedev", 0XFF);
+   public static final Function BETADIST =
+@@ -624,7 +628,7 @@ final class Function
+   public static final Function CORREL =
+     new Function(0x133, "correl", 0xff);
+   public static final Function COVAR =
+-    new Function(0x134, "covar", 0xff);
++    new Function(0x134, "covar", 2);
+   public static final Function FORECAST =
+     new Function(0x135, "forecast", 0xff);
+   public static final Function FTEST =
+@@ -670,7 +674,7 @@ final class Function
+   public static final Function MODE =
+     new Function(0x14a, "mode", 0xff);
+   public static final Function TRIMMEAN =
+-    new Function(0x14b, "trimmean", 0xff);
++    new Function(0x14b, "trimmean", 2);
+   public static final Function TINV =
+     new Function(0x14c, "tinv", 2);
+   public static final Function CONCATENATE =
+diff -r 36cdddf74514 src/jxl/read/biff/DateFormulaRecord.java
+--- a/src/jxl/read/biff/DateFormulaRecord.java	Tue Aug 28 15:16:42 2007 +0200
++++ b/src/jxl/read/biff/DateFormulaRecord.java	Tue Aug 28 16:32:02 2007 +0300
+@@ -130,16 +130,6 @@ class DateFormulaRecord extends DateReco
+   }
+ 
+   /**
+-   * Interface method which returns the value
+-   *
+-   * @return the last calculated value of the formula
+-   */
+-  public double getValue()
+-  {
+-    return 0;
+-  }
+-
+-  /**
+    * Dummy implementation in order to adhere to the NumberCell interface
+    *
+    * @return NULL
+diff -r 36cdddf74514 src/jxl/read/biff/DateRecord.java
+--- a/src/jxl/read/biff/DateRecord.java	Tue Aug 28 15:16:42 2007 +0200
++++ b/src/jxl/read/biff/DateRecord.java	Tue Aug 28 16:32:02 2007 +0300
+@@ -45,6 +45,10 @@ class DateRecord implements DateCell, Ce
+   private static Logger logger  = Logger.getLogger(DateRecord.class);
+ 
+   /**
++   * The excel value of the date
++   */
++  private double value;
++  /**
+    * The date represented within this cell
+    */
+   private Date date;
+@@ -143,6 +147,7 @@ class DateRecord implements DateCell, Ce
+   {
+     row = num.getRow();
+     column = num.getColumn();
++    value = num.getValue();
+     xfIndex = xfi;
+     formattingRecords = fr;
+     sheet = si;
+@@ -226,6 +231,16 @@ class DateRecord implements DateCell, Ce
+   }
+ 
+   /**
++   * Gets the contents for this cell as a number
++   *
++   * @return the cell contents
++   */
++  public double getValue()
++  {
++    return value;
++  }
++
++  /**
+    * Gets the cell contents as a string.  This method will use the java
+    * equivalent of the excel formatting string
+    *
+diff -r 36cdddf74514 src/jxl/write/biff/DateRecord.java
+--- a/src/jxl/write/biff/DateRecord.java	Tue Aug 28 15:16:42 2007 +0200
++++ b/src/jxl/write/biff/DateRecord.java	Tue Aug 28 16:32:02 2007 +0300
+@@ -36,7 +36,7 @@ import jxl.write.WritableCellFormat;
+ /**
+  * A date stored in the database
+  */
+-public abstract class DateRecord extends CellValue
++public abstract class DateRecord extends CellValue implements DateCell
+ {
+   /**
+    * The logger
+@@ -314,6 +314,16 @@ public abstract class DateRecord extends
+   }
+ 
+   /**
++   * Gets the contents for this cell as a number
++   *
++   * @return the cell contents
++   */
++  public double getValue()
++  {
++    return value;
++  }
++
++  /**
+    * Indicates whether the date value contained in this cell refers to a date,
+    * or merely a time.  When writing a cell, all dates are fully defined,
+    * even if they refer to a time
+diff -r 36cdddf74514 src/jxl/write/biff/ReadDateFormulaRecord.java
+--- a/src/jxl/write/biff/ReadDateFormulaRecord.java	Tue Aug 28 15:16:42 2007 +0200
++++ b/src/jxl/write/biff/ReadDateFormulaRecord.java	Tue Aug 28 16:32:02 2007 +0300
+@@ -52,6 +52,16 @@ class ReadDateFormulaRecord extends Read
+   }
+ 
+   /**
++   * Gets the contents for this cell as a number.
++   *
++   * @return the cell contents
++   */
++  public double getValue()
++  {
++    return ( (DateFormulaCell) getReadFormula()).getValue();
++  }
++
++  /**
+    * Indicates whether the date value contained in this cell refers to a date,
+    * or merely a time
+    *

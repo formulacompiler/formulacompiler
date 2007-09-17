@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>peo</Author>
+  <LastAuthor>vkorenev</LastAuthor>
+  <Created>2006-03-02T11:06:04Z</Created>
+  <LastSaved>2006-04-11T06:04:33Z</LastSaved>
+  <Company>arrenbrecht.ch</Company>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>9855</WindowHeight>
+  <WindowWidth>15180</WindowWidth>
+  <WindowTopX>120</WindowTopX>
+  <WindowTopY>15</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s21">
+   <Font x:Family="Swiss" ss:Bold="1" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s22">
+   <NumberFormat ss:Format="Short Date"/>
+  </Style>
+ </Styles>
+ <Names>
+  <NamedRange ss:Name="A" ss:RefersTo="=Sheet1!R10C2"/>
+  <NamedRange ss:Name="B" ss:RefersTo="=Sheet1!R11C2"/>
+  <NamedRange ss:Name="DATE_1994_8_1" ss:RefersTo="=Sheet1!R4C2"/>
+  <NamedRange ss:Name="FACT_5" ss:RefersTo="=Sheet1!R5C2"/>
+  <NamedRange ss:Name="ISOK" ss:RefersTo="=Sheet1!R13C2"/>
+  <NamedRange ss:Name="One" ss:RefersTo="=Sheet1!R2C2"/>
+  <NamedRange ss:Name="Two" ss:RefersTo="=Sheet1!R3C2"/>
+  <NamedRange ss:Name="WHEN" ss:RefersTo="=Sheet1!R12C2"/>
+ </Names>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="4" ss:ExpandedRowCount="13" x:FullColumns="1"
+   x:FullRows="1">
+   <Column ss:AutoFitWidth="0" ss:Width="87"/>
+   <Column ss:Width="53.25" ss:Span="2"/>
+   <Row ss:AutoFitHeight="0" ss:Height="18.75">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Input Block</Data></Cell>
+    <Cell><Data ss:Type="String">Actual</Data></Cell>
+    <Cell><Data ss:Type="String">Expected</Data></Cell>
+    <Cell><Data ss:Type="String">References</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">One</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data><NamedCell ss:Name="One"/></Cell>
+    <Cell><Data ss:Type="Number">13</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Two</Data></Cell>
+    <Cell><Data ss:Type="Number">110</Data><NamedCell ss:Name="Two"/></Cell>
+    <Cell><Data ss:Type="Number">14</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Aug 1, 1994</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="DateTime">2000-01-01T00:00:00.000</Data><NamedCell
+      ss:Name="DATE_1994_8_1"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="DateTime">1994-08-01T00:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="DateTime">1995-01-01T00:00:00.000</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Fact(5)</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data><NamedCell ss:Name="FACT_5"/></Cell>
+    <Cell ss:Formula="=FACT(5)"><Data ss:Type="Number">120</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="21">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Computation Block</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">DateIf</Data></Cell>
+    <Cell ss:Formula="=IF(DATE_1994_8_1&lt;R[-3]C4,100,10)"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Formula="=IF(R[-3]C&lt;R[-3]C4,100,10)"><Data ss:Type="Number">100</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Sum</Data></Cell>
+    <Cell ss:Formula="=SUM(R[-6]C:R[-5]C)"><Data ss:Type="Number">210</Data></Cell>
+    <Cell ss:Formula="=SUM(R[-6]C:R[-5]C)"><Data ss:Type="Number">27</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="22.5">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Results Block</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">A</Data></Cell>
+    <Cell ss:Formula="=SUM(R[-3]C:R[-2]C)"><Data ss:Type="Number">220</Data><NamedCell
+      ss:Name="A"/></Cell>
+    <Cell ss:Formula="=SUM(R[-3]C:R[-2]C)"><Data ss:Type="Number">127</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">B</Data></Cell>
+    <Cell ss:Formula="=R[-1]C+R[-6]C"><Data ss:Type="Number">320</Data><NamedCell
+      ss:Name="B"/></Cell>
+    <Cell ss:Formula="=R[-1]C+R[-6]C"><Data ss:Type="Number">247</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">WHEN</Data></Cell>
+    <Cell ss:StyleID="s22" ss:Formula="=R[-8]C-1"><Data ss:Type="DateTime">1999-12-31T00:00:00.000</Data><NamedCell
+      ss:Name="WHEN"/></Cell>
+    <Cell ss:StyleID="s22" ss:Formula="=R[-8]C-1"><Data ss:Type="DateTime">1994-07-31T00:00:00.000</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">ISOK</Data></Cell>
+    <Cell ss:Formula="=IF(R[-2]C=247,1,0)"><Data ss:Type="Number">0</Data><NamedCell
+      ss:Name="ISOK"/></Cell>
+    <Cell ss:Formula="=IF(R[-2]C=247,1,0)"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>300</HorizontalResolution>
+    <VerticalResolution>0</VerticalResolution>
+    <NumberofCopies>0</NumberofCopies>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>16</ActiveRow>
+     <ActiveCol>2</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Sheet2">
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Sheet3">
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

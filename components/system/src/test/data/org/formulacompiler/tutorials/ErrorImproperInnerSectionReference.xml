@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>peo</Author>
+  <LastAuthor>vkorenev</LastAuthor>
+  <Created>2006-12-15T10:24:36Z</Created>
+  <LastSaved>2006-12-29T14:16:33Z</LastSaved>
+  <Company>arrenbrecht.ch</Company>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>15480</WindowHeight>
+  <WindowWidth>19320</WindowWidth>
+  <WindowTopX>480</WindowTopX>
+  <WindowTopY>60</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s21">
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s22">
+   <Font ss:FontName="Verdana" x:Family="Swiss"/>
+  </Style>
+  <Style ss:ID="s23">
+   <Interior ss:Color="#FFFF99" ss:Pattern="Solid"/>
+  </Style>
+ </Styles>
+ <Names>
+  <NamedRange ss:Name="BadRange1" ss:RefersTo="=Sheet1!R11C2"/>
+  <NamedRange ss:Name="BadRange2" ss:RefersTo="=Sheet1!R12C2"/>
+  <NamedRange ss:Name="BadRange3" ss:RefersTo="=Sheet1!R13C2"/>
+  <NamedRange ss:Name="BadRange4" ss:RefersTo="=Sheet1!R14C2"/>
+  <NamedRange ss:Name="BadRef" ss:RefersTo="=Sheet1!R10C2"/>
+  <NamedRange ss:Name="GoodRef" ss:RefersTo="=Sheet1!R7C2"/>
+  <NamedRange ss:Name="Name" ss:RefersTo="=Sheet1!R2C2:R4C2"/>
+  <NamedRange ss:Name="Section" ss:RefersTo="=Sheet1!R2C2:R4C3"/>
+  <NamedRange ss:Name="Value" ss:RefersTo="=Sheet1!R2C3:R4C3"/>
+ </Names>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="14" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:Width="218.25"/>
+   <Column ss:Index="6" ss:Width="60"/>
+   <Column ss:Width="61.5"/>
+   <Row>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Vertically repeating section:</Data></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Name</Data></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Value</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s23"><Data ss:Type="String">One</Data><NamedCell
+      ss:Name="Name"/><NamedCell ss:Name="Section"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">1</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Value"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s23"><Data ss:Type="String">Two</Data><NamedCell
+      ss:Name="Name"/><NamedCell ss:Name="Section"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">2</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Value"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s23"><Data ss:Type="String">Three</Data><NamedCell
+      ss:Name="Name"/><NamedCell ss:Name="Section"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">3</Data><NamedCell
+      ss:Name="Section"/><NamedCell ss:Name="Value"/></Cell>
+   </Row>
+   <Row ss:Index="6">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">This works:</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">Aggregate entire column</Data></Cell>
+    <Cell ss:Formula="=SUM(R[-5]C[1]:R[-3]C[1])"><Data ss:Type="Number">6</Data><NamedCell
+      ss:Name="GoodRef"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">This is an error:</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">No aggregation</Data></Cell>
+    <Cell ss:Formula="=R[-8]C[1]"><Data ss:Type="Number">1</Data><NamedCell
+      ss:Name="BadRef"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">Not entire column (end bad)</Data></Cell>
+    <Cell ss:Formula="=SUM(R[-9]C[1]:R[-8]C[1])"><Data ss:Type="Number">3</Data><NamedCell
+      ss:Name="BadRange1"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">Not entire column (start bad)</Data></Cell>
+    <Cell ss:Formula="=SUM(R[-9]C[1]:R[-8]C[1])"><Data ss:Type="Number">5</Data><NamedCell
+      ss:Name="BadRange2"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">Not entire column (both bad)</Data></Cell>
+    <Cell ss:Formula="=SUM(R[-10]C[1]:R[-10]C[1])"><Data ss:Type="Number">2</Data><NamedCell
+      ss:Name="BadRange3"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">Not entire column (single cell)</Data></Cell>
+    <Cell ss:Formula="=SUM(R[-11]C[1])"><Data ss:Type="Number">2</Data><NamedCell
+      ss:Name="BadRange4"/></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>15</ActiveRow>
+     <RangeSelection>R16:R28</RangeSelection>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

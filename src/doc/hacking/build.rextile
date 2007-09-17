@@ -1,0 +1,47 @@
+
+h1. AFC's Build Process
+
+AFC comes with an "Ant":-ant build script in @build.xml@. This document lists the most important build targets. To run a build, you need to "setup the required tools":tools.htm first.
+
+To get a quick overview of all available build targets, run @ant -p@ in AFC's root folder. If you want to know more, I encourage you to look at @build.xml@. Skimming over the "file and folder list":files.htm first will help.
+
+The individual components also each have their own @components/xy/build.xml@. Again, run @ant -p@ in a component's folder to see the available targets.
+
+For consise output, run the targets with @ant -q ...@. Otherwise you will get swamped by intermediate target logs.
+
+<%= toc 2, 4 %>
+
+
+h2. Main Targets
+
+dt. build : is the default build target. It the .jars in @build/@ from the source code and updates the required external .jars in @build/lib/@ from their locations in the individual components.
+
+dt. test : builds the jars and runs all automated tests. This can take quite a while.
+
+dt. doc : rebuilds the documentation from scratch. You must have run @test@ first because some of the test results are cited directly into the documentation (in the "function reference":../reference/index.htm, for instance). This will take a while, too. See @doc-api@ and @doc-main@ below for faster options.
+
+dt. dist : rebuilds final distribution packages from scratch. It first erases all temporary and build files and then runs a full build, including tests, checks, and documentation, but _not_ code coverage analysis.
+
+dt. clean : removes all temporary build files, but not final output like @doc/@, @build/@, and @dist/@.
+
+dt. clobber : removes all build files, including final output.
+
+
+h2. Targets of Note
+
+dt. test-main : Like @test@, but skips the very time-consuming reference tests. Mainly useful as a quick smoke-test and as a prerequisite for code citing in @doc-main@.
+
+dt. doc-main : regenerates the HTML files in @doc/@ from @src/doc/@, except for the function reference. If cited elements have changed, they will be listed (so-called "tripwires":-tripwire). If you have set @jcite.differ@ in @build.properties@ (to @/usr/bin/diff@ for example), then you will see what has changed.
+
+dt. doc-main-accept : Like @doc-main@, but accepts changed citations and updates the tripwire database. Do this only after you have _verified documentation around changed citations_.
+
+dt. doc-img : updates the .png images from their "dot":-dot sources.
+
+dt. check-deps : Checks package dependency rules. These are generated from @src/scripts/components.yaml@. Builds first.
+
+dt. check-style : Checks source code style rules. They are specified in @src/checkstyle-*.xml@. Includes checks for missing header or javadoc comments.
+
+dt. cover-corbertura : runs code coverage analysis using "Cobertura":-cobertura. Slowish, but produces nice looking output. Like @test@, but instruments the product code for coverage analysis. Output is in @temp/coverage/@.
+
+dt. cover-emma : like @cover-cobertura@, but using "Emma":-emma. Faster.
+

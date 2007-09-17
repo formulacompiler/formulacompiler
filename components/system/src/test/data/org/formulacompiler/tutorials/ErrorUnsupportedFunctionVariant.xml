@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>peo</Author>
+  <LastAuthor>vkorenev</LastAuthor>
+  <Created>2006-09-12T11:24:59Z</Created>
+  <LastSaved>2006-09-13T12:02:37Z</LastSaved>
+  <Company>arrenbrecht.ch</Company>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <SupBook>
+   <Path>ErrorUnsupportedFunction.xls</Path>
+   <SheetName>Sheet1</SheetName>
+   <Xct>
+    <Count>1</Count>
+    <SheetIndex>0</SheetIndex>
+    <Crn>
+     <Row>3</Row>
+     <ColFirst>0</ColFirst>
+     <ColLast>0</ColLast>
+     <Number>11</Number>
+    </Crn>
+   </Xct>
+  </SupBook>
+  <WindowHeight>13935</WindowHeight>
+  <WindowWidth>19320</WindowWidth>
+  <WindowTopX>120</WindowTopX>
+  <WindowTopY>30</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+ </Styles>
+ <Names>
+  <NamedRange ss:Name="Bad" ss:RefersTo="=Sheet1!R1C1"/>
+  <NamedRange ss:Name="LookedFor" ss:RefersTo="=Sheet1!R1C2"/>
+  <NamedRange ss:Name="ReferencesBad" ss:RefersTo="=Sheet1!R2C1"/>
+  <NamedRange ss:Name="Type" ss:RefersTo="=Sheet1!R1C6"/>
+  <NamedRange ss:Name="Unsupported"
+   ss:RefersTo="=[ErrorUnsupportedFunction.xls]Sheet1!R4C1"/>
+ </Names>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="6" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:Width="67.5"/>
+   <Row>
+    <Cell ss:Formula="=1+MATCH(RC[1],RC[2]:RC[4],RC[5])"><Data ss:Type="Number">3</Data><NamedCell
+      ss:Name="Bad"/></Cell>
+    <Cell><Data ss:Type="Number">20</Data><NamedCell ss:Name="LookedFor"/></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">20</Data></Cell>
+    <Cell><Data ss:Type="Number">30</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data><NamedCell ss:Name="Type"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Formula="=R[-1]C*2"><Data ss:Type="Number">6</Data><NamedCell
+      ss:Name="ReferencesBad"/></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>1</ActiveRow>
+     <ActiveCol>1</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

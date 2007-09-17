@@ -1,0 +1,237 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>Peter Arrenbrecht</Author>
+  <LastAuthor>vkorenev</LastAuthor>
+  <Created>2005-11-22T20:05:38Z</Created>
+  <LastSaved>2007-08-22T14:01:51Z</LastSaved>
+  <Company>Opus Software AG</Company>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>13905</WindowHeight>
+  <WindowWidth>14460</WindowWidth>
+  <WindowTopX>360</WindowTopX>
+  <WindowTopY>90</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s21">
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s22">
+   <NumberFormat ss:Format="Fixed"/>
+  </Style>
+  <Style ss:ID="s23">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Italic="1"/>
+  </Style>
+ </Styles>
+ <Names>
+  <NamedRange ss:Name="BaseData" ss:RefersTo="=Sheet1!R2C1:R13C7"/>
+  <NamedRange ss:Name="Data1" ss:RefersTo="=Sheet1!R3C2:R4C5"/>
+  <NamedRange ss:Name="TestHeader" ss:RefersTo="=Sheet1!R15C2:R15C8"/>
+  <NamedRange ss:Name="Vals1" ss:RefersTo="=Sheet1!R11C2:R12C2"/>
+  <NamedRange ss:Name="Vals2" ss:RefersTo="=Sheet1!#REF!"/>
+ </Names>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="8" ss:ExpandedRowCount="25" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:AutoFitWidth="0" ss:Width="98.25"/>
+   <Column ss:Index="3" ss:AutoFitWidth="0" ss:Width="84.75"/>
+   <Row ss:Index="2">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Test table</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Tree</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Height</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Yield</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Profit</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Apple</Data><NamedCell
+      ss:Name="Data1"/><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">18</Data><NamedCell ss:Name="Data1"/><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">14</Data><NamedCell ss:Name="Data1"/><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">105</Data><NamedCell
+      ss:Name="Data1"/><NamedCell ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Pear</Data><NamedCell ss:Name="Data1"/><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">12</Data><NamedCell ss:Name="Data1"/><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">10</Data><NamedCell ss:Name="Data1"/><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">96</Data><NamedCell
+      ss:Name="Data1"/><NamedCell ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Cherry</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">13</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">9</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">105</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Apple</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">14</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">10</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">75</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Pear</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">9</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">8</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">76.8</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Apple</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">8</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">6</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">45</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row ss:Index="10">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Criteria sets</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Tree</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Height</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Height</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Tree</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Height</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Apple</Data><NamedCell
+      ss:Name="Vals1"/><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="String">&gt;10,0</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="String">&lt;16</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="String">Nonexistent</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="String">&lt;1,4e6</Data><NamedCell ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Pear</Data><NamedCell ss:Name="Vals1"/><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:Index="4"><Data ss:Type="String">&lt;1.000</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row ss:Index="15">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Tests</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Expected</Data><NamedCell
+      ss:Name="TestHeader"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Actual</Data><NamedCell
+      ss:Name="TestHeader"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Column</Data><NamedCell
+      ss:Name="TestHeader"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Table</Data><NamedCell
+      ss:Name="TestHeader"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Criteria</Data><NamedCell
+      ss:Name="TestHeader"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Name</Data><NamedCell
+      ss:Name="TestHeader"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Highlight</Data><NamedCell
+      ss:Name="TestHeader"/></Cell>
+   </Row>
+   <Row ss:Index="17">
+    <Cell ss:Index="2"><Data ss:Type="Number">247.8</Data></Cell>
+    <Cell ss:Formula="=DSUM(R[-15]C[-1]:R[-9]C[2],&quot;Profit&quot;,R[-7]C[-1]:R[-5]C[1])"><Data
+      ss:Type="Number">247.8</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">DSUM</Data></Cell>
+    <Cell><Data ss:Type="String">DSUM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=DSUM(R[-16]C[-1]:R[-10]C[2],&quot;Profit&quot;,R[-8]C[2]:R[-7]C[2])"><Data
+      ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">247.8</Data></Cell>
+    <Cell ss:Formula="=DSUM(R[-17]C[-1]:R[-11]C[2],RC[1],R[-9]C[-1]:R[-7]C[1])"><Data
+      ss:Type="Number">247.8</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">Data1</Data></Cell>
+    <Cell><Data ss:Type="String">Vals1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">28</Data></Cell>
+    <Cell ss:Formula="=DSUM(R[-18]C[-1]:R[-12]C[2],&quot;Yield&quot;,R[-10]C[-1]:R[-8]C[1])"><Data
+      ss:Type="Number">28</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">30</Data></Cell>
+    <Cell
+     ss:Formula="=DSUM(R[-19]C[-1]:R[-13]C[2],&quot;Yield&quot;,R[-11]C[-1]:R[-10]C[-1])"><Data
+      ss:Type="Number">30</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">29</Data></Cell>
+    <Cell ss:Formula="=DSUM(R[-20]C[-1]:R[-14]C[2],&quot;Yield&quot;,R[-12]C:R[-11]C[1])"><Data
+      ss:Type="Number">29</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Formula="=DSUM(R[-21]C[-1]:R[-15]C[2],&quot;Yield&quot;,R[-13]C[-1]:R[-12]C[1])"><Data
+      ss:Type="Number">10</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">48</Data></Cell>
+    <Cell
+     ss:Formula="=DSUM(R[-22]C[-1]:R[-16]C[2],&quot;Yield&quot;,R[-14]C[-1]:R[-12]C[-1])"><Data
+      ss:Type="Number">48</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">57</Data></Cell>
+    <Cell ss:Formula="=DSUM(R[-23]C[-1]:R[-17]C[2],&quot;Yield&quot;,R[-15]C[3]:R[-14]C[3])"><Data
+      ss:Type="Number">57</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>26</ActiveRow>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>
