@@ -17,11 +17,12 @@ h5. *Changed!*
 [-failif]javadoc/org/formulacompiler/spreadsheet/EngineBuilder.html#failIfByNameBindingLeftNamedCellsUnbound()
 
 h5. New
-
+	
 	* @SUMSQ()@ is now "supported":reference/aggregators.htm.
 	* @CONFIDENCE()@, @NORMDIST()@, @NORMSDIST()@, @LOGNORMSDIST()@, @NORMINV()@, @NORMSINV()@, @LOGINV()@, @AVEDEV()@, @DEVSQ()@, and @RANK()@ are now "supported":reference/statisticalfuncs.htm.
 	* By name binding now supports "binding only cells with a given input and output prefix":-bindprefix.
 	* You can now tell AFC to compile to more readable code when "decompiled":tutorial/decompile.htm.
+	* @ACOSH()@, @ASINH()@, @ATANH()@, @SINH()@, @COSH()@, @TANH()@, @GEOMEAN()@, @HARMEAN()@, @PERMUT()@, @RAND()@ and @SIGN()@ are now "supported":reference/numfuncs.htm.
 
 [-bindprefix]javadoc/org/formulacompiler/spreadsheet/EngineBuilder.html#bindAllByName(java.lang.String,%20java.lang.String)
 
