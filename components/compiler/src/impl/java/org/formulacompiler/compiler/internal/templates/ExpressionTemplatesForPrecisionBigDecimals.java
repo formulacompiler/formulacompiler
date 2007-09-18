@@ -184,6 +184,25 @@ public final class ExpressionTemplatesForPrecisionBigDecimals extends AbstractEx
 		return RuntimePrecisionBigDecimal_v2.fun_DDB( _cost, _salvage, _life, _period, TWO, this.mathContext );
 	}
 
+	public BigDecimal fun_VDB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _start_period, BigDecimal _end_period,
+			BigDecimal _factor, BigDecimal _no_switch )
+	{
+		boolean no_switch = _no_switch.intValue() == 0 ? false : true;
+		return RuntimePrecisionBigDecimal_v2.fun_VDB( _cost, _salvage, _life, _start_period, _end_period, _factor, no_switch, this.mathContext );
+	}
+
+	public BigDecimal fun_VDB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _start_period, BigDecimal _end_period,
+			BigDecimal _factor )
+	{
+		return RuntimePrecisionBigDecimal_v2.fun_VDB( _cost, _salvage, _life, _start_period, _end_period, _factor, false, this.mathContext );
+	}
+
+	public BigDecimal fun_VDB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _start_period, BigDecimal _end_period )
+	{
+		return RuntimePrecisionBigDecimal_v2.fun_VDB( _cost, _salvage, _life, _start_period, _end_period, TWO, false, this.mathContext );
+	}
+
+
 	public BigDecimal fun_RATE( BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv, BigDecimal _fv, BigDecimal _type,
 			BigDecimal _guess )
 	{

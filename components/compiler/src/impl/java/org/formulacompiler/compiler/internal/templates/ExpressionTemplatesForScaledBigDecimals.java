@@ -180,6 +180,24 @@ public final class ExpressionTemplatesForScaledBigDecimals extends AbstractExpre
 		return RuntimeScaledBigDecimal_v2.fun_DDB( _cost, _salvage, _life, _period, TWO, HIGHPREC );
 	}
 
+	public BigDecimal fun_VDB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _start_period, BigDecimal _end_period,
+			BigDecimal _factor, BigDecimal _no_switch )
+	{
+		final boolean no_switch = _no_switch.intValue() == 0 ? false:true; //WRONG!!!
+		return RuntimeScaledBigDecimal_v2.fun_VDB( _cost, _salvage, _life, _start_period, _end_period, _factor, no_switch, HIGHPREC);
+	}
+
+	public BigDecimal fun_VDB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _start_period, BigDecimal _end_period,
+			BigDecimal _factor )
+	{
+		return RuntimeScaledBigDecimal_v2.fun_VDB( _cost, _salvage, _life, _start_period, _end_period, _factor, false, HIGHPREC );
+	}
+
+	public BigDecimal fun_VDB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _start_period, BigDecimal _end_period )
+	{
+		return RuntimeScaledBigDecimal_v2.fun_VDB( _cost, _salvage, _life, _start_period, _end_period, TWO, false, HIGHPREC);
+	}
+
 	public BigDecimal fun_RATE( BigDecimal _nper, BigDecimal _pmt, BigDecimal _pv, BigDecimal _fv, BigDecimal _type,
 			BigDecimal _guess )
 	{

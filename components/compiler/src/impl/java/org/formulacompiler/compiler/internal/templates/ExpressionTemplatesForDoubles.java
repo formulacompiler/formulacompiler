@@ -506,6 +506,23 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v2.fun_DDB( _cost, _salvage, _life, _period, 2 );
 	}
 
+
+	public double fun_VDB( double _cost, double _salvage, double _life, double _start_period, double _end_period, double _factor, double _no_switch )
+	{
+		boolean no_switch = _no_switch == 0 ? false: true;
+		return RuntimeDouble_v2.fun_VDB( _cost, _salvage, _life, _start_period, _end_period, _factor, no_switch);
+	}
+	
+	public double fun_VDB( double _cost, double _salvage, double _life, double _start_period, double _end_period, double _factor)
+	{
+		return RuntimeDouble_v2.fun_VDB( _cost, _salvage, _life, _start_period, _end_period, _factor, false);
+	}
+
+	public double fun_VDB( double _cost, double _salvage, double _life, double _start_period, double _end_period)
+	{
+		return RuntimeDouble_v2.fun_VDB( _cost, _salvage, _life, _start_period, _end_period, 2, false);
+	}
+
 	public double fun_RATE( double _nper, double _pmt, double _pv, double _fv, double _type, double _guess )
 	{
 		return RuntimeDouble_v2.fun_RATE( _nper, _pmt, _pv, _fv, _type, _guess );
