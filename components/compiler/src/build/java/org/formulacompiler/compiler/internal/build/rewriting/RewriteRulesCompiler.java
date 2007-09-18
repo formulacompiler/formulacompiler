@@ -208,6 +208,9 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 
 	private void defineStatistical() throws Exception
 	{
+		def( Function.BETADIST, "x", "alpha", "beta", "a", "b", "BETADIST( (`x - `a) / (`b - `a), `alpha, `beta )" );
+		def( Function.BETADIST, "x", "alpha", "beta", "a", "BETADIST( `x, `alpha, `beta, `a,  1 )" );
+
 		// This code is adopted from Colt Library (http://dsd.lbl.gov/~hoschek/colt/).
 		begin( Function.NORMSDIST, "a" );
 		{

@@ -498,6 +498,16 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return _cx.fromDouble( RuntimeDouble_v2.fun_ERFC( _cx.toDouble( _x ) ) );
 	}
 
+	public static long fun_BETADIST( long _x, long _alpha, long _beta, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_BETADIST( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx.toDouble( _beta ) ) );
+	}
+
+	public static long fun_GAMMADIST( long _x, long _alpha, long _beta, boolean _cumulative, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_GAMMADIST( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx.toDouble( _beta ), _cumulative ) );
+	}
+
 	public static long fun_MOD( final long _n, final long _d, final Context _cx )
 	{
 		if (_d == 0) {

@@ -459,6 +459,16 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v2.fun_ERFC( _x );
 	}
 
+	public double fun_BETADIST( double _x, double _alpha, double _beta )
+	{
+		return RuntimeDouble_v2.fun_BETADIST( _x, _alpha, _beta );
+	}
+
+	public double fun_GAMMADIST( double _x, double _alpha, double _beta, double _cumulative )
+	{
+		return RuntimeDouble_v2.fun_GAMMADIST( _x, _alpha, _beta, _cumulative != 0 );
+	}
+
 	public double fun_MOD( double n, double d )
 	{
 		return RuntimeDouble_v2.fun_MOD( n, d );

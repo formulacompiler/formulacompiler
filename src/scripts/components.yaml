@@ -54,11 +54,18 @@ groups:
             pkgs:
               - org.formulacompiler.runtime
 
+          - id: cern
+            pkgs:
+              - org.formulacompiler.runtime.internal.cern.jet.math
+              - org.formulacompiler.runtime.internal.cern.jet.stat
+
           - id: core
             pkgs:
               - org.formulacompiler.runtime.internal
             api_deps:
               - core.runtime.api
+            deps:
+              - core.runtime.cern
 
           - id: jvm
             pkgs:
