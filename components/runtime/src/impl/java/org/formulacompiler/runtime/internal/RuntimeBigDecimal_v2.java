@@ -338,6 +338,16 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		return BigDecimal.valueOf( RuntimeDouble_v2.fun_ERFC( _z.doubleValue() ) );
 	}
 
+	public static BigDecimal fun_BETADIST( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta )
+	{
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_BETADIST( _x.doubleValue(), _alpha.doubleValue(), _beta.doubleValue() ) );
+	}
+
+	public static BigDecimal fun_GAMMADIST( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta, boolean _cumulative )
+	{
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_GAMMADIST( _x.doubleValue(), _alpha.doubleValue(), _beta.doubleValue(), _cumulative ) );
+	}
+
 	public static BigDecimal fun_LOG( final BigDecimal _n, final BigDecimal _x )
 	{
 		final double lnN = Math.log( _n.doubleValue() );

@@ -26,6 +26,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import org.formulacompiler.runtime.internal.cern.jet.stat.Gamma;
+import org.formulacompiler.runtime.internal.cern.jet.stat.Probability;
+
 
 public final class RuntimeDouble_v2 extends Runtime_v2
 {
@@ -679,6 +682,31 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		}
 
 		return y;
+	}
+
+	public static double fun_BETADIST( double _x, double _alpha, double _beta )
+	{
+		return Probability.beta( _alpha, _beta, _x );
+	}
+
+	public static double fun_GAMMADIST( double _x, double _alpha, double _beta, boolean _cumulative )
+	{
+		if (_cumulative) {
+			return gammaCumulative( _x, _alpha, _beta );
+		}
+		else {
+			return gammaDensity( _x, _alpha, _beta );
+		}
+	}
+
+	private static double gammaCumulative( double _x, double _alpha, double _beta )
+	{
+		return Probability.gamma( 1 / _beta, _alpha, _x );
+	}
+
+	private static double gammaDensity( double _x, double _alpha, double _beta )
+	{
+		return Math.pow( _x, _alpha - 1 ) * Math.exp( -_x / _beta ) / (Math.pow( _beta, _alpha ) * Gamma.gamma( _alpha ));
 	}
 
 	public static double fun_MOD( double _n, double _d )

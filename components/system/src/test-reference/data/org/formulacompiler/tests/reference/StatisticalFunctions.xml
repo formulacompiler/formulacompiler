@@ -9,7 +9,7 @@
   <Author>Peter Arrenbrecht</Author>
   <LastAuthor>vkorenev</LastAuthor>
   <Created>2005-11-22T20:05:38Z</Created>
-  <LastSaved>2007-09-06T10:10:08Z</LastSaved>
+  <LastSaved>2007-09-18T14:09:10Z</LastSaved>
   <Company>Opus Software AG</Company>
   <Version>11.8132</Version>
  </DocumentProperties>
@@ -43,7 +43,7 @@
   </Style>
  </Styles>
  <Worksheet ss:Name="Sheet1">
-  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="210" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="221" x:FullColumns="1"
    x:FullRows="1" ss:DefaultColumnWidth="54">
    <Column ss:AutoFitWidth="0" ss:Width="85.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="115.5"/>
@@ -1927,6 +1927,106 @@
          html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
+   <Row ss:Index="212">
+    <Cell><Data ss:Type="Number">0.2522154925789305</Data></Cell>
+    <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.2522154925789305</Data></Cell>
+    <Cell><Data ss:Type="Number">0.6</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">BETADIST</Data></Cell>
+    <Cell><Data ss:Type="String">BETADIST</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.13932596825377863</Data></Cell>
+    <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.13932596825377863</Data></Cell>
+    <Cell><Data ss:Type="Number">0.6</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.2522154925789305</Data></Cell>
+    <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3],RC[4],RC[5])"><Data
+      ss:Type="Number">0.2522154925789305</Data></Cell>
+    <Cell><Data ss:Type="Number">0.6</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Index="216">
+    <Cell><Data ss:Type="Number">0.50636537543474258</Data></Cell>
+    <Cell ss:Formula="=GAMMADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.50636537543474258</Data></Cell>
+    <Cell><Data ss:Type="Number">0.6</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">GAMMADIST</Data></Cell>
+    <Cell><Data ss:Type="String">GAMMADIST</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.6009248024834053</Data></Cell>
+    <Cell ss:Formula="=GAMMADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.6009248024834053</Data></Cell>
+    <Cell><Data ss:Type="Number">1.6</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">4.5</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.92636171691386771</Data></Cell>
+    <Cell ss:Formula="=GAMMADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.92636171691386771</Data></Cell>
+    <Cell><Data ss:Type="Number">1.6</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.74459874475479892</Data></Cell>
+    <Cell ss:Formula="=GAMMADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.74459874475479892</Data></Cell>
+    <Cell><Data ss:Type="Number">0.6</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.14734757732691886</Data></Cell>
+    <Cell ss:Formula="=GAMMADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.14734757732691886</Data></Cell>
+    <Cell><Data ss:Type="Number">1.6</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">4.5</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">9.0052111674541857E-2</Data></Cell>
+    <Cell ss:Formula="=GAMMADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">9.0052111674541857E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">1.6</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
   </Table>
   <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
    <Print>
@@ -1936,13 +2036,11 @@
     <VerticalResolution>600</VerticalResolution>
    </Print>
    <Selected/>
-   <TopRowVisible>99</TopRowVisible>
-   <LeftColumnVisible>1</LeftColumnVisible>
+   <TopRowVisible>180</TopRowVisible>
    <Panes>
     <Pane>
      <Number>3</Number>
-     <ActiveRow>141</ActiveRow>
-     <ActiveCol>13</ActiveCol>
+     <ActiveRow>217</ActiveRow>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>
