@@ -368,6 +368,7 @@ void fun(): {}
 	|	"VALUE" fun1( Function.VALUE )
 	|	"VAR" aggN( Function.VAR )
 	|	"VARP" aggN( Function.VARP )
+	|	"VDB" fun5to7( Function.VDB )	
 	|	"VLOOKUP" hvLookup( Function.VLOOKUP )
 	|	"WEEKDAY" fun1to2( Function.WEEKDAY )
 	|	"YEAR" fun1( Function.YEAR )
@@ -471,6 +472,10 @@ void fun3to5(Function f): {}
 		
 void fun3to6(Function f): {}
 	{	open() expr() commaExpr() commaExpr() [commaExprOrNull() [commaExprOrNull() optCommaExpr()]] closeFun( f )
+	}
+
+void fun5to7(Function f): {}
+	{	open() expr() commaExpr() commaExpr() commaExpr() commaExpr() [commaExprOrNull() optCommaExpr()] closeFun( f )
 	}
 
 void hvLookup(Function f): {}

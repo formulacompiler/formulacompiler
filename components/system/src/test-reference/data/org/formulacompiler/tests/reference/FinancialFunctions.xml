@@ -7,9 +7,9 @@
  xmlns:html="http://www.w3.org/TR/REC-html40">
  <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
   <Author>Peter Arrenbrecht</Author>
-  <LastAuthor>vkorenev</LastAuthor>
+  <LastAuthor>samsonov</LastAuthor>
   <Created>2005-11-22T20:05:38Z</Created>
-  <LastSaved>2007-06-11T15:48:04Z</LastSaved>
+  <LastSaved>2007-09-18T14:19:44Z</LastSaved>
   <Company>Opus Software AG</Company>
   <Version>11.8132</Version>
  </DocumentProperties>
@@ -61,13 +61,13 @@
  </Styles>
  <Names>
   <NamedRange ss:Name="HeaderRange" ss:RefersTo="=Sheet1!R1C1:R1C14"/>
-  <NamedRange ss:Name="NPVRange" ss:RefersTo="=Sheet1!R2C1:R3C14"/>
+  <NamedRange ss:Name="NPVRange" ss:RefersTo="=Sheet1!#REF!"/>
  </Names>
  <Worksheet ss:Name="Sheet1">
-  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="71" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="75" x:FullColumns="1"
    x:FullRows="1" ss:DefaultColumnWidth="54">
    <Column ss:AutoFitWidth="0" ss:Width="78.75"/>
-   <Column ss:StyleID="s28" ss:Width="85.5"/>
+   <Column ss:StyleID="s28" ss:Width="118.5"/>
    <Column ss:Width="58.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="55.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="61.5"/>
@@ -88,48 +88,44 @@
     <Cell><Data ss:Type="String">Skip for</Data><NamedCell ss:Name="HeaderRange"/></Cell>
    </Row>
    <Row>
-    <Cell ss:StyleID="s28"><Data ss:Type="Number">1.1884434123352206</Data><NamedCell
-      ss:Name="NPVRange"/></Cell>
-    <Cell ss:Formula="=NPV(RC[1],RC[2]:RC[5])"><Data ss:Type="Number">1.1884434123352206</Data><NamedCell
-      ss:Name="NPVRange"/></Cell>
-    <Cell ss:StyleID="s27"><Data ss:Type="Number">0.1</Data><NamedCell
-      ss:Name="NPVRange"/></Cell>
-    <Cell><Data ss:Type="Number">-10</Data><NamedCell ss:Name="NPVRange"/></Cell>
-    <Cell><Data ss:Type="Number">3</Data><NamedCell ss:Name="NPVRange"/></Cell>
-    <Cell><Data ss:Type="Number">4.2</Data><NamedCell ss:Name="NPVRange"/></Cell>
-    <Cell><Data ss:Type="Number">6.8</Data><NamedCell ss:Name="NPVRange"/></Cell>
-    <Cell ss:Index="10"><Data ss:Type="Number">5</Data><NamedCell
-      ss:Name="NPVRange"/></Cell>
-    <Cell><Data ss:Type="String">NPV</Data><NamedCell ss:Name="NPVRange"/></Cell>
-    <Cell><Data ss:Type="String">NPV</Data><NamedCell ss:Name="NPVRange"/></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">1.1884434123352206</Data></Cell>
+    <Cell ss:Formula="=NPV(RC[1],RC[2]:RC[5])"><Data ss:Type="Number">1.1884434123352206</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell><Data ss:Type="Number">-10</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">4.2</Data></Cell>
+    <Cell><Data ss:Type="Number">6.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="String">NPV</Data></Cell>
+    <Cell><Data ss:Type="String">NPV</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:StyleID="s28"><Data ss:Type="Number">1.9220615549323696</Data><NamedCell
-      ss:Name="NPVRange"/></Cell>
-    <Cell ss:Formula="=NPV(RC[1],RC[3]:RC[7])+RC[2]"><Data ss:Type="Number">1.9220615549323696</Data><NamedCell
-      ss:Name="NPVRange"/></Cell>
-    <Cell ss:StyleID="s27"><Data ss:Type="Number">0.08</Data><NamedCell
-      ss:Name="NPVRange"/></Cell>
-    <Cell ss:StyleID="s28"><Data ss:Type="Number">-40</Data><NamedCell
-      ss:Name="NPVRange"/></Cell>
-    <Cell ss:StyleID="s28"><Data ss:Type="Number">8</Data><NamedCell
-      ss:Name="NPVRange"/></Cell>
-    <Cell ss:StyleID="s28"><Data ss:Type="Number">9.2</Data><NamedCell
-      ss:Name="NPVRange"/></Cell>
-    <Cell ss:StyleID="s28"><Data ss:Type="Number">10</Data><NamedCell
-      ss:Name="NPVRange"/></Cell>
-    <Cell ss:StyleID="s28"><Data ss:Type="Number">12</Data><NamedCell
-      ss:Name="NPVRange"/></Cell>
-    <Cell ss:StyleID="s28"><Data ss:Type="Number">14.5</Data><NamedCell
-      ss:Name="NPVRange"/></Cell>
-    <Cell><Data ss:Type="Number">7</Data><NamedCell ss:Name="NPVRange"/></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">1.9220615549323696</Data></Cell>
+    <Cell ss:Formula="=NPV(RC[1],RC[3]:RC[7])+RC[2]"><Data ss:Type="Number">1.9220615549323696</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">0.08</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">-40</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">8</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">9.2</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">12</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">14.5</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
     <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
       ss:Author="peo"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
          html:Face="Tahoma" html:Size="8" html:Color="#000000">peo:</Font></B><Font
-        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment><NamedCell
-      ss:Name="NPVRange"/></Cell>
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
-   <Row ss:Index="5">
+   <Row>
+    <Cell ss:StyleID="s28"/>
+    <Cell ss:Index="3" ss:StyleID="s27"/>
+    <Cell ss:StyleID="s28"/>
+    <Cell ss:StyleID="s28"/>
+    <Cell ss:StyleID="s28"/>
+    <Cell ss:StyleID="s28"/>
+    <Cell ss:StyleID="s28"/>
+    <Cell ss:StyleID="s28"/>
+   </Row>
+   <Row>
     <Cell ss:StyleID="s28"><Data ss:Type="Number">6.2522011677732303E-2</Data></Cell>
     <Cell ss:Formula="=MIRR(RC[1]:RC[5],RC[6],RC[7])"><Data ss:Type="Number">6.2522011677732303E-2</Data></Cell>
     <Cell><Data ss:Type="Number">-120</Data></Cell>
@@ -335,7 +331,8 @@
     <Cell><Data ss:Type="Number">10.01</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
    </Row>
-   <Row ss:Index="30">
+   <Row ss:AutoFitHeight="0" ss:Height="11.25"/>
+   <Row>
     <Cell><Data ss:Type="Number">4090.909090909091</Data></Cell>
     <Cell ss:Formula="=SYD(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">4090.909090909091</Data></Cell>
     <Cell><Data ss:Type="Number">30000</Data></Cell>
@@ -454,7 +451,7 @@
          html:Size="8" html:Color="#000000">Vladimir Korenev:</Font></B><Font
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
-   <Row ss:AutoFitHeight="0" ss:Height="11.25">
+   <Row>
     <Cell ss:Index="3" ss:StyleID="s29"/>
    </Row>
    <Row>
@@ -615,7 +612,8 @@
          html:Size="8" html:Color="#000000">Vladimir Korenev:</Font></B><Font
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
-   <Row ss:Index="54">
+   <Row ss:AutoFitHeight="0" ss:Height="11.25"/>
+   <Row>
     <Cell><Data ss:Type="Number">-70842.651670974636</Data></Cell>
     <Cell ss:Formula="=PV(RC[1],RC[2],RC[3],RC[4],RC[5])"><Data ss:Type="Number">-70842.651670974636</Data></Cell>
     <Cell ss:StyleID="s29"><Data ss:Type="Number">6.6E-3</Data></Cell>
@@ -733,7 +731,7 @@
     <Cell><Data ss:Type="Number">200</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
    </Row>
-   <Row ss:AutoFitHeight="0" ss:Height="11.25">
+   <Row>
     <Cell><Data ss:Type="Number">7.7014724882013682E-3</Data></Cell>
     <Cell ss:Formula="=RATE(RC[1],RC[2],RC[3])"><Data ss:Type="Number">7.7014724882013682E-3</Data></Cell>
     <Cell><Data ss:Type="Number">48</Data></Cell>
@@ -759,6 +757,100 @@
     <Cell ss:StyleID="s31"><Data ss:Type="Number">0</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
    </Row>
+   <Row ss:Index="68">
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">384</Data></Cell>
+    <Cell ss:Formula="=VDB(RC[1],RC[2],RC[3],RC[4],RC[5])"><Data ss:Type="Number">384</Data></Cell>
+    <Cell><Data ss:Type="Number">2400</Data></Cell>
+    <Cell><Data ss:Type="Number">300</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="String">VDB</Data></Cell>
+    <Cell><Data ss:Type="String">VDB</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">307.2</Data></Cell>
+    <Cell ss:Formula="=VDB(RC[1],RC[2],RC[3],RC[4],RC[5])"><Data ss:Type="Number">307.20000000000005</Data></Cell>
+    <Cell><Data ss:Type="Number">2400</Data></Cell>
+    <Cell><Data ss:Type="Number">300</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">5</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">329.14560000000012</Data></Cell>
+    <Cell ss:Formula="=VDB(RC[1],RC[2],RC[3],RC[4],RC[5])"><Data ss:Type="Number">329.14560000000012</Data></Cell>
+    <Cell><Data ss:Type="Number">2400</Data></Cell>
+    <Cell><Data ss:Type="Number">300</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">5</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">313.34400000000005</Data></Cell>
+    <Cell ss:Formula="=VDB(RC[1],RC[2],RC[3],RC[4],RC[5],RC[6],RC[7])"><Data
+      ss:Type="Number">313.34400000000005</Data></Cell>
+    <Cell><Data ss:Type="Number">2400</Data></Cell>
+    <Cell><Data ss:Type="Number">300</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">2.3</Data></Cell>
+    <Cell><Data ss:Type="Number">3.4</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">3890.7484052950003</Data></Cell>
+    <Cell ss:Formula="=VDB(RC[1],RC[2],RC[3],RC[4],RC[5],RC[6])"><Data
+      ss:Type="Number">3890.7484052950003</Data></Cell>
+    <Cell><Data ss:Type="Number">12345.12</Data></Cell>
+    <Cell><Data ss:Type="Number">987.65</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">5.5</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">6</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">428.90084938495431</Data></Cell>
+    <Cell ss:Formula="=VDB(RC[1],RC[2],RC[3],RC[4],RC[5],RC[6],RC[7])"><Data
+      ss:Type="Number">428.90084938495431</Data></Cell>
+    <Cell><Data ss:Type="Number">12345.12</Data></Cell>
+    <Cell><Data ss:Type="Number">987.65</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">9</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">11357.47</Data></Cell>
+    <Cell ss:Formula="=VDB(RC[1],RC[2],RC[3],RC[4],RC[5],RC[6])"><Data
+      ss:Type="Number">11357.470000000001</Data></Cell>
+    <Cell><Data ss:Type="Number">12345.12</Data></Cell>
+    <Cell><Data ss:Type="Number">987.65</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">10.1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">6</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">2488.7761920000003</Data></Cell>
+    <Cell ss:Formula="=VDB(RC[1],RC[2],RC[3],RC[4],RC[5],RC[6])"><Data
+      ss:Type="Number">2488.7761920000003</Data></Cell>
+    <Cell><Data ss:Type="Number">12345.12</Data></Cell>
+    <Cell><Data ss:Type="Number">987.65</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1.01</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">6</Data></Cell>
+   </Row>
   </Table>
   <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
    <Print>
@@ -768,19 +860,17 @@
     <VerticalResolution>600</VerticalResolution>
    </Print>
    <Selected/>
-   <TopRowVisible>15</TopRowVisible>
    <Panes>
     <Pane>
      <Number>3</Number>
-     <ActiveRow>24</ActiveRow>
-     <ActiveCol>13</ActiveCol>
+     <ActiveRow>4</ActiveRow>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>
    <ProtectScenarios>False</ProtectScenarios>
   </WorksheetOptions>
   <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
-   <Range>R2C3:R71C9</Range>
+   <Range>R2C3:R75C9</Range>
    <Condition>
     <Value1>RC10&gt;COLUMN(RC)-3</Value1>
     <Format Style='background:#CCFFCC'/>
