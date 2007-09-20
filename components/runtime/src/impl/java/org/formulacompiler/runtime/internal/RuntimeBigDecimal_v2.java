@@ -574,12 +574,12 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		return depreciation;
 	}
 
-		public static BigDecimal fun_VDB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _start_period,
+	public static BigDecimal fun_VDB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _start_period,
 			BigDecimal _end_period, BigDecimal _factor, boolean _no_switch, MathContext _cx )
 	{
 		BigDecimal valVDB = ZERO;
-		if (_start_period.compareTo(ZERO) < 0 | _end_period.compareTo( _start_period ) < 0 | _end_period.compareTo( _life ) >0
-				| _cost.compareTo( ZERO) < 0 | _salvage.compareTo( _cost )> 0 | _factor.compareTo( BigDecimal.valueOf( 0 )) <= 0) {
+		if (_start_period.compareTo( ZERO ) < 0 | _end_period.compareTo( _start_period ) < 0 | _end_period.compareTo( _life ) > 0
+				| _cost.compareTo( ZERO ) < 0 | _salvage.compareTo( _cost ) > 0 | _factor.compareTo( BigDecimal.valueOf( 0 ) ) <= 0) {
 			return ZERO;
 		}
 		else {
@@ -587,32 +587,32 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			int loopEnd = (int) Math.ceil( _end_period.doubleValue() );
 			if (_no_switch) {
 				for (int i = loopStart + 1; i <= loopEnd; i++) {
-					BigDecimal valDDB = fun_DDB( _cost, _salvage, _life, BigDecimal.valueOf( i ), _factor, _cx);
+					BigDecimal valDDB = fun_DDB( _cost, _salvage, _life, BigDecimal.valueOf( i ), _factor, _cx );
 					if (i == loopStart + 1) {
-						valDDB = valDDB.multiply(_end_period.min( BigDecimal.valueOf( loopStart + 1 )).subtract(_start_period, _cx), _cx);
+						valDDB = valDDB.multiply( _end_period.min( BigDecimal.valueOf( loopStart + 1 ) ).subtract( _start_period, _cx ), _cx );
 					}
 					else if (i == loopEnd) {
-						valDDB = valDDB.multiply(_end_period.add( BigDecimal.valueOf( 1 - loopEnd), _cx));
+						valDDB = valDDB.multiply( _end_period.add( BigDecimal.valueOf( 1 - loopEnd ), _cx ) );
 					}
-					valVDB = valVDB.add( valDDB, _cx);
+					valVDB = valVDB.add( valDDB, _cx );
 				}
 			}
 			else {
 				BigDecimal _life2 = _life;
 				BigDecimal part;
-				if (_start_period.compareTo(BigDecimal.valueOf(Math.floor( _start_period.doubleValue() )))!=0) {
+				if (_start_period.compareTo( BigDecimal.valueOf( Math.floor( _start_period.doubleValue() ) ) ) != 0) {
 					if (_factor.compareTo( ONE ) > 0) {
-						if (_start_period.compareTo( _life.divide( TWO )) >=  0) {
+						if (_start_period.compareTo( _life.divide( TWO ) ) >= 0) {
 							// this part works like in Open Office
-							part = _start_period.subtract( _life.divide( TWO), _cx);
-							_start_period = _life.divide( TWO, _cx);
-							_end_period = _end_period.subtract(part, _cx);
-							_life2 = _life2.add( ONE, _cx);
+							part = _start_period.subtract( _life.divide( TWO ), _cx );
+							_start_period = _life.divide( TWO, _cx );
+							_end_period = _end_period.subtract( part, _cx );
+							_life2 = _life2.add( ONE, _cx );
 						}
 					}
 				}
-				_cost = _cost.subtract(interVDB( _cost, _salvage, _life, _life2, _start_period, _factor, _cx ));
-				valVDB = interVDB( _cost, _salvage, _life, _life.subtract(_start_period, _cx), _end_period.subtract(_start_period, _cx), _factor, _cx);
+				_cost = _cost.subtract( interVDB( _cost, _salvage, _life, _life2, _start_period, _factor, _cx ) );
+				valVDB = interVDB( _cost, _salvage, _life, _life.subtract( _start_period, _cx ), _end_period.subtract( _start_period, _cx ), _factor, _cx );
 			}
 		}
 		return valVDB;
@@ -622,29 +622,29 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	{
 		BigDecimal valVDB = ZERO;
 		int loopEnd = (int) Math.ceil( _period.doubleValue() );
-		BigDecimal salvageCost = _cost.subtract(_salvage, _cx);
+		BigDecimal salvageCost = _cost.subtract( _salvage, _cx );
 		boolean flagSLN = false;
 		BigDecimal valDDB, valTmpRes;
 		BigDecimal valSLN = ZERO;
 		for (int i = 1; i <= loopEnd; i++) {
 			if (!flagSLN) {
-				valDDB = fun_DDB( _cost, _salvage, _life, BigDecimal.valueOf( i ), _factor , _cx);
-				valSLN = salvageCost.divide(_life2.add( BigDecimal.valueOf( 1 - i)), _cx);
-				if (valSLN.compareTo(valDDB )> 0) {
+				valDDB = fun_DDB( _cost, _salvage, _life, BigDecimal.valueOf( i ), _factor, _cx );
+				valSLN = salvageCost.divide( _life2.add( BigDecimal.valueOf( 1 - i ) ), _cx );
+				if (valSLN.compareTo( valDDB ) > 0) {
 					valTmpRes = valSLN;
 					flagSLN = true;
 				}
 				else {
 					valTmpRes = valDDB;
-					salvageCost = salvageCost.subtract(valDDB, _cx);
+					salvageCost = salvageCost.subtract( valDDB, _cx );
 				}
 			}
 			else {
 				valTmpRes = valSLN;
 			}
 			if (i == loopEnd)
-				valTmpRes = valTmpRes.multiply(_period.add( BigDecimal.valueOf(1 - loopEnd)), _cx);
-			valVDB = valVDB.add(valTmpRes, _cx);
+				valTmpRes = valTmpRes.multiply( _period.add( BigDecimal.valueOf( 1 - loopEnd ) ), _cx );
+			valVDB = valVDB.add( valTmpRes, _cx );
 		}
 		return valVDB;
 	}
