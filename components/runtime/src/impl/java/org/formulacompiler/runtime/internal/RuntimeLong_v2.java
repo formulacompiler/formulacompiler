@@ -503,9 +503,24 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return _cx.fromDouble( RuntimeDouble_v2.fun_BETADIST( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx.toDouble( _beta ) ) );
 	}
 
+	public static long fun_BINOMDIST( long _number, long _trials, long _probability, boolean _cumulative, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_BINOMDIST( _cx.toDouble( _number ), _cx.toDouble( _trials ), _cx.toDouble( _probability ), _cumulative ) );
+	}
+
+	public static long fun_CHIDIST( long _x, long _degFreedom, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_CHIDIST( _cx.toDouble( _x ), _cx.toDouble( _degFreedom ) ) );
+	}
+
 	public static long fun_GAMMADIST( long _x, long _alpha, long _beta, boolean _cumulative, Context _cx )
 	{
 		return _cx.fromDouble( RuntimeDouble_v2.fun_GAMMADIST( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx.toDouble( _beta ), _cumulative ) );
+	}
+
+	public static long fun_POISSON( long _x, long _mean, boolean _cumulative, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_POISSON( _cx.toDouble( _x ), _cx.toDouble( _mean ), _cumulative ) );
 	}
 
 	public static long fun_MOD( final long _n, final long _d, final Context _cx )

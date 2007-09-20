@@ -472,6 +472,62 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return Probability.beta( _alpha, _beta, _x );
 	}
 
+	public static double fun_BINOMDIST( double _number, double _trials, double _probability, boolean _cumulative )
+	{
+		final int number = (int) _number;
+		final int trials = (int) _trials;
+		if (_cumulative) {
+			return binomialCumulative( number, trials, _probability );
+		}
+		else {
+			return binomialDensity( number, trials, _probability );
+		}
+	}
+
+	private static double binomialCumulative( final int _number, final int _trials, final double _probability )
+	{
+		return Probability.binomial( _number, _trials, _probability );
+	}
+
+	private static double binomialDensity( final int _number, final int _trials, final double _probability )
+	{
+		if (_trials < 0 || _number < 0 || _number > _trials || _probability < 0 || _probability > 1) {
+			return 0; // Excel #NUM!
+		}
+
+		final double q = 1.0 - _probability;
+		double factor = Math.pow( q, _trials );
+		if (factor == 0.0) {
+			factor = Math.pow( _probability, _trials );
+			if (factor == 0.0) {
+				return 0; // Excel #NUM!
+			}
+			else {
+				final int max = _trials - _number;
+				for (int i = 0; i < max && factor > 0.0; i++) {
+					factor *= ((double) (_trials - i)) / ((double) (i + 1)) * q / _probability;
+				}
+				return factor;
+
+			}
+		}
+		else {
+			for (int i = 0; i < _number && factor > 0.0; i++) {
+				factor *= ((double) (_trials - i)) / ((double) (i + 1)) * _probability / q;
+			}
+			return factor;
+		}
+	}
+
+	public static double fun_CHIDIST( double _x, double _degFreedom )
+	{
+		if (_x < 0 || _degFreedom < 1) {
+			return 0; // Excel #NUM!
+		}
+
+		return Probability.chiSquareComplemented( Math.floor( _degFreedom ), _x );
+	}
+
 	public static double fun_GAMMADIST( double _x, double _alpha, double _beta, boolean _cumulative )
 	{
 		if (_cumulative) {
@@ -490,6 +546,31 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	private static double gammaDensity( double _x, double _alpha, double _beta )
 	{
 		return Math.pow( _x, _alpha - 1 ) * Math.exp( -_x / _beta ) / (Math.pow( _beta, _alpha ) * Gamma.gamma( _alpha ));
+	}
+
+	public static double fun_POISSON( double _x, double _mean, boolean _cumulative )
+	{
+		if (_x < 0 || _mean < 0) {
+			return 0; // Excel #NUM!
+		}
+
+		final int x = (int) _x;
+		if (_cumulative) {
+			return poissonCumulative( x, _mean );
+		}
+		else {
+			return poissonDensity( x, _mean );
+		}
+	}
+
+	private static double poissonCumulative( final int _x, final double _mean )
+	{
+		return Probability.poisson( _x, _mean );
+	}
+
+	private static double poissonDensity( final int _x, final double _mean )
+	{
+		return Math.exp( -_mean ) * Math.pow( _mean, _x ) / factorial( _x );
 	}
 
 	public static double fun_MOD( double _n, double _d )
@@ -521,15 +602,26 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		}
 		else {
 			int a = (int) _a;
-			if (a < FACTORIALS.length) {
-				return FACTORIALS[ a ];
+			return factorial( a );
+		}
+	}
+
+	private static double factorial( int _a )
+	{
+		if (_a < 0) {
+			throw new IllegalArgumentException( "number < 0" );
+		}
+
+		if (_a < FACTORIALS.length) {
+			return FACTORIALS[ _a ];
+		}
+		else {
+			int i = FACTORIALS.length;
+			double r = FACTORIALS[ i - 1 ];
+			while (i <= _a) {
+				r *= i++;
 			}
-			else {
-				double r = 1;
-				while (a > 1)
-					r *= a--;
-				return r;
-			}
+			return r;
 		}
 	}
 

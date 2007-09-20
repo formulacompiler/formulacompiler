@@ -464,9 +464,24 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v2.fun_BETADIST( _x, _alpha, _beta );
 	}
 
+	public double fun_BINOMDIST( double _number, double _trials, double _probability, double _cumulative )
+	{
+		return RuntimeDouble_v2.fun_BINOMDIST( _number, _trials, _probability, _cumulative != 0 );
+	}
+
+	public double fun_CHIDIST( double _x, double _degFreedom )
+	{
+		return RuntimeDouble_v2.fun_CHIDIST( _x, _degFreedom );
+	}
+
 	public double fun_GAMMADIST( double _x, double _alpha, double _beta, double _cumulative )
 	{
 		return RuntimeDouble_v2.fun_GAMMADIST( _x, _alpha, _beta, _cumulative != 0 );
+	}
+
+	public double fun_POISSON( double _x, double _mean, double _cumulative )
+	{
+		return RuntimeDouble_v2.fun_POISSON( _x, _mean, _cumulative != 0 );
 	}
 
 	public double fun_MOD( double n, double d )
