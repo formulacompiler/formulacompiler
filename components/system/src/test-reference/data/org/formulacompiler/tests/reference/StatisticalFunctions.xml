@@ -9,7 +9,7 @@
   <Author>Peter Arrenbrecht</Author>
   <LastAuthor>vkorenev</LastAuthor>
   <Created>2005-11-22T20:05:38Z</Created>
-  <LastSaved>2007-09-18T14:09:10Z</LastSaved>
+  <LastSaved>2007-09-20T12:04:30Z</LastSaved>
   <Company>Opus Software AG</Company>
   <Version>11.8132</Version>
  </DocumentProperties>
@@ -30,34 +30,37 @@
    <NumberFormat/>
    <Protection/>
   </Style>
-  <Style ss:ID="s23">
+  <Style ss:ID="s21">
    <Font ss:FontName="Verdana" x:Family="Swiss" ss:Italic="1"/>
   </Style>
-  <Style ss:ID="s24">
+  <Style ss:ID="s22">
    <Alignment ss:Vertical="Center"/>
    <Font ss:FontName="Verdana" ss:Underline="Single"/>
   </Style>
-  <Style ss:ID="s25">
+  <Style ss:ID="s23">
    <Alignment ss:Vertical="Center"/>
    <Font ss:FontName="Verdana" ss:Italic="1" ss:Underline="Single"/>
   </Style>
+  <Style ss:ID="s24">
+   <Font ss:FontName="Verdana" x:CharSet="204" x:Family="Swiss" ss:Bold="1"/>
+  </Style>
  </Styles>
  <Worksheet ss:Name="Sheet1">
-  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="221" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="305" x:FullColumns="1"
    x:FullRows="1" ss:DefaultColumnWidth="54">
    <Column ss:AutoFitWidth="0" ss:Width="85.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="115.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="43.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="36.75" ss:Span="5"/>
-   <Column ss:Index="10" ss:StyleID="s23" ss:AutoFitWidth="0" ss:Width="61.5"/>
+   <Column ss:Index="10" ss:StyleID="s21" ss:AutoFitWidth="0" ss:Width="61.5"/>
    <Column ss:Width="191.25"/>
    <Column ss:AutoFitWidth="0" ss:Width="68.25"/>
    <Column ss:Index="14" ss:AutoFitWidth="0" ss:Width="93"/>
-   <Row ss:AutoFitHeight="0" ss:Height="25.5" ss:StyleID="s24">
+   <Row ss:AutoFitHeight="0" ss:Height="25.5" ss:StyleID="s22">
     <Cell><Data ss:Type="String">Expected</Data></Cell>
     <Cell><Data ss:Type="String">Actual</Data></Cell>
     <Cell><Data ss:Type="String">Inputs</Data></Cell>
-    <Cell ss:Index="10" ss:StyleID="s25"><Data ss:Type="String"># of Inputs</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s23"><Data ss:Type="String"># of Inputs</Data></Cell>
     <Cell><Data ss:Type="String">Name</Data></Cell>
     <Cell><Data ss:Type="String">Highlight</Data></Cell>
     <Cell><Data ss:Type="String">Excel says</Data></Cell>
@@ -1966,6 +1969,386 @@
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
    <Row ss:Index="216">
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">BINOMDIST</Data></Cell>
+    <Cell><Data ss:Type="String">BINOMDIST</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.51200000000000012</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.51200000000000012</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="12" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.89600000000000013</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.89600000000000013</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.99200000000000021</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.99200000000000021</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">1.0000000000000002</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.64</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.64</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="12" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.36</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.36</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="12" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.51200000000000012</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.51200000000000012</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="12" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.38400000000000006</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.38400000000000006</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">9.600000000000003E-2</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">9.600000000000003E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">8.0000000000000036E-3</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">8.0000000000000036E-3</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.64</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.64</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="12" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.32</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.32</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.64</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.64</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="237">
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">CHIDIST</Data></Cell>
+    <Cell><Data ss:Type="String">CHIDIST</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.75182963429462546</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">0.75182963429462546</Data></Cell>
+    <Cell><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.4795001239653619</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">0.4795001239653619</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1.5654023378513151E-3</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">1.5654023378513151E-3</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.9512294245194709</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">0.9512294245194709</Data></Cell>
+    <Cell><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.77880078336530478</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">0.77880078336530478</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.60653066313170978</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">0.60653066313170978</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">6.7379469993665486E-3</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">6.7379469993665486E-3</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.99183742373313488</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">0.99183742373313488</Data></Cell>
+    <Cell><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.91889141170056499</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">0.91889141170056499</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.80125195766424573</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">0.80125195766424573</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1.8566135277077619E-2</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">1.8566135277077619E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.99983768338807244</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">0.99983768338807244</Data></Cell>
+    <Cell><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.99212329328296056</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">0.99212329328296056</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.96256577328018977</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">0.96256577328018977</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">7.5235246710813622E-2</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">7.5235246710813622E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.99999999750204871</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">0.99999999750204871</Data></Cell>
+    <Cell><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.99999338828944262</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">0.99999338828944262</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.99982788437033721</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">0.99982788437033721</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.44049328513798774</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">0.44049328513798774</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2.9252688081794043E-2</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">2.9252688081794043E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">20</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">8.5664121091682914E-4</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">8.5664121091682914E-4</Data></Cell>
+    <Cell><Data ss:Type="Number">30</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">8.5664121091682914E-4</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">8.5664121091682914E-4</Data></Cell>
+    <Cell><Data ss:Type="Number">30</Data></Cell>
+    <Cell><Data ss:Type="Number">10.9</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="265">
     <Cell><Data ss:Type="Number">0.50636537543474258</Data></Cell>
     <Cell ss:Formula="=GAMMADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.50636537543474258</Data></Cell>
     <Cell><Data ss:Type="Number">0.6</Data></Cell>
@@ -2025,6 +2408,281 @@
     <Cell><Data ss:Type="Boolean">0</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
     <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="272">
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">POISSON</Data></Cell>
+    <Cell><Data ss:Type="String">POISSON</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.36787944117144911</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.36787944117144911</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.73575888234289821</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.73575888234289821</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.91969860292862282</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.91969860292862282</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.98101184312386447</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.98101184312386447</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.13533528323661353</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.13533528323661353</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.4060058497098406</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.4060058497098406</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.67667641618306762</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.67667641618306762</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.85712346049855237</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.85712346049855237</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2.732372244729319E-2</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">2.732372244729319E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">3.6</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.12568912325754869</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.12568912325754869</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">3.6</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.30274684471600855</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.30274684471600855</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3.6</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.51521611046616045</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.51521611046616045</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">3.6</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.51521611046616045</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.51521611046616045</Data></Cell>
+    <Cell><Data ss:Type="Number">3.9</Data></Cell>
+    <Cell><Data ss:Type="Number">3.6</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.36787944117144911</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.36787944117144911</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.36787944117144911</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.36787944117144911</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.18393972058572455</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.18393972058572455</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">6.1313240195241515E-2</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">6.1313240195241515E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.13533528323661353</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.13533528323661353</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.27067056647322707</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.27067056647322707</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.27067056647322707</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.27067056647322707</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.18044704431548469</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.18044704431548469</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2.732372244729319E-2</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">2.732372244729319E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">3.6</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">9.8365400810255493E-2</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">9.8365400810255493E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">3.6</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.17705772145845985</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.17705772145845985</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3.6</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.21246926575015185</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.21246926575015185</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">3.6</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.21246926575015185</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.21246926575015185</Data></Cell>
+    <Cell><Data ss:Type="Number">3.9</Data></Cell>
+    <Cell><Data ss:Type="Number">3.6</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
     <Cell><Data ss:Type="String">...</Data></Cell>
    </Row>
   </Table>
