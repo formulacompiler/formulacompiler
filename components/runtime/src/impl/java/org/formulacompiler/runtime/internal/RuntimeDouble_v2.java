@@ -26,6 +26,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import org.formulacompiler.runtime.internal.cern.jet.stat.Gamma;
+import org.formulacompiler.runtime.internal.cern.jet.stat.Probability;
+
 
 public final class RuntimeDouble_v2 extends Runtime_v2
 {
@@ -454,231 +457,120 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return valueOrZero( Math.log10( _p ) );
 	}
 
-	/**
-	 * Evaluates the given polynomial of degree <tt>N</tt> at <tt>x</tt>, assuming coefficient of N is 1.0.
-	 * Otherwise same as <tt>polevl()</tt>.
-	 * <pre>
-	 *                     2          N
-	 * y  =  C  + C x + C x  +...+ C x
-	 *        0    1     2          N
-	 * <p/>
-	 * where C  = 1 and hence is omitted from the array.
-	 *        N
-	 * <p/>
-	 * Coefficients are stored in reverse order:
-	 * <p/>
-	 * coef[0] = C  , ..., coef[N-1] = C  .
-	 *            N-1                   0
-	 * <p/>
-	 * Calling arguments are otherwise the same as polevl().
-	 * </pre>
-	 * In the interest of speed, there are no checks for out of bounds arithmetic.
-	 * <p/>
-	 * <p/>
-	 * This code is adopted from <a href="http://dsd.lbl.gov/~hoschek/colt/">Colt Library</a>.
-	 * Copyright (c) 1999 CERN - European Organization for Nuclear Research.
-	 *
-	 * @param x    argument to the polynomial.
-	 * @param coef the coefficients of the polynomial.
-	 * @param N    the degree of the polynomial.
-	 */
-	private static double p1evl( double x, double coef[], int N )
-	{
-		double ans = x + coef[ 0 ];
-
-		for (int i = 1; i < N; i++) {
-			ans = ans * x + coef[ i ];
-		}
-
-		return ans;
-	}
-
-	/**
-	 * Evaluates the given polynomial of degree <tt>N</tt> at <tt>x</tt>.
-	 * <pre>
-	 *                     2          N
-	 * y  =  C  + C x + C x  +...+ C x
-	 *        0    1     2          N
-	 * <p/>
-	 * Coefficients are stored in reverse order:
-	 * <p/>
-	 * coef[0] = C  , ..., coef[N] = C  .
-	 *            N                   0
-	 * </pre>
-	 * In the interest of speed, there are no checks for out of bounds arithmetic.
-	 * <p/>
-	 * <p/>
-	 * This code is adopted from <a href="http://dsd.lbl.gov/~hoschek/colt/">Colt Library</a>.
-	 * Copyright (c) 1999 CERN - European Organization for Nuclear Research.
-	 *
-	 * @param x    argument to the polynomial.
-	 * @param coef the coefficients of the polynomial.
-	 * @param N    the degree of the polynomial.
-	 */
-	private static double polevl( double x, double coef[], int N )
-	{
-		double ans = coef[ 0 ];
-
-		for (int i = 1; i <= N; i++) {
-			ans = ans * x + coef[ i ];
-		}
-
-		return ans;
-	}
-
-	/**
-	 * Returns the error function of the normal distribution; formerly named <tt>erf</tt>.
-	 * The integral is
-	 * <pre>
-	 *                           x
-	 *                            -
-	 *                 2         | |          2
-	 *   erf(x)  =  --------     |    exp( - t  ) dt.
-	 *              sqrt(pi)   | |
-	 *                          -
-	 *                           0
-	 * </pre>
-	 * <b>Implementation:</b>
-	 * For <tt>0 <= |x| < 1, erf(x) = x * P4(x**2)/Q5(x**2)</tt>; otherwise
-	 * <tt>erf(x) = 1 - erfc(x)</tt>.
-	 * <p/>
-	 * Code adapted from the <A HREF="http://www.sci.usq.edu.au/staff/leighb/graph/Top.html">Java 2D Graph Package 2.4</A>,
-	 * which in turn is a port from the <A HREF="http://people.ne.mediaone.net/moshier/index.html#Cephes">Cephes 2.2</A> Math Library (C).
-	 * <p/>
-	 * <p/>
-	 * This code is adopted from <a href="http://dsd.lbl.gov/~hoschek/colt/">Colt Library</a>.
-	 * Copyright (c) 1999 CERN - European Organization for Nuclear Research.
-	 *
-	 * @param x the argument to the function.
-	 */
 	public static double fun_ERF( double x )
 	{
-		final double T[] = {
-				9.60497373987051638749E0,
-				9.00260197203842689217E1,
-				2.23200534594684319226E3,
-				7.00332514112805075473E3,
-				5.55923013010394962768E4
-		};
-		final double U[] = {
-				3.35617141647503099647E1,
-				5.21357949780152679795E2,
-				4.59432382970980127987E3,
-				2.26290000613890934246E4,
-				4.92673942608635921086E4
-		};
-
-		if (Math.abs( x ) > 1.0) {
-			return 1.0 - fun_ERFC( x );
-		}
-		final double z = x * x;
-		final double y = x * polevl( z, T, 4 ) / p1evl( z, U, 5 );
-		return y;
+		return Probability.errorFunction( x );
 	}
 
-	/**
-	 * Returns the complementary Error function of the normal distribution; formerly named <tt>erfc</tt>.
-	 * <pre>
-	 *  1 - erf(x) =
-	 * <p/>
-	 *                           inf.
-	 *                             -
-	 *                  2         | |          2
-	 *   erfc(x)  =  --------     |    exp( - t  ) dt
-	 *               sqrt(pi)   | |
-	 *                           -
-	 *                            x
-	 * </pre>
-	 * <b>Implementation:</b>
-	 * For small x, <tt>erfc(x) = 1 - erf(x)</tt>; otherwise rational
-	 * approximations are computed.
-	 * <p/>
-	 * Code adapted from the <A HREF="http://www.sci.usq.edu.au/staff/leighb/graph/Top.html">Java 2D Graph Package 2.4</A>,
-	 * which in turn is a port from the <A HREF="http://people.ne.mediaone.net/moshier/index.html#Cephes">Cephes 2.2</A> Math Library (C).
-	 * <p/>
-	 * <p/>
-	 * This code is adopted from <a href="http://dsd.lbl.gov/~hoschek/colt/">Colt Library</a>.
-	 * Copyright (c) 1999 CERN - European Organization for Nuclear Research.
-	 *
-	 * @param a the argument to the function.
-	 */
 	public static double fun_ERFC( double a )
 	{
-		final double MAXLOG = 7.09782712893383996732E2;
-		final double P[] = {
-				2.46196981473530512524E-10,
-				5.64189564831068821977E-1,
-				7.46321056442269912687E0,
-				4.86371970985681366614E1,
-				1.96520832956077098242E2,
-				5.26445194995477358631E2,
-				9.34528527171957607540E2,
-				1.02755188689515710272E3,
-				5.57535335369399327526E2
-		};
-		final double Q[] = {
-				//1.0
-				1.32281951154744992508E1,
-				8.67072140885989742329E1,
-				3.54937778887819891062E2,
-				9.75708501743205489753E2,
-				1.82390916687909736289E3,
-				2.24633760818710981792E3,
-				1.65666309194161350182E3,
-				5.57535340817727675546E2
-		};
-		final double R[] = {
-				5.64189583547755073984E-1,
-				1.27536670759978104416E0,
-				5.01905042251180477414E0,
-				6.16021097993053585195E0,
-				7.40974269950448939160E0,
-				2.97886665372100240670E0
-		};
-		final double S[] = {
-				2.26052863220117276590E0,
-				9.39603524938001434673E0,
-				1.20489539808096656605E1,
-				1.70814450747565897222E1,
-				9.60896809063285878198E0,
-				3.36907645100081516050E0
-		};
+		return Probability.errorFunctionComplemented( a );
+	}
 
-		final double x = a < 0.0 ? -a : a;
+	public static double fun_BETADIST( double _x, double _alpha, double _beta )
+	{
+		return Probability.beta( _alpha, _beta, _x );
+	}
 
-		if (x < 1.0) {
-			return 1.0 - fun_ERF( a );
-		}
-
-		double z = -a * a;
-
-		if (z < -MAXLOG) {
-			return a < 0 ? 2.0 : 0.0;
-		}
-
-		z = Math.exp( z );
-
-		final double p, q;
-		if (x < 8.0) {
-			p = polevl( x, P, 8 );
-			q = p1evl( x, Q, 8 );
+	public static double fun_BINOMDIST( double _number, double _trials, double _probability, boolean _cumulative )
+	{
+		final int number = (int) _number;
+		final int trials = (int) _trials;
+		if (_cumulative) {
+			return binomialCumulative( number, trials, _probability );
 		}
 		else {
-			p = polevl( x, R, 5 );
-			q = p1evl( x, S, 6 );
+			return binomialDensity( number, trials, _probability );
+		}
+	}
+
+	private static double binomialCumulative( final int _number, final int _trials, final double _probability )
+	{
+		return Probability.binomial( _number, _trials, _probability );
+	}
+
+	private static double binomialDensity( final int _number, final int _trials, final double _probability )
+	{
+		if (_trials < 0 || _number < 0 || _number > _trials || _probability < 0 || _probability > 1) {
+			return 0; // Excel #NUM!
 		}
 
-		double y = (z * p) / q;
+		final double q = 1.0 - _probability;
+		double factor = Math.pow( q, _trials );
+		if (factor == 0.0) {
+			factor = Math.pow( _probability, _trials );
+			if (factor == 0.0) {
+				return 0; // Excel #NUM!
+			}
+			else {
+				final int max = _trials - _number;
+				for (int i = 0; i < max && factor > 0.0; i++) {
+					factor *= ((double) (_trials - i)) / ((double) (i + 1)) * q / _probability;
+				}
+				return factor;
 
-		if (a < 0) {
-			y = 2.0 - y;
+			}
+		}
+		else {
+			for (int i = 0; i < _number && factor > 0.0; i++) {
+				factor *= ((double) (_trials - i)) / ((double) (i + 1)) * _probability / q;
+			}
+			return factor;
+		}
+	}
+
+	public static double fun_CHIDIST( double _x, double _degFreedom )
+	{
+		if (_x < 0 || _degFreedom < 1) {
+			return 0; // Excel #NUM!
 		}
 
-		if (y == 0.0) {
-			return a < 0 ? 2.0 : 0.0;
+		return Probability.chiSquareComplemented( Math.floor( _degFreedom ), _x );
+	}
+
+	public static double fun_GAMMADIST( double _x, double _alpha, double _beta, boolean _cumulative )
+	{
+		if (_cumulative) {
+			return gammaCumulative( _x, _alpha, _beta );
+		}
+		else {
+			return gammaDensity( _x, _alpha, _beta );
+		}
+	}
+
+	private static double gammaCumulative( double _x, double _alpha, double _beta )
+	{
+		return Probability.gamma( 1 / _beta, _alpha, _x );
+	}
+
+	private static double gammaDensity( double _x, double _alpha, double _beta )
+	{
+		return Math.pow( _x, _alpha - 1 ) * Math.exp( -_x / _beta ) / (Math.pow( _beta, _alpha ) * Gamma.gamma( _alpha ));
+	}
+
+	public static double fun_POISSON( double _x, double _mean, boolean _cumulative )
+	{
+		if (_x < 0 || _mean < 0) {
+			return 0; // Excel #NUM!
 		}
 
-		return y;
+		final int x = (int) _x;
+		if (_cumulative) {
+			return poissonCumulative( x, _mean );
+		}
+		else {
+			return poissonDensity( x, _mean );
+		}
+	}
+
+	private static double poissonCumulative( final int _x, final double _mean )
+	{
+		return Probability.poisson( _x, _mean );
+	}
+
+	private static double poissonDensity( final int _x, final double _mean )
+	{
+		return Math.exp( -_mean ) * Math.pow( _mean, _x ) / factorial( _x );
 	}
 
 	public static double fun_MOD( double _n, double _d )
@@ -710,15 +602,26 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		}
 		else {
 			int a = (int) _a;
-			if (a < FACTORIALS.length) {
-				return FACTORIALS[ a ];
+			return factorial( a );
+		}
+	}
+
+	private static double factorial( int _a )
+	{
+		if (_a < 0) {
+			throw new IllegalArgumentException( "number < 0" );
+		}
+
+		if (_a < FACTORIALS.length) {
+			return FACTORIALS[ _a ];
+		}
+		else {
+			int i = FACTORIALS.length;
+			double r = FACTORIALS[ i - 1 ];
+			while (i <= _a) {
+				r *= i++;
 			}
-			else {
-				double r = 1;
-				while (a > 1)
-					r *= a--;
-				return r;
-			}
+			return r;
 		}
 	}
 

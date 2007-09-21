@@ -431,6 +431,31 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_ERFC( x );
 	}
 
+	public BigDecimal fun_BETADIST( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta )
+	{
+		return RuntimeBigDecimal_v2.fun_BETADIST( _x, _alpha, _beta );
+	}
+
+	public BigDecimal fun_BINOMDIST( BigDecimal _number, BigDecimal _trials, BigDecimal _probability, BigDecimal _cumulative )
+	{
+		return RuntimeBigDecimal_v2.fun_BINOMDIST( _number, _trials, _probability, _cumulative.signum() != 0 );
+	}
+
+	public BigDecimal fun_CHIDIST( BigDecimal _x, BigDecimal _degFreedom )
+	{
+		return RuntimeBigDecimal_v2.fun_CHIDIST( _x, _degFreedom );
+	}
+
+	public BigDecimal fun_GAMMADIST( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta, BigDecimal _cumulative )
+	{
+		return RuntimeBigDecimal_v2.fun_GAMMADIST( _x, _alpha, _beta, _cumulative.signum() != 0 );
+	}
+
+	public BigDecimal fun_POISSON( BigDecimal _x, BigDecimal _mean, BigDecimal _cumulative )
+	{
+		return RuntimeBigDecimal_v2.fun_POISSON( _x, _mean, _cumulative.signum() != 0 );
+	}
+
 	public BigDecimal fun_MOD( BigDecimal n, BigDecimal d )
 	{
 		return RuntimeBigDecimal_v2.fun_MOD( n, d );
