@@ -520,6 +520,31 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_ERFC( x, this.context );
 	}
 
+	public long fun_BETADIST( long _x, long _alpha, long _beta )
+	{
+		return RuntimeLong_v2.fun_BETADIST( _x, _alpha, _beta, this.context );
+	}
+
+	public long fun_BINOMDIST( long _number, long _trials, long _probability, long _cumulative )
+	{
+		return RuntimeLong_v2.fun_BINOMDIST( _number, _trials, _probability, _cumulative != 0, this.context );
+	}
+
+	public long fun_CHIDIST( long _x, long _degFreedom )
+	{
+		return RuntimeLong_v2.fun_CHIDIST( _x, _degFreedom, this.context );
+	}
+
+	public long fun_GAMMADIST( long _x, long _alpha, long _beta, long _cumulative )
+	{
+		return RuntimeLong_v2.fun_GAMMADIST( _x, _alpha, _beta, _cumulative != 0, this.context );
+	}
+
+	public long fun_POISSON( long _x, long _mean, long _cumulative )
+	{
+		return RuntimeLong_v2.fun_POISSON( _x, _mean, _cumulative != 0, this.context );
+	}
+
 	public long fun_MOD( long n, long d )
 	{
 		return RuntimeLong_v2.fun_MOD( n, d, this.context );
