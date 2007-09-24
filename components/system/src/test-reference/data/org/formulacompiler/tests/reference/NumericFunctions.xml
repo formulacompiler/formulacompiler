@@ -7,9 +7,9 @@
  xmlns:html="http://www.w3.org/TR/REC-html40">
  <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
   <Author>Peter Arrenbrecht</Author>
-  <LastAuthor>samsonov</LastAuthor>
+  <LastAuthor>vkorenev</LastAuthor>
   <Created>2005-11-22T20:05:38Z</Created>
-  <LastSaved>2007-09-13T14:44:14Z</LastSaved>
+  <LastSaved>2007-09-24T14:58:07Z</LastSaved>
   <Company>Opus Software AG</Company>
   <Version>11.8132</Version>
  </DocumentProperties>
@@ -30,42 +30,42 @@
    <NumberFormat/>
    <Protection/>
   </Style>
-  <Style ss:ID="s23">
+  <Style ss:ID="s21">
    <Font ss:FontName="Verdana" x:Family="Swiss" ss:Italic="1"/>
   </Style>
-  <Style ss:ID="s24">
+  <Style ss:ID="s22">
    <Alignment ss:Vertical="Center"/>
    <Font ss:FontName="Verdana" ss:Underline="Single"/>
   </Style>
-  <Style ss:ID="s25">
+  <Style ss:ID="s23">
    <Alignment ss:Vertical="Center"/>
    <Font ss:FontName="Verdana" ss:Italic="1" ss:Underline="Single"/>
   </Style>
  </Styles>
  <Names>
   <NamedRange ss:Name="ABSRange" ss:RefersTo="=Sheet1!R2C1:R10C14"/>
-  <NamedRange ss:Name="COMBINErrors" ss:RefersTo="=Sheet1!R455C1:R457C14"/>
+  <NamedRange ss:Name="COMBINErrors" ss:RefersTo="=Sheet1!R456C1:R458C14"/>
   <NamedRange ss:Name="COMBINLarge" ss:RefersTo="=Sheet1!#REF!"/>
-  <NamedRange ss:Name="COMBINRange" ss:RefersTo="=Sheet1!R443C1:R454C14"/>
+  <NamedRange ss:Name="COMBINRange" ss:RefersTo="=Sheet1!R443C1:R455C14"/>
   <NamedRange ss:Name="HeaderRange" ss:RefersTo="=Sheet1!R1C1:R1C14"/>
  </Names>
  <Worksheet ss:Name="Sheet1">
-  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="457" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="458" x:FullColumns="1"
    x:FullRows="1" ss:DefaultColumnWidth="54">
    <Column ss:AutoFitWidth="0" ss:Width="77.25"/>
    <Column ss:Width="85.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="108"/>
    <Column ss:AutoFitWidth="0" ss:Width="60.75"/>
    <Column ss:AutoFitWidth="0" ss:Width="36.75" ss:Span="4"/>
-   <Column ss:Index="10" ss:StyleID="s23" ss:AutoFitWidth="0" ss:Width="61.5"/>
+   <Column ss:Index="10" ss:StyleID="s21" ss:AutoFitWidth="0" ss:Width="61.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="145.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="92.25"/>
    <Column ss:AutoFitWidth="0" ss:Width="88.5"/>
-   <Row ss:AutoFitHeight="0" ss:Height="25.5" ss:StyleID="s24">
+   <Row ss:AutoFitHeight="0" ss:Height="25.5" ss:StyleID="s22">
     <Cell><Data ss:Type="String">Expected</Data><NamedCell ss:Name="HeaderRange"/></Cell>
     <Cell><Data ss:Type="String">Actual</Data><NamedCell ss:Name="HeaderRange"/></Cell>
     <Cell><Data ss:Type="String">Inputs</Data><NamedCell ss:Name="HeaderRange"/></Cell>
-    <Cell ss:Index="10" ss:StyleID="s25"><Data ss:Type="String"># of Inputs</Data><NamedCell
+    <Cell ss:Index="10" ss:StyleID="s23"><Data ss:Type="String"># of Inputs</Data><NamedCell
       ss:Name="HeaderRange"/></Cell>
     <Cell><Data ss:Type="String">Name</Data><NamedCell ss:Name="HeaderRange"/></Cell>
     <Cell><Data ss:Type="String">Highlight</Data><NamedCell ss:Name="HeaderRange"/></Cell>
@@ -344,7 +344,6 @@
     <Cell ss:Formula="=ASIN(RC[1])"><Data ss:Type="Number">1.5707963267948966</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
-    <Cell><Data ss:Type="String">...</Data></Cell>
    </Row>
    <Row>
     <Cell><Data ss:Type="Number">0</Data></Cell>
@@ -2785,12 +2784,21 @@
     <Cell><Data ss:Type="Number">1</Data><NamedCell ss:Name="COMBINRange"/></Cell>
     <Cell ss:Formula="=COMBIN(RC[1],RC[2])"><Data ss:Type="Number">1</Data><NamedCell
       ss:Name="COMBINRange"/></Cell>
-    <Cell><Data ss:Type="Number">1</Data><NamedCell ss:Name="COMBINRange"/></Cell>
+    <Cell><Data ss:Type="Number">0</Data><NamedCell ss:Name="COMBINRange"/></Cell>
     <Cell><Data ss:Type="Number">0</Data><NamedCell ss:Name="COMBINRange"/></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">2</Data><NamedCell
       ss:Name="COMBINRange"/></Cell>
     <Cell><Data ss:Type="String">COMBIN</Data><NamedCell ss:Name="COMBINRange"/></Cell>
     <Cell><Data ss:Type="String">COMBIN</Data><NamedCell ss:Name="COMBINRange"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data><NamedCell ss:Name="COMBINRange"/></Cell>
+    <Cell ss:Formula="=COMBIN(RC[1],RC[2])"><Data ss:Type="Number">1</Data><NamedCell
+      ss:Name="COMBINRange"/></Cell>
+    <Cell><Data ss:Type="Number">1</Data><NamedCell ss:Name="COMBINRange"/></Cell>
+    <Cell><Data ss:Type="Number">0</Data><NamedCell ss:Name="COMBINRange"/></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data><NamedCell
+      ss:Name="COMBINRange"/></Cell>
    </Row>
    <Row>
     <Cell><Data ss:Type="Number">1</Data><NamedCell ss:Name="COMBINRange"/></Cell>
@@ -2934,42 +2942,21 @@
     <VerticalResolution>600</VerticalResolution>
    </Print>
    <Selected/>
-   <TopRowVisible>120</TopRowVisible>
+   <TopRowVisible>409</TopRowVisible>
    <Panes>
     <Pane>
      <Number>3</Number>
-     <ActiveRow>157</ActiveRow>
-     <ActiveCol>1</ActiveCol>
+     <ActiveRow>442</ActiveRow>
+     <RangeSelection>R443C1:R455C14</RangeSelection>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>
    <ProtectScenarios>False</ProtectScenarios>
   </WorksheetOptions>
   <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
-   <Range>R443C3:R457C9,R2C3:R11C9,R12C3:R14C3,R221C3:R227C3,R421C3:R441C9,R401C3:R408C9,R362C3:R370C9,R350C3:R360C9,R410C3:R419C9,R391C3:R399C9,R372C3:R389C9,R233C3:R348C3,R164C3:R167C3,R145C3:R151C3,R153C3:R154C3,R136C3:R139C3,R136C4:R148C9,R101C3:R102C3,R99C3:R100C9,R101C4:R103C9,R104C3:R106C9,R111C3:R112C3,R107C4:R108C9,R109C3:R110C9,R111C4:R113C9,R82C3:R96C3,R156C4:R156C9,R197C3:R203C3,R209C3:R215C3,R156C3:R159C3,R161C3:R162C3,R173C3:R191C3,R164C5:R348C9,R164C4:R185C4,R187C4:R348C4,R21C3:R26C3,R33C3:R39C3,R46C3:R51C3,R58C3:R63C3,R70C3:R75C3,R12C4:R98C9,R114C3:R135C9</Range>
+   <Range>R2C3:R65536C9</Range>
    <Condition>
     <Value1>RC10&gt;COLUMN(RC)-3</Value1>
-    <Format Style='background:#CCFFCC'/>
-   </Condition>
-  </ConditionalFormatting>
-  <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
-   <Range>R44C3,R40C3:R42C3,R19C3,R15C3:R17C3,R64C3:R68C3,R140C3:R144C3,R168C3:R172C3,R192C3:R196C3,R216C3:R220C3,R228C3:R232C3,R149C4:R150C9,R153C4:R153C9,R97C3,R103C3,R107C3,R113C3,R204C3:R208C3,R157C4:R158C9,R161C4:R161C9,R31C3,R27C3:R29C3,R56C3,R52C3:R54C3,R76C3:R80C3</Range>
-   <Condition>
-    <Value1>R[-3]C10&gt;COLUMN(RC)-3</Value1>
-    <Format Style='background:#CCFFCC'/>
-   </Condition>
-  </ConditionalFormatting>
-  <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
-   <Range>R43C3,R18C3,R98C3,R108C3,R30C3,R55C3</Range>
-   <Condition>
-    <Value1>R[-4]C10&gt;COLUMN(RC)-3</Value1>
-    <Format Style='background:#CCFFCC'/>
-   </Condition>
-  </ConditionalFormatting>
-  <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
-   <Range>R45C3,R20C3,R69C3,R152C3,R151C4:R152C9,R155C3,R154C4:R155C9,R160C3,R159C4:R160C9,R163C3,R162C4:R163C9,R32C3,R57C3,R81C3</Range>
-   <Condition>
-    <Value1>R[-2]C10&gt;COLUMN(RC)-3</Value1>
     <Format Style='background:#CCFFCC'/>
    </Condition>
   </ConditionalFormatting>
