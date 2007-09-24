@@ -316,6 +316,7 @@ void fun(): {}
 	|	"MOD" fun2( Function.MOD )  
 	|	"MONTH" fun1( Function.MONTH )
 	|	"N" fun1( Function.N )
+	|	"NEGBINOMDIST" fun3( Function.NEGBINOMDIST )
 	|	"NORMDIST" fun4( Function.NORMDIST )
 	|	"NORMINV" fun3( Function.NORMINV )
 	|	"NORMSDIST" fun1( Function.NORMSDIST )
