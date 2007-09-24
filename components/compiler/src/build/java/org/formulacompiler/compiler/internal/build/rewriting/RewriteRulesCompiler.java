@@ -211,6 +211,16 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		def( Function.BETADIST, "x", "alpha", "beta", "a", "b", "BETADIST( (`x - `a) / (`b - `a), `alpha, `beta )" );
 		def( Function.BETADIST, "x", "alpha", "beta", "a", "BETADIST( `x, `alpha, `beta, `a,  1 )" );
 
+		begin( Function.NEGBINOMDIST, "x", "r", "p" );
+		{
+			body( "_LET( ix: INT( `x );" );
+			body( "  _LET( ir: INT( `r );" );
+			body( "    COMBIN( `ix + `ir - 1, `ir - 1 ) * POWER( `p, `ir) * POWER( 1 - `p, `ix )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
+
 		// This code is adopted from Colt Library (http://dsd.lbl.gov/~hoschek/colt/).
 		begin( Function.NORMSDIST, "a" );
 		{

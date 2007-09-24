@@ -9,7 +9,7 @@
   <Author>Peter Arrenbrecht</Author>
   <LastAuthor>vkorenev</LastAuthor>
   <Created>2005-11-22T20:05:38Z</Created>
-  <LastSaved>2007-09-20T12:04:30Z</LastSaved>
+  <LastSaved>2007-09-24T15:24:23Z</LastSaved>
   <Company>Opus Software AG</Company>
   <Version>11.8132</Version>
  </DocumentProperties>
@@ -46,7 +46,7 @@
   </Style>
  </Styles>
  <Worksheet ss:Name="Sheet1">
-  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="305" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="325" x:FullColumns="1"
    x:FullRows="1" ss:DefaultColumnWidth="54">
    <Column ss:AutoFitWidth="0" ss:Width="85.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="115.5"/>
@@ -2157,6 +2157,168 @@
     <Cell><Data ss:Type="String">...</Data></Cell>
    </Row>
    <Row ss:Index="237">
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">NEGBINOMDIST</Data></Cell>
+    <Cell><Data ss:Type="String">NEGBINOMDIST</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.16</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.16</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="12" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">3.1999999999999994E-2</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">3.1999999999999994E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">6.3999999999999977E-3</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">6.3999999999999977E-3</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.64</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.64</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.25600000000000001</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.25600000000000001</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="12" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">7.6799999999999979E-2</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">7.6799999999999979E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2.0479999999999991E-2</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">2.0479999999999991E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.51200000000000012</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.51200000000000012</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.30720000000000003</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.30720000000000003</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.12287999999999999</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.12287999999999999</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="12" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4.0959999999999989E-2</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">4.0959999999999989E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="12" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.04</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">4.0000000000000008E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">6.4000000000000015E-2</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">6.4000000000000015E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">7.6800000000000007E-2</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">7.6800000000000007E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">8.1920000000000034E-2</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">8.1920000000000034E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="12" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">8.1920000000000034E-2</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">8.1920000000000034E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">3.9</Data></Cell>
+    <Cell><Data ss:Type="Number">2.9</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row ss:Index="257">
     <Cell><Data ss:Type="Number">1</Data></Cell>
     <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">1</Data></Cell>
     <Cell><Data ss:Type="Number">0</Data></Cell>
@@ -2348,7 +2510,7 @@
     <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
     <Cell><Data ss:Type="String">...</Data></Cell>
    </Row>
-   <Row ss:Index="265">
+   <Row ss:Index="285">
     <Cell><Data ss:Type="Number">0.50636537543474258</Data></Cell>
     <Cell ss:Formula="=GAMMADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.50636537543474258</Data></Cell>
     <Cell><Data ss:Type="Number">0.6</Data></Cell>
@@ -2410,7 +2572,7 @@
     <Cell><Data ss:Type="String">...</Data></Cell>
     <Cell><Data ss:Type="String">...</Data></Cell>
    </Row>
-   <Row ss:Index="272">
+   <Row ss:Index="292">
     <Cell><Data ss:Type="Number">1</Data></Cell>
     <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1</Data></Cell>
     <Cell><Data ss:Type="Number">0</Data></Cell>
@@ -2694,11 +2856,12 @@
     <VerticalResolution>600</VerticalResolution>
    </Print>
    <Selected/>
-   <TopRowVisible>180</TopRowVisible>
+   <TopRowVisible>228</TopRowVisible>
    <Panes>
     <Pane>
      <Number>3</Number>
-     <ActiveRow>217</ActiveRow>
+     <ActiveRow>253</ActiveRow>
+     <ActiveCol>12</ActiveCol>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>
