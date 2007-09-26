@@ -59,11 +59,13 @@ For the sheet @NumericFunctions.xls@, we need to run the test class @NumericFunc
 
 h2. <a name="debug">Debug Test</a>
 
-Running these tests can take quite a while. To speed up debugging, you can use the special test case @org.formulacompiler.tests.reference.DebugTest@ in your IDE. Make sure you have added the following source path for this (not included in release builds):
+Running these tests can take quite a while. To speed up debugging, you can use special test cases derived from @org.formulacompiler.tests.reference.AbstractDebugTest@ in your IDE. Make sure you have added the following source path for this (not included in release builds):
 
   compononents/system/src/test-reference/java-debug
  
-Here is the test class:
+and also create your derived debug test cases there. Then they will be automatically ignored by Mercurial.
+ 
+Here is the base test class:
 
-	[jc:org.formulacompiler.tests.reference.DebugTest:---- DebugTest]
+	[jc:org.formulacompiler.tests.reference.AbstractDebugTest:---- DebugTest]
 

@@ -25,15 +25,23 @@ import java.io.IOException;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.compiler.internal.Debug;
 import org.formulacompiler.compiler.internal.Settings;
-import org.formulacompiler.tests.reference.AbstractDatabaseTableTest;
-
-
 
 /**
- * Special debugging testcase for automated multi-dimensional argument reference tests. See
- * constructor for how to configure it.
+ * Special debugging testcase for automated multi-dimensional argument reference tests.
+ * 
+ * <p>
+ * You configure it using one of the following constructor variants. At first, just run the suite
+ * you are interested in, or, if you know it, the starting row to use. Then, when you know which
+ * test fails (from the console output), configure it precisely. Note how
+ * <code>Integer.valueOf( "x", 2 )</code> is used to encode the bound/unbound input variant to
+ * use.
+ * 
+ * <pre><code> super( "DatabaseAggregators", 25 );
+ * super( "DatabaseAggregators", 25, NumType.DOUBLE, 
+ *     Integer.valueOf( "1", 2 ), false );
+ * </code></pre>
  */
-public final class DebugDatabaseTableTest extends AbstractDatabaseTableTest
+public abstract class AbstractDebugDatabaseTableTest extends AbstractDatabaseTableTest
 {
 
 	/**
@@ -44,18 +52,32 @@ public final class DebugDatabaseTableTest extends AbstractDatabaseTableTest
 		Settings.LOG_LETVARS.setEnabled( false );
 	}
 
-
 	/**
-	 * Configure which test to run here. At first, just run the suite you are interested in, or, if
-	 * you know it, the starting row to use. Then, when you know which test fails (from the console
-	 * output), configure it precisely. Note how <code>Integer.valueOf( "x", 2 )</code> is used to
-	 * encode the bound/unbound input variant to use.
+	 * Runs only a given row in a given configuration.
+	 * 
+	 * @param _baseName is the base name of the spreadsheet file (no extension).
+	 * @param _onlyRowNumbered is the row number of the test.
+	 * @param _onlyType is the numeric type.
+	 * @param _onlyInputVariant controls which cells to bind to input values; use a bit vector as in
+	 *           <code>Integer.valueOf( "x", 2 )</code>.
+	 * @param _caching controls whether to enable caching or not.
 	 */
-	public DebugDatabaseTableTest()
+	protected AbstractDebugDatabaseTableTest( String _baseName, int _onlyRowNumbered, NumType _onlyType,
+			int _onlyInputVariant, boolean _caching )
 	{
-		super( "DatabaseAggregators", 25, NumType.DOUBLE, Integer.valueOf( "1", 2 ), false );
+		super( _baseName, _onlyRowNumbered, _onlyType, _onlyInputVariant, _caching );
 	}
 
+	/**
+	 * Runs the tests starting with the given row.
+	 * 
+	 * @param _baseName is the base name of the spreadsheet file (no extension).
+	 * @param _startingRowNumber is the row number fo the first test to run.
+	 */
+	protected AbstractDebugDatabaseTableTest( String _baseName, int _startingRowNumber )
+	{
+		super( _baseName, _startingRowNumber );
+	}
 
 	/**
 	 * Logs the generated engine .jar to "temp/debug.jar" in case of a test failure. You can use
