@@ -21,6 +21,7 @@
 package org.formulacompiler.compiler.internal.model.optimizer;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.Operator;
@@ -54,7 +55,7 @@ public abstract class AbstractOptimizerTest extends AbstractIOTestBase
 	protected CellModel bandRefSum;
 
 
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	@Override
 	protected void setUp() throws Exception
 	{
@@ -135,8 +136,7 @@ public abstract class AbstractOptimizerTest extends AbstractIOTestBase
 	protected ExpressionNode outer( SectionModel _band, ExpressionNode... _args )
 	{
 		ExpressionNodeForParentSectionModel result = new ExpressionNodeForParentSectionModel( _band.getSection() );
-		for (ExpressionNode arg : _args)
-			result.arguments().add( arg );
+		Collections.addAll( result.arguments(), _args );
 		return result;
 	}
 
@@ -144,8 +144,7 @@ public abstract class AbstractOptimizerTest extends AbstractIOTestBase
 	protected ExpressionNode inner( SectionModel _band, ExpressionNode... _args )
 	{
 		ExpressionNodeForSubSectionModel result = new ExpressionNodeForSubSectionModel( _band );
-		for (ExpressionNode arg : _args)
-			result.arguments().add( arg );
+		Collections.addAll( result.arguments(), _args );
 		return result;
 	}
 
