@@ -121,7 +121,7 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 	@Override
 	public SaveableEngine compile() throws CompilerException, EngineException
 	{
-		final Map<String, byte[]> classNamesAndBytes = New.newMap();
+		final Map<String, byte[]> classNamesAndBytes = New.map();
 
 		final SectionCompiler rootCompiler = new RootSectionCompiler( this, getModel().getRoot() );
 		this.rootCompiler = rootCompiler;

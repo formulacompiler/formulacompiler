@@ -69,7 +69,7 @@ abstract class AbstractExpressionRewriter
 
 	protected final ExpressionNode substitution( Iterator<ExpressionNode> _exprs )
 	{
-		Collection<ExpressionNode> coll = New.newCollection();
+		Collection<ExpressionNode> coll = New.collection();
 		while (_exprs.hasNext())
 			coll.add( _exprs.next() );
 		return substitution( coll );

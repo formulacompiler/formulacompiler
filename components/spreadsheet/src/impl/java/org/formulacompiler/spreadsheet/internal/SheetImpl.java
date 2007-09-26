@@ -35,7 +35,7 @@ public final class SheetImpl extends AbstractDescribable implements Spreadsheet.
 	private final SpreadsheetImpl spreadsheet;
 	private final int sheetIndex;
 	private final String name;
-	private final List<RowImpl> rows = New.newList();
+	private final List<RowImpl> rows = New.list();
 
 
 	public SheetImpl(SpreadsheetImpl _spreadsheet)

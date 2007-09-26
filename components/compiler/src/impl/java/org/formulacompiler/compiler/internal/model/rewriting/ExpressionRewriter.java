@@ -326,7 +326,7 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 	 */
 	private ExpressionNode rewriteIndex( ExpressionNodeForFunction _fun )
 	{
-		final List<ExpressionNode> newArgs = New.newList();
+		final List<ExpressionNode> newArgs = New.list();
 		newArgs.addAll( _fun.arguments() );
 		boolean rewritten = false;
 		for (int iArg = 1; iArg <= 2 && iArg < _fun.cardinality(); iArg++) {

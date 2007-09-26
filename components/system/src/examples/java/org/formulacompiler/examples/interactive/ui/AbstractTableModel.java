@@ -31,7 +31,7 @@ import org.formulacompiler.runtime.New;
 
 public abstract class AbstractTableModel implements TableModel
 {
-	protected final Collection<TableModelListener> listeners = New.newCollection();
+	protected final Collection<TableModelListener> listeners = New.collection();
 
 
 	public void addTableModelListener( TableModelListener _l )

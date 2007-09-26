@@ -29,7 +29,7 @@ import org.formulacompiler.runtime.New;
 
 public final class ExcelNumberFormat
 {
-	private static Map<String, NumberFormat> standardFormats = New.newMap();
+	private static Map<String, NumberFormat> standardFormats = New.map();
 
 
 	static {

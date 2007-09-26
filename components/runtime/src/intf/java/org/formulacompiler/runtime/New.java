@@ -41,57 +41,57 @@ import java.util.TreeSet;
 public final class New
 {
 
-	public static <T> List<T> newArrayList()
+	public static <T> List<T> arrayList()
 	{
 		return new ArrayList<T>();
 	}
 
-	public static <T> List<T> newArrayList( int _initialSize )
+	public static <T> List<T> arrayList( int _initialSize )
 	{
 		return new ArrayList<T>( _initialSize );
 	}
 
-	public static <T> List<T> newList()
+	public static <T> List<T> list()
 	{
-		return newArrayList();
+		return arrayList();
 	}
 
-	public static <T> List<T> newList( int _initialSize )
+	public static <T> List<T> list( int _initialSize )
 	{
-		return newArrayList( _initialSize );
+		return arrayList( _initialSize );
 	}
 
-	public static <T> Collection<T> newCollection()
+	public static <T> Collection<T> collection()
 	{
-		return newList();
+		return list();
 	}
 
-	public static <T> Collection<T> newCollection( int _initialSize )
+	public static <T> Collection<T> collection( int _initialSize )
 	{
-		return newList( _initialSize );
+		return list( _initialSize );
 	}
 
-	public static <K, V> Map<K, V> newHashMap()
+	public static <K, V> Map<K, V> hashMap()
 	{
 		return new HashMap<K, V>();
 	}
 
-	public static <K, V> Map<K, V> newMap()
+	public static <K, V> Map<K, V> map()
 	{
-		return newHashMap();
+		return hashMap();
 	}
 
-	public static <T> SortedSet<T> newSortedSet()
+	public static <T> SortedSet<T> sortedSet()
 	{
 		return new TreeSet<T>();
 	}
 
-	public static <K, V> SortedMap<K, V> newSortedMap()
+	public static <K, V> SortedMap<K, V> sortedMap()
 	{
 		return new TreeMap<K, V>();
 	}
 
-	public static <T> Set<T> newSet()
+	public static <T> Set<T> set()
 	{
 		return new HashSet<T>();
 	}

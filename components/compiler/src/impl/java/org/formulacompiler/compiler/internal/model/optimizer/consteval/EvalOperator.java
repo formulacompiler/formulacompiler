@@ -65,7 +65,7 @@ public class EvalOperator extends EvalShadow
 	private final ExpressionNodeForOperator concatConsecutiveConstArgsOf( ExpressionNodeForOperator _opNode )
 			throws InterpreterException
 	{
-		final Collection<ExpressionNode> newArgs = New.newCollection( _opNode.arguments().size() );
+		final Collection<ExpressionNode> newArgs = New.collection( _opNode.arguments().size() );
 		boolean modified = false;
 		StringBuilder buildUp = null;
 		for (final ExpressionNode arg : _opNode.arguments()) {

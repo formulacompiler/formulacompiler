@@ -32,7 +32,7 @@ public final class RowImpl extends AbstractStyledElement implements Spreadsheet.
 {
 	private final SheetImpl sheet;
 	private final int rowIndex;
-	private final List<CellInstance> cells = New.newList();
+	private final List<CellInstance> cells = New.list();
 
 
 	public RowImpl(SheetImpl _sheet)

@@ -47,7 +47,7 @@ abstract class ExpressionParserBase
 	 * Use a List instead of a Deque here so {@link #popNodes(int)} does not have to reverse
 	 * elements.
 	 */
-	private List<ExpressionNode> nodes = New.newList();
+	private List<ExpressionNode> nodes = New.list();
 
 	protected final void pushNode( ExpressionNode _node )
 	{
@@ -70,7 +70,7 @@ abstract class ExpressionParserBase
 			throw new IllegalArgumentException( "_howMany > have" );
 		}
 		else {
-			final List<ExpressionNode> result = New.newList( _howMany );
+			final List<ExpressionNode> result = New.list( _howMany );
 			for (int i = have - _howMany; i < have; i++) {
 				result.add( this.nodes.get( i ) );
 			}

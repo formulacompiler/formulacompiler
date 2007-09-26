@@ -74,7 +74,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 	public Collection<CellNameDefinition> cellNamesLeftUnbound()
 	{
 		final NameDefinition[] defs = getBinder().getSpreadsheet().getDefinedNames();
-		final Collection<CellNameDefinition> result = New.newCollection( defs.length );
+		final Collection<CellNameDefinition> result = New.collection( defs.length );
 		final SpreadsheetBinder binder = getBinder();
 		for (NameDefinition def : defs) {
 			if (def instanceof CellNameDefinition) {

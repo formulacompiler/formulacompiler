@@ -81,7 +81,7 @@ public final class Util
 
 	public static Map<String, Method> abstractMethodsOf( final Class _class )
 	{
-		final Map<String, Method> result = New.newMap();
+		final Map<String, Method> result = New.map();
 		collectAbstractMethods( _class, result );
 		return result;
 	}

@@ -40,8 +40,8 @@ import org.formulacompiler.spreadsheet.SpreadsheetException;
  */
 public final class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
 {
-	private final List<SheetImpl> sheets = New.newList();
-	private final Map<String, Reference> names = New.newMap();
+	private final List<SheetImpl> sheets = New.list();
+	private final Map<String, Reference> names = New.map();
 
 
 	public List<SheetImpl> getSheetList()

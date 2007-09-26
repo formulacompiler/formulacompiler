@@ -385,7 +385,7 @@ public final class SectionModelCompiler
 		private ExpressionNode buildContainedRange() throws CompilerException
 		{
 			final Orientation ownOrient = this.sectionDef.getOrientation();
-			final Collection<ExpressionNode> elts = New.newCollection();
+			final Collection<ExpressionNode> elts = New.collection();
 
 			/*
 			 * This loop relies on the subsections of the current section being sorted in ascending

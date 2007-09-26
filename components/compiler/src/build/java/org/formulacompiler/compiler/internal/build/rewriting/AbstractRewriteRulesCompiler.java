@@ -53,7 +53,7 @@ public abstract class AbstractRewriteRulesCompiler
 
 	private final DescriptionBuilder cases = new DescriptionBuilder();
 	private final DescriptionBuilder methods = new DescriptionBuilder();
-	private final List<Rule> rules = New.newList();
+	private final List<Rule> rules = New.list();
 
 	protected AbstractRewriteRulesCompiler()
 	{
@@ -204,7 +204,7 @@ public abstract class AbstractRewriteRulesCompiler
 		{
 			super();
 			this.fun = _fun;
-			this.params = New.newList( _params.length );
+			this.params = New.list( _params.length );
 			for (final String p : _params)
 				param( p );
 		}
@@ -248,7 +248,7 @@ public abstract class AbstractRewriteRulesCompiler
 
 
 		private final LetDictionary letDict = new LetDictionary();
-		private final Set<String> letVars = New.newSet();
+		private final Set<String> letVars = New.set();
 		private char nextLetVarSuffix = 'a';
 
 		private final UniqueLetVarName compileUniqueLetVarName( String _name )

@@ -195,7 +195,7 @@ public class CustomerRatingWithOrders extends TestCase
 
 		public Iterable<OrderData> ordersForLastNDaysIterable( int _days )
 		{
-			final Collection<OrderData> result = New.newCollection( this.orders.length );
+			final Collection<OrderData> result = New.collection( this.orders.length );
 			for (OrderData order : this.orders)
 				result.add( order );
 			return result;
