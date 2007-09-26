@@ -32,14 +32,14 @@ public class ExpressionNodeForFunction extends ExpressionNode
 	private final Function function;
 
 
-	public ExpressionNodeForFunction(Function _function, ExpressionNode... _args)
+	public ExpressionNodeForFunction( Function _function, ExpressionNode... _args )
 	{
 		super( _args );
 		this.function = _function;
 	}
 
 
-	public ExpressionNodeForFunction(Function _function, Collection _args)
+	public ExpressionNodeForFunction( Function _function, Collection<ExpressionNode> _args )
 	{
 		super( _args );
 		this.function = _function;
@@ -64,8 +64,8 @@ public class ExpressionNodeForFunction extends ExpressionNode
 	{
 		return 1;
 	}
-	
-	
+
+
 	@Override
 	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{

@@ -34,12 +34,12 @@ public final class ExpressionNodeForSubstitution extends ExpressionNode
 		super();
 	}
 
-	public ExpressionNodeForSubstitution(ExpressionNode... _args)
+	public ExpressionNodeForSubstitution( ExpressionNode... _args )
 	{
 		super( _args );
 	}
 
-	public ExpressionNodeForSubstitution(Collection _args)
+	public ExpressionNodeForSubstitution( Collection<ExpressionNode> _args )
 	{
 		super( _args );
 	}
@@ -57,7 +57,7 @@ public final class ExpressionNodeForSubstitution extends ExpressionNode
 	{
 		return countArgumentValues( _letDict, _uncountables );
 	}
-	
+
 	@Override
 	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
 	{
