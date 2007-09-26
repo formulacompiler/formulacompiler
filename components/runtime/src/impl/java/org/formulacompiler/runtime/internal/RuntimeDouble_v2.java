@@ -472,15 +472,13 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return Probability.beta( _alpha, _beta, _x );
 	}
 
-	public static double fun_BINOMDIST( double _number, double _trials, double _probability, boolean _cumulative )
+	public static double fun_BINOMDIST( int _successes, int _trials, double _probability, boolean _cumulative )
 	{
-		final int number = (int) _number;
-		final int trials = (int) _trials;
 		if (_cumulative) {
-			return binomialCumulative( number, trials, _probability );
+			return binomialCumulative( _successes, _trials, _probability );
 		}
 		else {
-			return binomialDensity( number, trials, _probability );
+			return binomialDensity( _successes, _trials, _probability );
 		}
 	}
 
@@ -548,18 +546,17 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return Math.pow( _x, _alpha - 1 ) * Math.exp( -_x / _beta ) / (Math.pow( _beta, _alpha ) * Gamma.gamma( _alpha ));
 	}
 
-	public static double fun_POISSON( double _x, double _mean, boolean _cumulative )
+	public static double fun_POISSON( int _x, double _mean, boolean _cumulative )
 	{
 		if (_x < 0 || _mean < 0) {
 			return 0; // Excel #NUM!
 		}
 
-		final int x = (int) _x;
 		if (_cumulative) {
-			return poissonCumulative( x, _mean );
+			return poissonCumulative( _x, _mean );
 		}
 		else {
-			return poissonDensity( x, _mean );
+			return poissonDensity( _x, _mean );
 		}
 	}
 

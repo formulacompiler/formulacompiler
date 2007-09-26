@@ -466,7 +466,7 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_BINOMDIST( double _number, double _trials, double _probability, double _cumulative )
 	{
-		return RuntimeDouble_v2.fun_BINOMDIST( _number, _trials, _probability, _cumulative != 0 );
+		return RuntimeDouble_v2.fun_BINOMDIST( (int) _number, (int) _trials, _probability, _cumulative != 0 );
 	}
 
 	public double fun_CHIDIST( double _x, double _degFreedom )
@@ -481,7 +481,7 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_POISSON( double _x, double _mean, double _cumulative )
 	{
-		return RuntimeDouble_v2.fun_POISSON( _x, _mean, _cumulative != 0 );
+		return RuntimeDouble_v2.fun_POISSON( (int) _x, _mean, _cumulative != 0 );
 	}
 
 	public double fun_MOD( double n, double d )

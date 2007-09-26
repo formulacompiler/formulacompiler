@@ -343,9 +343,9 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		return BigDecimal.valueOf( RuntimeDouble_v2.fun_BETADIST( _x.doubleValue(), _alpha.doubleValue(), _beta.doubleValue() ) );
 	}
 
-	public static BigDecimal fun_BINOMDIST( BigDecimal _number, BigDecimal _trials, BigDecimal _probability, boolean _cumulative )
+	public static BigDecimal fun_BINOMDIST( BigDecimal _successes, BigDecimal _trials, BigDecimal _probability, boolean _cumulative )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_BINOMDIST( _number.doubleValue(), _trials.doubleValue(), _probability.doubleValue(), _cumulative ) );
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_BINOMDIST( _successes.intValue(), _trials.intValue(), _probability.doubleValue(), _cumulative ) );
 	}
 
 	public static BigDecimal fun_CHIDIST( BigDecimal _x, BigDecimal _degFreedom )
@@ -360,7 +360,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 
 	public static BigDecimal fun_POISSON( BigDecimal _x, BigDecimal _mean, boolean _cumulative )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_POISSON( _x.doubleValue(), _mean.doubleValue(), _cumulative ) );
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_POISSON( _x.intValue(), _mean.doubleValue(), _cumulative ) );
 	}
 
 	public static BigDecimal fun_LOG( final BigDecimal _n, final BigDecimal _x )
