@@ -276,6 +276,7 @@ void fun(): {}
 	// The warnings on the following two lines about "(" are OK. They are caused by the annoying range intersection syntax. 
 	|	"FALSE" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 0 )); }
 	|	"false" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 0 )); }
+	|	"FDIST" fun3( Function.FDIST )
 	|	"FIND" fun2to3( Function.FIND )
 	|	"FLOOR" fun2( Function.FLOOR )
 	|	"FV" fun3to5( Function.FV )
@@ -362,6 +363,7 @@ void fun(): {}
 	|	"T" fun1( Function.T )
 	|	"TAN" fun1( Function.TAN )
 	|	"TANH" fun1( Function.TANH )	
+	|	"TDIST" fun3( Function.TDIST )
 	|	"TEXT" fun2( Function.TEXT )
 	|	"TIME" fun3( Function.TIME )
 	|	"TODAY" fun0( Function.TODAY )

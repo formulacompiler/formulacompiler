@@ -211,6 +211,18 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		def( Function.BETADIST, "x", "alpha", "beta", "a", "b", "BETADIST( (`x - `a) / (`b - `a), `alpha, `beta )" );
 		def( Function.BETADIST, "x", "alpha", "beta", "a", "BETADIST( `x, `alpha, `beta, `a,  1 )" );
 
+		begin( Function.FDIST, "x", "df1", "df2" );
+		{
+			body( "_LET( idf1: INT( `df1 );" );
+			body( "  _LET( idf2: INT( `df2 );" );
+			body( "    IF( OR( `x < 0, `idf1 < 1, `idf2 < 1 ), 0," );
+			body( "      BETADIST( `idf2 / (`idf2 + `idf1 * `x), `idf2 / 2, `idf1 / 2 )" );
+			body( "    )" );
+			body( "  )" );
+			body( ")" );
+		}
+		end();
+
 		begin( Function.NEGBINOMDIST, "x", "r", "p" );
 		{
 			body( "_LET( ix: INT( `x );" );
