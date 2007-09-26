@@ -20,6 +20,8 @@
  */
 package org.formulacompiler.compiler.internal.model.rewriting;
 
+import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
+
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
@@ -30,7 +32,8 @@ import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumeri
 final class FunctionRewriterForDPRODUCT extends AbstractFunctionRewriterForDatabaseAggregator
 {
 
-	public FunctionRewriterForDPRODUCT(ComputationModel _model, ExpressionNodeForFunction _fun, InterpretedNumericType _type)
+	public FunctionRewriterForDPRODUCT( ComputationModel _model, ExpressionNodeForFunction _fun,
+			InterpretedNumericType _type )
 	{
 		super( _model, _fun, _type );
 	}
@@ -39,7 +42,7 @@ final class FunctionRewriterForDPRODUCT extends AbstractFunctionRewriterForDatab
 	@Override
 	protected ExpressionNode initialAccumulatorValue()
 	{
-		return cst( 1.0 );
+		return ONE;
 	}
 
 

@@ -25,6 +25,7 @@ import java.util.Iterator;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.internal.expressions.*;
+import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
 
 
 /**

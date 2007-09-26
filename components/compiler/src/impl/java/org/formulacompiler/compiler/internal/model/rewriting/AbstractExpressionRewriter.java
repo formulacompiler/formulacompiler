@@ -20,24 +20,13 @@
  */
 package org.formulacompiler.compiler.internal.model.rewriting;
 
-import java.util.Collection;
-import java.util.Iterator;
-
-import org.formulacompiler.compiler.Function;
-import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFold;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldArray;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForReduce;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSubstitution;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
-import org.formulacompiler.runtime.New;
 
 
 abstract class AbstractExpressionRewriter
@@ -48,49 +37,6 @@ abstract class AbstractExpressionRewriter
 	protected final String newSanitizingSuffix()
 	{
 		return String.valueOf( this.nextSanitizingId++ );
-	}
-
-
-	protected final ExpressionNode substitution( ExpressionNode _expr )
-	{
-		if (_expr instanceof ExpressionNodeForSubstitution) {
-			return _expr;
-		}
-		return new ExpressionNodeForSubstitution( _expr );
-	}
-
-	protected final ExpressionNode substitution( Collection<ExpressionNode> _exprs )
-	{
-		if (_exprs.size() == 1) {
-			return substitution( _exprs.iterator().next() );
-		}
-		return new ExpressionNodeForSubstitution( _exprs );
-	}
-
-	protected final ExpressionNode substitution( Iterator<ExpressionNode> _exprs )
-	{
-		Collection<ExpressionNode> coll = New.collection();
-		while (_exprs.hasNext())
-			coll.add( _exprs.next() );
-		return substitution( coll );
-	}
-
-
-	protected final ExpressionNodeForOperator op( Operator _op, String _a, String _b )
-	{
-		return new ExpressionNodeForOperator( _op, var( _a ), var( _b ) );
-	}
-
-
-	protected final ExpressionNodeForOperator op( Operator _op, ExpressionNode... _args )
-	{
-		return new ExpressionNodeForOperator( _op, _args );
-	}
-
-
-	protected final ExpressionNodeForFunction fun( Function _fun, ExpressionNode... _args )
-	{
-		return new ExpressionNodeForFunction( _fun, _args );
 	}
 
 
@@ -112,31 +58,6 @@ abstract class AbstractExpressionRewriter
 			ExpressionNode _xs )
 	{
 		return new ExpressionNodeForFoldArray( _acc, _init, _x, _i, _fold, _xs );
-	}
-
-
-	protected final ExpressionNode let( String _n, ExpressionNode _value, ExpressionNode _in )
-	{
-		return new ExpressionNodeForLet( _n, _value, _in );
-	}
-
-	protected final ExpressionNode symbolicLet( String _n, ExpressionNode _value, ExpressionNode _in )
-	{
-		final ExpressionNodeForLet let = new ExpressionNodeForLet( _n, _value, _in );
-		let.setSymbolic( true );
-		return let;
-	}
-
-
-	protected final ExpressionNodeForLetVar var( String _a )
-	{
-		return new ExpressionNodeForLetVar( _a );
-	}
-
-
-	protected final ExpressionNodeForConstantValue cst( Object _value )
-	{
-		return new ExpressionNodeForConstantValue( _value );
 	}
 
 

@@ -20,6 +20,8 @@
  */
 package org.formulacompiler.compiler.internal.model.rewriting;
 
+import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
+
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.Iterator;
@@ -464,8 +466,8 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 			else {
 				final String critName = "crit" + this.nextCritID++;
 
-				final ExpressionNodeForLet newLet = new ExpressionNodeForLet( critName, false, _criterion );
-				newLet.setShouldCache( false );
+				final ExpressionNodeForLet newLet = new ExpressionNodeForLet( ExpressionNodeForLet.Type.BYNAME, critName,
+						_criterion );
 				if (this.lastLet == null) {
 					this.firstLet = this.lastLet = newLet;
 				}

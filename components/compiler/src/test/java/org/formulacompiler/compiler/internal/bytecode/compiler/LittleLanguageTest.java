@@ -20,7 +20,9 @@
  */
 package org.formulacompiler.compiler.internal.bytecode.compiler;
 
-import org.formulacompiler.compiler.CallFrame;
+import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
+import static org.formulacompiler.compiler.internal.model.ComputationModelBuilder.*;
+
 import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.NumericType;
@@ -35,9 +37,6 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConsta
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForDatabaseFold;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFold;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldArray;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMakeArray;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForReduce;
@@ -45,8 +44,6 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitch
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitchCase;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ComputationModel;
-import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
-import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionModel;
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.compiler.internal.model.analysis.TypeAnnotator;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
@@ -85,18 +82,15 @@ public class LittleLanguageTest extends AbstractIOTestBase
 	{
 		final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutReset.class );
 		final SectionModel rootModel = engineModel.getRoot();
-		final CellModel a = new CellModel( rootModel, "a" );
-		final CellModel r = new CellModel( rootModel, "r" );
+		final CellModel a = cst( rootModel, "a", 1.0 );
 
-		a.setConstantValue( 1.0 );
+		final ExpressionNode val = cell( a );
+		final ExpressionNode x = var( "x" );
+		final ExpressionNode expr = op( Operator.PLUS, x, x );
+		final CellModel r = expr( rootModel, "r", let( "x", val, expr ) );
 
-		final ExpressionNodeForCellModel val = new ExpressionNodeForCellModel( a );
-		final ExpressionNodeForLetVar x = new ExpressionNodeForLetVar( "x" );
-		final ExpressionNodeForOperator expr = new ExpressionNodeForOperator( Operator.PLUS, x, x );
-		r.setExpression( new ExpressionNodeForLet( "x", val, expr ) );
-
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleIncr" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		a.makeInput( getInput( "getDoubleIncr" ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		assertDoubleResult( new Inputs().getDoubleIncr() * 2, engineModel );
 	}
@@ -111,15 +105,15 @@ public class LittleLanguageTest extends AbstractIOTestBase
 
 		a.setConstantValue( 1.0 );
 
-		final ExpressionNode val = new ExpressionNodeForCellModel( a );
-		final ExpressionNode outerX = new ExpressionNodeForLetVar( "x" );
-		final ExpressionNode innerX = new ExpressionNodeForLetVar( "x" );
-		final ExpressionNode innerLet = new ExpressionNodeForLet( "x", outerX, innerX );
-		final ExpressionNode outerLet = new ExpressionNodeForLet( "x", val, innerLet );
+		final ExpressionNode val = cell( a );
+		final ExpressionNode outerX = var( "x" );
+		final ExpressionNode innerX = var( "x" );
+		final ExpressionNode innerLet = let( "x", outerX, innerX );
+		final ExpressionNode outerLet = let( "x", val, innerLet );
 		r.setExpression( outerLet );
 
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleIncr" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		a.makeInput( getInput( "getDoubleIncr" ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		final Inputs inp = new Inputs();
 		try {
@@ -144,19 +138,19 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		a.setConstantValue( 1.0 );
 		b.setConstantValue( 2.0 );
 
-		final ExpressionNode ca = new ExpressionNodeForCellModel( a );
-		final ExpressionNode cb = new ExpressionNodeForCellModel( b );
-		final ExpressionNode x = new ExpressionNodeForLetVar( "x" );
-		final ExpressionNode one = new ExpressionNodeForConstantValue( 1 );
-		final ExpressionNode plus = new ExpressionNodeForOperator( Operator.PLUS, x, x );
-		final ExpressionNode cond = new ExpressionNodeForOperator( Operator.EQUAL, cb, one );
-		final ExpressionNode ifElse = new ExpressionNodeForFunction( Function.IF, cond, plus, x );
-		final ExpressionNode test = new ExpressionNodeForOperator( Operator.PLUS, ifElse, x );
-		r.setExpression( new ExpressionNodeForLet( "x", ca, test ) );
+		final ExpressionNode ca = cell( a );
+		final ExpressionNode cb = cell( b );
+		final ExpressionNode x = var( "x" );
+		final ExpressionNode one = cst( 1 );
+		final ExpressionNode plus = op( Operator.PLUS, x, x );
+		final ExpressionNode cond = op( Operator.EQUAL, cb, one );
+		final ExpressionNode ifElse = fun( Function.IF, cond, plus, x );
+		final ExpressionNode test = op( Operator.PLUS, ifElse, x );
+		r.setExpression( let( "x", ca, test ) );
 
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleIncr" ) ) );
-		b.makeInput( new CallFrame( Inputs.class.getMethod( "getOne" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		a.makeInput( getInput( "getDoubleIncr" ) );
+		b.makeInput( getInput( "getOne" ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		// Test true branch
 		final Inputs in = new Inputs();
@@ -180,19 +174,19 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		a.setConstantValue( 1.0 );
 		b.setConstantValue( 2.0 );
 
-		final ExpressionNode ca = new ExpressionNodeForCellModel( a );
-		final ExpressionNode cb = new ExpressionNodeForCellModel( b );
-		final ExpressionNode x = new ExpressionNodeForLetVar( "x" );
-		final ExpressionNode one = new ExpressionNodeForConstantValue( 1 );
-		final ExpressionNode plus = new ExpressionNodeForOperator( Operator.PLUS, x, x );
-		final ExpressionNode cond = new ExpressionNodeForOperator( Operator.EQUAL, cb, one );
-		final ExpressionNode ifElse = new ExpressionNodeForFunction( Function.IF, cond, plus, one );
-		final ExpressionNode test = new ExpressionNodeForOperator( Operator.PLUS, ifElse, x );
-		r.setExpression( new ExpressionNodeForLet( "x", ca, test ) );
+		final ExpressionNode ca = cell( a );
+		final ExpressionNode cb = cell( b );
+		final ExpressionNode x = var( "x" );
+		final ExpressionNode one = cst( 1 );
+		final ExpressionNode plus = op( Operator.PLUS, x, x );
+		final ExpressionNode cond = op( Operator.EQUAL, cb, one );
+		final ExpressionNode ifElse = fun( Function.IF, cond, plus, one );
+		final ExpressionNode test = op( Operator.PLUS, ifElse, x );
+		r.setExpression( let( "x", ca, test ) );
 
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleIncr" ) ) );
-		b.makeInput( new CallFrame( Inputs.class.getMethod( "getOne" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		a.makeInput( getInput( "getDoubleIncr" ) );
+		b.makeInput( getInput( "getOne" ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		/*
 		 * Since we are initializing x only in one branch of the IF, the final access to x outside of
@@ -221,19 +215,19 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		a.setConstantValue( 1.0 );
 		b.setConstantValue( 2.0 );
 
-		final ExpressionNode ca = new ExpressionNodeForCellModel( a );
-		final ExpressionNode cb = new ExpressionNodeForCellModel( b );
-		final ExpressionNode x = new ExpressionNodeForLetVar( "x" );
-		final ExpressionNode one = new ExpressionNodeForConstantValue( 1 );
-		final ExpressionNode plus = new ExpressionNodeForOperator( Operator.PLUS, x, x );
-		final ExpressionNode cond = new ExpressionNodeForOperator( Operator.EQUAL, cb, one );
-		final ExpressionNode ifElse = new ExpressionNodeForFunction( Function.IF, cond, one, plus );
-		final ExpressionNode test = new ExpressionNodeForOperator( Operator.PLUS, ifElse, x );
-		r.setExpression( new ExpressionNodeForLet( "x", ca, test ) );
+		final ExpressionNode ca = cell( a );
+		final ExpressionNode cb = cell( b );
+		final ExpressionNode x = var( "x" );
+		final ExpressionNode one = cst( 1 );
+		final ExpressionNode plus = op( Operator.PLUS, x, x );
+		final ExpressionNode cond = op( Operator.EQUAL, cb, one );
+		final ExpressionNode ifElse = fun( Function.IF, cond, one, plus );
+		final ExpressionNode test = op( Operator.PLUS, ifElse, x );
+		r.setExpression( let( "x", ca, test ) );
 
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleIncr" ) ) );
-		b.makeInput( new CallFrame( Inputs.class.getMethod( "getOne" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		a.makeInput( getInput( "getDoubleIncr" ) );
+		b.makeInput( getInput( "getOne" ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		/*
 		 * Since we are initializing x only in one branch of the IF, the final access to x outside of
@@ -277,18 +271,16 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		b.setConstantValue( 2.0 );
 		c.setConstantValue( 3.0 );
 
-		final ExpressionNode init = new ExpressionNodeForConstantValue( _mayReduce? 17 : 0 );
-		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
-				new ExpressionNodeForLetVar( "xi" ) );
-		final ExpressionNode[] args = { new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
-				new ExpressionNodeForCellModel( c ) };
+		final ExpressionNode init = cst( _mayReduce? 17 : 0 );
+		final ExpressionNode fold = op( Operator.PLUS, var( "acc" ), var( "xi" ) );
+		final ExpressionNode[] args = { cell( a ), cell( b ), cell( c ) };
 
 		r.setExpression( new ExpressionNodeForFold( "acc", init, "xi", fold, _mayReduce, args ) );
 
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
-		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
-		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		a.makeInput( getInput( "getDoubleA" ) );
+		b.makeInput( getInput( "getDoubleB" ) );
+		c.makeInput( getInput( "getDoubleC" ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		final Inputs i = this.inputs;
 		assertDoubleResult( i.getDoubleA() + i.getDoubleB() + i.getDoubleC(), engineModel );
@@ -329,26 +321,23 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		b.setConstantValue( 2.0 );
 		c.setConstantValue( 3.0 );
 
-		final ExpressionNode init = new ExpressionNodeForConstantValue( _1stOK && !_sectionOnly? 17 : 0 );
-		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
-				new ExpressionNodeForLetVar( "xi" ) );
+		final ExpressionNode init = cst( _1stOK && !_sectionOnly? 17 : 0 );
+		final ExpressionNode fold = op( Operator.PLUS, var( "acc" ), var( "xi" ) );
 		ExpressionNode[] args;
 		if (_sectionOnly) {
-			args = new ExpressionNode[] { new ExpressionNodeForSubSectionModel( subModel, new ExpressionNodeForCellModel(
-					c ) ) };
+			args = new ExpressionNode[] { sub( subModel, cell( c ) ) };
 		}
 		else {
-			args = new ExpressionNode[] { new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
-					new ExpressionNodeForSubSectionModel( subModel, new ExpressionNodeForCellModel( c ) ) };
+			args = new ExpressionNode[] { cell( a ), cell( b ), sub( subModel, cell( c ) ) };
 		}
 
 		r.setExpression( new ExpressionNodeForFold( "acc", init, "xi", fold, _1stOK, args ) );
 
-		subModel.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
-		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
-		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		subModel.makeInput( getInput( "getDetails" ) );
+		a.makeInput( getInput( "getDoubleA" ) );
+		b.makeInput( getInput( "getDoubleB" ) );
+		c.makeInput( getInput( "getDoubleC" ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		final Inputs i = this.inputs;
 		assertDoubleResult( (_sectionOnly? 0 : i.getDoubleA() + i.getDoubleB()) + i.getDoubleC() * N_DET, engineModel );
@@ -372,24 +361,19 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		c.setConstantValue( 3.0 );
 		d.setConstantValue( 4.0 );
 
-		final ExpressionNode init = new ExpressionNodeForConstantValue( 0 );
-		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
-				new ExpressionNodeForLetVar( "xi" ) );
-		final ExpressionNode[] args = {
-				new ExpressionNodeForCellModel( a ),
-				new ExpressionNodeForCellModel( b ),
-				new ExpressionNodeForSubSectionModel( subModel, new ExpressionNodeForSubSectionModel( subsubModel,
-						new ExpressionNodeForCellModel( d ) ), new ExpressionNodeForCellModel( c ) ) };
+		final ExpressionNode init = cst( 0 );
+		final ExpressionNode fold = op( Operator.PLUS, var( "acc" ), var( "xi" ) );
+		final ExpressionNode[] args = { cell( a ), cell( b ), sub( subModel, sub( subsubModel, cell( d ) ), cell( c ) ) };
 
 		r.setExpression( new ExpressionNodeForFold( "acc", init, "xi", fold, false, args ) );
 
-		subModel.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
-		subsubModel.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
-		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
-		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
-		d.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		subModel.makeInput( getInput( "getDetails" ) );
+		subsubModel.makeInput( getInput( "getDetails" ) );
+		a.makeInput( getInput( "getDoubleA" ) );
+		b.makeInput( getInput( "getDoubleB" ) );
+		c.makeInput( getInput( "getDoubleC" ) );
+		d.makeInput( getInput( "getDoubleA" ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		final Inputs i = this.inputs;
 		assertDoubleResult( i.getDoubleA() * (N_DET * N_DET + 1) + i.getDoubleB() + i.getDoubleC() * N_DET, engineModel );
@@ -409,15 +393,14 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		b.setConstantValue( 2.0 );
 		c.setConstantValue( 3.0 );
 
-		final ExpressionNode[] args = { new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
-				new ExpressionNodeForCellModel( c ) };
+		final ExpressionNode[] args = { cell( a ), cell( b ), cell( c ) };
 
-		r.setExpression( new ExpressionNodeForFunction( Function.VARP, args ) );
+		r.setExpression( fun( Function.VARP, args ) );
 
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
-		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
-		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		a.makeInput( getInput( "getDoubleA" ) );
+		b.makeInput( getInput( "getDoubleB" ) );
+		c.makeInput( getInput( "getDoubleC" ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ) ) );
 		engineModel.traverse( new ConstantSubExpressionEliminator( FormulaCompiler.DOUBLE ) );
@@ -442,19 +425,16 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		b.setConstantValue( 2.0 );
 		c.setConstantValue( 3.0 );
 
-		final ExpressionNode[] args = {
-				new ExpressionNodeForCellModel( a ),
-				new ExpressionNodeForSubSectionModel( subModel, new ExpressionNodeForCellModel( b ),
-						new ExpressionNodeForCellModel( c ) ) };
+		final ExpressionNode[] args = { cell( a ), sub( subModel, cell( b ), cell( c ) ) };
 
-		r.setExpression( new ExpressionNodeForFunction( Function.VARP, args ) );
+		r.setExpression( fun( Function.VARP, args ) );
 
-		subModel.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
+		subModel.makeInput( getInput( "getDetails" ) );
 
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
-		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
-		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		a.makeInput( getInput( "getDoubleA" ) );
+		b.makeInput( getInput( "getDoubleB" ) );
+		c.makeInput( getInput( "getDoubleC" ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ) ) );
 		engineModel.traverse( new ConstantSubExpressionEliminator( FormulaCompiler.DOUBLE ) );
@@ -507,18 +487,15 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		b.setConstantValue( 2.0 );
 		c.setConstantValue( 3.0 );
 
-		final ExpressionNode other = new ExpressionNodeForConstantValue( 17 );
-		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
-				new ExpressionNodeForLetVar( "xi" ) );
-		final ExpressionNode[] args = { new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
-				new ExpressionNodeForCellModel( c ) };
+		final ExpressionNode other = cst( 17 );
+		final ExpressionNode fold = op( Operator.PLUS, var( "acc" ), var( "xi" ) );
 
-		r.setExpression( new ExpressionNodeForReduce( "acc", "xi", fold, other, args ) );
+		r.setExpression( new ExpressionNodeForReduce( "acc", "xi", fold, other, cells( a, b, c ) ) );
 
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
-		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
-		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		a.makeInput( getInput( "getDoubleA" ) );
+		b.makeInput( getInput( "getDoubleB" ) );
+		c.makeInput( getInput( "getDoubleC" ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		final Inputs i = this.inputs;
 		assertDoubleResult( i.getDoubleA() + i.getDoubleB() + i.getDoubleC(), engineModel );
@@ -539,20 +516,17 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		b.setConstantValue( 2.0 );
 		c.setConstantValue( 3.0 );
 
-		final ExpressionNode other = new ExpressionNodeForConstantValue( 17 );
-		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
-				new ExpressionNodeForLetVar( "xi" ) );
-		final ExpressionNode[] args = {
-				new ExpressionNodeForSubSectionModel( subModel, new ExpressionNodeForCellModel( c ) ),
-				new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ) };
+		final ExpressionNode other = cst( 17 );
+		final ExpressionNode fold = op( Operator.PLUS, var( "acc" ), var( "xi" ) );
+		final ExpressionNode[] args = { sub( subModel, cell( c ) ), cell( a ), cell( b ) };
 
 		r.setExpression( new ExpressionNodeForReduce( "acc", "xi", fold, other, args ) );
 
-		subModel.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
-		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
-		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		subModel.makeInput( getInput( "getDetails" ) );
+		a.makeInput( getInput( "getDoubleA" ) );
+		b.makeInput( getInput( "getDoubleB" ) );
+		c.makeInput( getInput( "getDoubleC" ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		final Inputs i = this.inputs;
 		assertDoubleResult( i.getDoubleA() + i.getDoubleB() + i.getDoubleC() * N_DET, engineModel );
@@ -574,22 +548,18 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		b.setConstantValue( 2.0 );
 		c.setConstantValue( 3.0 );
 
-		final ExpressionNode other = new ExpressionNodeForConstantValue( 17 );
-		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
-				new ExpressionNodeForLetVar( "xi" ) );
-		final ExpressionNode[] args = {
-				new ExpressionNodeForSubSectionModel( subModel1, new ExpressionNodeForCellModel( a ),
-						new ExpressionNodeForCellModel( b ) ),
-				new ExpressionNodeForSubSectionModel( subModel2, new ExpressionNodeForCellModel( c ) ) };
+		final ExpressionNode other = cst( 17 );
+		final ExpressionNode fold = op( Operator.PLUS, var( "acc" ), var( "xi" ) );
+		final ExpressionNode[] args = { sub( subModel1, cell( a ), cell( b ) ), sub( subModel2, cell( c ) ) };
 
 		r.setExpression( new ExpressionNodeForReduce( "acc", "xi", fold, other, args ) );
 
-		subModel1.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
-		subModel2.makeInput( new CallFrame( Inputs.class.getMethod( "getOtherDetails" ) ) );
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
-		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
-		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		subModel1.makeInput( getInput( "getDetails" ) );
+		subModel2.makeInput( getInput( "getOtherDetails" ) );
+		a.makeInput( getInput( "getDoubleA" ) );
+		b.makeInput( getInput( "getDoubleB" ) );
+		c.makeInput( getInput( "getDoubleC" ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		final Inputs i = this.inputs;
 
@@ -632,26 +602,22 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		c.setConstantValue( 3.0 );
 		d.setConstantValue( 4.0 );
 
-		final ExpressionNode other = new ExpressionNodeForConstantValue( 17 );
-		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
-				new ExpressionNodeForLetVar( "xi" ) );
+		final ExpressionNode other = cst( 17 );
+		final ExpressionNode fold = op( Operator.PLUS, var( "acc" ), var( "xi" ) );
 
-		final ExpressionNode[] args = {
-				new ExpressionNodeForSubSectionModel( subModel1, new ExpressionNodeForCellModel( a ),
-						new ExpressionNodeForCellModel( b ) ),
-				new ExpressionNodeForSubSectionModel( subModel2, new ExpressionNodeForSubSectionModel( subsubModel,
-						new ExpressionNodeForCellModel( d ) ), new ExpressionNodeForCellModel( c ) ) };
+		final ExpressionNode[] args = { sub( subModel1, cell( a ), cell( b ) ),
+				sub( subModel2, sub( subsubModel, cell( d ) ), cell( c ) ) };
 
 		r.setExpression( new ExpressionNodeForReduce( "acc", "xi", fold, other, args ) );
 
-		subModel1.makeInput( new CallFrame( Inputs.class.getMethod( "getOtherDetails" ) ) );
-		subModel2.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
-		subsubModel.makeInput( new CallFrame( Inputs.class.getMethod( "getDetails" ) ) );
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
-		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
-		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
-		d.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		subModel1.makeInput( getInput( "getOtherDetails" ) );
+		subModel2.makeInput( getInput( "getDetails" ) );
+		subsubModel.makeInput( getInput( "getDetails" ) );
+		a.makeInput( getInput( "getDoubleA" ) );
+		b.makeInput( getInput( "getDoubleB" ) );
+		c.makeInput( getInput( "getDoubleC" ) );
+		d.makeInput( getInput( "getDoubleA" ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		final Inputs i = this.inputs;
 		final int N_OTHER = 4;
@@ -693,21 +659,18 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		b.setConstantValue( 2.0 );
 		c.setConstantValue( 3.0 );
 
-		final ExpressionNode init = new ExpressionNodeForConstantValue( 0 );
-		final ExpressionNode fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar( "acc" ),
-				new ExpressionNodeForOperator( Operator.TIMES, new ExpressionNodeForLetVar( "xi" ),
-						new ExpressionNodeForLetVar( "i" ) ) );
-		final ExpressionNode[] args = { new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
-				new ExpressionNodeForCellModel( c ) };
+		final ExpressionNode init = cst( 0 );
+		final ExpressionNode fold = op( Operator.PLUS, var( "acc" ), op( Operator.TIMES, var( "xi" ), var( "i" ) ) );
+		final ExpressionNode[] args = { cell( a ), cell( b ), cell( c ) };
 		final ExpressionNode arr = new ExpressionNodeForMakeArray( new ExpressionNodeForArrayReference(
 				new ArrayDescriptor( 1, 1, 3 ), args ) );
 
 		r.setExpression( new ExpressionNodeForFoldArray( "acc", init, "xi", "i", fold, arr ) );
 
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
-		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
-		c.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleC" ) ) );
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		a.makeInput( getInput( "getDoubleA" ) );
+		b.makeInput( getInput( "getDoubleB" ) );
+		c.makeInput( getInput( "getDoubleC" ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		final Inputs i = this.inputs;
 		assertDoubleResult( i.getDoubleA() + i.getDoubleB() * 2 + i.getDoubleC() * 3, engineModel );
@@ -729,19 +692,17 @@ public class LittleLanguageTest extends AbstractIOTestBase
 
 		final ExpressionNodeForArrayReference table = makeRange( DATATABLE );
 
-		final ExpressionNode filter = new ExpressionNodeForOperator( Operator.EQUAL,
-				new ExpressionNodeForLetVar( "col0" ), new ExpressionNodeForConstantValue( "Apple" ) );
+		final ExpressionNode filter = op( Operator.EQUAL, var( "col0" ), cst( "Apple" ) );
 
-		final ExpressionNode col = new ExpressionNodeForConstantValue( 5 );
+		final ExpressionNode col = cst( 5 );
 
 		final CellModel r = new CellModel( rootModel, "r" );
-		final ExpressionNodeForConstantValue init = new ExpressionNodeForConstantValue( 0.0 );
-		final ExpressionNodeForOperator fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar(
-				"r" ), new ExpressionNodeForLetVar( "xi" ) );
+		final ExpressionNodeForConstantValue init = cst( 0.0 );
+		final ExpressionNodeForOperator fold = op( Operator.PLUS, var( "r" ), var( "xi" ) );
 		r.setExpression( new ExpressionNodeForDatabaseFold( table.arrayDescriptor(), "col", filter, "r", init, "xi",
 				fold, 4, null, col, DATATYPES, false, false, table ) );
 
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		assertDoubleResult( 225.0, engineModel );
 	}
@@ -759,26 +720,22 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		final ExpressionNodeForArrayReference table = makeRange( data );
 
 		final CellModel a = new CellModel( rootModel, "a" );
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
+		a.makeInput( getInput( "getDoubleB" ) );
 
 		// Note: -var is a let that is evaluated every time it is accessed. Used here as a closure
 		// param for the helper method.
-		final ExpressionNode filter = new ExpressionNodeForOperator( Operator.GREATER, new ExpressionNodeForLetVar(
-				"col1" ), new ExpressionNodeForLetVar( "crit0" ) );
+		final ExpressionNode filter = op( Operator.GREATER, var( "col1" ), var( "crit0" ) );
 
-		final ExpressionNode col = new ExpressionNodeForConstantValue( 5 );
+		final ExpressionNode col = cst( 5 );
 
 		final CellModel r = new CellModel( rootModel, "r" );
-		final ExpressionNodeForConstantValue init = new ExpressionNodeForConstantValue( 0.0 );
-		final ExpressionNodeForOperator fold = new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForLetVar(
-				"r" ), new ExpressionNodeForLetVar( "xi" ) );
-		final ExpressionNodeForLet letCrit = new ExpressionNodeForLet( "crit0", new ExpressionNodeForCellModel( a ),
-				new ExpressionNodeForDatabaseFold( table.arrayDescriptor(), "col", filter, "r", init, "xi", fold, 4, null,
-						col, DATATYPES, false, false, table ) );
-		letCrit.setShouldCache( false );
+		final ExpressionNodeForConstantValue init = cst( 0.0 );
+		final ExpressionNodeForOperator fold = op( Operator.PLUS, var( "r" ), var( "xi" ) );
+		final ExpressionNode letCrit = letByName( "crit0", cell( a ), new ExpressionNodeForDatabaseFold( table
+				.arrayDescriptor(), "col", filter, "r", init, "xi", fold, 4, null, col, DATATYPES, false, false, table ) );
 		r.setExpression( letCrit );
 
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		assertDoubleResult( 426.0, engineModel );
 	}
@@ -792,19 +749,17 @@ public class LittleLanguageTest extends AbstractIOTestBase
 
 		final ExpressionNodeForArrayReference table = makeRange( DATATABLE );
 
-		final ExpressionNode filter = new ExpressionNodeForOperator( Operator.EQUAL,
-				new ExpressionNodeForLetVar( "col0" ), new ExpressionNodeForConstantValue( "NotHere" ) );
+		final ExpressionNode filter = op( Operator.EQUAL, var( "col0" ), cst( "NotHere" ) );
 
-		final ExpressionNode col = new ExpressionNodeForConstantValue( 5 );
+		final ExpressionNode col = cst( 5 );
 
 		final CellModel r = new CellModel( rootModel, "r" );
-		final ExpressionNodeForConstantValue init = new ExpressionNodeForConstantValue( 1.0 );
-		final ExpressionNodeForOperator fold = new ExpressionNodeForOperator( Operator.TIMES,
-				new ExpressionNodeForLetVar( "r" ), new ExpressionNodeForLetVar( "xi" ) );
+		final ExpressionNodeForConstantValue init = cst( 1.0 );
+		final ExpressionNodeForOperator fold = op( Operator.TIMES, var( "r" ), var( "xi" ) );
 		r.setExpression( new ExpressionNodeForDatabaseFold( table.arrayDescriptor(), "col", filter, "r", init, "xi",
 				fold, 4, null, col, DATATYPES, false, true, table ) );
 
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		assertDoubleResult( 0.0, engineModel );
 	}
@@ -821,19 +776,17 @@ public class LittleLanguageTest extends AbstractIOTestBase
 				{ "Pear", 9.0, 8.0, 8.0, -76.80 }, { "Apple", 8.0, 9.0, 6.0, -45.00 } };
 		final ExpressionNodeForArrayReference table = makeRange( data );
 
-		final ExpressionNode filter = new ExpressionNodeForOperator( Operator.EQUAL,
-				new ExpressionNodeForLetVar( "col0" ), new ExpressionNodeForConstantValue( "Apple" ) );
+		final ExpressionNode filter = op( Operator.EQUAL, var( "col0" ), cst( "Apple" ) );
 
-		final ExpressionNode col = new ExpressionNodeForConstantValue( 5 );
+		final ExpressionNode col = cst( 5 );
 
 		final CellModel r = new CellModel( rootModel, "r" );
-		final ExpressionNodeForConstantValue init = new ExpressionNodeForConstantValue( 0.0 );
-		final ExpressionNodeForOperator fold = new ExpressionNodeForOperator( Operator.INTERNAL_MAX,
-				new ExpressionNodeForLetVar( "r" ), new ExpressionNodeForLetVar( "xi" ) );
+		final ExpressionNodeForConstantValue init = cst( 0.0 );
+		final ExpressionNodeForOperator fold = op( Operator.INTERNAL_MAX, var( "r" ), var( "xi" ) );
 		r.setExpression( new ExpressionNodeForDatabaseFold( table.arrayDescriptor(), "col", filter, "r", init, "xi",
 				fold, 4, null, col, DATATYPES, true, true, table ) );
 
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		assertDoubleResult( -45.0, engineModel );
 	}
@@ -849,23 +802,19 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		final CellModel r = new CellModel( rootModel, "r" );
 
 		v.setConstantValue( 2 );
-		v.makeInput( new CallFrame( Inputs.class.getMethod( "getTwo" ) ) );
+		v.makeInput( getInput( "getTwo" ) );
 
-		final ExpressionNode valueNode = new ExpressionNodeForCellModel( v );
-		final ExpressionNode defaultNode = new ExpressionNodeForConstantValue( -10 );
-		final ExpressionNodeForSwitchCase caseNode1 = new ExpressionNodeForSwitchCase(
-				new ExpressionNodeForConstantValue( 10 ), 1 );
-		final ExpressionNodeForSwitchCase caseNode2 = new ExpressionNodeForSwitchCase(
-				new ExpressionNodeForConstantValue( 20 ), 2 );
-		final ExpressionNodeForSwitchCase caseNode3 = new ExpressionNodeForSwitchCase(
-				new ExpressionNodeForConstantValue( 30 ), 3 );
+		final ExpressionNode valueNode = cell( v );
+		final ExpressionNode defaultNode = cst( -10 );
+		final ExpressionNodeForSwitchCase caseNode1 = new ExpressionNodeForSwitchCase( cst( 10 ), 1 );
+		final ExpressionNodeForSwitchCase caseNode2 = new ExpressionNodeForSwitchCase( cst( 20 ), 2 );
+		final ExpressionNodeForSwitchCase caseNode3 = new ExpressionNodeForSwitchCase( cst( 30 ), 3 );
 		final ExpressionNode switchNode = new ExpressionNodeForSwitch( valueNode, defaultNode, caseNode1, caseNode2,
 				caseNode3 );
-		final ExpressionNode plusNode = new ExpressionNodeForOperator( Operator.PLUS, switchNode,
-				new ExpressionNodeForConstantValue( 100 ) );
+		final ExpressionNode plusNode = op( Operator.PLUS, switchNode, cst( 100 ) );
 
 		r.setExpression( plusNode );
-		r.makeOutput( new CallFrame( OutputsWithoutReset.class.getMethod( "getResult" ) ) );
+		r.makeOutput( getOutput( "getResult" ) );
 
 		assertDoubleResult( 120.0, engineModel );
 	}
@@ -920,10 +869,10 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		if (_value instanceof String) {
 			String str = (String) _value;
 			if (str.startsWith( "#" )) {
-				return new ExpressionNodeForCellModel( new CellModel( this.rootModel, str.substring( 1 ) ) );
+				return cell( new CellModel( this.rootModel, str.substring( 1 ) ) );
 			}
 		}
-		return new ExpressionNodeForConstantValue( _value );
+		return cst( _value );
 	}
 
 }

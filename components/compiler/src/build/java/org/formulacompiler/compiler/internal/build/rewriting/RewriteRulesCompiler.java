@@ -216,7 +216,7 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 			body( "      IF( `z < `sqrth," );
 			body( "        0.5 + 0.5 * ERF( `x )" );
 			body( "      ," );
-			body( "        _LET( y1: 0.5 * ERFC( `z ); IF( `x > 0, 1.0 - `y1, `y1 ) )" );
+			body( "        _LET( y1: 0.5 * ERFC( `z ); IF( `x > 0, 1 - `y1, `y1 ) )" );
 			body( "      )" );
 			body( "    )" );
 			body( "  )" );
@@ -272,12 +272,12 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 			body( "            * `t + 5394.1960214247511077)" );
 			body( "          * `t + 687.1870074920579083)" );
 			body( "        * `t + 42.313330701600911252)" );
-			body( "      * `t + 1.0)" );
+			body( "      * `t + 1)" );
 			body( "    )" );
 			body( "  ," );
 			body( "    _LET( z:" );
 			body( "      _LET( tt: SQRT( -LN( IF( `q > 0, 1 - `x, `x ) ) );" );
-			body( "        IF( `tt <= 5.0," );
+			body( "        IF( `tt <= 5," );
 			body( "          _LET( t: `tt - 1.6;" );
 			body( "            (" );
 			body( "              (" );
@@ -308,7 +308,7 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 			body( "            * `t + 1.0)" );
 			body( "          )" );
 			body( "        ," );
-			body( "          _LET( t: `tt - 5.0;" );
+			body( "          _LET( t: `tt - 5;" );
 			body( "            (" );
 			body( "              (" );
 			body( "                (" );
@@ -339,7 +339,7 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 			body( "          )" );
 			body( "        )" );
 			body( "      );" );
-			body( "      IF( `q < 0.0, -`z, `z )" );
+			body( "      IF( `q < 0, -`z, `z )" );
 			body( "    )" );
 			body( "  )" );
 			body( ")" );
@@ -353,7 +353,7 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 		def( Function.LOGINV, "x", "mue", "sigma", "EXP( NORMSINV( `x ) * `sigma + `mue )" );
 
 
-		def( Function.CONFIDENCE, "alpha", "sigma", "n", "NORMSINV( 1.0 - `alpha / 2.0) * `sigma / SQRT( INT( `n ) )");
+		def( Function.CONFIDENCE, "alpha", "sigma", "n", "NORMSINV( 1 - `alpha / 2) * `sigma / SQRT( INT( `n ) )");
 
 
 		begin( Function.RANK, "number", "ref#", "order" );

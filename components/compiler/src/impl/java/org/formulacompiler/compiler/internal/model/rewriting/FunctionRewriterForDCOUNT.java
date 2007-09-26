@@ -20,6 +20,8 @@
  */
 package org.formulacompiler.compiler.internal.model.rewriting;
 
+import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
+
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
@@ -30,7 +32,8 @@ import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumeri
 final class FunctionRewriterForDCOUNT extends AbstractFunctionRewriterForDatabaseAggregator
 {
 
-	public FunctionRewriterForDCOUNT(ComputationModel _model, ExpressionNodeForFunction _fun, InterpretedNumericType _type)
+	public FunctionRewriterForDCOUNT( ComputationModel _model, ExpressionNodeForFunction _fun,
+			InterpretedNumericType _type )
 	{
 		super( _model, _fun, _type );
 	}
@@ -39,7 +42,7 @@ final class FunctionRewriterForDCOUNT extends AbstractFunctionRewriterForDatabas
 	@Override
 	protected ExpressionNode foldingStep( String _accumulatorName, String _elementName )
 	{
-		return op( foldingOperator(), var( _accumulatorName ), cst( 1.0 ) );
+		return op( foldingOperator(), var( _accumulatorName ), ONE );
 	}
 
 	@Override
