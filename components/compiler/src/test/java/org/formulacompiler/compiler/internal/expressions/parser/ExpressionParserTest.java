@@ -203,9 +203,9 @@ public class ExpressionParserTest extends TestCase
 		assertParse( "SUM( 1 2, 3 )", "SUM( 1 2, 3 )" );
 		assertParse( "SUM( A1:A5 )", "SUM( \"R<A1>A1:A1>A5>\" )" );
 		assertParse( "SUM( MyRange, MyCell )", "SUM( \"NR>MyRange\", \"NC>MyCell\" )" );
-		
+
 		assertParse( "SUM( MyRange, SUM(MyRange))", "SUM( \"NR>MyRange\", SUM( \"NR>MyRange\" ) )" );
-		
+
 		assertParse( "SUM(1)-1", "(SUM( 1 ) - 1)" );
 	}
 
@@ -235,7 +235,7 @@ public class ExpressionParserTest extends TestCase
 	private static final class TestExpressionParser extends ExpressionParser
 	{
 
-		public TestExpressionParser(String _exprText)
+		public TestExpressionParser( String _exprText )
 		{
 			super( _exprText );
 		}
@@ -275,7 +275,7 @@ public class ExpressionParserTest extends TestCase
 		{
 			return new ExpressionNodeForConstantValue( "NR>" + _name.image );
 		}
-		
+
 		@Override
 		protected boolean isRangeName( Token _name )
 		{
@@ -335,7 +335,7 @@ public class ExpressionParserTest extends TestCase
 		{
 			return new ExpressionNodeForConstantValue( "R<" + _reference + ">" );
 		}
-		
+
 		@Override
 		protected ExpressionNode makeShapedRange( ExpressionNode _range )
 		{
@@ -351,12 +351,12 @@ public class ExpressionParserTest extends TestCase
 				super();
 			}
 
-			protected TestExpressionNode(Collection _args)
+			protected TestExpressionNode( Collection<ExpressionNode> _args )
 			{
 				super( _args );
 			}
 
-			protected TestExpressionNode(ExpressionNode... _args)
+			protected TestExpressionNode( ExpressionNode... _args )
 			{
 				super( _args );
 			}
