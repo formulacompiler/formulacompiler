@@ -34,13 +34,9 @@ public class ExpressionNodeForOperator extends ExpressionNode
 
 	public ExpressionNodeForOperator( Operator _operator, ExpressionNode... _args )
 	{
-		super();
+		super( _args );
 		this.operator = _operator;
-		for (ExpressionNode arg : _args) {
-			arguments().add( arg );
-		}
 	}
-
 
 	public ExpressionNodeForOperator( Operator _operator, Collection<ExpressionNode> _args )
 	{

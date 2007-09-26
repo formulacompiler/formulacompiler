@@ -22,6 +22,7 @@ package org.formulacompiler.compiler.internal.bytecode;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -576,7 +577,7 @@ abstract class MethodCompiler
 
 	final Set<DelayedLet> trackedSetsOfOuterLets()
 	{
-		return this.trackedSetsOfOuterLets; // No defensive copy here - package internal.
+		return Collections.unmodifiableSet( this.trackedSetsOfOuterLets );
 	}
 
 	final void trackSetOfLet( DelayedLet _let )

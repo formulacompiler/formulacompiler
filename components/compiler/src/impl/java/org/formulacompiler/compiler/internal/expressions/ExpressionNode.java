@@ -22,6 +22,7 @@ package org.formulacompiler.compiler.internal.expressions;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.formulacompiler.describable.AbstractDescribable;
@@ -47,9 +48,7 @@ public abstract class ExpressionNode extends AbstractDescribable
 
 	protected ExpressionNode( ExpressionNode... _args )
 	{
-		for (ExpressionNode arg : _args) {
-			arguments().add( arg );
-		}
+		Collections.addAll( arguments(), _args );
 	}
 
 	public ExpressionNode( Collection<ExpressionNode> _args )
