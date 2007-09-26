@@ -47,10 +47,9 @@ public abstract class AbstractIOTestBase extends AbstractTestBase
 		return new CallFrame( Inputs.class.getMethod( _name ) );
 	}
 
-
 	protected CallFrame getOutput( String _name ) throws SecurityException, NoSuchMethodException
 	{
-		return new CallFrame( Outputs.class.getMethod( _name ) );
+		return new CallFrame( OutputsWithoutReset.class.getMethod( _name ) );
 	}
 
 

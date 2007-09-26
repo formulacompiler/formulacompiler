@@ -32,9 +32,6 @@ import org.formulacompiler.runtime.New;
 
 public abstract class ExpressionNode extends AbstractDescribable
 {
-	public static final ExpressionNode TRUENODE = new ExpressionNodeForConstantValue( Boolean.TRUE, DataType.NUMERIC );
-	public static final ExpressionNode FALSENODE = new ExpressionNodeForConstantValue( Boolean.FALSE, DataType.NUMERIC );
-
 	private List<ExpressionNode> arguments = New.list();
 	private DataType dataType;
 	private ExpressionNode derivedFrom;

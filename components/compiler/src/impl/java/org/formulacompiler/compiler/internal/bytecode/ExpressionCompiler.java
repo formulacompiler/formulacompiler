@@ -32,6 +32,7 @@ import org.formulacompiler.compiler.internal.bytecode.MethodCompiler.LocalRef;
 import org.formulacompiler.compiler.internal.bytecode.MethodCompiler.LocalValueRef;
 import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
 import org.formulacompiler.compiler.internal.expressions.DataType;
+import org.formulacompiler.compiler.internal.expressions.ExpressionBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
@@ -206,7 +207,7 @@ abstract class ExpressionCompiler
 		else if (_node instanceof ExpressionNodeForOperator) {
 			final ExpressionNodeForOperator node = (ExpressionNodeForOperator) _node;
 			if (needsIf( node.getOperator() )) {
-				compileIf( node, ExpressionNode.TRUENODE, ExpressionNode.FALSENODE );
+				compileIf( node, ExpressionBuilder.TRUE, ExpressionBuilder.FALSE );
 			}
 			else {
 				compileOperator( node );
@@ -222,12 +223,12 @@ abstract class ExpressionCompiler
 					break;
 
 				case NOT:
-					compileIf( node, ExpressionNode.TRUENODE, ExpressionNode.FALSENODE );
+					compileIf( node, ExpressionBuilder.TRUE, ExpressionBuilder.FALSE );
 					break;
 
 				case AND:
 				case OR:
-					compileIf( node, ExpressionNode.TRUENODE, ExpressionNode.FALSENODE );
+					compileIf( node, ExpressionBuilder.TRUE, ExpressionBuilder.FALSE );
 					break;
 
 				default:
@@ -639,38 +640,43 @@ abstract class ExpressionCompiler
 	private final void compileLet( ExpressionNodeForLet _node ) throws CompilerException
 	{
 		final String varName = _node.varName();
-		if (_node.isSymbolic()) {
-			throw new IllegalArgumentException( "Cannot compile symbolic lets." );
-		}
-		else if (!_node.shouldCache()) {
-			/*
-			 * Note: Used internally to pass outer values as single-eval method arguments to helper
-			 * methods by wrapping the construct in a series of LETs. The closure then automatically
-			 * declares the parameters and passes the values to them.
-			 */
-			letDict().let( varName, _node.value().getDataType(), _node.value() );
-			try {
-				compile( _node.in() );
-			}
-			finally {
-				letDict().unlet( varName );
-			}
-		}
-		else {
-			/*
-			 * Note: It is important to allocate the local here rather than at the point of first
-			 * evaluation. Otherwise it could get reused when the first evaluation is within a local
-			 * scope.
-			 */
-			final LocalRef local = compileNewLocal( method().isArray( _node.value() ) );
-			letDict().let( varName, _node.value().getDataType(),
-					new DelayedLet( varName, local, _node.value(), method().letTrackingNestingLevel() ) );
-			try {
-				compile( _node.in() );
-			}
-			finally {
-				letDict().unlet( varName );
-			}
+		switch (_node.type()) {
+
+			case BYVAL:
+				/*
+				 * Note: It is important to allocate the local here rather than at the point of first
+				 * evaluation. Otherwise it could get reused when the first evaluation is within a local
+				 * scope.
+				 */
+				final LocalRef local = compileNewLocal( method().isArray( _node.value() ) );
+				letDict().let( varName, _node.value().getDataType(),
+						new DelayedLet( varName, local, _node.value(), method().letTrackingNestingLevel() ) );
+				try {
+					compile( _node.in() );
+				}
+				finally {
+					letDict().unlet( varName );
+				}
+				break;
+
+			case BYNAME:
+				/*
+				 * Note: Used internally to pass outer values as single-eval method arguments to helper
+				 * methods by wrapping the construct in a series of LETs. The closure then automatically
+				 * declares the parameters and passes the values to them.
+				 */
+				letDict().let( varName, _node.value().getDataType(), _node.value() );
+				try {
+					compile( _node.in() );
+				}
+				finally {
+					letDict().unlet( varName );
+				}
+				break;
+
+			default:
+				throw new CompilerException.UnsupportedExpression( "Cannot compile this type of LET." );
+
 		}
 	}
 

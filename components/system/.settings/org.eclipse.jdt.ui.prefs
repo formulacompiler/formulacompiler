@@ -1,4 +1,4 @@
-#Wed Jul 04 10:36:16 CEST 2007
+#Wed Sep 12 11:38:41 CEST 2007
 cleanup.add_default_serial_version_id=true
 cleanup.add_generated_serial_version_id=false
 cleanup.add_missing_annotations=true
@@ -59,5 +59,5 @@ org.eclipse.jdt.ui.javadoc=false
 org.eclipse.jdt.ui.keywordthis=true
 org.eclipse.jdt.ui.ondemandthreshold=20
 org.eclipse.jdt.ui.overrideannotation=true
-org.eclipse.jdt.ui.staticondemandthreshold=99
+org.eclipse.jdt.ui.staticondemandthreshold=1
 org.eclipse.jdt.ui.text.custom_code_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>

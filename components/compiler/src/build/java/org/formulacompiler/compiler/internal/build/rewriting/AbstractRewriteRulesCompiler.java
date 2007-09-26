@@ -465,9 +465,19 @@ public abstract class AbstractRewriteRulesCompiler
 
 		private void compileConst( ExpressionNodeForConstantValue _value, DescriptionBuilder _b )
 		{
+			final Object value = _value.value();
+			if (value instanceof Integer) {
+				final int v = (Integer) value;
+				if (v >= 0 && v < CONSTANT_NAMES.length) {
+					_b.append( CONSTANT_NAMES[ v ] );
+					return;
+				}
+			}
+			
+			// LATER These nodes could be moved out into static final members of the generator.
+
 			_b.append( "cst( " );
 
-			final Object value = _value.value();
 			if (value instanceof String) {
 				_b.append( '"' ).append( ((String) value).replaceAll( "\"", "\\\"" ) ).append( '"' );
 			}
@@ -587,4 +597,6 @@ public abstract class AbstractRewriteRulesCompiler
 		}
 	}
 
+	
+	protected static final String[] CONSTANT_NAMES = { "ZERO", "ONE", "TWO", "THREE" };
 }
