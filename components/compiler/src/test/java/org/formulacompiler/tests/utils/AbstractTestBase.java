@@ -31,10 +31,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 
+import org.formulacompiler.compiler.CallFrame;
+
 import junit.framework.TestCase;
 
 public abstract class AbstractTestBase extends TestCase
 {
+
+	
+	protected CallFrame getInput( String _name ) throws SecurityException, NoSuchMethodException
+	{
+		return new CallFrame( Inputs.class.getMethod( _name ) );
+	}
+
+	protected CallFrame getOutput( String _name ) throws SecurityException, NoSuchMethodException
+	{
+		return new CallFrame( OutputsWithoutReset.class.getMethod( _name ) );
+	}
 
 
 	protected void assertEqualStreams( String _message, InputStream _expected, InputStream _actual ) throws Exception
