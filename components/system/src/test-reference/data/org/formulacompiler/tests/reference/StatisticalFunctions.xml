@@ -9,7 +9,7 @@
   <Author>Peter Arrenbrecht</Author>
   <LastAuthor>vkorenev</LastAuthor>
   <Created>2005-11-22T20:05:38Z</Created>
-  <LastSaved>2007-09-24T15:24:23Z</LastSaved>
+  <LastSaved>2007-09-26T14:45:56Z</LastSaved>
   <Company>Opus Software AG</Company>
   <Version>11.8132</Version>
  </DocumentProperties>
@@ -46,7 +46,7 @@
   </Style>
  </Styles>
  <Worksheet ss:Name="Sheet1">
-  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="325" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="343" x:FullColumns="1"
    x:FullRows="1" ss:DefaultColumnWidth="54">
    <Column ss:AutoFitWidth="0" ss:Width="85.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="115.5"/>
@@ -2511,6 +2511,164 @@
     <Cell><Data ss:Type="String">...</Data></Cell>
    </Row>
    <Row ss:Index="285">
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=FDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">FDIST</Data></Cell>
+    <Cell><Data ss:Type="String">FDIST</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=FDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=FDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.80501777099132787</Data></Cell>
+    <Cell ss:Formula="=FDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.80501777099132787</Data></Cell>
+    <Cell><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.78178210978321894</Data></Cell>
+    <Cell ss:Formula="=FDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.78178210978321894</Data></Cell>
+    <Cell><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.9128709291846353</Data></Cell>
+    <Cell ss:Formula="=FDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.9128709291846353</Data></Cell>
+    <Cell><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">6.345103485022717E-2</Data></Cell>
+    <Cell ss:Formula="=FDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">6.345103485022717E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">9.8524570224581623E-3</Data></Cell>
+    <Cell ss:Formula="=FDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">9.8524570224581623E-3</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">7.0534561579650115E-2</Data></Cell>
+    <Cell ss:Formula="=FDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">7.0534561579650115E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">9.9009900989867738E-3</Data></Cell>
+    <Cell ss:Formula="=FDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">9.9009900989867738E-3</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2.9444089366273379E-2</Data></Cell>
+    <Cell ss:Formula="=FDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">2.9444089366273379E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">5.5</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">20</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.32563029803551891</Data></Cell>
+    <Cell ss:Formula="=FDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.32563029803551891</Data></Cell>
+    <Cell><Data ss:Type="Number">5.5</Data></Cell>
+    <Cell><Data ss:Type="Number">20</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1.7831313228083739E-4</Data></Cell>
+    <Cell ss:Formula="=FDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1.7831313228083739E-4</Data></Cell>
+    <Cell><Data ss:Type="Number">5.5</Data></Cell>
+    <Cell><Data ss:Type="Number">20</Data></Cell>
+    <Cell><Data ss:Type="Number">20</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4.2345901953123096E-3</Data></Cell>
+    <Cell ss:Formula="=FDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">4.2345901953123096E-3</Data></Cell>
+    <Cell><Data ss:Type="Number">5.5</Data></Cell>
+    <Cell><Data ss:Type="Number">20.9</Data></Cell>
+    <Cell><Data ss:Type="Number">10.9</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=FDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=FDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=FDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row ss:Index="303">
     <Cell><Data ss:Type="Number">0.50636537543474258</Data></Cell>
     <Cell ss:Formula="=GAMMADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.50636537543474258</Data></Cell>
     <Cell><Data ss:Type="Number">0.6</Data></Cell>
@@ -2572,7 +2730,7 @@
     <Cell><Data ss:Type="String">...</Data></Cell>
     <Cell><Data ss:Type="String">...</Data></Cell>
    </Row>
-   <Row ss:Index="292">
+   <Row ss:Index="310">
     <Cell><Data ss:Type="Number">1</Data></Cell>
     <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1</Data></Cell>
     <Cell><Data ss:Type="Number">0</Data></Cell>
@@ -2856,12 +3014,13 @@
     <VerticalResolution>600</VerticalResolution>
    </Print>
    <Selected/>
-   <TopRowVisible>228</TopRowVisible>
+   <TopRowVisible>270</TopRowVisible>
+   <LeftColumnVisible>1</LeftColumnVisible>
    <Panes>
     <Pane>
      <Number>3</Number>
-     <ActiveRow>253</ActiveRow>
-     <ActiveCol>12</ActiveCol>
+     <ActiveRow>291</ActiveRow>
+     <ActiveCol>13</ActiveCol>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>
