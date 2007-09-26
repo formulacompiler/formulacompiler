@@ -43,8 +43,8 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 abstract class SectionCompiler extends ClassCompiler
 {
-	private final Map<SectionModel, SubSectionCompiler> subSectionCompilers = New.newMap();
-	private final Map<CellModel, CellComputation> cellComputations = New.newMap();
+	private final Map<SectionModel, SubSectionCompiler> subSectionCompilers = New.map();
+	private final Map<CellModel, CellComputation> cellComputations = New.map();
 	private final SectionModel model;
 	private final Type inputs;
 	private final Type outputs;
@@ -218,7 +218,7 @@ abstract class SectionCompiler extends ClassCompiler
 	}
 
 
-	private final Map<Method, OutputDistributorCompiler> outputDistributors = New.newMap();
+	private final Map<Method, OutputDistributorCompiler> outputDistributors = New.map();
 
 	public OutputDistributorCompiler getOutputDistributorFor( Method _method )
 	{
@@ -311,7 +311,7 @@ abstract class SectionCompiler extends ClassCompiler
 	protected abstract void compileComputationTimeAccess( GeneratorAdapter _mv );
 
 
-	private final Map<String, ArrayAccessorCompiler> arrayAccessorsForConstData = New.newMap();
+	private final Map<String, ArrayAccessorCompiler> arrayAccessorsForConstData = New.map();
 
 	public ArrayAccessorCompiler getArrayAccessorForConstDataOnly( ExpressionNodeForArrayReference _arrayNode )
 			throws CompilerException
@@ -328,7 +328,7 @@ abstract class SectionCompiler extends ClassCompiler
 	}
 
 
-	private final Map<String, ArrayAccessorCompiler> arrayAccessorsForFullData = New.newMap();
+	private final Map<String, ArrayAccessorCompiler> arrayAccessorsForFullData = New.map();
 
 	public ArrayAccessorCompiler getArrayAccessorForFullData( ExpressionNodeForArrayReference _arrayNode )
 			throws CompilerException
@@ -357,7 +357,7 @@ abstract class SectionCompiler extends ClassCompiler
 	}
 
 
-	private final Map<String, IndexerCompiler> indexers = New.newMap();
+	private final Map<String, IndexerCompiler> indexers = New.map();
 
 	public IndexerCompiler getIndexerFor( ExpressionNodeForArrayReference _arrayNode ) throws CompilerException
 	{

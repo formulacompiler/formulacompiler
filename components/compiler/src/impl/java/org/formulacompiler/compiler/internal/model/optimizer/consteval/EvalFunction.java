@@ -57,7 +57,7 @@ public class EvalFunction extends EvalShadow
 				return evalBooleanSequence( true );
 
 			case COUNT: {
-				final Collection<ExpressionNode> uncountables = New.newCollection();
+				final Collection<ExpressionNode> uncountables = New.collection();
 				final int staticValueCount = node().countArgumentValues( context().letDict, uncountables );
 				final int subCount = uncountables.size();
 				if (subCount == 0) {
@@ -70,7 +70,7 @@ public class EvalFunction extends EvalShadow
 					for (ExpressionNode uncountable : uncountables) {
 						final ExpressionNodeForSubSectionModel sub = (ExpressionNodeForSubSectionModel) uncountable;
 						subs[i] = sub.getSectionModel();
-						final Collection<ExpressionNode> subUncountables = New.newCollection();
+						final Collection<ExpressionNode> subUncountables = New.collection();
 						subCounts[i] = sub.countArgumentValues( context().letDict, subUncountables );
 						if (subUncountables.size() > 0) {
 							throw new CompilerException.UnsupportedExpression( "COUNT of nested sections not supported" );
@@ -90,7 +90,7 @@ public class EvalFunction extends EvalShadow
 	private final Object evalBooleanSequence( boolean _returnThisIfFound ) throws CompilerException
 	{
 		final InterpretedNumericType type = type();
-		final Collection<ExpressionNode> dynArgs = New.newCollection();
+		final Collection<ExpressionNode> dynArgs = New.collection();
 		final int n = cardinality();
 		for (int i = 0; i < n; i++) {
 			final Object arg = evaluateArgument( i );

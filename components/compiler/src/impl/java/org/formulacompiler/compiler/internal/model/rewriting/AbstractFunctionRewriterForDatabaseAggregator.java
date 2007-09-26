@@ -149,7 +149,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 		}
 		else {
 			final int nCol = _tableDesc.numberOfColumns();
-			final List<String> result = New.newList( nCol );
+			final List<String> result = New.list( nCol );
 			final Iterator<ExpressionNode> iElt = _tableElements.iterator();
 			for (int iCol = 0; iCol < nCol; iCol++) {
 				final Object cst = constantValueOf( iElt.next() );
@@ -165,7 +165,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 
 	private List<ExpressionNode> stripLabelsFromTable( ArrayDescriptor _tableDesc, List<ExpressionNode> _tableElements )
 	{
-		final List<ExpressionNode> result = New.newList( _tableElements.size() - 1 ); // heuristic
+		final List<ExpressionNode> result = New.list( _tableElements.size() - 1 ); // heuristic
 		stripLabelsFromTableInto( _tableDesc, _tableElements, result );
 		return result;
 	}
@@ -201,7 +201,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 			throws CompilerException
 	{
 		final int nCol = _tableDesc.numberOfColumns();
-		final List<CellModel> result = New.newList( nCol );
+		final List<CellModel> result = New.list( nCol );
 		getFirstRowFromTableInto( 0, nCol, _dataElements.iterator(), result );
 		return result;
 	}
@@ -318,7 +318,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 		private Collection<ExpressionNode> buildRowFilters( int[] _critCols, Iterator<ExpressionNode> _critIterator,
 				DataType[] _colTypes, List<CellModel> _firstRow ) throws CompilerException
 		{
-			final Collection<ExpressionNode> result = New.newCollection();
+			final Collection<ExpressionNode> result = New.collection();
 			while (_critIterator.hasNext()) {
 				result.add( buildRowFilter( _critCols, _critIterator, _colTypes, _firstRow ) );
 			}
@@ -335,7 +335,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 				DataType[] _colTypes, List<CellModel> _firstRow ) throws CompilerException
 		{
 			final int len = _critCols.length;
-			final Collection<ExpressionNode> result = New.newList( len );
+			final Collection<ExpressionNode> result = New.list( len );
 			for (int iCrit = 0; iCrit < len; iCrit++) {
 				final int iCol = _critCols[ iCrit ];
 				final ExpressionNode criterion = _critIterator.next();

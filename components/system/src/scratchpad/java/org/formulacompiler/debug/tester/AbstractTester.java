@@ -150,9 +150,9 @@ public abstract class AbstractTester
 	{
 		private final Section binder;
 		private final Range range;
-		private final List<SectionDef> subs = New.newList();
+		private final List<SectionDef> subs = New.list();
 		private final Inputs input;
-		private final List<String> outputNames = New.newList();
+		private final List<String> outputNames = New.list();
 		private int nextSectionIndex = 0;
 
 		public SectionDef(SectionDef _parent, Range _range, Section _binder, Inputs _input) throws Exception
@@ -249,8 +249,8 @@ public abstract class AbstractTester
 
 	public static final class Inputs
 	{
-		private final List<Object> values = New.newList();
-		private final List<Inputs[]> subs = New.newList();
+		private final List<Object> values = New.list();
+		private final List<Inputs[]> subs = New.list();
 
 		public int addSub()
 		{

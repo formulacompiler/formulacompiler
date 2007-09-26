@@ -154,7 +154,7 @@ public abstract class AbstractDatabaseTableTest extends AbstractSheetBasedTest
 			{
 				int iInput = 0;
 
-				final Collection<CellIndex> adds = New.newCollection();
+				final Collection<CellIndex> adds = New.collection();
 				extractInputsFromNamedRange( _valueRow.getCellOrNull( firstInputCol() + TABLE_NAME_OFFS ), adds );
 				extractInputsFromNamedRange( _valueRow.getCellOrNull( firstInputCol() + CRIT_NAME_OFFS ), adds );
 

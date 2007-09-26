@@ -34,7 +34,7 @@ import org.formulacompiler.runtime.New;
 
 public final class ByteCodeEngineSourceImpl implements ByteCodeEngineSource
 {
-	private final SortedMap<String, String> classes = New.newSortedMap();
+	private final SortedMap<String, String> classes = New.sortedMap();
 
 	public ByteCodeEngineSourceImpl(Map<String, String> _classes)
 	{

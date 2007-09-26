@@ -37,8 +37,8 @@ public class Inputs implements InputInterface
 	private BigDecimal bigOne;
 	private BigDecimal bigTwo;
 	private BigDecimal bigThree;
-	private final Collection<Inputs> details = New.newCollection();
-	private final Collection<Inputs> otherDetails = New.newCollection();
+	private final Collection<Inputs> details = New.collection();
+	private final Collection<Inputs> otherDetails = New.collection();
 	private double doubleIncr = 1;
 
 	public Inputs(final double _one, final double _two, final double _three)

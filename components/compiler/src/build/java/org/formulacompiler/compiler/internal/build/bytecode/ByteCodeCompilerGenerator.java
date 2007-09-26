@@ -234,9 +234,9 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 	abstract class TemplateMethodGenerator extends AbstractMethodTemplateGenerator
 	{
 		final int firstVarInLocals;
-		final List<Label> labels = New.newList();
+		final List<Label> labels = New.list();
 		final Iterator insns;
-		final Map<String, Object> defs = New.newMap();
+		final Map<String, Object> defs = New.map();
 
 		int sizeOfLocals;
 		int sizeOfVarsInLocals;

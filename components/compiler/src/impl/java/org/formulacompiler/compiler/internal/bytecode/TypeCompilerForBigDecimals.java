@@ -110,7 +110,7 @@ abstract class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 	}
 
 
-	private final Map<String, String> constantPool = New.newMap();
+	private final Map<String, String> constantPool = New.map();
 
 	/** The max value of a long is 9,223,372,036,854,775,807, so its max precision is 6 * 3 = 18. */
 	private static final int MAX_LONG_PREC = 18;

@@ -29,7 +29,7 @@ import org.formulacompiler.runtime.New;
 public abstract class ExpressionNodeShadow
 {
 	private final ExpressionNode node;
-	private final List<ExpressionNodeShadow> arguments = New.newList();
+	private final List<ExpressionNodeShadow> arguments = New.list();
 
 	public ExpressionNodeShadow(ExpressionNode _node)
 	{

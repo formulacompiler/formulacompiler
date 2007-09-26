@@ -268,7 +268,7 @@ public class SectionOutputTest extends AbstractIOTestBase
 		public List<DetailOutput> outputsList()
 		{
 			final DetailPrototype[] arr = outs();
-			final List<DetailOutput> res = New.newList( arr.length );
+			final List<DetailOutput> res = New.list( arr.length );
 			for (DetailPrototype det : arr)
 				res.add( det );
 			return res;

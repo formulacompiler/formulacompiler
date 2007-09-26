@@ -715,7 +715,7 @@ abstract class ExpressionCompiler
 		}
 	}
 
-	private final Set<String> forbiddenLetVars = New.newSet();
+	private final Set<String> forbiddenLetVars = New.set();
 
 
 	protected final LocalRef compileStoreToNewLocal( boolean _isArray )

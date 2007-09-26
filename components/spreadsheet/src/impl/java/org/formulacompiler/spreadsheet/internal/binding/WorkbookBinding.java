@@ -38,10 +38,10 @@ public class WorkbookBinding implements SpreadsheetBinding
 	private final SpreadsheetImpl workbook;
 	private final SectionBinding root;
 	private final Environment environment;
-	private final Map<CellIndex, InputCellBinding> inputs = New.newMap();
-	private final List<OutputCellBinding> outputs = New.newList();
-	private final Set<CellIndex> outputCells = New.newSet();
-	private final List<SectionBinding> sections = New.newList();
+	private final Map<CellIndex, InputCellBinding> inputs = New.map();
+	private final List<OutputCellBinding> outputs = New.list();
+	private final Set<CellIndex> outputCells = New.set();
+	private final List<SectionBinding> sections = New.list();
 
 
 	public WorkbookBinding(SpreadsheetImpl _workbook, Class _inputClass, Class _outputClass, Computation.Config _compileTimeConfig)

@@ -102,7 +102,7 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 
 		private Object[] getArguments( Method _method, String _name )
 		{
-			final Collection<Object> args = New.newCollection();
+			final Collection<Object> args = New.collection();
 			final StringTokenizer tokenizer = new StringTokenizer( _name, "_" );
 			tokenizer.nextToken();
 			final Class[] paramTypes = _method.getParameterTypes();

@@ -41,7 +41,7 @@ import java.util.Map;
  */
 public class ImplementationLocator
 {
-	private static final Map<Class, Collection> implementationClasses = New.newMap();
+	private static final Map<Class, Collection> implementationClasses = New.map();
 
 
 	/**
@@ -84,7 +84,7 @@ public class ImplementationLocator
 	 */
 	public static <T> Collection<T> getInstances( Class<T> _class ) throws ConfigurationException
 	{
-		final Collection<T> result = New.newCollection();
+		final Collection<T> result = New.collection();
 		final Collection<Class<T>> clazzes = getImplementationClasses( _class );
 		try {
 			for (Class<T> clazz : clazzes) {
@@ -176,7 +176,7 @@ public class ImplementationLocator
 	private static <T, I extends T> Collection<Class<I>> loadImplementationClasses( Class<T> _class )
 	{
 		try {
-			final Collection<Class<I>> result = New.newCollection();
+			final Collection<Class<I>> result = New.collection();
 			final String configName = "META-INF/services/" + _class.getName();
 			final Enumeration<URL> resources = ClassLoader.getSystemResources( configName );
 			while (resources.hasMoreElements()) {

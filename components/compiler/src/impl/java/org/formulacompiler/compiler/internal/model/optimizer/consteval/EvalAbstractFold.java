@@ -60,7 +60,7 @@ abstract class EvalAbstractFold extends EvalShadow
 	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object[] _args, int _firstFoldedArg )
 			throws CompilerException
 	{
-		final Collection<ExpressionNode> dynArgs = New.newCollection();
+		final Collection<ExpressionNode> dynArgs = New.collection();
 		final Object initialAcc = initial( _args );
 		Object acc = initialAcc;
 		if (isConstant( acc )) {

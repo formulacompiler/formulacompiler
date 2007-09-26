@@ -346,14 +346,14 @@ abstract class MethodCompiler
 	protected final Iterable<LetEntry> closureOf( Iterable<ExpressionNode> _nodes )
 	{
 		// Using sorted map to make engines reproducible.
-		final Map<String, LetEntry> closure = New.newSortedMap();
+		final Map<String, LetEntry> closure = New.sortedMap();
 		addToClosure( closure, _nodes );
 		return closure.values();
 	}
 
 	protected final Iterable<LetEntry> closureOf( ExpressionNode _node )
 	{
-		final Map<String, LetEntry> closure = New.newSortedMap();
+		final Map<String, LetEntry> closure = New.sortedMap();
 		addToClosure( closure, _node );
 		return closure.values();
 	}
@@ -560,7 +560,7 @@ abstract class MethodCompiler
 	final Object beginTrackingSetsOfOuterLets()
 	{
 		final Object oldState = this.trackedSetsOfOuterLets;
-		this.trackedSetsOfOuterLets = New.newSet();
+		this.trackedSetsOfOuterLets = New.set();
 		this.letTrackingNestingLevel++;
 		return oldState;
 	}
