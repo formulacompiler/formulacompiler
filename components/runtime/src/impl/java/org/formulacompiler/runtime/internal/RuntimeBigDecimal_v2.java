@@ -363,6 +363,11 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		return BigDecimal.valueOf( RuntimeDouble_v2.fun_POISSON( _x.intValue(), _mean.doubleValue(), _cumulative ) );
 	}
 
+	public static BigDecimal fun_TDIST( BigDecimal _x, BigDecimal _degFreedom, BigDecimal _tails )
+	{
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_TDIST( _x.doubleValue(), _degFreedom.doubleValue(), _tails.intValue() ) );
+	}
+
 	public static BigDecimal fun_LOG( final BigDecimal _n, final BigDecimal _x )
 	{
 		final double lnN = Math.log( _n.doubleValue() );

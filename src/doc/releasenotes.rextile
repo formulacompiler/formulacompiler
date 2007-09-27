@@ -19,7 +19,7 @@ h5. *Changed!*
 h5. New
 
 	* @SUMSQ()@ is now "supported":reference/aggregators.htm.
-	* @CONFIDENCE()@, @BETADIST()@, @BINOMDIST()@, @CHIDIST()@, @FDIST()@, @GAMMADIST()@, @NEGBINOMDIST()@, @NORMDIST()@, @NORMSDIST()@, @LOGNORMSDIST()@, @NORMINV()@, @NORMSINV()@, @LOGINV()@, @POISSON()@, @AVEDEV()@, @DEVSQ()@, and @RANK()@ are now "supported":reference/statisticalfuncs.htm.
+	* @CONFIDENCE()@, @BETADIST()@, @BINOMDIST()@, @CHIDIST()@, @FDIST()@, @GAMMADIST()@, @NEGBINOMDIST()@, @NORMDIST()@, @NORMSDIST()@, @LOGNORMSDIST()@, @NORMINV()@, @NORMSINV()@, @LOGINV()@, @POISSON()@, @TDIST()@, @AVEDEV()@, @DEVSQ()@, and @RANK()@ are now "supported":reference/statisticalfuncs.htm.
 	* @ACOSH()@, @ASINH()@, @ATANH()@, @SINH()@, @COSH()@, @TANH()@, @GEOMEAN()@, @HARMEAN()@, @PERMUT()@, @RAND()@, and @SIGN()@ are now "supported":reference/numfuncs.htm.
 	* @VDB()@ is now "supported":reference/financialfuncs.htm
 	* By name binding now supports "binding only cells with a given input and output prefix":-bindprefix.

@@ -545,6 +545,11 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_POISSON( _x, _mean, _cumulative != 0, this.context );
 	}
 
+	public long fun_TDIST( long _x, long _degFreedom, long _tails )
+	{
+		return RuntimeLong_v2.fun_TDIST( _x, _degFreedom, _tails, this.context );
+	}
+
 	public long fun_MOD( long n, long d )
 	{
 		return RuntimeLong_v2.fun_MOD( n, d, this.context );

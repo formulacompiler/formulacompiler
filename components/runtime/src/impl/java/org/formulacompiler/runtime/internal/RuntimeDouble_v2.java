@@ -570,6 +570,15 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return Math.exp( -_mean ) * Math.pow( _mean, _x ) / factorial( _x );
 	}
 
+	public static double fun_TDIST( double _x, double _degFreedom, int _tails )
+	{
+		if (_x < 0 || _degFreedom < 1 || (_tails != 1 && _tails != 2)) {
+			return 0; // Excel #NUM!
+		}
+
+		return (1 - Probability.studentT( Math.floor( _degFreedom ), _x )) * _tails;
+	}
+
 	public static double fun_MOD( double _n, double _d )
 	{
 		if (_d == 0) {

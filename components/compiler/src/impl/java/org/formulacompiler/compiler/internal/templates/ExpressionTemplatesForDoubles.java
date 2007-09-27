@@ -484,6 +484,11 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v2.fun_POISSON( (int) _x, _mean, _cumulative != 0 );
 	}
 
+	public double fun_TDIST( double _x, double _degFreedom, double _tails )
+	{
+		return RuntimeDouble_v2.fun_TDIST( _x, _degFreedom, (int) _tails );
+	}
+
 	public double fun_MOD( double n, double d )
 	{
 		return RuntimeDouble_v2.fun_MOD( n, d );
