@@ -456,6 +456,11 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_POISSON( _x, _mean, _cumulative.signum() != 0 );
 	}
 
+	public BigDecimal fun_TDIST( BigDecimal _x, BigDecimal _degFreedom, BigDecimal _tails )
+	{
+		return RuntimeBigDecimal_v2.fun_TDIST( _x, _degFreedom, _tails );
+	}
+
 	public BigDecimal fun_MOD( BigDecimal n, BigDecimal d )
 	{
 		return RuntimeBigDecimal_v2.fun_MOD( n, d );

@@ -9,7 +9,7 @@
   <Author>Peter Arrenbrecht</Author>
   <LastAuthor>vkorenev</LastAuthor>
   <Created>2005-11-22T20:05:38Z</Created>
-  <LastSaved>2007-09-26T14:45:56Z</LastSaved>
+  <LastSaved>2007-09-27T12:38:11Z</LastSaved>
   <Company>Opus Software AG</Company>
   <Version>11.8132</Version>
  </DocumentProperties>
@@ -46,7 +46,7 @@
   </Style>
  </Styles>
  <Worksheet ss:Name="Sheet1">
-  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="343" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="365" x:FullColumns="1"
    x:FullRows="1" ss:DefaultColumnWidth="54">
    <Column ss:AutoFitWidth="0" ss:Width="85.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="115.5"/>
@@ -3005,6 +3005,171 @@
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
     <Cell><Data ss:Type="String">...</Data></Cell>
    </Row>
+   <Row ss:Index="345">
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">TDIST</Data></Cell>
+    <Cell><Data ss:Type="String">TDIST</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.46827448257488641</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.46827448257488641</Data></Cell>
+    <Cell><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.93654896514977282</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.93654896514977282</Data></Cell>
+    <Cell><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.46473271921017539</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.46473271921017539</Data></Cell>
+    <Cell><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.46027226555046619</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.46027226555046619</Data></Cell>
+    <Cell><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">3.1829927643624726E-3</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">3.1829927643624726E-3</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4.9992501245380026E-5</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">4.9992501245380026E-5</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">5.7249147038858604E-2</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">5.7249147038858604E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">5.5</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1.5752001519251217E-2</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1.5752001519251217E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">5.5</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1.4617107210140738E-7</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1.4617107210140738E-7</Data></Cell>
+    <Cell><Data ss:Type="Number">5.5</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1.4617107210140738E-7</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1.4617107210140738E-7</Data></Cell>
+    <Cell><Data ss:Type="Number">5.5</Data></Cell>
+    <Cell><Data ss:Type="Number">100.9</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1.4617107210140738E-7</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1.4617107210140738E-7</Data></Cell>
+    <Cell><Data ss:Type="Number">5.5</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">1.9</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2.9234214420281476E-7</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">2.9234214420281476E-7</Data></Cell>
+    <Cell><Data ss:Type="Number">5.5</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">2.9</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row ss:Index="365">
+    <Cell ss:Index="14"><Comment ss:Author="vkorenev"><ss:Data
+       xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
+         html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
   </Table>
   <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
    <Print>
@@ -3014,15 +3179,6 @@
     <VerticalResolution>600</VerticalResolution>
    </Print>
    <Selected/>
-   <TopRowVisible>270</TopRowVisible>
-   <LeftColumnVisible>1</LeftColumnVisible>
-   <Panes>
-    <Pane>
-     <Number>3</Number>
-     <ActiveRow>291</ActiveRow>
-     <ActiveCol>13</ActiveCol>
-    </Pane>
-   </Panes>
    <ProtectObjects>False</ProtectObjects>
    <ProtectScenarios>False</ProtectScenarios>
   </WorksheetOptions>

@@ -528,6 +528,11 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return _cx.fromDouble( RuntimeDouble_v2.fun_POISSON( _cx.toInt( _x ), _cx.toDouble( _mean ), _cumulative ) );
 	}
 
+	public static long fun_TDIST( long _x, long _degFreedom, long _tails, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_TDIST( _cx.toDouble( _x ), _cx.toDouble( _degFreedom ), _cx.toInt( _tails ) ) );
+	}
+
 	public static long fun_MOD( final long _n, final long _d, final Context _cx )
 	{
 		if (_d == 0) {
