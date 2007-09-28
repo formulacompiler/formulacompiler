@@ -20,9 +20,7 @@ h2. Parsing
 
 Making @VAR()@ known to the parser is much like what we did for @ABS()@. Aggregators, however, need to accept range arguments, not just simple values. For the standard aggregators which treat all their arguments as a single range, we can mimick the definition of @SUM()@ as follows:
 
-	...
-	|	"VAR" aggN( Function.VAR )
-	...
+	[text:ExpressionParser.jj:// citation: var]
 
 
 h2. Mathematical Definition
@@ -44,7 +42,7 @@ h2. Folding Functions
 
 For a quick example, let's look at how the rewrite rule for @SUM()@ is defined in AFC:
 
-	[jc:org.formulacompiler.compiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_SUM]
+	[text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: sum]
 
 This means that the result, @r@, is initially 0. Then, for every @xi@ in the range @xs@, we simply add @xi@ to @r@. In the argument specification, the @*@ indicates that @xs@ represents all remaining arguments as a list (much like @int... a@ in Java).
 
@@ -56,7 +54,7 @@ The version of @_FOLD()@ I used here, @_FOLD_OR_REDUCE()@, is simply @_FOLD()@ w
 
 There are also cases when it is _mandatory_ to use the first argument directly. @MIN()@ and @MAX()@ are such cases (so we don't need some arbitrary starting extremal value). For them you need to use @_REDUCE()@:
 
-	[jc:org.formulacompiler.compiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_MINMAX]
+	[text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: minmax]
 
 You read this as follows:
 
@@ -93,6 +91,6 @@ Clearly, we will need the two auxiliary values
 
 to define the overall result. In AFC's rewriting rules you can define auxiliary values using the @_LET()@ function. So we arrive at:
 
-	[jc:org.formulacompiler.compiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_VAR]
+	[text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: var]
 
 Note how we can use @SUM()@ in the rule, even though it is itself a high-level aggregation with a rewrite rule of its own. AFC applies rewrites recursively until there is no more to rewrite.

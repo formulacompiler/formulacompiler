@@ -1,0 +1,315 @@
+/*
+ * Copyright (c) 2006 by Abacus Research AG, Switzerland.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are prohibited, unless you have been explicitly granted
+ * more rights by Abacus Research AG.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ * OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
+ * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+ 
+ /**
+  * Rules to rewrite higher-level spreadsheet functions to lower-level functions and operators.
+  */
+rules {
+
+
+	// -------- Basic aggregators
+
+
+	rewrite counta( xs* ) = COUNT( xs )
+	
+	// citation: sum
+	rewrite sum( xs* ) = _FOLD_OR_REDUCE( r: 0; xi: r + xi; xs )
+	// citation: sum
+	
+	rewrite product( xs* ) = _REDUCE( r, xi: r * xi; 0; xs )
+	
+	// citation: minmax
+	rewrite min( xs* ) = _REDUCE( r, xi: r _min_ xi; 0; xs )
+	rewrite max( xs* ) = _REDUCE( r, xi: r _max_ xi; 0; xs )
+	// citation: minmax
+	
+	rewrite average( xs* ) = SUM( xs ) / COUNT( xs )
+	rewrite sumsq( xs* ) = _FOLD( r: 0; xi: r + xi*xi; xs )
+
+
+	// -------- Mathematical functions
+
+
+	// citation: combin
+	rewrite combin( n, k ) =
+		if OR( n <= 0, k < 0, n < k ) then 0
+		else if n = k then 1
+		else if k = 1 then n
+		else 
+			FACT(n) / FACT(k) / FACT(n-k)
+	// citation: combin
+
+
+	// -------- Financial functions
+
+	
+	// citation: npv
+	rewrite npv( rate, vs# ) =
+		let rate1 = rate + 1
+		in _FOLD_ARRAY( r: 0; vi, i: r + vi / rate1 ^ i; vs )
+	// citation: npv
+
+	rewrite mirr( vs#, frate, rrate ) =
+		let n = COUNT( vs )
+		let rrate1 = rrate + 1
+		let frate1 = frate + 1 
+		in
+			((-_FOLD_ARRAY( r: 0; vi, i: r + IF( vi > 0, vi, 0 ) * rrate1 ^ (n - i); vs ))
+			/ _FOLD_ARRAY( r: 0; vi, i: r + IF( vi < 0, vi, 0 ) / frate1 ^ (i - 1); vs ))
+			^ (1 / (n - 1))
+			- 1
+		
+	rewrite sln( cost, salvage, life ) = (cost - salvage) / life
+	rewrite syd( cost, salvage, life, per ) = (cost - salvage) * (life - per + 1) * 2 / (life * (life + 1))
+
+	rewrite fv( rate, nper, pmt, pv, type ) =
+		if rate = 0 then -pv - pmt*nper
+		else
+			let p = (rate + 1)^nper
+			let k = IF( type > 0, rate + 1, 1 )
+			in -pv * p - pmt * (p - 1) * k / rate
+			
+	rewrite fv( rate, nper, pmt, pv ) = FV( rate, nper, pmt, pv, 0 )
+	rewrite fv( rate, nper, pmt ) = FV( rate, nper, pmt, 0, 0 )
+
+	rewrite nper( rate, pmt, pv, fv, type ) =
+	if rate = 0 then -(pv + fv) / pmt
+	else 
+		let a = (if type > 0 then pmt * (1 + rate) else pmt)
+		in LOG( -(rate * fv - a) / (rate * pv + a), 1 + rate )
+
+	rewrite nper( rate, pmt, pv, fv ) = NPER( rate, pmt, pv, fv, 0 )
+	rewrite nper( rate, pmt, pv ) = NPER( rate, pmt, pv, 0, 0 )
+
+	rewrite pv( rate, nper, pmt, fv, type ) =
+		if rate = 0 then -fv - pmt * nper
+		else
+			let a = 1 + rate
+			let b = -fv * ( a ^ -nper )
+			in
+				if type > 0
+				then b + (pmt * (( a ^ ( -nper + 1 )) - 1) / rate) - pmt
+				else b + (pmt * (( a ^ -nper ) - 1) / rate)
+
+	rewrite pv( rate, nper, pmt, fv ) = PV (rate, nper, pmt, fv, 0 )
+	rewrite pv( rate, nper, pmt ) = PV (rate, nper, pmt, 0, 0 )
+
+	rewrite pmt( rate, nper, pv, fv, type ) =
+		if rate = 0 then -(pv + fv) / nper
+		else
+			let a = (1 + rate) ^ nper
+			let b = pv / (1 - 1 / a)
+			let c =  fv / (a - 1)
+			let d = -(b + c) * rate
+			in if type > 0 then d / (1 + rate) else d
+
+	rewrite pmt( rate, nper, pv, fv ) = PMT (rate, nper, pv, fv, 0 )
+	rewrite pmt( rate, nper, pv ) = PMT (rate, nper, pv, 0, 0 )
+
+
+	// -------- Probability functions
+
+
+	rewrite normsdist( a ) =
+		let sqrth = 7.07106781186547524401E-1
+		let x =  a * sqrth
+		let z = ABS( x )
+		in
+			if z < sqrth
+			then 0.5 + 0.5 * ERF( x )
+			else 
+				let y1 = 0.5 * ERFC( z ) 
+				in if x > 0 then 1 - y1 else y1
+
+	rewrite normdist( x, mue, sigma, cumulative ) =
+		if cumulative
+		then NORMSDIST( (x - mue) / sigma )
+		else 
+			let x1 = x - mue
+			in EXP( (x1 * x1) / (-2 * sigma * sigma) ) / (SQRT( 2 * PI() ) * sigma)
+
+	rewrite lognormdist( x, mue, sigma ) = NORMSDIST( (LN( x ) - mue) / sigma )
+
+	rewrite normsinv( x ) =
+		let q = x - 0.5
+		in
+			if ABS( q ) <= 0.425
+			then
+				let t = 0.180625 - q * q
+				in
+					q *
+					(
+						(
+							(
+								(
+									(
+										(
+											(t * 2509.0809287301226727 + 33430.575583588128105)
+										* t + 67265.770927008700853)
+									* t + 45921.953931549871457)
+								* t + 13731.693765509461125)
+							* t + 1971.5909503065514427)
+						* t + 133.14166789178437745)
+					* t + 3.387132872796366608)
+					/
+					(
+						(
+							(
+								(
+									(
+										(
+											(t * 5226.495278852854561 + 28729.085735721942674)
+										* t + 39307.89580009271061)
+									* t + 21213.794301586595867)
+								* t + 5394.1960214247511077)
+							* t + 687.1870074920579083)
+						* t + 42.313330701600911252)
+					* t + 1)
+			else
+				let tt = SQRT( -LN( IF( q > 0, 1 - x, x ) ) )
+				let z =
+					(if tt <= 5
+					then
+						(let t = tt - 1.6 in
+							(
+								(
+									(
+										(
+											(
+												(
+													(t * 7.7454501427834140764e-4 + 0.0227238449892691845833)
+												* t + 0.24178072517745061177)
+											* t + 1.27045825245236838258)
+										* t + 3.64784832476320460504)
+									* t + 5.7694972214606914055)
+								* t + 4.6303378461565452959)
+							* t + 1.42343711074968357734)
+							/
+							(
+								(
+									(
+										(
+											(
+												(
+													(t * 1.05075007164441684324e-9 + 5.475938084995344946e-4)
+												* t + 0.0151986665636164571966)
+											* t + 0.14810397642748007459)
+										* t + 0.68976733498510000455)
+									* t + 1.6763848301838038494)
+								* t + 2.05319162663775882187)
+							* t + 1.0)
+						)
+					else
+						(let t = tt - 5 in
+							(
+								(
+									(
+										(
+											(
+												(
+													(t * 2.01033439929228813265e-7 + 2.71155556874348757815e-5)
+												* t + 0.0012426609473880784386)
+											* t + 0.026532189526576123093)
+										* t + 0.29656057182850489123)
+									* t + 1.7848265399172913358)
+								* t + 5.4637849111641143699)
+							* t + 6.6579046435011037772)
+							/
+							(
+								(
+									(
+										(
+											(
+												(
+													(t * 2.04426310338993978564e-15 + 1.4215117583164458887e-7)
+												* t + 1.8463183175100546818e-5)
+											* t + 7.868691311456132591e-4)
+										* t + 0.0148753612908506148525)
+									* t + 0.13692988092273580531)
+								* t + 0.59983220655588793769)
+							* t + 1.0)
+						)
+					)
+				in if q < 0 then -z else z
+
+	rewrite norminv( x, mue, sigma ) = NORMSINV( x ) * sigma + mue
+	rewrite loginv( x, mue, sigma ) = EXP( NORMSINV( x ) * sigma + mue )
+	rewrite confidence( alpha, sigma, n ) = NORMSINV( 1 - alpha / 2) * sigma / SQRT( INT( n ) )
+
+
+	// -------- Statistical functions
+
+
+	rewrite rank( number, ref#, order ) =
+		_FOLD_ARRAY( r: 1; refi, i: r + IF( IF( order = 0, number < refi, number > refi ), 1, 0); ref )
+
+	rewrite rank( number+, ref+ ) = RANK (number, ref, 0 )
+
+	rewrite varp( xs* ) =
+		let n = COUNT(xs)
+		let m = SUM(xs) / n
+		in _FOLD( r: 0; xi: (let ei = xi - m in r + ei*ei); xs ) / n
+
+	// citation: var
+	rewrite var( xs* ) =
+		let n = COUNT(xs)
+		let m = SUM(xs) / n
+		in _FOLD( r: 0; xi: (let ei = xi - m in r + ei*ei); xs ) / (n - 1)	
+	// citation: var
+	
+	rewrite kurt( xs* ) =
+		let n = COUNT(xs)
+		let a = n - 1
+		let b = (n - 2) * (n - 3)
+		let s = STDEV(xs)
+		let m = SUM(xs) / n
+		in
+			_FOLD( r: 0; xi:
+				(	let ei = (xi - m)/s
+					let ei2 = ei*ei
+					in r + ei2*ei2 
+				); xs
+			) * n * (n + 1) / (a * b) - 3 * a * a / b
+		
+	rewrite skew( xs* ) =
+		let n = COUNT(xs)
+		let s = STDEV(xs)
+		let s3 = s*s*s
+		let m = SUM(xs) / n
+		in
+			_FOLD( r: 0; xi: (let ei = xi - m in r + ei*ei*ei); xs )
+			/ s3 * n / ((n - 1) * (n - 2))
+	
+	rewrite stdev( xs* ) = SQRT( VAR( xs ) )
+	rewrite stdevp( xs* ) = SQRT( VARP( xs ) )
+	
+	rewrite avedev( xs* ) =
+		let n = COUNT(xs)
+		let m = SUM(xs) / n
+		in
+			_FOLD( r:0; xi: r + ABS( m - xi ); xs ) / n
+	
+	rewrite devsq( xs* ) =
+		let n = COUNT(xs)
+		let m = SUM(xs) / n
+		in _FOLD( r: 0; xi: (let ei = xi - m in r + ei*ei ); xs )
+	
+}

@@ -75,7 +75,7 @@ public final class ExpressionNodeForLetVar extends ExpressionNode
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
-		_to.append( '`' ).append( varName() );
+		_to.append( varName() );
 	}
 
 }

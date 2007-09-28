@@ -20,9 +20,7 @@ h2. Parsing
 
 Making @NPV()@ known to the parser is much like what we did for @ABS()@. Array functions, however, need to accept array arguments, not just simple values. These are denoted by @shapedRangeExpr()@:
 
-	...
-	|	"NPV" open() expr() "," shapedRangeExpr() closeFun( Function.NPV )
-	...
+	[text:ExpressionParser.jj:// citation: npv]
 
 This means:
 
@@ -51,6 +49,6 @@ h2. Rewriting It
 
 @_FOLD_ARRAY()@ expects an _array_ to fold, not just a list of values as @_FOLD()@ does. We can make AFC compile the parsed value range into an array using the @#@-suffix notation:
 
-	[jc:org.formulacompiler.compiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_NPV]
+	[text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: npv]
 
-Note how I used @_LET()@ here to move the common subexpression out of the folding loop.
+Note how I used @let@ here to move the common subexpression out of the folding loop.

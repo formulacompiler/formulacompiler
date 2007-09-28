@@ -60,7 +60,7 @@ public class ModelRewriterTest extends TestCase
 
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ) ) );
 
-		assertEquals( "_FOLD_OR_REDUCE( r__1: 0; xi__2: (`r__1 + `xi__2); @( a, b, c ) )", r.getExpression().toString() );
+		assertEquals( "_FOLD_OR_REDUCE( r__1: 0; xi__2: (r__1 + xi__2); @( a, b, c ) )", r.getExpression().toString() );
 	}
 
 
@@ -81,7 +81,7 @@ public class ModelRewriterTest extends TestCase
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ) ) );
 
 		assertBeginsWith(
-				"_DFOLD( col: OR( AND( (`col0 = \"Apple\"), (`col1 > 10.0), (`col1 < 16.0) ), (`col0 = \"Pear\") ); r: 0.0; xi: (`r + `xi); #3; #(1,2,5){",
+				"_DFOLD( col: OR( AND( (col0 = \"Apple\"), (col1 > 10.0), (col1 < 16.0) ), (col0 = \"Pear\") ); r: 0.0; xi: (r + xi); #3; #(1,2,5){",
 				r.getExpression().toString() );
 	}
 
@@ -104,8 +104,7 @@ public class ModelRewriterTest extends TestCase
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ) ) );
 
 		assertBeginsWith(
-				"_LET_BYNAME( crit0: Inputs.getOne(); _LET_BYNAME( crit1: Inputs.getOne(); _LET_BYNAME( crit2: Inputs.getOne(); _LET_BYNAME( crit3: Inputs.getOne(); "
-						+ "_DFOLD( col: OR( AND( (`col0 = `crit0), (`col1 > `crit1), (`col1 < `crit2) ), (`col0 = `crit3) ); r: 0.0; xi: (`r + `xi); #3; #(1,2,5){",
+				"(let/byname crit0 = Inputs.getOne() in (let/byname crit1 = Inputs.getOne() in (let/byname crit2 = Inputs.getOne() in (let/byname crit3 = Inputs.getOne() in _DFOLD( col: OR( AND( (col0 = crit0), (col1 > crit1), (col1 < crit2) ), (col0 = crit3) ); r: 0.0; xi: (r + xi); #3; #",
 				r.getExpression().toString() );
 	}
 

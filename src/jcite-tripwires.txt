@@ -927,59 +927,6 @@ final class $Root implements Computation, UsingScaledLong.Output
     }
 }
 ___@_@___
-jc:org.formulacompiler.compiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_COMBIN
-__@@__
-@Override
-	protected void defineFunctions() throws Exception
-	{
-		// ...
-		begin( Function.COMBIN, "n", "k" );
-		{
-			body( "IF( OR( `n <= 0, `k < 0, `n < `k ), 0," );
-			body( "  IF( `n = `k, 1," );
-			body( "    IF( `k = 1, `n," );
-			body( "      FACT(`n) / FACT(`k) / FACT(`n - `k)" );
-			body( "    )" );
-			body( "  )" );
-			body( ")" );
-		}
-		end();
-		// ...
-	}
-___@_@___
-jc:org.formulacompiler.compiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_MINMAX
-__@@__
-def( Function.MIN, "xs*", "_REDUCE( r, xi: `r _min_ `xi; 0; `xs )" );
-		def( Function.MAX, "xs*", "_REDUCE( r, xi: `r _max_ `xi; 0; `xs )" );
-___@_@___
-jc:org.formulacompiler.compiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_NPV
-__@@__
-// ...
-		begin( Function.NPV, "rate", "vs#" );
-		{
-			body( "_LET( rate1: `rate + 1;" );
-			body( "  _FOLD_ARRAY( r: 0; vi, i: `r + `vi / `rate1 ^ `i; `vs ))" );
-		}
-		end();
-		// ...
-___@_@___
-jc:org.formulacompiler.compiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_SUM
-__@@__
-def( Function.SUM, "xs*", "_FOLD_OR_REDUCE( r: 0; xi: `r + `xi; `xs )" );
-___@_@___
-jc:org.formulacompiler.compiler.internal.build.rewriting.RewriteRulesCompiler:---- fun_VAR
-__@@__
-begin( Function.VAR, "xs*" );
-		{
-			body( "_LET( n: COUNT(`xs);" );
-			body( "  _LET( m: SUM(`xs) / `n;" );
-			body( "    _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
-			body( "  )" );
-			body( "  / (`n - 1)" );
-			body( ")" );
-		}
-		end();
-___@_@___
 jc:org.formulacompiler.compiler.internal.model.analysis.TypeAnnotator:---- typeOfFun
 __@@__
 private DataType typeOf( ExpressionNodeForFunction _expr ) throws CompilerException
@@ -3505,6 +3452,77 @@ final class $Root implements Computation, Decompilation.MyOutputs
         return $inputs.articleRebate();
     }
 }
+___@_@___
+path:ExpressionParser.jj
+__@@__
+components/compiler/src/build/javacc/ExpressionParser.jj
+___@_@___
+path:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules
+__@@__
+components/compiler/src/build/resources/org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules
+___@_@___
+path:org/formulacompiler/compiler/internal/templates/ExpressionTemplatesForDoubles.java
+__@@__
+components/compiler/src/impl/java/org/formulacompiler/compiler/internal/templates/ExpressionTemplatesForDoubles.java
+___@_@___
+path:org/formulacompiler/tests/reference
+__@@__
+components/system/src/test-reference/java/org/formulacompiler/tests/reference
+___@_@___
+path:system/src/test-reference/java/org/formulacompiler/tests/reference
+__@@__
+components/system/src/test-reference/java/org/formulacompiler/tests/reference
+___@_@___
+text:ExpressionParser.jj:// citation: abs
+__@@__
+{	"ABS"	fun1( Function.ABS )
+___@_@___
+text:ExpressionParser.jj:// citation: combin
+__@@__
+|	"COMBIN" fun2( Function.COMBIN )
+___@_@___
+text:ExpressionParser.jj:// citation: npv
+__@@__
+|	"NPV" open() expr() "," shapedRangeExpr() closeFun( Function.NPV )
+___@_@___
+text:ExpressionParser.jj:// citation: round
+__@@__
+|	"ROUND" fun2( Function.ROUND )
+___@_@___
+text:ExpressionParser.jj:// citation: var
+__@@__
+|	"VAR" aggN( Function.VAR )
+___@_@___
+text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: combin
+__@@__
+rewrite combin( n, k ) =
+		if OR( n <= 0, k < 0, n < k ) then 0
+		else if n = k then 1
+		else if k = 1 then n
+		else 
+			FACT(n) / FACT(k) / FACT(n-k)
+___@_@___
+text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: minmax
+__@@__
+rewrite min( xs* ) = _REDUCE( r, xi: r _min_ xi; 0; xs )
+	rewrite max( xs* ) = _REDUCE( r, xi: r _max_ xi; 0; xs )
+___@_@___
+text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: npv
+__@@__
+rewrite npv( rate, vs# ) =
+		let rate1 = rate + 1
+		in _FOLD_ARRAY( r: 0; vi, i: r + vi / rate1 ^ i; vs )
+___@_@___
+text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: sum
+__@@__
+rewrite sum( xs* ) = _FOLD_OR_REDUCE( r: 0; xi: r + xi; xs )
+___@_@___
+text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: var
+__@@__
+rewrite var( xs* ) =
+		let n = COUNT(xs)
+		let m = SUM(xs) / n
+		in _FOLD( r: 0; xi: (let ei = xi - m in r + ei*ei); xs ) / (n - 1)
 ___@_@___
 xc:GeneratedSheet.xls
 __@@__
