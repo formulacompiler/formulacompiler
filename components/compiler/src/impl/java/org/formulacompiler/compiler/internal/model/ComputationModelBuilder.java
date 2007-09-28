@@ -20,6 +20,7 @@
  */
 package org.formulacompiler.compiler.internal.model;
 
+import org.formulacompiler.compiler.internal.expressions.ExpressionBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 
 /**
@@ -59,10 +60,34 @@ public final class ComputationModelBuilder
 		}
 		return result;
 	}
-	
+
 	public static ExpressionNode sub( SectionModel _subSection, ExpressionNode... _args )
 	{
 		return new ExpressionNodeForSubSectionModel( _subSection, _args );
+	}
+
+
+	public static ExpressionNode[] nodes( Object[] _values )
+	{
+		final ExpressionNode[] result = new ExpressionNode[ _values.length ];
+		for (int i = 0; i < _values.length; i++)
+			result[ i ] = node( _values[ i ] );
+		return result;
+	}
+
+	public static ExpressionNode[][] nodes( Object[][] _rows )
+	{
+		final ExpressionNode[][] result = new ExpressionNode[ _rows.length ][];
+		for (int i = 0; i < _rows.length; i++)
+			result[ i ] = nodes( _rows[ i ] );
+		return result;
+	}
+
+	public static ExpressionNode node( Object _value )
+	{
+		if (_value instanceof ExpressionNode) return (ExpressionNode) _value;
+		if (_value instanceof CellModel) return cell( (CellModel) _value );
+		return ExpressionBuilder.cst( _value );
 	}
 
 

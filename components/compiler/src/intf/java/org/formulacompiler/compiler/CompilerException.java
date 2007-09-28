@@ -320,4 +320,22 @@ public class CompilerException extends FormulaCompilerException
 
 	}
 
+
+	/**
+	 * You aggregated two parallel vectors (using {@code COVAR}, for example), but they cross
+	 * different subsections, or cross them differently.
+	 * 
+	 * @author peo
+	 */
+	public static class ParallelVectorsSpanDifferentSubSections extends CompilerException
+	{
+
+		public ParallelVectorsSpanDifferentSubSections( String _message )
+		{
+			super( _message );
+		}
+
+	}
+	
+	
 }

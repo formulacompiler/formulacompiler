@@ -164,12 +164,17 @@ public class Inputs implements InputInterface
 
 	public double getDoubleD()
 	{
-		return 47.11;
+		return 47.12;
 	}
 
 	public double getDoubleE()
 	{
-		return 47.11;
+		return 47.13;
+	}
+
+	public double getDoubleF()
+	{
+		return 47.14;
 	}
 
 	public double getDoubleIncr()

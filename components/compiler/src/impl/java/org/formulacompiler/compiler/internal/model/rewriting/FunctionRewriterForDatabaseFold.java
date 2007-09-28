@@ -34,7 +34,7 @@ import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
 import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForDatabaseFold;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDatabase;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
@@ -48,7 +48,7 @@ import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.internal.Environment;
 
 
-abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExpressionRewriter
+final class FunctionRewriterForDatabaseFold extends AbstractExpressionRewriter
 {
 	private final ComputationModel model;
 	private final ExpressionNodeForFunction fun;
@@ -56,17 +56,24 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 	private final ExpressionNodeForArrayReference table;
 	private final ExpressionNode valueColumn;
 	private final ExpressionNodeForArrayReference criteria;
+	private final ExpressionNode fold;
+	private final String colPrefix;
+	private final String critPrefix;
 
-	public AbstractFunctionRewriterForDatabaseAggregator( ComputationModel _model, ExpressionNodeForFunction _fun,
-			InterpretedNumericType _type )
+	public FunctionRewriterForDatabaseFold( ComputationModel _model, ExpressionNodeForFunction _fun,
+			InterpretedNumericType _type, NameSanitizer _sanitizer, ExpressionNode _fold )
 	{
-		super( null );
+		super( _sanitizer );
 		this.model = _model;
 		this.fun = _fun;
 		this.numericType = _type;
 		this.table = (ExpressionNodeForArrayReference) _fun.argument( 0 );
 		this.valueColumn = _fun.argument( 1 );
 		this.criteria = (ExpressionNodeForArrayReference) _fun.argument( 2 );
+		this.fold = _fold;
+
+		this.colPrefix = "col" + newSanitizingSuffix() + "_";
+		this.critPrefix = "crit" + newSanitizingSuffix() + "_";
 	}
 
 	final ExpressionNodeForArrayReference table()
@@ -74,28 +81,15 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 		return this.table;
 	}
 
-
-	protected boolean isReduce()
+	public String colPrefix()
 	{
-		return false;
+		return this.colPrefix;
 	}
 
-	protected boolean isZeroForEmptySelection()
+	public String critPrefix()
 	{
-		return isReduce();
+		return this.critPrefix;
 	}
-
-	protected ExpressionNode initialAccumulatorValue()
-	{
-		return cst( 0.0 );
-	}
-
-	protected ExpressionNode foldingStep( String _accumulatorName, String _elementName )
-	{
-		return op( foldingOperator(), var( _accumulatorName ), var( _elementName ) );
-	}
-
-	protected abstract Operator foldingOperator();
 
 
 	public final ExpressionNode rewrite() throws CompilerException
@@ -134,11 +128,10 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 		final FilterBuilder filterBuilder = new FilterBuilder();
 		final ExpressionNode filter = filterBuilder.buildFilter( critCols, critData, colTypes, firstRow );
 
-		final ExpressionNodeForDatabaseFold fold = new ExpressionNodeForDatabaseFold( tableDescriptor, "col", filter,
-				"r", initialAccumulatorValue(), "xi", foldingStep( "r", "xi" ), foldedColumnIndex, foldableColumnKeys,
-				this.valueColumn, colTypes, isReduce(), isZeroForEmptySelection(), data );
+		final ExpressionNodeForFoldDatabase apply = new ExpressionNodeForFoldDatabase( this.fold, colTypes, this
+				.colPrefix(), filter, foldedColumnIndex, foldableColumnKeys, this.valueColumn, data );
 
-		return filterBuilder.encloseFoldInLets( fold );
+		return filterBuilder.encloseFoldInLets( apply );
 	}
 
 
@@ -437,7 +430,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 			else if (_comparison.equals( "<" )) comparison = Operator.LESS;
 			else if (_comparison.equals( ">" )) comparison = Operator.GREATER;
 			else {
-				return op( Operator.EQUAL, var( "col" + _tableCol ), _criterion );
+				return op( Operator.EQUAL, var( colPrefix() + _tableCol ), _criterion );
 			}
 			if (_args.size() == 1) {
 				/*
@@ -456,7 +449,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 
 		private ExpressionNode buildComparison( Operator _comparison, int _tableCol, ExpressionNode _criterion )
 		{
-			final String colName = "col" + _tableCol;
+			final String colName = colPrefix() + _tableCol;
 
 			// Unfortunately, constant folding has not been done, because the folder relies on the
 			// rewriter having run first.
@@ -464,7 +457,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 				return op( _comparison, var( colName ), _criterion );
 			}
 			else {
-				final String critName = "crit" + this.nextCritID++;
+				final String critName = critPrefix() + this.nextCritID++;
 
 				final ExpressionNodeForLet newLet = new ExpressionNodeForLet( ExpressionNodeForLet.Type.BYNAME, critName,
 						_criterion );
@@ -496,7 +489,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 				final CellModel cellModel = cellNode.getCellModel();
 				final int iCol = _firstRow.indexOf( cellModel );
 				if (iCol >= 0) {
-					return var( "col" + iCol );
+					return var( colPrefix() + iCol );
 				}
 				else {
 					return _node;
@@ -523,7 +516,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 		}
 
 
-		public ExpressionNode encloseFoldInLets( ExpressionNodeForDatabaseFold _fold )
+		public ExpressionNode encloseFoldInLets( ExpressionNode _fold )
 		{
 			if (this.firstLet != null) {
 				this.lastLet.addArgument( _fold );
@@ -544,7 +537,7 @@ abstract class AbstractFunctionRewriterForDatabaseAggregator extends AbstractExp
 	}
 
 
-	protected final Environment environment()
+	private final Environment environment()
 	{
 		return this.model.getEnvironment();
 	}

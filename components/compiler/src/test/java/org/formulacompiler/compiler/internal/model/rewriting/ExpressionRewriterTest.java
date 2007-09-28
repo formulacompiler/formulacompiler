@@ -36,20 +36,21 @@ public class ExpressionRewriterTest extends TestCase
 
 	public void testSUM() throws Exception
 	{
-		assertRewrite( "_FOLD_OR_REDUCE( r__1: 0; xi__2: (r__1 + xi__2); @( \"[args]\" ) )", Function.SUM );
+		assertRewrite( "apply (fold/reduce with acc = 0 each xi as acc = (acc + xi)) to list {@( \"[args]\" )}",
+				Function.SUM );
 	}
 
 	public void testAVERAGE() throws Exception
 	{
 		assertRewrite(
-				"(_FOLD_OR_REDUCE( r__1: 0; xi__2: (r__1 + xi__2); @( \"[args]\" ) ) / COUNT( @( \"[args]\" ) ))",
+				"(apply (fold/reduce with acc = 0 each xi as acc = (acc + xi)) to list {@( \"[args]\" )} / COUNT( @( \"[args]\" ) ))",
 				Function.AVERAGE );
 	}
 
 	public void testVARP() throws Exception
 	{
 		assertRewrite(
-				"(let n__1 = COUNT( @( \"[args]\" ) ) in (let m__2 = (_FOLD_OR_REDUCE( r__6: 0; xi__7: (r__6 + xi__7); @( \"[args]\" ) ) / n__1) in (_FOLD( r__3: 0; xi__4: (let ei__5 = (xi__4 - m__2) in (r__3 + (ei__5 * ei__5)) ); @( \"[args]\" ) ) / n__1) ) )",
+				"apply (fold/reduce with sx = 0, sxx = 0 each xi as sx = (sx + xi), sxx = (sxx + (xi * xi)) with count n into ((sxx - ((sx * sx) / n)) / n) when empty 0) to list {@( \"[args]\" )}",
 				Function.VARP );
 	}
 
@@ -58,7 +59,8 @@ public class ExpressionRewriterTest extends TestCase
 	{
 		ExpressionNode args = new ExpressionNodeForConstantValue( "[args]" );
 		ExpressionNode e = new ExpressionNodeForFunction( _function, args );
-		ExpressionRewriter rw = new ExpressionRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ) );
+		ExpressionRewriter rw = new ExpressionRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ),
+				new NameSanitizer() );
 		ExpressionNode re = rw.rewrite( e );
 
 		assertEquals( _rewritten, re.toString() );

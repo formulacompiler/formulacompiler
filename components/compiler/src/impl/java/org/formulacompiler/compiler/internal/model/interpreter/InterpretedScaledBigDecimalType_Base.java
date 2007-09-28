@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.runtime.internal.Environment;
+import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
 
 
 abstract class InterpretedScaledBigDecimalType_Base extends InterpretedBigDecimalType
@@ -42,7 +43,7 @@ abstract class InterpretedScaledBigDecimalType_Base extends InterpretedBigDecima
 
 	public BigDecimal adjustScale( BigDecimal _value )
 	{
-		if (NumericType.UNDEFINED_SCALE != this.scale) {
+		if (RuntimeBigDecimal_v2.EXTREMUM != _value && NumericType.UNDEFINED_SCALE != this.scale) {
 			return _value.setScale( this.scale, this.roundingMode );
 		}
 		else {

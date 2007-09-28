@@ -37,7 +37,7 @@ public final class ModelRewriter extends AbstractComputationModelVisitor
 	public ModelRewriter(InterpretedNumericType _type)
 	{
 		super();
-		this.rewriter = new ExpressionRewriter( _type );
+		this.rewriter = new ExpressionRewriter( _type, new NameSanitizer() );
 	}
 
 	

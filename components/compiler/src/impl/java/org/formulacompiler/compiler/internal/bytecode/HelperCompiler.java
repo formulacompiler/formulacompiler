@@ -28,6 +28,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary.LetEntry;
+import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionModel;
 import org.objectweb.asm.Type;
 
 
@@ -105,6 +106,17 @@ abstract class HelperCompiler extends ValueMethodCompiler
 			throw new CompilerException.UnsupportedExpression( "Array reference expected in "
 					+ _outerNode.describe() + "." );
 		}
+	}
+
+	
+	protected static final ExpressionNode firstLocalElementIn( Iterable<ExpressionNode> _elts )
+	{
+		for (ExpressionNode elt : _elts) {
+			if (!(elt instanceof ExpressionNodeForSubSectionModel)) {
+				return elt;
+			}
+		}
+		return null;
 	}
 
 }

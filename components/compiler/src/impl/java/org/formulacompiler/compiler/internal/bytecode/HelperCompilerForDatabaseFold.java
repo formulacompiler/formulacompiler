@@ -215,7 +215,7 @@ final class HelperCompilerForDatabaseFold extends HelperCompilerForIterativeFold
 		final String accName = _context.node.accumulatorName();
 		final DataType accType = _context.node.initialAccumulatorValue().getDataType();
 		compileAccumulatorLoad( this.localResult );
-		letDict().let( accName, accType, ExpressionCompiler.CHAINED_FIRST_ARG );
+		letDict().let( accName, accType, ExpressionCompiler.TOP_OF_STACK );
 		try {
 			final int reuseLocalsAt = localsOffset();
 			expc().compileElementFold( _context, _foldedElt );

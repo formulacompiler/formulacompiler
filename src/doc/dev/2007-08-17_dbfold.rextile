@@ -1,0 +1,96 @@
+
+h1. @SUM@ and @DSUM@, etc.
+
+The definition of the plain and the database aggregators should really be the same. What I need is a fold/reduce operation that applies equally to plain and database aggregations.
+
+Here's what I would like to specify:
+
+	COUNT ::= fold with C = 0 each X as C = C + 1 into C
+	SUM ::= fold/reduce with S = 0 each X as S = S + X into S
+	PRODUCT ::= fold/reduce with P = 1 each X as P = P * X into P when empty 0
+	MIN ::= fold/reduce with M = $global_max each X as M = M $min$ X into M when empty 0
+	MAX ::= fold/reduce with M = $global_min each X as M = M $max$ X into M when empty 0
+	AVERAGE ::= fold with S = 0 each X as S = S + X with count C into S / C when empty 0
+	VARP ::= fold
+		with S = 0, SS = 0 
+		each X as S = S + X, SS = SS + X * X
+		with count C
+		into (SS - S*S / C) / C
+		when empty 0
+	COVAR ::= fold
+		with SX = 0, SY = 0, SXY = 0 
+		each X, Y as SX = SX + X, SY = SY + Y, SXY = SXY + X * Y
+		with count C
+		into (SXY - SX*SY / C) / C
+		when empty 0
+	NPV rate ::=
+		wrap
+			let rate1 = rate + 1
+			in fold
+				with r = 0
+				index i
+				each vi as r + vi / rate1 ^ i
+		at 2
+	STDDEVP ::= wrap SQRT( VARP ) at 1
+	
+Written deliberately in curried notation to emphasize that the definitions should apply equally to plain and database aggregations.
+
+This would make @AVERAGE@ and @VARP@ single pass, like the others, which would help with both the database aggregators and the general aggregators when used over large, non-cached repeating sections.
+
+This could be extended to handle multi-array folds:
+
+	SUMPRODUCT ::= fold/reduce with S = 0 each X, Y as S = S + X*Y into S
+
+which, however, we would at most support for arrays Xs and Ys that are composed identically with respect to repeation sections, meaning the span exactly the same repeating sections in exactly the same way.
+
+h4. Applying Folds
+
+To use the folds above, I would specify, for instance
+
+	SUM( xs* ) ::= apply SUM to list xs    // SUM as defined above
+	DSUM( tbl, idx, filt ) ::= apply SUM to database tbl, idx, filt
+	...
+	COVAR( xs#, ys# ) ::= apply COVAR to vectors xs, ys
+	NPV( rate, vs* ) ::= apply NPV( rate ) to list vs
+
+The latter shows two things. Firstly, I need to pass outer arguments into the fold as such. This should be straightforward with the rewriter's parameter support.
+
+Secondly, I need to push the application down right next to the fold, essentially lifting the constructs surrounding the fold out of the apply. So
+
+	apply (let rate1 = rate + 1 in fold ...) to list vs
+
+becomes
+
+	let rate1 = rate + 1 in (apply (fold ...) to list vs)
+
+Clearly @rate1@ must have been sanitized before being lifted. Otherwise it could collide with letvars within the @vs@. A simple approach would be to have the generator for apply call a recursive rewrite of the fold immediately, thus ensuring (a) proper sanitization of the letvars within, and (b) that the fold node is there so lifting can be done.
+
+In order to be able to lift efficiently, the apply rewriter must know where the fold is, its parent, and its index in the parent's arguments. So I wrap the curried folds in a special wrapper node that holds this information.
+
+h4. Sorting
+
+Finally, we need sorting and trimming for functions like @TRIMMEAN@ and @MEDIAN@. If these are few, then we might simply implement them directly in Java. Otherwise, a @SORT@ and a @TRIM@ function might help, though to make @TRIM@ efficient it might be more intelligent to pass around arrays as triples of array, low bound, high bound.
+
+
+h3. Semantics of @fold@ etc.
+
+	fold with V1 = ?, V2 = ?, ... each X as V1 = ?, V2 = ?, ... into ?
+
+maps to a straightforward loop (optionally unfolded). When more than one aggregator @V@ is used, or if a database or repeating section is involved, the compiler emits a helper function, otherwise it emits the unrolled fold directly.
+
+	fold/reduce with V = ? each X as V = ? into ?
+
+Like @fold@ above, but only accepts a single aggregator. May omit the initial value and use the first argument instead if this leads to more efficient code. The latter is only used for plain unfolded loops.
+
+	fold[/reduce] with V = ? each X as V = ? into ? when empty ?
+
+Like @fold[/reduce]@ above, but returns a given default value when there is no argument. Exists because @PRODUCT( [] )@ must return 0, not 1, and counting inside @PRODUCT@ to use an @IF@ in the final expression seems excessive.
+
+The formerly existing plain reduce can be dropped. For @MIN@ and @MAX@ with @BigDecimal@ I shall use @null@, such that @null $min$ x = x@ and @null $max$ x = x@. If @null@ should turn out to be unacceptable, I shall define custom @BigDecimal@ instances to take the global min/max roles.
+
+
+h3. Implementation Details
+
+@COUNT@ for plain aggregations would be replaced by the existing more efficient implementation.
+
+

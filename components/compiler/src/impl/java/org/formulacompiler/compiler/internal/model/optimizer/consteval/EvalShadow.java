@@ -109,7 +109,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		return result;
 	}
 
-	
+
 	protected final EvalShadow unsubstitutedArgument( int _index )
 	{
 		return ((EvalShadow) arguments().get( _index )).unsubstituted();
@@ -120,7 +120,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		return this;
 	}
 
-	
+
 	private final Object[] evaluateArguments() throws CompilerException
 	{
 		final int card = cardinality();
@@ -147,7 +147,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		this.context = _context;
 		return evaluateArgument( _index );
 	}
-	
+
 
 	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object... _args ) throws CompilerException
 	{
@@ -175,7 +175,8 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 
 	protected final boolean isConstant( Object _arg )
 	{
-		if (_arg instanceof ExpressionNode) {
+		if (_arg instanceof ExpressionNodeForConstantValue) return true;
+		else if (_arg instanceof ExpressionNode) {
 			return ((_arg instanceof ExpressionNodeForSubstitution) && areConstant( ((ExpressionNode) _arg).arguments() ))
 					|| ((_arg instanceof ExpressionNodeForArrayReference) && areConstant( ((ExpressionNode) _arg)
 							.arguments() ));
@@ -183,6 +184,13 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		else {
 			return (!(_arg instanceof Date)); // Must be converted to current time-zone at runtime.
 		}
+	}
+
+	protected final boolean areConstant( Object[] _args )
+	{
+		for (Object arg : _args)
+			if (!isConstant( arg )) return false;
+		return true;
 	}
 
 	private final boolean areConstant( Iterable<ExpressionNode> _args )
@@ -199,7 +207,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		return (_arg instanceof ExpressionNodeForSubSectionModel);
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings( "unused" )
 	protected Object evaluateToNode( Object... _args ) throws InterpreterException
 	{
 		ExpressionNode result = node().cloneWithoutArguments();

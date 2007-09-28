@@ -58,6 +58,9 @@ import org.formulacompiler.tests.utils.Outputs;
 import org.formulacompiler.tests.utils.OutputsWithoutReset;
 
 
+// TODO Incorporate NewFoldTest into this.
+
+
 public class LittleLanguageTest extends AbstractIOTestBase
 {
 	private static final int N_DET = 3;
@@ -722,8 +725,6 @@ public class LittleLanguageTest extends AbstractIOTestBase
 		final CellModel a = new CellModel( rootModel, "a" );
 		a.makeInput( getInput( "getDoubleB" ) );
 
-		// Note: -var is a let that is evaluated every time it is accessed. Used here as a closure
-		// param for the helper method.
 		final ExpressionNode filter = op( Operator.GREATER, var( "col1" ), var( "crit0" ) );
 
 		final ExpressionNode col = cst( 5 );

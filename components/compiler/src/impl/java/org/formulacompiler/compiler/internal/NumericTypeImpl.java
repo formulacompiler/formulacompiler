@@ -139,7 +139,8 @@ public abstract class NumericTypeImpl implements NumericType
 
 	public abstract Number getZero();
 	public abstract Number getOne();
-
+	public abstract Number getMinValue();
+	public abstract Number getMaxValue();
 
 	public Number valueOf( Number _value )
 	{

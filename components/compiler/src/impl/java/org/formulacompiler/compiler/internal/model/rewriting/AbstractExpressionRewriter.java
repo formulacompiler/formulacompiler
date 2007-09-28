@@ -31,14 +31,25 @@ import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 
 abstract class AbstractExpressionRewriter
 {
-	private int nextSanitizingId = 1;
-
-
-	protected final String newSanitizingSuffix()
+	private final NameSanitizer sanitizer;
+	
+	public AbstractExpressionRewriter( NameSanitizer _sanitizer )
 	{
-		return String.valueOf( this.nextSanitizingId++ );
+		super();
+		this.sanitizer = _sanitizer;
 	}
 
+	
+	protected final NameSanitizer sanitizer()
+	{
+		return this.sanitizer;
+	}
+	
+	protected final String newSanitizingSuffix()
+	{
+		return this.sanitizer.newSanitizingSuffix();
+	}
+	
 
 	protected final ExpressionNode fold( String _acc, ExpressionNode _init, String _x, ExpressionNode _fold,
 			boolean _canInlineFirst, ExpressionNode _xs )

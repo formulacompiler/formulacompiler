@@ -119,6 +119,41 @@ public final class ExpressionBuilder
 	}
 
 
+	public static ExpressionNode vector( ExpressionNode... _exprs )
+	{
+		return vector( (Object[]) _exprs );
+	}
+
+	public static ExpressionNode vector( Object... _exprs )
+	{
+		return matrix( new Object[][] { _exprs } );
+	}
+
+	public static ExpressionNode matrix( ExpressionNode[]... _rows )
+	{
+		return matrix( (Object[][]) _rows );
+	}
+
+	public static ExpressionNode matrix( Object[]... _rows )
+	{
+		final int nrows = _rows.length;
+		final int ncols = _rows[ 0 ].length;
+		final ArrayDescriptor desc = new ArrayDescriptor( 1, nrows, ncols );
+		final ExpressionNode result = new ExpressionNodeForArrayReference( desc );
+		for (Object[] row : _rows) {
+			for (Object elt : row) {
+				if (elt instanceof ExpressionNode) {
+					result.addArgument( (ExpressionNode) elt );
+				}
+				else {
+					result.addArgument( cst( elt ) );
+				}
+			}
+		}
+		return result;
+	}
+
+	
 	/**
 	 * Not to be instantiated.
 	 */

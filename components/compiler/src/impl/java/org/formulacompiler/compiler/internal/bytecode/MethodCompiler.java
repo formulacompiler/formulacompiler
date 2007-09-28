@@ -680,5 +680,10 @@ abstract class MethodCompiler
 		}
 
 	}
+	
+	static interface GeneratedRef
+	{
+		void compile( ExpressionCompiler _exp ) throws CompilerException;
+	}
 
 }

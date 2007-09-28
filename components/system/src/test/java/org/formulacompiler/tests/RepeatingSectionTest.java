@@ -28,9 +28,9 @@ import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder.CellRef;
 
@@ -64,46 +64,43 @@ public class RepeatingSectionTest extends TestCase
 	{
 		long[] vals = new long[] { 1, 2, 3, 4 };
 		for (Function agg : TESTED_AGGREGATORS) {
-			switch (agg) {
 
-				default:
-					SpreadsheetBuilder sb = SpreadsheetCompiler.newSpreadsheetBuilder();
-					sb.newCell( sb.cst( "" ) );
-					sb.newCell( sb.cst( 0 ) );
-					sb.nameCell( "Value" );
-					CellRef rangeStart = sb.currentCell();
-					sb.newCell( sb.cst( 0 ) );
-					sb.newCell( sb.cst( 0 ) );
-					CellRef rangeEnd = sb.currentCell();
-					sb.nameRange( sb.range( rangeStart, rangeEnd ), "Section" );
+			SpreadsheetBuilder sb = SpreadsheetCompiler.newSpreadsheetBuilder();
+			sb.newCell( sb.cst( "" ) );
+			sb.newCell( sb.cst( 0 ) );
+			sb.nameCell( "Value" );
+			CellRef rangeStart = sb.currentCell();
+			sb.newCell( sb.cst( 0 ) );
+			sb.newCell( sb.cst( 0 ) );
+			CellRef rangeEnd = sb.currentCell();
+			sb.nameRange( sb.range( rangeStart, rangeEnd ), "Section" );
 
-					sb.newRow();
-					sb.newCell( sb.fun( agg, sb.ref( sb.range( rangeStart, rangeEnd ) ) ) );
-					sb.nameCell( "Result" );
+			sb.newRow();
+			sb.newCell( sb.fun( agg, sb.ref( sb.range( rangeStart, rangeEnd ) ) ) );
+			sb.nameCell( "Result" );
 
-					EngineBuilder eb = SpreadsheetCompiler.newEngineBuilder();
-					Spreadsheet ss = sb.getSpreadsheet();
-					eb.setSpreadsheet( ss );
-					eb.setInputClass( Input.class );
-					eb.setOutputClass( Output.class );
-					eb.setNumericType( _numericType );
-					Section bnd = eb.getRootBinder();
-					bnd.defineOutputCell( ss.getCell( "Result" ), out( "result" ) );
-					Section sub = bnd.defineRepeatingSection( ss.getRange( "Section" ), Orientation.HORIZONTAL,
-							inp( "subs" ), Input.class, null, null );
-					sub.defineInputCell( ss.getCell( "Value" ), inp( "value" ) );
+			EngineBuilder eb = SpreadsheetCompiler.newEngineBuilder();
+			Spreadsheet ss = sb.getSpreadsheet();
+			eb.setSpreadsheet( ss );
+			eb.setInputClass( Input.class );
+			eb.setOutputClass( Output.class );
+			eb.setNumericType( _numericType );
+			Section bnd = eb.getRootBinder();
+			bnd.defineOutputCell( ss.getCell( "Result" ), out( "result" ) );
+			Section sub = bnd.defineRepeatingSection( ss.getRange( "Section" ), Orientation.HORIZONTAL, inp( "subs" ),
+					Input.class, null, null );
+			sub.defineInputCell( ss.getCell( "Value" ), inp( "value" ) );
 
-					SaveableEngine e = eb.compile();
-					ComputationFactory f = e.getComputationFactory();
+			SaveableEngine e = eb.compile();
+			ComputationFactory f = e.getComputationFactory();
 
-					final int s = (agg == Function.AVERAGE || agg == Function.VARP) ? 1 : 0;
-					for (int l = s; l < vals.length; l++) {
-						Input i = new Input( 0, l, vals );
-						Output o = (Output) f.newComputation( i );
-						double actual = o.result();
-						double expected = expected( agg, i );
-						assertEquals( agg.toString() + "@" + l, expected, actual, 0.000001 );
-					}
+			final int s = (agg == Function.AVERAGE || agg == Function.VARP)? 1 : 0;
+			for (int l = s; l < vals.length; l++) {
+				Input i = new Input( 0, l, vals );
+				Output o = (Output) f.newComputation( i );
+				double actual = o.result();
+				double expected = expected( agg, i );
+				assertEquals( agg.toString() + "@" + l, expected, actual, 0.000001 );
 			}
 
 		}
@@ -166,7 +163,7 @@ public class RepeatingSectionTest extends TestCase
 		private final long value;
 		private final Input[] subs;
 
-		public Input(long _value, int _n, long[] _subs)
+		public Input( long _value, int _n, long[] _subs )
 		{
 			super();
 			this.value = _value;
@@ -199,7 +196,7 @@ public class RepeatingSectionTest extends TestCase
 		return call( Output.class, _name );
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( "unchecked" )
 	private CallFrame call( Class _class, String _name ) throws NoSuchMethodException
 	{
 		return new CallFrame( _class.getMethod( _name ) );

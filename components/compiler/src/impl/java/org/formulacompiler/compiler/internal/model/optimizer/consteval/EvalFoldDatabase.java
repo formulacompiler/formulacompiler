@@ -20,45 +20,53 @@
  */
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
+import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDatabase;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
-final class EvalLetVar extends EvalShadow
+
+final class EvalFoldDatabase extends EvalShadow
 {
-	static final Object UNDEF = new Object();
+	private final String[] colNames;
 
-	private final String varName;
 
-	public EvalLetVar( ExpressionNodeForLetVar _node, InterpretedNumericType _type )
+	public EvalFoldDatabase( ExpressionNodeForFoldDatabase _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
-		this.varName = _node.varName();
+		this.colNames = _node.filterColumnNames();
 	}
-
-
+	
+	
 	@Override
-	protected Object eval()
+	protected Object eval() throws CompilerException
 	{
-		final Object val = letDict().lookup( this.varName );
-		if (val == UNDEF) {
-			if (LOG.e()) LOG.a( "Lookup " ).a( this.varName ).a( " is undefined. " ).lf();
-			return node(); // No need to clone leaf node.
+		final int card = cardinality();
+		final Object[] argValues = new Object[ card ];
+		for (int iArg = 0; iArg < card; iArg++) {
+			argValues[ iArg ] = (iArg == 1)? evalFilter() : evaluateArgument( iArg );
 		}
-		else if (isConstant( val )) {
-			final Object cst = valueOf( val );
-			if (LOG.e()) LOG.a( "Lookup " ).a( this.varName ).a( " <- " ).a( cst ).lf();
-			return cst;
-		}
-		else {
-			if (LOG.e()) LOG.a( "Lookup " ).a( this.varName ).a( " = " ).a( val ).lf();
-			return node(); // No need to clone leaf node.
-		}
+		return evaluateToConstOrExprWithConstantArgsFixed( argValues );
 	}
-
+	
+	
 	@Override
-	protected Object evaluateToConst( Object... _args )
+	protected Object evaluateToConst( Object... _args ) throws CompilerException
 	{
-		throw new IllegalStateException( "EvalLetVar.evaluateToConst() should never be called" );
+		return evaluateToNode( _args );
+	}
+	
+	
+	private Object evalFilter() throws CompilerException
+	{
+		for (int iCol = 0; iCol < this.colNames.length; iCol++) {
+			letDict().let( this.colNames[ iCol ], null, EvalLetVar.UNDEF );
+		}
+		try {
+			return evaluateArgument( 1 ); // filter
+		}
+		finally {
+			letDict().unlet( this.colNames.length );
+		}
 	}
 
 }

@@ -41,6 +41,11 @@ import java.util.TreeSet;
 public final class New
 {
 
+	public static <T> T[] array( T... e )
+	{
+		return e;
+	}
+
 	public static <T> List<T> arrayList()
 	{
 		return new ArrayList<T>();

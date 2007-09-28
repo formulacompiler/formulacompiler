@@ -18,56 +18,31 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.compiler.internal;
+package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
-public abstract class AbstractLongType extends NumericTypeImpl
+import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDefinition;
+import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
+
+final class EvalFoldDefinition extends EvalShadow
 {
-	public static final Long ZERO = Long.valueOf( 0L );
 
-	protected AbstractLongType(int _scale, int _roundingMode)
+	public EvalFoldDefinition( ExpressionNodeForFoldDefinition _node, InterpretedNumericType _type )
 	{
-		super( Long.TYPE, _scale, _roundingMode );
+		super( _node, _type );
 	}
 
 	@Override
-	public final Number getZero()
+	protected Object evaluateToConst( Object... _args ) throws CompilerException
 	{
-		return Long.valueOf( zero() );
+		throw new IllegalStateException( "EvalFoldDefinition.evaluateToConst() should never be called" );
 	}
-
+	
 	@Override
-	public Number getOne()
+	protected Object eval() throws CompilerException
 	{
-		return Long.valueOf( one() );
+		// TODO Fold nevertheless to catch LETs introduced by a WRAP?
+		return node();
 	}
-
-	@Override
-	public final Number getMinValue()
-	{
-		return MIN;
-	}
-
-	private static final Long MIN = Long.valueOf( Long.MIN_VALUE );
-
-	@Override
-	public final Number getMaxValue()
-	{
-		return MAX;
-	}
-
-	private static final Long MAX = Long.valueOf( Long.MAX_VALUE );
-
-	@Override
-	protected final Long assertProperNumberType( Number _value )
-	{
-		return (Long) _value;
-	}
-
-	public final long zero()
-	{
-		return 0L;
-	}
-
-	public abstract long one();
-
+	
 }
