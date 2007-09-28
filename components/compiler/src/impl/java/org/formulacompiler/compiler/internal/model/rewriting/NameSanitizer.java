@@ -18,56 +18,17 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.compiler.internal;
+package org.formulacompiler.compiler.internal.model.rewriting;
 
-public abstract class AbstractLongType extends NumericTypeImpl
+final class NameSanitizer
 {
-	public static final Long ZERO = Long.valueOf( 0L );
+	private int nextSanitizingId = 1;
 
-	protected AbstractLongType(int _scale, int _roundingMode)
+
+	public final String newSanitizingSuffix()
 	{
-		super( Long.TYPE, _scale, _roundingMode );
+		return String.valueOf( this.nextSanitizingId++ );
 	}
 
-	@Override
-	public final Number getZero()
-	{
-		return Long.valueOf( zero() );
-	}
-
-	@Override
-	public Number getOne()
-	{
-		return Long.valueOf( one() );
-	}
-
-	@Override
-	public final Number getMinValue()
-	{
-		return MIN;
-	}
-
-	private static final Long MIN = Long.valueOf( Long.MIN_VALUE );
-
-	@Override
-	public final Number getMaxValue()
-	{
-		return MAX;
-	}
-
-	private static final Long MAX = Long.valueOf( Long.MAX_VALUE );
-
-	@Override
-	protected final Long assertProperNumberType( Number _value )
-	{
-		return (Long) _value;
-	}
-
-	public final long zero()
-	{
-		return 0L;
-	}
-
-	public abstract long one();
 
 }

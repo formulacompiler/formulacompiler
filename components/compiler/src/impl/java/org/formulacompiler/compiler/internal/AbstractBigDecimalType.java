@@ -39,7 +39,19 @@ public abstract class AbstractBigDecimalType extends NumericTypeImpl
 	{
 		super( BigDecimal.class, _mathContext );
 	}
-
+	
+	@Override
+	public final Number getMinValue()
+	{
+		return RuntimeBigDecimal_v2.EXTREMUM;
+	}
+	
+	@Override
+	public final Number getMaxValue()
+	{
+		return RuntimeBigDecimal_v2.EXTREMUM;
+	}
+	
 	@Override
 	protected BigDecimal assertProperNumberType( Number _value )
 	{
@@ -47,7 +59,7 @@ public abstract class AbstractBigDecimalType extends NumericTypeImpl
 	}
 
 	@Override
-	protected BigDecimal convertFromAnyNumber( Number _value )
+	protected final BigDecimal convertFromAnyNumber( Number _value )
 	{
 		BigDecimal v;
 		if (_value instanceof BigDecimal) {
@@ -69,14 +81,14 @@ public abstract class AbstractBigDecimalType extends NumericTypeImpl
 	}
 
 	@Override
-	protected Number convertFromString( String _value, Environment _env ) throws ParseException
+	protected final Number convertFromString( String _value, Environment _env ) throws ParseException
 	{
 		_env.decimalFormat().setParseBigDecimal( true );
 		return adjustConvertedValue( (BigDecimal) super.convertFromString( _value, _env ) );
 	}
 
 	@Override
-	protected String convertToConciseString( Number _value, Environment _env )
+	protected final String convertToConciseString( Number _value, Environment _env )
 	{
 		return RuntimeBigDecimal_v2.toExcelString( (BigDecimal) _value, _env );
 	}

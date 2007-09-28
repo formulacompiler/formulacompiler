@@ -18,56 +18,45 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.compiler.internal;
+package org.formulacompiler.compiler.internal.expressions;
 
-public abstract class AbstractLongType extends NumericTypeImpl
+import java.io.IOException;
+import java.util.Collection;
+
+import org.formulacompiler.describable.DescriptionBuilder;
+
+public final class ExpressionNodeForFoldList extends ExpressionNodeForFoldApply
 {
-	public static final Long ZERO = Long.valueOf( 0L );
 
-	protected AbstractLongType(int _scale, int _roundingMode)
+	private ExpressionNodeForFoldList()
 	{
-		super( Long.TYPE, _scale, _roundingMode );
+		super();
+	}
+
+	public ExpressionNodeForFoldList( ExpressionNode _definition, Collection<ExpressionNode> _args )
+	{
+		super( _definition, _args );
+	}
+
+	public ExpressionNodeForFoldList( ExpressionNode _definition, ExpressionNode... _args )
+	{
+		super( _definition, _args );
+	}
+
+
+	@Override
+	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
+	{
+		super.describeToWithConfig( _to, _cfg );
+		_to.append( "list {" );
+		describeElements( _to, _cfg );
+		_to.append( "}" );
 	}
 
 	@Override
-	public final Number getZero()
+	protected ExpressionNode innerCloneWithoutArguments()
 	{
-		return Long.valueOf( zero() );
+		return new ExpressionNodeForFoldList();
 	}
-
-	@Override
-	public Number getOne()
-	{
-		return Long.valueOf( one() );
-	}
-
-	@Override
-	public final Number getMinValue()
-	{
-		return MIN;
-	}
-
-	private static final Long MIN = Long.valueOf( Long.MIN_VALUE );
-
-	@Override
-	public final Number getMaxValue()
-	{
-		return MAX;
-	}
-
-	private static final Long MAX = Long.valueOf( Long.MAX_VALUE );
-
-	@Override
-	protected final Long assertProperNumberType( Number _value )
-	{
-		return (Long) _value;
-	}
-
-	public final long zero()
-	{
-		return 0L;
-	}
-
-	public abstract long one();
 
 }

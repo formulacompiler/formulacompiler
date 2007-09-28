@@ -64,9 +64,21 @@ public abstract class ExpressionNode extends AbstractDescribable
 		return arguments().get( _i );
 	}
 
+	public final ExpressionNode argumentOrNull( int _i )
+	{
+		if (_i < 0 || _i >= arguments().size()) return null;
+		return arguments().get( _i );
+	}
+
 	public final void addArgument( ExpressionNode _arg )
 	{
 		this.arguments.add( _arg );
+	}
+
+	public final void addArguments( ExpressionNode[] _args )
+	{
+		for (ExpressionNode arg : _args)
+			addArgument( arg );
 	}
 
 	public final void replaceArguments( List<ExpressionNode> _newArguments )
@@ -128,7 +140,7 @@ public abstract class ExpressionNode extends AbstractDescribable
 	{
 		final ExpressionNode result = cloneWithoutArguments();
 		for (ExpressionNode arg : arguments()) {
-			final ExpressionNode newArg = arg.clone();
+			final ExpressionNode newArg = (null == arg)? null : arg.clone();
 			result.arguments().add( newArg );
 		}
 		return result;

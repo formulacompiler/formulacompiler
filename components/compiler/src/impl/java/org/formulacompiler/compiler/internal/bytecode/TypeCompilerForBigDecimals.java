@@ -26,6 +26,7 @@ import java.util.Map;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.runtime.New;
+import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -90,6 +91,9 @@ abstract class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 	{
 		if (null == _value) {
 			compileZero( _mv );
+		}
+		else if (_value == RuntimeBigDecimal_v2.EXTREMUM) {
+			_mv.getStatic( runtimeType(), "EXTREMUM", ByteCodeEngineCompiler.BIGDECIMAL_CLASS );
 		}
 		else if (_value instanceof Number) {
 			String val = _value.toString();

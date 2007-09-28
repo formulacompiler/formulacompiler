@@ -34,6 +34,12 @@ import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilde
 final class GeneratedFunctionRewriter extends AbstractExpressionRewriter
 {
 
+	public GeneratedFunctionRewriter( NameSanitizer _sanitizer )
+	{
+		super( _sanitizer );
+	}
+
+	
 	public final ExpressionNode rewrite( ExpressionNodeForFunction _fun )
 	{
 		switch (_fun.getFunction()) {

@@ -52,18 +52,6 @@ public abstract class ExpressionNodeForAbstractFold extends ExpressionNode
 	}
 
 	
-	protected final void addArguments( ExpressionNode... _elements )
-	{
-		for (ExpressionNode element : _elements)
-			addArgument( element );
-	}
-
-	protected static final ExpressionNode[] elementsToArray( Collection<ExpressionNode> _args )
-	{
-		return _args.toArray( new ExpressionNode[ _args.size() ] );
-	}
-
-
 	public final String accumulatorName()
 	{
 		return this.accumulatorName;

@@ -46,6 +46,22 @@ public final class DoubleType extends NumericTypeImpl
 	}
 
 	@Override
+	public Number getMinValue()
+	{
+		return MIN;
+	}
+
+	private static final Double MIN = Double.valueOf( Double.MIN_VALUE );
+
+	@Override
+	public Number getMaxValue()
+	{
+		return MAX;
+	}
+
+	private static final Double MAX = Double.valueOf( Double.MAX_VALUE );
+
+	@Override
 	protected Double assertProperNumberType( Number _value )
 	{
 		return (Double) _value;
