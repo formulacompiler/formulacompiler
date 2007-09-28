@@ -10,17 +10,28 @@ h2. LET
 
 The function
 
-	_LET( name: expr; body )
+	let name = expr in body
 	
-defines a local constant @name@ as the result of @expr@ during the evaluation of @body@. Within @body@, the constant can be referenced as @`name@ (note the leading backtick). It may be referenced more than once (which is the reason @_LET()@ exists). Example:
+defines a local constant @name@ as the result of @expr@ during the evaluation of @body@. Within @body@, the constant can be referenced as @name@. It may be referenced more than once (which is the reason @let@ exists). Example:
 
-	_LET( n: COUNT(`xs); `n * `n )
+	let n = COUNT(xs) in n * n
 	
 In the generated Java code, AFC allocates a local variable for the result and initializes it inline at its first occurrence. Like so:
 
 	double n;
 	return (n = count(xs)) * n;
-	
+
+Sequences of @let@s can be written as:
+
+	let a = 1
+	let b = 2
+	let c = 3
+	in a + b + c
+
+A @let@ nested within a non-top level expression must be parenthesized:
+
+	1 + (let c = 2 in c*c)
+
 
 h2. FOLD
 
@@ -28,13 +39,13 @@ The "folding function":-funfold
 
 	_FOLD( acc-name: seed-value; value-name: folding-expr; value-list )
 	
-aggregates a list of values @value-list@ into a single result value. The list can be any range union. It initializes an internal _accumulator_ value with @seed-value@. Then, for every value in the list, it computes the @folding-expr@, which may reference the current list value as @`value-name@, and the current accumulator value as @`acc-name@ (note the backticks). The result becomes the new accumulator value. The final result is the accumulator value at the end of the list. It makes no guarantee as to the order in which the list values are processed. Example:
+aggregates a list of values @value-list@ into a single result value. The list can be any range union. It initializes an internal _accumulator_ value with @seed-value@. Then, for every value in the list, it computes the @folding-expr@, which may reference the current list value as @value-name@, and the current accumulator value as @acc-name@ (note the backticks). The result becomes the new accumulator value. The final result is the accumulator value at the end of the list. It makes no guarantee as to the order in which the list values are processed. Example:
 
-	SUM( xs ) := _FOLD( r: 0; xi: `r + `xi; `xs )
+	[text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: sum]
 
 In the generated Java code, AFC treats dynamic sections and static cell ranges differently. If the list contains dynamic sections, AFC uses a helper method to compute the fold. Otherwise, it simply unrolls the fold. Unrolling
 
-	_FOLD( r: 0; xi: `r + `xi; A1:A3, B1 )
+	_FOLD( r: 0; xi: r + xi; A1:A3, B1 )
 	
 results in
 
@@ -65,7 +76,7 @@ In the case of @SUM()@ as shown above, we see that the initial addition involvin
 	
 is like @_FOLD()@, but uses _any_ suitable list value to initialize the accumulator instead of @seed-value@, if this seems reasonable. What's with the _reasonable_ here? Using a list value as a seed is only efficient if there is one that is not contained within a dynamic section. So
 
-	_FOLD_OR_REDUCE( r: 0; xi: `r + `xi; A1:A3, B1 )
+	_FOLD_OR_REDUCE( r: 0; xi: r + xi; A1:A3, B1 )
 	
 results in
 
@@ -83,7 +94,7 @@ if there are no dynamic sections involved. If @A1:A3@ is a dynamic section, we g
 
 For
 
- 	_FOLD_OR_REDUCE( r: 0; xi: `r + `xi; A1:A3 )
+ 	_FOLD_OR_REDUCE( r: 0; xi: r + xi; A1:A3 )
 	
 we get
 
@@ -106,7 +117,7 @@ There are cases when it is _mandatory_ to use a list value to initialize the acc
 	
 The only difference to @_FOLD_OR_REDUCE()@ is that it _always_ uses a list value to initialize the accumulator. The last example from above,
 
- 	_REDUCE( r, xi: `r + `xi; A1:A3 )
+ 	_REDUCE( r, xi: r + xi; A1:A3 )
 	
 then becomes something like
 
@@ -143,7 +154,7 @@ The function
 
 	_FOLD_ARRAY( acc-name: seed-value; value-name, index-name: folding-expr; array-ref )
 
-is like @_FOLD()@, but for arrays. In addition to the current value, you can also reference the current array index as @`index-name@ in the folding expression. The value for @array-ref@ must be a result of @_MAKE_ARRAY()@ or reference a @#@-suffixed rewrite parameter. Example:
+is like @_FOLD()@, but for arrays. In addition to the current value, you can also reference the current array index as @index-name@ in the folding expression. The value for @array-ref@ must be a result of @_MAKE_ARRAY()@ or reference a @#@-suffixed rewrite parameter. Example:
 
-	_FOLD_ARRAY( r: 0; xi, i: `xi * `i; `xs )
+	_FOLD_ARRAY( r: 0; xi, i: xi * i; xs )
 	

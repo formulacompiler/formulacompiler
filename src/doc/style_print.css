@@ -197,6 +197,10 @@ span.j-hl /* highlight */
 	{
 	}
 
+span.j-pathsep /* path separator */ {
+	color: gray;
+}
+
 /******************** Excel */
 
 table.xl

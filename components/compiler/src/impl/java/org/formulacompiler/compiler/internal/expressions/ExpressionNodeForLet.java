@@ -98,10 +98,10 @@ public final class ExpressionNodeForLet extends ExpressionNode
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
-		_to.append( "_LET" ).append( type() == Type.BYVAL? "" : "_" + type() ).append( "( " ).append( varName() ).append(
-				": " );
+		_to.append( "(let" ).append( type() == Type.BYVAL? "" : "/" + type().toString().toLowerCase() ).append( " " ).append( varName() ).append(
+				" = " );
 		value().describeTo( _to, _cfg );
-		_to.append( "; " );
+		_to.append( " in " );
 		in().describeTo( _to, _cfg );
 		_to.append( " )" );
 	}

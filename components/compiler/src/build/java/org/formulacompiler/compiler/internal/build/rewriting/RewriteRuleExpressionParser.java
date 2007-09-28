@@ -20,18 +20,144 @@
  */
 package org.formulacompiler.compiler.internal.build.rewriting;
 
+import java.util.Collection;
+
+import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
+import org.formulacompiler.compiler.internal.expressions.LetDictionary;
 import org.formulacompiler.compiler.internal.expressions.parser.ExpressionParser;
+import org.formulacompiler.compiler.internal.expressions.parser.ParseException;
+import org.formulacompiler.compiler.internal.expressions.parser.Token;
 
 final class RewriteRuleExpressionParser extends ExpressionParser
 {
+	private final Collection<RewriteRule> rules;
 
-	public RewriteRuleExpressionParser( String _exprText )
+	public RewriteRuleExpressionParser( String _exprText, Collection<RewriteRule> _rules )
 	{
 		super( _exprText );
+		this.rules = _rules;
 	}
+
 	
+	public void parseFile() throws CompilerException
+	{
+		try {
+			parseRules();
+		}
+		catch (InnerParserException e) {
+			throw adorn( e.getCause() );
+		}
+		catch (ParseException e) {
+			throw adorn( e );
+		}
+	}
+
+
+	private RewriteRule currentRule = null;
+
+	@Override
+	protected void makeNewRewriteRule( Token _name )
+	{
+		final String name = _name.image.toUpperCase();
+		this.currentRule = new RewriteRule( Function.valueOf( name ) );
+	}
+
+	@Override
+	protected void checkInRewrite()
+	{
+		if (null == this.currentRule) super.checkInRewrite();
+	}
+
+	@Override
+	protected void makeNewParam( Token _name, char _suffix )
+	{
+		checkInRewrite();
+		final RewriteRule.Param.Type type;
+		switch (_suffix) {
+			case 0:
+				type = RewriteRule.Param.Type.VALUE;
+				break;
+			case '#':
+				type = RewriteRule.Param.Type.ARRAY;
+				break;
+			case '*':
+				type = RewriteRule.Param.Type.LIST;
+				break;
+			case '+':
+				type = RewriteRule.Param.Type.SYMBOLIC;
+				break;
+			default:
+				throw new IllegalArgumentException( "Unexpected param suffix " + _suffix );
+		}
+		this.currentRule.addParam( _name.image, type );
+	}
+
+	@Override
+	protected void makeBody()
+	{
+		checkInRewrite();
+		this.currentRule.setBody( popNode() );
+	}
+
+	@Override
+	protected void finalizeLastRewriteRule()
+	{
+		checkInRewrite();
+		this.rules.add( this.currentRule );
+		this.currentRule = null;
+	}
+
+
+	private final LetDictionary letDict = new LetDictionary();
+
+	@Override
+	protected void let( Token... _names )
+	{
+		checkInRewrite();
+		for (int i = 0; i < _names.length; i++)
+			this.letDict.let( _names[ i ].image, null, null );
+	}
+
+	@Override
+	protected void unlet( Token... _names )
+	{
+		checkInRewrite();
+		for (int i = _names.length - 1; i >= 0; i--)
+			this.letDict.unlet( _names[ i ].image );
+	}
+
+	@Override
+	protected void letParams()
+	{
+		for (RewriteRule.Param p : this.currentRule.params)
+			this.letDict.let( p.name, null, null );
+	}
+
+	@Override
+	protected void unletParams()
+	{
+		this.letDict.unlet( this.currentRule.params.size() );
+	}
+
+	@Override
+	protected ExpressionNode makeLetVar( Token _name )
+	{
+		checkInRewrite();
+		final String name = _name.image;
+		if (null == this.letDict.find( name )) {
+			throw new IllegalArgumentException( "Let var " + name + " is not defined here." );
+		}
+		return new ExpressionNodeForLetVar( name );
+	}
+
+	@Override
+	protected ExpressionNode makeNamedCellRef( Token _name )
+	{
+		return makeLetVar( _name );
+	}
 
 	@Override
 	protected ExpressionNode makeShapedRange( ExpressionNode _range )
@@ -42,5 +168,6 @@ final class RewriteRuleExpressionParser extends ExpressionParser
 		}
 		return super.makeShapedRange( _range );
 	}
-
+	
+	
 }

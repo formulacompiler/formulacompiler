@@ -51,6 +51,29 @@ SKIP:
 	|	"\t"
 	|	"\f"
 	}
+
+MORE :
+	{	"//" : IN_SINGLE_LINE_COMMENT
+	|	<"/**" ~["/"]> { input_stream.backup(1); } : IN_FORMAL_COMMENT
+	|	"/*" : IN_MULTI_LINE_COMMENT
+	}
+
+<IN_SINGLE_LINE_COMMENT>
+SPECIAL_TOKEN :
+	{	<SINGLE_LINE_COMMENT: "\n" | "\r" | "\r\n" > : DEFAULT }
+
+<IN_FORMAL_COMMENT>
+SPECIAL_TOKEN :
+	{	<FORMAL_COMMENT: "*/" > : DEFAULT }
+
+<IN_MULTI_LINE_COMMENT>
+SPECIAL_TOKEN :
+	{	<MULTI_LINE_COMMENT: "*/" > : DEFAULT }
+
+<IN_SINGLE_LINE_COMMENT,IN_FORMAL_COMMENT,IN_MULTI_LINE_COMMENT>
+MORE :
+	{	< ~[] > }
+
 	
 TOKEN: /* Helpers */
 	{	<#DIGITS: (<DIGIT>)+ >
@@ -74,7 +97,7 @@ TOKEN: /* Numeric constants */
 TOKEN: /* String constants */
 	{	<STR_CONST: "\"" (~["\""])* "\"" >
 	}
-	
+
 
 /* Expression parsing */
 
@@ -165,12 +188,11 @@ void value():
 	{	intConst()
 	|	dblConst()
 	|	strConst()
-	|	letvar()
-	|	"(" expr() ")"
+	|	"(" niceExpr() ")"
 	|	LOOKAHEAD(2) "@" fun()
 	|	"@" n = <NAME> "(" { unsupportedFunction( n ); }
 	|	fun()
-	|	rewrite()
+	|	rewriteFun()
 	|	LOOKAHEAD(2) n = <NAME> "(" { unsupportedFunction( n ); }
 	|	cellRef()
 	|	namedCellRef()
@@ -214,12 +236,6 @@ void namedCellRef():
 			{ pushNode( makeNamedCellRef( n )); } 
 	}
 
-void letvar():
-	{	Token n = null; }
-	{	"`" n = <NAME>
-			{ pushNode( new ExpressionNodeForLetVar( n.image )); } 
-	}
-
 
 /* Function parsing. */
 
@@ -233,7 +249,9 @@ void lexer_test(): {}
 
 // Please keep this list in alphabetical order.
 void fun(): {}
+	// citation: abs
 	{	"ABS"	fun1( Function.ABS )
+	// citation: abs
 	|	"ACOS" fun1( Function.ACOS )
 	|	"ASIN" fun1( Function.ASIN )
 	|	"ATAN" fun1( Function.ATAN )
@@ -243,7 +261,11 @@ void fun(): {}
 	|	"AVERAGE" aggN( Function.AVERAGE )
 	|	"CEILING" fun2( Function.CEILING )
 	|	"CHOOSE" open() expr() commaExprs() closeFun( Function.CHOOSE )
+
+	// citation: combin
 	|	"COMBIN" fun2( Function.COMBIN )
+	// citation: combin
+	
 	|	"CONCATENATE" open() expr() commaExprs() closeOp( Operator.CONCAT )
 	|	"CONFIDENCE" fun3( Function.CONFIDENCE )
 	|	"COS" fun1( Function.COS )
@@ -313,7 +335,9 @@ void fun(): {}
 	|	"NOT" fun1( Function.NOT )
 	|	"NOW" fun0( Function.NOW )
 	|	"NPER" fun3to5( Function.NPER )
+	// citation: npv
 	|	"NPV" open() expr() "," shapedRangeExpr() closeFun( Function.NPV )
+	// citation: npv
 	|	"ODD" fun1( Function.ODD )
 	|	"OR" aggN( Function.OR )
 	|	"PI" fun0( Function.PI )
@@ -328,7 +352,9 @@ void fun(): {}
 	|	"REPLACE" fun4( Function.REPLACE )
 	|	"REPT" fun2( Function.REPT )
 	|	"RIGHT" fun1to2( Function.RIGHT )
+	// citation: round
 	|	"ROUND" fun2( Function.ROUND )
+	// citation: round
 	|	"ROUNDDOWN" fun2( Function.ROUNDDOWN )
 	|	"ROUNDUP" fun2( Function.ROUNDUP )
 	|	"SEARCH" fun2to3( Function.SEARCH )
@@ -355,7 +381,9 @@ void fun(): {}
 	|	"TRUNC" fun1to2( Function.TRUNC )
 	|	"UPPER" fun1( Function.UPPER )
 	|	"VALUE" fun1( Function.VALUE )
+	// citation: var
 	|	"VAR" aggN( Function.VAR )
+	// citation: var
 	|	"VARP" aggN( Function.VARP )
 	|	"VLOOKUP" hvLookup( Function.VLOOKUP )
 	|	"WEEKDAY" fun1to2( Function.WEEKDAY )
@@ -535,27 +563,79 @@ void namedRangeRef():
 	}
 
 
+/* Rewrite rules. */
+
+void parseRules(): {}
+	{	"rules" "{" (rewrite())* "}"
+	}
+
+void rewrite(): 
+	{ Token n; }
+	{	"rewrite" n = <NAME>
+			{	makeNewRewriteRule( n ); } 
+		"(" [ param() ("," param())* ] ")" 
+			{	letParams(); }
+		"=" body()
+			{	unletParams();
+				finalizeLastRewriteRule(); }
+	}
+
+void param():
+	{ Token n; char type = 0; }
+	{	n = <NAME> 
+		[ "#"	{  type = '#'; }
+		| "*" 	{	type = '*'; }
+		| "+" 	{	type = '+'; }
+		]
+			{	makeNewParam( n, type ); }
+	}
+
+void body(): {}
+	{	niceExpr()
+			{	makeBody(); }
+	}
+	
+
 /* Rewrite functions. */
 
-void rewrite(): {}
-	{	"_LET" let()
-	|	"_FOLD" fold( false )
+void rewriteFun(): 
+	{	checkInRewrite();
+	}
+	{	"_FOLD" fold( false )
 	|	"_FOLD_OR_REDUCE" fold( true )
 	|	"_REDUCE" reduce()
 	|	"_FOLD_ARRAY" foldArray()
 	}
+	
+void nice(): {}
+	{	"let" niceLet()
+	|	"if" niceIf()
+	}
 
-void let():
+void niceLet():
 	{	Token name = null;
 		ExpressionNode in = null, val = null;
 	}
-	{	"(" name=<NAME> ":" expr()
-		";" expr()
-		")"
-			{	in = popNode();
+	{	name=<NAME> "=" expr()
+			{	let( name ); }
+		("let" niceLet() | "in" niceExpr())
+			{	unlet( name );
+				in = popNode();
 				val = popNode();
 				pushNode( new ExpressionNodeForLet( name.image, val, in ));
 			}
+	}
+
+void niceIf():
+	{	ExpressionNode cond = null, iftrue = null, iffalse = null;
+	}
+	{	expr() "then" niceExpr() "else" niceExpr()
+			{ pushNode( new ExpressionNodeForFunction( Function.IF, popNodes( 3 ) )); }
+	}
+
+void niceExpr(): {}
+	{ nice()
+	| expr()
 	}
 
 void fold( boolean _mayReduce ):
@@ -564,7 +644,10 @@ void fold( boolean _mayReduce ):
 	}
 	{
 		"(" acc=<NAME> ":" expr()
-		";" xi=<NAME> ":" expr()
+		";" xi=<NAME> ":"
+			{	let( acc, xi ); } 
+			expr()
+			{	unlet( acc, xi ); } 
 		";" expr() 
 		")"
 			{	args = popNode(); 
@@ -578,7 +661,10 @@ void reduce():
 	{	Token acc = null, xi = null;
 		ExpressionNode fold = null, empty = null, args = null;
 	}
-	{	"(" acc=<NAME> "," xi=<NAME> ":" expr()
+	{	"(" acc=<NAME> "," xi=<NAME> ":" 
+			{	let( acc, xi ); } 
+			expr()
+			{	unlet( acc, xi ); } 
 		";" expr()
 		";" expr() 
 		")"
@@ -594,7 +680,10 @@ void foldArray():
 		ExpressionNode init = null, fold = null, args = null;
 	}
 	{	"(" acc=<NAME> ":" expr()
-		";" xi=<NAME> "," i=<NAME> ":" expr()
+		";" xi=<NAME> "," i=<NAME> ":" 
+			{	let( acc, xi, i ); } 
+			expr()
+			{	unlet( acc, xi, i ); } 
 		";" expr() 
 		")"
 			{	args = popNode(); 

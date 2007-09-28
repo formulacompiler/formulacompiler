@@ -209,16 +209,6 @@ public class ExpressionParserTest extends TestCase
 		assertParse( "SUM(1)-1", "(SUM( 1 ) - 1)" );
 	}
 
-	public void testRewrite() throws Exception
-	{
-		assertParse( "_FOLD( acc: 0; xi: `acc + `xi; `args )", "_FOLD( acc: 0; xi: (`acc + `xi); `args )" );
-		assertParse( "_FOLD_OR_REDUCE( acc: 0; xi: `acc + `xi; `args )",
-				"_FOLD_OR_REDUCE( acc: 0; xi: (`acc + `xi); `args )" );
-		assertParse( "_REDUCE( acc, xi: `acc + `xi; 0; `args )", "_REDUCE( acc, xi: (`acc + `xi); 0; `args )" );
-		assertParse( "_FOLD_ARRAY( acc: 0; xi, i: `acc + `xi; `args )",
-				"_FOLD_ARRAY( acc: 0; xi, i: (`acc + `xi); `args )" );
-	}
-
 
 	private ExpressionNode parse( String _expr ) throws CompilerException
 	{

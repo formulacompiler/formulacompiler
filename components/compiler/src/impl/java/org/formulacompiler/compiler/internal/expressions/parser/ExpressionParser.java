@@ -26,10 +26,10 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 
 public class ExpressionParser extends GeneratedExpressionParser
 {
-	private final String exprText;
+	protected final String exprText;
 
 
-	public ExpressionParser(String _exprText)
+	public ExpressionParser( String _exprText )
 	{
 		super( new StringCharStream( _exprText ) );
 		this.exprText = _exprText;
@@ -51,7 +51,7 @@ public class ExpressionParser extends GeneratedExpressionParser
 	}
 
 
-	private CompilerException adorn( Throwable _e )
+	protected CompilerException adorn( Throwable _e )
 	{
 		if (_e instanceof CompilerException.UnsupportedExpressionSource) {
 			return (CompilerException.UnsupportedExpressionSource) _e;
