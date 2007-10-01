@@ -935,7 +935,7 @@ __@@__
 		// ...
 		begin( Function.COMBIN, "n", "k" );
 		{
-			body( "IF( OR( `n <= 0, `k < 0, `n < `k ), 0," );
+			body( "IF( OR( `n < 0, `k < 0, `n < `k ), 0," );
 			body( "  IF( `n = `k, 1," );
 			body( "    IF( `k = 1, `n," );
 			body( "      FACT(`n) / FACT(`k) / FACT(`n - `k)" );
@@ -5571,9 +5571,9 @@ __@@__
 			<td><span style="text-decoration: underline;">Skip for</span></td>
 		</tr>
 		<tr>
-			<td class="xl-row">338</td>
+			<td class="xl-row">456</td>
 			<td class="xl-num">0</td>
-			<td>#NUM!<br/><span class="xl-exp">=COMBIN(C338,D338)</span></td>
+			<td>#NUM!<br/><span class="xl-exp">=COMBIN(C456,D456)</span></td>
 			<td class="xl-num">0</td>
 			<td class="xl-num">1</td>
 			<td></td>
@@ -5588,9 +5588,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">339</td>
+			<td class="xl-row">457</td>
 			<td class="xl-num">0</td>
-			<td>#NUM!<br/><span class="xl-exp">=COMBIN(C339,D339)</span></td>
+			<td>#NUM!<br/><span class="xl-exp">=COMBIN(C457,D457)</span></td>
 			<td class="xl-num">1</td>
 			<td class="xl-num">-1</td>
 			<td></td>
@@ -5605,9 +5605,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">340</td>
+			<td class="xl-row">458</td>
 			<td class="xl-num">0</td>
-			<td>#NUM!<br/><span class="xl-exp">=COMBIN(C340,D340)</span></td>
+			<td>#NUM!<br/><span class="xl-exp">=COMBIN(C458,D458)</span></td>
 			<td class="xl-num">-1</td>
 			<td class="xl-num">1</td>
 			<td></td>
@@ -5665,10 +5665,10 @@ __@@__
 			<td><span style="text-decoration: underline;">Skip for</span></td>
 		</tr>
 		<tr>
-			<td class="xl-row">326</td>
+			<td class="xl-row">443</td>
 			<td class="xl-num">1</td>
-			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C326,D326)</span></td>
-			<td class="xl-num">1</td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C443,D443)</span></td>
+			<td class="xl-num">0</td>
 			<td class="xl-num">0</td>
 			<td></td>
 			<td></td>
@@ -5682,9 +5682,26 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">327</td>
+			<td class="xl-row">444</td>
 			<td class="xl-num">1</td>
-			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C327,D327)</span></td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C444,D444)</span></td>
+			<td class="xl-num">1</td>
+			<td class="xl-num">0</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">445</td>
+			<td class="xl-num">1</td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C445,D445)</span></td>
 			<td class="xl-num">1</td>
 			<td class="xl-num">1</td>
 			<td></td>
@@ -5699,9 +5716,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">328</td>
+			<td class="xl-row">446</td>
 			<td class="xl-num">1</td>
-			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C328,D328)</span></td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C446,D446)</span></td>
 			<td class="xl-num">2</td>
 			<td class="xl-num">0</td>
 			<td></td>
@@ -5716,9 +5733,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">329</td>
+			<td class="xl-row">447</td>
 			<td class="xl-num">2</td>
-			<td class="xl-num">2<br/><span class="xl-exp">=COMBIN(C329,D329)</span></td>
+			<td class="xl-num">2<br/><span class="xl-exp">=COMBIN(C447,D447)</span></td>
 			<td class="xl-num">2</td>
 			<td class="xl-num">1</td>
 			<td></td>
@@ -5733,9 +5750,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">330</td>
+			<td class="xl-row">448</td>
 			<td class="xl-num">1</td>
-			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C330,D330)</span></td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C448,D448)</span></td>
 			<td class="xl-num">2</td>
 			<td class="xl-num">2</td>
 			<td></td>
@@ -5750,9 +5767,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">331</td>
+			<td class="xl-row">449</td>
 			<td class="xl-num">1</td>
-			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C331,D331)</span></td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C449,D449)</span></td>
 			<td class="xl-num">3</td>
 			<td class="xl-num">0</td>
 			<td></td>
@@ -5767,9 +5784,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">332</td>
+			<td class="xl-row">450</td>
 			<td class="xl-num">3</td>
-			<td class="xl-num">3<br/><span class="xl-exp">=COMBIN(C332,D332)</span></td>
+			<td class="xl-num">3<br/><span class="xl-exp">=COMBIN(C450,D450)</span></td>
 			<td class="xl-num">3</td>
 			<td class="xl-num">1</td>
 			<td></td>
@@ -5784,9 +5801,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">333</td>
+			<td class="xl-row">451</td>
 			<td class="xl-num">3</td>
-			<td class="xl-num">3<br/><span class="xl-exp">=COMBIN(C333,D333)</span></td>
+			<td class="xl-num">3<br/><span class="xl-exp">=COMBIN(C451,D451)</span></td>
 			<td class="xl-num">3</td>
 			<td class="xl-num">2</td>
 			<td></td>
@@ -5801,9 +5818,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">334</td>
+			<td class="xl-row">452</td>
 			<td class="xl-num">1</td>
-			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C334,D334)</span></td>
+			<td class="xl-num">1<br/><span class="xl-exp">=COMBIN(C452,D452)</span></td>
 			<td class="xl-num">3</td>
 			<td class="xl-num">3</td>
 			<td></td>
@@ -5818,9 +5835,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">335</td>
+			<td class="xl-row">453</td>
 			<td class="xl-num">10</td>
-			<td class="xl-num">10<br/><span class="xl-exp">=COMBIN(C335,D335)</span></td>
+			<td class="xl-num">10<br/><span class="xl-exp">=COMBIN(C453,D453)</span></td>
 			<td class="xl-num">10</td>
 			<td class="xl-num">1</td>
 			<td></td>
@@ -5835,9 +5852,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">336</td>
+			<td class="xl-row">454</td>
 			<td class="xl-num">252</td>
-			<td class="xl-num">252<br/><span class="xl-exp">=COMBIN(C336,D336)</span></td>
+			<td class="xl-num">252<br/><span class="xl-exp">=COMBIN(C454,D454)</span></td>
 			<td class="xl-num">10</td>
 			<td class="xl-num">5</td>
 			<td></td>
@@ -5852,9 +5869,9 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">337</td>
+			<td class="xl-row">455</td>
 			<td class="xl-num">120</td>
-			<td class="xl-num">120<br/><span class="xl-exp">=COMBIN(C337,D337)</span></td>
+			<td class="xl-num">120<br/><span class="xl-exp">=COMBIN(C455,D455)</span></td>
 			<td class="xl-num">10</td>
 			<td class="xl-num">7</td>
 			<td></td>

@@ -7,11 +7,11 @@
  xmlns:html="http://www.w3.org/TR/REC-html40">
  <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
   <Author>Peter Arrenbrecht</Author>
-  <LastAuthor>samsonov</LastAuthor>
+  <LastAuthor>Peter Arrenbrecht</LastAuthor>
   <Created>2005-11-22T20:05:38Z</Created>
-  <LastSaved>2007-09-18T14:19:44Z</LastSaved>
+  <LastSaved>2007-10-01T08:12:34Z</LastSaved>
   <Company>Opus Software AG</Company>
-  <Version>11.8132</Version>
+  <Version>11.9999</Version>
  </DocumentProperties>
  <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
   <WindowHeight>13905</WindowHeight>
@@ -61,7 +61,7 @@
  </Styles>
  <Names>
   <NamedRange ss:Name="HeaderRange" ss:RefersTo="=Sheet1!R1C1:R1C14"/>
-  <NamedRange ss:Name="NPVRange" ss:RefersTo="=Sheet1!#REF!"/>
+  <NamedRange ss:Name="NPVRange" ss:RefersTo="=Sheet1!R2C1:R3C14"/>
  </Names>
  <Worksheet ss:Name="Sheet1">
   <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="75" x:FullColumns="1"
@@ -88,32 +88,46 @@
     <Cell><Data ss:Type="String">Skip for</Data><NamedCell ss:Name="HeaderRange"/></Cell>
    </Row>
    <Row>
-    <Cell ss:StyleID="s28"><Data ss:Type="Number">1.1884434123352206</Data></Cell>
-    <Cell ss:Formula="=NPV(RC[1],RC[2]:RC[5])"><Data ss:Type="Number">1.1884434123352206</Data></Cell>
-    <Cell ss:StyleID="s27"><Data ss:Type="Number">0.1</Data></Cell>
-    <Cell><Data ss:Type="Number">-10</Data></Cell>
-    <Cell><Data ss:Type="Number">3</Data></Cell>
-    <Cell><Data ss:Type="Number">4.2</Data></Cell>
-    <Cell><Data ss:Type="Number">6.8</Data></Cell>
-    <Cell ss:Index="10"><Data ss:Type="Number">5</Data></Cell>
-    <Cell><Data ss:Type="String">NPV</Data></Cell>
-    <Cell><Data ss:Type="String">NPV</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">1.1884434123352206</Data><NamedCell
+      ss:Name="NPVRange"/></Cell>
+    <Cell ss:Formula="=NPV(RC[1],RC[2]:RC[5])"><Data ss:Type="Number">1.1884434123352206</Data><NamedCell
+      ss:Name="NPVRange"/></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">0.1</Data><NamedCell
+      ss:Name="NPVRange"/></Cell>
+    <Cell><Data ss:Type="Number">-10</Data><NamedCell ss:Name="NPVRange"/></Cell>
+    <Cell><Data ss:Type="Number">3</Data><NamedCell ss:Name="NPVRange"/></Cell>
+    <Cell><Data ss:Type="Number">4.2</Data><NamedCell ss:Name="NPVRange"/></Cell>
+    <Cell><Data ss:Type="Number">6.8</Data><NamedCell ss:Name="NPVRange"/></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">5</Data><NamedCell
+      ss:Name="NPVRange"/></Cell>
+    <Cell><Data ss:Type="String">NPV</Data><NamedCell ss:Name="NPVRange"/></Cell>
+    <Cell><Data ss:Type="String">NPV</Data><NamedCell ss:Name="NPVRange"/></Cell>
    </Row>
    <Row>
-    <Cell ss:StyleID="s28"><Data ss:Type="Number">1.9220615549323696</Data></Cell>
-    <Cell ss:Formula="=NPV(RC[1],RC[3]:RC[7])+RC[2]"><Data ss:Type="Number">1.9220615549323696</Data></Cell>
-    <Cell ss:StyleID="s27"><Data ss:Type="Number">0.08</Data></Cell>
-    <Cell ss:StyleID="s28"><Data ss:Type="Number">-40</Data></Cell>
-    <Cell ss:StyleID="s28"><Data ss:Type="Number">8</Data></Cell>
-    <Cell ss:StyleID="s28"><Data ss:Type="Number">9.2</Data></Cell>
-    <Cell ss:StyleID="s28"><Data ss:Type="Number">10</Data></Cell>
-    <Cell ss:StyleID="s28"><Data ss:Type="Number">12</Data></Cell>
-    <Cell ss:StyleID="s28"><Data ss:Type="Number">14.5</Data></Cell>
-    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">1.9220615549323696</Data><NamedCell
+      ss:Name="NPVRange"/></Cell>
+    <Cell ss:Formula="=NPV(RC[1],RC[3]:RC[7])+RC[2]"><Data ss:Type="Number">1.9220615549323696</Data><NamedCell
+      ss:Name="NPVRange"/></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">0.08</Data><NamedCell
+      ss:Name="NPVRange"/></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">-40</Data><NamedCell
+      ss:Name="NPVRange"/></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">8</Data><NamedCell
+      ss:Name="NPVRange"/></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">9.2</Data><NamedCell
+      ss:Name="NPVRange"/></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">10</Data><NamedCell
+      ss:Name="NPVRange"/></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">12</Data><NamedCell
+      ss:Name="NPVRange"/></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">14.5</Data><NamedCell
+      ss:Name="NPVRange"/></Cell>
+    <Cell><Data ss:Type="Number">7</Data><NamedCell ss:Name="NPVRange"/></Cell>
     <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
       ss:Author="peo"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
          html:Face="Tahoma" html:Size="8" html:Color="#000000">peo:</Font></B><Font
-        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment><NamedCell
+      ss:Name="NPVRange"/></Cell>
    </Row>
    <Row>
     <Cell ss:StyleID="s28"/>
@@ -863,7 +877,8 @@
    <Panes>
     <Pane>
      <Number>3</Number>
-     <ActiveRow>4</ActiveRow>
+     <ActiveRow>1</ActiveRow>
+     <RangeSelection>R2C1:R3C14</RangeSelection>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>
