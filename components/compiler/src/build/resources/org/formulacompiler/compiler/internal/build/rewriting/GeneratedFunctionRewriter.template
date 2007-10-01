@@ -25,6 +25,7 @@ import java.util.Iterator;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.internal.expressions.*;
+import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
 
 
 /**
@@ -33,6 +34,12 @@ import org.formulacompiler.compiler.internal.expressions.*;
 final class GeneratedFunctionRewriter extends AbstractExpressionRewriter
 {
 
+	public GeneratedFunctionRewriter( NameSanitizer _sanitizer )
+	{
+		super( _sanitizer );
+	}
+
+	
 	public final ExpressionNode rewrite( ExpressionNodeForFunction _fun )
 	{
 		switch (_fun.getFunction()) {

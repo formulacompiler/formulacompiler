@@ -36,12 +36,12 @@ public final class ExpressionNodeForRangeShape extends ExpressionNode
 		super();
 	}
 
-	public ExpressionNodeForRangeShape(Collection _args)
+	public ExpressionNodeForRangeShape( Collection<ExpressionNode> _args )
 	{
 		super( _args );
 	}
 
-	public ExpressionNodeForRangeShape(ExpressionNode... _args)
+	public ExpressionNodeForRangeShape( ExpressionNode... _args )
 	{
 		super( _args );
 	}
@@ -60,7 +60,7 @@ public final class ExpressionNodeForRangeShape extends ExpressionNode
 	}
 
 
-@Override
+	@Override
 	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
 		describeArgumentOrArgumentListTo( _to, _cfg );

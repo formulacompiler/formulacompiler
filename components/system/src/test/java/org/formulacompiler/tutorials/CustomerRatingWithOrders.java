@@ -22,6 +22,7 @@ package org.formulacompiler.tutorials;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 import org.formulacompiler.compiler.CallFrame;
@@ -195,9 +196,8 @@ public class CustomerRatingWithOrders extends TestCase
 
 		public Iterable<OrderData> ordersForLastNDaysIterable( int _days )
 		{
-			final Collection<OrderData> result = New.newCollection( this.orders.length );
-			for (OrderData order : this.orders)
-				result.add( order );
+			final Collection<OrderData> result = New.collection( this.orders.length );
+			Collections.addAll( result, this.orders );
 			return result;
 		}
 

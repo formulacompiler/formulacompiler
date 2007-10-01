@@ -45,9 +45,9 @@ public final class SpreadsheetToModelCompiler
 	private final WorkbookBinding binding;
 	private final NumericType numericType;
 	private final boolean copyCellNames;
-	private final Map<CellIndex, CellModel> cellModels = New.newMap();
-	private final Map<SectionBinding, SectionModelCompiler> sectionCompilers = New.newMap();
-	private final Map<SectionModel, SectionModelCompiler> sectionCompilersByModel = New.newMap();
+	private final Map<CellIndex, CellModel> cellModels = New.map();
+	private final Map<SectionBinding, SectionModelCompiler> sectionCompilers = New.map();
+	private final Map<SectionModel, SectionModelCompiler> sectionCompilersByModel = New.map();
 	private ComputationModel computationModel;
 
 

@@ -22,6 +22,7 @@ package org.formulacompiler.compiler.internal.expressions;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.formulacompiler.describable.AbstractDescribable;
@@ -29,13 +30,9 @@ import org.formulacompiler.describable.DescriptionBuilder;
 import org.formulacompiler.runtime.New;
 
 
-
 public abstract class ExpressionNode extends AbstractDescribable
 {
-	public static final ExpressionNode TRUENODE = new ExpressionNodeForConstantValue( Boolean.TRUE, DataType.NUMERIC );
-	public static final ExpressionNode FALSENODE = new ExpressionNodeForConstantValue( Boolean.FALSE, DataType.NUMERIC );
-
-	private List<ExpressionNode> arguments = New.newList();
+	private List<ExpressionNode> arguments = New.list();
 	private DataType dataType;
 	private ExpressionNode derivedFrom;
 	private ExpressionContextProvider contextProvider;
@@ -46,21 +43,14 @@ public abstract class ExpressionNode extends AbstractDescribable
 		super();
 	}
 
-
-	protected ExpressionNode(ExpressionNode... _args)
+	protected ExpressionNode( ExpressionNode... _args )
 	{
-		for (ExpressionNode arg : _args) {
-			arguments().add( arg );
-		}
+		Collections.addAll( arguments(), _args );
 	}
 
-
-	@SuppressWarnings("unchecked")
-	public ExpressionNode(Collection _args)
+	public ExpressionNode( Collection<ExpressionNode> _args )
 	{
-		for (ExpressionNode arg : (Collection<ExpressionNode>) _args) {
-			arguments().add( arg );
-		}
+		arguments().addAll( _args );
 	}
 
 
@@ -74,9 +64,21 @@ public abstract class ExpressionNode extends AbstractDescribable
 		return arguments().get( _i );
 	}
 
+	public final ExpressionNode argumentOrNull( int _i )
+	{
+		if (_i < 0 || _i >= arguments().size()) return null;
+		return arguments().get( _i );
+	}
+
 	public final void addArgument( ExpressionNode _arg )
 	{
 		this.arguments.add( _arg );
+	}
+
+	public final void addArguments( ExpressionNode[] _args )
+	{
+		for (ExpressionNode arg : _args)
+			addArgument( arg );
 	}
 
 	public final void replaceArguments( List<ExpressionNode> _newArguments )
@@ -117,10 +119,10 @@ public abstract class ExpressionNode extends AbstractDescribable
 
 	public final ExpressionNode getOrigin()
 	{
-		return (this.derivedFrom == null) ? this : this.derivedFrom.getOrigin();
+		return (this.derivedFrom == null)? this : this.derivedFrom.getOrigin();
 	}
 
-	
+
 	public ExpressionNode cloneWithoutArguments()
 	{
 		final ExpressionNode result = innerCloneWithoutArguments();
@@ -138,7 +140,7 @@ public abstract class ExpressionNode extends AbstractDescribable
 	{
 		final ExpressionNode result = cloneWithoutArguments();
 		for (ExpressionNode arg : arguments()) {
-			final ExpressionNode newArg = arg.clone();
+			final ExpressionNode newArg = (null == arg)? null : arg.clone();
 			result.arguments().add( newArg );
 		}
 		return result;
@@ -179,7 +181,8 @@ public abstract class ExpressionNode extends AbstractDescribable
 	}
 
 
-	protected final void describeArgumentListTo( DescriptionBuilder _d, ExpressionDescriptionConfig _cfg ) throws IOException
+	protected final void describeArgumentListTo( DescriptionBuilder _d, ExpressionDescriptionConfig _cfg )
+			throws IOException
 	{
 		if (0 == arguments().size()) {
 			_d.append( "()" );
@@ -251,21 +254,22 @@ public abstract class ExpressionNode extends AbstractDescribable
 	private final ExpressionContextProvider getNearestContextProvider()
 	{
 		final ExpressionContextProvider prov = getContextProvider();
-		return (null == prov) ? getOrigin().getContextProvider() : prov;
+		return (null == prov)? getOrigin().getContextProvider() : prov;
 	}
 
-	
+
 	public final int countValues( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
 	{
 		return countValuesCore( _letDict, _uncountables );
 	}
-	
+
 	public final int countArgumentValues( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
 	{
 		return countValuesIn( _letDict, arguments(), _uncountables );
 	}
-	
-	protected final int countValuesIn( LetDictionary _letDict, Iterable<ExpressionNode> _in, Collection<ExpressionNode> _uncountables )
+
+	protected final int countValuesIn( LetDictionary _letDict, Iterable<ExpressionNode> _in,
+			Collection<ExpressionNode> _uncountables )
 	{
 		int result = 0;
 		for (ExpressionNode arg : _in) {
@@ -273,13 +277,13 @@ public abstract class ExpressionNode extends AbstractDescribable
 		}
 		return result;
 	}
-	
+
 	protected int countValuesCore( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
 	{
 		return countValuesCore( _uncountables );
 	}
-		
+
 	protected abstract int countValuesCore( Collection<ExpressionNode> _uncountables );
 
-	
+
 }

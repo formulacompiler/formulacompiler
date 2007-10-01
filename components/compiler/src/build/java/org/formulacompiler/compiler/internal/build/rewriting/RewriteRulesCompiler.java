@@ -20,16 +20,45 @@
  */
 package org.formulacompiler.compiler.internal.build.rewriting;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.formulacompiler.compiler.Function;
+import org.formulacompiler.compiler.internal.build.Util;
+import org.formulacompiler.compiler.internal.build.rewriting.AbstractDef.Param;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldApply;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDefinition;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldList;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldVectors;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMaxValue;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMinValue;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
+import org.formulacompiler.compiler.internal.expressions.LetDictionary;
+import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.runtime.New;
 
 
-public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
+public final class RewriteRulesCompiler
 {
+	private static final String FILES_PATH = "org/formulacompiler/compiler/internal/build/rewriting/";
+	private static final String TEMPLATE_FILE = FILES_PATH + "GeneratedFunctionRewriter.template";
+	private static final String TGT_FOLDER = "temp/impl/java/org/formulacompiler/compiler/internal/model/rewriting";
+	private static final String TGT_NAME = "GeneratedFunctionRewriter.java";
 
-	private RewriteRulesCompiler()
-	{
-		super();
-	}
+	private final DescriptionBuilder cases = new DescriptionBuilder();
+	private final DescriptionBuilder methods = new DescriptionBuilder();
+	private final List<RuleDef> rules = New.list();
+	private final Map<String, FoldDef> folds = New.map();
 
 
 	public static void main( String[] args ) throws Exception
@@ -38,494 +67,612 @@ public final class RewriteRulesCompiler extends AbstractRewriteRulesCompiler
 	}
 
 
-	// Leave these comments in. They are used to cite the code into the documentation.
-	// ---- fun_COMBIN
-	@Override
-	protected void defineFunctions() throws Exception
+	private RewriteRulesCompiler()
 	{
-		// ---- fun_COMBIN
-
-		defineAggregators();
-		defineFinancial();
-		defineStatistical();
-		defineMathematical();
-
-		// Please leave this rule here. It is cited into the documentation.
-		// ---- fun_COMBIN
-		// ...
-		begin( Function.COMBIN, "n", "k" );
-		{
-			body( "IF( OR( `n < 0, `k < 0, `n < `k ), 0," );
-			body( "  IF( `n = `k, 1," );
-			body( "    IF( `k = 1, `n," );
-			body( "      FACT(`n) / FACT(`k) / FACT(`n - `k)" );
-			body( "    )" );
-			body( "  )" );
-			body( ")" );
-		}
-		end();
-		// ...
-	}
-	// ---- fun_COMBIN
-
-
-	private void defineAggregators() throws Exception
-	{
-
-		def( Function.COUNTA, "xs*", "COUNT( `xs )" );
-
-		/*
-		 * PRODUCT must return 0 for empty sections, so I cannot use _FOLD_OR_REDUCE as the initial
-		 * value would then be 1.
-		 */
-		def( Function.PRODUCT, "xs*", "_REDUCE( r, xi: `r * `xi; 0; `xs )" );
-
-		/*
-		 * The first argument to SUM can be used as the initial value to get rid of one addition. But
-		 * the single addition is not worth the overhead of _FOLDL_1ST. So use _FOLDL_1ST_OK.
-		 */
-		// Leave this comment in. It is used to cite the code into the documentation.
-		// ---- fun_SUM
-		def( Function.SUM, "xs*", "_FOLD_OR_REDUCE( r: 0; xi: `r + `xi; `xs )" );
-		// ---- fun_SUM
-
-		/*
-		 * It is clearer for MIN and MAX to always act on the first arg and not some arbitrary
-		 * extremal initial value. So use _FOLDL_1ST.
-		 */
-		// Leave this comment in. It is used to cite the code into the documentation.
-		// ---- fun_MINMAX
-		def( Function.MIN, "xs*", "_REDUCE( r, xi: `r _min_ `xi; 0; `xs )" );
-		def( Function.MAX, "xs*", "_REDUCE( r, xi: `r _max_ `xi; 0; `xs )" );
-		// ---- fun_MINMAX
-
-		/*
-		 * This definition of AVERAGE is not really suitable for large, non-cached sections. It is
-		 * also not good for when NULL is properly supported. Since both of these features are not yet
-		 * done, I'll leave it for the moment.
-		 */
-		def( Function.AVERAGE, "xs*", "SUM( `xs ) / COUNT( `xs )" );
-
-		def( Function.SUMSQ, "xs*", "_FOLD( r: 0; xi: `r + `xi*`xi; `xs )" );
+		super();
+		this.cases.indent( 3 );
+		this.methods.indent( 1 );
 	}
 
 
-	private void defineFinancial() throws Exception
+	private void run() throws Exception
 	{
-
-		// Leave this comment in. It is used to cite the code into the documentation.
-		// ---- fun_NPV
-		// ...
-		begin( Function.NPV, "rate", "vs#" );
-		{
-			body( "_LET( rate1: `rate + 1;" );
-			body( "  _FOLD_ARRAY( r: 0; vi, i: `r + `vi / `rate1 ^ `i; `vs ))" );
-		}
-		end();
-		// ...
-		// ---- fun_NPV
-
-		/*
-		 * MIRR could use NPV internally (array passing is not yet supported by the compiler, though),
-		 * but a little math shows that the following is equivalent but quicker.
-		 */
-		begin( Function.MIRR, "vs#", "frate", "rrate" );
-		{
-			body( "_LET( n: COUNT( `vs );" );
-			body( "_LET( rrate1: `rrate + 1;" );
-			body( "_LET( frate1: `frate + 1;" );
-			body( "  ((-_FOLD_ARRAY( r: 0; vi, i: `r + IF( `vi > 0, `vi, 0 ) * `rrate1 ^ (`n - `i); `vs ))" );
-			body( "   / _FOLD_ARRAY( r: 0; vi, i: `r + IF( `vi < 0, `vi, 0 ) / `frate1 ^ (`i - 1); `vs ))" );
-			body( "  ^ (1 / (`n - 1))" );
-			body( "  - 1 )))" );
-		}
-		end();
-
-		def( Function.SLN, "cost", "salvage", "life", "(`cost - `salvage) / `life" );
-		def( Function.SYD, "cost", "salvage", "life", "per",
-				"(`cost - `salvage) * (`life - `per + 1) * 2 / (`life * (`life + 1))" );
-
-		begin( Function.FV, "rate", "nper", "pmt", "pv", "type" );
-		{
-			body( "IF( `rate = 0," );
-			body( "  -`pv - `pmt * `nper," );
-			body( "  _LET( p: (`rate + 1) ^ `nper;" );
-			body( "  _LET( k: IF (`type > 0, `rate + 1, 1);" );
-			body( "  -`pv * `p - `pmt * (`p - 1) * `k / `rate" );
-			body( "  ))" );
-			body( ")" );
-		}
-		end();
-		def( Function.FV, "rate", "nper", "pmt", "pv", "FV( `rate, `nper, `pmt, `pv, 0 )" );
-		def( Function.FV, "rate", "nper", "pmt", "FV( `rate, `nper, `pmt, 0, 0 )" );
-
-		begin( Function.NPER, "rate", "pmt", "pv", "fv", "type" );
-		{
-			body( "IF( `rate = 0," );
-			body( "  -(`pv + `fv) / `pmt," );
-			body( "  _LET( a: IF(`type > 0 , `pmt * (1 + `rate) , `pmt);" );
-			body( "    LOG( -(`rate * `fv - `a) / (`rate * `pv + `a), 1 + `rate )" );
-			body( "  )" );
-			body( ")" );
-		}
-		end();
-		def( Function.NPER, "rate", "pmt", "pv", "fv", "NPER( `rate, `pmt, `pv, `fv, 0 )" );
-		def( Function.NPER, "rate", "pmt", "pv", "NPER( `rate, `pmt, `pv, 0, 0 )" );
-
-		begin( Function.PV, "rate", "nper", "pmt", "fv", "type" );
-		{
-			body( "IF( `rate = 0," );
-			body( "  -`fv - `pmt * `nper," );
-			body( "  _LET( a: 1 + `rate;" );
-			body( "  _LET( b: -`fv * ( `a ^ -`nper );" );
-			body( "  IF( `type > 0," );
-			body( "    `b + (`pmt * (( `a ^ ( -`nper + 1 )) - 1) / `rate) - `pmt," );
-			body( "    `b + (`pmt * (( `a ^ -`nper ) - 1) / `rate)" );
-			body( "  )))" );
-			body( ")" );
-		}
-		end();
-		def( Function.PV, "rate", "nper", "pmt", "fv", "PV (`rate, `nper, `pmt, `fv, 0 )" );
-		def( Function.PV, "rate", "nper", "pmt", "PV (`rate, `nper, `pmt, 0, 0 )" );
-
-		begin( Function.PMT, "rate", "nper", "pv", "fv", "type" );
-		{
-			body( "IF( `rate = 0," );
-			body( "  -(`pv + `fv) / `nper," );
-			body( "  _LET( a: (1 + `rate) ^ `nper;" );
-			body( "  _LET( b: `pv / (1 - 1 / `a);" );
-			body( "  _LET( c: `fv / (`a - 1);" );
-			body( "  _LET( d: -(`b + `c) * `rate;" );
-			body( "  IF( `type > 0 , `d / (1 + `rate) , `d)" );
-			body( "  ))))" );
-			body( ")" );
-		}
-		end();
-		def( Function.PMT, "rate", "nper", "pv", "fv", "PMT (`rate, `nper, `pv, `fv, 0 )" );
-		def( Function.PMT, "rate", "nper", "pv", "PMT (`rate, `nper, `pv, 0, 0 )" );
+		parse();
+		compileFolds();
+		compileRules();
+		writeOut();
 	}
 
 
-	private void defineStatistical() throws Exception
+	private void parse() throws Exception
 	{
-		def( Function.BETADIST, "x", "alpha", "beta", "a", "b", "BETADIST( (`x - `a) / (`b - `a), `alpha, `beta )" );
-		def( Function.BETADIST, "x", "alpha", "beta", "a", "BETADIST( `x, `alpha, `beta, `a,  1 )" );
+		parseRulesIn( "rewrite.rules" );
+	}
 
-		begin( Function.FDIST, "x", "df1", "df2" );
-		{
-			body( "_LET( idf1: INT( `df1 );" );
-			body( "  _LET( idf2: INT( `df2 );" );
-			body( "    IF( OR( `x < 0, `idf1 < 1, `idf2 < 1 ), 0," );
-			body( "      BETADIST( `idf2 / (`idf2 + `idf1 * `x), `idf2 / 2, `idf1 / 2 )" );
-			body( "    )" );
-			body( "  )" );
-			body( ")" );
+	private void parseRulesIn( String _fileName ) throws Exception
+	{
+
+		final String src = Util.readStringFrom( ClassLoader.getSystemResourceAsStream( FILES_PATH + _fileName ) );
+		new RewriteRuleExpressionParser( src, this.rules, this.folds ).parseFile();
+	}
+
+
+	private void compileFolds() throws Exception
+	{
+		for (final FoldDef fold : this.folds.values()) {
+			final FoldCompiler foldc = new FoldCompiler( fold );
+			foldc.compileMethod();
 		}
-		end();
+	}
 
-		begin( Function.NEGBINOMDIST, "x", "r", "p" );
-		{
-			body( "_LET( ix: INT( `x );" );
-			body( "  _LET( ir: INT( `r );" );
-			body( "    COMBIN( `ix + `ir - 1, `ir - 1 ) * POWER( `p, `ir) * POWER( 1 - `p, `ix )" );
-			body( "  )" );
-			body( ")" );
+
+	private void compileRules() throws Exception
+	{
+		Collections.sort( this.rules );
+
+		Function currCase = null;
+		for (final RuleDef rule : this.rules) {
+			final RuleCompiler rulec = new RuleCompiler( rule );
+			if (rule.fun == currCase) {
+				rulec.compileSubCase();
+			}
+			else {
+				if (null != currCase) closeSubSwitch();
+				final boolean needSubSwitch = !rulec.is_n_ary();
+				if (needSubSwitch) {
+					currCase = rule.fun;
+					rulec.compileCase();
+					beginSubSwitch();
+					rulec.compileSubCase();
+				}
+				else {
+					currCase = null;
+					rulec.compileCase();
+				}
+			}
+			rulec.compileCall();
+			rulec.compileMethod();
 		}
-		end();
-
-		// This code is adopted from Colt Library (http://dsd.lbl.gov/~hoschek/colt/).
-		begin( Function.NORMSDIST, "a" );
-		{
-			body( "_LET( sqrth: 7.07106781186547524401E-1;" );
-			body( "  _LET( x: `a * `sqrth;" );
-			body( "    _LET( z: ABS( `x );" );
-			body( "      IF( `z < `sqrth," );
-			body( "        0.5 + 0.5 * ERF( `x )" );
-			body( "      ," );
-			body( "        _LET( y1: 0.5 * ERFC( `z ); IF( `x > 0, 1.0 - `y1, `y1 ) )" );
-			body( "      )" );
-			body( "    )" );
-			body( "  )" );
-			body( ")" );
-		}
-		end();
-
-
-		begin( Function.NORMDIST, "x", "mue", "sigma", "cumulative" );
-		{
-			body( "IF( `cumulative," );
-			body( "  NORMSDIST( (`x - `mue) / `sigma )" );
-			body( "," );
-			body( "  EXP( _LET( x1: `x - `mue; `x1 * `x1 ) / (-2 * `sigma * `sigma) ) / (SQRT( 2 * PI() ) * `sigma)" );
-			body( ")" );
-		}
-		end();
-
-
-		def( Function.LOGNORMDIST, "x", "mue", "sigma", "NORMSDIST( (LN( `x ) - `mue) / `sigma )" );
-
-
-		// Based on gaussinv() implementation for OpenOffice.org Calc by Martin Eitzenberger
-		begin( Function.NORMSINV, "x" );
-		{
-			body( "_LET( q: `x - 0.5;" );
-			body( "  IF( ABS( `q ) <= 0.425," );
-			body( "    _LET( t: 0.180625 - `q * `q;" );
-			body( "      `q *" );
-			body( "      (" );
-			body( "        (" );
-			body( "          (" );
-			body( "            (" );
-			body( "              (" );
-			body( "                (" );
-			body( "                  (`t * 2509.0809287301226727 + 33430.575583588128105)" );
-			body( "                * `t + 67265.770927008700853)" );
-			body( "              * `t + 45921.953931549871457)" );
-			body( "            * `t + 13731.693765509461125)" );
-			body( "          * `t + 1971.5909503065514427)" );
-			body( "        * `t + 133.14166789178437745)" );
-			body( "      * `t + 3.387132872796366608)" );
-			body( "      /" );
-			body( "      (" );
-			body( "        (" );
-			body( "          (" );
-			body( "            (" );
-			body( "              (" );
-			body( "                (" );
-			body( "                  (`t * 5226.495278852854561 + 28729.085735721942674)" );
-			body( "                * `t + 39307.89580009271061)" );
-			body( "              * `t + 21213.794301586595867)" );
-			body( "            * `t + 5394.1960214247511077)" );
-			body( "          * `t + 687.1870074920579083)" );
-			body( "        * `t + 42.313330701600911252)" );
-			body( "      * `t + 1.0)" );
-			body( "    )" );
-			body( "  ," );
-			body( "    _LET( z:" );
-			body( "      _LET( tt: SQRT( -LN( IF( `q > 0, 1 - `x, `x ) ) );" );
-			body( "        IF( `tt <= 5.0," );
-			body( "          _LET( t: `tt - 1.6;" );
-			body( "            (" );
-			body( "              (" );
-			body( "                (" );
-			body( "                  (" );
-			body( "                    (" );
-			body( "                      (" );
-			body( "                        (`t * 7.7454501427834140764e-4 + 0.0227238449892691845833)" );
-			body( "                      * `t + 0.24178072517745061177)" );
-			body( "                    * `t + 1.27045825245236838258)" );
-			body( "                  * `t + 3.64784832476320460504)" );
-			body( "                * `t + 5.7694972214606914055)" );
-			body( "              * `t + 4.6303378461565452959)" );
-			body( "            * `t + 1.42343711074968357734)" );
-			body( "            /" );
-			body( "            (" );
-			body( "              (" );
-			body( "                (" );
-			body( "                  (" );
-			body( "                    (" );
-			body( "                      (" );
-			body( "                        (`t * 1.05075007164441684324e-9 + 5.475938084995344946e-4)" );
-			body( "                      * `t + 0.0151986665636164571966)" );
-			body( "                    * `t + 0.14810397642748007459)" );
-			body( "                  * `t + 0.68976733498510000455)" );
-			body( "                * `t + 1.6763848301838038494)" );
-			body( "              * `t + 2.05319162663775882187)" );
-			body( "            * `t + 1.0)" );
-			body( "          )" );
-			body( "        ," );
-			body( "          _LET( t: `tt - 5.0;" );
-			body( "            (" );
-			body( "              (" );
-			body( "                (" );
-			body( "                  (" );
-			body( "                    (" );
-			body( "                      (" );
-			body( "                        (`t * 2.01033439929228813265e-7 + 2.71155556874348757815e-5)" );
-			body( "                      * `t + 0.0012426609473880784386)" );
-			body( "                    * `t + 0.026532189526576123093)" );
-			body( "                  * `t + 0.29656057182850489123)" );
-			body( "                * `t + 1.7848265399172913358)" );
-			body( "              * `t + 5.4637849111641143699)" );
-			body( "            * `t + 6.6579046435011037772)" );
-			body( "            /" );
-			body( "            (" );
-			body( "              (" );
-			body( "                (" );
-			body( "                  (" );
-			body( "                    (" );
-			body( "                      (" );
-			body( "                        (`t * 2.04426310338993978564e-15 + 1.4215117583164458887e-7)" );
-			body( "                      * `t + 1.8463183175100546818e-5)" );
-			body( "                    * `t + 7.868691311456132591e-4)" );
-			body( "                  * `t + 0.0148753612908506148525)" );
-			body( "                * `t + 0.13692988092273580531)" );
-			body( "              * `t + 0.59983220655588793769)" );
-			body( "            * `t + 1.0)" );
-			body( "          )" );
-			body( "        )" );
-			body( "      );" );
-			body( "      IF( `q < 0.0, -`z, `z )" );
-			body( "    )" );
-			body( "  )" );
-			body( ")" );
-		}
-		end();
-
-
-		def( Function.NORMINV, "x", "mue", "sigma", "NORMSINV( `x ) * `sigma + `mue" );
-
-
-		def( Function.LOGINV, "x", "mue", "sigma", "EXP( NORMSINV( `x ) * `sigma + `mue )" );
-
-
-		def( Function.CONFIDENCE, "alpha", "sigma", "n", "NORMSINV( 1.0 - `alpha / 2.0) * `sigma / SQRT( INT( `n ) )");
-
-
-		begin( Function.RANK, "number", "ref#", "order" );
-		{
-			body( "_FOLD_ARRAY( r: 1; refi, i: " );
-			body( "  `r + IF( IF( `order = 0, `number < `refi, `number > `refi ), 1, 0); " );
-			body( "`ref )" );
-		}
-		end();
-		def( Function.RANK, "number+", "ref+", "RANK (`number, `ref, 0 )" );
-
-		/*
-		 * An efficient implementation of VARP for large datasets would require a helper function
-		 * returning _both_ the sum and the count in one pass. We don't do cursor-style aggregation
-		 * yet, so the following is quite OK.
-		 *
-		 * One might also consider turning this into an ARRAY function (xs# instead of xs*).
-		 * Currently, AFC does not support converting arbitrary range unions with possibly dynamic
-		 * sections into arrays.
-		 *
-		 * I am inlining AVERAGE here because COUNT is already known.
-		 */
-		begin( Function.VARP, "xs*" );
-		{
-			body( "_LET( n: COUNT(`xs);" );
-			body( "	 _LET( m: SUM(`xs) / `n;" );
-			body( "    _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
-			body( "  )" );
-			body( "  / `n" );
-			body( ")" );
-		}
-		end();
-
-		// Leave this comment in. It is used to cite the code into the documentation.
-		// ---- fun_VAR
-		begin( Function.VAR, "xs*" );
-		{
-			body( "_LET( n: COUNT(`xs);" );
-			body( "  _LET( m: SUM(`xs) / `n;" );
-			body( "    _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
-			body( "  )" );
-			body( "  / (`n - 1)" );
-			body( ")" );
-		}
-		end();
-		// ---- fun_VAR
-
-		begin( Function.KURT, "xs*" );
-		{
-			body( "_LET( n: COUNT(`xs);" );
-			body( "  _LET( a: `n - 1;" );
-			body( "    _LET( b: (`n - 2) * (`n - 3);" );
-			body( "      _LET( s: STDEV(`xs);" );
-			body( "        _LET( m: SUM(`xs) / `n;" );
-			body( "          _FOLD( r: 0; xi:" );
-			body( "            _LET( ei2:" );
-			body( "              _LET( ei: (`xi - `m) / `s; `ei*`ei );" );
-			body( "            `r + `ei2*`ei2 );" );
-			body( "          `xs )" );
-			body( "        )" );
-			body( "      ) * `n * (`n + 1) / (`a * `b) - 3 * `a * `a / `b" );
-			body( "    )" );
-			body( "  )" );
-			body( ")" );
-		}
-		end();
-
-		begin( Function.SKEW, "xs*" );
-		{
-			body( "_LET( n: COUNT(`xs);" );
-			body( "  _LET( s3: _LET( s: STDEV(`xs); `s*`s*`s);" );
-			body( "    _LET( m: SUM(`xs) / `n;" );
-			body( "      _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei*`ei ); `xs )" );
-			body( "    )" );
-			body( "    / `s3" );
-			body( "  )" );
-			body( "  * `n / ((`n - 1) * (`n - 2))" );
-			body( ")" );
-		}
-		end();
-
-		def( Function.STDEV, "xs*", "SQRT( VAR( `xs ) )" );
-		def( Function.STDEVP, "xs*", "SQRT( VARP( `xs ) )" );
-
-		begin( Function.AVEDEV, "xs*" );
-		{
-			body( "_LET( n: COUNT(`xs);" );
-			body( "  _LET( m: SUM(`xs) / `n;" );
-			body( "    _FOLD( r:0; xi: `r + ABS( `m - `xi ); `xs )" );
-			body( "  ) / `n" );
-			body( ")" );
-		}
-		end();
-
-		begin( Function.DEVSQ, "xs*" );
-		{
-			body( "_LET( n: COUNT(`xs);" );
-			body( "  _LET( m: SUM(`xs) / `n;" );
-			body( "    _FOLD( r: 0; xi: _LET( ei: `xi - `m; `r + `ei*`ei ); `xs )" );
-			body( "  )" );
-			body( ")" );
-		}
-		end();
+		if (null != currCase) closeSubSwitch();
 
 	}
 
-	private void defineMathematical() throws Exception
+	private void beginSubSwitch()
 	{
-		begin( Function.GEOMEAN, "xs*" );
-		{
-			body( "_LET( n: COUNT(`xs);" );
-			body( "  _LET( m: PRODUCT(`xs);" );
-			body( "    IF( OR( `n = 0, `m < 0 ), 0," );
-			body( "       POWER( `m, 1 / `n ))" );
-			body( "  )" );
-			body( ")" );
-		}
-		end();
+		final DescriptionBuilder b = cases();
+		b.indent();
+		b.appendLine( "switch (_fun.cardinality()) {" );
+		b.indent();
+	}
 
-		begin( Function.HARMEAN, "xs*" );
-		{
-			body( "_LET( n: COUNT(`xs);" );
-			body( "  _LET( m: PRODUCT(`xs);" );
-			body( "    IF( OR( `n = 0, `m <= 0 ), 0," );
-			body( "      `n / _FOLD( r: 0; xi: 1 / `xi + `r; `xs ) " );
-			body( "    )" );
-			body( "  )" );
-			body( ")" );
-		}
-		end();
+	private void closeSubSwitch()
+	{
+		final DescriptionBuilder b = cases();
+		b.outdent();
+		b.appendLine( "}" );
+		b.appendLine( "break;" );
+		b.outdent();
+	}
 
-		begin( Function.PERMUT, "n", "k" );
+	private final void writeOut() throws IOException
+	{
+		final String template = Util.readStringFrom( ClassLoader.getSystemResourceAsStream( TEMPLATE_FILE ) );
+		final String[] split1 = template.split( "__SWITCH__" );
+		final String[] split2 = split1[ 1 ].split( "__METHODS__" );
+		final String prefix = split1[ 0 ];
+		final String infix = split2[ 0 ];
+		final String suffix = split2[ 1 ];
+		final String generated = prefix + this.cases.toString() + infix + this.methods.toString() + suffix;
+
+		final File tgtFolder = new File( TGT_FOLDER );
+		final File tgtFile = new File( tgtFolder, TGT_NAME );
+		tgtFolder.mkdirs();
+		Util.writeStringToIfNotUpToDateWithMessage( generated, tgtFile );
+	}
+
+
+	final DescriptionBuilder cases()
+	{
+		return this.cases;
+	}
+
+	final DescriptionBuilder methods()
+	{
+		return this.methods;
+	}
+
+
+	@SuppressWarnings( "unqualified-field-access" )
+	private final class FoldCompiler extends AbstractDefCompiler
+	{
+		private final FoldDef fold;
+
+		public FoldCompiler( FoldDef _fold )
 		{
-			body( "_LET( ni: INT(`n);" );
-			body( "  _LET( ki: INT(`k);" );
-			body( "    IF( OR( `ni < 0, `ki < 0 ), 0," );
-			body( "      IF( `ni < `ki, 0," );
-			body( "        FACT( `ni ) / FACT( `ni - `ki )" );
-			body( "      )" );
-			body( "    )" );
-			body( "  )" );
-			body( ")" );
+			super( _fold );
+			this.fold = _fold;
 		}
-		end();
+
+		@Override
+		protected final String mtdName()
+		{
+			return "fold_" + fold.name;
+		}
+
+		@Override
+		protected void compileMethodHeader( DescriptionBuilder _b )
+		{
+			_b.append( "final ExpressionNode " ).append( mtdName() ).appendLine( "() {" );
+		}
+
+		@Override
+		protected void compileMethodIntro( DescriptionBuilder _b )
+		{
+			// Nothing to do here.
+		}
 
 	}
 
 
+	@SuppressWarnings( "unqualified-field-access" )
+	private final class RuleCompiler extends AbstractDefCompiler
+	{
+		private final RuleDef rule;
+
+		public RuleCompiler( RuleDef _rule )
+		{
+			super( _rule );
+			this.rule = _rule;
+		}
+
+		final void compileCase()
+		{
+			final String funName = rule.fun.getName();
+			final DescriptionBuilder b = cases();
+			b.append( "case " ).append( funName ).appendLine( ":" );
+		}
+
+		final void compileSubCase()
+		{
+			final int paramCount = rule.params.size();
+			final DescriptionBuilder b = cases();
+			b.append( "case " ).append( paramCount ).appendLine( ":" );
+		}
+
+		final void compileCall()
+		{
+			final String mtdName = mtdName();
+			final DescriptionBuilder b = cases();
+			b.indent();
+			{
+				b.append( "return " ).append( mtdName ).appendLine( "( _fun );" );
+			}
+			b.outdent();
+		}
+
+		@Override
+		protected final String mtdName()
+		{
+			if (is_n_ary()) {
+				return "rewrite" + rule.fun.getName();
+			}
+			return "rewrite" + rule.fun.getName() + "_" + rule.params.size();
+		}
+
+		@Override
+		protected void compileMethodHeader( DescriptionBuilder _b )
+		{
+			_b.append( "private final ExpressionNode " ).append( mtdName() ).appendLine(
+					"( ExpressionNodeForFunction _fun ) {" );
+		}
+
+		@Override
+		protected void compileMethodIntro( DescriptionBuilder _b )
+		{
+			_b.appendLine( "final Iterator<ExpressionNode> args = _fun.arguments().iterator();" );
+		}
+
+	}
+
+
+	@SuppressWarnings( "unqualified-field-access" )
+	private abstract class AbstractDefCompiler
+	{
+		private final AbstractDef def;
+
+		public AbstractDefCompiler( AbstractDef _def )
+		{
+			super();
+			this.def = _def;
+		}
+
+		private final LetDictionary letDict = new LetDictionary();
+		private final Set<String> letVars = New.set();
+		private char nextLetVarSuffix = 'a';
+
+		protected final UniqueLetVarName compileUniqueLetVarName( String _name )
+		{
+			final String varName;
+			if (this.letVars.contains( _name )) {
+				varName = _name + '$' + this.nextLetVarSuffix++;
+			}
+			else {
+				this.letVars.add( _name );
+				varName = _name;
+			}
+			final UniqueLetVarName result = new UniqueLetVarName( _name, varName );
+			final DescriptionBuilder b = declBuilder();
+			b.append( "final String " ).append( result.constName ).append( " = \"" ).append( result.varName ).appendLine(
+					"__\" + newSanitizingSuffix();" );
+			b.append( "final ExpressionNode " ).append( result.varName ).append( " = var( " ).append( result.constName )
+					.appendLine( " );" );
+			return result;
+		}
+
+		private final void let( UniqueLetVarName _let )
+		{
+			if (_let != null) this.letDict.let( _let.letName, null, _let.varName );
+		}
+
+		private final void unlet( UniqueLetVarName _let )
+		{
+			if (_let != null) this.letDict.unlet( _let.letName );
+		}
+
+		private final void unlet( int _n )
+		{
+			this.letDict.unlet( _n );
+		}
+
+		private final void resetLetVars()
+		{
+			this.letVars.clear();
+			this.letDict.clear();
+		}
+
+
+		final void compileMethod() throws Exception
+		{
+			final DescriptionBuilder b = methods();
+			final ExpressionNode expr = def.body;
+
+			resetLetVars();
+
+			compileMethodHeader( b );
+			b.indent();
+			{
+				compileMethodIntro( b );
+				final StringBuilder prefix = new StringBuilder();
+				final StringBuilder suffix = new StringBuilder();
+				int iParam = 0;
+				for (Param param : def.params) {
+					switch (param.type) {
+
+						case LIST:
+							b.append( "final ExpressionNode " ).append( param.name ).appendLine( " = substitution( args );" );
+							break;
+
+						case ARRAY:
+						case SYMBOLIC:
+							b.append( "final ExpressionNode " ).append( param.name ).appendLine(
+									" = substitution( args.next() );" );
+							break;
+
+						default:
+							final String paramExpr = "args.next()";
+							if (occursMoreThanOnce( expr, param.name )) {
+								final UniqueLetVarName var = compileUniqueLetVarName( param.name );
+								b.append( "final ExpressionNode " ).append( var.varName ).append( "$$ = " ).append( paramExpr )
+										.appendLine( ";" );
+								prefix.append( "let( " ).append( var.constName ).append( ", " ).append( var.varName ).append(
+										"$$, " );
+								suffix.append( " )" );
+								let( var );
+							}
+							else {
+								b.append( "final ExpressionNode " ).append( param.name ).append( " = substitution( " ).append(
+										paramExpr ).appendLine( " );" );
+							}
+
+					}
+
+					iParam++;
+				}
+
+				final DescriptionBuilder exprBuilder = new DescriptionBuilder();
+				compileExpr( expr, exprBuilder );
+
+				b.append( "return " ).append( prefix ).append( exprBuilder ).append( suffix ).appendLine( ";" );
+			}
+			b.outdent();
+			b.appendLine( "}" );
+			b.newLine();
+		}
+
+		protected abstract String mtdName();
+		protected abstract void compileMethodIntro( DescriptionBuilder _b );
+		protected abstract void compileMethodHeader( DescriptionBuilder _b );
+
+		protected final boolean is_n_ary()
+		{
+			return def.params.get( def.params.size() - 1 ).type == Param.Type.LIST;
+		}
+
+		private final boolean occursMoreThanOnce( final ExpressionNode _expr, String _param )
+		{
+			return countOccurrences_atLeast2( _expr, _param ) > 1;
+		}
+
+		private final int countOccurrences_atLeast2( ExpressionNode _expr, String _param )
+		{
+			if (null == _expr) {
+				return 0;
+			}
+			else if (_expr instanceof ExpressionNodeForLetVar) {
+				final ExpressionNodeForLetVar varNode = (ExpressionNodeForLetVar) _expr;
+				return varNode.varName().equals( _param )? 1 : 0;
+			}
+			else if (_expr instanceof ExpressionNodeForLet) {
+				final ExpressionNodeForLet letNode = (ExpressionNodeForLet) _expr;
+				int occ = countOccurrences_atLeast2( letNode.value(), _param );
+				if (!letNode.varName().equals( _param )) {
+					// not shadowed
+					occ += countOccurrences_atLeast2( letNode.in(), _param );
+				}
+				return occ;
+			}
+			else if (_expr instanceof ExpressionNodeForFoldDefinition) {
+				final ExpressionNodeForFoldDefinition fold = (ExpressionNodeForFoldDefinition) _expr;
+				int occ = countOccurrences_atLeast2( fold.whenEmpty(), _param );
+				for (int i = 0; i < fold.accuCount(); i++)
+					occ += countOccurrences_atLeast2( fold.accuInit( i ), _param );
+				if (!equalsOneOf( _param, fold.accuNames() )) {
+					if (!_param.equals( fold.indexName() ) && !equalsOneOf( _param, fold.eltNames() )) {
+						for (int i = 0; i < fold.accuCount(); i++)
+							occ += countOccurrences_atLeast2( fold.accuStep( i ), _param );
+					}
+					if (!_param.equals( fold.countName() )) {
+						occ += countOccurrences_atLeast2( fold.merge(), _param );
+					}
+				}
+				return occ;
+			}
+			else {
+				int occ = 0;
+				for (final ExpressionNode arg : _expr.arguments()) {
+					occ += countOccurrences_atLeast2( arg, _param );
+					if (occ > 1) return occ;
+				}
+				return occ;
+			}
+		}
+
+
+		private boolean equalsOneOf( String _param, String[] _names )
+		{
+			for (String name : _names)
+				if (_param.equals( name )) return true;
+			return false;
+		}
+
+
+		private final DescriptionBuilder declBuilder()
+		{
+			return methods();
+		}
+
+
+		private final void compileExpr( ExpressionNode _node, DescriptionBuilder _b ) throws Exception
+		{
+			if (null == _node) _b.append( "null" );
+
+			else if (_node instanceof ExpressionNodeForConstantValue) compileConst(
+					(ExpressionNodeForConstantValue) _node, _b );
+			else if (_node instanceof ExpressionNodeForMinValue) compileExtremum( false, _b );
+			else if (_node instanceof ExpressionNodeForMaxValue) compileExtremum( true, _b );
+			else if (_node instanceof ExpressionNodeForOperator) compileOp( (ExpressionNodeForOperator) _node, _b );
+			else if (_node instanceof ExpressionNodeForFunction) compileFun( (ExpressionNodeForFunction) _node, _b );
+			else if (_node instanceof ExpressionNodeForLetVar) compileLetVar( (ExpressionNodeForLetVar) _node, _b );
+			else if (_node instanceof ExpressionNodeForLet) compileLet( (ExpressionNodeForLet) _node, _b );
+
+			else if (_node instanceof ExpressionNodeForFoldDefinition) compileFoldDef(
+					(ExpressionNodeForFoldDefinition) _node, _b );
+			else if (_node instanceof ExpressionNodeForFoldList) compileFoldApply( (ExpressionNodeForFoldList) _node, _b );
+			else if (_node instanceof ExpressionNodeForFoldVectors) compileFoldApply(
+					(ExpressionNodeForFoldVectors) _node, _b );
+
+			else throw new Exception( "Unsupported expression: " + _node.toString() );
+		}
+
+
+		private void compileArgs( Iterable<ExpressionNode> _args, DescriptionBuilder _b ) throws Exception
+		{
+			compileArgs( _args.iterator(), _b );
+		}
+
+		private void compileArgs( Iterator<ExpressionNode> _args, DescriptionBuilder _b ) throws Exception
+		{
+			while (_args.hasNext()) {
+				final ExpressionNode arg = _args.next();
+				_b.append( ", " );
+				compileExpr( arg, _b );
+			}
+		}
+
+		private void compileArgList( ExpressionNode _node, DescriptionBuilder _b ) throws Exception
+		{
+			compileArgs( _node.arguments(), _b );
+			_b.append( " )" );
+		}
+
+
+		private void compileConst( ExpressionNodeForConstantValue _value, DescriptionBuilder _b )
+		{
+			final Object value = _value.value();
+			if (value instanceof Integer) {
+				final int v = (Integer) value;
+				if (v >= 0 && v < CONSTANT_NAMES.length) {
+					_b.append( CONSTANT_NAMES[ v ] );
+					return;
+				}
+			}
+
+			// LATER These nodes could be moved out into static final members of the generator.
+
+			_b.append( "cst( " );
+
+			if (value instanceof String) {
+				_b.append( '"' ).append( ((String) value).replaceAll( "\"", "\\\"" ) ).append( '"' );
+			}
+			else {
+				_b.append( value );
+			}
+
+			_b.append( " )" );
+		}
+
+		private void compileExtremum( boolean _isMax, DescriptionBuilder _b ) throws Exception
+		{
+			_b.append( "new ExpressionNodeFor" ).append( _isMax? "Max" : "Min" ).append( "Value()" );
+		}
+
+		private void compileOp( ExpressionNodeForOperator _node, DescriptionBuilder _b ) throws Exception
+		{
+			_b.append( "op( Operator." ).append( _node.getOperator().toString() );
+			compileArgList( _node, _b );
+		}
+
+
+		private void compileFun( ExpressionNodeForFunction _node, DescriptionBuilder _b ) throws Exception
+		{
+			_b.append( "fun( Function." ).append( _node.getFunction().toString() );
+			compileArgList( _node, _b );
+		}
+
+
+		private void compileLetVar( ExpressionNodeForLetVar _node, DescriptionBuilder _b )
+		{
+			final String letName = _node.varName();
+			final String varName = (String) this.letDict.lookup( letName );
+			_b.append( (null == varName)? letName : varName );
+		}
+
+
+		private void compileLet( ExpressionNodeForLet _node, DescriptionBuilder _b ) throws Exception
+		{
+			final UniqueLetVarName var = compileUniqueLetVarName( _node.varName() );
+			_b.append( "let( " ).append( var.constName ).append( ", " );
+			compileExpr( _node.value(), _b );
+			_b.append( ", " );
+			let( var );
+			compileExpr( _node.in(), _b );
+			unlet( var );
+			_b.append( " )" );
+		}
+
+
+		private void compileFoldDef( ExpressionNodeForFoldDefinition _def, DescriptionBuilder _b ) throws Exception
+		{
+			final UniqueLetVarName[] accuNames = new UniqueLetVarName[ _def.accuCount() ];
+			final UniqueLetVarName[] eltNames = new UniqueLetVarName[ _def.eltCount() ];
+			final UniqueLetVarName indexName, countName;
+
+			_b.append( "new ExpressionNodeForFoldDefinition( new String[] {" );
+			for (int i = 0; i < _def.accuCount(); i++) {
+				if (i > 0) _b.append( ", " );
+				accuNames[ i ] = compileConstName( _def.accuName( i ), _b );
+			}
+			_b.append( "}, new ExpressionNode[] {" );
+			for (int i = 0; i < _def.accuCount(); i++) {
+				if (i > 0) _b.append( ", " );
+				compileExpr( _def.accuInit( i ), _b );
+			}
+			_b.append( "}, " );
+			indexName = compileConstName( _def.indexName(), _b );
+			_b.append( ", new String[] {" );
+			for (int i = 0; i < _def.eltCount(); i++) {
+				if (i > 0) _b.append( ", " );
+				eltNames[ i ] = compileConstName( _def.eltName( i ), _b );
+			}
+			_b.append( "}, new ExpressionNode[] {" );
+
+			for (int i = 0; i < _def.accuCount(); i++)
+				let( accuNames[ i ] );
+			for (int i = 0; i < _def.eltCount(); i++)
+				let( eltNames[ i ] );
+			let( indexName );
+
+			for (int i = 0; i < _def.accuCount(); i++) {
+				if (i > 0) _b.append( ", " );
+				compileExpr( _def.accuStep( i ), _b );
+			}
+			unlet( indexName );
+			unlet( _def.eltCount() );
+
+			_b.append( "}, " );
+			countName = compileConstName( _def.countName(), _b );
+			_b.append( ", " );
+
+			let( countName );
+
+			compileExpr( _def.merge(), _b );
+
+			unlet( countName );
+			unlet( _def.accuCount() );
+
+			_b.append( ", " );
+			compileExpr( _def.whenEmpty(), _b );
+			_b.append( ", " ).append( _def.mayRearrange() ).append( ", " ).append( _def.mayReduce() ).append( " )" );
+		}
+
+		private UniqueLetVarName compileConstName( String _varName, DescriptionBuilder _b )
+		{
+			if (null == _varName) {
+				_b.append( "null" );
+				return null;
+			}
+			else {
+				UniqueLetVarName result = compileUniqueLetVarName( _varName );
+				_b.append( result.constName );
+				return result;
+			}
+		}
+
+		private void compileFoldApply( ExpressionNodeForFoldApply _apply, DescriptionBuilder _b ) throws Exception
+		{
+			final String className = _apply.getClass().getName();
+			final ExpressionNode foldDefNode = _apply.argument( 0 );
+			if (foldDefNode instanceof ExpressionNodeForLetVar) {
+				final ExpressionNodeForLetVar foldNameNode = (ExpressionNodeForLetVar) foldDefNode;
+				final String foldName = foldNameNode.varName();
+				_b.append( "new " ).append( className ).append( "( fold_" ).append( foldName ).append( "()" );
+			}
+			else {
+				_b.append( "new " ).append( className ).append( "( " );
+				compileExpr( foldDefNode, _b );
+			}
+			compileArgs( _apply.elements(), _b );
+			_b.append( " )" );
+		}
+
+	}
+
+
+	private static final class UniqueLetVarName
+	{
+		public final String letName;
+		public final String varName;
+		public final String constName;
+
+		public UniqueLetVarName( String _letName, String _varName )
+		{
+			super();
+			this.letName = _letName;
+			this.varName = _varName;
+			this.constName = _varName + "$";
+		}
+	}
+
+
+	protected static final String[] CONSTANT_NAMES = { "ZERO", "ONE", "TWO", "THREE" };
 }

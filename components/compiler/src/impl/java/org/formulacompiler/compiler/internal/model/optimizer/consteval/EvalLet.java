@@ -34,7 +34,7 @@ final class EvalLet extends EvalShadow
 	{
 		super( _node, _type );
 		this.varName = _node.varName();
-		this.mayFold = _node.mayFold();
+		this.mayFold = (_node.type() == ExpressionNodeForLet.Type.BYVAL);
 	}
 
 

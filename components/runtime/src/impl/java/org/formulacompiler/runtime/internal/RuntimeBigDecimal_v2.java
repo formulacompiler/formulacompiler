@@ -35,6 +35,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	public static final BigDecimal TWO = BigDecimal.valueOf( 2 );
 	public static final BigDecimal TWELVE = BigDecimal.valueOf( 12 );
 	public static final BigDecimal TENTH = BigDecimal.valueOf( 0.1 );
+	public static final BigDecimal EXTREMUM = new BigDecimal( 9999999 );
 
 	static final BigDecimal PI = BigDecimal.valueOf( Math.PI );
 
@@ -62,11 +63,15 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 
 	public static BigDecimal min( BigDecimal a, BigDecimal b )
 	{
+		if (a == EXTREMUM) return b;
+		if (b == EXTREMUM) return a;
 		return (a.compareTo( b ) <= 0)? a : b;
 	}
 
 	public static BigDecimal max( BigDecimal a, BigDecimal b )
 	{
+		if (a == EXTREMUM) return b;
+		if (b == EXTREMUM) return a;
 		return (a.compareTo( b ) >= 0)? a : b;
 	}
 

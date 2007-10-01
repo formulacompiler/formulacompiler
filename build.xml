@@ -437,6 +437,8 @@
 			<pathelement location="${comps.dir}/compiler/src/impl/java" />
 			<pathelement location="${comps.dir}/compiler/src/impl/java-debug" />
 			<pathelement location="${comps.dir}/compiler/src/build/java" />
+			<pathelement location="${comps.dir}/compiler/src/build/javacc" />
+			<pathelement location="${comps.dir}/compiler/src/build/resources" />
 
 			<pathelement location="${comps.dir}/spreadsheet/src/test/java" />
 			
@@ -455,9 +457,12 @@
 
 			<pathelement location="${comps.dir}/system/src/scratchpad/java" />
 			<pathelement location="${comps.dir}/system/src/scratchpad/data" />
+			<pathelement location="${comps.dir}" />
 		</path>
 
-		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}" sourcepathref="jcite.sourcepath" 
+		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}"
+				projectpath="${basedir}"
+				sourcepathref="jcite.sourcepath" 
 				tripwireFile="${src.dir}/jcite-tripwires.txt"
 				tripwireNewLine="\r\n"
 				acceptChanges="${tripups.accept}" 

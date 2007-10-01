@@ -20,6 +20,8 @@
  */
 package org.formulacompiler.compiler.internal.bytecode.compiler;
 
+import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.op;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 
@@ -28,8 +30,6 @@ import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
@@ -114,11 +114,6 @@ public class PrecisionTest extends TestCase
 	private ExpressionNodeForCellModel cell( final CellModel _model )
 	{
 		return new ExpressionNodeForCellModel( _model );
-	}
-
-	private ExpressionNodeForOperator op( Operator _op, ExpressionNode... _args )
-	{
-		return new ExpressionNodeForOperator( _op, _args );
 	}
 
 

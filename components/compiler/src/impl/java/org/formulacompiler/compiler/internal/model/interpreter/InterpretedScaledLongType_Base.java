@@ -92,6 +92,7 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 		 */
 		if (_value instanceof Integer) return ((Integer) _value).longValue() * this.num.one();
 		if (_value instanceof Double) return Math.round( ((Double) _value) * this.num.one() );
+		if (_value instanceof Boolean) return ((Boolean) _value)? this.num.one() : 0;
 
 		if (_value instanceof String) {
 			throw new IllegalArgumentException( "Cannot interpret java.lang.String." );

@@ -259,7 +259,7 @@ public class SectionSumTest extends AbstractIOTestBase
 				final Iterator<DetailInput> ds = this.inputs.getiterator();
 				if (ds != null) {
 
-					final Collection<DetailPrototype> coll = New.newList();
+					final Collection<DetailPrototype> coll = New.list();
 					while (ds.hasNext()) {
 						coll.add( new DetailPrototype( ds.next(), this ) );
 					}
@@ -304,7 +304,7 @@ public class SectionSumTest extends AbstractIOTestBase
 				final Iterator<DetailInput> ds = this.inputs.getiterable().iterator();
 				if (ds != null) {
 
-					final Collection<DetailPrototype> coll = New.newList();
+					final Collection<DetailPrototype> coll = New.list();
 					while (ds.hasNext()) {
 						coll.add( new DetailPrototype( ds.next(), this ) );
 					}
@@ -430,7 +430,7 @@ public class SectionSumTest extends AbstractIOTestBase
 
 		public Collection<DetailInput> getcollection()
 		{
-			final Collection<DetailInput> r = New.newList( this.detailLen );
+			final Collection<DetailInput> r = New.list( this.detailLen );
 			for (int i = 0; i < this.detailLen; i++) {
 				r.add( this.details[ i ] );
 			}

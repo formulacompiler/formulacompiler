@@ -37,8 +37,8 @@ public class Inputs implements InputInterface
 	private BigDecimal bigOne;
 	private BigDecimal bigTwo;
 	private BigDecimal bigThree;
-	private final Collection<Inputs> details = New.newCollection();
-	private final Collection<Inputs> otherDetails = New.newCollection();
+	private final Collection<Inputs> details = New.collection();
+	private final Collection<Inputs> otherDetails = New.collection();
 	private double doubleIncr = 1;
 
 	public Inputs(final double _one, final double _two, final double _three)
@@ -164,12 +164,17 @@ public class Inputs implements InputInterface
 
 	public double getDoubleD()
 	{
-		return 47.11;
+		return 47.12;
 	}
 
 	public double getDoubleE()
 	{
-		return 47.11;
+		return 47.13;
+	}
+
+	public double getDoubleF()
+	{
+		return 47.14;
 	}
 
 	public double getDoubleIncr()

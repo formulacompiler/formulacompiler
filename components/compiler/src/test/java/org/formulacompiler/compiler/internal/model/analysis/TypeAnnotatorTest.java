@@ -20,6 +20,8 @@
  */
 package org.formulacompiler.compiler.internal.model.analysis;
 
+import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
+
 import java.util.Calendar;
 
 import org.formulacompiler.compiler.Function;
@@ -28,9 +30,6 @@ import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
 import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
@@ -286,7 +285,7 @@ public class TypeAnnotatorTest extends TestCase
 			ComputationModel m = new ComputationModel( In.class, Out.class );
 			SectionModel r = m.getRoot();
 			CellModel c = new CellModel( r, "Result" );
-			c.setExpression( agg( agg ) );
+			c.setExpression( fun( agg ) );
 
 			m.traverse( new TypeAnnotator() );
 
@@ -372,29 +371,9 @@ public class TypeAnnotatorTest extends TestCase
 	}
 
 
-	private ExpressionNodeForConstantValue cst( Object _value )
-	{
-		return new ExpressionNodeForConstantValue( _value );
-	}
-
 	private ExpressionNodeForCellModel cell( CellModel _cell )
 	{
 		return new ExpressionNodeForCellModel( _cell );
-	}
-
-	private ExpressionNodeForOperator op( Operator _op, ExpressionNode... _args )
-	{
-		return new ExpressionNodeForOperator( _op, _args );
-	}
-
-	private ExpressionNodeForFunction fun( Function _fun, ExpressionNode... _args )
-	{
-		return new ExpressionNodeForFunction( _fun, _args );
-	}
-
-	private ExpressionNodeForFunction agg( Function _agg, ExpressionNode... _args )
-	{
-		return new ExpressionNodeForFunction( _agg, _args );
 	}
 
 

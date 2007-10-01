@@ -6,3 +6,4 @@ syntax: regexp
 ^tools/.*
 ^build\.properties
 ^afc\.iws$
+^components/system/src/test-reference/java-debug/org/formulacompiler/tests/reference/.*\.java

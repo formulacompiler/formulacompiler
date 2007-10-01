@@ -29,7 +29,7 @@ final class EvalLetVar extends EvalShadow
 
 	private final String varName;
 
-	public EvalLetVar(ExpressionNodeForLetVar _node, InterpretedNumericType _type)
+	public EvalLetVar( ExpressionNodeForLetVar _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
 		this.varName = _node.varName();
@@ -45,8 +45,9 @@ final class EvalLetVar extends EvalShadow
 			return node(); // No need to clone leaf node.
 		}
 		else if (isConstant( val )) {
-			if (LOG.e()) LOG.a( "Lookup " ).a( this.varName ).a( " <- " ).a( val ).lf();
-			return val;
+			final Object cst = valueOf( val );
+			if (LOG.e()) LOG.a( "Lookup " ).a( this.varName ).a( " <- " ).a( cst ).lf();
+			return cst;
 		}
 		else {
 			if (LOG.e()) LOG.a( "Lookup " ).a( this.varName ).a( " = " ).a( val ).lf();

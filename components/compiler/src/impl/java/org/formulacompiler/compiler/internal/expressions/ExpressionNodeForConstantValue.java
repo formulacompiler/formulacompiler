@@ -25,20 +25,19 @@ import java.util.Collection;
 import org.formulacompiler.describable.DescriptionBuilder;
 
 
-
 public final class ExpressionNodeForConstantValue extends ExpressionNode
 {
 	private final Object value;
 
 
-	public ExpressionNodeForConstantValue(Object _value)
+	public ExpressionNodeForConstantValue( Object _value )
 	{
 		assert !(_value instanceof ExpressionNode);
 		this.value = _value;
 	}
 
 
-	public ExpressionNodeForConstantValue(Object _value, DataType _type)
+	public ExpressionNodeForConstantValue( Object _value, DataType _type )
 	{
 		assert !(_value instanceof ExpressionNode);
 		this.value = _value;

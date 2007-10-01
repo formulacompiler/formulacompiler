@@ -61,7 +61,7 @@ public final class SubstitutionInliner extends AbstractComputationModelVisitor
 
 	private List<ExpressionNode> inline( List<ExpressionNode> _list )
 	{
-		List<ExpressionNode> result = New.newList();
+		List<ExpressionNode> result = New.list();
 		for (final ExpressionNode node : _list) {
 			inline( node, result );
 		}

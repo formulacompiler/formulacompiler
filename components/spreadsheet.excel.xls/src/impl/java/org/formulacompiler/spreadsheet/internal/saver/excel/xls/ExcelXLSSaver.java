@@ -249,8 +249,8 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	}
 
 
-	private final Map<String, CellView> colStyles = New.newMap();
-	private final Map<String, CellView> rowStyles = New.newMap();
+	private final Map<String, CellView> colStyles = New.map();
+	private final Map<String, CellView> rowStyles = New.map();
 
 	private CellView getRowStyle( String _styleName )
 	{
@@ -292,7 +292,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	}
 
 
-	private final Map<String, CellFormat> cellStyles = New.newMap();
+	private final Map<String, CellFormat> cellStyles = New.map();
 
 	private void extractCellFormatsFrom( WritableWorkbook _xwb )
 	{

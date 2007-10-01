@@ -22,6 +22,7 @@ package org.formulacompiler.compiler.internal.bytecode;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -30,10 +31,8 @@ import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForAbstractFold;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForDatabaseFold;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldArray;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDefinition;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMakeArray;
@@ -203,7 +202,7 @@ abstract class MethodCompiler
 		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, section().classInternalName(), methodName(), methodDescriptor() );
 	}
 
-	
+
 	final void compileInputGetterCall( CallFrame _callChainToCall ) throws CompilerException
 	{
 		final CallFrame[] frames = _callChainToCall.getFrames();
@@ -346,14 +345,14 @@ abstract class MethodCompiler
 	protected final Iterable<LetEntry> closureOf( Iterable<ExpressionNode> _nodes )
 	{
 		// Using sorted map to make engines reproducible.
-		final Map<String, LetEntry> closure = New.newSortedMap();
+		final Map<String, LetEntry> closure = New.sortedMap();
 		addToClosure( closure, _nodes );
 		return closure.values();
 	}
 
 	protected final Iterable<LetEntry> closureOf( ExpressionNode _node )
 	{
-		final Map<String, LetEntry> closure = New.newSortedMap();
+		final Map<String, LetEntry> closure = New.sortedMap();
 		addToClosure( closure, _node );
 		return closure.values();
 	}
@@ -384,27 +383,34 @@ abstract class MethodCompiler
 			addToClosure( _closure, let.value() );
 			addToClosureWithInnerDefs( _closure, let.in(), let.varName() );
 		}
-		else if (_node instanceof ExpressionNodeForFoldArray) {
-			final ExpressionNodeForFoldArray fold = (ExpressionNodeForFoldArray) _node;
-			addToClosure( _closure, fold.initialAccumulatorValue() );
-			addToClosureWithInnerDefs( _closure, fold.accumulatingStep(), fold.accumulatorName(), fold.elementName(), fold
-					.indexName() );
-			addToClosure( _closure, fold.array() );
+
+		else if (_node instanceof ExpressionNodeForFoldDefinition) {
+			final ExpressionNodeForFoldDefinition fold = (ExpressionNodeForFoldDefinition) _node;
+			
+			for (int i = 0; i < fold.accuCount(); i++)
+				addToClosure( _closure, fold.accuInit( i ) );
+
+			for (int i = 0; i < fold.accuCount(); i++)
+				letInnerDef( fold.accuName( i ));
+			for (int i = 0; i < fold.eltCount(); i++)
+				letInnerDef( fold.eltName( i ));
+			letInnerDef( fold.indexName() );
+
+			for (int i = 0; i < fold.accuCount(); i++)
+				addToClosure( _closure, fold.accuStep( i ));
+			
+			unletInnerDef( fold.indexName() );
+			letDict().unlet( fold.eltCount() );
+			letInnerDef( fold.countName() );
+			
+			addToClosure( _closure, fold.merge() );
+			
+			unletInnerDef( fold.countName() );
+			letDict().unlet( fold.accuCount() );
+			
+			addToClosure( _closure, fold.whenEmpty() );
 		}
-		else if (_node instanceof ExpressionNodeForDatabaseFold) {
-			final ExpressionNodeForDatabaseFold fold = (ExpressionNodeForDatabaseFold) _node;
-			addToClosure( _closure, fold.initialAccumulatorValue() );
-			addToClosureWithInnerDefs( _closure, fold.accumulatingStep(), fold.accumulatorName(), fold.elementName() );
-			addToClosureWithInnerDefs( _closure, fold.filter(), fold.filterColumnNames() );
-			addToClosure( _closure, fold.foldedColumnIndex() );
-			addToClosure( _closure, fold.table() );
-		}
-		else if (_node instanceof ExpressionNodeForAbstractFold) {
-			final ExpressionNodeForAbstractFold fold = (ExpressionNodeForAbstractFold) _node;
-			addToClosure( _closure, fold.initialAccumulatorValue() );
-			addToClosureWithInnerDefs( _closure, fold.accumulatingStep(), fold.accumulatorName(), fold.elementName() );
-			addToClosure( _closure, fold.elements() );
-		}
+
 		else {
 			addToClosure( _closure, _node.arguments() );
 		}
@@ -413,16 +419,26 @@ abstract class MethodCompiler
 	private void addToClosureWithInnerDefs( Map<String, LetEntry> _closure, ExpressionNode _node, String... _names )
 	{
 		for (int i = 0; i < _names.length; i++) {
-			letDict().let( _names[ i ], null, INNER_DEF );
+			letInnerDef( _names[ i ] );
 		}
 		try {
 			addToClosure( _closure, _node );
 		}
 		finally {
 			for (int i = _names.length - 1; i >= 0; i--) {
-				letDict().unlet( _names[ i ] );
+				unletInnerDef( _names[ i ] );
 			}
 		}
+	}
+
+	private void letInnerDef( String _name )
+	{
+		if (_name != null) letDict().let( _name, null, INNER_DEF );
+	}
+
+	private void unletInnerDef( String _name )
+	{
+		if (_name != null) letDict().unlet( _name );
 	}
 
 
@@ -560,7 +576,7 @@ abstract class MethodCompiler
 	final Object beginTrackingSetsOfOuterLets()
 	{
 		final Object oldState = this.trackedSetsOfOuterLets;
-		this.trackedSetsOfOuterLets = New.newSet();
+		this.trackedSetsOfOuterLets = New.set();
 		this.letTrackingNestingLevel++;
 		return oldState;
 	}
@@ -576,7 +592,7 @@ abstract class MethodCompiler
 
 	final Set<DelayedLet> trackedSetsOfOuterLets()
 	{
-		return this.trackedSetsOfOuterLets; // No defensive copy here - package internal.
+		return Collections.unmodifiableSet( this.trackedSetsOfOuterLets );
 	}
 
 	final void trackSetOfLet( DelayedLet _let )
@@ -678,6 +694,11 @@ abstract class MethodCompiler
 			return true;
 		}
 
+	}
+
+	static interface GeneratedRef
+	{
+		void compile( ExpressionCompiler _exp ) throws CompilerException;
 	}
 
 }

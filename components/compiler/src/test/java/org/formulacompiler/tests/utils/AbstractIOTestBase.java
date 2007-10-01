@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.compiler.internal.Settings;
 
@@ -40,18 +39,6 @@ import junit.framework.AssertionFailedError;
 
 public abstract class AbstractIOTestBase extends AbstractTestBase
 {
-
-
-	protected CallFrame getInput( String _name ) throws SecurityException, NoSuchMethodException
-	{
-		return new CallFrame( Inputs.class.getMethod( _name ) );
-	}
-
-
-	protected CallFrame getOutput( String _name ) throws SecurityException, NoSuchMethodException
-	{
-		return new CallFrame( Outputs.class.getMethod( _name ) );
-	}
 
 
 	private static final File JAR_PATH = new File( "src/test/data/enginejars/jre-" + jdkVersion() );

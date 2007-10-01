@@ -26,6 +26,7 @@ import java.util.Map;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.runtime.New;
+import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -83,13 +84,32 @@ abstract class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 		_mv.getStatic( runtimeType(), "ONE", ByteCodeEngineCompiler.BIGDECIMAL_CLASS );
 		compileAdjustment( _mv );
 	}
+	
+	@Override
+	protected void compileMinValue( GeneratorAdapter _mv ) throws CompilerException
+	{
+		compileExtremum( _mv );
+	}
 
+	@Override
+	protected void compileMaxValue( GeneratorAdapter _mv ) throws CompilerException
+	{
+		compileExtremum( _mv );
+	}
+	
+	private void compileExtremum( GeneratorAdapter _mv )
+	{
+		_mv.getStatic( runtimeType(), "EXTREMUM", ByteCodeEngineCompiler.BIGDECIMAL_CLASS );
+	}
 
 	@Override
 	protected void compileConst( GeneratorAdapter _mv, Object _value ) throws CompilerException
 	{
 		if (null == _value) {
 			compileZero( _mv );
+		}
+		else if (_value == RuntimeBigDecimal_v2.EXTREMUM) {
+			compileExtremum( _mv );
 		}
 		else if (_value instanceof Number) {
 			String val = _value.toString();
@@ -110,7 +130,7 @@ abstract class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 	}
 
 
-	private final Map<String, String> constantPool = New.newMap();
+	private final Map<String, String> constantPool = New.map();
 
 	/** The max value of a long is 9,223,372,036,854,775,807, so its max precision is 6 * 3 = 18. */
 	private static final int MAX_LONG_PREC = 18;

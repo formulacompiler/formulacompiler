@@ -18,7 +18,7 @@ h2. Reference
 	* "Adding A Primitive Function":-prim
 	* "Adding A High-Level Function":-high
 	* "Adding An Aggregator":-agg
-	* "Adding An Array Computation":-arr
+	* "Adding A Vector Computation":-vec
 	
 	* "House Rules":rules.htm
     * "Package Dependencies":dependencies.htm

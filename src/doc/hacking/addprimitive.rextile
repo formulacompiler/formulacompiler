@@ -16,7 +16,7 @@ Nevertheless, we still need to document that @ABS()@ is, in fact, supported. Fir
 
 h4. Rextile
 
-AFC's documentation is written in "Textile":-tex, a very concise and text editor-friendly format for writing XHTML. To convert the Textile sources to XHTML, we use "Rextile":-rex -- a "Ruby":-rb based tool. You will need to "install it":tools.htm. Once it's installed, you can simply run "ant doc":build.htm to regenerate the documentation in @doc/@ from the sources in @src/doc/@. (It is quicker to run @ant -q doc-main@ if you just want see the updated release notes, and can live with some warnings and missing citations.)
+AFC's documentation is written in "Textile":-tex, a very concise and text editor-friendly format for writing XHTML. To convert the Textile sources to XHTML, we use "Rextile":-rex -- a "Ruby":-rb based tool. You will need to "install it":tools.htm. Once it's installed, you can simply run "ant doc":build.htm to regenerate the documentation in @doc/@ from the sources in @src/doc/@. (It is quicker to run @ant -q doc-main-update@ if you just want see the updated release notes, and can live with some warnings and missing citations.)
 
 
 h2. _Rule 2_: <br/>Cite tests
@@ -28,7 +28,7 @@ h2. Automated Formula Tests
 
 AFC's existing testing and citing infrastructure makes this easy, especially for adding a new spreadsheet function. The spreadsheet files in
 
-	components/system/src/test-reference/data/org/formulacompiler/tests/reference
+	[path:org/formulacompiler/tests/reference]
 	
 contain formula tests. So, to prove we implemented @ABS()@, all we still need to do is add test cases to one of the test sheets.
 
@@ -52,7 +52,7 @@ h2. _Rule 4_: <br/>Implement only what the tests require
 
 This is test-driven development. We implement @ABS()@ by just adding missing code until the tests run. The first step is, then, to run the tests just added (which will fail, of course). Every formula test sheet corresponds to a test class in
 
-	components/system/src/test-reference/java/org.formulacompiler.tests.reference
+	[path:system/src/test-reference/java/org/formulacompiler/tests/reference]
 	
 For the sheet @NumericFunctions.xls@, we need to run the test class @NumericFunctionsTest@. Doing this now (@ant -q test-ref@) returns something like:
 
@@ -69,11 +69,15 @@ h2. Extending The Parser
 
 _Unsupported function encountered_ means AFC's Excel formula parser cannot parse something. So we must make it support @ABS()@ as our first implementation step. The parser is generated from a special parser description language using "JavaCC":-javacc. Its input file is
 
-	components/system/src/build/javacc/ExpressionParser.jj
-	
-To add support for recognizing the @ABS@ function, we simply add the following line where we found @ROUND@ (please keep the list sorted alphabetically):
+	[path:ExpressionParser.jj]
 
-	"ABS" fun1( Function.ABS )
+@ROUND@ looks like this there:
+
+	[text:ExpressionParser.jj:// citation: round]
+
+So we simply add the following line (we keep the list sorted alphabetically and @ABS@ comes first, so it starts with @{@ instead of @|@):
+
+	[text:ExpressionParser.jj:// citation: abs]
 
 Look through the list there to see the different standard options for defining the argument syntax. In particular, @fun1()@ is a unary function, @fun2()@ a binary function, etc. For details on how JavaCC works, please refer to its "grammar documentation":https://javacc.dev.java.net/doc/javaccgrm.html.
 
@@ -101,8 +105,8 @@ AFC is, like @javac@, a byte-code compiler for the JVM(Java Virtual Machine). Bu
 
 Any method you put into the class
 
-	org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForDoubles
-	
+	[path:org/formulacompiler/compiler/internal/templates/ExpressionTemplatesForDoubles.java]
+
 that is called @fun_XY@ is automatically decompiled by AFC's build process to generate a byte-code compiler for expression nodes of the kind @new ExpressionNodeForFunction( Function.XY )@.
 
 h4. Expression Rewriting

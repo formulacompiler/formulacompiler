@@ -22,6 +22,7 @@ package org.formulacompiler.compiler.internal;
 
 public abstract class AbstractLongType extends NumericTypeImpl
 {
+	public static final Long ZERO = Long.valueOf( 0L );
 
 	protected AbstractLongType(int _scale, int _roundingMode)
 	{
@@ -29,7 +30,7 @@ public abstract class AbstractLongType extends NumericTypeImpl
 	}
 
 	@Override
-	public Number getZero()
+	public final Number getZero()
 	{
 		return Long.valueOf( zero() );
 	}
@@ -41,12 +42,28 @@ public abstract class AbstractLongType extends NumericTypeImpl
 	}
 
 	@Override
-	protected Long assertProperNumberType( Number _value )
+	public final Number getMinValue()
+	{
+		return MIN;
+	}
+
+	private static final Long MIN = Long.valueOf( Long.MIN_VALUE );
+
+	@Override
+	public final Number getMaxValue()
+	{
+		return MAX;
+	}
+
+	private static final Long MAX = Long.valueOf( Long.MAX_VALUE );
+
+	@Override
+	protected final Long assertProperNumberType( Number _value )
 	{
 		return (Long) _value;
 	}
 
-	public long zero()
+	public final long zero()
 	{
 		return 0L;
 	}

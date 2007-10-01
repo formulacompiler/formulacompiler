@@ -27,23 +27,26 @@ import java.util.Set;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.Operator;
+import org.formulacompiler.compiler.internal.bytecode.MethodCompiler.GeneratedRef;
 import org.formulacompiler.compiler.internal.bytecode.MethodCompiler.LocalArrayRef;
 import org.formulacompiler.compiler.internal.bytecode.MethodCompiler.LocalRef;
 import org.formulacompiler.compiler.internal.bytecode.MethodCompiler.LocalValueRef;
 import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
 import org.formulacompiler.compiler.internal.expressions.DataType;
+import org.formulacompiler.compiler.internal.expressions.ExpressionBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForDatabaseFold;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFold;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldArray;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDatabase;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldList;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldVectors;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMakeArray;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMaxValue;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMinValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForReduce;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitch;
 import org.formulacompiler.compiler.internal.expressions.InnerExpressionException;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary;
@@ -70,7 +73,7 @@ abstract class ExpressionCompiler
 	protected static final String J2LONG = "(" + LONG_TYPE.getDescriptor() + ")" + LONG_CLASS.getDescriptor();
 	protected static final String LONG2J = "(" + LONG_CLASS.getDescriptor() + ")" + LONG_TYPE.getDescriptor();
 
-	protected static final Object CHAINED_FIRST_ARG = new Object();
+	protected static final Object TOP_OF_STACK = new Object();
 
 	private final MethodCompiler methodCompiler;
 	private final GeneratorAdapter mv;
@@ -186,6 +189,14 @@ abstract class ExpressionCompiler
 		else if (_node instanceof ExpressionNodeForConstantValue) {
 			compileConst( ((ExpressionNodeForConstantValue) _node).value() );
 		}
+		
+		else if (_node instanceof ExpressionNodeForMinValue) {
+			typeCompiler().compileMinValue( mv() );
+		}
+
+		else if (_node instanceof ExpressionNodeForMaxValue) {
+			typeCompiler().compileMaxValue( mv() );
+		}
 
 		else if (_node instanceof ExpressionNodeForCellModel) {
 			compileRef( ((ExpressionNodeForCellModel) _node).getCellModel() );
@@ -206,7 +217,7 @@ abstract class ExpressionCompiler
 		else if (_node instanceof ExpressionNodeForOperator) {
 			final ExpressionNodeForOperator node = (ExpressionNodeForOperator) _node;
 			if (needsIf( node.getOperator() )) {
-				compileIf( node, ExpressionNode.TRUENODE, ExpressionNode.FALSENODE );
+				compileIf( node, ExpressionBuilder.TRUE, ExpressionBuilder.FALSE );
 			}
 			else {
 				compileOperator( node );
@@ -222,12 +233,12 @@ abstract class ExpressionCompiler
 					break;
 
 				case NOT:
-					compileIf( node, ExpressionNode.TRUENODE, ExpressionNode.FALSENODE );
+					compileIf( node, ExpressionBuilder.TRUE, ExpressionBuilder.FALSE );
 					break;
 
 				case AND:
 				case OR:
-					compileIf( node, ExpressionNode.TRUENODE, ExpressionNode.FALSENODE );
+					compileIf( node, ExpressionBuilder.TRUE, ExpressionBuilder.FALSE );
 					break;
 
 				default:
@@ -251,24 +262,20 @@ abstract class ExpressionCompiler
 			compileLetVar( ((ExpressionNodeForLetVar) _node).varName() );
 		}
 
-		else if (_node instanceof ExpressionNodeForFold) {
-			compileFold( (ExpressionNodeForFold) _node );
-		}
-
-		else if (_node instanceof ExpressionNodeForReduce) {
-			compileReduce( (ExpressionNodeForReduce) _node );
-		}
-
-		else if (_node instanceof ExpressionNodeForFoldArray) {
-			compileFoldArray( (ExpressionNodeForFoldArray) _node );
-		}
-
 		else if (_node instanceof ExpressionNodeForMakeArray) {
 			compileMakeArray( (ExpressionNodeForMakeArray) _node );
 		}
 
-		else if (_node instanceof ExpressionNodeForDatabaseFold) {
-			compileDatabaseFold( (ExpressionNodeForDatabaseFold) _node );
+		else if (_node instanceof ExpressionNodeForFoldList) {
+			compileFoldList( (ExpressionNodeForFoldList) _node );
+		}
+
+		else if (_node instanceof ExpressionNodeForFoldVectors) {
+			compileFoldVectors( (ExpressionNodeForFoldVectors) _node );
+		}
+
+		else if (_node instanceof ExpressionNodeForFoldDatabase) {
+			compileFoldDatabase( (ExpressionNodeForFoldDatabase) _node );
 		}
 
 		else {
@@ -639,38 +646,43 @@ abstract class ExpressionCompiler
 	private final void compileLet( ExpressionNodeForLet _node ) throws CompilerException
 	{
 		final String varName = _node.varName();
-		if (_node.isSymbolic()) {
-			throw new IllegalArgumentException( "Cannot compile symbolic lets." );
-		}
-		else if (!_node.shouldCache()) {
-			/*
-			 * Note: Used internally to pass outer values as single-eval method arguments to helper
-			 * methods by wrapping the construct in a series of LETs. The closure then automatically
-			 * declares the parameters and passes the values to them.
-			 */
-			letDict().let( varName, _node.value().getDataType(), _node.value() );
-			try {
-				compile( _node.in() );
-			}
-			finally {
-				letDict().unlet( varName );
-			}
-		}
-		else {
-			/*
-			 * Note: It is important to allocate the local here rather than at the point of first
-			 * evaluation. Otherwise it could get reused when the first evaluation is within a local
-			 * scope.
-			 */
-			final LocalRef local = compileNewLocal( method().isArray( _node.value() ) );
-			letDict().let( varName, _node.value().getDataType(),
-					new DelayedLet( varName, local, _node.value(), method().letTrackingNestingLevel() ) );
-			try {
-				compile( _node.in() );
-			}
-			finally {
-				letDict().unlet( varName );
-			}
+		switch (_node.type()) {
+
+			case BYVAL:
+				/*
+				 * Note: It is important to allocate the local here rather than at the point of first
+				 * evaluation. Otherwise it could get reused when the first evaluation is within a local
+				 * scope.
+				 */
+				final LocalRef local = compileNewLocal( method().isArray( _node.value() ) );
+				letDict().let( varName, _node.value().getDataType(),
+						new DelayedLet( varName, local, _node.value(), method().letTrackingNestingLevel() ) );
+				try {
+					compile( _node.in() );
+				}
+				finally {
+					letDict().unlet( varName );
+				}
+				break;
+
+			case BYNAME:
+				/*
+				 * Note: Used internally to pass outer values as single-eval method arguments to helper
+				 * methods by wrapping the construct in a series of LETs. The closure then automatically
+				 * declares the parameters and passes the values to them.
+				 */
+				letDict().let( varName, _node.value().getDataType(), _node.value() );
+				try {
+					compile( _node.in() );
+				}
+				finally {
+					letDict().unlet( varName );
+				}
+				break;
+
+			default:
+				throw new CompilerException.UnsupportedExpression( "Cannot compile this type of LET." );
+
 		}
 	}
 
@@ -687,7 +699,7 @@ abstract class ExpressionCompiler
 
 	final void compileLetValue( String _name, Object _value ) throws CompilerException
 	{
-		if (_value == CHAINED_FIRST_ARG) {
+		if (_value == TOP_OF_STACK) {
 			// ignore
 		}
 		else if (_value instanceof ExpressionNode) {
@@ -710,12 +722,15 @@ abstract class ExpressionCompiler
 		else if (_value instanceof LocalRef) {
 			compileLoadLocal( (LocalRef) _value );
 		}
+		else if (_value instanceof GeneratedRef) {
+			((GeneratedRef) _value).compile( this );
+		}
 		else {
 			throw new CompilerException.NameNotFound( "The variable " + _name + " is not bound in this context." );
 		}
 	}
 
-	private final Set<String> forbiddenLetVars = New.newSet();
+	private final Set<String> forbiddenLetVars = New.set();
 
 
 	protected final LocalRef compileStoreToNewLocal( boolean _isArray )
@@ -777,107 +792,6 @@ abstract class ExpressionCompiler
 	}
 
 
-	private final void compileFold( ExpressionNodeForFold _node ) throws CompilerException
-	{
-		final FoldContext foldContext = new FoldContext( _node, section().engineCompiler() );
-		if (isSubSectionIn( _node.elements() )) {
-			final Iterable<LetEntry> closure = closureOf( _node );
-			compileHelpedExpr( new HelperCompilerForIterativeFold( sectionInContext(), _node.elements(), foldContext,
-					closure ), closure );
-		}
-		else if (_node.mayReduce()) {
-			final Iterable<ExpressionNode> elts = _node.elements();
-			final ExpressionNode first = firstStaticElementIn( elts );
-			compile( first );
-			compileChainedFoldOverNonRepeatingElements( foldContext, elts, first );
-		}
-		else {
-			compile( _node.initialAccumulatorValue() );
-			compileChainedFoldOverNonRepeatingElements( foldContext, _node.elements(), null );
-		}
-	}
-
-	private final void compileReduce( ExpressionNodeForReduce _node ) throws CompilerException
-	{
-		final FoldContext foldContext = new FoldContext( _node, section().engineCompiler() );
-		if (isSubSectionIn( _node.elements() )) {
-			final Iterable<LetEntry> closure = closureOf( _node );
-			compileHelpedExpr( new HelperCompilerForIterativeReduce( sectionInContext(), _node.elements(), foldContext,
-					closure ), closure );
-		}
-		else {
-			final Iterable<ExpressionNode> elts = foldContext.node.elements();
-			final ExpressionNode first = firstStaticElementIn( elts );
-			compile( first );
-			compileChainedFoldOverNonRepeatingElements( foldContext, elts, first );
-		}
-	}
-
-	private final void compileFoldArray( ExpressionNodeForFoldArray _node ) throws CompilerException
-	{
-		final FoldContext foldContext = new FoldContext( _node, section().engineCompiler() );
-		final Iterable<LetEntry> closure = closureOf( _node );
-		compileHelpedExpr( new HelperCompilerForArrayFold( sectionInContext(), _node.array(), foldContext, closure ),
-				closure );
-	}
-
-	final boolean isSubSectionIn( Iterable<ExpressionNode> _elts )
-	{
-		for (ExpressionNode elt : _elts) {
-			if (elt instanceof ExpressionNodeForSubSectionModel) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	final ExpressionNode firstStaticElementIn( Iterable<ExpressionNode> _elts )
-	{
-		for (ExpressionNode elt : _elts) {
-			if (!(elt instanceof ExpressionNodeForSubSectionModel)) {
-				return elt;
-			}
-		}
-		return null;
-	}
-
-	final void compileChainedFoldOverNonRepeatingElements( FoldContext _context, Iterable<ExpressionNode> _elts,
-			ExpressionNode _except ) throws CompilerException
-	{
-		final String accName = _context.node.accumulatorName();
-		letDict().let( accName, _context.node.initialAccumulatorValue().getDataType(), CHAINED_FIRST_ARG );
-		try {
-			final int reuseLocalsAt = localsOffset();
-			for (final ExpressionNode elt : _elts) {
-				if ((elt != _except) && !(elt instanceof ExpressionNodeForSubSectionModel)) {
-					resetLocalsTo( reuseLocalsAt );
-					compileElementFold( _context, elt );
-				}
-			}
-		}
-		finally {
-			letDict().unlet( accName );
-		}
-	}
-
-	final void compileElementFold( FoldContext _context, ExpressionNode _elt ) throws CompilerException
-	{
-		compileElementAccess( _context, _context.node.elementName(), _elt, _context.node.accumulatingStep() );
-	}
-
-	final void compileElementAccess( FoldContext _context, String _eltName, ExpressionNode _elt, ExpressionNode _expr )
-			throws CompilerException
-	{
-		letDict().let( _eltName, _elt.getDataType(), _elt );
-		try {
-			compile( _expr );
-		}
-		finally {
-			letDict().unlet( _eltName );
-		}
-	}
-
-
 	private final void compileMakeArray( ExpressionNodeForMakeArray _node ) throws CompilerException
 	{
 		compileArray( _node.argument( 0 ) );
@@ -917,18 +831,6 @@ abstract class ExpressionCompiler
 	protected abstract void compile_scanArray( ForEachElementCompilation _forElement ) throws CompilerException;
 
 
-	protected static interface ForEachElementWithFirstCompilation
-	{
-		void compileIsFirst() throws CompilerException;
-		void compileHaveFirst() throws CompilerException;
-		void compileFirst( int _xi ) throws CompilerException;
-		void compileElement( int _xi ) throws CompilerException;
-	}
-
-	protected abstract void compile_scanArrayWithFirst( ForEachElementWithFirstCompilation _forElement )
-			throws CompilerException;
-
-
 	protected final void compileArray( ExpressionNode _arrayNode ) throws CompilerException
 	{
 		final GeneratorAdapter mv = mv();
@@ -948,12 +850,43 @@ abstract class ExpressionCompiler
 	protected abstract int arrayStoreOpcode();
 
 
-	private final void compileDatabaseFold( ExpressionNodeForDatabaseFold _node ) throws CompilerException
+	private final void compileFoldList( ExpressionNodeForFoldList _node ) throws CompilerException
 	{
-		final FoldContext foldContext = new FoldContext( _node, section().engineCompiler() );
+		if (ChainedFoldCompiler.isChainable( _node.fold() )) {
+			if (new ChainedFoldCompiler( this, _node ).compile()) {
+				return;
+			}
+			if (!_node.fold().isSpecialWhenEmpty()) {
+				final Iterable<LetEntry> closure = closureOf( _node );
+				compileHelpedExpr( new HelperCompilerForFoldChained( sectionInContext(), _node, closure ), closure );
+				return;
+			}
+		}
 		final Iterable<LetEntry> closure = closureOf( _node );
-		compileHelpedExpr( new HelperCompilerForDatabaseFold( sectionInContext(), _node, foldContext, closure ), closure );
+		compileHelpedExpr( new HelperCompilerForFoldList( sectionInContext(), _node, closure ), closure );
 	}
 
+	private final void compileFoldVectors( ExpressionNodeForFoldVectors _node ) throws CompilerException
+	{
+		final Iterable<LetEntry> closure = closureOf( _node );
+		compileHelpedExpr( new HelperCompilerForFoldVectors( sectionInContext(), _node, closure ), closure );
+	}
+
+	private final void compileFoldDatabase( ExpressionNodeForFoldDatabase _node ) throws CompilerException
+	{
+		final Iterable<LetEntry> closure = closureOf( _node );
+		compileHelpedExpr( new HelperCompilerForFoldDatabase( sectionInContext(), _node, closure ), closure );
+	}
+
+
+	static final boolean isSubSectionIn( Iterable<ExpressionNode> _elts )
+	{
+		for (ExpressionNode elt : _elts) {
+			if (elt instanceof ExpressionNodeForSubSectionModel) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }
