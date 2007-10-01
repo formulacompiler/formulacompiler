@@ -35,7 +35,7 @@ final class InlinedCellRemover extends AbstractComputationModelVisitor
 	@Override
 	protected boolean visitSection( SectionModel _band )
 	{
-		Collection<CellModel> cellsToRemove = New.newCollection( _band.getCells().size() );
+		Collection<CellModel> cellsToRemove = New.collection( _band.getCells().size() );
 		for (CellModel cell : _band.getCells()) {
 			if (IntermediateResultsInliner.isInlineable( cell )) {
 				cellsToRemove.add( cell );

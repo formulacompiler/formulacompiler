@@ -35,17 +35,17 @@ import org.formulacompiler.runtime.FormulaCompilerException;
 public class CompilerException extends FormulaCompilerException
 {
 
-	public CompilerException(String _message)
+	public CompilerException( String _message )
 	{
 		super( _message );
 	}
 
-	public CompilerException(String _message, Throwable _cause)
+	public CompilerException( String _message, Throwable _cause )
 	{
 		super( _message, _cause );
 	}
 
-	public CompilerException(Throwable _cause)
+	public CompilerException( Throwable _cause )
 	{
 		super( _cause );
 	}
@@ -64,12 +64,12 @@ public class CompilerException extends FormulaCompilerException
 	public static class NameNotFound extends RuntimeException
 	{
 
-		public NameNotFound(String _message)
+		public NameNotFound( String _message )
 		{
 			super( _message );
 		}
 
-		public NameNotFound(String _message, Throwable _cause)
+		public NameNotFound( String _message, Throwable _cause )
 		{
 			super( _message, _cause );
 		}
@@ -86,7 +86,7 @@ public class CompilerException extends FormulaCompilerException
 	public static class DuplicateDefinition extends CompilerException
 	{
 
-		public DuplicateDefinition(String _message)
+		public DuplicateDefinition( String _message )
 		{
 			super( _message );
 		}
@@ -102,7 +102,7 @@ public class CompilerException extends FormulaCompilerException
 	public static class UnsupportedOperator extends CompilerException
 	{
 
-		public UnsupportedOperator(String _message)
+		public UnsupportedOperator( String _message )
 		{
 			super( _message );
 		}
@@ -118,12 +118,12 @@ public class CompilerException extends FormulaCompilerException
 	public static class UnsupportedExpression extends CompilerException
 	{
 
-		public UnsupportedExpression(String _message)
+		public UnsupportedExpression( String _message )
 		{
 			super( _message );
 		}
 
-		public UnsupportedExpression(Throwable _cause)
+		public UnsupportedExpression( Throwable _cause )
 		{
 			super( _cause.getMessage(), _cause );
 		}
@@ -141,7 +141,7 @@ public class CompilerException extends FormulaCompilerException
 	public static class UnsupportedDataType extends CompilerException
 	{
 
-		public UnsupportedDataType(String _message)
+		public UnsupportedDataType( String _message )
 		{
 			super( _message );
 		}
@@ -158,7 +158,7 @@ public class CompilerException extends FormulaCompilerException
 	public static class ConstructorMissing extends CompilerException
 	{
 
-		public ConstructorMissing(String _message, Throwable _cause)
+		public ConstructorMissing( String _message, Throwable _cause )
 		{
 			super( _message, _cause );
 		}
@@ -174,14 +174,14 @@ public class CompilerException extends FormulaCompilerException
 	public static final class FactoryMethodMissing extends CompilerException
 	{
 
-		public FactoryMethodMissing(Class _factoryClass, Class _inputClass, Class _outputClass)
+		public FactoryMethodMissing( Class _factoryClass, Class _inputClass, Class _outputClass )
 		{
 			super( "The factory class '"
 					+ _factoryClass + "' does not have a suitable factory method prototype '" + _outputClass + " <method>( "
 					+ _inputClass + " )'" );
 		}
 
-		public FactoryMethodMissing(Class _factoryClass)
+		public FactoryMethodMissing( Class _factoryClass )
 		{
 			super( "The factory class '"
 					+ _factoryClass + "' does not have a suitable factory method prototype '<output> <method>( <input> )'" );
@@ -198,7 +198,7 @@ public class CompilerException extends FormulaCompilerException
 	public static final class MethodNotImplemented extends CompilerException
 	{
 
-		public MethodNotImplemented(Method _m)
+		public MethodNotImplemented( Method _m )
 		{
 			super( "The abstract method '"
 					+ _m + "' is not implemented; you should bind it to an element (cell or section)" );
@@ -272,7 +272,7 @@ public class CompilerException extends FormulaCompilerException
 	public static class SectionOrientation extends CompilerException
 	{
 
-		public SectionOrientation(String _message)
+		public SectionOrientation( String _message )
 		{
 			super( _message );
 		}
@@ -288,31 +288,54 @@ public class CompilerException extends FormulaCompilerException
 	public static class UnsupportedExpressionSource extends CompilerException
 	{
 
+		private static final int CONTEXT_CHARS = 100;
+
 		private static String addPositionInfoTo( String _message, String _source, int _atPosition )
 		{
 			int at = _atPosition;
 			if (at < 0) at = 0;
 			if (at >= _source.length()) at = _source.length() - 1;
-			final String sourceBeforeError = _source.substring( 0, at );
-			final String sourceAfterError = _source.substring( at );
+			final String leadingEllipsis = (at > CONTEXT_CHARS)? "..." : "";
+			final String sourceBeforeError = _source.substring( Math.max( at - CONTEXT_CHARS, 0 ), at );
+			final String sourceAfterError = (at < _source.length())? _source.substring( at, Math.min( at + CONTEXT_CHARS,
+					_source.length() ) ) : "";
+			final String finalEllipsis = (at + CONTEXT_CHARS < _source.length())? "..." : "";
 
 			StringBuilder result = new StringBuilder( _message );
-			result.append( " in expression " ).append( sourceBeforeError ).append( " <<? " ).append( sourceAfterError )
-					.append( "; error location indicated by <<?." );
+			result.append( " in expression " ).append( leadingEllipsis ).append( sourceBeforeError ).append( " <<? " )
+					.append( sourceAfterError ).append( finalEllipsis ).append( "; error location indicated by <<?." );
 			return result.toString();
 		}
 
 
-		public UnsupportedExpressionSource(Throwable _originalError, String _source, int _atPosition)
+		public UnsupportedExpressionSource( Throwable _originalError, String _source, int _atPosition )
 		{
 			super( addPositionInfoTo( _originalError.getMessage(), _source, _atPosition ), _originalError );
 		}
 
-		public UnsupportedExpressionSource(String _message, String _source, int _atPosition)
+		public UnsupportedExpressionSource( String _message, String _source, int _atPosition )
 		{
 			super( addPositionInfoTo( _message, _source, _atPosition ) );
 		}
 
 	}
 
+
+	/**
+	 * You aggregated two parallel vectors (using {@code COVAR}, for example), but they cross
+	 * different subsections, or cross them differently.
+	 * 
+	 * @author peo
+	 */
+	public static class ParallelVectorsSpanDifferentSubSections extends CompilerException
+	{
+
+		public ParallelVectorsSpanDifferentSubSections( String _message )
+		{
+			super( _message );
+		}
+
+	}
+	
+	
 }

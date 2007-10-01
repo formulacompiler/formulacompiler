@@ -34,12 +34,12 @@ public final class ExpressionNodeForMakeArray extends ExpressionNode
 		super();
 	}
 
-	public ExpressionNodeForMakeArray(Collection _args)
+	public ExpressionNodeForMakeArray( Collection<ExpressionNode> _args )
 	{
 		super( _args );
 	}
 
-	public ExpressionNodeForMakeArray(ExpressionNode... _args)
+	public ExpressionNodeForMakeArray( ExpressionNode... _args )
 	{
 		super( _args );
 	}
@@ -51,20 +51,20 @@ public final class ExpressionNodeForMakeArray extends ExpressionNode
 		return new ExpressionNodeForMakeArray();
 	}
 
-	
+
 	@Override
 	protected int countValuesCore( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
 	{
 		return countArgumentValues( _letDict, _uncountables );
 	}
-	
+
 	@Override
 	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
 	{
 		throw new AbstractMethodError();
 	}
 
-	
+
 	@Override
 	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{

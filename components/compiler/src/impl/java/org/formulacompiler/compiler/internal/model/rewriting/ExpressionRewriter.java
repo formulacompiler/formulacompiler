@@ -20,6 +20,9 @@
  */
 package org.formulacompiler.compiler.internal.model.rewriting;
 
+import static org.formulacompiler.compiler.Function.*;
+import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
+
 import java.util.List;
 
 import org.formulacompiler.compiler.CompilerException;
@@ -29,9 +32,8 @@ import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDefinition;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitch;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitchCase;
 import org.formulacompiler.compiler.internal.expressions.InnerExpressionException;
@@ -43,19 +45,15 @@ import org.formulacompiler.runtime.New;
 
 final class ExpressionRewriter extends AbstractExpressionRewriter
 {
-	private static final ExpressionNodeForConstantValue ZERO_NODE = new ExpressionNodeForConstantValue( 0 );
-	private static final ExpressionNodeForConstantValue ONE_NODE = new ExpressionNodeForConstantValue( 1 );
-	private static final ExpressionNodeForConstantValue EMPTY_STRING_NODE = new ExpressionNodeForConstantValue( "",
-			DataType.STRING );
 	private final GeneratedFunctionRewriter generatedRules;
 	private final InterpretedNumericType numericType;
 
 
-	public ExpressionRewriter( InterpretedNumericType _type )
+	public ExpressionRewriter( InterpretedNumericType _type, NameSanitizer _sanitizer )
 	{
-		super();
+		super( _sanitizer );
 		this.numericType = _type;
-		this.generatedRules = new GeneratedFunctionRewriter();
+		this.generatedRules = new GeneratedFunctionRewriter( _sanitizer );
 	}
 
 
@@ -132,30 +130,43 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 	private ExpressionNode rewriteFunOnce( ExpressionNodeForFunction _fun ) throws CompilerException
 	{
 		switch (_fun.getFunction()) {
-			case DSUM:
-				return new FunctionRewriterForDSUM( model(), _fun, this.numericType ).rewrite();
-			case DPRODUCT:
-				return new FunctionRewriterForDPRODUCT( model(), _fun, this.numericType ).rewrite();
+
 			case DCOUNT:
-				return new FunctionRewriterForDCOUNT( model(), _fun, this.numericType ).rewrite();
+			case DCOUNTA:
+				return rewriteDAgg( _fun, fold_count() );
+			case DSUM:
+				return rewriteDAgg( _fun, this.generatedRules.fold_sum() );
+			case DPRODUCT:
+				return rewriteDAgg( _fun, this.generatedRules.fold_product() );
 			case DMIN:
-				return new FunctionRewriterForDMIN( model(), _fun, this.numericType ).rewrite();
+				return rewriteDAgg( _fun, this.generatedRules.fold_min() );
 			case DMAX:
-				return new FunctionRewriterForDMAX( model(), _fun, this.numericType ).rewrite();
+				return rewriteDAgg( _fun, this.generatedRules.fold_max() );
+			case DAVERAGE:
+				return rewriteDAgg( _fun, this.generatedRules.fold_average() );
+			case DVARP:
+				return rewriteDAgg( _fun, this.generatedRules.fold_varp() );
+			case DVAR:
+				return rewriteDAgg( _fun, this.generatedRules.fold_var() );
+			case DSTDEVP:
+				return fun( Function.SQRT, rewriteDAgg( _fun, this.generatedRules.fold_varp() ) );
+			case DSTDEV:
+				return fun( Function.SQRT, rewriteDAgg( _fun, this.generatedRules.fold_var() ) );
+
 			case ISNONTEXT: {
 				final ExpressionNode arg = _fun.argument( 0 );
 				TypeAnnotator.annotateExpr( arg );
-				return DataType.STRING != arg.getDataType()? ExpressionNode.TRUENODE : ExpressionNode.FALSENODE;
+				return DataType.STRING != arg.getDataType()? TRUE : FALSE;
 			}
 			case ISNUMBER: {
 				final ExpressionNode arg = _fun.argument( 0 );
 				TypeAnnotator.annotateExpr( arg );
-				return DataType.NUMERIC == arg.getDataType()? ExpressionNode.TRUENODE : ExpressionNode.FALSENODE;
+				return DataType.NUMERIC == arg.getDataType()? TRUE : FALSE;
 			}
 			case ISTEXT: {
 				final ExpressionNode arg = _fun.argument( 0 );
 				TypeAnnotator.annotateExpr( arg );
-				return DataType.STRING == arg.getDataType()? ExpressionNode.TRUENODE : ExpressionNode.FALSENODE;
+				return DataType.STRING == arg.getDataType()? TRUE : FALSE;
 			}
 			case VALUE: {
 				final ExpressionNode arg = _fun.argument( 0 );
@@ -172,7 +183,7 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 					return arg;
 				}
 				else {
-					return new ExpressionNodeForConstantValue( this.numericType.zero(), DataType.NUMERIC );
+					return ZERO;
 				}
 			}
 			case T: {
@@ -182,7 +193,7 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 					return arg;
 				}
 				else {
-					return EMPTY_STRING_NODE;
+					return EMPTY_STRING;
 				}
 			}
 			case TEXT: {
@@ -193,15 +204,14 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 				}
 				break;
 			}
+
 			case LOOKUP: {
 				switch (_fun.cardinality()) {
 					case 2:
 						return rewriteArrayLookup( _fun );
-
 					case 3:
 					case 4:
 						return rewriteVectorLookup( _fun );
-
 				}
 				break;
 			}
@@ -218,24 +228,40 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 	}
 
 
+	private ExpressionNode rewriteDAgg( ExpressionNodeForFunction _fun, ExpressionNode _fold ) throws CompilerException
+	{
+		return new FunctionRewriterForDatabaseFold( model(), _fun, this.numericType, sanitizer(), _fold ).rewrite();
+	}
+
+
+	private static final String[] NO_NAMES = new String[ 0 ];
+	private static final ExpressionNode[] NO_EXPRS = new ExpressionNode[ 0 ];
+
+	private ExpressionNode fold_count()
+	{
+		return new ExpressionNodeForFoldDefinition( NO_NAMES, NO_EXPRS, null, New.array( "xi" ), NO_EXPRS, "n",
+				var( "n" ), ZERO, true, true );
+	}
+
+
 	/**
 	 * Rewrites {@code LOOKUP( x, xs, ys [,type] )} to {@code INDEX( ys, MATCH( x, xs [,type] ))}.
 	 */
 	private ExpressionNode rewriteVectorLookup( ExpressionNodeForFunction _fun )
 	{
 		// LATER Don't rewrite when over large repeating sections.
-		final ExpressionNode match;
-		final ExpressionNode x = _fun.argument( 0 );
-		final ExpressionNode xs = _fun.argument( 1 );
-		final ExpressionNode ys = _fun.argument( 2 );
+		final ExpressionNode x, xs, ys, match;
+		x = _fun.argument( 0 );
+		xs = _fun.argument( 1 );
+		ys = _fun.argument( 2 );
 		if (_fun.cardinality() >= 4) {
 			final ExpressionNode type = _fun.argument( 3 );
-			match = new ExpressionNodeForFunction( Function.INTERNAL_MATCH_INT, x, xs, type );
+			match = fun( INTERNAL_MATCH_INT, x, xs, type );
 		}
 		else {
-			match = new ExpressionNodeForFunction( Function.INTERNAL_MATCH_INT, x, xs );
+			match = fun( INTERNAL_MATCH_INT, x, xs );
 		}
-		return new ExpressionNodeForFunction( Function.INDEX, ys, match );
+		return fun( INDEX, ys, match );
 	}
 
 
@@ -248,15 +274,14 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 		final Function lookupFun;
 		final int index;
 		if (cols > rows) {
-			lookupFun = Function.HLOOKUP;
+			lookupFun = HLOOKUP;
 			index = rows;
 		}
 		else {
-			lookupFun = Function.VLOOKUP;
+			lookupFun = VLOOKUP;
 			index = cols;
 		}
-		return new ExpressionNodeForFunction( lookupFun, _fun.argument( 0 ), _fun.argument( 1 ),
-				new ExpressionNodeForConstantValue( index ), ONE_NODE );
+		return fun( lookupFun, _fun.argument( 0 ), _fun.argument( 1 ), cst( index, DataType.NUMERIC ), ONE );
 	}
 
 
@@ -269,8 +294,7 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 		final ExpressionNode lookupArrayNode = getHVLookupSubArray( fun, arrayNode, 0 );
 
 		final ExpressionNode matchNode;
-		final Function matchFun = (indexNode instanceof ExpressionNodeForConstantValue)? Function.INTERNAL_MATCH_INT
-				: Function.MATCH;
+		final Function matchFun = (indexNode instanceof ExpressionNodeForConstantValue)? INTERNAL_MATCH_INT : MATCH;
 		if (_fun.cardinality() >= 4) {
 			final ExpressionNode typeNode = _fun.argument( 3 );
 			matchNode = new ExpressionNodeForFunction( matchFun, valueNode, lookupArrayNode, typeNode );
@@ -283,26 +307,24 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 			final ExpressionNodeForConstantValue constIndex = (ExpressionNodeForConstantValue) indexNode;
 			final int index = this.numericType.toInt( constIndex.value(), -1 ) - 1;
 			final ExpressionNode valueArrayNode = getHVLookupSubArray( fun, arrayNode, index );
-			return new ExpressionNodeForFunction( Function.INDEX, valueArrayNode, matchNode );
+			return fun( INDEX, valueArrayNode, matchNode );
 		}
 		else {
 			final String matchRefName = "x";
-			final ExpressionNode matchRefNode = new ExpressionNodeForLetVar( matchRefName );
+			final ExpressionNode matchRefNode = var( matchRefName );
 			final ExpressionNode selectorNode = indexNode;
-			final ExpressionNode defaultNode = ZERO_NODE;
+			final ExpressionNode defaultNode = ZERO;
 
 			final ArrayDescriptor desc = arrayNode.arrayDescriptor();
-			final int nArrays = (fun == Function.HLOOKUP)? desc.numberOfRows() : desc.numberOfColumns();
+			final int nArrays = (fun == HLOOKUP)? desc.numberOfRows() : desc.numberOfColumns();
 			final ExpressionNodeForSwitchCase[] caseNodes = new ExpressionNodeForSwitchCase[ nArrays ];
 			for (int iArray = 0; iArray < nArrays; iArray++) {
 				final ExpressionNode valueArrayNode = getHVLookupSubArray( fun, arrayNode, iArray );
-				final ExpressionNode lookupNode = new ExpressionNodeForFunction( Function.INDEX, valueArrayNode,
-						matchRefNode );
+				final ExpressionNode lookupNode = fun( INDEX, valueArrayNode, matchRefNode );
 				caseNodes[ iArray ] = new ExpressionNodeForSwitchCase( lookupNode, iArray + 1 );
 			}
 			final ExpressionNode switchNode = new ExpressionNodeForSwitch( selectorNode, defaultNode, caseNodes );
-			final ExpressionNodeForLet matchLetNode = new ExpressionNodeForLet( matchRefName, matchNode, switchNode );
-			matchLetNode.setShouldCache( false ); // passed as a param to switch helper just once
+			final ExpressionNode matchLetNode = letByName( matchRefName, matchNode, switchNode );
 			return matchLetNode;
 		}
 	}
@@ -310,7 +332,7 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 	private ExpressionNode getHVLookupSubArray( Function _fun, ExpressionNodeForArrayReference _arrayNode, int _index )
 	{
 		final ArrayDescriptor desc = _arrayNode.arrayDescriptor();
-		if (_fun == Function.HLOOKUP) {
+		if (_fun == HLOOKUP) {
 			final int cols = desc.numberOfColumns();
 			return _arrayNode.subArray( _index, 1, 0, cols );
 		}
@@ -326,14 +348,13 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 	 */
 	private ExpressionNode rewriteIndex( ExpressionNodeForFunction _fun )
 	{
-		final List<ExpressionNode> newArgs = New.newList();
+		final List<ExpressionNode> newArgs = New.list();
 		newArgs.addAll( _fun.arguments() );
 		boolean rewritten = false;
 		for (int iArg = 1; iArg <= 2 && iArg < _fun.cardinality(); iArg++) {
 			final ExpressionNode arg = _fun.argument( iArg );
-			if (arg instanceof ExpressionNodeForFunction
-					&& ((ExpressionNodeForFunction) arg).getFunction() == Function.MATCH) {
-				final ExpressionNode newArg = new ExpressionNodeForFunction( Function.INTERNAL_MATCH_INT );
+			if (arg instanceof ExpressionNodeForFunction && ((ExpressionNodeForFunction) arg).getFunction() == MATCH) {
+				final ExpressionNode newArg = fun( INTERNAL_MATCH_INT );
 				newArg.arguments().addAll( arg.arguments() );
 				newArgs.set( iArg, newArg );
 				rewritten = true;
@@ -353,7 +374,7 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 	 */
 	private ExpressionNode rewriteChoose( ExpressionNodeForFunction _fun )
 	{
-		final ExpressionNodeForSwitch result = new ExpressionNodeForSwitch( _fun.argument( 0 ), ZERO_NODE );
+		final ExpressionNodeForSwitch result = new ExpressionNodeForSwitch( _fun.argument( 0 ), ZERO );
 		for (int iCase = 1; iCase < _fun.cardinality(); iCase++) {
 			result.addArgument( new ExpressionNodeForSwitchCase( _fun.argument( iCase ), iCase ) );
 		}

@@ -7,11 +7,11 @@
  xmlns:html="http://www.w3.org/TR/REC-html40">
  <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
   <Author>Peter Arrenbrecht</Author>
-  <LastAuthor>vkorenev</LastAuthor>
+  <LastAuthor>Peter Arrenbrecht</LastAuthor>
   <Created>2005-11-22T20:05:38Z</Created>
-  <LastSaved>2007-08-28T09:01:31Z</LastSaved>
+  <LastSaved>2007-10-01T15:07:03Z</LastSaved>
   <Company>Opus Software AG</Company>
-  <Version>11.8132</Version>
+  <Version>11.9999</Version>
  </DocumentProperties>
  <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
   <WindowHeight>13905</WindowHeight>
@@ -52,7 +52,7 @@
   <NamedRange ss:Name="ProductRange" ss:RefersTo="=Sheet1!R23C3:R23C5"/>
  </Names>
  <Worksheet ss:Name="Sheet1">
-  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="197" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="202" x:FullColumns="1"
    x:FullRows="1" ss:DefaultColumnWidth="54">
    <Column ss:Width="71.25"/>
    <Column ss:Width="85.5"/>
@@ -1388,6 +1388,40 @@
          html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
+   <Row ss:Index="199">
+    <Cell><Data ss:Type="Number">0.66666666666666663</Data></Cell>
+    <Cell ss:Formula="=COVAR(RC[1]:RC[3],RC[4]:RC[6])"><Data ss:Type="Number">0.66666666666666663</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="String">COVAR</Data></Cell>
+    <Cell><Data ss:Type="String">COVAR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">-0.1111111111111111</Data></Cell>
+    <Cell ss:Formula="=COVAR(RC[1]:RC[3],RC[4]:RC[6])"><Data ss:Type="Number">-0.1111111111111111</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="202">
+    <Cell><Data ss:Type="Number">0.25</Data></Cell>
+    <Cell ss:Formula="=COVAR(RC[1]:RC[2],RC[3]:RC[4])"><Data ss:Type="Number">0.25</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
   </Table>
   <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
    <Print>
@@ -1397,19 +1431,19 @@
     <VerticalResolution>600</VerticalResolution>
    </Print>
    <Selected/>
-   <TopRowVisible>21</TopRowVisible>
+   <TopRowVisible>159</TopRowVisible>
    <Panes>
     <Pane>
      <Number>3</Number>
-     <ActiveRow>62</ActiveRow>
-     <ActiveCol>8</ActiveCol>
+     <ActiveRow>198</ActiveRow>
+     <ActiveCol>10</ActiveCol>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>
    <ProtectScenarios>False</ProtectScenarios>
   </WorksheetOptions>
   <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
-   <Range>R2C3:R200C9</Range>
+   <Range>R2C3:R200C9,R202C3:R202C9</Range>
    <Condition>
     <Value1>RC10&gt;COLUMN(RC)-3</Value1>
     <Format Style='background:#CCFFCC'/>

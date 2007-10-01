@@ -35,7 +35,7 @@ public abstract class ElementModel extends AbstractDescribable
 	private String name;
 	private String originalName;
 	private CallFrame callChainToCall;
-	private final Collection<CallFrame> callsToImplement = New.newCollection();
+	private final Collection<CallFrame> callsToImplement = New.collection();
 
 
 	public ElementModel(SectionModel _section, String _name)

@@ -38,7 +38,7 @@ public class ByteCodeEngine extends ClassLoader implements Engine
 	public static final String GEN_PACKAGE_NAME = "org.formulacompiler.gen.";
 	public static final String GEN_FACTORY_NAME = "$Factory";
 
-	private final Map<String, byte[]> classNamesAndBytes = New.newMap();
+	private final Map<String, byte[]> classNamesAndBytes = New.map();
 	private final Class<ComputationFactory> factoryClass;
 	private final Constructor<ComputationFactory> factoryConstructor;
 	private final ComputationFactory defaultFactory;

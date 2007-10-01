@@ -7,11 +7,11 @@
  xmlns:html="http://www.w3.org/TR/REC-html40">
  <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
   <Author>Peter Arrenbrecht</Author>
-  <LastAuthor>vkorenev</LastAuthor>
+  <LastAuthor>Peter Arrenbrecht</LastAuthor>
   <Created>2005-11-22T20:05:38Z</Created>
-  <LastSaved>2007-08-22T14:02:47Z</LastSaved>
+  <LastSaved>2007-09-28T14:00:10Z</LastSaved>
   <Company>Opus Software AG</Company>
-  <Version>11.8132</Version>
+  <Version>11.9999</Version>
  </DocumentProperties>
  <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
   <WindowHeight>13905</WindowHeight>
@@ -58,6 +58,11 @@
    <Borders/>
    <Font ss:FontName="Verdana" x:Family="Swiss" ss:Italic="1"/>
   </Style>
+  <Style ss:ID="s27">
+   <Borders/>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Italic="1" ss:Underline="Single"/>
+   <Interior/>
+  </Style>
  </Styles>
  <Names>
   <NamedRange ss:Name="BaseData" ss:RefersTo="=Sheet1!R2C1:R18C7"/>
@@ -67,7 +72,7 @@
   <NamedRange ss:Name="Vals2" ss:RefersTo="=Sheet1!R15C5:R15C7"/>
  </Names>
  <Worksheet ss:Name="Sheet1">
-  <Table ss:ExpandedColumnCount="8" ss:ExpandedRowCount="45" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="9" ss:ExpandedRowCount="63" x:FullColumns="1"
    x:FullRows="1" ss:DefaultColumnWidth="54">
    <Column ss:AutoFitWidth="0" ss:Width="98.25"/>
    <Column ss:Index="3" ss:AutoFitWidth="0" ss:Width="84.75"/>
@@ -221,6 +226,7 @@
       ss:Name="TestHeader"/></Cell>
     <Cell ss:StyleID="s23"><Data ss:Type="String">Highlight</Data><NamedCell
       ss:Name="TestHeader"/></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="String">Excel says</Data></Cell>
    </Row>
    <Row ss:Index="23">
     <Cell ss:Index="2"><Data ss:Type="Number">247.8</Data></Cell>
@@ -319,30 +325,109 @@
       ss:Type="Number">0</Data></Cell>
    </Row>
    <Row ss:Index="41">
+    <Cell ss:Index="2"><Data ss:Type="Number">3</Data></Cell>
+    <Cell
+     ss:Formula="=DCOUNTA(R[-39]C[-1]:R[-33]C[2],&quot;Profit&quot;,R[-31]C[-1]:R[-29]C[1])"><Data
+      ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">DCOUNTA</Data></Cell>
+    <Cell><Data ss:Type="String">DCOUNTA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell
+     ss:Formula="=DCOUNTA(R[-40]C[-1]:R[-34]C[2],&quot;Profit&quot;,R[-32]C[2]:R[-31]C[2])"><Data
+      ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:Index="44">
     <Cell ss:Index="2"><Data ss:Type="Number">75</Data></Cell>
     <Cell
-     ss:Formula="=DMIN(R[-39]C[-1]:R[-33]C[2],&quot;Profit&quot;,R[-31]C[-1]:R[-29]C[1])"><Data
+     ss:Formula="=DMIN(R[-42]C[-1]:R[-36]C[2],&quot;Profit&quot;,R[-34]C[-1]:R[-32]C[1])"><Data
       ss:Type="Number">75</Data></Cell>
     <Cell ss:Index="7"><Data ss:Type="String">DMIN</Data></Cell>
     <Cell><Data ss:Type="String">DMIN</Data></Cell>
    </Row>
    <Row>
     <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
-    <Cell ss:Formula="=DMIN(R[-40]C[-1]:R[-34]C[2],&quot;Profit&quot;,R[-32]C[2]:R[-31]C[2])"><Data
+    <Cell ss:Formula="=DMIN(R[-43]C[-1]:R[-37]C[2],&quot;Profit&quot;,R[-35]C[2]:R[-34]C[2])"><Data
       ss:Type="Number">0</Data></Cell>
    </Row>
-   <Row ss:Index="44">
+   <Row ss:Index="47">
     <Cell ss:Index="2"><Data ss:Type="Number">96</Data></Cell>
     <Cell
-     ss:Formula="=DMAX(R[-42]C[-1]:R[-36]C[2],&quot;Profit&quot;,R[-34]C[-1]:R[-32]C[1])"><Data
+     ss:Formula="=DMAX(R[-45]C[-1]:R[-39]C[2],&quot;Profit&quot;,R[-37]C[-1]:R[-35]C[1])"><Data
       ss:Type="Number">96</Data></Cell>
     <Cell ss:Index="7"><Data ss:Type="String">DMAX</Data></Cell>
     <Cell><Data ss:Type="String">DMAX</Data></Cell>
    </Row>
    <Row>
     <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
-    <Cell ss:Formula="=DMAX(R[-43]C[-1]:R[-37]C[2],&quot;Profit&quot;,R[-35]C[2]:R[-34]C[2])"><Data
+    <Cell ss:Formula="=DMAX(R[-46]C[-1]:R[-40]C[2],&quot;Profit&quot;,R[-38]C[2]:R[-37]C[2])"><Data
       ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:Index="50">
+    <Cell ss:Index="2"><Data ss:Type="Number">82.6</Data></Cell>
+    <Cell ss:Formula="=DAVERAGE(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[-1]:R12C[1])"><Data
+      ss:Type="Number">82.600000000000009</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">DAVERAGE</Data></Cell>
+    <Cell><Data ss:Type="String">DAVERAGE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=DAVERAGE(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[2]:R11C[2])"><Data
+      ss:Type="Error">#DIV/0!</Data></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
+   </Row>
+   <Row ss:Index="53">
+    <Cell ss:Index="2"><Data ss:Type="Number">90.319999999998899</Data></Cell>
+    <Cell ss:Formula="=DVARP(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[-1]:R12C[1])"><Data
+      ss:Type="Number">90.319999999998899</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">DVARP</Data></Cell>
+    <Cell><Data ss:Type="String">DVARP</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=DVARP(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[2]:R11C[2])"><Data
+      ss:Type="Error">#DIV/0!</Data></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
+   </Row>
+   <Row ss:Index="56">
+    <Cell ss:Index="2"><Data ss:Type="Number">135.47999999999774</Data></Cell>
+    <Cell ss:Formula="=DVAR(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[-1]:R12C[1])"><Data
+      ss:Type="Number">135.47999999999774</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">DVAR</Data></Cell>
+    <Cell><Data ss:Type="String">DVAR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=DVAR(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[2]:R11C[2])"><Data
+      ss:Type="Error">#DIV/0!</Data></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
+   </Row>
+   <Row ss:Index="59">
+    <Cell ss:Index="2"><Data ss:Type="Number">9.5036834964133199</Data></Cell>
+    <Cell ss:Formula="=DSTDEVP(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[-1]:R12C[1])"><Data
+      ss:Type="Number">9.5036834964133199</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">DSTDEVP</Data></Cell>
+    <Cell><Data ss:Type="String">DSTDEVP</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=DSTDEVP(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[2]:R11C[2])"><Data
+      ss:Type="Error">#DIV/0!</Data></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
+   </Row>
+   <Row ss:Index="62">
+    <Cell ss:Index="2"><Data ss:Type="Number">11.639587621561072</Data></Cell>
+    <Cell ss:Formula="=DSTDEV(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[-1]:R12C[1])"><Data
+      ss:Type="Number">11.639587621561072</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">DSTDEV</Data></Cell>
+    <Cell><Data ss:Type="String">DSTDEV</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=DSTDEV(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[2]:R11C[2])"><Data
+      ss:Type="Error">#DIV/0!</Data></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
    </Row>
   </Table>
   <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
@@ -352,10 +437,12 @@
     <VerticalResolution>0</VerticalResolution>
    </Print>
    <Selected/>
+   <TopRowVisible>30</TopRowVisible>
    <Panes>
     <Pane>
      <Number>3</Number>
-     <ActiveRow>13</ActiveRow>
+     <ActiveRow>67</ActiveRow>
+     <ActiveCol>2</ActiveCol>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>

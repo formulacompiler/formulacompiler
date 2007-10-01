@@ -28,17 +28,17 @@ import org.formulacompiler.compiler.internal.model.rewriting.ModelRewriter;
 
 public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 {
-	
-	@SuppressWarnings("unqualified-field-access")
-	protected final void optimize( ) throws Exception
+
+	@SuppressWarnings( "unqualified-field-access" )
+	protected final void optimize() throws Exception
 	{
-		model.traverse( new ModelRewriter(InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE )) );
+		model.traverse( new ModelRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ) ) );
 		model.traverse( new ConstantSubExpressionEliminator( FormulaCompiler.DOUBLE ) );
 		model.traverse( new IntermediateResultsInliner() );
 	}
 
 
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	public void testInliningOfSingleRef() throws Exception
 	{
 		makeConstCellInput();
@@ -47,7 +47,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		otherRef.setExpression( plus( ref( bandRefSum ), outer( this.root, ref( constCell ) ) ) );
 		otherRef.makeOutput( getOutput( "getA" ) );
 
-		optimize( );
+		optimize();
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -61,7 +61,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 	}
 
 
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	public void testNoInliningOfDoubleRef() throws Exception
 	{
 		makeConstCellInput();
@@ -71,7 +71,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		otherRef.setExpression( ref( constRefSum ) );
 		otherRef.makeOutput( getOutput( "getB" ) );
 
-		optimize( );
+		optimize();
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -85,7 +85,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 	}
 
 
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	public void testRepeatedInlining() throws Exception
 	{
 		makeConstCellInput();
@@ -94,7 +94,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		otherRef.setExpression( ref( bandRefSum ) );
 		otherRef.makeOutput( getOutput( "getA" ) );
 
-		optimize( );
+		optimize();
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -109,7 +109,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 	}
 
 
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	public void testInliningOfAggregationArguments() throws Exception
 	{
 		makeConstCellInput();
@@ -118,7 +118,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		sum.setExpression( sum( inner( band, ref( bandRefSum ) ) ) );
 		sum.makeOutput( getOutput( "getA" ) );
 
-		optimize( );
+		optimize();
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -129,11 +129,13 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertConst( 11.0, bandOther );
 		assertNull( bandRefSum.getExpression() );
 
-		assertExpr( "_FOLD_OR_REDUCE( r__1: 0; xi__2: (`r__1 + `xi__2); Band~>(33.0 + <~ConstRefSum) )", sum );
+		assertExpr(
+				"apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Band~>(33.0 + <~ConstRefSum)}",
+				sum );
 	}
 
 
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	public void testInliningOfAggregationArgumentsRefdByUnusedCell() throws Exception
 	{
 		makeConstCellInput();
@@ -145,7 +147,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		CellModel otherRef = new CellModel( this.band, "OtherRef " );
 		otherRef.setExpression( ref( bandRefSum ) );
 
-		optimize( );
+		optimize();
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -156,11 +158,13 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertConst( 11.0, bandOther );
 		assertNull( bandRefSum.getExpression() );
 
-		assertExpr( "_FOLD_OR_REDUCE( r__1: 0; xi__2: (`r__1 + `xi__2); Band~>(33.0 + <~ConstRefSum) )", sum );
+		assertExpr(
+				"apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Band~>(33.0 + <~ConstRefSum)}",
+				sum );
 	}
 
 
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	public void testNoInliningOfDoubleRefAggregationArguments() throws Exception
 	{
 		makeConstCellInput();
@@ -173,7 +177,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		otherRef.setExpression( ref( bandRefSum ) );
 		otherRef.makeOutput( getOutput( "getB" ) );
 
-		optimize( );
+		optimize();
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -184,11 +188,12 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertConst( 11.0, bandOther );
 		assertExpr( "(33.0 + <~ConstRefSum)", bandRefSum );
 
-		assertExpr( "_FOLD_OR_REDUCE( r__1: 0; xi__2: (`r__1 + `xi__2); Band~>BandRefSum )", sum );
+		assertExpr( "apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Band~>BandRefSum}",
+				sum );
 	}
 
 
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	public void testNoInliningOfOutputAggregationArguments() throws Exception
 	{
 		makeConstCellInput();
@@ -198,7 +203,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		sum.setExpression( sum( inner( band, ref( bandRefSum ) ) ) );
 		sum.makeOutput( getOutput( "getB" ) );
 
-		optimize( );
+		optimize();
 
 		assertConst( 1.0, constCell );
 		assertConst( 2.0, constExpr );
@@ -209,7 +214,8 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertConst( 11.0, bandOther );
 		assertExpr( "(33.0 + <~ConstRefSum)", bandRefSum );
 
-		assertExpr( "_FOLD_OR_REDUCE( r__1: 0; xi__2: (`r__1 + `xi__2); Band~>BandRefSum )", sum );
+		assertExpr( "apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Band~>BandRefSum}",
+				sum );
 	}
 
 

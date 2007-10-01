@@ -21,6 +21,7 @@
 package org.formulacompiler.compiler.internal.bytecode;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -268,9 +269,8 @@ public class SectionOutputTest extends AbstractIOTestBase
 		public List<DetailOutput> outputsList()
 		{
 			final DetailPrototype[] arr = outs();
-			final List<DetailOutput> res = New.newList( arr.length );
-			for (DetailPrototype det : arr)
-				res.add( det );
+			final List<DetailOutput> res = New.list( arr.length );
+			Collections.addAll( res, arr );
 			return res;
 		}
 

@@ -40,7 +40,7 @@ import org.formulacompiler.tests.utils.OutputsWithoutReset;
 
 import junit.framework.TestCase;
 
-@SuppressWarnings("unqualified-field-access")
+@SuppressWarnings( "unqualified-field-access" )
 public class ModelRewriterTest extends TestCase
 {
 	private final ComputationModel engineModel = new ComputationModel( Inputs.class, OutputsWithoutReset.class );
@@ -60,7 +60,8 @@ public class ModelRewriterTest extends TestCase
 
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ) ) );
 
-		assertEquals( "_FOLD_OR_REDUCE( r__1: 0; xi__2: (`r__1 + `xi__2); @( a, b, c ) )", r.getExpression().toString() );
+		assertEquals( "apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2)) to list {@( a, b, c )}", r
+				.getExpression().toString() );
 	}
 
 
@@ -81,7 +82,7 @@ public class ModelRewriterTest extends TestCase
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ) ) );
 
 		assertBeginsWith(
-				"_DFOLD( col: OR( AND( (`col0 = \"Apple\"), (`col1 > 10.0), (`col1 < 16.0) ), (`col0 = \"Pear\") ); r: 0.0; xi: (`r + `xi); #3; #(1,2,5){",
+				"apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2)) to db filter col3_: OR( AND( (col3_0 = \"Apple\"), (col3_1",
 				r.getExpression().toString() );
 	}
 
@@ -104,8 +105,7 @@ public class ModelRewriterTest extends TestCase
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ) ) );
 
 		assertBeginsWith(
-				"_LET_nofold( crit0: Inputs.getOne(); _LET_nofold( crit1: Inputs.getOne(); _LET_nofold( crit2: Inputs.getOne(); _LET_nofold( crit3: Inputs.getOne(); "
-						+ "_DFOLD( col: OR( AND( (`col0 = `crit0), (`col1 > `crit1), (`col1 < `crit2) ), (`col0 = `crit3) ); r: 0.0; xi: (`r + `xi); #3; #(1,2,5){",
+				"(let/byname crit4_0 = Inputs.getOne() in (let/byname crit4_1 = Inputs.getOne() in (let/byname crit4_2 = Inputs.getOne() in (let/byname crit4_3 = Inputs.getOne() in apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2)) to db filter col3_: OR( AND( (col3_0 = ",
 				r.getExpression().toString() );
 	}
 
@@ -114,7 +114,7 @@ public class ModelRewriterTest extends TestCase
 	{
 		final int expLen = _expected.length();
 		final int actLen = _actual.length();
-		final int compLen = (expLen > actLen) ? actLen : expLen;
+		final int compLen = (expLen > actLen)? actLen : expLen;
 		assertEquals( _expected, _actual.substring( 0, compLen ) );
 	}
 
@@ -156,7 +156,7 @@ public class ModelRewriterTest extends TestCase
 			}
 		}
 
-		final String name = (_value == null) ? "!null!" : "!" + _value.toString() + "!";
+		final String name = (_value == null)? "!null!" : "!" + _value.toString() + "!";
 		final CellModel cellModel = new CellModel( rootModel, name );
 		cellModel.setConstantValue( _value );
 		return new ExpressionNodeForCellModel( cellModel );

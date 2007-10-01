@@ -27,23 +27,18 @@ import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.describable.DescriptionBuilder;
 
 
-
 public class ExpressionNodeForOperator extends ExpressionNode
 {
 	private final Operator operator;
 
 
-	public ExpressionNodeForOperator(Operator _operator, ExpressionNode... _args)
+	public ExpressionNodeForOperator( Operator _operator, ExpressionNode... _args )
 	{
-		super();
+		super( _args );
 		this.operator = _operator;
-		for (ExpressionNode arg : _args) {
-			arguments().add( arg );
-		}
 	}
 
-
-	public ExpressionNodeForOperator(Operator _operator, Collection _args)
+	public ExpressionNodeForOperator( Operator _operator, Collection<ExpressionNode> _args )
 	{
 		super( _args );
 		this.operator = _operator;
@@ -61,42 +56,42 @@ public class ExpressionNodeForOperator extends ExpressionNode
 	{
 		return new ExpressionNodeForOperator( this.operator );
 	}
-	
-	
+
+
 	@Override
 	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
 	{
 		return 1;
 	}
-	
-	
+
+
 	@Override
 	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
 		final int argCount = arguments().size();
 		switch (argCount) {
 
-		case 0:
-			_to.append( this.operator.getSymbol() );
-			break;
-		case 1:
-			_to.append( "(" );
-			if (this.operator.isPrefix()) _to.append( this.operator.getSymbol() );
-			describeArgumentTo( _to, _cfg, 0 );
-			if (!this.operator.isPrefix()) _to.append( this.operator.getSymbol() );
-			_to.append( ")" );
-			break;
-		default:
-			_to.append( "(" );
-			describeArgumentTo( _to, _cfg, 0 );
-			for (int i = 1; i < argCount; i++) {
-				_to.append( " " );
+			case 0:
 				_to.append( this.operator.getSymbol() );
-				_to.append( " " );
-				describeArgumentTo( _to, _cfg, i );
-			}
-			_to.append( ")" );
-			break;
+				break;
+			case 1:
+				_to.append( "(" );
+				if (this.operator.isPrefix()) _to.append( this.operator.getSymbol() );
+				describeArgumentTo( _to, _cfg, 0 );
+				if (!this.operator.isPrefix()) _to.append( this.operator.getSymbol() );
+				_to.append( ")" );
+				break;
+			default:
+				_to.append( "(" );
+				describeArgumentTo( _to, _cfg, 0 );
+				for (int i = 1; i < argCount; i++) {
+					_to.append( " " );
+					_to.append( this.operator.getSymbol() );
+					_to.append( " " );
+					describeArgumentTo( _to, _cfg, i );
+				}
+				_to.append( ")" );
+				break;
 		}
 	}
 

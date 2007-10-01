@@ -129,45 +129,4 @@ public abstract class ExpressionTemplatesForAll
 	abstract void scanElement( Object x );
 
 
-	/**
-	 * Used for _FOLDL_1ST. Scans the internal array of section objects for a section, returning each
-	 * in turn, but treats access to the first element of the fold differently. Typically used to
-	 * initialize the accumulator with the first element instead of folding against the accumulator's
-	 * initial value.
-	 * 
-	 * <ul>
-	 * <li>{@code isFirst()} is where we compile the check for whether we have already seen the
-	 * first element.</li>
-	 * <li>{@code haveFist()} is where we compile the fact that we have now seen the first element.</li>
-	 * <li>{@code scanFirst()} is where we compile access to the first element.</li>
-	 * <li>{@code scanElement()} is where we compile access to non-first elements.</li>
-	 * </ul>
-	 */
-	void scanArrayWithFirst( Object[] _xs )
-	{
-
-		// Since we have callbacks, make sure the compiler does not have to alloc helper variables to
-		// avoid reuse.
-		final Object[] xs = _xs;
-
-		final int l = xs.length;
-		if (l > 0) {
-			int i0 = 0;
-			if (isFirst()) {
-				final Object x = xs[ 0 ];
-				scanFirst( x );
-				i0 = 1;
-				haveFirst();
-			}
-			for (int i = i0; i < l; i++) {
-				final Object x = xs[ i ];
-				scanElement( x );
-			}
-		}
-	}
-
-	abstract boolean isFirst();
-	abstract void haveFirst();
-	abstract void scanFirst( Object x );
-
 }

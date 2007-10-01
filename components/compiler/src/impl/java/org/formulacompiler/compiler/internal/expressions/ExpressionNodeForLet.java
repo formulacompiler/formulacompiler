@@ -28,35 +28,42 @@ import org.formulacompiler.describable.DescriptionBuilder;
 
 public final class ExpressionNodeForLet extends ExpressionNode
 {
+	private final Type type;
 	private final String varName;
-	private final boolean mayFold;
-	private boolean symbolic;
-	private boolean shouldCache = true;
-	
 
-	public ExpressionNodeForLet(String _varName, ExpressionNode _value, ExpressionNode _in)
-	{
-		super( _value, _in );
-		this.varName = _varName;
-		this.mayFold = true;
+	public static enum Type {
+		BYVAL, BYNAME, SYMBOLIC
 	}
 
-	public ExpressionNodeForLet(String _varName, boolean _mayFold, ExpressionNode _value)
-	{
-		super( _value );
-		this.varName = _varName;
-		this.mayFold = _mayFold;
-	}
-
-	private ExpressionNodeForLet(String _varName, boolean _mayFold, boolean _symbolic, boolean _shouldCache)
+	public ExpressionNodeForLet( Type _type, String _varName )
 	{
 		super();
 		this.varName = _varName;
-		this.mayFold = _mayFold;
-		this.symbolic = _symbolic;
-		this.shouldCache = _shouldCache;
+		this.type = _type;
 	}
 
+	public ExpressionNodeForLet( Type _type, String _varName, ExpressionNode _value )
+	{
+		this( _type, _varName );
+		addArgument( _value );
+	}
+
+	public ExpressionNodeForLet( Type _type, String _varName, ExpressionNode _value, ExpressionNode _in )
+	{
+		this( _type, _varName, _value );
+		addArgument( _in );
+	}
+
+	public ExpressionNodeForLet( String _varName, ExpressionNode _value, ExpressionNode _in )
+	{
+		this( Type.BYVAL, _varName, _value, _in );
+	}
+
+
+	public Type type()
+	{
+		return this.type;
+	}
 
 	public final String varName()
 	{
@@ -73,36 +80,11 @@ public final class ExpressionNodeForLet extends ExpressionNode
 		return argument( 1 );
 	}
 
-	public final boolean mayFold()
-	{
-		return this.mayFold;
-	}
-	
-	public boolean isSymbolic()
-	{
-		return this.symbolic;
-	}
-	
-	public void setSymbolic( boolean _symbolic )
-	{
-		this.symbolic = _symbolic;
-	}
-	
-	public boolean shouldCache()
-	{
-		return this.shouldCache;
-	}
-	
-	public void setShouldCache( boolean _shouldCache )
-	{
-		this.shouldCache = _shouldCache;
-	}
-
 
 	@Override
 	public ExpressionNode innerCloneWithoutArguments()
 	{
-		return new ExpressionNodeForLet( this.varName, this.mayFold, this.symbolic, this.shouldCache );
+		return new ExpressionNodeForLet( this.type, this.varName );
 	}
 
 
@@ -116,9 +98,10 @@ public final class ExpressionNodeForLet extends ExpressionNode
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
-		_to.append( mayFold()? "_LET( " : "_LET_nofold( " ).append( varName() ).append( ": " );
+		_to.append( "(let" ).append( type() == Type.BYVAL? "" : "/" + type().toString().toLowerCase() ).append( " " ).append( varName() ).append(
+				" = " );
 		value().describeTo( _to, _cfg );
-		_to.append( "; " );
+		_to.append( " in " );
 		in().describeTo( _to, _cfg );
 		_to.append( " )" );
 	}

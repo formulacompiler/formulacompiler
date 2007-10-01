@@ -25,6 +25,7 @@ import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
+import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 import junit.framework.TestCase;
@@ -36,20 +37,21 @@ public class ExpressionRewriterTest extends TestCase
 
 	public void testSUM() throws Exception
 	{
-		assertRewrite( "_FOLD_OR_REDUCE( r__1: 0; xi__2: (`r__1 + `xi__2); @( \"[args]\" ) )", Function.SUM );
+		assertRewrite( "apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2)) to list {@( \"[args]\" )}",
+				Function.SUM );
 	}
 
 	public void testAVERAGE() throws Exception
 	{
 		assertRewrite(
-				"(_FOLD_OR_REDUCE( r__1: 0; xi__2: (`r__1 + `xi__2); @( \"[args]\" ) ) / COUNT( @( \"[args]\" ) ))",
+				"apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2) with count n__3 into (s__1 / n__3) when empty 0) to list {@( \"[args]\" )}",
 				Function.AVERAGE );
 	}
 
 	public void testVARP() throws Exception
 	{
 		assertRewrite(
-				"_LET( n__1: COUNT( @( \"[args]\" ) ); (_LET( m__2: (_FOLD_OR_REDUCE( r__6: 0; xi__7: (`r__6 + `xi__7); @( \"[args]\" ) ) / `n__1); _FOLD( r__3: 0; xi__4: _LET( ei__5: (`xi__4 - `m__2); (`r__3 + (`ei__5 * `ei__5)) ); @( \"[args]\" ) ) ) / `n__1) )",
+				"apply (fold with s__1 = 0, ss__2 = 0 each xi__3 as s__1 = (s__1 + xi__3), ss__2 = (ss__2 + (xi__3 * xi__3)) with count n__4 into ((ss__2 - ((s__1 * s__1) / n__4)) / n__4) when empty 0) to list {@( \"[args]\" )}",
 				Function.VARP );
 	}
 
@@ -58,8 +60,9 @@ public class ExpressionRewriterTest extends TestCase
 	{
 		ExpressionNode args = new ExpressionNodeForConstantValue( "[args]" );
 		ExpressionNode e = new ExpressionNodeForFunction( _function, args );
-		ExpressionRewriter rw = new ExpressionRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ) );
-		ExpressionNode re = rw.rewrite( e );
+		ExpressionRewriter rw = new ExpressionRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ),
+				new NameSanitizer() );
+		ExpressionNode re = rw.rewrite( new ComputationModel( null, null ), e );
 
 		assertEquals( _rewritten, re.toString() );
 	}

@@ -112,7 +112,7 @@ public class MainWindowController
 
 	public abstract class DataModel
 	{
-		private final List<ControllerListener> listeners = New.newList();
+		private final List<ControllerListener> listeners = New.list();
 
 
 		public List<ControllerListener> getListeners()

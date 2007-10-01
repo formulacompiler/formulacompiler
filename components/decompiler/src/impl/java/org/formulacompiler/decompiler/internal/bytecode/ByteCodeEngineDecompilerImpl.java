@@ -56,7 +56,7 @@ public class ByteCodeEngineDecompilerImpl implements ByteCodeEngineDecompiler
 
 	public ByteCodeEngineSource decompile() throws IOException
 	{
-		final Map<String, String> classes = New.newMap();
+		final Map<String, String> classes = New.map();
 
 		final ByteCodeEngineLocation location = new ByteCodeEngineLocation( this.engine );
 		final Decompiler decompiler = new Decompiler();
@@ -91,7 +91,7 @@ public class ByteCodeEngineDecompilerImpl implements ByteCodeEngineDecompiler
 
 	private static final class ByteCodeEngineLocation extends ClassPath.Location
 	{
-		private final Map<String, byte[]> classFileNameAndBytes = New.newMap();
+		private final Map<String, byte[]> classFileNameAndBytes = New.map();
 
 		public ByteCodeEngineLocation(ByteCodeEngine _engine)
 		{

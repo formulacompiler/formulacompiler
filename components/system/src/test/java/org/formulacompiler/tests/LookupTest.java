@@ -214,8 +214,8 @@ public class LookupTest extends TestCase
 
 	public static final class Inputs
 	{
-		private List<Double> inputs = New.newArrayList();
-		private List<String> names = New.newArrayList();
+		private List<Double> inputs = New.arrayList();
+		private List<String> names = New.arrayList();
 
 		public double get( int _index )
 		{

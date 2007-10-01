@@ -50,9 +50,9 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	private final Orientation orientation;
 	private final Class inputClass;
 	private final Class outputClass;
-	private final Map<CellIndex, InputCellBinding> inputs = New.newMap();
-	private final Map<CallFrame, OutputCellBinding> outputs = New.newMap();
-	private final SortedSet<SectionBinding> sections = New.newSortedSet();
+	private final Map<CellIndex, InputCellBinding> inputs = New.map();
+	private final Map<CallFrame, OutputCellBinding> outputs = New.map();
+	private final SortedSet<SectionBinding> sections = New.sortedSet();
 
 
 	private SectionBinding(SectionBinding _space, CallFrame _callChainToCall, Class _inputClass,

@@ -321,7 +321,7 @@ public class BonusPerEmployee extends TestCase
 	{
 		private final long bonusTotal;
 		private final long overtimeSalaryPerHour;
-		private final Collection<EmployeeBonusData> employees = New.newCollection();
+		private final Collection<EmployeeBonusData> employees = New.collection();
 
 		public BonusDataImpl(long _bonusTotal, long _overtimeSalaryPerHour)
 		{

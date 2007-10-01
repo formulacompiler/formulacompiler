@@ -79,6 +79,16 @@ abstract class InterpretedNumericType_Base
 	{
 		return this.num.getZero();
 	}
+	
+	public final Number minValue()
+	{ 
+		return this.num.getMinValue();
+	}
+
+	public final Number maxValue()
+	{ 
+		return this.num.getMaxValue();
+	}
 
 
 	public final Number fromString( String _s, Environment _env ) throws ParseException

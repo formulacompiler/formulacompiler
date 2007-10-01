@@ -30,8 +30,8 @@ import org.formulacompiler.runtime.New;
 
 public class SectionModel extends ElementModel
 {
-	private final List<SectionModel> sections = New.newList();
-	private final List<CellModel> cells = New.newList();
+	private final List<SectionModel> sections = New.list();
+	private final List<CellModel> cells = New.list();
 	private final Class inputClass;
 	private final Class outputClass;
 
