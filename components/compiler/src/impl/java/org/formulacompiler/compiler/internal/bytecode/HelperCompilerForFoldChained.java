@@ -53,7 +53,7 @@ final class HelperCompilerForFoldChained extends HelperCompilerForFolds
 		final ExpressionNode initNode = fold.accuInit( 0 );
 		final DataType initType = initNode.getDataType();
 		final Iterable<ExpressionNode> elts = apply.elements();
-		final ExpressionNode initialElt = fold.mayReduceAndCommute()? firstLocalElementIn( elts ) : null;
+		final ExpressionNode initialElt = fold.mayReduceAndRearrange()? firstLocalElementIn( elts ) : null;
 		final ExpressionNode initial = (null != initialElt)? initialElt : initNode;
 		
 		expressionCompiler().compile( initial );

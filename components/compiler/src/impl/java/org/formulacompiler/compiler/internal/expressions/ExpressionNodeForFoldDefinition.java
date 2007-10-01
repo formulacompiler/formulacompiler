@@ -32,25 +32,27 @@ public final class ExpressionNodeForFoldDefinition extends ExpressionNode
 	private final String indexName;
 	private final String[] eltNames;
 	private final String countName;
-	private final boolean mayReduceAndCommute;
+	private final boolean mayRearrange;
+	private final boolean mayReduce;
 	private int partiallyFoldedElementCount = 0;
 
 	private ExpressionNodeForFoldDefinition( String[] _accuNames, String _indexName, String[] _eltNames,
-			String _countName, boolean _mayReduceAndCommute )
+			String _countName, boolean _mayRearrange, boolean _mayReduce )
 	{
 		super();
 		this.accuNames = _accuNames.clone();
 		this.indexName = _indexName;
 		this.eltNames = _eltNames.clone();
 		this.countName = _countName;
-		this.mayReduceAndCommute = _mayReduceAndCommute;
+		this.mayRearrange = _mayRearrange;
+		this.mayReduce = _mayReduce;
 	}
 
 	public ExpressionNodeForFoldDefinition( String[] _accuNames, ExpressionNode[] _initsPerAccu, String _indexName,
 			String[] _eltNames, ExpressionNode[] _stepsPerAccu, String _countName, ExpressionNode _mergeAccus,
-			ExpressionNode _whenEmpty, boolean _mayReduceAndCommute )
+			ExpressionNode _whenEmpty, boolean _mayRearrange, boolean _mayReduce )
 	{
-		this( _accuNames, _indexName, _eltNames, _countName, _mayReduceAndCommute );
+		this( _accuNames, _indexName, _eltNames, _countName, _mayRearrange, _mayReduce );
 		addArguments( _initsPerAccu );
 		addArguments( _stepsPerAccu );
 		addArgument( _mergeAccus );
@@ -58,17 +60,17 @@ public final class ExpressionNodeForFoldDefinition extends ExpressionNode
 	}
 
 	public ExpressionNodeForFoldDefinition( String _accuName, ExpressionNode _init, String _indexName, String _eltName,
-			ExpressionNode _step, boolean _mayReduceAndCommute )
+			ExpressionNode _step, boolean _mayRearrange, boolean _mayReduce )
 	{
 		this( New.array( _accuName ), New.array( _init ), _indexName, New.array( _eltName ), New.array( _step ), null,
-				null, null, _mayReduceAndCommute );
+				null, null, _mayRearrange, _mayReduce );
 	}
 
 	public ExpressionNodeForFoldDefinition( String _accuName, ExpressionNode _init, String _indexName, String _eltName,
-			ExpressionNode _step, ExpressionNode _whenEmpty, boolean _mayReduceAndCommute )
+			ExpressionNode _step, ExpressionNode _whenEmpty, boolean _mayRearrange, boolean _mayReduce )
 	{
 		this( New.array( _accuName ), New.array( _init ), _indexName, New.array( _eltName ), New.array( _step ), null,
-				null, _whenEmpty, _mayReduceAndCommute );
+				null, _whenEmpty, _mayRearrange, _mayReduce );
 	}
 
 	public int accuCount()
@@ -79,6 +81,11 @@ public final class ExpressionNodeForFoldDefinition extends ExpressionNode
 	public String accuName( int _index )
 	{
 		return this.accuNames[ _index ];
+	}
+
+	public String[] accuNames()
+	{
+		return this.accuNames.clone();
 	}
 
 	public ExpressionNode accuInit( int _index )
@@ -104,6 +111,11 @@ public final class ExpressionNodeForFoldDefinition extends ExpressionNode
 	public String eltName( int _index )
 	{
 		return this.eltNames[ _index ];
+	}
+
+	public String[] eltNames()
+	{
+		return this.eltNames.clone();
 	}
 
 	public ExpressionNode accuStep( int _index )
@@ -141,9 +153,19 @@ public final class ExpressionNodeForFoldDefinition extends ExpressionNode
 		return argumentOrNull( accuCount() * 2 + 1 );
 	}
 
-	public boolean mayReduceAndCommute()
+	public boolean mayRearrange()
 	{
-		return this.mayReduceAndCommute;
+		return this.mayRearrange;
+	}
+
+	public boolean mayReduce()
+	{
+		return this.mayReduce;
+	}
+
+	public boolean mayReduceAndRearrange()
+	{
+		return this.mayReduce && this.mayRearrange;
 	}
 
 	public int getPartiallyFoldedElementCount()
@@ -166,8 +188,13 @@ public final class ExpressionNodeForFoldDefinition extends ExpressionNode
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
-		_to.append( "fold" );
-		if (mayReduceAndCommute()) _to.append( "/reduce" );
+		if (mayRearrange()) {
+			_to.append( "fold" );
+			if (mayReduce()) _to.append( "/reduce" );
+		}
+		else {
+			_to.append( "iterate" );
+		}
 		_to.append( " with " );
 		for (int i = 0; i < accuCount(); i++) {
 			if (i > 0) _to.append( ", " );
@@ -207,7 +234,7 @@ public final class ExpressionNodeForFoldDefinition extends ExpressionNode
 	protected ExpressionNode innerCloneWithoutArguments()
 	{
 		final ExpressionNodeForFoldDefinition result = new ExpressionNodeForFoldDefinition( this.accuNames,
-				this.indexName, this.eltNames, this.countName, this.mayReduceAndCommute );
+				this.indexName, this.eltNames, this.countName, this.mayRearrange, this.mayReduce );
 		result.setPartiallyFoldedElementCount( this.getPartiallyFoldedElementCount() );
 		return result;
 	}
@@ -215,7 +242,7 @@ public final class ExpressionNodeForFoldDefinition extends ExpressionNode
 	public final ExpressionNodeForFoldDefinition cloneWithoutArgumentsAndForbidReduce()
 	{
 		final ExpressionNodeForFoldDefinition result = new ExpressionNodeForFoldDefinition( this.accuNames,
-				this.indexName, this.eltNames, this.countName, false );
+				this.indexName, this.eltNames, this.countName, this.mayRearrange, false );
 		result.setPartiallyFoldedElementCount( this.getPartiallyFoldedElementCount() );
 		return result;
 	}

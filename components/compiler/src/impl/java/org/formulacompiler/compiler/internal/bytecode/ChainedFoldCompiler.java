@@ -57,7 +57,7 @@ final class ChainedFoldCompiler
 			return true;
 		}
 		if (isChainable( fold ) && !ExpressionCompiler.isSubSectionIn( elts )) {
-			final ExpressionNode initial = fold.mayReduceAndCommute()? elts.iterator().next() : fold.accuInit( 0 );
+			final ExpressionNode initial = fold.mayReduce()? elts.iterator().next() : fold.accuInit( 0 );
 			expc.compile( initial );
 			final String accName = fold.accuName( 0 );
 			letDict.let( accName, fold.accuInit( 0 ).getDataType(), expc.TOP_OF_STACK );

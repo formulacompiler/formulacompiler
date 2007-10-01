@@ -25,20 +25,24 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.internal.build.Util;
+import org.formulacompiler.compiler.internal.build.rewriting.AbstractDef.Param;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForAbstractFold;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFold;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldArray;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldApply;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDefinition;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldList;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldVectors;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMaxValue;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMinValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForReduce;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary;
 import org.formulacompiler.describable.DescriptionBuilder;
 import org.formulacompiler.runtime.New;
@@ -53,7 +57,8 @@ public final class RewriteRulesCompiler
 
 	private final DescriptionBuilder cases = new DescriptionBuilder();
 	private final DescriptionBuilder methods = new DescriptionBuilder();
-	private final List<RewriteRule> rules = New.list();
+	private final List<RuleDef> rules = New.list();
+	private final Map<String, FoldDef> folds = New.map();
 
 
 	public static void main( String[] args ) throws Exception
@@ -72,13 +77,14 @@ public final class RewriteRulesCompiler
 
 	private void run() throws Exception
 	{
-		defineFunctions();
-		compileFunctions();
+		parse();
+		compileFolds();
+		compileRules();
 		writeOut();
 	}
 
 
-	private void defineFunctions() throws Exception
+	private void parse() throws Exception
 	{
 		parseRulesIn( "rewrite.rules" );
 	}
@@ -87,16 +93,25 @@ public final class RewriteRulesCompiler
 	{
 
 		final String src = Util.readStringFrom( ClassLoader.getSystemResourceAsStream( FILES_PATH + _fileName ) );
-		new RewriteRuleExpressionParser( src, this.rules ).parseFile();
+		new RewriteRuleExpressionParser( src, this.rules, this.folds ).parseFile();
 	}
 
 
-	private void compileFunctions() throws Exception
+	private void compileFolds() throws Exception
+	{
+		for (final FoldDef fold : this.folds.values()) {
+			final FoldCompiler foldc = new FoldCompiler( fold );
+			foldc.compileMethod();
+		}
+	}
+
+
+	private void compileRules() throws Exception
 	{
 		Collections.sort( this.rules );
 
 		Function currCase = null;
-		for (final RewriteRule rule : this.rules) {
+		for (final RuleDef rule : this.rules) {
 			final RuleCompiler rulec = new RuleCompiler( rule );
 			if (rule.fun == currCase) {
 				rulec.compileSubCase();
@@ -168,13 +183,45 @@ public final class RewriteRulesCompiler
 
 
 	@SuppressWarnings( "unqualified-field-access" )
-	private final class RuleCompiler
+	private final class FoldCompiler extends AbstractDefCompiler
 	{
-		private final RewriteRule rule;
+		private final FoldDef fold;
 
-		public RuleCompiler( RewriteRule _rule )
+		public FoldCompiler( FoldDef _fold )
 		{
-			super();
+			super( _fold );
+			this.fold = _fold;
+		}
+
+		@Override
+		protected final String mtdName()
+		{
+			return "fold_" + fold.name;
+		}
+
+		@Override
+		protected void compileMethodHeader( DescriptionBuilder _b )
+		{
+			_b.append( "final ExpressionNode " ).append( mtdName() ).appendLine( "() {" );
+		}
+
+		@Override
+		protected void compileMethodIntro( DescriptionBuilder _b )
+		{
+			// Nothing to do here.
+		}
+
+	}
+
+
+	@SuppressWarnings( "unqualified-field-access" )
+	private final class RuleCompiler extends AbstractDefCompiler
+	{
+		private final RuleDef rule;
+
+		public RuleCompiler( RuleDef _rule )
+		{
+			super( _rule );
 			this.rule = _rule;
 		}
 
@@ -203,12 +250,47 @@ public final class RewriteRulesCompiler
 			b.outdent();
 		}
 
+		@Override
+		protected final String mtdName()
+		{
+			if (is_n_ary()) {
+				return "rewrite" + rule.fun.getName();
+			}
+			return "rewrite" + rule.fun.getName() + "_" + rule.params.size();
+		}
+
+		@Override
+		protected void compileMethodHeader( DescriptionBuilder _b )
+		{
+			_b.append( "private final ExpressionNode " ).append( mtdName() ).appendLine(
+					"( ExpressionNodeForFunction _fun ) {" );
+		}
+
+		@Override
+		protected void compileMethodIntro( DescriptionBuilder _b )
+		{
+			_b.appendLine( "final Iterator<ExpressionNode> args = _fun.arguments().iterator();" );
+		}
+
+	}
+
+
+	@SuppressWarnings( "unqualified-field-access" )
+	private abstract class AbstractDefCompiler
+	{
+		private final AbstractDef def;
+
+		public AbstractDefCompiler( AbstractDef _def )
+		{
+			super();
+			this.def = _def;
+		}
 
 		private final LetDictionary letDict = new LetDictionary();
 		private final Set<String> letVars = New.set();
 		private char nextLetVarSuffix = 'a';
 
-		private final UniqueLetVarName compileUniqueLetVarName( String _name )
+		protected final UniqueLetVarName compileUniqueLetVarName( String _name )
 		{
 			final String varName;
 			if (this.letVars.contains( _name )) {
@@ -229,12 +311,17 @@ public final class RewriteRulesCompiler
 
 		private final void let( UniqueLetVarName _let )
 		{
-			this.letDict.let( _let.letName, null, _let.varName );
+			if (_let != null) this.letDict.let( _let.letName, null, _let.varName );
 		}
 
 		private final void unlet( UniqueLetVarName _let )
 		{
-			this.letDict.unlet( _let.letName );
+			if (_let != null) this.letDict.unlet( _let.letName );
+		}
+
+		private final void unlet( int _n )
+		{
+			this.letDict.unlet( _n );
 		}
 
 		private final void resetLetVars()
@@ -246,41 +333,33 @@ public final class RewriteRulesCompiler
 
 		final void compileMethod() throws Exception
 		{
-			final String mtdName = mtdName();
 			final DescriptionBuilder b = methods();
-			final ExpressionNode expr = rule.body;
+			final ExpressionNode expr = def.body;
 
 			resetLetVars();
 
-			b.append( "private final ExpressionNode " ).append( mtdName ).appendLine(
-					"( ExpressionNodeForFunction _fun ) {" );
+			compileMethodHeader( b );
 			b.indent();
 			{
-				b.appendLine( "final Iterator<ExpressionNode> args = _fun.arguments().iterator();" );
+				compileMethodIntro( b );
 				final StringBuilder prefix = new StringBuilder();
 				final StringBuilder suffix = new StringBuilder();
 				int iParam = 0;
-				for (RewriteRule.Param param : rule.params) {
+				for (Param param : def.params) {
 					switch (param.type) {
 
 						case LIST:
 							b.append( "final ExpressionNode " ).append( param.name ).appendLine( " = substitution( args );" );
 							break;
 
+						case ARRAY:
 						case SYMBOLIC:
 							b.append( "final ExpressionNode " ).append( param.name ).appendLine(
 									" = substitution( args.next() );" );
 							break;
 
 						default:
-							final String paramExpr;
-							if (param.type == RewriteRule.Param.Type.ARRAY) {
-								paramExpr = "new ExpressionNodeForMakeArray( args.next() )";
-							}
-							else {
-								paramExpr = "args.next()";
-							}
-
+							final String paramExpr = "args.next()";
 							if (occursMoreThanOnce( expr, param.name )) {
 								final UniqueLetVarName var = compileUniqueLetVarName( param.name );
 								b.append( "final ExpressionNode " ).append( var.varName ).append( "$$ = " ).append( paramExpr )
@@ -310,18 +389,13 @@ public final class RewriteRulesCompiler
 			b.newLine();
 		}
 
+		protected abstract String mtdName();
+		protected abstract void compileMethodIntro( DescriptionBuilder _b );
+		protected abstract void compileMethodHeader( DescriptionBuilder _b );
 
-		private final String mtdName()
+		protected final boolean is_n_ary()
 		{
-			if (is_n_ary()) {
-				return "rewrite" + rule.fun.getName();
-			}
-			return "rewrite" + rule.fun.getName() + "_" + rule.params.size();
-		}
-
-		private final boolean is_n_ary()
-		{
-			return rule.params.get( rule.params.size() - 1 ).type == RewriteRule.Param.Type.LIST;
+			return def.params.get( def.params.size() - 1 ).type == Param.Type.LIST;
 		}
 
 		private final boolean occursMoreThanOnce( final ExpressionNode _expr, String _param )
@@ -331,7 +405,10 @@ public final class RewriteRulesCompiler
 
 		private final int countOccurrences_atLeast2( ExpressionNode _expr, String _param )
 		{
-			if (_expr instanceof ExpressionNodeForLetVar) {
+			if (null == _expr) {
+				return 0;
+			}
+			else if (_expr instanceof ExpressionNodeForLetVar) {
 				final ExpressionNodeForLetVar varNode = (ExpressionNodeForLetVar) _expr;
 				return varNode.varName().equals( _param )? 1 : 0;
 			}
@@ -344,22 +421,19 @@ public final class RewriteRulesCompiler
 				}
 				return occ;
 			}
-			else if (_expr instanceof ExpressionNodeForFoldArray) {
-				final ExpressionNodeForFoldArray foldNode = (ExpressionNodeForFoldArray) _expr;
-				int occ = countOccurrences_atLeast2( foldNode.initialAccumulatorValue(), _param );
-				if (!foldNode.accumulatorName().equals( _param )
-						&& !foldNode.elementName().equals( _param ) && !foldNode.indexName().equals( _param )) {
-					// If it occurs here, multiple since this is repeated -> always aliased.
-					occ += countOccurrences_atLeast2( foldNode.accumulatingStep(), _param ) * 2;
-				}
-				return occ;
-			}
-			else if (_expr instanceof ExpressionNodeForAbstractFold) {
-				final ExpressionNodeForAbstractFold foldNode = (ExpressionNodeForAbstractFold) _expr;
-				int occ = countOccurrences_atLeast2( foldNode.initialAccumulatorValue(), _param );
-				if (!foldNode.accumulatorName().equals( _param ) && !foldNode.elementName().equals( _param )) {
-					// If it occurs here, multiple since this is repeated -> always aliased.
-					occ += countOccurrences_atLeast2( foldNode.accumulatingStep(), _param ) * 2;
+			else if (_expr instanceof ExpressionNodeForFoldDefinition) {
+				final ExpressionNodeForFoldDefinition fold = (ExpressionNodeForFoldDefinition) _expr;
+				int occ = countOccurrences_atLeast2( fold.whenEmpty(), _param );
+				for (int i = 0; i < fold.accuCount(); i++)
+					occ += countOccurrences_atLeast2( fold.accuInit( i ), _param );
+				if (!equalsOneOf( _param, fold.accuNames() )) {
+					if (!_param.equals( fold.indexName() ) && !equalsOneOf( _param, fold.eltNames() )) {
+						for (int i = 0; i < fold.accuCount(); i++)
+							occ += countOccurrences_atLeast2( fold.accuStep( i ), _param );
+					}
+					if (!_param.equals( fold.countName() )) {
+						occ += countOccurrences_atLeast2( fold.merge(), _param );
+					}
 				}
 				return occ;
 			}
@@ -374,6 +448,14 @@ public final class RewriteRulesCompiler
 		}
 
 
+		private boolean equalsOneOf( String _param, String[] _names )
+		{
+			for (String name : _names)
+				if (_param.equals( name )) return true;
+			return false;
+		}
+
+
 		private final DescriptionBuilder declBuilder()
 		{
 			return methods();
@@ -382,14 +464,23 @@ public final class RewriteRulesCompiler
 
 		private final void compileExpr( ExpressionNode _node, DescriptionBuilder _b ) throws Exception
 		{
-			if (_node instanceof ExpressionNodeForConstantValue) compileConst( (ExpressionNodeForConstantValue) _node, _b );
+			if (null == _node) _b.append( "null" );
+
+			else if (_node instanceof ExpressionNodeForConstantValue) compileConst(
+					(ExpressionNodeForConstantValue) _node, _b );
+			else if (_node instanceof ExpressionNodeForMinValue) compileExtremum( false, _b );
+			else if (_node instanceof ExpressionNodeForMaxValue) compileExtremum( true, _b );
 			else if (_node instanceof ExpressionNodeForOperator) compileOp( (ExpressionNodeForOperator) _node, _b );
 			else if (_node instanceof ExpressionNodeForFunction) compileFun( (ExpressionNodeForFunction) _node, _b );
 			else if (_node instanceof ExpressionNodeForLetVar) compileLetVar( (ExpressionNodeForLetVar) _node, _b );
 			else if (_node instanceof ExpressionNodeForLet) compileLet( (ExpressionNodeForLet) _node, _b );
-			else if (_node instanceof ExpressionNodeForFold) compileFold( (ExpressionNodeForFold) _node, _b );
-			else if (_node instanceof ExpressionNodeForReduce) compileReduce( (ExpressionNodeForReduce) _node, _b );
-			else if (_node instanceof ExpressionNodeForFoldArray) compileFoldArray( (ExpressionNodeForFoldArray) _node, _b );
+
+			else if (_node instanceof ExpressionNodeForFoldDefinition) compileFoldDef(
+					(ExpressionNodeForFoldDefinition) _node, _b );
+			else if (_node instanceof ExpressionNodeForFoldList) compileFoldApply( (ExpressionNodeForFoldList) _node, _b );
+			else if (_node instanceof ExpressionNodeForFoldVectors) compileFoldApply(
+					(ExpressionNodeForFoldVectors) _node, _b );
+
 			else throw new Exception( "Unsupported expression: " + _node.toString() );
 		}
 
@@ -440,6 +531,11 @@ public final class RewriteRulesCompiler
 			_b.append( " )" );
 		}
 
+		private void compileExtremum( boolean _isMax, DescriptionBuilder _b ) throws Exception
+		{
+			_b.append( "new ExpressionNodeFor" ).append( _isMax? "Max" : "Min" ).append( "Value()" );
+		}
+
 		private void compileOp( ExpressionNodeForOperator _node, DescriptionBuilder _b ) throws Exception
 		{
 			_b.append( "op( Operator." ).append( _node.getOperator().toString() );
@@ -475,64 +571,92 @@ public final class RewriteRulesCompiler
 		}
 
 
-		private void compileFold( ExpressionNodeForFold _fold, DescriptionBuilder _b ) throws Exception
+		private void compileFoldDef( ExpressionNodeForFoldDefinition _def, DescriptionBuilder _b ) throws Exception
 		{
-			final UniqueLetVarName acc = compileUniqueLetVarName( _fold.accumulatorName() );
-			final UniqueLetVarName elt = compileUniqueLetVarName( _fold.elementName() );
+			final UniqueLetVarName[] accuNames = new UniqueLetVarName[ _def.accuCount() ];
+			final UniqueLetVarName[] eltNames = new UniqueLetVarName[ _def.eltCount() ];
+			final UniqueLetVarName indexName, countName;
 
-			_b.append( "fold( " ).append( acc.constName ).append( ", " );
-			compileExpr( _fold.initialAccumulatorValue(), _b );
-			_b.append( ", " ).append( elt.constName ).append( ", " );
-			let( acc );
-			let( elt );
-			compileExpr( _fold.accumulatingStep(), _b );
-			unlet( elt );
-			unlet( acc );
-			_b.append( ", " ).append( _fold.mayReduce()? "true" : "false" );
-			compileArgs( _fold.elements(), _b );
-			_b.append( " )" );
-		}
+			_b.append( "new ExpressionNodeForFoldDefinition( new String[] {" );
+			for (int i = 0; i < _def.accuCount(); i++) {
+				if (i > 0) _b.append( ", " );
+				accuNames[ i ] = compileConstName( _def.accuName( i ), _b );
+			}
+			_b.append( "}, new ExpressionNode[] {" );
+			for (int i = 0; i < _def.accuCount(); i++) {
+				if (i > 0) _b.append( ", " );
+				compileExpr( _def.accuInit( i ), _b );
+			}
+			_b.append( "}, " );
+			indexName = compileConstName( _def.indexName(), _b );
+			_b.append( ", new String[] {" );
+			for (int i = 0; i < _def.eltCount(); i++) {
+				if (i > 0) _b.append( ", " );
+				eltNames[ i ] = compileConstName( _def.eltName( i ), _b );
+			}
+			_b.append( "}, new ExpressionNode[] {" );
 
+			for (int i = 0; i < _def.accuCount(); i++)
+				let( accuNames[ i ] );
+			for (int i = 0; i < _def.eltCount(); i++)
+				let( eltNames[ i ] );
+			let( indexName );
 
-		private void compileReduce( ExpressionNodeForReduce _fold, DescriptionBuilder _b ) throws Exception
-		{
-			final UniqueLetVarName acc = compileUniqueLetVarName( _fold.accumulatorName() );
-			final UniqueLetVarName elt = compileUniqueLetVarName( _fold.elementName() );
+			for (int i = 0; i < _def.accuCount(); i++) {
+				if (i > 0) _b.append( ", " );
+				compileExpr( _def.accuStep( i ), _b );
+			}
+			unlet( indexName );
+			unlet( _def.eltCount() );
 
-			_b.append( "reduce( " ).append( acc.constName ).append( ", " ).append( elt.constName ).append( ", " );
-			let( acc );
-			let( elt );
-			compileExpr( _fold.accumulatingStep(), _b );
-			unlet( elt );
-			unlet( acc );
+			_b.append( "}, " );
+			countName = compileConstName( _def.countName(), _b );
 			_b.append( ", " );
-			compileExpr( _fold.emptyValue(), _b );
-			compileArgs( _fold.elements(), _b );
-			_b.append( " )" );
+
+			let( countName );
+
+			compileExpr( _def.merge(), _b );
+
+			unlet( countName );
+			unlet( _def.accuCount() );
+
+			_b.append( ", " );
+			compileExpr( _def.whenEmpty(), _b );
+			_b.append( ", " ).append( _def.mayRearrange() ).append( ", " ).append( _def.mayReduce() ).append( " )" );
 		}
 
-
-		private void compileFoldArray( ExpressionNodeForFoldArray _fold, DescriptionBuilder _b ) throws Exception
+		private UniqueLetVarName compileConstName( String _varName, DescriptionBuilder _b )
 		{
-			final UniqueLetVarName acc = compileUniqueLetVarName( _fold.accumulatorName() );
-			final UniqueLetVarName elt = compileUniqueLetVarName( _fold.elementName() );
-			final UniqueLetVarName idx = compileUniqueLetVarName( _fold.indexName() );
+			if (null == _varName) {
+				_b.append( "null" );
+				return null;
+			}
+			else {
+				UniqueLetVarName result = compileUniqueLetVarName( _varName );
+				_b.append( result.constName );
+				return result;
+			}
+		}
 
-			_b.append( "folda( " ).append( acc.constName ).append( ", " );
-			compileExpr( _fold.initialAccumulatorValue(), _b );
-			_b.append( ", " ).append( elt.constName ).append( ", " ).append( idx.constName ).append( ", " );
-			let( acc );
-			let( elt );
-			let( idx );
-			compileExpr( _fold.accumulatingStep(), _b );
-			unlet( idx );
-			unlet( elt );
-			unlet( acc );
-			compileArgs( _fold.elements(), _b );
+		private void compileFoldApply( ExpressionNodeForFoldApply _apply, DescriptionBuilder _b ) throws Exception
+		{
+			final String className = _apply.getClass().getName();
+			final ExpressionNode foldDefNode = _apply.argument( 0 );
+			if (foldDefNode instanceof ExpressionNodeForLetVar) {
+				final ExpressionNodeForLetVar foldNameNode = (ExpressionNodeForLetVar) foldDefNode;
+				final String foldName = foldNameNode.varName();
+				_b.append( "new " ).append( className ).append( "( fold_" ).append( foldName ).append( "()" );
+			}
+			else {
+				_b.append( "new " ).append( className ).append( "( " );
+				compileExpr( foldDefNode, _b );
+			}
+			compileArgs( _apply.elements(), _b );
 			_b.append( " )" );
 		}
 
 	}
+
 
 	private static final class UniqueLetVarName
 	{

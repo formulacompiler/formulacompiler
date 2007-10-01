@@ -44,24 +44,13 @@ For a quick example, let's look at how the rewrite rule for @SUM()@ is defined i
 
 	[text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: sum]
 
-This means that the result, @r@, is initially 0. Then, for every @xi@ in the range @xs@, we simply add @xi@ to @r@. In the argument specification, the @*@ indicates that @xs@ represents all remaining arguments as a list (much like @int... a@ in Java).
+This means that the result, @s@, is initially 0. Then, for every @xi@ in the range @xs@, we simply add @xi@ to @s@. In the argument specification, the @*@ indicates that @xs@ represents all remaining arguments as a list (much like @int... a@ in Java).
 
 So the "folding function":-funfold iterates over a list of arguments. For every value in the list, it executes a given computation involving a so-called _accumulator value_ (called @r@ here) and the current value from the list (called @xi@ here). The result becomes the new accumulator value. The final result is the accumulator value at the end of the list.
 
 h4. Special First Argument
 
-The version of @_FOLD()@ I used here, @_FOLD_OR_REDUCE()@, is simply @_FOLD()@ with a hint that it is OK to directly use the first argument as the starting value, instead of the specified value 0. This is a performance optimization.
-
-There are also cases when it is _mandatory_ to use the first argument directly. @MIN()@ and @MAX()@ are such cases (so we don't need some arbitrary starting extremal value). For them you need to use @_REDUCE()@:
-
-	[text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: minmax]
-
-You read this as follows:
-
-	* The accumulator is implicitly initialized with the first list element unchanged.
-	* For all other list elements, @xi@, and the current accumulator, @r@, the new accumulator is the result of applying the binary min/max operator to the two values. These operators are "primitive operators":-prim I added to AFC precisely so I could then use @_REDUCE()@ for @MIN()@ and @MAX()@.
-	* If the list is empty, the result is 0 (as specified in the third argument).
-	* Otherwise, the final result is, again, the value of the accumulator at the end of the list.
+The version of @fold@ I used here, @fold/reduce@, is simply @fold@ with a hint that it is OK to directly use the first argument as the starting value, instead of the specified value 0. This is a performance optimization.
 
 
 h2. Rewriting It
@@ -84,13 +73,32 @@ where the average is, of course, defined as:
 	</mrow></mfrac>
 </math></notextile>
 
-Clearly, we will need the two auxiliary values
+We could formulate this as a rewrite rule directly using a @fold@ as in @SUM@ above, with the help of @COUNT@ and @AVERAGE@. However, passing over the list of values only once is generally more efficient (especially once AFC supports cursor-style iteration over large repeating sections). A bit of algebra shows that the above is the same as:
 
-	* _n_ = @COUNT(xs)@, and
-	* _m_ = @AVERAGE(xs)@ = @SUM(xs) / COUNT(xs)@ = @SUM(xs) / `n@
+<notextile><math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+    <mfrac>
+    	<mrow>
+    		<mo rspace="thinmathspace" lspace="thinmathspace">&#8721;</mo>
+    		<msup><mi>x</mi> <mn>2</mn></msup>
+    		<mo>-</mo>
+			<mo>(</mo>
+			<mo rspace="thinmathspace" lspace="thinmathspace">&#8721;</mo>
+			<mi>x</mi>
+    		<msup><mo>)</mo> <mn>2</mn></msup>
+    		<mo>/</mo>
+			<mi>n</mi>
+		</mrow>
+		<mrow>
+			<mi>n</mi>
+			<mo>-</mo>
+			<mn>1</mn>
+		</mrow>
+	</mfrac>
+</math>
+</notextile>
 
-to define the overall result. In AFC's rewriting rules you can define auxiliary values using the @_LET()@ function. So we arrive at:
+So we need both the sum and the sum of squares of the list of values. We do this using two parallel accumulators:
 
 	[text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: var]
 
-Note how we can use @SUM()@ in the rule, even though it is itself a high-level aggregation with a rewrite rule of its own. AFC applies rewrites recursively until there is no more to rewrite.
+

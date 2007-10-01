@@ -84,7 +84,23 @@ abstract class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 		_mv.getStatic( runtimeType(), "ONE", ByteCodeEngineCompiler.BIGDECIMAL_CLASS );
 		compileAdjustment( _mv );
 	}
+	
+	@Override
+	protected void compileMinValue( GeneratorAdapter _mv ) throws CompilerException
+	{
+		compileExtremum( _mv );
+	}
 
+	@Override
+	protected void compileMaxValue( GeneratorAdapter _mv ) throws CompilerException
+	{
+		compileExtremum( _mv );
+	}
+	
+	private void compileExtremum( GeneratorAdapter _mv )
+	{
+		_mv.getStatic( runtimeType(), "EXTREMUM", ByteCodeEngineCompiler.BIGDECIMAL_CLASS );
+	}
 
 	@Override
 	protected void compileConst( GeneratorAdapter _mv, Object _value ) throws CompilerException
@@ -93,7 +109,7 @@ abstract class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 			compileZero( _mv );
 		}
 		else if (_value == RuntimeBigDecimal_v2.EXTREMUM) {
-			_mv.getStatic( runtimeType(), "EXTREMUM", ByteCodeEngineCompiler.BIGDECIMAL_CLASS );
+			compileExtremum( _mv );
 		}
 		else if (_value instanceof Number) {
 			String val = _value.toString();

@@ -21,6 +21,7 @@
 package org.formulacompiler.compiler.internal.bytecode;
 
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.internal.NumericTypeImpl;
 import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -30,25 +31,27 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 abstract class TypeCompiler
 {
 	private final ByteCodeEngineCompiler engineCompiler;
+	private final NumericTypeImpl typeImpl;
 	private String typeDescriptor;
 	private String typeGetterDesc;
 
-	public TypeCompiler(ByteCodeEngineCompiler _engineCompiler)
+	public TypeCompiler( ByteCodeEngineCompiler _engineCompiler )
 	{
 		super();
 		this.engineCompiler = _engineCompiler;
+		this.typeImpl = (NumericTypeImpl) _engineCompiler.getNumericType();
 	}
-	
+
 	public ByteCodeEngineCompiler engineCompiler()
 	{
 		return this.engineCompiler;
 	}
-	
+
 	public SectionCompiler rootCompiler()
 	{
 		return engineCompiler().rootCompiler();
 	}
-	
+
 	protected abstract DataType dataType();
 	protected abstract Type runtimeType();
 	protected abstract Type type();
@@ -58,20 +61,30 @@ abstract class TypeCompiler
 		if (this.typeDescriptor == null) this.typeDescriptor = type().getDescriptor();
 		return this.typeDescriptor;
 	}
-	
+
 	protected final String typeGetterDesc()
 	{
 		if (this.typeGetterDesc == null) this.typeGetterDesc = "()" + typeDescriptor();
 		return this.typeGetterDesc;
 	}
-	
+
 
 	protected abstract int returnOpcode();
 
 	protected abstract void compileConst( GeneratorAdapter _mv, Object _value ) throws CompilerException;
 
 	protected abstract void compileZero( GeneratorAdapter _mv ) throws CompilerException;
-	
+
+	protected void compileMinValue( GeneratorAdapter _mv ) throws CompilerException
+	{
+		compileConst( _mv, this.typeImpl.getMinValue() );
+	}
+
+	protected void compileMaxValue( GeneratorAdapter _mv ) throws CompilerException
+	{
+		compileConst( _mv, this.typeImpl.getMaxValue() );
+	}
+
 	protected final void compileRuntimeMethod( GeneratorAdapter _mv, String _methodName, String _methodSig )
 	{
 		_mv.visitMethodInsn( Opcodes.INVOKESTATIC, runtimeType().getInternalName(), _methodName, _methodSig );

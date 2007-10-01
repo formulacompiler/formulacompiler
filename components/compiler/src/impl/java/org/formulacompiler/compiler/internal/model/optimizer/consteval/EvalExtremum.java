@@ -21,27 +21,23 @@
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDefinition;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
-final class EvalFoldDefinition extends EvalShadow
+final class EvalExtremum extends EvalShadow
 {
+	private final Object value;
 
-	public EvalFoldDefinition( ExpressionNodeForFoldDefinition _node, InterpretedNumericType _type )
+	public EvalExtremum( ExpressionNode _node, InterpretedNumericType _type, boolean _isMaximum )
 	{
 		super( _node, _type );
+		this.value = _isMaximum? _type.maxValue() : _type.minValue();
 	}
 
 	@Override
 	protected Object evaluateToConst( Object... _args ) throws CompilerException
 	{
-		throw new IllegalStateException( "EvalFoldDefinition.evaluateToConst() should never be called" );
+		return this.value;
 	}
-	
-	@Override
-	protected Object eval() throws CompilerException
-	{
-		return node();
-	}
-	
+
 }
