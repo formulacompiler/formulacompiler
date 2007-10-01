@@ -25,6 +25,7 @@ import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
+import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 import junit.framework.TestCase;
@@ -36,21 +37,21 @@ public class ExpressionRewriterTest extends TestCase
 
 	public void testSUM() throws Exception
 	{
-		assertRewrite( "apply (fold/reduce with acc = 0 each xi as acc = (acc + xi)) to list {@( \"[args]\" )}",
+		assertRewrite( "apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2)) to list {@( \"[args]\" )}",
 				Function.SUM );
 	}
 
 	public void testAVERAGE() throws Exception
 	{
 		assertRewrite(
-				"(apply (fold/reduce with acc = 0 each xi as acc = (acc + xi)) to list {@( \"[args]\" )} / COUNT( @( \"[args]\" ) ))",
+				"apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2) with count n__3 into (s__1 / n__3) when empty 0) to list {@( \"[args]\" )}",
 				Function.AVERAGE );
 	}
 
 	public void testVARP() throws Exception
 	{
 		assertRewrite(
-				"apply (fold/reduce with sx = 0, sxx = 0 each xi as sx = (sx + xi), sxx = (sxx + (xi * xi)) with count n into ((sxx - ((sx * sx) / n)) / n) when empty 0) to list {@( \"[args]\" )}",
+				"apply (fold with s__1 = 0, ss__2 = 0 each xi__3 as s__1 = (s__1 + xi__3), ss__2 = (ss__2 + (xi__3 * xi__3)) with count n__4 into ((ss__2 - ((s__1 * s__1) / n__4)) / n__4) when empty 0) to list {@( \"[args]\" )}",
 				Function.VARP );
 	}
 
@@ -61,7 +62,7 @@ public class ExpressionRewriterTest extends TestCase
 		ExpressionNode e = new ExpressionNodeForFunction( _function, args );
 		ExpressionRewriter rw = new ExpressionRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ),
 				new NameSanitizer() );
-		ExpressionNode re = rw.rewrite( e );
+		ExpressionNode re = rw.rewrite( new ComputationModel( null, null ), e );
 
 		assertEquals( _rewritten, re.toString() );
 	}

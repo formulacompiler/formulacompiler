@@ -3502,27 +3502,57 @@ rewrite combin( n, k ) =
 		else 
 			FACT(n) / FACT(k) / FACT(n-k)
 ___@_@___
-text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: minmax
+text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: covar
 __@@__
-rewrite min( xs* ) = _REDUCE( r, xi: r _min_ xi; 0; xs )
-	rewrite max( xs* ) = _REDUCE( r, xi: r _max_ xi; 0; xs )
+rewrite covar( xs#, ys# ) = 
+		apply 
+			fold with
+				sx = 0, 
+				sy = 0,
+				sxy = 0
+			each xi, yi as 
+				sx = sx + xi, 
+				sy = sy + yi, 
+				sxy = sxy + xi * yi
+			with count n into 
+				(sxy - sx*sy/n) / n
+			when empty 0	
+			end
+		to vectors {xs, ys}
 ___@_@___
 text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: npv
 __@@__
 rewrite npv( rate, vs# ) =
 		let rate1 = rate + 1
-		in _FOLD_ARRAY( r: 0; vi, i: r + vi / rate1 ^ i; vs )
+		in 
+			apply
+				iterate with
+					r = 0
+				index i 
+				each vi as
+					r = r + vi / rate1 ^ i
+				end
+			to vectors {vs}
 ___@_@___
 text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: sum
 __@@__
-rewrite sum( xs* ) = _FOLD_OR_REDUCE( r: 0; xi: r + xi; xs )
+def sum = fold/reduce with s = 0 each xi as s = s + xi end
+	rewrite sum( xs* ) = apply sum to list xs
 ___@_@___
 text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: var
 __@@__
-rewrite var( xs* ) =
-		let n = COUNT(xs)
-		let m = SUM(xs) / n
-		in _FOLD( r: 0; xi: (let ei = xi - m in r + ei*ei); xs ) / (n - 1)
+def var =
+		fold with 
+			s = 0,
+			ss = 0
+		each xi as 
+			s = s + xi,
+			ss = ss + xi * xi
+		with count n into 
+			(ss - s*s/n) / (n - 1)
+		when empty 0
+		end	
+	rewrite var( xs* ) = apply var to list xs
 ___@_@___
 xc:GeneratedSheet.xls
 __@@__

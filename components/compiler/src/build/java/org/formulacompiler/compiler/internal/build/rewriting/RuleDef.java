@@ -20,51 +20,18 @@
  */
 package org.formulacompiler.compiler.internal.build.rewriting;
 
-import java.util.List;
-
 import org.formulacompiler.compiler.Function;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.runtime.New;
 
-final class RewriteRule implements Comparable<RewriteRule>
+final class RuleDef extends AbstractDef implements Comparable<RuleDef>
 {
 	final Function fun;
-	final List<Param> params = New.list();
-	ExpressionNode body = null;
 
-	public RewriteRule( Function _function )
+	public RuleDef( Function _function )
 	{
 		this.fun = _function;
 	}
 
-	public void addParam( String _name, Param.Type _type )
-	{
-		this.params.add( new Param( _name, _type ) );
-	}
-
-	public void setBody( ExpressionNode _expr )
-	{
-		this.body = _expr;
-	}
-
-	static final class Param
-	{
-		final String name;
-		final Type type;
-
-		static enum Type {
-			VALUE, LIST, ARRAY, SYMBOLIC
-		};
-
-		public Param( String _name, Type _type )
-		{
-			this.name = _name;
-			this.type = _type;
-		}
-
-	}
-
-	public int compareTo( RewriteRule _o )
+	public int compareTo( RuleDef _o )
 	{
 		int r = this.fun.compareTo( _o.fun );
 		if (r == 0) r = this.params.size() < _o.params.size()? -1 : +1;

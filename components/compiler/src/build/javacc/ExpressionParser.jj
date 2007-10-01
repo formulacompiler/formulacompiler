@@ -189,10 +189,11 @@ void value():
 	|	dblConst()
 	|	strConst()
 	|	"(" niceExpr() ")"
+	|	"_minvalue" { pushNode( new ExpressionNodeForMinValue() ); }
+	|	"_maxvalue" { pushNode( new ExpressionNodeForMaxValue() ); }
 	|	LOOKAHEAD(2) "@" fun()
 	|	"@" n = <NAME> "(" { unsupportedFunction( n ); }
 	|	fun()
-	|	rewriteFun()
 	|	LOOKAHEAD(2) n = <NAME> "(" { unsupportedFunction( n ); }
 	|	cellRef()
 	|	namedCellRef()
@@ -271,17 +272,24 @@ void fun(): {}
 	|	"COS" fun1( Function.COS )
 	|	"COUNT" aggN( Function.COUNT )
 	|	"COUNTA" aggN( Function.COUNTA )
+	|	"COVAR" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.COVAR )
 	|	"DATE" fun3( Function.DATE )
+	|	"DAVERAGE" dbAggN( Function.DAVERAGE )
 	|	"DAY" fun1( Function.DAY )
 	|	"DB" fun4to5( Function.DB )
 	|	"DCOUNT" dbAggN( Function.DCOUNT )
+	|	"DCOUNTA" dbAggN( Function.DCOUNTA )
 	|	"DDB" fun4to5( Function.DDB )
 	|	"DEGREES" fun1( Function.DEGREES )
 	|	"DEVSQ" aggN( Function.DEVSQ )
 	|	"DMAX" dbAggN( Function.DMAX )
 	|	"DMIN" dbAggN( Function.DMIN )
 	|	"DPRODUCT" dbAggN( Function.DPRODUCT )
+	|	"DSTDEV" dbAggN( Function.DSTDEV )
+	|	"DSTDEVP" dbAggN( Function.DSTDEVP )
 	|	"DSUM" dbAggN( Function.DSUM )
+	|	"DVAR" dbAggN( Function.DVAR )
+	|	"DVARP" dbAggN( Function.DVARP )
 	|	"ERF" fun1to2( Function.ERF )
 	|	"ERFC" fun1( Function.ERFC )
 	|	"EXACT" fun2( Function.EXACT )
@@ -566,23 +574,34 @@ void namedRangeRef():
 /* Rewrite rules. */
 
 void parseRules(): {}
-	{	"rules" "{" (rewrite())* "}"
+	{	"rules" "{" (rewrite() | def())* "}"
 	}
 
 void rewrite(): 
 	{ Token n; }
-	{	"rewrite" n = <NAME>
-			{	makeNewRewriteRule( n ); } 
+	{	"rewrite" n=<NAME>
+			{	makeNewRuleDef( n ); } 
 		"(" [ param() ("," param())* ] ")" 
 			{	letParams(); }
 		"=" body()
 			{	unletParams();
-				finalizeLastRewriteRule(); }
+				finalizeLastRuleDef(); }
+	}
+
+void def():
+	{ Token n; }
+	{	"def" n=<NAME>
+			{	makeNewFoldDef( n ); }
+		[ "(" [ param() ("," param())* ] ")" ]
+			{	letParams(); }
+		"=" body()
+			{	unletParams();
+				finalizeLastFoldDef();	}
 	}
 
 void param():
 	{ Token n; char type = 0; }
-	{	n = <NAME> 
+	{	n=<NAME> 
 		[ "#"	{  type = '#'; }
 		| "*" 	{	type = '*'; }
 		| "+" 	{	type = '+'; }
@@ -594,22 +613,16 @@ void body(): {}
 	{	niceExpr()
 			{	makeBody(); }
 	}
-	
 
 /* Rewrite functions. */
 
-void rewriteFun(): 
-	{	checkInRewrite();
-	}
-	{	"_FOLD" fold( false )
-	|	"_FOLD_OR_REDUCE" fold( true )
-	|	"_REDUCE" reduce()
-	|	"_FOLD_ARRAY" foldArray()
-	}
-	
 void nice(): {}
 	{	"let" niceLet()
 	|	"if" niceIf()
+	|	"fold" niceFold(false)
+	|	"fold/reduce" niceFold( true )
+	|	"iterate" niceIterate()
+	|	"apply" niceApply()
 	}
 
 void niceLet():
@@ -632,67 +645,110 @@ void niceIf():
 	{	expr() "then" niceExpr() "else" niceExpr()
 			{ pushNode( new ExpressionNodeForFunction( Function.IF, popNodes( 3 ) )); }
 	}
+	
+void niceFold( boolean _mayReduce ): {}
+	{	
+			{	initFold(); }
+		[ "with" foldAccuInit() ("," foldAccuInit())* ]
+			{	letFoldAccus(); }
+		foldBody()
+			{	pushFold( true, _mayReduce ); }
+	}
+
+void niceIterate(): {}
+	{	
+			{	initFold(); }
+		[ "with" foldAccuInit() ("," foldAccuInit())* ]
+			{	letFoldAccus(); }
+		[ "index" foldIdxName() ]
+		foldBody()
+			{	pushFold( false, false ); }
+	}
+
+void foldBody(): {}
+	{	"each" foldEltName() ("," foldEltName())*
+			{	letFoldElts(); }
+		[ "as" foldAccuStep() ("," foldAccuStep())* ]
+			{	unletFoldElts(); }
+		[[ "with" "count" foldCountName() ]
+			{	letFoldCount(); }
+		"into" foldInto()
+			{	unletFoldCount(); }
+		 ]
+			{	unletFoldAccus(); }
+		[ "when" "empty" foldWhenEmpty() ]
+		"end"
+	}
+
+void foldAccuInit(): 
+	{	Token n = null; }
+	{	n=<NAME> "=" expr()
+			{	addFoldAccuInit( n, popNode() ); }
+	}
+
+void foldIdxName(): 
+	{	Token n = null; }
+	{	n=<NAME>
+			{	setFoldIdxName( n ); }	
+	}
+
+void foldEltName(): 
+	{	Token n = null; }
+	{	n=<NAME>	
+			{	addFoldEltName( n ); }	
+	}
+
+void foldAccuStep(): 
+	{	Token n = null; }
+	{	n=<NAME> "=" niceExpr()	
+			{	addFoldStep( n, popNode() ); }	
+	}
+
+void foldCountName(): 
+	{	Token n = null; }
+	{	n=<NAME>	
+			{	setFoldCountName( n ); }	
+	}
+
+void foldInto(): 
+	{	}
+	{	niceExpr()
+			{	setFoldInto( popNode() ); }	
+	}
+
+void foldWhenEmpty(): 
+	{	}
+	{	niceExpr()
+			{	setFoldWhenEmpty( popNode() ); }	
+	}
+	
+void niceApply():
+	{	Token def = null, vec = null;
+		Collection<Token> vecs = null; 
+	}
+	{	(	"fold" niceFold(false)
+		|	"fold/reduce" niceFold( true )
+		|	"iterate" niceIterate()
+		|	def=<NAME>
+		) 
+		"to" 
+		(	"list" vec=<NAME>
+				{	pushApplyList( def, vec ); }
+		|	"vectors" "{"
+					{	vecs = New.collection(); }
+				vec=<NAME>
+					{	vecs.add( vec ); }
+				("," vec=<NAME>
+					{	vecs.add( vec ); }
+				)* "}"
+					{	pushApplyVectors( def, vecs ); }
+		)
+	}
 
 void niceExpr(): {}
 	{ nice()
 	| expr()
 	}
-
-void fold( boolean _mayReduce ):
-	{	Token acc = null, xi = null;
-		ExpressionNode init = null, fold = null, args = null;
-	}
-	{
-		"(" acc=<NAME> ":" expr()
-		";" xi=<NAME> ":"
-			{	let( acc, xi ); } 
-			expr()
-			{	unlet( acc, xi ); } 
-		";" expr() 
-		")"
-			{	args = popNode(); 
-				fold = popNode();
-				init = popNode();
-				pushNode( new ExpressionNodeForFold( acc.image, init, xi.image, fold, _mayReduce, args )); 
-			}
-	}
-
-void reduce():
-	{	Token acc = null, xi = null;
-		ExpressionNode fold = null, empty = null, args = null;
-	}
-	{	"(" acc=<NAME> "," xi=<NAME> ":" 
-			{	let( acc, xi ); } 
-			expr()
-			{	unlet( acc, xi ); } 
-		";" expr()
-		";" expr() 
-		")"
-			{	args = popNode(); 
-				empty = popNode();
-				fold = popNode();
-				pushNode( new ExpressionNodeForReduce( acc.image, xi.image, fold, empty, args )); 
-			}
-	}
-
-void foldArray():
-	{	Token acc = null, xi = null, i = null;
-		ExpressionNode init = null, fold = null, args = null;
-	}
-	{	"(" acc=<NAME> ":" expr()
-		";" xi=<NAME> "," i=<NAME> ":" 
-			{	let( acc, xi, i ); } 
-			expr()
-			{	unlet( acc, xi, i ); } 
-		";" expr() 
-		")"
-			{	args = popNode(); 
-				fold = popNode();
-				init = popNode();
-				pushNode( new ExpressionNodeForFoldArray( acc.image, init, xi.image, i.image, fold, args )); 
-			}
-	}
-
 
 
 /* It is crucial that the <NAME> and <CELL..> tokens be defined after all of the function and aggregator names. */

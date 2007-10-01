@@ -11,9 +11,9 @@ dt. "Add A Primitive Function":-prim : How to add a primitive spreadsheet functi
 
 dt. "Add A High-Level Function":-high (contains "MathML":-mathml, use "Firefox to view":-mozmath) : How to add a high-level spreadsheet function, @COMBIN()@, which is defined by rewriting it using lower-level functions.
 
-dt. "Add A High-Level Aggregator":-agg (contains "MathML":-mathml, use "Firefox to view":-mozmath) : How to add an aggregator function, @VAR()@, which is defined by rewriting it using @_LET()@, @_FOLD()@, and lower-level functions.
+dt. "Add A High-Level Aggregator":-agg (contains "MathML":-mathml, use "Firefox to view":-mozmath) : How to add an aggregator function, @VAR()@, which is defined by rewriting it using @let@, @fold@, and lower-level functions.
 
-dt. "Add A High-Level Array Computation":-arr (contains "MathML":-mathml, use "Firefox to view":-mozmath) : How to add an array computation function, @NPV()@, which is defined by rewriting it using @_LET()@, @_FOLD_ARRAY()@, and lower-level functions.
+dt. "Add A High-Level Vector Computation":-vec (contains "MathML":-mathml, use "Firefox to view":-mozmath) : How to add a vector computation function, @NPV()@, which is defined by rewriting it using @let@, @fold@, and lower-level functions.
 
 Once you leave these well-documented paths, you will have to read the code itself for guidance. There is one more crucial aspect, however.
 

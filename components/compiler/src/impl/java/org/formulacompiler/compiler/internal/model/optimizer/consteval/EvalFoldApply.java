@@ -43,7 +43,7 @@ abstract class EvalFoldApply extends EvalShadow
 	{
 		super( _node, _type );
 		this.fold = _node.fold();
-		this.notCommutative = !fold.mayReduceAndCommute();
+		this.notCommutative = !fold.mayRearrange();
 	}
 
 

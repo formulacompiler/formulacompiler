@@ -18,8 +18,9 @@ h5. *Changed!*
 
 h5. New
 
-	* @SUMSQ()@ is now "supported":reference/aggregators.htm.
+	* @SUMSQ()@, and @COVAR()@ are now "supported":reference/aggregators.htm.
 	* @CONFIDENCE()@, @NORMDIST()@, @NORMSDIST()@, @LOGNORMSDIST()@, @NORMINV()@, @NORMSINV()@, @LOGINV()@, @AVEDEV()@, @DEVSQ()@, and @RANK()@ are now "supported":reference/statisticalfuncs.htm.
+	* @DCOUNTA, DAVERAGE, DVAR/P, DSTDEV/P@ are now "supported":reference/dbaggregators.htm.
 	* By name binding now supports "binding only cells with a given input and output prefix":-bindprefix.
 	* You can now tell AFC to compile to more readable code when "decompiled":tutorial/decompile.htm.
 
@@ -28,6 +29,10 @@ h5. New
 h5. Better
 
 	* You can "query the named cells":-unbound still unbound to warn users about potential automatic by-name binding problems.
+
+h5. Internal
+
+	* The folding support (used to implement @SUM@ etc.) has been rewritten completely. It can now handle multiple parallel vectors, multiple aggregators, and has much more streamlined code in the implementation.
 
 [-unbound]javadoc/org/formulacompiler/spreadsheet/SpreadsheetByNameBinder.html#cellNamesLeftUnbound()
 

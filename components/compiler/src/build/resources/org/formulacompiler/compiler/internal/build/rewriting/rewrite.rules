@@ -28,22 +28,52 @@ rules {
 	// -------- Basic aggregators
 
 
+	/* The folds are not inlined here so they can be used to rewrite the database aggregators too.
+	 */
+
 	rewrite counta( xs* ) = COUNT( xs )
 	
 	// citation: sum
-	rewrite sum( xs* ) = _FOLD_OR_REDUCE( r: 0; xi: r + xi; xs )
+	def sum = fold/reduce with s = 0 each xi as s = s + xi end
+	rewrite sum( xs* ) = apply sum to list xs
 	// citation: sum
-	
-	rewrite product( xs* ) = _REDUCE( r, xi: r * xi; 0; xs )
-	
-	// citation: minmax
-	rewrite min( xs* ) = _REDUCE( r, xi: r _min_ xi; 0; xs )
-	rewrite max( xs* ) = _REDUCE( r, xi: r _max_ xi; 0; xs )
-	// citation: minmax
-	
-	rewrite average( xs* ) = SUM( xs ) / COUNT( xs )
-	rewrite sumsq( xs* ) = _FOLD( r: 0; xi: r + xi*xi; xs )
 
+	def product = fold/reduce with s = 1 each xi as s = s * xi when empty 0 end
+	rewrite product( xs* ) = apply product to list xs
+	
+	def min = fold/reduce with m = _maxvalue each xi as m = m _min_ xi when empty 0 end
+	def max = fold/reduce with m = _minvalue each xi as m = m _max_ xi when empty 0 end
+	rewrite min( xs* ) = apply min to list xs
+	rewrite max( xs* ) = apply max to list xs
+
+	def average = fold/reduce with s = 0 each xi as s = s + xi with count n into s/n when empty 0 end 	
+	rewrite average( xs* ) = apply average to list xs
+
+	def varp = fold with s = 0, ss = 0
+		each xi as s = s + xi, ss = ss + xi * xi
+		with count n into (ss - s*s/n) / n
+		when empty 0	
+		end
+	rewrite varp( xs* ) = apply varp to list xs
+
+	// citation: var
+	def var =
+		fold with 
+			s = 0,
+			ss = 0
+		each xi as 
+			s = s + xi,
+			ss = ss + xi * xi
+		with count n into 
+			(ss - s*s/n) / (n - 1)
+		when empty 0
+		end	
+	rewrite var( xs* ) = apply var to list xs
+	// citation: var
+
+	rewrite stdevp( xs* ) = SQRT( VARP( xs ))
+	rewrite stdev( xs* ) = SQRT( VAR( xs ))
+	
 
 	// -------- Mathematical functions
 
@@ -64,18 +94,31 @@ rules {
 	// citation: npv
 	rewrite npv( rate, vs# ) =
 		let rate1 = rate + 1
-		in _FOLD_ARRAY( r: 0; vi, i: r + vi / rate1 ^ i; vs )
+		in 
+			apply
+				iterate with
+					r = 0
+				index i 
+				each vi as
+					r = r + vi / rate1 ^ i
+				end
+			to vectors {vs}
 	// citation: npv
 
 	rewrite mirr( vs#, frate, rrate ) =
 		let n = COUNT( vs )
 		let rrate1 = rrate + 1
-		let frate1 = frate + 1 
+		let frate1 = frate + 1
 		in
-			((-_FOLD_ARRAY( r: 0; vi, i: r + IF( vi > 0, vi, 0 ) * rrate1 ^ (n - i); vs ))
-			/ _FOLD_ARRAY( r: 0; vi, i: r + IF( vi < 0, vi, 0 ) / frate1 ^ (i - 1); vs ))
-			^ (1 / (n - 1))
-			- 1
+			apply
+				iterate with r1 = 0, r2 = 0 index i each vi 
+				as
+					r1 = r1 + (if vi > 0 then vi  * rrate1^(n-i) else 0),
+					r2 = r2 + (if vi < 0 then vi  / frate1^(i-1) else 0)
+				into
+					(-r1 / r2) ^ (1 / (n-1)) - 1
+				end
+			to vectors {vs}
 		
 	rewrite sln( cost, salvage, life ) = (cost - salvage) / life
 	rewrite syd( cost, salvage, life, per ) = (cost - salvage) * (life - per + 1) * 2 / (life * (life + 1))
@@ -257,24 +300,44 @@ rules {
 
 	// -------- Statistical functions
 
+	// citation: covar
+	rewrite covar( xs#, ys# ) = 
+		apply 
+			fold with
+				sx = 0, 
+				sy = 0,
+				sxy = 0
+			each xi, yi as 
+				sx = sx + xi, 
+				sy = sy + yi, 
+				sxy = sxy + xi * yi
+			with count n into 
+				(sxy - sx*sy/n) / n
+			when empty 0	
+			end
+		to vectors {xs, ys}
+	// citation: covar
 
-	rewrite rank( number, ref#, order ) =
-		_FOLD_ARRAY( r: 1; refi, i: r + IF( IF( order = 0, number < refi, number > refi ), 1, 0); ref )
+	rewrite sumsq( xs* ) = 
+		apply fold with s = 0 each xi as s = s + xi * xi end
+		to list xs
 
-	rewrite rank( number+, ref+ ) = RANK (number, ref, 0 )
+	rewrite rank( number, xs#, order ) =
+		if order = 0
+		then
+			apply 
+				fold with r = 1 
+				each xi as r = r + (number < xi)
+				end
+			to vectors {xs} 
+		else
+			apply 
+				fold with r = 1 
+				each xi as r = r + (number > xi)
+				end
+			to vectors {xs} 
+	rewrite rank( number+, ref+ ) = RANK( number, ref, 0 )
 
-	rewrite varp( xs* ) =
-		let n = COUNT(xs)
-		let m = SUM(xs) / n
-		in _FOLD( r: 0; xi: (let ei = xi - m in r + ei*ei); xs ) / n
-
-	// citation: var
-	rewrite var( xs* ) =
-		let n = COUNT(xs)
-		let m = SUM(xs) / n
-		in _FOLD( r: 0; xi: (let ei = xi - m in r + ei*ei); xs ) / (n - 1)	
-	// citation: var
-	
 	rewrite kurt( xs* ) =
 		let n = COUNT(xs)
 		let a = n - 1
@@ -282,11 +345,15 @@ rules {
 		let s = STDEV(xs)
 		let m = SUM(xs) / n
 		in
-			_FOLD( r: 0; xi:
-				(	let ei = (xi - m)/s
-					let ei2 = ei*ei
-					in r + ei2*ei2 
-				); xs
+			(	apply
+					fold with r = 0 each xi as
+						r = r + 
+							(	let ei = (xi - m)/s
+								let ei2 = ei * ei
+								in ei2 * ei2
+							)
+					end
+				to list xs
 			) * n * (n + 1) / (a * b) - 3 * a * a / b
 		
 	rewrite skew( xs* ) =
@@ -295,21 +362,27 @@ rules {
 		let s3 = s*s*s
 		let m = SUM(xs) / n
 		in
-			_FOLD( r: 0; xi: (let ei = xi - m in r + ei*ei*ei); xs )
-			/ s3 * n / ((n - 1) * (n - 2))
-	
-	rewrite stdev( xs* ) = SQRT( VAR( xs ) )
-	rewrite stdevp( xs* ) = SQRT( VARP( xs ) )
-	
+			(	apply
+					fold with r = 0 each xi as
+						r = r + (let ei = xi - m in ei*ei*ei)
+					end
+				to list xs
+			) / s3 * n / ((n - 1) * (n - 2))
+			
 	rewrite avedev( xs* ) =
 		let n = COUNT(xs)
 		let m = SUM(xs) / n
 		in
-			_FOLD( r:0; xi: r + ABS( m - xi ); xs ) / n
+			(	apply
+					fold with r = 0 each xi as r = r + ABS( m - xi ) end
+				to list xs
+			) / n
 	
 	rewrite devsq( xs* ) =
 		let n = COUNT(xs)
 		let m = SUM(xs) / n
-		in _FOLD( r: 0; xi: (let ei = xi - m in r + ei*ei ); xs )
+		in 
+			apply fold with r = 0 each xi as r = r + (let ei = xi - m in ei*ei) end 
+			to list xs
 	
 }

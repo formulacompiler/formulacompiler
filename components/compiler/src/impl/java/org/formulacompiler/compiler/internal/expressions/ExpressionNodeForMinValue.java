@@ -18,30 +18,38 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.compiler.internal.model.optimizer.consteval;
+package org.formulacompiler.compiler.internal.expressions;
 
-import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDefinition;
-import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
+import java.io.IOException;
+import java.util.Collection;
 
-final class EvalFoldDefinition extends EvalShadow
+import org.formulacompiler.describable.DescriptionBuilder;
+
+public final class ExpressionNodeForMinValue extends ExpressionNode
 {
 
-	public EvalFoldDefinition( ExpressionNodeForFoldDefinition _node, InterpretedNumericType _type )
+	public ExpressionNodeForMinValue()
 	{
-		super( _node, _type );
+		super();
+		setDataType( DataType.NUMERIC );
 	}
 
 	@Override
-	protected Object evaluateToConst( Object... _args ) throws CompilerException
+	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
 	{
-		throw new IllegalStateException( "EvalFoldDefinition.evaluateToConst() should never be called" );
+		return 1;
 	}
-	
+
 	@Override
-	protected Object eval() throws CompilerException
+	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
-		return node();
+		_to.append( "_minvalue" );
 	}
-	
+
+	@Override
+	protected ExpressionNode innerCloneWithoutArguments()
+	{
+		return new ExpressionNodeForMinValue();
+	}
+
 }

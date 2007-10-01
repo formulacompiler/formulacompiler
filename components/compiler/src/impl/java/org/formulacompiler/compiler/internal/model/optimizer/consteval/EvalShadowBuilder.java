@@ -20,7 +20,24 @@
  */
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
-import org.formulacompiler.compiler.internal.expressions.*;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDatabase;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDefinition;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldList;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldVectors;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMakeArray;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMaxValue;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMinValue;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSubstitution;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitch;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitchCase;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeShadow;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForParentSectionModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
@@ -40,6 +57,8 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 	{
 		// DO NOT REFORMAT BELOW THIS LINE
 		if (_node instanceof ExpressionNodeForConstantValue) return new EvalConstantValue( _node, this.type );
+		else if (_node instanceof ExpressionNodeForMinValue) return new EvalExtremum( _node, this.type, false );
+		else if (_node instanceof ExpressionNodeForMaxValue) return new EvalExtremum( _node, this.type, true );
 		else if (_node instanceof ExpressionNodeForArrayReference) return new EvalRangeValue( _node, this.type );
 		else if (_node instanceof ExpressionNodeForOperator) return new EvalOperator( _node, this.type );
 		else if (_node instanceof ExpressionNodeForFunction) return newEvalFunction( (ExpressionNodeForFunction) _node );
@@ -50,10 +69,6 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 		else if (_node instanceof ExpressionNodeForSwitch) return new EvalSwitch( (ExpressionNodeForSwitch) _node, this.type );
 		else if (_node instanceof ExpressionNodeForSwitchCase) return new EvalSwitchCase( (ExpressionNodeForSwitchCase) _node, this.type );
 		else if (_node instanceof ExpressionNodeForLetVar) return new EvalLetVar( (ExpressionNodeForLetVar) _node, this.type );
-		else if (_node instanceof ExpressionNodeForFold) return new EvalFold( (ExpressionNodeForFold) _node, this.type );
-		else if (_node instanceof ExpressionNodeForReduce) return new EvalReduce( (ExpressionNodeForReduce) _node, this.type );
-		else if (_node instanceof ExpressionNodeForFoldArray) return new EvalFoldArray( (ExpressionNodeForFoldArray) _node, this.type );
-		else if (_node instanceof ExpressionNodeForDatabaseFold) return new EvalDatabaseFold( (ExpressionNodeForDatabaseFold) _node, this.type );
 		else if (_node instanceof ExpressionNodeForFoldDefinition) return new EvalFoldDefinition( (ExpressionNodeForFoldDefinition) _node, this.type );
 		else if (_node instanceof ExpressionNodeForFoldList) return new EvalFoldList( (ExpressionNodeForFoldList) _node, this.type );
 		else if (_node instanceof ExpressionNodeForFoldVectors) return new EvalFoldVectors( (ExpressionNodeForFoldVectors) _node, this.type );

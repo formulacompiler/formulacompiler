@@ -25,47 +25,14 @@ import java.util.Collection;
 
 import org.formulacompiler.describable.DescriptionBuilder;
 
-public final class ExpressionNodeForFoldWrapping extends ExpressionNode
+public final class ExpressionNodeForMaxValue extends ExpressionNode
 {
-	private final int[] idxChain;
 
-	private ExpressionNodeForFoldWrapping( int[] _argumentIndexChainToFoldNode )
+	public ExpressionNodeForMaxValue()
 	{
 		super();
-		assert _argumentIndexChainToFoldNode.length > 0;
-		this.idxChain = _argumentIndexChainToFoldNode.clone();
+		setDataType( DataType.NUMERIC );
 	}
-
-	public ExpressionNodeForFoldWrapping( ExpressionNode _outer, int... _argumentIndexChainToFoldNode )
-	{
-		this( _argumentIndexChainToFoldNode );
-		addArgument( _outer );
-	}
-
-
-	public ExpressionNodeForFoldDefinition fold()
-	{
-		ExpressionNode n = argument( 0 );
-		for (int i : this.idxChain)
-			n = n.argument( i );
-		return (ExpressionNodeForFoldDefinition) n;
-	}
-
-	public ExpressionNode inject( ExpressionNodeForFoldApply _apply )
-	{
-		ExpressionNode root = argument( 0 ).clone();
-		ExpressionNode parent = null;
-		int indexInParent = -1;
-		ExpressionNode fold = root;
-		for (int i : this.idxChain) {
-			parent = fold;
-			indexInParent = i;
-			fold = parent.argument( i );
-		}
-		parent.arguments().set( indexInParent, _apply );
-		return root;
-	}
-
 
 	@Override
 	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
@@ -76,14 +43,13 @@ public final class ExpressionNodeForFoldWrapping extends ExpressionNode
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
-		_to.append( "wrap " );
-		describeArgumentTo( _to, _cfg, 0 );
+		_to.append( "_maxvalue" );
 	}
 
 	@Override
 	protected ExpressionNode innerCloneWithoutArguments()
 	{
-		throw new IllegalArgumentException( "ExpressionNodeForFoldWrapping cannot be cloned" );
+		return new ExpressionNodeForMaxValue();
 	}
 
 }

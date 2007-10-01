@@ -25,11 +25,8 @@ import java.util.List;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForAbstractFold;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForDatabaseFold;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldArray;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDatabase;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDefinition;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldList;
@@ -134,9 +131,6 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 
 		if (_expr instanceof ExpressionNodeForLet) return typeOf( (ExpressionNodeForLet) _expr );
 		if (_expr instanceof ExpressionNodeForLetVar) return typeOf( (ExpressionNodeForLetVar) _expr );
-		if (_expr instanceof ExpressionNodeForFoldArray) return typeOf( (ExpressionNodeForFoldArray) _expr );
-		if (_expr instanceof ExpressionNodeForDatabaseFold) return typeOf( (ExpressionNodeForDatabaseFold) _expr );
-		if (_expr instanceof ExpressionNodeForAbstractFold) return typeOf( (ExpressionNodeForAbstractFold) _expr );
 		if (_expr instanceof ExpressionNodeForMakeArray) return typeOf( (ExpressionNodeForMakeArray) _expr );
 
 		if (_expr instanceof ExpressionNodeForFoldList) return typeOf( (ExpressionNodeForFoldList) _expr );
@@ -305,74 +299,6 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 	private DataType typeOf( ExpressionNodeForLetVar _expr )
 	{
 		return letDict().lookupType( _expr.varName() );
-	}
-
-	private DataType typeOf( ExpressionNodeForAbstractFold _expr ) throws CompilerException
-	{
-		for (final ExpressionNode elt : _expr.elements()) {
-			annotate( elt );
-		}
-		final DataType eltType = typeOf( _expr.elements() );
-		final DataType resultType = annotate( _expr.initialAccumulatorValue() );
-
-		final String accName = _expr.accumulatorName();
-		final String eltName = _expr.elementName();
-		letDict().let( accName, resultType, null );
-		letDict().let( eltName, eltType, null );
-		try {
-			annotate( _expr.accumulatingStep() );
-		}
-		finally {
-			letDict().unlet( eltName );
-			letDict().unlet( accName );
-		}
-		return _expr.initialAccumulatorValue().getDataType();
-	}
-
-	private DataType typeOf( ExpressionNodeForFoldArray _expr ) throws CompilerException
-	{
-		for (final ExpressionNode elt : _expr.elements()) {
-			annotate( elt );
-		}
-		final DataType eltType = typeOf( _expr.elements() );
-		final DataType resultType = annotate( _expr.initialAccumulatorValue() );
-
-		final String accName = _expr.accumulatorName();
-		final String eltName = _expr.elementName();
-		final String idxName = _expr.indexName();
-		letDict().let( accName, resultType, null );
-		letDict().let( eltName, eltType, null );
-		letDict().let( idxName, DataType.NUMERIC, null );
-		try {
-			annotate( _expr.accumulatingStep() );
-		}
-		finally {
-			letDict().unlet( idxName );
-			letDict().unlet( eltName );
-			letDict().unlet( accName );
-		}
-
-		return _expr.initialAccumulatorValue().getDataType();
-	}
-
-	private DataType typeOf( ExpressionNodeForDatabaseFold _expr ) throws CompilerException
-	{
-		final DataType result = typeOf( (ExpressionNodeForAbstractFold) _expr );
-
-		final String[] colNames = _expr.filterColumnNames();
-		final DataType[] colTypes = _expr.filterColumnTypes();
-
-		for (int iCol = 0; iCol < colNames.length; iCol++) {
-			letDict().let( colNames[ iCol ], colTypes[ iCol ], null );
-		}
-		try {
-			annotate( _expr.filter() );
-		}
-		finally {
-			letDict().unlet( colNames.length );
-		}
-
-		return result;
 	}
 
 	private DataType typeOf( ExpressionNodeForMakeArray _expr ) throws CompilerException

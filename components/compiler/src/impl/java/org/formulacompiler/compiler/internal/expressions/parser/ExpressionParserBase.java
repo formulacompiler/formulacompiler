@@ -198,7 +198,22 @@ abstract class ExpressionParserBase
 	}
 
 
-	protected void makeNewRewriteRule( Token _name )
+	protected void makeNewRuleDef( Token _name )
+	{
+		throw new IllegalStateException();
+	}
+
+	protected void finalizeLastRuleDef()
+	{
+		throw new IllegalStateException();
+	}
+
+	protected void makeNewFoldDef( Token _name )
+	{
+		throw new IllegalStateException();
+	}
+
+	protected void finalizeLastFoldDef()
 	{
 		throw new IllegalStateException();
 	}
@@ -217,7 +232,7 @@ abstract class ExpressionParserBase
 	{
 		throw new IllegalStateException();
 	}
-	
+
 	protected void let( Token... _name )
 	{
 		throw new IllegalStateException();
@@ -227,12 +242,12 @@ abstract class ExpressionParserBase
 	{
 		throw new IllegalStateException();
 	}
-	
+
 	protected void letParams()
 	{
 		throw new IllegalStateException();
 	}
-	
+
 	protected void unletParams()
 	{
 		throw new IllegalStateException();
@@ -243,12 +258,93 @@ abstract class ExpressionParserBase
 		throw new IllegalStateException();
 	}
 
-	protected void finalizeLastRewriteRule()
+
+	protected void initFold()
 	{
 		throw new IllegalStateException();
 	}
 
+	protected void addFoldAccuInit( Token _name, ExpressionNode _init )
+	{
+		throw new IllegalStateException();
+	}
 
+	protected void addFoldEltName( Token _name )
+	{
+		throw new IllegalStateException();
+	}
+
+	protected void setFoldIdxName( Token _name )
+	{
+		throw new IllegalStateException();
+	}
+
+	protected void letFoldAccus()
+	{
+		throw new IllegalStateException();
+	}
+
+	protected void unletFoldAccus()
+	{
+		throw new IllegalStateException();
+	}
+
+	protected void letFoldElts()
+	{
+		throw new IllegalStateException();
+	}
+
+	protected void unletFoldElts()
+	{
+		throw new IllegalStateException();
+	}
+
+	protected void letFoldCount()
+	{
+		throw new IllegalStateException();
+	}
+
+	protected void unletFoldCount()
+	{
+		throw new IllegalStateException();
+	}
+
+	protected void addFoldStep( Token _name, ExpressionNode _step )
+	{
+		throw new IllegalStateException();
+	}
+
+	protected void setFoldCountName( Token _name )
+	{
+		throw new IllegalStateException();
+	}
+
+	protected void setFoldInto( ExpressionNode _node )
+	{
+		throw new IllegalStateException();
+	}
+
+	protected void setFoldWhenEmpty( ExpressionNode _node )
+	{
+		throw new IllegalStateException();
+	}
+
+	protected void pushFold( boolean _mayRearrange, boolean _mayReduce )
+	{
+		throw new IllegalStateException();
+	}
+	
+	protected void pushApplyList( Token _def, Token _elts )
+	{
+		throw new IllegalStateException();
+	}	
+
+	protected void pushApplyVectors( Token _def, Collection<Token> _vecs )
+	{
+		throw new IllegalStateException();
+	}	
+
+	
 	protected static final class InnerParserException extends RuntimeException
 	{
 		public InnerParserException( Throwable _cause )

@@ -18,30 +18,43 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.compiler.internal.model.optimizer.consteval;
+package org.formulacompiler.compiler.internal.build.rewriting;
 
-import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDefinition;
-import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
+import java.util.List;
 
-final class EvalFoldDefinition extends EvalShadow
+import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.runtime.New;
+
+abstract class AbstractDef
 {
+	final List<Param> params = New.list();
+	ExpressionNode body = null;
 
-	public EvalFoldDefinition( ExpressionNodeForFoldDefinition _node, InterpretedNumericType _type )
+	public void addParam( String _name, Param.Type _type )
 	{
-		super( _node, _type );
+		this.params.add( new Param( _name, _type ) );
 	}
 
-	@Override
-	protected Object evaluateToConst( Object... _args ) throws CompilerException
+	public void setBody( ExpressionNode _expr )
 	{
-		throw new IllegalStateException( "EvalFoldDefinition.evaluateToConst() should never be called" );
+		this.body = _expr;
 	}
-	
-	@Override
-	protected Object eval() throws CompilerException
+
+	static final class Param
 	{
-		return node();
+		final String name;
+		final Type type;
+
+		static enum Type {
+			VALUE, LIST, ARRAY, SYMBOLIC
+		};
+
+		public Param( String _name, Type _type )
+		{
+			this.name = _name;
+			this.type = _type;
+		}
+
 	}
-	
+
 }

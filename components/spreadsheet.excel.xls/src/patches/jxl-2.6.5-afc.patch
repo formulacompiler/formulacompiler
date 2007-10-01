@@ -1,11 +1,12 @@
-diff -r 36cdddf74514 .hgtags
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/.hgtags	Tue Aug 28 16:32:00 2007 +0300
+diff --git a/.hgtags b/.hgtags
+new file mode 100644
+--- /dev/null
++++ b/.hgtags
 @@ -0,0 +1,1 @@
 +36cdddf74514430c65f636a1cb541b331d86a036 2.6.5
-diff -r 36cdddf74514 src/jxl/DateCell.java
---- a/src/jxl/DateCell.java	Tue Aug 28 15:16:42 2007 +0200
-+++ b/src/jxl/DateCell.java	Tue Aug 28 16:32:02 2007 +0300
+diff --git a/src/jxl/DateCell.java b/src/jxl/DateCell.java
+--- a/src/jxl/DateCell.java
++++ b/src/jxl/DateCell.java
 @@ -35,6 +35,13 @@ public interface DateCell extends Cell
    public Date getDate();
  
@@ -20,9 +21,9 @@ diff -r 36cdddf74514 src/jxl/DateCell.java
     * Indicates whether the date value contained in this cell refers to a date,
     * or merely a time
     *
-diff -r 36cdddf74514 src/jxl/biff/formula/Attribute.java
---- a/src/jxl/biff/formula/Attribute.java	Tue Aug 28 15:16:42 2007 +0200
-+++ b/src/jxl/biff/formula/Attribute.java	Tue Aug 28 16:32:02 2007 +0300
+diff --git a/src/jxl/biff/formula/Attribute.java b/src/jxl/biff/formula/Attribute.java
+--- a/src/jxl/biff/formula/Attribute.java
++++ b/src/jxl/biff/formula/Attribute.java
 @@ -54,6 +54,7 @@ class Attribute extends Operator impleme
  
    private static final int SUM_MASK  = 0x10;
@@ -61,9 +62,9 @@ diff -r 36cdddf74514 src/jxl/biff/formula/Attribute.java
    }
  
    /**
-diff -r 36cdddf74514 src/jxl/biff/formula/Function.java
---- a/src/jxl/biff/formula/Function.java	Tue Aug 28 15:16:42 2007 +0200
-+++ b/src/jxl/biff/formula/Function.java	Wed Aug 29 12:57:02 2007 +0300
+diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
+--- a/src/jxl/biff/formula/Function.java
++++ b/src/jxl/biff/formula/Function.java
 @@ -293,8 +293,10 @@ final class Function
      new Function(0x3b, "pmt", 0xff);
    public static final Function RATE =
@@ -95,6 +96,25 @@ diff -r 36cdddf74514 src/jxl/biff/formula/Function.java
    public static final Function DDB =
      new Function(0x90, "ddb", 0xff);
    //public static final Function GETDEF =  new Function(0x91, "GETDEF",);
+@@ -490,15 +492,15 @@ final class Function
+   public static final Function VARP =
+     new Function(0xc2, "varp", 0xff);
+   public static final Function DSTDEVP =
+-    new Function(0xc3, "dstdevp", 0xff);
++    new Function(0xc3, "dstdevp", 3);
+   public static final Function DVARP =
+-    new Function(0xc4, "dvarp", 0xff);
++    new Function(0xc4, "dvarp", 3);
+   public static final Function TRUNC =
+     new Function(0xc5, "trunc", 0xff);
+   public static final Function ISLOGICAL =
+     new Function(0xc6, "islogical", 1);
+   public static final Function DCOUNTA =
+-    new Function(0xc7, "dcounta", 0xff);
++    new Function(0xc7, "dcounta", 3);
+   public static final Function FINDB =
+     new Function(0xcd, "findb", 0xff);
+   public static final Function SEARCHB =
 @@ -545,6 +547,8 @@ final class Function
      new Function(0xea, "atanh", 1);
    public static final Function INFO =
@@ -122,9 +142,9 @@ diff -r 36cdddf74514 src/jxl/biff/formula/Function.java
    public static final Function TINV =
      new Function(0x14c, "tinv", 2);
    public static final Function CONCATENATE =
-diff -r 36cdddf74514 src/jxl/read/biff/DateFormulaRecord.java
---- a/src/jxl/read/biff/DateFormulaRecord.java	Tue Aug 28 15:16:42 2007 +0200
-+++ b/src/jxl/read/biff/DateFormulaRecord.java	Tue Aug 28 16:32:02 2007 +0300
+diff --git a/src/jxl/read/biff/DateFormulaRecord.java b/src/jxl/read/biff/DateFormulaRecord.java
+--- a/src/jxl/read/biff/DateFormulaRecord.java
++++ b/src/jxl/read/biff/DateFormulaRecord.java
 @@ -130,16 +130,6 @@ class DateFormulaRecord extends DateReco
    }
  
@@ -142,9 +162,9 @@ diff -r 36cdddf74514 src/jxl/read/biff/DateFormulaRecord.java
     * Dummy implementation in order to adhere to the NumberCell interface
     *
     * @return NULL
-diff -r 36cdddf74514 src/jxl/read/biff/DateRecord.java
---- a/src/jxl/read/biff/DateRecord.java	Tue Aug 28 15:16:42 2007 +0200
-+++ b/src/jxl/read/biff/DateRecord.java	Tue Aug 28 16:32:02 2007 +0300
+diff --git a/src/jxl/read/biff/DateRecord.java b/src/jxl/read/biff/DateRecord.java
+--- a/src/jxl/read/biff/DateRecord.java
++++ b/src/jxl/read/biff/DateRecord.java
 @@ -45,6 +45,10 @@ class DateRecord implements DateCell, Ce
    private static Logger logger  = Logger.getLogger(DateRecord.class);
  
@@ -181,9 +201,9 @@ diff -r 36cdddf74514 src/jxl/read/biff/DateRecord.java
     * Gets the cell contents as a string.  This method will use the java
     * equivalent of the excel formatting string
     *
-diff -r 36cdddf74514 src/jxl/write/biff/DateRecord.java
---- a/src/jxl/write/biff/DateRecord.java	Tue Aug 28 15:16:42 2007 +0200
-+++ b/src/jxl/write/biff/DateRecord.java	Tue Aug 28 16:32:02 2007 +0300
+diff --git a/src/jxl/write/biff/DateRecord.java b/src/jxl/write/biff/DateRecord.java
+--- a/src/jxl/write/biff/DateRecord.java
++++ b/src/jxl/write/biff/DateRecord.java
 @@ -36,7 +36,7 @@ import jxl.write.WritableCellFormat;
  /**
   * A date stored in the database
@@ -210,9 +230,9 @@ diff -r 36cdddf74514 src/jxl/write/biff/DateRecord.java
     * Indicates whether the date value contained in this cell refers to a date,
     * or merely a time.  When writing a cell, all dates are fully defined,
     * even if they refer to a time
-diff -r 36cdddf74514 src/jxl/write/biff/ReadDateFormulaRecord.java
---- a/src/jxl/write/biff/ReadDateFormulaRecord.java	Tue Aug 28 15:16:42 2007 +0200
-+++ b/src/jxl/write/biff/ReadDateFormulaRecord.java	Tue Aug 28 16:32:02 2007 +0300
+diff --git a/src/jxl/write/biff/ReadDateFormulaRecord.java b/src/jxl/write/biff/ReadDateFormulaRecord.java
+--- a/src/jxl/write/biff/ReadDateFormulaRecord.java
++++ b/src/jxl/write/biff/ReadDateFormulaRecord.java
 @@ -52,6 +52,16 @@ class ReadDateFormulaRecord extends Read
    }
  

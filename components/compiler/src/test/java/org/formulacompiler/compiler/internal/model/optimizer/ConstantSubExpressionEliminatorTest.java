@@ -103,7 +103,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 		optimize( FormulaCompiler.DOUBLE );
 
-		assertExpr( "apply (fold with acc = 5.0 each xi as acc = (acc + xi)) to list {Inputs.getOne()}",
+		assertExpr( "apply (fold with s__1 = 5.0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Inputs.getOne()}",
 				sumOverInputsAndConsts );
 	}
 
@@ -118,7 +118,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		optimize( FormulaCompiler.DOUBLE );
 
 		assertExpr(
-				"apply (fold with sx = 5.0, sxx = 13.0 each xi as sx = (sx + xi), sxx = (sxx + (xi * xi)) with count n offset by 2 into ((sxx - ((sx * sx) / n)) / n) when empty 0) to list {Inputs.getOne()}",
+				"apply (fold with s__1 = 5.0, ss__2 = 13.0 each xi__3 as s__1 = (s__1 + xi__3), ss__2 = (ss__2 + (xi__3 * xi__3)) with count n__4 offset by 2 into ((ss__2 - ((s__1 * s__1) / n__4)) / n__4) when empty 0) to list {Inputs.getOne()}",
 				sumOverInputsAndConsts );
 	}
 
@@ -134,7 +134,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		optimize( FormulaCompiler.DOUBLE );
 
 		assertExpr(
-				"apply (fold with sx = 5.0, sy = 5.0, sxy = 13.0 each xi, yi as sx = (sx + xi), sy = (sy + yi), sxy = (sxy + (xi * yi)) with count n offset by 2 into ((sxy - ((sx * sy) / n)) / n) when empty 0) to  vectors {#(1,1,1){Inputs.getOne()}, #(1,1,1){Inputs.getOne()}}",
+				"apply (fold with sx__1 = 5.0, sy__2 = 5.0, sxy__3 = 13.0 each xi__4, yi__5 as sx__1 = (sx__1 + xi__4), sy__2 = (sy__2 + yi__5), sxy__3 = (sxy__3 + (xi__4 * yi__5)) with count n__6 offset by 2 into ((sxy__3 - ((sx__1 * sy__2) / n__6)) / n__6) when empty 0) to  vectors {#(1,1,1){Inputs.getOne()}, #(1,1,1){Inputs.getOne()}}",
 				sumOverInputsAndConsts );
 	}
 
@@ -150,7 +150,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		optimize( FormulaCompiler.DOUBLE );
 
 		assertExpr(
-				"(let rate1 = 1.3 in apply (fold/reduce with r = 0 index i each vi as r = (r + (vi / (rate1 ^ i)))) to  vectors {#(1,1,3){3.0, Inputs.getOne(), 2.0}} )",
+				"(let rate1__1 = 1.3 in apply (iterate with r__2 = 0 index i__3 each vi__4 as r__2 = (r__2 + (vi__4 / (rate1__1 ^ i__3)))) to  vectors {#(1,1,3){3.0, Inputs.getOne(), 2.0}} )",
 				sumOverInputsAndConsts );
 	}
 
@@ -165,7 +165,8 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 		optimize( FormulaCompiler.DOUBLE );
 
-		assertExpr( "apply (fold/reduce with acc = 0 each xi as acc = (acc + xi)) to list {Band~>10.0}", sumOverBand );
+		assertExpr( "apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Band~>10.0}",
+				sumOverBand );
 	}
 
 

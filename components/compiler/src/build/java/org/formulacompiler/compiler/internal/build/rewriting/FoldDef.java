@@ -18,30 +18,16 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.compiler.internal.model.optimizer.consteval;
+package org.formulacompiler.compiler.internal.build.rewriting;
 
-import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDefinition;
-import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
-final class EvalFoldDefinition extends EvalShadow
+final class FoldDef extends AbstractDef
 {
+	final String name;
 
-	public EvalFoldDefinition( ExpressionNodeForFoldDefinition _node, InterpretedNumericType _type )
+	public FoldDef( String _name )
 	{
-		super( _node, _type );
+		this.name = _name;
 	}
 
-	@Override
-	protected Object evaluateToConst( Object... _args ) throws CompilerException
-	{
-		throw new IllegalStateException( "EvalFoldDefinition.evaluateToConst() should never be called" );
-	}
-	
-	@Override
-	protected Object eval() throws CompilerException
-	{
-		return node();
-	}
-	
 }
