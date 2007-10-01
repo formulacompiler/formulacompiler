@@ -137,7 +137,7 @@ h2. <a name="long">Using @long@</a>
 The @long@ type can be used either as an integer type, or in scaled mode. In scaled mode, it is still a long, but interpreted as if the _n_ rightmost digits were decimal places.
 
 
-h3. Unscaled @long@
+h3. Unscaled @long@
 Let's use a plain @long@ without scaling:
 
 	[jc:org.formulacompiler.tutorials.UsingScaledLong:---- buildCompiler0]
@@ -218,8 +218,8 @@ What you can tell AFC is the general class of computation you are dealing with. 
 The responsibility for this choice, and for communicating its consequences to the sheet designers, rests fully with you, the programmer. But it does allow you to generate engines suited for precise financial or very fast pure integer computations.
 
 
-h2. Beware!
-h3. Scaled Multiplication
+h2. Beware!
+h3. Scaled Multiplication
 That the choice of numeric type affects the entire engine is particularly problematic for scaled types because of their limited precision. Consider the case of a @ScaledLong(6)@ engine being used to compute 1.2 * 10'000'000. The result, 12'000'000 would easily fit into the scaled long, but the problem is the intermediate result, which is at double the scale for every multiplication. If we look at the actual long values used, it becomes clear:
 
 	[jc:org.formulacompiler.tutorials.UsingScaledLong:---- problemWithMultiplication]
@@ -230,5 +230,5 @@ whereas multiplying by only 10'000 works ok:
     
 So, in essence, you lose the size of the scale in precision as soon as you start doing multiplication.
 
-h3. Seconds
+h3. Seconds
 Another issue is that all time values in Excel are stored as numbers internally. To represent seconds, you need at least a @ScaledLong(6)@.
