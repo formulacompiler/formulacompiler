@@ -628,28 +628,6 @@ public final class ExpressionTemplatesForScaledLongs
 		return this.context.fromBigDecimal( result );
 	}
 
-	public long fun_VDB( long _cost, long _salvage, long _life, long _start_period,long _end_period, long _factor ){
-		final BigDecimal cost = this.context.toBigDecimal( _cost );
-		final BigDecimal salvage = this.context.toBigDecimal( _salvage );
-		final BigDecimal life = this.context.toBigDecimal( _life );
-		final BigDecimal start = this.context.toBigDecimal( _start_period );
-		final BigDecimal end = this.context.toBigDecimal( _end_period );
-		final BigDecimal factor = this.context.toBigDecimal( _factor );
-		final BigDecimal result = RuntimeScaledBigDecimal_v2.fun_VDB( cost, salvage, life, start, end, factor, false, HIGHPREC );
-		return this.context.fromBigDecimal( result );
-	}
-
-	public long fun_VDB( long _cost, long _salvage, long _life, long _start_period,long _end_period){
-		final BigDecimal cost = this.context.toBigDecimal( _cost );
-		final BigDecimal salvage = this.context.toBigDecimal( _salvage );
-		final BigDecimal life = this.context.toBigDecimal( _life );
-		final BigDecimal start = this.context.toBigDecimal( _start_period );
-		final BigDecimal end = this.context.toBigDecimal( _end_period );
-		final BigDecimal factor = RuntimeScaledBigDecimal_v2.TWO;		
-		final BigDecimal result = RuntimeScaledBigDecimal_v2.fun_VDB( cost, salvage, life, start, end, factor, false, HIGHPREC );
-		return this.context.fromBigDecimal( result );
-	}
-
 	public long fun_RATE( long _nper, long _pmt, long _pv, long _fv, long _type, long _guess )
 	{
 		final BigDecimal nper = this.context.toBigDecimal( _nper );
