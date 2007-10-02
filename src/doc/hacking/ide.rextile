@@ -21,10 +21,6 @@ h4. Sources
 
 _Don't forget to rebuild the generated sources first! (See above.)_
 
-h4. Subversion
-
-AFC consists of a master project, @afc@, and the component projects in @components/.../@ like @afc-runtime@, @afc-compiler@, etc. As of June 2007, "Subclipse":http://subclipse.tigris.org/ cannot handle nested projects (it hangs the IDE). So if you want the @afc@ project in Eclipse (contains master build and script and documentation source), then you have to either use "Subversive":http://www.polarion.org/index.php?page=overview&project=subversive or no team support at all.
-
 h4. Setup
 
 To use "Eclipse":-ec (as I do), you can simply import the existing projects:
@@ -46,6 +42,10 @@ Unfortunately as of Eclipse 3.3 you have to import each project separately using
 h4. Code Style
 
 The default Eclipse projects have a project-specific "code style":style.htm already set.
+
+h4. Version Control
+
+I currently advise against installing the Mercurial plugin. Instead, just use Mercurial from the command line. The command @hg addremove -s ?@ where @?@ is a percentage of similarity can be used to track renames. First do @hg addremove -n -s ?@ to see if it does the right thing, then drop the @-n@.
 
 
 h2. IDEA
