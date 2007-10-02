@@ -3,6 +3,12 @@ h1. Java Code Style
 
 To ensure some sort of consistency in the source code, I would strongly appreciate it if you could follow these style guidelines (and generally the ones you see in the code that already exists):
 
+
+h4. Encoding
+
+	* _Unix line ending_ conventions (LF only).
+	* _UTF-8_ character encoding.
+
 h4. Indentation
 
 	* Use tabs to indent, not spaces.
