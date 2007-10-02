@@ -6,6 +6,14 @@ This section gives an overview of the important files and folders of AFC.
 <%= toc %>
 
 
+h2. Conventions
+
+Text files use
+
+	* _Unix line ending_ conventions (LF only), and
+	* _UTF-8_ character encoding.
+
+
 h2. Structure
 
 

@@ -69,7 +69,9 @@ h4. Setup
 
 Ideally, set up each component in its own project. Then you can define project dependencies to make sure you don't violate ".jar boundaries":dependencies.htm. The components are in @components/@. Each component has a bunch of source folders in @components/.../src/.../@. They might also have external jars in @components/.../lib/.../@ (see the "files overview":files.htm).
 
-Make sure you also add @components/compiler/temp/java@ and @components/compiler/temp/java15@ to the compiler component's source path (generated sources). 
+Make sure you also add @components/compiler/temp/java@ and @components/compiler/temp/java15@ to the compiler component's source path (generated sources).
+
+Set line ending to Unix style (LF only) and character encoding to UTF-8.
 
 h4. Tests
 
