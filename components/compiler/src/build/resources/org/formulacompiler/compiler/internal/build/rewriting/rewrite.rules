@@ -204,6 +204,8 @@ rules {
 	rewrite pmt( rate, nper, pv, fv ) = PMT (rate, nper, pv, fv, 0 )
 	rewrite pmt( rate, nper, pv ) = PMT (rate, nper, pv, 0, 0 )
 
+	rewrite vdb( cost, salvage, life, start_period, end_period, factor ) = VDB (cost, salvage, life, start_period, end_period, factor, FALSE )
+	rewrite vdb( cost, salvage, life, start_period, end_period ) = VDB( cost, salvage, life, start_period, end_period, 2, FALSE )
 
 	// -------- Probability functions
 
