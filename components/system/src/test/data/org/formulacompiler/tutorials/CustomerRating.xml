@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>Peter Arrenbrecht</Author>
+  <LastAuthor>vkorenev</LastAuthor>
+  <Created>2005-11-28T21:03:06Z</Created>
+  <LastSaved>2007-08-16T14:55:29Z</LastSaved>
+  <Company>Opus Software AG</Company>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>13920</WindowHeight>
+  <WindowWidth>13845</WindowWidth>
+  <WindowTopX>480</WindowTopX>
+  <WindowTopY>30</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s18" ss:Name="Currency">
+   <NumberFormat
+    ss:Format="_ &quot;SFr.&quot;\ * #,##0.00_ ;_ &quot;SFr.&quot;\ * \-#,##0.00_ ;_ &quot;SFr.&quot;\ * &quot;-&quot;??_ ;_ @_ "/>
+  </Style>
+  <Style ss:ID="s22">
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Bold="1" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s23">
+   <Font ss:FontName="Verdana" ss:Underline="Single"/>
+  </Style>
+ </Styles>
+ <Names>
+  <NamedRange ss:Name="OrdersForLastThreeMonths" ss:RefersTo="=Sheet1!R3C2:R7C2"/>
+  <NamedRange ss:Name="OrderTotal" ss:RefersTo="=Sheet1!R3C2"/>
+  <NamedRange ss:Name="Rating" ss:RefersTo="=Sheet1!R13C2"/>
+ </Names>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="14" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:AutoFitWidth="0" ss:Width="137.25"/>
+   <Column ss:Width="85.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="79.5" ss:Span="3"/>
+   <Column ss:Index="7" ss:Width="85.5"/>
+   <Row>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">Sections</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Inputs</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">OrdersForLastNDays(30)</Data></Cell>
+    <Cell><Data ss:Type="String">OrderTotal</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s18"><Data ss:Type="Number">450</Data><NamedCell
+      ss:Name="OrderTotal"/><NamedCell ss:Name="OrdersForLastThreeMonths"/></Cell>
+    <Cell ss:StyleID="s18"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s18"><Data ss:Type="Number">1320</Data><NamedCell
+      ss:Name="OrdersForLastThreeMonths"/></Cell>
+    <Cell ss:StyleID="s18"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s18"><Data ss:Type="Number">1540</Data><NamedCell
+      ss:Name="OrdersForLastThreeMonths"/></Cell>
+    <Cell ss:StyleID="s18"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s18"><Data ss:Type="Number">60</Data><NamedCell
+      ss:Name="OrdersForLastThreeMonths"/></Cell>
+    <Cell ss:StyleID="s18"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s18"><Data ss:Type="Number">5870</Data><NamedCell
+      ss:Name="OrdersForLastThreeMonths"/></Cell>
+    <Cell ss:StyleID="s18"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s18"/>
+    <Cell ss:StyleID="s18"/>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">Intermediates</Data></Cell>
+    <Cell ss:StyleID="s18"/>
+    <Cell ss:StyleID="s18"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">total</Data></Cell>
+    <Cell ss:StyleID="s18" ss:Formula="=SUM(R[-7]C:R[-3]C)"><Data ss:Type="Number">9240</Data></Cell>
+    <Cell ss:StyleID="s18"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s18"/>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">Outputs</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Rating</Data></Cell>
+    <Cell ss:Formula="=HLOOKUP(R[-3]C,RC[1]:R[1]C[5],2)"><Data ss:Type="String">Good</Data><NamedCell
+      ss:Name="Rating"/></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="Number">2000</Data></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="Number">5000</Data></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="Number">7500</Data></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="Number">10000</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3"><Data ss:Type="String">Abysmal</Data></Cell>
+    <Cell><Data ss:Type="String">Poor</Data></Cell>
+    <Cell><Data ss:Type="String">Average</Data></Cell>
+    <Cell><Data ss:Type="String">Good</Data></Cell>
+    <Cell><Data ss:Type="String">Excellent</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>19</ActiveRow>
+     <ActiveCol>2</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Sheet2">
+  <Table ss:ExpandedColumnCount="0" ss:ExpandedRowCount="0" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54"/>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Sheet3">
+  <Table ss:ExpandedColumnCount="0" ss:ExpandedRowCount="0" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54"/>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>
