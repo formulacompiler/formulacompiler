@@ -427,6 +427,34 @@ public abstract class Runtime_v2
 		_src.append( Integer.toHexString( 0x10000 | _char ).substring( 1 ) );
 	}
 
+	private static boolean isSymbolVisible( int codePoint )
+	{
+		if (codePoint < 32 | codePoint == 127) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
+	public static String fun_CLEAN( String _s )
+	{
+		final StringBuilder sb = new StringBuilder();
+		int i = 0;
+		while (i < _s.length()) {
+			int codePoint = _s.codePointAt( i );
+			if (Character.isSupplementaryCodePoint( codePoint )) {
+				i += 2;
+			}
+			else {
+				i++;
+			}
+			if (isSymbolVisible( codePoint )) {
+				sb.append( Character.toChars( codePoint ) );
+			}
+		}
+		return sb.toString();
+	}
 
 	public static String fun_LOWER( String _s )
 	{

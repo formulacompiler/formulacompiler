@@ -69,6 +69,10 @@ public final class ExpressionTemplatesForStrings
 		return b.toString();
 	}
 
+	public String fun_CLEAN( String a )
+	{
+		return Runtime_v2.fun_CLEAN( a );
+	}
 
 	public String fun_LOWER( String a )
 	{
