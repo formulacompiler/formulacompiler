@@ -464,7 +464,7 @@
 				projectpath="${basedir}"
 				sourcepathref="jcite.sourcepath" 
 				tripwireFile="${src.dir}/jcite-tripwires.txt"
-				tripwireNewLine="\r\n"
+				tripwireNewLine="\n"
 				acceptChanges="${tripups.accept}" 
 				diffPath="${temp.dir}/tripups" 
 				differ="${jcite.differ}">
