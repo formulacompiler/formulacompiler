@@ -1,0 +1,61 @@
+
+h1. Current Limitations
+
+
+This document describes the current limitations of AFC as of the latest release mentioned in the "release notes":releasenotes.htm.
+
+<%= toc 2, 3 %>
+
+
+h2. Spreadsheet Formats
+
+	* Excel .xml support is missing (parked for resurrection in an earlier version).
+	* OpenOffice Calc spreadsheet loader is not done at all.
+	* The Excel .xls loader does not yet handle references to labels in formulas.
+	* The following functions are not supported by the Excel .xls loader now: ERF, ERFC, GCD, ISEVEN, ISODD, MROUND, MULTINOMIAL, QUOTIENT, RANDBETWEEN, SQRTPI, SERIESSUM.
+
+h5. Excel
+
+	* AFC currently supports only the subset of Excel documented in this "reference":reference/index.htm.
+	* "Null values":reference/values.htm (empty cells) are not yet supported. In particular, an @AVERAGE@ involving empty cells will return a different result than Excel.
+	* Range intersections are parsed but not evaluated correctly.
+	* Ranges specified using named cells as endpoints are not supported. "Named ranges":reference/values.htm, however, are.
+	* Named range unions are not supported. They are ignored when the spreadsheet is loaded and their name will therefore not be known to AFC.
+	* With "@MATCH@":reference/lookupfuncs.htm, the last argument (the match type) must be constant, and the second argument (the match range) cannot reference a repeating section yet.
+	* With "@INDEX@":reference/lookupfuncs.htm, the range argument cannot reference a repeating section yet. It also does not support 3-dimensional lookups.
+	* "@INDEX@":reference/lookupfuncs.htm does not return arrays (as in @=SUM(INDEX(A1:B2;2))@).
+	* "@AND@ and @OR@":reference/booleans.htm cannot be used as aggregators over repeating sections yet.
+	* Functions like @NPV()@, @MIRR()@, and @IRR()@ cannot be used over repeating sections.
+	* Array expressions are not supported (such as @{=INDEX({1,2;3,4};0;2)}@).
+	* In Excel, a formula like @(A1 = 0)@ returns false when @A1@ is @FALSE@. In AFC it is true. In both AFC and Excel, @(A1 + 0 = 0)@ returns true.
+	* In Excel, @SUM@ ignores booleans. In AFC it does not. In both, numeric operators like @+@ treat booleans as numbers.
+	* String comparisons don't sort umlauts and such the way Excel does (see "String Comparisons":reference/strings.htm).
+	* The options flag "Precision as displayed" is not supported. AFC always uses the full precision of the configured numeric type internally and only rounds final outputs.
+
+
+h2. Numeric Types
+
+h5. Scaled Long
+
+	* Currently computes exponentiation and conversion from and to dates using the @double@ type.
+	* Scaled division currently swaps arguments on the stack a little too much.
+
+h5. BigDecimal
+
+	* @POWER()@ and the @^@ operator with non-integer exponents are converted to @double@ operations.
+	* @IRR()@ throws @IllegalArgumentException@ when the function does not converge.
+	* @MIRR()@ is not supported because it needs fractional exponents.
+
+
+h2. Interfacing with Java
+
+	* There is no support for @null@ yet (see also the note on "empty cells":reference/values.htm).
+	* When binding a @String@-valued output method to a date field in Excel, the resulting value is not formatted as a date, but as a number. This is because, internally, dates are treated as numbers. This is the same behaviour as that shown by @CONCATENATE@ and @&@ in Excel itself.
+	* When binding a @String@-valued output method to a numeric field with a special cell format, that format is not respected. This is the same behaviour as that shown by @CONCATENATE@ and @&@ in Excel itself.
+	* Aggregators "spanning nested sections":dev/2007-12-15_ranges_overlapping_sections.htm are not yet supported, except for the special case which is useful for "@DSUM@ et al.":reference/dbaggregators.htm.
+
+
+h2. Miscellaneous
+
+	* The interactive demo is still somewhat broken (because of missing info methods on the spreadsheet query interface).
+

@@ -1,0 +1,238 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>peo</Author>
+  <LastAuthor>vkorenev</LastAuthor>
+  <Created>2006-12-18T08:13:24Z</Created>
+  <LastSaved>2006-12-19T08:31:08Z</LastSaved>
+  <Company>arrenbrecht.ch</Company>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>15480</WindowHeight>
+  <WindowWidth>19320</WindowWidth>
+  <WindowTopX>360</WindowTopX>
+  <WindowTopY>60</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s21">
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s22">
+   <Interior ss:Color="#FFFF99" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s23">
+   <Font ss:FontName="Verdana" x:Family="Swiss"/>
+  </Style>
+  <Style ss:ID="s24">
+   <Interior/>
+  </Style>
+  <Style ss:ID="s25">
+   <Interior ss:Color="#CCFFFF" ss:Pattern="Solid"/>
+  </Style>
+ </Styles>
+ <Names>
+  <NamedRange ss:Name="A_One" ss:RefersTo="=Sheet1!R3C2:R4C3"/>
+  <NamedRange ss:Name="A_Two" ss:RefersTo="=Sheet1!R4C4:R5C5"/>
+  <NamedRange ss:Name="B_One" ss:RefersTo="=Sheet1!R7C2:R8C3"/>
+  <NamedRange ss:Name="B_Two" ss:RefersTo="=Sheet1!R9C3:R10C4"/>
+  <NamedRange ss:Name="C_One" ss:RefersTo="=Sheet1!R12C2:R14C3"/>
+  <NamedRange ss:Name="C_Two" ss:RefersTo="=Sheet1!R12C3:R13C3"/>
+ </Names>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="5" ss:ExpandedRowCount="40" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:AutoFitWidth="0" ss:Width="168"/>
+   <Row>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">This works:</Data></Cell>
+   </Row>
+   <Row ss:Index="3">
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Parallel vertical sections</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">1</Data><NamedCell
+      ss:Name="A_One"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">0.1</Data><NamedCell
+      ss:Name="A_One"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s22"><Data ss:Type="Number">2</Data><NamedCell
+      ss:Name="A_One"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">0.2</Data><NamedCell
+      ss:Name="A_One"/></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">1</Data><NamedCell
+      ss:Name="A_Two"/></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.1</Data><NamedCell
+      ss:Name="A_Two"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="4" ss:StyleID="s25"><Data ss:Type="Number">2</Data><NamedCell
+      ss:Name="A_Two"/></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.2</Data><NamedCell
+      ss:Name="A_Two"/></Cell>
+   </Row>
+   <Row ss:Index="7">
+    <Cell><Data ss:Type="String">Parallel horizontal sections</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">1</Data><NamedCell
+      ss:Name="B_One"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">2</Data><NamedCell
+      ss:Name="B_One"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s22"><Data ss:Type="Number">0.1</Data><NamedCell
+      ss:Name="B_One"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">0.2</Data><NamedCell
+      ss:Name="B_One"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s25"><Data ss:Type="Number">1</Data><NamedCell
+      ss:Name="B_Two"/></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">2</Data><NamedCell
+      ss:Name="B_Two"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s25"><Data ss:Type="Number">0.1</Data><NamedCell
+      ss:Name="B_Two"/></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.2</Data><NamedCell
+      ss:Name="B_Two"/></Cell>
+   </Row>
+   <Row ss:Index="12">
+    <Cell><Data ss:Type="String">Nested vertical sections</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">1</Data><NamedCell
+      ss:Name="C_One"/></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">1.1</Data><NamedCell
+      ss:Name="C_Two"/><NamedCell ss:Name="C_One"/></Cell>
+    <Cell ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s22"><NamedCell ss:Name="C_One"/></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">1.2</Data><NamedCell
+      ss:Name="C_Two"/><NamedCell ss:Name="C_One"/></Cell>
+    <Cell ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s22"><Data ss:Type="Number">2</Data><NamedCell
+      ss:Name="C_One"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">2.1</Data><NamedCell
+      ss:Name="C_One"/></Cell>
+    <Cell ss:StyleID="s24"/>
+   </Row>
+   <Row ss:Index="16">
+    <Cell><Data ss:Type="String">Nested horizontal sections</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s25"><Data ss:Type="Number">1.1</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">1.2</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">2.1</Data></Cell>
+   </Row>
+   <Row ss:Index="19">
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Parallel mixed sections V/H</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">0.1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s22"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="4" ss:StyleID="s25"><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.2</Data></Cell>
+   </Row>
+   <Row ss:Index="23">
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Parallel mixed sections H/V</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s22"><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="4" ss:StyleID="s25"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.2</Data></Cell>
+   </Row>
+   <Row ss:Index="27">
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Parallel mixed sections H/V</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s22"><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">0.2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s25"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s25"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.2</Data></Cell>
+   </Row>
+   <Row ss:Index="32">
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Parallel mixed sections V/H</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">0.1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s22"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">0.2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s25"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s25"><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.2</Data></Cell>
+   </Row>
+   <Row ss:Index="37">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">These are errors:</Data></Cell>
+   </Row>
+   <Row ss:Index="39">
+    <Cell><Data ss:Type="String">Nested non-contained sections</Data></Cell>
+    <Cell><Data ss:Type="String">TODO</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Parallel overlapping sections</Data></Cell>
+    <Cell><Data ss:Type="String">TODO</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>39</ActiveRow>
+     <ActiveCol>1</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

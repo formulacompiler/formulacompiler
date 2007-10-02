@@ -1,0 +1,9 @@
+double d = 1.2e6;
+System.out.println( Double.toString( d ) );
+
+java.math.BigDecimal b = java.math.BigDecimal.valueOf( 1.2e40 ).setScale( 8 );
+
+java.math.BigDecimal b1 = b.stripTrailingZeros();
+java.math.BigDecimal b2 = (b1.scale() < 0)? b1.setScale( 0 ) : b1;
+
+System.out.println( b2.toString() );

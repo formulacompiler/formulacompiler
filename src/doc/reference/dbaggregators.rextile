@@ -1,0 +1,32 @@
+
+h1. Database Table Aggregators In AFC
+
+
+Database table aggregators are functions that compute values over contiguous ranges of values that are structured like a database table. This means they have a header row of column labels. The table aggregators can filter the table prior to aggregating it.
+
+<%= toc 2, 5 %>
+
+
+h2. Test Sheet
+
+The following test cases reference this sheet:
+
+	[xc:org/formulacompiler/tests/reference/DatabaseAggregators_de_CH.xls:BaseData;fo]
+
+	
+h2. Aggregators
+
+	[inc:DatabaseAggregators_de_CH.htm]
+
+
+h2. Repeating Section Support
+
+You can use vertically repeating sections in the data area. They must not, however, cover the label area, and they must always cover exactly the width of the table. You can mix them with static rows. An example is shown below:
+
+	[xc:org/formulacompiler/tests/SectionTests.xls:DSUM_Example]
+
+It is also possible to have multiple sibling sections in the data table, as shown below:
+
+	[xc:org/formulacompiler/tests/reference/DSUM_with_sibling_sections.xls:Cited_Example]
+
+TODO: This example is not automatically tested yet!

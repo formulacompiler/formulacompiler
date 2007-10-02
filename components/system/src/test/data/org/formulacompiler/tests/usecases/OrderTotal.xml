@@ -1,0 +1,305 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>Peter Arrenbrecht</Author>
+  <LastAuthor>vkorenev</LastAuthor>
+  <Created>2006-02-01T14:48:12Z</Created>
+  <LastSaved>2006-02-01T15:14:02Z</LastSaved>
+  <Company>Opus Software AG</Company>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>15480</WindowHeight>
+  <WindowWidth>19245</WindowWidth>
+  <WindowTopX>240</WindowTopX>
+  <WindowTopY>135</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s18" ss:Name="Currency">
+   <NumberFormat
+    ss:Format="_ &quot;SFr.&quot;\ * #,##0.00_ ;_ &quot;SFr.&quot;\ * \-#,##0.00_ ;_ &quot;SFr.&quot;\ * &quot;-&quot;??_ ;_ @_ "/>
+  </Style>
+  <Style ss:ID="s21">
+   <NumberFormat ss:Format="Percent"/>
+  </Style>
+  <Style ss:ID="s22">
+   <NumberFormat ss:Format="0%"/>
+  </Style>
+  <Style ss:ID="s24" ss:Parent="s18">
+   <Font ss:FontName="Verdana"/>
+  </Style>
+  <Style ss:ID="s25">
+   <NumberFormat
+    ss:Format="_ &quot;SFr.&quot;\ * #,##0.00_ ;_ &quot;SFr.&quot;\ * \-#,##0.00_ ;_ &quot;SFr.&quot;\ * &quot;-&quot;??_ ;_ @_ "/>
+  </Style>
+  <Style ss:ID="s26">
+   <Borders>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="2"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="s27">
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/>
+   </Borders>
+   <Interior ss:Color="#CCFFCC" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s28" ss:Parent="s18">
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/>
+   </Borders>
+   <Interior ss:Color="#CCFFCC" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s29" ss:Parent="s18">
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="s30">
+   <Borders>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="2"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/>
+   </Borders>
+   <NumberFormat
+    ss:Format="_ &quot;SFr.&quot;\ * #,##0.00_ ;_ &quot;SFr.&quot;\ * \-#,##0.00_ ;_ &quot;SFr.&quot;\ * &quot;-&quot;??_ ;_ @_ "/>
+  </Style>
+  <Style ss:ID="s31">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="2"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="s32">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/>
+   </Borders>
+   <Interior ss:Color="#CCFFCC" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s33" ss:Parent="s18">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/>
+   </Borders>
+   <Interior ss:Color="#CCFFCC" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s34" ss:Parent="s18">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="s35">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/>
+   </Borders>
+   <Interior ss:Color="#CCFFCC" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="Percent"/>
+  </Style>
+  <Style ss:ID="s36">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/>
+   </Borders>
+   <Interior ss:Color="#CCFFCC" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="0%"/>
+  </Style>
+  <Style ss:ID="s37" ss:Parent="s18">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/>
+   </Borders>
+   <Interior/>
+  </Style>
+  <Style ss:ID="s38">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="2"/>
+   </Borders>
+   <NumberFormat
+    ss:Format="_ &quot;SFr.&quot;\ * #,##0.00_ ;_ &quot;SFr.&quot;\ * \-#,##0.00_ ;_ &quot;SFr.&quot;\ * &quot;-&quot;??_ ;_ @_ "/>
+  </Style>
+  <Style ss:ID="s39">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Interior ss:Color="#CCFFCC" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="Percent"/>
+  </Style>
+  <Style ss:ID="s40">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Interior ss:Color="#CCFFCC" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="0%"/>
+  </Style>
+  <Style ss:ID="s41" ss:Parent="s18">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Interior/>
+  </Style>
+  <Style ss:ID="s42" ss:Parent="s18">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Interior/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="12" ss:ExpandedRowCount="9" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:AutoFitWidth="0" ss:Width="24"/>
+   <Column ss:Index="4" ss:StyleID="s18" ss:Width="79.5" ss:Span="1"/>
+   <Column ss:Index="6" ss:AutoFitWidth="0" ss:Width="68.25"/>
+   <Column ss:Index="8" ss:StyleID="s18" ss:Width="70.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="68.25"/>
+   <Column ss:Index="11" ss:StyleID="s18" ss:AutoFitWidth="0" ss:Width="90"/>
+   <Column ss:Width="85.5"/>
+   <Row>
+    <Cell ss:Index="3"><Data ss:Type="String">Menge</Data></Cell>
+    <Cell><Data ss:Type="String">Preis</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Total exkl.</Data></Cell>
+    <Cell><Data ss:Type="String">MWSt-Satz</Data></Cell>
+    <Cell><Data ss:Type="String">Anteil</Data></Cell>
+    <Cell><Data ss:Type="String">Betrag</Data></Cell>
+    <Cell><Data ss:Type="String">MWSt-Satz</Data></Cell>
+    <Cell><Data ss:Type="String">Anteil</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Betrag</Data></Cell>
+    <Cell><Data ss:Type="String">Total inkl.</Data></Cell>
+   </Row>
+   <Row ss:Height="13.5">
+    <Cell ss:Index="5" ss:StyleID="s24"/>
+    <Cell ss:Index="11" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s26"><Data ss:Type="String">Position 1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">3100</Data></Cell>
+    <Cell ss:StyleID="s29" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">9300</Data></Cell>
+    <Cell ss:StyleID="s39"><Data ss:Type="Number">7.5999999999999998E-2</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:StyleID="s41" ss:Formula="=RC5*RC[-1]*RC[-2]"><Data ss:Type="Number">565.43999999999994</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">0.02</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell ss:StyleID="s42" ss:Formula="=RC5*RC[-1]*RC[-2]"><Data ss:Type="Number">37.2</Data></Cell>
+    <Cell ss:StyleID="s30" ss:Formula="=RC[-7]+SUM(RC[-4],RC[-1])"><Data
+      ss:Type="Number">9902.64</Data></Cell>
+   </Row>
+   <Row ss:Height="13.5">
+    <Cell ss:Index="2" ss:StyleID="s31"><Data ss:Type="String">Position 2</Data></Cell>
+    <Cell ss:StyleID="s32"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="s33"><Data ss:Type="Number">480</Data></Cell>
+    <Cell ss:StyleID="s34" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">2400</Data></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="Number">7.5999999999999998E-2</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s37" ss:Formula="=RC5*RC[-1]*RC[-2]"><Data ss:Type="Number">182.4</Data></Cell>
+    <Cell ss:StyleID="s32"/>
+    <Cell ss:StyleID="s32"/>
+    <Cell ss:StyleID="s37" ss:Formula="=RC5*RC[-1]*RC[-2]"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s38" ss:Formula="=RC[-7]+SUM(RC[-4],RC[-1])"><Data
+      ss:Type="Number">2582.4</Data></Cell>
+   </Row>
+   <Row ss:Index="6">
+    <Cell ss:Index="2"><Data ss:Type="String">TOTAL</Data></Cell>
+    <Cell ss:Index="12" ss:StyleID="s25" ss:Formula="=SUM(R[-3]C:R[-2]C)"><Data
+      ss:Type="Number">12485.039999999999</Data></Cell>
+   </Row>
+   <Row ss:Index="8">
+    <Cell ss:Index="2"><Data ss:Type="String">MWSt</Data></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">7.5999999999999998E-2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s22"><Data ss:Type="Number">0.02</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>10</ActiveRow>
+     <ActiveCol>1</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Sheet2">
+  <Table ss:ExpandedColumnCount="3" ss:ExpandedRowCount="13" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Row>
+    <Cell><Data ss:Type="String">Category</Data></Cell>
+    <Cell><Data ss:Type="String">Amount</Data></Cell>
+    <Cell><Data ss:Type="String">Totals</Data></Cell>
+   </Row>
+   <Row ss:Index="3">
+    <Cell><Data ss:Type="String">One</Data></Cell>
+    <Cell ss:Index="3" ss:Formula="=SUM(R[1]C[-1]:R[3]C[-1])"><Data
+      ss:Type="Number">600</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">100</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">200</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">300</Data></Cell>
+   </Row>
+   <Row ss:Index="8">
+    <Cell><Data ss:Type="String">Two</Data></Cell>
+    <Cell ss:Index="3" ss:Formula="=SUM(R[1]C[-1]:R[3]C[-1])"><Data
+      ss:Type="Number">220</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">50</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">80</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">90</Data></Cell>
+   </Row>
+   <Row ss:Index="13">
+    <Cell ss:Index="3" ss:Formula="=SUM(R[-10]C:R[-2]C)"><Data ss:Type="Number">820</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>20</ActiveRow>
+     <ActiveCol>5</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Sheet3">
+  <Table ss:ExpandedColumnCount="0" ss:ExpandedRowCount="0" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54"/>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>
