@@ -456,6 +456,33 @@ public abstract class Runtime_v2
 		return sb.toString();
 	}
 
+	public static String fun_FIXED( Number _number, int _decimals, boolean _no_commas, Environment _environment )
+	{
+		double number = _number.doubleValue();
+		double multiplier = _decimals != 0 ? Math.pow( 10, _decimals ) : 1;
+		number = Math.round( number * multiplier ) / multiplier;
+		final DecimalFormatSymbols syms = getDecimalFormatSymbols( _environment );
+		if (_decimals < 0) {
+			_decimals = 0;
+		}
+		final NumberFormat numberFormat = getNumberFormat( _environment );
+		if (numberFormat instanceof DecimalFormat) {
+			final DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
+			final DecimalFormatSymbols formatSymbols = decimalFormat.getDecimalFormatSymbols();
+			final char c = formatSymbols.getGroupingSeparator();
+			if (Character.isSpaceChar( c )) {
+				formatSymbols.setGroupingSeparator( '\u0020' );
+				decimalFormat.setDecimalFormatSymbols( formatSymbols );
+			}
+			numberFormat.setMinimumFractionDigits( _decimals );
+			numberFormat.setGroupingUsed( !_no_commas );
+			return numberFormat.format( number );
+		}
+		else {
+			return "0";
+		}
+	}
+
 	public static String fun_LOWER( String _s )
 	{
 		return _s.toLowerCase();
@@ -498,6 +525,50 @@ public abstract class Runtime_v2
 			sb.append( _text );
 		}
 		return sb.toString();
+	}
+
+	public static String fun_ROMAN( int val, int mode )
+	{
+		if ((mode >= 0) & (mode < 5) & (val >= 0) & (val < 4000)) {
+			final StringBuilder result = new StringBuilder();
+			final int[] values = { 1000, 500, 100, 50, 10, 5, 1 };
+			final String[] roman = { "M", "D", "C", "L", "X", "V", "I" };
+			int maxIndex = values.length - 1;
+			for (int i = 0; i <= maxIndex / 2; i++) {
+				int index = i * 2;
+				int digit = val / values[ index ];
+				if ((digit % 5) == 4) {
+					int index2 = (digit == 4) ? index - 1 : index - 2;
+					int step = 0;
+					while ((step < mode) & (index < maxIndex)) {
+						step++;
+						if (values[ index2 ] - values[ index + 1 ] <= val)
+							index++;
+						else
+							step = mode;
+					}
+					result.append( roman[ index ] );
+					result.append( roman[ index2 ] );
+					val += values[ index ];
+					val -= values[ index2 ];
+				}
+				else {
+					if (digit > 4) {
+						result.append( roman[ index - 1 ] );
+					}
+					if (digit > 0) {
+						for (int j = 0; j < digit % 5; j++) {
+							result.append( roman[ index ] );
+						}
+					}
+					val %= values[ index ];
+				}
+			}
+			return result.toString();
+		}
+		else {
+			return "0";
+		}
 	}
 
 	/**

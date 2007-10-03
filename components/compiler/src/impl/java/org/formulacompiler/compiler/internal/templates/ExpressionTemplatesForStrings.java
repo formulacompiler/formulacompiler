@@ -74,9 +74,35 @@ public final class ExpressionTemplatesForStrings
 		return Runtime_v2.fun_CLEAN( a );
 	}
 
+	public String fun_FIXED( Number _number, int _decimals, int _no_commas )
+	{
+		boolean no_commas = _no_commas == 0 ? false : true;
+		return Runtime_v2.fun_FIXED( _number, _decimals, no_commas, this.environment );
+	}
+
+	public String fun_FIXED( Number _number, int _decimals )
+	{
+		return Runtime_v2.fun_FIXED( _number, _decimals, false, this.environment );
+	}
+
+	public String fun_FIXED( Number _number )
+	{
+		return Runtime_v2.fun_FIXED( _number, 2, false, this.environment );
+	}
+
 	public String fun_LOWER( String a )
 	{
 		return Runtime_v2.fun_LOWER( a );
+	}
+
+	public String fun_ROMAN( int _number )
+	{
+		return Runtime_v2.fun_ROMAN( _number, 0 );
+	}
+
+	public String fun_ROMAN( int _number, int _form )
+	{
+		return Runtime_v2.fun_ROMAN( _number, _form );
 	}
 
 	public String fun_UPPER( String a )

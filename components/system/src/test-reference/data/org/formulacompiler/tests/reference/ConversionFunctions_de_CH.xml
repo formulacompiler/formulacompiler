@@ -6,9 +6,9 @@
  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
  xmlns:html="http://www.w3.org/TR/REC-html40">
  <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
-  <LastAuthor>vkorenev</LastAuthor>
+  <LastAuthor>samsonov</LastAuthor>
   <Created>2005-11-22T20:05:38Z</Created>
-  <LastSaved>2007-07-18T15:12:21Z</LastSaved>
+  <LastSaved>2007-09-26T17:39:35Z</LastSaved>
   <Version>11.8132</Version>
  </DocumentProperties>
  <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
@@ -66,14 +66,19 @@
   <Style ss:ID="s38">
    <NumberFormat ss:Format="0.0000000000000000000"/>
   </Style>
+  <Style ss:ID="s41">
+   <NumberFormat ss:Format="@"/>
+  </Style>
  </Styles>
  <Worksheet ss:Name="Sheet1">
-  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="304" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="303" x:FullColumns="1"
    x:FullRows="1" ss:DefaultColumnWidth="54">
-   <Column ss:AutoFitWidth="0" ss:Width="92.25"/>
-   <Column ss:AutoFitWidth="0" ss:Width="84"/>
+   <Column ss:AutoFitWidth="0" ss:Width="129.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="137.25"/>
    <Column ss:AutoFitWidth="0" ss:Width="213.75"/>
-   <Column ss:AutoFitWidth="0" ss:Width="19.5" ss:Span="5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="19.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="53.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="19.5" ss:Span="3"/>
    <Column ss:Index="10" ss:StyleID="s24" ss:AutoFitWidth="0" ss:Width="61.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="174.75"/>
    <Column ss:AutoFitWidth="0" ss:Width="44.25"/>
@@ -842,28 +847,129 @@
     <Cell><Data ss:Type="String">@</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
    </Row>
-   <Row ss:Index="234">
+   <Row ss:Index="91">
+    <Cell ss:StyleID="s41"><Data ss:Type="String">1'234.35</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1])"><Data ss:Type="String">1'234.35</Data></Cell>
+    <Cell><Data ss:Type="Number">1234.3456000000001</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">FIXED</Data></Cell>
+    <Cell><Data ss:Type="String">FIXED</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">12.340</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2])"><Data ss:Type="String">12.340</Data></Cell>
+    <Cell><Data ss:Type="Number">12.34</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">12'345.340</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2])"><Data ss:Type="String">12'345.340</Data></Cell>
+    <Cell><Data ss:Type="Number">12345.34</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">123'456'789.123</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2])"><Data ss:Type="String">123'456'789.123</Data></Cell>
+    <Cell><Data ss:Type="Number">123456789.123456</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">12'300</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2])"><Data ss:Type="String">12'300</Data></Cell>
+    <Cell><Data ss:Type="Number">12345.34</Data></Cell>
+    <Cell><Data ss:Type="Number">-2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">12345.340</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2],RC[3])"><Data ss:Type="String">12345.340</Data></Cell>
+    <Cell><Data ss:Type="Number">12345.34</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">12'345.340</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2],RC[3])"><Data ss:Type="String">12'345.340</Data></Cell>
+    <Cell><Data ss:Type="Number">12345.34</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1'234'567'891'234.56</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2],RC[3])"><Data ss:Type="String">1'234'567'891'234.56</Data></Cell>
+    <Cell><Data ss:Type="Number">1234567891234.5601</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">123'456'789'123'400.00</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2],RC[3])"><Data ss:Type="String">123'456'789'123'400.00</Data></Cell>
+    <Cell><Data ss:Type="Number">123456789123400</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1'234.6</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2])"><Data ss:Type="String">1'234.6</Data></Cell>
+    <Cell><Data ss:Type="Number">1234.567</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">-1'230</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2])"><Data ss:Type="String">-1'230</Data></Cell>
+    <Cell><Data ss:Type="Number">-1234.567</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1230</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2],RC[3])"><Data ss:Type="String">1230</Data></Cell>
+    <Cell><Data ss:Type="Number">1234.567</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">-1230</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2],RC[3])"><Data ss:Type="String">-1230</Data></Cell>
+    <Cell><Data ss:Type="Number">-1234.567</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="233">
     <Cell ss:StyleID="s22"/>
    </Row>
    <Row>
     <Cell ss:StyleID="s22"/>
    </Row>
-   <Row ss:Index="260">
+   <Row ss:Index="259">
     <Cell ss:StyleID="s22"/>
    </Row>
    <Row>
     <Cell ss:StyleID="s22"/>
    </Row>
-   <Row ss:Index="291">
+   <Row ss:Index="290">
     <Cell ss:Index="4" ss:StyleID="s28"/>
    </Row>
-   <Row ss:Index="293">
+   <Row ss:Index="292">
     <Cell ss:Index="4" ss:StyleID="s29"/>
    </Row>
    <Row>
     <Cell ss:Index="3" ss:StyleID="s30"/>
    </Row>
-   <Row ss:Index="303">
+   <Row ss:Index="302">
     <Cell ss:StyleID="s22"/>
    </Row>
    <Row>
@@ -878,19 +984,27 @@
     <VerticalResolution>600</VerticalResolution>
    </Print>
    <Selected/>
+   <TopRowVisible>80</TopRowVisible>
    <Panes>
     <Pane>
      <Number>3</Number>
-     <ActiveRow>13</ActiveRow>
+     <ActiveRow>90</ActiveRow>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>
    <ProtectScenarios>False</ProtectScenarios>
   </WorksheetOptions>
   <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
-   <Range>R324C3:R379C9,R283C3:R321C9,R257C3:R281C9,R2C3:R255C9</Range>
+   <Range>R323C3:R378C9,R282C3:R320C9,R256C3:R280C9,R2C3:R90C9,R92C6:R97C6,R91C4:R97C5,R91C7:R97C9,R102C3:R254C9,R98C4:R101C9,R91C3:R101C3</Range>
    <Condition>
     <Value1>RC10&gt;COLUMN(RC)-3</Value1>
+    <Format Style='background:#CCFFCC'/>
+   </Condition>
+  </ConditionalFormatting>
+  <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
+   <Range>R91C6</Range>
+   <Condition>
+    <Value1>#REF!&gt;COLUMN(RC)-3</Value1>
     <Format Style='background:#CCFFCC'/>
    </Condition>
   </ConditionalFormatting>

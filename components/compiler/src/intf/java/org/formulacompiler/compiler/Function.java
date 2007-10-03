@@ -95,7 +95,15 @@ public enum Function {
 
 	// Conversions
 
-	N, T, VALUE, TEXT
+	FIXED
+	{
+		@Override
+		public boolean isVolatile()
+		{
+			return true;
+		}
+	},
+	ROMAN, N, T, VALUE, TEXT
 	{
 		/**
 		 * {@code TEXT} is volatile because all to-text conversions are considered dependent on the
