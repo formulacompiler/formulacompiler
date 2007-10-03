@@ -9,7 +9,7 @@
   <Author>Peter Arrenbrecht</Author>
   <LastAuthor>vkorenev</LastAuthor>
   <Created>2005-11-22T20:05:38Z</Created>
-  <LastSaved>2007-09-27T12:38:11Z</LastSaved>
+  <LastSaved>2007-10-01T09:31:57Z</LastSaved>
   <Company>Opus Software AG</Company>
   <Version>11.8132</Version>
  </DocumentProperties>
@@ -41,17 +41,19 @@
    <Alignment ss:Vertical="Center"/>
    <Font ss:FontName="Verdana" ss:Italic="1" ss:Underline="Single"/>
   </Style>
-  <Style ss:ID="s24">
+  <Style ss:ID="s25">
    <Font ss:FontName="Verdana" x:CharSet="204" x:Family="Swiss" ss:Bold="1"/>
   </Style>
  </Styles>
  <Worksheet ss:Name="Sheet1">
-  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="365" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="431" x:FullColumns="1"
    x:FullRows="1" ss:DefaultColumnWidth="54">
    <Column ss:AutoFitWidth="0" ss:Width="85.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="115.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="43.5"/>
-   <Column ss:AutoFitWidth="0" ss:Width="36.75" ss:Span="5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="36.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="42"/>
+   <Column ss:AutoFitWidth="0" ss:Width="36.75" ss:Span="3"/>
    <Column ss:Index="10" ss:StyleID="s21" ss:AutoFitWidth="0" ss:Width="61.5"/>
    <Column ss:Width="191.25"/>
    <Column ss:AutoFitWidth="0" ss:Width="68.25"/>
@@ -886,9 +888,49 @@
     <Cell><Data ss:Type="Number">3</Data></Cell>
     <Cell><Data ss:Type="Boolean">0</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
-    <Cell><Data ss:Type="String">...</Data></Cell>
    </Row>
-   <Row ss:Index="98">
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=NORMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">-3.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-2.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=NORMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">-3.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-2.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=NORMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">-3.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-2.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=NORMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">-3.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-2.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row ss:Index="102">
     <Cell><Data ss:Type="Number">1.2798125438858271E-12</Data></Cell>
     <Cell ss:Formula="=NORMSDIST(RC[1])"><Data ss:Type="Number">1.2798125438858271E-12</Data></Cell>
     <Cell><Data ss:Type="Number">-7</Data></Cell>
@@ -1113,7 +1155,7 @@
     <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
     <Cell><Data ss:Type="String">...</Data></Cell>
    </Row>
-   <Row ss:Index="132">
+   <Row ss:Index="136">
     <Cell><Data ss:Type="Number">2.8627425764402581E-3</Data></Cell>
     <Cell ss:Formula="=LOGNORMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">2.8627425764402581E-3</Data></Cell>
     <Cell><Data ss:Type="Number">1E-3</Data></Cell>
@@ -1226,9 +1268,49 @@
     <Cell><Data ss:Type="Number">-0.5</Data></Cell>
     <Cell><Data ss:Type="Number">4.5</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
-    <Cell><Data ss:Type="String">...</Data></Cell>
    </Row>
-   <Row ss:Index="146">
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=LOGNORMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">-0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">2.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=LOGNORMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">-0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">2.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">bigdecimal</Data><Comment ss:Author="vkorenev"><ss:Data
+       xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
+         html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=LOGNORMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Number">-0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=LOGNORMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Number">-0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row ss:Index="154">
     <Cell><Data ss:Type="Number">1.3755319528560164</Data></Cell>
     <Cell ss:Formula="=CONFIDENCE(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1.3755319528560164</Data></Cell>
     <Cell><Data ss:Type="Number">1E-4</Data></Cell>
@@ -1381,44 +1463,17 @@
     <Cell><Data ss:Type="Number">2.5</Data></Cell>
     <Cell><Data ss:Type="Number">250</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
-    <Cell><Data ss:Type="String">...</Data></Cell>
-    <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
-      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
-         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
-        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
-   </Row>
-   <Row ss:Index="160">
-    <Cell><Data ss:Type="Number">90.702458786356729</Data></Cell>
-    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">90.702458786356729</Data></Cell>
-    <Cell><Data ss:Type="Number">1E-4</Data></Cell>
-    <Cell><Data ss:Type="Number">100</Data></Cell>
-    <Cell><Data ss:Type="Number">2.5</Data></Cell>
-    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
-    <Cell><Data ss:Type="String">NORMINV</Data></Cell>
-    <Cell><Data ss:Type="String">NORMINV</Data></Cell>
     <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
       ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
          html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
    <Row>
-    <Cell><Data ss:Type="Number">95.88786593262131</Data></Cell>
-    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">95.88786593262131</Data></Cell>
-    <Cell><Data ss:Type="Number">0.05</Data></Cell>
-    <Cell><Data ss:Type="Number">100</Data></Cell>
-    <Cell><Data ss:Type="Number">2.5</Data></Cell>
-    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
-    <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
-      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
-         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
-        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
-   </Row>
-   <Row>
-    <Cell><Data ss:Type="Number">96.796121086138498</Data></Cell>
-    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">96.796121086138498</Data></Cell>
+    <Cell><Data ss:Type="Number">0.26007419393777875</Data></Cell>
+    <Cell ss:Formula="=CONFIDENCE(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.26007419393777875</Data></Cell>
     <Cell><Data ss:Type="Number">0.1</Data></Cell>
-    <Cell><Data ss:Type="Number">100</Data></Cell>
     <Cell><Data ss:Type="Number">2.5</Data></Cell>
+    <Cell><Data ss:Type="Number">250.9</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
     <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
       ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
@@ -1426,22 +1481,103 @@
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
    <Row>
-    <Cell><Data ss:Type="Number">97.895946916067714</Data></Cell>
-    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">97.895946916067714</Data></Cell>
-    <Cell><Data ss:Type="Number">0.2</Data></Cell>
-    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=CONFIDENCE(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
     <Cell><Data ss:Type="Number">2.5</Data></Cell>
+    <Cell><Data ss:Type="Number">50</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
-    <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
       ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
          html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
    <Row>
-    <Cell><Data ss:Type="Number">100</Data></Cell>
-    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=CONFIDENCE(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">2.5</Data></Cell>
+    <Cell><Data ss:Type="Number">50</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=CONFIDENCE(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2.5</Data></Cell>
+    <Cell><Data ss:Type="Number">50</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=CONFIDENCE(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
     <Cell><Data ss:Type="Number">0.5</Data></Cell>
-    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">50</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=CONFIDENCE(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">50</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=CONFIDENCE(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">2.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Index="175">
+    <Cell><Data ss:Type="Number">81.202458786356729</Data></Cell>
+    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">81.202458786356729</Data></Cell>
+    <Cell><Data ss:Type="Number">1E-4</Data></Cell>
+    <Cell><Data ss:Type="Number">90.5</Data></Cell>
+    <Cell><Data ss:Type="Number">2.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">NORMINV</Data></Cell>
+    <Cell><Data ss:Type="String">NORMINV</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">86.38786593262131</Data></Cell>
+    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">86.38786593262131</Data></Cell>
+    <Cell><Data ss:Type="Number">0.05</Data></Cell>
+    <Cell><Data ss:Type="Number">90.5</Data></Cell>
     <Cell><Data ss:Type="Number">2.5</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
     <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
@@ -1450,10 +1586,46 @@
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
    <Row>
-    <Cell><Data ss:Type="Number">102.10405308393229</Data></Cell>
-    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">102.10405308393229</Data></Cell>
+    <Cell><Data ss:Type="Number">87.296121086138498</Data></Cell>
+    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">87.296121086138498</Data></Cell>
+    <Cell><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell><Data ss:Type="Number">90.5</Data></Cell>
+    <Cell><Data ss:Type="Number">2.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">88.395946916067714</Data></Cell>
+    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">88.395946916067714</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Number">90.5</Data></Cell>
+    <Cell><Data ss:Type="Number">2.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">90.5</Data></Cell>
+    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">90.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">90.5</Data></Cell>
+    <Cell><Data ss:Type="Number">2.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">92.604053083932286</Data></Cell>
+    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">92.604053083932286</Data></Cell>
     <Cell><Data ss:Type="Number">0.8</Data></Cell>
-    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">90.5</Data></Cell>
     <Cell><Data ss:Type="Number">2.5</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
     <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
@@ -1462,10 +1634,10 @@
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
    <Row>
-    <Cell><Data ss:Type="Number">103.2038789138615</Data></Cell>
-    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">103.2038789138615</Data></Cell>
+    <Cell><Data ss:Type="Number">93.703878913861502</Data></Cell>
+    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">93.703878913861502</Data></Cell>
     <Cell><Data ss:Type="Number">0.9</Data></Cell>
-    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">90.5</Data></Cell>
     <Cell><Data ss:Type="Number">2.5</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
     <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
@@ -1474,10 +1646,10 @@
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
    <Row>
-    <Cell><Data ss:Type="Number">104.11213406737868</Data></Cell>
-    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">104.11213406737868</Data></Cell>
+    <Cell><Data ss:Type="Number">94.612134067378676</Data></Cell>
+    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">94.612134067378676</Data></Cell>
     <Cell><Data ss:Type="Number">0.95</Data></Cell>
-    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">90.5</Data></Cell>
     <Cell><Data ss:Type="Number">2.5</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
     <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
@@ -1486,10 +1658,10 @@
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
    <Row>
-    <Cell><Data ss:Type="Number">109.29754121364327</Data></Cell>
-    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">109.29754121364327</Data></Cell>
+    <Cell><Data ss:Type="Number">99.797541213643271</Data></Cell>
+    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">99.797541213643271</Data></Cell>
     <Cell><Data ss:Type="Number">0.99990000000000001</Data></Cell>
-    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">90.5</Data></Cell>
     <Cell><Data ss:Type="Number">2.5</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
     <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
@@ -1498,10 +1670,10 @@
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
    <Row>
-    <Cell><Data ss:Type="Number">-98.688998718229897</Data></Cell>
-    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">-98.688998718229897</Data></Cell>
+    <Cell><Data ss:Type="Number">-89.188998718229897</Data></Cell>
+    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">-89.188998718229897</Data></Cell>
     <Cell><Data ss:Type="Number">0.7</Data></Cell>
-    <Cell><Data ss:Type="Number">-100</Data></Cell>
+    <Cell><Data ss:Type="Number">-90.5</Data></Cell>
     <Cell><Data ss:Type="Number">2.5</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
     <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
@@ -1510,19 +1682,84 @@
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
    <Row>
-    <Cell><Data ss:Type="Number">-97.377997436459793</Data></Cell>
-    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">-97.377997436459793</Data></Cell>
+    <Cell><Data ss:Type="Number">-87.877997436459793</Data></Cell>
+    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">-87.877997436459793</Data></Cell>
     <Cell><Data ss:Type="Number">0.7</Data></Cell>
-    <Cell><Data ss:Type="Number">-100</Data></Cell>
+    <Cell><Data ss:Type="Number">-90.5</Data></Cell>
     <Cell><Data ss:Type="Number">5</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
-    <Cell><Data ss:Type="String">...</Data></Cell>
     <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
       ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
          html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
-   <Row ss:Index="172">
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">90.5</Data></Cell>
+    <Cell><Data ss:Type="Number">2.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">90.5</Data></Cell>
+    <Cell><Data ss:Type="Number">2.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">90.5</Data></Cell>
+    <Cell><Data ss:Type="Number">2.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0.7</Data></Cell>
+    <Cell><Data ss:Type="Number">90.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=NORMINV(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0.7</Data></Cell>
+    <Cell><Data ss:Type="Number">90.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Index="192">
     <Cell><Data ss:Type="Number">-3.719016485457308</Data></Cell>
     <Cell ss:Formula="=NORMSINV(RC[1])"><Data ss:Type="Number">-3.719016485457308</Data></Cell>
     <Cell><Data ss:Type="Number">1E-4</Data></Cell>
@@ -1789,13 +2026,46 @@
     <Cell ss:Formula="=NORMSINV(RC[1])"><Data ss:Type="Number">3.719016485457308</Data></Cell>
     <Cell><Data ss:Type="Number">0.99990000000000001</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
-    <Cell><Data ss:Type="String">...</Data></Cell>
     <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
       ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
          html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
-   <Row ss:Index="200">
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=NORMSINV(RC[1])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=NORMSINV(RC[1])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=NORMSINV(RC[1])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Index="223">
     <Cell><Data ss:Type="Number">1.9781746262642497E-3</Data></Cell>
     <Cell ss:Formula="=LOGINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1.9781746262642497E-3</Data></Cell>
     <Cell><Data ss:Type="Number">1E-3</Data></Cell>
@@ -1924,13 +2194,78 @@
     <Cell><Data ss:Type="Number">-1.5</Data></Cell>
     <Cell><Data ss:Type="Number">5</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
-    <Cell><Data ss:Type="String">...</Data></Cell>
     <Cell ss:Index="14"><Data ss:Type="String">long, bigdecimal</Data><Comment
       ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
          html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
-   <Row ss:Index="212">
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=LOGINV(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">2.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=LOGINV(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">2.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=LOGINV(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">2.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=LOGINV(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0.7</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=LOGINV(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0.7</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">long, bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Index="240">
     <Cell><Data ss:Type="Number">0.2522154925789305</Data></Cell>
     <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.2522154925789305</Data></Cell>
     <Cell><Data ss:Type="Number">0.6</Data></Cell>
@@ -1945,22 +2280,75 @@
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
    <Row>
-    <Cell><Data ss:Type="Number">0.13932596825377863</Data></Cell>
-    <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.13932596825377863</Data></Cell>
-    <Cell><Data ss:Type="Number">0.6</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
     <Cell><Data ss:Type="Number">1.5</Data></Cell>
     <Cell><Data ss:Type="Number">0.5</Data></Cell>
-    <Cell><Data ss:Type="Number">0.3</Data></Cell>
-    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
    </Row>
    <Row>
-    <Cell><Data ss:Type="Number">0.2522154925789305</Data></Cell>
-    <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3],RC[4],RC[5])"><Data
-      ss:Type="Number">0.2522154925789305</Data></Cell>
-    <Cell><Data ss:Type="Number">0.6</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
     <Cell><Data ss:Type="Number">1.5</Data></Cell>
     <Cell><Data ss:Type="Number">0.5</Data></Cell>
-    <Cell><Data ss:Type="Number">0.3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">-1E-3</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">1.0009999999999999</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0.6</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0.6</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row ss:Index="248">
+    <Cell><Data ss:Type="Number">2.6900917354660405E-2</Data></Cell>
+    <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">2.6900917354660405E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">-0.1</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-0.3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row ss:Index="250">
+    <Cell><Data ss:Type="Number">3.4896984506197104E-2</Data></Cell>
+    <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3],RC[4],RC[5])"><Data
+      ss:Type="Number">3.4896984506197104E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">-0.1</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-0.3</Data></Cell>
     <Cell><Data ss:Type="Number">0.8</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">5</Data></Cell>
     <Cell ss:Index="14"><Data ss:Type="String">bigdecimal</Data><Comment
@@ -1968,7 +2356,86 @@
          html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
    </Row>
-   <Row ss:Index="216">
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3],RC[4],RC[5])"><Data
+      ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">-0.3</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-0.3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3],RC[4],RC[5])"><Data
+      ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-0.3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3],RC[4],RC[5])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">bigdecimal</Data><Comment ss:Author="vkorenev"><ss:Data
+       xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
+         html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3],RC[4],RC[5])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0.9</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">bigdecimal</Data><Comment ss:Author="vkorenev"><ss:Data
+       xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
+         html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BETADIST(RC[1],RC[2],RC[3],RC[4],RC[5])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0.9</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.9</Data></Cell>
+    <Cell><Data ss:Type="Number">0.9</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">bigdecimal</Data><Comment ss:Author="vkorenev"><ss:Data
+       xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
+         html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Index="257">
     <Cell><Data ss:Type="Number">1</Data></Cell>
     <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">1</Data></Cell>
     <Cell><Data ss:Type="Number">2</Data></Cell>
@@ -1987,7 +2454,7 @@
     <Cell><Data ss:Type="Number">0.2</Data></Cell>
     <Cell><Data ss:Type="Boolean">1</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
-    <Cell ss:Index="12" ss:StyleID="s24"/>
+    <Cell ss:Index="12" ss:StyleID="s25"/>
    </Row>
    <Row>
     <Cell><Data ss:Type="Number">0.89600000000000013</Data></Cell>
@@ -2024,7 +2491,7 @@
     <Cell><Data ss:Type="Number">0.2</Data></Cell>
     <Cell><Data ss:Type="Boolean">1</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
-    <Cell ss:Index="12" ss:StyleID="s24"/>
+    <Cell ss:Index="12" ss:StyleID="s25"/>
    </Row>
    <Row>
     <Cell><Data ss:Type="Number">0.36</Data></Cell>
@@ -2063,6 +2530,16 @@
     <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
    </Row>
    <Row>
+    <Cell><Data ss:Type="Number">0.51200000000000012</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.51200000000000012</Data></Cell>
+    <Cell><Data ss:Type="Number">0.9</Data></Cell>
+    <Cell><Data ss:Type="Number">3.9</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="12" ss:StyleID="s25"/>
+   </Row>
+   <Row>
     <Cell><Data ss:Type="Number">0</Data></Cell>
     <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0</Data></Cell>
     <Cell><Data ss:Type="Number">2</Data></Cell>
@@ -2070,7 +2547,7 @@
     <Cell><Data ss:Type="Number">0</Data></Cell>
     <Cell><Data ss:Type="Boolean">0</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
-    <Cell ss:Index="12" ss:StyleID="s24"/>
+    <Cell ss:Index="12" ss:StyleID="s25"/>
    </Row>
    <Row>
     <Cell><Data ss:Type="Number">0.51200000000000012</Data></Cell>
@@ -2080,7 +2557,7 @@
     <Cell><Data ss:Type="Number">0.2</Data></Cell>
     <Cell><Data ss:Type="Boolean">0</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
-    <Cell ss:Index="12" ss:StyleID="s24"/>
+    <Cell ss:Index="12" ss:StyleID="s25"/>
    </Row>
    <Row>
     <Cell><Data ss:Type="Number">0.38400000000000006</Data></Cell>
@@ -2117,7 +2594,7 @@
     <Cell><Data ss:Type="Number">0.2</Data></Cell>
     <Cell><Data ss:Type="Boolean">0</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
-    <Cell ss:Index="12" ss:StyleID="s24"/>
+    <Cell ss:Index="12" ss:StyleID="s25"/>
    </Row>
    <Row>
     <Cell><Data ss:Type="Number">0.32</Data></Cell>
@@ -2154,9 +2631,59 @@
     <Cell><Data ss:Type="Number">1</Data></Cell>
     <Cell><Data ss:Type="Boolean">0</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
-    <Cell><Data ss:Type="String">...</Data></Cell>
    </Row>
-   <Row ss:Index="237">
+   <Row>
+    <Cell><Data ss:Type="Number">9.600000000000003E-2</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">9.600000000000003E-2</Data></Cell>
+    <Cell><Data ss:Type="Number">2.9</Data></Cell>
+    <Cell><Data ss:Type="Number">3.9</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="12" ss:StyleID="s25"/>
+    <Cell><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">-1E-3</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BINOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">1.0009999999999999</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row ss:Index="284">
     <Cell><Data ss:Type="Number">0.8</Data></Cell>
     <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.8</Data></Cell>
     <Cell><Data ss:Type="Number">0</Data></Cell>
@@ -2173,7 +2700,7 @@
     <Cell><Data ss:Type="Number">1</Data></Cell>
     <Cell><Data ss:Type="Number">0.8</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
-    <Cell ss:Index="12" ss:StyleID="s24"/>
+    <Cell ss:Index="12" ss:StyleID="s25"/>
    </Row>
    <Row>
     <Cell><Data ss:Type="Number">3.1999999999999994E-2</Data></Cell>
@@ -2206,7 +2733,7 @@
     <Cell><Data ss:Type="Number">2</Data></Cell>
     <Cell><Data ss:Type="Number">0.8</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
-    <Cell ss:Index="12" ss:StyleID="s24"/>
+    <Cell ss:Index="12" ss:StyleID="s25"/>
    </Row>
    <Row>
     <Cell><Data ss:Type="Number">7.6799999999999979E-2</Data></Cell>
@@ -2247,7 +2774,7 @@
     <Cell><Data ss:Type="Number">3</Data></Cell>
     <Cell><Data ss:Type="Number">0.8</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
-    <Cell ss:Index="12" ss:StyleID="s24"/>
+    <Cell ss:Index="12" ss:StyleID="s25"/>
    </Row>
    <Row>
     <Cell><Data ss:Type="Number">4.0959999999999989E-2</Data></Cell>
@@ -2256,7 +2783,7 @@
     <Cell><Data ss:Type="Number">3</Data></Cell>
     <Cell><Data ss:Type="Number">0.8</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
-    <Cell ss:Index="12" ss:StyleID="s24"/>
+    <Cell ss:Index="12" ss:StyleID="s25"/>
    </Row>
    <Row>
     <Cell><Data ss:Type="Number">0.04</Data></Cell>
@@ -2289,7 +2816,7 @@
     <Cell><Data ss:Type="Number">2</Data></Cell>
     <Cell><Data ss:Type="Number">0.2</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
-    <Cell ss:Index="12" ss:StyleID="s24"/>
+    <Cell ss:Index="12" ss:StyleID="s25"/>
    </Row>
    <Row>
     <Cell><Data ss:Type="Number">8.1920000000000034E-2</Data></Cell>
@@ -2313,12 +2840,48 @@
     <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
     <Cell><Data ss:Type="Number">3</Data></Cell>
     <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">-0.1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1.1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=NEGBINOMDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
     <Cell><Data ss:Type="String">...</Data></Cell>
     <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
    </Row>
-   <Row ss:Index="257">
+   <Row ss:Index="308">
     <Cell><Data ss:Type="Number">1</Data></Cell>
     <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Number">1</Data></Cell>
     <Cell><Data ss:Type="Number">0</Data></Cell>
@@ -2508,9 +3071,33 @@
     <Cell><Data ss:Type="Number">30</Data></Cell>
     <Cell><Data ss:Type="Number">10.9</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
-    <Cell><Data ss:Type="String">...</Data></Cell>
    </Row>
-   <Row ss:Index="285">
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">-0.1</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=CHIDIST(RC[1],RC[2])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row ss:Index="339">
     <Cell><Data ss:Type="Number">1</Data></Cell>
     <Cell ss:Formula="=FDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1</Data></Cell>
     <Cell><Data ss:Type="Number">0</Data></Cell>
@@ -2668,7 +3255,18 @@
     <Cell><Data ss:Type="String">...</Data></Cell>
     <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
    </Row>
-   <Row ss:Index="303">
+   <Row ss:Index="357">
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=GAMMADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">GAMMADIST</Data></Cell>
+    <Cell><Data ss:Type="String">GAMMADIST</Data></Cell>
+   </Row>
+   <Row>
     <Cell><Data ss:Type="Number">0.50636537543474258</Data></Cell>
     <Cell ss:Formula="=GAMMADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.50636537543474258</Data></Cell>
     <Cell><Data ss:Type="Number">0.6</Data></Cell>
@@ -2676,8 +3274,6 @@
     <Cell><Data ss:Type="Number">0.5</Data></Cell>
     <Cell><Data ss:Type="Boolean">1</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
-    <Cell><Data ss:Type="String">GAMMADIST</Data></Cell>
-    <Cell><Data ss:Type="String">GAMMADIST</Data></Cell>
    </Row>
    <Row>
     <Cell><Data ss:Type="Number">0.6009248024834053</Data></Cell>
@@ -2700,6 +3296,15 @@
       ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
          html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
         html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=GAMMADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
    </Row>
    <Row>
     <Cell><Data ss:Type="Number">0.74459874475479892</Data></Cell>
@@ -2727,10 +3332,63 @@
     <Cell><Data ss:Type="Number">1</Data></Cell>
     <Cell><Data ss:Type="Boolean">0</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
-    <Cell><Data ss:Type="String">...</Data></Cell>
-    <Cell><Data ss:Type="String">...</Data></Cell>
    </Row>
-   <Row ss:Index="310">
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=GAMMADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">-0.1</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="String">bigdecimal</Data><Comment ss:Author="vkorenev"><ss:Data
+       xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
+         html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=GAMMADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">1.6</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=GAMMADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">1.6</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=GAMMADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">1.6</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=GAMMADIST(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">1.6</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row ss:Index="371">
     <Cell><Data ss:Type="Number">1</Data></Cell>
     <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Number">1</Data></Cell>
     <Cell><Data ss:Type="Number">0</Data></Cell>
@@ -3003,9 +3661,45 @@
     <Cell><Data ss:Type="Number">3.6</Data></Cell>
     <Cell><Data ss:Type="Boolean">0</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
-    <Cell><Data ss:Type="String">...</Data></Cell>
    </Row>
-   <Row ss:Index="345">
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=POISSON(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row ss:Index="411">
     <Cell><Data ss:Type="Number">0.5</Data></Cell>
     <Cell ss:Formula="=TDIST(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.5</Data></Cell>
     <Cell><Data ss:Type="Number">0</Data></Cell>
@@ -3164,7 +3858,7 @@
     <Cell><Data ss:Type="String">...</Data></Cell>
     <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
    </Row>
-   <Row ss:Index="365">
+   <Row ss:Index="431">
     <Cell ss:Index="14"><Comment ss:Author="vkorenev"><ss:Data
        xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
          html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
@@ -3179,6 +3873,14 @@
     <VerticalResolution>600</VerticalResolution>
    </Print>
    <Selected/>
+   <TopRowVisible>308</TopRowVisible>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>356</ActiveRow>
+     <RangeSelection>R357C1:R364C1</RangeSelection>
+    </Pane>
+   </Panes>
    <ProtectObjects>False</ProtectObjects>
    <ProtectScenarios>False</ProtectScenarios>
   </WorksheetOptions>

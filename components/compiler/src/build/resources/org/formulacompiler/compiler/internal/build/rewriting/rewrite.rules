@@ -222,127 +222,161 @@ rules {
 				in if x > 0 then 1 - y1 else y1
 
 	rewrite normdist( x, mue, sigma, cumulative ) =
-		if cumulative
-		then NORMSDIST( (x - mue) / sigma )
-		else 
-			let x1 = x - mue
-			in EXP( (x1 * x1) / (-2 * sigma * sigma) ) / (SQRT( 2 * PI() ) * sigma)
-
-	rewrite lognormdist( x, mue, sigma ) = NORMSDIST( (LN( x ) - mue) / sigma )
-
-	rewrite normsinv( x ) =
-		let q = x - 0.5
-		in
-			if ABS( q ) <= 0.425
-			then
-				let t = 0.180625 - q * q
-				in
-					q *
-					(
-						(
-							(
-								(
-									(
-										(
-											(t * 2509.0809287301226727 + 33430.575583588128105)
-										* t + 67265.770927008700853)
-									* t + 45921.953931549871457)
-								* t + 13731.693765509461125)
-							* t + 1971.5909503065514427)
-						* t + 133.14166789178437745)
-					* t + 3.387132872796366608)
-					/
-					(
-						(
-							(
-								(
-									(
-										(
-											(t * 5226.495278852854561 + 28729.085735721942674)
-										* t + 39307.89580009271061)
-									* t + 21213.794301586595867)
-								* t + 5394.1960214247511077)
-							* t + 687.1870074920579083)
-						* t + 42.313330701600911252)
-					* t + 1)
+		if sigma <= 0 then 0
+		else
+			if cumulative
+			then NORMSDIST( (x - mue) / sigma )
 			else
-				let tt = SQRT( -LN( IF( q > 0, 1 - x, x ) ) )
-				let z =
-					(if tt <= 5
-					then
-						(let t = tt - 1.6 in
-							(
-								(
-									(
-										(
-											(
-												(
-													(t * 7.7454501427834140764e-4 + 0.0227238449892691845833)
-												* t + 0.24178072517745061177)
-											* t + 1.27045825245236838258)
-										* t + 3.64784832476320460504)
-									* t + 5.7694972214606914055)
-								* t + 4.6303378461565452959)
-							* t + 1.42343711074968357734)
-							/
-							(
-								(
-									(
-										(
-											(
-												(
-													(t * 1.05075007164441684324e-9 + 5.475938084995344946e-4)
-												* t + 0.0151986665636164571966)
-											* t + 0.14810397642748007459)
-										* t + 0.68976733498510000455)
-									* t + 1.6763848301838038494)
-								* t + 2.05319162663775882187)
-							* t + 1.0)
-						)
-					else
-						(let t = tt - 5 in
-							(
-								(
-									(
-										(
-											(
-												(
-													(t * 2.01033439929228813265e-7 + 2.71155556874348757815e-5)
-												* t + 0.0012426609473880784386)
-											* t + 0.026532189526576123093)
-										* t + 0.29656057182850489123)
-									* t + 1.7848265399172913358)
-								* t + 5.4637849111641143699)
-							* t + 6.6579046435011037772)
-							/
-							(
-								(
-									(
-										(
-											(
-												(
-													(t * 2.04426310338993978564e-15 + 1.4215117583164458887e-7)
-												* t + 1.8463183175100546818e-5)
-											* t + 7.868691311456132591e-4)
-										* t + 0.0148753612908506148525)
-									* t + 0.13692988092273580531)
-								* t + 0.59983220655588793769)
-							* t + 1.0)
-						)
-					)
-				in if q < 0 then -z else z
+				let x1 = x - mue
+				in EXP( (x1 * x1) / (-2 * sigma * sigma) ) / (SQRT( 2 * PI() ) * sigma)
 
-	rewrite norminv( x, mue, sigma ) = NORMSINV( x ) * sigma + mue
-	rewrite loginv( x, mue, sigma ) = EXP( NORMSINV( x ) * sigma + mue )
-	rewrite confidence( alpha, sigma, n ) = NORMSINV( 1 - alpha / 2) * sigma / SQRT( INT( n ) )
+	rewrite lognormdist( x, mue, sigma ) =
+		if x <= 0 then 0
+		else if sigma <= 0 then 0
+		else NORMSDIST( (LN( x ) - mue) / sigma )
+
+	// Adopted from gaussinv() implementation for OpenOffice.org Calc by Martin Eitzenberger
+	rewrite normsinv( x ) =
+		if x <= 0 then 0
+		else if x >= 1 then 0
+		else
+			let q = x - 0.5
+			in
+				if ABS( q ) <= 0.425
+				then
+					let t = 0.180625 - q * q
+					in
+						q *
+						(
+							(
+								(
+									(
+										(
+											(
+												(t * 2509.0809287301226727 + 33430.575583588128105)
+											* t + 67265.770927008700853)
+										* t + 45921.953931549871457)
+									* t + 13731.693765509461125)
+								* t + 1971.5909503065514427)
+							* t + 133.14166789178437745)
+						* t + 3.387132872796366608)
+						/
+						(
+							(
+								(
+									(
+										(
+											(
+												(t * 5226.495278852854561 + 28729.085735721942674)
+											* t + 39307.89580009271061)
+										* t + 21213.794301586595867)
+									* t + 5394.1960214247511077)
+								* t + 687.1870074920579083)
+							* t + 42.313330701600911252)
+						* t + 1)
+				else
+					let tt = SQRT( -LN( IF( q > 0, 1 - x, x ) ) )
+					let z =
+						(if tt <= 5
+						then
+							(let t = tt - 1.6 in
+								(
+									(
+										(
+											(
+												(
+													(
+														(t * 7.7454501427834140764e-4 + 0.0227238449892691845833)
+													* t + 0.24178072517745061177)
+												* t + 1.27045825245236838258)
+											* t + 3.64784832476320460504)
+										* t + 5.7694972214606914055)
+									* t + 4.6303378461565452959)
+								* t + 1.42343711074968357734)
+								/
+								(
+									(
+										(
+											(
+												(
+													(
+														(t * 1.05075007164441684324e-9 + 5.475938084995344946e-4)
+													* t + 0.0151986665636164571966)
+												* t + 0.14810397642748007459)
+											* t + 0.68976733498510000455)
+										* t + 1.6763848301838038494)
+									* t + 2.05319162663775882187)
+								* t + 1.0)
+							)
+						else
+							(let t = tt - 5 in
+								(
+									(
+										(
+											(
+												(
+													(
+														(t * 2.01033439929228813265e-7 + 2.71155556874348757815e-5)
+													* t + 0.0012426609473880784386)
+												* t + 0.026532189526576123093)
+											* t + 0.29656057182850489123)
+										* t + 1.7848265399172913358)
+									* t + 5.4637849111641143699)
+								* t + 6.6579046435011037772)
+								/
+								(
+									(
+										(
+											(
+												(
+													(
+														(t * 2.04426310338993978564e-15 + 1.4215117583164458887e-7)
+													* t + 1.8463183175100546818e-5)
+												* t + 7.868691311456132591e-4)
+											* t + 0.0148753612908506148525)
+										* t + 0.13692988092273580531)
+									* t + 0.59983220655588793769)
+								* t + 1.0)
+							)
+						)
+					in if q < 0 then -z else z
+
+	rewrite norminv( x, mue, sigma ) =
+		if x <= 0 then 0
+		else if x >= 1 then 0
+		else if sigma <= 0 then 0
+		else NORMSINV( x ) * sigma + mue
+
+	rewrite loginv( x, mue, sigma ) =
+		if x <= 0 then 0
+		else if x >= 1 then 0
+		else if sigma <= 0 then 0
+		else EXP( NORMSINV( x ) * sigma + mue )
+		
+	rewrite confidence( alpha, sigma, n ) =
+		if alpha <= 0 then 0
+		else if alpha >= 1 then 0
+		else if sigma <= 0 then 0
+		else if n < 1 then 0
+		else NORMSINV( 1 - alpha / 2) * sigma / SQRT( INT( n ) )
 	
-	rewrite betadist( x, alpha, beta, a, b ) = BETADIST( (x - a) / (b - a), alpha, beta )
+	rewrite betadist( x, alpha, beta, a, b ) =
+		if x < a then 0
+		else if x > b then 0
+		else if a = b then 0
+		else BETADIST( (x - a) / (b - a), alpha, beta )
+
 	rewrite betadist( x, alpha, beta, a ) = BETADIST( x, alpha, beta, a, 1 ) 
 
 	rewrite negbinomdist( x, r, p ) =
-		let ix = INT( x )
-		let ir = INT( r )
-		in COMBIN( ix + ir - 1, ir - 1 ) * p^ir * (1-p)^ix
+		if p <= 0 then 0
+		else if p >= 1 then 0
+		else if x < 0 then 0
+		else if r < 1 then 0
+		else
+			let ix = INT( x )
+			let ir = INT( r )
+			in COMBIN( ix + ir - 1, ir - 1 ) * p^ir * (1-p)^ix
 
 	rewrite fdist( x, df1, df2 ) =
 		let idf1 = INT( df1 )
