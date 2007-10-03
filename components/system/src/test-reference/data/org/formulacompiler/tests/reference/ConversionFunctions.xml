@@ -1,0 +1,480 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <LastAuthor>samsonov</LastAuthor>
+  <Created>2005-11-22T20:05:38Z</Created>
+  <LastSaved>2007-10-02T17:54:52Z</LastSaved>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>6690</WindowHeight>
+  <WindowWidth>19170</WindowWidth>
+  <WindowTopX>-15</WindowTopX>
+  <WindowTopY>0</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s22" ss:Name="Percent">
+   <NumberFormat ss:Format="0%"/>
+  </Style>
+  <Style ss:ID="s24">
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Italic="1"/>
+  </Style>
+  <Style ss:ID="s26">
+   <Alignment ss:Vertical="Center"/>
+   <Font ss:FontName="Verdana" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s27">
+   <Alignment ss:Vertical="Center"/>
+   <Font ss:FontName="Verdana" ss:Italic="1" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s28">
+   <NumberFormat ss:Format="Scientific"/>
+  </Style>
+  <Style ss:ID="s29">
+   <NumberFormat ss:Format="0%"/>
+  </Style>
+  <Style ss:ID="s30">
+   <NumberFormat ss:Format="Short Date"/>
+  </Style>
+  <Style ss:ID="s32">
+   <NumberFormat/>
+  </Style>
+  <Style ss:ID="s33">
+   <NumberFormat ss:Format="0.000000000000000"/>
+  </Style>
+  <Style ss:ID="s34">
+   <NumberFormat ss:Format="0.00000000000"/>
+  </Style>
+  <Style ss:ID="s35">
+   <NumberFormat ss:Format="0.0000"/>
+  </Style>
+  <Style ss:ID="s38">
+   <NumberFormat ss:Format="0.0000000000000000000"/>
+  </Style>
+  <Style ss:ID="s39">
+   <NumberFormat ss:Format="@"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="310" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:AutoFitWidth="0" ss:Width="138.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="174.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="217.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="51.75"/>
+   <Column ss:Index="6" ss:AutoFitWidth="0" ss:Width="19.5" ss:Span="3"/>
+   <Column ss:Index="10" ss:StyleID="s24" ss:AutoFitWidth="0" ss:Width="61.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="177.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="44.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="67.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="90.75"/>
+   <Row ss:AutoFitHeight="0" ss:Height="25.5" ss:StyleID="s26">
+    <Cell><Data ss:Type="String">Expected</Data></Cell>
+    <Cell><Data ss:Type="String">Actual</Data></Cell>
+    <Cell><Data ss:Type="String">Inputs</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s27"><Data ss:Type="String"># of Inputs</Data></Cell>
+    <Cell><Data ss:Type="String">Name</Data></Cell>
+    <Cell><Data ss:Type="String">Highlight</Data></Cell>
+    <Cell><Data ss:Type="String">Excel says</Data></Cell>
+    <Cell><Data ss:Type="String">Skip for</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">I</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1])"><Data ss:Type="String">I</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">ROMAN</Data></Cell>
+    <Cell><Data ss:Type="String">ROMAN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">II</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1])"><Data ss:Type="String">II</Data></Cell>
+    <Cell><Data ss:Type="Number">2.2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">XII</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1])"><Data ss:Type="String">XII</Data></Cell>
+    <Cell><Data ss:Type="Number">12</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">IX</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1])"><Data ss:Type="String">IX</Data></Cell>
+    <Cell><Data ss:Type="Number">9</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">XI</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1])"><Data ss:Type="String">XI</Data></Cell>
+    <Cell><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">XL</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1])"><Data ss:Type="String">XL</Data></Cell>
+    <Cell><Data ss:Type="Number">40</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">XLIX</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1])"><Data ss:Type="String">XLIX</Data></Cell>
+    <Cell><Data ss:Type="Number">49</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">XCIX</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1])"><Data ss:Type="String">XCIX</Data></Cell>
+    <Cell><Data ss:Type="Number">99</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">C</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1])"><Data ss:Type="String">C</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">CLIX</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1])"><Data ss:Type="String">CLIX</Data></Cell>
+    <Cell><Data ss:Type="Number">159</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">MCXXIII</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1])"><Data ss:Type="String">MCXXIII</Data></Cell>
+    <Cell><Data ss:Type="Number">1123</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">MMMCMXCIX</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1])"><Data ss:Type="String">MMMCMXCIX</Data></Cell>
+    <Cell><Data ss:Type="Number">3999</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">CDXCIX</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1])"><Data ss:Type="String">CDXCIX</Data></Cell>
+    <Cell><Data ss:Type="Number">499</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">CDXCIX</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1],RC[2])"><Data ss:Type="String">CDXCIX</Data></Cell>
+    <Cell><Data ss:Type="Number">499</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">LDVLIV</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1],RC[2])"><Data ss:Type="String">LDVLIV</Data></Cell>
+    <Cell><Data ss:Type="Number">499</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">XDIX</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1],RC[2])"><Data ss:Type="String">XDIX</Data></Cell>
+    <Cell><Data ss:Type="Number">499</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">VDIV</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1],RC[2])"><Data ss:Type="String">VDIV</Data></Cell>
+    <Cell><Data ss:Type="Number">499</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">ID</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1],RC[2])"><Data ss:Type="String">ID</Data></Cell>
+    <Cell><Data ss:Type="Number">499</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">MMXIII</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1],RC[2])"><Data ss:Type="String">MMXIII</Data></Cell>
+    <Cell><Data ss:Type="Number">2013</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s39"><Data ss:Type="String">0</Data></Cell>
+    <Cell ss:Formula="=ROMAN(RC[1])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="Number">4000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="Error">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s32"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s32"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s30"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s32"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s32"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s32"/>
+   </Row>
+   <Row ss:Index="29">
+    <Cell ss:Index="3" ss:StyleID="s32"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s35"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s35"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s33"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s33"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s38"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s32"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s32"/>
+   </Row>
+   <Row ss:Index="240">
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row ss:Index="266">
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row ss:Index="297">
+    <Cell ss:Index="4" ss:StyleID="s28"/>
+   </Row>
+   <Row ss:Index="299">
+    <Cell ss:Index="4" ss:StyleID="s29"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s30"/>
+   </Row>
+   <Row ss:Index="309">
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>65</ActiveRow>
+     <ActiveCol>12</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+  <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
+   <Range>R330C3:R385C9,R289C3:R327C9,R263C3:R287C9,R2C3:R261C9</Range>
+   <Condition>
+    <Value1>RC10&gt;COLUMN(RC)-3</Value1>
+    <Format Style='background:#CCFFCC'/>
+   </Condition>
+  </ConditionalFormatting>
+ </Worksheet>
+</Workbook>

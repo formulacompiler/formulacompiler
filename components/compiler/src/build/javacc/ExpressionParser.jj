@@ -309,6 +309,7 @@ void fun(): {}
 	|	"false" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 0 )); }
 	|	"FDIST" fun3( Function.FDIST )
 	|	"FIND" fun2to3( Function.FIND )
+	|	"FIXED" fun1to3( Function.FIXED )
 	|	"FLOOR" fun2( Function.FLOOR )
 	|	"FV" fun3to5( Function.FV )
 	|	"GAMMADIST" fun4( Function.GAMMADIST )
@@ -376,6 +377,7 @@ void fun(): {}
 	|	"REPLACE" fun4( Function.REPLACE )
 	|	"REPT" fun2( Function.REPT )
 	|	"RIGHT" fun1to2( Function.RIGHT )
+	|	"ROMAN" fun1to2( Function.ROMAN )	
 	// citation: round
 	|	"ROUND" fun2( Function.ROUND )
 	// citation: round
@@ -497,6 +499,10 @@ void fun4(Function f): {}
 
 void fun1to2(Function f): {}
 	{	open() expr() optCommaExpr() closeFun( f )
+	}
+
+	void fun1to3(Function f): {}
+	{	open() expr() [commaExprOrNull() optCommaExpr()] closeFun( f )
 	}
 		
 void fun2to3(Function f): {}
