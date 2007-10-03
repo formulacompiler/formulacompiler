@@ -469,11 +469,19 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_BETADIST( double _x, double _alpha, double _beta )
 	{
+		if (_alpha <= 0 || _beta <= 0 || _x < 0 || _x > 1) {
+			return 0; // Excel #NUM!
+		}
+
 		return Probability.beta( _alpha, _beta, _x );
 	}
 
 	public static double fun_BINOMDIST( int _successes, int _trials, double _probability, boolean _cumulative )
 	{
+		if (_successes < 0 || _successes > _trials || _probability < 0 || _probability > 1) {
+			return 0; // Excel #NUM!
+		}
+
 		if (_cumulative) {
 			return binomialCumulative( _successes, _trials, _probability );
 		}
@@ -482,17 +490,13 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		}
 	}
 
-	private static double binomialCumulative( final int _number, final int _trials, final double _probability )
+	private static double binomialCumulative( final int _successes, final int _trials, final double _probability )
 	{
-		return Probability.binomial( _number, _trials, _probability );
+		return Probability.binomial( _successes, _trials, _probability );
 	}
 
-	private static double binomialDensity( final int _number, final int _trials, final double _probability )
+	private static double binomialDensity( final int _successes, final int _trials, final double _probability )
 	{
-		if (_trials < 0 || _number < 0 || _number > _trials || _probability < 0 || _probability > 1) {
-			return 0; // Excel #NUM!
-		}
-
 		final double q = 1.0 - _probability;
 		double factor = Math.pow( q, _trials );
 		if (factor == 0.0) {
@@ -501,7 +505,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 				return 0; // Excel #NUM!
 			}
 			else {
-				final int max = _trials - _number;
+				final int max = _trials - _successes;
 				for (int i = 0; i < max && factor > 0.0; i++) {
 					factor *= ((double) (_trials - i)) / ((double) (i + 1)) * q / _probability;
 				}
@@ -510,7 +514,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			}
 		}
 		else {
-			for (int i = 0; i < _number && factor > 0.0; i++) {
+			for (int i = 0; i < _successes && factor > 0.0; i++) {
 				factor *= ((double) (_trials - i)) / ((double) (i + 1)) * _probability / q;
 			}
 			return factor;
@@ -528,6 +532,10 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_GAMMADIST( double _x, double _alpha, double _beta, boolean _cumulative )
 	{
+		if (_x < 0 || _alpha <= 0 || _beta <= 0) {
+			return 0; // Excel #NUM!
+		}
+
 		if (_cumulative) {
 			return gammaCumulative( _x, _alpha, _beta );
 		}
