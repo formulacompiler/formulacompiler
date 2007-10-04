@@ -153,6 +153,11 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 			case DSTDEV:
 				return fun( Function.SQRT, rewriteDAgg( _fun, this.generatedRules.fold_var() ) );
 
+			case SUMIF:
+				return rewriteAggIf( _fun, this.generatedRules.fold_sum() );
+			case COUNTIF:
+				return rewriteAggIf( _fun, fold_count() );
+
 			case ISNONTEXT: {
 				final ExpressionNode arg = _fun.argument( 0 );
 				TypeAnnotator.annotateExpr( arg );
@@ -231,6 +236,11 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 	private ExpressionNode rewriteDAgg( ExpressionNodeForFunction _fun, ExpressionNode _fold ) throws CompilerException
 	{
 		return new FunctionRewriterForDatabaseFold( model(), _fun, this.numericType, sanitizer(), _fold ).rewrite();
+	}
+
+	private ExpressionNode rewriteAggIf( ExpressionNodeForFunction _fun, ExpressionNode _fold ) throws CompilerException
+	{
+		return new FunctionRewriterForFoldIf( model(), _fun, this.numericType, sanitizer(), _fold ).rewrite();
 	}
 
 
