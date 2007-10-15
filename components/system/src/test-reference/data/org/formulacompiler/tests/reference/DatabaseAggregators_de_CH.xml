@@ -9,7 +9,7 @@
   <Author>Peter Arrenbrecht</Author>
   <LastAuthor>Peter Arrenbrecht</LastAuthor>
   <Created>2005-11-22T20:05:38Z</Created>
-  <LastSaved>2007-09-28T14:00:10Z</LastSaved>
+  <LastSaved>2007-10-04T06:45:40Z</LastSaved>
   <Company>Opus Software AG</Company>
   <Version>11.9999</Version>
  </DocumentProperties>
@@ -72,7 +72,7 @@
   <NamedRange ss:Name="Vals2" ss:RefersTo="=Sheet1!R15C5:R15C7"/>
  </Names>
  <Worksheet ss:Name="Sheet1">
-  <Table ss:ExpandedColumnCount="9" ss:ExpandedRowCount="63" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="9" ss:ExpandedRowCount="73" x:FullColumns="1"
    x:FullRows="1" ss:DefaultColumnWidth="54">
    <Column ss:AutoFitWidth="0" ss:Width="98.25"/>
    <Column ss:Index="3" ss:AutoFitWidth="0" ss:Width="84.75"/>
@@ -429,6 +429,49 @@
       ss:Type="Error">#DIV/0!</Data></Cell>
     <Cell ss:Index="9"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
    </Row>
+   <Row ss:Index="65">
+    <Cell ss:Index="2"><Data ss:Type="Number">381</Data></Cell>
+    <Cell ss:Formula="=SUMIF(R[-62]C:R[-57]C,R[-54]C,R[-62]C[2]:R[-57]C[2])"><Data
+      ss:Type="Number">381</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">SUMIF</Data></Cell>
+    <Cell><Data ss:Type="String">SUMIF</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">56</Data></Cell>
+    <Cell ss:Formula="=SUMIF(R[-63]C:R[-58]C,R[-55]C[1])"><Data ss:Type="Number">56</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">225</Data></Cell>
+    <Cell
+     ss:Formula="=SUMIF(R[-64]C[-1]:R[-59]C[-1],R[-56]C[-1],R[-64]C[2]:R[-59]C[2])"><Data
+      ss:Type="Number">225</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell
+     ss:Formula="=SUMIF(R[-65]C[-1]:R[-60]C[-1],R[-57]C[2],R[-65]C[2]:R[-60]C[2])"><Data
+      ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:Index="70">
+    <Cell ss:Index="2"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=COUNTIF(R[-67]C:R[-62]C,R[-59]C)"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">COUNTIF</Data></Cell>
+    <Cell><Data ss:Type="String">COUNTIF</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=COUNTIF(R[-68]C:R[-63]C,R[-60]C[1])"><Data ss:Type="Number">5</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=COUNTIF(R[-69]C[-1]:R[-64]C[-1],R[-61]C[-1])"><Data
+      ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=COUNTIF(R[-70]C[-1]:R[-65]C[-1],R[-62]C[2])"><Data
+      ss:Type="Number">0</Data></Cell>
+   </Row>
   </Table>
   <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
    <Print>
@@ -437,12 +480,19 @@
     <VerticalResolution>0</VerticalResolution>
    </Print>
    <Selected/>
-   <TopRowVisible>30</TopRowVisible>
+   <SplitHorizontal>5865</SplitHorizontal>
+   <TopRowBottomPane>61</TopRowBottomPane>
+   <ActivePane>2</ActivePane>
    <Panes>
     <Pane>
      <Number>3</Number>
-     <ActiveRow>67</ActiveRow>
-     <ActiveCol>2</ActiveCol>
+     <ActiveRow>17</ActiveRow>
+     <ActiveCol>1</ActiveCol>
+    </Pane>
+    <Pane>
+     <Number>2</Number>
+     <ActiveRow>73</ActiveRow>
+     <ActiveCol>1</ActiveCol>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>
