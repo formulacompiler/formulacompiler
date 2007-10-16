@@ -22,4 +22,5 @@ package org.formulacompiler.tests.reference;
 
 public class ConversionFunctionsTest extends AbstractReferenceTest
 {
+	// configured automagically
 }
