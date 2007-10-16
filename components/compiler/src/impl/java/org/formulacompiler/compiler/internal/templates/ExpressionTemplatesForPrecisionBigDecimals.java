@@ -52,7 +52,7 @@ public final class ExpressionTemplatesForPrecisionBigDecimals extends AbstractEx
 	{
 		/*
 		 * If we wanted to always establish the MathContext, we would need
-		 * 
+		 *
 		 * return a.round( this.mathContext );
 		 * 
 		 * here.

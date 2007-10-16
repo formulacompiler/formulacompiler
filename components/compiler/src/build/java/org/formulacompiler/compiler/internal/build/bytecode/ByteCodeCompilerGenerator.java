@@ -157,9 +157,6 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 			else if (mtdNode.name.equals( "scanArrayWithFirst" )) {
 				new ScanArrayWithFirstTemplateGenerator( mtdNode ).generate();
 			}
-			else if (mtdNode.name.equals( "foldArray" )) {
-				new FoldArrayTemplateGenerator( mtdNode ).generate();
-			}
 		}
 	}
 
@@ -969,48 +966,6 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 				genVar( var );
 				classBuilder.appendLine( " );" );
 			}
-		}
-
-	}
-
-
-	class FoldArrayTemplateGenerator extends UtilTemplateGenerator
-	{
-
-		public FoldArrayTemplateGenerator(MethodNode _mtdNode)
-		{
-			super( _mtdNode );
-		}
-
-		@Override
-		protected void genParams()
-		{
-			classBuilder.append( "( FoldArrayCompilation _fold )" );
-		}
-
-		@Override
-		protected void genThisInsn()
-		{
-			if (nextInsn() instanceof MethodInsnNode) {
-				if (!((MethodInsnNode) nextInsn()).name.equals( "foldInitial" ))
-					throw new IllegalArgumentException( "foldInitial() expected" );
-				classBuilder.appendLine( "_fold.compileInitial();" );
-			}
-			else {
-				classBuilder.append( "_fold.compileFold( " );
-				genVar( ((VarInsnNode) nextInsn()).var );
-				skipInsn(); // xLOAD acc
-				classBuilder.append( ", " );
-				genVar( ((VarInsnNode) nextInsn()).var );
-				skipInsn(); // xLOAD ai
-				classBuilder.append( ", " );
-				genVar( ((VarInsnNode) nextInsn()).var );
-				skipInsn(); // xLOAD i
-				classBuilder.appendLine( " );" );
-				if (!((MethodInsnNode) nextInsn()).name.equals( "foldElement" ))
-					throw new IllegalArgumentException( "foldElement() expected" );
-			}
-			skipInsn(); // call
 		}
 
 	}

@@ -183,32 +183,6 @@ public final class ExpressionTemplatesForDoubles
 	}
 	
 	
-	// ------------------------------------------------ Array Fold
-
-
-	double foldArray( double[] _a )
-	{
-		final double[] a = _a;
-		double acc = foldInitial();
-		int i = 1;
-		for (double ai : a) {
-			acc = foldElement( acc, ai, i );
-			i++;
-		}
-		return acc;
-	}
-	
-	private double foldInitial() // abstract, really
-	{
-		return 0;
-	}
-
-	private double foldElement( double _acc, double _d, int _i ) // abstract, really
-	{
-		return 0;
-	}
-
-
 	// ------------------------------------------------ Operators
 
 

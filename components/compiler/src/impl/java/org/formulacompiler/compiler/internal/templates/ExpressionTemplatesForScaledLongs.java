@@ -237,32 +237,6 @@ public final class ExpressionTemplatesForScaledLongs
 	}
 
 
-	// ------------------------------------------------ Array Fold
-
-
-	long foldArray( long[] _a )
-	{
-		final long[] a = _a;
-		long acc = foldInitial();
-		int i = 1;
-		for (long ai : a) {
-			acc = foldElement( acc, ai, i );
-			i++;
-		}
-		return acc;
-	}
-
-	private long foldInitial() // abstract, really
-	{
-		return 0;
-	}
-
-	private long foldElement( long _acc, long _d, int _i ) // abstract, really
-	{
-		return 0;
-	}
-
-
 	// ------------------------------------------------ Operators
 
 
