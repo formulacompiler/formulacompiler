@@ -55,7 +55,7 @@ final public class IntermediateResultsInliner extends AbstractComputationModelVi
 	protected boolean visitCell( CellModel _cell )
 	{
 		if (!isInlineable( _cell )) {
-			ExpressionNode expr = _cell.getExpression();
+			final ExpressionNode expr = _cell.getExpression();
 			if (null != expr) {
 				_cell.setExpression( inlineIntermediateResultsInto( expr ) );
 			}
@@ -76,8 +76,8 @@ final public class IntermediateResultsInliner extends AbstractComputationModelVi
 		
 		ExpressionNode result = _expr;
 		while (result instanceof ExpressionNodeForCellModel) {
-			ExpressionNodeForCellModel cellNode = (ExpressionNodeForCellModel) result;
-			CellModel cellModel = cellNode.getCellModel();
+			final ExpressionNodeForCellModel cellNode = (ExpressionNodeForCellModel) result;
+			final CellModel cellModel = cellNode.getCellModel();
 			if (!isInlineable( cellModel )) return result;
 			result = cellModel.getExpression();
 			if (null == result) {
@@ -97,9 +97,9 @@ final public class IntermediateResultsInliner extends AbstractComputationModelVi
 		if (null == _expr) {
 			throw new IllegalArgumentException();
 		}
-		List<ExpressionNode> args = _expr.arguments();
+		final List<ExpressionNode> args = _expr.arguments();
 		if (args.size() > 0) {
-			ExpressionNode[] sourceArgs = args.toArray( new ExpressionNode[ args.size() ] );
+			final ExpressionNode[] sourceArgs = args.toArray( new ExpressionNode[ args.size() ] );
 			args.clear();
 			for (ExpressionNode sourceArg : sourceArgs) {
 				args.add( inlineIntermediateResultsInto( sourceArg ) );
