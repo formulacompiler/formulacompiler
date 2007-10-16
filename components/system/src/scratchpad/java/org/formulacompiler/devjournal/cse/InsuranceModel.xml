@@ -1,0 +1,447 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>peo</Author>
+  <LastAuthor>vkorenev</LastAuthor>
+  <Created>2006-11-16T09:49:14Z</Created>
+  <LastSaved>2006-11-16T13:18:30Z</LastSaved>
+  <Company>arrenbrecht.ch</Company>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>15480</WindowHeight>
+  <WindowWidth>19320</WindowWidth>
+  <WindowTopX>360</WindowTopX>
+  <WindowTopY>135</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s18" ss:Name="Currency">
+   <NumberFormat
+    ss:Format="_ &quot;SFr.&quot;\ * #,##0.00_ ;_ &quot;SFr.&quot;\ * \-#,##0.00_ ;_ &quot;SFr.&quot;\ * &quot;-&quot;??_ ;_ @_ "/>
+  </Style>
+  <Style ss:ID="s21">
+   <Font ss:FontName="Verdana" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s23">
+   <Alignment ss:Vertical="Bottom" ss:Rotate="90"/>
+  </Style>
+  <Style ss:ID="s24" ss:Parent="s18">
+   <Alignment ss:Vertical="Bottom" ss:Rotate="90"/>
+  </Style>
+  <Style ss:ID="s25">
+   <NumberFormat ss:Format="0%"/>
+  </Style>
+  <Style ss:ID="s26">
+   <NumberFormat
+    ss:Format="_ &quot;SFr.&quot;\ * #,##0.00_ ;_ &quot;SFr.&quot;\ * \-#,##0.00_ ;_ &quot;SFr.&quot;\ * &quot;-&quot;??_ ;_ @_ "/>
+  </Style>
+  <Style ss:ID="s27">
+   <NumberFormat ss:Format="0.0000%"/>
+  </Style>
+  <Style ss:ID="s28">
+   <Font ss:FontName="Verdana" x:Family="Swiss"/>
+  </Style>
+ </Styles>
+ <Names>
+  <NamedRange ss:Name="Age" ss:RefersTo="=Sheet1!R3C2"/>
+  <NamedRange ss:Name="InsuranceCostPerYear" ss:RefersTo="=Sheet1!R6C2"/>
+  <NamedRange ss:Name="InsuredAmount" ss:RefersTo="=Sheet1!R2C2"/>
+ </Names>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="9" ss:ExpandedRowCount="48" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:Width="116.25"/>
+   <Column ss:Width="85.5"/>
+   <Column ss:Index="5" ss:StyleID="s18" ss:Width="91.5"/>
+   <Column ss:Index="7" ss:Width="79.5"/>
+   <Row>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Inputs</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Insured amount</Data></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="Number">15000</Data><NamedCell
+      ss:Name="InsuredAmount"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Age</Data></Cell>
+    <Cell><Data ss:Type="Number">21</Data><NamedCell ss:Name="Age"/></Cell>
+   </Row>
+   <Row ss:Index="5">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Outputs</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Cost per year</Data></Cell>
+    <Cell ss:Formula="=INDEX(R[6]C[5]:R[42]C[5],R[3]C)"><Data ss:Type="Number">480</Data><NamedCell
+      ss:Name="InsuranceCostPerYear"/></Cell>
+   </Row>
+   <Row ss:Index="8">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Helpers</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s28"><Data ss:Type="String">Matching row</Data></Cell>
+    <Cell ss:Formula="=MATCH(TRUE,R[3]C[1]:R[39]C[1],0)"><Data ss:Type="Number">15</Data></Cell>
+   </Row>
+   <Row ss:Index="11" ss:Height="123">
+    <Cell><Data ss:Type="String">Lookup Table</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">AgeUpTo</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Match</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">AgeUpTo (Copy)</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">InsuredAmountUpTo</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Percentage</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">InsuranceCostPerYear</Data></Cell>
+    <Cell ss:StyleID="s23"/>
+    <Cell ss:StyleID="s23"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">20</Data></Cell>
+    <Cell ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=RC[-2]"><Data ss:Type="Number">20</Data></Cell>
+    <Cell><Data ss:Type="Number">5000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">150</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-1]C[-2]"><Data ss:Type="Number">20</Data></Cell>
+    <Cell><Data ss:Type="Number">6000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">180</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-2]C[-2]"><Data ss:Type="Number">20</Data></Cell>
+    <Cell><Data ss:Type="Number">8000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">240</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-3]C[-2]"><Data ss:Type="Number">20</Data></Cell>
+    <Cell><Data ss:Type="Number">10000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.04</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">400</Data></Cell>
+    <Cell><Data ss:Type="String">Here we switch the percentage.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-4]C[-2]"><Data ss:Type="Number">20</Data></Cell>
+    <Cell><Data ss:Type="Number">13000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.04</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">520</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-5]C[-2]"><Data ss:Type="Number">20</Data></Cell>
+    <Cell><Data ss:Type="Number">16000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.04</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">640</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-6]C[-2]"><Data ss:Type="Number">20</Data></Cell>
+    <Cell><Data ss:Type="Number">20000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.05</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">1000</Data></Cell>
+    <Cell><Data ss:Type="String">Again.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-7]C[-2]"><Data ss:Type="Number">20</Data></Cell>
+    <Cell><Data ss:Type="Number">25000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.05</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">1250</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-8]C[-2]"><Data ss:Type="Number">20</Data></Cell>
+    <Cell><Data ss:Type="Number">30000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.05</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">1500</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">22</Data></Cell>
+    <Cell ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=RC[-2]"><Data ss:Type="Number">22</Data></Cell>
+    <Cell><Data ss:Type="Number">5000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">150</Data></Cell>
+    <Cell><Data ss:Type="String">The next age group is similar, but with different percentages.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-1]C[-2]"><Data ss:Type="Number">22</Data></Cell>
+    <Cell><Data ss:Type="Number">6000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">180</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-2]C[-2]"><Data ss:Type="Number">22</Data></Cell>
+    <Cell><Data ss:Type="Number">8000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">240</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-3]C[-2]"><Data ss:Type="Number">22</Data></Cell>
+    <Cell><Data ss:Type="Number">10000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">300</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-4]C[-2]"><Data ss:Type="Number">22</Data></Cell>
+    <Cell><Data ss:Type="Number">13000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">390</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Formula="=R[-5]C[-2]"><Data ss:Type="Number">22</Data></Cell>
+    <Cell><Data ss:Type="Number">16000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">480</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Formula="=R[-6]C[-2]"><Data ss:Type="Number">22</Data></Cell>
+    <Cell><Data ss:Type="Number">20000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.04</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">800</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Formula="=R[-7]C[-2]"><Data ss:Type="Number">22</Data></Cell>
+    <Cell><Data ss:Type="Number">25000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.04</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">1000</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Formula="=R[-8]C[-2]"><Data ss:Type="Number">22</Data></Cell>
+    <Cell><Data ss:Type="Number">30000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.04</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">1200</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">25</Data></Cell>
+    <Cell ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=RC[-2]"><Data ss:Type="Number">25</Data></Cell>
+    <Cell><Data ss:Type="Number">5000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">150</Data></Cell>
+    <Cell><Data ss:Type="String">Similar again, different percentages again.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-1]C[-2]"><Data ss:Type="Number">25</Data></Cell>
+    <Cell><Data ss:Type="Number">6000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">180</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-2]C[-2]"><Data ss:Type="Number">25</Data></Cell>
+    <Cell><Data ss:Type="Number">8000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">240</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-3]C[-2]"><Data ss:Type="Number">25</Data></Cell>
+    <Cell><Data ss:Type="Number">10000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">300</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-4]C[-2]"><Data ss:Type="Number">25</Data></Cell>
+    <Cell><Data ss:Type="Number">13000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">390</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Formula="=R[-5]C[-2]"><Data ss:Type="Number">25</Data></Cell>
+    <Cell><Data ss:Type="Number">16000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">480</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Formula="=R[-6]C[-2]"><Data ss:Type="Number">25</Data></Cell>
+    <Cell><Data ss:Type="Number">20000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">600</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Formula="=R[-7]C[-2]"><Data ss:Type="Number">25</Data></Cell>
+    <Cell><Data ss:Type="Number">25000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">750</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Formula="=R[-8]C[-2]"><Data ss:Type="Number">25</Data></Cell>
+    <Cell><Data ss:Type="Number">30000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=RC[-2]*RC[-1]"><Data ss:Type="Number">900</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">60</Data></Cell>
+    <Cell ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Formula="=RC[-2]"><Data ss:Type="Number">60</Data></Cell>
+    <Cell><Data ss:Type="Number">30000</Data></Cell>
+    <Cell ss:StyleID="s27" ss:Formula="=2% + ABS(Age-50)/25 *1%"><Data
+      ss:Type="Number">3.1600000000000003E-2</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=InsuredAmount*RC[-1]"><Data
+      ss:Type="Number">474.00000000000006</Data></Cell>
+    <Cell><Data ss:Type="String">Complete switch of structure here.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">200</Data></Cell>
+    <Cell ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=RC[-2]"><Data ss:Type="Number">200</Data></Cell>
+    <Cell><Data ss:Type="Number">5000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=InsuredAmount*RC[-1]"><Data
+      ss:Type="Number">450</Data></Cell>
+    <Cell><Data ss:Type="String">Percentages again, but no fixed amounts.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-1]C[-2]"><Data ss:Type="Number">200</Data></Cell>
+    <Cell><Data ss:Type="Number">6000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=InsuredAmount*RC[-1]"><Data
+      ss:Type="Number">450</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-2]C[-2]"><Data ss:Type="Number">200</Data></Cell>
+    <Cell><Data ss:Type="Number">8000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=InsuredAmount*RC[-1]"><Data
+      ss:Type="Number">450</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-3]C[-2]"><Data ss:Type="Number">200</Data></Cell>
+    <Cell><Data ss:Type="Number">10000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.04</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=InsuredAmount*RC[-1]"><Data
+      ss:Type="Number">600</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=R[-4]C[-2]"><Data ss:Type="Number">200</Data></Cell>
+    <Cell><Data ss:Type="Number">13000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.04</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=InsuredAmount*RC[-1]"><Data
+      ss:Type="Number">600</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Formula="=R[-5]C[-2]"><Data ss:Type="Number">200</Data></Cell>
+    <Cell><Data ss:Type="Number">16000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.04</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=InsuredAmount*RC[-1]"><Data
+      ss:Type="Number">600</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Formula="=R[-6]C[-2]"><Data ss:Type="Number">200</Data></Cell>
+    <Cell><Data ss:Type="Number">20000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.05</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=InsuredAmount*RC[-1]"><Data
+      ss:Type="Number">750</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Formula="=R[-7]C[-2]"><Data ss:Type="Number">200</Data></Cell>
+    <Cell><Data ss:Type="Number">25000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.05</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=InsuredAmount*RC[-1]"><Data
+      ss:Type="Number">750</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:Formula="=AND(Age&lt;=RC[1],InsuredAmount&lt;=RC[2])"><Data
+      ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Formula="=R[-8]C[-2]"><Data ss:Type="Number">200</Data></Cell>
+    <Cell><Data ss:Type="Number">30000</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="Number">0.05</Data></Cell>
+    <Cell ss:StyleID="s26" ss:Formula="=InsuredAmount*RC[-1]"><Data
+      ss:Type="Number">750</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>5</ActiveRow>
+     <ActiveCol>4</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

@@ -1,0 +1,37 @@
+
+h1. AFC Function Reference
+
+
+This is the function reference for the Abacus Formula Compiler (AFC). You might also want to have a look at the "Tutorial":../tutorial/index.htm and the "API Reference":../javadoc/index.html, and in particular the "Limitations":../limitations.htm.
+
+h5. Note
+
+To ensure its correctness, all the example expressions and their results have been "cited from automated tests":-jcite that are run with every release build.
+
+
+
+h2. Microsoft Excel Support
+
+Since AFC only supports "Microsoft Excel":-excel spreadsheets as input at the moment, this reference uses Excel as a baseline for expected behaviour of the supported functions.
+
+<dl>
+
+<dt>"Cells, Values, Names":values.htm</dt><dd>Strings, numbers, dates, booleans; blank cells; cell names; ranges; numeric precision</dd>
+
+<%= summary 'Numeric Operators', 'numops', ['NumericOperators', 'NumericComparisons'] %>
+<%= summary 'Numeric Functions', 'numfuncs', ['NumericFunctions'] %>
+<%= summary 'Financial Functions', 'financialfuncs', ['FinancialFunctions'] %>
+<%= summary 'Statistical Functions', 'statisticalfuncs', ['StatisticalFunctions'] %>
+<%= summary 'String Support', 'strings', ['Strings_en_US', 'Strings_ru_RU', 'StringComparisons', 'Strings'] %>
+<%= summary 'Boolean Functions And IF', 'booleans', ['BooleanFunctions', 'FunctionIF'] %>
+<%= summary 'Date Functions', 'datefuncs', ['DateFunctions'] %>
+<%= summary 'Conversion Functions', 'convfuncs', ['ConversionFunctions_en_US', 'ConversionFunctions_ru_RU', 'ConversionFunctions'] %>
+<%= summary 'Type Functions', 'typefuncs', ['TypeFunctions'] %>
+<%= summary 'Aggregators', 'aggregators', ['FunctionSUM', 'Aggregators'] %>
+<%= summary 'Database Table Aggregators', 'dbaggregators', ['DatabaseAggregators_de_CH'] %>
+<%= summary 'Lookup Functions', 'lookupfuncs', ['LookupFunctions'] %>
+
+
+<dt>"Limitations":../limitations.htm</dt><dd>Things that are known to not work quite as expected yet.</dd>
+</dl>
+

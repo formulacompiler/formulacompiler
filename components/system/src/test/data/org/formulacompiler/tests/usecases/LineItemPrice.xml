@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>Peter Arrenbrecht</Author>
+  <LastAuthor>vkorenev</LastAuthor>
+  <Created>2005-11-28T19:27:42Z</Created>
+  <LastSaved>2005-12-13T07:39:07Z</LastSaved>
+  <Company>Opus Software AG</Company>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>13920</WindowHeight>
+  <WindowWidth>17085</WindowWidth>
+  <WindowTopX>360</WindowTopX>
+  <WindowTopY>90</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s18" ss:Name="Currency">
+   <NumberFormat
+    ss:Format="_ &quot;SFr.&quot;\ * #,##0.00_ ;_ &quot;SFr.&quot;\ * \-#,##0.00_ ;_ &quot;SFr.&quot;\ * &quot;-&quot;??_ ;_ @_ "/>
+  </Style>
+  <Style ss:ID="s20" ss:Name="Percent">
+   <NumberFormat ss:Format="0%"/>
+  </Style>
+  <Style ss:ID="s22" ss:Parent="s18">
+   <Font ss:FontName="Verdana"/>
+  </Style>
+  <Style ss:ID="s23">
+   <NumberFormat ss:Format="0%"/>
+  </Style>
+ </Styles>
+ <Names>
+  <NamedRange ss:Name="ArticlePrice" ss:RefersTo="=Sheet1!R1C2"/>
+  <NamedRange ss:Name="BasePrice" ss:RefersTo="=Sheet1!R3C2"/>
+  <NamedRange ss:Name="Discount" ss:RefersTo="=Sheet1!R6C2"/>
+  <NamedRange ss:Name="NumberSold" ss:RefersTo="=Sheet1!R2C2"/>
+  <NamedRange ss:Name="Total" ss:RefersTo="=Sheet1!R7C2"/>
+ </Names>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="8" ss:ExpandedRowCount="7" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:AutoFitWidth="0" ss:Width="124.5"/>
+   <Column ss:Width="91.5"/>
+   <Column ss:Width="79.5" ss:Span="1"/>
+   <Column ss:Index="5" ss:Width="85.5" ss:Span="2"/>
+   <Column ss:Index="8" ss:Width="91.5"/>
+   <Row>
+    <Cell><Data ss:Type="String">Base price of article</Data></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="Number">4000</Data><NamedCell
+      ss:Name="ArticlePrice"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Number of items sold</Data></Cell>
+    <Cell><Data ss:Type="Number">30</Data><NamedCell ss:Name="NumberSold"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Base price</Data></Cell>
+    <Cell ss:StyleID="s18" ss:Formula="=ArticlePrice*NumberSold"><Data
+      ss:Type="Number">120000</Data><NamedCell ss:Name="BasePrice"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Discount category</Data></Cell>
+    <Cell ss:Formula="=MATCH(BasePrice,RC[1]:RC[6],1)"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="Number">1000</Data></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="Number">5000</Data></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="Number">10000</Data></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="Number">30000</Data></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="Number">60000</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">100000</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Discount</Data></Cell>
+    <Cell ss:StyleID="s20" ss:Formula="=INDEX(RC[1]:RC[6],,R[-1]C)"><Data
+      ss:Type="Number">0.1</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">0.01</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">0.03</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">0.06</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">0.08</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">0.1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Discount amount</Data></Cell>
+    <Cell ss:StyleID="s18" ss:Formula="=BasePrice*R[-1]C"><Data ss:Type="Number">12000</Data><NamedCell
+      ss:Name="Discount"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Total amount</Data></Cell>
+    <Cell ss:StyleID="s18" ss:Formula="=BasePrice-R[-1]C"><Data ss:Type="Number">108000</Data><NamedCell
+      ss:Name="Total"/></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveCol>1</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Sheet2">
+  <Table ss:ExpandedColumnCount="0" ss:ExpandedRowCount="0" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54"/>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Sheet3">
+  <Table ss:ExpandedColumnCount="0" ss:ExpandedRowCount="0" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54"/>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

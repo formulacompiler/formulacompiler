@@ -1,0 +1,121 @@
+
+h1. Database Functions
+
+I have started implementing the database functions like @DSUM()@. Here I intend to sketch out the cases SEJ is going to support, and how.
+
+<%= toc %>
+
+
+h2. General Remarks
+
+At least in the first implementation, I will not support constant folding of the @D...()@ functions. Their arguments will, of course, be folded normally. This is because I don't think we will, in practice, see any sheets with constant applications of these functions.
+
+
+h2. Base Data
+
+In the following examples, I will always consider references to this sheet:
+
+	[xc:org/formulacompiler/tests/reference/DatabaseAggregators_de_CH.xls:BaseData]
+
+	
+h2. Simple Sum
+
+Consider
+
+	DSUM(Table1;"Yield";Crit2)
+	
+selecting all @Apple@ trees. I shall generate the methods (with names properly made unique):
+
+	boolean isMatch( String Bx, String B11 ) {
+		return Bx.equals( B11 );
+	}
+	double computeDSUM() {
+		String B11 = getB11();
+		double r = 0.0;
+		if (isMatch( getB3(), B11 )) r+= getE3();
+		...
+		if (isMatch( getB8(), B11 )) r+= getE8();
+		return r;
+	}
+
+Now consider
+
+	DSUM(Table1;"Yield";Crit5)
+	
+which a different match function
+
+	boolean isMatch( String Bx, String B11, String B12 ) {
+		return Bx.equals( B11 ) || Bx.equals( B12 );
+	}
+
+and an analogous @computeDSUM@ method.
+
+
+h2. Section Sum
+
+If the table is or contains a dynamic range, the code becomes (assuming a dynamic section in @B4:F7@):
+
+	double computeDSUM() {
+		String B11 = getB11();
+		double r = 0.0;
+		if (isMatch( getB3(), B11 )) r+= getE3();
+		for (SectionObj e : getSection()) {
+			if (isMatch( e.getB4(), B11 )) r+= e.getE4();
+		}
+		if (isMatch( getB8(), B11 )) r+= getE8();
+		return r;
+	}
+
+	
+h2. Conditional Fold
+
+Consider
+
+	DSUM(Table1;"Yield";Crit2)
+	
+selecting all @Apple@ trees. This could be rewritten to
+
+	_LET( b11: B11;
+		_DFOLD( col: `col0 = `b11; r: 0; xi: `r + `xi; 3; `table ))
+
+Where @col:@ means that the columns in the range are accessible as @col0@, @col1@, ..., and the @3@ indicates the column to be summed - this could also be an expression. Likewise,
+
+	DSUM(Table1;"Yield";Crit5)
+
+would become
+
+	_LET( b11: B11;
+	_LET( b12: B12;
+		_DFOLD( col: OR(`col0 = `b11, `col0 = `b12); r: 0; xi: `r + `xi; 3; `table )))
+
+Now, @_DFOLD()@ is the thing that gets compiled to the two helper functions, the matcher and the folder. The normal closure computation is useful for the matcher. We will also need @_DREDUCE()@ for @_DMIN()@ and @_DMAX()@.
+
+The rewrite rules given above will, of course, have to be implemented in plain Java, not through rewrite templates, as they involve some quite complex logic.
+
+In the first version, I will not try to detect multiple references to the same cell in the criteria.
+
+
+h2. Comparisons
+
+Consider
+
+	DSUM(Table1;D22;Crit6)
+	
+which has computed criteria. I will support this as long as the computation follows the pattern
+
+	CONCATENATE( "comparison", value )
+	
+where @comparison@ must be one of @=, <>, <, <=, >, >=@. Given the possibility for free form criteria, one might question whether SEJ has to support this. I believe it is worthwhile, though, because it is a simple extension of the the base criteria support that will likely be more familiar to users than free form criteria.
+
+Criteria computed by _any other expression_ are assumed to mean equality, even if they return a string starting with one of the comparison operators. This is different from Excel and unfortunate, as it means you may get different results without any warning. One possibilty to catch this, at least for numbers, would be to analyze the type of the referenced cell. If it's a string used for a numeric column, SEJ might reject it.
+
+
+h2. Missing Things
+
+	* Wildcards with = (@=?u*@)
+	* String searches are prefix searches
+	* String searches are case-insensitive
+	* Test free-form criteria with missing label
+	* DSUM needs shaped arguments. However, SEJ currently does not support dynamic sections in shaped arguments.
+
+	* Maybe rewrite to two ranges, one for all used criteria, one for the data. Might even rewrite to n ranges for all used cols.

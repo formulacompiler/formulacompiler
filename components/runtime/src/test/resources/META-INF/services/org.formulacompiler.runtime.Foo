@@ -1,0 +1,2 @@
+# Configures the canonical implementation of sej.runtime.Foo
+org.formulacompiler.runtime.FooImpl # here it is

@@ -1,0 +1,502 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>Peter Arrenbrecht</Author>
+  <LastAuthor>Peter Arrenbrecht</LastAuthor>
+  <Created>2005-11-22T20:05:38Z</Created>
+  <LastSaved>2007-10-04T06:45:40Z</LastSaved>
+  <Company>Opus Software AG</Company>
+  <Version>11.9999</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>13905</WindowHeight>
+  <WindowWidth>14460</WindowWidth>
+  <WindowTopX>360</WindowTopX>
+  <WindowTopY>90</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s21">
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s22">
+   <NumberFormat ss:Format="Fixed"/>
+  </Style>
+  <Style ss:ID="s23">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Italic="1"/>
+  </Style>
+  <Style ss:ID="s24">
+   <Borders/>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Italic="1"/>
+   <Interior/>
+  </Style>
+  <Style ss:ID="s25">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Italic="1"/>
+   <Interior/>
+  </Style>
+  <Style ss:ID="s26">
+   <Borders/>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Italic="1"/>
+  </Style>
+  <Style ss:ID="s27">
+   <Borders/>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Italic="1" ss:Underline="Single"/>
+   <Interior/>
+  </Style>
+ </Styles>
+ <Names>
+  <NamedRange ss:Name="BaseData" ss:RefersTo="=Sheet1!R2C1:R18C7"/>
+  <NamedRange ss:Name="Data1" ss:RefersTo="=Sheet1!R3C2:R4C5"/>
+  <NamedRange ss:Name="TestHeader" ss:RefersTo="=Sheet1!R21C2:R21C8"/>
+  <NamedRange ss:Name="Vals1" ss:RefersTo="=Sheet1!R11C2:R12C2"/>
+  <NamedRange ss:Name="Vals2" ss:RefersTo="=Sheet1!R15C5:R15C7"/>
+ </Names>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="9" ss:ExpandedRowCount="73" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:AutoFitWidth="0" ss:Width="98.25"/>
+   <Column ss:Index="3" ss:AutoFitWidth="0" ss:Width="84.75"/>
+   <Row ss:Index="2">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Test table</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Tree</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Height</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Yield</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Profit</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Apple</Data><NamedCell
+      ss:Name="Data1"/><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">18</Data><NamedCell ss:Name="Data1"/><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">14</Data><NamedCell ss:Name="Data1"/><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">105</Data><NamedCell
+      ss:Name="Data1"/><NamedCell ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Pear</Data><NamedCell ss:Name="Data1"/><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">12</Data><NamedCell ss:Name="Data1"/><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">10</Data><NamedCell ss:Name="Data1"/><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">96</Data><NamedCell
+      ss:Name="Data1"/><NamedCell ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Cherry</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">13</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">9</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">105</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Apple</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">14</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">10</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">75</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Pear</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">9</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">8</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">76.8</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Apple</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">8</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">6</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">45</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row ss:Index="10">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Criteria sets</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Tree</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Height</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Height</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Tree</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Height</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Apple</Data><NamedCell
+      ss:Name="Vals1"/><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="String">&gt;10.0</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="String">&lt;16</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="String">Nonexistent</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="String">&lt;1.4e6</Data><NamedCell ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Pear</Data><NamedCell ss:Name="Vals1"/><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:Index="4"><Data ss:Type="String">&lt;1'000</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row ss:Index="14">
+    <Cell ss:Index="2" ss:StyleID="s23"><Data ss:Type="String">Tree</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Height</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Height</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="String">RefTree</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="String">RefHeight</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="String">RefHeight</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:Formula="=RC[3]"><Data ss:Type="String">Apple</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:Formula="=&quot;&gt;&quot;&amp;RC[3]"><Data ss:Type="String">&gt;10</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:Formula="=CONCATENATE(&quot;&lt;&quot;,RC[3])"><Data ss:Type="String">&lt;16</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="String">Apple</Data><NamedCell ss:Name="Vals2"/><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">10</Data><NamedCell ss:Name="Vals2"/><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="Number">16</Data><NamedCell ss:Name="Vals2"/><NamedCell
+      ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row ss:Index="17">
+    <Cell ss:Index="2" ss:StyleID="s23"><Data ss:Type="String">Free Form</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s26"><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s26"><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s24"><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s24"><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s24"><NamedCell ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"
+     ss:Formula="=AND(R[-15]C=&quot;Apple&quot;,R[-15]C[1]&gt;R15C6,R[-15]C[1]&lt;R15C7)"><Data
+      ss:Type="Boolean">0</Data><NamedCell ss:Name="BaseData"/></Cell>
+   </Row>
+   <Row ss:Index="21">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Tests</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Expected</Data><NamedCell
+      ss:Name="TestHeader"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Actual</Data><NamedCell
+      ss:Name="TestHeader"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Column</Data><NamedCell
+      ss:Name="TestHeader"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Table</Data><NamedCell
+      ss:Name="TestHeader"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Criteria</Data><NamedCell
+      ss:Name="TestHeader"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Name</Data><NamedCell
+      ss:Name="TestHeader"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Highlight</Data><NamedCell
+      ss:Name="TestHeader"/></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="String">Excel says</Data></Cell>
+   </Row>
+   <Row ss:Index="23">
+    <Cell ss:Index="2"><Data ss:Type="Number">247.8</Data></Cell>
+    <Cell
+     ss:Formula="=DSUM(R[-21]C[-1]:R[-15]C[2],&quot;Profit&quot;,R[-13]C[-1]:R[-11]C[1])"><Data
+      ss:Type="Number">247.8</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">DSUM</Data></Cell>
+    <Cell><Data ss:Type="String">DSUM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=DSUM(R[-22]C[-1]:R[-16]C[2],&quot;Profit&quot;,R[-14]C[2]:R[-13]C[2])"><Data
+      ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">247.8</Data></Cell>
+    <Cell ss:Formula="=DSUM(R[-23]C[-1]:R[-17]C[2],RC[1],R[-15]C[-1]:R[-13]C[1])"><Data
+      ss:Type="Number">247.8</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">Data1</Data></Cell>
+    <Cell><Data ss:Type="String">Vals1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">28</Data></Cell>
+    <Cell ss:Formula="=DSUM(R[-24]C[-1]:R[-18]C[2],&quot;Yield&quot;,R[-16]C[-1]:R[-14]C[1])"><Data
+      ss:Type="Number">28</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">30</Data></Cell>
+    <Cell
+     ss:Formula="=DSUM(R[-25]C[-1]:R[-19]C[2],&quot;Yield&quot;,R[-17]C[-1]:R[-16]C[-1])"><Data
+      ss:Type="Number">30</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">29</Data></Cell>
+    <Cell ss:Formula="=DSUM(R[-26]C[-1]:R[-20]C[2],&quot;Yield&quot;,R[-18]C:R[-17]C[1])"><Data
+      ss:Type="Number">29</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Formula="=DSUM(R[-27]C[-1]:R[-21]C[2],&quot;Yield&quot;,R[-19]C[-1]:R[-18]C[1])"><Data
+      ss:Type="Number">10</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">48</Data></Cell>
+    <Cell
+     ss:Formula="=DSUM(R[-28]C[-1]:R[-22]C[2],&quot;Yield&quot;,R[-20]C[-1]:R[-18]C[-1])"><Data
+      ss:Type="Number">48</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">57</Data></Cell>
+    <Cell ss:Formula="=DSUM(R[-29]C[-1]:R[-23]C[2],&quot;Yield&quot;,R[-21]C[3]:R[-20]C[3])"><Data
+      ss:Type="Number">57</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">75</Data></Cell>
+    <Cell ss:Formula="=DSUM(R[-30]C[-1]:R[-24]C[2],RC[1],R[-18]C[-1]:R[-17]C[1])"><Data
+      ss:Type="Number">75</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="6"><Data ss:Type="String">Vals2</Data></Cell>
+    <Cell><Data ss:Type="String">&amp;-ed criteria</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">75</Data></Cell>
+    <Cell ss:Formula="=DSUM(R[-31]C[-1]:R[-25]C[2],RC[1],R[-16]C[-1]:R[-15]C[-1])"><Data
+      ss:Type="Number">75</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">free-form criteria</Data></Cell>
+   </Row>
+   <Row ss:Index="35">
+    <Cell ss:Index="2"><Data ss:Type="Number">552960</Data></Cell>
+    <Cell
+     ss:Formula="=DPRODUCT(R[-33]C[-1]:R[-27]C[2],&quot;Profit&quot;,R[-25]C[-1]:R[-23]C[1])"><Data
+      ss:Type="Number">552960</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">DPRODUCT</Data></Cell>
+    <Cell><Data ss:Type="String">DPRODUCT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell
+     ss:Formula="=DPRODUCT(R[-34]C[-1]:R[-28]C[2],&quot;Profit&quot;,R[-26]C[2]:R[-25]C[2])"><Data
+      ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:Index="38">
+    <Cell ss:Index="2"><Data ss:Type="Number">3</Data></Cell>
+    <Cell
+     ss:Formula="=DCOUNT(R[-36]C[-1]:R[-30]C[2],&quot;Profit&quot;,R[-28]C[-1]:R[-26]C[1])"><Data
+      ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">DCOUNT</Data></Cell>
+    <Cell><Data ss:Type="String">DCOUNT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell
+     ss:Formula="=DCOUNT(R[-37]C[-1]:R[-31]C[2],&quot;Profit&quot;,R[-29]C[2]:R[-28]C[2])"><Data
+      ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:Index="41">
+    <Cell ss:Index="2"><Data ss:Type="Number">3</Data></Cell>
+    <Cell
+     ss:Formula="=DCOUNTA(R[-39]C[-1]:R[-33]C[2],&quot;Profit&quot;,R[-31]C[-1]:R[-29]C[1])"><Data
+      ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">DCOUNTA</Data></Cell>
+    <Cell><Data ss:Type="String">DCOUNTA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell
+     ss:Formula="=DCOUNTA(R[-40]C[-1]:R[-34]C[2],&quot;Profit&quot;,R[-32]C[2]:R[-31]C[2])"><Data
+      ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:Index="44">
+    <Cell ss:Index="2"><Data ss:Type="Number">75</Data></Cell>
+    <Cell
+     ss:Formula="=DMIN(R[-42]C[-1]:R[-36]C[2],&quot;Profit&quot;,R[-34]C[-1]:R[-32]C[1])"><Data
+      ss:Type="Number">75</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">DMIN</Data></Cell>
+    <Cell><Data ss:Type="String">DMIN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=DMIN(R[-43]C[-1]:R[-37]C[2],&quot;Profit&quot;,R[-35]C[2]:R[-34]C[2])"><Data
+      ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:Index="47">
+    <Cell ss:Index="2"><Data ss:Type="Number">96</Data></Cell>
+    <Cell
+     ss:Formula="=DMAX(R[-45]C[-1]:R[-39]C[2],&quot;Profit&quot;,R[-37]C[-1]:R[-35]C[1])"><Data
+      ss:Type="Number">96</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">DMAX</Data></Cell>
+    <Cell><Data ss:Type="String">DMAX</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=DMAX(R[-46]C[-1]:R[-40]C[2],&quot;Profit&quot;,R[-38]C[2]:R[-37]C[2])"><Data
+      ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:Index="50">
+    <Cell ss:Index="2"><Data ss:Type="Number">82.6</Data></Cell>
+    <Cell ss:Formula="=DAVERAGE(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[-1]:R12C[1])"><Data
+      ss:Type="Number">82.600000000000009</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">DAVERAGE</Data></Cell>
+    <Cell><Data ss:Type="String">DAVERAGE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=DAVERAGE(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[2]:R11C[2])"><Data
+      ss:Type="Error">#DIV/0!</Data></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
+   </Row>
+   <Row ss:Index="53">
+    <Cell ss:Index="2"><Data ss:Type="Number">90.319999999998899</Data></Cell>
+    <Cell ss:Formula="=DVARP(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[-1]:R12C[1])"><Data
+      ss:Type="Number">90.319999999998899</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">DVARP</Data></Cell>
+    <Cell><Data ss:Type="String">DVARP</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=DVARP(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[2]:R11C[2])"><Data
+      ss:Type="Error">#DIV/0!</Data></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
+   </Row>
+   <Row ss:Index="56">
+    <Cell ss:Index="2"><Data ss:Type="Number">135.47999999999774</Data></Cell>
+    <Cell ss:Formula="=DVAR(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[-1]:R12C[1])"><Data
+      ss:Type="Number">135.47999999999774</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">DVAR</Data></Cell>
+    <Cell><Data ss:Type="String">DVAR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=DVAR(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[2]:R11C[2])"><Data
+      ss:Type="Error">#DIV/0!</Data></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
+   </Row>
+   <Row ss:Index="59">
+    <Cell ss:Index="2"><Data ss:Type="Number">9.5036834964133199</Data></Cell>
+    <Cell ss:Formula="=DSTDEVP(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[-1]:R12C[1])"><Data
+      ss:Type="Number">9.5036834964133199</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">DSTDEVP</Data></Cell>
+    <Cell><Data ss:Type="String">DSTDEVP</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=DSTDEVP(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[2]:R11C[2])"><Data
+      ss:Type="Error">#DIV/0!</Data></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
+   </Row>
+   <Row ss:Index="62">
+    <Cell ss:Index="2"><Data ss:Type="Number">11.639587621561072</Data></Cell>
+    <Cell ss:Formula="=DSTDEV(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[-1]:R12C[1])"><Data
+      ss:Type="Number">11.639587621561072</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">DSTDEV</Data></Cell>
+    <Cell><Data ss:Type="String">DSTDEV</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=DSTDEV(R2C[-1]:R8C[2],&quot;Profit&quot;,R10C[2]:R11C[2])"><Data
+      ss:Type="Error">#DIV/0!</Data></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
+   </Row>
+   <Row ss:Index="65">
+    <Cell ss:Index="2"><Data ss:Type="Number">381</Data></Cell>
+    <Cell ss:Formula="=SUMIF(R[-62]C:R[-57]C,R[-54]C,R[-62]C[2]:R[-57]C[2])"><Data
+      ss:Type="Number">381</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">SUMIF</Data></Cell>
+    <Cell><Data ss:Type="String">SUMIF</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">56</Data></Cell>
+    <Cell ss:Formula="=SUMIF(R[-63]C:R[-58]C,R[-55]C[1])"><Data ss:Type="Number">56</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">225</Data></Cell>
+    <Cell
+     ss:Formula="=SUMIF(R[-64]C[-1]:R[-59]C[-1],R[-56]C[-1],R[-64]C[2]:R[-59]C[2])"><Data
+      ss:Type="Number">225</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell
+     ss:Formula="=SUMIF(R[-65]C[-1]:R[-60]C[-1],R[-57]C[2],R[-65]C[2]:R[-60]C[2])"><Data
+      ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:Index="70">
+    <Cell ss:Index="2"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=COUNTIF(R[-67]C:R[-62]C,R[-59]C)"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="String">COUNTIF</Data></Cell>
+    <Cell><Data ss:Type="String">COUNTIF</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=COUNTIF(R[-68]C:R[-63]C,R[-60]C[1])"><Data ss:Type="Number">5</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=COUNTIF(R[-69]C[-1]:R[-64]C[-1],R[-61]C[-1])"><Data
+      ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=COUNTIF(R[-70]C[-1]:R[-65]C[-1],R[-62]C[2])"><Data
+      ss:Type="Number">0</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Selected/>
+   <SplitHorizontal>5865</SplitHorizontal>
+   <TopRowBottomPane>61</TopRowBottomPane>
+   <ActivePane>2</ActivePane>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>17</ActiveRow>
+     <ActiveCol>1</ActiveCol>
+    </Pane>
+    <Pane>
+     <Number>2</Number>
+     <ActiveRow>73</ActiveRow>
+     <ActiveCol>1</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>
