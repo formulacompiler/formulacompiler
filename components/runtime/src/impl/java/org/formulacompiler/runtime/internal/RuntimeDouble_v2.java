@@ -753,11 +753,12 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return rate0;
 	}
 
-	public static double fun_VDB( double _cost, double _salvage, double _life, double _start_period, double _end_period, double _factor, boolean _no_switch )
+	public static double fun_VDB( double _cost, double _salvage, double _life, double _start_period, double _end_period,
+			double _factor, boolean _no_switch )
 	{
 		double valVDB = 0;
-		if (_start_period < 0.0 | _end_period < _start_period | _end_period > _life | _cost < 0
-				| _salvage > _cost | _factor <= 0) {
+		if (_start_period < 0.0
+				| _end_period < _start_period | _end_period > _life | _cost < 0 | _salvage > _cost | _factor <= 0) {
 			return 0;
 		}
 		else {
@@ -765,9 +766,9 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			int loopEnd = (int) Math.ceil( _end_period );
 			if (_no_switch) {
 				for (int i = loopStart + 1; i <= loopEnd; i++) {
-					double valDDB = fun_DDB( _cost, _salvage, _life, (double) i, _factor );
+					double valDDB = fun_DDB( _cost, _salvage, _life, i, _factor );
 					if (i == loopStart + 1) {
-						valDDB *= (_end_period < loopStart + 1 ? _end_period : loopStart + 1) - _start_period;
+						valDDB *= (_end_period < loopStart + 1? _end_period : loopStart + 1) - _start_period;
 					}
 					else if (i == loopEnd) {
 						valDDB *= _end_period + 1 - loopEnd;
@@ -777,26 +778,29 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			}
 			else {
 				double _life2 = _life;
+				double start = _start_period;
+				double end = _end_period;
 				double part;
-				if (_start_period != Math.floor( _start_period )) {
+				if (start != Math.floor( start )) {
 					if (_factor > 1) {
-						if (_start_period >= _life / 2) {
+						if (start >= _life / 2) {
 							// this part works like in Open Office
-							part = _start_period - _life / 2;
-							_start_period = _life / 2;
-							_end_period -= part;
+							part = start - _life / 2;
+							start = _life / 2;
+							end -= part;
 							_life2 += 1;
 						}
 					}
 				}
-				_cost -= interVDB( _cost, _salvage, _life, _life2, _start_period, _factor );
-				valVDB = interVDB( _cost, _salvage, _life, _life - _start_period, _end_period - _start_period, _factor );
+				final double cost = _cost - interVDB( _cost, _salvage, _life, _life2, start, _factor );
+				valVDB = interVDB( cost, _salvage, _life, _life - start, end - start, _factor );
 			}
 		}
 		return valVDB;
 	}
 
-	private static double interVDB( double _cost, double _salvage, double _life, double _life2, double _period, double _factor )
+	private static double interVDB( double _cost, double _salvage, double _life, double _life2, double _period,
+			double _factor )
 	{
 		double valVDB = 0;
 		int loopEnd = (int) Math.ceil( _period );
@@ -806,7 +810,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		double valSLN = 0;
 		for (int i = 1; i <= loopEnd; i++) {
 			if (!flagSLN) {
-				valDDB = fun_DDB( _cost, _salvage, _life, (double) i, _factor );
+				valDDB = fun_DDB( _cost, _salvage, _life, i, _factor );
 				valSLN = salvageCost / (_life2 - i + 1);
 				if (valSLN > valDDB) {
 					valTmpRes = valSLN;
@@ -820,8 +824,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			else {
 				valTmpRes = valSLN;
 			}
-			if (i == loopEnd)
-				valTmpRes *= (_period + 1 - loopEnd);
+			if (i == loopEnd) valTmpRes *= (_period + 1 - loopEnd);
 
 			valVDB += valTmpRes;
 		}

@@ -49,7 +49,7 @@ public abstract class Runtime_v2
 	static final boolean BASED_ON_1904 = false;
 	protected static Random generator = new Random();
 
-	private static final BigDecimal MAX_EXP_VALUE = BigDecimal.valueOf( 1, 4 ); //1E-4
+	private static final BigDecimal MAX_EXP_VALUE = BigDecimal.valueOf( 1, 4 ); // 1E-4
 
 
 	public static byte unboxByte( Byte _boxed )
@@ -237,7 +237,8 @@ public abstract class Runtime_v2
 		}
 	}
 
-	private static String stringFromBigDecimal( BigDecimal _value, Environment _environment, int _intDigitsLimitFrac, int _intDigitsLimitInt )
+	private static String stringFromBigDecimal( BigDecimal _value, Environment _environment, int _intDigitsLimitFrac,
+			int _intDigitsLimitInt )
 	{
 		if (_value.compareTo( BigDecimal.ZERO ) == 0) {
 			return "0"; // avoid "0.0"
@@ -254,7 +255,7 @@ public abstract class Runtime_v2
 			return formatExp( stripped, _environment );
 		}
 		final int fractionDigits = _intDigitsLimitFrac - integerDigits;
-		final int maximumFractionDigits = fractionDigits > 0 ? Math.min( fractionDigits, _intDigitsLimitFrac - 1 ) : 0;
+		final int maximumFractionDigits = fractionDigits > 0? Math.min( fractionDigits, _intDigitsLimitFrac - 1 ) : 0;
 		if (scale > maximumFractionDigits) {
 			final BigDecimal scaled = stripped.setScale( maximumFractionDigits, RoundingMode.HALF_UP );
 			return stringFromBigDecimal( scaled, _environment, _intDigitsLimitFrac, _intDigitsLimitInt );
@@ -287,7 +288,7 @@ public abstract class Runtime_v2
 	private static DecimalFormatSymbols getDecimalFormatSymbols( Environment _environment )
 	{
 		final DecimalFormatSymbols envSymbols = _environment.decimalFormatSymbols();
-		return envSymbols != null ? envSymbols : new DecimalFormatSymbols( _environment.locale() );
+		return envSymbols != null? envSymbols : new DecimalFormatSymbols( _environment.locale() );
 	}
 
 
@@ -458,13 +459,10 @@ public abstract class Runtime_v2
 
 	public static String fun_FIXED( Number _number, int _decimals, boolean _no_commas, Environment _environment )
 	{
+		final double multiplier = _decimals != 0? Math.pow( 10, _decimals ) : 1;
+		final int decimals = (_decimals < 0)? 0 : _decimals;
 		double number = _number.doubleValue();
-		double multiplier = _decimals != 0 ? Math.pow( 10, _decimals ) : 1;
 		number = Math.round( number * multiplier ) / multiplier;
-		final DecimalFormatSymbols syms = getDecimalFormatSymbols( _environment );
-		if (_decimals < 0) {
-			_decimals = 0;
-		}
 		final NumberFormat numberFormat = getNumberFormat( _environment );
 		if (numberFormat instanceof DecimalFormat) {
 			final DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
@@ -474,7 +472,7 @@ public abstract class Runtime_v2
 				formatSymbols.setGroupingSeparator( '\u0020' );
 				decimalFormat.setDecimalFormatSymbols( formatSymbols );
 			}
-			numberFormat.setMinimumFractionDigits( _decimals );
+			numberFormat.setMinimumFractionDigits( decimals );
 			numberFormat.setGroupingUsed( !_no_commas );
 			return numberFormat.format( number );
 		}
@@ -527,25 +525,24 @@ public abstract class Runtime_v2
 		return sb.toString();
 	}
 
-	public static String fun_ROMAN( int val, int mode )
+	public static String fun_ROMAN( int _val, int _mode )
 	{
-		if ((mode >= 0) & (mode < 5) & (val >= 0) & (val < 4000)) {
+		if ((_mode >= 0) & (_mode < 5) & (_val >= 0) & (_val < 4000)) {
 			final StringBuilder result = new StringBuilder();
 			final int[] values = { 1000, 500, 100, 50, 10, 5, 1 };
 			final String[] roman = { "M", "D", "C", "L", "X", "V", "I" };
 			int maxIndex = values.length - 1;
+			int val = _val;
 			for (int i = 0; i <= maxIndex / 2; i++) {
 				int index = i * 2;
 				int digit = val / values[ index ];
 				if ((digit % 5) == 4) {
-					int index2 = (digit == 4) ? index - 1 : index - 2;
+					int index2 = (digit == 4)? index - 1 : index - 2;
 					int step = 0;
-					while ((step < mode) & (index < maxIndex)) {
+					while ((step < _mode) & (index < maxIndex)) {
 						step++;
-						if (values[ index2 ] - values[ index + 1 ] <= val)
-							index++;
-						else
-							step = mode;
+						if (values[ index2 ] - values[ index + 1 ] <= val) index++;
+						else step = _mode;
 					}
 					result.append( roman[ index ] );
 					result.append( roman[ index2 ] );
@@ -601,16 +598,14 @@ public abstract class Runtime_v2
 	public static String fun_TEXT( Number _num, String _format, Environment _environment )
 	{
 		if ("@".equals( _format )) {
-			final BigDecimal num = _num instanceof BigDecimal ?
-					(BigDecimal) _num : BigDecimal.valueOf( _num.doubleValue() );
+			final BigDecimal num = _num instanceof BigDecimal? (BigDecimal) _num : BigDecimal.valueOf( _num.doubleValue() );
 			return stringFromBigDecimal( num, _environment, 10, 11 );
 		}
 		throw new IllegalArgumentException( "TEXT() is not properly supported yet." );
 	}
 
 
-	static final long[] FACTORIALS = { 1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800,
-			479001600 };
+	static final long[] FACTORIALS = { 1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800, 479001600 };
 
 
 }
