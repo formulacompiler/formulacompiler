@@ -270,7 +270,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 
 	public static BigDecimal fun_RAND()
 	{
-		return BigDecimal.valueOf(generator.nextDouble());
+		return BigDecimal.valueOf( generator.nextDouble() );
 	}
 
 	public static BigDecimal fun_ROUND( final BigDecimal _val, final BigDecimal _maxFrac )
@@ -345,12 +345,15 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 
 	public static BigDecimal fun_BETADIST( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_BETADIST( _x.doubleValue(), _alpha.doubleValue(), _beta.doubleValue() ) );
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_BETADIST( _x.doubleValue(), _alpha.doubleValue(), _beta
+				.doubleValue() ) );
 	}
 
-	public static BigDecimal fun_BINOMDIST( BigDecimal _successes, BigDecimal _trials, BigDecimal _probability, boolean _cumulative )
+	public static BigDecimal fun_BINOMDIST( BigDecimal _successes, BigDecimal _trials, BigDecimal _probability,
+			boolean _cumulative )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_BINOMDIST( _successes.intValue(), _trials.intValue(), _probability.doubleValue(), _cumulative ) );
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_BINOMDIST( _successes.intValue(), _trials.intValue(),
+				_probability.doubleValue(), _cumulative ) );
 	}
 
 	public static BigDecimal fun_CHIDIST( BigDecimal _x, BigDecimal _degFreedom )
@@ -360,7 +363,8 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 
 	public static BigDecimal fun_GAMMADIST( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta, boolean _cumulative )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_GAMMADIST( _x.doubleValue(), _alpha.doubleValue(), _beta.doubleValue(), _cumulative ) );
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_GAMMADIST( _x.doubleValue(), _alpha.doubleValue(), _beta
+				.doubleValue(), _cumulative ) );
 	}
 
 	public static BigDecimal fun_POISSON( BigDecimal _x, BigDecimal _mean, boolean _cumulative )
@@ -370,7 +374,8 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 
 	public static BigDecimal fun_TDIST( BigDecimal _x, BigDecimal _degFreedom, BigDecimal _tails )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_TDIST( _x.doubleValue(), _degFreedom.doubleValue(), _tails.intValue() ) );
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_TDIST( _x.doubleValue(), _degFreedom.doubleValue(), _tails
+				.intValue() ) );
 	}
 
 	public static BigDecimal fun_LOG( final BigDecimal _n, final BigDecimal _x )
@@ -613,8 +618,10 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			BigDecimal _end_period, BigDecimal _factor, boolean _no_switch, MathContext _cx )
 	{
 		BigDecimal valVDB = ZERO;
-		if (_start_period.compareTo( ZERO ) < 0 | _end_period.compareTo( _start_period ) < 0 | _end_period.compareTo( _life ) > 0
-				| _cost.compareTo( ZERO ) < 0 | _salvage.compareTo( _cost ) > 0 | _factor.compareTo( BigDecimal.valueOf( 0 ) ) <= 0) {
+		if (_start_period.compareTo( ZERO ) < 0
+				| _end_period.compareTo( _start_period ) < 0 | _end_period.compareTo( _life ) > 0
+				| _cost.compareTo( ZERO ) < 0 | _salvage.compareTo( _cost ) > 0
+				| _factor.compareTo( BigDecimal.valueOf( 0 ) ) <= 0) {
 			return ZERO;
 		}
 		else {
@@ -624,7 +631,8 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 				for (int i = loopStart + 1; i <= loopEnd; i++) {
 					BigDecimal valDDB = fun_DDB( _cost, _salvage, _life, BigDecimal.valueOf( i ), _factor, _cx );
 					if (i == loopStart + 1) {
-						valDDB = valDDB.multiply( _end_period.min( BigDecimal.valueOf( loopStart + 1 ) ).subtract( _start_period, _cx ), _cx );
+						valDDB = valDDB.multiply( _end_period.min( BigDecimal.valueOf( loopStart + 1 ) ).subtract(
+								_start_period, _cx ), _cx );
 					}
 					else if (i == loopEnd) {
 						valDDB = valDDB.multiply( _end_period.add( BigDecimal.valueOf( 1 - loopEnd ), _cx ) );
@@ -634,26 +642,30 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			}
 			else {
 				BigDecimal _life2 = _life;
+				BigDecimal start = _start_period;
+				BigDecimal end = _end_period;
 				BigDecimal part;
-				if (_start_period.compareTo( BigDecimal.valueOf( Math.floor( _start_period.doubleValue() ) ) ) != 0) {
+				if (start.compareTo( BigDecimal.valueOf( Math.floor( start.doubleValue() ) ) ) != 0) {
 					if (_factor.compareTo( ONE ) > 0) {
-						if (_start_period.compareTo( _life.divide( TWO ) ) >= 0) {
+						if (start.compareTo( _life.divide( TWO ) ) >= 0) {
 							// this part works like in Open Office
-							part = _start_period.subtract( _life.divide( TWO ), _cx );
-							_start_period = _life.divide( TWO, _cx );
-							_end_period = _end_period.subtract( part, _cx );
+							part = start.subtract( _life.divide( TWO ), _cx );
+							start = _life.divide( TWO, _cx );
+							end = end.subtract( part, _cx );
 							_life2 = _life2.add( ONE, _cx );
 						}
 					}
 				}
-				_cost = _cost.subtract( interVDB( _cost, _salvage, _life, _life2, _start_period, _factor, _cx ) );
-				valVDB = interVDB( _cost, _salvage, _life, _life.subtract( _start_period, _cx ), _end_period.subtract( _start_period, _cx ), _factor, _cx );
+				final BigDecimal cost = _cost.subtract( interVDB( _cost, _salvage, _life, _life2, start, _factor, _cx ) );
+				valVDB = interVDB( cost, _salvage, _life, _life.subtract( start, _cx ), end.subtract( start, _cx ),
+						_factor, _cx );
 			}
 		}
 		return valVDB;
 	}
 
-	private static BigDecimal interVDB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _life2, BigDecimal _period, BigDecimal _factor, MathContext _cx )
+	private static BigDecimal interVDB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _life2,
+			BigDecimal _period, BigDecimal _factor, MathContext _cx )
 	{
 		BigDecimal valVDB = ZERO;
 		int loopEnd = (int) Math.ceil( _period.doubleValue() );
@@ -677,8 +689,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			else {
 				valTmpRes = valSLN;
 			}
-			if (i == loopEnd)
-				valTmpRes = valTmpRes.multiply( _period.add( BigDecimal.valueOf( 1 - loopEnd ) ), _cx );
+			if (i == loopEnd) valTmpRes = valTmpRes.multiply( _period.add( BigDecimal.valueOf( 1 - loopEnd ) ), _cx );
 			valVDB = valVDB.add( valTmpRes, _cx );
 		}
 		return valVDB;
