@@ -533,12 +533,7 @@ public abstract class Runtime_v2
 
 	private static boolean isSymbolVisible( int codePoint )
 	{
-		if (codePoint < 32 | codePoint == 127) {
-			return false;
-		}
-		else {
-			return true;
-		}
+		return (codePoint >= 32 && codePoint != 127);
 	}
 
 	public static String fun_CLEAN( String _s )

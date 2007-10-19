@@ -513,7 +513,7 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_VDB( double _cost, double _salvage, double _life, double _start_period, double _end_period, double _factor, double _no_switch )
 	{
-		boolean no_switch = _no_switch == 0 ? false: true;
+		boolean no_switch = _no_switch != 0 ;
 		return RuntimeDouble_v2.fun_VDB( _cost, _salvage, _life, _start_period, _end_period, _factor, no_switch);
 	}
 

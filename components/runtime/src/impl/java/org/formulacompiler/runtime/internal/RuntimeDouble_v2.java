@@ -124,7 +124,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_ATANH( final double a )
 	{
-		if (a <= -1 | a >= 1) {
+		if (a <= -1 || a >= 1) {
 			return 0;
 		}
 		else {
@@ -699,7 +699,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	{
 		double valVDB = 0;
 		if (_start_period < 0.0
-				| _end_period < _start_period | _end_period > _life | _cost < 0 | _salvage > _cost | _factor <= 0) {
+				|| _end_period < _start_period || _end_period > _life || _cost < 0 || _salvage > _cost || _factor <= 0) {
 			return 0;
 		}
 		else {

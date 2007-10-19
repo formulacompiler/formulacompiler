@@ -76,7 +76,7 @@ public final class ExpressionTemplatesForStrings
 
 	public String fun_FIXED( Number _number, int _decimals, int _no_commas )
 	{
-		boolean no_commas = _no_commas == 0 ? false : true;
+		boolean no_commas = _no_commas != 0;
 		return Runtime_v2.fun_FIXED( _number, _decimals, no_commas, this.environment );
 	}
 
