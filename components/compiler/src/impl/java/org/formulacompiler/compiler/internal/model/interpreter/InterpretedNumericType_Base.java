@@ -21,6 +21,7 @@
 package org.formulacompiler.compiler.internal.model.interpreter;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import org.formulacompiler.compiler.Function;
@@ -32,6 +33,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.runtime.internal.Environment;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 
 
 abstract class InterpretedNumericType_Base
@@ -79,21 +81,36 @@ abstract class InterpretedNumericType_Base
 	{
 		return this.num.getZero();
 	}
-	
+
 	public final Number minValue()
-	{ 
+	{
 		return this.num.getMinValue();
 	}
 
 	public final Number maxValue()
-	{ 
+	{
 		return this.num.getMaxValue();
 	}
 
 
 	public final Number fromString( String _s, Environment _env ) throws ParseException
 	{
-		return this.num.valueOf( _s, _env );
+		try {
+			return this.num.valueOf( _s, _env );
+		}
+		catch (ParseException e) {
+			// continue
+		}
+		catch (NumberFormatException e) {
+			// continue
+		}
+		return fromDateString( _s, _env );
+	}
+
+	private final double fromDateString( String _s, Environment _env ) throws ParseException
+	{
+		final Date parsed = _env.parseDateAndOrTime( _s );
+		return RuntimeDouble_v2.dateToNum( parsed, _env.timeZone() );
 	}
 
 
