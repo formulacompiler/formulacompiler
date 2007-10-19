@@ -192,12 +192,12 @@ public final class RuntimeLong_v2 extends Runtime_v2
 
 	public static long msSinceUTC1970FromNum( long _msSinceUTC1970, Context _cx, TimeZone _timeZone )
 	{
-		return RuntimeDouble_v2.msSinceUTC1970FromNum( toDouble( _msSinceUTC1970, _cx ), _timeZone );
+		return msSinceUTC1970FromDouble( toDouble( _msSinceUTC1970, _cx ), _timeZone );
 	}
 
 	public static long msFromNum( long _msSinceUTC1970, Context _cx )
 	{
-		return RuntimeDouble_v2.msFromNum( toDouble( _msSinceUTC1970, _cx ) );
+		return msFromDouble( toDouble( _msSinceUTC1970, _cx ) );
 	}
 
 	public static long dateToNum( final Date _val, Context _cx, final TimeZone _timeZone )
@@ -207,12 +207,12 @@ public final class RuntimeLong_v2 extends Runtime_v2
 
 	public static long msSinceUTC1970ToNum( long _msSinceUTC1970, Context _cx, TimeZone _timeZone )
 	{
-		return fromDouble( RuntimeDouble_v2.msSinceUTC1970ToNum( _msSinceUTC1970, _timeZone ), _cx );
+		return fromDouble( msSinceUTC1970ToDouble( _msSinceUTC1970, _timeZone ), _cx );
 	}
 
 	public static long msToNum( long _msSinceUTC1970, Context _cx )
 	{
-		return fromDouble( RuntimeDouble_v2.msToNum( _msSinceUTC1970 ), _cx );
+		return fromDouble( msToDouble( _msSinceUTC1970 ), _cx );
 	}
 
 	public static long fromDouble( double _val, Context _cx )

@@ -25,6 +25,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Calendar;
 import java.util.Date;
@@ -118,7 +119,6 @@ public abstract class Runtime_v2
 	}
 
 
-	// LATER Parse date and time values
 	static Number parseNumber( String _text, boolean _parseBigDecimal, Environment _environment )
 	{
 		final String text = _text.toUpperCase( _environment.locale() );
@@ -159,7 +159,7 @@ public abstract class Runtime_v2
 			return result;
 		}
 
-		return null;
+		return parseDateAndOrTime( text, _environment );
 	}
 
 	private static Number parseNumber( String _text, NumberFormat _numberFormat )
@@ -206,6 +206,109 @@ public abstract class Runtime_v2
 		}
 	}
 
+	private static Number parseDateAndOrTime( String _text, Environment _environment )
+	{
+		try {
+			final Date date = _environment.parseDateAndOrTime( _text );
+			return dateToDouble( date, _environment.timeZone() );
+		}
+		catch (ParseException e) {
+			return null;
+		}
+	}
+
+	
+	// ---- Excel date conversion; copied from JExcelAPI (DateRecord.java)
+
+	public static Date dateFromDouble( double _excel, TimeZone _timeZone )
+	{
+		return new Date( msSinceUTC1970FromDouble( _excel, _timeZone ) );
+	}
+
+	public static long msSinceUTC1970FromDouble( double _excel, TimeZone _timeZone )
+	{
+		final long msSinceLocal1970 = msSinceLocal1970FromExcelDate( _excel );
+		final int timeZoneOffset = _timeZone.getOffset( msSinceLocal1970 - _timeZone.getRawOffset() );
+		final long msSinceUTC1970 = msSinceLocal1970 - timeZoneOffset;
+		return msSinceUTC1970;
+	}
+
+	public static long msFromDouble( double _excel )
+	{
+		final long ms = Math.round( _excel * SECS_PER_DAY ) * MS_PER_SEC;
+		return ms;
+	}
+
+	public static double dateToDouble( Date _date, TimeZone _timeZone )
+	{
+		if (_date == null) {
+			return 0;
+		}
+		else {
+			final long msSinceLocal1970 = dateToMsSinceLocal1970( _date, _timeZone );
+			final double excel = msSinceLocal1970ToExcelDate( msSinceLocal1970 );
+			return excel;
+		}
+	}
+
+	public static double msSinceUTC1970ToDouble( long _msSinceUTC1970, TimeZone _timeZone )
+	{
+		final int timeZoneOffset = _timeZone.getOffset( _msSinceUTC1970 );
+		final long msSinceLocal1970 = _msSinceUTC1970 + timeZoneOffset;
+		final double excel = msSinceLocal1970ToExcelDate( msSinceLocal1970 );
+		return excel;
+	}
+
+	public static double msToDouble( long _ms )
+	{
+		final double excel = (double) _ms / (double) MS_PER_DAY;
+		return excel;
+	}
+
+	private static long msSinceLocal1970FromExcelDate( double _excelDate )
+	{
+		final boolean time = (Math.abs( _excelDate ) < 1);
+		double numValue = _excelDate;
+
+		// Work round a bug in excel. Excel seems to think there is a date
+		// called the 29th Feb, 1900 - but in actual fact this was not a leap year.
+		// Therefore for values less than 61 in the 1900 date system,
+		// add one to the numeric value
+		if (!BASED_ON_1904 && !time && numValue < NON_LEAP_DAY) {
+			numValue += 1;
+		}
+
+		// Convert this to the number of days since 01 Jan 1970
+		final int offsetDays = BASED_ON_1904? UTC_OFFSET_DAYS_1904 : UTC_OFFSET_DAYS;
+		final double utcDays = numValue - offsetDays;
+
+		// Convert this into utc by multiplying by the number of milliseconds
+		// in a day. Use the round function prior to ms conversion due
+		// to a rounding feature of Excel (contributed by Jurgen
+		final long msSinceLocal1970 = Math.round( utcDays * SECS_PER_DAY ) * MS_PER_SEC;
+		return msSinceLocal1970;
+	}
+
+	private static double msSinceLocal1970ToExcelDate( final long _msSinceLocal1970 )
+	{
+		// Convert this to the number of days, plus fractions of a day since
+		// 01 Jan 1970
+		final double utcDays = (double) _msSinceLocal1970 / (double) MS_PER_DAY;
+
+		// Add in the offset to get the number of days since 01 Jan 1900
+		double value = utcDays + UTC_OFFSET_DAYS;
+
+		// Work round a bug in excel. Excel seems to think there is a date
+		// called the 29th Feb, 1900 - but this was not a leap year.
+		// Therefore for values less than 61, we must subtract 1. Only do
+		// this for full dates, not times
+		if (value < NON_LEAP_DAY) {
+			value -= 1;
+		}
+
+		return value;
+	}
+	
 
 	public static String stringFromObject( Object _obj )
 	{

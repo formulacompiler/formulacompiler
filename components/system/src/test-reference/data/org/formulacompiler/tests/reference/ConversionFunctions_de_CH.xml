@@ -6,10 +6,10 @@
  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
  xmlns:html="http://www.w3.org/TR/REC-html40">
  <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
-  <LastAuthor>samsonov</LastAuthor>
+  <LastAuthor>Peter Arrenbrecht</LastAuthor>
   <Created>2005-11-22T20:05:38Z</Created>
-  <LastSaved>2007-09-26T17:39:35Z</LastSaved>
-  <Version>11.8132</Version>
+  <LastSaved>2007-10-19T10:14:24Z</LastSaved>
+  <Version>11.9999</Version>
  </DocumentProperties>
  <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
   <WindowHeight>13905</WindowHeight>
@@ -69,9 +69,12 @@
   <Style ss:ID="s41">
    <NumberFormat ss:Format="@"/>
   </Style>
+  <Style ss:ID="s42">
+   <NumberFormat ss:Format="Short Time"/>
+  </Style>
  </Styles>
  <Worksheet ss:Name="Sheet1">
-  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="303" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="322" x:FullColumns="1"
    x:FullRows="1" ss:DefaultColumnWidth="54">
    <Column ss:AutoFitWidth="0" ss:Width="129.75"/>
    <Column ss:AutoFitWidth="0" ss:Width="137.25"/>
@@ -158,7 +161,124 @@
     <Cell ss:StyleID="s34"><Data ss:Type="Number">12.345000000000001</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
    </Row>
-   <Row ss:Index="13">
+   <Row>
+    <Cell><Data ss:Type="Number">35981</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">35981</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String" x:Ticked="1">5.7.1998</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">35981</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">35981</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String" x:Ticked="1">5.7.98</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">35981.509027777778</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">35981.509027777778</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String" x:Ticked="1">5.7.1998 12:13</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">35981.509189814817</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">35981.509189814817</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String" x:Ticked="1">5.7.98 12:13:14</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.50902777777777775</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">0.50902777777777775</Data></Cell>
+    <Cell ss:StyleID="s42"><Data ss:Type="String" x:Ticked="1">12:13</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.50918981481481485</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">0.50918981481481485</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String" x:Ticked="1">12:13:14</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">9.0277777777777787E-3</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">9.0277777777777787E-3</Data></Cell>
+    <Cell ss:StyleID="s42"><Data ss:Type="String" x:Ticked="1">0:13</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">9.1898148148148139E-3</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">9.1898148148148139E-3</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String" x:Ticked="1">0:13:14</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">10959</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">10959</Data></Cell>
+    <Cell ss:StyleID="s42"><Data ss:Type="String" x:Ticked="1">1.1.30</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">47483</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">47483</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String" x:Ticked="1">31.12.29</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">35981</Data></Cell>
+    <Cell ss:StyleID="s42"><Data ss:Type="String" x:Ticked="1">5/7/1998</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="Number">35981</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">35981.509027777778</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String" x:Ticked="1">5/7/1998 12:13</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="Number">35981.509027777778</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">35981.509189814817</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String" x:Ticked="1">5/7/1998 12:13:14</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="Number">35981.509189814817</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">35981</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">35981</Data></Cell>
+    <Cell ss:StyleID="s42"><Data ss:Type="String" x:Ticked="1">1998/7/5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">35981.509027777778</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">35981.509027777778</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String" x:Ticked="1">1998/7/5 12:13</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">35981.509189814817</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">35981.509189814817</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String" x:Ticked="1">1998/7/5 12:13:14</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">35981</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">35981</Data></Cell>
+    <Cell ss:StyleID="s42"><Data ss:Type="String" x:Ticked="1">1998-7-5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">35981.509027777778</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">35981.509027777778</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String" x:Ticked="1">1998-7-5 12:13</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">35981.509189814817</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">35981.509189814817</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String" x:Ticked="1">1998-7-5 12:13:14</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:Index="32">
     <Cell><Data ss:Type="Number">12.345000000000001</Data></Cell>
     <Cell ss:Formula="=N(RC[1])"><Data ss:Type="Number">12.345000000000001</Data></Cell>
     <Cell ss:StyleID="s34"><Data ss:Type="Number">12.345000000000001</Data></Cell>
@@ -249,7 +369,7 @@
     <Cell ss:StyleID="s34"><Data ss:Type="Boolean">0</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
    </Row>
-   <Row ss:Index="29">
+   <Row ss:Index="48">
     <Cell><Data ss:Type="String">0</Data></Cell>
     <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0</Data></Cell>
     <Cell ss:StyleID="s34"><Data ss:Type="Number">0</Data></Cell>
@@ -847,7 +967,7 @@
     <Cell><Data ss:Type="String">@</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
    </Row>
-   <Row ss:Index="91">
+   <Row ss:Index="110">
     <Cell ss:StyleID="s41"><Data ss:Type="String">1'234.35</Data></Cell>
     <Cell ss:Formula="=FIXED(RC[1])"><Data ss:Type="String">1'234.35</Data></Cell>
     <Cell><Data ss:Type="Number">1234.3456000000001</Data></Cell>
@@ -948,28 +1068,28 @@
     <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
     <Cell><Data ss:Type="String">...</Data></Cell>
    </Row>
-   <Row ss:Index="233">
+   <Row ss:Index="252">
     <Cell ss:StyleID="s22"/>
    </Row>
    <Row>
     <Cell ss:StyleID="s22"/>
    </Row>
-   <Row ss:Index="259">
+   <Row ss:Index="278">
     <Cell ss:StyleID="s22"/>
    </Row>
    <Row>
     <Cell ss:StyleID="s22"/>
    </Row>
-   <Row ss:Index="290">
+   <Row ss:Index="309">
     <Cell ss:Index="4" ss:StyleID="s28"/>
    </Row>
-   <Row ss:Index="292">
+   <Row ss:Index="311">
     <Cell ss:Index="4" ss:StyleID="s29"/>
    </Row>
    <Row>
     <Cell ss:Index="3" ss:StyleID="s30"/>
    </Row>
-   <Row ss:Index="302">
+   <Row ss:Index="321">
     <Cell ss:StyleID="s22"/>
    </Row>
    <Row>
@@ -984,25 +1104,26 @@
     <VerticalResolution>600</VerticalResolution>
    </Print>
    <Selected/>
-   <TopRowVisible>80</TopRowVisible>
    <Panes>
     <Pane>
      <Number>3</Number>
-     <ActiveRow>90</ActiveRow>
+     <ActiveRow>21</ActiveRow>
+     <ActiveCol>12</ActiveCol>
+     <RangeSelection>R22C13:R24C13</RangeSelection>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>
    <ProtectScenarios>False</ProtectScenarios>
   </WorksheetOptions>
   <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
-   <Range>R323C3:R378C9,R282C3:R320C9,R256C3:R280C9,R2C3:R90C9,R92C6:R97C6,R91C4:R97C5,R91C7:R97C9,R102C3:R254C9,R98C4:R101C9,R91C3:R101C3</Range>
+   <Range>R342C3:R397C9,R301C3:R339C9,R275C3:R299C9,R111C6:R116C6,R110C4:R116C5,R110C7:R116C9,R121C3:R273C9,R117C4:R120C9,R25C3:R120C3,R25C4:R109C9,R2C3:R24C9</Range>
    <Condition>
     <Value1>RC10&gt;COLUMN(RC)-3</Value1>
     <Format Style='background:#CCFFCC'/>
    </Condition>
   </ConditionalFormatting>
   <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
-   <Range>R91C6</Range>
+   <Range>R110C6</Range>
    <Condition>
     <Value1>#REF!&gt;COLUMN(RC)-3</Value1>
     <Format Style='background:#CCFFCC'/>
