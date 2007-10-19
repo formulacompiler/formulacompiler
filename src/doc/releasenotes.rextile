@@ -26,6 +26,7 @@ h5. New
 	* @DCOUNTA, DAVERAGE, DVAR/P, DSTDEV/P@ are now "supported":reference/dbaggregators.htm.
 	* @CLEAN()@ is now "supported":reference/strings.htm
 	* @ROMAN()@ and @FIXED()@ are now "supported":reference/convfuncs.htm
+	* @VALUE()@ and @DSUM()@ et al. now handle date/time strings.
 	* By name binding now supports "binding only cells with a given input and output prefix":-bindprefix.
 	* You can now tell AFC to compile to more readable code when "decompiled":tutorial/decompile.htm.
 
