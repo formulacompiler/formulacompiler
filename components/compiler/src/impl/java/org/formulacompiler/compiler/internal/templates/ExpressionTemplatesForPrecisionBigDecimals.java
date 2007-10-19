@@ -187,7 +187,7 @@ public final class ExpressionTemplatesForPrecisionBigDecimals extends AbstractEx
 	public BigDecimal fun_VDB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _start_period, BigDecimal _end_period,
 			BigDecimal _factor, BigDecimal _no_switch )
 	{
-		boolean no_switch = _no_switch.intValue() == 0 ? false : true;
+		boolean no_switch = _no_switch.intValue() != 0;
 		return RuntimePrecisionBigDecimal_v2.fun_VDB( _cost, _salvage, _life, _start_period, _end_period, _factor, no_switch, this.mathContext );
 	}
 

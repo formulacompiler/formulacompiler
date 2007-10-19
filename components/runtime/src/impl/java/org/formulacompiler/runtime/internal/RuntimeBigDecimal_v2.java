@@ -619,9 +619,9 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	{
 		BigDecimal valVDB = ZERO;
 		if (_start_period.compareTo( ZERO ) < 0
-				| _end_period.compareTo( _start_period ) < 0 | _end_period.compareTo( _life ) > 0
-				| _cost.compareTo( ZERO ) < 0 | _salvage.compareTo( _cost ) > 0
-				| _factor.compareTo( BigDecimal.valueOf( 0 ) ) <= 0) {
+				|| _end_period.compareTo( _start_period ) < 0 || _end_period.compareTo( _life ) > 0
+				|| _cost.compareTo( ZERO ) < 0 || _salvage.compareTo( _cost ) > 0
+				|| _factor.compareTo( BigDecimal.valueOf( 0 ) ) <= 0) {
 			return ZERO;
 		}
 		else {

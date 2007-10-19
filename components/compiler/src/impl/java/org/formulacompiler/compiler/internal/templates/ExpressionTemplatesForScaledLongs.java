@@ -597,7 +597,7 @@ public final class ExpressionTemplatesForScaledLongs
 		final BigDecimal start = this.context.toBigDecimal( _start_period );
 		final BigDecimal end = this.context.toBigDecimal( _end_period );
 		final BigDecimal factor = this.context.toBigDecimal( _factor );
-		final boolean no_switch = _no_switch == 0 ? false : true;
+		final boolean no_switch = _no_switch != 0;
 		final BigDecimal result = RuntimeScaledBigDecimal_v2.fun_VDB( cost, salvage, life, start, end, factor, no_switch, HIGHPREC );
 		return this.context.fromBigDecimal( result );
 	}
