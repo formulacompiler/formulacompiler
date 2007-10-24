@@ -153,9 +153,21 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	{
 		if (hasOnlyConstantArgs( _args )) {
 			try {
-				return evaluateToConst( _args );
+				final Object constResult = evaluateToConst( _args );
+				if (constResult instanceof Double) {
+					final Double doubleResult = (Double) constResult;
+					if (doubleResult.isInfinite() || doubleResult.isNaN()) {
+						return evaluateToNode( _args );
+					}
+				}
+				return constResult;
+
 			}
 			catch (InterpreterException.IsRuntimeEnvironmentDependent e) {
+				return evaluateToNode( _args );
+			}
+			catch (ArithmeticException e) {
+
 				return evaluateToNode( _args );
 			}
 		}
