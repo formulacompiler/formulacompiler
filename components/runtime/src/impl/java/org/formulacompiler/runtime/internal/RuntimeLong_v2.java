@@ -508,6 +508,11 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return _cx.fromDouble( RuntimeDouble_v2.fun_BETADIST( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx.toDouble( _beta ) ) );
 	}
 
+	public static long fun_BETAINV( long _x, long _alpha, long _beta, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_BETAINV( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx.toDouble( _beta ) ) );
+	}
+
 	public static long fun_BINOMDIST( long _successes, long _trials, long _probability, boolean _cumulative, Context _cx )
 	{
 		return _cx.fromDouble( RuntimeDouble_v2.fun_BINOMDIST( _cx.toInt( _successes ), _cx.toInt( _trials ), _cx.toDouble( _probability ), _cumulative ) );
@@ -518,9 +523,29 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return _cx.fromDouble( RuntimeDouble_v2.fun_CHIDIST( _cx.toDouble( _x ), _cx.toDouble( _degFreedom ) ) );
 	}
 
+	public static long fun_CHIINV( long _x, long _degFreedom, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_CHIINV( _cx.toDouble( _x ), _cx.toDouble( _degFreedom ) ) );
+	}
+
+	public static long fun_FINV( long _x, long _f1, long _f2, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_FINV( _cx.toDouble( _x ), _cx.toDouble( _f1 ), _cx.toDouble( _f2 ) ) );
+	}
+
 	public static long fun_GAMMADIST( long _x, long _alpha, long _beta, boolean _cumulative, Context _cx )
 	{
 		return _cx.fromDouble( RuntimeDouble_v2.fun_GAMMADIST( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx.toDouble( _beta ), _cumulative ) );
+	}
+
+	public static long fun_GAMMAINV( long _x, long _alpha, long _beta, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_GAMMAINV( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx.toDouble( _beta ) ) );
+	}
+
+	public static long fun_GAMMALN( long _x, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_GAMMALN( _cx.toDouble( _x ) ) );
 	}
 
 	public static long fun_POISSON( long _x, long _mean, boolean _cumulative, Context _cx )
@@ -528,9 +553,19 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return _cx.fromDouble( RuntimeDouble_v2.fun_POISSON( _cx.toInt( _x ), _cx.toDouble( _mean ), _cumulative ) );
 	}
 
-	public static long fun_TDIST( long _x, long _degFreedom, long _tails, Context _cx )
+	public static long fun_TDIST( long _x, long _degFreedom, long _tails, boolean _no_floor, Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v2.fun_TDIST( _cx.toDouble( _x ), _cx.toDouble( _degFreedom ), _cx.toInt( _tails ) ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_TDIST( _cx.toDouble( _x ), _cx.toDouble( _degFreedom ), _cx.toInt( _tails ), _no_floor ) );
+	}
+
+	public static long fun_TINV( long _x, long _degFreedom, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_TINV( _cx.toDouble( _x ), _cx.toDouble( _degFreedom ) ) );
+	}
+
+	public static long fun_WEIBULL( long _x, long _alpha, long _beta, boolean _cumulative, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_WEIBULL( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx.toDouble( _beta ), _cumulative ) );
 	}
 
 	public static long fun_MOD( final long _n, final long _d, final Context _cx )
@@ -583,6 +618,11 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	{
 		final long hours = RuntimeDouble_v2.getDaySecondsFromNum( _cx.toDouble( _date ) ) / SECS_PER_HOUR % 24;
 		return hours * _cx.one();
+	}
+
+	public static long fun_HYPGEOMDIST( long _sample_s, long _number_sample, long _population_s, long _number_population, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_HYPGEOMDIST( _cx.toInt( _sample_s ), _cx.toInt( _number_sample ), _cx.toInt( _population_s ), _cx.toInt( _number_population ) ) );
 	}
 
 	public static long fun_WEEKDAY( final long _date, final long _type, final Context _cx )

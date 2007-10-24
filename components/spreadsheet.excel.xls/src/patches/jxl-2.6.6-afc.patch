@@ -1,9 +1,3 @@
-diff --git a/.hgtags b/.hgtags
---- a/.hgtags
-+++ b/.hgtags
-@@ -1,1 +1,2 @@ 36cdddf74514430c65f636a1cb541b331d86a036
- 36cdddf74514430c65f636a1cb541b331d86a036 2.6.5
-+103560945b62c60441543e0baad64b67d61af1fb 2.6.6
 diff --git a/src/jxl/DateCell.java b/src/jxl/DateCell.java
 --- a/src/jxl/DateCell.java
 +++ b/src/jxl/DateCell.java
@@ -83,7 +77,12 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
    public static final Function AVEDEV =
      new Function(0x10d, "avedev", 0XFF);
    public static final Function BETADIST =
-@@ -624,7 +628,7 @@ final class Function
+@@ -620,27 +624,27 @@ final class Function
+   public static final Function SUMX2PY2 =
+     new Function(305, "sumx2py2", 0xff);
+   public static final Function CHITEST =
+-    new Function(0x132, "chitest", 0xff);
++    new Function(0x132, "chitest", 2);
    public static final Function CORREL =
      new Function(0x133, "correl", 0xff);
    public static final Function COVAR =
@@ -92,6 +91,26 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
    public static final Function FORECAST =
      new Function(0x135, "forecast", 0xff);
    public static final Function FTEST =
+-    new Function(0x136, "ftest", 0xff);
++    new Function(0x136, "ftest", 2);
+   public static final Function INTERCEPT =
+     new Function(0x137, "intercept", 0xff);
+   public static final Function PEARSON =
+-    new Function(0x138, "pearson", 0xff);
++    new Function(0x138, "pearson", 2);
+   public static final Function RSQ =
+-    new Function(0x139, "rsq", 0xff);
++    new Function(0x139, "rsq", 2);
+   public static final Function STEYX =
+     new Function(0x13a, "steyx", 0xff);
+   public static final Function SLOPE =
+     new Function(0x13b, "slope", 2);
+   public static final Function TTEST =
+-    new Function(0x13c, "ttest", 0xff);
++    new Function(0x13c, "ttest", 4);
+   public static final Function PROB =
+     new Function(0x13d, "prob", 0xff);
+   public static final Function DEVSQ =
 @@ -670,7 +674,7 @@ final class Function
    public static final Function MODE =
      new Function(0x14a, "mode", 0xff);

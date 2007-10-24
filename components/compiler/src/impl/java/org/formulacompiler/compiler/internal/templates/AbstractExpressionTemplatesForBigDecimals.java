@@ -410,6 +410,11 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_BETADIST( _x, _alpha, _beta );
 	}
 
+	public BigDecimal fun_BETAINV( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta )
+	{
+		return RuntimeBigDecimal_v2.fun_BETAINV( _x, _alpha, _beta );
+	}
+
 	public BigDecimal fun_BINOMDIST( BigDecimal _number, BigDecimal _trials, BigDecimal _probability, BigDecimal _cumulative )
 	{
 		return RuntimeBigDecimal_v2.fun_BINOMDIST( _number, _trials, _probability, _cumulative.signum() != 0 );
@@ -420,9 +425,29 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_CHIDIST( _x, _degFreedom );
 	}
 
+	public BigDecimal fun_CHIINV( BigDecimal _x, BigDecimal _degFreedom )
+	{
+		return RuntimeBigDecimal_v2.fun_CHIINV( _x, _degFreedom );
+	}
+
+	public BigDecimal fun_FINV( BigDecimal _x, BigDecimal _f1, BigDecimal _f2 )
+	{
+		return RuntimeBigDecimal_v2.fun_FINV( _x, _f1, _f2 );
+	}
+
 	public BigDecimal fun_GAMMADIST( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta, BigDecimal _cumulative )
 	{
 		return RuntimeBigDecimal_v2.fun_GAMMADIST( _x, _alpha, _beta, _cumulative.signum() != 0 );
+	}
+
+	public BigDecimal fun_GAMMAINV( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta )
+	{
+		return RuntimeBigDecimal_v2.fun_GAMMAINV( _x, _alpha, _beta );
+	}
+
+	public BigDecimal fun_GAMMALN( BigDecimal _x )
+	{
+		return RuntimeBigDecimal_v2.fun_GAMMALN( _x );
 	}
 
 	public BigDecimal fun_POISSON( BigDecimal _x, BigDecimal _mean, BigDecimal _cumulative )
@@ -432,7 +457,18 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 
 	public BigDecimal fun_TDIST( BigDecimal _x, BigDecimal _degFreedom, BigDecimal _tails )
 	{
-		return RuntimeBigDecimal_v2.fun_TDIST( _x, _degFreedom, _tails );
+		return RuntimeBigDecimal_v2.fun_TDIST( _x, _degFreedom, _tails, false );
+	}
+
+	public BigDecimal fun_TDIST( BigDecimal _x, BigDecimal _degFreedom, BigDecimal _tails, BigDecimal _no_floor )
+	{
+
+		return RuntimeBigDecimal_v2.fun_TDIST( _x, _degFreedom, _tails, RuntimeBigDecimal_v2.booleanFromNum( _no_floor ) );
+	}
+
+	public BigDecimal fun_TINV( BigDecimal _x, BigDecimal _degFreedom )
+	{
+		return RuntimeBigDecimal_v2.fun_TINV( _x, _degFreedom );
 	}
 
 	public BigDecimal fun_MOD( BigDecimal n, BigDecimal d )
@@ -440,6 +476,10 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_MOD( n, d );
 	}
 
+	public BigDecimal fun_WEIBULL( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta, BigDecimal _cumulative )
+	{
+		return RuntimeBigDecimal_v2.fun_WEIBULL( _x, _alpha, _beta, _cumulative.signum() != 0 );
+	}
 
 	// ------------------------------------------------ Date Functions
 
@@ -462,6 +502,11 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 	public BigDecimal fun_HOUR( BigDecimal _date )
 	{
 		return RuntimeBigDecimal_v2.fun_HOUR( _date );
+	}
+
+	public BigDecimal fun_HYPGEOMDIST( BigDecimal sample_s, BigDecimal number_sample, BigDecimal population_s, BigDecimal number_population )
+	{
+		return RuntimeBigDecimal_v2.fun_HYPGEOMDIST( sample_s, number_sample, population_s, number_population );
 	}
 
 	public BigDecimal fun_WEEKDAY( BigDecimal _date, BigDecimal _type )

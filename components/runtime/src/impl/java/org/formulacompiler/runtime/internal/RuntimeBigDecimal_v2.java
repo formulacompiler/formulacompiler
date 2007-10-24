@@ -349,6 +349,13 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 				.doubleValue() ) );
 	}
 
+	public static BigDecimal fun_BETAINV( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta )
+	{
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_BETAINV( _x.doubleValue(), _alpha.doubleValue(), 
+				_beta.doubleValue() ) );
+	}
+
+
 	public static BigDecimal fun_BINOMDIST( BigDecimal _successes, BigDecimal _trials, BigDecimal _probability,
 			boolean _cumulative )
 	{
@@ -361,10 +368,31 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		return BigDecimal.valueOf( RuntimeDouble_v2.fun_CHIDIST( _x.doubleValue(), _degFreedom.doubleValue() ) );
 	}
 
+	public static BigDecimal fun_CHIINV( BigDecimal _x, BigDecimal _degFreedom )
+	{
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_CHIINV( _x.doubleValue(), _degFreedom.doubleValue() ) );
+	}
+
+	public static BigDecimal fun_FINV( BigDecimal _x, BigDecimal _f1, BigDecimal _f2 )
+	{
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_FINV( _x.doubleValue(), _f1.doubleValue(), _f2.doubleValue() ) );
+	}
+
 	public static BigDecimal fun_GAMMADIST( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta, boolean _cumulative )
 	{
 		return BigDecimal.valueOf( RuntimeDouble_v2.fun_GAMMADIST( _x.doubleValue(), _alpha.doubleValue(), _beta
 				.doubleValue(), _cumulative ) );
+	}
+
+	public static BigDecimal fun_GAMMAINV( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta )
+	{
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_GAMMAINV( _x.doubleValue(), _alpha.doubleValue(),
+				_beta.doubleValue() ) );
+	}
+
+	public static BigDecimal fun_GAMMALN( BigDecimal _x )
+	{
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_GAMMALN( _x.doubleValue() ) );
 	}
 
 	public static BigDecimal fun_POISSON( BigDecimal _x, BigDecimal _mean, boolean _cumulative )
@@ -372,10 +400,20 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		return BigDecimal.valueOf( RuntimeDouble_v2.fun_POISSON( _x.intValue(), _mean.doubleValue(), _cumulative ) );
 	}
 
-	public static BigDecimal fun_TDIST( BigDecimal _x, BigDecimal _degFreedom, BigDecimal _tails )
+	public static BigDecimal fun_TDIST( BigDecimal _x, BigDecimal _degFreedom, BigDecimal _tails, boolean _no_floor )
 	{
 		return BigDecimal.valueOf( RuntimeDouble_v2.fun_TDIST( _x.doubleValue(), _degFreedom.doubleValue(), _tails
-				.intValue() ) );
+				.intValue(), _no_floor ) );
+	}
+
+	public static BigDecimal fun_TINV( BigDecimal _x, BigDecimal _degFreedom )
+	{
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_TINV( _x.doubleValue(), _degFreedom.doubleValue() ) );
+	}
+
+	public static BigDecimal fun_WEIBULL( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta, boolean _cumulative )
+	{
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_WEIBULL( _x.doubleValue(), _alpha.doubleValue(), _beta.doubleValue(), _cumulative ) );
 	}
 
 	public static BigDecimal fun_LOG( final BigDecimal _n, final BigDecimal _x )
@@ -518,6 +556,11 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	{
 		final long hours = getDaySecondsFromNum( _date ) / Runtime_v2.SECS_PER_HOUR % 24;
 		return BigDecimal.valueOf( hours );
+	}
+
+	public static BigDecimal fun_HYPGEOMDIST( BigDecimal _sample_s, BigDecimal _number_sample, BigDecimal _population_s, BigDecimal _number_population )
+	{
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_HYPGEOMDIST( _sample_s.intValue(), _number_sample.intValue(), _population_s.intValue(), _number_population.intValue()));
 	}
 
 	private static long getDaySecondsFromNum( final BigDecimal _time )

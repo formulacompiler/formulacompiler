@@ -131,6 +131,19 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 	{
 		switch (_fun.getFunction()) {
 
+			case CHITEST: {
+				if (_fun.cardinality() < 6) {
+					final ArrayDescriptor descX = ((ExpressionNodeForArrayReference) _fun.argument( 0 )).arrayDescriptor();
+					final int colsX = descX.numberOfColumns();
+					final int rowsX = descX.numberOfRows();
+					final ArrayDescriptor descY = ((ExpressionNodeForArrayReference) _fun.argument( 1 )).arrayDescriptor();
+					final int colsY = descY.numberOfColumns();
+					final int rowsY = descY.numberOfRows();
+					return fun( CHITEST, _fun.argument( 0 ), _fun.argument( 1 ), cst( colsX, DataType.NUMERIC ),
+							cst( rowsX, DataType.NUMERIC ), cst( colsY, DataType.NUMERIC ), cst( rowsY, DataType.NUMERIC ) );
+				}
+				break;
+			}			
 			case DCOUNT:
 			case DCOUNTA:
 				return rewriteDAgg( _fun, fold_count() );
