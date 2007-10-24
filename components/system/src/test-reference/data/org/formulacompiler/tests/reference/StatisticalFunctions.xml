@@ -7,9 +7,9 @@
  xmlns:html="http://www.w3.org/TR/REC-html40">
  <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
   <Author>Peter Arrenbrecht</Author>
-  <LastAuthor>vkorenev</LastAuthor>
+  <LastAuthor>samsonov</LastAuthor>
   <Created>2005-11-22T20:05:38Z</Created>
-  <LastSaved>2007-10-01T09:31:57Z</LastSaved>
+  <LastSaved>2007-10-24T12:45:39Z</LastSaved>
   <Company>Opus Software AG</Company>
   <Version>11.8132</Version>
  </DocumentProperties>
@@ -44,16 +44,21 @@
   <Style ss:ID="s25">
    <Font ss:FontName="Verdana" x:CharSet="204" x:Family="Swiss" ss:Bold="1"/>
   </Style>
+  <Style ss:ID="s26">
+   <NumberFormat ss:Format="Scientific"/>
+  </Style>
+  <Style ss:ID="s27">
+   <Alignment ss:Vertical="Bottom" ss:WrapText="1"/>
+  </Style>
  </Styles>
  <Worksheet ss:Name="Sheet1">
-  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="431" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="29" ss:ExpandedRowCount="656" x:FullColumns="1"
    x:FullRows="1" ss:DefaultColumnWidth="54">
    <Column ss:AutoFitWidth="0" ss:Width="85.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="115.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="43.5"/>
-   <Column ss:AutoFitWidth="0" ss:Width="36.75"/>
-   <Column ss:AutoFitWidth="0" ss:Width="42"/>
-   <Column ss:AutoFitWidth="0" ss:Width="36.75" ss:Span="3"/>
+   <Column ss:Width="51.75" ss:Span="1"/>
+   <Column ss:Index="6" ss:AutoFitWidth="0" ss:Width="36.75" ss:Span="3"/>
    <Column ss:Index="10" ss:StyleID="s21" ss:AutoFitWidth="0" ss:Width="61.5"/>
    <Column ss:Width="191.25"/>
    <Column ss:AutoFitWidth="0" ss:Width="68.25"/>
@@ -3859,6 +3864,3715 @@
     <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
    </Row>
    <Row ss:Index="431">
+    <Cell><Data ss:Type="Number">0.89779734611509998</Data></Cell>
+    <Cell ss:Formula="=BETAINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.8977973461151123</Data></Cell>
+    <Cell><Data ss:Type="Number">0.6</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">BETAINV</Data></Cell>
+    <Cell><Data ss:Type="String">BETAINV</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BETAINV(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0.6</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:Index="15" ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BETAINV(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0.6</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:Index="15" ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.36008882522583008</Data></Cell>
+    <Cell ss:Formula="=BETAINV(RC[1],RC[2],RC[3])"><Data ss:Type="Number">0.36008882522583008</Data></Cell>
+    <Cell><Data ss:Type="Number">0.45</Data></Cell>
+    <Cell><Data ss:Type="Number">2.2</Data></Cell>
+    <Cell><Data ss:Type="Number">3.3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="15" ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.36008882522583008</Data></Cell>
+    <Cell ss:Formula="=BETAINV(RC[1],RC[2],RC[3],RC[4],RC[5])"><Data
+      ss:Type="Number">0.36008882522583008</Data></Cell>
+    <Cell><Data ss:Type="Number">0.45</Data></Cell>
+    <Cell><Data ss:Type="Number">2.2</Data></Cell>
+    <Cell><Data ss:Type="Number">3.3</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=BETAINV(RC[1],RC[2],RC[3],RC[4],RC[5])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell><Data ss:Type="Number">0.45</Data></Cell>
+    <Cell><Data ss:Type="Number">2.2</Data></Cell>
+    <Cell><Data ss:Type="Number">3.3</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:Index="15" ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.7488986730575562</Data></Cell>
+    <Cell ss:Formula="=BETAINV(RC[1],RC[2],RC[3],RC[4],RC[5])"><Data
+      ss:Type="Number">0.7488986730575562</Data></Cell>
+    <Cell><Data ss:Type="Number">0.6</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.3</Data></Cell>
+    <Cell><Data ss:Type="Number">0.8</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.36008882522583008</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=BETAINV(RC[1],RC[2],RC[3],RC[4],RC[5])"><Data
+      ss:Type="Number">0.36008882522583008</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.45</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=BETAINV(RC[1],RC[2],RC[3],RC[4],RC[5])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Comment ss:Author="vkorenev"><ss:Data
+       xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
+         html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=BETAINV(RC[1],RC[2],RC[3],RC[4],RC[5])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-0.1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0.92845814228057866</Data></Cell>
+    <Cell ss:Formula="=BETAINV(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Number">0.92845814228057866</Data></Cell>
+    <Cell><Data ss:Type="Number">0.6</Data></Cell>
+    <Cell><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell><Data ss:Type="Number">0.3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="15" ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="15" ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">3.2188758249516325</Data></Cell>
+    <Cell ss:Formula="=CHIINV(RC[1],RC[2])"><Data ss:Type="Number">3.2188758249516325</Data></Cell>
+    <Cell><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell><Data ss:Type="Number">2.4</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">CHIINV</Data></Cell>
+    <Cell><Data ss:Type="String">CHIINV</Data></Cell>
+    <Cell ss:Index="17" ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.41389331157281367</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHIINV(RC[1],RC[2])"><Data
+      ss:Type="Number">0.41389331157281367</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.52</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.8051184564879357</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHIINV(RC[1],RC[2])"><Data
+      ss:Type="Number">2.8051184564879357</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.73</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.8051184564879357</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHIINV(RC[1],RC[2])"><Data
+      ss:Type="Number">2.8051184564879357</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.73</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5.42</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5.7494096892744677</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHIINV(RC[1],RC[2])"><Data
+      ss:Type="Number">5.7494096892744677</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.99990000000000001</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">23</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">32.006899668662996</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHIINV(RC[1],RC[2])"><Data
+      ss:Type="Number">32.006899668662996</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">23</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">35.997362273827306</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHIINV(RC[1],RC[2])"><Data
+      ss:Type="Number">35.997362273827306</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.33</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">33</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">78.749524251002299</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHIINV(RC[1],RC[2])"><Data
+      ss:Type="Number">78.749524251002299</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1E-3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">44</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.4079456087353042</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHIINV(RC[1],RC[2])"><Data
+      ss:Type="Number">2.4079456087353042</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">13.815510558047702</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHIINV(RC[1],RC[2])"><Data
+      ss:Type="Number">13.815510558047702</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1E-3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHIINV(RC[1],RC[2])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.99</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHIINV(RC[1],RC[2])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="Number">100000000000</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.66666666682317799</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">0.66666666682317799</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.9</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">FINV</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">FINV</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1000000000</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">1000000000</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">8.4512850532154502</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">8.4512850532154502</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.01</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">7.9</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.62323513415735854</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">0.62323513415735854</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.7</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">18.772269815522307</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">18.772269815522307</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1E-3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">7.9</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-0.01</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.9</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.7</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.9</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="Number">100000000000</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.6043677771171635</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHERINV(RC[1])"><Data
+      ss:Type="Number">0.6043677771171635</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.7</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">FISHERINV</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">FISHERINV</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHERINV(RC[1])"><Data
+      ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.76117386166056999</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHERINV(RC[1])"><Data
+      ss:Type="Number">0.76117386166056999</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.999</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">9.999666679999443E-3</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHERINV(RC[1])"><Data
+      ss:Type="Number">9.999666679999443E-3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.01</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.46211715726000974</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHERINV(RC[1])"><Data
+      ss:Type="Number">0.46211715726000974</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-0.46211715726000974</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHERINV(RC[1])"><Data
+      ss:Type="Number">-0.46211715726000974</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-0.5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.22982054821431688</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHERINV(RC[1])"><Data
+      ss:Type="Number">0.22982054821431688</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.23400000000000001</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.99990920426259511</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHERINV(RC[1])"><Data
+      ss:Type="Number">0.99990920426259511</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.99999999944210638</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHERINV(RC[1])"><Data
+      ss:Type="Number">0.99999999944210638</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">long</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-0.99999999944210638</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHERINV(RC[1])"><Data
+      ss:Type="Number">-0.99999999944210638</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-11</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4.9519155473157959</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=GAMMAINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">4.9519155473157959</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">6.5000000000000002E-2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">9</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">GAMMAINV</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">GAMMAINV</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.5141277326714913</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=GAMMAINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">1.5141277326714913</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.78</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=GAMMAINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">18.417894393294752</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=GAMMAINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">18.417894393294752</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.7</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">8</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.0154804227868324</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=GAMMAINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">3.0154804227868324</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.35</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">80.865402328797416</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=GAMMAINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">80.865402328797416</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.98</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">9</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">134.79313771398529</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=GAMMAINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">134.79313771398529</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.99</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">23.2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.76</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=GAMMAINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-0.01</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">9</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=GAMMAINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.01</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">9</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=GAMMAINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.77</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">9</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=GAMMAINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.35</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-0.01</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">100</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=GAMMAINV(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.35</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">100</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.8797510544618512</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=TINV(RC[1],RC[2])"><Data
+      ss:Type="Number">1.8797510544618512</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">6.5000000000000002E-2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">60</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">TINV</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">TINV</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">8.4314274026127722E-8</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=TINV(RC[1],RC[2])"><Data
+      ss:Type="Number">8.4314274026127722E-8</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">123</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=TINV(RC[1],RC[2])"><Data
+      ss:Type="Number">0.99999999999999978</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.81649658102356915</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=TINV(RC[1],RC[2])"><Data
+      ss:Type="Number">0.81649658102356915</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.5095254497089412</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=TINV(RC[1],RC[2])"><Data
+      ss:Type="Number">0.5095254497089412</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.7</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.9467128828348832</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=TINV(RC[1],RC[2])"><Data
+      ss:Type="Number">2.9467128828348832</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.01</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">15</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=TINV(RC[1],RC[2])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">60</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=TINV(RC[1],RC[2])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">6.5000000000000002E-2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=TINV(RC[1],RC[2])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">6.5000000000000002E-2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=TINV(RC[1],RC[2])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-0.01</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=TINV(RC[1],RC[2])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.01</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=HYPGEOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">HYPGEOMDIST</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">HYPGEOMDIST</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=HYPGEOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=HYPGEOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.1</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=HYPGEOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">0.1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.0545438947367722E-2</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=HYPGEOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">2.0545438947367722E-2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1420</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5000</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2000</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">7000</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.39912280701754399</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=HYPGEOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">0.39912280701754399</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">12.5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">15.8</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">17</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">20</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.4734987713545556E-143</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=HYPGEOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">4.008407827379104E-219</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">200</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">200</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">200</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1027</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.1158540466480204E-2</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=HYPGEOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">3.1158540466480204E-2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">150</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">500</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">200</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">700</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.46233230134158926</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=HYPGEOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">0.46233230134158926</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">20</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.46052631578947373</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=HYPGEOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">0.46052631578947373</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">20</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.13157894736842107</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=HYPGEOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">0.13157894736842107</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">20</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">8.7719298245614048E-3</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=HYPGEOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">8.7719298245614048E-3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">20</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.9824620818412155E-308</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=HYPGEOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">3.9824620818412155E-308</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">500</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">500</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">500</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1027</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.8756333854232614E-9</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=HYPGEOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">1.8756333854232614E-9</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">12</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">23</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">45</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">654</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.1158540466480204E-2</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=HYPGEOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">3.1158540466480204E-2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">150.5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">500.3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">200.7</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">700</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.0545438947367722E-2</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=HYPGEOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">2.0545438947367722E-2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1420</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5000</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2000</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">7000</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4.008407827379104E-219</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=HYPGEOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">4.008407827379104E-219</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">200</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">200</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">200</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1027</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.14285714285714285</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=HYPGEOMDIST(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">0.14285714285714285</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=RSQ(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">RSQ</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">RSQ</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=RSQ(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.25</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=RSQ(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.25000000000000011</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.87335266209804974</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=RSQ(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.87335266209804974</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">30</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">30</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.75</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=RSQ(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.74999999999999989</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.91627082016676509</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=RSQ(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.91627082016676509</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4.8</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.57142857142857151</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=RSQ(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.57142857142857151</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.13775510204081634</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=RSQ(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.13775510204081634</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">22</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.66947766627309657</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=RSQ(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.66947766627309657</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">56</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">51</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">37.58</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">71</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">39</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">32</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">8.1843715287415089E-2</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=RSQ(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">8.1843715287415089E-2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">123</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">12312</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">123123</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">459</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">34232</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5657</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="14" ss:StyleID="Default"><Data ss:Type="String">long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=RSQ(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Error">#DIV/0!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=RSQ(RC[1]:RC[2],RC[3]:RC[4])"><Data
+      ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">44</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">34</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=PEARSON(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.50000000000000011</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">PEARSON</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">PEARSON</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-0.8660254037844386</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=PEARSON(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">-0.8660254037844386</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.81821614887088157</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=PEARSON(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.81821614887088157</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">56</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">51</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">37.58</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">71</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">39</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">32</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.99820694436040547</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=PEARSON(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.99820694436040547</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">12332</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2311</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">232311</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3234</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3455</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">12312</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="14" ss:StyleID="Default"><Data ss:Type="String">long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-0.27300239632881634</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=PEARSON(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">-0.27300239632881634</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.91455388958772676</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=PEARSON(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.91455388958772676</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.3450000000000002</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.45</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.87</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-0.94491118252306794</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=PEARSON(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">-0.94491118252306794</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.24346831983299175</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=PEARSON(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.24346831983299175</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">33</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-0.94491118252306794</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=PEARSON(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">-0.94491118252306794</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-0.94491118252306794</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=PEARSON(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">-0.94491118252306794</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.24346831983299175</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=PEARSON(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.24346831983299175</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">33</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=PEARSON(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Error">#DIV/0!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.17494279632813969</Data></Cell>
+    <Cell ss:StyleID="Default"
+     ss:Formula="=TTEST(RC[1]:RC[2],RC[3]:RC[4],RC[5],RC[6])"><Data
+      ss:Type="Number">0.17494279632813969</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">TTEST</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">TTEST</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.10241638233196894</Data></Cell>
+    <Cell ss:StyleID="Default"
+     ss:Formula="=TTEST(RC[1]:RC[2],RC[3]:RC[4],RC[5],RC[6])"><Data
+      ss:Type="Number">0.10241638233196894</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.15587639889012159</Data></Cell>
+    <Cell ss:StyleID="Default"
+     ss:Formula="=TTEST(RC[1]:RC[2],RC[3]:RC[4],RC[5],RC[6])"><Data
+      ss:Type="Number">0.15587639889012159</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.12198347391450554</Data></Cell>
+    <Cell ss:StyleID="Default"
+     ss:Formula="=TTEST(RC[1]:RC[2],RC[3]:RC[4],RC[5],RC[6])"><Data
+      ss:Type="Number">0.12198347391450554</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-11</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">20</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">40</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.15018832294241363</Data></Cell>
+    <Cell ss:StyleID="Default"
+     ss:Formula="=TTEST(RC[1]:RC[2],RC[3]:RC[4],RC[5],RC[6])"><Data
+      ss:Type="Number">0.15018832294241363</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">100</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">89</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">73</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">24</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.84282992758516606</Data></Cell>
+    <Cell ss:StyleID="Default"
+     ss:Formula="=TTEST(RC[1]:RC[2],RC[3]:RC[4],RC[5],RC[6])"><Data
+      ss:Type="Number">0.84282992758516606</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1002</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3456</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2342</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1213</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="14" ss:StyleID="Default"><Data ss:Type="String">long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.0266341163186811E-3</Data></Cell>
+    <Cell ss:StyleID="Default"
+     ss:Formula="=TTEST(RC[1]:RC[2],RC[3]:RC[4],RC[5],RC[6])"><Data
+      ss:Type="Number">3.0266341163186811E-3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">11233</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">12321</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">34556</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">32423</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="14" ss:StyleID="Default"><Data ss:Type="String">long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.22492153157886419</Data></Cell>
+    <Cell ss:StyleID="Default"
+     ss:Formula="=TTEST(RC[1]:RC[2],RC[3]:RC[4],RC[5],RC[6])"><Data
+      ss:Type="Number">0.22492153157886419</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-234</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">546</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5342</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="14" ss:StyleID="Default"><Data ss:Type="String">long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.40907121665655194</Data></Cell>
+    <Cell ss:StyleID="Default"
+     ss:Formula="=TTEST(RC[1]:RC[2],RC[3]:RC[4],RC[5],RC[6])"><Data
+      ss:Type="Number">0.40907121665655194</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.34</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.48</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-2.25</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4.44</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.4162806083912417</Data></Cell>
+    <Cell ss:StyleID="Default"
+     ss:Formula="=TTEST(RC[1]:RC[2],RC[3]:RC[4],RC[5],RC[6])"><Data
+      ss:Type="Number">0.4162806083912417</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.34</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.48</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-2.25</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4.44</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.42412415824824423</Data></Cell>
+    <Cell ss:StyleID="Default"
+     ss:Formula="=TTEST(RC[1]:RC[2],RC[3]:RC[4],RC[5],RC[6])"><Data
+      ss:Type="Number">0.42412415824824423</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.34</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.48</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-2.25</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4.44</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.0045910514878575E-2</Data></Cell>
+    <Cell ss:StyleID="Default"
+     ss:Formula="=TTEST(RC[1]:RC[2],RC[3]:RC[4],RC[5],RC[6])"><Data
+      ss:Type="Number">1.0045910514878575E-2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">11233</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">12321</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">34556</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">32423</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="14" ss:StyleID="Default"><Data ss:Type="String">long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"
+     ss:Formula="=TTEST(RC[1]:RC[2],RC[3]:RC[4],RC[5],RC[6])"><Data ss:Type="Error">#DIV/0!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"
+     ss:Formula="=TTEST(RC[1]:RC[2],RC[3]:RC[4],RC[5],RC[6])"><Data ss:Type="Error">#DIV/0!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"
+     ss:Formula="=TTEST(RC[1]:RC[2],RC[3]:RC[4],RC[5],RC[6])"><Data ss:Type="Error">#DIV/0!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"
+     ss:Formula="=TTEST(RC[1]:RC[2],RC[3]:RC[4],RC[5],RC[6])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.46017216272297101</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=ZTEST(RC[1]:RC[4],RC[5],RC[6])"><Data
+      ss:Type="Number">0.46017216272297101</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">ZTEST</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">ZTEST</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.88493032977829178</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=ZTEST(RC[1]:RC[4],RC[5],RC[6])"><Data
+      ss:Type="Number">0.88493032977829178</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">8</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">9</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.96776725996108992</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=ZTEST(RC[1]:RC[4],RC[5])"><Data
+      ss:Type="Number">0.96776725996108992</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.13666083914614902</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=ZTEST(RC[1]:RC[4],RC[5])"><Data
+      ss:Type="Number">0.13666083914614902</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.61720275800211788</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=ZTEST(RC[1]:RC[5],RC[6],RC[7])"><Data
+      ss:Type="Number">0.61720275800211788</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.91014375256050006</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=ZTEST(RC[1]:RC[5],RC[6],RC[7])"><Data
+      ss:Type="Number">0.91014375256050006</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=ZTEST(RC[1]:RC[5],RC[6],RC[7])"><Data
+      ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.1203709284352898E-2</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=ZTEST(RC[1]:RC[5],RC[6],RC[7])"><Data
+      ss:Type="Number">3.1203709284352898E-2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.35217539352500737</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=ZTEST(RC[1]:RC[5],RC[6],RC[7])"><Data
+      ss:Type="Number">0.35217539352500737</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1993</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2231</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4565</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2311</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2312</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2324</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2112</Data></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.17574708802314143</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=ZTEST(RC[1]:RC[5],RC[6],RC[7])"><Data
+      ss:Type="Number">0.17574708802314143</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.8</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">7.5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=ZTEST(RC[1]:RC[5],RC[6],RC[7])"><Data
+      ss:Type="Number">0.5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHITEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">CHITEST</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">CHITEST</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.5888560447750184E-2</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHITEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">1.5888560447750184E-2</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">58</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">45.35</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">17.56</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">16.09</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHITEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.10539922456626115</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHITEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.10539922456626115</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">12</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">18</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">7.0473382134030149E-2</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHITEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">7.0473382134030149E-2</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">16.09</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5.0305759849015211E-2</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHITEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">5.0305759849015211E-2</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">58</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">45.35</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">17.56</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5.0305759849015211E-2</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHITEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">5.0305759849015211E-2</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">58</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">45.35</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">17.56</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.43562342027690992</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHITEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.43562342027690992</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">12345</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">12345</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">32345</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">12312</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">12323</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">32123</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.36720084811731268</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHITEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.36720084811731268</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">-11</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">17</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">10.32</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">-12</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">17.56</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">16.09</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHITEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Error">#DIV/0!</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s27"/>
+    <Cell ss:StyleID="s27"/>
+    <Cell ss:StyleID="s27"/>
+    <Cell ss:StyleID="s27"/>
+    <Cell ss:StyleID="s27"/>
+    <Cell ss:StyleID="s27"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.52708925723818778</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHITEST(RC[1]:RC[2],RC[3]:RC[4])"><Data
+      ss:Type="Number">0.52708925723818778</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">12</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:StyleID="s27"/>
+    <Cell ss:StyleID="s27"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHITEST(RC[1]:RC[3],RC[4]:RC[5])"><Data
+      ss:Type="Error">#N/A</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">58</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">45.35</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">17.56</Data></Cell>
+    <Cell ss:StyleID="s27"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#N/A</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.073954491118552E-2</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=CHITEST(RC[1]:R[1]C[3],RC[4]:R[1]C[6])"><Data
+      ss:Type="Number">1.073954491118552E-2</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">58</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">45.35</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">17.56</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">16.09</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"
+     ss:Formula="=CHITEST(R[-1]C[1]:RC[3],R[-1]C[4]:RC[5])"><Data ss:Type="Error">#N/A</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#N/A</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s27"/>
+    <Cell ss:StyleID="s27"/>
+    <Cell ss:StyleID="s27"/>
+    <Cell ss:StyleID="s27"/>
+    <Cell ss:StyleID="s27"/>
+    <Cell ss:StyleID="s27"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.4374999999989781</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FTEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.4374999999989781</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">FTEST</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">FTEST</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.84950825755971504</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FTEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.84950825755971504</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.69999999999836493</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FTEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.69999999999836493</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.45101173723581223</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FTEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.45101173723581223</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2210</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2131</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1232</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1233</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3243</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2133</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="14" ss:StyleID="Default"><Data ss:Type="String">long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.59999999999859843</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FTEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.59999999999859843</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.4691358021585335E-10</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FTEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">2.4691358021585335E-10</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">10000</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">10000</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">100000</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.99999999999766409</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FTEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.99999999999766409</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.4374999999989781</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FTEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Number">0.4374999999989781</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FTEST(RC[1]:RC[3],RC[4]:RC[6])"><Data
+      ss:Type="Error">#DIV/0!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FTEST(RC[1],RC[2]:RC[6])"><Data
+      ss:Type="Error">#DIV/0!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#DIV/0!</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.16062554302354631</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FTEST(RC[1]:RC[2],RC[3]:RC[6])"><Data
+      ss:Type="Number">0.16062554302354631</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="14" ss:StyleID="Default"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.62639435921099362</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FTEST(RC[1]:RC[3],RC[4]:RC[5])"><Data
+      ss:Type="Number">0.62639435921099362</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.3333333333333333</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=STANDARDIZE(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">1.3333333333333333</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">42</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">40</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">STANDARDIZE</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">STANDARDIZE</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-1.04</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=STANDARDIZE(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">-1.0399999999999998</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.8</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.81037277147487841</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=STANDARDIZE(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">0.81037277147487841</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3000</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2000</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1234</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=STANDARDIZE(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-1.3333333333333333</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=STANDARDIZE(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">-1.3333333333333333</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=STANDARDIZE(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">42</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">40</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.5240638225085019</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=GAMMALN(RC[1])"><Data ss:Type="Number">1.5240638225085019</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">GAMMALN</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">GAMMALN</Data></Cell>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-4.9872441306312076E-2</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=GAMMALN(RC[1])"><Data ss:Type="Number">-4.9872441306312076E-2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-4.1715964016475482E-11</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=GAMMALN(RC[1])"><Data ss:Type="Number">-4.1715964016475482E-11</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">5.8548068069031812E-3</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=GAMMALN(RC[1])"><Data ss:Type="Number">5.8548068069031812E-3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.99</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=GAMMALN(RC[1])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=GAMMALN(RC[1])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.8646647167633873</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=EXPONDIST(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">0.8646647167633873</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">EXPONDIST</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">EXPONDIST</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.2706705664732254</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=EXPONDIST(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">0.2706705664732254</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.81362602396059003</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=EXPONDIST(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">0.81362602396059003</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">14</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.12</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.2364877124729197E-2</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=EXPONDIST(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">2.2364877124729197E-2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">14</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.12</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.99017671803371843</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=EXPONDIST(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">0.99017671803371843</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.34</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.45</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.3890322783671593E-2</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=EXPONDIST(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">3.3890322783671593E-2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.34</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.45</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.76952203093336435</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=EXPONDIST(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">0.76952203093336435</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1223</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.1999999999999999E-3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.7657356287996281E-4</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=EXPONDIST(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">2.7657356287996281E-4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1223</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.1999999999999999E-3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.19562755841064988</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=EXPONDIST(RC[1],RC[2],RC[3])"><Data
+      ss:Type="Number">0.19562755841064988</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.63212055882855767</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=WEIBULL(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">0.63212055882855767</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">WEIBULL</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">WEIBULL</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=WEIBULL(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">21</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">321</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.10516068318563021</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=WEIBULL(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">0.10516068318563021</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.12939980299233589</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=WEIBULL(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">0.12939980299233589</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.7</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.10516068318563021</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=WEIBULL(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">0.10516068318563021</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.12939980299233589</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=WEIBULL(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">0.12939980299233589</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">2.2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.7</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.92958139006927698</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=WEIBULL(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Number">0.92958139006927698</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">105</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">20</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">100</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=WEIBULL(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">102</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">100</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=WEIBULL(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">105</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">20</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=WEIBULL(RC[1],RC[2],RC[3],RC[4])"><Data
+      ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-0.01</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">30</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">100</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.86730052769405319</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHER(RC[1])"><Data ss:Type="Number">0.86730052769405319</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.7</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">FISHER</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">FISHER</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHER(RC[1])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">3.8002011672501999</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHER(RC[1])"><Data ss:Type="Number">3.8002011672501999</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.999</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1.0000333353334718E-2</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHER(RC[1])"><Data ss:Type="Number">1.0000333353334718E-2</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.01</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.54930614433405489</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHER(RC[1])"><Data ss:Type="Number">0.54930614433405489</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-0.54930614433405489</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHER(RC[1])"><Data ss:Type="Number">-0.54930614433405489</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-0.5</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">bigdecimal</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">Samsonov:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.23841701736237089</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHER(RC[1])"><Data ss:Type="Number">0.23841701736237089</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0.23400000000000001</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHER(RC[1])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="Default" ss:Formula="=FISHER(RC[1])"><Data ss:Type="Error">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"><Data ss:Type="String" x:Ticked="1">#NUM!</Data></Cell>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:StyleID="s22">
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:Index="10" ss:StyleID="s21"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row>
     <Cell ss:Index="14"><Comment ss:Author="vkorenev"><ss:Data
        xmlns="http://www.w3.org/TR/REC-html40"><B><Font html:Face="Tahoma"
          html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
@@ -3873,19 +7587,20 @@
     <VerticalResolution>600</VerticalResolution>
    </Print>
    <Selected/>
-   <TopRowVisible>308</TopRowVisible>
+   <TopRowVisible>549</TopRowVisible>
+   <LeftColumnVisible>2</LeftColumnVisible>
    <Panes>
     <Pane>
      <Number>3</Number>
-     <ActiveRow>356</ActiveRow>
-     <RangeSelection>R357C1:R364C1</RangeSelection>
+     <ActiveRow>589</ActiveRow>
+     <ActiveCol>13</ActiveCol>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>
    <ProtectScenarios>False</ProtectScenarios>
   </WorksheetOptions>
   <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
-   <Range>R2C3:R65536C9</Range>
+   <Range>R617C3:R617C9,R611C3:R616C6,R2C3:R456C9,R457C3:R457C6,R464C3:R464C6,R458C3:R463C9,R465C3:R466C9,R618C3:R655C6,R467C3:R502C6,R656C3:R65536C9,R503C3:R610C9</Range>
    <Condition>
     <Value1>RC10&gt;COLUMN(RC)-3</Value1>
     <Format Style='background:#CCFFCC'/>

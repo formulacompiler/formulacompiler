@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 import java.util.TimeZone;
 
 import org.formulacompiler.runtime.internal.cern.jet.stat.Gamma;
@@ -326,6 +327,155 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return hours;
 	}
 
+	private static double mulRange( int m, int n )
+	{
+		double res = 1;
+		for (int i = m + 1; i <= n; i++) {
+			res *= i;
+		}
+		return res;
+	}
+
+	private static class Segment
+	{
+		int start;
+		int end;
+
+		private Segment( final int _start, final int _end )
+		{
+			start = _start;
+			end = _end;
+		}
+	}
+
+	public static double fun_HYPGEOMDIST( int _x, int _n, int _M, int _N )
+	{
+		if ((_x < 0) || (_n < _x) || (_M < _x) || (_N < _n) || (_N < _M) || (_x < _n - _N + _M)) {
+			// Illegal Argument
+			return 0;
+		}
+		if (_N < 100) {
+			// symple methods which works for non large numbers
+			return mulRange( _M - _x, _M ) * mulRange( _n - _x, _n ) / mulRange( _N - _M, _N ) * mulRange( _N - _n - _M + _x, _N - _n ) / mulRange( 1, _x );
+		}
+		else {
+			// algorythm for working with large numbers
+			LinkedList<Segment> numerator = new LinkedList<Segment>();
+			LinkedList<Segment> denominator = new LinkedList<Segment>();
+			numerator.add( new Segment( _M - _x + 1, _M ) );
+			numerator.add( new Segment( _n - _x + 1, _n ) );
+			numerator.add( new Segment( _N - _n - _M + _x + 1, _N - _n ) );
+			denominator.add( new Segment( 1, _x ) );
+			denominator.add( new Segment( _N - _M + 1, _N ) );
+			for (int i = 0; i < numerator.size(); i++) {
+				for (int j = 0; j < denominator.size(); j++) {
+					if (i < 0) i++;
+					Segment numeratorElement = numerator.get( i );
+					Segment denominatorElement = denominator.get( j );
+					if (numeratorElement.start > denominatorElement.start) {
+						if (numeratorElement.start <= denominatorElement.end) {
+							if (numeratorElement.end > denominatorElement.end) {
+								int tmp = numeratorElement.start;
+								numeratorElement.start = denominatorElement.end + 1;
+								denominatorElement.end = tmp - 1;
+							}
+							else {
+								if (numeratorElement.end < denominatorElement.end) {
+									denominator.add( new Segment( numeratorElement.end + 1, denominatorElement.end ) );
+								}
+								denominatorElement.end = numeratorElement.start - 1;
+								numerator.remove( i );
+								i--;
+							}
+						}
+					}
+					else {
+						if (numeratorElement.start < denominatorElement.start) {
+							if (numeratorElement.end >= denominatorElement.start) {
+								if (numeratorElement.end < denominatorElement.end) {
+									int tmp = denominatorElement.start;
+									denominatorElement.start = numeratorElement.end + 1;
+									numeratorElement.end = tmp - 1;
+								}
+								else {
+									if (numeratorElement.end > denominatorElement.end) {
+										numerator.add( new Segment( denominatorElement.end + 1, numeratorElement.end ) );
+									}
+									numeratorElement.end = denominatorElement.start - 1;
+									denominator.remove( j );
+									j--;
+								}
+							}
+						}
+						else {
+							if (numeratorElement.end < denominatorElement.end) {
+								denominatorElement.start = numeratorElement.end + 1;
+								numerator.remove( i );
+								i--;
+							}
+							else {
+								if (numeratorElement.end > denominatorElement.end) {
+									numeratorElement.start = denominatorElement.end + 1;
+									denominator.remove( j );
+									j--;
+								}
+								else {
+									denominator.remove( j );
+									j--;
+									numerator.remove( i );
+									i--;
+								}
+							}
+						}
+					}
+				}
+			}
+			double res = 1;
+			int numeratorIndex = 0;
+			int numeratorCurrMult = 0;
+			int denominatorIndex = 0;
+			int denominatorCurrMult = 0;
+			double upperLimit = 1E+250;
+			double lowerLimit = 1E-250;
+			while (numeratorIndex < numerator.size() || denominatorIndex < denominator.size()) {
+				if ((res >= upperLimit & denominatorIndex >= denominator.size()) ||
+						(res <= lowerLimit & numeratorIndex >= numerator.size())) {
+					res = 0;
+					numeratorIndex = numerator.size();
+					denominatorIndex = denominator.size();
+				}
+				while (numeratorIndex < numerator.size() & res < upperLimit) {
+					Segment numeratorElement = numerator.get( numeratorIndex );
+					if (numeratorCurrMult == 0) {
+						numeratorCurrMult = numeratorElement.start;
+					}
+					while (numeratorCurrMult <= numeratorElement.end & res < upperLimit) {
+						res *= numeratorCurrMult;
+						numeratorCurrMult++;
+					}
+					if (numeratorCurrMult > numeratorElement.end) {
+						numeratorIndex++;
+						numeratorCurrMult = 0;
+					}
+				}
+				while (denominatorIndex < denominator.size() & res > lowerLimit) {
+					Segment denominatorElement = denominator.get( denominatorIndex );
+					if (denominatorCurrMult == 0) {
+						denominatorCurrMult = denominatorElement.start;
+					}
+					while (denominatorCurrMult <= denominatorElement.end & res > lowerLimit) {
+						res /= denominatorCurrMult;
+						denominatorCurrMult++;
+					}
+					if (denominatorCurrMult > denominatorElement.end) {
+						denominatorIndex++;
+						denominatorCurrMult = 0;
+					}
+				}
+			}
+			return res;
+		}
+	}
 
 	public static double fun_ACOS( double _a )
 	{
@@ -462,6 +612,122 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		}
 	}
 
+	interface StatisticDistFunc
+	{
+		public double GetValue( double x );
+	}
+
+	private static class BetaDistFunction implements StatisticDistFunc
+	{
+		double x0, alpha, beta;
+
+		BetaDistFunction( double x0, double alpha, double beta )
+		{
+			this.x0 = x0;
+			this.alpha = alpha;
+			this.beta = beta;
+		}
+
+		public double GetValue( double x )
+		{
+			return x0 - fun_BETADIST( x, alpha, beta );
+		}
+	}
+
+	private static double iterateInverse( StatisticDistFunc func, double x0, double x1 ) throws IllegalArgumentException, ArithmeticException
+	{
+		if (x0 >= x1) {
+			// IterateInverse: wrong interval
+			throw new IllegalArgumentException();
+		}
+		double fEps = 1E-7;
+		//	find enclosing interval
+		double f0 = func.GetValue( x0 );
+		double f1 = func.GetValue( x1 );
+		double xs;
+		int i;
+		for (i = 0; i < 1000 & f0 * f1 > 0; i++) {
+			if (Math.abs( f0 ) <= Math.abs( f1 )) {
+				xs = x0;
+				x0 += 2 * (x0 - x1);
+				if (x0 < 0)
+					x0 = 0;
+				x1 = xs;
+				f1 = f0;
+				f0 = func.GetValue( x0 );
+			}
+			else {
+				xs = x1;
+				x1 += 2 * (x1 - x0);
+				x0 = xs;
+				f0 = f1;
+				f1 = func.GetValue( x1 );
+			}
+		}
+		if (f0 == 0)
+			return x0;
+		if (f1 == 0)
+			return x1;
+		//	simple iteration
+		double x00 = x0;
+		double x11 = x1;
+		double fs = func.GetValue( 0.5 * (x0 + x1) );
+		for (i = 0; i < 100; i++) {
+			xs = 0.5 * (x0 + x1);
+			if (Math.abs( f1 - f0 ) >= fEps) {
+				fs = func.GetValue( xs );
+				if (f0 * fs <= 0) {
+					x1 = xs;
+					f1 = fs;
+				}
+				else {
+					x0 = xs;
+					f0 = fs;
+				}
+			}
+			else {
+				//	add one step of regula falsi to improve precision
+				if (x0 != x1) {
+					double regxs = (f1 - f0) / (x1 - x0);
+					if (regxs != 0) {
+						double regx = x1 - f1 / regxs;
+						if (regx >= x00 && regx <= x11) {
+							double regfs = func.GetValue( regx );
+							if (Math.abs( regfs ) < Math.abs( fs ))
+								xs = regx;
+						}
+					}
+				}
+				return xs;
+			}
+		}
+		throw new ArithmeticException();
+	}
+
+	public static double fun_BETAINV( double _x, double _alpha, double _beta )
+	{
+		if (_x < 0 || _x >= 1 || _alpha <= 0 || _beta <= 0) {
+			// Error: Illegal Argument!
+			return 0;
+		}
+		if (_x == 0)
+			// correct result: 0
+			return 0;
+		else {
+			BetaDistFunction func = new BetaDistFunction( _x, _alpha, _beta );
+			try {
+				double res = iterateInverse( func, 0, 1 );
+				return res;
+			} catch (IllegalArgumentException e) {
+				// Error in func.GetValue() method, wrong parameters
+				return 0;
+			} catch (ArithmeticException e) {
+				// Error in func.GetValue() method, calculation not finished successfully
+				return 0;
+			}
+		}
+	}
+
 	public static double fun_CHIDIST( double _x, double _degFreedom )
 	{
 		if (_x < 0 || _degFreedom < 1) {
@@ -469,6 +735,165 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		}
 
 		return Probability.chiSquareComplemented( Math.floor( _degFreedom ), _x );
+	}
+
+	private static class ChiDistFunction implements StatisticDistFunc
+	{
+		double x0, degrees;
+
+		ChiDistFunction( double x0, double degrees )
+		{
+			this.x0 = x0;
+			this.degrees = degrees;
+		}
+
+		public double GetValue( double x )
+		{
+			return x0 - fun_CHIDIST( x, degrees );
+		}
+	}
+
+	public static double fun_CHIINV( double _x, double _degFreedom )
+	{
+		if (_x <= 0 || _x > 1 || _degFreedom < 1 || _degFreedom > 10000000000.0) {
+			return 0; // Excel #NUM!
+		}
+		ChiDistFunction func = new ChiDistFunction( _x, _degFreedom );
+		try {
+			double res = iterateInverse( func, _degFreedom / 2, _degFreedom );
+			return res;
+		} catch (IllegalArgumentException e) {
+			// Error in func.GetValue() method, wrong parameters
+			return 0;
+		} catch (ArithmeticException e) {
+			// Error in func.GetValue() method, calculation not finished successfully
+			return 0;
+		}
+	}
+
+	public static double getFDist( double x, double f1, double f2 )
+	{
+		double arg = f2 / (f2 + f1 * x);
+		double alpha = f2 / 2.0;
+		double beta = f1 / 2.0;
+		return (fun_BETADIST( arg, alpha, beta ));
+	}
+
+	private static class FDistFunction implements StatisticDistFunc
+	{
+		double p, f1, f2;
+
+		FDistFunction( double p, double f1, double f2 )
+		{
+			this.p = p;
+			this.f1 = f1;
+			this.f2 = f2;
+		}
+
+		public double GetValue( double x )
+		{
+			return p - getFDist( x, f1, f2 );
+		}
+	}
+
+	public static double fun_FINV( double _p, double _f1, double _f2 )
+	{
+		if (_p < 0 || _f1 < 1 || _f2 < 1 || _f1 >= 1.0E10 || _f2 >= 1.0E10 || _p > 1) {
+			//Error: Illegal Argument
+			return 0;
+		}
+		if (_p == 0) {
+			return 1000000000;
+		}
+		double f1 = Math.floor( _f1 );
+		double f2 = Math.floor( _f2 );
+		Boolean convError = false;
+		FDistFunction func = new FDistFunction( _p, f1, f2 );
+		try {
+			double res = iterateInverse( func, f1 / 2, f1 );
+			return res;
+		} catch (IllegalArgumentException e) {
+			// Error in func.GetValue() method, wrong parameters
+			return 0;
+		} catch (ArithmeticException e) {
+			// Error in func.GetValue() method, calculation not finished successfully
+			return 0;
+		}
+	}
+
+	private static class GammaDistFunction implements StatisticDistFunc
+	{
+		double p, alpha, beta;
+
+		GammaDistFunction( double p, double alpha, double beta )
+		{
+			this.p = p;
+			this.alpha = alpha;
+			this.beta = beta;
+		}
+
+		public double GetValue( double x )
+		{
+			return p - gammaCumulative( x, alpha, beta );
+		}
+	}
+
+	public static double fun_GAMMAINV( double _p, double _alpha, double _beta )
+	{
+		if (_p < 0 || _p >= 1 || _alpha <= 0 || _beta <= 0) {
+			// Error: Illegal Argument!
+			return 0;
+		}
+		if (_p == 0)
+			// correct result: 0
+			return 0;
+		else {
+			GammaDistFunction func = new GammaDistFunction( _p, _alpha, _beta );
+			double start = _alpha * _beta;
+			try {
+				double res = iterateInverse( func, start / 2, start );
+				return res;
+			} catch (IllegalArgumentException e) {
+				// Error in func.GetValue() method, wrong parameters
+				return 0;
+			} catch (ArithmeticException e) {
+				// Error in func.GetValue() method, calculation not finished successfully
+				return 0;
+			}
+		}
+	}
+
+
+	public static double fun_GAMMALN( double _x )
+	{
+		if (_x <= 0) {
+			// ERROR
+			return 0;
+		}
+		else {
+			boolean bReflect;
+			double c[] = { 76.18009173, -86.50532033, 24.01409822, -1.231739516, 0.120858003E-2, -0.536382E-5 };
+			if (_x >= 1) {
+				bReflect = false;
+				_x -= 1;
+			}
+			else {
+				bReflect = true;
+				_x = 1 - _x;
+			}
+			double g, anum;
+			g = 1.0;
+			anum = _x;
+			for (int i = 0; i < 6; i++) {
+				anum += 1.0;
+				g += c[ i ] / anum;
+			}
+			g *= 2.506628275;					// sqrt(2*PI)
+			g = (_x + 0.5) * Math.log( _x + 5.5 ) + Math.log( g ) - (_x + 5.5);
+			if (bReflect)
+				g = Math.log( Math.PI * _x ) - g - Math.log( Math.sin( Math.PI * _x ) );
+			return g;
+		}
 	}
 
 	public static double fun_GAMMADIST( double _x, double _alpha, double _beta, boolean _cumulative )
@@ -519,13 +944,74 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return Math.exp( -_mean ) * Math.pow( _mean, _x ) / factorial( _x );
 	}
 
-	public static double fun_TDIST( double _x, double _degFreedom, int _tails )
+	public static double fun_TDIST( double _x, double _degFreedom, int _tails, boolean no_floor )
 	{
 		if (_x < 0 || _degFreedom < 1 || (_tails != 1 && _tails != 2)) {
 			return 0; // Excel #NUM!
 		}
 
-		return (1 - Probability.studentT( Math.floor( _degFreedom ), _x )) * _tails;
+		if (no_floor) {
+			return (1 - Probability.studentT( _degFreedom, _x )) * _tails;
+		}
+		else {
+			return (1 - Probability.studentT( Math.floor( _degFreedom ), _x )) * _tails;
+		}
+	}
+
+	private static double getTDist( double t, double f )
+	{
+		return 0.5 * fun_BETADIST( f / (f + t * t), f / 2, 0.5 );
+	}
+
+	private static class TDistFunction implements StatisticDistFunc
+	{
+		double p, degFreedom;
+
+		TDistFunction( double p, double degFreedom )
+		{
+			this.p = p;
+			this.degFreedom = degFreedom;
+		}
+
+		public double GetValue( double x )
+		{
+			return p - getTDist( x, degFreedom ) * 2;
+		}
+	}
+
+	public static double fun_TINV( double _x, double _degFreedom )
+	{
+		if (_degFreedom < 1.0 || _degFreedom >= 1.0E5 || _x <= 0.0 || _x > 1.0) {
+			// Wrong parameters
+			return 0;
+		}
+		StatisticDistFunc func = new TDistFunction( _x, _degFreedom );
+
+		try {
+			double res = iterateInverse( func, _degFreedom / 2, _degFreedom );
+			return res;
+		} catch (IllegalArgumentException e) {
+			// Error in func.GetValue() method, wrong parameters
+			return 0;
+		} catch (ArithmeticException e) {
+			// Error in func.GetValue() method, calculation not finished successfully
+			return 0;
+		}
+	}
+
+	public static double fun_WEIBULL( double _x, double _alpha, double _beta, boolean _cumulative )
+	{
+		if (_x < 0 || _alpha <= 0 || _beta <= 0) {
+			return 0; // Excel #NUM!
+		}
+
+		if (_cumulative) {
+			return 1.0 - Math.exp( -Math.pow( _x / _beta, _alpha ) );
+		}
+		else {
+			return _alpha / Math.pow( _beta, _alpha ) * Math.pow( _x, _alpha - 1 ) * Math.exp( -Math.pow( _x / _beta, _alpha ) );
+
+		}
 	}
 
 	public static double fun_MOD( double _n, double _d )

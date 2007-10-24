@@ -499,6 +499,11 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_BETADIST( _x, _alpha, _beta, this.context );
 	}
 
+	public long fun_BETAINV( long _x, long _alpha, long _beta )
+	{
+		return RuntimeLong_v2.fun_BETAINV( _x, _alpha, _beta, this.context );
+	}
+
 	public long fun_BINOMDIST( long _number, long _trials, long _probability, long _cumulative )
 	{
 		return RuntimeLong_v2.fun_BINOMDIST( _number, _trials, _probability, _cumulative != 0, this.context );
@@ -509,9 +514,29 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_CHIDIST( _x, _degFreedom, this.context );
 	}
 
+	public long fun_CHIINV( long _x, long _degFreedom )
+	{
+		return RuntimeLong_v2.fun_CHIINV( _x, _degFreedom, this.context );
+	}
+
+	public long fun_FINV( long _x, long _f1, long _f2 )
+	{
+		return RuntimeLong_v2.fun_FINV( _x, _f1, _f2, this.context );
+	}
+
 	public long fun_GAMMADIST( long _x, long _alpha, long _beta, long _cumulative )
 	{
 		return RuntimeLong_v2.fun_GAMMADIST( _x, _alpha, _beta, _cumulative != 0, this.context );
+	}
+
+	public long fun_GAMMAINV( long _x, long _alpha, long _beta )
+	{
+		return RuntimeLong_v2.fun_GAMMAINV( _x, _alpha, _beta, this.context );
+	}
+
+	public long fun_GAMMALN( long _x )
+	{
+		return RuntimeLong_v2.fun_GAMMALN( _x, this.context );
 	}
 
 	public long fun_POISSON( long _x, long _mean, long _cumulative )
@@ -521,7 +546,17 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long fun_TDIST( long _x, long _degFreedom, long _tails )
 	{
-		return RuntimeLong_v2.fun_TDIST( _x, _degFreedom, _tails, this.context );
+		return RuntimeLong_v2.fun_TDIST( _x, _degFreedom, _tails, false, this.context );
+	}
+
+	public long fun_TDIST( long _x, long _degFreedom, long _tails, long _no_floor )
+	{
+		return RuntimeLong_v2.fun_TDIST( _x, _degFreedom, _tails, _no_floor == 0 ? false : true, this.context );
+	}
+
+	public long fun_TINV( long _x, long _degFreedom )
+	{
+		return RuntimeLong_v2.fun_TINV( _x, _degFreedom, this.context );
 	}
 
 	public long fun_MOD( long n, long d )
@@ -534,6 +569,10 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_SQRT( n, this.context );
 	}
 
+	public long fun_WEIBULL( long _x, long _alpha, long _beta, long _cumulative )
+	{
+		return RuntimeLong_v2.fun_WEIBULL( _x, _alpha, _beta, _cumulative != 0, this.context );
+	}
 
 	// ------------------------------------------------ Combinatorics
 
@@ -677,6 +716,11 @@ public final class ExpressionTemplatesForScaledLongs
 	public long fun_HOUR( long _date )
 	{
 		return RuntimeLong_v2.fun_HOUR( _date, this.context );
+	}
+
+	public long fun_HYPGEOMDIST( long sample_s, long number_sample, long population_s, long number_population )
+	{
+		return RuntimeLong_v2.fun_HYPGEOMDIST( sample_s, number_sample, population_s, number_population, this.context );
 	}
 
 	public long fun_WEEKDAY( long _date, long _type )

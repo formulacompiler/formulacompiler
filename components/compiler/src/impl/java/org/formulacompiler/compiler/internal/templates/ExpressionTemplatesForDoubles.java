@@ -438,6 +438,11 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v2.fun_BETADIST( _x, _alpha, _beta );
 	}
 
+	public double fun_BETAINV( double _x, double _alpha, double _beta )
+	{
+		return RuntimeDouble_v2.fun_BETAINV( _x, _alpha, _beta );
+	}
+
 	public double fun_BINOMDIST( double _number, double _trials, double _probability, double _cumulative )
 	{
 		return RuntimeDouble_v2.fun_BINOMDIST( (int) _number, (int) _trials, _probability, _cumulative != 0 );
@@ -448,9 +453,29 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v2.fun_CHIDIST( _x, _degFreedom );
 	}
 
+	public double fun_CHIINV( double _x, double _degFreedom )
+	{
+		return RuntimeDouble_v2.fun_CHIINV( _x, _degFreedom );
+	}
+
+	public double fun_FINV( double _x, double _f1, double _f2 )
+	{
+		return RuntimeDouble_v2.fun_FINV( _x, _f1, _f2 );
+	}
+
 	public double fun_GAMMADIST( double _x, double _alpha, double _beta, double _cumulative )
 	{
 		return RuntimeDouble_v2.fun_GAMMADIST( _x, _alpha, _beta, _cumulative != 0 );
+	}
+
+	public double fun_GAMMAINV( double _x, double _alpha, double _beta )
+	{
+		return RuntimeDouble_v2.fun_GAMMAINV( _x, _alpha, _beta );
+	}
+
+	public double fun_GAMMALN( double _x )
+	{
+		return RuntimeDouble_v2.fun_GAMMALN( _x );
 	}
 
 	public double fun_POISSON( double _x, double _mean, double _cumulative )
@@ -460,7 +485,17 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_TDIST( double _x, double _degFreedom, double _tails )
 	{
-		return RuntimeDouble_v2.fun_TDIST( _x, _degFreedom, (int) _tails );
+		return RuntimeDouble_v2.fun_TDIST( _x, _degFreedom, (int) _tails, false );
+	}
+
+	public double fun_TDIST( double _x, double _degFreedom, double _tails, double _no_floor )
+	{
+		return RuntimeDouble_v2.fun_TDIST( _x, _degFreedom, (int) _tails, _no_floor == 0 ? false : true );
+	}
+
+	public double fun_TINV( double _x, double _degFreedom )
+	{
+		return RuntimeDouble_v2.fun_TINV( _x, _degFreedom );
 	}
 
 	public double fun_MOD( double n, double d )
@@ -471,6 +506,11 @@ public final class ExpressionTemplatesForDoubles
 	public double fun_SQRT( double n )
 	{
 		return RuntimeDouble_v2.fun_SQRT( n );
+	}
+
+	public double fun_WEIBULL( double _x, double _alpha, double _beta, double _cumulative )
+	{
+		return RuntimeDouble_v2.fun_WEIBULL( _x, _alpha, _beta, _cumulative != 0 );
 	}
 
 	// ------------------------------------------------ Combinatorics
@@ -564,6 +604,11 @@ public final class ExpressionTemplatesForDoubles
 	public double fun_HOUR( double _date )
 	{
 		return RuntimeDouble_v2.fun_HOUR( _date );
+	}
+
+	public double fun_HYPGEOMDIST( double sample_s, double number_sample, double population_s, double number_population )
+	{
+		return RuntimeDouble_v2.fun_HYPGEOMDIST( (int) sample_s, (int) number_sample, (int) population_s, (int) number_population );
 	}
 
 	public double fun_WEEKDAY( double _date, double _type )

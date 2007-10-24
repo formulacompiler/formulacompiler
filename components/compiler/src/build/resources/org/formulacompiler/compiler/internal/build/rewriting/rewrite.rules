@@ -368,6 +368,25 @@ rules {
 
 	rewrite betadist( x, alpha, beta, a ) = BETADIST( x, alpha, beta, a, 1 ) 
 
+	rewrite betainv( x, alpha, beta, a, b ) =
+		if x < a then 0
+		else if x > b then 0
+		else if a = b then 0
+		else BETAINV( x, alpha, beta ) * ( b  - a ) + a
+
+	rewrite betainv( x, alpha, beta, a ) = BETAINV( x, alpha, beta, a, 1 )
+
+	rewrite expondist( x, lambda, kum ) =
+		if lambda < 0 then 0
+		else (if kum = 0
+			then (if x >= 0
+				then lambda * EXP(-lambda * x)
+			else 0)
+		else 
+			(if x >= 0
+				then 1 - EXP(-lambda * x)
+			else 0))
+
 	rewrite negbinomdist( x, r, p ) =
 		if p <= 0 then 0
 		else if p >= 1 then 0
@@ -387,6 +406,189 @@ rules {
 			else if idf2 < 1 then 0
 			else BETADIST( idf2 / (idf2 + idf1 * x), idf2 / 2, idf1 / 2 )
 
+    rewrite fisher( x ) =
+        if ABS( x ) >= 1 then 0
+        else LN((1 + x) / (1 - x)) / 2
+
+    rewrite fisherinv( x ) =
+        (EXP(2 * x) - 1) / (EXP(2 * x) + 1)
+
+    rewrite standardize( x, mue, sigma ) =
+        if sigma <= 0 then 0
+        else (x - mue) / sigma
+
+	rewrite chitest( xs#, ys#, colsX, rowsX, colsY, rowsY ) =
+		if PRODUCT(ys) = 0 then 0       // to check, does not work for BigDecimal
+		else
+			if OR(colsX <> colsY, rowsX <> rowsY, colsX = 0, colsY = 0, rowsX = 0, rowsY = 0 ) then 0
+			else
+				apply
+					fold with
+						chi = 0
+					each xi, yi as
+						chi = chi + (xi - yi) * (xi - yi) / yi
+					with count n into
+						if OR(colsX = 1, rowsX = 1) then
+							let df = (colsX  * rowsX - 1) in
+								if df = 0 then 0
+								else
+									CHIDIST(chi, df)
+						else
+							let df = (colsX - 1) * (rowsX - 1) in
+								CHIDIST(chi, df)
+					end
+				to vectors {xs, ys}
+
+	rewrite ftest( xs#, ys# ) =
+		let countX = COUNT(xs)
+		let countY = COUNT(ys)
+		let eps = 0.000001
+		in
+			if OR(countX < 2, countY < 2) then 0
+			else
+				let sumX = SUM(xs)
+				let sumSqrX = SUMSQ(xs)
+				let sumY = SUM(ys)
+				let sumSqrY = SUMSQ(ys)
+				let sX = (sumSqrX - sumX * sumX / countX) / (countX - 1)
+				let sY = (sumSqrY - sumY * sumY / countY) / (countY - 1)
+				in
+					if OR(ABS(sX) < eps, ABS(sY) < eps) then 0
+					else if sX > sY then
+						2 * FDIST(sX / sY, countX - 1, countY - 1)
+					else
+						2 * FDIST(sY / sX, countY - 1, countX - 1)
+
+	rewrite pearson( xs#, ys# ) =
+		let countX = COUNT(xs)
+		let countY = COUNT(ys)
+		in
+			if OR(countX = 0, countY <> countX) then 0
+			else
+				apply
+					fold with
+						sumX = 0,
+						sumY = 0,
+						sumSqrX = 0,
+						sumSqrY = 0,
+						sumXY = 0
+					each xi, yi as
+						sumX = sumX + xi,
+						sumY = sumY + yi,
+						sumSqrX = sumSqrX + xi * xi,
+						sumSqrY = sumSqrY + yi * yi,
+						sumXY = sumXY + xi * yi
+					with count n into
+						let tmp_val = (n * sumSqrX - sumX * sumX) * (n * sumSqrY - sumY * sumY)
+						in
+							if OR(n < 2, tmp_val <= 0) then 0
+							else
+								(n * sumXY - sumX * sumY) / SQRT(tmp_val)
+					end
+				to vectors {xs, ys}
+
+	rewrite rsq( xs#, ys# ) =
+		let countX = COUNT(xs)
+		let countY = COUNT(ys)
+		in
+			if OR(countX = 0, countY <> countX) then 0
+			else
+				apply
+					fold with
+						sumX = 0,
+						sumY = 0,
+						sumSqrX = 0,
+						sumSqrY = 0,
+						sumXY = 0
+					each xi, yi as
+						sumX = sumX + xi,
+						sumY = sumY + yi,
+						sumSqrX = sumSqrX + xi * xi,
+						sumSqrY = sumSqrY + yi * yi,
+						sumXY = sumXY + xi * yi
+					with count n into
+						let tmp_val1 = n * sumSqrX - sumX * sumX
+						let tmp_val2 = n * sumSqrY - sumY * sumY
+						in
+							if OR (n < 2, tmp_val1 = 0, tmp_val2 = 0) then 0
+							else
+								(n * sumXY - sumX * sumY) * (n * sumXY - sumX * sumY) / tmp_val1 / tmp_val2
+					end
+				to vectors {xs, ys}
+
+	rewrite ttest( xs#, ys#, tails, type ) =
+		if AND(tails <> 1, tails <> 2) then 0
+		else 
+			let countX = COUNT(xs)
+			let countY = COUNT(ys)
+			let sumX = SUM(xs)
+			let sumY = SUM(ys)
+			let sumSqrX = SUMSQ(xs)
+			let sumSqrY = SUMSQ(ys)
+			in
+				if type = 1 then
+					if OR(countX <> countY, countX < 1) then 0
+					else
+						apply
+							fold with
+								sumSqrD = 0
+							each xi, yi as
+								sumSqrD = sumSqrD + (xi - yi) * (xi - yi)
+							into
+								let denom = countX * sumSqrD - (sumX - sumY) * (sumX - sumY)
+								in
+									if denom <= 0 then 0
+									else
+										let t = SQRT(countX-1) * ABS(sumX - sumY) / SQRT(denom)
+										let f = countX - 1
+										in TDIST(t, f, tails)
+							end
+						to vectors {xs, ys}
+				else if type = 2 then
+				    if OR(countX <= 1, countY <= 1) then 0
+				    else
+						let sX = (sumSqrX - sumX * sumX / countX) / (countX - 1)
+						let sY = (sumSqrY - sumY * sumY / countY) / (countY - 1)
+						in
+							if sX = sY then 0
+							else
+								let tmp_val = (countX - 1) * sX + (countY - 1) * sY
+								in
+									if tmp_val <=0 then 0
+									else
+										let t = ABS(sumX / countX - sumY / countY) / SQRT(tmp_val) *
+											SQRT(countX * countY * (countX + countY - 2) / (countX + countY))
+										let f = countX + countY - 2
+										in TDIST(t, f, tails)
+				else if type = 3 then
+				    if OR(countX <= 1, countY <= 1) then 0
+				    else
+						let sX = (sumSqrX - sumX * sumX / countX) / (countX - 1) / countX
+						let sY = (sumSqrY - sumY * sumY / countY) / (countY - 1) / countY
+						in
+							if (sX + sY) <= 0 then 0
+							else
+								let t = ABS(sumX / countX - sumY / countY) / SQRT(sX + sY)
+								in
+									let f = (sX + sY) * (sX + sY) / (sX * sX / (countX - 1) + sY * sY / (countY - 1))
+									// TDIST distribution without rounding of 'f' parameter
+									in TDIST(t, f, tails, 1)
+				else 0
+
+
+
+	rewrite ztest( xs#, mue, sigma ) =
+		let countXs = COUNT(xs)
+		in
+			if countXs < 1 then 0
+			else if sigma <= 0 then 0
+			else
+				let medXs = AVERAGE(xs)
+				in 1 - NORMSDIST((medXs - mue) / ( sigma / SQRT(countXs)))
+
+	rewrite ztest( xs#, x ) =
+		let sigma = STDEV(xs)
+    	in ZTEST( xs, x, sigma )
 
 	// -------- Statistical functions
 
@@ -398,7 +600,7 @@ rules {
 				sx = 0, 
 				sy = 0,
 				sxy = 0
-			each xi, yi as 
+			each xi, yi as
 				sx = sx + xi, 
 				sy = sy + yi, 
 				sxy = sxy + xi * yi
