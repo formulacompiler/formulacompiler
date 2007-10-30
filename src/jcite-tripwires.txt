@@ -3510,7 +3510,7 @@ rewrite covar( xs#, ys# ) =
 				sx = 0, 
 				sy = 0,
 				sxy = 0
-			each xi, yi as 
+			each xi, yi as
 				sx = sx + xi, 
 				sy = sy + yi, 
 				sxy = sxy + xi * yi
@@ -5160,6 +5160,10 @@ __@@__
 			<td>E</td>
 			<td>F</td>
 			<td>G</td>
+			<td>H</td>
+			<td>I</td>
+			<td>J</td>
+			<td>K</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -5170,6 +5174,10 @@ __@@__
 			<td>Height</td>
 			<td>Yield</td>
 			<td>Profit</td>
+			<td>Date</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -5180,6 +5188,10 @@ __@@__
 			<td class="xl-num xl-r1">18</td>
 			<td class="xl-num xl-r1">14</td>
 			<td class="xl-num xl-r1">105.00</td>
+			<td class="xl-date">8/2/05 14:15</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -5190,6 +5202,10 @@ __@@__
 			<td class="xl-num xl-r1">12</td>
 			<td class="xl-num xl-r1">10</td>
 			<td class="xl-num xl-r1">96.00</td>
+			<td class="xl-date">8/2/05 14:16</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -5200,6 +5216,10 @@ __@@__
 			<td class="xl-num">13</td>
 			<td class="xl-num">9</td>
 			<td class="xl-num">105.00</td>
+			<td class="xl-date">9/3/05</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -5210,6 +5230,10 @@ __@@__
 			<td class="xl-num">14</td>
 			<td class="xl-num">10</td>
 			<td class="xl-num">75.00</td>
+			<td class="xl-date">8:45</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -5220,6 +5244,10 @@ __@@__
 			<td class="xl-num">9</td>
 			<td class="xl-num">8</td>
 			<td class="xl-num">76.80</td>
+			<td class="xl-date">8:44</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -5230,11 +5258,19 @@ __@@__
 			<td class="xl-num">8</td>
 			<td class="xl-num">6</td>
 			<td class="xl-num">45.00</td>
+			<td class="xl-date">8:43</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td class="xl-row">9</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -5252,6 +5288,10 @@ __@@__
 			<td>Tree</td>
 			<td>Height</td>
 			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td class="xl-row">11</td>
@@ -5261,6 +5301,10 @@ __@@__
 			<td>&lt;16</td>
 			<td>Nonexistent</td>
 			<td>&lt;1.4e6</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 		</tr>
 		<tr>
@@ -5272,9 +5316,17 @@ __@@__
 			<td></td>
 			<td></td>
 			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td class="xl-row">13</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -5292,6 +5344,10 @@ __@@__
 			<td>RefTree</td>
 			<td>RefHeight</td>
 			<td>RefHeight</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td class="xl-row">15</td>
@@ -5302,9 +5358,17 @@ __@@__
 			<td class="xl-r4">Apple</td>
 			<td class="xl-num xl-r4">10</td>
 			<td class="xl-num xl-r4">16</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td class="xl-row">16</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -5316,7 +5380,39 @@ __@@__
 		<tr>
 			<td class="xl-row">17</td>
 			<td></td>
-			<td>Free Form</td>
+			<td>Date</td>
+			<td>Date</td>
+			<td>Date</td>
+			<td>RefDate</td>
+			<td>Date</td>
+			<td>Date</td>
+			<td>RefDate</td>
+			<td>Date</td>
+			<td>Date</td>
+			<td>RefDate</td>
+		</tr>
+		<tr>
+			<td class="xl-row">18</td>
+			<td></td>
+			<td class="xl-date">8/2/05 14:16</td>
+			<td>&gt;=2.9.2005</td>
+			<td>&gt;=38597<br/><span class="xl-exp">="&gt;="&amp;E18</span></td>
+			<td class="xl-date">9/2/05<br/><span class="xl-name">(ValDate1)</span></td>
+			<td>&gt;=2.8.05 14:16</td>
+			<td>&gt;=38566.5944444444<br/><span class="xl-exp">="&gt;="&amp;H18</span></td>
+			<td class="xl-date">8/2/05 14:16<br/><span class="xl-name">(ValDate2)</span></td>
+			<td>&gt;=8:45</td>
+			<td>&gt;=0.364583333333333<br/><span class="xl-exp">="&gt;="&amp;K18</span></td>
+			<td class="xl-date">8:45<br/><span class="xl-name">(ValDate3)</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">19</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -5324,9 +5420,27 @@ __@@__
 			<td></td>
 		</tr>
 		<tr>
-			<td class="xl-row">18</td>
+			<td class="xl-row">20</td>
+			<td></td>
+			<td>Free Form</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">21</td>
 			<td></td>
 			<td>false<br/><span class="xl-exp">=AND(B3="Apple",C3&gt;$F$15,C3&lt;$G$15)</span></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>

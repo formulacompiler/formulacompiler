@@ -9,7 +9,7 @@
   <Author>Peter Arrenbrecht</Author>
   <LastAuthor>Peter Arrenbrecht</LastAuthor>
   <Created>2005-11-22T20:05:38Z</Created>
-  <LastSaved>2007-10-18T09:30:31Z</LastSaved>
+  <LastSaved>2007-10-30T08:27:25Z</LastSaved>
   <Company>Opus Software AG</Company>
   <Version>11.9999</Version>
  </DocumentProperties>
@@ -77,7 +77,7 @@
   </Style>
  </Styles>
  <Names>
-  <NamedRange ss:Name="BaseData" ss:RefersTo="=Sheet1!R2C1:R21C7"/>
+  <NamedRange ss:Name="BaseData" ss:RefersTo="=Sheet1!R2C1:R21C11"/>
   <NamedRange ss:Name="Data1" ss:RefersTo="=Sheet1!R3C2:R4C5"/>
   <NamedRange ss:Name="TestHeader" ss:RefersTo="=Sheet1!R24C2:R24C8"/>
   <NamedRange ss:Name="ValDate1" ss:RefersTo="=Sheet1!R18C5"/>
@@ -248,10 +248,14 @@
       ss:Name="BaseData"/></Cell>
     <Cell ss:StyleID="s23"><Data ss:Type="String">Date</Data><NamedCell
       ss:Name="BaseData"/></Cell>
-    <Cell ss:StyleID="s23"><Data ss:Type="String">RefDate</Data></Cell>
-    <Cell ss:StyleID="s23"><Data ss:Type="String">Date</Data></Cell>
-    <Cell ss:StyleID="s23"><Data ss:Type="String">Date</Data></Cell>
-    <Cell ss:StyleID="s23"><Data ss:Type="String">RefDate</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">RefDate</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Date</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Date</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">RefDate</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
    </Row>
    <Row>
     <Cell ss:Index="2" ss:StyleID="s29"><Data ss:Type="DateTime">2005-08-02T14:16:00.000</Data><NamedCell
@@ -266,11 +270,12 @@
     <Cell ss:Formula="=&quot;&gt;=&quot; &amp; RC[1]"><Data ss:Type="String">&gt;=38566.5944444444</Data><NamedCell
       ss:Name="BaseData"/></Cell>
     <Cell ss:StyleID="s29"><Data ss:Type="DateTime">2005-08-02T14:16:00.000</Data><NamedCell
-      ss:Name="ValDate2"/></Cell>
-    <Cell><Data ss:Type="String">&gt;=8:45</Data></Cell>
-    <Cell ss:Formula="=&quot;&gt;=&quot; &amp; RC[1]"><Data ss:Type="String">&gt;=0.364583333333333</Data></Cell>
+      ss:Name="ValDate2"/><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell><Data ss:Type="String">&gt;=8:45</Data><NamedCell ss:Name="BaseData"/></Cell>
+    <Cell ss:Formula="=&quot;&gt;=&quot; &amp; RC[1]"><Data ss:Type="String">&gt;=0.364583333333333</Data><NamedCell
+      ss:Name="BaseData"/></Cell>
     <Cell ss:StyleID="s31"><Data ss:Type="DateTime">1899-12-31T08:45:00.000</Data><NamedCell
-      ss:Name="ValDate3"/></Cell>
+      ss:Name="ValDate3"/><NamedCell ss:Name="BaseData"/></Cell>
    </Row>
    <Row ss:Index="20">
     <Cell ss:Index="2" ss:StyleID="s23"><Data ss:Type="String">Free Form</Data><NamedCell
@@ -599,8 +604,8 @@
    <Panes>
     <Pane>
      <Number>3</Number>
-     <ActiveRow>18</ActiveRow>
-     <ActiveCol>9</ActiveCol>
+     <ActiveRow>1</ActiveRow>
+     <RangeSelection>R2C1:R21C11</RangeSelection>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>
