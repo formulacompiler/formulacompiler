@@ -406,16 +406,16 @@ rules {
 			else if idf2 < 1 then 0
 			else BETADIST( idf2 / (idf2 + idf1 * x), idf2 / 2, idf1 / 2 )
 
-    rewrite fisher( x ) =
-        if ABS( x ) >= 1 then 0
-        else LN((1 + x) / (1 - x)) / 2
+	rewrite fisher( x ) =
+		if ABS( x ) >= 1 then 0
+		else LN((1 + x) / (1 - x)) / 2
 
-    rewrite fisherinv( x ) =
-        (EXP(2 * x) - 1) / (EXP(2 * x) + 1)
+	rewrite fisherinv( x ) =
+		(EXP(2 * x) - 1) / (EXP(2 * x) + 1)
 
-    rewrite standardize( x, mue, sigma ) =
-        if sigma <= 0 then 0
-        else (x - mue) / sigma
+	rewrite standardize( x, mue, sigma ) =
+		if sigma <= 0 then 0
+		else (x - mue) / sigma
 
 	rewrite chitest( xs#, ys#, colsX, rowsX, colsY, rowsY ) =
 		if PRODUCT(ys) = 0 then 0       // to check, does not work for BigDecimal

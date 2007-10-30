@@ -343,8 +343,8 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 		private Segment( final int _start, final int _end )
 		{
-			start = _start;
-			end = _end;
+			this.start = _start;
+			this.end = _end;
 		}
 	}
 
@@ -355,11 +355,13 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			return 0;
 		}
 		if (_N < 100) {
-			// symple methods which works for non large numbers
-			return mulRange( _M - _x, _M ) * mulRange( _n - _x, _n ) / mulRange( _N - _M, _N ) * mulRange( _N - _n - _M + _x, _N - _n ) / mulRange( 1, _x );
+			// simple method which works for small numbers
+			return mulRange( _M - _x, _M )
+					* mulRange( _n - _x, _n ) / mulRange( _N - _M, _N ) * mulRange( _N - _n - _M + _x, _N - _n )
+					/ mulRange( 1, _x );
 		}
 		else {
-			// algorythm for working with large numbers
+			// algorithm for large numbers
 			LinkedList<Segment> numerator = new LinkedList<Segment>();
 			LinkedList<Segment> denominator = new LinkedList<Segment>();
 			numerator.add( new Segment( _M - _x + 1, _M ) );
@@ -438,8 +440,8 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			double upperLimit = 1E+250;
 			double lowerLimit = 1E-250;
 			while (numeratorIndex < numerator.size() || denominatorIndex < denominator.size()) {
-				if ((res >= upperLimit & denominatorIndex >= denominator.size()) ||
-						(res <= lowerLimit & numeratorIndex >= numerator.size())) {
+				if ((res >= upperLimit & denominatorIndex >= denominator.size())
+						|| (res <= lowerLimit & numeratorIndex >= numerator.size())) {
 					res = 0;
 					numeratorIndex = numerator.size();
 					denominatorIndex = denominator.size();
@@ -630,18 +632,21 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 		public double GetValue( double x )
 		{
-			return x0 - fun_BETADIST( x, alpha, beta );
+			return this.x0 - fun_BETADIST( x, this.alpha, this.beta );
 		}
 	}
 
-	private static double iterateInverse( StatisticDistFunc func, double x0, double x1 ) throws IllegalArgumentException, ArithmeticException
+	private static double iterateInverse( StatisticDistFunc func, double _x0, double _x1 )
+			throws IllegalArgumentException, ArithmeticException
 	{
+		double x0 = _x0;
+		double x1 = _x1;
 		if (x0 >= x1) {
 			// IterateInverse: wrong interval
 			throw new IllegalArgumentException();
 		}
 		double fEps = 1E-7;
-		//	find enclosing interval
+		// find enclosing interval
 		double f0 = func.GetValue( x0 );
 		double f1 = func.GetValue( x1 );
 		double xs;
@@ -650,8 +655,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			if (Math.abs( f0 ) <= Math.abs( f1 )) {
 				xs = x0;
 				x0 += 2 * (x0 - x1);
-				if (x0 < 0)
-					x0 = 0;
+				if (x0 < 0) x0 = 0;
 				x1 = xs;
 				f1 = f0;
 				f0 = func.GetValue( x0 );
@@ -664,11 +668,9 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 				f1 = func.GetValue( x1 );
 			}
 		}
-		if (f0 == 0)
-			return x0;
-		if (f1 == 0)
-			return x1;
-		//	simple iteration
+		if (f0 == 0) return x0;
+		if (f1 == 0) return x1;
+		// simple iteration
 		double x00 = x0;
 		double x11 = x1;
 		double fs = func.GetValue( 0.5 * (x0 + x1) );
@@ -686,15 +688,14 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 				}
 			}
 			else {
-				//	add one step of regula falsi to improve precision
+				// add one step of regula falsi to improve precision
 				if (x0 != x1) {
 					double regxs = (f1 - f0) / (x1 - x0);
 					if (regxs != 0) {
 						double regx = x1 - f1 / regxs;
 						if (regx >= x00 && regx <= x11) {
 							double regfs = func.GetValue( regx );
-							if (Math.abs( regfs ) < Math.abs( fs ))
-								xs = regx;
+							if (Math.abs( regfs ) < Math.abs( fs )) xs = regx;
 						}
 					}
 				}
@@ -710,18 +711,21 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			// Error: Illegal Argument!
 			return 0;
 		}
-		if (_x == 0)
+		if (_x == 0) {
 			// correct result: 0
 			return 0;
+		}
 		else {
 			BetaDistFunction func = new BetaDistFunction( _x, _alpha, _beta );
 			try {
 				double res = iterateInverse( func, 0, 1 );
 				return res;
-			} catch (IllegalArgumentException e) {
+			}
+			catch (IllegalArgumentException e) {
 				// Error in func.GetValue() method, wrong parameters
 				return 0;
-			} catch (ArithmeticException e) {
+			}
+			catch (ArithmeticException e) {
 				// Error in func.GetValue() method, calculation not finished successfully
 				return 0;
 			}
@@ -749,7 +753,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 		public double GetValue( double x )
 		{
-			return x0 - fun_CHIDIST( x, degrees );
+			return this.x0 - fun_CHIDIST( x, this.degrees );
 		}
 	}
 
@@ -762,10 +766,12 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		try {
 			double res = iterateInverse( func, _degFreedom / 2, _degFreedom );
 			return res;
-		} catch (IllegalArgumentException e) {
+		}
+		catch (IllegalArgumentException e) {
 			// Error in func.GetValue() method, wrong parameters
 			return 0;
-		} catch (ArithmeticException e) {
+		}
+		catch (ArithmeticException e) {
 			// Error in func.GetValue() method, calculation not finished successfully
 			return 0;
 		}
@@ -792,14 +798,14 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 		public double GetValue( double x )
 		{
-			return p - getFDist( x, f1, f2 );
+			return this.p - getFDist( x, this.f1, this.f2 );
 		}
 	}
 
 	public static double fun_FINV( double _p, double _f1, double _f2 )
 	{
 		if (_p < 0 || _f1 < 1 || _f2 < 1 || _f1 >= 1.0E10 || _f2 >= 1.0E10 || _p > 1) {
-			//Error: Illegal Argument
+			// Error: Illegal Argument
 			return 0;
 		}
 		if (_p == 0) {
@@ -807,15 +813,16 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		}
 		double f1 = Math.floor( _f1 );
 		double f2 = Math.floor( _f2 );
-		Boolean convError = false;
 		FDistFunction func = new FDistFunction( _p, f1, f2 );
 		try {
 			double res = iterateInverse( func, f1 / 2, f1 );
 			return res;
-		} catch (IllegalArgumentException e) {
+		}
+		catch (IllegalArgumentException e) {
 			// Error in func.GetValue() method, wrong parameters
 			return 0;
-		} catch (ArithmeticException e) {
+		}
+		catch (ArithmeticException e) {
 			// Error in func.GetValue() method, calculation not finished successfully
 			return 0;
 		}
@@ -834,7 +841,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 		public double GetValue( double x )
 		{
-			return p - gammaCumulative( x, alpha, beta );
+			return this.p - gammaCumulative( x, this.alpha, this.beta );
 		}
 	}
 
@@ -844,19 +851,22 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			// Error: Illegal Argument!
 			return 0;
 		}
-		if (_p == 0)
+		if (_p == 0) {
 			// correct result: 0
 			return 0;
+		}
 		else {
 			GammaDistFunction func = new GammaDistFunction( _p, _alpha, _beta );
 			double start = _alpha * _beta;
 			try {
 				double res = iterateInverse( func, start / 2, start );
 				return res;
-			} catch (IllegalArgumentException e) {
+			}
+			catch (IllegalArgumentException e) {
 				// Error in func.GetValue() method, wrong parameters
 				return 0;
-			} catch (ArithmeticException e) {
+			}
+			catch (ArithmeticException e) {
 				// Error in func.GetValue() method, calculation not finished successfully
 				return 0;
 			}
@@ -866,32 +876,32 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_GAMMALN( double _x )
 	{
-		if (_x <= 0) {
+		double x = _x;
+		if (x <= 0) {
 			// ERROR
 			return 0;
 		}
 		else {
 			boolean bReflect;
 			double c[] = { 76.18009173, -86.50532033, 24.01409822, -1.231739516, 0.120858003E-2, -0.536382E-5 };
-			if (_x >= 1) {
+			if (x >= 1) {
 				bReflect = false;
-				_x -= 1;
+				x -= 1;
 			}
 			else {
 				bReflect = true;
-				_x = 1 - _x;
+				x = 1 - x;
 			}
 			double g, anum;
 			g = 1.0;
-			anum = _x;
+			anum = x;
 			for (int i = 0; i < 6; i++) {
 				anum += 1.0;
 				g += c[ i ] / anum;
 			}
-			g *= 2.506628275;					// sqrt(2*PI)
-			g = (_x + 0.5) * Math.log( _x + 5.5 ) + Math.log( g ) - (_x + 5.5);
-			if (bReflect)
-				g = Math.log( Math.PI * _x ) - g - Math.log( Math.sin( Math.PI * _x ) );
+			g *= 2.506628275; // sqrt(2*PI)
+			g = (x + 0.5) * Math.log( x + 5.5 ) + Math.log( g ) - (x + 5.5);
+			if (bReflect) g = Math.log( Math.PI * x ) - g - Math.log( Math.sin( Math.PI * x ) );
 			return g;
 		}
 	}
@@ -975,7 +985,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 		public double GetValue( double x )
 		{
-			return p - getTDist( x, degFreedom ) * 2;
+			return this.p - getTDist( x, this.degFreedom ) * 2;
 		}
 	}
 
@@ -990,10 +1000,12 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		try {
 			double res = iterateInverse( func, _degFreedom / 2, _degFreedom );
 			return res;
-		} catch (IllegalArgumentException e) {
+		}
+		catch (IllegalArgumentException e) {
 			// Error in func.GetValue() method, wrong parameters
 			return 0;
-		} catch (ArithmeticException e) {
+		}
+		catch (ArithmeticException e) {
 			// Error in func.GetValue() method, calculation not finished successfully
 			return 0;
 		}
@@ -1009,7 +1021,8 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			return 1.0 - Math.exp( -Math.pow( _x / _beta, _alpha ) );
 		}
 		else {
-			return _alpha / Math.pow( _beta, _alpha ) * Math.pow( _x, _alpha - 1 ) * Math.exp( -Math.pow( _x / _beta, _alpha ) );
+			return _alpha
+					/ Math.pow( _beta, _alpha ) * Math.pow( _x, _alpha - 1 ) * Math.exp( -Math.pow( _x / _beta, _alpha ) );
 
 		}
 	}
