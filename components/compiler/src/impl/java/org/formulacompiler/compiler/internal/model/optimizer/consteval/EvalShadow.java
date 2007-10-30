@@ -161,13 +161,11 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 					}
 				}
 				return constResult;
-
 			}
 			catch (InterpreterException.IsRuntimeEnvironmentDependent e) {
 				return evaluateToNode( _args );
 			}
 			catch (ArithmeticException e) {
-
 				return evaluateToNode( _args );
 			}
 		}
