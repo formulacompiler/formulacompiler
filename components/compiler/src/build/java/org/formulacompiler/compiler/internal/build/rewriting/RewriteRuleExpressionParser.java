@@ -24,6 +24,7 @@ import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilde
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Stack;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.Function;
@@ -211,136 +212,152 @@ final class RewriteRuleExpressionParser extends ExpressionParser
 		}
 	}
 
-	private Collection<Accu> foldAccus;
-	private Map<String, Accu> foldAccuMap;
-	private Collection<String> foldEltNames;
-	private String foldIdxName;
-	private String foldCountName;
-	private ExpressionNode foldInto;
-	private ExpressionNode foldWhenEmpty;
+	private static final class FoldContext
+	{
+		Collection<Accu> foldAccus = New.collection();
+		Map<String, Accu> foldAccuMap = New.map();
+		Collection<String> foldEltNames = New.collection();
+		String foldIdxName;
+		String foldCountName;
+		ExpressionNode foldInto;
+		ExpressionNode foldWhenEmpty;
+	}
+
+	private final Stack<FoldContext> outerFoldContexts = New.stack();
+	private FoldContext foldContext = null;
 
 	@Override
 	protected void initFold()
 	{
-		this.foldAccus = New.collection();
-		this.foldAccuMap = New.map();
-		this.foldEltNames = New.collection();
-		this.foldIdxName = null;
-		this.foldCountName = null;
-		this.foldInto = null;
-		this.foldWhenEmpty = null;
+		this.outerFoldContexts.push( this.foldContext );
+		this.foldContext = new FoldContext();
 	}
 
 	@Override
 	protected void addFoldAccuInit( Token _name, ExpressionNode _init )
 	{
+		final FoldContext cx = this.foldContext;
 		final Accu accu = new Accu( _name.image, _init );
-		this.foldAccus.add( accu );
-		this.foldAccuMap.put( accu.name, accu );
+		cx.foldAccus.add( accu );
+		cx.foldAccuMap.put( accu.name, accu );
 	}
 
 	@Override
 	protected void addFoldEltName( Token _name )
 	{
-		this.foldEltNames.add( _name.image );
+		final FoldContext cx = this.foldContext;
+		cx.foldEltNames.add( _name.image );
 	}
 
 	@Override
 	protected void setFoldIdxName( Token _name )
 	{
-		this.foldIdxName = _name.image;
+		final FoldContext cx = this.foldContext;
+		cx.foldIdxName = _name.image;
 	}
 
 	@Override
 	protected void letFoldAccus()
 	{
-		for (Accu a : this.foldAccus)
+		final FoldContext cx = this.foldContext;
+		for (Accu a : cx.foldAccus)
 			this.letDict.let( a.name, null, null );
 	}
 
 	@Override
 	protected void unletFoldAccus()
 	{
-		this.letDict.unlet( this.foldAccus.size() );
+		final FoldContext cx = this.foldContext;
+		this.letDict.unlet( cx.foldAccus.size() );
 	}
 
 	@Override
 	protected void letFoldElts()
 	{
-		for (String n : this.foldEltNames)
+		final FoldContext cx = this.foldContext;
+		for (String n : cx.foldEltNames)
 			this.letDict.let( n, null, null );
-		if (null != this.foldIdxName) this.letDict.let( this.foldIdxName, null, null );
+		if (null != cx.foldIdxName) this.letDict.let( cx.foldIdxName, null, null );
 	}
 
 	@Override
 	protected void unletFoldElts()
 	{
-		if (null != this.foldIdxName) this.letDict.unlet( this.foldIdxName );
-		this.letDict.unlet( this.foldEltNames.size() );
+		final FoldContext cx = this.foldContext;
+		if (null != cx.foldIdxName) this.letDict.unlet( cx.foldIdxName );
+		this.letDict.unlet( cx.foldEltNames.size() );
 	}
 
 	@Override
 	protected void letFoldCount()
 	{
-		if (null != this.foldCountName) this.letDict.let( this.foldCountName, null, null );
+		final FoldContext cx = this.foldContext;
+		if (null != cx.foldCountName) this.letDict.let( cx.foldCountName, null, null );
 	}
 
 	@Override
 	protected void unletFoldCount()
 	{
-		if (null != this.foldCountName) this.letDict.unlet( this.foldCountName );
+		final FoldContext cx = this.foldContext;
+		if (null != cx.foldCountName) this.letDict.unlet( cx.foldCountName );
 	}
 
 	@Override
 	protected void addFoldStep( Token _name, ExpressionNode _step )
 	{
-		this.foldAccuMap.get( _name.image ).step = _step;
+		final FoldContext cx = this.foldContext;
+		cx.foldAccuMap.get( _name.image ).step = _step;
 	}
 
 	@Override
 	protected void setFoldCountName( Token _name )
 	{
-		this.foldCountName = _name.image;
+		final FoldContext cx = this.foldContext;
+		cx.foldCountName = _name.image;
 	}
 
 	@Override
 	protected void setFoldInto( ExpressionNode _node )
 	{
-		this.foldInto = _node;
+		final FoldContext cx = this.foldContext;
+		cx.foldInto = _node;
 	}
 
 	@Override
 	protected void setFoldWhenEmpty( ExpressionNode _node )
 	{
-		this.foldWhenEmpty = _node;
+		final FoldContext cx = this.foldContext;
+		cx.foldWhenEmpty = _node;
 	}
 
 	@Override
 	protected void pushFold( boolean _mayRearrange, boolean _mayReduce )
 	{
-		final int nAccu = this.foldAccus.size();
+		final FoldContext cx = this.foldContext;
+		final int nAccu = cx.foldAccus.size();
 		final String[] accuNames = new String[ nAccu ];
 		final ExpressionNode[] accuInits = new ExpressionNode[ nAccu ];
 		final ExpressionNode[] accuSteps = new ExpressionNode[ nAccu ];
 		int iAccu = 0;
-		for (Accu a : this.foldAccus) {
+		for (Accu a : cx.foldAccus) {
 			accuNames[ iAccu ] = a.name;
 			accuInits[ iAccu ] = a.init;
 			accuSteps[ iAccu ] = a.step;
 			iAccu++;
 		}
 
-		final int nElt = this.foldEltNames.size();
+		final int nElt = cx.foldEltNames.size();
 		final String[] eltNames = new String[ nElt ];
 		int iElt = 0;
-		for (String n : this.foldEltNames) {
+		for (String n : cx.foldEltNames) {
 			eltNames[ iElt++ ] = n;
 		}
 
-		pushNode( new ExpressionNodeForFoldDefinition( accuNames, accuInits, this.foldIdxName, eltNames, accuSteps,
-				this.foldCountName, this.foldInto, this.foldWhenEmpty, _mayRearrange, _mayReduce ) );
-	}
+		pushNode( new ExpressionNodeForFoldDefinition( accuNames, accuInits, cx.foldIdxName, eltNames, accuSteps,
+				cx.foldCountName, cx.foldInto, cx.foldWhenEmpty, _mayRearrange, _mayReduce ) );
 
+		this.foldContext = this.outerFoldContexts.empty()? null : this.outerFoldContexts.pop();
+	}
 
 	@Override
 	protected void pushApplyList( Token _def, Token _elts )
