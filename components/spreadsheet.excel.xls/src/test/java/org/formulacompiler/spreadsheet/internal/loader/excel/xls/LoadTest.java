@@ -20,21 +20,25 @@
  */
 package org.formulacompiler.spreadsheet.internal.loader.excel.xls;
 
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import java.io.File;
+
 import org.formulacompiler.spreadsheet.Spreadsheet;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet.Row;
 import org.formulacompiler.spreadsheet.Spreadsheet.Sheet;
+import org.formulacompiler.tests.utils.AbstractIOTestBase;
 
-import junit.framework.TestCase;
-
-public class LoadTest extends TestCase
+public class LoadTest extends AbstractIOTestBase
 {
 
 	public void testNavigation() throws Exception
 	{
-		String path = "src/test/data/LoadTest.xls";
+		final File path = new File( "src/test/data" );
+		final String base = "LoadTest";
+		final String ext = ".xls";
+		final String name = base + ext;
 
-		Spreadsheet spreadsheet = SpreadsheetCompiler.loadSpreadsheet( path );
+		Spreadsheet spreadsheet = SpreadsheetCompiler.loadSpreadsheet( new File( path, name ) );
 		Sheet[] sheets = spreadsheet.getSheets();
 		assertEquals( 1, sheets.length );
 
@@ -54,6 +58,8 @@ public class LoadTest extends TestCase
 		assertEquals( 10.0, ((Double) rows[ 3 ].getCells()[ 1 ].getConstantValue()).doubleValue(), 0.001 );
 		assertEquals( "B", (String) rows[ 4 ].getCells()[ 0 ].getConstantValue() );
 		assertEquals( 100.0, ((Double) rows[ 4 ].getCells()[ 1 ].getConstantValue()).doubleValue(), 0.001 );
+
+		assertYaml( path, base, spreadsheet, name );
 	}
 
 }

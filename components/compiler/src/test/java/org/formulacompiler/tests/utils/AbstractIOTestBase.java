@@ -34,26 +34,30 @@ import java.io.OutputStream;
 
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.compiler.internal.Settings;
+import org.formulacompiler.describable.Describable;
 
 import junit.framework.AssertionFailedError;
 
 public abstract class AbstractIOTestBase extends AbstractTestBase
 {
+	private static final File JAR_PATH = new File( "src/test/data/enginejars/jre-" + Util.jdkVersionSuffix() );
 
-
-	private static final File JAR_PATH = new File( "src/test/data/enginejars/jre-" + jdkVersion() );
-
-	private static final String jdkVersion()
+	protected AbstractIOTestBase()
 	{
-		final String ver = System.getProperty( "java.version" );
-		return ver.substring( 0, 3 );
+		super();
 	}
 
-	private int nextCheckId = 1;
+	protected AbstractIOTestBase( String _name )
+	{
+		super( _name );
+	}
+
+
+	private int nextEngineCheckId = 1;
 
 	protected void checkEngine( SaveableEngine _engine ) throws Exception
 	{
-		checkEngine( _engine, "default_" + Integer.toString( this.nextCheckId++ ) );
+		checkEngine( _engine, "default_" + Integer.toString( this.nextEngineCheckId++ ) );
 	}
 
 	protected void checkEngine( SaveableEngine _engine, String _id ) throws Exception
@@ -91,6 +95,25 @@ public abstract class AbstractIOTestBase extends AbstractTestBase
 		}
 		else {
 			writeStreamToFile( actual, expectedFile );
+		}
+	}
+
+
+	protected void assertYaml( File _path, String _expectedFileBaseName, Describable _actual, String _actualFileName )
+			throws Exception
+	{
+		final String have = _actual.describe();
+		final File expectedFile = new File( _path, _expectedFileBaseName + ".yaml" );
+		if (expectedFile.exists()) {
+			final String want = Util.readStringFrom( expectedFile );
+			if (!want.equals( have )) {
+				final File actualFile = new File( _path, _actualFileName + "-actual.yaml" );
+				Util.writeStringTo( have, actualFile );
+				assertEquals( "YAML bad for " + _actualFileName + "; actual YAML written to ...-actual.yaml", want, have );
+			}
+		}
+		else {
+			Util.writeStringTo( have, expectedFile );
 		}
 	}
 

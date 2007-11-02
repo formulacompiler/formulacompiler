@@ -3,27 +3,27 @@
 	<description>Builds, tests, and packages the AFC Excel .xls handler. See ~/doc/hacking/build.htm for details.</description>
 
 	<!--	Conventions used in this build script:
-	
+
 		All top-level targets are simple redirects to corresponding internal targets.
 		This gives a quick overview and ensures a clean separation between API and implementation.
-	
+
 		All targets that do something start with @.
 		They have no dependencies except for @init and are thus very reusable.
 		They are accessible to users for those who know what they are doing. :)
-		
+
 		Dependencies are managed by internal targets starting with -.
 		They use the @ targets to do the actual work.
-		
+
 		External configuration is initialized by build.default.properties.
-		Values in build.properties (if it exists) take precedence. 
+		Values in build.properties (if it exists) take precedence.
 	-->
-	
-	
+
+
 	<!-- global properties -->
 
 	<property file="../../build.properties" />
 	<property file="../../build.default.properties" />
-	
+
 	<property name="Name" value="${BaseName} Excel .xls Handler" />
 	<property name="name" value="${basename}-spreadsheet-excel-xls" />
 
@@ -32,7 +32,7 @@
 		<pathelement location="../compiler/temp/intf/classes" />
 		<pathelement location="../spreadsheet/temp/intf/classes" />
 	</path>
-	
+
 	<path id="impl.deps.classpath">
 		<pathelement location="../runtime/build/${basename}-runtime.jar" />
 		<pathelement location="../compiler/build/${basename}-compiler.jar" />
@@ -42,10 +42,11 @@
 	<path id="test.deps.classpath">
 		<pathelement location="../spreadsheet/temp/test/classes" />
 		<pathelement location="../compiler/temp/test/classes" />
+		<pathelement location="../compiler/temp/build/classes" />
 		<fileset dir="../compiler/lib/impl" includes="*.jar" />
 	</path>
 
 	<import file="../build-common.xml" />
 
-	
+
 </project>

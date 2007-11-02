@@ -20,16 +20,19 @@
  */
 package org.formulacompiler.tests.usecases;
 
+import java.io.File;
+
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 
 import junit.framework.TestCase;
 
 abstract class AbstractUseCaseTest extends TestCase
 {
+	private static final File SHEET_PATH = new File( "src/test/data/org/formulacompiler/tests/usecases" ); 
 
 
 	protected interface UseCase
@@ -43,15 +46,15 @@ abstract class AbstractUseCaseTest extends TestCase
 			throws Exception
 	{
 		runUseCase( _sheetFileName, _useCase, ".xls", _inputs, _outputs );
-		// runUseCase( _sheetFileName, _useCase, ".xml" );
 	}
 
 
-	private final void runUseCase( String _sheetFileName, UseCase _useCase, String _extension, Class _inputs,
+	private final void runUseCase( String _sheetFileBaseName, UseCase _useCase, String _extension, Class _inputs,
 			Class _outputs ) throws Exception
 	{
+		final String sheetFileName = _sheetFileBaseName + _extension;
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tests/usecases/" + _sheetFileName + _extension );
+		builder.loadSpreadsheet( new File( SHEET_PATH, sheetFileName ));
 		builder.setInputClass( _inputs );
 		builder.setOutputClass( _outputs );
 		runUseCase( _useCase, builder );

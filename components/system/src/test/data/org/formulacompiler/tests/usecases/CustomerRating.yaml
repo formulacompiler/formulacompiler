@@ -1,0 +1,48 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: Last 5 sales
+    - const: 450.0
+      name: LASTSALE
+  - cells:
+    - null
+    - const: 1320.0
+  - cells:
+    - null
+    - const: 1540.0
+  - cells:
+    - null
+    - const: 60.0
+  - cells:
+    - null
+    - const: 5870.0
+  - cells:
+    - const: Total
+    - expr: =SUM( LASTSALE:R[-1]C )
+  - cells:
+    - const: Category
+    - expr: =MATCH( R[-1]C, RC[1]:RC[5], 1.0 )
+    - const: 0.0
+    - const: 2000.0
+    - const: 5000.0
+    - const: 7500.0
+    - const: 10000.0
+  - cells:
+    - const: Rating
+    - expr: =INDEX( RC[1]:RC[5], , R[-1]C )
+      name: RATING
+    - const: 5.0
+    - const: 4.0
+    - const: 3.0
+    - const: 2.0
+    - const: 1.0
+
+names:
+- name: LASTSALES
+  ref: LASTSALE:R5C2
