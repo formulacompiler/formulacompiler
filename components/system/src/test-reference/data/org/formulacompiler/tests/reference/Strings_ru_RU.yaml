@@ -1,0 +1,3579 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: Expected
+    - const: Actual
+    - const: Inputs
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: # of Inputs
+    - const: Name
+    - const: Highlight
+    - const: Excel says
+    - const: Skip for
+  - cells:
+    - const: Text
+    - expr: =RC[1]
+    - const: Text
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: Reference to other string
+  - cells:
+    - const: 0.0
+    - expr: =RC[1]
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: Numbers as returned by String valued outputs
+  - cells:
+    - const: 12345.6789
+    - expr: =RC[1]
+    - const: 12345.6789
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 1200000.0
+    - expr: =RC[1]
+    - const: 1200000.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 1.23456789E8
+    - expr: =RC[1]
+    - const: 1.23456789E8
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.1
+    - expr: =RC[1]
+    - const: 0.1
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 1.0
+    - expr: =RC[1]
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: Booleans are treated as 0/1!
+    - null
+    - const: TRUE
+  - cells:
+    - const: 0
+    - expr: =RC[1]
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: FALSE
+  - cells:
+    - const: 1.0
+    - expr: =(RC[1] = RC[2])
+    - const: 1.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: TRUE
+  - cells:
+    - const: 0
+    - expr: =(RC[1] = RC[2])
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: FALSE
+  - cells:
+    - const: 38032.0
+    - expr: =RC[1]
+    - const: 38032.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: Date format is not respected!
+    - null
+    - const: 15.02.2004
+  - cells:
+  - cells:
+    - const: Hello world!
+    - expr: =(RC[1] & " " & RC[2])
+    - const: Hello
+    - const: world!
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: Concatenation operator (&)
+    - const: &
+  - cells:
+    - const: StartMiddleEnd
+    - expr: =(RC[1] & RC[2] & RC[3])
+    - const: Start
+    - const: Middle
+    - const: End
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: StartEnd
+    - expr: =(RC[1] & RC[2] & RC[3])
+    - const: Start
+    - const: 
+    - const: End
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: MiddleEnd
+    - expr: =(RC[1] & RC[2] & RC[3])
+    - const: 
+    - const: Middle
+    - const: End
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: StartMiddle
+    - expr: =(RC[1] & RC[2] & RC[3])
+    - const: Start
+    - const: Middle
+    - const: 
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+  - cells:
+    - const: Zero is 0
+    - expr: =(RC[1] & " is " & RC[2])
+    - const: Zero
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: Value conversion with concatenation
+  - cells:
+    - const: Fraction is 12345,6789
+    - expr: =(RC[1] & " is " & RC[2])
+    - const: Fraction
+    - const: 12345.6789
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: Exponent is 1200000
+    - expr: =(RC[1] & " is " & RC[2])
+    - const: Exponent
+    - const: 1200000.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: Integer is 123456789
+    - expr: =(RC[1] & " is " & RC[2])
+    - const: Integer
+    - const: 1.23456789E8
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: Percent is 0,1
+    - expr: =(RC[1] & " is " & RC[2])
+    - const: Percent
+    - const: 0.1
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: Bool is 1
+    - expr: =("Bool is " & RC[1])
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: Bool is TRUE
+  - cells:
+    - const: Bool is 0
+    - expr: =("Bool is " & RC[1])
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: Bool is FALSE
+  - cells:
+    - const: Bool is 1
+    - expr: =("Bool is " & (RC[1] = RC[2]))
+    - const: 1.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: Bool is TRUE
+  - cells:
+    - const: Bool is 0
+    - expr: =("Bool is " & (RC[1] = RC[2]))
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: Bool is FALSE
+  - cells:
+    - const: Date is 38032
+    - expr: =("Date is " & RC[1])
+    - const: 38032.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: Excel converts date as number too!
+  - cells:
+  - cells:
+    - const: 5.0
+    - expr: =LEN( RC[1] )
+    - const: Hello
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: LEN
+    - const: LEN
+  - cells:
+    - const: 5.0
+    - expr: =LEN( RC[1] )
+    - const: world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: ...
+  - cells:
+    - const: 0.0
+    - expr: =LEN( RC[1] )
+    - const: 
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 5.0
+    - expr: =LEN( RC[1] )
+    - const: 12.34
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 4.0
+    - expr: =LEN( (RC[1] & RC[2]) )
+    - const: ab
+    - const: cd
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+  - cells:
+    - const: abc
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: abcdef
+    - const: 1.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: MID
+    - const: MID
+  - cells:
+    - const: a
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: abcdef
+    - const: 1.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: abcde
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: abcdef
+    - const: 1.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: abcdef
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: abcdef
+    - const: 1.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: abcdef
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: abcdef
+    - const: 1.0
+    - const: 7.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: abcdef
+    - const: 1.0
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: b
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: abcdef
+    - const: 2.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: bcde
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: abcdef
+    - const: 2.0
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: bcdef
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: abcdef
+    - const: 2.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: bcdef
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: abcdef
+    - const: 2.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: abcdef
+    - const: 2.0
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: f
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: abcdef
+    - const: 6.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: f
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: abcdef
+    - const: 6.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: abcdef
+    - const: 6.0
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: abcdef
+    - const: 7.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: abcdef
+    - const: 7.0
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: 
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 2,3
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: 12.34
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: abcdef
+    - const: 0.0
+    - const: 7.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+    - const: 
+    - expr: =MID( RC[1], RC[2], RC[3] )
+    - const: abcdef
+    - const: 1.0
+    - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+  - cells:
+    - const: a
+    - expr: =LEFT( RC[1] )
+    - const: abcdef
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: LEFT
+    - const: LEFT
+  - cells:
+    - const: 
+    - expr: =LEFT( RC[1], RC[2] )
+    - const: abcdef
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: a
+    - expr: =LEFT( RC[1], RC[2] )
+    - const: abcdef
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: ab
+    - expr: =LEFT( RC[1], RC[2] )
+    - const: abcdef
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: abcde
+    - expr: =LEFT( RC[1], RC[2] )
+    - const: abcdef
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: abcdef
+    - expr: =LEFT( RC[1], RC[2] )
+    - const: abcdef
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: abcdef
+    - expr: =LEFT( RC[1], RC[2] )
+    - const: abcdef
+    - const: 7.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 
+    - expr: =LEFT( RC[1], RC[2] )
+    - const: 
+    - const: 7.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 
+    - expr: =LEFT( RC[1], RC[2] )
+    - const: abcdef
+    - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+  - cells:
+    - const: f
+    - expr: =RIGHT( RC[1] )
+    - const: abcdef
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: RIGHT
+    - const: RIGHT
+  - cells:
+    - const: 
+    - expr: =RIGHT( RC[1], RC[2] )
+    - const: abcdef
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: f
+    - expr: =RIGHT( RC[1], RC[2] )
+    - const: abcdef
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: ef
+    - expr: =RIGHT( RC[1], RC[2] )
+    - const: abcdef
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: bcdef
+    - expr: =RIGHT( RC[1], RC[2] )
+    - const: abcdef
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: abcdef
+    - expr: =RIGHT( RC[1], RC[2] )
+    - const: abcdef
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: abcdef
+    - expr: =RIGHT( RC[1], RC[2] )
+    - const: abcdef
+    - const: 7.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 
+    - expr: =RIGHT( RC[1], RC[2] )
+    - const: 
+    - const: 7.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 
+    - expr: =RIGHT( RC[1], RC[2] )
+    - const: abcdef
+    - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+  - cells:
+    - const: Hello World
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3] )
+    - const: Hello world
+    - const: w
+    - const: W
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: SUBSTITUTE
+    - const: SUBSTITUTE
+  - cells:
+    - const: Hello orld
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3] )
+    - const: Hello world
+    - const: w
+    - const: 
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: Hello world
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3] )
+    - const: Hello world
+    - const: 
+    - const: Z
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: Hella warld
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3] )
+    - const: Hello world
+    - const: o
+    - const: a
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: Heppo world
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3] )
+    - const: Hello world
+    - const: ll
+    - const: pp
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: Hello worlD!
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3] )
+    - const: Hello world
+    - const: d
+    - const: D!
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: Hell wrld
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3] )
+    - const: Hello world
+    - const: o
+    - const: 
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: Schmello world
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3] )
+    - const: Hello world
+    - const: H
+    - const: Schm
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: Hello world
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3] )
+    - const: Hello world
+    - const: l
+    - const: l
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: Heo word
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3] )
+    - const: Hello world
+    - const: l
+    - const: 
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: Hello world
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3] )
+    - const: Hello world
+    - const: q
+    - const: 
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: Hello world
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3] )
+    - const: Hello world
+    - const: q
+    - const: z
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: Yes!
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3] )
+    - const: Hello world
+    - const: Hello world
+    - const: Yes!
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: bAäÄàÀáÁ
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3] )
+    - const: aAäÄàÀáÁ
+    - const: a
+    - const: b
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: Yes!
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3] )
+    - const: Hello world
+    - const: Hello world
+    - const: Yes!
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 12,54
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3] )
+    - const: 12.34
+    - const: 3.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3] )
+    - const: 
+    - const: 3.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: Hello world
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3], RC[4] )
+    - const: Hello world
+    - const: l
+    - const: _
+    - const: 0.0
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+    - const: He_lo world
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3], RC[4] )
+    - const: Hello world
+    - const: l
+    - const: _
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: Hel_o world
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3], RC[4] )
+    - const: Hello world
+    - const: l
+    - const: _
+    - const: 2.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: Hello wor_d
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3], RC[4] )
+    - const: Hello world
+    - const: l
+    - const: _
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: Hello world
+    - expr: =SUBSTITUTE( RC[1], RC[2], RC[3], RC[4] )
+    - const: Hello world
+    - const: l
+    - const: _
+    - const: 4.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+  - cells:
+    - const: Ah! Hello world
+    - expr: =REPLACE( RC[1], RC[2], RC[3], RC[4] )
+    - const: Hello world
+    - const: 1.0
+    - const: 0.0
+    - const: Ah! 
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: REPLACE
+    - const: REPLACE
+  - cells:
+    - const: Schmello world
+    - expr: =REPLACE( RC[1], RC[2], RC[3], RC[4] )
+    - const: Hello world
+    - const: 1.0
+    - const: 1.0
+    - const: Schm
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: Hello people
+    - expr: =REPLACE( RC[1], RC[2], RC[3], RC[4] )
+    - const: Hello world
+    - const: 7.0
+    - const: 5.0
+    - const: people
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: Hello people
+    - expr: =REPLACE( RC[1], RC[2], RC[3], RC[4] )
+    - const: Hello world
+    - const: 7.0
+    - const: 10.0
+    - const: people
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: Hello dear world
+    - expr: =REPLACE( RC[1], RC[2], RC[3], RC[4] )
+    - const: Hello world
+    - const: 7.0
+    - const: 0.0
+    - const: dear 
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: Hello orld
+    - expr: =REPLACE( RC[1], RC[2], RC[3], RC[4] )
+    - const: Hello world
+    - const: 7.0
+    - const: 1.0
+    - const: 
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: Hello Vorld
+    - expr: =REPLACE( RC[1], RC[2], RC[3], RC[4] )
+    - const: Hello world
+    - const: 7.0
+    - const: 1.0
+    - const: V
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: Hello worldxx
+    - expr: =REPLACE( RC[1], RC[2], RC[3], RC[4] )
+    - const: Hello world
+    - const: 50.0
+    - const: 1.0
+    - const: xx
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: Hello worldxx
+    - expr: =REPLACE( RC[1], RC[2], RC[3], RC[4] )
+    - const: Hello world
+    - const: 50.0
+    - const: 0.0
+    - const: xx
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: new
+    - expr: =REPLACE( RC[1], RC[2], RC[3], RC[4] )
+    - const: 
+    - const: 1.0
+    - const: 4.0
+    - const: new
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 
+    - expr: =REPLACE( RC[1], RC[2], RC[3], RC[4] )
+    - const: Hello world
+    - const: 0.0
+    - const: 2.0
+    - const: bla
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+    - const: 
+    - expr: =REPLACE( RC[1], RC[2], RC[3], RC[4] )
+    - const: Hello world
+    - const: 1.0
+    - const: -1.0
+    - const: bla
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+  - cells:
+    - const: true
+    - expr: =EXACT( RC[1], RC[2] )
+    - const: 
+    - const: 
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: EXACT
+    - const: EXACT
+  - cells:
+    - const: false
+    - expr: =EXACT( RC[1], RC[2] )
+    - const: Hello
+    - const: hello
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =EXACT( RC[1], RC[2] )
+    - const: Hello
+    - const: Hello
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =EXACT( RC[1], RC[2] )
+    - const: Hello
+    - const: HellO
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =EXACT( RC[1], RC[2] )
+    - const: 
+    - const: a
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =EXACT( RC[1], RC[2] )
+    - const: a
+    - const: 
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =EXACT( RC[1], RC[2] )
+    - const: 
+    - const:  
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =EXACT( RC[1], RC[2] )
+    - const:  
+    - const: 
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =EXACT( RC[1], RC[2] )
+    - const: a
+    - const: ä
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =EXACT( RC[1], RC[2] )
+    - const: a
+    - const: A
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =EXACT( RC[1], RC[2] )
+    - const: 123
+    - const: 123.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =EXACT( RC[1], RC[2] )
+    - const: 12.34
+    - const: 12,34
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+  - cells:
+    - const: 2.0
+    - expr: =FIND( RC[1], RC[2] )
+    - const: e
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: FIND
+    - const: FIND
+  - cells:
+    - const: 1.0
+    - expr: =FIND( RC[1], RC[2] )
+    - const: H
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.0
+    - expr: =FIND( RC[1], RC[2] )
+    - const: X
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+    - const: 11.0
+    - expr: =FIND( RC[1], RC[2] )
+    - const: d
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 9.0
+    - expr: =FIND( RC[1], RC[2] )
+    - const: r
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 8.0
+    - expr: =FIND( RC[1], RC[2] )
+    - const: or
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 10.0
+    - expr: =FIND( RC[1], RC[2] )
+    - const: ld
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 1.0
+    - expr: =FIND( RC[1], RC[2] )
+    - const: Hello world
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 1.0
+    - expr: =FIND( RC[1], RC[2] )
+    - const: 
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 1.0
+    - expr: =FIND( RC[1], RC[2] )
+    - const: 
+    - const: 
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.0
+    - expr: =FIND( RC[1], RC[2] )
+    - const: x
+    - const: 
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+    - const: 5.0
+    - expr: =FIND( RC[1], RC[2] )
+    - const: a
+    - const: àÀáÁaAäÄ
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 6.0
+    - expr: =FIND( RC[1], RC[2] )
+    - const: A
+    - const: àÀáÁaAäÄ
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 7.0
+    - expr: =FIND( RC[1], RC[2] )
+    - const: ä
+    - const: àÀáÁaAäÄ
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 8.0
+    - expr: =FIND( RC[1], RC[2] )
+    - const: Ä
+    - const: àÀáÁaAäÄ
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 3.0
+    - expr: =FIND( RC[1], RC[2], RC[3] )
+    - const: l
+    - const: Hello world
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 3.0
+    - expr: =FIND( RC[1], RC[2], RC[3] )
+    - const: l
+    - const: Hello world
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 4.0
+    - expr: =FIND( RC[1], RC[2], RC[3] )
+    - const: l
+    - const: Hello world
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 10.0
+    - expr: =FIND( RC[1], RC[2], RC[3] )
+    - const: l
+    - const: Hello world
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 10.0
+    - expr: =FIND( RC[1], RC[2], RC[3] )
+    - const: l
+    - const: Hello world
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =FIND( RC[1], RC[2], RC[3] )
+    - const: l
+    - const: Hello world
+    - const: 11.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+    - const: 11.0
+    - expr: =FIND( RC[1], RC[2], RC[3] )
+    - const: d
+    - const: Hello world
+    - const: 11.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =FIND( RC[1], RC[2], RC[3] )
+    - const: d
+    - const: Hello world
+    - const: 12.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+    - const: 3.0
+    - expr: =FIND( RC[1], RC[2], RC[3] )
+    - const: llo
+    - const: Hello world
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 3.0
+    - expr: =FIND( RC[1], RC[2], RC[3] )
+    - const: llo
+    - const: Hello world
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =FIND( RC[1], RC[2], RC[3] )
+    - const: llo
+    - const: Hello world
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+  - cells:
+    - const: 2.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: e
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: SEARCH
+    - const: SEARCH
+  - cells:
+    - const: 1.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: H
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: X
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+    - const: 11.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: d
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 9.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: r
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 8.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: or
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 10.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: ld
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 1.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: Hello world
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 1.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: 
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 2.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: e*o
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 5.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: o*l
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 8.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: o?l
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: o??l
+    - const: Hello world
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+    - const: 5.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: ~**~?*~~.
+    - const: Use * or ?, escape with ~.
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: ~**~**~~.
+    - const: Use * or ?, escape with ~.
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+    - const: 7.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: ~o~r
+    - const: Use * or ?, escape with ~.
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 8.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: g ~
+    - const: Trailing ~
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: 
+    - const: 
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+    - const: 0.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: x
+    - const: 
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+    - const: 5.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: a
+    - const: àÀáÁaAäÄ
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 5.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: A
+    - const: àÀáÁaAäÄ
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 7.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: ä
+    - const: àÀáÁaAäÄ
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 7.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: Ä
+    - const: àÀáÁaAäÄ
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 5.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: в
+    - const: аАбБвВгГ
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 5.0
+    - expr: =SEARCH( RC[1], RC[2] )
+    - const: В
+    - const: аАбБвВгГ
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 3.0
+    - expr: =SEARCH( RC[1], RC[2], RC[3] )
+    - const: l
+    - const: Hello world
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 3.0
+    - expr: =SEARCH( RC[1], RC[2], RC[3] )
+    - const: l
+    - const: Hello world
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 4.0
+    - expr: =SEARCH( RC[1], RC[2], RC[3] )
+    - const: l
+    - const: Hello world
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 10.0
+    - expr: =SEARCH( RC[1], RC[2], RC[3] )
+    - const: l
+    - const: Hello world
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 10.0
+    - expr: =SEARCH( RC[1], RC[2], RC[3] )
+    - const: l
+    - const: Hello world
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =SEARCH( RC[1], RC[2], RC[3] )
+    - const: l
+    - const: Hello world
+    - const: 11.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+    - const: 11.0
+    - expr: =SEARCH( RC[1], RC[2], RC[3] )
+    - const: d
+    - const: Hello world
+    - const: 11.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =SEARCH( RC[1], RC[2], RC[3] )
+    - const: d
+    - const: Hello world
+    - const: 12.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+    - const: 3.0
+    - expr: =SEARCH( RC[1], RC[2], RC[3] )
+    - const: llo
+    - const: Hello world
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 3.0
+    - expr: =SEARCH( RC[1], RC[2], RC[3] )
+    - const: llo
+    - const: Hello world
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =SEARCH( RC[1], RC[2], RC[3] )
+    - const: llo
+    - const: Hello world
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+    - const: 2.0
+    - expr: =SEARCH( RC[1], RC[2], RC[3] )
+    - const: e*o
+    - const: Hello world
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 2.0
+    - expr: =SEARCH( RC[1], RC[2], RC[3] )
+    - const: e*o
+    - const: Hello world
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =SEARCH( RC[1], RC[2], RC[3] )
+    - const: e*o
+    - const: Hello world
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #VALUE!
+  - cells:
+    - const: 8.0
+    - expr: =SEARCH( RC[1], RC[2], RC[3] )
+    - const: e*o
+    - const: Hello Hello
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+  - cells:
+    - const: hello
+    - expr: =LOWER( RC[1] )
+    - const: HELLO
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: LOWER
+    - const: LOWER
+  - cells:
+    - const: hello
+    - expr: =LOWER( RC[1] )
+    - const: Hello
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: hello
+    - expr: =LOWER( RC[1] )
+    - const: hellO
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: ààááaaää
+    - expr: =LOWER( RC[1] )
+    - const: àÀáÁaAäÄ
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 12,3
+    - expr: =LOWER( RC[1] )
+    - const: 12.3
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 
+    - expr: =LOWER( RC[1] )
+    - const: 
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: HELLO
+    - expr: =UPPER( RC[1] )
+    - const: HELLO
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: UPPER
+    - const: UPPER
+  - cells:
+    - const: HELLO
+    - expr: =UPPER( RC[1] )
+    - const: Hello
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: HELLO
+    - expr: =UPPER( RC[1] )
+    - const: hellO
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: ÀÀÁÁAAÄÄ
+    - expr: =UPPER( RC[1] )
+    - const: àÀáÁaAäÄ
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 12,3
+    - expr: =UPPER( RC[1] )
+    - const: 12.3
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 
+    - expr: =UPPER( RC[1] )
+    - const: 
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: This Is A Title
+    - expr: =PROPER( RC[1] )
+    - const: this is a TITLE
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: PROPER
+    - const: PROPER
+  - cells:
+    - const: 2-Cent'S Worth
+    - expr: =PROPER( RC[1] )
+    - const: 2-cent's worth
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 76Budget
+    - expr: =PROPER( RC[1] )
+    - const: 76BudGet
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: Ààá Áaa Ää
+    - expr: =PROPER( RC[1] )
+    - const: àÀá ÁaA äÄ
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: Ааб Бвв Ггд Д
+    - expr: =PROPER( RC[1] )
+    - const: АаБ бВв ГгД д
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: *abc*abc*abc
+    - expr: =REPT( RC[1], RC[2] )
+    - const: *abc
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: REPT
+    - const: REPT
+  - cells:
+    - const: àÀáÁaAäÄ
+    - expr: =REPT( RC[1], RC[2] )
+    - const: àÀáÁaAäÄ
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 
+    - expr: =REPT( RC[1], RC[2] )
+    - const: abc
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+  - cells:
+    - const: aaa bb c
+    - expr: =TRIM( RC[1] )
+    - const:   aaa   bb  c    
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: TRIM
+    - const: TRIM
+  - cells:
+    - const: aaa bb c
+    - expr: =TRIM( RC[1] )
+    - const: aaa bb c
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: 12.0
+    - expr: =RC[2]
+    - const: 1.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: Plain vs. scientific format with String valued outputs
+    - const: xx
+  - cells:
+    - const: 120.0
+    - expr: =RC[2]
+    - const: 2.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 1200.0
+    - expr: =RC[2]
+    - const: 3.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 12000.0
+    - expr: =RC[2]
+    - const: 4.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 120000.0
+    - expr: =RC[2]
+    - const: 5.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 1200000.0
+    - expr: =RC[2]
+    - const: 6.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 1.2E7
+    - expr: =RC[2]
+    - const: 7.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 1.2E8
+    - expr: =RC[2]
+    - const: 8.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 1.2E9
+    - expr: =RC[2]
+    - const: 9.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 1.2E10
+    - expr: =RC[2]
+    - const: 10.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 1.2E11
+    - expr: =RC[2]
+    - const: 11.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 1.2E12
+    - expr: =RC[2]
+    - const: 12.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 1.2E13
+    - expr: =RC[2]
+    - const: 13.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 1.2E14
+    - expr: =RC[2]
+    - const: 14.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 1.2E15
+    - expr: =RC[2]
+    - const: 15.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 1.2E16
+    - expr: =RC[2]
+    - const: 16.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 1.2E17
+    - expr: =RC[2]
+    - const: 17.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 1.2E18
+    - expr: =RC[2]
+    - const: 18.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 1.2E19
+    - expr: =RC[2]
+    - const: 19.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 1.2E20
+    - expr: =RC[2]
+    - const: 20.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long jre14
+  - cells:
+    - const: 1.2E21
+    - expr: =RC[2]
+    - const: 21.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long jre14
+  - cells:
+    - const: 1.234E19
+    - expr: =RC[2]
+    - const: 18.0
+    - expr: =(12.34 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 1.234E20
+    - expr: =RC[2]
+    - const: 19.0
+    - expr: =(12.34 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long jre14
+  - cells:
+    - const: -1.234E19
+    - expr: =RC[2]
+    - const: 18.0
+    - expr: =(-(12.34 * (10.0 ^ RC[-1])))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: -1.234E20
+    - expr: =RC[2]
+    - const: 19.0
+    - expr: =(-(12.34 * (10.0 ^ RC[-1])))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long jre14
+  - cells:
+  - cells:
+    - const: Str 12
+    - expr: =("Str " & RC[2])
+    - const: 1.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: Plain vs. scientific format with &
+    - const: &
+  - cells:
+    - const: Str 120
+    - expr: =("Str " & RC[2])
+    - const: 2.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: Str 1200
+    - expr: =("Str " & RC[2])
+    - const: 3.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: Str 12000
+    - expr: =("Str " & RC[2])
+    - const: 4.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: Str 120000
+    - expr: =("Str " & RC[2])
+    - const: 5.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: Str 1200000
+    - expr: =("Str " & RC[2])
+    - const: 6.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: Str 12000000
+    - expr: =("Str " & RC[2])
+    - const: 7.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 120000000
+    - expr: =("Str " & RC[2])
+    - const: 8.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 1200000000
+    - expr: =("Str " & RC[2])
+    - const: 9.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 12000000000
+    - expr: =("Str " & RC[2])
+    - const: 10.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 120000000000
+    - expr: =("Str " & RC[2])
+    - const: 11.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 1200000000000
+    - expr: =("Str " & RC[2])
+    - const: 12.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 12000000000000
+    - expr: =("Str " & RC[2])
+    - const: 13.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 120000000000000
+    - expr: =("Str " & RC[2])
+    - const: 14.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 1200000000000000
+    - expr: =("Str " & RC[2])
+    - const: 15.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 12000000000000000
+    - expr: =("Str " & RC[2])
+    - const: 16.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 120000000000000000
+    - expr: =("Str " & RC[2])
+    - const: 17.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 1200000000000000000
+    - expr: =("Str " & RC[2])
+    - const: 18.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 12000000000000000000
+    - expr: =("Str " & RC[2])
+    - const: 19.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 1,2E+20
+    - expr: =("Str " & RC[2])
+    - const: 20.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long jre14
+  - cells:
+    - const: Str 1,2E+21
+    - expr: =("Str " & RC[2])
+    - const: 21.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long jre14
+  - cells:
+    - const: Str 12340000000000000000
+    - expr: =("Str " & RC[2])
+    - const: 18.0
+    - expr: =(12.34 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 1,234E+20
+    - expr: =("Str " & RC[2])
+    - const: 19.0
+    - expr: =(12.34 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long jre14
+  - cells:
+    - const: Str -12340000000000000000
+    - expr: =("Str " & RC[2])
+    - const: 18.0
+    - expr: =(-(12.34 * (10.0 ^ RC[-1])))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str -1,234E+20
+    - expr: =("Str " & RC[2])
+    - const: 19.0
+    - expr: =(-(12.34 * (10.0 ^ RC[-1])))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long jre14
+  - cells:
+  - cells:
+    - const: Hello world!
+    - expr: =(RC[1] & " " & RC[2])
+    - const: Hello
+    - const: world!
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: CONCATENATE
+    - const: CONCATENATE
+  - cells:
+    - const: StartMiddleEnd
+    - expr: =(RC[1] & RC[2] & RC[3])
+    - const: Start
+    - const: Middle
+    - const: End
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: StartEnd
+    - expr: =(RC[1] & RC[2] & RC[3])
+    - const: Start
+    - const: 
+    - const: End
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: MiddleEnd
+    - expr: =(RC[1] & RC[2] & RC[3])
+    - const: 
+    - const: Middle
+    - const: End
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: StartMiddle
+    - expr: =(RC[1] & RC[2] & RC[3])
+    - const: Start
+    - const: Middle
+    - const: 
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+  - cells:
+    - const: Zero is 0
+    - expr: =(RC[1] & " is " & RC[2])
+    - const: Zero
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: Fraction is 12345,6789
+    - expr: =(RC[1] & " is " & RC[2])
+    - const: Fraction
+    - const: 12345.6789
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: Exponent is 12000000000
+    - expr: =(RC[1] & " is " & RC[2])
+    - const: Exponent
+    - const: 1.2E10
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: Integer is 123456789
+    - expr: =(RC[1] & " is " & RC[2])
+    - const: Integer
+    - const: 1.23456789E8
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: Percent is 0,1
+    - expr: =(RC[1] & " is " & RC[2])
+    - const: Percent
+    - const: 0.1
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: Date is 38032
+    - expr: =("Date is " & RC[1])
+    - const: 38032.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: Bool is 1
+    - expr: =("Bool is " & RC[1])
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: Bool is TRUE
+  - cells:
+    - const: Bool is 0
+    - expr: =("Bool is " & RC[1])
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: Bool is FALSE
+  - cells:
+    - const: Bool is 1
+    - expr: =("Bool is " & (RC[1] = RC[2]))
+    - const: 1.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: Bool is TRUE
+  - cells:
+    - const: Bool is 0
+    - expr: =("Bool is " & (RC[1] = RC[2]))
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: Bool is FALSE
+  - cells:
+  - cells:
+    - const: Str 12
+    - expr: =("Str " & RC[2])
+    - const: 1.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: Plain vs. scientific format
+  - cells:
+    - const: Str 120
+    - expr: =("Str " & RC[2])
+    - const: 2.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: Str 1200
+    - expr: =("Str " & RC[2])
+    - const: 3.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: Str 12000
+    - expr: =("Str " & RC[2])
+    - const: 4.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: Str 120000
+    - expr: =("Str " & RC[2])
+    - const: 5.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: Str 1200000
+    - expr: =("Str " & RC[2])
+    - const: 6.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: Str 12000000
+    - expr: =("Str " & RC[2])
+    - const: 7.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 120000000
+    - expr: =("Str " & RC[2])
+    - const: 8.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 1200000000
+    - expr: =("Str " & RC[2])
+    - const: 9.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 12000000000
+    - expr: =("Str " & RC[2])
+    - const: 10.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 120000000000
+    - expr: =("Str " & RC[2])
+    - const: 11.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 1200000000000
+    - expr: =("Str " & RC[2])
+    - const: 12.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 12000000000000
+    - expr: =("Str " & RC[2])
+    - const: 13.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 120000000000000
+    - expr: =("Str " & RC[2])
+    - const: 14.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 1200000000000000
+    - expr: =("Str " & RC[2])
+    - const: 15.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 12000000000000000
+    - expr: =("Str " & RC[2])
+    - const: 16.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 120000000000000000
+    - expr: =("Str " & RC[2])
+    - const: 17.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 1200000000000000000
+    - expr: =("Str " & RC[2])
+    - const: 18.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 12000000000000000000
+    - expr: =("Str " & RC[2])
+    - const: 19.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: Str 1,2E+20
+    - expr: =("Str " & RC[2])
+    - const: 20.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long jre14
+  - cells:
+    - const: Str 1,2E+21
+    - expr: =("Str " & RC[2])
+    - const: 21.0
+    - expr: =(1.2 * (10.0 ^ RC[-1]))
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long jre14

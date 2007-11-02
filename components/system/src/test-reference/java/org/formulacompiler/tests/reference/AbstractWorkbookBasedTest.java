@@ -30,11 +30,10 @@ import org.formulacompiler.compiler.internal.logging.Log;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
-
-import junit.framework.TestCase;
+import org.formulacompiler.tests.utils.AbstractIOTestBase;
 
 @SuppressWarnings("unchecked")
-public abstract class AbstractWorkbookBasedTest extends TestCase
+public abstract class AbstractWorkbookBasedTest extends AbstractIOTestBase
 {
 	public static final Log LOG = new Log();
 
@@ -55,7 +54,7 @@ public abstract class AbstractWorkbookBasedTest extends TestCase
 		this.spreadsheetName = this.baseName + ".xls";
 	}
 
-	protected AbstractWorkbookBasedTest(String _baseName)
+	protected AbstractWorkbookBasedTest( String _baseName )
 	{
 		super();
 		this.baseName = _baseName;
@@ -83,6 +82,7 @@ public abstract class AbstractWorkbookBasedTest extends TestCase
 	{
 		final EngineBuilder eb = SpreadsheetCompiler.newEngineBuilder();
 		eb.loadSpreadsheet( new File( SPREADSHEET_PATH, this.spreadsheetName ) );
+		assertYaml( SPREADSHEET_PATH, this.baseName, eb.getSpreadsheet(), this.spreadsheetName );
 		newSheetRunner( (SpreadsheetImpl) eb.getSpreadsheet() ).run();
 	}
 

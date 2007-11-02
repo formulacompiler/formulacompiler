@@ -129,13 +129,13 @@ public class IOUtil
 	}
 
 
-	static interface FileVisitor
+	public static interface FileVisitor
 	{
 		void visit( File _inputFile, File _outputFile ) throws IOException;
 	}
 
 
-	static final void iterateFiles( File _inputFolder, String _pattern, File _outputFolder, boolean _recurse,
+	public static final void iterateFiles( File _inputFolder, String _pattern, File _outputFolder, boolean _recurse,
 			FileVisitor _visitor ) throws IOException
 	{
 		final StringBuilder src = new StringBuilder();
