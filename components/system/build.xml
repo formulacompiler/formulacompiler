@@ -143,6 +143,7 @@
 			<batchtest todir="${temp.dir}/test/results">
 				<fileset dir="${temp.dir}/test/classes">
 					<include name="**/*Test.class" />
+					<include name="**/*TestSuite.class" />
 					<include name="**/tutorials/*.class" />
 					<include name="**/examples/*Demo.class" />
 					<exclude name="**/Abstract*" />
