@@ -26,11 +26,37 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 import org.formulacompiler.compiler.Function;
+import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.tests.utils.AbstractTestBase;
 import org.formulacompiler.tests.utils.WorksheetBuilderWithBands;
 
 public class WorkbookTest extends AbstractTestBase
 {
+
+	public void testGetCellA1() throws Exception
+	{
+		SpreadsheetImpl wb = new SpreadsheetImpl();
+		{
+			SheetImpl sheet = new SheetImpl( wb );
+			RowImpl r1 = new RowImpl( sheet );
+			new CellWithLazilyParsedExpression( r1, null );
+			new WorksheetBuilderWithBands( sheet );
+		}
+		assertCell( wb, 0, 0, 0, wb.getCellA1( "A1" ) );
+		assertCell( wb, 0, 0, 1, wb.getCellA1( "A2" ) );
+		assertCell( wb, 0, 1, 0, wb.getCellA1( "B1" ) );
+		assertCell( wb, 0, 1, 1, wb.getCellA1( "B2" ) );
+		assertCell( wb, 0, 25, 499, wb.getCellA1( "Z500" ) );
+		wb.defineName( "A1", wb.getCell( 0, 10, 20 ) );
+		assertCell( wb, 0, 0, 0, wb.getCellA1( "A1" ) );
+	}
+
+	private void assertCell( SpreadsheetImpl _wb, int _sheet, int _col, int _row, Cell _have )
+	{
+		Cell want = _wb.getCell( _sheet, _col, _row );
+		assertEquals( want.describe(), _have.describe() );
+	}
+
 
 	public void testDescribe() throws Exception
 	{
