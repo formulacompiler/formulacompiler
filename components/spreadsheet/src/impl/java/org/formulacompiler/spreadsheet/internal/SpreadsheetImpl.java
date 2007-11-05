@@ -36,7 +36,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetException;
 
 /**
  * Implementation of {@link Spreadsheet}.
- * 
+ *
  * @author peo
  */
 public final class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
@@ -152,7 +152,7 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 
 	public Spreadsheet.Cell getCell( String _cellName ) throws SpreadsheetException.NameNotFound
 	{
-		Reference ref = getNamedRef( _cellName );
+		final Reference ref = getNamedRef( _cellName );
 		if (null == ref) {
 			throw new SpreadsheetException.NameNotFound( "The name '" + _cellName + "' is not defined in this workbook." );
 		}
@@ -162,6 +162,19 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 		else {
 			throw new IllegalArgumentException( "The name '" + _cellName + "' is bound to a range, not a cell." );
 		}
+	}
+
+
+	public Spreadsheet.Cell getCellA1( String _a1Name ) throws SpreadsheetException.NameNotFound
+	{
+		if (0 == getSheetList().size()) {
+			throw new SpreadsheetException.NameNotFound( "The name '" + _a1Name + "' is not defined; workbook is empty." );
+		}
+		final CellIndex cell = getSheetList().get( 0 ).getCellIndexForCanonicalName( _a1Name, null, CellRefFormat.A1 );
+		if (null == cell) {
+			throw new SpreadsheetException.NameNotFound( "The name '" + _a1Name + "' is not defined in this workbook." );
+		}
+		return cell;
 	}
 
 
@@ -243,7 +256,7 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 
 	/**
 	 * Finds cells by name.
-	 * 
+	 *
 	 * @param _cellNameOrCanonicalName is the canonical name of the cell (A1, B2, etc.), or its
 	 *           specific name defined in the spreadsheet (BasePrice, NumberSold, etc.).
 	 * @return The requested cell, or else {@code null}.

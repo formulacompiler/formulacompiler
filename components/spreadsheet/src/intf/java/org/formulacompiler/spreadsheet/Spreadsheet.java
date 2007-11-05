@@ -26,13 +26,13 @@ import org.formulacompiler.describable.Describable;
  * Represents a spreadsheet model in memory. It can be constructed from different spreadsheet file
  * formats, for example Excel .xls and .xml, and OpenOffice Calc (see
  * {@link SpreadsheetCompiler#loadSpreadsheet(java.io.File)}). It serves as input to the
- * {@link SpreadsheetToEngineCompiler} implementations and thus decouples engine compilation from the
- * different spreadsheet file formats supported by AFC.
- * 
+ * {@link SpreadsheetToEngineCompiler} implementations and thus decouples engine compilation from
+ * the different spreadsheet file formats supported by AFC.
+ *
  * @see SpreadsheetLoader
  * @see SpreadsheetBuilder
  * @see SpreadsheetToEngineCompiler
- * 
+ *
  * @author peo
  */
 public interface Spreadsheet extends Describable
@@ -40,7 +40,7 @@ public interface Spreadsheet extends Describable
 
 	/**
 	 * Get a cell by its index.
-	 * 
+	 *
 	 * @param _sheetIndex is 0-based index of the sheet in the workbook (typically 0).
 	 * @param _columnIndex is the 0-based column index of the cell (so 0 is A, 1 is B, etc.).
 	 * @param _rowIndex is the 0-based row index of the cell.
@@ -52,11 +52,12 @@ public interface Spreadsheet extends Describable
 
 	/**
 	 * Get a cell by its defined name.
-	 * 
+	 *
 	 * @param _cellName is the cell's specific name defined in the spreadsheet (BasePrice,
-	 *           NumberSold, etc.).
-	 * @return The requested cell. The name must not designate a range.
-	 * 
+	 *           NumberSold, etc.). The name must not designate a named range.
+	 * @return The requested cell. The returned reference may specify a cell that is not within the
+	 *         actual bounds of the spreadsheet. In this case, it denotes an empty cell.
+	 *
 	 * @throws SpreadsheetException.NameNotFound if the name is not defined in the spreadsheet.
 	 * @throws IllegalArgumentException if the name identifies a range instead of a single cell.
 	 */
@@ -64,12 +65,25 @@ public interface Spreadsheet extends Describable
 
 
 	/**
+	 * Get a cell by its A1-style name. Sheet references are not supported.
+	 *
+	 * @param _a1Name is the cell's A1-style name (A1, B5, AA15, etc.).
+	 * @return The requested cell. The returned reference may specify a cell that is not within the
+	 *         actual bounds of the spreadsheet. In this case, it denotes an empty cell.
+	 *
+	 * @throws SpreadsheetException.NameNotFound if the name is not parseable as an A1-style cell
+	 *            reference.
+	 */
+	public Cell getCellA1( String _a1Name ) throws SpreadsheetException.NameNotFound;
+
+
+	/**
 	 * Get a range by its defined name.
-	 * 
+	 *
 	 * @param _rangeName is the range's specific name defined in the spreadsheet (Items, Employees,
 	 *           etc.).
 	 * @return The requested range. The name can designate a cell.
-	 * 
+	 *
 	 * @throws SpreadsheetException.NameNotFound if the name is not defined in the spreadsheet.
 	 * @throws IllegalArgumentException if the name identifies a range instead of a single cell.
 	 */
@@ -78,7 +92,7 @@ public interface Spreadsheet extends Describable
 
 	/**
 	 * Determine all the cell and range names defined in the spreadsheet model.
-	 * 
+	 *
 	 * @return The list of name definitions. They are all instances of either
 	 *         {@link CellNameDefinition} or {@link RangeNameDefinition}.
 	 */
@@ -87,7 +101,7 @@ public interface Spreadsheet extends Describable
 
 	/**
 	 * Returns the definition for the given name, if any.
-	 * 
+	 *
 	 * @return The definition for the name, or {@code null} if not found.
 	 */
 	public NameDefinition getDefinedName( String _cellName );
@@ -95,7 +109,7 @@ public interface Spreadsheet extends Describable
 
 	/**
 	 * Adds a new cell name definition to the spreadsheet.
-	 * 
+	 *
 	 * @param _name is the name to be defined.
 	 * @param _cell is the cell to be named.
 	 */
@@ -110,7 +124,7 @@ public interface Spreadsheet extends Describable
 
 	/**
 	 * Returns information about a worksheet.
-	 * 
+	 *
 	 * @author peo
 	 */
 	public static interface Sheet extends Describable
@@ -131,7 +145,7 @@ public interface Spreadsheet extends Describable
 
 	/**
 	 * Returns information about a row.
-	 * 
+	 *
 	 * @author peo
 	 */
 	public static interface Row extends Describable
@@ -152,7 +166,7 @@ public interface Spreadsheet extends Describable
 
 	/**
 	 * Returns information about a spreadsheet cell.
-	 * 
+	 *
 	 * @author peo
 	 */
 	public static interface Cell extends Describable
@@ -165,25 +179,25 @@ public interface Spreadsheet extends Describable
 
 		/**
 		 * Returns the constant value of the cell, as defined in the spreadsheet.
-		 * 
+		 *
 		 * @return the value, or {@code null} if the cell is empty or computed by a formula.
-		 * 
+		 *
 		 * @see #getValue()
 		 */
 		public Object getConstantValue();
 
 		/**
 		 * Returns the value of the cell, as saved in the spreadsheet.
-		 * 
+		 *
 		 * @return the value, or {@code null} if the cell is empty.
-		 * 
+		 *
 		 * @see #getConstantValue()
 		 */
 		public Object getValue();
 
 		/**
 		 * Returns the expression text of the cell, as parsed from the spreadsheet by AFC.
-		 * 
+		 *
 		 * @return the text of the parsed expression, or {@code null} if the cell is empty or
 		 *         constant.
 		 * @throws SpreadsheetException
@@ -195,7 +209,7 @@ public interface Spreadsheet extends Describable
 
 	/**
 	 * Marker interface for a spreadsheet range in the spreadsheet model.
-	 * 
+	 *
 	 * @see Spreadsheet
 	 * @author peo
 	 */
@@ -204,7 +218,7 @@ public interface Spreadsheet extends Describable
 
 		/**
 		 * Tests whether the other range is completely contained within this one.
-		 * 
+		 *
 		 * @param _other is the other range.
 		 * @return true iff the other range is completely contained.
 		 */
@@ -212,7 +226,7 @@ public interface Spreadsheet extends Describable
 
 		/**
 		 * Tests whether the cell is contained within this range.
-		 * 
+		 *
 		 * @param _cell is the cell to test.
 		 * @return true iff the cell is within the range.
 		 */
@@ -233,7 +247,7 @@ public interface Spreadsheet extends Describable
 
 	/**
 	 * Describes a named reference defined in a spreadsheet model.
-	 * 
+	 *
 	 * @author peo
 	 */
 	public static abstract interface NameDefinition
@@ -241,7 +255,7 @@ public interface Spreadsheet extends Describable
 
 		/**
 		 * Returns the defined name.
-		 * 
+		 *
 		 * @return The name. Never null.
 		 */
 		public String getName();
@@ -251,7 +265,7 @@ public interface Spreadsheet extends Describable
 
 	/**
 	 * Describes a named cell in a spreadsheet.
-	 * 
+	 *
 	 * @author peo
 	 */
 	public static interface CellNameDefinition extends NameDefinition
@@ -259,7 +273,7 @@ public interface Spreadsheet extends Describable
 
 		/**
 		 * Returns the cell designated by the name.
-		 * 
+		 *
 		 * @return The cell. Never null.
 		 */
 		public Cell getCell();
@@ -269,7 +283,7 @@ public interface Spreadsheet extends Describable
 
 	/**
 	 * Describes a named range in an spreadsheet.
-	 * 
+	 *
 	 * @author peo
 	 */
 	public static interface RangeNameDefinition extends NameDefinition
@@ -277,7 +291,7 @@ public interface Spreadsheet extends Describable
 
 		/**
 		 * Returns the cell range designated by the name.
-		 * 
+		 *
 		 * @return The cell range. Never null.
 		 */
 		public Range getRange();
