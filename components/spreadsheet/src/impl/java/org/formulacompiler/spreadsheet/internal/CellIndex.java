@@ -55,6 +55,12 @@ public final class CellIndex extends Reference implements Cell
 	}
 
 
+	public int getColumnIndex()
+	{
+		return this.columnIndex;
+	}
+
+
 	public static final CellIndex getTopLeft( SpreadsheetImpl _spreadsheet )
 	{
 		return new CellIndex( _spreadsheet, 0, 0, 0 );

@@ -1379,100 +1379,80 @@ doesNotBind( "getter" );
 			bindsTo( "P_both", Outputs.class.getMethod( "both" ) );
 			bindsTo( "P_getBoth", Outputs.class.getMethod( "getBoth" ) );
 ___@_@___
-jc:org.formulacompiler.tests.reference.AbstractDebugTest:---- DebugTest
+jc:org.formulacompiler.tests.reference.Basics:---- suite
+__@@__
+public static Test suite() throws Exception
+	{
+		return sheetSuite( "CellNames", "EmptyCells", "NumericOperators", "NumericComparisons", "NumericFunctions" );
+	}
+___@_@___
+jc:org.formulacompiler.tests.reference.base.AbstractDebugSuiteSetup:---- examples
 __@@__
 /**
- * Special debugging testcase for automated reference tests.
- * 
- * <p>
- * You configure it using one of the following constructor variants. At first, just run the suite
- * you are interested in, or, if you know it, the starting row to use. Then, when you know which
- * test fails (from the console output), configure it precisely. Note how
- * <code>Integer.valueOf( "x", 2 )</code> is used to encode the bound/unbound input variant to
- * use.
- * 
- * <pre><code> super( "StringComparisons" );
- * super( "StringComparisons", 74 );
- * super( "StringComparisons", 9, NumType.DOUBLE, 
- *     Integer.valueOf( "1", 2 ), false );
- * </code></pre>
- */
-public abstract class AbstractDebugTest extends AbstractReferenceTest
-{
-
-	/**
-	 * Options you might wish to enable.
+	 * Returns a suite that runs a single sheet for the number type double and with no caching.
+	 * <p>
+	 * See here how to build such a test runs: {@.jcite -- sheetImpl}.
+	 *
+	 * @param _fileName is the base name of the file without path or extension.
 	 */
-	static {
-		Settings.LOG_CONSTEVAL.setEnabled( true );
-		Settings.LOG_LETVARS.setEnabled( false );
+	public static Test dbgSheetSuite( String _fileName ) throws Exception
+	{
+		// DO NOT REFORMAT BELOW THIS LINE
+		// -- sheetImpl
+		return dbgSuiteBuilder( _fileName )
+				// ... You could configure aspects here.
+				.suite();
+		// -- sheetImpl
+		// DO NOT REFORMAT ABOVE THIS LINE
 	}
 
 	/**
-	 * Runs only a given row in a given configuration.
-	 * 
-	 * @param _baseName is the base name of the spreadsheet file (no extension).
-	 * @param _onlyRowNumbered is the row number of the test.
-	 * @param _onlyType is the numeric type.
-	 * @param _onlyInputVariant controls which cells to bind to input values; use a bit vector as in
-	 *           <code>Integer.valueOf( "x", 2 )</code>.
-	 * @param _caching controls whether to enable caching or not.
+	 * Returns a suite that runs a single row's engine for the given number type and no caching.
+	 * <p>
+	 * See here how to build such a test runs: {@.jcite -- rowImpl}.
+	 *
+	 * @param _fileName is the base name of the file without path or extension.
+	 * @param _rowNumber is the 1-based row number for which to compile and run an engine.
+	 * @param _numberType is the numeric type to use.
 	 */
-	protected AbstractDebugTest( String _baseName, int _onlyRowNumbered, NumType _onlyType, int _onlyInputVariant,
-			boolean _caching )
+	public static Test dbgRowSuite( String _fileName, int _rowNumber, BindingType _numberType ) throws Exception
 	{
-		super( _baseName, _onlyRowNumbered, _onlyType, _onlyInputVariant, _caching );
+		// DO NOT REFORMAT BELOW THIS LINE
+		// -- rowImpl
+		return dbgSuiteBuilder( _fileName )
+				.row( _rowNumber )
+				.numberType( _numberType )
+				// ... You could go on configuring more aspects here.
+				.suite();
+		// -- rowImpl
+		// DO NOT REFORMAT ABOVE THIS LINE
 	}
 
 	/**
-	 * Runs the tests starting with the given row.
-	 * 
-	 * @param _baseName is the base name of the spreadsheet file (no extension).
-	 * @param _startingRowNumber is the row number fo the first test to run.
+	 * Returns a suite that runs a single row's engine for all number types and caching variants.
+	 * <p>
+	 * See here how to customize such complex test runs: {@.jcite -- fullRowImpl}.
+	 *
+	 * @param _fileName is the base name of the file without path or extension.
+	 * @param _rowNumber is the 1-based row number for which to compile and run an engine.
+	 *
+	 * @see #dbgSuite(AbstractSetup)
+	 * @see BuilderSetup
 	 */
-	protected AbstractDebugTest( String _baseName, int _startingRowNumber )
+	public static Test dbgFullRowSuite( String _fileName, final int _rowNumber ) throws Exception
 	{
-		super( _baseName, _startingRowNumber );
-	}
-
-	/**
-	 * Runs all the tests in the sheet.
-	 * 
-	 * @param _baseName is the base name of the spreadsheet file (no extension).
-	 */
-	protected AbstractDebugTest( String _baseName )
-	{
-		super( _baseName );
-	}
-
-	/**
-	 * Logs the generated engine .jar to "temp/debug/engine.jar" and decompiles it to
-	 * "temp/debug/decompiled" in case of a test failure. You can use
-	 * 
-	 * <pre>
-	 * javap -c -private -classpath ./engine.jar org/formulacompiler/gen/$Root
-	 * </pre>
-	 * 
-	 * to disassemble its VM byte-code instructions.
-	 */
-	@Override
-	protected void reportDefectiveEngine( SaveableEngine _engine, String _testName )
-	{
-		if (_engine != null) {
-			try {
-				new File( "temp/debug/decompiled" ).mkdirs();
-				Debug.saveEngine( _engine, "temp/debug/engine.jar" );
-				System.out.println( ".. dumped to temp/debug/engine.jar" );
-				Debug.decompileEngine( _engine, "temp/debug/decompiled" );
-				System.out.println( ".. decompiled to temp/debug/decompiled" );
+		// -- fullRowImpl
+		return dbgSuite( new AllNumberTypesSetup( new AllCachingVariantsSetup( new BuilderSetup( _fileName )
+		{
+			@Override
+			protected void configure( SheetSuiteBuilder _builder )
+			{
+				_builder.row( _rowNumber );
+				// ... You could go on configuring more aspects here.
 			}
-			catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		} ) ) );
+		// -- fullRowImpl
 	}
-
-}
 ___@_@___
 jc:org.formulacompiler.tutorials.AbstractUsingBigDecimalTest:---- IO
 __@@__

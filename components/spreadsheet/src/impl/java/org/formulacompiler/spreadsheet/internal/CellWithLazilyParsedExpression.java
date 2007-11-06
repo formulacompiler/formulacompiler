@@ -74,6 +74,10 @@ public final class CellWithLazilyParsedExpression extends CellInstance
 		if (null != _value) {
 			_value.setContextProviderOnThisAndArgumentsRecursively( new CellExpressionContextProvider( this, _value ) );
 		}
+		/*
+		 * We don't free the expression parser here because the reference tests need access to the
+		 * original expression text. And freeing it would yield minimal benefits, it seems.
+		 */
 	}
 
 

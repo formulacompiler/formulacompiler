@@ -215,7 +215,7 @@
 	<target name="-test" depends="-jar-main, -test-assuming-jar" />
 	<target name="-test-assuming-jar" depends="-test-main-assuming-jar, -test-ref-assuming-jar" />
 	<target name="-test-main-assuming-jar" depends="@init, -compile-tests-assuming-jar, @test-clean, @test-main" />
-	<target name="-test-ref-assuming-jar" />
+	<target name="-test-ref-assuming-jar" depends="@init, -compile-tests-assuming-jar" />
 	<target name="-test-given" depends="@init, @test-given" />
 
 	<target name="@compile-tests" depends="@init" unless="@no-tests">
