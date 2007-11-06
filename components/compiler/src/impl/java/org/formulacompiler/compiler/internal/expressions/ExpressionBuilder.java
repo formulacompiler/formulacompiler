@@ -45,23 +45,23 @@ public final class ExpressionBuilder
 	public static final ExpressionNode FALSE = cst( Boolean.FALSE, NUMERIC );
 
 
-	public static ExpressionNodeForConstantValue cst( Object _value )
+	public static ExpressionNode cst( Object _value )
 	{
 		return new ExpressionNodeForConstantValue( _value );
 	}
 
-	public static ExpressionNodeForConstantValue cst( Object _value, DataType _type )
+	public static ExpressionNode cst( Object _value, DataType _type )
 	{
 		return new ExpressionNodeForConstantValue( _value, _type );
 	}
 
 
-	public static ExpressionNodeForOperator op( Operator _op, ExpressionNode... _args )
+	public static ExpressionNode op( Operator _op, ExpressionNode... _args )
 	{
 		return new ExpressionNodeForOperator( _op, _args );
 	}
 
-	public static ExpressionNodeForFunction fun( Function _fun, ExpressionNode... _args )
+	public static ExpressionNode fun( Function _fun, ExpressionNode... _args )
 	{
 		return new ExpressionNodeForFunction( _fun, _args );
 	}
