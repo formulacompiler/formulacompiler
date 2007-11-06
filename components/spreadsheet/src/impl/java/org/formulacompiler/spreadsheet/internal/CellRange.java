@@ -36,7 +36,7 @@ public final class CellRange extends Reference implements Spreadsheet.Range, Ite
 	private CellIndex to;
 
 
-	public CellRange(CellIndex _from, CellIndex _to)
+	public CellRange( CellIndex _from, CellIndex _to )
 	{
 		super();
 		if (_from.spreadsheet != _to.spreadsheet)
@@ -44,8 +44,8 @@ public final class CellRange extends Reference implements Spreadsheet.Range, Ite
 		setFromTo( _from, _to );
 	}
 
-	public CellRange(SheetImpl _sheet, String _fromCellNameOrCanonicalName, String _toCellNameOrCanonicalName,
-			CellIndex _relativeTo)
+	public CellRange( SheetImpl _sheet, String _fromCellNameOrCanonicalName, String _toCellNameOrCanonicalName,
+			CellIndex _relativeTo )
 	{
 		this( _sheet.getCellIndexForCanonicalName( _fromCellNameOrCanonicalName, _relativeTo ), _sheet
 				.getCellIndexForCanonicalName( _toCellNameOrCanonicalName, _relativeTo ) );
@@ -249,7 +249,7 @@ public final class CellRange extends Reference implements Spreadsheet.Range, Ite
 		}
 		else if (_inner.overlaps( this, Orientation.VERTICAL ) && _inner.overlaps( this, Orientation.HORIZONTAL )) {
 			final CellRange[] tiling = new Tiler( _inner, this ).tiling();
-			return (_flow == Orientation.VERTICAL) ? detectFlowTilingIn( tiling, TILE_T, TILE_B ) : detectFlowTilingIn(
+			return (_flow == Orientation.VERTICAL)? detectFlowTilingIn( tiling, TILE_T, TILE_B ) : detectFlowTilingIn(
 					tiling, TILE_L, TILE_R );
 		}
 		else {
@@ -267,7 +267,7 @@ public final class CellRange extends Reference implements Spreadsheet.Range, Ite
 		return new CellRange[] { _tiling[ _tileBefore ], _tiling[ TILE_I ], _tiling[ _tileAfter ] };
 	}
 
-	
+
 	public Cell getTopLeft()
 	{
 		return this.from;
@@ -276,6 +276,37 @@ public final class CellRange extends Reference implements Spreadsheet.Range, Ite
 	public Cell getBottomRight()
 	{
 		return this.to;
+	}
+
+	public Iterable<Cell> cells()
+	{
+		final Iterator<CellIndex> baseIterator = iterator();
+		return new Iterable<Cell>()
+		{
+
+			public Iterator<Cell> iterator()
+			{
+				return new Iterator<Cell>()
+				{
+
+					public boolean hasNext()
+					{
+						return baseIterator.hasNext();
+					}
+
+					public Cell next()
+					{
+						return baseIterator.next();
+					}
+
+					public void remove()
+					{
+						baseIterator.remove();
+					}
+
+				};
+			}
+		};
 	}
 
 
@@ -293,16 +324,16 @@ public final class CellRange extends Reference implements Spreadsheet.Range, Ite
 	 * a range "inner". All the tiles are either null, or the respective part of "tiled". The
 	 * resulting array contains the tiles, with the following figure read left-to-right, then
 	 * top-to-bottom:
-	 * 
+	 *
 	 * <pre>
 	 *  TL T  TR
 	 *  L  I  R
 	 *  BL B  BR
 	 * </pre>
-	 * 
+	 *
 	 * where I is the inner intersection, and L, R, T, B are left, right, top, bottom.
 	 */
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	final static class Tiler
 	{
 		private final CellIndex i_tl;
@@ -316,7 +347,7 @@ public final class CellRange extends Reference implements Spreadsheet.Range, Ite
 		/**
 		 * The intersection of _inner and _tiled must not be empty.
 		 */
-		public Tiler(CellRange _inner, CellRange _tiled)
+		public Tiler( CellRange _inner, CellRange _tiled )
 		{
 			super();
 			i_tl = _inner.getFrom();

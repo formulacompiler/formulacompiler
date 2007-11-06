@@ -51,21 +51,24 @@ To check alternate input sets, you use the value @...@ in the _Name_ column K. T
 
 h2. Running Tests
 
-Every formula test sheet corresponds to a test class in
+Every formula test sheet corresponds to an entry in a test class in
 
 	compononents/system/src/test-reference/java/org.formulacompiler.tests.reference
  
-For the sheet @NumericFunctions.xls@, we need to run the test class @NumericFunctionsTest@, etc.
+For the sheet @NumericFunctions.xls@, for example, we need to run the test class @Basics@, which looks like this:
+
+	[jc:org.formulacompiler.tests.reference.Basics:---- suite]
+
 
 h2. <a name="debug">Debug Test</a>
 
-Running these tests can take quite a while. To speed up debugging, you can use special test cases derived from @org.formulacompiler.tests.reference.AbstractDebugTest@ in your IDE. Make sure you have added the following source path for this (not included in release builds):
+Running these tests can take quite a while. To speed up debugging, you can use special test cases derived from @org.formulacompiler.tests.reference.base.AbstractDebugSuiteSetup@ in your IDE. Make sure you have added the following source path for this (not included in release builds):
 
   compononents/system/src/test-reference/java-debug
  
-and also create your derived debug test cases there. Then they will be automatically ignored by Mercurial.
+and also create your derived debug test cases there, in the @org.formulacompiler.tests.reference@ package. Then they will be automatically ignored by Mercurial.
  
-Here is the base test class:
+Here is an excerpt from this base test class. It should give you an idea of how to use it. It is also documented.
 
-	[jc:org.formulacompiler.tests.reference.AbstractDebugTest:---- DebugTest]
+	[jc:org.formulacompiler.tests.reference.base.AbstractDebugSuiteSetup:---- examples]
 

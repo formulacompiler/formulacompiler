@@ -136,6 +136,11 @@ public interface Spreadsheet extends Describable
 		public Spreadsheet getSpreadsheet();
 
 		/**
+		 * Returns the sheet index (0 based) within the spreadsheet.
+		 */
+		public int getSheetIndex();
+
+		/**
 		 * Returns the rows defined in the worksheet.
 		 */
 		public Row[] getRows();
@@ -157,6 +162,11 @@ public interface Spreadsheet extends Describable
 		public Sheet getSheet();
 
 		/**
+		 * Returns the row index (0 based) within the sheet.
+		 */
+		public int getRowIndex();
+
+		/**
 		 * Returns the cells defined in the row.
 		 */
 		public Cell[] getCells();
@@ -176,6 +186,11 @@ public interface Spreadsheet extends Describable
 		 * Returns the row this cell is part of.
 		 */
 		public Row getRow();
+
+		/**
+		 * Returns the cell index (0 based) within the row.
+		 */
+		public int getColumnIndex();
 
 		/**
 		 * Returns the constant value of the cell, as defined in the spreadsheet.
@@ -241,6 +256,12 @@ public interface Spreadsheet extends Describable
 		 * Returns the bottom right corner of the range (on the rightmost sheet of the range).
 		 */
 		Cell getBottomRight();
+
+		/**
+		 * Allows iteration over the cells contained in the range. The direction is first left, then
+		 * down, from the top left.
+		 */
+		Iterable<Cell> cells();
 
 	}
 

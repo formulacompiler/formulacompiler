@@ -118,7 +118,7 @@
 
 	<target name="-test-main" depends="-jar-main, -compile-tests, @test-main" />
 	<target name="-test-ref" depends="-jar-main, -compile-tests, @test-ref" />
-	<target name="-test-ref-assuming-jar" depends="-compile-tests-assuming-jar, @test-clean, @test-ref" />
+	<target name="-test-ref-assuming-jar" depends="-compile-tests-assuming-jar, @test-ref-clean, @test-ref" />
 
 	<target name="@test-main" depends="@init" unless="@no-tests">
 
@@ -214,65 +214,70 @@
 
 	<property name="temp.ref.dir" location="${temp.dir}/test-reference" />
 
+	<target name="@test-ref-clean" depends="@init" unless="@no-tests">
+		<delete dir="${temp.ref.dir}/results" />
+		<delete dir="${temp.ref.dir}/doc" />
+	</target>
+
+	<fileset id="ref-batch-1" dir="${temp.ref.dir}/classes">
+		<include name="org/formulacompiler/tests/reference/*.class" />
+		<exclude name="org/formulacompiler/tests/reference/*$*.class" />
+		<exclude name="org/formulacompiler/tests/reference/Statistics.class" />
+		<exclude name="org/formulacompiler/tests/reference/Strings.class" />
+	</fileset>
+	<fileset id="ref-batch-2" dir="${temp.ref.dir}/classes">
+		<include name="org/formulacompiler/tests/reference/Statistics.class" />
+		<include name="org/formulacompiler/tests/reference/Strings.class" />
+	</fileset>
+
 	<target name="@test-ref" depends="@init">
 		<echo>test: running reference tests...</echo>
 
 		<mkdir dir="${temp.ref.dir}/results" />
 
 		<parallel threadcount="1" threadsperprocessor="1">
-
-			<junit printsummary="no" showoutput="no" haltonerror="no" haltonfailure="no" failureproperty="tests.failed.a" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}" maxmemory="256M">
-				<jvmarg value="-Demit_tests" />
-				<jvmarg value="-DrunOnlyType=${test-ref-only-type}" />
-				<jvmarg value="-DrunOnlyCacheVariant=${test-ref-only-caching}" />
-				<jvmarg value="-DrunQuickTests=${test-ref-quick}" />
-				<assertions enablesystemassertions="yes" />
-				<formatter type="plain" usefile="yes" />
-
-				<classpath>
-					<path refid="test.compiletime.classpath" />
-					<pathelement path="${temp.ref.dir}/classes" />
-				</classpath>
-
-				<batchtest todir="${temp.ref.dir}/results">
-					<fileset dir="${temp.ref.dir}/classes">
-						<include name="**/*Test.class" />
-						<exclude name="**/*Aggregators*Test.class" />
-						<exclude name="**/Abstract*" />
-						<exclude name="**/*$*" />
-					</fileset>
-				</batchtest>
-
-			</junit>
-
-			<junit printsummary="no" showoutput="no" haltonerror="no" haltonfailure="no" failureproperty="tests.failed.b" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
-				<jvmarg value="-Demit_tests" />
-				<jvmarg value="-DrunOnlyType=${test-ref-only-type}" />
-				<jvmarg value="-DrunOnlyCacheVariant=${test-ref-only-caching}" />
-				<jvmarg value="-DrunQuickTests=${test-ref-quick}" />
-				<assertions enablesystemassertions="yes" />
-				<formatter type="plain" usefile="yes" />
-
-				<classpath>
-					<path refid="test.compiletime.classpath" />
-					<pathelement path="${temp.ref.dir}/classes" />
-				</classpath>
-
-				<batchtest todir="${temp.ref.dir}/results">
-					<fileset dir="${temp.ref.dir}/classes">
-						<include name="**/*Aggregators*Test.class" />
-						<exclude name="**/Abstract*" />
-						<exclude name="**/*$*" />
-					</fileset>
-				</batchtest>
-
-			</junit>
-
+			<antcall target="-ref-batch">
+				<param name="ref-batch-id" value="ref-batch-1" />
+			</antcall>
+			<antcall target="-ref-batch">
+				<param name="ref-batch-id" value="ref-batch-2" />
+			</antcall>
 		</parallel>
 
-		<fail if="tests.failed.a" />
-		<fail if="tests.failed.b" />
+		<fail if="ref-batch-1.failed" />
+		<fail if="ref-batch-2.failed" />
+	</target>
 
+	<target name="-ref-batch">
+		<junit printsummary="no"
+				showoutput="no"
+				haltonerror="no"
+				haltonfailure="no"
+				failureproperty="${ref-batch-id}.failed"
+				fork="yes"
+				forkmode="once"
+				dir="."
+				tempdir="${temp.dir}"
+				maxmemory="256M">
+
+			<jvmarg value="-Dorg.formulacompiler.tests.reference.emit_documentation=${test-ref-doc}" />
+			<jvmarg value="-Dorg.formulacompiler.tests.reference.quick_run=${test-ref-quick}" />
+			<jvmarg value="-Dorg.formulacompiler.tests.reference.threaded_run=${test-ref-threaded}" />
+
+			<assertions enablesystemassertions="yes" />
+			<formatter type="brief" usefile="yes" />
+
+			<classpath>
+				<path refid="test.compiletime.classpath" />
+				<pathelement path="${temp.ref.dir}/classes" />
+			</classpath>
+
+			<batchtest todir="${temp.ref.dir}/results">
+				<fileset refid="${ref-batch-id}" />
+			</batchtest>
+
+		</junit>
+		<fail if="${ref-batch-id}.failed" />
 	</target>
 
 </project>
