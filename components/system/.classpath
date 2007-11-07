@@ -15,6 +15,6 @@
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/afc-runtime"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/afc-spreadsheet"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/afc-spreadsheet-excel-xls"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
+	<classpathentry kind="lib" path="/afc/lib/test/junit.jar" sourcepath="/afc/lib/IDE/junit-src.jar"/>
 	<classpathentry kind="output" path="temp/eclipse"/>
 </classpath>
