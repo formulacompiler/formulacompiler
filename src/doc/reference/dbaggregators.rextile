@@ -16,7 +16,7 @@ The following test cases reference this sheet:
 	
 h2. Aggregators
 
-	[inc:DatabaseAggregators_de_CH.htm]
+<%= gen_doc "DatabaseAggregators_de_CH" %>
 
 
 h2. Repeating Section Support
@@ -30,3 +30,4 @@ It is also possible to have multiple sibling sections in the data table, as show
 	[xc:org/formulacompiler/tests/reference/DSUM_with_sibling_sections.xls:Cited_Example]
 
 TODO: This example is not automatically tested yet!
+

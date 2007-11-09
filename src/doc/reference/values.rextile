@@ -13,14 +13,14 @@ Internally, AFC really only supports two basic data types: numbers and strings. 
 
 For a particular engine compiled by AFC, the numbers are all of the same type. The default is the @double@ type, which is what Excel uses as well. See the tutorial for details on the "available numeric types":../tutorial/numeric_type.htm and how to choose one.
 
-<%= toc 2, 4 %>
+<%= toc 2, 5 %>
 
 
 h2. Cell References
 
 AFC supports the following styles of cell and range references:
 
-	[inc:CellNames.htm]
+<%= gen_doc "CellNames" %>
 
 
 
@@ -28,7 +28,7 @@ h2. Empty Cells
 
 AFC currently has no proper support for empty cells. It simply treats them like the number zero (@0.0@). This is usually correct (even for multiplication with @*@, where Excel treats empty cells as zero too), but fails most noticeably in "aggregators":aggregators.htm like @COUNT@, @AVERAGE@, or @PRODUCT@ (where Excel skips empty cells):
 
-	[inc:EmptyCells.htm]
+<%= gen_doc "EmptyCells" %>
 
 
 
@@ -50,4 +50,5 @@ If you set a fixed number of decimal places after the point on a cell in Excel, 
 
 Here's the handling of cell precision, shown by example (the number format is shown in small type behind the cell value or formula):
 
-	[inc:Precision.htm]
+<%= gen_doc "Precision" %>
+

@@ -8,4 +8,5 @@ h3. Statistical Functions
 
 The supported statistical functions are shown by example below:
 
-	[inc:StatisticalFunctions.htm]
+<%= gen_doc "StatisticalFunctions" %>
+

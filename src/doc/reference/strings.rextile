@@ -6,12 +6,11 @@ h1. Strings In AFC
 
 h3. String Functions
 
-	[inc:Strings_en_US.htm]
-	
-	[inc:Strings.htm]
+<%= gen_doc "Strings_en_US" %>
+<%= gen_doc "Strings" %>
 
 	
 h3. String Comparisons
 
-	[inc:StringComparisons.htm]
+<%= gen_doc "StringComparisons" %>
 
