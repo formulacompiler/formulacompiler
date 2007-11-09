@@ -10,11 +10,12 @@ h3. @SUM@ and Range Specifications
 
 I use the @SUM@ function to show the types of range specification supported by AFC, as well as the support for @SUM@ as such:
 
-	[inc:FunctionSUM.htm]
+<%= gen_doc "FunctionSUM" %>
 
 
 h3. Other Aggregators Like @SUM@
 
 There are a number of other supported aggregation functions which behave much like @SUM@ in the type of arguments they accept. They are:
 
-	[inc:Aggregators.htm]
+<%= gen_doc "Aggregators" %>
+

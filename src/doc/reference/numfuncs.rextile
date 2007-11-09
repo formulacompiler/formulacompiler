@@ -8,4 +8,6 @@ h3. Numeric Functions
 
 The supported numeric functions are shown by example below:
 
-	[inc:NumericFunctions.htm]
+<%= gen_doc "NumericFunctions" %>
+
+

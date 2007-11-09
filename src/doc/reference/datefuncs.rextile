@@ -8,4 +8,5 @@ h3. Date Functions
 
 The supported date functions are shown by example below:
 
-	[inc:DateFunctions.htm]
+<%= gen_doc "DateFunctions" %>
+
