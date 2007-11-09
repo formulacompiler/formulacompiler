@@ -286,7 +286,7 @@
 				<include name="*/src/**/java*/**/*.java" />
 				<include name="*/src/**/java*/**/*.jj" />
 				<!--  the following files have differing licences  -->
-				<exclude name="**/internal/build/Util.java" />
+				<exclude name="**/internal/IOUtil.java" />
 				<exclude name="**/internal/build/bytecode/ASMHelpers.java" />
 				<exclude name="**/internal/cern/**" />
 			</fileset>

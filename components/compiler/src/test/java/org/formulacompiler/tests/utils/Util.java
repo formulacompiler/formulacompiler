@@ -20,18 +20,13 @@
  */
 package org.formulacompiler.tests.utils;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.Writer;
+
+import org.formulacompiler.compiler.internal.IOUtil;
 
 
-public class Util
+public class Util extends IOUtil
 {
 
 	public static String trimTrailingZerosAndPoint( String _string )
@@ -57,31 +52,12 @@ public class Util
 		return sb.toString();
 	}
 
-
 	private static void disassemble( File _file, final String _className, final StringBuilder _builder )
 			throws IOException, InterruptedException
 	{
 		_builder.append( "\n" );
 		_builder.append( exec( "javap", "-c", "-verbose", "-private", "-classpath", _file.getAbsolutePath(),
 				"org/formulacompiler/gen/" + _className ) );
-	}
-
-
-	public static String exec( String... _command ) throws IOException, InterruptedException
-	{
-		final ProcessBuilder pb = new ProcessBuilder( _command );
-		final Process p = pb.start();
-		p.waitFor();
-		final StringWriter writer = new StringWriter();
-		writeStream( p.getInputStream(), writer );
-		return writer.toString();
-	}
-
-	private static void writeStream( InputStream _from, Writer _printTo ) throws IOException
-	{
-		final Reader in = new BufferedReader( new InputStreamReader( new BufferedInputStream( _from ) ) );
-		while (in.ready())
-			_printTo.write( in.read() );
 	}
 
 }
