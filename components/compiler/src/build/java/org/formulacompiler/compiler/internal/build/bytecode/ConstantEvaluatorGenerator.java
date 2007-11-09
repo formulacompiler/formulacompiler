@@ -24,7 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.formulacompiler.compiler.internal.build.Util;
+import org.formulacompiler.compiler.internal.IOUtil;
 import org.formulacompiler.describable.DescriptionBuilder;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.MethodNode;
@@ -88,7 +88,7 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 		cb.newLine();
 		cb.appendLine( "}" );
 
-		Util.writeStringToIfNotUpToDateWithMessage( cb.toString(), new File( _outputPath, typeName + ".java" ) );
+		IOUtil.writeStringToIfNotUpToDateWithMessage( cb.toString(), new File( _outputPath, typeName + ".java" ) );
 
 		if (verbose) {
 			System.out.println( "Done generating " + typeName + "." );

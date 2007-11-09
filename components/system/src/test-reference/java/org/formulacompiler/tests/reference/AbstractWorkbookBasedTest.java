@@ -20,13 +20,12 @@
  */
 package org.formulacompiler.tests.reference;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 
 import org.formulacompiler.compiler.SaveableEngine;
+import org.formulacompiler.compiler.internal.IOUtil;
 import org.formulacompiler.compiler.internal.logging.Log;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
@@ -40,7 +39,7 @@ public abstract class AbstractWorkbookBasedTest extends TestCase
 	public static final Log LOG = new Log();
 
 	private static final File SPREADSHEET_PATH = new File( "src/test-reference/data/org/formulacompiler/tests/reference" );
-	
+
 	protected final String baseName;
 	protected final String spreadsheetName;
 
@@ -73,16 +72,10 @@ public abstract class AbstractWorkbookBasedTest extends TestCase
 		}
 	}
 
-	
+
 	protected static void writeStringTo( String _value, File _target ) throws IOException
 	{
-		BufferedWriter writer = new BufferedWriter( new FileWriter( _target ) );
-		try {
-			if (null != _value) writer.write( _value );
-		}
-		finally {
-			writer.close();
-		}
+		IOUtil.writeStringTo( _value, _target );
 	}
 
 
@@ -126,7 +119,7 @@ public abstract class AbstractWorkbookBasedTest extends TestCase
 			super();
 			this.book = _book;
 		}
-		
+
 		protected abstract void run() throws Exception;
 
 	}

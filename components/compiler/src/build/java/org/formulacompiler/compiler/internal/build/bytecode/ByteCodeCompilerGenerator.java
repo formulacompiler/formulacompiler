@@ -26,7 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.formulacompiler.compiler.internal.build.Util;
+import org.formulacompiler.compiler.internal.IOUtil;
 import org.formulacompiler.describable.DescriptionBuilder;
 import org.formulacompiler.runtime.New;
 import org.objectweb.asm.Label;
@@ -123,7 +123,7 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 		cb.newLine();
 		cb.appendLine( "}" );
 
-		Util.writeStringToIfNotUpToDateWithMessage( cb.toString(), new File( _outputPath, clsName + ".java" ) );
+		IOUtil.writeStringToIfNotUpToDateWithMessage( cb.toString(), new File( _outputPath, clsName + ".java" ) );
 
 		if (verbose) {
 			System.out.println( "Done generating " + clsName + "." );

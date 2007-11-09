@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.formulacompiler.compiler.Function;
-import org.formulacompiler.compiler.internal.build.Util;
+import org.formulacompiler.compiler.internal.IOUtil;
 import org.formulacompiler.compiler.internal.build.rewriting.AbstractDef.Param;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
@@ -92,7 +92,7 @@ public final class RewriteRulesCompiler
 	private void parseRulesIn( String _fileName ) throws Exception
 	{
 
-		final String src = Util.readStringFrom( ClassLoader.getSystemResourceAsStream( FILES_PATH + _fileName ) );
+		final String src = IOUtil.readStringFrom( ClassLoader.getSystemResourceAsStream( FILES_PATH + _fileName ) );
 		new RewriteRuleExpressionParser( src, this.rules, this.folds ).parseFile();
 	}
 
@@ -156,7 +156,7 @@ public final class RewriteRulesCompiler
 
 	private final void writeOut() throws IOException
 	{
-		final String template = Util.readStringFrom( ClassLoader.getSystemResourceAsStream( TEMPLATE_FILE ) );
+		final String template = IOUtil.readStringFrom( ClassLoader.getSystemResourceAsStream( TEMPLATE_FILE ) );
 		final String[] split1 = template.split( "__SWITCH__" );
 		final String[] split2 = split1[ 1 ].split( "__METHODS__" );
 		final String prefix = split1[ 0 ];
@@ -167,7 +167,7 @@ public final class RewriteRulesCompiler
 		final File tgtFolder = new File( TGT_FOLDER );
 		final File tgtFile = new File( tgtFolder, TGT_NAME );
 		tgtFolder.mkdirs();
-		Util.writeStringToIfNotUpToDateWithMessage( generated, tgtFile );
+		IOUtil.writeStringToIfNotUpToDateWithMessage( generated, tgtFile );
 	}
 
 

@@ -24,7 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import org.formulacompiler.compiler.internal.build.Util;
+import org.formulacompiler.compiler.internal.IOUtil;
 import org.formulacompiler.compiler.internal.build.bytecode.ByteCodeCompilerGenerator.TemplateMethodGenerator;
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForAll;
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForDoubles;
@@ -42,7 +42,7 @@ class PatternCompilerToByteCodeCompilers
 
 	public void run() throws IOException
 	{
-		final File p = new File( "temp/impl/java-" + Util.jdkVersionSuffix() + "/org/formulacompiler/compiler/internal/bytecode" );
+		final File p = new File( "temp/impl/java-" + IOUtil.jdkVersionSuffix() + "/org/formulacompiler/compiler/internal/bytecode" );
 		p.mkdirs();
 
 		new ByteCodeCompilerGenerator( ExpressionTemplatesForAll.class, "All" ).generate( p );

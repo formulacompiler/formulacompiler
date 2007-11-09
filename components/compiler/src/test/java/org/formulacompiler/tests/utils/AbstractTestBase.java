@@ -22,23 +22,22 @@ package org.formulacompiler.tests.utils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 
 import org.formulacompiler.compiler.CallFrame;
+import org.formulacompiler.compiler.internal.IOUtil;
 
 import junit.framework.TestCase;
 
 public abstract class AbstractTestBase extends TestCase
 {
 
-	
+
 	protected CallFrame getInput( String _name ) throws SecurityException, NoSuchMethodException
 	{
 		return new CallFrame( Inputs.class.getMethod( _name ) );
@@ -118,35 +117,17 @@ public abstract class AbstractTestBase extends TestCase
 
 	protected static String readStringFrom( File _source ) throws IOException
 	{
-		StringBuffer sb = new StringBuffer( 1024 );
-		BufferedReader reader = new BufferedReader( new FileReader( _source ) );
-		try {
-			char[] chars = new char[ 1024 ];
-			int red;
-			while ((red = reader.read( chars )) > -1) {
-				sb.append( String.valueOf( chars, 0, red ) );
-			}
-		}
-		finally {
-			reader.close();
-		}
-		return sb.toString();
+		return IOUtil.readStringFrom( _source );
 	}
 
 	protected static void writeStringTo( String _value, File _target ) throws IOException
 	{
-		BufferedWriter writer = new BufferedWriter( new FileWriter( _target ) );
-		try {
-			if (null != _value) writer.write( _value );
-		}
-		finally {
-			writer.close();
-		}
+		IOUtil.writeStringTo( _value, _target );
 	}
 
 	protected static String normalizeLineEndings( String _s )
 	{
-		return _s.replace( "\r\n", "\n" ).replace( '\r', '\n' );
+		return IOUtil.normalizeLineEndings( _s );
 	}
 
 

@@ -20,18 +20,14 @@
  */
 package org.formulacompiler.tests;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
 
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.SaveableEngine;
+import org.formulacompiler.compiler.internal.IOUtil;
 import org.formulacompiler.decompiler.ByteCodeEngineSource;
 import org.formulacompiler.decompiler.FormulaDecompiler;
 import org.formulacompiler.runtime.ComputationFactory;
@@ -256,7 +252,7 @@ public class LookupTest extends TestCase
 	{
 		final File decompFile = new File( DECOMP_PATH, _testName.toLowerCase() + "/org/formulacompiler/gen/$Root.java" );
 		if (decompFile.exists()) {
-			final String decomp = readStringFrom( decompFile );
+			final String decomp = IOUtil.readStringFrom( decompFile );
 			final String start = lineSep() + _indentation + _start + lineSep();
 			final String end = lineSep() + _indentation + _end + lineSep();
 			final int iFrom = decomp.indexOf( start ) + 1;
@@ -269,7 +265,7 @@ public class LookupTest extends TestCase
 					+ lineSep() + _indentation + "// ---- fragment" + lineSep() + decomp.substring( iFrom, iUpToExcl )
 					+ lineSep() + _indentation + "// ---- fragment" + lineSep() + decomp.substring( iUpToExcl );
 
-			writeStringTo( marked, decompFile );
+			IOUtil.writeStringTo( marked, decompFile );
 		}
 	}
 
@@ -278,34 +274,6 @@ public class LookupTest extends TestCase
 	public String lineSep()
 	{
 		return this.lineSep;
-	}
-
-	protected static String readStringFrom( File _source ) throws IOException
-	{
-		StringBuffer sb = new StringBuffer( 1024 );
-		BufferedReader reader = new BufferedReader( new FileReader( _source ) );
-		try {
-			char[] chars = new char[ 1024 ];
-			int red;
-			while ((red = reader.read( chars )) > -1) {
-				sb.append( chars, 0, red );
-			}
-		}
-		finally {
-			reader.close();
-		}
-		return sb.toString();
-	}
-
-	protected static void writeStringTo( String _value, File _target ) throws IOException
-	{
-		BufferedWriter writer = new BufferedWriter( new FileWriter( _target ) );
-		try {
-			if (null != _value) writer.write( _value );
-		}
-		finally {
-			writer.close();
-		}
 	}
 
 }
