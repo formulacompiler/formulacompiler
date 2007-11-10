@@ -1,0 +1,135 @@
+
+h1. Special Rewrite Functions
+
+AFC contains a number of special, internal functions that you can use to rewrite spreadsheet functions using simpler base functions.
+
+<%= toc %>
+
+
+h2. Let
+
+The function
+
+	let name = expr in body
+	
+defines a local constant @name@ as the result of @expr@ during the evaluation of @body@. Within @body@, the constant can be referenced as @name@. It may be referenced more than once (which is the reason @let@ exists). Example:
+
+	let n = COUNT(xs) in n * n
+	
+In the generated Java code, AFC allocates a local variable for the result and initializes it inline at its first occurrence. Like so:
+
+	double n;
+	return (n = count(xs)) * n;
+
+Sequences of @let@s can be written as:
+
+	let a = 1
+	let b = 2
+	let c = 3
+	in a + b + c
+
+A @let@ nested within a non-top level expression must be parenthesized:
+
+	1 + (let c = 2 in c*c)
+
+
+h2. Fold / Iterate / Apply
+
+_Folding_ here means to aggregate a list of values @value-list@ into a single result value. It is also possible to fold values from multiple parallel lists (vectors). The definition of a fold is separated from its application to a list of values. This is so we can apply a fold like a summation to both a range (@SUM@) and a database selection (@DSUM@). Here's a quick example:
+
+	[text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: sum]
+
+
+h3. Fold / Iterate
+
+A fold is written as follows:
+
+	fold[/reduce]
+	[with
+		acc-name-1 = init-expr-1, 
+		..., 
+		acc-name-n = init-expr-n]
+	[index index-name]
+	each value-name-1, ..., value-name-m
+	[as
+		acc-name-1 = folding-expr-1,
+		...,
+		acc-name-n = folding-expr-n]
+	[[with count count-name]
+	into merge-expr]
+	[when empty empty-expr]
+
+Iterate is very similar, but allows the use of the current index within the @folding-expr@:
+
+	iterate
+	with
+		acc-name-1 = init-expr-1, 
+		..., 
+		acc-name-n = init-expr-n
+	[index index-name]
+	each value-name-1, ..., value-name-m
+	as
+		acc-name-1 = folding-expr-1,
+		...,
+		acc-name-n = folding-expr-n
+	[[with count count-name]
+	into merge-expr]
+	[when empty empty-expr]
+
+Both of these functions correspond roughly to the following loop in pseudo-code:
+
+	double acc-name-1 = init-expr-1;
+	...
+	double acc-name-n = init-expr-n;
+	int index-name = 0;
+	while (more-values) {
+		index-name++;
+		double value-name-1 = values-1[ index-name ];
+		...
+		double value-name-m = values-m[ index-name ];
+		acc-name-1 = folding-expr-1;
+		...
+		acc-name-n = folding-expr-n;
+	}
+	if (index-name > 0) {
+		int count-name = index-name;
+		return merge-expr;
+	}
+	return empty-expr;
+
+Things of note:
+
+	* The @value-i@ arrays are placeholders for the value lists fed to the fold by @apply@ (see below).
+	* Within a @folding-expr-i@, you can reference the prior value of @acc-name-i@, all of the @value-name-j@, and @index-name@. You should not refer to any other accumulator value.
+	* Within the @merge-expr@ you can reference all the final @acc-name-i@, and @count-name@.
+	* When you don't need @index-name@, then don't specify it. Likewise for @count-name@. This allows more efficient code to be generated.
+	* When @n = 1@ (single accumulator), you can omit the @into merge-expr@ part. The result is then simply the last value of the accumulator.
+	* When @n = 1@, you can omit the @when empty empty-expr@ part. The result if the list is empty is then the initial value of the accumulator (@init-expr-1@).
+	* When @n = m = 1@, you may specify @fold/reduce@. Then the fold can be optimized by initializing the accumulator with the first list value and skipping the @folding-expr-1@ for the first list value. So @SUM(1, 2)@ is reduced to @1 + 2@ and not @0 + 1 + 2@. The compiler will still use a plain fold if there is no easily recognized list value to be used as the initial accumulator value (for example, when the fold is applied to a repeating section).
+	* Using @fold@ instead of @iterate@ allows the compiler to rearrange the values in the list prior to folding it. This allows it to do better constant folding and generate more efficient code.
+
+A single list, single accumulator fold is often compiled to an inlined, unrolled version when applied to a static cell range. So @SUM(A1:A3)@ becomes @A1 + A2 + A3@. This is not the case if the cell range has repeating sections in it. For other folds, the compiler emits a helper function.
+
+
+h3. Apply
+
+There are two versions of @apply@, which applies a fold to one or more lists of values:
+
+	apply fold-def to list list-param
+	apply fold-def to vectors {vec-param-1, ..., vec-param-m}
+
+The former is used with the standard aggregators where all the arguments are considered the input list:
+
+	[text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: sum]
+
+This also shows how the definition of the fold can be moved out of the rewrite rule and refered to by name. You normally only do this when the fold can be reused elsewhere (for instance in the definition of database folds).
+
+The latter is used for folds over vectors (arrays), which consist of a single contiguous cell range. Here's an example with a single array:
+
+	[text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: npv]
+
+and with multiple arrays:
+
+	[text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: covar]
+
+

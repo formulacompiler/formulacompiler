@@ -1,0 +1,62 @@
+<% @html_name = html_name.chomp( '.htm' ) + '.xhtml' %>
+
+h1. Adding A New Vector Computation To AFC
+
+A vector computation is a (typically financial) function that computes a single value from a vector (array) of values. Here, we shall look at how I implemented @NPV()@. So let's assume @NPV()@ has not been implemented yet.
+
+_Note: You must have read the topics on adding "primitive functions":-prim and "high-level functions":-high to understand this section._
+
+<%= toc 2, 4 %>
+
+
+h2. Docs and Tests
+
+As always, we start with the announcement in the release notes, and the tests:
+
+	[xc:org/formulacompiler/tests/reference/FinancialFunctions.xls:HeaderRange,NPVRange]
+
+	
+h2. Parsing
+
+Making @NPV()@ known to the parser is much like what we did for @ABS()@. Array functions, however, need to accept vector arguments, not just simple values. These are denoted by @shapedRangeExpr()@:
+
+	[text:ExpressionParser.jj:// citation: npv]
+
+This means:
+
+	* @open()@ - open parenthesis, start collecting function arguments.
+	* @expr()@ - single-valued expression.
+	* @shapedRangeExpr()@ - vector range expression with shape information (width, height) available to compiler.
+	* @closeFun( Function.NPV )@ - packs collected function arguments into a function expression node. 
+	
+
+h2. Mathematical Definition
+	
+The function @NPV()@ is defined in the Excel help file as follows:
+
+<notextile><math xmlns='http://www.w3.org/1998/Math/MathML' display='block'>
+	<munderover><mo lspace="thinmathspace" rspace="thinmathspace">&#8721;</mo> <mrow><mi>i</mi>
+	<mo>=</mo><mn>1</mn></mrow> <mi>n</mi></munderover>
+	<mfrac><mrow><msub><mi>values</mi> <mi>i</mi></msub>
+	</mrow><mrow><mo>(</mo>
+	<mn>1</mn><mo>+</mo><mi>rate</mi><msup><mo>)</mo> <mi>i</mi></msup></mrow></mfrac>
+</math></notextile>
+
+What we need here is a "folding function":-refrewrite that gives us access to the current index @i@. The @fold@ we already encountered does not support this, but the very similar @iterate@ does.
+
+
+h2. Rewriting It
+
+Since @NPV@ takes a _vector_ as an argument, we need to apply the fold using @apply... to vectors {v1, ..., vn}@ instead of @apply... to list xs@. And we tell the rewrite parser about this by suffixing the vector argument with @#@:
+
+	[text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: npv]
+
+Note how I used @let@ here to move the common subexpression out of the folding loop.
+
+h2. Multiple Vectors
+
+As the syntax above suggests,  @apply... to vectors {v1, ..., vn}@ can be used to fold multiple vectors in parallel. This demonstrated by @COVAR@:
+
+	[text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: covar]
+
+

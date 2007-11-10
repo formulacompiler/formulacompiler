@@ -1,0 +1,1016 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <LastAuthor>samsonov</LastAuthor>
+  <Created>2005-11-22T20:05:38Z</Created>
+  <LastSaved>2007-09-26T18:02:49Z</LastSaved>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>6690</WindowHeight>
+  <WindowWidth>19170</WindowWidth>
+  <WindowTopX>-15</WindowTopX>
+  <WindowTopY>0</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s22" ss:Name="Percent">
+   <NumberFormat ss:Format="0%"/>
+  </Style>
+  <Style ss:ID="s24">
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Italic="1"/>
+  </Style>
+  <Style ss:ID="s26">
+   <Alignment ss:Vertical="Center"/>
+   <Font ss:FontName="Verdana" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s27">
+   <Alignment ss:Vertical="Center"/>
+   <Font ss:FontName="Verdana" ss:Italic="1" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s28">
+   <NumberFormat ss:Format="Scientific"/>
+  </Style>
+  <Style ss:ID="s29">
+   <NumberFormat ss:Format="0%"/>
+  </Style>
+  <Style ss:ID="s30">
+   <NumberFormat ss:Format="Short Date"/>
+  </Style>
+  <Style ss:ID="s34">
+   <NumberFormat/>
+  </Style>
+  <Style ss:ID="s35">
+   <NumberFormat ss:Format="0.000000000000000"/>
+  </Style>
+  <Style ss:ID="s36">
+   <NumberFormat ss:Format="0.00000000000"/>
+  </Style>
+  <Style ss:ID="s37">
+   <NumberFormat ss:Format="0.0000"/>
+  </Style>
+  <Style ss:ID="s40">
+   <NumberFormat ss:Format="0.0000000000000000000"/>
+  </Style>
+  <Style ss:ID="s41">
+   <NumberFormat ss:Format="@"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="310" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:AutoFitWidth="0" ss:Width="92.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="90.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="217.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="43.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="48.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="19.5" ss:Span="3"/>
+   <Column ss:Index="10" ss:StyleID="s24" ss:AutoFitWidth="0" ss:Width="61.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="177.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="44.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="67.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="90.75"/>
+   <Row ss:AutoFitHeight="0" ss:Height="25.5" ss:StyleID="s26">
+    <Cell><Data ss:Type="String">Expected</Data></Cell>
+    <Cell><Data ss:Type="String">Actual</Data></Cell>
+    <Cell><Data ss:Type="String">Inputs</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s27"><Data ss:Type="String"># of Inputs</Data></Cell>
+    <Cell><Data ss:Type="String">Name</Data></Cell>
+    <Cell><Data ss:Type="String">Highlight</Data></Cell>
+    <Cell><Data ss:Type="String">Excel says</Data></Cell>
+    <Cell><Data ss:Type="String">Skip for</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s34"><Data ss:Type="Number">123</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">123</Data></Cell>
+    <Cell><Data ss:Type="String" x:Ticked="1">123</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">VALUE (does not support blanks!)</Data></Cell>
+    <Cell><Data ss:Type="String">VALUE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s34"><Data ss:Type="Number">123</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">123</Data></Cell>
+    <Cell><Data ss:Type="String" x:Ticked="1"> 123 </Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s34"><Data ss:Type="Number">123.55</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">123.55</Data></Cell>
+    <Cell><Data ss:Type="String" x:Ticked="1">123,55</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s34"><Data ss:Type="Number">-23</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">-23</Data></Cell>
+    <Cell><Data ss:Type="String" x:Ticked="1"> - 23</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s34"><Data ss:Type="Number">100000000</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">100000000</Data></Cell>
+    <Cell><Data ss:Type="String" x:Ticked="1">100 000 000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s34"><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">0.2</Data></Cell>
+    <Cell ss:StyleID="s29"><Data ss:Type="String" x:Ticked="1">20%</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s34"><Data ss:Type="Number">1234000</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">1234000</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String" x:Ticked="1">1,234e6</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s34"><Data ss:Type="Number">-1.2299999999999999E-8</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">-1.2299999999999999E-8</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String" x:Ticked="1">-123e-10</Data></Cell>
+    <Cell ss:StyleID="s28"/>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">-1.2345599999999999E-7</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">-1.2345599999999999E-7</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String" x:Ticked="1">- 123 456E-12</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">12.345000000000001</Data></Cell>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">12.345000000000001</Data></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="Number">12.345000000000001</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">12.345000000000001</Data></Cell>
+    <Cell ss:Formula="=N(RC[1])"><Data ss:Type="Number">12.345000000000001</Data></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="Number">12.345000000000001</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">N (does not support blanks!)</Data></Cell>
+    <Cell><Data ss:Type="String">N</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=N(RC[1])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="String" x:Ticked="1">12345</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">39083</Data></Cell>
+    <Cell ss:Formula="=N(RC[1])"><Data ss:Type="Number">39083</Data></Cell>
+    <Cell ss:StyleID="s30"><Data ss:Type="DateTime">2007-01-01T00:00:00.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=N(RC[1])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="String" x:Ticked="1">01.01.2007</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=N(RC[1])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=N(RC[1])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s34"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">AaBbCcDd</Data></Cell>
+    <Cell ss:Formula="=T(RC[1])"><Data ss:Type="String">AaBbCcDd</Data></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="String">AaBbCcDd</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">T (does not support blanks!)</Data></Cell>
+    <Cell><Data ss:Type="String">T</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">АаБбВвГгДд</Data></Cell>
+    <Cell ss:Formula="=T(RC[1])"><Data ss:Type="String">АаБбВвГгДд</Data></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="String">АаБбВвГгДд</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=T(RC[1])"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="Number">123.45</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">123,45</Data></Cell>
+    <Cell ss:Formula="=T(RC[1])"><Data ss:Type="String">123,45</Data></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="String" x:Ticked="1">123,45</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=T(RC[1])"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s30"><Data ss:Type="DateTime">2007-01-01T00:00:00.000</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">01.01.2007</Data></Cell>
+    <Cell ss:Formula="=T(RC[1])"><Data ss:Type="String">01.01.2007</Data></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="String" x:Ticked="1">01.01.2007</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=T(RC[1])"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=T(RC[1])"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:Index="29">
+    <Cell><Data ss:Type="String">0</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0</Data></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">TEXT (does not support blanks!)</Data></Cell>
+    <Cell><Data ss:Type="String">TEXT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">99999999999</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">99999999999</Data></Cell>
+    <Cell ss:StyleID="s37"><Data ss:Type="Number">99999999999.499893</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1E+11</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">1E+11</Data></Cell>
+    <Cell ss:StyleID="s37"><Data ss:Type="Number">99999999999.5</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,000000009</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,000000009</Data></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="Number">8.9999999999999995E-9</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">9E-09</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">9E-09</Data></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="Number">9.0000009999999998E-9</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">7,77778E-05</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">7,77778E-05</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">7.77777777777777E-5</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,000777778</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,000777778</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">7.7777777777777697E-4</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,007777778</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,007777778</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">7.7777777777777697E-3</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,077777778</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,077777778</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">7.7777777777777696E-2</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,777777778</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,777777778</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">0.77777777777777701</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">7,777777778</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">7,777777778</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">7.7777777777777697</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">77,77777778</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">77,77777778</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">77.7777777777777</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">777,7777778</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">777,7777778</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">777.77777777777703</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">7777,777778</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">7777,777778</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">7777.7777777777701</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">77777,77778</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">77777,77778</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">77777.777777777694</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">777777,7778</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">777777,7778</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">777777.77777777705</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">7777777,778</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">7777777,778</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">7777777.7777777696</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">77777777,78</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">77777777,78</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">77777777.777777702</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">777777777,8</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">777777777,8</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">777777777.77777696</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">7777777778</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">7777777778</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">7777777777.77777</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">77777777778</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">77777777778</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">77777777777.777695</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">7,77778E+11</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">7,77778E+11</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">777777777777.77698</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">7,77778E+12</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">7,77778E+12</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">7777777777777.7695</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">7,77778E+13</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">7,77778E+13</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">77777777777777.703</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">7,77778E+14</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">7,77778E+14</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">777777777777777</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">-777777777,8</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">-777777777,8</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">-777777777.77777696</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">-7777777778</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">-7777777778</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">-7777777777.77777</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">-77777777778</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">-77777777778</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">-77777777777.777695</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">-7,77778E+11</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">-7,77778E+11</Data></Cell>
+    <Cell ss:StyleID="s40"><Data ss:Type="Number">-777777777777.77698</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,000000001</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,000000001</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.0000000000000001E-9</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,000000011</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,000000011</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.0999999999999999E-8</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,000000111</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,000000111</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.11E-7</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,000001111</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,000001111</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.111E-6</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,000011111</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,000011111</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.1110999999999999E-5</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,000111111</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,000111111</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.11111E-4</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,001111111</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,001111111</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.1111109999999999E-3</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,011111111</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,011111111</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.1111111E-2</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,111111111</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,111111111</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">0.111111111</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1E-11</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">1E-11</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">9.9999999999999994E-12</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1,1E-10</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">1,1E-10</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.0999999999999999E-10</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1,01E-09</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">1,01E-09</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.01E-9</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1,101E-08</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">1,101E-08</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.1010000000000001E-8</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1,1101E-07</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">1,1101E-07</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.1101E-7</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1,11101E-06</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">1,11101E-06</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.1110100000000001E-6</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1,1111E-05</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">1,1111E-05</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.111101E-5</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,000111111</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,000111111</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.1111101E-4</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,001111111</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,001111111</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.1111110100000001E-3</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,011111111</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,011111111</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.1111111010000001E-2</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,111111111</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,111111111</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">0.11111111101</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">9,9E-10</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">9,9E-10</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">9.900000000000001E-10</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1,99E-09</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">1,99E-09</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.99E-9</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1,199E-08</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">1,199E-08</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.199E-8</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1,1199E-07</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">1,1199E-07</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.1199E-7</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1,11199E-06</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">1,11199E-06</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.11199E-6</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1,1112E-05</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">1,1112E-05</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.1111990000000001E-5</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,000111112</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,000111112</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.1111199E-4</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,001111112</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,001111112</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.1111119900000001E-3</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,011111112</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,011111112</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">1.111111199E-2</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">0,111111112</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">0,111111112</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="Number">0.11111111199</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">bigdecimal, long</Data><Comment
+      ss:Author="vkorenev"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B><Font
+         html:Face="Tahoma" html:Size="8" html:Color="#000000">vkorenev:</Font></B><Font
+        html:Face="Tahoma" html:Size="8" html:Color="#000000">&#10;Precision problem</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String" x:Ticked="1">AaBbCcDd</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">AaBbCcDd</Data></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="String">AaBbCcDd</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String" x:Ticked="1">АаБбВвГгДд</Data></Cell>
+    <Cell ss:Formula="=TEXT(RC[1],RC[2])"><Data ss:Type="String">АаБбВвГгДд</Data></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="String">АаБбВвГгДд</Data></Cell>
+    <Cell><Data ss:Type="String">@</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row ss:Index="91">
+    <Cell ss:StyleID="s41"><Data ss:Type="String">1 234,35</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1])"><Data ss:Type="String">1 234,35</Data></Cell>
+    <Cell><Data ss:Type="Number">1234.3456000000001</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">FIXED</Data></Cell>
+    <Cell><Data ss:Type="String">FIXED</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">12,340</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2])"><Data ss:Type="String">12,340</Data></Cell>
+    <Cell><Data ss:Type="Number">12.34</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">12 345,340</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2])"><Data ss:Type="String">12 345,340</Data></Cell>
+    <Cell><Data ss:Type="Number">12345.34</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">123 456 789,123</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2])"><Data ss:Type="String">123 456 789,123</Data></Cell>
+    <Cell><Data ss:Type="Number">123456789.123456</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">12 300</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2])"><Data ss:Type="String">12 300</Data></Cell>
+    <Cell><Data ss:Type="Number">12345.34</Data></Cell>
+    <Cell><Data ss:Type="Number">-2</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">12345,340</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2],RC[3])"><Data ss:Type="String">12345,340</Data></Cell>
+    <Cell><Data ss:Type="Number">12345.34</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">12 345,340</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2],RC[3])"><Data ss:Type="String">12 345,340</Data></Cell>
+    <Cell><Data ss:Type="Number">12345.34</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1 234 567 891 234,56</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2],RC[3])"><Data ss:Type="String">1 234 567 891 234,56</Data></Cell>
+    <Cell><Data ss:Type="Number">1234567891234.5601</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">123 456 789 123 400,00</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2],RC[3])"><Data ss:Type="String">123 456 789 123 400,00</Data></Cell>
+    <Cell><Data ss:Type="Number">123456789123400</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="14"><Data ss:Type="String">long</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1 234,6</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2])"><Data ss:Type="String">1 234,6</Data></Cell>
+    <Cell><Data ss:Type="Number">1234.567</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">-1 230</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2])"><Data ss:Type="String">-1 230</Data></Cell>
+    <Cell><Data ss:Type="Number">-1234.567</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">1230</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2],RC[3])"><Data ss:Type="String">1230</Data></Cell>
+    <Cell><Data ss:Type="Number">1234.567</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">-1230</Data></Cell>
+    <Cell ss:Formula="=FIXED(RC[1],RC[2],RC[3])"><Data ss:Type="String">-1230</Data></Cell>
+    <Cell><Data ss:Type="Number">-1234.567</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row ss:Index="240">
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row ss:Index="266">
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row ss:Index="297">
+    <Cell ss:Index="4" ss:StyleID="s28"/>
+   </Row>
+   <Row ss:Index="299">
+    <Cell ss:Index="4" ss:StyleID="s29"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="3" ss:StyleID="s30"/>
+   </Row>
+   <Row ss:Index="309">
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+   </Print>
+   <Selected/>
+   <TopRowVisible>60</TopRowVisible>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>91</ActiveRow>
+     <ActiveCol>1</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+  <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
+   <Range>R330C3:R385C9,R289C3:R327C9,R263C3:R287C9,R2C3:R90C9,R92C6:R97C6,R91C4:R97C5,R91C7:R97C9,R91C3:R101C3,R98C4:R101C9,R102C3:R261C9</Range>
+   <Condition>
+    <Value1>RC10&gt;COLUMN(RC)-3</Value1>
+    <Format Style='background:#CCFFCC'/>
+   </Condition>
+  </ConditionalFormatting>
+  <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
+   <Range>R91C6</Range>
+   <Condition>
+    <Value1>#REF!&gt;COLUMN(RC)-3</Value1>
+    <Format Style='background:#CCFFCC'/>
+   </Condition>
+  </ConditionalFormatting>
+ </Worksheet>
+</Workbook>

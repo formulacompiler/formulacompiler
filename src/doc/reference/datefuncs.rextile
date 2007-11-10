@@ -1,0 +1,12 @@
+
+h1. Date Functions In AFC
+
+
+<%= toc 2, 5 %>
+
+h3. Date Functions
+
+The supported date functions are shown by example below:
+
+<%= gen_doc "DateFunctions" %>
+

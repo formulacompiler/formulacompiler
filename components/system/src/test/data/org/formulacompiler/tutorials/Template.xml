@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>peo</Author>
+  <LastAuthor>vkorenev</LastAuthor>
+  <Created>2006-09-27T08:35:47Z</Created>
+  <LastSaved>2006-09-28T12:10:14Z</LastSaved>
+  <Company>arrenbrecht.ch</Company>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>15480</WindowHeight>
+  <WindowWidth>19320</WindowWidth>
+  <WindowTopX>480</WindowTopX>
+  <WindowTopY>60</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s20" ss:Name="Percent">
+   <NumberFormat ss:Format="0%"/>
+  </Style>
+  <Style ss:ID="s21">
+   <Alignment ss:Vertical="Center"/>
+  </Style>
+  <Style ss:ID="s22">
+   <Interior ss:Color="#CCFFCC" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s23">
+   <Interior ss:Color="#FFCC99" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s24">
+   <Alignment ss:Vertical="Center"/>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s25">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom" ss:Indent="1"/>
+   <Font ss:FontName="Verdana" x:Family="Swiss"/>
+  </Style>
+  <Style ss:ID="s26">
+   <Interior ss:Color="#FFFF99" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s27">
+   <Interior ss:Color="#CCFFCC" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="Short Date"/>
+  </Style>
+  <Style ss:ID="s28" ss:Parent="s20">
+   <Interior ss:Color="#CCFFCC" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s29" ss:Parent="s20">
+   <Interior ss:Color="#FFCC99" ss:Pattern="Solid"/>
+  </Style>
+ </Styles>
+ <Names>
+  <NamedRange ss:Name="Caption" ss:RefersTo="=Sheet1!R1C1"/>
+  <NamedRange ss:Name="DateInputValue" ss:RefersTo="=Sheet1!R3C2"/>
+  <NamedRange ss:Name="InputValue" ss:RefersTo="=Sheet1!R2C2"/>
+  <NamedRange ss:Name="IntermediateValue" ss:RefersTo="=Sheet1!R9C2"/>
+  <NamedRange ss:Name="Label" ss:RefersTo="=Sheet1!R2C1"/>
+  <NamedRange ss:Name="OutputValue" ss:RefersTo="=Sheet1!R6C2"/>
+  <NamedRange ss:Name="PercentInputValue" ss:RefersTo="=Sheet1!R4C2"/>
+  <NamedRange ss:Name="PercentOutputValue" ss:RefersTo="=Sheet1!R7C2"/>
+ </Names>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="2" ss:ExpandedRowCount="9" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:AutoFitWidth="0" ss:Width="159"/>
+   <Column ss:Width="96"/>
+   <Row ss:AutoFitHeight="0" ss:Height="25.5" ss:StyleID="s21">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Input Values</Data><NamedCell
+      ss:Name="Caption"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s25"><Data ss:Type="String">InputValue</Data><NamedCell
+      ss:Name="Label"/></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="Number">123.45</Data><NamedCell
+      ss:Name="InputValue"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s25"><Data ss:Type="String">DateInputValue</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="DateTime">1970-01-01T00:00:00.000</Data><NamedCell
+      ss:Name="DateInputValue"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s25"><Data ss:Type="String">PercentInputValue</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="Number">0.25</Data><NamedCell
+      ss:Name="PercentInputValue"/></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="25.5" ss:StyleID="s21">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Output Values</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s25"><Data ss:Type="String">OutputValue</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="Number">123.45</Data><NamedCell
+      ss:Name="OutputValue"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s25"><Data ss:Type="String">PercentOutputValue</Data></Cell>
+    <Cell ss:StyleID="s29"><Data ss:Type="Number">0.3</Data><NamedCell
+      ss:Name="PercentOutputValue"/></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="25.5" ss:StyleID="s21">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Intermediate Values</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s25"><Data ss:Type="String">IntermediateValue</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="Number">123.45</Data><NamedCell
+      ss:Name="IntermediateValue"/></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>10</ActiveRow>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>
