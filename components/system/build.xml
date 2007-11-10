@@ -220,7 +220,7 @@
 
 		<parallel threadcount="1" threadsperprocessor="1">
 
-			<junit printsummary="no" showoutput="no" haltonerror="no" haltonfailure="no" failureproperty="tests.failed.a" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+			<junit printsummary="no" showoutput="no" haltonerror="no" haltonfailure="no" failureproperty="tests.failed.a" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}" maxmemory="256M">
 				<jvmarg value="-Demit_tests" />
 				<jvmarg value="-DrunOnlyType=${test-ref-only-type}" />
 				<jvmarg value="-DrunOnlyCacheVariant=${test-ref-only-caching}" />
