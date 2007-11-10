@@ -13,6 +13,7 @@ h5. *Changed!*
 
 	* The method "@bindAllByName()@":-bindall no longer throws an exception if cell remain unbound. Use "@failIfByNameBindingLeftNamedCellsUnbound()@":-failif after @bindAllByName()@ if you want this behaviour back.
 	* You can no longer bind to input methods throwing checked exceptions. (We may re-enable this later when AFC checks that all output methods declare all of those checked exceptions.)
+	* AFC no longer rounds final results to the precision specified in cell formats. If you want rounded results, use the @ROUND()@ function. This only affects newly compiled engines.
 
 [-bindall]javadoc/org/formulacompiler/spreadsheet/EngineBuilder.html#bindAllByName()
 [-failif]javadoc/org/formulacompiler/spreadsheet/EngineBuilder.html#failIfByNameBindingLeftNamedCellsUnbound()

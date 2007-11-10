@@ -46,9 +46,5 @@ It typically returns zero (@0.0@) instead.
 
 h2. Numeric Precision
 
-If you set a fixed number of decimal places after the point on a cell in Excel, AFC reflects this setting when computing final outputs. Like Excel, it does not limit the precision on intermediate results.
-
-Here's the handling of cell precision, shown by example (the number format is shown in small type behind the cell value or formula):
-
-<%= gen_doc "Precision" %>
+AFC ignores the number of decimal places specified for displaying cell results in Excel. If you want rounded results, you have to use the @ROUND()@ function explicitly. This is consistent with Excel also not limiting the precision on intermediate results.
 
