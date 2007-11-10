@@ -31,7 +31,8 @@ import org.objectweb.asm.Type;
 
 public final class ValidationImpl implements Validation
 {
-	private static final String DEFAULT_NEWCOMPUTATION = "newComputation(Ljava/lang/Object;)" + Type.getDescriptor( Computation.class );
+	private static final String DEFAULT_NEWCOMPUTATION = "newComputation(Ljava/lang/Object;)"
+			+ Type.getDescriptor( Computation.class );
 	public static final ValidationImpl SINGLETON_IMPL = new ValidationImpl();
 	private static final String ACCESSIBLE = "; cannot be accessed by Abacus Formula Compiler";
 	private static final String IMPLEMENTABLE = "; cannot be implemented by Abacus Formula Compiler";
@@ -47,39 +48,40 @@ public final class ValidationImpl implements Validation
 	public void validateIsAccessible( Class _class, String _role )
 	{
 		final int mods = _class.getModifiers();
-		validate( Modifier.isPublic( mods ), _class, _role, "not public", ACCESSIBLE );
+		validate( Modifier.isPublic( mods ), _class, _role, "is not public", ACCESSIBLE );
 	}
 
 	public void validateIsAccessible( Method _method, String _role )
 	{
 		final int mods = _method.getModifiers();
-		validate( Modifier.isPublic( mods ), _method, _role, "not public", ACCESSIBLE );
+		validate( Modifier.isPublic( mods ), _method, _role, "is not public", ACCESSIBLE );
+		validateNoCheckedExceptions( _method, _role );
 	}
 
 
 	public void validateIsImplementable( Class _class, String _role )
 	{
 		final int mods = _class.getModifiers();
-		validate( Modifier.isPublic( mods ), _class, _role, "not public", IMPLEMENTABLE );
-		validate( !Modifier.isFinal( mods ), _class, _role, "final", IMPLEMENTABLE );
+		validate( Modifier.isPublic( mods ), _class, _role, "is not public", IMPLEMENTABLE );
+		validate( !Modifier.isFinal( mods ), _class, _role, "is final", IMPLEMENTABLE );
 	}
 
 	public void validateIsImplementable( Method _method, String _role )
 	{
 		final int mods = _method.getModifiers();
-		validate( Modifier.isPublic( mods ), _method, _role, "not public", IMPLEMENTABLE );
-		validate( !Modifier.isStatic( mods ), _method, _role, "static", IMPLEMENTABLE );
-		validate( !Modifier.isFinal( mods ), _method, _role, "final", IMPLEMENTABLE );
+		validate( Modifier.isPublic( mods ), _method, _role, "is not public", IMPLEMENTABLE );
+		validate( !Modifier.isStatic( mods ), _method, _role, "is static", IMPLEMENTABLE );
+		validate( !Modifier.isFinal( mods ), _method, _role, "is final", IMPLEMENTABLE );
 	}
 
 	private void validate( boolean _mustBeTrue, Class _class, String _role, String _what, String _whatFor )
 	{
-		if (!_mustBeTrue) throw new IllegalArgumentException( _role + " " + _class + " is " + _what + _whatFor );
+		if (!_mustBeTrue) throw new IllegalArgumentException( _role + " " + _class + " " + _what + _whatFor );
 	}
 
 	private void validate( boolean _mustBeTrue, Method _method, String _role, String _what, String _whatFor )
 	{
-		if (!_mustBeTrue) throw new IllegalArgumentException( _role + " " + _method + " is " + _what + _whatFor );
+		if (!_mustBeTrue) throw new IllegalArgumentException( _role + " " + _method + " " + _what + _whatFor );
 	}
 
 
@@ -88,6 +90,7 @@ public final class ValidationImpl implements Validation
 		if (!_method.getDeclaringClass().isAssignableFrom( _class ))
 			throw new IllegalArgumentException( "Method '"
 					+ _method + "' cannot be called on an object of type '" + _class + "'" );
+		validateNoCheckedExceptions( _method, "Input" );
 	}
 
 
@@ -121,5 +124,15 @@ public final class ValidationImpl implements Validation
 		}
 	}
 
+
+	@SuppressWarnings( "unchecked" )
+	private void validateNoCheckedExceptions( Method _method, String _role )
+	{
+		final Class<Throwable>[] thrown = (Class<Throwable>[]) _method.getExceptionTypes();
+		for (int i = 0; i < thrown.length; i++) {
+			final Class<Throwable> t = thrown[ i ];
+			validate( RuntimeException.class.isAssignableFrom( t ), _method, _role, "throws checked exceptions", ACCESSIBLE );
+		}
+	}
 
 }

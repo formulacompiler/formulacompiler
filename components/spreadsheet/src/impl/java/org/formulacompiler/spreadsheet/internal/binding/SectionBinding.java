@@ -204,14 +204,14 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	{
 		Util.validateCallable( getInputClass(), _chain.getHead().getMethod() );
 		for (CallFrame frame : _chain.getFrames()) {
-			Util.validateIsAccessible( frame.getMethod(), "input" );
+			Util.validateIsAccessible( frame.getMethod(), "Input" );
 		}
 	}
 
 	protected void validateImplementable( CallFrame _chain )
 	{
 		if (_chain.getHead() != _chain) throw new IllegalArgumentException( "Cannot bind outputs to chains of calls" );
-		Util.validateIsImplementable( _chain.getMethod(), "output" );
+		Util.validateIsImplementable( _chain.getMethod(), "Output" );
 	}
 
 
