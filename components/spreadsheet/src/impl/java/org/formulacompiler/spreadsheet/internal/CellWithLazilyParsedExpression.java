@@ -23,7 +23,6 @@ package org.formulacompiler.spreadsheet.internal;
 import java.io.IOException;
 
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.describable.Describable;
 import org.formulacompiler.describable.DescriptionBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 
@@ -34,13 +33,13 @@ public final class CellWithLazilyParsedExpression extends CellInstance
 	private LazyExpressionParser expressionParser;
 
 
-	public CellWithLazilyParsedExpression(RowImpl _row)
+	public CellWithLazilyParsedExpression( RowImpl _row )
 	{
 		super( _row );
 	}
 
 
-	public CellWithLazilyParsedExpression(RowImpl _row, ExpressionNode _expression)
+	public CellWithLazilyParsedExpression( RowImpl _row, ExpressionNode _expression )
 	{
 		super( _row );
 		setExpression( _expression );
@@ -91,17 +90,38 @@ public final class CellWithLazilyParsedExpression extends CellInstance
 
 
 	@Override
-	protected void describeDefinitionTo( DescriptionBuilder _to ) throws IOException
+	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
-		_to.append( "<expr>" );
-		if (null != this.expression) {
-			this.expression.describeTo( _to );
+		final ExpressionNode expr = this.expression;
+
+		if (_to instanceof SpreadsheetDescriptionBuilder) {
+			final SpreadsheetDescriptionBuilder b = (SpreadsheetDescriptionBuilder) _to;
+			final CellIndex wasRelativeTo = b.getRelativeTo();
+			b.setRelativeTo( getCellIndex() );
+			try {
+				Object exprValue = expr;
+				if (null == exprValue && null != this.expressionParser) {
+					try {
+						exprValue = getExpression();
+					}
+					catch (SpreadsheetException e) {
+						exprValue = "** " + e.toString();
+					}
+				}
+				_to.vn( "expr" ).append( '=' ).v( exprValue ).lf(); // always shown, so don't use nv()
+			}
+			finally {
+				b.setRelativeTo( wasRelativeTo );
+			}
 		}
-		else if (this.expressionParser instanceof Describable) {
-			((Describable) this.expressionParser).describeTo( _to );
+		else {
+			_to.nv( "expr", "=", expr ).lf();
+			if (null == expr && null != this.expressionParser) {
+				_to.nv( "source", "=", this.expressionParser );
+			}
 		}
-		_to.append( "</expr>" );
-		_to.newLine();
+		_to.nv( "value", getValue() );
+		super.describeTo( _to );
 	}
 
 

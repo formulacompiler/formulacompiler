@@ -171,7 +171,7 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 		this.config = _config;
 	}
 
-	
+
 	protected final boolean runningQuickTests()
 	{
 		return this.runOnlyInputVariant == ONLY_MAX_PARAM;
@@ -665,15 +665,17 @@ public abstract class AbstractSheetBasedTest extends AbstractWorkbookBasedTest
 
 				private final String htmlPrecision( CellInstance _inputCell )
 				{
-					if (_inputCell != null && _inputCell.getNumberFormat() != null) {
-						final int prec = _inputCell.getNumberFormat().getMaximumFractionDigits();
-						final StringBuilder result = new StringBuilder();
-						result.append( " <span class=\"ref-prec\">(#0." );
-						for (int i = 0; i < prec; i++) {
-							result.append( "0" );
+					if (_inputCell != null) {
+						final int maxFrac = _inputCell.getMaxFractionalDigits();
+						if (maxFrac < NumericType.UNLIMITED_FRACTIONAL_DIGITS) {
+							final StringBuilder result = new StringBuilder();
+							result.append( " <span class=\"ref-prec\">(#0." );
+							for (int i = 0; i < maxFrac; i++) {
+								result.append( "0" );
+							}
+							result.append( ")</span>" );
+							return result.toString();
 						}
-						result.append( ")</span>" );
-						return result.toString();
 					}
 					return "";
 				}
