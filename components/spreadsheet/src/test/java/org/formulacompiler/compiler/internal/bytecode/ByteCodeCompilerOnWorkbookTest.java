@@ -171,7 +171,8 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractIOTestBase
 	}
 
 
-	public void testInputThrowingDeclaredException() throws Exception
+	// LATER Re-enable this test once we support declared exceptions.
+	public void xtestInputThrowingDeclaredException() throws Exception
 	{
 		makeBinderFor( ThrowingInput.class, ThrowingOutput.class );
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
@@ -192,31 +193,6 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractIOTestBase
 		}
 	}
 
-
-	public void testInputThrowingUndeclaredException() throws Throwable
-	{
-		makeBinderFor( ThrowingInput.class, ThrowingOutput.class );
-		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
-		this.root.defineInputCell( this.formula.getCellIndex(),
-				new CallFrame( ThrowingInput.class.getMethod( "getFails" ) ) );
-		this.root.defineOutputCell( this.formula.getCellIndex(), new CallFrame( ThrowingOutput.class
-				.getMethod( "getShouldNotFail" ) ) );
-
-		Engine engine = newEngine();
-		ThrowingOutput outputs = (ThrowingOutput) engine.getComputationFactory().newComputation( new ThrowingInput() );
-
-		try {
-			outputs.getShouldNotFail();
-			fail();
-		}
-		catch (Throwable t) {
-			if (t instanceof Failure)
-			/* ok */;
-			else throw t;
-		}
-	}
-
-
 	public static class ThrowingInput extends Inputs
 	{
 		public double getFails() throws Failure
@@ -225,7 +201,6 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractIOTestBase
 		}
 	}
 
-
 	public static class ThrowingOutput extends Outputs
 	{
 		@SuppressWarnings("unused")
@@ -233,13 +208,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractIOTestBase
 		{
 			throw new AbstractMethodError( "" );
 		};
-
-		public double getShouldNotFail()
-		{
-			throw new AbstractMethodError( "" );
-		};
 	}
-
 
 	public static class Failure extends Throwable
 	{
@@ -306,7 +275,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractIOTestBase
 
 	public void testUnsupportedInputType() throws Exception
 	{
-		makeBinderFor( ThrowingInput.class, ThrowingOutput.class );
+		makeBinderFor( Inputs.class, Outputs.class );
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
 		this.root.defineInputCell( this.formula.getCellIndex(),
 				new CallFrame( Inputs.class.getMethod( "getUnsupported" ) ) );
@@ -323,7 +292,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractIOTestBase
 
 	public void testUnsupportedOutputType() throws Exception
 	{
-		makeBinderFor( ThrowingInput.class, ThrowingOutput.class );
+		makeBinderFor( Inputs.class, Outputs.class );
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
 		this.root.defineOutputCell( this.formula.getCellIndex(), new CallFrame( Outputs.class
 				.getMethod( "getUnsupported" ) ) );
@@ -484,12 +453,12 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractIOTestBase
 
 	/**
 	 * <pre>
-	 *             a = 1 
-	 *             b = 2 
-	 *             c = 3 
-	 *             d = 1 + 3 = 4 
-	 *             e = c + d = 7 
-	 *             f = (a + b) + e = 10 
+	 *             a = 1
+	 *             b = 2
+	 *             c = 3
+	 *             d = 1 + 3 = 4
+	 *             e = c + d = 7
+	 *             f = (a + b) + e = 10
 	 *             r = a * f = 10
 	 * </pre>
 	 */
@@ -528,16 +497,16 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractIOTestBase
 
 	/**
 	 * Construct a sheet with dynamic ranges: {@link WorksheetBuilderWithBands}.
-	 * 
+	 *
 	 * Then provide input values for the range A2:B3 (the fixed numbers) and extend it by one row:
-	 * 
+	 *
 	 * <pre>
 	 *             SUM(C2:C3) 0.5
-	 *             4.0 5.0 SUM(A2:B2)*B$1 
-	 *             6.0 7.0 SUM(A3:B3)*B$1 
+	 *             4.0 5.0 SUM(A2:B2)*B$1
+	 *             6.0 7.0 SUM(A3:B3)*B$1
 	 *             8.0 9.0 SUM(A4:B4)*B$1
 	 * </pre>
-	 * 
+	 *
 	 * @throws CompilerException
 	 */
 	public void testSections() throws Exception

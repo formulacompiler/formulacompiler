@@ -45,6 +45,10 @@ With the call frame, you can even chain calls. In this example, we do the equiva
 The range of supported parameter data types is documented in the topic on "binding by name":bindbyname.htm.
 
 
+h3. Exceptions
+
+You cannot, as of the current version, bind to input methods throwing checked exceptions. We are thinking about extending AFC to support this in the future, provided that _all_ bound output methods declare _all_ the checked exceptions declared by the bound input methods.
+
 
 h2. Outputs
 

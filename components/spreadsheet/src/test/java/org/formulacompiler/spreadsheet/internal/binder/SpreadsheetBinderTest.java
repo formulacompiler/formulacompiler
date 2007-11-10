@@ -20,15 +20,21 @@
  */
 package org.formulacompiler.spreadsheet.internal.binder;
 
+import java.io.IOException;
+import java.lang.reflect.Method;
+
+import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.spreadsheet.Orientation;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Config;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
+import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
+import org.formulacompiler.spreadsheet.internal.CellWithConstant;
 import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
@@ -104,6 +110,82 @@ public class SpreadsheetBinderTest extends AbstractSpreadsheetTestBase
 			// expected
 		}
 
+	}
+
+
+	public void testNoCheckedExceptionsOnInputs() throws Exception
+	{
+		assertBinds( "RuntimeException" );
+		assertBinds( "Unchecked" );
+		assertHasCheckedExceptions( "Exception" );
+		assertHasCheckedExceptions( "Checked" );
+	}
+
+	private void assertBinds( String _typeName ) throws Exception
+	{
+		assertChainBinds( "throws" + _typeName );
+		assertChainBinds( "chained", "throws" + _typeName );
+		assertChainBinds( "chainedThrows" + _typeName, "doesntThrow" );
+	}
+
+	private void assertHasCheckedExceptions( String _typeName ) throws Exception
+	{
+		assertChainHasCheckedExceptionsAt( 0, "throws" + _typeName );
+		assertChainHasCheckedExceptionsAt( 1, "chained", "throws" + _typeName );
+		assertChainHasCheckedExceptionsAt( 0, "chainedThrows" + _typeName, "doesntThrow" );
+	}
+
+	private void assertChainBinds( String... _mtdNames ) throws Exception
+	{
+		assertChainHasCheckedExceptionsAt( -1, _mtdNames );
+	}
+
+	private void assertChainHasCheckedExceptionsAt( int _faultyMethodIndex, String... _mtdNames ) throws Exception
+	{
+		Class<TestInputs> inp = TestInputs.class;
+		Method[] mtds = new Method[ _mtdNames.length ];
+		CallFrame frame = null;
+		for (int i = 0; i < mtds.length; i++) {
+			mtds[ i ] = inp.getMethod( _mtdNames[ i ] );
+			if (0 == i) frame = new CallFrame( mtds[ i ] );
+			else frame = frame.chain( mtds[ i ] );
+		}
+
+		SpreadsheetImpl workbook = new SpreadsheetImpl();
+		SheetImpl sheet = new SheetImpl( workbook );
+		RowImpl row = new RowImpl( sheet );
+		CellIndex cell = new CellWithConstant( row, 1.0 ).getCellIndex();
+		SpreadsheetBinder def = SpreadsheetCompiler.newSpreadsheetBinder( workbook, TestInputs.class, Outputs.class );
+		Section rootDef = def.getRoot();
+
+		if (_faultyMethodIndex >= 0) {
+			try {
+				rootDef.defineInputCell( cell, frame );
+				fail();
+			}
+			catch (IllegalArgumentException e) {
+				assertEquals( "Input "
+						+ mtds[ _faultyMethodIndex ]
+						+ " throws checked exceptions; cannot be accessed by Abacus Formula Compiler", e.getMessage() );
+			}
+		}
+		else {
+			rootDef.defineInputCell( cell, frame );
+		}
+	}
+
+	public static interface TestInputs
+	{
+		double throwsException() throws Exception;
+		double throwsChecked() throws IOException;
+		double throwsRuntimeException() throws RuntimeException;
+		double throwsUnchecked() throws IllegalArgumentException;
+		double doesntThrow();
+		TestInputs chainedThrowsException() throws Exception;
+		TestInputs chainedThrowsChecked() throws IOException;
+		TestInputs chainedThrowsRuntimeException() throws RuntimeException;
+		TestInputs chainedThrowsUnchecked() throws IllegalArgumentException;
+		TestInputs chained();
 	}
 
 
