@@ -1,0 +1,102 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: Expected
+    - const: Actual
+    - const: Inputs
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: # of Inputs
+    - const: Name
+    - const: Highlight
+    - const: Excel says
+    - const: Skip for
+  - cells:
+    - const: text
+    - expr: =CLEAN( RC[1] )
+    - const: text
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: CLEAN
+    - const: CLEAN
+  - cells:
+    - const: text
+    - expr: =CLEAN( RC[1] )
+    - const: text
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: texts
+    - expr: =CLEAN( RC[1] )
+    - const: texts
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: teüxts
+    - expr: =CLEAN( RC[1] )
+    - const: teüxts
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: texttext
+    - expr: =CLEAN( RC[1] )
+    - const: texttext
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: text
+    - expr: =CLEAN( RC[1] )
+    - const: text
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: Atext 
+    - expr: =CLEAN( RC[1] )
+    - const: Atext 
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0

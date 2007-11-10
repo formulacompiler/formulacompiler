@@ -21,9 +21,8 @@
 package org.formulacompiler.compiler.internal.model;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
+import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.describable.DescriptionBuilder;
@@ -31,11 +30,9 @@ import org.formulacompiler.describable.DescriptionBuilder;
 
 public class CellModel extends ElementModel
 {
-	public static final int UNLIMITED = 10000;
-
 	private Object constantValue;
 	private ExpressionNode expression;
-	private int maxFractionalDigits = UNLIMITED;
+	private int maxFractionalDigits = NumericType.UNLIMITED_FRACTIONAL_DIGITS;
 	private int referenceCount = 0;
 	private DataType dataType;
 
@@ -87,30 +84,6 @@ public class CellModel extends ElementModel
 	public void setMaxFractionalDigits( int _maxFractionalDigits )
 	{
 		this.maxFractionalDigits = _maxFractionalDigits;
-	}
-
-
-	public void applyNumberFormat( NumberFormat _numberFormat )
-	{
-		if (null == _numberFormat) {
-			this.maxFractionalDigits = UNLIMITED;
-		}
-		else {
-			int maxFrac = _numberFormat.getMaximumFractionDigits();
-			if (_numberFormat instanceof DecimalFormat) {
-				DecimalFormat decFormat = (DecimalFormat) _numberFormat;
-				int decMult = decFormat.getMultiplier();
-				switch (decMult) {
-				case 10:
-					maxFrac += 1;
-					break;
-				case 100:
-					maxFrac += 2;
-					break;
-				}
-			}
-			this.maxFractionalDigits = maxFrac;
-		}
 	}
 
 
@@ -175,7 +148,7 @@ public class CellModel extends ElementModel
 			this.expression.describeTo( _to );
 			_to.appendLine( "</expr>" );
 		}
-		if (UNLIMITED > this.maxFractionalDigits) {
+		if (NumericType.UNLIMITED_FRACTIONAL_DIGITS > this.maxFractionalDigits) {
 			_to.append( "<format maxFractionalDigits=\"" );
 			_to.append( this.maxFractionalDigits );
 			_to.appendLine( "\" />" );

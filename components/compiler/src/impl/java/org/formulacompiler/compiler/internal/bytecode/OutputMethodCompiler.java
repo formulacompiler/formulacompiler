@@ -23,7 +23,6 @@ package org.formulacompiler.compiler.internal.bytecode;
 import java.lang.reflect.Method;
 
 import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.objectweb.asm.Opcodes;
 
@@ -34,8 +33,8 @@ final class OutputMethodCompiler extends TypedMethodCompiler
 	private final Method implementedMethod;
 
 
-	public OutputMethodCompiler(SectionCompiler _section, String _methodName, String _methodSignature,
-			CellComputation _computation, Method _implements)
+	public OutputMethodCompiler( SectionCompiler _section, String _methodName, String _methodSignature,
+			CellComputation _computation, Method _implements )
 	{
 		super( _section, Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL, _methodName, _methodSignature, _computation.getCell()
 				.getDataType() );
@@ -50,10 +49,6 @@ final class OutputMethodCompiler extends TypedMethodCompiler
 		final CellModel cell = this.computation.getCell();
 
 		expressionCompiler().compileRef( this.computation );
-
-		if (DataType.NUMERIC == dataType() && CellModel.UNLIMITED != cell.getMaxFractionalDigits()) {
-			((ExpressionCompilerForNumbers) expressionCompiler()).compile_util_round( cell.getMaxFractionalDigits() );
-		}
 
 		expressionCompiler().compileConversionToResultOf( this.implementedMethod );
 

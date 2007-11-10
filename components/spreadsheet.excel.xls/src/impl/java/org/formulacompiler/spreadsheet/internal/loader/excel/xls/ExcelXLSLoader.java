@@ -176,7 +176,7 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 			}
 			if (xlsFormulaCell instanceof NumberFormulaCell) {
 				NumberFormulaCell xlsNumFormulaCell = ((NumberFormulaCell) xlsFormulaCell);
-				exprCell.setNumberFormat( convertNumberFormat( xlsNumFormulaCell, xlsNumFormulaCell.getNumberFormat() ) );
+				exprCell.applyNumberFormat( convertNumberFormat( xlsNumFormulaCell, xlsNumFormulaCell.getNumberFormat() ) );
 			}
 			if (this.config.loadAllCellValues) {
 				if (xlsFormulaCell instanceof NumberFormulaCell) {
@@ -202,7 +202,7 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 		else if (jxl.CellType.NUMBER == xlsType) {
 			jxl.NumberCell xlsNumCell = (jxl.NumberCell) _xlsCell;
 			CellInstance numCell = new CellWithConstant( _row, xlsNumCell.getValue() );
-			numCell.setNumberFormat( convertNumberFormat( xlsNumCell, xlsNumCell.getNumberFormat() ) );
+			numCell.applyNumberFormat( convertNumberFormat( xlsNumCell, xlsNumCell.getNumberFormat() ) );
 		}
 		else if (CellType.DATE == xlsType) {
 			final DateCell xlsDateCell = (jxl.DateCell) _xlsCell;

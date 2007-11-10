@@ -35,7 +35,7 @@ public abstract class AbstractDescribable implements Describable
 
 	public final String describe()
 	{
-		DescriptionBuilder description = new DescriptionBuilder();
+		DescriptionBuilder description = newDescriptionBuilder();
 		try {
 			describeTo( description );
 		}
@@ -48,7 +48,7 @@ public abstract class AbstractDescribable implements Describable
 
 	public final void describeTo( StringBuilder _to )
 	{
-		DescriptionBuilder description = new DescriptionBuilder();
+		DescriptionBuilder description = newDescriptionBuilder();
 		try {
 			describeTo( description );
 			_to.append( description.toString() );
@@ -56,6 +56,12 @@ public abstract class AbstractDescribable implements Describable
 		catch (IOException e) {
 			_to.append( e.getMessage() );
 		}
+	}
+
+
+	protected DescriptionBuilder newDescriptionBuilder()
+	{
+		return new DescriptionBuilder();
 	}
 
 

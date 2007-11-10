@@ -20,15 +20,16 @@
  */
 package org.formulacompiler.spreadsheet.internal.loader.excel.xls;
 
+import java.io.File;
+
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.utils.AbstractIOTestBase;
 
-import junit.framework.TestCase;
 
-
-@SuppressWarnings("unqualified-field-access")
-public class UnicodeTest extends TestCase
+@SuppressWarnings( "unqualified-field-access" )
+public class UnicodeTest extends AbstractIOTestBase
 {
 	private Spreadsheet spreadsheet;
 
@@ -40,6 +41,11 @@ public class UnicodeTest extends TestCase
 		builder.loadSpreadsheet( path );
 		builder.createCellNamesFromRowTitles();
 		spreadsheet = builder.getSpreadsheet();
+	}
+
+	public void testYaml() throws Exception
+	{
+		assertYaml( new File( "src/test/data" ), "UnicodeTest", spreadsheet, "UnicodeTest.xls" );
 	}
 
 	public void testBasicLatinSymbols()
