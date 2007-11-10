@@ -49,6 +49,31 @@ public final class ExpressionTemplatesForStrings
 		return Runtime_v2.emptyString();
 	}
 
+	String util_fromInt( int a )
+	{
+		return Runtime_v2.stringFromObject( a );
+	}
+
+	String util_fromLong( long a )
+	{
+		return Runtime_v2.stringFromObject( a );
+	}
+
+	String util_fromDouble( double a )
+	{
+		return Runtime_v2.stringFromObject( a );
+	}
+
+	String util_fromFloat( float a )
+	{
+		return Runtime_v2.stringFromObject( a );
+	}
+
+	String util_fromBoolean( boolean a )
+	{
+		return Runtime_v2.stringFromObject( a );
+	}
+
 
 	// Use utilFun_ here so "a" is not chained. We need it after the call to "new" for "<init>".
 
