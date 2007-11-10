@@ -23,7 +23,7 @@ final class $Root extends Basics.RebateComputation implements Computation
     }
     
     public final double getRebate() {
-        return RuntimeDouble_v2.round(get$0(), 2);
+        return get$0();
     }
     
     final double get$1() {
@@ -73,7 +73,6 @@ import org.formulacompiler.examples.Inputs;
 import org.formulacompiler.examples.Outputs;
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 
 final class $Root implements Computation, Outputs
 {
@@ -90,7 +89,7 @@ final class $Root implements Computation, Outputs
     }
     
     public final double getResult() {
-        return RuntimeDouble_v2.round(get$0(), 2);
+        return get$0();
     }
     
     final double get$1() {
@@ -169,7 +168,6 @@ __@@__
 package org.formulacompiler.gen;
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.RuntimeLong_v2;
 import org.formulacompiler.tutorials.BonusPerEmployee;
 
 final class $Root extends BonusPerEmployee.BonusComputationDefaults
@@ -178,8 +176,6 @@ final class $Root extends BonusPerEmployee.BonusComputationDefaults
     private final BonusPerEmployee.BonusData $inputs;
     final Environment $environment;
     private $Sect0[] get$Sect0;
-    static final RuntimeLong_v2.Context runtimeContext
-        = new RuntimeLong_v2.Context(4);
     
     $Root(BonusPerEmployee.BonusData bonusdata, Environment environment) {
         $environment = environment;
@@ -238,7 +234,6 @@ jc:bonusPerEmployee/org.formulacompiler.gen.$Sect0
 __@@__
 package org.formulacompiler.gen;
 import org.formulacompiler.runtime.Computation;
-import org.formulacompiler.runtime.internal.RuntimeLong_v2;
 import org.formulacompiler.tutorials.BonusPerEmployee;
 
 final class $Sect0
@@ -267,7 +262,7 @@ final class $Sect0
     }
     
     public final long bonusAmount() {
-        return RuntimeLong_v2.round(get$0(), 2, $Root.runtimeContext);
+        return get$0();
     }
     
     final long get$1() {
