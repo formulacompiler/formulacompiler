@@ -7,40 +7,54 @@ Lists the new features, improvements, and fixes for each release of AFC. Note th
 	* "Roadmap":roadmap.htm
 
 
-h2. Release 0.10.1
+h2. Release 1.0
 
 h5. *Changed!*
 
-	* The method "@bindAllByName()@":-bindall no longer throws an exception if cell remain unbound. Use "@failIfByNameBindingLeftNamedCellsUnbound()@":-failif after @bindAllByName()@ if you want this behaviour back.
 	* You can no longer bind to input methods throwing checked exceptions. (We may re-enable this later when AFC checks that all output methods declare all of those checked exceptions.)
-
-[-bindall]javadoc/org/formulacompiler/spreadsheet/EngineBuilder.html#bindAllByName()
-[-failif]javadoc/org/formulacompiler/spreadsheet/EngineBuilder.html#failIfByNameBindingLeftNamedCellsUnbound()
 
 h5. New
 
-	* @SUMSQ()@, and @COVAR()@ are now "supported":reference/aggregators.htm.
+	* @COVAR()@ is now "supported":reference/aggregators.htm.
 	* @SUMIF()@, and @COUNTIF()@ are now "supported":reference/dbaggregators.htm.
-	* @CONFIDENCE()@, @BETADIST()@, @BINOMDIST()@, @CHIDIST()@, @CHITEST()@, @FDIST()@, @GAMMADIST()@, @NEGBINOMDIST()@, @NORMDIST()@, @NORMSDIST()@, @LOGNORMSDIST()@, @NORMINV()@, @NORMSINV()@, @LOGINV()@, @POISSON()@, @TDIST()@, @AVEDEV()@, @DEVSQ()@, @RANK()@, @BETAINV()@, @CHIINV()@, @EXPONDIST()@, @FINV()@, @FISHER()@, @FISHERINV()@, @FTEST()@, @GAMMAINV()@, @GAMMALN()@, @HYPGEOMDIST()@, @PEARSON()@, @RSQ()@, @STANDARDIZE()@, @TINV()@, @TTEST()@, @WEIBULL()@ and @ZTEST()@ are now "supported":reference/statisticalfuncs.htm.
+	* @CONFIDENCE()@, @BETADIST()@, @BINOMDIST()@, @CHIDIST()@, @CHITEST()@, @FDIST()@, @GAMMADIST()@, @NEGBINOMDIST()@, @NORMDIST()@, @NORMSDIST()@, @LOGNORMSDIST()@, @NORMINV()@, @NORMSINV()@, @LOGINV()@, @POISSON()@, @TDIST()@, @BETAINV()@, @CHIINV()@, @EXPONDIST()@, @FINV()@, @FISHER()@, @FISHERINV()@, @FTEST()@, @GAMMAINV()@, @GAMMALN()@, @HYPGEOMDIST()@, @PEARSON()@, @RSQ()@, @STANDARDIZE()@, @TINV()@, @TTEST()@, @WEIBULL()@ and @ZTEST()@ are now "supported":reference/statisticalfuncs.htm.
 	* @ACOSH()@, @ASINH()@, @ATANH()@, @SINH()@, @COSH()@, @TANH()@, @GEOMEAN()@, @HARMEAN()@, @PERMUT()@, @RAND()@, and @SIGN()@ are now "supported":reference/numfuncs.htm.
 	* @VDB()@ is now "supported":reference/financialfuncs.htm
 	* @DCOUNTA, DAVERAGE, DVAR/P, DSTDEV/P@ are now "supported":reference/dbaggregators.htm.
 	* @CLEAN()@ is now "supported":reference/strings.htm
 	* @ROMAN()@ and @FIXED()@ are now "supported":reference/convfuncs.htm
 	* @VALUE()@ and @DSUM()@ et al. now handle date/time strings.
-	* By name binding now supports "binding only cells with a given input and output prefix":-bindprefix.
 	* You can now tell AFC to compile to more readable code when "decompiled":tutorial/decompile.htm.
+
+h5. Better
+
+	* We now support binding unboxed numeric types as inputs (@double@, @long@, @int@, etc.) to string-valued cells.
+
+h5. Internal
+
+	* The folding support (used to implement @SUM@ etc.) has been rewritten completely. It can now handle multiple parallel vectors, multiple aggregators, and has much more streamlined code in the implementation.
+
+
+h2. Release 0.10.1
+
+h5. *Changed!*
+
+	* The method "@bindAllByName()@":-bindall no longer throws an exception if cell remain unbound. Use "@failIfByNameBindingLeftNamedCellsUnbound()@":-failif after @bindAllByName()@ if you want this behaviour back.
+
+[-bindall]javadoc/org/formulacompiler/spreadsheet/EngineBuilder.html#bindAllByName()
+[-failif]javadoc/org/formulacompiler/spreadsheet/EngineBuilder.html#failIfByNameBindingLeftNamedCellsUnbound()
+
+h5. New
+
+	* @SUMSQ()@ is now "supported":reference/aggregators.htm.
+	* @AVEDEV()@, @DEVSQ()@, and @RANK()@ are now "supported":reference/statisticalfuncs.htm.
+	* By name binding now supports "binding only cells with a given input and output prefix":-bindprefix.
 
 [-bindprefix]javadoc/org/formulacompiler/spreadsheet/EngineBuilder.html#bindAllByName(java.lang.String,%20java.lang.String)
 
 h5. Better
 
 	* You can "query the named cells":-unbound still unbound to warn users about potential automatic by-name binding problems.
-	* We now support binding unboxed numeric types as inputs (@double@, @long@, @int@, etc.) to string-valued cells.
-
-h5. Internal
-
-	* The folding support (used to implement @SUM@ etc.) has been rewritten completely. It can now handle multiple parallel vectors, multiple aggregators, and has much more streamlined code in the implementation.
 
 [-unbound]javadoc/org/formulacompiler/spreadsheet/SpreadsheetByNameBinder.html#cellNamesLeftUnbound()
 
