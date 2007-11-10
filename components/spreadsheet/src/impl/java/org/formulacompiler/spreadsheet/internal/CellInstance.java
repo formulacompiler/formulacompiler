@@ -21,8 +21,10 @@
 package org.formulacompiler.spreadsheet.internal;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.describable.DescriptionBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
@@ -32,11 +34,11 @@ public abstract class CellInstance extends AbstractStyledElement
 {
 	private final RowImpl row;
 	private final int columnIndex;
-	private NumberFormat numberFormat;
+	private int maxFractionalDigits = NumericType.UNLIMITED_FRACTIONAL_DIGITS;
 	private Object value;
 
 
-	public CellInstance(RowImpl _row)
+	public CellInstance( RowImpl _row )
 	{
 		this.row = _row;
 		this.columnIndex = _row.getCellList().size();
@@ -56,14 +58,43 @@ public abstract class CellInstance extends AbstractStyledElement
 	}
 
 
-	public NumberFormat getNumberFormat()
+	public int getMaxFractionalDigits()
 	{
-		return this.numberFormat;
+		return this.maxFractionalDigits;
 	}
 
-	public void setNumberFormat( NumberFormat _numberFormat )
+	public void setMaxFractionalDigits( int _maxFractionalDigits )
 	{
-		this.numberFormat = _numberFormat;
+		this.maxFractionalDigits = _maxFractionalDigits;
+	}
+
+
+	public void applyNumberFormat( NumberFormat _numberFormat )
+	{
+		setMaxFractionalDigits( getMaxFractionalDigitsFor( _numberFormat ) );
+	}
+
+	private int getMaxFractionalDigitsFor( NumberFormat _numberFormat )
+	{
+		if (null == _numberFormat) {
+			return NumericType.UNLIMITED_FRACTIONAL_DIGITS;
+		}
+		else {
+			int maxFrac = _numberFormat.getMaximumFractionDigits();
+			if (_numberFormat instanceof DecimalFormat) {
+				DecimalFormat decFormat = (DecimalFormat) _numberFormat;
+				int decMult = decFormat.getMultiplier();
+				switch (decMult) {
+					case 10:
+						maxFrac += 1;
+						break;
+					case 100:
+						maxFrac += 2;
+						break;
+				}
+			}
+			return maxFrac;
+		}
 	}
 
 
@@ -95,23 +126,12 @@ public abstract class CellInstance extends AbstractStyledElement
 		int iSheet = sheet.getSheetIndex();
 		return new CellIndex( sheet.getSpreadsheet(), iSheet, iCol, iRow );
 	}
-	
-	
+
+
 	@Override
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
-		_to.append( "<cell id=\"" );
-		_to.append( getCanonicalName() );
-		_to.append( "\">" );
-		_to.newLine();
-		_to.indent();
-		describeDefinitionTo( _to );
-		_to.outdent();
-		_to.appendLine( "</cell>" );
+		_to.nv( "name", getRow().getSheet().getSpreadsheet().getNameFor( getCellIndex() ) );
 	}
-
-
-	protected abstract void describeDefinitionTo( DescriptionBuilder _to ) throws IOException;
-
 
 }

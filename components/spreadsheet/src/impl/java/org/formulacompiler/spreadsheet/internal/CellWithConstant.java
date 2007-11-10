@@ -20,6 +20,8 @@
  */
 package org.formulacompiler.spreadsheet.internal;
 
+import java.io.IOException;
+
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.describable.DescriptionBuilder;
 
@@ -27,7 +29,7 @@ import org.formulacompiler.describable.DescriptionBuilder;
 public final class CellWithConstant extends CellInstance
 {
 
-	public CellWithConstant(RowImpl _row, Object _value)
+	public CellWithConstant( RowImpl _row, Object _value )
 	{
 		super( _row );
 		setValue( _value );
@@ -42,13 +44,10 @@ public final class CellWithConstant extends CellInstance
 
 
 	@Override
-	protected void describeDefinitionTo( DescriptionBuilder _to )
+	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
-		_to.append( "<value>" );
-		_to.append( getValue().toString() );
-		_to.append( "</value>" );
-		_to.newLine();
+		_to.vn( "const" ).v( getValue() ).lf();
+		super.describeTo( _to );
 	}
-
 
 }

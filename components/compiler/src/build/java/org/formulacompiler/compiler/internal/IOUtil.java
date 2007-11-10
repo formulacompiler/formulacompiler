@@ -40,11 +40,12 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -75,8 +76,8 @@ public class IOUtil
 
 	public static final String readStringFrom( InputStream _source ) throws IOException
 	{
-		StringBuffer sb = new StringBuffer( 1024 );
-		BufferedReader reader = new BufferedReader( new InputStreamReader( _source ) );
+		final StringBuffer sb = new StringBuffer( 1024 );
+		final BufferedReader reader = new BufferedReader( new InputStreamReader( _source, "UTF-8" ) );
 		try {
 			char[] chars = new char[ 1024 ];
 			int red;
@@ -93,7 +94,8 @@ public class IOUtil
 
 	public static final void writeStringTo( String _value, File _target ) throws IOException
 	{
-		BufferedWriter writer = new BufferedWriter( new FileWriter( _target ) );
+		final BufferedWriter writer = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( _target ),
+				"UTF-8" ) );
 		try {
 			if (null != _value) writer.write( _value );
 		}
@@ -129,13 +131,13 @@ public class IOUtil
 	}
 
 
-	static interface FileVisitor
+	public static interface FileVisitor
 	{
 		void visit( File _inputFile, File _outputFile ) throws IOException;
 	}
 
 
-	static final void iterateFiles( File _inputFolder, String _pattern, File _outputFolder, boolean _recurse,
+	public static final void iterateFiles( File _inputFolder, String _pattern, File _outputFolder, boolean _recurse,
 			FileVisitor _visitor ) throws IOException
 	{
 		final StringBuilder src = new StringBuilder();

@@ -44,7 +44,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-public class RepeatingSectionTestSuite extends TestSuite
+public class RepeatingSectionTestSuite extends AbstractTestSuite
 {
 	private static final int FIRST_TEST_ROW = 5;
 	private static final int NAME_COL = 0;
@@ -57,22 +57,9 @@ public class RepeatingSectionTestSuite extends TestSuite
 		// Settings.LOG_CONSTEVAL.setEnabled( true );
 	}
 
-
-	public RepeatingSectionTestSuite()
+	public static Test suite()
 	{
-		try {
-			addTestsIn( "SectionTests.xls" );
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			addTest( warn( e.getMessage() ) );
-		}
-	}
-
-
-	public void testAll()
-	{
-		// Needed for some strange reason to make tests run in Eclipse.
+		return new RepeatingSectionTestSuite();
 	}
 
 
@@ -81,13 +68,14 @@ public class RepeatingSectionTestSuite extends TestSuite
 	private List<RowImpl> rows;
 
 
+	@Override
 	@SuppressWarnings("unqualified-field-access")
-	private void addTestsIn( String _fileName ) throws Exception
+	protected void addTests() throws Exception
 	{
-		final TestSuite fileSuite = new TestSuite( _fileName );
+		final TestSuite fileSuite = new TestSuite( "SectionTests.xls" );
 		this.addTest( fileSuite );
 
-		final String filePath = "src/test/data/org/formulacompiler/tests/" + _fileName;
+		final String filePath = "src/test/data/org/formulacompiler/tests/" + "SectionTests.xls";
 		workbook = (SpreadsheetImpl) SpreadsheetCompiler.loadSpreadsheet( new File( filePath ) );
 		sheet = workbook.getSheetList().get( 0 );
 		rows = sheet.getRowList();
@@ -127,8 +115,8 @@ public class RepeatingSectionTestSuite extends TestSuite
 		private final CellInstance[][] outerRefCells;
 
 
-		@SuppressWarnings("unqualified-field-access")
-		public RangeTestSuite(String _name, CellInstance _formulaCell, String _rangeName)
+		@SuppressWarnings( "unqualified-field-access" )
+		public RangeTestSuite( String _name, CellInstance _formulaCell, String _rangeName )
 		{
 			super( _name );
 
@@ -137,7 +125,7 @@ public class RepeatingSectionTestSuite extends TestSuite
 
 			formulaCell = _formulaCell;
 			sectionRange = (CellRange) workbook.getNamedRef( _rangeName );
-			orientation = (_rangeName.charAt( 0 ) == 'H') ? Orientation.HORIZONTAL : Orientation.VERTICAL;
+			orientation = (_rangeName.charAt( 0 ) == 'H')? Orientation.HORIZONTAL : Orientation.VERTICAL;
 			sectionCells = extractRangeCells( sectionRange, orientation );
 			expectedResultsCells = extractRangeCells( expectedResultsRange, orientation );
 			outerRefCells = extractRangeCells( outerRefsRange, orientation );
@@ -153,14 +141,14 @@ public class RepeatingSectionTestSuite extends TestSuite
 			private final NumericType numericType;
 
 
-			public SectionTestCase(NumericType _numericType)
+			public SectionTestCase( NumericType _numericType )
 			{
 				super( RangeTestSuite.this.getName() + " @ " + _numericType );
 				this.numericType = _numericType;
 			}
 
 
-			@SuppressWarnings("unqualified-field-access")
+			@SuppressWarnings( "unqualified-field-access" )
 			@Override
 			protected void runTest() throws Throwable
 			{
@@ -214,7 +202,7 @@ public class RepeatingSectionTestSuite extends TestSuite
 		private final double[] values;
 		private final Input[] subs;
 
-		public Input(int _len, CellInstance[][] _sectionCells, CellInstance[][] _outerRefCells)
+		public Input( int _len, CellInstance[][] _sectionCells, CellInstance[][] _outerRefCells )
 		{
 			super();
 
@@ -232,7 +220,7 @@ public class RepeatingSectionTestSuite extends TestSuite
 			}
 		}
 
-		public Input(CellInstance[] _cells)
+		public Input( CellInstance[] _cells )
 		{
 			super();
 			this.values = new double[ _cells.length ];
@@ -257,19 +245,6 @@ public class RepeatingSectionTestSuite extends TestSuite
 	}
 
 
-	private static Test warn( final String message )
-	{
-		return new TestCase( "warning" )
-		{
-			@Override
-			protected void runTest()
-			{
-				fail( message );
-			}
-		};
-	}
-
-
 	private CellRange namedRange( String _name )
 	{
 		Reference ref = this.workbook.getNamedRef( _name );
@@ -285,8 +260,7 @@ public class RepeatingSectionTestSuite extends TestSuite
 
 		final CellIndex f = _range.getFrom();
 		final CellIndex t = _range.getTo();
-		final Orientation other = (_orientation == Orientation.HORIZONTAL) ? Orientation.VERTICAL
-				: Orientation.HORIZONTAL;
+		final Orientation other = (_orientation == Orientation.HORIZONTAL)? Orientation.VERTICAL : Orientation.HORIZONTAL;
 		final int felt = f.getIndex( _orientation );
 		final int telt = t.getIndex( _orientation );
 		final int nelt = telt - felt + 1;

@@ -176,7 +176,7 @@ public final class SectionModelCompiler
 		else if (_cell instanceof CellWithLazilyParsedExpression) {
 			buildCellModel( _cellModel, (CellWithLazilyParsedExpression) _cell );
 		}
-		_cellModel.applyNumberFormat( _cell.getNumberFormat() );
+		_cellModel.setMaxFractionalDigits( _cell.getMaxFractionalDigits() );
 	}
 
 

@@ -1,0 +1,7482 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: Expected
+    - const: Actual
+    - const: Inputs
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: # of Inputs
+    - const: Name
+    - const: Highlight
+    - const: Excel says
+    - const: Skip for
+  - cells:
+    - const: 5.0
+    - expr: =RANK( RC[1], RC[2]:RC[6] )
+    - const: -1.0
+    - const: 2.0
+    - const: 0.0
+    - const: -1.0
+    - const: 2.0
+    - const: 4.0
+    - null
+    - const: 6.0
+    - const: RANK
+    - const: RANK
+  - cells:
+    - const: 4.0
+    - expr: =RANK( RC[1], RC[2]:RC[6] )
+    - const: 0.0
+    - const: 2.0
+    - const: 0.0
+    - const: -1.0
+    - const: 2.0
+    - const: 4.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 2.0
+    - expr: =RANK( RC[1], RC[2]:RC[6] )
+    - const: 2.0
+    - const: 2.0
+    - const: 0.0
+    - const: -1.0
+    - const: 2.0
+    - const: 4.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 1.0
+    - expr: =RANK( RC[1], RC[2]:RC[6] )
+    - const: 4.0
+    - const: 2.0
+    - const: 0.0
+    - const: -1.0
+    - const: 2.0
+    - const: 4.0
+    - null
+    - const: 6.0
+    - const: ...
+  - cells:
+  - cells:
+    - const: 5.0
+    - expr: =RANK( RC[1], RC[2]:RC[6], RC[7] )
+    - const: -1.0
+    - const: 2.0
+    - const: 0.0
+    - const: -1.0
+    - const: 2.0
+    - const: 4.0
+    - const: 0.0
+    - const: 7.0
+  - cells:
+    - const: 1.0
+    - expr: =RANK( RC[1], RC[2]:RC[6], RC[7] )
+    - const: -1.0
+    - const: 2.0
+    - const: 0.0
+    - const: -1.0
+    - const: 2.0
+    - const: 4.0
+    - const: 1.0
+    - const: 7.0
+  - cells:
+    - const: 2.0
+    - expr: =RANK( RC[1], RC[2]:RC[6], RC[7] )
+    - const: 0.0
+    - const: 2.0
+    - const: 0.0
+    - const: -1.0
+    - const: 2.0
+    - const: 4.0
+    - const: 1.0
+    - const: 7.0
+  - cells:
+    - const: 3.0
+    - expr: =RANK( RC[1], RC[2]:RC[6], RC[7] )
+    - const: 2.0
+    - const: 2.0
+    - const: 0.0
+    - const: -1.0
+    - const: 2.0
+    - const: 4.0
+    - const: 1.0
+    - const: 7.0
+  - cells:
+    - const: 5.0
+    - expr: =RANK( RC[1], RC[2]:RC[6], RC[7] )
+    - const: 4.0
+    - const: 2.0
+    - const: 0.0
+    - const: -1.0
+    - const: 2.0
+    - const: 4.0
+    - const: 1.0
+    - const: 7.0
+    - const: ...
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =RANK( RC[1], RC[2] )
+    - const: 6.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+  - cells:
+    - const: 0.0
+    - expr: =VARP( RC[1] )
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: VARP (does not support blanks!)
+    - const: VARP
+  - cells:
+    - const: 0.0
+    - expr: =VARP( RC[1] )
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: ...
+  - cells:
+  - cells:
+    - const: 0.25
+    - expr: =VARP( RC[1], RC[2] )
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.25
+    - expr: =VARP( RC[1], RC[2] )
+    - const: 4.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: ...
+  - cells:
+  - cells:
+    - const: 4.64
+    - expr: =VARP( RC[1]:RC[3], RC[5], RC[7] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 100.0
+    - const: 5.0
+    - const: 200.0
+    - const: 7.0
+    - const: 7.0
+  - cells:
+    - const: 2.0
+    - expr: =VARP( RC[1]:RC[3], RC[5], RC[7] )
+    - const: 6.0
+    - const: 7.0
+    - const: 8.0
+    - const: 80.0
+    - const: 9.0
+    - null
+    - const: 10.0
+    - const: 7.0
+    - const: ...
+  - cells:
+  - cells:
+    - const: 0.5
+    - expr: =VAR( RC[1], RC[2] )
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: VAR (does not support blanks!)
+    - const: VAR
+  - cells:
+    - const: 0.5
+    - expr: =VAR( RC[1], RC[2] )
+    - const: 4.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: ...
+  - cells:
+  - cells:
+    - const: 5.8
+    - expr: =VAR( RC[1]:RC[3], RC[5], RC[7] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 100.0
+    - const: 5.0
+    - const: 200.0
+    - const: 7.0
+    - const: 7.0
+  - cells:
+    - const: 2.5
+    - expr: =VAR( RC[1]:RC[3], RC[5], RC[7] )
+    - const: 6.0
+    - const: 7.0
+    - const: 8.0
+    - const: 80.0
+    - const: 9.0
+    - null
+    - const: 10.0
+    - const: 7.0
+    - const: ...
+  - cells:
+  - cells:
+    - const: 2.8284271247461903
+    - expr: =STDEV( RC[1], RC[2] )
+    - const: -1.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: STDEV (does not support blanks!)
+    - const: STDEV
+  - cells:
+    - const: 2.0816659994661326
+    - expr: =STDEV( RC[1], RC[2], RC[3] )
+    - const: -1.0
+    - const: 0.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+  - cells:
+    - const: 40.688718279617696
+    - expr: =STDEV( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -1.0
+    - const: 0.0
+    - const: 5.45
+    - const: 7.62
+    - const: 12.7
+    - const: 14.5
+    - const: -100.0
+    - const: 7.0
+  - cells:
+    - const: 4.15187851918806
+    - expr: =STDEV( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -10.0
+    - const: 0.0
+    - const: 1.0
+    - const: 0.0
+    - const: -1.0
+    - const: -2.0
+    - const: 3.0
+    - const: 7.0
+    - const: ...
+  - cells:
+  - cells:
+    - const: 0.0
+    - expr: =STDEVP( RC[1] )
+    - const: 7.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: STDEVP (does not support blanks!)
+    - const: STDEVP
+  - cells:
+    - const: 1.5
+    - expr: =STDEVP( RC[1], RC[2] )
+    - const: 2.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 2.0548046676563256
+    - expr: =STDEVP( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - const: 0.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+  - cells:
+    - const: 37.6704332172529
+    - expr: =STDEVP( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -1.0
+    - const: 0.0
+    - const: 5.45
+    - const: 7.62
+    - const: 12.7
+    - const: 14.5
+    - const: -100.0
+    - const: 7.0
+  - cells:
+    - const: 3.843892584878203
+    - expr: =STDEVP( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -10.0
+    - const: 0.0
+    - const: 1.0
+    - const: 0.0
+    - const: -1.0
+    - const: -2.0
+    - const: 3.0
+    - const: 7.0
+    - const: ...
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+  - cells:
+    - const: 0.0
+    - expr: =AVEDEV( RC[1] )
+    - const: 40.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: AVEDEV (does not support blanks!)
+    - const: AVEDEV
+  - cells:
+    - const: 2.0
+    - expr: =AVEDEV( RC[1], RC[2] )
+    - const: -1.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 1.5555555555555554
+    - expr: =AVEDEV( RC[1], RC[2], RC[3] )
+    - const: -1.0
+    - const: 0.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+  - cells:
+    - const: 26.092653061224492
+    - expr: =AVEDEV( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -1.0
+    - const: 0.0
+    - const: 5.45
+    - const: 7.62
+    - const: 12.7
+    - const: 14.5
+    - const: -100.0
+    - const: 7.0
+  - cells:
+    - const: 2.693877551020408
+    - expr: =AVEDEV( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -10.0
+    - const: 0.0
+    - const: 1.0
+    - const: 0.0
+    - const: -1.0
+    - const: -2.0
+    - const: 3.0
+    - const: 7.0
+    - const: ...
+  - cells:
+  - cells:
+    - const: 0.0
+    - expr: =DEVSQ( RC[1] )
+    - const: 40.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: DEVSQ (does not support blanks!)
+    - const: DEVSQ
+  - cells:
+    - const: 8.0
+    - expr: =DEVSQ( RC[1], RC[2] )
+    - const: -1.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 8.666666666666668
+    - expr: =DEVSQ( RC[1], RC[2], RC[3] )
+    - const: -1.0
+    - const: 0.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+  - cells:
+    - const: 9933.430771428571
+    - expr: =DEVSQ( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -1.0
+    - const: 0.0
+    - const: 5.45
+    - const: 7.62
+    - const: 12.7
+    - const: 14.5
+    - const: -100.0
+    - const: 7.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 103.4285714285714
+    - expr: =DEVSQ( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -10.0
+    - const: 0.0
+    - const: 1.0
+    - const: 0.0
+    - const: -1.0
+    - const: -2.0
+    - const: 3.0
+    - const: 7.0
+    - const: ...
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+  - cells:
+    - const: 0.9352195295828235
+    - expr: =SKEW( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: SKEW (does not support blanks!)
+    - const: SKEW
+    - null
+    - const: bigdecimal
+  - cells:
+  - cells:
+    - const: -2.532706643504132
+    - expr: =SKEW( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -1.0
+    - const: 0.0
+    - const: 5.45
+    - const: 7.62
+    - const: 12.7
+    - const: 14.5
+    - const: -100.0
+    - const: 7.0
+  - cells:
+    - const: -1.8491263727532468
+    - expr: =SKEW( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -10.0
+    - const: 0.0
+    - const: 1.0
+    - const: 0.0
+    - const: -1.0
+    - const: -2.0
+    - const: 3.0
+    - const: 7.0
+    - const: ...
+  - cells:
+  - cells:
+    - const: 0.3905325443786989
+    - expr: =KURT( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.0
+    - const: 2.0
+    - const: 4.0
+    - const: -1.0
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: KURT (does not support blanks!)
+    - const: KURT
+    - null
+    - const: long, bigdecimal
+  - cells:
+  - cells:
+    - const: 6.5478454980828005
+    - expr: =KURT( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -1.0
+    - const: 0.0
+    - const: 5.45
+    - const: 7.62
+    - const: 12.7
+    - const: 14.5
+    - const: -100.0
+    - const: 7.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 4.2380757608131585
+    - expr: =KURT( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -10.0
+    - const: 0.0
+    - const: 1.0
+    - const: 0.0
+    - const: -1.0
+    - const: -2.0
+    - const: 3.0
+    - const: 7.0
+    - const: ...
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+  - cells:
+    - const: 7.933282355487847E-7
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -10.0
+    - const: 2.0
+    - const: 2.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: NORMDIST
+    - const: NORMDIST
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 3.1671241836783715E-5
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -8.0
+    - const: 2.0
+    - const: 2.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 6.871379379158604E-4
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -6.0
+    - const: 2.0
+    - const: 2.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.008197535924596044
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -4.0
+    - const: 2.0
+    - const: 2.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.054799291699557995
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -2.0
+    - const: 2.0
+    - const: 2.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.21185539858339675
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.0
+    - const: 2.0
+    - const: 2.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.5
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 2.0
+    - const: 2.0
+    - const: 2.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.7881446014166033
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 4.0
+    - const: 2.0
+    - const: 2.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.945200708300442
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 6.0
+    - const: 2.0
+    - const: 2.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.991802464075404
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 8.0
+    - const: 2.0
+    - const: 2.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.9993128620620841
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 10.0
+    - const: 2.0
+    - const: 2.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.9999683287581632
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 12.0
+    - const: 2.0
+    - const: 2.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.9999992066717645
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 14.0
+    - const: 2.0
+    - const: 2.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.3445782583896758
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -3.5
+    - const: -2.5
+    - const: 2.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.36944134018176367
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -3.5
+    - const: -2.5
+    - const: 3.0
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 1.58451963641283E-6
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -10.0
+    - const: 2.0
+    - const: 2.5
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 5.3532090305954136E-5
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -8.0
+    - const: 2.0
+    - const: 2.5
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 9.53635280585937E-4
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -6.0
+    - const: 2.0
+    - const: 2.5
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.008957812117937159
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -4.0
+    - const: 2.0
+    - const: 2.5
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.04436833387178222
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -2.0
+    - const: 2.0
+    - const: 2.5
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.11587662110459308
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.0
+    - const: 2.0
+    - const: 2.5
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.15957691216057307
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 2.0
+    - const: 2.0
+    - const: 2.5
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.11587662110459308
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 4.0
+    - const: 2.0
+    - const: 2.5
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.04436833387178222
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 6.0
+    - const: 2.0
+    - const: 2.5
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.008957812117937159
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 8.0
+    - const: 2.0
+    - const: 2.5
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 9.53635280585937E-4
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 10.0
+    - const: 2.0
+    - const: 2.5
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 5.3532090305954136E-5
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 12.0
+    - const: 2.0
+    - const: 2.5
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 1.58451963641283E-6
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 14.0
+    - const: 2.0
+    - const: 2.5
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.1473080561213293
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -3.5
+    - const: -2.5
+    - const: 2.5
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.12579440923099772
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -3.5
+    - const: -2.5
+    - const: 3.0
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.0
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -3.5
+    - const: -2.5
+    - const: 0.0
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -3.5
+    - const: -2.5
+    - const: -1.0
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -3.5
+    - const: -2.5
+    - const: 0.0
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -3.5
+    - const: -2.5
+    - const: -1.0
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: ...
+    - null
+    - const: #NUM!
+  - cells:
+  - cells:
+    - const: 1.279812543885827E-12
+    - expr: =NORMSDIST( RC[1] )
+    - const: -7.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: NORMSDIST
+    - const: NORMSDIST
+  - cells:
+    - const: 9.865876450375138E-10
+    - expr: =NORMSDIST( RC[1] )
+    - const: -6.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 2.866515718770135E-7
+    - expr: =NORMSDIST( RC[1] )
+    - const: -5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 3.1671241836783715E-5
+    - expr: =NORMSDIST( RC[1] )
+    - const: -4.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.0013498980316301035
+    - expr: =NORMSDIST( RC[1] )
+    - const: -3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.02275013194817932
+    - expr: =NORMSDIST( RC[1] )
+    - const: -2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.15865525393145707
+    - expr: =NORMSDIST( RC[1] )
+    - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.18406012534675953
+    - expr: =NORMSDIST( RC[1] )
+    - const: -0.9
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.21185539858339675
+    - expr: =NORMSDIST( RC[1] )
+    - const: -0.8
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.24196365222307303
+    - expr: =NORMSDIST( RC[1] )
+    - const: -0.7
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.27425311775007366
+    - expr: =NORMSDIST( RC[1] )
+    - const: -0.6
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.3085375387259869
+    - expr: =NORMSDIST( RC[1] )
+    - const: -0.5
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.3445782583896758
+    - expr: =NORMSDIST( RC[1] )
+    - const: -0.4
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.38208857781104744
+    - expr: =NORMSDIST( RC[1] )
+    - const: -0.3
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.420740290560897
+    - expr: =NORMSDIST( RC[1] )
+    - const: -0.2
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.460172162722971
+    - expr: =NORMSDIST( RC[1] )
+    - const: -0.1
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.5
+    - expr: =NORMSDIST( RC[1] )
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.539827837277029
+    - expr: =NORMSDIST( RC[1] )
+    - const: 0.1
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.579259709439103
+    - expr: =NORMSDIST( RC[1] )
+    - const: 0.2
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.6179114221889526
+    - expr: =NORMSDIST( RC[1] )
+    - const: 0.3
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.6554217416103242
+    - expr: =NORMSDIST( RC[1] )
+    - const: 0.4
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.6914624612740131
+    - expr: =NORMSDIST( RC[1] )
+    - const: 0.5
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.7257468822499263
+    - expr: =NORMSDIST( RC[1] )
+    - const: 0.6
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.758036347776927
+    - expr: =NORMSDIST( RC[1] )
+    - const: 0.7
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.7881446014166033
+    - expr: =NORMSDIST( RC[1] )
+    - const: 0.8
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.8159398746532405
+    - expr: =NORMSDIST( RC[1] )
+    - const: 0.9
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.8413447460685429
+    - expr: =NORMSDIST( RC[1] )
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.9772498680518207
+    - expr: =NORMSDIST( RC[1] )
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.9986501019683699
+    - expr: =NORMSDIST( RC[1] )
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.9999683287581632
+    - expr: =NORMSDIST( RC[1] )
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.9999997133484281
+    - expr: =NORMSDIST( RC[1] )
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.9999999990134123
+    - expr: =NORMSDIST( RC[1] )
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.9999999999987201
+    - expr: =NORMSDIST( RC[1] )
+    - const: 7.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: ...
+  - cells:
+  - cells:
+    - const: 0.002862742576440258
+    - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
+    - const: 0.0010
+    - const: 0.0
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: LOGNORMDIST
+    - const: LOGNORMDIST
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.032732596490962385
+    - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
+    - const: 0.01
+    - const: 0.0
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.17851632837994402
+    - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
+    - const: 0.1
+    - const: 0.0
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.25986062021413336
+    - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
+    - const: 0.2
+    - const: 0.0
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.3907906686191144
+    - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
+    - const: 0.5
+    - const: 0.0
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.5
+    - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 0.0
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.6092093313808856
+    - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - const: 0.0
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.7401393797858666
+    - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
+    - const: 5.0
+    - const: 0.0
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.821483671620056
+    - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
+    - const: 10.0
+    - const: 0.0
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.9672674035090376
+    - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
+    - const: 100.0
+    - const: 0.0
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.9971372574235597
+    - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
+    - const: 1000.0
+    - const: 0.0
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.32860257279352023
+    - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
+    - const: 0.2
+    - const: -0.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.4026314416565423
+    - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
+    - const: 0.2
+    - const: -0.5
+    - const: 4.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: -0.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
+    - const: -1.0
+    - const: -0.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+    - const: bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
+    - const: 0.2
+    - const: -0.5
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
+    - const: 0.2
+    - const: -0.5
+    - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: ...
+    - null
+    - const: #NUM!
+  - cells:
+  - cells:
+    - const: 1.3755319528560164
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 1.0E-4
+    - const: 2.5
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: CONFIDENCE
+    - const: CONFIDENCE
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.6929519121748389
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 0.05
+    - const: 2.5
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.5815435768383369
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 0.1
+    - const: 2.5
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.508951232416014
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 0.15
+    - const: 2.5
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.4530969012184115
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 0.2
+    - const: 2.5
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.3664345389796085
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 0.3
+    - const: 2.5
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.23846813810223486
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 0.5
+    - const: 2.5
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.08957172731064579
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 0.8
+    - const: 2.5
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.044427995247128836
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 0.9
+    - const: 2.5
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.022170193955002714
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 0.95
+    - const: 2.5
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 4.431134638859067E-5
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 0.9999
+    - const: 2.5
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.8141610075736716
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 0.1
+    - const: 3.5
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.26007419393777875
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 0.1
+    - const: 2.5
+    - const: 250.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.26007419393777875
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 0.1
+    - const: 2.5
+    - const: 250.9
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 2.5
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: -1.0
+    - const: 2.5
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 2.5
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 0.5
+    - const: 0.0
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 0.5
+    - const: -1.0
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
+    - const: 0.5
+    - const: 2.5
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: ...
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+  - cells:
+    - const: 81.20245878635673
+    - expr: =NORMINV( RC[1], RC[2], RC[3] )
+    - const: 1.0E-4
+    - const: 90.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: NORMINV
+    - const: NORMINV
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 86.38786593262131
+    - expr: =NORMINV( RC[1], RC[2], RC[3] )
+    - const: 0.05
+    - const: 90.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 87.2961210861385
+    - expr: =NORMINV( RC[1], RC[2], RC[3] )
+    - const: 0.1
+    - const: 90.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 88.39594691606771
+    - expr: =NORMINV( RC[1], RC[2], RC[3] )
+    - const: 0.2
+    - const: 90.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 90.5
+    - expr: =NORMINV( RC[1], RC[2], RC[3] )
+    - const: 0.5
+    - const: 90.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 92.60405308393229
+    - expr: =NORMINV( RC[1], RC[2], RC[3] )
+    - const: 0.8
+    - const: 90.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 93.7038789138615
+    - expr: =NORMINV( RC[1], RC[2], RC[3] )
+    - const: 0.9
+    - const: 90.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 94.61213406737868
+    - expr: =NORMINV( RC[1], RC[2], RC[3] )
+    - const: 0.95
+    - const: 90.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 99.79754121364327
+    - expr: =NORMINV( RC[1], RC[2], RC[3] )
+    - const: 0.9999
+    - const: 90.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: -89.1889987182299
+    - expr: =NORMINV( RC[1], RC[2], RC[3] )
+    - const: 0.7
+    - const: -90.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: -87.8779974364598
+    - expr: =NORMINV( RC[1], RC[2], RC[3] )
+    - const: 0.7
+    - const: -90.5
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =NORMINV( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 90.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =NORMINV( RC[1], RC[2], RC[3] )
+    - const: -1.0
+    - const: 90.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =NORMINV( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 90.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =NORMINV( RC[1], RC[2], RC[3] )
+    - const: 0.7
+    - const: 90.5
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =NORMINV( RC[1], RC[2], RC[3] )
+    - const: 0.7
+    - const: 90.5
+    - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: ...
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+  - cells:
+    - const: -3.719016485457308
+    - expr: =NORMSINV( RC[1] )
+    - const: 1.0E-4
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: NORMSINV
+    - const: NORMSINV
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: -3.0902323061677874
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.0010
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: -2.3263478740408488
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.01
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: -1.9599639845400545
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.025
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: -1.6448536269514742
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.05
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: -1.2815515655446004
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.1
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: -1.0364333894937903
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.15
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: -0.8416212335729143
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.2
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: -0.6744897501960818
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.25
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: -0.5244005127080409
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.3
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: -0.3853204664075678
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.35
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: -0.2533471031357999
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.4
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: -0.12566134685507402
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.45
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: -1.392137635291833E-16
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.5
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.12566134685507402
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.55
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.25334710313579967
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.6
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.38532046640756756
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.65
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.5244005127080404
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.7
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.6744897501960816
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.75
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.8416212335729143
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.8
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 1.0364333894937898
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.85
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 1.2815515655446004
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.9
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 1.6448536269514724
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.95
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 1.959963984540054
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.975
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 2.32634787404084
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.99
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 3.0902323061677848
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.999
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 3.719016485457308
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.9999
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =NORMSINV( RC[1] )
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =NORMSINV( RC[1] )
+    - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =NORMSINV( RC[1] )
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: ...
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+  - cells:
+    - const: 0.0019781746262642497
+    - expr: =LOGINV( RC[1], RC[2], RC[3] )
+    - const: 0.0010
+    - const: 1.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: LOGINV
+    - const: LOGINV
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.07337778342006672
+    - expr: =LOGINV( RC[1], RC[2], RC[3] )
+    - const: 0.05
+    - const: 1.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.18197628294943885
+    - expr: =LOGINV( RC[1], RC[2], RC[3] )
+    - const: 0.1
+    - const: 1.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.5465917581845832
+    - expr: =LOGINV( RC[1], RC[2], RC[3] )
+    - const: 0.2
+    - const: 1.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 4.481689070338063
+    - expr: =LOGINV( RC[1], RC[2], RC[3] )
+    - const: 0.5
+    - const: 1.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 36.7468711747476
+    - expr: =LOGINV( RC[1], RC[2], RC[3] )
+    - const: 0.8
+    - const: 1.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 110.37447626495552
+    - expr: =LOGINV( RC[1], RC[2], RC[3] )
+    - const: 0.9
+    - const: 1.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 273.7277686381404
+    - expr: =LOGINV( RC[1], RC[2], RC[3] )
+    - const: 0.95
+    - const: 1.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 10153.571204741784
+    - expr: =LOGINV( RC[1], RC[2], RC[3] )
+    - const: 0.999
+    - const: 1.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.827787567727408
+    - expr: =LOGINV( RC[1], RC[2], RC[3] )
+    - const: 0.7
+    - const: -1.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 3.070997918113044
+    - expr: =LOGINV( RC[1], RC[2], RC[3] )
+    - const: 0.7
+    - const: -1.5
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =LOGINV( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 1.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =LOGINV( RC[1], RC[2], RC[3] )
+    - const: -1.0
+    - const: 1.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =LOGINV( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 1.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =LOGINV( RC[1], RC[2], RC[3] )
+    - const: 0.7
+    - const: 1.5
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =LOGINV( RC[1], RC[2], RC[3] )
+    - const: 0.7
+    - const: 1.5
+    - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: ...
+    - null
+    - const: #NUM!
+    - const: long, bigdecimal
+  - cells:
+  - cells:
+    - const: 0.2522154925789305
+    - expr: =BETADIST( RC[1], RC[2], RC[3] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: BETADIST
+    - const: BETADIST
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =BETADIST( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 1.5
+    - const: 0.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 1.0
+    - expr: =BETADIST( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 1.5
+    - const: 0.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =BETADIST( RC[1], RC[2], RC[3] )
+    - const: -0.0010
+    - const: 1.5
+    - const: 0.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =BETADIST( RC[1], RC[2], RC[3] )
+    - const: 1.001
+    - const: 1.5
+    - const: 0.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =BETADIST( RC[1], RC[2], RC[3] )
+    - const: 0.6
+    - const: 0.0
+    - const: 0.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =BETADIST( RC[1], RC[2], RC[3] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: ...
+    - null
+    - const: #NUM!
+  - cells:
+  - cells:
+    - const: 0.026900917354660405
+    - expr: =BETADIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -0.1
+    - const: 1.5
+    - const: 0.5
+    - const: -0.3
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+  - cells:
+    - const: 0.034896984506197104
+    - expr: =BETADIST( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: -0.1
+    - const: 1.5
+    - const: 0.5
+    - const: -0.3
+    - const: 0.8
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =BETADIST( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: -0.3
+    - const: 1.5
+    - const: 0.5
+    - const: -0.3
+    - const: 0.8
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 1.0
+    - expr: =BETADIST( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.8
+    - const: 1.5
+    - const: 0.5
+    - const: -0.3
+    - const: 0.8
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =BETADIST( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.2
+    - const: 1.5
+    - const: 0.5
+    - const: 0.3
+    - const: 0.8
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - const: #NUM!
+    - const: bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =BETADIST( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.9
+    - const: 1.5
+    - const: 0.5
+    - const: 0.3
+    - const: 0.8
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - const: #NUM!
+    - const: bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =BETADIST( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.9
+    - const: 1.5
+    - const: 0.5
+    - const: 0.9
+    - const: 0.9
+    - null
+    - null
+    - const: 5.0
+    - const: ...
+    - null
+    - const: #NUM!
+    - const: bigdecimal
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 2.0
+    - const: 3.0
+    - const: 0.0
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: BINOMDIST
+    - const: BINOMDIST
+  - cells:
+    - const: 0.5120000000000001
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.0
+    - const: 3.0
+    - const: 0.2
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.8960000000000001
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.0
+    - const: 3.0
+    - const: 0.2
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.9920000000000002
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 2.0
+    - const: 3.0
+    - const: 0.2
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 1.0
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 3.0
+    - const: 3.0
+    - const: 0.2
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.64
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.0
+    - const: 2.0
+    - const: 0.2
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.36
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.0
+    - const: 2.0
+    - const: 0.8
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 1.0
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 2.0
+    - const: 2.0
+    - const: 0.8
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.0
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.0
+    - const: 2.0
+    - const: 1.0
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 1.0
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 2.0
+    - const: 2.0
+    - const: 1.0
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.5120000000000001
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.9
+    - const: 3.9
+    - const: 0.2
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.0
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 2.0
+    - const: 3.0
+    - const: 0.0
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.5120000000000001
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.0
+    - const: 3.0
+    - const: 0.2
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.38400000000000006
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.0
+    - const: 3.0
+    - const: 0.2
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.09600000000000003
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 2.0
+    - const: 3.0
+    - const: 0.2
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.008000000000000004
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 3.0
+    - const: 3.0
+    - const: 0.2
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.64
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.0
+    - const: 2.0
+    - const: 0.2
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.32
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.0
+    - const: 2.0
+    - const: 0.8
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.64
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 2.0
+    - const: 2.0
+    - const: 0.8
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.0
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.0
+    - const: 2.0
+    - const: 1.0
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 1.0
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 2.0
+    - const: 2.0
+    - const: 1.0
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.09600000000000003
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 2.9
+    - const: 3.9
+    - const: 0.2
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.0
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -1.0
+    - const: 3.0
+    - const: 0.2
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 4.0
+    - const: 3.0
+    - const: 0.2
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.0
+    - const: 3.0
+    - const: -0.0010
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.0
+    - const: 3.0
+    - const: 1.001
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: ...
+    - null
+    - const: #NUM!
+  - cells:
+  - cells:
+    - const: 0.8
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 1.0
+    - const: 0.8
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: NEGBINOMDIST
+    - const: NEGBINOMDIST
+  - cells:
+    - const: 0.16
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 1.0
+    - const: 0.8
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.031999999999999994
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - const: 1.0
+    - const: 0.8
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.006399999999999998
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 3.0
+    - const: 1.0
+    - const: 0.8
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.64
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 2.0
+    - const: 0.8
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.256
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 0.8
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.07679999999999998
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - const: 2.0
+    - const: 0.8
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.02047999999999999
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 3.0
+    - const: 2.0
+    - const: 0.8
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.5120000000000001
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 3.0
+    - const: 0.8
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.30720000000000003
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 3.0
+    - const: 0.8
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.12287999999999999
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - const: 3.0
+    - const: 0.8
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.04095999999999999
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 3.0
+    - const: 3.0
+    - const: 0.8
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.04
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 2.0
+    - const: 0.2
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.06400000000000002
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 0.2
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.07680000000000001
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - const: 2.0
+    - const: 0.2
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.08192000000000003
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 3.0
+    - const: 2.0
+    - const: 0.2
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.08192000000000003
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 3.9
+    - const: 2.9
+    - const: 0.2
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 3.0
+    - const: 2.0
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 3.0
+    - const: 2.0
+    - const: -0.1
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 3.0
+    - const: 2.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 3.0
+    - const: 2.0
+    - const: 1.1
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: -1.0
+    - const: 2.0
+    - const: 0.8
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
+    - const: 3.0
+    - const: 0.0
+    - const: 0.8
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: ...
+    - null
+    - const: #NUM!
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 0.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: CHIDIST
+    - const: CHIDIST
+  - cells:
+    - const: 0.7518296342946255
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 0.1
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.4795001239653619
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 0.5
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.001565402337851315
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 10.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 1.0
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 0.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.9512294245194709
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 0.1
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.7788007833653048
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 0.5
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.6065306631317098
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.006737946999366549
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 10.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 1.0
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 0.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.9918374237331349
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 0.1
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.918891411700565
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 0.5
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.8012519576642457
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 1.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.01856613527707762
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 10.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 1.0
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 0.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.9998376833880724
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 0.1
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.9921232932829606
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 0.5
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.9625657732801898
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 1.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.07523524671081362
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 10.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 1.0
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 0.0
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.9999999975020487
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 0.1
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.9999933882894426
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 0.5
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.9998278843703372
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 1.0
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.44049328513798774
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 10.0
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.029252688081794043
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 20.0
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 8.566412109168291E-4
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 30.0
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 8.566412109168291E-4
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 30.0
+    - const: 10.9
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.0
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: -0.1
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 0.5
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =CHIDIST( RC[1], RC[2] )
+    - const: 0.5
+    - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: ...
+    - null
+    - const: #NUM!
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =FDIST( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 1.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: FDIST
+    - const: FDIST
+  - cells:
+    - const: 1.0
+    - expr: =FDIST( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 1.0
+    - expr: =FDIST( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 2.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.8050177709913279
+    - expr: =FDIST( RC[1], RC[2], RC[3] )
+    - const: 0.1
+    - const: 1.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.7817821097832189
+    - expr: =FDIST( RC[1], RC[2], RC[3] )
+    - const: 0.1
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.9128709291846353
+    - expr: =FDIST( RC[1], RC[2], RC[3] )
+    - const: 0.1
+    - const: 2.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.06345103485022717
+    - expr: =FDIST( RC[1], RC[2], RC[3] )
+    - const: 100.0
+    - const: 1.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 0.009852457022458162
+    - expr: =FDIST( RC[1], RC[2], RC[3] )
+    - const: 100.0
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.07053456157965012
+    - expr: =FDIST( RC[1], RC[2], RC[3] )
+    - const: 100.0
+    - const: 2.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 0.009900990098986774
+    - expr: =FDIST( RC[1], RC[2], RC[3] )
+    - const: 100.0
+    - const: 2.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.02944408936627338
+    - expr: =FDIST( RC[1], RC[2], RC[3] )
+    - const: 5.5
+    - const: 1.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.3256302980355189
+    - expr: =FDIST( RC[1], RC[2], RC[3] )
+    - const: 5.5
+    - const: 20.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: long, bigdecimal
+  - cells:
+    - const: 1.783131322808374E-4
+    - expr: =FDIST( RC[1], RC[2], RC[3] )
+    - const: 5.5
+    - const: 20.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.00423459019531231
+    - expr: =FDIST( RC[1], RC[2], RC[3] )
+    - const: 5.5
+    - const: 20.9
+    - const: 10.9
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =FDIST( RC[1], RC[2], RC[3] )
+    - const: -1.0
+    - const: 2.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =FDIST( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 0.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =FDIST( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 1.0
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: ...
+    - null
+    - const: #NUM!
+  - cells:
+  - cells:
+    - const: 0.0
+    - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.0
+    - const: 1.5
+    - const: 0.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: GAMMADIST
+    - const: GAMMADIST
+  - cells:
+    - const: 0.5063653754347426
+    - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.6009248024834053
+    - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.6
+    - const: 0.5
+    - const: 4.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.9263617169138677
+    - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.6
+    - const: 0.5
+    - const: 1.0
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.0
+    - const: 1.5
+    - const: 0.5
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.7445987447547989
+    - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.14734757732691886
+    - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.6
+    - const: 0.5
+    - const: 4.5
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.09005211167454186
+    - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.6
+    - const: 0.5
+    - const: 1.0
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.0
+    - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: -0.1
+    - const: 0.5
+    - const: 0.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - const: #NUM!
+    - const: bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.6
+    - const: 0.0
+    - const: 0.5
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.6
+    - const: -1.0
+    - const: 0.5
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.6
+    - const: 0.5
+    - const: 0.0
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.6
+    - const: 0.5
+    - const: -1.0
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: ...
+    - null
+    - const: #NUM!
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 0.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: POISSON
+    - const: POISSON
+  - cells:
+    - const: 1.0
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 0.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 1.0
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - const: 0.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 1.0
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 3.0
+    - const: 0.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.3678794411714491
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 1.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.7357588823428982
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 1.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.9196986029286228
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - const: 1.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.9810118431238645
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 3.0
+    - const: 1.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.13533528323661353
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 2.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.4060058497098406
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.6766764161830676
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - const: 2.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.8571234604985524
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 3.0
+    - const: 2.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.02732372244729319
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 3.6
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.1256891232575487
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 3.6
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.30274684471600855
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - const: 3.6
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.5152161104661604
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 3.0
+    - const: 3.6
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.5152161104661604
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 3.9
+    - const: 3.6
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 1.0
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 0.0
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 0.0
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - const: 0.0
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 3.0
+    - const: 0.0
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.3678794411714491
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 1.0
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.3678794411714491
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 1.0
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.18393972058572455
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - const: 1.0
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.061313240195241515
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 3.0
+    - const: 1.0
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.13533528323661353
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 2.0
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.27067056647322707
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.27067056647322707
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - const: 2.0
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.1804470443154847
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 3.0
+    - const: 2.0
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.02732372244729319
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 3.6
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0983654008102555
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 3.6
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.17705772145845985
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - const: 3.6
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.21246926575015185
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 3.0
+    - const: 3.6
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.21246926575015185
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 3.9
+    - const: 3.6
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: -1.0
+    - const: 2.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: -1.0
+    - const: 2.0
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - const: -1.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =POISSON( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - const: -1.0
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: ...
+    - null
+    - const: #NUM!
+  - cells:
+  - cells:
+  - cells:
+    - const: 0.5
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 1.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: TDIST
+    - const: TDIST
+  - cells:
+    - const: 1.0
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.5
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 10.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.4682744825748864
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: 0.1
+    - const: 1.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.9365489651497728
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: 0.1
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.4647327192101754
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: 0.1
+    - const: 2.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.4602722655504662
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: 0.1
+    - const: 100.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0031829927643624726
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: 100.0
+    - const: 1.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 4.9992501245380026E-5
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: 100.0
+    - const: 2.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.057249147038858604
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: 5.5
+    - const: 1.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.015752001519251217
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: 5.5
+    - const: 2.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 1.4617107210140738E-7
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: 5.5
+    - const: 100.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 1.4617107210140738E-7
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: 5.5
+    - const: 100.9
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 1.4617107210140738E-7
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: 5.5
+    - const: 100.0
+    - const: 1.9
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 2.9234214420281476E-7
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: 5.5
+    - const: 100.0
+    - const: 2.9
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: -1.0
+    - const: 2.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 0.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =TDIST( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: ...
+    - null
+    - const: #NUM!
+  - cells:
+  - cells:
+    - const: 0.8977973461151
+    - expr: =BETAINV( RC[1], RC[2], RC[3] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: BETAINV
+    - const: BETAINV
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =BETAINV( RC[1], RC[2], RC[3] )
+    - const: 0.6
+    - const: 0.0
+    - const: 0.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =BETAINV( RC[1], RC[2], RC[3] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.3600888252258301
+    - expr: =BETAINV( RC[1], RC[2], RC[3] )
+    - const: 0.45
+    - const: 2.2
+    - const: 3.3
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: ...
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+  - cells:
+    - const: 0.3600888252258301
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.45
+    - const: 2.2
+    - const: 3.3
+    - const: 0.0
+    - const: 1.0
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.45
+    - const: 2.2
+    - const: 3.3
+    - const: 3.0
+    - const: 1.0
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.7488986730575562
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 0.3
+    - const: 0.8
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.3600888252258301
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.45
+    - const: 2.2
+    - const: 3.3
+    - const: 0.0
+    - const: 1.0
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 1.1
+    - const: 2.2
+    - const: 3.3
+    - const: 0.0
+    - const: 1.0
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: -0.1
+    - const: 2.2
+    - const: 3.3
+    - const: 0.0
+    - const: 1.0
+    - null
+    - null
+    - const: 5.0
+    - const: ...
+    - null
+    - const: #NUM!
+  - cells:
+  - cells:
+    - const: 0.9284581422805787
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 0.3
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+  - cells:
+    - const: 3.2188758249516325
+    - expr: =CHIINV( RC[1], RC[2] )
+    - const: 0.2
+    - const: 2.4
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: CHIINV
+    - const: CHIINV
+  - cells:
+    - const: 0.41389331157281367
+    - expr: =CHIINV( RC[1], RC[2] )
+    - const: 0.52
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 2.8051184564879357
+    - expr: =CHIINV( RC[1], RC[2] )
+    - const: 0.73
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 2.8051184564879357
+    - expr: =CHIINV( RC[1], RC[2] )
+    - const: 0.73
+    - const: 5.42
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 5.749409689274468
+    - expr: =CHIINV( RC[1], RC[2] )
+    - const: 0.9999
+    - const: 23.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 32.006899668662996
+    - expr: =CHIINV( RC[1], RC[2] )
+    - const: 0.1
+    - const: 23.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 35.99736227382731
+    - expr: =CHIINV( RC[1], RC[2] )
+    - const: 0.33
+    - const: 33.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 78.7495242510023
+    - expr: =CHIINV( RC[1], RC[2] )
+    - const: 0.0010
+    - const: 44.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 2.407945608735304
+    - expr: =CHIINV( RC[1], RC[2] )
+    - const: 0.3
+    - const: 2.4
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 13.815510558047702
+    - expr: =CHIINV( RC[1], RC[2] )
+    - const: 0.0010
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.0
+    - expr: =CHIINV( RC[1], RC[2] )
+    - const: 0.2
+    - const: 0.99
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =CHIINV( RC[1], RC[2] )
+    - const: 0.2
+    - const: 1.0E11
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: ...
+    - null
+    - const: #NUM!
+  - cells:
+  - cells:
+    - const: 0.666666666823178
+    - expr: =FINV( RC[1], RC[2], RC[3] )
+    - const: 0.5
+    - const: 1.9
+    - const: 2.4
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: FINV
+    - const: FINV
+  - cells:
+    - const: 0.0
+    - expr: =FINV( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 4.0
+    - const: 2.4
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 1.0E9
+    - expr: =FINV( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 8.45128505321545
+    - expr: =FINV( RC[1], RC[2], RC[3] )
+    - const: 0.01
+    - const: 3.6
+    - const: 7.9
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.6232351341573585
+    - expr: =FINV( RC[1], RC[2], RC[3] )
+    - const: 0.7
+    - const: 5.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 18.772269815522307
+    - expr: =FINV( RC[1], RC[2], RC[3] )
+    - const: 0.0010
+    - const: 3.6
+    - const: 7.9
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =FINV( RC[1], RC[2], RC[3] )
+    - const: -0.01
+    - const: 1.9
+    - const: 2.4
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =FINV( RC[1], RC[2], RC[3] )
+    - const: 0.5
+    - const: 0.7
+    - const: 2.4
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =FINV( RC[1], RC[2], RC[3] )
+    - const: 0.5
+    - const: 1.9
+    - const: 1.0E11
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: ...
+    - null
+    - const: #NUM!
+  - cells:
+  - cells:
+    - const: 0.6043677771171635
+    - expr: =FISHERINV( RC[1] )
+    - const: 0.7
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: FISHERINV
+    - const: FISHERINV
+  - cells:
+    - const: 0.0
+    - expr: =FISHERINV( RC[1] )
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.76117386166057
+    - expr: =FISHERINV( RC[1] )
+    - const: 0.999
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.009999666679999443
+    - expr: =FISHERINV( RC[1] )
+    - const: 0.01
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.46211715726000974
+    - expr: =FISHERINV( RC[1] )
+    - const: 0.5
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: -0.46211715726000974
+    - expr: =FISHERINV( RC[1] )
+    - const: -0.5
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.22982054821431688
+    - expr: =FISHERINV( RC[1] )
+    - const: 0.234
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.9999092042625951
+    - expr: =FISHERINV( RC[1] )
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.9999999994421064
+    - expr: =FISHERINV( RC[1] )
+    - const: 11.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: -0.9999999994421064
+    - expr: =FISHERINV( RC[1] )
+    - const: -11.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: ...
+  - cells:
+  - cells:
+    - const: 4.951915547315796
+    - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
+    - const: 0.065
+    - const: 9.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: GAMMAINV
+    - const: GAMMAINV
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 1.5141277326714913
+    - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
+    - const: 0.78
+    - const: 1.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 3.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 18.417894393294752
+    - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
+    - const: 0.7
+    - const: 8.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 3.0154804227868324
+    - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
+    - const: 0.35
+    - const: 1.0
+    - const: 7.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 80.86540232879742
+    - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
+    - const: 0.98
+    - const: 9.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 134.7931377139853
+    - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
+    - const: 0.99
+    - const: 23.2
+    - const: 3.76
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.0
+    - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
+    - const: -0.01
+    - const: 9.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
+    - const: 1.01
+    - const: 9.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
+    - const: 0.77
+    - const: 9.0
+    - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
+    - const: 0.35
+    - const: -0.01
+    - const: 100.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
+    - const: 0.35
+    - const: 0.0
+    - const: 100.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: ...
+    - null
+    - const: #NUM!
+  - cells:
+  - cells:
+    - const: 1.8797510544618512
+    - expr: =TINV( RC[1], RC[2] )
+    - const: 0.065
+    - const: 60.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: TINV
+    - const: TINV
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 8.431427402612772E-8
+    - expr: =TINV( RC[1], RC[2] )
+    - const: 1.0
+    - const: 123.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 1.0
+    - expr: =TINV( RC[1], RC[2] )
+    - const: 0.5
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.8164965810235691
+    - expr: =TINV( RC[1], RC[2] )
+    - const: 0.5
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.5095254497089412
+    - expr: =TINV( RC[1], RC[2] )
+    - const: 0.7
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 2.946712882834883
+    - expr: =TINV( RC[1], RC[2] )
+    - const: 0.01
+    - const: 15.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.0
+    - expr: =TINV( RC[1], RC[2] )
+    - const: 1.1
+    - const: 60.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =TINV( RC[1], RC[2] )
+    - const: 0.065
+    - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =TINV( RC[1], RC[2] )
+    - const: 0.065
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =TINV( RC[1], RC[2] )
+    - const: -0.01
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =TINV( RC[1], RC[2] )
+    - const: 1.01
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: ...
+    - null
+    - const: #NUM!
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 3.0
+    - const: 5.0
+    - const: 3.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: HYPGEOMDIST
+    - const: HYPGEOMDIST
+  - cells:
+    - const: 1.0
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 5.0
+    - const: 5.0
+    - const: 5.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 1.0
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 2.0
+    - const: 2.0
+    - const: 4.0
+    - const: 4.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.1
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 3.0
+    - const: 3.0
+    - const: 3.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.02054543894736772
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1420.0
+    - const: 5000.0
+    - const: 2000.0
+    - const: 7000.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.399122807017544
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 12.5
+    - const: 15.8
+    - const: 17.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 1.4734987713545556E-143
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 200.0
+    - const: 200.0
+    - const: 200.0
+    - const: 1027.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.031158540466480204
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 150.0
+    - const: 500.0
+    - const: 200.0
+    - const: 700.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.46233230134158926
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.0
+    - const: 4.0
+    - const: 4.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.46052631578947373
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.0
+    - const: 5.0
+    - const: 3.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.13157894736842107
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 2.0
+    - const: 5.0
+    - const: 3.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.008771929824561405
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 3.0
+    - const: 5.0
+    - const: 3.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 3.9824620818412155E-308
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 500.0
+    - const: 500.0
+    - const: 500.0
+    - const: 1027.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 1.8756333854232614E-9
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 12.0
+    - const: 23.0
+    - const: 45.0
+    - const: 654.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.031158540466480204
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 150.5
+    - const: 500.3
+    - const: 200.7
+    - const: 700.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.02054543894736772
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1420.0
+    - const: 5000.0
+    - const: 2000.0
+    - const: 7000.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 4.008407827379104E-219
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 200.0
+    - const: 200.0
+    - const: 200.0
+    - const: 1027.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.14285714285714285
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.0
+    - const: 5.0
+    - const: 3.0
+    - const: 7.0
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: ...
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =RSQ( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 1.0
+    - const: 2.0
+    - const: 1.0
+    - const: 1.0
+    - const: 2.0
+    - const: 1.0
+    - null
+    - const: 6.0
+    - const: RSQ
+    - const: RSQ
+  - cells:
+    - const: 0.0
+    - expr: =RSQ( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 1.0
+    - const: 2.0
+    - const: 1.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.25
+    - expr: =RSQ( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 1.0
+    - const: 2.0
+    - const: 1.0
+    - const: 1.0
+    - const: 2.0
+    - const: 2.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.8733526620980497
+    - expr: =RSQ( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 10.0
+    - const: 0.0
+    - const: 30.0
+    - const: 1.0
+    - const: 2.0
+    - const: 30.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.75
+    - expr: =RSQ( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 2.2
+    - const: 3.0
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - const: 1.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.9162708201667651
+    - expr: =RSQ( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 2.4
+    - const: 3.5
+    - const: 2.0
+    - const: 3.0
+    - const: 4.8
+    - const: 1.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.5714285714285715
+    - expr: =RSQ( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 2.0
+    - const: 3.0
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - const: 1.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.13775510204081634
+    - expr: =RSQ( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 3.0
+    - const: 4.0
+    - const: 22.0
+    - const: -3.0
+    - const: 2.0
+    - const: 1.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.6694776662730966
+    - expr: =RSQ( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 56.0
+    - const: 51.0
+    - const: 37.58
+    - const: 71.0
+    - const: 39.0
+    - const: 32.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.08184371528741509
+    - expr: =RSQ( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 123.0
+    - const: 12312.0
+    - const: 123123.0
+    - const: 459.0
+    - const: 34232.0
+    - const: 5657.0
+    - null
+    - const: 6.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 0.0
+    - expr: =RSQ( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 3.0
+    - const: 3.0
+    - const: 3.0
+    - const: 3.0
+    - const: 4.0
+    - const: 1.0
+    - null
+    - const: 6.0
+    - const: ...
+    - null
+    - const: #DIV/0!
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =RSQ( RC[1]:RC[2], RC[3]:RC[4] )
+    - const: 2.0
+    - const: 44.0
+    - const: 34.0
+    - const: -2.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+  - cells:
+    - const: 0.5
+    - expr: =PEARSON( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 2.0
+    - const: 2.0
+    - const: 1.0
+    - const: 2.0
+    - const: 1.0
+    - const: 1.0
+    - null
+    - const: 6.0
+    - const: PEARSON
+    - const: PEARSON
+  - cells:
+    - const: -0.8660254037844386
+    - expr: =PEARSON( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 1.0
+    - const: 2.0
+    - const: 1.0
+    - const: 2.0
+    - const: 0.0
+    - const: 1.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.8182161488708816
+    - expr: =PEARSON( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 56.0
+    - const: 51.0
+    - const: 37.58
+    - const: 71.0
+    - const: 39.0
+    - const: 32.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.9982069443604055
+    - expr: =PEARSON( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 12332.0
+    - const: 2311.0
+    - const: 232311.0
+    - const: 3234.0
+    - const: 3455.0
+    - const: 12312.0
+    - null
+    - const: 6.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: -0.27300239632881634
+    - expr: =PEARSON( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 3.0
+    - const: 4.0
+    - const: -6.0
+    - const: -4.0
+    - const: 2.0
+    - const: 1.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.9145538895877268
+    - expr: =PEARSON( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 2.345
+    - const: 3.45
+    - const: 1.87
+    - const: 3.0
+    - const: 4.0
+    - const: 1.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: -0.9449111825230679
+    - expr: =PEARSON( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 3.0
+    - const: 4.0
+    - const: 6.0
+    - const: 2.0
+    - const: 2.0
+    - const: 1.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.24346831983299175
+    - expr: =PEARSON( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 33.0
+    - const: 3.0
+    - const: 1.0
+    - const: 3.0
+    - const: 4.0
+    - const: 1.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: -0.9449111825230679
+    - expr: =PEARSON( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 3.0
+    - const: 4.0
+    - const: 6.0
+    - const: 2.0
+    - const: 2.0
+    - const: 1.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: -0.9449111825230679
+    - expr: =PEARSON( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 3.0
+    - const: 4.0
+    - const: 6.0
+    - const: 2.0
+    - const: 2.0
+    - const: 1.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.24346831983299175
+    - expr: =PEARSON( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 33.0
+    - const: 3.0
+    - const: 1.0
+    - const: 3.0
+    - const: 4.0
+    - const: 1.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.0
+    - expr: =PEARSON( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 3.0
+    - const: 3.0
+    - const: 3.0
+    - const: 3.0
+    - const: 4.0
+    - const: 1.0
+    - null
+    - const: 6.0
+    - const: ...
+    - null
+    - const: #DIV/0!
+  - cells:
+  - cells:
+    - const: 0.1749427963281397
+    - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
+    - const: 1.0
+    - const: 2.0
+    - const: 2.0
+    - const: 4.0
+    - const: 1.0
+    - const: 3.0
+    - null
+    - const: 6.0
+    - const: TTEST
+    - const: TTEST
+  - cells:
+    - const: 0.10241638233196894
+    - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
+    - const: 1.0
+    - const: 2.0
+    - const: 2.0
+    - const: 4.0
+    - const: 1.0
+    - const: 1.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.1558763988901216
+    - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
+    - const: 1.0
+    - const: 2.0
+    - const: 2.0
+    - const: 4.0
+    - const: 1.0
+    - const: 2.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.12198347391450554
+    - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
+    - const: -11.0
+    - const: 0.0
+    - const: 20.0
+    - const: 40.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.15018832294241363
+    - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
+    - const: 100.0
+    - const: 89.0
+    - const: 73.0
+    - const: 24.0
+    - const: 1.0
+    - const: 3.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.8428299275851661
+    - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
+    - const: 1002.0
+    - const: 3456.0
+    - const: 2342.0
+    - const: 1213.0
+    - const: 2.0
+    - const: 1.0
+    - null
+    - const: 6.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 0.003026634116318681
+    - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
+    - const: 11233.0
+    - const: 12321.0
+    - const: 34556.0
+    - const: 32423.0
+    - const: 2.0
+    - const: 2.0
+    - null
+    - const: 6.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 0.2249215315788642
+    - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
+    - const: -234.0
+    - const: 546.0
+    - const: 5342.0
+    - const: 0.0
+    - const: 1.0
+    - const: 2.0
+    - null
+    - const: 6.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 0.40907121665655194
+    - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
+    - const: 1.34
+    - const: 2.48
+    - const: -2.25
+    - const: 4.44
+    - const: 1.0
+    - const: 1.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.4162806083912417
+    - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
+    - const: 1.34
+    - const: 2.48
+    - const: -2.25
+    - const: 4.44
+    - const: 1.0
+    - const: 2.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.42412415824824423
+    - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
+    - const: 1.34
+    - const: 2.48
+    - const: -2.25
+    - const: 4.44
+    - const: 1.0
+    - const: 3.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.010045910514878575
+    - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
+    - const: 11233.0
+    - const: 12321.0
+    - const: 34556.0
+    - const: 32423.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - const: 6.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 0.0
+    - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - const: 2.0
+    - const: 1.0
+    - null
+    - const: 6.0
+    - null
+    - null
+    - const: #DIV/0!
+  - cells:
+    - const: 0.0
+    - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
+    - const: 2.0
+    - const: 2.0
+    - const: 2.0
+    - const: 2.0
+    - const: 2.0
+    - const: 2.0
+    - null
+    - const: 6.0
+    - null
+    - null
+    - const: #DIV/0!
+  - cells:
+    - const: 0.0
+    - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
+    - const: 3.0
+    - const: 3.0
+    - const: 4.0
+    - const: 4.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - const: 6.0
+    - null
+    - null
+    - const: #DIV/0!
+  - cells:
+    - const: 0.0
+    - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - const: 4.0
+    - const: 1.0
+    - null
+    - const: 6.0
+    - const: ...
+    - null
+    - const: #NUM!
+  - cells:
+  - cells:
+    - const: 0.460172162722971
+    - expr: =ZTEST( RC[1]:RC[4], RC[5], RC[6] )
+    - const: 3.0
+    - const: 3.0
+    - const: 7.0
+    - const: 4.0
+    - const: 4.0
+    - const: 5.0
+    - null
+    - const: 6.0
+    - const: ZTEST
+    - const: ZTEST
+  - cells:
+    - const: 0.8849303297782918
+    - expr: =ZTEST( RC[1]:RC[4], RC[5], RC[6] )
+    - const: 3.0
+    - const: 6.0
+    - const: 7.0
+    - const: 8.0
+    - const: 9.0
+    - const: 5.0
+    - null
+    - const: 6.0
+    - const: ...
+  - cells:
+  - cells:
+    - const: 0.9677672599610899
+    - expr: =ZTEST( RC[1]:RC[4], RC[5] )
+    - const: 3.0
+    - const: 3.0
+    - const: 7.0
+    - const: 4.0
+    - const: 6.0
+    - null
+    - null
+    - const: 5.0
+  - cells:
+    - const: 0.13666083914614902
+    - expr: =ZTEST( RC[1]:RC[4], RC[5] )
+    - const: 3.0
+    - const: 6.0
+    - const: 7.0
+    - const: 4.0
+    - const: 4.0
+    - null
+    - null
+    - const: 5.0
+    - const: ...
+  - cells:
+  - cells:
+    - const: 0.6172027580021179
+    - expr: =ZTEST( RC[1]:RC[5], RC[6], RC[7] )
+    - const: 2.0
+    - const: 3.0
+    - const: 7.0
+    - const: 4.0
+    - const: 2.0
+    - const: 4.0
+    - const: 3.0
+    - const: 7.0
+  - cells:
+    - const: 0.9101437525605001
+    - expr: =ZTEST( RC[1]:RC[5], RC[6], RC[7] )
+    - const: -1.0
+    - const: 0.0
+    - const: 7.0
+    - const: 4.0
+    - const: 4.0
+    - const: 4.0
+    - const: 2.0
+    - const: 7.0
+  - cells:
+    - const: 0.0
+    - expr: =ZTEST( RC[1]:RC[5], RC[6], RC[7] )
+    - const: 2.0
+    - const: 3.0
+    - const: 7.0
+    - const: 4.0
+    - const: 4.0
+    - const: 0.0
+    - const: 1.0
+    - const: 7.0
+  - cells:
+    - const: 0.0312037092843529
+    - expr: =ZTEST( RC[1]:RC[5], RC[6], RC[7] )
+    - const: 2.0
+    - const: 3.0
+    - const: 7.0
+    - const: 4.0
+    - const: 4.0
+    - const: -1.0
+    - const: 6.0
+    - const: 7.0
+  - cells:
+    - const: 0.3521753935250074
+    - expr: =ZTEST( RC[1]:RC[5], RC[6], RC[7] )
+    - const: 1993.0
+    - const: 2231.0
+    - const: 4565.0
+    - const: 2311.0
+    - const: 2312.0
+    - const: 2324.0
+    - const: 2112.0
+    - const: 7.0
+  - cells:
+    - const: 0.17574708802314143
+    - expr: =ZTEST( RC[1]:RC[5], RC[6], RC[7] )
+    - const: 2.2
+    - const: 3.8
+    - const: 7.5
+    - const: 0.0
+    - const: 4.0
+    - const: 1.0
+    - const: 6.0
+    - const: 7.0
+  - cells:
+    - const: 0.5
+    - expr: =ZTEST( RC[1]:RC[5], RC[6], RC[7] )
+    - const: 2.0
+    - const: 2.0
+    - const: 2.0
+    - const: 2.0
+    - const: 2.0
+    - const: 2.0
+    - const: 2.0
+    - const: 7.0
+    - const: ...
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =CHITEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 1.0
+    - const: 1.0
+    - const: 1.0
+    - const: 1.0
+    - const: 1.0
+    - const: 1.0
+    - null
+    - const: 6.0
+    - const: CHITEST
+    - const: CHITEST
+  - cells:
+    - const: 0.015888560447750184
+    - expr: =CHITEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 58.0
+    - const: 11.0
+    - const: 10.0
+    - const: 45.35
+    - const: 17.56
+    - const: 16.09
+    - null
+    - const: 6.0
+  - cells:
+    - const: 1.0
+    - expr: =CHITEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 1.0
+    - const: 1.0
+    - const: 1.0
+    - const: 1.0
+    - const: 1.0
+    - const: 1.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.10539922456626115
+    - expr: =CHITEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 12.0
+    - const: 3.0
+    - const: 4.0
+    - const: 18.0
+    - const: 2.0
+    - const: 2.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.07047338213403015
+    - expr: =CHITEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 4.0
+    - const: 0.0
+    - const: 10.0
+    - const: 2.0
+    - const: 1.0
+    - const: 16.09
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.05030575984901521
+    - expr: =CHITEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 58.0
+    - const: 11.0
+    - const: 10.0
+    - const: 45.35
+    - const: 17.56
+    - const: 10.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.05030575984901521
+    - expr: =CHITEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 58.0
+    - const: 11.0
+    - const: 10.0
+    - const: 45.35
+    - const: 17.56
+    - const: 10.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.4356234202769099
+    - expr: =CHITEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 12345.0
+    - const: 12345.0
+    - const: 32345.0
+    - const: 12312.0
+    - const: 12323.0
+    - const: 32123.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.3672008481173127
+    - expr: =CHITEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: -11.0
+    - const: 17.0
+    - const: 10.32
+    - const: -12.0
+    - const: 17.56
+    - const: 16.09
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.0
+    - expr: =CHITEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 1.0
+    - const: 1.0
+    - const: 1.0
+    - const: 1.0
+    - const: 0.0
+    - const: 1.0
+    - null
+    - const: 6.0
+    - const: ...
+    - null
+    - const: #DIV/0!
+  - cells:
+  - cells:
+    - const: 0.5270892572381878
+    - expr: =CHITEST( RC[1]:RC[2], RC[3]:RC[4] )
+    - const: 12.0
+    - const: 11.0
+    - const: 10.0
+    - const: 11.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.0
+    - expr: =CHITEST( RC[1]:RC[3], RC[4]:RC[5] )
+    - const: 58.0
+    - const: 11.0
+    - const: 10.0
+    - const: 45.35
+    - const: 17.56
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - const: #N/A
+  - cells:
+    - const: 0.01073954491118552
+    - expr: =CHITEST( RC[1]:R[1]C[3], RC[4]:R[1]C[6] )
+    - const: 58.0
+    - const: 11.0
+    - const: 10.0
+    - const: 45.35
+    - const: 17.56
+    - const: 16.09
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.0
+    - expr: =CHITEST( R[-1]C[1]:RC[3], R[-1]C[4]:RC[5] )
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - const: 3.0
+    - const: 4.0
+    - const: 5.0
+    - null
+    - const: 6.0
+    - null
+    - null
+    - const: #N/A
+  - cells:
+  - cells:
+    - const: 0.4374999999989781
+    - expr: =FTEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 2.2
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - const: 6.0
+    - const: FTEST
+    - const: FTEST
+  - cells:
+    - const: 0.849508257559715
+    - expr: =FTEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: -2.0
+    - const: 2.0
+    - const: 3.3
+    - const: 0.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.6999999999983649
+    - expr: =FTEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 0.0
+    - const: 1.0
+    - const: 3.0
+    - const: -1.0
+    - const: 3.0
+    - const: 0.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.4510117372358122
+    - expr: =FTEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 2210.0
+    - const: 2131.0
+    - const: 1232.0
+    - const: 1233.0
+    - const: 3243.0
+    - const: 2133.0
+    - null
+    - const: 6.0
+    - null
+    - null
+    - null
+    - const: long
+  - cells:
+    - const: 0.5999999999985984
+    - expr: =FTEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 5.0
+    - const: 4.0
+    - const: 3.0
+    - const: 5.0
+    - const: 3.0
+    - const: 2.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 2.4691358021585335E-10
+    - expr: =FTEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 10000.0
+    - const: 10000.0
+    - const: 100000.0
+    - const: 1.0
+    - const: 1.0
+    - const: 2.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.9999999999976641
+    - expr: =FTEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 1.0
+    - const: 5.0
+    - const: 2.0
+    - const: 1.0
+    - const: 5.0
+    - const: 2.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.4374999999989781
+    - expr: =FTEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 2.2
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: 0.0
+    - expr: =FTEST( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 2.0
+    - const: 2.0
+    - const: 3.0
+    - const: 3.0
+    - const: 3.0
+    - const: 3.0
+    - null
+    - const: 6.0
+    - const: ...
+    - null
+    - const: #DIV/0!
+  - cells:
+  - cells:
+    - const: 0.0
+    - expr: =FTEST( RC[1], RC[2]:RC[6] )
+    - const: 2.2
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - const: 6.0
+    - null
+    - null
+    - const: #DIV/0!
+  - cells:
+    - const: 0.1606255430235463
+    - expr: =FTEST( RC[1]:RC[2], RC[3]:RC[6] )
+    - const: 2.2
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - const: 6.0
+    - null
+    - null
+    - null
+    - const: bigdecimal, long
+  - cells:
+    - const: 0.6263943592109936
+    - expr: =FTEST( RC[1]:RC[3], RC[4]:RC[5] )
+    - const: 2.2
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - const: 5.0
+    - null
+    - null
+    - const: 5.0
+  - cells:
+  - cells:
+    - const: 1.3333333333333333
+    - expr: =STANDARDIZE( RC[1], RC[2], RC[3] )
+    - const: 42.0
+    - const: 40.0
+    - const: 1.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: STANDARDIZE
+    - const: STANDARDIZE
+  - cells:
+    - const: -1.04
+    - expr: =STANDARDIZE( RC[1], RC[2], RC[3] )
+    - const: 1.2
+    - const: 3.8
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.8103727714748784
+    - expr: =STANDARDIZE( RC[1], RC[2], RC[3] )
+    - const: 3000.0
+    - const: 2000.0
+    - const: 1234.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =STANDARDIZE( RC[1], RC[2], RC[3] )
+    - const: 0.0
+    - const: 0.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: -1.3333333333333333
+    - expr: =STANDARDIZE( RC[1], RC[2], RC[3] )
+    - const: -1.0
+    - const: 3.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =STANDARDIZE( RC[1], RC[2], RC[3] )
+    - const: 42.0
+    - const: 40.0
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: ...
+    - null
+    - const: #NUM!
+  - cells:
+  - cells:
+    - const: 1.524063822508502
+    - expr: =GAMMALN( RC[1] )
+    - const: 0.2
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: GAMMALN
+    - const: GAMMALN
+  - cells:
+    - const: -0.049872441306312076
+    - expr: =GAMMALN( RC[1] )
+    - const: 1.1
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: -4.171596401647548E-11
+    - expr: =GAMMALN( RC[1] )
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.005854806806903181
+    - expr: =GAMMALN( RC[1] )
+    - const: 0.99
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.0
+    - expr: =GAMMALN( RC[1] )
+    - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =GAMMALN( RC[1] )
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: ...
+    - null
+    - const: #NUM!
+  - cells:
+  - cells:
+    - const: 0.8646647167633873
+    - expr: =EXPONDIST( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: EXPONDIST
+    - const: EXPONDIST
+  - cells:
+    - const: 0.2706705664732254
+    - expr: =EXPONDIST( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.81362602396059
+    - expr: =EXPONDIST( RC[1], RC[2], RC[3] )
+    - const: 14.0
+    - const: 0.12
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.022364877124729197
+    - expr: =EXPONDIST( RC[1], RC[2], RC[3] )
+    - const: 14.0
+    - const: 0.12
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.9901767180337184
+    - expr: =EXPONDIST( RC[1], RC[2], RC[3] )
+    - const: 1.34
+    - const: 3.45
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.03389032278367159
+    - expr: =EXPONDIST( RC[1], RC[2], RC[3] )
+    - const: 1.34
+    - const: 3.45
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.7695220309333644
+    - expr: =EXPONDIST( RC[1], RC[2], RC[3] )
+    - const: 1223.0
+    - const: 0.0012
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 2.765735628799628E-4
+    - expr: =EXPONDIST( RC[1], RC[2], RC[3] )
+    - const: 1223.0
+    - const: 0.0012
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.19562755841064988
+    - expr: =EXPONDIST( RC[1], RC[2], RC[3] )
+    - const: 1.1
+    - const: 2.2
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: ...
+  - cells:
+  - cells:
+    - const: 0.6321205588285577
+    - expr: =WEIBULL( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.0
+    - const: 1.0
+    - const: 1.0
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: WEIBULL
+    - const: WEIBULL
+  - cells:
+    - const: 0.0
+    - expr: =WEIBULL( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.0
+    - const: 21.0
+    - const: 321.0
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.10516068318563021
+    - expr: =WEIBULL( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.1293998029923359
+    - expr: =WEIBULL( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.1
+    - const: 2.2
+    - const: 3.7
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.10516068318563021
+    - expr: =WEIBULL( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.1293998029923359
+    - expr: =WEIBULL( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.1
+    - const: 2.2
+    - const: 3.7
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.929581390069277
+    - expr: =WEIBULL( RC[1], RC[2], RC[3], RC[4] )
+    - const: 105.0
+    - const: 20.0
+    - const: 100.0
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.0
+    - expr: =WEIBULL( RC[1], RC[2], RC[3], RC[4] )
+    - const: 102.0
+    - const: 0.0
+    - const: 100.0
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =WEIBULL( RC[1], RC[2], RC[3], RC[4] )
+    - const: 105.0
+    - const: 20.0
+    - const: -1.0
+    - const: true
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =WEIBULL( RC[1], RC[2], RC[3], RC[4] )
+    - const: -0.01
+    - const: 30.0
+    - const: 100.0
+    - const: false
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: ...
+    - null
+    - const: #NUM!
+    - const: long
+  - cells:
+  - cells:
+    - const: 0.8673005276940532
+    - expr: =FISHER( RC[1] )
+    - const: 0.7
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: FISHER
+    - const: FISHER
+  - cells:
+    - const: 0.0
+    - expr: =FISHER( RC[1] )
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 3.8002011672502
+    - expr: =FISHER( RC[1] )
+    - const: 0.999
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.010000333353334718
+    - expr: =FISHER( RC[1] )
+    - const: 0.01
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.5493061443340549
+    - expr: =FISHER( RC[1] )
+    - const: 0.5
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: -0.5493061443340549
+    - expr: =FISHER( RC[1] )
+    - const: -0.5
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: bigdecimal
+  - cells:
+    - const: 0.2384170173623709
+    - expr: =FISHER( RC[1] )
+    - const: 0.234
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.0
+    - expr: =FISHER( RC[1] )
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =FISHER( RC[1] )
+    - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: ...
+    - null
+    - const: #NUM!

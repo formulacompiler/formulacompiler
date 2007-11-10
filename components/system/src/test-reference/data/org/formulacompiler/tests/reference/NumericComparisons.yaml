@@ -1,0 +1,500 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: Expected
+    - const: Actual
+    - const: Inputs
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: # of Inputs
+    - const: Name
+    - const: Highlight
+  - cells:
+    - const: false
+    - expr: =(RC[1] = RC[2])
+    - const: 10.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: Equal (=)
+    - const: =
+  - cells:
+    - const: false
+    - expr: =(RC[1] = RC[2])
+    - const: 50.0
+    - const: 40.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] = RC[2])
+    - const: 50.0
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] = RC[2])
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] = RC[2])
+    - null
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] = RC[2])
+    - const: -10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] = RC[2])
+    - null
+    - const: -10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+  - cells:
+    - const: true
+    - expr: =(RC[1] <> RC[2])
+    - const: 10.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: Not equal (<>)
+    - const: <>
+  - cells:
+    - const: true
+    - expr: =(RC[1] <> RC[2])
+    - const: 50.0
+    - const: 40.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] <> RC[2])
+    - const: 50.0
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] <> RC[2])
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] <> RC[2])
+    - null
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] <> RC[2])
+    - const: -10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] <> RC[2])
+    - null
+    - const: -10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+  - cells:
+    - const: false
+    - expr: =(RC[1] > RC[2])
+    - const: 10.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: Greater than (>)
+    - const: >
+  - cells:
+    - const: true
+    - expr: =(RC[1] > RC[2])
+    - const: 50.0
+    - const: 40.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] > RC[2])
+    - const: 50.0
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] > RC[2])
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] > RC[2])
+    - null
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] > RC[2])
+    - const: -10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] > RC[2])
+    - null
+    - const: -10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+  - cells:
+    - const: true
+    - expr: =(RC[1] < RC[2])
+    - const: 10.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: Less than (<)
+    - const: <
+  - cells:
+    - const: false
+    - expr: =(RC[1] < RC[2])
+    - const: 50.0
+    - const: 40.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] < RC[2])
+    - const: 50.0
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] < RC[2])
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] < RC[2])
+    - null
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] < RC[2])
+    - const: -10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] < RC[2])
+    - null
+    - const: -10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+  - cells:
+    - const: false
+    - expr: =(RC[1] >= RC[2])
+    - const: 10.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: Greater or equal (>=)
+    - const: >=
+  - cells:
+    - const: true
+    - expr: =(RC[1] >= RC[2])
+    - const: 50.0
+    - const: 40.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] >= RC[2])
+    - const: 50.0
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] >= RC[2])
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] >= RC[2])
+    - null
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] >= RC[2])
+    - const: -10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] >= RC[2])
+    - null
+    - const: -10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+  - cells:
+    - const: true
+    - expr: =(RC[1] <= RC[2])
+    - const: 10.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: Less or equal (<=)
+    - const: <=
+  - cells:
+    - const: false
+    - expr: =(RC[1] <= RC[2])
+    - const: 50.0
+    - const: 40.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] <= RC[2])
+    - const: 50.0
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] <= RC[2])
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] <= RC[2])
+    - null
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] <= RC[2])
+    - const: -10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] <= RC[2])
+    - null
+    - const: -10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0

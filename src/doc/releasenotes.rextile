@@ -12,6 +12,7 @@ h2. Release 1.0
 h5. *Changed!*
 
 	* You can no longer bind to input methods throwing checked exceptions. (We may re-enable this later when AFC checks that all output methods declare all of those checked exceptions.)
+	* AFC no longer rounds final results to the precision specified in cell formats. If you want rounded results, use the @ROUND()@ function. This only affects newly compiled engines.
 
 h5. New
 
@@ -33,6 +34,7 @@ h5. Better
 h5. Internal
 
 	* The folding support (used to implement @SUM@ etc.) has been rewritten completely. It can now handle multiple parallel vectors, multiple aggregators, and has much more streamlined code in the implementation.
+	* We now verify the spreadsheet model loaded from our test spreadsheets against an external description (.yaml files). This ensures that test sheet changes are reflected in a diffable format.
 
 
 h2. Release 0.10.1

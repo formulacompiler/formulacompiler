@@ -26,11 +26,11 @@ import junit.framework.TestCase;
 
 public class DescriptionTest extends TestCase
 {
-	
-	
+
+
 	public void testIndentation()
 	{
-		DescriptionBuilder d = new DescriptionBuilder();
+		DescriptionBuilder d = new DescriptionBuilder( "\t" );
 		d.appendLine( "Hello" );
 		d.append( "world" );
 		d.append( '!' );
@@ -43,9 +43,9 @@ public class DescriptionTest extends TestCase
 		d.append( "..." );
 		d.newLine();
 		d.outdent();
-		
+
 		d.append( "normal" );
-		
+
 		// newline after indent/outdent
 		d.indent();
 		d.newLine();
@@ -54,13 +54,13 @@ public class DescriptionTest extends TestCase
 		d.append( "..." );
 		d.outdent();
 		d.newLine();
-		
+
 		d.appendLine( "normal again" );
-		
+
 		String s = d.toString();
-		
+
 		assertEquals( "Hello\nworld!\n\tfirst indent\n\t...\nnormal\n\tsecond indent\n\t...\nnormal again\n", s );
 	}
-	
+
 
 }

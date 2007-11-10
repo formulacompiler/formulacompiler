@@ -1,0 +1,14 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: now1
+    - expr: =NOW()
+  - cells:
+    - const: now2
+    - expr: =NOW()
