@@ -36,6 +36,7 @@ h5. New
 h5. Better
 
 	* You can "query the named cells":-unbound still unbound to warn users about potential automatic by-name binding problems.
+	* We now support binding unboxed numeric types as inputs (@double@, @long@, @int@, etc.) to string-valued cells.
 
 h5. Internal
 

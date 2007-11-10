@@ -453,7 +453,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	}
 
 
-	private Class compileUnboxing( Class _class ) throws CompilerException
+	Class compileUnboxing( Class _class ) throws CompilerException
 	{
 		if (Byte.class.isAssignableFrom( _class )) {
 			compile_util_unboxByte();

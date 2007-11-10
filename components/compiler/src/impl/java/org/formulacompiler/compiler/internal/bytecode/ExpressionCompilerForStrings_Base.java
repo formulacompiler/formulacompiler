@@ -62,9 +62,42 @@ abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAl
 			compile_util_fromObject();
 		}
 		else {
+			compileConversionFromUnboxed( method().numericCompiler().compileUnboxing( _class ) );
+		}
+	}
+
+	protected void compileConversionFromUnboxed( Class _class ) throws CompilerException
+	{
+		if (_class == Integer.TYPE || _class == Short.TYPE || _class == Byte.TYPE) {
+			compile_util_fromInt();
+		}
+
+		else if (_class == Long.TYPE) {
+			compile_util_fromLong();
+		}
+
+		else if (_class == Double.TYPE) {
+				compile_util_fromDouble();
+		}
+
+		else if (_class == Float.TYPE) {
+				compile_util_fromFloat();
+		}
+
+		else if (_class == Boolean.TYPE) {
+			compile_util_fromBoolean();
+		}
+
+		else {
 			super.compileConversionFrom( _class );
 		}
 	}
+
+	protected abstract void compile_util_fromInt() throws CompilerException;
+	protected abstract void compile_util_fromLong() throws CompilerException;
+	protected abstract void compile_util_fromDouble() throws CompilerException;
+	protected abstract void compile_util_fromFloat() throws CompilerException;
+	protected abstract void compile_util_fromBoolean() throws CompilerException;
 
 
 	@Override
