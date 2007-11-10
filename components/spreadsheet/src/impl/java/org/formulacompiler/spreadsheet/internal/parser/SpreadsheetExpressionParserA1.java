@@ -27,23 +27,33 @@ import org.formulacompiler.spreadsheet.internal.CellInstance;
 public class SpreadsheetExpressionParserA1 extends SpreadsheetExpressionParser
 {
 
-	public SpreadsheetExpressionParserA1(String _exprText, CellInstance _parseRelativeTo)
+	public SpreadsheetExpressionParserA1( String _exprText, CellInstance _parseRelativeTo )
 	{
 		super( _exprText, _parseRelativeTo );
 	}
-	
-	
+
+
+	/*
+	 * The following is a workaround for a parser problem. Since the A1 parser also has the
+	 * R1C1-tokenizer in it, it will tokenize and parse the string "RC1" as a R1C1 reference.
+	 * However, in A1 mode this is a valid cell reference meaning something else entirely. In
+	 * A1-style, "RC1" is row 1, column <some big number> (much like "AA1").
+	 * 
+	 * In R1C1-style, "RC1", when in a formula for cell B4, is equivalent to $A4 in A1-style. It
+	 * means same row, fixed column 1.
+	 */
+
 	@Override
 	protected ExpressionNode makeCellR1C1( Token _cell )
 	{
 		return super.makeCellA1( _cell );
 	}
-	
+
 	@Override
 	protected ExpressionNode makeCellR1C1( Token _cell, Token _sheet )
 	{
 		return super.makeCellA1( _cell, _sheet );
 	}
-	
+
 
 }
