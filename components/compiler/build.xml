@@ -112,10 +112,10 @@
 		<property name="builders.classpath" refid="builders.classpath" />
 
 		<echo>build: generating rewrite rules...</echo>
-		<java classpath="${builders.classpath}" classname="org.formulacompiler.compiler.internal.build.rewriting.RewriteRulesCompiler" fork="true" />
+		<java classpath="${builders.classpath}" classname="org.formulacompiler.compiler.internal.build.rewriting.RewriteRulesCompiler" fork="true" failonerror="true"/>
 
 		<echo>build: generating bytecode compilers...</echo>
-		<java classpath="${builders.classpath}" classname="org.formulacompiler.compiler.internal.build.bytecode.PatternCompiler" fork="true">
+		<java classpath="${builders.classpath}" classname="org.formulacompiler.compiler.internal.build.bytecode.PatternCompiler" fork="true" failonerror="true">
 			<arg line="${builders.verbose}" />
 		</java>
 
