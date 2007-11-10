@@ -20,34 +20,27 @@
  */
 package org.formulacompiler.spreadsheet.internal;
 
-import java.io.IOException;
-
-import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.describable.DescriptionBuilder;
 
-
-public final class CellWithConstant extends CellInstance
+public class SpreadsheetDescriptionBuilder extends DescriptionBuilder
 {
+	private CellIndex relativeTo;
 
-	public CellWithConstant( RowImpl _row, Object _value )
+	public SpreadsheetDescriptionBuilder()
 	{
-		super( _row );
-		setValue( _value );
+		super( "  " );
 	}
-
-
-	@Override
-	public ExpressionNode getExpression()
+	
+	
+	public final CellIndex getRelativeTo()
 	{
-		return null;
+		return this.relativeTo;
 	}
-
-
-	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	
+	public final void setRelativeTo( CellIndex _relativeTo )
 	{
-		_to.vn( "const" ).v( getValue() ).lf();
-		super.describeTo( _to );
+		this.relativeTo = _relativeTo;
 	}
-
+	
+	
 }

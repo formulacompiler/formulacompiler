@@ -21,6 +21,7 @@
 package org.formulacompiler.spreadsheet.internal;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -42,6 +43,7 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 {
 	private final List<SheetImpl> sheets = New.list();
 	private final Map<String, Reference> names = New.map();
+	private final Map<CellIndex, String> namedCells = New.map();
 
 
 	public List<SheetImpl> getSheetList()
@@ -52,12 +54,21 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 
 	public void addToNameMap( String _name, Reference _ref )
 	{
-		this.names.put( _name.toUpperCase(), _ref );
+		final String upperName = _name.toUpperCase();
+		this.names.put( upperName, _ref );
+		if (_ref instanceof CellIndex) {
+			this.namedCells.put( (CellIndex) _ref, upperName );
+		}
 	}
 
 	public Map<String, Reference> getNameMap()
 	{
 		return this.names;
+	}
+
+	public String getNameFor( CellIndex _cell )
+	{
+		return this.namedCells.get( _cell );
 	}
 
 
@@ -129,7 +140,7 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 
 	public void defineName( String _name, Cell _cell )
 	{
-		this.names.put( _name.toUpperCase(), (CellIndex) _cell );
+		addToNameMap( _name, (Reference) _cell );
 	}
 
 
@@ -266,36 +277,40 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 
 
 	@Override
+	protected DescriptionBuilder newDescriptionBuilder()
+	{
+		return new SpreadsheetDescriptionBuilder();
+	}
+
+	@Override
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
-		_to.appendLine( "<workbook>" );
-		_to.indent();
-		for (Sheet sheet : getSheetList()) {
-			sheet.describeTo( _to );
-		}
-		describeNamesTo( _to );
-		_to.outdent();
-		_to.appendLine( "</workbook>" );
-	}
+		_to.appendLine( "# Abacus Formula Compiler Spreadsheet Model Description v1.0" );
+		_to.appendLine( "# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!" );
+		_to.appendLine( "---" );
 
+		_to.lf().ln( "sheets" ).lSpaced( getSheetList() );
 
-	private void describeNamesTo( DescriptionBuilder _to ) throws IOException
-	{
-		if (0 < getNameMap().size()) {
-			_to.appendLine( "<names>" );
-			for (Entry<String, Reference> entry : getNameMap().entrySet()) {
-				String name = entry.getKey();
-				Reference ref = entry.getValue();
-				_to.append( "<name id=\"" );
-				_to.append( name );
-				_to.append( "\" ref=\"" );
-				ref.describeTo( _to );
-				_to.append( "\" />" );
-				_to.newLine();
+		final Map<String, Reference> nameMap = getNameMap();
+		if (0 < nameMap.size()) {
+			_to.lf().ln( "names" );
+
+			final List<String> names = New.list( nameMap.size() );
+			names.addAll( nameMap.keySet() );
+			Collections.sort( names );
+			for (final String name : names) {
+				final Reference ref = nameMap.get( name );
+				if (ref instanceof CellRange) {
+					_to.onNewLine().append( "- " ).indent();
+					{
+						_to.vn( "name" ).v( name ).lf();
+						_to.vn( "ref" ).v( ref ).lf();
+					}
+					_to.outdent();
+				}
 			}
-			_to.appendLine( "</names>" );
 		}
-	}
 
+	}
 
 }

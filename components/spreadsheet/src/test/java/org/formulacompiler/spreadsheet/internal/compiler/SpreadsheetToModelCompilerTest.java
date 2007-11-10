@@ -24,6 +24,7 @@ import java.text.NumberFormat;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.Function;
+import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
@@ -74,7 +75,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		new CellWithConstant( r1, 5.0 ); // unused
 		CellInstance o2 = new CellWithLazilyParsedExpression( r1, plus( plus( plus( ref( i1 ), ref( x1 ) ), ref( x3 ) ),
 				ix( workbook, 100, 100 ) ) );
-		o2.setNumberFormat( format );
+		o2.applyNumberFormat( format );
 		CellInstance io1 = new CellWithConstant( r1, 7.0 );
 
 		SpreadsheetBinder def = newBinder( workbook );
@@ -99,7 +100,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		assertEquals( false, o1m.isInput() );
 		assertEquals( true, o1m.isOutput() );
 		assertEquals( 1, o1m.getReferenceCount() );
-		assertEquals( CellModel.UNLIMITED, o1m.getMaxFractionalDigits() );
+		assertEquals( NumericType.UNLIMITED_FRACTIONAL_DIGITS, o1m.getMaxFractionalDigits() );
 		assertEquals( 2.0, (Double) o1m.getConstantValue(), 0.1 );
 
 		CellModel o2m = root.getCells().get( 1 );
@@ -115,7 +116,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		assertEquals( true, i1m.isInput() );
 		assertEquals( false, i1m.isOutput() );
 		assertEquals( 1, i1m.getReferenceCount() );
-		assertEquals( CellModel.UNLIMITED, i1m.getMaxFractionalDigits() );
+		assertEquals( NumericType.UNLIMITED_FRACTIONAL_DIGITS, i1m.getMaxFractionalDigits() );
 		assertEquals( 1.0, (Double) i1m.getConstantValue(), 0.1 );
 
 		CellModel x1m = root.getCells().get( 3 );
@@ -123,7 +124,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		assertEquals( false, x1m.isInput() );
 		assertEquals( false, x1m.isOutput() );
 		assertEquals( 2, x1m.getReferenceCount() );
-		assertEquals( CellModel.UNLIMITED, x1m.getMaxFractionalDigits() );
+		assertEquals( NumericType.UNLIMITED_FRACTIONAL_DIGITS, x1m.getMaxFractionalDigits() );
 		assertEquals( 3.0, (Double) x1m.getConstantValue(), 0.1 );
 
 		CellModel x3m = root.getCells().get( 4 );
@@ -131,7 +132,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		assertEquals( false, x3m.isInput() );
 		assertEquals( false, x3m.isOutput() );
 		assertEquals( 1, x3m.getReferenceCount() );
-		assertEquals( CellModel.UNLIMITED, x3m.getMaxFractionalDigits() );
+		assertEquals( NumericType.UNLIMITED_FRACTIONAL_DIGITS, x3m.getMaxFractionalDigits() );
 		assertEquals( "(E1 + D1)", x3m.getExpression().describe() );
 		assertSame( x3.getExpression(), x3m.getExpression().getDerivedFrom() );
 		assertSame( x3.getExpression().arguments().get( 0 ), x3m.getExpression().arguments().get( 0 ).getDerivedFrom() );
@@ -141,7 +142,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		assertEquals( false, x2m.isInput() );
 		assertEquals( false, x2m.isOutput() );
 		assertEquals( 1, x2m.getReferenceCount() );
-		assertEquals( CellModel.UNLIMITED, x2m.getMaxFractionalDigits() );
+		assertEquals( NumericType.UNLIMITED_FRACTIONAL_DIGITS, x2m.getMaxFractionalDigits() );
 		assertEquals( 4.0, (Double) x2m.getConstantValue(), 0.1 );
 
 		CellModel io1m = root.getCells().get( 6 );
@@ -149,7 +150,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
 		assertEquals( true, io1m.isInput() );
 		assertEquals( true, io1m.isOutput() );
 		assertEquals( 1, io1m.getReferenceCount() );
-		assertEquals( CellModel.UNLIMITED, io1m.getMaxFractionalDigits() );
+		assertEquals( NumericType.UNLIMITED_FRACTIONAL_DIGITS, io1m.getMaxFractionalDigits() );
 		assertEquals( 7.0, (Double) io1m.getConstantValue(), 0.1 );
 
 		assertEquals( 7, root.getCells().size() );

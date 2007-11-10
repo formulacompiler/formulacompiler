@@ -208,7 +208,39 @@ public final class CellIndex extends Reference implements Cell
 	@Override
 	public void describeTo( DescriptionBuilder _to )
 	{
-		_to.append( toString() );
+		if (_to instanceof SpreadsheetDescriptionBuilder) {
+			final String name = getSheet().getSpreadsheet().getNameFor( this );
+			if (null != name) {
+				_to.append( name );
+			}
+			else {
+				final SpreadsheetDescriptionBuilder b = (SpreadsheetDescriptionBuilder) _to;
+				final CellIndex relativeTo = b.getRelativeTo();
+				if (this.sheetIndex != ((relativeTo != null)? relativeTo.sheetIndex : 0)) {
+					_to.append( '\'' ).append( getSheet().getName() ).append( "'!" );
+				}
+				if (null == relativeTo) {
+					_to.append( 'R' ).append( this.rowIndex + 1 ).append( 'C' ).append( this.columnIndex + 1 );
+				}
+				else {
+					if (this.isRowIndexAbsolute) _to.append( 'R' ).append( this.rowIndex + 1 );
+					else describeOffsetTo( _to, 'R', this.rowIndex - relativeTo.rowIndex );
+					if (this.isColumnIndexAbsolute) _to.append( 'C' ).append( this.columnIndex + 1 );
+					else describeOffsetTo( _to, 'C', this.columnIndex - relativeTo.columnIndex );
+				}
+			}
+		}
+		else {
+			_to.append( toString() );
+		}
+	}
+
+	private void describeOffsetTo( DescriptionBuilder _to, char _prefix, int _offset )
+	{
+		_to.append( _prefix );
+		if (_offset != 0) {
+			_to.append( '[' ).append( _offset ).append( ']' );
+		}
 	}
 
 

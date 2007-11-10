@@ -20,92 +20,73 @@
  */
 package org.formulacompiler.spreadsheet.internal;
 
+import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
+
+import java.util.Calendar;
+import java.util.TimeZone;
+
+import org.formulacompiler.compiler.Function;
+import org.formulacompiler.tests.utils.AbstractTestBase;
 import org.formulacompiler.tests.utils.WorksheetBuilderWithBands;
 
-import junit.framework.TestCase;
-
-public class WorkbookTest extends TestCase
+public class WorkbookTest extends AbstractTestBase
 {
 
-	public void testDescribe()
+	public void testDescribe() throws Exception
 	{
-		SpreadsheetImpl workbook = new SpreadsheetImpl();
-		SheetImpl sheet = new SheetImpl( workbook );
-		RowImpl r1 = new RowImpl( sheet );
-		new CellWithLazilyParsedExpression( r1, null );
-		new WorksheetBuilderWithBands( sheet );
+		SpreadsheetImpl w = new SpreadsheetImpl();
 
-		String description = workbook.describe();
+		final CellInstance onFirstSheet;
+		final CellInstance named;
+		{
+			SheetImpl s = new SheetImpl( w );
 
-		assertEquals( "<workbook>\n"
-				+ "	<sheet name=\"Sheet1\">\n"
-				+ "		<row>\n"
-				+ "			<cell id=\"A1\">\n"
-				+ "				<expr>SUM( D2:D5 )</expr>\n"
-				+ "			</cell>\n"
-				+ "			<cell id=\"B1\">\n"
-				+ "				<value>0.5</value>\n"
-				+ "			</cell>\n"
-				+ "		</row>\n"
-				+ "		<row>\n"
-				+ "			<cell id=\"A2\">\n"
-				+ "				<value>1.0</value>\n"
-				+ "			</cell>\n"
-				+ "			<cell id=\"B2\">\n"
-				+ "				<value>2.0</value>\n"
-				+ "			</cell>\n"
-				+ "			<cell id=\"C2\">\n"
-				+ "				<value>3.0</value>\n"
-				+ "			</cell>\n"
-				+ "			<cell id=\"D2\">\n"
-				+ "				<expr>(SUM( A2:C2 ) * B1)</expr>\n"
-				+ "			</cell>\n"
-				+ "		</row>\n"
-				+ "		<row>\n"
-				+ "			<cell id=\"A3\">\n"
-				+ "				<value>4.0</value>\n"
-				+ "			</cell>\n"
-				+ "			<cell id=\"B3\">\n"
-				+ "				<value>5.0</value>\n"
-				+ "			</cell>\n"
-				+ "			<cell id=\"C3\">\n"
-				+ "				<value>6.0</value>\n"
-				+ "			</cell>\n"
-				+ "			<cell id=\"D3\">\n"
-				+ "				<expr>(SUM( A3:C3 ) * B1)</expr>\n"
-				+ "			</cell>\n"
-				+ "		</row>\n"
-				+ "		<row>\n"
-				+ "			<cell id=\"A4\">\n"
-				+ "				<value>7.0</value>\n"
-				+ "			</cell>\n"
-				+ "			<cell id=\"B4\">\n"
-				+ "				<value>8.0</value>\n"
-				+ "			</cell>\n"
-				+ "			<cell id=\"C4\">\n"
-				+ "				<value>9.0</value>\n"
-				+ "			</cell>\n"
-				+ "			<cell id=\"D4\">\n"
-				+ "				<expr>(SUM( A4:C4 ) * B1)</expr>\n"
-				+ "			</cell>\n"
-				+ "		</row>\n"
-				+ "		<row>\n"
-				+ "			<cell id=\"A5\">\n"
-				+ "				<value>10.0</value>\n"
-				+ "			</cell>\n"
-				+ "			<cell id=\"B5\">\n"
-				+ "				<value>11.0</value>\n"
-				+ "			</cell>\n"
-				+ "			<cell id=\"C5\">\n"
-				+ "				<value>12.0</value>\n"
-				+ "			</cell>\n"
-				+ "			<cell id=\"D5\">\n"
-				+ "				<expr>(SUM( A5:C5 ) * B1)</expr>\n"
-				+ "			</cell>\n"
-				+ "		</row>\n"
-				+ "	</sheet>\n"
-				+ "</workbook>\n"
-				+ "", description );
+			{
+				RowImpl r = new RowImpl( s );
+				{
+					CellWithLazilyParsedExpression c = new CellWithLazilyParsedExpression( r, null );
+					c.setValue( "13.5" );
+					c.setMaxFractionalDigits( 2 );
+					w.defineName( "Result", c.getCellIndex() );
+					named = c;
+				}
+			}
+
+			new WorksheetBuilderWithBands( s );
+
+			new RowImpl( s );
+
+			{
+				RowImpl r = new RowImpl( s );
+				CellInstance c1 = new CellWithLazilyParsedExpression( r, null );
+				CellInstance c2 = new CellWithConstant( r, null );
+				w.addToNameMap( "Range", new CellRange( c1.getCellIndex(), c2.getCellIndex() ) );
+
+				Calendar cal = Calendar.getInstance( TimeZone.getTimeZone( "GMT+1" ) );
+				cal.clear();
+				cal.set( 1970, 3, 19, 12, 13 );
+				cal.set( cal.SECOND, 14 );
+				onFirstSheet = new CellWithConstant( r, cal.getTime() );
+			}
+
+		}
+		{
+			SheetImpl s = new SheetImpl( w );
+			{
+				RowImpl r = new RowImpl( s );
+				{
+					CellInstance local = new CellWithConstant( r, 2.0 );
+					new CellWithLazilyParsedExpression( r, fun( Function.SUM, new ExpressionNodeForCell( named ),
+							new ExpressionNodeForCell( onFirstSheet ), new ExpressionNodeForCell( local ) ) );
+					new CellWithLazilyParsedExpression( r, new ExpressionNodeForCell( onFirstSheet ) );
+				}
+			}
+		}
+
+		String description = w.describe();
+
+		assertEqualToFile( "src/test/data/org/formulacompiler/spreadsheet/internal/test-sheet-description.yaml",
+				description );
 	}
 
 }

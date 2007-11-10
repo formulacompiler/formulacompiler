@@ -35,7 +35,7 @@ public final class RowImpl extends AbstractStyledElement implements Spreadsheet.
 	private final List<CellInstance> cells = New.list();
 
 
-	public RowImpl(SheetImpl _sheet)
+	public RowImpl( SheetImpl _sheet )
 	{
 		this.sheet = _sheet;
 		this.rowIndex = _sheet.getRowList().size();
@@ -107,23 +107,12 @@ public final class RowImpl extends AbstractStyledElement implements Spreadsheet.
 			}
 		}
 	}
-	
+
 
 	@Override
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
-		_to.appendLine( "<row>" );
-		_to.indent();
-		for (CellInstance cell : getCellList()) {
-			if (null != cell) {
-				cell.describeTo( _to );
-			}
-			else {
-				_to.appendLine( "<cell />" );
-			}
-		}
-		_to.outdent();
-		_to.appendLine( "</row>" );
+		_to.ln( "cells" ).l( getCellList() );
 	}
 
 

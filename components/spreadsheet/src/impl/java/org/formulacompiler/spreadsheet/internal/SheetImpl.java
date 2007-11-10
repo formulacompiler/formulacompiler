@@ -38,13 +38,13 @@ public final class SheetImpl extends AbstractDescribable implements Spreadsheet.
 	private final List<RowImpl> rows = New.list();
 
 
-	public SheetImpl(SpreadsheetImpl _spreadsheet)
+	public SheetImpl( SpreadsheetImpl _spreadsheet )
 	{
 		this( _spreadsheet, "Sheet" + (_spreadsheet.getSheetList().size() + 1) );
 	}
 
 
-	public SheetImpl(SpreadsheetImpl _spreadsheet, String _name)
+	public SheetImpl( SpreadsheetImpl _spreadsheet, String _name )
 	{
 		this.spreadsheet = _spreadsheet;
 		this.sheetIndex = _spreadsheet.getSheetList().size();
@@ -57,8 +57,8 @@ public final class SheetImpl extends AbstractDescribable implements Spreadsheet.
 	{
 		return this.spreadsheet;
 	}
-	
-	
+
+
 	public final String getName()
 	{
 		return this.name;
@@ -140,10 +140,10 @@ public final class SheetImpl extends AbstractDescribable implements Spreadsheet.
 	public CellIndex getCellIndexForCanonicalName( String _canonicalName, CellIndex _relativeTo, CellRefFormat _format )
 	{
 		switch (_format) {
-		case A1:
-			return getCellIndexForCanonicalNameA1( _canonicalName );
-		case R1C1:
-			return getCellIndexForCanonicalNameR1C1( _canonicalName, _relativeTo );
+			case A1:
+				return getCellIndexForCanonicalNameA1( _canonicalName );
+			case R1C1:
+				return getCellIndexForCanonicalNameR1C1( _canonicalName, _relativeTo );
 		}
 		return null;
 	}
@@ -226,13 +226,8 @@ public final class SheetImpl extends AbstractDescribable implements Spreadsheet.
 	@Override
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
-		_to.append( "<sheet name=\"" ).append( getName() ).appendLine( "\">" );
-		_to.indent();
-		for (RowImpl row : getRowList()) {
-			row.describeTo( _to );
-		}
-		_to.outdent();
-		_to.appendLine( "</sheet>" );
+		_to.vn( "name" ).v( getName() ).lf();
+		_to.ln( "rows" ).l( getRowList() );
 	}
 
 
