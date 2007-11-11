@@ -20,15 +20,12 @@
  */
 package org.formulacompiler.spreadsheet.internal.loader.excel.xls;
 
-import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.internal.LocalExcelDate;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.spreadsheet.Spreadsheet;
@@ -38,6 +35,7 @@ import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.CellWithConstant;
+import org.formulacompiler.spreadsheet.internal.CellWithError;
 import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
@@ -225,9 +223,20 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 		else if (jxl.CellType.ERROR == xlsType) {
 			final int errorCode = ((jxl.ErrorCell) _xlsCell).getErrorCode();
 			switch (errorCode) {
-				case 42: // #N/A
-					new CellWithLazilyParsedExpression( _row, fun( Function.NA ) );
+				case 7:
+					new CellWithError( _row, CellWithError.DIV0 );
 					break;
+				case 15:
+					new CellWithError( _row, CellWithError.VALUE );
+					break;
+				case 36:
+					new CellWithError( _row, CellWithError.NUM );
+					break;
+				case 42:
+					new CellWithError( _row, CellWithError.NA );
+					break;
+				default:
+					new CellWithError( _row, "#ERR:" + errorCode );
 			}
 		}
 	}

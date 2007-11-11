@@ -27,6 +27,8 @@ import java.util.TimeZone;
 
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.runtime.Computation;
+import org.formulacompiler.runtime.FormulaException;
+import org.formulacompiler.runtime.NotAvailableException;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 
 abstract class AbstractCellValues
@@ -48,23 +50,49 @@ abstract class AbstractCellValues
 		this.vals = new Object[ n ];
 		this.types = new BindingType[ n ];
 		for (int i = 0; i < n; i++) {
-			set( i, parseValue( _cx, _cells[ i ].getConstantValue() ) );
+			final String errorText = _cells[ i ].getErrorText();
+			if (null != errorText) {
+				if (errorText.equals( "#N/A" )) {
+					set( i, NA, this.numberType );
+				}
+				else {
+					set( i, ERR, this.numberType );
+				}
+			}
+			else {
+				parseAndSetValue( _cx, i, _cells[ i ].getConstantValue() );
+			}
 		}
 	}
 
-	private Object parseValue( Context _cx, Object _val )
+	private void parseAndSetValue( Context _cx, int _index, Object _val )
 	{
-		if (_val instanceof Number) {
-			Number num = (Number) _val;
-			return this.numericType.valueOf( num );
+		if (null == _val) {
+			set( _index, _val, this.numberType );
 		}
-		if (_val instanceof String) {
+		else if (_val instanceof Number) {
+			Number num = (Number) _val;
+			set( _index, this.numericType.valueOf( num ), this.numberType );
+		}
+		else if (_val instanceof String) {
 			String str = (String) _val;
-			if ("Infinity".equals( str )) return Double.POSITIVE_INFINITY;
-			if ("-Infinity".equals( str )) return Double.NEGATIVE_INFINITY;
-			if (str.equals( "(now)" )) return NOW;
 
-			if (str.equals( "(full days from 2006)" )) {
+			if (str.startsWith( "!NUM:" )) {
+				set( _index, expectedErrorFromList( _cx, str.substring( 5 ) ), this.numberType );
+			}
+			else if (str.startsWith( "!STR:" )) {
+				set( _index, expectedErrorFromList( _cx, str.substring( 5 ) ), BindingType.STRING );
+			}
+			else if (str.startsWith( "!DATE:" )) {
+				set( _index, expectedErrorFromList( _cx, str.substring( 6 ) ), BindingType.DATE );
+			}
+			else if (str.startsWith( "!BOOL:" )) {
+				set( _index, expectedErrorFromList( _cx, str.substring( 6 ) ), BindingType.BOOLEAN );
+			}
+			else if (str.equals( "(now)" )) {
+				set( _index, NOW, BindingType.DATE );
+			}
+			else if (str.equals( "(full days from 2006)" )) {
 				final Calendar calendar = new GregorianCalendar( getTimeZone( _cx ) );
 				final int year = calendar.get( Calendar.YEAR );
 				final int month = calendar.get( Calendar.MONTH );
@@ -76,11 +104,46 @@ abstract class AbstractCellValues
 				calendar.set( 2006, Calendar.JANUARY, 1 );
 				final long startMillis = calendar.getTimeInMillis();
 				final long days = (endMillis - startMillis) / MS_PER_DAY;
-				return (int) days; // make sure it is not treated as an already scaled long
+				// make sure it is not treated as an already scaled long
+				set( _index, (int) days, this.numberType );
 			}
-
+			else {
+				set( _index, _val, BindingType.STRING );
+			}
 		}
-		return _val;
+		else if (_val instanceof Date) {
+			set( _index, _val, BindingType.DATE );
+		}
+		else if (_val instanceof Boolean) {
+			set( _index, _val, BindingType.BOOLEAN );
+		}
+		else {
+			throw new IllegalArgumentException( "Cannot guess type of " + _val );
+		}
+	}
+
+	private Object expectedErrorFromList( Context _cx, String _error )
+	{
+		final String[] byType = _error.split( "/" );
+		final int n = byType.length;
+		if (n > 1) {
+			final int i = Math.min( _cx.getNumberBindingType().ordinal(), n - 1 );
+			return expectedError( byType[ i ].trim() );
+		}
+		else {
+			return expectedError( _error );
+		}
+	}
+
+	private Object expectedError( String _error )
+	{
+		if (_error.startsWith( "+Inf" )) return Double.POSITIVE_INFINITY;
+		if (_error.startsWith( "-Inf" )) return Double.NEGATIVE_INFINITY;
+		if (_error.equals( "NaN" )) return Double.NaN;
+		if (_error.equals( "AE" )) return ArithmeticException.class;
+		if (_error.equals( "FE" )) return FormulaException.class;
+		if (_error.equals( "NA" )) return NotAvailableException.class;
+		throw new IllegalArgumentException( "Unknown error string: " + _error );
 	}
 
 	private TimeZone getTimeZone( Context _cx )
@@ -93,39 +156,16 @@ abstract class AbstractCellValues
 		return timeZone;
 	}
 
-	public static final Object NOW = new Object()
-	{
-		@Override
-		public String toString()
-		{
-			return "(now)";
-		}
-	};
+	public static final String NOW = "(now)";
+	public static final Object NA = "#N/A";
+	public static final Object ERR = "#ERR!";
 
 
-	public void set( int _index, Object _value, BindingType _type )
+	private void set( int _index, Object _value, BindingType _type )
 	{
 		this.vals[ _index ] = _value;
 		this.types[ _index ] = _type;
 	}
-
-	public void set( int _index, Object _value )
-	{
-		set( _index, _value, guessTypeOf( _value ) );
-	}
-
-	private BindingType guessTypeOf( Object _value )
-	{
-		if (null == _value) return this.numberType;
-		if (_value instanceof Number) return this.numberType;
-		if (_value instanceof String) return BindingType.STRING;
-		if (_value instanceof Date) return BindingType.DATE;
-		if (_value instanceof Boolean) return BindingType.BOOLEAN;
-		if (_value instanceof Exception) return BindingType.EXCEPTION;
-		if (_value == NOW) return BindingType.DATE;
-		throw new IllegalArgumentException( "Cannot guess type of " + _value );
-	}
-
 
 	public Object get( int _index )
 	{

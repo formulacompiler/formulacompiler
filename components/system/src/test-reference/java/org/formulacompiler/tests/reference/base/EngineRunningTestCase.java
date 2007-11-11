@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.formulacompiler.compiler.SaveableEngine;
+import org.formulacompiler.runtime.ComputationException;
 
 public class EngineRunningTestCase extends AbstractContextTestCase
 {
@@ -54,22 +55,37 @@ public class EngineRunningTestCase extends AbstractContextTestCase
 	private void runProtected() throws Throwable
 	{
 		final Inputs exp = cx().getExpected();
+		try {
+			assertValueResult( exp );
+		}
+		catch (ComputationException e) {
+			assertExceptionResult( exp.get( 0 ), e );
+		}
+		catch (ArithmeticException e) {
+			assertExceptionResult( exp.get( 0 ), e );
+		}
+	}
+
+	private void assertValueResult( final Inputs _exp ) throws Exception
+	{
 		final Outputs act = (Outputs) cx().getFactory().newComputation( cx().getInputs() );
 
-		final BindingType type = exp.type( 0 );
+		final BindingType type = _exp.type( 0 );
 		switch (type) {
 
 			case DOUBLE: {
-				double want = exp.dbl( 0 );
 				double have = act.dbl();
+				assertNoException( _exp, have );
+				double want = _exp.dbl( 0 );
 				assertEquals( want, have, DBL_EPSILON );
 				break;
 			}
 
 			case BIGDEC_PREC:
 			case BIGDEC_SCALE: {
-				BigDecimal want = exp.bdec( 0 );
 				BigDecimal have = act.bdec();
+				assertNoException( _exp, have );
+				BigDecimal want = _exp.bdec( 0 );
 				if (want.subtract( have ).abs().compareTo( BIG_EPSILON ) > 0) {
 					assertEquals( want.toPlainString(), have.toPlainString() );
 				}
@@ -77,8 +93,9 @@ public class EngineRunningTestCase extends AbstractContextTestCase
 			}
 
 			case LONG: {
-				long want = exp.lng( 0 );
 				long have = act.lng();
+				assertNoException( _exp, have );
+				long want = _exp.lng( 0 );
 				if (Math.abs( want - have ) > 1) {
 					assertEquals( want, have );
 				}
@@ -86,27 +103,30 @@ public class EngineRunningTestCase extends AbstractContextTestCase
 			}
 
 			case BOOLEAN: {
-				boolean want = exp.bool( 0 );
 				boolean have = act.bool();
+				assertNoException( _exp, have );
+				boolean want = _exp.bool( 0 );
 				assertEquals( want, have );
 				break;
 			}
 
 			case DATE: {
 				Date have = act.date();
-				if (Inputs.NOW == exp.get( 0 )) {
+				assertNoException( _exp, have );
+				if (Inputs.NOW == _exp.get( 0 )) {
 					assertNow( have );
 				}
 				else {
-					Date want = exp.date( 0 );
+					Date want = _exp.date( 0 );
 					assertEquals( want, have );
 				}
 				break;
 			}
 
 			case STRING: {
-				String want = exp.str( 0 );
 				String have = act.str();
+				assertNoException( _exp, have );
+				String want = _exp.str( 0 );
 				assertEquals( want, have );
 				break;
 			}
@@ -123,6 +143,26 @@ public class EngineRunningTestCase extends AbstractContextTestCase
 		final long notAfter = System.currentTimeMillis() / Inputs.MS_PER_SEC;
 		assertTrue( actual >= notBefore );
 		assertTrue( actual <= notAfter );
+	}
+
+	private void assertNoException( Inputs _exp, Object _actual )
+	{
+		final Object want = _exp.get( 0 );
+		if (want instanceof Class) {
+			assertEquals( want, _actual );
+		}
+	}
+
+	@SuppressWarnings( "unchecked" )
+	private void assertExceptionResult( Object _expected, RuntimeException _exception )
+	{
+		if (_expected instanceof Class) {
+			final Class<RuntimeException> expectedClass = (Class<RuntimeException>) _expected;
+			if (expectedClass.isAssignableFrom( _exception.getClass() )) {
+				return;
+			}
+		}
+		throw _exception;
 	}
 
 

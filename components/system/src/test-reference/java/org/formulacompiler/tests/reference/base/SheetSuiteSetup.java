@@ -35,9 +35,9 @@ import junit.framework.TestSuite;
  */
 public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 {
-	static final boolean EMIT_DOCUMENTATION = isSysPropTrue( "emit_documentation" );
-	static final boolean QUICK_RUN = isSysPropTrue( "quick_run" );
-	static final boolean THREADED_RUN = isSysPropTrue( "threaded_run" );
+	public static boolean EMIT_DOCUMENTATION = isSysPropTrue( "emit_documentation" );
+	public static boolean QUICK_RUN = isSysPropTrue( "quick_run" );
+	public static boolean THREADED_RUN = isSysPropTrue( "threaded_run" );
 
 	private static boolean isSysPropTrue( String _name )
 	{

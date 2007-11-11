@@ -195,11 +195,22 @@ public interface Spreadsheet extends Describable
 		/**
 		 * Returns the constant value of the cell, as defined in the spreadsheet.
 		 *
-		 * @return the value, or {@code null} if the cell is empty or computed by a formula.
+		 * @return the value, or {@code null} if the cell is empty, an error value, or computed by a
+		 *         formula.
 		 *
 		 * @see #getValue()
 		 */
 		public Object getConstantValue();
+
+		/**
+		 * Returns the error text of the cell, as defined in the spreadsheet.
+		 *
+		 * @return the text, or {@code null} if the cell is not an error cell, or computed by a
+		 *         formula.
+		 *
+		 * @see #getValue()
+		 */
+		public String getErrorText();
 
 		/**
 		 * Returns the value of the cell, as saved in the spreadsheet.

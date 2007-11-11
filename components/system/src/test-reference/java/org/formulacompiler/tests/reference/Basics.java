@@ -31,7 +31,8 @@ public class Basics extends SheetSuiteSetup
 	// ---- suite
 	public static Test suite() throws Exception
 	{
-		return sheetSuite( "CellNames", "EmptyCells", "NumericOperators", "NumericComparisons", "NumericFunctions" );
+		return sheetSuite( "CellNames", "EmptyCells", "ErrorCells", "NumericOperators", "NumericComparisons",
+				"NumericFunctions" );
 	}
 	// ---- suite
 

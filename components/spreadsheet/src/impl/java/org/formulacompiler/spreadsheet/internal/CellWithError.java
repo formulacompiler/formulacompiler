@@ -18,19 +18,47 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.tests.reference.base;
+package org.formulacompiler.spreadsheet.internal;
 
-public enum BindingType {
+import java.io.IOException;
+
+import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.describable.DescriptionBuilder;
 
 
-	DOUBLE, BIGDEC_PREC, BIGDEC_SCALE, LONG, BOOLEAN, DATE, STRING;
+public final class CellWithError extends CellInstance
+{
+	public static final String NA = "#N/A";
+	public static final String NUM = "#NUM!";
+	public static final String VALUE = "#VALUE!";
+	public static final String REF = "#REF!";
+	public static final String DIV0 = "#DIV/0!";
 
-
-	public static BindingType[] numbers()
+	public CellWithError( RowImpl _row, String _text )
 	{
-		return NUMS.clone();
+		super( _row );
+		setValue( _text );
 	}
 
-	private static final BindingType[] NUMS = { DOUBLE, BIGDEC_PREC, BIGDEC_SCALE, LONG };
+
+	public String getError()
+	{
+		return (String) getValue();
+	}
+
+	@Override
+	public ExpressionNode getExpression()
+	{
+		return null;
+	}
+
+
+	@Override
+	public void describeTo( DescriptionBuilder _to ) throws IOException
+	{
+		_to.vn( "err" ).v( getError() ).lf();
+		super.describeTo( _to );
+	}
+
 
 }

@@ -34,13 +34,9 @@ AFC currently has no proper support for empty cells. It simply treats them like 
 
 h2. Formula Errors
 
-AFC does not support Excel error indicators such as
+AFC "throws exceptions or returns error values":../tutorial/exceptions.htm for Excel error values:
 
-	* @#VALUE!@,
-	* @#REF!@, and
-	* @#N/A@.
-
-It typically returns zero (@0.0@) instead.
+<%= gen_doc "ErrorCells" %>
 
 
 
