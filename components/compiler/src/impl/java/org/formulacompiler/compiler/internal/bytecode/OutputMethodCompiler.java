@@ -23,7 +23,6 @@ package org.formulacompiler.compiler.internal.bytecode;
 import java.lang.reflect.Method;
 
 import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.internal.model.CellModel;
 import org.objectweb.asm.Opcodes;
 
 
@@ -46,12 +45,8 @@ final class OutputMethodCompiler extends TypedMethodCompiler
 	@Override
 	protected void compileBody() throws CompilerException
 	{
-		final CellModel cell = this.computation.getCell();
-
 		expressionCompiler().compileRef( this.computation );
-
 		expressionCompiler().compileConversionToResultOf( this.implementedMethod );
-
 		compileReturnOf( this.implementedMethod.getReturnType() );
 	}
 
