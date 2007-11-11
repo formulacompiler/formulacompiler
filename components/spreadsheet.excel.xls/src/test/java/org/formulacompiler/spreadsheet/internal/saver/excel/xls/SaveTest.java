@@ -30,10 +30,10 @@ import org.formulacompiler.spreadsheet.SpreadsheetBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetSaver;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder.CellRef;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder.RangeRef;
-import org.formulacompiler.tests.utils.AbstractSpreadsheetTestBase;
+import org.formulacompiler.tests.utils.AbstractSpreadsheetTestCase;
 
 
-public class SaveTest extends AbstractSpreadsheetTestBase
+public class SaveTest extends AbstractSpreadsheetTestCase
 {
 
 

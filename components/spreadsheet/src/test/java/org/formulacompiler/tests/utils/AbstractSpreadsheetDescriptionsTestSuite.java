@@ -18,7 +18,7 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.tests;
+package org.formulacompiler.tests.utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,16 +26,18 @@ import java.io.IOException;
 import org.formulacompiler.compiler.internal.IOUtil;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.AbstractIOTestBase;
 
-import junit.framework.Test;
-
-public final class SpreadsheetLoadingTestSuite extends AbstractTestSuite
+public abstract class AbstractSpreadsheetDescriptionsTestSuite extends AbstractInitializableTestSuite
 {
 
-	public static Test suite()
+	protected AbstractSpreadsheetDescriptionsTestSuite( String _name )
 	{
-		return new SpreadsheetLoadingTestSuite();
+		super( _name );
+	}
+
+	protected AbstractSpreadsheetDescriptionsTestSuite()
+	{
+		this( "Check loaded spreadsheets against their .yaml descriptions" );
 	}
 
 	@Override
@@ -44,20 +46,17 @@ public final class SpreadsheetLoadingTestSuite extends AbstractTestSuite
 		addTestsFor( ".xls" );
 	}
 
-	private void addTestsFor( String _ext ) throws Exception
-	{
-		addTestsIn( "src/test/data", _ext );
-	}
+	protected abstract void addTestsFor( String _ext ) throws Exception;
 
-	private void addTestsIn( String _path, final String _ext ) throws Exception
+	protected final void addTestsIn( String _path, final String _ext, boolean _recurse ) throws Exception
 	{
 		File path = new File( _path );
-		IOUtil.iterateFiles( path, "*" + _ext, path, true, new IOUtil.FileVisitor()
+		IOUtil.iterateFiles( path, "*" + _ext, path, _recurse, new IOUtil.FileVisitor()
 		{
 
 			public void visit( final File _inputFile, final File _outputFile ) throws IOException
 			{
-				addTest( new AbstractIOTestBase( _inputFile.getPath() )
+				addTest( new AbstractIOTestCase( _inputFile.getPath() )
 				{
 
 					@Override

@@ -36,13 +36,13 @@ import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.compiler.internal.model.analysis.TypeAnnotator;
 import org.formulacompiler.compiler.internal.model.optimizer.IntermediateResultsInliner;
 import org.formulacompiler.runtime.ComputationFactory;
-import org.formulacompiler.tests.utils.AbstractIOTestBase;
+import org.formulacompiler.tests.utils.AbstractIOTestCase;
 import org.formulacompiler.tests.utils.Inputs;
 import org.formulacompiler.tests.utils.Outputs;
 
 
 
-public class ByteCodeCompilerOnEngineModelTest extends AbstractIOTestBase
+public class ByteCodeCompilerOnEngineModelTest extends AbstractIOTestCase
 {
 
 

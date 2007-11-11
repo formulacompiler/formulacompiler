@@ -41,10 +41,10 @@ import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetSaver;
-import org.formulacompiler.tests.utils.AbstractSpreadsheetTestBase;
+import org.formulacompiler.tests.utils.AbstractSpreadsheetTestCase;
 
 
-public class Basics extends AbstractSpreadsheetTestBase
+public class Basics extends AbstractSpreadsheetTestCase
 {
 
 

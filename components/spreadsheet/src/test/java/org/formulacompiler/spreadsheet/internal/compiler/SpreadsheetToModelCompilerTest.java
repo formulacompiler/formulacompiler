@@ -34,8 +34,8 @@ import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.compiler.internal.model.optimizer.ReferenceCounter;
 import org.formulacompiler.spreadsheet.Orientation;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
@@ -48,12 +48,12 @@ import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRange;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
-import org.formulacompiler.tests.utils.AbstractIOTestBase;
+import org.formulacompiler.tests.utils.AbstractStandardInputsOutputsTestCase;
 import org.formulacompiler.tests.utils.Inputs;
 import org.formulacompiler.tests.utils.Outputs;
 import org.formulacompiler.tests.utils.WorksheetBuilderWithBands;
 
-public class SpreadsheetToModelCompilerTest extends AbstractIOTestBase
+public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutputsTestCase
 {
 
 

@@ -30,10 +30,10 @@ import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder.CellRef;
-import org.formulacompiler.tests.utils.AbstractIOTestBase;
+import org.formulacompiler.tests.utils.AbstractIOTestCase;
 
 
-public class StringsTest extends AbstractIOTestBase
+public class StringsTest extends AbstractIOTestCase
 {
 	private static final String DYNAMIC_STRING = "This is a dynamic string.";
 	private static final String STATIC_STRING = "This is a string.";

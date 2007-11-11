@@ -22,6 +22,8 @@ package org.formulacompiler.tests.utils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -29,33 +31,91 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 
-import org.formulacompiler.compiler.CallFrame;
+import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.compiler.internal.IOUtil;
+import org.formulacompiler.compiler.internal.Settings;
+import org.formulacompiler.describable.Describable;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
-public abstract class AbstractTestBase extends TestCase
+public abstract class AbstractIOTestCase extends TestCase
 {
+	private static final File JAR_PATH = new File( "src/test/data/enginejars/jre-" + Util.jdkVersionSuffix() );
 
-	protected AbstractTestBase()
+	protected AbstractIOTestCase()
 	{
 		super();
 	}
 
-	protected AbstractTestBase( String _name )
+	protected AbstractIOTestCase( String _name )
 	{
 		super( _name );
 	}
 
 
-	protected CallFrame getInput( String _name ) throws SecurityException, NoSuchMethodException
+	private int nextEngineCheckId = 1;
+
+	protected void checkEngine( SaveableEngine _engine ) throws Exception
 	{
-		return new CallFrame( Inputs.class.getMethod( _name ) );
+		checkEngine( _engine, "default_" + Integer.toString( this.nextEngineCheckId++ ) );
 	}
 
-	protected CallFrame getOutput( String _name ) throws SecurityException, NoSuchMethodException
+	protected void checkEngine( SaveableEngine _engine, String _id ) throws Exception
 	{
-		return new CallFrame( OutputsWithoutReset.class.getMethod( _name ) );
+		final File jars = new File( JAR_PATH, getClass().getSimpleName() + '/' + getName() );
+		jars.mkdirs();
+
+		// Make sure dates in .zip files are 0ed out so .zips are comparable:
+		Settings.setDebugCompilationEnabled( true );
+
+		final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		_engine.saveTo( outputStream );
+		final byte[] actualBytes = outputStream.toByteArray();
+		final InputStream actual = new ByteArrayInputStream( actualBytes );
+		final File expectedFile = new File( jars, _id + ".jar" );
+		if (expectedFile.exists()) {
+			final InputStream expected = new BufferedInputStream( new FileInputStream( expectedFile ) );
+			try {
+				try {
+					assertEqualStreams( "Comparing engines for " + _id + "; actual engine written to ...-actual.jar",
+							expected, actual );
+				}
+				catch (AssertionFailedError t) {
+					final File actualFile = new File( jars, _id + "-actual.jar" );
+					IOUtil.writeStreamToFile( new ByteArrayInputStream( actualBytes ), actualFile );
+					final String actualDisasm = Util.disassemble( actualFile );
+					final String expectedDisasm = Util.disassemble( expectedFile );
+					assertEquals( t.getMessage(), expectedDisasm, actualDisasm );
+					throw t;
+				}
+			}
+			finally {
+				expected.close();
+			}
+		}
+		else {
+			IOUtil.writeStreamToFile( actual, expectedFile );
+		}
+	}
+
+
+	protected void assertYaml( File _path, String _expectedFileBaseName, Describable _actual, String _actualFileName )
+			throws Exception
+	{
+		final String have = _actual.describe();
+		final File expectedFile = new File( _path, _expectedFileBaseName + ".yaml" );
+		if (expectedFile.exists()) {
+			final String want = Util.readStringFrom( expectedFile );
+			if (!want.equals( have )) {
+				final File actualFile = new File( _path, _actualFileName + "-actual.yaml" );
+				Util.writeStringTo( have, actualFile );
+				assertEquals( "YAML bad for " + _actualFileName + "; actual YAML written to ...-actual.yaml", want, have );
+			}
+		}
+		else {
+			Util.writeStringTo( have, expectedFile );
+		}
 	}
 
 
@@ -141,6 +201,5 @@ public abstract class AbstractTestBase extends TestCase
 	{
 		return IOUtil.normalizeLineEndings( _s );
 	}
-
 
 }

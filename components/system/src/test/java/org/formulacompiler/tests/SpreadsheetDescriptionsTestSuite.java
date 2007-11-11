@@ -18,34 +18,24 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.tests.utils;
+package org.formulacompiler.tests;
 
-import java.io.InputStream;
+import org.formulacompiler.tests.utils.AbstractSpreadsheetDescriptionsTestSuite;
 
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.spreadsheet.Spreadsheet;
+import junit.framework.Test;
 
-
-public abstract class AbstractSpreadsheetTestBase extends AbstractIOTestBase
+public final class SpreadsheetDescriptionsTestSuite extends AbstractSpreadsheetDescriptionsTestSuite
 {
 
-	protected void checkSpreadsheetStream( Spreadsheet _expected, InputStream _stream, String _typeExtensionOrFileName )
-			throws Exception
+	public static Test suite()
 	{
-		Spreadsheet actual = SpreadsheetCompiler.loadSpreadsheet( _typeExtensionOrFileName, _stream );
-		touchExpressions( actual );
-		assertEquals( _expected.describe(), actual.describe() );
+		return new SpreadsheetDescriptionsTestSuite().init();
 	}
 
-	protected void touchExpressions( Spreadsheet _ss ) throws Exception
+	@Override
+	protected void addTestsFor( String _ext ) throws Exception
 	{
-		for (Spreadsheet.Sheet s : _ss.getSheets()) {
-			for (Spreadsheet.Row r : s.getRows()) {
-				for (Spreadsheet.Cell c : r.getCells()) {
-					c.getExpressionText();
-				}
-			}
-		}
+		addTestsIn( "src/test/data", _ext, true );
 	}
 
 }

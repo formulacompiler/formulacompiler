@@ -39,7 +39,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder.CellRef;
-import org.formulacompiler.tests.utils.AbstractIOTestBase;
+import org.formulacompiler.tests.utils.AbstractIOTestCase;
 
 
 
@@ -48,7 +48,7 @@ import org.formulacompiler.tests.utils.AbstractIOTestBase;
  * 
  * @author peo
  */
-public class SectionSumTest extends AbstractIOTestBase
+public class SectionSumTest extends AbstractIOTestCase
 {
 
 	public void testSums() throws Exception
