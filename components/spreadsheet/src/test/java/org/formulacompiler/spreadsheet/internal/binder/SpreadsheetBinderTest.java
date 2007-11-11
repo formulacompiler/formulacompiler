@@ -39,12 +39,12 @@ import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
-import org.formulacompiler.tests.utils.AbstractSpreadsheetTestBase;
+import org.formulacompiler.tests.utils.AbstractSpreadsheetTestCase;
 import org.formulacompiler.tests.utils.Inputs;
 import org.formulacompiler.tests.utils.Outputs;
 import org.formulacompiler.tests.utils.WorksheetBuilderWithBands;
 
-public class SpreadsheetBinderTest extends AbstractSpreadsheetTestBase
+public class SpreadsheetBinderTest extends AbstractSpreadsheetTestCase
 {
 	protected SpreadsheetImpl workbook;
 	protected SheetImpl sheet;

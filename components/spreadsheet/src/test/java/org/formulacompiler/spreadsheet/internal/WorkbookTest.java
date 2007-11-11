@@ -27,10 +27,10 @@ import java.util.TimeZone;
 
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
-import org.formulacompiler.tests.utils.AbstractTestBase;
+import org.formulacompiler.tests.utils.AbstractStandardInputsOutputsTestCase;
 import org.formulacompiler.tests.utils.WorksheetBuilderWithBands;
 
-public class WorkbookTest extends AbstractTestBase
+public class WorkbookTest extends AbstractStandardInputsOutputsTestCase
 {
 
 	public void testGetCellA1() throws Exception

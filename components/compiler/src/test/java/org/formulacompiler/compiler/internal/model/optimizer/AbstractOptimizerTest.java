@@ -23,9 +23,9 @@ package org.formulacompiler.compiler.internal.model.optimizer;
 import java.math.BigDecimal;
 import java.util.Collections;
 
+import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.Operator;
-import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
@@ -36,12 +36,12 @@ import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForParentSectionModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionModel;
 import org.formulacompiler.compiler.internal.model.SectionModel;
-import org.formulacompiler.tests.utils.AbstractIOTestBase;
+import org.formulacompiler.tests.utils.AbstractStandardInputsOutputsTestCase;
 import org.formulacompiler.tests.utils.Inputs;
 import org.formulacompiler.tests.utils.Outputs;
 
 
-public abstract class AbstractOptimizerTest extends AbstractIOTestBase
+public abstract class AbstractOptimizerTest extends AbstractStandardInputsOutputsTestCase
 {
 	protected ComputationModel model;
 	protected SectionModel root;

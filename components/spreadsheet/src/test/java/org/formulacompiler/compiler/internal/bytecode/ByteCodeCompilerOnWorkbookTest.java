@@ -36,8 +36,8 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFuncti
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.Engine;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetToEngineCompiler;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
@@ -47,7 +47,7 @@ import org.formulacompiler.spreadsheet.internal.ExpressionNodeForCell;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
-import org.formulacompiler.tests.utils.AbstractIOTestBase;
+import org.formulacompiler.tests.utils.AbstractStandardInputsOutputsTestCase;
 import org.formulacompiler.tests.utils.InputInterface;
 import org.formulacompiler.tests.utils.Inputs;
 import org.formulacompiler.tests.utils.OutputInterface;
@@ -55,7 +55,7 @@ import org.formulacompiler.tests.utils.Outputs;
 import org.formulacompiler.tests.utils.WorksheetBuilderWithBands;
 
 
-public class ByteCodeCompilerOnWorkbookTest extends AbstractIOTestBase
+public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutputsTestCase
 {
 	protected SpreadsheetImpl workbook;
 	protected SheetImpl sheet;

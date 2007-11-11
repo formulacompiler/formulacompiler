@@ -49,13 +49,13 @@ import org.formulacompiler.compiler.internal.model.rewriting.ModelRewriter;
 import org.formulacompiler.compiler.internal.model.rewriting.SubstitutionInliner;
 import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.New;
-import org.formulacompiler.tests.utils.AbstractIOTestBase;
+import org.formulacompiler.tests.utils.AbstractStandardInputsOutputsTestCase;
 import org.formulacompiler.tests.utils.Inputs;
 import org.formulacompiler.tests.utils.Outputs;
 import org.formulacompiler.tests.utils.OutputsWithoutReset;
 
 
-public class LittleLanguageTest extends AbstractIOTestBase
+public class LittleLanguageTest extends AbstractStandardInputsOutputsTestCase
 {
 	private static final int N_DET = 3;
 	private final Inputs inputs = new Inputs();

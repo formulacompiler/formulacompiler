@@ -31,10 +31,10 @@ import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder;
-import org.formulacompiler.tests.utils.AbstractTestBase;
+import org.formulacompiler.tests.utils.AbstractStandardInputsOutputsTestCase;
 
 
-public class Decompilation extends AbstractTestBase
+public class Decompilation extends AbstractStandardInputsOutputsTestCase
 {
 
 	
