@@ -20,14 +20,17 @@
  */
 package org.formulacompiler.spreadsheet.internal.compiler;
 
+import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
 import java.util.Collection;
 
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSubstitution;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
@@ -39,6 +42,7 @@ import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.CellWithConstant;
+import org.formulacompiler.spreadsheet.internal.CellWithError;
 import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForCell;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRange;
@@ -176,6 +180,9 @@ public final class SectionModelCompiler
 		else if (_cell instanceof CellWithLazilyParsedExpression) {
 			buildCellModel( _cellModel, (CellWithLazilyParsedExpression) _cell );
 		}
+		else if (_cell instanceof CellWithError) {
+			buildCellModel( _cellModel, (CellWithError) _cell );
+		}
 		_cellModel.setMaxFractionalDigits( _cell.getMaxFractionalDigits() );
 	}
 
@@ -183,6 +190,17 @@ public final class SectionModelCompiler
 	private void buildCellModel( CellModel _cellModel, CellWithConstant _cell )
 	{
 		_cellModel.setConstantValue( adjustConstantValue( _cell.getValue() ) );
+	}
+
+
+	private void buildCellModel( CellModel _cellModel, CellWithError _cell )
+	{
+		if (_cell.getValue() == CellWithError.NA) {
+			_cellModel.setExpression( new ExpressionNodeForFunction( Function.NA ) );
+		}
+		else {
+			_cellModel.setExpression( err( _cell.getError() ) );
+		}
 	}
 
 

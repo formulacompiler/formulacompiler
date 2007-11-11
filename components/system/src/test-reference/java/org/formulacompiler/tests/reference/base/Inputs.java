@@ -23,6 +23,8 @@ package org.formulacompiler.tests.reference.base;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.formulacompiler.runtime.FormulaException;
+import org.formulacompiler.runtime.NotAvailableException;
 import org.formulacompiler.runtime.ScaledLong;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 
@@ -38,14 +40,14 @@ public final class Inputs extends AbstractCellValues
 	public double dbl( int _inputIndex )
 	{
 		if (_inputIndex < 0 || _inputIndex >= this.vals.length) return 0.0;
-		final Object val = this.vals[ _inputIndex ];
+		final Object val = getOrThrow( _inputIndex );
 		return null == val? 0.0 : ((Number) val).doubleValue();
 	}
 
 	public BigDecimal bdec( int _inputIndex )
 	{
 		if (_inputIndex < 0 || _inputIndex >= this.vals.length) return null;
-		final Object val = this.vals[ _inputIndex ];
+		final Object val = getOrThrow( _inputIndex );
 		return null == val? null : (val instanceof BigDecimal)? (BigDecimal) val : BigDecimal.valueOf( ((Number) val).doubleValue() );
 	}
 
@@ -53,28 +55,36 @@ public final class Inputs extends AbstractCellValues
 	public long lng( int _inputIndex )
 	{
 		if (_inputIndex < 0 || _inputIndex >= this.vals.length) return 0;
-		final Object val = this.vals[ _inputIndex ];
+		final Object val = getOrThrow( _inputIndex );
 		return null == val? 0 : (val instanceof Long)? (Long) val : numericType().valueOf( (Number) val ).longValue();
 	}
 
 	public boolean bool( int _inputIndex )
 	{
 		if (_inputIndex < 0 || _inputIndex >= this.vals.length) return false;
-		final Object val = this.vals[ _inputIndex ];
+		final Object val = getOrThrow( _inputIndex );
 		return null == val? false : (Boolean) val;
 	}
 
 	public Date date( int _inputIndex )
 	{
 		if (_inputIndex < 0 || _inputIndex >= this.vals.length) return null;
-		return (Date) this.vals[ _inputIndex ];
+		return (Date) getOrThrow( _inputIndex );
 	}
 
 	public String str( int _inputIndex )
 	{
 		if (_inputIndex < 0 || _inputIndex >= this.vals.length) return null;
-		return (String) this.vals[ _inputIndex ];
+		return (String) getOrThrow( _inputIndex );
 	}
 
+
+	private Object getOrThrow( int _inputIndex )
+	{
+		final Object _val = this.vals[ _inputIndex ];
+		if (_val == AbstractCellValues.ERR) throw new FormulaException();
+		if (_val == AbstractCellValues.NA) throw new NotAvailableException();
+		return _val;
+	}
 
 }

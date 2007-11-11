@@ -145,6 +145,17 @@ public final class CellIndex extends Reference implements Cell
 		}
 	}
 
+	public String getErrorText()
+	{
+		final CellInstance cell = getCell();
+		if (cell instanceof CellWithError) {
+			return (String) cell.getValue();
+		}
+		else {
+			return null;
+		}
+	}
+
 
 	public Object getValue()
 	{

@@ -43,7 +43,7 @@ sheets:
     - expr: =SUM( RC[-2] )
   - cells:
     - const: Not available using #N/A
-    - expr: =NA()
+    - err: #N/A
     - null
     - expr: =SUM( RC[-2] )
   - cells:

@@ -58,8 +58,9 @@ public abstract class RowSetup
 	public boolean isTestRow() throws Exception
 	{
 		final Cell outputCell = cx().getRowCell( actualCol() );
-		if (null == outputCell || (null == outputCell.getConstantValue() && null == outputCell.getExpressionText()))
-			return false;
+		if (null == outputCell
+				|| (null == outputCell.getConstantValue() && null == outputCell.getErrorText() && null == outputCell
+						.getExpressionText())) return false;
 		return true;
 	}
 

@@ -228,8 +228,9 @@ public class HtmlDocumenter implements Documenter
 				@SuppressWarnings( "hiding" )
 				private final DescriptionBuilder html;
 				private final int rowNum;
-				private CellWithLazilyParsedExpression exprCell;
+				private CellInstance exprCell;
 				private String exprSource;
+				private String exprPrefix;
 
 				public RowDoc( Context _cx, RowSetup _row, DescriptionBuilder _html )
 				{
@@ -241,8 +242,15 @@ public class HtmlDocumenter implements Documenter
 
 				private void newOrSimilarRow() throws Exception
 				{
-					this.exprCell = (CellWithLazilyParsedExpression) cellInstanceOf( this.cx.getOutputCell() );
-					this.exprSource = this.exprCell.getExpressionParser().getSource();
+					this.exprCell = cellInstanceOf( this.cx.getOutputCell() );
+					if (this.exprCell instanceof CellWithLazilyParsedExpression) {
+						this.exprSource = ((CellWithLazilyParsedExpression) this.exprCell).getExpressionParser().getSource();
+						this.exprPrefix = "=";
+					}
+					else {
+						this.exprSource = this.exprCell.getValue().toString();
+						this.exprPrefix = "";
+					}
 					if (isNewExpr()) {
 						newRow();
 					}
@@ -253,7 +261,7 @@ public class HtmlDocumenter implements Documenter
 
 				private void newRow() throws Exception
 				{
-					final String expr = "=" + highlightTermIn( htmlize( this.exprSource ) );
+					final String expr = this.exprPrefix + highlightTermIn( htmlize( this.exprSource ) );
 					final String prec = htmlPrecision( this.exprCell );
 					final String linked = decompileEngineAndLinkFrom( expr );
 					showRow( linked, prec );
@@ -267,7 +275,7 @@ public class HtmlDocumenter implements Documenter
 				private void showRow( String _exprText, String _exprPrec )
 				{
 					final DescriptionBuilder h = this.html;
-					final Object expected = this.cx.getExpectedCell().getConstantValue();
+					final Object expected = formatExpectedValue( this.cx.getExpectedCell().getConstantValue() );
 					final String expectedCls = htmlCellClass( expected );
 					h.append( "<tr><td class=\"xl-row\">" ).append( this.rowNum ).append( "</td>" );
 					h.append( "<td" ).append( expectedCls ).append( ">" ).append( expected ).append( "</td>" );
@@ -302,6 +310,39 @@ public class HtmlDocumenter implements Documenter
 					}
 
 					h.appendLine( "</tr>" );
+				}
+
+				private Object formatExpectedValue( Object _val )
+				{
+					if (_val instanceof String) {
+						String str = (String) _val;
+						if (str.startsWith( "!NUM:" )) {
+							return expectedErrorList( str.substring( 5 ) );
+						}
+						else if (str.startsWith( "!STR:" )) {
+							return expectedErrorList( str.substring( 5 ) );
+						}
+						else if (str.startsWith( "!DATE:" )) {
+							return expectedErrorList( str.substring( 6 ) );
+						}
+						else if (str.startsWith( "!BOOL:" )) {
+							return expectedErrorList( str.substring( 6 ) );
+						}
+					}
+					return _val;
+				}
+
+				private String expectedErrorList( String _errs )
+				{
+					final String[] acronyms = { "AE", "FE", "NA", "+Inf", "-Inf", "NaN" };
+					final String[] titles = { "ArithmeticException", "FormulaException", "NotAvailableException",
+							"Positive Infinity (double)", "Negative Infinity (double)", "Not A Number (double)" };
+					String result = _errs;
+					for (int i = 0; i < acronyms.length; i++) {
+						result = result.replace( acronyms[ i ], "<acronym title=\""
+								+ titles[ i ] + "\">" + acronyms[ i ] + "</acronym>" );
+					}
+					return "!" + result;
 				}
 
 				private CellInstance cellInstanceOf( Spreadsheet.Cell _cell )
