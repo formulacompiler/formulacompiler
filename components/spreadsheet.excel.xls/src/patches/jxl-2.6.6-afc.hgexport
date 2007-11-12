@@ -1,8 +1,8 @@
 # HG changeset patch
 # User peter.arrenbrecht@gmail.com
 # Date 1188307004 -7200
-# Node ID c262d65bd9548a10d5a242291206a28ef2c09b45
-# Parent  53fa976136fce187cbc110df8da98dff277083ad
+# Node ID 49bdf1af0b3ff29619a97db1436f634421685d80
+# Parent  ec27b596958453aed9e50a7e4d996c9a6b510cdc
 Fix parsing of MIRR, IRR, ATAN2, SYD, DB, COVAR.
 
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
@@ -60,8 +60,8 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
 # HG changeset patch
 # User peter.arrenbrecht@gmail.com
 # Date 1188307004 -7200
-# Node ID aae5d61afc0063bc7949e5de317e0c57e55409e8
-# Parent  c262d65bd9548a10d5a242291206a28ef2c09b45
+# Node ID c821cf24907321ceb05e0d348b95b80e84f7d9af
+# Parent  49bdf1af0b3ff29619a97db1436f634421685d80
 Add DateCell.getValue(); returns Excel's internal numeric date value.
 
 diff --git a/src/jxl/DateCell.java b/src/jxl/DateCell.java
@@ -192,8 +192,8 @@ diff --git a/src/jxl/write/biff/ReadDateFormulaRecord.java b/src/jxl/write/biff/
 # HG changeset patch
 # User Vladimir Korenev <vkorenev@gmail.com>
 # Date 1188384697 -10800
-# Node ID 2b568e418e7970f2215eced47e7f592f59d0961b
-# Parent  aae5d61afc0063bc7949e5de317e0c57e55409e8
+# Node ID f81588f76c19e9dc01f661c0091d64c283f7fc2a
+# Parent  c821cf24907321ceb05e0d348b95b80e84f7d9af
 Fix parsing of TRIMMEAN function.
 
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
@@ -211,8 +211,8 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
 # HG changeset patch
 # User peter.arrenbrecht@gmail.com
 # Date 1190988522 -7200
-# Node ID 29aa045155c1594ecb4033fab0df8136a66a6cd0
-# Parent  2b568e418e7970f2215eced47e7f592f59d0961b
+# Node ID 0220c3d5b9747738b3e6ab6ed79dc868cc58c5a0
+# Parent  f81588f76c19e9dc01f661c0091d64c283f7fc2a
 Fix parsing of DVARP, DSTDEVP, and DCOUNTA functions.
 
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
@@ -240,8 +240,8 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
 # HG changeset patch
 # User peter.arrenbrecht@gmail.com
 # Date 1192522290 -7200
-# Node ID d3bb931902f4e072ceccbf1630a5ba3e50080e12
-# Parent  29aa045155c1594ecb4033fab0df8136a66a6cd0
+# Node ID 5f9d8f740afe4e01b34f2dd93bd4edc2256fbf5a
+# Parent  0220c3d5b9747738b3e6ab6ed79dc868cc58c5a0
 Remove unused local var.
 
 diff --git a/src/jxl/read/biff/NameRecord.java b/src/jxl/read/biff/NameRecord.java
@@ -258,8 +258,8 @@ diff --git a/src/jxl/read/biff/NameRecord.java b/src/jxl/read/biff/NameRecord.ja
 # HG changeset patch
 # User peter.arrenbrecht@gmail.com
 # Date 1192522290 -7200
-# Node ID 3433f0f2f26a4eb636ec3391623c4b4705d58422
-# Parent  d3bb931902f4e072ceccbf1630a5ba3e50080e12
+# Node ID 0870266edeae00bf386eec0e2dad1b813d76e764
+# Parent  5f9d8f740afe4e01b34f2dd93bd4edc2256fbf5a
 Fix parsing of builtin range names as ordinary ranges.
 
 diff --git a/src/jxl/read/biff/NameRecord.java b/src/jxl/read/biff/NameRecord.java
@@ -332,8 +332,8 @@ diff --git a/src/jxl/write/biff/NameRecord.java b/src/jxl/write/biff/NameRecord.
 # HG changeset patch
 # User Borys Samsonov <borys.samsonov@teamdev.com>
 # Date 1191414122 -10800
-# Node ID c40410cbaee2af86628637c26e8076c3be1f06d9
-# Parent  3433f0f2f26a4eb636ec3391623c4b4705d58422
+# Node ID 7b8766b9f70aa221dcc1a3dbd2ce19e2ccba6440
+# Parent  0870266edeae00bf386eec0e2dad1b813d76e764
 Add ROMAN() function.
 
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
@@ -351,8 +351,8 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
 # HG changeset patch
 # User Borys Samsonov <borys.samsonov@teamdev.com>
 # Date 1192722672 -10800
-# Node ID 53da3f6b9402468e5dfeb1883d68b982dabba71a
-# Parent  c40410cbaee2af86628637c26e8076c3be1f06d9
+# Node ID 746d7aea293c20363871b40cc3b3f36884bec504
+# Parent  7b8766b9f70aa221dcc1a3dbd2ce19e2ccba6440
 Fix parsing of CHITEST, FTEST, PEARSON, RSQ, and TTEST.
 
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
@@ -391,3 +391,92 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
    public static final Function PROB =
      new Function(0x13d, "prob", 0xff);
    public static final Function DEVSQ =
+# HG changeset patch
+# User Borys Samsonov <borys.samsonov@teamdev.com>
+# Date 1194518525 0
+# Node ID 2446010497b7db299d77e72180d7e6998be849aa
+# Parent  746d7aea293c20363871b40cc3b3f36884bec504
+Fix parsing of: SUMX2MY2, SUMX2PY2, SUMXMY2, CORREL, FORECAST, INTERCEPT, STEYX, LARGE, SMALL, QUARTILE and PERCENTILE
+
+diff --git a/resources/functions.properties b/resources/functions.properties
+--- a/resources/functions.properties
++++ b/resources/functions.properties
+@@ -242,7 +242,7 @@ stdev=STDEV
+ stdev=STDEV
+ stdeva=STDDEVA
+ stdevp=STDEVP
+-stdevpa=STDDEVPA
++stdevpa=STDEVPA
+ step=STEP
+ steyx=STEYX
+ substitute=SUBSTITUTE
+diff --git a/resources/functions_en.properties b/resources/functions_en.properties
+--- a/resources/functions_en.properties
++++ b/resources/functions_en.properties
+@@ -242,7 +242,7 @@ stdev=STDEV
+ stdev=STDEV
+ stdeva=STDDEVA
+ stdevp=STDEVP
+-stdevpa=STDDEVPA
++stdevpa=STDEVPA
+ step=STEP
+ steyx=STEYX
+ substitute=SUBSTITUTE
+diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
+--- a/src/jxl/biff/formula/Function.java
++++ b/src/jxl/biff/formula/Function.java
+@@ -618,29 +618,29 @@ final class Function
+   public static final Function WEIBULL =
+     new Function(0x12e, "weibull", 4);
+   public static final Function SUMXMY2 =
+-    new Function(303, "sumxmy2", 0xff);
++    new Function(303, "sumxmy2", 2);
+   public static final Function SUMX2MY2 =
+-    new Function(304, "sumx2my2", 0xff);
++    new Function(304, "sumx2my2", 2);
+   public static final Function SUMX2PY2 =
+-    new Function(305, "sumx2py2", 0xff);
++    new Function(305, "sumx2py2", 2);
+   public static final Function CHITEST =
+     new Function(0x132, "chitest", 2);
+   public static final Function CORREL =
+-    new Function(0x133, "correl", 0xff);
++    new Function(0x133, "correl", 2);
+   public static final Function COVAR =
+     new Function(0x134, "covar", 2);
+   public static final Function FORECAST =
+-    new Function(0x135, "forecast", 0xff);
++    new Function(0x135, "forecast", 3);
+   public static final Function FTEST =
+     new Function(0x136, "ftest", 2);
+   public static final Function INTERCEPT =
+-    new Function(0x137, "intercept", 0xff);
++    new Function(0x137, "intercept", 2);
+   public static final Function PEARSON =
+     new Function(0x138, "pearson", 2);
+   public static final Function RSQ =
+     new Function(0x139, "rsq", 2);
+   public static final Function STEYX =
+-    new Function(0x13a, "steyx", 0xff);
++    new Function(0x13a, "steyx", 2);
+   public static final Function SLOPE =
+     new Function(0x13b, "slope", 2);
+   public static final Function TTEST =
+@@ -662,13 +662,13 @@ final class Function
+   public static final Function ZTEST =
+     new Function(0x144, "ztest", 0xff);
+   public static final Function LARGE =
+-    new Function(0x145, "large", 0xff);
++    new Function(0x145, "large", 2);
+   public static final Function SMALL =
+-    new Function(0x146, "small", 0xff);
++    new Function(0x146, "small", 2);
+   public static final Function QUARTILE =
+-    new Function(0x147, "quartile", 0xff);
++    new Function(0x147, "quartile", 2);
+   public static final Function PERCENTILE =
+-    new Function(0x148, "percentile", 0xff);
++    new Function(0x148, "percentile", 2);
+   public static final Function PERCENTRANK =
+     new Function(0x149, "percentrank", 0xff);
+   public static final Function MODE =

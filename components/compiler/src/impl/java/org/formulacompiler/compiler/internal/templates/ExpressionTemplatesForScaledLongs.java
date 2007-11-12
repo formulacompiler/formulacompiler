@@ -519,6 +519,12 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_CHIINV( _x, _degFreedom, this.context );
 	}
 
+	public long fun_CRITBINOM( long _n, long _p, long _alpha )
+	{
+		return RuntimeLong_v2.fun_CRITBINOM( _n, _p, _alpha, this.context );
+//		final BigDecimal result = RuntimeScaledBigDecimal_v2.fun_RATE( nper, pmt, pv, fv, type, guess, HIGHPREC );
+	}
+
 	public long fun_FINV( long _x, long _f1, long _f2 )
 	{
 		return RuntimeLong_v2.fun_FINV( _x, _f1, _f2, this.context );

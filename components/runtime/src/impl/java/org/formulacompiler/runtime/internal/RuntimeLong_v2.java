@@ -528,6 +528,41 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return _cx.fromDouble( RuntimeDouble_v2.fun_CHIINV( _cx.toDouble( _x ), _cx.toDouble( _degFreedom ) ) );
 	}
 
+	public static long fun_CRITBINOM( long _n, long _p, long _alpha, Context _cx )
+	{
+		if (_n < 0 || _p <= 0 || _p >= _cx.one || _alpha <= 0 || _alpha >= _cx.one) {
+			return 0;
+		}
+		else {
+			long n = fun_INT( _n, _cx );
+			long q = _cx.one - _p;
+			long factor = fun_POWER( q, fun_INT( _n, _cx ), _cx );
+			if (factor == 0) {
+				factor = fun_POWER( _p, n, _cx );
+				if (factor == 0)
+					return 0;
+				else {
+					long sum = _cx.one - factor;
+					long i;
+					for (i = 0; i < n && sum >= _alpha; i = i + _cx.one) {
+						factor = factor * (n - i) / (i + _cx.one) * q / _p;
+						sum = sum - factor;
+					}
+					return n - i;
+				}
+			}
+			else {
+				long sum = factor;
+				long i;
+				for (i = 0; i < n && sum < _alpha; i = i + _cx.one) {
+					factor = factor * (n - i) / (i + _cx.one) * _p / q;
+					sum = sum + factor;
+				}
+				return i;
+			}
+		}
+	}
+
 	public static long fun_FINV( long _x, long _f1, long _f2, Context _cx )
 	{
 		return _cx.fromDouble( RuntimeDouble_v2.fun_FINV( _cx.toDouble( _x ), _cx.toDouble( _f1 ), _cx.toDouble( _f2 ) ) );
