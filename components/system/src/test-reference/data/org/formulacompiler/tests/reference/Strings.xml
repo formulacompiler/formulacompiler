@@ -7,9 +7,9 @@
  xmlns:html="http://www.w3.org/TR/REC-html40">
  <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
   <Author>Peter Arrenbrecht</Author>
-  <LastAuthor>samsonov</LastAuthor>
+  <LastAuthor>vkorenev</LastAuthor>
   <Created>2005-11-22T20:05:38Z</Created>
-  <LastSaved>2007-09-27T13:52:52Z</LastSaved>
+  <LastSaved>2007-11-13T13:04:57Z</LastSaved>
   <Company>Opus Software AG</Company>
   <Version>11.8132</Version>
  </DocumentProperties>
@@ -30,57 +30,142 @@
    <NumberFormat/>
    <Protection/>
   </Style>
-  <Style ss:ID="s22" ss:Name="Percent">
+  <Style ss:ID="s20" ss:Name="Percent">
    <NumberFormat ss:Format="0%"/>
   </Style>
-  <Style ss:ID="s24">
+  <Style ss:ID="s21">
    <Font ss:FontName="Verdana" x:Family="Swiss" ss:Italic="1"/>
   </Style>
-  <Style ss:ID="s26">
+  <Style ss:ID="s22">
    <Alignment ss:Vertical="Center"/>
    <Font ss:FontName="Verdana" ss:Underline="Single"/>
   </Style>
-  <Style ss:ID="s27">
+  <Style ss:ID="s23">
    <Alignment ss:Vertical="Center"/>
    <Font ss:FontName="Verdana" ss:Italic="1" ss:Underline="Single"/>
   </Style>
-  <Style ss:ID="s28">
-   <NumberFormat ss:Format="Scientific"/>
+  <Style ss:ID="s24">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana" ss:Italic="1"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
   </Style>
-  <Style ss:ID="s29">
-   <NumberFormat ss:Format="0%"/>
-  </Style>
-  <Style ss:ID="s30">
-   <NumberFormat ss:Format="Short Date"/>
-  </Style>
-  <Style ss:ID="s31">
+  <Style ss:ID="s25">
    <NumberFormat ss:Format="@"/>
-  </Style>
-  <Style ss:ID="s33">
-   <Alignment ss:Vertical="Bottom" ss:WrapText="1"/>
   </Style>
  </Styles>
  <Worksheet ss:Name="Sheet1">
-  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="274" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="282" x:FullColumns="1"
    x:FullRows="1" ss:DefaultColumnWidth="54">
    <Column ss:AutoFitWidth="0" ss:Width="154.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="219.75"/>
    <Column ss:AutoFitWidth="0" ss:Width="115.5"/>
    <Column ss:Width="66"/>
    <Column ss:AutoFitWidth="0" ss:Width="36.75" ss:Span="4"/>
-   <Column ss:Index="10" ss:StyleID="s24" ss:AutoFitWidth="0" ss:Width="61.5"/>
+   <Column ss:Index="10" ss:StyleID="s21" ss:AutoFitWidth="0" ss:Width="61.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="145.5"/>
    <Column ss:Width="79.5"/>
    <Column ss:Width="146.25"/>
-   <Row ss:AutoFitHeight="0" ss:Height="25.5" ss:StyleID="s26">
+   <Row ss:AutoFitHeight="0" ss:Height="25.5" ss:StyleID="s22">
     <Cell><Data ss:Type="String">Expected</Data></Cell>
     <Cell><Data ss:Type="String">Actual</Data></Cell>
     <Cell><Data ss:Type="String">Inputs</Data></Cell>
-    <Cell ss:Index="10" ss:StyleID="s27"><Data ss:Type="String"># of Inputs</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s23"><Data ss:Type="String"># of Inputs</Data></Cell>
     <Cell><Data ss:Type="String">Name</Data></Cell>
     <Cell><Data ss:Type="String">Highlight</Data></Cell>
     <Cell><Data ss:Type="String">Excel says</Data></Cell>
     <Cell><Data ss:Type="String">Skip for</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello world!</Data></Cell>
+    <Cell ss:Formula="=RC[1]&amp;&quot; &quot;&amp;RC[2]"><Data ss:Type="String">Hello world!</Data></Cell>
+    <Cell><Data ss:Type="String">Hello</Data></Cell>
+    <Cell><Data ss:Type="String">world!</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">Concatenation operator (&amp;)</Data></Cell>
+    <Cell><Data ss:Type="String">&amp;</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">StartMiddleEnd</Data></Cell>
+    <Cell ss:Formula="=RC[1]&amp;RC[2]&amp;RC[3]"><Data ss:Type="String">StartMiddleEnd</Data></Cell>
+    <Cell><Data ss:Type="String">Start</Data></Cell>
+    <Cell><Data ss:Type="String">Middle</Data></Cell>
+    <Cell><Data ss:Type="String">End</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">StartEnd</Data></Cell>
+    <Cell ss:Formula="=RC[1]&amp;RC[2]&amp;RC[3]"><Data ss:Type="String">StartEnd</Data></Cell>
+    <Cell><Data ss:Type="String">Start</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">End</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">MiddleEnd</Data></Cell>
+    <Cell ss:Formula="=RC[1]&amp;RC[2]&amp;RC[3]"><Data ss:Type="String">MiddleEnd</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">Middle</Data></Cell>
+    <Cell><Data ss:Type="String">End</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">StartMiddle</Data></Cell>
+    <Cell ss:Formula="=RC[1]&amp;RC[2]&amp;RC[3]"><Data ss:Type="String">StartMiddle</Data></Cell>
+    <Cell><Data ss:Type="String">Start</Data></Cell>
+    <Cell><Data ss:Type="String">Middle</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="10" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello world!</Data></Cell>
+    <Cell ss:Formula="=CONCATENATE(RC[1],&quot; &quot;,RC[2])"><Data
+      ss:Type="String">Hello world!</Data></Cell>
+    <Cell><Data ss:Type="String">Hello</Data></Cell>
+    <Cell><Data ss:Type="String">world!</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">CONCATENATE</Data></Cell>
+    <Cell><Data ss:Type="String">CONCATENATE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">StartMiddleEnd</Data></Cell>
+    <Cell ss:Formula="=CONCATENATE(RC[1],RC[2],RC[3])"><Data ss:Type="String">StartMiddleEnd</Data></Cell>
+    <Cell><Data ss:Type="String">Start</Data></Cell>
+    <Cell><Data ss:Type="String">Middle</Data></Cell>
+    <Cell><Data ss:Type="String">End</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">StartEnd</Data></Cell>
+    <Cell ss:Formula="=CONCATENATE(RC[1],RC[2],RC[3])"><Data ss:Type="String">StartEnd</Data></Cell>
+    <Cell><Data ss:Type="String">Start</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">End</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">MiddleEnd</Data></Cell>
+    <Cell ss:Formula="=CONCATENATE(RC[1],RC[2],RC[3])"><Data ss:Type="String">MiddleEnd</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">Middle</Data></Cell>
+    <Cell><Data ss:Type="String">End</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">StartMiddle</Data></Cell>
+    <Cell ss:Formula="=CONCATENATE(RC[1],RC[2],RC[3])"><Data ss:Type="String">StartMiddle</Data></Cell>
+    <Cell><Data ss:Type="String">Start</Data></Cell>
+    <Cell><Data ss:Type="String">Middle</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="10" ss:StyleID="s24"/>
    </Row>
    <Row>
     <Cell><Data ss:Type="String">text</Data></Cell>
@@ -109,7 +194,7 @@
     <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:StyleID="s31"><Data ss:Type="String">texttext</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="String">texttext</Data></Cell>
     <Cell ss:Formula="=CLEAN(RC[1])"><Data ss:Type="String">texttext</Data></Cell>
     <Cell><Data ss:Type="String">texttext</Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
@@ -125,42 +210,1406 @@
     <Cell ss:Formula="=CLEAN(RC[1])"><Data ss:Type="String">Atext </Data></Cell>
     <Cell><Data ss:Type="String">Atext </Data></Cell>
     <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
-   </Row>
-   <Row ss:Index="10">
-    <Cell ss:StyleID="s31"/>
+    <Cell><Data ss:Type="String">...</Data></Cell>
    </Row>
    <Row ss:Index="22">
-    <Cell ss:Index="3" ss:StyleID="s33"/>
-   </Row>
-   <Row ss:Index="24">
-    <Cell ss:Index="3" ss:StyleID="s33"/>
-   </Row>
-   <Row ss:Index="204">
-    <Cell ss:StyleID="s22"/>
-   </Row>
-   <Row>
-    <Cell ss:StyleID="s22"/>
-   </Row>
-   <Row ss:Index="230">
-    <Cell ss:StyleID="s22"/>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=LEN(RC[1])"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="String">Hello</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">LEN</Data></Cell>
+    <Cell><Data ss:Type="String">LEN</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:StyleID="s22"/>
-   </Row>
-   <Row ss:Index="261">
-    <Cell ss:Index="4" ss:StyleID="s28"/>
-   </Row>
-   <Row ss:Index="263">
-    <Cell ss:Index="4" ss:StyleID="s29"/>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=LEN(RC[1])"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="String">world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="3" ss:StyleID="s30"/>
-   </Row>
-   <Row ss:Index="273">
-    <Cell ss:StyleID="s22"/>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=LEN(RC[1])"><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="String" x:Ticked="1"></Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:StyleID="s22"/>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=LEN(RC[1])"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="Number">12.34</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=LEN(RC[1]&amp;RC[2])"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">ab</Data></Cell>
+    <Cell><Data ss:Type="String">cd</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="10" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">abc</Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="String">abc</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">MID</Data></Cell>
+    <Cell><Data ss:Type="String">MID</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">a</Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="String">a</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">abcde</Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="String">abcde</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">b</Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="String">b</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">bcde</Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="String">bcde</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">bcdef</Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="String">bcdef</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">bcdef</Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="String">bcdef</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">f</Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="String">f</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">f</Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="String">f</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String" x:Ticked="1"></Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=MID(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="10" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">a</Data></Cell>
+    <Cell ss:Formula="=LEFT(RC[1])"><Data ss:Type="String">a</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">LEFT</Data></Cell>
+    <Cell><Data ss:Type="String">LEFT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=LEFT(RC[1],RC[2])"><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">a</Data></Cell>
+    <Cell ss:Formula="=LEFT(RC[1],RC[2])"><Data ss:Type="String">a</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">ab</Data></Cell>
+    <Cell ss:Formula="=LEFT(RC[1],RC[2])"><Data ss:Type="String">ab</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">abcde</Data></Cell>
+    <Cell ss:Formula="=LEFT(RC[1],RC[2])"><Data ss:Type="String">abcde</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell ss:Formula="=LEFT(RC[1],RC[2])"><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell ss:Formula="=LEFT(RC[1],RC[2])"><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=LEFT(RC[1],RC[2])"><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=LEFT(RC[1],RC[2])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="10" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">f</Data></Cell>
+    <Cell ss:Formula="=RIGHT(RC[1])"><Data ss:Type="String">f</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">RIGHT</Data></Cell>
+    <Cell><Data ss:Type="String">RIGHT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=RIGHT(RC[1],RC[2])"><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">f</Data></Cell>
+    <Cell ss:Formula="=RIGHT(RC[1],RC[2])"><Data ss:Type="String">f</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">ef</Data></Cell>
+    <Cell ss:Formula="=RIGHT(RC[1],RC[2])"><Data ss:Type="String">ef</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">bcdef</Data></Cell>
+    <Cell ss:Formula="=RIGHT(RC[1],RC[2])"><Data ss:Type="String">bcdef</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell ss:Formula="=RIGHT(RC[1],RC[2])"><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell ss:Formula="=RIGHT(RC[1],RC[2])"><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=RIGHT(RC[1],RC[2])"><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=RIGHT(RC[1],RC[2])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">abcdef</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="10" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3])"><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">w</Data></Cell>
+    <Cell><Data ss:Type="String">W</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">SUBSTITUTE</Data></Cell>
+    <Cell><Data ss:Type="String">SUBSTITUTE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello orld</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3])"><Data ss:Type="String">Hello orld</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">w</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3])"><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">Z</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hella warld</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3])"><Data ss:Type="String">Hella warld</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">o</Data></Cell>
+    <Cell><Data ss:Type="String">a</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Heppo world</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3])"><Data ss:Type="String">Heppo world</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">ll</Data></Cell>
+    <Cell><Data ss:Type="String">pp</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello worlD!</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3])"><Data ss:Type="String">Hello worlD!</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">d</Data></Cell>
+    <Cell><Data ss:Type="String">D!</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hell wrld</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3])"><Data ss:Type="String">Hell wrld</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">o</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Schmello world</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3])"><Data ss:Type="String">Schmello world</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">H</Data></Cell>
+    <Cell><Data ss:Type="String">Schm</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3])"><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Heo word</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3])"><Data ss:Type="String">Heo word</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3])"><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">q</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3])"><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">q</Data></Cell>
+    <Cell><Data ss:Type="String">z</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Yes!</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3])"><Data ss:Type="String">Yes!</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">Yes!</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">bAäÄàÀáÁ</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3])"><Data ss:Type="String">bAäÄàÀáÁ</Data></Cell>
+    <Cell><Data ss:Type="String">aAäÄàÀáÁ</Data></Cell>
+    <Cell><Data ss:Type="String">a</Data></Cell>
+    <Cell><Data ss:Type="String">b</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Yes!</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3])"><Data ss:Type="String">Yes!</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">Yes!</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3])"><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String">_</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">He_lo world</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="String">He_lo world</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String">_</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hel_o world</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="String">Hel_o world</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String">_</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello wor_d</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="String">Hello wor_d</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String">_</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Formula="=SUBSTITUTE(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String">_</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="10" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Ah! Hello world</Data></Cell>
+    <Cell ss:Formula="=REPLACE(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="String">Ah! Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="String">Ah! </Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">REPLACE</Data></Cell>
+    <Cell><Data ss:Type="String">REPLACE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Schmello world</Data></Cell>
+    <Cell ss:Formula="=REPLACE(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="String">Schmello world</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">Schm</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello people</Data></Cell>
+    <Cell ss:Formula="=REPLACE(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="String">Hello people</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="String">people</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello people</Data></Cell>
+    <Cell ss:Formula="=REPLACE(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="String">Hello people</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="String">people</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello dear world</Data></Cell>
+    <Cell ss:Formula="=REPLACE(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="String">Hello dear world</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="String">dear </Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello orld</Data></Cell>
+    <Cell ss:Formula="=REPLACE(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="String">Hello orld</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello Vorld</Data></Cell>
+    <Cell ss:Formula="=REPLACE(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="String">Hello Vorld</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">V</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello worldxx</Data></Cell>
+    <Cell ss:Formula="=REPLACE(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="String">Hello worldxx</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">50</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">xx</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello worldxx</Data></Cell>
+    <Cell ss:Formula="=REPLACE(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="String">Hello worldxx</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">50</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="String">xx</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">new</Data></Cell>
+    <Cell ss:Formula="=REPLACE(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="String">new</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">new</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=REPLACE(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">bla</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=REPLACE(RC[1],RC[2],RC[3],RC[4])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell><Data ss:Type="String">bla</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="10" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Formula="=EXACT(RC[1],RC[2])"><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">EXACT</Data></Cell>
+    <Cell><Data ss:Type="String">EXACT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=EXACT(RC[1],RC[2])"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell><Data ss:Type="String">Hello</Data></Cell>
+    <Cell><Data ss:Type="String">hello</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Formula="=EXACT(RC[1],RC[2])"><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell><Data ss:Type="String">Hello</Data></Cell>
+    <Cell><Data ss:Type="String">Hello</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=EXACT(RC[1],RC[2])"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell><Data ss:Type="String">Hello</Data></Cell>
+    <Cell><Data ss:Type="String">HellO</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=EXACT(RC[1],RC[2])"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">a</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=EXACT(RC[1],RC[2])"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell><Data ss:Type="String">a</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=EXACT(RC[1],RC[2])"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String"> </Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=EXACT(RC[1],RC[2])"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell><Data ss:Type="String"> </Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=EXACT(RC[1],RC[2])"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell><Data ss:Type="String">a</Data></Cell>
+    <Cell><Data ss:Type="String">ä</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell ss:Formula="=EXACT(RC[1],RC[2])"><Data ss:Type="Boolean">0</Data></Cell>
+    <Cell><Data ss:Type="String">a</Data></Cell>
+    <Cell><Data ss:Type="String">A</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Formula="=EXACT(RC[1],RC[2])"><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell><Data ss:Type="String">123</Data></Cell>
+    <Cell><Data ss:Type="Number">123</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:Formula="=EXACT(RC[1],RC[2])"><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell><Data ss:Type="Number">123</Data></Cell>
+    <Cell><Data ss:Type="String" x:Ticked="1">123</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="10" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2])"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">e</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">FIND</Data></Cell>
+    <Cell><Data ss:Type="String">FIND</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">H</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">X</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2])"><Data ss:Type="Number">11</Data></Cell>
+    <Cell><Data ss:Type="String">d</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">9</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2])"><Data ss:Type="Number">9</Data></Cell>
+    <Cell><Data ss:Type="String">r</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2])"><Data ss:Type="Number">8</Data></Cell>
+    <Cell><Data ss:Type="String">or</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2])"><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="String">ld</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">x</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2])"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="String">a</Data></Cell>
+    <Cell><Data ss:Type="String">àÀáÁaAäÄ</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2])"><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="String">A</Data></Cell>
+    <Cell><Data ss:Type="String">àÀáÁaAäÄ</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2])"><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">ä</Data></Cell>
+    <Cell><Data ss:Type="String">àÀáÁaAäÄ</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2])"><Data ss:Type="Number">8</Data></Cell>
+    <Cell><Data ss:Type="String">Ä</Data></Cell>
+    <Cell><Data ss:Type="String">àÀáÁaAäÄ</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2],RC[3])"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2],RC[3])"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2],RC[3])"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2],RC[3])"><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2],RC[3])"><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2],RC[3])"><Data ss:Type="Number">11</Data></Cell>
+    <Cell><Data ss:Type="String">d</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">d</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">12</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2],RC[3])"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">llo</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2],RC[3])"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">llo</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=FIND(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">llo</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="10" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">e</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">SEARCH</Data></Cell>
+    <Cell><Data ss:Type="String">SEARCH</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">H</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">X</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">11</Data></Cell>
+    <Cell><Data ss:Type="String">d</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">9</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">9</Data></Cell>
+    <Cell><Data ss:Type="String">r</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">8</Data></Cell>
+    <Cell><Data ss:Type="String">or</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="String">ld</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">e*o</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="String">o*l</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">8</Data></Cell>
+    <Cell><Data ss:Type="String">o?l</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">o??l</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="String">~**~?*~~.</Data></Cell>
+    <Cell><Data ss:Type="String">Use * or ?, escape with ~.</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">~**~**~~.</Data></Cell>
+    <Cell><Data ss:Type="String">Use * or ?, escape with ~.</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">~o~r</Data></Cell>
+    <Cell><Data ss:Type="String">Use * or ?, escape with ~.</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">8</Data></Cell>
+    <Cell><Data ss:Type="String">g ~</Data></Cell>
+    <Cell><Data ss:Type="String">Trailing ~</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">x</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="String">a</Data></Cell>
+    <Cell><Data ss:Type="String">àÀáÁaAäÄ</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="String">A</Data></Cell>
+    <Cell><Data ss:Type="String">àÀáÁaAäÄ</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">ä</Data></Cell>
+    <Cell><Data ss:Type="String">àÀáÁaAäÄ</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">Ä</Data></Cell>
+    <Cell><Data ss:Type="String">àÀáÁaAäÄ</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="String">в</Data></Cell>
+    <Cell><Data ss:Type="String">аАбБвВгГ</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2])"><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="String">В</Data></Cell>
+    <Cell><Data ss:Type="String">аАбБвВгГ</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2],RC[3])"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2],RC[3])"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2],RC[3])"><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2],RC[3])"><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2],RC[3])"><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">l</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2],RC[3])"><Data ss:Type="Number">11</Data></Cell>
+    <Cell><Data ss:Type="String">d</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">d</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">12</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2],RC[3])"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">llo</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2],RC[3])"><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">llo</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">llo</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2],RC[3])"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">e*o</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2],RC[3])"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">e*o</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2],RC[3])"><Data ss:Type="Error">#VALUE!</Data></Cell>
+    <Cell><Data ss:Type="String">e*o</Data></Cell>
+    <Cell><Data ss:Type="String">Hello world</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="13"><Data ss:Type="String">#VALUE!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+    <Cell ss:Formula="=SEARCH(RC[1],RC[2],RC[3])"><Data ss:Type="Number">8</Data></Cell>
+    <Cell><Data ss:Type="String">e*o</Data></Cell>
+    <Cell><Data ss:Type="String">Hello Hello</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="10" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">hello</Data></Cell>
+    <Cell ss:Formula="=LOWER(RC[1])"><Data ss:Type="String">hello</Data></Cell>
+    <Cell><Data ss:Type="String">HELLO</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">LOWER</Data></Cell>
+    <Cell><Data ss:Type="String">LOWER</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">hello</Data></Cell>
+    <Cell ss:Formula="=LOWER(RC[1])"><Data ss:Type="String">hello</Data></Cell>
+    <Cell><Data ss:Type="String">Hello</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">hello</Data></Cell>
+    <Cell ss:Formula="=LOWER(RC[1])"><Data ss:Type="String">hello</Data></Cell>
+    <Cell><Data ss:Type="String">hellO</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">ààááaaää</Data></Cell>
+    <Cell ss:Formula="=LOWER(RC[1])"><Data ss:Type="String">ààááaaää</Data></Cell>
+    <Cell><Data ss:Type="String">àÀáÁaAäÄ</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=LOWER(RC[1])"><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="10" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">HELLO</Data></Cell>
+    <Cell ss:Formula="=UPPER(RC[1])"><Data ss:Type="String">HELLO</Data></Cell>
+    <Cell><Data ss:Type="String">HELLO</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">UPPER</Data></Cell>
+    <Cell><Data ss:Type="String">UPPER</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">HELLO</Data></Cell>
+    <Cell ss:Formula="=UPPER(RC[1])"><Data ss:Type="String">HELLO</Data></Cell>
+    <Cell><Data ss:Type="String">Hello</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">HELLO</Data></Cell>
+    <Cell ss:Formula="=UPPER(RC[1])"><Data ss:Type="String">HELLO</Data></Cell>
+    <Cell><Data ss:Type="String">hellO</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">ÀÀÁÁAAÄÄ</Data></Cell>
+    <Cell ss:Formula="=UPPER(RC[1])"><Data ss:Type="String">ÀÀÁÁAAÄÄ</Data></Cell>
+    <Cell><Data ss:Type="String">àÀáÁaAäÄ</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=UPPER(RC[1])"><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="10" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">This Is A Title</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">This Is A Title</Data></Cell>
+    <Cell><Data ss:Type="String">this is a TITLE</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">PROPER</Data></Cell>
+    <Cell><Data ss:Type="String">PROPER</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">2-Cent'S Worth</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">2-Cent'S Worth</Data></Cell>
+    <Cell><Data ss:Type="String">2-cent's worth</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">76Budget</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">76Budget</Data></Cell>
+    <Cell><Data ss:Type="String">76BudGet</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Ààá Áaa Ää</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Ààá Áaa Ää</Data></Cell>
+    <Cell><Data ss:Type="String">àÀá ÁaA äÄ</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Ааб Бвв Ггд Д</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Ааб Бвв Ггд Д</Data></Cell>
+    <Cell><Data ss:Type="String">АаБ бВв ГгД д</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="10" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">*abc*abc*abc</Data></Cell>
+    <Cell ss:Formula="=REPT(RC[1],RC[2])"><Data ss:Type="String">*abc*abc*abc</Data></Cell>
+    <Cell><Data ss:Type="String">*abc</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">REPT</Data></Cell>
+    <Cell><Data ss:Type="String">REPT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">àÀáÁaAäÄ</Data></Cell>
+    <Cell ss:Formula="=REPT(RC[1],RC[2])"><Data ss:Type="String">àÀáÁaAäÄ</Data></Cell>
+    <Cell><Data ss:Type="String">àÀáÁaAäÄ</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=REPT(RC[1],RC[2])"><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">abc</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="10" ss:StyleID="s24"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">aaa bb c</Data></Cell>
+    <Cell ss:Formula="=TRIM(RC[1])"><Data ss:Type="String">aaa bb c</Data></Cell>
+    <Cell><Data ss:Type="String">  aaa   bb  c    </Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">TRIM</Data></Cell>
+    <Cell><Data ss:Type="String">TRIM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">aaa bb c</Data></Cell>
+    <Cell ss:Formula="=TRIM(RC[1])"><Data ss:Type="String">aaa bb c</Data></Cell>
+    <Cell><Data ss:Type="String">aaa bb c</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s24"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">...</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="10" ss:StyleID="s24"/>
+   </Row>
+   <Row ss:Index="212">
+    <Cell ss:StyleID="s20"/>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s20"/>
+   </Row>
+   <Row ss:Index="238">
+    <Cell ss:StyleID="s20"/>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s20"/>
+   </Row>
+   <Row ss:Index="281">
+    <Cell ss:StyleID="s20"/>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s20"/>
    </Row>
   </Table>
   <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
@@ -171,26 +1620,13 @@
     <VerticalResolution>600</VerticalResolution>
    </Print>
    <Selected/>
-   <Panes>
-    <Pane>
-     <Number>3</Number>
-     <ActiveRow>8</ActiveRow>
-    </Pane>
-   </Panes>
    <ProtectObjects>False</ProtectObjects>
    <ProtectScenarios>False</ProtectScenarios>
   </WorksheetOptions>
   <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
-   <Range>R294C3:R349C9,R253C3:R291C9,R227C3:R251C9,R11C6:R16C6,R17C4:R225C9,R25C3:R225C3,R9C7:R16C7,R2C3:R23C3,R9C6,R2C6:R8C7,R2C8:R16C9,R2C4:R16C5</Range>
+   <Range>R2C3:R65536C9</Range>
    <Condition>
     <Value1>RC10&gt;COLUMN(RC)-3</Value1>
-    <Format Style='background:#CCFFCC'/>
-   </Condition>
-  </ConditionalFormatting>
-  <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
-   <Range>R10C6</Range>
-   <Condition>
-    <Value1>#REF!&gt;COLUMN(RC)-3</Value1>
     <Format Style='background:#CCFFCC'/>
    </Condition>
   </ConditionalFormatting>
