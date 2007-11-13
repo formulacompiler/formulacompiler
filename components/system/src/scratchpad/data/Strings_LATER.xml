@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>Peter Arrenbrecht</Author>
+  <LastAuthor>vkorenev</LastAuthor>
+  <Created>2005-11-22T20:05:38Z</Created>
+  <LastSaved>2006-08-31T15:44:39Z</LastSaved>
+  <Company>Opus Software AG</Company>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>13905</WindowHeight>
+  <WindowWidth>14460</WindowWidth>
+  <WindowTopX>360</WindowTopX>
+  <WindowTopY>90</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s21">
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Italic="1"/>
+  </Style>
+  <Style ss:ID="s22">
+   <Alignment ss:Vertical="Center"/>
+   <Font ss:FontName="Verdana" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s23">
+   <Alignment ss:Vertical="Center"/>
+   <Font ss:FontName="Verdana" ss:Italic="1" ss:Underline="Single"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="12" ss:ExpandedRowCount="23" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:Width="71.25"/>
+   <Column ss:Width="85.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="36.75" ss:Span="6"/>
+   <Column ss:Index="10" ss:StyleID="s21" ss:AutoFitWidth="0" ss:Width="61.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="145.5"/>
+   <Row ss:AutoFitHeight="0" ss:Height="25.5" ss:StyleID="s22">
+    <Cell><Data ss:Type="String">Expected</Data></Cell>
+    <Cell><Data ss:Type="String">Actual</Data></Cell>
+    <Cell><Data ss:Type="String">Inputs</Data></Cell>
+    <Cell ss:Index="10" ss:StyleID="s23"><Data ss:Type="String"># of Inputs</Data></Cell>
+    <Cell><Data ss:Type="String">Name</Data></Cell>
+    <Cell><Data ss:Type="String">Highlight</Data></Cell>
+   </Row>
+   <Row ss:Index="3">
+    <Cell><Data ss:Type="String">Hello</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Hello</Data></Cell>
+    <Cell><Data ss:Type="String">HELLO</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">PROPER</Data></Cell>
+    <Cell><Data ss:Type="String">PROPER</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Hello</Data></Cell>
+    <Cell><Data ss:Type="String">Hello</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell><Data ss:Type="String">hellO world</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Hello.World</Data></Cell>
+    <Cell><Data ss:Type="String">hello.world</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Hello!World</Data></Cell>
+    <Cell><Data ss:Type="String">hello!world</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Hello_World</Data></Cell>
+    <Cell><Data ss:Type="String">hello_world</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Hello1World</Data></Cell>
+    <Cell><Data ss:Type="String">hello1world</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Helloàworld</Data></Cell>
+    <Cell><Data ss:Type="String">helloàworld</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Helloçworld</Data></Cell>
+    <Cell><Data ss:Type="String">helloçworld</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Helloÿworld</Data></Cell>
+    <Cell><Data ss:Type="String">helloÿworld</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Hello¨world</Data></Cell>
+    <Cell><Data ss:Type="String">hello¨world</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Hello`World</Data></Cell>
+    <Cell><Data ss:Type="String">hello`world</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Hello´world</Data></Cell>
+    <Cell><Data ss:Type="String">hello´world</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Hello'World</Data></Cell>
+    <Cell><Data ss:Type="String">hello'world</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Hello&quot;World</Data></Cell>
+    <Cell><Data ss:Type="String">hello&quot;world</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Hello^World</Data></Cell>
+    <Cell><Data ss:Type="String">hello^world</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Helloôworld</Data></Cell>
+    <Cell><Data ss:Type="String">helloôworld</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Hello World</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Hello~World</Data></Cell>
+    <Cell><Data ss:Type="String">hello~world</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Ààááaaää</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">Ààááaaää</Data></Cell>
+    <Cell><Data ss:Type="String">àÀáÁaAäÄ</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">12.3</Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String">12.3</Data></Cell>
+    <Cell><Data ss:Type="Number">12.3</Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell ss:Formula="=PROPER(RC[1])"><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String" x:Ticked="1"></Data></Cell>
+    <Cell ss:Index="10"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>28</ActiveRow>
+     <ActiveCol>5</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+  <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
+   <Range>R2C3:R43C9</Range>
+   <Condition>
+    <Value1>RC10&gt;COLUMN(RC)-3</Value1>
+    <Format Style='background:#CCFFCC'/>
+   </Condition>
+  </ConditionalFormatting>
+ </Worksheet>
+</Workbook>

@@ -1,0 +1,352 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>peo</Author>
+  <LastAuthor>vkorenev</LastAuthor>
+  <Created>2006-05-10T08:01:43Z</Created>
+  <LastSaved>2007-06-25T13:23:30Z</LastSaved>
+  <Company>arrenbrecht.ch</Company>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>15480</WindowHeight>
+  <WindowWidth>19320</WindowWidth>
+  <WindowTopX>480</WindowTopX>
+  <WindowTopY>60</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s61" ss:Name="Comma">
+   <NumberFormat ss:Format="_ * #,##0.00_ ;_ * \-#,##0.00_ ;_ * &quot;-&quot;??_ ;_ @_ "/>
+  </Style>
+  <Style ss:ID="s84">
+   <Font ss:FontName="Verdana" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s85">
+   <NumberFormat ss:Format="Short Date"/>
+  </Style>
+  <Style ss:ID="s86">
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Bold="1" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s87">
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s88" ss:Parent="s61">
+   <Font ss:FontName="Verdana"/>
+   <NumberFormat/>
+  </Style>
+  <Style ss:ID="s89">
+   <NumberFormat ss:Format="[$-F400]h:mm:ss\ AM/PM"/>
+  </Style>
+  <Style ss:ID="s90">
+   <NumberFormat/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="6" ss:ExpandedRowCount="74" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54">
+   <Column ss:AutoFitWidth="0" ss:Width="93"/>
+   <Column ss:Width="60.75"/>
+   <Column ss:Index="4" ss:AutoFitWidth="0" ss:Width="80.25"/>
+   <Row ss:StyleID="s87">
+    <Cell ss:StyleID="s86"><Data ss:Type="String">Inputs</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s84"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">byte</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">short</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">int</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">long</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">double</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">float</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">boolean</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+   </Row>
+   <Row ss:Index="11">
+    <Cell><Data ss:Type="String">boxedbyte</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">boxedshort</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">boxedint</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">boxedlong</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">boxeddouble</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">boxedfloat</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">boxedboolean</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+   </Row>
+   <Row ss:Index="19">
+    <Cell><Data ss:Type="String">bigdecimal</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">biginteger</Data></Cell>
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">date</Data></Cell>
+    <Cell ss:StyleID="s85"><Data ss:Type="DateTime">1971-04-19T00:00:00.000</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">dateMs</Data></Cell>
+    <Cell ss:StyleID="s85"><Data ss:Type="DateTime">1971-04-19T00:00:00.000</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">boxedDateMs</Data></Cell>
+    <Cell ss:StyleID="s85"><Data ss:Type="DateTime">1971-04-19T00:00:00.000</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">time</Data></Cell>
+    <Cell ss:StyleID="s89"><Data ss:Type="DateTime">1899-12-31T03:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s90"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">boxedTime</Data></Cell>
+    <Cell ss:StyleID="s89"><Data ss:Type="DateTime">1899-12-31T03:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s90"/>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s85"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">nullbyte</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">nullshort</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">nullint</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">nulllong</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">nulldouble</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">nullfloat</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">nullboolean</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">nullbigdecimal</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">nullbiginteger</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">nulldate</Data></Cell>
+    <Cell ss:StyleID="s85"><Data ss:Type="DateTime">1899-12-31T00:00:00.000</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">nulltime</Data></Cell>
+    <Cell ss:StyleID="s89"><Data ss:Type="DateTime">1899-12-31T00:00:00.000</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s85"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">long7</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="Number">123</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">boxedlong7</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="Number">456</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">nulllong7</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2" ss:StyleID="s88"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">string</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="String">blabla</Data></Cell>
+   </Row>
+   <Row ss:Index="45" ss:StyleID="s87">
+    <Cell ss:StyleID="s86"><Data ss:Type="String">Outputs</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s84"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calcbyte</Data></Cell>
+    <Cell ss:Formula="=R[-44]C+R[-36]C+R[-20]C"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calcshort</Data></Cell>
+    <Cell ss:Formula="=R[-44]C+R[-36]C+R[-20]C"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:Index="6" ss:StyleID="s89"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calcint</Data></Cell>
+    <Cell ss:Formula="=R[-44]C+R[-36]C+R[-20]C"><Data ss:Type="Number">6</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calclong</Data></Cell>
+    <Cell ss:Formula="=R[-44]C+R[-36]C+R[-20]C"><Data ss:Type="Number">8</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calcdouble</Data></Cell>
+    <Cell ss:Formula="=R[-44]C+R[-36]C+R[-20]C"><Data ss:Type="Number">10</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calcfloat</Data></Cell>
+    <Cell ss:Formula="=R[-44]C+R[-36]C+R[-20]C"><Data ss:Type="Number">12</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calcboolean</Data></Cell>
+    <Cell ss:Formula="=IF(NOT(OR(R[-44]C,R[-36]C,R[-20]C)),1,0)"><Data
+      ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:Index="55">
+    <Cell><Data ss:Type="String">calcboxedbyte</Data></Cell>
+    <Cell ss:Formula="=R[-52]C+R[-44]C+R[-28]C"><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calcboxedshort</Data></Cell>
+    <Cell ss:Formula="=R[-52]C+R[-44]C+R[-28]C"><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calcboxedint</Data></Cell>
+    <Cell ss:Formula="=R[-52]C+R[-44]C+R[-28]C"><Data ss:Type="Number">6</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calcboxedlong</Data></Cell>
+    <Cell ss:Formula="=R[-52]C+R[-44]C+R[-28]C"><Data ss:Type="Number">8</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calcboxeddouble</Data></Cell>
+    <Cell ss:Formula="=R[-52]C+R[-44]C+R[-28]C"><Data ss:Type="Number">10</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calcboxedfloat</Data></Cell>
+    <Cell ss:Formula="=R[-52]C+R[-44]C+R[-28]C"><Data ss:Type="Number">12</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calcboxedboolean</Data></Cell>
+    <Cell ss:Formula="=IF(NOT(OR(R[-52]C,R[-44]C,R[-28]C)),1,0)"><Data
+      ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:Index="63">
+    <Cell><Data ss:Type="String">calcbigdecimal</Data></Cell>
+    <Cell ss:Formula="=R[-44]C+1+R[-29]C"><Data ss:Type="Number">8</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calcbiginteger</Data></Cell>
+    <Cell ss:Formula="=R[-44]C+1+R[-29]C"><Data ss:Type="Number">9</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calcdate</Data></Cell>
+    <Cell ss:StyleID="s85" ss:Formula="=R[-44]C+1+R[-29]C"><Data ss:Type="DateTime">1971-04-20T00:00:00.000</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calcdatems</Data></Cell>
+    <Cell ss:StyleID="s85" ss:Formula="=R[-44]C+1+R[-30]C"><Data ss:Type="DateTime">1971-04-20T00:00:00.000</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calcboxeddatems</Data></Cell>
+    <Cell ss:StyleID="s85" ss:Formula="=R[-44]C+1+R[-31]C"><Data ss:Type="DateTime">1971-04-20T00:00:00.000</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calctime</Data></Cell>
+    <Cell ss:StyleID="s89" ss:Formula="=R[-44]C*2+R[-31]C"><Data ss:Type="DateTime">1899-12-31T06:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s90"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calcboxedtime</Data></Cell>
+    <Cell ss:StyleID="s89" ss:Formula="=R[-44]C*2+R[-32]C"><Data ss:Type="DateTime">1899-12-31T06:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s90"/>
+   </Row>
+   <Row ss:Index="71">
+    <Cell><Data ss:Type="String">calclong5</Data></Cell>
+    <Cell ss:Formula="=SUM(R[-32]C:R[-30]C)"><Data ss:Type="Number">579</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">calcboxedlong5</Data></Cell>
+    <Cell ss:Formula="=SUM(R[-33]C:R[-31]C)"><Data ss:Type="Number">579</Data></Cell>
+   </Row>
+   <Row ss:Index="74">
+    <Cell><Data ss:Type="String">calcstring</Data></Cell>
+    <Cell ss:Formula="=R[-31]C"><Data ss:Type="String">blabla</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Selected/>
+   <TopRowVisible>33</TopRowVisible>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>69</ActiveRow>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

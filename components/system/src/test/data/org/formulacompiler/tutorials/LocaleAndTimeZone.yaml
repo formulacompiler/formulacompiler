@@ -1,0 +1,14 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: Date
+    - const: 25732.0
+  - cells:
+    - const: Formatted
+    - expr: =TEXT( R[-1]C, "@" )

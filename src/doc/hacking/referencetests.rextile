@@ -1,0 +1,71 @@
+
+h1. Automated Formula Tests
+
+The spreadsheet files in
+
+	compononents/system/src/test-reference/data/org/formulacompiler/tests/reference
+
+contain formula tests. AFC's build system runs them automatically for all the supported "numeric types":-types and with and without "caching":../tutorial/caching.htm enabled. It also makes them citable by writing out documentation fragments describing them.
+
+<%= toc %>
+
+
+h2. Example
+
+Here are the tests for @ABS()@:
+
+	[xc:org/formulacompiler/tests/reference/NumericFunctions.xls:HeaderRange,ABSRange]
+
+And here is "the documentation produced from it":../reference/numfuncs.htm. Note also how the list of supported functions in the "reference index":-ref automatically includes @ABS@.
+
+
+h2. Columns
+
+This spreadsheet has one row per test case. Blank rows are ignored. The columns have the following meanings. As examples, just look at what I inserted for the @ABS()@ tests in the sheet above.
+
+dt. Expected (A) : Holds the expected result of the computation. You should always fill this cell by copying the value from column B, and then pasting it to column A using _Paste Special -> Values Only_.
+
+dt. Actual (B) : Holds the formula to be computed by AFC. It may reference constant values and any other cell. Normally, it references adjacent cells in columns C through I.
+
+dt. Inputs (C-I) : Typically holds input values to the formula.
+
+dt. # of Inputs (J) : The number of cells in C-I which AFC should bind to input methods. This is indicated by a conditionally formatted green background on those cells in Excel. When a cell is bound, it still returns the value that is given for it in the sheet, so the expected result remains valid.
+
+dt. Name (K) : The name of feature being tested and documented. Used as a subtitle in the generated documentation. Following rows with no name in this column are considered to be part of the last name's tests. (See below for the meaning of @...@ here.)
+
+dt. Highlight (L) : A substring that should be highlighted in the formula as rendered in the generated documentation. Subsequent rows with nothing in this column reuse the last value. Putting @xx@ into the column clears the highlighting. You can add more than one substring, separated by spaces. The first such substring is automatically added to the list of supported functions in the "reference index":-ref.
+
+dt. Excel says (M) : When AFC returns something different from Excel, you can document it here. This will be cited in the user documentation. Typical usage is when AFC returns 0, but Excel returns an error like @#NUM!@. You should then set this column to @'#NUM!@ (note the tick at the start).
+
+dt. Skip for (N) : If this column contains any of @double@, @big@, @long@, then the test is _not_ run for the corresponding numeric type. You can list multiple types here. Use this when, for example, the precision of @long@ is not sufficient for a particular test case.
+
+
+h2. Alternate Inputs
+
+When you specify bound input cells using column J, the automated test runner automatically runs the formula with all possible combinations of bound and unbound input values. This ensures that the runtime and compile time (constant folder) implementations work for all combinations.
+
+These tests do not, however, check whether a bound input really reacts dynamically to its runtime input value. The dynamic input value is, after all, still the same as the constant values in the spreadsheet. This is so because the result has to remain the same for checking.
+
+To check alternate input sets, you use the value @...@ in the _Name_ column K. This runs the test in the above row again, with the full set of inputs bound. The dynamic values are now taken from the alternate row instead of the original test row. So is the expected result. The formula in the alternate row, however, is ignored (because the original test row is run). While the formula is ignored by the test, you should still copy it down from the original test row to conveniently determine the expected result of the alternate row. The last test row for @ABS()@ in the sheet above shows this. Finally, you can have more than one alternate row. Just add more rows with @...@ in the _Name_ column.
+
+
+h2. Running Tests
+
+Every formula test sheet corresponds to a test class in
+
+	compononents/system/src/test-reference/java/org.formulacompiler.tests.reference
+ 
+For the sheet @NumericFunctions.xls@, we need to run the test class @NumericFunctionsTest@, etc.
+
+h2. <a name="debug">Debug Test</a>
+
+Running these tests can take quite a while. To speed up debugging, you can use special test cases derived from @org.formulacompiler.tests.reference.AbstractDebugTest@ in your IDE. Make sure you have added the following source path for this (not included in release builds):
+
+  compononents/system/src/test-reference/java-debug
+ 
+and also create your derived debug test cases there. Then they will be automatically ignored by Mercurial.
+ 
+Here is the base test class:
+
+	[jc:org.formulacompiler.tests.reference.AbstractDebugTest:---- DebugTest]
+

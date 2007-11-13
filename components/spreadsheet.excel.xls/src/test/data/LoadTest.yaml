@@ -1,0 +1,25 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: test
+  rows:
+  - cells:
+    - const: Demo computation for SEJ
+  - cells:
+  - cells:
+    - const: Inputs
+  - cells:
+    - const: A
+    - const: 10.0
+  - cells:
+    - const: B
+    - const: 100.0
+  - cells:
+  - cells:
+    - const: Outputs
+  - cells:
+    - const: Result
+    - expr: =(R[-4]C * R[-3]C)

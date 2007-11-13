@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>Peter Arrenbrecht</Author>
+  <LastAuthor>vkorenev</LastAuthor>
+  <Created>2007-06-14T06:42:33Z</Created>
+  <LastSaved>2007-08-23T08:20:24Z</LastSaved>
+  <Company>codewise.ch</Company>
+  <Version>11.8132</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>14520</WindowHeight>
+  <WindowWidth>19320</WindowWidth>
+  <WindowTopX>120</WindowTopX>
+  <WindowTopY>90</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+ </Styles>
+ <Names>
+  <NamedRange ss:Name="MixedExample" ss:RefersTo="=Sheet1!R2C1:R2C3"/>
+  <NamedRange ss:Name="MixedInput" ss:RefersTo="=Sheet1!R2C3"/>
+  <NamedRange ss:Name="MixedResult" ss:RefersTo="=Sheet1!R2C1"/>
+  <NamedRange ss:Name="ValueExample" ss:RefersTo="=Sheet1!R1C1:R1C2"/>
+  <NamedRange ss:Name="ValueInput" ss:RefersTo="=Sheet1!R1C2"/>
+  <NamedRange ss:Name="ValueResult" ss:RefersTo="=Sheet1!R1C1"/>
+ </Names>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="3" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="14.25">
+   <Column ss:AutoFitWidth="0" ss:Width="59.25"/>
+   <Row>
+    <Cell ss:Formula="=VALUE(RC[1])"><Data ss:Type="Number">1234.56</Data><NamedCell
+      ss:Name="ValueResult"/><NamedCell ss:Name="ValueExample"/></Cell>
+    <Cell><Data ss:Type="String" x:Ticked="1">1,234.56</Data><NamedCell
+      ss:Name="ValueExample"/><NamedCell ss:Name="ValueInput"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Formula="=VALUE(RC[1]&amp;RC[2])"><Data ss:Type="Number">0.6</Data><NamedCell
+      ss:Name="MixedResult"/><NamedCell ss:Name="MixedExample"/></Cell>
+    <Cell><Data ss:Type="String" x:Ticked="1">0.</Data><NamedCell
+      ss:Name="MixedExample"/></Cell>
+    <Cell><Data ss:Type="String" x:Ticked="1">6</Data><NamedCell
+      ss:Name="MixedExample"/><NamedCell ss:Name="MixedInput"/></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>7</ActiveRow>
+     <ActiveCol>2</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

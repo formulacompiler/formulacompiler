@@ -1,0 +1,50 @@
+
+h1. Cells And Values In AFC
+
+
+AFC supports the following types of values in cells:
+
+	* strings
+	* numbers (including monetary and percentage values)
+	* dates and times
+	* booleans
+
+Internally, AFC really only supports two basic data types: numbers and strings. This suffices because Excel internally treats dates, times, and booleans as numbers, too.
+
+For a particular engine compiled by AFC, the numbers are all of the same type. The default is the @double@ type, which is what Excel uses as well. See the tutorial for details on the "available numeric types":../tutorial/numeric_type.htm and how to choose one.
+
+<%= toc 2, 5 %>
+
+
+h2. Cell References
+
+AFC supports the following styles of cell and range references:
+
+<%= gen_doc "CellNames" %>
+
+
+
+h2. Empty Cells
+
+AFC currently has no proper support for empty cells. It simply treats them like the number zero (@0.0@). This is usually correct (even for multiplication with @*@, where Excel treats empty cells as zero too), but fails most noticeably in "aggregators":aggregators.htm like @COUNT@, @AVERAGE@, or @PRODUCT@ (where Excel skips empty cells):
+
+<%= gen_doc "EmptyCells" %>
+
+
+
+h2. Formula Errors
+
+AFC does not support Excel error indicators such as
+
+	* @#VALUE!@,
+	* @#REF!@, and
+	* @#N/A@.
+
+It typically returns zero (@0.0@) instead.
+
+
+
+h2. Numeric Precision
+
+AFC ignores the number of decimal places specified for displaying cell results in Excel. If you want rounded results, you have to use the @ROUND()@ function explicitly. This is consistent with Excel also not limiting the precision on intermediate results.
+

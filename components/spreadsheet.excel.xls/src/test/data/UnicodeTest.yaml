@@ -1,0 +1,34 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: Basic Latin Symbols
+    - const:  !"#$%&'()*+,-./:;<=>?@{|}~
+      name: BASIC LATIN SYMBOLS
+  - cells:
+    - const: Basic Latin Characters
+    - const: ABCDXYZabcdxyz
+      name: BASIC LATIN CHARACTERS
+  - cells:
+    - const: Latin-1 Symbols
+    - const:  ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿
+      name: LATIN-1 SYMBOLS
+  - cells:
+    - const: Latin-1 Characters
+    - const: ÀÁÂÃÄÅÆÇÝÞßàáâãäåæçýþÿ
+      name: LATIN-1 CHARACTERS
+  - cells:
+    - const: Cyrillic Characters
+    - const: ЁЄІЇАБВГДабвгдёєіїӨө
+      name: CYRILLIC CHARACTERS
+  - cells:
+    - const: Mixed Characters
+    - const: ÀÁÂÃÄÅàáâãäåАБВГДабвгд
+      name: MIXED CHARACTERS
+
+names:
