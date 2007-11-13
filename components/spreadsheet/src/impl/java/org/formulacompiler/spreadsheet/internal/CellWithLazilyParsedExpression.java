@@ -105,7 +105,8 @@ public final class CellWithLazilyParsedExpression extends CellInstance
 						exprValue = getExpression();
 					}
 					catch (SpreadsheetException e) {
-						exprValue = "** " + e.toString();
+						final String exDesc = e.toString();
+						exprValue = "** " + exDesc.replace( "\r\n", "\n" );
 					}
 				}
 				_to.vn( "expr" ).append( '=' ).v( exprValue ).lf(); // always shown, so don't use nv()
