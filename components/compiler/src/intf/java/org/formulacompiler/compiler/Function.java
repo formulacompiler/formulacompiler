@@ -23,7 +23,7 @@ package org.formulacompiler.compiler;
 
 /**
  * Lists all the functions supported by AFC.
- * 
+ *
  * @author peo
  */
 public enum Function {
@@ -35,15 +35,8 @@ public enum Function {
 	// Math
 
 	ABS, ACOS, ASIN, ATAN, ATAN2, ACOSH, ASINH, ATANH, COS, COSH, GEOMEAN, SIN, TAN, DEGREES, RADIANS, PI, CEILING, FLOOR, ROUND, ROUNDDOWN, ROUNDUP, TRUNC, EVEN, ODD, INT, EXP, POWER, LN, LOG, LOG10, MOD, SQRT, HARMEAN, PERMUT, SINH, TANH, SIGN,
-	RAND
-	{
-		@Override
-		public boolean isVolatile()
-		{
-			return true;
-		}
-	},
 
+	RAND( true ),
 
 	// Combinatorics
 
@@ -65,33 +58,15 @@ public enum Function {
 
 	// Dates
 
-	DATE, TIME, SECOND, MINUTE, HOUR, WEEKDAY, DAY, MONTH, YEAR, NOW
-	{
-		@Override
-		public boolean isVolatile()
-		{
-			return true;
-		}
-	},
-	TODAY
-	{
-		@Override
-		public boolean isVolatile()
-		{
-			return true;
-		}
-	},
+	DATE, TIME, SECOND, MINUTE, HOUR, WEEKDAY, DAY, MONTH, YEAR,
+
+	NOW( true ), TODAY( true ),
 
 	// Lookup
 
-	CHOOSE, MATCH, INDEX, LOOKUP, HLOOKUP, VLOOKUP, INTERNAL_MATCH_INT
-	{
-		@Override
-		public boolean returnsInt()
-		{
-			return true;
-		}
-	},
+	CHOOSE, MATCH, INDEX, LOOKUP, HLOOKUP, VLOOKUP,
+
+	INTERNAL_MATCH_INT( false, true ),
 
 	// String
 
@@ -99,26 +74,15 @@ public enum Function {
 
 	// Conversions
 
-	FIXED
-	{
-		@Override
-		public boolean isVolatile()
-		{
-			return true;
-		}
-	},
-	ROMAN, N, T, VALUE, TEXT
-	{
-		/**
-		 * {@code TEXT} is volatile because all to-text conversions are considered dependent on the
-		 * runtime locale/time-zone configuration.
-		 */
-		@Override
-		public boolean isVolatile()
-		{
-			return true;
-		}
-	},
+	FIXED( true ),
+
+	ROMAN, N, T, VALUE,
+
+	/**
+	 * {@code TEXT} is volatile because all to-text conversions are considered dependent on the
+	 * runtime locale/time-zone configuration.
+	 */
+	TEXT( true ),
 
 	// Types
 
@@ -130,13 +94,31 @@ public enum Function {
 	SUM, PRODUCT, MIN, MAX, COUNT, COUNTA, AVERAGE, AND, OR, SUMSQ,
 
 	// Database aggregators
-	DSUM, DPRODUCT, DCOUNT, DCOUNTA, DMIN, DMAX, DAVERAGE, DVARP, DVAR, DSTDEVP, DSTDEV,
-	SUMIF, COUNTIF;
+	DSUM, DPRODUCT, DCOUNT, DCOUNTA, DMIN, DMAX, DAVERAGE, DVARP, DVAR, DSTDEVP, DSTDEV, SUMIF, COUNTIF;
 
 
 	private static final Function[] AGGREGATORS = { SUM, PRODUCT, MIN, MAX, COUNT, COUNTA, AVERAGE, VAR, VARP, AND, OR,
-			KURT, SKEW, STDEV, STDEVP, AVEDEV, DEVSQ, SUMSQ, GEOMEAN, HARMEAN};
+			KURT, SKEW, STDEV, STDEVP, AVEDEV, DEVSQ, SUMSQ, GEOMEAN, HARMEAN };
 
+
+	private final boolean isVolatile;
+	private final boolean returnsInt;
+
+	private Function()
+	{
+		this( false, false );
+	}
+
+	private Function( boolean _isVolatile )
+	{
+		this( _isVolatile, false );
+	}
+
+	private Function( boolean _isVolatile, boolean _returnsInt )
+	{
+		this.isVolatile = _isVolatile;
+		this.returnsInt = _returnsInt;
+	}
 
 	public String getName()
 	{
@@ -145,12 +127,12 @@ public enum Function {
 
 	public boolean isVolatile()
 	{
-		return false;
+		return this.isVolatile;
 	}
 
 	public boolean returnsInt()
 	{
-		return false;
+		return this.returnsInt;
 	}
 
 	public static Function[] aggregators()
