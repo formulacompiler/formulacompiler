@@ -71,7 +71,11 @@ rules {
 	rewrite var( xs* ) = apply var to list xs
 	// citation: var
 
+    // input parameters are not checked 
+	rewrite vara( xs* ) = VAR( xs )
+
 	rewrite stdevp( xs* ) = SQRT( VARP( xs ))
+	rewrite stdevpa( xs* ) = STDEVP( xs )
 	rewrite stdev( xs* ) = SQRT( VAR( xs ))
 	
 
@@ -376,6 +380,34 @@ rules {
 
 	rewrite betainv( x, alpha, beta, a ) = BETAINV( x, alpha, beta, a, 1 )
 
+	rewrite correl ( xs#, ys# ) =
+		let countX = COUNT(xs)
+		let countY = COUNT(ys)
+		in
+			if countY <> countX then 0
+			else if countX < 2 then 0
+			else
+				apply
+					fold with
+						sumX = 0,
+						sumY = 0,
+						sumSqrX = 0,
+						sumSqrY = 0,
+						sumXY = 0
+					each xi, yi as
+						sumX = sumX + xi,
+						sumSqrX = sumSqrX + xi * xi,
+						sumY = sumY + yi,
+						sumSqrY = sumSqrY + yi * yi,
+						sumXY = sumXY + xi * yi
+					with count n into
+						if (sumSqrX - sumX * sumX / n) * (sumSqrY - sumY * sumY / n) <= 0 then 0
+						else
+							(sumXY - sumX * sumY / n) /
+							SQRT((sumSqrX - sumX * sumX / n) * (sumSqrY - sumY * sumY / n))
+					end
+				to vectors {xs, ys}
+
 	rewrite expondist( x, lambda, kum ) =
 		if lambda < 0 then 0
 		else (if kum = 0
@@ -386,6 +418,216 @@ rules {
 			(if x >= 0
 				then 1 - EXP(-lambda * x)
 			else 0))
+
+	rewrite intercept ( ys#, xs# ) =
+		let countX = COUNT(xs)
+		let countY = COUNT(ys)
+		in
+			if countY <> countX then 0
+			else if countX < 1 then 0
+			else
+				apply
+					fold with
+						sumX = 0,
+						sumY = 0,
+						sumSqrX = 0,
+						sumXY = 0
+					each xi, yi as
+						sumX = sumX + xi,
+						sumSqrX = sumSqrX + xi * xi,
+						sumY = sumY + yi,
+						sumXY = sumXY + xi * yi
+					with count n into
+						if n * sumSqrX = sumX * sumX then 0
+						else
+							(sumY - (n * sumXY - sumX * sumY) /
+							(n * sumSqrX - sumX * sumX) * sumX) / n
+					end
+				to vectors {xs, ys}
+
+	rewrite large( xs#, k ) = SMALL(xs, COUNT(xs) - k + 1)
+
+	rewrite median( xs* ) =
+		let countX = COUNT(xs)
+		let n = INT(countX / 2) in
+			if countX / 2 = n then (SMALL(xs, n) + SMALL(xs, n + 1)) / 2
+			else SMALL(xs, n + 1)
+
+	rewrite mode( xs* ) =
+		if COUNT(xs) < 2 then 0 else
+		apply
+			fold with
+				xMed = 0,
+                xCurr = 0,
+				countMed = 0,
+				countCurr = 0
+			each xi as
+				xMed = (if countCurr > countMed then xCurr else xMed),
+				countMed = (if countCurr > countMed then countCurr else countMed),
+				xCurr = xi,
+                countCurr =
+					(apply fold with
+						countX = 0
+					each yi as
+						countX = (if yi = xi then countX + 1 else countX)
+					into
+						if countX > countCurr then countX else countCurr
+					end to list xs)
+			into
+				if countMed <= 1 then 0
+				else xMed
+			when empty 0
+			end
+		to list xs
+
+	rewrite percentile( xs#, k ) =
+		let countX = COUNT(xs)
+		let n = INT(k * (countX - 1))
+		let diff = k * (countX - 1) - n
+		let val = SMALL(xs, n + 1) in
+			if diff = 0 then val
+				else val + diff * ( SMALL(xs, n + 2) - val)
+
+	rewrite percentrank( xs#, x, significance ) =
+		if significance < 1 then 0 else
+		apply
+			fold with
+				countSmaller = 0,
+				largerX = _maxvalue,
+				smallerX = -_maxvalue
+			each xi as
+				countSmaller = (if xi < x then countSmaller + 1 else countSmaller),
+				largerX = (if xi >= x then xi _min_ largerX else largerX),
+				smallerX = (if xi <= x then xi _max_ smallerX else smallerX)
+			with count n into
+				if largerX = x then
+				    if n = 1 then 1
+				    else TRUNC(countSmaller / (n-1), significance)				     
+				else if OR(smallerX = -_maxvalue, largerX = _maxvalue) then 0      // is it correct to compare with '-_maxvalue' ?
+				else
+					let fract = (x - smallerX) / (largerX - smallerX) in
+						TRUNC((countSmaller - 1 + fract) / (n - 1), significance)
+			when empty 0
+			end
+		to vectors {xs}
+
+	rewrite percentrank( xs#, x ) = PERCENTRANK(xs, x, 3)
+
+	rewrite quartile( xs#, k ) = PERCENTILE(xs, 0.25 * INT(k))
+
+	rewrite small( xs#, k ) =
+		if OR(k > COUNT(xs), k < 1) then 0
+		else
+			apply
+				fold with
+					x = -_maxvalue,
+					num = 1
+				each xi as
+					x = ( if num > k then x else
+						(apply fold with
+							el = _maxvalue,
+							i = 0
+						each xi as
+							i = (if xi <= x then i + 1 else i),
+							el = (if xi > x then xi _min_ el else el)
+						into
+							if i >= num then x else el
+						end to vectors {xs})),
+					num = num + 1
+				into x
+				when empty 0
+				end
+			to vectors {xs}
+
+	rewrite trimmean( xs#, k ) =
+		if OR(k < 0, k >= 1) then 0
+		else
+			let cut = INT(k * COUNT(xs) / 2) in
+			if cut = 0 then AVERAGE(xs)
+			else
+				let max_el = LARGE(xs, cut)
+				let min_el = SMALL(xs, cut) in
+					apply
+						fold with
+							sum = 0,
+							max_count = 0,
+							min_count = 0
+						each xi as
+							max_count = (if xi >= max_el then max_count + 1 else max_count),
+							min_count = (if xi <= min_el then min_count + 1 else min_count),
+							sum = (if AND(xi < max_el, xi > min_el) then sum + xi else sum)
+						with count n into
+							(sum + (max_count - cut) * max_el + (min_count - cut) * min_el) / (n - 2 * cut)
+						end
+					to vectors {xs}
+					
+	rewrite prob( ws#, ps#, lo_limit, up_limit ) =
+		apply
+			fold with
+				res = 0,
+				errVal = 0,
+				sum = 0
+			each wi, pi as
+				errVal = (if OR(pi < 0, pi > 1) then 1 else errVal),
+				res = res + (if AND(wi >= lo_limit , wi <= up_limit) then pi else 0),
+				sum = sum + pi
+			with count n into
+				if errVal <> 0 then 0
+				else if ABS(sum - 1) > 0.0000001 then 0
+				else res
+			when empty 0
+			end
+		to vectors {ws, ps}
+
+	rewrite prob( xs#, ys#, lo_limit ) = PROB (xs, ys, lo_limit, lo_limit)
+
+	rewrite slope ( ys#, xs# ) =
+		let countX = COUNT(xs)
+		let countY = COUNT(ys)
+		in
+			if countY <> countX then 0
+			else if countX < 1 then 0
+			else
+				apply
+					fold with
+						sumX = 0,
+						sumY = 0,
+						sumSqrX = 0,
+						sumXY = 0
+					each xi, yi as
+						sumX = sumX + xi,
+						sumSqrX = sumSqrX + xi * xi,
+						sumY = sumY + yi,
+						sumXY = sumXY + xi * yi
+					with count n into
+						if n * sumSqrX = sumX * sumX then 0
+						else (n * sumXY - sumX * sumY) / (n * sumSqrX - sumX * sumX)						
+					end
+				to vectors {xs, ys}
+
+	rewrite forecast ( x, ys#, xs# ) =
+		let countX = COUNT(xs)
+		let countY = COUNT(ys)
+		in
+			if countY <> countX then 0
+			else if countX < 1 then 0
+			else
+				apply
+					fold with
+						sumX = 0,
+						sumY = 0,
+						sumSqrX = 0,
+						sumXY = 0
+					each xi, yi as
+						sumX = sumX + xi,
+						sumSqrX = sumSqrX + xi * xi,
+						sumY = sumY + yi,
+						sumXY = sumXY + xi * yi
+					with count n into
+						(sumY + (n * sumXY - sumX * sumY) /
+						(n * sumSqrX - sumX * sumX) * (n * x - sumX)) / n
+					end
+				to vectors {xs, ys}
 
 	rewrite negbinomdist( x, r, p ) =
 		if p <= 0 then 0
@@ -487,6 +729,48 @@ rules {
 					end
 				to vectors {xs, ys}
 
+	rewrite sumx2my2( xs#, ys# ) =
+		if COUNT(xs) <> COUNT(ys) then 0
+		else
+			apply
+				fold with
+					sxy = 0
+				each xi, yi as
+					sxy = sxy + xi * xi - yi * yi
+				into
+					sxy
+				when empty 0
+				end
+			to vectors {xs, ys}
+
+	rewrite sumx2py2( xs#, ys# ) =
+		if COUNT(xs) <> COUNT(ys) then 0
+		else
+			apply
+				fold with
+					sxy = 0
+				each xi, yi as
+					sxy = sxy + xi * xi + yi * yi
+				into
+					sxy
+				when empty 0
+				end
+			to vectors {xs, ys}
+
+	rewrite sumxmy2( xs#, ys# ) =
+		if COUNT(xs) <> COUNT(ys) then 0
+		else
+			apply
+				fold with
+					sxy = 0
+				each xi, yi as
+					sxy = sxy + (xi - yi) * (xi - yi) 
+				into
+					sxy
+				when empty 0
+				end
+			to vectors {xs, ys}
+
 	rewrite rsq( xs#, ys# ) =
 		let countX = COUNT(xs)
 		let countY = COUNT(ys)
@@ -513,6 +797,38 @@ rules {
 							if OR (n < 2, tmp_val1 = 0, tmp_val2 = 0) then 0
 							else
 								(n * sumXY - sumX * sumY) * (n * sumXY - sumX * sumY) / tmp_val1 / tmp_val2
+					end
+				to vectors {xs, ys}
+
+	rewrite steyx ( ys#, xs# ) =
+		let countX = COUNT(xs)
+		let countY = COUNT(ys)
+		in
+			if countY <> countX then 0
+			else if countX < 3 then 0
+			else
+				apply
+					fold with
+						sumX = 0,
+						sumY = 0,
+						sumSqrX = 0,
+						sumSqrY = 0,
+						sumXY = 0
+					each xi, yi as
+						sumX = sumX + xi,
+						sumSqrX = sumSqrX + xi * xi,
+						sumY = sumY + yi,
+						sumSqrY = sumSqrY + yi * yi,
+						sumXY = sumXY + xi * yi
+					with count n into
+						if n * sumSqrX = sumX * sumX then 0
+						else
+							let var1 = (n * sumSqrY - sumY * sumY -
+								(n * sumXY - sumX * sumY) * (n * sumXY - sumX * sumY)/
+								(n * sumSqrX - sumX * sumX) ) / n / (n - 2)
+							in
+								if var1 < 0 then 0 
+							    else SQRT(var1)
 					end
 				to vectors {xs, ys}
 

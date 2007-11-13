@@ -373,6 +373,43 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		return BigDecimal.valueOf( RuntimeDouble_v2.fun_CHIINV( _x.doubleValue(), _degFreedom.doubleValue() ) );
 	}
 
+	public static BigDecimal fun_CRITBINOM( BigDecimal _n, BigDecimal _p, BigDecimal _alpha)
+	{
+		if (_n.compareTo( ZERO ) < 0 || _p.compareTo( ZERO ) <= 0
+				|| _p.compareTo( ONE ) >= 0 || _alpha.compareTo( ZERO ) <= 0
+				|| _alpha.compareTo( ONE ) >= 0) {
+			return ZERO;
+		}
+		else {
+			BigDecimal q = ONE.subtract(_p);
+			int n = _n.intValue();
+			BigDecimal factor = q.pow( n );
+			if (factor.compareTo( ZERO )== 0) {
+				factor = _p.pow( n );
+				if (factor.compareTo( ZERO ) == 0)
+					return ZERO;
+				else {
+					BigDecimal sum = ONE.subtract(factor);
+					int i;
+					for (i = 0; i < n && sum.compareTo( _alpha)>= 0; i++) {
+						factor = factor.multiply( BigDecimal.valueOf( n - i ) ).divide( BigDecimal.valueOf( i + 1 ) ).multiply( q ).divide( _p );
+						sum = sum.subtract(factor);
+					}
+					return BigDecimal.valueOf(n - i);
+				}
+			}
+			else {
+				BigDecimal sum = factor;
+				int i;
+				for (i = 0; i < n && sum.compareTo( _alpha)< 0; i++) {
+					factor = factor.multiply( BigDecimal.valueOf( n - i ) ).divide( BigDecimal.valueOf( i + 1 ) ).multiply( _p ).divide( q );
+					sum = sum.add(factor);
+				}
+				return BigDecimal.valueOf(i);
+			}
+		}
+	}
+
 	public static BigDecimal fun_FINV( BigDecimal _x, BigDecimal _f1, BigDecimal _f2 )
 	{
 		return BigDecimal.valueOf( RuntimeDouble_v2.fun_FINV( _x.doubleValue(), _f1.doubleValue(), _f2.doubleValue() ) );

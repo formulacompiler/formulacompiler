@@ -458,6 +458,11 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v2.fun_CHIINV( _x, _degFreedom );
 	}
 
+	public double fun_CRITBINOM( double _n, double _p, double _alpha )
+	{
+		return RuntimeDouble_v2.fun_CRITBINOM( _n, _p, _alpha );
+	}
+
 	public double fun_FINV( double _x, double _f1, double _f2 )
 	{
 		return RuntimeDouble_v2.fun_FINV( _x, _f1, _f2 );

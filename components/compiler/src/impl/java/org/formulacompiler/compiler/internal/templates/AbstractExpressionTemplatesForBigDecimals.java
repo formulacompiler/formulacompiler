@@ -430,6 +430,11 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_CHIINV( _x, _degFreedom );
 	}
 
+	public BigDecimal fun_CRITBINOM( BigDecimal _n, BigDecimal _p, BigDecimal _alpha )
+	{
+		return RuntimeBigDecimal_v2.fun_CRITBINOM( _n, _p, _alpha );
+	}
+
 	public BigDecimal fun_FINV( BigDecimal _x, BigDecimal _f1, BigDecimal _f2 )
 	{
 		return RuntimeBigDecimal_v2.fun_FINV( _x, _f1, _f2 );

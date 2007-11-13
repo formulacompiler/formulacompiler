@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -99,6 +100,11 @@ public final class New
 	public static <T> Set<T> set()
 	{
 		return new HashSet<T>();
+	}
+
+	public static <T> Stack<T> stack()
+	{
+		return new Stack<T>();
 	}
 
 }
