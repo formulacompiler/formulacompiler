@@ -777,6 +777,41 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		}
 	}
 
+	public static double fun_CRITBINOM( double _n, double _p, double _alpha )
+	{
+		if (_n < 0 || _p < 0 || _p >= 1 || _alpha <= 0 || _alpha >= 1) {
+			return 0;
+		}
+		else {
+			double n = Math.floor( _n );
+			double q = 1 - _p;
+			double factor = Math.pow( q, n );
+			if (factor == 0) {
+				factor = Math.pow( _p, n );
+				if (factor == 0)
+					return 0;
+				else {
+					double sum = 1 - factor;
+					int i;
+					for (i = 0; i < n && sum >= _alpha; i++) {
+						factor *= (n - i) / (i + 1) * q / _p;
+						sum -= factor;
+					}
+					return n - i;
+				}
+			}
+			else {
+				double sum = factor;
+				int i;
+				for (i = 0; i < n && sum < _alpha; i++) {
+					factor *= (n - i) / (i + 1) * _p / q;
+					sum += factor;
+				}
+				return i;
+			}
+		}
+	}
+
 	public static double getFDist( double x, double f1, double f2 )
 	{
 		double arg = f2 / (f2 + f1 * x);

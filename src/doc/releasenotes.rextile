@@ -19,6 +19,7 @@ h5. New
 	* @COVAR()@ is now "supported":reference/aggregators.htm.
 	* @SUMIF()@, and @COUNTIF()@ are now "supported":reference/dbaggregators.htm.
 	* @CONFIDENCE()@, @BETADIST()@, @BINOMDIST()@, @CHIDIST()@, @CHITEST()@, @FDIST()@, @GAMMADIST()@, @NEGBINOMDIST()@, @NORMDIST()@, @NORMSDIST()@, @LOGNORMSDIST()@, @NORMINV()@, @NORMSINV()@, @LOGINV()@, @POISSON()@, @TDIST()@, @BETAINV()@, @CHIINV()@, @EXPONDIST()@, @FINV()@, @FISHER()@, @FISHERINV()@, @FTEST()@, @GAMMAINV()@, @GAMMALN()@, @HYPGEOMDIST()@, @PEARSON()@, @RSQ()@, @STANDARDIZE()@, @TINV()@, @TTEST()@, @WEIBULL()@ and @ZTEST()@ are now "supported":reference/statisticalfuncs.htm.
+	* @MEDIAN()@, @CORREL()@, @COVAR()@, @CRITBINOM()@, @LARGE()@, @MODE()@, @PERCENTILE()@, @PERCENTRANK()@, @PROB()@, @QUARTILE()@, @SMALL()@, @STDEVPA()@, @STEYX()@, @SUMX2MY2()@, @SUMX2PY2()@, @SUMXMY2()@, @TRIMMEAN()@,  @INTERCEPT()@, @SLOPE()@, @FORECAST()@ and @VARA()@ are now "supported":reference/statisticalfuncs.htm.
 	* @ACOSH()@, @ASINH()@, @ATANH()@, @SINH()@, @COSH()@, @TANH()@, @GEOMEAN()@, @HARMEAN()@, @PERMUT()@, @RAND()@, and @SIGN()@ are now "supported":reference/numfuncs.htm.
 	* @VDB()@ is now "supported":reference/financialfuncs.htm
 	* @DCOUNTA, DAVERAGE, DVAR/P, DSTDEV/P@ are now "supported":reference/dbaggregators.htm.
