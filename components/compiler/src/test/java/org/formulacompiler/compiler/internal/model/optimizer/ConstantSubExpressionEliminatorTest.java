@@ -118,7 +118,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		optimize( FormulaCompiler.DOUBLE );
 
 		assertExpr(
-				"apply (fold with s__1 = 5.0, ss__2 = 13.0 each xi__3 as s__1 = (s__1 + xi__3), ss__2 = (ss__2 + (xi__3 * xi__3)) with count n__4 offset by 2 into ((ss__2 - ((s__1 * s__1) / n__4)) / n__4) when empty 0) to list {Inputs.getOne()}",
+				"apply (fold with s__1 = 5.0, ss__2 = 13.0 each xi__3 as s__1 = (s__1 + xi__3), ss__2 = (ss__2 + (xi__3 * xi__3)) with count n__4 offset by 2 into ((ss__2 - ((s__1 * s__1) / n__4)) / n__4)) to list {Inputs.getOne()}",
 				sumOverInputsAndConsts );
 	}
 

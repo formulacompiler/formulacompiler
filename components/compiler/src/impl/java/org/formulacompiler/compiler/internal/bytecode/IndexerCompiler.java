@@ -74,8 +74,7 @@ final class IndexerCompiler extends MethodCompiler
 
 			} );
 		}
-		valCompiler.compileZero();
-		mv.visitInsn( valReturn );
+		mv().throwException( ExpressionCompiler.FORMULA_ERROR_TYPE, "#VALUE/REF! because index is out of range in INDEX" );
 	}
 
 

@@ -27,6 +27,7 @@ import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.TimeZone;
 
+import org.formulacompiler.runtime.NotAvailableException;
 import org.formulacompiler.runtime.internal.cern.jet.stat.Gamma;
 import org.formulacompiler.runtime.internal.cern.jet.stat.Probability;
 
@@ -52,7 +53,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	{
 		final double a = _number / _significance;
 		if (a < 0) {
-			return 0.0; // Excel #NUM
+			err_CEILING();
 		}
 		return roundUp( a ) * _significance;
 	}
@@ -61,7 +62,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	{
 		final double a = _number / _significance;
 		if (a < 0) {
-			return 0.0; // Excel #NUM
+			err_FLOOR();
 		}
 		return roundDown( a ) * _significance;
 	}
@@ -97,15 +98,9 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return roundUp( _val * shift ) / shift;
 	}
 
-	// In case a>709 Excel returns error (too large value)
 	public static double fun_SINH( final double a )
 	{
-		if (a > 709) {
-			return 0;
-		}
-		else {
-			return Math.sinh( a );
-		}
+		return Math.sinh( a );
 	}
 
 	public static double fun_ACOSH( final double a )
@@ -125,12 +120,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_ATANH( final double a )
 	{
-		if (a <= -1 || a >= 1) {
-			return 0;
-		}
-		else {
-			return Math.log( (1 + a) / (1 - a) ) / 2;
-		}
+		return Math.log( (1 + a) / (1 - a) ) / 2;
 	}
 
 	public static double trunc( final double _val, final int _maxFrac )
@@ -472,12 +462,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_ACOS( double _a )
 	{
-		if (_a < -1 || _a > 1) {
-			return 0.0; // Excel #NUM!
-		}
-		else {
-			return Math.acos( _a );
-		}
+		return Math.acos( _a );
 	}
 
 	public static double fun_TRUNC( final double _val )
@@ -512,18 +497,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_LOG( final double _n, final double _x )
 	{
-		final double lnN = Math.log( _n );
-		if (Double.isNaN( lnN ) || Double.isInfinite( lnN )) {
-			return 0; // Excel #NUM!
-		}
-		final double lnX = Math.log( _x );
-		if (Double.isNaN( lnX ) || Double.isInfinite( lnX )) {
-			return 0; // Excel #NUM!
-		}
-		if (lnX == 0) {
-			return 0; // Excel #DIV/0!
-		}
-		return lnN / lnX;
+		return Math.log( _n ) / Math.log( _x );
 	}
 
 	public static double fun_LOG10( final double _p )
@@ -544,7 +518,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	public static double fun_BETADIST( double _x, double _alpha, double _beta )
 	{
 		if (_alpha <= 0 || _beta <= 0 || _x < 0 || _x > 1) {
-			return 0; // Excel #NUM!
+			fun_ERROR( "#NUM! because of not alpha > 0, beta > 0, 0 <= x <= 1 in BETADIST" );
 		}
 
 		return Probability.beta( _alpha, _beta, _x );
@@ -553,7 +527,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	public static double fun_BINOMDIST( int _successes, int _trials, double _probability, boolean _cumulative )
 	{
 		if (_successes < 0 || _successes > _trials || _probability < 0 || _probability > 1) {
-			return 0; // Excel #NUM!
+			fun_ERROR( "#NUM! because of not 0 <= s <= t, 0 <= p <= 1 in BINOMDIST" );
 		}
 
 		if (_cumulative) {
@@ -689,34 +663,21 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	public static double fun_BETAINV( double _x, double _alpha, double _beta )
 	{
 		if (_x < 0 || _x >= 1 || _alpha <= 0 || _beta <= 0) {
-			// Error: Illegal Argument!
-			return 0;
+			fun_ERROR( "#NUM! because not 0 <= x < 1, alpha > 0, beta > 0 in CHIDIST" );
 		}
 		if (_x == 0) {
-			// correct result: 0
-			return 0;
+			return 0; // FIXME This is a correct result, not an error.
 		}
 		else {
 			BetaDistFunction func = new BetaDistFunction( _x, _alpha, _beta );
-			try {
-				double res = iterateInverse( func, 0, 1 );
-				return res;
-			}
-			catch (IllegalArgumentException e) {
-				// Error in func.GetValue() method, wrong parameters
-				return 0;
-			}
-			catch (ArithmeticException e) {
-				// Error in func.GetValue() method, calculation not finished successfully
-				return 0;
-			}
+			return iterateInverse( func, 0, 1 );
 		}
 	}
 
 	public static double fun_CHIDIST( double _x, double _degFreedom )
 	{
 		if (_x < 0 || _degFreedom < 1) {
-			return 0; // Excel #NUM!
+			fun_ERROR( "#NUM! because x < 0 or degree < 1 in CHIDIST" );
 		}
 
 		return Probability.chiSquareComplemented( Math.floor( _degFreedom ), _x );
@@ -741,55 +702,43 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	public static double fun_CHIINV( double _x, double _degFreedom )
 	{
 		if (_x <= 0 || _x > 1 || _degFreedom < 1 || _degFreedom > 10000000000.0) {
-			return 0; // Excel #NUM!
+			fun_ERROR( "#NUM! because not 0 < x <= 1, 1 <= degrees <= 10000000000 in CHIINV" );
 		}
 		ChiDistFunction func = new ChiDistFunction( _x, _degFreedom );
-		try {
-			double res = iterateInverse( func, _degFreedom / 2, _degFreedom );
-			return res;
-		}
-		catch (IllegalArgumentException e) {
-			// Error in func.GetValue() method, wrong parameters
-			return 0;
-		}
-		catch (ArithmeticException e) {
-			// Error in func.GetValue() method, calculation not finished successfully
-			return 0;
-		}
+		double res = iterateInverse( func, _degFreedom / 2, _degFreedom );
+		return res;
 	}
 
 	public static double fun_CRITBINOM( double _n, double _p, double _alpha )
 	{
-		if (_n < 0 || _p < 0 || _p >= 1 || _alpha <= 0 || _alpha >= 1) {
-			return 0;
+		// p <= 0 is contrary to Excel's docs where it says p < 0; but the test case says otherwise.
+		if (_n < 0 || _p <= 0 || _p >= 1 || _alpha <= 0 || _alpha >= 1) {
+			fun_ERROR( "#NUM! because not n >= 0, 0 < p < 1, 0 < alpha < 1 in CRITBINOM" );
+		}
+		double n = Math.floor( _n );
+		double q = 1 - _p;
+		double factor = Math.pow( q, n );
+		if (factor == 0) {
+			factor = Math.pow( _p, n );
+			if (factor == 0) return 0;
+			else {
+				double sum = 1 - factor;
+				int i;
+				for (i = 0; i < n && sum >= _alpha; i++) {
+					factor *= (n - i) / (i + 1) * q / _p;
+					sum -= factor;
+				}
+				return n - i;
+			}
 		}
 		else {
-			double n = Math.floor( _n );
-			double q = 1 - _p;
-			double factor = Math.pow( q, n );
-			if (factor == 0) {
-				factor = Math.pow( _p, n );
-				if (factor == 0)
-					return 0;
-				else {
-					double sum = 1 - factor;
-					int i;
-					for (i = 0; i < n && sum >= _alpha; i++) {
-						factor *= (n - i) / (i + 1) * q / _p;
-						sum -= factor;
-					}
-					return n - i;
-				}
+			double sum = factor;
+			int i;
+			for (i = 0; i < n && sum < _alpha; i++) {
+				factor *= (n - i) / (i + 1) * _p / q;
+				sum += factor;
 			}
-			else {
-				double sum = factor;
-				int i;
-				for (i = 0; i < n && sum < _alpha; i++) {
-					factor *= (n - i) / (i + 1) * _p / q;
-					sum += factor;
-				}
-				return i;
-			}
+			return i;
 		}
 	}
 
@@ -821,8 +770,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	public static double fun_FINV( double _p, double _f1, double _f2 )
 	{
 		if (_p < 0 || _f1 < 1 || _f2 < 1 || _f1 >= 1.0E10 || _f2 >= 1.0E10 || _p > 1) {
-			// Error: Illegal Argument
-			return 0;
+			fun_ERROR( "#NUM! because p < 0 or not 1 <= f{1,2} < 1e10  in CHIINV" );
 		}
 		if (_p == 0) {
 			return 1000000000;
@@ -830,18 +778,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		double f1 = Math.floor( _f1 );
 		double f2 = Math.floor( _f2 );
 		FDistFunction func = new FDistFunction( _p, f1, f2 );
-		try {
-			double res = iterateInverse( func, f1 / 2, f1 );
-			return res;
-		}
-		catch (IllegalArgumentException e) {
-			// Error in func.GetValue() method, wrong parameters
-			return 0;
-		}
-		catch (ArithmeticException e) {
-			// Error in func.GetValue() method, calculation not finished successfully
-			return 0;
-		}
+		return iterateInverse( func, f1 / 2, f1 );
 	}
 
 	private static class GammaDistFunction implements StatisticDistFunc
@@ -864,28 +801,15 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	public static double fun_GAMMAINV( double _p, double _alpha, double _beta )
 	{
 		if (_p < 0 || _p >= 1 || _alpha <= 0 || _beta <= 0) {
-			// Error: Illegal Argument!
-			return 0;
+			fun_ERROR( "#NUM! because not 0 <= p < 1, alpha > 0, beta >0 in GAMMAINV" );
 		}
 		if (_p == 0) {
-			// correct result: 0
-			return 0;
+			return 0; // FIXME correct
 		}
 		else {
 			GammaDistFunction func = new GammaDistFunction( _p, _alpha, _beta );
 			double start = _alpha * _beta;
-			try {
-				double res = iterateInverse( func, start / 2, start );
-				return res;
-			}
-			catch (IllegalArgumentException e) {
-				// Error in func.GetValue() method, wrong parameters
-				return 0;
-			}
-			catch (ArithmeticException e) {
-				// Error in func.GetValue() method, calculation not finished successfully
-				return 0;
-			}
+			return iterateInverse( func, start / 2, start );
 		}
 	}
 
@@ -894,38 +818,35 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	{
 		double x = _x;
 		if (x <= 0) {
-			// ERROR
-			return 0;
+			fun_ERROR( "#NUM! because x <= 0 in GAMMALN" );
+		}
+		boolean bReflect;
+		double c[] = { 76.18009173, -86.50532033, 24.01409822, -1.231739516, 0.120858003E-2, -0.536382E-5 };
+		if (x >= 1) {
+			bReflect = false;
+			x -= 1;
 		}
 		else {
-			boolean bReflect;
-			double c[] = { 76.18009173, -86.50532033, 24.01409822, -1.231739516, 0.120858003E-2, -0.536382E-5 };
-			if (x >= 1) {
-				bReflect = false;
-				x -= 1;
-			}
-			else {
-				bReflect = true;
-				x = 1 - x;
-			}
-			double g, anum;
-			g = 1.0;
-			anum = x;
-			for (int i = 0; i < 6; i++) {
-				anum += 1.0;
-				g += c[ i ] / anum;
-			}
-			g *= 2.506628275; // sqrt(2*PI)
-			g = (x + 0.5) * Math.log( x + 5.5 ) + Math.log( g ) - (x + 5.5);
-			if (bReflect) g = Math.log( Math.PI * x ) - g - Math.log( Math.sin( Math.PI * x ) );
-			return g;
+			bReflect = true;
+			x = 1 - x;
 		}
+		double g, anum;
+		g = 1.0;
+		anum = x;
+		for (int i = 0; i < 6; i++) {
+			anum += 1.0;
+			g += c[ i ] / anum;
+		}
+		g *= 2.506628275; // sqrt(2*PI)
+		g = (x + 0.5) * Math.log( x + 5.5 ) + Math.log( g ) - (x + 5.5);
+		if (bReflect) g = Math.log( Math.PI * x ) - g - Math.log( Math.sin( Math.PI * x ) );
+		return g;
 	}
 
 	public static double fun_GAMMADIST( double _x, double _alpha, double _beta, boolean _cumulative )
 	{
 		if (_x < 0 || _alpha <= 0 || _beta <= 0) {
-			return 0; // Excel #NUM!
+			fun_ERROR( "#NUM! because x < 0 or alpha <= 0 or beta <= 0 in GAMMADIST" );
 		}
 
 		if (_cumulative) {
@@ -949,7 +870,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	public static double fun_POISSON( int _x, double _mean, boolean _cumulative )
 	{
 		if (_x < 0 || _mean < 0) {
-			return 0; // Excel #NUM!
+			fun_ERROR( "#NUM! because x < 0 or mean < 0 in POISSON" );
 		}
 
 		if (_cumulative) {
@@ -973,7 +894,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	public static double fun_TDIST( double _x, double _degFreedom, int _tails, boolean no_floor )
 	{
 		if (_x < 0 || _degFreedom < 1 || (_tails != 1 && _tails != 2)) {
-			return 0; // Excel #NUM!
+			fun_ERROR( "#NUM! because x < 0 or degrees < 1 or not tails in {1, 2} in TDIST" );
 		}
 
 		if (no_floor) {
@@ -1008,29 +929,16 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	public static double fun_TINV( double _x, double _degFreedom )
 	{
 		if (_degFreedom < 1.0 || _degFreedom >= 1.0E5 || _x <= 0.0 || _x > 1.0) {
-			// Wrong parameters
-			return 0;
+			fun_ERROR( "#NUM! because not 0 < x <= 1, 1 <= degrees < 1e5 in TINV" );
 		}
 		StatisticDistFunc func = new TDistFunction( _x, _degFreedom );
-
-		try {
-			double res = iterateInverse( func, _degFreedom / 2, _degFreedom );
-			return res;
-		}
-		catch (IllegalArgumentException e) {
-			// Error in func.GetValue() method, wrong parameters
-			return 0;
-		}
-		catch (ArithmeticException e) {
-			// Error in func.GetValue() method, calculation not finished successfully
-			return 0;
-		}
+		return iterateInverse( func, _degFreedom / 2, _degFreedom );
 	}
 
 	public static double fun_WEIBULL( double _x, double _alpha, double _beta, boolean _cumulative )
 	{
 		if (_x < 0 || _alpha <= 0 || _beta <= 0) {
-			return 0; // Excel #NUM!
+			fun_ERROR( "#NUM! because x < 0 or alpha <= 0 or beta <= 0 in WEIBULL" );
 		}
 
 		if (_cumulative) {
@@ -1045,9 +953,6 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_MOD( double _n, double _d )
 	{
-		if (_d == 0) {
-			return 0; // Excel #DIV/0!
-		}
 		final double remainder = _n % _d;
 		if (remainder != 0 && Math.signum( remainder ) != Math.signum( _d )) {
 			return remainder + _d;
@@ -1059,21 +964,16 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_SQRT( double _n )
 	{
-		if (_n < 0) {
-			return 0; // Excel #NUM!
-		}
 		return Math.sqrt( _n );
 	}
 
 	public static double fun_FACT( double _a )
 	{
 		if (_a < 0.0) {
-			return 0.0; // Excel #NUM!
+			err_FACT();
 		}
-		else {
-			int a = (int) _a;
-			return factorial( a );
-		}
+		int a = (int) _a;
+		return factorial( a );
 	}
 
 	private static double factorial( int _a )
@@ -1303,7 +1203,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		for (int i = 0; i < _xs.length; i++) {
 			if (_x == _xs[ i ]) return i + 1; // Excel is 1-based
 		}
-		return 0;
+		throw new NotAvailableException();
 	}
 
 	public static int fun_MATCH_Ascending( double _x, double[] _xs )
@@ -1317,6 +1217,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			else iRight = iMid;
 		}
 		if (iLeft > iLast || _x < _xs[ iLeft ]) iLeft--;
+		if (iLeft < 0) fun_NA();
 		return iLeft + 1; // Excel is 1-based
 	}
 
@@ -1331,6 +1232,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			else iRight = iMid;
 		}
 		if (iLeft > iLast || _x > _xs[ iLeft ]) iLeft--;
+		if (iLeft < 0) fun_NA();
 		return iLeft + 1; // Excel is 1-based
 	}
 

@@ -20,8 +20,8 @@
  */
 package org.formulacompiler.compiler.internal.model.rewriting;
 
-import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.FormulaCompiler;
+import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
@@ -44,14 +44,14 @@ public class ExpressionRewriterTest extends TestCase
 	public void testAVERAGE() throws Exception
 	{
 		assertRewrite(
-				"apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2) with count n__3 into (s__1 / n__3) when empty 0) to list {@( \"[args]\" )}",
+				"apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2) with count n__3 into (s__1 / n__3)) to list {@( \"[args]\" )}",
 				Function.AVERAGE );
 	}
 
 	public void testVARP() throws Exception
 	{
 		assertRewrite(
-				"apply (fold with s__1 = 0, ss__2 = 0 each xi__3 as s__1 = (s__1 + xi__3), ss__2 = (ss__2 + (xi__3 * xi__3)) with count n__4 into ((ss__2 - ((s__1 * s__1) / n__4)) / n__4) when empty 0) to list {@( \"[args]\" )}",
+				"apply (fold with s__1 = 0, ss__2 = 0 each xi__3 as s__1 = (s__1 + xi__3), ss__2 = (ss__2 + (xi__3 * xi__3)) with count n__4 into ((ss__2 - ((s__1 * s__1) / n__4)) / n__4)) to list {@( \"[args]\" )}",
 				Function.VARP );
 	}
 

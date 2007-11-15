@@ -92,6 +92,9 @@ abstract class AbstractCellValues
 			else if (str.equals( "(now)" )) {
 				set( _index, NOW, BindingType.DATE );
 			}
+			else if (str.equals( "(sinh 710)" )) {
+				set( _index, Math.sinh( 710.0 ), this.numberType );
+			}
 			else if (str.equals( "(full days from 2006)" )) {
 				final Calendar calendar = new GregorianCalendar( getTimeZone( _cx ) );
 				final int year = calendar.get( Calendar.YEAR );

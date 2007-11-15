@@ -77,6 +77,8 @@ public class EngineRunningTestCase extends AbstractContextTestCase
 				double have = act.dbl();
 				assertNoException( _exp, have );
 				double want = _exp.dbl( 0 );
+				if (Double.isNaN( want ) && Double.isNaN( have )) break;
+				if (Double.isInfinite( want ) && Double.isInfinite( have )) break;
 				assertEquals( want, have, DBL_EPSILON );
 				break;
 			}

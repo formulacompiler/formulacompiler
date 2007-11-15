@@ -193,7 +193,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 			suite = null;
 		}
 		else {
-			suite = new TestSuite( "Row " + (_cx.getRowIndex() + 1) );
+			suite = new TestSuite( "Row " + (_cx.getRowIndex() + 1) + ": " + _cx.getOutputExpr().replace( '(', '[' ).replace( ')', ']' ) );
 			if (hasExpr) {
 				suite.addTest( new ExpressionFormattingTestCase( _cx ) );
 			}

@@ -194,7 +194,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: !NUM:Inf/AE
+    - const: !NUM:+Inf/AE
     - expr: =(RC[1] / RC[2])
     - const: 1.0
     - const: 0.0
@@ -204,9 +204,9 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Division by zero for DOUBLE
+    - const: Division by zero
     - const: /
-    - const: #DIV/0!
+    - err: #DIV/0!
   - cells:
   - cells:
     - const: -10.0

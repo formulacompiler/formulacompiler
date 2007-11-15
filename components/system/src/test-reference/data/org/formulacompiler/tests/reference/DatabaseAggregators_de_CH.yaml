@@ -324,14 +324,14 @@ sheets:
     - const: DAVERAGE
   - cells:
     - null
-    - const: 0.0
+    - const: !NUM:NaN/AE
     - expr: =DAVERAGE( R[-59]C[-1]:R[-53]C[2], "Profit", R[-51]C[2]:R[-50]C[2] )
     - null
     - null
     - null
     - null
     - null
-    - const: #DIV/0!
+    - err: #DIV/0!
   - cells:
   - cells:
     - null
@@ -344,14 +344,14 @@ sheets:
     - const: DVARP
   - cells:
     - null
-    - const: 0.0
+    - const: !NUM:NaN/AE
     - expr: =DVARP( R[-62]C[-1]:R[-56]C[2], "Profit", R[-54]C[2]:R[-53]C[2] )
     - null
     - null
     - null
     - null
     - null
-    - const: #DIV/0!
+    - err: #DIV/0!
   - cells:
   - cells:
     - null
@@ -364,14 +364,14 @@ sheets:
     - const: DVAR
   - cells:
     - null
-    - const: 0.0
+    - const: !NUM:NaN/AE
     - expr: =DVAR( R[-65]C[-1]:R[-59]C[2], "Profit", R[-57]C[2]:R[-56]C[2] )
     - null
     - null
     - null
     - null
     - null
-    - const: #DIV/0!
+    - err: #DIV/0!
   - cells:
   - cells:
     - null
@@ -384,14 +384,14 @@ sheets:
     - const: DSTDEVP
   - cells:
     - null
-    - const: 0.0
+    - const: !NUM:NaN/AE
     - expr: =DSTDEVP( R[-68]C[-1]:R[-62]C[2], "Profit", R[-60]C[2]:R[-59]C[2] )
     - null
     - null
     - null
     - null
     - null
-    - const: #DIV/0!
+    - err: #DIV/0!
   - cells:
   - cells:
     - null
@@ -404,14 +404,14 @@ sheets:
     - const: DSTDEV
   - cells:
     - null
-    - const: 0.0
+    - const: !NUM:NaN/AE
     - expr: =DSTDEV( R[-71]C[-1]:R[-65]C[2], "Profit", R[-63]C[2]:R[-62]C[2] )
     - null
     - null
     - null
     - null
     - null
-    - const: #DIV/0!
+    - err: #DIV/0!
   - cells:
   - cells:
     - null

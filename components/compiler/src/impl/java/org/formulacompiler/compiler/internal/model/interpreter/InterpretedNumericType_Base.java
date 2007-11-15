@@ -32,6 +32,8 @@ import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
+import org.formulacompiler.runtime.FormulaException;
+import org.formulacompiler.runtime.NotAvailableException;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 
@@ -280,8 +282,10 @@ abstract class InterpretedNumericType_Base
 		final int iRow = valueToIntOrOne( _rowIndex ) - 1;
 		final int iCol = valueToIntOrOne( _colIndex ) - 1;
 		int iValue;
-		if (iRow < 0 || iRow >= desc.numberOfRows()) return null;
-		if (iCol < 0 || iCol >= desc.numberOfColumns()) return null;
+		if (iRow < 0 || iRow >= desc.numberOfRows())
+			throw new FormulaException( "#VALUE/REF! because row out of range in INDEX" );
+		if (iCol < 0 || iCol >= desc.numberOfColumns())
+			throw new FormulaException( "#VALUE/REF! because column out of range in INDEX" );
 		if (null != _rowIndex && null != _colIndex) {
 			iValue = iRow * desc.numberOfColumns() + iCol;
 		}
@@ -296,42 +300,41 @@ abstract class InterpretedNumericType_Base
 	public static int match( Object _lookup, Object _in, int _type )
 	{
 		if (null == _in) {
-			return -1;
+			throw new FormulaException( "#VALUE! because range is empty in MATCH" );
+		}
+		final ExpressionNodeForArrayReference range = (ExpressionNodeForArrayReference) _in;
+		if (0 == _type) {
+			int iObj = 0;
+			for (Object arg : range.arguments()) {
+				final Object elt = ((ExpressionNodeForConstantValue) arg).value();
+				if (_lookup.equals( elt )) return iObj;
+				iObj++;
+			}
+			throw new NotAvailableException();
 		}
 		else {
-			final ExpressionNodeForArrayReference range = (ExpressionNodeForArrayReference) _in;
-			if (0 == _type) {
-				int iObj = 0;
-				for (Object arg : range.arguments()) {
-					final Object elt = ((ExpressionNodeForConstantValue) arg).value();
-					if (_lookup.equals( elt )) return iObj;
-					iObj++;
-				}
-				return -1;
+			final Comparable comp = (Comparable) _lookup;
+			final int isToRightWhenComparesAs = (_type > 0)? 1 : -1;
+			final List<ExpressionNode> args = range.arguments();
+			final int iLast = args.size() - 1;
+			int iLeft = 0;
+			int iRight = iLast;
+			while (iLeft < iRight) {
+				final int iMid = iLeft + ((iRight - iLeft) >> 1);
+				final Object arg = args.get( iMid );
+				final Object elt = ((ExpressionNodeForConstantValue) arg).value();
+				final int compRes = comp.compareTo( elt );
+				if (compRes == isToRightWhenComparesAs) iLeft = iMid + 1;
+				else iRight = iMid;
 			}
-			else {
-				final Comparable comp = (Comparable) _lookup;
-				final int isToRightWhenComparesAs = (_type > 0)? 1 : -1;
-				final List<ExpressionNode> args = range.arguments();
-				final int iLast = args.size() - 1;
-				int iLeft = 0;
-				int iRight = iLast;
-				while (iLeft < iRight) {
-					final int iMid = iLeft + ((iRight - iLeft) >> 1);
-					final Object arg = args.get( iMid );
-					final Object elt = ((ExpressionNodeForConstantValue) arg).value();
-					final int compRes = comp.compareTo( elt );
-					if (compRes == isToRightWhenComparesAs) iLeft = iMid + 1;
-					else iRight = iMid;
-				}
-				if (iLeft <= iLast) {
-					final Object arg = args.get( iLeft );
-					final Object elt = ((ExpressionNodeForConstantValue) arg).value();
-					final int compRes = comp.compareTo( elt );
-					if (compRes == 0 || compRes == isToRightWhenComparesAs) return iLeft;
-				}
-				return iLeft - 1;
+			if (iLeft <= iLast) {
+				final Object arg = args.get( iLeft );
+				final Object elt = ((ExpressionNodeForConstantValue) arg).value();
+				final int compRes = comp.compareTo( elt );
+				if (compRes == 0 || compRes == isToRightWhenComparesAs) return iLeft;
 			}
+			if (iLeft == 0) throw new NotAvailableException();
+			return iLeft - 1;
 		}
 	}
 

@@ -20,10 +20,11 @@
  */
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
+import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
+
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
-
 
 public class EvalIndex extends EvalFunction
 {
@@ -45,11 +46,11 @@ public class EvalIndex extends EvalFunction
 				if (isConstant( indexArg )) {
 					final int index = type().toInt( indexArg, 0 ) - 1;
 					if (index < 0) {
-						return null;
+						return err( "#VALUE! because index is out of range in INDEX" );
 					}
 					final EvalRangeValue range = (EvalRangeValue) unsubstitutedArgument( 0 );
 					if (index >= range.arguments().size()) {
-						return null;
+						return err( "#REF! because index is out of range in INDEX" );
 					}
 					return range.evaluateArgument( index );
 				}
