@@ -144,7 +144,13 @@ abstract class ExpressionCompilerForScaledLongs_Base extends ExpressionCompilerF
 		mv().visitInsn( Opcodes.DUP2 );
 	}
 
-	
+	@Override
+	protected void compilePop()
+	{
+		mv().visitInsn( Opcodes.POP2 );
+	}
+
+
 	@Override
 	protected void compileNewArray()
 	{
@@ -157,7 +163,7 @@ abstract class ExpressionCompilerForScaledLongs_Base extends ExpressionCompilerF
 		return Opcodes.LASTORE;
 	}
 
-	
+
 	protected abstract void compile_util_scaleUp( long _one ) throws CompilerException;
 	protected abstract void compile_util_scaleDown( long _one ) throws CompilerException;
 

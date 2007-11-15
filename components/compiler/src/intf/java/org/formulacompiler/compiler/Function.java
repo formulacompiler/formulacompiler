@@ -94,7 +94,17 @@ public enum Function {
 	SUM, PRODUCT, MIN, MAX, COUNT, COUNTA, AVERAGE, AND, OR, SUMSQ,
 
 	// Database aggregators
-	DSUM, DPRODUCT, DCOUNT, DCOUNTA, DMIN, DMAX, DAVERAGE, DVARP, DVAR, DSTDEVP, DSTDEV, SUMIF, COUNTIF;
+	DSUM, DPRODUCT, DCOUNT, DCOUNTA, DMIN, DMAX, DAVERAGE, DVARP, DVAR, DSTDEVP, DSTDEV, SUMIF, COUNTIF,
+
+	/**
+	 * {@code ERROR()} is volatile because it throws exceptions.
+	 */
+	ERROR( true ),
+
+	/**
+	 * {@code NA()} is volatile because it throws exceptions.
+	 */
+	NA( true );
 
 
 	private static final Function[] AGGREGATORS = { SUM, PRODUCT, MIN, MAX, COUNT, COUNTA, AVERAGE, VAR, VARP, AND, OR,

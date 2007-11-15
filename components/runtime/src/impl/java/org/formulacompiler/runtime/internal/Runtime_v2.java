@@ -34,6 +34,9 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.formulacompiler.runtime.FormulaException;
+import org.formulacompiler.runtime.NotAvailableException;
+
 
 public abstract class Runtime_v2
 {
@@ -52,6 +55,13 @@ public abstract class Runtime_v2
 
 	private static final BigDecimal MAX_EXP_VALUE = BigDecimal.valueOf( 1, 4 ); // 1E-4
 
+
+	public static double checkDouble( final double _value )
+	{
+		if (Double.isNaN( _value )) throw new FormulaException( "#NUM! (value is NaN)" );
+		if (Double.isInfinite( _value )) throw new FormulaException( "#NUM! (value is infinite)" );
+		return _value;
+	}
 
 	public static byte unboxByte( Byte _boxed )
 	{
@@ -217,7 +227,7 @@ public abstract class Runtime_v2
 		}
 	}
 
-	
+
 	// ---- Excel date conversion; copied from JExcelAPI (DateRecord.java)
 
 	public static Date dateFromDouble( double _excel, TimeZone _timeZone )
@@ -268,7 +278,7 @@ public abstract class Runtime_v2
 	private static long msSinceLocal1970FromExcelDate( double _excelDate )
 	{
 		final boolean time = (Math.abs( _excelDate ) < 1);
-		double numValue = _excelDate;
+		double numValue = checkDouble( _excelDate );
 
 		// Work round a bug in excel. Excel seems to think there is a date
 		// called the 29th Feb, 1900 - but in actual fact this was not a leap year.
@@ -308,7 +318,7 @@ public abstract class Runtime_v2
 
 		return value;
 	}
-	
+
 
 	public static String stringFromObject( Object _obj )
 	{
@@ -704,6 +714,17 @@ public abstract class Runtime_v2
 
 
 	static final long[] FACTORIALS = { 1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800, 479001600 };
+
+
+	public static void fun_ERROR( String _message )
+	{
+		throw new FormulaException( _message );
+	}
+
+	public static void fun_NA()
+	{
+		throw new NotAvailableException();
+	}
 
 
 }

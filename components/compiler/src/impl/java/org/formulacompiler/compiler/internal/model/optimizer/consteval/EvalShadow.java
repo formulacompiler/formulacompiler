@@ -34,6 +34,7 @@ import org.formulacompiler.compiler.internal.logging.Log;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpreterException;
+import org.formulacompiler.runtime.ComputationException;
 
 
 public abstract class EvalShadow extends ExpressionNodeShadow
@@ -166,6 +167,9 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 				return evaluateToNode( _args );
 			}
 			catch (ArithmeticException e) {
+				return evaluateToNode( _args );
+			}
+			catch (ComputationException e) {
 				return evaluateToNode( _args );
 			}
 		}

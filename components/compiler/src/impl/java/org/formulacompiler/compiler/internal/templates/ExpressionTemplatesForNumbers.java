@@ -70,4 +70,17 @@ public final class ExpressionTemplatesForNumbers
 		return Runtime_v2.fun_FIND( _what, _within, _startingAt );
 	}
 
+
+	public int fun_ERROR( String _message )
+	{
+		Runtime_v2.fun_ERROR( _message );
+		return -1;
+	}
+
+	public int fun_NA()
+	{
+		Runtime_v2.fun_NA();
+		return -1;
+	}
+
 }

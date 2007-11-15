@@ -156,7 +156,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static boolean booleanFromNum( final double _val )
 	{
-		return (_val != 0);
+		return (checkDouble( _val ) != 0);
 	}
 
 	public static double booleanToNum( final boolean _val )
@@ -218,15 +218,6 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	{
 		return msToDouble( _msSinceUTC1970 );
 	}
-
-	private static double valueOrZero( final double _value )
-	{
-		if (Double.isNaN( _value ) || Double.isInfinite( _value )) {
-			return 0.0; // Excel #NUM
-		}
-		return _value;
-	}
-
 
 	public static double fun_DATE( final int _year, final int _month, final int _day )
 	{
@@ -489,16 +480,6 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		}
 	}
 
-	public static double fun_ASIN( double _a )
-	{
-		if (_a < -1 || _a > 1) {
-			return 0.0; // Excel #NUM!
-		}
-		else {
-			return Math.asin( _a );
-		}
-	}
-
 	public static double fun_TRUNC( final double _val )
 	{
 		return roundDown( _val );
@@ -521,12 +502,12 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_POWER( final double _n, final double _p )
 	{
-		return valueOrZero( Math.pow( _n, _p ) );
+		return Math.pow( _n, _p );
 	}
 
 	public static double fun_LN( final double _p )
 	{
-		return valueOrZero( Math.log( _p ) );
+		return Math.log( _p );
 	}
 
 	public static double fun_LOG( final double _n, final double _x )
@@ -547,7 +528,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_LOG10( final double _p )
 	{
-		return valueOrZero( Math.log10( _p ) );
+		return Math.log10( _p );
 	}
 
 	public static double fun_ERF( double x )

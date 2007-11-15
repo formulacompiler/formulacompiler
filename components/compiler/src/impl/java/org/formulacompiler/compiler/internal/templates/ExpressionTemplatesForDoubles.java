@@ -27,6 +27,7 @@ import java.util.Date;
 import org.formulacompiler.runtime.internal.ComputationTime;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
+import org.formulacompiler.runtime.internal.Runtime_v2;
 
 
 public final class ExpressionTemplatesForDoubles
@@ -39,7 +40,7 @@ public final class ExpressionTemplatesForDoubles
 	{
 		this.environment = _env;
 	}
-	
+
 
 	// ------------------------------------------------ Utils
 
@@ -98,22 +99,22 @@ public final class ExpressionTemplatesForDoubles
 
 	byte util_toByte( double a )
 	{
-		return (byte) a;
+		return (byte) Runtime_v2.checkDouble( a );
 	}
 
 	short util_toShort( double a )
 	{
-		return (short) a;
+		return (short) Runtime_v2.checkDouble( a );
 	}
 
 	int util_toInt( double a )
 	{
-		return (int) a;
+		return (int) Runtime_v2.checkDouble( a );
 	}
 
 	long util_toLong( double a )
 	{
-		return (long) a;
+		return (long) Runtime_v2.checkDouble( a );
 	}
 
 	double util_toDouble( double a )
@@ -123,17 +124,17 @@ public final class ExpressionTemplatesForDoubles
 
 	float util_toFloat( double a )
 	{
-		return (float) a;
+		return (float) Runtime_v2.checkDouble( a );
 	}
 
 	BigInteger util_toBigInteger( double a )
 	{
-		return BigInteger.valueOf( (long) a );
+		return BigInteger.valueOf( (long) Runtime_v2.checkDouble( a ) );
 	}
 
 	BigDecimal util_toBigDecimal( double a )
 	{
-		return BigDecimal.valueOf( a );
+		return BigDecimal.valueOf( Runtime_v2.checkDouble( a ) );
 	}
 
 	boolean util_toBoolean( double a )
@@ -143,7 +144,7 @@ public final class ExpressionTemplatesForDoubles
 
 	char util_toCharacter( double a )
 	{
-		return (char) a;
+		return (char) Runtime_v2.checkDouble( a );
 	}
 
 	Date util_toDate( double a )
@@ -165,7 +166,7 @@ public final class ExpressionTemplatesForDoubles
 	{
 		return RuntimeDouble_v2.toExcelString( a, this.environment );
 	}
-	
+
 	Number util_toNumber( double a )
 	{
 		return a;
@@ -181,8 +182,14 @@ public final class ExpressionTemplatesForDoubles
 	{
 		return RuntimeDouble_v2.toScaledLong( a, _scalingFactor );
 	}
-	
-	
+
+
+	double util_testForErrors( double a )
+	{
+		return Double.isInfinite( a ) || Double.isNaN( a )? 1 : 0;
+	}
+
+
 	// ------------------------------------------------ Operators
 
 
@@ -225,9 +232,9 @@ public final class ExpressionTemplatesForDoubles
 	{
 		/*
 		 * Using a direct comparison like
-		 * 
+		 *
 		 * return (a < b) ? a : b;
-		 * 
+		 *
 		 * generates too much code for inlining.
 		 */
 		return RuntimeDouble_v2.min( a, b );
@@ -262,7 +269,7 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_ASIN( double a )
 	{
-		return RuntimeDouble_v2.fun_ASIN( a );
+		return Math.asin( a );
 	}
 
 	public double fun_ASINH( double a )
@@ -340,7 +347,7 @@ public final class ExpressionTemplatesForDoubles
 		return Math.PI;
 	}
 
-	public double fun_CEILING(double _number, double _significance)
+	public double fun_CEILING( double _number, double _significance )
 	{
 		return RuntimeDouble_v2.fun_CEILING( _number, _significance );
 	}
@@ -495,7 +502,7 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_TDIST( double _x, double _degFreedom, double _tails, double _no_floor )
 	{
-		return RuntimeDouble_v2.fun_TDIST( _x, _degFreedom, (int) _tails, _no_floor == 0 ? false : true );
+		return RuntimeDouble_v2.fun_TDIST( _x, _degFreedom, (int) _tails, _no_floor == 0? false : true );
 	}
 
 	public double fun_TINV( double _x, double _degFreedom )
@@ -556,10 +563,11 @@ public final class ExpressionTemplatesForDoubles
 	}
 
 
-	public double fun_VDB( double _cost, double _salvage, double _life, double _start_period, double _end_period, double _factor, double _no_switch )
+	public double fun_VDB( double _cost, double _salvage, double _life, double _start_period, double _end_period,
+			double _factor, double _no_switch )
 	{
-		boolean no_switch = _no_switch != 0 ;
-		return RuntimeDouble_v2.fun_VDB( _cost, _salvage, _life, _start_period, _end_period, _factor, no_switch);
+		boolean no_switch = _no_switch != 0;
+		return RuntimeDouble_v2.fun_VDB( _cost, _salvage, _life, _start_period, _end_period, _factor, no_switch );
 	}
 
 	public double fun_RATE( double _nper, double _pmt, double _pv, double _fv, double _type, double _guess )
@@ -613,7 +621,8 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_HYPGEOMDIST( double sample_s, double number_sample, double population_s, double number_population )
 	{
-		return RuntimeDouble_v2.fun_HYPGEOMDIST( (int) sample_s, (int) number_sample, (int) population_s, (int) number_population );
+		return RuntimeDouble_v2.fun_HYPGEOMDIST( (int) sample_s, (int) number_sample, (int) population_s,
+				(int) number_population );
 	}
 
 	public double fun_WEEKDAY( double _date, double _type )

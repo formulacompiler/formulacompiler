@@ -65,6 +65,7 @@ final class CellMethodCompiler extends NullaryValueMethodCompiler
 		}
 		else {
 			final ExpressionNode cellExpr = cell.getExpression();
+			final ExpressionCompiler ec = expressionCompiler();
 			if (null != cellExpr) {
 				if (shouldCache( cell )) {
 					compileCacheBegin();
@@ -77,7 +78,7 @@ final class CellMethodCompiler extends NullaryValueMethodCompiler
 			}
 			else {
 				final Object constantValue = cell.getConstantValue();
-				expressionCompiler().compileConst( constantValue );
+				ec.compileConst( constantValue );
 			}
 		}
 	}

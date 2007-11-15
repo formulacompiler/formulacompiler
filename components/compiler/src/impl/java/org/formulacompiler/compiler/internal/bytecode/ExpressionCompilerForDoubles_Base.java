@@ -30,7 +30,7 @@ import org.objectweb.asm.Opcodes;
 abstract class ExpressionCompilerForDoubles_Base extends ExpressionCompilerForNumbers
 {
 
-	public ExpressionCompilerForDoubles_Base(MethodCompiler _methodCompiler, NumericType _numericType)
+	public ExpressionCompilerForDoubles_Base( MethodCompiler _methodCompiler, NumericType _numericType )
 	{
 		super( _methodCompiler, _numericType );
 	}
@@ -77,6 +77,23 @@ abstract class ExpressionCompilerForDoubles_Base extends ExpressionCompilerForNu
 		mv().visitInsn( Opcodes.DUP2 );
 	}
 
+	@Override
+	protected void compilePop()
+	{
+		mv().visitInsn( Opcodes.POP2 );
+	}
+
+	@Override
+	protected void compileExceptionalValueTest( boolean _testForErrors ) throws CompilerException
+	{
+		if (_testForErrors) {
+			compile_util_testForErrors();
+		}
+		else {
+			super.compileExceptionalValueTest( _testForErrors );
+		}
+	}
+
 
 	@Override
 	protected void compileNewArray()
@@ -90,8 +107,9 @@ abstract class ExpressionCompilerForDoubles_Base extends ExpressionCompilerForNu
 		return Opcodes.DASTORE;
 	}
 
-	
+
 	protected abstract void compile_util_fromScaledLong( long _scale ) throws CompilerException;
 	protected abstract void compile_util_toScaledLong( long _scale ) throws CompilerException;
+	protected abstract void compile_util_testForErrors() throws CompilerException;
 
 }

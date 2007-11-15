@@ -368,6 +368,7 @@ void fun(): {}
 	|	"MODE" aggN( Function.MODE )
 	|	"MONTH" fun1( Function.MONTH )
 	|	"N" fun1( Function.N )
+	|	"NA" fun0( Function.NA )
 	|	"NEGBINOMDIST" fun3( Function.NEGBINOMDIST )
 	|	"NORMDIST" fun4( Function.NORMDIST )
 	|	"NORMINV" fun3( Function.NORMINV )
