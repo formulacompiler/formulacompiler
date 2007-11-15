@@ -51,7 +51,7 @@ public final class DoubleType extends NumericTypeImpl
 		return MIN;
 	}
 
-	private static final Double MIN = Double.valueOf( Double.MIN_VALUE );
+	private static final Double MIN = Double.valueOf( -Double.MAX_VALUE );
 
 	@Override
 	public Number getMaxValue()
