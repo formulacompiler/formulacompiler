@@ -666,12 +666,11 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			fun_ERROR( "#NUM! because not 0 <= x < 1, alpha > 0, beta > 0 in CHIDIST" );
 		}
 		if (_x == 0) {
-			return 0; // FIXME This is a correct result, not an error.
+			return 0; // This is a correct result, not an error.
+			// LATER Remove the above comment when the check for #NUM comments is done.
 		}
-		else {
-			BetaDistFunction func = new BetaDistFunction( _x, _alpha, _beta );
-			return iterateInverse( func, 0, 1 );
-		}
+		BetaDistFunction func = new BetaDistFunction( _x, _alpha, _beta );
+		return iterateInverse( func, 0, 1 );
 	}
 
 	public static double fun_CHIDIST( double _x, double _degFreedom )
@@ -804,13 +803,12 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			fun_ERROR( "#NUM! because not 0 <= p < 1, alpha > 0, beta >0 in GAMMAINV" );
 		}
 		if (_p == 0) {
-			return 0; // FIXME correct
+			return 0; // This is a correct result, not an error.
+			// LATER Remove the above comment when the check for #NUM comments is done.
 		}
-		else {
-			GammaDistFunction func = new GammaDistFunction( _p, _alpha, _beta );
-			double start = _alpha * _beta;
-			return iterateInverse( func, start / 2, start );
-		}
+		GammaDistFunction func = new GammaDistFunction( _p, _alpha, _beta );
+		double start = _alpha * _beta;
+		return iterateInverse( func, start / 2, start );
 	}
 
 
