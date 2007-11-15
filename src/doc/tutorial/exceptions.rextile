@@ -28,13 +28,10 @@ B4, likewise, yields:
 
 	[jc:org.formulacompiler.tutorials.Exceptions:---- VAL]
 
-B5 yields simply:
+B5 yields:
 
 	[jc:org.formulacompiler.tutorials.Exceptions:---- DIV]
 
-But using @BigDecimal@, we get:
-
-	[jc:org.formulacompiler.tutorials.Exceptions:---- DIV_BigDec]
 
 h5. Compile-time
 
