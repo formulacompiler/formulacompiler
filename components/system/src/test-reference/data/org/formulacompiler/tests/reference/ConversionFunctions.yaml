@@ -233,7 +233,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 0
+    - const: !STR:FE
     - expr: =ROMAN( RC[1] )
     - const: 4000.0
     - null
@@ -243,3 +243,6 @@ sheets:
     - null
     - null
     - const: 1.0
+    - null
+    - null
+    - err: #VALUE!

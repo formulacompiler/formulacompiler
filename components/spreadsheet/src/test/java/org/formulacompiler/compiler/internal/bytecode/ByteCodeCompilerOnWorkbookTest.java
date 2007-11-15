@@ -36,6 +36,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFuncti
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.Engine;
+import org.formulacompiler.runtime.FormulaException;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetToEngineCompiler;
@@ -156,7 +157,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 	{
 		private final InputInterface input;
 
-		public OutputsWithDefault(InputInterface _input)
+		public OutputsWithDefault( InputInterface _input )
 		{
 			super();
 			this.input = _input;
@@ -203,7 +204,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 
 	public static class ThrowingOutput extends Outputs
 	{
-		@SuppressWarnings("unused")
+		@SuppressWarnings( "unused" )
 		public double getFails() throws Failure
 		{
 			throw new AbstractMethodError( "" );
@@ -229,7 +230,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 	public class NonStaticInput extends Inputs
 	{
 
-		public NonStaticInput(double[] _values)
+		public NonStaticInput( double[] _values )
 		{
 			super( _values );
 		}
@@ -260,7 +261,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 	public static class StaticInputMethod extends Inputs
 	{
 
-		public StaticInputMethod(double[] _values)
+		public StaticInputMethod( double[] _values )
 		{
 			super( _values );
 		}
@@ -433,8 +434,8 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 		 */
 		assertResult( 3.45, new CellInstance[] { i, a, b }, new double[] { 1.0, 3.45, 6.78 } );
 		assertResult( 6.78, new CellInstance[] { i, a, b }, new double[] { 2.0, 3.45, 6.78 } );
-		assertResult( 0.0, new CellInstance[] { i, a, b }, new double[] { 0.0, 3.45, 6.78 } );
-		assertResult( 0.0, new CellInstance[] { i, a, b }, new double[] { 3.0, 3.45, 6.78 } );
+		assertResult( Double.NaN, new CellInstance[] { i, a, b }, new double[] { 0.0, 3.45, 6.78 } );
+		assertResult( Double.NaN, new CellInstance[] { i, a, b }, new double[] { 3.0, 3.45, 6.78 } );
 	}
 
 
@@ -587,8 +588,19 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 	private void assertEngineResult( double _expected, Engine _engine, InputInterface _inputs )
 	{
 		OutputInterface outputs = (OutputInterface) _engine.getComputationFactory().newComputation( _inputs );
-		double result = outputs.getResult();
-		assertEquals( outputs.getClass().getName(), _expected, result );
+		if (Double.isNaN( _expected )) {
+			try {
+				double result = outputs.getResult();
+				assertEquals( outputs.getClass().getName(), _expected, result );
+			}
+			catch (FormulaException e) {
+				// that is expected
+			}
+		}
+		else {
+			double result = outputs.getResult();
+			assertEquals( outputs.getClass().getName(), _expected, result );
+		}
 	}
 
 

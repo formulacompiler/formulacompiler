@@ -416,28 +416,47 @@ public abstract class Runtime_v2
 	}
 
 
+	protected static void err_CEILING()
+	{
+		fun_ERROR( "#NUM! because signum of args not equal in CEILING" );
+	}
+
+	protected static void err_FLOOR()
+	{
+		fun_ERROR( "#NUM! because signum of args not equal in FLOOR" );
+	}
+
+	protected static void err_FACT()
+	{
+		fun_ERROR( "#NUM! because n < 0 in FACT" );
+	}
+
+
 	public static String fun_MID( String _s, int _start, int _len )
 	{
 		final int start = _start - 1;
-		if (start < 0) return "";
+		if (start < 0) fun_ERROR( "#VALUE! because start < 0 in MID" );
 		if (start >= _s.length()) return "";
-		if (_len < 0) return "";
+		if (_len < 0) fun_ERROR( "#VALUE! because len < 0 in MID" );
 		final int pastEnd = (start + _len >= _s.length())? _s.length() : start + _len;
 		return _s.substring( start, pastEnd );
 	}
 
 	public static String fun_LEFT( String _s, int _len )
 	{
-		if (_len < 1) return "";
+		if (_len < 0) fun_ERROR( "#VALUE! because len < 0 in LEFT" );
+		if (_len == 0) return "";
 		if (_len >= _s.length()) return _s;
 		return _s.substring( 0, _len );
 	}
 
 	public static String fun_RIGHT( String _s, int _len )
 	{
-		if (_len < 1) return "";
+		if (_len < 0) fun_ERROR( "#VALUE! because len < 0 in RIGHT" );
+		if (_len == 0) return "";
 		if (_len >= _s.length()) return _s;
 		final int max = _s.length();
+
 		final int len = (_len > max)? max : _len;
 		return _s.substring( max - len );
 	}
@@ -451,7 +470,7 @@ public abstract class Runtime_v2
 
 	public static String fun_SUBSTITUTE( String _s, String _src, String _tgt, int _occurrence )
 	{
-		if (_occurrence <= 0) return _s;
+		if (_occurrence <= 0) fun_ERROR( "#VALUE! because occurrence <= 0 in SUBSTITUTE" );
 		if (_s == null || _s.equals( "" )) return _s;
 		if (_src == null || _src.equals( "" ) || _src.equals( _tgt )) return _s;
 		int at = 0;
@@ -469,8 +488,8 @@ public abstract class Runtime_v2
 
 	public static String fun_REPLACE( String _s, int _at, int _len, String _repl )
 	{
-		if (_at < 1) return "";
-		if (_len < 0) return "";
+		if (_at < 1) fun_ERROR( "#VALUE! because at <= 0 in REPLACE" );
+		if (_len < 0) fun_ERROR( "#VALUE! because len < 0 in REPLACE" );
 		if (_s == null || _s.equals( "" )) return _repl;
 		final int at = _at - 1;
 		if (at >= _s.length()) return _s + _repl;
@@ -486,15 +505,18 @@ public abstract class Runtime_v2
 	public static int fun_FIND( String _what, String _within, int _startingAt )
 	{
 		if (_what == null || _what.equals( "" )) return 1;
-		if (_within == null || _within.equals( "" )) return 0;
-		return _within.indexOf( _what, _startingAt - 1 ) + 1;
+		if (_within == null || _within.equals( "" )) fun_ERROR( "#VALUE! because no result in FIND" );
+		if (_startingAt > _within.length()) fun_ERROR( "#VALUE! because start is past end in SEARCH" );
+		final int ix = _within.indexOf( _what, _startingAt - 1 );
+		if (ix < 0) fun_ERROR( "#VALUE! because no result in FIND" );
+		return ix + 1;
 	}
 
 	public static int fun_SEARCH( String _what, String _within, int _startingAt )
 	{
-		if (_within == null || _within.equals( "" )) return 0;
+		if (_within == null || _within.equals( "" )) fun_ERROR( "#VALUE! because no result in SEARCH" );
 		if (_what == null || _what.equals( "" )) return 1;
-		if (_startingAt > _within.length()) return 0;
+		if (_startingAt > _within.length()) fun_ERROR( "#VALUE! because start is past end in SEARCH" );
 
 		final Pattern pattern = patternFor( _what.toLowerCase() );
 		final Matcher matcher = pattern.matcher( _within.toLowerCase() );
@@ -502,6 +524,7 @@ public abstract class Runtime_v2
 			return matcher.start() + 1;
 		}
 		else {
+			fun_ERROR( "#VALUE! because no result in FIND" );
 			return 0;
 		}
 	}
@@ -635,45 +658,46 @@ public abstract class Runtime_v2
 
 	public static String fun_ROMAN( int _val, int _mode )
 	{
-		if ((_mode >= 0) & (_mode < 5) & (_val >= 0) & (_val < 4000)) {
-			final StringBuilder result = new StringBuilder();
-			final int[] values = { 1000, 500, 100, 50, 10, 5, 1 };
-			final String[] roman = { "M", "D", "C", "L", "X", "V", "I" };
-			int maxIndex = values.length - 1;
-			int val = _val;
-			for (int i = 0; i <= maxIndex / 2; i++) {
-				int index = i * 2;
-				int digit = val / values[ index ];
-				if ((digit % 5) == 4) {
-					int index2 = (digit == 4)? index - 1 : index - 2;
-					int step = 0;
-					while ((step < _mode) & (index < maxIndex)) {
-						step++;
-						if (values[ index2 ] - values[ index + 1 ] <= val) index++;
-						else step = _mode;
-					}
-					result.append( roman[ index ] );
-					result.append( roman[ index2 ] );
-					val += values[ index ];
-					val -= values[ index2 ];
+		if (_mode < 0 || _mode > 4) {
+			fun_ERROR( "#VALUE! because mode out of range in ROMAN" );
+		}
+		if (_val < 0 || _val >= 4000) {
+			fun_ERROR( "#VALUE! because value out of range in ROMAN" );
+		}
+		final StringBuilder result = new StringBuilder();
+		final int[] values = { 1000, 500, 100, 50, 10, 5, 1 };
+		final String[] roman = { "M", "D", "C", "L", "X", "V", "I" };
+		int maxIndex = values.length - 1;
+		int val = _val;
+		for (int i = 0; i <= maxIndex / 2; i++) {
+			int index = i * 2;
+			int digit = val / values[ index ];
+			if ((digit % 5) == 4) {
+				int index2 = (digit == 4)? index - 1 : index - 2;
+				int step = 0;
+				while ((step < _mode) & (index < maxIndex)) {
+					step++;
+					if (values[ index2 ] - values[ index + 1 ] <= val) index++;
+					else step = _mode;
 				}
-				else {
-					if (digit > 4) {
-						result.append( roman[ index - 1 ] );
-					}
-					if (digit > 0) {
-						for (int j = 0; j < digit % 5; j++) {
-							result.append( roman[ index ] );
-						}
-					}
-					val %= values[ index ];
-				}
+				result.append( roman[ index ] );
+				result.append( roman[ index2 ] );
+				val += values[ index ];
+				val -= values[ index2 ];
 			}
-			return result.toString();
+			else {
+				if (digit > 4) {
+					result.append( roman[ index - 1 ] );
+				}
+				if (digit > 0) {
+					for (int j = 0; j < digit % 5; j++) {
+						result.append( roman[ index ] );
+					}
+				}
+				val %= values[ index ];
+			}
 		}
-		else {
-			return "0";
-		}
+		return result.toString();
 	}
 
 	/**

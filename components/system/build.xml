@@ -223,11 +223,9 @@
 		<include name="org/formulacompiler/tests/reference/*.class" />
 		<exclude name="org/formulacompiler/tests/reference/*$*.class" />
 		<exclude name="org/formulacompiler/tests/reference/Statistics.class" />
-		<exclude name="org/formulacompiler/tests/reference/Strings.class" />
 	</fileset>
 	<fileset id="ref-batch-2" dir="${temp.ref.dir}/classes">
 		<include name="org/formulacompiler/tests/reference/Statistics.class" />
-		<include name="org/formulacompiler/tests/reference/Strings.class" />
 	</fileset>
 
 	<target name="@test-ref" depends="@init">
@@ -238,9 +236,11 @@
 		<parallel threadcount="1" threadsperprocessor="1">
 			<antcall target="-ref-batch">
 				<param name="ref-batch-id" value="ref-batch-1" />
+				<param name="ref-batch-mem" value="256M" />
 			</antcall>
 			<antcall target="-ref-batch">
 				<param name="ref-batch-id" value="ref-batch-2" />
+				<param name="ref-batch-mem" value="800M" />
 			</antcall>
 		</parallel>
 
@@ -258,7 +258,7 @@
 				forkmode="once"
 				dir="."
 				tempdir="${temp.dir}"
-				maxmemory="256M">
+				maxmemory="${ref-batch-mem}">
 
 			<jvmarg value="-Dorg.formulacompiler.tests.reference.emit_documentation=${test-ref-doc}" />
 			<jvmarg value="-Dorg.formulacompiler.tests.reference.quick_run=${test-ref-quick}" />

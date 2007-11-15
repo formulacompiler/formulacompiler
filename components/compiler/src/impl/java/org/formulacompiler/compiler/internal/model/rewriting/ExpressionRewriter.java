@@ -139,11 +139,11 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 					final ArrayDescriptor descY = ((ExpressionNodeForArrayReference) _fun.argument( 1 )).arrayDescriptor();
 					final int colsY = descY.numberOfColumns();
 					final int rowsY = descY.numberOfRows();
-					return fun( CHITEST, _fun.argument( 0 ), _fun.argument( 1 ), cst( colsX, DataType.NUMERIC ),
-							cst( rowsX, DataType.NUMERIC ), cst( colsY, DataType.NUMERIC ), cst( rowsY, DataType.NUMERIC ) );
+					return fun( CHITEST, _fun.argument( 0 ), _fun.argument( 1 ), cst( colsX, DataType.NUMERIC ), cst( rowsX,
+							DataType.NUMERIC ), cst( colsY, DataType.NUMERIC ), cst( rowsY, DataType.NUMERIC ) );
 				}
 				break;
-			}			
+			}
 			case DCOUNT:
 			case DCOUNTA:
 				return rewriteDAgg( _fun, fold_count() );
@@ -336,7 +336,7 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 			final String matchRefName = "x";
 			final ExpressionNode matchRefNode = var( matchRefName );
 			final ExpressionNode selectorNode = indexNode;
-			final ExpressionNode defaultNode = ZERO;
+			final ExpressionNode defaultNode = err( "#VALUE/REF! because index is out of range in H/VLOOKUP" );
 
 			final ArrayDescriptor desc = arrayNode.arrayDescriptor();
 			final int nArrays = (fun == HLOOKUP)? desc.numberOfRows() : desc.numberOfColumns();

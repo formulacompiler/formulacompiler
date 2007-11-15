@@ -228,7 +228,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: 0.0
+    - const: !NUM:NaN/FE
     - expr: =ACOS( RC[1] )
     - const: -1.0001
     - null
@@ -240,9 +240,9 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
-    - const: 0.0
+    - const: !NUM:NaN/FE
     - expr: =ACOS( RC[1] )
     - const: 1.0001
     - null
@@ -254,7 +254,7 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
   - cells:
     - const: 0.0
@@ -369,9 +369,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - null
-    - null
-    - const: #NUM!
   - cells:
     - const: 14.508657738523969
     - expr: =ACOSH( RC[1] )
@@ -383,9 +380,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - null
-    - null
-    - const: #NUM!
   - cells:
   - cells:
   - cells:
@@ -490,7 +484,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: 0.0
+    - const: !NUM:NaN/FE
     - expr: =ASIN( RC[1] )
     - const: -1.0001
     - null
@@ -502,9 +496,9 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
-    - const: 0.0
+    - const: !NUM:NaN/FE
     - expr: =ASIN( RC[1] )
     - const: 1.0001
     - null
@@ -516,7 +510,7 @@ sheets:
     - const: 1.0
     - const: ...
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
   - cells:
     - const: 0.0
@@ -848,7 +842,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: 0.0
+    - const: !NUM:+Inf/FE
     - expr: =ATANH( RC[1] )
     - const: 1.0
     - null
@@ -858,8 +852,11 @@ sheets:
     - null
     - null
     - const: 1.0
+    - null
+    - null
+    - err: #NUM!
   - cells:
-    - const: 0.0
+    - const: !NUM:-Inf/FE
     - expr: =ATANH( RC[1] )
     - const: -1.0
     - null
@@ -869,8 +866,11 @@ sheets:
     - null
     - null
     - const: 1.0
+    - null
+    - null
+    - err: #NUM!
   - cells:
-    - const: 0.0
+    - const: !NUM:NaN/FE
     - expr: =ATANH( RC[1] )
     - const: 2.0
     - null
@@ -880,8 +880,11 @@ sheets:
     - null
     - null
     - const: 1.0
+    - null
+    - null
+    - err: #NUM!
   - cells:
-    - const: 0.0
+    - const: !NUM:NaN/FE
     - expr: =ATANH( RC[1] )
     - const: 1000.0
     - null
@@ -892,6 +895,8 @@ sheets:
     - null
     - const: 1.0
     - const: ...
+    - null
+    - err: #NUM!
   - cells:
   - cells:
     - const: -2.356194490192345
@@ -996,7 +1001,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #DIV/0!
+    - err: #DIV/0!
   - cells:
     - const: -9.999996666668668E-4
     - expr: =ATAN2( RC[1], RC[2] )
@@ -1217,7 +1222,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =HARMEAN( RC[1], RC[2] )
     - const: 0.0
     - const: -1.0
@@ -1229,7 +1234,7 @@ sheets:
     - const: 2.0
     - const: ...
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
   - cells:
     - const: 2.0
@@ -1289,7 +1294,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =PERMUT( RC[1], RC[2] )
     - const: 0.0
     - const: 1.0
@@ -1301,7 +1306,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
     - const: 1.0
     - expr: =PERMUT( RC[1], RC[2] )
@@ -1314,7 +1319,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =PERMUT( RC[1], RC[2] )
     - const: 1.0
     - const: -1.0
@@ -1326,9 +1331,9 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =PERMUT( RC[1], RC[2] )
     - const: -1.0
     - const: 1.0
@@ -1340,9 +1345,9 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =PERMUT( RC[1], RC[2] )
     - const: 0.0
     - const: -1.0
@@ -1354,7 +1359,7 @@ sheets:
     - const: 2.0
     - const: ...
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
   - cells:
     - const: true
@@ -1977,7 +1982,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: 0.0
+    - const: (sinh 710)
     - expr: =SINH( RC[1] )
     - const: 710.0
     - null
@@ -1988,6 +1993,8 @@ sheets:
     - null
     - const: 1.0
     - const: ...
+    - null
+    - err: #NUM!
   - cells:
   - cells:
     - const: 0.37362445398761723
@@ -2594,7 +2601,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =CEILING( RC[1], RC[2] )
     - const: 0.03001
     - const: -0.03
@@ -2606,7 +2613,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
   - cells:
     - const: 0.0
@@ -2699,7 +2706,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =FLOOR( RC[1], RC[2] )
     - const: 0.03001
     - const: -0.03
@@ -2711,7 +2718,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
   - cells:
     - const: 12.0
@@ -3772,9 +3779,9 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
-    - const: 0.0
+    - const: !NUM:NaN/FE
     - expr: =POWER( RC[1], RC[2] )
     - const: -4.0
     - const: 0.5
@@ -3786,7 +3793,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
   - cells:
     - const: -6.907755278982137
@@ -3869,7 +3876,7 @@ sheets:
     - const: 1.0
     - const: ...
   - cells:
-    - const: 0.0
+    - const: !NUM:-Inf/FE
     - expr: =LN( RC[1] )
     - const: 0.0
     - null
@@ -3881,9 +3888,9 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
-    - const: 0.0
+    - const: !NUM:NaN/FE
     - expr: =LN( RC[1] )
     - const: -5.0
     - null
@@ -3895,7 +3902,7 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
   - cells:
     - const: -3.0
@@ -4022,7 +4029,7 @@ sheets:
     - const: 2.0
     - const: ...
   - cells:
-    - const: 0.0
+    - const: !NUM:-Inf/FE
     - expr: =LOG( RC[1] )
     - const: 0.0
     - null
@@ -4034,9 +4041,9 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
-    - const: 0.0
+    - const: !NUM:NaN/FE
     - expr: =LOG( RC[1] )
     - const: -2.0
     - null
@@ -4048,7 +4055,7 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
     - const: 0.0
     - expr: =LOG( RC[1], RC[2] )
@@ -4062,9 +4069,9 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
-    - const: 0.0
+    - const: !NUM:NaN/FE
     - expr: =LOG( RC[1], RC[2] )
     - const: 10.0
     - const: -2.0
@@ -4076,9 +4083,9 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
-    - const: 0.0
+    - const: !NUM:-Inf/FE
     - expr: =LOG( RC[1], RC[2] )
     - const: 0.0
     - const: 10.0
@@ -4090,9 +4097,9 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
-    - const: 0.0
+    - const: !NUM:NaN/FE
     - expr: =LOG( RC[1], RC[2] )
     - const: -2.0
     - const: 10.0
@@ -4104,9 +4111,9 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
-    - const: 0.0
+    - const: !NUM:+Inf/FE
     - expr: =LOG( RC[1], RC[2] )
     - const: 2.0
     - const: 1.0
@@ -4118,7 +4125,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #DIV/0!
+    - err: #DIV/0!
   - cells:
   - cells:
     - const: -3.0
@@ -4201,7 +4208,7 @@ sheets:
     - const: 1.0
     - const: ...
   - cells:
-    - const: 0.0
+    - const: !NUM:-Inf/FE
     - expr: =LOG10( RC[1] )
     - const: 0.0
     - null
@@ -4213,9 +4220,9 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
-    - const: 0.0
+    - const: !NUM:NaN/FE
     - expr: =LOG10( RC[1] )
     - const: -2.0
     - null
@@ -4227,7 +4234,7 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
   - cells:
     - const: 0.0
@@ -4310,7 +4317,7 @@ sheets:
     - const: 2.0
     - const: ...
   - cells:
-    - const: 0.0
+    - const: !NUM:NaN/AE
     - expr: =MOD( RC[1], RC[2] )
     - const: 10.0
     - const: 0.0
@@ -4322,7 +4329,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #DIV/0!
+    - err: #DIV/0!
   - cells:
   - cells:
     - const: 0.03162277660168379
@@ -4427,7 +4434,7 @@ sheets:
     - const: 1.0
     - const: ...
   - cells:
-    - const: 0.0
+    - const: !NUM:NaN/FE
     - expr: =SQRT( RC[1] )
     - const: -1.0
     - null
@@ -4439,10 +4446,10 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =FACT( RC[1] )
     - const: -1.0
     - null
@@ -4454,7 +4461,7 @@ sheets:
     - const: 1.0
     - const: FACT
     - const: FACT
-    - const: #NUM!
+    - err: #NUM!
   - cells:
     - const: 1.0
     - expr: =FACT( RC[1] )
@@ -4840,7 +4847,7 @@ sheets:
     - const: 2.0
     - const: ...
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =COMBIN( RC[1], RC[2] )
     - const: 0.0
     - const: 1.0
@@ -4852,9 +4859,9 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =COMBIN( RC[1], RC[2] )
     - const: 1.0
     - const: -1.0
@@ -4866,9 +4873,9 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =COMBIN( RC[1], RC[2] )
     - const: -1.0
     - const: 1.0
@@ -4880,7 +4887,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #NUM!
+    - err: #NUM!
 
 names:
 - name: ABSRANGE

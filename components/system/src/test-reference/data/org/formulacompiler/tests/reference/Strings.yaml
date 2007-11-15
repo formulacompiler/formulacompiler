@@ -468,7 +468,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: 
+    - const: !STR:FE
     - expr: =MID( RC[1], RC[2], RC[3] )
     - const: abcdef
     - const: 0.0
@@ -480,9 +480,9 @@ sheets:
     - const: 3.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
-    - const: 
+    - const: !STR:FE
     - expr: =MID( RC[1], RC[2], RC[3] )
     - const: abcdef
     - const: 1.0
@@ -494,7 +494,7 @@ sheets:
     - const: 3.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
   - cells:
     - const: a
@@ -587,7 +587,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 
+    - const: !STR:FE
     - expr: =LEFT( RC[1], RC[2] )
     - const: abcdef
     - const: -1.0
@@ -599,7 +599,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
   - cells:
     - const: f
@@ -692,7 +692,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 
+    - const: !STR:FE
     - expr: =RIGHT( RC[1], RC[2] )
     - const: abcdef
     - const: -1.0
@@ -704,7 +704,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
   - cells:
     - const: Hello World
@@ -885,7 +885,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: Hello world
+    - const: !STR:FE
     - expr: =SUBSTITUTE( RC[1], RC[2], RC[3], RC[4] )
     - const: Hello world
     - const: l
@@ -897,7 +897,7 @@ sheets:
     - const: 4.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
     - const: He_lo world
     - expr: =SUBSTITUTE( RC[1], RC[2], RC[3], RC[4] )
@@ -1056,7 +1056,7 @@ sheets:
     - null
     - const: 4.0
   - cells:
-    - const: 
+    - const: !STR:FE
     - expr: =REPLACE( RC[1], RC[2], RC[3], RC[4] )
     - const: Hello world
     - const: 0.0
@@ -1068,9 +1068,9 @@ sheets:
     - const: 4.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
-    - const: 
+    - const: !STR:FE
     - expr: =REPLACE( RC[1], RC[2], RC[3], RC[4] )
     - const: Hello world
     - const: 1.0
@@ -1082,7 +1082,7 @@ sheets:
     - const: 4.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
   - cells:
     - const: true
@@ -1244,7 +1244,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =FIND( RC[1], RC[2] )
     - const: X
     - const: Hello world
@@ -1256,7 +1256,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
     - const: 11.0
     - expr: =FIND( RC[1], RC[2] )
@@ -1335,7 +1335,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =FIND( RC[1], RC[2] )
     - const: x
     - const: 
@@ -1347,7 +1347,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
     - const: 5.0
     - expr: =FIND( RC[1], RC[2] )
@@ -1448,7 +1448,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =FIND( RC[1], RC[2], RC[3] )
     - const: l
     - const: Hello world
@@ -1460,7 +1460,7 @@ sheets:
     - const: 3.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
     - const: 11.0
     - expr: =FIND( RC[1], RC[2], RC[3] )
@@ -1473,7 +1473,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =FIND( RC[1], RC[2], RC[3] )
     - const: d
     - const: Hello world
@@ -1485,7 +1485,7 @@ sheets:
     - const: 3.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
     - const: 3.0
     - expr: =FIND( RC[1], RC[2], RC[3] )
@@ -1509,7 +1509,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =FIND( RC[1], RC[2], RC[3] )
     - const: llo
     - const: Hello world
@@ -1521,7 +1521,7 @@ sheets:
     - const: 3.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
   - cells:
     - const: 2.0
@@ -1548,7 +1548,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =SEARCH( RC[1], RC[2] )
     - const: X
     - const: Hello world
@@ -1560,7 +1560,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
     - const: 11.0
     - expr: =SEARCH( RC[1], RC[2] )
@@ -1661,7 +1661,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =SEARCH( RC[1], RC[2] )
     - const: o??l
     - const: Hello world
@@ -1673,7 +1673,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
     - const: 5.0
     - expr: =SEARCH( RC[1], RC[2] )
@@ -1686,7 +1686,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =SEARCH( RC[1], RC[2] )
     - const: ~**~**~~.
     - const: Use * or ?, escape with ~.
@@ -1698,7 +1698,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
     - const: 7.0
     - expr: =SEARCH( RC[1], RC[2] )
@@ -1722,7 +1722,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =SEARCH( RC[1], RC[2] )
     - const: 
     - const: 
@@ -1734,9 +1734,9 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =SEARCH( RC[1], RC[2] )
     - const: x
     - const: 
@@ -1748,7 +1748,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
     - const: 5.0
     - expr: =SEARCH( RC[1], RC[2] )
@@ -1871,7 +1871,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =SEARCH( RC[1], RC[2], RC[3] )
     - const: l
     - const: Hello world
@@ -1883,7 +1883,7 @@ sheets:
     - const: 3.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
     - const: 11.0
     - expr: =SEARCH( RC[1], RC[2], RC[3] )
@@ -1896,7 +1896,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =SEARCH( RC[1], RC[2], RC[3] )
     - const: d
     - const: Hello world
@@ -1908,7 +1908,7 @@ sheets:
     - const: 3.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
     - const: 3.0
     - expr: =SEARCH( RC[1], RC[2], RC[3] )
@@ -1932,7 +1932,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =SEARCH( RC[1], RC[2], RC[3] )
     - const: llo
     - const: Hello world
@@ -1944,7 +1944,7 @@ sheets:
     - const: 3.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
     - const: 2.0
     - expr: =SEARCH( RC[1], RC[2], RC[3] )
@@ -1968,7 +1968,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =SEARCH( RC[1], RC[2], RC[3] )
     - const: e*o
     - const: Hello world
@@ -1980,7 +1980,7 @@ sheets:
     - const: 3.0
     - null
     - null
-    - const: #VALUE!
+    - err: #VALUE!
   - cells:
     - const: 8.0
     - expr: =SEARCH( RC[1], RC[2], RC[3] )

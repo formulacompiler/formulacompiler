@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.formulacompiler.runtime.NotAvailableException;
 import org.formulacompiler.runtime.ScaledLongSupport;
 
 
@@ -45,7 +46,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		final long one;
 		final double oneAsDouble;
 
-		public Context(final int _scale)
+		public Context( final int _scale )
 		{
 			super();
 			this.scale = _scale;
@@ -94,10 +95,8 @@ public final class RuntimeLong_v2 extends Runtime_v2
 			if (_value == 0.0) {
 				return 0L;
 			}
-			else if (Double.isNaN( _value ) || Double.isInfinite( _value )) {
-				return 0L; // Excel #NUM
-			}
-			else if (this.scale == 0) {
+			checkDouble( _value );
+			if (this.scale == 0) {
 				return Math.round( _value );
 			}
 			else {
@@ -141,12 +140,12 @@ public final class RuntimeLong_v2 extends Runtime_v2
 
 	public static long max( final long a, final long b )
 	{
-		return a >= b ? a : b;
+		return a >= b? a : b;
 	}
 
 	public static long min( final long a, final long b )
 	{
-		return a <= b ? a : b;
+		return a <= b? a : b;
 	}
 
 	public static long round( final long _val, final int _maxFrac, Context _cx )
@@ -352,7 +351,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	{
 		long a = _number / _significance;
 		if (a < 0) {
-			return 0; // Excel #NUM
+			err_CEILING();
 		}
 		if (a * _significance != _number) {
 			a++;
@@ -364,7 +363,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	{
 		final long a = _number / _significance;
 		if (a < 0) {
-			return 0; // Excel #NUM
+			err_FLOOR();
 		}
 		return a * _significance;
 	}
@@ -505,17 +504,20 @@ public final class RuntimeLong_v2 extends Runtime_v2
 
 	public static long fun_BETADIST( long _x, long _alpha, long _beta, Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v2.fun_BETADIST( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx.toDouble( _beta ) ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_BETADIST( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx
+				.toDouble( _beta ) ) );
 	}
 
 	public static long fun_BETAINV( long _x, long _alpha, long _beta, Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v2.fun_BETAINV( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx.toDouble( _beta ) ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_BETAINV( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx
+				.toDouble( _beta ) ) );
 	}
 
 	public static long fun_BINOMDIST( long _successes, long _trials, long _probability, boolean _cumulative, Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v2.fun_BINOMDIST( _cx.toInt( _successes ), _cx.toInt( _trials ), _cx.toDouble( _probability ), _cumulative ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_BINOMDIST( _cx.toInt( _successes ), _cx.toInt( _trials ), _cx
+				.toDouble( _probability ), _cumulative ) );
 	}
 
 	public static long fun_CHIDIST( long _x, long _degFreedom, Context _cx )
@@ -530,36 +532,34 @@ public final class RuntimeLong_v2 extends Runtime_v2
 
 	public static long fun_CRITBINOM( long _n, long _p, long _alpha, Context _cx )
 	{
+		// p <= 0 is contrary to Excel's docs where it says p < 0; but the test case says otherwise.
 		if (_n < 0 || _p <= 0 || _p >= _cx.one || _alpha <= 0 || _alpha >= _cx.one) {
-			return 0;
+			fun_ERROR( "#NUM! because not n >= 0, 0 < p < 1, 0 < alpha < 1 in CRITBINOM" );
+		}
+		long n = fun_INT( _n, _cx );
+		long q = _cx.one - _p;
+		long factor = fun_POWER( q, fun_INT( _n, _cx ), _cx );
+		if (factor == 0) {
+			factor = fun_POWER( _p, n, _cx );
+			if (factor == 0) return 0;
+			else {
+				long sum = _cx.one - factor;
+				long i;
+				for (i = 0; i < n && sum >= _alpha; i = i + _cx.one) {
+					factor = factor * (n - i) / (i + _cx.one) * q / _p;
+					sum = sum - factor;
+				}
+				return n - i;
+			}
 		}
 		else {
-			long n = fun_INT( _n, _cx );
-			long q = _cx.one - _p;
-			long factor = fun_POWER( q, fun_INT( _n, _cx ), _cx );
-			if (factor == 0) {
-				factor = fun_POWER( _p, n, _cx );
-				if (factor == 0)
-					return 0;
-				else {
-					long sum = _cx.one - factor;
-					long i;
-					for (i = 0; i < n && sum >= _alpha; i = i + _cx.one) {
-						factor = factor * (n - i) / (i + _cx.one) * q / _p;
-						sum = sum - factor;
-					}
-					return n - i;
-				}
+			long sum = factor;
+			long i;
+			for (i = 0; i < n && sum < _alpha; i = i + _cx.one) {
+				factor = factor * (n - i) / (i + _cx.one) * _p / q;
+				sum = sum + factor;
 			}
-			else {
-				long sum = factor;
-				long i;
-				for (i = 0; i < n && sum < _alpha; i = i + _cx.one) {
-					factor = factor * (n - i) / (i + _cx.one) * _p / q;
-					sum = sum + factor;
-				}
-				return i;
-			}
+			return i;
 		}
 	}
 
@@ -570,12 +570,14 @@ public final class RuntimeLong_v2 extends Runtime_v2
 
 	public static long fun_GAMMADIST( long _x, long _alpha, long _beta, boolean _cumulative, Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v2.fun_GAMMADIST( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx.toDouble( _beta ), _cumulative ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_GAMMADIST( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx
+				.toDouble( _beta ), _cumulative ) );
 	}
 
 	public static long fun_GAMMAINV( long _x, long _alpha, long _beta, Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v2.fun_GAMMAINV( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx.toDouble( _beta ) ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_GAMMAINV( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx
+				.toDouble( _beta ) ) );
 	}
 
 	public static long fun_GAMMALN( long _x, Context _cx )
@@ -590,7 +592,8 @@ public final class RuntimeLong_v2 extends Runtime_v2
 
 	public static long fun_TDIST( long _x, long _degFreedom, long _tails, boolean _no_floor, Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v2.fun_TDIST( _cx.toDouble( _x ), _cx.toDouble( _degFreedom ), _cx.toInt( _tails ), _no_floor ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_TDIST( _cx.toDouble( _x ), _cx.toDouble( _degFreedom ), _cx
+				.toInt( _tails ), _no_floor ) );
 	}
 
 	public static long fun_TINV( long _x, long _degFreedom, Context _cx )
@@ -600,14 +603,12 @@ public final class RuntimeLong_v2 extends Runtime_v2
 
 	public static long fun_WEIBULL( long _x, long _alpha, long _beta, boolean _cumulative, Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v2.fun_WEIBULL( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx.toDouble( _beta ), _cumulative ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_WEIBULL( _cx.toDouble( _x ), _cx.toDouble( _alpha ), _cx
+				.toDouble( _beta ), _cumulative ) );
 	}
 
 	public static long fun_MOD( final long _n, final long _d, final Context _cx )
 	{
-		if (_d == 0) {
-			return 0; // Excel #DIV/0!
-		}
 		final long remainder = _n % _d;
 		if (remainder != 0 && Long.signum( remainder ) != Long.signum( _d )) {
 			return remainder + _d;
@@ -655,9 +656,11 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return hours * _cx.one();
 	}
 
-	public static long fun_HYPGEOMDIST( long _sample_s, long _number_sample, long _population_s, long _number_population, Context _cx )
+	public static long fun_HYPGEOMDIST( long _sample_s, long _number_sample, long _population_s,
+			long _number_population, Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v2.fun_HYPGEOMDIST( _cx.toInt( _sample_s ), _cx.toInt( _number_sample ), _cx.toInt( _population_s ), _cx.toInt( _number_population ) ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_HYPGEOMDIST( _cx.toInt( _sample_s ), _cx.toInt( _number_sample ), _cx
+				.toInt( _population_s ), _cx.toInt( _number_population ) ) );
 	}
 
 	public static long fun_WEEKDAY( final long _date, final long _type, final Context _cx )
@@ -709,16 +712,14 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	public static long fun_FACT( long _a )
 	{
 		if (_a < 0) {
-			return 0; // Excel #NUM!
+			err_FACT();
+		}
+		int a = (int) _a;
+		if (a < FACTORIALS.length) {
+			return FACTORIALS[ a ];
 		}
 		else {
-			int a = (int) _a;
-			if (a < FACTORIALS.length) {
-				return FACTORIALS[ a ];
-			}
-			else {
-				throw new ArithmeticException( "Overflow in FACT() using (scaled) long." );
-			}
+			throw new ArithmeticException( "Overflow in FACT() using (scaled) long." );
 		}
 	}
 
@@ -736,7 +737,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		long depreciation = depreciation1;
 		if (_period / _cx.one() > 1) {
 			long totalDepreciation = depreciation1;
-			final int maxPeriod = (int) ((_life > _period ? _period : _life) / _cx.one());
+			final int maxPeriod = (int) ((_life > _period? _period : _life) / _cx.one());
 			for (int i = 2; i <= maxPeriod; i++) {
 				depreciation = (_cost - totalDepreciation) * rate / _cx.one();
 				totalDepreciation += depreciation;
@@ -772,7 +773,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		for (int i = 0; i < _xs.length; i++) {
 			if (_x == _xs[ i ]) return i + 1; // Excel is 1-based
 		}
-		return 0;
+		throw new NotAvailableException();
 	}
 
 	public static int fun_MATCH_Ascending( long _x, long[] _xs )
@@ -786,6 +787,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 			else iRight = iMid;
 		}
 		if (iLeft > iLast || _x < _xs[ iLeft ]) iLeft--;
+		if (iLeft < 0) fun_NA();
 		return iLeft + 1; // Excel is 1-based
 	}
 
@@ -800,6 +802,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 			else iRight = iMid;
 		}
 		if (iLeft > iLast || _x > _xs[ iLeft ]) iLeft--;
+		if (iLeft < 0) fun_NA();
 		return iLeft + 1; // Excel is 1-based
 	}
 

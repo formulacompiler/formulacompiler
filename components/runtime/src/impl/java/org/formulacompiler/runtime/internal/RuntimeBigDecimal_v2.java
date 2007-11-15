@@ -27,6 +27,8 @@ import java.math.RoundingMode;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.formulacompiler.runtime.NotAvailableException;
+
 
 public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 {
@@ -134,10 +136,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	public static BigDecimal fun_ACOS( BigDecimal _a )
 	{
 		final double a = _a.doubleValue();
-		if (a > 1 || a < -1) {
-			return ZERO; // Excel #NUM!
-		}
-		return valueOf( Math.acos( a ) );
+		return valueOf( RuntimeDouble_v2.fun_ACOS( a ) );
 	}
 
 	public static BigDecimal fun_ACOSH( BigDecimal _a )
@@ -246,7 +245,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	{
 		final BigDecimal a = _number.divide( _significance, _cx );
 		if (a.signum() < 0) {
-			return ZERO; // Excel #NUM!
+			err_CEILING();
 		}
 		return a.setScale( 0, RoundingMode.UP ).multiply( _significance, _cx );
 	}
@@ -255,7 +254,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	{
 		final BigDecimal a = _number.divide( _significance, _cx );
 		if (a.signum() < 0) {
-			return ZERO; // Excel #NUM!
+			err_FLOOR();
 		}
 		return a.setScale( 0, RoundingMode.DOWN ).multiply( _significance, _cx );
 	}
@@ -363,40 +362,40 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		return valueOf( RuntimeDouble_v2.fun_CHIINV( _x.doubleValue(), _degFreedom.doubleValue() ) );
 	}
 
-	public static BigDecimal fun_CRITBINOM( BigDecimal _n, BigDecimal _p, BigDecimal _alpha)
+	public static BigDecimal fun_CRITBINOM( BigDecimal _n, BigDecimal _p, BigDecimal _alpha )
 	{
-		if (_n.compareTo( ZERO ) < 0 || _p.compareTo( ZERO ) <= 0
-				|| _p.compareTo( ONE ) >= 0 || _alpha.compareTo( ZERO ) <= 0
+		// p <= 0 is contrary to Excel's docs where it says p < 0; but the test case says otherwise.
+		if (_n.compareTo( ZERO ) < 0
+				|| _p.compareTo( ZERO ) <= 0 || _p.compareTo( ONE ) >= 0 || _alpha.compareTo( ZERO ) <= 0
 				|| _alpha.compareTo( ONE ) >= 0) {
-			return ZERO;
+			fun_ERROR( "#NUM! because not n >= 0, 0 < p < 1, 0 < alpha < 1 in CRITBINOM" );
+		}
+		BigDecimal q = ONE.subtract( _p );
+		int n = _n.intValue();
+		BigDecimal factor = q.pow( n );
+		if (factor.compareTo( ZERO ) == 0) {
+			factor = _p.pow( n );
+			if (factor.compareTo( ZERO ) == 0) return ZERO;
+			else {
+				BigDecimal sum = ONE.subtract( factor );
+				int i;
+				for (i = 0; i < n && sum.compareTo( _alpha ) >= 0; i++) {
+					factor = factor.multiply( BigDecimal.valueOf( n - i ) ).divide( BigDecimal.valueOf( i + 1 ) ).multiply(
+							q ).divide( _p );
+					sum = sum.subtract( factor );
+				}
+				return BigDecimal.valueOf( n - i );
+			}
 		}
 		else {
-			BigDecimal q = ONE.subtract(_p);
-			int n = _n.intValue();
-			BigDecimal factor = q.pow( n );
-			if (factor.compareTo( ZERO )== 0) {
-				factor = _p.pow( n );
-				if (factor.compareTo( ZERO ) == 0)
-					return ZERO;
-				else {
-					BigDecimal sum = ONE.subtract(factor);
-					int i;
-					for (i = 0; i < n && sum.compareTo( _alpha)>= 0; i++) {
-						factor = factor.multiply( BigDecimal.valueOf( n - i ) ).divide( BigDecimal.valueOf( i + 1 ) ).multiply( q ).divide( _p );
-						sum = sum.subtract(factor);
-					}
-					return BigDecimal.valueOf(n - i);
-				}
+			BigDecimal sum = factor;
+			int i;
+			for (i = 0; i < n && sum.compareTo( _alpha ) < 0; i++) {
+				factor = factor.multiply( BigDecimal.valueOf( n - i ) ).divide( BigDecimal.valueOf( i + 1 ) ).multiply( _p )
+						.divide( q );
+				sum = sum.add( factor );
 			}
-			else {
-				BigDecimal sum = factor;
-				int i;
-				for (i = 0; i < n && sum.compareTo( _alpha)< 0; i++) {
-					factor = factor.multiply( BigDecimal.valueOf( n - i ) ).divide( BigDecimal.valueOf( i + 1 ) ).multiply( _p ).divide( q );
-					sum = sum.add(factor);
-				}
-				return BigDecimal.valueOf(i);
-			}
+			return BigDecimal.valueOf( i );
 		}
 	}
 
@@ -445,25 +444,13 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 
 	public static BigDecimal fun_LOG( final BigDecimal _n, final BigDecimal _x )
 	{
-		final double lnN = Math.log( _n.doubleValue() );
-		if (Double.isNaN( lnN ) || Double.isInfinite( lnN )) {
-			return ZERO; // Excel #NUM!
-		}
-		final double lnX = Math.log( _x.doubleValue() );
-		if (Double.isNaN( lnX ) || Double.isInfinite( lnX )) {
-			return ZERO; // Excel #NUM!
-		}
-		if (lnX == 0) {
-			return ZERO; // Excel #DIV/0!
-		}
-		return valueOf( lnN / lnX );
+		final double n = _n.doubleValue();
+		final double x = _x.doubleValue();
+		return valueOf( RuntimeDouble_v2.fun_LOG( n, x ) );
 	}
 
 	public static BigDecimal fun_MOD( final BigDecimal _n, final BigDecimal _d )
 	{
-		if (_d.signum() == 0) {
-			return ZERO; // Excel #DIV/0!
-		}
 		final BigDecimal remainder = _n.remainder( _d );
 		if (remainder.signum() != 0 && remainder.signum() != _d.signum()) {
 			return remainder.add( _d );
@@ -475,13 +462,9 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 
 	public static BigDecimal fun_SQRT( BigDecimal _n, MathContext _context )
 	{
-		if (_n.signum() < 0) {
-			return ZERO; // Excel #NUM!
-		}
-
 		// the Babylonian square root method (Newton's method)
 		BigDecimal x0 = ZERO;
-		BigDecimal x1 = new BigDecimal( Math.sqrt( _n.doubleValue() ) );
+		BigDecimal x1 = valueOf( Math.sqrt( _n.doubleValue() ) );
 
 		while (x0.compareTo( x1 ) != 0) {
 			x0 = x1;
@@ -497,9 +480,9 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	{
 		int a = _a.intValue();
 		if (a < 0) {
-			return ZERO; // Excel #NUM!
+			err_FACT();
 		}
-		else if (a < FACTORIALS.length) {
+		if (a < FACTORIALS.length) {
 			return BigDecimal.valueOf( FACTORIALS[ a ] );
 		}
 		else {
@@ -834,7 +817,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		for (int i = 0; i < _xs.length; i++) {
 			if (_x.equals( _xs[ i ] )) return i + 1; // Excel is 1-based
 		}
-		return 0;
+		throw new NotAvailableException();
 	}
 
 	public static int fun_MATCH_Ascending( BigDecimal _x, BigDecimal[] _xs )
@@ -848,6 +831,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			else iRight = iMid;
 		}
 		if (iLeft > iLast || _x.compareTo( _xs[ iLeft ] ) < 0) iLeft--;
+		if (iLeft < 0) fun_NA();
 		return iLeft + 1; // Excel is 1-based
 	}
 
@@ -862,6 +846,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			else iRight = iMid;
 		}
 		if (iLeft > iLast || _x.compareTo( _xs[ iLeft ] ) > 0) iLeft--;
+		if (iLeft < 0) fun_NA();
 		return iLeft + 1; // Excel is 1-based
 	}
 

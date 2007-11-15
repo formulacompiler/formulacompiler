@@ -18,12 +18,12 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
- 
- 
+
+
 // NOTE: A total of 6 warnings about "+" and "(" can be ignored.
 // They are caused by the annoying range intersection syntax.
 
- 
+
 options {
 	JDK_VERSION = "1.5";
 	STATIC = false;
@@ -39,12 +39,12 @@ import org.formulacompiler.runtime.*;
 import org.formulacompiler.compiler.*;
 import org.formulacompiler.compiler.internal.expressions.*;
 
-class GeneratedExpressionParser extends ExpressionParserBase 
+class GeneratedExpressionParser extends ExpressionParserBase
 {
 }
 PARSER_END( GeneratedExpressionParser )
 
-SKIP: 
+SKIP:
 	{	" "
 	|	"\r"
 	|	"\n"
@@ -74,7 +74,7 @@ SPECIAL_TOKEN :
 MORE :
 	{	< ~[] > }
 
-	
+
 TOKEN: /* Helpers */
 	{	<#DIGITS: (<DIGIT>)+ >
 	|	<#DIGIT: ["0"-"9"] >
@@ -93,7 +93,7 @@ TOKEN: /* Numeric constants */
 		>
 	|	<#EXPONENT: ["e","E"] (["+","-"])? <DIGITS> >
 	}
-	
+
 TOKEN: /* String constants */
 	{	<STR_CONST: "\"" (~["\""])* "\"" >
 	}
@@ -106,7 +106,7 @@ void rootExpr(): {}
 	}
 
 void expr(): {}
-	{	minMaxTerm() 
+	{	minMaxTerm()
 	}
 
 void minMaxTerm(): {}
@@ -168,7 +168,7 @@ void expTerm() : {}
 	{	signedTerm() ( "^" signedTerm()
 			{ pushNode( new ExpressionNodeForOperator( Operator.EXP, popNodes( 2 ) )); }
 		)*
-	} 
+	}
 
 void signedTerm(): {}
 	{	"-" signedTerm()
@@ -182,8 +182,8 @@ void percentTerm() : {}
 			{ pushNode( new ExpressionNodeForOperator( Operator.PERCENT, popNode() )); }
 		)*
 	}
-	
-void value(): 
+
+void value():
 	{	Token n = null; }
 	{	intConst()
 	|	dblConst()
@@ -220,21 +220,21 @@ void strConst():
 void cellRef():
 	{	Token c = null, s = null; }
 	{	c = <CELLA1>
-			{ pushNode( makeCellA1( c )); } 
+			{ pushNode( makeCellA1( c )); }
 	|	c = <CELLR1C1>
-			{ pushNode( makeCellR1C1( c )); } 
+			{ pushNode( makeCellR1C1( c )); }
 	|	LOOKAHEAD(2)
 		s = <SHEET> c = <CELLA1>
-			{ pushNode( makeCellA1( c, s )); } 
+			{ pushNode( makeCellA1( c, s )); }
 	|	LOOKAHEAD(2)
 		s = <SHEET> c = <CELLR1C1>
-			{ pushNode( makeCellR1C1( c, s )); } 
+			{ pushNode( makeCellR1C1( c, s )); }
 	}
 
 void namedCellRef():
 	{	Token n = null; }
 	{	n = <NAME>
-			{ pushNode( makeNamedCellRef( n )); } 
+			{ pushNode( makeNamedCellRef( n )); }
 	}
 
 
@@ -244,8 +244,8 @@ void namedCellRef():
 void lexer_test(): {}
 	{	"ACOS" | "AND" | "ASIN" | "ATAN" | "ATAN2" | "AVERAGE" | "CHOOSE" | "COLUMNS" | "COS" | "COUNT" | "COUNTA" | "COUNTBLANK" | "COUNTIF" | "DATE" | "DAVERAGE" | "DAY" | "DCOUNT" | "DCOUNTA" | "DDB" | "DEGREES" | "DGET" | "DMAX" | "DMIN" | "DPRODUCT" | "DSTDEV" | "DSTDEVP" | "DSUM" | "DVAR" | "DVARP" | "EVEN" | "EXACT" | "EXP" | "FACT" | "FALSE" | "FIND" | "FV" | "HLOOKUP" | "HOUR" | "IF" | "INDEX" | "INT" | "IRR" | "ISBLANK" | "ISERR" | "ISERROR" | "ISLOGICAL" | "ISNA" | "ISNONTEXT" | "ISNUMBER" | "ISTEXT" | "LEFT" | "LEN" | "LN" | "LOG" | "LOG10" | "LOWER" | "MATCH" | "MAX" | "MID" | "MIN" | "MINUTE" | "MOD" | "MONTH" | "N" | "NA" | "NOT" | "NOW" | "NPER" | "NPV" | "ODD" | "OR" | "PI" | "PMT" | "POWER" | "PROPER" | "PV" | "RADIANS" | "RATE" | "REPLACE" | "REPT" | "RIGHT" | "ROWS" | "SECOND" | "SIN" | "SLN" | "SQRT" | "STDEV" | "STDEVP" | "SUBSTITUTE" | "SUMIF" | "SYD" | "T" | "TAN" | "TIME" | "TODAY" | "TRIM" | "TRUE" | "TRUNC" | "UPPER" | "VALUE" | "VAR" | "VARP" | "VLOOKUP" | "WEEKDAY" | "YEAR"
 	|	"ACCRINT" | "ACCRINTM" | "ACOSH" | "ADDRESS" | "ASINH" | "ATANH" | "AVEDEV" | "BESSELI" | "BESSELJ" | "BESSELK" | "BESSELY" | "BETADIST" | "BETAINV" | "BINOMDIST" | "CEILING" | "CELL" | "CHAR" | "CHIDIST" | "CHIINV" | "CHITEST" | "CLEAN" | "CODE" | "COLUMN" | "COMBIN" | "CONCATENATE" | "CONFIDENCE" | "CONVERT" | "CORREL" | "COSH" | "COUPDAYBS" | "COUPDAYS" | "COUPDAYSNC" | "COUPNCD" | "COUPNUM" | "COUPPCD" | "COVAR" | "CRITBINOM" | "CUMIPMT" | "CUMPRINC" | "DATEDIF" | "DATEVALUE" | "DAYS360" | "DB" | "DEVSQ" | "DISC" | "DOLLAR" | "DOLLARDE" | "DOLLARFR" | "DURATION" | "EOMONTH" | "ERF" | "ERFC" | "EXPONDIST" | "FDIST" | "FINV" | "FISHER" | "FISHERINV" | "FIXED" | "FLOOR" | "FORECAST" | "FTEST" | "GAMMADIST" | "GAMMAINV" | "GAMMALN" | "GCD" | "GEOMEAN" | "HARMEAN" | "HYPGEOMDIST" | "INTERCEPT" | "INTRATE" | "ISEVEN" | "ISODD" | "KURT" | "LARGE" | "LCM" | "LINEST" | "LOGINV" | "LOGNORMDIST" | "LOOKUP" | "MDURATION" | "MEDIAN" | "MINVERSE" | "MIRR" | "MMULT" | "MODE" | "MROUND" | "MULTINOMIAL" | "NEGBINOMDIST" | "NETWORKDAYS" | "NOMINAL" | "NORMDIST" | "NORMINV" | "NORMSDIST" | "NORMSINV" | "ODDFPRICE" | "ODDFYIELD" | "ODDLPRICE" | "ODDLYIELD" | "OFFSET" | "PEARSON" | "PERCENTILE" | "PERCENTRANK" | "PERMUT" | "POISSON" | "PRICE" | "PRICEMAT" | "PROB" | "QUARTILE" | "QUOTIENT" | "RAND" | "RANDBETWEEN" | "RANK" | "RECEIVED" | "ROMAN" | "ROUNDDOWN" | "ROUNDUP" | "ROW" | "RSQ" | "SERIESSUM" | "SIGN" | "SINH" | "SKEW" | "SLOPE" | "SMALL" | "SQRTPI" | "STANDARDIZE" | "STDEVPA" | "STEYX" | "SUBTOTAL" | "SUMPRODUCT" | "SUMSQ" | "SUMX2MY2" | "SUMX2PY2" | "SUMXMY2" | "TANH" | "TBILLEQ" | "TBILLPRICE" | "TBILLYIELD" | "TDIST" | "TIMEVALUE" | "TINV" | "TRANSPOSE" | "TREND" | "TRIMMEAN" | "TTEST" | "TYPE" | "VARA" | "VDB" | "WEEKNUM" | "WEIBULL" | "WORKDAY" | "XIRR" | "XNPV" | "YEARFRAC" | "YIELD" | "YIELDDISC" | "YIELDMAT" | "ZTEST"
-	|	"ACOT" | "ACOTH" | "AMORDEGRC" | "AMORLINC" | "ARABIC" | "AREAS" | "ASC" | "AVERAGEA" | "B" | "BAHTTEXT" | "BASE" | "BIN2DEC" | "BIN2HEX" | "BIN2OCT" | "BITAND" | "BITLSHIFT" | "BITOR" | "BITRSHIFT" | "BITXORCEILING" | "COMBINA" | "COMPLEX" | "COT" | "COTH" | "CURRENT" | "DAYS" | "DBSC" | "DDE" | "DEC2BIN" | "DEC2HEX" | "DEC2OCT" | "DECIMAL" | "DELTA" | "EDATE" | "EFFECT" | "EFFECTIVE" | "ERROR.TYPE" | "FACTDOUBLE" | "FINDB" | "FORMULA" | "FREQUENCY" | "FVSCHEDULE" | "GAMMA" | "GAUSS" | "GESTEP" | "GETPIVOTDATA" | "GROWTH" | "HEX2BIN" | "HEX2DEC" | "HEX2OCT" | "HYPERLINK" | "HYPGEOMVERT" | "IMABS" | "IMAGINARY" | "IMARGUMENT" | "IMCONJUGATE" | "IMCOS" | "IMDIV" | "IMEXP" | "IMLN" | "IMLOG10" | "IMLOG2" | "IMPOWER" | "IMPRODUCT" | "IMREAL" | "IMSIN" | "IMSQRT" | "IMSUB" | "IMSUM" | "INDIRECT" | "INFO" | "IPMT" | "ISFORMULA" | "ISPMT" | "ISREF" | "LEFTB" | "LENB" | "MAXA" | "MDETERM" | "MUNIT" | "MIDB" | "MINA" | "MNORMSINV" | "NUMBERSTRING" | "OCT2BIN" | "OCT2DEC" | "OCT2HEX" | "PERMUTATIONA" | "PHI" | "PHONETIC" | "PPMT" | "PRICEDISC" | "REPLACEB" | "RIGHTB" | "RRI" | "RTD" | "SEARCH" | "SEARCHB" | "SHEET" | "SHEETS" | "TEXT" | "USDOLLAR" | "VALUEL" | "VARPA" | "XOR"		
-	} 
+	|	"ACOT" | "ACOTH" | "AMORDEGRC" | "AMORLINC" | "ARABIC" | "AREAS" | "ASC" | "AVERAGEA" | "B" | "BAHTTEXT" | "BASE" | "BIN2DEC" | "BIN2HEX" | "BIN2OCT" | "BITAND" | "BITLSHIFT" | "BITOR" | "BITRSHIFT" | "BITXORCEILING" | "COMBINA" | "COMPLEX" | "COT" | "COTH" | "CURRENT" | "DAYS" | "DBSC" | "DDE" | "DEC2BIN" | "DEC2HEX" | "DEC2OCT" | "DECIMAL" | "DELTA" | "EDATE" | "EFFECT" | "EFFECTIVE" | "ERROR.TYPE" | "FACTDOUBLE" | "FINDB" | "FORMULA" | "FREQUENCY" | "FVSCHEDULE" | "GAMMA" | "GAUSS" | "GESTEP" | "GETPIVOTDATA" | "GROWTH" | "HEX2BIN" | "HEX2DEC" | "HEX2OCT" | "HYPERLINK" | "HYPGEOMVERT" | "IMABS" | "IMAGINARY" | "IMARGUMENT" | "IMCONJUGATE" | "IMCOS" | "IMDIV" | "IMEXP" | "IMLN" | "IMLOG10" | "IMLOG2" | "IMPOWER" | "IMPRODUCT" | "IMREAL" | "IMSIN" | "IMSQRT" | "IMSUB" | "IMSUM" | "INDIRECT" | "INFO" | "IPMT" | "ISFORMULA" | "ISPMT" | "ISREF" | "LEFTB" | "LENB" | "MAXA" | "MDETERM" | "MUNIT" | "MIDB" | "MINA" | "MNORMSINV" | "NUMBERSTRING" | "OCT2BIN" | "OCT2DEC" | "OCT2HEX" | "PERMUTATIONA" | "PHI" | "PHONETIC" | "PPMT" | "PRICEDISC" | "REPLACEB" | "RIGHTB" | "RRI" | "RTD" | "SEARCH" | "SEARCHB" | "SHEET" | "SHEETS" | "TEXT" | "USDOLLAR" | "VALUEL" | "VARPA" | "XOR"
+	}
 */
 
 // Please keep this list in alphabetical order.
@@ -269,14 +269,14 @@ void fun(): {}
 	|	"CEILING" fun2( Function.CEILING )
 	|	"CHIDIST" fun2( Function.CHIDIST )
 	|	"CHIINV" fun2( Function.CHIINV )
-	|	"CHITEST" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.CHITEST )	
+	|	"CHITEST" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.CHITEST )
 	|	"CHOOSE" open() expr() commaExprs() closeFun( Function.CHOOSE )
 	|	"CLEAN" fun1( Function.CLEAN )
 
 	// citation: combin
 	|	"COMBIN" fun2( Function.COMBIN )
 	// citation: combin
-	
+
 	|	"CONCATENATE" open() expr() commaExprs() closeOp( Operator.CONCAT )
 	|	"CONFIDENCE" fun3( Function.CONFIDENCE )
 	|	"CORREL" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.CORREL )
@@ -306,12 +306,13 @@ void fun(): {}
 	|	"DVARP" dbAggN( Function.DVARP )
 	|	"ERF" fun1to2( Function.ERF )
 	|	"ERFC" fun1( Function.ERFC )
+	|	"err" fun1( Function.ERROR ) // Internal to rewrite rules
 	|	"EXACT" fun2( Function.EXACT )
 	|	"EXPONDIST" fun3( Function.EXPONDIST )
 	|	"EVEN" fun1( Function.EVEN )
 	|	"EXP" fun1( Function.EXP )
 	|	"FACT" fun1( Function.FACT )
-	// The warnings on the following two lines about "(" are OK. They are caused by the annoying range intersection syntax. 
+	// The warnings on the following two lines about "(" are OK. They are caused by the annoying range intersection syntax.
 	|	"FALSE" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 0 )); }
 	|	"false" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 0 )); }
 	|	"FDIST" fun3( Function.FDIST )
@@ -326,7 +327,7 @@ void fun(): {}
 	|	"FV" fun3to5( Function.FV )
 	|	"GAMMADIST" fun4( Function.GAMMADIST )
 	|	"GAMMAINV" fun3( Function.GAMMAINV )
-	|	"GAMMALN" fun1( Function.GAMMALN )		
+	|	"GAMMALN" fun1( Function.GAMMALN )
 	|	"GEOMEAN" aggN( Function.GEOMEAN )
 	|	"HARMEAN" aggN( Function.HARMEAN )
 	|	"HLOOKUP" hvLookup( Function.HLOOKUP )
@@ -360,7 +361,7 @@ void fun(): {}
 	|	"MAX" aggN( Function.MAX )
 	|	"MATCH" open() expr() "," shapedRangeExpr() optCommaExpr() closeFun( Function.MATCH )
 	|	"MEDIAN" open() shapedRangeExpr() closeFun( Function.MEDIAN )
-	|	"MID" fun3( Function.MID )  
+	|	"MID" fun3( Function.MID )
 	|	"MIN" aggN( Function.MIN )
 	|	"MINUTE" fun1( Function.MINUTE )
 	|	"MIRR" open() shapedRangeExpr() commaExpr() commaExpr() closeFun( Function.MIRR )
@@ -382,7 +383,7 @@ void fun(): {}
 	// citation: npv
 	|	"ODD" fun1( Function.ODD )
 	|	"OR" aggN( Function.OR )
-	|	"PEARSON" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.PEARSON )	
+	|	"PEARSON" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.PEARSON )
 	|	"PERMUT" fun2( Function.PERMUT )
 	|	"PERCENTILE" open() shapedRangeExpr() commaExpr() closeFun( Function.PERCENTILE )
 	|	"PERCENTRANK" open() shapedRangeExpr() commaExpr() optCommaExpr() closeFun( Function.PERCENTRANK )
@@ -402,7 +403,7 @@ void fun(): {}
 	|	"REPLACE" fun4( Function.REPLACE )
 	|	"REPT" fun2( Function.REPT )
 	|	"RIGHT" fun1to2( Function.RIGHT )
-	|	"ROMAN" fun1to2( Function.ROMAN )	
+	|	"ROMAN" fun1to2( Function.ROMAN )
 	// citation: round
 	|	"ROUND" fun2( Function.ROUND )
 	// citation: round
@@ -413,7 +414,7 @@ void fun(): {}
 	|	"SECOND" fun1( Function.SECOND )
 	|	"SIGN" fun1( Function.SIGN )
 	|	"SIN" fun1( Function.SIN )
-	|	"SINH" fun1( Function.SINH )	
+	|	"SINH" fun1( Function.SINH )
 	|	"SKEW" aggN( Function.SKEW )
 	|	"SLN" fun3( Function.SLN )
 	|	"SLOPE" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.SLOPE )
@@ -434,7 +435,7 @@ void fun(): {}
 	|	"SYD" fun4( Function.SYD )
 	|	"T" fun1( Function.T )
 	|	"TAN" fun1( Function.TAN )
-	|	"TANH" fun1( Function.TANH )	
+	|	"TANH" fun1( Function.TANH )
 	|	"TDIST" fun3to4( Function.TDIST )
 	|	"TINV" fun2( Function.TINV )
 	|	"TTEST" open() shapedRangeExpr() "," shapedRangeExpr() commaExpr() commaExpr() closeFun( Function.TTEST )
@@ -454,10 +455,10 @@ void fun(): {}
 	// citation: var
 	|	"VARA" aggN( Function.VARA )
 	|	"VARP" aggN( Function.VARP )
-	|	"VDB" fun5to7( Function.VDB )	
+	|	"VDB" fun5to7( Function.VDB )
 	|	"VLOOKUP" hvLookup( Function.VLOOKUP )
 	|	"WEEKDAY" fun1to2( Function.WEEKDAY )
-	|	"WEIBULL" fun4( Function.WEIBULL )	
+	|	"WEIBULL" fun4( Function.WEIBULL )
 	|	"YEAR" fun1( Function.YEAR )
 	|	"ZTEST" open() shapedRangeExpr() commaExpr() optCommaExpr() closeFun( Function.ZTEST )
 	}
@@ -545,23 +546,23 @@ void fun1to2(Function f): {}
 	void fun1to3(Function f): {}
 	{	open() expr() [commaExprOrNull() optCommaExpr()] closeFun( f )
 	}
-		
+
 void fun2to3(Function f): {}
 	{	open() expr() commaExpr() optCommaExpr() closeFun( f )
 	}
-		
+
 void fun3to4(Function f): {}
 	{	open() expr() commaExpr() commaExpr() optCommaExpr() closeFun( f )
 	}
-		
+
 void fun4to5(Function f): {}
 	{	open() expr() commaExpr() commaExpr() commaExpr() optCommaExpr() closeFun( f )
 	}
-		
+
 void fun3to5(Function f): {}
 	{	open() expr() commaExpr() commaExpr() [commaExprOrNull() optCommaExpr()] closeFun( f )
 	}
-		
+
 void fun3to6(Function f): {}
 	{	open() expr() commaExpr() commaExpr() [commaExprOrNull() [commaExprOrNull() optCommaExpr()]] closeFun( f )
 	}
@@ -572,10 +573,10 @@ void fun5to7(Function f): {}
 
 void hvLookup(Function f): {}
 	{	open() expr() "," shapedRangeExpr() commaExpr() optCommaExpr() closeFun( f )
-	}		
+	}
 
-/*	LATER This is what we really want. 
-	But the current compiler only handles multiple arguments to the aggregator directly. 
+/*	LATER This is what we really want.
+	But the current compiler only handles multiple arguments to the aggregator directly.
 void aggN(Function f): {}
 	{	"(" rangeUnion() ")"
 			 { pushNode( new ExpressionNodeForFunction( f, popNode() )); }
@@ -593,7 +594,7 @@ void dbAggN(Function f): {}
 
 
 /* Range parsing. */
-	
+
 void rangeUnion(): {}
 	{	rangeIntersection()
 		[	"," rangeIntersection()
@@ -639,7 +640,7 @@ Object range():
 void namedRangeRef():
 	{	Token n = null; }
 	{	n = <NAME>
-			{ pushNode( makeNamedRangeRef( n )); } 
+			{ pushNode( makeNamedRangeRef( n )); }
 	}
 
 
@@ -649,11 +650,11 @@ void parseRules(): {}
 	{	"rules" "{" (rewrite() | def())* "}"
 	}
 
-void rewrite(): 
+void rewrite():
 	{ Token n; }
 	{	"rewrite" n=<NAME>
-			{	makeNewRuleDef( n ); } 
-		"(" [ param() ("," param())* ] ")" 
+			{	makeNewRuleDef( n ); }
+		"(" [ param() ("," param())* ] ")"
 			{	letParams(); }
 		"=" body()
 			{	unletParams();
@@ -673,7 +674,7 @@ void def():
 
 void param():
 	{ Token n; char type = 0; }
-	{	n=<NAME> 
+	{	n=<NAME>
 		[ "#"	{  type = '#'; }
 		| "*" 	{	type = '*'; }
 		| "+" 	{	type = '+'; }
@@ -717,9 +718,9 @@ void niceIf():
 	{	expr() "then" niceExpr() "else" niceExpr()
 			{ pushNode( new ExpressionNodeForFunction( Function.IF, popNodes( 3 ) )); }
 	}
-	
+
 void niceFold( boolean _mayReduce ): {}
-	{	
+	{
 			{	initFold(); }
 		[ "with" foldAccuInit() ("," foldAccuInit())* ]
 			{	letFoldAccus(); }
@@ -728,7 +729,7 @@ void niceFold( boolean _mayReduce ): {}
 	}
 
 void niceIterate(): {}
-	{	
+	{
 			{	initFold(); }
 		[ "with" foldAccuInit() ("," foldAccuInit())* ]
 			{	letFoldAccus(); }
@@ -752,58 +753,58 @@ void foldBody(): {}
 		"end"
 	}
 
-void foldAccuInit(): 
+void foldAccuInit():
 	{	Token n = null; }
 	{	n=<NAME> "=" expr()
 			{	addFoldAccuInit( n, popNode() ); }
 	}
 
-void foldIdxName(): 
+void foldIdxName():
 	{	Token n = null; }
 	{	n=<NAME>
-			{	setFoldIdxName( n ); }	
+			{	setFoldIdxName( n ); }
 	}
 
-void foldEltName(): 
+void foldEltName():
 	{	Token n = null; }
-	{	n=<NAME>	
-			{	addFoldEltName( n ); }	
+	{	n=<NAME>
+			{	addFoldEltName( n ); }
 	}
 
-void foldAccuStep(): 
+void foldAccuStep():
 	{	Token n = null; }
-	{	n=<NAME> "=" niceExpr()	
-			{	addFoldStep( n, popNode() ); }	
+	{	n=<NAME> "=" niceExpr()
+			{	addFoldStep( n, popNode() ); }
 	}
 
-void foldCountName(): 
+void foldCountName():
 	{	Token n = null; }
-	{	n=<NAME>	
-			{	setFoldCountName( n ); }	
+	{	n=<NAME>
+			{	setFoldCountName( n ); }
 	}
 
-void foldInto(): 
+void foldInto():
 	{	}
 	{	niceExpr()
-			{	setFoldInto( popNode() ); }	
+			{	setFoldInto( popNode() ); }
 	}
 
-void foldWhenEmpty(): 
+void foldWhenEmpty():
 	{	}
 	{	niceExpr()
-			{	setFoldWhenEmpty( popNode() ); }	
+			{	setFoldWhenEmpty( popNode() ); }
 	}
-	
+
 void niceApply():
 	{	Token def = null, vec = null;
-		Collection<Token> vecs = null; 
+		Collection<Token> vecs = null;
 	}
 	{	(	"fold" niceFold(false)
 		|	"fold/reduce" niceFold( true )
 		|	"iterate" niceIterate()
 		|	def=<NAME>
-		) 
-		"to" 
+		)
+		"to"
 		(	"list" vec=<NAME>
 				{	pushApplyList( def, vec ); }
 		|	"vectors" "{"
@@ -824,8 +825,8 @@ void niceExpr(): {}
 
 
 /* It is crucial that the <NAME> and <CELL..> tokens be defined after all of the function and aggregator names. */
-/* Otherwise they would all get lexed as <NAME>. */ 
-	
+/* Otherwise they would all get lexed as <NAME>. */
+
 TOKEN: /* Cell references */
 	{	<CELLR1C1: <ROW> <COL> >
 	|	<#ROW: "R" (<IDX>)? >
