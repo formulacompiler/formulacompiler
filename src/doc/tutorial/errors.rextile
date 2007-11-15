@@ -1,5 +1,5 @@
 
-h1. Errors
+h1. Compiler Errors
 
 
 AFC does its best to give meaningful error messages which clearly identify both the problem and its source. This document shows the most typical errors, why they occur, and what to do about them.

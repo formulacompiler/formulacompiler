@@ -66,6 +66,11 @@ public final class ExpressionBuilder
 		return new ExpressionNodeForFunction( _fun, _args );
 	}
 
+	public static ExpressionNode err( String _message )
+	{
+		return fun( Function.ERROR, cst( _message ) );
+	}
+
 
 	public static ExpressionNode let( String _n, ExpressionNode _value, ExpressionNode _in )
 	{
@@ -153,7 +158,7 @@ public final class ExpressionBuilder
 		return result;
 	}
 
-	
+
 	/**
 	 * Not to be instantiated.
 	 */

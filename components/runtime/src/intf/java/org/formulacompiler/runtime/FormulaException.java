@@ -22,27 +22,33 @@ package org.formulacompiler.runtime;
 
 
 /**
- * Base class for all exceptions thrown by the run-time engine support of AFC, except for
- * computation errors. The latter are of type {@link FormulaException}.
+ * Runtime exception thrown by compiled computations for conditions normally flagged as
+ * {@code #VALUE!}, {@code #NUM!}, or {@code #DIV/0!}. The spreadsheet functions {@code ISERR()}
+ * and {@code ISERROR()} both trap this error.
  * 
  * @author peo
  * 
- * @see FormulaException
+ * @see NotAvailableException
  */
-public class EngineException extends FormulaCompilerException
+public class FormulaException extends ComputationException
 {
 
-	public EngineException( String _message, Throwable _cause )
+	public FormulaException()
+	{
+		super();
+	}
+
+	public FormulaException( String _message, Throwable _cause )
 	{
 		super( _message, _cause );
 	}
 
-	public EngineException( String _message )
+	public FormulaException( String _message )
 	{
 		super( _message );
 	}
 
-	public EngineException( Throwable _cause )
+	public FormulaException( Throwable _cause )
 	{
 		super( _cause );
 	}

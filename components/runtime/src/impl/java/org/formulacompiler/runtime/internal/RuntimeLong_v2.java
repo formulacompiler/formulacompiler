@@ -268,7 +268,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 
 	public static long fun_ASIN( final long _val, Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v2.fun_ASIN( _cx.toDouble( _val ) ) );
+		return _cx.fromDouble( Math.asin( _cx.toDouble( _val ) ) );
 	}
 
 	public static long fun_ASINH( final long _val, Context _cx )

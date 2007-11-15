@@ -20,12 +20,15 @@
  */
 package org.formulacompiler.spreadsheet.internal.loader.excel.xls;
 
+import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.internal.LocalExcelDate;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.spreadsheet.Spreadsheet;
@@ -56,7 +59,7 @@ import jxl.WorkbookSettings;
 /**
  * Spreadsheet file loader implementation for the Microsoft Excel .xls format. Call the
  * {@code register()} method to register the loader with the central {@link SpreadsheetLoader}.
- * 
+ *
  * @author peo
  */
 public final class ExcelXLSLoader implements SpreadsheetLoader
@@ -141,14 +144,14 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 	private void loadRows( jxl.Sheet _xlsSheet, SheetImpl _sheet ) throws SpreadsheetException
 	{
 		for (int iRow = 0; iRow < _xlsSheet.getRows(); iRow++) {
-			jxl.Cell[] xlsRow = _xlsSheet.getRow( iRow );
+			final jxl.Cell[] xlsRow = _xlsSheet.getRow( iRow );
 			if (null == xlsRow) {
 				_sheet.getRowList().add( null );
 			}
 			else {
-				RowImpl row = new RowImpl( _sheet );
+				final RowImpl row = new RowImpl( _sheet );
 				for (int iCell = 0; iCell < xlsRow.length; iCell++) {
-					jxl.Cell xlsCell = xlsRow[ iCell ];
+					final jxl.Cell xlsCell = xlsRow[ iCell ];
 					if (null == xlsCell) {
 						row.getCellList().add( null );
 					}
@@ -163,10 +166,10 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 
 	private void loadCell( jxl.Cell _xlsCell, RowImpl _row ) throws SpreadsheetException
 	{
-		jxl.CellType xlsType = _xlsCell.getType();
+		final jxl.CellType xlsType = _xlsCell.getType();
 
 		if (_xlsCell instanceof jxl.FormulaCell) {
-			jxl.FormulaCell xlsFormulaCell = (jxl.FormulaCell) _xlsCell;
+			final jxl.FormulaCell xlsFormulaCell = (jxl.FormulaCell) _xlsCell;
 			CellWithLazilyParsedExpression exprCell = new CellWithLazilyParsedExpression( _row );
 			try {
 				exprCell.setExpressionParser( new LazySpreadsheetExpressionParser( exprCell, xlsFormulaCell.getFormula() ) );
@@ -175,7 +178,7 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 				throw new SpreadsheetException.LoadError( e );
 			}
 			if (xlsFormulaCell instanceof NumberFormulaCell) {
-				NumberFormulaCell xlsNumFormulaCell = ((NumberFormulaCell) xlsFormulaCell);
+				final NumberFormulaCell xlsNumFormulaCell = ((NumberFormulaCell) xlsFormulaCell);
 				exprCell.applyNumberFormat( convertNumberFormat( xlsNumFormulaCell, xlsNumFormulaCell.getNumberFormat() ) );
 			}
 			if (this.config.loadAllCellValues) {
@@ -200,13 +203,13 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 			new CellWithConstant( _row, ((jxl.BooleanCell) _xlsCell).getValue() );
 		}
 		else if (jxl.CellType.NUMBER == xlsType) {
-			jxl.NumberCell xlsNumCell = (jxl.NumberCell) _xlsCell;
-			CellInstance numCell = new CellWithConstant( _row, xlsNumCell.getValue() );
+			final jxl.NumberCell xlsNumCell = (jxl.NumberCell) _xlsCell;
+			final CellInstance numCell = new CellWithConstant( _row, xlsNumCell.getValue() );
 			numCell.applyNumberFormat( convertNumberFormat( xlsNumCell, xlsNumCell.getNumberFormat() ) );
 		}
 		else if (CellType.DATE == xlsType) {
 			final DateCell xlsDateCell = (jxl.DateCell) _xlsCell;
-			Object value;
+			final Object value;
 			if (null != this.globalTimeFormat
 					&& this.globalTimeFormat.equals( xlsDateCell.getCellFormat().getFormat().getFormatString() )) {
 				value = RuntimeDouble_v2.dateFromNum( xlsDateCell.getValue(), this.globalTimeZone );
@@ -218,6 +221,14 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 		}
 		else if (jxl.CellType.LABEL == xlsType) {
 			new CellWithConstant( _row, ((jxl.LabelCell) _xlsCell).getString() );
+		}
+		else if (jxl.CellType.ERROR == xlsType) {
+			final int errorCode = ((jxl.ErrorCell) _xlsCell).getErrorCode();
+			switch (errorCode) {
+				case 42: // #N/A
+					new CellWithLazilyParsedExpression( _row, fun( Function.NA ) );
+					break;
+			}
 		}
 	}
 

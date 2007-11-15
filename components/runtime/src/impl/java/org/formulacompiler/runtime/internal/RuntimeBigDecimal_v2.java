@@ -116,17 +116,12 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 
 	public static BigDecimal dateToNum( final Date _date, final TimeZone _timeZone )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.dateToNum( _date, _timeZone ) );
+		return valueOf( RuntimeDouble_v2.dateToNum( _date, _timeZone ) );
 	}
 
-	private static BigDecimal valueOrZero( final double _value )
+	public static BigDecimal valueOf( final double _value )
 	{
-		if (Double.isNaN( _value ) || Double.isInfinite( _value )) {
-			return ZERO; // Excel #NUM!
-		}
-		else {
-			return BigDecimal.valueOf( _value );
-		}
+		return BigDecimal.valueOf( checkDouble( _value ) );
 	}
 
 
@@ -142,83 +137,80 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		if (a > 1 || a < -1) {
 			return ZERO; // Excel #NUM!
 		}
-		return BigDecimal.valueOf( Math.acos( a ) );
+		return valueOf( Math.acos( a ) );
 	}
 
 	public static BigDecimal fun_ACOSH( BigDecimal _a )
 	{
 		final double a = _a.doubleValue();
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_ACOSH( a ) );
+		return valueOf( RuntimeDouble_v2.fun_ACOSH( a ) );
 	}
 
 	public static BigDecimal fun_ASIN( BigDecimal _a )
 	{
 		final double a = _a.doubleValue();
-		if (a > 1 || a < -1) {
-			return ZERO; // Excel #NUM!
-		}
-		return BigDecimal.valueOf( Math.asin( a ) );
+		return valueOf( Math.asin( a ) );
 	}
 
 	public static BigDecimal fun_ASINH( BigDecimal _a )
 	{
 		final double a = _a.doubleValue();
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_ASINH( a ) );
+		return valueOf( RuntimeDouble_v2.fun_ASINH( a ) );
 	}
 
 	public static BigDecimal fun_ATAN( BigDecimal _a )
 	{
 		final double a = _a.doubleValue();
-		return BigDecimal.valueOf( Math.atan( a ) );
+		return valueOf( Math.atan( a ) );
 	}
 
 	public static BigDecimal fun_ATANH( BigDecimal _a )
 	{
 		final double a = _a.doubleValue();
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_ATANH( a ) );
+		return valueOf( RuntimeDouble_v2.fun_ATANH( a ) );
 	}
 
 	public static BigDecimal fun_ATAN2( BigDecimal _x, BigDecimal _y )
 	{
 		final double x = _x.doubleValue();
 		final double y = _y.doubleValue();
-		return BigDecimal.valueOf( Math.atan2( y, x ) );
+		return valueOf( Math.atan2( y, x ) );
 	}
 
 	public static BigDecimal fun_COS( BigDecimal _a )
 	{
 		final double a = _a.doubleValue();
-		return BigDecimal.valueOf( Math.cos( a ) );
+		return valueOf( Math.cos( a ) );
 	}
 
 	public static BigDecimal fun_COSH( BigDecimal _a )
 	{
 		final double a = _a.doubleValue();
-		return BigDecimal.valueOf( Math.cosh( a ) );
+		return valueOf( Math.cosh( a ) );
 	}
 
 	public static BigDecimal fun_SIN( BigDecimal _a )
 	{
 		final double a = _a.doubleValue();
-		return BigDecimal.valueOf( Math.sin( a ) );
+		return valueOf( Math.sin( a ) );
 	}
 
 	public static BigDecimal fun_SINH( BigDecimal _a )
 	{
 		final double a = _a.doubleValue();
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_SINH( a ) );
+		return valueOf( RuntimeDouble_v2.fun_SINH( a ) );
 	}
 
 	public static BigDecimal fun_TAN( BigDecimal _a )
 	{
 		final double a = _a.doubleValue();
-		return BigDecimal.valueOf( Math.tan( a ) );
+		return valueOf( Math.tan( a ) );
 	}
 
 	public static BigDecimal fun_TANH( BigDecimal _a )
 	{
 		final double a = _a.doubleValue();
-		return BigDecimal.valueOf( Math.tanh( a ) );
+		return valueOf( Math.tanh( a ) );
 	}
 
 	public static BigDecimal fun_DEGREES( BigDecimal _a, MathContext _cx )
@@ -247,7 +239,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 				return _n.pow( p, _cx );
 			}
 		}
-		return valueOrZero( Math.pow( _n.doubleValue(), _p.doubleValue() ) );
+		return valueOf( Math.pow( _n.doubleValue(), _p.doubleValue() ) );
 	}
 
 	public static BigDecimal fun_CEILING( BigDecimal _number, BigDecimal _significance, MathContext _cx )
@@ -324,53 +316,51 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	public static BigDecimal fun_LN( final BigDecimal _p )
 	{
 		final double result = Math.log( _p.doubleValue() );
-		return valueOrZero( result );
+		return valueOf( result );
 	}
 
 	public static BigDecimal fun_LOG10( final BigDecimal _p )
 	{
 		final double result = Math.log10( _p.doubleValue() );
-		return valueOrZero( result );
+		return valueOf( result );
 	}
 
 	public static BigDecimal fun_ERF( BigDecimal _z )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_ERF( _z.doubleValue() ) );
+		return valueOf( RuntimeDouble_v2.fun_ERF( _z.doubleValue() ) );
 	}
 
 	public static BigDecimal fun_ERFC( BigDecimal _z )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_ERFC( _z.doubleValue() ) );
+		return valueOf( RuntimeDouble_v2.fun_ERFC( _z.doubleValue() ) );
 	}
 
 	public static BigDecimal fun_BETADIST( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_BETADIST( _x.doubleValue(), _alpha.doubleValue(), _beta
-				.doubleValue() ) );
+		return valueOf( RuntimeDouble_v2.fun_BETADIST( _x.doubleValue(), _alpha.doubleValue(), _beta.doubleValue() ) );
 	}
 
 	public static BigDecimal fun_BETAINV( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_BETAINV( _x.doubleValue(), _alpha.doubleValue(), 
-				_beta.doubleValue() ) );
+		return valueOf( RuntimeDouble_v2.fun_BETAINV( _x.doubleValue(), _alpha.doubleValue(), _beta.doubleValue() ) );
 	}
 
 
 	public static BigDecimal fun_BINOMDIST( BigDecimal _successes, BigDecimal _trials, BigDecimal _probability,
 			boolean _cumulative )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_BINOMDIST( _successes.intValue(), _trials.intValue(),
-				_probability.doubleValue(), _cumulative ) );
+		return valueOf( RuntimeDouble_v2.fun_BINOMDIST( _successes.intValue(), _trials.intValue(), _probability
+				.doubleValue(), _cumulative ) );
 	}
 
 	public static BigDecimal fun_CHIDIST( BigDecimal _x, BigDecimal _degFreedom )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_CHIDIST( _x.doubleValue(), _degFreedom.doubleValue() ) );
+		return valueOf( RuntimeDouble_v2.fun_CHIDIST( _x.doubleValue(), _degFreedom.doubleValue() ) );
 	}
 
 	public static BigDecimal fun_CHIINV( BigDecimal _x, BigDecimal _degFreedom )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_CHIINV( _x.doubleValue(), _degFreedom.doubleValue() ) );
+		return valueOf( RuntimeDouble_v2.fun_CHIINV( _x.doubleValue(), _degFreedom.doubleValue() ) );
 	}
 
 	public static BigDecimal fun_CRITBINOM( BigDecimal _n, BigDecimal _p, BigDecimal _alpha)
@@ -412,45 +402,45 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 
 	public static BigDecimal fun_FINV( BigDecimal _x, BigDecimal _f1, BigDecimal _f2 )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_FINV( _x.doubleValue(), _f1.doubleValue(), _f2.doubleValue() ) );
+		return valueOf( RuntimeDouble_v2.fun_FINV( _x.doubleValue(), _f1.doubleValue(), _f2.doubleValue() ) );
 	}
 
 	public static BigDecimal fun_GAMMADIST( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta, boolean _cumulative )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_GAMMADIST( _x.doubleValue(), _alpha.doubleValue(), _beta
-				.doubleValue(), _cumulative ) );
+		return valueOf( RuntimeDouble_v2.fun_GAMMADIST( _x.doubleValue(), _alpha.doubleValue(), _beta.doubleValue(),
+				_cumulative ) );
 	}
 
 	public static BigDecimal fun_GAMMAINV( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_GAMMAINV( _x.doubleValue(), _alpha.doubleValue(),
-				_beta.doubleValue() ) );
+		return valueOf( RuntimeDouble_v2.fun_GAMMAINV( _x.doubleValue(), _alpha.doubleValue(), _beta.doubleValue() ) );
 	}
 
 	public static BigDecimal fun_GAMMALN( BigDecimal _x )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_GAMMALN( _x.doubleValue() ) );
+		return valueOf( RuntimeDouble_v2.fun_GAMMALN( _x.doubleValue() ) );
 	}
 
 	public static BigDecimal fun_POISSON( BigDecimal _x, BigDecimal _mean, boolean _cumulative )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_POISSON( _x.intValue(), _mean.doubleValue(), _cumulative ) );
+		return valueOf( RuntimeDouble_v2.fun_POISSON( _x.intValue(), _mean.doubleValue(), _cumulative ) );
 	}
 
 	public static BigDecimal fun_TDIST( BigDecimal _x, BigDecimal _degFreedom, BigDecimal _tails, boolean _no_floor )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_TDIST( _x.doubleValue(), _degFreedom.doubleValue(), _tails
-				.intValue(), _no_floor ) );
+		return valueOf( RuntimeDouble_v2.fun_TDIST( _x.doubleValue(), _degFreedom.doubleValue(), _tails.intValue(),
+				_no_floor ) );
 	}
 
 	public static BigDecimal fun_TINV( BigDecimal _x, BigDecimal _degFreedom )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_TINV( _x.doubleValue(), _degFreedom.doubleValue() ) );
+		return valueOf( RuntimeDouble_v2.fun_TINV( _x.doubleValue(), _degFreedom.doubleValue() ) );
 	}
 
 	public static BigDecimal fun_WEIBULL( BigDecimal _x, BigDecimal _alpha, BigDecimal _beta, boolean _cumulative )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_WEIBULL( _x.doubleValue(), _alpha.doubleValue(), _beta.doubleValue(), _cumulative ) );
+		return valueOf( RuntimeDouble_v2.fun_WEIBULL( _x.doubleValue(), _alpha.doubleValue(), _beta.doubleValue(),
+				_cumulative ) );
 	}
 
 	public static BigDecimal fun_LOG( final BigDecimal _n, final BigDecimal _x )
@@ -466,7 +456,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		if (lnX == 0) {
 			return ZERO; // Excel #DIV/0!
 		}
-		return BigDecimal.valueOf( lnN / lnX );
+		return valueOf( lnN / lnX );
 	}
 
 	public static BigDecimal fun_MOD( final BigDecimal _n, final BigDecimal _d )
@@ -527,7 +517,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		final int month = _month.intValue();
 		final int day = _day.intValue();
 		final double result = RuntimeDouble_v2.fun_DATE( year, month, day );
-		return BigDecimal.valueOf( result );
+		return valueOf( result );
 	}
 
 	public static BigDecimal fun_WEEKDAY( BigDecimal _date, BigDecimal _type )
@@ -535,28 +525,28 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		final double date = _date.doubleValue();
 		final int type = _type.intValue();
 		final int result = RuntimeDouble_v2.fun_WEEKDAY( date, type );
-		return BigDecimal.valueOf( result );
+		return valueOf( result );
 	}
 
 	public static BigDecimal fun_DAY( BigDecimal _date )
 	{
 		final double date = _date.doubleValue();
 		final int result = RuntimeDouble_v2.fun_DAY( date );
-		return BigDecimal.valueOf( result );
+		return valueOf( result );
 	}
 
 	public static BigDecimal fun_MONTH( BigDecimal _date )
 	{
 		final double date = _date.doubleValue();
 		final int result = RuntimeDouble_v2.fun_MONTH( date );
-		return BigDecimal.valueOf( result );
+		return valueOf( result );
 	}
 
 	public static BigDecimal fun_YEAR( BigDecimal _date )
 	{
 		final double date = _date.doubleValue();
 		final int result = RuntimeDouble_v2.fun_YEAR( date );
-		return BigDecimal.valueOf( result );
+		return valueOf( result );
 	}
 
 	public static BigDecimal fun_NOW( final Environment _environment, final ComputationTime _computationTime )
@@ -580,24 +570,26 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	public static BigDecimal fun_SECOND( BigDecimal _date )
 	{
 		final long seconds = getDaySecondsFromNum( _date ) % 60;
-		return BigDecimal.valueOf( seconds );
+		return valueOf( seconds );
 	}
 
 	public static BigDecimal fun_MINUTE( BigDecimal _date )
 	{
 		final long minutes = getDaySecondsFromNum( _date ) / 60 % 60;
-		return BigDecimal.valueOf( minutes );
+		return valueOf( minutes );
 	}
 
 	public static BigDecimal fun_HOUR( BigDecimal _date )
 	{
 		final long hours = getDaySecondsFromNum( _date ) / Runtime_v2.SECS_PER_HOUR % 24;
-		return BigDecimal.valueOf( hours );
+		return valueOf( hours );
 	}
 
-	public static BigDecimal fun_HYPGEOMDIST( BigDecimal _sample_s, BigDecimal _number_sample, BigDecimal _population_s, BigDecimal _number_population )
+	public static BigDecimal fun_HYPGEOMDIST( BigDecimal _sample_s, BigDecimal _number_sample, BigDecimal _population_s,
+			BigDecimal _number_population )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_HYPGEOMDIST( _sample_s.intValue(), _number_sample.intValue(), _population_s.intValue(), _number_population.intValue()));
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_HYPGEOMDIST( _sample_s.intValue(), _number_sample.intValue(),
+				_population_s.intValue(), _number_population.intValue() ) );
 	}
 
 	private static long getDaySecondsFromNum( final BigDecimal _time )
@@ -649,7 +641,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			final BigDecimal _period, final BigDecimal _month, MathContext _cx )
 	{
 		final BigDecimal month = _month.setScale( 0, RoundingMode.HALF_UP );
-		final BigDecimal rate = BigDecimal.valueOf(
+		final BigDecimal rate = valueOf(
 				1 - Math.pow( (_salvage.doubleValue() / _cost.doubleValue()), (1 / _life.doubleValue()) ) ).setScale( 3,
 				RoundingMode.HALF_UP );
 		final BigDecimal depreciation1 = _cost.multiply( rate, _cx ).multiply( month, _cx ).divide( TWELVE, _cx );
@@ -683,8 +675,8 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		else {
 			final double k_p1 = Math.pow( k, period - 1 );
 			final double k_p = k_p1 * k;
-			remainingCost = _cost.multiply( BigDecimal.valueOf( k_p1 ), _cx );
-			newCost = _cost.multiply( BigDecimal.valueOf( k_p ), _cx );
+			remainingCost = _cost.multiply( valueOf( k_p1 ), _cx );
+			newCost = _cost.multiply( valueOf( k_p ), _cx );
 		}
 
 		BigDecimal depreciation = remainingCost.subtract( (newCost.compareTo( _salvage ) < 0? _salvage : newCost), _cx );
@@ -725,7 +717,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 				BigDecimal start = _start_period;
 				BigDecimal end = _end_period;
 				BigDecimal part;
-				if (start.compareTo( BigDecimal.valueOf( Math.floor( start.doubleValue() ) ) ) != 0) {
+				if (start.compareTo( valueOf( Math.floor( start.doubleValue() ) ) ) != 0) {
 					if (_factor.compareTo( ONE ) > 0) {
 						if (start.compareTo( _life.divide( TWO ) ) >= 0) {
 							// this part works like in Open Office
@@ -828,7 +820,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 				return BigDecimal.valueOf( number.longValue() );
 			}
 			else {
-				return BigDecimal.valueOf( number.doubleValue() );
+				return valueOf( number.doubleValue() );
 			}
 		}
 		else {

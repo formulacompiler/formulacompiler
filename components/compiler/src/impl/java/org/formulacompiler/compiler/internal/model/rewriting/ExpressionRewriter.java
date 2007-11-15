@@ -397,7 +397,8 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 	 */
 	private ExpressionNode rewriteChoose( ExpressionNodeForFunction _fun )
 	{
-		final ExpressionNodeForSwitch result = new ExpressionNodeForSwitch( _fun.argument( 0 ), ZERO );
+		final ExpressionNodeForSwitch result = new ExpressionNodeForSwitch( _fun.argument( 0 ),
+				err( "#VALUE! because index to CHOOSE is out of range" ) );
 		for (int iCase = 1; iCase < _fun.cardinality(); iCase++) {
 			result.addArgument( new ExpressionNodeForSwitchCase( _fun.argument( iCase ), iCase ) );
 		}

@@ -20,29 +20,35 @@
  */
 package org.formulacompiler.runtime;
 
-
 /**
- * Base class for all exceptions thrown by the run-time engine support of AFC, except for
- * computation errors. The latter are of type {@link FormulaException}.
+ * Runtime exception thrown by compiled computations for the {@code NA()} spreadsheet function,
+ * which is normally displayed as {@code #N/A}. You can also throw this exception in input getters
+ * yourself to signal an unavailable value to the computation. The spreadsheet functions
+ * {@code ISNA()} and {@code ISERROR()} both trap this error.
  * 
  * @author peo
  * 
  * @see FormulaException
  */
-public class EngineException extends FormulaCompilerException
+public class NotAvailableException extends ComputationException
 {
 
-	public EngineException( String _message, Throwable _cause )
+	public NotAvailableException()
+	{
+		super( "#N/A" );
+	}
+
+	public NotAvailableException( String _message, Throwable _cause )
 	{
 		super( _message, _cause );
 	}
 
-	public EngineException( String _message )
+	public NotAvailableException( String _message )
 	{
 		super( _message );
 	}
 
-	public EngineException( Throwable _cause )
+	public NotAvailableException( Throwable _cause )
 	{
 		super( _cause );
 	}

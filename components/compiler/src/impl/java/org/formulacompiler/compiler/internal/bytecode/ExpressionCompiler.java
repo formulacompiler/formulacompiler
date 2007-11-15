@@ -56,7 +56,10 @@ import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCount;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForParentSectionModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionModel;
+import org.formulacompiler.runtime.ComputationException;
+import org.formulacompiler.runtime.FormulaException;
 import org.formulacompiler.runtime.New;
+import org.formulacompiler.runtime.NotAvailableException;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -72,6 +75,10 @@ abstract class ExpressionCompiler
 	protected final static Type LONG_TYPE = Type.LONG_TYPE;
 	protected static final String J2LONG = "(" + LONG_TYPE.getDescriptor() + ")" + LONG_CLASS.getDescriptor();
 	protected static final String LONG2J = "(" + LONG_CLASS.getDescriptor() + ")" + LONG_TYPE.getDescriptor();
+	protected static final Type COMPUTATION_ERROR_TYPE = Type.getType( ComputationException.class );
+	protected static final Type FORMULA_ERROR_TYPE = Type.getType( FormulaException.class );
+	protected static final Type NOT_AVAILABLE_ERROR_TYPE = Type.getType( NotAvailableException.class );
+	protected static final Type ARITHMETIC_EXCEPTION_TYPE = Type.getType( ArithmeticException.class );
 
 	protected static final Object TOP_OF_STACK = new Object();
 
@@ -189,7 +196,7 @@ abstract class ExpressionCompiler
 		else if (_node instanceof ExpressionNodeForConstantValue) {
 			compileConst( ((ExpressionNodeForConstantValue) _node).value() );
 		}
-		
+
 		else if (_node instanceof ExpressionNodeForMinValue) {
 			typeCompiler().compileMinValue( mv() );
 		}
@@ -406,11 +413,28 @@ abstract class ExpressionCompiler
 				compileIndex( _node );
 				break;
 
+			case ISERROR:
+				compileIsException( _node, true, ERROR_TYPES, NO_TYPES );
+				break;
+
+			case ISERR:
+				compileIsException( _node, true, ERR_TYPES, NA_TYPES );
+				break;
+
+			case ISNA:
+				compileIsException( _node, false, NA_TYPES, ERR_TYPES );
+				break;
+
 			default:
 				throw new CompilerException.UnsupportedExpression( "Function "
 						+ fun + " is not supported for " + this + " engines." );
 		}
 	}
+
+	private static final Type[] NO_TYPES = {};
+	private static final Type[] ERROR_TYPES = { COMPUTATION_ERROR_TYPE, ARITHMETIC_EXCEPTION_TYPE };
+	private static final Type[] ERR_TYPES = { FORMULA_ERROR_TYPE, ARITHMETIC_EXCEPTION_TYPE };
+	private static final Type[] NA_TYPES = { NOT_AVAILABLE_ERROR_TYPE };
 
 
 	private final void compileIndex( ExpressionNodeForFunction _node ) throws CompilerException
@@ -503,6 +527,56 @@ abstract class ExpressionCompiler
 			return (constValue == null || constValue.intValue() == 1);
 		}
 		return false;
+	}
+
+
+	private void compileIsException( final ExpressionNodeForFunction _node, final boolean _testForErrors,
+			final Type[] _handledTypesReturningTrue, final Type[] _handledTypesReturningFalse ) throws CompilerException
+	{
+		/*
+		 * Move the handler into its own method because exception handlers clobber the stack.
+		 */
+		final Iterable<LetEntry> closure = closureOf( _node );
+		compileHelpedExpr( new HelperCompiler( section(), _node, closure )
+		{
+
+			@Override
+			protected void compileBody() throws CompilerException
+			{
+				final GeneratorAdapter mv = this.mv();
+				final ExpressionCompiler ec = expressionCompiler();
+				final Label handled = mv.newLabel();
+
+				final Label beginHandling = mv.mark();
+				ec.compile( _node.argument( 0 ) );
+				ec.compileExceptionalValueTest( _testForErrors );
+				mv.goTo( handled );
+				final Label endHandling = mv.mark();
+
+				for (int i = 0; i < _handledTypesReturningTrue.length; i++) {
+					mv.catchException( beginHandling, endHandling, _handledTypesReturningTrue[ i ] );
+					mv.visitVarInsn( Opcodes.ASTORE, method().newLocal( 1 ) );
+					ec.compileConst( Boolean.TRUE );
+					mv.goTo( handled );
+				}
+
+				for (int i = 0; i < _handledTypesReturningFalse.length; i++) {
+					mv.catchException( beginHandling, endHandling, _handledTypesReturningFalse[ i ] );
+					mv.visitVarInsn( Opcodes.ASTORE, method().newLocal( 1 ) );
+					ec.compileConst( Boolean.FALSE );
+					mv.goTo( handled );
+				}
+
+				mv.mark( handled );
+			}
+
+		}, closure );
+	}
+
+	protected void compileExceptionalValueTest( boolean _testForErrors ) throws CompilerException
+	{
+		compilePop();
+		compileConst( Boolean.FALSE );
 	}
 
 
@@ -769,6 +843,11 @@ abstract class ExpressionCompiler
 	protected void compileDup()
 	{
 		mv().visitInsn( Opcodes.DUP );
+	}
+
+	protected void compilePop()
+	{
+		mv().visitInsn( Opcodes.POP );
 	}
 
 	protected final void compileStoreLocal( LocalRef _local )
