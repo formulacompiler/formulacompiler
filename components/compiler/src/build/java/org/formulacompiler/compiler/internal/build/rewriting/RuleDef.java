@@ -22,6 +22,9 @@ package org.formulacompiler.compiler.internal.build.rewriting;
 
 import org.formulacompiler.compiler.Function;
 
+/**
+ * Note: this class has a natural ordering that is inconsistent with equals.
+ */
 final class RuleDef extends AbstractDef implements Comparable<RuleDef>
 {
 	final Function fun;
@@ -33,6 +36,7 @@ final class RuleDef extends AbstractDef implements Comparable<RuleDef>
 
 	public int compareTo( RuleDef _o )
 	{
+		if (this == _o) return 0;
 		int r = this.fun.compareTo( _o.fun );
 		if (r == 0) r = this.params.size() < _o.params.size()? -1 : +1;
 		return r;
