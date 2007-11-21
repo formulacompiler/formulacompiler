@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import org.formulacompiler.runtime.NotAvailableException;
+import org.formulacompiler.runtime.FormulaException;
 
 
 public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
@@ -371,11 +372,17 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			fun_ERROR( "#NUM! because not n >= 0, 0 < p < 1, 0 < alpha < 1 in CRITBINOM" );
 		}
 		BigDecimal q = ONE.subtract( _p );
+		final BigDecimal EPSILON = BigDecimal.valueOf( 0.1E-320 );
 		int n = _n.intValue();
+		if (n > 999999999){
+			throw new FormulaException( "#NUM! because n value is too large in CRITBINOM" );
+		}
 		BigDecimal factor = q.pow( n );
-		if (factor.compareTo( ZERO ) == 0) {
+		if (factor.compareTo( EPSILON ) <= 0) {
 			factor = _p.pow( n );
-			if (factor.compareTo( ZERO ) == 0) return ZERO;
+			if (factor.compareTo( EPSILON ) <= 0) {
+				throw new FormulaException( "#NUM! because factor = 0 in CRITBINOM" );
+			}
 			else {
 				BigDecimal sum = ONE.subtract( factor );
 				int i;
@@ -617,7 +624,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			x = new_x;
 
 		}
-		throw new IllegalArgumentException( "IRR does not converge" );
+		throw new FormulaException( "#NUM! because of result doesn't found in " + EXCEL_MAX_ITER + " tries in IRR" );
 	}
 
 	public static BigDecimal fun_DB( final BigDecimal _cost, final BigDecimal _salvage, final BigDecimal _life,
@@ -673,13 +680,15 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			BigDecimal _end_period, BigDecimal _factor, boolean _no_switch, MathContext _cx )
 	{
 		BigDecimal valVDB = ZERO;
-		if (_start_period.compareTo( ZERO ) < 0
-				|| _end_period.compareTo( _start_period ) < 0 || _end_period.compareTo( _life ) > 0
-				|| _cost.compareTo( ZERO ) < 0 || _salvage.compareTo( _cost ) > 0
-				|| _factor.compareTo( BigDecimal.valueOf( 0 ) ) <= 0) {
-			return ZERO;
+		if (_start_period.compareTo( ZERO ) < 0 || _end_period.compareTo( _life ) > 0
+				|| _cost.compareTo( ZERO ) < 0 || _end_period.compareTo( _start_period ) < 0
+				|| _factor.compareTo( BigDecimal.valueOf( 0 ) ) < 0) {
+			fun_ERROR( "#NUM! because of illegal argument values in VDB" );
 		}
 		else {
+			if ( _salvage.compareTo( _cost ) > 0 ){
+				return ZERO; // correct result
+			}			
 			int loopStart = (int) Math.floor( _start_period.doubleValue() );
 			int loopEnd = (int) Math.ceil( _end_period.doubleValue() );
 			if (_no_switch) {
@@ -785,7 +794,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			rate0 = rate1;
 		}
 		if (eps.compareTo( EXCEL_EPSILON ) >= 0) {
-			return ZERO; // Excel #NUM!
+			fun_ERROR( "#NUM! because of result do not converge to within " + EXCEL_EPSILON + " after " + MAX_ITER + " iterations in RATE" );			
 		}
 		return rate0;
 	}
@@ -807,7 +816,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			}
 		}
 		else {
-			return ZERO; // Excel #NUM!
+			throw new FormulaException( "#VALUE! because of such argument doesn't supported in VALUE" );
 		}
 	}
 

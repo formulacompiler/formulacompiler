@@ -420,7 +420,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: 0.0
+    - const: !STR:FE
     - expr: =VALUE( RC[1] )
     - const: This is not a number
     - null

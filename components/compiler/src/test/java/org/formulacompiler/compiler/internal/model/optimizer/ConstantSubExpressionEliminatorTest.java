@@ -134,7 +134,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		optimize( FormulaCompiler.DOUBLE );
 
 		assertExpr(
-				"apply (fold with sx__1 = 5.0, sy__2 = 5.0, sxy__3 = 13.0 each xi__4, yi__5 as sx__1 = (sx__1 + xi__4), sy__2 = (sy__2 + yi__5), sxy__3 = (sxy__3 + (xi__4 * yi__5)) with count n__6 offset by 2 into ((sxy__3 - ((sx__1 * sy__2) / n__6)) / n__6) when empty 0) to  vectors {#(1,1,1){Inputs.getOne()}, #(1,1,1){Inputs.getOne()}}",
+				"apply (fold with sx__1 = 5.0, sy__2 = 5.0, sxy__3 = 13.0 each xi__4, yi__5 as sx__1 = (sx__1 + xi__4), sy__2 = (sy__2 + yi__5), sxy__3 = (sxy__3 + (xi__4 * yi__5)) with count n__6 offset by 2 into ((sxy__3 - ((sx__1 * sy__2) / n__6)) / n__6) when empty ERROR( \"#DIV/0! because list doesn't contain numbers in COVAR\" )) to  vectors {#(1,1,1){Inputs.getOne()}, #(1,1,1){Inputs.getOne()}}",
 				sumOverInputsAndConsts );
 	}
 

@@ -102,6 +102,20 @@ sheets:
     - null
     - const: 5.0
   - cells:
+    - const: !NUM:FE
+    - expr: =IRR( RC[1]:RC[5], 0.1 )
+    - const: 34.0
+    - const: 12.0
+    - const: 15.0
+    - const: 18.0
+    - const: 21.0
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - err: #NUM!
+  - cells:
   - cells:
     - const: 2752.96176
     - expr: =DB( RC[1], RC[2], RC[3], RC[4] )
@@ -741,6 +755,20 @@ sheets:
     - null
     - const: 4.0
   - cells:
+    - const: !NUM:FE
+    - expr: =RATE( RC[1], RC[2], RC[3], , , RC[4] )
+    - const: 240.0
+    - const: 500.0
+    - const: 3.0
+    - const: 0.0
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - err: #NUM!
+  - cells:
   - cells:
     - const: 384.0
     - expr: =VDB( RC[1], RC[2], RC[3], RC[4], RC[5] )
@@ -831,6 +859,84 @@ sheets:
     - const: 2.0
     - null
     - const: 6.0
+  - cells:
+    - const: !NUM:FE
+    - expr: =VDB( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 2400.0
+    - const: 300.0
+    - const: 10.0
+    - const: -1.0
+    - const: 2.0
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - err: #NUM!
+  - cells:
+    - const: !NUM:FE
+    - expr: =VDB( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 2400.0
+    - const: 300.0
+    - const: 10.0
+    - const: 2.0
+    - const: 1.0
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - err: #NUM!
+  - cells:
+    - const: !NUM:FE
+    - expr: =VDB( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: -1.0
+    - const: 2401.0
+    - const: 10.0
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - err: #NUM!
+  - cells:
+    - const: 0.0
+    - expr: =VDB( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 2400.0
+    - const: 2410.0
+    - const: 10.0
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - const: 5.0
+  - cells:
+    - const: 1147.10447
+    - expr: =VDB( RC[1], RC[2], RC[3], RC[4], RC[5], RC[6] )
+    - const: 12345.12
+    - const: 987.65
+    - const: 10.0
+    - const: 0.0
+    - const: 1.01
+    - const: 0.0
+    - null
+    - const: 6.0
+  - cells:
+    - const: !NUM:FE
+    - expr: =VDB( RC[1], RC[2], RC[3], RC[4], RC[5], RC[6] )
+    - const: 12345.12
+    - const: 987.65
+    - const: 10.0
+    - const: 0.0
+    - const: 1.01
+    - const: -0.0010
+    - null
+    - const: 6.0
+    - null
+    - null
+    - err: #NUM!
 
 names:
 - name: HEADERRANGE

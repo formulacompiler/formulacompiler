@@ -101,28 +101,28 @@ rules {
 	rewrite geomean( xs* ) =
 		apply
 			fold/reduce with
+				errFlag = 0,
 				p = 1
 			each xi as
+				errFlag = (if xi <= 0 then 1 else errFlag),
 				p = p * xi
 			with count n into
-				if p < 0 then 0
+				if errFlag <> 0 then err( "#NUM! because xi <= 0 in GEOMEAN" )
 				else p^(1 / n)
-			when empty 0
 			end
 		to list xs
 
 	rewrite harmean( xs* ) =
 		apply
 			fold with
-				p = 1,
+				errFlag = 0,
 				r = 0
 			each xi as
-				p = p * xi,
+				errFlag = (if xi <= 0 then 1 else errFlag),
 				r = if xi <> 0 then r + 1 / xi else r
 			with count n into
-				if p <= 0 then err( "#NUM! because p <= 0 in HARMEAN" )
+				if errFlag <> 0 then err( "#NUM! because xi <= 0 in HARMEAN" )
 				else n / r
-			when empty 0
 			end
 		to list xs
 
@@ -398,15 +398,10 @@ rules {
 				to vectors {xs, ys}
 
 	rewrite expondist( x, lambda, kum ) =
-		if lambda < 0 then 0
-		else (if kum = 0
-			then (if x >= 0
-				then lambda * EXP(-lambda * x)
-			else 0)
-		else
-			(if x >= 0
-				then 1 - EXP(-lambda * x)
-			else 0))
+		if OR(lambda <= 0, x < 0) then err( "#NUM! because lambda <= 0 or x < 0 in EXPONDIST" )
+		else if kum = 0
+			then lambda * EXP(-lambda * x)
+			else 1 - EXP(-lambda * x)
 
 	rewrite intercept ( ys#, xs# ) =
 		let countX = COUNT(xs)
@@ -497,13 +492,14 @@ rules {
 				else
 					let fract = (x - smallerX) / (largerX - smallerX) in
 						TRUNC((countSmaller - 1 + fract) / (n - 1), significance)
-			when empty 0
 			end
 		to vectors {xs}
 
 	rewrite percentrank( xs#, x ) = PERCENTRANK(xs, x, 3)
 
-	rewrite quartile( xs#, k ) = PERCENTILE(xs, 0.25 * INT(k))
+	rewrite quartile( xs#, k ) =
+	    if OR(k < 0, k >= 5) then err( "#NUM! because not k < 0 or k >= 5 in QUARTILE" )
+	    else PERCENTILE(xs, 0.25 * INT(k))
 
 	rewrite small( xs#, k ) =
 		if OR(k > COUNT(xs), k < 1) then err( "#NUM! because not 1 <= k <= n in SMALL/LARGE" )
@@ -551,21 +547,24 @@ rules {
 						end
 					to vectors {xs}
 
-	rewrite prob( ws#, ps#, lo_limit, up_limit ) =
+	rewrite prob( ws#, ps#, lo_limit, up_limit) =
+		if COUNT(ws) <> COUNT(ps) then NA() else
 		apply
 			fold with
 				res = 0,
-				errVal = 0,
+//				errVal = 0,
 				sum = 0
 			each wi, pi as
-				errVal = (if OR(pi < 0, pi > 1) then 1 else errVal),
+				// described in excel documentation but not realized
+//				errVal = (if OR(pi < 0, pi > 1) then 1 else errVal),
 				res = res + (if AND(wi >= lo_limit , wi <= up_limit) then pi else 0),
 				sum = sum + pi
 			with count n into
-				if errVal <> 0 then 0
-				else if ABS(sum - 1) > 0.0000001 then err( "#NUM! in PROB" )
+				// described in excel documentation but not realized
+//				if errVal <> 0 then err( "#NUM! because prob_range < 0 or prob_range > 1 in PROB" ) else 
+				if ABS(sum - 1) > 0.0000001 then err( "#NUM! because the sum of probabilities != 1 in PROB" )
 				else res
-			when empty 0
+			when empty err( "#DIV/0! because list doesn't contain numbers in PROB" )
 			end
 		to vectors {ws, ps}
 
@@ -643,8 +642,12 @@ rules {
 		else (x - mue) / sigma
 
 	rewrite chitest( xs#, ys#, colsX, rowsX, colsY, rowsY ) =
-		if OR(colsX <> colsY, rowsX <> rowsY, colsX = 0, colsY = 0, rowsX = 0, rowsY = 0 ) then
-			NA() // This is unusual, but it's how Excel does it.
+		// In excel documentation checking have to work so:
+//		if OR(colsX <> colsY, rowsX <> rowsY, colsX = 0, colsY = 0, rowsX = 0, rowsY = 0 ) then
+//			NA() // This is unusual, but it's how Excel does it.
+		// But really excel checks only lengths
+		if OR(COUNT(xs) <> COUNT(ys), COUNT(xs) <= 1) then
+			NA()
 		else
 			apply
 				fold with
@@ -685,7 +688,7 @@ rules {
 		let countX = COUNT(xs)
 		let countY = COUNT(ys)
 		in
-			if OR(countX = 0, countY <> countX) then err( "#NUM! because vectors empty or of different lengths in PEARSON" )
+			if OR(countX = 0, countY <> countX) then NA()
 			else
 				apply
 					fold with
@@ -750,7 +753,7 @@ rules {
 		let countX = COUNT(xs)
 		let countY = COUNT(ys)
 		in
-			if OR(countX = 0, countY <> countX) then err( "#NUM! because vectors empty or of different lengths in RSQ" )
+			if OR(countX = 0, countY <> countX) then NA()
 			else
 				apply
 					fold with
@@ -813,7 +816,7 @@ rules {
 			let sumSqrY = SUMSQ(ys)
 			in
 				if type = 1 then
-					if OR(countX <> countY, countX < 1) then err( "#NUM! because vectors empty or of different lengths in TTEST" )
+					if OR(countX <> countY, countX < 1) then NA()
 					else
 						apply
 							fold with
@@ -856,12 +859,12 @@ rules {
 				else err( "#NUM! because not type in {1, 2, 3} in TTEST" )
 
 
-
 	rewrite ztest( xs#, mue, sigma ) =
+		// have to count only numeric values
 		let countXs = COUNT(xs)
 		in
-			if countXs < 1 then 0
-			else if sigma <= 0 then 0
+			if countXs < 1 then NA()
+			else if sigma <= 0 then err( "#NUM! because sigma <= 0 in ZTEST" )
 			else
 				let medXs = AVERAGE(xs)
 				in 1 - NORMSDIST((medXs - mue) / ( sigma / SQRT(countXs)))
@@ -875,6 +878,7 @@ rules {
 
 	// citation: covar
 	rewrite covar( xs#, ys# ) =
+		if COUNT( xs ) <> COUNT( ys ) then NA() else
 		apply
 			fold with
 				sx = 0,
@@ -886,7 +890,7 @@ rules {
 				sxy = sxy + xi * yi
 			with count n into
 				(sxy - sx*sy/n) / n
-			when empty 0
+			when empty err( "#DIV/0! because list doesn't contain numbers in COVAR" )                                 
 			end
 		to vectors {xs, ys}
 	// citation: covar

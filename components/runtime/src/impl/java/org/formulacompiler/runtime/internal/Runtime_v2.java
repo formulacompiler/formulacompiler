@@ -524,8 +524,7 @@ public abstract class Runtime_v2
 			return matcher.start() + 1;
 		}
 		else {
-			fun_ERROR( "#VALUE! because no result in FIND" );
-			return 0;
+			throw new FormulaException( "#VALUE! because no result in FIND" );
 		}
 	}
 

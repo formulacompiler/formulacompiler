@@ -1691,6 +1691,20 @@ sheets:
     - null
     - null
     - const: 4.0
+  - cells:
+    - const: !NUM:NA
+    - expr: =COVAR( RC[1]:RC[3], RC[4]:RC[5] )
+    - const: 2.0
+    - const: 3.0
+    - const: 5.0
+    - const: 4.0
+    - const: 5.0
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - err: #N/A
 
 names:
 - name: AVERAGERANGE

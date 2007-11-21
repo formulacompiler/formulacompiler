@@ -346,7 +346,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
   - cells:
     - const: 9.903487550036129
     - expr: =ACOSH( RC[1] )
@@ -381,6 +380,33 @@ sheets:
     - null
     - const: 1.0
   - cells:
+    - const: !NUM:NaN/FE
+    - expr: =ACOSH( RC[1] )
+    - const: 0.98
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - err: #NUM!
+  - cells:
+    - const: !NUM:NaN/FE
+    - expr: =ACOSH( RC[1] )
+    - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: ...
+    - null
+    - err: #NUM!
   - cells:
   - cells:
     - const: -1.5707963267948966
@@ -1051,17 +1077,6 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 5.0
-    - expr: =GEOMEAN( RC[1], RC[2], RC[3]:RC[4] )
-    - const: 5.0
-    - const: 5.0
-    - const: 5.0
-    - const: 5.0
-    - null
-    - null
-    - null
-    - const: 4.0
-  - cells:
     - const: 2.449489742783178
     - expr: =GEOMEAN( RC[1], RC[2] )
     - const: 2.0
@@ -1072,28 +1087,6 @@ sheets:
     - null
     - null
     - const: 2.0
-  - cells:
-    - const: 3.0
-    - expr: =GEOMEAN( RC[1], RC[2], RC[3]:RC[4] )
-    - const: 9.0
-    - const: 3.0
-    - const: 3.0
-    - const: 1.0
-    - null
-    - null
-    - null
-    - const: 4.0
-  - cells:
-    - const: 4.949232003839765
-    - expr: =GEOMEAN( RC[1], RC[2], RC[3]:RC[4] )
-    - const: 50.0
-    - const: 2.0
-    - const: 3.0
-    - const: 2.0
-    - null
-    - null
-    - null
-    - const: 4.0
   - cells:
     - const: 12.0
     - expr: =GEOMEAN( RC[1], RC[2] )
@@ -1117,10 +1110,38 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 0.0
+    - const: !NUM:FE
     - expr: =GEOMEAN( RC[1], RC[2] )
     - const: 0.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - expr: =GEOMEAN( RC[1], RC[2] )
+  - cells:
+    - const: !NUM:FE
+    - expr: =GEOMEAN( RC[1], RC[2] )
+    - const: 1.0
     - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - expr: =GEOMEAN( RC[1], RC[2] )
+  - cells:
+    - const: !NUM:FE
+    - expr: =GEOMEAN( RC[1], RC[2] )
+    - const: -2.0
+    - const: -3.0
     - null
     - null
     - null
@@ -1132,6 +1153,41 @@ sheets:
     - expr: =GEOMEAN( RC[1], RC[2] )
   - cells:
   - cells:
+    - const: 5.0
+    - expr: =GEOMEAN( RC[1], RC[2], RC[3]:RC[4] )
+    - const: 5.0
+    - const: 5.0
+    - const: 5.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 3.0
+    - expr: =GEOMEAN( RC[1], RC[2], RC[3]:RC[4] )
+    - const: 9.0
+    - const: 3.0
+    - const: 3.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 4.949232003839765
+    - expr: =GEOMEAN( RC[1], RC[2], RC[3]:RC[4] )
+    - const: 50.0
+    - const: 2.0
+    - const: 3.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: …
+  - cells:
+  - cells:
     - const: 4.0
     - expr: =HARMEAN( RC[1], RC[2] )
     - const: 4.0
@@ -1157,17 +1213,6 @@ sheets:
     - const: 2.0
   - cells:
     - const: 3.2
-    - expr: =HARMEAN( RC[1], RC[2], RC[3]:RC[4] )
-    - const: 2.0
-    - const: 2.0
-    - const: 8.0
-    - const: 8.0
-    - null
-    - null
-    - null
-    - const: 4.0
-  - cells:
-    - const: 3.2
     - expr: =HARMEAN( RC[1], RC[2] )
     - const: 2.0
     - const: 8.0
@@ -1177,28 +1222,6 @@ sheets:
     - null
     - null
     - const: 2.0
-  - cells:
-    - const: 2.206896551724138
-    - expr: =HARMEAN( RC[1], RC[2], RC[3]:RC[4] )
-    - const: 16.0
-    - const: 4.0
-    - const: 2.0
-    - const: 1.0
-    - null
-    - null
-    - null
-    - const: 4.0
-  - cells:
-    - const: 2.6666666666666665
-    - expr: =HARMEAN( RC[1], RC[2], RC[3]:RC[4] )
-    - const: 4.0
-    - const: 2.0
-    - const: 4.0
-    - const: 2.0
-    - null
-    - null
-    - null
-    - const: 4.0
   - cells:
     - const: 2.6666666666666665
     - expr: =HARMEAN( RC[1], RC[2] )
@@ -1225,6 +1248,34 @@ sheets:
     - const: !NUM:FE
     - expr: =HARMEAN( RC[1], RC[2] )
     - const: 0.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - expr: =GEOMEAN( RC[1], RC[2] )
+  - cells:
+    - const: !NUM:FE
+    - expr: =HARMEAN( RC[1], RC[2] )
+    - const: 1.0
+    - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - expr: =GEOMEAN( RC[1], RC[2] )
+  - cells:
+    - const: !NUM:FE
+    - expr: =HARMEAN( RC[1], RC[2] )
+    - const: 0.0
     - const: -1.0
     - null
     - null
@@ -1234,7 +1285,42 @@ sheets:
     - const: 2.0
     - const: ...
     - null
-    - err: #NUM!
+    - expr: =GEOMEAN( RC[1], RC[2] )
+  - cells:
+  - cells:
+    - const: 3.2
+    - expr: =HARMEAN( RC[1], RC[2], RC[3]:RC[4] )
+    - const: 2.0
+    - const: 2.0
+    - const: 8.0
+    - const: 8.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 2.206896551724138
+    - expr: =HARMEAN( RC[1], RC[2], RC[3]:RC[4] )
+    - const: 16.0
+    - const: 4.0
+    - const: 2.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 2.6666666666666665
+    - expr: =HARMEAN( RC[1], RC[2], RC[3]:RC[4] )
+    - const: 4.0
+    - const: 2.0
+    - const: 4.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: …
   - cells:
   - cells:
     - const: 2.0
@@ -4893,8 +4979,8 @@ names:
 - name: ABSRANGE
   ref: R2C1:R10C14
 - name: COMBINERRORS
-  ref: R456C1:R458C14
+  ref: R463C1:R465C14
 - name: COMBINRANGE
-  ref: R443C1:R455C14
+  ref: R450C1:R462C14
 - name: HEADERRANGE
   ref: COMBINLARGE:R1C14

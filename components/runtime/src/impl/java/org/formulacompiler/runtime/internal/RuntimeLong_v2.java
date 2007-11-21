@@ -26,6 +26,7 @@ import java.util.TimeZone;
 
 import org.formulacompiler.runtime.NotAvailableException;
 import org.formulacompiler.runtime.ScaledLongSupport;
+import org.formulacompiler.runtime.FormulaException;
 
 
 public final class RuntimeLong_v2 extends Runtime_v2
@@ -538,10 +539,13 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		}
 		long n = fun_INT( _n, _cx );
 		long q = _cx.one - _p;
+		final long EPSILON = _cx.fromDouble(0.1E-320);
 		long factor = fun_POWER( q, fun_INT( _n, _cx ), _cx );
-		if (factor == 0) {
+		if (factor <= EPSILON) {
 			factor = fun_POWER( _p, n, _cx );
-			if (factor == 0) return 0;
+			if (factor <= EPSILON){				
+					throw new FormulaException( "#NUM! because factor = 0 in CRITBINOM("+factor+")" );
+			}
 			else {
 				long sum = _cx.one - factor;
 				long i;
@@ -763,7 +767,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 			}
 		}
 		else {
-			return 0; // Excel #NUM!
+			throw new FormulaException( "#VALUE! because of such argument doesn't supported in VALUE" );			
 		}
 	}
 

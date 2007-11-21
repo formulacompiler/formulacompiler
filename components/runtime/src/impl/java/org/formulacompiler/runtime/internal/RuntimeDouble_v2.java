@@ -28,6 +28,7 @@ import java.util.LinkedList;
 import java.util.TimeZone;
 
 import org.formulacompiler.runtime.NotAvailableException;
+import org.formulacompiler.runtime.FormulaException;
 import org.formulacompiler.runtime.internal.cern.jet.stat.Gamma;
 import org.formulacompiler.runtime.internal.cern.jet.stat.Probability;
 
@@ -105,12 +106,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_ACOSH( final double a )
 	{
-		if (a < 1) {
-			return 0;
-		}
-		else {
-			return Math.log( a + Math.sqrt( a * a - 1 ) );
-		}
+		return Math.log( a + Math.sqrt( a * a - 1 ) );
 	}
 
 	public static double fun_ASINH( final double a )
@@ -239,7 +235,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			case 3:
 				return dayOfWeek > 1? dayOfWeek - 2 : 6;
 			default:
-				return 0; // Excel #NUM
+				throw new FormulaException( "#NUM! because of illegal argument _type in WEEKDAY" );				
 		}
 	}
 
@@ -333,7 +329,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	{
 		if ((_x < 0) || (_n < _x) || (_M < _x) || (_N < _n) || (_N < _M) || (_x < _n - _N + _M)) {
 			// Illegal Argument
-			return 0;
+			fun_ERROR( "#NUM! because of illegal arguments in BETADIST" );
 		}
 		if (_N < 100) {
 			// simple method which works for small numbers
@@ -550,7 +546,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		if (factor == 0.0) {
 			factor = Math.pow( _probability, _trials );
 			if (factor == 0.0) {
-				return 0; // Excel #NUM!
+				throw new FormulaException( "#NUM! because of both factors = 0 in binomialDensity" );
 			}
 			else {
 				final int max = _trials - _successes;
@@ -663,7 +659,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	public static double fun_BETAINV( double _x, double _alpha, double _beta )
 	{
 		if (_x < 0 || _x >= 1 || _alpha <= 0 || _beta <= 0) {
-			fun_ERROR( "#NUM! because not 0 <= x < 1, alpha > 0, beta > 0 in CHIDIST" );
+			fun_ERROR( "#NUM! because not 0 <= x < 1, alpha > 0, beta > 0 in BETAINV" );
 		}
 		if (_x == 0) {
 			return 0; // This is a correct result, not an error.
@@ -719,7 +715,9 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		double factor = Math.pow( q, n );
 		if (factor == 0) {
 			factor = Math.pow( _p, n );
-			if (factor == 0) return 0;
+			if (factor == 0) {
+				throw new FormulaException( "#NUM! because factor = 0 in CRITBINOM" );
+			}
 			else {
 				double sum = 1 - factor;
 				int i;
@@ -799,8 +797,8 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_GAMMAINV( double _p, double _alpha, double _beta )
 	{
-		if (_p < 0 || _p >= 1 || _alpha <= 0 || _beta <= 0) {
-			fun_ERROR( "#NUM! because not 0 <= p < 1, alpha > 0, beta >0 in GAMMAINV" );
+		if (_p < 0 || _p > 1 || _alpha <= 0 || _beta <= 0) {
+			fun_ERROR( "#NUM! because not 0 <= p <= 1, alpha > 0, beta >0 in GAMMAINV" );
 		}
 		if (_p == 0) {
 			return 0; // This is a correct result, not an error.
@@ -926,8 +924,8 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_TINV( double _x, double _degFreedom )
 	{
-		if (_degFreedom < 1.0 || _degFreedom >= 1.0E5 || _x <= 0.0 || _x > 1.0) {
-			fun_ERROR( "#NUM! because not 0 < x <= 1, 1 <= degrees < 1e5 in TINV" );
+		if (_degFreedom < 1 || _degFreedom >= 1.0E5 || _x < 0 || _x > 1) {
+			fun_ERROR( "#NUM! because not 0 <= x <= 1, 1 <= degrees < 1e5 in TINV" );
 		}
 		StatisticDistFunc func = new TDistFunction( _x, _degFreedom );
 		return iterateInverse( func, _degFreedom / 2, _degFreedom );
@@ -1027,9 +1025,8 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 				}
 			}
 			x = new_x;
-
 		}
-		return Double.NaN;
+		throw new FormulaException( "#NUM! because of result doesn't found in " + EXCEL_MAX_ITER + " tries in IRR" );
 	}
 
 	public static double fun_DB( double _cost, double _salvage, double _life, double _period, double _month )
@@ -1102,7 +1099,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			rate0 = rate1;
 		}
 		if (eps >= EXCEL_EPSILON) {
-			return 0; // Excel #NUM!
+			fun_ERROR( "#NUM! because of result do not converge to within " + EXCEL_EPSILON + " after " + MAX_ITER + " iterations in RATE" );			
 		}
 		return rate0;
 	}
@@ -1111,11 +1108,13 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			double _factor, boolean _no_switch )
 	{
 		double valVDB = 0;
-		if (_start_period < 0.0
-				|| _end_period < _start_period || _end_period > _life || _cost < 0 || _salvage > _cost || _factor <= 0) {
-			return 0;
+		if (_start_period < 0 || _end_period < _start_period || _end_period > _life || _cost < 0 || _factor < 0) {
+			fun_ERROR( "#NUM! because of illegal argument values in VDB" );
 		}
 		else {
+			if (_salvage > _cost){
+				return 0; // correct result
+			}			
 			int loopStart = (int) Math.floor( _start_period );
 			int loopEnd = (int) Math.ceil( _end_period );
 			if (_no_switch) {
@@ -1192,7 +1191,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		if (number != null) {
 			return number.doubleValue();
 		}
-		return 0.0; // Excel #NUM!
+		throw new FormulaException( "#VALUE! because of such argument doesn't supported in VALUE" );
 	}
 
 

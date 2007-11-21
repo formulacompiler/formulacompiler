@@ -245,7 +245,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: 0.0
+    - const: !STR:FE
     - expr: =VALUE( RC[1] )
     - const: 5/7/1998
     - null
@@ -259,7 +259,7 @@ sheets:
     - null
     - const: 35981.0
   - cells:
-    - const: 0.0
+    - const: !STR:FE
     - expr: =VALUE( RC[1] )
     - const: 5/7/1998 12:13
     - null
@@ -273,7 +273,7 @@ sheets:
     - null
     - const: 35981.50902777778
   - cells:
-    - const: 0.0
+    - const: !STR:FE
     - expr: =VALUE( RC[1] )
     - const: 5/7/1998 12:13:14
     - null

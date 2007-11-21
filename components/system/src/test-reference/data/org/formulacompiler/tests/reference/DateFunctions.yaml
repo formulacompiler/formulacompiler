@@ -419,6 +419,28 @@ sheets:
     - null
     - const: 2.0
   - cells:
+    - const: 0.0
+    - expr: =WEEKDAY( RC[1], RC[2] )
+    - const: 39454.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: !NUM:FE
+    - expr: =WEEKDAY( RC[1], RC[2] )
+    - const: 39454.0
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
   - cells:
     - const: 1.0
     - expr: =DAY( RC[1] )
