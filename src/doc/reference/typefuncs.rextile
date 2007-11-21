@@ -1,0 +1,12 @@
+
+h1. Type Functions In AFC
+
+
+<%= toc 2, 5 %>
+
+h3. Type Functions
+
+The supported type functions are shown by example below:
+
+<%= gen_doc "TypeFunctions" %>
+

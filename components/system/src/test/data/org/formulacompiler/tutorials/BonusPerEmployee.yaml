@@ -1,0 +1,56 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: Name
+    - const: Base salary
+    - const: Overtime
+    - const: Total
+    - const: Bonus %
+    - const: Bonus amt
+  - cells:
+    - const: Ann
+    - const: 5600.0
+      name: BASESALARY
+    - const: 20.0
+      name: HOURSOVERTIME
+    - expr: =(BASESALARY + (HOURSOVERTIME * OVERTIMESALARYPERHOUR))
+    - expr: =(RC[-1] / R[3]C[-1])
+    - expr: =(BONUSTOTAL * RC[-1])
+      name: BONUSAMOUNT
+  - cells:
+    - const: Beth
+    - const: 5400.0
+    - const: 15.0
+    - expr: =(RC[-2] + (RC[-1] * OVERTIMESALARYPERHOUR))
+    - expr: =(RC[-1] / R[2]C[-1])
+    - expr: =(BONUSTOTAL * RC[-1])
+  - cells:
+    - const: Charlie
+    - const: 5500.0
+    - const: 0.0
+    - expr: =(RC[-2] + (RC[-1] * OVERTIMESALARYPERHOUR))
+    - expr: =(RC[-1] / R[1]C[-1])
+    - expr: =(BONUSTOTAL * RC[-1])
+  - cells:
+    - const: Total
+    - null
+    - null
+    - expr: =SUM( R[-3]C:R[-1]C )
+  - cells:
+    - const: Overtime rate
+    - const: 50.0
+      name: OVERTIMESALARYPERHOUR
+  - cells:
+    - const: Bonus total
+    - const: 20000.0
+      name: BONUSTOTAL
+
+names:
+- name: EMPLOYEES
+  ref: R2C1:R4C6
