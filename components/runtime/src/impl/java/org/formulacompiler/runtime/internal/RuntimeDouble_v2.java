@@ -546,7 +546,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		if (factor == 0.0) {
 			factor = Math.pow( _probability, _trials );
 			if (factor == 0.0) {
-				throw new FormulaException( "#NUM! because of both factors = 0 in binomialDensity" );
+				throw new FormulaException( "#NUM! because both factors = 0 in binomialDensity" );
 			}
 			else {
 				final int max = _trials - _successes;
@@ -1026,7 +1026,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			}
 			x = new_x;
 		}
-		throw new FormulaException( "#NUM! because of result doesn't found in " + EXCEL_MAX_ITER + " tries in IRR" );
+		throw new FormulaException( "#NUM! because result not found in " + EXCEL_MAX_ITER + " tries in IRR" );
 	}
 
 	public static double fun_DB( double _cost, double _salvage, double _life, double _period, double _month )
@@ -1191,7 +1191,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		if (number != null) {
 			return number.doubleValue();
 		}
-		throw new FormulaException( "#VALUE! because of such argument doesn't supported in VALUE" );
+		throw new FormulaException( "#VALUE! because of argument of unsupported type in VALUE" );
 	}
 
 
