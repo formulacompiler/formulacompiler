@@ -31,7 +31,6 @@ public final class CellIndex extends Reference implements Cell
 	public final int sheetIndex;
 	public final int columnIndex;
 	public final int rowIndex;
-	public final int precomputedHashCode;
 	public final boolean isColumnIndexAbsolute;
 	public final boolean isRowIndexAbsolute;
 
@@ -45,7 +44,6 @@ public final class CellIndex extends Reference implements Cell
 		this.rowIndex = _rowIndex;
 		this.isColumnIndexAbsolute = _columnIndexAbsolute;
 		this.isRowIndexAbsolute = _rowIndexAbsolute;
-		this.precomputedHashCode = computeHashCode();
 	}
 
 
@@ -72,14 +70,9 @@ public final class CellIndex extends Reference implements Cell
 	}
 
 
-	private int computeHashCode()
-	{
-		return (this.sheetIndex * 16384) ^ this.rowIndex ^ (this.columnIndex * 512);
-	}
-
-
 	public boolean equals( CellIndex _other )
 	{
+		if (this == _other) return true;
 		return this.spreadsheet == _other.spreadsheet
 				&& this.sheetIndex == _other.sheetIndex && this.rowIndex == _other.rowIndex
 				&& this.columnIndex == _other.columnIndex;
@@ -89,19 +82,25 @@ public final class CellIndex extends Reference implements Cell
 	@Override
 	public boolean equals( Object _obj )
 	{
+		if (this == _obj) return true;
 		if (_obj instanceof CellIndex) {
-			CellIndex other = (CellIndex) _obj;
-			return equals( other );
+			return equals( (CellIndex) _obj );
 		}
-		return super.equals( _obj );
+		return false;
 	}
 
 
 	@Override
 	public int hashCode()
 	{
-		return this.precomputedHashCode;
+		// Final, immutable class, so this should be SMP safe.
+		if (this.hashCode == 0) {
+			this.hashCode = ((17 * 59 + this.sheetIndex) * 59 + this.rowIndex) * 59 + this.columnIndex;
+		}
+		return this.hashCode;
 	}
+	
+	private transient int hashCode;
 
 
 	public SheetImpl getSheet()
