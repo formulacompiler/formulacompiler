@@ -1,0 +1,2 @@
+<p>Copyright &copy; 2006 by Abacus Research AG. All rights reserved.
+<br/>Last updated on <%= File.new( rextile_name ).mtime.getlocal.strftime( '%B %d, %Y' ) %>.</p>

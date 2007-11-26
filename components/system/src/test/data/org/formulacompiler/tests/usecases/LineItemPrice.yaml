@@ -1,0 +1,48 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: Base price of article
+    - const: 4000.0
+      name: ARTICLEPRICE
+  - cells:
+    - const: Number of items sold
+    - const: 30.0
+      name: NUMBERSOLD
+  - cells:
+    - const: Base price
+    - expr: =(ARTICLEPRICE * NUMBERSOLD)
+      name: BASEPRICE
+  - cells:
+    - const: Discount category
+    - expr: =MATCH( BASEPRICE, RC[1]:RC[6], 1.0 )
+    - const: 1000.0
+    - const: 5000.0
+    - const: 10000.0
+    - const: 30000.0
+    - const: 60000.0
+    - const: 100000.0
+  - cells:
+    - const: Discount
+    - expr: =INDEX( RC[1]:RC[6], , R[-1]C )
+    - const: 0.0
+    - const: 0.01
+    - const: 0.03
+    - const: 0.06
+    - const: 0.08
+    - const: 0.1
+  - cells:
+    - const: Discount amount
+    - expr: =(BASEPRICE * R[-1]C)
+      name: DISCOUNT
+  - cells:
+    - const: Total amount
+    - expr: =(BASEPRICE - DISCOUNT)
+      name: TOTAL
+
+names:

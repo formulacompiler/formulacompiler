@@ -1,0 +1,550 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: Expected
+    - const: Actual
+    - const: Inputs
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: # of Inputs
+    - const: Name
+    - const: Highlight
+    - const: Excel says
+    - const: Skip for
+  - cells:
+    - const: (now)
+    - expr: =NOW()
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 0.0
+    - const: NOW
+    - const: NOW
+  - cells:
+  - cells:
+    - const: (full days from 2006)
+    - expr: =(TODAY() - RC[1])
+    - const: 38718.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: TODAY (compared to 1.1.2006)
+    - const: TODAY
+  - cells:
+  - cells:
+    - const: 39447.0
+    - expr: =DATE( RC[1], RC[2], RC[3] )
+    - const: 2007.0
+    - const: 12.0
+    - const: 31.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: DATE
+    - const: DATE
+  - cells:
+    - const: 22383.0
+    - expr: =DATE( RC[1], RC[2], RC[3] )
+    - const: 1961.0
+    - const: 4.0
+    - const: 12.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 2713.0
+    - expr: =DATE( RC[1], RC[2], RC[3] )
+    - const: 7.0
+    - const: 6.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 38356.0
+    - expr: =DATE( RC[1], RC[2], RC[3] )
+    - const: 2003.0
+    - const: 23.0
+    - const: 65.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 39040.0
+    - expr: =DATE( RC[1], RC[2], RC[3] )
+    - const: 2008.0
+    - const: -10.0
+    - const: -73.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+  - cells:
+    - const: 0.08546296296296296
+    - expr: =TIME( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: TIME
+    - const: TIME
+  - cells:
+    - const: 0.7055439814814815
+    - expr: =TIME( RC[1], RC[2], RC[3] )
+    - const: 16.0
+    - const: 55.0
+    - const: 59.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.6800462962962961
+    - expr: =TIME( RC[1], RC[2], RC[3] )
+    - const: 39.0
+    - const: 78.0
+    - const: 76.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.9814814814814814
+    - expr: =TIME( RC[1], RC[2], RC[3] )
+    - const: 100.0
+    - const: -200.0
+    - const: -4000.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+  - cells:
+    - const: 45.0
+    - expr: =SECOND( RC[1] )
+    - const: 0.5213541666666667
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: SECOND
+    - const: SECOND
+  - cells:
+    - const: 0.0
+    - expr: =SECOND( RC[1] )
+    - const: 35222.5
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 59.0
+    - expr: =SECOND( RC[1] )
+    - const: 3653.999988425926
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 59.0
+    - expr: =SECOND( RC[1] )
+    - const: 3653.999994
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.0
+    - expr: =SECOND( RC[1] )
+    - const: 3653.999995
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: 30.0
+    - expr: =MINUTE( RC[1] )
+    - const: 0.5213541666666667
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: MINUTE
+    - const: MINUTE
+  - cells:
+    - const: 0.0
+    - expr: =MINUTE( RC[1] )
+    - const: 35222.5
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 59.0
+    - expr: =MINUTE( RC[1] )
+    - const: 3653.999988425926
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 59.0
+    - expr: =MINUTE( RC[1] )
+    - const: 3653.999994
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.0
+    - expr: =MINUTE( RC[1] )
+    - const: 3653.999995
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: 12.0
+    - expr: =HOUR( RC[1] )
+    - const: 0.5213541666666667
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: HOUR
+    - const: HOUR
+  - cells:
+    - const: 12.0
+    - expr: =HOUR( RC[1] )
+    - const: 35222.5
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 23.0
+    - expr: =HOUR( RC[1] )
+    - const: 3653.999988425926
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 23.0
+    - expr: =HOUR( RC[1] )
+    - const: 3653.999994
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.0
+    - expr: =HOUR( RC[1] )
+    - const: 3653.999995
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: 7.0
+    - expr: =WEEKDAY( RC[1] )
+    - const: 39452.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: WEEKDAY
+    - const: WEEKDAY
+  - cells:
+    - const: 1.0
+    - expr: =WEEKDAY( RC[1] )
+    - const: 39453.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 7.0
+    - expr: =WEEKDAY( RC[1], RC[2] )
+    - const: 39452.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 1.0
+    - expr: =WEEKDAY( RC[1], RC[2] )
+    - const: 39453.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 7.0
+    - expr: =WEEKDAY( RC[1], RC[2] )
+    - const: 39453.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 1.0
+    - expr: =WEEKDAY( RC[1], RC[2] )
+    - const: 39454.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 6.0
+    - expr: =WEEKDAY( RC[1], RC[2] )
+    - const: 39453.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.0
+    - expr: =WEEKDAY( RC[1], RC[2] )
+    - const: 39454.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.0
+    - expr: =WEEKDAY( RC[1], RC[2] )
+    - const: 39454.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: !NUM:FE
+    - expr: =WEEKDAY( RC[1], RC[2] )
+    - const: 39454.0
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =DAY( RC[1] )
+    - const: 40179.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: DAY
+    - const: DAY
+  - cells:
+    - const: 6.0
+    - expr: =DAY( RC[1] )
+    - const: 35222.5
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 31.0
+    - expr: =DAY( RC[1] )
+    - const: 3653.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =MONTH( RC[1] )
+    - const: 40179.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: MONTH
+    - const: MONTH
+  - cells:
+    - const: 6.0
+    - expr: =MONTH( RC[1] )
+    - const: 35222.5
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 12.0
+    - expr: =MONTH( RC[1] )
+    - const: 3653.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: 2010.0
+    - expr: =YEAR( RC[1] )
+    - const: 40179.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: YEAR
+    - const: YEAR
+  - cells:
+    - const: 1996.0
+    - expr: =YEAR( RC[1] )
+    - const: 35222.5
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 1909.0
+    - expr: =YEAR( RC[1] )
+    - const: 3653.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0

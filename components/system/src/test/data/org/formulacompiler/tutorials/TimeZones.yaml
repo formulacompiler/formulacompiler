@@ -1,0 +1,147 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Scenarios
+  rows:
+  - cells:
+    - const: Global Info
+    - null
+    - const: hints to AFC
+  - cells:
+  - cells:
+    - null
+    - const: GlobalTimeZoneName
+    - const: CET
+      name: GLOBALTIMEZONENAME
+  - cells:
+    - null
+    - const: GlobalTimeFormat
+    - const: Date( 946721520000 )
+      name: GLOBALTIMEFORMAT
+  - cells:
+  - cells:
+    - const: Demarcation
+    - null
+    - const: local
+  - cells:
+  - cells:
+    - null
+    - const: DateOfBirth
+    - const: 29587.0
+      name: DATEOFBIRTH
+  - cells:
+    - null
+    - const: Demarcation
+    - const: 29587.0
+  - cells:
+    - null
+    - const: IsBeforeDate
+    - expr: =(DATEOFBIRTH < R[-1]C)
+      name: ISBEFOREDATE
+  - cells:
+  - cells:
+    - const: Demarcation
+    - null
+    - const: local
+  - cells:
+  - cells:
+    - null
+    - const: TimeOfBirth
+    - const: 0.5
+      name: TIMEOFBIRTH
+  - cells:
+    - null
+    - const: Demarcation
+    - const: 0.5
+  - cells:
+    - null
+    - const: IsBeforeTime
+    - expr: =(TIMEOFBIRTH < R[-1]C)
+      name: ISBEFORETIME
+  - cells:
+  - cells:
+    - const: Demarcation
+    - null
+    - const: meant absolute
+  - cells:
+  - cells:
+    - null
+    - const: DateTimeOfBirth
+    - const: 29587.5
+      name: DATETIMEOFBIRTH
+  - cells:
+    - null
+    - const: Demarcation (CET)
+    - const: Date( 347194800000 )
+  - cells:
+    - null
+    - const: IsBeforeDateTime
+    - expr: =(DATETIMEOFBIRTH < R[-1]C)
+      name: ISBEFOREDATETIME
+  - cells:
+  - cells:
+    - const: Daylight saving
+    - null
+    - const: local
+  - cells:
+  - cells:
+    - null
+    - const: InWinter
+    - const: 29587.5
+      name: INWINTER
+  - cells:
+    - null
+    - const: InSummer
+    - const: 29768.5
+      name: INSUMMER
+  - cells:
+    - null
+    - const: Const in winter (CET)
+    - const: Date( 347194800000 )
+  - cells:
+    - null
+    - const: Const in summer (CET)
+    - const: Date( 362829600000 )
+  - cells:
+    - null
+    - const: Const in winter (local)
+    - const: 29587.5
+  - cells:
+    - null
+    - const: Const in summer (local)
+    - const: 29768.5
+  - cells:
+    - null
+    - const: InputDiff
+    - expr: =((INSUMMER - INWINTER) * 24.0)
+      name: INPUTDIFF
+  - cells:
+    - null
+    - const: ConstCETDiff
+    - expr: =((R[-4]C - R[-5]C) * 24.0)
+      name: CONSTCETDIFF
+  - cells:
+    - null
+    - const: ConstLocalDiff
+    - expr: =((R[-3]C - R[-4]C) * 24.0)
+      name: CONSTLOCALDIFF
+  - cells:
+    - null
+    - const: Java would say
+    - const: 4343.0
+    - const: because it takes DLS into account
+
+names:
+- name: DEMARCATIONDATE
+  ref: R8C2:ISBEFOREDATE
+- name: DEMARCATIONDATETIME
+  ref: R20C2:ISBEFOREDATETIME
+- name: DEMARCATIONTIME
+  ref: R14C2:ISBEFORETIME
+- name: DLSDIFF
+  ref: R26C2:CONSTLOCALDIFF
+- name: GLOBALTIMESETTINGS
+  ref: R3C2:GLOBALTIMEFORMAT

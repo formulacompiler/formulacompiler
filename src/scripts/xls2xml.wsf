@@ -1,0 +1,76 @@
+<job>
+    <runtime>
+        <description>Converts .xls files to Excel 2003 XML format</description>
+        <named name="r" type="simple" helpstring="Search for files recursively" />
+        <named name="dir" type="string" helpstring="Folder name" />
+    </runtime>
+    <script language="JScript">
+        var xlXMLSpreadsheet = 46;
+
+        var shell = WScript.CreateObject('WScript.Shell'); 
+        var fso = WScript.CreateObject("Scripting.FileSystemObject");
+
+        function findXlsFiles(folder, recursive) {
+            var xlsFiles = new Array();
+            var filesEnum = new Enumerator(folder.Files);
+            for (; !filesEnum.atEnd(); filesEnum.moveNext()) {
+                var file = filesEnum.item()
+                if("xls" == fso.GetExtensionName(file)) {
+                    xlsFiles.push(file);
+                }
+            }
+
+            if (recursive) {
+                var foldersEnum = new Enumerator(folder.SubFolders);
+                for (; !foldersEnum.atEnd(); foldersEnum.moveNext()) {
+                    var subFolder = foldersEnum.item()
+                    xlsFiles = xlsFiles.concat(findXlsFiles(subFolder, recursive));
+                }
+            }
+
+            return xlsFiles;
+        }
+
+        function convertFiles(files) {
+            var excelApplication = WScript.CreateObject("Excel.Application");
+            try {
+                excelApplication.DisplayAlerts = false;
+                for (var i = 0; i < files.length; i++) {
+                    convertFile(excelApplication, files[i], null);
+                }
+            } finally {
+                excelApplication.Quit();
+            }
+        }
+
+        function convertFile(excelApplication, file, destPath)
+        {
+            if (!destPath) {
+                destPath = (file.Path).replace(/\.xls$/, ".xml");
+            }
+            var workbook = excelApplication.Workbooks.Open(file);
+            try {
+                workbook.SaveAs(destPath, xlXMLSpreadsheet);
+            }
+            finally {
+                workbook.Close(false);
+            }
+        }
+
+
+
+        var argsNamed = WScript.Arguments.Named;
+
+        var directoryName = argsNamed.Item("dir");
+        if(!directoryName) {
+            directoryName = shell.CurrentDirectory;
+        }
+
+        var recursive = argsNamed.Exists("r");
+
+        var folder = fso.GetFolder(directoryName);
+        var xlsFiles = findXlsFiles(folder, recursive);
+
+        convertFiles(xlsFiles);
+    </script>
+</job>

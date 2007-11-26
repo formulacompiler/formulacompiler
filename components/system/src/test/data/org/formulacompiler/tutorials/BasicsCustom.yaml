@@ -1,0 +1,21 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: CustomerRebate
+    - const: 0.03
+  - cells:
+    - const: ArticleRebate
+    - const: 0.06
+  - cells:
+    - const: CustomerCategory
+    - const: 5.0
+  - cells:
+  - cells:
+    - const: Rebate
+    - expr: =IF( (R[-2]C = 1.0), SUM( R[-4]C:R[-3]C ), MAX( R[-4]C:R[-3]C ) )
