@@ -20,28 +20,18 @@
  */
 package org.formulacompiler.tests.reference.base;
 
-
-abstract class AbstractContextTestSuite extends AbstractInitializableTestSuite
+abstract class PassthroughContextTestSuite extends AbstractContextTestSuite
 {
-	private final Context cx;
 
-	public AbstractContextTestSuite( Context _cx )
+	public PassthroughContextTestSuite( Context _cx )
 	{
-		super( null );
-		this.cx = _cx;
-	}
-
-	public final Context cx()
-	{
-		return this.cx;
+		super( _cx );
 	}
 
 	@Override
-	public final String getName()
+	protected void addTests() throws Exception
 	{
-		return getOwnName();
+		// No automatically added tests.
 	}
-
-	protected abstract String getOwnName();
 
 }

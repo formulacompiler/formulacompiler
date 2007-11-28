@@ -20,23 +20,16 @@
  */
 package org.formulacompiler.tests.reference.base;
 
-final class SheetDocumentingTestSuite extends AbstractContextTestSuite
+abstract class SheetDocumentingTestSuite extends PassthroughContextTestSuite
 {
 	private final Documenter doc;
 
-	public SheetDocumentingTestSuite( String _name, Context _cx, Documenter _doc )
+	public SheetDocumentingTestSuite( Context _cx, Documenter _doc )
 	{
-		super( _name + " [documenting]", _cx );
+		super( _cx );
 		this.doc = _doc;
 	}
-
-	@Override
-	protected void addTests() throws Exception
-	{
-		// No automatic adds.
-	}
-
-
+	
 	@Override
 	protected void setUp() throws Exception
 	{

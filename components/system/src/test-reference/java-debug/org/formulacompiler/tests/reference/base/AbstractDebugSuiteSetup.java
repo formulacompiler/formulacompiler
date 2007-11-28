@@ -175,7 +175,7 @@ public abstract class AbstractDebugSuiteSetup extends SheetSuiteSetup
 			super();
 			this.sheetCx = _parentCx;
 			this.loader = _loader;
-			this.rowCx = this.sheetCx.newChild();
+			this.rowCx = new Context( this.sheetCx );
 			this.rowCx.setFailedEngineReporter( new Context.FailedEngineReporter()
 			{
 				private int failureNo = 1;

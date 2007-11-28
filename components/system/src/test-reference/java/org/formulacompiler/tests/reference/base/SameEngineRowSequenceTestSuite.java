@@ -29,20 +29,25 @@ public class SameEngineRowSequenceTestSuite extends AbstractEngineCompilingTestS
 
 	public SameEngineRowSequenceTestSuite( Context _cx, boolean _fullyBound )
 	{
-		super( "Compile row "
-				+ (_cx.getRowIndex() + 1) + " with input columns " + _cx.getRowSetup().getInputIsBoundString(), _cx );
+		super( _cx );
 		this.fullyBound = _fullyBound;
+	}
+
+	@Override
+	protected String getOwnName()
+	{
+		return "Compile; bound are " + cx().getRowSetup().getInputIsBoundString();
 	}
 
 	@Override
 	protected void addTests() throws Exception
 	{
-		addTestFor( cx().newChild() );
+		addTestFor( cx() );
 		if (this.fullyBound) {
 			final Row[] rows = cx().getSheetRows();
 			int iRow = cx().getRowIndex() + 1;
 			while (iRow < rows.length) {
-				final Context cx = cx().newChild();
+				final Context cx = new Context( cx() );
 				cx.setRow( iRow );
 				if (!"...".equals( cx.getRowSetup().getName() )) break;
 				addTestFor( cx );
@@ -52,10 +57,10 @@ public class SameEngineRowSequenceTestSuite extends AbstractEngineCompilingTestS
 		}
 	}
 
-	private void addTestFor( Context _cx )
+	private void addTestFor( final Context _cx )
 	{
 		_cx.getRowSetup().makeInput();
-		addTest( new EngineRunningTestCase( "Run with input values from row " + (_cx.getRowIndex() + 1), _cx ).init() );
+		addTest( new EngineRunningTestCase( _cx ).init() );
 	}
 
 	public int getNextRowIndex()

@@ -27,8 +27,13 @@ public class SheetLoadingTestSuite extends AbstractContextTestSuite
 
 	public SheetLoadingTestSuite( Context _cx )
 	{
-		super( _cx.getSpreadsheetFile().getName(), _cx );
-		_cx.setName( getName() );
+		super( _cx );
+	}
+
+	@Override
+	protected String getOwnName()
+	{
+		return cx().getSpreadsheetFile().getName();
 	}
 
 	@Override

@@ -34,11 +34,12 @@ import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 public abstract class AbstractEngineCompilingTestSuite extends AbstractContextTestSuite
 {
 
-	public AbstractEngineCompilingTestSuite( String _name, Context _cx )
+	public AbstractEngineCompilingTestSuite( Context _cx )
 	{
-		super( _name, _cx );
+		super( _cx );
 	}
-
+	
+	
 	@Override
 	protected void setUp() throws Throwable
 	{

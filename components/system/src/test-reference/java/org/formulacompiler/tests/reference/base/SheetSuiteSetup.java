@@ -30,24 +30,15 @@ import junit.framework.TestSuite;
 
 /**
  * Base class for all standard reference test definitions.
- *
+ * 
  * @author peo
  */
 public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 {
-	public static boolean EMIT_DOCUMENTATION = isSysPropTrue( "emit_documentation" );
-	public static boolean QUICK_RUN = isSysPropTrue( "quick_run" );
-	public static boolean THREADED_RUN = isSysPropTrue( "threaded_run" );
-
-	private static boolean isSysPropTrue( String _name )
-	{
-		return "true".equals( System.getProperty( "org.formulacompiler.tests.reference." + _name ) );
-	}
-
 
 	/**
 	 * Returns a suite providing full test sheet coverage for a single spreadsheet file.
-	 *
+	 * 
 	 * @param _fileName is the base name of the file without path or extension.
 	 */
 	public static Test sheetSuite( String _fileName ) throws Exception
@@ -59,19 +50,19 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 	 * Returns a suite providing full test sheet coverage for a single spreadsheet file with a given
 	 * computation configuration. Documentation output is controlled by the system property
 	 * {@code org.formulacompiler.tests.reference.emit_documentation}.
-	 *
+	 * 
 	 * @param _fileName is the base name of the file without path or extension.
 	 * @param _config is how to configure the computation factory.
 	 */
 	public static Test sheetSuite( String _fileName, Computation.Config _config ) throws Exception
 	{
-		return sheetSuite( _fileName, _config, EMIT_DOCUMENTATION );
+		return sheetSuite( _fileName, _config, Settings.EMIT_DOCUMENTATION );
 	}
 
 	/**
 	 * Returns a suite providing full test sheet coverage for a single spreadsheet file with a given
 	 * computation configuration.
-	 *
+	 * 
 	 * @param _fileName is the base name of the file without path or extension.
 	 * @param _config is how to configure the computation factory.
 	 */
@@ -85,14 +76,14 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 
 		// This is inverse notation as each setup step wraps its inner setup:
 		AbstractSetup setup = new SheetSetup();
-		if (QUICK_RUN) {
+		if (Settings.QUICK_RUN) {
 			if (_documented) {
 				loaderCx.setDocumenter( new HtmlDocumenter() );
 				loader.setName( loader.getName() + " [documented]" );
 			}
 			else {
 				// The documenter is not thread-safe, so only enable threading here.
-				if (THREADED_RUN) {
+				if (Settings.THREADED_RUN) {
 					setup = new ThreadedSetup( setup );
 				}
 			}
@@ -107,7 +98,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 			}
 			// The documenter is instantiated per sheet for the DOUBLE type, so we can thread the
 			// types.
-			if (THREADED_RUN) {
+			if (Settings.THREADED_RUN) {
 				setup = new ThreadedSetup( setup );
 			}
 		}
@@ -118,7 +109,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 
 	/**
 	 * Returns a suite providing full test sheet coverage for multiple spreadsheet files.
-	 *
+	 * 
 	 * @param _fileNames are the base name of the files without path or extension.
 	 */
 	public static Test sheetSuite( String... _fileNames ) throws Exception
@@ -142,6 +133,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 				new Computation.Config( new Locale( _lang, _region ) ), _documented );
 	}
 
+
 	protected static final class SheetSetup extends AbstractSetup
 	{
 
@@ -159,7 +151,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 		final Row[] rows = _cx.getSheetRows();
 		int iRow = _cx.getRowSetup().startingRow();
 		while (iRow < rows.length) {
-			final Context cx = _cx.newChild();
+			final Context cx = new Context( _cx );
 			cx.setRow( iRow );
 			if (cx.getRowSetup().isTestRow()) {
 
@@ -175,7 +167,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 	}
 
 
-	public static Test newSameEngineRowSequence( Context _cx, int... _nextRowIndex )
+	public static Test newSameEngineRowSequence( final Context _cx, final int... _nextRowIndex )
 	{
 		{ // Don't let the setup escape.
 			final RowSetup rowSetup = _cx.getRowSetup();
@@ -185,33 +177,40 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 		_cx.setInputIsBound( -1 );
 
 		final int nInputs = _cx.getInputCells().length;
-		final int nBoundVariations = QUICK_RUN? 1 : 1 << nInputs;
+		final int nBoundVariations = Settings.QUICK_RUN? 1 : 1 << nInputs;
 		final boolean hasExpr = (_cx.getOutputExpr() != null);
 
-		final TestSuite suite;
-		if (nBoundVariations == 1 && !hasExpr) {
-			suite = null;
-		}
-		else {
-			suite = new TestSuite( "Row " + (_cx.getRowIndex() + 1) + ": " + _cx.getOutputExpr().replace( '(', '[' ).replace( ')', ']' ) );
-			if (hasExpr) {
-				suite.addTest( new ExpressionFormattingTestCase( _cx ) );
-			}
-			for (int iBoundVariation = 0; iBoundVariation < nBoundVariations - 1; iBoundVariation++) {
-				final Context cx = _cx.newChild();
-				cx.setInputIsBound( iBoundVariation );
-				suite.addTest( new SameEngineRowSequenceTestSuite( cx, false ).init() );
-			}
-		}
+		return new AbstractContextTestSuite( _cx )
+		{
 
-		final SameEngineRowSequenceTestSuite refTest = new SameEngineRowSequenceTestSuite( _cx, true );
-		refTest.init();
-		if (_nextRowIndex.length > 0) {
-			_nextRowIndex[ 0 ] = refTest.getNextRowIndex();
-		}
-		if (null == suite) return refTest;
-		suite.addTest( refTest );
-		return suite;
+			@Override
+			protected String getOwnName()
+			{
+				return "Row "
+						+ (cx().getRowIndex() + 1) + ": " + cx().getOutputExpr().replace( '(', '[' ).replace( ')', ']' );
+			}
+
+			@Override
+			protected void addTests() throws Exception
+			{
+				if (hasExpr) {
+					addTest( new ExpressionFormattingTestCase( new Context( _cx ) ) );
+				}
+				for (int iBoundVariation = 0; iBoundVariation < nBoundVariations - 1; iBoundVariation++) {
+					final Context cx = new Context( _cx );
+					cx.setInputIsBound( iBoundVariation );
+					addTest( new SameEngineRowSequenceTestSuite( cx, false ).init() );
+				}
+
+				final SameEngineRowSequenceTestSuite refTest = new SameEngineRowSequenceTestSuite( _cx, true );
+				refTest.init();
+				if (_nextRowIndex.length > 0) {
+					_nextRowIndex[ 0 ] = refTest.getNextRowIndex();
+				}
+				addTest( refTest );
+			}
+
+		}.init();
 	}
 
 
