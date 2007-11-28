@@ -81,9 +81,7 @@ public abstract class AbstractEngineCompilingTestSuite extends AbstractContextTe
 	@Override
 	protected void tearDown() throws Exception
 	{
-		// Release the memory again:
-		cx().setFactory( null );
-		cx().setEngine( null );
+		cx().releaseEngine();
 	}
 
 
