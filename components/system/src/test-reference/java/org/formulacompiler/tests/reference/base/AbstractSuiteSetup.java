@@ -135,12 +135,14 @@ abstract class AbstractSuiteSetup
 		@Override
 		protected void setup( TestSuite _parent, Context _parentCx ) throws Exception
 		{
+			final Boolean explicitCaching = _parentCx.getExplicitCaching();
+			final boolean canDocument = (null == explicitCaching) || !explicitCaching;
 			for (BindingType type : BindingType.numbers()) {
 				Context cx = new Context( _parentCx );
 				cx.setNumberBindingType( type );
 
 				final TestSuite child;
-				if (type == this.emitDocsFor) {
+				if (canDocument && type == this.emitDocsFor) {
 					child = new SheetDocumentingTestSuite( cx, new HtmlDocumenter() )
 					{
 						@Override

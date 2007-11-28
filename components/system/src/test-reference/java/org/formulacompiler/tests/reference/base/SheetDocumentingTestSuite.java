@@ -29,7 +29,7 @@ abstract class SheetDocumentingTestSuite extends PassthroughContextTestSuite
 		super( _cx );
 		this.doc = _doc;
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception
 	{

@@ -80,7 +80,6 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 		if (Settings.QUICK_RUN) {
 			if (_documented) {
 				loaderCx.setDocumenter( new HtmlDocumenter() );
-				loader.setName( loader.getName() + " [documented]" );
 			}
 			else {
 				// The documenter is not thread-safe, so only enable threading here.
@@ -90,7 +89,6 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 			}
 		}
 		else {
-			setup = new AllCachingVariantsSetup( setup );
 			if (_documented) {
 				setup = new AllNumberTypesSetup( setup, BindingType.DOUBLE );
 			}
@@ -102,6 +100,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 			if (Settings.THREADED_RUN) {
 				setup = new ThreadedSetup( setup );
 			}
+			setup = new AllCachingVariantsSetup( setup );
 		}
 		setup.setup( loader, loaderCx );
 
@@ -190,11 +189,6 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 				if (hasExpr) {
 					addTest( new ExpressionFormattingTestCase( new Context( _cx ) ) );
 				}
-				for (int iBoundVariation = 0; iBoundVariation < nBoundVariations - 1; iBoundVariation++) {
-					final Context cx = new Context( _cx );
-					cx.setInputBindingBits( iBoundVariation );
-					addTest( new SameEngineRowSequenceTestSuite( cx, false ).init() );
-				}
 
 				final SameEngineRowSequenceTestSuite refTest = new SameEngineRowSequenceTestSuite( _cx, true );
 				refTest.init();
@@ -202,6 +196,12 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 					_nextRowIndex[ 0 ] = refTest.getNextRowIndex();
 				}
 				addTest( refTest );
+				
+				for (int iBoundVariation = 0; iBoundVariation < nBoundVariations - 1; iBoundVariation++) {
+					final Context cx = new Context( _cx );
+					cx.setInputBindingBits( iBoundVariation );
+					addTest( new SameEngineRowSequenceTestSuite( cx, false ).init() );
+				}
 			}
 
 		}.init();
