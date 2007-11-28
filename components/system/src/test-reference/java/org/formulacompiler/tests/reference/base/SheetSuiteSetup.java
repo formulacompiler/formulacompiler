@@ -20,10 +20,11 @@
  */
 package org.formulacompiler.tests.reference.base;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.formulacompiler.runtime.Computation;
-import org.formulacompiler.spreadsheet.Spreadsheet.Row;
+import org.formulacompiler.spreadsheet.internal.RowImpl;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -148,9 +149,9 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 
 	static void addSheetRowSequenceTo( Context _cx, TestSuite _suite ) throws Exception
 	{
-		final Row[] rows = _cx.getSheetRows();
+		final List<RowImpl> rows = _cx.getSheetRows();
 		int iRow = _cx.getRowSetup().startingRow();
-		while (iRow < rows.length) {
+		while (iRow < rows.size()) {
 			final Context cx = new Context( _cx );
 			cx.setRow( iRow );
 			if (cx.getRowSetup().isTestRow()) {
@@ -174,7 +175,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 			rowSetup.makeOutput();
 			rowSetup.makeInput();
 		}
-		_cx.setInputIsBound( -1 );
+		_cx.setInputBindingBits( -1 );
 
 		final int nInputs = _cx.getInputCells().length;
 		final int nBoundVariations = Settings.QUICK_RUN? 1 : 1 << nInputs;
@@ -198,7 +199,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 				}
 				for (int iBoundVariation = 0; iBoundVariation < nBoundVariations - 1; iBoundVariation++) {
 					final Context cx = new Context( _cx );
-					cx.setInputIsBound( iBoundVariation );
+					cx.setInputBindingBits( iBoundVariation );
 					addTest( new SameEngineRowSequenceTestSuite( cx, false ).init() );
 				}
 

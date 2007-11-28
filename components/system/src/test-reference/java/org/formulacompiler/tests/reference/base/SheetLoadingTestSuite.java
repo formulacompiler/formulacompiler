@@ -21,6 +21,7 @@
 package org.formulacompiler.tests.reference.base;
 
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
 public class SheetLoadingTestSuite extends AbstractContextTestSuite
 {
@@ -39,8 +40,7 @@ public class SheetLoadingTestSuite extends AbstractContextTestSuite
 	@Override
 	protected void addTests() throws Exception
 	{
-		cx().setSpreadsheet( SpreadsheetCompiler.loadSpreadsheet( cx().getSpreadsheetFile() ) );
-		cx().setSheet( 0 );
+		cx().setSpreadsheet( (SpreadsheetImpl) SpreadsheetCompiler.loadSpreadsheet( cx().getSpreadsheetFile() ) );
 	}
 
 	@Override

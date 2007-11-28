@@ -21,16 +21,22 @@
 package org.formulacompiler.tests.reference.base;
 
 import java.io.File;
+import java.util.List;
 
 import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.ComputationFactory;
+import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.Computation.Config;
-import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
-import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
+import org.formulacompiler.spreadsheet.internal.CellIndex;
+import org.formulacompiler.spreadsheet.internal.CellInstance;
+import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
+import org.formulacompiler.spreadsheet.internal.RowImpl;
+import org.formulacompiler.spreadsheet.internal.SheetImpl;
+import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
 import junit.framework.Test;
 
@@ -41,18 +47,15 @@ public final class Context
 	private final Context parent;
 	private String spreadsheetFileBaseName;
 	private File spreadsheetFile;
-	private Spreadsheet spreadsheet;
-	private Spreadsheet.Sheet[] sheets;
-	private Spreadsheet.Sheet sheet;
-	private Spreadsheet.Row[] sheetRows;
-	private Spreadsheet.Row row;
-	private Spreadsheet.Cell[] rowCells;
-	private Spreadsheet.Cell expectedCell;
+	private SpreadsheetImpl spreadsheet;
+	private SheetImpl sheet;
+	private RowImpl row;
+	private CellInstance expectedCell;
 	private Inputs expected;
-	private Spreadsheet.Cell outputCell;
-	private Spreadsheet.Cell[] inputCells;
+	private CellInstance outputCell;
+	private CellIndex[] inputCells;
 	private Inputs inputs;
-	private boolean[] inputIsBound;
+	private Integer inputBindingBits;
 	private SaveableEngine engine;
 	private Computation.Config computationConfig;
 	private ComputationFactory factory;
@@ -96,31 +99,31 @@ public final class Context
 	}
 
 
-	public Spreadsheet getSpreadsheet()
+	public SpreadsheetImpl getSpreadsheet()
 	{
 		return this.spreadsheet != null? this.spreadsheet : this.parent == null? null : this.parent.getSpreadsheet();
 	}
 
-	public void setSpreadsheet( Spreadsheet _spreadsheet )
+	public void setSpreadsheet( SpreadsheetImpl _spreadsheet )
 	{
 		this.spreadsheet = _spreadsheet;
-		this.sheets = _spreadsheet == null? null : _spreadsheet.getSheets();
+		setSheet( 0 );
 	}
 
-	public Spreadsheet.Sheet[] getSheets()
+	public List<SheetImpl> getSheets()
 	{
-		return this.spreadsheet != null? this.sheets : this.parent == null? null : this.parent.getSheets();
+		return getSpreadsheet().getSheetList();
 	}
 
-	public Spreadsheet.Sheet getSheet( int _sheetIndex )
+	public SheetImpl getSheet( int _sheetIndex )
 	{
-		final Spreadsheet.Sheet[] sheets = getSheets();
-		if (_sheetIndex < 0 && _sheetIndex >= sheets.length) return null;
-		return sheets[ _sheetIndex ];
+		List<SheetImpl> sheets = getSheets();
+		if (_sheetIndex < 0 && _sheetIndex >= sheets.size()) return null;
+		return sheets.get( _sheetIndex );
 	}
 
 
-	public Spreadsheet.Sheet getSheet()
+	public SheetImpl getSheet()
 	{
 		return this.sheet != null? this.sheet : this.parent == null? null : this.parent.getSheet();
 	}
@@ -135,26 +138,25 @@ public final class Context
 		setSheet( getSheet( _sheetIndex ) );
 	}
 
-	public void setSheet( Spreadsheet.Sheet _sheet )
+	public void setSheet( SheetImpl _sheet )
 	{
 		this.sheet = _sheet;
-		this.sheetRows = _sheet == null? null : _sheet.getRows();
 	}
 
-	public Spreadsheet.Row[] getSheetRows()
+	public List<RowImpl> getSheetRows()
 	{
-		return this.sheet != null? this.sheetRows : this.parent == null? null : this.parent.getSheetRows();
+		return getSheet().getRowList();
 	}
 
-	public Spreadsheet.Row getSheetRow( int _rowIndex )
+	public RowImpl getSheetRow( int _rowIndex )
 	{
-		final Spreadsheet.Row[] cells = getSheetRows();
-		if (_rowIndex < 0 && _rowIndex >= cells.length) return null;
-		return cells[ _rowIndex ];
+		List<RowImpl> rows = getSheetRows();
+		if (_rowIndex < 0 && _rowIndex >= rows.size()) return null;
+		return rows.get( _rowIndex );
 	}
 
 
-	public Spreadsheet.Row getRow()
+	public RowImpl getRow()
 	{
 		return this.row != null? this.row : this.parent == null? null : this.parent.getRow();
 	}
@@ -169,35 +171,33 @@ public final class Context
 		setRow( getSheetRow( _rowIndex ) );
 	}
 
-	public void setRow( Spreadsheet.Row _row )
+	public void setRow( RowImpl _row )
 	{
 		this.row = _row;
-		this.rowCells = _row == null? null : _row.getCells();
 	}
 
-	public Spreadsheet.Cell[] getRowCells()
+	public List<CellInstance> getRowCells()
 	{
-		final Spreadsheet.Cell[] cells = this.row != null? this.rowCells : this.parent == null? null : this.parent
-				.getRowCells();
-		return (cells == null)? NO_CELLS : cells;
+		RowImpl row = getRow();
+		if (row == null) return NO_CELLS;
+		return row.getCellList();
 	}
+	private static final List<CellInstance> NO_CELLS = New.list( 0 );
 
-	private static final Cell[] NO_CELLS = new Spreadsheet.Cell[ 0 ];
-
-	public Spreadsheet.Cell getRowCell( int _columnIndex )
+	public CellInstance getRowCell( int _columnIndex )
 	{
-		final Spreadsheet.Cell[] cells = getRowCells();
-		if (_columnIndex < 0 || _columnIndex >= cells.length) return null;
-		return cells[ _columnIndex ];
+		List<CellInstance> cells = getRowCells();
+		if (_columnIndex < 0 || _columnIndex >= cells.size()) return null;
+		return cells.get( _columnIndex );
 	}
 
 
-	public Spreadsheet.Cell getExpectedCell()
+	public CellInstance getExpectedCell()
 	{
 		return this.expectedCell != null? this.expectedCell : this.parent == null? null : this.parent.getExpectedCell();
 	}
 
-	public void setExpectedCell( Spreadsheet.Cell _cell )
+	public void setExpectedCell( CellInstance _cell )
 	{
 		this.expectedCell = _cell;
 	}
@@ -214,35 +214,39 @@ public final class Context
 	}
 
 
-	public Spreadsheet.Cell getOutputCell()
+	public CellInstance getOutputCell()
 	{
 		return this.outputCell != null? this.outputCell : this.parent == null? null : this.parent.getOutputCell();
 	}
 
-	public void setOutputCell( Spreadsheet.Cell _cell )
+	public void setOutputCell( CellInstance _cell )
 	{
 		this.outputCell = _cell;
 	}
 
 	public String getOutputExpr()
 	{
-		try {
-			return getOutputCell().getExpressionText();
+		final CellInstance cell = getOutputCell();
+		if (cell instanceof CellWithLazilyParsedExpression) {
+			final CellWithLazilyParsedExpression exprCell = (CellWithLazilyParsedExpression) cell;
+			try {
+				return exprCell.getExpression().toString();
+			}
+			catch (SpreadsheetException e) {
+				throw new RuntimeException( e );
+			}
 		}
-		catch (SpreadsheetException e) {
-			throw new RuntimeException( e );
-		}
+		return null;
 	}
 
 
-	public Spreadsheet.Cell[] getInputCells()
+	public CellIndex[] getInputCells()
 	{
 		return this.inputCells != null? this.inputCells : this.parent == null? null : this.parent.getInputCells();
 	}
 
-	public void setInputCells( Spreadsheet.Cell... _cells )
+	public void setInputCells( CellIndex... _cells )
 	{
-		assert null == _cells || null == getInputIsBound() || _cells.length == getInputIsBound().length;
 		this.inputCells = _cells;
 	}
 
@@ -258,30 +262,35 @@ public final class Context
 	}
 
 
-	public boolean[] getInputIsBound()
+	public Integer getInputBindingBits()
 	{
-		return this.inputIsBound != null? this.inputIsBound : this.parent == null? null : this.parent.getInputIsBound();
+		return this.inputBindingBits != null? this.inputBindingBits : this.parent == null? null : this.parent
+				.getInputBindingBits();
 	}
 
-	public void setInputIsBound( boolean... _value )
+	public boolean[] getInputBindingFlags()
 	{
-		assert null == _value || _value.length == getInputCells().length;
-		this.inputIsBound = _value;
+		return decodeBinding( getInputBindingBits() );
 	}
 
-	public void setInputIsBound( int _bitset )
+	private boolean[] decodeBinding( int _bitset )
 	{
 		final int n = getInputCells().length;
 		final boolean[] flags = new boolean[ n ];
 		for (int i = 0; i < n; i++) {
 			flags[ i ] = (_bitset & (1 << i)) != 0;
 		}
-		setInputIsBound( flags );
+		return flags;
 	}
 
-	public void setInputIsBound( String _bitstring )
+	public void setInputBindingBits( int _value )
 	{
-		setInputIsBound( Integer.parseInt( _bitstring, 2 ) );
+		this.inputBindingBits = _value;
+	}
+
+	public void setInputBindingBits( String _bitstring )
+	{
+		setInputBindingBits( Integer.parseInt( _bitstring, 2 ) );
 	}
 
 
