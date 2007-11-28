@@ -20,61 +20,38 @@
  */
 package org.formulacompiler.tests.reference.base;
 
-import java.util.List;
+import org.formulacompiler.spreadsheet.internal.CellIndex;
 
-import org.formulacompiler.spreadsheet.internal.RowImpl;
-
-public class SameEngineRowSequenceTestSuite extends AbstractEngineCompilingTestSuite
+abstract class SameExprRowSequenceTestSuite extends AbstractContextTestSuite
 {
-	private final boolean fullyBound;
-	private int nextRowIndex;
 
-	public SameEngineRowSequenceTestSuite( Context _cx, boolean _fullyBound )
+	public SameExprRowSequenceTestSuite( Context _cx )
 	{
 		super( _cx );
-		this.fullyBound = _fullyBound;
 	}
 
 	@Override
 	protected String getOwnName()
 	{
-		return "Compile; bound are " + cx().getRowSetup().getInputIsBoundString();
+		return "Row " + (cx().getRowIndex() + 1) + ": " + cx().getOutputExpr().replace( '(', '[' ).replace( ')', ']' );
 	}
 
-	@Override
-	protected void addTests() throws Exception
-	{
-		addTestFor( cx(), false );
-		if (this.fullyBound) {
-			final List<RowImpl> rows = cx().getSheetRows();
-			int iRow = cx().getRowIndex() + 1;
-			while (iRow < rows.size()) {
-				final Context cx = new Context( cx() );
-				cx.setRow( iRow );
-				if (!"...".equals( cx.getRowSetup().getName() )) break;
-				addTestFor( cx, true );
-				iRow++;
-			}
-			this.nextRowIndex = iRow;
-		}
-	}
-
-	private void addTestFor( Context _cx, boolean _differingInputs )
-	{
-		addTest( new EngineRunningTestCase( _cx, _differingInputs ).init() );
-	}
-
-	public int getNextRowIndex()
-	{
-		assert this.fullyBound;
-		return this.nextRowIndex;
-	}
 
 	@Override
 	protected void setUp() throws Throwable
 	{
 		super.setUp();
-		cx().getDocumenter().newEngineRow( cx() );
+		cx().getRowSetup().setupValues();
+	}
+
+	@Override
+	protected void tearDown() throws Throwable
+	{
+		// Release memory.
+		cx().setInputCells( (CellIndex[]) null );
+		cx().setInputs( null );
+		cx().setExpected( null );
+		super.tearDown();
 	}
 
 }

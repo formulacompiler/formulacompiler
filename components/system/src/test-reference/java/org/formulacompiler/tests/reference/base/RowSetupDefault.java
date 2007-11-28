@@ -69,14 +69,7 @@ public final class RowSetupDefault extends RowSetup
 		final CellInstance countCell = cx.getRowCell( inputCountCol() );
 		final Number countValue = (countCell == null)? null : (Number) countCell.getValue();
 		final int n = (countValue == null)? 0 : countValue.intValue();
-		final CellIndex[] inputCells = new CellIndex[ n ];
-		final SpreadsheetImpl ss = cx().getSpreadsheet();
-		final int r = cx().getRowIndex();
-		int c = inputStartCol();
-		for (int i = 0; i < n; i++)
-			inputCells[ i ] = new CellIndex(ss, 0, c++, r );
-		cx.setInputCells( inputCells );
-		cx.setInputs( new Inputs( cx, inputCells ) );
+		cx.setInputCellCount( n );
 		return makeExpected();
 	}
 
@@ -96,5 +89,20 @@ public final class RowSetupDefault extends RowSetup
 		return cells.toString() + "bits \"" + Integer.toBinaryString( bitset ) + "\"";
 	}
 
+	
+	@Override
+	public RowSetup setupValues()
+	{
+		final Context cx = cx();
+		final int n = cx.getInputCellCount();
+		final CellIndex[] inputCells = new CellIndex[ n ];
+		final SpreadsheetImpl ss = cx.getSpreadsheet();
+		final int r = cx.getRowIndex();
+		int c = inputStartCol();
+		for (int i = 0; i < n; i++)
+			inputCells[ i ] = new CellIndex(ss, 0, c++, r );
+		cx.setInputCells( inputCells );
+		return super.setupValues();
+	}
 
 }

@@ -25,15 +25,19 @@ import java.util.Date;
 
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.ComputationException;
+import org.formulacompiler.spreadsheet.internal.CellIndex;
 
 public class EngineRunningTestCase extends AbstractContextTestCase
 {
 	static final double DBL_EPSILON = 0.0000001;
 	static final BigDecimal BIG_EPSILON = BigDecimal.valueOf( DBL_EPSILON );
+	
+	private final boolean setupInputs;
 
-	public EngineRunningTestCase( Context _cx )
+	public EngineRunningTestCase( Context _cx, boolean _setupInputs )
 	{
 		super( _cx );
+		this.setupInputs = _setupInputs;
 	}
 
 	@Override
@@ -41,6 +45,27 @@ public class EngineRunningTestCase extends AbstractContextTestCase
 	{
 		return "Run; input row " + (cx().getRowIndex() + 1);
 	}
+	
+	
+	@Override
+	protected void setUp() throws Exception
+	{
+		super.setUp();
+		if (this.setupInputs) {
+			cx().getRowSetup().setupValues();
+		}
+	}
+	
+	@Override
+	protected void tearDown() throws Exception
+	{
+		// Release memory.
+		cx().setInputCells( (CellIndex[]) null );
+		cx().setInputs( null );
+		cx().setExpected( null );
+		super.tearDown();
+	}
+	
 
 	@Override
 	protected void runTest() throws Throwable
