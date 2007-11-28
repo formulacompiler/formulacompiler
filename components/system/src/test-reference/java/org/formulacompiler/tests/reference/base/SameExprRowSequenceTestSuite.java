@@ -20,8 +20,6 @@
  */
 package org.formulacompiler.tests.reference.base;
 
-import org.formulacompiler.spreadsheet.internal.CellIndex;
-
 abstract class SameExprRowSequenceTestSuite extends AbstractContextTestSuite
 {
 
@@ -47,10 +45,7 @@ abstract class SameExprRowSequenceTestSuite extends AbstractContextTestSuite
 	@Override
 	protected void tearDown() throws Throwable
 	{
-		// Release memory.
-		cx().setInputCells( (CellIndex[]) null );
-		cx().setInputs( null );
-		cx().setExpected( null );
+		cx().releaseInputs();
 		super.tearDown();
 	}
 

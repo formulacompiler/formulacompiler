@@ -25,7 +25,6 @@ import java.util.Date;
 
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.ComputationException;
-import org.formulacompiler.spreadsheet.internal.CellIndex;
 
 public class EngineRunningTestCase extends AbstractContextTestCase
 {
@@ -59,10 +58,9 @@ public class EngineRunningTestCase extends AbstractContextTestCase
 	@Override
 	protected void tearDown() throws Exception
 	{
-		// Release memory.
-		cx().setInputCells( (CellIndex[]) null );
-		cx().setInputs( null );
-		cx().setExpected( null );
+		if (this.setupInputs) {
+			cx().releaseInputs();
+		}
 		super.tearDown();
 	}
 	
