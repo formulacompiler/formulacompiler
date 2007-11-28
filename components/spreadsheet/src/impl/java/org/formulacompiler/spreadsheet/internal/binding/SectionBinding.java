@@ -37,7 +37,8 @@ import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 
 /**
- * Subsections are sorted
+ * Subsections are sorted.
+ * <p>Note: this class has a natural ordering that is inconsistent with equals.
  * 
  * @author peo
  */
@@ -228,6 +229,8 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 
 	public int compareTo( SectionBinding _other )
 	{
+		if (this == _other) return 0;
+		
 		int thisFrom = this.getRange().getFrom().getIndex( this.getOrientation() );
 		int otherFrom = _other.getRange().getFrom().getIndex( _other.getOrientation() );
 

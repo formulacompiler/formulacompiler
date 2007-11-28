@@ -31,7 +31,6 @@ abstract class AbstractSuiteSetup
 	protected static Context newSheetContext( String _fileBaseName )
 	{
 		final Context cx = new Context( _fileBaseName, ".xls" );
-
 		if (_fileBaseName.contains( "Database" )) {
 			cx.setRowSetupBuilder( new RowSetupDbAgg.Builder() );
 		}
@@ -104,11 +103,16 @@ abstract class AbstractSuiteSetup
 		@Override
 		protected void setup( TestSuite _parent, Context _parentCx ) throws Exception
 		{
-			Context cx = _parentCx.newChild();
+			Context cx = new Context( _parentCx );
 			cx.setComputationConfig( this.config );
-			TestSuite child = new TestSuite( this.config.toString() );
-			cx.setName( child.getName() );
-			addTest( _parent, child, cx );
+			addTest( _parent, new PassthroughContextTestSuite( cx )
+			{
+				@Override
+				protected String getOwnName()
+				{
+					return cx().getComputationConfig().toString();
+				}
+			}.init(), cx );
 		}
 
 	}
@@ -131,18 +135,33 @@ abstract class AbstractSuiteSetup
 		@Override
 		protected void setup( TestSuite _parent, Context _parentCx ) throws Exception
 		{
+			final Boolean explicitCaching = _parentCx.getExplicitCaching();
+			final boolean canDocument = (null == explicitCaching) || !explicitCaching;
 			for (BindingType type : BindingType.numbers()) {
-				Context cx = _parentCx.newChild();
+				Context cx = new Context( _parentCx );
 				cx.setNumberBindingType( type );
 
-				TestSuite child = new TestSuite( type.name() );
-				if (type == this.emitDocsFor) {
-					child = new SheetDocumentingTestSuite( type.name(), cx, new HtmlDocumenter() );
+				final TestSuite child;
+				if (canDocument && type == this.emitDocsFor) {
+					child = new SheetDocumentingTestSuite( cx, new HtmlDocumenter() )
+					{
+						@Override
+						protected String getOwnName()
+						{
+							return cx().getNumberBindingType().name() + " [documenting]";
+						}
+					}.init();
 				}
 				else {
-					child = new TestSuite( type.name() );
+					child = new PassthroughContextTestSuite( cx )
+					{
+						@Override
+						protected String getOwnName()
+						{
+							return cx().getNumberBindingType().name();
+						}
+					}.init();
 				}
-				cx.setName( child.getName() );
 				addTest( _parent, child, cx );
 			}
 		}
@@ -161,11 +180,16 @@ abstract class AbstractSuiteSetup
 		protected void setup( TestSuite _parent, Context _parentCx ) throws Exception
 		{
 			for (boolean caching : new boolean[] { false, true }) {
-				Context cx = _parentCx.newChild();
+				Context cx = new Context( _parentCx );
 				cx.setExplicitCaching( caching );
-				TestSuite child = new TestSuite( caching? "With caching" : "No caching" );
-				cx.setName( child.getName() );
-				addTest( _parent, child, cx );
+				addTest( _parent, new PassthroughContextTestSuite( cx )
+				{
+					@Override
+					protected String getOwnName()
+					{
+						return cx().getExplicitCaching()? "With caching" : "No caching";
+					}
+				}.init(), cx );
 			}
 		}
 

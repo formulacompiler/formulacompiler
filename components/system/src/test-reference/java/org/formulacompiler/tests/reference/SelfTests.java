@@ -20,7 +20,6 @@
  */
 package org.formulacompiler.tests.reference;
 
-
 import org.formulacompiler.tests.reference.base.AbstractEngineCompilingTestSuite;
 import org.formulacompiler.tests.reference.base.Context;
 import org.formulacompiler.tests.reference.base.EngineRunningTestCase;
@@ -48,20 +47,27 @@ public class SelfTests extends SheetSuiteSetup
 	{
 		final Context loaderCx = newSheetContext( "BadResult" );
 		final TestSuite loader = newLoader( loaderCx );
-		final Context rowCx = loaderCx.newChild();
+		final Context rowCx = new Context( loaderCx );
 		rowCx.setRow( 1 );
 		final RowSetup rowSetup = rowCx.getRowSetup();
 		rowSetup.makeInput();
 		rowSetup.makeOutput();
-		rowCx.setInputIsBound( -1 );
+		rowSetup.setupValues();
+		rowCx.setInputBindingBits( -1 );
 
-		loader.addTest( new AbstractEngineCompilingTestSuite( "Row 2", rowCx )
+		loader.addTest( new AbstractEngineCompilingTestSuite( rowCx )
 		{
+
+			@Override
+			protected String getOwnName()
+			{
+				return "Compile row 2 and check for failure";
+			}
 
 			@Override
 			protected void addTests() throws Exception
 			{
-				addTest( new EngineRunningTestCase( "Run it and check for failure", rowCx )
+				addTest( new EngineRunningTestCase( rowCx, false )
 				{
 
 					@Override
@@ -89,24 +95,31 @@ public class SelfTests extends SheetSuiteSetup
 	{
 		final Context loaderCx = newSheetContext( "BadAlternativeResult" );
 		final TestSuite loader = newLoader( loaderCx );
-		final Context rowCx = loaderCx.newChild();
+		final Context rowCx = new Context( loaderCx );
 		rowCx.setRow( 1 );
 		final RowSetup rowSetup = rowCx.getRowSetup();
 		rowSetup.makeInput();
 		rowSetup.makeOutput();
-		rowCx.setInputIsBound( -1 );
+		rowSetup.setupValues();
+		rowCx.setInputBindingBits( -1 );
 
-		loader.addTest( new AbstractEngineCompilingTestSuite( "Row 2", rowCx )
+		loader.addTest( new AbstractEngineCompilingTestSuite( rowCx )
 		{
+
+			@Override
+			protected String getOwnName()
+			{
+				return "Compile row 2";
+			}
 
 			@Override
 			protected void addTests() throws Exception
 			{
-				final Context inpCx = rowCx.newChild();
+				final Context inpCx = new Context( cx() );
 				inpCx.setRow( 2 );
 				inpCx.getRowSetup().makeInput();
 
-				addTest( new EngineRunningTestCase( "Run row 3 and check for failure", inpCx )
+				addTest( new EngineRunningTestCase( inpCx, true )
 				{
 
 					@Override

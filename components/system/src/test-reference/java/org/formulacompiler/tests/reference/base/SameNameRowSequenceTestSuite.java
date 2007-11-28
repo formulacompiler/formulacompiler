@@ -20,7 +20,9 @@
  */
 package org.formulacompiler.tests.reference.base;
 
-import org.formulacompiler.spreadsheet.Spreadsheet.Row;
+import java.util.List;
+
+import org.formulacompiler.spreadsheet.internal.RowImpl;
 
 public class SameNameRowSequenceTestSuite extends AbstractContextTestSuite
 {
@@ -28,16 +30,22 @@ public class SameNameRowSequenceTestSuite extends AbstractContextTestSuite
 
 	public SameNameRowSequenceTestSuite( Context _cx )
 	{
-		super( _cx.getRowSetup().getName().replace( '(', '[' ).replace( ')', ']' ), _cx );
+		super( _cx );
+	}
+	
+	@Override
+	protected String getOwnName()
+	{
+		return cx().getRowSetup().getName().replace( '(', '[' ).replace( ')', ']' );
 	}
 
 	@Override
 	protected void addTests() throws Exception
 	{
-		int iRow = addTestFor( cx().newChild() );
-		final Row[] rows = cx().getSheetRows();
-		while (iRow < rows.length) {
-			final Context childRowCx = cx().newChild();
+		int iRow = addTestFor( new Context( cx() ) );
+		final List<RowImpl> rows = cx().getSheetRows();
+		while (iRow < rows.size()) {
+			final Context childRowCx = new Context( cx() );
 			childRowCx.setRow( iRow );
 			final RowSetup rowSetup = childRowCx.getRowSetup();
 			if (null == rowSetup.getName() || "".equals( rowSetup.getName() )) {

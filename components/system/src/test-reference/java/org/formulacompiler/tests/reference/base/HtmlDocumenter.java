@@ -31,8 +31,6 @@ import org.formulacompiler.compiler.internal.IOUtil;
 import org.formulacompiler.decompiler.ByteCodeEngineSource;
 import org.formulacompiler.decompiler.FormulaDecompiler;
 import org.formulacompiler.describable.DescriptionBuilder;
-import org.formulacompiler.spreadsheet.Spreadsheet;
-import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
 
@@ -206,10 +204,10 @@ public class HtmlDocumenter implements Documenter
 				this.maxColCount = Math.max( this.maxColCount, _row.documentedColCount() );
 			}
 
-			private void extractHighlightsFrom( final Spreadsheet.Cell _cell )
+			private void extractHighlightsFrom( CellInstance _cell )
 			{
-				if (null != _cell && null != _cell.getConstantValue()) {
-					final String highlights = _cell.getConstantValue().toString();
+				if (null != _cell && null != _cell.getValue()) {
+					final String highlights = _cell.getValue().toString();
 					if (highlights.equals( "xx" )) {
 						this.highlightTerms = null;
 					}
@@ -242,7 +240,7 @@ public class HtmlDocumenter implements Documenter
 
 				private void newOrSimilarRow() throws Exception
 				{
-					this.exprCell = cellInstanceOf( this.cx.getOutputCell() );
+					this.exprCell = this.cx.getOutputCell();
 					if (this.exprCell instanceof CellWithLazilyParsedExpression) {
 						this.exprSource = ((CellWithLazilyParsedExpression) this.exprCell).getExpressionParser().getSource();
 						this.exprPrefix = "=";
@@ -275,7 +273,7 @@ public class HtmlDocumenter implements Documenter
 				private void showRow( String _exprText, String _exprPrec )
 				{
 					final DescriptionBuilder h = this.html;
-					final Object expected = formatExpectedValue( this.cx.getExpectedCell().getConstantValue() );
+					final Object expected = formatExpectedValue( this.cx.getExpectedCell().getValue() );
 					final String expectedCls = htmlCellClass( expected );
 					h.append( "<tr><td class=\"xl-row\">" ).append( this.rowNum ).append( "</td>" );
 					h.append( "<td" ).append( expectedCls ).append( ">" ).append( expected ).append( "</td>" );
@@ -283,7 +281,7 @@ public class HtmlDocumenter implements Documenter
 
 					final int rightMostColumn = this.row.expectedCol() + this.row.documentedColCount();
 					for (int col = this.row.actualCol() + 1; col <= rightMostColumn; col++) {
-						final CellInstance inputCell = cellInstanceOf( this.cx.getRowCell( col ) );
+						final CellInstance inputCell = this.cx.getRowCell( col );
 						if (inputCell != null) {
 							final Object input = inputCell.getValue();
 							if (null != input) {
@@ -303,7 +301,7 @@ public class HtmlDocumenter implements Documenter
 						}
 					}
 
-					final Spreadsheet.Cell excelSaysCell = this.cx.getRowCell( this.row.excelSaysCol() );
+					final CellInstance excelSaysCell = this.cx.getRowCell( this.row.excelSaysCol() );
 					if (null != excelSaysCell) {
 						final Object excelSays = excelSaysCell.getValue();
 						h.append( "<td class=\"ref-bad\">Excel says: " ).append( htmlValue( excelSays ) ).append( "</td>" );
@@ -343,11 +341,6 @@ public class HtmlDocumenter implements Documenter
 								+ titles[ i ] + "\">" + acronyms[ i ] + "</acronym>" );
 					}
 					return "!" + result;
-				}
-
-				private CellInstance cellInstanceOf( Spreadsheet.Cell _cell )
-				{
-					return (_cell == null)? null : ((CellIndex) _cell).getCell();
 				}
 
 				private final Object htmlValue( Object _value )
@@ -401,7 +394,7 @@ public class HtmlDocumenter implements Documenter
 					rex.newLine();
 					rex.appendLine( "The expression" );
 					rex.newLine();
-					rex.append( "<pre><code>" ).append( _exprText ).appendLine( "</code></pre>" );
+					rex.append( "<pre><code>" ).append( stripEmphasis( _exprText ) ).appendLine( "</code></pre>" );
 					rex.newLine();
 					rex.appendLine( "is compiled to the following class(es):" );
 					rex.newLine();
@@ -421,6 +414,11 @@ public class HtmlDocumenter implements Documenter
 
 					IOUtil.writeStringToIfNotUpToDate( rex.toString(), new File( HTML_PATH, engineFileName + ".rextile" ) );
 					return "<a href=\"" + engineFileName + ".htm\">" + _exprText + "</a>";
+				}
+
+				private String stripEmphasis( String _exprText )
+				{
+					return _exprText.replace( "<em>", "" ).replace( "</em>", "" );
 				}
 
 				private boolean isNewExpr()

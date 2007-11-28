@@ -20,7 +20,9 @@
  */
 package org.formulacompiler.tests.reference.base;
 
-import org.formulacompiler.spreadsheet.Spreadsheet.Row;
+import java.util.List;
+
+import org.formulacompiler.spreadsheet.internal.RowImpl;
 
 public class SameEngineRowSequenceTestSuite extends AbstractEngineCompilingTestSuite
 {
@@ -29,33 +31,39 @@ public class SameEngineRowSequenceTestSuite extends AbstractEngineCompilingTestS
 
 	public SameEngineRowSequenceTestSuite( Context _cx, boolean _fullyBound )
 	{
-		super( "Compile row "
-				+ (_cx.getRowIndex() + 1) + " with input columns " + _cx.getRowSetup().getInputIsBoundString(), _cx );
+		super( _cx );
 		this.fullyBound = _fullyBound;
+	}
+
+	@Override
+	protected String getOwnName()
+	{
+		final int bits = cx().getInputBindingBits();
+		if (bits < 0) return "Compile";
+		return "Compile; bind only " + Integer.toBinaryString( bits );
 	}
 
 	@Override
 	protected void addTests() throws Exception
 	{
-		addTestFor( cx().newChild() );
+		addTestFor( cx(), false );
 		if (this.fullyBound) {
-			final Row[] rows = cx().getSheetRows();
+			final List<RowImpl> rows = cx().getSheetRows();
 			int iRow = cx().getRowIndex() + 1;
-			while (iRow < rows.length) {
-				final Context cx = cx().newChild();
+			while (iRow < rows.size()) {
+				final Context cx = new Context( cx() );
 				cx.setRow( iRow );
 				if (!"...".equals( cx.getRowSetup().getName() )) break;
-				addTestFor( cx );
+				addTestFor( cx, true );
 				iRow++;
 			}
 			this.nextRowIndex = iRow;
 		}
 	}
 
-	private void addTestFor( Context _cx )
+	private void addTestFor( Context _cx, boolean _differingInputs )
 	{
-		_cx.getRowSetup().makeInput();
-		addTest( new EngineRunningTestCase( "Run with input values from row " + (_cx.getRowIndex() + 1), _cx ).init() );
+		addTest( new EngineRunningTestCase( _cx, _differingInputs ).init() );
 	}
 
 	public int getNextRowIndex()

@@ -61,7 +61,7 @@ public interface OptimizedModelToEngineCompiler
 				return (Config) super.clone();
 			}
 			catch (CloneNotSupportedException e) {
-				throw new IllegalArgumentException( e );
+				throw new InternalError();
 			}
 		}
 

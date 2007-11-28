@@ -26,16 +26,29 @@ import java.util.Date;
 import org.formulacompiler.runtime.FormulaException;
 import org.formulacompiler.runtime.NotAvailableException;
 import org.formulacompiler.runtime.ScaledLong;
-import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
+import org.formulacompiler.spreadsheet.internal.CellIndex;
+import org.formulacompiler.spreadsheet.internal.CellInstance;
 
 public final class Inputs extends AbstractCellValues
 {
 
-	public Inputs( Context _cx, Cell... _cells )
+	public Inputs( Context _cx, CellInstance... _cells )
 	{
 		super( _cx, _cells );
 	}
 
+	public Inputs( Context _cx, CellIndex... _cells )
+	{
+		super( _cx, cellIndexesToInstance( _cells ) );
+	}
+
+	private static CellInstance[] cellIndexesToInstance( CellIndex[] _cells )
+	{
+		CellInstance[] r = new CellInstance[ _cells.length ];
+		for (int i = 0; i < _cells.length; i++)
+			r[ i ] = _cells[ i ].getCell();
+		return r;
+	}
 
 	public double dbl( int _inputIndex )
 	{
@@ -48,7 +61,8 @@ public final class Inputs extends AbstractCellValues
 	{
 		if (_inputIndex < 0 || _inputIndex >= this.vals.length) return null;
 		final Object val = getOrThrow( _inputIndex );
-		return null == val? null : (val instanceof BigDecimal)? (BigDecimal) val : BigDecimal.valueOf( ((Number) val).doubleValue() );
+		return null == val? null : (val instanceof BigDecimal)? (BigDecimal) val : BigDecimal.valueOf( ((Number) val)
+				.doubleValue() );
 	}
 
 	@ScaledLong( 6 )

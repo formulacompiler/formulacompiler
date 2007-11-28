@@ -29,7 +29,8 @@ import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.FormulaException;
 import org.formulacompiler.runtime.NotAvailableException;
-import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
+import org.formulacompiler.spreadsheet.internal.CellInstance;
+import org.formulacompiler.spreadsheet.internal.CellWithError;
 
 abstract class AbstractCellValues
 {
@@ -42,7 +43,7 @@ abstract class AbstractCellValues
 	protected final Object[] vals;
 	protected final BindingType[] types;
 
-	public AbstractCellValues( Context _cx, Cell... _cells )
+	public AbstractCellValues( Context _cx, CellInstance... _cells )
 	{
 		final int n = _cells.length;
 		this.numberType = _cx.getNumberBindingType();
@@ -50,9 +51,11 @@ abstract class AbstractCellValues
 		this.vals = new Object[ n ];
 		this.types = new BindingType[ n ];
 		for (int i = 0; i < n; i++) {
-			final String errorText = _cells[ i ].getErrorText();
-			if (null != errorText) {
-				if (errorText.equals( "#N/A" )) {
+			final CellInstance cell = _cells[ i ];
+			if (cell instanceof CellWithError) {
+				CellWithError errCell = (CellWithError) cell;
+				String errText = errCell.getError();
+				if (errText.equals( "#N/A" )) {
 					set( i, NA, this.numberType );
 				}
 				else {
@@ -60,7 +63,7 @@ abstract class AbstractCellValues
 				}
 			}
 			else {
-				parseAndSetValue( _cx, i, _cells[ i ].getConstantValue() );
+				parseAndSetValue( _cx, i, (cell == null)? null : cell.getValue() );
 			}
 		}
 	}
