@@ -31,9 +31,15 @@ public class EngineRunningTestCase extends AbstractContextTestCase
 	static final double DBL_EPSILON = 0.0000001;
 	static final BigDecimal BIG_EPSILON = BigDecimal.valueOf( DBL_EPSILON );
 
-	public EngineRunningTestCase( String _name, Context _cx )
+	public EngineRunningTestCase( Context _cx )
 	{
-		super( _name, _cx );
+		super( _cx );
+	}
+
+	@Override
+	protected String getOwnName()
+	{
+		return "Run; input row " + (cx().getRowIndex() + 1);
 	}
 
 	@Override

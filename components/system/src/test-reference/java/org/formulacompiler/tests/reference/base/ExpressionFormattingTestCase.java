@@ -33,9 +33,15 @@ public class ExpressionFormattingTestCase extends AbstractContextTestCase
 
 	public ExpressionFormattingTestCase( Context _cx )
 	{
-		super( "Format and reparse expression", _cx );
+		super( _cx );
 	}
-
+	
+	@Override
+	protected String getOwnName()
+	{
+		return "Format and reparse expression";
+	}
+	
 	@Override
 	protected void runTest() throws Throwable
 	{

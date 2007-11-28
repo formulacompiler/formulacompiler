@@ -27,6 +27,7 @@ import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.ComputationFactory;
+import org.formulacompiler.runtime.Computation.Config;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
@@ -38,7 +39,6 @@ public final class Context
 	protected static final File SHEET_PATH = new File( "src/test-reference/data/org/formulacompiler/tests/reference/" );
 
 	private final Context parent;
-	private String name;
 	private String spreadsheetFileBaseName;
 	private File spreadsheetFile;
 	private Spreadsheet spreadsheet;
@@ -63,7 +63,7 @@ public final class Context
 	private Documenter documenter;
 
 
-	protected Context( Context _parent )
+	public Context( Context _parent )
 	{
 		this.parent = _parent;
 	}
@@ -82,37 +82,6 @@ public final class Context
 		this.spreadsheetFileBaseName = _spreadsheetFile.getName();
 	}
 
-	/**
-	 * To be overridden by all subclasses.
-	 */
-	public Context newChild()
-	{
-		return new Context( this );
-	}
-
-
-	public void setName( String _value )
-	{
-		this.name = _value;
-	}
-
-	public String getName()
-	{
-		return addNameTo( new StringBuilder(), false ).toString();
-	}
-
-	private StringBuilder addNameTo( StringBuilder _stringBuilder, boolean _addSeparator )
-	{
-		final boolean thisHasName = (this.name != null);
-		if (this.parent != null) {
-			this.parent.addNameTo( _stringBuilder, thisHasName );
-		}
-		if (thisHasName) {
-			_stringBuilder.append( this.name );
-		}
-		if (_addSeparator) _stringBuilder.append( "; " );
-		return _stringBuilder;
-	}
 
 	public File getSpreadsheetFile()
 	{
@@ -447,6 +416,20 @@ public final class Context
 	protected static interface FailedEngineReporter
 	{
 		void reportFailedEngine( Test _test, SaveableEngine _engine, Throwable _failure ) throws Throwable;
+	}
+
+	public String getDescription()
+	{
+		StringBuilder s = new StringBuilder();
+		s.append( getSpreadsheetFile().getName() );
+		s.append( ", row " ).append( getRowIndex() );
+		BindingType type = getNumberBindingType();
+		if (type != null) s.append( ", type:" ).append( type.name() );
+		Boolean caching = getExplicitCaching();
+		if (caching != null) s.append( ", caching:" ).append( caching.toString() );
+		Config config = getComputationConfig();
+		if (config != null) s.append( ", config:" ).append( config.toString() );
+		return s.toString();
 	}
 
 }
