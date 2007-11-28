@@ -30,11 +30,41 @@ public class EngineRunningTestCase extends AbstractContextTestCase
 {
 	static final double DBL_EPSILON = 0.0000001;
 	static final BigDecimal BIG_EPSILON = BigDecimal.valueOf( DBL_EPSILON );
+	
+	private final boolean setupInputs;
 
-	public EngineRunningTestCase( String _name, Context _cx )
+	public EngineRunningTestCase( Context _cx, boolean _setupInputs )
 	{
-		super( _name, _cx );
+		super( _cx );
+		this.setupInputs = _setupInputs;
 	}
+
+	@Override
+	protected String getOwnName()
+	{
+		if (cx().getRowIndex() == cx().getOutputCell().getRow().getRowIndex()) return "Run";
+		return "Run; input row " + (cx().getRowIndex() + 1);
+	}
+	
+	
+	@Override
+	protected void setUp() throws Exception
+	{
+		super.setUp();
+		if (this.setupInputs) {
+			cx().getRowSetup().setupValues();
+		}
+	}
+	
+	@Override
+	protected void tearDown() throws Exception
+	{
+		if (this.setupInputs) {
+			cx().releaseInputs();
+		}
+		super.tearDown();
+	}
+	
 
 	@Override
 	protected void runTest() throws Throwable

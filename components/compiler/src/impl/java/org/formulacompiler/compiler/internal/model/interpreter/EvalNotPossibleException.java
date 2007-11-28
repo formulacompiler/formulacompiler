@@ -22,8 +22,19 @@ package org.formulacompiler.compiler.internal.model.interpreter;
 
 public final class EvalNotPossibleException extends RuntimeException
 {
+	
 	public EvalNotPossibleException()
 	{
 		super();
 	}
+
+	/**
+	 * Do nothing. This is an internal exception used for early aborts. 
+	 */
+	@Override
+	public synchronized Throwable fillInStackTrace()
+	{
+		return this;
+	}
+	
 }

@@ -624,7 +624,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			x = new_x;
 
 		}
-		throw new FormulaException( "#NUM! because of result doesn't found in " + EXCEL_MAX_ITER + " tries in IRR" );
+		throw new FormulaException( "#NUM! because result not found in " + EXCEL_MAX_ITER + " tries in IRR" );
 	}
 
 	public static BigDecimal fun_DB( final BigDecimal _cost, final BigDecimal _salvage, final BigDecimal _life,
@@ -816,7 +816,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			}
 		}
 		else {
-			throw new FormulaException( "#VALUE! because of such argument doesn't supported in VALUE" );
+			throw new FormulaException( "#VALUE! because of argument of unsupported type in VALUE" );
 		}
 	}
 

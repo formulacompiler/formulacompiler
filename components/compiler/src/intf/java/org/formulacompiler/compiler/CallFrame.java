@@ -271,20 +271,27 @@ public final class CallFrame extends AbstractDescribable
 	@Override
 	public int hashCode()
 	{
-		int result = getMethod().hashCode();
-		for (Object arg : getArgs()) {
-			result ^= arg.hashCode();
+		// Final, immutable class, so this should be SMP safe.
+		if (this.hashCode == 0) {
+			int hc = getMethod().hashCode();
+			for (Object arg : getArgs()) {
+				hc = hc * 59 + arg.hashCode();
+			}
+			if (null != this.prev) {
+				hc = hc * 59 + this.prev.hashCode();
+			}
+			this.hashCode = hc;
 		}
-		if (null != this.prev) {
-			result ^= this.prev.hashCode();
-		}
-		return result;
+		return this.hashCode;
 	}
+
+	private transient int hashCode;
 
 
 	@Override
 	public boolean equals( Object _obj )
 	{
+		if (this == _obj) return true;
 		if (_obj instanceof CallFrame) {
 			CallFrame other = (CallFrame) _obj;
 			if (this.method.equals( other.method ) && this.args.length == other.args.length) {

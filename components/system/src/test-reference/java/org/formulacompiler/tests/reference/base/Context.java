@@ -21,15 +21,22 @@
 package org.formulacompiler.tests.reference.base;
 
 import java.io.File;
+import java.util.List;
 
 import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.ComputationFactory;
-import org.formulacompiler.spreadsheet.Spreadsheet;
+import org.formulacompiler.runtime.New;
+import org.formulacompiler.runtime.Computation.Config;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
-import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
+import org.formulacompiler.spreadsheet.internal.CellIndex;
+import org.formulacompiler.spreadsheet.internal.CellInstance;
+import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
+import org.formulacompiler.spreadsheet.internal.RowImpl;
+import org.formulacompiler.spreadsheet.internal.SheetImpl;
+import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
 import junit.framework.Test;
 
@@ -38,32 +45,63 @@ public final class Context
 	protected static final File SHEET_PATH = new File( "src/test-reference/data/org/formulacompiler/tests/reference/" );
 
 	private final Context parent;
-	private String name;
-	private String spreadsheetFileBaseName;
-	private File spreadsheetFile;
-	private Spreadsheet spreadsheet;
-	private Spreadsheet.Sheet[] sheets;
-	private Spreadsheet.Sheet sheet;
-	private Spreadsheet.Row[] sheetRows;
-	private Spreadsheet.Row row;
-	private Spreadsheet.Cell[] rowCells;
-	private Spreadsheet.Cell expectedCell;
-	private Inputs expected;
-	private Spreadsheet.Cell outputCell;
-	private Spreadsheet.Cell[] inputCells;
-	private Inputs inputs;
-	private boolean[] inputIsBound;
-	private SaveableEngine engine;
-	private Computation.Config computationConfig;
-	private ComputationFactory factory;
+
 	private BindingType numberBindingType;
 	private Boolean explicitCaching;
-	private RowSetup.Builder rowSetupBuilder;
-	private FailedEngineReporter failedEngineReporter;
 	private Documenter documenter;
 
+	private SpreadsheetInfo ss;
+	private RowInfo row;
+	private Integer inputBindingBits;
+	private EngInfo eng;
+	private RunInfo run;
 
-	protected Context( Context _parent )
+	private static final class SpreadsheetInfo
+	{
+		String spreadsheetFileBaseName;
+		File spreadsheetFile;
+		SpreadsheetImpl spreadsheet;
+		SheetImpl sheet;
+		RowSetup.Builder rowSetupBuilder;
+		Computation.Config computationConfig;
+		FailedEngineReporter failedEngineReporter;
+	}
+
+	
+	private static final class RowInfo implements Cloneable
+	{
+		RowImpl row;
+		CellInstance expectedCell;
+		CellInstance outputCell;
+		Integer inputCellCount;
+		
+		@Override
+		protected RowInfo clone()
+		{
+			try {
+				return (RowInfo) super.clone();
+			}
+			catch (CloneNotSupportedException e) {
+				throw new InternalError();
+			}
+		}
+	}
+
+	private static final class EngInfo
+	{
+		SaveableEngine engine;
+		ComputationFactory factory;
+	}
+
+	private static final class RunInfo
+	{
+		CellIndex[] inputCells;
+		Inputs expected;
+		Inputs inputs;
+	}
+
+
+	public Context( Context _parent )
 	{
 		this.parent = _parent;
 	}
@@ -71,260 +109,17 @@ public final class Context
 	public Context( String _spreadsheetFileBaseName, String _extension )
 	{
 		this( (Context) null );
-		this.spreadsheetFileBaseName = _spreadsheetFileBaseName;
-		this.spreadsheetFile = new File( SHEET_PATH, _spreadsheetFileBaseName + _extension );
+		this.ss = new SpreadsheetInfo();
+		this.ss.spreadsheetFileBaseName = _spreadsheetFileBaseName;
+		this.ss.spreadsheetFile = new File( SHEET_PATH, _spreadsheetFileBaseName + _extension );
 	}
 
 	public Context( File _spreadsheetFile )
 	{
 		this( (Context) null );
-		this.spreadsheetFile = _spreadsheetFile;
-		this.spreadsheetFileBaseName = _spreadsheetFile.getName();
-	}
-
-	/**
-	 * To be overridden by all subclasses.
-	 */
-	public Context newChild()
-	{
-		return new Context( this );
-	}
-
-
-	public void setName( String _value )
-	{
-		this.name = _value;
-	}
-
-	public String getName()
-	{
-		return addNameTo( new StringBuilder(), false ).toString();
-	}
-
-	private StringBuilder addNameTo( StringBuilder _stringBuilder, boolean _addSeparator )
-	{
-		final boolean thisHasName = (this.name != null);
-		if (this.parent != null) {
-			this.parent.addNameTo( _stringBuilder, thisHasName );
-		}
-		if (thisHasName) {
-			_stringBuilder.append( this.name );
-		}
-		if (_addSeparator) _stringBuilder.append( "; " );
-		return _stringBuilder;
-	}
-
-	public File getSpreadsheetFile()
-	{
-		return this.spreadsheetFile != null? this.spreadsheetFile : this.parent == null? null : this.parent
-				.getSpreadsheetFile();
-	}
-
-	public String getSpreadsheetFileBaseName()
-	{
-		return this.spreadsheetFileBaseName != null? this.spreadsheetFileBaseName : this.parent == null? null
-				: this.parent.getSpreadsheetFileBaseName();
-	}
-
-
-	public Spreadsheet getSpreadsheet()
-	{
-		return this.spreadsheet != null? this.spreadsheet : this.parent == null? null : this.parent.getSpreadsheet();
-	}
-
-	public void setSpreadsheet( Spreadsheet _spreadsheet )
-	{
-		this.spreadsheet = _spreadsheet;
-		this.sheets = _spreadsheet == null? null : _spreadsheet.getSheets();
-	}
-
-	public Spreadsheet.Sheet[] getSheets()
-	{
-		return this.spreadsheet != null? this.sheets : this.parent == null? null : this.parent.getSheets();
-	}
-
-	public Spreadsheet.Sheet getSheet( int _sheetIndex )
-	{
-		final Spreadsheet.Sheet[] sheets = getSheets();
-		if (_sheetIndex < 0 && _sheetIndex >= sheets.length) return null;
-		return sheets[ _sheetIndex ];
-	}
-
-
-	public Spreadsheet.Sheet getSheet()
-	{
-		return this.sheet != null? this.sheet : this.parent == null? null : this.parent.getSheet();
-	}
-
-	public int getSheetIndex()
-	{
-		return getSheet().getSheetIndex();
-	}
-
-	public void setSheet( int _sheetIndex )
-	{
-		setSheet( getSheet( _sheetIndex ) );
-	}
-
-	public void setSheet( Spreadsheet.Sheet _sheet )
-	{
-		this.sheet = _sheet;
-		this.sheetRows = _sheet == null? null : _sheet.getRows();
-	}
-
-	public Spreadsheet.Row[] getSheetRows()
-	{
-		return this.sheet != null? this.sheetRows : this.parent == null? null : this.parent.getSheetRows();
-	}
-
-	public Spreadsheet.Row getSheetRow( int _rowIndex )
-	{
-		final Spreadsheet.Row[] cells = getSheetRows();
-		if (_rowIndex < 0 && _rowIndex >= cells.length) return null;
-		return cells[ _rowIndex ];
-	}
-
-
-	public Spreadsheet.Row getRow()
-	{
-		return this.row != null? this.row : this.parent == null? null : this.parent.getRow();
-	}
-
-	public int getRowIndex()
-	{
-		return getRow().getRowIndex();
-	}
-
-	public void setRow( int _rowIndex )
-	{
-		setRow( getSheetRow( _rowIndex ) );
-	}
-
-	public void setRow( Spreadsheet.Row _row )
-	{
-		this.row = _row;
-		this.rowCells = _row == null? null : _row.getCells();
-	}
-
-	public Spreadsheet.Cell[] getRowCells()
-	{
-		final Spreadsheet.Cell[] cells = this.row != null? this.rowCells : this.parent == null? null : this.parent
-				.getRowCells();
-		return (cells == null)? NO_CELLS : cells;
-	}
-
-	private static final Cell[] NO_CELLS = new Spreadsheet.Cell[ 0 ];
-
-	public Spreadsheet.Cell getRowCell( int _columnIndex )
-	{
-		final Spreadsheet.Cell[] cells = getRowCells();
-		if (_columnIndex < 0 || _columnIndex >= cells.length) return null;
-		return cells[ _columnIndex ];
-	}
-
-
-	public Spreadsheet.Cell getExpectedCell()
-	{
-		return this.expectedCell != null? this.expectedCell : this.parent == null? null : this.parent.getExpectedCell();
-	}
-
-	public void setExpectedCell( Spreadsheet.Cell _cell )
-	{
-		this.expectedCell = _cell;
-	}
-
-
-	public Inputs getExpected()
-	{
-		return this.expected != null? this.expected : this.parent == null? null : this.parent.getExpected();
-	}
-
-	public void setExpected( Inputs _cell )
-	{
-		this.expected = _cell;
-	}
-
-
-	public Spreadsheet.Cell getOutputCell()
-	{
-		return this.outputCell != null? this.outputCell : this.parent == null? null : this.parent.getOutputCell();
-	}
-
-	public void setOutputCell( Spreadsheet.Cell _cell )
-	{
-		this.outputCell = _cell;
-	}
-
-	public String getOutputExpr()
-	{
-		try {
-			return getOutputCell().getExpressionText();
-		}
-		catch (SpreadsheetException e) {
-			throw new RuntimeException( e );
-		}
-	}
-
-
-	public Spreadsheet.Cell[] getInputCells()
-	{
-		return this.inputCells != null? this.inputCells : this.parent == null? null : this.parent.getInputCells();
-	}
-
-	public void setInputCells( Spreadsheet.Cell... _cells )
-	{
-		assert null == _cells || null == getInputIsBound() || _cells.length == getInputIsBound().length;
-		this.inputCells = _cells;
-	}
-
-
-	public Inputs getInputs()
-	{
-		return this.inputs != null? this.inputs : this.parent == null? null : this.parent.getInputs();
-	}
-
-	public void setInputs( Inputs _cell )
-	{
-		this.inputs = _cell;
-	}
-
-
-	public boolean[] getInputIsBound()
-	{
-		return this.inputIsBound != null? this.inputIsBound : this.parent == null? null : this.parent.getInputIsBound();
-	}
-
-	public void setInputIsBound( boolean... _value )
-	{
-		assert null == _value || _value.length == getInputCells().length;
-		this.inputIsBound = _value;
-	}
-
-	public void setInputIsBound( int _bitset )
-	{
-		final int n = getInputCells().length;
-		final boolean[] flags = new boolean[ n ];
-		for (int i = 0; i < n; i++) {
-			flags[ i ] = (_bitset & (1 << i)) != 0;
-		}
-		setInputIsBound( flags );
-	}
-
-	public void setInputIsBound( String _bitstring )
-	{
-		setInputIsBound( Integer.parseInt( _bitstring, 2 ) );
-	}
-
-
-	public Computation.Config getComputationConfig()
-	{
-		return this.computationConfig != null? this.computationConfig : this.parent == null? null : this.parent
-				.getComputationConfig();
-	}
-
-	public void setComputationConfig( Computation.Config _value )
-	{
-		this.computationConfig = _value;
+		this.ss = new SpreadsheetInfo();
+		this.ss.spreadsheetFile = _spreadsheetFile;
+		this.ss.spreadsheetFileBaseName = _spreadsheetFile.getName();
 	}
 
 
@@ -367,37 +162,61 @@ public final class Context
 	}
 
 
-	public SaveableEngine getEngine() throws Exception
+	public File getSpreadsheetFile()
 	{
-		return this.engine != null? this.engine : this.parent == null? null : this.parent.getEngine();
+		return ss().spreadsheetFile;
 	}
 
-	public void setEngine( SaveableEngine _value )
+	public String getSpreadsheetFileBaseName()
 	{
-		this.engine = _value;
+		return ss().spreadsheetFileBaseName;
 	}
 
 
-	public ComputationFactory getFactory() throws Exception
+	public SpreadsheetImpl getSpreadsheet()
 	{
-		return this.factory != null? this.factory : this.parent == null? null : this.parent.getFactory();
+		return ss().spreadsheet;
 	}
 
-	public void setFactory( ComputationFactory _value )
+	public void setSpreadsheet( SpreadsheetImpl _spreadsheet )
 	{
-		this.factory = _value;
+		final SpreadsheetInfo ss = ss();
+		ss.spreadsheet = _spreadsheet;
+		ss.sheet = _spreadsheet.getSheetList().get( 0 );
+	}
+
+	public List<RowImpl> getSheetRows()
+	{
+		return ss().sheet.getRowList();
+	}
+
+	public RowImpl getSheetRow( int _rowIndex )
+	{
+		List<RowImpl> rows = getSheetRows();
+		if (_rowIndex < 0 && _rowIndex >= rows.size()) return null;
+		return rows.get( _rowIndex );
+	}
+
+
+	public Computation.Config getComputationConfig()
+	{
+		return ss().computationConfig;
+	}
+
+	public void setComputationConfig( Computation.Config _value )
+	{
+		ss().computationConfig = _value;
 	}
 
 
 	public RowSetup.Builder getRowSetupBuilder()
 	{
-		return this.rowSetupBuilder != null? this.rowSetupBuilder : this.parent == null? null : this.parent
-				.getRowSetupBuilder();
+		return ss().rowSetupBuilder;
 	}
 
 	public void setRowSetupBuilder( RowSetup.Builder _value )
 	{
-		this.rowSetupBuilder = _value;
+		ss().rowSetupBuilder = _value;
 	}
 
 	public RowSetup getRowSetup()
@@ -406,27 +225,14 @@ public final class Context
 	}
 
 
-	public Documenter getDocumenter()
-	{
-		return this.documenter != null? this.documenter : this.parent == null? Documenter.Mock.INSTANCE : this.parent
-				.getDocumenter();
-	}
-
-	public void setDocumenter( Documenter _value )
-	{
-		this.documenter = _value;
-	}
-
-
 	public FailedEngineReporter getFailedEngineReporter()
 	{
-		return this.failedEngineReporter != null? this.failedEngineReporter : this.parent == null? null : this.parent
-				.getFailedEngineReporter();
+		return ss().failedEngineReporter;
 	}
 
 	public void setFailedEngineReporter( FailedEngineReporter _value )
 	{
-		this.failedEngineReporter = _value;
+		ss().failedEngineReporter = _value;
 	}
 
 	void reportFailedEngineAndRethrow( Test _test, SaveableEngine _engine, Throwable _failure ) throws Throwable
@@ -448,5 +254,285 @@ public final class Context
 	{
 		void reportFailedEngine( Test _test, SaveableEngine _engine, Throwable _failure ) throws Throwable;
 	}
+
+
+	public RowImpl getRow()
+	{
+		return row().row;
+	}
+
+	public int getRowIndex()
+	{
+		return getRow().getRowIndex();
+	}
+
+	public void setRow( int _rowIndex )
+	{
+		setRow( getSheetRow( _rowIndex ) );
+	}
+
+	public void setRow( RowImpl _row )
+	{
+		rowPut().row = _row;
+	}
+
+	public List<CellInstance> getRowCells()
+	{
+		RowImpl row = getRow();
+		if (row == null) return NO_CELLS;
+		return row.getCellList();
+	}
+	private static final List<CellInstance> NO_CELLS = New.list( 0 );
+
+	public CellInstance getRowCell( int _columnIndex )
+	{
+		List<CellInstance> cells = getRowCells();
+		if (_columnIndex < 0 || _columnIndex >= cells.size()) return null;
+		return cells.get( _columnIndex );
+	}
+
+
+	public CellInstance getExpectedCell()
+	{
+		return row().expectedCell;
+	}
+
+	public void setExpectedCell( CellInstance _cell )
+	{
+		row().expectedCell = _cell;
+	}
+
+
+	public CellInstance getOutputCell()
+	{
+		return row().outputCell;
+	}
+
+	public void setOutputCell( CellInstance _cell )
+	{
+		row().outputCell = _cell;
+	}
+
+	public String getOutputExpr()
+	{
+		final CellInstance cell = getOutputCell();
+		if (cell instanceof CellWithLazilyParsedExpression) {
+			final CellWithLazilyParsedExpression exprCell = (CellWithLazilyParsedExpression) cell;
+			try {
+				return exprCell.getExpression().toString();
+			}
+			catch (SpreadsheetException e) {
+				throw new RuntimeException( e );
+			}
+		}
+		return null;
+	}
+
+
+	public Integer getInputCellCount()
+	{
+		return row().inputCellCount;
+	}
+
+	public void setInputCellCount( Integer _value )
+	{
+		row().inputCellCount = _value;
+	}
+
+
+	public Integer getInputBindingBits()
+	{
+		Context at = this;
+		do {
+			if (at.inputBindingBits != null) return at.inputBindingBits;
+			at = at.parent;
+		} while (at != null);
+		return null;
+	}
+
+	public boolean[] getInputBindingFlags()
+	{
+		return decodeBinding( getInputBindingBits() );
+	}
+
+	private boolean[] decodeBinding( int _bitset )
+	{
+		final int n = getInputCellCount();
+		final boolean[] flags = new boolean[ n ];
+		for (int i = 0; i < n; i++) {
+			flags[ i ] = (_bitset & (1 << i)) != 0;
+		}
+		return flags;
+	}
+
+	public void setInputBindingBits( int _value )
+	{
+		this.inputBindingBits = _value;
+	}
+
+	public void setInputBindingBits( String _bitstring )
+	{
+		setInputBindingBits( Integer.parseInt( _bitstring, 2 ) );
+	}
+
+
+	public CellIndex[] getInputCells()
+	{
+		return run().inputCells;
+	}
+
+	public void setInputCells( CellIndex... _cells )
+	{
+		runPut().inputCells = _cells;
+	}
+
+
+	public Inputs getInputs()
+	{
+		return run().inputs;
+	}
+
+	public void setInputs( Inputs _cell )
+	{
+		runPut().inputs = _cell;
+	}
+
+
+	public Inputs getExpected()
+	{
+		return run().expected;
+	}
+
+	public void setExpected( Inputs _cell )
+	{
+		runPut().expected = _cell;
+	}
+
+
+	public SaveableEngine getEngine() throws Exception
+	{
+		return eng().engine;
+	}
+
+	public void setEngine( SaveableEngine _value )
+	{
+		engPut().engine = _value;
+	}
+
+
+	public ComputationFactory getFactory() throws Exception
+	{
+		return eng().factory;
+	}
+
+	public void setFactory( ComputationFactory _value )
+	{
+		eng().factory = _value;
+	}
+
+
+	public Documenter getDocumenter()
+	{
+		return this.documenter != null? this.documenter : this.parent == null? Documenter.Mock.INSTANCE : this.parent
+				.getDocumenter();
+	}
+
+	public void setDocumenter( Documenter _value )
+	{
+		this.documenter = _value;
+	}
+
+
+	public String getDescription()
+	{
+		StringBuilder s = new StringBuilder();
+		s.append( getSpreadsheetFile().getName() );
+		s.append( ", row " ).append( getRowIndex() );
+		BindingType type = getNumberBindingType();
+		if (type != null) s.append( ", type:" ).append( type.name() );
+		Boolean caching = getExplicitCaching();
+		if (caching != null) s.append( ", caching:" ).append( caching.toString() );
+		Config config = getComputationConfig();
+		if (config != null) s.append( ", config:" ).append( config.toString() );
+		return s.toString();
+	}
+
+
+	private SpreadsheetInfo ss()
+	{
+		Context at = this;
+		do {
+			if (at.ss != null) return at.ss;
+			at = at.parent;
+		} while (at != null);
+		return null;
+	}
+
+
+	private RowInfo row()
+	{
+		Context at = this;
+		do {
+			if (at.row != null) return at.row;
+			at = at.parent;
+		} while (at != null);
+		return null;
+	}
+
+	private RowInfo rowPut()
+	{
+		if (this.row == null) {
+			final RowInfo was = row();
+			this.row = (null == was)? new RowInfo() : was.clone();
+		}
+		return this.row;
+	}
+
+
+	private EngInfo eng()
+	{
+		Context at = this;
+		do {
+			if (at.eng != null) return at.eng;
+			at = at.parent;
+		} while (at != null);
+		return null;
+	}
+
+	private EngInfo engPut()
+	{
+		if (this.eng == null) this.eng = new EngInfo();
+		return this.eng;
+	}
+	
+	public void releaseEngine()
+	{
+		assert null != this.eng;
+		this.eng = null;
+	}
+
+
+	private RunInfo run()
+	{
+		Context at = this;
+		do {
+			if (at.run != null) return at.run;
+			at = at.parent;
+		} while (at != null);
+		return null;
+	}
+
+	private RunInfo runPut()
+	{
+		if (this.run == null) this.run = new RunInfo();
+		return this.run;
+	}
+	
+	public void releaseInputs()
+	{
+		assert null != this.run;
+		this.run = null;
+	}
+
 
 }

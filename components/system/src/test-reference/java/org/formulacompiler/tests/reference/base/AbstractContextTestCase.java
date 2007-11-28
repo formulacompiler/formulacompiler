@@ -26,13 +26,13 @@ abstract class AbstractContextTestCase extends TestCase
 {
 	private final Context cx;
 
-	public AbstractContextTestCase( String _name, Context _cx )
+	public AbstractContextTestCase( Context _cx )
 	{
-		super( _name + " (" + _cx.getName() + ") " );
+		super( null );
 		this.cx = _cx;
 	}
 
-	public Context cx()
+	public final Context cx()
 	{
 		return this.cx;
 	}
@@ -42,11 +42,21 @@ abstract class AbstractContextTestCase extends TestCase
 		return this;
 	}
 
-	protected void assertContains( final String _string, final String _part )
+	protected final void assertContains( final String _string, final String _part )
 	{
 		if (!_string.contains( _part )) {
 			fail( "<" + _string + "> does not contain <" + _part + ">" );
 		}
 	}
+
+
+	@Override
+	public final String getName()
+	{
+		if (Settings.CONTEXT_IN_NAMES) return getOwnName() + " (" + cx().getDescription() + ") ";
+		return getOwnName();
+	}
+
+	protected abstract String getOwnName();
 
 }

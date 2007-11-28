@@ -20,28 +20,33 @@
  */
 package org.formulacompiler.tests.reference.base;
 
-
-abstract class AbstractContextTestSuite extends AbstractInitializableTestSuite
+abstract class SameExprRowSequenceTestSuite extends AbstractContextTestSuite
 {
-	private final Context cx;
 
-	public AbstractContextTestSuite( Context _cx )
+	public SameExprRowSequenceTestSuite( Context _cx )
 	{
-		super( null );
-		this.cx = _cx;
-	}
-
-	public final Context cx()
-	{
-		return this.cx;
+		super( _cx );
 	}
 
 	@Override
-	public final String getName()
+	protected String getOwnName()
 	{
-		return getOwnName();
+		return "Row " + (cx().getRowIndex() + 1) + ": " + cx().getOutputExpr().replace( '(', '[' ).replace( ')', ']' );
 	}
 
-	protected abstract String getOwnName();
+
+	@Override
+	protected void setUp() throws Throwable
+	{
+		super.setUp();
+		cx().getRowSetup().setupValues();
+	}
+
+	@Override
+	protected void tearDown() throws Throwable
+	{
+		cx().releaseInputs();
+		super.tearDown();
+	}
 
 }

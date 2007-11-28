@@ -20,28 +20,16 @@
  */
 package org.formulacompiler.tests.reference.base;
 
-
-abstract class AbstractContextTestSuite extends AbstractInitializableTestSuite
+public final class Settings
 {
-	private final Context cx;
+	public static boolean EMIT_DOCUMENTATION = isSysPropTrue( "emit_documentation" );
+	public static boolean QUICK_RUN = isSysPropTrue( "quick_run" );
+	public static boolean THREADED_RUN = isSysPropTrue( "threaded_run" );
+	public static boolean CONTEXT_IN_NAMES = isSysPropTrue( "context_in_names" );
 
-	public AbstractContextTestSuite( Context _cx )
+	private static boolean isSysPropTrue( String _name )
 	{
-		super( null );
-		this.cx = _cx;
+		return "true".equals( System.getProperty( "org.formulacompiler.tests.reference." + _name ) );
 	}
-
-	public final Context cx()
-	{
-		return this.cx;
-	}
-
-	@Override
-	public final String getName()
-	{
-		return getOwnName();
-	}
-
-	protected abstract String getOwnName();
 
 }

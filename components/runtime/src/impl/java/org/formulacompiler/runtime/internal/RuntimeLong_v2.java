@@ -544,7 +544,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		if (factor <= EPSILON) {
 			factor = fun_POWER( _p, n, _cx );
 			if (factor <= EPSILON){				
-					throw new FormulaException( "#NUM! because factor = 0 in CRITBINOM("+factor+")" );
+					throw new FormulaException( "#NUM! because factor = 0 in CRITBINOM" );
 			}
 			else {
 				long sum = _cx.one - factor;
@@ -767,7 +767,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 			}
 		}
 		else {
-			throw new FormulaException( "#VALUE! because of such argument doesn't supported in VALUE" );			
+			throw new FormulaException( "#VALUE! because of argument of unsupported type in VALUE" );			
 		}
 	}
 

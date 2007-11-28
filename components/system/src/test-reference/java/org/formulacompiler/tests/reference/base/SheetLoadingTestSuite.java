@@ -21,21 +21,26 @@
 package org.formulacompiler.tests.reference.base;
 
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
 public class SheetLoadingTestSuite extends AbstractContextTestSuite
 {
 
 	public SheetLoadingTestSuite( Context _cx )
 	{
-		super( _cx.getSpreadsheetFile().getName(), _cx );
-		_cx.setName( getName() );
+		super( _cx );
+	}
+
+	@Override
+	protected String getOwnName()
+	{
+		return cx().getSpreadsheetFile().getName();
 	}
 
 	@Override
 	protected void addTests() throws Exception
 	{
-		cx().setSpreadsheet( SpreadsheetCompiler.loadSpreadsheet( cx().getSpreadsheetFile() ) );
-		cx().setSheet( 0 );
+		cx().setSpreadsheet( (SpreadsheetImpl) SpreadsheetCompiler.loadSpreadsheet( cx().getSpreadsheetFile() ) );
 	}
 
 	@Override

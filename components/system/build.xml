@@ -240,7 +240,7 @@
 			</antcall>
 			<antcall target="-ref-batch">
 				<param name="ref-batch-id" value="ref-batch-2" />
-				<param name="ref-batch-mem" value="800M" />
+				<param name="ref-batch-mem" value="256M" />
 			</antcall>
 		</parallel>
 
@@ -263,6 +263,7 @@
 			<jvmarg value="-Dorg.formulacompiler.tests.reference.emit_documentation=${test-ref-doc}" />
 			<jvmarg value="-Dorg.formulacompiler.tests.reference.quick_run=${test-ref-quick}" />
 			<jvmarg value="-Dorg.formulacompiler.tests.reference.threaded_run=${test-ref-threaded}" />
+			<jvmarg value="-Dorg.formulacompiler.tests.reference.context_in_names=true" />
 
 			<assertions enablesystemassertions="yes" />
 			<formatter type="brief" usefile="yes" />
