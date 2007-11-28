@@ -401,7 +401,7 @@ public class HtmlDocumenter implements Documenter
 					rex.newLine();
 					rex.appendLine( "The expression" );
 					rex.newLine();
-					rex.append( "<pre><code>" ).append( _exprText ).appendLine( "</code></pre>" );
+					rex.append( "<pre><code>" ).append( stripEmphasis( _exprText ) ).appendLine( "</code></pre>" );
 					rex.newLine();
 					rex.appendLine( "is compiled to the following class(es):" );
 					rex.newLine();
@@ -421,6 +421,11 @@ public class HtmlDocumenter implements Documenter
 
 					IOUtil.writeStringToIfNotUpToDate( rex.toString(), new File( HTML_PATH, engineFileName + ".rextile" ) );
 					return "<a href=\"" + engineFileName + ".htm\">" + _exprText + "</a>";
+				}
+
+				private String stripEmphasis( String _exprText )
+				{
+					return _exprText.replace( "<em>", "" ).replace( "</em>", "" );
 				}
 
 				private boolean isNewExpr()
