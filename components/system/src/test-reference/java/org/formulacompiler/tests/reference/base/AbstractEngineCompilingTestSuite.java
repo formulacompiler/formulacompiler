@@ -29,7 +29,7 @@ import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
+import org.formulacompiler.spreadsheet.internal.CellIndex;
 
 public abstract class AbstractEngineCompilingTestSuite extends AbstractContextTestSuite
 {
@@ -38,8 +38,8 @@ public abstract class AbstractEngineCompilingTestSuite extends AbstractContextTe
 	{
 		super( _cx );
 	}
-	
-	
+
+
 	@Override
 	protected void setUp() throws Throwable
 	{
@@ -52,10 +52,10 @@ public abstract class AbstractEngineCompilingTestSuite extends AbstractContextTe
 		eb.setNumericType( cx().getNumericType() );
 		eb.setCompileTimeConfig( cx().getComputationConfig() );
 
-		eb.getRootBinder().defineOutputCell( cx().getOutputCell(),
+		eb.getRootBinder().defineOutputCell( cx().getOutputCell().getCellIndex(),
 				getterFor( Outputs.class, cx().getExpected().type( 0 ) ) );
-		final Cell[] ins = cx().getInputCells();
-		final boolean[] flags = cx().getInputIsBound();
+		final CellIndex[] ins = cx().getInputCells();
+		final boolean[] flags = cx().getInputBindingFlags();
 		final Inputs in = cx().getInputs();
 		for (int i = 0; i < ins.length; i++) {
 			if (flags[ i ]) {

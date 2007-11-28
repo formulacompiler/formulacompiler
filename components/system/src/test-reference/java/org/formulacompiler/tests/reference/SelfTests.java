@@ -52,7 +52,7 @@ public class SelfTests extends SheetSuiteSetup
 		final RowSetup rowSetup = rowCx.getRowSetup();
 		rowSetup.makeInput();
 		rowSetup.makeOutput();
-		rowCx.setInputIsBound( -1 );
+		rowCx.setInputBindingBits( -1 );
 
 		loader.addTest( new AbstractEngineCompilingTestSuite( rowCx )
 		{
@@ -99,7 +99,7 @@ public class SelfTests extends SheetSuiteSetup
 		final RowSetup rowSetup = rowCx.getRowSetup();
 		rowSetup.makeInput();
 		rowSetup.makeOutput();
-		rowCx.setInputIsBound( -1 );
+		rowCx.setInputBindingBits( -1 );
 
 		loader.addTest( new AbstractEngineCompilingTestSuite( rowCx )
 		{

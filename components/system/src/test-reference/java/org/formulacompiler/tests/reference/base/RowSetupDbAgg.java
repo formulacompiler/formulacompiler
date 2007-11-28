@@ -26,6 +26,7 @@ import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
+import org.formulacompiler.spreadsheet.internal.CellInstance;
 
 public class RowSetupDbAgg extends RowSetup
 {
@@ -65,8 +66,8 @@ public class RowSetupDbAgg extends RowSetup
 	@Override
 	protected int documentedColCount()
 	{
-		final Cell rowInputCell = cx().getRowCell( this.startingCol + 2 );
-		if (null == rowInputCell || null == rowInputCell.getConstantValue()) return 2;
+		final CellInstance rowInputCell = cx().getRowCell( this.startingCol + 2 );
+		if (null == rowInputCell || null == rowInputCell.getValue()) return 2;
 		return 3;
 	}
 
@@ -74,31 +75,31 @@ public class RowSetupDbAgg extends RowSetup
 	@Override
 	public RowSetup makeInput()
 	{
-		final Collection<Cell> cells = New.collection();
+		final Collection<CellIndex> cells = New.collection();
 		extractInputsFromRangeNamedInCol( this.startingCol + 3, cells );
 		extractInputsFromRangeNamedInCol( this.startingCol + 4, cells );
 
 		final Context cx = cx();
-		final Cell rowInputCell = cx.getRowCell( this.startingCol + 2 );
-		if (null != rowInputCell && null != rowInputCell.getConstantValue()) {
-			cells.add( rowInputCell );
+		final CellInstance rowInputCell = cx.getRowCell( this.startingCol + 2 );
+		if (null != rowInputCell && null != rowInputCell.getValue()) {
+			cells.add( rowInputCell.getCellIndex() );
 		}
 
-		final Cell[] cellArray = cells.toArray( new Cell[ cells.size() ] );
+		final CellIndex[] cellArray = cells.toArray( new CellIndex[ cells.size() ] );
 		cx.setInputCells( cellArray );
 		cx.setInputs( new Inputs( cx, cellArray ) );
 		return makeExpected();
 	}
 
-	private void extractInputsFromRangeNamedInCol( int _nameCellCol, Collection<Cell> _cells )
+	private void extractInputsFromRangeNamedInCol( int _nameCellCol, Collection<CellIndex> _cells )
 	{
 		final Context cx = cx();
-		final Cell nameCell = cx.getRowCell( _nameCellCol );
-		if (null != nameCell && null != nameCell.getConstantValue()) {
-			final String name = (String) nameCell.getConstantValue();
+		final CellInstance nameCell = cx.getRowCell( _nameCellCol );
+		if (null != nameCell && null != nameCell.getValue()) {
+			final String name = (String) nameCell.getValue();
 			final Range range = cx.getSpreadsheet().getRange( name );
 			for (Cell cell : range.cells()) {
-				_cells.add( cell );
+				_cells.add( (CellIndex) cell );
 			}
 		}
 	}
@@ -106,15 +107,7 @@ public class RowSetupDbAgg extends RowSetup
 	@Override
 	public String getInputIsBoundString()
 	{
-		final boolean[] flags = cx().getInputIsBound();
-		if (null == flags) return "none";
-		int bitset = 0;
-		for (int i = 0; i < flags.length; i++) {
-			if (flags[ i ]) {
-				bitset |= 1 << i;
-			}
-		}
-		return "bits \"" + Integer.toBinaryString( bitset ) + "\"";
+		return "bits \"" + Integer.toBinaryString( cx().getInputBindingBits() ) + "\"";
 	}
 
 }

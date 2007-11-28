@@ -20,7 +20,9 @@
  */
 package org.formulacompiler.tests.reference.base;
 
-import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
+import org.formulacompiler.spreadsheet.internal.CellIndex;
+import org.formulacompiler.spreadsheet.internal.CellInstance;
+import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
 public final class RowSetupDefault extends RowSetup
 {
@@ -54,9 +56,9 @@ public final class RowSetupDefault extends RowSetup
 	@Override
 	protected int documentedColCount()
 	{
-		final Cell inputCountCell = cx().getRowCell( inputCountCol() );
-		if (null == inputCountCell || null == inputCountCell.getConstantValue()) return 2;
-		return 2 + ((Number) inputCountCell.getConstantValue()).intValue();
+		final CellInstance inputCountCell = cx().getRowCell( inputCountCol() );
+		if (null == inputCountCell || null == inputCountCell.getValue()) return 2;
+		return 2 + ((Number) inputCountCell.getValue()).intValue();
 	}
 
 
@@ -64,13 +66,15 @@ public final class RowSetupDefault extends RowSetup
 	public RowSetup makeInput()
 	{
 		final Context cx = cx();
-		final Cell[] cells = cx.getRowCells();
-		final Cell countCell = cx.getRowCell( inputCountCol() );
-		final Number countValue = (countCell == null)? null : (Number) countCell.getConstantValue();
+		final CellInstance countCell = cx.getRowCell( inputCountCol() );
+		final Number countValue = (countCell == null)? null : (Number) countCell.getValue();
 		final int n = (countValue == null)? 0 : countValue.intValue();
-		final Cell[] inputCells = new Cell[ n ];
+		final CellIndex[] inputCells = new CellIndex[ n ];
+		final SpreadsheetImpl ss = cx().getSpreadsheet();
+		final int r = cx().getRowIndex();
+		int c = inputStartCol();
 		for (int i = 0; i < n; i++)
-			inputCells[ i ] = cells[ inputStartCol() + i ];
+			inputCells[ i ] = new CellIndex(ss, 0, c++, r );
 		cx.setInputCells( inputCells );
 		cx.setInputs( new Inputs( cx, inputCells ) );
 		return makeExpected();
@@ -79,13 +83,13 @@ public final class RowSetupDefault extends RowSetup
 	@Override
 	public String getInputIsBoundString()
 	{
-		final boolean[] flags = cx().getInputIsBound();
+		final int bitset = cx().getInputBindingBits();
+		if (bitset == -1) return "all";
+		final boolean[] flags = cx().getInputBindingFlags();
 		if (null == flags) return "none";
 		final StringBuilder cells = new StringBuilder();
-		int bitset = 0;
 		for (int i = 0; i < flags.length; i++) {
 			if (flags[ i ]) {
-				bitset |= 1 << i;
 				cells.append( inputStartCol() + i + 1 ).append( ", " );
 			}
 		}

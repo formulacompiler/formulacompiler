@@ -21,7 +21,6 @@
 package org.formulacompiler.tests.reference.base;
 
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRefFormat;
 import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
@@ -45,8 +44,7 @@ public class ExpressionFormattingTestCase extends AbstractContextTestCase
 	@Override
 	protected void runTest() throws Throwable
 	{
-		final CellIndex cellIndex = (CellIndex) cx().getOutputCell();
-		final CellInstance cell = cellIndex.getCell();
+		final CellInstance cell = cx().getOutputCell();
 		if (cell instanceof CellWithLazilyParsedExpression) {
 			CellWithLazilyParsedExpression exprCell = (CellWithLazilyParsedExpression) cell;
 			final ExpressionNode expr = exprCell.getExpression();

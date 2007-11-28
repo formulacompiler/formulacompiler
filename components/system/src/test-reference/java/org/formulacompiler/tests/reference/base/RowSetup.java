@@ -20,7 +20,8 @@
  */
 package org.formulacompiler.tests.reference.base;
 
-import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
+import org.formulacompiler.spreadsheet.internal.CellInstance;
+import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
 
 public abstract class RowSetup
 {
@@ -57,10 +58,10 @@ public abstract class RowSetup
 
 	public boolean isTestRow() throws Exception
 	{
-		final Cell outputCell = cx().getRowCell( actualCol() );
-		if (null == outputCell
-				|| (null == outputCell.getConstantValue() && null == outputCell.getErrorText() && null == outputCell
-						.getExpressionText())) return false;
+		final CellInstance outputCell = cx().getRowCell( actualCol() );
+		if (null == outputCell) return false;
+		if (outputCell instanceof CellWithLazilyParsedExpression) return true;
+		if (null == outputCell.getValue()) return false;
 		return true;
 	}
 
@@ -68,9 +69,9 @@ public abstract class RowSetup
 	{
 		if (!isTestRow()) return false;
 
-		final Cell skipIfCell = cx().getRowCell( skipIfCol() );
+		final CellInstance skipIfCell = cx().getRowCell( skipIfCol() );
 		if (null != skipIfCell) {
-			final String skipIf = (String) skipIfCell.getConstantValue();
+			final String skipIf = (String) skipIfCell.getValue();
 			if (null != skipIf) {
 				final BindingType type = cx().getNumberBindingType();
 				// "big" is legacy support:
@@ -89,14 +90,14 @@ public abstract class RowSetup
 
 	public String getName()
 	{
-		final Cell nameCell = cx().getRowCell( nameCol() );
-		return nameCell != null? (String) nameCell.getConstantValue() : "";
+		final CellInstance nameCell = cx().getRowCell( nameCol() );
+		return nameCell != null? (String) nameCell.getValue() : "";
 	}
 
 
 	public RowSetup makeOutput()
 	{
-		final Cell outputCell = cx().getRowCell( actualCol() );
+		final CellInstance outputCell = cx().getRowCell( actualCol() );
 		cx().setOutputCell( outputCell );
 		return this;
 	}
@@ -107,7 +108,7 @@ public abstract class RowSetup
 	protected RowSetup makeExpected()
 	{
 		final Context cx = cx();
-		final Cell expectedCell = cx.getRowCell( expectedCol() );
+		final CellInstance expectedCell = cx.getRowCell( expectedCol() );
 		cx.setExpectedCell( expectedCell );
 		cx.setExpected( new Inputs( cx, expectedCell ) );
 		return this;

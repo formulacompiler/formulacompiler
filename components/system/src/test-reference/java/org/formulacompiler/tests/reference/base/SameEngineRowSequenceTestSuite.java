@@ -20,7 +20,9 @@
  */
 package org.formulacompiler.tests.reference.base;
 
-import org.formulacompiler.spreadsheet.Spreadsheet.Row;
+import java.util.List;
+
+import org.formulacompiler.spreadsheet.internal.RowImpl;
 
 public class SameEngineRowSequenceTestSuite extends AbstractEngineCompilingTestSuite
 {
@@ -44,9 +46,9 @@ public class SameEngineRowSequenceTestSuite extends AbstractEngineCompilingTestS
 	{
 		addTestFor( cx() );
 		if (this.fullyBound) {
-			final Row[] rows = cx().getSheetRows();
+			final List<RowImpl> rows = cx().getSheetRows();
 			int iRow = cx().getRowIndex() + 1;
-			while (iRow < rows.length) {
+			while (iRow < rows.size()) {
 				final Context cx = new Context( cx() );
 				cx.setRow( iRow );
 				if (!"...".equals( cx.getRowSetup().getName() )) break;
