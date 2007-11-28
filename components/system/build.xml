@@ -240,7 +240,7 @@
 			</antcall>
 			<antcall target="-ref-batch">
 				<param name="ref-batch-id" value="ref-batch-2" />
-				<param name="ref-batch-mem" value="800M" />
+				<param name="ref-batch-mem" value="256M" />
 			</antcall>
 		</parallel>
 
