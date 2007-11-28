@@ -45,25 +45,29 @@ public final class Context
 	protected static final File SHEET_PATH = new File( "src/test-reference/data/org/formulacompiler/tests/reference/" );
 
 	private final Context parent;
+	
+	private BindingType numberBindingType;
+	private Boolean explicitCaching;
+	private RowSetup.Builder rowSetupBuilder;
+	private FailedEngineReporter failedEngineReporter;
+	private Documenter documenter;
+
 	private String spreadsheetFileBaseName;
 	private File spreadsheetFile;
 	private SpreadsheetImpl spreadsheet;
 	private SheetImpl sheet;
 	private RowImpl row;
 	private CellInstance expectedCell;
-	private Inputs expected;
 	private CellInstance outputCell;
-	private CellIndex[] inputCells;
-	private Inputs inputs;
+	private Integer inputCellCount;
 	private Integer inputBindingBits;
+
+	private CellIndex[] inputCells;
+	private Inputs expected;
+	private Inputs inputs;
 	private SaveableEngine engine;
 	private Computation.Config computationConfig;
 	private ComputationFactory factory;
-	private BindingType numberBindingType;
-	private Boolean explicitCaching;
-	private RowSetup.Builder rowSetupBuilder;
-	private FailedEngineReporter failedEngineReporter;
-	private Documenter documenter;
 
 
 	public Context( Context _parent )
@@ -240,6 +244,49 @@ public final class Context
 	}
 
 
+	public int getInputCellCount()
+	{
+		return this.inputCellCount != null? this.inputCellCount : this.parent == null? 0 : this.parent
+				.getInputCellCount();
+	}
+	
+	public void setInputCellCount( Integer _value ) {
+		this.inputCellCount = _value;
+	}
+
+	
+	public Integer getInputBindingBits()
+	{
+		return this.inputBindingBits != null? this.inputBindingBits : this.parent == null? null : this.parent
+				.getInputBindingBits();
+	}
+
+	public boolean[] getInputBindingFlags()
+	{
+		return decodeBinding( getInputBindingBits() );
+	}
+
+	private boolean[] decodeBinding( int _bitset )
+	{
+		final int n = getInputCellCount();
+		final boolean[] flags = new boolean[ n ];
+		for (int i = 0; i < n; i++) {
+			flags[ i ] = (_bitset & (1 << i)) != 0;
+		}
+		return flags;
+	}
+
+	public void setInputBindingBits( int _value )
+	{
+		this.inputBindingBits = _value;
+	}
+
+	public void setInputBindingBits( String _bitstring )
+	{
+		setInputBindingBits( Integer.parseInt( _bitstring, 2 ) );
+	}
+
+
 	public CellIndex[] getInputCells()
 	{
 		return this.inputCells != null? this.inputCells : this.parent == null? null : this.parent.getInputCells();
@@ -259,38 +306,6 @@ public final class Context
 	public void setInputs( Inputs _cell )
 	{
 		this.inputs = _cell;
-	}
-
-
-	public Integer getInputBindingBits()
-	{
-		return this.inputBindingBits != null? this.inputBindingBits : this.parent == null? null : this.parent
-				.getInputBindingBits();
-	}
-
-	public boolean[] getInputBindingFlags()
-	{
-		return decodeBinding( getInputBindingBits() );
-	}
-
-	private boolean[] decodeBinding( int _bitset )
-	{
-		final int n = getInputCells().length;
-		final boolean[] flags = new boolean[ n ];
-		for (int i = 0; i < n; i++) {
-			flags[ i ] = (_bitset & (1 << i)) != 0;
-		}
-		return flags;
-	}
-
-	public void setInputBindingBits( int _value )
-	{
-		this.inputBindingBits = _value;
-	}
-
-	public void setInputBindingBits( String _bitstring )
-	{
-		setInputBindingBits( Integer.parseInt( _bitstring, 2 ) );
 	}
 
 

@@ -177,19 +177,12 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 		}
 		_cx.setInputBindingBits( -1 );
 
-		final int nInputs = _cx.getInputCells().length;
+		final int nInputs = _cx.getInputCellCount();
 		final int nBoundVariations = Settings.QUICK_RUN? 1 : 1 << nInputs;
 		final boolean hasExpr = (_cx.getOutputExpr() != null);
 
-		return new AbstractContextTestSuite( _cx )
+		return new SameExprRowSequenceTestSuite( _cx )
 		{
-
-			@Override
-			protected String getOwnName()
-			{
-				return "Row "
-						+ (cx().getRowIndex() + 1) + ": " + cx().getOutputExpr().replace( '(', '[' ).replace( ')', ']' );
-			}
 
 			@Override
 			protected void addTests() throws Exception

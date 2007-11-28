@@ -110,7 +110,16 @@ public abstract class RowSetup
 		final Context cx = cx();
 		final CellInstance expectedCell = cx.getRowCell( expectedCol() );
 		cx.setExpectedCell( expectedCell );
-		cx.setExpected( new Inputs( cx, expectedCell ) );
+		return this;
+	}
+	
+	
+	public RowSetup setupValues()
+	{
+		final Context cx = cx();
+		makeExpected();
+		cx.setExpected( new Inputs( cx, cx.getExpectedCell() ) );
+		cx.setInputs( new Inputs( cx, cx.getInputCells() ) );
 		return this;
 	}
 

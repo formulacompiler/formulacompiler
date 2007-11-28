@@ -52,6 +52,7 @@ public class SelfTests extends SheetSuiteSetup
 		final RowSetup rowSetup = rowCx.getRowSetup();
 		rowSetup.makeInput();
 		rowSetup.makeOutput();
+		rowSetup.setupValues();
 		rowCx.setInputBindingBits( -1 );
 
 		loader.addTest( new AbstractEngineCompilingTestSuite( rowCx )
@@ -66,7 +67,7 @@ public class SelfTests extends SheetSuiteSetup
 			@Override
 			protected void addTests() throws Exception
 			{
-				addTest( new EngineRunningTestCase( rowCx )
+				addTest( new EngineRunningTestCase( rowCx, false )
 				{
 
 					@Override
@@ -99,6 +100,7 @@ public class SelfTests extends SheetSuiteSetup
 		final RowSetup rowSetup = rowCx.getRowSetup();
 		rowSetup.makeInput();
 		rowSetup.makeOutput();
+		rowSetup.setupValues();
 		rowCx.setInputBindingBits( -1 );
 
 		loader.addTest( new AbstractEngineCompilingTestSuite( rowCx )
@@ -117,7 +119,7 @@ public class SelfTests extends SheetSuiteSetup
 				inpCx.setRow( 2 );
 				inpCx.getRowSetup().makeInput();
 
-				addTest( new EngineRunningTestCase( inpCx )
+				addTest( new EngineRunningTestCase( inpCx, true )
 				{
 
 					@Override
