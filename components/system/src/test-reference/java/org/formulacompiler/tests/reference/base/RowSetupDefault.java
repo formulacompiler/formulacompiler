@@ -73,22 +73,6 @@ public final class RowSetupDefault extends RowSetup
 		return makeExpected();
 	}
 
-	@Override
-	public String getInputIsBoundString()
-	{
-		final int bitset = cx().getInputBindingBits();
-		if (bitset == -1) return "all";
-		final boolean[] flags = cx().getInputBindingFlags();
-		if (null == flags) return "none";
-		final StringBuilder cells = new StringBuilder();
-		for (int i = 0; i < flags.length; i++) {
-			if (flags[ i ]) {
-				cells.append( inputStartCol() + i + 1 ).append( ", " );
-			}
-		}
-		return cells.toString() + "bits \"" + Integer.toBinaryString( bitset ) + "\"";
-	}
-
 	
 	@Override
 	public RowSetup setupValues()

@@ -42,6 +42,7 @@ public class EngineRunningTestCase extends AbstractContextTestCase
 	@Override
 	protected String getOwnName()
 	{
+		if (cx().getRowIndex() == cx().getOutputCell().getRow().getRowIndex()) return "Run";
 		return "Run; input row " + (cx().getRowIndex() + 1);
 	}
 	

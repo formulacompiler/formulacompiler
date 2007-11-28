@@ -38,7 +38,9 @@ public class SameEngineRowSequenceTestSuite extends AbstractEngineCompilingTestS
 	@Override
 	protected String getOwnName()
 	{
-		return "Compile; bound are " + cx().getRowSetup().getInputIsBoundString();
+		final int bits = cx().getInputBindingBits();
+		if (bits < 0) return "Compile";
+		return "Compile; bind only " + Integer.toBinaryString( bits );
 	}
 
 	@Override

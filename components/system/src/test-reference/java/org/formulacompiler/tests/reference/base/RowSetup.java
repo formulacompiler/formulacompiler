@@ -103,7 +103,6 @@ public abstract class RowSetup
 	}
 
 	public abstract RowSetup makeInput();
-	public abstract String getInputIsBoundString();
 
 	protected RowSetup makeExpected()
 	{

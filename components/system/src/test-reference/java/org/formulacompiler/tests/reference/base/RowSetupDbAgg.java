@@ -136,11 +136,4 @@ public class RowSetupDbAgg extends RowSetup
 		}
 	}
 
-	
-	@Override
-	public String getInputIsBoundString()
-	{
-		return "bits \"" + Integer.toBinaryString( cx().getInputBindingBits() ) + "\"";
-	}
-
 }
