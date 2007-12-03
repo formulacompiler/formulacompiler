@@ -375,7 +375,7 @@
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$PROJECT_DIR$/lib/IDE/junit.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/IDE/junit-src.jar!/" />
       </SOURCES>
     </library>
   </component>
