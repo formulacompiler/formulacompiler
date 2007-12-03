@@ -92,9 +92,21 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	}
 
 
+	public void testA1ODF() throws Exception
+	{
+		assertRefA1ODF( "B2", "[.B2]" );
+		assertRefA1ODF( "D4", "[.D4]" );
+		assertRefA1ODF( "D4", "[.$D$4]" );
+		assertRefA1ODF( "D4", "[.$D4]" );
+		assertRefA1ODF( "D4", "[.D$4]" );
+		assertRefA1ODF( "RC1", "[.RC1]" );
+	}
+
+
 	public void testCellRefs() throws Exception
 	{
 		assertParseableA1( "((((A1 + B1) + B2) + A2) + B2)", "A1 + _1_ + _2_ + _A_ + _B_" );
+		assertParseableA1ODF( "((((A1 + B1) + B2) + A2) + B2)", "[.A1] + _1_ + _2_ + _A_ + _B_" ); // todo ???
 		assertParseableR1C1( "((((A1 + B1) + B2) + A2) + B2)", "R1C1 + _1_ + _2_ + _A_ + _B_" );
 		assertParseableR1C1( "((((A1 + C3) + A2) + B1) + A1)", "R1C1 + R[1]C[1] + RC1 + R1C + R[-1]C[-1]" );
 	}
@@ -103,7 +115,9 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	public void testOperators() throws Exception
 	{
 		assertParseableA1( "((((A1 + (-B1)) + B2) - B3) - (-B4))", "A1 + -B1 + +B2 - +B3 - -B4" );
+		assertParseableA1ODF( "((((A1 + (-B1)) + B2) - B3) - (-B4))", "[.A1] + -[.B1] + +[.B2] - +[.B3] - -[.B4]" );
 		assertParseableA1( "(A1 + (A2 * A3))", "A1 + A2 * A3" );
+		assertParseableA1ODF( "(A1 + (A2 * A3))", "[.A1] + [.A2] * [.A3]" );
 	}
 
 
@@ -111,7 +125,9 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	{
 		assertParseableAll( "(1.0 & 2.0 & 3.0 & 4.0)", "1 & 2 & 3 & 4" );
 		assertParseableAll( "(1.0 & (2.0 & 3.0) & 4.0)", "1 & (2 & 3) & 4" );
-		assertParseableAll( "(1.0 & 2.0 & 3.0 & 4.0)", "CONCATENATE( 1, 2, 3, 4 )" );
+		assertParseableA1( "(1.0 & 2.0 & 3.0 & 4.0)", "CONCATENATE( 1, 2, 3, 4 )" );
+		assertParseableA1ODF( "(1.0 & 2.0 & 3.0 & 4.0)", "CONCATENATE( 1; 2; 3; 4 )" );
+		assertParseableR1C1( "(1.0 & 2.0 & 3.0 & 4.0)", "CONCATENATE( 1, 2, 3, 4 )" );
 	}
 
 
@@ -158,7 +174,12 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	{
 		assertErr(
 				"2 + SOMEFUNC(A2)",
-				"Unsupported function SOMEFUNC encountered in expression 2 + SOMEFUNC( <<? A2); error location indicated by <<?." );
+				"Unsupported function SOMEFUNC encountered in expression 2 + SOMEFUNC( <<? A2); error location indicated by <<?.",
+				CellRefFormat.A1 );
+		assertErr(
+				"2 + SOMEFUNC([.A2])",
+				"Unsupported function SOMEFUNC encountered in expression 2 + SOMEFUNC( <<? [.A2]); error location indicated by <<?.",
+				CellRefFormat.A1_ODF );
 	}
 
 
@@ -167,8 +188,10 @@ public class SpreadsheetExpressionParserTest extends TestCase
 		new SheetImpl( this.workbook, "Two" );
 		new SheetImpl( this.workbook, "*()__ 123\"yes\"" );
 		assertRefA1( "'Two'!A2", "Two!A2" );
+		assertRefA1ODF( "'Two'!A2", "[Two.A2]" );
 		assertRefR1C1( "'Two'!A2", "Two!R2C1" );
 		assertRefA1( "'*()__ 123\"yes\"'!A1", "'*()__ 123\"yes\"'!A1" );
+		assertRefA1( "'*()__ 123\"yes\"'!A1", "['*()__ 123\"yes\"'.A1]" );
 		assertRefR1C1( "'*()__ 123\"yes\"'!A1", "'*()__ 123\"yes\"'!R1C1" );
 	}
 
@@ -181,6 +204,8 @@ public class SpreadsheetExpressionParserTest extends TestCase
 		this.parseRelativeTo = cell211;
 		assertRefA1( "'Two'!A2", "A2" );
 		assertRefA1( "A2", "One!A2" );
+		assertRefA1ODF( "'Two'!A2", "[.A2]" );
+		assertRefA1ODF( "A2", "[One.A2]" );
 		assertRefR1C1( "'Two'!A2", "R2C1" );
 		assertRefR1C1( "A2", "One!R2C1" );
 	}
@@ -190,6 +215,7 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	{
 		new SheetImpl( this.workbook, "Two" );
 		assertParseableA1( "('Two'!A2 + 'Two'!B1)", "Two!A2+Two!B1" );
+		assertParseableA1ODF( "('Two'!A2 + 'Two'!B1)", "[Two.A2]+[Two.B1]" );
 		assertParseableR1C1( "('Two'!A2 + 'Two'!B1)", "Two!R2C1+Two!R1C2" );
 	}
 
@@ -197,6 +223,7 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	private void assertParseableAll( String _expected, String _string ) throws Exception
 	{
 		assertParseableA1( _expected, _string );
+		assertParseableA1ODF( _expected, _string );
 		assertParseableR1C1( _expected, _string );
 	}
 
@@ -204,6 +231,12 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	private void assertParseableA1( String _expected, String _string ) throws Exception
 	{
 		assertParseable( _expected, _string, CellRefFormat.A1 );
+	}
+
+
+	private void assertParseableA1ODF( String _expected, String _string ) throws Exception
+	{
+		assertParseable( _expected, _string, CellRefFormat.A1_ODF );
 	}
 
 
@@ -227,6 +260,12 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	}
 
 
+	private void assertRefA1ODF( String _canonicalName, String _ref ) throws Exception
+	{
+		assertRef( _canonicalName, _ref, CellRefFormat.A1_ODF );
+	}
+
+
 	private void assertRefR1C1( String _canonicalName, String _ref ) throws Exception
 	{
 		assertRef( _canonicalName, _ref, CellRefFormat.R1C1 );
@@ -244,10 +283,10 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	}
 
 
-	private void assertErr( String _ref, String _msg ) throws Exception
+	private void assertErr( String _ref, String _msg, final CellRefFormat _format ) throws Exception
 	{
 		try {
-			newParser( _ref, CellRefFormat.A1 ).parse();
+			newParser( _ref, _format ).parse();
 			fail( "Expected exception: " + _msg );
 		}
 		catch (Exception e) {

@@ -94,116 +94,20 @@ public final class SheetImpl extends AbstractDescribable implements Spreadsheet.
 	}
 
 
-	public CellInstance getCell( String _cellNameOrCanonicalName, CellIndex _relativeTo )
-	{
-		return getSpreadsheet().getWorkbookCell( this, _cellNameOrCanonicalName, _relativeTo );
-	}
-
-
-	public static String getCanonicalNameForColumnIndex( int _columnIndex )
+	public static String getNameA1ForCellIndex( int _columnIndex, int _rowIndex )
 	{
 		StringBuilder result = new StringBuilder();
-		buildCanonicalNameForColumnIndex( result, _columnIndex );
-		return result.toString();
-	}
-
-
-	public static void buildCanonicalNameForColumnIndex( StringBuilder _into, int _columnIndex )
-	{
 		if (_columnIndex <= 25) {
-			_into.append( (char) ('A' + _columnIndex) );
+			result.append( (char) ('A' + _columnIndex) );
 		}
 		else {
 			int firstLetterIndex = _columnIndex / 26 - 1;
 			int secondLetterIndex = _columnIndex % 26;
-			_into.append( (char) ('A' + firstLetterIndex) );
-			_into.append( (char) ('A' + secondLetterIndex) );
+			result.append( (char) ('A' + firstLetterIndex) );
+			result.append( (char) ('A' + secondLetterIndex) );
 		}
-	}
-
-
-	public static String getCanonicalNameForCellIndex( int _columnIndex, int _rowIndex )
-	{
-		StringBuilder result = new StringBuilder();
-		buildCanonicalNameForColumnIndex( result, _columnIndex );
 		result.append( _rowIndex + 1 );
 		return result.toString();
-	}
-
-
-	public CellIndex getCellIndexForCanonicalName( String _canonicalName, CellIndex _relativeTo )
-	{
-		return getCellIndexForCanonicalName( _canonicalName, _relativeTo, getSpreadsheet().getCellRefFormat() );
-	}
-
-
-	public CellIndex getCellIndexForCanonicalName( String _canonicalName, CellIndex _relativeTo, CellRefFormat _format )
-	{
-		switch (_format) {
-			case A1:
-				return getCellIndexForCanonicalNameA1( _canonicalName );
-			case R1C1:
-				return getCellIndexForCanonicalNameR1C1( _canonicalName, _relativeTo );
-		}
-		return null;
-	}
-
-
-	public CellIndex getCellIndexForCanonicalNameA1( String _canonicalName )
-	{
-		int colIndex = 0;
-		int rowIndex = 0;
-		for (int iCh = 0; iCh < _canonicalName.length(); iCh++) {
-			char ch = _canonicalName.charAt( iCh );
-			if ((ch >= 'A') && (ch <= 'Z')) {
-				colIndex = 26 * colIndex + Character.getNumericValue( ch ) - 9;
-			}
-			else if ((ch >= '0') && (ch <= '9')) {
-				rowIndex = 10 * rowIndex + Character.getNumericValue( ch );
-			}
-		}
-		return new CellIndex( getSpreadsheet(), getSheetIndex(), colIndex - 1, rowIndex - 1 );
-	}
-
-
-	public CellIndex getCellIndexForCanonicalNameR1C1( String _canonicalName, CellIndex _relativeTo )
-	{
-		final int rowIndex = parseRCIndex( _relativeTo.rowIndex + 1, _canonicalName, 1 );
-		final int colIndex = parseRCIndex( _relativeTo.columnIndex + 1, _canonicalName, _canonicalName.indexOf( 'C' ) + 1 );
-		return new CellIndex( getSpreadsheet(), getSheetIndex(), colIndex - 1, rowIndex - 1 );
-	}
-
-
-	public static int parseRCIndex( int _relativeTo, String _canonicalName, int _at )
-	{
-		int result = _relativeTo;
-		int at = _at;
-		if (at < _canonicalName.length()) {
-			char ch = _canonicalName.charAt( at );
-			if ('[' == ch) {
-				ch = _canonicalName.charAt( ++at );
-			}
-			else if ('C' != ch) {
-				result = 0;
-			}
-			StringBuilder sb = new StringBuilder();
-			while (ch == '-' || (ch >= '0' && ch <= '9')) {
-				sb.append( ch );
-				if (++at >= _canonicalName.length()) break;
-				ch = _canonicalName.charAt( at );
-			}
-			if (sb.length() > 0) {
-				result += Integer.parseInt( sb.toString() );
-			}
-		}
-		return result;
-	}
-
-
-	public CellInstance getCellForCanonicalName( String _canonicalName, CellIndex _relativeTo )
-	{
-		CellIndex index = getCellIndexForCanonicalName( _canonicalName, _relativeTo );
-		return getRowList().get( index.rowIndex ).getCellList().get( index.columnIndex );
 	}
 
 

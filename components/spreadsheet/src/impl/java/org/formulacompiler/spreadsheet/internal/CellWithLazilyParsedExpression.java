@@ -129,10 +129,4 @@ public final class CellWithLazilyParsedExpression extends CellInstance
 		super.describeTo( _to );
 	}
 
-
-	public CellRefFormat getCellRefFormat()
-	{
-		return getRow().getSheet().getSpreadsheet().getCellRefFormat();
-	}
-
 }
