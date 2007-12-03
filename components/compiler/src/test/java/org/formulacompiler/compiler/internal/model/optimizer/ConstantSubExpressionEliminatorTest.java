@@ -150,7 +150,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		optimize( FormulaCompiler.DOUBLE );
 
 		assertExpr(
-				"(let rate1__1 = 1.3 in apply (iterate with r__2 = 0 index i__3 each vi__4 as r__2 = (r__2 + (vi__4 / (rate1__1 ^ i__3)))) to  vectors {#(1,1,3){3.0, Inputs.getOne(), 2.0}} )",
+				"(let rate1__1 = 1.3 in apply (iterate with r__2 = 0.0 index i__3 each vi__4 as r__2 = (r__2 + (vi__4 / (rate1__1 ^ i__3)))) to  vectors {#(1,1,3){3.0, Inputs.getOne(), 2.0}} )",
 				sumOverInputsAndConsts );
 	}
 
@@ -165,7 +165,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 		optimize( FormulaCompiler.DOUBLE );
 
-		assertExpr( "apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Band~>10.0}",
+		assertExpr( "apply (fold/reduce with s__1 = 0.0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Band~>10.0}",
 				sumOverBand );
 	}
 

@@ -60,7 +60,7 @@ public class ModelRewriterTest extends TestCase
 
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ) ) );
 
-		assertEquals( "apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2)) to list {@( a, b, c )}", r
+		assertEquals( "apply (fold/reduce with s__1 = 0.0 each xi__2 as s__1 = (s__1 + xi__2)) to list {@( a, b, c )}", r
 				.getExpression().toString() );
 	}
 
@@ -82,7 +82,7 @@ public class ModelRewriterTest extends TestCase
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ) ) );
 
 		assertBeginsWith(
-				"apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2)) to db filter col3_: OR( AND( (col3_0 = \"Apple\"), (col3_1",
+				"apply (fold/reduce with s__1 = 0.0 each xi__2 as s__1 = (s__1 + xi__2)) to db filter col3_: OR( AND( (col3_0 = \"Apple\"), (col3_1",
 				r.getExpression().toString() );
 	}
 
@@ -105,7 +105,7 @@ public class ModelRewriterTest extends TestCase
 		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ) ) );
 
 		assertBeginsWith(
-				"(let/byname crit4_0 = Inputs.getOne() in (let/byname crit4_1 = Inputs.getOne() in (let/byname crit4_2 = Inputs.getOne() in (let/byname crit4_3 = Inputs.getOne() in apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2)) to db filter col3_: OR( AND( (col3_0 = ",
+				"(let/byname crit4_0 = Inputs.getOne() in (let/byname crit4_1 = Inputs.getOne() in (let/byname crit4_2 = Inputs.getOne() in (let/byname crit4_3 = Inputs.getOne() in apply (fold/reduce with s__1 = 0.0 each xi__2 as s__1 = (s__1 + xi__2)) to db filter col3_: OR( AND( (col3_0 = ",
 				r.getExpression().toString() );
 	}
 

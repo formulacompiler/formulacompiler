@@ -80,133 +80,133 @@ public class ExpressionParserTest extends TestCase
 
 	public void testCellA1() throws Exception
 	{
-		assertParse( "A1", "\"A1>A1\"" );
-		assertParse( "AA1", "\"A1>AA1\"" );
-		assertParse( "ZAZ987", "\"A1>ZAZ987\"" );
-		assertParse( "$A$1", "\"A1>$A$1\"" );
-		assertParse( "A$1", "\"A1>A$1\"" );
-		assertParse( "$A1", "\"A1>$A1\"" );
+		assertParse( "\"A1>A1\"", "A1" );
+		assertParse( "\"A1>AA1\"", "AA1" );
+		assertParse( "\"A1>ZAZ987\"", "ZAZ987" );
+		assertParse( "\"A1>$A$1\"", "$A$1" );
+		assertParse( "\"A1>A$1\"", "A$1" );
+		assertParse( "\"A1>$A1\"", "$A1" );
 		/*
 		 * The following is an anomaly which will have to be handled by the proper Excel A1 parser.
 		 */
-		assertParse( "RC1", "\"RC>RC1\"" );
+		assertParse( "\"RC>RC1\"", "RC1" );
 	}
 
 	public void testCellR1C1() throws Exception
 	{
-		assertParse( "R1C1", "\"RC>R1C1\"" );
-		assertParse( "RC1", "\"RC>RC1\"" );
+		assertParse( "\"RC>R1C1\"", "R1C1" );
+		assertParse( "\"RC>RC1\"", "RC1" );
 	}
 
 	public void testNamedCellRef() throws Exception
 	{
-		assertParse( "Hello + World", "(\"NC>Hello\" + \"NC>World\")" );
-		assertParse( "1 + _foo_13", "(1 + \"NC>_foo_13\")" );
+		assertParse( "(\"NC>Hello\" + \"NC>World\")", "Hello + World" );
+		assertParse( "(1.0 + \"NC>_foo_13\")", "1 + _foo_13" );
 	}
 
 
 	public void testPercentTerm() throws Exception
 	{
-		assertParse( "-123.45E-10%", "(-(1.2345E-8%))" );
+		assertParse( "(-(1.2345E-8%))", "-123.45E-10%" );
 	}
 
 	public void testSignedTerm() throws Exception
 	{
-		assertParse( "-3", "(-3)" );
-		assertParse( "-(3)", "(-3)" );
-		assertParse( "--3", "(-(-3))" );
-		assertParse( "--(3)", "(-(-3))" );
-		assertParse( "+-3", "(-3)" );
-		assertParse( "-+3", "(-3)" );
+		assertParse( "(-3.0)", "-3" );
+		assertParse( "(-3.0)", "-(3)" );
+		assertParse( "(-(-3.0))", "--3" );
+		assertParse( "(-(-3.0))", "--(3)" );
+		assertParse( "(-3.0)", "+-3" );
+		assertParse( "(-3.0)", "-+3" );
 	}
 
 	public void testExpTerm() throws Exception
 	{
-		assertParse( "3^4", "(3 ^ 4)" );
-		assertParse( "3%^4", "((3%) ^ 4)" );
-		assertParse( "3^4%", "(3 ^ (4%))" );
-		assertParse( "-3%^-4", "((-(3%)) ^ (-4))" );
-		assertParse( "-3^-4%", "((-3) ^ (-(4%)))" );
-		assertParse( "-123.45E-10%^-123.45E-9%^-123.45E-8%", "(((-(1.2345E-8%)) ^ (-(1.2345E-7%))) ^ (-(1.2345E-6%)))" );
-		assertParse( "-123.45E-10%^(-123.45E-9%^-123.45E-8)%", "((-(1.2345E-8%)) ^ (((-(1.2345E-7%)) ^ (-1.2345E-6))%))" );
+		assertParse( "(3.0 ^ 4.0)", "3^4" );
+		assertParse( "((3.0%) ^ 4.0)", "3%^4" );
+		assertParse( "(3.0 ^ (4.0%))", "3^4%" );
+		assertParse( "((-(3.0%)) ^ (-4.0))", "-3%^-4" );
+		assertParse( "((-3.0) ^ (-(4.0%)))", "-3^-4%" );
+		assertParse( "(((-(1.2345E-8%)) ^ (-(1.2345E-7%))) ^ (-(1.2345E-6%)))", "-123.45E-10%^-123.45E-9%^-123.45E-8%" );
+		assertParse( "((-(1.2345E-8%)) ^ (((-(1.2345E-7%)) ^ (-1.2345E-6))%))", "-123.45E-10%^(-123.45E-9%^-123.45E-8)%" );
 	}
 
 	public void testMulTerm() throws Exception
 	{
-		assertParse( "3 * 4", "(3 * 4)" );
-		assertParse( "3 * 4 ^ 5", "(3 * (4 ^ 5))" );
-		assertParse( "3 / 4", "(3 / 4)" );
-		assertParse( "3 / 4 ^ 5", "(3 / (4 ^ 5))" );
-		assertParse( "3 * 4 / 5", "((3 * 4) / 5)" );
-		assertParse( "3 / 4 * 5", "((3 / 4) * 5)" );
+		assertParse( "(3.0 * 4.0)", "3 * 4" );
+		assertParse( "(3.0 * (4.0 ^ 5.0))", "3 * 4 ^ 5" );
+		assertParse( "(3.0 / 4.0)", "3 / 4" );
+		assertParse( "(3.0 / (4.0 ^ 5.0))", "3 / 4 ^ 5" );
+		assertParse( "((3.0 * 4.0) / 5.0)", "3 * 4 / 5" );
+		assertParse( "((3.0 / 4.0) * 5.0)", "3 / 4 * 5" );
 	}
 
 	public void testAddTerm() throws Exception
 	{
-		assertParse( "3-4", "(3 - 4)" ); // Tests that -4 is not lexed as the number -4
-		assertParse( "3 + 4", "(3 + 4)" );
-		assertParse( "3 + 4 * 5", "(3 + (4 * 5))" );
-		assertParse( "3 - 4", "(3 - 4)" );
-		assertParse( "3 - 4 * 5", "(3 - (4 * 5))" );
-		assertParse( "3 + 4 - 5", "((3 + 4) - 5)" );
-		assertParse( "3 - 4 + 5", "((3 - 4) + 5)" );
-		assertParse( "3 + 4 * 5 ^ 6", "(3 + (4 * (5 ^ 6)))" );
-		assertParse( "-3 - -3 - +3 + +3", "((((-3) - (-3)) - 3) + 3)" );
-		assertParse( "-(3 + 4) * -(4 + 5) / +(+4 - +5)", "(((-(3 + 4)) * (-(4 + 5))) / (4 - 5))" );
+		assertParse( "(3.0 - 4.0)", "3-4" ); // Tests that -4 is not lexed as the number -4
+		assertParse( "(3.0 + 4.0)", "3 + 4" );
+		assertParse( "(3.0 + (4.0 * 5.0))", "3 + 4 * 5" );
+		assertParse( "(3.0 - 4.0)", "3 - 4" );
+		assertParse( "(3.0 - (4.0 * 5.0))", "3 - 4 * 5" );
+		assertParse( "((3.0 + 4.0) - 5.0)", "3 + 4 - 5" );
+		assertParse( "((3.0 - 4.0) + 5.0)", "3 - 4 + 5" );
+		assertParse( "(3.0 + (4.0 * (5.0 ^ 6.0)))", "3 + 4 * 5 ^ 6" );
+		assertParse( "((((-3.0) - (-3.0)) - 3.0) + 3.0)", "-3 - -3 - +3 + +3" );
+		assertParse( "(((-(3.0 + 4.0)) * (-(4.0 + 5.0))) / (4.0 - 5.0))", "-(3 + 4) * -(4 + 5) / +(+4 - +5)" );
 	}
 
 	public void testConcatTerm() throws Exception
 	{
-		assertParse( "3 & 4", "(3 & 4)" );
-		assertParse( "3 & 4+ 5", "(3 & (4 + 5))" );
-		assertParse( "3 & 4 & 5", "(3 & 4 & 5)" );
-		assertParse( "3 & (4 & 5)", "(3 & (4 & 5))" );
+		assertParse( "(3.0 & 4.0)", "3 & 4" );
+		assertParse( "(3.0 & (4.0 + 5.0))", "3 & 4+ 5" );
+		assertParse( "(3.0 & 4.0 & 5.0)", "3 & 4 & 5" );
+		assertParse( "(3.0 & (4.0 & 5.0))", "3 & (4 & 5)" );
 	}
 
 	public void testComparisonTerm() throws Exception
 	{
-		assertParse( "3 = 4", "(3 = 4)" );
-		assertParse( "3 <> 4", "(3 <> 4)" );
-		assertParse( "3 > 4", "(3 > 4)" );
-		assertParse( "3 >= 4", "(3 >= 4)" );
-		assertParse( "3 < 4", "(3 < 4)" );
-		assertParse( "3 <= 4", "(3 <= 4)" );
-		assertParse( "3 < 4 & 5", "(3 < (4 & 5))" );
+		assertParse( "(3.0 = 4.0)", "3 = 4" );
+		assertParse( "(3.0 <> 4.0)", "3 <> 4" );
+		assertParse( "(3.0 > 4.0)", "3 > 4" );
+		assertParse( "(3.0 >= 4.0)", "3 >= 4" );
+		assertParse( "(3.0 < 4.0)", "3 < 4" );
+		assertParse( "(3.0 <= 4.0)", "3 <= 4" );
+		assertParse( "(3.0 < (4.0 & 5.0))", "3 < 4 & 5" );
 	}
 
 	public void testMinMaxTerm() throws Exception
 	{
-		assertParse( "3 _min_ 4", "(3 _min_ 4)" );
-		assertParse( "3 _max_ 4", "(3 _max_ 4)" );
-		assertParse( "3 _max_ 4 = 5", "(3 _max_ (4 = 5))" );
+		assertParse( "(3.0 _min_ 4.0)", "3 _min_ 4" );
+		assertParse( "(3.0 _max_ 4.0)", "3 _max_ 4" );
+		assertParse( "(3.0 _max_ (4.0 = 5.0))", "3 _max_ 4 = 5" );
 	}
 
 	public void testFun() throws Exception
 	{
-		assertParse( "ABS(-12)", "ABS( (-12) )" );
-		assertParse( "@ABS(-12)", "ABS( (-12) )" );
+		assertParse( "ABS( (-12.0) )", "ABS(-12)" );
+		assertParse( "ABS( (-12.0) )", "@ABS(-12)" );
 
-		assertParse( "3 ^ ABS(4+5)", "(3 ^ ABS( (4 + 5) ))" );
-		assertParse( "3 ^ @ABS(4)", "(3 ^ ABS( 4 ))" );
+		assertParse( "(3.0 ^ ABS( (4.0 + 5.0) ))", "3 ^ ABS(4+5)" );
+		assertParse( "(3.0 ^ ABS( 4.0 ))", "3 ^ @ABS(4)" );
 
-		assertParse( "MATCH(3, A1:A2)", "MATCH( 3, \"R<A1>A1:A1>A2>\" )" );
-		assertParse( "MATCH(3, A1:A2, )", "MATCH( 3, \"R<A1>A1:A1>A2>\" )" );
-		assertParse( "MATCH(3, A1:A2, 1)", "MATCH( 3, \"R<A1>A1:A1>A2>\", 1 )" );
+		assertParse( "MATCH( 3.0, \"R<A1>A1:A1>A2>\" )", "MATCH(3, A1:A2)" );
+		assertParse( "MATCH( 3.0, \"R<A1>A1:A1>A2>\" )", "MATCH(3, A1:A2, )" );
+		assertParse( "MATCH( 3.0, \"R<A1>A1:A1>A2>\", 1.0 )", "MATCH(3, A1:A2, 1)" );
 	}
 
 	public void testAgg() throws Exception
 	{
-		assertParse( "SUM(1)", "SUM( 1 )" );
-		assertParse( "@SUM(1)", "SUM( 1 )" );
+		assertParse( "SUM( 1.0 )", "SUM(1)" );
+		assertParse( "SUM( 1.0 )", "@SUM(1)" );
 
-		assertParse( "SUM(1, 2, 3)", "SUM( 1, 2, 3 )" );
-		assertParse( "SUM( 1 2, 3 )", "SUM( 1 2, 3 )" );
-		assertParse( "SUM( A1:A5 )", "SUM( \"R<A1>A1:A1>A5>\" )" );
-		assertParse( "SUM( MyRange, MyCell )", "SUM( \"NR>MyRange\", \"NC>MyCell\" )" );
+		assertParse( "SUM( 1.0, 2.0, 3.0 )", "SUM(1, 2, 3)" );
+		assertParse( "SUM( 1.0 2.0, 3.0 )", "SUM( 1 2, 3 )" );
+		assertParse( "SUM( \"R<A1>A1:A1>A5>\" )", "SUM( A1:A5 )" );
+		assertParse( "SUM( \"NR>MyRange\", \"NC>MyCell\" )", "SUM( MyRange, MyCell )" );
 
-		assertParse( "SUM( MyRange, SUM(MyRange))", "SUM( \"NR>MyRange\", SUM( \"NR>MyRange\" ) )" );
+		assertParse( "SUM( \"NR>MyRange\", SUM( \"NR>MyRange\" ) )", "SUM( MyRange, SUM(MyRange))" );
 
-		assertParse( "SUM(1)-1", "(SUM( 1 ) - 1)" );
+		assertParse( "(SUM( 1.0 ) - 1.0)", "SUM(1)-1" );
 	}
 
 
@@ -215,7 +215,7 @@ public class ExpressionParserTest extends TestCase
 		return new TestExpressionParser( _expr ).parse();
 	}
 
-	private void assertParse( String _expr, String _expected ) throws Exception
+	private void assertParse( String _expected, String _expr ) throws Exception
 	{
 		ExpressionNode parsed = parse( _expr );
 		assertEquals( _expected, parsed.toString() );

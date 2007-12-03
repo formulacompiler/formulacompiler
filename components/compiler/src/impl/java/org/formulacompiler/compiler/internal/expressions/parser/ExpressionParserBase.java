@@ -119,14 +119,14 @@ abstract class ExpressionParserBase
 	}
 
 
-	protected final int parseInt( String _text )
+	protected final Number parseInt( String _text )
 	{
-		return Integer.parseInt( _text );
+		return Double.parseDouble( _text ); // LATER return proper data type
 	}
 
-	protected final double parseDouble( String _text )
+	protected final Number parseDouble( String _text )
 	{
-		return Double.parseDouble( _text );
+		return Double.parseDouble( _text ); // LATER return proper data type
 	}
 
 

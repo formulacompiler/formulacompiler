@@ -313,8 +313,8 @@ void fun(): {}
 	|	"EXP" fun1( Function.EXP )
 	|	"FACT" fun1( Function.FACT )
 	// The warnings on the following two lines about "(" are OK. They are caused by the annoying range intersection syntax.
-	|	"FALSE" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 0 )); }
-	|	"false" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 0 )); }
+	|	"FALSE" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( false )); }
+	|	"false" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( false )); }
 	|	"FDIST" fun3( Function.FDIST )
 	|	"FINV" fun3( Function.FINV )
 	|	"FTEST" open() shapedRangeExpr() <SEP> shapedRangeExpr() closeFun( Function.FTEST )
@@ -445,8 +445,8 @@ void fun(): {}
 	|	"TRIM" fun1( Function.TRIM )
 	|	"TRIMMEAN" open() shapedRangeExpr() commaExpr() closeFun( Function.TRIMMEAN )	
 	// The warnings on the following two lines about "(" are OK. They are caused by the annoying range intersection syntax.
-	|	"TRUE" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 1 )); }
-	|	"true" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 1 )); }
+	|	"TRUE" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( true )); }
+	|	"true" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( true )); }
 	|	"TRUNC" fun1to2( Function.TRUNC )
 	|	"UPPER" fun1( Function.UPPER )
 	|	"VALUE" fun1( Function.VALUE )

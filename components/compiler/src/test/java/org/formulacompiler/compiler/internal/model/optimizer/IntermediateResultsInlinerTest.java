@@ -130,7 +130,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertNull( bandRefSum.getExpression() );
 
 		assertExpr(
-				"apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Band~>(33.0 + <~ConstRefSum)}",
+				"apply (fold/reduce with s__1 = 0.0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Band~>(33.0 + <~ConstRefSum)}",
 				sum );
 	}
 
@@ -159,7 +159,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertNull( bandRefSum.getExpression() );
 
 		assertExpr(
-				"apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Band~>(33.0 + <~ConstRefSum)}",
+				"apply (fold/reduce with s__1 = 0.0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Band~>(33.0 + <~ConstRefSum)}",
 				sum );
 	}
 
@@ -188,7 +188,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertConst( 11.0, bandOther );
 		assertExpr( "(33.0 + <~ConstRefSum)", bandRefSum );
 
-		assertExpr( "apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Band~>BandRefSum}",
+		assertExpr( "apply (fold/reduce with s__1 = 0.0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Band~>BandRefSum}",
 				sum );
 	}
 
@@ -214,7 +214,7 @@ public class IntermediateResultsInlinerTest extends AbstractOptimizerTest
 		assertConst( 11.0, bandOther );
 		assertExpr( "(33.0 + <~ConstRefSum)", bandRefSum );
 
-		assertExpr( "apply (fold/reduce with s__1 = 0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Band~>BandRefSum}",
+		assertExpr( "apply (fold/reduce with s__1 = 0.0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Band~>BandRefSum}",
 				sum );
 	}
 
