@@ -18,57 +18,16 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.spreadsheet.internal;
+package org.formulacompiler.spreadsheet.internal.parser;
 
-import java.util.Collection;
+import org.formulacompiler.spreadsheet.internal.CellInstance;
 
-import org.formulacompiler.compiler.internal.expressions.ExpressionDescriptionConfig;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.describable.DescriptionBuilder;
-
-
-public final class ExpressionNodeForRange extends ExpressionNode
+public class SpreadsheetExpressionParserA1ODF extends SpreadsheetExpressionParser
 {
-	private final CellRange range;
 
-
-	public ExpressionNodeForRange(CellRange _range)
+	public SpreadsheetExpressionParserA1ODF( String _exprText, CellInstance _parseRelativeTo )
 	{
-		this.range = _range;
+		super( _exprText, _parseRelativeTo );
 	}
-
-
-	public ExpressionNodeForRange(CellIndex _from, CellIndex _to)
-	{
-		this( new CellRange( _from, _to ) );
-	}
-
-
-	public CellRange getRange()
-	{
-		return this.range;
-	}
-
-
-	@Override
-	public ExpressionNode innerCloneWithoutArguments()
-	{
-		return new ExpressionNodeForRange( this.range );
-	}
-	
-	
-	@Override
-	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
-	{
-		throw new AbstractMethodError();
-	}
-
-
-	@Override
-	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
-	{
-		this.range.describeTo( _to );
-	}
-
 
 }

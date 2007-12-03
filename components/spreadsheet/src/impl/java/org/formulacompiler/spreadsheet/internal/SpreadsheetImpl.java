@@ -36,7 +36,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetException;
 
 /**
  * Implementation of {@link Spreadsheet}.
- *
+ * 
  * @author peo
  */
 public final class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
@@ -170,7 +170,8 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 		if (0 == getSheetList().size()) {
 			throw new SpreadsheetException.NameNotFound( "The name '" + _a1Name + "' is not defined; workbook is empty." );
 		}
-		final CellIndex cell = getSheetList().get( 0 ).getCellIndexForCanonicalName( _a1Name, null, CellRefFormat.A1 );
+		final CellRefParser parser = CellRefParser.getInstance( CellRefFormat.A1 );
+		final CellIndex cell = parser.getCellIndexForCanonicalName( _a1Name, getSheetList().get( 0 ), null );
 		if (null == cell) {
 			throw new SpreadsheetException.NameNotFound( "The name '" + _a1Name + "' is not defined in this workbook." );
 		}
@@ -212,22 +213,6 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 	}
 
 
-	public CellIndex getCellIndex( SheetImpl _defaultSheet, String _cellNameOrCanonicalName, CellIndex _relativeTo )
-	{
-		Reference ref = getNamedRef( _cellNameOrCanonicalName );
-		if (ref instanceof CellIndex) {
-			return (CellIndex) ref;
-		}
-		else if (ref instanceof CellRange) {
-			CellRange range = (CellRange) ref;
-			return range.getFrom();
-		}
-		else {
-			return _defaultSheet.getCellIndexForCanonicalName( _cellNameOrCanonicalName, _relativeTo );
-		}
-	}
-
-
 	public SheetImpl getSheet( String _sheetName )
 	{
 		for (SheetImpl s : getSheetList()) {
@@ -240,37 +225,6 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 
 
 	// --------------------------------------- Own stuff
-
-
-	CellIndex getCellIndex( String _cellNameOrCanonicalName )
-	{
-		return getCellIndex( getSheetList().get( 0 ), _cellNameOrCanonicalName, null );
-	}
-
-
-	CellInstance getWorkbookCell( SheetImpl _defaultSheet, String _cellNameOrCanonicalName, CellIndex _relativeTo )
-	{
-		return getCellIndex( _defaultSheet, _cellNameOrCanonicalName, _relativeTo ).getCell();
-	}
-
-
-	/**
-	 * Finds cells by name.
-	 *
-	 * @param _cellNameOrCanonicalName is the canonical name of the cell (A1, B2, etc.), or its
-	 *           specific name defined in the spreadsheet (BasePrice, NumberSold, etc.).
-	 * @return The requested cell, or else {@code null}.
-	 */
-	CellInstance getWorkbookCell( String _cellNameOrCanonicalName )
-	{
-		return getCellIndex( _cellNameOrCanonicalName ).getCell();
-	}
-
-
-	public CellRefFormat getCellRefFormat()
-	{
-		return CellRefFormat.A1; // LATER Change this for Excel!
-	}
 
 
 	public void trim()

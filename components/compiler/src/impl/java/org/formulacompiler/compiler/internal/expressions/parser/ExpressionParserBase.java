@@ -113,7 +113,7 @@ abstract class ExpressionParserBase
 		top.addArgument( popped );
 	}
 
-	private final ExpressionNode peekNode()
+	protected final ExpressionNode peekNode()
 	{
 		return this.nodes.get( this.nodes.size() - 1 );
 	}
@@ -147,6 +147,16 @@ abstract class ExpressionParserBase
 		throw new UnsupportedOperationException( "This parser does not support parsing A1-style cells." );
 	}
 
+	protected ExpressionNode makeCellA1ODF( Token _cell, ExpressionNode _node )
+	{
+		throw new UnsupportedOperationException( "This parser does not support parsing A1-style cells." );
+	}
+
+	protected ExpressionNode makeCellA1ODF( Token _cell, Token _sheet )
+	{
+		throw new UnsupportedOperationException( "This parser does not support parsing A1-style cells." );
+	}
+
 	protected ExpressionNode makeCellR1C1( Token _cell )
 	{
 		return makeCellR1C1( _cell, null );
@@ -175,6 +185,11 @@ abstract class ExpressionParserBase
 	protected Object makeCellRange( Collection<ExpressionNode> _nodes )
 	{
 		throw new UnsupportedOperationException( ERR_NORANGES );
+	}
+
+	protected Object makeCellIndex( ExpressionNode _node)
+	{
+		throw new UnsupportedOperationException( "This parser does not support cell references." );
 	}
 
 	protected ExpressionNode makeNodeForReference( Object _reference )

@@ -34,6 +34,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetLoader;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
+import org.formulacompiler.spreadsheet.internal.CellRefFormat;
 import org.formulacompiler.spreadsheet.internal.CellWithConstant;
 import org.formulacompiler.spreadsheet.internal.CellWithError;
 import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
@@ -170,7 +171,7 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 			final jxl.FormulaCell xlsFormulaCell = (jxl.FormulaCell) _xlsCell;
 			CellWithLazilyParsedExpression exprCell = new CellWithLazilyParsedExpression( _row );
 			try {
-				exprCell.setExpressionParser( new LazySpreadsheetExpressionParser( exprCell, xlsFormulaCell.getFormula() ) );
+				exprCell.setExpressionParser( new LazySpreadsheetExpressionParser( exprCell, xlsFormulaCell.getFormula(), CellRefFormat.A1 ) );
 			}
 			catch (jxl.biff.formula.FormulaException e) {
 				throw new SpreadsheetException.LoadError( e );

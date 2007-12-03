@@ -213,10 +213,10 @@ public final class CellIndex extends Reference implements Cell
 	{
 		if (this.sheetIndex > 0) {
 			return "'"
-					+ getSheet().getName() + "'!" + SheetImpl.getCanonicalNameForCellIndex( this.columnIndex, this.rowIndex );
+					+ getSheet().getName() + "'!" + SheetImpl.getNameA1ForCellIndex( this.columnIndex, this.rowIndex );
 		}
 		else {
-			return SheetImpl.getCanonicalNameForCellIndex( this.columnIndex, this.rowIndex );
+			return SheetImpl.getNameA1ForCellIndex( this.columnIndex, this.rowIndex );
 		}
 	}
 

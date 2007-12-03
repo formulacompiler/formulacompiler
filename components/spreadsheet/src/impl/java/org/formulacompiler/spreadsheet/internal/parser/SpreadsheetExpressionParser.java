@@ -32,6 +32,7 @@ import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.CellRefFormat;
+import org.formulacompiler.spreadsheet.internal.CellRefParser;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForCell;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRange;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRangeIntersection;
@@ -48,7 +49,7 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 	protected final CellInstance cell;
 	protected final CellIndex cellIndex;
 
-	public SpreadsheetExpressionParser(String _exprText, CellInstance _parseRelativeTo)
+	public SpreadsheetExpressionParser( String _exprText, CellInstance _parseRelativeTo )
 	{
 		super( _exprText );
 		this.cell = _parseRelativeTo;
@@ -57,11 +58,33 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 		this.cellIndex = (this.cell == null) ? null : this.cell.getCellIndex();
 	}
 
+	protected SpreadsheetExpressionParser( String _exprText, SpreadsheetImpl _workbook )
+	{
+		super( _exprText );
+		this.workbook = _workbook;
+		this.sheet = null;
+		this.cell = null;
+		this.cellIndex = null;
+	}
+
 	public static SpreadsheetExpressionParser newParser( String _exprText, CellInstance _parseRelativeTo,
 			CellRefFormat _format )
 	{
-		return (_format == CellRefFormat.A1) ? new SpreadsheetExpressionParserA1( _exprText, _parseRelativeTo )
-				: new SpreadsheetExpressionParserR1C1( _exprText, _parseRelativeTo );
+		final SpreadsheetExpressionParser parser;
+		switch (_format) {
+			case A1:
+				parser = new SpreadsheetExpressionParserA1( _exprText, _parseRelativeTo );
+				break;
+			case A1_ODF:
+				parser = new SpreadsheetExpressionParserA1ODF( _exprText, _parseRelativeTo );
+				break;
+			case R1C1:
+				parser = new SpreadsheetExpressionParserR1C1( _exprText, _parseRelativeTo );
+				break;
+			default:
+				throw new IllegalArgumentException( _format + " format is not supported" );
+		}
+		return parser;
 	}
 
 
@@ -79,7 +102,37 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 
 	protected final ExpressionNode makeCellA1( String _ref, SheetImpl _sheet )
 	{
-		return new ExpressionNodeForCell( _sheet.getCellIndexForCanonicalNameA1( _ref ) );
+		final CellRefParser parser = CellRefParser.getInstance( CellRefFormat.A1 );
+		return new ExpressionNodeForCell( parser.getCellIndexForCanonicalName( _ref, _sheet, this.cellIndex ) );
+	}
+
+	@Override
+	protected final ExpressionNode makeCellA1ODF( Token _cell, ExpressionNode _node )
+	{
+		final SheetImpl sheet;
+		if (_node != null) {
+			final ExpressionNodeForCell nodeForCell = (ExpressionNodeForCell) _node;
+			final CellIndex cellIndex = nodeForCell.getCellIndex();
+			sheet = cellIndex.getSheet();
+		}
+		else {
+			assert this.sheet != null;
+			sheet = this.sheet;
+		}
+		return makeCellA1ODF( _cell.image, sheet );
+	}
+
+	@Override
+	protected final ExpressionNode makeCellA1ODF( Token _cell, Token _sheet )
+	{
+		final SheetImpl sheet = getSheetByName( _sheet.image );
+		return makeCellA1ODF( _cell.image, sheet );
+	}
+
+	private ExpressionNode makeCellA1ODF( String _ref, SheetImpl _sheet )
+	{
+		final CellRefParser parser = CellRefParser.getInstance( CellRefFormat.A1_ODF );
+		return new ExpressionNodeForCell( parser.getCellIndexForCanonicalName( _ref, _sheet, this.cellIndex ) );
 	}
 
 	@Override
@@ -96,7 +149,8 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 
 	protected final ExpressionNode makeCellR1C1( String _ref, SheetImpl _sheet )
 	{
-		return new ExpressionNodeForCell( _sheet.getCellIndexForCanonicalNameR1C1( _ref, this.cellIndex ) );
+		final CellRefParser parser = CellRefParser.getInstance( CellRefFormat.R1C1 );
+		return new ExpressionNodeForCell( parser.getCellIndexForCanonicalName( _ref, _sheet, this.cellIndex ) );
 	}
 
 	protected final SheetImpl getSheetByName( String _sheet )
@@ -194,6 +248,13 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 		final ExpressionNodeForCell a = (ExpressionNodeForCell) nodes.next();
 		final ExpressionNodeForCell b = (ExpressionNodeForCell) nodes.next();
 		return new CellRange( a.getCellIndex(), b.getCellIndex() );
+	}
+
+	@Override
+	protected final Object makeCellIndex( ExpressionNode _node)
+	{
+		final ExpressionNodeForCell nodeForCell = (ExpressionNodeForCell) _node;
+		return nodeForCell.getCellIndex();
 	}
 
 

@@ -21,6 +21,7 @@
 package org.formulacompiler.spreadsheet.internal;
 
 
-public enum CellRefFormat {
-	A1, R1C1;
+public enum CellRefFormat
+{
+	A1, A1_ODF, R1C1
 }

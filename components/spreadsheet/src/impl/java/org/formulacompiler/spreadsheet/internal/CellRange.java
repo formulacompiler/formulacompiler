@@ -44,13 +44,6 @@ public final class CellRange extends Reference implements Spreadsheet.Range, Ite
 		setFromTo( _from, _to );
 	}
 
-	public CellRange( SheetImpl _sheet, String _fromCellNameOrCanonicalName, String _toCellNameOrCanonicalName,
-			CellIndex _relativeTo )
-	{
-		this( _sheet.getCellIndexForCanonicalName( _fromCellNameOrCanonicalName, _relativeTo ), _sheet
-				.getCellIndexForCanonicalName( _toCellNameOrCanonicalName, _relativeTo ) );
-	}
-
 
 	public static final CellRange getEntireWorkbook( SpreadsheetImpl _spreadsheet )
 	{

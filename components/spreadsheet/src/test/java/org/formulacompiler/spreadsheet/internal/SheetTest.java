@@ -27,13 +27,13 @@ public class SheetTest extends TestCase
 
 	public void testGetCellNameForCellIndex()
 	{
-		assertEquals( "A1", SheetImpl.getCanonicalNameForCellIndex( 0, 0 ) );
-		assertEquals( "B1", SheetImpl.getCanonicalNameForCellIndex( 1, 0 ) );
-		assertEquals( "Z1", SheetImpl.getCanonicalNameForCellIndex( 25, 0 ) );
-		assertEquals( "AA1", SheetImpl.getCanonicalNameForCellIndex( 26, 0 ) );
-		assertEquals( "AB1", SheetImpl.getCanonicalNameForCellIndex( 27, 0 ) );
-		assertEquals( "AZ1", SheetImpl.getCanonicalNameForCellIndex( 51, 0 ) );
-		assertEquals( "BA1", SheetImpl.getCanonicalNameForCellIndex( 52, 0 ) );
+		assertEquals( "A1", SheetImpl.getNameA1ForCellIndex( 0, 0 ) );
+		assertEquals( "B1", SheetImpl.getNameA1ForCellIndex( 1, 0 ) );
+		assertEquals( "Z1", SheetImpl.getNameA1ForCellIndex( 25, 0 ) );
+		assertEquals( "AA1", SheetImpl.getNameA1ForCellIndex( 26, 0 ) );
+		assertEquals( "AB1", SheetImpl.getNameA1ForCellIndex( 27, 0 ) );
+		assertEquals( "AZ1", SheetImpl.getNameA1ForCellIndex( 51, 0 ) );
+		assertEquals( "BA1", SheetImpl.getNameA1ForCellIndex( 52, 0 ) );
 	}
 
 }

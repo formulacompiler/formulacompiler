@@ -92,6 +92,24 @@ public class ExpressionParserTest extends TestCase
 		assertParse( "\"RC>RC1\"", "RC1" );
 	}
 
+	public void testCellA1ODF() throws Exception
+	{
+		assertParse( "\"A1ODF>.A1\"", "[.A1]" );
+		assertParse( "\"A1ODF>.AA1\"", "[.AA1]" );
+		assertParse( "\"A1ODF>.ZAZ987\"", "[.ZAZ987]" );
+		assertParse( "\"A1ODF>.$A$1\"", "[.$A$1]" );
+		assertParse( "\"A1ODF>.A$1\"", "[.A$1]" );
+		assertParse( "\"A1ODF>.$A1\"", "[.$A1]" );
+		assertParse( "\"A1ODF>.RC1\"", "[.RC1]" );
+	}
+
+	public void testRangesODF() throws Exception
+	{
+		assertParse( "SUM( \"R<A1ODF>.A1:A1ODF>(\"A1ODF>.A1\").B1>\" )", "SUM( [.A1:.B1] )" );
+		assertParse( "SUM( \"R<A1ODF>Sheet1.A1:A1ODF>(\"A1ODF>Sheet1.A1\").B1>\" )", "SUM( [Sheet1.A1:.B1] )" );
+		assertParse( "SUM( \"R<A1ODF>Sheet1.A1:A1ODF>Sheet2.B1>\" )", "SUM( [Sheet1.A1:Sheet2.B1] )" );
+	}
+
 	public void testCellR1C1() throws Exception
 	{
 		assertParse( "\"RC>R1C1\"", "R1C1" );
@@ -240,6 +258,23 @@ public class ExpressionParserTest extends TestCase
 		protected ExpressionNode makeCellA1( Token _cell, Token _sheet )
 		{
 			return new ExpressionNodeForConstantValue( "A1>" + _sheet.image + _cell.image );
+		}
+
+		@Override
+		protected ExpressionNode makeCellA1ODF( Token _cell, ExpressionNode _node )
+		{
+			final StringBuilder sb = new StringBuilder( "A1ODF>" );
+			if (_node != null) {
+				sb.append( "(" ).append( _node ).append( ")" );
+			}
+			sb.append( _cell.image );
+			return new ExpressionNodeForConstantValue( sb.toString() );
+		}
+
+		@Override
+		protected ExpressionNode makeCellA1ODF( Token _cell, Token _sheet )
+		{
+			return new ExpressionNodeForConstantValue( "A1ODF>" + _sheet.image + _cell.image );
 		}
 
 		@Override
