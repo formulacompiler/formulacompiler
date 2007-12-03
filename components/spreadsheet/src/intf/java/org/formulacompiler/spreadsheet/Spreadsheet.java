@@ -141,6 +141,11 @@ public interface Spreadsheet extends Describable
 		public int getSheetIndex();
 
 		/**
+		 * Returns the name.
+		 */
+		public String getName();
+
+		/**
 		 * Returns the rows defined in the worksheet.
 		 */
 		public Row[] getRows();

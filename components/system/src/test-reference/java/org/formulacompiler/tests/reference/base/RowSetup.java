@@ -42,7 +42,7 @@ public abstract class RowSetup
 	{
 		return this.cx;
 	}
-
+	
 
 	// DO NOT REFORMAT BELOW THIS LINE
 	protected abstract int startingRow();
@@ -98,7 +98,7 @@ public abstract class RowSetup
 	public RowSetup makeOutput()
 	{
 		final CellInstance outputCell = cx().getRowCell( actualCol() );
-		cx().setOutputCell( outputCell );
+		cx().setOutputCell( outputCell.getCellIndex() );
 		return this;
 	}
 
@@ -108,7 +108,7 @@ public abstract class RowSetup
 	{
 		final Context cx = cx();
 		final CellInstance expectedCell = cx.getRowCell( expectedCol() );
-		cx.setExpectedCell( expectedCell );
+		cx.setExpectedCell( expectedCell.getCellIndex() );
 		return this;
 	}
 	

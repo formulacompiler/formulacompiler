@@ -44,7 +44,7 @@ public class ExpressionFormattingTestCase extends AbstractContextTestCase
 	@Override
 	protected void runTest() throws Throwable
 	{
-		final CellInstance cell = cx().getOutputCell();
+		final CellInstance cell = cx().getOutputCell().getCell();
 		if (cell instanceof CellWithLazilyParsedExpression) {
 			CellWithLazilyParsedExpression exprCell = (CellWithLazilyParsedExpression) cell;
 			final ExpressionNode expr = exprCell.getExpression();

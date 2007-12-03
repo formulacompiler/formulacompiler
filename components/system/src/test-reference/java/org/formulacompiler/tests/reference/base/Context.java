@@ -21,6 +21,7 @@
 package org.formulacompiler.tests.reference.base;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 
 import org.formulacompiler.compiler.FormulaCompiler;
@@ -33,7 +34,6 @@ import org.formulacompiler.runtime.Computation.Config;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
-import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
@@ -65,16 +65,18 @@ public final class Context
 		RowSetup.Builder rowSetupBuilder;
 		Computation.Config computationConfig;
 		FailedEngineReporter failedEngineReporter;
+		Collection<Context> variants;
+		AbstractVariantRowVerificationTestCase.Factory rowVerificationTestCaseFactory;
 	}
 
-	
+
 	private static final class RowInfo implements Cloneable
 	{
 		RowImpl row;
-		CellInstance expectedCell;
-		CellInstance outputCell;
+		CellIndex expectedCell;
+		CellIndex outputCell;
 		Integer inputCellCount;
-		
+
 		@Override
 		protected RowInfo clone()
 		{
@@ -123,7 +125,7 @@ public final class Context
 	}
 
 
-	public Boolean getExplicitCaching()
+	public boolean getExplicitCaching()
 	{
 		return this.explicitCaching != null? this.explicitCaching : this.parent == null? false : this.parent
 				.getExplicitCaching();
@@ -256,9 +258,33 @@ public final class Context
 	}
 
 
+	public Collection<Context> variants()
+	{
+		return ss().variants;
+	}
+
+	public void addVariant( Context _value )
+	{
+		SpreadsheetInfo ss = ss();
+		if (ss.variants == null) ss.variants = New.collection();
+		ss.variants.add( _value );
+	}
+
+	public AbstractVariantRowVerificationTestCase.Factory getRowVerificationTestCaseFactory()
+	{
+		return ss().rowVerificationTestCaseFactory;
+	}
+
+	public void setRowVerificationTestCaseFactory( AbstractVariantRowVerificationTestCase.Factory _value )
+	{
+		ss().rowVerificationTestCaseFactory = _value;
+	}
+
+
 	public RowImpl getRow()
 	{
-		return row().row;
+		final RowInfo rowInfo = row();
+		return (null == rowInfo)? null : rowInfo.row;
 	}
 
 	public int getRowIndex()
@@ -292,40 +318,37 @@ public final class Context
 	}
 
 
-	public CellInstance getExpectedCell()
+	public CellIndex getExpectedCell()
 	{
 		return row().expectedCell;
 	}
 
-	public void setExpectedCell( CellInstance _cell )
+	public void setExpectedCell( CellIndex _cell )
 	{
 		row().expectedCell = _cell;
 	}
 
 
-	public CellInstance getOutputCell()
+	public CellIndex getOutputCell()
 	{
 		return row().outputCell;
 	}
 
-	public void setOutputCell( CellInstance _cell )
+	public void setOutputCell( CellIndex _cell )
 	{
 		row().outputCell = _cell;
 	}
 
 	public String getOutputExpr()
 	{
-		final CellInstance cell = getOutputCell();
-		if (cell instanceof CellWithLazilyParsedExpression) {
-			final CellWithLazilyParsedExpression exprCell = (CellWithLazilyParsedExpression) cell;
-			try {
-				return exprCell.getExpression().toString();
-			}
-			catch (SpreadsheetException e) {
-				throw new RuntimeException( e );
-			}
+		final CellIndex cell = getOutputCell();
+		if (null == cell) return null;
+		try {
+			return cell.getExpressionText();
 		}
-		return null;
+		catch (SpreadsheetException e) {
+			throw new RuntimeException( e );
+		}
 	}
 
 
@@ -450,8 +473,7 @@ public final class Context
 		s.append( ", row " ).append( getRowIndex() );
 		BindingType type = getNumberBindingType();
 		if (type != null) s.append( ", type:" ).append( type.name() );
-		Boolean caching = getExplicitCaching();
-		if (caching != null) s.append( ", caching:" ).append( caching.toString() );
+		if (getExplicitCaching()) s.append( ", caching" );
 		Config config = getComputationConfig();
 		if (config != null) s.append( ", config:" ).append( config.toString() );
 		return s.toString();
@@ -504,7 +526,7 @@ public final class Context
 		if (this.eng == null) this.eng = new EngInfo();
 		return this.eng;
 	}
-	
+
 	public void releaseEngine()
 	{
 		assert null != this.eng;
@@ -527,7 +549,7 @@ public final class Context
 		if (this.run == null) this.run = new RunInfo();
 		return this.run;
 	}
-	
+
 	public void releaseInputs()
 	{
 		assert null != this.run;

@@ -63,6 +63,9 @@ public class SameEngineRowSequenceTestSuite extends AbstractEngineCompilingTestS
 
 	private void addTestFor( Context _cx, boolean _differingInputs )
 	{
+		if (_differingInputs) {
+			SheetSuiteSetup.addRowVerifications( _cx, this );
+		}
 		addTest( new EngineRunningTestCase( _cx, _differingInputs ).init() );
 	}
 

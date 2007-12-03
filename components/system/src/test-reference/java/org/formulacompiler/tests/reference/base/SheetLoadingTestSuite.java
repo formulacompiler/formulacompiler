@@ -40,7 +40,16 @@ public class SheetLoadingTestSuite extends AbstractContextTestSuite
 	@Override
 	protected void addTests() throws Exception
 	{
-		cx().setSpreadsheet( (SpreadsheetImpl) SpreadsheetCompiler.loadSpreadsheet( cx().getSpreadsheetFile() ) );
+		final Context main = cx();
+		loadContext( main );
+		for (Context variant : main.variants()) {
+			loadContext( variant );
+		}
+	}
+
+	private void loadContext( Context _cx ) throws Exception
+	{
+		_cx.setSpreadsheet( (SpreadsheetImpl) SpreadsheetCompiler.loadSpreadsheet( _cx.getSpreadsheetFile() ) );
 	}
 
 	@Override

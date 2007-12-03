@@ -20,6 +20,8 @@
  */
 package org.formulacompiler.tests.reference;
 
+import java.io.File;
+
 import org.formulacompiler.tests.utils.AbstractSpreadsheetDescriptionsTestSuite;
 
 import junit.framework.Test;
@@ -36,6 +38,14 @@ public final class SpreadsheetDescriptions extends AbstractSpreadsheetDescriptio
 	protected void addTestsFor( String _ext ) throws Exception
 	{
 		addTestsIn( "src/test-reference/data", _ext, true );
+	}
+
+	@Override
+	protected void addImpliedTestsFor( File _path, String _baseName, String _ext )
+	{
+		if (!_baseName.contains( "Unsupported" )) {
+			addTestFor( new File( _path, _baseName + ".ods" ), _baseName );
+		}
 	}
 
 }

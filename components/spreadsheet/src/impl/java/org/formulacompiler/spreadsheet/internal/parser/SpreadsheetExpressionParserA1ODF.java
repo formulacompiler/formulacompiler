@@ -21,6 +21,7 @@
 package org.formulacompiler.spreadsheet.internal.parser;
 
 import org.formulacompiler.spreadsheet.internal.CellInstance;
+import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
 public class SpreadsheetExpressionParserA1ODF extends SpreadsheetExpressionParser
 {
@@ -28,6 +29,11 @@ public class SpreadsheetExpressionParserA1ODF extends SpreadsheetExpressionParse
 	public SpreadsheetExpressionParserA1ODF( String _exprText, CellInstance _parseRelativeTo )
 	{
 		super( _exprText, _parseRelativeTo );
+	}
+
+	public SpreadsheetExpressionParserA1ODF( String _exprText, SpreadsheetImpl _workbook )
+	{
+		super( _exprText, _workbook );
 	}
 
 }

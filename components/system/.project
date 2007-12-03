@@ -8,6 +8,7 @@
 		<project>afc-runtime</project>
 		<project>afc-spreadsheet</project>
 		<project>afc-spreadsheet-excel-xls</project>
+		<project>afc-spreadsheet-opendocument</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

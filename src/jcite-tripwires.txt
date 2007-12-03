@@ -3733,7 +3733,7 @@ __@@__
 ___@_@___
 text:ExpressionParser.jj:// citation: npv
 __@@__
-|	"NPV" open() expr() "," shapedRangeExpr() closeFun( Function.NPV )
+|	"NPV" open() expr() <SEP> shapedRangeExpr() closeFun( Function.NPV )
 ___@_@___
 text:ExpressionParser.jj:// citation: round
 __@@__
@@ -5803,7 +5803,7 @@ __@@__
 	<tbody>
 		<tr>
 			<td class="xl-row">1</td>
-			<td><span style="text-decoration: underline;">Expected</span><br/><span class="xl-name">(COMBINLarge)</span></td>
+			<td><span style="text-decoration: underline;">Expected</span></td>
 			<td><span style="text-decoration: underline;">Actual</span></td>
 			<td><span style="text-decoration: underline;">Inputs</span></td>
 			<td></td>
@@ -5999,7 +5999,7 @@ __@@__
 	<tbody>
 		<tr>
 			<td class="xl-row">1</td>
-			<td><span style="text-decoration: underline;">Expected</span><br/><span class="xl-name">(COMBINLarge)</span></td>
+			<td><span style="text-decoration: underline;">Expected</span></td>
 			<td><span style="text-decoration: underline;">Actual</span></td>
 			<td><span style="text-decoration: underline;">Inputs</span></td>
 			<td></td>
@@ -6093,7 +6093,7 @@ __@@__
 	<tbody>
 		<tr>
 			<td class="xl-row">1</td>
-			<td><span style="text-decoration: underline;">Expected</span><br/><span class="xl-name">(COMBINLarge)</span></td>
+			<td><span style="text-decoration: underline;">Expected</span></td>
 			<td><span style="text-decoration: underline;">Actual</span></td>
 			<td><span style="text-decoration: underline;">Inputs</span></td>
 			<td></td>
