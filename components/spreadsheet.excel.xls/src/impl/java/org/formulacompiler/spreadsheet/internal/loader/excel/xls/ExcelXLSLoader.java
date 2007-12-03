@@ -229,6 +229,9 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 				case 15:
 					new CellWithError( _row, CellWithError.VALUE );
 					break;
+				case 23:
+					new CellWithError( _row, CellWithError.REF );
+					break;
 				case 36:
 					new CellWithError( _row, CellWithError.NUM );
 					break;

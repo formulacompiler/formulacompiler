@@ -481,7 +481,7 @@ sheets:
     - const: 4.0
     - null
     - null
-    - err: #ERR:23
+    - err: #REF!
   - cells:
   - cells:
     - const: 0.0
@@ -688,7 +688,7 @@ sheets:
     - const: 1.0
     - null
     - null
-    - err: #ERR:23
+    - err: #REF!
   - cells:
   - cells:
     - const: "one"
@@ -1026,7 +1026,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - err: #ERR:23
+    - err: #REF!
   - cells:
   - cells:
     - const: 22.0
@@ -1123,7 +1123,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - err: #ERR:23
+    - err: #REF!
   - cells:
   - cells:
     - const: 11.0
