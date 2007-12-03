@@ -1,0 +1,166 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "This works:"
+  - cells:
+  - cells:
+    - const: "Parallel vertical sections"
+    - const: 1.0
+    - const: 0.1
+  - cells:
+    - null
+    - const: 2.0
+    - const: 0.2
+    - const: 1.0
+    - const: 0.1
+  - cells:
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: 0.2
+  - cells:
+  - cells:
+    - const: "Parallel horizontal sections"
+    - const: 1.0
+    - const: 2.0
+  - cells:
+    - null
+    - const: 0.1
+    - const: 0.2
+  - cells:
+    - null
+    - null
+    - const: 1.0
+    - const: 2.0
+  - cells:
+    - null
+    - null
+    - const: 0.1
+    - const: 0.2
+  - cells:
+  - cells:
+    - const: "Nested vertical sections"
+    - const: 1.0
+    - const: 1.1
+  - cells:
+    - null
+    - null
+    - const: 1.2
+  - cells:
+    - null
+    - const: 2.0
+    - const: 2.1
+  - cells:
+  - cells:
+    - const: "Nested horizontal sections"
+    - const: 1.0
+    - null
+    - const: 2.0
+  - cells:
+    - null
+    - const: 1.1
+    - const: 1.2
+    - const: 2.1
+  - cells:
+  - cells:
+    - const: "Parallel mixed sections V/H"
+    - const: 1.0
+    - const: 0.1
+  - cells:
+    - null
+    - const: 2.0
+    - const: 0.2
+    - const: 1.0
+    - const: 2.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 0.1
+    - const: 0.2
+  - cells:
+  - cells:
+    - const: "Parallel mixed sections H/V"
+    - const: 1.0
+    - const: 2.0
+  - cells:
+    - null
+    - const: 0.1
+    - const: 0.2
+    - const: 1.0
+    - const: 0.1
+  - cells:
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: 0.2
+  - cells:
+  - cells:
+    - const: "Parallel mixed sections H/V"
+    - const: 1.0
+    - const: 2.0
+  - cells:
+    - null
+    - const: 0.1
+    - const: 0.2
+  - cells:
+    - null
+    - null
+    - const: 1.0
+    - const: 0.1
+  - cells:
+    - null
+    - null
+    - const: 2.0
+    - const: 0.2
+  - cells:
+  - cells:
+    - const: "Parallel mixed sections V/H"
+    - const: 1.0
+    - const: 0.1
+  - cells:
+    - null
+    - const: 2.0
+    - const: 0.2
+  - cells:
+    - null
+    - null
+    - const: 1.0
+    - const: 2.0
+  - cells:
+    - null
+    - null
+    - const: 0.1
+    - const: 0.2
+  - cells:
+  - cells:
+    - const: "These are errors:"
+  - cells:
+  - cells:
+    - const: "Nested non-contained sections"
+    - const: "TODO"
+  - cells:
+    - const: "Parallel overlapping sections"
+    - const: "TODO"
+
+names:
+- name: A_ONE
+  ref: R3C2:R4C3
+- name: A_TWO
+  ref: R4C4:R5C5
+- name: B_ONE
+  ref: R7C2:R8C3
+- name: B_TWO
+  ref: R9C3:R10C4
+- name: C_ONE
+  ref: R12C2:R14C3
+- name: C_TWO
+  ref: R12C3:R13C3

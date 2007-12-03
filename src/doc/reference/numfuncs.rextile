@@ -1,0 +1,13 @@
+
+h1. Numeric Functions In AFC
+
+
+<%= toc 2, 5 %>
+
+h3. Numeric Functions
+
+The supported numeric functions are shown by example below:
+
+<%= gen_doc "NumericFunctions" %>
+
+

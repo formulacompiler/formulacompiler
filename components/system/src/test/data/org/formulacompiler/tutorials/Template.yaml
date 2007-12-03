@@ -1,0 +1,42 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "Input Values"
+      name: CAPTION
+  - cells:
+    - const: "InputValue"
+      name: LABEL
+    - const: 123.45
+      name: INPUTVALUE
+  - cells:
+    - const: "DateInputValue"
+    - const: 25569.0
+      name: DATEINPUTVALUE
+  - cells:
+    - const: "PercentInputValue"
+    - const: 0.25
+      name: PERCENTINPUTVALUE
+  - cells:
+    - const: "Output Values"
+  - cells:
+    - const: "OutputValue"
+    - const: 123.45
+      name: OUTPUTVALUE
+  - cells:
+    - const: "PercentOutputValue"
+    - const: 0.3
+      name: PERCENTOUTPUTVALUE
+  - cells:
+    - const: "Intermediate Values"
+  - cells:
+    - const: "IntermediateValue"
+    - const: 123.45
+      name: INTERMEDIATEVALUE
+
+names:

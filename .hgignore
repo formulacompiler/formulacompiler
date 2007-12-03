@@ -1,0 +1,10 @@
+syntax: regexp
+
+^(build|temp)/.*
+^components/[a-z\.]*/(build|temp)/.*
+^doc/.*
+^tools/.*
+^build\.properties
+^afc\.iws$
+^components/system/src/test-reference/java-debug/org/formulacompiler/tests/reference/[^/]*\.java$
+

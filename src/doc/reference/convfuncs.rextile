@@ -1,0 +1,13 @@
+
+h1. Conversion Functions In AFC
+
+
+<%= toc 2, 5 %>
+
+h3. Conversion Functions
+
+The supported conversion functions are shown by example below:
+
+<%= gen_doc "ConversionFunctions_en_US" %>
+<%= gen_doc "ConversionFunctions" %>
+

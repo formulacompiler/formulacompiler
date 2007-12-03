@@ -1,0 +1,176 @@
+
+h1. Adding A New Primitive Spreadsheet Function To AFC
+
+As a simple, but probably typical example, we will look at how I added @ABS()@ to the list of supported spreadsheet functions. So for the rest of this page, we will assume @ABS()@ has not been implemented yet.
+
+<%= toc 2, 4 %>
+
+
+h2. _Rule 1_: <br/>Document first
+
+Documentation, well, documents, but it also "focuses our thinking":-tdd. This is why we start with it - and, of course, so we don't forget it. For larger, novel features, it can be "quite elaborate":../tutorial/generatesheet.htm. In our case, we may safely assume that people know why we would want @ABS()@ to be supported, and that they will consult the Excel help file for information on it.
+
+h4. Release Notes
+
+Nevertheless, we still need to document that @ABS()@ is, in fact, supported. First, we announce the improvement in the release notes in @src/doc/releasenotes.rextile@. Just look at the file and you'll see how (as per the house rule _mimick existing code_).
+
+h4. Rextile
+
+AFC's documentation is written in "Textile":-tex, a very concise and text editor-friendly format for writing XHTML. To convert the Textile sources to XHTML, we use "Rextile":-rex -- a "Ruby":-rb based tool. You will need to "install it":tools.htm. Once it's installed, you can simply run "ant doc":build.htm to regenerate the documentation in @doc/@ from the sources in @src/doc/@. (It is quicker to run @ant -q doc-main-update@ if you just want see the updated release notes, and can live with some warnings and missing citations.)
+
+
+h2. _Rule 2_: <br/>Cite tests
+
+So far, we simply said: <em>@ABS()@ is supported</em>. How do we know it is? How does the reader know? This is where test-driven development gets into the picture - with a twist. We prove what we say directly to our reader. The proof becomes an integral part of the documentation (which is, after all, _what we are saying_). So, to integrate the proof, we always give examples which are "_cited_ from automated tests":-citing.
+
+
+h2. Automated Formula Tests
+
+AFC's existing testing and citing infrastructure makes this easy, especially for adding a new spreadsheet function. The spreadsheet files in
+
+	[path:org/formulacompiler/tests/reference]
+	
+contain formula tests. So, to prove we implemented @ABS()@, all we still need to do is add test cases to one of the test sheets.
+
+For @ABS()@, we extend the sheet called @NumericFunctions.xls@. By _citing_ it, I can show it right here (only the relevant subset is shown):
+
+	[xc:org/formulacompiler/tests/reference/NumericFunctions.xls:HeaderRange,ABSRange]
+
+And here is "the documentation produced from it":../reference/numfuncs.htm. Note also how the list of supported functions in the "reference index":-ref automatically includes @ABS@.
+
+See here for "details on exactly what the columns of this sheet mean":-reftest.
+
+
+h2. _Rule 3_: <br/>Mimick existing code
+
+This rule is the _monkey see, monkey do_ rule from the book on "contributing to Eclipse":-ecrules. It means we look for an already implemented function closely matching @ABS()@, and then mimick its implementation and "code style":style.htm (aka copy/paste). We will mimick @ROUND()@ for @ABS()@. In fact, we already did. When documenting @ABS()@ in the list of supported functions, remember? This rule basically states something we would do anyway.
+
+So, to add the test cases for @ABS()@, I already copied lines from @ROUND()@ and adjusted them. You can see them in the sheet above. (Copying the lines made sure that the conditional formatting for input values was copied too.)
+
+
+h2. _Rule 4_: <br/>Implement only what the tests require
+
+This is test-driven development. We implement @ABS()@ by just adding missing code until the tests run. The first step is, then, to run the tests just added (which will fail, of course). Every formula test sheet corresponds to a test class in
+
+	[path:system/src/test-reference/java/org/formulacompiler/tests/reference]
+	
+For the sheet @NumericFunctions.xls@, we need to run the test class @NumericFunctionsTest@. Doing this now (@ant -q test-ref@) returns something like:
+
+	org.formulacompiler.spreadsheet.SpreadsheetException$UnsupportedExpression:
+	Unsupported function ABS encountered in expression ABS( <<? C2); error location indicated by <<?.
+	Cell containing expression is B2.
+		at org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression.getExpression(CellWithLazilyParsedExpression.java:71)
+	...
+
+Running these tests can take quite a while. See here for "how to speed this up":-dbgtest.
+
+
+h2. Extending The Parser
+
+_Unsupported function encountered_ means AFC's Excel formula parser cannot parse something. So we must make it support @ABS()@ as our first implementation step. The parser is generated from a special parser description language using "JavaCC":-javacc. Its input file is
+
+	[path:ExpressionParser.jj]
+
+@ROUND@ looks like this there:
+
+	[text:ExpressionParser.jj:// citation: round]
+
+So we simply add the following line (we keep the list sorted alphabetically and @ABS@ comes first, so it starts with @{@ instead of @|@):
+
+	[text:ExpressionParser.jj:// citation: abs]
+
+Look through the list there to see the different standard options for defining the argument syntax. In particular, @fun1()@ is a unary function, @fun2()@ a binary function, etc. For details on how JavaCC works, please refer to its "grammar documentation":https://javacc.dev.java.net/doc/javaccgrm.html.
+
+We run @ant -q build@ to regenerate the parser. Now, the Java symbol @org.formulacompiler.compiler.Function.ABS@ is undefined. Extending this enumeration is straightforward. We do it, and the code compiles again.
+
+
+h2. Implementing The Function
+
+Running the test again, we get:
+
+	org.formulacompiler.compiler.CompilerException$UnsupportedExpression:
+	Function ABS is not supported for double engines.
+	In expression  >> ABS( C2 ) << ; error location indicated by >>..<<.
+	Cell containing expression is B2.
+	Referenced by cell B2.
+		at ...
+
+This is from the heart of AFC, the byte code compiler. To implement @ABS()@, let's look at how @ROUND()@ is implemented. This is where I have to introduce you to one of the niftier parts of AFC: the JVM(Java Virtual Machine) byte-code decompiler.
+
+h4. Template Methods
+
+AFC is, like @javac@, a byte-code compiler for the JVM(Java Virtual Machine). But, luckily, you don't have to know the "JVM byte code instruction set":-jvminsns to add primitive functions like @ABS()@ to AFC. Instead, you write simple _template methods_ in plain Java, like this:
+
+	[jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForDoubles:---- fun_ROUND]
+
+Any method you put into the class
+
+	[path:org/formulacompiler/compiler/internal/templates/ExpressionTemplatesForDoubles.java]
+
+that is called @fun_XY@ is automatically decompiled by AFC's build process to generate a byte-code compiler for expression nodes of the kind @new ExpressionNodeForFunction( Function.XY )@.
+
+h4. Expression Rewriting
+
+There is another approach for functions that can be rewritten to expressions involving only other, more primitive expression functions. This is shown in the topic on "adding high-level functions":-prim.
+
+h4. Runtime Support
+
+As you can see, @ROUND()@ is not implemented directly, but mapped to a runtime support function. The runtime is subclassed for each supported "numeric type":-types. It is also versioned so AFC can easily provide backwards compatibility with older compiled engines. Here is the implementation from @org.formulacompiler.runtime.internal.RuntimeDouble_v2@:
+
+	[jc:org.formulacompiler.runtime.internal.RuntimeDouble_v2:---- round]
+
+h4. Numeric Types
+
+This would be very easy to do for @ABS()@ too. But @ABS()@ is really so basic, we will implement it directly instead:
+
+	[jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForDoubles:---- fun_ABS]
+
+This covers @double@. We also need to handle @BigDecimal@ and scaled @long@. This is done in the template class @...templates.ExpressionTemplatesForScaledLongs@:
+
+	[jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForScaledLongs:---- fun_ABS]
+	
+and in @...templates.AbstractExpressionTemplatesForBigDecimals@:
+
+	[jc:org.formulacompiler.compiler.internal.templates.AbstractExpressionTemplatesForBigDecimals:---- fun_ABS]
+
+The latter is OK if you don't need to take the @MathContext@ or scaling into account. If you do, as does the @+@ operator, then you have to use @...templates.ExpressionTemplatesForPrecisionBigDecimals@:
+
+	[jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForPrecisionBigDecimals:---- op_PLUS]
+
+and @...templates.ExpressionTemplatesForScaledBigDecimals@:
+
+	[jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForScaledBigDecimals:---- op_PLUS]
+
+The annotation @ReturnsAdjustedValue@ means that the method result already has the proper scale. If you omit it, AFC will generate rescaling code after your method body.
+
+Once all this is done, run "@ant -q build@":build.htm to rebuild the compiler code from the template methods.
+
+dt. Note : With "Eclipse":-ec, it is crucial to use @ant -q build@ to update the compiler code rather than running @org.formulacompiler.compiler.internal.build.bytecode.PatternCompiler@ directly from within the IDE. This is because Eclipse's compiler produces different byte-code sequences for the pattern methods than @javac@ as invoked by AFC's "build script":build.htm. While Eclipse's version is also correct, it breaks the binary comparisons of generated engines with reference versions in some of the unit tests for AFC (see @org.formulacompiler.tests.utils.AbstractTestBase.checkEngine()@.
+
+
+h2. Strings
+
+To implement functions working on strings, we need to differentiate two cases.
+
+h4. Arguments
+
+String arguments are straightforward: 
+
+	[jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForDoubles:---- fun_VALUE]
+
+h4. Returns
+
+String return values are different. Firstly, you need to implement them in @org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForStrings@ (rather than the numeric templates). Note how you can access numeric arguments as @int@. AFC will handle the conversion for you automatically:
+
+	[jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForStrings:---- fun_MID]
+
+Secondly, you have to teach AFC's type annotator that the function is String-valued. You do this in @org.formulacompiler.compiler.internal.model.analysis.TypeAnnotator@: 
+
+	[jc:org.formulacompiler.compiler.internal.model.analysis.TypeAnnotator:---- typeOfFun]
+
+
+h2. Conclusion
+
+That's it. All the tests run green. Running "@ant -q doc@":build.htm updates the documentation and -- lo and behold -- @ABS()@ is now included and fully documented.
+
+Now read on to see that other approach using expression rewriting: "adding high-level functions":-high.

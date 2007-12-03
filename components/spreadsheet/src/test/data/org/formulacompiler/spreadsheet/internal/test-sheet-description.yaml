@@ -1,0 +1,49 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - expr: =SUM( R[1]C[3]:R[4]C[3] )
+      value: 13.5
+      name: RESULT
+    - const: 0.5
+  - cells:
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - expr: =(SUM( RC[-3]:RC[-1] ) * R1C[-2])
+  - cells:
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - expr: =(SUM( RC[-3]:RC[-1] ) * R1C[-2])
+  - cells:
+    - const: 7.0
+    - const: 8.0
+    - const: 9.0
+    - expr: =(SUM( RC[-3]:RC[-1] ) * R1C[-2])
+  - cells:
+    - const: 10.0
+    - const: 11.0
+    - const: 12.0
+    - expr: =(SUM( RC[-3]:RC[-1] ) * R1C[-2])
+  - cells:
+  - cells:
+    - expr: =null
+    - const: null
+    - const: Date( 9371594000 )
+
+- name: Sheet2
+  rows:
+  - cells:
+    - const: 2.0
+    - expr: =SUM( RESULT, 'Sheet1'!R[6]C[1], RC[-1] )
+    - expr: ='Sheet1'!R[6]C
+
+names:
+- name: RANGE
+  ref: R7C1:R7C2

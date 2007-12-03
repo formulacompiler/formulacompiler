@@ -1,0 +1,137 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+  - cells:
+    - const: "Test table"
+    - const: "Tree"
+    - const: "Height"
+    - const: "Yield"
+    - const: "Profit"
+  - cells:
+    - null
+    - const: "Apple"
+    - const: 18.0
+    - const: 14.0
+    - const: 105.0
+  - cells:
+    - null
+    - const: "Pear"
+    - const: 12.0
+    - const: 10.0
+    - const: 96.0
+  - cells:
+    - null
+    - const: "Cherry"
+    - const: 13.0
+    - const: 9.0
+    - const: 105.0
+  - cells:
+    - null
+    - const: "Apple"
+    - const: 14.0
+    - const: 10.0
+    - const: 75.0
+  - cells:
+    - null
+    - const: "Pear"
+    - const: 9.0
+    - const: 8.0
+    - const: 76.8
+  - cells:
+    - null
+    - const: "Apple"
+    - const: 8.0
+    - const: 6.0
+    - const: 45.0
+  - cells:
+  - cells:
+    - const: "Criteria sets"
+    - const: "Tree"
+    - const: "Height"
+    - const: "Height"
+    - const: "Tree"
+    - const: "Height"
+  - cells:
+    - null
+    - const: "Apple"
+    - const: ">10,0"
+    - const: "<16"
+    - const: "Nonexistent"
+    - const: "<1,4e6"
+  - cells:
+    - null
+    - const: "Pear"
+    - null
+    - const: "<1.000"
+  - cells:
+  - cells:
+  - cells:
+    - const: "Tests"
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Column"
+    - const: "Table"
+    - const: "Criteria"
+    - const: "Name"
+    - const: "Highlight"
+  - cells:
+  - cells:
+    - null
+    - const: 247.8
+    - expr: =DSUM( R[-15]C[-1]:R[-9]C[2], "Profit", R[-7]C[-1]:R[-5]C[1] )
+    - null
+    - null
+    - null
+    - const: "DSUM"
+    - const: "DSUM"
+  - cells:
+    - null
+    - const: 0.0
+    - expr: =DSUM( R[-16]C[-1]:R[-10]C[2], "Profit", R[-8]C[2]:R[-7]C[2] )
+  - cells:
+    - null
+    - const: 247.8
+    - expr: =DSUM( R[-17]C[-1]:R[-11]C[2], RC[1], R[-9]C[-1]:R[-7]C[1] )
+    - const: 4.0
+    - const: "Data1"
+    - const: "Vals1"
+  - cells:
+    - null
+    - const: 28.0
+    - expr: =DSUM( R[-18]C[-1]:R[-12]C[2], "Yield", R[-10]C[-1]:R[-8]C[1] )
+  - cells:
+    - null
+    - const: 30.0
+    - expr: =DSUM( R[-19]C[-1]:R[-13]C[2], "Yield", R[-11]C[-1]:R[-10]C[-1] )
+  - cells:
+    - null
+    - const: 29.0
+    - expr: =DSUM( R[-20]C[-1]:R[-14]C[2], "Yield", R[-12]C:R[-11]C[1] )
+  - cells:
+    - null
+    - const: 10.0
+    - expr: =DSUM( R[-21]C[-1]:R[-15]C[2], "Yield", R[-13]C[-1]:R[-12]C[1] )
+  - cells:
+    - null
+    - const: 48.0
+    - expr: =DSUM( R[-22]C[-1]:R[-16]C[2], "Yield", R[-14]C[-1]:R[-12]C[-1] )
+  - cells:
+    - null
+    - const: 57.0
+    - expr: =DSUM( R[-23]C[-1]:R[-17]C[2], "Yield", R[-15]C[3]:R[-14]C[3] )
+
+names:
+- name: BASEDATA
+  ref: R2C1:R13C7
+- name: DATA1
+  ref: R3C2:R4C5
+- name: TESTHEADER
+  ref: R15C2:R15C8
+- name: VALS1
+  ref: R11C2:R12C2

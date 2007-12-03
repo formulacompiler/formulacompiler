@@ -1,0 +1,122 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "Inputs"
+      name: BIGDEC
+    - const: "test"
+    - const: "expected"
+  - cells:
+  - cells:
+    - const: "byte"
+    - const: 1.0
+      name: BYTE
+    - const: 123.0
+  - cells:
+    - const: "short"
+    - const: 2.0
+      name: SHORT
+    - const: 1234.0
+  - cells:
+    - const: "int"
+    - const: 3.0
+      name: INT
+    - const: 12345.0
+  - cells:
+    - const: "long"
+    - const: 4.0
+      name: LONG
+    - const: 123456.0
+  - cells:
+    - const: "double"
+    - const: 5.0
+      name: DOUBLE
+    - const: 123.45
+  - cells:
+    - const: "float"
+    - const: 6.0
+      name: FLOAT
+    - const: 123.456
+  - cells:
+    - const: "char"
+    - const: 7.0
+      name: CHAR
+    - const: 97.0
+  - cells:
+    - const: "bool"
+    - const: false
+      name: BOOL
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: "bbyte"
+    - const: 10.0
+      name: BBYTE
+    - const: 123.0
+  - cells:
+    - const: "bshort"
+    - const: 11.0
+      name: BSHORT
+    - const: 1234.0
+  - cells:
+    - const: "bint"
+    - const: 12.0
+      name: BINT
+    - const: 12345.0
+  - cells:
+    - const: "blong"
+    - const: 13.0
+      name: BLONG
+    - const: 123456.0
+  - cells:
+    - const: "bdouble"
+    - const: 14.0
+      name: BDOUBLE
+    - const: 123.45
+  - cells:
+    - const: "bfloat"
+    - const: 15.0
+      name: BFLOAT
+    - const: 123.456
+  - cells:
+    - const: "bchar"
+    - const: 16.0
+      name: BCHAR
+    - const: 97.0
+  - cells:
+    - const: "bbool"
+    - const: true
+      name: BBOOL
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: "string"
+    - const: 123.0
+      name: STRING
+    - const: 123.4567
+  - cells:
+    - const: "enum"
+    - const: 1.0
+    - const: 2.0
+  - cells:
+  - cells:
+    - const: "comb"
+    - const: 22.0
+      name: COMB
+    - expr: =(12.0 + 24.0)
+  - cells:
+  - cells:
+    - const: "Outputs"
+  - cells:
+  - cells:
+    - const: "result"
+    - expr: =SUM( BYTE:COMB )
+      name: RESULT
+    - expr: =SUM( R[-25]C:R[-4]C )
+
+names:
