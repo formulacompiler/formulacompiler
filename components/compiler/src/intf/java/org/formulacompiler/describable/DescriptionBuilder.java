@@ -27,7 +27,7 @@ import java.util.Date;
 /**
  * A specialized string builder that supports multiple lines with proper indentation. Geared towards
  * emitting <a href="http://yaml.org/">YAML</a>.
- * 
+ *
  * @author peo
  */
 public class DescriptionBuilder implements Appendable
@@ -292,15 +292,19 @@ public class DescriptionBuilder implements Appendable
 		return this;
 	}
 
-
-	public final DescriptionBuilder v( Object _value ) throws IOException
+	public final DescriptionBuilder v( Object _value, boolean quoteStrings ) throws IOException
 	{
 		if (null == _value) return appendNull();
 		if (_value instanceof Describable) return v( (Describable) _value );
-		if (_value instanceof String) return v( (String) _value );
+		if (_value instanceof String) return quoteStrings ? qv( (String) _value ) : v( (String) _value );
 		if (_value instanceof Date) return v( (Date) _value );
 		if (_value instanceof Double) return v( ((Double) _value).doubleValue() );
 		return append( _value );
+	}
+
+	public final DescriptionBuilder v( Object _value ) throws IOException
+	{
+		return v( _value, false );
 	}
 
 	public final DescriptionBuilder v( Describable _value ) throws IOException
@@ -311,6 +315,48 @@ public class DescriptionBuilder implements Appendable
 	public final DescriptionBuilder v( String _value )
 	{
 		return append( _value );
+	}
+
+	/**
+	 * Appends a quoted string to a given buffer.
+	 *
+	 * @param s the string to be added.
+	 * @return this decription builder.
+	 */
+	public final DescriptionBuilder qv( final String s )
+	{
+		append( "\"" );
+		for (int i = 0; i < s.length(); ++i) {
+			char c = s.charAt( i );
+			if (c == '\n') {
+				append( "\\n" );
+			}
+			else if (c == '\r') {
+				append( "\\r" );
+			}
+			else if (c == '\\') {
+				append( "\\\\" );
+			}
+			else if (c == '"') {
+				append( "\\\"" );
+			}
+			else if (c < 0x20) {
+				append( "\\u" );
+				if (c < 0x10) {
+					append( "000" );
+				}
+				else {
+					append( "00" );
+				}
+				append( Integer.toHexString( c ) );
+			}
+			else {
+				append( c );
+			}
+		}
+		append( "\"" );
+
+		return this;
 	}
 
 	public final DescriptionBuilder v( Date _value )

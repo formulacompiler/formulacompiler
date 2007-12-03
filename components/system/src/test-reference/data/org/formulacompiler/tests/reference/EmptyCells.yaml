@@ -7,19 +7,19 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Expected
-    - const: Actual
-    - const: Inputs
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Inputs"
     - null
     - null
     - null
     - null
     - null
     - null
-    - const: # of Inputs
-    - const: Name
-    - const: Highlight
-    - const: Excel says
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
   - cells:
     - const: 5.0
     - expr: =(RC[1] + RC[2])
@@ -31,8 +31,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Empty cells with +
-    - const: +
+    - const: "Empty cells with +"
+    - const: "+"
   - cells:
     - const: 5.0
     - expr: =(RC[1] + RC[2])
@@ -67,8 +67,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Empty cells with *
-    - const: *
+    - const: "Empty cells with *"
+    - const: "*"
   - cells:
     - const: 0.0
     - expr: =(RC[1] * RC[2])
@@ -103,8 +103,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Empty cells with PRODUCT return 0!
-    - const: PRODUCT
+    - const: "Empty cells with PRODUCT return 0!"
+    - const: "PRODUCT"
   - cells:
     - const: 0.0
     - expr: =PRODUCT( RC[1], RC[2] )

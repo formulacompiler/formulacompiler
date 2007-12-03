@@ -7,21 +7,21 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Expected
+    - const: "Expected"
       name: COMBINLARGE
-    - const: Actual
-    - const: Inputs
+    - const: "Actual"
+    - const: "Inputs"
     - null
     - null
     - null
     - null
     - null
     - null
-    - const: # of Inputs
-    - const: Name
-    - const: Highlight
-    - const: Excel says
-    - const: Skip for
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
+    - const: "Skip for"
   - cells:
     - const: 1.0
     - expr: =ABS( RC[1] )
@@ -33,8 +33,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ABS
-    - const: ABS
+    - const: "ABS"
+    - const: "ABS"
   - cells:
     - const: 0.0
     - expr: =ABS( RC[1] )
@@ -123,7 +123,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 3.141592653589793
@@ -136,8 +136,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ACOS
-    - const: ACOS
+    - const: "ACOS"
+    - const: "ACOS"
   - cells:
     - const: 3.127450400112281
     - expr: =ACOS( RC[1] )
@@ -215,7 +215,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
     - const: 0.0
     - expr: =ACOS( RC[1] )
@@ -228,7 +228,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: !NUM:NaN/FE
+    - const: "!NUM:NaN/FE"
     - expr: =ACOS( RC[1] )
     - const: -1.0001
     - null
@@ -242,7 +242,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:NaN/FE
+    - const: "!NUM:NaN/FE"
     - expr: =ACOS( RC[1] )
     - const: 1.0001
     - null
@@ -267,8 +267,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ACOSH
-    - const: ACOSH
+    - const: "ACOSH"
+    - const: "ACOSH"
   - cells:
     - const: 1.3169578969248166
     - expr: =ACOSH( RC[1] )
@@ -380,7 +380,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: !NUM:NaN/FE
+    - const: "!NUM:NaN/FE"
     - expr: =ACOSH( RC[1] )
     - const: 0.98
     - null
@@ -394,7 +394,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:NaN/FE
+    - const: "!NUM:NaN/FE"
     - expr: =ACOSH( RC[1] )
     - const: -1.0
     - null
@@ -404,7 +404,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -419,8 +419,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ASIN
-    - const: ASIN
+    - const: "ASIN"
+    - const: "ASIN"
   - cells:
     - const: -1.5566540733173846
     - expr: =ASIN( RC[1] )
@@ -510,7 +510,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: !NUM:NaN/FE
+    - const: "!NUM:NaN/FE"
     - expr: =ASIN( RC[1] )
     - const: -1.0001
     - null
@@ -524,7 +524,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:NaN/FE
+    - const: "!NUM:NaN/FE"
     - expr: =ASIN( RC[1] )
     - const: 1.0001
     - null
@@ -534,7 +534,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -549,8 +549,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ASINH
-    - const: ASINH
+    - const: "ASINH"
+    - const: "ASINH"
   - cells:
     - const: 0.48121182505960347
     - expr: =ASINH( RC[1] )
@@ -661,7 +661,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: -1.5707963257948967
@@ -674,8 +674,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ATAN
-    - const: ATAN
+    - const: "ATAN"
+    - const: "ATAN"
   - cells:
     - const: -1.5697963271282298
     - expr: =ATAN( RC[1] )
@@ -786,7 +786,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.0
@@ -799,8 +799,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ATANH
-    - const: ATANH
+    - const: "ATANH"
+    - const: "ATANH"
   - cells:
     - const: 0.10033534773107562
     - expr: =ATANH( RC[1] )
@@ -868,7 +868,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: !NUM:+Inf/FE
+    - const: "!NUM:+Inf/FE"
     - expr: =ATANH( RC[1] )
     - const: 1.0
     - null
@@ -882,7 +882,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:-Inf/FE
+    - const: "!NUM:-Inf/FE"
     - expr: =ATANH( RC[1] )
     - const: -1.0
     - null
@@ -896,7 +896,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:NaN/FE
+    - const: "!NUM:NaN/FE"
     - expr: =ATANH( RC[1] )
     - const: 2.0
     - null
@@ -910,7 +910,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:NaN/FE
+    - const: "!NUM:NaN/FE"
     - expr: =ATANH( RC[1] )
     - const: 1000.0
     - null
@@ -920,7 +920,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -935,8 +935,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ATAN2
-    - const: ATAN2
+    - const: "ATAN2"
+    - const: "ATAN2"
   - cells:
     - const: -0.7853981633974483
     - expr: =ATAN2( RC[1], RC[2] )
@@ -1050,7 +1050,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -1063,8 +1063,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: GEOMEAN
-    - const: GEOMEAN
+    - const: "GEOMEAN"
+    - const: "GEOMEAN"
   - cells:
     - const: 3.0
     - expr: =GEOMEAN( RC[1], RC[2] )
@@ -1110,7 +1110,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =GEOMEAN( RC[1], RC[2] )
     - const: 0.0
     - const: 1.0
@@ -1124,7 +1124,7 @@ sheets:
     - null
     - expr: =GEOMEAN( RC[1], RC[2] )
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =GEOMEAN( RC[1], RC[2] )
     - const: 1.0
     - const: -1.0
@@ -1138,7 +1138,7 @@ sheets:
     - null
     - expr: =GEOMEAN( RC[1], RC[2] )
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =GEOMEAN( RC[1], RC[2] )
     - const: -2.0
     - const: -3.0
@@ -1148,7 +1148,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
     - null
     - expr: =GEOMEAN( RC[1], RC[2] )
   - cells:
@@ -1185,7 +1185,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: …
+    - const: "…"
   - cells:
   - cells:
     - const: 4.0
@@ -1198,8 +1198,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: HARMEAN
-    - const: HARMEAN
+    - const: "HARMEAN"
+    - const: "HARMEAN"
   - cells:
     - const: 1.0
     - expr: =HARMEAN( RC[1], RC[2] )
@@ -1245,7 +1245,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =HARMEAN( RC[1], RC[2] )
     - const: 0.0
     - const: 1.0
@@ -1259,7 +1259,7 @@ sheets:
     - null
     - expr: =GEOMEAN( RC[1], RC[2] )
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =HARMEAN( RC[1], RC[2] )
     - const: 1.0
     - const: -1.0
@@ -1273,7 +1273,7 @@ sheets:
     - null
     - expr: =GEOMEAN( RC[1], RC[2] )
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =HARMEAN( RC[1], RC[2] )
     - const: 0.0
     - const: -1.0
@@ -1283,7 +1283,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
     - null
     - expr: =GEOMEAN( RC[1], RC[2] )
   - cells:
@@ -1320,7 +1320,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: …
+    - const: "…"
   - cells:
   - cells:
     - const: 2.0
@@ -1333,8 +1333,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: PERMUT
-    - const: PERMUT
+    - const: "PERMUT"
+    - const: "PERMUT"
   - cells:
     - const: 6.0
     - expr: =PERMUT( RC[1], RC[2] )
@@ -1380,7 +1380,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =PERMUT( RC[1], RC[2] )
     - const: 0.0
     - const: 1.0
@@ -1405,7 +1405,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =PERMUT( RC[1], RC[2] )
     - const: 1.0
     - const: -1.0
@@ -1419,7 +1419,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =PERMUT( RC[1], RC[2] )
     - const: -1.0
     - const: 1.0
@@ -1433,7 +1433,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =PERMUT( RC[1], RC[2] )
     - const: 0.0
     - const: -1.0
@@ -1443,7 +1443,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -1458,8 +1458,8 @@ sheets:
     - null
     - null
     - const: 0.0
-    - const: RAND
-    - const: RAND
+    - const: "RAND"
+    - const: "RAND"
   - cells:
     - const: true
     - expr: =(RAND() < 1.0)
@@ -1474,7 +1474,7 @@ sheets:
     - null
     - null
     - null
-    - const: double, BigDecimal, long
+    - const: "double, BigDecimal, long"
   - cells:
     - const: true
     - expr: =(RAND() > 0.0)
@@ -1541,7 +1541,7 @@ sheets:
     - null
     - null
     - const: 0.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.9367521275331392
@@ -1554,8 +1554,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: COS
-    - const: COS
+    - const: "COS"
+    - const: "COS"
   - cells:
     - const: -0.9999999999730151
     - expr: =COS( RC[1] )
@@ -1666,7 +1666,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -1679,8 +1679,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: COSH
-    - const: COSH
+    - const: "COSH"
+    - const: "COSH"
   - cells:
     - const: 1.5430806348152437
     - expr: =COSH( RC[1] )
@@ -1747,7 +1747,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.0
@@ -1760,8 +1760,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: SIGN
-    - const: SIGN
+    - const: "SIGN"
+    - const: "SIGN"
   - cells:
     - const: 1.0
     - expr: =SIGN( RC[1] )
@@ -1828,7 +1828,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.3499935021713079
@@ -1841,8 +1841,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: SIN
-    - const: SIN
+    - const: "SIN"
+    - const: "SIN"
   - cells:
     - const: 7.346410206643537E-6
     - expr: =SIN( RC[1] )
@@ -1953,7 +1953,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.0
@@ -1966,8 +1966,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: SINH
-    - const: SINH
+    - const: "SINH"
+    - const: "SINH"
   - cells:
     - const: 1.1752011936438014
     - expr: =SINH( RC[1] )
@@ -2068,7 +2068,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: (sinh 710)
+    - const: "(sinh 710)"
     - expr: =SINH( RC[1] )
     - const: 710.0
     - null
@@ -2078,7 +2078,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -2093,8 +2093,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: TAN
-    - const: TAN
+    - const: "TAN"
+    - const: "TAN"
   - cells:
     - const: -7.346410206841779E-6
     - expr: =TAN( RC[1] )
@@ -2205,7 +2205,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.0
@@ -2218,8 +2218,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: TANH
-    - const: TANH
+    - const: "TANH"
+    - const: "TANH"
   - cells:
     - const: 0.7615941559557649
     - expr: =TANH( RC[1] )
@@ -2330,7 +2330,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: -5.7295779513082325E7
@@ -2343,8 +2343,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: DEGREES
-    - const: DEGREES
+    - const: "DEGREES"
+    - const: "DEGREES"
   - cells:
     - const: -180.00042091829943
     - expr: =DEGREES( RC[1] )
@@ -2455,7 +2455,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: -17453.292519943294
@@ -2468,8 +2468,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: RADIANS
-    - const: RADIANS
+    - const: "RADIANS"
+    - const: "RADIANS"
   - cells:
     - const: -6.283185307179586
     - expr: =RADIANS( RC[1] )
@@ -2580,7 +2580,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 3.141592653589793
@@ -2593,8 +2593,8 @@ sheets:
     - null
     - null
     - const: 0.0
-    - const: PI
-    - const: PI
+    - const: "PI"
+    - const: "PI"
   - cells:
   - cells:
     - const: 0.0
@@ -2607,8 +2607,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: CEILING
-    - const: CEILING
+    - const: "CEILING"
+    - const: "CEILING"
   - cells:
     - const: 0.03
     - expr: =CEILING( RC[1], RC[2] )
@@ -2687,7 +2687,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CEILING( RC[1], RC[2] )
     - const: 0.03001
     - const: -0.03
@@ -2712,8 +2712,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: FLOOR
-    - const: FLOOR
+    - const: "FLOOR"
+    - const: "FLOOR"
   - cells:
     - const: 0.0
     - expr: =FLOOR( RC[1], RC[2] )
@@ -2792,7 +2792,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =FLOOR( RC[1], RC[2] )
     - const: 0.03001
     - const: -0.03
@@ -2817,8 +2817,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ROUND
-    - const: ROUND
+    - const: "ROUND"
+    - const: "ROUND"
   - cells:
     - const: 12.01
     - expr: =ROUND( RC[1], RC[2] )
@@ -2907,7 +2907,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ROUND to left of decimal point
+    - const: "ROUND to left of decimal point"
   - cells:
     - const: 10000.0
     - expr: =ROUND( RC[1], RC[2] )
@@ -2919,7 +2919,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 3.0
@@ -2932,8 +2932,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ROUNDDOWN
-    - const: ROUNDDOWN
+    - const: "ROUNDDOWN"
+    - const: "ROUNDDOWN"
   - cells:
     - const: 120.0
     - expr: =ROUNDDOWN( RC[1], RC[2] )
@@ -3001,8 +3001,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ROUNDUP
-    - const: ROUNDUP
+    - const: "ROUNDUP"
+    - const: "ROUNDUP"
   - cells:
     - const: 130.0
     - expr: =ROUNDUP( RC[1], RC[2] )
@@ -3070,8 +3070,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: TRUNC
-    - const: TRUNC
+    - const: "TRUNC"
+    - const: "TRUNC"
   - cells:
     - const: 12.0
     - expr: =TRUNC( RC[1] )
@@ -3248,7 +3248,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: -4.0
@@ -3261,8 +3261,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: EVEN
-    - const: EVEN
+    - const: "EVEN"
+    - const: "EVEN"
   - cells:
     - const: -4.0
     - expr: =EVEN( RC[1] )
@@ -3373,7 +3373,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: -3.0
@@ -3386,8 +3386,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ODD
-    - const: ODD
+    - const: "ODD"
+    - const: "ODD"
   - cells:
     - const: -3.0
     - expr: =ODD( RC[1] )
@@ -3498,7 +3498,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: -3.0
@@ -3511,8 +3511,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: INT
-    - const: INT
+    - const: "INT"
+    - const: "INT"
   - cells:
     - const: -3.0
     - expr: =INT( RC[1] )
@@ -3623,7 +3623,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.049787068367863944
@@ -3636,8 +3636,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: EXP
-    - const: EXP
+    - const: "EXP"
+    - const: "EXP"
   - cells:
     - const: 0.0820849986238988
     - expr: =EXP( RC[1] )
@@ -3748,7 +3748,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 65536.0
@@ -3761,8 +3761,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: POWER
-    - const: POWER
+    - const: "POWER"
+    - const: "POWER"
   - cells:
     - const: -1.84528125E8
     - expr: =POWER( RC[1], RC[2] )
@@ -3851,7 +3851,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
     - const: 1.0
     - expr: =POWER( RC[1], RC[2] )
@@ -3867,7 +3867,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:NaN/FE
+    - const: "!NUM:NaN/FE"
     - expr: =POWER( RC[1], RC[2] )
     - const: -4.0
     - const: 0.5
@@ -3892,8 +3892,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: LN
-    - const: LN
+    - const: "LN"
+    - const: "LN"
   - cells:
     - const: -2.3025850929940455
     - expr: =LN( RC[1] )
@@ -3960,9 +3960,9 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
-    - const: !NUM:-Inf/FE
+    - const: "!NUM:-Inf/FE"
     - expr: =LN( RC[1] )
     - const: 0.0
     - null
@@ -3976,7 +3976,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:NaN/FE
+    - const: "!NUM:NaN/FE"
     - expr: =LN( RC[1] )
     - const: -5.0
     - null
@@ -4001,8 +4001,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: LOG
-    - const: LOG
+    - const: "LOG"
+    - const: "LOG"
   - cells:
     - const: 0.0
     - expr: =LOG( RC[1] )
@@ -4113,9 +4113,9 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
-    - const: !NUM:-Inf/FE
+    - const: "!NUM:-Inf/FE"
     - expr: =LOG( RC[1] )
     - const: 0.0
     - null
@@ -4129,7 +4129,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:NaN/FE
+    - const: "!NUM:NaN/FE"
     - expr: =LOG( RC[1] )
     - const: -2.0
     - null
@@ -4157,7 +4157,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:NaN/FE
+    - const: "!NUM:NaN/FE"
     - expr: =LOG( RC[1], RC[2] )
     - const: 10.0
     - const: -2.0
@@ -4171,7 +4171,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:-Inf/FE
+    - const: "!NUM:-Inf/FE"
     - expr: =LOG( RC[1], RC[2] )
     - const: 0.0
     - const: 10.0
@@ -4185,7 +4185,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:NaN/FE
+    - const: "!NUM:NaN/FE"
     - expr: =LOG( RC[1], RC[2] )
     - const: -2.0
     - const: 10.0
@@ -4199,7 +4199,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:+Inf/FE
+    - const: "!NUM:+Inf/FE"
     - expr: =LOG( RC[1], RC[2] )
     - const: 2.0
     - const: 1.0
@@ -4224,8 +4224,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: LOG10
-    - const: LOG10
+    - const: "LOG10"
+    - const: "LOG10"
   - cells:
     - const: -0.6989700043360187
     - expr: =LOG10( RC[1] )
@@ -4292,9 +4292,9 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
-    - const: !NUM:-Inf/FE
+    - const: "!NUM:-Inf/FE"
     - expr: =LOG10( RC[1] )
     - const: 0.0
     - null
@@ -4308,7 +4308,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:NaN/FE
+    - const: "!NUM:NaN/FE"
     - expr: =LOG10( RC[1] )
     - const: -2.0
     - null
@@ -4333,8 +4333,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: MOD
-    - const: MOD
+    - const: "MOD"
+    - const: "MOD"
   - cells:
     - const: 2.0
     - expr: =MOD( RC[1], RC[2] )
@@ -4401,9 +4401,9 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =MOD( RC[1], RC[2] )
     - const: 10.0
     - const: 0.0
@@ -4428,8 +4428,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: SQRT
-    - const: SQRT
+    - const: "SQRT"
+    - const: "SQRT"
   - cells:
     - const: 0.1
     - expr: =SQRT( RC[1] )
@@ -4518,9 +4518,9 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
-    - const: !NUM:NaN/FE
+    - const: "!NUM:NaN/FE"
     - expr: =SQRT( RC[1] )
     - const: -1.0
     - null
@@ -4535,7 +4535,7 @@ sheets:
     - err: #NUM!
   - cells:
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =FACT( RC[1] )
     - const: -1.0
     - null
@@ -4545,8 +4545,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: FACT
-    - const: FACT
+    - const: "FACT"
+    - const: "FACT"
     - err: #NUM!
   - cells:
     - const: 1.0
@@ -4614,7 +4614,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
     - const: 720.0
     - expr: =FACT( RC[1] )
@@ -4706,7 +4706,7 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
     - const: 8.71782912E10
     - expr: =FACT( RC[1] )
@@ -4721,7 +4721,7 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
     - const: 1.307674368E12
     - expr: =FACT( RC[1] )
@@ -4736,7 +4736,7 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
     - const: 2.43290200817664E18
     - expr: =FACT( RC[1] )
@@ -4751,7 +4751,7 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
     - const: 1.0
     - expr: =FACT( RC[1] )
@@ -4797,8 +4797,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: COMBIN
-    - const: COMBIN
+    - const: "COMBIN"
+    - const: "COMBIN"
   - cells:
     - const: 1.0
     - expr: =COMBIN( RC[1], RC[2] )
@@ -4931,9 +4931,9 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =COMBIN( RC[1], RC[2] )
     - const: 0.0
     - const: 1.0
@@ -4947,7 +4947,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =COMBIN( RC[1], RC[2] )
     - const: 1.0
     - const: -1.0
@@ -4961,7 +4961,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =COMBIN( RC[1], RC[2] )
     - const: -1.0
     - const: 1.0

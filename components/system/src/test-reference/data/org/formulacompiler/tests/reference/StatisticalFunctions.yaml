@@ -7,20 +7,20 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Expected
-    - const: Actual
-    - const: Inputs
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Inputs"
     - null
     - null
     - null
     - null
     - null
     - null
-    - const: # of Inputs
-    - const: Name
-    - const: Highlight
-    - const: Excel says
-    - const: Skip for
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
+    - const: "Skip for"
   - cells:
     - const: 5.0
     - expr: =RANK( RC[1], RC[2]:RC[6] )
@@ -32,8 +32,8 @@ sheets:
     - const: 4.0
     - null
     - const: 6.0
-    - const: RANK
-    - const: RANK
+    - const: "RANK"
+    - const: "RANK"
   - cells:
     - const: 4.0
     - expr: =RANK( RC[1], RC[2]:RC[6] )
@@ -67,7 +67,7 @@ sheets:
     - const: 4.0
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 5.0
@@ -124,7 +124,7 @@ sheets:
     - const: 4.0
     - const: 1.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -149,8 +149,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: VARP (does not support blanks!)
-    - const: VARP
+    - const: "VARP (does not support blanks!)"
+    - const: "VARP"
   - cells:
     - const: 0.0
     - expr: =VARP( RC[1] )
@@ -162,7 +162,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.25
@@ -186,7 +186,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 4.64
@@ -210,7 +210,7 @@ sheets:
     - null
     - const: 10.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.5
@@ -223,8 +223,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: VAR (does not support blanks!)
-    - const: VAR
+    - const: "VAR (does not support blanks!)"
+    - const: "VAR"
   - cells:
     - const: 0.5
     - expr: =VAR( RC[1], RC[2] )
@@ -236,7 +236,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 5.8
@@ -260,7 +260,7 @@ sheets:
     - null
     - const: 10.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 2.8284271247461903
@@ -273,8 +273,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: STDEV (does not support blanks!)
-    - const: STDEV
+    - const: "STDEV (does not support blanks!)"
+    - const: "STDEV"
   - cells:
     - const: 2.0816659994661326
     - expr: =STDEV( RC[1], RC[2], RC[3] )
@@ -309,7 +309,7 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.0
@@ -322,8 +322,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: STDEVP (does not support blanks!)
-    - const: STDEVP
+    - const: "STDEVP (does not support blanks!)"
+    - const: "STDEVP"
   - cells:
     - const: 1.5
     - expr: =STDEVP( RC[1], RC[2] )
@@ -369,10 +369,10 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: ...
+    - const: "..."
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
   - cells:
     - const: 0.0
@@ -385,8 +385,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: AVEDEV (does not support blanks!)
-    - const: AVEDEV
+    - const: "AVEDEV (does not support blanks!)"
+    - const: "AVEDEV"
   - cells:
     - const: 2.0
     - expr: =AVEDEV( RC[1], RC[2] )
@@ -432,7 +432,7 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.0
@@ -445,8 +445,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: DEVSQ (does not support blanks!)
-    - const: DEVSQ
+    - const: "DEVSQ (does not support blanks!)"
+    - const: "DEVSQ"
   - cells:
     - const: 8.0
     - expr: =DEVSQ( RC[1], RC[2] )
@@ -472,7 +472,7 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
   - cells:
     - const: 9933.430771428571
@@ -488,7 +488,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 103.4285714285714
     - expr: =DEVSQ( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
@@ -500,10 +500,10 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: ...
+    - const: "..."
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
   - cells:
     - const: 0.9352195295828235
@@ -516,10 +516,10 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: SKEW (does not support blanks!)
-    - const: SKEW
+    - const: "SKEW (does not support blanks!)"
+    - const: "SKEW"
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
   - cells:
     - const: -2.532706643504132
@@ -543,7 +543,7 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.3905325443786989
@@ -556,10 +556,10 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: KURT (does not support blanks!)
-    - const: KURT
+    - const: "KURT (does not support blanks!)"
+    - const: "KURT"
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
   - cells:
     - const: 6.5478454980828005
@@ -575,7 +575,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 4.2380757608131585
     - expr: =KURT( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
@@ -587,10 +587,10 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: ...
+    - const: "..."
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
   - cells:
     - const: 7.933282355487847E-7
@@ -603,10 +603,10 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: NORMDIST
-    - const: NORMDIST
+    - const: "NORMDIST"
+    - const: "NORMDIST"
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 3.1671241836783715E-5
     - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
@@ -742,7 +742,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 0.3445782583896758
     - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
@@ -801,7 +801,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 0.008957812117937159
     - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
@@ -893,7 +893,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 5.3532090305954136E-5
     - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
@@ -939,7 +939,7 @@ sheets:
     - null
     - const: 4.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
     - const: -3.5
     - const: -2.5
@@ -953,7 +953,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
     - const: -3.5
     - const: -2.5
@@ -967,7 +967,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
     - const: -3.5
     - const: -2.5
@@ -981,7 +981,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =NORMDIST( RC[1], RC[2], RC[3], RC[4] )
     - const: -3.5
     - const: -2.5
@@ -991,7 +991,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -1006,8 +1006,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: NORMSDIST
-    - const: NORMSDIST
+    - const: "NORMSDIST"
+    - const: "NORMSDIST"
   - cells:
     - const: 9.865876450375138E-10
     - expr: =NORMSDIST( RC[1] )
@@ -1077,7 +1077,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 0.18406012534675953
     - expr: =NORMSDIST( RC[1] )
@@ -1092,7 +1092,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 0.21185539858339675
     - expr: =NORMSDIST( RC[1] )
@@ -1129,7 +1129,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 0.3085375387259869
     - expr: =NORMSDIST( RC[1] )
@@ -1265,7 +1265,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 0.758036347776927
     - expr: =NORMSDIST( RC[1] )
@@ -1302,7 +1302,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 0.8413447460685429
     - expr: =NORMSDIST( RC[1] )
@@ -1317,7 +1317,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 0.9772498680518207
     - expr: =NORMSDIST( RC[1] )
@@ -1384,7 +1384,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.002862742576440258
@@ -1397,10 +1397,10 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: LOGNORMDIST
-    - const: LOGNORMDIST
+    - const: "LOGNORMDIST"
+    - const: "LOGNORMDIST"
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 0.032732596490962385
     - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
@@ -1514,7 +1514,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 0.32860257279352023
     - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
@@ -1538,7 +1538,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
     - const: 0.0
     - const: -0.5
@@ -1552,7 +1552,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
     - const: -1.0
     - const: -0.5
@@ -1565,9 +1565,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
     - const: 0.2
     - const: -0.5
@@ -1581,7 +1581,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =LOGNORMDIST( RC[1], RC[2], RC[3] )
     - const: 0.2
     - const: -0.5
@@ -1591,7 +1591,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -1606,10 +1606,10 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: CONFIDENCE
-    - const: CONFIDENCE
+    - const: "CONFIDENCE"
+    - const: "CONFIDENCE"
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.6929519121748389
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
@@ -1624,7 +1624,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.5815435768383369
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
@@ -1639,7 +1639,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.508951232416014
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
@@ -1654,7 +1654,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.4530969012184115
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
@@ -1669,7 +1669,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.3664345389796085
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
@@ -1684,7 +1684,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.23846813810223486
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
@@ -1699,7 +1699,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.08957172731064579
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
@@ -1714,7 +1714,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.044427995247128836
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
@@ -1729,7 +1729,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.022170193955002714
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
@@ -1744,7 +1744,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 4.431134638859067E-5
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
@@ -1759,7 +1759,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.8141610075736716
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
@@ -1774,7 +1774,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.26007419393777875
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
@@ -1789,7 +1789,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.26007419393777875
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
@@ -1804,9 +1804,9 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
     - const: 0.0
     - const: 2.5
@@ -1819,9 +1819,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
     - const: -1.0
     - const: 2.5
@@ -1834,9 +1834,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
     - const: 1.0
     - const: 2.5
@@ -1849,9 +1849,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
     - const: 0.5
     - const: 0.0
@@ -1864,9 +1864,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
     - const: 0.5
     - const: -1.0
@@ -1879,9 +1879,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CONFIDENCE( RC[1], RC[2], RC[3] )
     - const: 0.5
     - const: 2.5
@@ -1891,10 +1891,10 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
   - cells:
     - const: 81.20245878635673
@@ -1907,10 +1907,10 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: NORMINV
-    - const: NORMINV
+    - const: "NORMINV"
+    - const: "NORMINV"
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 86.38786593262131
     - expr: =NORMINV( RC[1], RC[2], RC[3] )
@@ -1925,7 +1925,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 87.2961210861385
     - expr: =NORMINV( RC[1], RC[2], RC[3] )
@@ -1940,7 +1940,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 88.39594691606771
     - expr: =NORMINV( RC[1], RC[2], RC[3] )
@@ -1955,7 +1955,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 90.5
     - expr: =NORMINV( RC[1], RC[2], RC[3] )
@@ -1970,7 +1970,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 92.60405308393229
     - expr: =NORMINV( RC[1], RC[2], RC[3] )
@@ -1985,7 +1985,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 93.7038789138615
     - expr: =NORMINV( RC[1], RC[2], RC[3] )
@@ -2000,7 +2000,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 94.61213406737868
     - expr: =NORMINV( RC[1], RC[2], RC[3] )
@@ -2015,7 +2015,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 99.79754121364327
     - expr: =NORMINV( RC[1], RC[2], RC[3] )
@@ -2030,7 +2030,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -89.1889987182299
     - expr: =NORMINV( RC[1], RC[2], RC[3] )
@@ -2045,7 +2045,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -87.8779974364598
     - expr: =NORMINV( RC[1], RC[2], RC[3] )
@@ -2060,9 +2060,9 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =NORMINV( RC[1], RC[2], RC[3] )
     - const: 0.0
     - const: 90.5
@@ -2075,9 +2075,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =NORMINV( RC[1], RC[2], RC[3] )
     - const: -1.0
     - const: 90.5
@@ -2090,9 +2090,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =NORMINV( RC[1], RC[2], RC[3] )
     - const: 1.0
     - const: 90.5
@@ -2105,9 +2105,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =NORMINV( RC[1], RC[2], RC[3] )
     - const: 0.7
     - const: 90.5
@@ -2120,9 +2120,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =NORMINV( RC[1], RC[2], RC[3] )
     - const: 0.7
     - const: 90.5
@@ -2132,10 +2132,10 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
   - cells:
     - const: -3.719016485457308
@@ -2148,10 +2148,10 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: NORMSINV
-    - const: NORMSINV
+    - const: "NORMSINV"
+    - const: "NORMSINV"
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -3.0902323061677874
     - expr: =NORMSINV( RC[1] )
@@ -2166,7 +2166,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -2.3263478740408488
     - expr: =NORMSINV( RC[1] )
@@ -2181,7 +2181,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -1.9599639845400545
     - expr: =NORMSINV( RC[1] )
@@ -2196,7 +2196,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -1.6448536269514742
     - expr: =NORMSINV( RC[1] )
@@ -2211,7 +2211,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -1.2815515655446004
     - expr: =NORMSINV( RC[1] )
@@ -2226,7 +2226,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -1.0364333894937903
     - expr: =NORMSINV( RC[1] )
@@ -2241,7 +2241,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -0.8416212335729143
     - expr: =NORMSINV( RC[1] )
@@ -2256,7 +2256,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -0.6744897501960818
     - expr: =NORMSINV( RC[1] )
@@ -2271,7 +2271,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -0.5244005127080409
     - expr: =NORMSINV( RC[1] )
@@ -2286,7 +2286,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -0.3853204664075678
     - expr: =NORMSINV( RC[1] )
@@ -2301,7 +2301,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -0.2533471031357999
     - expr: =NORMSINV( RC[1] )
@@ -2316,7 +2316,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -0.12566134685507402
     - expr: =NORMSINV( RC[1] )
@@ -2331,7 +2331,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -1.392137635291833E-16
     - expr: =NORMSINV( RC[1] )
@@ -2346,7 +2346,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.12566134685507402
     - expr: =NORMSINV( RC[1] )
@@ -2361,7 +2361,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.25334710313579967
     - expr: =NORMSINV( RC[1] )
@@ -2376,7 +2376,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.38532046640756756
     - expr: =NORMSINV( RC[1] )
@@ -2391,7 +2391,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.5244005127080404
     - expr: =NORMSINV( RC[1] )
@@ -2406,7 +2406,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.6744897501960816
     - expr: =NORMSINV( RC[1] )
@@ -2421,7 +2421,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.8416212335729143
     - expr: =NORMSINV( RC[1] )
@@ -2436,7 +2436,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 1.0364333894937898
     - expr: =NORMSINV( RC[1] )
@@ -2451,7 +2451,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 1.2815515655446004
     - expr: =NORMSINV( RC[1] )
@@ -2466,7 +2466,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 1.6448536269514724
     - expr: =NORMSINV( RC[1] )
@@ -2481,7 +2481,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 1.959963984540054
     - expr: =NORMSINV( RC[1] )
@@ -2496,7 +2496,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 2.32634787404084
     - expr: =NORMSINV( RC[1] )
@@ -2511,7 +2511,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 3.0902323061677848
     - expr: =NORMSINV( RC[1] )
@@ -2526,7 +2526,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 3.719016485457308
     - expr: =NORMSINV( RC[1] )
@@ -2541,9 +2541,9 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =NORMSINV( RC[1] )
     - const: 0.0
     - null
@@ -2556,9 +2556,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =NORMSINV( RC[1] )
     - const: -1.0
     - null
@@ -2571,9 +2571,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =NORMSINV( RC[1] )
     - const: 1.0
     - null
@@ -2583,10 +2583,10 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
   - cells:
     - const: 0.0019781746262642497
@@ -2599,10 +2599,10 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: LOGINV
-    - const: LOGINV
+    - const: "LOGINV"
+    - const: "LOGINV"
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.07337778342006672
     - expr: =LOGINV( RC[1], RC[2], RC[3] )
@@ -2617,7 +2617,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.18197628294943885
     - expr: =LOGINV( RC[1], RC[2], RC[3] )
@@ -2632,7 +2632,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.5465917581845832
     - expr: =LOGINV( RC[1], RC[2], RC[3] )
@@ -2647,7 +2647,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 4.481689070338063
     - expr: =LOGINV( RC[1], RC[2], RC[3] )
@@ -2662,7 +2662,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 36.7468711747476
     - expr: =LOGINV( RC[1], RC[2], RC[3] )
@@ -2677,7 +2677,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 110.37447626495552
     - expr: =LOGINV( RC[1], RC[2], RC[3] )
@@ -2692,7 +2692,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 273.7277686381404
     - expr: =LOGINV( RC[1], RC[2], RC[3] )
@@ -2707,7 +2707,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 10153.571204741784
     - expr: =LOGINV( RC[1], RC[2], RC[3] )
@@ -2722,7 +2722,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.827787567727408
     - expr: =LOGINV( RC[1], RC[2], RC[3] )
@@ -2737,7 +2737,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 3.070997918113044
     - expr: =LOGINV( RC[1], RC[2], RC[3] )
@@ -2752,9 +2752,9 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =LOGINV( RC[1], RC[2], RC[3] )
     - const: 0.0
     - const: 1.5
@@ -2767,9 +2767,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =LOGINV( RC[1], RC[2], RC[3] )
     - const: -1.0
     - const: 1.5
@@ -2782,9 +2782,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =LOGINV( RC[1], RC[2], RC[3] )
     - const: 1.0
     - const: 1.5
@@ -2797,9 +2797,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =LOGINV( RC[1], RC[2], RC[3] )
     - const: 0.7
     - const: 1.5
@@ -2812,9 +2812,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =LOGINV( RC[1], RC[2], RC[3] )
     - const: 0.7
     - const: 1.5
@@ -2824,10 +2824,10 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
   - cells:
     - const: 0.2522154925789305
@@ -2840,10 +2840,10 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: BETADIST
-    - const: BETADIST
+    - const: "BETADIST"
+    - const: "BETADIST"
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 0.0
     - expr: =BETADIST( RC[1], RC[2], RC[3] )
@@ -2867,7 +2867,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =BETADIST( RC[1], RC[2], RC[3] )
     - const: -0.0010
     - const: 1.5
@@ -2881,7 +2881,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =BETADIST( RC[1], RC[2], RC[3] )
     - const: 1.001
     - const: 1.5
@@ -2895,7 +2895,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =BETADIST( RC[1], RC[2], RC[3] )
     - const: 0.6
     - const: 0.0
@@ -2909,7 +2909,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =BETADIST( RC[1], RC[2], RC[3] )
     - const: 0.6
     - const: 1.5
@@ -2919,7 +2919,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -2949,7 +2949,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 0.0
     - expr: =BETADIST( RC[1], RC[2], RC[3], RC[4], RC[5] )
@@ -2964,7 +2964,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 1.0
     - expr: =BETADIST( RC[1], RC[2], RC[3], RC[4], RC[5] )
@@ -2979,9 +2979,9 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =BETADIST( RC[1], RC[2], RC[3], RC[4], RC[5] )
     - const: 0.2
     - const: 1.5
@@ -2994,9 +2994,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =BETADIST( RC[1], RC[2], RC[3], RC[4], RC[5] )
     - const: 0.9
     - const: 1.5
@@ -3009,9 +3009,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =BETADIST( RC[1], RC[2], RC[3], RC[4], RC[5] )
     - const: 0.9
     - const: 1.5
@@ -3021,10 +3021,10 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
   - cells:
     - const: 1.0
@@ -3037,8 +3037,8 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: BINOMDIST
-    - const: BINOMDIST
+    - const: "BINOMDIST"
+    - const: "BINOMDIST"
   - cells:
     - const: 0.5120000000000001
     - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
@@ -3271,7 +3271,7 @@ sheets:
     - null
     - const: 4.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
     - const: -1.0
     - const: 3.0
@@ -3285,7 +3285,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
     - const: 4.0
     - const: 3.0
@@ -3299,7 +3299,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
     - const: 1.0
     - const: 3.0
@@ -3313,7 +3313,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
     - const: 1.0
     - const: 3.0
@@ -3327,7 +3327,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =BINOMDIST( RC[1], RC[2], RC[3], RC[4] )
     - const: 1.0E9
     - const: 1.0E10
@@ -3337,7 +3337,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -3352,8 +3352,8 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: NEGBINOMDIST
-    - const: NEGBINOMDIST
+    - const: "NEGBINOMDIST"
+    - const: "NEGBINOMDIST"
   - cells:
     - const: 0.16
     - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
@@ -3531,7 +3531,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
     - const: 3.0
     - const: 2.0
@@ -3545,7 +3545,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
     - const: 3.0
     - const: 2.0
@@ -3559,7 +3559,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
     - const: 3.0
     - const: 2.0
@@ -3573,7 +3573,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
     - const: 3.0
     - const: 2.0
@@ -3587,7 +3587,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
     - const: -1.0
     - const: 2.0
@@ -3601,7 +3601,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =NEGBINOMDIST( RC[1], RC[2], RC[3] )
     - const: 3.0
     - const: 0.0
@@ -3611,7 +3611,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -3626,8 +3626,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: CHIDIST
-    - const: CHIDIST
+    - const: "CHIDIST"
+    - const: "CHIDIST"
   - cells:
     - const: 0.7518296342946255
     - expr: =CHIDIST( RC[1], RC[2] )
@@ -3915,7 +3915,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CHIDIST( RC[1], RC[2] )
     - const: -0.1
     - const: 3.0
@@ -3929,7 +3929,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CHIDIST( RC[1], RC[2] )
     - const: 0.5
     - const: 0.0
@@ -3943,7 +3943,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CHIDIST( RC[1], RC[2] )
     - const: 0.5
     - const: -1.0
@@ -3953,7 +3953,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -3968,8 +3968,8 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: FDIST
-    - const: FDIST
+    - const: "FDIST"
+    - const: "FDIST"
   - cells:
     - const: 1.0
     - expr: =FDIST( RC[1], RC[2], RC[3] )
@@ -4017,7 +4017,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.9128709291846353
     - expr: =FDIST( RC[1], RC[2], RC[3] )
@@ -4043,7 +4043,7 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
     - const: 0.009852457022458162
     - expr: =FDIST( RC[1], RC[2], RC[3] )
@@ -4069,7 +4069,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 0.009900990098986774
     - expr: =FDIST( RC[1], RC[2], RC[3] )
@@ -4106,7 +4106,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 1.783131322808374E-4
     - expr: =FDIST( RC[1], RC[2], RC[3] )
@@ -4130,7 +4130,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =FDIST( RC[1], RC[2], RC[3] )
     - const: -1.0
     - const: 2.0
@@ -4144,7 +4144,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =FDIST( RC[1], RC[2], RC[3] )
     - const: 1.0
     - const: 0.0
@@ -4158,7 +4158,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =FDIST( RC[1], RC[2], RC[3] )
     - const: 1.0
     - const: 1.0
@@ -4168,7 +4168,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -4183,8 +4183,8 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: GAMMADIST
-    - const: GAMMADIST
+    - const: "GAMMADIST"
+    - const: "GAMMADIST"
   - cells:
     - const: 0.5063653754347426
     - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
@@ -4221,7 +4221,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 0.0
     - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
@@ -4267,7 +4267,7 @@ sheets:
     - null
     - const: 4.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
     - const: -0.1
     - const: 0.5
@@ -4280,9 +4280,9 @@ sheets:
     - null
     - null
     - err: #NUM!
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
     - const: 1.6
     - const: 0.0
@@ -4296,7 +4296,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
     - const: 1.6
     - const: -1.0
@@ -4310,7 +4310,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
     - const: 1.6
     - const: 0.5
@@ -4324,7 +4324,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =GAMMADIST( RC[1], RC[2], RC[3], RC[4] )
     - const: 1.6
     - const: 0.5
@@ -4334,7 +4334,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -4349,8 +4349,8 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: POISSON
-    - const: POISSON
+    - const: "POISSON"
+    - const: "POISSON"
   - cells:
     - const: 1.0
     - expr: =POISSON( RC[1], RC[2], RC[3] )
@@ -4715,7 +4715,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =POISSON( RC[1], RC[2], RC[3] )
     - const: -1.0
     - const: 2.0
@@ -4729,7 +4729,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =POISSON( RC[1], RC[2], RC[3] )
     - const: -1.0
     - const: 2.0
@@ -4743,7 +4743,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =POISSON( RC[1], RC[2], RC[3] )
     - const: 2.0
     - const: -1.0
@@ -4757,7 +4757,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =POISSON( RC[1], RC[2], RC[3] )
     - const: 2.0
     - const: -1.0
@@ -4767,7 +4767,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -4783,8 +4783,8 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: TDIST
-    - const: TDIST
+    - const: "TDIST"
+    - const: "TDIST"
   - cells:
     - const: 1.0
     - expr: =TDIST( RC[1], RC[2], RC[3] )
@@ -4940,7 +4940,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =TDIST( RC[1], RC[2], RC[3] )
     - const: -1.0
     - const: 2.0
@@ -4954,7 +4954,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =TDIST( RC[1], RC[2], RC[3] )
     - const: 1.0
     - const: 0.0
@@ -4968,7 +4968,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =TDIST( RC[1], RC[2], RC[3] )
     - const: 1.0
     - const: 2.0
@@ -4982,7 +4982,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =TDIST( RC[1], RC[2], RC[3] )
     - const: 1.0
     - const: 2.0
@@ -4992,7 +4992,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -5007,12 +5007,12 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: BETAINV
-    - const: BETAINV
+    - const: "BETAINV"
+    - const: "BETAINV"
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =BETAINV( RC[1], RC[2], RC[3] )
     - const: 0.6
     - const: 0.0
@@ -5026,7 +5026,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =BETAINV( RC[1], RC[2], RC[3] )
     - const: 0.6
     - const: 1.5
@@ -5050,10 +5050,10 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
   - cells:
     - const: 0.3600888252258301
@@ -5069,9 +5069,9 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
     - const: 0.45
     - const: 2.2
@@ -5098,7 +5098,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 0.3600888252258301
     - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
@@ -5113,9 +5113,9 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
     - const: 1.1
     - const: 2.2
@@ -5129,7 +5129,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
     - const: -0.1
     - const: 2.2
@@ -5139,7 +5139,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -5166,8 +5166,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: CHIINV
-    - const: CHIINV
+    - const: "CHIINV"
+    - const: "CHIINV"
   - cells:
     - const: 0.41389331157281367
     - expr: =CHIINV( RC[1], RC[2] )
@@ -5193,7 +5193,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 2.8051184564879357
     - expr: =CHIINV( RC[1], RC[2] )
@@ -5208,7 +5208,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 5.749409689274468
     - expr: =CHIINV( RC[1], RC[2] )
@@ -5223,7 +5223,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 32.006899668662996
     - expr: =CHIINV( RC[1], RC[2] )
@@ -5238,7 +5238,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 35.99736227382731
     - expr: =CHIINV( RC[1], RC[2] )
@@ -5253,7 +5253,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 78.7495242510023
     - expr: =CHIINV( RC[1], RC[2] )
@@ -5268,7 +5268,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 2.407945608735304
     - expr: =CHIINV( RC[1], RC[2] )
@@ -5292,7 +5292,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CHIINV( RC[1], RC[2] )
     - const: 0.0
     - const: 1.0
@@ -5306,7 +5306,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CHIINV( RC[1], RC[2] )
     - const: 1.001
     - const: 1.0
@@ -5320,7 +5320,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CHIINV( RC[1], RC[2] )
     - const: 0.2
     - const: 0.99
@@ -5334,7 +5334,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CHIINV( RC[1], RC[2] )
     - const: 0.2
     - const: 1.0E11
@@ -5344,7 +5344,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -5359,8 +5359,8 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: FINV
-    - const: FINV
+    - const: "FINV"
+    - const: "FINV"
   - cells:
     - const: 0.0
     - expr: =FINV( RC[1], RC[2], RC[3] )
@@ -5408,7 +5408,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 18.772269815522307
     - expr: =FINV( RC[1], RC[2], RC[3] )
@@ -5421,7 +5421,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =FINV( RC[1], RC[2], RC[3] )
     - const: -0.01
     - const: 1.9
@@ -5435,7 +5435,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =FINV( RC[1], RC[2], RC[3] )
     - const: 1.1
     - const: 1.9
@@ -5449,7 +5449,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =FINV( RC[1], RC[2], RC[3] )
     - const: 0.4
     - const: 0.7
@@ -5463,7 +5463,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =FINV( RC[1], RC[2], RC[3] )
     - const: 0.5
     - const: 1.0E11
@@ -5477,7 +5477,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =FINV( RC[1], RC[2], RC[3] )
     - const: 0.5
     - const: 1.9
@@ -5487,7 +5487,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -5502,8 +5502,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: FISHERINV
-    - const: FISHERINV
+    - const: "FISHERINV"
+    - const: "FISHERINV"
   - cells:
     - const: 0.0
     - expr: =FISHERINV( RC[1] )
@@ -5595,7 +5595,7 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
     - const: -0.9999999994421064
     - expr: =FISHERINV( RC[1] )
@@ -5607,7 +5607,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 4.951915547315796
@@ -5620,10 +5620,10 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: GAMMAINV
-    - const: GAMMAINV
+    - const: "GAMMAINV"
+    - const: "GAMMAINV"
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 1.5141277326714913
     - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
@@ -5671,7 +5671,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 80.86540232879742
     - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
@@ -5697,9 +5697,9 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
     - const: -0.01
     - const: 9.0
@@ -5713,7 +5713,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
     - const: 1.01
     - const: 9.0
@@ -5727,7 +5727,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
     - const: 0.77
     - const: 9.0
@@ -5741,7 +5741,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
     - const: 0.35
     - const: -0.01
@@ -5755,7 +5755,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =GAMMAINV( RC[1], RC[2], RC[3] )
     - const: 0.35
     - const: 0.0
@@ -5765,7 +5765,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -5780,10 +5780,10 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: TINV
-    - const: TINV
+    - const: "TINV"
+    - const: "TINV"
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 8.431427402612772E-8
     - expr: =TINV( RC[1], RC[2] )
@@ -5798,7 +5798,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 1.0
     - expr: =TINV( RC[1], RC[2] )
@@ -5844,7 +5844,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =TINV( RC[1], RC[2] )
     - const: 1.1
     - const: 60.0
@@ -5858,7 +5858,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =TINV( RC[1], RC[2] )
     - const: 0.065
     - const: -1.0
@@ -5872,7 +5872,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =TINV( RC[1], RC[2] )
     - const: 0.065
     - const: 0.5
@@ -5886,7 +5886,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =TINV( RC[1], RC[2] )
     - const: -0.01
     - const: 2.0
@@ -5900,7 +5900,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =TINV( RC[1], RC[2] )
     - const: 1.01
     - const: 3.0
@@ -5910,7 +5910,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -5925,8 +5925,8 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: HYPGEOMDIST
-    - const: HYPGEOMDIST
+    - const: "HYPGEOMDIST"
+    - const: "HYPGEOMDIST"
   - cells:
     - const: 1.0
     - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
@@ -6115,7 +6115,7 @@ sheets:
     - null
     - const: 4.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
     - const: -1.0
     - const: 4.0
@@ -6129,7 +6129,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
     - const: 4.0
     - const: 3.0
@@ -6143,7 +6143,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
     - const: 3.0
     - const: 5.0
@@ -6157,7 +6157,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
     - const: 1.0
     - const: 6.0
@@ -6171,7 +6171,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
     - const: 2.0
     - const: 2.0
@@ -6181,7 +6181,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -6196,8 +6196,8 @@ sheets:
     - const: 1.0
     - null
     - const: 6.0
-    - const: RSQ
-    - const: RSQ
+    - const: "RSQ"
+    - const: "RSQ"
   - cells:
     - const: 0.0
     - expr: =RSQ( RC[1]:RC[3], RC[4]:RC[6] )
@@ -6300,9 +6300,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =RSQ( RC[1]:RC[3], RC[4]:RC[6] )
     - const: 3.0
     - const: 3.0
@@ -6312,7 +6312,7 @@ sheets:
     - const: 1.0
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
     - null
     - err: #DIV/0!
   - cells:
@@ -6328,7 +6328,7 @@ sheets:
     - null
     - const: 4.0
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =RSQ( RC[1]:RC[3], RC[4] )
     - const: 2.0
     - const: 44.0
@@ -6353,8 +6353,8 @@ sheets:
     - const: 1.0
     - null
     - const: 6.0
-    - const: PEARSON
-    - const: PEARSON
+    - const: "PEARSON"
+    - const: "PEARSON"
   - cells:
     - const: -0.8660254037844386
     - expr: =PEARSON( RC[1]:RC[3], RC[4]:RC[6] )
@@ -6391,7 +6391,7 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
     - const: -0.27300239632881634
     - expr: =PEARSON( RC[1]:RC[3], RC[4]:RC[6] )
@@ -6470,7 +6470,7 @@ sheets:
     - null
     - const: 6.0
   - cells:
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =PEARSON( RC[1]:RC[3], RC[4]:RC[6] )
     - const: 3.0
     - const: 2.0
@@ -6484,7 +6484,7 @@ sheets:
     - null
     - err: #DIV/0!
   - cells:
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =PEARSON( RC[1]:RC[3], RC[4]:RC[6] )
     - const: 3.0
     - const: 3.0
@@ -6494,12 +6494,12 @@ sheets:
     - const: 1.0
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
     - null
     - err: #DIV/0!
   - cells:
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =PEARSON( RC[1]:RC[3], RC[4]:RC[5] )
     - const: 33.0
     - const: 3.0
@@ -6524,8 +6524,8 @@ sheets:
     - const: 3.0
     - null
     - const: 6.0
-    - const: TTEST
-    - const: TTEST
+    - const: "TTEST"
+    - const: "TTEST"
   - cells:
     - const: 0.10241638233196894
     - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
@@ -6584,7 +6584,7 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
     - const: 0.003026634116318681
     - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
@@ -6599,7 +6599,7 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
     - const: 0.2249215315788642
     - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
@@ -6614,7 +6614,7 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
     - const: 0.40907121665655194
     - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
@@ -6662,9 +6662,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
     - const: 1.0
     - const: 2.0
@@ -6678,7 +6678,7 @@ sheets:
     - null
     - err: #DIV/0!
   - cells:
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
     - const: 2.0
     - const: 2.0
@@ -6692,7 +6692,7 @@ sheets:
     - null
     - err: #DIV/0!
   - cells:
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
     - const: 3.0
     - const: 3.0
@@ -6706,7 +6706,7 @@ sheets:
     - null
     - err: #DIV/0!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
     - const: 1.0
     - const: 2.0
@@ -6720,7 +6720,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
     - const: 1.0
     - const: 2.0
@@ -6730,12 +6730,12 @@ sheets:
     - const: 1.0
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =TTEST( RC[1]:RC[2], RC[3]:RC[5], RC[6], RC[7] )
     - const: 1.0
     - const: 2.0
@@ -6760,8 +6760,8 @@ sheets:
     - const: 5.0
     - null
     - const: 6.0
-    - const: ZTEST
-    - const: ZTEST
+    - const: "ZTEST"
+    - const: "ZTEST"
   - cells:
     - const: 0.8849303297782918
     - expr: =ZTEST( RC[1]:RC[4], RC[5], RC[6] )
@@ -6774,7 +6774,7 @@ sheets:
     - null
     - const: 6.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =ZTEST( RC[1]:RC[4], RC[5], RC[6] )
     - const: 3.0
     - const: 6.0
@@ -6788,7 +6788,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =ZTEST( RC[1]:RC[4], RC[5], RC[6] )
     - const: 3.0
     - const: 6.0
@@ -6798,7 +6798,7 @@ sheets:
     - const: -1.0
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -6824,7 +6824,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.6172027580021179
@@ -6903,7 +6903,7 @@ sheets:
     - const: 2.0
     - const: 2.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -6916,8 +6916,8 @@ sheets:
     - const: 1.0
     - null
     - const: 6.0
-    - const: CHITEST
-    - const: CHITEST
+    - const: "CHITEST"
+    - const: "CHITEST"
   - cells:
     - const: 0.015888560447750184
     - expr: =CHITEST( RC[1]:RC[3], RC[4]:RC[6] )
@@ -7007,7 +7007,7 @@ sheets:
     - null
     - const: 6.0
   - cells:
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =CHITEST( RC[1]:RC[3], RC[4]:RC[6] )
     - const: 1.0
     - const: 1.0
@@ -7017,12 +7017,12 @@ sheets:
     - const: 1.0
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
     - null
     - err: #DIV/0!
   - cells:
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =CHITEST( RC[1], RC[2] )
     - const: 14.0
     - const: 11.0
@@ -7058,7 +7058,7 @@ sheets:
     - null
     - const: 4.0
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =CHITEST( RC[1]:RC[3], RC[4]:RC[5] )
     - const: 58.0
     - const: 11.0
@@ -7083,7 +7083,7 @@ sheets:
     - null
     - const: 6.0
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =CHITEST( R[-1]C[1]:RC[3], R[-1]C[4]:RC[5] )
     - const: 2.0
     - const: 3.0
@@ -7108,8 +7108,8 @@ sheets:
     - const: 6.0
     - null
     - const: 6.0
-    - const: FTEST
-    - const: FTEST
+    - const: "FTEST"
+    - const: "FTEST"
   - cells:
     - const: 0.849508257559715
     - expr: =FTEST( RC[1]:RC[3], RC[4]:RC[6] )
@@ -7146,7 +7146,7 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
     - const: 0.5999999999985984
     - expr: =FTEST( RC[1]:RC[3], RC[4]:RC[6] )
@@ -7192,7 +7192,7 @@ sheets:
     - null
     - const: 6.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =FTEST( RC[1]:RC[3], RC[4]:RC[6] )
     - const: 2.0
     - const: 2.0
@@ -7202,12 +7202,12 @@ sheets:
     - const: 3.0
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
     - null
     - err: #DIV/0!
   - cells:
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =FTEST( RC[1], RC[2]:RC[6] )
     - const: 2.2
     - const: 2.0
@@ -7234,7 +7234,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
     - const: 0.6263943592109936
     - expr: =FTEST( RC[1]:RC[3], RC[4]:RC[5] )
@@ -7258,8 +7258,8 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: STANDARDIZE
-    - const: STANDARDIZE
+    - const: "STANDARDIZE"
+    - const: "STANDARDIZE"
   - cells:
     - const: -1.04
     - expr: =STANDARDIZE( RC[1], RC[2], RC[3] )
@@ -7305,7 +7305,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =STANDARDIZE( RC[1], RC[2], RC[3] )
     - const: 42.0
     - const: 40.0
@@ -7319,7 +7319,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =STANDARDIZE( RC[1], RC[2], RC[3] )
     - const: 42.0
     - const: 40.0
@@ -7329,7 +7329,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -7344,8 +7344,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: GAMMALN
-    - const: GAMMALN
+    - const: "GAMMALN"
+    - const: "GAMMALN"
   - cells:
     - const: -0.049872441306312076
     - expr: =GAMMALN( RC[1] )
@@ -7380,7 +7380,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =GAMMALN( RC[1] )
     - const: -1.0
     - null
@@ -7394,7 +7394,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =GAMMALN( RC[1] )
     - const: 0.0
     - null
@@ -7404,7 +7404,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -7419,8 +7419,8 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: EXPONDIST
-    - const: EXPONDIST
+    - const: "EXPONDIST"
+    - const: "EXPONDIST"
   - cells:
     - const: 0.2706705664732254
     - expr: =EXPONDIST( RC[1], RC[2], RC[3] )
@@ -7435,7 +7435,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 0.81362602396059
     - expr: =EXPONDIST( RC[1], RC[2], RC[3] )
@@ -7514,7 +7514,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =EXPONDIST( RC[1], RC[2], RC[3] )
     - const: -0.01
     - const: 2.2
@@ -7528,7 +7528,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =EXPONDIST( RC[1], RC[2], RC[3] )
     - const: 1.1
     - const: 0.0
@@ -7538,7 +7538,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -7553,8 +7553,8 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: WEIBULL
-    - const: WEIBULL
+    - const: "WEIBULL"
+    - const: "WEIBULL"
   - cells:
     - const: 0.0
     - expr: =WEIBULL( RC[1], RC[2], RC[3], RC[4] )
@@ -7622,7 +7622,7 @@ sheets:
     - null
     - const: 4.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =WEIBULL( RC[1], RC[2], RC[3], RC[4] )
     - const: 102.0
     - const: 0.0
@@ -7636,7 +7636,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =WEIBULL( RC[1], RC[2], RC[3], RC[4] )
     - const: 105.0
     - const: 20.0
@@ -7650,7 +7650,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =WEIBULL( RC[1], RC[2], RC[3], RC[4] )
     - const: -0.01
     - const: 30.0
@@ -7660,10 +7660,10 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
-    - const: long
+    - const: "long"
   - cells:
   - cells:
     - const: 0.8673005276940532
@@ -7676,8 +7676,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: FISHER
-    - const: FISHER
+    - const: "FISHER"
+    - const: "FISHER"
   - cells:
     - const: 0.0
     - expr: =FISHER( RC[1] )
@@ -7714,7 +7714,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 0.5493061443340549
     - expr: =FISHER( RC[1] )
@@ -7729,7 +7729,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: -0.5493061443340549
     - expr: =FISHER( RC[1] )
@@ -7744,7 +7744,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
     - const: 0.2384170173623709
     - expr: =FISHER( RC[1] )
@@ -7757,7 +7757,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =FISHER( RC[1] )
     - const: 1.0
     - null
@@ -7771,7 +7771,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =FISHER( RC[1] )
     - const: 1.2
     - null
@@ -7785,7 +7785,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =FISHER( RC[1] )
     - const: -1.0
     - null
@@ -7795,7 +7795,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -7810,8 +7810,8 @@ sheets:
     - const: 3.0
     - null
     - const: 6.0
-    - const: SUMX2MY2
-    - const: SUMX2MY2
+    - const: "SUMX2MY2"
+    - const: "SUMX2MY2"
   - cells:
     - const: 9.96
     - expr: =SUMX2MY2( RC[1]:RC[3], RC[4]:RC[6] )
@@ -7823,10 +7823,10 @@ sheets:
     - const: 3.8
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =SUMX2MY2( RC[1]:RC[3], RC[4]:RC[5] )
     - const: 2.0
     - const: 3.0
@@ -7851,8 +7851,8 @@ sheets:
     - const: 3.0
     - null
     - const: 6.0
-    - const: SUMX2PY2
-    - const: SUMX2PY2
+    - const: "SUMX2PY2"
+    - const: "SUMX2PY2"
   - cells:
     - const: 54.84
     - expr: =SUMX2PY2( RC[1]:RC[3], RC[4]:RC[6] )
@@ -7864,10 +7864,10 @@ sheets:
     - const: 3.8
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =SUMX2PY2( RC[1]:RC[3], RC[4]:RC[5] )
     - const: 2.0
     - const: 3.0
@@ -7892,8 +7892,8 @@ sheets:
     - const: 3.0
     - null
     - const: 6.0
-    - const: SUMXMY2
-    - const: SUMXMY2
+    - const: "SUMXMY2"
+    - const: "SUMXMY2"
   - cells:
     - const: 29.24
     - expr: =SUMXMY2( RC[1]:RC[3], RC[4]:RC[6] )
@@ -7905,10 +7905,10 @@ sheets:
     - const: 3.8
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =SUMXMY2( RC[1]:RC[3], RC[4]:RC[5] )
     - const: 2.0
     - const: 3.0
@@ -7933,8 +7933,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: STDEVPA
-    - const: STDEVPA
+    - const: "STDEVPA"
+    - const: "STDEVPA"
   - cells:
   - cells:
     - const: 1.4142135623730951
@@ -7969,7 +7969,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.3844373104863459
@@ -8005,8 +8005,8 @@ sheets:
     - const: 8.0
     - null
     - const: 6.0
-    - const: STEYX
-    - const: STEYX
+    - const: "STEYX"
+    - const: "STEYX"
   - cells:
     - const: 2.5495097567963927
     - expr: =STEYX( RC[1]:RC[3], RC[4]:RC[6] )
@@ -8074,7 +8074,7 @@ sheets:
     - null
     - const: 6.0
   - cells:
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =STEYX( RC[1]:RC[3], RC[4]:RC[6] )
     - const: 4.1
     - const: 3.0
@@ -8098,10 +8098,10 @@ sheets:
     - const: 6.0
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =STEYX( RC[1]:RC[3], RC[4]:RC[5] )
     - const: 4.1
     - const: 3.0
@@ -8115,7 +8115,7 @@ sheets:
     - null
     - err: #N/A
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =STEYX( RC[1], RC[2] )
     - const: 4.1
     - const: 3.0
@@ -8164,8 +8164,8 @@ sheets:
     - const: 8.0
     - null
     - const: 6.0
-    - const: CORREL
-    - const: CORREL
+    - const: "CORREL"
+    - const: "CORREL"
   - cells:
     - const: 0.05241424183609594
     - expr: =CORREL( RC[1]:RC[3], RC[4]:RC[6] )
@@ -8233,7 +8233,7 @@ sheets:
     - null
     - const: 6.0
   - cells:
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =CORREL( RC[1]:RC[3], RC[4]:RC[6] )
     - const: 4.1
     - const: 3.0
@@ -8247,7 +8247,7 @@ sheets:
     - null
     - err: #DIV/0!
   - cells:
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =CORREL( RC[1]:RC[3], RC[4]:RC[6] )
     - const: 3.0
     - const: 3.0
@@ -8257,12 +8257,12 @@ sheets:
     - const: 6.0
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
     - null
     - err: #DIV/0!
   - cells:
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =CORREL( RC[1]:RC[3], RC[4]:RC[5] )
     - const: 4.1
     - const: 3.0
@@ -8276,7 +8276,7 @@ sheets:
     - null
     - err: #N/A
   - cells:
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =CORREL( RC[1], RC[2] )
     - const: 4.1
     - const: 3.0
@@ -8324,8 +8324,8 @@ sheets:
     - const: 8.0
     - null
     - const: 6.0
-    - const: INTERCEPT
-    - const: INTERCEPT
+    - const: "INTERCEPT"
+    - const: "INTERCEPT"
   - cells:
     - const: -3.1942446043165464
     - expr: =INTERCEPT( RC[1]:RC[3], RC[4]:RC[6] )
@@ -8340,7 +8340,7 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
     - const: 3.7071428571428573
     - expr: =INTERCEPT( RC[1]:RC[3], RC[4]:RC[6] )
@@ -8355,7 +8355,7 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
     - const: 7.35
     - expr: =INTERCEPT( RC[1]:RC[3], RC[4]:RC[6] )
@@ -8381,9 +8381,9 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =INTERCEPT( RC[1]:RC[3], RC[4]:RC[6] )
     - const: 4.1
     - const: 3.0
@@ -8407,10 +8407,10 @@ sheets:
     - const: 6.0
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =INTERCEPT( RC[1]:RC[3], RC[4]:RC[5] )
     - const: 4.1
     - const: 3.0
@@ -8424,7 +8424,7 @@ sheets:
     - null
     - err: #N/A
   - cells:
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =INTERCEPT( RC[1], RC[2] )
     - const: 4.1
     - const: 3.0
@@ -8452,7 +8452,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
     - const: 4.72
     - expr: =INTERCEPT( R[-1]C[1]:RC[3], R[-1]C[4]:RC[6] )
@@ -8476,8 +8476,8 @@ sheets:
     - const: 8.0
     - null
     - const: 6.0
-    - const: SLOPE
-    - const: SLOPE
+    - const: "SLOPE"
+    - const: "SLOPE"
   - cells:
     - const: 0.8633093525179856
     - expr: =SLOPE( RC[1]:RC[3], RC[4]:RC[6] )
@@ -8523,7 +8523,7 @@ sheets:
     - null
     - const: 6.0
   - cells:
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =SLOPE( RC[1]:RC[3], RC[4]:RC[6] )
     - const: 4.1
     - const: 3.0
@@ -8547,10 +8547,10 @@ sheets:
     - const: 6.0
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =SLOPE( RC[1]:RC[3], RC[4]:RC[5] )
     - const: 4.1
     - const: 3.0
@@ -8598,8 +8598,8 @@ sheets:
     - const: 3.0
     - null
     - const: 6.0
-    - const: PROB
-    - const: PROB
+    - const: "PROB"
+    - const: "PROB"
   - cells:
     - const: 0.2
     - expr: =PROB( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
@@ -8678,7 +8678,7 @@ sheets:
     - null
     - const: 6.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =PROB( RC[1]:RC[2], RC[3]:RC[4], RC[5], RC[6] )
     - const: 4.1
     - const: 3.0
@@ -8688,7 +8688,7 @@ sheets:
     - const: 6.0
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -8704,7 +8704,7 @@ sheets:
     - null
     - const: 5.0
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =PROB( RC[1]:RC[2], R[-1]C[3]:RC[4], RC[5], RC[6] )
     - const: 2.0
     - const: 3.0
@@ -8729,8 +8729,8 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: CRITBINOM
-    - const: CRITBINOM
+    - const: "CRITBINOM"
+    - const: "CRITBINOM"
   - cells:
     - const: 3.0
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
@@ -8798,7 +8798,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
     - const: -0.01
     - const: 0.45
@@ -8812,7 +8812,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
     - const: 6.0
     - const: 0.45
@@ -8826,7 +8826,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
     - const: 6.0
     - const: 0.45
@@ -8840,7 +8840,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
     - const: 6.0
     - const: 1.0
@@ -8854,7 +8854,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
     - const: 6.0
     - const: 0.0
@@ -8868,7 +8868,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
     - const: -1.0
     - const: 0.5
@@ -8882,7 +8882,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
     - const: 1.0E10
     - const: 0.5
@@ -8892,7 +8892,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -8907,8 +8907,8 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: PERCENTRANK
-    - const: PERCENTRANK
+    - const: "PERCENTRANK"
+    - const: "PERCENTRANK"
   - cells:
     - const: 0.0
     - expr: =PERCENTRANK( RC[1]:RC[3], RC[4] )
@@ -8976,7 +8976,7 @@ sheets:
     - null
     - const: 4.0
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =PERCENTRANK( RC[1]:RC[3], RC[4] )
     - const: 1.0
     - const: 2.0
@@ -8990,7 +8990,7 @@ sheets:
     - null
     - err: #N/A
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =PERCENTRANK( RC[1]:RC[3], RC[4] )
     - const: 1.0
     - const: 2.0
@@ -9000,7 +9000,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: ...
+    - const: "..."
     - null
     - err: #N/A
   - cells:
@@ -9038,7 +9038,7 @@ sheets:
     - null
     - const: 5.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =PERCENTRANK( RC[1]:RC[3], RC[4], RC[5] )
     - const: -2.4
     - const: -3.4
@@ -9048,7 +9048,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -9096,7 +9096,7 @@ sheets:
     - const: 2.0
     - const: 3.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -9110,7 +9110,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =PERCENTRANK( RC[1], RC[2] )
     - const: 2.0
     - const: 3.0
@@ -9120,7 +9120,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
     - null
     - err: #N/A
   - cells:
@@ -9135,8 +9135,8 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: MODE
-    - const: MODE
+    - const: "MODE"
+    - const: "MODE"
   - cells:
     - const: 5.0
     - expr: =MODE( RC[1]:RC[5] )
@@ -9159,7 +9159,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 2.0
@@ -9206,7 +9206,7 @@ sheets:
     - const: 2.0
     - const: 7.0
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =MODE( RC[1]:RC[7] )
     - const: 1.0
     - const: 2.0
@@ -9216,12 +9216,12 @@ sheets:
     - const: 6.0
     - const: 7.0
     - const: 7.0
-    - const: ...
+    - const: "..."
     - null
     - err: #N/A
   - cells:
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =MODE( RC[1] )
     - const: 2.0
     - null
@@ -9246,8 +9246,8 @@ sheets:
     - const: 0.5
     - null
     - const: 6.0
-    - const: TRIMMEAN
-    - const: TRIMMEAN
+    - const: "TRIMMEAN"
+    - const: "TRIMMEAN"
   - cells:
     - const: 4.0
     - expr: =TRIMMEAN( RC[1]:RC[5], RC[6] )
@@ -9292,7 +9292,7 @@ sheets:
     - const: 0.4
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 2.433333333333333
@@ -9317,7 +9317,7 @@ sheets:
     - const: 0.6
     - const: 7.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =TRIMMEAN( RC[1]:RC[6], RC[7] )
     - const: 2.2
     - const: -1.0
@@ -9331,7 +9331,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =TRIMMEAN( RC[1]:RC[6], RC[7] )
     - const: 2.2
     - const: -1.0
@@ -9341,7 +9341,7 @@ sheets:
     - const: 1.0
     - const: -0.01
     - const: 7.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -9368,8 +9368,8 @@ sheets:
     - const: 0.0
     - null
     - const: 6.0
-    - const: QUARTILE
-    - const: QUARTILE
+    - const: "QUARTILE"
+    - const: "QUARTILE"
   - cells:
     - const: 3.0
     - expr: =QUARTILE( RC[1]:RC[5], RC[6] )
@@ -9404,7 +9404,7 @@ sheets:
     - null
     - const: 6.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =QUARTILE( RC[1]:RC[5], RC[6] )
     - const: 1.0
     - const: 2.0
@@ -9418,7 +9418,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =QUARTILE( RC[1]:RC[5], RC[6] )
     - const: 1.0
     - const: 2.0
@@ -9428,7 +9428,7 @@ sheets:
     - const: -0.01
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -9454,7 +9454,7 @@ sheets:
     - const: 1.0
     - const: 2.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 3.0
@@ -9467,8 +9467,8 @@ sheets:
     - const: 0.5
     - null
     - const: 6.0
-    - const: PERCENTILE
-    - const: PERCENTILE
+    - const: "PERCENTILE"
+    - const: "PERCENTILE"
   - cells:
     - const: 4.0
     - expr: =PERCENTILE( RC[1]:RC[5], RC[6] )
@@ -9525,7 +9525,7 @@ sheets:
     - null
     - const: 6.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =PERCENTILE( RC[1]:RC[5], RC[6] )
     - const: 2.2
     - const: -1.0
@@ -9539,7 +9539,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =PERCENTILE( RC[1]:RC[5], RC[6] )
     - const: 2.2
     - const: -1.0
@@ -9549,7 +9549,7 @@ sheets:
     - const: 1.1
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -9564,8 +9564,8 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: MEDIAN
-    - const: MEDIAN
+    - const: "MEDIAN"
+    - const: "MEDIAN"
   - cells:
     - const: 4.0
     - expr: =MEDIAN( RC[1]:RC[5] )
@@ -9588,7 +9588,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 2.0
@@ -9657,7 +9657,7 @@ sheets:
     - const: 2.0
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 5.0
@@ -9670,8 +9670,8 @@ sheets:
     - const: 4.0
     - null
     - const: 6.0
-    - const: SMALL
-    - const: SMALL
+    - const: "SMALL"
+    - const: "SMALL"
   - cells:
     - const: 5.0
     - expr: =SMALL( RC[1]:RC[5], RC[6] )
@@ -9749,7 +9749,7 @@ sheets:
     - const: 2.0
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 2.2
@@ -9763,7 +9763,7 @@ sheets:
     - null
     - const: 5.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =SMALL( RC[1]:RC[4], RC[5] )
     - const: 5.0
     - const: 2.0
@@ -9773,7 +9773,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -9789,7 +9789,7 @@ sheets:
     - null
     - const: 4.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =SMALL( RC[1]:RC[3], RC[4] )
     - const: 5.0
     - const: 2.0
@@ -9799,7 +9799,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -9826,8 +9826,8 @@ sheets:
     - const: 2.0
     - null
     - const: 6.0
-    - const: LARGE
-    - const: LARGE
+    - const: "LARGE"
+    - const: "LARGE"
   - cells:
     - const: 5.0
     - expr: =LARGE( RC[1]:RC[5], RC[6] )
@@ -9905,7 +9905,7 @@ sheets:
     - const: 4.0
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 2.2
@@ -9919,7 +9919,7 @@ sheets:
     - null
     - const: 5.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =LARGE( RC[1]:RC[4], RC[5] )
     - const: 5.0
     - const: 2.0
@@ -9929,7 +9929,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -9945,7 +9945,7 @@ sheets:
     - null
     - const: 4.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =LARGE( RC[1]:RC[3], RC[4] )
     - const: 5.0
     - const: 2.0
@@ -9955,7 +9955,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: ...
+    - const: "..."
     - null
     - err: #NUM!
   - cells:
@@ -9970,8 +9970,8 @@ sheets:
     - const: 8.0
     - const: 9.0
     - const: 7.0
-    - const: FORECAST
-    - const: FORECAST
+    - const: "FORECAST"
+    - const: "FORECAST"
   - cells:
     - const: 2.0
     - expr: =FORECAST( RC[1], RC[2]:RC[4], RC[5]:RC[7] )
@@ -10041,7 +10041,7 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
     - const: 5.322580645161291
     - expr: =FORECAST( RC[1], RC[2]:RC[4], RC[5]:RC[7] )
@@ -10056,7 +10056,7 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
     - const: -4.250830564784051
     - expr: =FORECAST( RC[1], RC[2]:RC[4], RC[5]:RC[7] )
@@ -10071,7 +10071,7 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
     - const: -0.105
     - expr: =FORECAST( RC[1], RC[2]:RC[4], RC[5]:RC[7] )
@@ -10083,10 +10083,10 @@ sheets:
     - const: 6.0
     - const: 0.0
     - const: 7.0
-    - const: ...
+    - const: "..."
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
   - cells:
     - const: 7.0
@@ -10100,7 +10100,7 @@ sheets:
     - null
     - const: 5.0
   - cells:
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =FORECAST( RC[1], RC[2]:RC[3], RC[4]:RC[5] )
     - const: 2.0
     - const: 5.0
@@ -10114,7 +10114,7 @@ sheets:
     - null
     - err: #DIV/0!
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =FORECAST( RC[1], RC[2]:RC[3], RC[4]:RC[6] )
     - const: 2.0
     - const: 5.0
@@ -10139,8 +10139,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: VARA
-    - const: VARA
+    - const: "VARA"
+    - const: "VARA"
   - cells:
     - const: 46.08
     - expr: =VARA( RC[1], RC[2] )
@@ -10152,10 +10152,10 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =VARA( RC[1] )
     - const: 4.3
     - null

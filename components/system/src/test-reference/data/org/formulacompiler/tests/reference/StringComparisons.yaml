@@ -7,37 +7,37 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Expected
-    - const: Actual
-    - const: Inputs
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Inputs"
     - null
     - null
     - null
     - null
     - null
     - null
-    - const: # of Inputs
-    - const: Name
-    - const: Highlight
-    - const: Excel says
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
   - cells:
     - const: true
     - expr: =(RC[1] < RC[2])
-    - const: a
-    - const: à
+    - const: "a"
+    - const: "à"
     - null
     - null
     - null
     - null
     - null
     - const: 2.0
-    - const: Code page not fully supported
-    - const: <
+    - const: "Code page not fully supported"
+    - const: "<"
   - cells:
     - const: true
     - expr: =(RC[1] < RC[2])
-    - const: à
-    - const: ä
+    - const: "à"
+    - const: "ä"
     - null
     - null
     - null
@@ -47,8 +47,8 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] < RC[2])
-    - const: ä
-    - const: b
+    - const: "ä"
+    - const: "b"
     - null
     - null
     - null
@@ -62,20 +62,20 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] < RC[2])
-    - const: A
-    - const: b
+    - const: "A"
+    - const: "b"
     - null
     - null
     - null
     - null
     - null
     - const: 2.0
-    - const: Case insensitive
+    - const: "Case insensitive"
   - cells:
     - const: true
     - expr: =(RC[1] < RC[2])
-    - const: a
-    - const: B
+    - const: "a"
+    - const: "B"
     - null
     - null
     - null
@@ -83,50 +83,24 @@ sheets:
     - null
     - const: 2.0
   - cells:
-  - cells:
-    - const: false
-    - expr: =(RC[1] = RC[2])
-    - const: 10
-    - const: 10.0
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-    - const: Strings are always greater than numbers
-    - const: =
-  - cells:
-    - const: false
-    - expr: =(RC[1] < RC[2])
-    - const: 10
-    - const: 10.0
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-    - null
-    - const: <
-  - cells:
-    - const: true
-    - expr: =(RC[1] > RC[2])
-    - const: 10
-    - const: 10.0
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-    - null
-    - const: >
   - cells:
     - const: false
     - expr: =(RC[1] = RC[2])
+    - const: "10"
     - const: 10.0
-    - const: 10
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "Strings are always greater than numbers"
+    - const: "="
+  - cells:
+    - const: false
+    - expr: =(RC[1] < RC[2])
+    - const: "10"
+    - const: 10.0
     - null
     - null
     - null
@@ -134,12 +108,38 @@ sheets:
     - null
     - const: 2.0
     - null
-    - const: =
+    - const: "<"
+  - cells:
+    - const: true
+    - expr: =(RC[1] > RC[2])
+    - const: "10"
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - const: ">"
+  - cells:
+    - const: false
+    - expr: =(RC[1] = RC[2])
+    - const: 10.0
+    - const: "10"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - const: "="
   - cells:
     - const: true
     - expr: =(RC[1] < RC[2])
     - const: 10.0
-    - const: 10
+    - const: "10"
     - null
     - null
     - null
@@ -147,12 +147,12 @@ sheets:
     - null
     - const: 2.0
     - null
-    - const: <
+    - const: "<"
   - cells:
     - const: false
     - expr: =(RC[1] > RC[2])
     - const: 10.0
-    - const: 10
+    - const: "10"
     - null
     - null
     - null
@@ -160,7 +160,7 @@ sheets:
     - null
     - const: 2.0
     - null
-    - const: >
+    - const: ">"
   - cells:
     - const: true
     - expr: =(RC[1] > RC[2])
@@ -176,43 +176,21 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] = RC[2])
-    - const: a
-    - const: b
+    - const: "a"
+    - const: "b"
     - null
     - null
     - null
     - null
     - null
     - const: 2.0
-    - const: Equal (=)
-    - const: =
+    - const: "Equal (=)"
+    - const: "="
   - cells:
     - const: false
     - expr: =(RC[1] = RC[2])
-    - const: d
-    - const: c
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: true
-    - expr: =(RC[1] = RC[2])
-    - const: e
-    - const: e
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: false
-    - expr: =(RC[1] = RC[2])
-    - const: A
-    - const: AA
+    - const: "d"
+    - const: "c"
     - null
     - null
     - null
@@ -222,8 +200,8 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] = RC[2])
-    - const: AA
-    - const: AA
+    - const: "e"
+    - const: "e"
     - null
     - null
     - null
@@ -233,52 +211,8 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] = RC[2])
-    - const: AA
-    - const: A
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: false
-    - expr: =(RC[1] = RC[2])
-    - const: AA
-    - const: AB
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: false
-    - expr: =(RC[1] = RC[2])
-    - const: AB
-    - const: AA
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: false
-    - expr: =(RC[1] = RC[2])
-    - const: 
-    - const: A
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: false
-    - expr: =(RC[1] = RC[2])
-    - const: A
-    - const: 
+    - const: "A"
+    - const: "AA"
     - null
     - null
     - null
@@ -288,8 +222,74 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] = RC[2])
-    - const: A
-    - const: a
+    - const: "AA"
+    - const: "AA"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] = RC[2])
+    - const: "AA"
+    - const: "A"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] = RC[2])
+    - const: "AA"
+    - const: "AB"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] = RC[2])
+    - const: "AB"
+    - const: "AA"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] = RC[2])
+    - const: ""
+    - const: "A"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] = RC[2])
+    - const: "A"
+    - const: ""
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] = RC[2])
+    - const: "A"
+    - const: "a"
     - null
     - null
     - null
@@ -300,43 +300,21 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] <> RC[2])
-    - const: a
-    - const: b
+    - const: "a"
+    - const: "b"
     - null
     - null
     - null
     - null
     - null
     - const: 2.0
-    - const: Not equal (<>)
-    - const: <>
+    - const: "Not equal (<>)"
+    - const: "<>"
   - cells:
     - const: true
     - expr: =(RC[1] <> RC[2])
-    - const: d
-    - const: c
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: false
-    - expr: =(RC[1] <> RC[2])
-    - const: e
-    - const: e
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: true
-    - expr: =(RC[1] <> RC[2])
-    - const: A
-    - const: AA
+    - const: "d"
+    - const: "c"
     - null
     - null
     - null
@@ -346,8 +324,8 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] <> RC[2])
-    - const: AA
-    - const: AA
+    - const: "e"
+    - const: "e"
     - null
     - null
     - null
@@ -357,52 +335,8 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] <> RC[2])
-    - const: AA
-    - const: A
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: true
-    - expr: =(RC[1] <> RC[2])
-    - const: AA
-    - const: AB
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: true
-    - expr: =(RC[1] <> RC[2])
-    - const: AB
-    - const: AA
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: true
-    - expr: =(RC[1] <> RC[2])
-    - const: 
-    - const: A
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: true
-    - expr: =(RC[1] <> RC[2])
-    - const: A
-    - const: 
+    - const: "A"
+    - const: "AA"
     - null
     - null
     - null
@@ -412,8 +346,74 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] <> RC[2])
-    - const: A
-    - const: a
+    - const: "AA"
+    - const: "AA"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] <> RC[2])
+    - const: "AA"
+    - const: "A"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] <> RC[2])
+    - const: "AA"
+    - const: "AB"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] <> RC[2])
+    - const: "AB"
+    - const: "AA"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] <> RC[2])
+    - const: ""
+    - const: "A"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] <> RC[2])
+    - const: "A"
+    - const: ""
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] <> RC[2])
+    - const: "A"
+    - const: "a"
     - null
     - null
     - null
@@ -424,32 +424,21 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] > RC[2])
-    - const: a
-    - const: b
+    - const: "a"
+    - const: "b"
     - null
     - null
     - null
     - null
     - null
     - const: 2.0
-    - const: Greater than (>)
-    - const: >
+    - const: "Greater than (>)"
+    - const: ">"
   - cells:
     - const: true
     - expr: =(RC[1] > RC[2])
-    - const: d
-    - const: c
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: false
-    - expr: =(RC[1] > RC[2])
-    - const: e
-    - const: e
+    - const: "d"
+    - const: "c"
     - null
     - null
     - null
@@ -459,8 +448,8 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] > RC[2])
-    - const: A
-    - const: AA
+    - const: "e"
+    - const: "e"
     - null
     - null
     - null
@@ -470,19 +459,8 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] > RC[2])
-    - const: AA
-    - const: AA
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: true
-    - expr: =(RC[1] > RC[2])
-    - const: AA
-    - const: A
+    - const: "A"
+    - const: "AA"
     - null
     - null
     - null
@@ -492,8 +470,8 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] > RC[2])
-    - const: AA
-    - const: AB
+    - const: "AA"
+    - const: "AA"
     - null
     - null
     - null
@@ -503,8 +481,8 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] > RC[2])
-    - const: AB
-    - const: AA
+    - const: "AA"
+    - const: "A"
     - null
     - null
     - null
@@ -514,8 +492,8 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] > RC[2])
-    - const: 
-    - const: A
+    - const: "AA"
+    - const: "AB"
     - null
     - null
     - null
@@ -525,8 +503,8 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] > RC[2])
-    - const: A
-    - const: 
+    - const: "AB"
+    - const: "AA"
     - null
     - null
     - null
@@ -536,8 +514,30 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] > RC[2])
-    - const: A
-    - const: a
+    - const: ""
+    - const: "A"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] > RC[2])
+    - const: "A"
+    - const: ""
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] > RC[2])
+    - const: "A"
+    - const: "a"
     - null
     - null
     - null
@@ -548,43 +548,21 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] < RC[2])
-    - const: a
-    - const: b
+    - const: "a"
+    - const: "b"
     - null
     - null
     - null
     - null
     - null
     - const: 2.0
-    - const: Less than (<)
-    - const: <
+    - const: "Less than (<)"
+    - const: "<"
   - cells:
     - const: false
     - expr: =(RC[1] < RC[2])
-    - const: d
-    - const: c
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: false
-    - expr: =(RC[1] < RC[2])
-    - const: e
-    - const: e
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: true
-    - expr: =(RC[1] < RC[2])
-    - const: A
-    - const: AA
+    - const: "d"
+    - const: "c"
     - null
     - null
     - null
@@ -594,19 +572,8 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] < RC[2])
-    - const: AA
-    - const: AA
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: false
-    - expr: =(RC[1] < RC[2])
-    - const: AA
-    - const: A
+    - const: "e"
+    - const: "e"
     - null
     - null
     - null
@@ -616,8 +583,8 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] < RC[2])
-    - const: AA
-    - const: AB
+    - const: "A"
+    - const: "AA"
     - null
     - null
     - null
@@ -627,19 +594,8 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] < RC[2])
-    - const: AB
-    - const: AA
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: true
-    - expr: =(RC[1] < RC[2])
-    - const: 
-    - const: A
+    - const: "AA"
+    - const: "AA"
     - null
     - null
     - null
@@ -649,8 +605,19 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] < RC[2])
-    - const: A
-    - const: 
+    - const: "AA"
+    - const: "A"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] < RC[2])
+    - const: "AA"
+    - const: "AB"
     - null
     - null
     - null
@@ -660,8 +627,41 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] < RC[2])
-    - const: A
-    - const: a
+    - const: "AB"
+    - const: "AA"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] < RC[2])
+    - const: ""
+    - const: "A"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] < RC[2])
+    - const: "A"
+    - const: ""
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] < RC[2])
+    - const: "A"
+    - const: "a"
     - null
     - null
     - null
@@ -672,21 +672,21 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] >= RC[2])
-    - const: a
-    - const: b
+    - const: "a"
+    - const: "b"
     - null
     - null
     - null
     - null
     - null
     - const: 2.0
-    - const: Greater or equal (>=)
-    - const: >=
+    - const: "Greater or equal (>=)"
+    - const: ">="
   - cells:
     - const: true
     - expr: =(RC[1] >= RC[2])
-    - const: d
-    - const: c
+    - const: "d"
+    - const: "c"
     - null
     - null
     - null
@@ -696,8 +696,8 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] >= RC[2])
-    - const: e
-    - const: e
+    - const: "e"
+    - const: "e"
     - null
     - null
     - null
@@ -707,8 +707,8 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] >= RC[2])
-    - const: A
-    - const: AA
+    - const: "A"
+    - const: "AA"
     - null
     - null
     - null
@@ -718,8 +718,8 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] >= RC[2])
-    - const: AA
-    - const: AA
+    - const: "AA"
+    - const: "AA"
     - null
     - null
     - null
@@ -729,8 +729,8 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] >= RC[2])
-    - const: AA
-    - const: A
+    - const: "AA"
+    - const: "A"
     - null
     - null
     - null
@@ -740,8 +740,8 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] >= RC[2])
-    - const: AA
-    - const: AB
+    - const: "AA"
+    - const: "AB"
     - null
     - null
     - null
@@ -751,8 +751,8 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] >= RC[2])
-    - const: AB
-    - const: AA
+    - const: "AB"
+    - const: "AA"
     - null
     - null
     - null
@@ -762,8 +762,8 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] >= RC[2])
-    - const: 
-    - const: A
+    - const: ""
+    - const: "A"
     - null
     - null
     - null
@@ -773,8 +773,8 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] >= RC[2])
-    - const: A
-    - const: 
+    - const: "A"
+    - const: ""
     - null
     - null
     - null
@@ -784,8 +784,8 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] >= RC[2])
-    - const: A
-    - const: a
+    - const: "A"
+    - const: "a"
     - null
     - null
     - null
@@ -796,21 +796,21 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] <= RC[2])
-    - const: a
-    - const: b
+    - const: "a"
+    - const: "b"
     - null
     - null
     - null
     - null
     - null
     - const: 2.0
-    - const: Less or equal (<=)
-    - const: <=
+    - const: "Less or equal (<=)"
+    - const: "<="
   - cells:
     - const: false
     - expr: =(RC[1] <= RC[2])
-    - const: d
-    - const: c
+    - const: "d"
+    - const: "c"
     - null
     - null
     - null
@@ -820,8 +820,8 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] <= RC[2])
-    - const: e
-    - const: e
+    - const: "e"
+    - const: "e"
     - null
     - null
     - null
@@ -831,8 +831,8 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] <= RC[2])
-    - const: A
-    - const: AA
+    - const: "A"
+    - const: "AA"
     - null
     - null
     - null
@@ -842,30 +842,8 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] <= RC[2])
-    - const: AA
-    - const: AA
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: false
-    - expr: =(RC[1] <= RC[2])
-    - const: AA
-    - const: A
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 2.0
-  - cells:
-    - const: true
-    - expr: =(RC[1] <= RC[2])
-    - const: AA
-    - const: AB
+    - const: "AA"
+    - const: "AA"
     - null
     - null
     - null
@@ -875,8 +853,8 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] <= RC[2])
-    - const: AB
-    - const: AA
+    - const: "AA"
+    - const: "A"
     - null
     - null
     - null
@@ -886,8 +864,8 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] <= RC[2])
-    - const: 
-    - const: A
+    - const: "AA"
+    - const: "AB"
     - null
     - null
     - null
@@ -897,8 +875,8 @@ sheets:
   - cells:
     - const: false
     - expr: =(RC[1] <= RC[2])
-    - const: A
-    - const: 
+    - const: "AB"
+    - const: "AA"
     - null
     - null
     - null
@@ -908,8 +886,30 @@ sheets:
   - cells:
     - const: true
     - expr: =(RC[1] <= RC[2])
-    - const: A
-    - const: a
+    - const: ""
+    - const: "A"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =(RC[1] <= RC[2])
+    - const: "A"
+    - const: ""
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =(RC[1] <= RC[2])
+    - const: "A"
+    - const: "a"
     - null
     - null
     - null

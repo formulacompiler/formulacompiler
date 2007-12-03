@@ -71,7 +71,7 @@ public class WorkbookTest extends AbstractStandardInputsOutputsTestCase
 				RowImpl r = new RowImpl( s );
 				{
 					CellWithLazilyParsedExpression c = new CellWithLazilyParsedExpression( r, null );
-					c.setValue( "13.5" );
+					c.setValue( 13.5 );
 					c.setMaxFractionalDigits( 2 );
 					w.defineName( "Result", c.getCellIndex() );
 					named = c;

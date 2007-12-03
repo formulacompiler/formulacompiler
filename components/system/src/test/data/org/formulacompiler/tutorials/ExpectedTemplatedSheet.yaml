@@ -8,32 +8,32 @@ sheets:
   rows:
   - cells:
     - null
-    - const: Styled
-    - const: Plain
+    - const: "Styled"
+    - const: "Plain"
   - cells:
-    - const: Inputs
+    - const: "Inputs"
   - cells:
-    - const: CustomerRebate
+    - const: "CustomerRebate"
     - const: 0.1
     - const: 0.1
   - cells:
-    - const: ArticleRebate
+    - const: "ArticleRebate"
     - const: 0.05
     - const: 0.05
   - cells:
-    - const: OrderDate
+    - const: "OrderDate"
     - const: 39019.0
     - const: 39019.0
   - cells:
-    - const: IsKeyAccount
+    - const: "IsKeyAccount"
     - const: true
     - const: true
   - cells:
-    - const: Outputs
+    - const: "Outputs"
   - cells:
-    - const: Rebate
+    - const: "Rebate"
     - expr: =(R[-5]C[1] + R[-4]C[1])
   - cells:
-    - const: Intermediate Values
+    - const: "Intermediate Values"
   - cells:
-    - const: (sample only)
+    - const: "(sample only)"

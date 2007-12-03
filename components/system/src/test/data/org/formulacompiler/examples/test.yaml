@@ -7,19 +7,19 @@ sheets:
 - name: test
   rows:
   - cells:
-    - const: Demo computation for SEJ
+    - const: "Demo computation for SEJ"
   - cells:
   - cells:
-    - const: Inputs
+    - const: "Inputs"
   - cells:
-    - const: A
+    - const: "A"
     - const: 10.0
   - cells:
-    - const: B
+    - const: "B"
     - const: 100.0
   - cells:
   - cells:
-    - const: Outputs
+    - const: "Outputs"
   - cells:
-    - const: Result
+    - const: "Result"
     - expr: =(R[-4]C * R[-3]C)

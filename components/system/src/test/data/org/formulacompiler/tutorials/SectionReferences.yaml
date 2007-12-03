@@ -7,21 +7,21 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Vertically repeating section:
-    - const: Name
-    - const: Value
-    - const: RepValue
-    - const: SubName
-    - const: SubValue
-    - const: SubRef
-    - const: InnerRef
-    - const: InnerSum
-    - const: SelfSum
-    - const: OuterSum
-    - const: Value2
-    - const: Outer cells
+    - const: "Vertically repeating section:"
+    - const: "Name"
+    - const: "Value"
+    - const: "RepValue"
+    - const: "SubName"
+    - const: "SubValue"
+    - const: "SubRef"
+    - const: "InnerRef"
+    - const: "InnerSum"
+    - const: "SelfSum"
+    - const: "OuterSum"
+    - const: "Value2"
+    - const: "Outer cells"
   - cells:
-    - const: Outer cells:
+    - const: "Outer cells:"
     - null
     - const: -1.0
     - const: -1.0
@@ -29,10 +29,10 @@ sheets:
     - const: -10.0
   - cells:
     - null
-    - const: One
+    - const: "One"
     - const: 1.0
     - const: 1.0
-    - const: One.A
+    - const: "One.A"
     - const: 10.0
     - expr: =(RC[-1] + RC[-4])
     - expr: =(RC[-5] + 1.0)
@@ -46,7 +46,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: One.B
+    - const: "One.B"
     - const: 20.0
     - expr: =(RC[-1] + R[-1]C[-4])
     - null
@@ -57,10 +57,10 @@ sheets:
     - const: 4712.0
   - cells:
     - null
-    - const: Two
+    - const: "Two"
     - const: 2.0
     - const: 2.0
-    - const: Two.A
+    - const: "Two.A"
     - const: 30.0
     - expr: =(RC[-1] + RC[-4])
     - expr: =(RC[-5] + 1.0)
@@ -71,10 +71,10 @@ sheets:
     - const: 4713.0
   - cells:
     - null
-    - const: Three
+    - const: "Three"
     - const: 3.0
     - const: 3.0
-    - const: Three.A
+    - const: "Three.A"
     - const: 40.0
     - expr: =(RC[-1] + RC[-4])
     - expr: =(RC[-5] + 1.0)
@@ -84,15 +84,15 @@ sheets:
     - const: 1.0
     - const: 4714.0
   - cells:
-    - const: Outer cells:
+    - const: "Outer cells:"
     - null
     - const: 4.0
     - const: 4.0
     - null
     - const: 50.0
   - cells:
-    - const: Another vertical section:
-    - const: Eins
+    - const: "Another vertical section:"
+    - const: "Eins"
     - const: 1.0
     - const: 1.0
     - null
@@ -101,8 +101,8 @@ sheets:
     - const: 2.0
     - const: 3.0
   - cells:
-    - const: with horizontal section to the right:
-    - const: Zwei
+    - const: "with horizontal section to the right:"
+    - const: "Zwei"
     - const: 2.0
     - const: 2.0
     - null
@@ -112,7 +112,7 @@ sheets:
     - const: 0.3
   - cells:
     - null
-    - const: Drei
+    - const: "Drei"
     - const: 3.0
     - const: 3.0
     - null
@@ -121,7 +121,7 @@ sheets:
     - const: 0.02
     - const: 0.03
   - cells:
-    - const: Outer cells:
+    - const: "Outer cells:"
     - null
     - const: 5.0
     - const: 5.0
@@ -130,57 +130,57 @@ sheets:
   - cells:
   - cells:
   - cells:
-    - const: This works:
+    - const: "This works:"
   - cells:
-    - const: Nested sum
+    - const: "Nested sum"
     - expr: =SUM( R[-12]C[4]:R[-9]C[4] )
   - cells:
-    - const: Sum spanning multiple sections
+    - const: "Sum spanning multiple sections"
     - expr: =SUM( R[-14]C[1]:R[-5]C[1] )
   - cells:
-    - const: Sum spanning multiple sections (shaped)
+    - const: "Sum spanning multiple sections (shaped)"
     - expr: =SUM( R[-15]C[1]:R[-6]C[2] )
   - cells:
-    - const: Sum spanning multiple and nested sections
+    - const: "Sum spanning multiple and nested sections"
     - expr: =SUM( R[-16]C[4]:R[-7]C[4] )
   - cells:
-    - const: Sum over inner refs
+    - const: "Sum over inner refs"
     - expr: =SUM( R[-16]C[6]:R[-13]C[6] )
   - cells:
-    - const: Sum over inner sums
+    - const: "Sum over inner sums"
     - expr: =SUM( R[-17]C[7]:R[-14]C[7] )
   - cells:
-    - const: Sum over inner self sums
+    - const: "Sum over inner self sums"
     - expr: =SUM( R[-18]C[8]:R[-15]C[8] )
   - cells:
-    - const: Sum over inner outer nested sums
+    - const: "Sum over inner outer nested sums"
     - expr: =SUM( R[-19]C[9]:R[-16]C[9] )
   - cells:
-    - const: Sum over nested and inner section in parallel
+    - const: "Sum over nested and inner section in parallel"
     - expr: =SUM( R[-20]C[5]:R[-17]C[6] )
   - cells:
-    - const: Sum over section and cells in parallel
+    - const: "Sum over section and cells in parallel"
     - expr: =SUM( R[-21]C[10]:R[-18]C[11] )
   - cells:
-    - const: Sum over mixed section extents
+    - const: "Sum over mixed section extents"
     - expr: =SUM( R[-17]C[4]:R[-15]C[7] )
   - cells:
   - cells:
-    - const: Errors:
+    - const: "Errors:"
   - cells:
-    - const: Only nested inner section summed
+    - const: "Only nested inner section summed"
     - expr: =SUM( R[-25]C[4]:R[-24]C[4] )
   - cells:
-    - const: Only part of section summed
+    - const: "Only part of section summed"
     - expr: =SUM( R[-27]C[1]:R[-24]C[1] )
   - cells:
-    - const: ... Again
+    - const: "... Again"
     - expr: =SUM( R[-26]C[1]:R[-23]C[1] )
   - cells:
-    - const: Mixed sections not fully covered
+    - const: "Mixed sections not fully covered"
     - expr: =SUM( R[-23]C[4]:R[-23]C[7] )
   - cells:
-    - const: ... Again
+    - const: "... Again"
     - expr: =SUM( R[-24]C[4]:R[-22]C[5] )
 
 names:

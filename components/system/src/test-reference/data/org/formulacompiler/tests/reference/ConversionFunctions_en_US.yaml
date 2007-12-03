@@ -7,24 +7,24 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Expected
-    - const: Actual
-    - const: Inputs
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Inputs"
     - null
     - null
     - null
     - null
     - null
     - null
-    - const: # of Inputs
-    - const: Name
-    - const: Highlight
-    - const: Excel says
-    - const: Skip for
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
+    - const: "Skip for"
   - cells:
     - const: 123.0
     - expr: =VALUE( RC[1] )
-    - const: 123
+    - const: "123"
     - null
     - null
     - null
@@ -32,12 +32,12 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: VALUE (does not support blanks!)
-    - const: VALUE
+    - const: "VALUE (does not support blanks!)"
+    - const: "VALUE"
   - cells:
     - const: 123.0
     - expr: =VALUE( RC[1] )
-    - const:  123 
+    - const: " 123 "
     - null
     - null
     - null
@@ -48,7 +48,7 @@ sheets:
   - cells:
     - const: 123.55
     - expr: =VALUE( RC[1] )
-    - const: 123.55
+    - const: "123.55"
     - null
     - null
     - null
@@ -59,7 +59,7 @@ sheets:
   - cells:
     - const: -23.0
     - expr: =VALUE( RC[1] )
-    - const:  -23
+    - const: " -23"
     - null
     - null
     - null
@@ -70,7 +70,7 @@ sheets:
   - cells:
     - const: 1.0E8
     - expr: =VALUE( RC[1] )
-    - const: 100,000,000
+    - const: "100,000,000"
     - null
     - null
     - null
@@ -81,7 +81,7 @@ sheets:
   - cells:
     - const: 0.2
     - expr: =VALUE( RC[1] )
-    - const: 20%
+    - const: "20%"
     - null
     - null
     - null
@@ -92,7 +92,7 @@ sheets:
   - cells:
     - const: 1.234567E9
     - expr: =VALUE( RC[1] )
-    - const: 1,234.567e6
+    - const: "1,234.567e6"
     - null
     - null
     - null
@@ -103,7 +103,7 @@ sheets:
   - cells:
     - const: -1.2345E-6
     - expr: =VALUE( RC[1] )
-    - const: -12345e-10
+    - const: "-12345e-10"
     - null
     - null
     - null
@@ -114,7 +114,7 @@ sheets:
   - cells:
     - const: -1.23456E-7
     - expr: =VALUE( RC[1] )
-    - const: -123,456E-12
+    - const: "-123,456E-12"
     - null
     - null
     - null
@@ -136,7 +136,7 @@ sheets:
   - cells:
     - const: 35981.0
     - expr: =VALUE( RC[1] )
-    - const: 7/5/1998
+    - const: "7/5/1998"
     - null
     - null
     - null
@@ -147,7 +147,7 @@ sheets:
   - cells:
     - const: 35981.0
     - expr: =VALUE( RC[1] )
-    - const: 7/5/98
+    - const: "7/5/98"
     - null
     - null
     - null
@@ -158,7 +158,7 @@ sheets:
   - cells:
     - const: 35981.50902777778
     - expr: =VALUE( RC[1] )
-    - const: 7/5/1998 12:13
+    - const: "7/5/1998 12:13"
     - null
     - null
     - null
@@ -169,7 +169,7 @@ sheets:
   - cells:
     - const: 35981.50918981482
     - expr: =VALUE( RC[1] )
-    - const: 7/5/98 12:13:14
+    - const: "7/5/98 12:13:14"
     - null
     - null
     - null
@@ -180,7 +180,7 @@ sheets:
   - cells:
     - const: 0.5090277777777777
     - expr: =VALUE( RC[1] )
-    - const: 12:13
+    - const: "12:13"
     - null
     - null
     - null
@@ -191,7 +191,7 @@ sheets:
   - cells:
     - const: 0.5091898148148148
     - expr: =VALUE( RC[1] )
-    - const: 12:13:14
+    - const: "12:13:14"
     - null
     - null
     - null
@@ -202,7 +202,7 @@ sheets:
   - cells:
     - const: 0.009027777777777779
     - expr: =VALUE( RC[1] )
-    - const: 0:13
+    - const: "0:13"
     - null
     - null
     - null
@@ -213,7 +213,7 @@ sheets:
   - cells:
     - const: 0.009189814814814814
     - expr: =VALUE( RC[1] )
-    - const: 0:13:14
+    - const: "0:13:14"
     - null
     - null
     - null
@@ -224,7 +224,7 @@ sheets:
   - cells:
     - const: 35981.50902777778
     - expr: =VALUE( RC[1] )
-    - const: 7/5/1998 12:13 PM
+    - const: "7/5/1998 12:13 PM"
     - null
     - null
     - null
@@ -235,7 +235,7 @@ sheets:
   - cells:
     - const: 35981.50918981482
     - expr: =VALUE( RC[1] )
-    - const: 7/5/98 12:13:14 PM
+    - const: "7/5/98 12:13:14 PM"
     - null
     - null
     - null
@@ -246,7 +246,7 @@ sheets:
   - cells:
     - const: 0.5090277777777777
     - expr: =VALUE( RC[1] )
-    - const: 12:13 PM
+    - const: "12:13 PM"
     - null
     - null
     - null
@@ -257,7 +257,7 @@ sheets:
   - cells:
     - const: 0.5091898148148148
     - expr: =VALUE( RC[1] )
-    - const: 12:13:14 PM
+    - const: "12:13:14 PM"
     - null
     - null
     - null
@@ -268,7 +268,7 @@ sheets:
   - cells:
     - const: 0.5090277777777777
     - expr: =VALUE( RC[1] )
-    - const: 0:13 PM
+    - const: "0:13 PM"
     - null
     - null
     - null
@@ -279,7 +279,7 @@ sheets:
   - cells:
     - const: 0.5091898148148148
     - expr: =VALUE( RC[1] )
-    - const: 0:13:14 PM
+    - const: "0:13:14 PM"
     - null
     - null
     - null
@@ -290,7 +290,7 @@ sheets:
   - cells:
     - const: 0.009027777777777779
     - expr: =VALUE( RC[1] )
-    - const: 12:13 AM
+    - const: "12:13 AM"
     - null
     - null
     - null
@@ -301,7 +301,7 @@ sheets:
   - cells:
     - const: 0.009189814814814814
     - expr: =VALUE( RC[1] )
-    - const: 12:13:14 AM
+    - const: "12:13:14 AM"
     - null
     - null
     - null
@@ -312,7 +312,7 @@ sheets:
   - cells:
     - const: 0.009027777777777779
     - expr: =VALUE( RC[1] )
-    - const: 0:13 AM
+    - const: "0:13 AM"
     - null
     - null
     - null
@@ -323,7 +323,7 @@ sheets:
   - cells:
     - const: 0.009189814814814814
     - expr: =VALUE( RC[1] )
-    - const: 0:13:14 AM
+    - const: "0:13:14 AM"
     - null
     - null
     - null
@@ -334,7 +334,7 @@ sheets:
   - cells:
     - const: 10959.0
     - expr: =VALUE( RC[1] )
-    - const: 1/1/30
+    - const: "1/1/30"
     - null
     - null
     - null
@@ -345,7 +345,7 @@ sheets:
   - cells:
     - const: 47483.0
     - expr: =VALUE( RC[1] )
-    - const: 12/31/29
+    - const: "12/31/29"
     - null
     - null
     - null
@@ -356,7 +356,7 @@ sheets:
   - cells:
     - const: 35981.0
     - expr: =VALUE( RC[1] )
-    - const: 1998/7/5
+    - const: "1998/7/5"
     - null
     - null
     - null
@@ -367,7 +367,7 @@ sheets:
   - cells:
     - const: 35981.50902777778
     - expr: =VALUE( RC[1] )
-    - const: 1998/7/5 12:13
+    - const: "1998/7/5 12:13"
     - null
     - null
     - null
@@ -378,7 +378,7 @@ sheets:
   - cells:
     - const: 35981.50918981482
     - expr: =VALUE( RC[1] )
-    - const: 1998/7/5 12:13:14
+    - const: "1998/7/5 12:13:14"
     - null
     - null
     - null
@@ -389,7 +389,7 @@ sheets:
   - cells:
     - const: 35981.0
     - expr: =VALUE( RC[1] )
-    - const: 1998-7-5
+    - const: "1998-7-5"
     - null
     - null
     - null
@@ -400,7 +400,7 @@ sheets:
   - cells:
     - const: 35981.50902777778
     - expr: =VALUE( RC[1] )
-    - const: 1998-7-5 12:13
+    - const: "1998-7-5 12:13"
     - null
     - null
     - null
@@ -411,7 +411,7 @@ sheets:
   - cells:
     - const: 35981.50918981482
     - expr: =VALUE( RC[1] )
-    - const: 1998-7-5 12:13:14
+    - const: "1998-7-5 12:13:14"
     - null
     - null
     - null
@@ -420,9 +420,9 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: !STR:FE
+    - const: "!STR:FE"
     - expr: =VALUE( RC[1] )
-    - const: This is not a number
+    - const: "This is not a number"
     - null
     - null
     - null
@@ -432,7 +432,7 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: #VALUE!
+    - const: "#VALUE!"
   - cells:
   - cells:
     - const: 12.345
@@ -445,12 +445,12 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: N (does not support blanks!)
-    - const: N
+    - const: "N (does not support blanks!)"
+    - const: "N"
   - cells:
     - const: 0.0
     - expr: =N( RC[1] )
-    - const: 12345
+    - const: "12345"
     - null
     - null
     - null
@@ -472,7 +472,7 @@ sheets:
   - cells:
     - const: 0.0
     - expr: =N( RC[1] )
-    - const: 1/1/2007
+    - const: "1/1/2007"
     - null
     - null
     - null
@@ -504,9 +504,9 @@ sheets:
     - const: 1.0
   - cells:
   - cells:
-    - const: AaBbCcDd
+    - const: "AaBbCcDd"
     - expr: =T( RC[1] )
-    - const: AaBbCcDd
+    - const: "AaBbCcDd"
     - null
     - null
     - null
@@ -514,23 +514,12 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: T (does not support blanks!)
-    - const: T
+    - const: "T (does not support blanks!)"
+    - const: "T"
   - cells:
-    - const: АаБбВвГгДд
+    - const: "АаБбВвГгДд"
     - expr: =T( RC[1] )
-    - const: АаБбВвГгДд
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 1.0
-  - cells:
-    - const: 
-    - expr: =T( RC[1] )
-    - const: 123.45
+    - const: "АаБбВвГгДд"
     - null
     - null
     - null
@@ -539,7 +528,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: 123.45
+    - const: ""
     - expr: =T( RC[1] )
     - const: 123.45
     - null
@@ -550,7 +539,18 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: 
+    - const: "123.45"
+    - expr: =T( RC[1] )
+    - const: "123.45"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: ""
     - expr: =T( RC[1] )
     - const: 39083.0
     - null
@@ -561,9 +561,9 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: 1/1/2007
+    - const: "1/1/2007"
     - expr: =T( RC[1] )
-    - const: 1/1/2007
+    - const: "1/1/2007"
     - null
     - null
     - null
@@ -572,7 +572,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: 
+    - const: ""
     - expr: =T( RC[1] )
     - const: true
     - null
@@ -583,7 +583,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: 
+    - const: ""
     - expr: =T( RC[1] )
     - const: false
     - null
@@ -595,23 +595,23 @@ sheets:
     - const: 1.0
   - cells:
   - cells:
-    - const: 0
+    - const: "0"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 0.0
-    - const: @
+    - const: "@"
     - null
     - null
     - null
     - null
     - null
     - const: 2.0
-    - const: TEXT (does not support blanks!)
-    - const: TEXT
+    - const: "TEXT (does not support blanks!)"
+    - const: "TEXT"
   - cells:
-    - const: 99999999999
+    - const: "99999999999"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 9.99999999994999E10
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -619,10 +619,10 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 1E+11
+    - const: "1E+11"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 9.99999999995E10
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -630,10 +630,10 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 0.000000009
+    - const: "0.000000009"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 9.0E-9
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -643,12 +643,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 9E-09
+    - const: "9E-09"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 9.000001E-9
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -658,12 +658,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 7.77778E-05
+    - const: "7.77778E-05"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 7.77777777777777E-5
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -673,12 +673,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.000777778
+    - const: "0.000777778"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 7.77777777777777E-4
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -688,12 +688,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.007777778
+    - const: "0.007777778"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 0.00777777777777777
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -703,12 +703,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.077777778
+    - const: "0.077777778"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 0.0777777777777777
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -718,12 +718,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.777777778
+    - const: "0.777777778"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 0.777777777777777
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -733,12 +733,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 7.777777778
+    - const: "7.777777778"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 7.77777777777777
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -748,12 +748,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 77.77777778
+    - const: "77.77777778"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 77.7777777777777
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -763,12 +763,12 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 777.7777778
+    - const: "777.7777778"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 777.777777777777
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -778,12 +778,12 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 7777.777778
+    - const: "7777.777778"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 7777.77777777777
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -791,10 +791,10 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 77777.77778
+    - const: "77777.77778"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 77777.7777777777
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -802,10 +802,10 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 777777.7778
+    - const: "777777.7778"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 777777.777777777
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -813,10 +813,10 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 7777777.778
+    - const: "7777777.778"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 7777777.77777777
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -824,10 +824,10 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 77777777.78
+    - const: "77777777.78"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 7.77777777777777E7
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -835,10 +835,10 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 777777777.8
+    - const: "777777777.8"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 7.77777777777777E8
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -846,10 +846,10 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 7777777778
+    - const: "7777777778"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 7.77777777777777E9
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -857,10 +857,10 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 77777777778
+    - const: "77777777778"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 7.77777777777777E10
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -868,10 +868,10 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 7.77778E+11
+    - const: "7.77778E+11"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 7.77777777777777E11
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -879,10 +879,10 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 7.77778E+12
+    - const: "7.77778E+12"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 7.77777777777777E12
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -890,10 +890,10 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 7.77778E+13
+    - const: "7.77778E+13"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 7.77777777777777E13
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -903,12 +903,12 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 7.77778E+14
+    - const: "7.77778E+14"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 7.77777777777777E14
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -918,12 +918,12 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: -777777777.8
+    - const: "-777777777.8"
     - expr: =TEXT( RC[1], RC[2] )
     - const: -7.77777777777777E8
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -931,10 +931,10 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: -7777777778
+    - const: "-7777777778"
     - expr: =TEXT( RC[1], RC[2] )
     - const: -7.77777777777777E9
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -942,10 +942,10 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: -77777777778
+    - const: "-77777777778"
     - expr: =TEXT( RC[1], RC[2] )
     - const: -7.77777777777777E10
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -953,10 +953,10 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: -7.77778E+11
+    - const: "-7.77778E+11"
     - expr: =TEXT( RC[1], RC[2] )
     - const: -7.77777777777777E11
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -964,10 +964,10 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 0.000000001
+    - const: "0.000000001"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.0E-9
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -977,12 +977,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.000000011
+    - const: "0.000000011"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.1E-8
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -992,12 +992,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.000000111
+    - const: "0.000000111"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.11E-7
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1007,12 +1007,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.000001111
+    - const: "0.000001111"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.111E-6
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1022,12 +1022,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.000011111
+    - const: "0.000011111"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.1111E-5
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1037,12 +1037,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.000111111
+    - const: "0.000111111"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.11111E-4
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1052,12 +1052,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.001111111
+    - const: "0.001111111"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 0.001111111
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1067,12 +1067,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.011111111
+    - const: "0.011111111"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 0.011111111
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1082,12 +1082,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.111111111
+    - const: "0.111111111"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 0.111111111
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1097,12 +1097,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 1E-11
+    - const: "1E-11"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.0E-11
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1112,12 +1112,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 1.1E-10
+    - const: "1.1E-10"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.1E-10
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1127,12 +1127,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 1.01E-09
+    - const: "1.01E-09"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.01E-9
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1142,12 +1142,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 1.101E-08
+    - const: "1.101E-08"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.101E-8
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1157,12 +1157,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 1.1101E-07
+    - const: "1.1101E-07"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.1101E-7
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1172,12 +1172,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 1.11101E-06
+    - const: "1.11101E-06"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.11101E-6
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1187,12 +1187,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 1.1111E-05
+    - const: "1.1111E-05"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.111101E-5
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1202,12 +1202,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.000111111
+    - const: "0.000111111"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.1111101E-4
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1217,12 +1217,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.001111111
+    - const: "0.001111111"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 0.00111111101
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1232,12 +1232,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.011111111
+    - const: "0.011111111"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 0.01111111101
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1247,12 +1247,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.111111111
+    - const: "0.111111111"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 0.11111111101
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1262,12 +1262,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 9.9E-10
+    - const: "9.9E-10"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 9.9E-10
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1277,12 +1277,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 1.99E-09
+    - const: "1.99E-09"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.99E-9
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1292,12 +1292,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 1.199E-08
+    - const: "1.199E-08"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.199E-8
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1307,12 +1307,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 1.1199E-07
+    - const: "1.1199E-07"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.1199E-7
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1322,12 +1322,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 1.11199E-06
+    - const: "1.11199E-06"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.11199E-6
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1337,12 +1337,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 1.1112E-05
+    - const: "1.1112E-05"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.111199E-5
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1352,12 +1352,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.000111112
+    - const: "0.000111112"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 1.1111199E-4
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1367,12 +1367,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.001111112
+    - const: "0.001111112"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 0.00111111199
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1382,12 +1382,12 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.011111112
+    - const: "0.011111112"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 0.01111111199
-    - const: @
+    - const: "@"
     - null
     - null
     - null
@@ -1397,27 +1397,27 @@ sheets:
     - null
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: 0.111111112
+    - const: "0.111111112"
     - expr: =TEXT( RC[1], RC[2] )
     - const: 0.11111111199
-    - const: @
+    - const: "@"
     - null
     - null
     - null
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
     - null
     - null
-    - const: bigdecimal, long
+    - const: "bigdecimal, long"
   - cells:
-    - const: AaBbCcDd
+    - const: "AaBbCcDd"
     - expr: =TEXT( RC[1], RC[2] )
-    - const: AaBbCcDd
-    - const: @
+    - const: "AaBbCcDd"
+    - const: "@"
     - null
     - null
     - null
@@ -1425,10 +1425,10 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: АаБбВвГгДд
+    - const: "АаБбВвГгДд"
     - expr: =TEXT( RC[1], RC[2] )
-    - const: АаБбВвГгДд
-    - const: @
+    - const: "АаБбВвГгДд"
+    - const: "@"
     - null
     - null
     - null
@@ -1437,7 +1437,7 @@ sheets:
     - const: 2.0
   - cells:
   - cells:
-    - const: 123.00
+    - const: "123.00"
     - expr: =FIXED( RC[1] )
     - const: 123.0
     - null
@@ -1447,10 +1447,10 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: FIXED
-    - const: FIXED
+    - const: "FIXED"
+    - const: "FIXED"
   - cells:
-    - const: 12.340
+    - const: "12.340"
     - expr: =FIXED( RC[1], RC[2] )
     - const: 12.34
     - const: 3.0
@@ -1461,7 +1461,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 12,345.340
+    - const: "12,345.340"
     - expr: =FIXED( RC[1], RC[2] )
     - const: 12345.34
     - const: 3.0
@@ -1472,7 +1472,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 123,456,789.123
+    - const: "123,456,789.123"
     - expr: =FIXED( RC[1], RC[2] )
     - const: 1.23456789123456E8
     - const: 3.0
@@ -1483,7 +1483,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 12,300
+    - const: "12,300"
     - expr: =FIXED( RC[1], RC[2] )
     - const: 12345.34
     - const: -2.0
@@ -1494,7 +1494,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 12345.340
+    - const: "12345.340"
     - expr: =FIXED( RC[1], RC[2], RC[3] )
     - const: 12345.34
     - const: 3.0
@@ -1505,7 +1505,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: 12,345.340
+    - const: "12,345.340"
     - expr: =FIXED( RC[1], RC[2], RC[3] )
     - const: 12345.34
     - const: 3.0
@@ -1516,7 +1516,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: 1,234,567,891,234.56
+    - const: "1,234,567,891,234.56"
     - expr: =FIXED( RC[1], RC[2], RC[3] )
     - const: 1.23456789123456E12
     - const: 2.0
@@ -1529,9 +1529,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 123,456,789,123,400.00
+    - const: "123,456,789,123,400.00"
     - expr: =FIXED( RC[1], RC[2], RC[3] )
     - const: 1.234567891234E14
     - const: 2.0
@@ -1544,9 +1544,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 1,234.6
+    - const: "1,234.6"
     - expr: =FIXED( RC[1], RC[2] )
     - const: 1234.567
     - const: 1.0
@@ -1557,7 +1557,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: -1,230
+    - const: "-1,230"
     - expr: =FIXED( RC[1], RC[2] )
     - const: -1234.567
     - const: -1.0
@@ -1568,7 +1568,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: 1230
+    - const: "1230"
     - expr: =FIXED( RC[1], RC[2], RC[3] )
     - const: 1234.567
     - const: -1.0
@@ -1579,7 +1579,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: -1230
+    - const: "-1230"
     - expr: =FIXED( RC[1], RC[2], RC[3] )
     - const: -1234.567
     - const: -1.0
@@ -1589,4 +1589,4 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."

@@ -7,15 +7,15 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: CustomerRebate
+    - const: "CustomerRebate"
     - const: 0.03
   - cells:
-    - const: ArticleRebate
+    - const: "ArticleRebate"
     - const: 0.06
   - cells:
-    - const: CustomerCategory
+    - const: "CustomerCategory"
     - const: 5.0
   - cells:
   - cells:
-    - const: Rebate
+    - const: "Rebate"
     - expr: =IF( (R[-2]C = 1.0), SUM( R[-4]C:R[-3]C ), MAX( R[-4]C:R[-3]C ) )

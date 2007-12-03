@@ -7,14 +7,14 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Name
-    - const: Base salary
-    - const: Overtime
-    - const: Total
-    - const: Bonus %
-    - const: Bonus amt
+    - const: "Name"
+    - const: "Base salary"
+    - const: "Overtime"
+    - const: "Total"
+    - const: "Bonus %"
+    - const: "Bonus amt"
   - cells:
-    - const: Ann
+    - const: "Ann"
     - const: 5600.0
       name: BASESALARY
     - const: 20.0
@@ -26,17 +26,17 @@ sheets:
     - expr: =(BONUSTOTAL * BONUSPERCENT)
       name: BONUSAMOUNT
   - cells:
-    - const: Total
+    - const: "Total"
     - null
     - null
     - expr: =SUM( SALARY )
       name: SALARYTOTAL
   - cells:
-    - const: Overtime rate
+    - const: "Overtime rate"
     - const: 50.0
       name: OVERTIMESALARYPERHOUR
   - cells:
-    - const: Bonus total
+    - const: "Bonus total"
     - const: 20000.0
       name: BONUSTOTAL
 

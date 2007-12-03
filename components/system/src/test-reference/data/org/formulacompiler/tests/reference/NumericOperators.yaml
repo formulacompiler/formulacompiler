@@ -7,20 +7,20 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Expected
-    - const: Actual
-    - const: Inputs
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Inputs"
     - null
     - null
     - null
     - null
     - null
     - null
-    - const: # of Inputs
-    - const: Name
-    - const: Highlight
-    - const: Excel says
-    - const: Skip for
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
+    - const: "Skip for"
   - cells:
     - const: 3.0
     - expr: =(RC[1] + RC[2])
@@ -32,8 +32,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Addition (+)
-    - const: +
+    - const: "Addition (+)"
+    - const: "+"
   - cells:
     - const: 12.0
     - expr: =((RC[1] + RC[2]) + RC[3])
@@ -56,7 +56,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 2.0
@@ -69,8 +69,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Subtraction (-)
-    - const: -
+    - const: "Subtraction (-)"
+    - const: "-"
   - cells:
     - const: 1.0
     - expr: =((RC[1] - RC[2]) - RC[3])
@@ -93,7 +93,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 35.0
@@ -106,8 +106,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Multiplication (*)
-    - const: *
+    - const: "Multiplication (*)"
+    - const: "*"
   - cells:
     - const: 0.2
     - expr: =(RC[1] * RC[2])
@@ -119,7 +119,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 7.0
@@ -132,8 +132,8 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: Precedence (* before +)
-    - const: * ( )
+    - const: "Precedence (* before +)"
+    - const: "* ( )"
   - cells:
     - const: 9.0
     - expr: =((RC[1] + RC[2]) * RC[3])
@@ -157,8 +157,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Division (/)
-    - const: /
+    - const: "Division (/)"
+    - const: "/"
   - cells:
     - const: 8.0
     - expr: =(RC[1] - (RC[2] / RC[3]))
@@ -181,7 +181,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
     - const: 9.666666667
     - expr: =(RC[1] - (RC[2] / RC[3]))
@@ -194,7 +194,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: !NUM:+Inf/AE
+    - const: "!NUM:+Inf/AE"
     - expr: =(RC[1] / RC[2])
     - const: 1.0
     - const: 0.0
@@ -204,8 +204,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Division by zero
-    - const: /
+    - const: "Division by zero"
+    - const: "/"
     - err: #DIV/0!
   - cells:
   - cells:
@@ -219,8 +219,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: Negation (-)
-    - const: -
+    - const: "Negation (-)"
+    - const: "-"
   - cells:
     - const: -2.0
     - expr: =((-RC[1]) - (-RC[2]))
@@ -243,7 +243,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.15
@@ -256,8 +256,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: Percentage (%)
-    - const: %
+    - const: "Percentage (%)"
+    - const: "%"
   - cells:
     - const: 5.13
     - expr: =((((RC[1] + RC[2])%) + RC[3]) + (RC[4]%))
@@ -280,7 +280,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 256.0
@@ -293,8 +293,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Exponentiation (^)
-    - const: ^
+    - const: "Exponentiation (^)"
+    - const: "^"
   - cells:
     - const: 24.0
     - expr: =((RC[1] ^ RC[2]) + (RC[3] ^ (RC[4] + RC[5])))
@@ -317,7 +317,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -330,7 +330,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: Empty cells are 0
+    - const: "Empty cells are 0"
   - cells:
     - const: 17.0
     - expr: =((RC[1] + RC[2]) - RC[3])

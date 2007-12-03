@@ -7,22 +7,22 @@ sheets:
 - name: test
   rows:
   - cells:
-    - const: Anzahl
+    - const: "Anzahl"
     - const: 10.0
       name: ANZAHL
   - cells:
-    - const: Einzelpreis
+    - const: "Einzelpreis"
     - const: 100.0
       name: EINZELPREIS
   - cells:
-    - const: Total
+    - const: "Total"
     - expr: =(ANZAHL * EINZELPREIS)
       name: TOTAL
   - cells:
   - cells:
   - cells:
   - cells:
-    - const: Rabatte
+    - const: "Rabatte"
     - const: 0.1
   - cells:
     - null

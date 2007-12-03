@@ -7,8 +7,8 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: now1
+    - const: "now1"
     - expr: =NOW()
   - cells:
-    - const: now2
+    - const: "now2"
     - expr: =NOW()

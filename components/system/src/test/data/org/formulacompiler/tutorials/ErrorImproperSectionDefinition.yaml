@@ -7,10 +7,10 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: This works:
+    - const: "This works:"
   - cells:
   - cells:
-    - const: Parallel vertical sections
+    - const: "Parallel vertical sections"
     - const: 1.0
     - const: 0.1
   - cells:
@@ -27,7 +27,7 @@ sheets:
     - const: 0.2
   - cells:
   - cells:
-    - const: Parallel horizontal sections
+    - const: "Parallel horizontal sections"
     - const: 1.0
     - const: 2.0
   - cells:
@@ -46,7 +46,7 @@ sheets:
     - const: 0.2
   - cells:
   - cells:
-    - const: Nested vertical sections
+    - const: "Nested vertical sections"
     - const: 1.0
     - const: 1.1
   - cells:
@@ -59,7 +59,7 @@ sheets:
     - const: 2.1
   - cells:
   - cells:
-    - const: Nested horizontal sections
+    - const: "Nested horizontal sections"
     - const: 1.0
     - null
     - const: 2.0
@@ -70,7 +70,7 @@ sheets:
     - const: 2.1
   - cells:
   - cells:
-    - const: Parallel mixed sections V/H
+    - const: "Parallel mixed sections V/H"
     - const: 1.0
     - const: 0.1
   - cells:
@@ -87,7 +87,7 @@ sheets:
     - const: 0.2
   - cells:
   - cells:
-    - const: Parallel mixed sections H/V
+    - const: "Parallel mixed sections H/V"
     - const: 1.0
     - const: 2.0
   - cells:
@@ -104,7 +104,7 @@ sheets:
     - const: 0.2
   - cells:
   - cells:
-    - const: Parallel mixed sections H/V
+    - const: "Parallel mixed sections H/V"
     - const: 1.0
     - const: 2.0
   - cells:
@@ -123,7 +123,7 @@ sheets:
     - const: 0.2
   - cells:
   - cells:
-    - const: Parallel mixed sections V/H
+    - const: "Parallel mixed sections V/H"
     - const: 1.0
     - const: 0.1
   - cells:
@@ -142,14 +142,14 @@ sheets:
     - const: 0.2
   - cells:
   - cells:
-    - const: These are errors:
+    - const: "These are errors:"
   - cells:
   - cells:
-    - const: Nested non-contained sections
-    - const: TODO
+    - const: "Nested non-contained sections"
+    - const: "TODO"
   - cells:
-    - const: Parallel overlapping sections
-    - const: TODO
+    - const: "Parallel overlapping sections"
+    - const: "TODO"
 
 names:
 - name: A_ONE

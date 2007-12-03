@@ -7,24 +7,24 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Expected
-    - const: Actual
-    - const: Inputs
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Inputs"
     - null
     - null
     - null
     - null
     - null
     - null
-    - const: # of Inputs
-    - const: Name
-    - const: Highlight
-    - const: Excel says
-    - const: Skip for
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
+    - const: "Skip for"
   - cells:
-    - const: Text
+    - const: "Text"
     - expr: =RC[1]
-    - const: Text
+    - const: "Text"
     - null
     - null
     - null
@@ -32,7 +32,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: Reference to other string
+    - const: "Reference to other string"
   - cells:
     - const: 0.0
     - expr: =RC[1]
@@ -44,7 +44,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: Numbers as returned by String valued outputs
+    - const: "Numbers as returned by String valued outputs"
   - cells:
     - const: 12345.6789
     - expr: =RC[1]
@@ -100,11 +100,11 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: Booleans are treated as 0/1!
+    - const: "Booleans are treated as 0/1!"
     - null
-    - const: TRUE
+    - const: "TRUE"
   - cells:
-    - const: 0
+    - const: "0"
     - expr: =RC[1]
     - const: false
     - null
@@ -116,7 +116,7 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: FALSE
+    - const: "FALSE"
   - cells:
     - const: 1.0
     - expr: =(RC[1] = RC[2])
@@ -130,9 +130,9 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: TRUE
+    - const: "TRUE"
   - cells:
-    - const: 0
+    - const: "0"
     - expr: =(RC[1] = RC[2])
     - const: 1.0
     - const: 2.0
@@ -144,7 +144,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: FALSE
+    - const: "FALSE"
   - cells:
     - const: 38032.0
     - expr: =RC[1]
@@ -156,14 +156,14 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: Date format is not respected!
+    - const: "Date format is not respected!"
     - null
-    - const: 15.02.2004
+    - const: "15.02.2004"
   - cells:
   - cells:
-    - const: Zero is 0
+    - const: "Zero is 0"
     - expr: =(RC[1] & " is " & RC[2])
-    - const: Zero
+    - const: "Zero"
     - const: 0.0
     - null
     - null
@@ -171,11 +171,11 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Value conversion with concatenation
+    - const: "Value conversion with concatenation"
   - cells:
-    - const: Fraction is 12345'6789
+    - const: "Fraction is 12345'6789"
     - expr: =(RC[1] & " is " & RC[2])
-    - const: Fraction
+    - const: "Fraction"
     - const: 12345.6789
     - null
     - null
@@ -184,9 +184,9 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: Exponent is 1200000
+    - const: "Exponent is 1200000"
     - expr: =(RC[1] & " is " & RC[2])
-    - const: Exponent
+    - const: "Exponent"
     - const: 1200000.0
     - null
     - null
@@ -195,9 +195,9 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: Integer is 123456789
+    - const: "Integer is 123456789"
     - expr: =(RC[1] & " is " & RC[2])
-    - const: Integer
+    - const: "Integer"
     - const: 1.23456789E8
     - null
     - null
@@ -206,9 +206,9 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: Percent is 0'1
+    - const: "Percent is 0'1"
     - expr: =(RC[1] & " is " & RC[2])
-    - const: Percent
+    - const: "Percent"
     - const: 0.1
     - null
     - null
@@ -217,7 +217,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: Bool is 1
+    - const: "Bool is 1"
     - expr: =("Bool is " & RC[1])
     - const: true
     - null
@@ -229,9 +229,9 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: Bool is TRUE
+    - const: "Bool is TRUE"
   - cells:
-    - const: Bool is 0
+    - const: "Bool is 0"
     - expr: =("Bool is " & RC[1])
     - const: false
     - null
@@ -243,9 +243,9 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: Bool is FALSE
+    - const: "Bool is FALSE"
   - cells:
-    - const: Bool is 1
+    - const: "Bool is 1"
     - expr: =("Bool is " & (RC[1] = RC[2]))
     - const: 1.0
     - const: 1.0
@@ -257,9 +257,9 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: Bool is TRUE
+    - const: "Bool is TRUE"
   - cells:
-    - const: Bool is 0
+    - const: "Bool is 0"
     - expr: =("Bool is " & (RC[1] = RC[2]))
     - const: 1.0
     - const: 2.0
@@ -271,9 +271,9 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: Bool is FALSE
+    - const: "Bool is FALSE"
   - cells:
-    - const: Date is 38032
+    - const: "Date is 38032"
     - expr: =("Date is " & RC[1])
     - const: 38032.0
     - null
@@ -283,10 +283,10 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: Excel converts date as number too!
+    - const: "Excel converts date as number too!"
   - cells:
   - cells:
-    - const: 12
+    - const: "12"
     - expr: =RC[2]
     - const: 1.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -296,10 +296,10 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: Plain vs. scientific format with String valued outputs
-    - const: xx
+    - const: "Plain vs. scientific format with String valued outputs"
+    - const: "xx"
   - cells:
-    - const: 120
+    - const: "120"
     - expr: =RC[2]
     - const: 2.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -310,7 +310,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: 1200
+    - const: "1200"
     - expr: =RC[2]
     - const: 3.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -321,7 +321,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: 12000
+    - const: "12000"
     - expr: =RC[2]
     - const: 4.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -332,7 +332,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: 120000
+    - const: "120000"
     - expr: =RC[2]
     - const: 5.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -343,7 +343,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: 1200000
+    - const: "1200000"
     - expr: =RC[2]
     - const: 6.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -354,7 +354,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: 12000000
+    - const: "12000000"
     - expr: =RC[2]
     - const: 7.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -367,9 +367,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 120000000
+    - const: "120000000"
     - expr: =RC[2]
     - const: 8.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -382,9 +382,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 1200000000
+    - const: "1200000000"
     - expr: =RC[2]
     - const: 9.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -397,9 +397,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 12000000000
+    - const: "12000000000"
     - expr: =RC[2]
     - const: 10.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -412,9 +412,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 120000000000
+    - const: "120000000000"
     - expr: =RC[2]
     - const: 11.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -427,9 +427,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 1200000000000
+    - const: "1200000000000"
     - expr: =RC[2]
     - const: 12.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -442,9 +442,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 12000000000000
+    - const: "12000000000000"
     - expr: =RC[2]
     - const: 13.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -457,9 +457,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 120000000000000
+    - const: "120000000000000"
     - expr: =RC[2]
     - const: 14.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -472,9 +472,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 1200000000000000
+    - const: "1200000000000000"
     - expr: =RC[2]
     - const: 15.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -487,9 +487,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 12000000000000000
+    - const: "12000000000000000"
     - expr: =RC[2]
     - const: 16.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -502,9 +502,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 120000000000000000
+    - const: "120000000000000000"
     - expr: =RC[2]
     - const: 17.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -517,9 +517,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 1200000000000000000
+    - const: "1200000000000000000"
     - expr: =RC[2]
     - const: 18.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -532,9 +532,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 12000000000000000000
+    - const: "12000000000000000000"
     - expr: =RC[2]
     - const: 19.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -547,9 +547,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 1'2E+20
+    - const: "1'2E+20"
     - expr: =RC[2]
     - const: 20.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -562,9 +562,9 @@ sheets:
     - null
     - null
     - null
-    - const: long jre14
+    - const: "long jre14"
   - cells:
-    - const: 1'2E+21
+    - const: "1'2E+21"
     - expr: =RC[2]
     - const: 21.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -577,9 +577,9 @@ sheets:
     - null
     - null
     - null
-    - const: long jre14
+    - const: "long jre14"
   - cells:
-    - const: 12340000000000000000
+    - const: "12340000000000000000"
     - expr: =RC[2]
     - const: 18.0
     - expr: =(12.34 * (10.0 ^ RC[-1]))
@@ -592,9 +592,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: 1'234E+20
+    - const: "1'234E+20"
     - expr: =RC[2]
     - const: 19.0
     - expr: =(12.34 * (10.0 ^ RC[-1]))
@@ -607,9 +607,9 @@ sheets:
     - null
     - null
     - null
-    - const: long jre14
+    - const: "long jre14"
   - cells:
-    - const: -12340000000000000000
+    - const: "-12340000000000000000"
     - expr: =RC[2]
     - const: 18.0
     - expr: =(-(12.34 * (10.0 ^ RC[-1])))
@@ -622,9 +622,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: -1'234E+20
+    - const: "-1'234E+20"
     - expr: =RC[2]
     - const: 19.0
     - expr: =(-(12.34 * (10.0 ^ RC[-1])))
@@ -637,10 +637,10 @@ sheets:
     - null
     - null
     - null
-    - const: long jre14
+    - const: "long jre14"
   - cells:
   - cells:
-    - const: Str 12
+    - const: "Str 12"
     - expr: =("Str " & RC[2])
     - const: 1.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -650,10 +650,10 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: Plain vs. scientific format with &
-    - const: &
+    - const: "Plain vs. scientific format with &"
+    - const: "&"
   - cells:
-    - const: Str 120
+    - const: "Str 120"
     - expr: =("Str " & RC[2])
     - const: 2.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -664,7 +664,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: Str 1200
+    - const: "Str 1200"
     - expr: =("Str " & RC[2])
     - const: 3.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -675,7 +675,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: Str 12000
+    - const: "Str 12000"
     - expr: =("Str " & RC[2])
     - const: 4.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -686,7 +686,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: Str 120000
+    - const: "Str 120000"
     - expr: =("Str " & RC[2])
     - const: 5.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -697,7 +697,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: Str 1200000
+    - const: "Str 1200000"
     - expr: =("Str " & RC[2])
     - const: 6.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -708,7 +708,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: Str 12000000
+    - const: "Str 12000000"
     - expr: =("Str " & RC[2])
     - const: 7.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -721,9 +721,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 120000000
+    - const: "Str 120000000"
     - expr: =("Str " & RC[2])
     - const: 8.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -736,9 +736,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 1200000000
+    - const: "Str 1200000000"
     - expr: =("Str " & RC[2])
     - const: 9.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -751,9 +751,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 12000000000
+    - const: "Str 12000000000"
     - expr: =("Str " & RC[2])
     - const: 10.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -766,9 +766,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 120000000000
+    - const: "Str 120000000000"
     - expr: =("Str " & RC[2])
     - const: 11.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -781,9 +781,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 1200000000000
+    - const: "Str 1200000000000"
     - expr: =("Str " & RC[2])
     - const: 12.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -796,9 +796,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 12000000000000
+    - const: "Str 12000000000000"
     - expr: =("Str " & RC[2])
     - const: 13.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -811,9 +811,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 120000000000000
+    - const: "Str 120000000000000"
     - expr: =("Str " & RC[2])
     - const: 14.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -826,9 +826,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 1200000000000000
+    - const: "Str 1200000000000000"
     - expr: =("Str " & RC[2])
     - const: 15.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -841,9 +841,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 12000000000000000
+    - const: "Str 12000000000000000"
     - expr: =("Str " & RC[2])
     - const: 16.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -856,9 +856,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 120000000000000000
+    - const: "Str 120000000000000000"
     - expr: =("Str " & RC[2])
     - const: 17.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -871,9 +871,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 1200000000000000000
+    - const: "Str 1200000000000000000"
     - expr: =("Str " & RC[2])
     - const: 18.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -886,9 +886,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 12000000000000000000
+    - const: "Str 12000000000000000000"
     - expr: =("Str " & RC[2])
     - const: 19.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -901,9 +901,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 1'2E+20
+    - const: "Str 1'2E+20"
     - expr: =("Str " & RC[2])
     - const: 20.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -916,9 +916,9 @@ sheets:
     - null
     - null
     - null
-    - const: long jre14
+    - const: "long jre14"
   - cells:
-    - const: Str 1'2E+21
+    - const: "Str 1'2E+21"
     - expr: =("Str " & RC[2])
     - const: 21.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -931,9 +931,9 @@ sheets:
     - null
     - null
     - null
-    - const: long jre14
+    - const: "long jre14"
   - cells:
-    - const: Str 12340000000000000000
+    - const: "Str 12340000000000000000"
     - expr: =("Str " & RC[2])
     - const: 18.0
     - expr: =(12.34 * (10.0 ^ RC[-1]))
@@ -946,9 +946,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 1'234E+20
+    - const: "Str 1'234E+20"
     - expr: =("Str " & RC[2])
     - const: 19.0
     - expr: =(12.34 * (10.0 ^ RC[-1]))
@@ -961,9 +961,9 @@ sheets:
     - null
     - null
     - null
-    - const: long jre14
+    - const: "long jre14"
   - cells:
-    - const: Str -12340000000000000000
+    - const: "Str -12340000000000000000"
     - expr: =("Str " & RC[2])
     - const: 18.0
     - expr: =(-(12.34 * (10.0 ^ RC[-1])))
@@ -976,9 +976,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str -1'234E+20
+    - const: "Str -1'234E+20"
     - expr: =("Str " & RC[2])
     - const: 19.0
     - expr: =(-(12.34 * (10.0 ^ RC[-1])))
@@ -991,12 +991,12 @@ sheets:
     - null
     - null
     - null
-    - const: long jre14
+    - const: "long jre14"
   - cells:
   - cells:
-    - const: Zero is 0
+    - const: "Zero is 0"
     - expr: =(RC[1] & " is " & RC[2])
-    - const: Zero
+    - const: "Zero"
     - const: 0.0
     - null
     - null
@@ -1005,9 +1005,9 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: Fraction is 12345'6789
+    - const: "Fraction is 12345'6789"
     - expr: =(RC[1] & " is " & RC[2])
-    - const: Fraction
+    - const: "Fraction"
     - const: 12345.6789
     - null
     - null
@@ -1016,9 +1016,9 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: Exponent is 12000000000
+    - const: "Exponent is 12000000000"
     - expr: =(RC[1] & " is " & RC[2])
-    - const: Exponent
+    - const: "Exponent"
     - const: 1.2E10
     - null
     - null
@@ -1027,9 +1027,9 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: Integer is 123456789
+    - const: "Integer is 123456789"
     - expr: =(RC[1] & " is " & RC[2])
-    - const: Integer
+    - const: "Integer"
     - const: 1.23456789E8
     - null
     - null
@@ -1038,9 +1038,9 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: Percent is 0'1
+    - const: "Percent is 0'1"
     - expr: =(RC[1] & " is " & RC[2])
-    - const: Percent
+    - const: "Percent"
     - const: 0.1
     - null
     - null
@@ -1049,7 +1049,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: Date is 38032
+    - const: "Date is 38032"
     - expr: =("Date is " & RC[1])
     - const: 38032.0
     - null
@@ -1060,7 +1060,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: Bool is 1
+    - const: "Bool is 1"
     - expr: =("Bool is " & RC[1])
     - const: true
     - null
@@ -1072,9 +1072,9 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: Bool is TRUE
+    - const: "Bool is TRUE"
   - cells:
-    - const: Bool is 0
+    - const: "Bool is 0"
     - expr: =("Bool is " & RC[1])
     - const: false
     - null
@@ -1086,9 +1086,9 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: Bool is FALSE
+    - const: "Bool is FALSE"
   - cells:
-    - const: Bool is 1
+    - const: "Bool is 1"
     - expr: =("Bool is " & (RC[1] = RC[2]))
     - const: 1.0
     - const: 1.0
@@ -1100,9 +1100,9 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: Bool is TRUE
+    - const: "Bool is TRUE"
   - cells:
-    - const: Bool is 0
+    - const: "Bool is 0"
     - expr: =("Bool is " & (RC[1] = RC[2]))
     - const: 1.0
     - const: 2.0
@@ -1114,10 +1114,10 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: Bool is FALSE
+    - const: "Bool is FALSE"
   - cells:
   - cells:
-    - const: Str 12
+    - const: "Str 12"
     - expr: =("Str " & RC[2])
     - const: 1.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1127,9 +1127,9 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: Plain vs. scientific format
+    - const: "Plain vs. scientific format"
   - cells:
-    - const: Str 120
+    - const: "Str 120"
     - expr: =("Str " & RC[2])
     - const: 2.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1140,7 +1140,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: Str 1200
+    - const: "Str 1200"
     - expr: =("Str " & RC[2])
     - const: 3.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1151,7 +1151,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: Str 12000
+    - const: "Str 12000"
     - expr: =("Str " & RC[2])
     - const: 4.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1162,7 +1162,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: Str 120000
+    - const: "Str 120000"
     - expr: =("Str " & RC[2])
     - const: 5.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1173,7 +1173,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: Str 1200000
+    - const: "Str 1200000"
     - expr: =("Str " & RC[2])
     - const: 6.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1184,7 +1184,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: Str 12000000
+    - const: "Str 12000000"
     - expr: =("Str " & RC[2])
     - const: 7.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1197,9 +1197,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 120000000
+    - const: "Str 120000000"
     - expr: =("Str " & RC[2])
     - const: 8.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1212,9 +1212,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 1200000000
+    - const: "Str 1200000000"
     - expr: =("Str " & RC[2])
     - const: 9.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1227,9 +1227,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 12000000000
+    - const: "Str 12000000000"
     - expr: =("Str " & RC[2])
     - const: 10.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1242,9 +1242,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 120000000000
+    - const: "Str 120000000000"
     - expr: =("Str " & RC[2])
     - const: 11.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1257,9 +1257,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 1200000000000
+    - const: "Str 1200000000000"
     - expr: =("Str " & RC[2])
     - const: 12.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1272,9 +1272,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 12000000000000
+    - const: "Str 12000000000000"
     - expr: =("Str " & RC[2])
     - const: 13.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1287,9 +1287,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 120000000000000
+    - const: "Str 120000000000000"
     - expr: =("Str " & RC[2])
     - const: 14.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1302,9 +1302,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 1200000000000000
+    - const: "Str 1200000000000000"
     - expr: =("Str " & RC[2])
     - const: 15.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1317,9 +1317,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 12000000000000000
+    - const: "Str 12000000000000000"
     - expr: =("Str " & RC[2])
     - const: 16.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1332,9 +1332,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 120000000000000000
+    - const: "Str 120000000000000000"
     - expr: =("Str " & RC[2])
     - const: 17.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1347,9 +1347,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 1200000000000000000
+    - const: "Str 1200000000000000000"
     - expr: =("Str " & RC[2])
     - const: 18.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1362,9 +1362,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 12000000000000000000
+    - const: "Str 12000000000000000000"
     - expr: =("Str " & RC[2])
     - const: 19.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1377,9 +1377,9 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
-    - const: Str 1'2E+20
+    - const: "Str 1'2E+20"
     - expr: =("Str " & RC[2])
     - const: 20.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1392,9 +1392,9 @@ sheets:
     - null
     - null
     - null
-    - const: long jre14
+    - const: "long jre14"
   - cells:
-    - const: Str 1'2E+21
+    - const: "Str 1'2E+21"
     - expr: =("Str " & RC[2])
     - const: 21.0
     - expr: =(1.2 * (10.0 ^ RC[-1]))
@@ -1407,4 +1407,4 @@ sheets:
     - null
     - null
     - null
-    - const: long jre14
+    - const: "long jre14"

@@ -7,20 +7,20 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Expected
-    - const: Actual
-    - const: Inputs
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Inputs"
     - null
     - null
     - null
     - null
     - null
     - null
-    - const: # of Inputs
-    - const: Name
-    - const: Highlight
-    - const: Excel says
-    - const: Skip for
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
+    - const: "Skip for"
   - cells:
     - const: 6.0
     - expr: =PRODUCT( RC[1]:RC[3] )
@@ -32,8 +32,8 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: PRODUCT (does not support blanks!)
-    - const: PRODUCT
+    - const: "PRODUCT (does not support blanks!)"
+    - const: "PRODUCT"
   - cells:
     - const: 120.0
     - expr: =PRODUCT( RC[1]:RC[3] )
@@ -45,7 +45,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 720.0
@@ -69,7 +69,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -93,7 +93,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 2.0
@@ -117,7 +117,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 6.0
@@ -141,7 +141,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 70.0
@@ -165,7 +165,7 @@ sheets:
     - const: 2.0
     - const: 1.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 4.0
@@ -189,7 +189,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 120.0
@@ -213,7 +213,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 210.0
@@ -237,7 +237,7 @@ sheets:
     - null
     - const: 10.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 3.0
@@ -250,8 +250,8 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: COUNT (does not support blanks!)
-    - const: COUNT
+    - const: "COUNT (does not support blanks!)"
+    - const: "COUNT"
   - cells:
     - const: 3.0
     - expr: =COUNT( RC[1]:RC[3] )
@@ -263,7 +263,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 6.0
@@ -287,7 +287,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -311,7 +311,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 2.0
@@ -335,7 +335,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 3.0
@@ -359,7 +359,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 4.0
@@ -383,7 +383,7 @@ sheets:
     - const: 2.0
     - const: 1.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 4.0
@@ -407,7 +407,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 3.0
@@ -431,7 +431,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 5.0
@@ -455,33 +455,33 @@ sheets:
     - null
     - const: 10.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 3.0
     - expr: =COUNTA( RC[1]:RC[3] )
     - const: 1.0
-    - const:  
+    - const: " "
     - const: true
     - null
     - null
     - null
     - null
     - const: 3.0
-    - const: COUNTA
-    - const: COUNTA
+    - const: "COUNTA"
+    - const: "COUNTA"
   - cells:
     - const: 3.0
     - expr: =COUNTA( RC[1]:RC[3] )
     - const: false
     - const: 5.0
-    - const: Hello
+    - const: "Hello"
     - null
     - null
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 2.0
@@ -494,8 +494,8 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: AVERAGE (does not support blanks!)
-    - const: AVERAGE
+    - const: "AVERAGE (does not support blanks!)"
+    - const: "AVERAGE"
   - cells:
     - const: 5.0
     - expr: =AVERAGE( RC[1]:RC[3] )
@@ -507,7 +507,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 3.5
@@ -531,7 +531,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -555,7 +555,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.5
@@ -579,7 +579,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 2.0
@@ -603,7 +603,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 3.75
@@ -627,7 +627,7 @@ sheets:
     - const: 2.0
     - const: 1.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.5
@@ -651,7 +651,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 5.0
@@ -675,7 +675,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 3.6
@@ -699,7 +699,7 @@ sheets:
     - null
     - const: 10.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: -1.0
@@ -712,8 +712,8 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: MIN (does not support blanks!)
-    - const: MIN
+    - const: "MIN (does not support blanks!)"
+    - const: "MIN"
   - cells:
     - const: 4.0
     - expr: =MIN( RC[1]:RC[3] )
@@ -725,7 +725,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -749,7 +749,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -773,7 +773,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -797,7 +797,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -821,7 +821,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -845,7 +845,7 @@ sheets:
     - const: 2.0
     - const: 1.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -869,7 +869,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 4.0
@@ -893,7 +893,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -917,7 +917,7 @@ sheets:
     - null
     - const: 10.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 2.0
@@ -930,8 +930,8 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: MAX (does not support blanks!)
-    - const: MAX
+    - const: "MAX (does not support blanks!)"
+    - const: "MAX"
   - cells:
     - const: 6.0
     - expr: =MAX( RC[1]:RC[3] )
@@ -943,7 +943,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 6.0
@@ -967,7 +967,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -991,7 +991,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 2.0
@@ -1015,7 +1015,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 3.0
@@ -1039,7 +1039,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 7.0
@@ -1063,7 +1063,7 @@ sheets:
     - const: 2.0
     - const: 1.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 2.0
@@ -1087,7 +1087,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 6.0
@@ -1111,7 +1111,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 7.0
@@ -1135,7 +1135,7 @@ sheets:
     - null
     - const: 10.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.0
@@ -1148,8 +1148,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: VARP (does not support blanks!)
-    - const: VARP
+    - const: "VARP (does not support blanks!)"
+    - const: "VARP"
   - cells:
     - const: 0.0
     - expr: =VARP( RC[1] )
@@ -1161,7 +1161,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.25
@@ -1185,7 +1185,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 4.64
@@ -1209,7 +1209,7 @@ sheets:
     - null
     - const: 10.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.5
@@ -1222,8 +1222,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: VAR (does not support blanks!)
-    - const: VAR
+    - const: "VAR (does not support blanks!)"
+    - const: "VAR"
   - cells:
     - const: 0.5
     - expr: =VAR( RC[1], RC[2] )
@@ -1235,7 +1235,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 5.8
@@ -1259,7 +1259,7 @@ sheets:
     - null
     - const: 10.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 2.8284271247461903
@@ -1272,8 +1272,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: STDEV (does not support blanks!)
-    - const: STDEV
+    - const: "STDEV (does not support blanks!)"
+    - const: "STDEV"
   - cells:
     - const: 2.0816659994661326
     - expr: =STDEV( RC[1], RC[2], RC[3] )
@@ -1308,7 +1308,7 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.0
@@ -1321,8 +1321,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: STDEVP (does not support blanks!)
-    - const: STDEVP
+    - const: "STDEVP (does not support blanks!)"
+    - const: "STDEVP"
   - cells:
     - const: 1.5
     - expr: =STDEVP( RC[1], RC[2] )
@@ -1368,10 +1368,10 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: ...
+    - const: "..."
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
   - cells:
     - const: 0.0
@@ -1384,8 +1384,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: AVEDEV (does not support blanks!)
-    - const: AVEDEV
+    - const: "AVEDEV (does not support blanks!)"
+    - const: "AVEDEV"
   - cells:
     - const: 2.0
     - expr: =AVEDEV( RC[1], RC[2] )
@@ -1431,7 +1431,7 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.0
@@ -1444,8 +1444,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: DEVSQ (does not support blanks!)
-    - const: DEVSQ
+    - const: "DEVSQ (does not support blanks!)"
+    - const: "DEVSQ"
   - cells:
     - const: 8.0
     - expr: =DEVSQ( RC[1], RC[2] )
@@ -1471,7 +1471,7 @@ sheets:
     - null
     - null
     - null
-    - const: long
+    - const: "long"
   - cells:
   - cells:
     - const: 9933.430771428571
@@ -1487,7 +1487,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 103.4285714285714
     - expr: =DEVSQ( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
@@ -1499,10 +1499,10 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: ...
+    - const: "..."
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
   - cells:
     - const: 0.9352195295828235
@@ -1515,10 +1515,10 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: SKEW (does not support blanks!)
-    - const: SKEW
+    - const: "SKEW (does not support blanks!)"
+    - const: "SKEW"
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
   - cells:
     - const: -2.532706643504132
@@ -1542,7 +1542,7 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.3905325443786989
@@ -1555,10 +1555,10 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: KURT (does not support blanks!)
-    - const: KURT
+    - const: "KURT (does not support blanks!)"
+    - const: "KURT"
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
   - cells:
     - const: 6.5478454980828005
@@ -1574,7 +1574,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 4.2380757608131585
     - expr: =KURT( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
@@ -1586,10 +1586,10 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: ...
+    - const: "..."
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
   - cells:
     - const: 49.0
@@ -1602,8 +1602,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: SUMSQ
-    - const: SUMSQ
+    - const: "SUMSQ"
+    - const: "SUMSQ"
   - cells:
     - const: 29.0
     - expr: =SUMSQ( RC[1], RC[2] )
@@ -1649,10 +1649,10 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: ...
+    - const: "..."
     - null
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
   - cells:
     - const: 0.6666666666666666
@@ -1665,8 +1665,8 @@ sheets:
     - const: 6.0
     - null
     - const: 6.0
-    - const: COVAR
-    - const: COVAR
+    - const: "COVAR"
+    - const: "COVAR"
   - cells:
     - const: -0.1111111111111111
     - expr: =COVAR( RC[1]:RC[3], RC[4]:RC[6] )
@@ -1678,7 +1678,7 @@ sheets:
     - const: 3.0
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 0.25
@@ -1692,7 +1692,7 @@ sheets:
     - null
     - const: 4.0
   - cells:
-    - const: !NUM:NA
+    - const: "!NUM:NA"
     - expr: =COVAR( RC[1]:RC[3], RC[4]:RC[5] )
     - const: 2.0
     - const: 3.0

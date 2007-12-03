@@ -7,18 +7,18 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Function Evaluation Test Cases for SEJ
+    - const: "Function Evaluation Test Cases for SEJ"
       name: SUMMANDS
   - cells:
   - cells:
-    - const: Name
-    - const: Expected
-    - const: Actual
-    - const: # of Inputs
-    - const: Inputs
+    - const: "Name"
+    - const: "Expected"
+    - const: "Actual"
+    - const: "# of Inputs"
+    - const: "Inputs"
   - cells:
   - cells:
-    - const: Product involving empty cells (unsupported because empty cells are zero!)
+    - const: "Product involving empty cells (unsupported because empty cells are zero!)"
     - const: 8.0
     - expr: =PRODUCT( RC[2], RC[3], RC[4], RC[5] )
     - const: 4.0
@@ -26,7 +26,7 @@ sheets:
     - const: 2.0
   - cells:
   - cells:
-    - const: Sum over range delimited by named cells
+    - const: "Sum over range delimited by named cells"
     - const: 15.0
     - expr: =** org.formulacompiler.spreadsheet.SpreadsheetException$UnsupportedExpression: Encountered ")" at line 1, column 5.
 Was expecting one of:
@@ -258,7 +258,7 @@ Cell containing expression is C7.
     - const: 3.0
   - cells:
   - cells:
-    - const: Sum over range delimited by one named cell
+    - const: "Sum over range delimited by one named cell"
     - const: 9.0
     - expr: =** org.formulacompiler.spreadsheet.SpreadsheetException$UnsupportedExpression: Encountered ")" at line 1, column 5.
 Was expecting one of:
@@ -693,7 +693,7 @@ Was expecting one of:
 Cell containing expression is C11.
   - cells:
   - cells:
-    - const: Average with holes (SEJ does not yet support NULL!)
+    - const: "Average with holes (SEJ does not yet support NULL!)"
     - const: 2.0
     - expr: =AVERAGE( RC[2], RC[3], RC[4], RC[5] )
     - const: 4.0
@@ -703,12 +703,12 @@ Cell containing expression is C11.
     - const: 3.0
   - cells:
   - cells:
-    - const: Sum involving strings
+    - const: "Sum involving strings"
     - const: 2.0
     - expr: =SUM( RC[2]:RC[4] )
     - const: 3.0
-    - const: Hello
-    - const: world!
+    - const: "Hello"
+    - const: "world!"
     - const: 2.0
 
 names:

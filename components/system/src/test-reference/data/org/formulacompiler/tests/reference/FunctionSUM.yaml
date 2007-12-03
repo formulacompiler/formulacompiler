@@ -7,18 +7,18 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Expected
-    - const: Actual
-    - const: Inputs
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Inputs"
     - null
     - null
     - null
     - null
     - null
     - null
-    - const: # of Inputs
-    - const: Name
-    - const: Highlight
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
   - cells:
     - const: 6.0
     - expr: =SUM( RC[1]:RC[3] )
@@ -30,8 +30,8 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: 1-dim range
-    - const: SUM
+    - const: "1-dim range"
+    - const: "SUM"
   - cells:
     - const: 15.0
     - expr: =SUM( RC[1]:RC[3] )
@@ -43,7 +43,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 21.0
@@ -56,7 +56,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: 2-dim range
+    - const: "2-dim range"
   - cells:
     - const: 30.0
     - expr: =(SUM( RC[1]:RC[3] ) * 2.0)
@@ -68,7 +68,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -81,7 +81,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: Single cell
+    - const: "Single cell"
   - cells:
     - const: 4.0
     - expr: =SUM( RC[1] )
@@ -93,7 +93,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 3.0
@@ -106,7 +106,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Multiple cells
+    - const: "Multiple cells"
   - cells:
     - const: 9.0
     - expr: =SUM( RC[1], RC[2] )
@@ -118,7 +118,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 2.0
@@ -131,7 +131,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: Three cells with blanks
+    - const: "Three cells with blanks"
   - cells:
     - const: 10.0
     - expr: =SUM( RC[1], RC[2], RC[3] )
@@ -143,7 +143,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 15.0
@@ -156,7 +156,7 @@ sheets:
     - const: 6.0
     - const: 7.0
     - const: 7.0
-    - const: Non-contiguous cells
+    - const: "Non-contiguous cells"
   - cells:
     - const: 17.0
     - expr: =SUM( RC[1], RC[5], RC[2], RC[7] )
@@ -168,7 +168,7 @@ sheets:
     - const: 2.0
     - const: 1.0
     - const: 7.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 6.0
@@ -181,7 +181,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Cells referenced multiply
+    - const: "Cells referenced multiply"
   - cells:
     - const: 18.0
     - expr: =SUM( RC[2], RC[1], RC[1], RC[2] )
@@ -193,7 +193,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 15.0
@@ -206,7 +206,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: Named range
+    - const: "Named range"
   - cells:
     - const: 4.0
     - expr: =SUM( RC[1]:RC[3] )
@@ -218,7 +218,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 3.0
@@ -231,7 +231,7 @@ sheets:
     - null
     - null
     - const: 6.0
-    - const: Range with blanks
+    - const: "Range with blanks"
   - cells:
     - const: 15.0
     - expr: =SUM( RC[1]:RC[6] )
@@ -243,7 +243,7 @@ sheets:
     - null
     - null
     - const: 6.0
-    - const: ...
+    - const: "..."
   - cells:
   - cells:
     - const: 9.0
@@ -256,7 +256,7 @@ sheets:
     - const: 200.0
     - const: 8.0
     - const: 7.0
-    - const: Mixture of ranges and cells with blanks
+    - const: "Mixture of ranges and cells with blanks"
   - cells:
     - const: 6.0
     - expr: =SUM( RC[1]:RC[3], RC[5], RC[7] )
@@ -268,7 +268,7 @@ sheets:
     - null
     - null
     - const: 7.0
-    - const: ...
+    - const: "..."
 
 names:
 - name: SUMRANGE

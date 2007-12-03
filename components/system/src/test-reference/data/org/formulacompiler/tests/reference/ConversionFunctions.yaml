@@ -7,22 +7,22 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Expected
-    - const: Actual
-    - const: Inputs
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Inputs"
     - null
     - null
     - null
     - null
     - null
     - null
-    - const: # of Inputs
-    - const: Name
-    - const: Highlight
-    - const: Excel says
-    - const: Skip for
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
+    - const: "Skip for"
   - cells:
-    - const: I
+    - const: "I"
     - expr: =ROMAN( RC[1] )
     - const: 1.0
     - null
@@ -32,10 +32,10 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ROMAN
-    - const: ROMAN
+    - const: "ROMAN"
+    - const: "ROMAN"
   - cells:
-    - const: II
+    - const: "II"
     - expr: =ROMAN( RC[1] )
     - const: 2.2
     - null
@@ -46,7 +46,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: XII
+    - const: "XII"
     - expr: =ROMAN( RC[1] )
     - const: 12.0
     - null
@@ -57,7 +57,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: IX
+    - const: "IX"
     - expr: =ROMAN( RC[1] )
     - const: 9.0
     - null
@@ -68,7 +68,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: XI
+    - const: "XI"
     - expr: =ROMAN( RC[1] )
     - const: 11.0
     - null
@@ -79,7 +79,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: XL
+    - const: "XL"
     - expr: =ROMAN( RC[1] )
     - const: 40.0
     - null
@@ -90,7 +90,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: XLIX
+    - const: "XLIX"
     - expr: =ROMAN( RC[1] )
     - const: 49.0
     - null
@@ -101,7 +101,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: XCIX
+    - const: "XCIX"
     - expr: =ROMAN( RC[1] )
     - const: 99.0
     - null
@@ -112,7 +112,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: C
+    - const: "C"
     - expr: =ROMAN( RC[1] )
     - const: 100.0
     - null
@@ -123,7 +123,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: CLIX
+    - const: "CLIX"
     - expr: =ROMAN( RC[1] )
     - const: 159.0
     - null
@@ -134,7 +134,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: MCXXIII
+    - const: "MCXXIII"
     - expr: =ROMAN( RC[1] )
     - const: 1123.0
     - null
@@ -145,7 +145,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: MMMCMXCIX
+    - const: "MMMCMXCIX"
     - expr: =ROMAN( RC[1] )
     - const: 3999.0
     - null
@@ -156,7 +156,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: CDXCIX
+    - const: "CDXCIX"
     - expr: =ROMAN( RC[1] )
     - const: 499.0
     - null
@@ -167,7 +167,7 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: CDXCIX
+    - const: "CDXCIX"
     - expr: =ROMAN( RC[1], RC[2] )
     - const: 499.0
     - const: 0.0
@@ -178,7 +178,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: LDVLIV
+    - const: "LDVLIV"
     - expr: =ROMAN( RC[1], RC[2] )
     - const: 499.0
     - const: 1.0
@@ -189,7 +189,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: XDIX
+    - const: "XDIX"
     - expr: =ROMAN( RC[1], RC[2] )
     - const: 499.0
     - const: 2.0
@@ -200,7 +200,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: VDIV
+    - const: "VDIV"
     - expr: =ROMAN( RC[1], RC[2] )
     - const: 499.0
     - const: 3.0
@@ -211,7 +211,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: ID
+    - const: "ID"
     - expr: =ROMAN( RC[1], RC[2] )
     - const: 499.0
     - const: 4.0
@@ -222,7 +222,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: MMXIII
+    - const: "MMXIII"
     - expr: =ROMAN( RC[1], RC[2] )
     - const: 2013.0
     - const: 0.0
@@ -233,7 +233,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: !STR:FE
+    - const: "!STR:FE"
     - expr: =ROMAN( RC[1] )
     - const: 4000.0
     - null

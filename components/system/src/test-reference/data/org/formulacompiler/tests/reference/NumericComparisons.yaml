@@ -7,18 +7,18 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Expected
-    - const: Actual
-    - const: Inputs
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Inputs"
     - null
     - null
     - null
     - null
     - null
     - null
-    - const: # of Inputs
-    - const: Name
-    - const: Highlight
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
   - cells:
     - const: false
     - expr: =(RC[1] = RC[2])
@@ -30,8 +30,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Equal (=)
-    - const: =
+    - const: "Equal (=)"
+    - const: "="
   - cells:
     - const: false
     - expr: =(RC[1] = RC[2])
@@ -110,8 +110,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Not equal (<>)
-    - const: <>
+    - const: "Not equal (<>)"
+    - const: "<>"
   - cells:
     - const: true
     - expr: =(RC[1] <> RC[2])
@@ -190,8 +190,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Greater than (>)
-    - const: >
+    - const: "Greater than (>)"
+    - const: ">"
   - cells:
     - const: true
     - expr: =(RC[1] > RC[2])
@@ -270,8 +270,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Less than (<)
-    - const: <
+    - const: "Less than (<)"
+    - const: "<"
   - cells:
     - const: false
     - expr: =(RC[1] < RC[2])
@@ -350,8 +350,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Greater or equal (>=)
-    - const: >=
+    - const: "Greater or equal (>=)"
+    - const: ">="
   - cells:
     - const: true
     - expr: =(RC[1] >= RC[2])
@@ -430,8 +430,8 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: Less or equal (<=)
-    - const: <=
+    - const: "Less or equal (<=)"
+    - const: "<="
   - cells:
     - const: false
     - expr: =(RC[1] <= RC[2])

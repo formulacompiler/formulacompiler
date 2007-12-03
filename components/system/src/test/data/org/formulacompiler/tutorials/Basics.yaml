@@ -7,12 +7,12 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: CustomerRebate
+    - const: "CustomerRebate"
     - const: 0.03
   - cells:
-    - const: ArticleRebate
+    - const: "ArticleRebate"
     - const: 0.06
   - cells:
   - cells:
-    - const: Rebate
+    - const: "Rebate"
     - expr: =MAX( R[-3]C:R[-2]C )

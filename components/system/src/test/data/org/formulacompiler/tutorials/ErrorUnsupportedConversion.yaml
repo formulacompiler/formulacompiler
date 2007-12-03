@@ -9,7 +9,7 @@ sheets:
   - cells:
     - expr: =LOWER( STRINGINPUT )
       name: STRINGOUTPUT
-    - const: Hello WORLD!
+    - const: "Hello WORLD!"
       name: STRINGINPUT
   - cells:
     - expr: =(NUMINPUT * 2.0)

@@ -7,8 +7,8 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Date
+    - const: "Date"
     - const: 25732.0
   - cells:
-    - const: Formatted
+    - const: "Formatted"
     - expr: =TEXT( R[-1]C, "@" )

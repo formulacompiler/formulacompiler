@@ -7,19 +7,19 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Inputs
+    - const: "Inputs"
   - cells:
-    - const: A
+    - const: "A"
     - const: 1.0
   - cells:
-    - const: B
+    - const: "B"
     - const: 3.0
   - cells:
   - cells:
-    - const: Outputs
+    - const: "Outputs"
   - cells:
-    - const: Result
+    - const: "Result"
     - expr: =((R[-4]C / R[-3]C) + R[-4]C)
   - cells:
-    - const: Negated
+    - const: "Negated"
     - expr: =(-R[-5]C)

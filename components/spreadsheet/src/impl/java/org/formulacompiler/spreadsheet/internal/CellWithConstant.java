@@ -46,7 +46,7 @@ public final class CellWithConstant extends CellInstance
 	@Override
 	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
-		_to.vn( "const" ).v( getValue() ).lf();
+		_to.vn( "const" ).v( getValue(), true ).lf();
 		super.describeTo( _to );
 	}
 

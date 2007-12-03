@@ -7,22 +7,22 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Expected
-    - const: Actual
-    - const: Inputs
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Inputs"
     - null
     - null
     - null
     - null
     - null
     - null
-    - const: # of Inputs
-    - const: Name
-    - const: Highlight
-    - const: Excel says
-    - const: Skip for
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
+    - const: "Skip for"
   - cells:
-    - const: (now)
+    - const: "(now)"
     - expr: =NOW()
     - null
     - null
@@ -32,11 +32,11 @@ sheets:
     - null
     - null
     - const: 0.0
-    - const: NOW
-    - const: NOW
+    - const: "NOW"
+    - const: "NOW"
   - cells:
   - cells:
-    - const: (full days from 2006)
+    - const: "(full days from 2006)"
     - expr: =(TODAY() - RC[1])
     - const: 38718.0
     - null
@@ -46,8 +46,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: TODAY (compared to 1.1.2006)
-    - const: TODAY
+    - const: "TODAY (compared to 1.1.2006)"
+    - const: "TODAY"
   - cells:
   - cells:
     - const: 39447.0
@@ -60,8 +60,8 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: DATE
-    - const: DATE
+    - const: "DATE"
+    - const: "DATE"
   - cells:
     - const: 22383.0
     - expr: =DATE( RC[1], RC[2], RC[3] )
@@ -118,8 +118,8 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: TIME
-    - const: TIME
+    - const: "TIME"
+    - const: "TIME"
   - cells:
     - const: 0.7055439814814815
     - expr: =TIME( RC[1], RC[2], RC[3] )
@@ -165,8 +165,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: SECOND
-    - const: SECOND
+    - const: "SECOND"
+    - const: "SECOND"
   - cells:
     - const: 0.0
     - expr: =SECOND( RC[1] )
@@ -223,8 +223,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: MINUTE
-    - const: MINUTE
+    - const: "MINUTE"
+    - const: "MINUTE"
   - cells:
     - const: 0.0
     - expr: =MINUTE( RC[1] )
@@ -281,8 +281,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: HOUR
-    - const: HOUR
+    - const: "HOUR"
+    - const: "HOUR"
   - cells:
     - const: 12.0
     - expr: =HOUR( RC[1] )
@@ -339,8 +339,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: WEEKDAY
-    - const: WEEKDAY
+    - const: "WEEKDAY"
+    - const: "WEEKDAY"
   - cells:
     - const: 1.0
     - expr: =WEEKDAY( RC[1] )
@@ -430,7 +430,7 @@ sheets:
     - null
     - const: 2.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =WEEKDAY( RC[1], RC[2] )
     - const: 39454.0
     - const: 4.0
@@ -452,8 +452,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: DAY
-    - const: DAY
+    - const: "DAY"
+    - const: "DAY"
   - cells:
     - const: 6.0
     - expr: =DAY( RC[1] )
@@ -488,8 +488,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: MONTH
-    - const: MONTH
+    - const: "MONTH"
+    - const: "MONTH"
   - cells:
     - const: 6.0
     - expr: =MONTH( RC[1] )
@@ -524,8 +524,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: YEAR
-    - const: YEAR
+    - const: "YEAR"
+    - const: "YEAR"
   - cells:
     - const: 1996.0
     - expr: =YEAR( RC[1] )

@@ -7,11 +7,11 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Sections
-    - const: Inputs
+    - const: "Sections"
+    - const: "Inputs"
   - cells:
-    - const: OrdersForLastNDays(30)
-    - const: OrderTotal
+    - const: "OrdersForLastNDays(30)"
+    - const: "OrderTotal"
   - cells:
     - null
     - const: 450.0
@@ -30,15 +30,15 @@ sheets:
     - const: 5870.0
   - cells:
   - cells:
-    - const: Intermediates
+    - const: "Intermediates"
   - cells:
-    - const: total
+    - const: "total"
     - expr: =SUM( ORDERTOTAL:R[-3]C )
   - cells:
   - cells:
-    - const: Outputs
+    - const: "Outputs"
   - cells:
-    - const: Rating
+    - const: "Rating"
     - expr: =HLOOKUP( R[-3]C, RC[1]:R[1]C[5], 2.0 )
       name: RATING
     - const: 0.0
@@ -49,11 +49,11 @@ sheets:
   - cells:
     - null
     - null
-    - const: Abysmal
-    - const: Poor
-    - const: Average
-    - const: Good
-    - const: Excellent
+    - const: "Abysmal"
+    - const: "Poor"
+    - const: "Average"
+    - const: "Good"
+    - const: "Excellent"
 
 names:
 - name: ORDERSFORLASTTHREEMONTHS

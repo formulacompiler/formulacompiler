@@ -7,7 +7,7 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Last 5 sales
+    - const: "Last 5 sales"
     - const: 450.0
       name: LASTSALE
   - cells:
@@ -23,10 +23,10 @@ sheets:
     - null
     - const: 5870.0
   - cells:
-    - const: Total
+    - const: "Total"
     - expr: =SUM( LASTSALE:R[-1]C )
   - cells:
-    - const: Category
+    - const: "Category"
     - expr: =MATCH( R[-1]C, RC[1]:RC[5], 1.0 )
     - const: 0.0
     - const: 2000.0
@@ -34,7 +34,7 @@ sheets:
     - const: 7500.0
     - const: 10000.0
   - cells:
-    - const: Rating
+    - const: "Rating"
     - expr: =INDEX( RC[1]:RC[5], , R[-1]C )
       name: RATING
     - const: 5.0

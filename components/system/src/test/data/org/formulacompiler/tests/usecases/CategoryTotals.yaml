@@ -7,12 +7,12 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Category
-    - const: Amount
-    - const: Totals
+    - const: "Category"
+    - const: "Amount"
+    - const: "Totals"
   - cells:
   - cells:
-    - const: One
+    - const: "One"
     - null
     - expr: =SUM( ELEMENTAMOUNT:R[3]C[-1] )
       name: CATEGORYTOTAL
@@ -28,7 +28,7 @@ sheets:
     - const: 300.0
   - cells:
   - cells:
-    - const: Two
+    - const: "Two"
     - null
     - expr: =SUM( R[1]C[-1]:R[3]C[-1] )
   - cells:
@@ -42,7 +42,7 @@ sheets:
     - const: 90.0
   - cells:
   - cells:
-    - const: TOTAL
+    - const: "TOTAL"
     - null
     - expr: =SUM( CATEGORYTOTAL:R[-1]C )
       name: GRANDTOTAL

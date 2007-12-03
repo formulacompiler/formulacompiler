@@ -7,12 +7,12 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Side
+    - const: "Side"
     - const: 2.0
   - cells:
   - cells:
-    - const: Area
+    - const: "Area"
     - expr: =(R[-2]C * R[-2]C)
   - cells:
-    - const: Volume
+    - const: "Volume"
     - expr: =(R[-1]C * R[-3]C)

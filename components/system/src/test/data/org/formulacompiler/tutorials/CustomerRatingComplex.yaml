@@ -7,17 +7,17 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Sections
-    - const: Inputs
+    - const: "Sections"
+    - const: "Inputs"
     - null
-    - const: Intermediates
+    - const: "Intermediates"
   - cells:
-    - const: OrdersForLastNDays(90)
-    - const: OrderTotal
-    - const: OrderDate
-    - const: days back
-    - const: weight
-    - const: value
+    - const: "OrdersForLastNDays(90)"
+    - const: "OrderTotal"
+    - const: "OrderDate"
+    - const: "days back"
+    - const: "weight"
+    - const: "value"
   - cells:
     - null
     - const: 450.0
@@ -57,18 +57,18 @@ sheets:
     - expr: =(RC[-4] * RC[-1])
   - cells:
   - cells:
-    - const: Intermediates
+    - const: "Intermediates"
   - cells:
-    - const: total value
+    - const: "total value"
     - expr: =SUM( R[-7]C[4]:R[-3]C[4] )
   - cells:
-    - const: current date
+    - const: "current date"
     - expr: =TODAY()
   - cells:
   - cells:
-    - const: Outputs
+    - const: "Outputs"
   - cells:
-    - const: Rating
+    - const: "Rating"
     - expr: =MATCH( R[-4]C, RC[1]:RC[5] )
       name: RATING
     - const: 0.0

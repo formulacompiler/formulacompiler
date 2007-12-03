@@ -9,13 +9,13 @@ sheets:
   - cells:
     - expr: =VALUE( VALUEINPUT )
       name: VALUERESULT
-    - const: 1,234.56
+    - const: "1,234.56"
       name: VALUEINPUT
   - cells:
     - expr: =VALUE( (RC[1] & MIXEDINPUT) )
       name: MIXEDRESULT
-    - const: 0.
-    - const: 6
+    - const: "0."
+    - const: "6"
       name: MIXEDINPUT
 
 names:

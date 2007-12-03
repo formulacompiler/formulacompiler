@@ -7,24 +7,24 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Expected
-    - const: Actual
-    - const: Inputs
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Inputs"
     - null
     - null
     - null
     - null
     - null
     - null
-    - const: # of Inputs
-    - const: Name
-    - const: Highlight
-    - const: Excel says
-    - const: Skip for
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
+    - const: "Skip for"
   - cells:
     - const: true
     - expr: =ISTEXT( RC[1] )
-    - const: Abc
+    - const: "Abc"
     - null
     - null
     - null
@@ -32,12 +32,12 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ISTEXT (does not support blanks!)
-    - const: ISTEXT
+    - const: "ISTEXT (does not support blanks!)"
+    - const: "ISTEXT"
   - cells:
     - const: true
     - expr: =ISTEXT( RC[1] )
-    - const: Абвгд
+    - const: "Абвгд"
     - null
     - null
     - null
@@ -48,7 +48,7 @@ sheets:
   - cells:
     - const: true
     - expr: =ISTEXT( RC[1] )
-    - const: 12345
+    - const: "12345"
     - null
     - null
     - null
@@ -82,7 +82,7 @@ sheets:
   - cells:
     - const: false
     - expr: =ISNONTEXT( RC[1] )
-    - const: Abc
+    - const: "Abc"
     - null
     - null
     - null
@@ -90,12 +90,12 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ISNONTEXT (does not support blanks!)
-    - const: ISNONTEXT
+    - const: "ISNONTEXT (does not support blanks!)"
+    - const: "ISNONTEXT"
   - cells:
     - const: false
     - expr: =ISNONTEXT( RC[1] )
-    - const: Абвгд
+    - const: "Абвгд"
     - null
     - null
     - null
@@ -106,7 +106,7 @@ sheets:
   - cells:
     - const: false
     - expr: =ISNONTEXT( RC[1] )
-    - const: 12345
+    - const: "12345"
     - null
     - null
     - null
@@ -140,7 +140,7 @@ sheets:
   - cells:
     - const: false
     - expr: =ISNUMBER( RC[1] )
-    - const: Abc
+    - const: "Abc"
     - null
     - null
     - null
@@ -148,12 +148,12 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: ISNUMBER (does not support blanks and logical values!)
-    - const: ISNUMBER
+    - const: "ISNUMBER (does not support blanks and logical values!)"
+    - const: "ISNUMBER"
   - cells:
     - const: false
     - expr: =ISNUMBER( RC[1] )
-    - const: Абвгд
+    - const: "Абвгд"
     - null
     - null
     - null
@@ -164,7 +164,7 @@ sheets:
   - cells:
     - const: false
     - expr: =ISNUMBER( RC[1] )
-    - const: 12345
+    - const: "12345"
     - null
     - null
     - null

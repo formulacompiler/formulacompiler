@@ -8,138 +8,138 @@ sheets:
   rows:
   - cells:
   - cells:
-    - const: Test table
-    - const: Tree
-    - const: Height
-    - const: Yield
-    - const: Profit
-    - const: Date
+    - const: "Test table"
+    - const: "Tree"
+    - const: "Height"
+    - const: "Yield"
+    - const: "Profit"
+    - const: "Date"
   - cells:
     - null
-    - const: Apple
+    - const: "Apple"
     - const: 18.0
     - const: 14.0
     - const: 105.0
     - const: 38566.59375
   - cells:
     - null
-    - const: Pear
+    - const: "Pear"
     - const: 12.0
     - const: 10.0
     - const: 96.0
     - const: 38566.59444444445
   - cells:
     - null
-    - const: Cherry
+    - const: "Cherry"
     - const: 13.0
     - const: 9.0
     - const: 105.0
     - const: 38598.0
   - cells:
     - null
-    - const: Apple
+    - const: "Apple"
     - const: 14.0
     - const: 10.0
     - const: 75.0
     - const: 0.3645833333333333
   - cells:
     - null
-    - const: Pear
+    - const: "Pear"
     - const: 9.0
     - const: 8.0
     - const: 76.8
     - const: 0.3638888888888889
   - cells:
     - null
-    - const: Apple
+    - const: "Apple"
     - const: 8.0
     - const: 6.0
     - const: 45.0
     - const: 0.36319444444444443
   - cells:
   - cells:
-    - const: Criteria sets
-    - const: Tree
-    - const: Height
-    - const: Height
-    - const: Tree
-    - const: Height
+    - const: "Criteria sets"
+    - const: "Tree"
+    - const: "Height"
+    - const: "Height"
+    - const: "Tree"
+    - const: "Height"
   - cells:
     - null
-    - const: Apple
-    - const: >10.0
-    - const: <16
-    - const: Nonexistent
-    - const: <1.4e6
+    - const: "Apple"
+    - const: ">10.0"
+    - const: "<16"
+    - const: "Nonexistent"
+    - const: "<1.4e6"
   - cells:
     - null
-    - const: Pear
+    - const: "Pear"
     - null
-    - const: <1'000
+    - const: "<1'000"
   - cells:
   - cells:
     - null
-    - const: Tree
-    - const: Height
-    - const: Height
-    - const: RefTree
-    - const: RefHeight
-    - const: RefHeight
+    - const: "Tree"
+    - const: "Height"
+    - const: "Height"
+    - const: "RefTree"
+    - const: "RefHeight"
+    - const: "RefHeight"
   - cells:
     - null
     - expr: =RC[3]
     - expr: =(">" & RC[3])
     - expr: =("<" & RC[3])
-    - const: Apple
+    - const: "Apple"
     - const: 10.0
     - const: 16.0
   - cells:
   - cells:
     - null
-    - const: Date
-    - const: Date
-    - const: Date
-    - const: RefDate
-    - const: Date
-    - const: Date
-    - const: RefDate
-    - const: Date
-    - const: Date
-    - const: RefDate
+    - const: "Date"
+    - const: "Date"
+    - const: "Date"
+    - const: "RefDate"
+    - const: "Date"
+    - const: "Date"
+    - const: "RefDate"
+    - const: "Date"
+    - const: "Date"
+    - const: "RefDate"
   - cells:
     - null
     - const: 38566.59444444445
-    - const: >=2.9.2005
+    - const: ">=2.9.2005"
     - expr: =(">=" & VALDATE1)
     - const: 38597.0
       name: VALDATE1
-    - const: >=2.8.05 14:16
+    - const: ">=2.8.05 14:16"
     - expr: =(">=" & VALDATE2)
     - const: 38566.59444444445
       name: VALDATE2
-    - const: >=8:45
+    - const: ">=8:45"
     - expr: =(">=" & VALDATE3)
     - const: 0.3645833333333333
       name: VALDATE3
   - cells:
   - cells:
     - null
-    - const: Free Form
+    - const: "Free Form"
   - cells:
     - null
     - expr: =AND( (R[-18]C = "Apple"), (R[-18]C[1] > R[-6]C[4]), (R[-18]C[1] < R[-6]C[5]) )
   - cells:
   - cells:
   - cells:
-    - const: Tests
-    - const: Expected
-    - const: Actual
-    - const: Column
-    - const: Table
-    - const: Criteria
-    - const: Name
-    - const: Highlight
-    - const: Excel says
+    - const: "Tests"
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Column"
+    - const: "Table"
+    - const: "Criteria"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
   - cells:
   - cells:
     - null
@@ -148,8 +148,8 @@ sheets:
     - null
     - null
     - null
-    - const: DSUM
-    - const: DSUM
+    - const: "DSUM"
+    - const: "DSUM"
   - cells:
     - null
     - const: 0.0
@@ -159,8 +159,8 @@ sheets:
     - const: 247.8
     - expr: =DSUM( R[-26]C[-1]:R[-20]C[2], RC[1], R[-18]C[-1]:R[-16]C[1] )
     - const: 4.0
-    - const: Data1
-    - const: Vals1
+    - const: "Data1"
+    - const: "Vals1"
   - cells:
     - null
     - const: 28.0
@@ -192,7 +192,7 @@ sheets:
     - null
     - null
     - null
-    - const: date/time criteria
+    - const: "date/time criteria"
   - cells:
     - null
     - const: 9.0
@@ -203,7 +203,7 @@ sheets:
     - expr: =DSUM( R[-35]C[-1]:R[-29]C[3], "Yield", R[-20]C[1]:R[-19]C[1] )
     - null
     - null
-    - const: ValDate1
+    - const: "ValDate1"
   - cells:
     - null
     - const: 19.0
@@ -214,7 +214,7 @@ sheets:
     - expr: =DSUM( R[-37]C[-1]:R[-31]C[3], "Yield", R[-22]C[4]:R[-21]C[4] )
     - null
     - null
-    - const: ValDate2
+    - const: "ValDate2"
   - cells:
     - null
     - const: 43.0
@@ -225,15 +225,15 @@ sheets:
     - expr: =DSUM( R[-39]C[-1]:R[-33]C[3], "Yield", R[-24]C[7]:R[-23]C[7] )
     - null
     - null
-    - const: ValDate3
+    - const: "ValDate3"
   - cells:
     - null
     - const: 75.0
     - expr: =DSUM( R[-40]C[-1]:R[-34]C[2], RC[1], R[-28]C[-1]:R[-27]C[1] )
     - const: 4.0
     - null
-    - const: Vals2
-    - const: &-ed criteria
+    - const: "Vals2"
+    - const: "&-ed criteria"
   - cells:
     - null
     - const: 75.0
@@ -241,7 +241,7 @@ sheets:
     - const: 4.0
     - null
     - null
-    - const: free-form criteria
+    - const: "free-form criteria"
   - cells:
   - cells:
     - null
@@ -250,8 +250,8 @@ sheets:
     - null
     - null
     - null
-    - const: DPRODUCT
-    - const: DPRODUCT
+    - const: "DPRODUCT"
+    - const: "DPRODUCT"
   - cells:
     - null
     - const: 0.0
@@ -264,8 +264,8 @@ sheets:
     - null
     - null
     - null
-    - const: DCOUNT
-    - const: DCOUNT
+    - const: "DCOUNT"
+    - const: "DCOUNT"
   - cells:
     - null
     - const: 0.0
@@ -278,8 +278,8 @@ sheets:
     - null
     - null
     - null
-    - const: DCOUNTA
-    - const: DCOUNTA
+    - const: "DCOUNTA"
+    - const: "DCOUNTA"
   - cells:
     - null
     - const: 0.0
@@ -292,8 +292,8 @@ sheets:
     - null
     - null
     - null
-    - const: DMIN
-    - const: DMIN
+    - const: "DMIN"
+    - const: "DMIN"
   - cells:
     - null
     - const: 0.0
@@ -306,8 +306,8 @@ sheets:
     - null
     - null
     - null
-    - const: DMAX
-    - const: DMAX
+    - const: "DMAX"
+    - const: "DMAX"
   - cells:
     - null
     - const: 0.0
@@ -320,11 +320,11 @@ sheets:
     - null
     - null
     - null
-    - const: DAVERAGE
-    - const: DAVERAGE
+    - const: "DAVERAGE"
+    - const: "DAVERAGE"
   - cells:
     - null
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =DAVERAGE( R[-59]C[-1]:R[-53]C[2], "Profit", R[-51]C[2]:R[-50]C[2] )
     - null
     - null
@@ -340,11 +340,11 @@ sheets:
     - null
     - null
     - null
-    - const: DVARP
-    - const: DVARP
+    - const: "DVARP"
+    - const: "DVARP"
   - cells:
     - null
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =DVARP( R[-62]C[-1]:R[-56]C[2], "Profit", R[-54]C[2]:R[-53]C[2] )
     - null
     - null
@@ -360,11 +360,11 @@ sheets:
     - null
     - null
     - null
-    - const: DVAR
-    - const: DVAR
+    - const: "DVAR"
+    - const: "DVAR"
   - cells:
     - null
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =DVAR( R[-65]C[-1]:R[-59]C[2], "Profit", R[-57]C[2]:R[-56]C[2] )
     - null
     - null
@@ -380,11 +380,11 @@ sheets:
     - null
     - null
     - null
-    - const: DSTDEVP
-    - const: DSTDEVP
+    - const: "DSTDEVP"
+    - const: "DSTDEVP"
   - cells:
     - null
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =DSTDEVP( R[-68]C[-1]:R[-62]C[2], "Profit", R[-60]C[2]:R[-59]C[2] )
     - null
     - null
@@ -400,11 +400,11 @@ sheets:
     - null
     - null
     - null
-    - const: DSTDEV
-    - const: DSTDEV
+    - const: "DSTDEV"
+    - const: "DSTDEV"
   - cells:
     - null
-    - const: !NUM:NaN/AE
+    - const: "!NUM:NaN/AE"
     - expr: =DSTDEV( R[-71]C[-1]:R[-65]C[2], "Profit", R[-63]C[2]:R[-62]C[2] )
     - null
     - null
@@ -420,8 +420,8 @@ sheets:
     - null
     - null
     - null
-    - const: SUMIF
-    - const: SUMIF
+    - const: "SUMIF"
+    - const: "SUMIF"
   - cells:
     - null
     - const: 56.0
@@ -442,8 +442,8 @@ sheets:
     - null
     - null
     - null
-    - const: COUNTIF
-    - const: COUNTIF
+    - const: "COUNTIF"
+    - const: "COUNTIF"
   - cells:
     - null
     - const: 5.0

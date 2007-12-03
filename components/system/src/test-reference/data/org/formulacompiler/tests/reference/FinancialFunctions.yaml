@@ -7,20 +7,20 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Expected
-    - const: Actual
-    - const: Inputs
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Inputs"
     - null
     - null
     - null
     - null
     - null
     - null
-    - const: # of Inputs
-    - const: Name
-    - const: Highlight
-    - const: Excel says
-    - const: Skip for
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
+    - const: "Skip for"
   - cells:
     - const: 1.1884434123352206
     - expr: =NPV( RC[1], RC[2]:RC[5] )
@@ -32,8 +32,8 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: NPV
-    - const: NPV
+    - const: "NPV"
+    - const: "NPV"
   - cells:
     - const: 1.9220615549323696
     - expr: =(NPV( RC[1], RC[3]:RC[7] ) + RC[2])
@@ -48,7 +48,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
   - cells:
     - const: 0.0625220116777323
@@ -61,10 +61,10 @@ sheets:
     - const: 0.1
     - const: 0.12
     - const: 7.0
-    - const: MIRR
-    - const: MIRR
+    - const: "MIRR"
+    - const: "MIRR"
     - null
-    - const: bigdecimal
+    - const: "bigdecimal"
   - cells:
   - cells:
     - const: 0.08663094803634251
@@ -77,8 +77,8 @@ sheets:
     - const: 26.0
     - null
     - const: 6.0
-    - const: IRR
-    - const: IRR
+    - const: "IRR"
+    - const: "IRR"
   - cells:
     - const: -0.44350694133465396
     - expr: =IRR( RC[1]:RC[3], RC[4] )
@@ -102,7 +102,7 @@ sheets:
     - null
     - const: 5.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =IRR( RC[1]:RC[5], 0.1 )
     - const: 34.0
     - const: 12.0
@@ -127,8 +127,8 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: DB
-    - const: DB
+    - const: "DB"
+    - const: "DB"
   - cells:
     - const: 1003.4234680309769
     - expr: =DB( RC[1], RC[2], RC[3], RC[4] )
@@ -196,8 +196,8 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: DDB
-    - const: DDB
+    - const: "DDB"
+    - const: "DDB"
   - cells:
     - const: 904.5451574605321
     - expr: =DDB( RC[1], RC[2], RC[3], RC[4] )
@@ -287,8 +287,8 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: SLN
-    - const: SLN
+    - const: "SLN"
+    - const: "SLN"
   - cells:
     - const: 2247.772227772228
     - expr: =SLN( RC[1], RC[2], RC[3] )
@@ -312,8 +312,8 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: SYD
-    - const: SYD
+    - const: "SYD"
+    - const: "SYD"
   - cells:
     - const: 409.09090909090907
     - expr: =SYD( RC[1], RC[2], RC[3], RC[4] )
@@ -348,10 +348,10 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: FV
-    - const: FV
+    - const: "FV"
+    - const: "FV"
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 12682.503013196976
     - expr: =FV( RC[1], RC[2], RC[3] )
@@ -366,7 +366,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 82898.06514315684
     - expr: =FV( RC[1], RC[2], RC[3], , RC[4] )
@@ -381,7 +381,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 2301.4018303408993
     - expr: =FV( RC[1], RC[2], RC[3], RC[4], RC[5] )
@@ -396,7 +396,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 2295.23404915445
     - expr: =FV( RC[1], RC[2], RC[3], RC[4] )
@@ -411,7 +411,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 2200.0
     - expr: =FV( RC[1], RC[2], RC[3], RC[4] )
@@ -426,7 +426,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
   - cells:
     - const: 59.67386567429457
@@ -439,10 +439,10 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: NPER
-    - const: NPER
+    - const: "NPER"
+    - const: "NPER"
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 60.08212285376166
     - expr: =NPER( RC[1], RC[2], RC[3], RC[4] )
@@ -457,7 +457,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: 90.0
     - expr: =NPER( RC[1], RC[2], RC[3], RC[4] )
@@ -472,7 +472,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -9.578594039813161
     - expr: =NPER( RC[1], RC[2], RC[3] )
@@ -487,7 +487,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -9.488095005505821
     - expr: =NPER( RC[1], RC[2], RC[3], , RC[4] )
@@ -502,7 +502,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
   - cells:
     - const: -1512.0079920253022
@@ -515,10 +515,10 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: PMT
-    - const: PMT
+    - const: "PMT"
+    - const: "PMT"
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -1500.0
     - expr: =PMT( RC[1], RC[2], RC[3], RC[4] )
@@ -533,7 +533,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -1029.8610800534268
     - expr: =PMT( RC[1], RC[2], RC[3], , RC[4] )
@@ -548,7 +548,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -1036.6581631817796
     - expr: =PMT( RC[1], RC[2], RC[3] )
@@ -563,7 +563,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -129.08116086799728
     - expr: =PMT( RC[1], RC[2], RC[3], RC[4] )
@@ -578,7 +578,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -231.4814814814815
     - expr: =PMT( RC[1], RC[2], RC[3], RC[4] )
@@ -593,7 +593,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
   - cells:
     - const: -70842.65167097464
@@ -606,10 +606,10 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: PV
-    - const: PV
+    - const: "PV"
+    - const: "PV"
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -70445.76332409514
     - expr: =PV( RC[1], RC[2], RC[3], RC[4] )
@@ -624,7 +624,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -170000.0
     - expr: =PV( RC[1], RC[2], RC[3], RC[4] )
@@ -639,7 +639,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -60134.59801204454
     - expr: =PV( RC[1], RC[2], RC[3] )
@@ -654,7 +654,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -60531.486358924034
     - expr: =PV( RC[1], RC[2], RC[3], , RC[4] )
@@ -669,7 +669,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
     - const: -120000.0
     - expr: =PV( RC[1], RC[2], RC[3] )
@@ -684,7 +684,7 @@ sheets:
     - null
     - null
     - null
-    - const: long, bigdecimal
+    - const: "long, bigdecimal"
   - cells:
   - cells:
     - const: 0.007252054197077045
@@ -697,8 +697,8 @@ sheets:
     - const: 0.0
     - null
     - const: 6.0
-    - const: RATE
-    - const: RATE
+    - const: "RATE"
+    - const: "RATE"
   - cells:
     - const: 0.007252054197077615
     - expr: =RATE( RC[1], RC[2], RC[3], RC[4], RC[5] )
@@ -755,7 +755,7 @@ sheets:
     - null
     - const: 4.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =RATE( RC[1], RC[2], RC[3], , , RC[4] )
     - const: 240.0
     - const: 500.0
@@ -780,8 +780,8 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: VDB
-    - const: VDB
+    - const: "VDB"
+    - const: "VDB"
   - cells:
     - const: 307.2
     - expr: =VDB( RC[1], RC[2], RC[3], RC[4], RC[5] )
@@ -860,7 +860,7 @@ sheets:
     - null
     - const: 6.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =VDB( RC[1], RC[2], RC[3], RC[4], RC[5] )
     - const: 2400.0
     - const: 300.0
@@ -874,7 +874,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =VDB( RC[1], RC[2], RC[3], RC[4], RC[5] )
     - const: 2400.0
     - const: 300.0
@@ -888,7 +888,7 @@ sheets:
     - null
     - err: #NUM!
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =VDB( RC[1], RC[2], RC[3], RC[4], RC[5] )
     - const: -1.0
     - const: 2401.0
@@ -924,7 +924,7 @@ sheets:
     - null
     - const: 6.0
   - cells:
-    - const: !NUM:FE
+    - const: "!NUM:FE"
     - expr: =VDB( RC[1], RC[2], RC[3], RC[4], RC[5], RC[6] )
     - const: 12345.12
     - const: 987.65

@@ -7,22 +7,22 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Repeating Section Test Cases for SEJ
-    - const: Look at the formulas in this column to see what SEJ supports!
+    - const: "Repeating Section Test Cases for SEJ"
+    - const: "Look at the formulas in this column to see what SEJ supports!"
   - cells:
     - null
-    - const: Use "Tools > Formula Auditing > Formula Auditing Mode" to show them all at once.
+    - const: "Use \"Tools > Formula Auditing > Formula Auditing Mode\" to show them all at once."
   - cells:
   - cells:
-    - const: Name
-    - const: Actual
-    - const: Range
-    - const: Section
+    - const: "Name"
+    - const: "Actual"
+    - const: "Range"
+    - const: "Section"
   - cells:
   - cells:
-    - const: Grow horizontally
+    - const: "Grow horizontally"
     - expr: =SUM( RC[2]:RC[4] )
-    - const: H_ONE
+    - const: "H_ONE"
     - const: 1.0
     - const: 2.0
     - const: 3.0
@@ -35,9 +35,9 @@ sheets:
     - const: 6.0
   - cells:
   - cells:
-    - const: Grow vertically
+    - const: "Grow vertically"
     - expr: =SUM( R[1]C[2]:R[3]C[2] )
-    - const: V_ONE
+    - const: "V_ONE"
   - cells:
     - null
     - null
@@ -58,9 +58,9 @@ sheets:
     - const: 6.0
   - cells:
   - cells:
-    - const: Two high, growing horizontally
+    - const: "Two high, growing horizontally"
     - expr: =SUM( RC[2]:R[1]C[4] )
-    - const: H_TWO
+    - const: "H_TWO"
     - const: 1.0
     - const: 2.0
     - const: 3.0
@@ -80,9 +80,9 @@ sheets:
     - const: 21.0
   - cells:
   - cells:
-    - const: Two wide, growing vertically
+    - const: "Two wide, growing vertically"
     - expr: =SUM( R[1]C[2]:R[3]C[3] )
-    - const: V_TWO
+    - const: "V_TWO"
   - cells:
     - null
     - null
@@ -106,9 +106,9 @@ sheets:
     - const: 21.0
   - cells:
   - cells:
-    - const: Three high, SUM
+    - const: "Three high, SUM"
     - expr: =SUM( RC[2]:R[2]C[4] )
-    - const: H_THREE
+    - const: "H_THREE"
     - const: 1.0
     - const: 2.0
     - const: 3.0
@@ -135,9 +135,9 @@ sheets:
     - const: 45.0
   - cells:
   - cells:
-    - const: Three high, PRODUCT
+    - const: "Three high, PRODUCT"
     - expr: =PRODUCT( RC[2]:R[2]C[4] )
-    - const: H_THREE_PROD
+    - const: "H_THREE_PROD"
     - const: 1.0
     - const: 2.0
     - const: 3.0
@@ -164,9 +164,9 @@ sheets:
     - const: 362880.0
   - cells:
   - cells:
-    - const: Three high, COUNT
+    - const: "Three high, COUNT"
     - expr: =COUNT( RC[2]:R[2]C[4] )
-    - const: H_THREE_COUNT
+    - const: "H_THREE_COUNT"
     - const: 1.0
     - const: 2.0
     - const: 3.0
@@ -193,9 +193,9 @@ sheets:
     - const: 9.0
   - cells:
   - cells:
-    - const: Derived column
+    - const: "Derived column"
     - expr: =SUM( R[1]C[2]:R[1]C[4] )
-    - const: H_DERIVED
+    - const: "H_DERIVED"
     - const: 1.0
     - const: 2.0
     - const: 3.0
@@ -215,9 +215,9 @@ sheets:
     - const: 12.0
   - cells:
   - cells:
-    - const: Derived column with outer ref
+    - const: "Derived column with outer ref"
     - expr: =SUM( R[1]C[2]:R[1]C[4] )
-    - const: H_OUTER
+    - const: "H_OUTER"
     - const: 1.0
     - const: 2.0
     - const: 3.0
@@ -240,9 +240,9 @@ sheets:
     - const: 18.0
   - cells:
   - cells:
-    - const: Derived column with constant outer ref
+    - const: "Derived column with constant outer ref"
     - expr: =SUM( R[1]C[2]:R[1]C[4] )
-    - const: H_OUTER_CST
+    - const: "H_OUTER_CST"
     - const: 1.0
     - const: 2.0
     - const: 3.0
@@ -264,9 +264,9 @@ sheets:
     - const: 18.0
   - cells:
   - cells:
-    - const: Mixed sum
+    - const: "Mixed sum"
     - expr: =SUM( RC[2]:RC[4], RC[6]:RC[7] )
-    - const: H_MIXED
+    - const: "H_MIXED"
     - const: 1.0
     - const: 2.0
     - const: 3.0
@@ -282,9 +282,9 @@ sheets:
     - const: 15.0
   - cells:
   - cells:
-    - const: Two separate sums
+    - const: "Two separate sums"
     - expr: =(SUM( RC[2]:RC[4] ) + SUM( R[1]C[2]:R[1]C[4] ))
-    - const: H_SEPARATE
+    - const: "H_SEPARATE"
     - const: 1.0
     - const: 2.0
     - const: 3.0
@@ -304,9 +304,9 @@ sheets:
     - const: 21.0
   - cells:
   - cells:
-    - const: Sum overlapping both section bounds
+    - const: "Sum overlapping both section bounds"
     - expr: =SUM( RC[2]:R[4]C[3] )
-    - const: V_SUM_OVERLAP_BOTH
+    - const: "V_SUM_OVERLAP_BOTH"
     - const: 1.0
     - const: 6.0
   - cells:
@@ -337,9 +337,9 @@ sheets:
     - const: 10.0
   - cells:
   - cells:
-    - const: Sum overlapping left section bound
+    - const: "Sum overlapping left section bound"
     - expr: =SUM( RC[2]:R[4]C[3] )
-    - const: V_SUM_OVERLAP_LEFT
+    - const: "V_SUM_OVERLAP_LEFT"
     - const: 1.0
     - const: 6.0
   - cells:
@@ -372,9 +372,9 @@ sheets:
     - const: 55.0
   - cells:
   - cells:
-    - const: Sum overlapping right section bound
+    - const: "Sum overlapping right section bound"
     - expr: =SUM( RC[2]:R[4]C[3] )
-    - const: V_SUM_OVERLAP_RIGHT
+    - const: "V_SUM_OVERLAP_RIGHT"
     - const: 1.0
     - const: 6.0
     - const: 35.0
@@ -406,13 +406,13 @@ sheets:
     - const: 10.0
   - cells:
   - cells:
-    - const: DSUM with repeating data
+    - const: "DSUM with repeating data"
     - expr: =DSUM( RC[2]:R[5]C[4], "Yield", R[7]C[2]:R[8]C[3] )
-    - const: V_DSUM
-    - const: Kind
-    - const: Age
-    - const: Yield
-    - const: Expected
+    - const: "V_DSUM"
+    - const: "Kind"
+    - const: "Age"
+    - const: "Yield"
+    - const: "Expected"
   - cells:
     - null
     - null
@@ -458,23 +458,23 @@ sheets:
     - null
     - null
     - null
-    - const: Kind
-    - const: Age
+    - const: "Kind"
+    - const: "Age"
   - cells:
     - null
     - null
     - null
     - const: 1.0
-    - const: >8
+    - const: ">8"
   - cells:
   - cells:
-    - const: DSUM with partial repeating data
+    - const: "DSUM with partial repeating data"
     - expr: =DSUM( RC[2]:R[5]C[4], "Yield", R[7]C[2]:R[8]C[3] )
-    - const: V_DSUM_PART
-    - const: Kind
-    - const: Age
-    - const: Yield
-    - const: Expected
+    - const: "V_DSUM_PART"
+    - const: "Kind"
+    - const: "Age"
+    - const: "Yield"
+    - const: "Expected"
   - cells:
     - null
     - null
@@ -518,14 +518,14 @@ sheets:
     - null
     - null
     - null
-    - const: Kind
-    - const: Age
+    - const: "Kind"
+    - const: "Age"
   - cells:
     - null
     - null
     - null
     - const: 1.0
-    - const: <=9
+    - const: "<=9"
 
 names:
 - name: DSUM_EXAMPLE

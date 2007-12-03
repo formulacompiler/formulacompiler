@@ -8,10 +8,10 @@ sheets:
   rows:
   - cells:
   - cells:
-    - const: Table
-    - const: Kind
-    - const: Age
-    - const: Yield
+    - const: "Table"
+    - const: "Kind"
+    - const: "Age"
+    - const: "Yield"
   - cells:
     - null
     - const: 1.0
@@ -49,17 +49,17 @@ sheets:
     - const: 22.0
   - cells:
   - cells:
-    - const: Criteria
-    - const: Kind
-    - const: Age
+    - const: "Criteria"
+    - const: "Kind"
+    - const: "Age"
   - cells:
     - null
     - const: 1.0
-    - const: <=9
+    - const: "<=9"
   - cells:
   - cells:
   - cells:
-    - const: Inputs A
+    - const: "Inputs A"
     - const: 1.0
     - const: 8.0
     - const: 16.0
@@ -75,7 +75,7 @@ sheets:
     - const: 30.0
   - cells:
   - cells:
-    - const: Inputs B
+    - const: "Inputs B"
     - const: 1.0
     - const: 8.0
     - const: 22.0
@@ -91,11 +91,11 @@ sheets:
     - const: 18.0
   - cells:
   - cells:
-    - const: Actual
+    - const: "Actual"
     - expr: =DSUM( R[-21]C:R[-14]C[2], "Yield", R[-12]C:R[-11]C[1] )
       name: O_ACTUAL
   - cells:
-    - const: Expected
+    - const: "Expected"
     - const: 148.0
       name: O_EXPECTED
     - expr: =(((((R[-18]C[1] + R[-15]C[1]) + R[-9]C[1]) + R[-7]C[1]) + R[-5]C[1]) + R[-3]C[1])

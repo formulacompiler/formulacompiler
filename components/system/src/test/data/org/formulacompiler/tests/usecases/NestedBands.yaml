@@ -9,20 +9,20 @@ sheets:
   - cells:
     - null
     - null
-    - const: Menge
-    - const: Preis
-    - const: Total exkl.
-    - const: MWSt-Satz
-    - const: Anteil
-    - const: Betrag
-    - const: MWSt-Satz
-    - const: Anteil
-    - const: Betrag
-    - const: Total inkl.
+    - const: "Menge"
+    - const: "Preis"
+    - const: "Total exkl."
+    - const: "MWSt-Satz"
+    - const: "Anteil"
+    - const: "Betrag"
+    - const: "MWSt-Satz"
+    - const: "Anteil"
+    - const: "Betrag"
+    - const: "Total inkl."
   - cells:
   - cells:
     - null
-    - const: Position 1
+    - const: "Position 1"
     - const: 3.0
     - const: 3100.0
     - expr: =(RC[-2] * RC[-1])
@@ -35,7 +35,7 @@ sheets:
     - expr: =(RC[-7] + SUM( RC[-4], RC[-1] ))
   - cells:
     - null
-    - const: Position 2
+    - const: "Position 2"
     - const: 5.0
     - const: 480.0
     - expr: =(RC[-2] * RC[-1])
@@ -49,7 +49,7 @@ sheets:
   - cells:
   - cells:
     - null
-    - const: TOTAL
+    - const: "TOTAL"
     - null
     - null
     - null
@@ -63,7 +63,7 @@ sheets:
   - cells:
   - cells:
     - null
-    - const: MWSt
+    - const: "MWSt"
     - const: 0.076
   - cells:
     - null
@@ -73,12 +73,12 @@ sheets:
 - name: Sheet2
   rows:
   - cells:
-    - const: Category
-    - const: Amount
-    - const: Totals
+    - const: "Category"
+    - const: "Amount"
+    - const: "Totals"
   - cells:
   - cells:
-    - const: One
+    - const: "One"
     - null
     - expr: =SUM( R[1]C[-1]:R[3]C[-1] )
   - cells:
@@ -92,7 +92,7 @@ sheets:
     - const: 300.0
   - cells:
   - cells:
-    - const: Two
+    - const: "Two"
     - null
     - expr: =SUM( R[1]C[-1]:R[3]C[-1] )
   - cells:

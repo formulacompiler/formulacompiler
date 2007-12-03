@@ -7,19 +7,19 @@ sheets:
 - name: MainSheet
   rows:
   - cells:
-    - const: Expected
+    - const: "Expected"
       name: START
-    - const: Actual
-    - const: Inputs
+    - const: "Actual"
+    - const: "Inputs"
     - null
     - null
     - null
     - null
     - null
     - null
-    - const: # of Inputs
-    - const: Name
-    - const: Highlight
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
   - cells:
     - const: 1.0
     - expr: =RC[1]
@@ -31,7 +31,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: Relative reference
+    - const: "Relative reference"
   - cells:
     - const: 6.0
     - expr: =((RC[1] + RC[1]) + RC[1])
@@ -43,8 +43,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: Absolute references
-    - const: $
+    - const: "Absolute references"
+    - const: "$"
   - cells:
     - const: 3.0
     - expr: =MYCELL
@@ -57,8 +57,8 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: Simple name
-    - const: xx
+    - const: "Simple name"
+    - const: "xx"
   - cells:
     - const: 8.0
     - expr: =(_MY_CELL + _MY_CELL)
@@ -71,7 +71,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: Two names for same cell
+    - const: "Two names for same cell"
   - cells:
     - const: 5.0
     - expr: =_MY.CELL.1X
@@ -84,7 +84,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: Unconventional names
+    - const: "Unconventional names"
   - cells:
     - const: 6.0
     - expr: =MY23.43CELL
@@ -137,7 +137,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: Range with cell references
+    - const: "Range with cell references"
   - cells:
     - const: 15.0
     - expr: =SUM( RC[1]:RC[3] )
@@ -149,7 +149,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: Range name
+    - const: "Range name"
   - cells:
   - cells:
     - const: 30.0
@@ -162,18 +162,18 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: References to other sheets
+    - const: "References to other sheets"
 
 - name: SecondSheet
   rows:
   - cells:
-    - const: Explicitly referenced cell
+    - const: "Explicitly referenced cell"
     - expr: ='MainSheet'!R[13]C[1]
 
 - name: ThirdSheet
   rows:
   - cells:
-    - const: Cell referenced by name
+    - const: "Cell referenced by name"
     - expr: ='MainSheet'!R[13]C[2]
       name: CELLONTHIRDSHEET
 

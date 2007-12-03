@@ -7,49 +7,49 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: Vertically repeating section:
-    - const: Name
-    - const: Value
+    - const: "Vertically repeating section:"
+    - const: "Name"
+    - const: "Value"
   - cells:
     - null
-    - const: One
+    - const: "One"
     - const: 1.0
   - cells:
     - null
-    - const: Two
+    - const: "Two"
     - const: 2.0
   - cells:
     - null
-    - const: Three
+    - const: "Three"
     - const: 3.0
   - cells:
   - cells:
-    - const: This works:
+    - const: "This works:"
   - cells:
-    - const: Aggregate entire column
+    - const: "Aggregate entire column"
     - expr: =SUM( R[-5]C[1]:R[-3]C[1] )
       name: GOODREF
   - cells:
   - cells:
-    - const: This is an error:
+    - const: "This is an error:"
   - cells:
-    - const: No aggregation
+    - const: "No aggregation"
     - expr: =R[-8]C[1]
       name: BADREF
   - cells:
-    - const: Not entire column (end bad)
+    - const: "Not entire column (end bad)"
     - expr: =SUM( R[-9]C[1]:R[-8]C[1] )
       name: BADRANGE1
   - cells:
-    - const: Not entire column (start bad)
+    - const: "Not entire column (start bad)"
     - expr: =SUM( R[-9]C[1]:R[-8]C[1] )
       name: BADRANGE2
   - cells:
-    - const: Not entire column (both bad)
+    - const: "Not entire column (both bad)"
     - expr: =SUM( R[-10]C[1]:R[-10]C[1] )
       name: BADRANGE3
   - cells:
-    - const: Not entire column (single cell)
+    - const: "Not entire column (single cell)"
     - expr: =SUM( R[-11]C[1] )
       name: BADRANGE4
 
