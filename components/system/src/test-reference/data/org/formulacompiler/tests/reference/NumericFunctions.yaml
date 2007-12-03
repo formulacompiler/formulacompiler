@@ -8,7 +8,6 @@ sheets:
   rows:
   - cells:
     - const: "Expected"
-      name: COMBINLARGE
     - const: "Actual"
     - const: "Inputs"
     - null
@@ -1122,7 +1121,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - expr: =GEOMEAN( RC[1], RC[2] )
+    - err: #NUM!
   - cells:
     - const: "!NUM:FE"
     - expr: =GEOMEAN( RC[1], RC[2] )
@@ -1136,7 +1135,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - expr: =GEOMEAN( RC[1], RC[2] )
+    - err: #NUM!
   - cells:
     - const: "!NUM:FE"
     - expr: =GEOMEAN( RC[1], RC[2] )
@@ -1150,7 +1149,7 @@ sheets:
     - const: 2.0
     - const: "..."
     - null
-    - expr: =GEOMEAN( RC[1], RC[2] )
+    - err: #NUM!
   - cells:
   - cells:
     - const: 5.0
@@ -1257,7 +1256,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - expr: =GEOMEAN( RC[1], RC[2] )
+    - err: #NUM!
   - cells:
     - const: "!NUM:FE"
     - expr: =HARMEAN( RC[1], RC[2] )
@@ -1271,7 +1270,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - expr: =GEOMEAN( RC[1], RC[2] )
+    - err: #NUM!
   - cells:
     - const: "!NUM:FE"
     - expr: =HARMEAN( RC[1], RC[2] )
@@ -1285,7 +1284,7 @@ sheets:
     - const: 2.0
     - const: "..."
     - null
-    - expr: =GEOMEAN( RC[1], RC[2] )
+    - err: #NUM!
   - cells:
   - cells:
     - const: 3.2
@@ -4983,4 +4982,4 @@ names:
 - name: COMBINRANGE
   ref: R450C1:R462C14
 - name: HEADERRANGE
-  ref: COMBINLARGE:R1C14
+  ref: R1C1:R1C14

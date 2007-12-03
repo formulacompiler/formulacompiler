@@ -140,20 +140,20 @@ sheets:
   - cells:
     - const: "text"
     - expr: =CLEAN( RC[1] )
-    - const: "\u0007text"
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 1.0
-    - const: "CLEAN"
-    - const: "CLEAN"
-  - cells:
     - const: "text"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "CLEAN"
+    - const: "CLEAN"
+  - cells:
+    - const: "текст"
     - expr: =CLEAN( RC[1] )
-    - const: "\u0007text\u0007"
+    - const: "текст"
     - null
     - null
     - null
@@ -162,20 +162,9 @@ sheets:
     - null
     - const: 1.0
   - cells:
-    - const: "texts"
+    - const: "text text"
     - expr: =CLEAN( RC[1] )
-    - const: "\u0007text\u0007s"
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 1.0
-  - cells:
-    - const: "teüxts"
-    - expr: =CLEAN( RC[1] )
-    - const: "\u0007teüxt\u0007s"
+    - const: "text text"
     - null
     - null
     - null
@@ -186,7 +175,18 @@ sheets:
   - cells:
     - const: "texttext"
     - expr: =CLEAN( RC[1] )
-    - const: "text\u0012text"
+    - const: "text\u0009text"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: "texttext"
+    - expr: =CLEAN( RC[1] )
+    - const: "text\ntext"
     - null
     - null
     - null
@@ -197,18 +197,7 @@ sheets:
   - cells:
     - const: "text"
     - expr: =CLEAN( RC[1] )
-    - const: "\u0013text\u0015\u0017"
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 1.0
-  - cells:
-    - const: "Atext "
-    - expr: =CLEAN( RC[1] )
-    - const: "A\u0001text \u001e"
+    - const: "\u0009text\n"
     - null
     - null
     - null

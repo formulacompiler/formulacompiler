@@ -264,7 +264,7 @@ sheets:
     - null
     - null
     - null
-    - const: 4.0
+    - const: 3.0
     - const: "COUNT() is currently broken"
     - const: "COUNT"
     - const: 1.0
