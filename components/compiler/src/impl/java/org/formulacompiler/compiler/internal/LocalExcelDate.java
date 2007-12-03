@@ -29,13 +29,13 @@ public final class LocalExcelDate extends Number
 {
 	private final double value;
 
-	public LocalExcelDate(double _value)
+	public LocalExcelDate( double _value )
 	{
 		super();
 		this.value = _value;
 	}
 
-	public LocalExcelDate(Date _date, TimeZone _timeZone)
+	public LocalExcelDate( Date _date, TimeZone _timeZone )
 	{
 		this( RuntimeDouble_v2.dateToNum( _date, _timeZone ) );
 	}
@@ -76,4 +76,20 @@ public final class LocalExcelDate extends Number
 		return Double.toString( value() );
 	}
 
+	@Override
+	public boolean equals( final Object obj )
+	{
+		return (obj instanceof LocalExcelDate)
+				&& (Double.doubleToLongBits( ((LocalExcelDate) obj).value ) == Double.doubleToLongBits( this.value ));
+	}
+
+	/**
+	 * Similar to {@link Long#hashCode()}.
+	 */
+	@Override
+	public int hashCode()
+	{
+		long bits = Double.doubleToLongBits( this.value );
+		return (int) (bits ^ (bits >>> 32));
+	}
 }

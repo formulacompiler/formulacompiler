@@ -52,7 +52,7 @@ public abstract class AbstractEngineCompilingTestSuite extends AbstractContextTe
 		eb.setNumericType( cx().getNumericType() );
 		eb.setCompileTimeConfig( cx().getComputationConfig() );
 
-		eb.getRootBinder().defineOutputCell( cx().getOutputCell().getCellIndex(),
+		eb.getRootBinder().defineOutputCell( cx().getOutputCell(),
 				getterFor( Outputs.class, cx().getExpected().type( 0 ) ) );
 		final CellIndex[] ins = cx().getInputCells();
 		final boolean[] flags = cx().getInputBindingFlags();

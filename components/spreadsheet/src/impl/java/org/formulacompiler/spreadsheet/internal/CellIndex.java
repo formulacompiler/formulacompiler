@@ -108,6 +108,10 @@ public final class CellIndex extends Reference implements Cell
 		return this.spreadsheet.getSheetList().get( this.sheetIndex );
 	}
 
+	public int getSheetIndex()
+	{
+		return this.sheetIndex;
+	}
 
 	public RowImpl getRow()
 	{

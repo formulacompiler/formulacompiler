@@ -22,8 +22,10 @@ package org.formulacompiler.tests.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 
 import org.formulacompiler.compiler.internal.IOUtil;
+import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 
@@ -40,10 +42,25 @@ public abstract class AbstractSpreadsheetDescriptionsTestSuite extends AbstractI
 		this( "Check loaded spreadsheets against their .yaml descriptions" );
 	}
 
+
+	private final Set<File> added = New.set();
+
+	protected final boolean mustStillAdd( File _new )
+	{
+		return !this.added.contains( _new );
+	}
+
+	protected final void haveAdded( File _new )
+	{
+		this.added.add( _new );
+	}
+
+
 	@Override
 	protected void addTests() throws Exception
 	{
 		addTestsFor( ".xls" );
+		addTestsFor( ".ods" );
 	}
 
 	protected abstract void addTestsFor( String _ext ) throws Exception;
@@ -56,22 +73,38 @@ public abstract class AbstractSpreadsheetDescriptionsTestSuite extends AbstractI
 
 			public void visit( final File _inputFile, final File _outputFile ) throws IOException
 			{
-				addTest( new AbstractIOTestCase( _inputFile.getPath() )
-				{
-
-					@Override
-					protected void runTest() throws Throwable
-					{
-						final Spreadsheet sheet = SpreadsheetCompiler.loadSpreadsheet( _inputFile );
-						final String fileName = _inputFile.getName();
-						final String baseName = fileName.substring( 0, fileName.length() - _ext.length() );
-						assertYaml( _inputFile.getParentFile(), baseName, sheet, fileName );
-					}
-
-				} );
+				if (mustStillAdd( _inputFile )) {
+					final String fileName = _inputFile.getName();
+					final String baseName = fileName.substring( 0, fileName.length() - _ext.length() );
+					addTestFor( _inputFile, baseName );
+					addImpliedTestsFor( _inputFile.getParentFile(), baseName, _ext );
+				}
 			}
 
 		} );
+	}
+
+	protected void addImpliedTestsFor( File _path, String _baseName, String _ext )
+	{
+		// Can be overridden.
+	}
+
+	protected final void addTestFor( final File _file, final String _baseName )
+	{
+		if (mustStillAdd( _file )) {
+			addTest( new AbstractIOTestCase( _file.getPath() )
+			{
+
+				@Override
+				protected void runTest() throws Throwable
+				{
+					final Spreadsheet sheet = SpreadsheetCompiler.loadSpreadsheet( _file );
+					assertYaml( _file.getParentFile(), _baseName, sheet, _file.getName() );
+				}
+
+			} );
+			haveAdded( _file );
+		}
 	}
 
 }

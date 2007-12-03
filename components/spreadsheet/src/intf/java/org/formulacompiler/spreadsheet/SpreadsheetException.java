@@ -146,6 +146,11 @@ public class SpreadsheetException extends CompilerException
 			super( _cause.getMessage(), _cause );
 		}
 
+		public LoadError( String _message )
+		{
+			super( _message );
+		}
+
 	}
 
 

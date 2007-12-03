@@ -240,8 +240,12 @@ public class HtmlDocumenter implements Documenter
 
 				private void newOrSimilarRow() throws Exception
 				{
-					this.exprCell = this.cx.getOutputCell();
-					if (this.exprCell instanceof CellWithLazilyParsedExpression) {
+					this.exprCell = this.cx.getOutputCell().getCell();
+					if (null == this.exprCell) {
+						this.exprSource = "";
+						this.exprPrefix = "";
+					}
+					else if (this.exprCell instanceof CellWithLazilyParsedExpression) {
 						this.exprSource = ((CellWithLazilyParsedExpression) this.exprCell).getExpressionParser().getSource();
 						this.exprPrefix = "=";
 					}

@@ -31,11 +31,22 @@ abstract class AbstractSuiteSetup
 	protected static Context newSheetContext( String _fileBaseName )
 	{
 		final Context cx = new Context( _fileBaseName, ".xls" );
+		{
+			final Context variant = new Context( _fileBaseName, ".ods" );
+			variant.setRowVerificationTestCaseFactory( ODSRowVerificationTestCase.Factory.INSTANCE );
+			cx.addVariant( variant );
+		}
+
+		final RowSetup.Builder setup;
 		if (_fileBaseName.contains( "Database" )) {
-			cx.setRowSetupBuilder( new RowSetupDbAgg.Builder() );
+			setup = new RowSetupDbAgg.Builder();
 		}
 		else {
-			cx.setRowSetupBuilder( new RowSetupDefault.Builder() );
+			setup = new RowSetupDefault.Builder();
+		}
+		cx.setRowSetupBuilder( setup );
+		for (Context variant : cx.variants()) {
+			variant.setRowSetupBuilder( setup );
 		}
 
 		return cx;
@@ -135,8 +146,7 @@ abstract class AbstractSuiteSetup
 		@Override
 		protected void setup( TestSuite _parent, Context _parentCx ) throws Exception
 		{
-			final Boolean explicitCaching = _parentCx.getExplicitCaching();
-			final boolean canDocument = (null == explicitCaching) || !explicitCaching;
+			final boolean canDocument = !_parentCx.getExplicitCaching();
 			for (BindingType type : BindingType.numbers()) {
 				Context cx = new Context( _parentCx );
 				cx.setNumberBindingType( type );

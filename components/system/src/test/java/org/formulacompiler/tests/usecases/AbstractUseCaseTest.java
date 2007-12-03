@@ -45,6 +45,7 @@ abstract class AbstractUseCaseTest extends TestCase
 	protected final void runUseCase( String _sheetFileName, UseCase _useCase, Class _inputs, Class _outputs )
 			throws Exception
 	{
+		runUseCase( _sheetFileName, _useCase, ".ods", _inputs, _outputs );
 		runUseCase( _sheetFileName, _useCase, ".xls", _inputs, _outputs );
 	}
 

@@ -186,6 +186,8 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 			@Override
 			protected void addTests() throws Exception
 			{
+				addRowVerifications( _cx, this );
+
 				if (hasExpr) {
 					addTest( new ExpressionFormattingTestCase( new Context( _cx ) ) );
 				}
@@ -196,7 +198,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 					_nextRowIndex[ 0 ] = refTest.getNextRowIndex();
 				}
 				addTest( refTest );
-				
+
 				for (int iBoundVariation = 0; iBoundVariation < nBoundVariations - 1; iBoundVariation++) {
 					final Context cx = new Context( _cx );
 					cx.setInputBindingBits( iBoundVariation );
@@ -208,4 +210,16 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 	}
 
 
+	public static void addRowVerifications( Context _cx, TestSuite _addTo )
+	{
+		if (_cx.getNumberBindingType() == BindingType.DOUBLE && !_cx.getExplicitCaching()) {
+			// Only verify this once, not again for every type.
+			// LATER Might have to change when loaders use numeric type.
+			for (Context variant : _cx.variants()) {
+				_addTo.addTest( variant.getRowVerificationTestCaseFactory().newInstance( _cx, variant ) );
+			}
+		}
+	}
+
+	
 }

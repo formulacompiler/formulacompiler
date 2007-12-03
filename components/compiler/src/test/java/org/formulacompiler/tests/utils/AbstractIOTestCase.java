@@ -104,9 +104,19 @@ public abstract class AbstractIOTestCase extends TestCase
 			throws Exception
 	{
 		final String have = _actual.describe();
-		final File expectedFile = new File( _path, _expectedFileBaseName + ".yaml" );
+		File expectedFile = new File( _path, _actualFileName + ".yaml" );
+		if (!expectedFile.exists()) {
+			expectedFile = new File( _path, _expectedFileBaseName + ".yaml" );
+		}
 		if (expectedFile.exists()) {
-			final String want = Util.readStringFrom( expectedFile );
+			String want = Util.readStringFrom( expectedFile );
+			if (_actualFileName.endsWith( ".ods" )) {
+				want = want.replaceAll( "- err: #DIV/0\\!", "- const: \"#DIV/0!\"" );
+				want = want.replaceAll( "- err: #N/A", "- const: \"#N/A\"" );
+				want = want.replaceAll( "- err: #VALUE\\!", "- const: \"#VALUE!\"" );
+				want = want.replaceAll( "- err: #REF\\!", "- const: \"#REF!\"" );
+				want = want.replaceAll( "- err: #NUM\\!", "- const: \"#NUM!\"" );
+			}
 			if (!want.equals( have )) {
 				final File actualFile = new File( _path, _actualFileName + "-actual.yaml" );
 				Util.writeStringTo( have, actualFile );

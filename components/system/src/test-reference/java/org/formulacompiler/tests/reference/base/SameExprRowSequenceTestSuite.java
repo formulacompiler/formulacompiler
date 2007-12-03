@@ -31,7 +31,13 @@ abstract class SameExprRowSequenceTestSuite extends AbstractContextTestSuite
 	@Override
 	protected String getOwnName()
 	{
-		return "Row " + (cx().getRowIndex() + 1) + ": " + cx().getOutputExpr().replace( '(', '[' ).replace( ')', ']' );
+		final StringBuilder testSuiteName = new StringBuilder( "Row " );
+		testSuiteName.append( cx().getRowIndex() + 1 );
+		final String expr = cx().getOutputExpr();
+		if (expr != null) {
+			testSuiteName.append( ": " ).append( expr.replace( '(', '[' ).replace( ')', ']' ) );
+		}
+		return testSuiteName.toString();
 	}
 
 

@@ -124,6 +124,11 @@
 			<property name="@no-init" value="true" />
 		</ant>
 
+		<echo>- spreadsheet.opendocument</echo>
+		<ant dir="${comps.dir}/spreadsheet.opendocument" target="${target}" inheritall="false">
+			<property name="@no-init" value="true" />
+		</ant>
+		
 		<echo>- system</echo>
 		<ant dir="${comps.dir}/system" target="${target}" inheritall="false">
 			<property name="@no-init" value="true" />
@@ -178,6 +183,8 @@
 			<fileset dir="${comps.dir}/spreadsheet/src/impl/java" includes="**/*.java" />
 
 			<fileset dir="${comps.dir}/spreadsheet.excel.xls/src/impl/java" includes="**/*.java" />
+
+			<fileset dir="${comps.dir}/spreadsheet.opendocument/src/impl/java" includes="**/*.java" />
 
 		</jar>
 	</target>
@@ -267,6 +274,8 @@
 			<classes dir="${comps.dir}/spreadsheet/temp/impl/classes" includes="**/*.class" />
 
 			<classes dir="${comps.dir}/spreadsheet.excel.xls/temp/impl/classes" includes="**/*.class" />
+
+			<classes dir="${comps.dir}/spreadsheet.opendocument/temp/impl/classes" includes="**/*.class" />
 
 		</macker>
 

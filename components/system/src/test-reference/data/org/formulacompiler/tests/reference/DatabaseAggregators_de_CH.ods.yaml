@@ -1,0 +1,470 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+  - cells:
+    - const: "Test table"
+    - const: "Tree"
+    - const: "Height"
+    - const: "Yield"
+    - const: "Profit"
+    - const: "Date"
+  - cells:
+    - null
+    - const: "Apple"
+    - const: 18.0
+    - const: 14.0
+    - const: 105.0
+    - const: 38566.59375
+  - cells:
+    - null
+    - const: "Pear"
+    - const: 12.0
+    - const: 10.0
+    - const: 96.0
+    - const: 38566.59444444445
+  - cells:
+    - null
+    - const: "Cherry"
+    - const: 13.0
+    - const: 9.0
+    - const: 105.0
+    - const: 38598.0
+  - cells:
+    - null
+    - const: "Apple"
+    - const: 14.0
+    - const: 10.0
+    - const: 75.0
+    - const: 0.3645833333333333
+  - cells:
+    - null
+    - const: "Pear"
+    - const: 9.0
+    - const: 8.0
+    - const: 76.8
+    - const: 0.3638888888888889
+  - cells:
+    - null
+    - const: "Apple"
+    - const: 8.0
+    - const: 6.0
+    - const: 45.0
+    - const: 0.36319444444444443
+  - cells:
+  - cells:
+    - const: "Criteria sets"
+    - const: "Tree"
+    - const: "Height"
+    - const: "Height"
+    - const: "Tree"
+    - const: "Height"
+  - cells:
+    - null
+    - const: "Apple"
+    - const: ">10.0"
+    - const: "<16"
+    - const: "Nonexistent"
+    - const: "<1.4e6"
+  - cells:
+    - null
+    - const: "Pear"
+    - null
+    - const: "<1'000"
+  - cells:
+  - cells:
+    - null
+    - const: "Tree"
+    - const: "Height"
+    - const: "Height"
+    - const: "RefTree"
+    - const: "RefHeight"
+    - const: "RefHeight"
+  - cells:
+    - null
+    - expr: =RC[3]
+    - expr: =(">" & RC[3])
+    - expr: =("<" & RC[3])
+    - const: "Apple"
+    - const: 10.0
+    - const: 16.0
+  - cells:
+  - cells:
+    - null
+    - const: "Date"
+    - const: "Date"
+    - const: "Date"
+    - const: "RefDate"
+    - const: "Date"
+    - const: "Date"
+    - const: "RefDate"
+    - const: "Date"
+    - const: "Date"
+    - const: "RefDate"
+  - cells:
+    - null
+    - const: 38566.59444444445
+    - const: ">=2.9.2005"
+    - expr: =(">=" & VALDATE1)
+    - const: 38597.0
+      name: VALDATE1
+    - const: ">=2.8.05 14:16"
+    - expr: =(">=" & VALDATE2)
+    - const: 38566.59444444445
+      name: VALDATE2
+    - const: ">=8:45"
+    - expr: =(">=" & VALDATE3)
+    - const: 0.3645833333333333
+      name: VALDATE3
+  - cells:
+  - cells:
+    - null
+    - const: "Free Form"
+  - cells:
+    - null
+    - expr: =AND( (R[-18]C = "Apple"), (R[-18]C[1] > R[-6]C[4]), (R[-18]C[1] < R[-6]C[5]) )
+  - cells:
+  - cells:
+  - cells:
+    - const: "Tests"
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Column"
+    - const: "Table"
+    - const: "Criteria"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
+  - cells:
+  - cells:
+    - null
+    - const: 247.8
+    - expr: =DSUM( R[-24]C[-1]:R[-18]C[2], "Profit", R[-16]C[-1]:R[-14]C[1] )
+    - null
+    - null
+    - null
+    - const: "DSUM"
+    - const: "DSUM"
+  - cells:
+    - null
+    - const: 0.0
+    - expr: =DSUM( R[-25]C[-1]:R[-19]C[2], "Profit", R[-17]C[2]:R[-16]C[2] )
+  - cells:
+    - null
+    - const: 247.8
+    - expr: =DSUM( R[-26]C[-1]:R[-20]C[2], RC[1], R[-18]C[-1]:R[-16]C[1] )
+    - const: 4.0
+    - const: "Data1"
+    - const: "Vals1"
+  - cells:
+    - null
+    - const: 28.0
+    - expr: =DSUM( R[-27]C[-1]:R[-21]C[2], "Yield", R[-19]C[-1]:R[-17]C[1] )
+  - cells:
+    - null
+    - const: 30.0
+    - expr: =DSUM( R[-28]C[-1]:R[-22]C[2], "Yield", R[-20]C[-1]:R[-19]C[-1] )
+  - cells:
+    - null
+    - const: 29.0
+    - expr: =DSUM( R[-29]C[-1]:R[-23]C[2], "Yield", R[-21]C:R[-20]C[1] )
+  - cells:
+    - null
+    - const: 10.0
+    - expr: =DSUM( R[-30]C[-1]:R[-24]C[2], "Yield", R[-22]C[-1]:R[-21]C[1] )
+  - cells:
+    - null
+    - const: 48.0
+    - expr: =DSUM( R[-31]C[-1]:R[-25]C[2], "Yield", R[-23]C[-1]:R[-21]C[-1] )
+  - cells:
+    - null
+    - const: 57.0
+    - expr: =DSUM( R[-32]C[-1]:R[-26]C[2], "Yield", R[-24]C[3]:R[-23]C[3] )
+  - cells:
+    - null
+    - const: 10.0
+    - expr: =DSUM( R[-33]C[-1]:R[-27]C[3], "Yield", R[-18]C[-1]:R[-17]C[-1] )
+    - null
+    - null
+    - null
+    - const: "date/time criteria"
+  - cells:
+    - null
+    - const: 9.0
+    - expr: =DSUM( R[-34]C[-1]:R[-28]C[3], "Yield", R[-19]C:R[-18]C )
+  - cells:
+    - null
+    - const: 9.0
+    - expr: =DSUM( R[-35]C[-1]:R[-29]C[3], "Yield", R[-20]C[1]:R[-19]C[1] )
+    - null
+    - null
+    - const: "ValDate1"
+  - cells:
+    - null
+    - const: 19.0
+    - expr: =DSUM( R[-36]C[-1]:R[-30]C[3], "Yield", R[-21]C[3]:R[-20]C[3] )
+  - cells:
+    - null
+    - const: 19.0
+    - expr: =DSUM( R[-37]C[-1]:R[-31]C[3], "Yield", R[-22]C[4]:R[-21]C[4] )
+    - null
+    - null
+    - const: "ValDate2"
+  - cells:
+    - null
+    - const: 43.0
+    - expr: =DSUM( R[-38]C[-1]:R[-32]C[3], "Yield", R[-23]C[6]:R[-22]C[6] )
+  - cells:
+    - null
+    - const: 43.0
+    - expr: =DSUM( R[-39]C[-1]:R[-33]C[3], "Yield", R[-24]C[7]:R[-23]C[7] )
+    - null
+    - null
+    - const: "ValDate3"
+  - cells:
+    - null
+    - const: 75.0
+    - expr: =DSUM( R[-40]C[-1]:R[-34]C[2], RC[1], R[-28]C[-1]:R[-27]C[1] )
+    - const: 4.0
+    - null
+    - const: "Vals2"
+    - const: "&-ed criteria"
+  - cells:
+    - null
+    - const: 75.0
+    - expr: =DSUM( R[-41]C[-1]:R[-35]C[2], RC[1], R[-23]C[-1]:R[-22]C[-1] )
+    - const: 4.0
+    - null
+    - null
+    - const: "free-form criteria"
+  - cells:
+  - cells:
+    - null
+    - const: 552960.0
+    - expr: =DPRODUCT( R[-43]C[-1]:R[-37]C[2], "Profit", R[-35]C[-1]:R[-33]C[1] )
+    - null
+    - null
+    - null
+    - const: "DPRODUCT"
+    - const: "DPRODUCT"
+  - cells:
+    - null
+    - const: 0.0
+    - expr: =DPRODUCT( R[-44]C[-1]:R[-38]C[2], "Profit", R[-36]C[2]:R[-35]C[2] )
+  - cells:
+  - cells:
+    - null
+    - const: 3.0
+    - expr: =DCOUNT( R[-46]C[-1]:R[-40]C[2], "Profit", R[-38]C[-1]:R[-36]C[1] )
+    - null
+    - null
+    - null
+    - const: "DCOUNT"
+    - const: "DCOUNT"
+  - cells:
+    - null
+    - const: 0.0
+    - expr: =DCOUNT( R[-47]C[-1]:R[-41]C[2], "Profit", R[-39]C[2]:R[-38]C[2] )
+  - cells:
+  - cells:
+    - null
+    - const: 3.0
+    - expr: =DCOUNTA( R[-49]C[-1]:R[-43]C[2], "Profit", R[-41]C[-1]:R[-39]C[1] )
+    - null
+    - null
+    - null
+    - const: "DCOUNTA"
+    - const: "DCOUNTA"
+  - cells:
+    - null
+    - const: 0.0
+    - expr: =DCOUNTA( R[-50]C[-1]:R[-44]C[2], "Profit", R[-42]C[2]:R[-41]C[2] )
+  - cells:
+  - cells:
+    - null
+    - const: 75.0
+    - expr: =DMIN( R[-52]C[-1]:R[-46]C[2], "Profit", R[-44]C[-1]:R[-42]C[1] )
+    - null
+    - null
+    - null
+    - const: "DMIN"
+    - const: "DMIN"
+  - cells:
+    - null
+    - const: 0.0
+    - expr: =DMIN( R[-53]C[-1]:R[-47]C[2], "Profit", R[-45]C[2]:R[-44]C[2] )
+  - cells:
+  - cells:
+    - null
+    - const: 96.0
+    - expr: =DMAX( R[-55]C[-1]:R[-49]C[2], "Profit", R[-47]C[-1]:R[-45]C[1] )
+    - null
+    - null
+    - null
+    - const: "DMAX"
+    - const: "DMAX"
+  - cells:
+    - null
+    - const: 0.0
+    - expr: =DMAX( R[-56]C[-1]:R[-50]C[2], "Profit", R[-48]C[2]:R[-47]C[2] )
+  - cells:
+  - cells:
+    - null
+    - const: 82.6
+    - expr: =DAVERAGE( R[-58]C[-1]:R[-52]C[2], "Profit", R[-50]C[-1]:R[-48]C[1] )
+    - null
+    - null
+    - null
+    - const: "DAVERAGE"
+    - const: "DAVERAGE"
+  - cells:
+    - null
+    - const: "!NUM:NaN/AE"
+    - expr: =DAVERAGE( R[-59]C[-1]:R[-53]C[2], "Profit", R[-51]C[2]:R[-50]C[2] )
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: "#DIV/0!"
+  - cells:
+  - cells:
+    - null
+    - const: 90.3199999999989
+    - expr: =DVARP( R[-61]C[-1]:R[-55]C[2], "Profit", R[-53]C[-1]:R[-51]C[1] )
+    - null
+    - null
+    - null
+    - const: "DVARP"
+    - const: "DVARP"
+  - cells:
+    - null
+    - const: "!NUM:NaN/AE"
+    - expr: =DVARP( R[-62]C[-1]:R[-56]C[2], "Profit", R[-54]C[2]:R[-53]C[2] )
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: "#DIV/0!"
+  - cells:
+  - cells:
+    - null
+    - const: 135.479999999998
+    - expr: =DVAR( R[-64]C[-1]:R[-58]C[2], "Profit", R[-56]C[-1]:R[-54]C[1] )
+    - null
+    - null
+    - null
+    - const: "DVAR"
+    - const: "DVAR"
+  - cells:
+    - null
+    - const: "!NUM:NaN/AE"
+    - expr: =DVAR( R[-65]C[-1]:R[-59]C[2], "Profit", R[-57]C[2]:R[-56]C[2] )
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: "#DIV/0!"
+  - cells:
+  - cells:
+    - null
+    - const: 9.50368349641332
+    - expr: =DSTDEVP( R[-67]C[-1]:R[-61]C[2], "Profit", R[-59]C[-1]:R[-57]C[1] )
+    - null
+    - null
+    - null
+    - const: "DSTDEVP"
+    - const: "DSTDEVP"
+  - cells:
+    - null
+    - const: "!NUM:NaN/AE"
+    - expr: =DSTDEVP( R[-68]C[-1]:R[-62]C[2], "Profit", R[-60]C[2]:R[-59]C[2] )
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: "#DIV/0!"
+  - cells:
+  - cells:
+    - null
+    - const: 11.6395876215611
+    - expr: =DSTDEV( R[-70]C[-1]:R[-64]C[2], "Profit", R[-62]C[-1]:R[-60]C[1] )
+    - null
+    - null
+    - null
+    - const: "DSTDEV"
+    - const: "DSTDEV"
+  - cells:
+    - null
+    - const: "!NUM:NaN/AE"
+    - expr: =DSTDEV( R[-71]C[-1]:R[-65]C[2], "Profit", R[-63]C[2]:R[-62]C[2] )
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: "#DIV/0!"
+  - cells:
+  - cells:
+    - null
+    - const: 381.0
+    - expr: =SUMIF( R[-72]C:R[-67]C, R[-64]C, R[-72]C[2]:R[-67]C[2] )
+    - null
+    - null
+    - null
+    - const: "SUMIF"
+    - const: "SUMIF"
+  - cells:
+    - null
+    - const: 56.0
+    - expr: =SUMIF( R[-73]C:R[-68]C, R[-65]C[1] )
+  - cells:
+    - null
+    - const: 225.0
+    - expr: =SUMIF( R[-74]C[-1]:R[-69]C[-1], R[-66]C[-1], R[-74]C[2]:R[-69]C[2] )
+  - cells:
+    - null
+    - const: 0.0
+    - expr: =SUMIF( R[-75]C[-1]:R[-70]C[-1], R[-67]C[2], R[-75]C[2]:R[-70]C[2] )
+  - cells:
+  - cells:
+    - null
+    - const: 4.0
+    - expr: =COUNTIF( R[-77]C:R[-72]C, R[-69]C )
+    - null
+    - null
+    - null
+    - const: "COUNTIF"
+    - const: "COUNTIF"
+  - cells:
+    - null
+    - const: 5.0
+    - expr: =COUNTIF( R[-78]C:R[-73]C, R[-70]C[1] )
+  - cells:
+    - null
+    - const: 3.0
+    - expr: =COUNTIF( R[-79]C[-1]:R[-74]C[-1], R[-71]C[-1] )
+  - cells:
+    - null
+    - const: 0.0
+    - expr: =COUNTIF( R[-80]C[-1]:R[-75]C[-1], R[-72]C[2] )
+
+names:
+- name: BASEDATA
+  ref: R2C1:R21C11
+- name: DATA1
+  ref: R3C2:R4C5
+- name: TESTHEADER
+  ref: R24C2:R24C8
+- name: VALS1
+  ref: R11C2:R12C2
+- name: VALS2
+  ref: R15C5:R15C7
