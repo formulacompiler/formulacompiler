@@ -269,7 +269,7 @@ void fun(): {}
 	|	"CEILING" fun2( Function.CEILING )
 	|	"CHIDIST" fun2( Function.CHIDIST )
 	|	"CHIINV" fun2( Function.CHIINV )
-	|	"CHITEST" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.CHITEST )
+	|	"CHITEST" open() shapedRangeExpr() <SEP> shapedRangeExpr() closeFun( Function.CHITEST )
 	|	"CHOOSE" open() expr() commaExprs() closeFun( Function.CHOOSE )
 	|	"CLEAN" fun1( Function.CLEAN )
 
@@ -279,13 +279,13 @@ void fun(): {}
 
 	|	"CONCATENATE" open() expr() commaExprs() closeOp( Operator.CONCAT )
 	|	"CONFIDENCE" fun3( Function.CONFIDENCE )
-	|	"CORREL" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.CORREL )
+	|	"CORREL" open() shapedRangeExpr() <SEP> shapedRangeExpr() closeFun( Function.CORREL )
 	|	"COS" fun1( Function.COS )
 	|	"COSH" fun1( Function.COSH )
 	|	"COUNT" aggN( Function.COUNT )
 	|	"COUNTA" aggN( Function.COUNTA )
 	|	"COUNTIF" open() shapedRangeExpr() commaExpr() closeFun( Function.COUNTIF )
-	|	"COVAR" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.COVAR )
+	|	"COVAR" open() shapedRangeExpr() <SEP> shapedRangeExpr() closeFun( Function.COVAR )
 	|	"CRITBINOM" fun3( Function.CRITBINOM )
 	|	"DATE" fun3( Function.DATE )
 	|	"DAVERAGE" dbAggN( Function.DAVERAGE )
@@ -317,13 +317,13 @@ void fun(): {}
 	|	"false" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( 0 )); }
 	|	"FDIST" fun3( Function.FDIST )
 	|	"FINV" fun3( Function.FINV )
-	|	"FTEST" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.FTEST )
+	|	"FTEST" open() shapedRangeExpr() <SEP> shapedRangeExpr() closeFun( Function.FTEST )
 	|	"FIND" fun2to3( Function.FIND )
 	|	"FISHER" fun1( Function.FISHER )
 	|	"FISHERINV" fun1( Function.FISHERINV )
 	|	"FIXED" fun1to3( Function.FIXED )
 	|	"FLOOR" fun2( Function.FLOOR )
-	|	"FORECAST" open() expr() "," shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.FORECAST )	
+	|	"FORECAST" open() expr() <SEP> shapedRangeExpr() <SEP> shapedRangeExpr() closeFun( Function.FORECAST )
 	|	"FV" fun3to5( Function.FV )
 	|	"GAMMADIST" fun4( Function.GAMMADIST )
 	|	"GAMMAINV" fun3( Function.GAMMAINV )
@@ -334,9 +334,9 @@ void fun(): {}
 	|	"HOUR" fun1( Function.HOUR )
 	|	"HYPGEOMDIST" fun4( Function.HYPGEOMDIST )
 	|	"IF" fun3( Function.IF )
-	|	"INDEX" open() shapedRangeExpr() "," exprOrNull() optCommaExpr() closeFun( Function.INDEX )
+	|	"INDEX" open() shapedRangeExpr() <SEP> exprOrNull() optCommaExpr() closeFun( Function.INDEX )
 	|	"INT" fun1( Function.INT )
-	|	"INTERCEPT" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.INTERCEPT )
+	|	"INTERCEPT" open() shapedRangeExpr() <SEP> shapedRangeExpr() closeFun( Function.INTERCEPT )
 	|	"IRR" open() shapedRangeExpr() optCommaExprOr(0.1) closeFun( Function.IRR )
 	|	"ISBLANK" fun1( Function.ISBLANK )
 	|	"ISERR" fun1( Function.ISERR )
@@ -356,10 +356,10 @@ void fun(): {}
 	|	"LOG10" fun1( Function.LOG10 )
 	|	"LOGINV" fun3( Function.LOGINV )
 	|	"LOGNORMDIST" fun3( Function.LOGNORMDIST )
-	|	"LOOKUP" open() expr() "," shapedRangeExpr() [ "," shapedRangeExpr() ] closeFun( Function.LOOKUP )
+	|	"LOOKUP" open() expr() <SEP> shapedRangeExpr() [ <SEP> shapedRangeExpr() ] closeFun( Function.LOOKUP )
 	|	"LOWER" fun1( Function.LOWER )
 	|	"MAX" aggN( Function.MAX )
-	|	"MATCH" open() expr() "," shapedRangeExpr() optCommaExpr() closeFun( Function.MATCH )
+	|	"MATCH" open() expr() <SEP> shapedRangeExpr() optCommaExpr() closeFun( Function.MATCH )
 	|	"MEDIAN" open() shapedRangeExpr() closeFun( Function.MEDIAN )
 	|	"MID" fun3( Function.MID )
 	|	"MIN" aggN( Function.MIN )
@@ -379,11 +379,11 @@ void fun(): {}
 	|	"NOW" fun0( Function.NOW )
 	|	"NPER" fun3to5( Function.NPER )
 	// citation: npv
-	|	"NPV" open() expr() "," shapedRangeExpr() closeFun( Function.NPV )
+	|	"NPV" open() expr() <SEP> shapedRangeExpr() closeFun( Function.NPV )
 	// citation: npv
 	|	"ODD" fun1( Function.ODD )
 	|	"OR" aggN( Function.OR )
-	|	"PEARSON" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.PEARSON )
+	|	"PEARSON" open() shapedRangeExpr() <SEP> shapedRangeExpr() closeFun( Function.PEARSON )
 	|	"PERMUT" fun2( Function.PERMUT )
 	|	"PERCENTILE" open() shapedRangeExpr() commaExpr() closeFun( Function.PERCENTILE )
 	|	"PERCENTRANK" open() shapedRangeExpr() commaExpr() optCommaExpr() closeFun( Function.PERCENTRANK )
@@ -391,14 +391,14 @@ void fun(): {}
 	|	"PMT" fun3to5( Function.PMT )
 	|	"POISSON" fun3( Function.POISSON )
 	|	"POWER" fun2( Function.POWER )
-	|	"PROB" open() shapedRangeExpr() "," shapedRangeExpr() commaExpr() optCommaExpr() closeFun( Function.PROB ) 
+	|	"PROB" open() shapedRangeExpr() <SEP> shapedRangeExpr() commaExpr() optCommaExpr() closeFun( Function.PROB )
 	|	"PRODUCT" aggN( Function.PRODUCT )
 	|	"PROPER" fun1( Function.PROPER )
 	|	"PV" fun3to5( Function.PV )
 	|	"QUARTILE" open() shapedRangeExpr() commaExpr() closeFun( Function.QUARTILE )	
 	|	"RADIANS" fun1( Function.RADIANS )
 	|	"RAND" fun0( Function.RAND )
-	|	"RANK" open() expr() "," shapedRangeExpr() optCommaExpr() closeFun( Function.RANK )
+	|	"RANK" open() expr() <SEP> shapedRangeExpr() optCommaExpr() closeFun( Function.RANK )
 	|	"RATE" fun3to6( Function.RATE )
 	|	"REPLACE" fun4( Function.REPLACE )
 	|	"REPT" fun2( Function.REPT )
@@ -409,7 +409,7 @@ void fun(): {}
 	// citation: round
 	|	"ROUNDDOWN" fun2( Function.ROUNDDOWN )
 	|	"ROUNDUP" fun2( Function.ROUNDUP )
-	|	"RSQ" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.RSQ )
+	|	"RSQ" open() shapedRangeExpr() <SEP> shapedRangeExpr() closeFun( Function.RSQ )
 	|	"SEARCH" fun2to3( Function.SEARCH )
 	|	"SECOND" fun1( Function.SECOND )
 	|	"SIGN" fun1( Function.SIGN )
@@ -417,28 +417,28 @@ void fun(): {}
 	|	"SINH" fun1( Function.SINH )
 	|	"SKEW" aggN( Function.SKEW )
 	|	"SLN" fun3( Function.SLN )
-	|	"SLOPE" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.SLOPE )
+	|	"SLOPE" open() shapedRangeExpr() <SEP> shapedRangeExpr() closeFun( Function.SLOPE )
 	|	"SMALL" open() shapedRangeExpr() commaExpr() closeFun( Function.SMALL )	
 	|	"SQRT" fun1( Function.SQRT )
 	|	"STANDARDIZE" fun3( Function.STANDARDIZE )
 	|	"STDEV" aggN( Function.STDEV )
 	|	"STDEVP" aggN( Function.STDEVP )
 	|	"STDEVPA" aggN( Function.STDEVPA )
-	|	"STEYX" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.STEYX )
+	|	"STEYX" open() shapedRangeExpr() <SEP> shapedRangeExpr() closeFun( Function.STEYX )
 	|	"SUBSTITUTE" fun3to4( Function.SUBSTITUTE )
 	|	"SUM" aggN( Function.SUM )
-	|	"SUMIF" open() shapedRangeExpr() commaExpr() [ "," shapedRangeExpr() ] closeFun( Function.SUMIF )
+	|	"SUMIF" open() shapedRangeExpr() commaExpr() [ <SEP> shapedRangeExpr() ] closeFun( Function.SUMIF )
 	|	"SUMSQ" aggN( Function.SUMSQ )
-	|	"SUMX2MY2" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.SUMX2MY2 )
-	|	"SUMX2PY2" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.SUMX2PY2 )
-	|	"SUMXMY2" open() shapedRangeExpr() "," shapedRangeExpr() closeFun( Function.SUMXMY2 )
+	|	"SUMX2MY2" open() shapedRangeExpr() <SEP> shapedRangeExpr() closeFun( Function.SUMX2MY2 )
+	|	"SUMX2PY2" open() shapedRangeExpr() <SEP> shapedRangeExpr() closeFun( Function.SUMX2PY2 )
+	|	"SUMXMY2" open() shapedRangeExpr() <SEP> shapedRangeExpr() closeFun( Function.SUMXMY2 )
 	|	"SYD" fun4( Function.SYD )
 	|	"T" fun1( Function.T )
 	|	"TAN" fun1( Function.TAN )
 	|	"TANH" fun1( Function.TANH )
 	|	"TDIST" fun3to4( Function.TDIST )
 	|	"TINV" fun2( Function.TINV )
-	|	"TTEST" open() shapedRangeExpr() "," shapedRangeExpr() commaExpr() commaExpr() closeFun( Function.TTEST )
+	|	"TTEST" open() shapedRangeExpr() <SEP> shapedRangeExpr() commaExpr() commaExpr() closeFun( Function.TTEST )
 	|	"TEXT" fun2( Function.TEXT )
 	|	"TIME" fun3( Function.TIME )
 	|	"TODAY" fun0( Function.TODAY )
@@ -469,24 +469,24 @@ void open(): {}
 	}
 
 void commaExpr(): {}
-	{	"," expr()
+	{	<SEP> expr()
 	}
 
 void commaExprOrNull():
 	{	boolean needDefault = true; }
-	{	"," [expr()
+	{	<SEP> [expr()
 			{ needDefault = false; }
 		]
 			{ if(needDefault) pushNode( null ); }
 	}
 
 void optCommaExpr(): {}
-	{	["," [expr()]]
+	{	[<SEP> [expr()]]
 	}
 
 void optCommaExprOr(Object v):
 	{	boolean needDefault = true; }
-	{	["," [expr()
+	{	[<SEP> [expr()
 			{ needDefault = false; }
 		]]
 			{ if(needDefault) pushNode( new ExpressionNodeForConstantValue( v )); }
@@ -501,7 +501,7 @@ void exprOrNull():
 	}
 
 void commaExprs(): {}
-	{	( "," expr() )*
+	{	( <SEP> expr() )*
 	}
 
 void closeFun(Function f): {}
@@ -572,7 +572,7 @@ void fun5to7(Function f): {}
 	}
 
 void hvLookup(Function f): {}
-	{	open() expr() "," shapedRangeExpr() commaExpr() optCommaExpr() closeFun( f )
+	{	open() expr() <SEP> shapedRangeExpr() commaExpr() optCommaExpr() closeFun( f )
 	}
 
 /*	LATER This is what we really want.
@@ -584,11 +584,11 @@ void aggN(Function f): {}
 */
 
 void aggN(Function f): {}
-	{	open() rangeIntersection() ( "," rangeIntersection() )* closeFun( f )
+	{	open() rangeIntersection() ( <SEP> rangeIntersection() )* closeFun( f )
 	}
 
 void dbAggN(Function f): {}
-	{	"(" shapedRangeExpr() "," expr() "," shapedRangeExpr() ")"
+	{	"(" shapedRangeExpr() <SEP> expr() <SEP> shapedRangeExpr() ")"
 			 { pushNode( new ExpressionNodeForFunction( f, popNodes( 3 ) )); }
 	}
 
@@ -597,9 +597,9 @@ void dbAggN(Function f): {}
 
 void rangeUnion(): {}
 	{	rangeIntersection()
-		[	"," rangeIntersection()
+		[	<SEP> rangeIntersection()
 				{ pushNode( makeRangeUnion( popNodes( 2 ) )); }
-			( "," rangeIntersection()
+			( <SEP> rangeIntersection()
 				{ popNodeAndMergeIntoTopNode(); }
 			)*
 		]
@@ -654,7 +654,7 @@ void rewrite():
 	{ Token n; }
 	{	"rewrite" n=<NAME>
 			{	makeNewRuleDef( n ); }
-		"(" [ param() ("," param())* ] ")"
+		"(" [ param() (<SEP> param())* ] ")"
 			{	letParams(); }
 		"=" body()
 			{	unletParams();
@@ -665,7 +665,7 @@ void def():
 	{ Token n; }
 	{	"def" n=<NAME>
 			{	makeNewFoldDef( n ); }
-		[ "(" [ param() ("," param())* ] ")" ]
+		[ "(" [ param() (<SEP> param())* ] ")" ]
 			{	letParams(); }
 		"=" body()
 			{	unletParams();
@@ -722,7 +722,7 @@ void niceIf():
 void niceFold( boolean _mayReduce ): {}
 	{
 			{	initFold(); }
-		[ "with" foldAccuInit() ("," foldAccuInit())* ]
+		[ "with" foldAccuInit() (<SEP> foldAccuInit())* ]
 			{	letFoldAccus(); }
 		foldBody()
 			{	pushFold( true, _mayReduce ); }
@@ -731,7 +731,7 @@ void niceFold( boolean _mayReduce ): {}
 void niceIterate(): {}
 	{
 			{	initFold(); }
-		[ "with" foldAccuInit() ("," foldAccuInit())* ]
+		[ "with" foldAccuInit() (<SEP> foldAccuInit())* ]
 			{	letFoldAccus(); }
 		[ "index" foldIdxName() ]
 		foldBody()
@@ -739,9 +739,9 @@ void niceIterate(): {}
 	}
 
 void foldBody(): {}
-	{	"each" foldEltName() ("," foldEltName())*
+	{	"each" foldEltName() (<SEP> foldEltName())*
 			{	letFoldElts(); }
-		[ "as" foldAccuStep() ("," foldAccuStep())* ]
+		[ "as" foldAccuStep() (<SEP> foldAccuStep())* ]
 			{	unletFoldElts(); }
 		[[ "with" "count" foldCountName() ]
 			{	letFoldCount(); }
@@ -811,7 +811,7 @@ void niceApply():
 					{	vecs = New.collection(); }
 				vec=<NAME>
 					{	vecs.add( vec ); }
-				("," vec=<NAME>
+				(<SEP> vec=<NAME>
 					{	vecs.add( vec ); }
 				)* "}"
 					{	pushApplyVectors( def, vecs ); }
@@ -841,4 +841,6 @@ TOKEN: /* Names */
 	{	<NAME: (<ALPHA> | "_") (<ALPHA> | "_" | "." | ["0"-"9"])* >
 	}
 
-
+TOKEN: /* Separators */
+	{	<SEP: "," | ";" >
+	}
