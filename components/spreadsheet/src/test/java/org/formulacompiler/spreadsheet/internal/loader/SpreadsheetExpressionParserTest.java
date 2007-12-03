@@ -109,9 +109,9 @@ public class SpreadsheetExpressionParserTest extends TestCase
 
 	public void testConcat() throws Exception
 	{
-		assertParseableAll( "(1 & 2 & 3 & 4)", "1 & 2 & 3 & 4" );
-		assertParseableAll( "(1 & (2 & 3) & 4)", "1 & (2 & 3) & 4" );
-		assertParseableAll( "(1 & 2 & 3 & 4)", "CONCATENATE( 1, 2, 3, 4 )" );
+		assertParseableAll( "(1.0 & 2.0 & 3.0 & 4.0)", "1 & 2 & 3 & 4" );
+		assertParseableAll( "(1.0 & (2.0 & 3.0) & 4.0)", "1 & (2 & 3) & 4" );
+		assertParseableAll( "(1.0 & 2.0 & 3.0 & 4.0)", "CONCATENATE( 1, 2, 3, 4 )" );
 	}
 
 
@@ -127,7 +127,7 @@ public class SpreadsheetExpressionParserTest extends TestCase
 
 	public void testTrueFalse() throws Exception
 	{
-		assertParseableAll( "AND( 1, 0, 1, 0, 1, 0, 1, 0 )",
+		assertParseableAll( "AND( true, false, true, false, true, false, true, false )",
 				"AND( TRUE, FALSE, true, false, @TRUE, @FALSE, @true, @false )" );
 	}
 
@@ -149,8 +149,8 @@ public class SpreadsheetExpressionParserTest extends TestCase
 
 	public void testOldStyleFunctions() throws Exception
 	{
-		assertParseableA1( "((1 + ROUND( A1, 2 )) + 2)", "1 + @ROUND(A1,2) + 2" );
-		assertParseableA1( "((1 + ROUND( A1, 2 )) + 2)", "1 + ROUND(A1,2) + 2" );
+		assertParseableA1( "((1.0 + ROUND( A1, 2.0 )) + 2.0)", "1 + @ROUND(A1,2) + 2" );
+		assertParseableA1( "((1.0 + ROUND( A1, 2.0 )) + 2.0)", "1 + ROUND(A1,2) + 2" );
 	}
 
 

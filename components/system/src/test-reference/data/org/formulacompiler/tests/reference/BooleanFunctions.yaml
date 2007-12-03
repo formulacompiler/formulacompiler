@@ -22,7 +22,7 @@ sheets:
     - const: "Excel says"
   - cells:
     - const: true
-    - expr: =1
+    - expr: =true
     - null
     - null
     - null
@@ -35,7 +35,7 @@ sheets:
     - const: "true false"
   - cells:
     - const: false
-    - expr: =0
+    - expr: =false
   - cells:
     - const: true
     - expr: =RC[1]

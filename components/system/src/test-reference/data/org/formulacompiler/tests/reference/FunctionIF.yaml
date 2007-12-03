@@ -21,7 +21,7 @@ sheets:
     - const: "Highlight"
   - cells:
     - const: 100.0
-    - expr: =IF( 1, 100.0, 10.0 )
+    - expr: =IF( true, 100.0, 10.0 )
     - null
     - null
     - null
@@ -34,7 +34,7 @@ sheets:
     - const: "IF"
   - cells:
     - const: 10.0
-    - expr: =IF( 0, 100.0, 10.0 )
+    - expr: =IF( false, 100.0, 10.0 )
   - cells:
   - cells:
     - const: 100.0
