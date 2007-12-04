@@ -367,7 +367,14 @@ public abstract class AbstractDebugSuiteSetup extends SheetSuiteSetup
 				addSheetRowSequenceTo( this.sheetCx, _parent );
 			}
 			else if (null != this.rowCx.getInputBindingBits()) {
-				_parent.addTest( new SameEngineRowSequenceTestSuite( this.rowCx, false ).init() );
+				_parent.addTest( new SameExprRowSequenceTestSuite( this.rowCx )
+				{
+					@Override
+					protected void addTests() throws Exception
+					{
+						addTest( new SameEngineRowSequenceTestSuite( cx(), false ).init() );
+					}
+				}.init() );
 			}
 			else {
 				_parent.addTest( newSameEngineRowSequence( this.rowCx ) );
