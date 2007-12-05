@@ -1,0 +1,113 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+  - cells:
+    - const: "Table"
+    - const: "Kind"
+    - const: "Age"
+    - const: "Yield"
+  - cells:
+    - null
+    - const: 1.0
+    - const: 12.0
+    - const: 28.0
+  - cells:
+    - null
+    - const: 2.0
+    - const: 7.0
+    - const: 10.0
+  - cells:
+    - null
+    - const: 1.0
+    - const: 8.0
+    - const: 11.0
+  - cells:
+    - null
+    - const: 1.0
+    - const: 6.0
+    - const: 40.0
+  - cells:
+    - null
+    - const: 2.0
+    - const: 4.0
+    - const: 12.0
+  - cells:
+    - null
+    - const: 1.0
+    - const: 5.0
+    - const: 13.0
+  - cells:
+    - null
+    - const: 1.0
+    - const: 5.0
+    - const: 22.0
+  - cells:
+  - cells:
+    - const: "Criteria"
+    - const: "Kind"
+    - const: "Age"
+  - cells:
+    - null
+    - const: 1.0
+    - const: "<=9"
+  - cells:
+  - cells:
+  - cells:
+    - const: "Inputs A"
+    - const: 1.0
+    - const: 8.0
+    - const: 16.0
+  - cells:
+    - null
+    - const: 2.0
+    - const: 9.0
+    - const: 28.0
+  - cells:
+    - null
+    - const: 1.0
+    - const: 9.0
+    - const: 30.0
+  - cells:
+  - cells:
+    - const: "Inputs B"
+    - const: 1.0
+    - const: 8.0
+    - const: 22.0
+  - cells:
+    - null
+    - const: 2.0
+    - const: 9.0
+    - const: 15.0
+  - cells:
+    - null
+    - const: 1.0
+    - const: 4.0
+    - const: 18.0
+  - cells:
+  - cells:
+    - const: "Actual"
+    - expr: =DSUM( R[-21]C:R[-14]C[2], "Yield", R[-12]C:R[-11]C[1] )
+      name: O_ACTUAL
+  - cells:
+    - const: "Expected"
+    - const: 148.0
+      name: O_EXPECTED
+    - expr: =(((((R[-18]C[1] + R[-15]C[1]) + R[-9]C[1]) + R[-7]C[1]) + R[-5]C[1]) + R[-3]C[1])
+
+names:
+- name: CITED_EXAMPLE
+  ref: R2C2:R9C4
+- name: IR_ONE
+  ref: R15C2:R17C4
+- name: IR_TWO
+  ref: R19C2:R21C4
+- name: RS_ONE
+  ref: R4C2:R5C4
+- name: RS_TWO
+  ref: R7C2:R8C4

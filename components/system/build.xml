@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.formulacompiler.system" default="build" basedir=".">
+	<description>Tests and documents the Abacus Formula Compiler. See ~/doc/hacking/build.htm for details.</description>
+
+	<!--	Conventions used in this build script:
+
+		All top-level targets are simple redirects to corresponding internal targets.
+		This gives a quick overview and ensures a clean separation between API and implementation.
+
+		All targets that do something start with @.
+		They have no dependencies except for @init and are thus very reusable.
+		They are accessible to users for those who know what they are doing. :)
+
+		Dependencies are managed by internal targets starting with -.
+		They use the @ targets to do the actual work.
+
+		External configuration is initialized by build.default.properties.
+		Values in build.properties (if it exists) take precedence.
+	-->
+
+
+	<!-- top-level targets -->
+
+	<target name="test-main" description="Runs all functional tests except reference tests (quicker)." depends="-test-main" />
+	<target name="test-ref" description="Runs all reference tests (takes a while)." depends="-test-ref" />
+
+
+	<!-- global properties -->
+
+	<property file="../../build.properties" />
+	<property file="../../build.default.properties" />
+
+	<property name="Name" value="${BaseName} System" />
+	<property name="name" value="${basename}-system" />
+
+	<path id="intf.deps.classpath">
+		<pathelement location="../runtime/temp/intf/classes" />
+		<pathelement location="../compiler/temp/intf/classes" />
+		<pathelement location="../decompiler/temp/intf/classes" />
+		<pathelement location="../spreadsheet/temp/intf/classes" />
+	</path>
+
+	<path id="impl.deps.classpath">
+		<pathelement location="../runtime/build/${basename}-runtime.jar" />
+		<pathelement location="../compiler/build/${basename}-compiler.jar" />
+		<pathelement location="../decompiler/build/${basename}-decompiler.jar" />
+		<pathelement location="../spreadsheet/build/${basename}-spreadsheet.jar" />
+		<pathelement location="../spreadsheet.excel.xls/build/${basename}-spreadsheet-excel-xls.jar" />
+		<pathelement location="../spreadsheet.opendocument/build/${basename}-spreadsheet-opendocument.jar" />
+	</path>
+
+	<path id="test-only.deps.classpath">
+		<pathelement location="../spreadsheet/temp/test/classes" />
+		<pathelement location="../compiler/temp/test/classes" />
+		<pathelement location="../compiler/temp/build/classes" />
+	</path>
+
+	<path id="test.deps.classpath">
+		<path refid="intf.deps.classpath" />
+		<path refid="test-only.deps.classpath" />
+	</path>
+
+	<path id="test.compiletime.classpath">
+		<path refid="impl.deps.classpath" />
+		<path refid="test-only.deps.classpath" />
+		<fileset dir="../spreadsheet.excel.xls/lib/impl" includes="*.jar" />
+		<fileset dir="../spreadsheet.opendocument/lib/impl" includes="*.jar" />
+		<fileset dir="../compiler/lib/impl" includes="*.jar" />
+		<fileset dir="../decompiler/lib/impl" includes="*.jar" />
+	</path>
+
+	<path id="test.runtime.classpath">
+		<pathelement location="../runtime/build/${basename}-runtime.jar" />
+	</path>
+
+	<import file="../build-common.xml" />
+
+	<path id="lib.test-reference.classpath">
+		<path refid="lib.test.classpath" />
+	</path>
+
+	<path id="lib.examples.classpath">
+		<path refid="lib.test.classpath" />
+	</path>
+
+
+	<!-- internal targets -->
+
+	<!-- build / dist -->
+
+	<target name="-build" />
+
+	<!-- compile -->
+
+	<target name="-compile-main" />
+	<target name="-compile-tests-assuming-jar" depends="@compile-tests, @compile-tests-reference, @compile-examples" />
+
+	<target name="@compile-main" />
+
+	<target name="@compile-tests-reference" depends="@init">
+		<antcall target="--compile-comp">
+			<param name="comp" value="test-reference" />
+			<param name="comp.classpath" value="" />
+		</antcall>
+	</target>
+
+	<target name="@compile-examples" depends="@init">
+		<antcall target="--compile-comp">
+			<param name="comp" value="examples" />
+			<param name="comp.classpath" value="" />
+		</antcall>
+	</target>
+
+	<!-- jar -->
+
+	<target name="-jar" />
+	<target name="-jar-main" />
+
+	<!-- test -->
+
+	<target name="-test-main" depends="-jar-main, -compile-tests, @test-main" />
+	<target name="-test-ref" depends="-jar-main, -compile-tests, @test-ref" />
+	<target name="-test-ref-assuming-jar" depends="-compile-tests-assuming-jar, @test-ref-clean, @test-ref" />
+
+	<target name="@test-main" depends="@init" unless="@no-tests">
+
+		<echo>test: running tests...</echo>
+		<mkdir dir="${temp.dir}/test/results" />
+		<junit printsummary="no"
+			showoutput="yes"
+			haltonerror="no"
+			haltonfailure="no"
+			failureproperty="tests.failed"
+			fork="yes" forkmode="once"
+			dir="." tempdir="${temp.dir}"
+		>
+			<jvmarg value="-Demit_tests" />
+			<assertions enablesystemassertions="yes" />
+			<formatter type="plain" usefile="yes" />
+
+			<classpath>
+				<path refid="test.compiletime.classpath" />
+				<pathelement path="${temp.dir}/test/classes" />
+			</classpath>
+
+			<batchtest todir="${temp.dir}/test/results">
+				<fileset dir="${temp.dir}/test/classes">
+					<include name="**/*Test.class" />
+					<include name="**/*TestSuite.class" />
+					<include name="**/tutorials/*.class" />
+					<include name="**/examples/*Demo.class" />
+					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
+					<exclude name="**/*DeserializationTest.class" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+
+		<echo>test: running deserialization tests...</echo>
+		<mkdir dir="${temp.dir}/test/results" />
+		<junit printsummary="no"
+			showoutput="yes"
+			haltonerror="no"
+			haltonfailure="no"
+			failureproperty="tests.failed"
+			fork="yes" forkmode="once"
+			dir="." tempdir="${temp.dir}"
+		>
+			<jvmarg value="-Demit_tests" />
+			<assertions enablesystemassertions="yes" />
+			<formatter type="plain" usefile="yes" />
+
+			<classpath>
+				<path refid="test.runtime.classpath" />
+				<pathelement path="${temp.dir}/test/classes" />
+			</classpath>
+
+			<batchtest todir="${temp.dir}/test/results">
+				<fileset dir="${temp.dir}/test/classes">
+					<include name="**/*DeserializationTest.class" />
+					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+
+		<fail if="tests.failed" />
+
+	</target>
+
+	<target name="@test-given" depends="@init" if="test.class">
+
+		<echo>test: running given test...</echo>
+		<mkdir dir="${temp.dir}/test/results" />
+		<junit printsummary="no" showoutput="yes" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+			<jvmarg value="-Demit_tests" />
+			<assertions enablesystemassertions="yes" />
+			<formatter type="plain" usefile="no" />
+
+			<classpath>
+				<path refid="test.compiletime.classpath" />
+				<pathelement path="${temp.dir}/test/classes" />
+			</classpath>
+
+			<batchtest todir="${temp.dir}/test/results">
+				<fileset dir="${temp.dir}/test/classes">
+					<include name="**/${test.class}.class" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+
+	</target>
+
+	<property name="temp.ref.dir" location="${temp.dir}/test-reference" />
+
+	<target name="@test-ref-clean" depends="@init" unless="@no-tests">
+		<delete dir="${temp.ref.dir}/results" />
+		<delete dir="${temp.ref.dir}/doc" />
+	</target>
+
+	<fileset id="ref-batch-1" dir="${temp.ref.dir}/classes">
+		<include name="org/formulacompiler/tests/reference/*.class" />
+		<exclude name="org/formulacompiler/tests/reference/*$*.class" />
+		<exclude name="org/formulacompiler/tests/reference/Statistics.class" />
+	</fileset>
+	<fileset id="ref-batch-2" dir="${temp.ref.dir}/classes">
+		<include name="org/formulacompiler/tests/reference/Statistics.class" />
+	</fileset>
+
+	<target name="@test-ref" depends="@init">
+		<echo>test: running reference tests...</echo>
+
+		<mkdir dir="${temp.ref.dir}/results" />
+
+		<parallel threadcount="1" threadsperprocessor="1">
+			<antcall target="-ref-batch">
+				<param name="ref-batch-id" value="ref-batch-1" />
+				<param name="ref-batch-mem" value="256M" />
+			</antcall>
+			<antcall target="-ref-batch">
+				<param name="ref-batch-id" value="ref-batch-2" />
+				<param name="ref-batch-mem" value="256M" />
+			</antcall>
+		</parallel>
+
+		<fail if="ref-batch-1.failed" />
+		<fail if="ref-batch-2.failed" />
+	</target>
+
+	<target name="-ref-batch">
+		<junit printsummary="no"
+				showoutput="no"
+				haltonerror="no"
+				haltonfailure="no"
+				failureproperty="${ref-batch-id}.failed"
+				fork="yes"
+				forkmode="once"
+				dir="."
+				tempdir="${temp.dir}"
+				maxmemory="${ref-batch-mem}">
+
+			<jvmarg value="-Dorg.formulacompiler.tests.reference.emit_documentation=${test-ref-doc}" />
+			<jvmarg value="-Dorg.formulacompiler.tests.reference.quick_run=${test-ref-quick}" />
+			<jvmarg value="-Dorg.formulacompiler.tests.reference.threaded_run=${test-ref-threaded}" />
+			<jvmarg value="-Dorg.formulacompiler.tests.reference.context_in_names=true" />
+
+			<assertions enablesystemassertions="yes" />
+			<formatter type="brief" usefile="yes" />
+
+			<classpath>
+				<path refid="test.compiletime.classpath" />
+				<pathelement path="${temp.ref.dir}/classes" />
+			</classpath>
+
+			<batchtest todir="${temp.ref.dir}/results">
+				<fileset refid="${ref-batch-id}" />
+			</batchtest>
+
+		</junit>
+		<fail if="${ref-batch-id}.failed" />
+	</target>
+
+</project>

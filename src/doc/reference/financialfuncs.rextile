@@ -1,0 +1,12 @@
+
+h1. Financial Functions In AFC
+
+
+<%= toc 2, 5 %>
+
+h3. Financial Functions
+
+The supported numeric functions are shown by example below:
+
+<%= gen_doc "FinancialFunctions" %>
+

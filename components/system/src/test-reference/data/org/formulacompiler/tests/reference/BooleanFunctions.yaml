@@ -1,0 +1,542 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Inputs"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
+  - cells:
+    - const: true
+    - expr: =true
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: "Constant Values"
+    - const: "true false"
+  - cells:
+    - const: false
+    - expr: =false
+  - cells:
+    - const: true
+    - expr: =RC[1]
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: false
+    - expr: =RC[1]
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: true
+    - expr: =(RC[1] = 0.0)
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "SEJ treats booleans as numbers"
+    - null
+    - const: false
+  - cells:
+    - const: true
+    - expr: =(RC[1] = 1.0)
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: false
+  - cells:
+  - cells:
+    - const: false
+    - expr: =NOT( RC[1] )
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "NOT"
+    - const: "NOT"
+  - cells:
+    - const: true
+    - expr: =NOT( RC[1] )
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: false
+    - expr: =NOT( (RC[1] <> RC[2]) )
+    - const: 10.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =NOT( (RC[1] <> RC[2]) )
+    - const: 50.0
+    - const: 40.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =NOT( (RC[1] <> RC[2]) )
+    - const: 50.0
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =NOT( (RC[1] = RC[2]) )
+    - const: 10.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =NOT( (RC[1] = RC[2]) )
+    - const: 50.0
+    - const: 40.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =NOT( (RC[1] = RC[2]) )
+    - const: 50.0
+    - const: 50.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+  - cells:
+    - const: true
+    - expr: =AND( RC[1], RC[2] )
+    - const: true
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "AND"
+    - const: "AND"
+  - cells:
+    - const: false
+    - expr: =AND( RC[1], RC[2] )
+    - const: true
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =AND( RC[1], RC[2] )
+    - const: false
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =AND( RC[1], RC[2] )
+    - const: false
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =AND( (RC[1] = RC[2]), (RC[3] = RC[4]) )
+    - const: 10.0
+    - const: 10.0
+    - const: 20.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: false
+    - expr: =AND( (RC[1] = RC[2]), (RC[3] = RC[4]) )
+    - const: 5.0
+    - const: 10.0
+    - const: 20.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: false
+    - expr: =AND( (RC[1] = RC[2]), (RC[3] = RC[4]) )
+    - const: 5.0
+    - const: 10.0
+    - const: 15.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: false
+    - expr: =AND( (RC[1] = RC[2]), (RC[3] = RC[4]) )
+    - const: 10.0
+    - const: 10.0
+    - const: 15.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+  - cells:
+    - const: true
+    - expr: =OR( RC[1], RC[2] )
+    - const: true
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "OR"
+    - const: "OR"
+  - cells:
+    - const: true
+    - expr: =OR( RC[1], RC[2] )
+    - const: true
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =OR( RC[1], RC[2] )
+    - const: false
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: false
+    - expr: =OR( RC[1], RC[2] )
+    - const: false
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: true
+    - expr: =OR( (RC[1] = RC[2]), (RC[3] = RC[4]) )
+    - const: 10.0
+    - const: 10.0
+    - const: 20.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: true
+    - expr: =OR( (RC[1] = RC[2]), (RC[3] = RC[4]) )
+    - const: 5.0
+    - const: 10.0
+    - const: 20.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: false
+    - expr: =OR( (RC[1] = RC[2]), (RC[3] = RC[4]) )
+    - const: 5.0
+    - const: 10.0
+    - const: 15.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: true
+    - expr: =OR( (RC[1] = RC[2]), (RC[3] = RC[4]) )
+    - const: 10.0
+    - const: 10.0
+    - const: 15.0
+    - const: 20.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+  - cells:
+    - const: true
+    - expr: =OR( AND( RC[1]:RC[2] ), RC[3] )
+    - const: true
+    - const: true
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "Combinations, range arguments"
+    - const: "OR AND :"
+  - cells:
+    - const: true
+    - expr: =OR( AND( RC[1]:RC[2] ), RC[3] )
+    - const: true
+    - const: true
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: true
+    - expr: =OR( AND( RC[1]:RC[2] ), RC[3] )
+    - const: true
+    - const: false
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: false
+    - expr: =OR( AND( RC[1]:RC[2] ), RC[3] )
+    - const: true
+    - const: false
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: true
+    - expr: =OR( AND( RC[1]:RC[2] ), RC[3] )
+    - const: false
+    - const: true
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: false
+    - expr: =OR( AND( RC[1]:RC[2] ), RC[3] )
+    - const: false
+    - const: true
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: true
+    - expr: =OR( AND( RC[1]:RC[2] ), RC[3] )
+    - const: false
+    - const: false
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: false
+    - expr: =OR( AND( RC[1]:RC[2] ), RC[3] )
+    - const: false
+    - const: false
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+  - cells:
+    - const: true
+    - expr: =AND( OR( RC[1]:RC[2] ), RC[3] )
+    - const: true
+    - const: true
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: false
+    - expr: =AND( OR( RC[1]:RC[2] ), RC[3] )
+    - const: true
+    - const: true
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: true
+    - expr: =AND( OR( RC[1]:RC[2] ), RC[3] )
+    - const: true
+    - const: false
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: false
+    - expr: =AND( OR( RC[1]:RC[2] ), RC[3] )
+    - const: true
+    - const: false
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: true
+    - expr: =AND( OR( RC[1]:RC[2] ), RC[3] )
+    - const: false
+    - const: true
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: false
+    - expr: =AND( OR( RC[1]:RC[2] ), RC[3] )
+    - const: false
+    - const: true
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: false
+    - expr: =AND( OR( RC[1]:RC[2] ), RC[3] )
+    - const: false
+    - const: false
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: false
+    - expr: =AND( OR( RC[1]:RC[2] ), RC[3] )
+    - const: false
+    - const: false
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0

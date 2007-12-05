@@ -1,0 +1,1723 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Inputs"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
+    - const: "Skip for"
+  - cells:
+    - const: 6.0
+    - expr: =PRODUCT( RC[1]:RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "PRODUCT (does not support blanks!)"
+    - const: "PRODUCT"
+  - cells:
+    - const: 120.0
+    - expr: =PRODUCT( RC[1]:RC[3] )
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 720.0
+    - expr: =PRODUCT( RC[1]:R[1]C[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 14400.0
+    - expr: =(PRODUCT( RC[1]:RC[3] ) ^ 2.0)
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =PRODUCT( RC[1] )
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 4.0
+    - expr: =PRODUCT( RC[1] )
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 2.0
+    - expr: =PRODUCT( RC[1], RC[2] )
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 20.0
+    - expr: =PRODUCT( RC[1], RC[2] )
+    - const: 4.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 6.0
+    - expr: =PRODUCT( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 120.0
+    - expr: =PRODUCT( RC[1], RC[2], RC[3] )
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 70.0
+    - expr: =PRODUCT( RC[1], RC[5], RC[2], RC[7] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - const: 7.0
+    - const: 7.0
+  - cells:
+    - const: 126.0
+    - expr: =PRODUCT( RC[1], RC[5], RC[2], RC[7] )
+    - const: 7.0
+    - const: 6.0
+    - const: 5.0
+    - const: 4.0
+    - const: 3.0
+    - const: 2.0
+    - const: 1.0
+    - const: 7.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 4.0
+    - expr: =PRODUCT( RC[2], RC[1], RC[1], RC[2] )
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 400.0
+    - expr: =PRODUCT( RC[2], RC[1], RC[1], RC[2] )
+    - const: 4.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 120.0
+    - expr: =PRODUCT( RC[1]:RC[3] )
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 6.0
+    - expr: =PRODUCT( RC[1]:RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 210.0
+    - expr: =PRODUCT( RC[1]:RC[3], RC[5], RC[7] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 100.0
+    - const: 5.0
+    - const: 200.0
+    - const: 7.0
+    - const: 7.0
+  - cells:
+    - const: 30240.0
+    - expr: =PRODUCT( RC[1]:RC[3], RC[5], RC[7] )
+    - const: 6.0
+    - const: 7.0
+    - const: 8.0
+    - const: 80.0
+    - const: 9.0
+    - null
+    - const: 10.0
+    - const: 7.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 3.0
+    - expr: =COUNT( RC[1]:RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "COUNT (does not support blanks!)"
+    - const: "COUNT"
+  - cells:
+    - const: 3.0
+    - expr: =COUNT( RC[1]:RC[3] )
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 6.0
+    - expr: =COUNT( RC[1]:R[1]C[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 6.0
+    - expr: =(COUNT( RC[1]:RC[3] ) * 2.0)
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =COUNT( RC[1] )
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 1.0
+    - expr: =COUNT( RC[1] )
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 2.0
+    - expr: =COUNT( RC[1], RC[2] )
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 2.0
+    - expr: =COUNT( RC[1], RC[2] )
+    - const: 4.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 3.0
+    - expr: =COUNT( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 3.0
+    - expr: =COUNT( RC[1], RC[2], RC[3] )
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 4.0
+    - expr: =COUNT( RC[1], RC[5], RC[2], RC[7] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - const: 7.0
+    - const: 7.0
+  - cells:
+    - const: 4.0
+    - expr: =COUNT( RC[1], RC[5], RC[2], RC[7] )
+    - const: 7.0
+    - const: 6.0
+    - const: 5.0
+    - const: 4.0
+    - const: 3.0
+    - const: 2.0
+    - const: 1.0
+    - const: 7.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 4.0
+    - expr: =COUNT( RC[2], RC[1], RC[1], RC[2] )
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 4.0
+    - expr: =COUNT( RC[2], RC[1], RC[1], RC[2] )
+    - const: 4.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 3.0
+    - expr: =COUNT( RC[1]:RC[3] )
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 3.0
+    - expr: =COUNT( RC[1]:RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 5.0
+    - expr: =COUNT( RC[1]:RC[3], RC[5], RC[7] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 100.0
+    - const: 5.0
+    - const: 200.0
+    - const: 7.0
+    - const: 7.0
+  - cells:
+    - const: 5.0
+    - expr: =COUNT( RC[1]:RC[3], RC[5], RC[7] )
+    - const: 6.0
+    - const: 7.0
+    - const: 8.0
+    - const: 80.0
+    - const: 9.0
+    - null
+    - const: 10.0
+    - const: 7.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 3.0
+    - expr: =COUNTA( RC[1]:RC[3] )
+    - const: 1.0
+    - const: " "
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "COUNTA"
+    - const: "COUNTA"
+  - cells:
+    - const: 3.0
+    - expr: =COUNTA( RC[1]:RC[3] )
+    - const: false
+    - const: 5.0
+    - const: "Hello"
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 2.0
+    - expr: =AVERAGE( RC[1]:RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "AVERAGE (does not support blanks!)"
+    - const: "AVERAGE"
+  - cells:
+    - const: 5.0
+    - expr: =AVERAGE( RC[1]:RC[3] )
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 3.5
+    - expr: =AVERAGE( RC[1]:R[1]C[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 5.0
+    - expr: =AVERAGE( RC[1]:RC[3], RC[1]:RC[3] )
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =AVERAGE( RC[1] )
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 4.0
+    - expr: =AVERAGE( RC[1] )
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 1.5
+    - expr: =AVERAGE( RC[1], RC[2] )
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 4.5
+    - expr: =AVERAGE( RC[1], RC[2] )
+    - const: 4.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 2.0
+    - expr: =AVERAGE( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 5.0
+    - expr: =AVERAGE( RC[1], RC[2], RC[3] )
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 3.75
+    - expr: =AVERAGE( RC[1], RC[5], RC[2], RC[7] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - const: 7.0
+    - const: 7.0
+  - cells:
+    - const: 4.25
+    - expr: =AVERAGE( RC[1], RC[5], RC[2], RC[7] )
+    - const: 7.0
+    - const: 6.0
+    - const: 5.0
+    - const: 4.0
+    - const: 3.0
+    - const: 2.0
+    - const: 1.0
+    - const: 7.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 1.5
+    - expr: =AVERAGE( RC[2], RC[1], RC[1], RC[2] )
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 4.5
+    - expr: =AVERAGE( RC[2], RC[1], RC[1], RC[2] )
+    - const: 4.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 5.0
+    - expr: =AVERAGE( RC[1]:RC[3] )
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 2.0
+    - expr: =AVERAGE( RC[1]:RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 3.6
+    - expr: =AVERAGE( RC[1]:RC[3], RC[5], RC[7] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 100.0
+    - const: 5.0
+    - const: 200.0
+    - const: 7.0
+    - const: 7.0
+  - cells:
+    - const: 8.0
+    - expr: =AVERAGE( RC[1]:RC[3], RC[5], RC[7] )
+    - const: 6.0
+    - const: 7.0
+    - const: 8.0
+    - const: 80.0
+    - const: 9.0
+    - null
+    - const: 10.0
+    - const: 7.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: -1.0
+    - expr: =MIN( RC[1]:RC[3] )
+    - const: -1.0
+    - const: 2.0
+    - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "MIN (does not support blanks!)"
+    - const: "MIN"
+  - cells:
+    - const: 4.0
+    - expr: =MIN( RC[1]:RC[3] )
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =MIN( RC[1]:R[1]C[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 4.0
+    - expr: =MIN( RC[1]:RC[3] )
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =MIN( RC[1] )
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 4.0
+    - expr: =MIN( RC[1] )
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =MIN( RC[1], RC[2] )
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 4.0
+    - expr: =MIN( RC[1], RC[2] )
+    - const: 4.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =MIN( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: -6.0
+    - expr: =MIN( RC[1], RC[2], RC[3] )
+    - const: -4.0
+    - const: -5.0
+    - const: -6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =MIN( RC[1], RC[5], RC[2], RC[7] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - const: 7.0
+    - const: 7.0
+  - cells:
+    - const: 1.0
+    - expr: =MIN( RC[1], RC[5], RC[2], RC[7] )
+    - const: 7.0
+    - const: 6.0
+    - const: 5.0
+    - const: 4.0
+    - const: 3.0
+    - const: 2.0
+    - const: 1.0
+    - const: 7.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =MIN( RC[2], RC[1], RC[1], RC[2] )
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 4.0
+    - expr: =MIN( RC[2], RC[1], RC[1], RC[2] )
+    - const: 4.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 4.0
+    - expr: =MIN( RC[1]:RC[3] )
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 1.0
+    - expr: =MIN( RC[1]:RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =MIN( RC[1]:RC[3], RC[5], RC[7] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 100.0
+    - const: 5.0
+    - const: 200.0
+    - const: 7.0
+    - const: 7.0
+  - cells:
+    - const: 6.0
+    - expr: =MIN( RC[1]:RC[3], RC[5], RC[7] )
+    - const: 6.0
+    - const: 7.0
+    - const: 8.0
+    - const: 80.0
+    - const: 9.0
+    - null
+    - const: 10.0
+    - const: 7.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 2.0
+    - expr: =MAX( RC[1]:RC[3] )
+    - const: -1.0
+    - const: 2.0
+    - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "MAX (does not support blanks!)"
+    - const: "MAX"
+  - cells:
+    - const: 6.0
+    - expr: =MAX( RC[1]:RC[3] )
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 6.0
+    - expr: =MAX( RC[1]:R[1]C[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 6.0
+    - expr: =MAX( RC[1]:RC[3] )
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 1.0
+    - expr: =MAX( RC[1] )
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 4.0
+    - expr: =MAX( RC[1] )
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 2.0
+    - expr: =MAX( RC[1], RC[2] )
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 5.0
+    - expr: =MAX( RC[1], RC[2] )
+    - const: 4.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 3.0
+    - expr: =MAX( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: -4.0
+    - expr: =MAX( RC[1], RC[2], RC[3] )
+    - const: -4.0
+    - const: -5.0
+    - const: -6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 7.0
+    - expr: =MAX( RC[1], RC[5], RC[2], RC[7] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - const: 7.0
+    - const: 7.0
+  - cells:
+    - const: 7.0
+    - expr: =MAX( RC[1], RC[5], RC[2], RC[7] )
+    - const: 7.0
+    - const: 6.0
+    - const: 5.0
+    - const: 4.0
+    - const: 3.0
+    - const: 2.0
+    - const: 1.0
+    - const: 7.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 2.0
+    - expr: =MAX( RC[2], RC[1], RC[1], RC[2] )
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 5.0
+    - expr: =MAX( RC[2], RC[1], RC[1], RC[2] )
+    - const: 4.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 6.0
+    - expr: =MAX( RC[1]:RC[3] )
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 3.0
+    - expr: =MAX( RC[1]:RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 7.0
+    - expr: =MAX( RC[1]:RC[3], RC[5], RC[7] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 100.0
+    - const: 5.0
+    - const: 200.0
+    - const: 7.0
+    - const: 7.0
+  - cells:
+    - const: 10.0
+    - expr: =MAX( RC[1]:RC[3], RC[5], RC[7] )
+    - const: 6.0
+    - const: 7.0
+    - const: 8.0
+    - const: 80.0
+    - const: 9.0
+    - null
+    - const: 10.0
+    - const: 7.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 0.0
+    - expr: =VARP( RC[1] )
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "VARP (does not support blanks!)"
+    - const: "VARP"
+  - cells:
+    - const: 0.0
+    - expr: =VARP( RC[1] )
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 0.25
+    - expr: =VARP( RC[1], RC[2] )
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 0.25
+    - expr: =VARP( RC[1], RC[2] )
+    - const: 4.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 4.64
+    - expr: =VARP( RC[1]:RC[3], RC[5], RC[7] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 100.0
+    - const: 5.0
+    - const: 200.0
+    - const: 7.0
+    - const: 7.0
+  - cells:
+    - const: 2.0
+    - expr: =VARP( RC[1]:RC[3], RC[5], RC[7] )
+    - const: 6.0
+    - const: 7.0
+    - const: 8.0
+    - const: 80.0
+    - const: 9.0
+    - null
+    - const: 10.0
+    - const: 7.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 0.5
+    - expr: =VAR( RC[1], RC[2] )
+    - const: 1.0
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "VAR (does not support blanks!)"
+    - const: "VAR"
+  - cells:
+    - const: 0.5
+    - expr: =VAR( RC[1], RC[2] )
+    - const: 4.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 5.8
+    - expr: =VAR( RC[1]:RC[3], RC[5], RC[7] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 100.0
+    - const: 5.0
+    - const: 200.0
+    - const: 7.0
+    - const: 7.0
+  - cells:
+    - const: 2.5
+    - expr: =VAR( RC[1]:RC[3], RC[5], RC[7] )
+    - const: 6.0
+    - const: 7.0
+    - const: 8.0
+    - const: 80.0
+    - const: 9.0
+    - null
+    - const: 10.0
+    - const: 7.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 2.8284271247461903
+    - expr: =STDEV( RC[1], RC[2] )
+    - const: -1.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "STDEV (does not support blanks!)"
+    - const: "STDEV"
+  - cells:
+    - const: 2.0816659994661326
+    - expr: =STDEV( RC[1], RC[2], RC[3] )
+    - const: -1.0
+    - const: 0.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+  - cells:
+    - const: 40.688718279617696
+    - expr: =STDEV( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -1.0
+    - const: 0.0
+    - const: 5.45
+    - const: 7.62
+    - const: 12.7
+    - const: 14.5
+    - const: -100.0
+    - const: 7.0
+  - cells:
+    - const: 4.15187851918806
+    - expr: =STDEV( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -10.0
+    - const: 0.0
+    - const: 1.0
+    - const: 0.0
+    - const: -1.0
+    - const: -2.0
+    - const: 3.0
+    - const: 7.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 0.0
+    - expr: =STDEVP( RC[1] )
+    - const: 7.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "STDEVP (does not support blanks!)"
+    - const: "STDEVP"
+  - cells:
+    - const: 1.5
+    - expr: =STDEVP( RC[1], RC[2] )
+    - const: 2.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 2.0548046676563256
+    - expr: =STDEVP( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - const: 0.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+  - cells:
+    - const: 37.6704332172529
+    - expr: =STDEVP( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -1.0
+    - const: 0.0
+    - const: 5.45
+    - const: 7.62
+    - const: 12.7
+    - const: 14.5
+    - const: -100.0
+    - const: 7.0
+  - cells:
+    - const: 3.843892584878203
+    - expr: =STDEVP( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -10.0
+    - const: 0.0
+    - const: 1.0
+    - const: 0.0
+    - const: -1.0
+    - const: -2.0
+    - const: 3.0
+    - const: 7.0
+    - const: "..."
+    - null
+    - null
+    - const: "bigdecimal"
+  - cells:
+  - cells:
+    - const: 0.0
+    - expr: =AVEDEV( RC[1] )
+    - const: 40.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "AVEDEV (does not support blanks!)"
+    - const: "AVEDEV"
+  - cells:
+    - const: 2.0
+    - expr: =AVEDEV( RC[1], RC[2] )
+    - const: -1.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 1.5555555555555554
+    - expr: =AVEDEV( RC[1], RC[2], RC[3] )
+    - const: -1.0
+    - const: 0.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+  - cells:
+    - const: 26.092653061224492
+    - expr: =AVEDEV( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -1.0
+    - const: 0.0
+    - const: 5.45
+    - const: 7.62
+    - const: 12.7
+    - const: 14.5
+    - const: -100.0
+    - const: 7.0
+  - cells:
+    - const: 2.693877551020408
+    - expr: =AVEDEV( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -10.0
+    - const: 0.0
+    - const: 1.0
+    - const: 0.0
+    - const: -1.0
+    - const: -2.0
+    - const: 3.0
+    - const: 7.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 0.0
+    - expr: =DEVSQ( RC[1] )
+    - const: 40.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "DEVSQ (does not support blanks!)"
+    - const: "DEVSQ"
+  - cells:
+    - const: 8.0
+    - expr: =DEVSQ( RC[1], RC[2] )
+    - const: -1.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 8.666666666666668
+    - expr: =DEVSQ( RC[1], RC[2], RC[3] )
+    - const: -1.0
+    - const: 0.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - const: "long"
+  - cells:
+  - cells:
+    - const: 9933.430771428571
+    - expr: =DEVSQ( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -1.0
+    - const: 0.0
+    - const: 5.45
+    - const: 7.62
+    - const: 12.7
+    - const: 14.5
+    - const: -100.0
+    - const: 7.0
+    - null
+    - null
+    - null
+    - const: "long, bigdecimal"
+  - cells:
+    - const: 103.4285714285714
+    - expr: =DEVSQ( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -10.0
+    - const: 0.0
+    - const: 1.0
+    - const: 0.0
+    - const: -1.0
+    - const: -2.0
+    - const: 3.0
+    - const: 7.0
+    - const: "..."
+    - null
+    - null
+    - const: "long, bigdecimal"
+  - cells:
+  - cells:
+    - const: 0.9352195295828235
+    - expr: =SKEW( RC[1], RC[2], RC[3] )
+    - const: 1.0
+    - const: 2.0
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "SKEW (does not support blanks!)"
+    - const: "SKEW"
+    - null
+    - const: "bigdecimal"
+  - cells:
+  - cells:
+    - const: -2.532706643504132
+    - expr: =SKEW( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -1.0
+    - const: 0.0
+    - const: 5.45
+    - const: 7.62
+    - const: 12.7
+    - const: 14.5
+    - const: -100.0
+    - const: 7.0
+  - cells:
+    - const: -1.8491263727532468
+    - expr: =SKEW( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -10.0
+    - const: 0.0
+    - const: 1.0
+    - const: 0.0
+    - const: -1.0
+    - const: -2.0
+    - const: 3.0
+    - const: 7.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 0.3905325443786989
+    - expr: =KURT( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.0
+    - const: 2.0
+    - const: 4.0
+    - const: -1.0
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "KURT (does not support blanks!)"
+    - const: "KURT"
+    - null
+    - const: "long, bigdecimal"
+  - cells:
+  - cells:
+    - const: 6.5478454980828005
+    - expr: =KURT( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -1.0
+    - const: 0.0
+    - const: 5.45
+    - const: 7.62
+    - const: 12.7
+    - const: 14.5
+    - const: -100.0
+    - const: 7.0
+    - null
+    - null
+    - null
+    - const: "long, bigdecimal"
+  - cells:
+    - const: 4.2380757608131585
+    - expr: =KURT( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -10.0
+    - const: 0.0
+    - const: 1.0
+    - const: 0.0
+    - const: -1.0
+    - const: -2.0
+    - const: 3.0
+    - const: 7.0
+    - const: "..."
+    - null
+    - null
+    - const: "long, bigdecimal"
+  - cells:
+  - cells:
+    - const: 49.0
+    - expr: =SUMSQ( RC[1] )
+    - const: 7.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "SUMSQ"
+    - const: "SUMSQ"
+  - cells:
+    - const: 29.0
+    - expr: =SUMSQ( RC[1], RC[2] )
+    - const: 2.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 29.0
+    - expr: =SUMSQ( RC[1], RC[2], RC[3] )
+    - const: 2.0
+    - null
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+  - cells:
+    - const: 10460.3069
+    - expr: =SUMSQ( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -1.0
+    - const: 0.0
+    - const: 5.45
+    - const: 7.62
+    - const: 12.7
+    - const: 14.5
+    - const: -100.0
+    - const: 7.0
+  - cells:
+    - const: 115.0
+    - expr: =SUMSQ( RC[1]:RC[3], RC[4]:RC[6], RC[7] )
+    - const: -10.0
+    - null
+    - const: 1.0
+    - const: 0.0
+    - const: -1.0
+    - const: -2.0
+    - const: 3.0
+    - const: 7.0
+    - const: "..."
+    - null
+    - null
+    - const: "bigdecimal"
+  - cells:
+  - cells:
+    - const: 0.6666666666666666
+    - expr: =COVAR( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - const: 6.0
+    - const: "COVAR"
+    - const: "COVAR"
+  - cells:
+    - const: -0.1111111111111111
+    - expr: =COVAR( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 2.0
+    - const: 3.0
+    - const: 2.0
+    - const: 2.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - const: 6.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 0.25
+    - expr: =COVAR( RC[1]:RC[2], RC[3]:RC[4] )
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: "!NUM:NA"
+    - expr: =COVAR( RC[1]:RC[3], RC[4]:RC[5] )
+    - const: 2.0
+    - const: 3.0
+    - const: 5.0
+    - const: 4.0
+    - const: 5.0
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - err: #N/A
+
+names:
+- name: AVERAGERANGE
+  ref: R80C3:R80C5
+- name: CITEHEADER
+  ref: R1C1:R1C12
+- name: CITEVAR
+  ref: R149C1:R153C12
+- name: COUNTRANGE
+  ref: R50C3:R50C5
+- name: MAXRANGE
+  ref: R134C3:R134C5
+- name: MINRANGE
+  ref: R107C3:R107C5
+- name: PRODUCTRANGE
+  ref: R23C3:R23C5
