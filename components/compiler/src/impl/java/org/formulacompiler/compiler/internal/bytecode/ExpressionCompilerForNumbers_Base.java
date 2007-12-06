@@ -738,8 +738,10 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 			mv.visitVarInsn( Opcodes.ALOAD, method().objectInContext() );
 			sectionInContext().compileCallToGetterFor( mv, sub );
 			mv.arrayLength();
-			mv.push( cnts[ i ] );
-			mv.visitInsn( Opcodes.IMUL );
+			if (cnts[ i ] != 1) {
+				mv.push( cnts[ i ] );
+				mv.visitInsn( Opcodes.IMUL );
+			}
 			mv.visitInsn( Opcodes.IADD );
 		}
 
