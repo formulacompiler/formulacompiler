@@ -633,6 +633,10 @@
 
 	<!-- cover -->
 
+	<assertions id="test.assertions" enablesystemassertions="no">
+		<enable/>
+	</assertions>
+	
 	<target name="-cover" depends="-cover-cobertura" />
 	<target name="-cover-cobertura" depends="-build, @cover-cobertura" />
 	<target name="-cover-emma" depends="-build, @cover-emma" />
@@ -667,7 +671,7 @@
 
 		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
 
-			<assertions enablesystemassertions="yes" />
+			<assertions refid="test.assertions" />
 
 			<formatter type="plain" usefile="yes" />
 
@@ -744,7 +748,7 @@
 
 		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
 
-			<assertions enablesystemassertions="yes" />
+			<assertions refid="test.assertions" />
 
 			<formatter type="plain" usefile="yes" />
 
