@@ -470,7 +470,7 @@ public final class Context
 	{
 		StringBuilder s = new StringBuilder();
 		s.append( getSpreadsheetFile().getName() );
-		s.append( ", row " ).append( getRowIndex() );
+		s.append( ", row " ).append( getRowIndex() + 1 );
 		BindingType type = getNumberBindingType();
 		if (type != null) s.append( ", type:" ).append( type.name() );
 		if (getExplicitCaching()) s.append( ", caching" );

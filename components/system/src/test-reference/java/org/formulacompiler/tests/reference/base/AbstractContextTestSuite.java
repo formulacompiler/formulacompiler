@@ -42,6 +42,15 @@ abstract class AbstractContextTestSuite extends AbstractInitializableTestSuite
 		return getOwnName();
 	}
 
+	/**
+	 * Accessed by Ant's test error formatter, so return the full name.
+	 */
+	@Override
+	public String toString()
+	{
+		return getOwnName() + " in " + cx().getDescription();
+	}
+
 	protected abstract String getOwnName();
 
 }
