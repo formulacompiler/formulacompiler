@@ -22,6 +22,6 @@ package org.formulacompiler.compiler.internal.expressions;
 
 public enum DataType {
 
-	NUMERIC, STRING, BOOLEAN, NULL;
+	NUMERIC, STRING, NULL;
 	
 }
