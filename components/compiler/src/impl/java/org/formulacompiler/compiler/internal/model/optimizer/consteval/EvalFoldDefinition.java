@@ -22,6 +22,7 @@ package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDefinition;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 final class EvalFoldDefinition extends EvalShadow
@@ -33,15 +34,15 @@ final class EvalFoldDefinition extends EvalShadow
 	}
 
 	@Override
-	protected Object evaluateToConst( Object... _args ) throws CompilerException
+	protected TypedResult evaluateToConst( TypedResult... _args ) throws CompilerException
 	{
 		throw new IllegalStateException( "EvalFoldDefinition.evaluateToConst() should never be called" );
 	}
-	
+
 	@Override
-	protected Object eval() throws CompilerException
+	protected TypedResult eval() throws CompilerException
 	{
 		return node();
 	}
-	
+
 }

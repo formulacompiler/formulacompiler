@@ -21,21 +21,21 @@
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 public class EvalConstantValue extends EvalShadow
 {
 
-	EvalConstantValue(ExpressionNode _node, InterpretedNumericType _type)
+	EvalConstantValue( ExpressionNode _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
 	}
 
 	@Override
-	protected Object evaluateToConst( Object... _args )
+	protected TypedResult evaluateToConst( TypedResult... _args )
 	{
-		return ((ExpressionNodeForConstantValue) node()).value();
+		return node();
 	}
 
 }

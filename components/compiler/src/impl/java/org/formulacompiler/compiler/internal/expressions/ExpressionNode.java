@@ -30,7 +30,7 @@ import org.formulacompiler.describable.DescriptionBuilder;
 import org.formulacompiler.runtime.New;
 
 
-public abstract class ExpressionNode extends AbstractDescribable
+public abstract class ExpressionNode extends AbstractDescribable implements TypedResult
 {
 	private List<ExpressionNode> arguments = New.list();
 	private DataType dataType;
@@ -104,6 +104,30 @@ public abstract class ExpressionNode extends AbstractDescribable
 	public final void setDataType( DataType _dataType )
 	{
 		this.dataType = _dataType;
+	}
+
+
+	public boolean isConstant()
+	{
+		return hasConstantValue();
+	}
+	
+	public boolean hasConstantValue()
+	{
+		return false;
+	}
+
+	public Object getConstantValue()
+	{
+		throw new IllegalArgumentException( "Node is not constant or single valued" );
+	}
+
+	protected final boolean areConstant( Iterable<ExpressionNode> _args )
+	{
+		for (ExpressionNode arg : _args) {
+			if (!arg.isConstant()) return false;
+		}
+		return true;
 	}
 
 

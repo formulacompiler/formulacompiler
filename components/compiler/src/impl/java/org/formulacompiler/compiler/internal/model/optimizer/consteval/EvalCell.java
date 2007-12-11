@@ -22,6 +22,7 @@ package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
@@ -30,13 +31,13 @@ import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumeri
 public class EvalCell extends EvalShadow
 {
 
-	public EvalCell(ExpressionNode _node, InterpretedNumericType _type)
+	public EvalCell( ExpressionNode _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
 	}
 
 	@Override
-	protected Object evaluateToConst( Object... _args ) throws CompilerException
+	protected TypedResult evaluateToConst( TypedResult... _args ) throws CompilerException
 	{
 		final ExpressionNodeForCellModel cellNode = (ExpressionNodeForCellModel) node();
 		final CellModel cellModel = cellNode.getCellModel();
@@ -53,14 +54,14 @@ public class EvalCell extends EvalShadow
 		if (null != constantValue) {
 			if (constantValue instanceof Boolean) {
 				boolean bool = ((Boolean) constantValue).booleanValue();
-				return type().adjustConstantValue( Double.valueOf( bool ? 1 : 0 ) );
+				return new ConstResult( type().adjustConstantValue( Double.valueOf( bool? 1 : 0 ) ), cellModel.getDataType() );
 			}
-			return constantValue;
+			return cellModel;
 		}
 
 		final ExpressionNode expression = cellModel.getExpression();
 		if (null != expression) {
-			final Object constResult = EvalShadow.evaluate( expression, type() );
+			final TypedResult constResult = EvalShadow.evaluate( expression, type() );
 			if (constResult instanceof ExpressionNode) {
 
 				// Do not need to clone leaf node.

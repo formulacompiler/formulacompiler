@@ -20,12 +20,14 @@
  */
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
+import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 final class EvalLetVar extends EvalShadow
 {
-	static final Object UNDEF = new Object();
+	static final Object UNDEF = new ConstResult( null, DataType.NULL );
 
 	private final String varName;
 
@@ -37,26 +39,21 @@ final class EvalLetVar extends EvalShadow
 
 
 	@Override
-	protected Object eval()
+	protected TypedResult eval()
 	{
-		final Object val = letDict().lookup( this.varName );
+		final TypedResult val = (TypedResult) letDict().lookup( this.varName );
 		if (val == UNDEF) {
 			if (LOG.e()) LOG.a( "Lookup " ).a( this.varName ).a( " is undefined. " ).lf();
 			return node(); // No need to clone leaf node.
 		}
-		else if (isConstant( val )) {
-			final Object cst = valueOf( val );
-			if (LOG.e()) LOG.a( "Lookup " ).a( this.varName ).a( " <- " ).a( cst ).lf();
-			return cst;
-		}
 		else {
 			if (LOG.e()) LOG.a( "Lookup " ).a( this.varName ).a( " = " ).a( val ).lf();
-			return node(); // No need to clone leaf node.
+			return val;
 		}
 	}
 
 	@Override
-	protected Object evaluateToConst( Object... _args )
+	protected TypedResult evaluateToConst( TypedResult... _args )
 	{
 		throw new IllegalStateException( "EvalLetVar.evaluateToConst() should never be called" );
 	}
