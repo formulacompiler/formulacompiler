@@ -134,6 +134,17 @@ public interface Computation
 			// Nothing so far.
 		}
 
+		@Override
+		public String toString()
+		{
+			final StringBuilder res = new StringBuilder();
+			if (null != this.locale) res.append( "[locale: " ).append( this.locale ).append( " ]" );
+			if (null != this.timeZone) res.append( "[timeZone: " ).append( this.timeZone ).append( " ]" );
+			if (null != this.decimalFormatSymbols)
+				res.append( "[decimalFormatSymbols: " ).append( this.decimalFormatSymbols ).append( " ]" );
+			return res.toString();
+		}
+
 	}
 
 }
