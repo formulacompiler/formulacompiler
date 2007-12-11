@@ -165,7 +165,7 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 
 		optimize( FormulaCompiler.DOUBLE );
 
-		assertExpr( "apply (fold/reduce with s__1 = 0.0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Band~>10.0}",
+		assertExpr( "apply (fold/reduce with s__1 = 0.0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Band~>BandExpr}",
 				sumOverBand );
 	}
 

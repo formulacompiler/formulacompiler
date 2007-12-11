@@ -43,6 +43,13 @@ public final class ExpressionNodeForSubstitution extends ExpressionNode
 	{
 		super( _args );
 	}
+	
+	
+	@Override
+	public boolean isConstant()
+	{
+		return areConstant( arguments() );
+	}
 
 
 	@Override

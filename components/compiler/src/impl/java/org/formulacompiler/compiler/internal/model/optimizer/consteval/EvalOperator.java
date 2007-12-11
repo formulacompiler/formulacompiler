@@ -26,6 +26,7 @@ import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpreterException;
 import org.formulacompiler.runtime.New;
@@ -41,17 +42,17 @@ public class EvalOperator extends EvalShadow
 
 
 	@Override
-	protected Object evaluateToConst( Object... _args ) throws InterpreterException
+	protected TypedResult evaluateToConst( TypedResult... _args ) throws InterpreterException
 	{
 		final Operator operator = ((ExpressionNodeForOperator) node()).getOperator();
-		return type().compute( operator, _args );
+		return new ConstResult( type().compute( operator, valuesOf( _args ) ), node().getDataType() );
 	}
 
 
 	@Override
-	protected Object evaluateToNode( Object... _args ) throws InterpreterException
+	protected TypedResult evaluateToNode( TypedResult... _args ) throws InterpreterException
 	{
-		final Object result = super.evaluateToNode( _args );
+		final TypedResult result = super.evaluateToNode( _args );
 		if (result instanceof ExpressionNodeForOperator) {
 			ExpressionNodeForOperator opNode = (ExpressionNodeForOperator) result;
 			if (opNode.getOperator() == Operator.CONCAT) {

@@ -24,6 +24,7 @@ import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.Util;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.AbstractComputationModelVisitor;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.SectionModel;
@@ -67,14 +68,15 @@ final public class ConstantSubExpressionEliminator extends AbstractComputationMo
 		ExpressionNode sourceExpr = _cell.getExpression();
 		if (null != sourceExpr) {
 			try {
-				Object optimizedResult = eliminateConstantsFrom( sourceExpr, _cell.getSection() );
-				if (optimizedResult instanceof ExpressionNode) {
-					ExpressionNode optimizedExpr = (ExpressionNode) optimizedResult;
-					_cell.setExpression( optimizedExpr );
+				TypedResult optimizedResult = eliminateConstantsFrom( sourceExpr, _cell.getSection() );
+				assert optimizedResult.getDataType() == _cell.getDataType();
+				if (optimizedResult.hasConstantValue()) {
+					_cell.setExpression( null );
+					_cell.setConstantValue( optimizedResult.getConstantValue() );
 				}
 				else {
-					_cell.setExpression( null );
-					_cell.setConstantValue( optimizedResult );
+					ExpressionNode optimizedExpr = (ExpressionNode) optimizedResult;
+					_cell.setExpression( optimizedExpr );
 				}
 			}
 			catch (Throwable t) {
@@ -85,7 +87,7 @@ final public class ConstantSubExpressionEliminator extends AbstractComputationMo
 	}
 
 
-	private Object eliminateConstantsFrom( ExpressionNode _expr, SectionModel _section ) throws CompilerException
+	private TypedResult eliminateConstantsFrom( ExpressionNode _expr, SectionModel _section ) throws CompilerException
 	{
 		if (null == _expr) return null;
 		return EvalShadow.evaluate( _expr, getNumericType() );

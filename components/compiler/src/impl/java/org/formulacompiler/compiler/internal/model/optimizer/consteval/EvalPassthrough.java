@@ -21,19 +21,20 @@
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 
 public class EvalPassthrough extends EvalShadow
 {
 
-	public EvalPassthrough(ExpressionNode _node)
+	public EvalPassthrough( ExpressionNode _node )
 	{
 		super( _node, null );
 	}
 
 	@Override
-	protected Object evaluateToConst( Object... _args )
+	protected TypedResult evaluateToConst( TypedResult... _args )
 	{
-		return _args[0];
+		return _args[ 0 ];
 	}
 
 }

@@ -52,6 +52,19 @@ public final class ExpressionNodeForConstantValue extends ExpressionNode
 
 
 	@Override
+	public boolean hasConstantValue()
+	{
+		return DataType.isValueConstant( getConstantValue() );
+	}
+
+	@Override
+	public Object getConstantValue()
+	{
+		return value();
+	}
+
+
+	@Override
 	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForConstantValue( this.value );

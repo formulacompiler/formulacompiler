@@ -27,6 +27,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldList;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSubstitution;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 
@@ -40,10 +41,10 @@ final class EvalFoldList extends EvalFoldApply
 
 
 	@Override
-	protected void traverse( Object[] _args, int _firstFoldedArg ) throws CompilerException
+	protected void traverse( TypedResult[] _args, int _firstFoldedArg ) throws CompilerException
 	{
 		for (int i = _args.length - 1; i >= _firstFoldedArg; i--) {
-			final Object xi = _args[ i ];
+			final TypedResult xi = _args[ i ];
 			if (isNesting( xi )) {
 				traverse( ((ExpressionNode) xi).arguments() );
 			}
@@ -65,7 +66,7 @@ final class EvalFoldList extends EvalFoldApply
 		}
 	}
 
-	private boolean isNesting( Object _elt )
+	private boolean isNesting( TypedResult _elt )
 	{
 		return _elt instanceof ExpressionNodeForSubstitution || _elt instanceof ExpressionNodeForArrayReference;
 	}
