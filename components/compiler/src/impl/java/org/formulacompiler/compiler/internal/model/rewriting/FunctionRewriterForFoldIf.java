@@ -53,25 +53,45 @@ final class FunctionRewriterForFoldIf extends AbstractFunctionRewriterForConditi
 	public final ExpressionNode rewrite() throws CompilerException
 	{
 		// We need the type info to properly treat by-example criteria contained in strings.
-		TypeAnnotator.annotateExpr( this.tested );
+		final ExpressionNodeForArrayReference tested = makeVertical( this.tested );
+		TypeAnnotator.annotateExpr( tested );
 
 		final FilterBuilder filterBuilder = new FilterBuilder();
-		final DataType testedType = this.tested.getDataType();
+		final DataType testedType = tested.getDataType();
 		final ExpressionNode filter = filterBuilder.buildFilterByExample( 0, this.test, testedType );
 
 		final ExpressionNodeForFoldDatabase apply;
 		if (this.folded == null) {
 			apply = new ExpressionNodeForFoldDatabase( this.fold, New.array( testedType ), this.colPrefix(), filter, 0,
-					null, null, this.tested );
+					null, null, tested );
 		}
 		else {
 			TypeAnnotator.annotateExpr( this.folded );
 			final DataType foldedType = this.folded.getDataType();
 			apply = new ExpressionNodeForFoldDatabase( this.fold, New.array( testedType, foldedType ), this.colPrefix(),
-					filter, 1, null, null, vectorsToMatrix( this.tested, this.folded ) );
+					filter, 1, null, null, vectorsToMatrix( tested, makeVertical( this.folded ) ) );
 		}
 
 		return filterBuilder.encloseFoldInLets( apply );
+	}
+
+
+	private ExpressionNodeForArrayReference makeVertical( ExpressionNodeForArrayReference _vector )
+	{
+		final ArrayDescriptor desc = _vector.arrayDescriptor();
+		assert desc.numberOfSheets() == 1;
+		if (desc.numberOfRows() > 1) {
+			assert desc.numberOfColumns() == 1;
+			return _vector;
+		}
+		else {
+			assert desc.numberOfRows() == 1;
+			final ArrayDescriptor newDesc = new ArrayDescriptor( desc.origin(), new ArrayDescriptor.Point( 1, desc
+					.numberOfColumns(), 1 ) );
+			final ExpressionNodeForArrayReference newVector = new ExpressionNodeForArrayReference( newDesc );
+			newVector.arguments().addAll( _vector.arguments() );
+			return newVector;
+		}
 	}
 
 

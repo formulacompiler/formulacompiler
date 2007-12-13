@@ -135,7 +135,7 @@
 			dir="." tempdir="${temp.dir}"
 		>
 			<jvmarg value="-Demit_tests" />
-			<assertions enablesystemassertions="yes" />
+			<assertions refid="test.assertions" />
 			<formatter type="plain" usefile="yes" />
 
 			<classpath>
@@ -168,7 +168,7 @@
 			dir="." tempdir="${temp.dir}"
 		>
 			<jvmarg value="-Demit_tests" />
-			<assertions enablesystemassertions="yes" />
+			<assertions refid="test.assertions" />
 			<formatter type="plain" usefile="yes" />
 
 			<classpath>
@@ -196,7 +196,7 @@
 		<mkdir dir="${temp.dir}/test/results" />
 		<junit printsummary="no" showoutput="yes" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
 			<jvmarg value="-Demit_tests" />
-			<assertions enablesystemassertions="yes" />
+			<assertions refid="test.assertions" />
 			<formatter type="plain" usefile="no" />
 
 			<classpath>
@@ -267,7 +267,7 @@
 			<jvmarg value="-Dorg.formulacompiler.tests.reference.threaded_run=${test-ref-threaded}" />
 			<jvmarg value="-Dorg.formulacompiler.tests.reference.context_in_names=true" />
 
-			<assertions enablesystemassertions="yes" />
+			<assertions refid="test.assertions" />
 			<formatter type="brief" usefile="yes" />
 
 			<classpath>

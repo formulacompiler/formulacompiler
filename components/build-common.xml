@@ -229,13 +229,17 @@
 		<delete dir="${temp.dir}/test/results" />
 	</target>
 
+	<assertions id="test.assertions" enablesystemassertions="no">
+		<enable/>
+	</assertions>
+	
 	<target name="@test-main" depends="@init" unless="@no-tests">
 
 		<echo>test: running tests...</echo>
 		<mkdir dir="${temp.dir}/test/results" />
 		<junit printsummary="no" showoutput="yes" haltonerror="no" haltonfailure="no" failureproperty="tests.failed" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
 			<jvmarg value="-Demit_tests" />
-			<assertions enablesystemassertions="yes" />
+			<assertions refid="test.assertions" />
 			<formatter type="plain" usefile="yes" />
 
 			<classpath>
@@ -263,7 +267,7 @@
 		<mkdir dir="${temp.dir}/test/results" />
 		<junit printsummary="no" showoutput="yes" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
 			<jvmarg value="-Demit_tests" />
-			<assertions enablesystemassertions="yes" />
+			<assertions refid="test.assertions" />
 			<formatter type="plain" usefile="no" />
 
 			<classpath>
