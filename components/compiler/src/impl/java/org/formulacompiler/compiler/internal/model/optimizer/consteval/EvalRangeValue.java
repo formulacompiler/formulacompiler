@@ -40,6 +40,7 @@ public class EvalRangeValue extends EvalShadow
 	{
 		final ExpressionNodeForArrayReference rangeNode = (ExpressionNodeForArrayReference) node();
 		final ExpressionNodeForArrayReference result = new ExpressionNodeForArrayReference( rangeNode.arrayDescriptor() );
+		result.setDataType( rangeNode.getDataType() );
 		for (TypedResult arg : _args) {
 			if (arg instanceof ExpressionNode) {
 				result.addArgument( (ExpressionNode) arg );

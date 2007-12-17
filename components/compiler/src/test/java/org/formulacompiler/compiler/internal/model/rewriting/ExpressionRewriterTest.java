@@ -80,8 +80,7 @@ public class ExpressionRewriterTest extends TestCase
 				new NameSanitizer() );
 		ExpressionNode re = rw.rewrite( new ComputationModel( null, null ), e );
 
-		// FIXME This is a problem since the typer will now not descend into re, but should!
-		assertNotNull( re.getDataType() );
+		assertNull( re.getDataType() );
 		assertNull( re.argument( 1 ).getDataType() );
 		
 	}

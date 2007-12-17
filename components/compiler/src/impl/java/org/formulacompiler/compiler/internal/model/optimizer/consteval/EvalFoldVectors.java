@@ -71,8 +71,10 @@ final class EvalFoldVectors extends EvalFoldApply
 		final int eltCount = fold.eltCount();
 		final ArrayDescriptor desc = new ArrayDescriptor( 1, _dynArgs.size(), 1 );
 		final ExpressionNode[] vectors = new ExpressionNode[ eltCount ];
+		ExpressionNode[] firstElts = _dynArgs.iterator().next();
 		for (int i = 0; i < eltCount; i++) {
 			vectors[ i ] = new ExpressionNodeForArrayReference( desc );
+			vectors[ i ].setDataType( firstElts[ i ].getDataType() );
 			_apply.addArgument( vectors[ i ] );
 		}
 		for (ExpressionNode[] elts : _dynArgs) {

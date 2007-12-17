@@ -23,6 +23,7 @@ package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 import java.util.Collection;
 
 import org.formulacompiler.compiler.Operator;
+import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
@@ -71,14 +72,13 @@ public class EvalOperator extends EvalShadow
 		StringBuilder buildUp = null;
 		for (final ExpressionNode arg : _opNode.arguments()) {
 			boolean isConst = false;
-			if (arg instanceof ExpressionNodeForConstantValue) {
+			if (arg != null && arg.hasConstantValue()) {
 				try {
-					final ExpressionNodeForConstantValue constArg = (ExpressionNodeForConstantValue) arg;
 					if (buildUp == null) {
-						buildUp = new StringBuilder( type().toString( constArg.value() ) );
+						buildUp = new StringBuilder( type().toString( arg.getConstantValue() ) );
 					}
 					else {
-						buildUp.append( type().toString( constArg.value() ) );
+						buildUp.append( type().toString( arg.getConstantValue() ) );
 						modified = true;
 					}
 					isConst = true;
@@ -89,7 +89,7 @@ public class EvalOperator extends EvalShadow
 			}
 			if (!isConst) {
 				if (buildUp != null) {
-					newArgs.add( new ExpressionNodeForConstantValue( buildUp.toString() ) );
+					newArgs.add( new ExpressionNodeForConstantValue( buildUp.toString(), DataType.STRING ) );
 					buildUp = null;
 				}
 				newArgs.add( arg );
@@ -97,9 +97,11 @@ public class EvalOperator extends EvalShadow
 		}
 		if (modified) {
 			if (buildUp != null) {
-				newArgs.add( new ExpressionNodeForConstantValue( buildUp.toString() ) );
+				newArgs.add( new ExpressionNodeForConstantValue( buildUp.toString(), DataType.STRING ) );
 			}
-			return new ExpressionNodeForOperator( Operator.CONCAT, newArgs );
+			final ExpressionNodeForOperator res = new ExpressionNodeForOperator( Operator.CONCAT, newArgs );
+			res.setDataType( DataType.STRING );
+			return res;
 		}
 		else {
 			return _opNode;
