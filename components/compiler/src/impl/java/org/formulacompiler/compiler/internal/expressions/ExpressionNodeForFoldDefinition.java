@@ -33,7 +33,7 @@ public final class ExpressionNodeForFoldDefinition extends ExpressionNode
 	private final String[] eltNames;
 	private final String countName;
 	private final boolean mayRearrange;
-	private final boolean mayReduce;
+	private boolean mayReduce;
 	private int partiallyFoldedElementCount = 0;
 
 	private ExpressionNodeForFoldDefinition( String[] _accuNames, String _indexName, String[] _eltNames,
@@ -241,9 +241,8 @@ public final class ExpressionNodeForFoldDefinition extends ExpressionNode
 
 	public final ExpressionNodeForFoldDefinition cloneWithoutArgumentsAndForbidReduce()
 	{
-		final ExpressionNodeForFoldDefinition result = new ExpressionNodeForFoldDefinition( this.accuNames,
-				this.indexName, this.eltNames, this.countName, this.mayRearrange, false );
-		result.setPartiallyFoldedElementCount( this.getPartiallyFoldedElementCount() );
+		final ExpressionNodeForFoldDefinition result = (ExpressionNodeForFoldDefinition) cloneWithoutArguments();
+		result.mayReduce = false;
 		return result;
 	}
 

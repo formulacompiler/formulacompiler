@@ -133,3 +133,17 @@ sheets:
     - null
     - null
     - const: 6.0
+  - cells:
+  - cells:
+    - const: 10.0
+    - expr: =SUMIF( RC[1]:RC[3], "=10" )
+    - null
+    - const: 10.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "Empty cells with SUMIF"
+    - const: "SUMIF"

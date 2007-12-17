@@ -78,7 +78,9 @@ public class EvalFunction extends EvalShadow
 							throw new CompilerException.UnsupportedExpression( "COUNT of nested sections not supported" );
 						}
 					}
-					return new ExpressionNodeForCount( staticValueCount, subs, subCounts );
+					final ExpressionNodeForCount res = new ExpressionNodeForCount( staticValueCount, subs, subCounts );
+					res.setDataType( DataType.NUMERIC );
+					return res;
 				}
 			}
 
