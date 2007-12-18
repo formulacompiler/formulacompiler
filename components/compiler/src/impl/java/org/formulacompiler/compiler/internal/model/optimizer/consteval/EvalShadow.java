@@ -20,16 +20,14 @@
  */
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
-import java.util.Date;
-
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.Settings;
+import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSubstitution;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeShadow;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.logging.Log;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
@@ -42,7 +40,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	public static final Log LOG = Settings.LOG_CONSTEVAL;
 
 
-	public static Object evaluate( ExpressionNode _expr, InterpretedNumericType _type ) throws CompilerException
+	public static TypedResult evaluate( ExpressionNode _expr, InterpretedNumericType _type ) throws CompilerException
 	{
 		EvalShadow shadow = shadow( _expr, _type );
 		return shadow.evalIn( new EvalShadowContext() );
@@ -70,13 +68,13 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 
 	private EvalShadowContext context;
 
-	protected final Object evalIn( EvalShadowContext _context ) throws CompilerException
+	protected final TypedResult evalIn( EvalShadowContext _context ) throws CompilerException
 	{
 		this.context = _context;
 
 		if (LOG.e()) LOG.a( "Eval " ).a( node() ).lf().i();
 
-		final Object res = eval();
+		final TypedResult res = eval();
 
 		if (LOG.e()) LOG.o().a( "Got " ).a( res ).lf();
 
@@ -94,9 +92,9 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	}
 
 
-	protected Object eval() throws CompilerException
+	protected TypedResult eval() throws CompilerException
 	{
-		final Object[] argValues = evaluateArguments();
+		final TypedResult[] argValues = evaluateArguments();
 		return evaluateToConstOrExprWithConstantArgsFixed( argValues );
 	}
 
@@ -122,10 +120,10 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	}
 
 
-	private final Object[] evaluateArguments() throws CompilerException
+	private final TypedResult[] evaluateArguments() throws CompilerException
 	{
 		final int card = cardinality();
-		final Object[] argValues = new Object[ card ];
+		final TypedResult[] argValues = new TypedResult[ card ];
 		for (int iArg = 0; iArg < card; iArg++) {
 			argValues[ iArg ] = evaluateArgument( iArg );
 		}
@@ -133,32 +131,36 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	}
 
 
-	protected final Object evaluateArgument( int _index ) throws CompilerException
+	protected final TypedResult evaluateArgument( int _index ) throws CompilerException
 	{
 		return evaluateArgument( (EvalShadow) arguments().get( _index ) );
 	}
 
-	protected final Object evaluateArgument( EvalShadow _arg ) throws CompilerException
+	protected final TypedResult evaluateArgument( EvalShadow _arg ) throws CompilerException
 	{
 		return (_arg == null)? null : _arg.evalIn( context() );
 	}
 
-	protected final Object evaluateArgument( int _index, EvalShadowContext _context ) throws CompilerException
+	protected final TypedResult evaluateArgument( int _index, EvalShadowContext _context ) throws CompilerException
 	{
 		this.context = _context;
 		return evaluateArgument( _index );
 	}
 
 
-	protected Object evaluateToConstOrExprWithConstantArgsFixed( Object... _args ) throws CompilerException
+	protected TypedResult evaluateToConstOrExprWithConstantArgsFixed( TypedResult... _args ) throws CompilerException
 	{
-		if (hasOnlyConstantArgs( _args )) {
+		if (areConstant( _args )) {
 			try {
-				final Object constResult = evaluateToConst( _args );
-				if (constResult instanceof Double) {
-					final Double doubleResult = (Double) constResult;
-					if (doubleResult.isInfinite() || doubleResult.isNaN()) {
-						return evaluateToNode( _args );
+				final TypedResult constResult = evaluateToConst( _args );
+				if (null == constResult) return null;
+				if (constResult.hasConstantValue()) {
+					final Object constValue = constResult.getConstantValue();
+					if (constValue instanceof Double) {
+						final Double doubleResult = (Double) constValue;
+						if (doubleResult.isInfinite() || doubleResult.isNaN()) {
+							return evaluateToNode( _args );
+						}
 					}
 				}
 				return constResult;
@@ -179,78 +181,54 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	}
 
 
-	protected final boolean hasOnlyConstantArgs( Object... _args )
+	protected final boolean areConstant( TypedResult[] _args )
 	{
-		for (Object arg : _args) {
-			if (!isConstant( arg )) return false;
-		}
-		return true;
-	}
-
-	protected final boolean isConstant( Object _arg )
-	{
-		if (_arg instanceof ExpressionNodeForConstantValue) return true;
-		else if (_arg instanceof ExpressionNode) {
-			return ((_arg instanceof ExpressionNodeForSubstitution) && areConstant( ((ExpressionNode) _arg).arguments() ))
-					|| ((_arg instanceof ExpressionNodeForArrayReference) && areConstant( ((ExpressionNode) _arg)
-							.arguments() ));
-		}
-		else {
-			return (!(_arg instanceof Date)); // Must be converted to current time-zone at runtime.
-		}
-	}
-
-	protected final boolean areConstant( Object[] _args )
-	{
-		for (Object arg : _args)
-			if (!isConstant( arg )) return false;
-		return true;
-	}
-
-	private final boolean areConstant( Iterable<ExpressionNode> _args )
-	{
-		for (ExpressionNode arg : _args) {
-			if (!isConstant( arg ) && !(arg instanceof ExpressionNodeForConstantValue)) return false;
-		}
+		for (TypedResult arg : _args)
+			if (null != arg && !arg.isConstant()) return false;
 		return true;
 	}
 
 
-	protected final boolean isInSubSection( Object _arg )
+	protected final boolean isInSubSection( TypedResult _arg )
 	{
 		return (_arg instanceof ExpressionNodeForSubSectionModel);
 	}
 
 	@SuppressWarnings( "unused" )
-	protected Object evaluateToNode( Object... _args ) throws InterpreterException
+	protected TypedResult evaluateToNode( TypedResult... _args ) throws InterpreterException
 	{
+		// No need to clone leaf nodes.
+		if (_args.length == 0) return node();
+
 		ExpressionNode result = node().cloneWithoutArguments();
-		for (final Object arg : _args) {
-			if (arg instanceof ExpressionNode) {
-				result.addArgument( (ExpressionNode) arg );
-			}
-			else {
-				result.addArgument( new ExpressionNodeForConstantValue( arg ) );
-			}
+		for (final TypedResult arg : _args) {
+			result.addArgument( valueToNode( arg ) );
 		}
 		return result;
 	}
 
-	protected abstract Object evaluateToConst( Object... _args ) throws CompilerException;
+	protected abstract TypedResult evaluateToConst( TypedResult... _args ) throws CompilerException;
 
 
-	protected final ExpressionNode valueToNode( Object _value )
+	protected final ExpressionNode valueToNode( TypedResult _value )
 	{
-		return (_value instanceof ExpressionNode)? (ExpressionNode) _value : new ExpressionNodeForConstantValue( _value );
+		if (null == _value) {
+			return new ExpressionNodeForConstantValue( null, DataType.NULL );
+		}
+		if (_value instanceof ExpressionNode) {
+			return (ExpressionNode) _value;
+		}
+		return new ExpressionNodeForConstantValue( _value.getConstantValue(), _value.getDataType() );
 	}
 
-	protected final Object valueOf( Object _valueOrNode )
+	protected final Object[] valuesOf( TypedResult... _values )
 	{
-		if (_valueOrNode instanceof ExpressionNodeForConstantValue) {
-			ExpressionNodeForConstantValue cst = (ExpressionNodeForConstantValue) _valueOrNode;
-			return cst.value();
+		final Object[] vals = new Object[ _values.length ];
+		for (int i = 0; i < _values.length; i++) {
+			final TypedResult val = _values[ i ];
+			vals[ i ] = (null == val)? null : val.getConstantValue();
 		}
-		return _valueOrNode;
+		return vals;
 	}
 
 }

@@ -28,6 +28,7 @@ import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldVectors;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 
@@ -43,7 +44,7 @@ final class EvalFoldVectors extends EvalFoldApply
 
 	@SuppressWarnings( "unchecked" )
 	@Override
-	protected void traverse( Object[] _args, int _firstFoldedArg ) throws CompilerException
+	protected void traverse( TypedResult[] _args, int _firstFoldedArg ) throws CompilerException
 	{
 		final int eltCount = fold.eltCount();
 		final Iterator<ExpressionNode>[] vectors = new Iterator[ eltCount ];
@@ -55,7 +56,7 @@ final class EvalFoldVectors extends EvalFoldApply
 
 	private void traverse( Iterator<ExpressionNode>[] _vectors ) throws CompilerException
 	{
-		final Object[] elts = new Object[ _vectors.length ];
+		final TypedResult[] elts = new TypedResult[ _vectors.length ];
 		while (_vectors[ 0 ].hasNext()) {
 			for (int i = 0; i < _vectors.length; i++)
 				elts[ i ] = _vectors[ i ].next();
@@ -70,8 +71,10 @@ final class EvalFoldVectors extends EvalFoldApply
 		final int eltCount = fold.eltCount();
 		final ArrayDescriptor desc = new ArrayDescriptor( 1, _dynArgs.size(), 1 );
 		final ExpressionNode[] vectors = new ExpressionNode[ eltCount ];
+		ExpressionNode[] firstElts = _dynArgs.iterator().next();
 		for (int i = 0; i < eltCount; i++) {
 			vectors[ i ] = new ExpressionNodeForArrayReference( desc );
+			vectors[ i ].setDataType( firstElts[ i ].getDataType() );
 			_apply.addArgument( vectors[ i ] );
 		}
 		for (ExpressionNode[] elts : _dynArgs) {

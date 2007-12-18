@@ -23,6 +23,7 @@ package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitch;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitchCase;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 final class EvalSwitch extends EvalShadow
@@ -35,12 +36,12 @@ final class EvalSwitch extends EvalShadow
 
 
 	@Override
-	protected Object eval() throws CompilerException
+	protected TypedResult eval() throws CompilerException
 	{
 		final ExpressionNodeForSwitch switchNode = (ExpressionNodeForSwitch) node();
-		final Object valueArg = evaluateArgument( switchNode.offsetOfValueInArguments() );
-		if (isConstant( valueArg )) {
-			final int value = type().toInt( valueArg, -1 );
+		final TypedResult valueArg = evaluateArgument( switchNode.offsetOfValueInArguments() );
+		if (valueArg.hasConstantValue()) {
+			final int value = type().toInt( valueArg.getConstantValue(), -1 );
 			if (value >= 0) {
 				final Iterable<ExpressionNodeForSwitchCase> cases = switchNode.cases();
 				int iCase = 0;
@@ -48,7 +49,7 @@ final class EvalSwitch extends EvalShadow
 					if (value == caze.caseValue()) {
 						final EvalSwitchCase caseEval = (EvalSwitchCase) arguments().get(
 								iCase + switchNode.offsetOfCasesInArguments() );
-						final Object caseResult = caseEval.evaluateArgument( 0, context() );
+						final TypedResult caseResult = caseEval.evaluateArgument( 0, context() );
 						return caseResult;
 					}
 					iCase++;
@@ -61,7 +62,7 @@ final class EvalSwitch extends EvalShadow
 
 
 	@Override
-	protected Object evaluateToConst( Object... _args ) throws CompilerException
+	protected TypedResult evaluateToConst( TypedResult... _args ) throws CompilerException
 	{
 		return evaluateToNode( _args );
 	}

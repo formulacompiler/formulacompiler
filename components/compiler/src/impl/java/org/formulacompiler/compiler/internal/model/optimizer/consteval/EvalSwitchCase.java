@@ -22,6 +22,7 @@ package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitchCase;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 final class EvalSwitchCase extends EvalShadow
@@ -33,7 +34,7 @@ final class EvalSwitchCase extends EvalShadow
 	}
 
 	@Override
-	protected Object evaluateToConst( Object... _args ) throws CompilerException
+	protected TypedResult evaluateToConst( TypedResult... _args ) throws CompilerException
 	{
 		return evaluateToNode( _args );
 	}

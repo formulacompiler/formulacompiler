@@ -21,18 +21,19 @@
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpreterException;
 
 public class EvalNonFoldable extends EvalShadow
 {
 
-	public EvalNonFoldable(ExpressionNode _node)
+	public EvalNonFoldable( ExpressionNode _node )
 	{
 		super( _node, null );
 	}
 
 	@Override
-	protected Object evaluateToConst( Object... _args ) throws InterpreterException
+	protected TypedResult evaluateToConst( TypedResult... _args ) throws InterpreterException
 	{
 		return evaluateToNode( _args );
 	}

@@ -22,31 +22,32 @@ package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 
 public class EvalIf extends EvalFunction
 {
 
-	public EvalIf(ExpressionNode _node, InterpretedNumericType _type)
+	public EvalIf( ExpressionNode _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
 	}
 
 
 	@Override
-	protected Object eval() throws CompilerException
+	protected TypedResult eval() throws CompilerException
 	{
 		final int card = cardinality();
 		if (card > 0) {
-			final Object firstArg = evaluateArgument( 0 );
-			if (isConstant( firstArg )) {
-				final boolean constFirstArg = type().toBoolean( firstArg );
+			final TypedResult firstArg = evaluateArgument( 0 );
+			if (firstArg.hasConstantValue()) {
+				final boolean constFirstArg = type().toBoolean( firstArg.getConstantValue() );
 				switch (card) {
 					case 2:
-						return (constFirstArg) ? evaluateArgument( 1 ) : null;
+						return (constFirstArg)? evaluateArgument( 1 ) : null;
 					case 3:
-						return (constFirstArg) ? evaluateArgument( 1 ) : evaluateArgument( 2 );
+						return (constFirstArg)? evaluateArgument( 1 ) : evaluateArgument( 2 );
 				}
 			}
 		}

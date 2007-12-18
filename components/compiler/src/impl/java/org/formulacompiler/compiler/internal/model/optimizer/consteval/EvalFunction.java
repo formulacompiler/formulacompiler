@@ -24,8 +24,10 @@ import java.util.Collection;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.Function;
+import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCount;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionModel;
 import org.formulacompiler.compiler.internal.model.SectionModel;
@@ -38,14 +40,14 @@ import org.formulacompiler.runtime.New;
 public class EvalFunction extends EvalShadow
 {
 
-	EvalFunction(ExpressionNode _node, InterpretedNumericType _type)
+	EvalFunction( ExpressionNode _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
 	}
 
 
 	@Override
-	protected Object eval() throws CompilerException
+	protected TypedResult eval() throws CompilerException
 	{
 		final Function function = ((ExpressionNodeForFunction) node()).getFunction();
 		switch (function) {
@@ -61,22 +63,24 @@ public class EvalFunction extends EvalShadow
 				final int staticValueCount = node().countArgumentValues( context().letDict, uncountables );
 				final int subCount = uncountables.size();
 				if (subCount == 0) {
-					return staticValueCount;
+					return new ConstResult( staticValueCount, DataType.NUMERIC );
 				}
 				else {
-					final SectionModel[] subs = new SectionModel[ subCount ]; 
+					final SectionModel[] subs = new SectionModel[ subCount ];
 					final int[] subCounts = new int[ subCount ];
 					int i = 0;
 					for (ExpressionNode uncountable : uncountables) {
 						final ExpressionNodeForSubSectionModel sub = (ExpressionNodeForSubSectionModel) uncountable;
-						subs[i] = sub.getSectionModel();
+						subs[ i ] = sub.getSectionModel();
 						final Collection<ExpressionNode> subUncountables = New.collection();
-						subCounts[i] = sub.countArgumentValues( context().letDict, subUncountables );
+						subCounts[ i ] = sub.countArgumentValues( context().letDict, subUncountables );
 						if (subUncountables.size() > 0) {
 							throw new CompilerException.UnsupportedExpression( "COUNT of nested sections not supported" );
 						}
 					}
-					return new ExpressionNodeForCount( staticValueCount, subs, subCounts );
+					final ExpressionNodeForCount res = new ExpressionNodeForCount( staticValueCount, subs, subCounts );
+					res.setDataType( DataType.NUMERIC );
+					return res;
 				}
 			}
 
@@ -87,17 +91,17 @@ public class EvalFunction extends EvalShadow
 	}
 
 
-	private final Object evalBooleanSequence( boolean _returnThisIfFound ) throws CompilerException
+	private final TypedResult evalBooleanSequence( boolean _returnThisIfFound ) throws CompilerException
 	{
 		final InterpretedNumericType type = type();
 		final Collection<ExpressionNode> dynArgs = New.collection();
 		final int n = cardinality();
 		for (int i = 0; i < n; i++) {
-			final Object arg = evaluateArgument( i );
-			if (isConstant( arg )) {
-				final boolean value = type.toBoolean( arg );
+			final TypedResult arg = evaluateArgument( i );
+			if (arg.hasConstantValue()) {
+				final boolean value = type.toBoolean( arg.getConstantValue() );
 				if (value == _returnThisIfFound) {
-					return _returnThisIfFound;
+					return ConstResult.valueOf( _returnThisIfFound );
 				}
 			}
 			else {
@@ -110,13 +114,13 @@ public class EvalFunction extends EvalShadow
 			return result;
 		}
 		else {
-			return !_returnThisIfFound;
+			return ConstResult.valueOf( !_returnThisIfFound );
 		}
 	}
 
 
 	@Override
-	protected Object evaluateToConst( Object... _args ) throws InterpreterException
+	protected TypedResult evaluateToConst( TypedResult... _args ) throws InterpreterException
 	{
 		final Function function = ((ExpressionNodeForFunction) node()).getFunction();
 		if (function.isVolatile()) {
@@ -130,7 +134,7 @@ public class EvalFunction extends EvalShadow
 
 				default:
 					try {
-						return type().compute( function, _args );
+						return new ConstResult( type().compute( function, valuesOf( _args ) ), node().getDataType() );
 					}
 					catch (EvalNotPossibleException e) {
 						return evaluateToNode( _args );
@@ -139,6 +143,5 @@ public class EvalFunction extends EvalShadow
 			}
 		}
 	}
-
 
 }

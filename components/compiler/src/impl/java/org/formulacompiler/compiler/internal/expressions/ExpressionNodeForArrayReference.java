@@ -45,6 +45,19 @@ public final class ExpressionNodeForArrayReference extends ExpressionNode
 
 
 	@Override
+	public boolean hasConstantValue()
+	{
+		return areConstant( arguments() );
+	}
+	
+	@Override
+	public Object getConstantValue()
+	{
+		return this;
+	}
+
+
+	@Override
 	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForArrayReference( new ArrayDescriptor( arrayDescriptor() ) );

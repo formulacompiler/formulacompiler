@@ -20,8 +20,11 @@
  */
 package org.formulacompiler.compiler.internal.model.rewriting;
 
+import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
+
 import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.Function;
+import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
@@ -37,7 +40,8 @@ public class ExpressionRewriterTest extends TestCase
 
 	public void testSUM() throws Exception
 	{
-		assertRewrite( "apply (fold/reduce with s__1 = 0.0 each xi__2 as s__1 = (s__1 + xi__2)) to list {@( \"[args]\" )}",
+		assertRewrite(
+				"apply (fold/reduce with s__1 = 0.0 each xi__2 as s__1 = (s__1 + xi__2)) to list {@( \"[args]\" )}",
 				Function.SUM );
 	}
 
@@ -55,7 +59,6 @@ public class ExpressionRewriterTest extends TestCase
 				Function.VARP );
 	}
 
-
 	private void assertRewrite( String _rewritten, Function _function ) throws Exception
 	{
 		ExpressionNode args = new ExpressionNodeForConstantValue( "[args]" );
@@ -65,6 +68,21 @@ public class ExpressionRewriterTest extends TestCase
 		ExpressionNode re = rw.rewrite( new ComputationModel( null, null ), e );
 
 		assertEquals( _rewritten, re.toString() );
+	}
+
+
+	public void testRewriteInTypedSubtree() throws Exception
+	{
+		ExpressionNode args = new ExpressionNodeForConstantValue( "[args]" );
+		ExpressionNode e = fun( Function.VALUE, op( Operator.PLUS, cst( 1 ), fun( Function.SUM, args ) ) );
+
+		ExpressionRewriter rw = new ExpressionRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ),
+				new NameSanitizer() );
+		ExpressionNode re = rw.rewrite( new ComputationModel( null, null ), e );
+
+		assertNull( re.getDataType() );
+		assertNull( re.argument( 1 ).getDataType() );
+		
 	}
 
 

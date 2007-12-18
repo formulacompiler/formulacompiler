@@ -36,6 +36,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMakeArray;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSubstitution;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitch;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitchCase;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary;
@@ -75,6 +76,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 
 	private DataType annotate( CellModel _cell ) throws CompilerException
 	{
+		if (_cell == null) return DataType.NULL;
 		final DataType type = _cell.getDataType();
 		if (null != type) {
 			return type;
@@ -136,6 +138,8 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		if (_expr instanceof ExpressionNodeForFoldList) return typeOf( (ExpressionNodeForFoldList) _expr );
 		if (_expr instanceof ExpressionNodeForFoldVectors) return typeOf( (ExpressionNodeForFoldVectors) _expr );
 		if (_expr instanceof ExpressionNodeForFoldDatabase) return typeOf( (ExpressionNodeForFoldDatabase) _expr );
+		
+		if (_expr instanceof ExpressionNodeForSubstitution) return typeOf( (ExpressionNodeForSubstitution) _expr );
 
 		unsupported( _expr );
 		return null;
@@ -375,6 +379,12 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		annotate( _expr.table() );
 		_expr.fold().setDataType( typeOf( _expr.fold(), _expr.table().getDataType() ) );
 		return _expr.fold().getDataType();
+	}
+	
+	private DataType typeOf( ExpressionNodeForSubstitution _expr ) throws CompilerException
+	{
+		annotateArgs( _expr );
+		return typeOf( _expr.arguments() );
 	}
 
 	private void unsupported( ExpressionNode _expr ) throws CompilerException

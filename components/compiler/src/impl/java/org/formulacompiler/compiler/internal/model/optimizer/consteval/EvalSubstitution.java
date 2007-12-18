@@ -21,17 +21,18 @@
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpreterException;
 
 public class EvalSubstitution extends EvalShadow
 {
 
-	public EvalSubstitution(ExpressionNode _node)
+	public EvalSubstitution( ExpressionNode _node )
 	{
 		super( _node, null );
 	}
-	
-	
+
+
 	@Override
 	protected EvalShadow unsubstituted()
 	{
@@ -42,10 +43,10 @@ public class EvalSubstitution extends EvalShadow
 			return this;
 		}
 	}
-	
+
 
 	@Override
-	protected Object evaluateToConst( Object... _args ) throws InterpreterException
+	protected TypedResult evaluateToConst( TypedResult... _args ) throws InterpreterException
 	{
 		if (_args.length == 1) {
 			// Skip the substitution node right away.
@@ -57,7 +58,7 @@ public class EvalSubstitution extends EvalShadow
 	}
 
 	@Override
-	protected Object evaluateToNode( Object... _args ) throws InterpreterException
+	protected TypedResult evaluateToNode( TypedResult... _args ) throws InterpreterException
 	{
 		if (_args.length == 1) {
 			// Skip the substitution node right away.

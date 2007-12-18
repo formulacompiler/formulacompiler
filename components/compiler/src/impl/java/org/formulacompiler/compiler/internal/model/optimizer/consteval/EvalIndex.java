@@ -24,6 +24,7 @@ import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilde
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 public class EvalIndex extends EvalFunction
@@ -36,15 +37,15 @@ public class EvalIndex extends EvalFunction
 
 
 	@Override
-	protected Object eval() throws CompilerException
+	protected TypedResult eval() throws CompilerException
 	{
 		final int card = cardinality();
 		switch (card) {
 
 			case 2: { // one-dimensional lookup
-				final Object indexArg = evaluateArgument( 1 );
-				if (isConstant( indexArg )) {
-					final int index = type().toInt( indexArg, 0 ) - 1;
+				final TypedResult indexArg = evaluateArgument( 1 );
+				if (indexArg.hasConstantValue()) {
+					final int index = type().toInt( indexArg.getConstantValue(), 0 ) - 1;
 					if (index < 0) {
 						return err( "#VALUE! because index is out of range in INDEX" );
 					}

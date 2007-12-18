@@ -53,8 +53,16 @@ abstract class AbstractContextTestCase extends TestCase
 	@Override
 	public final String getName()
 	{
-		if (Settings.CONTEXT_IN_NAMES) return getOwnName() + " (" + cx().getDescription() + ") ";
 		return getOwnName();
+	}
+
+	/**
+	 * Accessed by Ant's test error formatter, so return the full name.
+	 */
+	@Override
+	public String toString()
+	{
+		return getOwnName() + " in " + cx().getDescription();
 	}
 
 	protected abstract String getOwnName();

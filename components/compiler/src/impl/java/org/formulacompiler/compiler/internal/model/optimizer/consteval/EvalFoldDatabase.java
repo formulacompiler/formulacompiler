@@ -22,6 +22,7 @@ package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDatabase;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 
@@ -35,28 +36,28 @@ final class EvalFoldDatabase extends EvalShadow
 		super( _node, _type );
 		this.colNames = _node.filterColumnNames();
 	}
-	
-	
+
+
 	@Override
-	protected Object eval() throws CompilerException
+	protected TypedResult eval() throws CompilerException
 	{
 		final int card = cardinality();
-		final Object[] argValues = new Object[ card ];
+		final TypedResult[] argValues = new TypedResult[ card ];
 		for (int iArg = 0; iArg < card; iArg++) {
 			argValues[ iArg ] = (iArg == 1)? evalFilter() : evaluateArgument( iArg );
 		}
 		return evaluateToConstOrExprWithConstantArgsFixed( argValues );
 	}
-	
-	
+
+
 	@Override
-	protected Object evaluateToConst( Object... _args ) throws CompilerException
+	protected TypedResult evaluateToConst( TypedResult... _args ) throws CompilerException
 	{
 		return evaluateToNode( _args );
 	}
-	
-	
-	private Object evalFilter() throws CompilerException
+
+
+	private TypedResult evalFilter() throws CompilerException
 	{
 		for (int iCol = 0; iCol < this.colNames.length; iCol++) {
 			letDict().let( this.colNames[ iCol ], null, EvalLetVar.UNDEF );

@@ -69,7 +69,8 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 	{
 		this.model = _model;
 		try {
-			return rewrite( _expr );
+			final boolean[] haveRewritten = new boolean[] { false };
+			return rewrite( _expr, haveRewritten );
 		}
 		finally {
 			this.model = null;
@@ -77,13 +78,13 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 	}
 
 
-	protected final ExpressionNode rewrite( ExpressionNode _expr ) throws CompilerException
+	protected final ExpressionNode rewrite( ExpressionNode _expr, boolean[] _haveRewritten ) throws CompilerException
 	{
 		assert this.model != null;
 		ExpressionNode result = _expr;
 		try {
-			if (_expr instanceof ExpressionNodeForFunction) {
-				result = rewriteFun( (ExpressionNodeForFunction) _expr );
+			if (result instanceof ExpressionNodeForFunction) {
+				result = rewriteFun( (ExpressionNodeForFunction) result, _haveRewritten );
 			}
 		}
 		catch (InnerExpressionException e) {
@@ -92,30 +93,37 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 		catch (CompilerException e) {
 			throw new InnerExpressionException( _expr, e );
 		}
-		return rewriteArgsOf( result );
+		return rewriteArgsOf( result, _haveRewritten );
 	}
 
 
-	private ExpressionNode rewriteArgsOf( ExpressionNode _expr ) throws CompilerException
+	private ExpressionNode rewriteArgsOf( ExpressionNode _expr, boolean[] _haveRewritten ) throws CompilerException
 	{
 		if (null == _expr) {
 			return null;
 		}
 		else {
 			final List<ExpressionNode> args = _expr.arguments();
+			final boolean[] argRewritten = new boolean[] { false };
 			for (int iArg = 0; iArg < args.size(); iArg++) {
 				final ExpressionNode arg = args.get( iArg );
-				final ExpressionNode rewritten = rewrite( arg );
+				argRewritten[ 0 ] = false;
+				final ExpressionNode rewritten = rewrite( arg, argRewritten );
 				if (rewritten != arg) {
 					args.set( iArg, rewritten );
 				}
+				if (argRewritten[ 0 ]) _haveRewritten[ 0 ] = true;
+			}
+			if (_haveRewritten[ 0 ]) {
+				_expr.setDataType( null ); // force the typer to run this again
 			}
 			return _expr;
 		}
 	}
 
 
-	private ExpressionNode rewriteFun( ExpressionNodeForFunction _fun ) throws CompilerException
+	private ExpressionNode rewriteFun( ExpressionNodeForFunction _fun, boolean[] _haveRewritten )
+			throws CompilerException
 	{
 		ExpressionNodeForFunction curr = _fun;
 		ExpressionNode rewritten = rewriteFunOnce( curr );
@@ -123,6 +131,9 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 			curr = (ExpressionNodeForFunction) rewritten;
 			rewritten = rewriteFunOnce( curr );
 		}
+		// The next line assumes function node rewrites are never in-place.
+		// This is true even for rewrites adding default values for omitted parameters.
+		if (rewritten != _fun) _haveRewritten[ 0 ] = true;
 		return rewritten;
 	}
 
