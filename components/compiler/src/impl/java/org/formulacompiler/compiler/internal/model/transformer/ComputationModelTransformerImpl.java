@@ -24,6 +24,7 @@ import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.ComputationModelTransformer;
+import org.formulacompiler.compiler.internal.model.analysis.ModelIsTypedChecker;
 import org.formulacompiler.compiler.internal.model.analysis.TypeAnnotator;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 import org.formulacompiler.compiler.internal.model.optimizer.ConstantSubExpressionEliminator;
@@ -38,7 +39,7 @@ public final class ComputationModelTransformerImpl implements ComputationModelTr
 	private final ComputationModel model;
 	private final NumericType numericType;
 
-	public ComputationModelTransformerImpl(Config _config)
+	public ComputationModelTransformerImpl( Config _config )
 	{
 		super();
 		_config.validate();
@@ -69,17 +70,34 @@ public final class ComputationModelTransformerImpl implements ComputationModelTr
 	public ComputationModel destructiveTransform() throws CompilerException, EngineException
 	{
 		rewriteExpressions();
-		eliminateConstantSubExpressions();
-		inlineIntermediateResults();
-		inlineSubstitutions();
+
 		annotateTypes();
+		assert modelIsFullyTyped(): "Typer should fully type the model";
+
+		eliminateConstantSubExpressions();
+		assert modelIsFullyTyped(): "CSE should leave the model fully typed";
+
+		inlineIntermediateResults();
+		assert modelIsFullyTyped(): "Cell inlining should leave the model fully typed";
+
+		inlineSubstitutions();
+		assert modelIsFullyTyped(): "Substitution inlining should leave the model fully typed";
+
 		return getModel();
+	}
+
+
+	private boolean modelIsFullyTyped() throws CompilerException
+	{
+		this.model.traverse( new ModelIsTypedChecker() );
+		return true;
 	}
 
 
 	private void rewriteExpressions() throws CompilerException
 	{
-		this.model.traverse( new ModelRewriter( InterpretedNumericType.typeFor( getNumericType(), this.model.getEnvironment() ) ) );
+		this.model.traverse( new ModelRewriter( InterpretedNumericType.typeFor( getNumericType(), this.model
+				.getEnvironment() ) ) );
 	}
 
 

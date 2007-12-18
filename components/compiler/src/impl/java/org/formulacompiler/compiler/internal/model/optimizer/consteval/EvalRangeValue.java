@@ -20,30 +20,34 @@
  */
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
-import java.util.Iterator;
-
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 
 public class EvalRangeValue extends EvalShadow
 {
 
-	public EvalRangeValue(ExpressionNode _node, InterpretedNumericType _type)
+	public EvalRangeValue( ExpressionNode _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
 	}
 
 	@Override
-	protected Object evaluateToConst( Object... _args )
+	protected TypedResult evaluateToConst( TypedResult... _args )
 	{
 		final ExpressionNodeForArrayReference rangeNode = (ExpressionNodeForArrayReference) node();
 		final ExpressionNodeForArrayReference result = new ExpressionNodeForArrayReference( rangeNode.arrayDescriptor() );
-		final Iterator<ExpressionNode> iArgNode = node().arguments().iterator();
-		for (Object arg : _args) {
-			result.addArgument( new ExpressionNodeForConstantValue( arg, iArgNode.next().getDataType() ) );
+		result.setDataType( rangeNode.getDataType() );
+		for (TypedResult arg : _args) {
+			if (arg instanceof ExpressionNode) {
+				result.addArgument( (ExpressionNode) arg );
+			}
+			else {
+				result.addArgument( new ExpressionNodeForConstantValue( arg.getConstantValue(), arg.getDataType() ) );
+			}
 		}
 		return result;
 	}

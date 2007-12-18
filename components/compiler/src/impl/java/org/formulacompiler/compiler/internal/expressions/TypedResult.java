@@ -20,16 +20,10 @@
  */
 package org.formulacompiler.compiler.internal.expressions;
 
-import java.util.Date;
-
-public enum DataType {
-
-	NUMERIC, STRING, NULL;
-
-	public static boolean isValueConstant( Object _value )
-	{
-		// Dates must be converted to current time-zone at runtime.
-		return !(_value instanceof Date);
-	}
-	
+public interface TypedResult
+{
+	public DataType getDataType();
+	public boolean isConstant();
+	public boolean hasConstantValue();
+	public Object getConstantValue();
 }

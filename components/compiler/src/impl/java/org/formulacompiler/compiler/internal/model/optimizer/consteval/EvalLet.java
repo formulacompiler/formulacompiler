@@ -22,6 +22,7 @@ package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 
@@ -30,7 +31,7 @@ final class EvalLet extends EvalShadow
 	private final String varName;
 	private final boolean mayFold;
 
-	public EvalLet(ExpressionNodeForLet _node, InterpretedNumericType _type)
+	public EvalLet( ExpressionNodeForLet _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
 		this.varName = _node.varName();
@@ -39,14 +40,14 @@ final class EvalLet extends EvalShadow
 
 
 	@Override
-	protected Object eval() throws CompilerException
+	protected TypedResult eval() throws CompilerException
 	{
 		if (this.mayFold) {
-			final Object val = evaluateArgument( 0 );
+			final TypedResult val = evaluateArgument( 0 );
 			letDict().let( this.varName, null, val );
 			try {
-				final Object result = evaluateArgument( 1 );
-				if (isConstant( result )) {
+				final TypedResult result = evaluateArgument( 1 );
+				if (result.isConstant()) {
 					return result;
 				}
 				return evaluateToNode( val, result );
@@ -58,11 +59,11 @@ final class EvalLet extends EvalShadow
 		else {
 			letDict().let( this.varName, null, EvalLetVar.UNDEF );
 			try {
-				final Object result = evaluateArgument( 1 );
-				if (isConstant( result )) {
+				final TypedResult result = evaluateArgument( 1 );
+				if (result.isConstant()) {
 					return result;
 				}
-				final Object val = evaluateArgument( 0 );
+				final TypedResult val = evaluateArgument( 0 );
 				return evaluateToNode( val, result );
 			}
 			finally {
@@ -72,7 +73,7 @@ final class EvalLet extends EvalShadow
 	}
 
 	@Override
-	protected Object evaluateToConst( Object... _args )
+	protected TypedResult evaluateToConst( TypedResult... _args )
 	{
 		throw new IllegalStateException( "EvalLet.evaluateToConst() should never be called" );
 	}

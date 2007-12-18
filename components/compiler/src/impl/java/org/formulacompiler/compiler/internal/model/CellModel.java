@@ -25,10 +25,11 @@ import java.io.IOException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.describable.DescriptionBuilder;
 
 
-public class CellModel extends ElementModel
+public class CellModel extends ElementModel implements TypedResult
 {
 	private Object constantValue;
 	private ExpressionNode expression;
@@ -60,6 +61,17 @@ public class CellModel extends ElementModel
 	public void setConstantValue( Object _constantValue )
 	{
 		this.constantValue = _constantValue;
+	}
+	
+	
+	public boolean isConstant()
+	{
+		return hasConstantValue();
+	}
+	
+	public boolean hasConstantValue()
+	{
+		return (this.expression == null) && DataType.isValueConstant( getConstantValue() );
 	}
 
 

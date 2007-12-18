@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
+import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDatabase;
@@ -40,6 +41,7 @@ final class HelperCompilerForFoldDatabase extends HelperCompilerForFoldApply
 	private final ExpressionNodeForArrayReference table;
 	private final ArrayDescriptor tableDescriptor;
 	private final String[] colNames;
+	private final DataType[] colTypes;
 	private final ExpressionNode filterExpr;
 
 	public HelperCompilerForFoldDatabase( SectionCompiler _section, ExpressionNodeForFoldDatabase _applyNode,
@@ -50,6 +52,7 @@ final class HelperCompilerForFoldDatabase extends HelperCompilerForFoldApply
 		this.table = _applyNode.table();
 		this.tableDescriptor = _applyNode.table().arrayDescriptor();
 		this.colNames = _applyNode.filterColumnNames();
+		this.colTypes = _applyNode.filterColumnTypes();
 		this.filterExpr = _applyNode.filter();
 	}
 
@@ -183,15 +186,15 @@ final class HelperCompilerForFoldDatabase extends HelperCompilerForFoldApply
 		try {
 			for (int iCol = 0; iCol < nCols; iCol++) {
 				final ExpressionNode elt = _elts.get( _iElt + iCol );
-				letDict().let( this.colNames[ iCol ], elt.getDataType(), elt );
+				letDict().let( this.colNames[ iCol ], this.colTypes[ iCol ], elt );
 			}
 			final Iterable<LetEntry> closure = closureOf( this.filterExpr );
-			mv().loadThis();
-			compileClosure( closure );
 			if (this.matcher == null) {
 				this.matcher = new HelperCompilerForDatabaseMatch( section(), this.filterExpr, closure );
 				this.matcher.compile();
 			}
+			mv().loadThis();
+			compileClosure( closure );
 			mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, section().classInternalName(), this.matcher.methodName(),
 					this.matcher.methodDescriptor() );
 		}
@@ -199,7 +202,8 @@ final class HelperCompilerForFoldDatabase extends HelperCompilerForFoldApply
 			letDict().unlet( nCols );
 		}
 	}
-
+	
+	
 	private void compileSkipFoldIfNoMatch( final Label _noMatch )
 	{
 		mv().ifZCmp( Opcodes.IFEQ, _noMatch );

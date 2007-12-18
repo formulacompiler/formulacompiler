@@ -25,7 +25,6 @@ public final class Settings
 	public static boolean EMIT_DOCUMENTATION = isSysPropTrue( "emit_documentation" );
 	public static boolean QUICK_RUN = isSysPropTrue( "quick_run" );
 	public static boolean THREADED_RUN = isSysPropTrue( "threaded_run" );
-	public static boolean CONTEXT_IN_NAMES = isSysPropTrue( "context_in_names" );
 
 	private static boolean isSysPropTrue( String _name )
 	{

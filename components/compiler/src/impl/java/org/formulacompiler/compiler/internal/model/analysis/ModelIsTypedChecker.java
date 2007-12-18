@@ -18,18 +18,31 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.compiler.internal.expressions;
+package org.formulacompiler.compiler.internal.model.analysis;
 
-import java.util.Date;
+import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.model.AbstractComputationModelVisitor;
+import org.formulacompiler.compiler.internal.model.CellModel;
+import org.formulacompiler.compiler.internal.model.ComputationModelVisitor;
 
-public enum DataType {
+public final class ModelIsTypedChecker extends AbstractComputationModelVisitor implements ComputationModelVisitor
+{
 
-	NUMERIC, STRING, NULL;
-
-	public static boolean isValueConstant( Object _value )
+	@Override
+	protected boolean visitCell( CellModel _cell ) throws CompilerException
 	{
-		// Dates must be converted to current time-zone at runtime.
-		return !(_value instanceof Date);
+		assert _cell.getDataType() != null;
+		final ExpressionNode expr = _cell.getExpression();
+		if (null != expr) visitExpr( expr );
+		return true;
 	}
-	
+
+	private void visitExpr( ExpressionNode _expr )
+	{
+		assert _expr.getDataType() != null;
+		for (ExpressionNode arg : _expr.arguments())
+			if (null != arg) visitExpr( arg );
+	}
+
 }
