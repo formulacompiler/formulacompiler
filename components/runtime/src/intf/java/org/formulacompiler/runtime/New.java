@@ -34,7 +34,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
- * Provides static generic collection contructors which make use of Java 5 type inference as
+ * Provides static generic collection constructors which make use of Java 5 type inference as
  * suggested by Josh Bloch in his Google slides on "Effective Java Reloaded".
  * 
  * @author peo
