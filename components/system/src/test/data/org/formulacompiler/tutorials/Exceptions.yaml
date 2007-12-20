@@ -1,0 +1,109 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "Title"
+    - const: "Test"
+    - const: "Input"
+    - const: "Sum"
+  - cells:
+  - cells:
+    - const: "Bad number"
+    - expr: =ASIN( RC[1] )
+    - const: 2.0
+    - expr: =SUM( RC[-2] )
+  - cells:
+    - const: "Bad value"
+    - expr: =CHOOSE( RC[1], 12.0 )
+    - const: 0.0
+    - expr: =SUM( RC[-2] )
+  - cells:
+    - const: "Division by zero"
+    - expr: =(1.0 / RC[1])
+    - const: 0.0
+    - expr: =SUM( RC[-2] )
+  - cells:
+    - const: "Error is propagated"
+    - expr: =(1.0 + R[-3]C)
+    - null
+    - expr: =SUM( RC[-2] )
+  - cells:
+    - const: "Handle error"
+    - expr: =(1.0 + IF( ISERR( R[-4]C ), 4711.0, R[-4]C ))
+  - cells:
+  - cells:
+    - const: "Not available using NA()"
+    - expr: =NA()
+    - null
+    - expr: =SUM( RC[-2] )
+  - cells:
+    - const: "Not available using #N/A"
+    - err: #N/A
+    - null
+    - expr: =SUM( RC[-2] )
+  - cells:
+    - const: "Not available thrown by getter"
+    - expr: =RC[1]
+    - const: 1.0
+    - expr: =SUM( RC[-2] )
+  - cells:
+    - const: "Not available if"
+    - expr: =IF( (RC[1] = 1.0), NA(), RC[1] )
+    - const: 1.0
+  - cells:
+    - const: "Handle N/A"
+    - expr: =(1.0 + IF( ISNA( R[-1]C ), 4711.0, R[-1]C ))
+  - cells:
+  - cells:
+    - const: "Error referenced before N/A"
+    - expr: =(R[-12]C + R[-6]C)
+    - null
+    - expr: =SUM( RC[-2] )
+  - cells:
+    - const: "N/A referenced before error"
+    - expr: =(R[-7]C + R[-13]C)
+    - null
+    - expr: =SUM( RC[-2] )
+  - cells:
+  - cells:
+    - const: "IsError() on N/A"
+    - expr: =ISERROR( R[-6]C )
+  - cells:
+    - const: "IsError() on error"
+    - expr: =ISERROR( R[-16]C )
+  - cells:
+    - const: "IsErr() on N/A"
+    - expr: =ISERR( R[-8]C )
+  - cells:
+    - const: "IsNA() on error"
+    - expr: =ISNA( R[-18]C )
+  - cells:
+  - cells:
+    - const: "COUNT() ignores errors and N/A"
+    - expr: =COUNT( 15.0, R[-20]C, R[-11]C )
+  - cells:
+    - const: "COUNTA() counts errors and N/A"
+    - expr: =COUNTA( 15.0, R[-21]C, R[-12]C )
+
+names:
+- name: CITE_COUNT
+  ref: R23C1:R24C2
+- name: CITE_ERRORPROPAGATION
+  ref: R6C1:R6C2
+- name: CITE_ERRORS
+  ref: R3C1:R5C3
+- name: CITE_ISERR
+  ref: R7C1:R7C2
+- name: CITE_ISERROR
+  ref: R18C1:R21C2
+- name: CITE_ISNA
+  ref: R13C1:R13C2
+- name: CITE_NA
+  ref: R9C1:R12C3
+- name: CITE_PRECEDENCE
+  ref: R15C1:R16C2

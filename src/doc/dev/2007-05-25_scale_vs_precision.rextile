@@ -1,0 +1,100 @@
+
+h1. Scale vs. Precision with BigDecimal Engines
+
+AFC currently uses a fixed scale for BigDecimal computations. For anything more complicated than basic addition, subtraction and multiplication, a minimum precision seems more desirable. Problem is, Abacus uses fixed scales internally, too. What do we do?
+
+<%= toc %>
+
+
+h2. Background
+
+While implementing some financial functions as rewrite rules, Vladimir came across the problem that using fixed scale BigDecimals leads into trouble quickly as soon as one starts to divide numbers. So we first thought that simply switching to precision based arithmetic within rewrite rules might do the trick. However, fixed scales are hard on users of AFC, too.
+
+
+h2. The Case For Precision
+
+With fixed scales, you might already shoot yourself in the foot with a simple expression like @A1 * A2%@. This is because it is equivalent to @A1 * (A2 / 100)@. So for @A1 = 100000@ and @A2 = 3.14159@ we get:
+
+	(A2 / 100) = 0.031415
+	=> A1 * A2% = A1 * (A2 / 100) = 3141.5
+
+If instead we had written @A1 * A2 / 100@, which is the same as @(A1 * A2) / 100@, we would get the expected answer:
+
+	(A1 * A2) = 314159
+	=> (A1 * A2) / 100 = 3141.59
+
+And it only gets worse with more complicated formulae. With a minimal precision instead of a fixed scale this would not happen. "IBM realized this":http://www2.hursley.ibm.com/decimal/decifaq.html and launched "JSR-13":http://jcp.org/en/jsr/detail?id=13 in the first place. In Section 2 of JSR-13, we find:
+
+	* The fixed point (integer + scale) arithmetic is suitable for some tasks (such as calculating taxes or balancing a check book), but is inconvenient and awkward for many common applications. For example, calculating the total amount repaid on a mortgage over 20 years is difficult, requiring several steps which do not involve exact arithmetic and which may require explicit rounding. For this task (and many others) an arithmetic that allows working to a chosen precision is both simpler and more convenient.
+
+
+h2. The Case For Fixed Scale
+
+I think we need to take to aspects into account here: the inherent merits of fixed scales and the landscape AFC will need to integrate with.
+
+h3. Inherent Merits
+
+With a fixed scale, you never lose digits except for those to the right of your fixed scale. This holds however big your numbers are. (This is called "arbitrary precision".) With fixed precision, this is not true.
+
+h3. Surrounding Landscape
+
+AFC is not a standalone product. It is a library designed to integrate well with, for example, financial applications. In particular, it will have to integrate perfectly with Abacus Software. And Abacus internally uses BigDecimal arithmetic with a fixed scale of 6. So, apart from everything else, switching to a minimum precision instead of a fixed scale in AFC might lead to two problems:
+
+	* Users of Abacus Software might be surprised when they switch from a built-in formula to one they design themselves, but design it exactly the way the internal formula works. They might get subtly different results due to intermediate rounding effects.
+	
+	* The problem stated above might prevent Abacus from starting to use AFC internally to design the built-in formulae. This could, however, be desirable as it would allow business analysts to supply formula definitions which could be integrated directly into the product's build.
+
+Finally, Abacus might not be the only financial software company to use BigDecimal like this. After all, JSR-13 support is not available in the mainstream for Java 1.4 and earlier (there are some IBM classes - the precursors of JSR-13).
+
+Here is an example. The scaled computation uses a fixed scale of 6. The minimum precision compuation uses 34 digits.
+
+	1.000001 / 4 + 0.000001 / 4
+	=> 0.250000 (scale)
+	=> 0.2500005 (precision)
+
+If, on exit from AFC, both numbers are again converted to scale 6 with rounding mode @HALF_UP@, then we get
+
+	=> 0.250000 (scale)
+	=> 0.250001 (precision)
+
+If this result is multiplied by a sufficiently large number, we can also see the effect at the cent or even dollar level.
+
+Is this example too contrived? I think not. Consider two values, each converted from a foreign currency and thus liable to have a non-zero last digit at scale 6. Then, for some reason, we take a percentage of each of the two values and add them up. In the example above, the two percentages just happen to conspire to make the addition with the increased precision cross the rounding threshold. This could happen in practice.
+
+
+h2. What now?
+
+It is not likely to be acceptable for Abacus and similar companies to have AFC return results that differ from their internal computations. I therefore suggest we support two flavours of @BigDecimal@ computations: fixed scale and minimum precision.
+
+This does not solve the problem of the internal model of rewrite rules. I suggest we add syntax to allow the rules to temporarily switch to a precision-based numeric model. This model should probably be configurable, too. In many cases, using plain @double@ should suffice. In special cases, one might want to use precision-based @BigDecimal@. Using @double@ would be default.
+
+The choice of numeric models thus rests with the application, as does the burden of explaining the consequences like, for example, the effect of a fixed scale on the @%@ operator to the spreadsheet designers (users and/or business analysts). AFC's documentation should therefore provide guidance and documentation regarding this choice that can be reused in an application's documentation.
+
+For the moment, we are only going to implement either precision-based BigDecimals (if Abacus can live with that, which looks likely), or else fixed scale BigDecimals which switch to precision-mode for internal functions. Scaled longs will not support switching for the moment. We'll simply skip tests for them if they cause trouble as no one is using them at the moment. 
+
+
+h2. Implementation Notes
+
+If we fix the precision-based internal model to be @double@, then it might be far easier to just implement the affected functions as plain Java support methods in the @RuntimeDouble_v1@ class instead of as rewrite rules. This already happens anyway for things like @SQRT@. We could further simplify this by automatically generating stubs calling the @double@ runtime for the runtimes of the other types.
+
+However, people using precision-based @BigDecimal@ engines would expect all computations to use @BigDecimal@, not @double@, so this may not be a good decision.
+
+Here's an example of what a rule with a switch to a precision-based model might look like:
+
+	def PMT( rate, nper, pv, fv, type )
+		if rate = 0 then
+			-(pv + fv) / nper
+		else
+			precision-model
+			let
+				a := (1 + rate) ^ nper
+				b := pv / (1 - 1/a)
+				c := fv / (a - 1)
+				d := -(b + c) * rate
+			in
+				if type > 0 then
+					d / (1 + rate)
+				else
+					d
+
+Internally, all values accessed by the expression within the @precision-model@ block are converted to values of the precision-based type, and the final result is converted back. The conversion to the precision-based type should be implemented as implicit @let@ definitions to avoid repeated conversions. If it makes the implementation easier, we might also consider using a @precision-model-let@ where the required @let@ definitions have to be specified explicitly.

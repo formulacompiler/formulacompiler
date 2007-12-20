@@ -1,0 +1,270 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Inputs"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
+  - cells:
+    - const: "!NUM:NA"
+    - err: #N/A
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 0.0
+    - const: "Explicitly entered errors"
+    - const: "#N/A"
+    - err: #N/A
+  - cells:
+    - const: "!NUM:NA"
+    - expr: =NA()
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 0.0
+    - null
+    - const: "NA"
+    - err: #N/A
+  - cells:
+    - const: "!NUM:FE"
+    - err: #NUM!
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 0.0
+    - null
+    - const: "#NUM!"
+    - err: #NUM!
+  - cells:
+    - const: "!NUM:FE"
+    - err: #VALUE!
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 0.0
+    - null
+    - const: "#VALUE!"
+    - err: #VALUE!
+  - cells:
+    - const: "!NUM:FE"
+    - err: #DIV/0!
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 0.0
+    - null
+    - const: "#DIV/0!"
+    - err: #DIV/0!
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =(RC[1] + RC[2])
+    - const: 1.0
+    - err: #NUM!
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "Errors as inputs"
+    - const: "xx"
+    - err: #NUM!
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =(RC[1] + RC[2])
+    - err: #NUM!
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - err: #NUM!
+  - cells:
+    - const: "!NUM:+Inf/AE"
+    - expr: =(1.0 / RC[1])
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "Actual division by zero"
+    - const: "xx"
+    - err: #DIV/0!
+  - cells:
+  - cells:
+    - const: true
+    - expr: =ISNA( RC[1] )
+    - err: #N/A
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "ISNA()"
+    - const: "ISNA"
+  - cells:
+    - const: false
+    - expr: =ISNA( RC[1] )
+    - const: 4711.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: false
+    - expr: =ISNA( RC[1] )
+    - err: #NUM!
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: false
+    - expr: =ISERR( RC[1] )
+    - err: #N/A
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "ISERR()"
+    - const: "ISERR"
+  - cells:
+    - const: false
+    - expr: =ISERR( RC[1] )
+    - const: 4711.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: true
+    - expr: =ISERR( RC[1] )
+    - err: #NUM!
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: true
+    - expr: =ISERROR( RC[1] )
+    - err: #N/A
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "ISERROR()"
+    - const: "ISERROR"
+  - cells:
+    - const: false
+    - expr: =ISERROR( RC[1] )
+    - const: 4711.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: true
+    - expr: =ISERROR( RC[1] )
+    - err: #NUM!
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: 3.0
+    - expr: =COUNTA( RC[1]:RC[3] )
+    - err: #N/A
+    - const: 4711.0
+    - const: "#NUM"
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "COUNTA() is OK"
+    - const: "COUNTA"
+  - cells:
+    - const: 3.0
+    - expr: =COUNT( RC[1]:RC[3] )
+    - err: #N/A
+    - const: 4712.0
+    - const: "#NUM"
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "COUNT() is currently broken"
+    - const: "COUNT"
+    - const: 1.0

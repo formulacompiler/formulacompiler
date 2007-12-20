@@ -1,0 +1,500 @@
+
+h1. Release Notes
+
+Lists the new features, improvements, and fixes for each release of AFC. Note that the former name of AFC was SEJ (Spreadsheet Engine for Java). You may also want to look at:
+
+	* "Current Limitations":limitations.htm
+	* "Roadmap":roadmap.htm
+
+
+h2. Release 1.0
+
+h5. *Changed!*
+
+	* You can no longer bind to input methods throwing checked exceptions. (We may re-enable this later when AFC checks that all output methods declare all of those checked exceptions.)
+	* AFC no longer rounds final results to the precision specified in cell formats. If you want rounded results, use the @ROUND()@ function. This only affects newly compiled engines.
+	* AFC no longer treats errors conditions like @#NUM!@ as zero. Instead, it "signals an error":tutorial/exceptions.htm.
+
+h5. New
+
+	* AFC can now load spreadsheets in the OpenDocument @.ods@ format (as written, for example, by "OpenOffice.org":http://openoffice.org/ Calc).
+	* @COVAR()@ is now "supported":reference/aggregators.htm.
+	* @SUMIF()@, and @COUNTIF()@ are now "supported":reference/dbaggregators.htm.
+	* @CONFIDENCE()@, @BETADIST()@, @BINOMDIST()@, @CHIDIST()@, @CHITEST()@, @FDIST()@, @GAMMADIST()@, @NEGBINOMDIST()@, @NORMDIST()@, @NORMSDIST()@, @LOGNORMSDIST()@, @NORMINV()@, @NORMSINV()@, @LOGINV()@, @POISSON()@, @TDIST()@, @BETAINV()@, @CHIINV()@, @EXPONDIST()@, @FINV()@, @FISHER()@, @FISHERINV()@, @FTEST()@, @GAMMAINV()@, @GAMMALN()@, @HYPGEOMDIST()@, @PEARSON()@, @RSQ()@, @STANDARDIZE()@, @TINV()@, @TTEST()@, @WEIBULL()@ and @ZTEST()@ are now "supported":reference/statisticalfuncs.htm.
+	* @MEDIAN()@, @CORREL()@, @CRITBINOM()@, @LARGE()@, @MODE()@, @PERCENTILE()@, @PERCENTRANK()@, @PROB()@, @QUARTILE()@, @SMALL()@, @STDEVPA()@, @STEYX()@, @SUMX2MY2()@, @SUMX2PY2()@, @SUMXMY2()@, @TRIMMEAN()@,  @INTERCEPT()@, @SLOPE()@, @FORECAST()@ and @VARA()@ are now "supported":reference/statisticalfuncs.htm.
+	* @ACOSH()@, @ASINH()@, @ATANH()@, @SINH()@, @COSH()@, @TANH()@, @GEOMEAN()@, @HARMEAN()@, @PERMUT()@, @RAND()@, and @SIGN()@ are now "supported":reference/numfuncs.htm.
+	* @VDB()@ is now "supported":reference/financialfuncs.htm
+	* @DCOUNTA, DAVERAGE, DVAR/P, DSTDEV/P@ are now "supported":reference/dbaggregators.htm.
+	* @CLEAN()@ is now "supported":reference/strings.htm
+	* @ROMAN()@ and @FIXED()@ are now "supported":reference/convfuncs.htm
+	* @VALUE()@ and @DSUM()@ et al. now handle date/time strings.
+	* You can now tell AFC to compile to more readable code when "decompiled":tutorial/decompile.htm.
+
+h5. Better
+
+	* We now support binding unboxed numeric types as inputs (@double@, @long@, @int@, etc.) to string-valued cells.
+
+h5. Internal
+
+	* The folding support (used to implement @SUM@ etc.) has been rewritten completely. It can now handle multiple parallel vectors, multiple aggregators, and has much more streamlined code in the implementation.
+	* We now verify the spreadsheet model loaded from our test spreadsheets against an external description (.yaml files). This ensures that test sheet changes are reflected in a diffable format.
+
+
+h2. Release 0.10.1
+
+h5. *Changed!*
+
+	* The method "@bindAllByName()@":-bindall no longer throws an exception if cell remain unbound. Use "@failIfByNameBindingLeftNamedCellsUnbound()@":-failif after @bindAllByName()@ if you want this behaviour back.
+
+[-bindall]javadoc/org/formulacompiler/spreadsheet/EngineBuilder.html#bindAllByName()
+[-failif]javadoc/org/formulacompiler/spreadsheet/EngineBuilder.html#failIfByNameBindingLeftNamedCellsUnbound()
+
+h5. New
+
+	* @SUMSQ()@ is now "supported":reference/aggregators.htm.
+	* @AVEDEV()@, @DEVSQ()@, and @RANK()@ are now "supported":reference/statisticalfuncs.htm.
+	* By name binding now supports "binding only cells with a given input and output prefix":-bindprefix.
+
+[-bindprefix]javadoc/org/formulacompiler/spreadsheet/EngineBuilder.html#bindAllByName(java.lang.String,%20java.lang.String)
+
+h5. Better
+
+	* You can "query the named cells":-unbound still unbound to warn users about potential automatic by-name binding problems.
+
+[-unbound]javadoc/org/formulacompiler/spreadsheet/SpreadsheetByNameBinder.html#cellNamesLeftUnbound()
+
+
+h2. Release 0.10.0
+
+h5. *Changed!*
+
+	* Changed the names of the runtimes to @Runtime..._v2@ and removed deprecated features.
+    <br/>*Your engines won't run anymore. Recompile.*
+	* Changed the names of the predefined scaled @BigDecimal@ and @long@ numeric types.
+    * Changed the way "internal caching":tutorial/caching.htm is controlled.
+    * Changed the API for manual value conversions using a given locale. Now uses a @Computation.Config@ instead.
+
+h5. New
+
+	* "@BigDecimal@ with @MathContext@":tutorial/numeric_type.htm now supported. Older scaled @BigDecimal@ no longer recommended and may be phased out in the future.
+	* @KURT()@, @SKEW()@, @STDEV()@, and @STDEVP()@ are now "supported":reference/statisticalfuncs.htm.
+	* @COUNTA()@ is now "supported":reference/aggregators.htm.
+	* @N()@ and @T()@ are now "supported":reference/convfuncs.htm.
+	* @ISTEXT()@, @ISNONTEXT()@, and @ISNUMBER()@ are now "supported":reference/typefuncs.htm.
+	* @CEILING()@, @FLOOR()@, @ROUNDDOWN()@, and @ROUNDUP()@ are now "supported":reference/numfuncs.htm.
+	* @CHOOSE()@, @LOOKUP()@, @HLOOKUP()@, and @VLOOKUP()@ are now "supported":reference/lookupfuncs.htm.
+	* You can optionally configure symbols (such as the decimal separator, the grouping separator, and so on) needed to format numbers.
+	* Added option to load cell values of _all_ cells, even computed ones, into the internal spreadsheet model. This is mainly useful to write automated tests (see @EngineBuilder.setLoadAllCellValues@ and @Spreadsheet.Cell.getValue@).
+
+h5. Better
+
+	* Documented different way of computing date/time differences in AFC/Excel and Java in "Date Tutorial":tutorial/datetime.htm.
+	* Computations involving repeating sections no longer need to implement @Resettable@.
+	* Improved "the way @MATCH()@ and @INDEX()@ are compiled":impl/lookup.htm.
+
+h5. Fixed
+
+	* Number to string conversions now all use the configured runtime locale. This means they are no longer computed at compile-time, even if constant  
+
+
+h2. Release 0.9.1
+
+h5. New
+
+	* You can now "bind parameters of input methods to computed cells":tutorial/bindcells.htm.
+	
+h5. Better
+
+	* Upgraded to "ASM 3.0":http://asm.objectweb.org/jdiff223to30/changes.html.
+
+h5. Fixed
+
+	* The "hacking docs":hacking/index.htm have been updated to reflect the new project layout.
+	* @NOW()@ and @TODAY()@ functions now return the same value for the same computation. This value can be reset when output class implements @Resettable@ by invoking @reset()@.
+
+h5. Internals
+
+	* New "build target":hacking/build.htm @compile@ added.
+	* Pass a root pointer instead of the environment to subengines. This is in preparation for having the root engine contain things like the current computation's value of @NOW()@.
+
+    
+h2. Release 0.9.0
+
+h5. *Changed!*
+
+    * The packages have been renamed. The prefix @sej.@ has become @org.formulacompiler.@. Old compiled engines are *not* compatible with this release!
+    * The central API has changed. @sej.runtime.SEJRuntime@ has become @org.formulacompiler.runtime.FormulaRuntime@. @sej.SEJ@ has been split up into @org.formulacompiler.compiler.FormulaCompiler@ and, derived from this, @org.formulacompiler.spreadsheet.SpreadsheetCompiler@.
+    * The folder layout has changed. The code is now split up into a separate component per .jar file (despite the earlier "reasons for not splitting the project up into modules":dev/2007-04-24_modules.htm). The components live in the @components/@ folder and each has its own @lib/@ and @build/@ folder. This shows clearly which AFC .jars need which supporting external .jars.
+
+h5. New
+
+    * Date functions: @NOW()@, @DATE()@, @TIME()@, @SECOND()@, @MINUTE()@, @HOUR()@, @WEEKDAY()@, @DAY()@, @MONTH()@, and @YEAR()@ are now supported.
+    * Conversion functions: @VALUE()@ is now partially supported, parsing dates and currency is not supported yet.
+    * You can optionally "configure an explicit locale and time zone":tutorial/locale.htm for engine factories. Great for server applications with users all over the world.
+    * You can make AFC treat Excel constant date/times as "time-zone adjusted global times":tutorial/datetime.htm.
+    * You can "pass pure times":tutorial/datetime.htm properly to a computation.
+    * You can "pass dates as unboxed milliseconds since 1970":tutorial/type_conversion.htm to a computation.
+
+h5. Better
+
+    * Reorganized "build targets":hacking/build.htm to make @build.xml@ more manageable.
+    * Cited examples now serve as "tripwires":http://arrenbrecht.ch/jcite/tripwire.htm in the documentation.
+    
+
+h2. Release 0.8.4
+
+h5. New
+
+    * Mathematical functions: @ACOS()@, @ASIN()@, @ATAN()@, @ATAN2()@, @COS()@, @DEGREES()@, @EVEN()@, @EXP()@, @INT()@, @LN()@, @LOG()@, @LOG10()@, @MOD()@, @ODD()@, @PI()@, @POWER()@, @RADIANS()@, @SIN()@, @SQRT()@, @TAN()@, and @TRUNC()@ are now supported.
+    * Financial functions: @DB()@, @DDB()@, @SLN()@, @SYD()@, @FV()@, @NPER()@, @PMT()@, @PV()@, and @RATE()@ are now supported.
+    * String functions: @PROPER()@, @REPT()@, and @TRIM()@ are now supported.
+
+h5. Better
+
+    * For the @^@ operator, as for the new @POWER()@ function, invocations with non-integer exponents are converted to @double@ operations.
+	* Moved from hardwired service implementor constructors (in, for example, the class @SEJ@) to dynamically configured implementors. This mimics Java 6's @java.util.ServiceLoader@, but also works on Java 5. For details, see the "discussion in the dev journal":dev/2007-01-22_modularization.htm and also the "reasons for not splitting the project up into modules":dev/2007-04-24_modules.htm.
+	* Updated build script so the bootstrap dummy implementations for code that gets generated later on is no longer necessary.
+    * Macker dependency checking rules are now generated from a central component description in YAML using Ruby. This description is also used to generate a "graph of the allowed component dependencies":hacking/dependencies.htm.
+    * The build now runs "dot":-dot and the "Ruby":-rb scripts to regenerate graphics and config files.
+    * @INDEX()@ no longer generates a backing constant array if there are no constants.
+    * Replaced the JFlex/CUP-based parser "with one generated by JavaCC":dev/2007-05-16_parser.htm to work around a parser limit.
+
+
+h2. Release 0.8.3
+
+h5. New
+
+	* Added support for "decompilation of generated engines":tutorial/decompile.htm.
+	
+h5. Fixed
+
+	* SEJ generates the @InnerClass@ attribute needed for proper decompilation and "required by the JVM spec":http://java.sun.com/docs/books/vmspec/2nd-edition/html/ClassFile.doc.html#79996 when a factory or computation is based on a public static inner class.
+	
+h5. Documented
+	
+	* "Function reference":reference/index.htm now links to decompiled engines for example formulas.
+	* "Tutorial":tutorial/index.htm topics now contain decompiled engines to better show what SEJ does behind the scenes.
+
+	
+h2. Release 0.8.2
+
+h5. *Changed!*
+
+	* Dropped support for @Operator.MIN@, @Operator.MAX@, and @Operator.NOOP@. Use @Function.MIN@ and @Function.MAX@ instead.
+	* Renamed "internal rewrite functions":hacking/rewrite_functions.htm @_FOLD_1ST@ to @_REDUCE@ and @_FOLD_1STOK@ to @_FOLD_OR_REDUCE@. Simplified @_REDUCE@.
+	* Dropped support for automatically aggregating outer sibling sections. You need to use an outer cell which aggregates the sibling section explicitly. This will probably be enabled more fully again later on.
+	
+h5. New
+
+	* @NPV()@, @MIRR()@, and @IRR()@ are now "supported":reference/financialfuncs.htm (not yet over dynamic sections, though).
+	* @DSUM()@, @DPRODUCT()@, @DCOUNT()@, @DMIN()@, @DMAX()@ are now "supported":reference/dbaggregators.htm.
+	* @_MAKE_ARRAY()@, @_FOLD_ARRAY()@ added to internal rewriting language.
+	* Added @_DFOLD()@ to the internal expression AST, but not the rewriting language. This is because rewriting a database fold like @DSUM()@ is too complex for a simple rewrite. The rewriting is done in a specialized Java class.
+	
+h5. Better
+
+	* The constant folder now uses the template methods in @sej.internal.templates@ to evaluate templated operators and functions. This got rid of a lot of redundant code, and it ensures that newly added templates automatically get constant folding support.
+	* Moved @sej.internal.templates@ to @sej.internal.model.templates@.
+	* Cleaned up the implementation of @COUNT()@.
+	* @BigDecimal@ exponentiation now fails with an internal @ArithmeticException@ "Rounding necessary" if the exponent is not an integer.
+	* Introduced @sej.util.New@ which provides generic static getters to leverage Java 5 type inference (as suggested by Josh Bloch in his new slides on "Effective Java Reloaded").
+
+h5. Documented
+
+	* Checked whether "the engine format needs to be more robust":dev/2006-11-22_robust_storage.htm for the future. It's OK already.
+	* Added a "breakdown of missing spreadsheet functions":hacking/functions_to_implement.htm.
+	* Added documentation of "internal rewrite functions":hacking/rewrite_functions.htm.
+	* Documented how to "add an array computation":hacking/addarray.xhtml.
+	* A few entries in the "developer's journal":dev/index.htm.
+	
+	
+h2. Release 0.8.1
+	
+h5. Better
+
+	* Added support for naive "string comparisons":reference/strings.htm. By _naive_ I mean that they do not handle the fancy code-page stuff in Excel yet. It's basically @String.compareToIgnoreCase()@.
+	* Redid the "developer's journal":dev/index.htm so it indexes automatically. Added two entries.
+	
+	
+h2. Release 0.8.0
+
+h5. *Changed!*
+
+	* Dropped support for JRE 1.4. This could be re-enabled with some effort, if anyone really needs it.
+	* Dropped support for @Operator.AND@ and @Operator.OR@. Use @Function.AND@ and @Function.OR@ instead.
+
+h5. New
+
+	* First version of "hacking docs":hacking/index.htm.
+	* Generation of byte-code compiler methods from "plain Java template methods":hacking/addprimitive.htm to implement low-level functions.
+	* "Expression rewriting":hacking/addrewrite.xhtml to implement high-level functions.
+	* @FOLD@ and @LET@ for "rewriting of aggregators":hacking/addagg.xhtml.
+	* @ABS()@, @VAR()@, @VARP()@, @FACT()@, and @COMBIN()@ are now supported.
+	* Added generic test harness which allows me to fairly quickly debug users's sheets.
+
+h5. Better
+
+	* @SpreadsheetBuilder.newCell()@ added for creating blank cells.
+	* A number of automated tests compare generated .jar files against baseline versions to detect unwanted changes.
+	* Documentation source now in the project in "Rextile":-rex format. Used to be in a custom format and only resulting HTML files were versioned in the project.
+	* "Build script":hacking/build.htm greatly streamlined and documented. Made it properly configurable/portable.
+	* Added download for build tools package to the main page.
+	* Source distribution now includes "Eclipse project setup":hacking/ide.htm with custom Java formatting rules and all.
+	* Added internal logging package for structured (indented) debug log output.
+	* Temporary build artefacts now get written to @temp/@ rather than @build/@.
+	* Constant folding support for @AND@ and @OR@.
+	* Eliminated redundant definitions of A1- and R1C1-style expression scanners.
+
+h5. Fixed
+
+	* Excel spreadsheet saver now properly formats dates and booleans (added tests, too). Fixed issue with columns widths and default fonts not being copied from the template properly.
+	* Code coverage ant targets no longer run the caching speed test as the speed varies too much when coverage tracking is enabled.
+	* Use of @_FOLD@ fixes a number of bugs with aggregation over nested sections.
+	* @SEARCH@ with wildcards had bugs.
+
+
+h2. Release 0.7.3
+
+h5. New
+
+	* Support for "writing initial spreadsheets":tutorial/generatesheet.htm added.
+
+h5. Better
+
+	* SEJ now supports multiple sheets in an Excel workbook and resolves "references across sheets":reference/values.htm properly.
+	* The interface @Spreadsheet.Cell@ now gives access to the formula text using @getExpressionText()@.
+	* Call chaining for spreadsheet builder methods (they return @this@ instead of @void@).
+
+
+h2. Release 0.7.2
+
+h5. Better
+
+	* SEJ now automatically "converts numeric values to strings":reference/strings.htm when a @String@-valued output method is bound to a numeric cell.
+
+
+h2. Release 0.7.1
+
+h5. Better
+
+	* Much improved (and tested) "error reporting":tutorial/errors.htm. Error messages should now contain all information for users to be able to pinpoint the source of a problem in their original spreadsheet.
+	* Code coverage analysis added using "cobertura":http://cobertura.sourceforge.net/ and "emma":http://emma.sourceforge.net/. Use @ant cover@ and @ant emma@ to run them, then check @build/coverage/index.html@ or @build/coverage/coverage.html@ for the results.
+
+h5. Fixed
+
+	* @MATCH@ now properly handles type arguments other than 1, 0, and -1.
+
+
+h2. Release 0.7.0
+
+h5. New
+
+	* "Function reference":reference/index.htm in the docs.
+	* "String support":reference/strings.htm.
+
+h5. Better
+
+	* Much "improved Excel function tests":dev.htm#2006-08-30, used as base for reference docs.
+	* Improved error messages should give clearer indication of the source of a problem.
+
+h5. Fixed
+
+	* Fixed-scale @BigDecimal@ engines now return all values with proper scale.
+	* Boolean values are treated as numbers in constant folder, too.
+	* Enabled proper constant folding for @AND@ and @OR@ when they are aggregators.
+
+
+h2. Release 0.6.3
+
+h5. Better
+
+	* Documented and tested the use of a "derived output class providing default implementations":tutorial/bindcells.htm#Defaults with a factory method returning a superclass.
+
+
+h2. Release 0.6.2
+
+h5. Better
+
+	* Implemented "repeating sections with outputs":tutorial/repeatingsections_withoutputs.htm.
+	* Improved structure of "tutorial index":tutorial/index.htm.
+	* Allow setting of a "custom parent class loader":tutorial/customclassloader.htm for compiled and loaded engines.
+	* Updated to "JExcelAPI":http://jexcelapi.sourceforge.net/ version "2.6.0":http://sourceforge.net/project/shownotes.php?release_id=413377&group_id=79926, released on April 27, 2006.
+	* Updated to "Retrotranslator":http://retrotranslator.sourceforge.net/ version "1.0.7":http://sourceforge.net/project/showfiles.php?group_id=153566&package_id=170323&release_id=429628, released on July 4, 2006.
+
+h5. Fixed
+
+	* The Ant build script now runs the tutorial tests for both the current JRE and JRE 1.4. They fell through so far because their class names do not end in @Test@ for easier citability.
+	* As a consequence of the above, I have fixed the automatic type conversions so that they run on JRE 1.4 (which lacks, for instance, @static Byte valueOf(byte)@ in class @Byte@).
+	* Also as a consequence of the above, unscaled @BigDecimal@ division is no longer supported on JRE 1.4.
+	* Give a clearer error message when an outer cell references an inner cell of a section without aggregating it.
+
+
+h2. Release 0.6.1
+
+h5. Better
+
+	* The "sample spreadsheets in the documentation":tutorial/basics.htm are now cited from the real spreadsheet files used in the automated tests (using "JCite":http://arrenbrecht.ch/jcite/ again). This ensures their correctness and improves the formatting.
+	* The function @MATCH@ is supported again. However, the last argument (the match type) must be constant, and the second argument (the match range) cannot reference a repeating section yet.
+	* The function @INDEX@ is now supported for one- and two-dimensional lookup. However, the range argument cannot reference a repeating section yet.
+
+
+h2. Release 0.6.0
+
+h5. Changed
+
+	* In @ComputationFactory@, renamed @newInstance()@ to @newComputation()@.
+
+h5. New
+
+	* Implemented input-only "repeating sections":tutorial/repeatingsections.htm. @AND@ and @OR@ are not yet supported as aggregators on them, though.
+	* Implemented support for Excel functions @TODAY()@ and @COUNT()@. (Although @COUNT@ does not yet handle empty cells properly - this is because SEJ generally does not.)
+
+h5. Better
+
+	* Documented, tested and completed the handling of the full set of allowed "input method parameters":tutorial/bindbyname.htm.
+	* Refactored the binding tutorial into more separate pages.
+	* Added support for defining and referencing ranges to the "@SpreadsheetBuilder@":javadoc/sej/SpreadsheetBuilder.html.
+
+h5. Fixed
+
+	* Added some missing @switch@ @break@ statements discovered by Eclipse's new check (should not ever trigger anyway, but still...)
+	* Unbound output parameter combinations now throw @IllegalArgumentException@ when there is now default implementation of the output method.
+
+
+h2. Release 0.5.4
+
+h5. New
+
+	* "Parametrized output methods":tutorial/binding.htm#BindByName are supported now. The interactive demo thus runs again, but does not yet look good because there are some info methods missing on the spreadsheet interface.
+
+h5. Better
+
+	* The examples for "basic cell binding":tutorial/binding.htm#BindCells and "parametrized binding":tutorial/binding.htm#BindByName are now cited from automated tests.
+
+
+h2. Release 0.5.3
+
+h5. Better
+
+	* SEJ now ships the new @sej-<ver>-srcjar.zip@, containing @sej-src.jar@ and @sej-doc.jar@ which contain, respectively, the entire source code and documentation for SEJ. Not included are the examples and test cases. These two .jar files make attaching source and docs in modern IDEs very easy.
+	* Clarified behaviour differences between Excel and SEJ with respect to @null@ input values. See "tutorial on type conversions":tutorial/type_conversion.htm.
+	* Implemented @AND@, @OR@, @NOT@, and comparisons outside of the test of an @IF@.
+
+h5. Fixed
+
+	* Fixed parsing of cell/range names containing dots (@.@) in the R1C1-style parser. Added unit test for parsing names (only had a system test before which did not test the R1C1 parser).
+
+
+h2. Release 0.5.2
+
+h5. Fixed
+
+	* SEJ should now accept all valid cell and range names according to Excel's online help. In particular, Excel names may now contain dots (@.@) and do no longer have to start with an underscore or at least two alphabetic characters.
+
+
+h2. Release 0.5.1
+
+h5. Better
+
+	* Type conversion is now "documented":tutorial/type_conversion.htm.
+	* All exceptions are now called @...Exception@, not @...Error@.
+	* Can call static input methods.
+
+h5. Fixed
+
+	* Removed the superfluous @Engine*.jar@ files from the binary distribution.
+	* Can use non-static local classes as inputs again.
+
+
+h2. <a name="0.5.0">Release 0.5.0</a>
+
+h5. New
+
+	* The new "@EngineBuilder@":javadoc/sej/EngineBuilder.html supports the "most typical use-case":tutorial/basics.htm out of the box. The @SpreadsheetByNameBinder@ and @SpreadsheetNameCreator@ give more fine-grained control over this. This use-case is used to provide the motivation for using SEJ in the tutorial.
+	
+	* Separated the concept of a computation engine (collection of computation classes) from the concept of a computation factory. "Engine":javadoc/sej/runtime/Engine.html is now the thing being loaded and "saved":javadoc/sej/SaveableEngine.html. "Factory":javadoc/sej/runtime/ComputationFactory.html creates now computation instances. The factory can be forced to implement an application-specific interface or base class, which makes SEJ even more non-intrusive on application code (see use-case above).
+	
+	* SEJ now converts between its internal numeric type and basically all numeric Java types in the input and output method result types. To support this, scaled @long@ values in the interface must now be "annotated with @@ScaledLong@":tutorial/numeric_type.htm#long. (While already tested fairly rigorously, the full documentation for this feature is still missing.)
+	
+	* Saved engines are now normal .jar files, which can be inspected like any other .jar file. The generated classes are normal .class entries in the .jar file.
+	
+	* The new "@SpreadsheetBuilder@":javadoc/sej/SpreadsheetBuilder.html supports "constructing spreadsheets in memory":tutorial/buildsheet.htm.
+
+h5. Better
+
+	* I have reorganized the packages. Everything internal is now in @sej.internal@. Everything need for the loading and running of compiled engines is in "@sej.runtime@":javadoc/sej/runtime/package-summary.html, @sej.internal.runtime@, and @sej.internal.bytecode.runtime@. The compile-time public API is in "@sej@":javadoc/sej/package-summary.html.
+	
+	* I have rigorously trimmed the API again. Every non-trivial entity is now represented by an interface in the API, not a class. The central class "@sej.SEJ@":javadoc/sej/SEJ.html provides factory methods for all of these.
+	
+	* The fairly monolithic low-level interface @sej.Compiler@ has been broken up to reflect the processing chain: "@sej.Spreadsheet@":javadoc/sej/Spreadsheet.html, "@sej.SpreadsheetBinder@":javadoc/sej/SpreadsheetBinder.html, "@sej.SpreadsheetBinding@":javadoc/sej/SpreadsheetBinding.html, "@sej.SpreadsheetCompiler@":javadoc/sej/SpreadsheetCompiler.html. Most of these components have a consistent instantiation protocol with a factory method in @sej.SEJ@ and a configuration class called @XY.Config@ which supplies parameters to new instances. This is in preparation of being able to expose the internal computation model as a lightweight alternative to the spreadsheet model.
+
+	* New base error class, @sej.runtime.SEJError@, from which all others are derived. Better separation of errors into @sej.SpreadsheetError@, @sej.CompilerError@, and @sej.runtime.EngineError@.
+
+
+h2. Release 0.4.2
+
+
+h5. New
+
+	* You can now generate engines that support "internal caching":tutorial/caching.htm of inputs, outputs and multiply referenced intermediate values.
+
+h5. Better
+
+	* The @BigDecimal@ numeric type now generates vastly more efficient constant values. They are preconstructed in @private static final BigDecimal@ fields, using @BigDecimal.valueOf( long, int )@ wherever possible.
+
+
+h2. Release 0.4.1
+
+h5. New
+
+	* Implemented "scaled @long@ support":tutorial/numeric_type.htm#long.
+
+h5. Better
+
+	* @sej.NumericType@ now has support routines for value conversions.
+	* @sej.runtime@ is a new package holding the runtime support classes. They used to be in @sej.engine@.
+	* Added automated tests for serialization and deserialization of engines, as well as the use of the runtime-only jar for deserialization.
+
+
+h2. Release 0.4.0
+
+h5. New
+
+	* Implemented "@BigDecimal@ support":tutorial/numeric_type.htm#BigDecimal.
+
+h5. Better
+
+	* Removed ASM dependency from the base @Operator@ class.
+	* Removed general expression interpreter support. Introduced special constant folder support instead (much faster).
+
+h5. Fixed
+
+	* Exponentiation (@A1^A2@) and taking a percentage (@A1%@) now work when applied to input cells. Added this to the test suite.
+
+
+h2. Release 0.3.2
+
+h5. Better
+
+	* SEJ ships with two new .jars, @sej-jre1.4.jar@ and @sej-runtime-jre1.4.jar@, which have been converted from Java 5 to Java 1.4 by "Retrotranslator":http://retrotranslator.sourceforge.net/. Use these .jars if you plan to deploy SEJ on the JRE 1.4. All unit tests are now run automatically using both the JDK 1.5 and a JRE 1.4 during builds to ensure compatibility.
+	* I dropped @Engine.Computation@. You no longer have to subclass this thing when defining an output type. As a consequence, you can now define an output as an interface instead of a class.
+	* I moved the @saveTo()@ functionality from @EngineFactory@ to @Compiler@. That way, compiled engines don't need the interface to the compiler, making @sej-runtime.jar@ a little smaller still.
+	* SEJ accepts @boolean@ input values and can return both @boolean@ and @Date@ values.
+	* Moved all test and sample data to folders named @org/formulacompiler@ for better compatibility with the source layout at Abacus.
+
+h5. Fixed
+
+	* I fixed the contents of the distribution packages so the documentation style-sheets are included.
+	* The run-time .jar now works (that is, contains all the required stuff).
+
+
+h2. Release 0.3.1
+
+This minor release changes the name @Compiler.NameSpace@ to @Compiler.Section@. Since we are no longer binding by name, the term _NameSpace_ is no longer appropriate.
+
+In addition @Compiler.getRootNameSpace()@ has been shortened to @Compiler.getRoot()@.
+
+
+h2. Release 0.3.0
+
+This is the first release with the new API based on "binding cells to native types":tutorial/binding.htm. The interpreter has been dropped and replaced by a byte code compiler producing very fast code.

@@ -1,0 +1,512 @@
+# HG changeset patch
+# User peter.arrenbrecht@gmail.com
+# Date 1188307004 -7200
+# Node ID 9581d6a4da2f6485b03471950f17dfcf0d62d82e
+# Parent  2cd5ce0799384cd8db8c032b62ebaad8255a0a18
+Fix parsing of MIRR, IRR, ATAN2, SYD, DB, COVAR.
+
+diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
+--- a/src/jxl/biff/formula/Function.java
++++ b/src/jxl/biff/formula/Function.java
+@@ -293,8 +293,10 @@ final class Function
+     new Function(0x3b, "pmt", 0xff);
+   public static final Function RATE =
+     new Function(0x3c, "rate", 0xff);
+-  //public static final Function MIRR =  new Function(0x3d, "MIRR",);
+-  //public static final Function IRR =  new Function(0x3e, "IRR",);
++  public static final Function MIRR =
++    new Function(0x3d, "mirr", 3);
++  public static final Function IRR =
++    new Function(0x3e, "irr", 2);
+   public static final Function RAND =
+     new Function(0x3f, "rand", 0);
+   public static final Function MATCH =
+@@ -349,7 +351,7 @@ final class Function
+   //public static final Function SELECTION =  new Function(0x5f,"SELECTION",);
+   //public static final Function RESULT =  new Function(0x60, "RESULT",);
+   public static final Function ATAN2  =
+-    new Function(0x61, "atan2", 1);
++    new Function(0x61, "atan2", 2);
+   public static final Function ASIN =
+     new Function(0x62, "asin", 1);
+   public static final Function ACOS =
+@@ -425,7 +427,7 @@ final class Function
+   public static final Function SLN =
+     new Function(0x8e, "sln", 3);
+   public static final Function SYD =
+-    new Function(0x8f, "syd", 3);
++    new Function(0x8f, "syd", 4);
+   public static final Function DDB =
+     new Function(0x90, "ddb", 0xff);
+   //public static final Function GETDEF =  new Function(0x91, "GETDEF",);
+@@ -545,6 +547,8 @@ final class Function
+     new Function(0xea, "atanh", 1);
+   public static final Function INFO =
+     new Function(0xf4, "info", 1);
++  public static final Function DB =
++    new Function(0xf7, "db", 0xff);
+   public static final Function AVEDEV =
+     new Function(0x10d, "avedev", 0XFF);
+   public static final Function BETADIST =
+@@ -624,7 +628,7 @@ final class Function
+   public static final Function CORREL =
+     new Function(0x133, "correl", 0xff);
+   public static final Function COVAR =
+-    new Function(0x134, "covar", 0xff);
++    new Function(0x134, "covar", 2);
+   public static final Function FORECAST =
+     new Function(0x135, "forecast", 0xff);
+   public static final Function FTEST =
+# HG changeset patch
+# User peter.arrenbrecht@gmail.com
+# Date 1188307004 -7200
+# Node ID 354eadd4cb31d991d1b0d3559b0f1a99d380dd86
+# Parent  9581d6a4da2f6485b03471950f17dfcf0d62d82e
+Add DateCell.getValue(); returns Excel's internal numeric date value.
+
+diff --git a/src/jxl/DateCell.java b/src/jxl/DateCell.java
+--- a/src/jxl/DateCell.java
++++ b/src/jxl/DateCell.java
+@@ -35,6 +35,13 @@ public interface DateCell extends Cell
+   public Date getDate();
+ 
+   /**
++   * Gets the contents for this cell as a number.
++   *
++   * @return the cell contents
++   */
++  public double getValue();
++
++  /**
+    * Indicates whether the date value contained in this cell refers to a date,
+    * or merely a time
+    *
+diff --git a/src/jxl/read/biff/DateFormulaRecord.java b/src/jxl/read/biff/DateFormulaRecord.java
+--- a/src/jxl/read/biff/DateFormulaRecord.java
++++ b/src/jxl/read/biff/DateFormulaRecord.java
+@@ -130,16 +130,6 @@ class DateFormulaRecord extends DateReco
+   }
+ 
+   /**
+-   * Interface method which returns the value
+-   *
+-   * @return the last calculated value of the formula
+-   */
+-  public double getValue()
+-  {
+-    return 0;
+-  }
+-
+-  /**
+    * Dummy implementation in order to adhere to the NumberCell interface
+    *
+    * @return NULL
+diff --git a/src/jxl/read/biff/DateRecord.java b/src/jxl/read/biff/DateRecord.java
+--- a/src/jxl/read/biff/DateRecord.java
++++ b/src/jxl/read/biff/DateRecord.java
+@@ -45,6 +45,10 @@ class DateRecord implements DateCell, Ce
+   private static Logger logger  = Logger.getLogger(DateRecord.class);
+ 
+   /**
++   * The excel value of the date
++   */
++  private double value;
++  /**
+    * The date represented within this cell
+    */
+   private Date date;
+@@ -143,6 +147,7 @@ class DateRecord implements DateCell, Ce
+   {
+     row = num.getRow();
+     column = num.getColumn();
++    value = num.getValue();
+     xfIndex = xfi;
+     formattingRecords = fr;
+     sheet = si;
+@@ -226,6 +231,16 @@ class DateRecord implements DateCell, Ce
+   }
+ 
+   /**
++   * Gets the contents for this cell as a number
++   *
++   * @return the cell contents
++   */
++  public double getValue()
++  {
++    return value;
++  }
++
++  /**
+    * Gets the cell contents as a string.  This method will use the java
+    * equivalent of the excel formatting string
+    *
+diff --git a/src/jxl/write/biff/DateRecord.java b/src/jxl/write/biff/DateRecord.java
+--- a/src/jxl/write/biff/DateRecord.java
++++ b/src/jxl/write/biff/DateRecord.java
+@@ -36,7 +36,7 @@ import jxl.write.WritableCellFormat;
+ /**
+  * A date stored in the database
+  */
+-public abstract class DateRecord extends CellValue
++public abstract class DateRecord extends CellValue implements DateCell
+ {
+   /**
+    * The logger
+@@ -314,6 +314,16 @@ public abstract class DateRecord extends
+   }
+ 
+   /**
++   * Gets the contents for this cell as a number
++   *
++   * @return the cell contents
++   */
++  public double getValue()
++  {
++    return value;
++  }
++
++  /**
+    * Indicates whether the date value contained in this cell refers to a date,
+    * or merely a time.  When writing a cell, all dates are fully defined,
+    * even if they refer to a time
+diff --git a/src/jxl/write/biff/ReadDateFormulaRecord.java b/src/jxl/write/biff/ReadDateFormulaRecord.java
+--- a/src/jxl/write/biff/ReadDateFormulaRecord.java
++++ b/src/jxl/write/biff/ReadDateFormulaRecord.java
+@@ -52,6 +52,16 @@ class ReadDateFormulaRecord extends Read
+   }
+ 
+   /**
++   * Gets the contents for this cell as a number.
++   *
++   * @return the cell contents
++   */
++  public double getValue()
++  {
++    return ( (DateFormulaCell) getReadFormula()).getValue();
++  }
++
++  /**
+    * Indicates whether the date value contained in this cell refers to a date,
+    * or merely a time
+    *
+# HG changeset patch
+# User Vladimir Korenev <vkorenev@gmail.com>
+# Date 1188384697 -10800
+# Node ID ced1f615e5ce67e6fc3d38fc0f11ab7920a0b61a
+# Parent  354eadd4cb31d991d1b0d3559b0f1a99d380dd86
+Fix parsing of TRIMMEAN function.
+
+diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
+--- a/src/jxl/biff/formula/Function.java
++++ b/src/jxl/biff/formula/Function.java
+@@ -674,7 +674,7 @@ final class Function
+   public static final Function MODE =
+     new Function(0x14a, "mode", 0xff);
+   public static final Function TRIMMEAN =
+-    new Function(0x14b, "trimmean", 0xff);
++    new Function(0x14b, "trimmean", 2);
+   public static final Function TINV =
+     new Function(0x14c, "tinv", 2);
+   public static final Function CONCATENATE =
+# HG changeset patch
+# User peter.arrenbrecht@gmail.com
+# Date 1190988522 -7200
+# Node ID 6b542b4822d1f9246c26beb19f36fd77a09fbc5a
+# Parent  ced1f615e5ce67e6fc3d38fc0f11ab7920a0b61a
+Fix parsing of DVARP, DSTDEVP, and DCOUNTA functions.
+
+diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
+--- a/src/jxl/biff/formula/Function.java
++++ b/src/jxl/biff/formula/Function.java
+@@ -492,15 +492,15 @@ final class Function
+   public static final Function VARP =
+     new Function(0xc2, "varp", 0xff);
+   public static final Function DSTDEVP =
+-    new Function(0xc3, "dstdevp", 0xff);
++    new Function(0xc3, "dstdevp", 3);
+   public static final Function DVARP =
+-    new Function(0xc4, "dvarp", 0xff);
++    new Function(0xc4, "dvarp", 3);
+   public static final Function TRUNC =
+     new Function(0xc5, "trunc", 0xff);
+   public static final Function ISLOGICAL =
+     new Function(0xc6, "islogical", 1);
+   public static final Function DCOUNTA =
+-    new Function(0xc7, "dcounta", 0xff);
++    new Function(0xc7, "dcounta", 3);
+   public static final Function FINDB =
+     new Function(0xcd, "findb", 0xff);
+   public static final Function SEARCHB =
+# HG changeset patch
+# User peter.arrenbrecht@gmail.com
+# Date 1192522290 -7200
+# Node ID 26482ddb1462a602030c29edb0a4be738c0e896a
+# Parent  6b542b4822d1f9246c26beb19f36fd77a09fbc5a
+Remove unused local var.
+
+diff --git a/src/jxl/read/biff/NameRecord.java b/src/jxl/read/biff/NameRecord.java
+--- a/src/jxl/read/biff/NameRecord.java
++++ b/src/jxl/read/biff/NameRecord.java
+@@ -422,7 +422,6 @@ public class NameRecord extends RecordDa
+       else if (data[pos] == subExpression)
+       {
+         int sheet1 = 0;
+-        int sheet2 = 0;
+         int r1 = 0;
+         int c1 = 0;
+         int r2 = 0;
+# HG changeset patch
+# User peter.arrenbrecht@gmail.com
+# Date 1192522290 -7200
+# Node ID c2b97358855b48929448c6b12678bbabe05cf827
+# Parent  26482ddb1462a602030c29edb0a4be738c0e896a
+Fix parsing of builtin range names as ordinary ranges.
+
+diff --git a/src/jxl/read/biff/NameRecord.java b/src/jxl/read/biff/NameRecord.java
+--- a/src/jxl/read/biff/NameRecord.java
++++ b/src/jxl/read/biff/NameRecord.java
+@@ -487,17 +487,27 @@ public class NameRecord extends RecordDa
+   /**
+    * Gets the name
+    *
+-   * @return the strings
++   * @return the name, never {@code null}
+    */
+   public String getName()
+   {
++    return (null != name)? name : builtInName.getName();
++  }
++
++  /**
++   * Gets the custom name
++   *
++   * @return the custom name, or {@code null} if the name is built-in
++   */
++  public String getCustomName()
++  {
+     return name;
+   }
+ 
+   /**
+    * Gets the built in name
+    *
+-   * @return the built in name
++   * @return the built in name, or {@code null} if the name is not built-in
+    */
+   public BuiltInName getBuiltInName()
+   {
+diff --git a/src/jxl/read/biff/WorkbookParser.java b/src/jxl/read/biff/WorkbookParser.java
+--- a/src/jxl/read/biff/WorkbookParser.java
++++ b/src/jxl/read/biff/WorkbookParser.java
+@@ -1129,7 +1129,7 @@ public class WorkbookParser extends Work
+   {
+     NameRecord nr = (NameRecord) namedRecords.get(name);
+ 
+-    return nr != null ? nr.getIndex() : 0;
++    return nr != null ? nr.getIndex() : -1;
+   }
+ 
+   /**
+diff --git a/src/jxl/write/biff/NameRecord.java b/src/jxl/write/biff/NameRecord.java
+--- a/src/jxl/write/biff/NameRecord.java
++++ b/src/jxl/write/biff/NameRecord.java
+@@ -164,7 +164,8 @@ class NameRecord extends WritableRecordD
+     super(Type.NAME);
+ 
+     data = sr.getData();
+-    name = sr.getName();
++    name = sr.getCustomName();
++    builtInName = sr.getBuiltInName();
+     sheetRef = sr.getSheetRef();
+     index = ind;
+     modified = false;
+@@ -417,7 +418,7 @@ class NameRecord extends WritableRecordD
+    */
+   public String getName()
+   {
+-    return name;
++    return (null != name)? name : builtInName.getName();
+   }
+ 
+   /**
+# HG changeset patch
+# User Borys Samsonov <borys.samsonov@teamdev.com>
+# Date 1191414122 -10800
+# Node ID e6b7a7b774eb6bf0899ef52a59fc74232e3d1be8
+# Parent  c2b97358855b48929448c6b12678bbabe05cf827
+Add ROMAN() function.
+
+diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
+--- a/src/jxl/biff/formula/Function.java
++++ b/src/jxl/biff/formula/Function.java
+@@ -693,6 +693,8 @@ final class Function
+     new Function(0x15a, "countif", 2);
+   public static final Function COUNTBLANK =
+     new Function(0x15b, "countblank", 1);
++  public static final Function ROMAN =
++    new Function(0x162, "roman", 0xff);
+   public static final Function HYPERLINK =
+     new Function(0x167, "hyperlink", 2);
+   public static final Function AVERAGEA =
+# HG changeset patch
+# User Borys Samsonov <borys.samsonov@teamdev.com>
+# Date 1192722672 -10800
+# Node ID 1f2db4262fb12b429f7e75e278822ceb949e0d68
+# Parent  e6b7a7b774eb6bf0899ef52a59fc74232e3d1be8
+Fix parsing of CHITEST, FTEST, PEARSON, RSQ, and TTEST.
+
+diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
+--- a/src/jxl/biff/formula/Function.java
++++ b/src/jxl/biff/formula/Function.java
+@@ -624,7 +624,7 @@ final class Function
+   public static final Function SUMX2PY2 =
+     new Function(305, "sumx2py2", 0xff);
+   public static final Function CHITEST =
+-    new Function(0x132, "chitest", 0xff);
++    new Function(0x132, "chitest", 2);
+   public static final Function CORREL =
+     new Function(0x133, "correl", 0xff);
+   public static final Function COVAR =
+@@ -632,19 +632,19 @@ final class Function
+   public static final Function FORECAST =
+     new Function(0x135, "forecast", 0xff);
+   public static final Function FTEST =
+-    new Function(0x136, "ftest", 0xff);
++    new Function(0x136, "ftest", 2);
+   public static final Function INTERCEPT =
+     new Function(0x137, "intercept", 0xff);
+   public static final Function PEARSON =
+-    new Function(0x138, "pearson", 0xff);
++    new Function(0x138, "pearson", 2);
+   public static final Function RSQ =
+-    new Function(0x139, "rsq", 0xff);
++    new Function(0x139, "rsq", 2);
+   public static final Function STEYX =
+     new Function(0x13a, "steyx", 0xff);
+   public static final Function SLOPE =
+     new Function(0x13b, "slope", 2);
+   public static final Function TTEST =
+-    new Function(0x13c, "ttest", 0xff);
++    new Function(0x13c, "ttest", 4);
+   public static final Function PROB =
+     new Function(0x13d, "prob", 0xff);
+   public static final Function DEVSQ =
+# HG changeset patch
+# User Vladimir Korenev <vkorenev@gmail.com>
+# Date 1196864502 -7200
+# Node ID f5cacfdbabaa4d739a6b4fd4ef8d7760cfd7c853
+# Parent  1f2db4262fb12b429f7e75e278822ceb949e0d68
+Fix parsing of: SUMX2MY2, SUMX2PY2, SUMXMY2, CORREL, FORECAST, INTERCEPT, STEYX, LARGE, SMALL, QUARTILE and PERCENTILE
+
+diff --git a/resources/functions.properties b/resources/functions.properties
+--- a/resources/functions.properties
++++ b/resources/functions.properties
+@@ -242,7 +242,7 @@ stdev=STDEV
+ stdev=STDEV
+ stdeva=STDDEVA
+ stdevp=STDEVP
+-stdevpa=STDDEVPA
++stdevpa=STDEVPA
+ step=STEP
+ steyx=STEYX
+ substitute=SUBSTITUTE
+diff --git a/resources/functions_en.properties b/resources/functions_en.properties
+--- a/resources/functions_en.properties
++++ b/resources/functions_en.properties
+@@ -242,7 +242,7 @@ stdev=STDEV
+ stdev=STDEV
+ stdeva=STDDEVA
+ stdevp=STDEVP
+-stdevpa=STDDEVPA
++stdevpa=STDEVPA
+ step=STEP
+ steyx=STEYX
+ substitute=SUBSTITUTE
+diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
+--- a/src/jxl/biff/formula/Function.java
++++ b/src/jxl/biff/formula/Function.java
+@@ -618,29 +618,29 @@ final class Function
+   public static final Function WEIBULL =
+     new Function(0x12e, "weibull", 4);
+   public static final Function SUMXMY2 =
+-    new Function(303, "sumxmy2", 0xff);
++    new Function(303, "sumxmy2", 2);
+   public static final Function SUMX2MY2 =
+-    new Function(304, "sumx2my2", 0xff);
++    new Function(304, "sumx2my2", 2);
+   public static final Function SUMX2PY2 =
+-    new Function(305, "sumx2py2", 0xff);
++    new Function(305, "sumx2py2", 2);
+   public static final Function CHITEST =
+     new Function(0x132, "chitest", 2);
+   public static final Function CORREL =
+-    new Function(0x133, "correl", 0xff);
++    new Function(0x133, "correl", 2);
+   public static final Function COVAR =
+     new Function(0x134, "covar", 2);
+   public static final Function FORECAST =
+-    new Function(0x135, "forecast", 0xff);
++    new Function(0x135, "forecast", 3);
+   public static final Function FTEST =
+     new Function(0x136, "ftest", 2);
+   public static final Function INTERCEPT =
+-    new Function(0x137, "intercept", 0xff);
++    new Function(0x137, "intercept", 2);
+   public static final Function PEARSON =
+     new Function(0x138, "pearson", 2);
+   public static final Function RSQ =
+     new Function(0x139, "rsq", 2);
+   public static final Function STEYX =
+-    new Function(0x13a, "steyx", 0xff);
++    new Function(0x13a, "steyx", 2);
+   public static final Function SLOPE =
+     new Function(0x13b, "slope", 2);
+   public static final Function TTEST =
+@@ -662,13 +662,13 @@ final class Function
+   public static final Function ZTEST =
+     new Function(0x144, "ztest", 0xff);
+   public static final Function LARGE =
+-    new Function(0x145, "large", 0xff);
++    new Function(0x145, "large", 2);
+   public static final Function SMALL =
+-    new Function(0x146, "small", 0xff);
++    new Function(0x146, "small", 2);
+   public static final Function QUARTILE =
+-    new Function(0x147, "quartile", 0xff);
++    new Function(0x147, "quartile", 2);
+   public static final Function PERCENTILE =
+-    new Function(0x148, "percentile", 0xff);
++    new Function(0x148, "percentile", 2);
+   public static final Function PERCENTRANK =
+     new Function(0x149, "percentrank", 0xff);
+   public static final Function MODE =
+# HG changeset patch
+# User Vladimir Korenev <vkorenev@gmail.com>
+# Date 1196864502 -7200
+# Node ID 1f1a0dc12e656effdca4648699f5cc2d203d7317
+# Parent  f5cacfdbabaa4d739a6b4fd4ef8d7760cfd7c853
+Fix parsing of ERROR.TYPE function.
+
+diff --git a/resources/functions.properties b/resources/functions.properties
+--- a/resources/functions.properties
++++ b/resources/functions.properties
+@@ -74,6 +74,7 @@ dvarp=DVARP
+ dvarp=DVARP
+ echo=ECHO
+ error=ERROR
++error.type=ERROR.TYPE
+ evaluate=EVALUATE
+ even=EVEN
+ exact=EXACT
+diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
+--- a/src/jxl/biff/formula/Function.java
++++ b/src/jxl/biff/formula/Function.java
+@@ -549,6 +549,8 @@ final class Function
+     new Function(0xf4, "info", 1);
+   public static final Function DB =
+     new Function(0xf7, "db", 0xff);
++  public static final Function ERROR_TYPE =
++    new Function(0x105, "error.type", 1);
+   public static final Function AVEDEV =
+     new Function(0x10d, "avedev", 0XFF);
+   public static final Function BETADIST =

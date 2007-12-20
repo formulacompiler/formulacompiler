@@ -1,0 +1,18 @@
+
+h1. Sample Applications
+
+AFC comes with a few sample applications that complement the "tutorial":-tut. All examples are located in either of
+
+	/path/to/afc/components/system/src/examples/
+	/path/to/afc/components/system/src/test/
+
+The latter are also equipped with JUnit tests.
+
+
+dt. @org.formulacompiler.examples.BasicUsageDemo@ : A super trivial example of how to load and compile an Excel sheet, and how to use the resulting computation engine.
+
+dt. @org.formulacompiler.examples.EngineSerializationDemo@ : Same as the trivial example, but saves and then reloads the compiled engine before using it. The reload and compute step could be run with only the minimal @formulacompiler-runtime.jar@, showing the part of an app that only uses precompiled engines.
+
+dt. @org.formulacompiler.examples.interactive.InteractiveDemo@ : A prototype Swing application in which you can load a spreadsheet, define inputs and outputs, and then compile and run an engine.
+
+dt. "@sej.examples.xmlproc.XmlProc@":xmlproc.htm : A batch application that reads an input XML file with data, an spreadsheet file with an engine definition, and writes out another XML file with data computed from the input data using the spreadsheet.
