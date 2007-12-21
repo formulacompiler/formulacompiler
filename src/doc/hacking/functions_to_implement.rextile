@@ -1,71 +1,13 @@
 
 h1. Spreadsheet Functions To Implement
 
-This document is based mainly on the requirements set forth in the "OpenDocument OpenFormula specification":-ofspec. The first goal is to achieve reasonable compatibility with the "Small" group of functionality, then "Medium". _Reasonable_ here means where other important goals of AFC do not conflict with the demands of the spec. An example is nulls and error values, which conflict with AFC's goal to compile to primitive types.
+This document is based mainly on the requirements set forth in the "OpenDocument OpenFormula specification":-ofspec as of November 2007. The first goal is to achieve reasonable compatibility with the "Small" group of functionality, then "Medium". _Reasonable_ here means where other important goals of AFC do not conflict with the demands of the spec. An example is nulls, which conflict with AFC's goal to compile to primitive types.
 
-Another source is the set of functions implemented in "Jedox's Worksheet Server":-jedox. It adds little to the "Medium" group, so I suggest we aim first for "Medium" and then for the Jedox set.
+Another source is the set of functions implemented in "Jedox's Worksheet Server":-jedox (also  as of November 2007). It adds little to the "Medium" group, so I suggest we aim first for "Medium" and then for the Jedox set.
+
+Finally, we have for the moment decided to not support function from the Excel Analysis ToolPak (mainly because parsing them is also not supported by "JExcelAPI":-jxl).
 
 <%= toc 2, 4 %>
-
-
-h2. Work Packages
-
-h3. Towards "Small"
-
-First, here's a list of stuff that should be easy to implement given the "current docs":contributing.htm:
-
-	* Math: @ACOS; ASIN; ATAN; ATAN2; COS; DEGREES; EVEN; EXP; INT; LN; LOG; LOG10; MOD; ODD; PI; POWER; RADIANS; SIN; SQRT; TAN; TRUNC@
-	* Finance: @DB; DDB; FV; NPER; NPV; PMT; PV; RATE; SLN; SYD@
-	* Strings: @PROPER; REPT; TRIM@
-	* Dates: @DATE; DAY; HOUR; MINUTE; MONTH; NOW; SECOND; TIME; WEEKDAY; YEAR@
-	* Conversions: @N; T; VALUE@
-	* Types: @ISNONTEXT; ISNUMBER; ISTEXT@
-	* Aggregators: @COUNTA; STDEV; STDEVP@
-	* Not parsed as functions: @TRUE; FALSE@
-
-Functions which need an approach for handling arrays:
-
-	* Finance: @IRR@
-	
-Functions which need an approach for handling criteria:
-
-	* Aggregators: @COUNTIF; SUMIF@
-	* Database: @DAVERAGE; DCOUNT; DCOUNTA; DGET; DMAX; DMIN; DPRODUCT; DSTDEV; DSTDEVP; DSUM; DVAR; DVARP@
-
-Functions that probably need to be implemented using direct bytecode generation:
-
-	* Lookup: @CHOOSE; COLUMNS; HLOOKUP; ROWS; VLOOKUP@
-
-h3. Towards "Medium"
-
-Again, the easy ones given the "current docs":contributing.htm:
-
-	* Math: @ACOSH; ASINH; ATANH; COSH; CEILING; FLOOR; GCD; GEOMEAN; HARMEAN; ISEVEN; ISODD; MROUND; MULTINOMIAL; PERMUT; QUOTIENT; RAND; RANDBETWEEN; ROUNDDOWN; ROUNDUP; SIGN; SINH; SQRTPI; TANH; SERIESSUM; @ 
-	* String: @CLEAN; @
-	* Date: @DATEDIF; DAYS360; EOMONTH; NETWORKDAYS; WEEKNUM; WORKDAY; YEARFRAC; @
-	* Conversion: @CHAR; CODE; DATEVALUE; DOLLAR; DOLLARDE; DOLLARFR; FIXED; ROMAN; TIMEVALUE; @
-
-These might or might not be easy. I would guess most of them are.
-
-	* Statistics 1: @MEDIAN; AVEDEV; CONFIDENCE; CORREL; COVAR; CRITBINOM; DEVSQ; KURT; LARGE; MODE; PERCENTILE; PERCENTRANK; PROB; QUARTILE; RANK; SKEW; SMALL; STDEVPA; STEYX; SUMPRODUCT; SUMSQ; SUMX2MY2; SUMX2PY2; SUMXMY2; TRIMMEAN; INTERCEPT; SLOPE; FORECAST; VARA; @ 
-	* Statistics 2: @BESSELI; BESSELJ; BESSELK; BESSELY; BETADIST; BETAINV; BINOMDIST; CHIDIST; CHIINV; CHITEST; ERF; ERFC; EXPONDIST; FDIST; FINV; FISHER; FISHERINV; FTEST; GAMMADIST; GAMMAINV; GAMMALN; HYPGEOMDIST; LOGINV; LOGNORMDIST; NEGBINOMDIST; NORMDIST; NORMINV; NORMSDIST; NORMSINV; PEARSON; POISSON; RSQ; STANDARDIZE; TDIST; TINV; TTEST; WEIBULL; ZTEST; @
-	* Finance: @ACCRINT; ACCRINTM; COUPDAYBS; COUPDAYS; COUPDAYSNC; COUPNCD; COUPNUM; COUPPCD; CUMIPMT; CUMPRINC; DISC; DURATION; INTRATE; MDURATION; NOMINAL; ODDFPRICE; ODDFYIELD; ODDLPRICE; ODDLYIELD; PRICE; PRICEMAT; RECEIVED; TBILLEQ; TBILLPRICE; TBILLYIELD; VDB; XIRR; XNPV; YIELD; YIELDDISC; YIELDMAT; @ 
-
-Functions that probably need additional compiler support:
-
-	* @LCM; @
-
-Lookup functions needing bytecode generation:
-
-	* @OFFSET; @
-
-Matrix or array returning functions (not yet supportable):
-
-	* @LINEST; MINVERSE; MMULT; TRANSPOSE; TREND; @ 
-
-Functions that do not make much sense for AFC to support:
-
-	* @ADDRESS; CELL; COLUMN; CONVERT; ROW; SUBTOTAL; TYPE; @
 
 
 h2. "Small" Group
@@ -91,27 +33,20 @@ For an application to claim that it conforms to the "Small" group of functionali
 
 h3. What's missing?
 
-
 h4. Syntax
 
-	* We don't have @DSUM; @ et al. yet, so no criteria.
-	* No namespace selection.
+	* Namespace selection.
 	* Forced recalc (second @=@).
 	* Intersection of row/col labels, @!!@.
 	* Exponential notation, eg. @1.0e-10@.
 	* Omitting the leading @0@ in decimals, as in @.54@.
 	* Duplicate double quote as escape for double quote in the string.
-	* The cell reference notation @[.A1]@.
-	* AFC does not handle errors as special values.
-
 
 h4. Conversions
 
-	* AFC currently does not filter out non-numeric cells from aggregators such as @SUM; @. Nor does it filter booleans.
+	* AFC currently does not filter out non-numeric cells from aggregators such as @SUM@. Nor does it filter booleans.
 	* AFC currently does not treat @'true@ as @TRUE@ and @'false@ as @FALSE@.
 	* AFC, since it does not differentiate boolean types, cannot convert @TRUE@ to @'true@ and @FALSE@ to @'false@.
-	* AFC does not yet have functions taking date or time arguments. So date/time conversion is not applicable and not done yet.
-
 
 h4. Operators
 
@@ -119,20 +54,16 @@ h4. Operators
 	* Infix Reference Intersection (@!@) is missing. Excel syntax is a space.
 	* Union (@~@) is not required for "Small", but implemented with Excel syntax (@,@).
 
-
 h4. Functions
 
-	* Math: @ACOS; ASIN; ATAN; ATAN2; COS; DEGREES; EVEN; EXP; INT; LN; LOG; LOG10; MOD; ODD; PI; POWER; RADIANS; SIN; SQRT; TAN; TRUNC@
-	* Finance: @DB@ (missing in the document?); @DDB; FV; IRR; NPER; NPV; PMT; PV; RATE; SLN; SYD;@
-	* Strings: @PROPER; REPT; TRIM@
-	* Dates: @DATE; DAY; HOUR; MINUTE; MONTH; NOW; SECOND; TIME; WEEKDAY; YEAR@
-	* Conversions: @N; T; VALUE@
-	* Lookup: @CHOOSE; COLUMNS; HLOOKUP; ROWS; VLOOKUP@
-	* Types: @ISBLANK; ISERR; ISERROR; ISLOGICAL; ISNA; ISNONTEXT; ISNUMBER; ISTEXT; NA@
-	* Aggregators: @COUNTA; COUNTBLANK; COUNTIF; STDEV; STDEVP; SUMIF@
-	* Database: @DAVERAGE; DCOUNT; DCOUNTA; DGET; DMAX; DMIN; DPRODUCT; DSTDEV; DSTDEVP; DSUM; DVAR; DVARP@
-	* Not parsed as functions: @TRUE; FALSE@
+	* @TRUE; FALSE@ are implemented, but not yet parsed with trailing @()@.
+	* @<%= read_closest_file "nyi_small.inc" %>@ are not yet implemented.
 
+
+h3. Implementation Notes
+
+The function @COLUMNS; ROWS@ probably need to be implemented using direct bytecode generation.
+	
 
 
 h2. "Medium" Group
@@ -149,14 +80,26 @@ Applications that implement the medium group shall implement the "Infix Operator
 
 </blockquote>
 
+
 h3. What's missing?
 
-Well, practically everything. The only things *already done* are:
+h4. Operators
 
-	* "Reference Union" is done, but parsed using Excel's comma, not @~@.
-	* Named references can have more than one area.
-	* @CONCATENATE@
-	* @LOOKUP@
+	* Union (@~@) is only implemented with Excel syntax (@,@).
+
+h4. Functions
+
+	* @<%= read_closest_file "nyi_medium.inc" %>@ are not yet implemented.
+	* @<%= read_closest_file "nyi_medium_toolpak.inc" %>@ from the Excel Analysis ToolPak are not yet implemented.
+
+
+h3. Implementation Notes
+
+	* @LCM@ probably needs additional compiler support.
+	* @OFFSET@ probably needs direct bytecode generation.
+	* @LINEST; MINVERSE; MMULT; TRANSPOSE; TREND@ are matrix or array returning functions (not yet supportable).
+	* @ADDRESS; CELL; COLUMN; CONVERT; ROW; SUBTOTAL; TYPE@ do not make much sense for AFC to support.
+	
 
 
 h2. "Large" Group
@@ -165,7 +108,7 @@ This is what the "document":-ofspec says about the "Large" group:
 
 <blockquote>
 
-Applications that conform to the "large" group shall conform to the "medium" group, and shall also support the requirements given in these sections on syntax: "Inline Arrays"; "Automatic Intersection" Applications conforming to the large group shall implement the complex number type, as discussed in the section on "Complex Number", and "array formulas".
+Applications that conform to the "large" group shall conform to the "medium" group, and shall also support the requirements given in these sections on syntax: "Inline Arrays"; "Automatic Intersection". Applications conforming to the large group shall implement the complex number type, as discussed in the section on "Complex Number", and "array formulas".
 
 In addition, applications that conform to the large group shall implement the following functions as defined in this specification:
 
@@ -175,16 +118,21 @@ ACOT; ACOTH; AMORDEGRC; AMORLINC; ARABIC; AREAS; ASC; AVERAGEA; B; BAHTTEXT; BAS
 
 h3. What's missing?
 
-Again, practically everything. *Already done* are:
+h4. Syntax
 
-	* "Automatic Intersection"
+	* All except "Automatic Intersection".
+
+h4. Functions
+
+	* @<%= read_closest_file "nyi_large.inc" %>@ are not yet implemented.
+
 
 	
 h2. Jedox Functions
 
 Here's what "Jedox's Worksheet Server":-jedox currently implements:
 
-bq. ABS; 
+ABS; 
 ACOS; 
 AND; 
 ASIN; 
@@ -294,6 +242,7 @@ VLOOKUP;
 WORKDAY; 
 YEAR
 
+
 h3. What does this add to OpenFormula?
 
 h4. "Small"
@@ -304,6 +253,11 @@ h4. "Medium"
 
 CHECKBOX; HYPERLINK; IPMT; ISNUMERIC; ISREF; LIN; PPMT; RMZ; SEARCH; TEXT
 
-h3. What does AFC already support?
 
-CONCATENATE; SEARCH
+h3. What's missing?
+
+h4. Functions
+
+	* @<%= read_closest_file "nyi_jedox.inc" %>@ are not yet implemented.
+	* @<%= read_closest_file "nyi_jedox_toolpak.inc" %>@ from the Excel Analysis ToolPak are not yet implemented.
+
