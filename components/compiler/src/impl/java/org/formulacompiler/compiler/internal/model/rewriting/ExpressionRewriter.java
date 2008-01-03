@@ -176,6 +176,8 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 				return fun( Function.SQRT, rewriteDAgg( _fun, this.generatedRules.fold_varp() ) );
 			case DSTDEV:
 				return fun( Function.SQRT, rewriteDAgg( _fun, this.generatedRules.fold_var() ) );
+			case DGET:
+				return rewriteDAgg( _fun, this.generatedRules.fold_get() );
 
 			case SUMIF:
 				return rewriteAggIf( _fun, this.generatedRules.fold_sum() );

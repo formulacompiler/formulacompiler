@@ -24,7 +24,7 @@ h5. New
 	* @MEDIAN()@, @CORREL()@, @CRITBINOM()@, @LARGE()@, @MODE()@, @PERCENTILE()@, @PERCENTRANK()@, @PROB()@, @QUARTILE()@, @SMALL()@, @STDEVPA()@, @STEYX()@, @SUMX2MY2()@, @SUMX2PY2()@, @SUMXMY2()@, @TRIMMEAN()@,  @INTERCEPT()@, @SLOPE()@, @FORECAST()@ and @VARA()@ are now "supported":reference/statisticalfuncs.htm.
 	* @ACOSH()@, @ASINH()@, @ATANH()@, @SINH()@, @COSH()@, @TANH()@, @GEOMEAN()@, @HARMEAN()@, @PERMUT()@, @RAND()@, and @SIGN()@ are now "supported":reference/numfuncs.htm.
 	* @VDB()@ is now "supported":reference/financialfuncs.htm
-	* @DCOUNTA, DAVERAGE, DVAR/P, DSTDEV/P@ are now "supported":reference/dbaggregators.htm.
+	* @DCOUNTA()@, @DAVERAGE()@, @DVAR/P()@, @DSTDEV/P()@, @DGET()@ are now "supported":reference/dbaggregators.htm.
 	* @CLEAN()@ is now "supported":reference/strings.htm
 	* @ROMAN()@ and @FIXED()@ are now "supported":reference/convfuncs.htm
 	* @VALUE()@ and @DSUM()@ et al. now handle date/time strings.

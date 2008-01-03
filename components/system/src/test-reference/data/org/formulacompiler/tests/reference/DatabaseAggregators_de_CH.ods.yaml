@@ -415,8 +415,38 @@ sheets:
   - cells:
   - cells:
     - null
+    - const: 75.0
+    - expr: =DGET( R[-73]C[-1]:R[-67]C[2], "Profit", R[-65]C[-1]:R[-64]C[1] )
+    - null
+    - null
+    - null
+    - const: "DGET"
+    - const: "DGET"
+  - cells:
+    - null
+    - const: "!NUM:FE"
+    - expr: =DGET( R[-74]C[-1]:R[-68]C[2], "Profit", R[-66]C[-1]:R[-65]C )
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: "#NUM!"
+  - cells:
+    - null
+    - const: "!NUM:FE"
+    - expr: =DGET( R[-75]C[-1]:R[-69]C[2], "Profit", R[-67]C[2]:R[-66]C[2] )
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: "#VALUE!"
+  - cells:
+  - cells:
+    - null
     - const: 381.0
-    - expr: =SUMIF( R[-72]C:R[-67]C, R[-64]C, R[-72]C[2]:R[-67]C[2] )
+    - expr: =SUMIF( R[-76]C:R[-71]C, R[-68]C, R[-76]C[2]:R[-71]C[2] )
     - null
     - null
     - null
@@ -425,20 +455,20 @@ sheets:
   - cells:
     - null
     - const: 56.0
-    - expr: =SUMIF( R[-73]C:R[-68]C, R[-65]C[1] )
+    - expr: =SUMIF( R[-77]C:R[-72]C, R[-69]C[1] )
   - cells:
     - null
     - const: 225.0
-    - expr: =SUMIF( R[-74]C[-1]:R[-69]C[-1], R[-66]C[-1], R[-74]C[2]:R[-69]C[2] )
+    - expr: =SUMIF( R[-78]C[-1]:R[-73]C[-1], R[-70]C[-1], R[-78]C[2]:R[-73]C[2] )
   - cells:
     - null
     - const: 0.0
-    - expr: =SUMIF( R[-75]C[-1]:R[-70]C[-1], R[-67]C[2], R[-75]C[2]:R[-70]C[2] )
+    - expr: =SUMIF( R[-79]C[-1]:R[-74]C[-1], R[-71]C[2], R[-79]C[2]:R[-74]C[2] )
   - cells:
   - cells:
     - null
     - const: 4.0
-    - expr: =COUNTIF( R[-77]C:R[-72]C, R[-69]C )
+    - expr: =COUNTIF( R[-81]C:R[-76]C, R[-73]C )
     - null
     - null
     - null
@@ -447,15 +477,15 @@ sheets:
   - cells:
     - null
     - const: 5.0
-    - expr: =COUNTIF( R[-78]C:R[-73]C, R[-70]C[1] )
+    - expr: =COUNTIF( R[-82]C:R[-77]C, R[-74]C[1] )
   - cells:
     - null
     - const: 3.0
-    - expr: =COUNTIF( R[-79]C[-1]:R[-74]C[-1], R[-71]C[-1] )
+    - expr: =COUNTIF( R[-83]C[-1]:R[-78]C[-1], R[-75]C[-1] )
   - cells:
     - null
     - const: 0.0
-    - expr: =COUNTIF( R[-80]C[-1]:R[-75]C[-1], R[-72]C[2] )
+    - expr: =COUNTIF( R[-84]C[-1]:R[-79]C[-1], R[-76]C[2] )
 
 names:
 - name: BASEDATA
