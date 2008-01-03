@@ -20,6 +20,8 @@
  */
 package org.formulacompiler.tests;
 
+import java.io.File;
+
 import org.formulacompiler.tests.utils.AbstractSpreadsheetDescriptionsTestSuite;
 
 import junit.framework.Test;
@@ -36,6 +38,13 @@ public final class SpreadsheetDescriptionsTestSuite extends AbstractSpreadsheetD
 	protected void addTestsFor( String _ext ) throws Exception
 	{
 		addTestsIn( "src/test/data", _ext, true );
+	}
+
+	@Override
+	protected boolean allow( File _new )
+	{
+		if (_new.getName().startsWith( "Tests_Unsupported" )) return false;
+		return super.allow( _new );
 	}
 
 }
