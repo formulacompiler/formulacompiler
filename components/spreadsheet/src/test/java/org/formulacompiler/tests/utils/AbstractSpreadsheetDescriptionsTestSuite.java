@@ -47,7 +47,12 @@ public abstract class AbstractSpreadsheetDescriptionsTestSuite extends AbstractI
 
 	protected final boolean mustStillAdd( File _new )
 	{
-		return !this.added.contains( _new );
+		return !this.added.contains( _new ) && allow( _new );
+	}
+
+	protected boolean allow( File _new )
+	{
+		return true;
 	}
 
 	protected final void haveAdded( File _new )
