@@ -1,8 +1,8 @@
 # HG changeset patch
 # User peter.arrenbrecht@gmail.com
 # Date 1188307004 -7200
-# Node ID 9581d6a4da2f6485b03471950f17dfcf0d62d82e
-# Parent  2cd5ce0799384cd8db8c032b62ebaad8255a0a18
+# Node ID 8907c6f911764057bddef7d269a618f22111f1c1
+# Parent  53fa976136fce187cbc110df8da98dff277083ad
 Fix parsing of MIRR, IRR, ATAN2, SYD, DB, COVAR.
 
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
@@ -60,8 +60,8 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
 # HG changeset patch
 # User peter.arrenbrecht@gmail.com
 # Date 1188307004 -7200
-# Node ID 354eadd4cb31d991d1b0d3559b0f1a99d380dd86
-# Parent  9581d6a4da2f6485b03471950f17dfcf0d62d82e
+# Node ID 330a1a40b06ee7f04be2d4e8360bdaf03ab68d98
+# Parent  8907c6f911764057bddef7d269a618f22111f1c1
 Add DateCell.getValue(); returns Excel's internal numeric date value.
 
 diff --git a/src/jxl/DateCell.java b/src/jxl/DateCell.java
@@ -104,17 +104,17 @@ diff --git a/src/jxl/read/biff/DateFormulaRecord.java b/src/jxl/read/biff/DateFo
 diff --git a/src/jxl/read/biff/DateRecord.java b/src/jxl/read/biff/DateRecord.java
 --- a/src/jxl/read/biff/DateRecord.java
 +++ b/src/jxl/read/biff/DateRecord.java
-@@ -45,6 +45,10 @@ class DateRecord implements DateCell, Ce
+@@ -44,6 +44,10 @@ class DateRecord implements DateCell, Ce
+    */
    private static Logger logger  = Logger.getLogger(DateRecord.class);
  
-   /**
++  /**
 +   * The excel value of the date
 +   */
 +  private double value;
-+  /**
+   /**
     * The date represented within this cell
     */
-   private Date date;
 @@ -143,6 +147,7 @@ class DateRecord implements DateCell, Ce
    {
      row = num.getRow();
@@ -123,10 +123,13 @@ diff --git a/src/jxl/read/biff/DateRecord.java b/src/jxl/read/biff/DateRecord.ja
      xfIndex = xfi;
      formattingRecords = fr;
      sheet = si;
-@@ -226,6 +231,16 @@ class DateRecord implements DateCell, Ce
-   }
- 
-   /**
+@@ -223,6 +228,16 @@ class DateRecord implements DateCell, Ce
+   public Date getDate()
+   {
+     return date;
++  }
++
++  /**
 +   * Gets the contents for this cell as a number
 +   *
 +   * @return the cell contents
@@ -134,12 +137,9 @@ diff --git a/src/jxl/read/biff/DateRecord.java b/src/jxl/read/biff/DateRecord.ja
 +  public double getValue()
 +  {
 +    return value;
-+  }
-+
-+  /**
-    * Gets the cell contents as a string.  This method will use the java
-    * equivalent of the excel formatting string
-    *
+   }
+ 
+   /**
 diff --git a/src/jxl/write/biff/DateRecord.java b/src/jxl/write/biff/DateRecord.java
 --- a/src/jxl/write/biff/DateRecord.java
 +++ b/src/jxl/write/biff/DateRecord.java
@@ -192,8 +192,8 @@ diff --git a/src/jxl/write/biff/ReadDateFormulaRecord.java b/src/jxl/write/biff/
 # HG changeset patch
 # User Vladimir Korenev <vkorenev@gmail.com>
 # Date 1188384697 -10800
-# Node ID ced1f615e5ce67e6fc3d38fc0f11ab7920a0b61a
-# Parent  354eadd4cb31d991d1b0d3559b0f1a99d380dd86
+# Node ID addb492a2ad5719c127deae83dcceaf10f0322ea
+# Parent  330a1a40b06ee7f04be2d4e8360bdaf03ab68d98
 Fix parsing of TRIMMEAN function.
 
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
@@ -211,8 +211,8 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
 # HG changeset patch
 # User peter.arrenbrecht@gmail.com
 # Date 1190988522 -7200
-# Node ID 6b542b4822d1f9246c26beb19f36fd77a09fbc5a
-# Parent  ced1f615e5ce67e6fc3d38fc0f11ab7920a0b61a
+# Node ID 4c90f416fac1fe8236b89e91ca2af6f99b4f0d70
+# Parent  addb492a2ad5719c127deae83dcceaf10f0322ea
 Fix parsing of DVARP, DSTDEVP, and DCOUNTA functions.
 
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
@@ -240,8 +240,8 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
 # HG changeset patch
 # User peter.arrenbrecht@gmail.com
 # Date 1192522290 -7200
-# Node ID 26482ddb1462a602030c29edb0a4be738c0e896a
-# Parent  6b542b4822d1f9246c26beb19f36fd77a09fbc5a
+# Node ID 66393e4e11936da463da271c64c04bcdad593c08
+# Parent  4c90f416fac1fe8236b89e91ca2af6f99b4f0d70
 Remove unused local var.
 
 diff --git a/src/jxl/read/biff/NameRecord.java b/src/jxl/read/biff/NameRecord.java
@@ -258,14 +258,14 @@ diff --git a/src/jxl/read/biff/NameRecord.java b/src/jxl/read/biff/NameRecord.ja
 # HG changeset patch
 # User peter.arrenbrecht@gmail.com
 # Date 1192522290 -7200
-# Node ID c2b97358855b48929448c6b12678bbabe05cf827
-# Parent  26482ddb1462a602030c29edb0a4be738c0e896a
+# Node ID f4630f566eaffcee2aaae77bf11a0dd2883e95f6
+# Parent  66393e4e11936da463da271c64c04bcdad593c08
 Fix parsing of builtin range names as ordinary ranges.
 
 diff --git a/src/jxl/read/biff/NameRecord.java b/src/jxl/read/biff/NameRecord.java
 --- a/src/jxl/read/biff/NameRecord.java
 +++ b/src/jxl/read/biff/NameRecord.java
-@@ -487,17 +487,27 @@ public class NameRecord extends RecordDa
+@@ -487,9 +487,19 @@ public class NameRecord extends RecordDa
    /**
     * Gets the name
     *
@@ -273,7 +273,7 @@ diff --git a/src/jxl/read/biff/NameRecord.java b/src/jxl/read/biff/NameRecord.ja
 +   * @return the name, never {@code null}
     */
    public String getName()
-   {
++  {
 +    return (null != name)? name : builtInName.getName();
 +  }
 +
@@ -283,10 +283,10 @@ diff --git a/src/jxl/read/biff/NameRecord.java b/src/jxl/read/biff/NameRecord.ja
 +   * @return the custom name, or {@code null} if the name is built-in
 +   */
 +  public String getCustomName()
-+  {
+   {
      return name;
    }
- 
+@@ -497,7 +507,7 @@ public class NameRecord extends RecordDa
    /**
     * Gets the built in name
     *
@@ -332,8 +332,8 @@ diff --git a/src/jxl/write/biff/NameRecord.java b/src/jxl/write/biff/NameRecord.
 # HG changeset patch
 # User Borys Samsonov <borys.samsonov@teamdev.com>
 # Date 1191414122 -10800
-# Node ID e6b7a7b774eb6bf0899ef52a59fc74232e3d1be8
-# Parent  c2b97358855b48929448c6b12678bbabe05cf827
+# Node ID 145fcaa141a67ae2ba076ab506627443f9c65809
+# Parent  f4630f566eaffcee2aaae77bf11a0dd2883e95f6
 Add ROMAN() function.
 
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
@@ -351,8 +351,8 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
 # HG changeset patch
 # User Borys Samsonov <borys.samsonov@teamdev.com>
 # Date 1192722672 -10800
-# Node ID 1f2db4262fb12b429f7e75e278822ceb949e0d68
-# Parent  e6b7a7b774eb6bf0899ef52a59fc74232e3d1be8
+# Node ID 4fd709fd4eed0babe6aef5361d570e49b274b472
+# Parent  145fcaa141a67ae2ba076ab506627443f9c65809
 Fix parsing of CHITEST, FTEST, PEARSON, RSQ, and TTEST.
 
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
@@ -392,10 +392,10 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
      new Function(0x13d, "prob", 0xff);
    public static final Function DEVSQ =
 # HG changeset patch
-# User Vladimir Korenev <vkorenev@gmail.com>
-# Date 1196864502 -7200
-# Node ID f5cacfdbabaa4d739a6b4fd4ef8d7760cfd7c853
-# Parent  1f2db4262fb12b429f7e75e278822ceb949e0d68
+# User Peter Arrenbrecht <peter.arrenbrecht@gmail.com>
+# Date 1199368046 -3600
+# Node ID cf1d9e64b2bdea639881ec56fe5b2cc8506eca36
+# Parent  4fd709fd4eed0babe6aef5361d570e49b274b472
 Fix parsing of: SUMX2MY2, SUMX2PY2, SUMXMY2, CORREL, FORECAST, INTERCEPT, STEYX, LARGE, SMALL, QUARTILE and PERCENTILE
 
 diff --git a/resources/functions.properties b/resources/functions.properties
@@ -481,10 +481,10 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
      new Function(0x149, "percentrank", 0xff);
    public static final Function MODE =
 # HG changeset patch
-# User Vladimir Korenev <vkorenev@gmail.com>
-# Date 1196864502 -7200
-# Node ID 1f1a0dc12e656effdca4648699f5cc2d203d7317
-# Parent  f5cacfdbabaa4d739a6b4fd4ef8d7760cfd7c853
+# User Peter Arrenbrecht <peter.arrenbrecht@gmail.com>
+# Date 1199368046 -3600
+# Node ID 3d1edd8bfc7f3ec2246b0119db1ab7dab191dc91
+# Parent  cf1d9e64b2bdea639881ec56fe5b2cc8506eca36
 Fix parsing of ERROR.TYPE function.
 
 diff --git a/resources/functions.properties b/resources/functions.properties
@@ -510,3 +510,41 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
    public static final Function AVEDEV =
      new Function(0x10d, "avedev", 0XFF);
    public static final Function BETADIST =
+# HG changeset patch
+# User Peter Arrenbrecht <peter.arrenbrecht@gmail.com>
+# Date 1199368046 -3600
+# Node ID 803dfef052be48b8e51edf4b70b6d62ee91d5813
+# Parent  3d1edd8bfc7f3ec2246b0119db1ab7dab191dc91
+fix DAYS360 function
+
+diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
+--- a/src/jxl/biff/formula/Function.java
++++ b/src/jxl/biff/formula/Function.java
+@@ -523,7 +523,7 @@ final class Function
+     new Function(0xd8, "rank", 0xff);
+   public static final Function ADDRESS =
+     new Function(0xdb, "address", 0xff);
+-  public static final Function AYS360 =
++  public static final Function DAYS360 =
+     new Function(0xdc, "days360", 0xff);
+   public static final Function ODAY =
+     new Function(0xdd, "today", 0);
+# HG changeset patch
+# User Peter Arrenbrecht <peter.arrenbrecht@gmail.com>
+# Date 1199367910 -3600
+# Node ID e0c764d3a548e2c3fe065956565150716acaa1fa
+# Parent  803dfef052be48b8e51edf4b70b6d62ee91d5813
+Fix parsing of DGET.
+
+diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
+--- a/src/jxl/biff/formula/Function.java
++++ b/src/jxl/biff/formula/Function.java
+@@ -545,6 +545,8 @@ final class Function
+     new Function(0xe9, "acosh", 1);
+   public static final Function ATANH =
+     new Function(0xea, "atanh", 1);
++  public static final Function DGET =
++	    new Function(0xeb, "dget", 3);
+   public static final Function INFO =
+     new Function(0xf4, "info", 1);
+   public static final Function DB =

@@ -76,6 +76,17 @@ rules {
 	rewrite stdevpa( xs* ) = STDEVP( xs )
 	rewrite stdev( xs* ) = SQRT( VAR( xs ))
 
+	def get =
+		fold with
+			r = 0
+		each xi as
+			r = xi
+		with count n into
+			(if n = 0 then err( "#VALUE! because selection empty in DGET" )
+			else if n > 1 then err( "#NUM! because selection ambiguous in DGET" )
+			else r)
+		end
+
 
 	// -------- Mathematical functions
 

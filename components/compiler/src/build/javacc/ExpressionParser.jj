@@ -583,6 +583,7 @@ void fun(): {}
 	|	"DDB" fun4to5( Function.DDB )
 	|	"DEGREES" fun1( Function.DEGREES )
 	|	"DEVSQ" aggN( Function.DEVSQ )
+	|	"DGET" dbAggN( Function.DGET )
 	|	"DMAX" dbAggN( Function.DMAX )
 	|	"DMIN" dbAggN( Function.DMIN )
 	|	"DPRODUCT" dbAggN( Function.DPRODUCT )
