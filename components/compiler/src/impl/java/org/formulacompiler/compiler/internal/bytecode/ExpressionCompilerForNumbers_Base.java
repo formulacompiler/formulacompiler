@@ -671,12 +671,17 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		final ExpressionCompiler valCompiler = method().expressionCompiler( valNode.getDataType() );
 		final ArrayAccessorCompiler acc = section().getArrayAccessorForFullData( arrayNode );
 
-		// return Runtime.fun_MATCH_xy( val, vals );
+		// return Runtime.fun_MATCH_xy( val, vals [, env] );
+		final boolean needEnv = (valNode.getDataType() == DataType.STRING && type != 0);
+		final String envDescriptor = needEnv? ByteCodeEngineCompiler.ENV_DESC : "";
 		valCompiler.compile( valNode );
 		mv().loadThis();
 		acc.compileCall( mv() );
+		if (needEnv) {
+			compile_environment();
+		}
 		valCompiler.compileRuntimeMethod( "fun_MATCH_" + TYPE_SUFFIXES[ type + 1 ], "("
-				+ acc.elementDescriptor() + acc.arrayDescriptor() + ")I" );
+				+ acc.elementDescriptor() + acc.arrayDescriptor() + envDescriptor + ")I" );
 
 		if (_node.getFunction() != Function.INTERNAL_MATCH_INT) {
 			numCompiler.compileConversionFromInt();

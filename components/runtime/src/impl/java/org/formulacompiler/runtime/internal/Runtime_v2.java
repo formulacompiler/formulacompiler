@@ -22,15 +22,17 @@ package org.formulacompiler.runtime.internal;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.Collator;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
-import java.util.TimeZone;
 import java.util.Random;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,7 +49,7 @@ public abstract class Runtime_v2
 	static final long SECS_PER_DAY = 24 * SECS_PER_HOUR;
 	static final long MS_PER_SEC = 1000;
 	static final long MS_PER_DAY = SECS_PER_DAY * MS_PER_SEC;
-	static final int NON_LEAP_DAY = 61; // LATER Do not use it for OpenDocument 
+	static final int NON_LEAP_DAY = 61; // LATER Do not use it for OpenDocument
 	static final int UTC_OFFSET_DAYS = 25569;
 	static final int UTC_OFFSET_DAYS_1904 = 24107;
 	static final boolean BASED_ON_1904 = false;
@@ -733,6 +735,71 @@ public abstract class Runtime_v2
 			return stringFromBigDecimal( num, _environment, 10, 11 );
 		}
 		throw new IllegalArgumentException( "TEXT() is not properly supported yet." );
+	}
+
+
+	public static int fun_MATCH_Exact( String _x, String[] _xs )
+	{
+		if (_x.indexOf( '*' ) >= 0 || _x.indexOf( '?' ) >= 0) {
+			final Pattern pattern = patternFor( _x.toLowerCase() );
+			for (int i = 0; i < _xs.length; i++) {
+				final Matcher matcher = pattern.matcher( _xs[ i ].toLowerCase() );
+				if (matcher.find()) {
+					return i + 1; // Excel is 1-based
+				}
+			}
+		}
+		else {
+			for (int i = 0; i < _xs.length; i++) {
+				if (0 == _x.compareToIgnoreCase( _xs[ i ] )) return i + 1; // Excel is 1-based
+			}
+		}
+		throw new NotAvailableException();
+	}
+
+	public static int fun_MATCH_Ascending( String _x, String[] _xs, Environment _env )
+	{
+		final Collator c = _env.newCollator();
+		return fun_MATCH_Sorted( _x, _xs, c, new Comparator<String>()
+		{
+
+			public int compare( String _o1, String _o2 )
+			{
+				return c.compare( _o1, _o2 );
+			}
+
+		} );
+	}
+
+	public static int fun_MATCH_Descending( String _x, String[] _xs, Environment _env )
+	{
+		final Collator c = _env.newCollator();
+		return fun_MATCH_Sorted( _x, _xs, c, new Comparator<String>()
+		{
+
+			public int compare( String _o1, String _o2 )
+			{
+				return -c.compare( _o1, _o2 );
+			}
+
+		} );
+	}
+
+	private static int fun_MATCH_Sorted( String _x, String[] _xs, Collator _collator, Comparator<String> _comp )
+	{
+		_collator.setDecomposition( Collator.FULL_DECOMPOSITION );
+		_collator.setStrength( Collator.SECONDARY );
+		final int iLast = _xs.length - 1;
+		int iLeft = 0;
+		int iRight = iLast;
+		while (iLeft < iRight) {
+			final int iMid = iLeft + ((iRight - iLeft) >> 1);
+			if (_comp.compare( _x, _xs[ iMid ] ) > 0) iLeft = iMid + 1;
+			else iRight = iMid;
+		}
+		if (iLeft > iLast || _comp.compare( _x, _xs[ iLeft ] ) < 0) iLeft--;
+		if (iLeft < 0) fun_NA();
+		return iLeft + 1; // Excel is 1-based
 	}
 
 

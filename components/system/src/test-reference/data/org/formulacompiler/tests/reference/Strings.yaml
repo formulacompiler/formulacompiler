@@ -2221,3 +2221,452 @@ sheets:
     - null
     - const: 1.0
     - const: "..."
+  - cells:
+  - cells:
+    - const: "!NUM:NA"
+    - expr: =MATCH( RC[1], RC[2]:RC[4] )
+    - const: "A"
+    - const: "B"
+    - const: "D"
+    - const: "F"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "MATCH (ascending)"
+    - const: "MATCH"
+    - err: #N/A
+  - cells:
+    - const: 1.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4] )
+    - const: "B"
+    - const: "B"
+    - const: "D"
+    - const: "F"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 1.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4] )
+    - const: "C"
+    - const: "B"
+    - const: "D"
+    - const: "F"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 2.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4] )
+    - const: "D"
+    - const: "B"
+    - const: "D"
+    - const: "F"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 2.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4] )
+    - const: "E"
+    - const: "B"
+    - const: "D"
+    - const: "F"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 3.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4] )
+    - const: "F"
+    - const: "B"
+    - const: "D"
+    - const: "F"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 3.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4] )
+    - const: "G"
+    - const: "B"
+    - const: "D"
+    - const: "F"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 2.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4] )
+    - const: "c"
+    - const: "A"
+    - const: "C"
+    - const: "E"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 2.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4] )
+    - const: "ç"
+    - const: "A"
+    - const: "C"
+    - const: "E"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 2.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4] )
+    - const: "CD"
+    - const: "B"
+    - const: "C"
+    - const: "D"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 1.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4] )
+    - const: "BC"
+    - const: "B"
+    - const: "C"
+    - const: "D"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 3.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
+    - const: "A"
+    - const: "F"
+    - const: "D"
+    - const: "B"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "MATCH (descending)"
+    - const: "MATCH -1.0"
+  - cells:
+    - const: 3.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
+    - const: "B"
+    - const: "F"
+    - const: "D"
+    - const: "B"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 2.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
+    - const: "C"
+    - const: "F"
+    - const: "D"
+    - const: "B"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 2.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
+    - const: "D"
+    - const: "F"
+    - const: "D"
+    - const: "B"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 1.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
+    - const: "E"
+    - const: "F"
+    - const: "D"
+    - const: "B"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+    - null
+    - err: #N/A
+  - cells:
+    - const: 1.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
+    - const: "F"
+    - const: "F"
+    - const: "D"
+    - const: "B"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: "!NUM:NA"
+    - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
+    - const: "G"
+    - const: "F"
+    - const: "D"
+    - const: "B"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 2.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
+    - const: "c"
+    - const: "E"
+    - const: "C"
+    - const: "A"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 1.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
+    - const: "ç"
+    - const: "E"
+    - const: "C"
+    - const: "A"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 1.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
+    - const: "CD"
+    - const: "D"
+    - const: "C"
+    - const: "B"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 2.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
+    - const: "BC"
+    - const: "D"
+    - const: "C"
+    - const: "B"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: "!NUM:NA"
+    - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
+    - const: "A"
+    - const: "B"
+    - const: "C"
+    - const: "D"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "MATCH (equality)"
+    - const: "MATCH 0.0"
+    - err: #N/A
+  - cells:
+    - const: 1.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
+    - const: "B"
+    - const: "B"
+    - const: "C"
+    - const: "D"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 2.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
+    - const: "C"
+    - const: "B"
+    - const: "C"
+    - const: "D"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 3.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
+    - const: "D"
+    - const: "B"
+    - const: "C"
+    - const: "D"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: "!NUM:NA"
+    - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
+    - const: "E"
+    - const: "B"
+    - const: "C"
+    - const: "D"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+    - null
+    - err: #N/A
+  - cells:
+    - const: 2.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
+    - const: "c"
+    - const: "B"
+    - const: "C"
+    - const: "D"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 2.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
+    - const: "c"
+    - const: "B"
+    - const: "C"
+    - const: "C"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: "!NUM:NA"
+    - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
+    - const: "ç"
+    - const: "B"
+    - const: "C"
+    - const: "D"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+    - null
+    - err: #N/A
+  - cells:
+    - const: 3.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
+    - const: "ç"
+    - const: "B"
+    - const: "C"
+    - const: "ç"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: "!NUM:NA"
+    - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
+    - const: "CD"
+    - const: "B"
+    - const: "C"
+    - const: "D"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+    - null
+    - err: #N/A
+  - cells:
+    - const: "!NUM:NA"
+    - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
+    - const: "BC"
+    - const: "B"
+    - const: "C"
+    - const: "D"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+    - null
+    - err: #N/A
+  - cells:
+    - const: 2.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
+    - const: "?wo"
+    - const: "One"
+    - const: "Two"
+    - const: "Three"
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 1.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
+    - const: "*o*"
+    - const: "One"
+    - const: "Two"
+    - const: "Three"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."
+  - cells:
+    - const: 3.0
+    - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
+    - const: "?hr*"
+    - const: "One"
+    - const: "Two"
+    - const: "Three"
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "..."

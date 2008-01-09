@@ -20,6 +20,7 @@
  */
 package org.formulacompiler.runtime.internal;
 
+import java.text.Collator;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -78,6 +79,11 @@ public final class Environment
 	public TimeZone timeZone()
 	{
 		return (null != this.timeZone)? this.timeZone : TimeZone.getDefault();
+	}
+
+	public Collator newCollator()
+	{
+		return Collator.getInstance( locale() );
 	}
 
 
