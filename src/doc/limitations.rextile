@@ -22,6 +22,7 @@ h5. Excel
 	* Ranges specified using named cells as endpoints are not supported. "Named ranges":reference/values.htm, however, are.
 	* Named range unions are not supported. They are ignored when the spreadsheet is loaded and their name will therefore not be known to AFC.
 	* With "@MATCH@":reference/lookupfuncs.htm, the last argument (the match type) must be constant, and the second argument (the match range) cannot reference a repeating section yet.
+	* With "@MATCH@":reference/lookupfuncs.htm, the range must be strictly ascending or descending for sorted searches to ensure results consistent with Excel.
 	* With "@INDEX@":reference/lookupfuncs.htm, the range argument cannot reference a repeating section yet. It also does not support 3-dimensional lookups.
 	* "@INDEX@":reference/lookupfuncs.htm does not return arrays (as in @=SUM(INDEX(A1:B2;2))@).
 	* "@AND@ and @OR@":reference/booleans.htm cannot be used as aggregators over repeating sections yet.

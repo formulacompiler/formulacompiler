@@ -33,6 +33,7 @@ h5. New
 h5. Better
 
 	* We now support binding unboxed numeric types as inputs (@double@, @long@, @int@, etc.) to string-valued cells.
+	* @MATCH()@ is now supported for string comparisons.
 
 h5. Internal
 
