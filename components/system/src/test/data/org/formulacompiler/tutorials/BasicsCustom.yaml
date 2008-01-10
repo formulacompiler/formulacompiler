@@ -7,13 +7,13 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: "CustomerRebate"
+    - const: "Customer Rebate"
     - const: 0.03
   - cells:
-    - const: "ArticleRebate"
+    - const: "Article Rebate"
     - const: 0.06
   - cells:
-    - const: "CustomerCategory"
+    - const: "Customer Category"
     - const: 5.0
   - cells:
   - cells:

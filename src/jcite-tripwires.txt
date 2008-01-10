@@ -6345,12 +6345,12 @@ __@@__
 	<tbody>
 		<tr>
 			<td class="xl-row">1</td>
-			<td>CustomerRebate</td>
+			<td>Customer Rebate</td>
 			<td class="xl-num">3%</td>
 		</tr>
 		<tr>
 			<td class="xl-row">2</td>
-			<td>ArticleRebate</td>
+			<td>Article Rebate</td>
 			<td class="xl-num">6%</td>
 		</tr>
 		<tr>
@@ -6379,17 +6379,17 @@ __@@__
 	<tbody>
 		<tr>
 			<td class="xl-row">1</td>
-			<td>CustomerRebate</td>
+			<td>Customer Rebate</td>
 			<td class="xl-num">3%</td>
 		</tr>
 		<tr>
 			<td class="xl-row">2</td>
-			<td>ArticleRebate</td>
+			<td>Article Rebate</td>
 			<td class="xl-num">6%</td>
 		</tr>
 		<tr>
 			<td class="xl-row">3</td>
-			<td>CustomerCategory</td>
+			<td>Customer Category</td>
 			<td class="xl-num">5</td>
 		</tr>
 		<tr>

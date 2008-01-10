@@ -28,8 +28,8 @@ package org.formulacompiler.spreadsheet;
  */
 public interface SpreadsheetNameCreator
 {
-	
-	
+
+
 	/**
 	 * Configuration data for new instances of {@link SpreadsheetNameCreator}.
 	 * 
@@ -37,7 +37,7 @@ public interface SpreadsheetNameCreator
 	 */
 	public static class Config
 	{
-		
+
 		/**
 		 * The sheet of the spreadsheet representation in which to name cells.
 		 */
@@ -45,13 +45,14 @@ public interface SpreadsheetNameCreator
 
 		/**
 		 * Validates the configuration.
+		 * 
 		 * @throws IllegalArgumentException
 		 */
 		public void validate()
 		{
 			if (this.sheet == null) throw new IllegalArgumentException( "sheet is null" );
 		}
-		
+
 	}
 
 
@@ -59,13 +60,15 @@ public interface SpreadsheetNameCreator
 	 * Creates cell names from row titles. A row title is the constant string value of the leftmost
 	 * cell of a row. This value is given as a cell name to the cell just to the right of it. The
 	 * method only processes rows which have two leftmost cells and the leftmost one of them holds a
-	 * constant string value.
+	 * constant string value. Before setting the name, some characters that are illegal for cell
+	 * names are filtered out. In particular, white space and some punctuation is filtered.
 	 */
 	public void createCellNamesFromRowTitles();
 
 
 	/**
-	 * Factory interface for {@link org.formulacompiler.runtime.ImplementationLocator#getInstance(Class)}.
+	 * Factory interface for
+	 * {@link org.formulacompiler.runtime.ImplementationLocator#getInstance(Class)}.
 	 */
 	public static interface Factory
 	{
