@@ -127,7 +127,7 @@ public final class Context
 
 	public boolean getExplicitCaching()
 	{
-		return this.explicitCaching != null? this.explicitCaching : this.parent == null? false : this.parent
+		return this.explicitCaching != null ? this.explicitCaching : this.parent == null ? false : this.parent
 				.getExplicitCaching();
 	}
 
@@ -139,7 +139,7 @@ public final class Context
 
 	public BindingType getNumberBindingType()
 	{
-		return this.numberBindingType != null? this.numberBindingType : this.parent == null? BindingType.DOUBLE
+		return this.numberBindingType != null ? this.numberBindingType : this.parent == null ? BindingType.DOUBLE
 				: this.parent.getNumberBindingType();
 	}
 
@@ -284,7 +284,7 @@ public final class Context
 	public RowImpl getRow()
 	{
 		final RowInfo rowInfo = row();
-		return (null == rowInfo)? null : rowInfo.row;
+		return (null == rowInfo) ? null : rowInfo.row;
 	}
 
 	public int getRowIndex()
@@ -456,7 +456,7 @@ public final class Context
 
 	public Documenter getDocumenter()
 	{
-		return this.documenter != null? this.documenter : this.parent == null? Documenter.Mock.INSTANCE : this.parent
+		return this.documenter != null ? this.documenter : this.parent == null ? Documenter.Mock.INSTANCE : this.parent
 				.getDocumenter();
 	}
 
@@ -505,7 +505,7 @@ public final class Context
 	{
 		if (this.row == null) {
 			final RowInfo was = row();
-			this.row = (null == was)? new RowInfo() : was.clone();
+			this.row = (null == was) ? new RowInfo() : was.clone();
 		}
 		return this.row;
 	}

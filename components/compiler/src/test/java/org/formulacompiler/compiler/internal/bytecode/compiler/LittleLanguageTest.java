@@ -412,7 +412,7 @@ public class LittleLanguageTest extends AbstractStandardInputsOutputsTestCase
 		result( rootModel, apply );
 
 		final Inputs i = this.inputs;
-		assertDoubleResult( (_sectionOnly? 0 : i.getDoubleA() + i.getDoubleB()) + i.getDoubleC() * N_DET, engineModel );
+		assertDoubleResult( (_sectionOnly ? 0 : i.getDoubleA() + i.getDoubleB()) + i.getDoubleC() * N_DET, engineModel );
 	}
 
 
@@ -546,7 +546,7 @@ public class LittleLanguageTest extends AbstractStandardInputsOutputsTestCase
 	private ExpressionNode defSum( boolean _bogusInitialValue, boolean _mayReduce )
 	{
 		final ExpressionNode init, step, fold;
-		init = _bogusInitialValue? cst( 17 ) : ZERO;
+		init = _bogusInitialValue ? cst( 17 ) : ZERO;
 		step = op( PLUS, var( "acc" ), var( "xi" ) );
 		fold = new ExpressionNodeForFoldDefinition( "acc", init, null, "xi", step, true, _mayReduce );
 		return fold;

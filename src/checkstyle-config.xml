@@ -20,6 +20,10 @@
 		    <property name="format" value="FIXME"/>
     	</module>
 
+		<module name="WhitespaceAround">
+			<property name="tokens" value="QUESTION"/>
+		</module>
+
     </module>
-    
+
 </module>

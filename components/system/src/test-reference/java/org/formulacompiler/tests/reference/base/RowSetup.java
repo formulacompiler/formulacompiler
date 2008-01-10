@@ -91,7 +91,7 @@ public abstract class RowSetup
 	public String getName()
 	{
 		final CellInstance nameCell = cx().getRowCell( nameCol() );
-		return nameCell != null? (String) nameCell.getValue() : "";
+		return nameCell != null ? (String) nameCell.getValue() : "";
 	}
 
 

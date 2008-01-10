@@ -125,7 +125,7 @@ public class RepeatingSectionTestSuite extends AbstractTestSuite
 
 			formulaCell = _formulaCell;
 			sectionRange = (CellRange) workbook.getNamedRef( _rangeName );
-			orientation = (_rangeName.charAt( 0 ) == 'H')? Orientation.HORIZONTAL : Orientation.VERTICAL;
+			orientation = (_rangeName.charAt( 0 ) == 'H') ? Orientation.HORIZONTAL : Orientation.VERTICAL;
 			sectionCells = extractRangeCells( sectionRange, orientation );
 			expectedResultsCells = extractRangeCells( expectedResultsRange, orientation );
 			outerRefCells = extractRangeCells( outerRefsRange, orientation );
@@ -260,7 +260,7 @@ public class RepeatingSectionTestSuite extends AbstractTestSuite
 
 		final CellIndex f = _range.getFrom();
 		final CellIndex t = _range.getTo();
-		final Orientation other = (_orientation == Orientation.HORIZONTAL)? Orientation.VERTICAL : Orientation.HORIZONTAL;
+		final Orientation other = (_orientation == Orientation.HORIZONTAL) ? Orientation.VERTICAL : Orientation.HORIZONTAL;
 		final int felt = f.getIndex( _orientation );
 		final int telt = t.getIndex( _orientation );
 		final int nelt = telt - felt + 1;

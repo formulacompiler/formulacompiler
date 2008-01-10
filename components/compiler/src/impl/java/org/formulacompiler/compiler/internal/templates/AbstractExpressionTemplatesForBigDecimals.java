@@ -78,12 +78,12 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 
 	BigDecimal util_fromBigInteger( BigInteger a )
 	{
-		return a == null? BigDecimal.ZERO : new BigDecimal( a );
+		return a == null ? BigDecimal.ZERO : new BigDecimal( a );
 	}
 
 	BigDecimal util_fromNumber( Number a )
 	{
-		return a == null? BigDecimal.ZERO : new BigDecimal( a.toString() );
+		return a == null ? BigDecimal.ZERO : new BigDecimal( a.toString() );
 	}
 
 	BigDecimal util_fromBoolean( boolean a )

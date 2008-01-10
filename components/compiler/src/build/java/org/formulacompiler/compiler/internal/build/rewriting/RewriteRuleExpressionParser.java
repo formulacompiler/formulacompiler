@@ -356,20 +356,20 @@ final class RewriteRuleExpressionParser extends ExpressionParser
 		pushNode( new ExpressionNodeForFoldDefinition( accuNames, accuInits, cx.foldIdxName, eltNames, accuSteps,
 				cx.foldCountName, cx.foldInto, cx.foldWhenEmpty, _mayRearrange, _mayReduce ) );
 
-		this.foldContext = this.outerFoldContexts.empty()? null : this.outerFoldContexts.pop();
+		this.foldContext = this.outerFoldContexts.empty() ? null : this.outerFoldContexts.pop();
 	}
 
 	@Override
 	protected void pushApplyList( Token _def, Token _elts )
 	{
-		final ExpressionNode def = (_def == null)? popNode() : var( _def.image );
+		final ExpressionNode def = (_def == null) ? popNode() : var( _def.image );
 		pushNode( new ExpressionNodeForFoldList( def, var( _elts.image ) ) );
 	}
 
 	@Override
 	protected void pushApplyVectors( Token _def, Collection<Token> _vecs )
 	{
-		final ExpressionNode def = (_def == null)? popNode() : var( _def.image );
+		final ExpressionNode def = (_def == null) ? popNode() : var( _def.image );
 		final Collection<ExpressionNode> vecs = New.collection( _vecs.size() );
 		for (Token vec : _vecs)
 			vecs.add( var( vec.image ) );

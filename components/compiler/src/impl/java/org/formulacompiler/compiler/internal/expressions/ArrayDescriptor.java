@@ -155,7 +155,7 @@ public final class ArrayDescriptor extends AbstractDescribable
 
 		private static int incBy( int _n, int _delta )
 		{
-			return (_n == DYNAMIC)? _n : _n + _delta;
+			return (_n == DYNAMIC) ? _n : _n + _delta;
 		}
 
 		public String name()
@@ -167,7 +167,7 @@ public final class ArrayDescriptor extends AbstractDescribable
 
 	private static final String numberOrDynamic( int _number )
 	{
-		return (_number == DYNAMIC)? "*" : Integer.toString( _number );
+		return (_number == DYNAMIC) ? "*" : Integer.toString( _number );
 	}
 
 }

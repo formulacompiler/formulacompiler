@@ -113,12 +113,12 @@ public final class ExpressionTemplatesForScaledLongs
 
 	long util_fromNumber( Number a )
 	{
-		return (a == null)? 0 : a.longValue();
+		return (a == null) ? 0 : a.longValue();
 	}
 
 	long util_fromBoolean( boolean a )
 	{
-		return a? this.one : 0;
+		return a ? this.one : 0;
 	}
 
 	long util_fromDate( Date a )
@@ -310,7 +310,7 @@ public final class ExpressionTemplatesForScaledLongs
 	// ---- fun_ABS
 	public long fun_ABS( long a )
 	{
-		return (a < 0)? -a : a;
+		return (a < 0) ? -a : a;
 	}
 	// ---- fun_ABS
 

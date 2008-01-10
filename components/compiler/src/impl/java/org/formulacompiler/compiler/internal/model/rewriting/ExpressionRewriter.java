@@ -185,17 +185,17 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 			case ISNONTEXT: {
 				final ExpressionNode arg = _fun.argument( 0 );
 				TypeAnnotator.annotateExpr( arg );
-				return DataType.STRING != arg.getDataType()? TRUE : FALSE;
+				return DataType.STRING != arg.getDataType() ? TRUE : FALSE;
 			}
 			case ISNUMBER: {
 				final ExpressionNode arg = _fun.argument( 0 );
 				TypeAnnotator.annotateExpr( arg );
-				return DataType.NUMERIC == arg.getDataType()? TRUE : FALSE;
+				return DataType.NUMERIC == arg.getDataType() ? TRUE : FALSE;
 			}
 			case ISTEXT: {
 				final ExpressionNode arg = _fun.argument( 0 );
 				TypeAnnotator.annotateExpr( arg );
-				return DataType.STRING == arg.getDataType()? TRUE : FALSE;
+				return DataType.STRING == arg.getDataType() ? TRUE : FALSE;
 			}
 			case VALUE: {
 				final ExpressionNode arg = _fun.argument( 0 );
@@ -328,7 +328,7 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 		final ExpressionNode lookupArrayNode = getHVLookupSubArray( fun, arrayNode, 0 );
 
 		final ExpressionNode matchNode;
-		final Function matchFun = (indexNode instanceof ExpressionNodeForConstantValue)? INTERNAL_MATCH_INT : MATCH;
+		final Function matchFun = (indexNode instanceof ExpressionNodeForConstantValue) ? INTERNAL_MATCH_INT : MATCH;
 		if (_fun.cardinality() >= 4) {
 			final ExpressionNode typeNode = _fun.argument( 3 );
 			matchNode = new ExpressionNodeForFunction( matchFun, valueNode, lookupArrayNode, typeNode );
@@ -350,7 +350,7 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 			final ExpressionNode defaultNode = err( "#VALUE/REF! because index is out of range in H/VLOOKUP" );
 
 			final ArrayDescriptor desc = arrayNode.arrayDescriptor();
-			final int nArrays = (fun == HLOOKUP)? desc.numberOfRows() : desc.numberOfColumns();
+			final int nArrays = (fun == HLOOKUP) ? desc.numberOfRows() : desc.numberOfColumns();
 			final ExpressionNodeForSwitchCase[] caseNodes = new ExpressionNodeForSwitchCase[ nArrays ];
 			for (int iArray = 0; iArray < nArrays; iArray++) {
 				final ExpressionNode valueArrayNode = getHVLookupSubArray( fun, arrayNode, iArray );

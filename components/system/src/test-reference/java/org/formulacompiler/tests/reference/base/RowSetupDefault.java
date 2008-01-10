@@ -67,8 +67,8 @@ public final class RowSetupDefault extends RowSetup
 	{
 		final Context cx = cx();
 		final CellInstance countCell = cx.getRowCell( inputCountCol() );
-		final Number countValue = (countCell == null)? null : (Number) countCell.getValue();
-		final int n = (countValue == null)? 0 : countValue.intValue();
+		final Number countValue = (countCell == null) ? null : (Number) countCell.getValue();
+		final int n = (countValue == null) ? 0 : countValue.intValue();
 		cx.setInputCellCount( n );
 		return makeExpected();
 	}

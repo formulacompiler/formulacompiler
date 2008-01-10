@@ -50,12 +50,12 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 
 	public static BigDecimal newBigDecimal( final String _value )
 	{
-		return (_value == null)? ZERO : new BigDecimal( _value );
+		return (_value == null) ? ZERO : new BigDecimal( _value );
 	}
 
 	public static BigDecimal newBigDecimal( final BigInteger _value )
 	{
-		return (_value == null)? ZERO : new BigDecimal( _value );
+		return (_value == null) ? ZERO : new BigDecimal( _value );
 	}
 
 
@@ -68,20 +68,20 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	{
 		if (a == EXTREMUM) return b;
 		if (b == EXTREMUM) return a;
-		return (a.compareTo( b ) <= 0)? a : b;
+		return (a.compareTo( b ) <= 0) ? a : b;
 	}
 
 	public static BigDecimal max( BigDecimal a, BigDecimal b )
 	{
 		if (a == EXTREMUM) return b;
 		if (b == EXTREMUM) return a;
-		return (a.compareTo( b ) >= 0)? a : b;
+		return (a.compareTo( b ) >= 0) ? a : b;
 	}
 
 
 	public static BigDecimal toNum( final BigDecimal _val )
 	{
-		return _val == null? ZERO : _val;
+		return _val == null ? ZERO : _val;
 	}
 
 
@@ -92,7 +92,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 
 	public static BigDecimal booleanToNum( final boolean _val )
 	{
-		return _val? ONE : ZERO;
+		return _val ? ONE : ZERO;
 	}
 
 
@@ -643,7 +643,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		BigDecimal depreciation = depreciation1;
 		if (_period.intValue() > 1) {
 			BigDecimal totalDepreciation = depreciation1;
-			final int maxPeriod = (_life.compareTo( _period ) > 0? _period : _life).intValue();
+			final int maxPeriod = (_life.compareTo( _period ) > 0 ? _period : _life).intValue();
 			for (int i = 2; i <= maxPeriod; i++) {
 				depreciation = _cost.subtract( totalDepreciation, _cx ).multiply( rate, _cx );
 				totalDepreciation = totalDepreciation.add( depreciation, _cx );
@@ -664,8 +664,8 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		final BigDecimal remainingCost;
 		final BigDecimal newCost;
 		if (k <= 0) {
-			remainingCost = (period == 1)? _cost : ZERO;
-			newCost = (period == 0)? _cost : ZERO;
+			remainingCost = (period == 1) ? _cost : ZERO;
+			newCost = (period == 0) ? _cost : ZERO;
 		}
 		else {
 			final double k_p1 = Math.pow( k, period - 1 );
@@ -674,7 +674,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			newCost = _cost.multiply( valueOf( k_p ), _cx );
 		}
 
-		BigDecimal depreciation = remainingCost.subtract( (newCost.compareTo( _salvage ) < 0? _salvage : newCost), _cx );
+		BigDecimal depreciation = remainingCost.subtract( (newCost.compareTo( _salvage ) < 0 ? _salvage : newCost), _cx );
 		if (depreciation.signum() < 0) {
 			depreciation = ZERO;
 		}
@@ -693,7 +693,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		else {
 			if ( _salvage.compareTo( _cost ) > 0 ){
 				return ZERO; // correct result
-			}			
+			}
 			int loopStart = (int) Math.floor( _start_period.doubleValue() );
 			int loopEnd = (int) Math.ceil( _end_period.doubleValue() );
 			if (_no_switch) {
@@ -776,7 +776,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			final BigDecimal rate1;
 			if (rate0.signum() == 0) {
 				final BigDecimal a = _pmt.multiply( _nper, _cx );
-				final BigDecimal b = a.add( type? _pmt : _pmt.negate( _cx ), _cx );
+				final BigDecimal b = a.add( type ? _pmt : _pmt.negate( _cx ), _cx );
 				final BigDecimal c = _pv.add( _fv, _cx ).add( a, _cx );
 				final BigDecimal d = _nper.multiply( _pv.add( b.divide( TWO, _cx ), _cx ), _cx );
 				rate1 = rate0.subtract( c.divide( d, _cx ), _cx );
@@ -785,7 +785,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 				final BigDecimal a = rate0.add( ONE, _cx );
 				final BigDecimal b = a.pow( nper - 1, _cx );
 				final BigDecimal c = b.multiply( a, _cx );
-				final BigDecimal d = _pmt.multiply( type? ONE.add( rate0, _cx ) : ONE, _cx );
+				final BigDecimal d = _pmt.multiply( type ? ONE.add( rate0, _cx ) : ONE, _cx );
 				final BigDecimal e = rate0.multiply( _nper, _cx ).multiply( b, _cx );
 				final BigDecimal f = c.subtract( ONE, _cx );
 				final BigDecimal g = rate0.multiply( _pv, _cx );
@@ -799,7 +799,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			rate0 = rate1;
 		}
 		if (eps.compareTo( EXCEL_EPSILON ) >= 0) {
-			fun_ERROR( "#NUM! because of result do not converge to within " + EXCEL_EPSILON + " after " + MAX_ITER + " iterations in RATE" );			
+			fun_ERROR( "#NUM! because of result do not converge to within " + EXCEL_EPSILON + " after " + MAX_ITER + " iterations in RATE" );
 		}
 		return rate0;
 	}

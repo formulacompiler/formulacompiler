@@ -63,7 +63,7 @@ abstract class AbstractCellValues
 				}
 			}
 			else {
-				parseAndSetValue( _cx, i, (cell == null)? null : cell.getValue() );
+				parseAndSetValue( _cx, i, (cell == null) ? null : cell.getValue() );
 			}
 		}
 	}
@@ -155,7 +155,7 @@ abstract class AbstractCellValues
 	private TimeZone getTimeZone( Context _cx )
 	{
 		final Computation.Config config = _cx.getComputationConfig();
-		TimeZone timeZone = config != null? config.timeZone : null;
+		TimeZone timeZone = config != null ? config.timeZone : null;
 		if (timeZone == null) {
 			timeZone = TimeZone.getDefault();
 		}

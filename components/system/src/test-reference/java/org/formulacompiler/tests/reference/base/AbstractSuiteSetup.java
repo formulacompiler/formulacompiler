@@ -197,7 +197,7 @@ abstract class AbstractSuiteSetup
 					@Override
 					protected String getOwnName()
 					{
-						return cx().getExplicitCaching()? "With caching" : "No caching";
+						return cx().getExplicitCaching() ? "With caching" : "No caching";
 					}
 				}.init(), cx );
 			}

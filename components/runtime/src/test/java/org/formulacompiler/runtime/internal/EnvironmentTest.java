@@ -31,7 +31,7 @@ import junit.framework.TestCase;
 
 public class EnvironmentTest extends TestCase
 {
-	private static final TimeZone STD = TimeZone.getDefault().getRawOffset() == 9? TimeZone.getTimeZone( "GMT-9:00" )
+	private static final TimeZone STD = TimeZone.getDefault().getRawOffset() == 9 ? TimeZone.getTimeZone( "GMT-9:00" )
 			: TimeZone.getTimeZone( "GMT+9:00" );
 
 	public void testParseDateAndOrTime_de_CH() throws Exception
