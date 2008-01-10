@@ -1,4 +1,4 @@
-#Fri Sep 14 08:08:30 CEST 2007
+#Thu Jan 10 15:54:43 CET 2008
 eclipse.preferences.version=1
 instance/org.eclipse.core.net/org.eclipse.core.net.hasMigrated=true
 org.eclipse.jdt.core.builder.cleanOutputFolder=clean
@@ -326,7 +326,7 @@ org.eclipse.jdt.core.formatter.insert_space_before_parenthesized_expression_in_r
 org.eclipse.jdt.core.formatter.insert_space_before_parenthesized_expression_in_throw=insert
 org.eclipse.jdt.core.formatter.insert_space_before_postfix_operator=do not insert
 org.eclipse.jdt.core.formatter.insert_space_before_prefix_operator=do not insert
-org.eclipse.jdt.core.formatter.insert_space_before_question_in_conditional=do not insert
+org.eclipse.jdt.core.formatter.insert_space_before_question_in_conditional=insert
 org.eclipse.jdt.core.formatter.insert_space_before_question_in_wildcard=do not insert
 org.eclipse.jdt.core.formatter.insert_space_before_semicolon=do not insert
 org.eclipse.jdt.core.formatter.insert_space_before_semicolon_in_for=do not insert
