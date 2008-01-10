@@ -1,0 +1,14 @@
+For installation see install.txt.
+
+
+MS Excel
+
+1. Open a workbook with macros and a workbook with reference test data.
+2. Run ForceAllFormatsAndColumns macro (Tools -> Macro -> Macros menu).
+
+
+OpenOffice.org Calc
+
+1. Open a workbook with reference test data.
+2. Open Run Macro dialog (Tools -> Macros -> Run Macro menu).
+3. Run forceAllFormatsAndColumns macro (My Macros -> refTestSheets).
