@@ -634,7 +634,7 @@ public final class ExpressionTemplatesForScaledLongs
 		return this.context.fromBigDecimal( result );
 	}
 
-	public long fun_VDB( long _cost, long _salvage, long _life, long _start_period,long _end_period, long _factor, long _no_switch )
+	public long fun_VDB( long _cost, long _salvage, long _life, long _start_period, long _end_period, long _factor, long _no_switch )
 	{
 		final BigDecimal cost = this.context.toBigDecimal( _cost );
 		final BigDecimal salvage = this.context.toBigDecimal( _salvage );

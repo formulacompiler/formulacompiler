@@ -25,6 +25,10 @@
 			<property name="option" value="space"/>
 		</module>
 
+		<module name="WhitespaceAfter">
+			<property name="tokens" value="COMMA, TYPECAST"/>
+		</module>
+
 		<module name="WhitespaceAround">
 			<property name="tokens" value="QUESTION"/>
 		</module>
