@@ -1643,3 +1643,152 @@ sheets:
     - null
     - const: 1.0
     - const: "..."
+  - cells:
+  - cells:
+    - const: "!STR:FE"
+    - expr: =DATEVALUE( RC[1] )
+    - const: "7/5/1998"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "DATEVALUE"
+    - const: "DATEVALUE"
+  - cells:
+    - const: "!STR:FE"
+    - expr: =DATEVALUE( RC[1] )
+    - const: "7-5-1998"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 35922.0
+    - expr: =DATEVALUE( RC[1] )
+    - const: "7.5.1998"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 39417.0
+    - expr: =DATEVALUE( RC[1] )
+    - const: "1.12.07"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: "!STR:FE"
+    - expr: =DATEVALUE( RC[1] )
+    - const: "1. Dezember 2007"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: "!STR:FE"
+    - expr: =DATEVALUE( RC[1] )
+    - const: "1. Dez 2007"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: "!STR:FE"
+    - expr: =DATEVALUE( RC[1] )
+    - const: "1 Dez 2007"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: "!STR:FE"
+    - expr: =DATEVALUE( RC[1] )
+    - const: "1. Dezember 2007 12:13"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 35922.0
+    - expr: =DATEVALUE( RC[1] )
+    - const: "7.5.98 12:13:14"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: "!STR:FE"
+    - expr: =TIMEVALUE( RC[1] )
+    - const: "7/5/1998 12: 13"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "TIMEVALUE"
+    - const: "TIMEVALUE"
+  - cells:
+    - const: "!STR:FE"
+    - expr: =TIMEVALUE( RC[1] )
+    - const: "29. mai 2007 12:30"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: "!STR:FE"
+    - expr: =TIMEVALUE( RC[1] )
+    - const: "29-mai-2007 12:30:23"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.509027777778101
+    - expr: =TIMEVALUE( RC[1] )
+    - const: "7.5.1998 12: 13"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0

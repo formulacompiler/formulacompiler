@@ -778,5 +778,14 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_VALUE( _text, this.context, this.environment );
 	}
 
+	public long fun_DATEVALUE( String _text )
+	{
+		return RuntimeLong_v2.fun_DATEVALUE( _text, this.context, this.environment );
+	}
+
+	public long fun_TIMEVALUE( String _text )
+	{
+		return RuntimeLong_v2.fun_TIMEVALUE( _text, this.context, this.environment );
+	}
 
 }

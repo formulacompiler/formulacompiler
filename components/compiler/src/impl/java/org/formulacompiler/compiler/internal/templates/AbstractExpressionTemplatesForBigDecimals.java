@@ -563,5 +563,14 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_VALUE( _text, this.environment );
 	}
 
+	public BigDecimal fun_DATEVALUE( String _text )
+	{
+		return RuntimeBigDecimal_v2.fun_DATEVALUE( _text, this.environment );
+	}
+
+	public BigDecimal fun_TIMEVALUE( String _text )
+	{
+		return RuntimeBigDecimal_v2.fun_TIMEVALUE( _text, this.environment );
+	}
 
 }

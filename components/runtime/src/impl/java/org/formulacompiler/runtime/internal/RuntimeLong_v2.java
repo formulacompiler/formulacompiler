@@ -776,6 +776,15 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		}
 	}
 
+	public static long fun_DATEVALUE( String _text, Context _cx, final Environment _environment )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_DATEVALUE( _text, _environment ) );
+	}
+
+	public static long fun_TIMEVALUE( String _text, Context _cx, final Environment _environment )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_TIMEVALUE( _text, _environment ) );
+	}
 
 	public static int fun_MATCH_Exact( long _x, long[] _xs )
 	{

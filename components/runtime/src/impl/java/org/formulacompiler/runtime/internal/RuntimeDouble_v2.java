@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.TimeZone;
+import java.text.ParseException;
 
 import org.formulacompiler.runtime.NotAvailableException;
 import org.formulacompiler.runtime.FormulaException;
@@ -1240,6 +1241,30 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		throw new FormulaException( "#VALUE! because of argument of unsupported type in VALUE" );
 	}
 
+	public static double fun_DATEVALUE( String _text, final Environment _environment )
+	{
+		final String text = _text.trim();
+		try {
+			final Date date = _environment.parseDateAndOrTime( _text );
+			return Math.floor( dateToDouble( date, _environment.timeZone() ) );
+		}
+		catch (ParseException e) {
+			throw new FormulaException( "#VALUE! because argument could not be interpreted properly in DATEVALUE" );
+		}
+	}
+
+	public static double fun_TIMEVALUE( String _text, final Environment _environment )
+	{
+		final String text = _text.trim();
+		try {
+			final Date date = _environment.parseDateAndOrTime( _text );
+			double dataTime = dateToDouble( date, _environment.timeZone() );
+			return dataTime - Math.floor( dataTime );
+		}
+		catch (ParseException e) {
+			throw new FormulaException( "#VALUE! because argument could not be interpreted properly in TIMEVALUE" );
+		}
+	}
 
 	public static int fun_MATCH_Exact( double _x, double[] _xs )
 	{
