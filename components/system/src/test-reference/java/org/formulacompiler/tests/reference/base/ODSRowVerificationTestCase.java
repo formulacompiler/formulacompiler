@@ -150,14 +150,14 @@ final class ODSRowVerificationTestCase extends AbstractVariantRowVerificationTes
 
 	private ExpressionNode replace( ExpressionNode _expr, ExpressionNode _currentRes, int _pos, Object _cst )
 	{
-		final ExpressionNode res = (_expr == _currentRes)? shallowClone( _currentRes ) : _currentRes;
+		final ExpressionNode res = (_expr == _currentRes) ? shallowClone( _currentRes ) : _currentRes;
 		res.arguments().set( _pos, cst( _cst ) );
 		return res;
 	}
 
 	private ExpressionNode insert( ExpressionNode _expr, ExpressionNode _currentRes, Object... _args )
 	{
-		final ExpressionNode res = (_expr == _currentRes)? shallowClone( _currentRes ) : _currentRes;
+		final ExpressionNode res = (_expr == _currentRes) ? shallowClone( _currentRes ) : _currentRes;
 		for (int i = 0; i < _args.length; i++) {
 			Object arg = _args[ i ];
 			if (arg != _) {

@@ -62,7 +62,7 @@ abstract class InterpretedDoubleType_Base extends InterpretedNumericType
 	{
 		if (_value instanceof Number) return ((Number) _value).doubleValue();
 		if (_value instanceof String) return Double.valueOf( (String) _value );
-		if (_value instanceof Boolean) return ((Boolean) _value)? 1 : 0;
+		if (_value instanceof Boolean) return ((Boolean) _value) ? 1 : 0;
 		if (_value instanceof Date) {
 			throw new IllegalArgumentException( "Cannot interpret java.util.Date - it is runtime time-zone specific." );
 		}

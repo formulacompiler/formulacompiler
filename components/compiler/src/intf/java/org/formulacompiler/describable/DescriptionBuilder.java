@@ -367,7 +367,7 @@ public class DescriptionBuilder implements Appendable
 	public final DescriptionBuilder v( double _value )
 	{
 		if (Double.isNaN( _value )) return append( ".NAN" );
-		if (Double.isInfinite( _value )) return append( _value == Double.POSITIVE_INFINITY? ".Inf" : "-.Inf" );
+		if (Double.isInfinite( _value )) return append( _value == Double.POSITIVE_INFINITY ? ".Inf" : "-.Inf" );
 		return append( _value );
 	}
 

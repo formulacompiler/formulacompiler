@@ -177,7 +177,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 		_cx.setInputBindingBits( -1 );
 
 		final int nInputs = _cx.getInputCellCount();
-		final int nBoundVariations = Settings.QUICK_RUN? 1 : 1 << nInputs;
+		final int nBoundVariations = Settings.QUICK_RUN ? 1 : 1 << nInputs;
 		final boolean hasExpr = (_cx.getOutputExpr() != null);
 
 		return new SameExprRowSequenceTestSuite( _cx )

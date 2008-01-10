@@ -38,10 +38,10 @@ public class ExpressionSourceAsContextProvider implements ExpressionContextProvi
 	public void buildContext( DescriptionBuilder _result, ExpressionNode _focusedNode )
 	{
 		_result.append( "\nIn expression " );
-		
+
 		try {
-			final ExpressionNode focus = (_focusedNode == null)? null : _focusedNode.getOrigin();
-			this.expr.describeTo( _result, new ExpressionDescriptionConfig( focus, " >> ", " << ") );
+			final ExpressionNode focus = (_focusedNode == null) ? null : _focusedNode.getOrigin();
+			this.expr.describeTo( _result, new ExpressionDescriptionConfig( focus, " >> ", " << " ) );
 		}
 		catch (IOException e) {
 			_result.append( " >> ERROR describing expression:" ).append( e.getMessage() );

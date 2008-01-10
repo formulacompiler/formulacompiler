@@ -186,7 +186,7 @@ public final class ExpressionTemplatesForDoubles
 
 	double util_testForErrors( double a )
 	{
-		return Double.isInfinite( a ) || Double.isNaN( a )? 1 : 0;
+		return Double.isInfinite( a ) || Double.isNaN( a ) ? 1 : 0;
 	}
 
 
@@ -502,7 +502,7 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_TDIST( double _x, double _degFreedom, double _tails, double _no_floor )
 	{
-		return RuntimeDouble_v2.fun_TDIST( _x, _degFreedom, (int) _tails, _no_floor == 0? false : true );
+		return RuntimeDouble_v2.fun_TDIST( _x, _degFreedom, (int) _tails, _no_floor == 0 ? false : true );
 	}
 
 	public double fun_TINV( double _x, double _degFreedom )

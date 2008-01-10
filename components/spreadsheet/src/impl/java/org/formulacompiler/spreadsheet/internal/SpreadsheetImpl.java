@@ -92,7 +92,7 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 	public Spreadsheet.NameDefinition getDefinedName( String _name )
 	{
 		Reference ref = this.names.get( _name );
-		return (ref != null)? getNameDefinition( _name, ref ) : null;
+		return (ref != null) ? getNameDefinition( _name, ref ) : null;
 	}
 
 

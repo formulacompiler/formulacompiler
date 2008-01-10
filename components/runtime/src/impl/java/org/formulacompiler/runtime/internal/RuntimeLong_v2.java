@@ -141,12 +141,12 @@ public final class RuntimeLong_v2 extends Runtime_v2
 
 	public static long max( final long a, final long b )
 	{
-		return a >= b? a : b;
+		return a >= b ? a : b;
 	}
 
 	public static long min( final long a, final long b )
 	{
-		return a <= b? a : b;
+		return a <= b ? a : b;
 	}
 
 	public static long round( final long _val, final int _maxFrac, Context _cx )
@@ -543,7 +543,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		long factor = fun_POWER( q, fun_INT( _n, _cx ), _cx );
 		if (factor <= EPSILON) {
 			factor = fun_POWER( _p, n, _cx );
-			if (factor <= EPSILON){				
+			if (factor <= EPSILON){
 					throw new FormulaException( "#NUM! because factor = 0 in CRITBINOM" );
 			}
 			else {
@@ -746,7 +746,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		long depreciation = depreciation1;
 		if (_period / _cx.one() > 1) {
 			long totalDepreciation = depreciation1;
-			final int maxPeriod = (int) ((_life > _period? _period : _life) / _cx.one());
+			final int maxPeriod = (int) ((_life > _period ? _period : _life) / _cx.one());
 			for (int i = 2; i <= maxPeriod; i++) {
 				depreciation = (_cost - totalDepreciation) * rate / _cx.one();
 				totalDepreciation += depreciation;

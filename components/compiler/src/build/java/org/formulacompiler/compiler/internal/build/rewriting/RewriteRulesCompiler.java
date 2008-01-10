@@ -410,7 +410,7 @@ public final class RewriteRulesCompiler
 			}
 			else if (_expr instanceof ExpressionNodeForLetVar) {
 				final ExpressionNodeForLetVar varNode = (ExpressionNodeForLetVar) _expr;
-				return varNode.varName().equals( _param )? 1 : 0;
+				return varNode.varName().equals( _param ) ? 1 : 0;
 			}
 			else if (_expr instanceof ExpressionNodeForLet) {
 				final ExpressionNodeForLet letNode = (ExpressionNodeForLet) _expr;
@@ -533,7 +533,7 @@ public final class RewriteRulesCompiler
 
 		private void compileExtremum( boolean _isMax, DescriptionBuilder _b ) throws Exception
 		{
-			_b.append( "new ExpressionNodeFor" ).append( _isMax? "Max" : "Min" ).append( "Value()" );
+			_b.append( "new ExpressionNodeFor" ).append( _isMax ? "Max" : "Min" ).append( "Value()" );
 		}
 
 		private void compileOp( ExpressionNodeForOperator _node, DescriptionBuilder _b ) throws Exception
@@ -554,7 +554,7 @@ public final class RewriteRulesCompiler
 		{
 			final String letName = _node.varName();
 			final String varName = (String) this.letDict.lookup( letName );
-			_b.append( (null == varName)? letName : varName );
+			_b.append( (null == varName) ? letName : varName );
 		}
 
 

@@ -33,7 +33,7 @@ public final class ConstResult implements TypedResult
 
 	public static ConstResult valueOf( boolean _value )
 	{
-		return _value? TRUE : FALSE;
+		return _value ? TRUE : FALSE;
 	}
 
 	protected ConstResult( Object _value, DataType _type )

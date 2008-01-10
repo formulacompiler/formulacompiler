@@ -54,14 +54,14 @@ public final class Inputs extends AbstractCellValues
 	{
 		if (_inputIndex < 0 || _inputIndex >= this.vals.length) return 0.0;
 		final Object val = getOrThrow( _inputIndex );
-		return null == val? 0.0 : ((Number) val).doubleValue();
+		return null == val ? 0.0 : ((Number) val).doubleValue();
 	}
 
 	public BigDecimal bdec( int _inputIndex )
 	{
 		if (_inputIndex < 0 || _inputIndex >= this.vals.length) return null;
 		final Object val = getOrThrow( _inputIndex );
-		return null == val? null : (val instanceof BigDecimal)? (BigDecimal) val : BigDecimal.valueOf( ((Number) val)
+		return null == val ? null : (val instanceof BigDecimal) ? (BigDecimal) val : BigDecimal.valueOf( ((Number) val)
 				.doubleValue() );
 	}
 
@@ -70,14 +70,14 @@ public final class Inputs extends AbstractCellValues
 	{
 		if (_inputIndex < 0 || _inputIndex >= this.vals.length) return 0;
 		final Object val = getOrThrow( _inputIndex );
-		return null == val? 0 : (val instanceof Long)? (Long) val : numericType().valueOf( (Number) val ).longValue();
+		return null == val ? 0 : (val instanceof Long) ? (Long) val : numericType().valueOf( (Number) val ).longValue();
 	}
 
 	public boolean bool( int _inputIndex )
 	{
 		if (_inputIndex < 0 || _inputIndex >= this.vals.length) return false;
 		final Object val = getOrThrow( _inputIndex );
-		return null == val? false : (Boolean) val;
+		return null == val ? false : (Boolean) val;
 	}
 
 	public Date date( int _inputIndex )

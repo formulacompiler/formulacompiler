@@ -263,8 +263,8 @@ public class BindingParams extends TestCase
 		public double getInput( double _param ) /**/{ return _param; }/**/
 		public double getInput( float _param ) /**/{ return _param; }/**/
 		public double getInput( char _param ) /**/{ return _param; }/**/
-		public double getInput( boolean _param ) /**/{ return (_param? 1 : 0); }/**/
-		
+		public double getInput( boolean _param ) /**/{ return (_param ? 1 : 0); }/**/
+
 		// Boxed types
 		public double getInput( Byte _param ) /**/{ return _param; }/**/
 		public double getInput( Short _param ) /**/{ return _param; }/**/
@@ -273,7 +273,7 @@ public class BindingParams extends TestCase
 		public double getInput( Double _param ) /**/{ return _param; }/**/
 		public double getInput( Float _param ) /**/{ return _param; }/**/
 		public double getInput( Character _param ) /**/{ return _param; }/**/
-		public double getInput( Boolean _param ) /**/{ return (_param? 1 : 0); }/**/
+		public double getInput( Boolean _param ) /**/{ return (_param ? 1 : 0); }/**/
 
 		// Other types
 		public double getInput( String _param ) /**/{ return Double.valueOf( _param ); }/**/

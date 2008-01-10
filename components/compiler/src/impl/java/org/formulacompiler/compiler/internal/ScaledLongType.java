@@ -83,7 +83,7 @@ public final class ScaledLongType extends AbstractLongType
 		else {
 			final int scaleOfResult = scale();
 			final int scaleOfValue = value.length() - posOfDecPoint - 1;
-			final int scaleOfDigits = (scaleOfValue > scaleOfResult)? scaleOfResult : scaleOfValue;
+			final int scaleOfDigits = (scaleOfValue > scaleOfResult) ? scaleOfResult : scaleOfValue;
 			final String digits = value.substring( 0, posOfDecPoint )
 					+ value.substring( posOfDecPoint + 1, posOfDecPoint + 1 + scaleOfDigits );
 			final boolean roundUp;
@@ -97,7 +97,7 @@ public final class ScaledLongType extends AbstractLongType
 			long unscaled = Long.parseLong( digits );
 			if (roundUp) {
 				final boolean negative = value.charAt( 0 ) == minusSign;
-				unscaled += negative? -1 : 1;
+				unscaled += negative ? -1 : 1;
 			}
 			if (scaleOfDigits == scaleOfResult) {
 				return unscaled;

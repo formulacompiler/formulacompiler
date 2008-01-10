@@ -129,16 +129,16 @@ public final class Environment
 		super();
 		this.locale = _cfg.locale;
 		// Defensive copies of mutable structures:
-		this.decimalFormatSymbols = (null == _cfg.decimalFormatSymbols)? null
+		this.decimalFormatSymbols = (null == _cfg.decimalFormatSymbols) ? null
 				: (DecimalFormatSymbols) _cfg.decimalFormatSymbols.clone();
-		this.timeZone = (null == _cfg.timeZone)? null : (TimeZone) _cfg.timeZone.clone();
+		this.timeZone = (null == _cfg.timeZone) ? null : (TimeZone) _cfg.timeZone.clone();
 		this.charset = _cfg.charset;
 	}
 
 
 	public Locale locale()
 	{
-		return (null != this.locale)? this.locale : Locale.getDefault();
+		return (null != this.locale) ? this.locale : Locale.getDefault();
 	}
 
 	public Charset charset()
@@ -153,12 +153,12 @@ public final class Environment
 
 	public DecimalFormatSymbols decimalFormatSymbols()
 	{
-		return (null != this.decimalFormatSymbols)? this.decimalFormatSymbols : decimalFormat().getDecimalFormatSymbols();
+		return (null != this.decimalFormatSymbols) ? this.decimalFormatSymbols : decimalFormat().getDecimalFormatSymbols();
 	}
 
 	public TimeZone timeZone()
 	{
-		return (null != this.timeZone)? this.timeZone : TimeZone.getDefault();
+		return (null != this.timeZone) ? this.timeZone : TimeZone.getDefault();
 	}
 
 
@@ -301,7 +301,7 @@ public final class Environment
 			pattern = pattern.replace( '-', _dateSep );
 		}
 		if (hasTime) {
-			pattern = pattern + ((timeElements > 2)? " HH:mm:ss" : " HH:mm");
+			pattern = pattern + ((timeElements > 2) ? " HH:mm:ss" : " HH:mm");
 		}
 
 		final SimpleDateFormat format = new SimpleDateFormat( pattern, locale() );

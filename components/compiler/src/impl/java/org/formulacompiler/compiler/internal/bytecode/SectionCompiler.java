@@ -60,7 +60,7 @@ abstract class SectionCompiler extends ClassCompiler
 
 	private Type typeFor( Class _inputClass )
 	{
-		return (null == _inputClass)? Type.getType( Object.class ) : Type.getType( _inputClass );
+		return (null == _inputClass) ? Type.getType( Object.class ) : Type.getType( _inputClass );
 	}
 
 	protected abstract SectionCompiler parentSectionCompiler();

@@ -94,7 +94,7 @@ public class RepeatingSectionTest extends TestCase
 			SaveableEngine e = eb.compile();
 			ComputationFactory f = e.getComputationFactory();
 
-			final int s = (agg == Function.AVERAGE || agg == Function.VARP)? 1 : 0;
+			final int s = (agg == Function.AVERAGE || agg == Function.VARP) ? 1 : 0;
 			for (int l = s; l < vals.length; l++) {
 				Input i = new Input( 0, l, vals );
 				Output o = (Output) f.newComputation( i );

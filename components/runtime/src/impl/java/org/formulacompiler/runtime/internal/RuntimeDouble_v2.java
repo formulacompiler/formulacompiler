@@ -43,12 +43,12 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double max( final double a, final double b )
 	{
-		return a >= b? a : b;
+		return a >= b ? a : b;
 	}
 
 	public static double min( final double a, final double b )
 	{
-		return a <= b? a : b;
+		return a <= b ? a : b;
 	}
 
 	public static double fun_CEILING( final double _number, final double _significance )
@@ -128,17 +128,17 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	private static double roundDown( final double _val )
 	{
-		return 0 > _val? Math.ceil( _val ) : Math.floor( _val );
+		return 0 > _val ? Math.ceil( _val ) : Math.floor( _val );
 	}
 
 	private static double roundUp( final double _val )
 	{
-		return 0 > _val? Math.floor( _val ) : Math.ceil( _val );
+		return 0 > _val ? Math.floor( _val ) : Math.ceil( _val );
 	}
 
 	private static double pow10( final int _exp )
 	{
-		return (_exp >= -10 && _exp <= 10)? POW10[ _exp + 10 ] : Math.pow( 10, _exp );
+		return (_exp >= -10 && _exp <= 10) ? POW10[ _exp + 10 ] : Math.pow( 10, _exp );
 	}
 
 	public static boolean booleanFromNum( final double _val )
@@ -148,12 +148,12 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double booleanToNum( final boolean _val )
 	{
-		return _val? 1.0 : 0.0;
+		return _val ? 1.0 : 0.0;
 	}
 
 	public static double numberToNum( final Number _num )
 	{
-		return (_num == null)? 0.0 : _num.doubleValue();
+		return (_num == null) ? 0.0 : _num.doubleValue();
 	}
 
 
@@ -208,7 +208,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_DATE( final int _year, final int _month, final int _day )
 	{
-		final int year = _year < 1899? _year + 1900 : _year;
+		final int year = _year < 1899 ? _year + 1900 : _year;
 		return dateToNum( year, _month, _day );
 	}
 
@@ -232,11 +232,11 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			case 1:
 				return dayOfWeek;
 			case 2:
-				return dayOfWeek > 1? dayOfWeek - 1 : 7;
+				return dayOfWeek > 1 ? dayOfWeek - 1 : 7;
 			case 3:
-				return dayOfWeek > 1? dayOfWeek - 2 : 6;
+				return dayOfWeek > 1 ? dayOfWeek - 2 : 6;
 			default:
-				throw new FormulaException( "#NUM! because of illegal argument _type in WEEKDAY" );				
+				throw new FormulaException( "#NUM! because of illegal argument _type in WEEKDAY" );
 		}
 	}
 
@@ -1084,7 +1084,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		double depreciation = depreciation1;
 		if ((int) _period > 1) {
 			double totalDepreciation = depreciation1;
-			final int maxPeriod = (int) (_life > _period? _period : _life);
+			final int maxPeriod = (int) (_life > _period ? _period : _life);
 			for (int i = 2; i <= maxPeriod; i++) {
 				depreciation = (_cost - totalDepreciation) * rate;
 				totalDepreciation += depreciation;
@@ -1102,8 +1102,8 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		final double newCost;
 		final double k = 1 - _factor / _life;
 		if (k <= 0) {
-			remainingCost = _period == 1? _cost : 0;
-			newCost = _period == 0? _cost : 0;
+			remainingCost = _period == 1 ? _cost : 0;
+			newCost = _period == 0 ? _cost : 0;
 		}
 		else {
 			final double k_p1 = Math.pow( k, _period - 1 );
@@ -1112,7 +1112,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			newCost = _cost * k_p;
 		}
 
-		double depreciation = remainingCost - (newCost < _salvage? _salvage : newCost);
+		double depreciation = remainingCost - (newCost < _salvage ? _salvage : newCost);
 		if (depreciation < 0) {
 			depreciation = 0;
 		}
@@ -1129,14 +1129,14 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			final double rate1;
 			if (rate0 == 0) {
 				final double a = _pmt * _nper;
-				final double b = a + (type? _pmt : -_pmt);
+				final double b = a + (type ? _pmt : -_pmt);
 				rate1 = rate0 - (_pv + _fv + a) / (_nper * (_pv + b / 2));
 			}
 			else {
 				final double a = 1 + rate0;
 				final double b = Math.pow( a, _nper - 1 );
 				final double c = b * a;
-				final double d = _pmt * (1 + (type? rate0 : 0));
+				final double d = _pmt * (1 + (type ? rate0 : 0));
 				final double e = rate0 * _nper * b;
 				final double f = c - 1;
 				final double g = rate0 * _pv;
@@ -1146,7 +1146,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			rate0 = rate1;
 		}
 		if (eps >= EXCEL_EPSILON) {
-			fun_ERROR( "#NUM! because of result do not converge to within " + EXCEL_EPSILON + " after " + MAX_ITER + " iterations in RATE" );			
+			fun_ERROR( "#NUM! because of result do not converge to within " + EXCEL_EPSILON + " after " + MAX_ITER + " iterations in RATE" );
 		}
 		return rate0;
 	}
@@ -1168,7 +1168,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 				for (int i = loopStart + 1; i <= loopEnd; i++) {
 					double valDDB = fun_DDB( _cost, _salvage, _life, i, _factor );
 					if (i == loopStart + 1) {
-						valDDB *= (_end_period < loopStart + 1? _end_period : loopStart + 1) - _start_period;
+						valDDB *= (_end_period < loopStart + 1 ? _end_period : loopStart + 1) - _start_period;
 					}
 					else if (i == loopEnd) {
 						valDDB *= _end_period + 1 - loopEnd;
