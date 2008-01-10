@@ -1291,3 +1291,52 @@ sheets:
     - null
     - const: 3.0
     - const: "..."
+  - cells:
+  - cells:
+    - const: "123,00 руб."
+    - expr: =DOLLAR( RC[1] )
+    - const: 123.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "DOLLAR"
+    - const: "DOLLAR"
+  - cells:
+    - const: "-1 234,57 руб."
+    - expr: =DOLLAR( RC[1] )
+    - const: -1234.567
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: "123 000 руб."
+    - expr: =DOLLAR( RC[1], RC[2] )
+    - const: 123345.2346
+    - const: -3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: "12 345,340 руб."
+    - expr: =DOLLAR( RC[1], RC[2] )
+    - const: 12345.34
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "..."

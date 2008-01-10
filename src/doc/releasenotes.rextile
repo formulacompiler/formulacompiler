@@ -30,6 +30,7 @@ h5. New
 	* @VALUE()@ and @DSUM()@ et al. now handle date/time strings.
 	* You can now tell AFC to compile to more readable code when "decompiled":tutorial/decompile.htm.
 	* @DAYS360()@ is now "supported":reference/datefuncs.htm.
+	* @DOLLAR()@ is now "supported":reference/convfuncs.htm
 
 h5. Better
 

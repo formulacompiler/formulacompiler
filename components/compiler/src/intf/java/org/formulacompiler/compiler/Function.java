@@ -74,7 +74,7 @@ public enum Function {
 
 	// Conversions
 
-	FIXED( true ),
+	FIXED( true ), DOLLAR( true ),
 
 	ROMAN, N, T, VALUE,
 

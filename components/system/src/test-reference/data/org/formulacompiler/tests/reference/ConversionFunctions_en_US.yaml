@@ -2276,3 +2276,149 @@ sheets:
     - null
     - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+  - cells:
+    - const: "$123.00"
+    - expr: =DOLLAR( RC[1] )
+    - const: 123.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "DOLLAR"
+    - const: "DOLLAR"
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: "($1,234.57)"
+    - expr: =DOLLAR( RC[1] )
+    - const: -1234.567
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: "$123.45"
+    - expr: =DOLLAR( RC[1] )
+    - const: 123.454
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: "$123.46"
+    - expr: =DOLLAR( RC[1] )
+    - const: 123.455
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: "($123.45)"
+    - expr: =DOLLAR( RC[1] )
+    - const: -123.454
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: "($123.46)"
+    - expr: =DOLLAR( RC[1] )
+    - const: -123.455
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "..."
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+  - cells:
+    - const: "($1,000)"
+    - expr: =DOLLAR( RC[1], RC[2] )
+    - const: -1234.5678
+    - const: -3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: "($1,234.568)"
+    - expr: =DOLLAR( RC[1], RC[2] )
+    - const: -1234.5678
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "..."
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )

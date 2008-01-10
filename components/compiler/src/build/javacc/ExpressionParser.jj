@@ -586,6 +586,7 @@ void fun(): {}
 	|	"DEVSQ" aggN( Function.DEVSQ )
 	|	"DMAX" dbAggN( Function.DMAX )
 	|	"DMIN" dbAggN( Function.DMIN )
+	|	"DOLLAR" fun1to2( Function.DOLLAR )
 	|	"DPRODUCT" dbAggN( Function.DPRODUCT )
 	|	"DSTDEV" dbAggN( Function.DSTDEV )
 	|	"DSTDEVP" dbAggN( Function.DSTDEVP )
