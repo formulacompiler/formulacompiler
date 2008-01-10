@@ -35,6 +35,17 @@ groups:
           - jxl.write.biff
           - jxl.biff.formula
 
+      - id: stax
+        jars:
+          - stax-api.jar
+          - stax.jar
+        pkgs:
+          - javax.xml
+          - javax.xml.datatype
+          - javax.xml.namespace
+          - javax.xml.stream
+          - javax.xml.stream.events
+
   - id: core
     desc:
         AFC's functional model to byte code compiler and runtime.
@@ -372,5 +383,24 @@ groups:
               - spreadsheet.compiler.model
               - core.runtime.core
               - ext.jexcelapi
+
+      - id: openoffice.ods
+        jar: formulacompiler-spreadsheet-opendocument
+        color: cyan3
+        desc:
+            OpenOffice .ods (OpenDocument) file format handlers.
+        comps:
+
+          - id: load
+            pkgs:
+              - org.formulacompiler.spreadsheet.internal.loader.odf
+              - org.formulacompiler.spreadsheet.internal.loader.odf.parser
+            api_deps:
+              - spreadsheet.compiler.load
+            deps:
+              - spreadsheet.compiler.model
+              - spreadsheet.compiler.parser
+              - core.runtime.core
+              - ext.stax
 
 ...
