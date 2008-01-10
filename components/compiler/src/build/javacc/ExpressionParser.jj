@@ -594,6 +594,7 @@ void fun(): {}
 	|	"ERF" fun1to2( Function.ERF )
 	|	"ERFC" fun1( Function.ERFC )
 	|	"err" fun1( Function.ERROR ) // Internal to rewrite rules
+	|	"ERROR.TYPE" fun1( Function.ERRORTYPE )
 	|	"EXACT" fun2( Function.EXACT )
 	|	"EXPONDIST" fun3( Function.EXPONDIST )
 	|	"EVEN" fun1( Function.EVEN )

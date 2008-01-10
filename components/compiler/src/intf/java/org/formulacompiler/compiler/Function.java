@@ -88,6 +88,8 @@ public enum Function {
 
 	ISBLANK, ISERR, ISERROR, ISLOGICAL, ISNA, ISNONTEXT, ISNUMBER, ISTEXT,
 
+	ERRORTYPE,
+
 	// Aggregators
 	// Don't forget to update AGGREGATORS below!
 
