@@ -1104,7 +1104,7 @@ jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForScaledL
 __@@__
 public long fun_ABS( long a )
 	{
-		return (a < 0)? -a : a;
+		return (a < 0) ? -a : a;
 	}
 ___@_@___
 jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForStrings:---- fun_MID
@@ -1575,7 +1575,7 @@ jc:org.formulacompiler.tutorials.AbstractUsingBigDecimalTest:---- IO
 __@@__
 public static class Input
 	{
-		public Input( double a, double b ) { this.a = BigDecimal.valueOf(a); this.b = BigDecimal.valueOf(b); }
+		public Input( double a, double b ) { this.a = BigDecimal.valueOf( a ); this.b = BigDecimal.valueOf( b ); }
 		public /**/BigDecimal/**/ getA() { return this.a; }
 		public /**/BigDecimal/**/ getB() { return this.b; }
 		private final BigDecimal a;
@@ -2020,8 +2020,8 @@ __@@__
 		public double getInput( double _param ) /**/{ return _param; }/**/
 		public double getInput( float _param ) /**/{ return _param; }/**/
 		public double getInput( char _param ) /**/{ return _param; }/**/
-		public double getInput( boolean _param ) /**/{ return (_param? 1 : 0); }/**/
-		
+		public double getInput( boolean _param ) /**/{ return (_param ? 1 : 0); }/**/
+
 		// Boxed types
 		public double getInput( Byte _param ) /**/{ return _param; }/**/
 		public double getInput( Short _param ) /**/{ return _param; }/**/
@@ -2030,7 +2030,7 @@ __@@__
 		public double getInput( Double _param ) /**/{ return _param; }/**/
 		public double getInput( Float _param ) /**/{ return _param; }/**/
 		public double getInput( Character _param ) /**/{ return _param; }/**/
-		public double getInput( Boolean _param ) /**/{ return (_param? 1 : 0); }/**/
+		public double getInput( Boolean _param ) /**/{ return (_param ? 1 : 0); }/**/
 
 		// Other types
 		public double getInput( String _param ) /**/{ return Double.valueOf( _param ); }/**/

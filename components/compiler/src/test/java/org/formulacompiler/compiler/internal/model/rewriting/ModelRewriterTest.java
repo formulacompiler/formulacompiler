@@ -114,7 +114,7 @@ public class ModelRewriterTest extends TestCase
 	{
 		final int expLen = _expected.length();
 		final int actLen = _actual.length();
-		final int compLen = (expLen > actLen)? actLen : expLen;
+		final int compLen = (expLen > actLen) ? actLen : expLen;
 		assertEquals( _expected, _actual.substring( 0, compLen ) );
 	}
 
@@ -156,7 +156,7 @@ public class ModelRewriterTest extends TestCase
 			}
 		}
 
-		final String name = (_value == null)? "!null!" : "!" + _value.toString() + "!";
+		final String name = (_value == null) ? "!null!" : "!" + _value.toString() + "!";
 		final CellModel cellModel = new CellModel( rootModel, name );
 		cellModel.setConstantValue( _value );
 		return new ExpressionNodeForCellModel( cellModel );

@@ -58,7 +58,7 @@ public enum Function {
 
 	// Dates
 
-	DATE, TIME, SECOND, MINUTE, HOUR, WEEKDAY, DAY, MONTH, YEAR,
+	DATE, TIME, SECOND, MINUTE, HOUR, WEEKDAY, DAY, MONTH, YEAR, DAYS360,
 
 	NOW( true ), TODAY( true ),
 
@@ -74,9 +74,9 @@ public enum Function {
 
 	// Conversions
 
-	FIXED( true ),
+	FIXED( true ), DOLLAR( true ),
 
-	ROMAN, N, T, VALUE,
+	ROMAN, N, T, VALUE, CHAR, CODE, DATEVALUE, TIMEVALUE,
 
 	/**
 	 * {@code TEXT} is volatile because all to-text conversions are considered dependent on the
@@ -87,6 +87,8 @@ public enum Function {
 	// Types
 
 	ISBLANK, ISERR, ISERROR, ISLOGICAL, ISNA, ISNONTEXT, ISNUMBER, ISTEXT,
+
+	ERRORTYPE,
 
 	// Aggregators
 	// Don't forget to update AGGREGATORS below!

@@ -63,7 +63,7 @@ abstract class AbstractCellValues
 				}
 			}
 			else {
-				parseAndSetValue( _cx, i, (cell == null)? null : cell.getValue() );
+				parseAndSetValue( _cx, i, (cell == null) ? null : cell.getValue() );
 			}
 		}
 	}
@@ -92,13 +92,13 @@ abstract class AbstractCellValues
 			else if (str.startsWith( "!BOOL:" )) {
 				set( _index, expectedErrorFromList( _cx, str.substring( 6 ) ), BindingType.BOOLEAN );
 			}
-			else if (str.equals( "(now)" )) {
+			else if (str.equals( NOW )) {
 				set( _index, NOW, BindingType.DATE );
 			}
 			else if (str.equals( "(sinh 710)" )) {
 				set( _index, Math.sinh( 710.0 ), this.numberType );
 			}
-			else if (str.equals( "(full days from 2006)" )) {
+			else if (str.equals( "(today)" )) {
 				final Calendar calendar = new GregorianCalendar( getTimeZone( _cx ) );
 				final int year = calendar.get( Calendar.YEAR );
 				final int month = calendar.get( Calendar.MONTH );
@@ -107,7 +107,7 @@ abstract class AbstractCellValues
 				calendar.clear();
 				calendar.set( year, month, dayOfMonth );
 				final long endMillis = calendar.getTimeInMillis();
-				calendar.set( 2006, Calendar.JANUARY, 1 );
+				calendar.set( 1899, Calendar.DECEMBER, 30 );
 				final long startMillis = calendar.getTimeInMillis();
 				final long days = (endMillis - startMillis) / MS_PER_DAY;
 				// make sure it is not treated as an already scaled long
@@ -155,7 +155,7 @@ abstract class AbstractCellValues
 	private TimeZone getTimeZone( Context _cx )
 	{
 		final Computation.Config config = _cx.getComputationConfig();
-		TimeZone timeZone = config != null? config.timeZone : null;
+		TimeZone timeZone = config != null ? config.timeZone : null;
 		if (timeZone == null) {
 			timeZone = TimeZone.getDefault();
 		}

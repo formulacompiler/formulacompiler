@@ -1509,3 +1509,286 @@ sheets:
     - null
     - const: 3.0
     - const: "..."
+  - cells:
+  - cells:
+    - const: "SFr. 123.00"
+    - expr: =DOLLAR( RC[1] )
+    - const: 123.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "DOLLAR"
+    - const: "DOLLAR"
+  - cells:
+    - const: "SFr.-1'234.57"
+    - expr: =DOLLAR( RC[1] )
+    - const: -1234.567
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: "SFr. 123'000"
+    - expr: =DOLLAR( RC[1], RC[2] )
+    - const: 123345.2346
+    - const: -3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: "SFr. 12'345.340"
+    - expr: =DOLLAR( RC[1], RC[2] )
+    - const: 12345.34
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: "A"
+    - expr: =CHAR( RC[1] )
+    - const: 65.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "CHAR"
+    - const: "CHAR"
+  - cells:
+    - const: "d"
+    - expr: =CHAR( RC[1] )
+    - const: 100.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: "ú"
+    - expr: =CHAR( RC[1] )
+    - const: 250.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: "§"
+    - expr: =CHAR( RC[1] )
+    - const: 167.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 63.0
+    - expr: =CODE( RC[1] )
+    - const: "ё"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "CODE"
+    - const: "CODE"
+  - cells:
+    - const: 167.0
+    - expr: =CODE( RC[1] )
+    - const: "§"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 252.0
+    - expr: =CODE( RC[1] )
+    - const: "ü"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: "!STR:FE"
+    - expr: =DATEVALUE( RC[1] )
+    - const: "7/5/1998"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "DATEVALUE"
+    - const: "DATEVALUE"
+  - cells:
+    - const: "!STR:FE"
+    - expr: =DATEVALUE( RC[1] )
+    - const: "7-5-1998"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 35922.0
+    - expr: =DATEVALUE( RC[1] )
+    - const: "7.5.1998"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 39417.0
+    - expr: =DATEVALUE( RC[1] )
+    - const: "1.12.07"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: "!STR:FE"
+    - expr: =DATEVALUE( RC[1] )
+    - const: "1. Dezember 2007"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: "!STR:FE"
+    - expr: =DATEVALUE( RC[1] )
+    - const: "1. Dez 2007"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: "!STR:FE"
+    - expr: =DATEVALUE( RC[1] )
+    - const: "1 Dez 2007"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: "!STR:FE"
+    - expr: =DATEVALUE( RC[1] )
+    - const: "1. Dezember 2007 12:13"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 35922.0
+    - expr: =DATEVALUE( RC[1] )
+    - const: "7.5.98 12:13:14"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: "!STR:FE"
+    - expr: =TIMEVALUE( RC[1] )
+    - const: "7/5/1998 12: 13"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "TIMEVALUE"
+    - const: "TIMEVALUE"
+  - cells:
+    - const: "!STR:FE"
+    - expr: =TIMEVALUE( RC[1] )
+    - const: "29. mai 2007 12:30"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: "!STR:FE"
+    - expr: =TIMEVALUE( RC[1] )
+    - const: "29-mai-2007 12:30:23"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 0.509027777778101
+    - expr: =TIMEVALUE( RC[1] )
+    - const: "7.5.1998 12: 13"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0

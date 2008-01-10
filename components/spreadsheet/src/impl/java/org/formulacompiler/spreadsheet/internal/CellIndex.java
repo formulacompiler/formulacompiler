@@ -163,7 +163,7 @@ public final class CellIndex extends Reference implements Cell
 	public Object getValue()
 	{
 		final CellInstance cell = getCell();
-		return (cell == null)? null : cell.getValue();
+		return (cell == null) ? null : cell.getValue();
 	}
 
 
@@ -236,7 +236,7 @@ public final class CellIndex extends Reference implements Cell
 			else {
 				final SpreadsheetDescriptionBuilder b = (SpreadsheetDescriptionBuilder) _to;
 				final CellIndex relativeTo = b.getRelativeTo();
-				if (this.sheetIndex != ((relativeTo != null)? relativeTo.sheetIndex : 0)) {
+				if (this.sheetIndex != ((relativeTo != null) ? relativeTo.sheetIndex : 0)) {
 					_to.append( '\'' ).append( getSheet().getName() ).append( "'!" );
 				}
 				if (null == relativeTo) {

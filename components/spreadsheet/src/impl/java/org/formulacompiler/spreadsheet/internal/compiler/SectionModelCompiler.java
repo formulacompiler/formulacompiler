@@ -413,7 +413,7 @@ public final class SectionModelCompiler
 			for (SectionBinding inner : this.sectionDef.getSections()) {
 				final CellRange innerRange = inner.getRange();
 				final Orientation innerOrient = inner.getOrientation();
-				final CellRange[] tiling = (innerOrient == ownOrient)? next.tilingAround( innerRange, innerOrient ) : next
+				final CellRange[] tiling = (innerOrient == ownOrient) ? next.tilingAround( innerRange, innerOrient ) : next
 						.tilingAround( innerRange );
 				switch (tiling.length) {
 
@@ -462,7 +462,7 @@ public final class SectionModelCompiler
 			}
 
 			final CellIndex from = range.getFrom();
-			final ExpressionNode result = (shaped)? new ExpressionNodeForArrayReference( new ArrayDescriptor(
+			final ExpressionNode result = (shaped) ? new ExpressionNodeForArrayReference( new ArrayDescriptor(
 					from.sheetIndex, from.rowIndex, from.columnIndex, sheets, rows, cols ) )
 					: new ExpressionNodeForSubstitution();
 			result.arguments().addAll( elts );

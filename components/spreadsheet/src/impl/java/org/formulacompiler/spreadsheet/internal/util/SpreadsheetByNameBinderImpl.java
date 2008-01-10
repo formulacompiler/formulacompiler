@@ -184,7 +184,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 
 		public void bindAllPrefixedNamedCellsToMethods( String _prefix ) throws CompilerException
 		{
-			final String prefix = (null != _prefix)? _prefix.toUpperCase() : null;
+			final String prefix = (null != _prefix) ? _prefix.toUpperCase() : null;
 			final NameDefinition[] defs = getSpreadsheet().getDefinedNames();
 			for (NameDefinition def : defs) {
 				if (def instanceof Spreadsheet.CellNameDefinition) {

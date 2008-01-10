@@ -110,7 +110,7 @@ abstract class AbstractFunctionRewriterForConditionalFold extends AbstractExpres
 			for (int iCrit = 0; iCrit < len; iCrit++) {
 				final int iCol = _critCols[ iCrit ];
 				final ExpressionNode criterion = _critIterator.next();
-				final ExpressionNode colFilter = (iCol == FREE_FORM)? buildFreeFormFilter( criterion, _firstRow )
+				final ExpressionNode colFilter = (iCol == FREE_FORM) ? buildFreeFormFilter( criterion, _firstRow )
 						: buildFilterByExample( iCol, criterion, _colTypes[ iCol ] );
 				if (null != colFilter) {
 					result.add( colFilter );

@@ -150,7 +150,7 @@ abstract class MethodCompiler
 	@SuppressWarnings( "unchecked" )
 	private ExpressionCompiler expressionCompilerFor( Class _clazz )
 	{
-		return (_clazz.isAssignableFrom( String.class ))? stringCompiler() : numericCompiler();
+		return (_clazz.isAssignableFrom( String.class )) ? stringCompiler() : numericCompiler();
 	}
 
 	final String methodName()

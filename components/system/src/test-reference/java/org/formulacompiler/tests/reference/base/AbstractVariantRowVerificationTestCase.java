@@ -90,7 +90,7 @@ abstract class AbstractVariantRowVerificationTestCase extends AbstractContextTes
 			assertCellExpressionsSame( wantExpr, haveExpr );
 		}
 		else {
-			assertCellValuesSame( _want, _want.getValue(), (null == _have)? null : _have.getValue() );
+			assertCellValuesSame( _want, _want.getValue(), (null == _have) ? null : _have.getValue() );
 		}
 	}
 
@@ -113,7 +113,7 @@ abstract class AbstractVariantRowVerificationTestCase extends AbstractContextTes
 
 	protected boolean areCellValuesEqual( Object _want, Object _have ) throws Exception
 	{
-		return _want == null? _have == null : _want.equals( _have );
+		return _want == null ? _have == null : _want.equals( _have );
 	}
 
 

@@ -295,11 +295,11 @@ public class CompilerException extends FormulaCompilerException
 			int at = _atPosition;
 			if (at < 0) at = 0;
 			if (at >= _source.length()) at = _source.length() - 1;
-			final String leadingEllipsis = (at > CONTEXT_CHARS)? "..." : "";
+			final String leadingEllipsis = (at > CONTEXT_CHARS) ? "..." : "";
 			final String sourceBeforeError = _source.substring( Math.max( at - CONTEXT_CHARS, 0 ), at );
-			final String sourceAfterError = (at < _source.length())? _source.substring( at, Math.min( at + CONTEXT_CHARS,
+			final String sourceAfterError = (at < _source.length()) ? _source.substring( at, Math.min( at + CONTEXT_CHARS,
 					_source.length() ) ) : "";
-			final String finalEllipsis = (at + CONTEXT_CHARS < _source.length())? "..." : "";
+			final String finalEllipsis = (at + CONTEXT_CHARS < _source.length()) ? "..." : "";
 
 			StringBuilder result = new StringBuilder( _message );
 			result.append( " in expression " ).append( leadingEllipsis ).append( sourceBeforeError ).append( " <<? " )

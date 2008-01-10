@@ -29,6 +29,8 @@ h5. New
 	* @ROMAN()@ and @FIXED()@ are now "supported":reference/convfuncs.htm
 	* @VALUE()@ and @DSUM()@ et al. now handle date/time strings.
 	* You can now tell AFC to compile to more readable code when "decompiled":tutorial/decompile.htm.
+	* @DAYS360()@ is now "supported":reference/datefuncs.htm.
+	* @CHAR()@, @CODE()@, @DOLLAR()@, @DATEVALUE()@, and @TIMEVALUE()@ are now "supported":reference/convfuncs.htm
 
 h5. Better
 

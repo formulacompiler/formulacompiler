@@ -105,7 +105,7 @@ public abstract class AbstractEngineCompilingTestSuite extends AbstractContextTe
 		Map<BindingType, Method> result = getters.get( _cls );
 		if (null == result) {
 			result = New.map();
-			final Class[] getterParams = _indexed? new Class[] { Integer.TYPE } : null;
+			final Class[] getterParams = _indexed ? new Class[] { Integer.TYPE } : null;
 			for (BindingType t : BindingType.values()) {
 				final String name = getterNames[ t.ordinal() ];
 				if (null != name) {

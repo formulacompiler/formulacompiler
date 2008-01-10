@@ -27,9 +27,12 @@ import org.formulacompiler.runtime.internal.Runtime_v2;
 public final class ExpressionTemplatesForNumbers
 {
 
+	private final Environment environment;
+
 	public ExpressionTemplatesForNumbers( Environment _env )
 	{
 		super();
+		this.environment = _env;
 	}
 
 
@@ -37,6 +40,11 @@ public final class ExpressionTemplatesForNumbers
 	 * The "String" argument is automatically compiled using the String expression compiler. The
 	 * "int" return is automatically converted to the proper output type.
 	 */
+	public int fun_CODE( String _s )
+	{
+		return Runtime_v2.fun_CODE( _s, this.environment );
+	}
+
 	public int fun_LEN( String a )
 	{
 		return a.length();

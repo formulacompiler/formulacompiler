@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.TimeZone;
+import java.text.ParseException;
 
 import org.formulacompiler.runtime.NotAvailableException;
 import org.formulacompiler.runtime.FormulaException;
@@ -42,12 +43,12 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double max( final double a, final double b )
 	{
-		return a >= b? a : b;
+		return a >= b ? a : b;
 	}
 
 	public static double min( final double a, final double b )
 	{
-		return a <= b? a : b;
+		return a <= b ? a : b;
 	}
 
 	public static double fun_CEILING( final double _number, final double _significance )
@@ -127,17 +128,17 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	private static double roundDown( final double _val )
 	{
-		return 0 > _val? Math.ceil( _val ) : Math.floor( _val );
+		return 0 > _val ? Math.ceil( _val ) : Math.floor( _val );
 	}
 
 	private static double roundUp( final double _val )
 	{
-		return 0 > _val? Math.floor( _val ) : Math.ceil( _val );
+		return 0 > _val ? Math.floor( _val ) : Math.ceil( _val );
 	}
 
 	private static double pow10( final int _exp )
 	{
-		return (_exp >= -10 && _exp <= 10)? POW10[ _exp + 10 ] : Math.pow( 10, _exp );
+		return (_exp >= -10 && _exp <= 10) ? POW10[ _exp + 10 ] : Math.pow( 10, _exp );
 	}
 
 	public static boolean booleanFromNum( final double _val )
@@ -147,12 +148,12 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double booleanToNum( final boolean _val )
 	{
-		return _val? 1.0 : 0.0;
+		return _val ? 1.0 : 0.0;
 	}
 
 	public static double numberToNum( final Number _num )
 	{
-		return (_num == null)? 0.0 : _num.doubleValue();
+		return (_num == null) ? 0.0 : _num.doubleValue();
 	}
 
 
@@ -207,7 +208,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_DATE( final int _year, final int _month, final int _day )
 	{
-		final int year = _year < 1899? _year + 1900 : _year;
+		final int year = _year < 1899 ? _year + 1900 : _year;
 		return dateToNum( year, _month, _day );
 	}
 
@@ -231,11 +232,11 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			case 1:
 				return dayOfWeek;
 			case 2:
-				return dayOfWeek > 1? dayOfWeek - 1 : 7;
+				return dayOfWeek > 1 ? dayOfWeek - 1 : 7;
 			case 3:
-				return dayOfWeek > 1? dayOfWeek - 2 : 6;
+				return dayOfWeek > 1 ? dayOfWeek - 2 : 6;
 			default:
-				throw new FormulaException( "#NUM! because of illegal argument _type in WEEKDAY" );				
+				throw new FormulaException( "#NUM! because of illegal argument _type in WEEKDAY" );
 		}
 	}
 
@@ -250,6 +251,46 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return getCalendarValueFromNum( _date, Calendar.DAY_OF_MONTH );
 	}
 
+	public static double fun_DAYS360( double _start_date, double _end_date, boolean _method )
+	{
+		final int date_days1, date_days2, sign;
+		if (_start_date <= _end_date) {
+			date_days1 = (int) _start_date;
+			date_days2 = (int) _end_date;
+			sign = 1;
+		}
+		else {
+			date_days1 = (int) _end_date;
+			date_days2 = (int) _start_date;
+			sign = -1;
+		}
+		final GregorianCalendar date1 = getGregorianCalendarInstanceFromNum( date_days1 );
+		final GregorianCalendar date2 = getGregorianCalendarInstanceFromNum( date_days2 );
+		int day1 = date1.get( Calendar.DAY_OF_MONTH );
+		int day2 = date2.get( Calendar.DAY_OF_MONTH );
+		if (day1 == 31) {
+			day1 -= 1;
+		}
+		else if (!_method && date1.get( Calendar.MONTH ) == Calendar.FEBRUARY) {
+			if (day1 == 29 || (day1 == 28 && !date1.isLeapYear( date1.get( Calendar.YEAR ) ))) {
+				day1 = 30;
+			}
+		}
+		if (day2 == 31) {
+			if (!_method) {
+				if (day1 == 30) {
+					day2 -= 1;
+				}
+			}
+			else {
+				day2 = 30;
+			}
+		}
+		return sign * ((date2.get( Calendar.YEAR ) - date1.get( Calendar.YEAR )) * 360
+				+ (date2.get( Calendar.MONTH ) - date1.get( Calendar.MONTH )) * 30
+				+ day2 - day1);
+	}
+
 	public static int fun_MONTH( final double _date )
 	{
 		return getCalendarValueFromNum( _date, Calendar.MONTH ) + 1;
@@ -262,11 +303,17 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	private static int getCalendarValueFromNum( double _date, int _field )
 	{
-		final Calendar calendar = new GregorianCalendar( TimeZone.getTimeZone( "GMT" ) );
+		final Calendar calendar = getGregorianCalendarInstanceFromNum( _date );
+		return calendar.get( _field );
+	}
+
+	private static GregorianCalendar getGregorianCalendarInstanceFromNum( double _date )
+	{
+		final GregorianCalendar calendar = new GregorianCalendar( TimeZone.getTimeZone( "GMT" ) );
 		final TimeZone timeZone = calendar.getTimeZone();
 		final Date date = dateFromNum( _date, timeZone );
 		calendar.setTime( date );
-		return calendar.get( _field );
+		return calendar;
 	}
 
 	public static double fun_NOW( final Environment _environment, final ComputationTime _computationTime )
@@ -1037,7 +1084,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		double depreciation = depreciation1;
 		if ((int) _period > 1) {
 			double totalDepreciation = depreciation1;
-			final int maxPeriod = (int) (_life > _period? _period : _life);
+			final int maxPeriod = (int) (_life > _period ? _period : _life);
 			for (int i = 2; i <= maxPeriod; i++) {
 				depreciation = (_cost - totalDepreciation) * rate;
 				totalDepreciation += depreciation;
@@ -1055,8 +1102,8 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		final double newCost;
 		final double k = 1 - _factor / _life;
 		if (k <= 0) {
-			remainingCost = _period == 1? _cost : 0;
-			newCost = _period == 0? _cost : 0;
+			remainingCost = _period == 1 ? _cost : 0;
+			newCost = _period == 0 ? _cost : 0;
 		}
 		else {
 			final double k_p1 = Math.pow( k, _period - 1 );
@@ -1065,7 +1112,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			newCost = _cost * k_p;
 		}
 
-		double depreciation = remainingCost - (newCost < _salvage? _salvage : newCost);
+		double depreciation = remainingCost - (newCost < _salvage ? _salvage : newCost);
 		if (depreciation < 0) {
 			depreciation = 0;
 		}
@@ -1082,14 +1129,14 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			final double rate1;
 			if (rate0 == 0) {
 				final double a = _pmt * _nper;
-				final double b = a + (type? _pmt : -_pmt);
+				final double b = a + (type ? _pmt : -_pmt);
 				rate1 = rate0 - (_pv + _fv + a) / (_nper * (_pv + b / 2));
 			}
 			else {
 				final double a = 1 + rate0;
 				final double b = Math.pow( a, _nper - 1 );
 				final double c = b * a;
-				final double d = _pmt * (1 + (type? rate0 : 0));
+				final double d = _pmt * (1 + (type ? rate0 : 0));
 				final double e = rate0 * _nper * b;
 				final double f = c - 1;
 				final double g = rate0 * _pv;
@@ -1099,7 +1146,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			rate0 = rate1;
 		}
 		if (eps >= EXCEL_EPSILON) {
-			fun_ERROR( "#NUM! because of result do not converge to within " + EXCEL_EPSILON + " after " + MAX_ITER + " iterations in RATE" );			
+			fun_ERROR( "#NUM! because of result do not converge to within " + EXCEL_EPSILON + " after " + MAX_ITER + " iterations in RATE" );
 		}
 		return rate0;
 	}
@@ -1121,7 +1168,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 				for (int i = loopStart + 1; i <= loopEnd; i++) {
 					double valDDB = fun_DDB( _cost, _salvage, _life, i, _factor );
 					if (i == loopStart + 1) {
-						valDDB *= (_end_period < loopStart + 1? _end_period : loopStart + 1) - _start_period;
+						valDDB *= (_end_period < loopStart + 1 ? _end_period : loopStart + 1) - _start_period;
 					}
 					else if (i == loopEnd) {
 						valDDB *= _end_period + 1 - loopEnd;
@@ -1194,6 +1241,30 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		throw new FormulaException( "#VALUE! because of argument of unsupported type in VALUE" );
 	}
 
+	public static double fun_DATEVALUE( String _text, final Environment _environment )
+	{
+		final String text = _text.trim();
+		try {
+			final Date date = _environment.parseDateAndOrTime( _text );
+			return Math.floor( dateToDouble( date, _environment.timeZone() ) );
+		}
+		catch (ParseException e) {
+			throw new FormulaException( "#VALUE! because argument could not be interpreted properly in DATEVALUE" );
+		}
+	}
+
+	public static double fun_TIMEVALUE( String _text, final Environment _environment )
+	{
+		final String text = _text.trim();
+		try {
+			final Date date = _environment.parseDateAndOrTime( _text );
+			double dataTime = dateToDouble( date, _environment.timeZone() );
+			return dataTime - Math.floor( dataTime );
+		}
+		catch (ParseException e) {
+			throw new FormulaException( "#VALUE! because argument could not be interpreted properly in TIMEVALUE" );
+		}
+	}
 
 	public static int fun_MATCH_Exact( double _x, double[] _xs )
 	{

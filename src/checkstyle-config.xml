@@ -20,6 +20,19 @@
 		    <property name="format" value="FIXME"/>
     	</module>
 
+		<module name="ParenPad">
+			<property name="tokens" value="CTOR_CALL, METHOD_CALL, SUPER_CTOR_CALL"/>
+			<property name="option" value="space"/>
+		</module>
+
+		<module name="WhitespaceAfter">
+			<property name="tokens" value="COMMA, TYPECAST"/>
+		</module>
+
+		<module name="WhitespaceAround">
+			<property name="tokens" value="QUESTION"/>
+		</module>
+
     </module>
-    
+
 </module>

@@ -78,12 +78,12 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 
 	BigDecimal util_fromBigInteger( BigInteger a )
 	{
-		return a == null? BigDecimal.ZERO : new BigDecimal( a );
+		return a == null ? BigDecimal.ZERO : new BigDecimal( a );
 	}
 
 	BigDecimal util_fromNumber( Number a )
 	{
-		return a == null? BigDecimal.ZERO : new BigDecimal( a.toString() );
+		return a == null ? BigDecimal.ZERO : new BigDecimal( a.toString() );
 	}
 
 	BigDecimal util_fromBoolean( boolean a )
@@ -529,6 +529,11 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_DAY( _date );
 	}
 
+	public BigDecimal fun_DAYS360( BigDecimal _start_date, BigDecimal _end_date, BigDecimal _method )
+	{
+		return RuntimeBigDecimal_v2.fun_DAYS360( _start_date, _end_date, _method.signum() != 0 );
+	}
+
 	public BigDecimal fun_MONTH( BigDecimal _date )
 	{
 		return RuntimeBigDecimal_v2.fun_MONTH( _date );
@@ -558,5 +563,14 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_VALUE( _text, this.environment );
 	}
 
+	public BigDecimal fun_DATEVALUE( String _text )
+	{
+		return RuntimeBigDecimal_v2.fun_DATEVALUE( _text, this.environment );
+	}
+
+	public BigDecimal fun_TIMEVALUE( String _text )
+	{
+		return RuntimeBigDecimal_v2.fun_TIMEVALUE( _text, this.environment );
+	}
 
 }

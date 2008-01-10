@@ -44,7 +44,7 @@ public class Dates extends SheetSuiteSetup
 
 		{
 			TimeZone defaultTimeZone = TimeZone.getDefault();
-			TimeZone timeZone = getDayOfYear( defaultTimeZone ) != getDayOfYear( TIME_ZONE_1 )? TIME_ZONE_1 : TIME_ZONE_2;
+			TimeZone timeZone = getDayOfYear( defaultTimeZone ) != getDayOfYear( TIME_ZONE_1 ) ? TIME_ZONE_1 : TIME_ZONE_2;
 			if (getDayOfYear( defaultTimeZone ) == getDayOfYear( timeZone )) {
 				throw new IllegalStateException( "The day must be different from local." );
 			}

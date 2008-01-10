@@ -84,7 +84,7 @@ abstract class InterpretedBigDecimalType extends InterpretedNumericType
 		else if (_value instanceof Integer) result = BigDecimal.valueOf( (Integer) _value );
 		else if (_value instanceof Long) result = BigDecimal.valueOf( (Long) _value );
 		else if (_value instanceof String) result = new BigDecimal( (String) _value );
-		else if (_value instanceof Boolean) result = ((Boolean) _value)? BigDecimal.ONE : BigDecimal.ZERO;
+		else if (_value instanceof Boolean) result = ((Boolean) _value) ? BigDecimal.ONE : BigDecimal.ZERO;
 		else if (_value instanceof LocalExcelDate) result = BigDecimal.valueOf( ((LocalExcelDate) _value).value() );
 		else if (_value instanceof Date) {
 			throw new IllegalArgumentException( "Cannot interpret java.util.Date - it is runtime time-zone specific." );

@@ -45,9 +45,9 @@ public class EvalIf extends EvalFunction
 				final boolean constFirstArg = type().toBoolean( firstArg.getConstantValue() );
 				switch (card) {
 					case 2:
-						return (constFirstArg)? evaluateArgument( 1 ) : null;
+						return (constFirstArg) ? evaluateArgument( 1 ) : null;
 					case 3:
-						return (constFirstArg)? evaluateArgument( 1 ) : evaluateArgument( 2 );
+						return (constFirstArg) ? evaluateArgument( 1 ) : evaluateArgument( 2 );
 				}
 			}
 		}

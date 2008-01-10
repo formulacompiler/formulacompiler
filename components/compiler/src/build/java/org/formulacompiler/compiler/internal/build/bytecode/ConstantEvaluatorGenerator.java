@@ -176,7 +176,7 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 		{
 			if (verbose) System.out.println( "  " + mtdNode.name );
 
-			final DispatchBuilder db = (cardinality == 1)? unaryOperatorDispatchBuilder : binaryOperatorDispatchBuilder;
+			final DispatchBuilder db = (cardinality == 1) ? unaryOperatorDispatchBuilder : binaryOperatorDispatchBuilder;
 			db.genDispatchCase( enumName );
 			db.indent();
 			db.genDispatchIf( ifCond );
