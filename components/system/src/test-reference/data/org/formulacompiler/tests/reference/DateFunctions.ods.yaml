@@ -36,17 +36,17 @@ sheets:
     - const: "NOW"
   - cells:
   - cells:
-    - const: "(full days from 2006)"
-    - expr: =(TODAY() - RC[1])
-    - const: 38718.0
+    - const: "(today)"
+    - expr: =TODAY()
     - null
     - null
     - null
     - null
     - null
     - null
-    - const: 1.0
-    - const: "TODAY (compared to 1.1.2006)"
+    - null
+    - const: 0.0
+    - const: "TODAY"
     - const: "TODAY"
   - cells:
   - cells:
