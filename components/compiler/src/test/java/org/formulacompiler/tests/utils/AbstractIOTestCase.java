@@ -160,9 +160,9 @@ public abstract class AbstractIOTestCase extends TestCase
 	protected void assertEqualReaders( String _message, Reader _expected, Reader _actual ) throws Exception
 	{
 		int line = 1;
-		final BufferedReader expected = _expected instanceof BufferedReader? (BufferedReader) _expected
+		final BufferedReader expected = _expected instanceof BufferedReader ? (BufferedReader) _expected
 				: new BufferedReader( _expected );
-		final BufferedReader actual = _actual instanceof BufferedReader? (BufferedReader) _actual : new BufferedReader(
+		final BufferedReader actual = _actual instanceof BufferedReader ? (BufferedReader) _actual : new BufferedReader(
 				_actual );
 		while (true) {
 			final String e = expected.readLine();

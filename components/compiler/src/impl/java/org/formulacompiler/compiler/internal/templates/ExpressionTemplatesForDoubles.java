@@ -186,7 +186,7 @@ public final class ExpressionTemplatesForDoubles
 
 	double util_testForErrors( double a )
 	{
-		return Double.isInfinite( a ) || Double.isNaN( a )? 1 : 0;
+		return Double.isInfinite( a ) || Double.isNaN( a ) ? 1 : 0;
 	}
 
 
@@ -502,7 +502,7 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_TDIST( double _x, double _degFreedom, double _tails, double _no_floor )
 	{
-		return RuntimeDouble_v2.fun_TDIST( _x, _degFreedom, (int) _tails, _no_floor == 0? false : true );
+		return RuntimeDouble_v2.fun_TDIST( _x, _degFreedom, (int) _tails, _no_floor == 0 ? false : true );
 	}
 
 	public double fun_TINV( double _x, double _degFreedom )
@@ -640,6 +640,11 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v2.fun_DAY( _date );
 	}
 
+	public double fun_DAYS360( double _start_date, double _end_date, double _method )
+	{
+		return RuntimeDouble_v2.fun_DAYS360( _start_date, _end_date, _method != 0 );
+	}
+
 	public double fun_MONTH( double _date )
 	{
 		return RuntimeDouble_v2.fun_MONTH( _date );
@@ -672,5 +677,14 @@ public final class ExpressionTemplatesForDoubles
 	}
 	// ---- fun_VALUE
 
+	public double fun_DATEVALUE( String _text )
+	{
+		return RuntimeDouble_v2.fun_DATEVALUE( _text, this.environment );
+	}
+
+	public double fun_TIMEVALUE( String _text )
+	{
+		return RuntimeDouble_v2.fun_TIMEVALUE( _text, this.environment );
+	}	
 
 }

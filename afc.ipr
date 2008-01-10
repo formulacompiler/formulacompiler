@@ -61,6 +61,7 @@
             <package name="junit" withSubpackages="true" />
           </value>
         </option>
+        <option name="SPACE_WITHIN_ANNOTATION_PARENTHESES" value="true" />
         <ADDITIONAL_INDENT_OPTIONS fileType="js">
           <option name="INDENT_SIZE" value="4" />
           <option name="CONTINUATION_INDENT_SIZE" value="8" />
@@ -332,6 +333,7 @@
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="singleModule" />
       </option>
+      <envs />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method>

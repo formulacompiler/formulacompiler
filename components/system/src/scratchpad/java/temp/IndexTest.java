@@ -39,7 +39,7 @@ public class IndexTest
 		public final double get1()
 		{
 			int i;
-			return ((i = get2() - 1) >= 0 && i < 10)? arr()[i] : 0; 
+			return ((i = get2() - 1) >= 0 && i < 10) ? arr()[ i ] : 0;
 		}
 
 		private int get2()

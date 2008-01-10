@@ -36,17 +36,17 @@ sheets:
     - const: "NOW"
   - cells:
   - cells:
-    - const: "(full days from 2006)"
-    - expr: =(TODAY() - RC[1])
-    - const: 38718.0
+    - const: "(today)"
+    - expr: =TODAY()
     - null
     - null
     - null
     - null
     - null
     - null
-    - const: 1.0
-    - const: "TODAY (compared to 1.1.2006)"
+    - null
+    - const: 0.0
+    - const: "TODAY"
     - const: "TODAY"
   - cells:
   - cells:
@@ -548,3 +548,130 @@ sheets:
     - null
     - null
     - const: 1.0
+  - cells:
+  - cells:
+    - const: 1095.0
+    - expr: =DAYS360( RC[1], RC[2] )
+    - const: 35222.0
+    - const: 36332.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "DAYS360"
+    - const: "DAYS360"
+  - cells:
+    - const: 3600.0
+    - expr: =DAYS360( RC[1], RC[2] )
+    - const: 7305.999363425926
+    - const: 10958.561805555555
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: -331.0
+    - expr: =DAYS360( RC[1], RC[2] )
+    - const: 39788.0
+    - const: 39452.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 331.0
+    - expr: =DAYS360( RC[1], RC[2] )
+    - const: 39452.0
+    - const: 39788.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 180.0
+    - expr: =DAYS360( RC[1], RC[2] )
+    - const: 34758.0
+    - const: 34942.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 180.0
+    - expr: =DAYS360( RC[1], RC[2] )
+    - const: 35124.0
+    - const: 35308.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 60.0
+    - expr: =DAYS360( RC[1], RC[2] )
+    - const: 35094.0
+    - const: 35155.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: 60.0
+    - expr: =DAYS360( RC[1], RC[2] )
+    - const: 35095.0
+    - const: 35155.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 182.0
+    - expr: =DAYS360( RC[1], RC[2], RC[3] )
+    - const: 34758.0
+    - const: 34942.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 180.0
+    - expr: =DAYS360( RC[1], RC[2], RC[3] )
+    - const: 34758.0
+    - const: 34942.0
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 181.0
+    - expr: =DAYS360( RC[1], RC[2], RC[3] )
+    - const: 35124.0
+    - const: 35308.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."

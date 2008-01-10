@@ -44,7 +44,7 @@ final class EvalFoldDatabase extends EvalShadow
 		final int card = cardinality();
 		final TypedResult[] argValues = new TypedResult[ card ];
 		for (int iArg = 0; iArg < card; iArg++) {
-			argValues[ iArg ] = (iArg == 1)? evalFilter() : evaluateArgument( iArg );
+			argValues[ iArg ] = (iArg == 1) ? evalFilter() : evaluateArgument( iArg );
 		}
 		return evaluateToConstOrExprWithConstantArgsFixed( argValues );
 	}

@@ -143,7 +143,7 @@ public abstract class ExpressionNode extends AbstractDescribable implements Type
 
 	public final ExpressionNode getOrigin()
 	{
-		return (this.derivedFrom == null)? this : this.derivedFrom.getOrigin();
+		return (this.derivedFrom == null) ? this : this.derivedFrom.getOrigin();
 	}
 
 
@@ -164,7 +164,7 @@ public abstract class ExpressionNode extends AbstractDescribable implements Type
 	{
 		final ExpressionNode result = cloneWithoutArguments();
 		for (ExpressionNode arg : arguments()) {
-			final ExpressionNode newArg = (null == arg)? null : arg.clone();
+			final ExpressionNode newArg = (null == arg) ? null : arg.clone();
 			result.arguments().add( newArg );
 		}
 		return result;
@@ -278,7 +278,7 @@ public abstract class ExpressionNode extends AbstractDescribable implements Type
 	private final ExpressionContextProvider getNearestContextProvider()
 	{
 		final ExpressionContextProvider prov = getContextProvider();
-		return (null == prov)? getOrigin().getContextProvider() : prov;
+		return (null == prov) ? getOrigin().getContextProvider() : prov;
 	}
 
 

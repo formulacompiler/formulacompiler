@@ -45,7 +45,7 @@ final class FunctionRewriterForFoldIf extends AbstractFunctionRewriterForConditi
 		super( _model, _type, _sanitizer );
 		this.tested = (ExpressionNodeForArrayReference) _fun.argument( 0 );
 		this.test = _fun.argument( 1 );
-		this.folded = (ExpressionNodeForArrayReference) (_fun.cardinality() > 2? _fun.argument( 2 ) : null);
+		this.folded = (ExpressionNodeForArrayReference) (_fun.cardinality() > 2 ? _fun.argument( 2 ) : null);
 		this.fold = _fold;
 	}
 

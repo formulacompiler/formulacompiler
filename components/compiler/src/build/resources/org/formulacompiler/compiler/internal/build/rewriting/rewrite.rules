@@ -973,4 +973,8 @@ rules {
 			apply fold with r = 0 each xi as r = r + (let ei = xi - m in ei*ei) end
 			to list xs
 
+	// -------- Date/time functions
+
+	rewrite days360(start_date, end_date) = DAYS360(start_date, end_date, 0)
+
 }

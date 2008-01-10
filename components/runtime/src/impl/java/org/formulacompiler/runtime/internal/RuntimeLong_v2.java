@@ -141,12 +141,12 @@ public final class RuntimeLong_v2 extends Runtime_v2
 
 	public static long max( final long a, final long b )
 	{
-		return a >= b? a : b;
+		return a >= b ? a : b;
 	}
 
 	public static long min( final long a, final long b )
 	{
-		return a <= b? a : b;
+		return a <= b ? a : b;
 	}
 
 	public static long round( final long _val, final int _maxFrac, Context _cx )
@@ -539,11 +539,11 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		}
 		long n = fun_INT( _n, _cx );
 		long q = _cx.one - _p;
-		final long EPSILON = _cx.fromDouble(0.1E-320);
+		final long EPSILON = _cx.fromDouble( 0.1E-320 );
 		long factor = fun_POWER( q, fun_INT( _n, _cx ), _cx );
 		if (factor <= EPSILON) {
 			factor = fun_POWER( _p, n, _cx );
-			if (factor <= EPSILON){				
+			if (factor <= EPSILON){
 					throw new FormulaException( "#NUM! because factor = 0 in CRITBINOM" );
 			}
 			else {
@@ -682,6 +682,11 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return result * _cx.one();
 	}
 
+	public static long fun_DAYS360( long _date_start, long _end_start, boolean _method, final Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_DAYS360( _cx.toDouble( _date_start ), _cx.toDouble( _end_start ), _method ) );
+	}
+
 	public static long fun_MONTH( long _date, final Context _cx )
 	{
 		final double date = _cx.toDouble( _date );
@@ -741,7 +746,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		long depreciation = depreciation1;
 		if (_period / _cx.one() > 1) {
 			long totalDepreciation = depreciation1;
-			final int maxPeriod = (int) ((_life > _period? _period : _life) / _cx.one());
+			final int maxPeriod = (int) ((_life > _period ? _period : _life) / _cx.one());
 			for (int i = 2; i <= maxPeriod; i++) {
 				depreciation = (_cost - totalDepreciation) * rate / _cx.one();
 				totalDepreciation += depreciation;
@@ -771,6 +776,15 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		}
 	}
 
+	public static long fun_DATEVALUE( String _text, Context _cx, final Environment _environment )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_DATEVALUE( _text, _environment ) );
+	}
+
+	public static long fun_TIMEVALUE( String _text, Context _cx, final Environment _environment )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_TIMEVALUE( _text, _environment ) );
+	}
 
 	public static int fun_MATCH_Exact( long _x, long[] _xs )
 	{

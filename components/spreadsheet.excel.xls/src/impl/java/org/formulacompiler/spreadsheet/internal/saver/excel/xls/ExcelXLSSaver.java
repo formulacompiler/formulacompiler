@@ -75,7 +75,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 		this.model = _config.spreadsheet;
 		this.outputStream = _config.outputStream;
 		this.templateInputStream = _config.templateInputStream;
-		this.timeZone = (_config.timeZone != null)? _config.timeZone : TimeZone.getDefault();
+		this.timeZone = (_config.timeZone != null) ? _config.timeZone : TimeZone.getDefault();
 	}
 
 
@@ -95,8 +95,8 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 
 	public void save() throws IOException, SpreadsheetException
 	{
-		this.template = (null == this.templateInputStream)? null : loadTemplate( this.templateInputStream );
-		this.templateSheet = (null == this.template)? null : this.template.getSheet( 0 );
+		this.template = (null == this.templateInputStream) ? null : loadTemplate( this.templateInputStream );
+		this.templateSheet = (null == this.template) ? null : this.template.getSheet( 0 );
 
 		final SpreadsheetImpl wb = (SpreadsheetImpl) this.model;
 		final WritableWorkbook xwb = createWorkbook();
@@ -122,7 +122,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 
 	private Cell getTemplateCell( String _styleName )
 	{
-		return (null == this.template)? null : this.template.findCellByName( _styleName );
+		return (null == this.template) ? null : this.template.findCellByName( _styleName );
 	}
 
 	private WritableWorkbook createWorkbook() throws IOException
@@ -270,7 +270,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 		else {
 			final Cell styleCell = getTemplateCell( _styleName );
 			if (null != styleCell) {
-				final CellView styleFormat = _isRow? this.templateSheet.getRowView( styleCell.getRow() )
+				final CellView styleFormat = _isRow ? this.templateSheet.getRowView( styleCell.getRow() )
 						: this.templateSheet.getColumnView( styleCell.getColumn() );
 				final CellView targetFormat = new CellView();
 

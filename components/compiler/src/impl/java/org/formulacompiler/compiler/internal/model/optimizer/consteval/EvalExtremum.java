@@ -32,7 +32,7 @@ final class EvalExtremum extends EvalShadow
 	public EvalExtremum( ExpressionNode _node, InterpretedNumericType _type, boolean _isMaximum )
 	{
 		super( _node, _type );
-		this.value = _isMaximum? _type.maxValue() : _type.minValue();
+		this.value = _isMaximum ? _type.maxValue() : _type.minValue();
 	}
 
 	@Override

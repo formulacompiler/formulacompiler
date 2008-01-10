@@ -113,12 +113,12 @@ public final class ExpressionTemplatesForScaledLongs
 
 	long util_fromNumber( Number a )
 	{
-		return (a == null)? 0 : a.longValue();
+		return (a == null) ? 0 : a.longValue();
 	}
 
 	long util_fromBoolean( boolean a )
 	{
-		return a? this.one : 0;
+		return a ? this.one : 0;
 	}
 
 	long util_fromDate( Date a )
@@ -310,7 +310,7 @@ public final class ExpressionTemplatesForScaledLongs
 	// ---- fun_ABS
 	public long fun_ABS( long a )
 	{
-		return (a < 0)? -a : a;
+		return (a < 0) ? -a : a;
 	}
 	// ---- fun_ABS
 
@@ -634,7 +634,7 @@ public final class ExpressionTemplatesForScaledLongs
 		return this.context.fromBigDecimal( result );
 	}
 
-	public long fun_VDB( long _cost, long _salvage, long _life, long _start_period,long _end_period, long _factor, long _no_switch )
+	public long fun_VDB( long _cost, long _salvage, long _life, long _start_period, long _end_period, long _factor, long _no_switch )
 	{
 		final BigDecimal cost = this.context.toBigDecimal( _cost );
 		final BigDecimal salvage = this.context.toBigDecimal( _salvage );
@@ -744,6 +744,11 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_DAY( _date, this.context );
 	}
 
+	public long fun_DAYS360( long _date_start, long _end_start, long _method )
+	{
+		return RuntimeLong_v2.fun_DAYS360( _date_start, _end_start, _method != 0, this.context );
+	}	
+
 	public long fun_MONTH( long _date )
 	{
 		return RuntimeLong_v2.fun_MONTH( _date, this.context );
@@ -773,5 +778,14 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_VALUE( _text, this.context, this.environment );
 	}
 
+	public long fun_DATEVALUE( String _text )
+	{
+		return RuntimeLong_v2.fun_DATEVALUE( _text, this.context, this.environment );
+	}
+
+	public long fun_TIMEVALUE( String _text )
+	{
+		return RuntimeLong_v2.fun_TIMEVALUE( _text, this.context, this.environment );
+	}
 
 }

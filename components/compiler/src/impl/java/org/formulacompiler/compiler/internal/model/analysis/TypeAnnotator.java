@@ -245,6 +245,8 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 				// ...
 				// ---- typeOfFun
 			case CLEAN:
+			case CHAR:	
+			case DOLLAR:
 			case FIXED:
 			case ROMAN:
 			case LEFT:
@@ -339,7 +341,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 
 		annotate( _expr.whenEmpty() );
 
-		return (_expr.isMergedExplicitly()? _expr.merge() : _expr.accuStep( 0 )).getDataType();
+		return (_expr.isMergedExplicitly() ? _expr.merge() : _expr.accuStep( 0 )).getDataType();
 	}
 
 	private DataType typeOf( ExpressionNodeForFoldList _expr ) throws CompilerException

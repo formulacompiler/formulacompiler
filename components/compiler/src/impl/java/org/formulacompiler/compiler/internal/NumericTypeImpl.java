@@ -262,7 +262,7 @@ public abstract class NumericTypeImpl implements NumericType
 		if (null != mathContext()) {
 			return valueType().getName() + "." + mathContext().toString();
 		}
-		return valueType().getName() + ((UNDEFINED_SCALE != scale())? "." + Integer.toString( scale() ) : "");
+		return valueType().getName() + ((UNDEFINED_SCALE != scale()) ? "." + Integer.toString( scale() ) : "");
 	}
 
 }

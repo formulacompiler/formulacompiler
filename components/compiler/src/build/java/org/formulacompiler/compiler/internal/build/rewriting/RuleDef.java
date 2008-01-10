@@ -38,7 +38,7 @@ final class RuleDef extends AbstractDef implements Comparable<RuleDef>
 	{
 		if (this == _o) return 0;
 		int r = this.fun.compareTo( _o.fun );
-		if (r == 0) r = this.params.size() < _o.params.size()? -1 : +1;
+		if (r == 0) r = this.params.size() < _o.params.size() ? -1 : +1;
 		return r;
 	}
 

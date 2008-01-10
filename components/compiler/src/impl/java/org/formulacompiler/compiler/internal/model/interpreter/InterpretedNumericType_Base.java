@@ -65,7 +65,7 @@ abstract class InterpretedNumericType_Base
 		}
 		else if (_b instanceof String) {
 			if (null == _a) {
-				return ((String) _b).length() == 0? 0 : -1;
+				return ((String) _b).length() == 0 ? 0 : -1;
 			}
 			else {
 				return -1; // Number always less than string in Excel.
@@ -134,7 +134,7 @@ abstract class InterpretedNumericType_Base
 			throw new InterpreterException.IsRuntimeEnvironmentDependent(); // Needs locale.
 		}
 		else if (_value instanceof Boolean) {
-			return ((Boolean) _value)? "1" : "0";
+			return ((Boolean) _value) ? "1" : "0";
 		}
 		return _value.toString();
 	}
@@ -224,9 +224,9 @@ abstract class InterpretedNumericType_Base
 			case IF: { // short-circuit eval
 				switch (cardinality) {
 					case 2:
-						return toBoolean( _args[ 0 ] )? _args[ 1 ] : false;
+						return toBoolean( _args[ 0 ] ) ? _args[ 1 ] : false;
 					case 3:
-						return toBoolean( _args[ 0 ] )? _args[ 1 ] : _args[ 2 ];
+						return toBoolean( _args[ 0 ] ) ? _args[ 1 ] : _args[ 2 ];
 				}
 				break;
 			}
@@ -314,7 +314,7 @@ abstract class InterpretedNumericType_Base
 		}
 		else {
 			final Comparable comp = (Comparable) _lookup;
-			final int isToRightWhenComparesAs = (_type > 0)? 1 : -1;
+			final int isToRightWhenComparesAs = (_type > 0) ? 1 : -1;
 			final List<ExpressionNode> args = range.arguments();
 			final int iLast = args.size() - 1;
 			int iLeft = 0;

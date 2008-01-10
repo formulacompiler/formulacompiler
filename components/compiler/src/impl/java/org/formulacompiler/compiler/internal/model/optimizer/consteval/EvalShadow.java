@@ -138,7 +138,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 
 	protected final TypedResult evaluateArgument( EvalShadow _arg ) throws CompilerException
 	{
-		return (_arg == null)? null : _arg.evalIn( context() );
+		return (_arg == null) ? null : _arg.evalIn( context() );
 	}
 
 	protected final TypedResult evaluateArgument( int _index, EvalShadowContext _context ) throws CompilerException
@@ -226,7 +226,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		final Object[] vals = new Object[ _values.length ];
 		for (int i = 0; i < _values.length; i++) {
 			final TypedResult val = _values[ i ];
-			vals[ i ] = (null == val)? null : val.getConstantValue();
+			vals[ i ] = (null == val) ? null : val.getConstantValue();
 		}
 		return vals;
 	}

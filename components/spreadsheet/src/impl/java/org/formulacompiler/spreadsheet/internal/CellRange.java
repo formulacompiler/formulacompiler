@@ -242,7 +242,7 @@ public final class CellRange extends Reference implements Spreadsheet.Range, Ite
 		}
 		else if (_inner.overlaps( this, Orientation.VERTICAL ) && _inner.overlaps( this, Orientation.HORIZONTAL )) {
 			final CellRange[] tiling = new Tiler( _inner, this ).tiling();
-			return (_flow == Orientation.VERTICAL)? detectFlowTilingIn( tiling, TILE_T, TILE_B ) : detectFlowTilingIn(
+			return (_flow == Orientation.VERTICAL) ? detectFlowTilingIn( tiling, TILE_T, TILE_B ) : detectFlowTilingIn(
 					tiling, TILE_L, TILE_R );
 		}
 		else {

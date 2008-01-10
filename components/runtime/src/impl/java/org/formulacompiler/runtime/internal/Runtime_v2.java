@@ -22,6 +22,8 @@ package org.formulacompiler.runtime.internal;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.text.Collator;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -30,7 +32,9 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Calendar;
 import java.util.Comparator;
+import java.util.Currency;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
@@ -67,42 +71,42 @@ public abstract class Runtime_v2
 
 	public static byte unboxByte( Byte _boxed )
 	{
-		return (_boxed == null)? 0 : _boxed;
+		return (_boxed == null) ? 0 : _boxed;
 	}
 
 	public static short unboxShort( Short _boxed )
 	{
-		return (_boxed == null)? 0 : _boxed;
+		return (_boxed == null) ? 0 : _boxed;
 	}
 
 	public static int unboxInteger( Integer _boxed )
 	{
-		return (_boxed == null)? 0 : _boxed;
+		return (_boxed == null) ? 0 : _boxed;
 	}
 
 	public static long unboxLong( Long _boxed )
 	{
-		return (_boxed == null)? 0L : _boxed;
+		return (_boxed == null) ? 0L : _boxed;
 	}
 
 	public static float unboxFloat( Float _boxed )
 	{
-		return (_boxed == null)? 0 : _boxed;
+		return (_boxed == null) ? 0 : _boxed;
 	}
 
 	public static double unboxDouble( Double _boxed )
 	{
-		return (_boxed == null)? 0 : _boxed;
+		return (_boxed == null) ? 0 : _boxed;
 	}
 
 	public static boolean unboxBoolean( Boolean _boxed )
 	{
-		return (_boxed == null)? false : _boxed;
+		return (_boxed == null) ? false : _boxed;
 	}
 
 	public static char unboxCharacter( Character _boxed )
 	{
-		return (_boxed == null)? 0 : _boxed;
+		return (_boxed == null) ? 0 : _boxed;
 	}
 
 
@@ -142,17 +146,10 @@ public abstract class Runtime_v2
 			return result;
 		}
 
-		if (numberFormat instanceof DecimalFormat) {
-			final DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
-			final DecimalFormatSymbols formatSymbols = decimalFormat.getDecimalFormatSymbols();
-			final char c = formatSymbols.getGroupingSeparator();
-			if (Character.isSpaceChar( c )) {
-				formatSymbols.setGroupingSeparator( '\u0020' );
-				decimalFormat.setDecimalFormatSymbols( formatSymbols );
-				result = parseNumber( text, decimalFormat );
-				if (result != null) {
-					return result;
-				}
+		if (fixDecimalSeparator( numberFormat )) {
+			result = parseNumber( text, numberFormat );
+			if (result != null) {
+				return result;
 			}
 		}
 
@@ -229,7 +226,6 @@ public abstract class Runtime_v2
 		}
 	}
 
-
 	// ---- Excel date conversion; copied from JExcelAPI (DateRecord.java)
 
 	public static Date dateFromDouble( double _excel, TimeZone _timeZone )
@@ -291,7 +287,7 @@ public abstract class Runtime_v2
 		}
 
 		// Convert this to the number of days since 01 Jan 1970
-		final int offsetDays = BASED_ON_1904? UTC_OFFSET_DAYS_1904 : UTC_OFFSET_DAYS;
+		final int offsetDays = BASED_ON_1904 ? UTC_OFFSET_DAYS_1904 : UTC_OFFSET_DAYS;
 		final double utcDays = numValue - offsetDays;
 
 		// Convert this into utc by multiplying by the number of milliseconds
@@ -324,12 +320,12 @@ public abstract class Runtime_v2
 
 	public static String stringFromObject( Object _obj )
 	{
-		return (_obj == null)? "" : _obj.toString();
+		return (_obj == null) ? "" : _obj.toString();
 	}
 
 	public static String stringFromString( String _str )
 	{
-		return (_str == null)? "" : _str;
+		return (_str == null) ? "" : _str;
 	}
 
 	static String stringFromBigDecimal( BigDecimal _value, Environment _environment )
@@ -370,7 +366,7 @@ public abstract class Runtime_v2
 			return formatExp( stripped, _environment );
 		}
 		final int fractionDigits = _intDigitsLimitFrac - integerDigits;
-		final int maximumFractionDigits = fractionDigits > 0? Math.min( fractionDigits, _intDigitsLimitFrac - 1 ) : 0;
+		final int maximumFractionDigits = fractionDigits > 0 ? Math.min( fractionDigits, _intDigitsLimitFrac - 1 ) : 0;
 		if (scale > maximumFractionDigits) {
 			final BigDecimal scaled = stripped.setScale( maximumFractionDigits, RoundingMode.HALF_UP );
 			return stringFromBigDecimal( scaled, _environment, _intDigitsLimitFrac, _intDigitsLimitInt );
@@ -403,7 +399,7 @@ public abstract class Runtime_v2
 	private static DecimalFormatSymbols getDecimalFormatSymbols( Environment _environment )
 	{
 		final DecimalFormatSymbols envSymbols = _environment.decimalFormatSymbols();
-		return envSymbols != null? envSymbols : new DecimalFormatSymbols( _environment.locale() );
+		return envSymbols != null ? envSymbols : new DecimalFormatSymbols( _environment.locale() );
 	}
 
 
@@ -414,7 +410,7 @@ public abstract class Runtime_v2
 
 	private static String notNull( String _s )
 	{
-		return (_s == null)? "" : _s;
+		return (_s == null) ? "" : _s;
 	}
 
 
@@ -440,7 +436,7 @@ public abstract class Runtime_v2
 		if (start < 0) fun_ERROR( "#VALUE! because start < 0 in MID" );
 		if (start >= _s.length()) return "";
 		if (_len < 0) fun_ERROR( "#VALUE! because len < 0 in MID" );
-		final int pastEnd = (start + _len >= _s.length())? _s.length() : start + _len;
+		final int pastEnd = (start + _len >= _s.length()) ? _s.length() : start + _len;
 		return _s.substring( start, pastEnd );
 	}
 
@@ -459,7 +455,7 @@ public abstract class Runtime_v2
 		if (_len >= _s.length()) return _s;
 		final int max = _s.length();
 
-		final int len = (_len > max)? max : _len;
+		final int len = (_len > max) ? max : _len;
 		return _s.substring( max - len );
 	}
 
@@ -589,28 +585,88 @@ public abstract class Runtime_v2
 		return sb.toString();
 	}
 
+	public static int fun_CODE( String _s, Environment _environment )
+	{
+		if (_s != null && _s.length() >= 1) {
+			ByteBuffer bb = _environment.charset().encode( _s );
+			if (bb.capacity() > 0) {
+				int res = bb.get();
+				if (res < 0) {
+					res = 256 + res;
+				}
+				return res;
+			}
+			else {
+				// return code of "?" symbol
+				return 63;
+			}
+		}
+		else {
+			throw new FormulaException( "#VALUE! because no data in CODE" );
+		}
+	}
+
+	public static String fun_CHAR( int num, Environment _environment )
+	{
+		if (num > 0 && num < 256) {
+			byte[] oneByte = { (byte) num };
+			ByteBuffer bb = ByteBuffer.wrap( oneByte );
+			CharBuffer cb = _environment.charset().decode( bb );
+			if (cb.capacity() > 0) {
+				return String.valueOf( cb.get() );
+			}
+			else {
+				throw new FormulaException( "#VALUE! because wrong symbol code in CHAR" );
+			}
+		}
+		throw new FormulaException( "#VALUE! because illegal argument (num <= 0 or num >= 256) in CHAR" );
+	}
+
 	public static String fun_FIXED( Number _number, int _decimals, boolean _no_commas, Environment _environment )
 	{
-		final double multiplier = _decimals != 0? Math.pow( 10, _decimals ) : 1;
-		final int decimals = (_decimals < 0)? 0 : _decimals;
+		final double multiplier = _decimals != 0 ? Math.pow( 10, _decimals ) : 1;
+		final int decimals = (_decimals < 0) ? 0 : _decimals;
 		double number = _number.doubleValue();
 		number = Math.round( number * multiplier ) / multiplier;
 		final NumberFormat numberFormat = getNumberFormat( _environment );
-		if (numberFormat instanceof DecimalFormat) {
-			final DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
+		fixDecimalSeparator( numberFormat );
+		numberFormat.setMinimumFractionDigits( decimals );
+		numberFormat.setGroupingUsed( !_no_commas );
+		return numberFormat.format( number );
+	}
+
+	public static String fun_DOLLAR( Number _number, Environment _environment )
+	{
+		final Currency curr = Currency.getInstance( _environment.locale() );
+		return fun_DOLLAR( _number, curr.getDefaultFractionDigits(), _environment );
+	}
+
+	public static String fun_DOLLAR( Number _number, int _decimals, Environment _environment )
+	{
+		final Locale loc = _environment.locale();
+		final NumberFormat currencyFormat = NumberFormat.getCurrencyInstance( loc );
+		final int decimals = (_decimals < 0) ? 0 : _decimals;
+		currencyFormat.setMinimumFractionDigits( decimals );
+		fixDecimalSeparator( currencyFormat );
+
+		final double number = RuntimeDouble_v2.round( _number.doubleValue(), _decimals );
+		final String res = currencyFormat.format( number );
+		return res;
+	}
+
+	private static boolean fixDecimalSeparator( final NumberFormat _numberFormat )
+	{
+		if (_numberFormat instanceof DecimalFormat) {
+			final DecimalFormat decimalFormat = (DecimalFormat) _numberFormat;
 			final DecimalFormatSymbols formatSymbols = decimalFormat.getDecimalFormatSymbols();
 			final char c = formatSymbols.getGroupingSeparator();
 			if (Character.isSpaceChar( c )) {
 				formatSymbols.setGroupingSeparator( '\u0020' );
 				decimalFormat.setDecimalFormatSymbols( formatSymbols );
+				return true;
 			}
-			numberFormat.setMinimumFractionDigits( decimals );
-			numberFormat.setGroupingUsed( !_no_commas );
-			return numberFormat.format( number );
 		}
-		else {
-			return "0";
-		}
+		return false;
 	}
 
 	public static String fun_LOWER( String _s )
@@ -674,7 +730,7 @@ public abstract class Runtime_v2
 			int index = i * 2;
 			int digit = val / values[ index ];
 			if ((digit % 5) == 4) {
-				int index2 = (digit == 4)? index - 1 : index - 2;
+				int index2 = (digit == 4) ? index - 1 : index - 2;
 				int step = 0;
 				while ((step < _mode) & (index < maxIndex)) {
 					step++;
@@ -731,7 +787,7 @@ public abstract class Runtime_v2
 	public static String fun_TEXT( Number _num, String _format, Environment _environment )
 	{
 		if ("@".equals( _format )) {
-			final BigDecimal num = _num instanceof BigDecimal? (BigDecimal) _num : BigDecimal.valueOf( _num.doubleValue() );
+			final BigDecimal num = _num instanceof BigDecimal ? (BigDecimal) _num : BigDecimal.valueOf( _num.doubleValue() );
 			return stringFromBigDecimal( num, _environment, 10, 11 );
 		}
 		throw new IllegalArgumentException( "TEXT() is not properly supported yet." );

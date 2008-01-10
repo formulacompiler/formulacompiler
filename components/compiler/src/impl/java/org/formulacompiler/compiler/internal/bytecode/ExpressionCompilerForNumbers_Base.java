@@ -583,7 +583,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	{
 		final ScaledLong typeScale = _method.getDeclaringClass().getAnnotation( ScaledLong.class );
 		final ScaledLong mtdScale = _method.getAnnotation( ScaledLong.class );
-		final ScaledLong scale = (mtdScale != null)? mtdScale : typeScale;
+		final ScaledLong scale = (mtdScale != null) ? mtdScale : typeScale;
 		return scale;
 	}
 
@@ -665,7 +665,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 			throw new CompilerException.UnsupportedExpression(
 					"MATCH must have the same type of argument in the first and second slot." );
 		}
-		final int type = (_type > 0)? +1 : (_type < 0)? -1 : 0;
+		final int type = (_type > 0) ? +1 : (_type < 0) ? -1 : 0;
 
 		final ExpressionCompilerForNumbers numCompiler = method().numericCompiler();
 		final ExpressionCompiler valCompiler = method().expressionCompiler( valNode.getDataType() );
@@ -673,7 +673,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 
 		// return Runtime.fun_MATCH_xy( val, vals [, env] );
 		final boolean needEnv = (valNode.getDataType() == DataType.STRING && type != 0);
-		final String envDescriptor = needEnv? ByteCodeEngineCompiler.ENV_DESC : "";
+		final String envDescriptor = needEnv ? ByteCodeEngineCompiler.ENV_DESC : "";
 		valCompiler.compile( valNode );
 		mv().loadThis();
 		acc.compileCall( mv() );
@@ -831,7 +831,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 				compileStaticComparisonResult( _operator, -1 );
 			}
 			else {
-				final ExpressionCompiler comparisonCompiler = (leftIsString || rightIsString)? method().stringCompiler()
+				final ExpressionCompiler comparisonCompiler = (leftIsString || rightIsString) ? method().stringCompiler()
 						: method().numericCompiler();
 				comparisonCompiler.compile( _left );
 				comparisonCompiler.compile( _right );
