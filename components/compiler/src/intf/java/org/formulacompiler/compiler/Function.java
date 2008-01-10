@@ -76,7 +76,7 @@ public enum Function {
 
 	FIXED( true ), DOLLAR( true ),
 
-	ROMAN, N, T, VALUE,
+	ROMAN, N, T, VALUE, CHAR, CODE,
 
 	/**
 	 * {@code TEXT} is volatile because all to-text conversions are considered dependent on the
