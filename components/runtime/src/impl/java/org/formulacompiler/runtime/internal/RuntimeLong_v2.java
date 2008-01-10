@@ -539,7 +539,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		}
 		long n = fun_INT( _n, _cx );
 		long q = _cx.one - _p;
-		final long EPSILON = _cx.fromDouble(0.1E-320);
+		final long EPSILON = _cx.fromDouble( 0.1E-320 );
 		long factor = fun_POWER( q, fun_INT( _n, _cx ), _cx );
 		if (factor <= EPSILON) {
 			factor = fun_POWER( _p, n, _cx );
