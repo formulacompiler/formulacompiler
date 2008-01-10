@@ -842,3 +842,203 @@ sheets:
     - null
     - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+  - cells:
+    - const: 1095.0
+    - expr: =DAYS360( RC[1], RC[2] )
+    - const: 35222.0
+    - const: 36332.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "DAYS360"
+    - const: "DAYS360"
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: 3600.0
+    - expr: =DAYS360( RC[1], RC[2] )
+    - const: 7305.999363425926
+    - const: 10958.561805555555
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: -331.0
+    - expr: =DAYS360( RC[1], RC[2] )
+    - const: 39788.0
+    - const: 39452.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: 331.0
+    - expr: =DAYS360( RC[1], RC[2] )
+    - const: 39452.0
+    - const: 39788.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: 180.0
+    - expr: =DAYS360( RC[1], RC[2] )
+    - const: 34758.0
+    - const: 34942.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: 180.0
+    - expr: =DAYS360( RC[1], RC[2] )
+    - const: 35124.0
+    - const: 35308.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: 60.0
+    - expr: =DAYS360( RC[1], RC[2] )
+    - const: 35094.0
+    - const: 35155.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: 60.0
+    - expr: =DAYS360( RC[1], RC[2] )
+    - const: 35095.0
+    - const: 35155.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "..."
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+  - cells:
+    - const: 182.0
+    - expr: =DAYS360( RC[1], RC[2], RC[3] )
+    - const: 34758.0
+    - const: 34942.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: 180.0
+    - expr: =DAYS360( RC[1], RC[2], RC[3] )
+    - const: 34758.0
+    - const: 34942.0
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: 181.0
+    - expr: =DAYS360( RC[1], RC[2], RC[3] )
+    - const: 35124.0
+    - const: 35308.0
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "..."
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )

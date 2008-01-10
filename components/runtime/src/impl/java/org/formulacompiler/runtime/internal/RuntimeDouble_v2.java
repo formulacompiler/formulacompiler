@@ -250,6 +250,46 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return getCalendarValueFromNum( _date, Calendar.DAY_OF_MONTH );
 	}
 
+	public static double fun_DAYS360( double _start_date, double _end_date, boolean _method )
+	{
+		final int date_days1, date_days2, sign;
+		if (_start_date <= _end_date) {
+			date_days1 = (int) _start_date;
+			date_days2 = (int) _end_date;
+			sign = 1;
+		}
+		else {
+			date_days1 = (int) _end_date;
+			date_days2 = (int) _start_date;
+			sign = -1;
+		}
+		final GregorianCalendar date1 = getGregorianCalendarInstanceFromNum( date_days1 );
+		final GregorianCalendar date2 = getGregorianCalendarInstanceFromNum( date_days2 );
+		int day1 = date1.get( Calendar.DAY_OF_MONTH );
+		int day2 = date2.get( Calendar.DAY_OF_MONTH );
+		if (day1 == 31) {
+			day1 -= 1;
+		}
+		else if (!_method && date1.get( Calendar.MONTH ) == Calendar.FEBRUARY) {
+			if (day1 == 29 || (day1 == 28 && !date1.isLeapYear( date1.get( Calendar.YEAR ) ))) {
+				day1 = 30;
+			}
+		}
+		if (day2 == 31) {
+			if (!_method) {
+				if (day1 == 30) {
+					day2 -= 1;
+				}
+			}
+			else {
+				day2 = 30;
+			}
+		}
+		return sign * ((date2.get( Calendar.YEAR ) - date1.get( Calendar.YEAR )) * 360
+				+ (date2.get( Calendar.MONTH ) - date1.get( Calendar.MONTH )) * 30
+				+ day2 - day1);
+	}
+
 	public static int fun_MONTH( final double _date )
 	{
 		return getCalendarValueFromNum( _date, Calendar.MONTH ) + 1;
@@ -262,11 +302,17 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	private static int getCalendarValueFromNum( double _date, int _field )
 	{
-		final Calendar calendar = new GregorianCalendar( TimeZone.getTimeZone( "GMT" ) );
+		final Calendar calendar = getGregorianCalendarInstanceFromNum( _date );
+		return calendar.get( _field );
+	}
+
+	private static GregorianCalendar getGregorianCalendarInstanceFromNum( double _date )
+	{
+		final GregorianCalendar calendar = new GregorianCalendar( TimeZone.getTimeZone( "GMT" ) );
 		final TimeZone timeZone = calendar.getTimeZone();
 		final Date date = dateFromNum( _date, timeZone );
 		calendar.setTime( date );
-		return calendar.get( _field );
+		return calendar;
 	}
 
 	public static double fun_NOW( final Environment _environment, final ComputationTime _computationTime )

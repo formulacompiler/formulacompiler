@@ -744,6 +744,11 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_DAY( _date, this.context );
 	}
 
+	public long fun_DAYS360( long _date_start, long _end_start, long _method )
+	{
+		return RuntimeLong_v2.fun_DAYS360( _date_start, _end_start, _method != 0, this.context );
+	}	
+
 	public long fun_MONTH( long _date )
 	{
 		return RuntimeLong_v2.fun_MONTH( _date, this.context );

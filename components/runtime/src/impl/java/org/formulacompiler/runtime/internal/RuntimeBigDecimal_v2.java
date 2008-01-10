@@ -525,6 +525,11 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		return valueOf( result );
 	}
 
+	public static BigDecimal fun_DAYS360( BigDecimal _start_date, BigDecimal _end_date, boolean _method )
+	{
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_DAYS360( _start_date.doubleValue(), _end_date.doubleValue(), _method ) );
+	}
+
 	public static BigDecimal fun_MONTH( BigDecimal _date )
 	{
 		final double date = _date.doubleValue();

@@ -682,6 +682,11 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return result * _cx.one();
 	}
 
+	public static long fun_DAYS360( long _date_start, long _end_start, boolean _method, final Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_DAYS360( _cx.toDouble( _date_start ), _cx.toDouble( _end_start ), _method ) );
+	}
+
 	public static long fun_MONTH( long _date, final Context _cx )
 	{
 		final double date = _cx.toDouble( _date );

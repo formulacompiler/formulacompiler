@@ -529,6 +529,11 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_DAY( _date );
 	}
 
+	public BigDecimal fun_DAYS360( BigDecimal _start_date, BigDecimal _end_date, BigDecimal _method )
+	{
+		return RuntimeBigDecimal_v2.fun_DAYS360( _start_date, _end_date, _method.signum() != 0 );
+	}
+
 	public BigDecimal fun_MONTH( BigDecimal _date )
 	{
 		return RuntimeBigDecimal_v2.fun_MONTH( _date );
