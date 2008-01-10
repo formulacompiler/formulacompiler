@@ -28,9 +28,11 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Calendar;
+import java.util.Currency;
 import java.util.Date;
-import java.util.TimeZone;
+import java.util.Locale;
 import java.util.Random;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -140,17 +142,10 @@ public abstract class Runtime_v2
 			return result;
 		}
 
-		if (numberFormat instanceof DecimalFormat) {
-			final DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
-			final DecimalFormatSymbols formatSymbols = decimalFormat.getDecimalFormatSymbols();
-			final char c = formatSymbols.getGroupingSeparator();
-			if (Character.isSpaceChar( c )) {
-				formatSymbols.setGroupingSeparator( '\u0020' );
-				decimalFormat.setDecimalFormatSymbols( formatSymbols );
-				result = parseNumber( text, decimalFormat );
-				if (result != null) {
-					return result;
-				}
+		if (fixDecimalSeparator( numberFormat )) {
+			result = parseNumber( text, numberFormat );
+			if (result != null) {
+				return result;
 			}
 		}
 
@@ -589,26 +584,49 @@ public abstract class Runtime_v2
 
 	public static String fun_FIXED( Number _number, int _decimals, boolean _no_commas, Environment _environment )
 	{
-		final double multiplier = _decimals != 0? Math.pow( 10, _decimals ) : 1;
-		final int decimals = (_decimals < 0)? 0 : _decimals;
+		final double multiplier = _decimals != 0 ? Math.pow( 10, _decimals ) : 1;
+		final int decimals = (_decimals < 0) ? 0 : _decimals;
 		double number = _number.doubleValue();
 		number = Math.round( number * multiplier ) / multiplier;
 		final NumberFormat numberFormat = getNumberFormat( _environment );
-		if (numberFormat instanceof DecimalFormat) {
-			final DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
+		fixDecimalSeparator( numberFormat );
+		numberFormat.setMinimumFractionDigits( decimals );
+		numberFormat.setGroupingUsed( !_no_commas );
+		return numberFormat.format( number );
+	}
+
+	public static String fun_DOLLAR( Number _number, Environment _environment )
+	{
+		final Currency curr = Currency.getInstance( _environment.locale() );
+		return fun_DOLLAR( _number, curr.getDefaultFractionDigits(), _environment );
+	}
+
+	public static String fun_DOLLAR( Number _number, int _decimals, Environment _environment )
+	{
+		final Locale loc = _environment.locale();
+		final NumberFormat currencyFormat = NumberFormat.getCurrencyInstance( loc );
+		final int decimals = (_decimals < 0) ? 0 : _decimals;
+		currencyFormat.setMinimumFractionDigits( decimals );
+		fixDecimalSeparator( currencyFormat );
+
+		final double number = RuntimeDouble_v2.round( _number.doubleValue(), _decimals );
+		final String res = currencyFormat.format( number );
+		return res;
+	}
+
+	private static boolean fixDecimalSeparator( final NumberFormat _numberFormat )
+	{
+		if (_numberFormat instanceof DecimalFormat) {
+			final DecimalFormat decimalFormat = (DecimalFormat) _numberFormat;
 			final DecimalFormatSymbols formatSymbols = decimalFormat.getDecimalFormatSymbols();
 			final char c = formatSymbols.getGroupingSeparator();
 			if (Character.isSpaceChar( c )) {
 				formatSymbols.setGroupingSeparator( '\u0020' );
 				decimalFormat.setDecimalFormatSymbols( formatSymbols );
+				return true;
 			}
-			numberFormat.setMinimumFractionDigits( decimals );
-			numberFormat.setGroupingUsed( !_no_commas );
-			return numberFormat.format( number );
 		}
-		else {
-			return "0";
-		}
+		return false;
 	}
 
 	public static String fun_LOWER( String _s )

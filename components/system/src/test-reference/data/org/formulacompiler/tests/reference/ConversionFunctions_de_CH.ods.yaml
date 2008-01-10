@@ -1509,3 +1509,52 @@ sheets:
     - null
     - const: 3.0
     - const: "..."
+  - cells:
+  - cells:
+    - const: "SFr. 123.00"
+    - expr: =DOLLAR( RC[1] )
+    - const: 123.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "DOLLAR"
+    - const: "DOLLAR"
+  - cells:
+    - const: "SFr.-1'234.57"
+    - expr: =DOLLAR( RC[1] )
+    - const: -1234.567
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: "SFr. 123'000"
+    - expr: =DOLLAR( RC[1], RC[2] )
+    - const: 123345.2346
+    - const: -3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+  - cells:
+    - const: "SFr. 12'345.340"
+    - expr: =DOLLAR( RC[1], RC[2] )
+    - const: 12345.34
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "..."
