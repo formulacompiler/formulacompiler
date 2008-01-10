@@ -20,6 +20,7 @@
  */
 package org.formulacompiler.runtime;
 
+import java.nio.charset.Charset;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -69,6 +70,12 @@ public interface Computation
 		 * the computation is run.
 		 */
 		public TimeZone timeZone = null;
+
+		/**
+		 * Charset, which is used in CHAR and CODE functions.
+		 * If left {@code null}, the default charset for the locale will be used.
+		 */
+		public Charset charset = null;
 
 
 		/**

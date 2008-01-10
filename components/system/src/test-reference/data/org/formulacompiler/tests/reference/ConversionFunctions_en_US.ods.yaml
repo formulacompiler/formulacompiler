@@ -1615,50 +1615,6 @@ sheets:
     - null
     - null
     - const: 1.0
-  - cells:
-    - const: "$123.45"
-    - expr: =DOLLAR( RC[1] )
-    - const: 123.454
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 1.0
-  - cells:
-    - const: "$123.46"
-    - expr: =DOLLAR( RC[1] )
-    - const: 123.455
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 1.0
-  - cells:
-    - const: "($123.45)"
-    - expr: =DOLLAR( RC[1] )
-    - const: -123.454
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 1.0
-  - cells:
-    - const: "($123.46)"
-    - expr: =DOLLAR( RC[1] )
-    - const: -123.455
-    - null
-    - null
-    - null
-    - null
-    - null
-    - null
-    - const: 1.0
     - const: "..."
   - cells:
   - cells:
@@ -1683,4 +1639,257 @@ sheets:
     - null
     - null
     - const: 2.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: "A"
+    - expr: =CHAR( RC[1] )
+    - const: 65.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "CHAR"
+    - const: "CHAR"
+  - cells:
+    - const: "8"
+    - expr: =CHAR( RC[1] )
+    - const: 56.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: "{"
+    - expr: =CHAR( RC[1] )
+    - const: 123.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: "}"
+    - expr: =CHAR( RC[1] )
+    - const: 125.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: "d"
+    - expr: =CHAR( RC[1] )
+    - const: 100.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: ""
+    - expr: =CHAR( RC[1] )
+    - const: 127.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: "¬"
+    - expr: =CHAR( RC[1] )
+    - const: 172.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: "!STR:FE"
+    - expr: =CHAR( RC[1] )
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: "#VALUE!"
+  - cells:
+    - const: "!STR:FE"
+    - expr: =CHAR( RC[1] )
+    - const: 256.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: "#VALUE!"
+  - cells:
+    - const: "!STR:FE"
+    - expr: =CHAR( RC[1] )
+    - const: 1200.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: "#VALUE!"
+  - cells:
+    - const: "!STR:FE"
+    - expr: =CHAR( RC[1] )
+    - const: 2050.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: "#VALUE!"
+  - cells:
+    - const: "!STR:FE"
+    - expr: =CHAR( RC[1] )
+    - const: -1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "..."
+    - null
+    - const: "#VALUE!"
+  - cells:
+  - cells:
+    - const: 65.0
+    - expr: =CODE( RC[1] )
+    - const: "A"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "CODE"
+    - const: "CODE"
+  - cells:
+    - const: 97.0
+    - expr: =CODE( RC[1] )
+    - const: "a"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 97.0
+    - expr: =CODE( RC[1] )
+    - const: "aA"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 49.0
+    - expr: =CODE( RC[1] )
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 49.0
+    - expr: =CODE( RC[1] )
+    - const: 12.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 127.0
+    - expr: =CODE( RC[1] )
+    - const: ""
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 104.0
+    - expr: =CODE( RC[1] )
+    - const: "h"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 63.0
+    - expr: =CODE( RC[1] )
+    - const: "ё"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 246.0
+    - expr: =CODE( RC[1] )
+    - const: "ö"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
     - const: "..."

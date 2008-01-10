@@ -115,6 +115,11 @@ public final class ExpressionTemplatesForStrings
 		return Runtime_v2.fun_FIXED( _number, 2, false, this.environment );
 	}
 
+	public String fun_CHAR( int a )
+	{
+		return Runtime_v2.fun_CHAR( a, this.environment );
+	}
+
 	public String fun_DOLLAR( Number _number, int _decimals )
 	{
 		return Runtime_v2.fun_DOLLAR( _number, _decimals, this.environment );

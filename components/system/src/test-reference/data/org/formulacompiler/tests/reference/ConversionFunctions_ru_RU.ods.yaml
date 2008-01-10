@@ -1340,3 +1340,77 @@ sheets:
     - null
     - const: 2.0
     - const: "..."
+  - cells:
+  - cells:
+    - const: "ф"
+    - expr: =CHAR( RC[1] )
+    - const: 244.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "CHAR"
+    - const: "CHAR"
+  - cells:
+    - const: "ё"
+    - expr: =CHAR( RC[1] )
+    - const: 184.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "..."
+  - cells:
+  - cells:
+    - const: 244.0
+    - expr: =CODE( RC[1] )
+    - const: "ф"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "CODE"
+    - const: "CODE"
+  - cells:
+    - const: 184.0
+    - expr: =CODE( RC[1] )
+    - const: "ё"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 184.0
+    - expr: =CODE( RC[1] )
+    - const: "ёж"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: 63.0
+    - expr: =CODE( RC[1] )
+    - const: "ö"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "..."

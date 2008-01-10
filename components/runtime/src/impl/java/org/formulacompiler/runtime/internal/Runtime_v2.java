@@ -22,6 +22,8 @@ package org.formulacompiler.runtime.internal;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
@@ -221,7 +223,6 @@ public abstract class Runtime_v2
 			return null;
 		}
 	}
-
 
 	// ---- Excel date conversion; copied from JExcelAPI (DateRecord.java)
 
@@ -580,6 +581,43 @@ public abstract class Runtime_v2
 			}
 		}
 		return sb.toString();
+	}
+
+	public static int fun_CODE( String _s, Environment _environment )
+	{
+		if (_s != null && _s.length() >= 1) {
+			ByteBuffer bb = _environment.charset().encode( _s );
+			if (bb.capacity() > 0) {
+				int res = bb.get();
+				if (res < 0) {
+					res = 256 + res;
+				}
+				return res;
+			}
+			else {
+				// return code of "?" symbol
+				return 63;
+			}
+		}
+		else {
+			throw new FormulaException( "#VALUE! because no data in CODE" );
+		}
+	}
+
+	public static String fun_CHAR( int num, Environment _environment )
+	{
+		if (num > 0 && num < 256) {
+			byte[] oneByte = { (byte) num };
+			ByteBuffer bb = ByteBuffer.wrap( oneByte );
+			CharBuffer cb = _environment.charset().decode( bb );
+			if (cb.capacity() > 0) {
+				return String.valueOf( cb.get() );
+			}
+			else {
+				throw new FormulaException( "#VALUE! because wrong symbol code in CHAR" );
+			}
+		}
+		throw new FormulaException( "#VALUE! because illegal argument (num <= 0 or num >= 256) in CHAR" );
 	}
 
 	public static String fun_FIXED( Number _number, int _decimals, boolean _no_commas, Environment _environment )

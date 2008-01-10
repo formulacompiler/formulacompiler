@@ -554,11 +554,13 @@ void fun(): {}
 	|	"BETAINV" fun3to5( Function.BETAINV )
 	|	"BINOMDIST" fun4( Function.BINOMDIST )
 	|	"CEILING" fun2( Function.CEILING )
+	|	"CHAR" fun1( Function.CHAR )
 	|	"CHIDIST" fun2( Function.CHIDIST )
 	|	"CHIINV" fun2( Function.CHIINV )
 	|	"CHITEST" open() shapedRangeExpr() <SEP> shapedRangeExpr() closeFun( Function.CHITEST )
 	|	"CHOOSE" open() expr() commaExprs() closeFun( Function.CHOOSE )
 	|	"CLEAN" fun1( Function.CLEAN )
+   	|	"CODE" fun1( Function.CODE )
 
 	// citation: combin
 	|	"COMBIN" fun2( Function.COMBIN )
