@@ -32,7 +32,7 @@ public abstract class AbstractUsingBigDecimalTest extends TestCase
 	// ---- IO
 	public static class Input
 	{
-		public Input( double a, double b ) { this.a = BigDecimal.valueOf(a); this.b = BigDecimal.valueOf(b); }
+		public Input( double a, double b ) { this.a = BigDecimal.valueOf( a ); this.b = BigDecimal.valueOf( b ); }
 		public /**/BigDecimal/**/ getA() { return this.a; }
 		public /**/BigDecimal/**/ getB() { return this.b; }
 		private final BigDecimal a;
