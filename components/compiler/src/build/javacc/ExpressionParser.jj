@@ -577,6 +577,7 @@ void fun(): {}
 	|	"DATE" fun3( Function.DATE )
 	|	"DAVERAGE" dbAggN( Function.DAVERAGE )
 	|	"DAY" fun1( Function.DAY )
+	|	"DAYS360" fun2to3( Function.DAYS360 )
 	|	"DB" fun4to5( Function.DB )
 	|	"DCOUNT" dbAggN( Function.DCOUNT )
 	|	"DCOUNTA" dbAggN( Function.DCOUNTA )

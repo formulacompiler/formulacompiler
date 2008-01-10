@@ -640,6 +640,11 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v2.fun_DAY( _date );
 	}
 
+	public double fun_DAYS360( double _start_date, double _end_date, double _method )
+	{
+		return RuntimeDouble_v2.fun_DAYS360( _start_date, _end_date, _method != 0 );
+	}
+
 	public double fun_MONTH( double _date )
 	{
 		return RuntimeDouble_v2.fun_MONTH( _date );

@@ -58,7 +58,7 @@ public enum Function {
 
 	// Dates
 
-	DATE, TIME, SECOND, MINUTE, HOUR, WEEKDAY, DAY, MONTH, YEAR,
+	DATE, TIME, SECOND, MINUTE, HOUR, WEEKDAY, DAY, MONTH, YEAR, DAYS360,
 
 	NOW( true ), TODAY( true ),
 
