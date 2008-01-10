@@ -687,7 +687,7 @@ sheets:
     - const: "long, bigdecimal"
   - cells:
   - cells:
-    - const: 0.00725205419707705
+    - const: 0.00725205419707509
     - expr: =RATE( RC[1], RC[2], RC[3], RC[4], RC[5], RC[6] )
     - const: 48.0
     - const: -200.0
@@ -733,7 +733,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: 0.00770147248820205
+    - const: 0.00770147248819591
     - expr: =RATE( RC[1], RC[2], RC[3], 0.0, 0.0, RC[4] )
     - const: 48.0
     - const: -200.0

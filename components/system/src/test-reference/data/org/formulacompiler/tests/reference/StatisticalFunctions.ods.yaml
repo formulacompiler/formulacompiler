@@ -4997,7 +4997,7 @@ sheets:
     - const: "#NUM!"
   - cells:
   - cells:
-    - const: 0.8977973461151
+    - const: 0.897797346115112
     - expr: =BETAINV( RC[1], RC[2], RC[3] )
     - const: 0.6
     - const: 1.5
@@ -5983,7 +5983,7 @@ sheets:
     - null
     - const: 4.0
   - cells:
-    - const: 1.47349877135456E-143
+    - const: 4.00840782737909E-219
     - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
     - const: 200.0
     - const: 200.0

@@ -1,0 +1,224 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "Expected"
+    - const: "Actual"
+    - const: "Inputs"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
+    - const: "Skip for"
+  - cells:
+    - const: true
+    - expr: =ISTEXT( RC[1] )
+    - const: "Abc"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "ISTEXT (does not support blanks!)"
+    - const: "ISTEXT"
+  - cells:
+    - const: true
+    - expr: =ISTEXT( RC[1] )
+    - const: "Абвгд"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: true
+    - expr: =ISTEXT( RC[1] )
+    - const: "12345"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: false
+    - expr: =ISTEXT( RC[1] )
+    - const: 12345.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: false
+    - expr: =ISTEXT( RC[1] )
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: false
+    - expr: =ISNONTEXT( RC[1] )
+    - const: "Abc"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "ISNONTEXT (does not support blanks!)"
+    - const: "ISNONTEXT"
+  - cells:
+    - const: false
+    - expr: =ISNONTEXT( RC[1] )
+    - const: "Абвгд"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: false
+    - expr: =ISNONTEXT( RC[1] )
+    - const: "12345"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: true
+    - expr: =ISNONTEXT( RC[1] )
+    - const: 12345.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: true
+    - expr: =ISNONTEXT( RC[1] )
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: false
+    - expr: =ISNUMBER( RC[1] )
+    - const: "Abc"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "ISNUMBER (does not support blanks and logical values!)"
+    - const: "ISNUMBER"
+  - cells:
+    - const: false
+    - expr: =ISNUMBER( RC[1] )
+    - const: "Абвгд"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: false
+    - expr: =ISNUMBER( RC[1] )
+    - const: "12345"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: true
+    - expr: =ISNUMBER( RC[1] )
+    - const: 12345.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: true
+    - expr: =ISNUMBER( RC[1] )
+    - const: 39117.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+  - cells:
+    - const: true
+    - expr: =ISNUMBER( RC[1] )
+    - const: true
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: false
+  - cells:
+    - const: true
+    - expr: =ISNUMBER( RC[1] )
+    - const: false
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: false
