@@ -85,7 +85,7 @@ h5. Row titles for cell names
 
 For many users, entering an managing cell names is not straightforward, at least in Microsoft Excel. Neither are the names easily visible when looking at a spreadsheet.
 
-AFC therefore can use row titles instead of cell names to resolve references. Row titles are simply string values in column <em>A</em> of a spreadsheet, with the cell they name right next to it in column <em>B</em>. If a spreadsheet contains no named cells, AFC automatically assumes row titles.
+AFC therefore can use row titles instead of cell names to resolve references. Row titles are simply string values in column <em>A</em> of a spreadsheet, with the cell they name right next to it in column <em>B</em>. Spaces and other characters not legal in cell names are filtered out. If a spreadsheet contains no named cells, AFC automatically assumes row titles.
 
 h5. Example
 
