@@ -677,5 +677,14 @@ public final class ExpressionTemplatesForDoubles
 	}
 	// ---- fun_VALUE
 
+	public double fun_DATEVALUE( String _text )
+	{
+		return RuntimeDouble_v2.fun_DATEVALUE( _text, this.environment );
+	}
+
+	public double fun_TIMEVALUE( String _text )
+	{
+		return RuntimeDouble_v2.fun_TIMEVALUE( _text, this.environment );
+	}	
 
 }

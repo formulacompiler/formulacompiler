@@ -825,6 +825,15 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		}
 	}
 
+	public static BigDecimal fun_DATEVALUE( String _text, final Environment _environment )
+	{
+		return valueOf( RuntimeDouble_v2.fun_DATEVALUE( _text, _environment ) );
+	}
+
+	public static BigDecimal fun_TIMEVALUE( String _text, final Environment _environment )
+	{
+		return valueOf( RuntimeDouble_v2.fun_TIMEVALUE( _text, _environment ) );
+	}
 
 	public static int fun_MATCH_Exact( BigDecimal _x, BigDecimal[] _xs )
 	{
