@@ -10,6 +10,7 @@ sheets:
     - const: "Basic Latin Symbols"
     - const: " !\"#$%&'()*+,-./:;<=>?@{|}~"
       name: BASICLATINSYMBOLS
+    - const: "Привет\nПривет\nHello\nHello"
   - cells:
     - const: "Basic Latin Characters"
     - const: "ABCDXYZabcdxyz"

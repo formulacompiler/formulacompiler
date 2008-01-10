@@ -42,6 +42,7 @@
 	<path id="test.deps.classpath">
 		<pathelement location="../spreadsheet/temp/test/classes" />
 		<pathelement location="../compiler/temp/test/classes" />
+		<pathelement location="../compiler/temp/build/classes" />
 		<fileset dir="../compiler/lib/impl" includes="*.jar" />
 	</path>
 
