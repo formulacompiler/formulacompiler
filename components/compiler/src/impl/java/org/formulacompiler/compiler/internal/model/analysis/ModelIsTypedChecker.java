@@ -40,7 +40,7 @@ public final class ModelIsTypedChecker extends AbstractComputationModelVisitor i
 
 	private void visitExpr( ExpressionNode _expr )
 	{
-		assert _expr.getDataType() != null;
+		assert _expr.getDataType() != null : _expr.toString() + " is not typed";
 		for (ExpressionNode arg : _expr.arguments())
 			if (null != arg) visitExpr( arg );
 	}
