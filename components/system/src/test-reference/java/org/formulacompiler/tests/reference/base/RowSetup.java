@@ -55,6 +55,11 @@ public abstract class RowSetup
 	protected abstract int documentedColCount();
 	// DO NOT REFORMAT ABOVE THIS LINE
 
+	
+	public int checkingCol() {
+		return -1;
+	}
+	
 
 	public boolean isTestRow() throws Exception
 	{

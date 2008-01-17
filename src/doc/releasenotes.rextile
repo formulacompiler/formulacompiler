@@ -42,6 +42,7 @@ h5. Internal
 
 	* The folding support (used to implement @SUM@ etc.) has been rewritten completely. It can now handle multiple parallel vectors, multiple aggregators, and has much more streamlined code in the implementation.
 	* We now verify the spreadsheet model loaded from our test spreadsheets against an external description (.yaml files). This ensures that test sheet changes are reflected in a diffable format.
+	* The reference test sheets now have columns that check whether the expected and actual values truly match (in Excel). These columns are verified during reference tests (formulas and values).
 
 
 h2. Release 0.10.1

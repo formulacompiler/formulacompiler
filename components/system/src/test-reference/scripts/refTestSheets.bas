@@ -8,7 +8,7 @@ Sub ApplyConditionalFormatting()
 
     Range("A1").Select
     Selection.FormatConditions.Add Type:=xlExpression, Formula1:= _
-        "=NOT(AND(Q2:Q10000))"
+        "=NOT(Q1)"
     Selection.FormatConditions(1).Interior.ColorIndex = 22
     
     Range("A2:A10000").Select
@@ -67,7 +67,7 @@ Sub FillCellHeaders()
         .Font.Underline = xlUnderlineStyleSingle
     End With
     
-    Cells(1, 1).Value = "Expected"
+    Cells(1, 1).FormulaR1C1 = "=IF( RC[16], ""Expected"", ""FAILED!"" )"
     Cells(1, 2).Value = "Actual"
     Cells(1, 3).Value = "Inputs"
     Cells(1, 10).Value = "# of Inputs"
@@ -76,6 +76,7 @@ Sub FillCellHeaders()
     Cells(1, 13).Value = "Excel says"
     Cells(1, 14).Value = "Skip for"
     Cells(1, 15).Value = "Custom check"
+    Cells(1, 17).FormulaR1C1 = "=AND( R[1]C:R[9999]C )"
 End Sub
 
 Sub ForceAllFormatsAndColumns()
