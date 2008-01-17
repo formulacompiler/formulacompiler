@@ -81,7 +81,7 @@ final public class IntermediateResultsInliner extends AbstractComputationModelVi
 			if (!isInlineable( cellModel )) return result;
 			result = cellModel.getExpression();
 			if (null == result) {
-				result = new ExpressionNodeForConstantValue( cellModel.getConstantValue() );
+				result = new ExpressionNodeForConstantValue( cellModel.getConstantValue(), cellModel.getDataType() );
 			}
 			else {
 				cellModel.setExpression( null );
