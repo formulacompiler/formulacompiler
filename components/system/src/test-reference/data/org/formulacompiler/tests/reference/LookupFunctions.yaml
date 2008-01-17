@@ -7,7 +7,7 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - const: "Expected"
+    - expr: =IF( RC[16], "Expected", "FAILED!" )
     - const: "Actual"
     - const: "Inputs"
     - null
@@ -22,6 +22,8 @@ sheets:
     - const: "Excel says"
     - const: "Skip for"
     - const: "Custom check"
+    - null
+    - expr: =AND( R[1]C:R[9999]C )
   - cells:
     - const: "!NUM:NA"
     - expr: =MATCH( RC[1], RC[2]:RC[4], 1.0 )

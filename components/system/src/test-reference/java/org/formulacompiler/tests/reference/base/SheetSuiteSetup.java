@@ -222,14 +222,18 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 
 	public static void addRowVerifications( Context _cx, TestSuite _addTo )
 	{
+		// Only verify this once, not again for every type.
+		// LATER Might have to change when loaders use numeric type.
 		if (_cx.getNumberBindingType() == BindingType.DOUBLE && !_cx.getExplicitCaching()) {
-			// Only verify this once, not again for every type.
-			// LATER Might have to change when loaders use numeric type.
+			final int checkingCol = _cx.getRowSetup().checkingCol();
+			if (checkingCol >= 0) {
+				_addTo.addTest( new RowCheckingColumnsVerificationTestCase( _cx, checkingCol ) );
+			}
 			for (Context variant : _cx.variants()) {
 				_addTo.addTest( variant.getRowVerificationTestCaseFactory().newInstance( _cx, variant ) );
 			}
 		}
 	}
 
-	
+
 }

@@ -60,6 +60,12 @@ public final class RowSetupDefault extends RowSetup
 		if (null == inputCountCell || null == inputCountCell.getValue()) return 2;
 		return 2 + ((Number) inputCountCell.getValue()).intValue();
 	}
+	
+	@Override
+	public int checkingCol()
+	{
+		return 15;
+	}
 
 
 	@Override

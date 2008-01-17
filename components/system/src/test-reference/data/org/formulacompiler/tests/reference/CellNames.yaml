@@ -7,7 +7,7 @@ sheets:
 - name: MainSheet
   rows:
   - cells:
-    - const: "Expected"
+    - expr: =IF( RC[16], "Expected", "FAILED!" )
       name: START
     - const: "Actual"
     - const: "Inputs"
@@ -23,6 +23,8 @@ sheets:
     - const: "Excel says"
     - const: "Skip for"
     - const: "Custom check"
+    - null
+    - expr: =AND( R[1]C:R[9999]C )
   - cells:
     - const: 1.0
     - expr: =RC[1]

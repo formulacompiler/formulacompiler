@@ -54,7 +54,12 @@ abstract class AbstractSuiteSetup
 
 	protected static TestSuite newLoader( Context _cx )
 	{
-		return new SheetLoadingTestSuite( _cx ).init();
+		final TestSuite loader = new SheetLoadingTestSuite( _cx ).init();
+		final int checkingCol = _cx.getRowSetup().checkingCol();
+		if (checkingCol >= 0) {
+			loader.addTest( new SheetCheckingColumnsVerificationTestCase( _cx, checkingCol ) );
+		}
+		return loader;
 	}
 
 

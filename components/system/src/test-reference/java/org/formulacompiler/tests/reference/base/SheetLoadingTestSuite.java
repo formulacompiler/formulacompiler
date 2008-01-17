@@ -20,7 +20,11 @@
  */
 package org.formulacompiler.tests.reference.base;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.spreadsheet.SpreadsheetLoader;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
 public class SheetLoadingTestSuite extends AbstractContextTestSuite
@@ -49,7 +53,12 @@ public class SheetLoadingTestSuite extends AbstractContextTestSuite
 
 	private void loadContext( Context _cx ) throws Exception
 	{
-		_cx.setSpreadsheet( (SpreadsheetImpl) SpreadsheetCompiler.loadSpreadsheet( _cx.getSpreadsheetFile() ) );
+		final File file = _cx.getSpreadsheetFile();
+		final String name = file.getName();
+		final FileInputStream stream = new FileInputStream( file );
+		final SpreadsheetLoader.Config cfg = new SpreadsheetLoader.Config();
+		cfg.loadAllCellValues = true;
+		_cx.setSpreadsheet( (SpreadsheetImpl) SpreadsheetCompiler.loadSpreadsheet( name, stream, cfg ) );
 	}
 
 	@Override
