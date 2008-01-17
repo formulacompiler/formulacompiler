@@ -177,7 +177,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 		_cx.setInputBindingBits( -1 );
 
 		final int nInputs = _cx.getInputCellCount();
-		final int nBoundVariations = Settings.QUICK_RUN ? 1 : 1 << nInputs;
+		final int nBoundVariations = 1 << nInputs;
 		final boolean hasExpr = (_cx.getOutputExpr() != null);
 
 		return new SameExprRowSequenceTestSuite( _cx )
@@ -199,11 +199,21 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 				}
 				addTest( refTest );
 
-				for (int iBoundVariation = 0; iBoundVariation < nBoundVariations - 1; iBoundVariation++) {
-					final Context cx = new Context( _cx );
-					cx.setInputBindingBits( iBoundVariation );
-					addTest( new SameEngineRowSequenceTestSuite( cx, false ).init() );
+				if (Settings.QUICK_RUN && nBoundVariations > 1) {
+					addBoundVariationTest( 0 );
 				}
+				else {
+					for (int iBoundVariation = 0; iBoundVariation < nBoundVariations - 1; iBoundVariation++) {
+						addBoundVariationTest( iBoundVariation );
+					}
+				}
+			}
+
+			private void addBoundVariationTest( final int _iBoundVariation )
+			{
+				final Context cx = new Context( _cx );
+				cx.setInputBindingBits( _iBoundVariation );
+				addTest( new SameEngineRowSequenceTestSuite( cx, false ).init() );
 			}
 
 		}.init();
