@@ -27,6 +27,7 @@ public final class ConstResult implements TypedResult
 {
 	public static final ConstResult TRUE = new ConstResult( true, DataType.NUMERIC );
 	public static final ConstResult FALSE = new ConstResult( false, DataType.NUMERIC );
+	public static final ConstResult NULL = new ConstResult( null, DataType.NULL );
 
 	private final Object value;
 	private final DataType type;

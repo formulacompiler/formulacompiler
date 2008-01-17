@@ -153,7 +153,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		if (areConstant( _args )) {
 			try {
 				final TypedResult constResult = evaluateToConst( _args );
-				if (null == constResult) return null;
+				assert null != constResult;
 				if (constResult.hasConstantValue()) {
 					final Object constValue = constResult.getConstantValue();
 					if (constValue instanceof Double) {

@@ -47,11 +47,11 @@ public class EvalIndex extends EvalFunction
 				if (indexArg.hasConstantValue()) {
 					final int index = type().toInt( indexArg.getConstantValue(), 0 ) - 1;
 					if (index < 0) {
-						return err( "#VALUE! because index is out of range in INDEX" );
+						return err( "#VALUE! because index is out of range in INDEX", this.node().getDataType() );
 					}
 					final EvalRangeValue range = (EvalRangeValue) unsubstitutedArgument( 0 );
 					if (index >= range.arguments().size()) {
-						return err( "#REF! because index is out of range in INDEX" );
+						return err( "#REF! because index is out of range in INDEX", this.node().getDataType() );
 					}
 					return range.evaluateArgument( index );
 				}
