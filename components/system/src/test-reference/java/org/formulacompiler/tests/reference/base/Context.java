@@ -289,7 +289,8 @@ public final class Context
 
 	public int getRowIndex()
 	{
-		return getRow().getRowIndex();
+		final RowImpl row = getRow();
+		return (null == row) ? -1 : row.getRowIndex();
 	}
 
 	public void setRow( int _rowIndex )
@@ -470,7 +471,7 @@ public final class Context
 	{
 		StringBuilder s = new StringBuilder();
 		s.append( getSpreadsheetFile().getName() );
-		s.append( ", row " ).append( getRowIndex() + 1 );
+		if (getRow() != null) s.append( ", row " ).append( getRowIndex() + 1 );
 		BindingType type = getNumberBindingType();
 		if (type != null) s.append( ", type:" ).append( type.name() );
 		if (getExplicitCaching()) s.append( ", caching" );
