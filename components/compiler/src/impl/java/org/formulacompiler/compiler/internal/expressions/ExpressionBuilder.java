@@ -66,9 +66,21 @@ public final class ExpressionBuilder
 		return new ExpressionNodeForFunction( _fun, _args );
 	}
 
+	public static ExpressionNode fun( Function _fun, DataType _type, ExpressionNode... _args )
+	{
+		final ExpressionNodeForFunction node = new ExpressionNodeForFunction( _fun, _args );
+		node.setDataType( _type );
+		return node;
+	}
+
 	public static ExpressionNode err( String _message )
 	{
 		return fun( Function.ERROR, cst( _message ) );
+	}
+
+	public static ExpressionNode err( String _message, DataType _type )
+	{
+		return fun( Function.ERROR, _type, cst( _message, DataType.STRING ) );
 	}
 
 

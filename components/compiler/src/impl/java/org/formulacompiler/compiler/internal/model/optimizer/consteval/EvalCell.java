@@ -43,7 +43,7 @@ public class EvalCell extends EvalShadow
 		final CellModel cellModel = cellNode.getCellModel();
 
 		if (null == cellModel) {
-			return null;
+			return ConstResult.NULL;
 		}
 
 		if (cellModel.isInput()) {
@@ -74,7 +74,7 @@ public class EvalCell extends EvalShadow
 			}
 		}
 
-		return null;
+		return ConstResult.NULL;
 	}
 
 }
