@@ -42,6 +42,7 @@ import junit.framework.TestCase;
 public abstract class AbstractIOTestCase extends TestCase
 {
 	private static final File JAR_PATH = new File( "src/test/data/enginejars/jre-" + Util.jdkVersionSuffix() );
+	private static final boolean UPDATE_YAML_IN_PLACE = Util.isBuildPropTrue( "test-ref-update-yaml" );
 
 	protected AbstractIOTestCase()
 	{
@@ -104,10 +105,9 @@ public abstract class AbstractIOTestCase extends TestCase
 			throws Exception
 	{
 		final String have = _actual.describe();
-		File expectedFile = new File( _path, _actualFileName + ".yaml" );
-		if (!expectedFile.exists()) {
-			expectedFile = new File( _path, _expectedFileBaseName + ".yaml" );
-		}
+		final File specificFile = new File( _path, _actualFileName + ".yaml" );
+		final File genericFile = new File( _path, _expectedFileBaseName + ".yaml" );
+		final File expectedFile = (specificFile.exists()) ? specificFile : genericFile;
 		if (expectedFile.exists()) {
 			String want = Util.readStringFrom( expectedFile );
 			if (_actualFileName.endsWith( ".ods" )) {
@@ -118,16 +118,22 @@ public abstract class AbstractIOTestCase extends TestCase
 				want = want.replaceAll( "- err: #NUM\\!", "- const: \"#NUM!\"" );
 			}
 			if (!want.equals( have )) {
-				final File actualFile = new File( _path, _actualFileName + "-actual.yaml" );
-				Util.writeStringTo( have, actualFile );
-				assertEquals( "YAML bad for " + _actualFileName + "; actual YAML written to ...-actual.yaml", want, have );
+				if (UPDATE_YAML_IN_PLACE) {
+					final File actualFile = (_actualFileName.toLowerCase().endsWith( ".xls" ) && !specificFile.exists())
+							? genericFile : specificFile;
+					Util.writeStringTo( have, actualFile );
+				}
+				else {
+					final File actualFile = new File( _path, _actualFileName + "-actual.yaml" );
+					Util.writeStringTo( have, actualFile );
+					assertEquals( "YAML bad for " + _actualFileName + "; actual YAML written to ...-actual.yaml", want, have );
+				}
 			}
 		}
 		else {
 			Util.writeStringTo( have, expectedFile );
 		}
 	}
-
 
 	protected void assertEqualStreams( String _message, InputStream _expected, InputStream _actual ) throws Exception
 	{

@@ -20,14 +20,41 @@
  */
 package org.formulacompiler.tests.utils;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Properties;
 
 import org.formulacompiler.compiler.internal.IOUtil;
 
 
 public class Util extends IOUtil
 {
+	public static final Properties BUILD_PROPS = readBuildProps();
+
+	public static Properties readBuildProps()
+	{
+		final Properties ps = new Properties();
+		for (String fn : new String[] { "../../build.default.properties", "../../build.properties" }) {
+			final File f = new File( fn );
+			if (f.exists()) {
+				try {
+					ps.load( new BufferedInputStream( new FileInputStream( f ) ) );
+				}
+				catch (Exception e) {
+					throw new RuntimeException( e );
+				}
+			}
+		}
+		return ps;
+	}
+
+	public static boolean isBuildPropTrue( String _name )
+	{
+		return BUILD_PROPS.getProperty( _name, "false" ).equalsIgnoreCase( "true" );
+	}
+
 
 	public static String trimTrailingZerosAndPoint( String _string )
 	{
