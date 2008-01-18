@@ -418,6 +418,10 @@
 
 	<target name="@cite-init" depends="@init">
 		<path id="jcite.classpath">
+			
+			<!-- Ensure we use AFC's patched version of JExcelAPI to parse .xls files. -->
+			<fileset dir="${comps.dir}/spreadsheet.excel.xls/lib/impl" includes="jxl.jar" />
+			
 			<fileset dir="${jcite.build.dir}" includes="*.jar" />
 			<fileset dir="${jcite.lib.dir}" includes="*.jar" />
 		</path>
@@ -470,6 +474,7 @@
 			<pathelement location="${comps.dir}/system/src/scratchpad/java" />
 			<pathelement location="${comps.dir}/system/src/scratchpad/data" />
 			<pathelement location="${comps.dir}" />
+			<pathelement location="${basedir}" />
 		</path>
 
 		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}"

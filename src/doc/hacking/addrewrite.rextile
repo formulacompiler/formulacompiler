@@ -17,6 +17,8 @@ As with "ABS":-prim, we start with documentation (announcing @COMBIN()@ in the r
 
 	[xc:org/formulacompiler/tests/reference/NumericFunctions.xls:HeaderRange,COMBINRange]
 
+Again, as explained in the topic on the "reference test sheets":-reftest, you also have to update the corresponding .ods and .yaml files. If you forget, running the tests will tell you.
+
 	
 h2. Parsing
 

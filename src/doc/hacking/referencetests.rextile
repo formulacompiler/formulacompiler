@@ -3,7 +3,7 @@ h1. Automated Formula Tests
 
 The spreadsheet files in
 
-	compononents/system/src/test-reference/data/org/formulacompiler/tests/reference
+	[path:components/system/src/test-reference/data/org/formulacompiler/tests/reference]
 
 contain formula tests. AFC's build system runs them automatically for all the supported "numeric types":-types and with and without "caching":../tutorial/caching.htm enabled. It also makes them citable by writing out documentation fragments describing them.
 
@@ -17,6 +17,10 @@ Here are the tests for @ABS()@:
 	[xc:org/formulacompiler/tests/reference/NumericFunctions.xls:HeaderRange,ABSRange]
 
 And here is "the documentation produced from it":../reference/numfuncs.htm. Note also how the list of supported functions in the "reference index":-ref automatically includes @ABS@.
+
+The omitted columns O-Q are macro-generated. They check that the expected and actual values really do match, which is then globally ascertained in the header. Here's one row of them:
+
+	[xc:org/formulacompiler/tests/reference/NumericFunctions.xls:ABSChecks]
 
 
 h2. Columns
@@ -39,6 +43,12 @@ dt. Excel says (M) : When AFC returns something different from Excel, you can do
 
 dt. Skip for (N) : If this column contains any of @double@, @big@, @long@, then the test is _not_ run for the corresponding numeric type. You can list multiple types here. Use this when, for example, the precision of @long@ is not sufficient for a particular test case.
 
+dt. Custom Check (O) : Can contain an expression to replace the default comparison of actual vs. expected values in column P. You should not normally have to use this.
+
+dt. (P) : Default comparison of actual vs. expected value. The formula in this column is macro-generated in Excel (see below) and checked by the reference test runner.
+
+dt. (Q) : Result of comparison of actual vs. expected value. The formula in this column is macro-generated in Excel (see below) and checked by the reference test runner. The reference test runner also checks that it does, in fact, have the saved value @true@. So is the formula and saved value of cell Q1.
+
 
 h2. Alternate Inputs
 
@@ -47,6 +57,22 @@ When you specify bound input cells using column J, the automated test runner aut
 These tests do not, however, check whether a bound input really reacts dynamically to its runtime input value. The dynamic input value is, after all, still the same as the constant values in the spreadsheet. This is so because the result has to remain the same for checking.
 
 To check alternate input sets, you use the value @...@ in the _Name_ column K. This runs the test in the above row again, with the full set of inputs bound. The dynamic values are now taken from the alternate row instead of the original test row. So is the expected result. The formula in the alternate row, however, is ignored (because the original test row is run). While the formula is ignored by the test, you should still copy it down from the original test row to conveniently determine the expected result of the alternate row. The last test row for @ABS()@ in the sheet above shows this. Finally, you can have more than one alternate row. Just add more rows with @...@ in the _Name_ column.
+
+
+h2. Macro-generated Columns
+
+There is an Excel macro
+
+	[path:components/system/src/test-reference/scripts/refTestSheets.bas]
+
+that can generate and refresh
+
+	* the actual vs. expected columns P and Q,
+	* the header row,
+	* the conditional formatting that highlights actual vs. expected problems, and
+	* the conditional formatting that highlights AFC vs. Excel differences (_Excel says_).
+
+<%= read_file '../../components/system/src/test-reference/scripts/README-excel.txt' %>
 
 
 h2. Running Tests
@@ -64,11 +90,38 @@ h2. <a name="debug">Debug Test</a>
 
 Running these tests can take quite a while. To speed up debugging, you can use special test cases derived from @org.formulacompiler.tests.reference.base.AbstractDebugSuiteSetup@ in your IDE. Make sure you have added the following source path for this (not included in release builds):
 
-  compononents/system/src/test-reference/java-debug
+  [path:components/system/src/test-reference/java-debug]
  
 and also create your derived debug test cases there, in the @org.formulacompiler.tests.reference@ package. Then they will be automatically ignored by Mercurial.
  
 Here is an excerpt from this base test class. It should give you an idea of how to use it. It is also documented.
 
 	[jc:org.formulacompiler.tests.reference.base.AbstractDebugSuiteSetup:---- examples]
+
+
+h2. Checking Compatibility with OpenOffice.org
+
+AFC's reference tests check compatibility with OpenOffice.org as follows:
+
+	* For every test row in an Excel reference test sheet (@MySheet.xls@),
+	* read the corresponding row from the parallel OpenOffice.org test sheet (@MySheet.ods@), and
+	* ensure that the tests described by the two rows are equivalent.
+	* Then compile and run an actual engine only from the row loaded from the .xls.
+
+This means that when you add or modify reference tests in a .xls file, you have to similarly update the corresponding .ods file.
+
+These tests ensure that the .ods parser is at least as capable as the .xls parser and returns the same internal model (and by consequence the same final engine). But since we do not yet compile engines loaded from .ods differently than when loaded from .xls, we don't have to run the actual compilations twice. This will change when AFC properly handles differences between OpenOffice.orgs's and Excel's function implementations.
+
+
+h2. Change Tracking Using .yaml Files
+
+The reference test sheets are a key component in AFC's system tests. So it is important to know what is being changed in them. Since binary .xls and .ods files are hard to diff, the reference tests write the most relevant data from them out to text files during tests runs. These text files are then versioned along with the .xls and .ods files.
+
+The text files end in @.yaml@ because they are in YAML:-yaml format. But that is not the key point. More important is that they are tuned for easy diffing. In particular, they do not contain row or cell numbers, so that inserting a row high up does not result in a huge number of diffs due to changed row numbers further below.
+
+When possible, we try to use just one .yaml file for both of the .xls and .ods files. This has the added bonus of telling us that the two really contain the same relevant data and formulas. When this is possible, there is just a single @MySheet.yaml@ for both @MySheet.xls@ and @MySheet.ods@. When it isn't, then there is an additional @MySheet.ods.yaml@. (That there is no @MySheet.xls.yaml@ is a convention, meaning the .xls is the master.)
+
+During test runs, the YAML text is regenerated from the actual .xls and .ods files. If the text differs from the actual content of the corresponding .yaml file, a file called @MySheet.xls-actual.yaml@ is written out using the new text, and the test fails. To make a test pass again after accepting the change, just delete the old .yaml and move the -actual.yaml in its place.
+
+We chose not to simply overwrite the .yaml files with new content so people are forced to notice when sheets change, even if not running under version control (which would detect the change on the next @hg stat@).
 
