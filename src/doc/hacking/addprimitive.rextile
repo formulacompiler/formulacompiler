@@ -47,6 +47,8 @@ This rule is the _monkey see, monkey do_ rule from the book on "contributing to 
 
 So, to add the test cases for @ABS()@, I already copied lines from @ROUND()@ and adjusted them. You can see them in the sheet above. (Copying the lines made sure that the conditional formatting for input values was copied too.)
 
+As explained in the topic on the "reference test sheets":-reftest, you also have to update the corresponding .ods and .yaml files. If you forget, running the tests will tell you.
+
 
 h2. _Rule 4_: <br/>Implement only what the tests require
 

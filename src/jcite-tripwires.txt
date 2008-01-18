@@ -3707,6 +3707,18 @@ path:ExpressionParser.jj
 __@@__
 components/compiler/src/build/javacc/ExpressionParser.jj
 ___@_@___
+path:components/system/src/test-reference/data/org/formulacompiler/tests/reference
+__@@__
+components/system/src/test-reference/data/org/formulacompiler/tests/reference
+___@_@___
+path:components/system/src/test-reference/java-debug
+__@@__
+components/system/src/test-reference/java-debug
+___@_@___
+path:components/system/src/test-reference/scripts/refTestSheets.bas
+__@@__
+components/system/src/test-reference/scripts/refTestSheets.bas
+___@_@___
 path:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules
 __@@__
 components/compiler/src/build/resources/org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules
@@ -5306,7 +5318,7 @@ __@@__
 	<tbody>
 		<tr>
 			<td class="xl-row">1</td>
-			<td><span style="text-decoration: underline;">Expected</span></td>
+			<td><span style="text-decoration: underline;">Expected</span><br/><span class="xl-exp">=IF(Q1,"Expected","FAILED!")</span></td>
 			<td><span style="text-decoration: underline;">Actual</span></td>
 			<td><span style="text-decoration: underline;">Inputs</span></td>
 			<td></td>
@@ -5726,7 +5738,7 @@ __@@__
 	<tbody>
 		<tr>
 			<td class="xl-row">1</td>
-			<td><span style="text-decoration: underline;">Expected</span></td>
+			<td><span style="text-decoration: underline;">Expected</span><br/><span class="xl-exp">=IF(Q1,"Expected","FAILED!")</span></td>
 			<td><span style="text-decoration: underline;">Actual</span></td>
 			<td><span style="text-decoration: underline;">Inputs</span></td>
 			<td></td>
@@ -5778,6 +5790,27 @@ __@@__
 	</tbody>
 </table>
 ___@_@___
+xc:org/formulacompiler/tests/reference/NumericFunctions.xls:ABSChecks
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>O</td>
+			<td>P</td>
+			<td>Q</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">2</td>
+			<td></td>
+			<td>true<br/><span class="xl-exp">=OR(ISBLANK(B2),IF(ISERROR(B2),ERROR.TYPE(B2)=IF(ISBLANK(M2),ERROR.TYPE(A2),ERROR.TYPE(M2)),IF(ISBLANK(M2),AND(NOT(ISBLANK(A2)),A2=B2),B2=M2)))</span></td>
+			<td>true<br/><span class="xl-exp">=IF(ISBLANK(O2),IF(ISERROR(P2),false,P2),O2)</span></td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
 xc:org/formulacompiler/tests/reference/NumericFunctions.xls:HeaderRange,ABSRange
 __@@__
 <table class="xl">
@@ -5798,12 +5831,15 @@ __@@__
 			<td>L</td>
 			<td>M</td>
 			<td>N</td>
+			<td>O</td>
+			<td>P</td>
+			<td>Q</td>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
 			<td class="xl-row">1</td>
-			<td><span style="text-decoration: underline;">Expected</span></td>
+			<td><span style="text-decoration: underline;">Expected</span><br/><span class="xl-exp">=IF(Q1,"Expected","FAILED!")</span></td>
 			<td><span style="text-decoration: underline;">Actual</span></td>
 			<td><span style="text-decoration: underline;">Inputs</span></td>
 			<td></td>
@@ -5817,6 +5853,9 @@ __@@__
 			<td><span style="text-decoration: underline;">Highlight</span></td>
 			<td><span style="text-decoration: underline;">Excel says</span></td>
 			<td><span style="text-decoration: underline;">Skip for</span></td>
+			<td><span style="text-decoration: underline;">Custom check</span></td>
+			<td></td>
+			<td><span style="text-decoration: underline;">true</span><br/><span class="xl-exp">=AND(Q2:Q10000)</span></td>
 		</tr>
 		<tr>
 			<td class="xl-row">2</td>
@@ -5834,6 +5873,9 @@ __@@__
 			<td>ABS</td>
 			<td></td>
 			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td class="xl-row">3</td>
@@ -5847,6 +5889,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td class="xl-num">1</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -5868,6 +5913,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td class="xl-row">5</td>
@@ -5881,6 +5929,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td class="xl-num">1</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -5902,6 +5953,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td class="xl-row">7</td>
@@ -5915,6 +5969,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td class="xl-num">1</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -5936,6 +5993,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td class="xl-row">9</td>
@@ -5949,6 +6009,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td class="xl-num">1</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -5967,6 +6030,9 @@ __@@__
 			<td></td>
 			<td class="xl-num">1</td>
 			<td>...</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -5994,12 +6060,15 @@ __@@__
 			<td>L</td>
 			<td>M</td>
 			<td>N</td>
+			<td>O</td>
+			<td>P</td>
+			<td>Q</td>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
 			<td class="xl-row">1</td>
-			<td><span style="text-decoration: underline;">Expected</span></td>
+			<td><span style="text-decoration: underline;">Expected</span><br/><span class="xl-exp">=IF(Q1,"Expected","FAILED!")</span></td>
 			<td><span style="text-decoration: underline;">Actual</span></td>
 			<td><span style="text-decoration: underline;">Inputs</span></td>
 			<td></td>
@@ -6013,6 +6082,9 @@ __@@__
 			<td><span style="text-decoration: underline;">Highlight</span></td>
 			<td><span style="text-decoration: underline;">Excel says</span></td>
 			<td><span style="text-decoration: underline;">Skip for</span></td>
+			<td><span style="text-decoration: underline;">Custom check</span></td>
+			<td></td>
+			<td><span style="text-decoration: underline;">true</span><br/><span class="xl-exp">=AND(Q2:Q10000)</span></td>
 		</tr>
 		<tr>
 			<td class="xl-row">463</td>
@@ -6029,6 +6101,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td>#NUM!</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 		</tr>
 		<tr>
@@ -6047,6 +6122,9 @@ __@@__
 			<td></td>
 			<td>#NUM!</td>
 			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td class="xl-row">465</td>
@@ -6063,6 +6141,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td>#NUM!</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 		</tr>
 	</tbody>
@@ -6088,12 +6169,15 @@ __@@__
 			<td>L</td>
 			<td>M</td>
 			<td>N</td>
+			<td>O</td>
+			<td>P</td>
+			<td>Q</td>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
 			<td class="xl-row">1</td>
-			<td><span style="text-decoration: underline;">Expected</span></td>
+			<td><span style="text-decoration: underline;">Expected</span><br/><span class="xl-exp">=IF(Q1,"Expected","FAILED!")</span></td>
 			<td><span style="text-decoration: underline;">Actual</span></td>
 			<td><span style="text-decoration: underline;">Inputs</span></td>
 			<td></td>
@@ -6107,6 +6191,9 @@ __@@__
 			<td><span style="text-decoration: underline;">Highlight</span></td>
 			<td><span style="text-decoration: underline;">Excel says</span></td>
 			<td><span style="text-decoration: underline;">Skip for</span></td>
+			<td><span style="text-decoration: underline;">Custom check</span></td>
+			<td></td>
+			<td><span style="text-decoration: underline;">true</span><br/><span class="xl-exp">=AND(Q2:Q10000)</span></td>
 		</tr>
 		<tr>
 			<td class="xl-row">450</td>
@@ -6124,6 +6211,9 @@ __@@__
 			<td>COMBIN</td>
 			<td></td>
 			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td class="xl-row">451</td>
@@ -6137,6 +6227,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -6158,6 +6251,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td class="xl-row">453</td>
@@ -6171,6 +6267,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -6192,6 +6291,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td class="xl-row">455</td>
@@ -6205,6 +6307,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -6226,6 +6331,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td class="xl-row">457</td>
@@ -6239,6 +6347,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -6260,6 +6371,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td class="xl-row">459</td>
@@ -6273,6 +6387,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -6294,6 +6411,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td class="xl-row">461</td>
@@ -6307,6 +6427,9 @@ __@@__
 			<td></td>
 			<td></td>
 			<td class="xl-num">2</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -6325,6 +6448,9 @@ __@@__
 			<td></td>
 			<td class="xl-num">2</td>
 			<td>...</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
