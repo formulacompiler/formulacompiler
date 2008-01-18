@@ -123,5 +123,5 @@ When possible, we try to use just one .yaml file for both of the .xls and .ods f
 
 During test runs, the YAML text is regenerated from the actual .xls and .ods files. If the text differs from the actual content of the corresponding .yaml file, a file called @MySheet.xls-actual.yaml@ is written out using the new text, and the test fails. To make a test pass again after accepting the change, just delete the old .yaml and move the -actual.yaml in its place.
 
-We chose not to simply overwrite the .yaml files with new content so people are forced to notice when sheets change, even if not running under version control (which would detect the change on the next @hg stat@).
+We chose not to simply overwrite the .yaml files with new content so people are forced to notice when sheets change, even if not running under version control (which would detect the change on the next @hg stat@). However, if you set @test-ref-update-yaml: true@ in @build.properties@, then the .yaml files are updated in place and the tests do not fail because of this. The rule is that .xls files update .yaml, unless .xls.yaml exists; .ods files alway update .ods.yaml.
 
