@@ -1245,7 +1245,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	{
 		final String text = _text.trim();
 		try {
-			final Date date = _environment.parseDateAndOrTime( _text );
+			final Date date = _environment.parseDateAndOrTime( text );
 			return Math.floor( dateToDouble( date, _environment.timeZone() ) );
 		}
 		catch (ParseException e) {
@@ -1257,7 +1257,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	{
 		final String text = _text.trim();
 		try {
-			final Date date = _environment.parseDateAndOrTime( _text );
+			final Date date = _environment.parseDateAndOrTime( text );
 			double dataTime = dateToDouble( date, _environment.timeZone() );
 			return dataTime - Math.floor( dataTime );
 		}
