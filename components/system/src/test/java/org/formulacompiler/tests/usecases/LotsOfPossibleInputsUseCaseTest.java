@@ -26,15 +26,14 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.New;
+import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
 
 
-
-@SuppressWarnings("unchecked")
+@SuppressWarnings( "unchecked" )
 public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 {
 
@@ -48,7 +47,8 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 	{
 
 
-		public void defineEngine( Spreadsheet _model, SpreadsheetBinder.Section _root ) throws Exception
+		public void defineEngine( EngineBuilder _builder, Spreadsheet _model, SpreadsheetBinder.Section _root )
+				throws Exception
 		{
 			final Class inputs = Inputs.class;
 			final Method[] methods = inputs.getMethods();
@@ -65,9 +65,7 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 					}
 					for (Method method : methods) {
 						if (method.getName().equalsIgnoreCase( methodName )) {
-							_root
-									.defineInputCell( cell,
-											new CallFrame( method, getArguments( method, cellName ) ) );
+							_root.defineInputCell( cell, _builder.newCallFrame( method, getArguments( method, cellName ) ) );
 							break;
 						}
 					}
@@ -75,10 +73,10 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 			}
 
 			final Class outputs = Outputs.class;
-			_root.defineOutputCell( _model.getCell( "A" ), new CallFrame( outputs.getMethod( "getA" ) ) );
-			_root.defineOutputCell( _model.getCell( "B" ), new CallFrame( outputs.getMethod( "getB" ) ) );
-			_root.defineOutputCell( _model.getCell( "ISOK" ), new CallFrame( outputs.getMethod( "isOK" ) ) );
-			_root.defineOutputCell( _model.getCell( "WHEN" ), new CallFrame( outputs.getMethod( "when" ) ) );
+			_root.defineOutputCell( _model.getCell( "A" ), _builder.newCallFrame( outputs.getMethod( "getA" ) ) );
+			_root.defineOutputCell( _model.getCell( "B" ), _builder.newCallFrame( outputs.getMethod( "getB" ) ) );
+			_root.defineOutputCell( _model.getCell( "ISOK" ), _builder.newCallFrame( outputs.getMethod( "isOK" ) ) );
+			_root.defineOutputCell( _model.getCell( "WHEN" ), _builder.newCallFrame( outputs.getMethod( "when" ) ) );
 		}
 
 
@@ -149,7 +147,7 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 		private double one;
 		private double two;
 
-		public Inputs(double _one, double _two)
+		public Inputs( double _one, double _two )
 		{
 			super();
 			this.one = _one;

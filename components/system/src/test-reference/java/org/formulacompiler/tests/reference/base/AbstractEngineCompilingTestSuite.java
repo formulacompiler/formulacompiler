@@ -91,13 +91,13 @@ public abstract class AbstractEngineCompilingTestSuite extends AbstractContextTe
 	public static CallFrame getterFor( Class _cls, BindingType _type, int _index )
 	{
 		final Map<BindingType, Method> getters = gettersFor( _cls, true );
-		return new CallFrame( getters.get( _type ), _index );
+		return SpreadsheetCompiler.newCallFrame( getters.get( _type ), _index );
 	}
 
 	public static CallFrame getterFor( Class _cls, BindingType _type )
 	{
 		final Map<BindingType, Method> getters = gettersFor( _cls, false );
-		return new CallFrame( getters.get( _type ) );
+		return SpreadsheetCompiler.newCallFrame( getters.get( _type ) );
 	}
 
 	private static Map<BindingType, Method> gettersFor( Class _cls, boolean _indexed )

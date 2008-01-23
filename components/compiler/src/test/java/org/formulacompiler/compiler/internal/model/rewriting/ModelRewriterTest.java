@@ -20,10 +20,10 @@
  */
 package org.formulacompiler.compiler.internal.model.rewriting;
 
-import org.formulacompiler.compiler.CallFrame;
+import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.Operator;
-import org.formulacompiler.compiler.FormulaCompiler;
+import org.formulacompiler.compiler.internal.CallFrameImpl;
 import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
@@ -151,7 +151,7 @@ public class ModelRewriterTest extends TestCase
 			String str = (String) _value;
 			if (str.startsWith( "#" )) {
 				final CellModel cellModel = new CellModel( rootModel, str.substring( 1 ) );
-				cellModel.makeInput( new CallFrame( Inputs.class.getMethod( "getOne" ) ) );
+				cellModel.makeInput( new CallFrameImpl( Inputs.class.getMethod( "getOne" ) ) );
 				return new ExpressionNodeForCellModel( cellModel );
 			}
 		}

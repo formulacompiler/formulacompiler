@@ -20,14 +20,14 @@
  */
 package org.formulacompiler.compiler.internal.bytecode;
 
-import org.formulacompiler.compiler.CallFrame;
+import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.EngineBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder.CellRef;
 import org.formulacompiler.tests.utils.AbstractIOTestCase;
@@ -64,7 +64,7 @@ public class StringsTest extends AbstractIOTestCase
 			bindSheet( s, rb );
 			SaveableEngine e = eb.compile();
 			checkEngine( e );
-			
+
 			MyFactory f = (MyFactory) e.getComputationFactory();
 
 			MyInputs i = new MyInputs();
@@ -94,7 +94,8 @@ public class StringsTest extends AbstractIOTestCase
 			@Override
 			protected void bindSheet( Spreadsheet s, Section rb ) throws Exception
 			{
-				rb.defineOutputCell( s.getCell( RESULT_NAME ), new CallFrame( MyOutputs.class.getMethod( "result" ) ) );
+				rb.defineOutputCell( s.getCell( RESULT_NAME ), FormulaCompiler.newCallFrame( MyOutputs.class
+						.getMethod( "result" ) ) );
 			}
 
 			@Override
@@ -123,8 +124,10 @@ public class StringsTest extends AbstractIOTestCase
 			@Override
 			protected void bindSheet( Spreadsheet s, Section rb ) throws Exception
 			{
-				rb.defineInputCell( s.getCell( RESULT_NAME ), new CallFrame( MyInputs.class.getMethod( "value" ) ) );
-				rb.defineOutputCell( s.getCell( RESULT_NAME ), new CallFrame( MyOutputs.class.getMethod( "result" ) ) );
+				rb.defineInputCell( s.getCell( RESULT_NAME ), FormulaCompiler.newCallFrame( MyInputs.class
+						.getMethod( "value" ) ) );
+				rb.defineOutputCell( s.getCell( RESULT_NAME ), FormulaCompiler.newCallFrame( MyOutputs.class
+						.getMethod( "result" ) ) );
 			}
 
 			@Override
@@ -156,8 +159,10 @@ public class StringsTest extends AbstractIOTestCase
 			@Override
 			protected void bindSheet( Spreadsheet s, Section rb ) throws Exception
 			{
-				rb.defineInputCell( s.getCell( VALUE_NAME ), new CallFrame( MyInputs.class.getMethod( "value" ) ) );
-				rb.defineOutputCell( s.getCell( RESULT_NAME ), new CallFrame( MyOutputs.class.getMethod( "result" ) ) );
+				rb.defineInputCell( s.getCell( VALUE_NAME ), FormulaCompiler.newCallFrame( MyInputs.class
+						.getMethod( "value" ) ) );
+				rb.defineOutputCell( s.getCell( RESULT_NAME ), FormulaCompiler.newCallFrame( MyOutputs.class
+						.getMethod( "result" ) ) );
 			}
 
 			@Override
@@ -178,7 +183,7 @@ public class StringsTest extends AbstractIOTestCase
 		private final int bindB;
 		private final int bindC;
 
-		public ConcatTester(int a, int b, int c)
+		public ConcatTester( int a, int b, int c )
 		{
 			super();
 			this.bindA = a;
@@ -206,10 +211,14 @@ public class StringsTest extends AbstractIOTestCase
 		@Override
 		protected void bindSheet( Spreadsheet s, Section rb ) throws Exception
 		{
-			if (this.bindA > 0) rb.defineInputCell( s.getCell( "A" ), new CallFrame( MyInputs.class.getMethod( "a" ) ) );
-			if (this.bindB > 0) rb.defineInputCell( s.getCell( "B" ), new CallFrame( MyInputs.class.getMethod( "b" ) ) );
-			if (this.bindC > 0) rb.defineInputCell( s.getCell( "C" ), new CallFrame( MyInputs.class.getMethod( "c" ) ) );
-			rb.defineOutputCell( s.getCell( RESULT_NAME ), new CallFrame( MyOutputs.class.getMethod( "result" ) ) );
+			if (this.bindA > 0)
+				rb.defineInputCell( s.getCell( "A" ), FormulaCompiler.newCallFrame( MyInputs.class.getMethod( "a" ) ) );
+			if (this.bindB > 0)
+				rb.defineInputCell( s.getCell( "B" ), FormulaCompiler.newCallFrame( MyInputs.class.getMethod( "b" ) ) );
+			if (this.bindC > 0)
+				rb.defineInputCell( s.getCell( "C" ), FormulaCompiler.newCallFrame( MyInputs.class.getMethod( "c" ) ) );
+			rb.defineOutputCell( s.getCell( RESULT_NAME ), FormulaCompiler.newCallFrame( MyOutputs.class
+					.getMethod( "result" ) ) );
 		}
 
 		@Override

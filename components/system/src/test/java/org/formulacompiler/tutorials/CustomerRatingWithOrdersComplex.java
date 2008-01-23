@@ -88,11 +88,11 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 		Section binder = _builder.getRootBinder();
 
 		Cell ratingCell = sheet.getCell( "Rating" );
-		binder.defineOutputCell( ratingCell, new CallFrame( _builder.getOutputClass().getMethod( "rating" ) ) );
+		binder.defineOutputCell( ratingCell, _builder.newCallFrame( _builder.getOutputClass().getMethod( "rating" ) ) );
 
 		Range range = sheet.getRange( "OrdersForLastThreeMonths" );
 		Method mtd = CustomerData.class.getMethod( "ordersForLastNDays", Integer.TYPE );
-		CallFrame call = new CallFrame( mtd, 90 );
+		CallFrame call = _builder.newCallFrame( mtd, 90 );
 		Orientation orient = Orientation.VERTICAL;
 		Class input = OrderData.class;
 
@@ -100,10 +100,10 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 
 		// ---- bindOrderValues
 		Cell totalCell = sheet.getCell( "OrderTotal" );
-		/**/orders/**/.defineInputCell( totalCell, new CallFrame( /**/OrderData/**/.class.getMethod( "total" ) ) );
+		/**/orders/**/.defineInputCell( totalCell, _builder.newCallFrame( /**/OrderData/**/.class.getMethod( "total" ) ) );
 
 		Cell dateCell = sheet.getCell( "OrderDate" );
-		/**/orders/**/.defineInputCell( dateCell, new CallFrame( /**/OrderData/**/.class.getMethod( "date" ) ) );
+		/**/orders/**/.defineInputCell( dateCell, _builder.newCallFrame( /**/OrderData/**/.class.getMethod( "date" ) ) );
 		// ---- bindOrderValues
 	}
 

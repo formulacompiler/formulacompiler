@@ -22,11 +22,11 @@ package org.formulacompiler.compiler.internal.bytecode.compiler;
 
 import java.math.BigDecimal;
 
-import org.formulacompiler.compiler.CallFrame;
+import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.Operator;
-import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.SaveableEngine;
+import org.formulacompiler.compiler.internal.CallFrameImpl;
 import org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.compiler.internal.model.CellModel;
@@ -39,7 +39,6 @@ import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.tests.utils.AbstractIOTestCase;
 import org.formulacompiler.tests.utils.Inputs;
 import org.formulacompiler.tests.utils.Outputs;
-
 
 
 public class ByteCodeCompilerOnEngineModelTest extends AbstractIOTestCase
@@ -88,9 +87,9 @@ public class ByteCodeCompilerOnEngineModelTest extends AbstractIOTestCase
 		r.setExpression( new ExpressionNodeForOperator( _operator, new ExpressionNodeForCellModel( a ),
 				new ExpressionNodeForCellModel( b ) ) );
 
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
-		b.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleB" ) ) );
-		r.makeOutput( new CallFrame( Outputs.class.getMethod( "getResult" ) ) );
+		a.makeInput( new CallFrameImpl( Inputs.class.getMethod( "getDoubleA" ) ) );
+		b.makeInput( new CallFrameImpl( Inputs.class.getMethod( "getDoubleB" ) ) );
+		r.makeOutput( new CallFrameImpl( Outputs.class.getMethod( "getResult" ) ) );
 
 		assertDoubleResult( _expectedResult, engineModel, _operator.toString() );
 	}
@@ -104,8 +103,8 @@ public class ByteCodeCompilerOnEngineModelTest extends AbstractIOTestCase
 		final CellModel r = new CellModel( rootModel, "r" );
 		r.setExpression( new ExpressionNodeForOperator( _operator, new ExpressionNodeForCellModel( a ) ) );
 
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getDoubleA" ) ) );
-		r.makeOutput( new CallFrame( Outputs.class.getMethod( "getResult" ) ) );
+		a.makeInput( new CallFrameImpl( Inputs.class.getMethod( "getDoubleA" ) ) );
+		r.makeOutput( new CallFrameImpl( Outputs.class.getMethod( "getResult" ) ) );
 
 		assertDoubleResult( _expectedResult, engineModel, "Unary_" + _operator.toString() );
 	}
@@ -130,11 +129,12 @@ public class ByteCodeCompilerOnEngineModelTest extends AbstractIOTestCase
 		r.setExpression( new ExpressionNodeForOperator( _operator, new ExpressionNodeForCellModel( a ),
 				new ExpressionNodeForCellModel( b ) ) );
 
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getBigDecimalA" ) ) );
-		b.makeInput( new CallFrame( Inputs.class.getMethod( "getBigDecimalB" ) ) );
-		r.makeOutput( new CallFrame( Outputs.class.getMethod( "getBigDecimalA" ) ) );
+		a.makeInput( new CallFrameImpl( Inputs.class.getMethod( "getBigDecimalA" ) ) );
+		b.makeInput( new CallFrameImpl( Inputs.class.getMethod( "getBigDecimalB" ) ) );
+		r.makeOutput( new CallFrameImpl( Outputs.class.getMethod( "getBigDecimalA" ) ) );
 
-		assertBigDecimalResult( _expectedResult, engineModel, _operator.toString(), FormulaCompiler.BIGDECIMAL_SCALE8, "_big" );
+		assertBigDecimalResult( _expectedResult, engineModel, _operator.toString(), FormulaCompiler.BIGDECIMAL_SCALE8,
+				"_big" );
 		assertBigDecimalResult( _expectedResult, engineModel, _operator.toString(), FormulaCompiler.BIGDECIMAL64, "_bigp" );
 	}
 
@@ -148,11 +148,13 @@ public class ByteCodeCompilerOnEngineModelTest extends AbstractIOTestCase
 		final CellModel r = new CellModel( rootModel, "r" );
 		r.setExpression( new ExpressionNodeForOperator( _operator, new ExpressionNodeForCellModel( a ) ) );
 
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getBigDecimalA" ) ) );
-		r.makeOutput( new CallFrame( Outputs.class.getMethod( "getBigDecimalA" ) ) );
+		a.makeInput( new CallFrameImpl( Inputs.class.getMethod( "getBigDecimalA" ) ) );
+		r.makeOutput( new CallFrameImpl( Outputs.class.getMethod( "getBigDecimalA" ) ) );
 
-		assertBigDecimalResult( _expectedResult, engineModel, "Unary_" + _operator.toString(), FormulaCompiler.BIGDECIMAL_SCALE8, "_big" );
-		assertBigDecimalResult( _expectedResult, engineModel, "Unary_" + _operator.toString(), FormulaCompiler.BIGDECIMAL64, "_bigp" );
+		assertBigDecimalResult( _expectedResult, engineModel, "Unary_" + _operator.toString(),
+				FormulaCompiler.BIGDECIMAL_SCALE8, "_big" );
+		assertBigDecimalResult( _expectedResult, engineModel, "Unary_" + _operator.toString(),
+				FormulaCompiler.BIGDECIMAL64, "_bigp" );
 	}
 
 
@@ -176,9 +178,9 @@ public class ByteCodeCompilerOnEngineModelTest extends AbstractIOTestCase
 		r.setExpression( new ExpressionNodeForOperator( _operator, new ExpressionNodeForCellModel( a ),
 				new ExpressionNodeForCellModel( b ) ) );
 
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getScaledLongA" ) ) );
-		b.makeInput( new CallFrame( Inputs.class.getMethod( "getScaledLongB" ) ) );
-		r.makeOutput( new CallFrame( Outputs.class.getMethod( "getScaledLongA" ) ) );
+		a.makeInput( new CallFrameImpl( Inputs.class.getMethod( "getScaledLongA" ) ) );
+		b.makeInput( new CallFrameImpl( Inputs.class.getMethod( "getScaledLongB" ) ) );
+		r.makeOutput( new CallFrameImpl( Outputs.class.getMethod( "getScaledLongA" ) ) );
 
 		assertScaledLongResult( _expectedResult, engineModel, _operator.toString() );
 	}
@@ -193,8 +195,8 @@ public class ByteCodeCompilerOnEngineModelTest extends AbstractIOTestCase
 		final CellModel r = new CellModel( rootModel, "r" );
 		r.setExpression( new ExpressionNodeForOperator( _operator, new ExpressionNodeForCellModel( a ) ) );
 
-		a.makeInput( new CallFrame( Inputs.class.getMethod( "getScaledLongA" ) ) );
-		r.makeOutput( new CallFrame( Outputs.class.getMethod( "getScaledLongA" ) ) );
+		a.makeInput( new CallFrameImpl( Inputs.class.getMethod( "getScaledLongA" ) ) );
+		r.makeOutput( new CallFrameImpl( Outputs.class.getMethod( "getScaledLongA" ) ) );
 
 		assertScaledLongResult( _expectedResult, engineModel, "Unary_" + _operator.toString() );
 	}

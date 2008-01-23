@@ -32,12 +32,13 @@ import junit.framework.TestCase;
 
 abstract class AbstractUseCaseTest extends TestCase
 {
-	private static final File SHEET_PATH = new File( "src/test/data/org/formulacompiler/tests/usecases" ); 
+	private static final File SHEET_PATH = new File( "src/test/data/org/formulacompiler/tests/usecases" );
 
 
 	protected interface UseCase
 	{
-		public void defineEngine( Spreadsheet _model, SpreadsheetBinder.Section _root ) throws Exception;
+		public void defineEngine( EngineBuilder _builder, Spreadsheet _model, SpreadsheetBinder.Section _root )
+				throws Exception;
 		public void useEngine( SaveableEngine _engine ) throws Exception;
 	}
 
@@ -55,7 +56,7 @@ abstract class AbstractUseCaseTest extends TestCase
 	{
 		final String sheetFileName = _sheetFileBaseName + _extension;
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( new File( SHEET_PATH, sheetFileName ));
+		builder.loadSpreadsheet( new File( SHEET_PATH, sheetFileName ) );
 		builder.setInputClass( _inputs );
 		builder.setOutputClass( _outputs );
 		runUseCase( _useCase, builder );
@@ -64,7 +65,7 @@ abstract class AbstractUseCaseTest extends TestCase
 
 	private final void runUseCase( UseCase _useCase, EngineBuilder _builder ) throws Exception
 	{
-		_useCase.defineEngine( _builder.getSpreadsheet(), _builder.getRootBinder() );
+		_useCase.defineEngine( _builder, _builder.getSpreadsheet(), _builder.getRootBinder() );
 		SaveableEngine engine = _builder.compile();
 		_useCase.useEngine( engine );
 	}

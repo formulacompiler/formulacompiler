@@ -25,6 +25,7 @@ import java.lang.reflect.Method;
 
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
@@ -147,7 +148,7 @@ public class SpreadsheetBinderTest extends AbstractSpreadsheetTestCase
 		CallFrame frame = null;
 		for (int i = 0; i < mtds.length; i++) {
 			mtds[ i ] = inp.getMethod( _mtdNames[ i ] );
-			if (0 == i) frame = new CallFrame( mtds[ i ] );
+			if (0 == i) frame = FormulaCompiler.newCallFrame( mtds[ i ] );
 			else frame = frame.chain( mtds[ i ] );
 		}
 

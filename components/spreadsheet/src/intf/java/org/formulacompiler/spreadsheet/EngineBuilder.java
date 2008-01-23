@@ -25,7 +25,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
+import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.Computation;
@@ -267,6 +269,17 @@ public interface EngineBuilder
 
 
 	/**
+	 * Constructs a call, possibly the initial call in a chain of calls.
+	 * 
+	 * @param _method is the method to be called.
+	 * @param _args is the list of arguments for the method's parameters.
+	 * 
+	 * @see FormulaCompiler#newCallFrame(Method, Object...)
+	 */
+	public CallFrame newCallFrame( Method _method, Object... _args );
+
+
+	/**
 	 * Returns the {@link SpreadsheetByNameBinder} used by this engine builder to associate cells
 	 * with Java methods. You only need to access it if the behaviour of {@link #bindAllByName()} is
 	 * not sufficient for you.
@@ -403,7 +416,7 @@ public interface EngineBuilder
 	 */
 	public void setCompileTimeConfig( Computation.Config _value );
 
-	
+
 	/**
 	 * Controls whether AFC should attempt to compile more readable code (when decompiled), possibly
 	 * at the expense of engine size and performance.
@@ -412,7 +425,7 @@ public interface EngineBuilder
 	 *         (default).
 	 */
 	public boolean getCompileToReadableCode();
-	
+
 	/**
 	 * Controls whether AFC should attempt to compile more readable code (when decompiled), possibly
 	 * at the expense of engine size and performance.
@@ -421,7 +434,7 @@ public interface EngineBuilder
 	 *           (default).
 	 */
 	public void setCompileToReadableCode( boolean _value );
-		
+
 
 	/**
 	 * Compiles an executable computation engine from the inputs to this builder. In particular, you

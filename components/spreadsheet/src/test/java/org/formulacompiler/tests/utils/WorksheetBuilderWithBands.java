@@ -21,16 +21,16 @@
 package org.formulacompiler.tests.utils;
 
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.spreadsheet.Orientation;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
@@ -123,7 +123,7 @@ public class WorksheetBuilderWithBands
 	public void defineWorkbook( SpreadsheetBinder.Section _root ) throws CompilerException
 	{
 		try {
-			_root.defineOutputCell( formula.getCellIndex(), new CallFrame( Outputs.class.getMethod( "getResult" ) ) );
+			_root.defineOutputCell( formula.getCellIndex(), FormulaCompiler.newCallFrame( Outputs.class.getMethod( "getResult" ) ) );
 			defineRange( _root );
 		}
 		catch (SecurityException e) {
@@ -140,11 +140,12 @@ public class WorksheetBuilderWithBands
 			NoSuchMethodException
 	{
 		final CellRange rng = CellRange.getCellRange( r1c1.getCellIndex(), r4c4.getCellIndex() );
-		details = _root.defineRepeatingSection( rng, Orientation.VERTICAL, new CallFrame( Inputs.class
+		details = _root.defineRepeatingSection( rng, Orientation.VERTICAL, FormulaCompiler.newCallFrame( Inputs.class
 				.getMethod( "getDetails" ) ), Inputs.class, null, null );
-		details.defineInputCell( r1c1.getCellIndex(), new CallFrame( Inputs.class.getMethod( "getOne" ) ) );
-		details.defineInputCell( r1c2.getCellIndex(), new CallFrame( Inputs.class.getMethod( "getTwo" ) ) );
-		details.defineInputCell( r1c3.getCellIndex(), new CallFrame( Inputs.class.getMethod( "getThree" ) ) );
+		details.defineInputCell( r1c1.getCellIndex(), FormulaCompiler.newCallFrame( Inputs.class.getMethod( "getOne" ) ) );
+		details.defineInputCell( r1c2.getCellIndex(), FormulaCompiler.newCallFrame( Inputs.class.getMethod( "getTwo" ) ) );
+		details
+				.defineInputCell( r1c3.getCellIndex(), FormulaCompiler.newCallFrame( Inputs.class.getMethod( "getThree" ) ) );
 	}
 
 

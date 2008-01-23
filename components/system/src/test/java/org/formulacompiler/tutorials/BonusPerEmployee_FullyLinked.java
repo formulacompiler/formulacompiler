@@ -80,22 +80,22 @@ public class BonusPerEmployee_FullyLinked extends TestCase
 
 		Cell bonusTotalCell = sheet.getCell( "BonusTotal" );
 		Method bonusTotalMethod = BonusData.class.getMethod( "bonusTotal" );
-		binder.defineInputCell( bonusTotalCell, new CallFrame( bonusTotalMethod ) );
+		binder.defineInputCell( bonusTotalCell, _builder.newCallFrame( bonusTotalMethod ) );
 
 		Cell overtimeRateCell = sheet.getCell( "OvertimeSalaryPerHour" );
 		Method overtimeRateMethod = BonusData.class.getMethod( "overtimeSalaryPerHour" );
-		binder.defineInputCell( overtimeRateCell, new CallFrame( overtimeRateMethod ) );
+		binder.defineInputCell( overtimeRateCell, _builder.newCallFrame( overtimeRateMethod ) );
 
 		Range range = sheet.getRange( "Employees" );
 
 		// input
 		Method inputMethod = BonusData.class.getMethod( "employees" );
-		CallFrame inputCall = new CallFrame( inputMethod );
+		CallFrame inputCall = _builder.newCallFrame( inputMethod );
 		Class inputType = EmployeeBonusData.class;
 
 		// output
 		Method outputMethod = BonusComputation.class.getMethod( "employees" );
-		CallFrame outputCall = new CallFrame( outputMethod );
+		CallFrame outputCall = _builder.newCallFrame( outputMethod );
 		Class outputType = EmployeeBonusComputation.class;
 
 		Orientation orient = Orientation.VERTICAL;
@@ -104,15 +104,15 @@ public class BonusPerEmployee_FullyLinked extends TestCase
 
 		Cell salaryCell = sheet.getCell( "BaseSalary" );
 		Method salaryMethod = inputType.getMethod( "baseSalary" );
-		employees.defineInputCell( salaryCell, new CallFrame( salaryMethod ) );
+		employees.defineInputCell( salaryCell, _builder.newCallFrame( salaryMethod ) );
 
 		Cell overtimeCell = sheet.getCell( "HoursOvertime" );
 		Method overtimeMethod = inputType.getMethod( "hoursOvertime" );
-		employees.defineInputCell( overtimeCell, new CallFrame( overtimeMethod ) );
+		employees.defineInputCell( overtimeCell, _builder.newCallFrame( overtimeMethod ) );
 
 		Cell bonusCell = sheet.getCell( "BonusAmount" );
 		Method bonusMethod = outputType.getMethod( "bonusAmount" );
-		employees.defineOutputCell( bonusCell, new CallFrame( bonusMethod ) );
+		employees.defineOutputCell( bonusCell, _builder.newCallFrame( bonusMethod ) );
 	}
 
 

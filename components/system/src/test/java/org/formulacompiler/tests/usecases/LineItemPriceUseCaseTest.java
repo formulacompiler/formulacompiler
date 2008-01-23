@@ -20,9 +20,9 @@
  */
 package org.formulacompiler.tests.usecases;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.Engine;
+import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 
@@ -39,23 +39,25 @@ public class LineItemPriceUseCaseTest extends AbstractUseCaseTest
 
 	private final class LineItemPriceUseCase implements UseCase
 	{
-		public void defineEngine( Spreadsheet _model, Section _root ) throws Exception
+		public void defineEngine( EngineBuilder _builder, Spreadsheet _model, Section _root ) throws Exception
 		{
-			defineInput( _model, _root, "ArticlePrice" );
-			defineInput( _model, _root, "NumberSold" );
-			defineOutput( _model, _root, "Total" );
+			defineInput( _builder, _model, _root, "ArticlePrice" );
+			defineInput( _builder, _model, _root, "NumberSold" );
+			defineOutput( _builder, _model, _root, "Total" );
 		}
 
-		private void defineInput( Spreadsheet _model, Section _root, final String _cellName ) throws Exception
+		private void defineInput( EngineBuilder _builder, Spreadsheet _model, Section _root, final String _cellName )
+				throws Exception
 		{
-			_root.defineInputCell( _model.getCell( _cellName ),
-					new CallFrame( Inputs.class.getMethod( "get" + _cellName ) ) );
+			_root.defineInputCell( _model.getCell( _cellName ), _builder.newCallFrame( Inputs.class.getMethod( "get"
+					+ _cellName ) ) );
 		}
 
-		private void defineOutput( Spreadsheet _model, Section _root, final String _cellName ) throws Exception
+		private void defineOutput( EngineBuilder _builder, Spreadsheet _model, Section _root, final String _cellName )
+				throws Exception
 		{
-			_root.defineOutputCell( _model.getCell( _cellName ), new CallFrame( Outputs.class
-					.getMethod( "get" + _cellName ) ) );
+			_root.defineOutputCell( _model.getCell( _cellName ), _builder.newCallFrame( Outputs.class.getMethod( "get"
+					+ _cellName ) ) );
 		}
 
 		public void useEngine( SaveableEngine _engine )
@@ -79,7 +81,7 @@ public class LineItemPriceUseCaseTest extends AbstractUseCaseTest
 		private final double articlePrice;
 		private final double numberSold;
 
-		public Inputs(double _articlePrice, double _numberSold)
+		public Inputs( double _articlePrice, double _numberSold )
 		{
 			super();
 			this.articlePrice = _articlePrice;

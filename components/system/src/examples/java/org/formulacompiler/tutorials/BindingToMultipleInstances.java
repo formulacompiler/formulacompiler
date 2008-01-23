@@ -22,11 +22,10 @@ package org.formulacompiler.tutorials;
 
 import java.lang.reflect.Method;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.spreadsheet.EngineBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 
 
 
@@ -57,7 +56,7 @@ public class BindingToMultipleInstances
 				if (name.startsWith( "CC_DISCOUNT_" )) {
 					final int iCC = Integer.parseInt( name.substring( "CC_DISCOUNT_".length() ) );
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
-					binder.defineInputCell( cell, new CallFrame( intfGetter, /**/iCC/**/ )./**/chain/**/( valueGetter ) );
+					binder.defineInputCell( cell, builder.newCallFrame( intfGetter, /**/iCC/**/ )./**/chain/**/( valueGetter ) );
 				}
 			}
 		}
@@ -74,7 +73,7 @@ public class BindingToMultipleInstances
 				if (name.startsWith( "CC_NEWDISCOUNT_" )) {
 					final int iCC = Integer.parseInt( name.substring( "CC_NEWDISCOUNT_".length() ) );
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
-					binder.defineOutputCell( cell, new CallFrame( outputGetter, /**/iCC/**/ ) );
+					binder.defineOutputCell( cell, builder.newCallFrame( outputGetter, /**/iCC/**/ ) );
 				}
 				// ... dito for CreditLimit
 			}

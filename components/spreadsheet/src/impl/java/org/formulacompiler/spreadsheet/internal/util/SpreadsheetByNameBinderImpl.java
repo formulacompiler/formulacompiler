@@ -26,6 +26,7 @@ import java.util.Collection;
 
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
@@ -162,7 +163,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 				}
 			}
 			if (cell != null && canBind( cell )) {
-				bindCell( cell, new CallFrame( _m ) );
+				bindCell( cell, FormulaCompiler.newCallFrame( _m ) );
 			}
 		}
 
@@ -216,7 +217,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 		{
 			for (Method m : this.contextMethods) {
 				if (m.getName().equalsIgnoreCase( _methodName ) && canBind( m )) {
-					bindCell( _cell, new CallFrame( m ) );
+					bindCell( _cell, FormulaCompiler.newCallFrame( m ) );
 					return true;
 				}
 			}

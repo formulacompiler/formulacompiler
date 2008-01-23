@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
+import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
@@ -334,6 +335,11 @@ public class EngineBuilderImpl implements EngineBuilder
 		return getBinder().getRoot();
 	}
 
+	public CallFrame newCallFrame( Method _method, Object... _args )
+	{
+		return SpreadsheetCompiler.newCallFrame( _method, _args );
+	}
+
 	public SpreadsheetByNameBinder getByNameBinder() throws CompilerException
 	{
 		if (this.byNameBinder == null) this.byNameBinder = makeByNameBinder();
@@ -375,7 +381,7 @@ public class EngineBuilderImpl implements EngineBuilder
 		bn.inputs().bindAllPrefixedNamedCellsToMethods( _inputPrefix );
 		// ---- bindAllByNamePrefixed
 	}
-	
+
 	public void failIfByNameBindingLeftNamedCellsUnbound( String _inputPrefix, String _outputPrefix )
 			throws CompilerException
 	{
@@ -396,13 +402,13 @@ public class EngineBuilderImpl implements EngineBuilder
 	{
 		this.parentClassLoaderForEngine = _value;
 	}
-	
-	
+
+
 	public boolean getCompileToReadableCode()
 	{
 		return this.compileToReadableCode;
 	}
-	
+
 	public void setCompileToReadableCode( boolean _value )
 	{
 		this.compileToReadableCode = _value;

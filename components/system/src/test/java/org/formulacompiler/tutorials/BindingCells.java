@@ -23,7 +23,6 @@ package org.formulacompiler.tutorials;
 import java.io.File;
 import java.lang.reflect.Method;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.decompiler.ByteCodeEngineSource;
 import org.formulacompiler.decompiler.FormulaDecompiler;
@@ -62,44 +61,44 @@ public class BindingCells extends TestCase
 		// ---- bindPlainInputs
 		cell = spreadsheet./**/getCell/**/( "SOME_VALUE" );
 		method = Input.class./**/getMethod/**/( "getSomeValue" );
-		binder./**/defineInputCell/**/( cell, new CallFrame( method ) );
+		binder./**/defineInputCell/**/( cell, builder.newCallFrame( method ) );
 
 		cell = spreadsheet.getCell( "OTHER_VALUE" );
 		method = Input.class.getMethod( "getAnotherValue" );
-		binder.defineInputCell( cell, new CallFrame( method ) );
+		binder.defineInputCell( cell, builder.newCallFrame( method ) );
 		// ---- bindPlainInputs
 
 		cell = spreadsheet.getCell( "DECADE_X" );
 		method = Input.class.getMethod( "getDecade" );
-		binder.defineInputCell( cell, new CallFrame( method ) );
+		binder.defineInputCell( cell, builder.newCallFrame( method ) );
 
 		// ---- bindParamInputs
 		cell = spreadsheet.getCell( "YEAR_1994" );
 		method = Input.class.getMethod( "getValueForYear", /**/Integer.TYPE/**/ );
-		binder.defineInputCell( cell, new CallFrame( method, /**/1994/**/ ) );
+		binder.defineInputCell( cell, builder.newCallFrame( method, /**/1994/**/ ) );
 		// ---- bindParamInputs
 
 		// ---- bindDynamicParamInputs
 		cell = spreadsheet.getCell( "YEAR_x" );
 		method = Input.class.getMethod( "getValueForYear", /**/Integer.TYPE/**/ );
-		binder.defineInputCell( cell, new CallFrame( method, /**/spreadsheet.getCell( "x" )/**/ ) );
+		binder.defineInputCell( cell, builder.newCallFrame( method, /**/spreadsheet.getCell( "x" )/**/ ) );
 		// ---- bindDynamicParamInputs
 
 		// ---- bindChainedInputs
 		cell = spreadsheet.getCell( "NAME_LENGTH" );
 		method = Input.class.getMethod( "getName" );
 		chainedMethod = String.class.getMethod( "length" );
-		binder.defineInputCell( cell, new CallFrame( method )/**/.chain/**/( chainedMethod ) );
+		binder.defineInputCell( cell, builder.newCallFrame( method )/**/.chain/**/( chainedMethod ) );
 		// ---- bindChainedInputs
 
 		// ---- bindPlainOutputs
 		cell = spreadsheet.getCell( "RESULT" );
 		method = Output.class.getMethod( "getResult" );
-		binder.defineOutputCell( cell, new CallFrame( method ) );
+		binder.defineOutputCell( cell, builder.newCallFrame( method ) );
 
 		cell = spreadsheet.getCell( "COEFF" );
 		method = Output.class.getMethod( "getCoefficient" );
-		binder.defineOutputCell( cell, new CallFrame( method ) );
+		binder.defineOutputCell( cell, builder.newCallFrame( method ) );
 		// ---- bindPlainOutputs
 
 		SaveableEngine engine = builder.compile();
@@ -188,7 +187,7 @@ public class BindingCells extends TestCase
 
 		cell = spreadsheet.getCell( "RESULT" );
 		method = Output.class.getMethod( "getResult" );
-		binder.defineOutputCell( cell, new CallFrame( method ) );
+		binder.defineOutputCell( cell, builder.newCallFrame( method ) );
 
 		Factory factory = (Factory) builder.compile().getComputationFactory();
 		Input input = new InputImpl();

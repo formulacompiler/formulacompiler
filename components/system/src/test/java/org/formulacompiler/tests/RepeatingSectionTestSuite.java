@@ -23,7 +23,6 @@ package org.formulacompiler.tests;
 import java.io.File;
 import java.util.List;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.ComputationFactory;
@@ -68,7 +67,7 @@ public class RepeatingSectionTestSuite extends AbstractTestSuite
 
 
 	@Override
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	protected void addTests() throws Exception
 	{
 		final TestSuite fileSuite = new TestSuite( "SectionTests.xls" );
@@ -157,16 +156,16 @@ public class RepeatingSectionTestSuite extends AbstractTestSuite
 				eb.setOutputClass( Output.class );
 				eb.setNumericType( numericType );
 				final Section rb = eb.getRootBinder();
-				rb.defineOutputCell( formulaCell.getCellIndex(), new CallFrame( Output.class.getMethod( "result" ) ) );
-				Section sb = rb.defineRepeatingSection( sectionRange, orientation, new CallFrame( Input.class
+				rb.defineOutputCell( formulaCell.getCellIndex(), eb.newCallFrame( Output.class.getMethod( "result" ) ) );
+				Section sb = rb.defineRepeatingSection( sectionRange, orientation, eb.newCallFrame( Input.class
 						.getMethod( "subs" ) ), Input.class, null, null );
 
 				final CellInstance[] templateCells = sectionCells[ 0 ];
 				int iCell = 0;
 				for (CellInstance c : templateCells) {
 					if (c.getExpression() == null) {
-						sb.defineInputCell( c.getCellIndex(), new CallFrame( Input.class.getMethod( "value", Integer.TYPE ),
-								iCell ) );
+						sb.defineInputCell( c.getCellIndex(), eb.newCallFrame(
+								Input.class.getMethod( "value", Integer.TYPE ), iCell ) );
 					}
 					iCell++;
 				}
@@ -255,7 +254,8 @@ public class RepeatingSectionTestSuite extends AbstractTestSuite
 
 		final CellIndex f = _range.getFrom();
 		final CellIndex t = _range.getTo();
-		final Orientation other = (_orientation == Orientation.HORIZONTAL) ? Orientation.VERTICAL : Orientation.HORIZONTAL;
+		final Orientation other = (_orientation == Orientation.HORIZONTAL) ? Orientation.VERTICAL
+				: Orientation.HORIZONTAL;
 		final int felt = f.getIndex( _orientation );
 		final int telt = t.getIndex( _orientation );
 		final int nelt = telt - felt + 1;

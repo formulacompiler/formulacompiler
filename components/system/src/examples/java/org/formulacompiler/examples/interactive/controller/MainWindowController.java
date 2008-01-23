@@ -25,13 +25,12 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.runtime.ComputationFactory;
-import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.FormulaCompilerException;
+import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.EngineBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
@@ -89,13 +88,13 @@ public class MainWindowController
 		final Method inputMethod = Inputs.class.getMethod( "getCellValue", Integer.TYPE );
 		iCell = 0;
 		for (CellListEntry e : getInputsModel().getCells()) {
-			root.defineInputCell( e.index, new CallFrame( inputMethod, iCell++ ) );
+			root.defineInputCell( e.index, builder.newCallFrame( inputMethod, iCell++ ) );
 		}
 
 		final Method outputMethod = Outputs.class.getMethod( "getCellValue", Integer.TYPE );
 		iCell = 0;
 		for (CellListEntry e : getOutputsModel().getCells()) {
-			root.defineOutputCell( e.index, new CallFrame( outputMethod, iCell++ ) );
+			root.defineOutputCell( e.index, builder.newCallFrame( outputMethod, iCell++ ) );
 		}
 
 		ComputationFactory factory = builder.compile().getComputationFactory();

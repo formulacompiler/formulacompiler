@@ -137,15 +137,15 @@ public class ErrorImproperInnerSectionReference extends TestCase
 		Spreadsheet sheet = builder.getSpreadsheet();
 		Section root = builder.getRootBinder();
 
-		root.defineOutputCell( sheet.getCell( _cellName ), new CallFrame( MyComputation.class.getMethod( "result" ) ) );
+		root.defineOutputCell( sheet.getCell( _cellName ), builder.newCallFrame( MyComputation.class.getMethod( "result" ) ) );
 
 		// ---- bindSection
 		Range range = sheet.getRange( "Section" );
-		CallFrame call = new CallFrame( MyInputs.class.getMethod( "section" ) );
+		CallFrame call = builder.newCallFrame( MyInputs.class.getMethod( "section" ) );
 		Class target = MyElement.class;
 		Section section = root.defineRepeatingSection( range, Orientation.REPEAT_ROWS, call, target, null, null );
-		section.defineInputCell( sheet.getRange( "Name" ).getTopLeft(), new CallFrame( target.getMethod( "name" ) ) );
-		section.defineInputCell( sheet.getRange( "Value" ).getTopLeft(), new CallFrame( target.getMethod( "value" ) ) );
+		section.defineInputCell( sheet.getRange( "Name" ).getTopLeft(), builder.newCallFrame( target.getMethod( "name" ) ) );
+		section.defineInputCell( sheet.getRange( "Value" ).getTopLeft(), builder.newCallFrame( target.getMethod( "value" ) ) );
 		// ---- bindSection
 
 		return builder;

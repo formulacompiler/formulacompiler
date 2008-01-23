@@ -119,11 +119,11 @@ public class BonusPerEmployee extends TestCase
 		// ---- bindGlobals
 		Cell bonusTotalCell = sheet.getCell( "BonusTotal" );
 		Method bonusTotalMethod = BonusData.class.getMethod( "bonusTotal" );
-		/**/binder/**/.defineInputCell( bonusTotalCell, new CallFrame( bonusTotalMethod ) );
+		/**/binder/**/.defineInputCell( bonusTotalCell, _builder.newCallFrame( bonusTotalMethod ) );
 
 		Cell overtimeRateCell = sheet.getCell( "OvertimeSalaryPerHour" );
 		Method overtimeRateMethod = BonusData.class.getMethod( "overtimeSalaryPerHour" );
-		/**/binder/**/.defineInputCell( overtimeRateCell, new CallFrame( overtimeRateMethod ) );
+		/**/binder/**/.defineInputCell( overtimeRateCell, _builder.newCallFrame( overtimeRateMethod ) );
 		// ---- bindGlobals
 
 		// ---- bindSections
@@ -131,7 +131,7 @@ public class BonusPerEmployee extends TestCase
 
 		// input
 		Method inputMethod = /**/BonusData/**/.class.getMethod( /**/"employees"/**/);
-		CallFrame inputCall = new CallFrame( inputMethod );
+		CallFrame inputCall = _builder.newCallFrame( inputMethod );
 		Class inputType = /**/EmployeeBonusData/**/.class;
 
 		// output
@@ -149,7 +149,7 @@ public class BonusPerEmployee extends TestCase
 				break;
 		}
 		// -- omit
-		CallFrame outputCall = new CallFrame( outputMethod );
+		CallFrame outputCall = _builder.newCallFrame( outputMethod );
 		Class outputType = /**/EmployeeBonusComputation/**/.class;
 
 		Orientation orient = Orientation.VERTICAL;
@@ -161,17 +161,17 @@ public class BonusPerEmployee extends TestCase
 		// ---- bindEmployeeInputs
 		Cell salaryCell = sheet.getCell( "BaseSalary" );
 		Method salaryMethod = /**/inputType/**/.getMethod( "baseSalary" );
-		/**/employees/**/.defineInputCell( salaryCell, new CallFrame( salaryMethod ) );
+		/**/employees/**/.defineInputCell( salaryCell, _builder.newCallFrame( salaryMethod ) );
 
 		Cell overtimeCell = sheet.getCell( "HoursOvertime" );
 		Method overtimeMethod = /**/inputType/**/.getMethod( "hoursOvertime" );
-		/**/employees/**/.defineInputCell( overtimeCell, new CallFrame( overtimeMethod ) );
+		/**/employees/**/.defineInputCell( overtimeCell, _builder.newCallFrame( overtimeMethod ) );
 		// ---- bindEmployeeInputs
 
 		// ---- bindEmployeeOutputs
 		Cell bonusCell = sheet.getCell( "BonusAmount" );
 		Method bonusMethod = /**/outputType/**/.getMethod( "bonusAmount" );
-		/**/employees/**/./**/defineOutputCell/**/( bonusCell, new CallFrame( bonusMethod ) );
+		/**/employees/**/./**/defineOutputCell/**/( bonusCell, _builder.newCallFrame( bonusMethod ) );
 		// ---- bindEmployeeOutputs
 	}
 

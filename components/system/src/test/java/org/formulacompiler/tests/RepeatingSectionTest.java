@@ -199,7 +199,7 @@ public class RepeatingSectionTest extends TestCase
 	@SuppressWarnings( "unchecked" )
 	private CallFrame call( Class _class, String _name ) throws NoSuchMethodException
 	{
-		return new CallFrame( _class.getMethod( _name ) );
+		return SpreadsheetCompiler.newCallFrame( _class.getMethod( _name ) );
 	}
 
 }
