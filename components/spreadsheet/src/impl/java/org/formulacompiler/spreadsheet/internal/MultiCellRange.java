@@ -47,12 +47,14 @@ public final class MultiCellRange extends CellRange
 	}
 
 
+	@Override
 	public CellIndex getFrom()
 	{
 		return this.from;
 	}
 
 
+	@Override
 	public CellIndex getTo()
 	{
 		return this.to;
@@ -120,6 +122,7 @@ public final class MultiCellRange extends CellRange
 	}
 
 
+	@Override
 	public CellIndex getCellIndexRelativeTo( CellIndex _cell ) throws SpreadsheetException
 	{
 		if (this.from.columnIndex == this.to.columnIndex) {
