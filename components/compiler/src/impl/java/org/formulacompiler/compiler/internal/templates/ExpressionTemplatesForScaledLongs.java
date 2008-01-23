@@ -20,6 +20,8 @@
  */
 package org.formulacompiler.compiler.internal.templates;
 
+import static org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2.*;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
@@ -28,7 +30,6 @@ import org.formulacompiler.runtime.internal.ComputationTime;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeLong_v2;
 import org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2;
-import static org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2.HIGHPREC;
 
 
 public final class ExpressionTemplatesForScaledLongs

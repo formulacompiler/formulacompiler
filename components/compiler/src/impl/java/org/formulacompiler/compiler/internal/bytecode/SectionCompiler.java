@@ -20,8 +20,7 @@
  */
 package org.formulacompiler.compiler.internal.bytecode;
 
-import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.COMPUTATION_INTF;
-import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.INPUTS_MEMBER_NAME;
+import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.*;
 
 import java.lang.reflect.Method;
 import java.util.List;

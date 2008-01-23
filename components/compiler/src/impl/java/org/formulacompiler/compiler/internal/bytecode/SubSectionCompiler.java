@@ -20,10 +20,7 @@
  */
 package org.formulacompiler.compiler.internal.bytecode;
 
-import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.ENV_CLASS;
-import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.ENV_MEMBER_NAME;
-import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.PARENT_MEMBER_NAME;
-import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.ROOT_MEMBER_NAME;
+import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.*;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.model.SectionModel;
