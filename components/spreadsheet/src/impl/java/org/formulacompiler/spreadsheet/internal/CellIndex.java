@@ -268,16 +268,19 @@ public final class CellIndex extends CellRange implements Cell
 		}
 	}
 
+	@Override
 	public CellIndex getFrom()
 	{
 		return this;
 	}
 
+	@Override
 	public CellIndex getTo()
 	{
 		return this;
 	}
 
+	@Override
 	public CellIndex getCellIndexRelativeTo( final CellIndex _cell ) throws SpreadsheetException
 	{
 		return this;
@@ -311,13 +314,13 @@ public final class CellIndex extends CellRange implements Cell
 
 			public boolean hasNext()
 			{
-				return hasNext;
+				return this.hasNext;
 			}
 
 			public CellIndex next()
 			{
-				if (hasNext) {
-					hasNext = false;
+				if (this.hasNext) {
+					this.hasNext = false;
 					return CellIndex.this;
 				}
 				throw new NoSuchElementException();
