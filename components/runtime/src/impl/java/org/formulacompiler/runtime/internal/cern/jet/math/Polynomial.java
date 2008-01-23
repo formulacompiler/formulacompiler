@@ -18,6 +18,7 @@ public class Polynomial extends Constants
 	 */
 	protected Polynomial()
 	{
+		// dummy
 	}
 
 	/**

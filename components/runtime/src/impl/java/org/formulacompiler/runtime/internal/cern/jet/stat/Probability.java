@@ -108,6 +108,7 @@ public class Probability extends org.formulacompiler.runtime.internal.cern.jet.m
 	 */
 	protected Probability()
 	{
+		// dummy
 	}
 
 	/**
@@ -291,7 +292,7 @@ public class Probability extends org.formulacompiler.runtime.internal.cern.jet.m
 	 * Code adapted from the <A HREF="http://www.sci.usq.edu.au/staff/leighb/graph/Top.html">Java 2D Graph Package 2.4</A>,
 	 * which in turn is a port from the <A HREF="http://people.ne.mediaone.net/moshier/index.html#Cephes">Cephes 2.2</A> Math Library (C).
 	 *
-	 * @param a the argument to the function.
+	 * @param x the argument to the function.
 	 */
 	static public double errorFunction( double x ) throws ArithmeticException
 	{
@@ -670,7 +671,7 @@ public class Probability extends org.formulacompiler.runtime.internal.cern.jet.m
 	{
 		if (mean < 0) throw new IllegalArgumentException();
 		if (k < 0) return 0.0;
-		return Gamma.incompleteGammaComplement( (double) (k + 1), mean );
+		return Gamma.incompleteGammaComplement( (k + 1), mean );
 	}
 
 	/**
@@ -696,7 +697,7 @@ public class Probability extends org.formulacompiler.runtime.internal.cern.jet.m
 	{
 		if (mean < 0) throw new IllegalArgumentException();
 		if (k < -1) return 0.0;
-		return Gamma.incompleteGamma( (double) (k + 1), mean );
+		return Gamma.incompleteGamma( (k + 1), mean );
 	}
 
 	/**

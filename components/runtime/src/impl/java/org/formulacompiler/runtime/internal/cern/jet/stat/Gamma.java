@@ -22,6 +22,7 @@ import org.formulacompiler.runtime.internal.cern.jet.math.Polynomial;
  * @author wolfgang.hoschek@cern.ch
  * @version 0.9, 22-Jun-99
  */
+@SuppressWarnings("all")
 public class Gamma extends org.formulacompiler.runtime.internal.cern.jet.math.Constants
 {
 	/**
@@ -29,6 +30,7 @@ public class Gamma extends org.formulacompiler.runtime.internal.cern.jet.math.Co
 	 */
 	protected Gamma()
 	{
+		// dummy
 	}
 
 	/**
@@ -90,7 +92,6 @@ public class Gamma extends org.formulacompiler.runtime.internal.cern.jet.math.Co
 //double LOGPI  = 1.14472988584940017414;
 
 		double p, z;
-		int i;
 
 		double q = Math.abs( x );
 
@@ -98,7 +99,6 @@ public class Gamma extends org.formulacompiler.runtime.internal.cern.jet.math.Co
 			if (x < 0.0) {
 				p = Math.floor( q );
 				if (p == q) throw new ArithmeticException( "gamma: overflow" );
-				i = (int) p;
 				z = q - p;
 				if (z > 0.5) {
 					p += 1.0;
