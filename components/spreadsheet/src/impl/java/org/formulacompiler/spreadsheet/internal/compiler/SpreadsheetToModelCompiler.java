@@ -25,6 +25,7 @@ import java.util.Map.Entry;
 
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ComputationModel;
@@ -142,7 +143,7 @@ public final class SpreadsheetToModelCompiler
 			return prev.chain( _frame.getMethod(), args );
 		}
 		else if (changed) {
-			return new CallFrame( _frame.getMethod(), args );
+			return FormulaCompiler.newCallFrame( _frame.getMethod(), args );
 		}
 		return _frame;
 	}

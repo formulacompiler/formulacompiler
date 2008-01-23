@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.formulacompiler.compiler.CallFrame;
+import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.compiler.internal.Debug;
@@ -146,7 +147,7 @@ public abstract class AbstractTester
 		private final List<String> outputNames = New.list();
 		private int nextSectionIndex = 0;
 
-		public SectionDef(SectionDef _parent, Range _range, Section _binder, Inputs _input) throws Exception
+		public SectionDef( SectionDef _parent, Range _range, Section _binder, Inputs _input ) throws Exception
 		{
 			this.range = _range;
 			this.binder = _binder;
@@ -186,14 +187,14 @@ public abstract class AbstractTester
 			final String typeName = (_cell.getConstantValue() instanceof String) ? "String" : AbstractTester.this.typeName;
 			switch (_type) {
 				case INPUT: {
-					final CallFrame getter = new CallFrame( Inputs.class.getMethod( "get" + typeName, Integer.TYPE ),
-							this.input.addInput( castValue( _cell.getConstantValue() ) ) );
+					final CallFrame getter = FormulaCompiler.newCallFrame( Inputs.class.getMethod( "get" + typeName,
+							Integer.TYPE ), this.input.addInput( castValue( _cell.getConstantValue() ) ) );
 					this.binder.defineInputCell( _cell, getter );
 					break;
 				}
 				case OUTPUT: {
-					final CallFrame setter = new CallFrame( Outputs.class.getMethod( "get" + typeName, Integer.TYPE ), this
-							.addOutput( _cell.describe() ) );
+					final CallFrame setter = FormulaCompiler.newCallFrame( Outputs.class.getMethod( "get" + typeName,
+							Integer.TYPE ), this.addOutput( _cell.describe() ) );
 					this.binder.defineOutputCell( _cell, setter );
 					break;
 				}
@@ -217,7 +218,7 @@ public abstract class AbstractTester
 		public void defineSection( Range _range ) throws Exception
 		{
 			final int subIndex = this.input.addSub();
-			final CallFrame getter = new CallFrame( Inputs.class.getMethod( "getSubs", Integer.TYPE ),
+			final CallFrame getter = FormulaCompiler.newCallFrame( Inputs.class.getMethod( "getSubs", Integer.TYPE ),
 					this.nextSectionIndex++ );
 			final Section sub = this.binder.defineRepeatingSection( _range, Orientation.VERTICAL, getter, Inputs.class,
 					null, null );

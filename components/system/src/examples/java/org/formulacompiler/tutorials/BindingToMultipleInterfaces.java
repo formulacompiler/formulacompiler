@@ -22,11 +22,10 @@ package org.formulacompiler.tutorials;
 
 import java.lang.reflect.Method;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.spreadsheet.EngineBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 
 
 
@@ -52,12 +51,12 @@ public class BindingToMultipleInterfaces
 		cell = spreadsheet.getCell( "A_VALUE" );
 		intfGetter = Input.class.getMethod( /**/"getA"/**/ );
 		valueGetter = String.class.getMethod( "getValue" );
-		binder.defineInputCell( cell, new CallFrame( intfGetter )./**/chain/**/( valueGetter ) );
+		binder.defineInputCell( cell, builder.newCallFrame( intfGetter )./**/chain/**/( valueGetter ) );
 
 		cell = spreadsheet.getCell( "B_VALUE" );
 		intfGetter = Input.class.getMethod( /**/"getB"/**/ );
 		valueGetter = String.class.getMethod( "getValue" );
-		binder.defineInputCell( cell, new CallFrame( intfGetter )./**/chain/**/( valueGetter ) );
+		binder.defineInputCell( cell, builder.newCallFrame( intfGetter )./**/chain/**/( valueGetter ) );
 		// ---- bindInputs
 
 	}

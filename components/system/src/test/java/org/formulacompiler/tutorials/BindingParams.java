@@ -22,13 +22,12 @@ package org.formulacompiler.tutorials;
 
 import java.lang.reflect.Method;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 
 import junit.framework.TestCase;
 
@@ -58,7 +57,7 @@ public class BindingParams extends TestCase
 				if ("I_".equals( cellName.substring( 0, 2 ) )) {
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
 					final String /**/valueName/**/ = cellName.substring( 2 ).toUpperCase();
-					binder.defineInputCell( cell, /**/new CallFrame( inputMethod, valueName )/**/);
+					binder.defineInputCell( cell, /**/builder.newCallFrame( inputMethod, valueName )/**/);
 				}
 			}
 		}
@@ -73,7 +72,7 @@ public class BindingParams extends TestCase
 				if ("O_".equals( cellName.substring( 0, 2 ) )) {
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
 					final String /**/valueName/**/ = cellName.substring( 2 ).toUpperCase();
-					binder.defineOutputCell( cell, /**/new CallFrame( outputMethod, valueName )/**/);
+					binder.defineOutputCell( cell, /**/builder.newCallFrame( outputMethod, valueName )/**/);
 				}
 			}
 		}
@@ -209,38 +208,38 @@ public class BindingParams extends TestCase
 		
 		// ---- bindInputVariants
 		// Native types
-		bnd.defineInputCell( ss.getCell( "byte" ), new CallFrame( ic.getMethod( "getInput", Byte.TYPE ), (byte) 123 ) );
-		bnd.defineInputCell( ss.getCell( "short" ), new CallFrame( ic.getMethod( "getInput", Short.TYPE ), (short) 1234 ) );
-		bnd.defineInputCell( ss.getCell( "int" ), new CallFrame( ic.getMethod( "getInput", Integer.TYPE ), 12345 ) );
-		bnd.defineInputCell( ss.getCell( "long" ), new CallFrame( ic.getMethod( "getInput", Long.TYPE ), 123456L ) );
-		bnd.defineInputCell( ss.getCell( "double" ), new CallFrame( ic.getMethod( "getInput", Double.TYPE ), 123.45 ) );
-		bnd.defineInputCell( ss.getCell( "float" ), new CallFrame( ic.getMethod( "getInput", Float.TYPE ), 123.456F ) );
-		bnd.defineInputCell( ss.getCell( "char" ), new CallFrame( ic.getMethod( "getInput", Character.TYPE ), 'a' ) );
-		bnd.defineInputCell( ss.getCell( "bool" ), new CallFrame( ic.getMethod( "getInput", Boolean.TYPE ), true ) );
+		bnd.defineInputCell( ss.getCell( "byte" ), builder.newCallFrame( ic.getMethod( "getInput", Byte.TYPE ), (byte) 123 ) );
+		bnd.defineInputCell( ss.getCell( "short" ), builder.newCallFrame( ic.getMethod( "getInput", Short.TYPE ), (short) 1234 ) );
+		bnd.defineInputCell( ss.getCell( "int" ), builder.newCallFrame( ic.getMethod( "getInput", Integer.TYPE ), 12345 ) );
+		bnd.defineInputCell( ss.getCell( "long" ), builder.newCallFrame( ic.getMethod( "getInput", Long.TYPE ), 123456L ) );
+		bnd.defineInputCell( ss.getCell( "double" ), builder.newCallFrame( ic.getMethod( "getInput", Double.TYPE ), 123.45 ) );
+		bnd.defineInputCell( ss.getCell( "float" ), builder.newCallFrame( ic.getMethod( "getInput", Float.TYPE ), 123.456F ) );
+		bnd.defineInputCell( ss.getCell( "char" ), builder.newCallFrame( ic.getMethod( "getInput", Character.TYPE ), 'a' ) );
+		bnd.defineInputCell( ss.getCell( "bool" ), builder.newCallFrame( ic.getMethod( "getInput", Boolean.TYPE ), true ) );
 
 		// Boxed types
-		bnd.defineInputCell( ss.getCell( "bbyte" ), new CallFrame( ic.getMethod( "getInput", Byte.class ), (byte) 123 ) );
-		bnd.defineInputCell( ss.getCell( "bshort" ), new CallFrame( ic.getMethod( "getInput", Short.class ), (short) 1234 ) );
-		bnd.defineInputCell( ss.getCell( "bint" ), new CallFrame( ic.getMethod( "getInput", Integer.class ), 12345 ) );
-		bnd.defineInputCell( ss.getCell( "blong" ), new CallFrame( ic.getMethod( "getInput", Long.class ), 123456L ) );
-		bnd.defineInputCell( ss.getCell( "bdouble" ), new CallFrame( ic.getMethod( "getInput", Double.class ), 123.45 ) );
-		bnd.defineInputCell( ss.getCell( "bfloat" ), new CallFrame( ic.getMethod( "getInput", Float.class ), 123.456F ) );
-		bnd.defineInputCell( ss.getCell( "bchar" ), new CallFrame( ic.getMethod( "getInput", Character.class ), 'a' ) );
-		bnd.defineInputCell( ss.getCell( "bbool" ), new CallFrame( ic.getMethod( "getInput", Boolean.class ), true ) );
+		bnd.defineInputCell( ss.getCell( "bbyte" ), builder.newCallFrame( ic.getMethod( "getInput", Byte.class ), (byte) 123 ) );
+		bnd.defineInputCell( ss.getCell( "bshort" ), builder.newCallFrame( ic.getMethod( "getInput", Short.class ), (short) 1234 ) );
+		bnd.defineInputCell( ss.getCell( "bint" ), builder.newCallFrame( ic.getMethod( "getInput", Integer.class ), 12345 ) );
+		bnd.defineInputCell( ss.getCell( "blong" ), builder.newCallFrame( ic.getMethod( "getInput", Long.class ), 123456L ) );
+		bnd.defineInputCell( ss.getCell( "bdouble" ), builder.newCallFrame( ic.getMethod( "getInput", Double.class ), 123.45 ) );
+		bnd.defineInputCell( ss.getCell( "bfloat" ), builder.newCallFrame( ic.getMethod( "getInput", Float.class ), 123.456F ) );
+		bnd.defineInputCell( ss.getCell( "bchar" ), builder.newCallFrame( ic.getMethod( "getInput", Character.class ), 'a' ) );
+		bnd.defineInputCell( ss.getCell( "bbool" ), builder.newCallFrame( ic.getMethod( "getInput", Boolean.class ), true ) );
 
 		// Other types
-		bnd.defineInputCell( ss.getCell( "string" ), new CallFrame( ic.getMethod( "getInput", String.class ), "123.4567" ) );
+		bnd.defineInputCell( ss.getCell( "string" ), builder.newCallFrame( ic.getMethod( "getInput", String.class ), "123.4567" ) );
 
 		// Application-defined enumerations
-		bnd.defineInputCell( ss.getCell( "enum" ), new CallFrame( ic.getMethod( "getInput", MyEnum.class ), MyEnum.TWO ) );
+		bnd.defineInputCell( ss.getCell( "enum" ), builder.newCallFrame( ic.getMethod( "getInput", MyEnum.class ), MyEnum.TWO ) );
 		// ---- bindInputVariants
 		
 		// ---- bindInputCombination
 		Method mtd = ic.getMethod( "getInput", /**/Integer.TYPE, Boolean.TYPE, String.class/**/ );
-		bnd.defineInputCell( ss.getCell( "comb" ), new CallFrame( mtd, /**/12, true, "24"/**/ ) );
+		bnd.defineInputCell( ss.getCell( "comb" ), builder.newCallFrame( mtd, /**/12, true, "24"/**/ ) );
 		// ---- bindInputCombination
 		
-		bnd.defineOutputCell( ss.getCell( "result" ), new CallFrame( SimpleOutput.class.getMethod( "getResult" )) );
+		bnd.defineOutputCell( ss.getCell( "result" ), builder.newCallFrame( SimpleOutput.class.getMethod( "getResult" )) );
 
 		Engine engine = builder.compile();
 		ComputationFactory factory = engine.getComputationFactory();
@@ -316,14 +315,13 @@ public class BindingParams extends TestCase
 		SpreadsheetBinder.Section binder = builder.getRootBinder();
 
 		Method inputMethod = Input.class./**/getMethod( "getInput", String.class )/**/;
-		binder.defineInputCell( spreadsheet.getCell( "I_One" ), new CallFrame( inputMethod, "ONE" ) );
-		binder.defineInputCell( spreadsheet.getCell( "I_Two" ), new CallFrame( inputMethod, "TWO" ) );
-		binder.defineInputCell( spreadsheet.getCell( "I_Three" ), new CallFrame( inputMethod, "THREE" ) );
+		binder.defineInputCell( spreadsheet.getCell( "I_One" ), builder.newCallFrame( inputMethod, "ONE" ) );
+		binder.defineInputCell( spreadsheet.getCell( "I_Two" ), builder.newCallFrame( inputMethod, "TWO" ) );
+		binder.defineInputCell( spreadsheet.getCell( "I_Three" ), builder.newCallFrame( inputMethod, "THREE" ) );
 
 		// ---- bindComplexOutput
 		Method outputMethod = ComplexOutput.class./**/getMethod( "getComplex", Integer.TYPE, Long.TYPE, String.class )/**/;
-		binder
-				.defineOutputCell( spreadsheet.getCell( "Complex" ), /**/new CallFrame( outputMethod, 1, 2, "THREE" )/**/);
+		binder.defineOutputCell( spreadsheet.getCell( "Complex" ), /**/builder.newCallFrame( outputMethod, 1, 2, "THREE" )/**/);
 		// ---- bindComplexOutput
 
 		ComputationFactory factory = builder.compile().getComputationFactory();

@@ -103,7 +103,7 @@ public class CustomerRatingWithOrders extends TestCase
 		// ---- bindRating
 		Cell ratingCell = sheet.getCell( "Rating" );
 		Method ratingMethod = CustomerRating.class.getMethod( "rating" );
-		/**/binder/**/.defineOutputCell( ratingCell, new CallFrame( ratingMethod ) );
+		/**/binder/**/.defineOutputCell( ratingCell, _builder.newCallFrame( ratingMethod ) );
 		// ---- bindRating
 
 		// ---- bindOrders
@@ -119,7 +119,7 @@ public class CustomerRatingWithOrders extends TestCase
 				break;
 		}
 		// -- omit
-		CallFrame call = new CallFrame( mtd, 90 ); // last 3 months is 90 days back
+		CallFrame call = _builder.newCallFrame( mtd, 90 ); // last 3 months is 90 days back
 		Orientation orient = Orientation.VERTICAL;
 		Class input = /**/OrderData/**/.class;
 
@@ -129,7 +129,7 @@ public class CustomerRatingWithOrders extends TestCase
 		// ---- bindOrderValues
 		Cell totalCell = sheet.getCell( "OrderTotal" );
 		Method totalMethod = /**/OrderData/**/.class.getMethod( "total" );
-		/**/orders/**/.defineInputCell( totalCell, new CallFrame( totalMethod ) );
+		/**/orders/**/.defineInputCell( totalCell, _builder.newCallFrame( totalMethod ) );
 		// ---- bindOrderValues
 	}
 

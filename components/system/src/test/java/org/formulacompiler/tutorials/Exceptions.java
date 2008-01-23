@@ -22,7 +22,6 @@ package org.formulacompiler.tutorials;
 
 import java.io.File;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.NumericType;
@@ -297,14 +296,14 @@ public final class Exceptions extends TestCase
 		init();
 		Spreadsheet s = b.getSpreadsheet();
 		Section r = b.getRootBinder();
-		r.defineOutputCell( s.getCellA1( _cellName ), new CallFrame( Outputs.class.getMethod( "result" ) ) );
+		r.defineOutputCell( s.getCellA1( _cellName ), b.newCallFrame( Outputs.class.getMethod( "result" ) ) );
 	}
 
 	private void setupInputCell( String _cellName ) throws Throwable
 	{
 		Spreadsheet s = b.getSpreadsheet();
 		Section r = b.getRootBinder();
-		r.defineInputCell( s.getCellA1( _cellName ), new CallFrame( Inputs.class.getMethod( "value" ) ) );
+		r.defineInputCell( s.getCellA1( _cellName ), b.newCallFrame( Inputs.class.getMethod( "value" ) ) );
 	}
 
 	private void assertRunsWithInputReturning( double _inputValue, double _expectedResult ) throws Throwable

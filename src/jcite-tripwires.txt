@@ -1886,39 +1886,39 @@ __@@__
 cell = spreadsheet.getCell( "NAME_LENGTH" );
 		method = Input.class.getMethod( "getName" );
 		chainedMethod = String.class.getMethod( "length" );
-		binder.defineInputCell( cell, new CallFrame( method )/**/.chain/**/( chainedMethod ) );
+		binder.defineInputCell( cell, builder.newCallFrame( method )/**/.chain/**/( chainedMethod ) );
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingCells:---- bindDynamicParamInputs
 __@@__
 cell = spreadsheet.getCell( "YEAR_x" );
 		method = Input.class.getMethod( "getValueForYear", /**/Integer.TYPE/**/ );
-		binder.defineInputCell( cell, new CallFrame( method, /**/spreadsheet.getCell( "x" )/**/ ) );
+		binder.defineInputCell( cell, builder.newCallFrame( method, /**/spreadsheet.getCell( "x" )/**/ ) );
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingCells:---- bindParamInputs
 __@@__
 cell = spreadsheet.getCell( "YEAR_1994" );
 		method = Input.class.getMethod( "getValueForYear", /**/Integer.TYPE/**/ );
-		binder.defineInputCell( cell, new CallFrame( method, /**/1994/**/ ) );
+		binder.defineInputCell( cell, builder.newCallFrame( method, /**/1994/**/ ) );
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingCells:---- bindPlainInputs
 __@@__
 cell = spreadsheet./**/getCell/**/( "SOME_VALUE" );
 		method = Input.class./**/getMethod/**/( "getSomeValue" );
-		binder./**/defineInputCell/**/( cell, new CallFrame( method ) );
+		binder./**/defineInputCell/**/( cell, builder.newCallFrame( method ) );
 
 		cell = spreadsheet.getCell( "OTHER_VALUE" );
 		method = Input.class.getMethod( "getAnotherValue" );
-		binder.defineInputCell( cell, new CallFrame( method ) );
+		binder.defineInputCell( cell, builder.newCallFrame( method ) );
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingCells:---- bindPlainOutputs
 __@@__
 cell = spreadsheet.getCell( "RESULT" );
 		method = Output.class.getMethod( "getResult" );
-		binder.defineOutputCell( cell, new CallFrame( method ) );
+		binder.defineOutputCell( cell, builder.newCallFrame( method ) );
 
 		cell = spreadsheet.getCell( "COEFF" );
 		method = Output.class.getMethod( "getCoefficient" );
-		binder.defineOutputCell( cell, new CallFrame( method ) );
+		binder.defineOutputCell( cell, builder.newCallFrame( method ) );
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingCells:---- getBinder
 __@@__
@@ -2058,53 +2058,52 @@ ___@_@___
 jc:org.formulacompiler.tutorials.BindingParams:---- bindComplexOutput
 __@@__
 Method outputMethod = ComplexOutput.class./**/getMethod( "getComplex", Integer.TYPE, Long.TYPE, String.class )/**/;
-		binder
-				.defineOutputCell( spreadsheet.getCell( "Complex" ), /**/new CallFrame( outputMethod, 1, 2, "THREE" )/**/);
+		binder.defineOutputCell( spreadsheet.getCell( "Complex" ), /**/builder.newCallFrame( outputMethod, 1, 2, "THREE" )/**/);
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingParams:---- bindInputCombination
 __@@__
 Method mtd = ic.getMethod( "getInput", /**/Integer.TYPE, Boolean.TYPE, String.class/**/ );
-		bnd.defineInputCell( ss.getCell( "comb" ), new CallFrame( mtd, /**/12, true, "24"/**/ ) );
+		bnd.defineInputCell( ss.getCell( "comb" ), builder.newCallFrame( mtd, /**/12, true, "24"/**/ ) );
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingParams:---- bindInputVariants
 __@@__
 // Native types
-		bnd.defineInputCell( ss.getCell( "byte" ), new CallFrame( ic.getMethod( "getInput", Byte.TYPE ), (byte) 123 ) );
-		bnd.defineInputCell( ss.getCell( "short" ), new CallFrame( ic.getMethod( "getInput", Short.TYPE ), (short) 1234 ) );
-		bnd.defineInputCell( ss.getCell( "int" ), new CallFrame( ic.getMethod( "getInput", Integer.TYPE ), 12345 ) );
-		bnd.defineInputCell( ss.getCell( "long" ), new CallFrame( ic.getMethod( "getInput", Long.TYPE ), 123456L ) );
-		bnd.defineInputCell( ss.getCell( "double" ), new CallFrame( ic.getMethod( "getInput", Double.TYPE ), 123.45 ) );
-		bnd.defineInputCell( ss.getCell( "float" ), new CallFrame( ic.getMethod( "getInput", Float.TYPE ), 123.456F ) );
-		bnd.defineInputCell( ss.getCell( "char" ), new CallFrame( ic.getMethod( "getInput", Character.TYPE ), 'a' ) );
-		bnd.defineInputCell( ss.getCell( "bool" ), new CallFrame( ic.getMethod( "getInput", Boolean.TYPE ), true ) );
+		bnd.defineInputCell( ss.getCell( "byte" ), builder.newCallFrame( ic.getMethod( "getInput", Byte.TYPE ), (byte) 123 ) );
+		bnd.defineInputCell( ss.getCell( "short" ), builder.newCallFrame( ic.getMethod( "getInput", Short.TYPE ), (short) 1234 ) );
+		bnd.defineInputCell( ss.getCell( "int" ), builder.newCallFrame( ic.getMethod( "getInput", Integer.TYPE ), 12345 ) );
+		bnd.defineInputCell( ss.getCell( "long" ), builder.newCallFrame( ic.getMethod( "getInput", Long.TYPE ), 123456L ) );
+		bnd.defineInputCell( ss.getCell( "double" ), builder.newCallFrame( ic.getMethod( "getInput", Double.TYPE ), 123.45 ) );
+		bnd.defineInputCell( ss.getCell( "float" ), builder.newCallFrame( ic.getMethod( "getInput", Float.TYPE ), 123.456F ) );
+		bnd.defineInputCell( ss.getCell( "char" ), builder.newCallFrame( ic.getMethod( "getInput", Character.TYPE ), 'a' ) );
+		bnd.defineInputCell( ss.getCell( "bool" ), builder.newCallFrame( ic.getMethod( "getInput", Boolean.TYPE ), true ) );
 
 		// Boxed types
-		bnd.defineInputCell( ss.getCell( "bbyte" ), new CallFrame( ic.getMethod( "getInput", Byte.class ), (byte) 123 ) );
-		bnd.defineInputCell( ss.getCell( "bshort" ), new CallFrame( ic.getMethod( "getInput", Short.class ), (short) 1234 ) );
-		bnd.defineInputCell( ss.getCell( "bint" ), new CallFrame( ic.getMethod( "getInput", Integer.class ), 12345 ) );
-		bnd.defineInputCell( ss.getCell( "blong" ), new CallFrame( ic.getMethod( "getInput", Long.class ), 123456L ) );
-		bnd.defineInputCell( ss.getCell( "bdouble" ), new CallFrame( ic.getMethod( "getInput", Double.class ), 123.45 ) );
-		bnd.defineInputCell( ss.getCell( "bfloat" ), new CallFrame( ic.getMethod( "getInput", Float.class ), 123.456F ) );
-		bnd.defineInputCell( ss.getCell( "bchar" ), new CallFrame( ic.getMethod( "getInput", Character.class ), 'a' ) );
-		bnd.defineInputCell( ss.getCell( "bbool" ), new CallFrame( ic.getMethod( "getInput", Boolean.class ), true ) );
+		bnd.defineInputCell( ss.getCell( "bbyte" ), builder.newCallFrame( ic.getMethod( "getInput", Byte.class ), (byte) 123 ) );
+		bnd.defineInputCell( ss.getCell( "bshort" ), builder.newCallFrame( ic.getMethod( "getInput", Short.class ), (short) 1234 ) );
+		bnd.defineInputCell( ss.getCell( "bint" ), builder.newCallFrame( ic.getMethod( "getInput", Integer.class ), 12345 ) );
+		bnd.defineInputCell( ss.getCell( "blong" ), builder.newCallFrame( ic.getMethod( "getInput", Long.class ), 123456L ) );
+		bnd.defineInputCell( ss.getCell( "bdouble" ), builder.newCallFrame( ic.getMethod( "getInput", Double.class ), 123.45 ) );
+		bnd.defineInputCell( ss.getCell( "bfloat" ), builder.newCallFrame( ic.getMethod( "getInput", Float.class ), 123.456F ) );
+		bnd.defineInputCell( ss.getCell( "bchar" ), builder.newCallFrame( ic.getMethod( "getInput", Character.class ), 'a' ) );
+		bnd.defineInputCell( ss.getCell( "bbool" ), builder.newCallFrame( ic.getMethod( "getInput", Boolean.class ), true ) );
 
 		// Other types
-		bnd.defineInputCell( ss.getCell( "string" ), new CallFrame( ic.getMethod( "getInput", String.class ), "123.4567" ) );
+		bnd.defineInputCell( ss.getCell( "string" ), builder.newCallFrame( ic.getMethod( "getInput", String.class ), "123.4567" ) );
 
 		// Application-defined enumerations
-		bnd.defineInputCell( ss.getCell( "enum" ), new CallFrame( ic.getMethod( "getInput", MyEnum.class ), MyEnum.TWO ) );
+		bnd.defineInputCell( ss.getCell( "enum" ), builder.newCallFrame( ic.getMethod( "getInput", MyEnum.class ), MyEnum.TWO ) );
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingParams:---- bindNamedInputs
 __@@__
 final Method inputMethod = Input.class./**/getMethod( "getInput", String.class )/**/;
 		for (Spreadsheet.NameDefinition def : /**/spreadsheet.getDefinedNames()/**/) {
-			if (def instanceof Spreadsheet.CellNameDefinition) {
-				final Spreadsheet.CellNameDefinition cellDef = (Spreadsheet.CellNameDefinition) def;
-				final String /**/cellName/**/= cellDef.getName();
+			final Spreadsheet.Range range = def.getRange();
+			if (range instanceof Spreadsheet.Cell) {
+				final String /**/cellName/**/ = def.getName();
 				if ("I_".equals( cellName.substring( 0, 2 ) )) {
-					final Spreadsheet.Cell cell = cellDef.getCell();
-					final String /**/valueName/**/= cellName.substring( 2 ).toUpperCase();
-					binder.defineInputCell( cell, /**/new CallFrame( inputMethod, valueName )/**/);
+					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
+					final String /**/valueName/**/ = cellName.substring( 2 ).toUpperCase();
+					binder.defineInputCell( cell, /**/builder.newCallFrame( inputMethod, valueName )/**/);
 				}
 			}
 		}
@@ -2113,13 +2112,13 @@ jc:org.formulacompiler.tutorials.BindingParams:---- bindNamedOutputs
 __@@__
 final Method outputMethod = Output.class./**/getMethod( "getOutput", String.class )/**/;
 		for (Spreadsheet.NameDefinition def : /**/spreadsheet.getDefinedNames()/**/) {
-			if (def instanceof Spreadsheet.CellNameDefinition) {
-				final Spreadsheet.CellNameDefinition cellDef = (Spreadsheet.CellNameDefinition) def;
-				final String /**/cellName/**/= cellDef.getName();
+			final Spreadsheet.Range range = def.getRange();
+			if (range instanceof Spreadsheet.Cell) {
+				final String /**/cellName/**/ = def.getName();
 				if ("O_".equals( cellName.substring( 0, 2 ) )) {
-					final Spreadsheet.Cell cell = cellDef.getCell();
-					final String /**/valueName/**/= cellName.substring( 2 ).toUpperCase();
-					binder.defineOutputCell( cell, /**/new CallFrame( outputMethod, valueName )/**/);
+					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
+					final String /**/valueName/**/ = cellName.substring( 2 ).toUpperCase();
+					binder.defineOutputCell( cell, /**/builder.newCallFrame( outputMethod, valueName )/**/);
 				}
 			}
 		}
@@ -2225,13 +2224,13 @@ __@@__
 intfGetter = Input.class.getMethod( /**/"getCC", Integer.TYPE/**/ );
 		valueGetter = CustomerCategory.class.getMethod( /**/"getDiscount"/**/ );
 		for (Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames()) {
-			if (def instanceof Spreadsheet.CellNameDefinition) {
-				final Spreadsheet.CellNameDefinition cellDef = (Spreadsheet.CellNameDefinition) def;
-				final Spreadsheet.Cell cell = cellDef.getCell();
-				final String name = cellDef.getName();
+			final Spreadsheet.Range range = def.getRange();
+			if (range instanceof Spreadsheet.Cell) {
+				final String name = def.getName();
 				if (name.startsWith( "CC_DISCOUNT_" )) {
 					final int iCC = Integer.parseInt( name.substring( "CC_DISCOUNT_".length() ) );
-					binder.defineInputCell( cell, new CallFrame( intfGetter, /**/iCC/**/ )./**/chain/**/( valueGetter ) );
+					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
+					binder.defineInputCell( cell, builder.newCallFrame( intfGetter, /**/iCC/**/ )./**/chain/**/( valueGetter ) );
 				}
 			}
 		}
@@ -2240,13 +2239,13 @@ jc:org.formulacompiler.tutorials.BindingToMultipleInstances:---- bindOutputs
 __@@__
 outputGetter = Output.class.getMethod( /**/"getNewDiscount", Integer.TYPE/**/ );
 		for (Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames()) {
-			if (def instanceof Spreadsheet.CellNameDefinition) {
-				final Spreadsheet.CellNameDefinition cellDef = (Spreadsheet.CellNameDefinition) def;
-				final Spreadsheet.Cell cell = cellDef.getCell();
-				final String name = cellDef.getName();
+			final Spreadsheet.Range range = def.getRange();
+			if (range instanceof Spreadsheet.Cell) {
+				final String name = def.getName();
 				if (name.startsWith( "CC_NEWDISCOUNT_" )) {
 					final int iCC = Integer.parseInt( name.substring( "CC_NEWDISCOUNT_".length() ) );
-					binder.defineOutputCell( cell, new CallFrame( outputGetter, /**/iCC/**/ ) );
+					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
+					binder.defineOutputCell( cell, builder.newCallFrame( outputGetter, /**/iCC/**/ ) );
 				}
 				// ... dito for CreditLimit
 			}
@@ -2373,12 +2372,12 @@ __@@__
 cell = spreadsheet.getCell( "A_VALUE" );
 		intfGetter = Input.class.getMethod( /**/"getA"/**/ );
 		valueGetter = String.class.getMethod( "getValue" );
-		binder.defineInputCell( cell, new CallFrame( intfGetter )./**/chain/**/( valueGetter ) );
+		binder.defineInputCell( cell, builder.newCallFrame( intfGetter )./**/chain/**/( valueGetter ) );
 
 		cell = spreadsheet.getCell( "B_VALUE" );
 		intfGetter = Input.class.getMethod( /**/"getB"/**/ );
 		valueGetter = String.class.getMethod( "getValue" );
-		binder.defineInputCell( cell, new CallFrame( intfGetter )./**/chain/**/( valueGetter ) );
+		binder.defineInputCell( cell, builder.newCallFrame( intfGetter )./**/chain/**/( valueGetter ) );
 ___@_@___
 jc:org.formulacompiler.tutorials.BonusPerEmployee:-- OutputsAlternatives
 __@@__
@@ -2433,27 +2432,27 @@ jc:org.formulacompiler.tutorials.BonusPerEmployee:---- bindEmployeeInputs
 __@@__
 Cell salaryCell = sheet.getCell( "BaseSalary" );
 		Method salaryMethod = /**/inputType/**/.getMethod( "baseSalary" );
-		/**/employees/**/.defineInputCell( salaryCell, new CallFrame( salaryMethod ) );
+		/**/employees/**/.defineInputCell( salaryCell, _builder.newCallFrame( salaryMethod ) );
 
 		Cell overtimeCell = sheet.getCell( "HoursOvertime" );
 		Method overtimeMethod = /**/inputType/**/.getMethod( "hoursOvertime" );
-		/**/employees/**/.defineInputCell( overtimeCell, new CallFrame( overtimeMethod ) );
+		/**/employees/**/.defineInputCell( overtimeCell, _builder.newCallFrame( overtimeMethod ) );
 ___@_@___
 jc:org.formulacompiler.tutorials.BonusPerEmployee:---- bindEmployeeOutputs
 __@@__
 Cell bonusCell = sheet.getCell( "BonusAmount" );
 		Method bonusMethod = /**/outputType/**/.getMethod( "bonusAmount" );
-		/**/employees/**/./**/defineOutputCell/**/( bonusCell, new CallFrame( bonusMethod ) );
+		/**/employees/**/./**/defineOutputCell/**/( bonusCell, _builder.newCallFrame( bonusMethod ) );
 ___@_@___
 jc:org.formulacompiler.tutorials.BonusPerEmployee:---- bindGlobals
 __@@__
 Cell bonusTotalCell = sheet.getCell( "BonusTotal" );
 		Method bonusTotalMethod = BonusData.class.getMethod( "bonusTotal" );
-		/**/binder/**/.defineInputCell( bonusTotalCell, new CallFrame( bonusTotalMethod ) );
+		/**/binder/**/.defineInputCell( bonusTotalCell, _builder.newCallFrame( bonusTotalMethod ) );
 
 		Cell overtimeRateCell = sheet.getCell( "OvertimeSalaryPerHour" );
 		Method overtimeRateMethod = BonusData.class.getMethod( "overtimeSalaryPerHour" );
-		/**/binder/**/.defineInputCell( overtimeRateCell, new CallFrame( overtimeRateMethod ) );
+		/**/binder/**/.defineInputCell( overtimeRateCell, _builder.newCallFrame( overtimeRateMethod ) );
 ___@_@___
 jc:org.formulacompiler.tutorials.BonusPerEmployee:---- bindSections; omit -- omit
 __@@__
@@ -2462,7 +2461,7 @@ Section binder = _builder.getRootBinder();
 
 		// input
 		Method inputMethod = /**/BonusData/**/.class.getMethod( /**/"employees"/**/);
-		CallFrame inputCall = new CallFrame( inputMethod );
+		CallFrame inputCall = _builder.newCallFrame( inputMethod );
 		Class inputType = /**/EmployeeBonusData/**/.class;
 
 		// output
@@ -2480,7 +2479,7 @@ Section binder = _builder.getRootBinder();
 				break;
 		}
 		// -- omit
-		CallFrame outputCall = new CallFrame( outputMethod );
+		CallFrame outputCall = _builder.newCallFrame( outputMethod );
 		Class outputType = /**/EmployeeBonusComputation/**/.class;
 
 		Orientation orient = Orientation.VERTICAL;
@@ -2738,7 +2737,7 @@ jc:org.formulacompiler.tutorials.CustomerRatingWithOrders:---- bindOrderValues
 __@@__
 Cell totalCell = sheet.getCell( "OrderTotal" );
 		Method totalMethod = /**/OrderData/**/.class.getMethod( "total" );
-		/**/orders/**/.defineInputCell( totalCell, new CallFrame( totalMethod ) );
+		/**/orders/**/.defineInputCell( totalCell, _builder.newCallFrame( totalMethod ) );
 ___@_@___
 jc:org.formulacompiler.tutorials.CustomerRatingWithOrders:---- bindOrders; omit -- omit
 __@@__
@@ -2755,7 +2754,7 @@ Section binder = _builder.getRootBinder();
 				break;
 		}
 		// -- omit
-		CallFrame call = new CallFrame( mtd, 90 ); // last 3 months is 90 days back
+		CallFrame call = _builder.newCallFrame( mtd, 90 ); // last 3 months is 90 days back
 		Orientation orient = Orientation.VERTICAL;
 		Class input = /**/OrderData/**/.class;
 
@@ -2765,7 +2764,7 @@ jc:org.formulacompiler.tutorials.CustomerRatingWithOrders:---- bindRating
 __@@__
 Cell ratingCell = sheet.getCell( "Rating" );
 		Method ratingMethod = CustomerRating.class.getMethod( "rating" );
-		/**/binder/**/.defineOutputCell( ratingCell, new CallFrame( ratingMethod ) );
+		/**/binder/**/.defineOutputCell( ratingCell, _builder.newCallFrame( ratingMethod ) );
 ___@_@___
 jc:org.formulacompiler.tutorials.CustomerRatingWithOrdersComplex:---- OrderData
 __@@__
@@ -2778,10 +2777,10 @@ ___@_@___
 jc:org.formulacompiler.tutorials.CustomerRatingWithOrdersComplex:---- bindOrderValues
 __@@__
 Cell totalCell = sheet.getCell( "OrderTotal" );
-		/**/orders/**/.defineInputCell( totalCell, new CallFrame( /**/OrderData/**/.class.getMethod( "total" ) ) );
+		/**/orders/**/.defineInputCell( totalCell, _builder.newCallFrame( /**/OrderData/**/.class.getMethod( "total" ) ) );
 
 		Cell dateCell = sheet.getCell( "OrderDate" );
-		/**/orders/**/.defineInputCell( dateCell, new CallFrame( /**/OrderData/**/.class.getMethod( "date" ) ) );
+		/**/orders/**/.defineInputCell( dateCell, _builder.newCallFrame( /**/OrderData/**/.class.getMethod( "date" ) ) );
 ___@_@___
 jc:org.formulacompiler.tutorials.Decompilation:---- asString
 __@@__
@@ -2936,7 +2935,7 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange1"/**/);
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"Range C2:C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
+			String err = /**/"C2:C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
 					+ "Referenced by cell B11."/**/;
 			assertEquals( err, e.getMessage() );
 		}
@@ -2949,7 +2948,7 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange2"/**/);
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"Range C3:C4 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
+			String err = /**/"C3:C4 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
 					+ "Referenced by cell B12."/**/;
 			assertEquals( err, e.getMessage() );
 		}
@@ -2962,7 +2961,7 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange3"/**/);
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"Range C3:C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
+			String err = /**/"C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
 					+ "Referenced by cell B13."/**/;
 			assertEquals( err, e.getMessage() );
 		}
@@ -2975,7 +2974,7 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange4"/**/);
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"Range C3:C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
+			String err = /**/"C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
 					+ "Referenced by cell B14."/**/;
 			assertEquals( err, e.getMessage() );
 		}
@@ -2988,7 +2987,7 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRef"/**/);
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"Range C2:C2 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
+			String err = /**/"C2 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
 					+ "Referenced by cell B10."/**/;
 			assertEquals( err, e.getMessage() );
 		}
@@ -2996,11 +2995,11 @@ ___@_@___
 jc:org.formulacompiler.tutorials.ErrorImproperInnerSectionReference:---- bindSection
 __@@__
 Range range = sheet.getRange( "Section" );
-		CallFrame call = new CallFrame( MyInputs.class.getMethod( "section" ) );
+		CallFrame call = builder.newCallFrame( MyInputs.class.getMethod( "section" ) );
 		Class target = MyElement.class;
 		Section section = root.defineRepeatingSection( range, Orientation.REPEAT_ROWS, call, target, null, null );
-		section.defineInputCell( sheet.getRange( "Name" ).getTopLeft(), new CallFrame( target.getMethod( "name" ) ) );
-		section.defineInputCell( sheet.getRange( "Value" ).getTopLeft(), new CallFrame( target.getMethod( "value" ) ) );
+		section.defineInputCell( sheet.getRange( "Name" ).getTopLeft(), builder.newCallFrame( target.getMethod( "name" ) ) );
+		section.defineInputCell( sheet.getRange( "Value" ).getTopLeft(), builder.newCallFrame( target.getMethod( "value" ) ) );
 ___@_@___
 jc:org.formulacompiler.tutorials.ErrorImproperInnerSectionReference:---- goodRef
 __@@__

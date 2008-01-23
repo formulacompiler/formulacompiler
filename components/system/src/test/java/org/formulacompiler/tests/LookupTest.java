@@ -25,7 +25,6 @@ import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.compiler.internal.IOUtil;
 import org.formulacompiler.decompiler.ByteCodeEngineSource;
@@ -194,11 +193,11 @@ public class LookupTest extends TestCase
 			if (name.startsWith( _paramPrefix )) {
 				final Cell cell = (Cell) nameDef.getRange();
 				if (name.startsWith( inputPrefix )) {
-					_builder.getRootBinder().defineInputCell( cell, new CallFrame( inputGetter, inputIndex++ ) );
+					_builder.getRootBinder().defineInputCell( cell, _builder.newCallFrame( inputGetter, inputIndex++ ) );
 					_inputs.add( ((Number) cell.getValue()).doubleValue() );
 				}
 				else if (name.startsWith( outputPrefix )) {
-					_builder.getRootBinder().defineOutputCell( cell, new CallFrame( outputGetter, outputIndex++ ) );
+					_builder.getRootBinder().defineOutputCell( cell, _builder.newCallFrame( outputGetter, outputIndex++ ) );
 					_expected.add( ((Number) cell.getValue()).doubleValue(), nameDef.getName() );
 				}
 			}

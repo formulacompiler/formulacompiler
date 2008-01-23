@@ -20,14 +20,14 @@
  */
 package org.formulacompiler.compiler.internal.bytecode;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder.CellRef;
 
@@ -54,10 +54,10 @@ public class SectionErrorsTest extends TestCase
 		eb.setInputClass( MyInputs.class );
 		eb.setOutputClass( MyOutputs.class );
 		Section rb = eb.getRootBinder();
-		rb.defineOutputCell( s.getCell( "Outer" ), new CallFrame( MyOutputs.class.getMethod( "result" ) ) );
-		Section db = rb.defineRepeatingSection( s.getRange( "Section" ), Orientation.VERTICAL, new CallFrame(
-				MyInputs.class.getMethod( "details" ) ), MyInputs.class, null, null );
-		db.defineInputCell( s.getCell( "Inner" ), new CallFrame( MyInputs.class.getMethod( "value" ) ) );
+		rb.defineOutputCell( s.getCell( "Outer" ), FormulaCompiler.newCallFrame( MyOutputs.class.getMethod( "result" ) ) );
+		Section db = rb.defineRepeatingSection( s.getRange( "Section" ), Orientation.VERTICAL, FormulaCompiler
+				.newCallFrame( MyInputs.class.getMethod( "details" ) ), MyInputs.class, null, null );
+		db.defineInputCell( s.getCell( "Inner" ), FormulaCompiler.newCallFrame( MyInputs.class.getMethod( "value" ) ) );
 
 		try {
 			eb.compile();

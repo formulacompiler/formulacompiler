@@ -57,7 +57,7 @@ public class ErrorUnsupportedConversionToOutput extends TestCase
 		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tutorials/ErrorUnsupportedConversion.xls" );
 		builder.setFactoryClass( MyFactory.class );
 		Cell cell = builder.getSpreadsheet().getCell( _cellName );
-		CallFrame call = new CallFrame( MyComputation.class.getMethod( "result" ) );
+		CallFrame call = builder.newCallFrame( MyComputation.class.getMethod( "result" ) );
 		builder.getRootBinder().defineOutputCell( cell, call );
 		return builder;
 	}
@@ -65,7 +65,7 @@ public class ErrorUnsupportedConversionToOutput extends TestCase
 	private void bindInputNamed( EngineBuilder _builder, String _cellName ) throws Exception
 	{
 		Cell cell = _builder.getSpreadsheet().getCell( _cellName );
-		CallFrame call = new CallFrame( MyInputs.class.getMethod( "value" ) );
+		CallFrame call = _builder.newCallFrame( MyInputs.class.getMethod( "value" ) );
 		_builder.getRootBinder().defineInputCell( cell, call );
 	}
 

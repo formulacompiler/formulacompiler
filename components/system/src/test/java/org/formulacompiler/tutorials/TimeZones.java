@@ -22,10 +22,9 @@ package org.formulacompiler.tutorials;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.ComputationFactory;
@@ -129,9 +128,9 @@ public final class TimeZones extends TestCase
 		builder.setOutputClass( Demarcation.class );
 
 		builder.getRootBinder().defineInputCell( builder.getSpreadsheet().getCell( _inputCell ),
-				new CallFrame( DateInput.class.getMethod( _inputMethod ) ) );
+				builder.newCallFrame( DateInput.class.getMethod( _inputMethod ) ) );
 		builder.getRootBinder().defineOutputCell( builder.getSpreadsheet().getCell( _outputCell ),
-				new CallFrame( Demarcation.class.getMethod( "isBefore" ) ) );
+				builder.newCallFrame( Demarcation.class.getMethod( "isBefore" ) ) );
 
 		SaveableEngine engine = builder.compile();
 		return engine;

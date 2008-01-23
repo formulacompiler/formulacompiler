@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.Computation;
@@ -41,7 +42,6 @@ import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder.CellRef;
 import org.formulacompiler.tests.utils.AbstractIOTestCase;
-
 
 
 /**
@@ -184,10 +184,10 @@ public class SectionOutputTest extends AbstractIOTestCase
 		dets.defineOutputCell( _sht.getCell( "SectionOutput" + _type ), call( DetailOutput.class, "output" ) );
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( "unchecked" )
 	private CallFrame call( Class _cls, String _mtd ) throws Exception
 	{
-		return new CallFrame( _cls.getMethod( _mtd ) );
+		return FormulaCompiler.newCallFrame( _cls.getMethod( _mtd ) );
 	}
 
 
@@ -213,7 +213,7 @@ public class SectionOutputTest extends AbstractIOTestCase
 	{
 		private final RootInput inputs;
 
-		public RootPrototype(RootInput _inputs)
+		public RootPrototype( RootInput _inputs )
 		{
 			this.inputs = _inputs;
 		}
@@ -287,7 +287,7 @@ public class SectionOutputTest extends AbstractIOTestCase
 		private final RootPrototype parent;
 		private final DetailInput inputs;
 
-		public DetailPrototype(DetailInput _inputs, RootPrototype _parent)
+		public DetailPrototype( DetailInput _inputs, RootPrototype _parent )
 		{
 			this.parent = _parent;
 			this.inputs = _inputs;
@@ -311,7 +311,7 @@ public class SectionOutputTest extends AbstractIOTestCase
 		private DetailInput[] inputs;
 		public int inputsLen;
 
-		public RootInput(long... _detailValues)
+		public RootInput( long... _detailValues )
 		{
 			this.inputs = new DetailInput[ _detailValues.length ];
 			for (int i = 0; i < _detailValues.length; i++) {
@@ -332,7 +332,7 @@ public class SectionOutputTest extends AbstractIOTestCase
 	{
 		private final long value;
 
-		public DetailInput(long _value)
+		public DetailInput( long _value )
 		{
 			this.value = _value;
 		}

@@ -20,8 +20,11 @@
  */
 package org.formulacompiler.spreadsheet.internal.binding;
 
+import java.io.IOException;
+
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.describable.Describable;
 import org.formulacompiler.describable.DescriptionBuilder;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 
@@ -30,7 +33,7 @@ public class InputCellBinding extends CellBinding
 	private final CallFrame callChainToCall;
 
 
-	public InputCellBinding(SectionBinding _space, CallFrame _callChainToCall, CellIndex _index)
+	public InputCellBinding( SectionBinding _space, CallFrame _callChainToCall, CellIndex _index )
 			throws CompilerException
 	{
 		super( _space, _index );
@@ -42,8 +45,8 @@ public class InputCellBinding extends CellBinding
 	{
 		return this.callChainToCall;
 	}
-	
-	
+
+
 	@Override
 	public CallFrame boundCall()
 	{
@@ -52,12 +55,12 @@ public class InputCellBinding extends CellBinding
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to )
+	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
 		getIndex().describeTo( _to );
 		if (null != getCallChainToCall()) {
 			_to.append( " gets " );
-			getCallChainToCall().describeTo( _to );
+			((Describable) getCallChainToCall()).describeTo( _to );
 		}
 	}
 

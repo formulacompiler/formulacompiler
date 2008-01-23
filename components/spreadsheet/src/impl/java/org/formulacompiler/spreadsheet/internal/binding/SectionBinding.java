@@ -28,6 +28,7 @@ import java.util.SortedSet;
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.Util;
+import org.formulacompiler.describable.Describable;
 import org.formulacompiler.describable.DescriptionBuilder;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.Resettable;
@@ -39,7 +40,8 @@ import org.formulacompiler.spreadsheet.internal.CellRange;
 
 /**
  * Subsections are sorted.
- * <p>Note: this class has a natural ordering that is inconsistent with equals.
+ * <p>
+ * Note: this class has a natural ordering that is inconsistent with equals.
  * 
  * @author peo
  */
@@ -57,8 +59,8 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	private final SortedSet<SectionBinding> sections = New.sortedSet();
 
 
-	private SectionBinding(SectionBinding _space, CallFrame _callChainToCall, Class _inputClass,
-			CallFrame _callToImplement, Class _outputClass, CellRange _range, Orientation _orientation)
+	private SectionBinding( SectionBinding _space, CallFrame _callChainToCall, Class _inputClass,
+			CallFrame _callToImplement, Class _outputClass, CellRange _range, Orientation _orientation )
 			throws CompilerException
 	{
 		super( _space );
@@ -81,7 +83,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	 * constitute a repeating section. Nevertheless, it has a default orientation, vertical, which
 	 * determines the sort order of its subsections.
 	 */
-	public SectionBinding(WorkbookBinding _workbook, Class _inputClass, Class _outputClass)
+	public SectionBinding( WorkbookBinding _workbook, Class _inputClass, Class _outputClass )
 	{
 		super( null );
 		this.workbook = _workbook;
@@ -194,7 +196,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 		SectionBinding result = new SectionBinding( this, _inputCallChainReturningIterable, _inputClass,
 				_outputCallToImplementIterable, _outputClass, cellRange, _orientation );
 		this.sections.add( result );
-		this.workbook.add(  result );
+		this.workbook.add( result );
 		return result;
 	}
 
@@ -231,7 +233,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	public int compareTo( SectionBinding _other )
 	{
 		if (this == _other) return 0;
-		
+
 		int thisFrom = this.getRange().getFrom().getIndex( this.getOrientation() );
 		int otherFrom = _other.getRange().getFrom().getIndex( _other.getOrientation() );
 
@@ -280,7 +282,8 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 			throw new SpreadsheetException.SectionExtentNotCovered( _range.toString(), this.toString(), this.orientation );
 		}
 		if (!contains( _range.getFrom() ) || !contains( _range.getTo() )) {
-			throw new SpreadsheetException.NotInSection( null, _range.toString(), this.toString(), this.getRange().toString() );
+			throw new SpreadsheetException.NotInSection( null, _range.toString(), this.toString(), this.getRange()
+					.toString() );
 		}
 
 		if (isTo > isFrom) {
@@ -332,7 +335,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	{
 		getRange().describeTo( _to );
 		_to.append( " (which iterates " );
-		getCallChainToCall().describeTo( _to );
+		((Describable) getCallChainToCall()).describeTo( _to );
 		_to.append( ")" );
 	}
 

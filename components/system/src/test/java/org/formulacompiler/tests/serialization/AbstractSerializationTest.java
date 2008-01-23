@@ -24,12 +24,11 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 
 
@@ -55,9 +54,9 @@ public abstract class AbstractSerializationTest extends AbstractTestBase
 
 		final Section bnd = builder.getRootBinder();
 		final Spreadsheet sheet = builder.getSpreadsheet();
-		bnd.defineInputCell( sheet.getCell( 0, 1, 0 ), new CallFrame( inp.getMethod( "getA" + getTypeSuffix() ) ) );
-		bnd.defineInputCell( sheet.getCell( 0, 1, 1 ), new CallFrame( inp.getMethod( "getB" + getTypeSuffix() ) ) );
-		bnd.defineOutputCell( sheet.getCell( 0, 1, 2 ), new CallFrame( outp.getMethod( "getResult" + getTypeSuffix() ) ) );
+		bnd.defineInputCell( sheet.getCell( 0, 1, 0 ), builder.newCallFrame( inp.getMethod( "getA" + getTypeSuffix() ) ) );
+		bnd.defineInputCell( sheet.getCell( 0, 1, 1 ), builder.newCallFrame( inp.getMethod( "getB" + getTypeSuffix() ) ) );
+		bnd.defineOutputCell( sheet.getCell( 0, 1, 2 ), builder.newCallFrame( outp.getMethod( "getResult" + getTypeSuffix() ) ) );
 
 		final SaveableEngine engine = builder.compile();
 		serialize( engine );

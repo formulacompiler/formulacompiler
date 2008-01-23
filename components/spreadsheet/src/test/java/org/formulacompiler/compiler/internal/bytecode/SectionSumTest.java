@@ -25,6 +25,7 @@ import java.util.Iterator;
 
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.SaveableEngine;
@@ -40,7 +41,6 @@ import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder.CellRef;
 import org.formulacompiler.tests.utils.AbstractIOTestCase;
-
 
 
 /**
@@ -153,10 +153,10 @@ public class SectionSumTest extends AbstractIOTestCase
 		_bnd.defineOutputCell( _sht.getCell( _prefix + "Sums" ), call( RootOutput.class, _prefix + "Sums" ) );
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( "unchecked" )
 	private CallFrame call( Class _cls, String _mtd ) throws Exception
 	{
-		return new CallFrame( _cls.getMethod( _mtd ) );
+		return FormulaCompiler.newCallFrame( _cls.getMethod( _mtd ) );
 	}
 
 
@@ -176,7 +176,7 @@ public class SectionSumTest extends AbstractIOTestCase
 	{
 		private final RootInput inputs;
 
-		public RootPrototype(RootInput _inputs)
+		public RootPrototype( RootInput _inputs )
 		{
 			this.inputs = _inputs;
 		}
@@ -381,7 +381,7 @@ public class SectionSumTest extends AbstractIOTestCase
 		private final RootPrototype parent;
 		private final DetailInput inputs;
 
-		public DetailPrototype(DetailInput _inputs, RootPrototype _parent)
+		public DetailPrototype( DetailInput _inputs, RootPrototype _parent )
 		{
 			this.parent = _parent;
 			this.inputs = _inputs;
@@ -406,7 +406,7 @@ public class SectionSumTest extends AbstractIOTestCase
 		private DetailInput[] details;
 		public int detailLen;
 
-		public RootInput(long _rootValue, long... _detailValues)
+		public RootInput( long _rootValue, long... _detailValues )
 		{
 			this.value = _rootValue;
 			this.details = new DetailInput[ _detailValues.length ];
@@ -453,7 +453,7 @@ public class SectionSumTest extends AbstractIOTestCase
 	{
 		private final long value;
 
-		public DetailInput(long _value)
+		public DetailInput( long _value )
 		{
 			this.value = _value;
 		}

@@ -20,15 +20,15 @@
  */
 package org.formulacompiler.compiler.internal.bytecode.compiler;
 
-import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.op;
+import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.SaveableEngine;
+import org.formulacompiler.compiler.internal.CallFrameImpl;
 import org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ComputationModel;
@@ -58,11 +58,11 @@ public class PrecisionTest extends TestCase
 		cm = new ComputationModel( Inputs.class, Outputs.class );
 		sm = cm.getRoot();
 		rm = new CellModel( sm, "result" );
-		rm.makeOutput( new CallFrame( Outputs.class.getMethod( "result" ) ) );
+		rm.makeOutput( new CallFrameImpl( Outputs.class.getMethod( "result" ) ) );
 		am = new CellModel( sm, "a" );
-		am.makeInput( new CallFrame( Inputs.class.getMethod( "getA" ) ) );
+		am.makeInput( new CallFrameImpl( Inputs.class.getMethod( "getA" ) ) );
 		bm = new CellModel( sm, "b" );
-		bm.makeInput( new CallFrame( Inputs.class.getMethod( "getB" ) ) );
+		bm.makeInput( new CallFrameImpl( Inputs.class.getMethod( "getB" ) ) );
 	}
 
 

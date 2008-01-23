@@ -20,10 +20,10 @@
  */
 package org.formulacompiler.tests.usecases;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.runtime.Resettable;
+import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
@@ -38,12 +38,14 @@ public class CustomerRatingUseCaseTest extends AbstractUseCaseTest
 		runUseCase( "CustomerRating", new UseCase()
 		{
 
-			public void defineEngine( Spreadsheet _model, Section _root ) throws Exception
+			public void defineEngine( EngineBuilder _builder, Spreadsheet _model, Section _root ) throws Exception
 			{
-				_root.defineOutputCell( _model.getCell( "Rating" ), new CallFrame( Outputs.class.getMethod( "rating" ) ) );
+				_root.defineOutputCell( _model.getCell( "Rating" ), _builder.newCallFrame( Outputs.class
+						.getMethod( "rating" ) ) );
 				Section sales = _root.defineRepeatingSection( _model.getRange( "LastSales" ), Orientation.VERTICAL,
-						new CallFrame( Inputs.class.getMethod( "lastSales" ) ), Sale.class, null, null );
-				sales.defineInputCell( _model.getCell( "LastSale" ), new CallFrame( Sale.class.getMethod( "total" ) ) );
+						_builder.newCallFrame( Inputs.class.getMethod( "lastSales" ) ), Sale.class, null, null );
+				sales.defineInputCell( _model.getCell( "LastSale" ), _builder
+						.newCallFrame( Sale.class.getMethod( "total" ) ) );
 			}
 
 
@@ -75,7 +77,7 @@ public class CustomerRatingUseCaseTest extends AbstractUseCaseTest
 	{
 		private final Sale[] sales;
 
-		public Inputs(double[] _sales)
+		public Inputs( double[] _sales )
 		{
 			super();
 			this.sales = new Sale[ _sales.length ];
@@ -88,14 +90,14 @@ public class CustomerRatingUseCaseTest extends AbstractUseCaseTest
 		{
 			return this.sales;
 		}
-	
+
 	}
 
 	public static final class Sale
 	{
 		private final double total;
-		
-		public Sale(double _total)
+
+		public Sale( double _total )
 		{
 			super();
 			this.total = _total;
@@ -105,7 +107,7 @@ public class CustomerRatingUseCaseTest extends AbstractUseCaseTest
 		{
 			return this.total;
 		}
-		
+
 	}
 
 	public static interface Outputs extends Resettable

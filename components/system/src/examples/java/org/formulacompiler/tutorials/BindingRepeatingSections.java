@@ -22,12 +22,11 @@ package org.formulacompiler.tutorials;
 
 import java.lang.reflect.Method;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 
 
 
@@ -53,14 +52,14 @@ public class BindingRepeatingSections
 		/**/SpreadsheetBinder.Section orders;/**/
 		range = spreadsheet.getRange( "ORDERS" );
 		inputMethod = Input.class.getMethod( /**/"getOrders"/**/ );
-		orders = binder./**/defineRepeatingSection/**/( range, Orientation.VERTICAL, new CallFrame( inputMethod ),
+		orders = binder./**/defineRepeatingSection/**/( range, Orientation.VERTICAL, builder.newCallFrame( inputMethod ),
 				/**/Order.class/**/, null, null );
 		// ---- bindInputSection
 
 		// ---- bindInputCell
 		cell = spreadsheet.getCell( "ORDER_TOTAL" );
 		method = /**/Order.class/**/.getMethod( "getTotal" );
-		/**/orders/**/.defineInputCell( cell, new CallFrame( method ) );
+		/**/orders/**/.defineInputCell( cell, builder.newCallFrame( method ) );
 		// ---- bindInputCell
 
 		// ---- bindIOSection
@@ -68,14 +67,14 @@ public class BindingRepeatingSections
 		range = spreadsheet.getRange( "EMPLOYEES" );
 		inputMethod = /**/Input2.class/**/.getMethod( "getEmployees" );
 		outputMethod = /**/Output.class/**/.getMethod( "getEmployees" );
-		employees = binder.defineRepeatingSection( range, Orientation.VERTICAL, new CallFrame( inputMethod ),
-				/**/Input2.Employee.class/**/, new CallFrame( outputMethod ), /**/Output.Employee.class/**/ );
+		employees = binder.defineRepeatingSection( range, Orientation.VERTICAL, builder.newCallFrame( inputMethod ),
+				/**/Input2.Employee.class/**/, builder.newCallFrame( outputMethod ), /**/Output.Employee.class/**/ );
 		// ---- bindIOSection
 
 		// ---- bindOutputCell
 		cell = spreadsheet.getCell( "BONUS_AMOUNT" );
 		method = /**/Output.Employee.class/**/.getMethod( "getBonusAmount" );
-		/**/employees/**/.defineOutputCell( cell, new CallFrame( method ) );
+		/**/employees/**/.defineOutputCell( cell, builder.newCallFrame( method ) );
 		// ---- bindOutputCell
 
 	}

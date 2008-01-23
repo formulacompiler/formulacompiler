@@ -20,6 +20,7 @@
  */
 package org.formulacompiler.compiler;
 
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
@@ -36,6 +37,21 @@ import org.formulacompiler.runtime.FormulaRuntime;
  */
 public class FormulaCompiler extends FormulaRuntime
 {
+
+
+	/**
+	 * Constructs a call, possibly the initial call in a chain of calls.
+	 * 
+	 * @param _method is the method to be called.
+	 * @param _args is the list of arguments for the method's parameters.
+	 */
+	public static CallFrame newCallFrame( Method _method, Object... _args )
+	{
+		return CALLFRAME_FACTORY.newCallFrame( _method, _args );
+	}
+
+	private static final CallFrame.Factory CALLFRAME_FACTORY = ImplementationLocator
+			.getInstance( CallFrame.Factory.class );
 
 
 	/**
