@@ -32,8 +32,8 @@ import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 
 public final class CellRange extends Reference implements Spreadsheet.Range, Iterable<CellIndex>
 {
-	private CellIndex from;
-	private CellIndex to;
+	private final CellIndex from;
+	private final CellIndex to;
 
 
 	public CellRange( CellIndex _from, CellIndex _to )
@@ -41,7 +41,11 @@ public final class CellRange extends Reference implements Spreadsheet.Range, Ite
 		super();
 		if (_from.spreadsheet != _to.spreadsheet)
 			throw new IllegalArgumentException( "From and to not from same spreadsheet for range" );
-		setFromTo( _from, _to );
+		assert _from.sheetIndex <= _to.sheetIndex;
+		assert _from.rowIndex <= _to.rowIndex;
+		assert _from.columnIndex <= _to.columnIndex;
+		this.from = _from;
+		this.to = _to;
 	}
 
 
@@ -57,31 +61,9 @@ public final class CellRange extends Reference implements Spreadsheet.Range, Ite
 	}
 
 
-	public void setFrom( CellIndex _from )
-	{
-		setFromTo( _from, getTo() );
-	}
-
-
 	public CellIndex getTo()
 	{
 		return this.to;
-	}
-
-
-	public void setTo( CellIndex _to )
-	{
-		setFromTo( getFrom(), _to );
-	}
-
-
-	public void setFromTo( CellIndex _from, CellIndex _to )
-	{
-		assert _from.sheetIndex <= _to.sheetIndex;
-		assert _from.rowIndex <= _to.rowIndex;
-		assert _from.columnIndex <= _to.columnIndex;
-		this.from = _from;
-		this.to = _to;
 	}
 
 
