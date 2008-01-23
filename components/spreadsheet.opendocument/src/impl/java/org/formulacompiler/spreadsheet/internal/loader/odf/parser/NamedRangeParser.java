@@ -25,7 +25,7 @@ import javax.xml.stream.events.StartElement;
 
 import org.formulacompiler.compiler.internal.expressions.parser.ExpressionParser;
 import org.formulacompiler.compiler.internal.expressions.parser.GeneratedExpressionParserConstants;
-import org.formulacompiler.spreadsheet.internal.Reference;
+import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 import org.formulacompiler.spreadsheet.internal.parser.SpreadsheetExpressionParserA1ODF;
 
@@ -52,8 +52,8 @@ class NamedRangeParser extends ElementParser
 		final ExpressionParser parser = new SpreadsheetExpressionParserA1ODF( cellRangeAddress, this.spreadsheet );
 		parser.token_source.SwitchTo( GeneratedExpressionParserConstants.IN_ODF_CELL_REF );
 		try {
-			final Reference reference = (Reference) parser.rangeOrCellRefODF();
-			this.spreadsheet.addToNameMap( name, reference );
+			final CellRange cellRange = (CellRange) parser.rangeOrCellRefODF();
+			this.spreadsheet.addToNameMap( name, cellRange );
 		}
 		catch (org.formulacompiler.compiler.internal.expressions.parser.ParseException e) {
 			throw new RuntimeException( e );

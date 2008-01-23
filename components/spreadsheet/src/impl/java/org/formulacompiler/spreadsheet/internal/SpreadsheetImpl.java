@@ -42,7 +42,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetException;
 public final class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
 {
 	private final List<SheetImpl> sheets = New.list();
-	private final Map<String, Reference> names = New.map();
+	private final Map<String, CellRange> names = New.map();
 	private final Map<CellIndex, String> namedCells = New.map();
 
 
@@ -52,7 +52,7 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 	}
 
 
-	public void addToNameMap( String _name, Reference _ref )
+	public void addToNameMap( String _name, CellRange _ref )
 	{
 		final String upperName = _name.toUpperCase();
 		this.names.put( upperName, _ref );
@@ -61,7 +61,7 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 		}
 	}
 
-	public Map<String, Reference> getNameMap()
+	public Map<String, CellRange> getNameMap()
 	{
 		return this.names;
 	}
@@ -77,12 +77,12 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 
 	public Spreadsheet.NameDefinition[] getDefinedNames()
 	{
-		final Set<Entry<String, Reference>> entries = this.names.entrySet();
+		final Set<Entry<String, CellRange>> entries = this.names.entrySet();
 		final Spreadsheet.NameDefinition[] result = new Spreadsheet.NameDefinition[ entries.size() ];
 		int i = 0;
-		for (Entry<String, Reference> entry : entries) {
+		for (Entry<String, CellRange> entry : entries) {
 			final String name = entry.getKey();
-			final Reference ref = entry.getValue();
+			final CellRange ref = entry.getValue();
 			result[ i++ ] = getNameDefinition( name, ref );
 		}
 		return result;
@@ -91,56 +91,36 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 
 	public Spreadsheet.NameDefinition getDefinedName( String _name )
 	{
-		Reference ref = this.names.get( _name );
+		final CellRange ref = this.names.get( _name );
 		return (ref != null) ? getNameDefinition( _name, ref ) : null;
 	}
 
 
-	private Spreadsheet.NameDefinition getNameDefinition( final String _name, final Reference _ref )
+	private Spreadsheet.NameDefinition getNameDefinition( final String _name, final CellRange _ref )
 	{
 		final String defName = _name.toUpperCase();
-		if (_ref instanceof CellIndex) {
-			final CellIndex cell = (CellIndex) _ref;
-			return new Spreadsheet.CellNameDefinition()
+
+		return new Spreadsheet.NameDefinition()
+		{
+
+			public Spreadsheet.Range getRange()
 			{
+				return _ref;
+			}
 
-				public Spreadsheet.Cell getCell()
-				{
-					return cell;
-				}
-
-				public String getName()
-				{
-					return defName;
-				}
-
-			};
-		}
-		else if (_ref instanceof CellRange) {
-			final CellRange range = (CellRange) _ref;
-			return new Spreadsheet.RangeNameDefinition()
+			public String getName()
 			{
+				return defName;
+			}
 
-				public Spreadsheet.Range getRange()
-				{
-					return range;
-				}
-
-				public String getName()
-				{
-					return defName;
-				}
-
-			};
-		}
-		else throw new InternalError( "Unknown reference type encountered" );
+		};
 
 	}
 
 
 	public void defineName( String _name, Cell _cell )
 	{
-		addToNameMap( _name, (Reference) _cell );
+		addToNameMap( _name, (CellRange) _cell );
 	}
 
 
@@ -152,7 +132,7 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 
 	public Spreadsheet.Cell getCell( String _cellName ) throws SpreadsheetException.NameNotFound
 	{
-		final Reference ref = getNamedRef( _cellName );
+		final CellRange ref = getNamedRef( _cellName );
 		if (null == ref) {
 			throw new SpreadsheetException.NameNotFound( "The name '" + _cellName + "' is not defined in this workbook." );
 		}
@@ -181,20 +161,11 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 
 	public Range getRange( String _rangeName ) throws SpreadsheetException.NameNotFound
 	{
-		final Reference ref = getNamedRef( _rangeName );
+		final CellRange ref = getNamedRef( _rangeName );
 		if (null == ref) {
 			throw new SpreadsheetException.NameNotFound( "The name '" + _rangeName + "' is not defined in this workbook." );
 		}
-		else if (ref instanceof CellRange) {
-			return (CellRange) ref;
-		}
-		else if (ref instanceof CellIndex) {
-			final CellIndex cellRef = (CellIndex) ref;
-			return new CellRange( cellRef, cellRef );
-		}
-		else {
-			throw new IllegalArgumentException( "The name '" + _rangeName + "' is not bound to a range or a cell." );
-		}
+		return ref;
 	}
 
 
@@ -207,7 +178,7 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 	// --------------------------------------- API for parser
 
 
-	public Reference getNamedRef( String _name )
+	public CellRange getNamedRef( String _name )
 	{
 		return this.getNameMap().get( _name.toUpperCase() );
 	}
@@ -258,7 +229,7 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 
 		_to.lf().ln( "sheets" ).lSpaced( getSheetList() );
 
-		final Map<String, Reference> nameMap = getNameMap();
+		final Map<String, CellRange> nameMap = getNameMap();
 		if (0 < nameMap.size()) {
 			_to.lf().ln( "names" );
 
@@ -266,8 +237,8 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 			names.addAll( nameMap.keySet() );
 			Collections.sort( names );
 			for (final String name : names) {
-				final Reference ref = nameMap.get( name );
-				if (ref instanceof CellRange) {
+				final CellRange ref = nameMap.get( name );
+				if (!(ref instanceof CellIndex)) {
 					_to.onNewLine().append( "- " ).indent();
 					{
 						_to.vn( "name" ).v( name ).lf();

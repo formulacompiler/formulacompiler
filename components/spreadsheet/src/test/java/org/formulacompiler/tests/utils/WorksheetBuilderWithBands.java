@@ -100,8 +100,8 @@ public class WorksheetBuilderWithBands
 		r4c4 = buildRowSum( r4c1, r4c3, factor );
 
 		// Setup the formula to sum the row sums defined above.
-		this.formula.setExpression( new ExpressionNodeForFunction( Function.SUM, new ExpressionNodeForRange( r1c4
-				.getCellIndex(), r4c4.getCellIndex() ) ) );
+		this.formula.setExpression( new ExpressionNodeForFunction( Function.SUM, new ExpressionNodeForRange(
+				CellRange.getCellRange( r1c4.getCellIndex(), r4c4.getCellIndex() ) ) ) );
 	}
 
 
@@ -139,7 +139,7 @@ public class WorksheetBuilderWithBands
 	public void defineRange( SpreadsheetBinder.Section _root ) throws CompilerException, SecurityException,
 			NoSuchMethodException
 	{
-		CellRange rng = new CellRange( r1c1.getCellIndex(), r4c4.getCellIndex() );
+		final CellRange rng = CellRange.getCellRange( r1c1.getCellIndex(), r4c4.getCellIndex() );
 		details = _root.defineRepeatingSection( rng, Orientation.VERTICAL, new CallFrame( Inputs.class
 				.getMethod( "getDetails" ) ), Inputs.class, null, null );
 		details.defineInputCell( r1c1.getCellIndex(), new CallFrame( Inputs.class.getMethod( "getOne" ) ) );
@@ -152,8 +152,8 @@ public class WorksheetBuilderWithBands
 	{
 		CellWithLazilyParsedExpression sum = new CellWithLazilyParsedExpression( _r1c1.getRow() );
 		final CellIndex factorRef = _factor.getCellIndex().getAbsoluteIndex( false, true );
-		final ExpressionNode aggregation = new ExpressionNodeForFunction( Function.SUM, new ExpressionNodeForRange( _r1c1
-				.getCellIndex(), _r1c2.getCellIndex() ) );
+		final ExpressionNode aggregation = new ExpressionNodeForFunction( Function.SUM, new ExpressionNodeForRange(
+				CellRange.getCellRange( _r1c1.getCellIndex(), _r1c2.getCellIndex() ) ) );
 		final ExpressionNode multiplication = new ExpressionNodeForOperator( Operator.TIMES, aggregation,
 				new ExpressionNodeForCell( factorRef ) );
 		sum.setExpression( multiplication );

@@ -55,11 +55,11 @@ public class SpreadsheetExpressionParserTest extends TestCase
 		this.workbook.getNameMap().put( "_B1_", this.cell12.getCellIndex() );
 		this.workbook.getNameMap().put( "_A2_", this.cell21.getCellIndex() );
 		this.workbook.getNameMap().put( "_B2_", this.cell22.getCellIndex() );
-		this.workbook.getNameMap().put( "_A_", new CellRange( this.cell11.getCellIndex(), this.cell21.getCellIndex() ) );
-		this.workbook.getNameMap().put( "_B_", new CellRange( this.cell12.getCellIndex(), this.cell22.getCellIndex() ) );
-		this.workbook.getNameMap().put( "_1_", new CellRange( this.cell11.getCellIndex(), this.cell12.getCellIndex() ) );
-		this.workbook.getNameMap().put( "_2_", new CellRange( this.cell21.getCellIndex(), this.cell22.getCellIndex() ) );
-		this.workbook.getNameMap().put( "_ALL_", new CellRange( this.cell11.getCellIndex(), this.cell22.getCellIndex() ) );
+		this.workbook.getNameMap().put( "_A_", CellRange.getCellRange( this.cell11.getCellIndex(), this.cell21.getCellIndex() ) );
+		this.workbook.getNameMap().put( "_B_", CellRange.getCellRange( this.cell12.getCellIndex(), this.cell22.getCellIndex() ) );
+		this.workbook.getNameMap().put( "_1_", CellRange.getCellRange( this.cell11.getCellIndex(), this.cell12.getCellIndex() ) );
+		this.workbook.getNameMap().put( "_2_", CellRange.getCellRange( this.cell21.getCellIndex(), this.cell22.getCellIndex() ) );
+		this.workbook.getNameMap().put( "_ALL_", CellRange.getCellRange( this.cell11.getCellIndex(), this.cell22.getCellIndex() ) );
 	}
 
 

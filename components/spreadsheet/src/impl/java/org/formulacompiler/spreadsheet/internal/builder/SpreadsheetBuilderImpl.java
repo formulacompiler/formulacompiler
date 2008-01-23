@@ -133,7 +133,7 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 		final CellIndex min = new CellIndex( this.spreadsheet, sheetMin, colMin, rowMin );
 		final CellIndex max = new CellIndex( this.spreadsheet, sheetMax, colMax, rowMax );
 
-		return new RangeRefImpl( new CellRange( min, max ) );
+		return new RangeRefImpl( CellRange.getCellRange( min, max ) );
 	}
 
 	public SpreadsheetBuilder nameRange( RangeRef _range, String _name )

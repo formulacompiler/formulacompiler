@@ -393,7 +393,7 @@ public class SpreadsheetByNameBinderTest extends TestCase
 			String cellName = _cellName.toUpperCase();
 			buildByNameBinder( cellName, Outputs.class );
 			bind( cellBinder( byName ) );
-			Collection<Spreadsheet.CellNameDefinition> unbound = byName.cellNamesLeftUnbound();
+			Collection<Spreadsheet.NameDefinition> unbound = byName.cellNamesLeftUnbound();
 			assertEquals( 1, unbound.size() );
 			assertEquals( cellName, unbound.iterator().next().getName() );
 			try {

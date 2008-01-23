@@ -46,7 +46,7 @@ sheets:
       name: BADRANGE2
   - cells:
     - const: "Not entire column (both bad)"
-    - expr: =SUM( R[-10]C[1]:R[-10]C[1] )
+    - expr: =SUM( R[-10]C[1] )
       name: BADRANGE3
   - cells:
     - const: "Not entire column (single cell)"

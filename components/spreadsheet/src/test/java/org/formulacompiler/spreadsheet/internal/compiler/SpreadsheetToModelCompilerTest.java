@@ -490,7 +490,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 
 	private CellRange rng( CellInstance _from, CellInstance _to )
 	{
-		return new CellRange( _from.getCellIndex(), _to.getCellIndex() );
+		return CellRange.getCellRange( _from.getCellIndex(), _to.getCellIndex() );
 	}
 
 

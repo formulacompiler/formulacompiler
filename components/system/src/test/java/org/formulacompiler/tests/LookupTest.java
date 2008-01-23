@@ -36,7 +36,6 @@ import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
-import org.formulacompiler.spreadsheet.Spreadsheet.CellNameDefinition;
 import org.formulacompiler.spreadsheet.Spreadsheet.NameDefinition;
 
 import junit.framework.TestCase;
@@ -193,15 +192,14 @@ public class LookupTest extends TestCase
 		for (NameDefinition nameDef : nameDefs) {
 			final String name = nameDef.getName();
 			if (name.startsWith( _paramPrefix )) {
-				final CellNameDefinition namedCell = (CellNameDefinition) nameDef;
-				final Cell cell = namedCell.getCell();
+				final Cell cell = (Cell) nameDef.getRange();
 				if (name.startsWith( inputPrefix )) {
 					_builder.getRootBinder().defineInputCell( cell, new CallFrame( inputGetter, inputIndex++ ) );
 					_inputs.add( ((Number) cell.getValue()).doubleValue() );
 				}
 				else if (name.startsWith( outputPrefix )) {
 					_builder.getRootBinder().defineOutputCell( cell, new CallFrame( outputGetter, outputIndex++ ) );
-					_expected.add( ((Number) cell.getValue()).doubleValue(), namedCell.getName() );
+					_expected.add( ((Number) cell.getValue()).doubleValue(), nameDef.getName() );
 				}
 			}
 		}

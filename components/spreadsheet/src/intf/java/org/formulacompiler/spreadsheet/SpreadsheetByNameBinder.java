@@ -86,7 +86,7 @@ public interface SpreadsheetByNameBinder
 	 * 
 	 * @see #failIfCellNamesAreStillUnbound()
 	 */
-	public Collection<Spreadsheet.CellNameDefinition> cellNamesLeftUnbound();
+	public Collection<Spreadsheet.NameDefinition> cellNamesLeftUnbound();
 
 
 	/**

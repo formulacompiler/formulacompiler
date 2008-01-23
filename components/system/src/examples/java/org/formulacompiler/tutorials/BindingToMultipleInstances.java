@@ -51,12 +51,12 @@ public class BindingToMultipleInstances
 		intfGetter = Input.class.getMethod( /**/"getCC", Integer.TYPE/**/ );
 		valueGetter = CustomerCategory.class.getMethod( /**/"getDiscount"/**/ );
 		for (Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames()) {
-			if (def instanceof Spreadsheet.CellNameDefinition) {
-				final Spreadsheet.CellNameDefinition cellDef = (Spreadsheet.CellNameDefinition) def;
-				final Spreadsheet.Cell cell = cellDef.getCell();
-				final String name = cellDef.getName();
+			final Spreadsheet.Range range = def.getRange();
+			if (range instanceof Spreadsheet.Cell) {
+				final String name = def.getName();
 				if (name.startsWith( "CC_DISCOUNT_" )) {
 					final int iCC = Integer.parseInt( name.substring( "CC_DISCOUNT_".length() ) );
+					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
 					binder.defineInputCell( cell, new CallFrame( intfGetter, /**/iCC/**/ )./**/chain/**/( valueGetter ) );
 				}
 			}
@@ -68,12 +68,12 @@ public class BindingToMultipleInstances
 		// ---- bindOutputs
 		outputGetter = Output.class.getMethod( /**/"getNewDiscount", Integer.TYPE/**/ );
 		for (Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames()) {
-			if (def instanceof Spreadsheet.CellNameDefinition) {
-				final Spreadsheet.CellNameDefinition cellDef = (Spreadsheet.CellNameDefinition) def;
-				final Spreadsheet.Cell cell = cellDef.getCell();
-				final String name = cellDef.getName();
+			final Spreadsheet.Range range = def.getRange();
+			if (range instanceof Spreadsheet.Cell) {
+				final String name = def.getName();
 				if (name.startsWith( "CC_NEWDISCOUNT_" )) {
 					final int iCC = Integer.parseInt( name.substring( "CC_NEWDISCOUNT_".length() ) );
+					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
 					binder.defineOutputCell( cell, new CallFrame( outputGetter, /**/iCC/**/ ) );
 				}
 				// ... dito for CreditLimit

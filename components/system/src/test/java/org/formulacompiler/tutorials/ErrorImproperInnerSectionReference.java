@@ -56,7 +56,7 @@ public class ErrorImproperInnerSectionReference extends TestCase
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"Range C2:C2 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
+			String err = /**/"C2 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
 					+ "Referenced by cell B10."/**/;
 			assertEquals( err, e.getMessage() );
 		}
@@ -72,7 +72,7 @@ public class ErrorImproperInnerSectionReference extends TestCase
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"Range C2:C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
+			String err = /**/"C2:C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
 					+ "Referenced by cell B11."/**/;
 			assertEquals( err, e.getMessage() );
 		}
@@ -88,7 +88,7 @@ public class ErrorImproperInnerSectionReference extends TestCase
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"Range C3:C4 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
+			String err = /**/"C3:C4 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
 					+ "Referenced by cell B12."/**/;
 			assertEquals( err, e.getMessage() );
 		}
@@ -104,7 +104,7 @@ public class ErrorImproperInnerSectionReference extends TestCase
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"Range C3:C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
+			String err = /**/"C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
 					+ "Referenced by cell B13."/**/;
 			assertEquals( err, e.getMessage() );
 		}
@@ -120,7 +120,7 @@ public class ErrorImproperInnerSectionReference extends TestCase
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"Range C3:C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
+			String err = /**/"C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
 					+ "Referenced by cell B14."/**/;
 			assertEquals( err, e.getMessage() );
 		}

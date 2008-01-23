@@ -20,155 +20,61 @@
  */
 package org.formulacompiler.spreadsheet.internal;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.describable.AbstractDescribable;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
-import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 
-
-public final class CellRange extends Reference implements Spreadsheet.Range, Iterable<CellIndex>
+public abstract class CellRange extends AbstractDescribable implements Spreadsheet.Range, Iterable<CellIndex>
 {
-	private final CellIndex from;
-	private final CellIndex to;
 
 
-	public CellRange( CellIndex _from, CellIndex _to )
+	public static CellRange getCellRange( CellIndex _from, CellIndex _to )
 	{
-		super();
-		if (_from.spreadsheet != _to.spreadsheet)
-			throw new IllegalArgumentException( "From and to not from same spreadsheet for range" );
-		assert _from.sheetIndex <= _to.sheetIndex;
-		assert _from.rowIndex <= _to.rowIndex;
-		assert _from.columnIndex <= _to.columnIndex;
-		this.from = _from;
-		this.to = _to;
-	}
-
-
-	public static final CellRange getEntireWorkbook( SpreadsheetImpl _spreadsheet )
-	{
-		return new CellRange( CellIndex.getTopLeft( _spreadsheet ), CellIndex.getBottomRight( _spreadsheet ) );
-	}
-
-
-	public CellIndex getFrom()
-	{
-		return this.from;
-	}
-
-
-	public CellIndex getTo()
-	{
-		return this.to;
-	}
-
-
-	public Iterator<CellIndex> iterator()
-	{
-		return new CellIndexRangeIterator();
-	}
-
-
-	private class CellIndexRangeIterator implements Iterator<CellIndex>
-	{
-		private int iSheet, lastSheet;
-		private int firstRow, iRow, lastRow;
-		private int firstColumn, iColumn, lastColumn;
-
-
-		CellIndexRangeIterator()
-		{
-			int firstSheet = getFrom().sheetIndex;
-			this.lastSheet = getTo().sheetIndex;
-			this.firstRow = getFrom().rowIndex;
-			this.lastRow = getTo().rowIndex;
-			this.firstColumn = getFrom().columnIndex;
-			this.lastColumn = getTo().columnIndex;
-
-			this.iSheet = firstSheet - 1;
-			this.iRow = this.lastRow;
-			this.iColumn = this.lastColumn;
+		if (_from.equals( _to )) {
+			return _from;
 		}
-
-
-		public boolean hasNext()
-		{
-			return (this.iSheet < this.lastSheet) || (this.iRow < this.lastRow) || (this.iColumn < this.lastColumn);
-		}
-
-
-		public CellIndex next()
-		{
-			this.iColumn++;
-			if (this.iColumn > this.lastColumn) {
-				this.iColumn = this.firstColumn;
-				this.iRow++;
-				if (this.iRow > this.lastRow) {
-					this.iRow = this.firstRow;
-					this.iSheet++;
-				}
-			}
-			if ((this.iColumn <= this.lastColumn) && (this.iRow <= this.lastRow) && (this.iSheet <= this.lastSheet)) {
-				return new CellIndex( CellRange.this.from.spreadsheet, this.iSheet, this.iColumn, this.iRow );
-			}
-			else {
-				throw new NoSuchElementException();
-			}
-		}
-
-
-		public void remove()
-		{
-			assert false;
+		else {
+			return new MultiCellRange( _from, _to );
 		}
 	}
+
+	public static CellRange getEntireWorkbook( SpreadsheetImpl _spreadsheet )
+	{
+		return getCellRange( CellIndex.getTopLeft( _spreadsheet ), CellIndex.getBottomRight( _spreadsheet ) );
+	}
+
+
+	public abstract CellIndex getFrom();
+
+
+	public abstract CellIndex getTo();
 
 
 	public boolean overlaps( CellRange _other, Orientation _orientation )
 	{
-		int l1 = this.from.getIndex( _orientation );
-		int r1 = this.to.getIndex( _orientation );
-		int l2 = _other.from.getIndex( _orientation );
-		int r2 = _other.to.getIndex( _orientation );
+		int l1 = this.getFrom().getIndex( _orientation );
+		int r1 = this.getTo().getIndex( _orientation );
+		int l2 = _other.getFrom().getIndex( _orientation );
+		int r2 = _other.getTo().getIndex( _orientation );
 		return !(l2 > r1 || l1 > r2);
 	}
 
 
-	public CellIndex getCellIndexRelativeTo( CellIndex _cell ) throws SpreadsheetException
-	{
-		if (this.from.columnIndex == this.to.columnIndex) {
-			return new CellIndex( this.from.spreadsheet, _cell.sheetIndex, this.from.columnIndex, _cell.rowIndex );
-		}
-		else if (this.from.rowIndex == this.to.rowIndex) {
-			return new CellIndex( this.from.spreadsheet, _cell.sheetIndex, _cell.columnIndex, this.from.rowIndex );
-		}
-		throw new SpreadsheetException.CellRangeNotUniDimensional( "Range "
-				+ this + " cannot be used to specify a relative cell for " + _cell );
-	}
-
-
-	public final boolean contains( Spreadsheet.Range _other )
-	{
-		CellRange other = (CellRange) _other;
-		return contains( other.from ) && contains( other.to );
-	}
-
-	public final boolean contains( Spreadsheet.Cell _cell )
-	{
-		CellIndex cell = (CellIndex) _cell;
-		return between( this.from.sheetIndex, this.to.sheetIndex, cell.sheetIndex )
-				&& between( this.from.rowIndex, this.to.rowIndex, cell.rowIndex )
-				&& between( this.from.columnIndex, this.to.columnIndex, cell.columnIndex );
-	}
-
-	private final boolean between( int _a, int _b, int _x )
-	{
-		return _a <= _x && _x <= _b;
-	}
+	/**
+	 * Let's say range B2:B20 is called "Amount". Then, you can put the formula "=Amount*1.07" into, say, D2:D20.
+	 * It will be automatically infered that "Amount" here means the respective cell on the same row from "Amount".
+	 * So, when a cell formula references a range in a position where a single value is expected,
+	 * it calls that range's <code>getCellIndexRelativeTo(this)</code>.
+	 * This works for single-column and single-row ranges.
+	 * <p/>
+	 * If the range consists of only one cell, this cell is returned.
+	 *
+	 * @param _cell base cell.
+	 * @return relative cell in the range.
+	 * @throws SpreadsheetException if range is not unidimensional.
+	 */
+	public abstract CellIndex getCellIndexRelativeTo( CellIndex _cell ) throws SpreadsheetException;
 
 
 	// Result lengths for tilingAround:
@@ -239,58 +145,7 @@ public final class CellRange extends Reference implements Spreadsheet.Range, Ite
 				if (_tiling[ iTile ] != null) return _tiling;
 			}
 		}
-		return new CellRange[] { _tiling[ _tileBefore ], _tiling[ TILE_I ], _tiling[ _tileAfter ] };
-	}
-
-
-	public Cell getTopLeft()
-	{
-		return this.from;
-	}
-
-	public Cell getBottomRight()
-	{
-		return this.to;
-	}
-
-	public Iterable<Cell> cells()
-	{
-		final Iterator<CellIndex> baseIterator = iterator();
-		return new Iterable<Cell>()
-		{
-
-			public Iterator<Cell> iterator()
-			{
-				return new Iterator<Cell>()
-				{
-
-					public boolean hasNext()
-					{
-						return baseIterator.hasNext();
-					}
-
-					public Cell next()
-					{
-						return baseIterator.next();
-					}
-
-					public void remove()
-					{
-						baseIterator.remove();
-					}
-
-				};
-			}
-		};
-	}
-
-
-	@Override
-	public void describeTo( DescriptionBuilder _to )
-	{
-		this.from.describeTo( _to );
-		_to.append( ':' );
-		this.to.describeTo( _to );
+		return new CellRange[]{ _tiling[ _tileBefore ], _tiling[ TILE_I ], _tiling[ _tileAfter ] };
 	}
 
 
@@ -380,7 +235,7 @@ public final class CellRange extends Reference implements Spreadsheet.Range, Ite
 
 		private CellRange cr( int l, int r, int t, int b )
 		{
-			return new CellRange( new CellIndex( ss, si, l, t ), new CellIndex( ss, si, r, b ) );
+			return getCellRange( new CellIndex( ss, si, l, t ), new CellIndex( ss, si, r, b ) );
 		}
 
 	}

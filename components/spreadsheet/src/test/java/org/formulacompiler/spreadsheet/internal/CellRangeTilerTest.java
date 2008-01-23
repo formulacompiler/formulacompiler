@@ -101,7 +101,7 @@ public class CellRangeTilerTest extends TestCase
 	{
 		final CellIndex from = new CellIndex( this.ss, 0, _rect.left, _rect.top );
 		final CellIndex to = new CellIndex( this.ss, 0, _rect.right, _rect.bottom );
-		return new CellRange( from, to );
+		return CellRange.getCellRange( from, to );
 	}
 
 

@@ -20,6 +20,7 @@
  */
 package org.formulacompiler.spreadsheet.internal.binding;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.SortedSet;
@@ -283,7 +284,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 		}
 
 		if (isTo > isFrom) {
-			return new CellRange( from, to.setIndex( this.orientation, isFrom ) );
+			return CellRange.getCellRange( from, to.setIndex( this.orientation, isFrom ) );
 		}
 		else {
 			return _range;
@@ -327,7 +328,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to )
+	public void describeTo( DescriptionBuilder _to ) throws IOException
 	{
 		getRange().describeTo( _to );
 		_to.append( " (which iterates " );
