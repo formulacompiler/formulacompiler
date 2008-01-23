@@ -191,10 +191,10 @@ public class SpreadsheetBinderTest extends AbstractSpreadsheetTestCase
 
 	public void testAllowMixedBands() throws Exception
 	{
-		CellRange vert = new CellRange( this.dyn.r1c1.getCellIndex(), this.dyn.r1c1.getCellIndex() );
+		final CellRange vert = CellRange.getCellRange( this.dyn.r1c1.getCellIndex(), this.dyn.r1c1.getCellIndex() );
 		this.def.defineRepeatingSection( vert, Orientation.VERTICAL, getInput( "getDetails" ), Inputs.class, null, null );
 
-		CellRange horiz = new CellRange( this.dyn.r2c2.getCellIndex(), this.dyn.r2c2.getCellIndex() );
+		final CellRange horiz = CellRange.getCellRange( this.dyn.r2c2.getCellIndex(), this.dyn.r2c2.getCellIndex() );
 		this.def.defineRepeatingSection( horiz, Orientation.HORIZONTAL, getInput( "getSubDetails" ), Inputs.class, null,
 				null );
 	}
@@ -203,7 +203,7 @@ public class SpreadsheetBinderTest extends AbstractSpreadsheetTestCase
 	public void testNoOverlappingVerticalBands() throws Exception
 	{
 		Orientation orientation = Orientation.VERTICAL;
-		CellRange one = new CellRange( this.dyn.r2c2.getCellIndex(), this.dyn.r3c3.getCellIndex() );
+		final CellRange one = CellRange.getCellRange( this.dyn.r2c2.getCellIndex(), this.dyn.r3c3.getCellIndex() );
 		this.def.defineRepeatingSection( one, orientation, getInput( "getDetails" ), Inputs.class, null, null );
 
 		acceptBand( this.def, this.dyn.r1c1, this.dyn.r1c1, orientation );
@@ -222,7 +222,7 @@ public class SpreadsheetBinderTest extends AbstractSpreadsheetTestCase
 	public void testNoOverlappingHorizontalBands() throws Exception
 	{
 		Orientation orientation = Orientation.HORIZONTAL;
-		CellRange one = new CellRange( this.dyn.r2c2.getCellIndex(), this.dyn.r3c3.getCellIndex() );
+		final CellRange one = CellRange.getCellRange( this.dyn.r2c2.getCellIndex(), this.dyn.r3c3.getCellIndex() );
 		this.def.defineRepeatingSection( one, orientation, getInput( "getDetails" ), Inputs.class, null, null );
 
 		acceptBand( this.def, this.dyn.r1c1, this.dyn.r1c1, orientation );
@@ -241,7 +241,7 @@ public class SpreadsheetBinderTest extends AbstractSpreadsheetTestCase
 	private void acceptBand( Section _def, CellInstance _from, CellInstance _to, Orientation _orientation )
 			throws Exception
 	{
-		CellRange two = new CellRange( _from.getCellIndex(), _to.getCellIndex() );
+		final CellRange two = CellRange.getCellRange( _from.getCellIndex(), _to.getCellIndex() );
 		_def.defineRepeatingSection( two, _orientation, getInput( "getDetails" ), Inputs.class, null, null );
 	}
 
@@ -249,7 +249,7 @@ public class SpreadsheetBinderTest extends AbstractSpreadsheetTestCase
 	private void failForBand( Section _def, CellInstance _from, CellInstance _to, Orientation _orientation )
 			throws Exception
 	{
-		CellRange two = new CellRange( _from.getCellIndex(), _to.getCellIndex() );
+		final CellRange two = CellRange.getCellRange( _from.getCellIndex(), _to.getCellIndex() );
 		try {
 			_def.defineRepeatingSection( two, _orientation, getInput( "getDetails" ), Inputs.class, null, null );
 			fail( "No overlap reported for " + two );
@@ -262,27 +262,27 @@ public class SpreadsheetBinderTest extends AbstractSpreadsheetTestCase
 
 	public void testAllowDisjointHorizontalBands() throws Exception
 	{
-		CellRange one = new CellRange( this.dyn.r1c1.getCellIndex(), this.dyn.r2c1.getCellIndex() );
+		final CellRange one = CellRange.getCellRange( this.dyn.r1c1.getCellIndex(), this.dyn.r2c1.getCellIndex() );
 		this.def.defineRepeatingSection( one, Orientation.HORIZONTAL, getInput( "getDetails" ), Inputs.class, null, null );
 
-		CellRange two = new CellRange( this.dyn.r1c2.getCellIndex(), this.dyn.r2c2.getCellIndex() );
+		final CellRange two = CellRange.getCellRange( this.dyn.r1c2.getCellIndex(), this.dyn.r2c2.getCellIndex() );
 		this.def.defineRepeatingSection( two, Orientation.HORIZONTAL, getInput( "getDetails" ), Inputs.class, null, null );
 	}
 
 
 	public void testAllowDisjointVerticalBands() throws Exception
 	{
-		CellRange one = new CellRange( this.dyn.r1c1.getCellIndex(), this.dyn.r1c2.getCellIndex() );
+		final CellRange one = CellRange.getCellRange( this.dyn.r1c1.getCellIndex(), this.dyn.r1c2.getCellIndex() );
 		this.def.defineRepeatingSection( one, Orientation.VERTICAL, getInput( "getDetails" ), Inputs.class, null, null );
 
-		CellRange two = new CellRange( this.dyn.r2c1.getCellIndex(), this.dyn.r2c2.getCellIndex() );
+		final CellRange two = CellRange.getCellRange( this.dyn.r2c1.getCellIndex(), this.dyn.r2c2.getCellIndex() );
 		this.def.defineRepeatingSection( two, Orientation.VERTICAL, getInput( "getDetails" ), Inputs.class, null, null );
 	}
 
 
 	public void testNoDefsOutsideBand() throws Exception
 	{
-		CellRange one = new CellRange( this.dyn.r2c2.getCellIndex(), this.dyn.r3c3.getCellIndex() );
+		CellRange one = CellRange.getCellRange( this.dyn.r2c2.getCellIndex(), this.dyn.r3c3.getCellIndex() );
 		Section band = this.def.defineRepeatingSection( one, Orientation.VERTICAL, getInput( "getDetails" ),
 				Inputs.class, null, null );
 
@@ -309,7 +309,7 @@ public class SpreadsheetBinderTest extends AbstractSpreadsheetTestCase
 
 	private void failForOutsideDef( Section _band, CellInstance _from, CellInstance _to ) throws Exception
 	{
-		CellRange rng = new CellRange( _from.getCellIndex(), _to.getCellIndex() );
+		final CellRange rng = CellRange.getCellRange( _from.getCellIndex(), _to.getCellIndex() );
 		try {
 			_band
 					.defineRepeatingSection( rng, Orientation.VERTICAL, getInput( "getSubDetails" ), Inputs.class, null,

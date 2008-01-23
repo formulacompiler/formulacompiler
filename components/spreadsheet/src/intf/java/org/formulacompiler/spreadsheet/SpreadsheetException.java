@@ -184,8 +184,7 @@ public class SpreadsheetException extends CompilerException
 
 		public SectionExtentNotCovered(String _rangeAt, String _sectionName, Orientation _orientation)
 		{
-			super( "Range "
-					+ _rangeAt + " does not fully cover the " + (_orientation == Orientation.VERTICAL ? "height" : "width")
+			super( _rangeAt + " does not fully cover the " + (_orientation == Orientation.VERTICAL ? "height" : "width")
 					+ " of its parent section " + _sectionName + "." );
 		}
 

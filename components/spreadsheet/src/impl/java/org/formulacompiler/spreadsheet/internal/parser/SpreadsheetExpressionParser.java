@@ -38,7 +38,7 @@ import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRange;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRangeIntersection;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRangeShape;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRangeUnion;
-import org.formulacompiler.spreadsheet.internal.Reference;
+import org.formulacompiler.spreadsheet.internal.MultiCellRange;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
@@ -174,9 +174,9 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 	}
 
 
-	private final Reference parseNamedRef( String _ident )
+	private final CellRange parseNamedRef( String _ident )
 	{
-		final Reference ref = this.workbook.getNamedRef( _ident );
+		final CellRange ref = this.workbook.getNamedRef( _ident );
 		if (null == ref) {
 			throw new InnerParserException( new CompilerException.UnsupportedExpression( "The name '"
 					+ _ident + "' is not defined in this spreadsheet." ) );
@@ -187,42 +187,27 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 	@Override
 	protected final boolean isRangeName( Token _name )
 	{
-		return this.workbook.getNamedRef( _name.image ) instanceof CellRange;
+		return this.workbook.getNamedRef( _name.image ) instanceof MultiCellRange;
 	}
 
 	@Override
 	protected final ExpressionNode makeNamedCellRef( Token _name )
 	{
-		final Reference ref = parseNamedRef( _name.image );
-		if (ref instanceof CellIndex) {
-			return new ExpressionNodeForCell( (CellIndex) ref );
-		}
-		else if (ref instanceof CellRange) {
-			final CellRange range = (CellRange) ref;
-			CellIndex cell;
-			try {
-				cell = range.getCellIndexRelativeTo( this.cellIndex );
-			}
-			catch (SpreadsheetException e) {
-				throw new InnerParserException( e );
-			}
+		final CellRange range = parseNamedRef( _name.image );
+		try {
+			final CellIndex cell = range.getCellIndexRelativeTo( this.cellIndex );
 			return new ExpressionNodeForCell( cell );
 		}
-		throw new IllegalArgumentException( "Unsupported reference type " + ref.getClass().getName() );
+		catch (SpreadsheetException e) {
+			throw new InnerParserException( e );
+		}
 	}
 
 	@Override
 	protected final ExpressionNode makeNamedRangeRef( Token _name )
 	{
-		final Reference ref = parseNamedRef( _name.image );
-		if (ref instanceof CellIndex) {
-			final CellIndex cell = (CellIndex) ref;
-			return new ExpressionNodeForRange( cell, cell );
-		}
-		else if (ref instanceof CellRange) {
-			return new ExpressionNodeForRange( (CellRange) ref );
-		}
-		throw new IllegalArgumentException( "Unsupported reference type " + ref.getClass().getName() );
+		final CellRange range = parseNamedRef( _name.image );
+		return new ExpressionNodeForRange( range );
 	}
 
 
@@ -247,7 +232,7 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 		final Iterator<ExpressionNode> nodes = _nodes.iterator();
 		final ExpressionNodeForCell a = (ExpressionNodeForCell) nodes.next();
 		final ExpressionNodeForCell b = (ExpressionNodeForCell) nodes.next();
-		return new CellRange( a.getCellIndex(), b.getCellIndex() );
+		return CellRange.getCellRange( a.getCellIndex(), b.getCellIndex() );
 	}
 
 	@Override

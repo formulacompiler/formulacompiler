@@ -53,9 +53,10 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 			final Class inputs = Inputs.class;
 			final Method[] methods = inputs.getMethods();
 			for (Spreadsheet.NameDefinition def : _model.getDefinedNames()) {
-				if (def instanceof Spreadsheet.CellNameDefinition) {
-					final Spreadsheet.CellNameDefinition cellDef = (Spreadsheet.CellNameDefinition) def;
-					final String cellName = cellDef.getName();
+				final Spreadsheet.Range range = def.getRange();
+				if (range instanceof Spreadsheet.Cell) {
+					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
+					final String cellName = def.getName();
 
 					String methodName = "get" + cellName;
 					int paramSep = methodName.indexOf( '_' );
@@ -65,7 +66,7 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 					for (Method method : methods) {
 						if (method.getName().equalsIgnoreCase( methodName )) {
 							_root
-									.defineInputCell( cellDef.getCell(),
+									.defineInputCell( cell,
 											new CallFrame( method, getArguments( method, cellName ) ) );
 							break;
 						}

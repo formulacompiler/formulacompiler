@@ -32,7 +32,6 @@ import org.formulacompiler.spreadsheet.SpreadsheetBinder;
 import org.formulacompiler.spreadsheet.SpreadsheetByNameBinder;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
-import org.formulacompiler.spreadsheet.Spreadsheet.CellNameDefinition;
 import org.formulacompiler.spreadsheet.Spreadsheet.NameDefinition;
 
 
@@ -71,17 +70,17 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 	}
 
 
-	public Collection<CellNameDefinition> cellNamesLeftUnbound()
+	public Collection<NameDefinition> cellNamesLeftUnbound()
 	{
 		final NameDefinition[] defs = getBinder().getSpreadsheet().getDefinedNames();
-		final Collection<CellNameDefinition> result = New.collection( defs.length );
+		final Collection<NameDefinition> result = New.collection( defs.length );
 		final SpreadsheetBinder binder = getBinder();
 		for (NameDefinition def : defs) {
-			if (def instanceof CellNameDefinition) {
-				final CellNameDefinition cellDef = (CellNameDefinition) def;
-				final Cell cell = cellDef.getCell();
+			final Spreadsheet.Range range = def.getRange();
+			if (range instanceof Cell) {
+				final Cell cell = (Cell) range;
 				if (!binder.isInputCell( cell ) && !binder.isOutputCell( cell )) {
-					result.add( cellDef );
+					result.add( def );
 				}
 			}
 		}
@@ -90,7 +89,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 
 	public void failIfCellNamesAreStillUnbound() throws SpreadsheetException
 	{
-		final Collection<CellNameDefinition> unbound = cellNamesLeftUnbound();
+		final Collection<NameDefinition> unbound = cellNamesLeftUnbound();
 		if (unbound.size() > 0) {
 			final String name = unbound.iterator().next().getName();
 			throw new SpreadsheetException.NameNotFound( "There is no input or output method named "
@@ -187,17 +186,18 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 			final String prefix = (null != _prefix) ? _prefix.toUpperCase() : null;
 			final NameDefinition[] defs = getSpreadsheet().getDefinedNames();
 			for (NameDefinition def : defs) {
-				if (def instanceof Spreadsheet.CellNameDefinition) {
-					final Spreadsheet.CellNameDefinition cellDef = (Spreadsheet.CellNameDefinition) def;
-					if (canBind( cellDef.getCell() )) {
+				final Spreadsheet.Range range = def.getRange();
+				if (range instanceof Cell) {
+					final Cell cell = (Cell) range;
+					if (canBind( cell )) {
 						if (null == prefix) {
-							bindThisNamedCellToMethod( cellDef );
+							bindThisNamedCellToMethod( cell, def.getName() );
 						}
 						else {
 							final String defName = def.getName();
 							if (defName.startsWith( prefix )) {
 								final String strippedName = defName.substring( prefix.length() );
-								bindThisNamedCellToMethod( cellDef, strippedName );
+								bindThisNamedCellToMethod( cell, strippedName );
 							}
 						}
 					}
@@ -205,23 +205,18 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 			}
 		}
 
-		private boolean bindThisNamedCellToMethod( CellNameDefinition _def ) throws CompilerException
-		{
-			return bindThisNamedCellToMethod( _def, _def.getName() );
-		}
-
-		private boolean bindThisNamedCellToMethod( CellNameDefinition _def, String _methodBaseName )
+		private boolean bindThisNamedCellToMethod( Cell _cell, String _methodBaseName )
 				throws CompilerException
 		{
-			return bindThisNamedCellToMethod( _methodBaseName, _def )
-					|| bindThisNamedCellToMethod( "get" + _methodBaseName, _def );
+			return bindThisNamedCellToMethod( _methodBaseName, _cell )
+					|| bindThisNamedCellToMethod( "get" + _methodBaseName, _cell );
 		}
 
-		private boolean bindThisNamedCellToMethod( String _methodName, CellNameDefinition _def ) throws CompilerException
+		private boolean bindThisNamedCellToMethod( String _methodName, Cell _cell ) throws CompilerException
 		{
 			for (Method m : this.contextMethods) {
 				if (m.getName().equalsIgnoreCase( _methodName ) && canBind( m )) {
-					bindCell( _def.getCell(), new CallFrame( m ) );
+					bindCell( _cell, new CallFrame( m ) );
 					return true;
 				}
 			}
@@ -236,11 +231,12 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 		{
 			final NameDefinition[] defs = getBinder().getSpreadsheet().getDefinedNames();
 			for (NameDefinition def : defs) {
-				if (def instanceof CellNameDefinition) {
-					final CellNameDefinition cellDef = (CellNameDefinition) def;
-					final String name = cellDef.getName();
+				final Spreadsheet.Range range = def.getRange();
+				if (range instanceof Cell) {
+					final Cell cell = (Cell) range;
+					final String name = def.getName();
 					if (name.startsWith( _prefix )) {
-						if (!isBound( cellDef.getCell() )) {
+						if (!isBound( cell )) {
 							throw new SpreadsheetException.NameNotFound( "There is no "
 									+ bindingTypeName() + " method named " + name + "() or get" + name + "() to bind the cell "
 									+ name + " to (character case is irrelevant)." );

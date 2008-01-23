@@ -35,7 +35,6 @@ import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
-import org.formulacompiler.spreadsheet.internal.Reference;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
@@ -124,7 +123,7 @@ public class RepeatingSectionTestSuite extends AbstractTestSuite
 			final CellRange outerRefsRange = namedRange( _rangeName + "_R" );
 
 			formulaCell = _formulaCell;
-			sectionRange = (CellRange) workbook.getNamedRef( _rangeName );
+			sectionRange = workbook.getNamedRef( _rangeName );
 			orientation = (_rangeName.charAt( 0 ) == 'H') ? Orientation.HORIZONTAL : Orientation.VERTICAL;
 			sectionCells = extractRangeCells( sectionRange, orientation );
 			expectedResultsCells = extractRangeCells( expectedResultsRange, orientation );
@@ -247,11 +246,7 @@ public class RepeatingSectionTestSuite extends AbstractTestSuite
 
 	private CellRange namedRange( String _name )
 	{
-		Reference ref = this.workbook.getNamedRef( _name );
-		if (ref instanceof CellRange) {
-			return (CellRange) ref;
-		}
-		return null;
+		return this.workbook.getNamedRef( _name );
 	}
 
 	private CellInstance[][] extractRangeCells( CellRange _range, Orientation _orientation )

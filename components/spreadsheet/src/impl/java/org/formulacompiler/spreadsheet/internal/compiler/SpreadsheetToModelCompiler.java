@@ -219,11 +219,11 @@ public final class SpreadsheetToModelCompiler
 	{
 		final Spreadsheet ss = this.binding.getSpreadsheet();
 		for (Spreadsheet.NameDefinition nameDef : ss.getDefinedNames()) {
-			if (nameDef instanceof Spreadsheet.CellNameDefinition) {
-				final Spreadsheet.CellNameDefinition cellNameDef = (Spreadsheet.CellNameDefinition) nameDef;
-				final CellModel cellModel = getCellModel( (CellIndex) cellNameDef.getCell() );
+			final Spreadsheet.Range range = nameDef.getRange();
+			if (range instanceof Spreadsheet.Cell) {
+				final CellModel cellModel = getCellModel( (CellIndex) range );
 				if (null != cellModel) {
-					cellModel.setName( cellNameDef.getName() );
+					cellModel.setName( nameDef.getName() );
 				}
 			}
 		}

@@ -26,7 +26,7 @@ import java.util.Collection;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
-import org.formulacompiler.spreadsheet.Spreadsheet.CellNameDefinition;
+import org.formulacompiler.spreadsheet.Spreadsheet.NameDefinition;
 import org.formulacompiler.spreadsheet.internal.builder.SpreadsheetBuilderImpl;
 
 import junit.framework.TestCase;
@@ -123,11 +123,11 @@ public class EngineBuilderTest extends TestCase
 	{
 		Arrays.sort( _want );
 
-		Collection<CellNameDefinition> unbound = _eb.getByNameBinder().cellNamesLeftUnbound();
+		Collection<NameDefinition> unbound = _eb.getByNameBinder().cellNamesLeftUnbound();
 		final String[] have = new String[ unbound.size() ];
 		{
 			int i = 0;
-			for (CellNameDefinition def : unbound) {
+			for (NameDefinition def : unbound) {
 				have[ i++ ] = def.getName();
 			}
 		}

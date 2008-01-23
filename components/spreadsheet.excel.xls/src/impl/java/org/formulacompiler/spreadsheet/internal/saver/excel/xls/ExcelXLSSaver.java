@@ -38,7 +38,6 @@ import org.formulacompiler.spreadsheet.SpreadsheetSaver;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
-import org.formulacompiler.spreadsheet.internal.Reference;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
@@ -160,22 +159,14 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 
 	private void saveNames( SpreadsheetImpl _wb, WritableWorkbook _xwb )
 	{
-		for (final Entry<String, Reference> nd : _wb.getNameMap().entrySet()) {
+		for (final Entry<String, CellRange> nd : _wb.getNameMap().entrySet()) {
 			final String name = nd.getKey();
-			final Reference ref = nd.getValue();
-			if (ref instanceof CellIndex) {
-				final CellIndex cell = (CellIndex) ref;
-				_xwb.addNameArea( name, _xwb.getSheet( cell.sheetIndex ), cell.columnIndex, cell.rowIndex,
-						cell.columnIndex, cell.rowIndex );
-			}
-			else if (ref instanceof CellRange) {
-				final CellRange range = (CellRange) ref;
-				final CellIndex from = range.getFrom();
-				final CellIndex to = range.getTo();
-				if (from.sheetIndex == to.sheetIndex) {
-					_xwb.addNameArea( name, _xwb.getSheet( from.sheetIndex ), from.columnIndex, from.rowIndex,
-							to.columnIndex, to.rowIndex );
-				}
+			final CellRange ref = nd.getValue();
+			final CellIndex from = ref.getFrom();
+			final CellIndex to = ref.getTo();
+			if (from.sheetIndex == to.sheetIndex) {
+				_xwb.addNameArea( name, _xwb.getSheet( from.sheetIndex ), from.columnIndex, from.rowIndex,
+						to.columnIndex, to.rowIndex );
 			}
 		}
 	}

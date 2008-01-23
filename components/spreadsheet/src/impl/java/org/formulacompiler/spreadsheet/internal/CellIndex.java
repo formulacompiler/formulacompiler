@@ -20,12 +20,17 @@
  */
 package org.formulacompiler.spreadsheet.internal;
 
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import org.formulacompiler.describable.DescriptionBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
-import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
+import org.formulacompiler.spreadsheet.Spreadsheet.Range;
+import org.formulacompiler.spreadsheet.SpreadsheetException;
 
-public final class CellIndex extends Reference implements Cell
+public final class CellIndex extends CellRange implements Cell
 {
 	public final SpreadsheetImpl spreadsheet;
 	public final int sheetIndex;
@@ -261,6 +266,68 @@ public final class CellIndex extends Reference implements Cell
 		if (_offset != 0) {
 			_to.append( '[' ).append( _offset ).append( ']' );
 		}
+	}
+
+	public CellIndex getFrom()
+	{
+		return this;
+	}
+
+	public CellIndex getTo()
+	{
+		return this;
+	}
+
+	public CellIndex getCellIndexRelativeTo( final CellIndex _cell ) throws SpreadsheetException
+	{
+		return this;
+	}
+
+	public boolean contains( final Range _other )
+	{
+		return equals( _other );
+	}
+
+	public Cell getTopLeft()
+	{
+		return this;
+	}
+
+	public Cell getBottomRight()
+	{
+		return this;
+	}
+
+	public Iterable<Cell> cells()
+	{
+		return Collections.singleton( (Cell) this );
+	}
+
+	public Iterator<CellIndex> iterator()
+	{
+		return new Iterator<CellIndex>()
+		{
+			private boolean hasNext = true;
+
+			public boolean hasNext()
+			{
+				return hasNext;
+			}
+
+			public CellIndex next()
+			{
+				if (hasNext) {
+					hasNext = false;
+					return CellIndex.this;
+				}
+				throw new NoSuchElementException();
+			}
+
+			public void remove()
+			{
+				throw new UnsupportedOperationException();
+			}
+		};
 	}
 
 

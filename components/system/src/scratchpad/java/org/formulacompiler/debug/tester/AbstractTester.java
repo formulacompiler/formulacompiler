@@ -34,10 +34,8 @@ import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
-import org.formulacompiler.spreadsheet.Spreadsheet.CellNameDefinition;
 import org.formulacompiler.spreadsheet.Spreadsheet.NameDefinition;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
-import org.formulacompiler.spreadsheet.Spreadsheet.RangeNameDefinition;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 
 
@@ -108,14 +106,7 @@ public abstract class AbstractTester
 		final NameDefinition[] names = this.builder.getSpreadsheet().getDefinedNames();
 		for (NameDefinition name : names) {
 			if (pattern.matcher( name.getName() ).matches()) {
-				if (name instanceof CellNameDefinition) {
-					CellNameDefinition cellName = (CellNameDefinition) name;
-					defineCell( cellName.getCell(), _type );
-				}
-				else if (name instanceof RangeNameDefinition) {
-					RangeNameDefinition rangeName = (RangeNameDefinition) name;
-					defineCell( rangeName.getRange().getTopLeft(), _type );
-				}
+				defineCell( name.getRange().getTopLeft(), _type );
 			}
 		}
 	}

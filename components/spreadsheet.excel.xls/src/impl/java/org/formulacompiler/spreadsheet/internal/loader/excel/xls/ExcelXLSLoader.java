@@ -256,15 +256,9 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 				final jxl.Cell xlsStart = xlsRange[ 0 ].getTopLeft();
 				final jxl.Cell xlsEnd = xlsRange[ 0 ].getBottomRight();
 				final CellIndex start = new CellIndex( _workbook, xlsStartSheet, xlsStart.getColumn(), xlsStart.getRow() );
-				if ((xlsStart.getColumn() == xlsEnd.getColumn())
-						&& (xlsStart.getRow() == xlsEnd.getRow()) && (xlsStartSheet == xlsEndSheet)) {
-					_workbook.addToNameMap( name, start );
-				}
-				else {
-					final CellIndex end = new CellIndex( _workbook, xlsEndSheet, xlsEnd.getColumn(), xlsEnd.getRow() );
-					final CellRange range = new CellRange( start, end );
-					_workbook.addToNameMap( name, range );
-				}
+				final CellIndex end = new CellIndex( _workbook, xlsEndSheet, xlsEnd.getColumn(), xlsEnd.getRow() );
+				final CellRange range = CellRange.getCellRange( start, end );
+				_workbook.addToNameMap( name, range );
 			}
 		}
 	}

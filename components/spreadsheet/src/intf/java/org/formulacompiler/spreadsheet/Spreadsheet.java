@@ -93,8 +93,7 @@ public interface Spreadsheet extends Describable
 	/**
 	 * Determine all the cell and range names defined in the spreadsheet model.
 	 *
-	 * @return The list of name definitions. They are all instances of either
-	 *         {@link CellNameDefinition} or {@link RangeNameDefinition}.
+	 * @return The list of name definitions.
 	 */
 	public NameDefinition[] getDefinedNames();
 
@@ -184,7 +183,7 @@ public interface Spreadsheet extends Describable
 	 *
 	 * @author peo
 	 */
-	public static interface Cell extends Describable
+	public static interface Cell extends Range, Describable
 	{
 
 		/**
@@ -256,14 +255,6 @@ public interface Spreadsheet extends Describable
 		boolean contains( Range _other );
 
 		/**
-		 * Tests whether the cell is contained within this range.
-		 *
-		 * @param _cell is the cell to test.
-		 * @return true iff the cell is within the range.
-		 */
-		boolean contains( Cell _cell );
-
-		/**
 		 * Returns the top left corner of the range (on the leftmost sheet of the range).
 		 */
 		Cell getTopLeft();
@@ -297,42 +288,13 @@ public interface Spreadsheet extends Describable
 		 */
 		public String getName();
 
-	}
-
-
-	/**
-	 * Describes a named cell in a spreadsheet.
-	 *
-	 * @author peo
-	 */
-	public static interface CellNameDefinition extends NameDefinition
-	{
-
-		/**
-		 * Returns the cell designated by the name.
-		 *
-		 * @return The cell. Never null.
-		 */
-		public Cell getCell();
-
-	}
-
-
-	/**
-	 * Describes a named range in an spreadsheet.
-	 *
-	 * @author peo
-	 */
-	public static interface RangeNameDefinition extends NameDefinition
-	{
-
 		/**
 		 * Returns the cell range designated by the name.
 		 *
 		 * @return The cell range. Never null.
 		 */
 		public Range getRange();
-
+		
 	}
 
 

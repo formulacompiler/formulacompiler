@@ -86,7 +86,7 @@ public class WorkbookTest extends AbstractStandardInputsOutputsTestCase
 				RowImpl r = new RowImpl( s );
 				CellInstance c1 = new CellWithLazilyParsedExpression( r, null );
 				CellInstance c2 = new CellWithConstant( r, null );
-				w.addToNameMap( "Range", new CellRange( c1.getCellIndex(), c2.getCellIndex() ) );
+				w.addToNameMap( "Range", CellRange.getCellRange( c1.getCellIndex(), c2.getCellIndex() ) );
 
 				Calendar cal = Calendar.getInstance( TimeZone.getTimeZone( "GMT+1" ) );
 				cal.clear();

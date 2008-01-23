@@ -64,7 +64,7 @@ public class CellRangeTest extends TestCase
 	{
 		CellIndex start = newCellIndex( _fromCol, _fromRow );
 		CellIndex end = newCellIndex( _toCol, _toRow );
-		CellRange range = new CellRange( start, end );
+		CellRange range = CellRange.getCellRange( start, end );
 		StringBuilder cells = new StringBuilder();
 		for (CellIndex ix : range) {
 			CellInstance cell = ix.getCell();
@@ -78,7 +78,7 @@ public class CellRangeTest extends TestCase
 	public void testCellIndexRelativeTo() throws Exception
 	{
 		{
-			CellRange rng = new CellRange( newCellIndex( 3, 3 ), newCellIndex( 3, 5 ) );
+			final CellRange rng = CellRange.getCellRange( newCellIndex( 3, 3 ), newCellIndex( 3, 5 ) );
 
 			assertEquals( "D4", rng.getCellIndexRelativeTo( newCellIndex( 2, 3 ) ).toString() );
 			assertEquals( "D5", rng.getCellIndexRelativeTo( newCellIndex( 2, 4 ) ).toString() );
@@ -87,7 +87,7 @@ public class CellRangeTest extends TestCase
 		}
 
 		{
-			CellRange rng = new CellRange( newCellIndex( 3, 3 ), newCellIndex( 5, 3 ) );
+			final CellRange rng = CellRange.getCellRange( newCellIndex( 3, 3 ), newCellIndex( 5, 3 ) );
 
 			assertEquals( "D4", rng.getCellIndexRelativeTo( newCellIndex( 3, 1 ) ).toString() );
 			assertEquals( "E4", rng.getCellIndexRelativeTo( newCellIndex( 4, 1 ) ).toString() );
@@ -96,7 +96,7 @@ public class CellRangeTest extends TestCase
 		}
 
 		{
-			CellRange rng = new CellRange( newCellIndex( 3, 3 ), newCellIndex( 5, 5 ) );
+			final CellRange rng = CellRange.getCellRange( newCellIndex( 3, 3 ), newCellIndex( 5, 5 ) );
 			try {
 				rng.getCellIndexRelativeTo( newCellIndex( 3, 1 ) );
 				fail();

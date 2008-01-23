@@ -52,12 +52,12 @@ public class BindingParams extends TestCase
 		// ---- bindNamedInputs
 		final Method inputMethod = Input.class./**/getMethod( "getInput", String.class )/**/;
 		for (Spreadsheet.NameDefinition def : /**/spreadsheet.getDefinedNames()/**/) {
-			if (def instanceof Spreadsheet.CellNameDefinition) {
-				final Spreadsheet.CellNameDefinition cellDef = (Spreadsheet.CellNameDefinition) def;
-				final String /**/cellName/**/= cellDef.getName();
+			final Spreadsheet.Range range = def.getRange();
+			if (range instanceof Spreadsheet.Cell) {
+				final String /**/cellName/**/ = def.getName();
 				if ("I_".equals( cellName.substring( 0, 2 ) )) {
-					final Spreadsheet.Cell cell = cellDef.getCell();
-					final String /**/valueName/**/= cellName.substring( 2 ).toUpperCase();
+					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
+					final String /**/valueName/**/ = cellName.substring( 2 ).toUpperCase();
 					binder.defineInputCell( cell, /**/new CallFrame( inputMethod, valueName )/**/);
 				}
 			}
@@ -67,12 +67,12 @@ public class BindingParams extends TestCase
 		// ---- bindNamedOutputs
 		final Method outputMethod = Output.class./**/getMethod( "getOutput", String.class )/**/;
 		for (Spreadsheet.NameDefinition def : /**/spreadsheet.getDefinedNames()/**/) {
-			if (def instanceof Spreadsheet.CellNameDefinition) {
-				final Spreadsheet.CellNameDefinition cellDef = (Spreadsheet.CellNameDefinition) def;
-				final String /**/cellName/**/= cellDef.getName();
+			final Spreadsheet.Range range = def.getRange();
+			if (range instanceof Spreadsheet.Cell) {
+				final String /**/cellName/**/ = def.getName();
 				if ("O_".equals( cellName.substring( 0, 2 ) )) {
-					final Spreadsheet.Cell cell = cellDef.getCell();
-					final String /**/valueName/**/= cellName.substring( 2 ).toUpperCase();
+					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
+					final String /**/valueName/**/ = cellName.substring( 2 ).toUpperCase();
 					binder.defineOutputCell( cell, /**/new CallFrame( outputMethod, valueName )/**/);
 				}
 			}

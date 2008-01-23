@@ -20,6 +20,7 @@
  */
 package org.formulacompiler.spreadsheet.internal;
 
+import java.io.IOException;
 import java.util.Collection;
 
 import org.formulacompiler.compiler.internal.expressions.ExpressionDescriptionConfig;
@@ -35,12 +36,6 @@ public final class ExpressionNodeForRange extends ExpressionNode
 	public ExpressionNodeForRange(CellRange _range)
 	{
 		this.range = _range;
-	}
-
-
-	public ExpressionNodeForRange(CellIndex _from, CellIndex _to)
-	{
-		this( new CellRange( _from, _to ) );
 	}
 
 
@@ -65,7 +60,7 @@ public final class ExpressionNodeForRange extends ExpressionNode
 
 
 	@Override
-	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
+	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
 	{
 		this.range.describeTo( _to );
 	}

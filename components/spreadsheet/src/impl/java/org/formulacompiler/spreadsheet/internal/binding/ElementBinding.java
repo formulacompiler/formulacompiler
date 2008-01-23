@@ -22,7 +22,7 @@ package org.formulacompiler.spreadsheet.internal.binding;
 
 import org.formulacompiler.describable.AbstractDescribable;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
-import org.formulacompiler.spreadsheet.internal.Reference;
+import org.formulacompiler.spreadsheet.internal.CellRange;
 
 public abstract class ElementBinding extends AbstractDescribable
 {
@@ -42,7 +42,7 @@ public abstract class ElementBinding extends AbstractDescribable
 	}
 
 
-	protected void notInSection( String _name, Reference _ref ) throws SpreadsheetException.NotInSection
+	protected void notInSection( String _name, CellRange _ref ) throws SpreadsheetException.NotInSection
 	{
 		throw new SpreadsheetException.NotInSection( _name, _ref.toString(), getSection().toString(), getSection().getRange()
 				.toString() );
