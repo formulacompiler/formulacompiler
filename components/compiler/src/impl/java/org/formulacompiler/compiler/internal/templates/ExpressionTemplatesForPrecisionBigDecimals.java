@@ -20,10 +20,7 @@
  */
 package org.formulacompiler.compiler.internal.templates;
 
-import static org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2.TENTH;
-import static org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2.TWELVE;
-import static org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2.TWO;
-import static org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2.ZERO;
+import static org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2.*;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

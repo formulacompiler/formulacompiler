@@ -26,9 +26,9 @@ import java.util.NoSuchElementException;
 
 import org.formulacompiler.describable.DescriptionBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
+import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
-import org.formulacompiler.spreadsheet.SpreadsheetException;
 
 public final class CellIndex extends CellRange implements Cell
 {

@@ -20,13 +20,7 @@
  */
 package org.formulacompiler.compiler.internal.bytecode;
 
-import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.COMP_TIME_CLASS;
-import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.COMP_TIME_DESC;
-import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.COMP_TIME_MEMBER_NAME;
-import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.ENV_CLASS;
-import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.ENV_DESC;
-import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.ENV_MEMBER_NAME;
-import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.GEN_ROOT_NAME;
+import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.*;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.model.SectionModel;
