@@ -58,5 +58,6 @@ public class Constants
 	 */
 	protected Constants()
 	{
+		// dummy
 	}
 }
