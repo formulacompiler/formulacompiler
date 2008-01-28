@@ -96,16 +96,11 @@ groups:
             In particular, the functional model itself is not yet exposed.
         comps:
 
-          - id: describable
-            pkgs:
-              - org.formulacompiler.describable
-
           - id: api
             pkgs:
               - org.formulacompiler.compiler
             api_deps:
               - core.runtime.api
-              - core.compiler.describable
 
           - id: logging
             pkgs:

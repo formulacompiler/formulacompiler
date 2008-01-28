@@ -20,16 +20,14 @@
  */
 package org.formulacompiler.compiler.internal.model;
 
-import java.io.IOException;
-
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.internal.AbstractYamlizable;
 import org.formulacompiler.compiler.internal.Util;
-import org.formulacompiler.describable.AbstractDescribable;
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.YamlBuilder;
 import org.formulacompiler.runtime.internal.Environment;
 
 
-public class ComputationModel extends AbstractDescribable
+public class ComputationModel extends AbstractYamlizable
 {
 	public static final String ROOTNAME = "_ROOT_";
 
@@ -85,9 +83,9 @@ public class ComputationModel extends AbstractDescribable
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void yamlTo( YamlBuilder _to )
 	{
-		this.root.describeTo( _to );
+		this.root.yamlTo( _to );
 	}
 
 

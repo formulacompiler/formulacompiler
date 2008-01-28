@@ -20,11 +20,10 @@
  */
 package org.formulacompiler.compiler.internal.model;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.YamlBuilder;
 import org.formulacompiler.runtime.New;
 
 
@@ -36,7 +35,7 @@ public class SectionModel extends ElementModel
 	private final Class outputClass;
 
 
-	public SectionModel(SectionModel _section, String _name, Class _inputClass, Class _outputClass)
+	public SectionModel( SectionModel _section, String _name, Class _inputClass, Class _outputClass )
 	{
 		super( _section, _name );
 		this.inputClass = _inputClass;
@@ -45,7 +44,7 @@ public class SectionModel extends ElementModel
 	}
 
 
-	SectionModel(ComputationModel _engine, String _name, Class _inputClass, Class _outputClass)
+	SectionModel( ComputationModel _engine, String _name, Class _inputClass, Class _outputClass )
 	{
 		super( _engine, _name );
 		this.inputClass = _inputClass;
@@ -91,24 +90,11 @@ public class SectionModel extends ElementModel
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void yamlTo( YamlBuilder _to )
 	{
-		_to.append( "<section id=\"" );
-		_to.append( toString() );
-		_to.append( "\">" );
-		_to.newLine();
-		_to.indent();
-
-		for (CellModel cell : getCells()) {
-			cell.describeTo( _to );
-		}
-
-		for (SectionModel ns : getSections()) {
-			ns.describeTo( _to );
-		}
-
-		_to.outdent();
-		_to.appendLine( "</section>" );
+		_to.nv( "name", getName() );
+		_to.ln( "cells" ).l( getCells() );
+		_to.ln( "sections" ).l( getSections() );
 	}
 
 }

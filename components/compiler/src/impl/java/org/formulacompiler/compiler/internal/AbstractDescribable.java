@@ -18,28 +18,36 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.spreadsheet.internal;
+package org.formulacompiler.compiler.internal;
 
-import org.formulacompiler.compiler.internal.DescriptionBuilder;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.compiler.internal.expressions.ExpressionSourceAsContextProvider;
+import org.formulacompiler.compiler.Describable;
 
-final class CellExpressionContextProvider extends ExpressionSourceAsContextProvider
+
+/**
+ * Default base implementation of {@link Describable}.
+ * 
+ * @author peo
+ */
+public abstract class AbstractDescribable implements Describable
 {
-	private final CellInstance cell;
 
-	public CellExpressionContextProvider(CellInstance _cell, ExpressionNode _expr)
+
+	public final String describe()
 	{
-		super( _expr );
-		this.cell = _cell;
+		DescriptionBuilder description = new DescriptionBuilder();
+		describeTo( description );
+		return description.toString();
 	}
+
+
+	public abstract void describeTo( DescriptionBuilder _to );
 
 
 	@Override
-	public void buildContext( DescriptionBuilder _result, ExpressionNode _focusedNode )
+	public String toString()
 	{
-		super.buildContext( _result, _focusedNode );
-		_result.append( "\nCell containing expression is " ).append( this.cell.getCanonicalName() ).append( "." );
+		return describe();
 	}
+
 
 }

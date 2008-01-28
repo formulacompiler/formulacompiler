@@ -20,7 +20,7 @@
  */
 package org.formulacompiler.spreadsheet.internal.binding;
 
-import org.formulacompiler.describable.AbstractDescribable;
+import org.formulacompiler.compiler.internal.AbstractDescribable;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 

@@ -26,8 +26,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.IOUtil;
-import org.formulacompiler.describable.DescriptionBuilder;
 import org.formulacompiler.runtime.New;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;

@@ -20,11 +20,10 @@
  */
 package org.formulacompiler.compiler.internal.expressions;
 
-import java.io.IOException;
 import java.util.Collection;
 
 import org.formulacompiler.compiler.Operator;
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
 
 public class ExpressionNodeForOperator extends ExpressionNode
@@ -66,7 +65,7 @@ public class ExpressionNodeForOperator extends ExpressionNode
 
 
 	@Override
-	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
+	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
 	{
 		final int argCount = arguments().size();
 		switch (argCount) {

@@ -20,13 +20,12 @@
  */
 package org.formulacompiler.spreadsheet.internal;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import org.formulacompiler.compiler.NumericType;
+import org.formulacompiler.compiler.internal.YamlBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.describable.DescriptionBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 
 
@@ -129,7 +128,7 @@ public abstract class CellInstance extends AbstractStyledElement
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void yamlTo( YamlBuilder _to )
 	{
 		_to.nv( "name", getRow().getSheet().getSpreadsheet().getNameFor( getCellIndex() ) );
 	}

@@ -23,7 +23,7 @@ package org.formulacompiler.compiler.internal.build.bytecode;
 import java.io.IOException;
 import java.util.List;
 
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;

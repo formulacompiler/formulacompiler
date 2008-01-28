@@ -20,11 +20,10 @@
  */
 package org.formulacompiler.compiler.internal.expressions;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
 public final class ExpressionNodeForSwitch extends ExpressionNode
 {
@@ -116,7 +115,7 @@ public final class ExpressionNodeForSwitch extends ExpressionNode
 	}
 
 	@Override
-	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
+	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
 	{
 		_to.append( "SWITCH( " );
 		selector().describeToWithConfig( _to, _cfg );

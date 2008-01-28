@@ -20,26 +20,23 @@
  */
 package org.formulacompiler.spreadsheet.internal;
 
-import org.formulacompiler.compiler.internal.DescriptionBuilder;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.compiler.internal.expressions.ExpressionSourceAsContextProvider;
-
-final class CellExpressionContextProvider extends ExpressionSourceAsContextProvider
+final class DescribeR1C1Style
 {
-	private final CellInstance cell;
+	private final CellIndex relativeTo;
 
-	public CellExpressionContextProvider(CellInstance _cell, ExpressionNode _expr)
+	public DescribeR1C1Style( CellIndex _relativeTo )
 	{
-		super( _expr );
-		this.cell = _cell;
+		this.relativeTo = _relativeTo;
 	}
 
-
-	@Override
-	public void buildContext( DescriptionBuilder _result, ExpressionNode _focusedNode )
+	public DescribeR1C1Style()
 	{
-		super.buildContext( _result, _focusedNode );
-		_result.append( "\nCell containing expression is " ).append( this.cell.getCanonicalName() ).append( "." );
+		this( null );
+	}
+
+	public CellIndex getRelativeTo()
+	{
+		return this.relativeTo;
 	}
 
 }

@@ -18,36 +18,43 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.describable;
-
-import java.io.IOException;
+package org.formulacompiler.compiler;
 
 
 /**
- * Interface implemented by all self-describing classes in AFC.
+ * Interface implemented by all self-describing classes in AFC. These descriptions are meant for
+ * human consumption and should not be stored or reprocessed. They may change without announcement.
  * 
  * @author peo
  */
 public interface Describable
 {
 
+
 	/**
-	 * Describes an object as a string.
+	 * Describes this object in a string meant for human consumption.
+	 * <p>
+	 * This method is separate from {@link #toString()} so implementing classes can choose to have
+	 * more defined (and possibly concise) versions of {@link #toString()} while still returning more
+	 * complete information for this method.
 	 * 
-	 * @return The description, possibly with multiple lines of text.
+	 * @return The description, possibly with multiple lines of text. Meant for human consumption.
+	 *         Should not be stored or reprocessed. May change without announcement.
+	 * 
+	 * @see #toString()
 	 */
 	public String describe();
 
 
 	/**
-	 * Appends the description of the object to the description builder (I really would have liked to
-	 * use <code>Appendable</code> here, but unfortunately this is not available in Java 1.4).
+	 * Describes this object in a string meant for human consumption.
 	 * 
-	 * @param _to is where the description is appended to.
-	 * @throws IOException not currently. Here to be able to change to <code>Appendable</code> in
-	 *         the future.
+	 * @return The description, possibly with multiple lines of text. Meant for human consumption.
+	 *         Should not be stored or reprocessed. May change without announcement.
+	 * 
+	 * @see #describe()
 	 */
-	public void describeTo( DescriptionBuilder _to ) throws IOException;
+	public String toString();
 
 
 }

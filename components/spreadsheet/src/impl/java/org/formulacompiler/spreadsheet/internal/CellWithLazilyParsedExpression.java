@@ -20,10 +20,9 @@
  */
 package org.formulacompiler.spreadsheet.internal;
 
-import java.io.IOException;
-
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.YamlBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.describable.DescriptionBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 
 
@@ -94,39 +93,48 @@ public final class CellWithLazilyParsedExpression extends CellInstance
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void describeTo( DescriptionBuilder _to )
 	{
 		final ExpressionNode expr = this.expression;
-
-		if (_to instanceof SpreadsheetDescriptionBuilder) {
-			final SpreadsheetDescriptionBuilder b = (SpreadsheetDescriptionBuilder) _to;
-			final CellIndex wasRelativeTo = b.getRelativeTo();
-			b.setRelativeTo( getCellIndex() );
-			try {
-				Object exprValue = expr;
-				if (null == exprValue && null != this.expressionParser) {
-					try {
-						exprValue = getExpression();
-					}
-					catch (SpreadsheetException e) {
-						final String exDesc = e.toString();
-						exprValue = "** " + exDesc.replace( "\r\n", "\n" );
-					}
-				}
-				_to.vn( "expr" ).append( '=' ).v( exprValue ).lf(); // always shown, so don't use nv()
-			}
-			finally {
-				b.setRelativeTo( wasRelativeTo );
-			}
+		if (null != expr) {
+			_to.append( expr );
 		}
-		else {
-			_to.nv( "expr", "=", expr ).lf();
-			if (null == expr && null != this.expressionParser) {
-				_to.nv( "source", "=", this.expressionParser );
+		else if (null != this.expressionParser) {
+			/*
+			 * Avoid the cost and side effects of parsing when we are simply inspecting this one cell.
+			 */
+			_to.append( this.expressionParser );
+		}
+		final Object v = getValue();
+		if (null != v) {
+			_to.append( " (value=" ).append( v ).append( ")" );
+		}
+	}
+
+
+	@Override
+	public void yamlTo( YamlBuilder _to )
+	{
+		_to.desc().pushContext( new DescribeR1C1Style( getCellIndex() ) );
+		try {
+			final ExpressionNode expr = this.expression;
+			Object exprValue = expr;
+			if (null == exprValue && null != this.expressionParser) {
+				try {
+					exprValue = getExpression();
+				}
+				catch (SpreadsheetException e) {
+					final String exDesc = e.toString();
+					exprValue = "** " + exDesc.replace( "\r\n", "\n" );
+				}
 			}
+			_to.vn( "expr" ).s( '=' ).v( exprValue ).lf(); // always shown, so don't use nv()
+		}
+		finally {
+			_to.desc().popContext();
 		}
 		_to.nv( "value", getValue() );
-		super.describeTo( _to );
+		super.yamlTo( _to );
 	}
 
 }

@@ -20,7 +20,7 @@
  */
 package org.formulacompiler.spreadsheet.internal;
 
-import org.formulacompiler.describable.AbstractDescribable;
+import org.formulacompiler.compiler.internal.AbstractDescribable;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;

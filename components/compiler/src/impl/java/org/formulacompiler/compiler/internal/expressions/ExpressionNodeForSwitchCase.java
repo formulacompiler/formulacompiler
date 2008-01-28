@@ -20,10 +20,9 @@
  */
 package org.formulacompiler.compiler.internal.expressions;
 
-import java.io.IOException;
 import java.util.Collection;
 
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
 public final class ExpressionNodeForSwitchCase extends ExpressionNode
 {
@@ -60,7 +59,7 @@ public final class ExpressionNodeForSwitchCase extends ExpressionNode
 	}
 
 	@Override
-	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
+	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
 	{
 		_to.append( "CASE( " ).append( this.caseValue ).append( " ): " );
 		value().describeToWithConfig( _to, _cfg );

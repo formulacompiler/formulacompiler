@@ -20,13 +20,12 @@
  */
 package org.formulacompiler.compiler.internal.expressions;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.formulacompiler.describable.AbstractDescribable;
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.AbstractDescribable;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.runtime.New;
 
 
@@ -172,13 +171,13 @@ public abstract class ExpressionNode extends AbstractDescribable implements Type
 
 
 	@Override
-	public final void describeTo( DescriptionBuilder _to ) throws IOException
+	public final void describeTo( DescriptionBuilder _to )
 	{
-		describeToWithConfig( _to, null );
+		describeToWithConfig( _to, _to.getContext( ExpressionDescriptionConfig.class ) );
 	}
 
 
-	public final void describeTo( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
+	final void describeTo( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
 	{
 		if (null != _cfg && _cfg.isFocused( this )) {
 			_to.append( _cfg.focusStartMarker() );
@@ -191,12 +190,10 @@ public abstract class ExpressionNode extends AbstractDescribable implements Type
 	}
 
 
-	protected abstract void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
-			throws IOException;
+	protected abstract void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg );
 
 
 	protected final void describeArgumentTo( DescriptionBuilder _d, ExpressionDescriptionConfig _cfg, int _iArgument )
-			throws IOException
 	{
 		final ExpressionNode arg = this.arguments().get( _iArgument );
 		if (null != arg) {
@@ -206,7 +203,6 @@ public abstract class ExpressionNode extends AbstractDescribable implements Type
 
 
 	protected final void describeArgumentListTo( DescriptionBuilder _d, ExpressionDescriptionConfig _cfg )
-			throws IOException
 	{
 		if (0 == arguments().size()) {
 			_d.append( "()" );
@@ -224,7 +220,6 @@ public abstract class ExpressionNode extends AbstractDescribable implements Type
 
 
 	protected final void describeArgumentOrArgumentListTo( DescriptionBuilder _d, ExpressionDescriptionConfig _cfg )
-			throws IOException
 	{
 		if (1 == arguments().size()) {
 			describeArgumentTo( _d, _cfg, 0 );
@@ -253,16 +248,11 @@ public abstract class ExpressionNode extends AbstractDescribable implements Type
 	public final String getContext( ExpressionNode _focusedNode )
 	{
 		final DescriptionBuilder builder = new DescriptionBuilder();
-		try {
 			buildContext( builder, _focusedNode );
-		}
-		catch (IOException e) {
-			builder.append( e.getMessage() );
-		}
 		return builder.toString();
 	}
 
-	public final void buildContext( DescriptionBuilder _builder, ExpressionNode _focusedNode ) throws IOException
+	public final void buildContext( DescriptionBuilder _builder, ExpressionNode _focusedNode )
 	{
 		ExpressionContextProvider prov = getNearestContextProvider();
 		if (null != prov) {

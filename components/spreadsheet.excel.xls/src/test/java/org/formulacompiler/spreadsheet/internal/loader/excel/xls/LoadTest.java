@@ -26,9 +26,9 @@ import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet.Row;
 import org.formulacompiler.spreadsheet.Spreadsheet.Sheet;
-import org.formulacompiler.tests.utils.AbstractIOTestCase;
+import org.formulacompiler.tests.utils.AbstractSpreadsheetTestCase;
 
-public class LoadTest extends AbstractIOTestCase
+public class LoadTest extends AbstractSpreadsheetTestCase
 {
 
 	public void testNavigation() throws Exception

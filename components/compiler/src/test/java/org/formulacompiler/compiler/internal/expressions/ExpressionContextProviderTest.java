@@ -22,7 +22,7 @@ package org.formulacompiler.compiler.internal.expressions;
 
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.Operator;
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
 import junit.framework.TestCase;
 

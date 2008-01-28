@@ -27,10 +27,10 @@ import java.util.Date;
 import java.util.Map;
 
 import org.formulacompiler.compiler.NumericType;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.IOUtil;
 import org.formulacompiler.decompiler.ByteCodeEngineSource;
 import org.formulacompiler.decompiler.FormulaDecompiler;
-import org.formulacompiler.describable.DescriptionBuilder;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
 

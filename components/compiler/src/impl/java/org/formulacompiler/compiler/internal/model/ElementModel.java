@@ -23,12 +23,12 @@ package org.formulacompiler.compiler.internal.model;
 import java.util.Collection;
 
 import org.formulacompiler.compiler.CallFrame;
-import org.formulacompiler.describable.AbstractDescribable;
+import org.formulacompiler.compiler.internal.AbstractYamlizable;
 import org.formulacompiler.runtime.New;
 
 
 
-public abstract class ElementModel extends AbstractDescribable
+public abstract class ElementModel extends AbstractYamlizable
 {
 	private final ComputationModel engine;
 	private final SectionModel section;

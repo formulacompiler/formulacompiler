@@ -20,10 +20,9 @@
  */
 package org.formulacompiler.spreadsheet.internal;
 
-import java.io.IOException;
 import java.util.List;
 
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.YamlBuilder;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
@@ -110,7 +109,7 @@ public final class RowImpl extends AbstractStyledElement implements Spreadsheet.
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void yamlTo( YamlBuilder _to )
 	{
 		_to.ln( "cells" ).l( getCellList() );
 	}

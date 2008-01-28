@@ -18,29 +18,10 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.spreadsheet.internal;
+package org.formulacompiler.compiler.internal;
 
-import org.formulacompiler.describable.DescriptionBuilder;
-
-public class SpreadsheetDescriptionBuilder extends DescriptionBuilder
+public interface Yamlizable
 {
-	private CellIndex relativeTo;
-
-	public SpreadsheetDescriptionBuilder()
-	{
-		super( "  " );
-	}
-	
-	
-	public final CellIndex getRelativeTo()
-	{
-		return this.relativeTo;
-	}
-	
-	public final void setRelativeTo( CellIndex _relativeTo )
-	{
-		this.relativeTo = _relativeTo;
-	}
-	
-	
+	public void yamlTo( YamlBuilder _to );
+	public String toYaml();
 }

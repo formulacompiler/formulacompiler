@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
@@ -104,7 +104,7 @@ public final class CellIndex extends CellRange implements Cell
 		}
 		return this.hashCode;
 	}
-	
+
 	private transient int hashCode;
 
 
@@ -218,29 +218,22 @@ public final class CellIndex extends CellRange implements Cell
 
 
 	@Override
-	public String toString()
-	{
-		if (this.sheetIndex > 0) {
-			return "'"
-					+ getSheet().getName() + "'!" + SheetImpl.getNameA1ForCellIndex( this.columnIndex, this.rowIndex );
-		}
-		else {
-			return SheetImpl.getNameA1ForCellIndex( this.columnIndex, this.rowIndex );
-		}
-	}
-
-
-	@Override
 	public void describeTo( DescriptionBuilder _to )
 	{
-		if (_to instanceof SpreadsheetDescriptionBuilder) {
+		final DescribeR1C1Style r1c1Style = _to.getContext( DescribeR1C1Style.class );
+		if (null == r1c1Style) {
+			if (this.sheetIndex > 0) {
+				_to.append( '\'' ).append( getSheet().getName() ).append( "'!" );
+			}
+			_to.append( SheetImpl.getNameA1ForCellIndex( this.columnIndex, this.rowIndex ) );
+		}
+		else {
 			final String name = getSheet().getSpreadsheet().getNameFor( this );
 			if (null != name) {
 				_to.append( name );
 			}
 			else {
-				final SpreadsheetDescriptionBuilder b = (SpreadsheetDescriptionBuilder) _to;
-				final CellIndex relativeTo = b.getRelativeTo();
+				final CellIndex relativeTo = r1c1Style.getRelativeTo();
 				if (this.sheetIndex != ((relativeTo != null) ? relativeTo.sheetIndex : 0)) {
 					_to.append( '\'' ).append( getSheet().getName() ).append( "'!" );
 				}
@@ -254,9 +247,6 @@ public final class CellIndex extends CellRange implements Cell
 					else describeOffsetTo( _to, 'C', this.columnIndex - relativeTo.columnIndex );
 				}
 			}
-		}
-		else {
-			_to.append( toString() );
 		}
 	}
 

@@ -18,25 +18,22 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.describable;
+package org.formulacompiler.compiler.internal;
 
-import java.io.IOException;
-import java.util.Date;
+import java.util.Map;
+import java.util.Stack;
+
+import org.formulacompiler.runtime.New;
 
 
 /**
- * A specialized string builder that supports multiple lines with proper indentation. Geared towards
- * emitting <a href="http://yaml.org/">YAML</a>.
- *
+ * A specialized string builder wrapper that supports multiple lines with proper indentation.
+ * 
  * @author peo
  */
-public class DescriptionBuilder implements Appendable
+public class DescriptionBuilder
 {
 	public static final CharSequence DEFAULT_INDENT = "  ";
-
-	private static final CharSequence VAL_SEP = ": ";
-	private static final CharSequence LIST_SEP = ":";
-	private static final CharSequence LIST_PREFIX = "- ";
 
 	private final StringBuilder builder = new StringBuilder();
 	private final CharSequence indent;
@@ -58,9 +55,20 @@ public class DescriptionBuilder implements Appendable
 	}
 
 
-	public final StringBuilder getIndentation()
+	@Override
+	public String toString()
 	{
-		return this.indentation;
+		return this.builder.toString();
+	}
+
+	public final void ensureCapacity( int _minimumCapacity )
+	{
+		this.builder.ensureCapacity( _minimumCapacity );
+	}
+
+	public final int length()
+	{
+		return this.builder.length();
 	}
 
 
@@ -70,14 +78,12 @@ public class DescriptionBuilder implements Appendable
 		return this;
 	}
 
-
-	public final DescriptionBuilder indent( int _n )
+	public final DescriptionBuilder indent( int _levels )
 	{
-		for (int i = _n; i > 0; i--)
+		for (int i = 0; i < _levels; i++)
 			indent();
 		return this;
 	}
-
 
 	public final DescriptionBuilder outdent()
 	{
@@ -113,13 +119,6 @@ public class DescriptionBuilder implements Appendable
 	{
 		this.builder.append( this.indentation );
 		this.indentPending = false;
-	}
-
-
-	@Override
-	public String toString()
-	{
-		return this.builder.toString();
 	}
 
 
@@ -212,6 +211,7 @@ public class DescriptionBuilder implements Appendable
 
 	public final DescriptionBuilder append( Object _obj )
 	{
+		if (_obj instanceof AbstractDescribable) return append( (AbstractDescribable) _obj );
 		addIndentationIfPending();
 		if (null == _obj) appendNull();
 		else this.builder.append( _obj );
@@ -233,7 +233,7 @@ public class DescriptionBuilder implements Appendable
 		return this;
 	}
 
-	public final DescriptionBuilder append( Describable _desc ) throws IOException
+	public final DescriptionBuilder append( AbstractDescribable _desc )
 	{
 		if (null == _desc) appendNull();
 		else _desc.describeTo( this );
@@ -249,164 +249,31 @@ public class DescriptionBuilder implements Appendable
 	}
 
 
-	public final DescriptionBuilder ln( CharSequence _name )
+	private Map<Class, Object> contextMap = New.map();
+	private Stack<Object> contextStack = New.stack();
+
+	@SuppressWarnings( "unchecked" )
+	public final <C> C getContext( Class<C> _class )
 	{
-		return append( _name ).append( LIST_SEP );
+		return (C) this.contextMap.get( _class );
 	}
 
-	public final <D extends Describable> DescriptionBuilder l( Iterable<D> _descs ) throws IOException
+	public final DescriptionBuilder pushContext( Object _context )
 	{
-		for (Describable desc : _descs) {
-			onNewLine().append( LIST_PREFIX ).indent().append( desc ).outdent();
-		}
+		assert null != _context;
+		this.contextStack.push( getContext( _context.getClass() ) );
+		this.contextStack.push( _context.getClass() );
+		this.contextMap.put( _context.getClass(), _context );
 		return this;
 	}
 
-	public final <D extends Describable> DescriptionBuilder lSpaced( Iterable<D> _descs ) throws IOException
+	public final DescriptionBuilder popContext()
 	{
-		for (Describable desc : _descs) {
-			onNewLine().newLine().append( LIST_PREFIX ).indent().append( desc ).outdent();
-		}
+		final Class clazz = (Class) this.contextStack.pop();
+		final Object was = this.contextStack.pop();
+		this.contextMap.put( clazz, was );
 		return this;
 	}
 
-
-	public final DescriptionBuilder vn( CharSequence _name )
-	{
-		return append( _name ).append( VAL_SEP );
-	}
-
-	public final DescriptionBuilder nv( CharSequence _name, Object _value ) throws IOException
-	{
-		if (null != _value) {
-			return vn( _name ).v( _value ).lf();
-		}
-		return this;
-	}
-
-	public final DescriptionBuilder nv( CharSequence _name, CharSequence _valuePrefix, Object _value ) throws IOException
-	{
-		if (null != _value) {
-			return vn( _name ).append( _valuePrefix ).v( _value ).lf();
-		}
-		return this;
-	}
-
-	public final DescriptionBuilder v( Object _value, boolean quoteStrings ) throws IOException
-	{
-		if (null == _value) return appendNull();
-		if (_value instanceof Describable) return v( (Describable) _value );
-		if (_value instanceof String) return quoteStrings ? qv( (String) _value ) : v( (String) _value );
-		if (_value instanceof Date) return v( (Date) _value );
-		if (_value instanceof Double) return v( ((Double) _value).doubleValue() );
-		return append( _value );
-	}
-
-	public final DescriptionBuilder v( Object _value ) throws IOException
-	{
-		return v( _value, false );
-	}
-
-	public final DescriptionBuilder v( Describable _value ) throws IOException
-	{
-		return append( _value );
-	}
-
-	public final DescriptionBuilder v( String _value )
-	{
-		return append( _value );
-	}
-
-	/**
-	 * Appends a quoted string to a given buffer.
-	 *
-	 * @param s the string to be added.
-	 * @return this decription builder.
-	 */
-	public final DescriptionBuilder qv( final String s )
-	{
-		append( "\"" );
-		for (int i = 0; i < s.length(); ++i) {
-			char c = s.charAt( i );
-			if (c == '\n') {
-				append( "\\n" );
-			}
-			else if (c == '\r') {
-				append( "\\r" );
-			}
-			else if (c == '\\') {
-				append( "\\\\" );
-			}
-			else if (c == '"') {
-				append( "\\\"" );
-			}
-			else if (c < 0x20) {
-				append( "\\u" );
-				if (c < 0x10) {
-					append( "000" );
-				}
-				else {
-					append( "00" );
-				}
-				append( Integer.toHexString( c ) );
-			}
-			else {
-				append( c );
-			}
-		}
-		append( "\"" );
-
-		return this;
-	}
-
-	public final DescriptionBuilder v( Date _value )
-	{
-		return append( "Date( " ).append( _value.getTime() ).append( " )" );
-	}
-
-	public final DescriptionBuilder v( double _value )
-	{
-		if (Double.isNaN( _value )) return append( ".NAN" );
-		if (Double.isInfinite( _value )) return append( _value == Double.POSITIVE_INFINITY ? ".Inf" : "-.Inf" );
-		return append( _value );
-	}
-
-	public final DescriptionBuilder v( long _value )
-	{
-		return append( _value );
-	}
-
-	public final DescriptionBuilder v( int _value )
-	{
-		return append( _value );
-	}
-
-	public final DescriptionBuilder v( char _value )
-	{
-		return append( _value );
-	}
-
-	public final DescriptionBuilder v( boolean _value )
-	{
-		return append( _value );
-	}
-
-
-	public final DescriptionBuilder lf()
-	{
-		return newLine();
-	}
-
-
-	public final void ensureCapacity( int _minimumCapacity )
-	{
-		this.builder.ensureCapacity( _minimumCapacity );
-	}
-
-
-	public final int length()
-	{
-		return this.builder.length();
-	}
 
 }

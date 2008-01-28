@@ -20,13 +20,11 @@
  */
 package org.formulacompiler.compiler.internal.model;
 
-import java.io.IOException;
-
 import org.formulacompiler.compiler.NumericType;
+import org.formulacompiler.compiler.internal.YamlBuilder;
 import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
-import org.formulacompiler.describable.DescriptionBuilder;
 
 
 public class CellModel extends ElementModel implements TypedResult
@@ -38,7 +36,7 @@ public class CellModel extends ElementModel implements TypedResult
 	private DataType dataType;
 
 
-	public CellModel(SectionModel _section, String _name)
+	public CellModel( SectionModel _section, String _name )
 	{
 		super( _section, _name );
 		_section.getCells().add( this );
@@ -62,13 +60,13 @@ public class CellModel extends ElementModel implements TypedResult
 	{
 		this.constantValue = _constantValue;
 	}
-	
-	
+
+
 	public boolean isConstant()
 	{
 		return hasConstantValue();
 	}
-	
+
 	public boolean hasConstantValue()
 	{
 		return (this.expression == null) && DataType.isValueConstant( getConstantValue() );
@@ -127,58 +125,25 @@ public class CellModel extends ElementModel implements TypedResult
 	{
 		return this.dataType;
 	}
-	
+
 	public void setDataType( DataType _dataType )
 	{
 		this.dataType = _dataType;
 	}
 
-	
+
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void yamlTo( YamlBuilder _to )
 	{
-		_to.append( "<cell id=\"" );
-		_to.append( toString() );
-		_to.append( "\">" );
-		_to.newLine();
-		_to.indent();
-
-		if (isInput()) {
-			_to.append( "<input call=\"" );
-			_to.append( getCallChainToCall().toString() );
-			_to.appendLine( "/>" );
-		}
-		if (isOutput()) _to.appendLine( "<output/>" );
-
-		if (null != this.constantValue) {
-			_to.append( "<value>" );
-			_to.append( this.constantValue );
-			_to.appendLine( "</value>" );
-		}
-		if (null != this.expression) {
-			_to.append( "<expr>" );
-			this.expression.describeTo( _to );
-			_to.appendLine( "</expr>" );
-		}
-		if (NumericType.UNLIMITED_FRACTIONAL_DIGITS > this.maxFractionalDigits) {
-			_to.append( "<format maxFractionalDigits=\"" );
-			_to.append( this.maxFractionalDigits );
-			_to.appendLine( "\" />" );
-		}
-		if (0 < this.referenceCount) {
-			_to.append( "<refs count=\"" );
-			_to.append( this.referenceCount );
-			_to.appendLine( "\" />" );
-		}
-		if (null != this.dataType) {
-			_to.append( "<type name=\"" );
-			_to.append( this.dataType );
-			_to.appendLine( "\" />" );
-		}
-
-		_to.outdent();
-		_to.appendLine( "</cell>" );
+		_to.nv( "name", getName() );
+		if (isInput()) _to.ln( "input" ).l( "calls", getCallChainToCall() );
+		if (isOutput()) _to.ln( "output" ).l( "implements", (Object[]) getCallsToImplement() );
+		_to.nv( "value", this.constantValue );
+		_to.nv( "expr", this.expression );
+		if (NumericType.UNLIMITED_FRACTIONAL_DIGITS > this.maxFractionalDigits)
+			_to.nv( "maxFractionalDigits", this.maxFractionalDigits );
+		_to.nv( "refCount", this.referenceCount );
+		_to.nv( "type", this.dataType );
 	}
-
 
 }

@@ -20,14 +20,12 @@
  */
 package org.formulacompiler.compiler.internal.expressions;
 
-import java.io.IOException;
-
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
 
 public interface ExpressionContextProvider
 {
 
-	void buildContext( DescriptionBuilder _builder, ExpressionNode _focusedNode ) throws IOException;
+	void buildContext( DescriptionBuilder _builder, ExpressionNode _focusedNode );
 
 }

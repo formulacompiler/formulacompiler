@@ -20,10 +20,8 @@
  */
 package org.formulacompiler.spreadsheet.internal;
 
-import java.io.IOException;
-
+import org.formulacompiler.compiler.internal.YamlBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.describable.DescriptionBuilder;
 
 
 public final class CellWithError extends CellInstance
@@ -54,10 +52,10 @@ public final class CellWithError extends CellInstance
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void yamlTo( YamlBuilder _to )
 	{
 		_to.vn( "err" ).v( getError() ).lf();
-		super.describeTo( _to );
+		super.yamlTo( _to );
 	}
 
 
