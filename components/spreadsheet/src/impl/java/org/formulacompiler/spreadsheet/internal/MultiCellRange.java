@@ -23,7 +23,7 @@ package org.formulacompiler.spreadsheet.internal;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 
@@ -140,10 +140,8 @@ public final class MultiCellRange extends CellRange
 	{
 		final CellRange range = (CellRange) _other;
 		return this.from.sheetIndex <= range.getFrom().sheetIndex
-				&& this.from.rowIndex <= range.getFrom().rowIndex
-				&& this.from.columnIndex <= range.getFrom().columnIndex
-				&& this.to.sheetIndex >= range.getTo().sheetIndex
-				&& this.to.rowIndex >= range.getTo().rowIndex
+				&& this.from.rowIndex <= range.getFrom().rowIndex && this.from.columnIndex <= range.getFrom().columnIndex
+				&& this.to.sheetIndex >= range.getTo().sheetIndex && this.to.rowIndex >= range.getTo().rowIndex
 				&& this.to.columnIndex >= range.getTo().columnIndex;
 	}
 
@@ -193,10 +191,7 @@ public final class MultiCellRange extends CellRange
 	@Override
 	public void describeTo( DescriptionBuilder _to )
 	{
-		this.from.describeTo( _to );
-		_to.append( ':' );
-		this.to.describeTo( _to );
+		_to.append( getFrom() ).append( ":" ).append( getTo() );
 	}
-
 
 }

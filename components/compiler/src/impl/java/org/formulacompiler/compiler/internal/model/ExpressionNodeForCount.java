@@ -20,12 +20,11 @@
  */
 package org.formulacompiler.compiler.internal.model;
 
-import java.io.IOException;
 import java.util.Collection;
 
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionDescriptionConfig;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.describable.DescriptionBuilder;
 
 
 public final class ExpressionNodeForCount extends ExpressionNode
@@ -70,7 +69,7 @@ public final class ExpressionNodeForCount extends ExpressionNode
 
 
 	@Override
-	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
+	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
 	{
 		_to.append( "(" ).append( this.staticValueCount );
 		for (int i = 0; i < this.subSectionModels.length; i++) {

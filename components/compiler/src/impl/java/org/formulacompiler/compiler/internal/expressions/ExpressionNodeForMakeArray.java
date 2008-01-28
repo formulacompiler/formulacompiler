@@ -20,10 +20,9 @@
  */
 package org.formulacompiler.compiler.internal.expressions;
 
-import java.io.IOException;
 import java.util.Collection;
 
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
 
 public final class ExpressionNodeForMakeArray extends ExpressionNode
@@ -66,7 +65,7 @@ public final class ExpressionNodeForMakeArray extends ExpressionNode
 
 
 	@Override
-	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
+	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
 	{
 		_to.append( "_MAKE_ARRAY " );
 		describeArgumentListTo( _to, _cfg );

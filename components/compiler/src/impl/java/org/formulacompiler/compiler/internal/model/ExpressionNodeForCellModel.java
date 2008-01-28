@@ -20,12 +20,11 @@
  */
 package org.formulacompiler.compiler.internal.model;
 
-import java.io.IOException;
 import java.util.Collection;
 
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionDescriptionConfig;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.describable.DescriptionBuilder;
 
 
 
@@ -69,7 +68,7 @@ public class ExpressionNodeForCellModel extends ExpressionNode
 
 
 	@Override
-	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
+	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
 	{
 		if (null == this.cellModel) {
 			_to.append( "#NULL" );

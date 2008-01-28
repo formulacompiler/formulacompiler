@@ -20,10 +20,9 @@
  */
 package org.formulacompiler.compiler.internal.expressions;
 
-import java.io.IOException;
 import java.util.Collection;
 
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
 public final class ExpressionNodeForFoldVectors extends ExpressionNodeForFoldApply
 {
@@ -45,7 +44,7 @@ public final class ExpressionNodeForFoldVectors extends ExpressionNodeForFoldApp
 
 
 	@Override
-	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
+	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
 	{
 		super.describeToWithConfig( _to, _cfg );
 		_to.append( " vectors {" );

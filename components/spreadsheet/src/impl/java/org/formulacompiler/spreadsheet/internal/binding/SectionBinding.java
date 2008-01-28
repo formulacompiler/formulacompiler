@@ -20,16 +20,15 @@
  */
 package org.formulacompiler.spreadsheet.internal.binding;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.SortedSet;
 
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.internal.AbstractDescribable;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.Util;
-import org.formulacompiler.describable.Describable;
-import org.formulacompiler.describable.DescriptionBuilder;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.Orientation;
@@ -331,11 +330,11 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void describeTo( DescriptionBuilder _to )
 	{
 		getRange().describeTo( _to );
 		_to.append( " (which iterates " );
-		((Describable) getCallChainToCall()).describeTo( _to );
+		((AbstractDescribable) getCallChainToCall()).describeTo( _to );
 		_to.append( ")" );
 	}
 

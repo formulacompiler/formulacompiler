@@ -20,11 +20,10 @@
  */
 package org.formulacompiler.compiler.internal.expressions;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.ListIterator;
 
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
 
 public final class ExpressionNodeForArrayReference extends ExpressionNode
@@ -72,7 +71,7 @@ public final class ExpressionNodeForArrayReference extends ExpressionNode
 
 
 	@Override
-	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
+	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
 	{
 		arrayDescriptor().describeTo( _to );
 		_to.append( '{' );

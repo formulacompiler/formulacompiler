@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.formulacompiler.compiler.Function;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.IOUtil;
 import org.formulacompiler.compiler.internal.build.rewriting.AbstractDef.Param;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
@@ -44,7 +45,6 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMaxVal
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMinValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary;
-import org.formulacompiler.describable.DescriptionBuilder;
 import org.formulacompiler.runtime.New;
 
 

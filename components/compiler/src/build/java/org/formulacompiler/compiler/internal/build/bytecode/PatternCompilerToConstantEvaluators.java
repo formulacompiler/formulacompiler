@@ -23,6 +23,7 @@ package org.formulacompiler.compiler.internal.build.bytecode;
 import java.io.File;
 import java.io.IOException;
 
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.build.bytecode.ConstantEvaluatorGenerator.AbstractMethodEvaluatorGenerator;
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForDoubles;
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForNumbers;
@@ -30,7 +31,6 @@ import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForPre
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForScaledBigDecimals;
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForScaledLongs;
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForStrings;
-import org.formulacompiler.describable.DescriptionBuilder;
 
 
 class PatternCompilerToConstantEvaluators

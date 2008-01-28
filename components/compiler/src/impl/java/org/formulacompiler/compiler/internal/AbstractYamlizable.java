@@ -18,60 +18,30 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.describable;
-
-import java.io.IOException;
+package org.formulacompiler.compiler.internal;
 
 
 
-/**
- * Default base implementation of {@link Describable}.
- * 
- * @author peo
- */
-public abstract class AbstractDescribable implements Describable
+public abstract class AbstractYamlizable extends AbstractDescribable implements Yamlizable
 {
 
 
-	public final String describe()
+	public abstract void yamlTo( YamlBuilder _to );
+
+
+	public String toYaml()
 	{
-		DescriptionBuilder description = newDescriptionBuilder();
-		try {
-			describeTo( description );
-		}
-		catch (IOException e) {
-			return e.getMessage();
-		}
-		return description.toString();
+		final YamlBuilder yaml = new YamlBuilder( new DescriptionBuilder() );
+		yamlTo( yaml );
+		return yaml.toString();
 	}
-
-
-	public final void describeTo( StringBuilder _to )
-	{
-		DescriptionBuilder description = newDescriptionBuilder();
-		try {
-			describeTo( description );
-			_to.append( description.toString() );
-		}
-		catch (IOException e) {
-			_to.append( e.getMessage() );
-		}
-	}
-
-
-	protected DescriptionBuilder newDescriptionBuilder()
-	{
-		return new DescriptionBuilder();
-	}
-
-
-	public abstract void describeTo( DescriptionBuilder _to ) throws IOException;
 
 
 	@Override
-	public String toString()
+	public void describeTo( DescriptionBuilder _to )
 	{
-		return describe();
+		final YamlBuilder yaml = new YamlBuilder( _to );
+		yamlTo( yaml );
 	}
 
 

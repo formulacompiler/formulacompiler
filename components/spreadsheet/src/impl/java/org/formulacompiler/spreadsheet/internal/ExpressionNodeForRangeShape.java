@@ -20,12 +20,11 @@
  */
 package org.formulacompiler.spreadsheet.internal;
 
-import java.io.IOException;
 import java.util.Collection;
 
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionDescriptionConfig;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.describable.DescriptionBuilder;
 
 
 public final class ExpressionNodeForRangeShape extends ExpressionNode
@@ -61,7 +60,7 @@ public final class ExpressionNodeForRangeShape extends ExpressionNode
 
 
 	@Override
-	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
+	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
 	{
 		describeArgumentOrArgumentListTo( _to, _cfg );
 	}

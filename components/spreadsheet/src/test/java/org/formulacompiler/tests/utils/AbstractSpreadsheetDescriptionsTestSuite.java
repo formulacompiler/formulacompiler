@@ -97,7 +97,7 @@ public abstract class AbstractSpreadsheetDescriptionsTestSuite extends AbstractI
 	protected final void addTestFor( final File _file, final String _baseName )
 	{
 		if (mustStillAdd( _file )) {
-			addTest( new AbstractIOTestCase( _file.getPath() )
+			addTest( new AbstractSpreadsheetTestCase( _file.getPath() )
 			{
 
 				@Override

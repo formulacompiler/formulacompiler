@@ -20,9 +20,9 @@
  */
 package org.formulacompiler.spreadsheet.internal;
 
-import org.formulacompiler.describable.AbstractDescribable;
+import org.formulacompiler.compiler.internal.AbstractYamlizable;
 
-abstract class AbstractStyledElement extends AbstractDescribable
+abstract class AbstractStyledElement extends AbstractYamlizable
 {
 	private String styleName;
 

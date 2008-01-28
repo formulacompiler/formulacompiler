@@ -20,16 +20,14 @@
  */
 package org.formulacompiler.compiler.internal.expressions;
 
-import java.io.IOException;
-
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
 
 public class ExpressionSourceAsContextProvider implements ExpressionContextProvider
 {
 	private final ExpressionNode expr;
 
-	public ExpressionSourceAsContextProvider(ExpressionNode _expr)
+	public ExpressionSourceAsContextProvider( ExpressionNode _expr )
 	{
 		super();
 		this.expr = _expr.getOrigin();
@@ -37,16 +35,9 @@ public class ExpressionSourceAsContextProvider implements ExpressionContextProvi
 
 	public void buildContext( DescriptionBuilder _result, ExpressionNode _focusedNode )
 	{
+		final ExpressionNode focus = (_focusedNode == null) ? null : _focusedNode.getOrigin();
 		_result.append( "\nIn expression " );
-
-		try {
-			final ExpressionNode focus = (_focusedNode == null) ? null : _focusedNode.getOrigin();
-			this.expr.describeTo( _result, new ExpressionDescriptionConfig( focus, " >> ", " << " ) );
-		}
-		catch (IOException e) {
-			_result.append( " >> ERROR describing expression:" ).append( e.getMessage() );
-		}
-		
+		this.expr.describeTo( _result, new ExpressionDescriptionConfig( focus, " >> ", " << " ) );
 		_result.append( "; error location indicated by >>..<<." );
 	}
 

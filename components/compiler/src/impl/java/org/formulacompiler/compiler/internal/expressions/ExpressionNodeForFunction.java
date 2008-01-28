@@ -20,11 +20,10 @@
  */
 package org.formulacompiler.compiler.internal.expressions;
 
-import java.io.IOException;
 import java.util.Collection;
 
 import org.formulacompiler.compiler.Function;
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
 
 public class ExpressionNodeForFunction extends ExpressionNode
@@ -67,7 +66,7 @@ public class ExpressionNodeForFunction extends ExpressionNode
 
 
 	@Override
-	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
+	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
 	{
 		_to.append( this.function.getName() );
 		describeArgumentListTo( _to, _cfg );

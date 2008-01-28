@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.IOUtil;
 import org.formulacompiler.compiler.internal.build.bytecode.ByteCodeCompilerGenerator.TemplateMethodGenerator;
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForAll;
@@ -33,7 +34,6 @@ import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForPre
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForScaledBigDecimals;
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForScaledLongs;
 import org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForStrings;
-import org.formulacompiler.describable.DescriptionBuilder;
 import org.objectweb.asm.Type;
 
 

@@ -20,15 +20,14 @@
  */
 package org.formulacompiler.spreadsheet.internal;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.formulacompiler.describable.AbstractDescribable;
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.AbstractYamlizable;
+import org.formulacompiler.compiler.internal.YamlBuilder;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
@@ -39,7 +38,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetException;
  * 
  * @author peo
  */
-public final class SpreadsheetImpl extends AbstractDescribable implements Spreadsheet
+public final class SpreadsheetImpl extends AbstractYamlizable implements Spreadsheet
 {
 	private final List<SheetImpl> sheets = New.list();
 	private final Map<String, CellRange> names = New.map();
@@ -215,38 +214,40 @@ public final class SpreadsheetImpl extends AbstractDescribable implements Spread
 
 
 	@Override
-	protected DescriptionBuilder newDescriptionBuilder()
+	public void yamlTo( YamlBuilder _to )
 	{
-		return new SpreadsheetDescriptionBuilder();
-	}
+		_to.s( "# Abacus Formula Compiler Spreadsheet Model Description v1.0" ).lf();
+		_to.s( "# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!" ).lf();
+		_to.s( "---" ).lf();
 
-	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
-	{
-		_to.appendLine( "# Abacus Formula Compiler Spreadsheet Model Description v1.0" );
-		_to.appendLine( "# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!" );
-		_to.appendLine( "---" );
+		_to.desc().pushContext( new DescribeR1C1Style() );
+		try {
 
-		_to.lf().ln( "sheets" ).lSpaced( getSheetList() );
+			_to.lf().ln( "sheets" ).lSpaced( getSheetList() );
 
-		final Map<String, CellRange> nameMap = getNameMap();
-		if (0 < nameMap.size()) {
-			_to.lf().ln( "names" );
+			final Map<String, CellRange> nameMap = getNameMap();
+			if (0 < nameMap.size()) {
+				_to.lf().ln( "names" );
 
-			final List<String> names = New.list( nameMap.size() );
-			names.addAll( nameMap.keySet() );
-			Collections.sort( names );
-			for (final String name : names) {
-				final CellRange ref = nameMap.get( name );
-				if (!(ref instanceof CellIndex)) {
-					_to.onNewLine().append( "- " ).indent();
-					{
-						_to.vn( "name" ).v( name ).lf();
-						_to.vn( "ref" ).v( ref ).lf();
+				final List<String> names = New.list( nameMap.size() );
+				names.addAll( nameMap.keySet() );
+				Collections.sort( names );
+				for (final String name : names) {
+					final CellRange ref = nameMap.get( name );
+					if (!(ref instanceof CellIndex)) {
+						_to.desc().onNewLine().append( "- " ).indent();
+						{
+							_to.vn( "name" ).v( name ).lf();
+							_to.vn( "ref" ).v( ref ).lf();
+						}
+						_to.desc().outdent();
 					}
-					_to.outdent();
 				}
 			}
+
+		}
+		finally {
+			_to.desc().popContext();
 		}
 
 	}

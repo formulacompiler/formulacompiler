@@ -25,8 +25,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import org.formulacompiler.compiler.CallFrame;
-import org.formulacompiler.describable.AbstractDescribable;
-import org.formulacompiler.describable.DescriptionBuilder;
 
 
 /**

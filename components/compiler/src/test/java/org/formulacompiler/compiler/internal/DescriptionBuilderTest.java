@@ -18,13 +18,13 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.formulacompiler.compiler.describable;
+package org.formulacompiler.compiler.internal;
 
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
 import junit.framework.TestCase;
 
-public class DescriptionTest extends TestCase
+public class DescriptionBuilderTest extends TestCase
 {
 
 
@@ -60,6 +60,52 @@ public class DescriptionTest extends TestCase
 		String s = d.toString();
 
 		assertEquals( "Hello\nworld!\n\tfirst indent\n\t...\nnormal\n\tsecond indent\n\t...\nnormal again\n", s );
+	}
+
+
+	public void testContext() throws Exception
+	{
+		DescriptionBuilder d = new DescriptionBuilder();
+		String s1 = "One";
+		String s2 = "Two";
+		Integer i1 = 1;
+		Integer i2 = 2;
+
+		assertNull( d.getContext( String.class ) );
+		assertNull( d.getContext( Integer.class ) );
+		
+		d.pushContext( i1 );
+		assertNull( d.getContext( String.class ) );
+		assertEquals( i1, d.getContext( Integer.class ));
+		
+		d.pushContext( s1 );
+		assertEquals( s1, d.getContext( String.class ));
+		assertEquals( i1, d.getContext( Integer.class ));
+		
+		d.pushContext( i2 );
+		assertEquals( s1, d.getContext( String.class ));
+		assertEquals( i2, d.getContext( Integer.class ));
+
+		d.pushContext( s2 );
+		assertEquals( s2, d.getContext( String.class ));
+		assertEquals( i2, d.getContext( Integer.class ));
+		
+		d.popContext();
+		assertEquals( s1, d.getContext( String.class ));
+		assertEquals( i2, d.getContext( Integer.class ));
+		
+		d.popContext();
+		assertEquals( s1, d.getContext( String.class ));
+		assertEquals( i1, d.getContext( Integer.class ));
+		
+		d.popContext();
+		assertNull( d.getContext( String.class ) );
+		assertEquals( i1, d.getContext( Integer.class ));
+		
+		d.popContext();
+		assertNull( d.getContext( String.class ) );
+		assertNull( d.getContext( Integer.class ) );
+
 	}
 
 

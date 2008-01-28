@@ -20,17 +20,16 @@
  */
 package org.formulacompiler.spreadsheet.internal;
 
-import java.io.IOException;
 import java.util.List;
 
-import org.formulacompiler.describable.AbstractDescribable;
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.AbstractYamlizable;
+import org.formulacompiler.compiler.internal.YamlBuilder;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.Spreadsheet.Row;
 
 
-public final class SheetImpl extends AbstractDescribable implements Spreadsheet.Sheet
+public final class SheetImpl extends AbstractYamlizable implements Spreadsheet.Sheet
 {
 	private final SpreadsheetImpl spreadsheet;
 	private final int sheetIndex;
@@ -128,7 +127,7 @@ public final class SheetImpl extends AbstractDescribable implements Spreadsheet.
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void yamlTo( YamlBuilder _to )
 	{
 		_to.vn( "name" ).v( getName() ).lf();
 		_to.ln( "rows" ).l( getRowList() );

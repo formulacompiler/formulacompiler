@@ -20,10 +20,8 @@
  */
 package org.formulacompiler.compiler.internal.expressions;
 
-import java.io.IOException;
-
-import org.formulacompiler.describable.AbstractDescribable;
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.AbstractDescribable;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
 
 public final class ArrayDescriptor extends AbstractDescribable
@@ -105,7 +103,7 @@ public final class ArrayDescriptor extends AbstractDescribable
 
 
 	@Override
-	public void describeTo( DescriptionBuilder _to ) throws IOException
+	public void describeTo( DescriptionBuilder _to )
 	{
 		if (origin().sheet() < 0) {
 			// This is to remain compatible with older tests.

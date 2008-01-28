@@ -20,14 +20,29 @@
  */
 package org.formulacompiler.tests.utils;
 
+import java.io.File;
 import java.io.InputStream;
 
+import org.formulacompiler.compiler.internal.Yamlizable;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 
 
 public abstract class AbstractSpreadsheetTestCase extends AbstractStandardInputsOutputsTestCase
 {
+	private static final boolean UPDATE_YAML_IN_PLACE = Util.isBuildPropTrue( "test-ref-update-yaml" );
+
+
+	protected AbstractSpreadsheetTestCase()
+	{
+		super();
+	}
+
+	protected AbstractSpreadsheetTestCase( String _name )
+	{
+		super( _name );
+	}
+
 
 	protected void checkSpreadsheetStream( Spreadsheet _expected, InputStream _stream, String _typeExtensionOrFileName )
 			throws Exception
@@ -47,5 +62,48 @@ public abstract class AbstractSpreadsheetTestCase extends AbstractStandardInputs
 			}
 		}
 	}
+
+
+	protected void assertYaml( File _path, String _expectedFileBaseName, Yamlizable _actual, String _actualFileName )
+			throws Exception
+	{
+		final String have = _actual.toYaml();
+		final File specificFile = new File( _path, _actualFileName + ".yaml" );
+		final File genericFile = new File( _path, _expectedFileBaseName + ".yaml" );
+		final File expectedFile = (specificFile.exists()) ? specificFile : genericFile;
+		if (expectedFile.exists()) {
+			String want = Util.readStringFrom( expectedFile );
+			if (_actualFileName.endsWith( ".ods" )) {
+				want = want.replaceAll( "- err: #DIV/0\\!", "- const: \"#DIV/0!\"" );
+				want = want.replaceAll( "- err: #N/A", "- const: \"#N/A\"" );
+				want = want.replaceAll( "- err: #VALUE\\!", "- const: \"#VALUE!\"" );
+				want = want.replaceAll( "- err: #REF\\!", "- const: \"#REF!\"" );
+				want = want.replaceAll( "- err: #NUM\\!", "- const: \"#NUM!\"" );
+			}
+			if (!want.equals( have )) {
+				if (UPDATE_YAML_IN_PLACE) {
+					final File actualFile = (_actualFileName.toLowerCase().endsWith( ".xls" ) && !specificFile.exists())
+							? genericFile : specificFile;
+					Util.writeStringTo( have, actualFile );
+				}
+				else {
+					final File actualFile = new File( _path, _actualFileName + "-actual.yaml" );
+					Util.writeStringTo( have, actualFile );
+					assertEquals( "YAML bad for " + _actualFileName + "; actual YAML written to ...-actual.yaml", want, have );
+				}
+			}
+		}
+		else {
+			Util.writeStringTo( have, expectedFile );
+		}
+	}
+
+
+	protected void assertYaml( File _path, String _expectedFileBaseName, Spreadsheet _actual, String _actualFileName )
+			throws Exception
+	{
+		assertYaml( _path, _expectedFileBaseName, (Yamlizable) _actual, _actualFileName );
+	}
+
 
 }

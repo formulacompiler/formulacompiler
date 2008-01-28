@@ -20,7 +20,7 @@
  */
 package org.formulacompiler.spreadsheet;
 
-import org.formulacompiler.describable.Describable;
+import org.formulacompiler.compiler.Describable;
 
 /**
  * Represents a spreadsheet model in memory. It can be constructed from different spreadsheet file
@@ -183,7 +183,7 @@ public interface Spreadsheet extends Describable
 	 *
 	 * @author peo
 	 */
-	public static interface Cell extends Range, Describable
+	public static interface Cell extends Range
 	{
 
 		/**
@@ -243,7 +243,7 @@ public interface Spreadsheet extends Describable
 	 * @see Spreadsheet
 	 * @author peo
 	 */
-	public static interface Range
+	public static interface Range extends Describable
 	{
 
 		/**

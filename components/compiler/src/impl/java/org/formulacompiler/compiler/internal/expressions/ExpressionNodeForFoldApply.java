@@ -20,11 +20,10 @@
  */
 package org.formulacompiler.compiler.internal.expressions;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.formulacompiler.describable.DescriptionBuilder;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
 public abstract class ExpressionNodeForFoldApply extends ExpressionNode
 {
@@ -67,7 +66,7 @@ public abstract class ExpressionNodeForFoldApply extends ExpressionNode
 		};
 	}
 	
-	protected final void describeElements( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
+	protected final void describeElements( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
 	{
 		boolean first = true;
 		for (final ExpressionNode element : elements()) {
@@ -85,7 +84,7 @@ public abstract class ExpressionNodeForFoldApply extends ExpressionNode
 	}
 
 	@Override
-	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg ) throws IOException
+	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
 	{
 		_to.append( "apply (" );
 		describeArgumentTo( _to, _cfg, 0 );

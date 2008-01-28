@@ -25,11 +25,11 @@ import java.io.File;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.AbstractIOTestCase;
+import org.formulacompiler.tests.utils.AbstractSpreadsheetTestCase;
 
 
 @SuppressWarnings( "unqualified-field-access" )
-public class UnicodeTest extends AbstractIOTestCase
+public class UnicodeTest extends AbstractSpreadsheetTestCase
 {
 	private Spreadsheet spreadsheet;
 

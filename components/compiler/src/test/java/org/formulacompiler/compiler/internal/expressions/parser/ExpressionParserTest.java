@@ -20,15 +20,14 @@
  */
 package org.formulacompiler.compiler.internal.expressions.parser;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionDescriptionConfig;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
-import org.formulacompiler.describable.DescriptionBuilder;
 
 import junit.framework.TestCase;
 
@@ -315,7 +314,6 @@ public class ExpressionParserTest extends TestCase
 
 				@Override
 				protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
-						throws IOException
 				{
 					describeArgumentTo( _to, _cfg, 0 );
 					for (int iArg = 1; iArg < arguments().size(); iArg++) {
@@ -335,7 +333,6 @@ public class ExpressionParserTest extends TestCase
 
 				@Override
 				protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
-						throws IOException
 				{
 					describeArgumentTo( _to, _cfg, 0 );
 					for (int iArg = 1; iArg < arguments().size(); iArg++) {

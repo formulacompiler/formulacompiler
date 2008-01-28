@@ -24,8 +24,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.IOUtil;
-import org.formulacompiler.describable.DescriptionBuilder;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.MethodNode;
 
