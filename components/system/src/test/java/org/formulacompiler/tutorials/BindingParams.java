@@ -21,6 +21,7 @@
 package org.formulacompiler.tutorials;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.Engine;
@@ -50,10 +51,10 @@ public class BindingParams extends TestCase
 
 		// ---- bindNamedInputs
 		final Method inputMethod = Input.class./**/getMethod( "getInput", String.class )/**/;
-		for (Spreadsheet.NameDefinition def : /**/spreadsheet.getDefinedNames()/**/) {
-			final Spreadsheet.Range range = def.getRange();
+		for (Map.Entry<String, Spreadsheet.Range> def : /**/spreadsheet.getDefinedNames().entrySet()/**/) {
+			final Spreadsheet.Range range = def.getValue();
 			if (range instanceof Spreadsheet.Cell) {
-				final String /**/cellName/**/ = def.getName();
+				final String /**/cellName/**/ = def.getKey();
 				if ("I_".equals( cellName.substring( 0, 2 ) )) {
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
 					final String /**/valueName/**/ = cellName.substring( 2 ).toUpperCase();
@@ -65,10 +66,10 @@ public class BindingParams extends TestCase
 
 		// ---- bindNamedOutputs
 		final Method outputMethod = Output.class./**/getMethod( "getOutput", String.class )/**/;
-		for (Spreadsheet.NameDefinition def : /**/spreadsheet.getDefinedNames()/**/) {
-			final Spreadsheet.Range range = def.getRange();
+		for (Map.Entry<String, Spreadsheet.Range> def : /**/spreadsheet.getDefinedNames().entrySet()/**/) {
+		final Spreadsheet.Range range = def.getValue();
 			if (range instanceof Spreadsheet.Cell) {
-				final String /**/cellName/**/ = def.getName();
+				final String /**/cellName/**/ = def.getKey();
 				if ("O_".equals( cellName.substring( 0, 2 ) )) {
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
 					final String /**/valueName/**/ = cellName.substring( 2 ).toUpperCase();

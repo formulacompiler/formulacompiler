@@ -20,6 +20,8 @@
  */
 package org.formulacompiler.spreadsheet;
 
+import java.util.Map;
+
 import org.formulacompiler.compiler.Describable;
 
 /**
@@ -91,19 +93,15 @@ public interface Spreadsheet extends Describable
 
 
 	/**
-	 * Determine all the cell and range names defined in the spreadsheet model.
+	 * Get all the cell and range names defined in the spreadsheet model.
+	 * The key of the map is the range's specific name defined in the spreadsheet (Items, Employees, etc.).
+	 * The value of the map is the named range or cell.
 	 *
-	 * @return The list of name definitions.
-	 */
-	public NameDefinition[] getDefinedNames();
-
-
-	/**
-	 * Returns the definition for the given name, if any.
+	 * @return The read-only map of defined names and corresponding ranges.
 	 *
-	 * @return The definition for the name, or {@code null} if not found.
+	 * @see #getCell(String)
 	 */
-	public NameDefinition getDefinedName( String _cellName );
+	public Map<String, Range> getDefinedNames();
 
 
 	/**
@@ -270,31 +268,6 @@ public interface Spreadsheet extends Describable
 		 */
 		Iterable<Cell> cells();
 
-	}
-
-
-	/**
-	 * Describes a named reference defined in a spreadsheet model.
-	 *
-	 * @author peo
-	 */
-	public static abstract interface NameDefinition
-	{
-
-		/**
-		 * Returns the defined name.
-		 *
-		 * @return The name. Never null.
-		 */
-		public String getName();
-
-		/**
-		 * Returns the cell range designated by the name.
-		 *
-		 * @return The cell range. Never null.
-		 */
-		public Range getRange();
-		
 	}
 
 

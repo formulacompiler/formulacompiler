@@ -87,6 +87,11 @@ public final class New
 		return hashMap();
 	}
 
+	public static <V> Map<String, V> caseInsensitiveMap()
+	{
+		return new TreeMap<String, V>( String.CASE_INSENSITIVE_ORDER );
+	}
+
 	public static <T> SortedSet<T> sortedSet()
 	{
 		return new TreeSet<T>();
