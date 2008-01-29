@@ -14,13 +14,15 @@ h5. *Changed!*
 	* You can no longer bind to input methods throwing checked exceptions. (We may re-enable this later when AFC checks that all output methods declare all of those checked exceptions.)
 	* AFC no longer rounds final results to the precision specified in cell formats. If you want rounded results, use the @ROUND()@ function. This only affects newly compiled engines.
 	* AFC no longer treats errors conditions like @#NUM!@ as zero. Instead, it "signals an error":tutorial/exceptions.htm.
-	* "@Cell@":-cell now implements "@Range@":-range. The @contains(Cell)@ method was removed from "@Range@":-range, because the "@contains(Range)@":-contains method can be used instead. A "@getRange()@":-getrange method was added to the "@NameDefinition@":-namedefinition interface. It can be used for obtaining both named ranges and cells. The @CellNameDefinition@ and @RangeNameDefinition@ interfaces were removed.
+	* "@Cell@":-cell now implements "@Range@":-range. The @contains(Cell)@ method was removed from "@Range@":-range, because the "@contains(Range)@":-contains method can be used instead.
+	* The @Spreadsheet.NameDefinition@, @Spreadsheet.CellNameDefinition@, and @Spreadsheet.RangeNameDefinition@ interfaces were removed. The @getDefinedName(String)@ method was removed from the "@Spreadsheet@":-spreadsheet interface. Its functionality is now provided by the "@getDefinedNames()@":-getdefinednames method which now returns @Map<String, Spreadsheet.Range>@.
 
+[-spreadsheet]javadoc/org/formulacompiler/spreadsheet/Spreadsheet.html
 [-cell]javadoc/org/formulacompiler/spreadsheet/Spreadsheet.Cell.html
 [-range]javadoc/org/formulacompiler/spreadsheet/Spreadsheet.Range.html
 [-namedefinition]javadoc/org/formulacompiler/spreadsheet/Spreadsheet.NameDefinition.html
 [-contains]javadoc/org/formulacompiler/spreadsheet/Spreadsheet.Range.html#contains(org.formulacompiler.spreadsheet.Spreadsheet.Range)
-[-getrange]javadoc/org/formulacompiler/spreadsheet/Spreadsheet.NameDefinition.html#getRange()
+[-getdefinednames]javadoc/org/formulacompiler/spreadsheet/Spreadsheet.html#getDefinedNames()
 
 h5. New
 

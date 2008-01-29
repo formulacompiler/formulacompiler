@@ -23,8 +23,6 @@ package org.formulacompiler.spreadsheet.internal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 
 import org.formulacompiler.compiler.internal.AbstractYamlizable;
 import org.formulacompiler.compiler.internal.YamlBuilder;
@@ -41,7 +39,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetException;
 public final class SpreadsheetImpl extends AbstractYamlizable implements Spreadsheet
 {
 	private final List<SheetImpl> sheets = New.list();
-	private final Map<String, CellRange> names = New.map();
+	private final Map<String, CellRange> names = New.caseInsensitiveMap();
 	private final Map<CellIndex, String> namedCells = New.map();
 
 
@@ -74,46 +72,9 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 	// --------------------------------------- Implement Spreadsheet
 
 
-	public Spreadsheet.NameDefinition[] getDefinedNames()
+	public Map<String, Range> getDefinedNames()
 	{
-		final Set<Entry<String, CellRange>> entries = this.names.entrySet();
-		final Spreadsheet.NameDefinition[] result = new Spreadsheet.NameDefinition[ entries.size() ];
-		int i = 0;
-		for (Entry<String, CellRange> entry : entries) {
-			final String name = entry.getKey();
-			final CellRange ref = entry.getValue();
-			result[ i++ ] = getNameDefinition( name, ref );
-		}
-		return result;
-	}
-
-
-	public Spreadsheet.NameDefinition getDefinedName( String _name )
-	{
-		final CellRange ref = this.names.get( _name );
-		return (ref != null) ? getNameDefinition( _name, ref ) : null;
-	}
-
-
-	private Spreadsheet.NameDefinition getNameDefinition( final String _name, final CellRange _ref )
-	{
-		final String defName = _name.toUpperCase();
-
-		return new Spreadsheet.NameDefinition()
-		{
-
-			public Spreadsheet.Range getRange()
-			{
-				return _ref;
-			}
-
-			public String getName()
-			{
-				return defName;
-			}
-
-		};
-
+		return Collections.unmodifiableMap( (Map<String, ? extends Range>) this.names );
 	}
 
 
@@ -179,7 +140,7 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 
 	public CellRange getNamedRef( String _name )
 	{
-		return this.getNameMap().get( _name.toUpperCase() );
+		return this.getNameMap().get( _name );
 	}
 
 

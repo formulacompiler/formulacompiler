@@ -22,6 +22,7 @@ package org.formulacompiler.debug.tester;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.formulacompiler.compiler.CallFrame;
@@ -35,7 +36,6 @@ import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
-import org.formulacompiler.spreadsheet.Spreadsheet.NameDefinition;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 
@@ -104,10 +104,10 @@ public abstract class AbstractTester
 	protected final void defineNames( String _pattern, DefinitionType _type ) throws Exception
 	{
 		final Pattern pattern = Pattern.compile( _pattern );
-		final NameDefinition[] names = this.builder.getSpreadsheet().getDefinedNames();
-		for (NameDefinition name : names) {
-			if (pattern.matcher( name.getName() ).matches()) {
-				defineCell( name.getRange().getTopLeft(), _type );
+		final Map<String, Range> defs = this.builder.getSpreadsheet().getDefinedNames();
+		for (Map.Entry<String, Range> def : defs.entrySet()) {
+			if (pattern.matcher( def.getKey() ).matches()) {
+				defineCell( def.getValue().getTopLeft(), _type );
 			}
 		}
 	}

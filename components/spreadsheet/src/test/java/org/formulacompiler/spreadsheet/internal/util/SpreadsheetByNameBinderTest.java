@@ -21,7 +21,7 @@
 package org.formulacompiler.spreadsheet.internal.util;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
+import java.util.Map;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.spreadsheet.Spreadsheet;
@@ -393,9 +393,9 @@ public class SpreadsheetByNameBinderTest extends TestCase
 			String cellName = _cellName.toUpperCase();
 			buildByNameBinder( cellName, Outputs.class );
 			bind( cellBinder( byName ) );
-			Collection<Spreadsheet.NameDefinition> unbound = byName.cellNamesLeftUnbound();
+			final Map<String, Spreadsheet.Range> unbound = byName.cellNamesLeftUnbound();
 			assertEquals( 1, unbound.size() );
-			assertEquals( cellName, unbound.iterator().next().getName() );
+			assertEquals( cellName, unbound.keySet().iterator().next() );
 			try {
 				byName.failIfCellNamesAreStillUnbound();
 			}

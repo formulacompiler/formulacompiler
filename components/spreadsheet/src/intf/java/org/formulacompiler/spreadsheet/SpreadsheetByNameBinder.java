@@ -20,7 +20,7 @@
  */
 package org.formulacompiler.spreadsheet;
 
-import java.util.Collection;
+import java.util.Map;
 
 import org.formulacompiler.compiler.CompilerException;
 
@@ -86,7 +86,7 @@ public interface SpreadsheetByNameBinder
 	 * 
 	 * @see #failIfCellNamesAreStillUnbound()
 	 */
-	public Collection<Spreadsheet.NameDefinition> cellNamesLeftUnbound();
+	public Map<String, Spreadsheet.Range> cellNamesLeftUnbound();
 
 
 	/**

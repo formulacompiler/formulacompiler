@@ -767,12 +767,12 @@ final double get$0() {
                                                            $constarr$0()) - 1);
     }
     final double get$2() {
-        return (double) RuntimeDouble_v2.fun_MATCH_Ascending(get$1(),
-                                                             $constarr$0());
-    }
-    final double get$3() {
         return $idx$1(RuntimeDouble_v2.fun_MATCH_Ascending(get$1(),
                                                            $constarr$0()) - 1);
+    }
+    final double get$3() {
+        return (double) RuntimeDouble_v2.fun_MATCH_Ascending(get$1(),
+                                                             $constarr$0());
     }
 ___@_@___
 jc:numeric_type/bigdecimal0/org.formulacompiler.gen.$Root
@@ -2096,10 +2096,10 @@ ___@_@___
 jc:org.formulacompiler.tutorials.BindingParams:---- bindNamedInputs
 __@@__
 final Method inputMethod = Input.class./**/getMethod( "getInput", String.class )/**/;
-		for (Spreadsheet.NameDefinition def : /**/spreadsheet.getDefinedNames()/**/) {
-			final Spreadsheet.Range range = def.getRange();
+		for (Map.Entry<String, Spreadsheet.Range> def : /**/spreadsheet.getDefinedNames().entrySet()/**/) {
+			final Spreadsheet.Range range = def.getValue();
 			if (range instanceof Spreadsheet.Cell) {
-				final String /**/cellName/**/ = def.getName();
+				final String /**/cellName/**/ = def.getKey();
 				if ("I_".equals( cellName.substring( 0, 2 ) )) {
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
 					final String /**/valueName/**/ = cellName.substring( 2 ).toUpperCase();
@@ -2111,10 +2111,10 @@ ___@_@___
 jc:org.formulacompiler.tutorials.BindingParams:---- bindNamedOutputs
 __@@__
 final Method outputMethod = Output.class./**/getMethod( "getOutput", String.class )/**/;
-		for (Spreadsheet.NameDefinition def : /**/spreadsheet.getDefinedNames()/**/) {
-			final Spreadsheet.Range range = def.getRange();
+		for (Map.Entry<String, Spreadsheet.Range> def : /**/spreadsheet.getDefinedNames().entrySet()/**/) {
+		final Spreadsheet.Range range = def.getValue();
 			if (range instanceof Spreadsheet.Cell) {
-				final String /**/cellName/**/ = def.getName();
+				final String /**/cellName/**/ = def.getKey();
 				if ("O_".equals( cellName.substring( 0, 2 ) )) {
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
 					final String /**/valueName/**/ = cellName.substring( 2 ).toUpperCase();
@@ -2223,10 +2223,10 @@ jc:org.formulacompiler.tutorials.BindingToMultipleInstances:---- bindInputs
 __@@__
 intfGetter = Input.class.getMethod( /**/"getCC", Integer.TYPE/**/ );
 		valueGetter = CustomerCategory.class.getMethod( /**/"getDiscount"/**/ );
-		for (Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames()) {
-			final Spreadsheet.Range range = def.getRange();
+		for (Map.Entry<String, Spreadsheet.Range> def : spreadsheet.getDefinedNames().entrySet()) {
+			final Spreadsheet.Range range = def.getValue();
 			if (range instanceof Spreadsheet.Cell) {
-				final String name = def.getName();
+				final String name = def.getKey();
 				if (name.startsWith( "CC_DISCOUNT_" )) {
 					final int iCC = Integer.parseInt( name.substring( "CC_DISCOUNT_".length() ) );
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
@@ -2238,10 +2238,10 @@ ___@_@___
 jc:org.formulacompiler.tutorials.BindingToMultipleInstances:---- bindOutputs
 __@@__
 outputGetter = Output.class.getMethod( /**/"getNewDiscount", Integer.TYPE/**/ );
-		for (Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames()) {
-			final Spreadsheet.Range range = def.getRange();
+		for (Map.Entry<String, Spreadsheet.Range> def : spreadsheet.getDefinedNames().entrySet()) {
+			final Spreadsheet.Range range = def.getValue();
 			if (range instanceof Spreadsheet.Cell) {
-				final String name = def.getName();
+				final String name = def.getKey();
 				if (name.startsWith( "CC_NEWDISCOUNT_" )) {
 					final int iCC = Integer.parseInt( name.substring( "CC_NEWDISCOUNT_".length() ) );
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;

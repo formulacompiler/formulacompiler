@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.compiler.internal.IOUtil;
@@ -33,9 +34,8 @@ import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.EngineBuilder;
+import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
-import org.formulacompiler.spreadsheet.Spreadsheet.NameDefinition;
 
 import junit.framework.TestCase;
 
@@ -187,18 +187,18 @@ public class LookupTest extends TestCase
 		final String outputPrefix = _paramPrefix + "OUT";
 		int inputIndex = 0;
 		int outputIndex = 0;
-		final NameDefinition[] nameDefs = _builder.getSpreadsheet().getDefinedNames();
-		for (NameDefinition nameDef : nameDefs) {
-			final String name = nameDef.getName();
+		final Map<String, Spreadsheet.Range> nameDefs = _builder.getSpreadsheet().getDefinedNames();
+		for (Map.Entry<String, Spreadsheet.Range> nameDef : nameDefs.entrySet()) {
+			final String name = nameDef.getKey();
 			if (name.startsWith( _paramPrefix )) {
-				final Cell cell = (Cell) nameDef.getRange();
+				final Spreadsheet.Cell cell = (Spreadsheet.Cell) nameDef.getValue();
 				if (name.startsWith( inputPrefix )) {
 					_builder.getRootBinder().defineInputCell( cell, _builder.newCallFrame( inputGetter, inputIndex++ ) );
 					_inputs.add( ((Number) cell.getValue()).doubleValue() );
 				}
 				else if (name.startsWith( outputPrefix )) {
 					_builder.getRootBinder().defineOutputCell( cell, _builder.newCallFrame( outputGetter, outputIndex++ ) );
-					_expected.add( ((Number) cell.getValue()).doubleValue(), nameDef.getName() );
+					_expected.add( ((Number) cell.getValue()).doubleValue(), name );
 				}
 			}
 		}

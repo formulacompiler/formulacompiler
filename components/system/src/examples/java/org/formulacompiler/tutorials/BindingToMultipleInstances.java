@@ -21,6 +21,7 @@
 package org.formulacompiler.tutorials;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
@@ -49,10 +50,10 @@ public class BindingToMultipleInstances
 		// ---- bindInputs
 		intfGetter = Input.class.getMethod( /**/"getCC", Integer.TYPE/**/ );
 		valueGetter = CustomerCategory.class.getMethod( /**/"getDiscount"/**/ );
-		for (Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames()) {
-			final Spreadsheet.Range range = def.getRange();
+		for (Map.Entry<String, Spreadsheet.Range> def : spreadsheet.getDefinedNames().entrySet()) {
+			final Spreadsheet.Range range = def.getValue();
 			if (range instanceof Spreadsheet.Cell) {
-				final String name = def.getName();
+				final String name = def.getKey();
 				if (name.startsWith( "CC_DISCOUNT_" )) {
 					final int iCC = Integer.parseInt( name.substring( "CC_DISCOUNT_".length() ) );
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
@@ -66,10 +67,10 @@ public class BindingToMultipleInstances
 
 		// ---- bindOutputs
 		outputGetter = Output.class.getMethod( /**/"getNewDiscount", Integer.TYPE/**/ );
-		for (Spreadsheet.NameDefinition def : spreadsheet.getDefinedNames()) {
-			final Spreadsheet.Range range = def.getRange();
+		for (Map.Entry<String, Spreadsheet.Range> def : spreadsheet.getDefinedNames().entrySet()) {
+			final Spreadsheet.Range range = def.getValue();
 			if (range instanceof Spreadsheet.Cell) {
-				final String name = def.getName();
+				final String name = def.getKey();
 				if (name.startsWith( "CC_NEWDISCOUNT_" )) {
 					final int iCC = Integer.parseInt( name.substring( "CC_NEWDISCOUNT_".length() ) );
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;

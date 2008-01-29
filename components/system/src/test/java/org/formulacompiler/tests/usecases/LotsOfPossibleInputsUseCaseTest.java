@@ -24,6 +24,7 @@ import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.formulacompiler.compiler.SaveableEngine;
@@ -52,11 +53,11 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 		{
 			final Class inputs = Inputs.class;
 			final Method[] methods = inputs.getMethods();
-			for (Spreadsheet.NameDefinition def : _model.getDefinedNames()) {
-				final Spreadsheet.Range range = def.getRange();
+			for (Map.Entry<String, Spreadsheet.Range> def : _model.getDefinedNames().entrySet()) {
+				final Spreadsheet.Range range = def.getValue();
 				if (range instanceof Spreadsheet.Cell) {
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
-					final String cellName = def.getName();
+					final String cellName = def.getKey();
 
 					String methodName = "get" + cellName;
 					int paramSep = methodName.indexOf( '_' );

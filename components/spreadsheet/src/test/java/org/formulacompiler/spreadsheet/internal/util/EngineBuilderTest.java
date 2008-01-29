@@ -21,12 +21,12 @@
 package org.formulacompiler.spreadsheet.internal.util;
 
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Map;
 
 import org.formulacompiler.spreadsheet.EngineBuilder;
+import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
-import org.formulacompiler.spreadsheet.Spreadsheet.NameDefinition;
 import org.formulacompiler.spreadsheet.internal.builder.SpreadsheetBuilderImpl;
 
 import junit.framework.TestCase;
@@ -123,14 +123,8 @@ public class EngineBuilderTest extends TestCase
 	{
 		Arrays.sort( _want );
 
-		Collection<NameDefinition> unbound = _eb.getByNameBinder().cellNamesLeftUnbound();
-		final String[] have = new String[ unbound.size() ];
-		{
-			int i = 0;
-			for (NameDefinition def : unbound) {
-				have[ i++ ] = def.getName();
-			}
-		}
+		final Map<String, Spreadsheet.Range> unbound = _eb.getByNameBinder().cellNamesLeftUnbound();
+		final String[] have = unbound.keySet().toArray( new String[ unbound.size() ] );
 		Arrays.sort( have );
 
 		assertEquals( _want.length, have.length );

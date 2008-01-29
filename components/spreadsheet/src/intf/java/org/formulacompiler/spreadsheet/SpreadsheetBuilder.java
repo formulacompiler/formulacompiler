@@ -115,7 +115,7 @@ public interface SpreadsheetBuilder
 	 * @see #newCell(org.formulacompiler.spreadsheet.SpreadsheetBuilder.Constant)
 	 * @see #newCell(org.formulacompiler.spreadsheet.SpreadsheetBuilder.ExprNode)
 	 * @see org.formulacompiler.spreadsheet.Spreadsheet#getCell(String)
-	 * @see org.formulacompiler.spreadsheet.Spreadsheet#getDefinedName(String)
+	 * @see org.formulacompiler.spreadsheet.Spreadsheet#getRange(String)
 	 */
 	public SpreadsheetBuilder nameCell( String _name );
 
@@ -153,7 +153,6 @@ public interface SpreadsheetBuilder
 	 * @return {@code this} (for call chaining).
 	 * 
 	 * @see org.formulacompiler.spreadsheet.Spreadsheet#getRange(String)
-	 * @see org.formulacompiler.spreadsheet.Spreadsheet#getDefinedName(String)
 	 */
 	public SpreadsheetBuilder nameRange( RangeRef _range, String _name );
 
