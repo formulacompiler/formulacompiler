@@ -140,7 +140,7 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 
 	public CellRange getNamedRef( String _name )
 	{
-		return this.getNameMap().get( _name );
+		return getNameMap().get( _name );
 	}
 
 
