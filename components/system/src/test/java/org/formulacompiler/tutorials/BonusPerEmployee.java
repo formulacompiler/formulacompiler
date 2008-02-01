@@ -25,7 +25,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.decompiler.FormulaDecompiler;
@@ -34,15 +33,15 @@ import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.runtime.ScaledLong;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 
 import junit.framework.TestCase;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings( "unchecked" )
 public class BonusPerEmployee extends TestCase
 {
 	private static final String SHEETPATH = "src/test/data/org/formulacompiler/tutorials/BonusPerEmployee.xls";
@@ -119,23 +118,22 @@ public class BonusPerEmployee extends TestCase
 		// ---- bindGlobals
 		Cell bonusTotalCell = sheet.getCell( "BonusTotal" );
 		Method bonusTotalMethod = BonusData.class.getMethod( "bonusTotal" );
-		/**/binder/**/.defineInputCell( bonusTotalCell, _builder.newCallFrame( bonusTotalMethod ) );
+		/**/binder/**/.defineInputCell( bonusTotalCell, bonusTotalMethod );
 
 		Cell overtimeRateCell = sheet.getCell( "OvertimeSalaryPerHour" );
 		Method overtimeRateMethod = BonusData.class.getMethod( "overtimeSalaryPerHour" );
-		/**/binder/**/.defineInputCell( overtimeRateCell, _builder.newCallFrame( overtimeRateMethod ) );
+		/**/binder/**/.defineInputCell( overtimeRateCell, overtimeRateMethod );
 		// ---- bindGlobals
 
 		// ---- bindSections
 		Range range = sheet.getRange( "Employees" );
 
 		// input
-		Method inputMethod = /**/BonusData/**/.class.getMethod( /**/"employees"/**/);
-		CallFrame inputCall = _builder.newCallFrame( inputMethod );
+		Method inputMethod = /**/BonusData/**/.class.getMethod( /**/"employees"/**/ );
 		Class inputType = /**/EmployeeBonusData/**/.class;
 
 		// output
-		Method outputMethod = /**/BonusComputation/**/.class.getMethod( /**/"employees"/**/);
+		Method outputMethod = /**/BonusComputation/**/.class.getMethod( /**/"employees"/**/ );
 		// -- omit
 		switch (_version) {
 			case LIST:
@@ -149,29 +147,28 @@ public class BonusPerEmployee extends TestCase
 				break;
 		}
 		// -- omit
-		CallFrame outputCall = _builder.newCallFrame( outputMethod );
 		Class outputType = /**/EmployeeBonusComputation/**/.class;
 
 		Orientation orient = Orientation.VERTICAL;
 
-		Section /**/employees/**/= binder./**/defineRepeatingSection/**/( range, orient, inputCall, inputType,
-				outputCall, outputType );
+		Section /**/employees/**/ = binder./**/defineRepeatingSection/**/( range, orient, inputMethod, inputType,
+				outputMethod, outputType );
 		// ---- bindSections
 
 		// ---- bindEmployeeInputs
 		Cell salaryCell = sheet.getCell( "BaseSalary" );
 		Method salaryMethod = /**/inputType/**/.getMethod( "baseSalary" );
-		/**/employees/**/.defineInputCell( salaryCell, _builder.newCallFrame( salaryMethod ) );
+		/**/employees/**/.defineInputCell( salaryCell, salaryMethod );
 
 		Cell overtimeCell = sheet.getCell( "HoursOvertime" );
 		Method overtimeMethod = /**/inputType/**/.getMethod( "hoursOvertime" );
-		/**/employees/**/.defineInputCell( overtimeCell, _builder.newCallFrame( overtimeMethod ) );
+		/**/employees/**/.defineInputCell( overtimeCell, overtimeMethod );
 		// ---- bindEmployeeInputs
 
 		// ---- bindEmployeeOutputs
 		Cell bonusCell = sheet.getCell( "BonusAmount" );
 		Method bonusMethod = /**/outputType/**/.getMethod( "bonusAmount" );
-		/**/employees/**/./**/defineOutputCell/**/( bonusCell, _builder.newCallFrame( bonusMethod ) );
+		/**/employees/**/./**/defineOutputCell/**/( bonusCell, bonusMethod );
 		// ---- bindEmployeeOutputs
 	}
 
@@ -252,18 +249,18 @@ public class BonusPerEmployee extends TestCase
 
 
 	// ---- Outputs
-	@ScaledLong(4)
+	@ScaledLong( 4 )
 	public static interface BonusComputation extends Resettable
 	{
-		/**/EmployeeBonusComputation[]/**/employees();
+		/**/EmployeeBonusComputation[]/**/ employees();
 		// -- OutputsAlternatives
-		/**/List<EmployeeBonusComputation>/**/employeesList();
-		/**/Collection<EmployeeBonusComputation>/**/employeesCollection();
-		/**/Iterator<EmployeeBonusComputation>/**/employeesIterator();
+		/**/List<EmployeeBonusComputation>/**/ employeesList();
+		/**/Collection<EmployeeBonusComputation>/**/ employeesCollection();
+		/**/Iterator<EmployeeBonusComputation>/**/ employeesIterator();
 		// -- OutputsAlternatives
 	}
 
-	@ScaledLong(4)
+	@ScaledLong( 4 )
 	public static interface /**/EmployeeBonusComputation/**/
 	{
 		long bonusAmount();
@@ -299,15 +296,15 @@ public class BonusPerEmployee extends TestCase
 
 
 	// ---- Inputs
-	@ScaledLong(4)
+	@ScaledLong( 4 )
 	public static interface BonusData
 	{
 		long bonusTotal();
 		long overtimeSalaryPerHour();
-		/**/EmployeeBonusData[]/**/employees();
+		/**/EmployeeBonusData[]/**/ employees();
 	}
 
-	@ScaledLong(4)
+	@ScaledLong( 4 )
 	public static interface /**/EmployeeBonusData/**/
 	{
 		long baseSalary();
@@ -323,7 +320,7 @@ public class BonusPerEmployee extends TestCase
 		private final long overtimeSalaryPerHour;
 		private final Collection<EmployeeBonusData> employees = New.collection();
 
-		public BonusDataImpl(long _bonusTotal, long _overtimeSalaryPerHour)
+		public BonusDataImpl( long _bonusTotal, long _overtimeSalaryPerHour )
 		{
 			super();
 			this.bonusTotal = _bonusTotal;
@@ -358,7 +355,7 @@ public class BonusPerEmployee extends TestCase
 		private final long baseSalary;
 		private final int hoursOvertime;
 
-		public EmployeeBonusDataImpl(long _baseSalary, int _hoursOvertime)
+		public EmployeeBonusDataImpl( long _baseSalary, int _hoursOvertime )
 		{
 			super();
 			this.baseSalary = _baseSalary;

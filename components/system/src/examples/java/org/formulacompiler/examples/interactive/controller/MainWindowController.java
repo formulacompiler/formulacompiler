@@ -88,13 +88,13 @@ public class MainWindowController
 		final Method inputMethod = Inputs.class.getMethod( "getCellValue", Integer.TYPE );
 		iCell = 0;
 		for (CellListEntry e : getInputsModel().getCells()) {
-			root.defineInputCell( e.index, builder.newCallFrame( inputMethod, iCell++ ) );
+			root.defineInputCell( e.index, inputMethod, iCell++ );
 		}
 
 		final Method outputMethod = Outputs.class.getMethod( "getCellValue", Integer.TYPE );
 		iCell = 0;
 		for (CellListEntry e : getOutputsModel().getCells()) {
-			root.defineOutputCell( e.index, builder.newCallFrame( outputMethod, iCell++ ) );
+			root.defineOutputCell( e.index, outputMethod, iCell++ );
 		}
 
 		ComputationFactory factory = builder.compile().getComputationFactory();

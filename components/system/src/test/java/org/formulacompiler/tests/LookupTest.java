@@ -193,11 +193,11 @@ public class LookupTest extends TestCase
 			if (name.startsWith( _paramPrefix )) {
 				final Spreadsheet.Cell cell = (Spreadsheet.Cell) nameDef.getValue();
 				if (name.startsWith( inputPrefix )) {
-					_builder.getRootBinder().defineInputCell( cell, _builder.newCallFrame( inputGetter, inputIndex++ ) );
+					_builder.getRootBinder().defineInputCell( cell, inputGetter, inputIndex++ );
 					_inputs.add( ((Number) cell.getValue()).doubleValue() );
 				}
 				else if (name.startsWith( outputPrefix )) {
-					_builder.getRootBinder().defineOutputCell( cell, _builder.newCallFrame( outputGetter, outputIndex++ ) );
+					_builder.getRootBinder().defineOutputCell( cell, outputGetter, outputIndex++ );
 					_expected.add( ((Number) cell.getValue()).doubleValue(), name );
 				}
 			}

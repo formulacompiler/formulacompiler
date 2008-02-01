@@ -49,15 +49,13 @@ public class LineItemPriceUseCaseTest extends AbstractUseCaseTest
 		private void defineInput( EngineBuilder _builder, Spreadsheet _model, Section _root, final String _cellName )
 				throws Exception
 		{
-			_root.defineInputCell( _model.getCell( _cellName ), _builder.newCallFrame( Inputs.class.getMethod( "get"
-					+ _cellName ) ) );
+			_root.defineInputCell( _model.getCell( _cellName ), Inputs.class.getMethod( "get" + _cellName ) );
 		}
 
 		private void defineOutput( EngineBuilder _builder, Spreadsheet _model, Section _root, final String _cellName )
 				throws Exception
 		{
-			_root.defineOutputCell( _model.getCell( _cellName ), _builder.newCallFrame( Outputs.class.getMethod( "get"
-					+ _cellName ) ) );
+			_root.defineOutputCell( _model.getCell( _cellName ), Outputs.class.getMethod( "get" + _cellName ) );
 		}
 
 		public void useEngine( SaveableEngine _engine )

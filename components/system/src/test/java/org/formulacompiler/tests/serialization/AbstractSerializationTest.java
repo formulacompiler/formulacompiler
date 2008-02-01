@@ -54,9 +54,9 @@ public abstract class AbstractSerializationTest extends AbstractTestBase
 
 		final Section bnd = builder.getRootBinder();
 		final Spreadsheet sheet = builder.getSpreadsheet();
-		bnd.defineInputCell( sheet.getCell( 0, 1, 0 ), builder.newCallFrame( inp.getMethod( "getA" + getTypeSuffix() ) ) );
-		bnd.defineInputCell( sheet.getCell( 0, 1, 1 ), builder.newCallFrame( inp.getMethod( "getB" + getTypeSuffix() ) ) );
-		bnd.defineOutputCell( sheet.getCell( 0, 1, 2 ), builder.newCallFrame( outp.getMethod( "getResult" + getTypeSuffix() ) ) );
+		bnd.defineInputCell( sheet.getCell( 0, 1, 0 ), inp.getMethod( "getA" + getTypeSuffix() ) );
+		bnd.defineInputCell( sheet.getCell( 0, 1, 1 ), inp.getMethod( "getB" + getTypeSuffix() ) );
+		bnd.defineOutputCell( sheet.getCell( 0, 1, 2 ), outp.getMethod( "getResult" + getTypeSuffix() ) );
 
 		final SaveableEngine engine = builder.compile();
 		serialize( engine );
@@ -69,7 +69,7 @@ public abstract class AbstractSerializationTest extends AbstractTestBase
 
 	private void serialize( SaveableEngine _engine ) throws Exception
 	{
-		OutputStream outStream = new BufferedOutputStream( new FileOutputStream( getEngineFile() ));
+		OutputStream outStream = new BufferedOutputStream( new FileOutputStream( getEngineFile() ) );
 		try {
 			_engine.saveTo( outStream );
 		}

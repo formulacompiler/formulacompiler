@@ -20,13 +20,14 @@
  */
 package org.formulacompiler.tutorials;
 
-import org.formulacompiler.compiler.CallFrame;
+import java.lang.reflect.Method;
+
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
@@ -137,15 +138,15 @@ public class ErrorImproperInnerSectionReference extends TestCase
 		Spreadsheet sheet = builder.getSpreadsheet();
 		Section root = builder.getRootBinder();
 
-		root.defineOutputCell( sheet.getCell( _cellName ), builder.newCallFrame( MyComputation.class.getMethod( "result" ) ) );
+		root.defineOutputCell( sheet.getCell( _cellName ), MyComputation.class.getMethod( "result" ) );
 
 		// ---- bindSection
 		Range range = sheet.getRange( "Section" );
-		CallFrame call = builder.newCallFrame( MyInputs.class.getMethod( "section" ) );
+		final Method method = MyInputs.class.getMethod( "section" );
 		Class target = MyElement.class;
-		Section section = root.defineRepeatingSection( range, Orientation.REPEAT_ROWS, call, target, null, null );
-		section.defineInputCell( sheet.getRange( "Name" ).getTopLeft(), builder.newCallFrame( target.getMethod( "name" ) ) );
-		section.defineInputCell( sheet.getRange( "Value" ).getTopLeft(), builder.newCallFrame( target.getMethod( "value" ) ) );
+		Section section = root.defineRepeatingSection( range, Orientation.REPEAT_ROWS, method, target, null, null );
+		section.defineInputCell( sheet.getRange( "Name" ).getTopLeft(), target.getMethod( "name" ) );
+		section.defineInputCell( sheet.getRange( "Value" ).getTopLeft(), target.getMethod( "value" ) );
 		// ---- bindSection
 
 		return builder;

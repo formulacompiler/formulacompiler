@@ -46,6 +46,7 @@ h5. Better
 	* We now support binding unboxed numeric types as inputs (@double@, @long@, @int@, etc.) to string-valued cells.
 	* @MATCH()@ is now supported for string comparisons.
 	* When creating cell names from row titles, AFC now filters out typical illegal characters (spaces, for instance).
+	* A few convenience variants of @defineInputCell@ et al. make it easier to bind cells to methods. You no longer have to construct the @CallFrame@ objects yourself, except for advanced binding.
 
 h5. Internal
 

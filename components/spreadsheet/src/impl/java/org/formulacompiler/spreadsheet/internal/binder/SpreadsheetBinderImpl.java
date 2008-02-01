@@ -20,12 +20,15 @@
  */
 package org.formulacompiler.spreadsheet.internal.binder;
 
+import java.lang.reflect.Method;
+
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
 import org.formulacompiler.spreadsheet.SpreadsheetBinding;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
@@ -106,17 +109,37 @@ public final class SpreadsheetBinderImpl implements SpreadsheetBinder
 			this.sectionBinding.defineInputCell( _cell, _callChainToCall );
 		}
 
+		public void defineInputCell( Cell _cell, Method _methodToCall, Object... _args ) throws CompilerException
+		{
+			defineInputCell( _cell, SpreadsheetCompiler.newCallFrame( _methodToCall, _args ) );
+		}
+
 		public void defineOutputCell( Cell _cell, CallFrame _call ) throws CompilerException
 		{
 			this.sectionBinding.defineOutputCell( _cell, _call );
 		}
 
+		public void defineOutputCell( Cell _cell, Method _methodToImplement, Object... _args ) throws CompilerException
+		{
+			defineOutputCell( _cell, SpreadsheetCompiler.newCallFrame( _methodToImplement, _args ) );
+		}
+
 		public SpreadsheetBinder.Section defineRepeatingSection( Range _range, Orientation _orientation,
-				CallFrame _inputCallChainReturningIterable, Class _inputClass, CallFrame _outputCallToImplementIterable,
-				Class _outputClass ) throws CompilerException
+				CallFrame _inputCallChainReturningIterable, Class _inputClass,
+				CallFrame _outputCallReturningIterableToImplement, Class _outputClass ) throws CompilerException
 		{
 			return new SectionBinderImpl( this.sectionBinding.defineRepeatingSection( _range, _orientation,
-					_inputCallChainReturningIterable, _inputClass, _outputCallToImplementIterable, _outputClass ) );
+					_inputCallChainReturningIterable, _inputClass, _outputCallReturningIterableToImplement, _outputClass ) );
+		}
+
+		public Section defineRepeatingSection( Range _range, Orientation _orientation,
+				Method _inputMethodReturningIterable, Class _inputClass, Method _outputMethodReturningIterableToImplement,
+				Class _outputClass ) throws CompilerException
+		{
+			final CallFrame inputCall = SpreadsheetCompiler.newCallFrame( _inputMethodReturningIterable );
+			final CallFrame outputCall = (_outputMethodReturningIterableToImplement == null) ? null : SpreadsheetCompiler
+					.newCallFrame( _outputMethodReturningIterableToImplement );
+			return defineRepeatingSection( _range, _orientation, inputCall, _inputClass, outputCall, _outputClass );
 		}
 
 		public Class getInputClass()

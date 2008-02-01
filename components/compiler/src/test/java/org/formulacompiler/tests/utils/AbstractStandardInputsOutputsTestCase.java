@@ -21,7 +21,7 @@
 package org.formulacompiler.tests.utils;
 
 import org.formulacompiler.compiler.CallFrame;
-import org.formulacompiler.compiler.internal.CallFrameImpl;
+import org.formulacompiler.compiler.FormulaCompiler;
 
 public abstract class AbstractStandardInputsOutputsTestCase extends AbstractIOTestCase
 {
@@ -39,12 +39,12 @@ public abstract class AbstractStandardInputsOutputsTestCase extends AbstractIOTe
 
 	protected CallFrame getInput( String _name ) throws SecurityException, NoSuchMethodException
 	{
-		return new CallFrameImpl( Inputs.class.getMethod( _name ) );
+		return FormulaCompiler.newCallFrame( Inputs.class.getMethod( _name ));
 	}
 
 	protected CallFrame getOutput( String _name ) throws SecurityException, NoSuchMethodException
 	{
-		return new CallFrameImpl( OutputsWithoutReset.class.getMethod( _name ) );
+		return FormulaCompiler.newCallFrame( OutputsWithoutReset.class.getMethod( _name ));
 	}
 
 

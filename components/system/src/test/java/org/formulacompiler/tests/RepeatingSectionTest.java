@@ -20,7 +20,8 @@
  */
 package org.formulacompiler.tests;
 
-import org.formulacompiler.compiler.CallFrame;
+import java.lang.reflect.Method;
+
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
@@ -186,20 +187,14 @@ public class RepeatingSectionTest extends TestCase
 	}
 
 
-	private CallFrame inp( String _name ) throws NoSuchMethodException
+	private Method inp( String _name ) throws NoSuchMethodException
 	{
-		return call( Input.class, _name );
+		return Input.class.getMethod( _name );
 	}
 
-	private CallFrame out( String _name ) throws NoSuchMethodException
+	private Method out( String _name ) throws NoSuchMethodException
 	{
-		return call( Output.class, _name );
-	}
-
-	@SuppressWarnings( "unchecked" )
-	private CallFrame call( Class _class, String _name ) throws NoSuchMethodException
-	{
-		return SpreadsheetCompiler.newCallFrame( _class.getMethod( _name ) );
+		return Output.class.getMethod( _name );
 	}
 
 }

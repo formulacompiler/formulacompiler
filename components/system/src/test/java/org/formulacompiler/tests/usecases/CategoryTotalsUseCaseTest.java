@@ -20,45 +20,39 @@
  */
 package org.formulacompiler.tests.usecases;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 
 
 public class CategoryTotalsUseCaseTest extends AbstractUseCaseTest
 {
-
-	@SuppressWarnings("unchecked")
-	CallFrame call( Class _cls, String _name ) throws Exception
-	{
-		return SpreadsheetCompiler.newCallFrame( _cls.getMethod( _name ) );
-	}
-
 
 	public void testCategoryTotals() throws Exception
 	{
 		runUseCase( "CategoryTotals", new UseCase()
 		{
 
-			public void defineEngine( EngineBuilder _builder, Spreadsheet _model, SpreadsheetBinder.Section _root ) throws Exception
+			public void defineEngine( EngineBuilder _builder, Spreadsheet _model, SpreadsheetBinder.Section _root )
+					throws Exception
 			{
 				SpreadsheetBinder.Section cats = _root.defineRepeatingSection( _model.getRange( "Categories" ),
-						Orientation.VERTICAL, call( Input.class, "categories" ), CategoryInput.class, call( Output.class,
-								"categories" ), CategoryOutput.class );
+						Orientation.VERTICAL, Input.class.getMethod( "categories" ), CategoryInput.class, Output.class
+								.getMethod( "categories" ), CategoryOutput.class );
 
 				SpreadsheetBinder.Section elements = cats.defineRepeatingSection( _model.getRange( "Elements" ),
-						Orientation.VERTICAL, call( CategoryInput.class, "elements" ), ElementInput.class, null, null );
+						Orientation.VERTICAL, CategoryInput.class.getMethod( "elements" ), ElementInput.class, null, null );
 
-				elements.defineInputCell( _model.getCell( "ElementAmount" ), call( ElementInput.class, "amount" ) );
+				elements.defineInputCell( _model.getCell( "ElementAmount" ), ElementInput.class.getMethod( "amount" ) );
 
-				cats.defineOutputCell( _model.getCell( "CategoryTotal" ), call( CategoryOutput.class, "categoryTotal" ) );
+				cats
+						.defineOutputCell( _model.getCell( "CategoryTotal" ), CategoryOutput.class
+								.getMethod( "categoryTotal" ) );
 
-				_root.defineOutputCell( _model.getCell( "GrandTotal" ), call( Output.class, "grandTotal" ) );
+				_root.defineOutputCell( _model.getCell( "GrandTotal" ), Output.class.getMethod( "grandTotal" ) );
 			}
 
 			public void useEngine( SaveableEngine _engine ) throws Exception
@@ -90,7 +84,7 @@ public class CategoryTotalsUseCaseTest extends AbstractUseCaseTest
 	{
 		private final int[] eltValues;
 
-		public CategoryInput(int... _eltValues)
+		public CategoryInput( int... _eltValues )
 		{
 			this.eltValues = _eltValues;
 		}
@@ -109,7 +103,7 @@ public class CategoryTotalsUseCaseTest extends AbstractUseCaseTest
 	{
 		private final int value;
 
-		public ElementInput(int _value)
+		public ElementInput( int _value )
 		{
 			this.value = _value;
 		}

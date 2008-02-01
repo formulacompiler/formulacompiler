@@ -20,7 +20,6 @@
  */
 package org.formulacompiler.tutorials;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
@@ -102,8 +101,7 @@ public class ErrorUnsupportedFunction extends TestCase
 		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tutorials/ErrorUnsupportedFunction.xls" );
 		builder.setFactoryClass( MyFactory.class );
 		Cell cell = builder.getSpreadsheet().getCell( _cellName );
-		CallFrame call = builder.newCallFrame( MyComputation.class.getMethod( "result" ) );
-		builder.getRootBinder().defineOutputCell( cell, call );
+		builder.getRootBinder().defineOutputCell( cell, MyComputation.class.getMethod( "result" ) );
 		return builder;
 	}
 

@@ -38,7 +38,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 
 import junit.framework.TestCase;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings( "unchecked" )
 public class CustomerRatingWithOrdersComplex extends TestCase
 {
 	private static final Calendar TODAY = today();
@@ -88,7 +88,7 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 		Section binder = _builder.getRootBinder();
 
 		Cell ratingCell = sheet.getCell( "Rating" );
-		binder.defineOutputCell( ratingCell, _builder.newCallFrame( _builder.getOutputClass().getMethod( "rating" ) ) );
+		binder.defineOutputCell( ratingCell, _builder.getOutputClass().getMethod( "rating" ) );
 
 		Range range = sheet.getRange( "OrdersForLastThreeMonths" );
 		Method mtd = CustomerData.class.getMethod( "ordersForLastNDays", Integer.TYPE );
@@ -100,10 +100,10 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 
 		// ---- bindOrderValues
 		Cell totalCell = sheet.getCell( "OrderTotal" );
-		/**/orders/**/.defineInputCell( totalCell, _builder.newCallFrame( /**/OrderData/**/.class.getMethod( "total" ) ) );
+		/**/orders/**/.defineInputCell( totalCell, /**/OrderData/**/.class.getMethod( "total" ) );
 
 		Cell dateCell = sheet.getCell( "OrderDate" );
-		/**/orders/**/.defineInputCell( dateCell, _builder.newCallFrame( /**/OrderData/**/.class.getMethod( "date" ) ) );
+		/**/orders/**/.defineInputCell( dateCell, /**/OrderData/**/.class.getMethod( "date" ) );
 		// ---- bindOrderValues
 	}
 
@@ -151,7 +151,7 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 	{
 		private final OrderDataImpl[] orders;
 
-		public CustomerDataImpl(double[] _orderTotals, int[] _daysBack)
+		public CustomerDataImpl( double[] _orderTotals, int[] _daysBack )
 		{
 			super();
 			this.orders = new OrderDataImpl[ _orderTotals.length ];
@@ -171,7 +171,7 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 		private final double total;
 		private final Date date;
 
-		public OrderDataImpl(double _total, int _daysBack)
+		public OrderDataImpl( double _total, int _daysBack )
 		{
 			super();
 			this.total = _total;

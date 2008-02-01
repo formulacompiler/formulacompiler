@@ -61,27 +61,27 @@ public class BindingCells extends TestCase
 		// ---- bindPlainInputs
 		cell = spreadsheet./**/getCell/**/( "SOME_VALUE" );
 		method = Input.class./**/getMethod/**/( "getSomeValue" );
-		binder./**/defineInputCell/**/( cell, builder.newCallFrame( method ) );
+		binder./**/defineInputCell/**/( cell, method );
 
 		cell = spreadsheet.getCell( "OTHER_VALUE" );
 		method = Input.class.getMethod( "getAnotherValue" );
-		binder.defineInputCell( cell, builder.newCallFrame( method ) );
+		binder.defineInputCell( cell, method );
 		// ---- bindPlainInputs
 
 		cell = spreadsheet.getCell( "DECADE_X" );
 		method = Input.class.getMethod( "getDecade" );
-		binder.defineInputCell( cell, builder.newCallFrame( method ) );
+		binder.defineInputCell( cell, method );
 
 		// ---- bindParamInputs
 		cell = spreadsheet.getCell( "YEAR_1994" );
 		method = Input.class.getMethod( "getValueForYear", /**/Integer.TYPE/**/ );
-		binder.defineInputCell( cell, builder.newCallFrame( method, /**/1994/**/ ) );
+		binder.defineInputCell( cell, method, /**/1994/**/ );
 		// ---- bindParamInputs
 
 		// ---- bindDynamicParamInputs
 		cell = spreadsheet.getCell( "YEAR_x" );
 		method = Input.class.getMethod( "getValueForYear", /**/Integer.TYPE/**/ );
-		binder.defineInputCell( cell, builder.newCallFrame( method, /**/spreadsheet.getCell( "x" )/**/ ) );
+		binder.defineInputCell( cell, method, /**/spreadsheet.getCell( "x" )/**/ );
 		// ---- bindDynamicParamInputs
 
 		// ---- bindChainedInputs
@@ -94,11 +94,11 @@ public class BindingCells extends TestCase
 		// ---- bindPlainOutputs
 		cell = spreadsheet.getCell( "RESULT" );
 		method = Output.class.getMethod( "getResult" );
-		binder.defineOutputCell( cell, builder.newCallFrame( method ) );
+		binder.defineOutputCell( cell, method );
 
 		cell = spreadsheet.getCell( "COEFF" );
 		method = Output.class.getMethod( "getCoefficient" );
-		binder.defineOutputCell( cell, builder.newCallFrame( method ) );
+		binder.defineOutputCell( cell, method );
 		// ---- bindPlainOutputs
 
 		SaveableEngine engine = builder.compile();

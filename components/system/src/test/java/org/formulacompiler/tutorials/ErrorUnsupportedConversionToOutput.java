@@ -20,7 +20,6 @@
  */
 package org.formulacompiler.tutorials;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
@@ -57,16 +56,14 @@ public class ErrorUnsupportedConversionToOutput extends TestCase
 		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tutorials/ErrorUnsupportedConversion.xls" );
 		builder.setFactoryClass( MyFactory.class );
 		Cell cell = builder.getSpreadsheet().getCell( _cellName );
-		CallFrame call = builder.newCallFrame( MyComputation.class.getMethod( "result" ) );
-		builder.getRootBinder().defineOutputCell( cell, call );
+		builder.getRootBinder().defineOutputCell( cell, MyComputation.class.getMethod( "result" ) );
 		return builder;
 	}
 
 	private void bindInputNamed( EngineBuilder _builder, String _cellName ) throws Exception
 	{
 		Cell cell = _builder.getSpreadsheet().getCell( _cellName );
-		CallFrame call = _builder.newCallFrame( MyInputs.class.getMethod( "value" ) );
-		_builder.getRootBinder().defineInputCell( cell, call );
+		_builder.getRootBinder().defineInputCell( cell, MyInputs.class.getMethod( "value" ) );
 	}
 
 	public static interface MyFactory

@@ -33,7 +33,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import junit.framework.TestCase;
 
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings( "unchecked" )
 public class BindingParams extends TestCase
 {
 
@@ -58,7 +58,7 @@ public class BindingParams extends TestCase
 				if ("I_".equals( cellName.substring( 0, 2 ) )) {
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
 					final String /**/valueName/**/ = cellName.substring( 2 ).toUpperCase();
-					binder.defineInputCell( cell, /**/builder.newCallFrame( inputMethod, valueName )/**/);
+					binder.defineInputCell( cell, /**/inputMethod, valueName/**/ );
 				}
 			}
 		}
@@ -67,13 +67,13 @@ public class BindingParams extends TestCase
 		// ---- bindNamedOutputs
 		final Method outputMethod = Output.class./**/getMethod( "getOutput", String.class )/**/;
 		for (Map.Entry<String, Spreadsheet.Range> def : /**/spreadsheet.getDefinedNames().entrySet()/**/) {
-		final Spreadsheet.Range range = def.getValue();
+			final Spreadsheet.Range range = def.getValue();
 			if (range instanceof Spreadsheet.Cell) {
 				final String /**/cellName/**/ = def.getKey();
 				if ("O_".equals( cellName.substring( 0, 2 ) )) {
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
 					final String /**/valueName/**/ = cellName.substring( 2 ).toUpperCase();
-					binder.defineOutputCell( cell, /**/builder.newCallFrame( outputMethod, valueName )/**/);
+					binder.defineOutputCell( cell, /**/outputMethod, valueName/**/ );
 				}
 			}
 		}
@@ -98,7 +98,7 @@ public class BindingParams extends TestCase
 	// ---- Input
 	public static interface Input
 	{
-		double getInput( /**/String _valueName/**/);
+		double getInput( /**/String _valueName/**/ );
 	}
 
 	// ---- Input
@@ -107,7 +107,7 @@ public class BindingParams extends TestCase
 	// ---- Output
 	public static abstract class Output
 	{
-		public double getOutput( /**/String _valueName/**/)
+		public double getOutput( /**/String _valueName/**/ )
 		{
 			return -1;
 		}
@@ -120,7 +120,7 @@ public class BindingParams extends TestCase
 	{
 		private final Input input;
 
-		public SimulatedEngine(Input _input)
+		public SimulatedEngine( Input _input )
 		{
 			super();
 			this.input = _input;
@@ -191,12 +191,12 @@ public class BindingParams extends TestCase
 		// ---- InputSample
 
 	}
-	
-	
+
+
 	public void testInputVariants() throws Exception
 	{
 		final String path = "src/test/data/org/formulacompiler/tutorials/BindingParams_InputVariants.xls";
-		
+
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( path );
 		builder.setInputClass( InputVariants.class );
@@ -205,41 +205,41 @@ public class BindingParams extends TestCase
 		Class ic = InputVariants.class;
 		Spreadsheet ss = builder.getSpreadsheet();
 		SpreadsheetBinder.Section bnd = builder.getRootBinder();
-		
+
 		// ---- bindInputVariants
 		// Native types
-		bnd.defineInputCell( ss.getCell( "byte" ), builder.newCallFrame( ic.getMethod( "getInput", Byte.TYPE ), (byte) 123 ) );
-		bnd.defineInputCell( ss.getCell( "short" ), builder.newCallFrame( ic.getMethod( "getInput", Short.TYPE ), (short) 1234 ) );
-		bnd.defineInputCell( ss.getCell( "int" ), builder.newCallFrame( ic.getMethod( "getInput", Integer.TYPE ), 12345 ) );
-		bnd.defineInputCell( ss.getCell( "long" ), builder.newCallFrame( ic.getMethod( "getInput", Long.TYPE ), 123456L ) );
-		bnd.defineInputCell( ss.getCell( "double" ), builder.newCallFrame( ic.getMethod( "getInput", Double.TYPE ), 123.45 ) );
-		bnd.defineInputCell( ss.getCell( "float" ), builder.newCallFrame( ic.getMethod( "getInput", Float.TYPE ), 123.456F ) );
-		bnd.defineInputCell( ss.getCell( "char" ), builder.newCallFrame( ic.getMethod( "getInput", Character.TYPE ), 'a' ) );
-		bnd.defineInputCell( ss.getCell( "bool" ), builder.newCallFrame( ic.getMethod( "getInput", Boolean.TYPE ), true ) );
+		bnd.defineInputCell( ss.getCell( "byte" ), ic.getMethod( "getInput", Byte.TYPE ), (byte) 123 );
+		bnd.defineInputCell( ss.getCell( "short" ), ic.getMethod( "getInput", Short.TYPE ), (short) 1234 );
+		bnd.defineInputCell( ss.getCell( "int" ), ic.getMethod( "getInput", Integer.TYPE ), 12345 );
+		bnd.defineInputCell( ss.getCell( "long" ), ic.getMethod( "getInput", Long.TYPE ), 123456L );
+		bnd.defineInputCell( ss.getCell( "double" ), ic.getMethod( "getInput", Double.TYPE ), 123.45 );
+		bnd.defineInputCell( ss.getCell( "float" ), ic.getMethod( "getInput", Float.TYPE ), 123.456F );
+		bnd.defineInputCell( ss.getCell( "char" ), ic.getMethod( "getInput", Character.TYPE ), 'a' );
+		bnd.defineInputCell( ss.getCell( "bool" ), ic.getMethod( "getInput", Boolean.TYPE ), true );
 
 		// Boxed types
-		bnd.defineInputCell( ss.getCell( "bbyte" ), builder.newCallFrame( ic.getMethod( "getInput", Byte.class ), (byte) 123 ) );
-		bnd.defineInputCell( ss.getCell( "bshort" ), builder.newCallFrame( ic.getMethod( "getInput", Short.class ), (short) 1234 ) );
-		bnd.defineInputCell( ss.getCell( "bint" ), builder.newCallFrame( ic.getMethod( "getInput", Integer.class ), 12345 ) );
-		bnd.defineInputCell( ss.getCell( "blong" ), builder.newCallFrame( ic.getMethod( "getInput", Long.class ), 123456L ) );
-		bnd.defineInputCell( ss.getCell( "bdouble" ), builder.newCallFrame( ic.getMethod( "getInput", Double.class ), 123.45 ) );
-		bnd.defineInputCell( ss.getCell( "bfloat" ), builder.newCallFrame( ic.getMethod( "getInput", Float.class ), 123.456F ) );
-		bnd.defineInputCell( ss.getCell( "bchar" ), builder.newCallFrame( ic.getMethod( "getInput", Character.class ), 'a' ) );
-		bnd.defineInputCell( ss.getCell( "bbool" ), builder.newCallFrame( ic.getMethod( "getInput", Boolean.class ), true ) );
+		bnd.defineInputCell( ss.getCell( "bbyte" ), ic.getMethod( "getInput", Byte.class ), (byte) 123 );
+		bnd.defineInputCell( ss.getCell( "bshort" ), ic.getMethod( "getInput", Short.class ), (short) 1234 );
+		bnd.defineInputCell( ss.getCell( "bint" ), ic.getMethod( "getInput", Integer.class ), 12345 );
+		bnd.defineInputCell( ss.getCell( "blong" ), ic.getMethod( "getInput", Long.class ), 123456L );
+		bnd.defineInputCell( ss.getCell( "bdouble" ), ic.getMethod( "getInput", Double.class ), 123.45 );
+		bnd.defineInputCell( ss.getCell( "bfloat" ), ic.getMethod( "getInput", Float.class ), 123.456F );
+		bnd.defineInputCell( ss.getCell( "bchar" ), ic.getMethod( "getInput", Character.class ), 'a' );
+		bnd.defineInputCell( ss.getCell( "bbool" ), ic.getMethod( "getInput", Boolean.class ), true );
 
 		// Other types
-		bnd.defineInputCell( ss.getCell( "string" ), builder.newCallFrame( ic.getMethod( "getInput", String.class ), "123.4567" ) );
+		bnd.defineInputCell( ss.getCell( "string" ), ic.getMethod( "getInput", String.class ), "123.4567" );
 
 		// Application-defined enumerations
-		bnd.defineInputCell( ss.getCell( "enum" ), builder.newCallFrame( ic.getMethod( "getInput", MyEnum.class ), MyEnum.TWO ) );
+		bnd.defineInputCell( ss.getCell( "enum" ), ic.getMethod( "getInput", MyEnum.class ), MyEnum.TWO );
 		// ---- bindInputVariants
-		
+
 		// ---- bindInputCombination
 		Method mtd = ic.getMethod( "getInput", /**/Integer.TYPE, Boolean.TYPE, String.class/**/ );
-		bnd.defineInputCell( ss.getCell( "comb" ), builder.newCallFrame( mtd, /**/12, true, "24"/**/ ) );
+		bnd.defineInputCell( ss.getCell( "comb" ), mtd, /**/12, true, "24"/**/ );
 		// ---- bindInputCombination
-		
-		bnd.defineOutputCell( ss.getCell( "result" ), builder.newCallFrame( SimpleOutput.class.getMethod( "getResult" )) );
+
+		bnd.defineOutputCell( ss.getCell( "result" ), SimpleOutput.class.getMethod( "getResult" ) );
 
 		Engine engine = builder.compile();
 		ComputationFactory factory = engine.getComputationFactory();
@@ -248,59 +248,113 @@ public class BindingParams extends TestCase
 
 		assertEquals( 275167.2687, output.getResult(), 0.001 );
 	}
-	
 
 	public static final class InputVariants
 	{
 
 		// ---- InputVariants
 		// Native types
-		public double getInput( byte _param ) /**/{ return _param; }/**/
-		public double getInput( short _param ) /**/{ return _param; }/**/
-		public double getInput( int _param ) /**/{ return _param; }/**/
-		public double getInput( long _param ) /**/{ return _param; }/**/
-		public double getInput( double _param ) /**/{ return _param; }/**/
-		public double getInput( float _param ) /**/{ return _param; }/**/
-		public double getInput( char _param ) /**/{ return _param; }/**/
-		public double getInput( boolean _param ) /**/{ return (_param ? 1 : 0); }/**/
+		public double getInput( byte _param ) /**/
+		{
+			return _param;
+		}/**/
+		public double getInput( short _param ) /**/
+		{
+			return _param;
+		}/**/
+		public double getInput( int _param ) /**/
+		{
+			return _param;
+		}/**/
+		public double getInput( long _param ) /**/
+		{
+			return _param;
+		}/**/
+		public double getInput( double _param ) /**/
+		{
+			return _param;
+		}/**/
+		public double getInput( float _param ) /**/
+		{
+			return _param;
+		}/**/
+		public double getInput( char _param ) /**/
+		{
+			return _param;
+		}/**/
+		public double getInput( boolean _param ) /**/
+		{
+			return (_param ? 1 : 0);
+		}/**/
 
 		// Boxed types
-		public double getInput( Byte _param ) /**/{ return _param; }/**/
-		public double getInput( Short _param ) /**/{ return _param; }/**/
-		public double getInput( Integer _param ) /**/{ return _param; }/**/
-		public double getInput( Long _param ) /**/{ return _param; }/**/
-		public double getInput( Double _param ) /**/{ return _param; }/**/
-		public double getInput( Float _param ) /**/{ return _param; }/**/
-		public double getInput( Character _param ) /**/{ return _param; }/**/
-		public double getInput( Boolean _param ) /**/{ return (_param ? 1 : 0); }/**/
+		public double getInput( Byte _param ) /**/
+		{
+			return _param;
+		}/**/
+		public double getInput( Short _param ) /**/
+		{
+			return _param;
+		}/**/
+		public double getInput( Integer _param ) /**/
+		{
+			return _param;
+		}/**/
+		public double getInput( Long _param ) /**/
+		{
+			return _param;
+		}/**/
+		public double getInput( Double _param ) /**/
+		{
+			return _param;
+		}/**/
+		public double getInput( Float _param ) /**/
+		{
+			return _param;
+		}/**/
+		public double getInput( Character _param ) /**/
+		{
+			return _param;
+		}/**/
+		public double getInput( Boolean _param ) /**/
+		{
+			return (_param ? 1 : 0);
+		}/**/
 
 		// Other types
-		public double getInput( String _param ) /**/{ return Double.valueOf( _param ); }/**/
-		
+		public double getInput( String _param ) /**/
+		{
+			return Double.valueOf( _param );
+		}/**/
+
 		// Application-defined enumerations
-		public double getInput( MyEnum _param ) /**/{ return _param.ordinal(); };/**/
+		public double getInput( MyEnum _param ) /**/
+		{
+			return _param.ordinal();
+		};/**/
 		// ---- InputVariants
-		
+
 		// ---- InputCombination
-		public double getInput( int _a, boolean _b, String _c ) /**/{ return _a + Integer.valueOf( _c ); }/**/
+		public double getInput( int _a, boolean _b, String _c ) /**/
+		{
+			return _a + Integer.valueOf( _c );
+		}/**/
 		// ---- InputCombination
-		
+
 	}
-	
-	
+
+
 	public static interface SimpleOutput
 	{
 		double getResult();
 	}
-	
-	
+
+
 	// ---- MyEnum
-	public static enum MyEnum
-	{
+	public static enum MyEnum {
 		ZERO, ONE, TWO;
 	}
 	// ---- MyEnum
-	
 
 
 	public void testComplexOutputBinding() throws Exception
@@ -315,13 +369,13 @@ public class BindingParams extends TestCase
 		SpreadsheetBinder.Section binder = builder.getRootBinder();
 
 		Method inputMethod = Input.class./**/getMethod( "getInput", String.class )/**/;
-		binder.defineInputCell( spreadsheet.getCell( "I_One" ), builder.newCallFrame( inputMethod, "ONE" ) );
-		binder.defineInputCell( spreadsheet.getCell( "I_Two" ), builder.newCallFrame( inputMethod, "TWO" ) );
-		binder.defineInputCell( spreadsheet.getCell( "I_Three" ), builder.newCallFrame( inputMethod, "THREE" ) );
+		binder.defineInputCell( spreadsheet.getCell( "I_One" ), inputMethod, "ONE" );
+		binder.defineInputCell( spreadsheet.getCell( "I_Two" ), inputMethod, "TWO" );
+		binder.defineInputCell( spreadsheet.getCell( "I_Three" ), inputMethod, "THREE" );
 
 		// ---- bindComplexOutput
 		Method outputMethod = ComplexOutput.class./**/getMethod( "getComplex", Integer.TYPE, Long.TYPE, String.class )/**/;
-		binder.defineOutputCell( spreadsheet.getCell( "Complex" ), /**/builder.newCallFrame( outputMethod, 1, 2, "THREE" )/**/);
+		binder.defineOutputCell( spreadsheet.getCell( "Complex" ), /**/outputMethod, 1, 2, "THREE"/**/ );
 		// ---- bindComplexOutput
 
 		ComputationFactory factory = builder.compile().getComputationFactory();
@@ -358,7 +412,7 @@ public class BindingParams extends TestCase
 	{
 		private final Input input;
 
-		public SimulatedComplexEngine(Input _input)
+		public SimulatedComplexEngine( Input _input )
 		{
 			super();
 			this.input = _input;

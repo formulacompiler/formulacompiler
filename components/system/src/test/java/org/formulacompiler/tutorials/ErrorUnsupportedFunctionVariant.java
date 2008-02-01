@@ -20,7 +20,6 @@
  */
 package org.formulacompiler.tutorials;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
@@ -35,7 +34,7 @@ public class ErrorUnsupportedFunctionVariant extends TestCase
 	public void testBindBad() throws Exception
 	{
 		// ---- BindBad
-		EngineBuilder builder = builderForComputationOfCellNamed( /**/"Bad"/**/);
+		EngineBuilder builder = builderForComputationOfCellNamed( /**/"Bad"/**/ );
 		/**/bindInputNamed( builder, "Type" );/**/
 		try {
 			/**/builder.compile();/**/
@@ -44,8 +43,7 @@ public class ErrorUnsupportedFunctionVariant extends TestCase
 		catch (/**/CompilerException.UnsupportedExpression e/**/) {
 			String err = /**/"The last argument to MATCH, the match type, must be constant, but is MyInputs.value()."
 					+ "\nIn expression (1.0 + MATCH( B1, C1:E1,  >> F1 <<  )); error location indicated by >>..<<."
-					+ "\nCell containing expression is A1." 
-					+ "\nReferenced by cell A1."/**/;
+					+ "\nCell containing expression is A1." + "\nReferenced by cell A1."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- BindBad
@@ -54,7 +52,7 @@ public class ErrorUnsupportedFunctionVariant extends TestCase
 	public void testBindReferencesBad() throws Exception
 	{
 		// ---- BindReferencesBad
-		EngineBuilder builder = builderForComputationOfCellNamed( /**/"ReferencesBad"/**/);
+		EngineBuilder builder = builderForComputationOfCellNamed( /**/"ReferencesBad"/**/ );
 		bindInputNamed( builder, "Type" );
 		try {
 			builder.compile();
@@ -63,8 +61,7 @@ public class ErrorUnsupportedFunctionVariant extends TestCase
 		catch (CompilerException.UnsupportedExpression e) {
 			String err = "The last argument to MATCH, the match type, must be constant, but is MyInputs.value()."
 					+ "\nIn expression (1.0 + MATCH( B1, C1:E1,  >> F1 <<  )); error location indicated by >>..<<."
-					+ "\nCell containing expression is A1." 
-					+ /**/"\nReferenced by cell A2."/**/;
+					+ "\nCell containing expression is A1." + /**/"\nReferenced by cell A2."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- BindReferencesBad
@@ -96,16 +93,14 @@ public class ErrorUnsupportedFunctionVariant extends TestCase
 		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tutorials/ErrorUnsupportedFunctionVariant.xls" );
 		builder.setFactoryClass( MyFactory.class );
 		Cell cell = builder.getSpreadsheet().getCell( _cellName );
-		CallFrame call = builder.newCallFrame( MyComputation.class.getMethod( "result" ) );
-		builder.getRootBinder().defineOutputCell( cell, call );
+		builder.getRootBinder().defineOutputCell( cell, MyComputation.class.getMethod( "result" ) );
 		return builder;
 	}
 
 	private void bindInputNamed( EngineBuilder _builder, String _cellName ) throws Exception
 	{
 		Cell cell = _builder.getSpreadsheet().getCell( _cellName );
-		CallFrame call = _builder.newCallFrame( MyInputs.class.getMethod( "value" ) );
-		_builder.getRootBinder().defineInputCell( cell, call );
+		_builder.getRootBinder().defineInputCell( cell, MyInputs.class.getMethod( "value" ) );
 	}
 
 	public static interface MyFactory

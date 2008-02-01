@@ -66,7 +66,7 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 					}
 					for (Method method : methods) {
 						if (method.getName().equalsIgnoreCase( methodName )) {
-							_root.defineInputCell( cell, _builder.newCallFrame( method, getArguments( method, cellName ) ) );
+							_root.defineInputCell( cell, method, getArguments( method, cellName ) );
 							break;
 						}
 					}
@@ -74,10 +74,10 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 			}
 
 			final Class outputs = Outputs.class;
-			_root.defineOutputCell( _model.getCell( "A" ), _builder.newCallFrame( outputs.getMethod( "getA" ) ) );
-			_root.defineOutputCell( _model.getCell( "B" ), _builder.newCallFrame( outputs.getMethod( "getB" ) ) );
-			_root.defineOutputCell( _model.getCell( "ISOK" ), _builder.newCallFrame( outputs.getMethod( "isOK" ) ) );
-			_root.defineOutputCell( _model.getCell( "WHEN" ), _builder.newCallFrame( outputs.getMethod( "when" ) ) );
+			_root.defineOutputCell( _model.getCell( "A" ), outputs.getMethod( "getA" ) );
+			_root.defineOutputCell( _model.getCell( "B" ), outputs.getMethod( "getB" ) );
+			_root.defineOutputCell( _model.getCell( "ISOK" ), outputs.getMethod( "isOK" ) );
+			_root.defineOutputCell( _model.getCell( "WHEN" ), outputs.getMethod( "when" ) );
 		}
 
 
