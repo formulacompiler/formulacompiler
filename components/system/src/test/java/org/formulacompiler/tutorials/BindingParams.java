@@ -201,7 +201,6 @@ public class BindingParams extends TestCase
 		builder.loadSpreadsheet( path );
 		builder.setInputClass( InputVariants.class );
 		builder.setOutputClass( SimpleOutput.class );
-		builder.createCellNamesFromRowTitles();
 
 		Class ic = InputVariants.class;
 		Spreadsheet ss = builder.getSpreadsheet();
