@@ -20,8 +20,6 @@
  */
 package org.formulacompiler.tutorials;
 
-import java.lang.reflect.Method;
-
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.runtime.Resettable;
@@ -30,7 +28,6 @@ import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.tutorials.BonusPerEmployee.BonusData;
@@ -40,7 +37,7 @@ import org.formulacompiler.tutorials.BonusPerEmployee.EmployeeBonusDataImpl;
 
 import junit.framework.TestCase;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings( "unchecked" )
 public class BonusPerEmployee_Linked extends TestCase
 {
 	private static final String SHEETPATH = "src/test/data/org/formulacompiler/tutorials/BonusPerEmployee.xls";
@@ -76,39 +73,19 @@ public class BonusPerEmployee_Linked extends TestCase
 
 		Section binder = _builder.getRootBinder();
 
-		Cell bonusTotalCell = sheet.getCell( "BonusTotal" );
-		Method bonusTotalMethod = BonusData.class.getMethod( "bonusTotal" );
-		binder.defineInputCell( bonusTotalCell, bonusTotalMethod );
-
-		Cell overtimeRateCell = sheet.getCell( "OvertimeSalaryPerHour" );
-		Method overtimeRateMethod = BonusData.class.getMethod( "overtimeSalaryPerHour" );
-		binder.defineInputCell( overtimeRateCell, overtimeRateMethod );
+		binder.defineInputCell( sheet.getCell( "BonusTotal" ), "bonusTotal" );
+		binder.defineInputCell( sheet.getCell( "OvertimeSalaryPerHour" ), "overtimeSalaryPerHour" );
 
 		Range range = sheet.getRange( "Employees" );
-
-		// input
-		Method inputMethod = BonusData.class.getMethod( "employees" );
 		Class inputType = EmployeeBonusData.class;
-
-		// output
-		Method outputMethod = BonusComputation.class.getMethod( "employees" );
 		Class outputType = EmployeeBonusComputation.class;
-
 		Orientation orient = Orientation.VERTICAL;
+		Section employees = binder
+				.defineRepeatingSection( range, orient, "employees", inputType, "employees", outputType );
 
-		Section employees = binder.defineRepeatingSection( range, orient, inputMethod, inputType, outputMethod, outputType );
-
-		Cell salaryCell = sheet.getCell( "BaseSalary" );
-		Method salaryMethod = inputType.getMethod( "baseSalary" );
-		employees.defineInputCell( salaryCell, salaryMethod );
-
-		Cell overtimeCell = sheet.getCell( "HoursOvertime" );
-		Method overtimeMethod = inputType.getMethod( "hoursOvertime" );
-		employees.defineInputCell( overtimeCell, overtimeMethod );
-
-		Cell bonusCell = sheet.getCell( "BonusAmount" );
-		Method bonusMethod = outputType.getMethod( "bonusAmount" );
-		employees.defineOutputCell( bonusCell, bonusMethod );
+		employees.defineInputCell( sheet.getCell( "BaseSalary" ), "baseSalary" );
+		employees.defineInputCell( sheet.getCell( "HoursOvertime" ), "hoursOvertime" );
+		employees.defineOutputCell( sheet.getCell( "BonusAmount" ), "bonusAmount" );
 	}
 
 
@@ -140,24 +117,24 @@ public class BonusPerEmployee_Linked extends TestCase
 
 
 	// ---- Outputs
-	@ScaledLong(4)
+	@ScaledLong( 4 )
 	public static interface BonusComputation extends Resettable
 	{
 		EmployeeBonusComputation[] employees();
 	}
 
-	@ScaledLong(4)
+	@ScaledLong( 4 )
 	public static abstract class EmployeeBonusComputation
 	{
 		private final EmployeeBonusData inputs;
 
-		public EmployeeBonusComputation( /**/EmployeeBonusData _inputs/**/)
+		public EmployeeBonusComputation( /**/EmployeeBonusData _inputs/**/ )
 		{
 			super();
 			this.inputs = _inputs;
 		}
 
-		public/**/EmployeeBonusData inputs()/**/
+		public/**/ EmployeeBonusData inputs()/**/
 		{
 			return this.inputs;
 		}

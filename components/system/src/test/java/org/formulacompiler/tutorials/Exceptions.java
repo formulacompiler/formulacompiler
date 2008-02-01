@@ -303,7 +303,7 @@ public final class Exceptions extends TestCase
 	{
 		Spreadsheet s = b.getSpreadsheet();
 		Section r = b.getRootBinder();
-		r.defineInputCell( s.getCellA1( _cellName ), Inputs.class.getMethod( "value" ) );
+		r.defineInputCell( s.getCellA1( _cellName ), "value" );
 	}
 
 	private void assertRunsWithInputReturning( double _inputValue, double _expectedResult ) throws Throwable

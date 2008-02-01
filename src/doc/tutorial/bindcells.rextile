@@ -25,7 +25,11 @@ In the "simple usage scenario":basics.htm, you just passed a factory, and AFC in
 
 You then tell the binder which cells are input cells, and to which getter methods they should be bound:
 
-	[jc:org.formulacompiler.tutorials.BindingCells:---- bindPlainInputs]
+	[jc:org.formulacompiler.tutorials.BindingCells:---- bindPlainInputs1]
+
+Since we already told the binder about @Input.class@, there is a shorter version for this:
+
+	[jc:org.formulacompiler.tutorials.BindingCells:---- bindPlainInputs2]
 
 
 h3. Parameters
@@ -62,7 +66,7 @@ Like the input type, you also provide to the engine builder prior to using it:
 
 	[jc:org.formulacompiler.tutorials.BindingCells:---- setupBuilder; highlight -out-; strip -in-]
 
-Now that the type is in place, we can bind output cells to it:
+Now that the type is in place, we can bind output cells to it (again, there is a longer and a shorter version):
 
 	[jc:org.formulacompiler.tutorials.BindingCells:---- bindPlainOutputs]
 

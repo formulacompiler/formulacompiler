@@ -20,8 +20,6 @@
  */
 package org.formulacompiler.tutorials;
 
-import java.lang.reflect.Method;
-
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.EngineBuilder;
@@ -40,7 +38,7 @@ public class ErrorImproperInnerSectionReference extends TestCase
 	public void testGoodRef() throws Exception
 	{
 		// ---- goodRef
-		EngineBuilder builder = builderForComputationOfCellNamed( /**/"GoodRef"/**/);
+		EngineBuilder builder = builderForComputationOfCellNamed( /**/"GoodRef"/**/ );
 		Engine engine = builder.compile();
 		MyFactory factory = (MyFactory) engine.getComputationFactory();
 		MyComputation computation = factory.newComputation( new MyInputs() );
@@ -51,7 +49,7 @@ public class ErrorImproperInnerSectionReference extends TestCase
 	public void testBadRef() throws Exception
 	{
 		// ---- badRef
-		EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRef"/**/);
+		EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRef"/**/ );
 		try {
 			builder.compile();
 			fail();
@@ -67,7 +65,7 @@ public class ErrorImproperInnerSectionReference extends TestCase
 	public void testBadRange1() throws Exception
 	{
 		// ---- badRange1
-		EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange1"/**/);
+		EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange1"/**/ );
 		try {
 			builder.compile();
 			fail();
@@ -83,7 +81,7 @@ public class ErrorImproperInnerSectionReference extends TestCase
 	public void testBadRange2() throws Exception
 	{
 		// ---- badRange2
-		EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange2"/**/);
+		EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange2"/**/ );
 		try {
 			builder.compile();
 			fail();
@@ -99,7 +97,7 @@ public class ErrorImproperInnerSectionReference extends TestCase
 	public void testBadRange3() throws Exception
 	{
 		// ---- badRange3
-		EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange3"/**/);
+		EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange3"/**/ );
 		try {
 			builder.compile();
 			fail();
@@ -115,7 +113,7 @@ public class ErrorImproperInnerSectionReference extends TestCase
 	public void testBadRange4() throws Exception
 	{
 		// ---- badRange4
-		EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange4"/**/);
+		EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange4"/**/ );
 		try {
 			builder.compile();
 			fail();
@@ -129,7 +127,7 @@ public class ErrorImproperInnerSectionReference extends TestCase
 	}
 
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( "unchecked" )
 	private EngineBuilder builderForComputationOfCellNamed( String _cellName ) throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
@@ -142,11 +140,9 @@ public class ErrorImproperInnerSectionReference extends TestCase
 
 		// ---- bindSection
 		Range range = sheet.getRange( "Section" );
-		final Method method = MyInputs.class.getMethod( "section" );
-		Class target = MyElement.class;
-		Section section = root.defineRepeatingSection( range, Orientation.REPEAT_ROWS, method, target, null, null );
-		section.defineInputCell( sheet.getRange( "Name" ).getTopLeft(), target.getMethod( "name" ) );
-		section.defineInputCell( sheet.getRange( "Value" ).getTopLeft(), target.getMethod( "value" ) );
+		Section section = root.defineRepeatingSection( range, Orientation.REPEAT_ROWS, "section", MyElement.class, null, 	null );
+		section.defineInputCell( sheet.getRange( "Name" ).getTopLeft(), "name" );
+		section.defineInputCell( sheet.getRange( "Value" ).getTopLeft(), "value" );
 		// ---- bindSection
 
 		return builder;
@@ -169,7 +165,7 @@ public class ErrorImproperInnerSectionReference extends TestCase
 	{
 		private final int value;
 
-		public MyElement(int _value)
+		public MyElement( int _value )
 		{
 			super();
 			this.value = _value;

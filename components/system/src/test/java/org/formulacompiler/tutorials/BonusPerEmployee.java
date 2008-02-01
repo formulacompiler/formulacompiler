@@ -117,12 +117,10 @@ public class BonusPerEmployee extends TestCase
 
 		// ---- bindGlobals
 		Cell bonusTotalCell = sheet.getCell( "BonusTotal" );
-		Method bonusTotalMethod = BonusData.class.getMethod( "bonusTotal" );
-		/**/binder/**/.defineInputCell( bonusTotalCell, bonusTotalMethod );
+		/**/binder/**/.defineInputCell( bonusTotalCell, "bonusTotal" );
 
 		Cell overtimeRateCell = sheet.getCell( "OvertimeSalaryPerHour" );
-		Method overtimeRateMethod = BonusData.class.getMethod( "overtimeSalaryPerHour" );
-		/**/binder/**/.defineInputCell( overtimeRateCell, overtimeRateMethod );
+		/**/binder/**/.defineInputCell( overtimeRateCell, "overtimeSalaryPerHour" );
 		// ---- bindGlobals
 
 		// ---- bindSections
@@ -134,6 +132,7 @@ public class BonusPerEmployee extends TestCase
 
 		// output
 		Method outputMethod = /**/BonusComputation/**/.class.getMethod( /**/"employees"/**/ );
+		Class outputType = /**/EmployeeBonusComputation/**/.class;
 		// -- omit
 		switch (_version) {
 			case LIST:
@@ -147,7 +146,6 @@ public class BonusPerEmployee extends TestCase
 				break;
 		}
 		// -- omit
-		Class outputType = /**/EmployeeBonusComputation/**/.class;
 
 		Orientation orient = Orientation.VERTICAL;
 
@@ -161,8 +159,7 @@ public class BonusPerEmployee extends TestCase
 		/**/employees/**/.defineInputCell( salaryCell, salaryMethod );
 
 		Cell overtimeCell = sheet.getCell( "HoursOvertime" );
-		Method overtimeMethod = /**/inputType/**/.getMethod( "hoursOvertime" );
-		/**/employees/**/.defineInputCell( overtimeCell, overtimeMethod );
+		/**/employees/**/.defineInputCell( overtimeCell, "hoursOvertime" ); // shorter form
 		// ---- bindEmployeeInputs
 
 		// ---- bindEmployeeOutputs

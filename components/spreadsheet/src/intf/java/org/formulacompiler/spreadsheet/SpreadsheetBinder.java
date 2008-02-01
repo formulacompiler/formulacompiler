@@ -188,17 +188,23 @@ public interface SpreadsheetBinder
 		 * Like {@link #defineInputCell(org.formulacompiler.spreadsheet.Spreadsheet.Cell, CallFrame)},
 		 * but constructs the {@link CallFrame} directly.
 		 * 
-		 * @param _cell is a spreadsheet cell whose value, rather than being assumed constant, will be
-		 *           defined later, when a specific engine computation is run. The cell is thus like a
-		 *           parameter to a Java method.
-		 * @param _methodToCall will be called during computations to obtain the value of the input
-		 *           cell. The type of the cell is inferred from the return type of the method. The
-		 *           method must be callable on the input class of this name space.
-		 * @param _args is the list of arguments for the method's parameters.
-		 * @throws CompilerException
+		 * @see #defineInputCell(org.formulacompiler.spreadsheet.Spreadsheet.Cell, CallFrame)
+		 * @see SpreadsheetCompiler#newCallFrame(Method, Object...)
 		 */
 		public void defineInputCell( Spreadsheet.Cell _cell, Method _methodToCall, Object... _args )
 				throws CompilerException;
+
+		/**
+		 * Like {@link #defineInputCell(org.formulacompiler.spreadsheet.Spreadsheet.Cell, CallFrame)},
+		 * but constructs the {@link CallFrame} directly from a method looked up by name on
+		 * {@link #getInputClass()}.
+		 * 
+		 * @see #defineInputCell(org.formulacompiler.spreadsheet.Spreadsheet.Cell, CallFrame)
+		 * @see #getInputClass()
+		 * @see SpreadsheetCompiler#newCallFrame(Method, Object...)
+		 */
+		public void defineInputCell( Spreadsheet.Cell _cell, String _nameOfMethodToCall ) throws CompilerException,
+				NoSuchMethodException;
 
 
 		/**
@@ -226,20 +232,23 @@ public interface SpreadsheetBinder
 		 * Like {@link #defineOutputCell(org.formulacompiler.spreadsheet.Spreadsheet.Cell, CallFrame)},
 		 * but constructs the {@link CallFrame} directly.
 		 * 
-		 * @param _cell is a spreadsheet cell whose valuewill be computed later, when a specific
-		 *           engine computation is run. The cell is thus like a return value of a Java method.
-		 * @param _methodToImplement is what you call on a computation to obtain the actual value of
-		 *           the output cell in a specific computation. The type of the cell is inferred from
-		 *           the return type of the method. The method must be applicable to the output class
-		 *           of this section. If the method is parametrized, the compiler generates internal
-		 *           lookup code that maps the given argument values to the given output cell. Other
-		 *           argument values can be bound to other cells. Unbound values will call the
-		 *           inherited implementation (which must not be abstract).
-		 * @param _args is the list of arguments for the method's parameters.
-		 * @throws CompilerException
+		 * @see #defineOutputCell(org.formulacompiler.spreadsheet.Spreadsheet.Cell, CallFrame)
+		 * @see SpreadsheetCompiler#newCallFrame(Method, Object...)
 		 */
 		public void defineOutputCell( Spreadsheet.Cell _cell, Method _methodToImplement, Object... _args )
 				throws CompilerException;
+
+		/**
+		 * Like {@link #defineOutputCell(org.formulacompiler.spreadsheet.Spreadsheet.Cell, CallFrame)},
+		 * but constructs the {@link CallFrame} directly from a method looked up by name on
+		 * {@link #getOutputClass()}.
+		 * 
+		 * @see #defineOutputCell(org.formulacompiler.spreadsheet.Spreadsheet.Cell, CallFrame)
+		 * @see #getOutputClass()
+		 * @see SpreadsheetCompiler#newCallFrame(Method, Object...)
+		 */
+		public void defineOutputCell( Spreadsheet.Cell _cell, String _nameOfMethodToImplement ) throws CompilerException,
+				NoSuchMethodException;
 
 
 		/**
@@ -281,6 +290,15 @@ public interface SpreadsheetBinder
 				Method _inputMethodReturningIterable, Class _inputClass, Method _outputMethodReturningIterableToImplement,
 				Class _outputClass ) throws CompilerException;
 
+		/**
+		 * Like
+		 * {@link #defineRepeatingSection(org.formulacompiler.spreadsheet.Spreadsheet.Range, Orientation, CallFrame, Class, CallFrame, Class)},
+		 * but constructs the {@link CallFrame} instances directly.
+		 */
+		public Section defineRepeatingSection( Spreadsheet.Range _range, Orientation _orientation,
+				String _nameOfInputMethodReturningIterable, Class _inputClass,
+				String _nameOfOutputMethodReturningIterableToImplement, Class _outputClass ) throws CompilerException,
+				NoSuchMethodException;
 
 	}
 
