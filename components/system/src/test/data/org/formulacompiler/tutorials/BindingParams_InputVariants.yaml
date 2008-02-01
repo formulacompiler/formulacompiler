@@ -102,6 +102,7 @@ sheets:
   - cells:
     - const: "enum"
     - const: 1.0
+      name: ENUM
     - const: 2.0
   - cells:
   - cells:
