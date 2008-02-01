@@ -40,12 +40,10 @@ public class CustomerRatingUseCaseTest extends AbstractUseCaseTest
 
 			public void defineEngine( EngineBuilder _builder, Spreadsheet _model, Section _root ) throws Exception
 			{
-				_root.defineOutputCell( _model.getCell( "Rating" ), _builder.newCallFrame( Outputs.class
-						.getMethod( "rating" ) ) );
+				_root.defineOutputCell( _model.getCell( "Rating" ), Outputs.class.getMethod( "rating" ) );
 				Section sales = _root.defineRepeatingSection( _model.getRange( "LastSales" ), Orientation.VERTICAL,
-						_builder.newCallFrame( Inputs.class.getMethod( "lastSales" ) ), Sale.class, null, null );
-				sales.defineInputCell( _model.getCell( "LastSale" ), _builder
-						.newCallFrame( Sale.class.getMethod( "total" ) ) );
+						Inputs.class.getMethod( "lastSales" ), Sale.class, null, null );
+				sales.defineInputCell( _model.getCell( "LastSale" ), Sale.class.getMethod( "total" ) );
 			}
 
 

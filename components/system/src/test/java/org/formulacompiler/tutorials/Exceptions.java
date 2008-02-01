@@ -296,14 +296,14 @@ public final class Exceptions extends TestCase
 		init();
 		Spreadsheet s = b.getSpreadsheet();
 		Section r = b.getRootBinder();
-		r.defineOutputCell( s.getCellA1( _cellName ), b.newCallFrame( Outputs.class.getMethod( "result" ) ) );
+		r.defineOutputCell( s.getCellA1( _cellName ), Outputs.class.getMethod( "result" ) );
 	}
 
 	private void setupInputCell( String _cellName ) throws Throwable
 	{
 		Spreadsheet s = b.getSpreadsheet();
 		Section r = b.getRootBinder();
-		r.defineInputCell( s.getCellA1( _cellName ), b.newCallFrame( Inputs.class.getMethod( "value" ) ) );
+		r.defineInputCell( s.getCellA1( _cellName ), Inputs.class.getMethod( "value" ) );
 	}
 
 	private void assertRunsWithInputReturning( double _inputValue, double _expectedResult ) throws Throwable

@@ -30,7 +30,7 @@ You then tell the binder which cells are input cells, and to which getter method
 
 h3. Parameters
 
-You can also bind to parametrized methods. The arguments to the method are either constant values determined at compile-time of the engine, or else cell values computed by the engine. This is where the @CallFrame@ comes into play. First, an example with only constant parameters:
+You can also bind to parametrized methods. The arguments to the method are either constant values determined at compile-time of the engine, or else cell values computed by the engine. First, an example with only constant parameters:
 
 	[jc:org.formulacompiler.tutorials.BindingCells:---- bindParamInputs]
 
@@ -38,7 +38,7 @@ Binding to cell values computed at run-time is equally easy (you can use any of 
 
 	[jc:org.formulacompiler.tutorials.BindingCells:---- bindDynamicParamInputs]
 
-With the call frame, you can even chain calls. In this example, we do the equivalent of @getName().length()@, where @getName()@ returns a @String@:
+By supplying a @CallFrame@ instead of just a method, you can even chain calls. In this example, we do the equivalent of @getName().length()@, where @getName()@ returns a @String@:
 
 	[jc:org.formulacompiler.tutorials.BindingCells:---- bindChainedInputs]
 

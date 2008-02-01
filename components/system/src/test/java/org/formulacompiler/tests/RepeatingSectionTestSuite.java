@@ -156,16 +156,15 @@ public class RepeatingSectionTestSuite extends AbstractTestSuite
 				eb.setOutputClass( Output.class );
 				eb.setNumericType( numericType );
 				final Section rb = eb.getRootBinder();
-				rb.defineOutputCell( formulaCell.getCellIndex(), eb.newCallFrame( Output.class.getMethod( "result" ) ) );
-				Section sb = rb.defineRepeatingSection( sectionRange, orientation, eb.newCallFrame( Input.class
-						.getMethod( "subs" ) ), Input.class, null, null );
+				rb.defineOutputCell( formulaCell.getCellIndex(), Output.class.getMethod( "result" ) );
+				Section sb = rb.defineRepeatingSection( sectionRange, orientation, Input.class.getMethod( "subs" ),
+						Input.class, null, null );
 
 				final CellInstance[] templateCells = sectionCells[ 0 ];
 				int iCell = 0;
 				for (CellInstance c : templateCells) {
 					if (c.getExpression() == null) {
-						sb.defineInputCell( c.getCellIndex(), eb.newCallFrame(
-								Input.class.getMethod( "value", Integer.TYPE ), iCell ) );
+						sb.defineInputCell( c.getCellIndex(), Input.class.getMethod( "value", Integer.TYPE ), iCell );
 					}
 					iCell++;
 				}

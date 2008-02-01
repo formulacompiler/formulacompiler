@@ -20,7 +20,6 @@
  */
 package org.formulacompiler.tutorials;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
@@ -34,7 +33,7 @@ public class ErrorUnsupportedConversionFromInput extends TestCase
 	public void testStringAsInt() throws Exception
 	{
 		// ---- StringAsInt
-		EngineBuilder builder = builderForComputationOfCellNamed( /**/"numOutput"/**/);
+		EngineBuilder builder = builderForComputationOfCellNamed( /**/"numOutput"/**/ );
 		bindInputNamed( builder, "numInput" );
 		try {
 			builder.compile();
@@ -43,30 +42,27 @@ public class ErrorUnsupportedConversionFromInput extends TestCase
 		catch (/**/CompilerException.UnsupportedDataType e/**/) {
 			String err = /**/"Cannot convert from a java.lang.String to a double."
 					+ "\nCaused by return type of input 'public java.lang.String org.formulacompiler.tutorials.ErrorUnsupportedConversionFromInput$MyInputs.value()'."
-					+ "\nCell containing expression is B2."
-					+ "\nReferenced by cell B2."/**/;
+					+ "\nCell containing expression is B2." + "\nReferenced by cell B2."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- StringAsInt
 	}
 
-	
+
 	private EngineBuilder builderForComputationOfCellNamed( String _cellName ) throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tutorials/ErrorUnsupportedConversion.xls" );
 		builder.setFactoryClass( MyFactory.class );
 		Cell cell = builder.getSpreadsheet().getCell( _cellName );
-		CallFrame call = builder.newCallFrame( MyComputation.class.getMethod( "result" ) );
-		builder.getRootBinder().defineOutputCell( cell, call );
+		builder.getRootBinder().defineOutputCell( cell, MyComputation.class.getMethod( "result" ) );
 		return builder;
 	}
 
 	private void bindInputNamed( EngineBuilder _builder, String _cellName ) throws Exception
 	{
 		Cell cell = _builder.getSpreadsheet().getCell( _cellName );
-		CallFrame call = _builder.newCallFrame( MyInputs.class.getMethod( "value" ) );
-		_builder.getRootBinder().defineInputCell( cell, call );
+		_builder.getRootBinder().defineInputCell( cell, MyInputs.class.getMethod( "value" ) );
 	}
 
 	public static interface MyFactory
@@ -82,6 +78,7 @@ public class ErrorUnsupportedConversionFromInput extends TestCase
 			return "Hello, world!";
 		}
 	}
+
 	// ---- MyInputs
 
 	public static interface MyComputation

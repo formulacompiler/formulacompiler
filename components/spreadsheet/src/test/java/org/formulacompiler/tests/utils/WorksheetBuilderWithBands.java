@@ -22,7 +22,6 @@ package org.formulacompiler.tests.utils;
 
 
 import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
@@ -66,8 +65,8 @@ public class WorksheetBuilderWithBands
 	public SpreadsheetBinder.Section details;
 
 
-	@SuppressWarnings("unqualified-field-access")
-	public WorksheetBuilderWithBands(SheetImpl _sheet)
+	@SuppressWarnings( "unqualified-field-access" )
+	public WorksheetBuilderWithBands( SheetImpl _sheet )
 	{
 		this.sheet = _sheet;
 		this.r0 = sheet.getRowList().get( 0 );
@@ -100,8 +99,8 @@ public class WorksheetBuilderWithBands
 		r4c4 = buildRowSum( r4c1, r4c3, factor );
 
 		// Setup the formula to sum the row sums defined above.
-		this.formula.setExpression( new ExpressionNodeForFunction( Function.SUM, new ExpressionNodeForRange(
-				CellRange.getCellRange( r1c4.getCellIndex(), r4c4.getCellIndex() ) ) ) );
+		this.formula.setExpression( new ExpressionNodeForFunction( Function.SUM, new ExpressionNodeForRange( CellRange
+				.getCellRange( r1c4.getCellIndex(), r4c4.getCellIndex() ) ) ) );
 	}
 
 
@@ -110,20 +109,21 @@ public class WorksheetBuilderWithBands
 	 * 
 	 * @throws SpreadsheetException.SectionOverlap
 	 */
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	public SpreadsheetBinder newBinder() throws CompilerException
 	{
-		SpreadsheetBinder binder = SpreadsheetCompiler.newSpreadsheetBinder( sheet.getSpreadsheet(), Inputs.class, Outputs.class );
+		SpreadsheetBinder binder = SpreadsheetCompiler.newSpreadsheetBinder( sheet.getSpreadsheet(), Inputs.class,
+				Outputs.class );
 		defineWorkbook( binder.getRoot() );
 		return binder;
 	}
 
 
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	public void defineWorkbook( SpreadsheetBinder.Section _root ) throws CompilerException
 	{
 		try {
-			_root.defineOutputCell( formula.getCellIndex(), FormulaCompiler.newCallFrame( Outputs.class.getMethod( "getResult" ) ) );
+			_root.defineOutputCell( formula.getCellIndex(), Outputs.class.getMethod( "getResult" ) );
 			defineRange( _root );
 		}
 		catch (SecurityException e) {
@@ -135,17 +135,16 @@ public class WorksheetBuilderWithBands
 	}
 
 
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	public void defineRange( SpreadsheetBinder.Section _root ) throws CompilerException, SecurityException,
 			NoSuchMethodException
 	{
 		final CellRange rng = CellRange.getCellRange( r1c1.getCellIndex(), r4c4.getCellIndex() );
-		details = _root.defineRepeatingSection( rng, Orientation.VERTICAL, FormulaCompiler.newCallFrame( Inputs.class
-				.getMethod( "getDetails" ) ), Inputs.class, null, null );
-		details.defineInputCell( r1c1.getCellIndex(), FormulaCompiler.newCallFrame( Inputs.class.getMethod( "getOne" ) ) );
-		details.defineInputCell( r1c2.getCellIndex(), FormulaCompiler.newCallFrame( Inputs.class.getMethod( "getTwo" ) ) );
-		details
-				.defineInputCell( r1c3.getCellIndex(), FormulaCompiler.newCallFrame( Inputs.class.getMethod( "getThree" ) ) );
+		details = _root.defineRepeatingSection( rng, Orientation.VERTICAL, Inputs.class.getMethod( "getDetails" ),
+				Inputs.class, null, null );
+		details.defineInputCell( r1c1.getCellIndex(), Inputs.class.getMethod( "getOne" ) );
+		details.defineInputCell( r1c2.getCellIndex(), Inputs.class.getMethod( "getTwo" ) );
+		details.defineInputCell( r1c3.getCellIndex(), Inputs.class.getMethod( "getThree" ) );
 	}
 
 

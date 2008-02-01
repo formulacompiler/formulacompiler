@@ -22,15 +22,14 @@ package org.formulacompiler.tutorials;
 
 import java.lang.reflect.Method;
 
-import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.runtime.ScaledLong;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
@@ -80,39 +79,37 @@ public class BonusPerEmployee_FullyLinked extends TestCase
 
 		Cell bonusTotalCell = sheet.getCell( "BonusTotal" );
 		Method bonusTotalMethod = BonusData.class.getMethod( "bonusTotal" );
-		binder.defineInputCell( bonusTotalCell, _builder.newCallFrame( bonusTotalMethod ) );
+		binder.defineInputCell( bonusTotalCell, bonusTotalMethod );
 
 		Cell overtimeRateCell = sheet.getCell( "OvertimeSalaryPerHour" );
 		Method overtimeRateMethod = BonusData.class.getMethod( "overtimeSalaryPerHour" );
-		binder.defineInputCell( overtimeRateCell, _builder.newCallFrame( overtimeRateMethod ) );
+		binder.defineInputCell( overtimeRateCell, overtimeRateMethod );
 
 		Range range = sheet.getRange( "Employees" );
 
 		// input
 		Method inputMethod = BonusData.class.getMethod( "employees" );
-		CallFrame inputCall = _builder.newCallFrame( inputMethod );
 		Class inputType = EmployeeBonusData.class;
 
 		// output
 		Method outputMethod = BonusComputation.class.getMethod( "employees" );
-		CallFrame outputCall = _builder.newCallFrame( outputMethod );
 		Class outputType = EmployeeBonusComputation.class;
 
 		Orientation orient = Orientation.VERTICAL;
 
-		Section employees = binder.defineRepeatingSection( range, orient, inputCall, inputType, outputCall, outputType );
+		Section employees = binder.defineRepeatingSection( range, orient, inputMethod, inputType, outputMethod, outputType );
 
 		Cell salaryCell = sheet.getCell( "BaseSalary" );
 		Method salaryMethod = inputType.getMethod( "baseSalary" );
-		employees.defineInputCell( salaryCell, _builder.newCallFrame( salaryMethod ) );
+		employees.defineInputCell( salaryCell, salaryMethod );
 
 		Cell overtimeCell = sheet.getCell( "HoursOvertime" );
 		Method overtimeMethod = inputType.getMethod( "hoursOvertime" );
-		employees.defineInputCell( overtimeCell, _builder.newCallFrame( overtimeMethod ) );
+		employees.defineInputCell( overtimeCell, overtimeMethod );
 
 		Cell bonusCell = sheet.getCell( "BonusAmount" );
 		Method bonusMethod = outputType.getMethod( "bonusAmount" );
-		employees.defineOutputCell( bonusCell, _builder.newCallFrame( bonusMethod ) );
+		employees.defineOutputCell( bonusCell, bonusMethod );
 	}
 
 

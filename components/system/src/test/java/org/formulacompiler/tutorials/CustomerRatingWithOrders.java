@@ -103,7 +103,7 @@ public class CustomerRatingWithOrders extends TestCase
 		// ---- bindRating
 		Cell ratingCell = sheet.getCell( "Rating" );
 		Method ratingMethod = CustomerRating.class.getMethod( "rating" );
-		/**/binder/**/.defineOutputCell( ratingCell, _builder.newCallFrame( ratingMethod ) );
+		/**/binder/**/.defineOutputCell( ratingCell, ratingMethod );
 		// ---- bindRating
 
 		// ---- bindOrders
@@ -129,7 +129,7 @@ public class CustomerRatingWithOrders extends TestCase
 		// ---- bindOrderValues
 		Cell totalCell = sheet.getCell( "OrderTotal" );
 		Method totalMethod = /**/OrderData/**/.class.getMethod( "total" );
-		/**/orders/**/.defineInputCell( totalCell, _builder.newCallFrame( totalMethod ) );
+		/**/orders/**/.defineInputCell( totalCell, totalMethod );
 		// ---- bindOrderValues
 	}
 
