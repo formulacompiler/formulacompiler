@@ -1900,15 +1900,16 @@ cell = spreadsheet.getCell( "YEAR_1994" );
 		method = Input.class.getMethod( "getValueForYear", /**/Integer.TYPE/**/ );
 		binder.defineInputCell( cell, method, /**/1994/**/ );
 ___@_@___
-jc:org.formulacompiler.tutorials.BindingCells:---- bindPlainInputs
+jc:org.formulacompiler.tutorials.BindingCells:---- bindPlainInputs1
 __@@__
 cell = spreadsheet./**/getCell/**/( "SOME_VALUE" );
 		method = Input.class./**/getMethod/**/( "getSomeValue" );
 		binder./**/defineInputCell/**/( cell, method );
-
-		cell = spreadsheet.getCell( "OTHER_VALUE" );
-		method = Input.class.getMethod( "getAnotherValue" );
-		binder.defineInputCell( cell, method );
+___@_@___
+jc:org.formulacompiler.tutorials.BindingCells:---- bindPlainInputs2
+__@@__
+cell = spreadsheet.getCell( "OTHER_VALUE" );
+		binder.defineInputCell( cell, "getAnotherValue" );
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingCells:---- bindPlainOutputs
 __@@__
@@ -1917,8 +1918,7 @@ cell = spreadsheet.getCell( "RESULT" );
 		binder.defineOutputCell( cell, method );
 
 		cell = spreadsheet.getCell( "COEFF" );
-		method = Output.class.getMethod( "getCoefficient" );
-		binder.defineOutputCell( cell, method );
+		binder.defineOutputCell( cell, "getCoefficient" );
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingCells:---- getBinder
 __@@__
@@ -2491,8 +2491,7 @@ Cell salaryCell = sheet.getCell( "BaseSalary" );
 		/**/employees/**/.defineInputCell( salaryCell, salaryMethod );
 
 		Cell overtimeCell = sheet.getCell( "HoursOvertime" );
-		Method overtimeMethod = /**/inputType/**/.getMethod( "hoursOvertime" );
-		/**/employees/**/.defineInputCell( overtimeCell, overtimeMethod );
+		/**/employees/**/.defineInputCell( overtimeCell, "hoursOvertime" ); // shorter form
 ___@_@___
 jc:org.formulacompiler.tutorials.BonusPerEmployee:---- bindEmployeeOutputs
 __@@__
@@ -2503,12 +2502,10 @@ ___@_@___
 jc:org.formulacompiler.tutorials.BonusPerEmployee:---- bindGlobals
 __@@__
 Cell bonusTotalCell = sheet.getCell( "BonusTotal" );
-		Method bonusTotalMethod = BonusData.class.getMethod( "bonusTotal" );
-		/**/binder/**/.defineInputCell( bonusTotalCell, bonusTotalMethod );
+		/**/binder/**/.defineInputCell( bonusTotalCell, "bonusTotal" );
 
 		Cell overtimeRateCell = sheet.getCell( "OvertimeSalaryPerHour" );
-		Method overtimeRateMethod = BonusData.class.getMethod( "overtimeSalaryPerHour" );
-		/**/binder/**/.defineInputCell( overtimeRateCell, overtimeRateMethod );
+		/**/binder/**/.defineInputCell( overtimeRateCell, "overtimeSalaryPerHour" );
 ___@_@___
 jc:org.formulacompiler.tutorials.BonusPerEmployee:---- bindSections; omit -- omit
 __@@__
@@ -2521,6 +2518,7 @@ Section binder = _builder.getRootBinder();
 
 		// output
 		Method outputMethod = /**/BonusComputation/**/.class.getMethod( /**/"employees"/**/ );
+		Class outputType = /**/EmployeeBonusComputation/**/.class;
 		// -- omit
 		switch (_version) {
 			case LIST:
@@ -2534,7 +2532,6 @@ Section binder = _builder.getRootBinder();
 				break;
 		}
 		// -- omit
-		Class outputType = /**/EmployeeBonusComputation/**/.class;
 
 		Orientation orient = Orientation.VERTICAL;
 
@@ -2591,24 +2588,24 @@ BonusDataImpl data = new BonusDataImpl( _bonusTotal, _overtimeSalaryPerHour );
 ___@_@___
 jc:org.formulacompiler.tutorials.BonusPerEmployee_FullyLinked:---- Outputs
 __@@__
-@ScaledLong(4)
+@ScaledLong( 4 )
 	public static interface BonusComputation extends Resettable
 	{
 		EmployeeBonusComputation[] employees();
 	}
 
-	@ScaledLong(4)
+	@ScaledLong( 4 )
 	public static abstract class EmployeeBonusComputation
 	{
 		private final BonusComputation parent;
 
-		public EmployeeBonusComputation(EmployeeBonusData _inputs, /**/BonusComputation _parent/**/)
+		public EmployeeBonusComputation( EmployeeBonusData _inputs, /**/BonusComputation _parent/**/ )
 		{
 			super();
 			this.parent = _parent;
 		}
 
-		public/**/BonusComputation parent()/**/
+		public/**/ BonusComputation parent()/**/
 		{
 			return this.parent;
 		}
@@ -2626,24 +2623,24 @@ BonusComputation /**/comp = _factory.newComputation( data )/**/;
 ___@_@___
 jc:org.formulacompiler.tutorials.BonusPerEmployee_Linked:---- Outputs
 __@@__
-@ScaledLong(4)
+@ScaledLong( 4 )
 	public static interface BonusComputation extends Resettable
 	{
 		EmployeeBonusComputation[] employees();
 	}
 
-	@ScaledLong(4)
+	@ScaledLong( 4 )
 	public static abstract class EmployeeBonusComputation
 	{
 		private final EmployeeBonusData inputs;
 
-		public EmployeeBonusComputation( /**/EmployeeBonusData _inputs/**/)
+		public EmployeeBonusComputation( /**/EmployeeBonusData _inputs/**/ )
 		{
 			super();
 			this.inputs = _inputs;
 		}
 
-		public/**/EmployeeBonusData inputs()/**/
+		public/**/ EmployeeBonusData inputs()/**/
 		{
 			return this.inputs;
 		}
@@ -2834,7 +2831,7 @@ Cell totalCell = sheet.getCell( "OrderTotal" );
 		/**/orders/**/.defineInputCell( totalCell, /**/OrderData/**/.class.getMethod( "total" ) );
 
 		Cell dateCell = sheet.getCell( "OrderDate" );
-		/**/orders/**/.defineInputCell( dateCell, /**/OrderData/**/.class.getMethod( "date" ) );
+		/**/orders/**/.defineInputCell( dateCell, "date" ); // shorter form
 ___@_@___
 jc:org.formulacompiler.tutorials.Decompilation:---- asString
 __@@__
@@ -2983,7 +2980,7 @@ TimeZone /**/gmt2/**/ = TimeZone.getTimeZone( "GMT+2:00" );
 ___@_@___
 jc:org.formulacompiler.tutorials.ErrorImproperInnerSectionReference:---- badRange1
 __@@__
-EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange1"/**/);
+EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange1"/**/ );
 		try {
 			builder.compile();
 			fail();
@@ -2996,7 +2993,7 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange1"/**/);
 ___@_@___
 jc:org.formulacompiler.tutorials.ErrorImproperInnerSectionReference:---- badRange2
 __@@__
-EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange2"/**/);
+EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange2"/**/ );
 		try {
 			builder.compile();
 			fail();
@@ -3009,7 +3006,7 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange2"/**/);
 ___@_@___
 jc:org.formulacompiler.tutorials.ErrorImproperInnerSectionReference:---- badRange3
 __@@__
-EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange3"/**/);
+EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange3"/**/ );
 		try {
 			builder.compile();
 			fail();
@@ -3022,7 +3019,7 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange3"/**/);
 ___@_@___
 jc:org.formulacompiler.tutorials.ErrorImproperInnerSectionReference:---- badRange4
 __@@__
-EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange4"/**/);
+EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange4"/**/ );
 		try {
 			builder.compile();
 			fail();
@@ -3035,7 +3032,7 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange4"/**/);
 ___@_@___
 jc:org.formulacompiler.tutorials.ErrorImproperInnerSectionReference:---- badRef
 __@@__
-EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRef"/**/);
+EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRef"/**/ );
 		try {
 			builder.compile();
 			fail();
@@ -3049,15 +3046,13 @@ ___@_@___
 jc:org.formulacompiler.tutorials.ErrorImproperInnerSectionReference:---- bindSection
 __@@__
 Range range = sheet.getRange( "Section" );
-		final Method method = MyInputs.class.getMethod( "section" );
-		Class target = MyElement.class;
-		Section section = root.defineRepeatingSection( range, Orientation.REPEAT_ROWS, method, target, null, null );
-		section.defineInputCell( sheet.getRange( "Name" ).getTopLeft(), target.getMethod( "name" ) );
-		section.defineInputCell( sheet.getRange( "Value" ).getTopLeft(), target.getMethod( "value" ) );
+		Section section = root.defineRepeatingSection( range, Orientation.REPEAT_ROWS, "section", MyElement.class, null, 	null );
+		section.defineInputCell( sheet.getRange( "Name" ).getTopLeft(), "name" );
+		section.defineInputCell( sheet.getRange( "Value" ).getTopLeft(), "value" );
 ___@_@___
 jc:org.formulacompiler.tutorials.ErrorImproperInnerSectionReference:---- goodRef
 __@@__
-EngineBuilder builder = builderForComputationOfCellNamed( /**/"GoodRef"/**/);
+EngineBuilder builder = builderForComputationOfCellNamed( /**/"GoodRef"/**/ );
 		Engine engine = builder.compile();
 		MyFactory factory = (MyFactory) engine.getComputationFactory();
 		MyComputation computation = factory.newComputation( new MyInputs() );

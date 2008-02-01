@@ -99,8 +99,7 @@ public class ErrorUnsupportedFunctionVariant extends TestCase
 
 	private void bindInputNamed( EngineBuilder _builder, String _cellName ) throws Exception
 	{
-		Cell cell = _builder.getSpreadsheet().getCell( _cellName );
-		_builder.getRootBinder().defineInputCell( cell, MyInputs.class.getMethod( "value" ) );
+		_builder.getRootBinder().defineInputCell( _builder.getSpreadsheet().getCell( _cellName ), "value" );
 	}
 
 	public static interface MyFactory

@@ -127,10 +127,8 @@ public final class TimeZones extends TestCase
 		builder.setInputClass( DateInput.class );
 		builder.setOutputClass( Demarcation.class );
 
-		builder.getRootBinder().defineInputCell( builder.getSpreadsheet().getCell( _inputCell ),
-				DateInput.class.getMethod( _inputMethod ) );
-		builder.getRootBinder().defineOutputCell( builder.getSpreadsheet().getCell( _outputCell ),
-				Demarcation.class.getMethod( "isBefore" ) );
+		builder.getRootBinder().defineInputCell( builder.getSpreadsheet().getCell( _inputCell ), _inputMethod );
+		builder.getRootBinder().defineOutputCell( builder.getSpreadsheet().getCell( _outputCell ), "isBefore" );
 
 		SaveableEngine engine = builder.compile();
 		return engine;

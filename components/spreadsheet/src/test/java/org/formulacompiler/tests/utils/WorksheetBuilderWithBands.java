@@ -142,9 +142,9 @@ public class WorksheetBuilderWithBands
 		final CellRange rng = CellRange.getCellRange( r1c1.getCellIndex(), r4c4.getCellIndex() );
 		details = _root.defineRepeatingSection( rng, Orientation.VERTICAL, Inputs.class.getMethod( "getDetails" ),
 				Inputs.class, null, null );
-		details.defineInputCell( r1c1.getCellIndex(), Inputs.class.getMethod( "getOne" ) );
-		details.defineInputCell( r1c2.getCellIndex(), Inputs.class.getMethod( "getTwo" ) );
-		details.defineInputCell( r1c3.getCellIndex(), Inputs.class.getMethod( "getThree" ) );
+		details.defineInputCell( r1c1.getCellIndex(), "getOne" );
+		details.defineInputCell( r1c2.getCellIndex(), "getTwo" );
+		details.defineInputCell( r1c3.getCellIndex(), "getThree" );
 	}
 
 

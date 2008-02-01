@@ -58,19 +58,19 @@ public class BindingCells extends TestCase
 		Method method, chainedMethod;
 		Spreadsheet.Cell cell;
 
-		// ---- bindPlainInputs
+		// ---- bindPlainInputs1
 		cell = spreadsheet./**/getCell/**/( "SOME_VALUE" );
 		method = Input.class./**/getMethod/**/( "getSomeValue" );
 		binder./**/defineInputCell/**/( cell, method );
+		// ---- bindPlainInputs1
 
+		// ---- bindPlainInputs2
 		cell = spreadsheet.getCell( "OTHER_VALUE" );
-		method = Input.class.getMethod( "getAnotherValue" );
-		binder.defineInputCell( cell, method );
-		// ---- bindPlainInputs
+		binder.defineInputCell( cell, "getAnotherValue" );
+		// ---- bindPlainInputs2
 
 		cell = spreadsheet.getCell( "DECADE_X" );
-		method = Input.class.getMethod( "getDecade" );
-		binder.defineInputCell( cell, method );
+		binder.defineInputCell( cell, "getDecade" );
 
 		// ---- bindParamInputs
 		cell = spreadsheet.getCell( "YEAR_1994" );
@@ -97,8 +97,7 @@ public class BindingCells extends TestCase
 		binder.defineOutputCell( cell, method );
 
 		cell = spreadsheet.getCell( "COEFF" );
-		method = Output.class.getMethod( "getCoefficient" );
-		binder.defineOutputCell( cell, method );
+		binder.defineOutputCell( cell, "getCoefficient" );
 		// ---- bindPlainOutputs
 
 		SaveableEngine engine = builder.compile();

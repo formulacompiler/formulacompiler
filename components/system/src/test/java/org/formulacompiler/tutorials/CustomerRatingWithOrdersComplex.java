@@ -103,7 +103,7 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 		/**/orders/**/.defineInputCell( totalCell, /**/OrderData/**/.class.getMethod( "total" ) );
 
 		Cell dateCell = sheet.getCell( "OrderDate" );
-		/**/orders/**/.defineInputCell( dateCell, /**/OrderData/**/.class.getMethod( "date" ) );
+		/**/orders/**/.defineInputCell( dateCell, "date" ); // shorter form
 		// ---- bindOrderValues
 	}
 

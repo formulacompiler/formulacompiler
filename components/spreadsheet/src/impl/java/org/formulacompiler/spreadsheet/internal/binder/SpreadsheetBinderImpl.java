@@ -114,6 +114,12 @@ public final class SpreadsheetBinderImpl implements SpreadsheetBinder
 			defineInputCell( _cell, SpreadsheetCompiler.newCallFrame( _methodToCall, _args ) );
 		}
 
+		public void defineInputCell( Cell _cell, String _nameOfMethodToCall ) throws CompilerException,
+				NoSuchMethodException
+		{
+			defineInputCell( _cell, getInputClass().getMethod( _nameOfMethodToCall ) );
+		}
+
 		public void defineOutputCell( Cell _cell, CallFrame _call ) throws CompilerException
 		{
 			this.sectionBinding.defineOutputCell( _cell, _call );
@@ -122,6 +128,12 @@ public final class SpreadsheetBinderImpl implements SpreadsheetBinder
 		public void defineOutputCell( Cell _cell, Method _methodToImplement, Object... _args ) throws CompilerException
 		{
 			defineOutputCell( _cell, SpreadsheetCompiler.newCallFrame( _methodToImplement, _args ) );
+		}
+
+		public void defineOutputCell( Cell _cell, String _nameOfMethodToImplement ) throws CompilerException,
+				NoSuchMethodException
+		{
+			defineOutputCell( _cell, getOutputClass().getMethod( _nameOfMethodToImplement ) );
 		}
 
 		public SpreadsheetBinder.Section defineRepeatingSection( Range _range, Orientation _orientation,
@@ -140,6 +152,17 @@ public final class SpreadsheetBinderImpl implements SpreadsheetBinder
 			final CallFrame outputCall = (_outputMethodReturningIterableToImplement == null) ? null : SpreadsheetCompiler
 					.newCallFrame( _outputMethodReturningIterableToImplement );
 			return defineRepeatingSection( _range, _orientation, inputCall, _inputClass, outputCall, _outputClass );
+		}
+
+		public Section defineRepeatingSection( Range _range, Orientation _orientation,
+				String _nameOfInputMethodReturningIterable, Class _inputClass,
+				String _nameOfOutputMethodReturningIterableToImplement, Class _outputClass ) throws CompilerException,
+				NoSuchMethodException
+		{
+			final Method inputMtd = getInputClass().getMethod( _nameOfInputMethodReturningIterable );
+			final Method outputMtd = (_nameOfOutputMethodReturningIterableToImplement == null) ? null : getOutputClass()
+					.getMethod( _nameOfOutputMethodReturningIterableToImplement );
+			return defineRepeatingSection( _range, _orientation, inputMtd, _inputClass, outputMtd, _outputClass );
 		}
 
 		public Class getInputClass()
