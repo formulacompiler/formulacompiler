@@ -105,12 +105,12 @@ public interface Spreadsheet extends Describable
 
 
 	/**
-	 * Adds a new cell name definition to the spreadsheet.
+	 * Adds a new name definition to the spreadsheet.
 	 * 
 	 * @param _name is the name to be defined.
-	 * @param _cell is the cell to be named.
+	 * @param _ref is the range or single cell to be named.
 	 */
-	public void defineName( String _name, Cell _cell );
+	public void defineName( String _name, Range _ref );
 
 
 	/**
