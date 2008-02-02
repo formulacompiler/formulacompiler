@@ -78,9 +78,9 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 	}
 
 
-	public void defineName( String _name, Cell _cell )
+	public void defineName( String _name, Range _ref )
 	{
-		addToNameMap( _name, (CellRange) _cell );
+		addToNameMap( _name, (CellRange) _ref );
 	}
 
 
