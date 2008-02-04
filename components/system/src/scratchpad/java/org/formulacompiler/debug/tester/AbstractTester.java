@@ -104,7 +104,7 @@ public abstract class AbstractTester
 	protected final void defineNames( String _pattern, DefinitionType _type ) throws Exception
 	{
 		final Pattern pattern = Pattern.compile( _pattern );
-		final Map<String, Range> defs = this.builder.getSpreadsheet().getDefinedNames();
+		final Map<String, Range> defs = this.builder.getSpreadsheet().getRangeNames();
 		for (Map.Entry<String, Range> def : defs.entrySet()) {
 			if (pattern.matcher( def.getKey() ).matches()) {
 				defineCell( def.getValue().getTopLeft(), _type );

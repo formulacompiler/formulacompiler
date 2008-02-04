@@ -72,7 +72,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 
 	public Map<String, Spreadsheet.Range> cellNamesLeftUnbound()
 	{
-		final Map<String, Spreadsheet.Range> defs = getBinder().getSpreadsheet().getDefinedNames();
+		final Map<String, Spreadsheet.Range> defs = getBinder().getSpreadsheet().getRangeNames();
 		final Map<String, Spreadsheet.Range> result = New.map();
 		final SpreadsheetBinder binder = getBinder();
 		for (Map.Entry<String, Spreadsheet.Range> def : defs.entrySet()) {
@@ -184,7 +184,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 		public void bindAllPrefixedNamedCellsToMethods( String _prefix ) throws CompilerException
 		{
 			final String prefix = (null != _prefix) ? _prefix.toUpperCase() : null;
-			final Map<String, Spreadsheet.Range> defs = getSpreadsheet().getDefinedNames();
+			final Map<String, Spreadsheet.Range> defs = getSpreadsheet().getRangeNames();
 			for (Map.Entry<String, Spreadsheet.Range> def : defs.entrySet()) {
 				final Spreadsheet.Range range = def.getValue();
 				if (range instanceof Cell) {
@@ -229,7 +229,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 
 		public void failIfCellNamesAreStillUnbound( String _prefix ) throws CompilerException
 		{
-			final Map<String, Spreadsheet.Range> defs = getBinder().getSpreadsheet().getDefinedNames();
+			final Map<String, Spreadsheet.Range> defs = getBinder().getSpreadsheet().getRangeNames();
 			for (Map.Entry<String, Spreadsheet.Range> def : defs.entrySet()) {
 				final Spreadsheet.Range range = def.getValue();
 				if (range instanceof Cell) {

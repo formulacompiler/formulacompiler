@@ -219,7 +219,7 @@ public final class SpreadsheetToModelCompiler
 	private void nameModel()
 	{
 		final Spreadsheet ss = this.binding.getSpreadsheet();
-		for (Entry<String, Spreadsheet.Range> nameDef : ss.getDefinedNames().entrySet()) {
+		for (Entry<String, Spreadsheet.Range> nameDef : ss.getRangeNames().entrySet()) {
 			final Spreadsheet.Range range = nameDef.getValue();
 			if (range instanceof Spreadsheet.Cell) {
 				final CellModel cellModel = getCellModel( (CellIndex) range );

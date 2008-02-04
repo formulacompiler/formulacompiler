@@ -72,7 +72,7 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 	// --------------------------------------- Implement Spreadsheet
 
 
-	public Map<String, Range> getDefinedNames()
+	public Map<String, Range> getRangeNames()
 	{
 		return Collections.unmodifiableMap( (Map<String, ? extends Range>) this.names );
 	}
