@@ -41,7 +41,6 @@ import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
  * <p>
  * Please refer to the <a target="_top" href="{@docRoot}/../tutorial/basics.htm"
  * target="_top">tutorial</a> for details.
- * </p>
  * 
  * @author peo
  */

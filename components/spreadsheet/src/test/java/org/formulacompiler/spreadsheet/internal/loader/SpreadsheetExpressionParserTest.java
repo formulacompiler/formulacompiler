@@ -51,15 +51,15 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	protected void setUp() throws Exception
 	{
 		super.setUp();
-		this.workbook.getNameMap().put( "_A1_", this.cell11.getCellIndex() );
-		this.workbook.getNameMap().put( "_B1_", this.cell12.getCellIndex() );
-		this.workbook.getNameMap().put( "_A2_", this.cell21.getCellIndex() );
-		this.workbook.getNameMap().put( "_B2_", this.cell22.getCellIndex() );
-		this.workbook.getNameMap().put( "_A_", CellRange.getCellRange( this.cell11.getCellIndex(), this.cell21.getCellIndex() ) );
-		this.workbook.getNameMap().put( "_B_", CellRange.getCellRange( this.cell12.getCellIndex(), this.cell22.getCellIndex() ) );
-		this.workbook.getNameMap().put( "_1_", CellRange.getCellRange( this.cell11.getCellIndex(), this.cell12.getCellIndex() ) );
-		this.workbook.getNameMap().put( "_2_", CellRange.getCellRange( this.cell21.getCellIndex(), this.cell22.getCellIndex() ) );
-		this.workbook.getNameMap().put( "_ALL_", CellRange.getCellRange( this.cell11.getCellIndex(), this.cell22.getCellIndex() ) );
+		this.workbook.defineModelRangeName( "_A1_", this.cell11.getCellIndex() );
+		this.workbook.defineModelRangeName( "_B1_", this.cell12.getCellIndex() );
+		this.workbook.defineModelRangeName( "_A2_", this.cell21.getCellIndex() );
+		this.workbook.defineModelRangeName( "_B2_", this.cell22.getCellIndex() );
+		this.workbook.defineModelRangeName( "_A_", CellRange.getCellRange( this.cell11.getCellIndex(), this.cell21.getCellIndex() ) );
+		this.workbook.defineModelRangeName( "_B_", CellRange.getCellRange( this.cell12.getCellIndex(), this.cell22.getCellIndex() ) );
+		this.workbook.defineModelRangeName( "_1_", CellRange.getCellRange( this.cell11.getCellIndex(), this.cell12.getCellIndex() ) );
+		this.workbook.defineModelRangeName( "_2_", CellRange.getCellRange( this.cell21.getCellIndex(), this.cell22.getCellIndex() ) );
+		this.workbook.defineModelRangeName( "_ALL_", CellRange.getCellRange( this.cell11.getCellIndex(), this.cell22.getCellIndex() ) );
 	}
 
 
@@ -154,7 +154,7 @@ public class SpreadsheetExpressionParserTest extends TestCase
 
 		final CellIndex a1 = this.cell11.getCellIndex();
 		for (String n : names) {
-			this.workbook.getNameMap().put( n, a1 );
+			this.workbook.defineModelRangeName( n, a1 );
 		}
 
 		for (String n : names) {

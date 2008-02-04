@@ -130,7 +130,7 @@ public abstract class CellInstance extends AbstractStyledElement
 	@Override
 	public void yamlTo( YamlBuilder _to )
 	{
-		_to.nv( "name", getRow().getSheet().getSpreadsheet().getNameFor( getCellIndex() ) );
+		_to.nv( "name", getRow().getSheet().getSpreadsheet().getModelNameFor( getCellIndex() ) );
 	}
 
 }

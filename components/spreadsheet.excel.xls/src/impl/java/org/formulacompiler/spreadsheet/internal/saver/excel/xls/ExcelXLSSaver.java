@@ -159,7 +159,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 
 	private void saveNames( SpreadsheetImpl _wb, WritableWorkbook _xwb )
 	{
-		for (final Entry<String, CellRange> nd : _wb.getNameMap().entrySet()) {
+		for (final Entry<String, CellRange> nd : _wb.getModelRangeNames().entrySet()) {
 			final String name = nd.getKey();
 			final CellRange ref = nd.getValue();
 			final CellIndex from = ref.getFrom();

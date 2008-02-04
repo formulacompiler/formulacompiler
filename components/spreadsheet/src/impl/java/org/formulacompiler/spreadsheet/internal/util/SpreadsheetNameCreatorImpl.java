@@ -56,7 +56,7 @@ public final class SpreadsheetNameCreatorImpl implements SpreadsheetNameCreator
 				if (null != titleCell) {
 					final Object titleValue = titleCell.getConstantValue();
 					if (titleValue instanceof String) {
-						this.spreadsheet.defineName( sanitize( (String) titleValue ), cells[ 1 ] );
+						this.spreadsheet.defineAdditionalRangeName( sanitize( (String) titleValue ), cells[ 1 ] );
 					}
 				}
 			}

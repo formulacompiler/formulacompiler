@@ -39,8 +39,12 @@ import org.formulacompiler.spreadsheet.SpreadsheetException;
 public final class SpreadsheetImpl extends AbstractYamlizable implements Spreadsheet
 {
 	private final List<SheetImpl> sheets = New.list();
-	private final Map<String, CellRange> names = New.caseInsensitiveMap();
+	private final Map<String, CellRange> modelRangeNames = New.caseInsensitiveMap();
+	private final Map<String, CellRange> readOnlyModelRangeNames = Collections.unmodifiableMap( this.modelRangeNames );
 	private final Map<CellIndex, String> namedCells = New.map();
+	private Map<String, Range> userRangeNames = null;
+	private Map<String, Range> readOnlyRangeNames = Collections
+			.unmodifiableMap( (Map<String, ? extends Range>) this.modelRangeNames );
 
 
 	public List<SheetImpl> getSheetList()
@@ -49,21 +53,24 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 	}
 
 
-	public void addToNameMap( String _name, CellRange _ref )
+	public void defineModelRangeName( String _name, CellRange _ref )
 	{
 		final String upperName = _name.toUpperCase();
-		this.names.put( upperName, _ref );
+		this.modelRangeNames.put( upperName, _ref );
 		if (_ref instanceof CellIndex) {
 			this.namedCells.put( (CellIndex) _ref, upperName );
 		}
+		if (null != this.userRangeNames) {
+			this.userRangeNames.put( upperName, _ref );
+		}
 	}
 
-	public Map<String, CellRange> getNameMap()
+	public Map<String, CellRange> getModelRangeNames()
 	{
-		return this.names;
+		return this.readOnlyModelRangeNames;
 	}
 
-	public String getNameFor( CellIndex _cell )
+	public String getModelNameFor( CellIndex _cell )
 	{
 		return this.namedCells.get( _cell );
 	}
@@ -74,13 +81,22 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 
 	public Map<String, Range> getRangeNames()
 	{
-		return Collections.unmodifiableMap( (Map<String, ? extends Range>) this.names );
+		return this.readOnlyRangeNames;
 	}
 
 
-	public void defineName( String _name, Range _ref )
+	public void defineAdditionalRangeName( String _name, Range _ref )
 	{
-		addToNameMap( _name, (CellRange) _ref );
+		if (null == _name) throw new IllegalArgumentException( "name is null" );
+		if (null == _ref) throw new IllegalArgumentException( "range is null" );
+		if (null != this.modelRangeNames.get( _name ))
+			throw new IllegalArgumentException( "name already defined in model" );
+
+		if (null == this.userRangeNames) {
+			this.userRangeNames = New.caseInsensitiveMap();
+			this.readOnlyRangeNames = Collections.unmodifiableMap( this.userRangeNames );
+		}
+		this.userRangeNames.put( _name, _ref );
 	}
 
 
@@ -92,16 +108,11 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 
 	public Spreadsheet.Cell getCell( String _cellName ) throws SpreadsheetException.NameNotFound
 	{
-		final CellRange ref = getNamedRef( _cellName );
-		if (null == ref) {
-			throw new SpreadsheetException.NameNotFound( "The name '" + _cellName + "' is not defined in this workbook." );
-		}
-		else if (ref instanceof CellIndex) {
-			return (CellIndex) ref;
-		}
-		else {
+		final Range ref = getRange( _cellName );
+		if (!(ref instanceof CellIndex)) {
 			throw new IllegalArgumentException( "The name '" + _cellName + "' is bound to a range, not a cell." );
 		}
+		return (Cell) ref;
 	}
 
 
@@ -121,7 +132,7 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 
 	public Range getRange( String _rangeName ) throws SpreadsheetException.NameNotFound
 	{
-		final CellRange ref = getNamedRef( _rangeName );
+		final Range ref = getRangeNames().get( _rangeName );
 		if (null == ref) {
 			throw new SpreadsheetException.NameNotFound( "The name '" + _rangeName + "' is not defined in this workbook." );
 		}
@@ -136,12 +147,6 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 
 
 	// --------------------------------------- API for parser
-
-
-	public CellRange getNamedRef( String _name )
-	{
-		return getNameMap().get( _name );
-	}
 
 
 	public SheetImpl getSheet( String _sheetName )
@@ -186,7 +191,7 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 
 			_to.lf().ln( "sheets" ).lSpaced( getSheetList() );
 
-			final Map<String, CellRange> nameMap = getNameMap();
+			final Map<String, CellRange> nameMap = getModelRangeNames();
 			if (0 < nameMap.size()) {
 				_to.lf().ln( "names" );
 
