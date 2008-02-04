@@ -228,7 +228,7 @@ public final class CellIndex extends CellRange implements Cell
 			_to.append( SheetImpl.getNameA1ForCellIndex( this.columnIndex, this.rowIndex ) );
 		}
 		else {
-			final String name = getSheet().getSpreadsheet().getNameFor( this );
+			final String name = getSheet().getSpreadsheet().getModelNameFor( this );
 			if (null != name) {
 				_to.append( name );
 			}

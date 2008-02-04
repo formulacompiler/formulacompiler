@@ -107,7 +107,7 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 
 	public SpreadsheetBuilder nameCell( String _name )
 	{
-		this.spreadsheet.addToNameMap( _name, this.cell.getCellIndex() );
+		this.spreadsheet.defineModelRangeName( _name, this.cell.getCellIndex() );
 		return this;
 	}
 
@@ -138,7 +138,7 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 
 	public SpreadsheetBuilder nameRange( RangeRef _range, String _name )
 	{
-		this.spreadsheet.addToNameMap( _name, rangeOf( _range ) );
+		this.spreadsheet.defineModelRangeName( _name, rangeOf( _range ) );
 		return this;
 	}
 

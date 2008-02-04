@@ -122,7 +122,7 @@ public class RepeatingSectionTestSuite extends AbstractTestSuite
 			final CellRange outerRefsRange = namedRange( _rangeName + "_R" );
 
 			formulaCell = _formulaCell;
-			sectionRange = workbook.getNamedRef( _rangeName );
+			sectionRange = (CellRange) workbook.getRange( _rangeName );
 			orientation = (_rangeName.charAt( 0 ) == 'H') ? Orientation.HORIZONTAL : Orientation.VERTICAL;
 			sectionCells = extractRangeCells( sectionRange, orientation );
 			expectedResultsCells = extractRangeCells( expectedResultsRange, orientation );
@@ -244,7 +244,7 @@ public class RepeatingSectionTestSuite extends AbstractTestSuite
 
 	private CellRange namedRange( String _name )
 	{
-		return this.workbook.getNamedRef( _name );
+		return (CellRange) this.workbook.getRangeNames().get( _name );
 	}
 
 	private CellInstance[][] extractRangeCells( CellRange _range, Orientation _orientation )

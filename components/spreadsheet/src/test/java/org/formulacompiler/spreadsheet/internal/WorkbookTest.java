@@ -47,7 +47,7 @@ public class WorkbookTest extends AbstractStandardInputsOutputsTestCase
 		assertCell( wb, 0, 1, 0, wb.getCellA1( "B1" ) );
 		assertCell( wb, 0, 1, 1, wb.getCellA1( "B2" ) );
 		assertCell( wb, 0, 25, 499, wb.getCellA1( "Z500" ) );
-		wb.defineName( "A1", wb.getCell( 0, 10, 20 ) );
+		wb.defineModelRangeName( "A1", (CellRange) wb.getCell( 0, 10, 20 ) );
 		assertCell( wb, 0, 0, 0, wb.getCellA1( "A1" ) );
 	}
 
@@ -73,7 +73,7 @@ public class WorkbookTest extends AbstractStandardInputsOutputsTestCase
 					CellWithLazilyParsedExpression c = new CellWithLazilyParsedExpression( r, null );
 					c.setValue( 13.5 );
 					c.setMaxFractionalDigits( 2 );
-					w.defineName( "Result", c.getCellIndex() );
+					w.defineModelRangeName( "Result", c.getCellIndex() );
 					named = c;
 				}
 			}
@@ -86,7 +86,7 @@ public class WorkbookTest extends AbstractStandardInputsOutputsTestCase
 				RowImpl r = new RowImpl( s );
 				CellInstance c1 = new CellWithLazilyParsedExpression( r, null );
 				CellInstance c2 = new CellWithConstant( r, null );
-				w.addToNameMap( "Range", CellRange.getCellRange( c1.getCellIndex(), c2.getCellIndex() ) );
+				w.defineModelRangeName( "Range", CellRange.getCellRange( c1.getCellIndex(), c2.getCellIndex() ) );
 
 				Calendar cal = Calendar.getInstance( TimeZone.getTimeZone( "GMT+1" ) );
 				cal.clear();

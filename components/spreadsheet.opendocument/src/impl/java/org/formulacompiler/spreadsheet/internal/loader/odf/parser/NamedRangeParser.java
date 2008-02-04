@@ -53,7 +53,7 @@ class NamedRangeParser extends ElementParser
 		parser.token_source.SwitchTo( GeneratedExpressionParserConstants.IN_ODF_CELL_REF );
 		try {
 			final CellRange cellRange = (CellRange) parser.rangeOrCellRefODF();
-			this.spreadsheet.addToNameMap( name, cellRange );
+			this.spreadsheet.defineModelRangeName( name, cellRange );
 		}
 		catch (org.formulacompiler.compiler.internal.expressions.parser.ParseException e) {
 			throw new RuntimeException( e );

@@ -30,6 +30,15 @@ import org.formulacompiler.compiler.Describable;
  * {@link SpreadsheetCompiler#loadSpreadsheet(java.io.File)}). It serves as input to the
  * {@link SpreadsheetToEngineCompiler} implementations and thus decouples engine compilation from
  * the different spreadsheet file formats supported by AFC.
+ * <p>
+ * The spreadsheet model is immutable except for one thing. As a convenience, you can add custom
+ * range names to be used by {@link #getCell(String)}, {@link #getRange(String)}, and
+ * {@link #getRangeNames()}. These are never used internally to resolve formula references and do
+ * not affect the semantics of the spreadsheet model. We support this convenience so that code
+ * already written against the {@link #getCell(String)} API can transparently profit from names
+ * extracted from a spreadsheet's layout, for instance.
+ * <p>
+ * The handling of additional range names is not thread-safe.
  * 
  * @see SpreadsheetLoader
  * @see SpreadsheetBuilder
@@ -53,10 +62,10 @@ public interface Spreadsheet extends Describable
 
 
 	/**
-	 * Get a cell by its defined name.
+	 * Get a cell by its range name.
 	 * 
-	 * @param _cellName is the cell's specific name defined in the spreadsheet (BasePrice,
-	 *           NumberSold, etc.). The name must not designate a named range.
+	 * @param _rangeName is the name of a single-cell range (BasePrice, NumberSold, etc.). Range
+	 *           names are case-insensitive.
 	 * @return The requested cell. The returned reference may specify a cell that is not within the
 	 *         actual bounds of the spreadsheet. In this case, it denotes an empty cell.
 	 * 
@@ -65,7 +74,7 @@ public interface Spreadsheet extends Describable
 	 * 
 	 * @see #getRange(String)
 	 */
-	public Cell getCell( String _cellName ) throws SpreadsheetException.NameNotFound, IllegalArgumentException;
+	public Cell getCell( String _rangeName ) throws SpreadsheetException.NameNotFound, IllegalArgumentException;
 
 
 	/**
@@ -82,27 +91,33 @@ public interface Spreadsheet extends Describable
 
 
 	/**
-	 * Get a range by its defined name.
+	 * Get a range by its name.
 	 * 
-	 * @param _rangeName is the range's specific name defined in the spreadsheet (Items, Employees,
-	 *           etc.).
-	 * @return The requested range. The name can designate a cell.
+	 * @param _rangeName is a name in {@link #getRangeNames()} (Items, Employees, etc.). Range names
+	 *           are case-insensitive.
+	 * @return The requested range. Might be a single cell.
 	 * 
 	 * @throws SpreadsheetException.NameNotFound if the name is not defined in the spreadsheet.
 	 * @throws IllegalArgumentException if the name identifies a range instead of a single cell.
 	 * 
+	 * @see #getRangeNames()
 	 * @see #getCell(String)
 	 */
 	public Range getRange( String _rangeName ) throws SpreadsheetException.NameNotFound, IllegalArgumentException;
 
 
 	/**
-	 * Get all the range and cell names defined in the spreadsheet model. The key of the map is the
+	 * Get all the range (and cell) names defined for this spreadsheet. The key of the map is the
 	 * range's specific name defined in the spreadsheet (Items, Employees, etc.). The value of the
 	 * map is the named range or cell.
+	 * <p>
+	 * This map is initialized from the range names defined in the loaded spreadsheet (or constructed
+	 * using a {@link SpreadsheetBuilder}). It can be extended using
+	 * {@link #defineAdditionalRangeName(String, Range)}.
 	 * 
-	 * @return The read-only map of defined names and corresponding ranges.
+	 * @return The read-only map of case-insensitive names to corresponding ranges.
 	 * 
+	 * @see #defineAdditionalRangeName(String, Range)
 	 * @see #getRange(String)
 	 * @see #getCell(String)
 	 */
@@ -110,12 +125,23 @@ public interface Spreadsheet extends Describable
 
 
 	/**
-	 * Adds a new name definition to the spreadsheet.
+	 * Defines an additional range name to be returned by {@code getRangeNames} et al. Such
+	 * additional names are never used internally to resolve formula references and do not affect the
+	 * semantics of the spreadsheet model.
+	 * <p>
+	 * We support this convenience method so that code written against the {@link #getCell(String)}
+	 * API can transparently profit from additional names extracted, for instance, from a
+	 * spreadsheet's layout.
 	 * 
-	 * @param _name is the name to be defined.
+	 * @param _name is the name to be defined. It must not collide with a range name defined by the
+	 *           underlying spreadsheet model (as loaded from a file or constructed by a builder).
+	 *           Range names are case-insensitive.
 	 * @param _ref is the range or single cell to be named.
+	 * 
+	 * @throws IllegalArgumentException if either argument is {@code null}, or if the name collides
+	 *            with a model-defined name.
 	 */
-	public void defineName( String _name, Range _ref );
+	public void defineAdditionalRangeName( String _name, Range _ref ) throws IllegalArgumentException;
 
 
 	/**

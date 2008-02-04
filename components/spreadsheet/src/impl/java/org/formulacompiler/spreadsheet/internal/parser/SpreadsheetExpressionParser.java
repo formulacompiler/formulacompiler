@@ -176,7 +176,7 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 
 	private final CellRange parseNamedRef( String _ident )
 	{
-		final CellRange ref = this.workbook.getNamedRef( _ident );
+		final CellRange ref = this.workbook.getModelRangeNames().get( _ident );
 		if (null == ref) {
 			throw new InnerParserException( new CompilerException.UnsupportedExpression( "The name '"
 					+ _ident + "' is not defined in this spreadsheet." ) );
@@ -187,7 +187,7 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 	@Override
 	protected final boolean isRangeName( Token _name )
 	{
-		return this.workbook.getNamedRef( _name.image ) instanceof MultiCellRange;
+		return this.workbook.getModelRangeNames().get( _name.image ) instanceof MultiCellRange;
 	}
 
 	@Override
