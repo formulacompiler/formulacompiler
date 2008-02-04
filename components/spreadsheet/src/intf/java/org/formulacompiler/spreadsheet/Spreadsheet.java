@@ -62,6 +62,8 @@ public interface Spreadsheet extends Describable
 	 * 
 	 * @throws SpreadsheetException.NameNotFound if the name is not defined in the spreadsheet.
 	 * @throws IllegalArgumentException if the name identifies a range instead of a single cell.
+	 * 
+	 * @see #getRange(String)
 	 */
 	public Cell getCell( String _cellName ) throws SpreadsheetException.NameNotFound, IllegalArgumentException;
 
@@ -88,20 +90,23 @@ public interface Spreadsheet extends Describable
 	 * 
 	 * @throws SpreadsheetException.NameNotFound if the name is not defined in the spreadsheet.
 	 * @throws IllegalArgumentException if the name identifies a range instead of a single cell.
+	 * 
+	 * @see #getCell(String)
 	 */
 	public Range getRange( String _rangeName ) throws SpreadsheetException.NameNotFound, IllegalArgumentException;
 
 
 	/**
-	 * Get all the cell and range names defined in the spreadsheet model. The key of the map is the
+	 * Get all the range and cell names defined in the spreadsheet model. The key of the map is the
 	 * range's specific name defined in the spreadsheet (Items, Employees, etc.). The value of the
 	 * map is the named range or cell.
 	 * 
 	 * @return The read-only map of defined names and corresponding ranges.
 	 * 
+	 * @see #getRange(String)
 	 * @see #getCell(String)
 	 */
-	public Map<String, Range> getDefinedNames();
+	public Map<String, Range> getRangeNames();
 
 
 	/**

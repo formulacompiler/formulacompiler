@@ -51,7 +51,7 @@ public class BindingParams extends TestCase
 
 		// ---- bindNamedInputs
 		final Method inputMethod = Input.class./**/getMethod( "getInput", String.class )/**/;
-		for (Map.Entry<String, Spreadsheet.Range> def : /**/spreadsheet.getDefinedNames().entrySet()/**/) {
+		for (Map.Entry<String, Spreadsheet.Range> def : /**/spreadsheet.getRangeNames().entrySet()/**/) {
 			final Spreadsheet.Range range = def.getValue();
 			if (range instanceof Spreadsheet.Cell) {
 				final String /**/cellName/**/ = def.getKey();
@@ -66,7 +66,7 @@ public class BindingParams extends TestCase
 
 		// ---- bindNamedOutputs
 		final Method outputMethod = Output.class./**/getMethod( "getOutput", String.class )/**/;
-		for (Map.Entry<String, Spreadsheet.Range> def : /**/spreadsheet.getDefinedNames().entrySet()/**/) {
+		for (Map.Entry<String, Spreadsheet.Range> def : /**/spreadsheet.getRangeNames().entrySet()/**/) {
 			final Spreadsheet.Range range = def.getValue();
 			if (range instanceof Spreadsheet.Cell) {
 				final String /**/cellName/**/ = def.getKey();

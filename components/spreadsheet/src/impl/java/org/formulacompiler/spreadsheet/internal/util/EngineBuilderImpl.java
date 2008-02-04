@@ -292,7 +292,7 @@ public class EngineBuilderImpl implements EngineBuilder
 
 	public boolean areAnyNamesDefined()
 	{
-		return (getSpreadsheet().getDefinedNames().size() > 0);
+		return (getSpreadsheet().getRangeNames().size() > 0);
 	}
 
 

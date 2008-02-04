@@ -53,7 +53,7 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 		{
 			final Class inputs = Inputs.class;
 			final Method[] methods = inputs.getMethods();
-			for (Map.Entry<String, Spreadsheet.Range> def : _model.getDefinedNames().entrySet()) {
+			for (Map.Entry<String, Spreadsheet.Range> def : _model.getRangeNames().entrySet()) {
 				final Spreadsheet.Range range = def.getValue();
 				if (range instanceof Spreadsheet.Cell) {
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;

@@ -50,7 +50,7 @@ public class BindingToMultipleInstances
 		// ---- bindInputs
 		intfGetter = Input.class.getMethod( /**/"getCC", Integer.TYPE/**/ );
 		valueGetter = CustomerCategory.class.getMethod( /**/"getDiscount"/**/ );
-		for (Map.Entry<String, Spreadsheet.Range> def : spreadsheet.getDefinedNames().entrySet()) {
+		for (Map.Entry<String, Spreadsheet.Range> def : spreadsheet.getRangeNames().entrySet()) {
 			final Spreadsheet.Range range = def.getValue();
 			if (range instanceof Spreadsheet.Cell) {
 				final String name = def.getKey();
@@ -67,7 +67,7 @@ public class BindingToMultipleInstances
 
 		// ---- bindOutputs
 		outputGetter = Output.class.getMethod( /**/"getNewDiscount", Integer.TYPE/**/ );
-		for (Map.Entry<String, Spreadsheet.Range> def : spreadsheet.getDefinedNames().entrySet()) {
+		for (Map.Entry<String, Spreadsheet.Range> def : spreadsheet.getRangeNames().entrySet()) {
 			final Spreadsheet.Range range = def.getValue();
 			if (range instanceof Spreadsheet.Cell) {
 				final String name = def.getKey();
