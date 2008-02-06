@@ -30,7 +30,7 @@ import java.util.Enumeration;
 import java.util.Map;
 
 /**
- * Very simple IOC (Inversion Of Control) container for AFC. Uses the same mechanism as Java 6's
+ * Very simple service locator for AFC. Uses the same mechanism as Java 6's
  * {@code java.util.ServiceLoader} to locate implementation classes, that is, files of the desired
  * class's name in "META-INF/services/" containing lines which specify the implementor class names.
  * <p>
