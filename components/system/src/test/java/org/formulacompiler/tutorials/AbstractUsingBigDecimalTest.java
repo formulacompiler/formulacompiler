@@ -28,22 +28,33 @@ public abstract class AbstractUsingBigDecimalTest extends TestCase
 {
 	protected static final String PATH = "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes.xls";
 
-	
+
 	// ---- IO
 	public static class Input
 	{
-		public Input( double a, double b ) { this.a = BigDecimal.valueOf( a ); this.b = BigDecimal.valueOf( b ); }
-		public /**/BigDecimal/**/ getA() { return this.a; }
-		public /**/BigDecimal/**/ getB() { return this.b; }
+		public Input( double a, double b )
+		{
+			this.a = BigDecimal.valueOf( a );
+			this.b = BigDecimal.valueOf( b );
+		}
+		public /**/BigDecimal/**/ getA()
+		{
+			return this.a;
+		}
+		public /**/BigDecimal/**/ getB()
+		{
+			return this.b;
+		}
 		private final BigDecimal a;
 		private final BigDecimal b;
 	}
 
 	public static interface Output
 	{
-		/**/BigDecimal/**/getResult();
-		/**/BigDecimal/**/getNegated();
+		/**/BigDecimal/**/ getResult();
+		/**/BigDecimal/**/ getNegated();
 	}
+
 	// ---- IO
 
 	public static interface Factory

@@ -29,7 +29,7 @@ import junit.framework.TestCase;
 
 public class UsingDouble extends TestCase
 {
-	
+
 	public void testUsingDouble() throws Exception
 	{
 		String path = "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes.xls";
@@ -46,20 +46,21 @@ public class UsingDouble extends TestCase
 
 		// ---- checkResult
 		Output output = factory.newInstance( new Input() );
-		assertEquals( /**/"1.1666666666666667"/**/, String.valueOf( output.getResult()) );
+		assertEquals( /**/"1.1666666666666667"/**/, String.valueOf( output.getResult() ) );
 		// ---- checkResult
 
 		FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/numeric_type/double" );
 	}
 
 
+	// DO NOT REFORMAT BELOW THIS LINE
 	// ---- IO
 	public static class Input
 	{
 		public /**/double/**/ getA() { return 1.0; }
 		public /**/double/**/ getB() { return 6.0; }
 	}
-	
+
 	public static interface Output
 	{
 		/**/double/**/ getResult();
@@ -71,5 +72,6 @@ public class UsingDouble extends TestCase
 		Output newInstance( Input _input );
 	}
 	// ---- IO
+	// DO NOT REFORMAT ABOVE THIS LINE
 
 }

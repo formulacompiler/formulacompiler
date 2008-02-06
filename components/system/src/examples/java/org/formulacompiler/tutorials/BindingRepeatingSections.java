@@ -51,8 +51,8 @@ public class BindingRepeatingSections
 		/**/SpreadsheetBinder.Section orders;/**/
 		range = spreadsheet.getRange( "ORDERS" );
 		inputMethod = Input.class.getMethod( /**/"getOrders"/**/ );
-		orders = binder./**/defineRepeatingSection/**/( range, Orientation.VERTICAL,
-				inputMethod, /**/Order.class/**/, null, null );
+		orders = binder./**/defineRepeatingSection/**/( range, Orientation.VERTICAL, inputMethod,
+				/**/	Order.class/**/, null, null );
 		// ---- bindInputSection
 
 		// ---- bindInputCell
@@ -66,9 +66,8 @@ public class BindingRepeatingSections
 		range = spreadsheet.getRange( "EMPLOYEES" );
 		inputMethod = /**/Input2.class/**/.getMethod( "getEmployees" );
 		outputMethod = /**/Output.class/**/.getMethod( "getEmployees" );
-		employees = binder.defineRepeatingSection( range, Orientation.VERTICAL,
-				inputMethod, /**/Input2.Employee.class/**/,
-				outputMethod, /**/Output.Employee.class/**/ );
+		employees = binder.defineRepeatingSection( range, Orientation.VERTICAL, inputMethod,
+				/**/	Input2.Employee.class/**/, outputMethod, /**/Output.Employee.class/**/ );
 		// ---- bindIOSection
 
 		// ---- bindOutputCell

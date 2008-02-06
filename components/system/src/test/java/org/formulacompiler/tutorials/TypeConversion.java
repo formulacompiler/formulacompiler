@@ -140,7 +140,7 @@ public class TypeConversion extends TestCase
 		short getShort();
 		int getInt();
 		long getLong();
-		@ScaledLong(7) long getLong7();
+		@ScaledLong( 7 ) long getLong7();
 		double getDouble();
 		float getFloat();
 		boolean getBoolean();
@@ -150,7 +150,7 @@ public class TypeConversion extends TestCase
 		Short getBoxedShort();
 		Integer getBoxedInt();
 		Long getBoxedLong();
-		@ScaledLong(7) Long getBoxedLong7();
+		@ScaledLong( 7 ) Long getBoxedLong7();
 		Double getBoxedDouble();
 		Float getBoxedFloat();
 		Boolean getBoxedBoolean();
@@ -159,13 +159,15 @@ public class TypeConversion extends TestCase
 		BigDecimal getBigDecimal();
 		BigInteger getBigInteger();
 
-		// Date is converted to a number as in Excel; can also use long value as returned by Date.getTime().
+		// Date is converted to a number as in Excel; can also use long value as returned by
+		// Date.getTime().
 		// These values are time-zone adjusted.
 		Date getDate();
 		@MillisecondsSinceUTC1970 long getDateMs();
 		@MillisecondsSinceUTC1970 Long getBoxedDateMs();
 
-		// With @Milliseconds annotation, long is treated as a time duration in milliseconds for an Excel time cell.
+		// With @Milliseconds annotation, long is treated as a time duration in milliseconds for an
+		// Excel time cell.
 		// These values or *not* time-zone adjusted.
 		@Milliseconds long getTime();
 		@Milliseconds Long getBoxedTime();
@@ -179,7 +181,7 @@ public class TypeConversion extends TestCase
 		Short getNullShort();
 		Integer getNullInt();
 		Long getNullLong();
-		@ScaledLong(7) Long getNullLong7();
+		@ScaledLong( 7 ) Long getNullLong7();
 		Double getNullDouble();
 		Float getNullFloat();
 		Boolean getNullBoolean();
@@ -200,7 +202,7 @@ public class TypeConversion extends TestCase
 		short calcShort();
 		int calcInt();
 		long calcLong();
-		@ScaledLong(5) long calcLong5();
+		@ScaledLong( 5 ) long calcLong5();
 		double calcDouble();
 		float calcFloat();
 		boolean calcBoolean();
@@ -210,7 +212,7 @@ public class TypeConversion extends TestCase
 		Short calcBoxedShort();
 		Integer calcBoxedInt();
 		Long calcBoxedLong();
-		@ScaledLong(5) Long calcBoxedLong5();
+		@ScaledLong( 5 ) Long calcBoxedLong5();
 		Double calcBoxedDouble();
 		Float calcBoxedFloat();
 		Boolean calcBoxedBoolean();
@@ -219,13 +221,15 @@ public class TypeConversion extends TestCase
 		BigDecimal calcBigDecimal();
 		BigInteger calcBigInteger();
 
-		// Date is converted from a number as in Excel; can also use long value as in "new Date(long)".
+		// Date is converted from a number as in Excel; can also use long value as in "new
+		// Date(long)".
 		// These values are time-zone adjusted.
 		Date calcDate();
 		@MillisecondsSinceUTC1970 long calcDateMs();
 		@MillisecondsSinceUTC1970 Long calcBoxedDateMs();
 
-		// With @Milliseconds annotation, long is converted from an Excel time cell to a time duration in milliseconds.
+		// With @Milliseconds annotation, long is converted from an Excel time cell to a time duration
+		// in milliseconds.
 		// These values are *not* time-zone adjusted.
 		@Milliseconds long calcTime();
 		@Milliseconds Long calcBoxedTime();

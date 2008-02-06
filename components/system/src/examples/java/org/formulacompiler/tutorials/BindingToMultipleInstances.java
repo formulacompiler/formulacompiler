@@ -23,11 +23,11 @@ package org.formulacompiler.tutorials;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-
 
 
 public class BindingToMultipleInstances
@@ -57,7 +57,8 @@ public class BindingToMultipleInstances
 				if (name.startsWith( "CC_DISCOUNT_" )) {
 					final int iCC = Integer.parseInt( name.substring( "CC_DISCOUNT_".length() ) );
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
-					binder.defineInputCell( cell, builder.newCallFrame( intfGetter, /**/iCC/**/ )./**/chain/**/( valueGetter ) );
+					final CallFrame chain = builder.newCallFrame( intfGetter, /**/iCC/**/ )./**/chain/**/( valueGetter );
+					binder.defineInputCell( cell, chain );
 				}
 			}
 		}
@@ -74,7 +75,7 @@ public class BindingToMultipleInstances
 				if (name.startsWith( "CC_NEWDISCOUNT_" )) {
 					final int iCC = Integer.parseInt( name.substring( "CC_NEWDISCOUNT_".length() ) );
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
-					binder.defineOutputCell( cell, builder.newCallFrame( outputGetter, /**/iCC/**/ ) );
+					binder.defineOutputCell( cell, outputGetter, /**/iCC/**/ );
 				}
 				// ... dito for CreditLimit
 			}
@@ -91,6 +92,7 @@ public class BindingToMultipleInstances
 		double getDiscount();
 		// ...
 	}
+
 	// ---- CC
 
 
@@ -99,15 +101,17 @@ public class BindingToMultipleInstances
 	{
 		CustomerCategory getCC( int _iCC );
 	}
+
 	// ---- Input
 
 
 	// ---- Output
-	public static interface Output 
+	public static interface Output
 	{
 		double getNewDiscount( int _iCC );
 		double getNewCreditLimit( int _iCC );
 	}
+
 	// ---- Output
 
 
@@ -122,6 +126,7 @@ public class BindingToMultipleInstances
 			double getNewCreditLimit();
 		}
 	}
+
 	// ---- Output2
 
 	// ---- OutputFacade
@@ -129,7 +134,7 @@ public class BindingToMultipleInstances
 	{
 		final Output output;
 
-		public OutputFacade(Output _output)
+		public OutputFacade( Output _output )
 		{
 			super();
 			this.output = _output;
@@ -148,18 +153,18 @@ public class BindingToMultipleInstances
 		private class CC
 		{
 			private int iCC;
-			
-			public CC(/**/int _iCC/**/)
+
+			public CC( /**/int _iCC/**/ )
 			{
 				super();
 				this.iCC = _iCC;
 			}
-			
+
 			public double getNewDiscount()
 			{
 				return getOutput().getNewDiscount( /**/this.iCC/**/ );
 			}
-			
+
 			public double getNewCreditLimit()
 			{
 				return getOutput().getNewCreditLimit( /**/this.iCC/**/ );

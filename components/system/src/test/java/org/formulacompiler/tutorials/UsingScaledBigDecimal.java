@@ -51,7 +51,7 @@ public class UsingScaledBigDecimal extends AbstractUsingBigDecimalTest
 			assertEquals( /**/"1.1667"/**/, output.getResult().toPlainString() );
 			// ---- checkResult4a
 		}
-		
+
 		{
 			// ---- checkResult4b
 			Output output = factory.newInstance( new Input( 1000000, 6 ) );

@@ -30,7 +30,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 public class UsingUnlimitedBigDecimal extends AbstractUsingBigDecimalTest
 {
 
-	
+
 	public void testUsingBigDecimalN() throws Exception
 	{
 		String path = PATH;

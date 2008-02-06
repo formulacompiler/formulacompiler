@@ -33,7 +33,7 @@ public class ErrorUnsupportedConversionToOutput extends TestCase
 	public void testStringAsInt() throws Exception
 	{
 		// ---- StringAsInt
-		EngineBuilder builder = builderForComputationOfCellNamed( /**/"stringOutput"/**/);
+		EngineBuilder builder = builderForComputationOfCellNamed( /**/"stringOutput"/**/ );
 		bindInputNamed( builder, "stringInput" );
 		try {
 			builder.compile();
@@ -49,7 +49,7 @@ public class ErrorUnsupportedConversionToOutput extends TestCase
 		// ---- StringAsInt
 	}
 
-	
+
 	private EngineBuilder builderForComputationOfCellNamed( String _cellName ) throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();

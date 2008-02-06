@@ -37,7 +37,7 @@ import org.formulacompiler.tests.utils.AbstractStandardInputsOutputsTestCase;
 public class Decompilation extends AbstractStandardInputsOutputsTestCase
 {
 
-	
+
 	public void testAsString() throws Exception
 	{
 		EngineBuilder builder = makeBuilder();
@@ -54,7 +54,7 @@ public class Decompilation extends AbstractStandardInputsOutputsTestCase
 	public void testSaveTo() throws Exception
 	{
 		final String pathToTargetFolder = "temp/test/decompiled/test/std";
-		
+
 		EngineBuilder builder = makeBuilder();
 		// ---- saveTo
 		// ... set up engine definition
@@ -72,7 +72,7 @@ public class Decompilation extends AbstractStandardInputsOutputsTestCase
 	public void testSaveToReadableCode() throws Exception
 	{
 		final String pathToTargetFolder = "temp/test/decompiled/test/readable";
-		
+
 		EngineBuilder builder = makeBuilder();
 		// ---- saveReadable
 		// ... set up engine definition
@@ -128,7 +128,7 @@ public class Decompilation extends AbstractStandardInputsOutputsTestCase
 		return b.getSpreadsheet();
 	}
 
-	
+
 	public static final class MyInputs
 	{
 		public double customerRebate()

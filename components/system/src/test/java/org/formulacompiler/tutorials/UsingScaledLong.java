@@ -80,8 +80,8 @@ public class UsingScaledLong extends TestCase
 
 		FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/numeric_type/long" );
 	}
-	
-	
+
+
 	public void testWorkingMultiplication() throws Exception
 	{
 		// ---- workingMultiplication
@@ -90,7 +90,7 @@ public class UsingScaledLong extends TestCase
 		long b = 100000L * scale;
 		long intermediate = a * b;
 		long result = intermediate / scale;
-		
+
 		assertEquals( 1200000L, a );
 		assertEquals( 100000000000L, b );
 		assertEquals( 120000000000000000L, intermediate );
@@ -107,7 +107,7 @@ public class UsingScaledLong extends TestCase
 		long b = 10000000L * scale;
 		long intermediate = a * b;
 		long result = intermediate / scale;
-		
+
 		assertEquals( 1200000L, a );
 		assertEquals( 10000000000000L, b );
 		assertEquals( -6446744073709551616L, intermediate ); // silent integer overflow!
@@ -116,32 +116,34 @@ public class UsingScaledLong extends TestCase
 	}
 
 
+	// DO NOT REFORMAT BELOW THIS LINE
 	// ---- IO
 	public static class Input
 	{
-		public Input(int b)  { this.b = b; }
-		public /**/long/**/ getA()  { return 1; } // will be scaled by AFC 
-		public /**/@ScaledLong(3) long/**/ getB()  { return ScaledLongSupport.scale( this.b, 3 ); }
+		public Input( int b ) { this.b = b; }
+		public /**/long/**/ getA() { return 1; } // will be scaled by AFC
+		public /**/@ScaledLong( 3 ) long/**/ getB() { return ScaledLongSupport.scale( this.b, 3 ); }
 		private final int b;
 	}
 
-	/**/@ScaledLong(3)/**/
+	/**/@ScaledLong( 3 )/**/
 	public static interface Output
 	{
 		/**/long/**/ getResult();
 		/**/long/**/ getNegated();
 	}
 	// ---- IO
+	// DO NOT REFORMAT ABOVE THIS LINE
 
 	public static interface Factory
 	{
 		Output newInstance( Input _input );
 	}
-	
-	
+
+
 	public static class Input0 extends Input
 	{
-		public Input0(int _b)
+		public Input0( int _b )
 		{
 			super( _b );
 		}
