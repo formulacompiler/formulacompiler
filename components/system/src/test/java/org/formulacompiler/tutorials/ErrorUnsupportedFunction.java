@@ -40,8 +40,8 @@ public class ErrorUnsupportedFunction extends TestCase
 			fail();
 		}
 		catch (/**/CompilerException.UnsupportedExpression e/**/) {
-			String err = /**/"Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?." 
-				+ "\nCell containing expression is A1."/**/;
+			String err = /**/"Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
+					+ "\nCell containing expression is A1."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- BindInfo
@@ -50,15 +50,15 @@ public class ErrorUnsupportedFunction extends TestCase
 	public void testBindReferencesInfo() throws Exception
 	{
 		// ---- BindReferencesInfo
-		EngineBuilder builder = builderForComputationOfCellNamed( /**/"ReferencesInfo"/**/);
+		EngineBuilder builder = builderForComputationOfCellNamed( /**/"ReferencesInfo"/**/ );
 		try {
 			builder.compile();
 			fail();
 		}
 		catch (CompilerException.UnsupportedExpression e) {
-			String err = "Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?." 
-				+ "\nCell containing expression is A1."
-				+ /**/"\nReferenced by cell A2."/**/;
+			String err = "Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
+					+ "\nCell containing expression is A1."
+					+ /**/"\nReferenced by cell A2."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- BindReferencesInfo
@@ -67,7 +67,7 @@ public class ErrorUnsupportedFunction extends TestCase
 	public void testBindIndependent() throws Exception
 	{
 		// ---- BindIndependent
-		EngineBuilder builder = builderForComputationOfCellNamed( /**/"Independent"/**/);
+		EngineBuilder builder = builderForComputationOfCellNamed( /**/"Independent"/**/ );
 		SaveableEngine engine = builder.compile();
 		MyFactory factory = (MyFactory) engine.getComputationFactory();
 		MyComputation computation = factory.newComputation( new MyInputs() );
@@ -78,22 +78,21 @@ public class ErrorUnsupportedFunction extends TestCase
 	public void testParsedButUnsupportedFunction() throws Exception
 	{
 		// ---- BindParsedButUnsupported
-		EngineBuilder builder = builderForComputationOfCellNamed( /**/"Unsupported"/**/);
+		EngineBuilder builder = builderForComputationOfCellNamed( /**/"Unsupported"/**/ );
 		try {
 			builder.compile();
 			fail();
 		}
 		catch (CompilerException.UnsupportedExpression e) {
 			String err = /**/"Function LENB is not supported for double engines."/**/
-				+ /**/"\nIn expression LEN(  >> LENB( B4 ) <<  ); error location indicated by >>..<<."/**/
-				+ "\nCell containing expression is A4."
-				+ "\nReferenced by cell A4.";
+					+ /**/"\nIn expression LEN(  >> LENB( B4 ) <<  ); error location indicated by >>..<<."/**/
+					+ "\nCell containing expression is A4."
+					+ "\nReferenced by cell A4.";
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- BindParsedButUnsupported
 	}
-	
-	
+
 
 	private EngineBuilder builderForComputationOfCellNamed( String _cellName ) throws Exception
 	{

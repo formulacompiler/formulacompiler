@@ -140,7 +140,8 @@ public class ErrorImproperInnerSectionReference extends TestCase
 
 		// ---- bindSection
 		Range range = sheet.getRange( "Section" );
-		Section section = root.defineRepeatingSection( range, Orientation.REPEAT_ROWS, "section", MyElement.class, null, 	null );
+		Section section = root.defineRepeatingSection( range, Orientation.REPEAT_ROWS, "section", MyElement.class, null,
+				null );
 		section.defineInputCell( sheet.getRange( "Name" ).getTopLeft(), "name" );
 		section.defineInputCell( sheet.getRange( "Value" ).getTopLeft(), "value" );
 		// ---- bindSection

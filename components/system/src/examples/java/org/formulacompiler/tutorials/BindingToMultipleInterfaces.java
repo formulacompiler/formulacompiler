@@ -28,7 +28,6 @@ import org.formulacompiler.spreadsheet.SpreadsheetBinder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 
 
-
 public class BindingToMultipleInterfaces
 {
 
@@ -73,6 +72,7 @@ public class BindingToMultipleInterfaces
 		double getValue();
 		double getOther();
 	}
+
 	// ---- Inputs
 
 
@@ -82,7 +82,7 @@ public class BindingToMultipleInterfaces
 		private final InputA a;
 		private final InputB b;
 
-		public Input(InputA _a, InputB _b)
+		public Input( InputA _a, InputB _b )
 		{
 			super();
 			this.a = _a;
@@ -99,6 +99,7 @@ public class BindingToMultipleInterfaces
 			return this.b;
 		}
 	}
+
 	// ---- Input
 
 
@@ -113,6 +114,7 @@ public class BindingToMultipleInterfaces
 		double getResult();
 		double getOther();
 	}
+
 	// ---- Outputs
 
 	// ---- Output
@@ -120,16 +122,18 @@ public class BindingToMultipleInterfaces
 	{
 		// no own content
 	}
+
 	// ---- Output
 
 
 	// ---- Output2
-	public static interface Output2 
+	public static interface Output2
 	{
 		double getResultA();
 		double getResultB();
 		double getOtherB();
 	}
+
 	// ---- Output2
 
 	// ---- Output2A
@@ -137,7 +141,7 @@ public class BindingToMultipleInterfaces
 	{
 		private final Output2 output;
 
-		public OutputAImpl(Output2 _output)
+		public OutputAImpl( Output2 _output )
 		{
 			super();
 			this.output = _output;
@@ -148,6 +152,7 @@ public class BindingToMultipleInterfaces
 			return this.output./**/getResultA/**/();
 		}
 	}
+
 	// ---- Output2A
 
 	// ---- Output2B
@@ -155,7 +160,7 @@ public class BindingToMultipleInterfaces
 	{
 		private final Output2 output;
 
-		public OutputBImpl(Output2 _output)
+		public OutputBImpl( Output2 _output )
 		{
 			super();
 			this.output = _output;
@@ -171,9 +176,10 @@ public class BindingToMultipleInterfaces
 			return this.output.getOtherB();
 		}
 	}
+
 	// ---- Output2B
 
-	
+
 	// ---- Output3
 	public static interface Output3
 	{

@@ -284,7 +284,7 @@ public class Basics extends AbstractSpreadsheetTestCase
 		builder./**/setFactoryClass/**/( RebateComputationFactory.class );
 		builder./**/bindAllByName/**/();
 		builder./**/failIfByNameBindingLeftNamedCellsUnbound/**/();
-		
+
 		Engine engine = builder./**/compile/**/();
 		// ---- CompileFactory
 		FormulaDecompiler.decompile( engine ).saveTo( new File( "temp/test/decompiled/basics" ) );

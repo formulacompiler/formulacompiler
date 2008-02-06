@@ -123,7 +123,7 @@ public class CustomerRatingWithOrders extends TestCase
 		Orientation orient = Orientation.VERTICAL;
 		Class input = /**/OrderData/**/.class;
 
-		Section /**/orders/**/= binder./**/defineRepeatingSection/**/( range, orient, call, input, null, null );
+		Section /**/orders/**/ = binder./**/defineRepeatingSection/**/( range, orient, call, input, null, null );
 		// ---- bindOrders
 
 		// ---- bindOrderValues
@@ -158,10 +158,10 @@ public class CustomerRatingWithOrders extends TestCase
 	// ---- CustomerData
 	public static interface CustomerData
 	{
-		public/**/OrderData[]/**/ordersForLastNDays( int _days );
+		public /**/OrderData[]/**/ ordersForLastNDays( int _days );
 		// -- CustomerDataAlternatives
-		public/**/Iterable<OrderData>/**/ordersForLastNDaysIterable( int _days );
-		public/**/Iterator<OrderData>/**/ordersForLastNDaysIterator( int _days );
+		public /**/Iterable<OrderData>/**/ ordersForLastNDaysIterable( int _days );
+		public /**/Iterator<OrderData>/**/ ordersForLastNDaysIterator( int _days );
 		// -- CustomerDataAlternatives
 	}
 
@@ -180,7 +180,7 @@ public class CustomerRatingWithOrders extends TestCase
 	{
 		private final OrderDataImpl[] orders;
 
-		public CustomerDataImpl(double[] _orderTotals)
+		public CustomerDataImpl( double[] _orderTotals )
 		{
 			super();
 			this.orders = new OrderDataImpl[ _orderTotals.length ];
@@ -211,7 +211,7 @@ public class CustomerRatingWithOrders extends TestCase
 	{
 		private final double total;
 
-		public OrderDataImpl(double _total)
+		public OrderDataImpl( double _total )
 		{
 			super();
 			this.total = _total;
