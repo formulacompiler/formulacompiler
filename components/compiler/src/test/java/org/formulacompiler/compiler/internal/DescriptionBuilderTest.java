@@ -20,8 +20,6 @@
  */
 package org.formulacompiler.compiler.internal;
 
-import org.formulacompiler.compiler.internal.DescriptionBuilder;
-
 import junit.framework.TestCase;
 
 public class DescriptionBuilderTest extends TestCase
