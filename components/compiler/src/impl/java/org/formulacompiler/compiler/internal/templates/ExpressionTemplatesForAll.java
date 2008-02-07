@@ -111,7 +111,7 @@ public abstract class ExpressionTemplatesForAll
 		return Boolean.valueOf( a );
 	}
 
-	
+
 	// ------------------------------------------------ Array Access
 
 

@@ -38,11 +38,14 @@ public class RuntimeBigDecimalTest extends TestCase
 		assertEquals( "1.2", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 1.2 ), environment ) );
 		assertEquals( "12", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 12 ), environment ) );
 		assertEquals( "120", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 120 ), environment ) );
-		assertEquals( "12000000000000000000", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 1.2e19 ), environment ) );
+		assertEquals( "12000000000000000000", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 1.2e19 ),
+				environment ) );
 		assertEquals( "1.2E+20", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 1.2e20 ), environment ) );
-		assertEquals( "12340000000000000000", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 12.34e18 ), environment ) );
+		assertEquals( "12340000000000000000", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 12.34e18 ),
+				environment ) );
 		assertEquals( "1.234E+20", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( 12.34e19 ), environment ) );
-		assertEquals( "-12340000000000000000", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( -12.34e18 ), environment ) );
+		assertEquals( "-12340000000000000000", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( -12.34e18 ),
+				environment ) );
 		assertEquals( "-1.234E+20", RuntimeBigDecimal_v2.toExcelString( BigDecimal.valueOf( -12.34e19 ), environment ) );
 	}
 

@@ -25,7 +25,7 @@ import org.formulacompiler.compiler.internal.expressions.DataType;
 abstract class NullaryValueMethodCompiler extends ValueMethodCompiler
 {
 
-	NullaryValueMethodCompiler(SectionCompiler _section, int _access, String _methodName, DataType _type)
+	NullaryValueMethodCompiler( SectionCompiler _section, int _access, String _methodName, DataType _type )
 	{
 		super( _section, _access, _methodName, "", _type );
 	}

@@ -202,8 +202,8 @@ final class HelperCompilerForFoldDatabase extends HelperCompilerForFoldApply
 			letDict().unlet( nCols );
 		}
 	}
-	
-	
+
+
 	private void compileSkipFoldIfNoMatch( final Label _noMatch )
 	{
 		mv().ifZCmp( Opcodes.IFEQ, _noMatch );

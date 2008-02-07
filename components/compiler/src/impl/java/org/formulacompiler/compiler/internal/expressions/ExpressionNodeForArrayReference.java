@@ -48,7 +48,7 @@ public final class ExpressionNodeForArrayReference extends ExpressionNode
 	{
 		return areConstant( arguments() );
 	}
-	
+
 	@Override
 	public Object getConstantValue()
 	{

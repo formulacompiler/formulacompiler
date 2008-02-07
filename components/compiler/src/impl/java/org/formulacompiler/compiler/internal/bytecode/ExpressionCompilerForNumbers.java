@@ -26,7 +26,7 @@ import org.formulacompiler.compiler.NumericType;
 abstract class ExpressionCompilerForNumbers extends ExpressionCompilerForNumbers_Generated
 {
 
-	public ExpressionCompilerForNumbers(MethodCompiler _methodCompiler, NumericType _numericType)
+	public ExpressionCompilerForNumbers( MethodCompiler _methodCompiler, NumericType _numericType )
 	{
 		super( _methodCompiler, _numericType );
 	}

@@ -42,7 +42,7 @@ final class TypeCompilerForScaledLongs extends TypeCompilerForNumbers
 	private final long one;
 
 
-	protected TypeCompilerForScaledLongs(ByteCodeEngineCompiler _engineCompiler, NumericType _numericType)
+	protected TypeCompilerForScaledLongs( ByteCodeEngineCompiler _engineCompiler, NumericType _numericType )
 	{
 		super( _engineCompiler, _numericType );
 		this.one = ((AbstractLongType) _numericType).one();

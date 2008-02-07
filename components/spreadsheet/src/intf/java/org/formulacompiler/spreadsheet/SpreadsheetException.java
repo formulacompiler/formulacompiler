@@ -31,17 +31,17 @@ import org.formulacompiler.compiler.CompilerException;
 public class SpreadsheetException extends CompilerException
 {
 
-	public SpreadsheetException(String _message)
+	public SpreadsheetException( String _message )
 	{
 		super( _message );
 	}
 
-	public SpreadsheetException(String _message, Throwable _cause)
+	public SpreadsheetException( String _message, Throwable _cause )
 	{
 		super( _message, _cause );
 	}
 
-	public SpreadsheetException(Throwable _cause)
+	public SpreadsheetException( Throwable _cause )
 	{
 		super( _cause );
 	}
@@ -55,12 +55,12 @@ public class SpreadsheetException extends CompilerException
 	public static class NameNotFound extends RuntimeException
 	{
 
-		public NameNotFound(String _message)
+		public NameNotFound( String _message )
 		{
 			super( _message );
 		}
 
-		public NameNotFound(String _message, Throwable _cause)
+		public NameNotFound( String _message, Throwable _cause )
 		{
 			super( _message, _cause );
 		}
@@ -77,7 +77,7 @@ public class SpreadsheetException extends CompilerException
 	public static class CellRangeNotUniDimensional extends SpreadsheetException
 	{
 
-		public CellRangeNotUniDimensional(String _message)
+		public CellRangeNotUniDimensional( String _message )
 		{
 			super( _message );
 		}
@@ -93,7 +93,7 @@ public class SpreadsheetException extends CompilerException
 	public static class UnsupportedExpression extends SpreadsheetException
 	{
 
-		public UnsupportedExpression(Throwable _cause)
+		public UnsupportedExpression( Throwable _cause )
 		{
 			super( _cause.getMessage(), _cause );
 		}
@@ -109,7 +109,7 @@ public class SpreadsheetException extends CompilerException
 	public static class UnsupportedFormat extends SpreadsheetException
 	{
 
-		public UnsupportedFormat(String _message)
+		public UnsupportedFormat( String _message )
 		{
 			super( _message );
 		}
@@ -125,7 +125,7 @@ public class SpreadsheetException extends CompilerException
 	public static class SaveError extends SpreadsheetException
 	{
 
-		public SaveError(Throwable _cause)
+		public SaveError( Throwable _cause )
 		{
 			super( _cause.getMessage(), _cause );
 		}
@@ -141,7 +141,7 @@ public class SpreadsheetException extends CompilerException
 	public static class LoadError extends SpreadsheetException
 	{
 
-		public LoadError(Throwable _cause)
+		public LoadError( Throwable _cause )
 		{
 			super( _cause.getMessage(), _cause );
 		}
@@ -163,7 +163,7 @@ public class SpreadsheetException extends CompilerException
 	public static class NotInSection extends CompilerException
 	{
 
-		public NotInSection(String _eltName, String _eltAt, String _sectionName, String _sectionAt)
+		public NotInSection( String _eltName, String _eltAt, String _sectionName, String _sectionAt )
 		{
 			super( "Element "
 					+ _eltName + " at " + _eltAt + " is not fully contained by its parent section " + _sectionName + " at "
@@ -182,9 +182,10 @@ public class SpreadsheetException extends CompilerException
 	public static class SectionExtentNotCovered extends CompilerException
 	{
 
-		public SectionExtentNotCovered(String _rangeAt, String _sectionName, Orientation _orientation)
+		public SectionExtentNotCovered( String _rangeAt, String _sectionName, Orientation _orientation )
 		{
-			super( _rangeAt + " does not fully cover the " + (_orientation == Orientation.VERTICAL ? "height" : "width")
+			super( _rangeAt
+					+ " does not fully cover the " + (_orientation == Orientation.VERTICAL ? "height" : "width")
 					+ " of its parent section " + _sectionName + "." );
 		}
 
@@ -199,7 +200,7 @@ public class SpreadsheetException extends CompilerException
 	public static class SectionSpan extends CompilerException
 	{
 
-		public SectionSpan(String _rangeName, String _sectionName)
+		public SectionSpan( String _rangeName, String _sectionName )
 		{
 			super( "Range " + _rangeName + " overlaps section " + _sectionName + " in an unsupported way." );
 		}
@@ -215,7 +216,7 @@ public class SpreadsheetException extends CompilerException
 	public static class SectionOverlap extends CompilerException
 	{
 
-		public SectionOverlap(String _message)
+		public SectionOverlap( String _message )
 		{
 			super( _message );
 		}

@@ -23,7 +23,8 @@ package org.formulacompiler.compiler.internal.logging;
 import java.io.PrintStream;
 
 /**
- * Class to help with writing debug logs that have consistent indentation for nested scopes. Typical idiom is:
+ * Class to help with writing debug logs that have consistent indentation for nested scopes. Typical
+ * idiom is:
  * 
  * <pre>
  * if (LOG.e()) LOG.a( "Value is: ").a( value ).lf();
@@ -46,7 +47,7 @@ public final class Log
 	private final Logger logger;
 	private boolean enabled = false;
 
-	public Log(Logger _logger)
+	public Log( Logger _logger )
 	{
 		this.logger = _logger;
 		this.enabled = true;

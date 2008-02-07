@@ -62,14 +62,14 @@ public abstract class CellRange extends AbstractDescribable implements Spreadshe
 
 
 	/**
-	 * Let's say range B2:B20 is called "Amount". Then, you can put the formula "=Amount*1.07" into, say, D2:D20.
-	 * It will be automatically infered that "Amount" here means the respective cell on the same row from "Amount".
-	 * So, when a cell formula references a range in a position where a single value is expected,
-	 * it calls that range's <code>getCellIndexRelativeTo(this)</code>.
+	 * Let's say range B2:B20 is called "Amount". Then, you can put the formula "=Amount*1.07" into,
+	 * say, D2:D20. It will be automatically infered that "Amount" here means the respective cell on
+	 * the same row from "Amount". So, when a cell formula references a range in a position where a
+	 * single value is expected, it calls that range's <code>getCellIndexRelativeTo(this)</code>.
 	 * This works for single-column and single-row ranges.
-	 * <p/>
+	 * <p>
 	 * If the range consists of only one cell, this cell is returned.
-	 *
+	 * 
 	 * @param _cell base cell.
 	 * @return relative cell in the range.
 	 * @throws SpreadsheetException if range is not unidimensional.
@@ -145,7 +145,7 @@ public abstract class CellRange extends AbstractDescribable implements Spreadshe
 				if (_tiling[ iTile ] != null) return _tiling;
 			}
 		}
-		return new CellRange[]{ _tiling[ _tileBefore ], _tiling[ TILE_I ], _tiling[ _tileAfter ] };
+		return new CellRange[] { _tiling[ _tileBefore ], _tiling[ TILE_I ], _tiling[ _tileAfter ] };
 	}
 
 
@@ -154,13 +154,13 @@ public abstract class CellRange extends AbstractDescribable implements Spreadshe
 	 * a range "inner". All the tiles are either null, or the respective part of "tiled". The
 	 * resulting array contains the tiles, with the following figure read left-to-right, then
 	 * top-to-bottom:
-	 *
+	 * 
 	 * <pre>
 	 *  TL T  TR
 	 *  L  I  R
 	 *  BL B  BR
 	 * </pre>
-	 *
+	 * 
 	 * where I is the inner intersection, and L, R, T, B are left, right, top, bottom.
 	 */
 	@SuppressWarnings( "unqualified-field-access" )

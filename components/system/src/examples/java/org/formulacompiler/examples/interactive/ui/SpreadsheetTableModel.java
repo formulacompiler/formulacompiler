@@ -32,7 +32,7 @@ public class SpreadsheetTableModel extends AbstractTableModel
 	private final SpreadsheetModel spreadsheet;
 
 
-	public SpreadsheetTableModel(SpreadsheetModel _spreadsheet)
+	public SpreadsheetTableModel( SpreadsheetModel _spreadsheet )
 	{
 		assert null != _spreadsheet;
 		this.spreadsheet = _spreadsheet;
@@ -76,7 +76,7 @@ public class SpreadsheetTableModel extends AbstractTableModel
 	public String getColumnName( int _columnIndex )
 	{
 		return "Col??";
-		//return Sheet.getCanonicalNameForColumnIndex( _columnIndex );
+		// return Sheet.getCanonicalNameForColumnIndex( _columnIndex );
 	}
 
 

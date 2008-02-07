@@ -213,7 +213,7 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 	{
 		final Object value;
 
-		ConstantImpl(Object _value)
+		ConstantImpl( Object _value )
 		{
 			super();
 			this.value = _value;
@@ -241,7 +241,7 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 	{
 		final ExpressionNode node;
 
-		ExprNodeImpl(ExpressionNode _node)
+		ExprNodeImpl( ExpressionNode _node )
 		{
 			super();
 			this.node = _node;
@@ -259,7 +259,7 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 	{
 		final CellInstance cell;
 
-		CellRefImpl(CellInstance _cell)
+		CellRefImpl( CellInstance _cell )
 		{
 			super();
 			this.cell = _cell;
@@ -277,7 +277,7 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 	{
 		final CellRange range;
 
-		RangeRefImpl(CellRange _range)
+		RangeRefImpl( CellRange _range )
 		{
 			super();
 			this.range = _range;

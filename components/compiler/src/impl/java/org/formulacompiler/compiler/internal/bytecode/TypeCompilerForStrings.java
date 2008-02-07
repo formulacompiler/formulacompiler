@@ -34,7 +34,7 @@ final class TypeCompilerForStrings extends TypeCompiler
 	static final String SNAME = ByteCodeEngineCompiler.STRING_CLASS.getInternalName();
 	static final String S = ByteCodeEngineCompiler.STRING_CLASS.getDescriptor();
 
-	public TypeCompilerForStrings(ByteCodeEngineCompiler _engineCompiler)
+	public TypeCompilerForStrings( ByteCodeEngineCompiler _engineCompiler )
 	{
 		super( _engineCompiler );
 	}

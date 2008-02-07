@@ -187,7 +187,7 @@ abstract class ExpressionParserBase
 		throw new UnsupportedOperationException( ERR_NORANGES );
 	}
 
-	protected Object makeCellIndex( ExpressionNode _node)
+	protected Object makeCellIndex( ExpressionNode _node )
 	{
 		throw new UnsupportedOperationException( "This parser does not support cell references." );
 	}
@@ -348,18 +348,18 @@ abstract class ExpressionParserBase
 	{
 		throw new IllegalStateException();
 	}
-	
+
 	protected void pushApplyList( Token _def, Token _elts )
 	{
 		throw new IllegalStateException();
-	}	
+	}
 
 	protected void pushApplyVectors( Token _def, Collection<Token> _vecs )
 	{
 		throw new IllegalStateException();
-	}	
+	}
 
-	
+
 	protected static final class InnerParserException extends RuntimeException
 	{
 		public InnerParserException( Throwable _cause )

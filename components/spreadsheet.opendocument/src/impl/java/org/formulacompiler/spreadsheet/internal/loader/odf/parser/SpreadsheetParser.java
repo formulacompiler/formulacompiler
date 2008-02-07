@@ -42,7 +42,7 @@ public class SpreadsheetParser extends ElementParser
 		addElementParser( XMLConstants.Table.TABLE, new TableParser( this.spreadsheet ) );
 		addElementParser( XMLConstants.Table.NAMED_EXPRESSIONS, new ElementParser()
 		{
-			@SuppressWarnings("unqualified-field-access")
+			@SuppressWarnings( "unqualified-field-access" )
 			@Override
 			protected void elementStarted( final StartElement _startElement )
 			{

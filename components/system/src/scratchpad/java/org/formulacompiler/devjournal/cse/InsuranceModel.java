@@ -66,7 +66,7 @@ public final class InsuranceModel
 		private int age;
 		private double amt;
 
-		public Inputs(int _age, double _amt)
+		public Inputs( int _age, double _amt )
 		{
 			this.age = _age;
 			this.amt = _amt;
@@ -94,10 +94,10 @@ public final class InsuranceModel
 	// ---- OutputsCurrent
 	public static final class OutputsCurrent implements Outputs
 	{
-		private static final double[] COST_TABLE = new double[] { 150, 180, 240 /* ... all of 37 elts */};
+		private static final double[] COST_TABLE = { 150, 180, 240 /* ... all of 37 elts */};
 		private final Inputs i;
 
-		public OutputsCurrent(Inputs _inputs)
+		public OutputsCurrent( Inputs _inputs )
 		{
 			this.i = _inputs;
 		}
@@ -178,14 +178,14 @@ public final class InsuranceModel
 	// ---- OutputsDesired
 	public static final class OutputsDesired implements Outputs
 	{
-		private static final double[] COST_TABLE = new double[] { 150, 180, 240 /* ... all of 37 elts */};
-		private static final double[] PERCENT_TABLE = new double[] { .03, .03, .03  /* ... all of 37 elts */};
-		private static final double[] AGE_UPTO = new double[] { 20, 20, 20 /* ... all of 37 elts */};
-		private static final double[] INSURED_AMOUNT_UPTO = new double[] { 5000, 6000, 8000 };
+		private static final double[] COST_TABLE = { 150, 180, 240 /* ... all of 37 elts */};
+		private static final double[] PERCENT_TABLE = { .03, .03, .03 /* ... all of 37 elts */};
+		private static final double[] AGE_UPTO = { 20, 20, 20 /* ... all of 37 elts */};
+		private static final double[] INSURED_AMOUNT_UPTO = { 5000, 6000, 8000 };
 
 		private final Inputs i;
 
-		public OutputsDesired(Inputs _inputs)
+		public OutputsDesired( Inputs _inputs )
 		{
 			this.i = _inputs;
 		}

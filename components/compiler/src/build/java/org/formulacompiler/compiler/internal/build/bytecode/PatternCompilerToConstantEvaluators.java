@@ -72,8 +72,7 @@ class PatternCompilerToConstantEvaluators
 			cb.append( "public " ).append( _generator.typeName ).appendLine( "( NumericType _type, Environment _env ) {" );
 			cb.indent();
 			cb.appendLine( "super( _type, _env );" );
-			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine(
-					"( _type.mathContext(), _env );" );
+			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine( "( _type.mathContext(), _env );" );
 			cb.outdent();
 			cb.appendLine( "}" );
 		}

@@ -22,10 +22,10 @@ package temp;
 
 public class Optimizations
 {
-	
+
 	private static final String A = "a";
 	private static final String B = "b";
-	@SuppressWarnings("unused")
+	@SuppressWarnings( "unused" )
 	private static final String C = A + B;
 
 
@@ -53,8 +53,8 @@ public class Optimizations
 	{
 		return x + 99999 + 1;
 	}
-	
-	
+
+
 	public String as( String x )
 	{
 		return "a" + "b" + x;

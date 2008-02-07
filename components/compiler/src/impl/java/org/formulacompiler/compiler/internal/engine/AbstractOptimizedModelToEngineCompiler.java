@@ -33,44 +33,44 @@ public abstract class AbstractOptimizedModelToEngineCompiler implements Optimize
 {
 	private final Config config;
 
-	protected AbstractOptimizedModelToEngineCompiler(OptimizedModelToEngineCompiler.Config _config)
+	protected AbstractOptimizedModelToEngineCompiler( OptimizedModelToEngineCompiler.Config _config )
 	{
 		super();
 		_config.validate();
 		this.config = _config.clone();
 	}
 
-	
+
 	public Config config()
 	{
 		return this.config;
 	}
-	
+
 	public NumericType getNumericType()
 	{
 		return config().numericType;
 	}
-	
+
 	public ComputationModel getModel()
 	{
 		return config().model;
 	}
-	
+
 	public Class getFactoryClass()
 	{
 		return config().factoryClass;
 	}
-	
+
 	public Method getFactoryMethod()
 	{
 		return config().factoryMethod;
 	}
-	
+
 	public boolean isFullyCaching()
 	{
 		return config().fullCaching;
 	}
-	
+
 	public boolean getCompileToReadableCode()
 	{
 		return config().compileToReadableCode;
@@ -80,9 +80,9 @@ public abstract class AbstractOptimizedModelToEngineCompiler implements Optimize
 	{
 		return config().parentClassLoader;
 	}
-	
-	
+
+
 	public abstract SaveableEngine compile() throws CompilerException, EngineException;
 
-	
+
 }

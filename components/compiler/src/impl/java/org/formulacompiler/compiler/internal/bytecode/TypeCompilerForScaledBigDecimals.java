@@ -36,7 +36,7 @@ public class TypeCompilerForScaledBigDecimals extends TypeCompilerForBigDecimals
 	private final int roundingMode;
 
 
-	protected TypeCompilerForScaledBigDecimals(ByteCodeEngineCompiler _engineCompiler, NumericType _numericType)
+	protected TypeCompilerForScaledBigDecimals( ByteCodeEngineCompiler _engineCompiler, NumericType _numericType )
 	{
 		super( _engineCompiler, _numericType );
 		this.fixedScale = _numericType.scale();

@@ -82,7 +82,7 @@ public class ExpressionRewriterTest extends TestCase
 
 		assertNull( re.getDataType() );
 		assertNull( re.argument( 1 ).getDataType() );
-		
+
 	}
 
 

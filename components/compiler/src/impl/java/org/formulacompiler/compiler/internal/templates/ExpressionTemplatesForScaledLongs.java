@@ -523,7 +523,8 @@ public final class ExpressionTemplatesForScaledLongs
 	public long fun_CRITBINOM( long _n, long _p, long _alpha )
 	{
 		return RuntimeLong_v2.fun_CRITBINOM( _n, _p, _alpha, this.context );
-//		final BigDecimal result = RuntimeScaledBigDecimal_v2.fun_RATE( nper, pmt, pv, fv, type, guess, HIGHPREC );
+// final BigDecimal result = RuntimeScaledBigDecimal_v2.fun_RATE( nper, pmt, pv, fv, type, guess,
+// HIGHPREC );
 	}
 
 	public long fun_FINV( long _x, long _f1, long _f2 )
@@ -635,7 +636,8 @@ public final class ExpressionTemplatesForScaledLongs
 		return this.context.fromBigDecimal( result );
 	}
 
-	public long fun_VDB( long _cost, long _salvage, long _life, long _start_period, long _end_period, long _factor, long _no_switch )
+	public long fun_VDB( long _cost, long _salvage, long _life, long _start_period, long _end_period, long _factor,
+			long _no_switch )
 	{
 		final BigDecimal cost = this.context.toBigDecimal( _cost );
 		final BigDecimal salvage = this.context.toBigDecimal( _salvage );
@@ -644,7 +646,8 @@ public final class ExpressionTemplatesForScaledLongs
 		final BigDecimal end = this.context.toBigDecimal( _end_period );
 		final BigDecimal factor = this.context.toBigDecimal( _factor );
 		final boolean no_switch = _no_switch != 0;
-		final BigDecimal result = RuntimeScaledBigDecimal_v2.fun_VDB( cost, salvage, life, start, end, factor, no_switch, HIGHPREC );
+		final BigDecimal result = RuntimeScaledBigDecimal_v2.fun_VDB( cost, salvage, life, start, end, factor, no_switch,
+				HIGHPREC );
 		return this.context.fromBigDecimal( result );
 	}
 
@@ -748,7 +751,7 @@ public final class ExpressionTemplatesForScaledLongs
 	public long fun_DAYS360( long _date_start, long _end_start, long _method )
 	{
 		return RuntimeLong_v2.fun_DAYS360( _date_start, _end_start, _method != 0, this.context );
-	}	
+	}
 
 	public long fun_MONTH( long _date )
 	{

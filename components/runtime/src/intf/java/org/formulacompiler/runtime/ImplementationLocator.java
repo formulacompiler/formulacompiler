@@ -107,12 +107,12 @@ public class ImplementationLocator
 	public static class ConfigurationException extends RuntimeException
 	{
 
-		ConfigurationException(Class _class, Throwable _throwable)
+		ConfigurationException( Class _class, Throwable _throwable )
 		{
 			super( "Configuration bad for " + _class.getName() + "; " + _throwable.getMessage(), _throwable );
 		}
 
-		ConfigurationException(Class _class, String _message)
+		ConfigurationException( Class _class, String _message )
 		{
 			super( "Configuration bad for " + _class.getName() + "; " + _message );
 		}
@@ -126,7 +126,7 @@ public class ImplementationLocator
 	public static final class ConfigurationMissingException extends ConfigurationException
 	{
 
-		ConfigurationMissingException(Class _class, String _message)
+		ConfigurationMissingException( Class _class, String _message )
 		{
 			super( _class, _message );
 		}
@@ -149,7 +149,7 @@ public class ImplementationLocator
 	}
 
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( "unchecked" )
 	private static synchronized <T, I extends T> Collection<Class<I>> getImplementationClasses( Class<T> _class )
 	{
 		/*
@@ -190,7 +190,7 @@ public class ImplementationLocator
 	}
 
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( "unchecked" )
 	private static <T, I extends T> void loadImplementationClassesFrom( Class<T> _class, URL _configURL,
 			Collection<Class<I>> _into )
 	{

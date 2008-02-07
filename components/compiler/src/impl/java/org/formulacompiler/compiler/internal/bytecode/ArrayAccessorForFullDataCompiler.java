@@ -50,7 +50,7 @@ public class ArrayAccessorForFullDataCompiler extends ArrayAccessorCompiler
 		final Type eltType = eltCompiler.type();
 		final String initName = methodName() + "$init";
 		final String initDesc = "Z";
-		
+
 		// private boolean xy$init;
 		final FieldVisitor fv = cw().visitField( Opcodes.ACC_PRIVATE, initName, initDesc, null, null );
 		fv.visitEnd();
@@ -65,7 +65,7 @@ public class ArrayAccessorForFullDataCompiler extends ArrayAccessorCompiler
 		mv.loadThis();
 		mv.push( true );
 		mv.visitFieldInsn( Opcodes.PUTFIELD, section().classInternalName(), initName, initDesc );
-		
+
 		// this.xy = { ?, c1, c2, ... }
 		mv.loadThis();
 		section().getArrayAccessorForConstDataOnly( this.arrayNode ).compileCall( mv );
@@ -88,7 +88,7 @@ public class ArrayAccessorForFullDataCompiler extends ArrayAccessorCompiler
 		mv.loadThis();
 		section().getArrayAccessorForConstDataOnly( this.arrayNode ).compileCall( mv );
 		mv.visitInsn( Opcodes.ARETURN );
-		
+
 		if (section().hasReset()) {
 			GeneratorAdapter reset = section().resetter();
 			// this.xy$init = false;
@@ -96,8 +96,8 @@ public class ArrayAccessorForFullDataCompiler extends ArrayAccessorCompiler
 			reset.push( false );
 			reset.visitFieldInsn( Opcodes.PUTFIELD, section().classInternalName(), initName, initDesc );
 		}
-		
+
 	}
-	
-	
+
+
 }

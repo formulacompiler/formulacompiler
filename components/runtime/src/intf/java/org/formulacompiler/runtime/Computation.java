@@ -72,8 +72,8 @@ public interface Computation
 		public TimeZone timeZone = null;
 
 		/**
-		 * Charset, which is used in CHAR and CODE functions.
-		 * If left {@code null}, the default charset for the locale will be used.
+		 * Charset, which is used in CHAR and CODE functions. If left {@code null}, the default
+		 * charset for the locale will be used.
 		 */
 		public Charset charset = null;
 

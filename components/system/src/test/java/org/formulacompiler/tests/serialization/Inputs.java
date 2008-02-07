@@ -32,7 +32,7 @@ public final class Inputs
 	final String a;
 	final String b;
 
-	public Inputs(String _a, String _b)
+	public Inputs( String _a, String _b )
 	{
 		super();
 		this.a = _a;
@@ -49,13 +49,13 @@ public final class Inputs
 		return Double.parseDouble( this.b );
 	}
 
-	@ScaledLong(4)
+	@ScaledLong( 4 )
 	public long getA_Long4()
 	{
 		return ScaledLongSupport.scale( (long) getA_Double(), 4 );
 	}
 
-	@ScaledLong(4)
+	@ScaledLong( 4 )
 	public long getB_Long4()
 	{
 		return ScaledLongSupport.scale( (long) getB_Double(), 4 );

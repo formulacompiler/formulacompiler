@@ -42,7 +42,7 @@ public abstract class RowSetup
 	{
 		return this.cx;
 	}
-	
+
 
 	// DO NOT REFORMAT BELOW THIS LINE
 	protected abstract int startingRow();
@@ -55,11 +55,12 @@ public abstract class RowSetup
 	protected abstract int documentedColCount();
 	// DO NOT REFORMAT ABOVE THIS LINE
 
-	
-	public int checkingCol() {
+
+	public int checkingCol()
+	{
 		return -1;
 	}
-	
+
 
 	public boolean isTestRow() throws Exception
 	{
@@ -116,8 +117,8 @@ public abstract class RowSetup
 		cx.setExpectedCell( expectedCell.getCellIndex() );
 		return this;
 	}
-	
-	
+
+
 	public RowSetup setupValues()
 	{
 		final Context cx = cx();

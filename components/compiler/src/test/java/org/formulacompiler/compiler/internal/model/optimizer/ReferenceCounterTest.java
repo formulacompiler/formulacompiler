@@ -27,11 +27,10 @@ import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumeri
 import org.formulacompiler.compiler.internal.model.rewriting.ModelRewriter;
 
 
-
 public class ReferenceCounterTest extends AbstractOptimizerTest
 {
 
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	public void testRefCountsOfCells() throws SecurityException, NoSuchMethodException, CompilerException
 	{
 		makeConstCellInput();
@@ -64,7 +63,7 @@ public class ReferenceCounterTest extends AbstractOptimizerTest
 	}
 
 
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	public void testNoRefCountByUnusedCell() throws SecurityException, NoSuchMethodException, CompilerException
 	{
 		makeConstCellInput();
@@ -87,7 +86,7 @@ public class ReferenceCounterTest extends AbstractOptimizerTest
 	}
 
 
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	public void testRefCountsOfConstCells() throws SecurityException, NoSuchMethodException, CompilerException
 	{
 		makeConstCellInput();

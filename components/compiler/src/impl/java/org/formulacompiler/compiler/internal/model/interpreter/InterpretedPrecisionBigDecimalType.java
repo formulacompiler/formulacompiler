@@ -27,7 +27,7 @@ import org.formulacompiler.runtime.internal.Environment;
 final class InterpretedPrecisionBigDecimalType extends InterpretedPrecisionBigDecimalType_Generated
 {
 
-	public InterpretedPrecisionBigDecimalType(NumericType _type, Environment _env)
+	public InterpretedPrecisionBigDecimalType( NumericType _type, Environment _env )
 	{
 		super( _type, _env );
 	}

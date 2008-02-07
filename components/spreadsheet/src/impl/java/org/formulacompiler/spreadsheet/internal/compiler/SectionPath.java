@@ -37,7 +37,7 @@ final class SectionPath
 	private SectionModelCompiler targetSectionCompiler;
 
 
-	public SectionPath(SectionModelCompiler _target)
+	public SectionPath( SectionModelCompiler _target )
 	{
 		this.targetSectionCompiler = _target;
 	}

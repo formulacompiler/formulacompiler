@@ -41,7 +41,8 @@ public class ExpressionContextProviderTest extends TestCase
 	protected void setUp() throws Exception
 	{
 		super.setUp();
-		this.parsed.setContextProviderOnThisAndArgumentsRecursively( new CellExpressionAsContextProvider( "A1", this.parsed ) );
+		this.parsed.setContextProviderOnThisAndArgumentsRecursively( new CellExpressionAsContextProvider( "A1",
+				this.parsed ) );
 		this.derived.setDerivedFrom( this.parsed );
 		this.derivedInner.setDerivedFrom( this.parsedInner );
 	}
@@ -56,25 +57,29 @@ public class ExpressionContextProviderTest extends TestCase
 	public void testOuterFocus() throws Exception
 	{
 		String ctx = this.derived.getContext( this.derived );
-		assertEquals( "\nIn expression  >> (ROUND( 3.141, 0 ) + 2) << ; error location indicated by >>..<<.\nIn cell A1.", ctx );
+		assertEquals(
+				"\nIn expression  >> (ROUND( 3.141, 0 ) + 2) << ; error location indicated by >>..<<.\nIn cell A1.", ctx );
 	}
 
 	public void testInnerFocus() throws Exception
 	{
 		String ctx = this.derived.getContext( this.derivedInner );
-		assertEquals( "\nIn expression ( >> ROUND( 3.141, 0 ) <<  + 2); error location indicated by >>..<<.\nIn cell A1.", ctx );
+		assertEquals(
+				"\nIn expression ( >> ROUND( 3.141, 0 ) <<  + 2); error location indicated by >>..<<.\nIn cell A1.", ctx );
 	}
 
 	public void testInnerFocusOnBase() throws Exception
 	{
 		String ctx = this.parsed.getContext( this.parsedInner );
-		assertEquals( "\nIn expression ( >> ROUND( 3.141, 0 ) <<  + 2); error location indicated by >>..<<.\nIn cell A1.", ctx );
+		assertEquals(
+				"\nIn expression ( >> ROUND( 3.141, 0 ) <<  + 2); error location indicated by >>..<<.\nIn cell A1.", ctx );
 	}
 
 	public void testDeepInnerFocusOnBase() throws Exception
 	{
 		String ctx = this.parsed.getContext( this.parsedInnerInner );
-		assertEquals( "\nIn expression (ROUND(  >> 3.141 << , 0 ) + 2); error location indicated by >>..<<.\nIn cell A1.", ctx );
+		assertEquals(
+				"\nIn expression (ROUND(  >> 3.141 << , 0 ) + 2); error location indicated by >>..<<.\nIn cell A1.", ctx );
 	}
 
 
@@ -82,7 +87,7 @@ public class ExpressionContextProviderTest extends TestCase
 	{
 		private final String cellName;
 
-		public CellExpressionAsContextProvider(String _cellName, ExpressionNode _expr)
+		public CellExpressionAsContextProvider( String _cellName, ExpressionNode _expr )
 		{
 			super( _expr );
 			this.cellName = _cellName;

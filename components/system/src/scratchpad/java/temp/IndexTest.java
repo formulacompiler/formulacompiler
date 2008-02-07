@@ -23,19 +23,19 @@ package temp;
 public class IndexTest
 {
 
-	
+
 	public static final class UsingArray
 	{
 		private double[] arr;
-		
+
 		private final double[] arr()
 		{
 			if (this.arr == null) {
-				this.arr = new double[] {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
+				this.arr = new double[] { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 };
 			}
 			return this.arr;
 		}
-		
+
 		public final double get1()
 		{
 			int i;
@@ -46,25 +46,35 @@ public class IndexTest
 		{
 			return 5;
 		}
-		
+
 	}
 
-	
+
 	public static final class UsingSwitch
 	{
 		public final double get1()
 		{
 			switch ((int) get2() - 1) {
-				case 0: return 10;
-				case 1: return 20;
-				case 2: return 30;
-				case 3: return 40;
-				case 4: return 50;
-				case 5: return 60;
-				case 6: return 70;
-				case 7: return 80;
-				case 8: return 90;
-				case 9: return 100;
+				case 0:
+					return 10;
+				case 1:
+					return 20;
+				case 2:
+					return 30;
+				case 3:
+					return 40;
+				case 4:
+					return 50;
+				case 5:
+					return 60;
+				case 6:
+					return 70;
+				case 7:
+					return 80;
+				case 8:
+					return 90;
+				case 9:
+					return 100;
 				default:
 					return 0;
 			}
@@ -74,7 +84,7 @@ public class IndexTest
 		{
 			return 5;
 		}
-		
+
 	}
-	
+
 }

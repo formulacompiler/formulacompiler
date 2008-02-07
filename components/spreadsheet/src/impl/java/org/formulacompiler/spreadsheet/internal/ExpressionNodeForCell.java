@@ -27,19 +27,18 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionDescriptionCo
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 
 
-
 public final class ExpressionNodeForCell extends ExpressionNode
 {
 	private final CellIndex cellIndex;
 
 
-	public ExpressionNodeForCell(CellInstance _cell)
+	public ExpressionNodeForCell( CellInstance _cell )
 	{
 		this.cellIndex = _cell.getCellIndex();
 	}
 
 
-	public ExpressionNodeForCell(CellIndex _c)
+	public ExpressionNodeForCell( CellIndex _c )
 	{
 		this.cellIndex = _c;
 	}
@@ -62,8 +61,8 @@ public final class ExpressionNodeForCell extends ExpressionNode
 	{
 		return new ExpressionNodeForCell( this.cellIndex );
 	}
-	
-	
+
+
 	@Override
 	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
 	{
@@ -76,6 +75,6 @@ public final class ExpressionNodeForCell extends ExpressionNode
 	{
 		this.cellIndex.describeTo( _to );
 	}
-	
-	
+
+
 }

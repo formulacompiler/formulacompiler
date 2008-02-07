@@ -25,7 +25,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.InnerExpressionException;
 
 
-@SuppressWarnings("unused")
+@SuppressWarnings( "unused" )
 public abstract class AbstractComputationModelVisitor implements ComputationModelVisitor
 {
 

@@ -29,7 +29,7 @@ public final class ExpressionNodeForLetVar extends ExpressionNode
 {
 	private final String varName;
 
-	public ExpressionNodeForLetVar(String _varName)
+	public ExpressionNodeForLetVar( String _varName )
 	{
 		super();
 		this.varName = _varName;

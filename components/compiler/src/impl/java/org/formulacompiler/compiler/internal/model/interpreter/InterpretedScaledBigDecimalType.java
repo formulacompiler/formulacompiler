@@ -27,7 +27,7 @@ import org.formulacompiler.runtime.internal.Environment;
 final class InterpretedScaledBigDecimalType extends InterpretedScaledBigDecimalType_Generated
 {
 
-	public InterpretedScaledBigDecimalType(NumericType _type, Environment _env)
+	public InterpretedScaledBigDecimalType( NumericType _type, Environment _env )
 	{
 		super( _type, _env );
 	}

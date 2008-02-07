@@ -38,7 +38,7 @@ final class HelperCompilerForFoldList extends HelperCompilerForFoldApply
 	{
 		super( _section, _applyNode, _closure );
 	}
-	
+
 	@Override
 	protected boolean argumentsAreVectors()
 	{
@@ -61,15 +61,16 @@ final class HelperCompilerForFoldList extends HelperCompilerForFoldApply
 			resetLocalsTo( reuseLocalsAt );
 			if (elt instanceof ExpressionNodeForSubSectionModel) {
 
-				compileSubSectionTraversal( (ExpressionNodeForSubSectionModel) elt, new SubSectionTraversal() {
-					
+				compileSubSectionTraversal( (ExpressionNodeForSubSectionModel) elt, new SubSectionTraversal()
+				{
+
 					public void compile( Collection<ExpressionNode> _elements ) throws CompilerException
 					{
 						compileTraversalOf( _elements );
 					}
-					
-				});
-				
+
+				} );
+
 			}
 			else {
 				letDict().let( eltName, elt.getDataType(), elt );
@@ -81,5 +82,5 @@ final class HelperCompilerForFoldList extends HelperCompilerForFoldApply
 		}
 	}
 
-	
+
 }

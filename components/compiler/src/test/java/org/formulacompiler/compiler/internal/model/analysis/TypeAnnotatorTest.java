@@ -262,8 +262,8 @@ public class TypeAnnotatorTest extends TestCase
 				CellModel re = new CellModel( _root, "RangeEnd" );
 				re.setConstantValue( _value );
 
-				_cell.setExpression( fun( Function.INDEX, new ExpressionNodeForArrayReference( new ArrayDescriptor( 1, 1, 2 ),
-						cell( rs ), cell( re ) ) ) );
+				_cell.setExpression( fun( Function.INDEX, new ExpressionNodeForArrayReference(
+						new ArrayDescriptor( 1, 1, 2 ), cell( rs ), cell( re ) ) ) );
 			}
 
 			@Override

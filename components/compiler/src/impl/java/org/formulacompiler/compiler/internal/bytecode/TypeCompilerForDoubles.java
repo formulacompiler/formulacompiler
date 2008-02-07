@@ -32,7 +32,7 @@ final class TypeCompilerForDoubles extends TypeCompilerForNumbers
 {
 	private static final Type RUNTIME_TYPE = Type.getType( RuntimeDouble_v2.class );
 
-	protected TypeCompilerForDoubles(ByteCodeEngineCompiler _engineCompiler, NumericType _numericType)
+	protected TypeCompilerForDoubles( ByteCodeEngineCompiler _engineCompiler, NumericType _numericType )
 	{
 		super( _engineCompiler, _numericType );
 	}

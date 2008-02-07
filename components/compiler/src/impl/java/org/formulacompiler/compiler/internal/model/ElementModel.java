@@ -27,7 +27,6 @@ import org.formulacompiler.compiler.internal.AbstractYamlizable;
 import org.formulacompiler.runtime.New;
 
 
-
 public abstract class ElementModel extends AbstractYamlizable
 {
 	private final ComputationModel engine;
@@ -38,7 +37,7 @@ public abstract class ElementModel extends AbstractYamlizable
 	private final Collection<CallFrame> callsToImplement = New.collection();
 
 
-	public ElementModel(SectionModel _section, String _name)
+	public ElementModel( SectionModel _section, String _name )
 	{
 		super();
 		this.engine = _section.getEngine();
@@ -48,7 +47,7 @@ public abstract class ElementModel extends AbstractYamlizable
 	}
 
 
-	ElementModel(ComputationModel _engine, String _name)
+	ElementModel( ComputationModel _engine, String _name )
 	{
 		super();
 		this.engine = _engine;

@@ -43,7 +43,7 @@ public class ComputationModel extends AbstractYamlizable
 	}
 
 	/**
-	 * For tests only! 
+	 * For tests only!
 	 */
 	public ComputationModel( Class _inputClass, Class _outputClass )
 	{

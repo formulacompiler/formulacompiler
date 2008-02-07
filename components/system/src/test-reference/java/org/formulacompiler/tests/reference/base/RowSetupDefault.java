@@ -60,7 +60,7 @@ public final class RowSetupDefault extends RowSetup
 		if (null == inputCountCell || null == inputCountCell.getValue()) return 2;
 		return 2 + ((Number) inputCountCell.getValue()).intValue();
 	}
-	
+
 	@Override
 	public int checkingCol()
 	{
@@ -79,7 +79,7 @@ public final class RowSetupDefault extends RowSetup
 		return makeExpected();
 	}
 
-	
+
 	@Override
 	public RowSetup setupValues()
 	{
@@ -90,7 +90,7 @@ public final class RowSetupDefault extends RowSetup
 		final int r = cx.getRowIndex();
 		int c = inputStartCol();
 		for (int i = 0; i < n; i++)
-			inputCells[ i ] = new CellIndex(ss, 0, c++, r );
+			inputCells[ i ] = new CellIndex( ss, 0, c++, r );
 		cx.setInputCells( inputCells );
 		return super.setupValues();
 	}

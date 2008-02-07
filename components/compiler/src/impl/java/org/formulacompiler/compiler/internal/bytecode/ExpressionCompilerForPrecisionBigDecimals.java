@@ -26,7 +26,7 @@ import org.formulacompiler.compiler.NumericType;
 final class ExpressionCompilerForPrecisionBigDecimals extends ExpressionCompilerForPrecisionBigDecimals_Generated
 {
 
-	public ExpressionCompilerForPrecisionBigDecimals(MethodCompiler _methodCompiler, NumericType _numericType)
+	public ExpressionCompilerForPrecisionBigDecimals( MethodCompiler _methodCompiler, NumericType _numericType )
 	{
 		super( _methodCompiler, _numericType );
 	}

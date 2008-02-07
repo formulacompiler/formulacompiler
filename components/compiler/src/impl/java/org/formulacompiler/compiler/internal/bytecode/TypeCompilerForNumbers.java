@@ -56,7 +56,7 @@ abstract class TypeCompilerForNumbers extends TypeCompiler
 
 	private final NumericType numericType;
 
-	public TypeCompilerForNumbers(ByteCodeEngineCompiler _engineCompiler, NumericType _numericType)
+	public TypeCompilerForNumbers( ByteCodeEngineCompiler _engineCompiler, NumericType _numericType )
 	{
 		super( _engineCompiler );
 		this.numericType = _numericType;

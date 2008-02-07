@@ -39,12 +39,12 @@ public abstract class AbstractStandardInputsOutputsTestCase extends AbstractIOTe
 
 	protected CallFrame getInput( String _name ) throws SecurityException, NoSuchMethodException
 	{
-		return FormulaCompiler.newCallFrame( Inputs.class.getMethod( _name ));
+		return FormulaCompiler.newCallFrame( Inputs.class.getMethod( _name ) );
 	}
 
 	protected CallFrame getOutput( String _name ) throws SecurityException, NoSuchMethodException
 	{
-		return FormulaCompiler.newCallFrame( OutputsWithoutReset.class.getMethod( _name ));
+		return FormulaCompiler.newCallFrame( OutputsWithoutReset.class.getMethod( _name ) );
 	}
 
 

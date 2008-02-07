@@ -26,7 +26,7 @@ public final class ExpressionDescriptionConfig
 	private final String focusStartMarker;
 	private final String focusEndMarker;
 
-	public ExpressionDescriptionConfig(ExpressionNode _focusedNode, String _focusStartMarker, String _focusEndMarker)
+	public ExpressionDescriptionConfig( ExpressionNode _focusedNode, String _focusStartMarker, String _focusEndMarker )
 	{
 		super();
 		this.focusedNode = _focusedNode;
@@ -34,13 +34,13 @@ public final class ExpressionDescriptionConfig
 		this.focusEndMarker = _focusEndMarker;
 	}
 
-	
+
 	public boolean isFocused( ExpressionNode _node )
 	{
 		if (_node == null) {
 			return false;
 		}
-		return (_node == this.focusedNode); 
+		return (_node == this.focusedNode);
 	}
 
 

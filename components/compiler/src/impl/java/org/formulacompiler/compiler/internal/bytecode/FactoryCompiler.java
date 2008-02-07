@@ -39,7 +39,7 @@ final class FactoryCompiler extends ClassCompiler
 	private final Type userInputType;
 
 
-	FactoryCompiler(ByteCodeEngineCompiler _compiler, Class _factoryClass, Method _factoryMethod)
+	FactoryCompiler( ByteCodeEngineCompiler _compiler, Class _factoryClass, Method _factoryMethod )
 	{
 		super( _compiler, ByteCodeEngine.GEN_FACTORY_NAME, true );
 		this.userFactoryClass = _factoryClass;
@@ -66,7 +66,8 @@ final class FactoryCompiler extends ClassCompiler
 
 	private void buildEnvironmentField()
 	{
-		newField( Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL, ByteCodeEngineCompiler.ENV_MEMBER_NAME, ByteCodeEngineCompiler.ENV_DESC );
+		newField( Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL, ByteCodeEngineCompiler.ENV_MEMBER_NAME,
+				ByteCodeEngineCompiler.ENV_DESC );
 	}
 
 

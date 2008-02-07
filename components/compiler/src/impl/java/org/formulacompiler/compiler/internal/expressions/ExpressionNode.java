@@ -110,7 +110,7 @@ public abstract class ExpressionNode extends AbstractDescribable implements Type
 	{
 		return hasConstantValue();
 	}
-	
+
 	public boolean hasConstantValue()
 	{
 		return false;
@@ -248,7 +248,7 @@ public abstract class ExpressionNode extends AbstractDescribable implements Type
 	public final String getContext( ExpressionNode _focusedNode )
 	{
 		final DescriptionBuilder builder = new DescriptionBuilder();
-			buildContext( builder, _focusedNode );
+		buildContext( builder, _focusedNode );
 		return builder.toString();
 	}
 

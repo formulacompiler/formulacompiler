@@ -42,7 +42,7 @@ abstract class ArrayAccessorCompiler extends MethodCompiler
 		this.elementDescriptor = _elementDescriptor;
 	}
 
-	
+
 	public String arrayDescriptor()
 	{
 		return this.arrayDescriptor;

@@ -36,7 +36,7 @@ public final class ByteCodeEngineSourceImpl implements ByteCodeEngineSource
 {
 	private final SortedMap<String, String> classes = New.sortedMap();
 
-	public ByteCodeEngineSourceImpl(Map<String, String> _classes)
+	public ByteCodeEngineSourceImpl( Map<String, String> _classes )
 	{
 		this.classes.putAll( _classes );
 	}

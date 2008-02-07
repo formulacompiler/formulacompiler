@@ -31,5 +31,5 @@ public enum DataType {
 		// Dates must be converted to current time-zone at runtime.
 		return !(_value instanceof Date);
 	}
-	
+
 }

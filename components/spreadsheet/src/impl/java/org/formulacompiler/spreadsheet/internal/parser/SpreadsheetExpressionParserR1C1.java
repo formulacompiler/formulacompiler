@@ -25,7 +25,7 @@ import org.formulacompiler.spreadsheet.internal.CellInstance;
 public class SpreadsheetExpressionParserR1C1 extends SpreadsheetExpressionParser
 {
 
-	public SpreadsheetExpressionParserR1C1(String _exprText, CellInstance _parseRelativeTo)
+	public SpreadsheetExpressionParserR1C1( String _exprText, CellInstance _parseRelativeTo )
 	{
 		super( _exprText, _parseRelativeTo );
 	}

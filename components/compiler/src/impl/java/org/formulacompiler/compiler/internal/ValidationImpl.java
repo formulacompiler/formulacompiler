@@ -131,7 +131,8 @@ public final class ValidationImpl implements Validation
 		final Class<Throwable>[] thrown = (Class<Throwable>[]) _method.getExceptionTypes();
 		for (int i = 0; i < thrown.length; i++) {
 			final Class<Throwable> t = thrown[ i ];
-			validate( RuntimeException.class.isAssignableFrom( t ), _method, _role, "throws checked exceptions", ACCESSIBLE );
+			validate( RuntimeException.class.isAssignableFrom( t ), _method, _role, "throws checked exceptions",
+					ACCESSIBLE );
 		}
 	}
 

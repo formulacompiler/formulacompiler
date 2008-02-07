@@ -27,7 +27,6 @@ import org.formulacompiler.examples.interactive.controller.MainWindowController;
 import org.formulacompiler.examples.interactive.ui.MainWindow;
 
 
-
 public class InteractiveDemo
 {
 

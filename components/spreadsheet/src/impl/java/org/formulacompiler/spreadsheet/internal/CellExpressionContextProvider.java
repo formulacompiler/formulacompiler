@@ -28,7 +28,7 @@ final class CellExpressionContextProvider extends ExpressionSourceAsContextProvi
 {
 	private final CellInstance cell;
 
-	public CellExpressionContextProvider(CellInstance _cell, ExpressionNode _expr)
+	public CellExpressionContextProvider( CellInstance _cell, ExpressionNode _expr )
 	{
 		super( _expr );
 		this.cell = _cell;

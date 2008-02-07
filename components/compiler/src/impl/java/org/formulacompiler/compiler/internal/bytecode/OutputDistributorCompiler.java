@@ -47,7 +47,7 @@ final class OutputDistributorCompiler
 	private int nextCaseNumber;
 
 
-	OutputDistributorCompiler(SectionCompiler _section, Method _method)
+	OutputDistributorCompiler( SectionCompiler _section, Method _method )
 	{
 		super();
 		this.section = _section;
@@ -84,15 +84,15 @@ final class OutputDistributorCompiler
 	String compileCase( CallFrame _callFrame ) throws UnsupportedDataType
 	{
 		final String caseMethodName = this.caseMethodPrefix + this.nextCaseNumber++;
-		
+
 		final Label next = mv().newLabel();
 		for (int i = 0; i < this.params.length; i++) {
 			final Class argClass = this.params[ i ];
 			final Type argType = this.paramTypes[ i ];
 			final Object argValue = _callFrame.getArgs()[ i ];
-			
+
 			mv().loadArg( i );
-			
+
 			if (argClass == Integer.TYPE) {
 				mv().push( ((Number) argValue).intValue() );
 				mv().ifCmp( argType, mv().NE, next );
@@ -102,7 +102,8 @@ final class OutputDistributorCompiler
 				mv().ifCmp( argType, mv().NE, next );
 			}
 			else if (argClass.isPrimitive()) {
-				throw new CompilerException.UnsupportedDataType( "The type '" + argClass + "' is not supported as an output parameter type for '" + this.method + "'." );
+				throw new CompilerException.UnsupportedDataType( "The type '"
+						+ argClass + "' is not supported as an output parameter type for '" + this.method + "'." );
 			}
 			else {
 				mv().visitLdcInsn( argValue );
@@ -111,13 +112,14 @@ final class OutputDistributorCompiler
 			}
 
 		}
-		
+
 		mv().loadThis();
-		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, this.section.classInternalName(), caseMethodName, this.getterDescriptor );
+		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, this.section.classInternalName(), caseMethodName,
+				this.getterDescriptor );
 		mv().returnValue();
-		
+
 		mv().visitLabel( next );
-		
+
 		return caseMethodName;
 	}
 
@@ -153,7 +155,8 @@ final class OutputDistributorCompiler
 
 	private void failWhenNoMatch()
 	{
-		mv().throwException( ByteCodeEngineCompiler.ILLEGALARGUMENT_CLASS, "Given argument values not bound in '" + this.method + "'." );
+		mv().throwException( ByteCodeEngineCompiler.ILLEGALARGUMENT_CLASS,
+				"Given argument values not bound in '" + this.method + "'." );
 	}
 
 }

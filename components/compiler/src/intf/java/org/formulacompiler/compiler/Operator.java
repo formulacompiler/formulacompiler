@@ -21,7 +21,6 @@
 package org.formulacompiler.compiler;
 
 
-
 /**
  * Lists all the expression operators supported by AFC.
  * 
@@ -30,7 +29,8 @@ package org.formulacompiler.compiler;
 public enum Operator {
 
 
-	CONCAT {
+	CONCAT
+	{
 		@Override
 		public String getSymbol()
 		{
@@ -39,7 +39,8 @@ public enum Operator {
 	},
 
 
-	PLUS {
+	PLUS
+	{
 		@Override
 		public String getSymbol()
 		{
@@ -48,7 +49,8 @@ public enum Operator {
 	},
 
 
-	MINUS {
+	MINUS
+	{
 		@Override
 		public String getSymbol()
 		{
@@ -57,7 +59,8 @@ public enum Operator {
 	},
 
 
-	TIMES {
+	TIMES
+	{
 		@Override
 		public String getSymbol()
 		{
@@ -65,7 +68,8 @@ public enum Operator {
 		}
 	},
 
-	DIV {
+	DIV
+	{
 		@Override
 		public String getSymbol()
 		{
@@ -73,7 +77,8 @@ public enum Operator {
 		}
 	},
 
-	EXP {
+	EXP
+	{
 		@Override
 		public String getSymbol()
 		{
@@ -81,7 +86,8 @@ public enum Operator {
 		}
 	},
 
-	PERCENT {
+	PERCENT
+	{
 		@Override
 		public String getSymbol()
 		{
@@ -95,7 +101,8 @@ public enum Operator {
 		}
 	},
 
-	EQUAL {
+	EQUAL
+	{
 		@Override
 		public String getSymbol()
 		{
@@ -109,7 +116,8 @@ public enum Operator {
 		}
 	},
 
-	NOTEQUAL {
+	NOTEQUAL
+	{
 		@Override
 		public String getSymbol()
 		{
@@ -123,7 +131,8 @@ public enum Operator {
 		}
 	},
 
-	LESS {
+	LESS
+	{
 		@Override
 		public String getSymbol()
 		{
@@ -137,7 +146,8 @@ public enum Operator {
 		}
 	},
 
-	LESSOREQUAL {
+	LESSOREQUAL
+	{
 		@Override
 		public String getSymbol()
 		{
@@ -151,7 +161,8 @@ public enum Operator {
 		}
 	},
 
-	GREATER {
+	GREATER
+	{
 		@Override
 		public String getSymbol()
 		{
@@ -165,7 +176,8 @@ public enum Operator {
 		}
 	},
 
-	GREATEROREQUAL {
+	GREATEROREQUAL
+	{
 		@Override
 		public String getSymbol()
 		{
@@ -182,7 +194,8 @@ public enum Operator {
 	/**
 	 * Internal - do not use!
 	 */
-	INTERNAL_MIN {
+	INTERNAL_MIN
+	{
 		@Override
 		public String getName()
 		{
@@ -199,7 +212,8 @@ public enum Operator {
 	/**
 	 * Internal - do not use!
 	 */
-	INTERNAL_MAX {
+	INTERNAL_MAX
+	{
 		@Override
 		public String getName()
 		{

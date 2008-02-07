@@ -32,7 +32,7 @@ public class SameNameRowSequenceTestSuite extends AbstractContextTestSuite
 	{
 		super( _cx );
 	}
-	
+
 	@Override
 	protected String getOwnName()
 	{

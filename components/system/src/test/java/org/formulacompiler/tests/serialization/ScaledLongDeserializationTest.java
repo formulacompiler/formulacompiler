@@ -38,7 +38,7 @@ public class ScaledLongDeserializationTest extends AbstractDeserializationTest
 	@Override
 	protected String numberToString( Number _arg )
 	{
-		return trimTrailingZeroes( Double.toString( _arg.doubleValue() / 10000.0 ));
+		return trimTrailingZeroes( Double.toString( _arg.doubleValue() / 10000.0 ) );
 	}
 
 }

@@ -41,15 +41,16 @@ final class SubSectionOutputAccessorCompiler extends MethodCompiler
 	private final CallFrame callToImplement;
 
 
-	SubSectionOutputAccessorCompiler(SectionCompiler _section, SubSectionCompiler _sub, CallFrame _callToImplement)
+	SubSectionOutputAccessorCompiler( SectionCompiler _section, SubSectionCompiler _sub, CallFrame _callToImplement )
 	{
-		super( _section, Opcodes.ACC_PUBLIC, _callToImplement.getMethod().getName(), Type.getMethodDescriptor( _callToImplement.getMethod() ) );
+		super( _section, Opcodes.ACC_PUBLIC, _callToImplement.getMethod().getName(), Type
+				.getMethodDescriptor( _callToImplement.getMethod() ) );
 		this.sub = _sub;
 		this.callToImplement = _callToImplement;
 	}
 
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( "unchecked" )
 	@Override
 	protected void compileBody() throws CompilerException
 	{
@@ -61,8 +62,9 @@ final class SubSectionOutputAccessorCompiler extends MethodCompiler
 
 		// get$Sect0()
 		mv.loadThis();
-		mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, section().classInternalName(), sub.getterName(), sub.getterDescriptor() );
-		
+		mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, section().classInternalName(), sub.getterName(), sub
+				.getterDescriptor() );
+
 		if (outputContainerClass.isArray()) {
 			mv.visitInsn( Opcodes.ARETURN );
 		}
@@ -70,12 +72,12 @@ final class SubSectionOutputAccessorCompiler extends MethodCompiler
 			// Detail[] arr = get$Sect0();
 			final int l_arr = mv.newLocal( sub.arrayType() );
 			mv.storeLocal( l_arr );
-			
+
 			final int l_len = mv.newLocal( Type.INT_TYPE );
 			mv.loadLocal( l_arr );
 			mv.arrayLength();
 			mv.storeLocal( l_len );
-			
+
 			// List lst = new ArrayList( arr.length );
 			final int l_lst = mv.newLocal( ARRAYLIST_CLASS );
 			mv.newInstance( ARRAYLIST_CLASS );
@@ -83,7 +85,7 @@ final class SubSectionOutputAccessorCompiler extends MethodCompiler
 			mv.loadLocal( l_len );
 			mv.visitMethodInsn( Opcodes.INVOKESPECIAL, ARRAYLIST_CLASS.getInternalName(), "<init>", "(I)V" );
 			mv.storeLocal( l_lst );
-			
+
 			// for (int i = 0; i < len; i++) {
 			final int l_i = mv.newLocal( Type.INT_TYPE );
 			mv.push( 0 );
@@ -91,7 +93,7 @@ final class SubSectionOutputAccessorCompiler extends MethodCompiler
 			final Label test = mv.newLabel();
 			mv.goTo( test );
 			final Label again = mv.mark();
-			
+
 			// lst.add( arr[ i ] );
 			mv.loadLocal( l_lst );
 			mv.loadLocal( l_arr );
@@ -99,7 +101,7 @@ final class SubSectionOutputAccessorCompiler extends MethodCompiler
 			mv.arrayLoad( sub.classType() );
 			mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, ARRAYLIST_CLASS.getInternalName(), "add", "(Ljava/lang/Object;)Z" );
 			mv.pop();
-			
+
 			// } // for
 			mv.iinc( l_i, 1 );
 			mv.mark( test );
@@ -114,7 +116,8 @@ final class SubSectionOutputAccessorCompiler extends MethodCompiler
 			}
 			else if (outputContainerClass.isAssignableFrom( Iterator.class )) {
 				// return lst.iterator();
-				mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, ARRAYLIST_CLASS.getInternalName(), "iterator", "()" + ITERATOR_INTF.getDescriptor() );
+				mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, ARRAYLIST_CLASS.getInternalName(), "iterator", "()"
+						+ ITERATOR_INTF.getDescriptor() );
 				mv.visitInsn( Opcodes.ARETURN );
 			}
 			else {

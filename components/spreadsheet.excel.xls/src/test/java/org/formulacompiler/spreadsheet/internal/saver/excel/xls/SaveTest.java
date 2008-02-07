@@ -48,21 +48,21 @@ public class SaveTest extends AbstractSpreadsheetTestCase
 		b.newCell( b.cst( 2.0 ) );
 		b.nameCell( "in2" );
 		CellRef b1 = b.currentCell();
-		
+
 		RangeRef ins = b.range( a1, b1 );
 		b.nameRange( ins, "Inputs" );
 
 		b.newRow();
 		b.newCell( b.fun( Function.SUM, b.ref( b.range( a1, b1 ) ) ) );
 		b.nameCell( "out" );
-		
+
 		Spreadsheet s = b.getSpreadsheet();
-		
+
 		byte[] saved = saveTo( s, ".xls" );
 		checkSpreadsheetStream( s, new ByteArrayInputStream( saved ), ".xls" );
 	}
 
-	
+
 	private byte[] saveTo( Spreadsheet _s, String _typeExtension ) throws Exception
 	{
 		ByteArrayOutputStream os = new ByteArrayOutputStream();

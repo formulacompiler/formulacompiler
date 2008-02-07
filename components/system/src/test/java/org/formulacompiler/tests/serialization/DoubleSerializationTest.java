@@ -26,7 +26,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 
 public final class DoubleSerializationTest extends AbstractSerializationTest
 {
-	
+
 	@Override
 	protected NumericType getNumericType()
 	{

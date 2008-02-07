@@ -33,16 +33,16 @@ public final class ExpressionNodeForCount extends ExpressionNode
 	private final SectionModel[] subSectionModels;
 	private final int[] subSectionStaticValueCounts;
 
-	public ExpressionNodeForCount(int _staticValueCount, SectionModel[] _subSectionModels,
-			int[] _subSectionStaticValueCounts)
+	public ExpressionNodeForCount( int _staticValueCount, SectionModel[] _subSectionModels,
+			int[] _subSectionStaticValueCounts )
 	{
 		super();
 		this.staticValueCount = _staticValueCount;
 		this.subSectionModels = _subSectionModels;
 		this.subSectionStaticValueCounts = _subSectionStaticValueCounts;
 	}
-	
-	
+
+
 	public final int staticValueCount()
 	{
 		return this.staticValueCount;

@@ -26,5 +26,5 @@ public interface ExpressionFormatter
 {
 
 	public abstract String format( ExpressionNode _expr );
-	
+
 }

@@ -30,7 +30,6 @@ import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.runtime.New;
 
 
-
 public final class SubstitutionInliner extends AbstractComputationModelVisitor
 {
 

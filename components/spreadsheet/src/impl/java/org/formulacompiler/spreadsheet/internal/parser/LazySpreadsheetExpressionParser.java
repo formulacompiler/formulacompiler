@@ -36,7 +36,8 @@ public class LazySpreadsheetExpressionParser extends AbstractDescribable impleme
 	private final CellRefFormat format;
 
 
-	public LazySpreadsheetExpressionParser( CellWithLazilyParsedExpression _cell, String _expressionText, CellRefFormat _format )
+	public LazySpreadsheetExpressionParser( CellWithLazilyParsedExpression _cell, String _expressionText,
+			CellRefFormat _format )
 	{
 		this.cell = _cell;
 		this.expressionText = _expressionText;

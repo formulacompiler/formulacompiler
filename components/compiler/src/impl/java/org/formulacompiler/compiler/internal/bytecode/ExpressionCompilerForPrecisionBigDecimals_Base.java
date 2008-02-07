@@ -40,7 +40,7 @@ abstract class ExpressionCompilerForPrecisionBigDecimals_Base extends Expression
 	protected final TypeCompilerForPrecisionBigDecimals bigCompiler = ((TypeCompilerForPrecisionBigDecimals) typeCompiler());
 
 
-	public ExpressionCompilerForPrecisionBigDecimals_Base(MethodCompiler _methodCompiler, NumericType _numericType)
+	public ExpressionCompilerForPrecisionBigDecimals_Base( MethodCompiler _methodCompiler, NumericType _numericType )
 	{
 		super( _methodCompiler, _numericType );
 	}
@@ -59,8 +59,8 @@ abstract class ExpressionCompilerForPrecisionBigDecimals_Base extends Expression
 		mv().visitFieldInsn( Opcodes.GETSTATIC, typeCompiler().rootCompiler().classInternalName(), RUNTIME_CONTEXT_NAME,
 				RUNTIME_CONTEXT_DESCRIPTOR );
 	}
-	
-	
+
+
 	protected final void compileValueAdjustment()
 	{
 		// No adjustment as precision is only a minimum, not an absolute.

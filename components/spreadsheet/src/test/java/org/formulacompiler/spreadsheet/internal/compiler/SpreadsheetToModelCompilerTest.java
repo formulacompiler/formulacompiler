@@ -87,7 +87,8 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		rootDef.defineOutputCell( o2.getCellIndex(), getOutput( "getB" ) );
 		rootDef.defineOutputCell( io1.getCellIndex(), getOutput( "getC" ) );
 
-		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(), SpreadsheetCompiler.DOUBLE );
+		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(),
+				SpreadsheetCompiler.DOUBLE );
 		ComputationModel model = compiler.compile();
 
 		model.traverse( new ReferenceCounter() );
@@ -168,7 +169,8 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		SpreadsheetBinder def = newBinder( workbook );
 		bld.defineWorkbook( def.getRoot() );
 
-		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(), SpreadsheetCompiler.DOUBLE );
+		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(),
+				SpreadsheetCompiler.DOUBLE );
 		ComputationModel model = compiler.compile();
 		SectionModel root = model.getRoot();
 
@@ -214,7 +216,8 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		bld.defineRange( def.getRoot() );
 		bld.details.defineOutputCell( bld.r1c4.getCellIndex(), getInput( "getOne" ) );
 
-		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(), SpreadsheetCompiler.DOUBLE );
+		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(),
+				SpreadsheetCompiler.DOUBLE );
 		ComputationModel model = compiler.compile();
 		SectionModel root = model.getRoot();
 
@@ -263,7 +266,8 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		inputsDef.defineInputCell( i1.getCellIndex(), getInput( "getOne" ) );
 		outputsDef.defineOutputCell( o1.getCellIndex(), getOutput( "getA" ) );
 
-		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(), SpreadsheetCompiler.DOUBLE );
+		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(),
+				SpreadsheetCompiler.DOUBLE );
 		try {
 			ComputationModel model = compiler.compile();
 			SectionModel root = model.getRoot();
@@ -310,7 +314,8 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		rootDef.defineOutputCell( o1.getCellIndex(), getOutput( "getA" ) );
 		rootDef.defineOutputCell( o2.getCellIndex(), getOutput( "getB" ) );
 
-		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(), SpreadsheetCompiler.DOUBLE );
+		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(),
+				SpreadsheetCompiler.DOUBLE );
 		ComputationModel model = compiler.compile();
 		SectionModel root = model.getRoot();
 
@@ -379,7 +384,8 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		rootDef.defineRepeatingSection( rng, Orientation.HORIZONTAL, getInput( "getDetails" ), Inputs.class, null, null );
 		rootDef.defineOutputCell( output.getCellIndex(), getOutput( "getResult" ) );
 
-		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(), SpreadsheetCompiler.DOUBLE );
+		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(),
+				SpreadsheetCompiler.DOUBLE );
 		try {
 			compiler.compile();
 			fail( "Definition for " + output + " accepted even though it does not cover the full range." );
@@ -406,7 +412,8 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		rootDef.defineInputCell( i1.getCellIndex(), getInput( "getOne" ) );
 		rootDef.defineOutputCell( o1.getCellIndex(), getOutput( "getResult" ) );
 
-		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(), SpreadsheetCompiler.DOUBLE );
+		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(),
+				SpreadsheetCompiler.DOUBLE );
 		ComputationModel model = compiler.compile();
 		SectionModel root = model.getRoot();
 
@@ -437,7 +444,8 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		rootDef.defineInputCell( i1.getCellIndex(), getInput( "getOne" ) );
 		rootDef.defineOutputCell( o1.getCellIndex(), getOutput( "getResult" ) );
 
-		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(), SpreadsheetCompiler.DOUBLE );
+		SpreadsheetToModelCompiler compiler = new SpreadsheetToModelCompiler( def.getBinding(),
+				SpreadsheetCompiler.DOUBLE );
 		ComputationModel model = compiler.compile();
 		SectionModel root = model.getRoot();
 

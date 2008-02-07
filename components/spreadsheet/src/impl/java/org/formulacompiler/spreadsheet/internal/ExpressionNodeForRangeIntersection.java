@@ -27,11 +27,10 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionDescriptionCo
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 
 
-
 public final class ExpressionNodeForRangeIntersection extends ExpressionNode
 {
 
-	public ExpressionNodeForRangeIntersection(Collection<ExpressionNode> _args)
+	public ExpressionNodeForRangeIntersection( Collection<ExpressionNode> _args )
 	{
 		super( _args );
 	}

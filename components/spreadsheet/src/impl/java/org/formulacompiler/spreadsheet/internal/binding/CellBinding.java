@@ -29,7 +29,7 @@ public abstract class CellBinding extends ElementBinding
 	private final CellIndex index;
 
 
-	public CellBinding(SectionBinding _space, CellIndex _index) throws CompilerException
+	public CellBinding( SectionBinding _space, CellIndex _index ) throws CompilerException
 	{
 		super( _space );
 		this.index = _index;
@@ -43,8 +43,8 @@ public abstract class CellBinding extends ElementBinding
 	{
 		return this.index;
 	}
-	
-	
+
+
 	public abstract CallFrame boundCall();
 
 }

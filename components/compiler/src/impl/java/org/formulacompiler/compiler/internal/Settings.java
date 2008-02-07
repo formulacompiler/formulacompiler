@@ -39,7 +39,7 @@ public class Settings
 		return log;
 	}
 
-	
+
 	private static boolean debugParserEnabled = false;
 
 	public static boolean isDebugParserEnabled()
@@ -52,7 +52,7 @@ public class Settings
 		debugParserEnabled = _debugParserEnabled;
 	}
 
-	
+
 	private static boolean debugCompilationEnabled = false;
 
 	public static boolean isDebugCompilationEnabled()

@@ -39,7 +39,8 @@ public abstract class CellRefParser
 		return PARSERS.get( _format );
 	}
 
-	public abstract CellIndex getCellIndexForCanonicalName( String _canonicalName, SheetImpl _sheet, CellIndex _relativeTo );
+	public abstract CellIndex getCellIndexForCanonicalName( String _canonicalName, SheetImpl _sheet,
+			CellIndex _relativeTo );
 
 	private static class CellRefParserA1 extends CellRefParser
 	{
@@ -67,7 +68,8 @@ public abstract class CellRefParser
 		public CellIndex getCellIndexForCanonicalName( String _canonicalName, SheetImpl _sheet, CellIndex _relativeTo )
 		{
 			final int rowIndex = parseRCIndex( _relativeTo.rowIndex + 1, _canonicalName, 1 );
-			final int colIndex = parseRCIndex( _relativeTo.columnIndex + 1, _canonicalName, _canonicalName.indexOf( 'C' ) + 1 );
+			final int colIndex = parseRCIndex( _relativeTo.columnIndex + 1, _canonicalName,
+					_canonicalName.indexOf( 'C' ) + 1 );
 			return new CellIndex( _sheet.getSpreadsheet(), _sheet.getSheetIndex(), colIndex - 1, rowIndex - 1 );
 		}
 

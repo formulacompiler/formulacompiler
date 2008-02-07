@@ -26,7 +26,7 @@ import org.formulacompiler.compiler.NumericType;
 final class ExpressionCompilerForDoubles extends ExpressionCompilerForDoubles_Generated
 {
 
-	public ExpressionCompilerForDoubles(MethodCompiler _methodCompiler, NumericType _numericType)
+	public ExpressionCompilerForDoubles( MethodCompiler _methodCompiler, NumericType _numericType )
 	{
 		super( _methodCompiler, _numericType );
 	}

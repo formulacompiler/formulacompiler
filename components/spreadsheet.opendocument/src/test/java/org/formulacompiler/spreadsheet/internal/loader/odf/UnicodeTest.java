@@ -28,7 +28,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.tests.utils.AbstractSpreadsheetTestCase;
 
 
-@SuppressWarnings("unqualified-field-access")
+@SuppressWarnings( "unqualified-field-access" )
 public class UnicodeTest extends AbstractSpreadsheetTestCase
 {
 	private Spreadsheet spreadsheet;

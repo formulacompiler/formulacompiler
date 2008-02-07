@@ -543,8 +543,8 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		long factor = fun_POWER( q, fun_INT( _n, _cx ), _cx );
 		if (factor <= EPSILON) {
 			factor = fun_POWER( _p, n, _cx );
-			if (factor <= EPSILON){
-					throw new FormulaException( "#NUM! because factor = 0 in CRITBINOM" );
+			if (factor <= EPSILON) {
+				throw new FormulaException( "#NUM! because factor = 0 in CRITBINOM" );
 			}
 			else {
 				long sum = _cx.one - factor;
@@ -684,7 +684,8 @@ public final class RuntimeLong_v2 extends Runtime_v2
 
 	public static long fun_DAYS360( long _date_start, long _end_start, boolean _method, final Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v2.fun_DAYS360( _cx.toDouble( _date_start ), _cx.toDouble( _end_start ), _method ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_DAYS360( _cx.toDouble( _date_start ), _cx.toDouble( _end_start ),
+				_method ) );
 	}
 
 	public static long fun_MONTH( long _date, final Context _cx )
@@ -772,7 +773,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 			}
 		}
 		else {
-			throw new FormulaException( "#VALUE! because of argument of unsupported type in VALUE" );			
+			throw new FormulaException( "#VALUE! because of argument of unsupported type in VALUE" );
 		}
 	}
 

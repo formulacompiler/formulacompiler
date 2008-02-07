@@ -24,7 +24,7 @@ public abstract class AbstractLongType extends NumericTypeImpl
 {
 	public static final Long ZERO = Long.valueOf( 0L );
 
-	protected AbstractLongType(int _scale, int _roundingMode)
+	protected AbstractLongType( int _scale, int _roundingMode )
 	{
 		super( Long.TYPE, _scale, _roundingMode );
 	}

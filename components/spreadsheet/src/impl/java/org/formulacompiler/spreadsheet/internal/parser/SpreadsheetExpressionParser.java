@@ -236,7 +236,7 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 	}
 
 	@Override
-	protected final Object makeCellIndex( ExpressionNode _node)
+	protected final Object makeCellIndex( ExpressionNode _node )
 	{
 		final ExpressionNodeForCell nodeForCell = (ExpressionNodeForCell) _node;
 		return nodeForCell.getCellIndex();

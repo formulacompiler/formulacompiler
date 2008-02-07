@@ -76,7 +76,7 @@ public class SpreadsheetPanel extends BottomButtonsPanel
 	 * 
 	 * @return javax.swing.JLabel
 	 */
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	private JLabel getCaptionLabel()
 	{
 		if (captionLabel == null) {
@@ -92,7 +92,7 @@ public class SpreadsheetPanel extends BottomButtonsPanel
 	 * 
 	 * @return javax.swing.JScrollPane
 	 */
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	private JScrollPane getScrollPane()
 	{
 		if (scrollPane == null) {
@@ -108,7 +108,7 @@ public class SpreadsheetPanel extends BottomButtonsPanel
 	 * 
 	 * @return javax.swing.JTable
 	 */
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	JTable getTable()
 	{
 		if (table == null) {
@@ -132,7 +132,7 @@ public class SpreadsheetPanel extends BottomButtonsPanel
 	 * 
 	 * @return javax.swing.JButton
 	 */
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	private JButton getOpenFileButton()
 	{
 		if (openFileButton == null) {
@@ -145,7 +145,8 @@ public class SpreadsheetPanel extends BottomButtonsPanel
 				{
 					final JFileChooser fc = new JFileChooser();
 					fc.setDialogTitle( "Open Spreadsheet File" );
-					fc.setFileFilter( new FileFilter() {
+					fc.setFileFilter( new FileFilter()
+					{
 
 						@Override
 						public boolean accept( File _f )
@@ -158,8 +159,8 @@ public class SpreadsheetPanel extends BottomButtonsPanel
 						{
 							return "Excel Files (*.xls)";
 						}
-						
-					});
+
+					} );
 					final int retval = fc.showOpenDialog( SpreadsheetPanel.this );
 					if (retval == JFileChooser.APPROVE_OPTION) {
 						final File file = fc.getSelectedFile();
@@ -167,7 +168,7 @@ public class SpreadsheetPanel extends BottomButtonsPanel
 							getController().loadSpreadsheetFrom( file.getAbsolutePath() );
 						}
 						catch (SpreadsheetException ex) {
-							throw new RuntimeException( ex ); 
+							throw new RuntimeException( ex );
 						}
 					}
 				}

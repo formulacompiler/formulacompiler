@@ -55,11 +55,16 @@ public class SpreadsheetExpressionParserTest extends TestCase
 		this.workbook.defineModelRangeName( "_B1_", this.cell12.getCellIndex() );
 		this.workbook.defineModelRangeName( "_A2_", this.cell21.getCellIndex() );
 		this.workbook.defineModelRangeName( "_B2_", this.cell22.getCellIndex() );
-		this.workbook.defineModelRangeName( "_A_", CellRange.getCellRange( this.cell11.getCellIndex(), this.cell21.getCellIndex() ) );
-		this.workbook.defineModelRangeName( "_B_", CellRange.getCellRange( this.cell12.getCellIndex(), this.cell22.getCellIndex() ) );
-		this.workbook.defineModelRangeName( "_1_", CellRange.getCellRange( this.cell11.getCellIndex(), this.cell12.getCellIndex() ) );
-		this.workbook.defineModelRangeName( "_2_", CellRange.getCellRange( this.cell21.getCellIndex(), this.cell22.getCellIndex() ) );
-		this.workbook.defineModelRangeName( "_ALL_", CellRange.getCellRange( this.cell11.getCellIndex(), this.cell22.getCellIndex() ) );
+		this.workbook.defineModelRangeName( "_A_", CellRange.getCellRange( this.cell11.getCellIndex(), this.cell21
+				.getCellIndex() ) );
+		this.workbook.defineModelRangeName( "_B_", CellRange.getCellRange( this.cell12.getCellIndex(), this.cell22
+				.getCellIndex() ) );
+		this.workbook.defineModelRangeName( "_1_", CellRange.getCellRange( this.cell11.getCellIndex(), this.cell12
+				.getCellIndex() ) );
+		this.workbook.defineModelRangeName( "_2_", CellRange.getCellRange( this.cell21.getCellIndex(), this.cell22
+				.getCellIndex() ) );
+		this.workbook.defineModelRangeName( "_ALL_", CellRange.getCellRange( this.cell11.getCellIndex(), this.cell22
+				.getCellIndex() ) );
 	}
 
 
@@ -106,7 +111,8 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	public void testCellRefs() throws Exception
 	{
 		assertParseableA1( "((((A1 + B1) + B2) + A2) + B2)", "A1 + _1_ + _2_ + _A_ + _B_" );
-		assertParseableA1ODF( "((((A1 + B1) + B2) + A2) + B2)", "[.A1] + _1_ + _2_ + _A_ + _B_" ); // todo ???
+		assertParseableA1ODF( "((((A1 + B1) + B2) + A2) + B2)", "[.A1] + _1_ + _2_ + _A_ + _B_" ); // todo
+																																	// ???
 		assertParseableR1C1( "((((A1 + B1) + B2) + A2) + B2)", "R1C1 + _1_ + _2_ + _A_ + _B_" );
 		assertParseableR1C1( "((((A1 + C3) + A2) + B1) + A1)", "R1C1 + R[1]C[1] + RC1 + R1C + R[-1]C[-1]" );
 	}

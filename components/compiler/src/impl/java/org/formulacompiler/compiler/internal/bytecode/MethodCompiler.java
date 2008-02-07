@@ -386,28 +386,28 @@ abstract class MethodCompiler
 
 		else if (_node instanceof ExpressionNodeForFoldDefinition) {
 			final ExpressionNodeForFoldDefinition fold = (ExpressionNodeForFoldDefinition) _node;
-			
+
 			for (int i = 0; i < fold.accuCount(); i++)
 				addToClosure( _closure, fold.accuInit( i ) );
 
 			for (int i = 0; i < fold.accuCount(); i++)
-				letInnerDef( fold.accuName( i ));
+				letInnerDef( fold.accuName( i ) );
 			for (int i = 0; i < fold.eltCount(); i++)
-				letInnerDef( fold.eltName( i ));
+				letInnerDef( fold.eltName( i ) );
 			letInnerDef( fold.indexName() );
 
 			for (int i = 0; i < fold.accuCount(); i++)
-				addToClosure( _closure, fold.accuStep( i ));
-			
+				addToClosure( _closure, fold.accuStep( i ) );
+
 			unletInnerDef( fold.indexName() );
 			letDict().unlet( fold.eltCount() );
 			letInnerDef( fold.countName() );
-			
+
 			addToClosure( _closure, fold.merge() );
-			
+
 			unletInnerDef( fold.countName() );
 			letDict().unlet( fold.accuCount() );
-			
+
 			addToClosure( _closure, fold.whenEmpty() );
 		}
 

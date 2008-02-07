@@ -232,9 +232,9 @@ public final class ExpressionTemplatesForDoubles
 	{
 		/*
 		 * Using a direct comparison like
-		 *
+		 * 
 		 * return (a < b) ? a : b;
-		 *
+		 * 
 		 * generates too much code for inlining.
 		 */
 		return RuntimeDouble_v2.min( a, b );
@@ -685,6 +685,6 @@ public final class ExpressionTemplatesForDoubles
 	public double fun_TIMEVALUE( String _text )
 	{
 		return RuntimeDouble_v2.fun_TIMEVALUE( _text, this.environment );
-	}	
+	}
 
 }

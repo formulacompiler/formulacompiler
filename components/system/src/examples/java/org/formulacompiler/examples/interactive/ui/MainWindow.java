@@ -32,7 +32,6 @@ import org.formulacompiler.examples.interactive.controller.MainWindowController;
 import org.formulacompiler.runtime.FormulaCompilerException;
 
 
-
 public class MainWindow extends JFrame
 {
 	private MainWindowController controller = null;
@@ -98,7 +97,7 @@ public class MainWindow extends JFrame
 	 * 
 	 * @return javax.swing.JPanel
 	 */
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	private JPanel getJContentPane()
 	{
 		if (jContentPane == null) {
@@ -115,7 +114,7 @@ public class MainWindow extends JFrame
 	 * 
 	 * @return javax.swing.JSplitPane
 	 */
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	private JSplitPane getDataSplitPane()
 	{
 		if (dataSplitPane == null) {
@@ -136,7 +135,7 @@ public class MainWindow extends JFrame
 	 * 
 	 * @return SpreadsheetPanel
 	 */
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	private SpreadsheetPanel getSpreadsheetPanel()
 	{
 		if (spreadsheetPanel == null) {
@@ -151,7 +150,7 @@ public class MainWindow extends JFrame
 	 * 
 	 * @return javax.swing.JSplitPane
 	 */
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	private JSplitPane getComputationSplitPane()
 	{
 		if (computationSplitPane == null) {
@@ -171,7 +170,7 @@ public class MainWindow extends JFrame
 	 * 
 	 * @return CellListPanel
 	 */
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	private CellListPanel getInputsPanel()
 	{
 		if (inputsPanel == null) {
@@ -186,7 +185,7 @@ public class MainWindow extends JFrame
 	 * 
 	 * @return CellListPanel
 	 */
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	private CellListPanel getOutputsPanel()
 	{
 		if (outputsPanel == null) {
@@ -202,7 +201,7 @@ public class MainWindow extends JFrame
 	 * 
 	 * @return javax.swing.JButton
 	 */
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	private JButton getComputeNowButton()
 	{
 		if (computeNowButton == null) {

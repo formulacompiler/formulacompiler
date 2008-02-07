@@ -36,7 +36,7 @@ public final class SpreadsheetSaverDispatcher implements SpreadsheetSaver
 	private final Config config;
 
 
-	public SpreadsheetSaverDispatcher(Config _config)
+	public SpreadsheetSaverDispatcher( Config _config )
 	{
 		super();
 		this.config = _config;

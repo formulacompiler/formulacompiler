@@ -122,7 +122,7 @@ public class CellRangeTilerTest extends TestCase
 	{
 		public final int left, right, top, bottom;
 
-		public Rect(int l, int r, int t, int b)
+		public Rect( int l, int r, int t, int b )
 		{
 			this.left = l;
 			this.right = r;

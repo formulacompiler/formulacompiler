@@ -267,5 +267,5 @@ final class FunctionRewriterForDatabaseFold extends AbstractFunctionRewriterForC
 		return -1;
 	}
 
-	
+
 }

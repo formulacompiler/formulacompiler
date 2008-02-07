@@ -27,11 +27,11 @@ import org.formulacompiler.compiler.FormulaCompiler;
 public class DoubleTypeTest extends AbstractNumericTypeTest
 {
 	private final NumericType type = FormulaCompiler.DOUBLE;
-	
+
 	@Override
 	protected NumericType getType()
 	{
 		return this.type;
 	}
-	
+
 }

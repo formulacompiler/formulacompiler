@@ -23,7 +23,7 @@ package org.formulacompiler.compiler;
 
 /**
  * Lists all the functions supported by AFC.
- *
+ * 
  * @author peo
  */
 public enum Function {

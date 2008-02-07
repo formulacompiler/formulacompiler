@@ -37,7 +37,7 @@ public final class SpreadsheetLoaderDispatcher implements SpreadsheetLoader
 	private static final Collection<Factory> FACTORIES = ImplementationLocator.getInstances( Factory.class );
 	private final Config config;
 
-	private  SpreadsheetLoaderDispatcher( Config _config )
+	private SpreadsheetLoaderDispatcher( Config _config )
 	{
 		this.config = _config;
 	}

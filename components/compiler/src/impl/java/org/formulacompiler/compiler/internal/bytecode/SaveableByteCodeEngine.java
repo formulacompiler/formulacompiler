@@ -44,7 +44,7 @@ final class SaveableByteCodeEngine extends ByteCodeEngine implements SaveableEng
 {
 
 
-	public SaveableByteCodeEngine(ClassLoader _parentClassLoader, Map<String, byte[]> _classNamesAndBytes)
+	public SaveableByteCodeEngine( ClassLoader _parentClassLoader, Map<String, byte[]> _classNamesAndBytes )
 			throws EngineException
 	{
 		super( _parentClassLoader, _classNamesAndBytes );

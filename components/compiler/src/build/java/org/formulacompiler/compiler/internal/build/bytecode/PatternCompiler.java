@@ -61,5 +61,5 @@ public final class PatternCompiler
 		return false;
 	}
 
-	
+
 }

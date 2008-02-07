@@ -97,8 +97,8 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 	public void testParametrizedInput() throws Exception
 	{
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
-		this.root.defineInputCell( this.formula.getCellIndex(), FormulaCompiler.newCallFrame( Inputs.class.getMethod( "getPlusOne",
-				Double.TYPE ), 100.0 ) );
+		this.root.defineInputCell( this.formula.getCellIndex(), FormulaCompiler.newCallFrame( Inputs.class.getMethod(
+				"getPlusOne", Double.TYPE ), 100.0 ) );
 
 		assertResult( 101.0 );
 	}
@@ -107,8 +107,8 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 	public void testEnumInParametrizedInput() throws Exception
 	{
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
-		this.root.defineInputCell( this.formula.getCellIndex(), FormulaCompiler.newCallFrame( Inputs.class.getMethod( "hasEnumParam",
-				Inputs.MyEnum.class ), Inputs.MyEnum.TWO ) );
+		this.root.defineInputCell( this.formula.getCellIndex(), FormulaCompiler.newCallFrame( Inputs.class.getMethod(
+				"hasEnumParam", Inputs.MyEnum.class ), Inputs.MyEnum.TWO ) );
 
 		assertResult( 2.0 );
 	}
@@ -117,8 +117,9 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 	public void testChainedInput() throws Exception
 	{
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
-		this.root.defineInputCell( this.formula.getCellIndex(), FormulaCompiler.newCallFrame( Inputs.class.getMethod( "getInner",
-				Double.TYPE ), 100.0 ).chain( Inputs.Inner.class.getMethod( "getTimesTwo" ) ) );
+		this.root.defineInputCell( this.formula.getCellIndex(), FormulaCompiler.newCallFrame(
+				Inputs.class.getMethod( "getInner", Double.TYPE ), 100.0 ).chain(
+				Inputs.Inner.class.getMethod( "getTimesTwo" ) ) );
 
 		assertResult( 200.0 );
 	}
@@ -128,8 +129,8 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 	{
 		makeBinderFor( InputInterface.class, OutputsWithDefault.class );
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
-		this.root.defineInputCell( this.formula.getCellIndex(),
-				FormulaCompiler.newCallFrame( InputInterface.class.getMethod( "getOne" ) ) );
+		this.root.defineInputCell( this.formula.getCellIndex(), FormulaCompiler.newCallFrame( InputInterface.class
+				.getMethod( "getOne" ) ) );
 
 		assertResult( 1.0, new Inputs( new double[] { 1.0 } ) );
 	}
@@ -177,8 +178,8 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 	{
 		makeBinderFor( ThrowingInput.class, ThrowingOutput.class );
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
-		this.root.defineInputCell( this.formula.getCellIndex(),
-				FormulaCompiler.newCallFrame( ThrowingInput.class.getMethod( "getFails" ) ) );
+		this.root.defineInputCell( this.formula.getCellIndex(), FormulaCompiler.newCallFrame( ThrowingInput.class
+				.getMethod( "getFails" ) ) );
 		this.root.defineOutputCell( this.formula.getCellIndex(), FormulaCompiler.newCallFrame( ThrowingOutput.class
 				.getMethod( "getFails" ) ) );
 
@@ -221,8 +222,8 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 	{
 		makeBinderFor( NonStaticInput.class, StaticOutput.class );
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
-		this.root.defineInputCell( this.formula.getCellIndex(),
-				FormulaCompiler.newCallFrame( NonStaticInput.class.getMethod( "getOne" ) ) );
+		this.root.defineInputCell( this.formula.getCellIndex(), FormulaCompiler.newCallFrame( NonStaticInput.class
+				.getMethod( "getOne" ) ) );
 
 		assertResult( 1.0, new NonStaticInput( new double[] { 1.0 } ) );
 	}
@@ -278,9 +279,10 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 	{
 		makeBinderFor( Inputs.class, Outputs.class );
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
-		this.root.defineInputCell( this.formula.getCellIndex(),
-				FormulaCompiler.newCallFrame( Inputs.class.getMethod( "getUnsupported" ) ) );
-		this.root.defineOutputCell( this.formula.getCellIndex(), FormulaCompiler.newCallFrame( Outputs.class.getMethod( "getResult" ) ) );
+		this.root.defineInputCell( this.formula.getCellIndex(), FormulaCompiler.newCallFrame( Inputs.class
+				.getMethod( "getUnsupported" ) ) );
+		this.root.defineOutputCell( this.formula.getCellIndex(), FormulaCompiler.newCallFrame( Outputs.class
+				.getMethod( "getResult" ) ) );
 		try {
 			newEngine();
 			fail();
@@ -310,8 +312,8 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 	{
 		makeBinderFor( Inputs.class, ParamOutputAbstract.class );
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
-		this.root.defineOutputCell( this.formula.getCellIndex(), FormulaCompiler.newCallFrame( ParamOutputAbstract.class.getMethod(
-				"getParam", Integer.TYPE ), 1 ) );
+		this.root.defineOutputCell( this.formula.getCellIndex(), FormulaCompiler.newCallFrame( ParamOutputAbstract.class
+				.getMethod( "getParam", Integer.TYPE ), 1 ) );
 		Engine engine = newEngine();
 		ParamOutputAbstract comp = (ParamOutputAbstract) engine.getComputationFactory().newComputation( null );
 		assertEquals( 123.0, comp.getParam( 1 ), 0.0001 );
@@ -335,8 +337,8 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 	{
 		makeBinderFor( Inputs.class, ParamOutputInterface.class );
 		this.formula.setExpression( new ExpressionNodeForConstantValue( 123.0 ) );
-		this.root.defineOutputCell( this.formula.getCellIndex(), FormulaCompiler.newCallFrame( ParamOutputInterface.class.getMethod(
-				"getParam", Integer.TYPE ), 1 ) );
+		this.root.defineOutputCell( this.formula.getCellIndex(), FormulaCompiler.newCallFrame( ParamOutputInterface.class
+				.getMethod( "getParam", Integer.TYPE ), 1 ) );
 		Engine engine = newEngine();
 		ParamOutputInterface comp = (ParamOutputInterface) engine.getComputationFactory().newComputation( null );
 		assertEquals( 123.0, comp.getParam( 1 ), 0.0001 );
@@ -498,16 +500,16 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 
 	/**
 	 * Construct a sheet with dynamic ranges: {@link WorksheetBuilderWithBands}.
-	 *
+	 * 
 	 * Then provide input values for the range A2:B3 (the fixed numbers) and extend it by one row:
-	 *
+	 * 
 	 * <pre>
 	 *             SUM(C2:C3) 0.5
 	 *             4.0 5.0 SUM(A2:B2)*B$1
 	 *             6.0 7.0 SUM(A3:B3)*B$1
 	 *             8.0 9.0 SUM(A4:B4)*B$1
 	 * </pre>
-	 *
+	 * 
 	 * @throws CompilerException
 	 */
 	public void testSections() throws Exception

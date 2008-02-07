@@ -24,8 +24,7 @@ import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 
 
-
-public interface LazyExpressionParser 
+public interface LazyExpressionParser
 {
 	ExpressionNode parseExpression( CellWithLazilyParsedExpression _cell ) throws CompilerException;
 	String getSource();

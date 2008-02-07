@@ -23,7 +23,7 @@ package org.formulacompiler.tests.serialization;
 
 public abstract class AbstractDeserializationTest extends AbstractTestBase
 {
-	
+
 	public void testDeserialization() throws Exception
 	{
 		deserializeAndTest();

@@ -26,29 +26,29 @@ abstract class TypedMethodCompiler extends MethodCompiler
 {
 	private final DataType dataType;
 
-	
-	TypedMethodCompiler(SectionCompiler _section, int _access, String _methodName, String _descriptor, DataType _type)
+
+	TypedMethodCompiler( SectionCompiler _section, int _access, String _methodName, String _descriptor, DataType _type )
 	{
 		super( _section, _access, _methodName, _descriptor );
 		this.dataType = _type;
 	}
 
-	
+
 	DataType dataType()
 	{
 		return this.dataType;
 	}
-	
-	
+
+
 	ExpressionCompiler expressionCompiler()
 	{
 		return expressionCompiler( dataType() );
 	}
-	
+
 	TypeCompiler typeCompiler()
 	{
 		return expressionCompiler().typeCompiler();
 	}
-	
-	
+
+
 }

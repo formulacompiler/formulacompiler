@@ -32,7 +32,7 @@ import org.formulacompiler.decompiler.FormulaDecompiler;
 
 /**
  * Debugging class whose use is rejected in release builds.
- *
+ * 
  * @author peo
  */
 public final class Debug
@@ -66,7 +66,7 @@ public final class Debug
 	 * Use to temporarily decompile engines for debugging purposes. Using this instead of
 	 * {@link FormulaDecompiler#decompile(org.formulacompiler.runtime.Engine)} ensures that debugging
 	 * code does not compile in release builds.
-	 *
+	 * 
 	 * @see #decompileEngine(SaveableEngine)
 	 */
 	public static void decompileEngine( SaveableEngine _engine, String _folderName ) throws IOException
@@ -79,7 +79,7 @@ public final class Debug
 	 * Use to temporarily decompile an engine for debugging purposes to "temp/debug/decompiled/".
 	 * Using this instead of {@link FormulaDecompiler#decompile(org.formulacompiler.runtime.Engine)}
 	 * ensures that debugging code does not compile in release builds.
-	 *
+	 * 
 	 * @see #decompileEngine(SaveableEngine, String)
 	 */
 	public static void decompileEngine( SaveableEngine _engine ) throws IOException
@@ -90,7 +90,7 @@ public final class Debug
 
 	/**
 	 * Like {@link #decompileEngine(SaveableEngine)}, but runs the result with the supplied editor.
-	 *
+	 * 
 	 * @param _editor is, for example, "notepad" or "gedit".
 	 */
 	public static void decompileAndShowEngine( SaveableEngine _engine, String _editor ) throws IOException

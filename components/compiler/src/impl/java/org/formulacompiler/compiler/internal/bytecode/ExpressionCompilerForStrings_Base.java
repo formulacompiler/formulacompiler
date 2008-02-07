@@ -39,7 +39,7 @@ abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAl
 	private static final String S2I = "(" + S + ")I";
 	private static final String S2Z = "(" + S + ")Z";
 
-	public ExpressionCompilerForStrings_Base(MethodCompiler _methodCompiler)
+	public ExpressionCompilerForStrings_Base( MethodCompiler _methodCompiler )
 	{
 		super( _methodCompiler );
 	}
@@ -77,11 +77,11 @@ abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAl
 		}
 
 		else if (_class == Double.TYPE) {
-				compile_util_fromDouble();
+			compile_util_fromDouble();
 		}
 
 		else if (_class == Float.TYPE) {
-				compile_util_fromFloat();
+			compile_util_fromFloat();
 		}
 
 		else if (_class == Boolean.TYPE) {

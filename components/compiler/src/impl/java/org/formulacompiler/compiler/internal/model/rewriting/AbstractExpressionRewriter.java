@@ -29,24 +29,24 @@ import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 abstract class AbstractExpressionRewriter
 {
 	private final NameSanitizer sanitizer;
-	
+
 	public AbstractExpressionRewriter( NameSanitizer _sanitizer )
 	{
 		super();
 		this.sanitizer = _sanitizer;
 	}
 
-	
+
 	protected final NameSanitizer sanitizer()
 	{
 		return this.sanitizer;
 	}
-	
+
 	protected final String newSanitizingSuffix()
 	{
 		return this.sanitizer.newSanitizingSuffix();
 	}
-	
+
 
 	protected static final Object NOT_CONST = new Object();
 

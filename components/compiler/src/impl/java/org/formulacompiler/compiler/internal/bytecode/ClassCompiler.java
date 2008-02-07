@@ -39,7 +39,7 @@ abstract class ClassCompiler
 	private final ClassWriter cw = new ClassWriter( ClassWriter.COMPUTE_MAXS );
 
 
-	public ClassCompiler(ByteCodeEngineCompiler _compiler, String _className, boolean _public)
+	public ClassCompiler( ByteCodeEngineCompiler _compiler, String _className, boolean _public )
 	{
 		super();
 		this.engineCompiler = _compiler;
@@ -138,7 +138,7 @@ abstract class ClassCompiler
 
 	public void compileClassRef( Class _class )
 	{
-		compileClassRef( _class, Type.getType( _class ));
+		compileClassRef( _class, Type.getType( _class ) );
 	}
 
 	public void compileClassRef( Class _class, Type _type )
@@ -153,7 +153,7 @@ abstract class ClassCompiler
 		}
 	}
 
-	
+
 	private GeneratorAdapter initializer;
 
 	protected final GeneratorAdapter initializer()

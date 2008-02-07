@@ -41,7 +41,7 @@ import org.formulacompiler.runtime.ComputationFactory;
 import junit.framework.TestCase;
 
 
-@SuppressWarnings("unqualified-field-access")
+@SuppressWarnings( "unqualified-field-access" )
 public class PrecisionTest extends TestCase
 {
 	private ComputationModel cm;
@@ -137,7 +137,7 @@ public class PrecisionTest extends TestCase
 	{
 		private final BigDecimal[] inputs;
 
-		public Inputs(String... _inputs)
+		public Inputs( String... _inputs )
 		{
 			super();
 			this.inputs = new BigDecimal[ _inputs.length ];
