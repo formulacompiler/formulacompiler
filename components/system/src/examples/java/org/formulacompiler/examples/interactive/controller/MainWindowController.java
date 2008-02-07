@@ -36,7 +36,6 @@ import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 
 
-
 public class MainWindowController
 {
 	private final SpreadsheetModel spreadsheetModel = new SpreadsheetModel();
@@ -197,7 +196,7 @@ public class MainWindowController
 		public Double value;
 
 
-		public CellListEntry(Spreadsheet.Cell _index, Double _value)
+		public CellListEntry( Spreadsheet.Cell _index, Double _value )
 		{
 			this.index = _index;
 			this.value = _value;
@@ -210,7 +209,7 @@ public class MainWindowController
 	{
 		private final CellListModel inputModel;
 
-		public Inputs(CellListModel _inputModel)
+		public Inputs( CellListModel _inputModel )
 		{
 			super();
 			this.inputModel = _inputModel;

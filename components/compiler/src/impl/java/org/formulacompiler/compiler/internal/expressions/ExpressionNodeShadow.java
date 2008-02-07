@@ -25,13 +25,12 @@ import java.util.List;
 import org.formulacompiler.runtime.New;
 
 
-
 public abstract class ExpressionNodeShadow
 {
 	private final ExpressionNode node;
 	private final List<ExpressionNodeShadow> arguments = New.list();
 
-	public ExpressionNodeShadow(ExpressionNode _node)
+	public ExpressionNodeShadow( ExpressionNode _node )
 	{
 		super();
 		this.node = _node;

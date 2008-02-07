@@ -31,7 +31,7 @@ import org.formulacompiler.runtime.ScaledLong;
  * 
  * @author peo
  */
-@ScaledLong(4)
+@ScaledLong( 4 )
 public class OutputsWithoutReset implements OutputInterface
 {
 	public double getResult()

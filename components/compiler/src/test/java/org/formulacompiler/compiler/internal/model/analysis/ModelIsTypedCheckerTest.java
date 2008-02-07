@@ -33,7 +33,7 @@ import junit.framework.TestCase;
 
 public class ModelIsTypedCheckerTest extends TestCase
 {
-	
+
 	public void testMissingCellType() throws Exception
 	{
 		ComputationModel m = new ComputationModel( In.class, Out.class );

@@ -27,24 +27,24 @@ public final class InnerExpressionException extends CompilerException
 {
 	private final ExpressionNode errorNode;
 
-	
-	public InnerExpressionException(ExpressionNode _errorNode, CompilerException _cause)
+
+	public InnerExpressionException( ExpressionNode _errorNode, CompilerException _cause )
 	{
 		super( _cause.getMessage(), _cause );
 		this.errorNode = _errorNode;
 	}
 
-	
+
 	public ExpressionNode getErrorNode()
 	{
 		return this.errorNode;
 	}
-	
-	
+
+
 	@Override
 	public CompilerException getCause()
 	{
 		return (CompilerException) super.getCause();
 	}
-	
+
 }

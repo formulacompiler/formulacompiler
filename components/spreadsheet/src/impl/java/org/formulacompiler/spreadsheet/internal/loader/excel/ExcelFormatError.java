@@ -23,7 +23,7 @@ package org.formulacompiler.spreadsheet.internal.loader.excel;
 public final class ExcelFormatError extends RuntimeException
 {
 
-	public ExcelFormatError(String _message)
+	public ExcelFormatError( String _message )
 	{
 		super( _message );
 	}

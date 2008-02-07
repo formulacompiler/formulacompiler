@@ -71,35 +71,35 @@ public class DescriptionBuilderTest extends TestCase
 
 		assertNull( d.getContext( String.class ) );
 		assertNull( d.getContext( Integer.class ) );
-		
+
 		d.pushContext( i1 );
 		assertNull( d.getContext( String.class ) );
-		assertEquals( i1, d.getContext( Integer.class ));
-		
+		assertEquals( i1, d.getContext( Integer.class ) );
+
 		d.pushContext( s1 );
-		assertEquals( s1, d.getContext( String.class ));
-		assertEquals( i1, d.getContext( Integer.class ));
-		
+		assertEquals( s1, d.getContext( String.class ) );
+		assertEquals( i1, d.getContext( Integer.class ) );
+
 		d.pushContext( i2 );
-		assertEquals( s1, d.getContext( String.class ));
-		assertEquals( i2, d.getContext( Integer.class ));
+		assertEquals( s1, d.getContext( String.class ) );
+		assertEquals( i2, d.getContext( Integer.class ) );
 
 		d.pushContext( s2 );
-		assertEquals( s2, d.getContext( String.class ));
-		assertEquals( i2, d.getContext( Integer.class ));
-		
+		assertEquals( s2, d.getContext( String.class ) );
+		assertEquals( i2, d.getContext( Integer.class ) );
+
 		d.popContext();
-		assertEquals( s1, d.getContext( String.class ));
-		assertEquals( i2, d.getContext( Integer.class ));
-		
+		assertEquals( s1, d.getContext( String.class ) );
+		assertEquals( i2, d.getContext( Integer.class ) );
+
 		d.popContext();
-		assertEquals( s1, d.getContext( String.class ));
-		assertEquals( i1, d.getContext( Integer.class ));
-		
+		assertEquals( s1, d.getContext( String.class ) );
+		assertEquals( i1, d.getContext( Integer.class ) );
+
 		d.popContext();
 		assertNull( d.getContext( String.class ) );
-		assertEquals( i1, d.getContext( Integer.class ));
-		
+		assertEquals( i1, d.getContext( Integer.class ) );
+
 		d.popContext();
 		assertNull( d.getContext( String.class ) );
 		assertNull( d.getContext( Integer.class ) );

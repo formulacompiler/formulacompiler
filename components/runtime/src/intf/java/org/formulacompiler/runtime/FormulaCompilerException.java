@@ -39,17 +39,17 @@ public class FormulaCompilerException extends Exception
 		super();
 	}
 
-	public FormulaCompilerException(String _message, Throwable _cause)
+	public FormulaCompilerException( String _message, Throwable _cause )
 	{
 		super( _message, _cause );
 	}
 
-	public FormulaCompilerException(String _message)
+	public FormulaCompilerException( String _message )
 	{
 		super( _message );
 	}
 
-	public FormulaCompilerException(Throwable _cause)
+	public FormulaCompilerException( Throwable _cause )
 	{
 		super( _cause );
 	}

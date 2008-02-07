@@ -58,7 +58,7 @@ import jxl.WorkbookSettings;
 /**
  * Spreadsheet file loader implementation for the Microsoft Excel .xls format. Call the
  * {@code register()} method to register the loader with the central {@link SpreadsheetLoader}.
- *
+ * 
  * @author peo
  */
 public final class ExcelXLSLoader implements SpreadsheetLoader
@@ -171,7 +171,8 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 			final jxl.FormulaCell xlsFormulaCell = (jxl.FormulaCell) _xlsCell;
 			CellWithLazilyParsedExpression exprCell = new CellWithLazilyParsedExpression( _row );
 			try {
-				exprCell.setExpressionParser( new LazySpreadsheetExpressionParser( exprCell, xlsFormulaCell.getFormula(), CellRefFormat.A1 ) );
+				exprCell.setExpressionParser( new LazySpreadsheetExpressionParser( exprCell, xlsFormulaCell.getFormula(),
+						CellRefFormat.A1 ) );
 			}
 			catch (jxl.biff.formula.FormulaException e) {
 				throw new SpreadsheetException.LoadError( e );

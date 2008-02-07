@@ -38,7 +38,7 @@ abstract class ExpressionCompilerForScaledLongs_Base extends ExpressionCompilerF
 	protected final TypeCompilerForScaledLongs longCompiler = ((TypeCompilerForScaledLongs) typeCompiler());
 
 
-	public ExpressionCompilerForScaledLongs_Base(MethodCompiler _methodCompiler, NumericType _numericType)
+	public ExpressionCompilerForScaledLongs_Base( MethodCompiler _methodCompiler, NumericType _numericType )
 	{
 		super( _methodCompiler, _numericType );
 		this.scale = _numericType.scale();

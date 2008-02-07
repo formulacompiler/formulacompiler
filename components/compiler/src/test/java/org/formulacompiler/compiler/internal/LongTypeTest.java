@@ -27,7 +27,7 @@ import org.formulacompiler.compiler.FormulaCompiler;
 public class LongTypeTest extends AbstractNumericTypeTest
 {
 	private final NumericType type = FormulaCompiler.LONG;
-	
+
 	@Override
 	protected NumericType getType()
 	{

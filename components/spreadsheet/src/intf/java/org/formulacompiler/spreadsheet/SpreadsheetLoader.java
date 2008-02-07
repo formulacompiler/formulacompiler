@@ -32,7 +32,7 @@ import java.io.InputStream;
  */
 public interface SpreadsheetLoader
 {
-	
+
 	/**
 	 * Configuration data for new instances of {@link SpreadsheetLoader}.
 	 * 
@@ -40,7 +40,7 @@ public interface SpreadsheetLoader
 	 */
 	public static class Config
 	{
-		
+
 		/**
 		 * The sheet of the spreadsheet representation in which to name cells.
 		 */
@@ -48,16 +48,17 @@ public interface SpreadsheetLoader
 
 		/**
 		 * Validates the configuration.
+		 * 
 		 * @throws IllegalArgumentException
 		 */
 		public void validate()
 		{
 			// Nothing to validate so far.
 		}
-		
+
 	}
-	
-	
+
+
 	/**
 	 * Loads a spreadsheet stream into an AFC spreadsheet model. The loader to use is determined by
 	 * giving each registered loader a look at the file name. The first one that signals it can
@@ -74,14 +75,15 @@ public interface SpreadsheetLoader
 
 
 	/**
-	 * Factory interface for {@link org.formulacompiler.runtime.ImplementationLocator#getInstance(Class)}.
+	 * Factory interface for
+	 * {@link org.formulacompiler.runtime.ImplementationLocator#getInstance(Class)}.
 	 */
 	public static interface Factory
 	{
 		/**
 		 * Factory method.
 		 */
-		SpreadsheetLoader newInstance( Config __config);
+		SpreadsheetLoader newInstance( Config __config );
 	}
 
 }

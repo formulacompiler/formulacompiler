@@ -36,7 +36,7 @@ public final class Logger
 		this( "\t" );
 	}
 
-	public Logger(final String _indent)
+	public Logger( final String _indent )
 	{
 		super();
 		this.indent = _indent;
@@ -77,12 +77,12 @@ public final class Logger
 		this.indentPending = true;
 		return this;
 	}
-	
+
 	PrintStream stream()
 	{
 		addIndentationIfPending();
 		return System.out;
 	}
-	
+
 
 }

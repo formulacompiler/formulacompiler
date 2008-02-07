@@ -38,7 +38,7 @@ public final class ByteCodeEngineLoader implements EngineLoader
 	private final ClassLoader parentClassLoader;
 
 
-	public ByteCodeEngineLoader(EngineLoader.Config _config)
+	public ByteCodeEngineLoader( EngineLoader.Config _config )
 	{
 		super();
 		this.parentClassLoader = _config.parentClassLoader;

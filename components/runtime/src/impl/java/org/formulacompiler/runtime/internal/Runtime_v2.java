@@ -787,7 +787,8 @@ public abstract class Runtime_v2
 	public static String fun_TEXT( Number _num, String _format, Environment _environment )
 	{
 		if ("@".equals( _format )) {
-			final BigDecimal num = _num instanceof BigDecimal ? (BigDecimal) _num : BigDecimal.valueOf( _num.doubleValue() );
+			final BigDecimal num = _num instanceof BigDecimal ? (BigDecimal) _num : BigDecimal
+					.valueOf( _num.doubleValue() );
 			return stringFromBigDecimal( num, _environment, 10, 11 );
 		}
 		throw new IllegalArgumentException( "TEXT() is not properly supported yet." );

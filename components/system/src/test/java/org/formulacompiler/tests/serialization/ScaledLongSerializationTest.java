@@ -48,7 +48,7 @@ public final class ScaledLongSerializationTest extends AbstractSerializationTest
 	@Override
 	protected String numberToString( Number _arg )
 	{
-		return trimTrailingZeroes( Double.toString( _arg.doubleValue() / 10000.0 ));
+		return trimTrailingZeroes( Double.toString( _arg.doubleValue() / 10000.0 ) );
 	}
 
 }

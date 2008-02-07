@@ -41,10 +41,10 @@ public interface NumericType
 	public static final int UNDEFINED_SCALE = FormulaRuntime.UNDEFINED_SCALE;
 
 	/**
-	 * Indicates no final rounding due to number formats with a maximum number of fractional digits. 
+	 * Indicates no final rounding due to number formats with a maximum number of fractional digits.
 	 */
 	public static final int UNLIMITED_FRACTIONAL_DIGITS = Integer.MAX_VALUE;
-	
+
 	/**
 	 * Returns the Java class of the base type.
 	 */

@@ -39,19 +39,19 @@ public abstract class AbstractBigDecimalType extends NumericTypeImpl
 	{
 		super( BigDecimal.class, _mathContext );
 	}
-	
+
 	@Override
 	public final Number getMinValue()
 	{
 		return RuntimeBigDecimal_v2.EXTREMUM;
 	}
-	
+
 	@Override
 	public final Number getMaxValue()
 	{
 		return RuntimeBigDecimal_v2.EXTREMUM;
 	}
-	
+
 	@Override
 	protected BigDecimal assertProperNumberType( Number _value )
 	{

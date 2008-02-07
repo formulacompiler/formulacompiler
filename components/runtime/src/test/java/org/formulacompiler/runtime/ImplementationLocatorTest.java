@@ -45,5 +45,5 @@ public class ImplementationLocatorTest extends TestCase
 		assertEquals( 2, i );
 	}
 
-	
+
 }

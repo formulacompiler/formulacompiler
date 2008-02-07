@@ -30,8 +30,8 @@ import org.formulacompiler.runtime.New;
 
 final class InlinedCellRemover extends AbstractComputationModelVisitor
 {
-	
-	
+
+
 	@Override
 	protected boolean visitSection( SectionModel _band )
 	{
@@ -44,6 +44,6 @@ final class InlinedCellRemover extends AbstractComputationModelVisitor
 		_band.getCells().removeAll( cellsToRemove );
 		return true;
 	}
-	
-	
+
+
 }

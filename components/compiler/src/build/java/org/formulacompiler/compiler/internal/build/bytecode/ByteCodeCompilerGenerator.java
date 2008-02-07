@@ -47,26 +47,26 @@ import org.objectweb.asm.tree.VarInsnNode;
 import org.objectweb.asm.util.AbstractVisitor;
 
 
-@SuppressWarnings("unqualified-field-access")
+@SuppressWarnings( "unqualified-field-access" )
 final class ByteCodeCompilerGenerator extends AbstractGenerator
 {
 	static final int INIT_BACKING_VAR_ON_ACCESS = -1;
 
 	final Customization customization;
 
-	public ByteCodeCompilerGenerator(Class _cls, String _typeName, String _superName, Customization _customization)
+	public ByteCodeCompilerGenerator( Class _cls, String _typeName, String _superName, Customization _customization )
 			throws IOException
 	{
 		super( _cls, _typeName, _superName );
 		this.customization = _customization;
 	}
 
-	public ByteCodeCompilerGenerator(Class _cls, String _typeName, Customization _customization) throws IOException
+	public ByteCodeCompilerGenerator( Class _cls, String _typeName, Customization _customization ) throws IOException
 	{
 		this( _cls, _typeName, "ExpressionCompilerFor" + _typeName + "_Base", _customization );
 	}
 
-	public ByteCodeCompilerGenerator(Class _cls, String _typeName) throws IOException
+	public ByteCodeCompilerGenerator( Class _cls, String _typeName ) throws IOException
 	{
 		this( _cls, _typeName, new Customization() );
 	}
@@ -239,7 +239,7 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 		int sizeOfVarsInLocals;
 		int[] backingVars;
 
-		public TemplateMethodGenerator(MethodNode _mtdNode)
+		public TemplateMethodGenerator( MethodNode _mtdNode )
 		{
 			super( _mtdNode );
 			this.sizeOfLocals = mtdNode.maxLocals;
@@ -672,7 +672,7 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 	class FunctionTemplateGenerator extends TemplateMethodGenerator
 	{
 
-		public FunctionTemplateGenerator(MethodNode _mtdNode)
+		public FunctionTemplateGenerator( MethodNode _mtdNode )
 		{
 			super( _mtdNode );
 		}
@@ -725,7 +725,7 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 	abstract class ImplicitFirstArgTemplateGenerator extends TemplateMethodGenerator
 	{
 
-		public ImplicitFirstArgTemplateGenerator(MethodNode _mtdNode)
+		public ImplicitFirstArgTemplateGenerator( MethodNode _mtdNode )
 		{
 			super( _mtdNode );
 		}
@@ -764,7 +764,7 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 	class OperatorTemplateGenerator extends ImplicitFirstArgTemplateGenerator
 	{
 
-		public OperatorTemplateGenerator(MethodNode _mtdNode)
+		public OperatorTemplateGenerator( MethodNode _mtdNode )
 		{
 			super( _mtdNode );
 		}
@@ -813,7 +813,7 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 	class UtilOperatorTemplateGenerator extends ImplicitFirstArgTemplateGenerator
 	{
 
-		public UtilOperatorTemplateGenerator(MethodNode _mtdNode)
+		public UtilOperatorTemplateGenerator( MethodNode _mtdNode )
 		{
 			super( _mtdNode );
 		}
@@ -836,7 +836,7 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 	class UtilFunctionTemplateGenerator extends TemplateMethodGenerator
 	{
 
-		public UtilFunctionTemplateGenerator(MethodNode _mtdNode)
+		public UtilFunctionTemplateGenerator( MethodNode _mtdNode )
 		{
 			super( _mtdNode );
 		}
@@ -859,7 +859,7 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 	class UtilTemplateGenerator extends ImplicitFirstArgTemplateGenerator
 	{
 
-		public UtilTemplateGenerator(MethodNode _mtdNode)
+		public UtilTemplateGenerator( MethodNode _mtdNode )
 		{
 			super( _mtdNode );
 		}
@@ -905,7 +905,7 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 	class ScanArrayTemplateGenerator extends UtilTemplateGenerator
 	{
 
-		public ScanArrayTemplateGenerator(MethodNode _mtdNode)
+		public ScanArrayTemplateGenerator( MethodNode _mtdNode )
 		{
 			super( _mtdNode );
 		}
@@ -934,7 +934,7 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 	class ScanArrayWithFirstTemplateGenerator extends UtilTemplateGenerator
 	{
 
-		public ScanArrayWithFirstTemplateGenerator(MethodNode _mtdNode)
+		public ScanArrayWithFirstTemplateGenerator( MethodNode _mtdNode )
 		{
 			super( _mtdNode );
 		}

@@ -336,6 +336,6 @@ public class CompilerException extends FormulaCompilerException
 		}
 
 	}
-	
-	
+
+
 }

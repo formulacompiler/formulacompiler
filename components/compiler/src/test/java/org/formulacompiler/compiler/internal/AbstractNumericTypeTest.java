@@ -47,7 +47,7 @@ public abstract class AbstractNumericTypeTest extends TestCase
 	}
 
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( "unchecked" )
 	protected static void assertEquals( Number _a, Number _b )
 	{
 		Comparable a = (Comparable) _a;

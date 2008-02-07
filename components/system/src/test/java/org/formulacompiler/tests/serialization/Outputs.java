@@ -34,7 +34,7 @@ public class Outputs
 		throw new AbstractMethodError( "getResult_Double" );
 	}
 
-	@ScaledLong(4)
+	@ScaledLong( 4 )
 	public long getResult_Long4()
 	{
 		throw new AbstractMethodError( "getResult_Long4" );

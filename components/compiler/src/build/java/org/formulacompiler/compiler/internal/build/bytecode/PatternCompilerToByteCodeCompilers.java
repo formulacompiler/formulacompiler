@@ -42,7 +42,8 @@ class PatternCompilerToByteCodeCompilers
 
 	public void run() throws IOException
 	{
-		final File p = new File( "temp/impl/java-" + IOUtil.jdkVersionSuffix() + "/org/formulacompiler/compiler/internal/bytecode" );
+		final File p = new File( "temp/impl/java-"
+				+ IOUtil.jdkVersionSuffix() + "/org/formulacompiler/compiler/internal/bytecode" );
 		p.mkdirs();
 
 		new ByteCodeCompilerGenerator( ExpressionTemplatesForAll.class, "All" ).generate( p );
@@ -50,10 +51,10 @@ class PatternCompilerToByteCodeCompilers
 				.getType( Number.class ) ) ).generate( p );
 		new ByteCodeCompilerGenerator( ExpressionTemplatesForDoubles.class, "Doubles", new Numeric( Type.DOUBLE_TYPE ) )
 				.generate( p );
-		new ByteCodeCompilerGenerator( ExpressionTemplatesForPrecisionBigDecimals.class, "PrecisionBigDecimals", new Adjusted( Type
-				.getType( BigDecimal.class ) ) ).generate( p );
-		new ByteCodeCompilerGenerator( ExpressionTemplatesForScaledBigDecimals.class, "ScaledBigDecimals", new Adjusted( Type
-				.getType( BigDecimal.class ) ) ).generate( p );
+		new ByteCodeCompilerGenerator( ExpressionTemplatesForPrecisionBigDecimals.class, "PrecisionBigDecimals",
+				new Adjusted( Type.getType( BigDecimal.class ) ) ).generate( p );
+		new ByteCodeCompilerGenerator( ExpressionTemplatesForScaledBigDecimals.class, "ScaledBigDecimals", new Adjusted(
+				Type.getType( BigDecimal.class ) ) ).generate( p );
 		new ByteCodeCompilerGenerator( ExpressionTemplatesForScaledLongs.class, "ScaledLongs", new Numeric(
 				Type.LONG_TYPE ) ).generate( p );
 		new ByteCodeCompilerGenerator( ExpressionTemplatesForStrings.class, "Strings", new Strings() ).generate( p );
@@ -119,7 +120,7 @@ class PatternCompilerToByteCodeCompilers
 	{
 		private final Type ownType;
 
-		public Numeric(Type _ownType)
+		public Numeric( Type _ownType )
 		{
 			super();
 			this.ownType = _ownType;
@@ -176,7 +177,7 @@ class PatternCompilerToByteCodeCompilers
 	private static class Adjusted extends PatternCompilerToByteCodeCompilers.Numeric
 	{
 
-		public Adjusted(Type _ownType)
+		public Adjusted( Type _ownType )
 		{
 			super( _ownType );
 		}

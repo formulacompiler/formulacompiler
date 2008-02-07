@@ -27,7 +27,7 @@ public abstract class ExpressionNodeForSectionModel extends ExpressionNode
 	private final SectionModel sectionModel;
 
 
-	public ExpressionNodeForSectionModel(SectionModel _sectionModel, ExpressionNode... _args)
+	public ExpressionNodeForSectionModel( SectionModel _sectionModel, ExpressionNode... _args )
 	{
 		super( _args );
 		this.sectionModel = _sectionModel;

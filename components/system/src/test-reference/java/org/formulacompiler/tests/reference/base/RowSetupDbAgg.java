@@ -98,12 +98,13 @@ public class RowSetupDbAgg extends RowSetup
 			final Range range = cx.getSpreadsheet().getRange( name );
 			Cell tl = range.getTopLeft();
 			Cell br = range.getBottomRight();
-			return (br.getColumnIndex() - tl.getColumnIndex() + 1) * (br.getRow().getRowIndex() - tl.getRow().getRowIndex() + 1);
+			return (br.getColumnIndex() - tl.getColumnIndex() + 1)
+					* (br.getRow().getRowIndex() - tl.getRow().getRowIndex() + 1);
 		}
 		return 0;
 	}
 
-	
+
 	@Override
 	public RowSetup setupValues()
 	{
@@ -122,7 +123,7 @@ public class RowSetupDbAgg extends RowSetup
 		cx.setInputs( new Inputs( cx, cellArray ) );
 		return super.setupValues();
 	}
-	
+
 	private void extractInputsFromRangeNamedInCol( int _nameCellCol, Collection<CellIndex> _cells )
 	{
 		final Context cx = cx();

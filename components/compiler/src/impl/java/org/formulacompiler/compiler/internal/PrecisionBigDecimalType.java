@@ -26,12 +26,12 @@ import java.math.MathContext;
 
 public final class PrecisionBigDecimalType extends AbstractBigDecimalType
 {
-	
-	public PrecisionBigDecimalType(MathContext _mathContext)
+
+	public PrecisionBigDecimalType( MathContext _mathContext )
 	{
 		super( _mathContext );
 	}
-	
+
 	@Override
 	public Number getZero()
 	{
@@ -43,11 +43,11 @@ public final class PrecisionBigDecimalType extends AbstractBigDecimalType
 	{
 		return BigDecimal.ONE;
 	}
-	
+
 	@Override
 	protected BigDecimal adjustConvertedValue( BigDecimal _value )
 	{
 		return _value.add( BigDecimal.ZERO, mathContext() );
 	}
-	
+
 }

@@ -57,7 +57,7 @@ import java.util.regex.Pattern;
 
 /**
  * Utility methods.
- *
+ * 
  * @author peo
  */
 public class IOUtil

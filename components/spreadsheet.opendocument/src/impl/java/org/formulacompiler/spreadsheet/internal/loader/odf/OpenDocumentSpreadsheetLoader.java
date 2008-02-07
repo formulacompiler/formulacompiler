@@ -60,7 +60,8 @@ public class OpenDocumentSpreadsheetLoader implements SpreadsheetLoader
 
 	}
 
-	public Spreadsheet loadFrom( final String _originalFileName, final InputStream _stream ) throws IOException, SpreadsheetException
+	public Spreadsheet loadFrom( final String _originalFileName, final InputStream _stream ) throws IOException,
+			SpreadsheetException
 	{
 		ZipInputStream zipInputStream = new ZipInputStream( _stream );
 		ZipEntry zipEntry;
@@ -91,7 +92,8 @@ public class OpenDocumentSpreadsheetLoader implements SpreadsheetLoader
 					}
 				}
 			}
-		} catch (XMLStreamException e) {
+		}
+		catch (XMLStreamException e) {
 			throw new SpreadsheetException.LoadError( e );
 		}
 

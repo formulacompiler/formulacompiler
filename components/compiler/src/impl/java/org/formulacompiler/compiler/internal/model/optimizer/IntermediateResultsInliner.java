@@ -73,7 +73,7 @@ final public class IntermediateResultsInliner extends AbstractComputationModelVi
 	private ExpressionNode inlineIntermediateResultsInto( ExpressionNode _expr )
 	{
 		if (_expr == null) return null;
-		
+
 		ExpressionNode result = _expr;
 		while (result instanceof ExpressionNodeForCellModel) {
 			final ExpressionNodeForCellModel cellNode = (ExpressionNodeForCellModel) result;

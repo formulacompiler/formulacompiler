@@ -31,7 +31,7 @@ abstract class AbstractStyledElement extends AbstractYamlizable
 		super();
 	}
 
-	
+
 	public final String getStyleName()
 	{
 		return this.styleName;

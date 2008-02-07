@@ -289,7 +289,7 @@ public class SpreadsheetByNameBinderTest extends TestCase
 
 	private abstract class AbstractInputBindingTester extends AbstractBindingTester
 	{
-		
+
 		@Override
 		protected Class boundClass()
 		{
@@ -313,7 +313,7 @@ public class SpreadsheetByNameBinderTest extends TestCase
 
 	private abstract class AbstractOutputBindingTester extends AbstractBindingTester
 	{
-		
+
 		@Override
 		protected Class boundClass()
 		{
@@ -348,7 +348,7 @@ public class SpreadsheetByNameBinderTest extends TestCase
 
 
 		abstract public void test() throws Exception;
-		
+
 		protected abstract Class boundClass();
 
 		protected abstract SpreadsheetByNameBinder.CellBinder cellBinder( SpreadsheetByNameBinder _binder )

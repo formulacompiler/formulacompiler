@@ -40,10 +40,10 @@ public class SpeedTest
 		if (true) test( new BigDecimalStaticTest() );
 		if (true) test( new BigDecimalFromLongTest() );
 		if (true) test( new BigDecimalFromStringTest() );
-		
+
 		if (false) test( new DoubleTest() );
 		if (false) test( new PrefixDoubleTest() );
-		
+
 		if (false) test( new ScaledLongTest() );
 		if (false) test( new ScaledIntTest() );
 		if (false) test( new BigDecimalTest() );
@@ -109,8 +109,8 @@ public class SpeedTest
 		}
 
 	}
-	
-	
+
+
 	private static final class BigDecimalFromStringTest extends Test
 	{
 
@@ -124,8 +124,8 @@ public class SpeedTest
 		}
 
 	}
-	
-	
+
+
 	private static final class BigDecimalStaticTest extends Test
 	{
 		private static BigDecimal x = new BigDecimal( "100" );
@@ -139,15 +139,15 @@ public class SpeedTest
 		}
 
 	}
-	
-	
+
+
 	private static final class DoubleTest extends Test
 	{
 
 		@Override
 		public void run()
 		{
-			@SuppressWarnings("unused")
+			@SuppressWarnings( "unused" )
 			double result = getA() + getA() * getB();
 			// if (result != 132.8322) throw new RuntimeException( "Wrong double" );
 		}
@@ -162,8 +162,8 @@ public class SpeedTest
 			return 0.076;
 		}
 	}
-	
-	
+
+
 	private static final class DoubleRuntime
 	{
 
@@ -176,7 +176,7 @@ public class SpeedTest
 		{
 			return _a + _b;
 		}
-		
+
 	}
 
 
@@ -186,7 +186,7 @@ public class SpeedTest
 		@Override
 		public void run()
 		{
-			@SuppressWarnings("unused")
+			@SuppressWarnings( "unused" )
 			double result = DoubleRuntime.opPLUS( getA(), DoubleRuntime.opTIMES( getA(), getB() ) );
 			// if (result != 132.8322) throw new RuntimeException( "Wrong double" );
 		}
@@ -209,7 +209,7 @@ public class SpeedTest
 		@Override
 		public void run()
 		{
-			@SuppressWarnings("unused")
+			@SuppressWarnings( "unused" )
 			long result = getA() + getA() * getB() / 10000L;
 			// if (result != 1328322L) throw new RuntimeException( "Wrong scaled long" );
 		}
@@ -232,7 +232,7 @@ public class SpeedTest
 		@Override
 		public void run()
 		{
-			@SuppressWarnings("unused")
+			@SuppressWarnings( "unused" )
 			int result = getA() + getA() * getB() / 10000;
 			// if (result != 1328322) throw new RuntimeException( "Wrong scaled int" );
 		}
@@ -257,7 +257,7 @@ public class SpeedTest
 		@Override
 		public void run()
 		{
-			@SuppressWarnings("unused")
+			@SuppressWarnings( "unused" )
 			BigDecimal result = getA().add( getA().multiply( getB() ) );
 		}
 
@@ -678,7 +678,7 @@ public class SpeedTest
 		private final Stack stack = newStack();
 
 
-		@SuppressWarnings("null")
+		@SuppressWarnings( "null" )
 		private Stack newStack()
 		{
 			Stack result = null;
@@ -715,7 +715,7 @@ public class SpeedTest
 
 			public boolean assertHaveRoomFor( int _size )
 			{
-				assert MAX_STACK_SIZE > this.sp + _size : "Stack overflow";
+				assert MAX_STACK_SIZE > this.sp + _size: "Stack overflow";
 				return true;
 			}
 
@@ -731,7 +731,7 @@ public class SpeedTest
 			@Override
 			public void push( double _v )
 			{
-				assert this.sp < MAX_STACK_SIZE - 1 : "Stack overflow";
+				assert this.sp < MAX_STACK_SIZE - 1: "Stack overflow";
 				super.push( _v );
 				this.ts[ this.sp ] = TYPE_DOUBLE;
 			}
@@ -740,8 +740,8 @@ public class SpeedTest
 			@Override
 			public double pop()
 			{
-				assert this.sp >= 0 : "Stack underflow";
-				assert TYPE_DOUBLE == this.ts[ this.sp ] : "Stack type mismatch; expected "
+				assert this.sp >= 0: "Stack underflow";
+				assert TYPE_DOUBLE == this.ts[ this.sp ]: "Stack type mismatch; expected "
 						+ TYPE_DOUBLE + ", was " + this.ts[ this.sp ];
 				return super.pop();
 			}

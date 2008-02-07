@@ -75,7 +75,7 @@ public class BasicUsageDemo extends TestCase
 
 
 	private static final String DATA_PATH = "src/test/data/org/formulacompiler/examples/";
-	
+
 	public static void main( String[] args ) throws Exception
 	{
 		System.out.printf( "Result is: %f", new BasicUsageDemo().compute() );

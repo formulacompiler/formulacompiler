@@ -21,7 +21,6 @@
 package org.formulacompiler.compiler.internal;
 
 
-
 public abstract class AbstractYamlizable extends AbstractDescribable implements Yamlizable
 {
 

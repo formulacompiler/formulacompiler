@@ -28,16 +28,16 @@ import java.util.Map;
 /**
  * Exposes the reverse-engineered source code of a compiled bytecode engine.
  * 
- *  @author peo
+ * @author peo
  */
 public interface ByteCodeEngineSource
 {
 
 	/**
-	 * Returns a map with class names and class sources, sorted by class name. 
+	 * Returns a map with class names and class sources, sorted by class name.
 	 */
 	public Map<String, String> getSortedClasses();
-	
+
 	/**
 	 * Saves the decompiled engine's source to a target folder into which a proper java
 	 * package/source structure is written.

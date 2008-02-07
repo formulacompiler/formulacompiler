@@ -44,7 +44,8 @@ public class WorkbookBinding implements SpreadsheetBinding
 	private final List<SectionBinding> sections = New.list();
 
 
-	public WorkbookBinding(SpreadsheetImpl _workbook, Class _inputClass, Class _outputClass, Computation.Config _compileTimeConfig)
+	public WorkbookBinding( SpreadsheetImpl _workbook, Class _inputClass, Class _outputClass,
+			Computation.Config _compileTimeConfig )
 	{
 		super();
 		this.workbook = _workbook;
@@ -103,7 +104,7 @@ public class WorkbookBinding implements SpreadsheetBinding
 	{
 		return this.outputs;
 	}
-	
+
 	public Set<CellIndex> getOutputsCells()
 	{
 		return this.outputCells;

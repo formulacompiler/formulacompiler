@@ -32,7 +32,7 @@ public final class ExpressionNodeForRange extends ExpressionNode
 	private final CellRange range;
 
 
-	public ExpressionNodeForRange(CellRange _range)
+	public ExpressionNodeForRange( CellRange _range )
 	{
 		this.range = _range;
 	}
@@ -49,8 +49,8 @@ public final class ExpressionNodeForRange extends ExpressionNode
 	{
 		return new ExpressionNodeForRange( this.range );
 	}
-	
-	
+
+
 	@Override
 	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
 	{

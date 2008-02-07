@@ -26,13 +26,13 @@ import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.Operator;
 
 
-
 /**
  * This interface allows you to build a spreadsheet representation in memory from scratch. Used
  * instead of loading one from a file or other source.
  * 
  * <p>
- * See the <a target="_top" href="{@docRoot}/../tutorial/buildsheet.htm">tutorial</a> for details.
+ * See the <a target="_top" href="{@docRoot}/../tutorial/buildsheet.htm">tutorial</a> for
+ * details.
  * 
  * @author peo
  * 
@@ -192,7 +192,8 @@ public interface SpreadsheetBuilder
 	 * 
 	 * @param _rng is the reference to the range.
 	 * 
-	 * @see #range(org.formulacompiler.spreadsheet.SpreadsheetBuilder.CellRef, org.formulacompiler.spreadsheet.SpreadsheetBuilder.CellRef)
+	 * @see #range(org.formulacompiler.spreadsheet.SpreadsheetBuilder.CellRef,
+	 *      org.formulacompiler.spreadsheet.SpreadsheetBuilder.CellRef)
 	 */
 	public ExprNode ref( RangeRef _rng );
 
@@ -245,8 +246,10 @@ public interface SpreadsheetBuilder
 	 * 
 	 * @see org.formulacompiler.spreadsheet.SpreadsheetBuilder#ref(org.formulacompiler.spreadsheet.SpreadsheetBuilder.Constant)
 	 * @see org.formulacompiler.spreadsheet.SpreadsheetBuilder#ref(org.formulacompiler.spreadsheet.SpreadsheetBuilder.CellRef)
-	 * @see org.formulacompiler.spreadsheet.SpreadsheetBuilder#op(Operator, org.formulacompiler.spreadsheet.SpreadsheetBuilder.ExprNode[])
-	 * @see org.formulacompiler.spreadsheet.SpreadsheetBuilder#fun(Function, org.formulacompiler.spreadsheet.SpreadsheetBuilder.ExprNode[])
+	 * @see org.formulacompiler.spreadsheet.SpreadsheetBuilder#op(Operator,
+	 *      org.formulacompiler.spreadsheet.SpreadsheetBuilder.ExprNode[])
+	 * @see org.formulacompiler.spreadsheet.SpreadsheetBuilder#fun(Function,
+	 *      org.formulacompiler.spreadsheet.SpreadsheetBuilder.ExprNode[])
 	 */
 	public static interface ExprNode
 	{
@@ -286,7 +289,8 @@ public interface SpreadsheetBuilder
 
 
 	/**
-	 * Factory interface for {@link org.formulacompiler.runtime.ImplementationLocator#getInstance(Class)}.
+	 * Factory interface for
+	 * {@link org.formulacompiler.runtime.ImplementationLocator#getInstance(Class)}.
 	 */
 	public static interface Factory
 	{

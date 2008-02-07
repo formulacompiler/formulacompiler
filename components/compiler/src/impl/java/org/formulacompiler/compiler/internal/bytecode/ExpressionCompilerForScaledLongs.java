@@ -26,9 +26,9 @@ import org.formulacompiler.compiler.NumericType;
 final class ExpressionCompilerForScaledLongs extends ExpressionCompilerForScaledLongs_Generated
 {
 
-	public ExpressionCompilerForScaledLongs(MethodCompiler _methodCompiler, NumericType _numericType)
+	public ExpressionCompilerForScaledLongs( MethodCompiler _methodCompiler, NumericType _numericType )
 	{
 		super( _methodCompiler, _numericType );
 	}
-	
+
 }

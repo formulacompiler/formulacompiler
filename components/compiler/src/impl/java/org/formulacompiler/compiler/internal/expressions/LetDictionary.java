@@ -117,7 +117,7 @@ public final class LetDictionary
 		public final DataType type;
 		public final Object value;
 
-		public LetEntry(String _name, DataType _type, Object _value)
+		public LetEntry( String _name, DataType _type, Object _value )
 		{
 			super();
 			this.name = _name;

@@ -20,6 +20,7 @@
  */
 package org.formulacompiler.compiler.internal.templates;
 
-public @interface ReturnsAdjustedValue {
+public @interface ReturnsAdjustedValue
+{
 	// marker
 }

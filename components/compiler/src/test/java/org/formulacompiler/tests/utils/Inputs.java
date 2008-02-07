@@ -27,8 +27,7 @@ import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.ScaledLong;
 
 
-
-@ScaledLong(4)
+@ScaledLong( 4 )
 public class Inputs implements InputInterface
 {
 	private double one;
@@ -41,7 +40,7 @@ public class Inputs implements InputInterface
 	private final Collection<Inputs> otherDetails = New.collection();
 	private double doubleIncr = 1;
 
-	public Inputs(final double _one, final double _two, final double _three)
+	public Inputs( final double _one, final double _two, final double _three )
 	{
 		super();
 		this.one = _one;
@@ -54,7 +53,7 @@ public class Inputs implements InputInterface
 		this( 1, 2, 3 );
 	}
 
-	public Inputs(double[] _values)
+	public Inputs( double[] _values )
 	{
 		super();
 		if (null == _values) return;
@@ -63,7 +62,7 @@ public class Inputs implements InputInterface
 		if (_values.length > 2) this.three = _values[ 2 ];
 	}
 
-	public Inputs(BigDecimal[] _values)
+	public Inputs( BigDecimal[] _values )
 	{
 		super();
 		if (null == _values) return;
@@ -213,7 +212,7 @@ public class Inputs implements InputInterface
 	{
 		private double base;
 
-		public Inner(double _base)
+		public Inner( double _base )
 		{
 			super();
 			this.base = _base;

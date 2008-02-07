@@ -40,7 +40,7 @@ public class CellListPanel extends BottomButtonsPanel
 	private JButton removeCellButton;
 
 
-	public CellListPanel(JTable _spreadsheetTable, String _caption)
+	public CellListPanel( JTable _spreadsheetTable, String _caption )
 	{
 		super();
 		this.spreadsheetTable = _spreadsheetTable;
@@ -87,7 +87,7 @@ public class CellListPanel extends BottomButtonsPanel
 	 * 
 	 * @return javax.swing.JLabel
 	 */
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	private JLabel getCaptionLabel()
 	{
 		if (captionLabel == null) {
@@ -102,7 +102,8 @@ public class CellListPanel extends BottomButtonsPanel
 	 * 
 	 * @return javax.swing.JTable
 	 */
-	@SuppressWarnings("unqualified-field-access") JTable getTable()
+	@SuppressWarnings( "unqualified-field-access" )
+	JTable getTable()
 	{
 		if (table == null) {
 			table = new JTable();
@@ -124,7 +125,7 @@ public class CellListPanel extends BottomButtonsPanel
 	 * 
 	 * @return javax.swing.JButton
 	 */
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	private JButton getAddCellButton()
 	{
 		if (addCellButton == null) {
@@ -148,7 +149,7 @@ public class CellListPanel extends BottomButtonsPanel
 	}
 
 
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	private JButton getRemoveCellButton()
 	{
 		if (removeCellButton == null) {

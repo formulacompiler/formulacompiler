@@ -41,8 +41,8 @@ public class CellRangeTest extends TestCase
 			}
 		}
 	}
-	
-	
+
+
 	protected CellIndex newCellIndex( int _c, int _r )
 	{
 		return new CellIndex( this.workbook, 0, _c, _r );

@@ -165,8 +165,8 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 			final CellIndex from = ref.getFrom();
 			final CellIndex to = ref.getTo();
 			if (from.sheetIndex == to.sheetIndex) {
-				_xwb.addNameArea( name, _xwb.getSheet( from.sheetIndex ), from.columnIndex, from.rowIndex,
-						to.columnIndex, to.rowIndex );
+				_xwb.addNameArea( name, _xwb.getSheet( from.sheetIndex ), from.columnIndex, from.rowIndex, to.columnIndex,
+						to.rowIndex );
 			}
 		}
 	}

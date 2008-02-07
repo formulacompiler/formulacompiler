@@ -286,9 +286,9 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 				day2 = 30;
 			}
 		}
-		return sign * ((date2.get( Calendar.YEAR ) - date1.get( Calendar.YEAR )) * 360
-				+ (date2.get( Calendar.MONTH ) - date1.get( Calendar.MONTH )) * 30
-				+ day2 - day1);
+		return sign
+				* ((date2.get( Calendar.YEAR ) - date1.get( Calendar.YEAR ))
+						* 360 + (date2.get( Calendar.MONTH ) - date1.get( Calendar.MONTH )) * 30 + day2 - day1);
 	}
 
 	public static int fun_MONTH( final double _date )
@@ -1146,7 +1146,8 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			rate0 = rate1;
 		}
 		if (eps >= EXCEL_EPSILON) {
-			fun_ERROR( "#NUM! because of result do not converge to within " + EXCEL_EPSILON + " after " + MAX_ITER + " iterations in RATE" );
+			fun_ERROR( "#NUM! because of result do not converge to within "
+					+ EXCEL_EPSILON + " after " + MAX_ITER + " iterations in RATE" );
 		}
 		return rate0;
 	}
@@ -1159,9 +1160,9 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			fun_ERROR( "#NUM! because of illegal argument values in VDB" );
 		}
 		else {
-			if (_salvage > _cost){
+			if (_salvage > _cost) {
 				return 0; // correct result
-			}			
+			}
 			int loopStart = (int) Math.floor( _start_period );
 			int loopEnd = (int) Math.ceil( _end_period );
 			if (_no_switch) {

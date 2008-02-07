@@ -28,8 +28,8 @@ import javax.swing.JPanel;
 public abstract class BottomButtonsPanel extends JPanel
 {
 	private JPanel buttonsPanel;
-	
-	
+
+
 	public BottomButtonsPanel()
 	{
 		super();
@@ -49,7 +49,7 @@ public abstract class BottomButtonsPanel extends JPanel
 	 * 
 	 * @return javax.swing.JPanel
 	 */
-	@SuppressWarnings("unqualified-field-access")
+	@SuppressWarnings( "unqualified-field-access" )
 	protected JPanel getButtonsPanel()
 	{
 		if (buttonsPanel == null) {

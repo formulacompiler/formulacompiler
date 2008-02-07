@@ -48,5 +48,5 @@ public final class Tester extends AbstractTester
 		defineOutputsFromNames( "OUT_.*" );
 	}
 
-	
+
 }

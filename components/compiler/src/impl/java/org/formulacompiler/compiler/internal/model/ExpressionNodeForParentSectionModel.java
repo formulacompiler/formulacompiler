@@ -31,8 +31,8 @@ import org.formulacompiler.compiler.internal.expressions.LetDictionary;
 public class ExpressionNodeForParentSectionModel extends ExpressionNodeForSectionModel
 {
 
-	
-	public ExpressionNodeForParentSectionModel(SectionModel _outerSectionModel, ExpressionNode... _args)
+
+	public ExpressionNodeForParentSectionModel( SectionModel _outerSectionModel, ExpressionNode... _args )
 	{
 		super( _outerSectionModel, _args );
 	}
@@ -44,19 +44,18 @@ public class ExpressionNodeForParentSectionModel extends ExpressionNodeForSectio
 		return new ExpressionNodeForParentSectionModel( getSectionModel() );
 	}
 
-	
+
 	@Override
 	protected int countValuesCore( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
 	{
 		return countArgumentValues( _letDict, _uncountables );
 	}
-	
+
 	@Override
 	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
 	{
 		throw new AbstractMethodError();
 	}
-
 
 
 	@Override

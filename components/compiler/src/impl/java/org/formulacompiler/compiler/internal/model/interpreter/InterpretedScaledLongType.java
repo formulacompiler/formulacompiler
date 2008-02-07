@@ -27,7 +27,7 @@ import org.formulacompiler.runtime.internal.Environment;
 final class InterpretedScaledLongType extends InterpretedScaledLongType_Generated
 {
 
-	public InterpretedScaledLongType(AbstractLongType _type, Environment _env)
+	public InterpretedScaledLongType( AbstractLongType _type, Environment _env )
 	{
 		super( _type, _env );
 	}

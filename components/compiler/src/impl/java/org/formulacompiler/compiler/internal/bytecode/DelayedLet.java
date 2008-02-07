@@ -30,7 +30,7 @@ final class DelayedLet
 	final LocalRef local;
 	final int nestingLevel;
 
-	public DelayedLet(String _name, LocalRef _local, ExpressionNode _node, int _nesting)
+	public DelayedLet( String _name, LocalRef _local, ExpressionNode _node, int _nesting )
 	{
 		super();
 		this.name = _name;
@@ -38,7 +38,7 @@ final class DelayedLet
 		this.node = _node;
 		this.nestingLevel = _nesting;
 	}
-	
+
 	public boolean isArray()
 	{
 		return this.local.isArray();

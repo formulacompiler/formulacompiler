@@ -28,11 +28,13 @@ import java.lang.annotation.RetentionPolicy;
  * alternative is to use a {@link java.util.Date}.
  * 
  * <p>
- * See the <a target="_top" href="{@docRoot}/../tutorial/numeric_type.htm#long">tutorial</a> for details.
+ * See the <a target="_top" href="{@docRoot}/../tutorial/numeric_type.htm#long">tutorial</a> for
+ * details.
  * 
  * @author peo
  */
-@Retention(RetentionPolicy.RUNTIME)
-public @interface MillisecondsSinceUTC1970 {
+@Retention( RetentionPolicy.RUNTIME )
+public @interface MillisecondsSinceUTC1970
+{
 	// Indicator only.
 }

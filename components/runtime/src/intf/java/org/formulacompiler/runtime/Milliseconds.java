@@ -29,11 +29,13 @@ import java.lang.annotation.RetentionPolicy;
  * cells.
  * 
  * <p>
- * See the <a target="_top" href="{@docRoot}/../tutorial/numeric_type.htm#long">tutorial</a> for details.
+ * See the <a target="_top" href="{@docRoot}/../tutorial/numeric_type.htm#long">tutorial</a> for
+ * details.
  * 
  * @author peo
  */
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Milliseconds {
+@Retention( RetentionPolicy.RUNTIME )
+public @interface Milliseconds
+{
 	// Indicator only.
 }

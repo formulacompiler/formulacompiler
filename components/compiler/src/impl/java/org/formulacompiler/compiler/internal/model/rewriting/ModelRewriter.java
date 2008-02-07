@@ -28,33 +28,32 @@ import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 
-
 public final class ModelRewriter extends AbstractComputationModelVisitor
 {
 	private final ExpressionRewriter rewriter;
 	private ComputationModel model;
 
-	public ModelRewriter(InterpretedNumericType _type)
+	public ModelRewriter( InterpretedNumericType _type )
 	{
 		super();
 		this.rewriter = new ExpressionRewriter( _type, new NameSanitizer() );
 	}
 
-	
+
 	@Override
 	protected boolean visitModel( ComputationModel _model ) throws CompilerException
 	{
 		this.model = _model;
 		return super.visitModel( _model );
 	}
-	
+
 	@Override
 	protected boolean visitedModel( ComputationModel _model ) throws CompilerException
 	{
 		this.model = null;
 		return super.visitedModel( _model );
 	}
-	
+
 
 	@Override
 	protected boolean visitCell( CellModel _cell ) throws CompilerException

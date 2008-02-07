@@ -38,7 +38,7 @@ abstract class ExpressionCompilerForScaledBigDecimals_Base extends ExpressionCom
 	protected final int roundingMode;
 
 
-	public ExpressionCompilerForScaledBigDecimals_Base(MethodCompiler _methodCompiler, NumericType _numericType)
+	public ExpressionCompilerForScaledBigDecimals_Base( MethodCompiler _methodCompiler, NumericType _numericType )
 	{
 		super( _methodCompiler, _numericType );
 		this.fixedScale = _numericType.scale();
@@ -104,20 +104,20 @@ abstract class ExpressionCompilerForScaledBigDecimals_Base extends ExpressionCom
 		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, BNAME, "compareTo", B2I );
 		return _ifOpcode;
 	}
-	
-	
+
+
 	@Override
 	protected void compileNewArray()
 	{
 		mv().visitTypeInsn( Opcodes.ANEWARRAY, BNAME );
 	}
-	
+
 	@Override
 	protected int arrayStoreOpcode()
 	{
 		return Opcodes.AASTORE;
 	}
-	
+
 
 	protected abstract void compile_util_adjustValue() throws CompilerException;
 	protected abstract void compile_util_fromScaledLong( int _b ) throws CompilerException;

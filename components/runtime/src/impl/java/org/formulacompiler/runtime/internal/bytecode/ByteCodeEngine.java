@@ -44,8 +44,8 @@ public class ByteCodeEngine extends ClassLoader implements Engine
 	private final ComputationFactory defaultFactory;
 
 
-	@SuppressWarnings("unchecked")
-	public ByteCodeEngine(ClassLoader _parentClassLoader, Map<String, byte[]> _classNamesAndBytes)
+	@SuppressWarnings( "unchecked" )
+	public ByteCodeEngine( ClassLoader _parentClassLoader, Map<String, byte[]> _classNamesAndBytes )
 			throws EngineException
 	{
 		super( _parentClassLoader );
@@ -63,7 +63,7 @@ public class ByteCodeEngine extends ClassLoader implements Engine
 
 			final String factoryClassName = GEN_PACKAGE_NAME + GEN_FACTORY_NAME;
 			this.factoryClass = (Class<ComputationFactory>) loadClass( factoryClassName );
-			assert this.factoryClass.getClassLoader() == this : "Class loader mismatch";
+			assert this.factoryClass.getClassLoader() == this: "Class loader mismatch";
 			this.factoryConstructor = this.factoryClass.getDeclaredConstructor( Environment.class );
 			this.defaultFactory = this.factoryConstructor.newInstance( Environment.DEFAULT );
 		}

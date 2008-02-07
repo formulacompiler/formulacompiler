@@ -374,7 +374,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		BigDecimal q = ONE.subtract( _p );
 		final BigDecimal EPSILON = BigDecimal.valueOf( 0.1E-320 );
 		int n = _n.intValue();
-		if (n > 999999999){
+		if (n > 999999999) {
 			throw new FormulaException( "#NUM! because n value is too large in CRITBINOM" );
 		}
 		BigDecimal factor = q.pow( n );
@@ -527,7 +527,8 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 
 	public static BigDecimal fun_DAYS360( BigDecimal _start_date, BigDecimal _end_date, boolean _method )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_DAYS360( _start_date.doubleValue(), _end_date.doubleValue(), _method ) );
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_DAYS360( _start_date.doubleValue(), _end_date.doubleValue(),
+				_method ) );
 	}
 
 	public static BigDecimal fun_MONTH( BigDecimal _date )
@@ -685,13 +686,13 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			BigDecimal _end_period, BigDecimal _factor, boolean _no_switch, MathContext _cx )
 	{
 		BigDecimal valVDB = ZERO;
-		if (_start_period.compareTo( ZERO ) < 0 || _end_period.compareTo( _life ) > 0
-				|| _cost.compareTo( ZERO ) < 0 || _end_period.compareTo( _start_period ) < 0
-				|| _factor.compareTo( BigDecimal.valueOf( 0 ) ) < 0) {
+		if (_start_period.compareTo( ZERO ) < 0
+				|| _end_period.compareTo( _life ) > 0 || _cost.compareTo( ZERO ) < 0
+				|| _end_period.compareTo( _start_period ) < 0 || _factor.compareTo( BigDecimal.valueOf( 0 ) ) < 0) {
 			fun_ERROR( "#NUM! because of illegal argument values in VDB" );
 		}
 		else {
-			if ( _salvage.compareTo( _cost ) > 0 ){
+			if (_salvage.compareTo( _cost ) > 0) {
 				return ZERO; // correct result
 			}
 			int loopStart = (int) Math.floor( _start_period.doubleValue() );
@@ -799,7 +800,8 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			rate0 = rate1;
 		}
 		if (eps.compareTo( EXCEL_EPSILON ) >= 0) {
-			fun_ERROR( "#NUM! because of result do not converge to within " + EXCEL_EPSILON + " after " + MAX_ITER + " iterations in RATE" );
+			fun_ERROR( "#NUM! because of result do not converge to within "
+					+ EXCEL_EPSILON + " after " + MAX_ITER + " iterations in RATE" );
 		}
 		return rate0;
 	}

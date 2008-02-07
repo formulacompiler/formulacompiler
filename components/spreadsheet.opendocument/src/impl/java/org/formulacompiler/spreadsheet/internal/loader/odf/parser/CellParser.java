@@ -124,7 +124,7 @@ class CellParser extends ElementParser
 				this.stringBuilder = new StringBuilder();
 				addElementParser( XMLConstants.Text.S, new ElementParser()
 				{
-					@SuppressWarnings("unqualified-field-access")
+					@SuppressWarnings( "unqualified-field-access" )
 					@Override
 					protected void elementStarted( final StartElement _startElement )
 					{
@@ -143,7 +143,7 @@ class CellParser extends ElementParser
 				} );
 				addElementParser( XMLConstants.Text.TAB, new ElementParser()
 				{
-					@SuppressWarnings("unqualified-field-access")
+					@SuppressWarnings( "unqualified-field-access" )
 					@Override
 					protected void elementStarted( final StartElement _startElement )
 					{
@@ -168,7 +168,7 @@ class CellParser extends ElementParser
 		} );
 		addElementParser( XMLConstants.Office.ANNOTATION, new ElementParser()
 		{
-			//Skip annotations
+			// Skip annotations
 		} );
 	}
 
@@ -177,7 +177,8 @@ class CellParser extends ElementParser
 	{
 		try {
 			createCell();
-		} finally {
+		}
+		finally {
 			this.tableCell = null;
 		}
 	}
@@ -195,15 +196,15 @@ class CellParser extends ElementParser
 				}
 				else {
 					final CellWithLazilyParsedExpression exprCell = new CellWithLazilyParsedExpression( this.row );
-					exprCell.setExpressionParser( new LazySpreadsheetExpressionParser( exprCell, expression, CellRefFormat.A1_ODF ) );
+					exprCell.setExpressionParser( new LazySpreadsheetExpressionParser( exprCell, expression,
+							CellRefFormat.A1_ODF ) );
 				}
 			}
 			else {
 				final String value = this.tableCell.value;
 				final String valueType = this.tableCell.valueType;
 				if (ValueTypes.FLOAT.equals( valueType )
-						|| ValueTypes.PERCENTAGE.equals( valueType )
-						|| ValueTypes.CURRENCY.equals( valueType )) {
+						|| ValueTypes.PERCENTAGE.equals( valueType ) || ValueTypes.CURRENCY.equals( valueType )) {
 					new CellWithConstant( this.row, new Double( value ) );
 				}
 				else if (ValueTypes.BOOLEAN.equals( valueType )) {
@@ -216,7 +217,8 @@ class CellParser extends ElementParser
 						final double dateNum = RuntimeDouble_v2.dateToNum( date, GMT_TIME_ZONE );
 						final LocalExcelDate localExcelDate = new LocalExcelDate( dateNum );
 						new CellWithConstant( this.row, localExcelDate );
-					} catch (ParseException e) {
+					}
+					catch (ParseException e) {
 						throw new RuntimeException( e );
 					}
 				}
@@ -227,7 +229,8 @@ class CellParser extends ElementParser
 						final long durationInMillis = duration.getTimeInMillis( calendar );
 						final LocalExcelDate localExcelDate = new LocalExcelDate( RuntimeDouble_v2.msToNum( durationInMillis ) );
 						new CellWithConstant( this.row, localExcelDate );
-					} catch (DatatypeConfigurationException e) {
+					}
+					catch (DatatypeConfigurationException e) {
 						throw new RuntimeException( e );
 					}
 				}

@@ -21,11 +21,10 @@
 package org.formulacompiler.compiler.internal.bytecode;
 
 
-
 final class ExpressionCompilerForStrings extends ExpressionCompilerForStrings_Generated
 {
 
-	ExpressionCompilerForStrings(MethodCompiler _methodCompiler)
+	ExpressionCompilerForStrings( MethodCompiler _methodCompiler )
 	{
 		super( _methodCompiler );
 	}

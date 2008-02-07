@@ -27,7 +27,7 @@ public final class Inputs
 	final double a;
 	final double b;
 
-	public Inputs(double _a, double _b)
+	public Inputs( double _a, double _b )
 	{
 		super();
 		this.a = _a;

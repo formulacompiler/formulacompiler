@@ -25,7 +25,7 @@ import org.formulacompiler.compiler.CompilerException;
 
 public interface ComputationModelVisitor
 {
-	
+
 	boolean visit( ComputationModel _model ) throws CompilerException;
 
 	boolean visited( ComputationModel _model ) throws CompilerException;

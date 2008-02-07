@@ -95,5 +95,5 @@ abstract class ElementParser
 	{
 		// Not needed.
 	}
-	
+
 }

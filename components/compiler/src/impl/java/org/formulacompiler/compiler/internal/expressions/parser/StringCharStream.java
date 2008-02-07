@@ -30,7 +30,7 @@ final class StringCharStream implements CharStream
 	private int tokenStartsAt = 0;
 	private int nextCharAt = 0;
 
-	public StringCharStream(String _source)
+	public StringCharStream( String _source )
 	{
 		super();
 		this.source = _source;

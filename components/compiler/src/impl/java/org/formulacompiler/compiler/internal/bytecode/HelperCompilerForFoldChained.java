@@ -60,21 +60,21 @@ final class HelperCompilerForFoldChained extends HelperCompilerForFolds
 
 		final String accName = fold.accuName( 0 );
 		letDict().let( accName, initType, expressionCompiler().TOP_OF_STACK );
-		
+
 		chainedCompiler.compileFoldOverLocalValues( elts, initialElt );
-		
+
 		if (expressionCompiler().isSubSectionIn( elts )) {
 			setupAccumulator( initType );
 			compileAccumulatorStore();
-		
+
 			compileFoldOverSubSections( elts );
-		
+
 			compileAccumulatorLoad();
 		}
 		letDict().unlet( accName );
 	}
 
-	
+
 	private void compileFoldOverSubSections( Iterable<ExpressionNode> _elts ) throws CompilerException
 	{
 		final int reuseLocalsAt = localsOffset();
@@ -82,8 +82,9 @@ final class HelperCompilerForFoldChained extends HelperCompilerForFolds
 			if (elt instanceof ExpressionNodeForSubSectionModel) {
 				resetLocalsTo( reuseLocalsAt );
 
-				compileSubSectionTraversal( (ExpressionNodeForSubSectionModel) elt, new SubSectionTraversal() {
-					
+				compileSubSectionTraversal( (ExpressionNodeForSubSectionModel) elt, new SubSectionTraversal()
+				{
+
 					public void compile( Collection<ExpressionNode> _elements ) throws CompilerException
 					{
 						if (null != firstLocalElementIn( _elements )) {
@@ -93,23 +94,23 @@ final class HelperCompilerForFoldChained extends HelperCompilerForFolds
 						}
 						compileFoldOverSubSections( _elements );
 					}
-					
-				});
-				
+
+				} );
+
 			}
 		}
 	}
 
-	
+
 	private Type accuType;
 	private int accuVar;
-	
+
 	private void setupAccumulator( DataType _type )
 	{
 		accuType = section().engineCompiler().typeCompiler( _type ).type();
 		accuVar = newLocal( accuType.getSize() );
 	}
-	
+
 	private void compileAccumulatorStore()
 	{
 		mv().visitVarInsn( accuType.getOpcode( Opcodes.ISTORE ), accuVar );
@@ -120,5 +121,5 @@ final class HelperCompilerForFoldChained extends HelperCompilerForFolds
 		mv().visitVarInsn( accuType.getOpcode( Opcodes.ILOAD ), accuVar );
 	}
 
-	
+
 }

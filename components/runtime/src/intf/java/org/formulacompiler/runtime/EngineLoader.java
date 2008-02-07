@@ -74,7 +74,8 @@ public interface EngineLoader
 
 
 	/**
-	 * Factory interface for {@link org.formulacompiler.runtime.ImplementationLocator#getInstance(Class)}.
+	 * Factory interface for
+	 * {@link org.formulacompiler.runtime.ImplementationLocator#getInstance(Class)}.
 	 */
 	public static interface Factory
 	{

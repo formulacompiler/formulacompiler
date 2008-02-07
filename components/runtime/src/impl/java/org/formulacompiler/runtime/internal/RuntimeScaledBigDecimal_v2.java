@@ -29,7 +29,7 @@ public class RuntimeScaledBigDecimal_v2 extends RuntimeBigDecimal_v2
 	public static final MathContext HIGHPREC = MathContext.DECIMAL128;
 	public static final MathContext UNLIMITED = MathContext.UNLIMITED;
 
-	
+
 	public static BigDecimal fun_DEGREES( BigDecimal _a )
 	{
 		final BigDecimal product = _a.multiply( BigDecimal.valueOf( 180 ) );

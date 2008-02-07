@@ -415,7 +415,8 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_BETAINV( _x, _alpha, _beta );
 	}
 
-	public BigDecimal fun_BINOMDIST( BigDecimal _number, BigDecimal _trials, BigDecimal _probability, BigDecimal _cumulative )
+	public BigDecimal fun_BINOMDIST( BigDecimal _number, BigDecimal _trials, BigDecimal _probability,
+			BigDecimal _cumulative )
 	{
 		return RuntimeBigDecimal_v2.fun_BINOMDIST( _number, _trials, _probability, _cumulative.signum() != 0 );
 	}
@@ -509,7 +510,8 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_HOUR( _date );
 	}
 
-	public BigDecimal fun_HYPGEOMDIST( BigDecimal sample_s, BigDecimal number_sample, BigDecimal population_s, BigDecimal number_population )
+	public BigDecimal fun_HYPGEOMDIST( BigDecimal sample_s, BigDecimal number_sample, BigDecimal population_s,
+			BigDecimal number_population )
 	{
 		return RuntimeBigDecimal_v2.fun_HYPGEOMDIST( sample_s, number_sample, population_s, number_population );
 	}

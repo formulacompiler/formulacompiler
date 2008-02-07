@@ -47,7 +47,7 @@ public abstract class ExpressionNodeForFoldApply extends ExpressionNode
 		addArguments( _args );
 	}
 
-	
+
 	public final ExpressionNodeForFoldDefinition fold()
 	{
 		return (ExpressionNodeForFoldDefinition) argument( 0 );
@@ -65,7 +65,7 @@ public abstract class ExpressionNodeForFoldApply extends ExpressionNode
 			}
 		};
 	}
-	
+
 	protected final void describeElements( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
 	{
 		boolean first = true;
@@ -76,7 +76,7 @@ public abstract class ExpressionNodeForFoldApply extends ExpressionNode
 		}
 	}
 
-	
+
 	@Override
 	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
 	{
@@ -88,7 +88,7 @@ public abstract class ExpressionNodeForFoldApply extends ExpressionNode
 	{
 		_to.append( "apply (" );
 		describeArgumentTo( _to, _cfg, 0 );
-		_to.append(  ") to " );
+		_to.append( ") to " );
 	}
 
 }

@@ -42,7 +42,7 @@ final class SubSectionLazyGetterCompiler extends MethodCompiler
 	private final SubSectionCompiler sub;
 
 
-	SubSectionLazyGetterCompiler(SectionCompiler _section, SubSectionCompiler _sub)
+	SubSectionLazyGetterCompiler( SectionCompiler _section, SubSectionCompiler _sub )
 	{
 		super( _section, 0, _sub.getterName(), _sub.getterDescriptor() );
 		this.sub = _sub;
@@ -167,8 +167,7 @@ final class SubSectionLazyGetterCompiler extends MethodCompiler
 	}
 
 
-	private int compileInitFromCollection( final SubSectionCompiler sub, final GeneratorAdapter mv,
-			final int l_dc )
+	private int compileInitFromCollection( final SubSectionCompiler sub, final GeneratorAdapter mv, final int l_dc )
 	{
 		final String n_iter = ITERATOR_INTF.getInternalName();
 		final String n_coll = COLLECTION_INTF.getInternalName();

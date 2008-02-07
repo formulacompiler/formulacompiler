@@ -27,7 +27,7 @@ import org.formulacompiler.runtime.internal.Environment;
 final class InterpretedDoubleType extends InterpretedDoubleType_Generated
 {
 
-	public InterpretedDoubleType(NumericType _type, Environment _env)
+	public InterpretedDoubleType( NumericType _type, Environment _env )
 	{
 		super( _type, _env );
 	}

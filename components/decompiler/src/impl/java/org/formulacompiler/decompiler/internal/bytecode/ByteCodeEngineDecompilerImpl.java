@@ -39,7 +39,7 @@ public class ByteCodeEngineDecompilerImpl implements ByteCodeEngineDecompiler
 	private final ByteCodeEngine engine;
 
 
-	public ByteCodeEngineDecompilerImpl(Config _config)
+	public ByteCodeEngineDecompilerImpl( Config _config )
 	{
 		super();
 		this.engine = (ByteCodeEngine) _config.engine;
@@ -93,7 +93,7 @@ public class ByteCodeEngineDecompilerImpl implements ByteCodeEngineDecompiler
 	{
 		private final Map<String, byte[]> classFileNameAndBytes = New.map();
 
-		public ByteCodeEngineLocation(ByteCodeEngine _engine)
+		public ByteCodeEngineLocation( ByteCodeEngine _engine )
 		{
 			super();
 			transferClassBytes( _engine.getClassNamesAndBytes() );

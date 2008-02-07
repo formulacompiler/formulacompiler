@@ -66,9 +66,9 @@ public final class Environment
 		LANG_CODEPAGE_MAP.put( "mk", 1251 );
 		LANG_CODEPAGE_MAP.put( "mn", 1251 );
 		LANG_CODEPAGE_MAP.put( "ru", 1251 );
-		LANG_CODEPAGE_MAP.put( "az", 1251 );    // or 1254 for latin
-		LANG_CODEPAGE_MAP.put( "uz", 1251 );    // or 1254 for latin
-		LANG_CODEPAGE_MAP.put( "sr", 1251 );    // or 1250 for latin
+		LANG_CODEPAGE_MAP.put( "az", 1251 ); // or 1254 for latin
+		LANG_CODEPAGE_MAP.put( "uz", 1251 ); // or 1254 for latin
+		LANG_CODEPAGE_MAP.put( "sr", 1251 ); // or 1250 for latin
 		LANG_CODEPAGE_MAP.put( "tt", 1251 );
 		LANG_CODEPAGE_MAP.put( "ua", 1251 );
 		LANG_CODEPAGE_MAP.put( "af", 1252 );
@@ -102,19 +102,19 @@ public final class Environment
 		LANG_CODEPAGE_MAP.put( "lv", 1257 );
 		LANG_CODEPAGE_MAP.put( "vi", 1258 );
 		LANG_CODEPAGE_MAP.put( "th", 874 );
-		/*
-		   // double byte character set codepages for languages Japanese and Korean are not supported yet
-		   LANG_CODEPAGE_MAP.put( "ja", 932 );  // Cp932 does not supported by jdk 1.5.0
-		   LANG_CODEPAGE_MAP.put( "ko", 949 );
 
-		   // double byte character set codepages for language Chinese are not supported yet
-		   // for languages which have different codepages for different countries
-		   LANG_CODEPAGE_MAP.put( "zh_CN", 936 );
-		   LANG_CODEPAGE_MAP.put( "zh_SG", 936 );
-		   LANG_CODEPAGE_MAP.put( "zh_MC", 950 );
-		   LANG_CODEPAGE_MAP.put( "zh_HK", 950 );
-		   LANG_CODEPAGE_MAP.put( "zh_TW", 950 );
-		*/
+		// double byte character set codepages for languages Japanese and Korean are not supported yet
+		// LANG_CODEPAGE_MAP.put( "ja", 932 );  // Cp932 does not supported by jdk 1.5.0
+		//LANG_CODEPAGE_MAP.put( "ko", 949 );
+
+		// double byte character set codepages for language Chinese are not supported yet
+		// for languages which have different codepages for different countries
+		// LANG_CODEPAGE_MAP.put( "zh_CN", 936 );
+		// LANG_CODEPAGE_MAP.put( "zh_SG", 936 );
+		// LANG_CODEPAGE_MAP.put( "zh_MC", 950 );
+		// LANG_CODEPAGE_MAP.put( "zh_HK", 950 );
+		// LANG_CODEPAGE_MAP.put( "zh_TW", 950 );
+
 	}
 
 	public static Environment getInstance( Computation.Config _cfg )
@@ -154,7 +154,8 @@ public final class Environment
 
 	public DecimalFormatSymbols decimalFormatSymbols()
 	{
-		return (null != this.decimalFormatSymbols) ? this.decimalFormatSymbols : decimalFormat().getDecimalFormatSymbols();
+		return (null != this.decimalFormatSymbols) ? this.decimalFormatSymbols : decimalFormat()
+				.getDecimalFormatSymbols();
 	}
 
 	public TimeZone timeZone()

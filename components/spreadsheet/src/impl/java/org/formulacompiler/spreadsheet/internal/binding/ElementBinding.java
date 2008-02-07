@@ -29,7 +29,7 @@ public abstract class ElementBinding extends AbstractDescribable
 	private final SectionBinding section;
 
 
-	public ElementBinding(final SectionBinding _section)
+	public ElementBinding( final SectionBinding _section )
 	{
 		super();
 		this.section = _section;
@@ -44,8 +44,8 @@ public abstract class ElementBinding extends AbstractDescribable
 
 	protected void notInSection( String _name, CellRange _ref ) throws SpreadsheetException.NotInSection
 	{
-		throw new SpreadsheetException.NotInSection( _name, _ref.toString(), getSection().toString(), getSection().getRange()
-				.toString() );
+		throw new SpreadsheetException.NotInSection( _name, _ref.toString(), getSection().toString(), getSection()
+				.getRange().toString() );
 	}
 
 

@@ -108,7 +108,7 @@ abstract class HelperCompiler extends ValueMethodCompiler
 		}
 	}
 
-	
+
 	protected static final ExpressionNode firstLocalElementIn( Iterable<ExpressionNode> _elts )
 	{
 		for (ExpressionNode elt : _elts) {

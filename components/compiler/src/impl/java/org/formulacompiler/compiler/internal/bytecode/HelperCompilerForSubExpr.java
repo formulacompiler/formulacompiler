@@ -28,7 +28,7 @@ import org.formulacompiler.compiler.internal.expressions.LetDictionary.LetEntry;
 final class HelperCompilerForSubExpr extends HelperCompiler
 {
 
-	HelperCompilerForSubExpr(SectionCompiler _section, ExpressionNode _node, Iterable<LetEntry> _closure)
+	HelperCompilerForSubExpr( SectionCompiler _section, ExpressionNode _node, Iterable<LetEntry> _closure )
 	{
 		super( _section, 0, _node, _closure );
 	}

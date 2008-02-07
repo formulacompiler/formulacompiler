@@ -31,7 +31,7 @@ public class CellListTableModel extends AbstractTableModel
 	private final CellListModel cellList;
 
 
-	public CellListTableModel(CellListModel _list)
+	public CellListTableModel( CellListModel _list )
 	{
 		assert null != _list;
 		this.cellList = _list;
@@ -60,12 +60,12 @@ public class CellListTableModel extends AbstractTableModel
 	public String getColumnName( int _columnIndex )
 	{
 		switch (_columnIndex) {
-		case CELL_COL:
-			return "Cell";
-		case VALUE_COL:
-			return "Value";
-		default:
-			return "ERROR";
+			case CELL_COL:
+				return "Cell";
+			case VALUE_COL:
+				return "Value";
+			default:
+				return "ERROR";
 		}
 	}
 
@@ -73,10 +73,10 @@ public class CellListTableModel extends AbstractTableModel
 	public Class<?> getColumnClass( int _columnIndex )
 	{
 		switch (_columnIndex) {
-		case VALUE_COL:
-			return Double.class;
-		default:
-			return String.class;
+			case VALUE_COL:
+				return Double.class;
+			default:
+				return String.class;
 		}
 	}
 
@@ -91,13 +91,13 @@ public class CellListTableModel extends AbstractTableModel
 	{
 		final CellListEntry e = getCellList().getCells().get( _rowIndex );
 		switch (_columnIndex) {
-		case CELL_COL:
-			return "Cell??";
-			// return Sheet.getCanonicalNameForCellIndex( e.index.columnIndex, e.index.rowIndex );
-		case VALUE_COL:
-			return e.value;
-		default:
-			return "ERROR";
+			case CELL_COL:
+				return "Cell??";
+				// return Sheet.getCanonicalNameForCellIndex( e.index.columnIndex, e.index.rowIndex );
+			case VALUE_COL:
+				return e.value;
+			default:
+				return "ERROR";
 		}
 	}
 
@@ -106,11 +106,11 @@ public class CellListTableModel extends AbstractTableModel
 	{
 		final CellListEntry e = getCellList().getCells().get( _rowIndex );
 		switch (_columnIndex) {
-		case VALUE_COL:
-			e.value = (Double) _value;
-			break;
-		default:
-			break;
+			case VALUE_COL:
+				e.value = (Double) _value;
+				break;
+			default:
+				break;
 		}
 	}
 

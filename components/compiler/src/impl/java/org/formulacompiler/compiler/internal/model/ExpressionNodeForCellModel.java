@@ -27,13 +27,12 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionDescriptionCo
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 
 
-
 public class ExpressionNodeForCellModel extends ExpressionNode
 {
 	private CellModel cellModel;
 
 
-	public ExpressionNodeForCellModel(CellModel _cellModel)
+	public ExpressionNodeForCellModel( CellModel _cellModel )
 	{
 		super();
 		setCellModel( _cellModel );
@@ -58,8 +57,8 @@ public class ExpressionNodeForCellModel extends ExpressionNode
 	{
 		return new ExpressionNodeForCellModel( this.cellModel );
 	}
-	
-	
+
+
 	@Override
 	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
 	{

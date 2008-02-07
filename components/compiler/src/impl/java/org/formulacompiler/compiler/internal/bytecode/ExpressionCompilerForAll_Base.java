@@ -23,9 +23,9 @@ package org.formulacompiler.compiler.internal.bytecode;
 abstract class ExpressionCompilerForAll_Base extends ExpressionCompiler
 {
 
-	public ExpressionCompilerForAll_Base(MethodCompiler _methodCompiler)
+	public ExpressionCompilerForAll_Base( MethodCompiler _methodCompiler )
 	{
 		super( _methodCompiler );
 	}
-	
+
 }

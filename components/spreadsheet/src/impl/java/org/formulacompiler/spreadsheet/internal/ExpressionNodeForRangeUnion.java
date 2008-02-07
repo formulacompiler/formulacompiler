@@ -27,11 +27,10 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionDescriptionCo
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 
 
-
 public final class ExpressionNodeForRangeUnion extends ExpressionNode
 {
 
-	public ExpressionNodeForRangeUnion(Collection<ExpressionNode> _args)
+	public ExpressionNodeForRangeUnion( Collection<ExpressionNode> _args )
 	{
 		super( _args );
 	}

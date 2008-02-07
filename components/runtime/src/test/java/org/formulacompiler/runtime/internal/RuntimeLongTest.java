@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 
 public class RuntimeLongTest extends TestCase
 {
-	
+
 	public void testFromDouble()
 	{
 		final RuntimeLong_v2.Context context2 = new RuntimeLong_v2.Context( 2 );
@@ -49,5 +49,5 @@ public class RuntimeLongTest extends TestCase
 		assertEquals( 1, RuntimeLong_v2.fromDouble( 1.49999, context0 ) );
 		assertEquals( 2, RuntimeLong_v2.fromDouble( 1.50001, context0 ) );
 	}
-	
+
 }

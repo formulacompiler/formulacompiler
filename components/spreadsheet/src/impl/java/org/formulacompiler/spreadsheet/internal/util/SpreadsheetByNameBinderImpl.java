@@ -205,8 +205,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 			}
 		}
 
-		private boolean bindThisNamedCellToMethod( Cell _cell, String _methodBaseName )
-				throws CompilerException
+		private boolean bindThisNamedCellToMethod( Cell _cell, String _methodBaseName ) throws CompilerException
 		{
 			return bindThisNamedCellToMethod( _methodBaseName, _cell )
 					|| bindThisNamedCellToMethod( "get" + _methodBaseName, _cell );
@@ -271,13 +270,13 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 		{
 			return !getBinder().isInputCell( _cell );
 		}
-		
+
 		@Override
 		protected boolean isBound( Cell _cell )
 		{
 			return getBinder().isInputCell( _cell );
 		}
-		
+
 		@Override
 		protected String bindingTypeName()
 		{
@@ -314,7 +313,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 		{
 			return getBinder().isOutputCell( _cell );
 		}
-		
+
 		@Override
 		protected String bindingTypeName()
 		{

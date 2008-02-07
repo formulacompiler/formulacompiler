@@ -29,7 +29,7 @@ public final class ScaledBigDecimalType extends AbstractBigDecimalType
 	private final BigDecimal zero = adjustConvertedValue( BigDecimal.ZERO );
 	private final BigDecimal one = adjustConvertedValue( BigDecimal.ONE );
 
-	protected ScaledBigDecimalType(int _scale, int _roundingMode)
+	protected ScaledBigDecimalType( int _scale, int _roundingMode )
 	{
 		super( _scale, _roundingMode );
 	}

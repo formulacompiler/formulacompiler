@@ -23,7 +23,6 @@ package org.formulacompiler.compiler.internal;
 import java.util.Date;
 
 
-
 public final class YamlBuilder
 {
 	private static final CharSequence VAL_SEP = ": ";

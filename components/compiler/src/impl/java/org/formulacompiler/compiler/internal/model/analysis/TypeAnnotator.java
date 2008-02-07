@@ -138,7 +138,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		if (_expr instanceof ExpressionNodeForFoldList) return typeOf( (ExpressionNodeForFoldList) _expr );
 		if (_expr instanceof ExpressionNodeForFoldVectors) return typeOf( (ExpressionNodeForFoldVectors) _expr );
 		if (_expr instanceof ExpressionNodeForFoldDatabase) return typeOf( (ExpressionNodeForFoldDatabase) _expr );
-		
+
 		if (_expr instanceof ExpressionNodeForSubstitution) return typeOf( (ExpressionNodeForSubstitution) _expr );
 
 		unsupported( _expr );
@@ -245,7 +245,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 				// ...
 				// ---- typeOfFun
 			case CLEAN:
-			case CHAR:	
+			case CHAR:
 			case DOLLAR:
 			case FIXED:
 			case ROMAN:
@@ -382,7 +382,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		_expr.fold().setDataType( typeOf( _expr.fold(), _expr.table().getDataType() ) );
 		return _expr.fold().getDataType();
 	}
-	
+
 	private DataType typeOf( ExpressionNodeForSubstitution _expr ) throws CompilerException
 	{
 		annotateArgs( _expr );
