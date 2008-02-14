@@ -1118,10 +1118,10 @@ jc:org.formulacompiler.devjournal.cse.InsuranceModel:---- OutputsCurrent
 __@@__
 public static final class OutputsCurrent implements Outputs
 	{
-		private static final double[] COST_TABLE = new double[] { 150, 180, 240 /* ... all of 37 elts */};
+		private static final double[] COST_TABLE = { 150, 180, 240 /* ... all of 37 elts */};
 		private final Inputs i;
 
-		public OutputsCurrent(Inputs _inputs)
+		public OutputsCurrent( Inputs _inputs )
 		{
 			this.i = _inputs;
 		}
@@ -1200,14 +1200,14 @@ jc:org.formulacompiler.devjournal.cse.InsuranceModel:---- OutputsDesired
 __@@__
 public static final class OutputsDesired implements Outputs
 	{
-		private static final double[] COST_TABLE = new double[] { 150, 180, 240 /* ... all of 37 elts */};
-		private static final double[] PERCENT_TABLE = new double[] { .03, .03, .03  /* ... all of 37 elts */};
-		private static final double[] AGE_UPTO = new double[] { 20, 20, 20 /* ... all of 37 elts */};
-		private static final double[] INSURED_AMOUNT_UPTO = new double[] { 5000, 6000, 8000 };
+		private static final double[] COST_TABLE = { 150, 180, 240 /* ... all of 37 elts */};
+		private static final double[] PERCENT_TABLE = { .03, .03, .03 /* ... all of 37 elts */};
+		private static final double[] AGE_UPTO = { 20, 20, 20 /* ... all of 37 elts */};
+		private static final double[] INSURED_AMOUNT_UPTO = { 5000, 6000, 8000 };
 
 		private final Inputs i;
 
-		public OutputsDesired(Inputs _inputs)
+		public OutputsDesired( Inputs _inputs )
 		{
 			this.i = _inputs;
 		}
@@ -1584,8 +1584,8 @@ public static class Input
 
 	public static interface Output
 	{
-		/**/BigDecimal/**/getResult();
-		/**/BigDecimal/**/getNegated();
+		/**/BigDecimal/**/ getResult();
+		/**/BigDecimal/**/ getNegated();
 	}
 ___@_@___
 jc:org.formulacompiler.tutorials.Basics:---- BuildTemplatedSheet
@@ -1649,7 +1649,7 @@ private RebateComputationFactory compileFactoryFromSpreadsheet( String _sheetNam
 		builder./**/setFactoryClass/**/( RebateComputationFactory.class );
 		builder./**/bindAllByName/**/();
 		builder./**/failIfByNameBindingLeftNamedCellsUnbound/**/();
-		
+
 		Engine engine = builder./**/compile/**/();
 		return (RebateComputationFactory) engine./**/getComputationFactory/**/();
 	}
@@ -2212,7 +2212,7 @@ public static interface Input
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingToMultipleInstances:---- Output
 __@@__
-public static interface Output 
+public static interface Output
 	{
 		double getNewDiscount( int _iCC );
 		double getNewCreditLimit( int _iCC );
@@ -2237,7 +2237,7 @@ public static class OutputFacade
 	{
 		final Output output;
 
-		public OutputFacade(Output _output)
+		public OutputFacade( Output _output )
 		{
 			super();
 			this.output = _output;
@@ -2256,18 +2256,18 @@ public static class OutputFacade
 		private class CC
 		{
 			private int iCC;
-			
-			public CC(/**/int _iCC/**/)
+
+			public CC( /**/int _iCC/**/ )
 			{
 				super();
 				this.iCC = _iCC;
 			}
-			
+
 			public double getNewDiscount()
 			{
 				return getOutput().getNewDiscount( /**/this.iCC/**/ );
 			}
-			
+
 			public double getNewCreditLimit()
 			{
 				return getOutput().getNewCreditLimit( /**/this.iCC/**/ );
@@ -2286,7 +2286,8 @@ intfGetter = Input.class.getMethod( /**/"getCC", Integer.TYPE/**/ );
 				if (name.startsWith( "CC_DISCOUNT_" )) {
 					final int iCC = Integer.parseInt( name.substring( "CC_DISCOUNT_".length() ) );
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
-					binder.defineInputCell( cell, builder.newCallFrame( intfGetter, /**/iCC/**/ )./**/chain/**/( valueGetter ) );
+					final CallFrame chain = builder.newCallFrame( intfGetter, /**/iCC/**/ )./**/chain/**/( valueGetter );
+					binder.defineInputCell( cell, chain );
 				}
 			}
 		}
@@ -2301,7 +2302,7 @@ outputGetter = Output.class.getMethod( /**/"getNewDiscount", Integer.TYPE/**/ );
 				if (name.startsWith( "CC_NEWDISCOUNT_" )) {
 					final int iCC = Integer.parseInt( name.substring( "CC_NEWDISCOUNT_".length() ) );
 					final Spreadsheet.Cell cell = (Spreadsheet.Cell) range;
-					binder.defineOutputCell( cell, builder.newCallFrame( outputGetter, /**/iCC/**/ ) );
+					binder.defineOutputCell( cell, outputGetter, /**/iCC/**/ );
 				}
 				// ... dito for CreditLimit
 			}
@@ -2314,7 +2315,7 @@ public static final class Input
 		private final InputA a;
 		private final InputB b;
 
-		public Input(InputA _a, InputB _b)
+		public Input( InputA _a, InputB _b )
 		{
 			super();
 			this.a = _a;
@@ -2354,7 +2355,7 @@ public static interface Output extends OutputA, OutputB
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingToMultipleInterfaces:---- Output2
 __@@__
-public static interface Output2 
+public static interface Output2
 	{
 		double getResultA();
 		double getResultB();
@@ -2367,7 +2368,7 @@ public static class OutputAImpl implements /**/OutputA/**/
 	{
 		private final Output2 output;
 
-		public OutputAImpl(Output2 _output)
+		public OutputAImpl( Output2 _output )
 		{
 			super();
 			this.output = _output;
@@ -2385,7 +2386,7 @@ public static class OutputBImpl implements /**/OutputB/**/
 	{
 		private final Output2 output;
 
-		public OutputBImpl(Output2 _output)
+		public OutputBImpl( Output2 _output )
 		{
 			super();
 			this.output = _output;
@@ -2763,17 +2764,17 @@ EngineLoader.Config cfg = new EngineLoader.Config();
 ___@_@___
 jc:org.formulacompiler.tutorials.CustomerRatingWithOrders:-- CustomerDataAlternatives
 __@@__
-public/**/Iterable<OrderData>/**/ordersForLastNDaysIterable( int _days );
-		public/**/Iterator<OrderData>/**/ordersForLastNDaysIterator( int _days );
+public /**/Iterable<OrderData>/**/ ordersForLastNDaysIterable( int _days );
+		public /**/Iterator<OrderData>/**/ ordersForLastNDaysIterator( int _days );
 ___@_@___
 jc:org.formulacompiler.tutorials.CustomerRatingWithOrders:---- CustomerData; omit -- CustomerDataAlternatives
 __@@__
 public static interface CustomerData
 	{
-		public/**/OrderData[]/**/ordersForLastNDays( int _days );
+		public /**/OrderData[]/**/ ordersForLastNDays( int _days );
 		// -- CustomerDataAlternatives
-		public/**/Iterable<OrderData>/**/ordersForLastNDaysIterable( int _days );
-		public/**/Iterator<OrderData>/**/ordersForLastNDaysIterator( int _days );
+		public /**/Iterable<OrderData>/**/ ordersForLastNDaysIterable( int _days );
+		public /**/Iterator<OrderData>/**/ ordersForLastNDaysIterator( int _days );
 		// -- CustomerDataAlternatives
 	}
 ___@_@___
@@ -2809,7 +2810,7 @@ Section binder = _builder.getRootBinder();
 		Orientation orient = Orientation.VERTICAL;
 		Class input = /**/OrderData/**/.class;
 
-		Section /**/orders/**/= binder./**/defineRepeatingSection/**/( range, orient, call, input, null, null );
+		Section /**/orders/**/ = binder./**/defineRepeatingSection/**/( range, orient, call, input, null, null );
 ___@_@___
 jc:org.formulacompiler.tutorials.CustomerRatingWithOrders:---- bindRating
 __@@__
@@ -3046,7 +3047,8 @@ ___@_@___
 jc:org.formulacompiler.tutorials.ErrorImproperInnerSectionReference:---- bindSection
 __@@__
 Range range = sheet.getRange( "Section" );
-		Section section = root.defineRepeatingSection( range, Orientation.REPEAT_ROWS, "section", MyElement.class, null, 	null );
+		Section section = root.defineRepeatingSection( range, Orientation.REPEAT_ROWS, "section", MyElement.class, null,
+				null );
 		section.defineInputCell( sheet.getRange( "Name" ).getTopLeft(), "name" );
 		section.defineInputCell( sheet.getRange( "Value" ).getTopLeft(), "value" );
 ___@_@___
@@ -3092,7 +3094,7 @@ public static interface MyComputation
 ___@_@___
 jc:org.formulacompiler.tutorials.ErrorUnsupportedConversionToOutput:---- StringAsInt
 __@@__
-EngineBuilder builder = builderForComputationOfCellNamed( /**/"stringOutput"/**/);
+EngineBuilder builder = builderForComputationOfCellNamed( /**/"stringOutput"/**/ );
 		bindInputNamed( builder, "stringInput" );
 		try {
 			builder.compile();
@@ -3108,7 +3110,7 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"stringOutput"/**/
 ___@_@___
 jc:org.formulacompiler.tutorials.ErrorUnsupportedFunction:---- BindIndependent
 __@@__
-EngineBuilder builder = builderForComputationOfCellNamed( /**/"Independent"/**/);
+EngineBuilder builder = builderForComputationOfCellNamed( /**/"Independent"/**/ );
 		SaveableEngine engine = builder.compile();
 		MyFactory factory = (MyFactory) engine.getComputationFactory();
 		MyComputation computation = factory.newComputation( new MyInputs() );
@@ -3122,37 +3124,37 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"Info"/**/ );
 			fail();
 		}
 		catch (/**/CompilerException.UnsupportedExpression e/**/) {
-			String err = /**/"Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?." 
-				+ "\nCell containing expression is A1."/**/;
+			String err = /**/"Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
+					+ "\nCell containing expression is A1."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 ___@_@___
 jc:org.formulacompiler.tutorials.ErrorUnsupportedFunction:---- BindParsedButUnsupported
 __@@__
-EngineBuilder builder = builderForComputationOfCellNamed( /**/"Unsupported"/**/);
+EngineBuilder builder = builderForComputationOfCellNamed( /**/"Unsupported"/**/ );
 		try {
 			builder.compile();
 			fail();
 		}
 		catch (CompilerException.UnsupportedExpression e) {
 			String err = /**/"Function LENB is not supported for double engines."/**/
-				+ /**/"\nIn expression LEN(  >> LENB( B4 ) <<  ); error location indicated by >>..<<."/**/
-				+ "\nCell containing expression is A4."
-				+ "\nReferenced by cell A4.";
+					+ /**/"\nIn expression LEN(  >> LENB( B4 ) <<  ); error location indicated by >>..<<."/**/
+					+ "\nCell containing expression is A4."
+					+ "\nReferenced by cell A4.";
 			assertEquals( err, e.getMessage() );
 		}
 ___@_@___
 jc:org.formulacompiler.tutorials.ErrorUnsupportedFunction:---- BindReferencesInfo
 __@@__
-EngineBuilder builder = builderForComputationOfCellNamed( /**/"ReferencesInfo"/**/);
+EngineBuilder builder = builderForComputationOfCellNamed( /**/"ReferencesInfo"/**/ );
 		try {
 			builder.compile();
 			fail();
 		}
 		catch (CompilerException.UnsupportedExpression e) {
-			String err = "Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?." 
-				+ "\nCell containing expression is A1."
-				+ /**/"\nReferenced by cell A2."/**/;
+			String err = "Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
+					+ "\nCell containing expression is A1."
+					+ /**/"\nReferenced by cell A2."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 ___@_@___
@@ -3560,7 +3562,7 @@ __@@__
 		short getShort();
 		int getInt();
 		long getLong();
-		@ScaledLong(7) long getLong7();
+		@ScaledLong( 7 ) long getLong7();
 		double getDouble();
 		float getFloat();
 		boolean getBoolean();
@@ -3570,7 +3572,7 @@ __@@__
 		Short getBoxedShort();
 		Integer getBoxedInt();
 		Long getBoxedLong();
-		@ScaledLong(7) Long getBoxedLong7();
+		@ScaledLong( 7 ) Long getBoxedLong7();
 		Double getBoxedDouble();
 		Float getBoxedFloat();
 		Boolean getBoxedBoolean();
@@ -3600,7 +3602,7 @@ __@@__
 		short calcShort();
 		int calcInt();
 		long calcLong();
-		@ScaledLong(5) long calcLong5();
+		@ScaledLong( 5 ) long calcLong5();
 		double calcDouble();
 		float calcFloat();
 		boolean calcBoolean();
@@ -3610,7 +3612,7 @@ __@@__
 		Short calcBoxedShort();
 		Integer calcBoxedInt();
 		Long calcBoxedLong();
-		@ScaledLong(5) Long calcBoxedLong5();
+		@ScaledLong( 5 ) Long calcBoxedLong5();
 		Double calcBoxedDouble();
 		Float calcBoxedFloat();
 		Boolean calcBoxedBoolean();
@@ -3619,13 +3621,15 @@ __@@__
 		BigDecimal calcBigDecimal();
 		BigInteger calcBigInteger();
 
-		// Date is converted from a number as in Excel; can also use long value as in "new Date(long)".
+		// Date is converted from a number as in Excel; can also use long value as in "new
+		// Date(long)".
 		// These values are time-zone adjusted.
 		Date calcDate();
 		@MillisecondsSinceUTC1970 long calcDateMs();
 		@MillisecondsSinceUTC1970 Long calcBoxedDateMs();
 
-		// With @Milliseconds annotation, long is converted from an Excel time cell to a time duration in milliseconds.
+		// With @Milliseconds annotation, long is converted from an Excel time cell to a time duration
+		// in milliseconds.
 		// These values are *not* time-zone adjusted.
 		@Milliseconds long calcTime();
 		@Milliseconds Long calcBoxedTime();
@@ -3640,7 +3644,7 @@ public static class Input
 		public /**/double/**/ getA() { return 1.0; }
 		public /**/double/**/ getB() { return 6.0; }
 	}
-	
+
 	public static interface Output
 	{
 		/**/double/**/ getResult();
@@ -3665,7 +3669,7 @@ ___@_@___
 jc:org.formulacompiler.tutorials.UsingDouble:---- checkResult
 __@@__
 Output output = factory.newInstance( new Input() );
-		assertEquals( /**/"1.1666666666666667"/**/, String.valueOf( output.getResult()) );
+		assertEquals( /**/"1.1666666666666667"/**/, String.valueOf( output.getResult() ) );
 ___@_@___
 jc:org.formulacompiler.tutorials.UsingPrecisionBigDecimal:---- buildCompiler34
 __@@__
@@ -3724,13 +3728,13 @@ jc:org.formulacompiler.tutorials.UsingScaledLong:---- IO
 __@@__
 public static class Input
 	{
-		public Input(int b)  { this.b = b; }
-		public /**/long/**/ getA()  { return 1; } // will be scaled by AFC 
-		public /**/@ScaledLong(3) long/**/ getB()  { return ScaledLongSupport.scale( this.b, 3 ); }
+		public Input( int b ) { this.b = b; }
+		public /**/long/**/ getA() { return 1; } // will be scaled by AFC
+		public /**/@ScaledLong( 3 ) long/**/ getB() { return ScaledLongSupport.scale( this.b, 3 ); }
 		private final int b;
 	}
 
-	/**/@ScaledLong(3)/**/
+	/**/@ScaledLong( 3 )/**/
 	public static interface Output
 	{
 		/**/long/**/ getResult();
@@ -3762,7 +3766,7 @@ long scale = 1000000L;
 		long b = 10000000L * scale;
 		long intermediate = a * b;
 		long result = intermediate / scale;
-		
+
 		assertEquals( 1200000L, a );
 		assertEquals( 10000000000000L, b );
 		assertEquals( -6446744073709551616L, intermediate ); // silent integer overflow!
@@ -3775,7 +3779,7 @@ long scale = 1000000L;
 		long b = 100000L * scale;
 		long intermediate = a * b;
 		long result = intermediate / scale;
-		
+
 		assertEquals( 1200000L, a );
 		assertEquals( 100000000000L, b );
 		assertEquals( 120000000000000000L, intermediate );
