@@ -29,9 +29,11 @@ digraph "AFC Component Overview" {
 		calc [ label = "Computation Instance" ];
 		}
 
+		{ node [ style = filled, fillcolor = "#91BAD0" ];
 		inp [ label = "Input Instance" ];
-		outp [ label = "Output Interface", style = dotted ];
-		fact [ label = "Factory Interface", style = dotted ];
+		outp [ label = "Output Interface" ];
+		fact [ label = "Factory Interface" ];
+		}
 		
 		{ node [ style = filled, fillcolor = "#D1E3EB" ];
 		ext [ label = "JExcelAPI\nASM" ];
