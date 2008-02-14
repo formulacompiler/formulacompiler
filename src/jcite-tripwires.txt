@@ -3581,13 +3581,15 @@ __@@__
 		BigDecimal getBigDecimal();
 		BigInteger getBigInteger();
 
-		// Date is converted to a number as in Excel; can also use long value as returned by Date.getTime().
+		// Date is converted to a number as in Excel; can also use long value as returned by
+		// Date.getTime().
 		// These values are time-zone adjusted.
 		Date getDate();
 		@MillisecondsSinceUTC1970 long getDateMs();
 		@MillisecondsSinceUTC1970 Long getBoxedDateMs();
 
-		// With @Milliseconds annotation, long is treated as a time duration in milliseconds for an Excel time cell.
+		// With @Milliseconds annotation, long is treated as a time duration in milliseconds for an
+		// Excel time cell.
 		// These values or *not* time-zone adjusted.
 		@Milliseconds long getTime();
 		@Milliseconds Long getBoxedTime();
