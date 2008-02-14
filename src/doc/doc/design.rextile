@@ -8,9 +8,15 @@ The Abacus Formula Compiler (AFC) makes it possible to use computations defined 
 
 h2. Overview
 
-Here's an overview of how AFC does this. Blue is your code, red is AFC's, green are external dependencies, and yellow are generated things:
+Here's an overview of how AFC does this:
 
 !embedded.png(Overview)!
+
+The colours meaning
+<span style="background:#91BAD0">your code</span>,
+<span style="background:#CCCC00">AFC's code</span>,
+<span style="background:#E1FAC9">generated things</span>, and
+<span style="background:#D1E3EB">external dependencies</span>.
 
 
 h3. Example
