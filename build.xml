@@ -525,7 +525,14 @@
 		</path>
 		<property name="javadoc.cite.path" refid="javadoc.cite.path" />
 
-		<javadoc destdir="${javadoc.dir}" public="true" windowtitle="${javadoc.title}" use="true" sourcepath="${javadoc.src.path}" additionalParam="-tagletPath ${jcite.classpath} -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${javadoc.cite.path}" stylesheetfile="${src.doc.dir}/doc/javadoc/style.css" overview="${src.doc.dir}/doc/javadoc/overview.html">
+		<javadoc destdir="${javadoc.dir}"
+				public="true" 
+				windowtitle="${javadoc.title}" 
+				use="true" 
+				sourcepath="${javadoc.src.path}" 
+				additionalParam="-notimestamp -tagletPath ${jcite.classpath} -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${javadoc.cite.path}" 
+				stylesheetfile="${src.doc.dir}/doc/javadoc/style.css" 
+				overview="${src.doc.dir}/doc/javadoc/overview.html">
 			<link href="http://java.sun.com/j2se/1.5/docs/api/" />
 		</javadoc>
 
