@@ -4,7 +4,6 @@ h1. Release Notes
 Lists the new features, improvements, and fixes for each release of AFC. Note that the former name of AFC was SEJ (Spreadsheet Engine for Java). You may also want to look at:
 
 	* "Current Limitations":../doc/limitations.htm
-	* "Roadmap":../doc/roadmap.htm
 
 <%= toc 2,3 %>
 

@@ -22,19 +22,19 @@ class OverviewGenerator
 	end
 	
 	def gen_subsys( g )
-		rex = "\nh2. #{beautify(g.id)}\n\n#{[g.desc, g.notes].join(' ')}\n"
+		rex = "\nh2. #{beautify(g.id)}\n\n#{[g.desc, g.notes].join(' ').strip}\n"
 		g.groups.each { |g| rex += gen_jar g }
 		rex
 	end
 	
 	def gen_jar( g )
-		rex = "\nh3. #{beautify(g.id)} (#{g.jar})\n\n#{[g.desc, g.notes].join(' ')}\n"
+		rex = "\nh3. #{beautify(g.id)} (#{g.jar})\n\n#{[g.desc, g.notes].join(' ').strip}\n"
 		g.comps.each { |c| rex += gen_comp c }
 		rex
 	end
 	
 	def gen_comp( c )
-		rex = "\nh4. #{beautify(c.id)}\n\n#{[c.desc, c.notes].join(' ')}\n\n"
+		rex = "\nh4. #{beautify(c.id)}\n\n#{[c.desc, c.notes].join(' ').strip}\n\n"
 		rex += '<pre>' + c.pkgs.join("\n") + '</pre>' + "\n"
 		rex
 	end
