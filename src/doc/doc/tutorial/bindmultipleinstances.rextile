@@ -1,0 +1,50 @@
+
+h1. Binding To Multiple Interface Instances
+
+
+What if you need to provide multiple separate instances of source interfaces as input providers, or need AFC to implement multiple separate instances of output interfaces?
+
+_The example code on this page, while syntactically checked, is not yet part of an automated test._
+
+<%= toc 2, 3 %>
+
+
+h2. Inputs
+
+Let's assume you have _n_ separate customer categories. You want to bind all cells named after the pattern _CC_DISCOUNT_<n>_ to the discount percentage associated with the customer category _<n>_. Here's how you go about it.
+
+Let's assume the following customer interface:
+
+	[jc:org.formulacompiler.tutorials.BindingToMultipleInstances:---- CC]
+
+First, you define an accessor for the customer categories on the main input interface:
+
+	[jc:org.formulacompiler.tutorials.BindingToMultipleInstances:---- Input]
+
+Then, you bind input cells in a loop. The key is to use a call chain that supplies the proper index argument to the customer category accessor:
+
+	[jc:org.formulacompiler.tutorials.BindingToMultipleInstances:---- bindInputs]
+
+
+
+h2. Outputs
+
+Let's assume a spreadsheet is used to update next year's discount percentage and credit limit for each customer category based on this year's input. The sheet computes the outputs for all of the categories simultaneously because there may be dependencies between the categories. As above, the number of categories is not fixed at compile-time. You cannot use bands to model this sheet because you do not want to force the user to use the same computation model for every category.
+
+The input model for this sheet can be implemented as described above. How do you specify the outputs? You have to use parametrized accessors for each value separately:
+
+	[jc:org.formulacompiler.tutorials.BindingToMultipleInstances:---- Output]
+
+which you bind as follows:
+
+	[jc:org.formulacompiler.tutorials.BindingToMultipleInstances:---- bindOutputs]
+
+You might think that the following interface definition would be much nicer:
+
+	[jc:org.formulacompiler.tutorials.BindingToMultipleInstances:---- Output2]
+
+I agree. Unfortunately, AFC does not directly support it (again a consequence of keeping the black box magic in AFC at a minimum). You are, however, free to put such a façade on top of the original interface:
+
+	[jc:org.formulacompiler.tutorials.BindingToMultipleInstances:---- OutputFacade]
+
+You might for example need to do this if you have to feed the sheet's output to some other system that expects its input in the above form. The façade would then have to implement the other system's input interfaces, of course.

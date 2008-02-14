@@ -1,56 +1,44 @@
+<div class="blurb">
+<div class="rounded_box">
+<div class="rounded_top"><div></div></div>
+<div class="rounded_content">
 
-h1. AFC - Abacus Formula Compiler for Java
+Your *users* want to *customize formulas*. They know *Excel* (or OpenOffice).
+<br/>So *use spreadsheets directly*. At *native speed*, and it's *thread safe*.
+<br/>Using *double* or *BigDecimal*; it's your choice.
+
+	[jc:org.formulacompiler.tutorials.QuickStart:---- Blurb; omit -]
+
+Available under the *GPL* and *commercially* ("details":download/license.htm).
+
+</div>
+<div class="rounded_bot"><div></div></div>
+</div>
+</div>
+
+h1. Abacus Formula Compiler for Java
+
+"Download":download/index.htm it now!
+
+"Quick start":quick.htm your first compiled spreadsheet. Has you up and running in just a few minutes.
+
+"Learn more":doc/index.htm about the goals, the design, the API, and the supported functions.
+
 
 
 <div class="news">
 
-"Release 1.0":releasenotes.htm first public GPL release and a host of changes.
+h2. News
+
+h3. "Release 1.0":download/releasenotes.htm
+
+is the first public GPL release and adds a host of changes.
 <br/>%(when)August 24, 2007%
 
-"Release 0.10.1":releasenotes.htm adds improved by-name binding and some more functions.
-<br/>%(when)(internal)%
+h3. "Release 0.10.1":download/releasenotes.htm
+
+adds improved by-name binding and some more functions.
+<br/>%(when)(milestone only)%
 
 </div>
 
-
-*Non-public pre-release version!*
-
-The Abacus Formula Compiler (AFC) makes it possible to use computations defined in spreadsheet files within normal Java applications. AFC was designed from the ground up for high performance, low memory usage and thread-safety. For detailed information, look at one of
-
-	* "Design Document":design.htm
-	* "Tutorial":tutorial/index.htm
-	* "Function Reference (Supported Formulas)":reference/index.htm
-	* "API Reference (JavaDoc)":javadoc/index.html
-	* "Sample Applications":examples/index.htm
-	* "Implementation Details":impl/index.htm
-
-	* "Release Notes":releasenotes.htm
-	* "Limitations":limitations.htm
-	* "Roadmap":roadmap.htm
-
-	* "Developer Documentation":hacking/index.htm
-	* "Developer's Journal":dev/index.htm
-
-
-h2. License
-
-AFC is *not open source*. It is the property of Abacus Research AG, Switzerland. See the "license terms":LICENSE.html for details. Portions of the code are intended to be licensed under the GPL license.
-
-
-h2. Download
-
-<% afc_ver = '1.0.0' %>
-<% tools_ver = '1.0.0' %>
-
-dt. "formulacompiler-<%=afc_ver%>-bin.zip":http://arrenbrecht.ch/afc/dist/formulacompiler-<%=afc_ver%>-bin.zip : Binary release, including documentation and all required third-party libraries.
-
-dt. "formulacompiler-<%=afc_ver%>-IDE-src.zip":http://arrenbrecht.ch/afc/dist/formulacompiler-<%=afc_ver%>-IDE-src.zip : Source code and documentation for AFC in .jar files. Makes attaching source and doc in IDEs simple.
-
-dt. "formulacompiler-<%=afc_ver%>-src.zip":http://arrenbrecht.ch/afc/dist/formulacompiler-<%=afc_ver%>-src.zip : Complete source code for AFC, including tests and examples. Needs external tools to run (see below). Setup instructions are "here":hacking/tools.htm.
-
-dt. "formulacompiler-<%=tools_ver%>-tools.zip":http://arrenbrecht.ch/afc/dist/formulacompiler-<%=tools_ver%>-tools.zip : Most of the external tools required to build an AFC distribution in a single download. It's OK if the version here is less than the others.
-
-
-"Releases Notes":releasenotes.htm
-
-*This code is not open source!*

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="org.formulacompiler" default="build" basedir=".">
-	<description>Builds, tests, and packages the Abacus Formula Compiler. See doc/hacking/build.htm for details.</description>
+	<description>Builds, tests, and packages the Abacus Formula Compiler. See doc/contribute/hacking/build.htm for details.</description>
 
 	<!--	Conventions used in this build script:
 	
@@ -72,7 +72,7 @@
 	<property name="build.IDE.dir" location="build/IDE" />
 	<property name="jar.src.file" location="${build.IDE.dir}/${basename}-IDE-src.jar" />
 	<property name="jar.doc.file" location="${build.IDE.dir}/${basename}-IDE-doc.jar" />
-	<property name="javadoc.dir" location="${doc.dir}/javadoc" />
+	<property name="javadoc.dir" location="${doc.dir}/doc/javadoc" />
 
 
 	<!-- internal targets -->
@@ -329,29 +329,29 @@
 	</target>
 
 	<target name="@doc-img" depends="@init">
-		<mkdir dir="${doc.dir}/hacking" />
+		<mkdir dir="${doc.dir}/contribute/hacking" />
 		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
 			<arg value="-Tpng" />
 			<arg value="-Gsize=6,6" />
-			<arg value="-odoc/compile_and_use.png" />
-			<arg file="${src.doc.dir}/compile_and_use.dot" />
+			<arg value="-odoc/doc/compile_and_use.png" />
+			<arg file="${src.doc.dir}/doc/compile_and_use.dot" />
+		</exec>
+		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
+			<arg value="-Tpng" />
+			<arg value="-Gsize=8,8" />
+			<arg value="-odoc/doc/compiler.png" />
+			<arg file="${src.doc.dir}/doc/compiler.dot" />
 		</exec>
 		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
 			<arg value="-Tpng" />
 			<arg value="-Gsize=6,6" />
-			<arg value="-odoc/compiler.png" />
-			<arg file="${src.doc.dir}/compiler.dot" />
+			<arg value="-odoc/doc/embedded.png" />
+			<arg file="${src.doc.dir}/doc/embedded.dot" />
 		</exec>
 		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
 			<arg value="-Tpng" />
-			<arg value="-Gsize=6,6" />
-			<arg value="-odoc/embedded.png" />
-			<arg file="${src.doc.dir}/embedded.dot" />
-		</exec>
-		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
-			<arg value="-Tpng" />
-			<arg value="-odoc/hacking/dependency-graph.png" />
-			<arg file="${temp.rextile.dir}/hacking/dependency-graph.dot" />
+			<arg value="-odoc/contribute/hacking/dependency-graph.png" />
+			<arg file="${temp.rextile.dir}/contribute/hacking/dependency-graph.dot" />
 		</exec>
 	</target>
 
@@ -373,14 +373,14 @@
 		<copy todir="${temp.rextile.dir}" preservelastmodified="true" >
 			<fileset dir="${src.doc.dir}">
 				<include name="**/*" />
-				<exclude name="reference/**/*" />
+				<exclude name="doc/reference/**/*" />
 			</fileset>
 		</copy>
 	</target>
 
 	<target name="@doc-ref-make" depends="@init">
-		<mkdir dir="${temp.rextile.dir}/reference" />
-		<copy todir="${temp.rextile.dir}/reference">
+		<mkdir dir="${temp.rextile.dir}/doc/reference" />
+		<copy todir="${temp.rextile.dir}/doc/reference">
 			<fileset dir="${comps.dir}/system/temp/test-reference/doc">
 				<include name="**/*.rextile" />
 			</fileset>
@@ -388,9 +388,9 @@
 	</target>
 
 	<target name="@doc-ref-copy" depends="@init">
-		<mkdir dir="${temp.rextile.dir}/reference" />
-		<copy todir="${temp.rextile.dir}/reference" preservelastmodified="true" >
-			<fileset dir="${src.doc.dir}/reference">
+		<mkdir dir="${temp.rextile.dir}/doc/reference" />
+		<copy todir="${temp.rextile.dir}/doc/reference" preservelastmodified="true" >
+			<fileset dir="${src.doc.dir}/doc/reference">
 				<include name="**/*" />
 			</fileset>
 		</copy>
@@ -488,11 +488,11 @@
 			<include name="**/*.htm" />
 			<include name="**/*.html" />
 			<include name="**/*.xhtml" />
-			<exclude name="reference/**/*" />
+			<exclude name="doc/reference/**/*" />
 		</jcite>
 
 		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}" sourcepathref="jcite.sourcepath">
-			<include name="reference/**/*.htm*" />
+			<include name="doc/reference/**/*.htm*" />
 		</jcite>
 
 	</target>
@@ -525,7 +525,7 @@
 		</path>
 		<property name="javadoc.cite.path" refid="javadoc.cite.path" />
 
-		<javadoc destdir="${javadoc.dir}" public="true" windowtitle="${javadoc.title}" use="true" sourcepath="${javadoc.src.path}" additionalParam="-tagletPath ${jcite.classpath} -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${javadoc.cite.path}" stylesheetfile="${src.doc.dir}/javadoc/style.css" overview="${src.doc.dir}/javadoc/overview.html">
+		<javadoc destdir="${javadoc.dir}" public="true" windowtitle="${javadoc.title}" use="true" sourcepath="${javadoc.src.path}" additionalParam="-tagletPath ${jcite.classpath} -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${javadoc.cite.path}" stylesheetfile="${src.doc.dir}/doc/javadoc/style.css" overview="${src.doc.dir}/doc/javadoc/overview.html">
 			<link href="http://java.sun.com/j2se/1.5/docs/api/" />
 		</javadoc>
 

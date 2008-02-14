@@ -1,4 +1,11 @@
-﻿
+
+/* Chrome */
+
+div.chrome {
+	display: none;
+}
+
+
 /* Main stuff */
 
 body 
@@ -37,72 +44,6 @@ td
 .nofirefox
 {
 	display: none;
-}
-
-
-/* No navigation */
-
-div.crumbs
-{
-	display: none;
-}
-
-
-/* No TOC */
-
-.contents
-{
-	display: none;
-}
-
-div.toc
-{
-	display: none;
-}
-
-
-/* News */
-
-div.news
-{
-	float: right;
-	width: 12em;
-	margin-left: 1em;
-	margin-bottom: 1em;
-	padding-left: 1em;
-	padding-right: 1em;
-	border: solid 1px #EEE6D4;
-}
-
-div.news h2, div.news h3
-{
-	margin-left: auto;
-	float: none;
-	width: auto;
-	margin-top: auto;
-	font-size: medium;
-	text-align: left;
-}
-
-div.news h2
-{
-	margin-top: 0;
-	font-size: medium;
-	font-weight: normal;
-	display: none;
-}
-
-div.news h3
-{
-}
-
-
-/* Footer */
-
-div.footer
-{
-	margin-top: 4em;
-	font-size: x-small;
 }
 
 

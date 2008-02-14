@@ -1,0 +1,143 @@
+digraph "AFC Component Overview" {
+	fontname = "Helvetica";
+
+	node [ shape = box, fontname = "Helvetica" ];
+	edge [ fontname = "Helvetica" ];
+	
+	subgraph input {
+
+		{ node [style = filled, color = "#91BAD0" ];
+		xls [ label = "Excel .xls File", shape=octagon ];
+		xml [ label = "Excel .xml File", shape=octagon ];
+		ods [ label = "OpenOffice .ods File", shape=octagon ];
+		}
+	}
+	
+	subgraph cluster_afc {
+		label = "AFC Engine Compiler";
+		style = filled;
+		fillcolor = "#DFD8CB";
+	
+		subgraph cluster_load {
+			label = "Spreadsheet Loader";
+			style = filled;
+			fillcolor = "#C0B5A2";
+			
+			{ node [style = filled, fillcolor = "#CCCC00" ]; rank = same;
+			load_xls [ label = "Excel .xls Loader" ];
+			load_xml [ label = "Excel .xml Loader" ];
+			load_ods [ label = "OpenOffice .ods Loader" ];
+			}
+			
+			{ node [style = filled, color="#D6E1D9", shape=octagon ];
+			sheet [ label = "Spreadsheet Model", shape=octagon ];
+			}
+			
+			{ node [ style = filled, fillcolor = "#D1E3EB" ];
+			jxl	 [ label = "JExcelAPI Library" ];
+			}
+			
+		}
+		
+		subgraph cluster_model {
+			label = "Model";
+			style = filled;
+			fillcolor = "#C0B5A2";
+
+			{ node [style = filled, fillcolor = "#CCCC00" ];
+			sheetcomp [ label = "Spreadsheet Compiler" ];
+			modelopt [ label = "Optimizer" ];
+			}
+
+			{ node [style = filled, color="#D6E1D9", shape=octagon ];
+			model [ label = "Computation Model", shape=octagon ];
+			}
+		}
+		
+		subgraph cluster_compile {
+			label = "Compiler";
+			style = filled;
+			fillcolor = "#C0B5A2";
+
+			{ node [style = filled, fillcolor = "#CCCC00" ];
+			bccomp [ label = "Bytecode Compiler" ];
+			}
+			
+			{ node [ style = filled, fillcolor = "#D1E3EB" ];
+			asm [ label = "ASM Library" ];
+			}
+			
+			{ rank = same; bccomp; asm; }
+		}
+		
+		{ node [style = filled, color="#D6E1D9", shape=octagon ];
+		expr [ label = "Expression Trees" ];
+		}
+        
+    }
+	
+	subgraph ser {
+		
+		{ node [style = filled, color="#91BAD0", shape=octagon ];
+		bcser [ label = "Serialized Engine (.jar)" ];
+		}
+		{ node [ style = filled, fillcolor = "#E1FAC9" ];
+		bceng [ label = "Engine Instance" ];
+		}
+	}
+
+ 	subgraph cluster_afcdecomp {
+		label = "AFC Engine Decompiler";
+		style = filled;
+		fillcolor = "#DFD8CB";
+                    
+		{ node [style = filled, fillcolor = "#CCCC00" ];
+        bcdecomp [ label = "Bytecode Decompiler" ];
+        }
+        
+        { node [ style = filled, fillcolor = "#D1E3EB" ];
+        jode [ label = "JODE Library" ];
+        }
+        
+        { rank = same; bcdecomp; jode; }
+    }
+
+	subgraph src {
+   		{ node [style = filled, color="#91BAD0", shape=octagon ];
+		bcsrc [ label = "Source Code (.java)" ];
+		}
+    }
+
+	{ edge [ label = "input to" ];
+	xls -> load_xls;
+	xml -> load_xml;
+	ods -> load_ods;
+	sheet -> sheetcomp;
+	model -> bccomp;
+    bceng -> bcdecomp;
+	}
+	
+	{ edge [ label = "builds a" ];
+	load_xls -> sheet;
+	load_xml -> sheet;
+	load_ods -> sheet;
+	sheetcomp -> model;
+	bccomp -> bceng;
+	bccomp -> bcser;
+    bcdecomp -> bcsrc;
+	}
+
+	modelopt -> model [ label = "optimizes" ];
+
+	{ edge [ style = dotted, label = "uses" ];
+	load_xls -> jxl;
+	bccomp -> asm;
+    bcdecomp -> jode;
+	}
+	
+	{ edge [ style = dotted, label = "contains" ];
+	sheet -> expr;
+	model -> expr;
+	}
+
+}
