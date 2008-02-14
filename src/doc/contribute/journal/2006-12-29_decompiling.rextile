@@ -1,0 +1,23 @@
+
+h1. Decompiling Generated Engines
+
+The "design document":../design.htm makes "trustworthiness" a major goal of SEJ. It suggests that SEJ should, in parallel to the default byte-code generator, include a source-code generator. This would allow users to inspect the code SEJ generates for their spreadsheets. Maybe the "JODE":-jode Java decompiler can get us this feature for free.
+
+<%= toc %>
+
+
+h2. It Works!
+
+I planned from the start that SEJ should always compile byte-code that is identical to that which @javac@ would compile from corresponding sources. This was so that later on, the automated tests could compile engines using both the direct byte-code generator and the source-code generator, followed by javac. The tests would then have tested the generated class files for equality so as to ensure that the generated source-code really corresponds to the byte-code generated directly.
+
+By consequence, any fairly decent Java decompiler should be able to reverse engineer the source-code that SEJ's source-code generator should one day produce. Since the code produced by SEJ is rather simple - no @try@ statements, no generics, no inner classes - it turns out that, for example, "JODE":-jode handles the job nicely. JODE's decompiler core is open-source under the LGPL (the UI is GPL). So would even be possible to include it in SEJ.
+
+
+h2. Improved Docs
+
+Imagine if the "function reference":../../doc/reference/index.htm were to show the generated Java source code for every reference test case. It would make understanding and trusting SEJ much easier. It seems that JODE's decompiler core has a flexible enough API for this to work well.
+
+
+h2. Improved Debugging
+
+I think it would also help to augment the @sej.internal.Debug@ class with methods to automatically disassemble and decompile a generated engine. Right now, the only option is to save it to a file.

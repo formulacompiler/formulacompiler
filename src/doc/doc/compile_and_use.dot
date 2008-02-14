@@ -1,0 +1,81 @@
+digraph "AFC Component Overview" {
+	fontname = "Helvetica";
+
+	node [ shape = box, fontname = "Helvetica" ];
+	edge [ fontname = "Helvetica" ];
+	
+	subgraph input {
+		{ node [style = filled, color = "#91BAD0" ];
+		xls [ label = "Excel .xls File", shape=octagon ];
+		xml [ label = "Excel .xml File", shape=octagon ];
+		ods [ label = "OpenOffice .ods File", shape=octagon ];
+		}
+	}
+	
+	subgraph cluster_config {
+		label = "Configuration Application Compiling & Saving Engine";
+		style = filled;
+		color = "#DFD8CB";
+					
+		{ node [ style = filled, fillcolor = "#CCCC00" ];
+		comp [ label = "AFC Compiler" ];
+		}
+		
+		{ node [ style = filled, fillcolor = "#D1E3EB" ];
+		ext [ label = "JExcelAPI\nASM" ];
+		}
+		
+		{ rank = same; comp; ext; }
+	}
+					
+
+	subgraph ser {
+		{ node [style = filled, color="#91BAD0", shape=octagon ];
+		bcser [ label = "Serizalized Engine (.jar)" ];
+		}
+	}
+
+	subgraph cluster_runtime {
+		label = "Application Loading & Using Engine";
+		style = filled;
+		color = "#DFD8CB";
+					
+		{ node [ style = filled, fillcolor = "#CCCC00" ];
+		bcload [ label = "AFC Engine Loader" ];
+		run [ label = "AFC Runtime" ];
+		}
+		
+		{ node [ style = filled, fillcolor = "#E1FAC9" ];
+		bceng [ label = "Engine Instance" ];
+		calc [ label = "Computation Instance" ];
+		}
+
+		inp [ label = "Input Instance" ];
+		outp [ label = "Output Interface", style = dotted ];
+
+		{ rank = same; calc; inp; outp; }
+	}
+
+	{ edge [ label = "input to" ];
+	xls -> comp;
+	xml -> comp;
+	ods -> comp;
+	bcser -> bcload;
+	inp -> calc;
+	}
+	
+	{ edge [ label = "builds a" ];
+	comp -> bcser;
+	bcload -> bceng -> calc;
+	}
+
+	{ edge [ label = "implements", style=dotted ];
+	calc -> outp;
+	}
+
+	{ edge [ style = dotted, label = "uses" ];
+	comp -> ext;
+	calc -> run;
+	}
+
+}

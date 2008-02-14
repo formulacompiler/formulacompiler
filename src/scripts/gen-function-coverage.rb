@@ -20,10 +20,10 @@ class Coverage
 		[ [@small, "small"], [@medium, "medium"], [@large, "large"], [@jedox, "jedox"]].each do |want, name|
 			sub = want - @toolpak
 			miss = sub - have
-			write_file "../../temp/rextile/hacking/nyi_#{name}.inc", miss.join( "; " )
+			write_file "../../temp/rextile/contribute/hacking/nyi_#{name}.inc", miss.join( "; " )
 			sub = want - sub
 			miss = sub - have
-			write_file "../../temp/rextile/hacking/nyi_#{name}_toolpak.inc", miss.join( "; " )
+			write_file "../../temp/rextile/contribute/hacking/nyi_#{name}_toolpak.inc", miss.join( "; " )
 		end
 	end
 		

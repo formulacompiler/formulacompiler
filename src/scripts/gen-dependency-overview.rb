@@ -12,7 +12,7 @@ class OverviewGenerator
 	attr_reader :project
 	
 	def run
-		write_file '../../temp/rextile/hacking/packages.rextinc', gen
+		write_file '../../temp/rextile/contribute/hacking/packages.rextinc', gen
 	end
 	
 	def gen

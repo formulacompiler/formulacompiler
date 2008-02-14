@@ -1,0 +1,18 @@
+
+h1. Download
+
+<% eval read_closest_file( 'versions.rb' ) %>
+
+The latest stable release:
+
+<%= ver '1.0.0', '1.0.0' %>
+
+dt. "License Information":license.htm : Background on AFC's dual licensing (commercial and "GPL":-gpl3).
+
+dt. "Release Notes":releasenotes.htm : Release notes for all versions of AFC. We follow the regime of trying not to break existing code for x.y.z (z > 1) releases, while we do occasionally have API changes for x.y.0 releases. We try not to break compiled engine compatibility anymore at all.
+
+dt. "Older Versions":versions.htm : Download links to older versions.
+
+dt. "Source Code Repositories":http://formulacompiler.org/hg/ : Lists the available "Mercurial":-hg source code repositories.
+
+

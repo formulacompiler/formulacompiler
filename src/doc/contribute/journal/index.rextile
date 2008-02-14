@@ -1,0 +1,13 @@
+
+h1. Developer's Journal
+
+This is an unstructured journal regarding the development of AFC. I use it to keep track of ideas, goals and discussion notes. Note that the former name of AFC was SEJ (Spreadsheet Engine for Java).
+
+Check the "roadmap":../../doc/roadmap.htm for the current priorities, and the "release notes":../releasenotes.htm for what's already been done.
+
+<%= index_all_except( /.*\.rextile/, /index\.rextile/ ) %>
+
+
+h2. Older Entries
+
+...can be "found here":../dev.htm.

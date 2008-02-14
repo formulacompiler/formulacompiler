@@ -3344,6 +3344,156 @@ public static final class /**/ThrowingInput/**/ implements Inputs {
 		}
 	}
 ___@_@___
+jc:org.formulacompiler.tutorials.QuickStart:---- Blurb
+__@@__
+// Compile price finding factory and strategy implementation from spreadsheet:
+		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
+		builder./**/loadSpreadsheet/**/( new File( PATH, /**/"CustomPriceFormula.xls"/**/ ) );
+		builder.setFactoryClass( PriceFinderFactory.class );
+		builder.bindAllByName();
+		Engine engine = builder./**/compile/**/();
+		PriceFinderFactory factory = (PriceFinderFactory) engine.getComputationFactory();
+
+		// Use it to compute a line item price:
+		LineItem item = getCurrentLineItem();
+		PriceFinder priceFinder = factory./**/newInstance/**/( item );
+		BigDecimal price = priceFinder./**/getPrice/**/();
+___@_@___
+jc:org.formulacompiler.tutorials.QuickStart:---- Blurb; omit -
+__@@__
+// Compile price finding factory and strategy implementation from spreadsheet:
+		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
+		builder./**/loadSpreadsheet/**/( new File( PATH, /**/"CustomPriceFormula.xls"/**/ ) );
+		builder.setFactoryClass( PriceFinderFactory.class );
+		builder.bindAllByName();
+		Engine engine = builder./**/compile/**/();
+		PriceFinderFactory factory = (PriceFinderFactory) engine.getComputationFactory();
+
+		// Use it to compute a line item price:
+		LineItem item = getCurrentLineItem();
+		PriceFinder priceFinder = factory./**/newInstance/**/( item );
+		BigDecimal price = priceFinder./**/getPrice/**/();
+___@_@___
+jc:org.formulacompiler.tutorials.QuickStart:---- Compile
+__@@__
+private SaveableEngine compile() throws FileNotFoundException, IOException, CompilerException, EngineException
+	{
+		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
+		builder.loadSpreadsheet( new File( PATH, "CustomPriceFormula.xls" ) );
+		builder.setFactoryClass( PriceFinderFactory.class );
+		builder.bindAllByName();
+		return builder.compile();
+	}
+
+	private PriceFinderFactory factoryFor( Engine engine )
+	{
+		return (PriceFinderFactory) engine.getComputationFactory();
+	}
+___@_@___
+jc:org.formulacompiler.tutorials.QuickStart:---- Compute
+__@@__
+private BigDecimal compute( PriceFinderFactory factory )
+	{
+		PriceFinder priceFinder = factory.newInstance( getCurrentLineItem() );
+		return priceFinder.getPrice();
+	}
+___@_@___
+jc:org.formulacompiler.tutorials.QuickStart:---- Decompile
+__@@__
+private void decompile( SaveableEngine engine ) throws Exception
+	{
+		ByteCodeEngineSource source = FormulaDecompiler.decompile( engine );
+		source.saveTo( "temp/test/decompiled/quickstart" );
+	}
+___@_@___
+jc:org.formulacompiler.tutorials.QuickStart:---- Imports
+__@@__
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.math.BigDecimal;
+
+import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.SaveableEngine;
+import org.formulacompiler.decompiler.ByteCodeEngineSource;
+import org.formulacompiler.decompiler.FormulaDecompiler;
+import org.formulacompiler.runtime.Engine;
+import org.formulacompiler.runtime.EngineException;
+import org.formulacompiler.runtime.FormulaRuntime;
+import org.formulacompiler.spreadsheet.EngineBuilder;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+___@_@___
+jc:org.formulacompiler.tutorials.QuickStart:---- LineItemGetter
+__@@__
+private LineItem getCurrentLineItem() {
+		return new LineItem();
+	}
+___@_@___
+jc:org.formulacompiler.tutorials.QuickStart:---- LineItemIntf
+__@@__
+public static class LineItem {
+		public BigDecimal getArticlePrice() { return BigDecimal.valueOf( 112.00 ); } 
+		public int getItemCount() { return 10; }
+		public String getCustomerCategory() { return "B"; }
+	}
+___@_@___
+jc:org.formulacompiler.tutorials.QuickStart:---- Load
+__@@__
+private Engine load() throws Exception
+	{
+		return FormulaRuntime.loadEngine( new FileInputStream( "temp/test/CustomPriceFormula.jar" ) );
+	}
+___@_@___
+jc:org.formulacompiler.tutorials.QuickStart:---- Main
+__@@__
+public static void main( String[] args ) throws Exception
+	{
+		QuickStart app = new QuickStart();
+		SaveableEngine engine = app.compile();
+		PriceFinderFactory factory = app.factoryFor( engine );
+		BigDecimal price = app.compute( factory );
+		System.out.println( "The result is " + price );
+	}
+___@_@___
+jc:org.formulacompiler.tutorials.QuickStart:---- Main-Decompile
+__@@__
+app.decompile( engine );
+___@_@___
+jc:org.formulacompiler.tutorials.QuickStart:---- Main-Save-Load
+__@@__
+app.save( engine );
+
+		QuickStart app2 = new QuickStart();
+		Engine engine2 = app2./**/load/**/();
+		PriceFinderFactory factory2 = app2.factoryFor( engine2 );
+		BigDecimal price2 = app2.compute( factory2 );
+		System.out.println( "The result is " + price2 );
+___@_@___
+jc:org.formulacompiler.tutorials.QuickStart:---- Path
+__@@__
+public static final File PATH = new File( "src/test/data/org/formulacompiler/tutorials" );
+___@_@___
+jc:org.formulacompiler.tutorials.QuickStart:---- PriceFinderIntf
+__@@__
+public static interface PriceFinder {
+		BigDecimal getPrice();
+	}
+	
+	public static interface PriceFinderFactory {
+		PriceFinder newInstance( LineItem item );
+	}
+___@_@___
+jc:org.formulacompiler.tutorials.QuickStart:---- Save
+__@@__
+private void save( SaveableEngine engine ) throws Exception
+	{
+		engine.saveTo( new FileOutputStream( "temp/test/CustomPriceFormula.jar" ) );
+	}
+___@_@___
 jc:org.formulacompiler.tutorials.TimeZones:---- DLS_Consts
 __@@__
 private static final long JAVA_DIFF_HOURS = 4343L;
@@ -3745,6 +3895,103 @@ final class $Root implements Computation, Decompilation.MyOutputs
     
     final double get$2() {
         return $inputs.articleRebate();
+    }
+}
+___@_@___
+jc:quickstart/org.formulacompiler.gen.$Factory
+__@@__
+package org.formulacompiler.gen;
+import org.formulacompiler.runtime.Computation;
+import org.formulacompiler.runtime.ComputationFactory;
+import org.formulacompiler.runtime.internal.Environment;
+import org.formulacompiler.tutorials.QuickStart;
+
+public final class $Factory
+    implements ComputationFactory, QuickStart.PriceFinderFactory
+{
+    private final Environment $environment;
+    
+    public $Factory(Environment environment) {
+        $environment = environment;
+    }
+    
+    public final Computation newComputation(Object object) {
+        return new $Root((QuickStart.LineItem) object, $environment);
+    }
+    
+    public final QuickStart.PriceFinder newInstance
+        (QuickStart.LineItem lineitem) {
+        return new $Root(lineitem, $environment);
+    }
+}
+___@_@___
+jc:quickstart/org.formulacompiler.gen.$Root
+__@@__
+package org.formulacompiler.gen;
+import java.math.BigDecimal;
+
+import org.formulacompiler.runtime.Computation;
+import org.formulacompiler.runtime.FormulaException;
+import org.formulacompiler.runtime.internal.Environment;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
+import org.formulacompiler.runtime.internal.Runtime_v2;
+import org.formulacompiler.tutorials.QuickStart;
+
+final class $Root implements Computation, QuickStart.PriceFinder
+{
+    private final QuickStart.LineItem $inputs;
+    final Environment $environment;
+    private String[] $constarr$0;
+    
+    $Root(QuickStart.LineItem lineitem, Environment environment) {
+        $environment = environment;
+        $inputs = lineitem;
+    }
+    
+    final double get$0() {
+        return (get$1() * get$2()
+                * (1.0 - $idx$0(Runtime_v2.fun_MATCH_Ascending(get$3(),
+                                                               $constarr$0(),
+                                                               $environment)
+                                - 1)));
+    }
+    
+    public final BigDecimal getPrice() {
+        return BigDecimal.valueOf(Runtime_v2.checkDouble(get$0()));
+    }
+    
+    final String[] $constarr$0() {
+        if ($constarr$0 == null)
+            $constarr$0 = new String[] { "A", "B", "C", "D" };
+        return $constarr$0;
+    }
+    
+    final double $idx$0(int i) {
+        switch (i) {
+        case 0:
+            return 0.06;
+        case 1:
+            return 0.04;
+        case 2:
+            return 0.01;
+        case 3:
+            return 0.0;
+        default:
+            throw new FormulaException
+                      ("#VALUE/REF! because index is out of range in INDEX");
+        }
+    }
+    
+    final double get$1() {
+        return RuntimeDouble_v2.numberToNum($inputs.getArticlePrice());
+    }
+    
+    final double get$2() {
+        return (double) $inputs.getItemCount();
+    }
+    
+    final String get$3() {
+        return Runtime_v2.stringFromString($inputs.getCustomerCategory());
     }
 }
 ___@_@___
@@ -6772,6 +7019,127 @@ __@@__
 			<td class="xl-row">4</td>
 			<td>Volume</td>
 			<td class="xl-num">8<br/><span class="xl-exp">=B3*B1</span></td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
+xc:org/formulacompiler/tutorials/CustomPriceFormula.xls;formulas-only
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>A</td>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+			<td>E</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">1</td>
+			<td><b>Input Values</b></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">2</td>
+			<td>Article Price</td>
+			<td class="xl-num">500.00</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">3</td>
+			<td>Item Count</td>
+			<td class="xl-num">5</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">4</td>
+			<td>Customer Category</td>
+			<td>C</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">5</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">6</td>
+			<td><b>Intermediate Values</b></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">7</td>
+			<td>Categories</td>
+			<td>A</td>
+			<td>B</td>
+			<td>C</td>
+			<td>D</td>
+		</tr>
+		<tr>
+			<td class="xl-row">8</td>
+			<td>Rebates</td>
+			<td class="xl-num">6%</td>
+			<td class="xl-num">4%</td>
+			<td class="xl-num">1%</td>
+			<td class="xl-num">0%</td>
+		</tr>
+		<tr>
+			<td class="xl-row">9</td>
+			<td>Effective Rebate</td>
+			<td class="xl-num"><span class="xl-exp-only">=HLOOKUP(B4,B7:E8,2.0)</span></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">10</td>
+			<td>Base Price</td>
+			<td class="xl-num"><span class="xl-exp-only">=B2*B3</span></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">11</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">12</td>
+			<td><b>Output Values</b></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="xl-row">13</td>
+			<td>Price</td>
+			<td class="xl-num"><span class="xl-exp-only">=B10*(1.0-B9)</span></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 	</tbody>
 </table>

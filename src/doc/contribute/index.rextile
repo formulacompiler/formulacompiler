@@ -1,0 +1,20 @@
+
+h1. Contributing to AFC
+
+Thank you! We appreciate all contributions. Here are some easy ideas on how you can help:
+
+dt. "Participate in the public discussion forum":-forum : This is the easiest way to help others.
+
+dt. "Extend or fix errors in the wiki":-wiki : Adding a page on how you solved a particular problem or worked around a bug can be very helpful to others.
+
+dt. "Submit bug reports":-bugs : Reports that are easily reproducible are especially helpful for us. So a good bug report is usually accompanied by a spreadsheet file or a code snippet showcasing the problem.
+
+
+h2. Contributing Code Or Documentation
+
+dt. "Developer Documentation":hacking/index.htm : There is extensive documentation on working with AFC's code and documentation source, including setup of the development environment. We have tried particularly hard to make implementing missing spreadsheet functions straightforward. 
+
+dt. "Granting Of Rights":copyright.htm : As AFC is a "dual-licensed":../download/license.htm product, Abacus needs sufficient rights to your contributions in order to integrate them. Here we tell you what these rights are, and how you grant them.
+
+dt. "Peter's Journal":journal/index.htm : Peter Arrenbrecht's rather unstructured journal regarding the development of AFC. I use it to keep track of ideas, goals and discussion notes.
+
