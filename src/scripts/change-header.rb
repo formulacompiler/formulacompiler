@@ -14,7 +14,7 @@ old_len = old_header.length
 
 new_header = read_file( '../copyright-header.txt' )
 
-files = [ ".java", ".jj", ".template" ].map{ |e| Dir.glob( "../../**/src/**/*" + e ) }.flatten
+files = [ ".java", ".jj", ".template", ".rules" ].map{ |e| Dir.glob( "../../**/src/**/*" + e ) }.flatten
 
 files.each do |file|
 	txt = read_file( file )
