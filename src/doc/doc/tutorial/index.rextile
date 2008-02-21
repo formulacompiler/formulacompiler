@@ -3,8 +3,6 @@ h1. Tutorial
 
 This is the tutorial for the Abacus Formula Compiler (AFC). It is organized as a collection of examples and reference topics, which are best read in the order presented here. You might also want to have a look at the "Function Reference":../reference/index.htm and the "API Reference":../javadoc/index.html.
 
-<%= toc %>
-
 
 h2. Fundamentals
 
