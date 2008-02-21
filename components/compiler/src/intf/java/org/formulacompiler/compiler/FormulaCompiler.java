@@ -141,6 +141,7 @@ public class FormulaCompiler extends FormulaRuntime
 
 	/**
 	 * Unscaled {@code long} for fast, strictly integer computations.
+	 * <strong>Support for <code>long</code> might be dropped unless we see real demand.</strong>
 	 */
 	public static final NumericType LONG = getNumericType( Long.TYPE, 0 );
 
@@ -148,12 +149,14 @@ public class FormulaCompiler extends FormulaRuntime
 	 * {@code long} scaled to 4 decimal places for fast, fixed point computations (similar to the
 	 * currency type found in Borland Delphi). Beware: this type has insufficient precision for
 	 * seconds in time values.
+	 * <strong>Support for <code>long</code> might be dropped unless we see real demand.</strong>
 	 */
 	public static final NumericType LONG_SCALE4 = getNumericType( Long.TYPE, 4 );
 
 	/**
 	 * {@code long} scaled to 6 decimal places for fast, fixed point computations with sufficient
 	 * precision for seconds in time values.
+	 * <strong>Support for <code>long</code> might be dropped unless we see real demand.</strong>
 	 */
 	public static final NumericType LONG_SCALE6 = getNumericType( Long.TYPE, 6 );
 
