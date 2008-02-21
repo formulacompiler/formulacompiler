@@ -41,7 +41,7 @@ import java.util.Map;
  * 
  * @author peo
  */
-public class ImplementationLocator
+public final class ImplementationLocator
 {
 	private static final Map<Class, Collection> implementationClasses = New.map();
 
