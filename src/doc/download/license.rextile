@@ -1,7 +1,7 @@
 
 h1. License Information
 
-"Abacus Research AG":-aba provides the _Abacus Formula Compiler_ (AFC) under two flexible licenses, designed to meet the usage and distribution requirements of different types of users:
+"Abacus Research AG":abacus.htm provides the _Abacus Formula Compiler_ (AFC) under two flexible licenses, designed to meet the usage and distribution requirements of different types of users:
 
 	* a *commercial license* for ISVs and OEMs using AFC as part of their own commercial solutions, and
 	* an *open source license* ("GPL":-gpl3) for use in free software/open source projects.
