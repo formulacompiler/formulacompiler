@@ -3,13 +3,19 @@
 <div class="rounded_top"><div></div></div>
 <div class="rounded_content">
 
-Your *users* want to *customize formulas*. They know *Excel* (or OpenOffice).
-<br/>So *use spreadsheets directly*. At *native speed*, and it's *thread safe*.
-<br/>Using *double* or *BigDecimal*; it's your choice.
+*Your users want to customize formulas. They know Excel or OpenOffice.*
 
-	[jc:org.formulacompiler.tutorials.QuickStart:---- Blurb; omit -]
+<pre><code
+>	[jc:org.formulacompiler.tutorials.QuickStart:---- Blurb; omit -]
+</code></pre>
 
-Available under the *GPL* and *commercially* ("details":download/license.htm).
+*Compile parametrized spreadsheets directly to bytecode.*
+
+	* No need to have Excel, OpenOffice, or a JDK installed.
+	* Native speed, thread safe execution.
+	* Bind directly to your computation strategy interfaces.
+	* Using double, or BigDecimal for financial applications.
+	* Available under the GPL and commercially ("details":download/license.htm).
 
 </div>
 <div class="rounded_bot"><div></div></div>
