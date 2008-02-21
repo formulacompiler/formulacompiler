@@ -193,21 +193,38 @@
 
 	<target name="@jar-main" depends="@jar-intfimpl, @jar-implonly" />
 
-	<target name="@jar-intfimpl" depends="@init" unless="@no-intf">
+	<target name="@jar-intfimpl" depends="@init, @hgrev" unless="@no-intf">
 		<echo>main: generating ${name}.jar</echo>
 		<mkdir dir="${build.dir}" />
-		<jar jarfile="${jar.file}" compress="${jar.compress}">
+		<jar jarfile="${jar.file}" compress="${jar.compress}" >
 			<fileset dir="${temp.dir}/intf/classes"  />
 			<fileset dir="${temp.dir}/impl/classes" />
+			<manifest>
+				<attribute name="Implementation-Version" value="${dist.version}" />
+				<attribute name="Mercurial-URL" value="${dist.url}" />
+				<attribute name="Mercurial-Id" value="${hgrev}" />
+			</manifest>
 		</jar>
 	</target>
-
-	<target name="@jar-implonly" depends="@init" if="@no-intf">
+	
+	<target name="@jar-implonly" depends="@init, @hgrev" if="@no-intf">
 		<echo>main: generating ${name}.jar</echo>
 		<mkdir dir="${build.dir}" />
 		<jar jarfile="${jar.file}" compress="${jar.compress}">
 			<fileset dir="${temp.dir}/impl/classes" />
+			<manifest>
+				<attribute name="Implementation-Version" value="${dist.version}" />
+				<attribute name="Mercurial-URL" value="${dist.url}" />
+				<attribute name="Mercurial-Id" value="${hgrev}" />
+			</manifest>
 		</jar>
+	</target>
+	
+	<target name="@hgrev" depends="@init">
+		<exec executable="hg" dir="${basedir}" outputproperty="hgrev">
+			<arg value="id" />
+			<arg value="-i" />
+		</exec>
 	</target>
 
 	<!-- test -->

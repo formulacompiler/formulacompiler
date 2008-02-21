@@ -162,7 +162,7 @@
 		</antcall>
 	</target>
 
-	<target name="@jar-src" depends="@init">
+	<target name="@jar-src" depends="@init, @hgrev">
 		<mkdir dir="${build.IDE.dir}" />
 		<jar jarfile="${jar.src.file}" compress="true">
 
@@ -186,14 +186,24 @@
 
 			<fileset dir="${comps.dir}/spreadsheet.opendocument/src/impl/java" includes="**/*.java" />
 
+			<manifest>
+				<attribute name="Implementation-Version" value="${dist.version}" />
+				<attribute name="Mercurial-URL" value="${dist.url}" />
+				<attribute name="Mercurial-Id" value="${hgrev}" />
+			</manifest>
 		</jar>
 	</target>
 
-	<target name="@jar-doc" depends="@init">
+	<target name="@jar-doc" depends="@init, @hgrev">
 		<mkdir dir="${build.IDE.dir}" />
 		<jar jarfile="${jar.doc.file}" compress="true">
 			<fileset dir="${javadoc.dir}">
 			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${dist.version}" />
+				<attribute name="Mercurial-URL" value="${dist.url}" />
+				<attribute name="Mercurial-Id" value="${hgrev}" />
+			</manifest>
 		</jar>
 	</target>
 
@@ -817,6 +827,13 @@
 
 	<target name="@init">
 		<echo>Running on JRE ${java.runtime.version} by ${java.vendor}; ANT detected ${ant.java.version}.</echo>
+	</target>
+
+	<target name="@hgrev" depends="@init">
+		<exec executable="hg" dir="${basedir}" outputproperty="hgrev">
+			<arg value="id" />
+			<arg value="-i" />
+		</exec>
 	</target>
 
 
