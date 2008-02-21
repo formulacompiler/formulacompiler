@@ -31,6 +31,8 @@ import org.formulacompiler.compiler.Operator;
 /**
  * This interface allows you to build a spreadsheet representation in memory from scratch. Used
  * instead of loading one from a file or other source.
+ * <p>
+ * <em>This interface is an API only. Do not implement it yourself.</em>
  * 
  * <p>
  * See the <a target="_top" href="{@docRoot}/../tutorial/buildsheet.htm">tutorial</a> for
@@ -226,6 +228,8 @@ public interface SpreadsheetBuilder
 
 	/**
 	 * Opaque handle for a constant value supported by the spreadsheet builder.
+	 * <p>
+	 * <em>This interface is an API only. Do not implement it yourself.</em>
 	 * 
 	 * @author peo
 	 * 
@@ -243,6 +247,8 @@ public interface SpreadsheetBuilder
 
 	/**
 	 * Opaque handle for an node of an expression tree used to define calculated cells.
+	 * <p>
+	 * <em>This interface is an API only. Do not implement it yourself.</em>
 	 * 
 	 * @author peo
 	 * 
@@ -262,6 +268,8 @@ public interface SpreadsheetBuilder
 	/**
 	 * Opaque handle for a constructed cell in a spreadsheet, used to reference the cell again in the
 	 * expression of other, calculated cells.
+	 * <p>
+	 * <em>This interface is an API only. Do not implement it yourself.</em>
 	 * 
 	 * @author peo
 	 * 
@@ -277,6 +285,8 @@ public interface SpreadsheetBuilder
 	/**
 	 * Opaque handle for a range in a spreadsheet, used to reference the range again in the
 	 * expression of other, calculated cells.
+	 * <p>
+	 * <em>This interface is an API only. Do not implement it yourself.</em>
 	 * 
 	 * @author peo
 	 * 

@@ -30,6 +30,8 @@ import org.formulacompiler.runtime.Engine;
 /**
  * Decompiles a JVM byte code engine back to Java source using the <a href="jode.sourceforge.net"
  * target="_top">JODE</a> library.
+ * <p>
+ * <em>This interface is an API only. Do not implement it yourself.</em>
  * 
  * @author peo
  */

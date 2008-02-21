@@ -31,6 +31,8 @@ import org.formulacompiler.runtime.FormulaRuntime;
 /**
  * Immutable class representing the type to be used by the numeric computations of generated
  * engines.
+ * <p>
+ * <em>This interface is an API only. Do not implement it yourself.</em>
  * 
  * @author peo
  */

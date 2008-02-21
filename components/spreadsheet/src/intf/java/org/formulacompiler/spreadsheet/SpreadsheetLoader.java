@@ -27,6 +27,8 @@ import java.io.InputStream;
 
 /**
  * Allows loading of spreadsheets from external sources (like Excel files).
+ * <p>
+ * <em>This interface is an API only. Do not implement it yourself.</em>
  * 
  * @see SpreadsheetCompiler#loadSpreadsheet(String, InputStream, SpreadsheetLoader.Config)
  * 

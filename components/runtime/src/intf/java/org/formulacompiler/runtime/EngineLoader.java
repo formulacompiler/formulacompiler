@@ -28,6 +28,8 @@ import java.io.InputStream;
 
 /**
  * Interface for deserializing instances of the {@link Engine} class.
+ * <p>
+ * <em>This interface is an API only. Do not implement it yourself.</em>
  * 
  * @author peo
  */

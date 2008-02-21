@@ -25,6 +25,8 @@ package org.formulacompiler.spreadsheet;
 
 /**
  * Utility interface that supports the creation of cell names from other cells' values.
+ * <p>
+ * <em>This interface is an API only. Do not implement it yourself.</em>
  * 
  * @author peo
  */

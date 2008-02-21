@@ -26,6 +26,8 @@ package org.formulacompiler.spreadsheet;
 /**
  * Represents the association of spreadsheet cells and ranges to methods of the application's input
  * and output types. Used as input to the spreadsheet compiler.
+ * <p>
+ * <em>This interface is an API only. Do not implement it yourself.</em>
  * 
  * @author peo
  * 

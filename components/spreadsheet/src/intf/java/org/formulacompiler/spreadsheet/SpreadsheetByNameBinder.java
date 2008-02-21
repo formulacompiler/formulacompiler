@@ -30,6 +30,8 @@ import org.formulacompiler.compiler.CompilerException;
 /**
  * Utility interface that supports simple cell binding using the cell names in the spreadsheet and
  * reflection on the input and output types.
+ * <p>
+ * <em>This interface is an API only. Do not implement it yourself.</em>
  * 
  * @author peo
  * 
@@ -104,6 +106,8 @@ public interface SpreadsheetByNameBinder
 
 	/**
 	 * Interface to a cell binder for either input or output cells.
+	 * <p>
+	 * <em>This interface is an API only. Do not implement it yourself.</em>
 	 * 
 	 * @author peo
 	 * 

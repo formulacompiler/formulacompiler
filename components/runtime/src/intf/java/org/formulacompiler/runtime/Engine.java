@@ -30,6 +30,8 @@ package org.formulacompiler.runtime;
  * {@link FormulaRuntime#loadEngine(java.io.InputStream)}, without requiring access to the original
  * spreadsheet file. An engine manages a computation factory, from which you instantiate individual
  * computations.
+ * <p>
+ * <em>This interface is an API only. Do not implement it yourself.</em>
  * 
  * @author peo
  * @see org.formulacompiler.spreadsheet.EngineBuilder

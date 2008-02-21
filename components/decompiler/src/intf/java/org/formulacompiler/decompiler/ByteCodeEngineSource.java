@@ -29,6 +29,8 @@ import java.util.Map;
 
 /**
  * Exposes the reverse-engineered source code of a compiled bytecode engine.
+ * <p>
+ * <em>This interface is an API only. Do not implement it yourself.</em>
  * 
  * @author peo
  */
