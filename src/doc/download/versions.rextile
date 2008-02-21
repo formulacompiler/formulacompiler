@@ -13,8 +13,3 @@ The latest stable release. Recommended for all users.
 <%= ver '1.0.0', '1.0.0' %>
 
 
-h2. Version 0.10
-
-<%= oldver '0.10.1', '0.10.0' %>
-<%= oldver '0.10.0', '0.10.0' %>
-
