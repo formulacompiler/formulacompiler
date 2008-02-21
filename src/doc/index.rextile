@@ -1,7 +1,4 @@
 <div class="blurb">
-<div class="rounded_box">
-<div class="rounded_top"><div></div></div>
-<div class="rounded_content">
 
 *Your users want to customize formulas. They know Excel or OpenOffice.*
 
@@ -17,9 +14,6 @@
 	* Using double, or BigDecimal for financial applications.
 	* Available under the GPL and commercially ("details":download/license.htm).
 
-</div>
-<div class="rounded_bot"><div></div></div>
-</div>
 </div>
 
 h1. Abacus Formula Compiler for Java
