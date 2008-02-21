@@ -12,7 +12,7 @@ dt. "@double@":#double : is the default. It is what Excel and other spreadsheet 
 
 dt. "@BigDecimal@":#BigDecimal : can be used with a either a fixed precision (@MathContext@), unlimited precision, or using a fixed scale. With a fixed precision, this type is a robust general choice for financial applications.
 
-dt. "@long@":#long : can be used either as an integer type, or using a fixed scale. With a fixed scale of 4 decimal places, this type corresponds to the @currency@ type found in Microsoft COM and Borland Delphi.
+dt. "@long@":#long : can be used either as an integer type, or using a fixed scale. With a fixed scale of 4 decimal places, this type corresponds to the @currency@ type found in Microsoft COM and Borland Delphi. *Support for @long@ might be dropped unless we see real demand.*
 
 Note that the choice of numeric type "affects the entire engine":#GlobalSetting compiled by a given compiler, not just individual cells.
 
@@ -135,6 +135,8 @@ as is again witnessed by the generated engine:
 h2. <a name="long">Using @long@</a>
 
 The @long@ type can be used either as an integer type, or in scaled mode. In scaled mode, it is still a long, but interpreted as if the _n_ rightmost digits were decimal places.
+
+Note: *Support for @long@ might be dropped unless we see real demand.* This because its limited and fixed precision leads to a fairly unintuitive numerical model for your typical spreadsheet user.
 
 
 h3. Unscaled @long@
