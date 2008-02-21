@@ -28,6 +28,8 @@ import java.lang.reflect.Method;
 /**
  * Represents a call to a method including the argument values for all of the method's parameters.
  * Can optionally represent a chain of calls. Implementations must be immutable.
+ * <p>
+ * <em>This interface is an API only. Do not implement it yourself.</em>
  * 
  * @see org.formulacompiler.spreadsheet.EngineBuilder#newCallFrame(Method, Object...)
  * @see FormulaCompiler#newCallFrame(Method, Object...)

@@ -35,6 +35,8 @@ import org.formulacompiler.runtime.EngineException;
 /**
  * Lets you compile a bound spreadsheet to a Java byte-code computation engine. The compiled engine
  * can then be used immediately or saved to persistent storage for later use.
+ * <p>
+ * <em>This interface is an API only. Do not implement it yourself.</em>
  * 
  * @author peo
  * 

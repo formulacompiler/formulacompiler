@@ -31,6 +31,8 @@ import org.formulacompiler.runtime.Computation;
 
 /**
  * Defines the bindings of spreadsheet cells and sections to Java elements.
+ * <p>
+ * <em>This interface is an API only. Do not implement it yourself.</em>
  * 
  * @author peo
  * 
@@ -147,6 +149,8 @@ public interface SpreadsheetBinder
 	 * Represents both the container for the definitions of global spreadsheet cells and instances of
 	 * horizontal or vertical sections within a spreadsheet. See the tutorial for details on <a
 	 * href="{@docRoot}/../tutorial/binding.htm#BindRepeatingSections">sections</a>.
+	 * <p>
+	 * <em>This interface is an API only. Do not implement it yourself.</em>
 	 * 
 	 * @author peo
 	 * 

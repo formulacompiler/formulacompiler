@@ -41,6 +41,8 @@ import org.formulacompiler.compiler.Describable;
  * extracted from a spreadsheet's layout, for instance.
  * <p>
  * The handling of additional range names is not thread-safe.
+ * <p>
+ * <em>This interface is an API only. Do not implement it yourself.</em>
  * 
  * @see SpreadsheetLoader
  * @see SpreadsheetBuilder
@@ -154,6 +156,8 @@ public interface Spreadsheet extends Describable
 
 	/**
 	 * Returns information about a worksheet.
+	 * <p>
+	 * <em>This interface is an API only. Do not implement it yourself.</em>
 	 * 
 	 * @author peo
 	 */
@@ -185,6 +189,8 @@ public interface Spreadsheet extends Describable
 
 	/**
 	 * Returns information about a row.
+	 * <p>
+	 * <em>This interface is an API only. Do not implement it yourself.</em>
 	 * 
 	 * @author peo
 	 */
@@ -211,6 +217,8 @@ public interface Spreadsheet extends Describable
 
 	/**
 	 * Returns information about a spreadsheet cell.
+	 * <p>
+	 * <em>This interface is an API only. Do not implement it yourself.</em>
 	 * 
 	 * @author peo
 	 */
@@ -270,6 +278,8 @@ public interface Spreadsheet extends Describable
 
 	/**
 	 * Marker interface for a spreadsheet range in the spreadsheet model.
+	 * <p>
+	 * <em>This interface is an API only. Do not implement it yourself.</em>
 	 * 
 	 * @see Spreadsheet
 	 * @author peo

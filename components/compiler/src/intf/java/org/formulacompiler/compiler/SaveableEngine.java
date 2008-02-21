@@ -32,9 +32,11 @@ import org.formulacompiler.runtime.Engine;
  * Defines the {@link #saveTo(OutputStream)} method for engines returned by an engine compiler. This
  * allows you to save a compiled engine to persistent storage and then later re-instatiate it using
  * {@link org.formulacompiler.runtime.FormulaRuntime#loadEngine(java.io.InputStream)}.
- * 
+ * <p>
  * The {@link org.formulacompiler.runtime.Engine} interface does not have save support so as not to
  * burden the run-time-only support with it.
+ * <p>
+ * <em>This interface is an API only. Do not implement it yourself.</em>
  * 
  * @author peo
  */

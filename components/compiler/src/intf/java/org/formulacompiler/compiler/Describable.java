@@ -26,6 +26,8 @@ package org.formulacompiler.compiler;
 /**
  * Interface implemented by all self-describing classes in AFC. These descriptions are meant for
  * human consumption and should not be stored or reprocessed. They may change without announcement.
+ * <p>
+ * <em>This interface is an API only. Do not implement it yourself.</em>
  * 
  * @author peo
  */

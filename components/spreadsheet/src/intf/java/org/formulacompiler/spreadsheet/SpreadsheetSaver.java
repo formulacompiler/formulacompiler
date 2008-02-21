@@ -31,10 +31,11 @@ import java.util.TimeZone;
 /**
  * This interface allows you to save a spreadsheet representation. Used of save spreadsheet models
  * constructed in memory.
- * 
  * <p>
  * See the <a target="_top" href="{@docRoot}/../tutorial/generatesheet.htm" target="_top">tutorial</a>
  * for details.
+ * <p>
+ * <em>This interface is an API only. Do not implement it yourself.</em>
  * 
  * @author peo
  * 
