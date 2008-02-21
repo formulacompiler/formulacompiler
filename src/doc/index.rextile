@@ -25,15 +25,14 @@ h1. Abacus Formula Compiler for Java
 "Learn more":doc/index.htm about the goals, the design, the API, and the supported functions.
 
 
+<% @news= <<END
+<h2>News</h2>
 
-<div class="news">
+<h3><a href="download/releasenotes.htm">Release 1.0</a></h3>
 
-h2. News
+<p>is the first public GPL release and adds a host of changes.
+<br/><span class="when">February 21, 2008</span></p>
 
-h3. "Release 1.0":download/releasenotes.htm
-
-is the first public GPL release and adds a host of changes.
-<br/>%(when)February 19, 2008%
-
-</div>
+END
+%>
 
