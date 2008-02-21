@@ -59,6 +59,12 @@ CONTENT GOES HERE
 			</div>
 		</div>
 		
+		<% if @news %>
+		<div id="news">
+			<%= @news %>
+		</div>
+		<% end %>
+		
 		<div id="left_top_chrome" class="chrome">
 			<pre class="rscript">content_links()</pre>
 		</div>
