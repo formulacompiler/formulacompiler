@@ -134,31 +134,28 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 	}
 
 	@Override
-	protected final void genMethods( List _methods )
+	protected final void genMethod( MethodNode _mtdNode )
 	{
-		for (Object mtdObj : _methods) {
-			final MethodNode mtdNode = (MethodNode) mtdObj;
-			if (mtdNode.name.startsWith( "fun_" )) {
-				new FunctionTemplateGenerator( mtdNode ).generate();
-			}
-			else if (mtdNode.name.startsWith( "op_" )) {
-				new OperatorTemplateGenerator( mtdNode ).generate();
-			}
-			else if (mtdNode.name.startsWith( "util_" )) {
-				new UtilTemplateGenerator( mtdNode ).generate();
-			}
-			else if (mtdNode.name.startsWith( "utilOp_" )) {
-				new UtilOperatorTemplateGenerator( mtdNode ).generate();
-			}
-			else if (mtdNode.name.startsWith( "utilFun_" )) {
-				new UtilFunctionTemplateGenerator( mtdNode ).generate();
-			}
-			else if (mtdNode.name.equals( "scanArray" )) {
-				new ScanArrayTemplateGenerator( mtdNode ).generate();
-			}
-			else if (mtdNode.name.equals( "scanArrayWithFirst" )) {
-				new ScanArrayWithFirstTemplateGenerator( mtdNode ).generate();
-			}
+		if (_mtdNode.name.startsWith( "fun_" )) {
+			new FunctionTemplateGenerator( _mtdNode ).generate();
+		}
+		else if (_mtdNode.name.startsWith( "op_" )) {
+			new OperatorTemplateGenerator( _mtdNode ).generate();
+		}
+		else if (_mtdNode.name.startsWith( "util_" )) {
+			new UtilTemplateGenerator( _mtdNode ).generate();
+		}
+		else if (_mtdNode.name.startsWith( "utilOp_" )) {
+			new UtilOperatorTemplateGenerator( _mtdNode ).generate();
+		}
+		else if (_mtdNode.name.startsWith( "utilFun_" )) {
+			new UtilFunctionTemplateGenerator( _mtdNode ).generate();
+		}
+		else if (_mtdNode.name.equals( "scanArray" )) {
+			new ScanArrayTemplateGenerator( _mtdNode ).generate();
+		}
+		else if (_mtdNode.name.equals( "scanArrayWithFirst" )) {
+			new ScanArrayWithFirstTemplateGenerator( _mtdNode ).generate();
 		}
 	}
 

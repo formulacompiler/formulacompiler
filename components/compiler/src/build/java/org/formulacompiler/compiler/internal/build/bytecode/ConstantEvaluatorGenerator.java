@@ -24,7 +24,6 @@ package org.formulacompiler.compiler.internal.build.bytecode;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.IOUtil;
@@ -100,16 +99,13 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 
 
 	@Override
-	protected final void genMethods( List _methods )
+	protected final void genMethod( MethodNode _mtdNode )
 	{
-		for (Object mtdObj : _methods) {
-			final MethodNode mtdNode = (MethodNode) mtdObj;
-			if (mtdNode.name.startsWith( "fun_" )) {
-				new FunctionEvaluatorGenerator( mtdNode ).generate();
-			}
-			else if (mtdNode.name.startsWith( "op_" )) {
-				new OperatorEvaluatorGenerator( mtdNode ).generate();
-			}
+		if (_mtdNode.name.startsWith( "fun_" )) {
+			new FunctionEvaluatorGenerator( _mtdNode ).generate();
+		}
+		else if (_mtdNode.name.startsWith( "op_" )) {
+			new OperatorEvaluatorGenerator( _mtdNode ).generate();
 		}
 	}
 

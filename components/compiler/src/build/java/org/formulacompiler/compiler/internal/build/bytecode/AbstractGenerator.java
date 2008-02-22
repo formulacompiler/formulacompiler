@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
@@ -68,15 +69,27 @@ abstract class AbstractGenerator
 
 	protected void genMethods() throws IOException
 	{
+		if (this.verbose) System.out.println( "Processing " + clsNode.name );
 		genMethods( clsNode.methods );
 		if (!"java/lang/Object".equals( clsNode.superName )) {
 			final ClassNode outer = new ClassNode();
 			new ClassReader( clsNode.superName ).accept( outer, ACCEPT_FLAGS );
+			if (this.verbose) System.out.println( "Processing " + outer.name );
 			genMethods( outer.methods );
 		}
 	}
 
-	protected abstract void genMethods( List _methods );
+	protected final void genMethods( List _methods )
+	{
+		for (Object o : _methods) {
+			MethodNode mtd = (MethodNode) o;
+			if ((mtd.access & Opcodes.ACC_SYNTHETIC) == 0) {
+				genMethod( mtd );
+			}
+		}
+	}
+
+	protected abstract void genMethod( MethodNode _method );
 
 
 	protected abstract class AbstractMethodTemplateGenerator
