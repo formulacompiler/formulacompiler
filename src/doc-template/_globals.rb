@@ -4,15 +4,20 @@
 class Topic
 	def initialize( id, title )
 		@id = id
-		n = id.to_s
-		if n[-1] == '_'[0]
-			@path = n[ 0, n.length - 1 ]
-			@target = File.join( @path, 'index.htm' )
-			@is_sub = true
+		if id.instance_of?( String )
+			@path = ''
+			@target = id
 		else
-			@path = nil
-			@target = n + '.htm'
-			@is_sub = false
+			n = id.to_s
+			if n[-1] == '_'[0]
+				@path = n[ 0, n.length - 1 ]
+				@target = File.join( @path, 'index.htm' )
+				@is_sub = true
+			else
+				@path = nil
+				@target = n + '.htm'
+				@is_sub = false
+			end
 		end
 		@title = title
 		@is_current = false
