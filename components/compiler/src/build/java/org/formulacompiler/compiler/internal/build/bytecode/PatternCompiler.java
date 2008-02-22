@@ -39,7 +39,7 @@ public final class PatternCompiler
 
 	public static void main( String[] args ) throws Exception
 	{
-		AbstractGenerator.verbose = (args.length > 0);
+		AbstractGenerator.verbose = (args.length > 0) && (args[ 0 ].equalsIgnoreCase( "true" ));
 		try {
 			new PatternCompilerToByteCodeCompilers().run();
 			new PatternCompilerToConstantEvaluators().run();
