@@ -7,7 +7,7 @@ add_topics([
 	:quick, 'Quick Start',
 	:doc_, 'Documentation',
 	:download_, 'Download',
-	:support, 'Support',
+	:support_, 'Support',
 	:contribute_, 'Contribute' ])
 
 @toc = nil
