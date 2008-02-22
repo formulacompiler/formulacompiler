@@ -602,6 +602,7 @@
 
 				<exclude name="**/.DS@Store" />
 				<exclude name="**/.svn" />
+				<exclude name=".hg/**" />
 			</fileset>
 		</copy>
 		<!-- tar basedir="${dist.tmp.dir}" destfile="${dist.file}-src.tar.gz" compression="gzip" longfile="gnu" / -->
