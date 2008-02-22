@@ -157,7 +157,11 @@ def content_link( t, tpath, at, path, links )
 	if t.is_current
 		links << '<div class="area"><span class="selected">' + t.title + '</span></div>'
 	else
-		tgt = File.join( path, t.target )
+		if t.target.index('//')
+			tgt = t.target
+		else
+			tgt = File.join( path, t.target )
+		end
 		lk = '<a href="' + tgt + '">' + t.title + '</a>'
 		lk = '<span class="selected">' + lk + '</span>' if t.is_parent
 		links << '<div class="area">' + lk + '</div>'
