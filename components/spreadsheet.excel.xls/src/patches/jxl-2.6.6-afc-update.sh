@@ -18,7 +18,16 @@ if ( cd build ; ant test srczip ); then
 	hg qpop -a
 	hg qselect no-tests
 	hg qpush -a
-	hg export 1:tip > $tgt.hgexport
+
+	# Drop these from the export:
+	# Date 1200579767 -3600
+	# Node ID 8907c6f911764057bddef7d269a618f22111f1c1
+	# Parent  53fa976136fce187cbc110df8da98dff277083ad
+	hg export 1:tip \
+		| sed -e "/^# Node ID /d" \
+			-e "/^# Parent /d" \
+			-e "/^# Date /d" \
+		>$tgt.hgexport
 	
 	# Make bundle of whole patch queue, including tests with binary files.
 	hg qpop -a
