@@ -110,17 +110,17 @@ sheets:
     - null
     - const: 38566.59444444445
     - const: ">=2.9.2005"
-    - expr: =(">=" & VALDATE1)
+    - expr: =(">=" & ValDate1)
     - const: 38597.0
-      name: VALDATE1
+      name: ValDate1
     - const: ">=2.8.05 14:16"
-    - expr: =(">=" & VALDATE2)
+    - expr: =(">=" & ValDate2)
     - const: 38566.59444444445
-      name: VALDATE2
+      name: ValDate2
     - const: ">=8:45"
-    - expr: =(">=" & VALDATE3)
+    - expr: =(">=" & ValDate3)
     - const: 0.3645833333333333
-      name: VALDATE3
+      name: ValDate3
   - cells:
   - cells:
     - null
@@ -488,13 +488,13 @@ sheets:
     - expr: =COUNTIF( R[-84]C[-1]:R[-79]C[-1], R[-76]C[2] )
 
 names:
-- name: BASEDATA
+- name: BaseData
   ref: R2C1:R21C11
-- name: DATA1
+- name: Data1
   ref: R3C2:R4C5
-- name: TESTHEADER
+- name: TestHeader
   ref: R24C2:R24C8
-- name: VALS1
+- name: Vals1
   ref: R11C2:R12C2
-- name: VALS2
+- name: Vals2
   ref: R15C5:R15C7

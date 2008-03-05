@@ -1298,7 +1298,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
 
 names:
-- name: HEADERRANGE
+- name: HeaderRange
   ref: R1C1:R1C14
-- name: NPVRANGE
+- name: NPVRange
   ref: R2C1:R3C14

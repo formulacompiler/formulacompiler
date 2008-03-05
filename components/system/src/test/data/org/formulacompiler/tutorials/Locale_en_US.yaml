@@ -7,19 +7,19 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - expr: =VALUE( VALUEINPUT )
-      name: VALUERESULT
+    - expr: =VALUE( ValueInput )
+      name: ValueResult
     - const: "1,234.56"
-      name: VALUEINPUT
+      name: ValueInput
   - cells:
-    - expr: =VALUE( (RC[1] & MIXEDINPUT) )
-      name: MIXEDRESULT
+    - expr: =VALUE( (RC[1] & MixedInput) )
+      name: MixedResult
     - const: "0."
     - const: "6"
-      name: MIXEDINPUT
+      name: MixedInput
 
 names:
-- name: MIXEDEXAMPLE
-  ref: MIXEDRESULT:MIXEDINPUT
-- name: VALUEEXAMPLE
-  ref: VALUERESULT:VALUEINPUT
+- name: MixedExample
+  ref: MixedResult:MixedInput
+- name: ValueExample
+  ref: ValueResult:ValueInput

@@ -528,7 +528,7 @@ sheets:
     - const: "<=9"
 
 names:
-- name: DSUM_EXAMPLE
+- name: DSUM_Example
   ref: R85C4:R90C6
 - name: H_DERIVED
   ref: R38C4:R39C6

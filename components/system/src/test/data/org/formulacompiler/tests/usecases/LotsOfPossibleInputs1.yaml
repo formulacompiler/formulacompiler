@@ -14,12 +14,12 @@ sheets:
   - cells:
     - const: "One"
     - const: 100.0
-      name: ONE
+      name: One
     - const: 13.0
   - cells:
     - const: "Two"
     - const: 110.0
-      name: TWO
+      name: Two
     - const: 14.0
   - cells:
     - const: "Aug 1, 1994"
@@ -40,7 +40,7 @@ sheets:
     - expr: =IF( (R[-3]C < R[-3]C[1]), 100.0, 10.0 )
   - cells:
     - const: "Sum"
-    - expr: =SUM( ONE:TWO )
+    - expr: =SUM( One:Two )
     - expr: =SUM( R[-6]C:R[-5]C )
   - cells:
     - const: "Results Block"

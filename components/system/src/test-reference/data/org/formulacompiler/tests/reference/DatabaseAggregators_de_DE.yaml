@@ -127,11 +127,11 @@ sheets:
     - expr: =DSUM( R[-23]C[-1]:R[-17]C[2], "Yield", R[-15]C[3]:R[-14]C[3] )
 
 names:
-- name: BASEDATA
+- name: BaseData
   ref: R2C1:R13C7
-- name: DATA1
+- name: Data1
   ref: R3C2:R4C5
-- name: TESTHEADER
+- name: TestHeader
   ref: R15C2:R15C8
-- name: VALS1
+- name: Vals1
   ref: R11C2:R12C2

@@ -152,15 +152,15 @@ sheets:
     - const: "TODO"
 
 names:
-- name: A_ONE
+- name: A_One
   ref: R3C2:R4C3
-- name: A_TWO
+- name: A_Two
   ref: R4C4:R5C5
-- name: B_ONE
+- name: B_One
   ref: R7C2:R8C3
-- name: B_TWO
+- name: B_Two
   ref: R9C3:R10C4
-- name: C_ONE
+- name: C_One
   ref: R12C2:R14C3
-- name: C_TWO
+- name: C_Two
   ref: R12C3:R13C3

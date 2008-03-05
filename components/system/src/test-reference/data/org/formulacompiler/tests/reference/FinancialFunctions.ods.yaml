@@ -939,7 +939,7 @@ sheets:
     - const: "#NUM!"
 
 names:
-- name: HEADERRANGE
+- name: HeaderRange
   ref: R1C1:R1C14
-- name: NPVRANGE
+- name: NPVRange
   ref: R2C1:R3C14

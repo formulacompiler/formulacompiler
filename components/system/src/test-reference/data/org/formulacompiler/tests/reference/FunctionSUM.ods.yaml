@@ -271,5 +271,5 @@ sheets:
     - const: "..."
 
 names:
-- name: SUMRANGE
+- name: SumRange
   ref: R23C3:R23C5

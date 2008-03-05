@@ -8,10 +8,10 @@ sheets:
   rows:
   - cells:
     - const: "MatchConsts"
-    - expr: =MATCH( MC_IN, RC[2]:RC[6] )
-      name: MC_OUT
+    - expr: =MATCH( MC_In, RC[2]:RC[6] )
+      name: MC_Out
     - const: 15.0
-      name: MC_IN
+      name: MC_In
     - const: 10.0
     - const: 15.0
     - const: 20.0
@@ -19,24 +19,24 @@ sheets:
     - const: 30.0
   - cells:
     - const: "MatchInputs"
-    - expr: =MATCH( MI_IN, RC[2]:RC[6] )
-      name: MI_OUT
+    - expr: =MATCH( MI_In, RC[2]:RC[6] )
+      name: MI_Out
     - const: 15.0
-      name: MI_IN
+      name: MI_In
     - const: 10.0
     - const: 15.0
-      name: MI_IN_1
+      name: MI_In_1
     - const: 20.0
-      name: MI_IN_2
+      name: MI_In_2
     - const: 25.0
     - const: 30.0
   - cells:
   - cells:
     - const: "IndexConsts"
-    - expr: =INDEX( RC[2]:RC[6], 1.0, IC_IN )
-      name: IC_OUT
+    - expr: =INDEX( RC[2]:RC[6], 1.0, IC_In )
+      name: IC_Out
     - const: 3.0
-      name: IC_IN
+      name: IC_In
     - const: 10.0
     - const: 15.0
     - const: 20.0
@@ -44,24 +44,24 @@ sheets:
     - const: 30.0
   - cells:
     - const: "IndexInputs"
-    - expr: =INDEX( RC[2]:RC[6], 1.0, II_IN )
-      name: II_OUT
+    - expr: =INDEX( RC[2]:RC[6], 1.0, II_In )
+      name: II_Out
     - const: 3.0
-      name: II_IN
+      name: II_In
     - const: 10.0
     - const: 15.0
-      name: II_IN_1
+      name: II_In_1
     - const: 20.0
-      name: II_IN_2
+      name: II_In_2
     - const: 25.0
     - const: 30.0
   - cells:
   - cells:
     - const: "LookupConsts"
-    - expr: =LOOKUP( LC_IN, RC[2]:RC[4], RC[5]:RC[7] )
-      name: LC_OUT
+    - expr: =LOOKUP( LC_In, RC[2]:RC[4], RC[5]:RC[7] )
+      name: LC_Out
     - const: 2.0
-      name: LC_IN
+      name: LC_In
     - const: 1.0
     - const: 2.0
     - const: 3.0
@@ -70,27 +70,27 @@ sheets:
     - const: 13.0
   - cells:
     - const: "LookupInputs"
-    - expr: =LOOKUP( LI_IN, RC[2]:LI_IN_2, RC[5]:LI_IN_4 )
-      name: LI_OUT
+    - expr: =LOOKUP( LI_In, RC[2]:LI_In_2, RC[5]:LI_In_4 )
+      name: LI_Out
     - const: 2.0
-      name: LI_IN
+      name: LI_In
     - const: 1.0
     - const: 2.0
-      name: LI_IN_1
+      name: LI_In_1
     - const: 3.0
-      name: LI_IN_2
+      name: LI_In_2
     - const: 11.0
     - const: 12.0
-      name: LI_IN_3
+      name: LI_In_3
     - const: 13.0
-      name: LI_IN_4
+      name: LI_In_4
   - cells:
   - cells:
     - const: "IndexMatchConsts"
-    - expr: =INDEX( RC[5]:RC[7], 1.0, MATCH( IMC_IN, RC[2]:RC[4] ) )
-      name: IMC_OUT
+    - expr: =INDEX( RC[5]:RC[7], 1.0, MATCH( IMC_In, RC[2]:RC[4] ) )
+      name: IMC_Out
     - const: 2.0
-      name: IMC_IN
+      name: IMC_In
     - const: 1.0
     - const: 2.0
     - const: 3.0
@@ -100,10 +100,10 @@ sheets:
   - cells:
   - cells:
     - const: "MultiMatchConsts"
-    - expr: =MATCH( MMC_IN_1, RC[2]:RC[6] )
-      name: MMC_OUT_1
+    - expr: =MATCH( MMC_In_1, RC[2]:RC[6] )
+      name: MMC_Out_1
     - const: 15.0
-      name: MMC_IN_1
+      name: MMC_In_1
     - const: 10.0
     - const: 15.0
     - const: 20.0
@@ -111,16 +111,16 @@ sheets:
     - const: 30.0
   - cells:
     - null
-    - expr: =MATCH( MMC_IN_2, R[-1]C[2]:R[-1]C[6] )
-      name: MMC_OUT_2
+    - expr: =MATCH( MMC_In_2, R[-1]C[2]:R[-1]C[6] )
+      name: MMC_Out_2
     - const: 27.0
-      name: MMC_IN_2
+      name: MMC_In_2
   - cells:
     - const: "MultiIndexConsts"
-    - expr: =INDEX( RC[2]:RC[6], 1.0, MIC_IN_1 )
-      name: MIC_OUT_1
+    - expr: =INDEX( RC[2]:RC[6], 1.0, MIC_In_1 )
+      name: MIC_Out_1
     - const: 2.0
-      name: MIC_IN_1
+      name: MIC_In_1
     - const: 10.0
     - const: 15.0
     - const: 20.0
@@ -128,16 +128,16 @@ sheets:
     - const: 30.0
   - cells:
     - null
-    - expr: =INDEX( R[-1]C[2]:R[-1]C[6], 1.0, MIC_IN_2 )
-      name: MIC_OUT_2
+    - expr: =INDEX( R[-1]C[2]:R[-1]C[6], 1.0, MIC_In_2 )
+      name: MIC_Out_2
     - const: 3.0
-      name: MIC_IN_2
+      name: MIC_In_2
   - cells:
     - const: "MultiLookupConsts"
-    - expr: =LOOKUP( MLC_IN_1, RC[2]:RC[4], RC[5]:RC[7] )
-      name: MLC_OUT_1
+    - expr: =LOOKUP( MLC_In_1, RC[2]:RC[4], RC[5]:RC[7] )
+      name: MLC_Out_1
     - const: 2.0
-      name: MLC_IN_1
+      name: MLC_In_1
     - const: 1.0
     - const: 2.0
     - const: 3.0
@@ -146,25 +146,25 @@ sheets:
     - const: 13.0
   - cells:
     - null
-    - expr: =LOOKUP( MLC_IN_2, R[-1]C[2]:R[-1]C[4], R[-1]C[5]:R[-1]C[7] )
-      name: MLC_OUT_2
+    - expr: =LOOKUP( MLC_In_2, R[-1]C[2]:R[-1]C[4], R[-1]C[5]:R[-1]C[7] )
+      name: MLC_Out_2
     - const: 3.0
-      name: MLC_IN_2
+      name: MLC_In_2
   - cells:
   - cells:
     - const: "SubArrayConsts"
-    - expr: =HLOOKUP( SAC_IN_1, RC[2]:R[2]C[5], 2.0 )
-      name: SAC_OUT_1
+    - expr: =HLOOKUP( SAC_In_1, RC[2]:R[2]C[5], 2.0 )
+      name: SAC_Out_1
     - const: 19.0
-      name: SAC_IN_1
+      name: SAC_In_1
     - const: 10.0
     - const: 15.0
     - const: 20.0
     - const: 25.0
   - cells:
     - null
-    - expr: =HLOOKUP( SAC_IN_1, R[-1]C[2]:R[1]C[5], 3.0 )
-      name: SAC_OUT_2
+    - expr: =HLOOKUP( SAC_In_1, R[-1]C[2]:R[1]C[5], 3.0 )
+      name: SAC_Out_2
     - null
     - const: 11.0
     - const: 12.0
@@ -172,8 +172,8 @@ sheets:
     - const: 14.0
   - cells:
     - null
-    - expr: =MATCH( SAC_IN_1, R[-2]C[2]:R[-2]C[5] )
-      name: SAC_OUT_3
+    - expr: =MATCH( SAC_In_1, R[-2]C[2]:R[-2]C[5] )
+      name: SAC_Out_3
     - null
     - const: 21.0
     - const: 22.0
@@ -182,27 +182,27 @@ sheets:
   - cells:
   - cells:
     - const: "HLookupInputs"
-    - expr: =HLOOKUP( HLI_IN, RC[2]:R[2]C[5], HLI_IN_1 )
-      name: HLI_OUT_1
+    - expr: =HLOOKUP( HLI_In, RC[2]:R[2]C[5], HLI_In_1 )
+      name: HLI_Out_1
     - const: 19.0
-      name: HLI_IN
+      name: HLI_In
     - const: 10.0
     - const: 15.0
     - const: 20.0
     - const: 25.0
     - const: 2.0
-      name: HLI_IN_1
+      name: HLI_In_1
   - cells:
     - null
-    - expr: =HLOOKUP( HLI_IN, R[-1]C[2]:R[1]C[5], HLI_IN_2 )
-      name: HLI_OUT_2
+    - expr: =HLOOKUP( HLI_In, R[-1]C[2]:R[1]C[5], HLI_In_2 )
+      name: HLI_Out_2
     - null
     - const: 11.0
     - const: 12.0
     - const: 13.0
     - const: 14.0
     - const: 3.0
-      name: HLI_IN_2
+      name: HLI_In_2
   - cells:
     - null
     - null
@@ -213,25 +213,25 @@ sheets:
     - const: 24.0
 
 names:
-- name: HLOOKUPINPUTS
-  ref: HLI_OUT_1:R25C8
-- name: INDEXCONSTS
-  ref: IC_OUT:R4C8
-- name: INDEXINPUTS
-  ref: II_OUT:R5C8
-- name: INDEXMATCHCONSTS
-  ref: IMC_OUT:R10C9
-- name: LOOKUPCONSTS
-  ref: LC_OUT:R7C9
-- name: MATCHCONSTS
-  ref: MC_OUT:R1C8
-- name: MATCHINPUTS
-  ref: MI_OUT:R2C8
-- name: MULTIINDEXCONSTS
-  ref: MIC_OUT_1:R15C8
-- name: MULTILOOKUPCONSTS
-  ref: MLC_OUT_1:R17C9
-- name: MULTIMATCHCONSTS
-  ref: MMC_OUT_1:R13C8
-- name: SUBARRAYCONSTS
-  ref: SAC_OUT_1:R21C7
+- name: HLookupInputs
+  ref: HLI_Out_1:R25C8
+- name: IndexConsts
+  ref: IC_Out:R4C8
+- name: IndexInputs
+  ref: II_Out:R5C8
+- name: IndexMatchConsts
+  ref: IMC_Out:R10C9
+- name: LookupConsts
+  ref: LC_Out:R7C9
+- name: MatchConsts
+  ref: MC_Out:R1C8
+- name: MatchInputs
+  ref: MI_Out:R2C8
+- name: MultiIndexConsts
+  ref: MIC_Out_1:R15C8
+- name: MultiLookupConsts
+  ref: MLC_Out_1:R17C9
+- name: MultiMatchConsts
+  ref: MMC_Out_1:R13C8
+- name: SubArrayConsts
+  ref: SAC_Out_1:R21C7

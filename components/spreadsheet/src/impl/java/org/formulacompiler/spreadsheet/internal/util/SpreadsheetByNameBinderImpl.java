@@ -192,7 +192,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 				if (range instanceof Cell) {
 					final Cell cell = (Cell) range;
 					if (canBind( cell )) {
-						final String name = def.getKey();
+						final String name = def.getKey().toUpperCase();
 						if (null == prefix) {
 							bindThisNamedCellToMethod( cell, name );
 						}
@@ -236,7 +236,7 @@ public class SpreadsheetByNameBinderImpl implements SpreadsheetByNameBinder
 				if (range instanceof Cell) {
 					final Cell cell = (Cell) range;
 					final String name = def.getKey();
-					if (name.startsWith( _prefix )) {
+					if (name.toUpperCase().startsWith( _prefix )) {
 						if (!isBound( cell )) {
 							throw new SpreadsheetException.NameNotFound( "There is no "
 									+ bindingTypeName() + " method named " + name + "() or get" + name + "() to bind the cell "

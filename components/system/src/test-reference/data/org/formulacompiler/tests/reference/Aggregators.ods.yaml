@@ -1732,17 +1732,17 @@ sheets:
     - const: 4.0
 
 names:
-- name: AVERAGERANGE
+- name: AverageRange
   ref: R80C3:R80C5
-- name: CITEHEADER
+- name: CiteHeader
   ref: R1C1:R1C12
-- name: CITEVAR
+- name: CiteVAR
   ref: R149C1:R153C12
-- name: COUNTRANGE
+- name: CountRange
   ref: R50C3:R50C5
-- name: MAXRANGE
+- name: MaxRange
   ref: R134C3:R134C5
-- name: MINRANGE
+- name: MinRange
   ref: R107C3:R107C5
-- name: PRODUCTRANGE
+- name: ProductRange
   ref: R23C3:R23C5

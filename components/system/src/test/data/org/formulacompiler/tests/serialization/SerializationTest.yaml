@@ -9,15 +9,15 @@ sheets:
   - cells:
     - const: "Anzahl"
     - const: 10.0
-      name: ANZAHL
+      name: Anzahl
   - cells:
     - const: "Einzelpreis"
     - const: 100.0
-      name: EINZELPREIS
+      name: Einzelpreis
   - cells:
     - const: "Total"
-    - expr: =(ANZAHL * EINZELPREIS)
-      name: TOTAL
+    - expr: =(Anzahl * Einzelpreis)
+      name: Total
   - cells:
   - cells:
   - cells:

@@ -21,12 +21,12 @@ sheets:
   - cells:
     - null
     - const: 450.0
-      name: ORDERTOTAL
+      name: OrderTotal
     - expr: =(R[8]C[-1] - 89.0)
-      name: ORDERDATE
-    - expr: =(R[8]C[-2] - ORDERDATE)
+      name: OrderDate
+    - expr: =(R[8]C[-2] - OrderDate)
     - expr: =((90.0 - RC[-1]) / 90.0)
-    - expr: =(ORDERTOTAL * RC[-1])
+    - expr: =(OrderTotal * RC[-1])
   - cells:
     - null
     - const: 1320.0
@@ -70,7 +70,7 @@ sheets:
   - cells:
     - const: "Rating"
     - expr: =MATCH( R[-4]C, RC[1]:RC[5] )
-      name: RATING
+      name: Rating
     - const: 0.0
     - const: 2000.0
     - const: 5000.0
@@ -78,5 +78,5 @@ sheets:
     - const: 10000.0
 
 names:
-- name: ORDERSFORLASTTHREEMONTHS
-  ref: ORDERTOTAL:R7C6
+- name: OrdersForLastThreeMonths
+  ref: OrderTotal:R7C6

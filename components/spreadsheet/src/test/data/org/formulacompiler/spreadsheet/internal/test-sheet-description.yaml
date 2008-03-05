@@ -9,7 +9,7 @@ sheets:
   - cells:
     - expr: =SUM( R[1]C[3]:R[4]C[3] )
       value: 13.5
-      name: RESULT
+      name: Result
     - const: 0.5
   - cells:
     - const: 1.0
@@ -41,9 +41,9 @@ sheets:
   rows:
   - cells:
     - const: 2.0
-    - expr: =SUM( RESULT, 'Sheet1'!R[6]C[1], RC[-1] )
+    - expr: =SUM( Result, 'Sheet1'!R[6]C[1], RC[-1] )
     - expr: ='Sheet1'!R[6]C
 
 names:
-- name: RANGE
+- name: Range
   ref: R7C1:R7C2
