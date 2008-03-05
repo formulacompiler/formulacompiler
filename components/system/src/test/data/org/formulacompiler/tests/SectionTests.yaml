@@ -21,7 +21,7 @@ sheets:
   - cells:
   - cells:
     - const: "Grow horizontally"
-    - expr: =SUM( RC[2]:RC[4] )
+    - expr: =SUM( H_ONE )
     - const: "H_ONE"
     - const: 1.0
     - const: 2.0
@@ -225,12 +225,12 @@ sheets:
     - null
     - null
     - null
-    - expr: =(R[-1]C * H_OUTER_R)
-    - expr: =(R[-1]C * H_OUTER_R)
-    - expr: =(R[-1]C * H_OUTER_R)
+    - expr: =(R[-1]C * RC[4])
+    - expr: =(R[-1]C * RC[3])
+    - expr: =(R[-1]C * RC[2])
     - null
     - const: 3.0
-      name: H_OUTER_R
+      names: [ H_OUTER_R ]
   - cells:
     - null
     - null

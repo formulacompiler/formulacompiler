@@ -32,11 +32,19 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 public final class ExpressionNodeForRange extends ExpressionNode
 {
 	private final CellRange range;
+	private final String name;
 
 
 	public ExpressionNodeForRange( CellRange _range )
 	{
 		this.range = _range;
+		this.name = null;
+	}
+
+	public ExpressionNodeForRange( CellRange _range, String _name )
+	{
+		this.range = _range;
+		this.name = _name;
 	}
 
 
@@ -46,10 +54,16 @@ public final class ExpressionNodeForRange extends ExpressionNode
 	}
 
 
+	public String getName()
+	{
+		return this.name;
+	}
+
+
 	@Override
 	public ExpressionNode innerCloneWithoutArguments()
 	{
-		return new ExpressionNodeForRange( this.range );
+		return new ExpressionNodeForRange( this.range, this.name );
 	}
 
 
@@ -63,7 +77,12 @@ public final class ExpressionNodeForRange extends ExpressionNode
 	@Override
 	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
 	{
-		this.range.describeTo( _to );
+		if (this.name != null) {
+			_to.append( this.name );
+		}
+		else {
+			this.range.describeTo( _to );
+		}
 	}
 
 

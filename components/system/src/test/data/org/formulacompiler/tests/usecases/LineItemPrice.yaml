@@ -9,15 +9,15 @@ sheets:
   - cells:
     - const: "Base price of article"
     - const: 4000.0
-      name: ArticlePrice
+      names: [ ArticlePrice ]
   - cells:
     - const: "Number of items sold"
     - const: 30.0
-      name: NumberSold
+      names: [ NumberSold ]
   - cells:
     - const: "Base price"
     - expr: =(ArticlePrice * NumberSold)
-      name: BasePrice
+      names: [ BasePrice ]
   - cells:
     - const: "Discount category"
     - expr: =MATCH( BasePrice, RC[1]:RC[6], 1.0 )
@@ -39,10 +39,10 @@ sheets:
   - cells:
     - const: "Discount amount"
     - expr: =(BasePrice * R[-1]C)
-      name: Discount
+      names: [ Discount ]
   - cells:
     - const: "Total amount"
-    - expr: =(BasePrice - Discount)
-      name: Total
+    - expr: =(BasePrice - R[-1]C)
+      names: [ Total ]
 
 names:

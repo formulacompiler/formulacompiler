@@ -8,107 +8,107 @@ sheets:
   rows:
   - cells:
     - const: "Inputs"
-      name: bigdec
+      names: [ bigdec ]
     - const: "test"
     - const: "expected"
   - cells:
   - cells:
     - const: "byte"
     - const: 1.0
-      name: byte
+      names: [ byte ]
     - const: 123.0
   - cells:
     - const: "short"
     - const: 2.0
-      name: short
+      names: [ short ]
     - const: 1234.0
   - cells:
     - const: "int"
     - const: 3.0
-      name: int
+      names: [ int ]
     - const: 12345.0
   - cells:
     - const: "long"
     - const: 4.0
-      name: long
+      names: [ long ]
     - const: 123456.0
   - cells:
     - const: "double"
     - const: 5.0
-      name: double
+      names: [ double ]
     - const: 123.45
   - cells:
     - const: "float"
     - const: 6.0
-      name: float
+      names: [ float ]
     - const: 123.456
   - cells:
     - const: "char"
     - const: 7.0
-      name: char
+      names: [ char ]
     - const: 97.0
   - cells:
     - const: "bool"
     - const: false
-      name: bool
+      names: [ bool ]
     - const: 1.0
   - cells:
   - cells:
     - const: "bbyte"
     - const: 10.0
-      name: bbyte
+      names: [ bbyte ]
     - const: 123.0
   - cells:
     - const: "bshort"
     - const: 11.0
-      name: bshort
+      names: [ bshort ]
     - const: 1234.0
   - cells:
     - const: "bint"
     - const: 12.0
-      name: bint
+      names: [ bint ]
     - const: 12345.0
   - cells:
     - const: "blong"
     - const: 13.0
-      name: blong
+      names: [ blong ]
     - const: 123456.0
   - cells:
     - const: "bdouble"
     - const: 14.0
-      name: bdouble
+      names: [ bdouble ]
     - const: 123.45
   - cells:
     - const: "bfloat"
     - const: 15.0
-      name: bfloat
+      names: [ bfloat ]
     - const: 123.456
   - cells:
     - const: "bchar"
     - const: 16.0
-      name: bchar
+      names: [ bchar ]
     - const: 97.0
   - cells:
     - const: "bbool"
     - const: true
-      name: bbool
+      names: [ bbool ]
     - const: 1.0
   - cells:
   - cells:
     - const: "string"
     - const: 123.0
-      name: string
+      names: [ string ]
     - const: 123.4567
   - cells:
     - const: "enum"
     - const: 1.0
-      name: enum
+      names: [ enum ]
     - const: 2.0
   - cells:
   - cells:
     - const: "comb"
     - const: 22.0
-      name: comb
+      names: [ comb ]
     - expr: =(12.0 + 24.0)
   - cells:
   - cells:
@@ -116,8 +116,8 @@ sheets:
   - cells:
   - cells:
     - const: "result"
-    - expr: =SUM( byte:comb )
-      name: result
+    - expr: =SUM( R[-25]C:R[-4]C )
+      names: [ result ]
     - expr: =SUM( R[-25]C:R[-4]C )
 
 names:

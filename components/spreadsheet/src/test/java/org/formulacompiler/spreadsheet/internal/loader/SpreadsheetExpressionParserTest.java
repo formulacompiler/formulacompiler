@@ -112,10 +112,9 @@ public class SpreadsheetExpressionParserTest extends TestCase
 
 	public void testCellRefs() throws Exception
 	{
-		assertParseableA1( "((((A1 + B1) + B2) + A2) + B2)", "A1 + _1_ + _2_ + _A_ + _B_" );
-		assertParseableA1ODF( "((((A1 + B1) + B2) + A2) + B2)", "[.A1] + _1_ + _2_ + _A_ + _B_" ); // todo
-																																	// ???
-		assertParseableR1C1( "((((A1 + B1) + B2) + A2) + B2)", "R1C1 + _1_ + _2_ + _A_ + _B_" );
+		assertParseableA1( "((((A1 + _1_) + _2_) + _A_) + _B_)", "A1 + _1_ + _2_ + _A_ + _B_" );
+		assertParseableA1ODF( "((((A1 + _1_) + _2_) + _A_) + _B_)", "[.A1] + _1_ + _2_ + _A_ + _B_" );
+		assertParseableR1C1( "((((A1 + _1_) + _2_) + _A_) + _B_)", "R1C1 + _1_ + _2_ + _A_ + _B_" );
 		assertParseableR1C1( "((((A1 + C3) + A2) + B1) + A1)", "R1C1 + R[1]C[1] + RC1 + R1C + R[-1]C[-1]" );
 	}
 
@@ -142,7 +141,7 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	public void testCellAndRangeMixes() throws Exception
 	{
 		assertParseableA1( "SUM( A1:B2, C5, A1:B5 A2:E8, (A1 + A2) )", "SUM( A1:B2, C5, A1:B5 A2:E8, A1+A2 )" );
-		assertParseableA1( "(SUM( A1:B1, A2:B2 A1:A2, B1:B2, A1:B2 ) + B2)", "SUM( _1_, _2_ _A_, _B_, _ALL_ ) + _2_" );
+		assertParseableA1( "(SUM( _1_, _2_ _A_, _B_, _ALL_ ) + _2_)", "SUM( _1_, _2_ _A_, _B_, _ALL_ ) + _2_" );
 
 		// LATER assertParseableA1( "(SUM( A1:A2, A1:A2 A1:A2 ))", "SUM( A1:_A2_, _A1_:A2 _A1_:_A2_ )"
 		// );
@@ -166,7 +165,7 @@ public class SpreadsheetExpressionParserTest extends TestCase
 		}
 
 		for (String n : names) {
-			assertParseableAll( "SUM( A1 )", "SUM( " + n + " )" );
+			assertParseableAll( "SUM( " + n + " )", "SUM( " + n + " )" );
 		}
 	}
 

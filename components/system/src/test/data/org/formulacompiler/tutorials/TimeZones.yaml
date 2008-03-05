@@ -15,12 +15,12 @@ sheets:
     - null
     - const: "GlobalTimeZoneName"
     - const: "CET"
-      name: GlobalTimeZoneName
+      names: [ GlobalTimeZoneName ]
   - cells:
     - null
     - const: "GlobalTimeFormat"
     - const: Date( 946721520000 )
-      name: GlobalTimeFormat
+      names: [ GlobalTimeFormat ]
   - cells:
   - cells:
     - const: "Demarcation"
@@ -31,7 +31,7 @@ sheets:
     - null
     - const: "DateOfBirth"
     - const: 29587.0
-      name: DateOfBirth
+      names: [ DateOfBirth ]
   - cells:
     - null
     - const: "Demarcation"
@@ -39,8 +39,8 @@ sheets:
   - cells:
     - null
     - const: "IsBeforeDate"
-    - expr: =(DateOfBirth < R[-1]C)
-      name: IsBeforeDate
+    - expr: =(R[-2]C < R[-1]C)
+      names: [ IsBeforeDate ]
   - cells:
   - cells:
     - const: "Demarcation"
@@ -51,7 +51,7 @@ sheets:
     - null
     - const: "TimeOfBirth"
     - const: 0.5
-      name: TimeOfBirth
+      names: [ TimeOfBirth ]
   - cells:
     - null
     - const: "Demarcation"
@@ -59,8 +59,8 @@ sheets:
   - cells:
     - null
     - const: "IsBeforeTime"
-    - expr: =(TimeOfBirth < R[-1]C)
-      name: IsBeforeTime
+    - expr: =(R[-2]C < R[-1]C)
+      names: [ IsBeforeTime ]
   - cells:
   - cells:
     - const: "Demarcation"
@@ -71,7 +71,7 @@ sheets:
     - null
     - const: "DateTimeOfBirth"
     - const: 29587.5
-      name: DateTimeOfBirth
+      names: [ DateTimeOfBirth ]
   - cells:
     - null
     - const: "Demarcation (CET)"
@@ -79,8 +79,8 @@ sheets:
   - cells:
     - null
     - const: "IsBeforeDateTime"
-    - expr: =(DateTimeOfBirth < R[-1]C)
-      name: IsBeforeDateTime
+    - expr: =(R[-2]C < R[-1]C)
+      names: [ IsBeforeDateTime ]
   - cells:
   - cells:
     - const: "Daylight saving"
@@ -91,12 +91,12 @@ sheets:
     - null
     - const: "InWinter"
     - const: 29587.5
-      name: InWinter
+      names: [ InWinter ]
   - cells:
     - null
     - const: "InSummer"
     - const: 29768.5
-      name: InSummer
+      names: [ InSummer ]
   - cells:
     - null
     - const: "Const in winter (CET)"
@@ -116,18 +116,18 @@ sheets:
   - cells:
     - null
     - const: "InputDiff"
-    - expr: =((InSummer - InWinter) * 24.0)
-      name: InputDiff
+    - expr: =((R[-5]C - R[-6]C) * 24.0)
+      names: [ InputDiff ]
   - cells:
     - null
     - const: "ConstCETDiff"
     - expr: =((R[-4]C - R[-5]C) * 24.0)
-      name: ConstCETDiff
+      names: [ ConstCETDiff ]
   - cells:
     - null
     - const: "ConstLocalDiff"
     - expr: =((R[-3]C - R[-4]C) * 24.0)
-      name: ConstLocalDiff
+      names: [ ConstLocalDiff ]
   - cells:
     - null
     - const: "Java would say"
@@ -136,12 +136,12 @@ sheets:
 
 names:
 - name: DLSDiff
-  ref: R26C2:ConstLocalDiff
+  ref: R26C2:R34C3
 - name: DemarcationDate
-  ref: R8C2:IsBeforeDate
+  ref: R8C2:R10C3
 - name: DemarcationDateTime
-  ref: R20C2:IsBeforeDateTime
+  ref: R20C2:R22C3
 - name: DemarcationTime
-  ref: R14C2:IsBeforeTime
+  ref: R14C2:R16C3
 - name: GlobalTimeSettings
-  ref: R3C2:GlobalTimeFormat
+  ref: R3C2:R4C3

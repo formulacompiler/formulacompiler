@@ -32,19 +32,27 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 public final class ExpressionNodeForCell extends ExpressionNode
 {
 	private final CellIndex cellIndex;
+	private final String name;
 
 
 	public ExpressionNodeForCell( CellInstance _cell )
 	{
 		this.cellIndex = _cell.getCellIndex();
+		this.name = null;
 	}
 
 
 	public ExpressionNodeForCell( CellIndex _c )
 	{
 		this.cellIndex = _c;
+		this.name = null;
 	}
 
+	public ExpressionNodeForCell( CellIndex _c, String _name )
+	{
+		this.cellIndex = _c;
+		this.name = _name;
+	}
 
 	public CellIndex getCellIndex()
 	{
@@ -58,10 +66,16 @@ public final class ExpressionNodeForCell extends ExpressionNode
 	}
 
 
+	public String getName()
+	{
+		return this.name;
+	}
+
+
 	@Override
 	public ExpressionNode innerCloneWithoutArguments()
 	{
-		return new ExpressionNodeForCell( this.cellIndex );
+		return new ExpressionNodeForCell( this.cellIndex, this.name );
 	}
 
 
@@ -75,7 +89,12 @@ public final class ExpressionNodeForCell extends ExpressionNode
 	@Override
 	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
 	{
-		this.cellIndex.describeTo( _to );
+		if (this.name != null) {
+			_to.append( this.name );
+		}
+		else {
+			this.cellIndex.describeTo( _to );
+		}
 	}
 
 

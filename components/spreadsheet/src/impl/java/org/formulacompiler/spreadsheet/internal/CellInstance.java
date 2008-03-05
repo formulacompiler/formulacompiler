@@ -24,6 +24,7 @@ package org.formulacompiler.spreadsheet.internal;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Set;
 
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.YamlBuilder;
@@ -132,7 +133,10 @@ public abstract class CellInstance extends AbstractStyledElement
 	@Override
 	public void yamlTo( YamlBuilder _to )
 	{
-		_to.nv( "name", getRow().getSheet().getSpreadsheet().getModelNameFor( getCellIndex() ) );
+		final Set<String> names = getRow().getSheet().getSpreadsheet().getModelNamesFor( getCellIndex() );
+		if (names != null) {
+			_to.vn( "names" ).lOneLine( names ).lf();
+		}
 	}
 
 }

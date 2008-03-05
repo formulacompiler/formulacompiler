@@ -110,17 +110,17 @@ sheets:
     - null
     - const: 38566.59444444445
     - const: ">=2.9.2005"
-    - expr: =(">=" & ValDate1)
+    - expr: =(">=" & RC[1])
     - const: 38597.0
-      name: ValDate1
+      names: [ ValDate1 ]
     - const: ">=2.8.05 14:16"
-    - expr: =(">=" & ValDate2)
+    - expr: =(">=" & RC[1])
     - const: 38566.59444444445
-      name: ValDate2
+      names: [ ValDate2 ]
     - const: ">=8:45"
-    - expr: =(">=" & ValDate3)
+    - expr: =(">=" & RC[1])
     - const: 0.3645833333333333
-      name: ValDate3
+      names: [ ValDate3 ]
   - cells:
   - cells:
     - null
