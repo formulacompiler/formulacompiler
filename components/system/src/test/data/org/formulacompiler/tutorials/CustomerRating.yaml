@@ -15,7 +15,7 @@ sheets:
   - cells:
     - null
     - const: 450.0
-      name: OrderTotal
+      names: [ OrderTotal ]
   - cells:
     - null
     - const: 1320.0
@@ -33,14 +33,14 @@ sheets:
     - const: "Intermediates"
   - cells:
     - const: "total"
-    - expr: =SUM( OrderTotal:R[-3]C )
+    - expr: =SUM( R[-7]C:R[-3]C )
   - cells:
   - cells:
     - const: "Outputs"
   - cells:
     - const: "Rating"
     - expr: =HLOOKUP( R[-3]C, RC[1]:R[1]C[5], 2.0 )
-      name: Rating
+      names: [ Rating ]
     - const: 0.0
     - const: 2000.0
     - const: 5000.0
@@ -57,4 +57,4 @@ sheets:
 
 names:
 - name: OrdersForLastThreeMonths
-  ref: OrderTotal:R7C2
+  ref: R3C2:R7C2

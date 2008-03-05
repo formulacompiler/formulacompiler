@@ -23,6 +23,7 @@
 package org.formulacompiler.compiler.internal;
 
 import java.util.Date;
+import java.util.Iterator;
 
 
 public final class YamlBuilder
@@ -30,6 +31,9 @@ public final class YamlBuilder
 	private static final CharSequence VAL_SEP = ": ";
 	private static final CharSequence LIST_SEP = ":";
 	private static final CharSequence LIST_PREFIX = "- ";
+	private static final CharSequence LINE_LIST_SEP = ", ";
+	private static final CharSequence LINE_LIST_START = "[ ";
+	private static final CharSequence LINE_LIST_END = " ]";
 
 	private final DescriptionBuilder desc;
 
@@ -87,6 +91,22 @@ public final class YamlBuilder
 			v( elt );
 			desc().outdent();
 		}
+		return this;
+	}
+
+	public final YamlBuilder lOneLine( Iterable<String> _elts )
+	{
+		desc().append( LINE_LIST_START );
+		Iterator<String> i = _elts.iterator();
+		boolean hasNext = i.hasNext();
+		while (hasNext) {
+			String elt = i.next();
+			v( elt );
+			hasNext = i.hasNext();
+			if (hasNext)
+				desc().append( LINE_LIST_SEP );
+		}
+		desc().append( LINE_LIST_END );
 		return this;
 	}
 

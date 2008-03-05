@@ -16,30 +16,30 @@ sheets:
   - cells:
     - const: "Ann"
     - const: 5600.0
-      name: BaseSalary
+      names: [ BaseSalary ]
     - const: 20.0
-      name: HoursOvertime
+      names: [ HoursOvertime ]
     - expr: =(BaseSalary + (HoursOvertime * OvertimeSalaryPerHour))
-      name: Salary
+      names: [ Salary ]
     - expr: =(Salary / SalaryTotal)
-      name: BonusPercent
+      names: [ BonusPercent ]
     - expr: =(BonusTotal * BonusPercent)
-      name: BonusAmount
+      names: [ BonusAmount ]
   - cells:
     - const: "Total"
     - null
     - null
     - expr: =SUM( Salary )
-      name: SalaryTotal
+      names: [ SalaryTotal ]
   - cells:
     - const: "Overtime rate"
     - const: 50.0
-      name: OvertimeSalaryPerHour
+      names: [ OvertimeSalaryPerHour ]
   - cells:
     - const: "Bonus total"
     - const: 20000.0
-      name: BonusTotal
+      names: [ BonusTotal ]
 
 names:
 - name: Employees
-  ref: R2C1:BonusAmount
+  ref: R2C1:R2C6

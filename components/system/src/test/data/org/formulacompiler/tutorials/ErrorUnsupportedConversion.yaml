@@ -7,14 +7,14 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - expr: =LOWER( stringInput )
-      name: stringOutput
+    - expr: =LOWER( RC[1] )
+      names: [ stringOutput ]
     - const: "Hello WORLD!"
-      name: stringInput
+      names: [ stringInput ]
   - cells:
-    - expr: =(numInput * 2.0)
-      name: numOutput
+    - expr: =(RC[1] * 2.0)
+      names: [ numOutput ]
     - const: 30.0
-      name: numInput
+      names: [ numInput ]
 
 names:

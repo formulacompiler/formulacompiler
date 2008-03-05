@@ -195,10 +195,11 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 	@Override
 	protected final ExpressionNode makeNamedCellRef( Token _name )
 	{
-		final CellRange range = parseNamedRef( _name.image );
+		final String name = _name.image;
+		final CellRange range = parseNamedRef( name );
 		try {
 			final CellIndex cell = range.getCellIndexRelativeTo( this.cellIndex );
-			return new ExpressionNodeForCell( cell );
+			return new ExpressionNodeForCell( cell, name );
 		}
 		catch (SpreadsheetException e) {
 			throw new InnerParserException( e );
@@ -208,8 +209,9 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 	@Override
 	protected final ExpressionNode makeNamedRangeRef( Token _name )
 	{
-		final CellRange range = parseNamedRef( _name.image );
-		return new ExpressionNodeForRange( range );
+		final String name = _name.image;
+		final CellRange range = parseNamedRef( name );
+		return new ExpressionNodeForRange( range, name );
 	}
 
 

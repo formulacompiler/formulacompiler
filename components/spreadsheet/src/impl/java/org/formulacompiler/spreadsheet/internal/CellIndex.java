@@ -230,24 +230,18 @@ public final class CellIndex extends CellRange implements Cell
 			_to.append( SheetImpl.getNameA1ForCellIndex( this.columnIndex, this.rowIndex ) );
 		}
 		else {
-			final String name = getSheet().getSpreadsheet().getModelNameFor( this );
-			if (null != name) {
-				_to.append( name );
+			final CellIndex relativeTo = r1c1Style.getRelativeTo();
+			if (this.sheetIndex != ((relativeTo != null) ? relativeTo.sheetIndex : 0)) {
+				_to.append( '\'' ).append( getSheet().getName() ).append( "'!" );
+			}
+			if (null == relativeTo) {
+				_to.append( 'R' ).append( this.rowIndex + 1 ).append( 'C' ).append( this.columnIndex + 1 );
 			}
 			else {
-				final CellIndex relativeTo = r1c1Style.getRelativeTo();
-				if (this.sheetIndex != ((relativeTo != null) ? relativeTo.sheetIndex : 0)) {
-					_to.append( '\'' ).append( getSheet().getName() ).append( "'!" );
-				}
-				if (null == relativeTo) {
-					_to.append( 'R' ).append( this.rowIndex + 1 ).append( 'C' ).append( this.columnIndex + 1 );
-				}
-				else {
-					if (this.isRowIndexAbsolute) _to.append( 'R' ).append( this.rowIndex + 1 );
-					else describeOffsetTo( _to, 'R', this.rowIndex - relativeTo.rowIndex );
-					if (this.isColumnIndexAbsolute) _to.append( 'C' ).append( this.columnIndex + 1 );
-					else describeOffsetTo( _to, 'C', this.columnIndex - relativeTo.columnIndex );
-				}
+				if (this.isRowIndexAbsolute) _to.append( 'R' ).append( this.rowIndex + 1 );
+				else describeOffsetTo( _to, 'R', this.rowIndex - relativeTo.rowIndex );
+				if (this.isColumnIndexAbsolute) _to.append( 'C' ).append( this.columnIndex + 1 );
+				else describeOffsetTo( _to, 'C', this.columnIndex - relativeTo.columnIndex );
 			}
 		}
 	}

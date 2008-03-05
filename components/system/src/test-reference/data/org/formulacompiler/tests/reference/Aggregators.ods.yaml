@@ -193,7 +193,7 @@ sheets:
   - cells:
   - cells:
     - const: 120.0
-    - expr: =PRODUCT( RC[1]:RC[3] )
+    - expr: =PRODUCT( ProductRange )
     - const: 4.0
     - const: 5.0
     - const: 6.0
@@ -411,7 +411,7 @@ sheets:
   - cells:
   - cells:
     - const: 3.0
-    - expr: =COUNT( RC[1]:RC[3] )
+    - expr: =COUNT( CountRange )
     - const: 4.0
     - const: 5.0
     - const: 6.0
@@ -655,7 +655,7 @@ sheets:
   - cells:
   - cells:
     - const: 5.0
-    - expr: =AVERAGE( RC[1]:RC[3] )
+    - expr: =AVERAGE( AverageRange )
     - const: 4.0
     - const: 5.0
     - const: 6.0
@@ -873,7 +873,7 @@ sheets:
   - cells:
   - cells:
     - const: 4.0
-    - expr: =MIN( RC[1]:RC[3] )
+    - expr: =MIN( MinRange )
     - const: 4.0
     - const: 5.0
     - const: 6.0
@@ -1091,7 +1091,7 @@ sheets:
   - cells:
   - cells:
     - const: 6.0
-    - expr: =MAX( RC[1]:RC[3] )
+    - expr: =MAX( MaxRange )
     - const: 4.0
     - const: 5.0
     - const: 6.0

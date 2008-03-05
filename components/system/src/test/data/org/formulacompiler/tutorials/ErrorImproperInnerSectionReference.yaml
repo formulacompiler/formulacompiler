@@ -28,30 +28,30 @@ sheets:
   - cells:
     - const: "Aggregate entire column"
     - expr: =SUM( R[-5]C[1]:R[-3]C[1] )
-      name: GoodRef
+      names: [ GoodRef ]
   - cells:
   - cells:
     - const: "This is an error:"
   - cells:
     - const: "No aggregation"
     - expr: =R[-8]C[1]
-      name: BadRef
+      names: [ BadRef ]
   - cells:
     - const: "Not entire column (end bad)"
     - expr: =SUM( R[-9]C[1]:R[-8]C[1] )
-      name: BadRange1
+      names: [ BadRange1 ]
   - cells:
     - const: "Not entire column (start bad)"
     - expr: =SUM( R[-9]C[1]:R[-8]C[1] )
-      name: BadRange2
+      names: [ BadRange2 ]
   - cells:
     - const: "Not entire column (both bad)"
     - expr: =SUM( R[-10]C[1] )
-      name: BadRange3
+      names: [ BadRange3 ]
   - cells:
     - const: "Not entire column (single cell)"
     - expr: =SUM( R[-11]C[1] )
-      name: BadRange4
+      names: [ BadRange4 ]
 
 names:
 - name: Name

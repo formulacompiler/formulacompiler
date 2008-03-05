@@ -25,6 +25,7 @@ package org.formulacompiler.spreadsheet.internal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.formulacompiler.compiler.internal.AbstractYamlizable;
 import org.formulacompiler.compiler.internal.YamlBuilder;
@@ -43,7 +44,7 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 	private final List<SheetImpl> sheets = New.list();
 	private final Map<String, CellRange> modelRangeNames = New.caseInsensitiveMap();
 	private final Map<String, CellRange> readOnlyModelRangeNames = Collections.unmodifiableMap( this.modelRangeNames );
-	private final Map<CellIndex, String> namedCells = New.map();
+	private final Map<CellIndex, Set<String>> namedCells = New.map();
 	private Map<String, Range> userRangeNames = null;
 	private Map<String, Range> readOnlyRangeNames = Collections
 			.unmodifiableMap( (Map<String, ? extends Range>) this.modelRangeNames );
@@ -59,7 +60,17 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 	{
 		this.modelRangeNames.put( _name, _ref );
 		if (_ref instanceof CellIndex) {
-			this.namedCells.put( (CellIndex) _ref, _name );
+			final CellIndex cellIndex = (CellIndex) _ref;
+			final Set<String> existingCellNames = this.namedCells.get( cellIndex );
+			final Set<String> cellNames;
+			if (existingCellNames != null) {
+				cellNames = existingCellNames;
+			}
+			else {
+				cellNames = New.sortedSet();
+				this.namedCells.put( cellIndex, cellNames );
+			}
+			cellNames.add( _name );
 		}
 		if (null != this.userRangeNames) {
 			this.userRangeNames.put( _name, _ref );
@@ -71,11 +82,10 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 		return this.readOnlyModelRangeNames;
 	}
 
-	public String getModelNameFor( CellIndex _cell )
+	public Set<String> getModelNamesFor( CellIndex _cell )
 	{
 		return this.namedCells.get( _cell );
 	}
-
 
 	// --------------------------------------- Implement Spreadsheet
 

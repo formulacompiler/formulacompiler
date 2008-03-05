@@ -197,7 +197,7 @@ sheets:
   - cells:
   - cells:
     - const: 15.0
-    - expr: =SUM( RC[1]:RC[3] )
+    - expr: =SUM( SumRange )
     - const: 4.0
     - const: 5.0
     - const: 6.0
