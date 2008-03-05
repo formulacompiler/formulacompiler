@@ -7,17 +7,17 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - expr: =(1.0 + MATCH( LOOKEDFOR, RC[2]:RC[4], TYPE ))
-      name: BAD
+    - expr: =(1.0 + MATCH( LookedFor, RC[2]:RC[4], Type ))
+      name: Bad
     - const: 20.0
-      name: LOOKEDFOR
+      name: LookedFor
     - const: 10.0
     - const: 20.0
     - const: 30.0
     - const: 4.0
-      name: TYPE
+      name: Type
   - cells:
-    - expr: =(BAD * 2.0)
-      name: REFERENCESBAD
+    - expr: =(Bad * 2.0)
+      name: ReferencesBad
 
 names:

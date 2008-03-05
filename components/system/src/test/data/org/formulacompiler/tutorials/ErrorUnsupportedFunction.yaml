@@ -9,17 +9,17 @@ sheets:
   - cells:
     - expr: =** org.formulacompiler.spreadsheet.SpreadsheetException$UnsupportedExpression: Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?.
 Cell containing expression is A1.
-      name: INFO
+      name: Info
     - const: "memused"
   - cells:
-    - expr: =(INFO * 2.0)
-      name: REFERENCESINFO
+    - expr: =(Info * 2.0)
+      name: ReferencesInfo
   - cells:
     - expr: =(1.0 + 2.0)
-      name: INDEPENDENT
+      name: Independent
   - cells:
     - expr: =LEN( LENB( RC[1] ) )
-      name: UNSUPPORTED
+      name: Unsupported
     - const: "hello world"
 
 names:

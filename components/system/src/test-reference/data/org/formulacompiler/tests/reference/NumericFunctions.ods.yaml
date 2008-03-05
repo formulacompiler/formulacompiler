@@ -4975,11 +4975,11 @@ sheets:
     - const: "#NUM!"
 
 names:
-- name: ABSRANGE
+- name: ABSRange
   ref: R2C1:R10C14
-- name: COMBINERRORS
+- name: COMBINErrors
   ref: R463C1:R465C14
-- name: COMBINRANGE
+- name: COMBINRange
   ref: R450C1:R462C14
-- name: HEADERRANGE
+- name: HeaderRange
   ref: R1C1:R1C14

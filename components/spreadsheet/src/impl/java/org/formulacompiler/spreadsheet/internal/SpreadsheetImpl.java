@@ -57,13 +57,12 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 
 	public void defineModelRangeName( String _name, CellRange _ref )
 	{
-		final String upperName = _name.toUpperCase();
-		this.modelRangeNames.put( upperName, _ref );
+		this.modelRangeNames.put( _name, _ref );
 		if (_ref instanceof CellIndex) {
-			this.namedCells.put( (CellIndex) _ref, upperName );
+			this.namedCells.put( (CellIndex) _ref, _name );
 		}
 		if (null != this.userRangeNames) {
-			this.userRangeNames.put( upperName, _ref );
+			this.userRangeNames.put( _name, _ref );
 		}
 	}
 

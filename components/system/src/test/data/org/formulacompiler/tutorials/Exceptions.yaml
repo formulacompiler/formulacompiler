@@ -91,19 +91,19 @@ sheets:
     - expr: =COUNTA( 15.0, R[-21]C, R[-12]C )
 
 names:
-- name: CITE_COUNT
+- name: Cite_Count
   ref: R23C1:R24C2
-- name: CITE_ERRORPROPAGATION
+- name: Cite_ErrorPropagation
   ref: R6C1:R6C2
-- name: CITE_ERRORS
+- name: Cite_Errors
   ref: R3C1:R5C3
-- name: CITE_ISERR
+- name: Cite_IsErr
   ref: R7C1:R7C2
-- name: CITE_ISERROR
+- name: Cite_IsError
   ref: R18C1:R21C2
-- name: CITE_ISNA
+- name: Cite_IsNA
   ref: R13C1:R13C2
-- name: CITE_NA
+- name: Cite_NA
   ref: R9C1:R12C3
-- name: CITE_PRECEDENCE
+- name: Cite_Precedence
   ref: R15C1:R16C2

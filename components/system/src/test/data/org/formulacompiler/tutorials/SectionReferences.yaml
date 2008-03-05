@@ -184,15 +184,15 @@ sheets:
     - expr: =SUM( R[-24]C[4]:R[-22]C[5] )
 
 names:
-- name: DATA
+- name: Data
   ref: R1C1:R11C13
-- name: SECTION
+- name: Section
   ref: R3C2:R6C12
-- name: SECTION2
+- name: Section2
   ref: R8C2:R10C6
-- name: SECTION3
+- name: Section3
   ref: R8C7:R10C9
-- name: SUBSECTION
+- name: Subsection
   ref: R3C5:R4C7
-- name: TESTS
+- name: Tests
   ref: R14C1:R30C2

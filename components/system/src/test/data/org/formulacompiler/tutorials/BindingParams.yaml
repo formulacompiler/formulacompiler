@@ -12,40 +12,40 @@ sheets:
   - cells:
     - const: "I_One"
     - const: 10.0
-      name: I_ONE
+      name: I_One
   - cells:
     - const: "I_Two"
     - const: 20.0
-      name: I_TWO
+      name: I_Two
   - cells:
     - const: "I_Three"
     - const: 30.0
-      name: I_THREE
+      name: I_Three
   - cells:
   - cells:
     - const: "Intermediates"
   - cells:
     - const: "OneTwo"
-    - expr: =SUM( I_ONE, I_TWO )
-      name: ONETWO
+    - expr: =SUM( I_One, I_Two )
+      name: OneTwo
   - cells:
     - const: "TwoThree"
-    - expr: =SUM( I_TWO, I_THREE )
-      name: TWOTHREE
+    - expr: =SUM( I_Two, I_Three )
+      name: TwoThree
   - cells:
   - cells:
     - const: "Outputs"
   - cells:
     - const: "O_OneTwoThree"
-    - expr: =SUM( I_ONE:I_THREE )
-      name: O_ONETWOTHREE
+    - expr: =SUM( I_One:I_Three )
+      name: O_OneTwoThree
   - cells:
     - const: "O_SumInter"
-    - expr: =SUM( ONETWO:TWOTHREE )
-      name: O_SUMINTER
+    - expr: =SUM( OneTwo:TwoThree )
+      name: O_SumInter
   - cells:
     - const: "Complex"
-    - expr: =(SUM( I_ONE:I_THREE ) - 1.0)
-      name: COMPLEX
+    - expr: =(SUM( I_One:I_Three ) - 1.0)
+      name: Complex
 
 names:

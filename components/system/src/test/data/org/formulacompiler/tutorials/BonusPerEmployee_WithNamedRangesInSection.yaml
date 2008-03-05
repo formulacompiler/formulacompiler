@@ -17,47 +17,47 @@ sheets:
     - const: "Ann"
     - const: 5600.0
     - const: 20.0
-    - expr: =(RC[-2] + (RC[-1] * OVERTIMESALARYPERHOUR))
-    - expr: =(RC[-1] / SALARYTOTAL)
-      name: BONUSPERCENT
-    - expr: =(BONUSTOTAL * BONUSPERCENT)
+    - expr: =(RC[-2] + (RC[-1] * OvertimeSalaryPerHour))
+    - expr: =(RC[-1] / SalaryTotal)
+      name: BonusPercent
+    - expr: =(BonusTotal * BonusPercent)
   - cells:
     - const: "Beth"
     - const: 5400.0
     - const: 15.0
-    - expr: =(RC[-2] + (RC[-1] * OVERTIMESALARYPERHOUR))
-    - expr: =(RC[-1] / SALARYTOTAL)
-    - expr: =(BONUSTOTAL * BONUSPERCENT)
+    - expr: =(RC[-2] + (RC[-1] * OvertimeSalaryPerHour))
+    - expr: =(RC[-1] / SalaryTotal)
+    - expr: =(BonusTotal * BonusPercent)
   - cells:
     - const: "Charlie"
     - const: 5500.0
     - const: 0.0
-    - expr: =(RC[-2] + (RC[-1] * OVERTIMESALARYPERHOUR))
-    - expr: =(RC[-1] / SALARYTOTAL)
-    - expr: =(BONUSTOTAL * BONUSPERCENT)
+    - expr: =(RC[-2] + (RC[-1] * OvertimeSalaryPerHour))
+    - expr: =(RC[-1] / SalaryTotal)
+    - expr: =(BonusTotal * BonusPercent)
   - cells:
     - const: "Total"
     - null
     - null
     - expr: =SUM( R[-3]C:R[-1]C )
-      name: SALARYTOTAL
+      name: SalaryTotal
   - cells:
     - const: "Overtime rate"
     - const: 50.0
-      name: OVERTIMESALARYPERHOUR
+      name: OvertimeSalaryPerHour
   - cells:
     - const: "Bonus total"
     - const: 20000.0
-      name: BONUSTOTAL
+      name: BonusTotal
 
 names:
-- name: BASESALARY
+- name: BaseSalary
   ref: R2C2:R4C2
-- name: BONUSAMOUNT
+- name: BonusAmount
   ref: R2C6:R4C6
-- name: EMPLOYEES
+- name: Employees
   ref: R2C1:R4C6
-- name: HOURSOVERTIME
+- name: HoursOvertime
   ref: R2C3:R4C3
-- name: SALARY
+- name: Salary
   ref: R2C4:R4C4

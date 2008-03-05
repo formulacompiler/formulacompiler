@@ -14,12 +14,12 @@ sheets:
   - cells:
     - const: "One"
     - null
-    - expr: =SUM( ELEMENTAMOUNT:R[3]C[-1] )
-      name: CATEGORYTOTAL
+    - expr: =SUM( ElementAmount:R[3]C[-1] )
+      name: CategoryTotal
   - cells:
     - null
     - const: 100.0
-      name: ELEMENTAMOUNT
+      name: ElementAmount
   - cells:
     - null
     - const: 200.0
@@ -44,15 +44,15 @@ sheets:
   - cells:
     - const: "TOTAL"
     - null
-    - expr: =SUM( CATEGORYTOTAL:R[-1]C )
-      name: GRANDTOTAL
+    - expr: =SUM( CategoryTotal:R[-1]C )
+      name: GrandTotal
 
 names:
-- name: CATEGORIES
+- name: Categories
   ref: R3C1:R12C256
-- name: CATEGORY
+- name: Category
   ref: R3C1:R7C256
-- name: ELEMENT
+- name: Element
   ref: R4C1:R4C256
-- name: ELEMENTS
+- name: Elements
   ref: R4C1:R6C256

@@ -8,35 +8,35 @@ sheets:
   rows:
   - cells:
     - const: "Input Values"
-      name: CAPTION
+      name: Caption
   - cells:
     - const: "InputValue"
-      name: LABEL
+      name: Label
     - const: 123.45
-      name: INPUTVALUE
+      name: InputValue
   - cells:
     - const: "DateInputValue"
     - const: 25569.0
-      name: DATEINPUTVALUE
+      name: DateInputValue
   - cells:
     - const: "PercentInputValue"
     - const: 0.25
-      name: PERCENTINPUTVALUE
+      name: PercentInputValue
   - cells:
     - const: "Output Values"
   - cells:
     - const: "OutputValue"
     - const: 123.45
-      name: OUTPUTVALUE
+      name: OutputValue
   - cells:
     - const: "PercentOutputValue"
     - const: 0.3
-      name: PERCENTOUTPUTVALUE
+      name: PercentOutputValue
   - cells:
     - const: "Intermediate Values"
   - cells:
     - const: "IntermediateValue"
     - const: 123.45
-      name: INTERMEDIATEVALUE
+      name: IntermediateValue
 
 names:

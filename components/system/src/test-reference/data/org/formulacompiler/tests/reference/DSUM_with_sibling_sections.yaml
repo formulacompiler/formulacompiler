@@ -93,21 +93,21 @@ sheets:
   - cells:
     - const: "Actual"
     - expr: =DSUM( R[-21]C:R[-14]C[2], "Yield", R[-12]C:R[-11]C[1] )
-      name: O_ACTUAL
+      name: O_Actual
   - cells:
     - const: "Expected"
     - const: 148.0
-      name: O_EXPECTED
+      name: O_Expected
     - expr: =(((((R[-18]C[1] + R[-15]C[1]) + R[-9]C[1]) + R[-7]C[1]) + R[-5]C[1]) + R[-3]C[1])
 
 names:
-- name: CITED_EXAMPLE
+- name: Cited_Example
   ref: R2C2:R9C4
-- name: IR_ONE
+- name: IR_One
   ref: R15C2:R17C4
-- name: IR_TWO
+- name: IR_Two
   ref: R19C2:R21C4
-- name: RS_ONE
+- name: RS_One
   ref: R4C2:R5C4
-- name: RS_TWO
+- name: RS_Two
   ref: R7C2:R8C4

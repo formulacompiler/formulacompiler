@@ -191,7 +191,7 @@ public class LookupTest extends TestCase
 		int outputIndex = 0;
 		final Map<String, Spreadsheet.Range> nameDefs = _builder.getSpreadsheet().getRangeNames();
 		for (Map.Entry<String, Spreadsheet.Range> nameDef : nameDefs.entrySet()) {
-			final String name = nameDef.getKey();
+			final String name = nameDef.getKey().toUpperCase();
 			if (name.startsWith( _paramPrefix )) {
 				final Spreadsheet.Cell cell = (Spreadsheet.Cell) nameDef.getValue();
 				if (name.startsWith( inputPrefix )) {

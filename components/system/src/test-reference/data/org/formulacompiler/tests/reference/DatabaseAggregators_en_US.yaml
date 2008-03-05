@@ -93,17 +93,17 @@ sheets:
     - null
     - const: 38566.59444444445
     - const: ">=9/2/2005"
-    - expr: =(">=" & VALDATE1)
+    - expr: =(">=" & ValDate1)
     - const: 38597.0
-      name: VALDATE1
+      name: ValDate1
     - const: ">=8/2/05 2:16 PM"
-    - expr: =(">=" & VALDATE2)
+    - expr: =(">=" & ValDate2)
     - const: 38566.59444444445
-      name: VALDATE2
+      name: ValDate2
     - const: ">=8:45 AM"
-    - expr: =(">=" & VALDATE3)
+    - expr: =(">=" & ValDate3)
     - const: 0.3645833333333333
-      name: VALDATE3
+      name: ValDate3
   - cells:
   - cells:
   - cells:
@@ -172,7 +172,7 @@ sheets:
     - const: "ValDate3"
 
 names:
-- name: BASEDATA
+- name: BaseData
   ref: R2C1:R13C7
-- name: TESTHEADER
+- name: TestHeader
   ref: R18C2:R18C8

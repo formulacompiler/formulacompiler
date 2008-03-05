@@ -152,7 +152,7 @@ sheets:
   - cells:
   - cells:
     - const: 30.0
-    - expr: =('SecondSheet'!R[-13]C + CELLONTHIRDSHEET)
+    - expr: =('SecondSheet'!R[-13]C + CellOnThirdSheet)
     - const: 10.0
     - const: 20.0
     - null
@@ -174,8 +174,8 @@ sheets:
   - cells:
     - const: "Cell referenced by name"
     - expr: ='MainSheet'!R[13]C[2]
-      name: CELLONTHIRDSHEET
+      name: CellOnThirdSheet
 
 names:
-- name: RANGE
+- name: Range
   ref: R12C3:R12C5
