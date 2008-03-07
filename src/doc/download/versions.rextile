@@ -10,7 +10,7 @@ h4. Release 1.0.1
 
 The latest stable release. Recommended for all users.
 
-<%= ver '1.0.1', '1.0.1' %>
+<%= ver '1.0.1', '1.0.0' %>
 
 <%= oldver '1.0.0', '1.0.0' %>
 
