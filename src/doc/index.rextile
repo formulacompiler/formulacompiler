@@ -28,6 +28,11 @@ h1. Abacus Formula Compiler for Java
 <% @news= <<END
 <h2>News</h2>
 
+<h3><a href="download/releasenotes.htm">Release 1.0.1</a></h3>
+
+<p>fixes minor issues found in 1.0.0.
+<br/><span class="when">March 7, 2008</span></p>
+
 <h3><a href="download/releasenotes.htm">Release 1.0</a></h3>
 
 <p>is the first public GPL release and adds a host of changes.
