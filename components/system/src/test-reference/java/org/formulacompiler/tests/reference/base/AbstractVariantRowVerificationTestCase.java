@@ -106,10 +106,11 @@ abstract class AbstractVariantRowVerificationTestCase extends AbstractContextTes
 		}
 	}
 
-	protected void assertCellValuesSame( CellInstance _where, Object _want, Object _have ) throws Exception
+	private void assertCellValuesSame( CellInstance _where, Object _want, Object _have ) throws Exception
 	{
 		if (!areCellValuesEqual( _want, _have )) {
-			assertEquals( _where.toString(), _want, _have );
+			final CellIndex cellIndex = _where.getCellIndex();
+			assertEquals( cellIndex.toString(), _want, _have );
 		}
 	}
 
