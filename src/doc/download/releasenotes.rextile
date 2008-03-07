@@ -12,7 +12,15 @@ h2. Release 1.0.1
 
 h5. Fixed
 
+	* Builds and tests properly on JDK 6.
+	* Source .zip no longer contains .hg folder.
 	* Fixed parsing quotes in string literals.
+	* Fixed and improved site.
+	* Shared formula parsing fixes for "JExcelAPI":-jxl.
+	
+h5. Internal
+
+	* Improved system tests.
 
 
 h2. Release 1.0
