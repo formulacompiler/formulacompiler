@@ -367,7 +367,7 @@ TOKEN: /* Numeric constants */
 	}
 
 TOKEN: /* String constants */
-	{	<STR_CONST: "\"" (~["\""])* "\"" >
+	{	<STR_CONST: "\"" (~["\""] | "\"\"")* "\"" >
 	}
 
 
@@ -484,9 +484,9 @@ void dblConst():
 	}
 
 void strConst():
-	{	Token c = null; String s = null; int l = 0; }
+	{	Token c = null; }
 	{	c = <STR_CONST>
-			{ s = c.image; l = s.length(); pushNode( new ExpressionNodeForConstantValue( s.substring( 1, l - 1 ))); }
+			{ pushNode( new ExpressionNodeForConstantValue( parseQuotedString( c.image ))); }
 	}
 
 void cellRef(): {}
