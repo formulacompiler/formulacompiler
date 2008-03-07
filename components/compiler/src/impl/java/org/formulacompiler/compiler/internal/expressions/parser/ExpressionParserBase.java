@@ -131,6 +131,11 @@ abstract class ExpressionParserBase
 		return Double.parseDouble( _text ); // LATER return proper data type
 	}
 
+	protected final String parseQuotedString( String _text )
+	{
+		return _text.substring( 1, _text.length() - 1 ).replaceAll( "\"\"", "\"" );
+	}
+
 
 	protected final void unsupportedFunction( Token _name )
 	{

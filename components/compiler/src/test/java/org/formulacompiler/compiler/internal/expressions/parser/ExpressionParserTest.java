@@ -70,6 +70,7 @@ public class ExpressionParserTest extends TestCase
 	public void testStrConst() throws Exception
 	{
 		assertString( "\"Hello world, this is a test!\"", "Hello world, this is a test!" );
+		assertString( "\"Quote: \"\" \"", "Quote: \" " );
 	}
 
 	private void assertString( String _expr, String _expected ) throws Exception
