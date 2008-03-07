@@ -1,0 +1,13 @@
+<%
+require File.join( template_path, '_globals.rb' )
+
+# Eval to ensure were in the proper environment
+eval read_closest_file( '_init.rb' )
+eval read_prepended_files( '_settings.rb' )
+specifics = rextile_name.chomp( '.rextile' ) + '.rb'
+eval read_file( specifics ) if File.exist?( specifics )
+%>
+
+CONTENT GOES HERE
+
+<%= read_prepended_files( '_links.rextinc' ) %>

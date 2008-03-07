@@ -1,0 +1,25 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - expr: =VALUE( RC[1] )
+      names: [ ValueResult ]
+    - const: "1,234.56"
+      names: [ ValueInput ]
+  - cells:
+    - expr: =VALUE( (RC[1] & RC[2]) )
+      names: [ MixedResult ]
+    - const: "0."
+    - const: "6"
+      names: [ MixedInput ]
+
+names:
+- name: MixedExample
+  ref: R2C1:R2C3
+- name: ValueExample
+  ref: R1C1:R1C2

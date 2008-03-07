@@ -1,0 +1,23 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - expr: =(1.0 + MATCH( RC[1], RC[2]:RC[4], RC[5] ))
+      names: [ Bad ]
+    - const: 20.0
+      names: [ LookedFor ]
+    - const: 10.0
+    - const: 20.0
+    - const: 30.0
+    - const: 4.0
+      names: [ Type ]
+  - cells:
+    - expr: =(R[-1]C * 2.0)
+      names: [ ReferencesBad ]
+
+names:

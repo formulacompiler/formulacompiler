@@ -1,0 +1,79 @@
+<%= @xhtml_header %>
+<%
+	@page_title ||= text_only( html_doc%:h1 )
+	@window_title = @page_title
+	@window_title += ' - ' + @site_title if @site_title and @window_title != @site_title
+	root_prefix = ''
+	root_prefix = File.join( root_path, root_prefix ) if root_path and root_path != ''
+%>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><%= @window_title %></title>
+    <style type="text/css" media="screen">
+		<%= @styles %>
+    </style>
+	<%= @head_nodes %>
+</head>
+
+<body <%= @body_attrs %> >
+	<div id="outer">
+		<div id="left_background">
+		</div>
+		<div id="top_background">
+		</div>
+		
+		<div id="top_chrome" class="chrome">
+			<div id="logo_band">
+				<img src="<%= root_prefix + 'site_img/header_bar.gif' %>" alt="AFC - Abacus Formula Compiler for Java"/>
+			</div>
+			<div id="download_band">
+				<a href="<%= root_prefix + 'download/index.htm' %>">
+					<img src="<%= root_prefix + 'site_img/download_button.gif' %>"/>
+				</a>
+			</div>
+			<div id="area_band">
+				<table height="100%"><tr height="100%"><td style="vertical-align:middle">
+						<% if rextile_name == 'index.rextile' %>
+					<span class="selected">Home</span> | 
+						<% else %>
+					<a href="<%= root_prefix + 'index.htm' %>">Home</a> | 
+						<% end %>
+					<%= area_links( ' | ' ) %>
+				</td></tr></table>
+			</div>
+		</div>
+
+		<div id="inner">
+			<div id="inner_top_chrome" class="chrome">
+				<div id="crumbs_band">
+					<%= bc = breadcrumbs(' &gt; '); bc + ' &gt; ' unless bc == '' %>
+				</div>
+			</div>
+
+			<div id="content" class="content">
+
+CONTENT GOES HERE
+
+			</div>
+			<div id="inner_bottom_chrome" class="chrome">
+			</div>
+		</div>
+		
+		<% if @news %>
+		<div id="news">
+			<%= @news %>
+		</div>
+		<% end %>
+		
+		<div id="left_top_chrome" class="chrome">
+			<pre class="rscript">content_links()</pre>
+		</div>
+		</div>
+		<div id="left_bottom_chrome" class="chrome">
+			<div id="copyright">
+				Copyright &copy; 2005-2008 by <a href="http://www.abacus.ch/">Abacus Research AG</a>.  All rights reserved.
+			</div>
+		</div>
+	</div>
+</body>
+</html>

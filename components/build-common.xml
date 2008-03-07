@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.formulacompiler.common" default="build" basedir=".">
+	<description>Common sub-targets for AFC build files. See ~/doc/hacking/build.htm for details.</description>
+
+	<!--	Conventions used in this build script:
+
+		All top-level targets are simple redirects to corresponding internal targets.
+		This gives a quick overview and ensures a clean separation between API and implementation.
+
+		All targets that do something start with @.
+		They have no dependencies except for @init and are thus very reusable.
+		They are accessible to users for those who know what they are doing. :)
+
+		Dependencies are managed by internal targets starting with -.
+		They use the @ targets to do the actual work.
+
+		External configuration is initialized by build.default.properties.
+		Values in build.properties (if it exists) take precedence.
+	-->
+
+
+	<!-- top-level targets -->
+
+	<target name="build" description="Builds the .jar files in ~/build/." depends="-build" />
+
+	<target name="compile" description="Generates and compiles all source code." depends="-compile" />
+	<target name="compile-main" description="Generates and compiles all source code for the .jar files." depends="-compile-main" />
+
+	<target name="test" description="Runs all functional tests." depends="-test" />
+	<target name="test-given" description="Runs a single test, given using -Dtest.class" depends="-test-given" />
+
+	<target name="clean" description="Removes all temporary build files." depends="-clean" />
+	<target name="clobber" description="Removes all files produced by build actions, including distribution archives." depends="-clobber" />
+
+
+	<!-- global properties -->
+
+	<property name="parent.dir" location="../.." />
+	<property name="comps.dir" location=".." />
+	<property name="src.dir" location="src" />
+	<property name="lib.dir" location="lib" />
+	<property name="build.dir" location="build" />
+	<property name="temp.dir" location="temp" />
+	<property name="jar.file" location="${build.dir}/${name}.jar" />
+
+	<path id="lib.intf.classpath">
+		<path refid="intf.deps.classpath" />
+		<fileset dir="${basedir}" includes="lib/intf/*.jar" />
+	</path>
+	<property name="lib.intf.classpath" refid="lib.intf.classpath" />
+
+	<path id="lib.impl.classpath">
+		<path location="${temp.dir}/intf/classes" />
+		<path refid="impl.deps.classpath" />
+		<fileset dir="${basedir}" includes="lib/impl/*.jar" />
+	</path>
+	<property name="lib.impl.classpath" refid="lib.impl.classpath" />
+
+	<path id="lib.test.classpath">
+		<path location="${temp.dir}/impl/classes" />
+		<path location="${temp.dir}/build/classes" />
+		<path refid="lib.impl.classpath" />
+		<path refid="test.deps.classpath" />
+		<fileset dir="${basedir}" includes="lib/test/*.jar" />
+	</path>
+	<property name="lib.test.classpath" refid="lib.test.classpath" />
+
+
+	<!-- internal targets -->
+
+	<!-- clean -->
+
+	<target name="-clean" depends="@clean" />
+	<target name="-clobber" depends="@clobber" />
+
+	<target name="@clean">
+		<delete dir="${temp.dir}" />
+	</target>
+
+	<target name="@clobber">
+		<delete dir="${temp.dir}" />
+		<delete file="${build.dir}" />
+	</target>
+
+	<!-- build / dist -->
+
+	<target name="-build" depends="-jar-main" />
+	<target name="-copy-jars" depends="@copy-init, @copy-build, @copy-lib-intf, @copy-lib-impl" />
+
+	<property name="outer.build" value="../../build" />
+	<property name="outer.lib" value="${outer.build}/lib" />
+
+	<target name="@copy-init" depends="@init">
+		<condition property="@no-build">
+			<not>
+				<available type="dir" file="${build.dir}" />
+			</not>
+		</condition>
+		<condition property="@no-lib-intf">
+			<not>
+				<available type="dir" file="${lib.dir}/intf" />
+			</not>
+		</condition>
+		<condition property="@no-lib-impl">
+			<not>
+				<available type="dir" file="${lib.dir}/impl" />
+			</not>
+		</condition>
+	</target>
+
+	<target name="@copy-build" depends="@copy-init" unless="@no-build">
+		<mkdir dir="${outer.build}"/>
+		<copy todir="${outer.build}">
+			<fileset dir="${build.dir}" includes="*.jar" />
+		</copy>
+	</target>
+
+	<target name="@copy-lib-intf" depends="@copy-init" unless="@no-lib-intf">
+		<mkdir dir="${outer.lib}"/>
+		<copy todir="${outer.lib}">
+			<fileset dir="${lib.dir}/intf" includes="*.*" excludes=".*" />
+		</copy>
+	</target>
+
+	<target name="@copy-lib-impl" depends="@copy-init" unless="@no-lib-impl">
+		<mkdir dir="${outer.lib}"/>
+		<copy todir="${outer.lib}">
+			<fileset dir="${lib.dir}/impl" includes="*.*" excludes=".*" />
+		</copy>
+	</target>
+
+	<!-- compile -->
+
+	<target name="-compile" depends="-jar-main, -compile-tests" />
+	<target name="-compile-main" depends="@compile-intf, @compile-impl" />
+	<target name="-compile-tests" depends="-jar-main, -compile-tests-assuming-jar" />
+	<target name="-compile-tests-assuming-jar" depends="@compile-tests" />
+
+	<target name="@compile-intf" depends="@init" unless="@no-intf">
+		<antcall target="--compile-comp">
+			<param name="comp" value="intf" />
+			<param name="comp.classpath" value="" />
+		</antcall>
+	</target>
+
+	<target name="@compile-impl" depends="@init" unless="@no-impl">
+		<antcall target="--compile-comp">
+			<param name="comp" value="impl" />
+			<param name="comp.classpath" value="" />
+		</antcall>
+	</target>
+
+	<target name="--compile-comp" depends="--compile-comp-java, --check-comp-res, --copy-comp-res" />
+
+	<target name="--compile-comp-java">
+
+		<property name="src.comp" value="${src.dir}/${comp}" />
+		<property name="temp.comp" value="${temp.dir}/${comp}" />
+		<property name="cp.comp" refid="lib.${comp}.classpath" />
+
+		<echo>${comp}: compiling classes...</echo>
+		<mkdir dir="${temp.comp}/classes" />
+		<javac srcdir="${src.comp}/java" destdir="${temp.comp}/classes" classpath="${comp.classpath}:${cp.comp}" debug="${javac.debug}" deprecation="on" source="${javac.source}" target="${javac.target}">
+		</javac>
+
+	</target>
+
+	<target name="--check-comp-res">
+		<condition property="--no-${comp}-res">
+			<not>
+				<available type="dir" file="${src.dir}/${comp}/resources" />
+			</not>
+		</condition>
+	</target>
+
+	<target name="--copy-comp-res" unless="--no-${comp}-res">
+		<property name="src.comp" value="${src.dir}/${comp}" />
+		<property name="temp.comp" value="${temp.dir}/${comp}" />
+
+		<echo>${comp}: copying resources...</echo>
+		<copy todir="${temp.comp}/classes">
+			<fileset dir="${src.comp}/resources">
+				<include name="**/*" />
+				<exclude name="**/.svn/**" />
+			</fileset>
+		</copy>
+
+	</target>
+
+	<!-- jar -->
+
+	<target name="-jar-main" depends="-compile-main, @jar-main" />
+
+	<target name="@jar-main" depends="@jar-intfimpl, @jar-implonly" />
+
+	<target name="@jar-intfimpl" depends="@init, @hgrev" unless="@no-intf">
+		<echo>main: generating ${name}.jar</echo>
+		<mkdir dir="${build.dir}" />
+		<jar jarfile="${jar.file}" compress="${jar.compress}" >
+			<fileset dir="${temp.dir}/intf/classes"  />
+			<fileset dir="${temp.dir}/impl/classes" />
+			<manifest>
+				<attribute name="Implementation-Version" value="${dist.version}" />
+				<attribute name="Mercurial-URL" value="${dist.url}" />
+				<attribute name="Mercurial-Id" value="${hgrev}" />
+			</manifest>
+		</jar>
+	</target>
+	
+	<target name="@jar-implonly" depends="@init, @hgrev" if="@no-intf">
+		<echo>main: generating ${name}.jar</echo>
+		<mkdir dir="${build.dir}" />
+		<jar jarfile="${jar.file}" compress="${jar.compress}">
+			<fileset dir="${temp.dir}/impl/classes" />
+			<manifest>
+				<attribute name="Implementation-Version" value="${dist.version}" />
+				<attribute name="Mercurial-URL" value="${dist.url}" />
+				<attribute name="Mercurial-Id" value="${hgrev}" />
+			</manifest>
+		</jar>
+	</target>
+	
+	<target name="@hgrev" depends="@init">
+		<exec executable="hg" dir="${basedir}" outputproperty="hgrev">
+			<arg value="id" />
+			<arg value="-i" />
+		</exec>
+	</target>
+
+	<!-- test -->
+
+	<target name="-test" depends="-jar-main, -test-assuming-jar" />
+	<target name="-test-assuming-jar" depends="-test-main-assuming-jar, -test-ref-assuming-jar" />
+	<target name="-test-main-assuming-jar" depends="@init, -compile-tests-assuming-jar, @test-clean, @test-main" />
+	<target name="-test-ref-assuming-jar" depends="@init, -compile-tests-assuming-jar" />
+	<target name="-test-given" depends="@init, @test-given" />
+
+	<target name="@compile-tests" depends="@init" unless="@no-tests">
+		<antcall target="--compile-comp">
+			<param name="comp" value="test" />
+			<param name="comp.classpath" value="${lib.test.classpath}" />
+		</antcall>
+	</target>
+
+	<target name="@test-clean" depends="@init" unless="@no-tests">
+		<delete dir="${temp.dir}/test/results" />
+	</target>
+
+	<assertions id="test.assertions" enablesystemassertions="no">
+		<enable/>
+	</assertions>
+	
+	<target name="@test-main" depends="@init" unless="@no-tests">
+
+		<echo>test: running tests...</echo>
+		<mkdir dir="${temp.dir}/test/results" />
+		<junit printsummary="no" showoutput="yes" haltonerror="no" haltonfailure="no" failureproperty="tests.failed" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+			<jvmarg value="-Demit_tests" />
+			<assertions refid="test.assertions" />
+			<formatter type="plain" usefile="yes" />
+
+			<classpath>
+				<path refid="lib.test.classpath" />
+				<pathelement path="${temp.dir}/test/classes" />
+			</classpath>
+
+			<batchtest todir="${temp.dir}/test/results">
+				<fileset dir="${temp.dir}/test/classes">
+					<include name="**/*Test.class" />
+					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+
+		<fail if="tests.failed" />
+
+	</target>
+
+	<target name="@test-given" depends="@init" if="test.class">
+
+		<echo>test: running given test...</echo>
+		<mkdir dir="${temp.dir}/test/results" />
+		<junit printsummary="no" showoutput="yes" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+			<jvmarg value="-Demit_tests" />
+			<assertions refid="test.assertions" />
+			<formatter type="plain" usefile="no" />
+
+			<classpath>
+				<path refid="lib.test.classpath" />
+				<pathelement path="${temp.dir}/test/classes" />
+			</classpath>
+
+			<batchtest todir="${temp.dir}/test/results">
+				<fileset dir="${temp.dir}/test/classes">
+					<include name="**/${test.class}.class" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+
+	</target>
+
+	<!-- init -->
+
+	<target name="@init" depends="@echo-jre">
+		<condition property="@no-intf">
+			<not>
+				<available type="dir" file="${src.dir}/intf/java" />
+			</not>
+		</condition>
+		<condition property="@no-impl">
+			<not>
+				<available type="dir" file="${src.dir}/impl/java" />
+			</not>
+		</condition>
+		<condition property="@no-tests">
+			<not>
+				<available type="dir" file="${src.dir}/test/java" />
+			</not>
+		</condition>
+	</target>
+
+	<target name="@echo-jre" unless="@no-init">
+		<echo>Running on JRE ${java.runtime.version} by ${java.vendor}; ANT detected ${ant.java.version}.</echo>
+	</target>
+
+
+</project>

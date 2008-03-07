@@ -1,0 +1,30 @@
+
+h1. Developer Documentation
+
+This section covers the internals of AFC. It should give you a quick start when your are considering fixing something, or contributing a new function or feature to AFC.
+
+h2. Getting Started
+
+	* "Overview Of Files And Folders":-files
+	* "Build Tools Setup":tools.htm
+	* "Build Process":build.htm
+	* "IDE Setup":ide.htm
+	* "Writing Code For AFC":coding.htm
+	* "Collaboration and Version Control (Mercurial)":-hghow
+	* "Developer List":http://groups.google.com/group/formulacompiler-devel
+
+h2. Reference
+
+	* "Automated Reference Tests":-reftest
+	* "Special Rewrite Functions":-refrewrite
+	* "Adding A Primitive Function":-prim
+	* "Adding A High-Level Function":-high
+	* "Adding An Aggregator":-agg
+	* "Adding A Vector Computation":-vec
+	
+	* "House Rules":rules.htm
+    * "Package Dependencies":dependencies.htm
+	* "Java Code Style":style.htm
+
+	* "Missing Function Breakdown":functions_to_implement.htm
+	

@@ -1,0 +1,34 @@
+
+h1. Typing, Rewrites, and Transforms
+
+Currently, AFC transforms the computation model constructed from the spreadsheet as follows:
+
+	* Rewrite expressions (top down)
+	* Eliminate constant subexprs (bottom up)
+	* Inlines intermediate results (bottom up)
+	* Inlines arguments of substitution nodes (bottom up)
+	* Annotates nodes with type info (bottom up, mostly)
+
+The reason I rewrite before typing is twofold:
+
+	* I don't have to implement typers for nodes that get rewritten anyway.
+	* I don't have to make the rewriter emit typed nodes.
+
+The reason I rewrite top-down is:
+
+	* The rewriter thus naturally visits rewritable nodes inserted by a prior rewrite step.
+
+However, the rewriter also types some of the subtrees because it needs type info to properly rewrite. The are three problems now:
+
+	* One is that these partially typed subtrees may get altered again by the following rewrites. This might introduce untyped nodes (inserted by the rewriter) into the otherwise typed subtrees. The typer, however, only descends into trees that are still untyped, thus skipping these newly introduced nodes.
+	
+	* The constant evaluator does not have type info, which it sometimes should (especially to handle empty cells).
+	
+	* If the rewriter types a subtree, the typer may there encounter still-not-rewritten unsupported nodes. This seems a bit artificial, however, since we only ever rewrite function nodes and those are typed as numeric by default, which should be correct for the foreseeable future.
+
+Conclusions:
+
+	* The rewriter should leave all nodes leading up to a rewritten node without type info.
+	* The typer should run right after the rewriter.
+	* All following transforms must leave the model fully typed. This should be asserted.
+

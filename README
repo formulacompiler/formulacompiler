@@ -1,0 +1,12 @@
+This is a release of Abacus Formula Compiler, a dual-license 
+spreadsheet formula compiler for Java. AFC is brought to 
+you by the AFC team at Abacus Research AG, Switzerland.
+
+License information can be found in these files:
+- For GPL (free) distributions, see the COPYING file.
+- For commercial distributions, see the LICENSE.afc file.
+
+For further information about AFC or additional documentation, see:
+- The included documentation: doc/index.htm
+- The latest information: http://formulacompiler.org/
+

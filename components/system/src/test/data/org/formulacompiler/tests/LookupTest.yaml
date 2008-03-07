@@ -1,0 +1,237 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: UHL
+  rows:
+  - cells:
+    - const: "MatchConsts"
+    - expr: =MATCH( RC[1], RC[2]:RC[6] )
+      names: [ MC_Out ]
+    - const: 15.0
+      names: [ MC_In ]
+    - const: 10.0
+    - const: 15.0
+    - const: 20.0
+    - const: 25.0
+    - const: 30.0
+  - cells:
+    - const: "MatchInputs"
+    - expr: =MATCH( RC[1], RC[2]:RC[6] )
+      names: [ MI_Out ]
+    - const: 15.0
+      names: [ MI_In ]
+    - const: 10.0
+    - const: 15.0
+      names: [ MI_In_1 ]
+    - const: 20.0
+      names: [ MI_In_2 ]
+    - const: 25.0
+    - const: 30.0
+  - cells:
+  - cells:
+    - const: "IndexConsts"
+    - expr: =INDEX( RC[2]:RC[6], 1.0, RC[1] )
+      names: [ IC_Out ]
+    - const: 3.0
+      names: [ IC_In ]
+    - const: 10.0
+    - const: 15.0
+    - const: 20.0
+    - const: 25.0
+    - const: 30.0
+  - cells:
+    - const: "IndexInputs"
+    - expr: =INDEX( RC[2]:RC[6], 1.0, RC[1] )
+      names: [ II_Out ]
+    - const: 3.0
+      names: [ II_In ]
+    - const: 10.0
+    - const: 15.0
+      names: [ II_In_1 ]
+    - const: 20.0
+      names: [ II_In_2 ]
+    - const: 25.0
+    - const: 30.0
+  - cells:
+  - cells:
+    - const: "LookupConsts"
+    - expr: =LOOKUP( RC[1], RC[2]:RC[4], RC[5]:RC[7] )
+      names: [ LC_Out ]
+    - const: 2.0
+      names: [ LC_In ]
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 11.0
+    - const: 12.0
+    - const: 13.0
+  - cells:
+    - const: "LookupInputs"
+    - expr: =LOOKUP( RC[1], RC[2]:RC[4], RC[5]:RC[7] )
+      names: [ LI_Out ]
+    - const: 2.0
+      names: [ LI_In ]
+    - const: 1.0
+    - const: 2.0
+      names: [ LI_In_1 ]
+    - const: 3.0
+      names: [ LI_In_2 ]
+    - const: 11.0
+    - const: 12.0
+      names: [ LI_In_3 ]
+    - const: 13.0
+      names: [ LI_In_4 ]
+  - cells:
+  - cells:
+    - const: "IndexMatchConsts"
+    - expr: =INDEX( RC[5]:RC[7], 1.0, MATCH( RC[1], RC[2]:RC[4] ) )
+      names: [ IMC_Out ]
+    - const: 2.0
+      names: [ IMC_In ]
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 11.0
+    - const: 12.0
+    - const: 13.0
+  - cells:
+  - cells:
+    - const: "MultiMatchConsts"
+    - expr: =MATCH( RC[1], RC[2]:RC[6] )
+      names: [ MMC_Out_1 ]
+    - const: 15.0
+      names: [ MMC_In_1 ]
+    - const: 10.0
+    - const: 15.0
+    - const: 20.0
+    - const: 25.0
+    - const: 30.0
+  - cells:
+    - null
+    - expr: =MATCH( RC[1], R[-1]C[2]:R[-1]C[6] )
+      names: [ MMC_Out_2 ]
+    - const: 27.0
+      names: [ MMC_In_2 ]
+  - cells:
+    - const: "MultiIndexConsts"
+    - expr: =INDEX( RC[2]:RC[6], 1.0, RC[1] )
+      names: [ MIC_Out_1 ]
+    - const: 2.0
+      names: [ MIC_In_1 ]
+    - const: 10.0
+    - const: 15.0
+    - const: 20.0
+    - const: 25.0
+    - const: 30.0
+  - cells:
+    - null
+    - expr: =INDEX( R[-1]C[2]:R[-1]C[6], 1.0, RC[1] )
+      names: [ MIC_Out_2 ]
+    - const: 3.0
+      names: [ MIC_In_2 ]
+  - cells:
+    - const: "MultiLookupConsts"
+    - expr: =LOOKUP( RC[1], RC[2]:RC[4], RC[5]:RC[7] )
+      names: [ MLC_Out_1 ]
+    - const: 2.0
+      names: [ MLC_In_1 ]
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - const: 11.0
+    - const: 12.0
+    - const: 13.0
+  - cells:
+    - null
+    - expr: =LOOKUP( RC[1], R[-1]C[2]:R[-1]C[4], R[-1]C[5]:R[-1]C[7] )
+      names: [ MLC_Out_2 ]
+    - const: 3.0
+      names: [ MLC_In_2 ]
+  - cells:
+  - cells:
+    - const: "SubArrayConsts"
+    - expr: =HLOOKUP( RC[1], RC[2]:R[2]C[5], 2.0 )
+      names: [ SAC_Out_1 ]
+    - const: 19.0
+      names: [ SAC_In_1 ]
+    - const: 10.0
+    - const: 15.0
+    - const: 20.0
+    - const: 25.0
+  - cells:
+    - null
+    - expr: =HLOOKUP( R[-1]C[1], R[-1]C[2]:R[1]C[5], 3.0 )
+      names: [ SAC_Out_2 ]
+    - null
+    - const: 11.0
+    - const: 12.0
+    - const: 13.0
+    - const: 14.0
+  - cells:
+    - null
+    - expr: =MATCH( R[-2]C[1], R[-2]C[2]:R[-2]C[5] )
+      names: [ SAC_Out_3 ]
+    - null
+    - const: 21.0
+    - const: 22.0
+    - const: 23.0
+    - const: 24.0
+  - cells:
+  - cells:
+    - const: "HLookupInputs"
+    - expr: =HLOOKUP( RC[1], RC[2]:R[2]C[5], RC[6] )
+      names: [ HLI_Out_1 ]
+    - const: 19.0
+      names: [ HLI_In ]
+    - const: 10.0
+    - const: 15.0
+    - const: 20.0
+    - const: 25.0
+    - const: 2.0
+      names: [ HLI_In_1 ]
+  - cells:
+    - null
+    - expr: =HLOOKUP( R[-1]C[1], R[-1]C[2]:R[1]C[5], RC[6] )
+      names: [ HLI_Out_2 ]
+    - null
+    - const: 11.0
+    - const: 12.0
+    - const: 13.0
+    - const: 14.0
+    - const: 3.0
+      names: [ HLI_In_2 ]
+  - cells:
+    - null
+    - null
+    - null
+    - const: 21.0
+    - const: 22.0
+    - const: 23.0
+    - const: 24.0
+
+names:
+- name: HLookupInputs
+  ref: R23C2:R25C8
+- name: IndexConsts
+  ref: R4C2:R4C8
+- name: IndexInputs
+  ref: R5C2:R5C8
+- name: IndexMatchConsts
+  ref: R10C2:R10C9
+- name: LookupConsts
+  ref: R7C2:R7C9
+- name: MatchConsts
+  ref: R1C2:R1C8
+- name: MatchInputs
+  ref: R2C2:R2C8
+- name: MultiIndexConsts
+  ref: R14C2:R15C8
+- name: MultiLookupConsts
+  ref: R16C2:R17C9
+- name: MultiMatchConsts
+  ref: R12C2:R13C8
+- name: SubArrayConsts
+  ref: R19C2:R21C7

@@ -1,0 +1,37 @@
+
+h1. Java Code Style
+
+To ensure some sort of consistency in the source code, I would strongly appreciate it if you could follow these style guidelines (and generally the ones you see in the code that already exists):
+
+
+h4. Encoding
+
+	* _Unix line ending_ conventions (LF only).
+	* _UTF-8_ character encoding.
+
+h4. Indentation
+
+	* Use tabs to indent, not spaces.
+	
+h4. Spaces
+	
+	* Prefix parameters with an underscore, like so: @void foo( int _bar )@. (You may omit the underscore in parameters in the "template methods for primitive functions":-prim.)
+	* Add inner spaces within the parens of parameter lists, like so: @void foo( int _bar )@, rather than @void foo(int _bar)@.
+	* Also do this when calling methods: @foo( 12 );@, not @foo(12);@. But: @bar();@, not @bar(  );@.
+	* Do _not_ add inner spaces for parens used to group operators, as in: @1 * (2 + 3)@.
+	* Add inner spaces within the brackets of array accesses, like so: @a[ i + j ]@.
+
+h4. Lines
+
+	* Put the starting and final braces for classes and methods onto a separate line.
+	* Put the starting brace of flow constructs onto the same line as the construct.
+	* Put the start of @else@, @catch@, @finally@, etc. onto a separate line.
+	* Separate not very closely related methods by two empty lines, especially if there are also JavaDoc comments present.
+
+h4. Misc
+
+	* Use @final@ wherever possible, except on parameters (as this, alas, makes the parameter lists unwieldy).
+	* Use @this.field@ rather than just @field@ to access local fields.
+
+	
+For everything else, please follow the "standard Java conventions":http://java.sun.com/docs/codeconv/.

@@ -1,0 +1,841 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.formulacompiler" default="build" basedir=".">
+	<description>Builds, tests, and packages the Abacus Formula Compiler. See doc/contribute/hacking/build.htm for details.</description>
+
+	<!--	Conventions used in this build script:
+	
+		All top-level targets are simple redirects to corresponding internal targets.
+		This gives a quick overview and ensures a clean separation between API and implementation.
+	
+		All targets that do something start with @.
+		They have no dependencies except for @init and are thus very reusable.
+		They are accessible to users for those who know what they are doing. :)
+		
+		Dependencies are managed by internal targets starting with -.
+		They use the @ targets to do the actual work.
+		
+		External configuration is initialized by build.default.properties.
+		Values in build.properties (if it exists) take precedence. 
+	-->
+
+
+	<!-- top-level targets -->
+
+	<target name="build" description="Builds the .jar files in build/." depends="-build" />
+	<target name="compile" description="Compiles all source files." depends="-compile" />
+
+	<target name="test" description="Runs all functional tests (takes a while)." depends="-test" />
+	<target name="test-main" description="Runs all functional tests except reference tests (quicker)." depends="-test-main" />
+	<target name="test-ref" description="Runs all reference tests (takes a while)." depends="-test-ref" />
+	<target name="test-failures" description="Lists all test failures recorded earlier (don't use -q with this)." depends="-test-failures" />
+
+	<target name="doc" description="Generates complete documentation (takes a while; needs successful test run)." depends="-doc" />
+	<target name="doc-main" description="Generates main documentation except for API and reference docs (quicker)." depends="-doc-main" />
+	<target name="doc-main-update" description="Updates main documentation." depends="-doc-main-update" />
+	<target name="doc-main-accept" description="Updates main documentation and accepts changed citations." depends="-doc-main-accept" />
+	<target name="doc-api" description="Generates API docs (javadoc) only." depends="-doc-api" />
+	<target name="doc-img" description="Updates all documentation images from sources." depends="-doc-img" />
+
+	<target name="check" description="Runs all code conformance checks." depends="-check" />
+	<target name="check-style" description="Runs all source code style checks." depends="-check-style" />
+	<target name="check-deps" description="Runs all package dependency checks." depends="-check-deps" />
+
+	<target name="dist" description="Rebuilds the distribution archives from scratch (takes a while). Clobbers first." depends="-dist" />
+	<target name="tools" description="Rebuilds the tools archive from tools/." depends="-tools" />
+
+	<target name="clean" description="Removes all temporary build files." depends="-clean" />
+	<target name="clobber" description="Removes all files produced by build actions, including distribution archives." depends="-clobber" />
+
+	<target name="cover" description="Runs the default code coverage analysis on the functional tests." depends="-cover" />
+	<target name="cover-cobertura" description="Runs a code coverage analysis on the functional tests using Cobertura." depends="-cover-cobertura" />
+	<target name="cover-emma" description="Runs a code coverage analysis on the functional tests using Emma." depends="-cover-emma" />
+
+
+	<!-- global properties -->
+
+	<property file="build.properties" />
+	<property file="build.default.properties" />
+
+	<property name="comps.dir" location="components" />
+	<property name="src.dir" location="src" />
+	<property name="scripts.dir" location="${src.dir}/scripts" />
+	<property name="src.doc.dir" location="${src.dir}/doc" />
+	<property name="doc.dir" location="doc" />
+	<property name="build.dir" location="build" />
+	<property name="temp.dir" location="temp" />
+	<property name="dist.dir" location="dist" />
+
+	<property name="temp.rextile.dir" location="${temp.dir}/rextile" />
+	<property name="temp.doc.dir" location="${temp.dir}/doc" />
+	<property name="temp.macker-rules.file" location="${temp}/macker-rules.xml" />
+
+	<property name="build.IDE.dir" location="build/IDE" />
+	<property name="jar.src.file" location="${build.IDE.dir}/${basename}-IDE-src.jar" />
+	<property name="jar.doc.file" location="${build.IDE.dir}/${basename}-IDE-doc.jar" />
+	<property name="javadoc.dir" location="${doc.dir}/doc/javadoc" />
+
+
+	<!-- internal targets -->
+
+	<!-- build / dist -->
+
+	<target name="-dist" depends="@check-jre1.5, -clobber, -build, -check, -test, -doc, -jar, @pack" />
+	<target name="-build" depends="-jar-main" />
+	<target name="-compile" depends="@compile" />
+	<target name="-tools" depends="@pack-tools" />
+
+	<target name="@check-jre1.5">
+		<condition property="is.jre15">
+			<and>
+				<equals arg1="Sun Microsystems Inc." arg2="${java.vendor}" />
+				<contains substring="1.5.0" string="${java.runtime.version}" />
+			</and>
+		</condition>
+		<fail message="Distributions must be built with Sun JDK 1.5.0. Aborting." unless="is.jre15" />
+	</target>
+
+	<!-- components -->
+
+	<target name="--comps-do">
+		<echo>${target}...</echo>
+
+		<echo>- runtime</echo>
+		<ant dir="${comps.dir}/runtime" target="${target}" inheritall="false">
+			<property name="@no-init" value="true" />
+		</ant>
+
+		<echo>- decompiler</echo>
+		<ant dir="${comps.dir}/decompiler" target="${target}" inheritall="false">
+			<property name="@no-init" value="true" />
+		</ant>
+
+		<echo>- compiler</echo>
+		<ant dir="${comps.dir}/compiler" target="${target}" inheritall="false">
+			<property name="@no-init" value="true" />
+		</ant>
+
+		<echo>- spreadsheet</echo>
+		<ant dir="${comps.dir}/spreadsheet" target="${target}" inheritall="false">
+			<property name="@no-init" value="true" />
+		</ant>
+
+		<echo>- spreadsheet.excel.xls</echo>
+		<ant dir="${comps.dir}/spreadsheet.excel.xls" target="${target}" inheritall="false">
+			<property name="@no-init" value="true" />
+		</ant>
+
+		<echo>- spreadsheet.opendocument</echo>
+		<ant dir="${comps.dir}/spreadsheet.opendocument" target="${target}" inheritall="false">
+			<property name="@no-init" value="true" />
+		</ant>
+		
+		<echo>- system</echo>
+		<ant dir="${comps.dir}/system" target="${target}" inheritall="false">
+			<property name="@no-init" value="true" />
+		</ant>
+
+		<echo>${target} done.</echo>
+	</target>
+
+	<!-- compile -->
+	
+	<target name="@compile" depends="@init">
+		<antcall target="--comps-do">
+			<param name="target" value="compile" />
+		</antcall>
+	</target>
+
+	<!-- jar -->
+
+	<target name="-jar" depends="-jar-main, @jar-src, @jar-doc" />
+	<target name="-jar-main" depends="@jar-main, @copy-jars" />
+
+	<target name="@jar-main" depends="@init">
+		<antcall target="--comps-do">
+			<param name="target" value="build" />
+		</antcall>
+	</target>
+
+	<target name="@copy-jars" depends="@init">
+		<antcall target="--comps-do">
+			<param name="target" value="-copy-jars" />
+		</antcall>
+	</target>
+
+	<target name="@jar-src" depends="@init, @hgrev">
+		<mkdir dir="${build.IDE.dir}" />
+		<jar jarfile="${jar.src.file}" compress="true">
+
+			<!-- Unfortunately, the following is not robust as new source folders are not automatically captured. -->
+
+			<fileset dir="${comps.dir}/runtime/src/intf/java" includes="**/*.java" />
+			<fileset dir="${comps.dir}/runtime/src/impl/java" includes="**/*.java" />
+
+			<fileset dir="${comps.dir}/decompiler/src/intf/java" includes="**/*.java" />
+			<fileset dir="${comps.dir}/decompiler/src/impl/java" includes="**/*.java" />
+
+			<fileset dir="${comps.dir}/compiler/src/intf/java" includes="**/*.java" />
+			<fileset dir="${comps.dir}/compiler/src/impl/java" includes="**/*.java" />
+			<fileset dir="${comps.dir}/compiler/temp/impl/java" includes="**/*.java" />
+			<fileset dir="${comps.dir}/compiler/temp/impl/java-${ant.java.version}" includes="**/*.java" />
+
+			<fileset dir="${comps.dir}/spreadsheet/src/intf/java" includes="**/*.java" />
+			<fileset dir="${comps.dir}/spreadsheet/src/impl/java" includes="**/*.java" />
+
+			<fileset dir="${comps.dir}/spreadsheet.excel.xls/src/impl/java" includes="**/*.java" />
+
+			<fileset dir="${comps.dir}/spreadsheet.opendocument/src/impl/java" includes="**/*.java" />
+
+			<manifest>
+				<attribute name="Implementation-Version" value="${dist.version}" />
+				<attribute name="Mercurial-URL" value="${dist.url}" />
+				<attribute name="Mercurial-Id" value="${hgrev}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="@jar-doc" depends="@init, @hgrev">
+		<mkdir dir="${build.IDE.dir}" />
+		<jar jarfile="${jar.doc.file}" compress="true">
+			<fileset dir="${javadoc.dir}">
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${dist.version}" />
+				<attribute name="Mercurial-URL" value="${dist.url}" />
+				<attribute name="Mercurial-Id" value="${hgrev}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- test -->
+
+	<target name="-test" depends="-build, @test" />
+	<target name="-test-main" depends="-build, @test-main" />
+	<target name="-test-ref" depends="-build, @test-ref" />
+	<target name="-test-failures" depends="@test-failures" />
+
+	<target name="@test" depends="@init">
+		<antcall target="--comps-do">
+			<param name="target" value="-test-assuming-jar" />
+		</antcall>
+	</target>
+
+	<target name="@test-main" depends="@init">
+		<antcall target="--comps-do">
+			<param name="target" value="-test-main-assuming-jar" />
+		</antcall>
+	</target>
+
+	<target name="@test-ref" depends="@init">
+		<antcall target="--comps-do">
+			<param name="target" value="-test-ref-assuming-jar" />
+		</antcall>
+	</target>
+
+	<target name="@test-failures" depends="@init">
+		<exec executable="grep" failonerror="false" outputproperty="grep-test-out" >
+			<arg value="-r" />
+			<arg value="-F" />
+			<arg value="-f" />
+			<arg value="${src.dir}/junit-error-strings.txt" />
+			<arg value="--include" />
+			<arg value="TEST-*.txt" />
+			<arg value="." />
+		</exec>
+		<echo>${grep-test-out}</echo>
+	</target>
+
+	<!-- check -->
+
+	<target name="-check" depends="-build, -check-deps, -check-style" />
+	<target name="-check-deps" depends="-build, @check-deps-make, @check-deps" />
+	<target name="-check-style" depends="@check-style" />
+
+	<target name="@check-deps-make" depends="@init">
+		<delete file="${temp.macker-rules.file}" />
+		<mkdir dir="${temp.dir}" />
+		<exec dir="${scripts.dir}" executable="ruby" vmlauncher="false" failonerror="true">
+			<arg value="gen-macker-rules.rb" />
+		</exec>
+	</target>
+
+	<target name="@check-deps" depends="@init">
+
+		<path id="macker.classpath">
+			<pathelement path="${macker.jar}" />
+			<fileset dir="${macker.lib.dir}" includes="*.jar" />
+		</path>
+		<taskdef name="macker" classname="net.innig.macker.ant.MackerAntTask" classpathref="macker.classpath" />
+
+		<!-- Unfortunately, the following is not robust as new output folders are not automatically captured. -->
+		<macker>
+			<rules dir="${temp.dir}" includes="macker-rules.xml" />
+
+			<classes dir="${comps.dir}/runtime/temp/intf/classes" includes="**/*.class" />
+			<classes dir="${comps.dir}/runtime/temp/impl/classes" includes="**/*.class" />
+
+			<classes dir="${comps.dir}/decompiler/temp/intf/classes" includes="**/*.class" />
+			<classes dir="${comps.dir}/decompiler/temp/impl/classes" includes="**/*.class" />
+
+			<classes dir="${comps.dir}/compiler/temp/intf/classes" includes="**/*.class" />
+			<classes dir="${comps.dir}/compiler/temp/impl/classes" includes="**/*.class" />
+
+			<classes dir="${comps.dir}/spreadsheet/temp/intf/classes" includes="**/*.class" />
+			<classes dir="${comps.dir}/spreadsheet/temp/impl/classes" includes="**/*.class" />
+
+			<classes dir="${comps.dir}/spreadsheet.excel.xls/temp/impl/classes" includes="**/*.class" />
+
+			<classes dir="${comps.dir}/spreadsheet.opendocument/temp/impl/classes" includes="**/*.class" />
+
+		</macker>
+
+	</target>
+
+	<target name="@check-style" depends="@init">
+
+		<taskdef resource="checkstyletask.properties" classpath="${checkstyle-all.jar}" />
+
+		<checkstyle config="${src.dir}\checkstyle-config-apionly.xml">
+			<fileset dir="${comps.dir}" includes="*/src/intf/java/**/*.java" />
+		</checkstyle>
+
+		<checkstyle config="${src.dir}\checkstyle-config.xml">
+			<property key="checkstyle.header.file" file="${src.dir}\copyright-header.txt" />
+			<fileset dir="${comps.dir}">
+				<include name="*/src/**/java*/**/*.java" />
+				<include name="*/src/**/java*/**/*.jj" />
+				<!--  the following files have differing licences  -->
+				<exclude name="**/internal/IOUtil.java" />
+				<exclude name="**/internal/build/bytecode/ASMHelpers.java" />
+				<exclude name="**/internal/cern/**" />
+			</fileset>
+		</checkstyle>
+
+	</target>
+
+	<!-- doc -->
+
+	<target name="-doc" depends="@doc-clean, -doc-main-setup, -doc-ref-setup, @doc-rextile, @doc-cite, -doc-img, -doc-api" />
+	<target name="-doc-main" depends="@doc-clean, -doc-main-update" />
+	<target name="-doc-main-update" depends="-doc-main-setup, @doc-rextile, @doc-cite" />
+	<target name="-doc-main-accept" depends="@doc-cite-accept, -doc-main-update" />
+	<target name="-doc-api" depends="@doc-api" />
+	<target name="-doc-img" depends="@doc-img-make, @doc-img" />
+	<target name="-doc-main-setup" depends="@doc-main-copy, @doc-main-make" />
+	<target name="-doc-ref-setup" depends="@doc-ref-copy, @doc-ref-make" />
+
+	<target name="@doc-clean" depends="@init">
+		<delete dir="${temp.rextile.dir}" />
+		<delete dir="${temp.doc.dir}" />
+		<delete dir="${doc.dir}" />
+		<delete file="${temp.dir}/rextile.deps" />
+	</target>
+
+	<target name="@doc-img-make" depends="@init">
+		<mkdir dir="${temp.rextile.dir}/hacking" />
+		<exec dir="${scripts.dir}" executable="ruby" vmlauncher="false" failonerror="true">
+			<arg value="gen-dependency-graph.rb" />
+		</exec>
+	</target>
+
+	<target name="@doc-img" depends="@init">
+		<mkdir dir="${doc.dir}/contribute/hacking" />
+		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
+			<arg value="-Tpng" />
+			<arg value="-Gsize=6,6" />
+			<arg value="-odoc/doc/compile_and_use.png" />
+			<arg file="${src.doc.dir}/doc/compile_and_use.dot" />
+		</exec>
+		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
+			<arg value="-Tpng" />
+			<arg value="-Gsize=8,8" />
+			<arg value="-odoc/doc/compiler.png" />
+			<arg file="${src.doc.dir}/doc/compiler.dot" />
+		</exec>
+		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
+			<arg value="-Tpng" />
+			<arg value="-Gsize=6,6" />
+			<arg value="-odoc/doc/embedded.png" />
+			<arg file="${src.doc.dir}/doc/embedded.dot" />
+		</exec>
+		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
+			<arg value="-Tpng" />
+			<arg value="-odoc/contribute/hacking/dependency-graph.png" />
+			<arg file="${temp.rextile.dir}/contribute/hacking/dependency-graph.dot" />
+		</exec>
+	</target>
+
+	<target name="@doc-main-make" depends="@init">
+		<mkdir dir="${temp.rextile.dir}/hacking" />
+		<exec dir="${scripts.dir}" executable="ruby" vmlauncher="false" failonerror="true">
+			<arg value="gen-component-overview.rb" />
+		</exec>
+		<exec dir="${scripts.dir}" executable="ruby" vmlauncher="false" failonerror="true">
+			<arg value="gen-dependency-overview.rb" />
+		</exec>
+		<exec dir="${scripts.dir}" executable="ruby" vmlauncher="false" failonerror="true">
+			<arg value="gen-function-coverage.rb" />
+		</exec>
+	</target>
+
+	<target name="@doc-main-copy" depends="@init">
+		<mkdir dir="${temp.rextile.dir}" />
+		<copy todir="${temp.rextile.dir}" preservelastmodified="true" >
+			<fileset dir="${src.doc.dir}">
+				<include name="**/*" />
+				<exclude name="doc/reference/**/*" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="@doc-ref-make" depends="@init">
+		<mkdir dir="${temp.rextile.dir}/doc/reference" />
+		<copy todir="${temp.rextile.dir}/doc/reference">
+			<fileset dir="${comps.dir}/system/temp/test-reference/doc">
+				<include name="**/*.rextile" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="@doc-ref-copy" depends="@init">
+		<mkdir dir="${temp.rextile.dir}/doc/reference" />
+		<copy todir="${temp.rextile.dir}/doc/reference" preservelastmodified="true" >
+			<fileset dir="${src.doc.dir}/doc/reference">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="@doc-rextile" depends="@init">
+		<copy todir="${temp.doc.dir}">
+			<fileset dir="${temp.rextile.dir}">
+				<include name="**/*.gif" />
+				<include name="**/*.jpeg" />
+				<include name="**/*.jpg" />
+				<include name="**/*.png" />
+				<include name="**/*.pdf" />
+				<include name="**/*.svg" />
+				<include name="**/*.html" />
+				<include name="**/*.css" />
+				<include name="**/*.js" />
+			</fileset>
+			<fileset file="${basedir}\LICENSE.html" />
+		</copy>
+
+		<exec dir="${temp.rextile.dir}" executable="${rextile.launch}" vmlauncher="false" failonerror="true" />
+
+	</target>
+
+	<target name="@cite-init" depends="@init">
+		<path id="jcite.classpath">
+			
+			<!-- Ensure we use AFC's patched version of JExcelAPI to parse .xls files. -->
+			<fileset dir="${comps.dir}/spreadsheet.excel.xls/lib/impl" includes="jxl.jar" />
+			
+			<fileset dir="${jcite.build.dir}" includes="*.jar" />
+			<fileset dir="${jcite.lib.dir}" includes="*.jar" />
+		</path>
+		<property name="jcite.classpath" refid="jcite.classpath" />
+		<taskdef name="jcite" classname="ch.arrenbrecht.jcite.JCiteTask" classpathref="jcite.classpath" />
+	</target>
+
+	<target name="@doc-cite" depends="@cite-init, @doc-cite-no-accept">
+
+		<copy todir="${doc.dir}">
+			<fileset dir="${temp.rextile.dir}">
+				<include name="**/*.gif" />
+				<include name="**/*.jpeg" />
+				<include name="**/*.jpg" />
+				<include name="**/*.png" />
+				<include name="**/*.pdf" />
+				<include name="**/*.svg" />
+				<include name="**/*.html" />
+				<include name="**/*.css" />
+				<include name="**/*.js" />
+			</fileset>
+			<fileset file="${basedir}\LICENSE.html" />
+		</copy>
+
+		<path id="jcite.sourcepath">
+			<pathelement location="${comps.dir}/runtime/src/intf/java" />
+			<pathelement location="${comps.dir}/runtime/src/impl/java" />
+
+			<pathelement location="${comps.dir}/compiler/src/impl/java" />
+			<pathelement location="${comps.dir}/compiler/src/impl/java-debug" />
+			<pathelement location="${comps.dir}/compiler/src/build/java" />
+			<pathelement location="${comps.dir}/compiler/src/build/javacc" />
+			<pathelement location="${comps.dir}/compiler/src/build/resources" />
+
+			<pathelement location="${comps.dir}/spreadsheet/src/test/java" />
+			
+			<pathelement location="${comps.dir}/system/src/examples/java" />
+			<pathelement location="${comps.dir}/system/src/examples/data" />
+
+			<pathelement location="${comps.dir}/system/src/test/java" />
+			<pathelement location="${comps.dir}/system/src/test/data" />
+			<pathelement location="${comps.dir}/system/temp/test/data" />
+			<pathelement location="${comps.dir}/system/temp/test/decompiled" />
+
+			<pathelement location="${comps.dir}/system/src/test-reference/java" />
+			<pathelement location="${comps.dir}/system/src/test-reference/java-debug" />
+			<pathelement location="${comps.dir}/system/src/test-reference/data" />
+			<pathelement location="${comps.dir}/system/temp/test-reference/doc" />
+
+			<pathelement location="${comps.dir}/system/src/scratchpad/java" />
+			<pathelement location="${comps.dir}/system/src/scratchpad/data" />
+			<pathelement location="${comps.dir}" />
+			<pathelement location="${basedir}" />
+		</path>
+
+		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}"
+				projectpath="${basedir}"
+				sourcepathref="jcite.sourcepath" 
+				tripwireFile="${src.dir}/jcite-tripwires.txt"
+				tripwireNewLine="\n"
+				acceptChanges="${tripups.accept}" 
+				diffPath="${temp.dir}/tripups" 
+				differ="${jcite.differ}">
+			<include name="**/*.htm" />
+			<include name="**/*.html" />
+			<include name="**/*.xhtml" />
+			<exclude name="doc/reference/**/*" />
+		</jcite>
+
+		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}" sourcepathref="jcite.sourcepath">
+			<include name="doc/reference/**/*.htm*" />
+		</jcite>
+
+	</target>
+
+	<target name="@doc-cite-no-accept" unless="tripups.accept" />
+	<target name="@doc-cite-accept">
+		<property name="tripups.accept" value="true" />
+	</target>
+
+	<target name="@doc-api" depends="@cite-init">
+
+		<property name="javadoc.title" value="${BaseName} API (Version ${dist.version})" />
+		<delete dir="${javadoc.dir}" />
+		<mkdir dir="${javadoc.dir}" />
+
+		<path id="javadoc.src.path">
+			<pathelement location="${comps.dir}/runtime/src/intf/java" />
+			<pathelement location="${comps.dir}/compiler/src/intf/java" />
+			<pathelement location="${comps.dir}/decompiler/src/intf/java" />
+			<pathelement location="${comps.dir}/spreadsheet/src/intf/java" />
+		</path>
+		<property name="javadoc.src.path" refid="javadoc.src.path" />
+
+		<path id="javadoc.cite.path">
+			<pathelement location="${comps.dir}/spreadsheet/src/impl/java" />
+			<pathelement location="${comps.dir}/system/src/test/java" />
+			<pathelement location="${comps.dir}/system/src/test/data" />
+			<pathelement location="${comps.dir}/system/src/examples/java" />
+			<pathelement location="${comps.dir}/system/src/examples/data" />
+		</path>
+		<property name="javadoc.cite.path" refid="javadoc.cite.path" />
+
+		<javadoc destdir="${javadoc.dir}"
+				public="true" 
+				windowtitle="${javadoc.title}" 
+				use="true" 
+				sourcepath="${javadoc.src.path}" 
+				additionalParam="-notimestamp -tagletPath ${jcite.classpath} -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${javadoc.cite.path}" 
+				stylesheetfile="${src.doc.dir}/doc/javadoc/style.css" 
+				overview="${src.doc.dir}/doc/javadoc/overview.html">
+			<link href="http://java.sun.com/j2se/1.5/docs/api/" />
+		</javadoc>
+
+	</target>
+
+	<!-- pack -->
+
+	<target name="@pack" depends="@init">
+		<echo>Bundling dist: ${dist.version}</echo>
+		<mkdir dir="${dist.dir}" />
+		<property name="dist.name" value="${basename}-${dist.version}" />
+		<property name="dist.file" value="${dist.dir}/${dist.name}" />
+
+		<property name="dist.tmp.dir" value="${temp.dir}/dist" />
+		<property name="dist.staging.dir" value="${dist.tmp.dir}/${dist.name}" />
+
+		<!-- binary -->
+		<delete dir="${dist.tmp.dir}" />
+		<mkdir dir="${dist.staging.dir}" />
+		<copy todir="${dist.staging.dir}">
+			<fileset dir="${basedir}">
+				<include name="*.html" />
+				<include name="*.css" />
+				<include name="build/**" />
+				<exclude name="build/IDE/**" />
+				<exclude name="build/IDE" />
+				<include name="doc/**" />
+				<exclude name="**/.DS@Store" />
+				<exclude name="**/.svn" />
+			</fileset>
+		</copy>
+		<!-- tar basedir="${dist.tmp.dir}" destfile="${dist.file}-bin.tar.gz" compression="gzip" longfile="gnu" / -->
+		<zip basedir="${dist.tmp.dir}" destfile="${dist.file}-bin.zip" filesonly="no" />
+
+		<!-- source -->
+		<delete dir="${dist.tmp.dir}" />
+		<mkdir dir="${dist.staging.dir}" />
+		<copy todir="${dist.staging.dir}">
+			<fileset dir="${basedir}">
+				<include name="*.html" />
+				<include name="*.css" />
+
+				<include name="**/build.xml" />
+				<include name="**/build.default.properties" />
+				<include name="**/.project" />
+				<include name="**/.classpath" />
+				<include name="**/.settings/**" />
+				<include name="**/*.iml" />
+				<include name="**/*.ipr" />
+
+				<include name="lib/**" />
+				<include name="src/**" />
+
+				<include name="components/*" />
+				<include name="components/*/src/**" />
+				<include name="components/*/lib/**" />
+
+				<exclude name="**/.DS@Store" />
+				<exclude name="**/.svn" />
+				<exclude name=".hg/**" />
+			</fileset>
+		</copy>
+		<!-- tar basedir="${dist.tmp.dir}" destfile="${dist.file}-src.tar.gz" compression="gzip" longfile="gnu" / -->
+		<zip basedir="${dist.tmp.dir}" destfile="${dist.file}-src.zip" filesonly="no" />
+
+		<!-- zipped source -->
+		<delete dir="${dist.tmp.dir}" />
+		<mkdir dir="${dist.staging.dir}" />
+		<copy todir="${dist.staging.dir}">
+			<fileset dir="${basedir}">
+				<include name="build/IDE/**" />
+				<exclude name="**/.DS@Store" />
+				<exclude name="**/.svn" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.staging.dir}" overwrite="yes">
+			<fileset dir="${basedir}" includes="LICENSE.html" />
+		</copy>
+		<!-- tar basedir="${dist.tmp.dir}" destfile="${dist.file}-srcjar.tar.gz" compression="gzip" longfile="gnu" / -->
+		<zip basedir="${dist.tmp.dir}" destfile="${dist.file}-IDE-src.zip" filesonly="no" />
+
+		<delete dir="${dist.tmp.dir}" />
+	</target>
+
+	<target name="@pack-tools" depends="@init">
+		<echo>Bundling tools: ${tools.version}</echo>
+		<mkdir dir="${dist.dir}" />
+		<property name="tools.name" value="${basename}-${tools.version}-tools.zip" />
+		<property name="tools.file" value="${dist.dir}/${tools.name}" />
+		<delete file="${tools.file}" />
+		<zip basedir="${tools.dir}" destfile="${tools.file}" filesonly="no" />
+	</target>
+
+	<!-- clean -->
+
+	<target name="-clobber" depends="-clean, @clobber" />
+	<target name="-clean" depends="@clean" />
+
+	<target name="@clean">
+		<delete dir="${temp.dir}" />
+		<antcall target="--comps-do">
+			<param name="target" value="clean" />
+		</antcall>
+	</target>
+
+	<target name="@clobber">
+		<delete dir="${doc.dir}" />
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+		<antcall target="--comps-do">
+			<param name="target" value="clobber" />
+		</antcall>
+	</target>
+
+	<!-- cover -->
+
+	<assertions id="test.assertions" enablesystemassertions="no">
+		<enable/>
+	</assertions>
+	
+	<target name="-cover" depends="-cover-cobertura" />
+	<target name="-cover-cobertura" depends="-build, @cover-cobertura" />
+	<target name="-cover-emma" depends="-build, @cover-emma" />
+
+	<target name="@cover-cobertura" depends="@init">
+
+		<path id="cobertura.classpath">
+			<pathelement path="${cobertura.jar}" />
+			<fileset dir="${cobertura.lib.dir}" includes="*.jar" />
+		</path>
+		<taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
+
+		<property name="temp.instr.dir" value="${temp.dir}/classes/instrumented" />
+		<property name="temp.cover.dir" value="${temp.dir}/coverage" />
+		<property name="cober.file" value="${temp.dir}/cobertura.ser" />
+
+		<delete dir="${cober.file}" />
+		<delete dir="${temp.instr.dir}" />
+		<delete dir="${temp.cover.dir}" />
+
+		<mkdir dir="${temp.instr.dir}" />
+		<mkdir dir="${temp.cover.dir}" />
+
+		<cobertura-instrument todir="${temp.instr.dir}" datafile="${cober.file}">
+			<fileset dir="${temp.classes.dir}">
+				<include name="**/*.class" />
+			</fileset>
+		</cobertura-instrument>
+
+		<delete dir="${temp.testresults.dir}" />
+		<mkdir dir="${temp.testresults.dir}" />
+
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+
+			<assertions refid="test.assertions" />
+
+			<formatter type="plain" usefile="yes" />
+
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cober.file}" />
+
+			<classpath>
+				<path refid="lib.classpath" />
+				<path refid="cobertura.classpath" />
+				<pathelement path="${temp.instr.dir}" />
+				<pathelement path="${temp.classes.dir}" />
+				<pathelement path="${temp.test-unit.dir}" />
+				<pathelement path="${temp.test-system.dir}" />
+			</classpath>
+
+			<sysproperty key="sej.tutorials.Caching.testSpeed.disabled" value="true" />
+
+			<batchtest todir="${temp.testresults.dir}">
+				<fileset dir="${temp.test-unit.dir}">
+					<include name="**/*Test.class" />
+					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
+				</fileset>
+				<fileset dir="${temp.test-system.dir}">
+					<include name="**/*Test*.class" />
+					<include name="sej/tutorials/*.class" />
+					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
+					<exclude name="**/*DeserializationTest.class" />
+				</fileset>
+				<fileset dir="${temp.test-system.dir}">
+					<include name="**/*DeserializationTest.class" />
+					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+
+		<cobertura-report destdir="${temp.cover.dir}" datafile="${cober.file}">
+			<fileset dir="${src.classes.dir}">
+				<include name="**/*.java" />
+			</fileset>
+		</cobertura-report>
+
+	</target>
+
+	<target name="@cover-emma" depends="@init">
+
+		<path id="emma.classpath">
+			<fileset dir="${emma.lib.dir}" includes="*.jar" />
+		</path>
+		<taskdef classpathref="emma.classpath" resource="emma@ant.properties" />
+
+		<property name="temp.instr.dir" value="${temp.dir}/instrumented" />
+		<property name="temp.cover.dir" value="${temp.dir}/coverage" />
+		<property name="emma.meta.file" value="${temp.dir}/metadata.emma" />
+		<property name="emma.run.file" value="${temp.dir}/rundata.emma" />
+
+		<delete dir="${temp.instr.dir}" />
+		<delete dir="${temp.cover.dir}" />
+		<delete dir="${emma.meta.file}" />
+		<delete dir="${emma.run.file}" />
+
+		<mkdir dir="${temp.instr.dir}" />
+		<mkdir dir="${temp.cover.dir}" />
+
+		<emma>
+			<instr destdir="${temp.instr.dir}" metadatafile="${emma.meta.file}" merge="true" instrpath="${temp.classes.dir}">
+			</instr>
+		</emma>
+
+		<delete dir="${temp.testresults.dir}" />
+		<mkdir dir="${temp.testresults.dir}" />
+
+		<junit printsummary="no" showoutput="no" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+
+			<assertions refid="test.assertions" />
+
+			<formatter type="plain" usefile="yes" />
+
+			<classpath>
+				<path refid="lib.classpath" />
+				<path refid="emma.classpath" />
+				<pathelement path="${temp.instr.dir}" />
+				<pathelement path="${temp.classes.dir}" />
+				<pathelement path="${temp.test-unit.dir}" />
+				<pathelement path="${temp.test-system.dir}" />
+			</classpath>
+
+			<sysproperty key="sej.tutorials.Caching.testSpeed.disabled" value="true" />
+
+			<batchtest todir="${temp.testresults.dir}">
+				<fileset dir="${temp.test-unit.dir}">
+					<include name="**/*Test.class" />
+					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
+				</fileset>
+				<fileset dir="${temp.test-system.dir}">
+					<include name="**/*Test*.class" />
+					<include name="sej/tutorials/*.class" />
+					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
+					<exclude name="**/*DeserializationTest.class" />
+				</fileset>
+				<fileset dir="${temp.test-system.dir}">
+					<include name="**/*DeserializationTest.class" />
+					<exclude name="**/Abstract*" />
+					<exclude name="**/*$*" />
+				</fileset>
+			</batchtest>
+
+			<jvmarg value="-Demma.coverage.out.file=${emma.run.file}" />
+			<jvmarg value="-Demma.coverage.out.merge=false" />
+		</junit>
+
+		<emma>
+			<report sourcepath="${src.classes.dir}">
+				<fileset file="${emma.meta.file}" />
+				<fileset file="${emma.run.file}" />
+				<html outfile="${temp.cover.dir}/coverage.html" />
+			</report>
+		</emma>
+
+
+	</target>
+
+	<!-- init -->
+
+	<target name="@init">
+		<echo>Running on JRE ${java.runtime.version} by ${java.vendor}; ANT detected ${ant.java.version}.</echo>
+	</target>
+
+	<target name="@hgrev" depends="@init">
+		<exec executable="hg" dir="${basedir}" outputproperty="hgrev">
+			<arg value="id" />
+			<arg value="-i" />
+		</exec>
+	</target>
+
+
+</project>

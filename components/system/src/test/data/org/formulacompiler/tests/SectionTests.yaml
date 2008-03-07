@@ -1,0 +1,602 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "Repeating Section Test Cases for SEJ"
+    - const: "Look at the formulas in this column to see what SEJ supports!"
+  - cells:
+    - null
+    - const: "Use \"Tools > Formula Auditing > Formula Auditing Mode\" to show them all at once."
+  - cells:
+  - cells:
+    - const: "Name"
+    - const: "Actual"
+    - const: "Range"
+    - const: "Section"
+  - cells:
+  - cells:
+    - const: "Grow horizontally"
+    - expr: =SUM( H_ONE )
+    - const: "H_ONE"
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: 3.0
+    - const: 6.0
+  - cells:
+  - cells:
+    - const: "Grow vertically"
+    - expr: =SUM( R[1]C[2]:R[3]C[2] )
+    - const: "V_ONE"
+  - cells:
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: 1.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: 3.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: 6.0
+  - cells:
+  - cells:
+    - const: "Two high, growing horizontally"
+    - expr: =SUM( RC[2]:R[1]C[4] )
+    - const: "H_TWO"
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 5.0
+    - const: 12.0
+    - const: 21.0
+  - cells:
+  - cells:
+    - const: "Two wide, growing vertically"
+    - expr: =SUM( R[1]C[2]:R[3]C[3] )
+    - const: "V_TWO"
+  - cells:
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: 4.0
+    - const: 10.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 5.0
+    - const: 6.0
+    - const: 21.0
+  - cells:
+  - cells:
+    - const: "Three high, SUM"
+    - expr: =SUM( RC[2]:R[2]C[4] )
+    - const: "H_THREE"
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 7.0
+    - const: 8.0
+    - const: 9.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 12.0
+    - const: 27.0
+    - const: 45.0
+  - cells:
+  - cells:
+    - const: "Three high, PRODUCT"
+    - expr: =PRODUCT( RC[2]:R[2]C[4] )
+    - const: "H_THREE_PROD"
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 7.0
+    - const: 8.0
+    - const: 9.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 28.0
+    - const: 2240.0
+    - const: 362880.0
+  - cells:
+  - cells:
+    - const: "Three high, COUNT"
+    - expr: =COUNT( RC[2]:R[2]C[4] )
+    - const: "H_THREE_COUNT"
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 7.0
+    - const: 8.0
+    - const: 9.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: 6.0
+    - const: 9.0
+  - cells:
+  - cells:
+    - const: "Derived column"
+    - expr: =SUM( R[1]C[2]:R[1]C[4] )
+    - const: "H_DERIVED"
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+  - cells:
+    - null
+    - null
+    - null
+    - expr: =(R[-1]C * 2.0)
+    - expr: =(R[-1]C * 2.0)
+    - expr: =(R[-1]C * 2.0)
+  - cells:
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: 6.0
+    - const: 12.0
+  - cells:
+  - cells:
+    - const: "Derived column with outer ref"
+    - expr: =SUM( R[1]C[2]:R[1]C[4] )
+    - const: "H_OUTER"
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+  - cells:
+    - null
+    - null
+    - null
+    - expr: =(R[-1]C * RC[4])
+    - expr: =(R[-1]C * RC[3])
+    - expr: =(R[-1]C * RC[2])
+    - null
+    - const: 3.0
+      names: [ H_OUTER_R ]
+  - cells:
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: 9.0
+    - const: 18.0
+  - cells:
+  - cells:
+    - const: "Derived column with constant outer ref"
+    - expr: =SUM( R[1]C[2]:R[1]C[4] )
+    - const: "H_OUTER_CST"
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+  - cells:
+    - null
+    - null
+    - null
+    - expr: =(R[-1]C * RC[4])
+    - expr: =(R[-1]C * RC[3])
+    - expr: =(R[-1]C * RC[2])
+    - null
+    - const: 3.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: 9.0
+    - const: 18.0
+  - cells:
+  - cells:
+    - const: "Mixed sum"
+    - expr: =SUM( RC[2]:RC[4], RC[6]:RC[7] )
+    - const: "H_MIXED"
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - const: 4.0
+    - const: 5.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 10.0
+    - const: 12.0
+    - const: 15.0
+  - cells:
+  - cells:
+    - const: "Two separate sums"
+    - expr: =(SUM( RC[2]:RC[4] ) + SUM( R[1]C[2]:R[1]C[4] ))
+    - const: "H_SEPARATE"
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: 5.0
+    - const: 6.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 5.0
+    - const: 12.0
+    - const: 21.0
+  - cells:
+  - cells:
+    - const: "Sum overlapping both section bounds"
+    - expr: =SUM( RC[2]:R[4]C[3] )
+    - const: "V_SUM_OVERLAP_BOTH"
+    - const: 1.0
+    - const: 6.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: 7.0
+    - const: 44.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: 8.0
+    - const: 55.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: 9.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 5.0
+    - const: 10.0
+  - cells:
+  - cells:
+    - const: "Sum overlapping left section bound"
+    - expr: =SUM( RC[2]:R[4]C[3] )
+    - const: "V_SUM_OVERLAP_LEFT"
+    - const: 1.0
+    - const: 6.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: 7.0
+    - const: 16.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: 8.0
+    - const: 27.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: 9.0
+    - const: 40.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 5.0
+    - const: 10.0
+    - const: 55.0
+  - cells:
+  - cells:
+    - const: "Sum overlapping right section bound"
+    - expr: =SUM( RC[2]:R[4]C[3] )
+    - const: "V_SUM_OVERLAP_RIGHT"
+    - const: 1.0
+    - const: 6.0
+    - const: 35.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: 7.0
+    - const: 44.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: 8.0
+    - const: 55.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: 9.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 5.0
+    - const: 10.0
+  - cells:
+  - cells:
+    - const: "DSUM with repeating data"
+    - expr: =DSUM( RC[2]:R[5]C[4], "Yield", R[7]C[2]:R[8]C[3] )
+    - const: "V_DSUM"
+    - const: "Kind"
+    - const: "Age"
+    - const: "Yield"
+    - const: "Expected"
+  - cells:
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: 12.0
+    - const: 28.0
+    - const: 28.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: 8.0
+    - const: 16.0
+    - const: 28.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: 9.0
+    - const: 28.0
+    - const: 28.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: 10.0
+    - const: 30.0
+    - const: 28.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: 10.0
+    - const: 22.0
+    - const: 50.0
+  - cells:
+  - cells:
+    - null
+    - null
+    - null
+    - const: "Kind"
+    - const: "Age"
+  - cells:
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: ">8"
+  - cells:
+  - cells:
+    - const: "DSUM with partial repeating data"
+    - expr: =DSUM( RC[2]:R[5]C[4], "Yield", R[7]C[2]:R[8]C[3] )
+    - const: "V_DSUM_PART"
+    - const: "Kind"
+    - const: "Age"
+    - const: "Yield"
+    - const: "Expected"
+  - cells:
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: 12.0
+    - const: 28.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: 8.0
+    - const: 16.0
+    - const: 38.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: 9.0
+    - const: 28.0
+    - const: 38.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: 9.0
+    - const: 30.0
+    - const: 68.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: 5.0
+    - const: 22.0
+  - cells:
+  - cells:
+    - null
+    - null
+    - null
+    - const: "Kind"
+    - const: "Age"
+  - cells:
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "<=9"
+
+names:
+- name: DSUM_Example
+  ref: R85C4:R90C6
+- name: H_DERIVED
+  ref: R38C4:R39C6
+- name: H_DERIVED_E
+  ref: R40C4:R40C6
+- name: H_MIXED
+  ref: R50C4:R50C6
+- name: H_MIXED_E
+  ref: R51C4:R51C6
+- name: H_MIXED_R
+  ref: R50C8:R50C9
+- name: H_ONE
+  ref: R6C4:R6C6
+- name: H_ONE_E
+  ref: R7C4:R7C6
+- name: H_OUTER
+  ref: R42C4:R43C6
+- name: H_OUTER_CST
+  ref: R46C4:R47C6
+- name: H_OUTER_CST_E
+  ref: R48C4:R48C6
+- name: H_OUTER_E
+  ref: R44C4:R44C6
+- name: H_SEPARATE
+  ref: R53C4:R54C6
+- name: H_SEPARATE_E
+  ref: R55C4:R55C6
+- name: H_THREE
+  ref: R23C4:R25C6
+- name: H_THREE_COUNT
+  ref: R33C4:R35C6
+- name: H_THREE_COUNT_E
+  ref: R36C4:R36C6
+- name: H_THREE_E
+  ref: R26C4:R26C6
+- name: H_THREE_PROD
+  ref: R28C4:R30C6
+- name: H_THREE_PROD_E
+  ref: R31C4:R31C6
+- name: H_TWO
+  ref: R14C4:R15C6
+- name: H_TWO_E
+  ref: R16C4:R16C6
+- name: V_DSUM
+  ref: R76C4:R80C6
+- name: V_DSUM_E
+  ref: R76C7:R80C7
+- name: V_DSUM_PART
+  ref: R87C4:R89C6
+- name: V_DSUM_PART_E
+  ref: R87C7:R89C7
+- name: V_ONE
+  ref: R10C4:R12C4
+- name: V_ONE_E
+  ref: R10C5:R12C5
+- name: V_SUM_OVERLAP_BOTH
+  ref: R58C4:R59C5
+- name: V_SUM_OVERLAP_BOTH_E
+  ref: R58C6:R59C6
+- name: V_SUM_OVERLAP_LEFT
+  ref: R64C4:R67C5
+- name: V_SUM_OVERLAP_LEFT_E
+  ref: R64C6:R67C6
+- name: V_SUM_OVERLAP_RIGHT
+  ref: R69C4:R71C5
+- name: V_SUM_OVERLAP_RIGHT_E
+  ref: R69C6:R71C6
+- name: V_TWO
+  ref: R19C4:R21C5
+- name: V_TWO_E
+  ref: R19C6:R21C6

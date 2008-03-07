@@ -1,0 +1,114 @@
+/*
+ * Copyright (c) 2006, 2008 by Abacus Research AG, Switzerland.
+ * All rights reserved.
+ *
+ * This file is part of the Abacus Formula Compiler (AFC).
+ *
+ * For commercial licensing, please contact sales(at)formulacompiler.com.
+ *
+ * AFC is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * AFC is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package org.formulacompiler.examples;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import org.formulacompiler.compiler.SaveableEngine;
+import org.formulacompiler.decompiler.ByteCodeEngineSource;
+import org.formulacompiler.decompiler.FormulaDecompiler;
+import org.formulacompiler.runtime.Engine;
+import org.formulacompiler.runtime.FormulaRuntime;
+import org.formulacompiler.spreadsheet.EngineBuilder;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+
+import junit.framework.TestCase;
+
+public class EngineSerializationDemo extends TestCase
+{
+
+	private void compileAndSave() throws Exception
+	{
+		// ---- Serialization
+		// Build an engine for the given spreadsheet, inputs, and outputs.
+		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
+		builder.loadSpreadsheet( DATA_PATH + "test.xls" );
+		builder.setFactoryClass( OutputFactory.class );
+		builder.bindAllByName();
+		SaveableEngine compiledEngine = builder.compile();
+
+		// Write the engine out to its serialized form, then drop the reference to it.
+		File engineSerializationFile = new File( TEMP_ENGINE_JAR );
+		OutputStream outStream = new BufferedOutputStream( new FileOutputStream( engineSerializationFile ) );
+		try {
+			compiledEngine.saveTo( outStream );
+		}
+		finally {
+			outStream.close();
+		}
+		// ---- Serialization
+	}
+
+	private double loadAndCompute() throws Exception
+	{
+		// ---- Deserialization
+		// Instantiate an engine from the serialized form.
+		File engineSerializationFile = new File( TEMP_ENGINE_JAR );
+		InputStream inStream = new BufferedInputStream( new FileInputStream( engineSerializationFile ) );
+		Engine loadedEngine = FormulaRuntime.loadEngine( inStream );
+		OutputFactory factory = (OutputFactory) loadedEngine.getComputationFactory();
+
+		// Compute an actual output value for a given set of actual input values.
+		Inputs inputs = new Inputs( 4, 40 );
+		Outputs outputs = factory.newInstance( inputs );
+		double result = outputs.getResult();
+
+		return result;
+		// ---- Deserialization
+	}
+
+
+	private static final String DATA_PATH = "src/test/data/org/formulacompiler/examples/";
+	private static final String TEMP_ENGINE_JAR = "temp/Engine.jar";
+
+	public static void main( String[] args ) throws Exception
+	{
+		EngineSerializationDemo demo = new EngineSerializationDemo();
+		demo.compileAndSave();
+		System.out.printf( "Result is: %f", demo.loadAndCompute() );
+	}
+
+	public void testComputation() throws Exception
+	{
+		compileAndSave();
+		assertEquals( 160.0, loadAndCompute(), 0.0001 );
+		decompile();
+	}
+
+
+	private void decompile() throws Exception
+	{
+		File engineSerializationFile = new File( TEMP_ENGINE_JAR );
+		InputStream inStream = new BufferedInputStream( new FileInputStream( engineSerializationFile ) );
+		Engine loadedEngine = FormulaRuntime.loadEngine( inStream );
+		ByteCodeEngineSource source = FormulaDecompiler.decompile( loadedEngine );
+		source.saveTo( new File( "temp/test/decompiled/basicusage" ) );
+	}
+
+}
