@@ -20,7 +20,7 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.spreadsheet.internal.loader.odf;
+package org.formulacompiler.spreadsheet.internal.odf.loader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,8 +38,8 @@ import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 import org.formulacompiler.spreadsheet.internal.loader.SpreadsheetLoaderDispatcher;
-import org.formulacompiler.spreadsheet.internal.loader.odf.parser.SpreadsheetParser;
-import org.formulacompiler.spreadsheet.internal.loader.odf.parser.XMLConstants;
+import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
+import org.formulacompiler.spreadsheet.internal.odf.loader.parser.SpreadsheetParser;
 
 /**
  * @author Vladimir Korenev

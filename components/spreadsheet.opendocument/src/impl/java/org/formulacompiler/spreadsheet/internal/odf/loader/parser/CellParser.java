@@ -20,7 +20,7 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.spreadsheet.internal.loader.odf.parser;
+package org.formulacompiler.spreadsheet.internal.odf.loader.parser;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -47,6 +47,8 @@ import org.formulacompiler.spreadsheet.internal.CellRefFormat;
 import org.formulacompiler.spreadsheet.internal.CellWithConstant;
 import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
+import org.formulacompiler.spreadsheet.internal.odf.ValueTypes;
+import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
 import org.formulacompiler.spreadsheet.internal.parser.LazySpreadsheetExpressionParser;
 
 /**

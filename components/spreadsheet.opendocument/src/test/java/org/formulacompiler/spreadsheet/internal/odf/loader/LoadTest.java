@@ -20,7 +20,7 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.spreadsheet.internal.loader.odf;
+package org.formulacompiler.spreadsheet.internal.odf.loader;
 
 import org.formulacompiler.compiler.internal.LocalExcelDate;
 import org.formulacompiler.spreadsheet.Spreadsheet;

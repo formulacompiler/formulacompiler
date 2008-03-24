@@ -20,7 +20,7 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.spreadsheet.internal.loader.odf.parser;
+package org.formulacompiler.spreadsheet.internal.odf.loader.parser;
 
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
@@ -29,6 +29,7 @@ import org.formulacompiler.compiler.internal.expressions.parser.ExpressionParser
 import org.formulacompiler.compiler.internal.expressions.parser.GeneratedExpressionParserConstants;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
+import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
 import org.formulacompiler.spreadsheet.internal.parser.SpreadsheetExpressionParserA1ODF;
 
 /**
