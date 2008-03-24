@@ -22,20 +22,10 @@
 
 package org.formulacompiler.spreadsheet.internal.odf.loader.parser;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
-import java.util.Locale;
-import java.util.TimeZone;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.Duration;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.EndElement;
@@ -49,6 +39,7 @@ import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.odf.ValueTypes;
 import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
+import org.formulacompiler.spreadsheet.internal.odf.xml.DataTypeUtil;
 import org.formulacompiler.spreadsheet.internal.parser.LazySpreadsheetExpressionParser;
 
 /**
@@ -58,7 +49,6 @@ class CellParser extends ElementParser
 {
 	private final RowImpl row;
 	private TableCell tableCell;
-	private static final TimeZone GMT_TIME_ZONE = TimeZone.getTimeZone( "GMT" );
 
 	public CellParser( RowImpl _row )
 	{
@@ -216,27 +206,15 @@ class CellParser extends ElementParser
 					new CellWithConstant( this.row, booleanValue );
 				}
 				else if (ValueTypes.DATE.equals( valueType )) {
-					try {
-						final Date date = parseDate( this.tableCell.dateValue, GMT_TIME_ZONE );
-						final double dateNum = RuntimeDouble_v2.dateToNum( date, GMT_TIME_ZONE );
-						final LocalExcelDate localExcelDate = new LocalExcelDate( dateNum );
-						new CellWithConstant( this.row, localExcelDate );
-					}
-					catch (ParseException e) {
-						throw new RuntimeException( e );
-					}
+					final Date date = DataTypeUtil.dateFromXmlFormat( this.tableCell.dateValue, DataTypeUtil.GMT_TIME_ZONE );
+					final double dateNum = RuntimeDouble_v2.dateToNum( date, DataTypeUtil.GMT_TIME_ZONE );
+					final LocalExcelDate localExcelDate = new LocalExcelDate( dateNum );
+					new CellWithConstant( this.row, localExcelDate );
 				}
 				else if (ValueTypes.TIME.equals( valueType )) {
-					try {
-						final Duration duration = DatatypeFactory.newInstance().newDuration( this.tableCell.timeValue );
-						final Calendar calendar = new GregorianCalendar( GMT_TIME_ZONE );
-						final long durationInMillis = duration.getTimeInMillis( calendar );
-						final LocalExcelDate localExcelDate = new LocalExcelDate( RuntimeDouble_v2.msToNum( durationInMillis ) );
-						new CellWithConstant( this.row, localExcelDate );
-					}
-					catch (DatatypeConfigurationException e) {
-						throw new RuntimeException( e );
-					}
+					final long durationInMillis = DataTypeUtil.durationFromXmlFormat( this.tableCell.timeValue );
+					final LocalExcelDate localExcelDate = new LocalExcelDate( RuntimeDouble_v2.msToNum( durationInMillis ) );
+					new CellWithConstant( this.row, localExcelDate );
 				}
 				else {
 					final String stringValue;
@@ -268,21 +246,6 @@ class CellParser extends ElementParser
 				}
 			}
 		}
-	}
-
-	private Date parseDate( final String _dateStr, final TimeZone _timeZone ) throws ParseException
-	{
-		final String dateTimePattern;
-		if (_dateStr.indexOf( 'T' ) > -1) {
-			dateTimePattern = "yyyy-MM-dd'T'HH:mm:ss";
-		}
-		else {
-			dateTimePattern = "yyyy-MM-dd";
-		}
-		final DateFormat dateFormat = new SimpleDateFormat( dateTimePattern, Locale.ENGLISH );
-		dateFormat.setTimeZone( _timeZone );
-		final Date date = dateFormat.parse( _dateStr );
-		return date;
 	}
 
 	private class TableCell
