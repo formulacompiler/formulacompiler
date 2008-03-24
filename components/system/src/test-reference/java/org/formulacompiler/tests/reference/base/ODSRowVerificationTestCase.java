@@ -27,7 +27,7 @@ import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilde
 import java.util.List;
 
 import org.formulacompiler.compiler.Function;
-import org.formulacompiler.compiler.internal.LocalExcelDate;
+import org.formulacompiler.compiler.internal.LocalDate;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
 import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
@@ -61,11 +61,11 @@ final class ODSRowVerificationTestCase extends AbstractVariantRowVerificationTes
 			}
 			return areDoublesEqual( (Double) _want, (Double) _have );
 		}
-		else if (_want instanceof LocalExcelDate) {
-			if (!(_have instanceof LocalExcelDate)) {
+		else if (_want instanceof LocalDate) {
+			if (!(_have instanceof LocalDate)) {
 				return false;
 			}
-			return areDoublesEqual( ((LocalExcelDate) _want).doubleValue(), ((LocalExcelDate) _have).doubleValue() );
+			return areDoublesEqual( ((LocalDate) _want).doubleValue(), ((LocalDate) _have).doubleValue() );
 		}
 		return false;
 	}

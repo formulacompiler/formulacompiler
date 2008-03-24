@@ -28,7 +28,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.formulacompiler.compiler.internal.LocalExcelDate;
+import org.formulacompiler.compiler.internal.LocalDate;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
@@ -217,7 +217,7 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 				value = RuntimeDouble_v2.dateFromNum( xlsDateCell.getValue(), this.globalTimeZone );
 			}
 			else {
-				value = new LocalExcelDate( xlsDateCell.getValue() );
+				value = new LocalDate( xlsDateCell.getValue() );
 			}
 			new CellWithConstant( _row, value );
 		}

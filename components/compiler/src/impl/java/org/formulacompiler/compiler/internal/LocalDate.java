@@ -27,17 +27,17 @@ import java.util.TimeZone;
 
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 
-public final class LocalExcelDate extends Number
+public final class LocalDate extends Number
 {
 	private final double value;
 
-	public LocalExcelDate( double _value )
+	public LocalDate( double _value )
 	{
 		super();
 		this.value = _value;
 	}
 
-	public LocalExcelDate( Date _date, TimeZone _timeZone )
+	public LocalDate( Date _date, TimeZone _timeZone )
 	{
 		this( RuntimeDouble_v2.dateToNum( _date, _timeZone ) );
 	}
@@ -81,8 +81,8 @@ public final class LocalExcelDate extends Number
 	@Override
 	public boolean equals( final Object obj )
 	{
-		return (obj instanceof LocalExcelDate)
-				&& (Double.doubleToLongBits( ((LocalExcelDate) obj).value ) == Double.doubleToLongBits( this.value ));
+		return (obj instanceof LocalDate)
+				&& (Double.doubleToLongBits( ((LocalDate) obj).value ) == Double.doubleToLongBits( this.value ));
 	}
 
 	/**
