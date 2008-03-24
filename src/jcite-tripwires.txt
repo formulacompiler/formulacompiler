@@ -7989,8 +7989,8 @@ __@@__
 			<td class="xl-num xl-r4">11<br/><span class="xl-exp">=F3+C3</span></td>
 			<td class="xl-num xl-r1">2<br/><span class="xl-exp">=C3+1.0</span></td>
 			<td class="xl-num xl-r1">62<br/><span class="xl-exp">=SUM(F3:G4)</span></td>
-			<td class="xl-num xl-r1">7<br/><span class="xl-exp">=SUM(C3:C6)+C3</span></td>
-			<td class="xl-num xl-r1">241<br/><span class="xl-exp">=SUM(F2:F11)+C3</span></td>
+			<td class="xl-num xl-r1">7<br/><span class="xl-exp">=SUM(C$3:C$6)+C3</span></td>
+			<td class="xl-num xl-r1">241<br/><span class="xl-exp">=SUM(F$2:F$11)+C3</span></td>
 			<td class="xl-num xl-r1">3</td>
 			<td class="xl-num">4711</td>
 		</tr>
@@ -8021,8 +8021,8 @@ __@@__
 			<td class="xl-num xl-r1">32<br/><span class="xl-exp">=F5+C5</span></td>
 			<td class="xl-num xl-r1">3<br/><span class="xl-exp">=C5+1.0</span></td>
 			<td class="xl-num xl-r1">62<br/><span class="xl-exp">=SUM(F5:G5)</span></td>
-			<td class="xl-num xl-r1">8<br/><span class="xl-exp">=SUM(C3:C6)+C5</span></td>
-			<td class="xl-num xl-r1">242<br/><span class="xl-exp">=SUM(F2:F11)+C5</span></td>
+			<td class="xl-num xl-r1">8<br/><span class="xl-exp">=SUM(C$3:C$6)+C5</span></td>
+			<td class="xl-num xl-r1">242<br/><span class="xl-exp">=SUM(F$2:F$11)+C5</span></td>
 			<td class="xl-num xl-r1">2</td>
 			<td class="xl-num">4713</td>
 		</tr>
@@ -8037,8 +8037,8 @@ __@@__
 			<td class="xl-num xl-r1">43<br/><span class="xl-exp">=F6+C6</span></td>
 			<td class="xl-num xl-r1">4<br/><span class="xl-exp">=C6+1.0</span></td>
 			<td class="xl-num xl-r1">83<br/><span class="xl-exp">=SUM(F6:G6)</span></td>
-			<td class="xl-num xl-r1">9<br/><span class="xl-exp">=SUM(C3:C6)+C6</span></td>
-			<td class="xl-num xl-r1">243<br/><span class="xl-exp">=SUM(F2:F11)+C6</span></td>
+			<td class="xl-num xl-r1">9<br/><span class="xl-exp">=SUM(C$3:C$6)+C6</span></td>
+			<td class="xl-num xl-r1">243<br/><span class="xl-exp">=SUM(F$2:F$11)+C6</span></td>
 			<td class="xl-num xl-r1">1</td>
 			<td class="xl-num">4714</td>
 		</tr>

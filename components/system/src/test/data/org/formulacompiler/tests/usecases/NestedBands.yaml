@@ -28,10 +28,10 @@ sheets:
     - expr: =(RC[-2] * RC[-1])
     - const: 0.076
     - const: 0.8
-    - expr: =((RC[-3] * RC[-1]) * RC[-2])
+    - expr: =((RC5 * RC[-1]) * RC[-2])
     - const: 0.02
     - const: 0.2
-    - expr: =((RC[-6] * RC[-1]) * RC[-2])
+    - expr: =((RC5 * RC[-1]) * RC[-2])
     - expr: =(RC[-7] + SUM( RC[-4], RC[-1] ))
   - cells:
     - null
@@ -41,10 +41,10 @@ sheets:
     - expr: =(RC[-2] * RC[-1])
     - const: 0.076
     - const: 1.0
-    - expr: =((RC[-3] * RC[-1]) * RC[-2])
+    - expr: =((RC5 * RC[-1]) * RC[-2])
     - null
     - null
-    - expr: =((RC[-6] * RC[-1]) * RC[-2])
+    - expr: =((RC5 * RC[-1]) * RC[-2])
     - expr: =(RC[-7] + SUM( RC[-4], RC[-1] ))
   - cells:
   - cells:

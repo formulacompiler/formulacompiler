@@ -533,7 +533,7 @@ sheets:
   - cells:
   - cells:
     - const: 11.0
-    - expr: =INDEX( RC[4]:R[1]C[5], RC[1], RC[2] )
+    - expr: =INDEX( R52C[4]:R53C[5], RC[1], RC[2] )
     - const: 1.0
     - const: 1.0
     - null
@@ -544,7 +544,7 @@ sheets:
     - const: 2.0
   - cells:
     - const: 13.0
-    - expr: =INDEX( R[-1]C[4]:RC[5], RC[1], RC[2] )
+    - expr: =INDEX( R52C[4]:R53C[5], RC[1], RC[2] )
     - const: 1.0
     - const: 2.0
     - null
@@ -555,7 +555,7 @@ sheets:
     - const: 2.0
   - cells:
     - const: 12.0
-    - expr: =INDEX( R[-2]C[4]:R[-1]C[5], RC[1], RC[2] )
+    - expr: =INDEX( R52C[4]:R53C[5], RC[1], RC[2] )
     - const: 2.0
     - const: 1.0
     - null
@@ -566,7 +566,7 @@ sheets:
     - const: 2.0
   - cells:
     - const: 14.0
-    - expr: =INDEX( R[-3]C[4]:R[-2]C[5], RC[1], RC[2] )
+    - expr: =INDEX( R52C[4]:R53C[5], RC[1], RC[2] )
     - const: 2.0
     - const: 2.0
     - null
@@ -602,7 +602,7 @@ sheets:
   - cells:
   - cells:
     - const: 11.0
-    - expr: =INDEX( RC[4]:R[1]C[5], RC[1], RC[2] )
+    - expr: =INDEX( R60C[4]:R61C[5], RC[1], RC[2] )
     - const: 1.0
     - const: 1.0
     - null
@@ -613,7 +613,7 @@ sheets:
     - const: 5.0
   - cells:
     - const: 14.0
-    - expr: =INDEX( RC[4]:RC[5], RC[1], RC[2] )
+    - expr: =INDEX( R61C[4]:R61C[5], RC[1], RC[2] )
     - const: 1.0
     - const: 2.0
     - null
@@ -627,7 +627,7 @@ sheets:
   - cells:
   - cells:
     - const: "!NUM:FE"
-    - expr: =INDEX( R[2]C[3]:R[3]C[4], RC[1], 1.0 )
+    - expr: =INDEX( R66C[3]:R67C[4], RC[1], 1.0 )
     - const: -1.0
     - null
     - null
@@ -641,7 +641,7 @@ sheets:
     - const: "#VALUE!"
   - cells:
     - const: "!NUM:FE"
-    - expr: =INDEX( R[1]C[3]:R[2]C[4], RC[1], 1.0 )
+    - expr: =INDEX( R66C[3]:R67C[4], RC[1], 1.0 )
     - const: 0.0
     - null
     - null
@@ -655,7 +655,7 @@ sheets:
     - const: "#VALUE!"
   - cells:
     - const: 11.0
-    - expr: =INDEX( RC[3]:R[1]C[4], RC[1], 1.0 )
+    - expr: =INDEX( R66C[3]:R67C[4], RC[1], 1.0 )
     - const: 1.0
     - null
     - const: 11.0
@@ -666,7 +666,7 @@ sheets:
     - const: 1.0
   - cells:
     - const: 12.0
-    - expr: =INDEX( R[-1]C[3]:RC[4], RC[1], 1.0 )
+    - expr: =INDEX( R66C[3]:R67C[4], RC[1], 1.0 )
     - const: 2.0
     - null
     - const: 12.0
@@ -677,7 +677,7 @@ sheets:
     - const: 1.0
   - cells:
     - const: "!NUM:FE"
-    - expr: =INDEX( R[-2]C[3]:R[-1]C[4], RC[1], 1.0 )
+    - expr: =INDEX( R66C[3]:R67C[4], RC[1], 1.0 )
     - const: 3.0
     - null
     - null
@@ -768,7 +768,7 @@ sheets:
   - cells:
   - cells:
     - const: 11.0
-    - expr: =LOOKUP( RC[1], RC[2]:R[2]C[2], RC[3]:R[2]C[3] )
+    - expr: =LOOKUP( RC[1], R78C[2]:R80C[2], R78C[3]:R80C[3] )
     - const: 19.0
     - const: 10.0
     - const: 11.0
@@ -780,7 +780,7 @@ sheets:
     - const: "LOOKUP (vectors vert.)"
   - cells:
     - const: 12.0
-    - expr: =LOOKUP( RC[1], R[-1]C[2]:R[1]C[2], R[-1]C[3]:R[1]C[3] )
+    - expr: =LOOKUP( RC[1], R78C[2]:R80C[2], R78C[3]:R80C[3] )
     - const: 20.0
     - const: 20.0
     - const: 12.0
@@ -791,7 +791,7 @@ sheets:
     - const: 1.0
   - cells:
     - const: 12.0
-    - expr: =LOOKUP( RC[1], R[-2]C[2]:RC[2], R[-2]C[3]:RC[3] )
+    - expr: =LOOKUP( RC[1], R78C[2]:R80C[2], R78C[3]:R80C[3] )
     - const: 21.0
     - const: 30.0
     - const: 13.0
@@ -802,7 +802,7 @@ sheets:
     - const: 1.0
   - cells:
     - const: "!NUM:NA"
-    - expr: =LOOKUP( RC[1], R[-3]C[2]:R[-1]C[2], R[-3]C[3]:R[-1]C[3] )
+    - expr: =LOOKUP( RC[1], R78C[2]:R80C[2], R78C[3]:R80C[3] )
     - const: 9.0
     - null
     - null
@@ -817,7 +817,7 @@ sheets:
   - cells:
   - cells:
     - const: 22.0
-    - expr: =LOOKUP( RC[1], RC[2]:R[2]C[5] )
+    - expr: =LOOKUP( RC[1], R83C[2]:R85C[5] )
     - const: 29.0
     - const: 10.0
     - const: 20.0
@@ -829,7 +829,7 @@ sheets:
     - const: "LOOKUP (array horiz)"
   - cells:
     - const: 23.0
-    - expr: =LOOKUP( RC[1], R[-1]C[2]:R[1]C[5] )
+    - expr: =LOOKUP( RC[1], R83C[2]:R85C[5] )
     - const: 30.0
     - const: 11.0
     - const: 12.0
@@ -840,7 +840,7 @@ sheets:
     - const: 1.0
   - cells:
     - const: 23.0
-    - expr: =LOOKUP( RC[1], R[-2]C[2]:RC[5] )
+    - expr: =LOOKUP( RC[1], R83C[2]:R85C[5] )
     - const: 31.0
     - const: 21.0
     - const: 22.0
@@ -852,7 +852,7 @@ sheets:
   - cells:
   - cells:
     - const: 21.0
-    - expr: =LOOKUP( RC[1], RC[2]:R[2]C[4] )
+    - expr: =LOOKUP( RC[1], R87C[2]:R89C[4] )
     - const: 19.0
     - const: 10.0
     - const: 11.0
@@ -864,7 +864,7 @@ sheets:
     - const: "LOOKUP (array square)"
   - cells:
     - const: 22.0
-    - expr: =LOOKUP( RC[1], R[-1]C[2]:R[1]C[4] )
+    - expr: =LOOKUP( RC[1], R87C[2]:R89C[4] )
     - const: 20.0
     - const: 20.0
     - const: 12.0
@@ -875,7 +875,7 @@ sheets:
     - const: 1.0
   - cells:
     - const: 22.0
-    - expr: =LOOKUP( RC[1], R[-2]C[2]:RC[4] )
+    - expr: =LOOKUP( RC[1], R87C[2]:R89C[4] )
     - const: 21.0
     - const: 30.0
     - const: 13.0
@@ -887,7 +887,7 @@ sheets:
   - cells:
   - cells:
     - const: 21.0
-    - expr: =LOOKUP( RC[1], RC[2]:R[3]C[4] )
+    - expr: =LOOKUP( RC[1], R91C[2]:R94C[4] )
     - const: 19.0
     - const: 10.0
     - const: 11.0
@@ -899,7 +899,7 @@ sheets:
     - const: "LOOKUP (array vert)"
   - cells:
     - const: 22.0
-    - expr: =LOOKUP( RC[1], R[-1]C[2]:R[2]C[4] )
+    - expr: =LOOKUP( RC[1], R91C[2]:R94C[4] )
     - const: 20.0
     - const: 20.0
     - const: 12.0
@@ -910,7 +910,7 @@ sheets:
     - const: 1.0
   - cells:
     - const: 22.0
-    - expr: =LOOKUP( RC[1], R[-2]C[2]:R[1]C[4] )
+    - expr: =LOOKUP( RC[1], R91C[2]:R94C[4] )
     - const: 21.0
     - const: 30.0
     - const: 13.0
@@ -921,7 +921,7 @@ sheets:
     - const: 1.0
   - cells:
     - const: 23.0
-    - expr: =LOOKUP( RC[1], R[-3]C[2]:RC[4] )
+    - expr: =LOOKUP( RC[1], R91C[2]:R94C[4] )
     - const: 30.0
     - const: 40.0
     - const: 14.0
@@ -933,7 +933,7 @@ sheets:
   - cells:
   - cells:
     - const: 22.0
-    - expr: =HLOOKUP( RC[1], RC[2]:R[2]C[5], 3.0 )
+    - expr: =HLOOKUP( RC[1], R96C[2]:R98C[5], 3.0 )
     - const: 29.0
     - const: 10.0
     - const: 20.0
@@ -946,7 +946,7 @@ sheets:
     - const: "HLOOKUP"
   - cells:
     - const: 23.0
-    - expr: =HLOOKUP( RC[1], R[-1]C[2]:R[1]C[5], 3.0 )
+    - expr: =HLOOKUP( RC[1], R96C[2]:R98C[5], 3.0 )
     - const: 30.0
     - const: 11.0
     - const: 12.0
@@ -957,7 +957,7 @@ sheets:
     - const: 1.0
   - cells:
     - const: 23.0
-    - expr: =HLOOKUP( RC[1], R[-2]C[2]:RC[5], 3.0 )
+    - expr: =HLOOKUP( RC[1], R96C[2]:R98C[5], 3.0 )
     - const: 31.0
     - const: 21.0
     - const: 22.0
@@ -968,7 +968,7 @@ sheets:
     - const: 1.0
   - cells:
     - const: 20.0
-    - expr: =HLOOKUP( RC[1], R[-3]C[2]:R[-1]C[5], RC[2] )
+    - expr: =HLOOKUP( RC[1], R96C[2]:R98C[5], RC[2] )
     - const: 29.0
     - const: 1.0
     - null
@@ -979,7 +979,7 @@ sheets:
     - const: 2.0
   - cells:
     - const: 13.0
-    - expr: =HLOOKUP( RC[1], R[-4]C[2]:R[-2]C[5], RC[2] )
+    - expr: =HLOOKUP( RC[1], R96C[2]:R98C[5], RC[2] )
     - const: 30.0
     - const: 2.0
     - null
@@ -990,7 +990,7 @@ sheets:
     - const: 2.0
   - cells:
     - const: 23.0
-    - expr: =HLOOKUP( RC[1], R[-5]C[2]:R[-3]C[5], RC[2] )
+    - expr: =HLOOKUP( RC[1], R96C[2]:R98C[5], RC[2] )
     - const: 31.0
     - const: 3.0
     - null
@@ -1001,7 +1001,7 @@ sheets:
     - const: 2.0
   - cells:
     - const: "!NUM:FE"
-    - expr: =HLOOKUP( RC[1], R[-6]C[2]:R[-4]C[5], RC[2] )
+    - expr: =HLOOKUP( RC[1], R96C[2]:R98C[5], RC[2] )
     - const: 31.0
     - const: 0.0
     - null
@@ -1015,7 +1015,7 @@ sheets:
     - const: "#VALUE!"
   - cells:
     - const: "!NUM:FE"
-    - expr: =HLOOKUP( RC[1], R[-7]C[2]:R[-5]C[5], RC[2] )
+    - expr: =HLOOKUP( RC[1], R96C[2]:R98C[5], RC[2] )
     - const: 31.0
     - const: 4.0
     - null
@@ -1030,7 +1030,7 @@ sheets:
   - cells:
   - cells:
     - const: 22.0
-    - expr: =VLOOKUP( RC[1], RC[2]:R[2]C[4], 3.0 )
+    - expr: =VLOOKUP( RC[1], R105C[2]:R107C[4], 3.0 )
     - const: 29.0
     - const: 10.0
     - const: 11.0
@@ -1043,7 +1043,7 @@ sheets:
     - const: "VLOOKUP"
   - cells:
     - const: 23.0
-    - expr: =VLOOKUP( RC[1], R[-1]C[2]:R[1]C[4], 3.0 )
+    - expr: =VLOOKUP( RC[1], R105C[2]:R107C[4], 3.0 )
     - const: 30.0
     - const: 20.0
     - const: 12.0
@@ -1054,7 +1054,7 @@ sheets:
     - const: 1.0
   - cells:
     - const: 23.0
-    - expr: =VLOOKUP( RC[1], R[-2]C[2]:RC[4], 3.0 )
+    - expr: =VLOOKUP( RC[1], R105C[2]:R107C[4], 3.0 )
     - const: 31.0
     - const: 30.0
     - const: 13.0
@@ -1065,7 +1065,7 @@ sheets:
     - const: 1.0
   - cells:
     - const: 20.0
-    - expr: =VLOOKUP( RC[1], R[-3]C[2]:R[-1]C[4], RC[2] )
+    - expr: =VLOOKUP( RC[1], R105C[2]:R107C[4], RC[2] )
     - const: 29.0
     - const: 1.0
     - null
@@ -1076,7 +1076,7 @@ sheets:
     - const: 2.0
   - cells:
     - const: 13.0
-    - expr: =VLOOKUP( RC[1], R[-4]C[2]:R[-2]C[4], RC[2] )
+    - expr: =VLOOKUP( RC[1], R105C[2]:R107C[4], RC[2] )
     - const: 30.0
     - const: 2.0
     - null
@@ -1087,7 +1087,7 @@ sheets:
     - const: 2.0
   - cells:
     - const: 23.0
-    - expr: =VLOOKUP( RC[1], R[-5]C[2]:R[-3]C[4], RC[2] )
+    - expr: =VLOOKUP( RC[1], R105C[2]:R107C[4], RC[2] )
     - const: 31.0
     - const: 3.0
     - null
@@ -1098,7 +1098,7 @@ sheets:
     - const: 2.0
   - cells:
     - const: "!NUM:FE"
-    - expr: =VLOOKUP( RC[1], R[-6]C[2]:R[-4]C[4], RC[2] )
+    - expr: =VLOOKUP( RC[1], R105C[2]:R107C[4], RC[2] )
     - const: 31.0
     - const: 0.0
     - null
@@ -1112,7 +1112,7 @@ sheets:
     - const: "#VALUE!"
   - cells:
     - const: "!NUM:FE"
-    - expr: =VLOOKUP( RC[1], R[-7]C[2]:R[-5]C[4], RC[2] )
+    - expr: =VLOOKUP( RC[1], R105C[2]:R107C[4], RC[2] )
     - const: 31.0
     - const: 4.0
     - null

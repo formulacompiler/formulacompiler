@@ -90,12 +90,26 @@ public class SpreadsheetExpressionParserTest extends TestCase
 		assertRefA1( "D4", "$D$4" );
 		assertRefA1( "D4", "$D4" );
 		assertRefA1( "D4", "D$4" );
+		assertRefA1( "AD564", "AD564" );
+		assertRefA1( "FZ4", "$FZ$4" );
 		/*
 		 * This tests the special case where an R1C1-style reference is a valid A1-style reference. It
 		 * explains the need for the CellRefFormat parser option.
 		 */
 		assertRefA1( "RC1", "RC1" );
-		assertRefA1( "RC11", "R1C1" ); // LATER Raise an error instead of doing this erroneous parse
+		assertRefA1( "R11", "R1C1" ); // LATER Raise an error instead of doing this erroneous parse
+	}
+
+
+	public void testA1ByIndex() throws Exception
+	{
+		assertRef( 1, false, 1, false, "B2", CellRefFormat.A1 );
+		assertRef( 3, false, 3, false, "D4", CellRefFormat.A1 );
+		assertRef( 3, true, 3, true, "$D$4", CellRefFormat.A1 );
+		assertRef( 3, true, 3, false, "$D4", CellRefFormat.A1 );
+		assertRef( 3, false, 3, true, "D$4", CellRefFormat.A1 );
+		assertRef( 29, false, 563, false, "AD564", CellRefFormat.A1 );
+		assertRef( 181, true, 3, true, "$FZ$4", CellRefFormat.A1 );
 	}
 
 
@@ -106,6 +120,8 @@ public class SpreadsheetExpressionParserTest extends TestCase
 		assertRefA1ODF( "D4", "[.$D$4]" );
 		assertRefA1ODF( "D4", "[.$D4]" );
 		assertRefA1ODF( "D4", "[.D$4]" );
+		assertRefA1( "AD564", "[.AD564]" );
+		assertRefA1( "FZ4", "[.$FZ$4]" );
 		assertRefA1ODF( "RC1", "[.RC1]" );
 	}
 
@@ -287,6 +303,18 @@ public class SpreadsheetExpressionParserTest extends TestCase
 		CellIndex ref = node.getCellIndex();
 		String actual = ref.toString();
 		assertEquals( _canonicalName, actual );
+	}
+
+	private void assertRef( int _columnIndex, boolean _columnAbsolute, int _rowIndex, boolean _rowAbsolute, String _ref, CellRefFormat _format ) throws Exception
+	{
+		SpreadsheetExpressionParser parser = newParser( _ref, _format );
+		ExpressionNode parsed = parser.parse();
+		ExpressionNodeForCell node = (ExpressionNodeForCell) parsed;
+		CellIndex ref = node.getCellIndex();
+		assertEquals( _columnIndex, ref.columnIndex );
+		assertEquals( _columnAbsolute, ref.isColumnIndexAbsolute );
+		assertEquals( _rowIndex, ref.rowIndex );
+		assertEquals( _rowAbsolute, ref.isRowIndexAbsolute );
 	}
 
 

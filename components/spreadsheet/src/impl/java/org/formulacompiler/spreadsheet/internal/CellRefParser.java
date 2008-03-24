@@ -46,22 +46,65 @@ public abstract class CellRefParser
 
 	private static class CellRefParserA1 extends CellRefParser
 	{
+		private static enum State
+		{
+			INITIAL, PARSING_COLUMN, PARSING_ROW
+		}
+
 		@Override
 		public CellIndex getCellIndexForCanonicalName( String _canonicalName, SheetImpl _sheet, CellIndex _relativeTo )
 		{
 			int colIndex = 0;
 			int rowIndex = 0;
+			boolean columnIndexAbsolute = false;
+			boolean rowIndexAbsolute = false;
+			State state = State.INITIAL;
 			for (int iCh = 0; iCh < _canonicalName.length(); iCh++) {
 				char ch = _canonicalName.charAt( iCh );
-				if ((ch >= 'A') && (ch <= 'Z')) {
-					colIndex = 26 * colIndex + Character.getNumericValue( ch ) - 9;
-				}
-				else if ((ch >= '0') && (ch <= '9')) {
-					rowIndex = 10 * rowIndex + Character.getNumericValue( ch );
+				switch (state) {
+					case INITIAL:
+						if (ch == '$') {
+							columnIndexAbsolute = true;
+							state = State.PARSING_COLUMN;
+						}
+						else if ((ch >= 'A') && (ch <= 'Z')) {
+							colIndex = getColIndex( colIndex, ch );
+							state = State.PARSING_COLUMN;
+						}
+						break;
+					case PARSING_COLUMN:
+						if ((ch >= 'A') && (ch <= 'Z')) {
+							colIndex = getColIndex( colIndex, ch );
+						}
+						else if (ch == '$') {
+							rowIndexAbsolute = true;
+							state = State.PARSING_ROW;
+						}
+						else if ((ch >= '0') && (ch <= '9')) {
+							rowIndex = getRowIndex( rowIndex, ch );
+							state = State.PARSING_ROW;
+						}
+						break;
+					case PARSING_ROW:
+						if ((ch >= '0') && (ch <= '9')) {
+							rowIndex = getRowIndex( rowIndex, ch );
+						}
 				}
 			}
-			return new CellIndex( _sheet.getSpreadsheet(), _sheet.getSheetIndex(), colIndex - 1, rowIndex - 1 );
+			return new CellIndex( _sheet.getSpreadsheet(), _sheet.getSheetIndex(),
+					colIndex - 1, columnIndexAbsolute, rowIndex - 1, rowIndexAbsolute );
 		}
+
+		private static int getColIndex( final int _colIndex, final char _ch )
+		{
+			return 26 * _colIndex + _ch - ('A' - 1);
+		}
+
+		private int getRowIndex( final int _rowIndex, final char _ch )
+		{
+			return 10 * _rowIndex + _ch - '0';
+		}
+
 	}
 
 	private static class CellRefParserR1C1 extends CellRefParser

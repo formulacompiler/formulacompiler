@@ -127,7 +127,7 @@ sheets:
     - const: "Free Form"
   - cells:
     - null
-    - expr: =AND( (R[-18]C = "Apple"), (R[-18]C[1] > R[-6]C[4]), (R[-18]C[1] < R[-6]C[5]) )
+    - expr: =AND( (R[-18]C = "Apple"), (R[-18]C[1] > R15C6), (R[-18]C[1] < R15C7) )
   - cells:
   - cells:
   - cells:
@@ -188,7 +188,7 @@ sheets:
   - cells:
     - null
     - const: 10.0
-    - expr: =DSUM( R[-33]C[-1]:R[-27]C[3], "Yield", R[-18]C[-1]:R[-17]C[-1] )
+    - expr: =DSUM( R2C[-1]:R8C[3], "Yield", R17C[-1]:R18C[-1] )
     - null
     - null
     - null
@@ -196,33 +196,33 @@ sheets:
   - cells:
     - null
     - const: 9.0
-    - expr: =DSUM( R[-34]C[-1]:R[-28]C[3], "Yield", R[-19]C:R[-18]C )
+    - expr: =DSUM( R2C[-1]:R8C[3], "Yield", R17C:R18C )
   - cells:
     - null
     - const: 9.0
-    - expr: =DSUM( R[-35]C[-1]:R[-29]C[3], "Yield", R[-20]C[1]:R[-19]C[1] )
+    - expr: =DSUM( R2C[-1]:R8C[3], "Yield", R17C[1]:R18C[1] )
     - null
     - null
     - const: "ValDate1"
   - cells:
     - null
     - const: 19.0
-    - expr: =DSUM( R[-36]C[-1]:R[-30]C[3], "Yield", R[-21]C[3]:R[-20]C[3] )
+    - expr: =DSUM( R2C[-1]:R8C[3], "Yield", R17C[3]:R18C[3] )
   - cells:
     - null
     - const: 19.0
-    - expr: =DSUM( R[-37]C[-1]:R[-31]C[3], "Yield", R[-22]C[4]:R[-21]C[4] )
+    - expr: =DSUM( R2C[-1]:R8C[3], "Yield", R17C[4]:R18C[4] )
     - null
     - null
     - const: "ValDate2"
   - cells:
     - null
     - const: 43.0
-    - expr: =DSUM( R[-38]C[-1]:R[-32]C[3], "Yield", R[-23]C[6]:R[-22]C[6] )
+    - expr: =DSUM( R2C[-1]:R8C[3], "Yield", R17C[6]:R18C[6] )
   - cells:
     - null
     - const: 43.0
-    - expr: =DSUM( R[-39]C[-1]:R[-33]C[3], "Yield", R[-24]C[7]:R[-23]C[7] )
+    - expr: =DSUM( R2C[-1]:R8C[3], "Yield", R17C[7]:R18C[7] )
     - null
     - null
     - const: "ValDate3"
@@ -316,7 +316,7 @@ sheets:
   - cells:
     - null
     - const: 82.6
-    - expr: =DAVERAGE( R[-58]C[-1]:R[-52]C[2], "Profit", R[-50]C[-1]:R[-48]C[1] )
+    - expr: =DAVERAGE( R2C[-1]:R8C[2], "Profit", R10C[-1]:R12C[1] )
     - null
     - null
     - null
@@ -325,7 +325,7 @@ sheets:
   - cells:
     - null
     - const: "!NUM:NaN/AE"
-    - expr: =DAVERAGE( R[-59]C[-1]:R[-53]C[2], "Profit", R[-51]C[2]:R[-50]C[2] )
+    - expr: =DAVERAGE( R2C[-1]:R8C[2], "Profit", R10C[2]:R11C[2] )
     - null
     - null
     - null
@@ -336,7 +336,7 @@ sheets:
   - cells:
     - null
     - const: 90.3199999999989
-    - expr: =DVARP( R[-61]C[-1]:R[-55]C[2], "Profit", R[-53]C[-1]:R[-51]C[1] )
+    - expr: =DVARP( R2C[-1]:R8C[2], "Profit", R10C[-1]:R12C[1] )
     - null
     - null
     - null
@@ -345,7 +345,7 @@ sheets:
   - cells:
     - null
     - const: "!NUM:NaN/AE"
-    - expr: =DVARP( R[-62]C[-1]:R[-56]C[2], "Profit", R[-54]C[2]:R[-53]C[2] )
+    - expr: =DVARP( R2C[-1]:R8C[2], "Profit", R10C[2]:R11C[2] )
     - null
     - null
     - null
@@ -356,7 +356,7 @@ sheets:
   - cells:
     - null
     - const: 135.479999999998
-    - expr: =DVAR( R[-64]C[-1]:R[-58]C[2], "Profit", R[-56]C[-1]:R[-54]C[1] )
+    - expr: =DVAR( R2C[-1]:R8C[2], "Profit", R10C[-1]:R12C[1] )
     - null
     - null
     - null
@@ -365,7 +365,7 @@ sheets:
   - cells:
     - null
     - const: "!NUM:NaN/AE"
-    - expr: =DVAR( R[-65]C[-1]:R[-59]C[2], "Profit", R[-57]C[2]:R[-56]C[2] )
+    - expr: =DVAR( R2C[-1]:R8C[2], "Profit", R10C[2]:R11C[2] )
     - null
     - null
     - null
@@ -376,7 +376,7 @@ sheets:
   - cells:
     - null
     - const: 9.50368349641332
-    - expr: =DSTDEVP( R[-67]C[-1]:R[-61]C[2], "Profit", R[-59]C[-1]:R[-57]C[1] )
+    - expr: =DSTDEVP( R2C[-1]:R8C[2], "Profit", R10C[-1]:R12C[1] )
     - null
     - null
     - null
@@ -385,7 +385,7 @@ sheets:
   - cells:
     - null
     - const: "!NUM:NaN/AE"
-    - expr: =DSTDEVP( R[-68]C[-1]:R[-62]C[2], "Profit", R[-60]C[2]:R[-59]C[2] )
+    - expr: =DSTDEVP( R2C[-1]:R8C[2], "Profit", R10C[2]:R11C[2] )
     - null
     - null
     - null
@@ -396,7 +396,7 @@ sheets:
   - cells:
     - null
     - const: 11.6395876215611
-    - expr: =DSTDEV( R[-70]C[-1]:R[-64]C[2], "Profit", R[-62]C[-1]:R[-60]C[1] )
+    - expr: =DSTDEV( R2C[-1]:R8C[2], "Profit", R10C[-1]:R12C[1] )
     - null
     - null
     - null
@@ -405,7 +405,7 @@ sheets:
   - cells:
     - null
     - const: "!NUM:NaN/AE"
-    - expr: =DSTDEV( R[-71]C[-1]:R[-65]C[2], "Profit", R[-63]C[2]:R[-62]C[2] )
+    - expr: =DSTDEV( R2C[-1]:R8C[2], "Profit", R10C[2]:R11C[2] )
     - null
     - null
     - null
@@ -416,7 +416,7 @@ sheets:
   - cells:
     - null
     - const: 75.0
-    - expr: =DGET( R[-73]C[-1]:R[-67]C[2], "Profit", R[-65]C[-1]:R[-64]C[1] )
+    - expr: =DGET( R2C[-1]:R8C[2], "Profit", R10C[-1]:R11C[1] )
     - null
     - null
     - null
@@ -425,7 +425,7 @@ sheets:
   - cells:
     - null
     - const: "!NUM:FE"
-    - expr: =DGET( R[-74]C[-1]:R[-68]C[2], "Profit", R[-66]C[-1]:R[-65]C )
+    - expr: =DGET( R2C[-1]:R8C[2], "Profit", R10C[-1]:R11C )
     - null
     - null
     - null
@@ -435,7 +435,7 @@ sheets:
   - cells:
     - null
     - const: "!NUM:FE"
-    - expr: =DGET( R[-75]C[-1]:R[-69]C[2], "Profit", R[-67]C[2]:R[-66]C[2] )
+    - expr: =DGET( R2C[-1]:R8C[2], "Profit", R10C[2]:R11C[2] )
     - null
     - null
     - null
