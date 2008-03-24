@@ -27,6 +27,7 @@ import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilde
 import java.util.List;
 
 import org.formulacompiler.compiler.Function;
+import org.formulacompiler.compiler.internal.Duration;
 import org.formulacompiler.compiler.internal.LocalDate;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
@@ -66,6 +67,12 @@ final class ODSRowVerificationTestCase extends AbstractVariantRowVerificationTes
 				return false;
 			}
 			return areDoublesEqual( ((LocalDate) _want).doubleValue(), ((LocalDate) _have).doubleValue() );
+		}
+		else if (_want instanceof Duration) {
+			if (!(_have instanceof Duration)) {
+				return false;
+			}
+			return areDoublesEqual( ((Duration) _want).doubleValue(), ((Duration) _have).doubleValue() );
 		}
 		return false;
 	}

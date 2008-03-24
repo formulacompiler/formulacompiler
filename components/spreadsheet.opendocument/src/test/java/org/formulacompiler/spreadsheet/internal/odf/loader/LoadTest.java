@@ -22,6 +22,7 @@
 
 package org.formulacompiler.spreadsheet.internal.odf.loader;
 
+import org.formulacompiler.compiler.internal.Duration;
 import org.formulacompiler.compiler.internal.LocalDate;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
@@ -87,11 +88,11 @@ public class LoadTest extends TestCase
 				.getCells()[ 0 ].getConstantValue()).value(), 0.000000000000001 );
 		assertEquals( ((Double) rows[ 17 ].getCells()[ 1 ].getConstantValue()).doubleValue(), ((LocalDate) rows[ 17 ]
 				.getCells()[ 0 ].getConstantValue()).value(), 0.0000000001 );
-		assertEquals( ((Double) rows[ 18 ].getCells()[ 1 ].getConstantValue()).doubleValue(), ((LocalDate) rows[ 18 ]
+		assertEquals( ((Double) rows[ 18 ].getCells()[ 1 ].getConstantValue()).doubleValue(), ((Duration) rows[ 18 ]
 				.getCells()[ 0 ].getConstantValue()).value(), 0.0000000000001 );
-		assertEquals( ((Double) rows[ 19 ].getCells()[ 1 ].getConstantValue()).doubleValue(), ((LocalDate) rows[ 19 ]
+		assertEquals( ((Double) rows[ 19 ].getCells()[ 1 ].getConstantValue()).doubleValue(), ((Duration) rows[ 19 ]
 				.getCells()[ 0 ].getConstantValue()).value(), 0.000000000000001 );
-		assertEquals( ((Double) rows[ 20 ].getCells()[ 1 ].getConstantValue()).doubleValue(), ((LocalDate) rows[ 20 ]
+		assertEquals( ((Double) rows[ 20 ].getCells()[ 1 ].getConstantValue()).doubleValue(), ((Duration) rows[ 20 ]
 				.getCells()[ 0 ].getConstantValue()).value(), 0.000000000000001 );
 	}
 

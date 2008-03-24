@@ -28,6 +28,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.formulacompiler.compiler.internal.Duration;
 import org.formulacompiler.compiler.internal.LocalDate;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.spreadsheet.Spreadsheet;
@@ -215,6 +216,9 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 			if (null != this.globalTimeFormat
 					&& this.globalTimeFormat.equals( xlsDateCell.getCellFormat().getFormat().getFormatString() )) {
 				value = RuntimeDouble_v2.dateFromNum( xlsDateCell.getValue(), this.globalTimeZone );
+			}
+			else if (xlsDateCell.isTime()) {
+				value = new Duration( xlsDateCell.getValue() );
 			}
 			else {
 				value = new LocalDate( xlsDateCell.getValue() );

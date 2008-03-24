@@ -31,6 +31,7 @@ import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 
+import org.formulacompiler.compiler.internal.Duration;
 import org.formulacompiler.compiler.internal.LocalDate;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.spreadsheet.internal.CellRefFormat;
@@ -213,8 +214,8 @@ class CellParser extends ElementParser
 				}
 				else if (ValueTypes.TIME.equals( valueType )) {
 					final long durationInMillis = DataTypeUtil.durationFromXmlFormat( this.tableCell.timeValue );
-					final LocalDate localDate = new LocalDate( RuntimeDouble_v2.msToNum( durationInMillis ) );
-					new CellWithConstant( this.row, localDate );
+					final Duration duration = new Duration( durationInMillis );
+					new CellWithConstant( this.row, duration );
 				}
 				else {
 					final String stringValue;

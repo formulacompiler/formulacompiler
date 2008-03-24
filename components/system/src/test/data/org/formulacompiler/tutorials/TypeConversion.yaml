@@ -70,10 +70,10 @@ sheets:
     - const: 26042.0
   - cells:
     - const: "time"
-    - const: 0.125
+    - const: 3:00:00.000
   - cells:
     - const: "boxedTime"
-    - const: 0.125
+    - const: 3:00:00.000
   - cells:
   - cells:
     - const: "nullbyte"
@@ -104,10 +104,10 @@ sheets:
     - const: 0.0
   - cells:
     - const: "nulldate"
-    - const: 0.0
+    - const: 0:00:00.000
   - cells:
     - const: "nulltime"
-    - const: 0.0
+    - const: 0:00:00.000
   - cells:
   - cells:
     - const: "long7"
