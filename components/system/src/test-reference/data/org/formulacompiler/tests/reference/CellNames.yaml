@@ -44,7 +44,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 6.0
-    - expr: =((RC[1] + RC[1]) + RC[1])
+    - expr: =((R3C3 + RC3) + R3C[1])
     - const: 2.0
     - null
     - null

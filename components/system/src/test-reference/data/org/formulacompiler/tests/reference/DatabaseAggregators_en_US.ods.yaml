@@ -132,7 +132,7 @@ sheets:
   - cells:
     - null
     - const: 10.0
-    - expr: =DSUM( R[-20]C[-1]:R[-14]C[3], "Yield", R[-8]C[-1]:R[-7]C[-1] )
+    - expr: =DSUM( R2C[-1]:R8C[3], "Yield", R14C[-1]:R15C[-1] )
     - null
     - null
     - null
@@ -140,33 +140,33 @@ sheets:
   - cells:
     - null
     - const: 9.0
-    - expr: =DSUM( R[-21]C[-1]:R[-15]C[3], "Yield", R[-9]C:R[-8]C )
+    - expr: =DSUM( R2C[-1]:R8C[3], "Yield", R14C:R15C )
   - cells:
     - null
     - const: 9.0
-    - expr: =DSUM( R[-22]C[-1]:R[-16]C[3], "Yield", R[-10]C[1]:R[-9]C[1] )
+    - expr: =DSUM( R2C[-1]:R8C[3], "Yield", R14C[1]:R15C[1] )
     - null
     - null
     - const: "ValDate1"
   - cells:
     - null
     - const: 19.0
-    - expr: =DSUM( R[-23]C[-1]:R[-17]C[3], "Yield", R[-11]C[3]:R[-10]C[3] )
+    - expr: =DSUM( R2C[-1]:R8C[3], "Yield", R14C[3]:R15C[3] )
   - cells:
     - null
     - const: 19.0
-    - expr: =DSUM( R[-24]C[-1]:R[-18]C[3], "Yield", R[-12]C[4]:R[-11]C[4] )
+    - expr: =DSUM( R2C[-1]:R8C[3], "Yield", R14C[4]:R15C[4] )
     - null
     - null
     - const: "ValDate2"
   - cells:
     - null
     - const: 43.0
-    - expr: =DSUM( R[-25]C[-1]:R[-19]C[3], "Yield", R[-13]C[6]:R[-12]C[6] )
+    - expr: =DSUM( R2C[-1]:R8C[3], "Yield", R14C[6]:R15C[6] )
   - cells:
     - null
     - const: 43.0
-    - expr: =DSUM( R[-26]C[-1]:R[-20]C[3], "Yield", R[-14]C[7]:R[-13]C[7] )
+    - expr: =DSUM( R2C[-1]:R8C[3], "Yield", R14C[7]:R15C[7] )
     - null
     - null
     - const: "ValDate3"

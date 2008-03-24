@@ -37,8 +37,8 @@ sheets:
     - expr: =(RC[-1] + RC[-4])
     - expr: =(RC[-5] + 1.0)
     - expr: =SUM( RC[-3]:R[1]C[-2] )
-    - expr: =(SUM( RC[-7]:R[3]C[-7] ) + RC[-7])
-    - expr: =(SUM( R[-1]C[-5]:R[8]C[-5] ) + RC[-8])
+    - expr: =(SUM( R3C[-7]:R6C[-7] ) + RC[-7])
+    - expr: =(SUM( R2C[-5]:R11C[-5] ) + RC[-8])
     - const: 3.0
     - const: 4711.0
   - cells:
@@ -65,8 +65,8 @@ sheets:
     - expr: =(RC[-1] + RC[-4])
     - expr: =(RC[-5] + 1.0)
     - expr: =SUM( RC[-3]:RC[-2] )
-    - expr: =(SUM( R[-2]C[-7]:R[1]C[-7] ) + RC[-7])
-    - expr: =(SUM( R[-3]C[-5]:R[6]C[-5] ) + RC[-8])
+    - expr: =(SUM( R3C[-7]:R6C[-7] ) + RC[-7])
+    - expr: =(SUM( R2C[-5]:R11C[-5] ) + RC[-8])
     - const: 2.0
     - const: 4713.0
   - cells:
@@ -79,8 +79,8 @@ sheets:
     - expr: =(RC[-1] + RC[-4])
     - expr: =(RC[-5] + 1.0)
     - expr: =SUM( RC[-3]:RC[-2] )
-    - expr: =(SUM( R[-3]C[-7]:RC[-7] ) + RC[-7])
-    - expr: =(SUM( R[-4]C[-5]:R[5]C[-5] ) + RC[-8])
+    - expr: =(SUM( R3C[-7]:R6C[-7] ) + RC[-7])
+    - expr: =(SUM( R2C[-5]:R11C[-5] ) + RC[-8])
     - const: 1.0
     - const: 4714.0
   - cells:

@@ -36,8 +36,8 @@ sheets:
     - const: "Computation Block"
   - cells:
     - const: "DateIf"
-    - expr: =IF( (DATE_1994_8_1 < R[-3]C[2]), 100.0, 10.0 )
-    - expr: =IF( (R[-3]C < R[-3]C[1]), 100.0, 10.0 )
+    - expr: =IF( (DATE_1994_8_1 < R[-3]C4), 100.0, 10.0 )
+    - expr: =IF( (R[-3]C < R[-3]C4), 100.0, 10.0 )
   - cells:
     - const: "Sum"
     - expr: =SUM( R[-6]C:R[-5]C )

@@ -225,9 +225,9 @@ sheets:
     - null
     - null
     - null
-    - expr: =(R[-1]C * RC[4])
-    - expr: =(R[-1]C * RC[3])
-    - expr: =(R[-1]C * RC[2])
+    - expr: =(R[-1]C * RC8)
+    - expr: =(R[-1]C * RC8)
+    - expr: =(R[-1]C * RC8)
     - null
     - const: 3.0
       names: [ H_OUTER_R ]
@@ -250,9 +250,9 @@ sheets:
     - null
     - null
     - null
-    - expr: =(R[-1]C * RC[4])
-    - expr: =(R[-1]C * RC[3])
-    - expr: =(R[-1]C * RC[2])
+    - expr: =(R[-1]C * RC8)
+    - expr: =(R[-1]C * RC8)
+    - expr: =(R[-1]C * RC8)
     - null
     - const: 3.0
   - cells:
