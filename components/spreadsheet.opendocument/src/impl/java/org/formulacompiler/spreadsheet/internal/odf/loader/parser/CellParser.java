@@ -133,9 +133,17 @@ class CellParser implements ElementListener
 	{
 		final int numberColumnsRepeated = this.tableCell.numberColumnsRepeated;
 		for (int i = 0; i < numberColumnsRepeated; i++) {
-			final String formula = this.tableCell.formula;
+			String formula = this.tableCell.formula;
 			if (formula != null) {
-				final String expression = formula.startsWith( "oooc:=" ) ? formula.substring( 6 ) : formula;
+				final String expression;
+				if (formula.startsWith( "oooc:=" ))
+					expression = formula.substring( 6 );
+				else if (formula.startsWith( "=" )) {
+					expression = formula.substring( 1 );
+				}
+				else {
+					expression = formula;
+				}
 				if ("\"\"".equals( expression )) {
 					// Replace ="" by empty string constant.
 					new CellWithConstant( this.row, "" );

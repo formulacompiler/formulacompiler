@@ -35,10 +35,22 @@ import junit.framework.TestCase;
 public class LoadTest extends TestCase
 {
 
-	public void testNavigation() throws Exception
+	public void testOOo() throws Exception
 	{
 		String path = "src/test/data/LoadTest.ods";
-		Spreadsheet spreadsheet = SpreadsheetCompiler.loadSpreadsheet( path );
+		testLoad( path );
+	}
+
+	public void testKoffice() throws Exception
+	{
+		String path = "src/test/data/LoadTest-KOffice.ods";
+		testLoad( path );
+	}
+
+	private void testLoad( final String _path )
+			throws Exception
+	{
+		Spreadsheet spreadsheet = SpreadsheetCompiler.loadSpreadsheet( _path );
 
 		Sheet[] sheets = spreadsheet.getSheets();
 		assertEquals( 5, sheets.length );
