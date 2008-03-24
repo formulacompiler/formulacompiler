@@ -20,7 +20,7 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.spreadsheet.internal.saver.excel.xls;
+package org.formulacompiler.spreadsheet.internal.excel.xls.saver;
 
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 

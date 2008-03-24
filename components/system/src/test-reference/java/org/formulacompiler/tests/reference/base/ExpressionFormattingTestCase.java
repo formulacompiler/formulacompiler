@@ -26,8 +26,8 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRefFormat;
 import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
+import org.formulacompiler.spreadsheet.internal.excel.xls.saver.ExcelXLSExpressionFormatter;
 import org.formulacompiler.spreadsheet.internal.parser.SpreadsheetExpressionParser;
-import org.formulacompiler.spreadsheet.internal.saver.excel.xls.ExcelXLSExpressionFormatter;
 
 public class ExpressionFormattingTestCase extends AbstractContextTestCase
 {
