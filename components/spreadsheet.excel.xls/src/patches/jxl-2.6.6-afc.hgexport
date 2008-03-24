@@ -368,7 +368,7 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
      new Function(0x13d, "prob", 0xff);
    public static final Function DEVSQ =
 # HG changeset patch
-# User Peter Arrenbrecht <peter.arrenbrecht@gmail.com>
+# User Vladimir Korenev <vkorenev@gmail.com>
 Fix parsing of: SUMX2MY2, SUMX2PY2, SUMXMY2, CORREL, FORECAST, INTERCEPT, STEYX, LARGE, SMALL, QUARTILE and PERCENTILE
 
 diff --git a/resources/functions.properties b/resources/functions.properties
@@ -454,7 +454,7 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
      new Function(0x149, "percentrank", 0xff);
    public static final Function MODE =
 # HG changeset patch
-# User Peter Arrenbrecht <peter.arrenbrecht@gmail.com>
+# User Vladimir Korenev <vkorenev@gmail.com>
 Fix parsing of ERROR.TYPE function.
 
 diff --git a/resources/functions.properties b/resources/functions.properties
@@ -481,7 +481,7 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
      new Function(0x10d, "avedev", 0XFF);
    public static final Function BETADIST =
 # HG changeset patch
-# User Peter Arrenbrecht <peter.arrenbrecht@gmail.com>
+# User Vladimir Korenev <vkorenev@gmail.com>
 Fix parsing of DAYS360 function.
 
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
@@ -547,3 +547,37 @@ diff --git a/src/jxl/read/biff/SheetReader.java b/src/jxl/read/biff/SheetReader.
      {
        sfr = (SharedFormulaRecord ) sharedFormulas.get(i);
        added = sfr.add(fr);
+# HG changeset patch
+# User Vladimir Korenev <vkorenev@gmail.com>
+Display '$' in ranges when column or row is absolute.
+
+diff --git a/src/jxl/biff/formula/Area.java b/src/jxl/biff/formula/Area.java
+--- a/src/jxl/biff/formula/Area.java
++++ b/src/jxl/biff/formula/Area.java
+@@ -175,9 +175,9 @@ class Area extends Operand implements Pa
+    */
+   public void getString(StringBuffer buf)
+   {
+-    CellReferenceHelper.getCellReference(columnFirst, rowFirst, buf);
++    CellReferenceHelper.getCellReference(columnFirst, !columnFirstRelative, rowFirst, !rowFirstRelative, buf);
+     buf.append(':');
+-    CellReferenceHelper.getCellReference(columnLast, rowLast, buf);
++    CellReferenceHelper.getCellReference(columnLast, !columnLastRelative, rowLast, !rowLastRelative, buf);
+   }
+ 
+   /**
+diff --git a/src/jxl/biff/formula/SharedFormulaArea.java b/src/jxl/biff/formula/SharedFormulaArea.java
+--- a/src/jxl/biff/formula/SharedFormulaArea.java
++++ b/src/jxl/biff/formula/SharedFormulaArea.java
+@@ -126,9 +126,9 @@ class SharedFormulaArea extends Operand 
+ 
+   public void getString(StringBuffer buf)
+   {
+-    CellReferenceHelper.getCellReference(columnFirst, rowFirst, buf);
++    CellReferenceHelper.getCellReference(columnFirst, !columnFirstRelative, rowFirst, !rowFirstRelative, buf);
+     buf.append(':');
+-    CellReferenceHelper.getCellReference(columnLast, rowLast, buf);
++    CellReferenceHelper.getCellReference(columnLast, !columnLastRelative, rowLast, !rowLastRelative, buf);
+   }
+ 
+   /**
