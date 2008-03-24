@@ -20,45 +20,27 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.spreadsheet.internal.odf.loader.parser;
+package org.formulacompiler.spreadsheet.internal.odf.xml.stream;
 
 import java.util.Map;
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
-
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
-import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
-import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementHandler;
-import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementListener;
 
 /**
  * @author Vladimir Korenev
  */
-public class SpreadsheetParser implements ElementListener
+public class ElementHandler implements ElementListener
 {
-	private final SpreadsheetImpl spreadsheet;
-
-	public SpreadsheetParser( final SpreadsheetImpl _spreadsheet )
-	{
-		this.spreadsheet = _spreadsheet;
-	}
-
 	public void elementStarted( final StartElement _startElement, final Map<QName, ElementListener> _handlers )
+			throws XMLStreamException
 	{
-		_handlers.put( XMLConstants.Table.TABLE, new TableParser( this.spreadsheet ) );
-		_handlers.put( XMLConstants.Table.NAMED_EXPRESSIONS, new ElementHandler()
-		{
-			@Override
-			public void elementStarted( final StartElement _startElement, final Map<QName, ElementListener> _handlers )
-			{
-				_handlers.put( XMLConstants.Table.NAMED_RANGE, new NamedRangeParser( SpreadsheetParser.this.spreadsheet ) );
-			}
-		} );
+		// To be overridden.
 	}
 
-	public void elementEnded( final EndElement _endElement )
+	public void elementEnded( final EndElement _endElement ) throws XMLStreamException
 	{
-		this.spreadsheet.trim();
+		// To be overridden.
 	}
 }

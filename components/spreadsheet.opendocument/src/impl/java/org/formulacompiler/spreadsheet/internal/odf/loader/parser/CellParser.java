@@ -26,10 +26,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Map;
+import javax.xml.namespace.QName;
 import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
 
 import org.formulacompiler.compiler.internal.Duration;
 import org.formulacompiler.compiler.internal.LocalDate;
@@ -41,12 +43,15 @@ import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.odf.ValueTypes;
 import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
 import org.formulacompiler.spreadsheet.internal.odf.xml.DataTypeUtil;
+import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementHandler;
+import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementListener;
+import org.formulacompiler.spreadsheet.internal.odf.xml.stream.XMLEventListener;
 import org.formulacompiler.spreadsheet.internal.parser.LazySpreadsheetExpressionParser;
 
 /**
  * @author Vladimir Korenev
  */
-class CellParser extends ElementParser
+class CellParser implements ElementListener
 {
 	private final RowImpl row;
 	private TableCell tableCell;
@@ -56,8 +61,7 @@ class CellParser extends ElementParser
 		this.row = _row;
 	}
 
-	@Override
-	protected void elementStarted( final StartElement _startElement )
+	public void elementStarted( final StartElement _startElement, final Map<QName, ElementListener> _handlers )
 	{
 		this.tableCell = new TableCell();
 		{
@@ -109,66 +113,13 @@ class CellParser extends ElementParser
 				this.tableCell.formula = attribute.getValue();
 			}
 		}
-		addElementParser( XMLConstants.Text.P, new ElementParser()
-		{
-			StringBuilder stringBuilder;
+		_handlers.put( XMLConstants.Text.P, new ParagraphParser() );
 
-			@Override
-			protected void elementStarted( final StartElement _startElement )
-			{
-				this.stringBuilder = new StringBuilder();
-				addElementParser( XMLConstants.Text.S, new ElementParser()
-				{
-					@SuppressWarnings( "unqualified-field-access" )
-					@Override
-					protected void elementStarted( final StartElement _startElement )
-					{
-						final int count;
-						final Attribute attribute = _startElement.getAttributeByName( XMLConstants.Text.C );
-						if (attribute != null) {
-							count = Integer.parseInt( attribute.getValue() );
-						}
-						else {
-							count = 1;
-						}
-						for (int i = 0; i < count; i++) {
-							stringBuilder.append( " " );
-						}
-					}
-				} );
-				addElementParser( XMLConstants.Text.TAB, new ElementParser()
-				{
-					@SuppressWarnings( "unqualified-field-access" )
-					@Override
-					protected void elementStarted( final StartElement _startElement )
-					{
-						stringBuilder.append( "\t" );
-					}
-				} );
-			}
-
-			@Override
-			protected void elementEnded( final EndElement _endElement )
-			{
-				CellParser.this.tableCell.paragraphs.add( this.stringBuilder.toString() );
-				this.stringBuilder = null;
-			}
-
-			@Override
-			protected void processCharacters( final Characters _characters )
-			{
-				final String data = _characters.getData();
-				this.stringBuilder.append( data );
-			}
-		} );
-		addElementParser( XMLConstants.Office.ANNOTATION, new ElementParser()
-		{
-			// Skip annotations
-		} );
+		// Skip annotations
+		_handlers.put( XMLConstants.Office.ANNOTATION, new ElementHandler() );
 	}
 
-	@Override
-	protected void elementEnded( final EndElement _endElement )
+	public void elementEnded( final EndElement _endElement )
 	{
 		try {
 			createCell();
@@ -260,5 +211,57 @@ class CellParser extends ElementParser
 		public String stringValue;
 		public String formula;
 		public final Collection<String> paragraphs = new ArrayList<String>();
+	}
+
+	private class ParagraphParser implements ElementListener, XMLEventListener
+	{
+		StringBuilder stringBuilder;
+
+		public void elementStarted( final StartElement _startElement, final Map<QName, ElementListener> _handlers )
+		{
+			this.stringBuilder = new StringBuilder();
+			_handlers.put( XMLConstants.Text.S, new ElementHandler()
+			{
+				@SuppressWarnings( "unqualified-field-access" )
+				@Override
+				public void elementStarted( final StartElement _startElement, final Map<QName, ElementListener> _handlers )
+				{
+					final int count;
+					final Attribute attribute = _startElement.getAttributeByName( XMLConstants.Text.C );
+					if (attribute != null) {
+						count = Integer.parseInt( attribute.getValue() );
+					}
+					else {
+						count = 1;
+					}
+					for (int i = 0; i < count; i++) {
+						stringBuilder.append( " " );
+					}
+				}
+			} );
+			_handlers.put( XMLConstants.Text.TAB, new ElementHandler()
+			{
+				@SuppressWarnings( "unqualified-field-access" )
+				@Override
+				public void elementStarted( final StartElement _startElement, final Map<QName, ElementListener> _handlers )
+				{
+					stringBuilder.append( "\t" );
+				}
+			} );
+		}
+
+		public void elementEnded( final EndElement _endElement )
+		{
+			CellParser.this.tableCell.paragraphs.add( this.stringBuilder.toString() );
+			this.stringBuilder = null;
+		}
+
+		public void process( final XMLEvent _event )
+		{
+			if (_event.isCharacters()) {
+				final String data = _event.asCharacters().getData();
+				this.stringBuilder.append( data );
+			}
+		}
 	}
 }

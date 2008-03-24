@@ -22,17 +22,21 @@
 
 package org.formulacompiler.spreadsheet.internal.odf.loader.parser;
 
+import java.util.Map;
+import javax.xml.namespace.QName;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
+import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementHandler;
+import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementListener;
 
 /**
  * @author Vladimir Korenev
  */
-class TableParser extends ElementParser
+class TableParser extends ElementHandler
 {
 	private final SpreadsheetImpl spreadsheet;
 
@@ -42,7 +46,7 @@ class TableParser extends ElementParser
 	}
 
 	@Override
-	protected void elementStarted( final StartElement _startElement )
+	public void elementStarted( final StartElement _startElement, final Map<QName, ElementListener> _handlers )
 	{
 		final SheetImpl sheet;
 		{
@@ -55,7 +59,7 @@ class TableParser extends ElementParser
 				sheet = new SheetImpl( this.spreadsheet );
 			}
 		}
-		addElementParser( XMLConstants.Table.TABLE_ROW, new RowParser( sheet ) );
+		_handlers.put( XMLConstants.Table.TABLE_ROW, new RowParser( sheet ) );
 	}
 
 }
