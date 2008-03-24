@@ -20,11 +20,12 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.spreadsheet.internal.loader.odf.parser;
+package org.formulacompiler.spreadsheet.internal.odf.loader.parser;
 
 import javax.xml.stream.events.StartElement;
 
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
+import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
 
 /**
  * @author Vladimir Korenev

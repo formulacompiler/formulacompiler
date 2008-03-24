@@ -20,7 +20,7 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.spreadsheet.internal.loader.odf.parser;
+package org.formulacompiler.spreadsheet.internal.odf;
 
 /**
  * @author Vladimir Korenev

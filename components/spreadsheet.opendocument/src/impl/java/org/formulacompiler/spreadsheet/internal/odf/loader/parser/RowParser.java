@@ -20,41 +20,52 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.spreadsheet.internal.loader.odf.parser;
+package org.formulacompiler.spreadsheet.internal.odf.loader.parser;
 
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 
+import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
+import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
 
 /**
  * @author Vladimir Korenev
  */
-class TableParser extends ElementParser
+class RowParser extends ElementParser
 {
-	private final SpreadsheetImpl spreadsheet;
+	private final SheetImpl sheet;
 
-	public TableParser( SpreadsheetImpl _spreadsheet )
+	public RowParser( SheetImpl _sheet )
 	{
-		this.spreadsheet = _spreadsheet;
+		this.sheet = _sheet;
 	}
 
 	@Override
 	protected void elementStarted( final StartElement _startElement )
 	{
-		final SheetImpl sheet;
+		final int numberRowsRepeated;
 		{
-			final Attribute attribute = _startElement.getAttributeByName( XMLConstants.Table.NAME );
+			final Attribute attribute = _startElement.getAttributeByName( XMLConstants.Table.NUMBER_ROWS_REPEATED );
 			if (attribute != null) {
-				final String tableName = attribute.getValue();
-				sheet = new SheetImpl( this.spreadsheet, tableName );
+				numberRowsRepeated = Integer.parseInt( attribute.getValue() );
 			}
 			else {
-				sheet = new SheetImpl( this.spreadsheet );
+				numberRowsRepeated = 1;
 			}
 		}
-		addElementParser( XMLConstants.Table.TABLE_ROW, new RowParser( sheet ) );
+		final RowImpl row = createRow( numberRowsRepeated );
+		final CellParser cellParser = new CellParser( row );
+		addElementParser( XMLConstants.Table.TABLE_CELL, cellParser );
+		addElementParser( XMLConstants.Table.COVERED_TABLE_CELL, cellParser );
 	}
 
+	private RowImpl createRow( int _numberRowsRepeated )
+	{
+		final RowImpl row = new RowImpl( this.sheet );
+		for (int i = 1; i < _numberRowsRepeated; i++) {
+			this.sheet.getRowList().add( row );
+		}
+		return row;
+	}
 }
