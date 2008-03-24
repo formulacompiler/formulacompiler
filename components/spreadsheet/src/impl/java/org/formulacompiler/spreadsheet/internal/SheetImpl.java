@@ -95,9 +95,13 @@ public final class SheetImpl extends AbstractYamlizable implements Spreadsheet.S
 	}
 
 
-	public static String getNameA1ForCellIndex( int _columnIndex, int _rowIndex )
+	public static String getNameA1ForCellIndex( int _columnIndex, boolean _columnIndexAbsolute,
+			int _rowIndex, boolean _rowIndexAbsolute )
 	{
 		StringBuilder result = new StringBuilder();
+		if (_columnIndexAbsolute) {
+			result.append( '$' );
+		}
 		if (_columnIndex <= 25) {
 			result.append( (char) ('A' + _columnIndex) );
 		}
@@ -106,6 +110,9 @@ public final class SheetImpl extends AbstractYamlizable implements Spreadsheet.S
 			int secondLetterIndex = _columnIndex % 26;
 			result.append( (char) ('A' + firstLetterIndex) );
 			result.append( (char) ('A' + secondLetterIndex) );
+		}
+		if (_rowIndexAbsolute) {
+			result.append( '$' );
 		}
 		result.append( _rowIndex + 1 );
 		return result.toString();

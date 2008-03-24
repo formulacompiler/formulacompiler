@@ -29,13 +29,16 @@ public class SheetTest extends TestCase
 
 	public void testGetCellNameForCellIndex()
 	{
-		assertEquals( "A1", SheetImpl.getNameA1ForCellIndex( 0, 0 ) );
-		assertEquals( "B1", SheetImpl.getNameA1ForCellIndex( 1, 0 ) );
-		assertEquals( "Z1", SheetImpl.getNameA1ForCellIndex( 25, 0 ) );
-		assertEquals( "AA1", SheetImpl.getNameA1ForCellIndex( 26, 0 ) );
-		assertEquals( "AB1", SheetImpl.getNameA1ForCellIndex( 27, 0 ) );
-		assertEquals( "AZ1", SheetImpl.getNameA1ForCellIndex( 51, 0 ) );
-		assertEquals( "BA1", SheetImpl.getNameA1ForCellIndex( 52, 0 ) );
+		assertEquals( "A1", SheetImpl.getNameA1ForCellIndex( 0, false, 0, false ) );
+		assertEquals( "A$1", SheetImpl.getNameA1ForCellIndex( 0, false, 0, true ) );
+		assertEquals( "$A1", SheetImpl.getNameA1ForCellIndex( 0, true, 0, false ) );
+		assertEquals( "$A$1", SheetImpl.getNameA1ForCellIndex( 0, true, 0, true ) );
+		assertEquals( "B1", SheetImpl.getNameA1ForCellIndex( 1, false, 0, false ) );
+		assertEquals( "Z1", SheetImpl.getNameA1ForCellIndex( 25, false, 0, false ) );
+		assertEquals( "AA1", SheetImpl.getNameA1ForCellIndex( 26, false, 0, false ) );
+		assertEquals( "AB1", SheetImpl.getNameA1ForCellIndex( 27, false, 0, false ) );
+		assertEquals( "AZ1", SheetImpl.getNameA1ForCellIndex( 51, false, 0, false ) );
+		assertEquals( "BA1", SheetImpl.getNameA1ForCellIndex( 52, false, 0, false ) );
 	}
 
 }

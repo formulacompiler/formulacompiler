@@ -87,11 +87,11 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	{
 		assertRefA1( "B2", "B2" );
 		assertRefA1( "D4", "D4" );
-		assertRefA1( "D4", "$D$4" );
-		assertRefA1( "D4", "$D4" );
-		assertRefA1( "D4", "D$4" );
+		assertRefA1( "$D$4", "$D$4" );
+		assertRefA1( "$D4", "$D4" );
+		assertRefA1( "D$4", "D$4" );
 		assertRefA1( "AD564", "AD564" );
-		assertRefA1( "FZ4", "$FZ$4" );
+		assertRefA1( "$FZ$4", "$FZ$4" );
 		/*
 		 * This tests the special case where an R1C1-style reference is a valid A1-style reference. It
 		 * explains the need for the CellRefFormat parser option.
@@ -117,11 +117,11 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	{
 		assertRefA1ODF( "B2", "[.B2]" );
 		assertRefA1ODF( "D4", "[.D4]" );
-		assertRefA1ODF( "D4", "[.$D$4]" );
-		assertRefA1ODF( "D4", "[.$D4]" );
-		assertRefA1ODF( "D4", "[.D$4]" );
+		assertRefA1ODF( "$D$4", "[.$D$4]" );
+		assertRefA1ODF( "$D4", "[.$D4]" );
+		assertRefA1ODF( "D$4", "[.D$4]" );
 		assertRefA1( "AD564", "[.AD564]" );
-		assertRefA1( "FZ4", "[.$FZ$4]" );
+		assertRefA1( "$FZ$4", "[.$FZ$4]" );
 		assertRefA1ODF( "RC1", "[.RC1]" );
 	}
 

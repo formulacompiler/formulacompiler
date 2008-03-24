@@ -227,7 +227,8 @@ public final class CellIndex extends CellRange implements Cell
 			if (this.sheetIndex > 0) {
 				_to.append( '\'' ).append( getSheet().getName() ).append( "'!" );
 			}
-			_to.append( SheetImpl.getNameA1ForCellIndex( this.columnIndex, this.rowIndex ) );
+			_to.append( SheetImpl.getNameA1ForCellIndex( this.columnIndex, this.isColumnIndexAbsolute,
+					this.rowIndex, this.isRowIndexAbsolute ) );
 		}
 		else {
 			final CellIndex relativeTo = r1c1Style.getRelativeTo();
