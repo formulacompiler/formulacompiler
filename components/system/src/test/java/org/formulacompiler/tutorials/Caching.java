@@ -133,8 +133,12 @@ public class Caching extends TestCase
 
 		// ---- timing
 		input.setSide( "123456789123456789123456789123456789123456789123456789123456789123456789" );
-		long plainTime = time( plainFactory, input );
-		long cachingTime = time( cachingFactory, input );
+		long plainTime = 0;
+		long cachingTime = 0;
+		for (int i = 0; i < 100; i++) {
+			plainTime += time( plainFactory, input );
+			cachingTime += time( cachingFactory, input );
+		}
 		assertTrue( "Caching is at least half as fast again; caching is " + cachingTime + " vs. " + plainTime,
 				cachingTime * 3 / 2 < plainTime );
 		// ---- timing
@@ -143,18 +147,18 @@ public class Caching extends TestCase
 
 	private long time( ComputationFactory _factory, Input _input )
 	{
-		long result = 0;
-		for (int i = 0; i < 100; i++) {
-			Output output = (Output) _factory.newComputation( _input );
-			// ---- timed
-			long startTime = System.nanoTime();
-			output.getArea();
-			output.getVolume();
-			long timeTaken = System.nanoTime() - startTime;
-			// ---- timed
-			result += timeTaken;
-		}
-		return result;
+		Output output = (Output) _factory.newComputation( _input );
+		// ---- timed
+		long startTime = System.nanoTime();
+		output.getArea();
+		output.getVolume();
+		output.getArea();
+		output.getVolume();
+		output.getArea();
+		output.getVolume();
+		long timeTaken = System.nanoTime() - startTime;
+		// ---- timed
+		return timeTaken;
 	}
 
 
