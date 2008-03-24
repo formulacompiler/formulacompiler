@@ -20,7 +20,7 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.spreadsheet.internal.loader.excel.xls;
+package org.formulacompiler.spreadsheet.internal.excel.xls.loader;
 
 import java.io.IOException;
 import java.io.InputStream;
