@@ -41,7 +41,7 @@ public class LoadTest extends TestCase
 		Spreadsheet spreadsheet = SpreadsheetCompiler.loadSpreadsheet( path );
 
 		Sheet[] sheets = spreadsheet.getSheets();
-		assertEquals( 2, sheets.length );
+		assertEquals( 5, sheets.length );
 
 		for (Sheet sheet : sheets) {
 			assertSame( spreadsheet, sheet.getSpreadsheet() );
@@ -49,21 +49,24 @@ public class LoadTest extends TestCase
 
 		assertEquals( "TestSheet", sheets[ 0 ].getName() );
 		assertEquals( "Has space", sheets[ 1 ].getName() );
+		assertEquals( "12345", sheets[ 2 ].getName() );
+		assertEquals( "\u041b\u0438\u0441\u0442", sheets[ 3 ].getName() );
+		assertEquals( "\u0421 \u043f\u0440\u043e\u0431\u0435\u043b\u043e\u043c", sheets[ 4 ].getName() );
 
 		testConstantValues( sheets[ 0 ] );
 		testCoveredCells( sheets[ 1 ] );
 	}
 
-	private void testConstantValues( final Sheet _sheet )
+	private void testConstantValues( final Sheet _sheet ) throws Exception
 	{
 		final Row[] rows = _sheet.getRows();
-		assertEquals( 21, rows.length );
+		assertEquals( 22, rows.length );
 
 		for (Row row : rows) {
 			assertSame( _sheet, row.getSheet() );
 		}
 
-		int[] rowLengths = { 1, 3, 0, 0, 0, 3, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2 };
+		int[] rowLengths = { 1, 3, 0, 0, 0, 3, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1 };
 		for (int i = 0; i < rows.length; i++) {
 			final Row row = rows[ i ];
 			assertRowLength( i, rowLengths[ i ], row );
@@ -94,6 +97,8 @@ public class LoadTest extends TestCase
 				.getCells()[ 0 ].getConstantValue()).value(), 0.000000000000001 );
 		assertEquals( ((Double) rows[ 20 ].getCells()[ 1 ].getConstantValue()).doubleValue(), ((Duration) rows[ 20 ]
 				.getCells()[ 0 ].getConstantValue()).value(), 0.000000000000001 );
+		assertEquals( "SUM( A10:B21 )", rows[ 21 ]
+				.getCells()[ 0 ].getExpressionText() );
 	}
 
 	private void testCoveredCells( final Sheet _sheet )
