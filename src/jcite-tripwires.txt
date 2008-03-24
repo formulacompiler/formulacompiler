@@ -7671,7 +7671,6 @@ __@@__
 		</tr>
 	</tbody>
 </table>
-<br/><span class="xl-r1">A4:A4</span> <span class="xl-name">(Unsupported)</span>
 ___@_@___
 xc:org/formulacompiler/tutorials/Exceptions.xls:Cite_Count
 __@@__

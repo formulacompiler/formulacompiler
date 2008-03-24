@@ -8,7 +8,6 @@ sheets:
   rows:
   - cells:
     - const: "Inputs"
-      names: [ bigdec ]
     - const: "test"
     - const: "expected"
   - cells:
