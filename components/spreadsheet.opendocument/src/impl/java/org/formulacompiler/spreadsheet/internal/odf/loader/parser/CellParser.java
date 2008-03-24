@@ -31,7 +31,7 @@ import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 
-import org.formulacompiler.compiler.internal.LocalExcelDate;
+import org.formulacompiler.compiler.internal.LocalDate;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.spreadsheet.internal.CellRefFormat;
 import org.formulacompiler.spreadsheet.internal.CellWithConstant;
@@ -208,13 +208,13 @@ class CellParser extends ElementParser
 				else if (ValueTypes.DATE.equals( valueType )) {
 					final Date date = DataTypeUtil.dateFromXmlFormat( this.tableCell.dateValue, DataTypeUtil.GMT_TIME_ZONE );
 					final double dateNum = RuntimeDouble_v2.dateToNum( date, DataTypeUtil.GMT_TIME_ZONE );
-					final LocalExcelDate localExcelDate = new LocalExcelDate( dateNum );
-					new CellWithConstant( this.row, localExcelDate );
+					final LocalDate localDate = new LocalDate( dateNum );
+					new CellWithConstant( this.row, localDate );
 				}
 				else if (ValueTypes.TIME.equals( valueType )) {
 					final long durationInMillis = DataTypeUtil.durationFromXmlFormat( this.tableCell.timeValue );
-					final LocalExcelDate localExcelDate = new LocalExcelDate( RuntimeDouble_v2.msToNum( durationInMillis ) );
-					new CellWithConstant( this.row, localExcelDate );
+					final LocalDate localDate = new LocalDate( RuntimeDouble_v2.msToNum( durationInMillis ) );
+					new CellWithConstant( this.row, localDate );
 				}
 				else {
 					final String stringValue;

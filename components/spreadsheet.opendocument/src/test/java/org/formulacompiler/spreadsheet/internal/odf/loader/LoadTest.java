@@ -22,7 +22,7 @@
 
 package org.formulacompiler.spreadsheet.internal.odf.loader;
 
-import org.formulacompiler.compiler.internal.LocalExcelDate;
+import org.formulacompiler.compiler.internal.LocalDate;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Row;
@@ -83,15 +83,15 @@ public class LoadTest extends TestCase
 		assertEquals( 0.2312, ((Double) rows[ 13 ].getCells()[ 0 ].getConstantValue()).doubleValue(), 0.000000000000001 );
 		assertEquals( true, ((Boolean) rows[ 14 ].getCells()[ 0 ].getConstantValue()).booleanValue() );
 		assertEquals( false, ((Boolean) rows[ 15 ].getCells()[ 0 ].getConstantValue()).booleanValue() );
-		assertEquals( ((Double) rows[ 16 ].getCells()[ 1 ].getConstantValue()).doubleValue(), ((LocalExcelDate) rows[ 16 ]
+		assertEquals( ((Double) rows[ 16 ].getCells()[ 1 ].getConstantValue()).doubleValue(), ((LocalDate) rows[ 16 ]
 				.getCells()[ 0 ].getConstantValue()).value(), 0.000000000000001 );
-		assertEquals( ((Double) rows[ 17 ].getCells()[ 1 ].getConstantValue()).doubleValue(), ((LocalExcelDate) rows[ 17 ]
+		assertEquals( ((Double) rows[ 17 ].getCells()[ 1 ].getConstantValue()).doubleValue(), ((LocalDate) rows[ 17 ]
 				.getCells()[ 0 ].getConstantValue()).value(), 0.0000000001 );
-		assertEquals( ((Double) rows[ 18 ].getCells()[ 1 ].getConstantValue()).doubleValue(), ((LocalExcelDate) rows[ 18 ]
+		assertEquals( ((Double) rows[ 18 ].getCells()[ 1 ].getConstantValue()).doubleValue(), ((LocalDate) rows[ 18 ]
 				.getCells()[ 0 ].getConstantValue()).value(), 0.0000000000001 );
-		assertEquals( ((Double) rows[ 19 ].getCells()[ 1 ].getConstantValue()).doubleValue(), ((LocalExcelDate) rows[ 19 ]
+		assertEquals( ((Double) rows[ 19 ].getCells()[ 1 ].getConstantValue()).doubleValue(), ((LocalDate) rows[ 19 ]
 				.getCells()[ 0 ].getConstantValue()).value(), 0.000000000000001 );
-		assertEquals( ((Double) rows[ 20 ].getCells()[ 1 ].getConstantValue()).doubleValue(), ((LocalExcelDate) rows[ 20 ]
+		assertEquals( ((Double) rows[ 20 ].getCells()[ 1 ].getConstantValue()).doubleValue(), ((LocalDate) rows[ 20 ]
 				.getCells()[ 0 ].getConstantValue()).value(), 0.000000000000001 );
 	}
 
