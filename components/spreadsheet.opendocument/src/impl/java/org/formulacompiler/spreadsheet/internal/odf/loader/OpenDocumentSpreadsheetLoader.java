@@ -24,14 +24,10 @@ package org.formulacompiler.spreadsheet.internal.odf.loader;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import javax.xml.namespace.QName;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
 
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
@@ -40,6 +36,7 @@ import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 import org.formulacompiler.spreadsheet.internal.loader.SpreadsheetLoaderDispatcher;
 import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
 import org.formulacompiler.spreadsheet.internal.odf.loader.parser.SpreadsheetParser;
+import org.formulacompiler.spreadsheet.internal.odf.xml.stream.Parser;
 
 /**
  * @author Vladimir Korenev
@@ -80,26 +77,18 @@ public class OpenDocumentSpreadsheetLoader implements SpreadsheetLoader
 		final SpreadsheetImpl workbook = new SpreadsheetImpl();
 
 		try {
-			final SpreadsheetParser parser = new SpreadsheetParser( workbook );
-
-			final XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
-			final XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader( _inputStream );
-			while (xmlEventReader.hasNext()) {
-				final XMLEvent event = xmlEventReader.nextEvent();
-				if (event.isStartElement()) {
-					final StartElement startElement = event.asStartElement();
-					final QName qName = startElement.getName();
-					if (qName.equals( XMLConstants.Office.SPREADSHEET )) {
-						parser.parseElement( xmlEventReader, startElement );
-					}
-				}
-			}
+			final SpreadsheetParser spreadsheetParser = new SpreadsheetParser( workbook );
+			final Parser parser = new Parser( Collections.singletonMap( XMLConstants.Office.SPREADSHEET, spreadsheetParser ) );
+			parser.parse( _inputStream );
 		}
 		catch (XMLStreamException e) {
+			final Throwable nestedException = e.getNestedException();
+			if (nestedException != null) {
+				e.initCause( nestedException );
+			}
 			throw new SpreadsheetException.LoadError( e );
 		}
 
-		workbook.trim();
 		return workbook;
 	}
 

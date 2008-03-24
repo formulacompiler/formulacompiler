@@ -22,17 +22,21 @@
 
 package org.formulacompiler.spreadsheet.internal.odf.loader.parser;
 
+import java.util.Map;
+import javax.xml.namespace.QName;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 
 import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
+import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementHandler;
+import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementListener;
 
 /**
  * @author Vladimir Korenev
  */
-class RowParser extends ElementParser
+class RowParser extends ElementHandler
 {
 	private final SheetImpl sheet;
 
@@ -42,7 +46,7 @@ class RowParser extends ElementParser
 	}
 
 	@Override
-	protected void elementStarted( final StartElement _startElement )
+	public void elementStarted( final StartElement _startElement, final Map<QName, ElementListener> _handlers )
 	{
 		final int numberRowsRepeated;
 		{
@@ -56,8 +60,8 @@ class RowParser extends ElementParser
 		}
 		final RowImpl row = createRow( numberRowsRepeated );
 		final CellParser cellParser = new CellParser( row );
-		addElementParser( XMLConstants.Table.TABLE_CELL, cellParser );
-		addElementParser( XMLConstants.Table.COVERED_TABLE_CELL, cellParser );
+		_handlers.put( XMLConstants.Table.TABLE_CELL, cellParser );
+		_handlers.put( XMLConstants.Table.COVERED_TABLE_CELL, cellParser );
 	}
 
 	private RowImpl createRow( int _numberRowsRepeated )

@@ -22,6 +22,8 @@
 
 package org.formulacompiler.spreadsheet.internal.odf.loader.parser;
 
+import java.util.Map;
+import javax.xml.namespace.QName;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 
@@ -30,12 +32,14 @@ import org.formulacompiler.compiler.internal.expressions.parser.GeneratedExpress
 import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
+import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementHandler;
+import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementListener;
 import org.formulacompiler.spreadsheet.internal.parser.SpreadsheetExpressionParserA1ODF;
 
 /**
  * @author Vladimir Korenev
  */
-class NamedRangeParser extends ElementParser
+class NamedRangeParser extends ElementHandler
 {
 	private final SpreadsheetImpl spreadsheet;
 
@@ -45,7 +49,7 @@ class NamedRangeParser extends ElementParser
 	}
 
 	@Override
-	protected void elementStarted( final StartElement _startElement )
+	public void elementStarted( final StartElement _startElement, final Map<QName, ElementListener> _handlers )
 	{
 		final Attribute nameAttribute = _startElement.getAttributeByName( XMLConstants.Table.NAME );
 		final String name = nameAttribute.getValue();
