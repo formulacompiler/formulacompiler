@@ -154,7 +154,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
   - cells:
-    - const: 0.08546296296296296
+    - const: 2:03:04.000
     - expr: =TIME( RC[1], RC[2], RC[3] )
     - const: 2.0
     - const: 3.0
@@ -172,7 +172,7 @@ sheets:
     - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
-    - const: 0.7055439814814815
+    - const: 16:55:59.000
     - expr: =TIME( RC[1], RC[2], RC[3] )
     - const: 16.0
     - const: 55.0
@@ -190,7 +190,7 @@ sheets:
     - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
-    - const: 0.6800462962962961
+    - const: 16:19:16.000
     - expr: =TIME( RC[1], RC[2], RC[3] )
     - const: 39.0
     - const: 78.0
@@ -208,7 +208,7 @@ sheets:
     - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
-    - const: 0.9814814814814814
+    - const: 23:33:20.000
     - expr: =TIME( RC[1], RC[2], RC[3] )
     - const: 100.0
     - const: -200.0
@@ -229,7 +229,7 @@ sheets:
   - cells:
     - const: 45.0
     - expr: =SECOND( RC[1] )
-    - const: 0.5213541666666667
+    - const: 12:30:45.000
     - null
     - null
     - null
@@ -320,7 +320,7 @@ sheets:
   - cells:
     - const: 30.0
     - expr: =MINUTE( RC[1] )
-    - const: 0.5213541666666667
+    - const: 12:30:45.000
     - null
     - null
     - null
@@ -411,7 +411,7 @@ sheets:
   - cells:
     - const: 12.0
     - expr: =HOUR( RC[1] )
-    - const: 0.5213541666666667
+    - const: 12:30:45.000
     - null
     - null
     - null

@@ -102,7 +102,7 @@ sheets:
       names: [ ValDate2 ]
     - const: ">=8:45 AM"
     - expr: =(">=" & RC[1])
-    - const: 0.3645833333333333
+    - const: 8:45:00.000
       names: [ ValDate3 ]
   - cells:
   - cells:
