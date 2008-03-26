@@ -22,6 +22,8 @@
 
 package org.formulacompiler.spreadsheet.internal.odf.loader;
 
+import java.io.File;
+
 import org.formulacompiler.compiler.internal.Duration;
 import org.formulacompiler.compiler.internal.LocalDate;
 import org.formulacompiler.spreadsheet.Spreadsheet;
@@ -34,29 +36,36 @@ import junit.framework.TestCase;
 
 public class LoadTest extends TestCase
 {
+	private static final File TEST_FILES_DIR = new File( "src/test/data/LoadTest" );
+	private static final String FILE_EXTENSION = ".ods";
 
-	public void testOOo() throws Exception
+	private Spreadsheet spreadsheet;
+
+	@Override
+	protected void setUp() throws Exception
 	{
-		String path = "src/test/data/LoadTest.ods";
-		testLoad( path );
+		final File dataFile = new File( TEST_FILES_DIR, this.getName() + FILE_EXTENSION );
+		this.spreadsheet = SpreadsheetCompiler.loadSpreadsheet( dataFile );
 	}
 
-	public void testKoffice() throws Exception
+	public void testOpenOffice2_3() throws Exception
 	{
-		String path = "src/test/data/LoadTest-KOffice.ods";
-		testLoad( path );
+		checkLoaded();
 	}
 
-	private void testLoad( final String _path )
+	public void testKoffice2() throws Exception
+	{
+		checkLoaded();
+	}
+
+	private void checkLoaded()
 			throws Exception
 	{
-		Spreadsheet spreadsheet = SpreadsheetCompiler.loadSpreadsheet( _path );
-
-		Sheet[] sheets = spreadsheet.getSheets();
+		Sheet[] sheets = this.spreadsheet.getSheets();
 		assertEquals( 5, sheets.length );
 
 		for (Sheet sheet : sheets) {
-			assertSame( spreadsheet, sheet.getSpreadsheet() );
+			assertSame( this.spreadsheet, sheet.getSpreadsheet() );
 		}
 
 		assertEquals( "TestSheet", sheets[ 0 ].getName() );
