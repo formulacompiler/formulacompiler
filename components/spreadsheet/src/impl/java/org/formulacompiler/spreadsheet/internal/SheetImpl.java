@@ -24,14 +24,13 @@ package org.formulacompiler.spreadsheet.internal;
 
 import java.util.List;
 
-import org.formulacompiler.compiler.internal.AbstractYamlizable;
 import org.formulacompiler.compiler.internal.YamlBuilder;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.Spreadsheet.Row;
 
 
-public final class SheetImpl extends AbstractYamlizable implements Spreadsheet.Sheet
+public final class SheetImpl extends AbstractStyledElement implements Spreadsheet.Sheet
 {
 	private final SpreadsheetImpl spreadsheet;
 	private final int sheetIndex;
