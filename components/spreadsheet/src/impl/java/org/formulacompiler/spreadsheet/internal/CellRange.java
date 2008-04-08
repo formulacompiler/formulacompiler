@@ -23,6 +23,7 @@
 package org.formulacompiler.spreadsheet.internal;
 
 import org.formulacompiler.compiler.internal.AbstractDescribable;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
@@ -77,6 +78,20 @@ public abstract class CellRange extends AbstractDescribable implements Spreadshe
 	 * @throws SpreadsheetException if range is not unidimensional.
 	 */
 	public abstract CellIndex getCellIndexRelativeTo( CellIndex _cell ) throws SpreadsheetException;
+
+
+	/**
+	 * Returns cell or range name in A1 format without symbols that indicate absolute reference.
+	 *
+	 * @return cell or range name without $ symbols.
+	 */
+	public String getShortName()
+	{
+		DescriptionBuilder description = new DescriptionBuilder();
+		description.pushContext( DescribeShortStyle.getInstance() );
+		describeTo( description );
+		return description.toString();
+	}
 
 
 	// Result lengths for tilingAround:

@@ -62,6 +62,16 @@ public class CellRangeTest extends TestCase
 	}
 
 
+	public void testShortName()
+	{
+		CellIndex start = new CellIndex( this.workbook, 0, 0, true, 0, true );
+		CellIndex end = new CellIndex( this.workbook, 0, 1, true, 1, true );
+		CellRange range = CellRange.getCellRange( start, end );
+		assertEquals( "$A$1:$B$2", range.toString() );
+		assertEquals( "A1:B2", range.getShortName() );
+	}
+
+
 	private void assertIteration( int _fromCol, int _fromRow, int _toCol, int _toRow, String _expected )
 	{
 		CellIndex start = newCellIndex( _fromCol, _fromRow );
