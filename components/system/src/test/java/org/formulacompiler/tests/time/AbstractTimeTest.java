@@ -29,11 +29,10 @@ import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 
-import junit.framework.TestCase;
 
-
-public abstract class AbstractTimeTest extends TestCase
+public abstract class AbstractTimeTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 	private ComputationFactory computationFactory;
 	private final NumericType numericType;
@@ -50,7 +49,7 @@ public abstract class AbstractTimeTest extends TestCase
 	protected void setUp() throws Exception
 	{
 		final EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tests/time/TimeTest.xls" );
+		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tests/time/TimeTest" + getSpreadsheetExtension() );
 		builder.setNumericType( this.numericType );
 		builder.setInputClass( Object.class );
 		builder.setOutputClass( this.outputClass );

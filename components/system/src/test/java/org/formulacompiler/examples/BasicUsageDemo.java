@@ -25,10 +25,11 @@ package org.formulacompiler.examples;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
-public class BasicUsageDemo extends TestCase
+public class BasicUsageDemo extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 
 	private double compute() throws Exception
@@ -40,7 +41,7 @@ public class BasicUsageDemo extends TestCase
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 
 		// Load and parse the spreadsheet file into memory.
-		builder.loadSpreadsheet( DATA_PATH + "test.xls" );
+		builder.loadSpreadsheet( getSpreadsheetFile() );
 
 		// Set the factory interface to implement. This interface defines the method
 		// Outputs newInstance( Inputs _inputs ), from which AFC derives the input
@@ -78,9 +79,21 @@ public class BasicUsageDemo extends TestCase
 
 	private static final String DATA_PATH = "src/test/data/org/formulacompiler/examples/";
 
+	private String getSpreadsheetFile()
+	{
+		return DATA_PATH + "test" + getSpreadsheetExtension();
+	}
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( BasicUsageDemo.class );
+	}
+
 	public static void main( String[] args ) throws Exception
 	{
-		System.out.printf( "Result is: %f", new BasicUsageDemo().compute() );
+		final BasicUsageDemo demo = new BasicUsageDemo();
+		demo.setSpreadsheetExtension( args.length > 0 ? args[ 0 ] : ".ods" );
+		System.out.printf( "Result is: %f", demo.compute() );
 	}
 
 	public void testComputation() throws Exception

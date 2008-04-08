@@ -29,6 +29,9 @@ import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
+import org.formulacompiler.tests.MultiFormatTestFactory;
+
+import junit.framework.Test;
 
 
 public class CustomerRatingUseCaseTest extends AbstractUseCaseTest
@@ -70,6 +73,12 @@ public class CustomerRatingUseCaseTest extends AbstractUseCaseTest
 
 
 		}, Inputs.class, Outputs.class );
+	}
+
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( CustomerRatingUseCaseTest.class );
 	}
 
 

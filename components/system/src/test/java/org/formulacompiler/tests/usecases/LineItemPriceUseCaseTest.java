@@ -27,6 +27,9 @@ import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
+import org.formulacompiler.tests.MultiFormatTestFactory;
+
+import junit.framework.Test;
 
 
 public class LineItemPriceUseCaseTest extends AbstractUseCaseTest
@@ -36,6 +39,12 @@ public class LineItemPriceUseCaseTest extends AbstractUseCaseTest
 	public void testComputeLineItemPrice() throws Exception
 	{
 		runUseCase( "LineItemPrice", new LineItemPriceUseCase(), Inputs.class, Outputs.class );
+	}
+
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( LineItemPriceUseCaseTest.class );
 	}
 
 

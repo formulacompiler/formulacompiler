@@ -37,10 +37,11 @@ import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.runtime.FormulaRuntime;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
-public class EngineSerializationDemo extends TestCase
+public class EngineSerializationDemo extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 
 	private void compileAndSave() throws Exception
@@ -48,7 +49,7 @@ public class EngineSerializationDemo extends TestCase
 		// ---- Serialization
 		// Build an engine for the given spreadsheet, inputs, and outputs.
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( DATA_PATH + "test.xls" );
+		builder.loadSpreadsheet( getSpreadsheetFile() );
 		builder.setFactoryClass( OutputFactory.class );
 		builder.bindAllByName();
 		SaveableEngine compiledEngine = builder.compile();
@@ -87,9 +88,20 @@ public class EngineSerializationDemo extends TestCase
 	private static final String DATA_PATH = "src/test/data/org/formulacompiler/examples/";
 	private static final String TEMP_ENGINE_JAR = "temp/Engine.jar";
 
+	private String getSpreadsheetFile()
+	{
+		return DATA_PATH + "test" + getSpreadsheetExtension();
+	}
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( EngineSerializationDemo.class );
+	}
+
 	public static void main( String[] args ) throws Exception
 	{
 		EngineSerializationDemo demo = new EngineSerializationDemo();
+		demo.setSpreadsheetExtension( args.length > 0 ? args[ 0 ] : ".ods" );
 		demo.compileAndSave();
 		System.out.printf( "Result is: %f", demo.loadAndCompute() );
 	}
@@ -108,7 +120,7 @@ public class EngineSerializationDemo extends TestCase
 		InputStream inStream = new BufferedInputStream( new FileInputStream( engineSerializationFile ) );
 		Engine loadedEngine = FormulaRuntime.loadEngine( inStream );
 		ByteCodeEngineSource source = FormulaDecompiler.decompile( loadedEngine );
-		source.saveTo( new File( "temp/test/decompiled/basicusage" ) );
+		source.saveTo( new File( "temp/test/decompiled/basicusage" + getSpreadsheetExtension() ) );
 	}
 
 }

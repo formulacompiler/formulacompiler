@@ -23,6 +23,7 @@
 package org.formulacompiler.tests.time;
 
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 
 import junit.extensions.ActiveTestSuite;
 import junit.framework.Test;
@@ -33,14 +34,22 @@ public class TimeTest
 {
 	public static Test suite()
 	{
-		final TestSuite testSuite = new ActiveTestSuite();
-		testSuite.addTest( new ActiveTestSuite( DoubleCachedTimeTest.class ) );
-		testSuite.addTest( new ActiveTestSuite( DoubleNonCachedTimeTest.class ) );
-		testSuite.addTest( new ActiveTestSuite( ScaledBigDecimalCachedTimeTest.class ) );
-		testSuite.addTest( new ActiveTestSuite( ScaledBigDecimalNonCachedTimeTest.class ) );
-		testSuite.addTest( new ActiveTestSuite( ScaledLongCachedTimeTest.class ) );
-		testSuite.addTest( new ActiveTestSuite( ScaledLongNonCachedTimeTest.class ) );
+		final TestSuite testSuite = new ActiveTestSuite( TimeTest.class.getName() );
+		addTestClass( testSuite, DoubleCachedTimeTest.class );
+		addTestClass( testSuite, DoubleNonCachedTimeTest.class );
+		addTestClass( testSuite, ScaledBigDecimalCachedTimeTest.class );
+		addTestClass( testSuite, ScaledBigDecimalNonCachedTimeTest.class );
+		addTestClass( testSuite, ScaledLongCachedTimeTest.class );
+		addTestClass( testSuite, ScaledLongNonCachedTimeTest.class );
 		return testSuite;
+	}
+
+	private static void addTestClass( final TestSuite _testSuite,
+			final Class<? extends MultiFormatTestFactory.SpreadsheetFormatTest> _testClass )
+	{
+		final ActiveTestSuite activeTestSuite = new ActiveTestSuite( _testClass.getName() );
+		activeTestSuite.addTest( MultiFormatTestFactory.testSuite( _testClass ) );
+		_testSuite.addTest( activeTestSuite );
 	}
 
 	public static class DoubleNonCachedTimeTest extends AbstractNonCachedTimeTest

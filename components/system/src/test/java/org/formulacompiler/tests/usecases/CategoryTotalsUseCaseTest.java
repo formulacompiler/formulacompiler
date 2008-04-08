@@ -28,6 +28,9 @@ import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
+import org.formulacompiler.tests.MultiFormatTestFactory;
+
+import junit.framework.Test;
 
 
 public class CategoryTotalsUseCaseTest extends AbstractUseCaseTest
@@ -72,6 +75,13 @@ public class CategoryTotalsUseCaseTest extends AbstractUseCaseTest
 
 		}, Input.class, Output.class );
 	}
+
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( CategoryTotalsUseCaseTest.class );
+	}
+
 
 	public static final class Input
 	{

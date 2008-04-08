@@ -39,9 +39,9 @@ import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
-public class LookupTest extends TestCase
+public class LookupTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 	private static final File DECOMP_PATH = new File( "temp/test/decompiled/impl/lookup" );
 
@@ -153,7 +153,7 @@ public class LookupTest extends TestCase
 	{
 		final EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.setLoadAllCellValues( true );
-		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tests/LookupTest.xls" );
+		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tests/LookupTest" + getSpreadsheetExtension() );
 		builder.setInputClass( Inputs.class );
 		builder.setOutputClass( Outputs.class );
 
@@ -204,6 +204,12 @@ public class LookupTest extends TestCase
 				}
 			}
 		}
+	}
+
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( LookupTest.class );
 	}
 
 
