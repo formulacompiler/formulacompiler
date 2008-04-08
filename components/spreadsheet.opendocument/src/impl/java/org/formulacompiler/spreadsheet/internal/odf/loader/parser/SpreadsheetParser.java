@@ -27,6 +27,7 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 
+import org.formulacompiler.spreadsheet.SpreadsheetLoader;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
 import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementHandler;
@@ -38,15 +39,17 @@ import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementListener;
 public class SpreadsheetParser implements ElementListener
 {
 	private final SpreadsheetImpl spreadsheet;
+	private final SpreadsheetLoader.Config config;
 
-	public SpreadsheetParser( final SpreadsheetImpl _spreadsheet )
+	public SpreadsheetParser( final SpreadsheetImpl _spreadsheet, final SpreadsheetLoader.Config _config )
 	{
 		this.spreadsheet = _spreadsheet;
+		this.config = _config;
 	}
 
 	public void elementStarted( final StartElement _startElement, final Map<QName, ElementListener> _handlers )
 	{
-		_handlers.put( XMLConstants.Table.TABLE, new TableParser( this.spreadsheet ) );
+		_handlers.put( XMLConstants.Table.TABLE, new TableParser( this.spreadsheet, this.config ) );
 		_handlers.put( XMLConstants.Table.NAMED_EXPRESSIONS, new ElementHandler()
 		{
 			@Override

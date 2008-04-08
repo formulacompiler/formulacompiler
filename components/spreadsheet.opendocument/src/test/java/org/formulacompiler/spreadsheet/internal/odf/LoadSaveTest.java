@@ -30,6 +30,7 @@ import org.formulacompiler.compiler.internal.Duration;
 import org.formulacompiler.compiler.internal.LocalDate;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.spreadsheet.SpreadsheetLoader;
 import org.formulacompiler.spreadsheet.SpreadsheetNameCreator;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
@@ -42,7 +43,9 @@ public class LoadSaveTest extends AbstractOdsVerifyingTestCase
 	protected void setUp() throws Exception
 	{
 		final File dataFile = new File( TEST_FILES_DIR, this.getName() + FILE_EXTENSION );
-		this.spreadsheet = SpreadsheetCompiler.loadSpreadsheet( dataFile );
+		final SpreadsheetLoader.Config config = new SpreadsheetLoader.Config();
+		config.loadAllCellValues = true;
+		this.spreadsheet = SpreadsheetCompiler.loadSpreadsheet( dataFile, config );
 	}
 
 	@Override
@@ -102,6 +105,21 @@ public class LoadSaveTest extends AbstractOdsVerifyingTestCase
 		assertEquals( new LocalDate( 37126 ), rows[ 5 ].getCells()[ 1 ].getConstantValue() );
 		assertEquals( new LocalDate( 39507 + ((12.0 + (46.0 + 47.555 / 60.0) / 60.0) / 24.0) ), rows[ 5 ].getCells()[ 2 ].getConstantValue() );
 		assertEquals( new Duration( (23.0 + (12.0 + 23.442 / 60.0) / 60.0) / 24.0 ), rows[ 6 ].getCells()[ 1 ].getConstantValue() );
+	}
+
+	public void testDataTypesInFormulas()
+	{
+		final Spreadsheet.Sheet sheet = this.spreadsheet.getSheets()[ 0 ];
+		final Spreadsheet.Row[] rows = sheet.getRows();
+		assertEquals( 7, rows.length );
+		assertEquals( 1.25, rows[ 0 ].getCells()[ 1 ].getValue() );
+		assertEquals( 0.1234, rows[ 1 ].getCells()[ 1 ].getValue() );
+		assertEquals( 99.95, rows[ 2 ].getCells()[ 1 ].getValue() );
+		assertEquals( "text", rows[ 3 ].getCells()[ 1 ].getValue() );
+		assertEquals( Boolean.TRUE, rows[ 4 ].getCells()[ 1 ].getValue() );
+		assertEquals( Boolean.FALSE, rows[ 4 ].getCells()[ 2 ].getValue() );
+		assertEquals( new LocalDate( 37126 ), rows[ 5 ].getCells()[ 1 ].getValue() );
+		assertEquals( new Duration( (23.0 + (12.0 + 23.442 / 60.0) / 60.0) / 24.0 ), rows[ 6 ].getCells()[ 1 ].getValue() );
 	}
 
 	public void testExpressions() throws Exception

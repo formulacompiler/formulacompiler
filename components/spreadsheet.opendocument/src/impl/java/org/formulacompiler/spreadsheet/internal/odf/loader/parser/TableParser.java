@@ -27,6 +27,7 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 
+import org.formulacompiler.spreadsheet.SpreadsheetLoader;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
@@ -39,10 +40,12 @@ import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementListener;
 class TableParser extends ElementHandler
 {
 	private final SpreadsheetImpl spreadsheet;
+	private final SpreadsheetLoader.Config config;
 
-	public TableParser( SpreadsheetImpl _spreadsheet )
+	public TableParser( SpreadsheetImpl _spreadsheet, SpreadsheetLoader.Config _config )
 	{
 		this.spreadsheet = _spreadsheet;
+		this.config = _config;
 	}
 
 	@Override
@@ -59,7 +62,7 @@ class TableParser extends ElementHandler
 				sheet = new SheetImpl( this.spreadsheet );
 			}
 		}
-		_handlers.put( XMLConstants.Table.TABLE_ROW, new RowParser( sheet ) );
+		_handlers.put( XMLConstants.Table.TABLE_ROW, new RowParser( sheet, this.config ) );
 	}
 
 }

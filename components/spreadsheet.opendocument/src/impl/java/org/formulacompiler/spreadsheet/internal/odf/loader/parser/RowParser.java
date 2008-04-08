@@ -27,6 +27,7 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 
+import org.formulacompiler.spreadsheet.SpreadsheetLoader;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
@@ -39,10 +40,12 @@ import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementListener;
 class RowParser extends ElementHandler
 {
 	private final SheetImpl sheet;
+	private final SpreadsheetLoader.Config config;
 
-	public RowParser( SheetImpl _sheet )
+	public RowParser( SheetImpl _sheet, SpreadsheetLoader.Config _config )
 	{
 		this.sheet = _sheet;
+		this.config = _config;
 	}
 
 	@Override
@@ -59,7 +62,7 @@ class RowParser extends ElementHandler
 			}
 		}
 		final RowImpl row = createRow( numberRowsRepeated );
-		final CellParser cellParser = new CellParser( row );
+		final CellParser cellParser = new CellParser( row, this.config );
 		_handlers.put( XMLConstants.Table.TABLE_CELL, cellParser );
 		_handlers.put( XMLConstants.Table.COVERED_TABLE_CELL, cellParser );
 	}
