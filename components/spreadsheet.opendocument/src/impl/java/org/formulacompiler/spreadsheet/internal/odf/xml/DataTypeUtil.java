@@ -22,6 +22,8 @@
 
 package org.formulacompiler.spreadsheet.internal.odf.xml;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -56,8 +58,12 @@ public class DataTypeUtil
 	public static String durationToXmlFormat( final long _milliseconds )
 	{
 		try {
+			final boolean positive = _milliseconds > 0;
+			final BigDecimal seconds = BigDecimal.valueOf( Math.abs( _milliseconds ), 3 );
+			final BigDecimal[] minutesAndSeconds = seconds.divideAndRemainder( BigDecimal.valueOf( 60 ) );
+			final BigInteger[] hoursAndMinutes = minutesAndSeconds[ 0 ].toBigInteger().divideAndRemainder( BigInteger.valueOf( 60 ) );
 			final DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
-			final Duration duration = datatypeFactory.newDuration( _milliseconds );
+			final Duration duration = datatypeFactory.newDuration( positive, null, null, null, hoursAndMinutes[ 0 ], hoursAndMinutes[ 1 ], minutesAndSeconds[ 1 ] );
 			return duration.toString();
 		} catch (DatatypeConfigurationException e) {
 			throw new ConfigurationException( e );
