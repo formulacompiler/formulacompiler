@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -52,6 +53,17 @@ public class DataTypeUtil
 		}
 	}
 
+	public static String durationToXmlFormat( final long _milliseconds )
+	{
+		try {
+			final DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
+			final Duration duration = datatypeFactory.newDuration( _milliseconds );
+			return duration.toString();
+		} catch (DatatypeConfigurationException e) {
+			throw new ConfigurationException( e );
+		}
+	}
+
 	public static Date dateFromXmlFormat( final String _xmlFormat, final TimeZone _timeZone )
 	{
 		try {
@@ -59,6 +71,20 @@ public class DataTypeUtil
 			final XMLGregorianCalendar gregorianCalendar = datatypeFactory.newXMLGregorianCalendar( _xmlFormat );
 			final Calendar calendar = gregorianCalendar.toGregorianCalendar( _timeZone, null, null );
 			return calendar.getTime();
+		} catch (DatatypeConfigurationException e) {
+			throw new ConfigurationException( e );
+		}
+	}
+
+	public static String dateToXmlFormat( final Date _date, final TimeZone _timeZone )
+	{
+		try {
+			final GregorianCalendar gregorianCalendar = new GregorianCalendar( _timeZone );
+			gregorianCalendar.setTime( _date );
+			final XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar( gregorianCalendar );
+			xmlGregorianCalendar.setTimezone( DatatypeConstants.FIELD_UNDEFINED );
+			final String dateValue = xmlGregorianCalendar.toXMLFormat();
+			return dateValue;
 		} catch (DatatypeConfigurationException e) {
 			throw new ConfigurationException( e );
 		}

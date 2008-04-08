@@ -67,7 +67,7 @@ public final class SheetImpl extends AbstractStyledElement implements Spreadshee
 
 	public Row[] getRows()
 	{
-		return this.rows.toArray( new Row[ this.rows.size() ] );
+		return this.rows.toArray( new Row[this.rows.size()] );
 	}
 
 
@@ -98,23 +98,28 @@ public final class SheetImpl extends AbstractStyledElement implements Spreadshee
 			int _rowIndex, boolean _rowIndexAbsolute )
 	{
 		StringBuilder result = new StringBuilder();
+		appendNameA1ForCellIndex( result, _columnIndex, _columnIndexAbsolute, _rowIndex, _rowIndexAbsolute );
+		return result.toString();
+	}
+
+	public static void appendNameA1ForCellIndex( final StringBuilder _result, final int _columnIndex, final boolean _columnIndexAbsolute, final int _rowIndex, final boolean _rowIndexAbsolute )
+	{
 		if (_columnIndexAbsolute) {
-			result.append( '$' );
+			_result.append( '$' );
 		}
 		if (_columnIndex <= 25) {
-			result.append( (char) ('A' + _columnIndex) );
+			_result.append( (char) ('A' + _columnIndex) );
 		}
 		else {
 			int firstLetterIndex = _columnIndex / 26 - 1;
 			int secondLetterIndex = _columnIndex % 26;
-			result.append( (char) ('A' + firstLetterIndex) );
-			result.append( (char) ('A' + secondLetterIndex) );
+			_result.append( (char) ('A' + firstLetterIndex) );
+			_result.append( (char) ('A' + secondLetterIndex) );
 		}
 		if (_rowIndexAbsolute) {
-			result.append( '$' );
+			_result.append( '$' );
 		}
-		result.append( _rowIndex + 1 );
-		return result.toString();
+		_result.append( _rowIndex + 1 );
 	}
 
 

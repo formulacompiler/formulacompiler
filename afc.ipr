@@ -95,6 +95,7 @@
       <entry name="?*\$Factory" />
       <entry name="*.Foo" />
       <entry name="*.Bar" />
+      <entry name="*.ods" />
     </wildcardResourcePatterns>
   </component>
   <component name="DependenciesAnalyzeManager">

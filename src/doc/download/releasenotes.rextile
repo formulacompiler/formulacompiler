@@ -10,6 +10,10 @@ Lists the new features, improvements, and fixes for each release of AFC. Note th
 
 h2. Release 1.1
 
+h5. New
+
+	* AFC can now save spreadsheets in the OpenDocument @.ods@ format.
+
 h5. Fixed
 
 	* Fixed parsing formulas without the @oooc:@ prefix in OpenDocument spreadsheets. Such spreadsheets are saved by "KOffice":http://www.koffice.org/.
