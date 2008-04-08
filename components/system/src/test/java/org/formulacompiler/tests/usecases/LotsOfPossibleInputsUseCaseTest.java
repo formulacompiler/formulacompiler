@@ -34,6 +34,9 @@ import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
+import org.formulacompiler.tests.MultiFormatTestFactory;
+
+import junit.framework.Test;
 
 
 @SuppressWarnings( "unchecked" )
@@ -43,6 +46,12 @@ public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 	public void testLotsOfPossibleInputs() throws Exception
 	{
 		runUseCase( "LotsOfPossibleInputs1", new LotsOfPossibleInputsUseCase(), Inputs.class, Outputs.class );
+	}
+
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( LotsOfPossibleInputsUseCaseTest.class );
 	}
 
 
