@@ -22,13 +22,13 @@
 
 package org.formulacompiler.spreadsheet.internal.compiler;
 
-import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
 import java.util.Collection;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
+import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.err;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
@@ -342,9 +342,9 @@ public final class SectionModelCompiler
 			this.stepOutOnly = _stepOutOnly;
 			final CellIndex from = range.getFrom();
 			final CellIndex to = range.getTo();
-			this.sheets = to.sheetIndex - from.sheetIndex + 1;
-			this.rows = to.rowIndex - from.rowIndex + 1;
-			this.cols = to.columnIndex - from.columnIndex + 1;
+			this.sheets = to.getSheetIndex() - from.getSheetIndex() + 1;
+			this.rows = to.getRowIndex() - from.getRowIndex() + 1;
+			this.cols = to.getColumnIndex() - from.getColumnIndex() + 1;
 		}
 
 		private RangeExpressionBuilder( RangeExpressionBuilder _parent, CellRange _range, boolean _shaped )
@@ -465,7 +465,7 @@ public final class SectionModelCompiler
 
 			final CellIndex from = range.getFrom();
 			final ExpressionNode result = (shaped) ? new ExpressionNodeForArrayReference( new ArrayDescriptor(
-					from.sheetIndex, from.rowIndex, from.columnIndex, sheets, rows, cols ) )
+					from.getSheetIndex(), from.getRowIndex(), from.getColumnIndex(), sheets, rows, cols ) )
 					: new ExpressionNodeForSubstitution();
 			result.arguments().addAll( elts );
 			return result;
@@ -497,11 +497,11 @@ public final class SectionModelCompiler
 		{
 			final CellIndex from = _range.getFrom();
 			final CellIndex to = _range.getTo();
-			final int sheets = to.sheetIndex - from.sheetIndex + 1;
-			final int rows = to.rowIndex - from.rowIndex + 1;
-			final int cols = to.columnIndex - from.columnIndex + 1;
-			final ExpressionNode result = new ExpressionNodeForArrayReference( new ArrayDescriptor( from.sheetIndex,
-					from.rowIndex, from.columnIndex, sheets, rows, cols ) );
+			final int sheets = to.getSheetIndex() - from.getSheetIndex() + 1;
+			final int rows = to.getRowIndex() - from.getRowIndex() + 1;
+			final int cols = to.getColumnIndex() - from.getColumnIndex() + 1;
+			final ExpressionNode result = new ExpressionNodeForArrayReference( new ArrayDescriptor( from.getSheetIndex(),
+					from.getRowIndex(), from.getColumnIndex(), sheets, rows, cols ) );
 			buildExpressionModelsForLocalRangeCells( _range, result.arguments() );
 			return result;
 		}

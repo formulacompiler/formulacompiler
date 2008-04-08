@@ -50,8 +50,8 @@ public class RowSetupDbAgg extends RowSetup
 		super( _parent );
 
 		final CellIndex testStart = (CellIndex) cx().getSpreadsheet().getRange( "TestHeader" ).getTopLeft();
-		this.startingRow = testStart.rowIndex + 1;
-		this.startingCol = testStart.columnIndex;
+		this.startingRow = testStart.getRowIndex() + 1;
+		this.startingCol = testStart.getColumnIndex();
 	}
 
 

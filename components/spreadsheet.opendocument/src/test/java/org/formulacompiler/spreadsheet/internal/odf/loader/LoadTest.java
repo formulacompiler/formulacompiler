@@ -23,6 +23,7 @@
 package org.formulacompiler.spreadsheet.internal.odf.loader;
 
 import java.io.File;
+import java.util.Map;
 
 import org.formulacompiler.compiler.internal.Duration;
 import org.formulacompiler.compiler.internal.LocalDate;
@@ -151,6 +152,20 @@ public class LoadTest extends TestCase
 	private static void assertRowLength( final int _rowIndex, final int _expectedLength, final Row _row )
 	{
 		assertEquals( "Row[" + _rowIndex + "]:", _expectedLength, _row.getCells().length );
+	}
+
+	public void testBrokenRefs()
+	{
+		final Map<String, Spreadsheet.Range> rangeNames = this.spreadsheet.getRangeNames();
+		assertEquals( 8, rangeNames.size() );
+		assertEquals( "$#REF!$#REF!", rangeNames.get( "Cell1" ).toString() );
+		assertEquals( "$B$#REF!", rangeNames.get( "Cell2" ).toString() );
+		assertEquals( "$#REF!$2", rangeNames.get( "Cell3" ).toString() );
+		assertEquals( "#REF!$#REF!$#REF!", rangeNames.get( "Cell4" ).toString() );
+		assertEquals( "#REF!$B$2", rangeNames.get( "Cell5" ).toString() );
+		assertEquals( "$#REF!$#REF!", rangeNames.get( "Range1" ).toString() );
+		assertEquals( "$#REF!$10:$#REF!$11", rangeNames.get( "Range2" ).toString() );
+		assertEquals( "$F$#REF!:$G$#REF!", rangeNames.get( "Range3" ).toString() );
 	}
 
 }

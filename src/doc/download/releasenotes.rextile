@@ -14,9 +14,16 @@ h5. New
 
 	* AFC can now "save spreadsheets":../doc/tutorial/generatesheet.htm in the OpenDocument @.ods@ format.
 
+h5. Better
+
+	* "@Spreadsheet.getCellA1(String)@":-getcella1 is now able to return cells from all sheets, not only the first.
+
+[-getcella1]../doc/javadoc/org/formulacompiler/spreadsheet/Spreadsheet.html#getCellA1(java.lang.String)
+
 h5. Fixed
 
 	* Fixed parsing formulas without the @oooc:@ prefix in OpenDocument spreadsheets. Such spreadsheets are saved by "KOffice":http://www.koffice.org/.
+	* Fixed parsing OpenDocument spreadsheets with broken references.
 
 
 h2. Release 1.0.1

@@ -202,7 +202,7 @@ public abstract class CellRange extends AbstractDescribable implements Spreadshe
 			t_tl = _tiled.getFrom();
 			t_br = _tiled.getTo();
 			ss = i_tl.spreadsheet;
-			si = i_tl.sheetIndex;
+			si = i_tl.getSheetIndex();
 			results = new CellRange[ TILES ];
 		}
 
@@ -215,38 +215,38 @@ public abstract class CellRange extends AbstractDescribable implements Spreadshe
 		private void intersect()
 		{
 			int i_b;
-			if (t_br.rowIndex > i_br.rowIndex) {
-				intersectRow( TILE_BL, TILE_B, TILE_BR, i_br.rowIndex + 1, t_br.rowIndex );
-				i_b = i_br.rowIndex;
+			if (t_br.getRowIndex() > i_br.getRowIndex()) {
+				intersectRow( TILE_BL, TILE_B, TILE_BR, i_br.getRowIndex() + 1, t_br.getRowIndex() );
+				i_b = i_br.getRowIndex();
 			}
 			else {
-				i_b = t_br.rowIndex;
+				i_b = t_br.getRowIndex();
 			}
-			if (t_tl.rowIndex < i_tl.rowIndex) {
-				intersectRow( TILE_TL, TILE_T, TILE_TR, t_tl.rowIndex, i_tl.rowIndex - 1 );
-				intersectRow( TILE_L, TILE_I, TILE_R, i_tl.rowIndex, i_b );
+			if (t_tl.getRowIndex() < i_tl.getRowIndex()) {
+				intersectRow( TILE_TL, TILE_T, TILE_TR, t_tl.getRowIndex(), i_tl.getRowIndex() - 1 );
+				intersectRow( TILE_L, TILE_I, TILE_R, i_tl.getRowIndex(), i_b );
 			}
 			else {
-				intersectRow( TILE_L, TILE_I, TILE_R, t_tl.rowIndex, i_b );
+				intersectRow( TILE_L, TILE_I, TILE_R, t_tl.getRowIndex(), i_b );
 			}
 		}
 
 		private void intersectRow( int _left, int _mid, int _right, int _top, int _bottom )
 		{
 			int i_r;
-			if (t_br.columnIndex > i_br.columnIndex) {
-				results[ _right ] = cr( i_br.columnIndex + 1, t_br.columnIndex, _top, _bottom );
-				i_r = i_br.columnIndex;
+			if (t_br.getColumnIndex() > i_br.getColumnIndex()) {
+				results[ _right ] = cr( i_br.getColumnIndex() + 1, t_br.getColumnIndex(), _top, _bottom );
+				i_r = i_br.getColumnIndex();
 			}
 			else {
-				i_r = t_br.columnIndex;
+				i_r = t_br.getColumnIndex();
 			}
-			if (t_tl.columnIndex < i_tl.columnIndex) {
-				results[ _left ] = cr( t_tl.columnIndex, i_tl.columnIndex - 1, _top, _bottom );
-				results[ _mid ] = cr( i_tl.columnIndex, i_r, _top, _bottom );
+			if (t_tl.getColumnIndex() < i_tl.getColumnIndex()) {
+				results[ _left ] = cr( t_tl.getColumnIndex(), i_tl.getColumnIndex() - 1, _top, _bottom );
+				results[ _mid ] = cr( i_tl.getColumnIndex(), i_r, _top, _bottom );
 			}
 			else {
-				results[ _mid ] = cr( t_tl.columnIndex, i_r, _top, _bottom );
+				results[ _mid ] = cr( t_tl.getColumnIndex(), i_r, _top, _bottom );
 			}
 		}
 

@@ -78,7 +78,7 @@ abstract class AbstractVariantRowVerificationTestCase extends AbstractContextTes
 
 	protected void assertCellsSame( CellIndex _want, Context _have ) throws Exception
 	{
-		assertCellsSame( _want.getCell(), _have.getSheetRow( _want.rowIndex ).getCellOrNull( _want.columnIndex ) );
+		assertCellsSame( _want.getCell(), _have.getSheetRow( _want.getRowIndex() ).getCellOrNull( _want.getColumnIndex() ) );
 	}
 
 	protected void assertCellsSame( CellInstance _want, CellInstance _have ) throws Exception

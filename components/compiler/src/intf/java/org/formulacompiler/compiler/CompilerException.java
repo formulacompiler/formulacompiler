@@ -80,6 +80,22 @@ public class CompilerException extends FormulaCompilerException
 
 
 	/**
+	 * Indicates that a reference to a cell is broken. Spreadsheet applications usually show <code>#REF!</code> error.
+	 *
+	 * @author Vladimir Korenev
+	 */
+	public static class BrokenReference extends RuntimeException
+	{
+
+		public BrokenReference( String _message )
+		{
+			super( _message );
+		}
+
+	}
+
+
+	/**
 	 * You attempted to define an element twice. For example, you give two different input
 	 * definitions for the same cell.
 	 * 

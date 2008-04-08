@@ -28,16 +28,18 @@ import java.util.NoSuchElementException;
 
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
-import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
+import org.formulacompiler.spreadsheet.SpreadsheetException;
 
 public final class CellIndex extends CellRange implements Cell
 {
+	public static final int BROKEN_REF = -1;
+
 	public final SpreadsheetImpl spreadsheet;
-	public final int sheetIndex;
-	public final int columnIndex;
-	public final int rowIndex;
+	final int sheetIndex;
+	final int columnIndex;
+	final int rowIndex;
 	public final boolean isColumnIndexAbsolute;
 	public final boolean isRowIndexAbsolute;
 
@@ -62,7 +64,19 @@ public final class CellIndex extends CellRange implements Cell
 
 	public int getColumnIndex()
 	{
+		if (this.columnIndex == BROKEN_REF) {
+			throw new SpreadsheetException.BrokenReference( "Broken reference: " + toString() );
+		}
 		return this.columnIndex;
+	}
+
+
+	public int getRowIndex()
+	{
+		if (this.rowIndex == BROKEN_REF) {
+			throw new SpreadsheetException.BrokenReference( "Broken reference: " + toString() );
+		}
+		return this.rowIndex;
 	}
 
 
@@ -112,19 +126,22 @@ public final class CellIndex extends CellRange implements Cell
 
 	public SheetImpl getSheet()
 	{
-		return this.spreadsheet.getSheetList().get( this.sheetIndex );
+		return this.spreadsheet.getSheetList().get( getSheetIndex() );
 	}
 
 	public int getSheetIndex()
 	{
+		if (this.sheetIndex == BROKEN_REF) {
+			throw new SpreadsheetException.BrokenReference( "Broken reference: " + toString() );
+		}
 		return this.sheetIndex;
 	}
 
 	public RowImpl getRow()
 	{
 		SheetImpl sheet = getSheet();
-		if (this.rowIndex < sheet.getRowList().size()) {
-			return sheet.getRowList().get( this.rowIndex );
+		if (getRowIndex() < sheet.getRowList().size()) {
+			return sheet.getRowList().get( getRowIndex() );
 		}
 		else {
 			return null;
@@ -135,8 +152,8 @@ public final class CellIndex extends CellRange implements Cell
 	public CellInstance getCell()
 	{
 		RowImpl row = getRow();
-		if (null != row && this.columnIndex < row.getCellList().size()) {
-			return row.getCellList().get( this.columnIndex );
+		if (null != row && getColumnIndex() < row.getCellList().size()) {
+			return row.getCellList().get( getColumnIndex() );
 		}
 		else {
 			return null;
@@ -190,9 +207,9 @@ public final class CellIndex extends CellRange implements Cell
 	{
 		switch (_orientation) {
 			case HORIZONTAL:
-				return this.columnIndex;
+				return getColumnIndex();
 			case VERTICAL:
-				return this.rowIndex;
+				return getRowIndex();
 		}
 		assert false;
 		return -1;
@@ -224,8 +241,11 @@ public final class CellIndex extends CellRange implements Cell
 	{
 		final DescribeR1C1Style r1c1Style = _to.getContext( DescribeR1C1Style.class );
 		if (null == r1c1Style) {
-			if (this.sheetIndex > 0) {
-				_to.append( '\'' ).append( getSheet().getName() ).append( "'!" );
+			if (this.sheetIndex == BROKEN_REF) {
+				_to.append( "#REF!" );
+			}
+			else if (this.sheetIndex > 0) {
+				_to.append( '\'' ).append( getSheet().getName().replace( "'", "''" ) ).append( "'!" );
 			}
 			if (_to.getContext( DescribeShortStyle.class ) != null) {
 				_to.append( SheetImpl.getNameA1ForCellIndex( this.columnIndex, false, this.rowIndex, false ) );
@@ -236,18 +256,28 @@ public final class CellIndex extends CellRange implements Cell
 			}
 		}
 		else {
-			final CellIndex relativeTo = r1c1Style.getRelativeTo();
-			if (this.sheetIndex != ((relativeTo != null) ? relativeTo.sheetIndex : 0)) {
-				_to.append( '\'' ).append( getSheet().getName() ).append( "'!" );
-			}
-			if (null == relativeTo) {
-				_to.append( 'R' ).append( this.rowIndex + 1 ).append( 'C' ).append( this.columnIndex + 1 );
+			if (isReferenceBroken( this )) {
+				_to.append( "#REF!" );
 			}
 			else {
-				if (this.isRowIndexAbsolute) _to.append( 'R' ).append( this.rowIndex + 1 );
-				else describeOffsetTo( _to, 'R', this.rowIndex - relativeTo.rowIndex );
-				if (this.isColumnIndexAbsolute) _to.append( 'C' ).append( this.columnIndex + 1 );
-				else describeOffsetTo( _to, 'C', this.columnIndex - relativeTo.columnIndex );
+				final CellIndex relativeTo = r1c1Style.getRelativeTo();
+				if (relativeTo != null && isReferenceBroken( relativeTo )) {
+					_to.append( "#REF!" );
+				}
+				else {
+					if (this.sheetIndex != ((relativeTo != null) ? relativeTo.sheetIndex : 0)) {
+						_to.append( '\'' ).append( getSheet().getName() ).append( "'!" );
+					}
+					if (null == relativeTo) {
+						_to.append( 'R' ).append( this.rowIndex + 1 ).append( 'C' ).append( this.columnIndex + 1 );
+					}
+					else {
+						if (this.isRowIndexAbsolute) _to.append( 'R' ).append( this.rowIndex + 1 );
+						else describeOffsetTo( _to, 'R', this.rowIndex - relativeTo.rowIndex );
+						if (this.isColumnIndexAbsolute) _to.append( 'C' ).append( this.columnIndex + 1 );
+						else describeOffsetTo( _to, 'C', this.columnIndex - relativeTo.columnIndex );
+					}
+				}
 			}
 		}
 	}
@@ -258,6 +288,11 @@ public final class CellIndex extends CellRange implements Cell
 		if (_offset != 0) {
 			_to.append( '[' ).append( _offset ).append( ']' );
 		}
+	}
+
+	private static boolean isReferenceBroken( CellIndex _cellIndex )
+	{
+		return _cellIndex.sheetIndex == BROKEN_REF || _cellIndex.rowIndex == BROKEN_REF || _cellIndex.columnIndex == BROKEN_REF;
 	}
 
 	@Override

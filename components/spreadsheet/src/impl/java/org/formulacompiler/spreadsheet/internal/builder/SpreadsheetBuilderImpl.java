@@ -125,12 +125,12 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 		final CellIndex a = cellOf( _oneCorner ).getCellIndex();
 		final CellIndex b = cellOf( _otherCorner ).getCellIndex();
 
-		int sheetMin = Math.min( a.sheetIndex, b.sheetIndex );
-		int sheetMax = Math.max( a.sheetIndex, b.sheetIndex );
-		int rowMin = Math.min( a.rowIndex, b.rowIndex );
-		int rowMax = Math.max( a.rowIndex, b.rowIndex );
-		int colMin = Math.min( a.columnIndex, b.columnIndex );
-		int colMax = Math.max( a.columnIndex, b.columnIndex );
+		int sheetMin = Math.min( a.getSheetIndex(), b.getSheetIndex() );
+		int sheetMax = Math.max( a.getSheetIndex(), b.getSheetIndex() );
+		int rowMin = Math.min( a.getRowIndex(), b.getRowIndex() );
+		int rowMax = Math.max( a.getRowIndex(), b.getRowIndex() );
+		int colMin = Math.min( a.getColumnIndex(), b.getColumnIndex() );
+		int colMax = Math.max( a.getColumnIndex(), b.getColumnIndex() );
 
 		final CellIndex min = new CellIndex( this.spreadsheet, sheetMin, colMin, rowMin );
 		final CellIndex max = new CellIndex( this.spreadsheet, sheetMax, colMax, rowMax );
