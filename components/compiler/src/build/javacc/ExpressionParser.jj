@@ -500,24 +500,18 @@ void cellRefA1():
 	{	Token c = null, s = null; }
 	{	c = <CELLA1>
 			{ pushNode( makeCellA1( c )); }
-	|	s = <SHEET> c = <CELLA1>
-			{ pushNode( makeCellA1( c, s )); }
 	}
 
 void cellRefA1ODF(ExpressionNode baseNode):
 	{	Token c = null, s = null; }
 	{	c = <CELLA1_ODF>
 			{ pushNode( makeCellA1ODF( c, baseNode )); }
-	|	(<ABS_ODF>)? s = <SHEET_ODF> c = <CELLA1_ODF>
-			{ pushNode( makeCellA1ODF( c, s )); }
 	}
 
 void cellRefR1C1():
 	{	Token c = null, s = null; }
 	{	c = <CELLR1C1>
 			{ pushNode( makeCellR1C1( c )); }
-	|	s = <SHEET> c = <CELLR1C1>
-			{ pushNode( makeCellR1C1( c, s )); }
 	}
 
 void namedCellRef():
@@ -1138,11 +1132,11 @@ void niceExpr(): {}
 /* Otherwise they would all get lexed as <NAME>. */
 
 TOKEN: /* Cell references */
-	{	<CELLR1C1: <ROW> <COL> >
+	{	<CELLR1C1: (<SHEET>)? <ROW> <COL> >
 	|	<#ROW: "R" (<IDX>)? >
 	|	<#COL: "C" (<IDX>)? >
-	|	<CELLA1: <ABS> <CAPS> <ABS> <DIGITS> >
-	|	<SHEET:	<NAME> "!" | "'" (~["'"])* "'" "!" >
+	|	<CELLA1: (<SHEET>)? <ABS> <CAPS> <ABS> <DIGITS> >
+	|	<#SHEET: (<NAME> | "'" ("''"|~["'"])* "'") "!" >
 	|	<#IDX: "[" ("-")? <DIGITS> "]" | <DIGITS> >
 	|	<#ABS: ("$")? >
 	|   <RANGE_SEPARATOR: ":" >
@@ -1154,16 +1148,13 @@ TOKEN:
 	{   <LEFT_BRACKET: "["> : IN_ODF_CELL_REF
 	}
 
-TOKEN:
-	{   <#SHEET_NAME_ODF: (<LETTER> | "_") (<LETTER> | "_" | ["0"-"9"])* >
-	}
-
 <IN_ODF_CELL_REF> TOKEN:
-	{	<CELLA1_ODF: "." <ABS> <CAPS> <ABS> <DIGITS> >
-	|   <ABS_ODF: "$" >
-	|   <RANGE_SEPARATOR_ODF: ":" >
-	|	<SHEET_ODF:  <SHEET_NAME_ODF> | "'" (~["'"])* "'" >
-	|   <RIGHT_BRACKET: "]"> : DEFAULT
+	{	<CELLA1_ODF: (<ABS> <SHEET_ODF>)? "." <ABS> (<CAPS> | <BROKEN_REF>) <ABS> (<DIGITS> | <BROKEN_REF>) >
+	|	<RANGE_SEPARATOR_ODF: ":" >
+	|	<#SHEET_ODF: <SHEET_NAME_ODF> | "'" ("''"|~["'"])* "'" | <BROKEN_REF> >
+	|	<#SHEET_NAME_ODF: (<LETTER> | "_") (<LETTER> | "_" | ["0"-"9"])* >
+	|	<#BROKEN_REF: "#REF!">
+	|	<RIGHT_BRACKET: "]"> : DEFAULT
 	}
 
 

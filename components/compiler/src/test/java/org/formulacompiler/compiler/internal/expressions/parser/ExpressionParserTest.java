@@ -109,7 +109,7 @@ public class ExpressionParserTest extends TestCase
 	{
 		assertParse( "SUM( \"R<A1ODF>.A1:A1ODF>(\"A1ODF>.A1\").B1>\" )", "SUM( [.A1:.B1] )" );
 		assertParse( "SUM( \"R<A1ODF>Sheet1.A1:A1ODF>(\"A1ODF>Sheet1.A1\").B1>\" )", "SUM( [Sheet1.A1:.B1] )" );
-		assertParse( "SUM( \"R<A1ODF>Sheet1.A1:A1ODF>Sheet2.B1>\" )", "SUM( [Sheet1.A1:Sheet2.B1] )" );
+		assertParse( "SUM( \"R<A1ODF>Sheet1.A1:A1ODF>(\"A1ODF>Sheet1.A1\")Sheet2.B1>\" )", "SUM( [Sheet1.A1:Sheet2.B1] )" );
 	}
 
 	public void testCellR1C1() throws Exception
@@ -257,12 +257,6 @@ public class ExpressionParserTest extends TestCase
 		}
 
 		@Override
-		protected ExpressionNode makeCellA1( Token _cell, Token _sheet )
-		{
-			return new ExpressionNodeForConstantValue( "A1>" + _sheet.image + _cell.image );
-		}
-
-		@Override
 		protected ExpressionNode makeCellA1ODF( Token _cell, ExpressionNode _node )
 		{
 			final StringBuilder sb = new StringBuilder( "A1ODF>" );
@@ -274,21 +268,9 @@ public class ExpressionParserTest extends TestCase
 		}
 
 		@Override
-		protected ExpressionNode makeCellA1ODF( Token _cell, Token _sheet )
-		{
-			return new ExpressionNodeForConstantValue( "A1ODF>" + _sheet.image + _cell.image );
-		}
-
-		@Override
 		protected ExpressionNode makeCellR1C1( Token _cell )
 		{
 			return new ExpressionNodeForConstantValue( "RC>" + _cell.image );
-		}
-
-		@Override
-		protected ExpressionNode makeCellR1C1( Token _cell, Token _sheet )
-		{
-			return new ExpressionNodeForConstantValue( "RC>" + _sheet.image + _cell.image );
 		}
 
 		@Override

@@ -36,7 +36,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetException;
 
 /**
  * Implementation of {@link Spreadsheet}.
- * 
+ *
  * @author peo
  */
 public final class SpreadsheetImpl extends AbstractYamlizable implements Spreadsheet
@@ -133,7 +133,7 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 			throw new SpreadsheetException.NameNotFound( "The name '" + _a1Name + "' is not defined; workbook is empty." );
 		}
 		final CellRefParser parser = CellRefParser.getInstance( CellRefFormat.A1 );
-		final CellIndex cell = parser.getCellIndexForCanonicalName( _a1Name, getSheetList().get( 0 ), null );
+		final CellIndex cell = parser.getCellIndexForCanonicalName( _a1Name, new CellIndex( this, 0, 0, 0 ) );
 		if (null == cell) {
 			throw new SpreadsheetException.NameNotFound( "The name '" + _a1Name + "' is not defined in this workbook." );
 		}
@@ -153,9 +153,8 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 
 	public Sheet[] getSheets()
 	{
-		return this.sheets.toArray( new Sheet[ this.sheets.size() ] );
+		return this.sheets.toArray( new Sheet[this.sheets.size()] );
 	}
-
 
 	// --------------------------------------- API for parser
 
@@ -169,7 +168,6 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 		}
 		return null;
 	}
-
 
 	// --------------------------------------- Own stuff
 

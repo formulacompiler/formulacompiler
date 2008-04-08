@@ -41,9 +41,9 @@ public final class MultiCellRange extends CellRange
 		super();
 		if (_from.spreadsheet != _to.spreadsheet)
 			throw new IllegalArgumentException( "From and to not from same spreadsheet for range" );
-		assert _from.sheetIndex <= _to.sheetIndex;
-		assert _from.rowIndex <= _to.rowIndex;
-		assert _from.columnIndex <= _to.columnIndex;
+		assert _from.sheetIndex == CellIndex.BROKEN_REF || _to.sheetIndex == CellIndex.BROKEN_REF || _from.sheetIndex <= _to.sheetIndex;
+		assert _from.rowIndex == CellIndex.BROKEN_REF || _to.rowIndex == CellIndex.BROKEN_REF || _from.rowIndex <= _to.rowIndex;
+		assert _from.columnIndex == CellIndex.BROKEN_REF || _to.columnIndex == CellIndex.BROKEN_REF || _from.columnIndex <= _to.columnIndex;
 		this.from = _from;
 		this.to = _to;
 	}
@@ -78,12 +78,12 @@ public final class MultiCellRange extends CellRange
 
 		CellIndexRangeIterator()
 		{
-			int firstSheet = getFrom().sheetIndex;
-			this.lastSheet = getTo().sheetIndex;
-			this.firstRow = getFrom().rowIndex;
-			this.lastRow = getTo().rowIndex;
-			this.firstColumn = getFrom().columnIndex;
-			this.lastColumn = getTo().columnIndex;
+			int firstSheet = getFrom().getSheetIndex();
+			this.lastSheet = getTo().getSheetIndex();
+			this.firstRow = getFrom().getRowIndex();
+			this.lastRow = getTo().getRowIndex();
+			this.firstColumn = getFrom().getColumnIndex();
+			this.lastColumn = getTo().getColumnIndex();
 
 			this.iSheet = firstSheet - 1;
 			this.iRow = this.lastRow;
@@ -127,11 +127,11 @@ public final class MultiCellRange extends CellRange
 	@Override
 	public CellIndex getCellIndexRelativeTo( CellIndex _cell ) throws SpreadsheetException
 	{
-		if (this.from.columnIndex == this.to.columnIndex) {
-			return new CellIndex( this.from.spreadsheet, _cell.sheetIndex, this.from.columnIndex, _cell.rowIndex );
+		if (this.from.getColumnIndex() == this.to.getColumnIndex()) {
+			return new CellIndex( this.from.spreadsheet, _cell.getSheetIndex(), this.from.getColumnIndex(), _cell.getRowIndex() );
 		}
-		else if (this.from.rowIndex == this.to.rowIndex) {
-			return new CellIndex( this.from.spreadsheet, _cell.sheetIndex, _cell.columnIndex, this.from.rowIndex );
+		else if (this.from.getRowIndex() == this.to.getRowIndex()) {
+			return new CellIndex( this.from.spreadsheet, _cell.getSheetIndex(), _cell.getColumnIndex(), this.from.getRowIndex() );
 		}
 		throw new SpreadsheetException.CellRangeNotUniDimensional( "Range "
 				+ this + " cannot be used to specify a relative cell for " + _cell );
@@ -141,10 +141,10 @@ public final class MultiCellRange extends CellRange
 	public final boolean contains( Spreadsheet.Range _other )
 	{
 		final CellRange range = (CellRange) _other;
-		return this.from.sheetIndex <= range.getFrom().sheetIndex
-				&& this.from.rowIndex <= range.getFrom().rowIndex && this.from.columnIndex <= range.getFrom().columnIndex
-				&& this.to.sheetIndex >= range.getTo().sheetIndex && this.to.rowIndex >= range.getTo().rowIndex
-				&& this.to.columnIndex >= range.getTo().columnIndex;
+		return this.from.getSheetIndex() <= range.getFrom().getSheetIndex()
+				&& this.from.getRowIndex() <= range.getFrom().getRowIndex() && this.from.getColumnIndex() <= range.getFrom().getColumnIndex()
+				&& this.to.getSheetIndex() >= range.getTo().getSheetIndex() && this.to.getRowIndex() >= range.getTo().getRowIndex()
+				&& this.to.getColumnIndex() >= range.getTo().getColumnIndex();
 	}
 
 

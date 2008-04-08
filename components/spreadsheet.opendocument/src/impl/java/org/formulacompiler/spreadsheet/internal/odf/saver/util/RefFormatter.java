@@ -22,6 +22,7 @@
 
 package org.formulacompiler.spreadsheet.internal.odf.saver.util;
 
+import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
@@ -45,16 +46,20 @@ public class RefFormatter
 
 	static void append( StringBuilder _stringBuilder, CellIndex _cell, CellIndex _baseCell )
 	{
-		if (_baseCell == null || _baseCell.sheetIndex != _cell.sheetIndex) {
-			_stringBuilder.append( '$' );
-			final String sheetName = _cell.getSheet().getName();
-			final boolean quoted = needsQuotes( sheetName );
-			if (quoted) _stringBuilder.append( '\'' );
-			_stringBuilder.append( sheetName );
-			if (quoted) _stringBuilder.append( '\'' );
+		try {
+			if (_baseCell == null || _baseCell.getSheetIndex() != _cell.getSheetIndex()) {
+				_stringBuilder.append( '$' );
+				final String sheetName = _cell.getSheet().getName();
+				final boolean quoted = needsQuotes( sheetName );
+				if (quoted) _stringBuilder.append( '\'' );
+				_stringBuilder.append( sheetName );
+				if (quoted) _stringBuilder.append( '\'' );
+			}
+		} catch (SpreadsheetException.BrokenReference e) {
+			_stringBuilder.append( "#REF!" );
 		}
 		_stringBuilder.append( '.' );
-		SheetImpl.appendNameA1ForCellIndex( _stringBuilder, _cell.columnIndex, _cell.isColumnIndexAbsolute, _cell.rowIndex, _cell.isRowIndexAbsolute );
+		SheetImpl.appendNameA1ForCellIndex( _stringBuilder, _cell );
 	}
 
 	private static boolean needsQuotes( String _name )

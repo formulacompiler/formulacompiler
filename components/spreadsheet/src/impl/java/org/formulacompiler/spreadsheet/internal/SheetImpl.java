@@ -102,12 +102,20 @@ public final class SheetImpl extends AbstractStyledElement implements Spreadshee
 		return result.toString();
 	}
 
-	public static void appendNameA1ForCellIndex( final StringBuilder _result, final int _columnIndex, final boolean _columnIndexAbsolute, final int _rowIndex, final boolean _rowIndexAbsolute )
+	public static void appendNameA1ForCellIndex( final StringBuilder _result, final CellIndex _cellIndex )
+	{
+		appendNameA1ForCellIndex( _result, _cellIndex.columnIndex, _cellIndex.isColumnIndexAbsolute, _cellIndex.rowIndex, _cellIndex.isRowIndexAbsolute );
+	}
+
+	private static void appendNameA1ForCellIndex( final StringBuilder _result, final int _columnIndex, final boolean _columnIndexAbsolute, final int _rowIndex, final boolean _rowIndexAbsolute )
 	{
 		if (_columnIndexAbsolute) {
 			_result.append( '$' );
 		}
-		if (_columnIndex <= 25) {
+		if (_columnIndex == CellIndex.BROKEN_REF) {
+			_result.append( "#REF!" );
+		}
+		else if (_columnIndex <= 25) {
 			_result.append( (char) ('A' + _columnIndex) );
 		}
 		else {
@@ -119,7 +127,12 @@ public final class SheetImpl extends AbstractStyledElement implements Spreadshee
 		if (_rowIndexAbsolute) {
 			_result.append( '$' );
 		}
-		_result.append( _rowIndex + 1 );
+		if (_rowIndex == CellIndex.BROKEN_REF) {
+			_result.append( "#REF!" );
+		}
+		else {
+			_result.append( _rowIndex + 1 );
+		}
 	}
 
 
