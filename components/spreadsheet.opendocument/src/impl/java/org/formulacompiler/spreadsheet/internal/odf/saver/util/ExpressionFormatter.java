@@ -40,6 +40,8 @@ import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForCell;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRange;
+import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRangeIntersection;
+import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRangeUnion;
 
 public class ExpressionFormatter
 {
@@ -145,6 +147,14 @@ public class ExpressionFormatter
 				RefFormatter.append( _stringBuilder, range, _baseCell );
 				_stringBuilder.append( ']' );
 			}
+		}
+		else if (_expr instanceof ExpressionNodeForRangeIntersection) {
+			final List<ExpressionNode> arguments = _expr.arguments();
+			appendArguments( _stringBuilder, arguments, "!", _baseCell, null );
+		}
+		else if (_expr instanceof ExpressionNodeForRangeUnion) {
+			final List<ExpressionNode> arguments = _expr.arguments();
+			appendArguments( _stringBuilder, arguments, ";", _baseCell, null );
 		}
 		else {
 			throw new IllegalArgumentException( "Cannot format " + _expr );
