@@ -1,0 +1,16 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>xmlunit</groupId>
+  <artifactId>xmlunit</artifactId>
+  <packaging>jar</packaging>
+  <version>1.1</version>
+  <description>XMLUnit compares a control XML document to a test document or the result of a transformation, validates documents, and compares the results of XPath expressions.</description>
+  <url>http://xmlunit.sourceforge.net/</url>
+  <licenses>
+    <license>
+      <name>BSD License</name>
+      <url>http://xmlunit.svn.sourceforge.net/viewvc/*checkout*/xmlunit/trunk/xmlunit/LICENSE.txt</url>
+    </license>
+  </licenses>
+  <dependencies/>
+</project>

@@ -96,6 +96,7 @@
       <entry name="*.Foo" />
       <entry name="*.Bar" />
       <entry name="*.ods" />
+      <entry name="*.rng" />
     </wildcardResourcePatterns>
   </component>
   <component name="DependenciesAnalyzeManager">
@@ -379,6 +380,15 @@
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/lib/IDE/junit-src.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="xmlunit">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/lib/test/xmlunit-1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/lib/IDE/xmlunit-1.1-src.zip!/" />
       </SOURCES>
     </library>
   </component>

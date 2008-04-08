@@ -62,6 +62,7 @@
 		<path refid="lib.impl.classpath" />
 		<path refid="test.deps.classpath" />
 		<fileset dir="${basedir}" includes="lib/test/*.jar" />
+		<fileset dir="${basedir}/../.." includes="lib/test/*.jar" />
 	</path>
 	<property name="lib.test.classpath" refid="lib.test.classpath" />
 

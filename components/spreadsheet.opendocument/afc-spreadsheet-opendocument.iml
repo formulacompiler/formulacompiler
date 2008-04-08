@@ -27,6 +27,43 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="junit" level="project" />
+    <orderEntry type="module-library">
+      <library name="isorelax">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/test/isorelax.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="msv">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/test/msv.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="relaxngDatatype">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/test/relaxngDatatype.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="xsdlib">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/test/xsdlib.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="xmlunit" level="project" />
     <orderEntryProperties />
   </component>
 </module>
