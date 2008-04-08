@@ -36,6 +36,7 @@ import javax.xml.stream.events.XMLEvent;
 import org.formulacompiler.compiler.internal.Duration;
 import org.formulacompiler.compiler.internal.LocalDate;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
+import org.formulacompiler.spreadsheet.SpreadsheetLoader;
 import org.formulacompiler.spreadsheet.internal.CellRefFormat;
 import org.formulacompiler.spreadsheet.internal.CellWithConstant;
 import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
@@ -54,11 +55,13 @@ import org.formulacompiler.spreadsheet.internal.parser.LazySpreadsheetExpression
 class CellParser implements ElementListener
 {
 	private final RowImpl row;
+	private final SpreadsheetLoader.Config config;
 	private TableCell tableCell;
 
-	public CellParser( RowImpl _row )
+	public CellParser( RowImpl _row, SpreadsheetLoader.Config _config )
 	{
 		this.row = _row;
+		this.config = _config;
 	}
 
 	public void elementStarted( final StartElement _startElement, final Map<QName, ElementListener> _handlers )
@@ -152,60 +155,76 @@ class CellParser implements ElementListener
 					final CellWithLazilyParsedExpression exprCell = new CellWithLazilyParsedExpression( this.row );
 					exprCell.setExpressionParser( new LazySpreadsheetExpressionParser( exprCell, expression,
 							CellRefFormat.A1_ODF ) );
+					if (this.config.loadAllCellValues) {
+						final Object value = getValue();
+						if (value != null) {
+							exprCell.setValue( value );
+						}
+					}
 				}
 			}
 			else {
-				final String value = this.tableCell.value;
-				final String valueType = this.tableCell.valueType;
-				if (ValueTypes.FLOAT.equals( valueType )
-						|| ValueTypes.PERCENTAGE.equals( valueType ) || ValueTypes.CURRENCY.equals( valueType )) {
-					new CellWithConstant( this.row, new Double( value ) );
-				}
-				else if (ValueTypes.BOOLEAN.equals( valueType )) {
-					final boolean booleanValue = Boolean.parseBoolean( this.tableCell.booleanValue );
-					new CellWithConstant( this.row, booleanValue );
-				}
-				else if (ValueTypes.DATE.equals( valueType )) {
-					final Date date = DataTypeUtil.dateFromXmlFormat( this.tableCell.dateValue, DataTypeUtil.GMT_TIME_ZONE );
-					final double dateNum = RuntimeDouble_v2.dateToNum( date, DataTypeUtil.GMT_TIME_ZONE );
-					final LocalDate localDate = new LocalDate( dateNum );
-					new CellWithConstant( this.row, localDate );
-				}
-				else if (ValueTypes.TIME.equals( valueType )) {
-					final long durationInMillis = DataTypeUtil.durationFromXmlFormat( this.tableCell.timeValue );
-					final Duration duration = new Duration( durationInMillis );
-					new CellWithConstant( this.row, duration );
+				final Object value = getValue();
+				if (value != null) {
+					new CellWithConstant( this.row, value );
 				}
 				else {
-					final String stringValue;
-					if (value != null) {
-						stringValue = value;
-					}
-					else if (this.tableCell.stringValue != null) {
-						stringValue = this.tableCell.stringValue;
-					}
-					else {
-						final Iterator<String> textContentIterator = this.tableCell.paragraphs.iterator();
-						if (textContentIterator.hasNext()) {
-							final StringBuilder stringBuilder = new StringBuilder( textContentIterator.next() );
-							while (textContentIterator.hasNext()) {
-								stringBuilder.append( "\n" ).append( textContentIterator.next() );
-							}
-							stringValue = stringBuilder.toString();
-						}
-						else {
-							stringValue = null;
-						}
-					}
-					if (stringValue != null) {
-						new CellWithConstant( this.row, stringValue );
-					}
-					else {
-						this.row.getCellList().add( null );
-					}
+					this.row.getCellList().add( null );
 				}
 			}
 		}
+	}
+
+	private Object getValue()
+	{
+		final String cellValue = this.tableCell.value;
+		final String cellValueType = this.tableCell.valueType;
+		final Object value;
+		if (ValueTypes.FLOAT.equals( cellValueType )
+				|| ValueTypes.PERCENTAGE.equals( cellValueType ) || ValueTypes.CURRENCY.equals( cellValueType )) {
+			value = Double.valueOf( cellValue );
+		}
+		else if (ValueTypes.BOOLEAN.equals( cellValueType )) {
+			value = Boolean.valueOf( this.tableCell.booleanValue );
+		}
+		else if (ValueTypes.DATE.equals( cellValueType )) {
+			final Date date = DataTypeUtil.dateFromXmlFormat( this.tableCell.dateValue, DataTypeUtil.GMT_TIME_ZONE );
+			final double dateNum = RuntimeDouble_v2.dateToNum( date, DataTypeUtil.GMT_TIME_ZONE );
+			value = new LocalDate( dateNum );
+		}
+		else if (ValueTypes.TIME.equals( cellValueType )) {
+			final long durationInMillis = DataTypeUtil.durationFromXmlFormat( this.tableCell.timeValue );
+			value = new Duration( durationInMillis );
+		}
+		else {
+			final String stringValue;
+			if (cellValue != null) {
+				stringValue = cellValue;
+			}
+			else if (this.tableCell.stringValue != null) {
+				stringValue = this.tableCell.stringValue;
+			}
+			else {
+				final Iterator<String> textContentIterator = this.tableCell.paragraphs.iterator();
+				if (textContentIterator.hasNext()) {
+					final StringBuilder stringBuilder = new StringBuilder( textContentIterator.next() );
+					while (textContentIterator.hasNext()) {
+						stringBuilder.append( "\n" ).append( textContentIterator.next() );
+					}
+					stringValue = stringBuilder.toString();
+				}
+				else {
+					stringValue = null;
+				}
+			}
+			if (stringValue != null) {
+				value = stringValue;
+			}
+			else {
+				value = null;
+			}
+		}
+		return value;
 	}
 
 	private class TableCell

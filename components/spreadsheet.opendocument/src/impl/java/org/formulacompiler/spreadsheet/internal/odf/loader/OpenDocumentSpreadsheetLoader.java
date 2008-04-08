@@ -49,7 +49,7 @@ public class OpenDocumentSpreadsheetLoader implements SpreadsheetLoader
 
 		public SpreadsheetLoader newInstance( Config _config )
 		{
-			return new OpenDocumentSpreadsheetLoader();
+			return new OpenDocumentSpreadsheetLoader( _config );
 		}
 
 		public boolean canHandle( String _fileName )
@@ -58,6 +58,15 @@ public class OpenDocumentSpreadsheetLoader implements SpreadsheetLoader
 		}
 
 	}
+
+
+	private final Config config;
+
+	public OpenDocumentSpreadsheetLoader( final Config _config )
+	{
+		config = _config;
+	}
+
 
 	public Spreadsheet loadFrom( final String _originalFileName, final InputStream _stream ) throws IOException,
 			SpreadsheetException
@@ -72,12 +81,12 @@ public class OpenDocumentSpreadsheetLoader implements SpreadsheetLoader
 		throw new SpreadsheetException.LoadError( "<content.xml> is missing in <" + _originalFileName + ">" );
 	}
 
-	private static Spreadsheet readContent( InputStream _inputStream ) throws SpreadsheetException
+	private Spreadsheet readContent( InputStream _inputStream ) throws SpreadsheetException
 	{
 		final SpreadsheetImpl workbook = new SpreadsheetImpl();
 
 		try {
-			final SpreadsheetParser spreadsheetParser = new SpreadsheetParser( workbook );
+			final SpreadsheetParser spreadsheetParser = new SpreadsheetParser( workbook, this.config );
 			final Parser parser = new Parser( Collections.singletonMap( XMLConstants.Office.SPREADSHEET, spreadsheetParser ) );
 			parser.parse( _inputStream );
 		}
