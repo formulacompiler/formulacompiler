@@ -1664,7 +1664,7 @@ ___@_@___
 jc:org.formulacompiler.tutorials.Basics:---- GenerateFile
 __@@__
 Spreadsheet s = buildSpreadsheet();
-		SpreadsheetCompiler./**/saveSpreadsheet/**/( s, GENFILE, null );
+		SpreadsheetCompiler./**/saveSpreadsheet/**/( s, getOutputFile(), null );
 ___@_@___
 jc:org.formulacompiler.tutorials.Basics:---- GenerateStream
 __@@__
@@ -1673,24 +1673,24 @@ Spreadsheet s = buildSpreadsheet();
 
 		SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
 		cfg.spreadsheet = s;
-		cfg./**/typeExtension/**/ = ".xls";
+		cfg./**/typeExtension/**/ = getSpreadsheetExtension(); // .xls or .ods
 		cfg./**/outputStream/**/ = os;
 		/**/SpreadsheetCompiler.newSpreadsheetSaver( cfg ).save();/**/
 ___@_@___
 jc:org.formulacompiler.tutorials.Basics:---- GenerateTemplatedFile
 __@@__
 Spreadsheet s = buildTemplatedSpreadsheet();
-		SpreadsheetCompiler.saveSpreadsheet( s, GENTEMPLATEDFILE, /**/TEMPLATEFILE/**/ );
+		SpreadsheetCompiler.saveSpreadsheet( s, getTemplatedOutputFile(), /**/getTemplateFile()/**/ );
 ___@_@___
 jc:org.formulacompiler.tutorials.Basics:---- GenerateTemplatedStream
 __@@__
 Spreadsheet s = buildTemplatedSpreadsheet();
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		InputStream /**/ts/**/ = new BufferedInputStream( new FileInputStream( TEMPLATEFILE ) );
+		InputStream /**/ts/**/ = new BufferedInputStream( new FileInputStream( getTemplateFile() ) );
 
 		SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
 		cfg.spreadsheet = s;
-		cfg.typeExtension = ".xls";
+		cfg.typeExtension = getSpreadsheetExtension(); // .xls or .ods
 		cfg.outputStream = os;
 		cfg./**/templateInputStream/**/ = ts;
 		SpreadsheetCompiler.newSpreadsheetSaver( cfg ).save();
@@ -1811,7 +1811,7 @@ __@@__
 public void testAFC() throws Exception
 	{
 		LineItem item = new StrategyLineItem();
-		/**/RebateComputation.factory = compileFactoryFromSpreadsheet( CUSTOMSHEETNAME );/**/
+		/**/RebateComputation.factory = compileFactoryFromSpreadsheet( getCustomSheetFileName() );/**/
 		double rebate = item.computeRebate();
 		assertEquals( 0.15, rebate, 0.00001 );
 	}
@@ -2692,7 +2692,7 @@ ___@_@___
 jc:org.formulacompiler.tutorials.Caching:---- compile
 __@@__
 EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( getPath() );
 		builder.setInputClass( Input.class );
 		builder.setOutputClass( Output.class );
 		builder.setNumericType( unboundedBigDecimal );
@@ -2889,7 +2889,7 @@ Locale oldLocale = Locale.getDefault();
 			assertEquals( ',', decimalFormat.getDecimalFormatSymbols().getDecimalSeparator() );
 
 			EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-			builder.loadSpreadsheet( DATA_PATH + "Locale_en_US.xls" );
+			builder.loadSpreadsheet( path );
 			builder.setFactoryClass( ValueFactory.class );
 			builder.getByNameBinder().outputs().bindAllMethodsToNamedCells();
 			builder.getByNameBinder()./**/inputs().bindAllMethodsToNamedCells()/**/;
@@ -2952,7 +2952,7 @@ __@@__
 ___@_@___
 jc:org.formulacompiler.tutorials.EnvironmentConfig:---- loadDateConst
 __@@__
-Spreadsheet loaded = SpreadsheetCompiler.loadSpreadsheet( ".xls", inputStream );
+Spreadsheet loaded = SpreadsheetCompiler.loadSpreadsheet( getSpreadsheetExtension(), inputStream );
 			EngineBuilder eb = SpreadsheetCompiler.newEngineBuilder();
 			eb.setSpreadsheet( loaded );
 			eb.setInputClass( Object.class );
@@ -2970,7 +2970,7 @@ jc:org.formulacompiler.tutorials.EnvironmentConfig:---- saveDateConst
 __@@__
 SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
 			cfg.spreadsheet = b.getSpreadsheet();
-			cfg.typeExtension = ".xls";
+			cfg.typeExtension = getSpreadsheetExtension(); // .xls or .ods
 			cfg.outputStream = outputStream;
 			/**/cfg.timeZone = gmt2;/**/
 			SpreadsheetCompiler.newSpreadsheetSaver( cfg ).save();
@@ -3132,9 +3132,16 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"Info"/**/ );
 			fail();
 		}
 		catch (/**/CompilerException.UnsupportedExpression e/**/) {
-			String err = /**/"Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
-					+ "\nCell containing expression is A1."/**/;
-			assertEquals( err, e.getMessage() );
+			if (getSpreadsheetExtension().equals( ".xls" )) {
+				String err = /**/"Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
+						+ "\nCell containing expression is A1."/**/;
+				assertEquals( err, e.getMessage() );
+			}
+			else {
+				String err = /**/"Unsupported function INFO encountered in expression 1+INFO( <<? [.B1]); error location indicated by <<?."
+						+ "\nCell containing expression is A1."/**/;
+				assertEquals( err, e.getMessage() );
+			}
 		}
 ___@_@___
 jc:org.formulacompiler.tutorials.ErrorUnsupportedFunction:---- BindParsedButUnsupported
@@ -3160,10 +3167,18 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"ReferencesInfo"/*
 			fail();
 		}
 		catch (CompilerException.UnsupportedExpression e) {
-			String err = "Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
-					+ "\nCell containing expression is A1."
-					+ /**/"\nReferenced by cell A2."/**/;
-			assertEquals( err, e.getMessage() );
+			if (getSpreadsheetExtension().equals( ".xls" )) {
+				String err = "Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
+						+ "\nCell containing expression is A1."
+						+ /**/"\nReferenced by cell A2."/**/;
+				assertEquals( err, e.getMessage() );
+			}
+			else {
+				String err = "Unsupported function INFO encountered in expression 1+INFO( <<? [.B1]); error location indicated by <<?."
+						+ "\nCell containing expression is A1."
+						+ /**/"\nReferenced by cell A2."/**/;
+				assertEquals( err, e.getMessage() );
+			}
 		}
 ___@_@___
 jc:org.formulacompiler.tutorials.ErrorUnsupportedFunctionVariant:---- BindBad

@@ -29,27 +29,26 @@ import org.formulacompiler.runtime.ScaledLong;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.Spreadsheet;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 import org.formulacompiler.tutorials.BonusPerEmployee.BonusData;
 import org.formulacompiler.tutorials.BonusPerEmployee.BonusDataImpl;
 import org.formulacompiler.tutorials.BonusPerEmployee.EmployeeBonusData;
 import org.formulacompiler.tutorials.BonusPerEmployee.EmployeeBonusDataImpl;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
 @SuppressWarnings( "unchecked" )
-public class BonusPerEmployee_Linked extends TestCase
+public class BonusPerEmployee_Linked extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
-	private static final String SHEETPATH = "src/test/data/org/formulacompiler/tutorials/BonusPerEmployee.xls";
-
 
 	public void testBonusPerEmployee() throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.setNumericType( SpreadsheetCompiler.LONG_SCALE4 );
-		builder.loadSpreadsheet( SHEETPATH );
+		builder.loadSpreadsheet( getPath() );
 		builder.setFactoryClass( BonusComputationFactory.class );
 
 		// builder.bindAllByName();
@@ -66,6 +65,12 @@ public class BonusPerEmployee_Linked extends TestCase
 			long[] bonuses = { 72328800L, 67397300L, 60274000L };
 			assertBonuses( factory, bonusTotal, overtimeSalaryPerHour, salaries, hoursOvertime, bonuses );
 		}
+	}
+
+
+	private String getPath()
+	{
+		return "src/test/data/org/formulacompiler/tutorials/BonusPerEmployee" + getSpreadsheetExtension();
 	}
 
 
@@ -109,6 +114,12 @@ public class BonusPerEmployee_Linked extends TestCase
 		}
 		// ---- consumeOutputs
 
+	}
+
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( BonusPerEmployee_Linked.class );
 	}
 
 

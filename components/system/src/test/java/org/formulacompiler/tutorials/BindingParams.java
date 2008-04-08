@@ -31,18 +31,19 @@ import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
 
 @SuppressWarnings( "unchecked" )
-public class BindingParams extends TestCase
+public class BindingParams extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 
 
 	public void testBindingByName() throws Exception
 	{
-		final String path = "src/test/data/org/formulacompiler/tutorials/BindingParams.xls";
+		final String path = "src/test/data/org/formulacompiler/tutorials/BindingParams" + getSpreadsheetExtension();
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( path );
@@ -197,7 +198,7 @@ public class BindingParams extends TestCase
 
 	public void testInputVariants() throws Exception
 	{
-		final String path = "src/test/data/org/formulacompiler/tutorials/BindingParams_InputVariants.xls";
+		final String path = "src/test/data/org/formulacompiler/tutorials/BindingParams_InputVariants" + getSpreadsheetExtension();
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( path );
@@ -361,7 +362,7 @@ public class BindingParams extends TestCase
 
 	public void testComplexOutputBinding() throws Exception
 	{
-		final String path = "src/test/data/org/formulacompiler/tutorials/BindingParams.xls";
+		final String path = "src/test/data/org/formulacompiler/tutorials/BindingParams" + getSpreadsheetExtension();
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( path );
@@ -395,6 +396,12 @@ public class BindingParams extends TestCase
 
 		SimulatedComplexEngine simulation = new SimulatedComplexEngine( input );
 		assertEquals( 5.0, simulation.getComplex( 1, 2, "THREE" ), 0.001 );
+	}
+
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( BindingParams.class );
 	}
 
 

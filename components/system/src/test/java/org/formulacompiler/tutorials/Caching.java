@@ -30,17 +30,16 @@ import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.decompiler.FormulaDecompiler;
 import org.formulacompiler.runtime.ComputationFactory;
-import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.runtime.FormulaCompilerException;
+import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
-public class Caching extends TestCase
+public class Caching extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
-	private static final String path = "src/test/data/org/formulacompiler/tutorials/Caching.xls";
-
 
 	public void testNoCaching() throws Exception
 	{
@@ -198,7 +197,7 @@ public class Caching extends TestCase
 		// DO NOT REFORMAT BELOW THIS LINE
 		// ---- compile
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( getPath() );
 		builder.setInputClass( Input.class );
 		builder.setOutputClass( Output.class );
 		builder.setNumericType( unboundedBigDecimal );
@@ -215,5 +214,18 @@ public class Caching extends TestCase
 		}
 		return engine.getComputationFactory();
 	}
+
+
+	private String getPath()
+	{
+		return "src/test/data/org/formulacompiler/tutorials/Caching" + getSpreadsheetExtension();
+	}
+
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( Caching.class );
+	}
+
 
 }

@@ -29,17 +29,16 @@ import org.formulacompiler.runtime.ScaledLong;
 import org.formulacompiler.runtime.ScaledLongSupport;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
-public class UsingScaledLong extends TestCase
+public class UsingScaledLong extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
-	private static final String PATH = "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes.xls";
-
 
 	public void testUsingScaledLong() throws Exception
 	{
-		String path = PATH;
+		String path = getPath();
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( path );
@@ -62,7 +61,7 @@ public class UsingScaledLong extends TestCase
 
 	public void testUsingLong() throws Exception
 	{
-		String path = PATH;
+		String path = getPath();
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( path );
@@ -81,6 +80,11 @@ public class UsingScaledLong extends TestCase
 		// ---- checkResult0
 
 		FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/numeric_type/long" );
+	}
+
+	private String getPath()
+	{
+		return "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes" + getSpreadsheetExtension();
 	}
 
 
@@ -115,6 +119,12 @@ public class UsingScaledLong extends TestCase
 		assertEquals( -6446744073709551616L, intermediate ); // silent integer overflow!
 		assertEquals( -6446744073709L, result );
 		// ---- problemWithMultiplication
+	}
+
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( UsingScaledLong.class );
 	}
 
 

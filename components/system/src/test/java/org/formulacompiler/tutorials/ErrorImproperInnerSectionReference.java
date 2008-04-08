@@ -27,14 +27,15 @@ import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.Spreadsheet;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.spreadsheet.SpreadsheetException;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
-public class ErrorImproperInnerSectionReference extends TestCase
+public class ErrorImproperInnerSectionReference extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 
 	public void testGoodRef() throws Exception
@@ -133,7 +134,8 @@ public class ErrorImproperInnerSectionReference extends TestCase
 	private EngineBuilder builderForComputationOfCellNamed( String _cellName ) throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tutorials/ErrorImproperInnerSectionReference.xls" );
+		String path = "src/test/data/org/formulacompiler/tutorials/ErrorImproperInnerSectionReference" + getSpreadsheetExtension();
+		builder.loadSpreadsheet( path );
 		builder.setFactoryClass( MyFactory.class );
 		Spreadsheet sheet = builder.getSpreadsheet();
 		Section root = builder.getRootBinder();
@@ -149,6 +151,11 @@ public class ErrorImproperInnerSectionReference extends TestCase
 		// ---- bindSection
 
 		return builder;
+	}
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( ErrorImproperInnerSectionReference.class );
 	}
 
 	public static interface MyFactory

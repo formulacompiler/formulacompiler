@@ -43,12 +43,13 @@ import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetSaver;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 import org.formulacompiler.tests.utils.SpreadsheetAssert;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
 
-public class Basics extends TestCase
+public class Basics extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 
 
@@ -256,14 +257,21 @@ public class Basics extends TestCase
 	// ------------------------------------------------ Using AFC
 
 
-	private static final String STDSHEETNAME = "src/test/data/org/formulacompiler/tutorials/Basics.xls";
-	private static final String CUSTOMSHEETNAME = "src/test/data/org/formulacompiler/tutorials/BasicsCustom.xls";
+	protected String getStdSheetFileName()
+	{
+		return "src/test/data/org/formulacompiler/tutorials/Basics" + getSpreadsheetExtension();
+	}
+
+	protected String getCustomSheetFileName()
+	{
+		return "src/test/data/org/formulacompiler/tutorials/BasicsCustom" + getSpreadsheetExtension();
+	}
 
 
 	public void testAFCStd() throws Exception
 	{
 		LineItem item = new StrategyLineItem();
-		RebateComputation.factory = compileFactoryFromSpreadsheet( STDSHEETNAME );
+		RebateComputation.factory = compileFactoryFromSpreadsheet( getStdSheetFileName() );
 		double rebate = item.computeRebate();
 		assertEquals( 0.1, rebate, 0.00001 );
 	}
@@ -273,7 +281,7 @@ public class Basics extends TestCase
 	public void testAFC() throws Exception
 	{
 		LineItem item = new StrategyLineItem();
-		/**/RebateComputation.factory = compileFactoryFromSpreadsheet( CUSTOMSHEETNAME );/**/
+		/**/RebateComputation.factory = compileFactoryFromSpreadsheet( getCustomSheetFileName() );/**/
 		double rebate = item.computeRebate();
 		assertEquals( 0.15, rebate, 0.00001 );
 	}
@@ -358,14 +366,30 @@ public class Basics extends TestCase
 	// ------------------------------------------------ Generate Initial Sheet
 
 
-	private static final String GENDIR = "temp/test/data";
-	private static final String GENFILE = GENDIR + "/GeneratedSheet.xls";
-	private static final String GENTEMPLATEDFILE = GENDIR + "/GeneratedTemplatedSheet.xls";
-	private static final String TEMPLATEFILE = "src/test/data/org/formulacompiler/tutorials/Template.xls";
-	private static final String EXPECTEDGENTEMPLATEDFILE = "src/test/data/org/formulacompiler/tutorials/ExpectedTemplatedSheet.xls";
+	private static final File GENDIR = new File( "temp/test/data" );
 
 	static {
-		new File( GENDIR ).mkdirs();
+		GENDIR.mkdirs();
+	}
+
+	protected File getOutputFile()
+	{
+		return new File( GENDIR, "GeneratedSheet" + getSpreadsheetExtension() );
+	}
+
+	protected File getTemplatedOutputFile()
+	{
+		return new File( GENDIR, "GeneratedTemplatedSheet" + getSpreadsheetExtension() );
+	}
+
+	protected File getTemplateFile()
+	{
+		return new File( "src/test/data/org/formulacompiler/tutorials/Template" + getSpreadsheetExtension() );
+	}
+
+	protected File getExpectedTemplatedOutputFile()
+	{
+		return new File( "src/test/data/org/formulacompiler/tutorials/ExpectedTemplatedSheet" + getSpreadsheetExtension() );
 	}
 
 
@@ -373,9 +397,9 @@ public class Basics extends TestCase
 	{
 		// ---- GenerateFile
 		Spreadsheet s = buildSpreadsheet();
-		SpreadsheetCompiler./**/saveSpreadsheet/**/( s, GENFILE, null );
+		SpreadsheetCompiler./**/saveSpreadsheet/**/( s, getOutputFile(), null );
 		// ---- GenerateFile
-		SpreadsheetAssert.assertEqualSpreadsheets( s, new BufferedInputStream( new FileInputStream( GENFILE ) ), GENFILE );
+		SpreadsheetAssert.assertEqualSpreadsheets( s, new BufferedInputStream( new FileInputStream( getOutputFile() ) ), getSpreadsheetExtension() );
 	}
 
 
@@ -387,11 +411,11 @@ public class Basics extends TestCase
 
 		SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
 		cfg.spreadsheet = s;
-		cfg./**/typeExtension/**/ = ".xls";
+		cfg./**/typeExtension/**/ = getSpreadsheetExtension(); // .xls or .ods
 		cfg./**/outputStream/**/ = os;
 		/**/SpreadsheetCompiler.newSpreadsheetSaver( cfg ).save();/**/
 		// ---- GenerateStream
-		SpreadsheetAssert.assertEqualSpreadsheets( s, new ByteArrayInputStream( os.toByteArray() ), GENFILE );
+		SpreadsheetAssert.assertEqualSpreadsheets( s, new ByteArrayInputStream( os.toByteArray() ), getSpreadsheetExtension() );
 	}
 
 
@@ -399,9 +423,9 @@ public class Basics extends TestCase
 	{
 		// ---- GenerateTemplatedFile
 		Spreadsheet s = buildTemplatedSpreadsheet();
-		SpreadsheetCompiler.saveSpreadsheet( s, GENTEMPLATEDFILE, /**/TEMPLATEFILE/**/ );
+		SpreadsheetCompiler.saveSpreadsheet( s, getTemplatedOutputFile(), /**/getTemplateFile()/**/ );
 		// ---- GenerateTemplatedFile
-		SpreadsheetAssert.assertEqualSpreadsheets( new File( EXPECTEDGENTEMPLATEDFILE ), new File( GENTEMPLATEDFILE ) );
+		SpreadsheetAssert.assertEqualSpreadsheets( getExpectedTemplatedOutputFile(), getTemplatedOutputFile() );
 	}
 
 
@@ -410,11 +434,11 @@ public class Basics extends TestCase
 		// ---- GenerateTemplatedStream
 		Spreadsheet s = buildTemplatedSpreadsheet();
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		InputStream /**/ts/**/ = new BufferedInputStream( new FileInputStream( TEMPLATEFILE ) );
+		InputStream /**/ts/**/ = new BufferedInputStream( new FileInputStream( getTemplateFile() ) );
 
 		SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
 		cfg.spreadsheet = s;
-		cfg.typeExtension = ".xls";
+		cfg.typeExtension = getSpreadsheetExtension(); // .xls or .ods
 		cfg.outputStream = os;
 		cfg./**/templateInputStream/**/ = ts;
 		SpreadsheetCompiler.newSpreadsheetSaver( cfg ).save();
@@ -423,12 +447,12 @@ public class Basics extends TestCase
 		ts.close();
 		os.close();
 		final byte[] bytes = os.toByteArray();
-		final InputStream exp = new BufferedInputStream( new FileInputStream( EXPECTEDGENTEMPLATEDFILE ) );
+		final InputStream exp = new BufferedInputStream( new FileInputStream( getExpectedTemplatedOutputFile() ) );
 		final InputStream act = new ByteArrayInputStream( bytes );
 
-		copy( new ByteArrayInputStream( bytes ), new FileOutputStream( GENTEMPLATEDFILE ) );
+		copy( new ByteArrayInputStream( bytes ), new FileOutputStream( getTemplatedOutputFile() ) );
 
-		SpreadsheetAssert.assertEqualSpreadsheets( "Comparing generated templated sheets", exp, act, ".xls" );
+		SpreadsheetAssert.assertEqualSpreadsheets( "Comparing generated templated sheets", exp, act, getSpreadsheetExtension() );
 	}
 
 
@@ -498,6 +522,11 @@ public class Basics extends TestCase
 		return b.getSpreadsheet();
 		// ---- BuildTemplatedSheet
 		// DO NOT REFORMAT ABOVE THIS LINE
+	}
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( Basics.class );
 	}
 
 	static abstract class LineItem

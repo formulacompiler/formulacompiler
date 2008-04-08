@@ -35,16 +35,16 @@ import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.Spreadsheet;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
-public class CustomerRatingWithOrders extends TestCase
+public class CustomerRatingWithOrders extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
-	private static final String SHEETPATH = "src/test/data/org/formulacompiler/tutorials/CustomerRating.xls";
 
 	private static enum AccessorVersion {
 		ARRAY, ITERABLE, ITERATOR;
@@ -70,7 +70,7 @@ public class CustomerRatingWithOrders extends TestCase
 	public void doTestCustomerRating( AccessorVersion _version ) throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( SHEETPATH );
+		builder.loadSpreadsheet( getPath() );
 		builder.setFactoryClass( CustomerRatingFactory.class );
 
 		// LATER Make orders for last N days bindable automatically
@@ -91,6 +91,12 @@ public class CustomerRatingWithOrders extends TestCase
 
 		// And more values.
 		assertRating( "Excellent", factory, 1000, 2000, 1000, 1500, 1000, 10000 );
+	}
+
+
+	private String getPath()
+	{
+		return "src/test/data/org/formulacompiler/tutorials/CustomerRating" + getSpreadsheetExtension();
 	}
 
 
@@ -142,6 +148,12 @@ public class CustomerRatingWithOrders extends TestCase
 		CustomerRating ratingStrategy = _factory.newRating( customer );
 		String rating = ratingStrategy.rating();
 		assertEquals( _expected, rating );
+	}
+
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( CustomerRatingWithOrders.class );
 	}
 
 

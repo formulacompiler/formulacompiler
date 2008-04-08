@@ -29,16 +29,17 @@ import java.util.Date;
 
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.runtime.Engine;
+import org.formulacompiler.runtime.Milliseconds;
 import org.formulacompiler.runtime.MillisecondsSinceUTC1970;
 import org.formulacompiler.runtime.ScaledLong;
-import org.formulacompiler.runtime.Milliseconds;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 import org.formulacompiler.tests.utils.Util;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
-public class TypeConversion extends TestCase
+public class TypeConversion extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 	private static final long ONE_HOUR = 1000 * 60 * 60; // ms
 	private static final long ONE_DAY = ONE_HOUR * 24; // ms
@@ -69,7 +70,7 @@ public class TypeConversion extends TestCase
 
 	private void testAllTypesWith( final NumericType _numericType ) throws Exception
 	{
-		String path = "src/test/data/org/formulacompiler/tutorials/TypeConversion.xls";
+		String path = "src/test/data/org/formulacompiler/tutorials/TypeConversion" + getSpreadsheetExtension();
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( path );
@@ -130,6 +131,12 @@ public class TypeConversion extends TestCase
 	private String asString( BigInteger _value )
 	{
 		return Util.trimTrailingZerosAndPoint( _value.toString() );
+	}
+
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( TypeConversion.class );
 	}
 
 
