@@ -251,4 +251,12 @@ public class LoadSaveTest extends AbstractOdsVerifyingTestCase
 			assertEquals( expected, actual );
 		}
 	}
+
+	public void testIntersections() throws Exception
+	{
+		final Spreadsheet.Sheet sheet = this.spreadsheet.getSheets()[ 0 ];
+		final Spreadsheet.Row[] rows = sheet.getRows();
+		assertEquals( "SUM( C1:E4 D2:F8 )", rows[ 0 ].getCells()[ 1 ].getExpressionText() );
+		assertEquals( "SUM( C1:E8 D2:G8 D4:E12 E5:H10 )", rows[ 1 ].getCells()[ 1 ].getExpressionText() );
+	}
 }
