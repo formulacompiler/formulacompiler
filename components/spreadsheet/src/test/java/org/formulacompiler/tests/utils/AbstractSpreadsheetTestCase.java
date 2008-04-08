@@ -23,11 +23,9 @@
 package org.formulacompiler.tests.utils;
 
 import java.io.File;
-import java.io.InputStream;
 
 import org.formulacompiler.compiler.internal.Yamlizable;
 import org.formulacompiler.spreadsheet.Spreadsheet;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 
 
 public abstract class AbstractSpreadsheetTestCase extends AbstractStandardInputsOutputsTestCase
@@ -43,26 +41,6 @@ public abstract class AbstractSpreadsheetTestCase extends AbstractStandardInputs
 	protected AbstractSpreadsheetTestCase( String _name )
 	{
 		super( _name );
-	}
-
-
-	protected void checkSpreadsheetStream( Spreadsheet _expected, InputStream _stream, String _typeExtensionOrFileName )
-			throws Exception
-	{
-		Spreadsheet actual = SpreadsheetCompiler.loadSpreadsheet( _typeExtensionOrFileName, _stream );
-		touchExpressions( actual );
-		assertEquals( _expected.describe(), actual.describe() );
-	}
-
-	protected void touchExpressions( Spreadsheet _ss ) throws Exception
-	{
-		for (Spreadsheet.Sheet s : _ss.getSheets()) {
-			for (Spreadsheet.Row r : s.getRows()) {
-				for (Spreadsheet.Cell c : r.getCells()) {
-					c.getExpressionText();
-				}
-			}
-		}
 	}
 
 
