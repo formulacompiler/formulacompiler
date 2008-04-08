@@ -102,6 +102,23 @@ public class SpreadsheetCompiler extends FormulaCompiler
 	}
 
 	/**
+	 * Loads a spreadsheet from a file and constructs an internal representation of it.
+	 *
+	 * @param _file   is the file to load.
+	 * @param _config configures the loader; can be set to {@code null}.
+	 * @return the loaded spreadsheet representation.
+	 *
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws SpreadsheetException
+	 */
+	public static Spreadsheet loadSpreadsheet( File _file, SpreadsheetLoader.Config _config ) throws FileNotFoundException, IOException,
+			SpreadsheetException
+	{
+		return loadSpreadsheet( _file.getName(), new FileInputStream( _file ), _config );
+	}
+
+	/**
 	 * Loads a spreadsheet from a file and constructs an internal representation of it. Like
 	 * {@link #loadSpreadsheet(String, InputStream, org.formulacompiler.spreadsheet.SpreadsheetLoader.Config)}
 	 * with {@code _config} set to {@code null}.
