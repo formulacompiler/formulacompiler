@@ -183,7 +183,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		CellModel constant = root.getCells().get( 1 );
 		SectionModel range = root.getSections().get( 0 );
 
-		assertEquals( "B$1", constant.getName() );
+		assertEquals( "B1", constant.getName() );
 		assertEquals( "A1", result.getName() );
 
 		assertEquals( root, range.getSection() );
@@ -196,7 +196,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		CellModel i3 = range.getCells().get( 3 );
 
 		assertEquals( "SUM( Inputs.getDetails()~>D2 )", result.getExpression().describe() );
-		assertEquals( "(SUM( Inputs.getOne(), Inputs.getTwo(), Inputs.getThree() ) * <~B$1)", x1.getExpression()
+		assertEquals( "(SUM( Inputs.getOne(), Inputs.getTwo(), Inputs.getThree() ) * <~B1)", x1.getExpression()
 				.describe() );
 
 		assertEquals( "D2", x1.getName() );
@@ -229,7 +229,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		CellModel constant = root.getCells().get( 0 );
 		SectionModel range = root.getSections().get( 0 );
 
-		assertEquals( "B$1", constant.getName() );
+		assertEquals( "B1", constant.getName() );
 
 		assertEquals( root, range.getSection() );
 		assertEquals( 4, range.getCells().size() );
@@ -245,7 +245,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		assertEquals( "Inputs.getTwo()", i2.getName() );
 		assertEquals( "Inputs.getThree()", i3.getName() );
 
-		assertEquals( "(SUM( Inputs.getOne(), Inputs.getTwo(), Inputs.getThree() ) * <~B$1)", o1.getExpression()
+		assertEquals( "(SUM( Inputs.getOne(), Inputs.getTwo(), Inputs.getThree() ) * <~B1)", o1.getExpression()
 				.describe() );
 	}
 

@@ -115,7 +115,7 @@ public final class SectionModelCompiler
 		final CellInstance cell = _cellIndex.getCell();
 		final boolean nonNull = (null != cell);
 		if (nonNull || _isInput) {
-			final CellModel result = new CellModel( this.sectionModel, _cellIndex.toString() );
+			final CellModel result = new CellModel( this.sectionModel, _cellIndex.getShortName() );
 			this.compiler.addCellModel( _cellIndex, result );
 			if (nonNull) {
 				buildCellModel( cell, result );
@@ -384,7 +384,7 @@ public final class SectionModelCompiler
 				case CellRange.CONTAINED:
 					return buildContainedRange();
 				default:
-					throw new SpreadsheetException.SectionSpan( range.toString(), sectionDef.toString() );
+					throw new SpreadsheetException.SectionSpan( range.getShortName(), sectionDef.toString() );
 			}
 		}
 
@@ -449,7 +449,7 @@ public final class SectionModelCompiler
 					}
 
 					default:
-						throw new SpreadsheetException.SectionSpan( range.toString(), inner.toString() );
+						throw new SpreadsheetException.SectionSpan( range.getShortName(), inner.toString() );
 
 				}
 				if (null == next) break;

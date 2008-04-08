@@ -23,8 +23,10 @@
 package org.formulacompiler.spreadsheet.internal.binding;
 
 import org.formulacompiler.compiler.internal.AbstractDescribable;
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.internal.CellRange;
+import org.formulacompiler.spreadsheet.internal.DescribeShortStyle;
 
 public abstract class ElementBinding extends AbstractDescribable
 {
@@ -46,8 +48,18 @@ public abstract class ElementBinding extends AbstractDescribable
 
 	protected void notInSection( String _name, CellRange _ref ) throws SpreadsheetException.NotInSection
 	{
-		throw new SpreadsheetException.NotInSection( _name, _ref.toString(), getSection().toString(), getSection()
-				.getRange().toString() );
+		throw new SpreadsheetException.NotInSection( _name, _ref.getShortName(), getSection().toString(), getSection()
+				.getRange().getShortName() );
+	}
+
+
+	@Override
+	public String toString()
+	{
+		DescriptionBuilder description = new DescriptionBuilder();
+		description.pushContext( DescribeShortStyle.getInstance() );
+		describeTo( description );
+		return description.toString();
 	}
 
 

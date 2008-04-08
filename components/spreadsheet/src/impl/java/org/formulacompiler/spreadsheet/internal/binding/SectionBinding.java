@@ -158,7 +158,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 		final CellIndex cellIndex = (CellIndex) _cell;
 		if (this.inputs.containsKey( cellIndex )) {
 			throw new CompilerException.DuplicateDefinition( "Input cell '"
-					+ cellIndex.toString() + "' is already defined" );
+					+ cellIndex.getShortName() + "' is already defined" );
 		}
 		final InputCellBinding def = new InputCellBinding( this, _callChainToCall, cellIndex );
 		this.inputs.put( def.getIndex(), def );
@@ -225,7 +225,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 		for (SectionBinding sub : this.getSections()) {
 			if (sub.getRange().overlaps( _range, _orientation )) {
 				throw new SpreadsheetException.SectionOverlap( "Section '"
-						+ _range.toString() + "' overlaps '" + sub.toString() + "'" );
+						+ _range.getShortName() + "' overlaps '" + sub.toString() + "'" );
 			}
 		}
 	}
@@ -280,11 +280,11 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 		int isTo = to.getIndex( this.orientation );
 
 		if ((isFrom != wantFrom) || (isTo != wantTo)) {
-			throw new SpreadsheetException.SectionExtentNotCovered( _range.toString(), this.toString(), this.orientation );
+			throw new SpreadsheetException.SectionExtentNotCovered( _range.getShortName(), this.toString(), this.orientation );
 		}
 		if (!contains( _range.getFrom() ) || !contains( _range.getTo() )) {
-			throw new SpreadsheetException.NotInSection( null, _range.toString(), this.toString(), this.getRange()
-					.toString() );
+			throw new SpreadsheetException.NotInSection( null, _range.getShortName(), this.toString(), this.getRange()
+					.getShortName() );
 		}
 
 		if (isTo > isFrom) {
