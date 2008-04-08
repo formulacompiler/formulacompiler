@@ -262,8 +262,8 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 				final int xlsEndSheet = xlsRange[ 0 ].getLastSheetIndex();
 				final jxl.Cell xlsStart = xlsRange[ 0 ].getTopLeft();
 				final jxl.Cell xlsEnd = xlsRange[ 0 ].getBottomRight();
-				final CellIndex start = new CellIndex( _workbook, xlsStartSheet, xlsStart.getColumn(), xlsStart.getRow() );
-				final CellIndex end = new CellIndex( _workbook, xlsEndSheet, xlsEnd.getColumn(), xlsEnd.getRow() );
+				final CellIndex start = new CellIndex( _workbook, xlsStartSheet, xlsStart.getColumn(), true, xlsStart.getRow(), true );
+				final CellIndex end = new CellIndex( _workbook, xlsEndSheet, xlsEnd.getColumn(), true, xlsEnd.getRow(), true );
 				final CellRange range = CellRange.getCellRange( start, end );
 				_workbook.defineModelRangeName( name, range );
 			}
