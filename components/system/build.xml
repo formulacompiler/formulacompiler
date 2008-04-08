@@ -51,6 +51,8 @@
 
 	<path id="test-only.deps.classpath">
 		<pathelement location="../spreadsheet/temp/test/classes" />
+		<pathelement location="../spreadsheet.excel.xls/temp/test/classes" />
+		<pathelement location="../spreadsheet.opendocument/temp/test/classes" />
 		<pathelement location="../compiler/temp/test/classes" />
 		<pathelement location="../compiler/temp/build/classes" />
 	</path>

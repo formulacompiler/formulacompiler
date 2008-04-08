@@ -4,6 +4,7 @@
 	<classpathentry kind="src" path="src/impl/resources"/>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="src" path="src/test/data"/>
+	<classpathentry kind="src" path="src/test/resources"/>
 	<classpathentry kind="lib" path="lib/impl/jxl.jar" sourcepath="lib/IDE/jxl-src.zip"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/afc-runtime"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/afc-compiler"/>

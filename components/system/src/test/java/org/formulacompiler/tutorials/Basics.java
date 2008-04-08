@@ -43,10 +43,12 @@ import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetSaver;
-import org.formulacompiler.tests.utils.AbstractSpreadsheetTestCase;
+import org.formulacompiler.tests.utils.SpreadsheetAssert;
+
+import junit.framework.TestCase;
 
 
-public class Basics extends AbstractSpreadsheetTestCase
+public class Basics extends TestCase
 {
 
 
@@ -373,7 +375,7 @@ public class Basics extends AbstractSpreadsheetTestCase
 		Spreadsheet s = buildSpreadsheet();
 		SpreadsheetCompiler./**/saveSpreadsheet/**/( s, GENFILE, null );
 		// ---- GenerateFile
-		checkSpreadsheetStream( s, new BufferedInputStream( new FileInputStream( GENFILE ) ), GENFILE );
+		SpreadsheetAssert.assertEqualSpreadsheets( s, new BufferedInputStream( new FileInputStream( GENFILE ) ), GENFILE );
 	}
 
 
@@ -389,7 +391,7 @@ public class Basics extends AbstractSpreadsheetTestCase
 		cfg./**/outputStream/**/ = os;
 		/**/SpreadsheetCompiler.newSpreadsheetSaver( cfg ).save();/**/
 		// ---- GenerateStream
-		checkSpreadsheetStream( s, new ByteArrayInputStream( os.toByteArray() ), GENFILE );
+		SpreadsheetAssert.assertEqualSpreadsheets( s, new ByteArrayInputStream( os.toByteArray() ), GENFILE );
 	}
 
 
@@ -399,7 +401,7 @@ public class Basics extends AbstractSpreadsheetTestCase
 		Spreadsheet s = buildTemplatedSpreadsheet();
 		SpreadsheetCompiler.saveSpreadsheet( s, GENTEMPLATEDFILE, /**/TEMPLATEFILE/**/ );
 		// ---- GenerateTemplatedFile
-		assertEqualFiles( EXPECTEDGENTEMPLATEDFILE, GENTEMPLATEDFILE );
+		SpreadsheetAssert.assertEqualSpreadsheets( new File( EXPECTEDGENTEMPLATEDFILE ), new File( GENTEMPLATEDFILE ) );
 	}
 
 
@@ -426,7 +428,7 @@ public class Basics extends AbstractSpreadsheetTestCase
 
 		copy( new ByteArrayInputStream( bytes ), new FileOutputStream( GENTEMPLATEDFILE ) );
 
-		assertEqualStreams( "Comparing generated templated sheets", exp, act );
+		SpreadsheetAssert.assertEqualSpreadsheets( "Comparing generated templated sheets", exp, act, ".xls" );
 	}
 
 

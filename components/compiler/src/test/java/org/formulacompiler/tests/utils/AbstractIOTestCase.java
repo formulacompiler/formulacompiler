@@ -79,7 +79,7 @@ public abstract class AbstractIOTestCase extends TestCase
 			final InputStream expected = new BufferedInputStream( new FileInputStream( expectedFile ) );
 			try {
 				try {
-					assertEqualStreams( "Comparing engines for " + _id + "; actual engine written to ...-actual.jar",
+					IOAssert.assertEqualStreams( "Comparing engines for " + _id + "; actual engine written to ...-actual.jar",
 							expected, actual );
 				}
 				catch (AssertionFailedError t) {
@@ -98,34 +98,6 @@ public abstract class AbstractIOTestCase extends TestCase
 		else {
 			IOUtil.writeStreamToFile( actual, expectedFile );
 		}
-	}
-
-
-	protected void assertEqualStreams( String _message, InputStream _expected, InputStream _actual ) throws Exception
-	{
-		int offset = 0;
-		while (true) {
-			final int e = _expected.read();
-			final int a = _actual.read();
-			if (e != a) {
-				assertEquals( _message + " at offset " + offset, e, a );
-			}
-			offset++;
-			if (e < 0) break;
-		}
-	}
-
-
-	protected void assertEqualFiles( String _nameOfExpectedFile, String _nameOfActualFile ) throws Exception
-	{
-		assertEqualFiles( new File( _nameOfExpectedFile ), new File( _nameOfActualFile ) );
-	}
-
-	protected void assertEqualFiles( File _nameOfExpectedFile, File _nameOfActualFile ) throws Exception
-	{
-		final InputStream exp = new BufferedInputStream( new FileInputStream( _nameOfExpectedFile ) );
-		final InputStream act = new BufferedInputStream( new FileInputStream( _nameOfActualFile ) );
-		assertEqualStreams( "Comparing files " + _nameOfExpectedFile + " and " + _nameOfActualFile, exp, act );
 	}
 
 

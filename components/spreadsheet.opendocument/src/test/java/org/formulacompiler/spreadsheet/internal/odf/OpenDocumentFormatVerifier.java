@@ -22,26 +22,19 @@
 
 package org.formulacompiler.spreadsheet.internal.odf;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.internal.odf.saver.io.NonClosableInputStream;
-import org.custommonkey.xmlunit.XMLAssert;
 import org.iso_relax.verifier.Schema;
 import org.iso_relax.verifier.Verifier;
 import org.iso_relax.verifier.VerifierConfigurationException;
 import org.iso_relax.verifier.VerifierFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
-import junit.framework.Assert;
 
 public class OpenDocumentFormatVerifier
 {
@@ -76,54 +69,5 @@ public class OpenDocumentFormatVerifier
 		return schema.newVerifier();
 	}
 
-
-	public static void compare( String _message, InputStream _expectedStream, InputStream _actualStream )
-			throws Exception
-	{
-		final Map<String, String> expectedOdsContents = readArchive( _expectedStream );
-		final Map<String, String> actualOdsContents = readArchive( _actualStream );
-		for (String s : ODF_CONTENTS) {
-			final String expectedContent = expectedOdsContents.get( s );
-			if (expectedContent == null) {
-				Assert.fail( s + " is missing in expected file." );
-			}
-			final String actualContent = actualOdsContents.get( s );
-			if (actualContent == null) {
-				Assert.fail( s + " is missing in generated file." );
-			}
-			final String msg = (_message == null) ? s : _message + " in zipped file " + s;
-			if (s.equals( "mimetype" )) {
-				Assert.assertEquals( msg, expectedContent, actualContent );
-			}
-			else if (!s.equals( "meta.xml" )) {
-				XMLAssert.assertXMLEqual( msg, expectedContent, actualContent );
-			}
-		}
-	}
-
-	public static void assertOdsEqual( InputStream _expectedStream, InputStream _actualStream ) throws Exception
-	{
-		compare( null, _expectedStream, _actualStream );
-	}
-
-	private static String[] ODF_CONTENTS = { "content.xml", "meta.xml", "settings.xml", "styles.xml",
-			"META-INF/manifest.xml", "mimetype" };
-
-	private static Map<String, String> readArchive( InputStream _inputStream ) throws IOException
-	{
-		final Map<String, String> result = New.map();
-		final ZipInputStream zipInputStream = new ZipInputStream( _inputStream );
-		final BufferedReader reader = new BufferedReader( new InputStreamReader( zipInputStream ) );
-		ZipEntry zipEntry;
-		while ((zipEntry = zipInputStream.getNextEntry()) != null) {
-			final StringBuilder stringBuilder = new StringBuilder();
-			String line;
-			while ((line = reader.readLine()) != null) {
-				stringBuilder.append( line ).append( '\n' );
-			}
-			result.put( zipEntry.getName(), stringBuilder.toString() );
-		}
-		return result;
-	}
 
 }

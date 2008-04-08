@@ -26,13 +26,14 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import org.formulacompiler.compiler.Function;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetSaver;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder.CellRef;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder.RangeRef;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.spreadsheet.SpreadsheetSaver;
 import org.formulacompiler.tests.utils.AbstractSpreadsheetTestCase;
+import org.formulacompiler.tests.utils.SpreadsheetAssert;
 
 
 public class SaveTest extends AbstractSpreadsheetTestCase
@@ -61,7 +62,7 @@ public class SaveTest extends AbstractSpreadsheetTestCase
 		Spreadsheet s = b.getSpreadsheet();
 
 		byte[] saved = saveTo( s, ".xls" );
-		checkSpreadsheetStream( s, new ByteArrayInputStream( saved ), ".xls" );
+		SpreadsheetAssert.assertEqualSpreadsheets( s, new ByteArrayInputStream( saved ), ".xls" );
 	}
 
 

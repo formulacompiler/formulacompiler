@@ -33,6 +33,7 @@ import java.io.OutputStream;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetSaver;
+import org.formulacompiler.tests.utils.SpreadsheetAssert;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -80,7 +81,7 @@ public abstract class AbstractOdsVerifyingTestCase extends TestCase
 			final InputStream expectedInputStream = new FileInputStream( savedFile );
 			final InputStream actualInputStream = new ByteArrayInputStream( generatedDocument );
 			try {
-				OpenDocumentFormatVerifier.assertOdsEqual( expectedInputStream, actualInputStream );
+				SpreadsheetAssert.assertEqualSpreadsheets( expectedInputStream, actualInputStream, ".ods" );
 			} catch (AssertionFailedError e) {
 				final File actualFile = new File( getDataDirectory(), this.getName() + "_saved-actual" + FILE_EXTENSION );
 				final OutputStream outputStream = new FileOutputStream( actualFile );
