@@ -24,11 +24,15 @@ package org.formulacompiler.tutorials;
 
 import java.math.BigDecimal;
 
-import junit.framework.TestCase;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 
-public abstract class AbstractUsingBigDecimalTest extends TestCase
+public abstract class AbstractUsingBigDecimalTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
-	protected static final String PATH = "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes.xls";
+
+	protected String getPath()
+	{
+		return "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes" + getSpreadsheetExtension();
+	}
 
 
 	// DO NOT REFORMAT BELOW THIS LINE

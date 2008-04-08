@@ -24,12 +24,13 @@ package org.formulacompiler.tutorials;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.spreadsheet.EngineBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
-public class ErrorUnsupportedConversionFromInput extends TestCase
+public class ErrorUnsupportedConversionFromInput extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 
 	public void testStringAsInt() throws Exception
@@ -54,7 +55,8 @@ public class ErrorUnsupportedConversionFromInput extends TestCase
 	private EngineBuilder builderForComputationOfCellNamed( String _cellName ) throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tutorials/ErrorUnsupportedConversion.xls" );
+		String path = "src/test/data/org/formulacompiler/tutorials/ErrorUnsupportedConversion" + getSpreadsheetExtension();
+		builder.loadSpreadsheet( path );
 		builder.setFactoryClass( MyFactory.class );
 		Cell cell = builder.getSpreadsheet().getCell( _cellName );
 		builder.getRootBinder().defineOutputCell( cell, MyComputation.class.getMethod( "result" ) );
@@ -64,6 +66,11 @@ public class ErrorUnsupportedConversionFromInput extends TestCase
 	private void bindInputNamed( EngineBuilder _builder, String _cellName ) throws Exception
 	{
 		_builder.getRootBinder().defineInputCell( _builder.getSpreadsheet().getCell( _cellName ), "value" );
+	}
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( ErrorUnsupportedConversionFromInput.class );
 	}
 
 	public static interface MyFactory

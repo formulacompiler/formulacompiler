@@ -25,12 +25,13 @@ package org.formulacompiler.tutorials;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
-public class ErrorUnsupportedFunctionVariant extends TestCase
+public class ErrorUnsupportedFunctionVariant extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 
 	public void testBindBad() throws Exception
@@ -92,7 +93,8 @@ public class ErrorUnsupportedFunctionVariant extends TestCase
 	private EngineBuilder builderForComputationOfCellNamed( String _cellName ) throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tutorials/ErrorUnsupportedFunctionVariant.xls" );
+		String path = "src/test/data/org/formulacompiler/tutorials/ErrorUnsupportedFunctionVariant" + getSpreadsheetExtension();
+		builder.loadSpreadsheet( path );
 		builder.setFactoryClass( MyFactory.class );
 		Cell cell = builder.getSpreadsheet().getCell( _cellName );
 		builder.getRootBinder().defineOutputCell( cell, MyComputation.class.getMethod( "result" ) );
@@ -102,6 +104,11 @@ public class ErrorUnsupportedFunctionVariant extends TestCase
 	private void bindInputNamed( EngineBuilder _builder, String _cellName ) throws Exception
 	{
 		_builder.getRootBinder().defineInputCell( _builder.getSpreadsheet().getCell( _cellName ), "value" );
+	}
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( ErrorUnsupportedFunctionVariant.class );
 	}
 
 	public static interface MyFactory

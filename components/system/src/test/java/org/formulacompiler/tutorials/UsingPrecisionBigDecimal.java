@@ -30,6 +30,9 @@ import org.formulacompiler.decompiler.FormulaDecompiler;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
+
+import junit.framework.Test;
 
 public class UsingPrecisionBigDecimal extends AbstractUsingBigDecimalTest
 {
@@ -37,7 +40,7 @@ public class UsingPrecisionBigDecimal extends AbstractUsingBigDecimalTest
 
 	public void testUsingBigDecimal34() throws Exception
 	{
-		String path = PATH;
+		String path = getPath();
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( path );
@@ -76,7 +79,7 @@ public class UsingPrecisionBigDecimal extends AbstractUsingBigDecimalTest
 
 	public void testUsingBigDecimal4() throws Exception
 	{
-		String path = PATH;
+		String path = getPath();
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( path );
@@ -111,6 +114,12 @@ public class UsingPrecisionBigDecimal extends AbstractUsingBigDecimalTest
 		}
 
 		FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/numeric_type/bigdecimal_prec4" );
+	}
+
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( UsingPrecisionBigDecimal.class );
 	}
 
 

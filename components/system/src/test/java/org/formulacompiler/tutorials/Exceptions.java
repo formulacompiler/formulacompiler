@@ -34,13 +34,14 @@ import org.formulacompiler.runtime.FormulaException;
 import org.formulacompiler.runtime.NotAvailableException;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
 @SuppressWarnings( "unqualified-field-access" )
-public final class Exceptions extends TestCase
+public final class Exceptions extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 
 
@@ -282,7 +283,7 @@ public final class Exceptions extends TestCase
 		f = null;
 		e = null;
 		b = SpreadsheetCompiler.newEngineBuilder();
-		b.loadSpreadsheet( "src/test/data/org/formulacompiler/tutorials/Exceptions.xls" );
+		b.loadSpreadsheet( "src/test/data/org/formulacompiler/tutorials/Exceptions" + getSpreadsheetExtension() );
 		b.setFactoryClass( Factory.class );
 	}
 
@@ -358,6 +359,12 @@ public final class Exceptions extends TestCase
 	private double runWith( Inputs _input ) throws Throwable
 	{
 		return newOutputs( _input ).result();
+	}
+
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( Exceptions.class );
 	}
 
 

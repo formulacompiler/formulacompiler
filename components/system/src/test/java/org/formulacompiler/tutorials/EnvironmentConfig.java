@@ -43,10 +43,11 @@ import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetSaver;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
-public final class EnvironmentConfig extends TestCase
+public final class EnvironmentConfig extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 
 
@@ -55,7 +56,7 @@ public final class EnvironmentConfig extends TestCase
 	public void testCustomLocaleTZ() throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( DATA_PATH + "LocaleAndTimeZone.xls" );
+		builder.loadSpreadsheet( DATA_PATH + "LocaleAndTimeZone" + getSpreadsheetExtension() );
 		builder.setFactoryClass( MyFactory.class );
 		builder.bindAllByName();
 		SaveableEngine compiledEngine = builder.compile();
@@ -140,7 +141,7 @@ public final class EnvironmentConfig extends TestCase
 
 	public void testCompilerConversion() throws Exception
 	{
-		final String filePath = DATA_PATH + "Locale_en_US.xls";
+		final String filePath = DATA_PATH + "Locale_en_US" + getSpreadsheetExtension();
 		// ---- constantValue
 		Locale oldLocale = Locale.getDefault();
 		Locale./**/setDefault( Locale.GERMANY )/**/;
@@ -166,6 +167,7 @@ public final class EnvironmentConfig extends TestCase
 
 	public void testRuntimeConversion() throws Exception
 	{
+		final String path = DATA_PATH + "Locale_en_US" + getSpreadsheetExtension();
 		// ---- boundValue
 		Locale oldLocale = Locale.getDefault();
 		Locale.setDefault( Locale.GERMANY );
@@ -174,7 +176,7 @@ public final class EnvironmentConfig extends TestCase
 			assertEquals( ',', decimalFormat.getDecimalFormatSymbols().getDecimalSeparator() );
 
 			EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-			builder.loadSpreadsheet( DATA_PATH + "Locale_en_US.xls" );
+			builder.loadSpreadsheet( path );
 			builder.setFactoryClass( ValueFactory.class );
 			builder.getByNameBinder().outputs().bindAllMethodsToNamedCells();
 			builder.getByNameBinder()./**/inputs().bindAllMethodsToNamedCells()/**/;
@@ -234,7 +236,7 @@ public final class EnvironmentConfig extends TestCase
 			// ---- saveDateConst
 			SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
 			cfg.spreadsheet = b.getSpreadsheet();
-			cfg.typeExtension = ".xls";
+			cfg.typeExtension = getSpreadsheetExtension(); // .xls or .ods
 			cfg.outputStream = outputStream;
 			/**/cfg.timeZone = gmt2;/**/
 			SpreadsheetCompiler.newSpreadsheetSaver( cfg ).save();
@@ -245,7 +247,7 @@ public final class EnvironmentConfig extends TestCase
 			InputStream inputStream = new ByteArrayInputStream( bytes );
 
 			// ---- loadDateConst
-			Spreadsheet loaded = SpreadsheetCompiler.loadSpreadsheet( ".xls", inputStream );
+			Spreadsheet loaded = SpreadsheetCompiler.loadSpreadsheet( getSpreadsheetExtension(), inputStream );
 			EngineBuilder eb = SpreadsheetCompiler.newEngineBuilder();
 			eb.setSpreadsheet( loaded );
 			eb.setInputClass( Object.class );
@@ -264,6 +266,12 @@ public final class EnvironmentConfig extends TestCase
 		finally {
 			TimeZone.setDefault( oldTZ );
 		}
+	}
+
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( EnvironmentConfig.class );
 	}
 
 

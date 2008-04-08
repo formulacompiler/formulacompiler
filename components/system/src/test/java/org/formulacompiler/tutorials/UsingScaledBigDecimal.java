@@ -28,6 +28,9 @@ import org.formulacompiler.decompiler.FormulaDecompiler;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
+
+import junit.framework.Test;
 
 public class UsingScaledBigDecimal extends AbstractUsingBigDecimalTest
 {
@@ -35,7 +38,7 @@ public class UsingScaledBigDecimal extends AbstractUsingBigDecimalTest
 
 	public void testUsingBigDecimal() throws Exception
 	{
-		String path = PATH;
+		String path = getPath();
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( path );
@@ -69,6 +72,12 @@ public class UsingScaledBigDecimal extends AbstractUsingBigDecimalTest
 		}
 
 		FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/numeric_type/bigdecimal_scale4" );
+	}
+
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( UsingScaledBigDecimal.class );
 	}
 
 

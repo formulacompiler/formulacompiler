@@ -32,16 +32,17 @@ import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
 @SuppressWarnings( "unchecked" )
-public class CustomerRatingWithOrdersComplex extends TestCase
+public class CustomerRatingWithOrdersComplex extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 	private static final Calendar TODAY = today();
 
@@ -65,7 +66,7 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 
 	public void testCustomerRating() throws Exception
 	{
-		String path = "src/test/data/org/formulacompiler/tutorials/CustomerRatingComplex.xls";
+		String path = "src/test/data/org/formulacompiler/tutorials/CustomerRatingComplex" + getSpreadsheetExtension();
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( path );
@@ -116,6 +117,12 @@ public class CustomerRatingWithOrdersComplex extends TestCase
 		CustomerRating ratingStrategy = _factory.newRating( customer );
 		int rating = ratingStrategy.rating();
 		assertEquals( _expected, rating );
+	}
+
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( CustomerRatingWithOrdersComplex.class );
 	}
 
 

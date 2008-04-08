@@ -25,12 +25,13 @@ package org.formulacompiler.tutorials;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
-public class ErrorUnsupportedFunction extends TestCase
+public class ErrorUnsupportedFunction extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 
 	public void testBindInfo() throws Exception
@@ -42,9 +43,16 @@ public class ErrorUnsupportedFunction extends TestCase
 			fail();
 		}
 		catch (/**/CompilerException.UnsupportedExpression e/**/) {
-			String err = /**/"Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
-					+ "\nCell containing expression is A1."/**/;
-			assertEquals( err, e.getMessage() );
+			if (getSpreadsheetExtension().equals( ".xls" )) {
+				String err = /**/"Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
+						+ "\nCell containing expression is A1."/**/;
+				assertEquals( err, e.getMessage() );
+			}
+			else {
+				String err = /**/"Unsupported function INFO encountered in expression 1+INFO( <<? [.B1]); error location indicated by <<?."
+						+ "\nCell containing expression is A1."/**/;
+				assertEquals( err, e.getMessage() );
+			}
 		}
 		// ---- BindInfo
 	}
@@ -58,10 +66,18 @@ public class ErrorUnsupportedFunction extends TestCase
 			fail();
 		}
 		catch (CompilerException.UnsupportedExpression e) {
-			String err = "Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
-					+ "\nCell containing expression is A1."
-					+ /**/"\nReferenced by cell A2."/**/;
-			assertEquals( err, e.getMessage() );
+			if (getSpreadsheetExtension().equals( ".xls" )) {
+				String err = "Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
+						+ "\nCell containing expression is A1."
+						+ /**/"\nReferenced by cell A2."/**/;
+				assertEquals( err, e.getMessage() );
+			}
+			else {
+				String err = "Unsupported function INFO encountered in expression 1+INFO( <<? [.B1]); error location indicated by <<?."
+						+ "\nCell containing expression is A1."
+						+ /**/"\nReferenced by cell A2."/**/;
+				assertEquals( err, e.getMessage() );
+			}
 		}
 		// ---- BindReferencesInfo
 	}
@@ -99,11 +115,17 @@ public class ErrorUnsupportedFunction extends TestCase
 	private EngineBuilder builderForComputationOfCellNamed( String _cellName ) throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tutorials/ErrorUnsupportedFunction.xls" );
+		String path = "src/test/data/org/formulacompiler/tutorials/ErrorUnsupportedFunction" + getSpreadsheetExtension();
+		builder.loadSpreadsheet( path );
 		builder.setFactoryClass( MyFactory.class );
 		Cell cell = builder.getSpreadsheet().getCell( _cellName );
 		builder.getRootBinder().defineOutputCell( cell, MyComputation.class.getMethod( "result" ) );
 		return builder;
+	}
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( ErrorUnsupportedFunction.class );
 	}
 
 	public static interface MyFactory

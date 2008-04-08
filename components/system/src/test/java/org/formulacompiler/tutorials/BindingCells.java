@@ -33,16 +33,17 @@ import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
 
-public class BindingCells extends TestCase
+public class BindingCells extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 
 	public void testBindingCells() throws Exception
 	{
-		final String path = "src/test/data/org/formulacompiler/tutorials/BindingCells.xls";
+		final String path = getPath();
 		final String pathToTargetFolder = "temp/test/decompiled/binding";
 
 		// ---- setupBuilder
@@ -171,7 +172,7 @@ public class BindingCells extends TestCase
 
 	public void testDefaults() throws Exception
 	{
-		final String path = "src/test/data/org/formulacompiler/tutorials/BindingCells.xls";
+		final String path = getPath();
 
 		// ---- setupBuilderWithDefaults
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
@@ -195,6 +196,18 @@ public class BindingCells extends TestCase
 		Output output = factory.newInstance( input );
 
 		assertEquals( input.getSomeValue() * 0.02, output.getCoefficient(), 0.00001 );
+	}
+
+
+	private String getPath()
+	{
+		return "src/test/data/org/formulacompiler/tutorials/BindingCells" + getSpreadsheetExtension();
+	}
+
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( BindingCells.class );
 	}
 
 

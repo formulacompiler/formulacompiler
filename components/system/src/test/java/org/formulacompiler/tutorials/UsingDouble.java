@@ -26,15 +26,16 @@ import org.formulacompiler.decompiler.FormulaDecompiler;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
+import org.formulacompiler.tests.MultiFormatTestFactory;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
 
-public class UsingDouble extends TestCase
+public class UsingDouble extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 
 	public void testUsingDouble() throws Exception
 	{
-		String path = "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes.xls";
+		String path = "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes" + getSpreadsheetExtension();
 
 		// ---- buildCompiler
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
@@ -52,6 +53,12 @@ public class UsingDouble extends TestCase
 		// ---- checkResult
 
 		FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/numeric_type/double" );
+	}
+
+
+	public static Test suite()
+	{
+		return MultiFormatTestFactory.testSuite( UsingDouble.class );
 	}
 
 
