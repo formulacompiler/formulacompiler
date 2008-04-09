@@ -38,7 +38,7 @@ import org.xml.sax.SAXException;
 
 public class OpenDocumentFormatVerifier
 {
-	public static final String RELAXNG_NS_URI = "http://relaxng.org/ns/structure/1.0";
+	private static final String RELAXNG_NS_URI = "http://relaxng.org/ns/structure/1.0";
 
 	public static void verify( InputStream _odsInputStream ) throws Exception
 	{

@@ -41,13 +41,13 @@ public class NonClosableInputStream extends InputStream
 	}
 
 	@Override
-	public int read( final byte b[] ) throws IOException
+	public int read( final byte[] b ) throws IOException
 	{
 		return this.inputStream.read( b );
 	}
 
 	@Override
-	public int read( final byte b[], final int off, final int len ) throws IOException
+	public int read( final byte[] b, final int off, final int len ) throws IOException
 	{
 		return this.inputStream.read( b, off, len );
 	}

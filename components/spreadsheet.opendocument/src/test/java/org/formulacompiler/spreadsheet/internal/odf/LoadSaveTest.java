@@ -37,7 +37,7 @@ import org.formulacompiler.spreadsheet.internal.RowImpl;
 
 public class LoadSaveTest extends AbstractOdsVerifyingTestCase
 {
-	private static File TEST_FILES_DIR = new File( "src/test/data/LoadSaveTest" );
+	private static final File TEST_FILES_DIR = new File( "src/test/data/LoadSaveTest" );
 
 	@Override
 	protected void setUp() throws Exception

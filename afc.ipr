@@ -120,7 +120,17 @@
     <option name="MAXIMUM_HEAP_SIZE" value="128" />
   </component>
   <component name="EntryPointsManager">
-    <entry_points version="2.0" />
+    <entry_points version="2.0">
+      <entry_point TYPE="class" FQNAME="org.formulacompiler.spreadsheet.internal.odf.loader.OpenDocumentSpreadsheetLoader.Factory">
+        <entry_point TYPE="class" FQNAME="org.formulacompiler.spreadsheet.internal.odf.loader.OpenDocumentSpreadsheetLoader" />
+      </entry_point>
+      <entry_point TYPE="class" FQNAME="org.formulacompiler.spreadsheet.internal.odf.saver.OpenDocumentSpreadsheetSaver.Factory">
+        <entry_point TYPE="class" FQNAME="org.formulacompiler.spreadsheet.internal.odf.saver.OpenDocumentSpreadsheetSaver" />
+      </entry_point>
+      <entry_point TYPE="class" FQNAME="org.formulacompiler.spreadsheet.internal.odf.OpenDocumentSpreadsheetComparator.Factory">
+        <entry_point TYPE="class" FQNAME="org.formulacompiler.spreadsheet.internal.odf.OpenDocumentSpreadsheetComparator" />
+      </entry_point>
+    </entry_points>
   </component>
   <component name="ExportToHTMLSettings">
     <option name="PRINT_LINE_NUMBERS" value="false" />
@@ -130,7 +140,7 @@
   <component name="IdProvider" IDEtalkID="3039B2068ED2120B147E1427ADB0C728" />
   <component name="InspectionProjectProfileManager">
     <option name="PROJECT_PROFILE" value="Project Default" />
-    <option name="USE_PROJECT_LEVEL_SETTINGS" value="false" />
+    <option name="USE_PROJECT_LEVEL_SETTINGS" value="true" />
     <scopes />
     <profiles>
       <profile version="1.0" is_locked="false">
@@ -138,9 +148,28 @@
         <option name="myLocal" value="false" />
         <inspection_tool class="JavadocReference" level="WARNING" enabled="true" />
         <inspection_tool class="FinalPrivateMethod" level="WARNING" enabled="false" />
+        <inspection_tool class="UnqualifiedFieldAccess" level="WARNING" enabled="true" />
+        <inspection_tool class="ReuseOfLocalVariable" level="WARNING" enabled="true" />
+        <inspection_tool class="UnnecessaryLocalVariable" level="WARNING" enabled="true">
+          <option name="m_ignoreImmediatelyReturnedVariables" value="true" />
+          <option name="m_ignoreAnnotatedVariables" value="true" />
+        </inspection_tool>
+        <inspection_tool class="CheckTagEmptyBody" level="WARNING" enabled="false" />
+        <inspection_tool class="CStyleArrayDeclaration" level="WARNING" enabled="true" />
+        <inspection_tool class="MultipleDeclaration" level="WARNING" enabled="true" />
+        <inspection_tool class="UnnecessaryUnboxing" level="WARNING" enabled="false" />
+        <inspection_tool class="IndexOfReplaceableByContains" level="WARNING" enabled="true" />
+        <inspection_tool class="AssertEqualsBetweenInconvertibleTypes" level="WARNING" enabled="false" />
+        <inspection_tool class="BeforeOrAfterIsPublicVoidNoArg" level="WARNING" enabled="true" />
+        <inspection_tool class="BeforeClassOrAfterClassIsPublicStaticVoidNoArg" level="WARNING" enabled="true" />
       </profile>
     </profiles>
-    <list size="0" />
+    <list size="4">
+      <item index="0" class="java.lang.String" itemvalue="SERVER PROBLEM" />
+      <item index="1" class="java.lang.String" itemvalue="INFO" />
+      <item index="2" class="java.lang.String" itemvalue="WARNING" />
+      <item index="3" class="java.lang.String" itemvalue="ERROR" />
+    </list>
   </component>
   <component name="JavacSettings">
     <option name="DEBUGGING_INFO" value="true" />
