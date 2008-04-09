@@ -31,7 +31,7 @@ import org.formulacompiler.spreadsheet.internal.odf.AbstractOdsVerifyingTestCase
 
 public class BuildSaveTest extends AbstractOdsVerifyingTestCase
 {
-	private static File TEST_FILES_DIR = new File( "src/test/data/BuildSaveTest" );
+	private static final File TEST_FILES_DIR = new File( "src/test/data/BuildSaveTest" );
 
 	@Override
 	protected File getDataDirectory()

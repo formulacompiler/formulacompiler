@@ -62,9 +62,9 @@ public class OpenDocumentSpreadsheetLoader implements SpreadsheetLoader
 
 	private final Config config;
 
-	public OpenDocumentSpreadsheetLoader( final Config _config )
+	private OpenDocumentSpreadsheetLoader( final Config _config )
 	{
-		config = _config;
+		this.config = _config;
 	}
 
 

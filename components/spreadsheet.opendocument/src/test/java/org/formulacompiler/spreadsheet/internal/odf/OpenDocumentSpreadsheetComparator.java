@@ -38,7 +38,7 @@ import junit.framework.Assert;
 
 public class OpenDocumentSpreadsheetComparator implements SpreadsheetComparator
 {
-	private static String[] ODF_CONTENTS = { "content.xml", "meta.xml", "settings.xml", "styles.xml",
+	private static final String[] ODF_CONTENTS = { "content.xml", "meta.xml", "settings.xml", "styles.xml",
 			"META-INF/manifest.xml", "mimetype" };
 
 	public void assertEqualSpreadsheets( String _message, InputStream _expected, InputStream _actual ) throws Exception

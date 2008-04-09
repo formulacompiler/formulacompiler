@@ -35,7 +35,7 @@ import org.formulacompiler.spreadsheet.internal.odf.AbstractOdsVerifyingTestCase
 
 public class SaveTest extends AbstractOdsVerifyingTestCase
 {
-	private static File TEST_FILES_DIR = new File( "src/test/data/SaveTest" );
+	private static final File TEST_FILES_DIR = new File( "src/test/data/SaveTest" );
 
 	@Override
 	protected File getDataDirectory()
@@ -46,8 +46,7 @@ public class SaveTest extends AbstractOdsVerifyingTestCase
 
 	public void testEmptySpreadsheet() throws Exception
 	{
-		final Spreadsheet s = new SpreadsheetImpl();
-		this.spreadsheet = s;
+		this.spreadsheet = new SpreadsheetImpl();
 	}
 
 	public void testNullSheet() throws Exception
