@@ -121,15 +121,9 @@
   </component>
   <component name="EntryPointsManager">
     <entry_points version="2.0">
-      <entry_point TYPE="class" FQNAME="org.formulacompiler.spreadsheet.internal.odf.loader.OpenDocumentSpreadsheetLoader.Factory">
-        <entry_point TYPE="class" FQNAME="org.formulacompiler.spreadsheet.internal.odf.loader.OpenDocumentSpreadsheetLoader" />
-      </entry_point>
-      <entry_point TYPE="class" FQNAME="org.formulacompiler.spreadsheet.internal.odf.saver.OpenDocumentSpreadsheetSaver.Factory">
-        <entry_point TYPE="class" FQNAME="org.formulacompiler.spreadsheet.internal.odf.saver.OpenDocumentSpreadsheetSaver" />
-      </entry_point>
-      <entry_point TYPE="class" FQNAME="org.formulacompiler.spreadsheet.internal.odf.OpenDocumentSpreadsheetComparator.Factory">
-        <entry_point TYPE="class" FQNAME="org.formulacompiler.spreadsheet.internal.odf.OpenDocumentSpreadsheetComparator" />
-      </entry_point>
+      <entry_point TYPE="class" FQNAME="org.formulacompiler.spreadsheet.internal.odf.loader.OpenDocumentSpreadsheetLoader.Factory" />
+      <entry_point TYPE="class" FQNAME="org.formulacompiler.spreadsheet.internal.odf.saver.OpenDocumentSpreadsheetSaver.Factory" />
+      <entry_point TYPE="class" FQNAME="org.formulacompiler.spreadsheet.internal.odf.OpenDocumentSpreadsheetComparator.Factory" />
     </entry_points>
   </component>
   <component name="ExportToHTMLSettings">
