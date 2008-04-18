@@ -27,10 +27,12 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.formulacompiler.compiler.SaveableEngine;
+import org.formulacompiler.compiler.internal.IOUtil;
 import org.formulacompiler.decompiler.ByteCodeEngineSource;
 import org.formulacompiler.decompiler.FormulaDecompiler;
 import org.formulacompiler.runtime.Engine;
@@ -120,7 +122,32 @@ public class EngineSerializationDemo extends MultiFormatTestFactory.SpreadsheetF
 		InputStream inStream = new BufferedInputStream( new FileInputStream( engineSerializationFile ) );
 		Engine loadedEngine = FormulaRuntime.loadEngine( inStream );
 		ByteCodeEngineSource source = FormulaDecompiler.decompile( loadedEngine );
-		source.saveTo( new File( "temp/test/decompiled/basicusage" + getSpreadsheetExtension() ) );
+		final File saveDir = new File( "temp/test/decompiled/basicusage" + getSpreadsheetExtension() );
+		source.saveTo( saveDir );
+		final File destDir = new File( "temp/test/decompiled/basicusage" );
+		copyOrCompare( saveDir, destDir );
+	}
+
+	private void copyOrCompare( File _saveDir, final File _destDir ) throws IOException
+	{
+		final File[] files = _saveDir.listFiles();
+		for (File file : files) {
+			final File destFile = new File( _destDir, file.getName() );
+			if (file.isDirectory()) {
+				copyOrCompare( file, destFile );
+			}
+			else {
+				final String content = IOUtil.readStringFrom( file );
+				if (destFile.exists()) {
+					final String actual = IOUtil.readStringFrom( destFile );
+					assertEquals( content, actual );
+				}
+				else {
+					destFile.getParentFile().mkdirs();
+					IOUtil.writeStringTo( content, destFile );
+				}
+			}
+		}
 	}
 
 }
