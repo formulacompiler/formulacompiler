@@ -7,29 +7,40 @@ This document describes the current limitations of AFC as of the latest release 
 <%= toc 2, 3 %>
 
 
-h2. Spreadsheet Formats
-
-	* Excel .xml support is missing (parked for resurrection in an earlier version).
-	* The Excel .xls loader does not yet handle references to labels in formulas.
+h2. Spreadsheets
 
 h5. Excel
 
-	* AFC currently supports only the subset of Excel documented in this "reference":reference/index.htm.
+	* Only the subset of Excel documented in this "reference":reference/index.htm is guaranteed to be supported.
 	* "Null values":reference/values.htm (empty cells) are not yet supported. In particular, an @AVERAGE@ involving empty cells will return a different result than Excel.
-	* Range intersections are parsed but not evaluated correctly.
-	* Ranges specified using named cells as endpoints are not supported. "Named ranges":reference/values.htm, however, are.
-	* Named range unions are not supported. They are ignored when the spreadsheet is loaded and their name will therefore not be known to AFC.
-	* With "@MATCH@":reference/lookupfuncs.htm, the last argument (the match type) must be constant, and the second argument (the match range) cannot reference a repeating section yet.
-	* With "@MATCH@":reference/lookupfuncs.htm, the range must be strictly ascending or descending for sorted searches to ensure results consistent with Excel.
-	* With "@INDEX@":reference/lookupfuncs.htm, the range argument cannot reference a repeating section yet. It also does not support 3-dimensional lookups.
-	* "@INDEX@":reference/lookupfuncs.htm does not return arrays (as in @=SUM(INDEX(A1:B2;2))@).
-	* "@AND@ and @OR@":reference/booleans.htm cannot be used as aggregators over repeating sections yet.
-	* Functions like @NPV()@, @MIRR()@, and @IRR()@ cannot be used over repeating sections.
-	* Array expressions are not supported (such as @{=INDEX({1,2;3,4};0;2)}@).
 	* In Excel, a formula like @(A1 = 0)@ returns false when @A1@ is @FALSE@. In AFC it is true. In both AFC and Excel, @(A1 + 0 = 0)@ returns true.
 	* In Excel, @SUM@ ignores booleans. In AFC it does not. In both, numeric operators like @+@ treat booleans as numbers.
 	* String comparisons don't sort umlauts and such the way Excel does (see "String Comparisons":reference/strings.htm).
 	* The options flag "Precision as displayed" is not supported. AFC always uses the full precision of the configured numeric type internally and only rounds final outputs.
+	* The Excel .xls loader does not yet handle references to labels in formulas.
+
+h5. Ranges
+
+	* Range intersections are parsed but not evaluated correctly.
+	* Ranges specified using named cells as endpoints are not supported. "Named ranges":reference/values.htm, however, are.
+	* Named range unions are not supported. They are ignored when the spreadsheet is loaded and their name will therefore not be known to AFC.
+	* Array expressions are not supported (such as @{=INDEX({1,2;3,4};0;2)}@).
+
+h5. Repeating Sections
+
+	* "@AND@ and @OR@":reference/booleans.htm cannot be used as aggregators over repeating sections.
+	* Functions like @NPV()@, @MIRR()@, and @IRR()@ cannot be used over repeating sections.
+
+h5. "@MATCH@":reference/lookupfuncs.htm
+
+	* The last argument (the match type) must be constant, and the second argument (the match range) cannot reference a repeating section.
+	* The range must be strictly ascending or descending for sorted searches to ensure results consistent with Excel.
+
+h5. "@INDEX@":reference/lookupfuncs.htm
+
+	* The range argument cannot reference a repeating section.
+	* No 3-dimensional lookups.
+	* Does not return arrays (as in @=SUM(INDEX(A1:B2;2))@).
 
 
 h2. Numeric Types
