@@ -41,6 +41,8 @@ h5. "@INDEX@":reference/lookupfuncs.htm
 	* The range argument cannot reference a repeating section.
 	* No 3-dimensional lookups.
 	* Does not return arrays (as in @=SUM(INDEX(A1:B2;2))@).
+	* For 1-dimensional lookups, the index argument for the other direction must be either omitted, set to the _constant_ value 0 (Excel accepts any expression returning 0), or set to an expression returning 1 (as in @=INDEX(HorizVector;0;A1)@).
+	* Does not slice ranges into relative vectors for 1-dimensional lookups (as in @=INDEX(Data;0;3)@ where this formula is in a row intersecting @Data@).
 
 
 h2. Numeric Types

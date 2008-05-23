@@ -373,4 +373,19 @@ abstract class SectionCompiler extends ClassCompiler
 		return idx;
 	}
 
+
+	private final Map<String, LinearizerCompiler> linearizers = New.map();
+
+	public LinearizerCompiler getLinearizerFor( int _rows, int _cols ) throws CompilerException
+	{
+		final String name = _rows + "," + _cols;
+		LinearizerCompiler mtd = this.linearizers.get( name );
+		if (null == mtd) {
+			mtd = new LinearizerCompiler( this, _rows, _cols );
+			mtd.compile();
+			this.linearizers.put( name, mtd );
+		}
+		return mtd;
+	}
+
 }
