@@ -60,9 +60,7 @@ body {
 
 #download_band {
 	float: right;
-	padding-left: 1ex;
-	padding-top: 5px;
-	background: #FFFFFF;
+	height: 32px;
 }
 
 a img {
