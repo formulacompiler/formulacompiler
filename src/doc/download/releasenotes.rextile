@@ -28,6 +28,7 @@ h5. Fixed
 	* Fixed parsing formulas without the @oooc:@ prefix in OpenDocument spreadsheets. Such spreadsheets are saved by "KOffice":http://www.koffice.org/.
 	* Fixed parsing OpenDocument spreadsheets with broken references.
 	* OpenDocument spreadsheet loader now pays attention to "@Config.loadAllCellValues@":-configloadallcellvalues property.
+	* @INDEX()@ now does better range checking on 2-dimensional indexes, handles omitted indices better when set to constant 0, and can deal with bound column-index values for lookups into vertical vectors and vice versa.
 
 [-configloadallcellvalues]../doc/javadoc/org/formulacompiler/spreadsheet/SpreadsheetLoader.Config.html#loadAllCellValues
 

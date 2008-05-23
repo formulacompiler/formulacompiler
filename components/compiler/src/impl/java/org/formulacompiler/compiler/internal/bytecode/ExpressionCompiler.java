@@ -475,58 +475,38 @@ abstract class ExpressionCompiler
 		// Compute index value.
 		final ArrayDescriptor desc = _array.arrayDescriptor();
 		final int cols = desc.numberOfColumns();
-		if (cols == 1) {
-			if (!isNullOrOne( _col )) {
-				throw new CompilerException.UnsupportedExpression( "Column index must be 1." );
-			}
+		if (cols == 1 && isNullOrZeroOrOne( _col )) {
 			// <row> - 1;
 			numCompiler.compileInt( _row );
 			mv.push( 1 );
 			mv.visitInsn( Opcodes.ISUB );
 		}
-		else if (desc.numberOfRows() == 1) {
-			if (!isNullOrOne( _row )) {
-				throw new CompilerException.UnsupportedExpression( "Row index must be 1." );
-			}
-			// <col> - 1;
-			numCompiler.compileInt( _col );
-			mv.push( 1 );
-			mv.visitInsn( Opcodes.ISUB );
-		}
 		else {
-			// (<row> - 1) * <num_cols>) + (<col> - 1);
-			if (isNullOrOne( _row )) {
+			final int rows = desc.numberOfRows();
+			if (rows == 1 && isNullOrZeroOrOne( _row )) {
+				// <col> - 1;
 				numCompiler.compileInt( _col );
 				mv.push( 1 );
 				mv.visitInsn( Opcodes.ISUB );
 			}
 			else {
+				// Push receiver for linearizer method.
+				mtd.mv().visitVarInsn( Opcodes.ALOAD, mtd.objectInContext() );
 				numCompiler.compileInt( _row );
-				mv.push( 1 );
-				mv.visitInsn( Opcodes.ISUB );
-
-				mv.push( cols );
-				mv.visitInsn( Opcodes.IMUL );
-
 				numCompiler.compileInt( _col );
-				mv.push( 1 );
-				mv.visitInsn( Opcodes.ISUB );
-
-				mv.visitInsn( Opcodes.IADD );
+				section().getLinearizerFor( rows, cols ).compileCall( mv );
 			}
 		}
-
-		IndexerCompiler indexer = section().getIndexerFor( _array );
-		indexer.compileCall( mv );
+		section().getIndexerFor( _array ).compileCall( mv );
 	}
 
-	private final boolean isNullOrOne( ExpressionNode _node )
+	private final boolean isNullOrZeroOrOne( ExpressionNode _node )
 	{
 		if (_node == null) return true;
 		if (_node instanceof ExpressionNodeForConstantValue) {
-			ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _node;
+			final ExpressionNodeForConstantValue constNode = (ExpressionNodeForConstantValue) _node;
 			final Number constValue = (Number) constNode.value();
-			return (constValue == null || constValue.intValue() == 1);
+			return (constValue == null || constValue.intValue() == 0 || constValue.intValue() == 1);
 		}
 		return false;
 	}
