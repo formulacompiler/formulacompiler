@@ -74,6 +74,7 @@
 
 	<path id="test.runtime.classpath">
 		<pathelement location="../runtime/build/${basename}-runtime.jar" />
+		<fileset dir="../../lib/test" includes="*.jar" />
 	</path>
 
 	<import file="../build-common.xml" />
