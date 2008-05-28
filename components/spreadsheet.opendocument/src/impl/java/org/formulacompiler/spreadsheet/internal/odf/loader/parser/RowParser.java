@@ -71,7 +71,7 @@ class RowParser extends ElementHandler
 	{
 		final RowImpl row = new RowImpl( this.sheet );
 		for (int i = 1; i < _numberRowsRepeated; i++) {
-			this.sheet.getRowList().add( row );
+			new RowImpl( row );
 		}
 		return row;
 	}
