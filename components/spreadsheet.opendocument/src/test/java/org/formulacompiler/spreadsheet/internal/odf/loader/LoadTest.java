@@ -91,6 +91,7 @@ public class LoadTest extends TestCase
 		int[] rowLengths = { 1, 3, 0, 0, 0, 3, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1 };
 		for (int i = 0; i < rows.length; i++) {
 			final Row row = rows[ i ];
+			assertEquals( i, row.getRowIndex() );
 			assertRowLength( i, rowLengths[ i ], row );
 		}
 
