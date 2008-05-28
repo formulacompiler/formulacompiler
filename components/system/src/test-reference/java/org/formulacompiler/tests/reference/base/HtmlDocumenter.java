@@ -169,7 +169,7 @@ public class HtmlDocumenter implements Documenter
 				}
 				h.appendLine( "</tr></thead><tbody>" );
 				h.append( this.rowHtml );
-				h.appendLine( "</tbody></table><p/>" );
+				h.appendLine( "</tbody></table><p></p>" );
 			}
 
 			public void newEngineRow( Context _cx ) throws Exception
