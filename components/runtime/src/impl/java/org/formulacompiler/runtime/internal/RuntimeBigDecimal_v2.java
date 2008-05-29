@@ -368,10 +368,9 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	public static BigDecimal fun_CRITBINOM( BigDecimal _n, BigDecimal _p, BigDecimal _alpha )
 	{
 		// p <= 0 is contrary to Excel's docs where it says p < 0; but the test case says otherwise.
-		if (_n.compareTo( ZERO ) < 0
-				|| _p.compareTo( ZERO ) <= 0 || _p.compareTo( ONE ) >= 0 || _alpha.compareTo( ZERO ) <= 0
-				|| _alpha.compareTo( ONE ) >= 0) {
-			fun_ERROR( "#NUM! because not n >= 0, 0 < p < 1, 0 < alpha < 1 in CRITBINOM" );
+		if (_n.signum() < 0 || _p.signum() < 0 || _p.compareTo( ONE ) > 0
+				|| _alpha.signum() <= 0 || _alpha.compareTo( ONE ) >= 0) {
+			fun_ERROR( "#NUM! because not n >= 0, 0 <= p <= 1, 0 < alpha < 1 in CRITBINOM" );
 		}
 		BigDecimal q = ONE.subtract( _p );
 		final BigDecimal EPSILON = BigDecimal.valueOf( 0.1E-320 );

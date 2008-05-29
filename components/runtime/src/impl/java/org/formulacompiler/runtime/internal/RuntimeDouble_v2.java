@@ -756,8 +756,8 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	public static double fun_CRITBINOM( double _n, double _p, double _alpha )
 	{
 		// p <= 0 is contrary to Excel's docs where it says p < 0; but the test case says otherwise.
-		if (_n < 0 || _p <= 0 || _p >= 1 || _alpha <= 0 || _alpha >= 1) {
-			fun_ERROR( "#NUM! because not n >= 0, 0 < p < 1, 0 < alpha < 1 in CRITBINOM" );
+		if (_n < 0 || _p < 0 || _p > 1 || _alpha <= 0 || _alpha >= 1) {
+			fun_ERROR( "#NUM! because not n >= 0, 0 <= p <= 1, 0 < alpha < 1 in CRITBINOM" );
 		}
 		double n = Math.floor( _n );
 		double q = 1 - _p;
