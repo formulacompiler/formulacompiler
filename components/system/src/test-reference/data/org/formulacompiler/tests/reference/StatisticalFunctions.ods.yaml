@@ -8896,7 +8896,7 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: "!NUM:FE"
+    - const: 0.0
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
     - const: 10.0
     - const: 0.0
@@ -8910,7 +8910,7 @@ sheets:
     - null
     - const: "#NUM!"
   - cells:
-    - const: "!NUM:FE"
+    - const: 10.0
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
     - const: 10.0
     - const: 1.0

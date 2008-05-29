@@ -536,8 +536,8 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	public static long fun_CRITBINOM( long _n, long _p, long _alpha, Context _cx )
 	{
 		// p <= 0 is contrary to Excel's docs where it says p < 0; but the test case says otherwise.
-		if (_n < 0 || _p <= 0 || _p >= _cx.one || _alpha <= 0 || _alpha >= _cx.one) {
-			fun_ERROR( "#NUM! because not n >= 0, 0 < p < 1, 0 < alpha < 1 in CRITBINOM" );
+		if (_n < 0 || _p < 0 || _p > _cx.one || _alpha <= 0 || _alpha >= _cx.one) {
+			fun_ERROR( "#NUM! because not n >= 0, 0 <= p <= 1, 0 < alpha < 1 in CRITBINOM" );
 		}
 		long n = fun_INT( _n, _cx );
 		long q = _cx.one - _p;
