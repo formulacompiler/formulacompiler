@@ -133,7 +133,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
   - cells:
     - const: 3.0
@@ -250,7 +249,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
   - cells:
     - const: "!NUM:NA"
@@ -380,7 +378,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 2.0
     - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
@@ -392,7 +389,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
   - cells:
   - cells:
@@ -419,7 +415,6 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
   - cells:
   - cells:
     - const: 5.0
@@ -529,7 +524,6 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
   - cells:
   - cells:
     - const: 11.0
@@ -598,7 +592,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
   - cells:
     - const: 11.0
@@ -622,7 +615,6 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
   - cells:
   - cells:
     - const: "!NUM:FE"
@@ -636,6 +628,9 @@ sheets:
     - null
     - const: 2.0
     - const: "INDEX (1-dim, 2-idx)"
+    - null
+    - expr: =** org.formulacompiler.spreadsheet.SpreadsheetException$UnsupportedExpression: The name 'oooc' is not defined in this spreadsheet. in expression oooc <<? :#VALUE!; error location indicated by <<?.
+Cell containing expression is M63.
   - cells:
     - const: 11.0
     - expr: =INDEX( RC[3]:RC[5], 0.0, RC[1] )
@@ -669,6 +664,10 @@ sheets:
     - null
     - null
     - const: 2.0
+    - null
+    - null
+    - expr: =** org.formulacompiler.spreadsheet.SpreadsheetException$UnsupportedExpression: The name 'oooc' is not defined in this spreadsheet. in expression oooc <<? :#REF!; error location indicated by <<?.
+Cell containing expression is M66.
   - cells:
   - cells:
     - const: "!NUM:FE"
@@ -681,6 +680,10 @@ sheets:
     - null
     - null
     - const: 2.0
+    - null
+    - null
+    - expr: =** org.formulacompiler.spreadsheet.SpreadsheetException$UnsupportedExpression: The name 'oooc' is not defined in this spreadsheet. in expression oooc <<? :#VALUE!; error location indicated by <<?.
+Cell containing expression is M68.
   - cells:
     - const: 11.0
     - expr: =INDEX( R68C[3]:R70C[3], RC[1], 0.0 )
@@ -714,6 +717,10 @@ sheets:
     - null
     - null
     - const: 2.0
+    - null
+    - null
+    - expr: =** org.formulacompiler.spreadsheet.SpreadsheetException$UnsupportedExpression: The name 'oooc' is not defined in this spreadsheet. in expression oooc <<? :#REF!; error location indicated by <<?.
+Cell containing expression is M71.
   - cells:
   - cells:
     - const: "!NUM:FE"
@@ -728,7 +735,8 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: "#VALUE!"
+    - expr: =** org.formulacompiler.spreadsheet.SpreadsheetException$UnsupportedExpression: The name 'oooc' is not defined in this spreadsheet. in expression oooc <<? :#VALUE!; error location indicated by <<?.
+Cell containing expression is M73.
   - cells:
     - const: "!NUM:FE"
     - expr: =INDEX( R75C[3]:R76C[4], RC[1], 1.0 )
@@ -742,7 +750,8 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: "#VALUE!"
+    - expr: =** org.formulacompiler.spreadsheet.SpreadsheetException$UnsupportedExpression: The name 'oooc' is not defined in this spreadsheet. in expression oooc <<? :#VALUE!; error location indicated by <<?.
+Cell containing expression is M74.
   - cells:
     - const: 11.0
     - expr: =INDEX( R75C[3]:R76C[4], RC[1], 1.0 )
@@ -778,7 +787,8 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: "#REF!"
+    - expr: =** org.formulacompiler.spreadsheet.SpreadsheetException$UnsupportedExpression: The name 'oooc' is not defined in this spreadsheet. in expression oooc <<? :#REF!; error location indicated by <<?.
+Cell containing expression is M77.
   - cells:
   - cells:
     - const: "one"
@@ -828,7 +838,6 @@ sheets:
     - const: 12.0
     - const: 13.0
     - const: 7.0
-    - const: "..."
   - cells:
     - const: 12.0
     - expr: =LOOKUP( RC[1], RC[2]:RC[4], RC[5]:RC[7] )
@@ -840,7 +849,6 @@ sheets:
     - const: 12.0
     - const: 13.0
     - const: 7.0
-    - const: "..."
   - cells:
     - const: "!NUM:NA"
     - expr: =LOOKUP( RC[1], RC[2]:RC[4], RC[5]:RC[7] )
@@ -852,7 +860,7 @@ sheets:
     - const: 12.0
     - const: 13.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - const: "#N/A"
   - cells:

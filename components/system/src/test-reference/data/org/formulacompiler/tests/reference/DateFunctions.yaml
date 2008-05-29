@@ -982,7 +982,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -1037,7 +1037,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - null
     - null

@@ -56,7 +56,6 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
   - cells:
   - cells:
     - const: 2.0
@@ -93,7 +92,6 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
   - cells:
   - cells:
     - const: 35.0
@@ -119,7 +117,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
   - cells:
     - const: 7.0
@@ -181,7 +178,6 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
   - cells:
     - const: 9.66666666666667
     - expr: =(RC[1] - (RC[2] / RC[3]))
@@ -243,7 +239,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
   - cells:
     - const: 0.15
@@ -280,7 +275,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
   - cells:
     - const: 256.0
@@ -317,7 +311,6 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
   - cells:
   - cells:
     - const: 1.0

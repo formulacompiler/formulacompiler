@@ -22,9 +22,6 @@
 
 package org.formulacompiler.tests.reference.base;
 
-import java.util.List;
-
-import org.formulacompiler.spreadsheet.internal.RowImpl;
 
 public class SameEngineRowSequenceTestSuite extends AbstractEngineCompilingTestSuite
 {
@@ -48,27 +45,10 @@ public class SameEngineRowSequenceTestSuite extends AbstractEngineCompilingTestS
 	@Override
 	protected void addTests() throws Exception
 	{
-		addTestFor( cx(), false );
+		addTest( new EngineRunningTestCase( cx(), false ).init() );
 		if (this.fullyBound) {
-			final List<RowImpl> rows = cx().getSheetRows();
-			int iRow = cx().getRowIndex() + 1;
-			while (iRow < rows.size()) {
-				final Context cx = new Context( cx() );
-				cx.setRow( iRow );
-				if (!"...".equals( cx.getRowSetup().getName() )) break;
-				addTestFor( cx, true );
-				iRow++;
-			}
-			this.nextRowIndex = iRow;
+			this.nextRowIndex = cx().getRowIndex() + 1;
 		}
-	}
-
-	private void addTestFor( Context _cx, boolean _differingInputs )
-	{
-		if (_differingInputs) {
-			SheetSuiteSetup.addRowVerifications( _cx, this );
-		}
-		addTest( new EngineRunningTestCase( _cx, _differingInputs ).init() );
 	}
 
 	public int getNextRowIndex()

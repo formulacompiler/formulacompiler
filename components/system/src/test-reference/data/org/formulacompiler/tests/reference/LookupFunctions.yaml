@@ -197,7 +197,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -378,7 +378,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -559,7 +559,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -577,7 +577,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -615,7 +615,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -780,7 +780,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -890,7 +890,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -927,7 +927,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -1238,7 +1238,7 @@ sheets:
     - const: 12.0
     - const: 13.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -1256,7 +1256,7 @@ sheets:
     - const: 12.0
     - const: 13.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -1274,7 +1274,7 @@ sheets:
     - const: 12.0
     - const: 13.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - err: #N/A
     - null

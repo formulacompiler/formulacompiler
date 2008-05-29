@@ -1409,7 +1409,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
+    - null
     - null
     - null
     - const: "bigdecimal, long"
@@ -1589,7 +1589,6 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
   - cells:
   - cells:
     - const: "$123.00"
@@ -1615,7 +1614,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: "($1,000)"
@@ -1639,7 +1637,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
   - cells:
     - const: "A"
@@ -1787,7 +1784,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
+    - null
     - null
     - const: "#VALUE!"
   - cells:
@@ -1892,7 +1889,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: 35981.0
@@ -2647,7 +2643,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
+    - null
     - null
     - const: "#VALUE!"
   - cells:
@@ -2906,4 +2902,3 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."

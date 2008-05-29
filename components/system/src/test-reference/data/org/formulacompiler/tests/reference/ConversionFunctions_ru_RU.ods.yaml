@@ -122,7 +122,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
     - const: 12.345
     - expr: =VALUE( RC[1] )
@@ -1110,7 +1109,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
+    - null
     - null
     - null
     - const: "bigdecimal, long"
@@ -1290,7 +1289,6 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
   - cells:
   - cells:
     - const: "123,00 руб."
@@ -1339,7 +1337,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
   - cells:
     - const: "ф"
@@ -1365,7 +1362,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: 244.0
@@ -1413,7 +1409,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: 35922.0

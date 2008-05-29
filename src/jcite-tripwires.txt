@@ -5679,7 +5679,7 @@ __@@__
 			<td></td>
 			<td></td>
 			<td class="xl-num">2</td>
-			<td>...</td>
+			<td></td>
 			<td></td>
 		</tr>
 		<tr>
@@ -5724,7 +5724,7 @@ __@@__
 			<td></td>
 			<td class="xl-num">10</td>
 			<td class="xl-num">7</td>
-			<td>...</td>
+			<td></td>
 			<td></td>
 		</tr>
 	</tbody>
@@ -6350,7 +6350,7 @@ __@@__
 			<td></td>
 			<td></td>
 			<td class="xl-num">1</td>
-			<td>...</td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -6768,7 +6768,7 @@ __@@__
 			<td></td>
 			<td></td>
 			<td class="xl-num">2</td>
-			<td>...</td>
+			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
