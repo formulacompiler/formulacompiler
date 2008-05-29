@@ -707,14 +707,10 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_BETAINV( double _x, double _alpha, double _beta )
 	{
-		if (_x < 0 || _x >= 1 || _alpha <= 0 || _beta <= 0) {
-			fun_ERROR( "#NUM! because not 0 <= x < 1, alpha > 0, beta > 0 in BETAINV" );
+		if (_x <= 0 || _x >= 1 || _alpha <= 0 || _beta <= 0) {
+			fun_ERROR( "#NUM! because not 0 < x < 1, alpha > 0, beta > 0 in BETAINV" );
 		}
-		if (_x == 0) {
-			return 0; // This is a correct result, not an error.
-			// LATER Remove the above comment when the check for #NUM comments is done.
-		}
-		BetaDistFunction func = new BetaDistFunction( _x, _alpha, _beta );
+		final BetaDistFunction func = new BetaDistFunction( _x, _alpha, _beta );
 		return iterateInverse( func, 0, 1 );
 	}
 

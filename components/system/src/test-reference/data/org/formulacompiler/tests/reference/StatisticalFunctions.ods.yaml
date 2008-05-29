@@ -4986,6 +4986,30 @@ sheets:
     - const: "#NUM!"
   - cells:
   - cells:
+    - const: 0.418159008026123
+    - expr: =BETAINV( RC[1], RC[2], RC[3] )
+    - const: 0.6
+    - const: 1.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "BETAINV"
+    - const: "BETAINV"
+  - cells:
+    - const: 0.941094636917114
+    - expr: =BETAINV( RC[1], RC[2], RC[3] )
+    - const: 0.6
+    - const: 2.5
+    - const: 0.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
     - const: 0.897797346115112
     - expr: =BETAINV( RC[1], RC[2], RC[3] )
     - const: 0.6
@@ -4996,145 +5020,64 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "BETAINV"
-    - const: "BETAINV"
-    - null
-    - const: "bigdecimal"
   - cells:
-    - const: "!NUM:FE"
-    - expr: =BETAINV( RC[1], RC[2], RC[3] )
-    - const: 0.6
-    - const: 0.0
-    - const: 0.5
-    - null
-    - null
-    - null
-    - null
-    - const: 3.0
-    - null
-    - null
-    - const: "#NUM!"
-  - cells:
-    - const: "!NUM:FE"
-    - expr: =BETAINV( RC[1], RC[2], RC[3] )
-    - const: 0.6
-    - const: 1.5
-    - const: 0.0
-    - null
-    - null
-    - null
-    - null
-    - const: 3.0
-    - null
-    - null
-    - const: "#NUM!"
-  - cells:
-    - const: 0.36008882522583
-    - expr: =BETAINV( RC[1], RC[2], RC[3] )
-    - const: 0.45
-    - const: 2.2
-    - const: 3.3
-    - null
-    - null
-    - null
-    - null
-    - const: 3.0
-    - null
-    - null
-    - null
-    - const: "bigdecimal"
-  - cells:
-  - cells:
-    - const: 0.36008882522583
-    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
-    - const: 0.45
-    - const: 2.2
-    - const: 3.3
-    - const: 0.0
-    - const: 1.0
-    - null
-    - null
-    - const: 5.0
-    - null
-    - null
-    - null
-    - const: "bigdecimal"
-  - cells:
-    - const: "!NUM:FE"
-    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
-    - const: 0.45
-    - const: 2.2
-    - const: 3.3
-    - const: 3.0
-    - const: 1.0
-    - null
-    - null
-    - const: 5.0
-    - null
-    - null
-    - const: "#NUM!"
-  - cells:
-    - const: 0.748898673057556
-    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
-    - const: 0.6
-    - const: 1.5
-    - const: 0.5
-    - const: 0.3
-    - const: 0.8
-    - null
-    - null
-    - const: 5.0
-    - null
-    - null
-    - null
-    - const: "bigdecimal"
-  - cells:
-    - const: 0.36008882522583
-    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
-    - const: 0.45
-    - const: 2.2
-    - const: 3.3
-    - const: 0.0
-    - const: 1.0
-    - null
-    - null
-    - const: 5.0
-    - null
-    - null
-    - null
-    - const: "bigdecimal"
-  - cells:
-    - const: "!NUM:FE"
-    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
-    - const: 1.1
-    - const: 2.2
-    - const: 3.3
-    - const: 0.0
-    - const: 1.0
-    - null
-    - null
-    - const: 5.0
-    - null
-    - null
-    - const: "#NUM!"
-  - cells:
-    - const: "!NUM:FE"
-    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
-    - const: -0.1
-    - const: 2.2
-    - const: 3.3
-    - const: 0.0
-    - const: 1.0
-    - null
-    - null
-    - const: 5.0
-    - null
-    - null
-    - const: "#NUM!"
-  - cells:
-  - cells:
-    - const: 0.928458142280579
+    - const: 0.897797346115112
     - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 0.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.897797346115112
+    - expr: =BETAINV( RC[1], RC[2], RC[3], 0.0, RC[4] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.897797346115112
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 0.0
+    - const: 1.0
+    - null
+    - null
+    - const: 5.0
+  - cells:
+    - const: 0.91823787689209
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 0.2
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.91823787689209
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 0.2
+    - const: 1.0
+    - null
+    - null
+    - const: 5.0
+  - cells:
+    - const: 0.269339203834534
+    - expr: =BETAINV( RC[1], RC[2], RC[3], 0.0, RC[4] )
     - const: 0.6
     - const: 1.5
     - const: 0.5
@@ -5143,6 +5086,126 @@ sheets:
     - null
     - null
     - const: 4.0
+  - cells:
+    - const: 0.269339203834534
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 0.0
+    - const: 0.3
+    - null
+    - null
+    - const: 5.0
+  - cells:
+    - const: 0.289779734611511
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 0.2
+    - const: 0.3
+    - null
+    - null
+    - const: 5.0
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.0
+    - const: 1.5
+    - const: 0.5
+    - const: 0.2
+    - const: 0.3
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - const: "#NUM!"
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: -0.0010
+    - const: 1.5
+    - const: 0.5
+    - const: 0.2
+    - const: 0.3
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - const: "#NUM!"
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 1.0
+    - const: 1.5
+    - const: 0.5
+    - const: 0.2
+    - const: 0.3
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - const: "#NUM!"
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.6
+    - const: 0.0
+    - const: 0.5
+    - const: 0.2
+    - const: 0.3
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - const: "#NUM!"
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.0
+    - const: 0.2
+    - const: 0.3
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - const: "#NUM!"
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 0.3
+    - const: 0.3
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - const: "#NUM!"
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 0.3
+    - const: 0.2
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - const: "#NUM!"
   - cells:
   - cells:
     - const: 3.21887582495163

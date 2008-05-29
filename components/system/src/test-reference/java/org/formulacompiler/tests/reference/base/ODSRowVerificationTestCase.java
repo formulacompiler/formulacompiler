@@ -132,6 +132,7 @@ final class ODSRowVerificationTestCase extends AbstractVariantRowVerificationTes
 				case LOG:
 					if (c == 1) res = insert( _expr, res, _, 10.0 );
 					break;
+				case BETAINV:
 				case FV:
 				case PMT:
 				case PV: {

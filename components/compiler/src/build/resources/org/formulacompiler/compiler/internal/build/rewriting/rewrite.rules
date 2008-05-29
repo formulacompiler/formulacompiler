@@ -379,8 +379,7 @@ rules {
 	rewrite betadist( x, alpha, beta, a ) = BETADIST( x, alpha, beta, a, 1 )
 
 	rewrite betainv( x, alpha, beta, a, b ) =
-		if OR(x < a, x > b) then err( "#NUM! because not a <= x <= b in BETAINV" )
-		else if a = b then err( "#NUM! because a = b in BETAINV" )
+		if a >= b then err( "#NUM! because a >= b in BETAINV" )
 		else BETAINV( x, alpha, beta ) * ( b  - a ) + a
 
 	rewrite betainv( x, alpha, beta, a ) = BETAINV( x, alpha, beta, a, 1 )

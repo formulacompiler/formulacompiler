@@ -7119,6 +7119,42 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
   - cells:
+    - const: 0.41815900802612305
+    - expr: =BETAINV( RC[1], RC[2], RC[3] )
+    - const: 0.6
+    - const: 1.5
+    - const: 2.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - const: "BETAINV"
+    - const: "BETAINV"
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: 0.9410946369171143
+    - expr: =BETAINV( RC[1], RC[2], RC[3] )
+    - const: 0.6
+    - const: 2.5
+    - const: 0.5
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
     - const: 0.8977973461151123
     - expr: =BETAINV( RC[1], RC[2], RC[3] )
     - const: 0.6
@@ -7129,180 +7165,106 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "BETAINV"
-    - const: "BETAINV"
-    - null
-    - const: "bigdecimal"
-    - null
-    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
-  - cells:
-    - const: "!NUM:FE"
-    - expr: =BETAINV( RC[1], RC[2], RC[3] )
-    - const: 0.6
-    - const: 0.0
-    - const: 0.5
     - null
     - null
     - null
-    - null
-    - const: 3.0
-    - null
-    - null
-    - err: #NUM!
     - null
     - null
     - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
-    - const: "!NUM:FE"
-    - expr: =BETAINV( RC[1], RC[2], RC[3] )
-    - const: 0.6
-    - const: 1.5
-    - const: 0.0
-    - null
-    - null
-    - null
-    - null
-    - const: 3.0
-    - null
-    - null
-    - err: #NUM!
-    - null
-    - null
-    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
-  - cells:
-    - const: 0.3600888252258301
-    - expr: =BETAINV( RC[1], RC[2], RC[3] )
-    - const: 0.45
-    - const: 2.2
-    - const: 3.3
-    - null
-    - null
-    - null
-    - null
-    - const: 3.0
-    - null
-    - null
-    - null
-    - const: "bigdecimal"
-    - null
-    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
-  - cells:
-  - cells:
-    - const: 0.3600888252258301
-    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
-    - const: 0.45
-    - const: 2.2
-    - const: 3.3
-    - const: 0.0
-    - const: 1.0
-    - null
-    - null
-    - const: 5.0
-    - null
-    - null
-    - null
-    - const: "bigdecimal"
-    - null
-    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
-  - cells:
-    - const: "!NUM:FE"
-    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
-    - const: 0.45
-    - const: 2.2
-    - const: 3.3
-    - const: 3.0
-    - const: 1.0
-    - null
-    - null
-    - const: 5.0
-    - null
-    - null
-    - err: #NUM!
-    - null
-    - null
-    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
-  - cells:
-    - const: 0.7488986730575562
-    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
-    - const: 0.6
-    - const: 1.5
-    - const: 0.5
-    - const: 0.3
-    - const: 0.8
-    - null
-    - null
-    - const: 5.0
-    - null
-    - null
-    - null
-    - const: "bigdecimal"
-    - null
-    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
-  - cells:
-    - const: 0.3600888252258301
-    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
-    - const: 0.45
-    - const: 2.2
-    - const: 3.3
-    - const: 0.0
-    - const: 1.0
-    - null
-    - null
-    - const: 5.0
-    - null
-    - null
-    - null
-    - const: "bigdecimal"
-    - null
-    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
-  - cells:
-    - const: "!NUM:FE"
-    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
-    - const: 1.1
-    - const: 2.2
-    - const: 3.3
-    - const: 0.0
-    - const: 1.0
-    - null
-    - null
-    - const: 5.0
-    - null
-    - null
-    - err: #NUM!
-    - null
-    - null
-    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
-  - cells:
-    - const: "!NUM:FE"
-    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
-    - const: -0.1
-    - const: 2.2
-    - const: 3.3
-    - const: 0.0
-    - const: 1.0
-    - null
-    - null
-    - const: 5.0
-    - null
-    - null
-    - err: #NUM!
-    - null
-    - null
-    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
-  - cells:
-  - cells:
-    - const: 0.9284581422805787
+    - const: 0.8977973461151123
     - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 0.0
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: 0.8977973461151123
+    - expr: =BETAINV( RC[1], RC[2], RC[3], , RC[4] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: 0.8977973461151123
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 0.0
+    - const: 1.0
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: 0.9182378768920898
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 0.2
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: 0.9182378768920898
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 0.2
+    - const: 1.0
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: 0.2693392038345337
+    - expr: =BETAINV( RC[1], RC[2], RC[3], , RC[4] )
     - const: 0.6
     - const: 1.5
     - const: 0.5
@@ -7314,6 +7276,168 @@ sheets:
     - null
     - null
     - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: 0.2693392038345337
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 0.0
+    - const: 0.3
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: 0.28977973461151124
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 0.2
+    - const: 0.3
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.0
+    - const: 1.5
+    - const: 0.5
+    - const: 0.2
+    - const: 0.3
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - err: #NUM!
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: -0.0010
+    - const: 1.5
+    - const: 0.5
+    - const: 0.2
+    - const: 0.3
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - err: #NUM!
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 1.0
+    - const: 1.5
+    - const: 0.5
+    - const: 0.2
+    - const: 0.3
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - err: #NUM!
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.6
+    - const: 0.0
+    - const: 0.5
+    - const: 0.2
+    - const: 0.3
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - err: #NUM!
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.0
+    - const: 0.2
+    - const: 0.3
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - err: #NUM!
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 0.3
+    - const: 0.3
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - err: #NUM!
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =BETAINV( RC[1], RC[2], RC[3], RC[4], RC[5] )
+    - const: 0.6
+    - const: 1.5
+    - const: 0.5
+    - const: 0.3
+    - const: 0.2
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - err: #NUM!
     - null
     - null
     - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
