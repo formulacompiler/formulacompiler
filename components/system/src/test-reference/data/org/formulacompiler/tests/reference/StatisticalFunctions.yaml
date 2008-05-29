@@ -89,7 +89,7 @@ sheets:
     - const: 4.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -180,7 +180,7 @@ sheets:
     - const: 4.0
     - const: 1.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -236,7 +236,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -273,7 +273,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -310,7 +310,7 @@ sheets:
     - null
     - const: 10.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -347,7 +347,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -384,7 +384,7 @@ sheets:
     - null
     - const: 10.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -458,7 +458,7 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -550,7 +550,7 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - const: "bigdecimal"
@@ -642,7 +642,7 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -734,7 +734,7 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - const: "long, bigdecimal"
@@ -790,7 +790,7 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -846,7 +846,7 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - const: "long, bigdecimal"
@@ -1459,7 +1459,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -2054,7 +2054,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -2361,7 +2361,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -2722,7 +2722,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - const: "long, bigdecimal"
@@ -3011,7 +3011,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - const: "long, bigdecimal"
@@ -3552,7 +3552,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - const: "long, bigdecimal"
@@ -3841,7 +3841,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - const: "long, bigdecimal"
@@ -3968,7 +3968,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -4096,7 +4096,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - const: "bigdecimal"
@@ -4583,7 +4583,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -4998,7 +4998,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -5539,7 +5539,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -5846,7 +5846,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -6081,7 +6081,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -6766,7 +6766,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -7110,7 +7110,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -7183,7 +7183,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - null
     - const: "bigdecimal"
@@ -7292,7 +7292,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -7564,7 +7564,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -7763,7 +7763,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -7944,7 +7944,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -8161,7 +8161,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -8360,7 +8360,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -8775,7 +8775,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -8974,7 +8974,7 @@ sheets:
     - const: 1.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - err: #DIV/0!
     - null
@@ -9246,7 +9246,7 @@ sheets:
     - const: 1.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - err: #DIV/0!
     - null
@@ -9572,7 +9572,7 @@ sheets:
     - const: 1.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -9664,7 +9664,7 @@ sheets:
     - const: -1.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -9701,7 +9701,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -9828,7 +9828,7 @@ sheets:
     - const: 2.0
     - const: 2.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -10009,7 +10009,7 @@ sheets:
     - const: 1.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - err: #DIV/0!
     - null
@@ -10281,7 +10281,7 @@ sheets:
     - const: 3.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - err: #DIV/0!
     - null
@@ -10463,7 +10463,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -10572,7 +10572,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -10771,7 +10771,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -10952,7 +10952,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - const: "long"
@@ -11133,7 +11133,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -11170,7 +11170,7 @@ sheets:
     - const: 3.8
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -11226,7 +11226,7 @@ sheets:
     - const: 3.8
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -11282,7 +11282,7 @@ sheets:
     - const: 3.8
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -11375,7 +11375,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -11575,7 +11575,7 @@ sheets:
     - const: 6.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -11813,7 +11813,7 @@ sheets:
     - const: 6.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - err: #DIV/0!
     - null
@@ -12014,7 +12014,7 @@ sheets:
     - const: 6.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -12215,7 +12215,7 @@ sheets:
     - const: 6.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -12434,7 +12434,7 @@ sheets:
     - const: 6.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -12724,7 +12724,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -12887,7 +12887,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - err: #N/A
     - null
@@ -12960,7 +12960,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -13033,7 +13033,7 @@ sheets:
     - const: 2.0
     - const: 3.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -13070,7 +13070,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
+    - null
     - null
     - err: #N/A
     - null
@@ -13125,7 +13125,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -13216,7 +13216,7 @@ sheets:
     - const: 6.0
     - const: 7.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - err: #N/A
     - null
@@ -13326,7 +13326,7 @@ sheets:
     - const: 0.4
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -13399,7 +13399,7 @@ sheets:
     - const: 1.0
     - const: -0.01
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -13527,7 +13527,7 @@ sheets:
     - const: -0.01
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -13564,7 +13564,7 @@ sheets:
     - const: 1.0
     - const: 2.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -13709,7 +13709,7 @@ sheets:
     - const: 1.1
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -13764,7 +13764,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -13874,7 +13874,7 @@ sheets:
     - const: 2.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -14019,7 +14019,7 @@ sheets:
     - const: 2.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -14056,7 +14056,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -14093,7 +14093,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -14257,7 +14257,7 @@ sheets:
     - const: 4.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - null
     - null
@@ -14294,7 +14294,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -14331,7 +14331,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - err: #NUM!
     - null
@@ -14512,7 +14512,7 @@ sheets:
     - const: 6.0
     - const: 0.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - const: "bigdecimal, long"
@@ -14604,7 +14604,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
+    - null
     - null
     - null
     - null

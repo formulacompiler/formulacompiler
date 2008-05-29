@@ -43,7 +43,6 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
   - cells:
   - cells:
     - const: 21.0
@@ -68,7 +67,6 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -93,7 +91,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: 3.0
@@ -118,7 +115,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
   - cells:
     - const: 2.0
@@ -143,7 +139,6 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
   - cells:
   - cells:
     - const: 15.0
@@ -168,7 +163,6 @@ sheets:
     - const: 2.0
     - const: 1.0
     - const: 7.0
-    - const: "..."
   - cells:
   - cells:
     - const: 6.0
@@ -193,7 +187,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
   - cells:
     - const: 15.0
@@ -218,7 +211,6 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
   - cells:
   - cells:
     - const: 3.0
@@ -243,7 +235,6 @@ sheets:
     - null
     - null
     - const: 6.0
-    - const: "..."
   - cells:
   - cells:
     - const: 9.0
@@ -268,7 +259,6 @@ sheets:
     - null
     - null
     - const: 7.0
-    - const: "..."
 
 names:
 - name: SumRange

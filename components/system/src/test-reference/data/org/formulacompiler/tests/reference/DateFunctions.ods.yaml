@@ -639,7 +639,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
   - cells:
     - const: 182.0
@@ -674,4 +673,3 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."

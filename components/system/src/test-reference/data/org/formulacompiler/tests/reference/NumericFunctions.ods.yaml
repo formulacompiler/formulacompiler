@@ -122,7 +122,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: 3.14159265358979
@@ -214,7 +213,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
     - const: 0.0
     - expr: =ACOS( RC[1] )
@@ -403,7 +401,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -533,7 +531,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -660,7 +658,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: -1.5707963257949
@@ -785,7 +782,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: 0.0
@@ -919,7 +915,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -1049,7 +1045,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -1147,7 +1142,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -1184,7 +1179,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "…"
   - cells:
   - cells:
     - const: 4.0
@@ -1282,7 +1276,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -1319,7 +1313,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "…"
   - cells:
   - cells:
     - const: 2.0
@@ -1442,7 +1435,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -1540,7 +1533,6 @@ sheets:
     - null
     - null
     - const: 0.0
-    - const: "..."
   - cells:
   - cells:
     - const: 0.936752127533139
@@ -1665,7 +1657,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -1746,7 +1737,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: 0.0
@@ -1827,7 +1817,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: 0.349993502171308
@@ -1952,7 +1941,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: 0.0
@@ -2077,7 +2065,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -2204,7 +2192,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: 0.0
@@ -2329,7 +2316,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: -5.72957795130823E7
@@ -2454,7 +2440,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: -17453.2925199433
@@ -2579,7 +2564,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: 3.14159265358979
@@ -2918,7 +2902,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
   - cells:
     - const: 3.0
@@ -3247,7 +3230,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
   - cells:
     - const: -4.0
@@ -3372,7 +3354,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: -3.0
@@ -3497,7 +3478,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: -3.0
@@ -3622,7 +3602,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: 0.049787068367864
@@ -3747,7 +3726,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: 65536.0
@@ -3850,7 +3828,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
     - const: 1.0
     - expr: =POWER( RC[1], RC[2] )
@@ -3959,7 +3936,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
     - const: "!NUM:-Inf/FE"
     - expr: =LN( RC[1] )
@@ -4112,7 +4088,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
     - const: "!NUM:-Inf/FE"
     - expr: =LOG( RC[1], 10.0 )
@@ -4291,7 +4266,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
     - const: "!NUM:-Inf/FE"
     - expr: =LOG10( RC[1] )
@@ -4400,7 +4374,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
     - const: "!NUM:NaN/AE"
     - expr: =MOD( RC[1], RC[2] )
@@ -4517,7 +4490,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
     - const: "!NUM:NaN/FE"
     - expr: =SQRT( RC[1] )
@@ -4613,7 +4585,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
     - const: 720.0
     - expr: =FACT( RC[1] )
@@ -4930,7 +4901,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
     - const: "!NUM:FE"
     - expr: =COMBIN( RC[1], RC[2] )

@@ -205,7 +205,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: 5.0
@@ -231,7 +230,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
     - const: 0.0
     - expr: =LEN( RC[1] )
@@ -444,7 +442,6 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
   - cells:
     - const: ""
     - expr: =MID( RC[1], RC[2], RC[3] )
@@ -2028,7 +2025,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
     - const: ""
     - expr: =LOWER( RC[1] )
@@ -2087,7 +2083,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
     - const: ""
     - expr: =UPPER( RC[1] )
@@ -2157,7 +2152,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: "*abc*abc*abc"
@@ -2194,7 +2188,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
   - cells:
     - const: "aaa bb c"
@@ -2220,7 +2213,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: "!NUM:NA"
@@ -2247,7 +2239,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 1.0
     - expr: =MATCH( RC[1], RC[2]:RC[4] )
@@ -2259,7 +2250,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 2.0
     - expr: =MATCH( RC[1], RC[2]:RC[4] )
@@ -2271,7 +2261,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 2.0
     - expr: =MATCH( RC[1], RC[2]:RC[4] )
@@ -2283,7 +2272,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 3.0
     - expr: =MATCH( RC[1], RC[2]:RC[4] )
@@ -2295,7 +2283,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 3.0
     - expr: =MATCH( RC[1], RC[2]:RC[4] )
@@ -2307,7 +2294,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 2.0
     - expr: =MATCH( RC[1], RC[2]:RC[4] )
@@ -2319,7 +2305,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 2.0
     - expr: =MATCH( RC[1], RC[2]:RC[4] )
@@ -2331,7 +2316,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 2.0
     - expr: =MATCH( RC[1], RC[2]:RC[4] )
@@ -2343,7 +2327,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 1.0
     - expr: =MATCH( RC[1], RC[2]:RC[4] )
@@ -2355,7 +2338,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
   - cells:
     - const: 3.0
@@ -2381,7 +2363,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 2.0
     - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
@@ -2393,7 +2374,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 2.0
     - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
@@ -2405,7 +2385,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 1.0
     - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
@@ -2417,7 +2396,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 1.0
     - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
@@ -2429,7 +2407,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: "!NUM:NA"
     - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
@@ -2441,7 +2418,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - const: "#N/A"
   - cells:
@@ -2455,7 +2432,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 1.0
     - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
@@ -2467,7 +2443,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 1.0
     - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
@@ -2479,7 +2454,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 2.0
     - expr: =MATCH( RC[1], RC[2]:RC[4], (-1.0) )
@@ -2491,7 +2465,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
   - cells:
     - const: "!NUM:NA"
@@ -2518,7 +2491,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 2.0
     - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
@@ -2530,7 +2502,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 3.0
     - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
@@ -2542,7 +2513,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: "!NUM:NA"
     - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
@@ -2554,7 +2524,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - const: "#N/A"
   - cells:
@@ -2568,7 +2538,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 2.0
     - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
@@ -2580,7 +2549,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: "!NUM:NA"
     - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
@@ -2592,7 +2560,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - const: "#N/A"
   - cells:
@@ -2606,7 +2574,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: "!NUM:NA"
     - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
@@ -2618,7 +2585,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - const: "#N/A"
   - cells:
@@ -2632,7 +2599,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - const: "#N/A"
   - cells:
@@ -2657,7 +2624,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
     - const: 3.0
     - expr: =MATCH( RC[1], RC[2]:RC[4], 0.0 )
@@ -2669,4 +2635,3 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."

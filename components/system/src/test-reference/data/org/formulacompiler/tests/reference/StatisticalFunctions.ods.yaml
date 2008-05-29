@@ -67,7 +67,6 @@ sheets:
     - const: 4.0
     - null
     - const: 6.0
-    - const: "..."
   - cells:
   - cells:
     - const: 5.0
@@ -124,7 +123,6 @@ sheets:
     - const: 4.0
     - const: 1.0
     - const: 7.0
-    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -162,7 +160,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: 0.25
@@ -186,7 +183,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
   - cells:
     - const: 4.64
@@ -210,7 +206,6 @@ sheets:
     - null
     - const: 10.0
     - const: 7.0
-    - const: "..."
   - cells:
   - cells:
     - const: 0.5
@@ -236,7 +231,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
   - cells:
     - const: 5.8
@@ -260,7 +254,6 @@ sheets:
     - null
     - const: 10.0
     - const: 7.0
-    - const: "..."
   - cells:
   - cells:
     - const: 2.82842712474619
@@ -309,7 +302,6 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: "..."
   - cells:
   - cells:
     - const: 0.0
@@ -369,7 +361,7 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - const: "bigdecimal"
@@ -432,7 +424,6 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: "..."
   - cells:
   - cells:
     - const: 0.0
@@ -500,7 +491,7 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - const: "long, bigdecimal"
@@ -543,7 +534,6 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: "..."
   - cells:
   - cells:
     - const: 0.390532544378699
@@ -587,7 +577,7 @@ sheets:
     - const: -2.0
     - const: 3.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - const: "long, bigdecimal"
@@ -991,7 +981,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -1384,7 +1374,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: 0.00286274257644026
@@ -1591,7 +1580,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -1891,7 +1880,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
     - const: "long, bigdecimal"
@@ -2132,7 +2121,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
     - const: "long, bigdecimal"
@@ -2583,7 +2572,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
     - const: "long, bigdecimal"
@@ -2824,7 +2813,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
     - const: "long, bigdecimal"
@@ -2919,7 +2908,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -3021,7 +3010,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
     - const: "bigdecimal"
@@ -3337,7 +3326,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -3611,7 +3600,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -3953,7 +3942,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -4168,7 +4157,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -4334,7 +4323,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -4767,7 +4756,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -4992,7 +4981,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -5050,7 +5039,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - null
     - const: "bigdecimal"
@@ -5139,7 +5128,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -5344,7 +5333,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -5487,7 +5476,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -5607,7 +5596,6 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
   - cells:
   - cells:
     - const: 4.9519155473158
@@ -5765,7 +5753,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -5910,7 +5898,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -6181,7 +6169,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -6312,7 +6300,7 @@ sheets:
     - const: 1.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -6494,7 +6482,7 @@ sheets:
     - const: 1.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -6730,7 +6718,7 @@ sheets:
     - const: 1.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -6798,7 +6786,7 @@ sheets:
     - const: -1.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -6824,7 +6812,6 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
   - cells:
   - cells:
     - const: 0.617202758002118
@@ -6903,7 +6890,6 @@ sheets:
     - const: 2.0
     - const: 2.0
     - const: 7.0
-    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -7017,7 +7003,7 @@ sheets:
     - const: 1.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -7202,7 +7188,7 @@ sheets:
     - const: 3.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -7329,7 +7315,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -7404,7 +7390,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -7538,7 +7524,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -7660,7 +7646,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
     - const: "long"
@@ -7795,7 +7781,7 @@ sheets:
     - null
     - null
     - const: 1.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -7823,7 +7809,6 @@ sheets:
     - const: 3.8
     - null
     - const: 6.0
-    - const: "..."
   - cells:
   - cells:
     - const: "!NUM:NA"
@@ -7864,7 +7849,6 @@ sheets:
     - const: 3.8
     - null
     - const: 6.0
-    - const: "..."
   - cells:
   - cells:
     - const: "!NUM:NA"
@@ -7905,7 +7889,6 @@ sheets:
     - const: 3.8
     - null
     - const: 6.0
-    - const: "..."
   - cells:
   - cells:
     - const: "!NUM:NA"
@@ -7969,7 +7952,6 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
   - cells:
   - cells:
     - const: 1.38443731048635
@@ -8098,7 +8080,6 @@ sheets:
     - const: 6.0
     - null
     - const: 6.0
-    - const: "..."
   - cells:
   - cells:
     - const: "!NUM:NA"
@@ -8257,7 +8238,7 @@ sheets:
     - const: 6.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -8407,7 +8388,6 @@ sheets:
     - const: 6.0
     - null
     - const: 6.0
-    - const: "..."
   - cells:
   - cells:
     - const: "!NUM:NA"
@@ -8547,7 +8527,6 @@ sheets:
     - const: 6.0
     - null
     - const: 6.0
-    - const: "..."
   - cells:
   - cells:
     - const: "!NUM:NA"
@@ -8688,7 +8667,7 @@ sheets:
     - const: 6.0
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -8892,7 +8871,7 @@ sheets:
     - null
     - null
     - const: 3.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -9000,7 +8979,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - const: "#N/A"
   - cells:
@@ -9048,7 +9027,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -9096,7 +9075,6 @@ sheets:
     - const: 2.0
     - const: 3.0
     - const: 7.0
-    - const: "..."
   - cells:
   - cells:
     - const: 1.0
@@ -9120,7 +9098,7 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
+    - null
     - null
     - const: "#N/A"
   - cells:
@@ -9159,7 +9137,6 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
   - cells:
   - cells:
     - const: 2.0
@@ -9216,7 +9193,7 @@ sheets:
     - const: 6.0
     - const: 7.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - const: "#N/A"
   - cells:
@@ -9292,7 +9269,6 @@ sheets:
     - const: 0.4
     - null
     - const: 6.0
-    - const: "..."
   - cells:
   - cells:
     - const: 2.43333333333333
@@ -9341,7 +9317,7 @@ sheets:
     - const: 1.0
     - const: -0.01
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -9428,7 +9404,7 @@ sheets:
     - const: -0.01
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -9454,7 +9430,6 @@ sheets:
     - const: 1.0
     - const: 2.0
     - const: 7.0
-    - const: "..."
   - cells:
   - cells:
     - const: 3.0
@@ -9549,7 +9524,7 @@ sheets:
     - const: 1.1
     - null
     - const: 6.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -9588,7 +9563,6 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
   - cells:
   - cells:
     - const: 2.0
@@ -9657,7 +9631,6 @@ sheets:
     - const: 2.0
     - null
     - const: 6.0
-    - const: "..."
   - cells:
   - cells:
     - const: 5.0
@@ -9749,7 +9722,6 @@ sheets:
     - const: 2.0
     - null
     - const: 6.0
-    - const: "..."
   - cells:
   - cells:
     - const: 2.2
@@ -9773,7 +9745,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -9799,7 +9771,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -9905,7 +9877,6 @@ sheets:
     - const: 4.0
     - null
     - const: 6.0
-    - const: "..."
   - cells:
   - cells:
     - const: 2.2
@@ -9929,7 +9900,7 @@ sheets:
     - null
     - null
     - const: 5.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -9955,7 +9926,7 @@ sheets:
     - null
     - null
     - const: 4.0
-    - const: "..."
+    - null
     - null
     - const: "#NUM!"
   - cells:
@@ -10083,7 +10054,7 @@ sheets:
     - const: 6.0
     - const: 0.0
     - const: 7.0
-    - const: "..."
+    - null
     - null
     - null
     - const: "bigdecimal, long"
@@ -10152,7 +10123,6 @@ sheets:
     - null
     - null
     - const: 2.0
-    - const: "..."
   - cells:
   - cells:
     - const: "!NUM:NaN/AE"
