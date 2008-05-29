@@ -5905,199 +5905,243 @@ sheets:
   - cells:
     - const: 1.0
     - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 3.0
-    - const: 5.0
-    - const: 3.0
-    - const: 5.0
-    - null
-    - null
-    - null
-    - const: 4.0
-    - const: "HYPGEOMDIST"
-    - const: "HYPGEOMDIST"
-  - cells:
-    - const: 1.0
-    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 5.0
-    - const: 5.0
-    - const: 5.0
-    - const: 5.0
-    - null
-    - null
-    - null
-    - const: 4.0
-  - cells:
-    - const: 1.0
-    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 2.0
-    - const: 2.0
-    - const: 4.0
-    - const: 4.0
-    - null
-    - null
-    - null
-    - const: 4.0
-  - cells:
-    - const: 0.1
-    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 3.0
-    - const: 3.0
-    - const: 3.0
-    - const: 5.0
-    - null
-    - null
-    - null
-    - const: 4.0
-  - cells:
-    - const: 0.0205454389473677
-    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 1420.0
-    - const: 5000.0
-    - const: 2000.0
-    - const: 7000.0
-    - null
-    - null
-    - null
-    - const: 4.0
-  - cells:
-    - const: 0.399122807017544
-    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 12.5
-    - const: 15.8
-    - const: 17.0
-    - const: 20.0
-    - null
-    - null
-    - null
-    - const: 4.0
-  - cells:
-    - const: 4.00840782737909E-219
-    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 200.0
-    - const: 200.0
-    - const: 200.0
-    - const: 1027.0
-    - null
-    - null
-    - null
-    - const: 4.0
-  - cells:
-    - const: 0.0311585404664802
-    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 150.0
-    - const: 500.0
-    - const: 200.0
-    - const: 700.0
-    - null
-    - null
-    - null
-    - const: 4.0
-  - cells:
-    - const: 0.462332301341589
-    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 1.0
-    - const: 4.0
-    - const: 4.0
-    - const: 20.0
-    - null
-    - null
-    - null
-    - const: 4.0
-  - cells:
-    - const: 0.460526315789474
-    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 1.0
-    - const: 5.0
-    - const: 3.0
-    - const: 20.0
-    - null
-    - null
-    - null
-    - const: 4.0
-  - cells:
-    - const: 0.131578947368421
-    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 2.0
-    - const: 5.0
-    - const: 3.0
-    - const: 20.0
-    - null
-    - null
-    - null
-    - const: 4.0
-  - cells:
-    - const: 0.0087719298245614
-    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 3.0
-    - const: 5.0
-    - const: 3.0
-    - const: 20.0
-    - null
-    - null
-    - null
-    - const: 4.0
-  - cells:
     - const: 0.0
+    - const: 0.0
+    - const: 0.0
+    - const: 0.0
+    - null
+    - null
+    - null
+    - const: 4.0
+    - const: "HYPGEOMDIST"
+    - const: "HYPGEOMDIST"
+  - cells:
+    - const: 1.0
     - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 500.0
-    - const: 500.0
-    - const: 500.0
-    - const: 1027.0
+    - const: 0.0
+    - const: 0.0
+    - const: 0.0
+    - const: 2.0
     - null
     - null
     - null
     - const: 4.0
   - cells:
-    - const: 1.87563338542326E-9
+    - const: 1.0
     - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 12.0
-    - const: 23.0
-    - const: 45.0
-    - const: 654.0
+    - const: 0.0
+    - const: 0.0
+    - const: 1.0
+    - const: 2.0
     - null
     - null
     - null
     - const: 4.0
   - cells:
-    - const: 0.0311585404664802
+    - const: 1.0
     - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 150.5
-    - const: 500.3
-    - const: 200.7
-    - const: 700.0
+    - const: 0.0
+    - const: 1.0
+    - const: 0.0
+    - const: 2.0
     - null
     - null
     - null
     - const: 4.0
   - cells:
-    - const: 0.0205454389473677
+    - const: 0.5
     - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 1420.0
-    - const: 5000.0
-    - const: 2000.0
-    - const: 7000.0
+    - const: 0.0
+    - const: 1.0
+    - const: 1.0
+    - const: 2.0
     - null
     - null
     - null
     - const: 4.0
   - cells:
-    - const: 4.0084078273791E-219
+    - const: 0.166666666666667
     - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 200.0
-    - const: 200.0
-    - const: 200.0
-    - const: 1027.0
-    - null
-    - null
-    - null
-    - const: 4.0
-  - cells:
-    - const: 0.142857142857143
-    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.0
     - const: 1.0
     - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.166666666666667
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.0
+    - const: 5.0
+    - const: 1.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 1.0
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 1.0
+    - const: 1.0
+    - const: 1.0
+    - const: 1.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 1.0
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
     - const: 3.0
-    - const: 7.0
+    - const: 3.0
+    - const: 4.0
+    - const: 4.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.4
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 3.0
+    - const: 3.0
+    - const: 4.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 1.0
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 3.0
+    - const: 4.0
+    - const: 3.0
+    - const: 4.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.4
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 3.0
+    - const: 4.0
+    - const: 3.0
+    - const: 5.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 1.0
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 8.0
+    - const: 8.0
+    - const: 8.0
+    - const: 8.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.75
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 8.0
+    - const: 9.0
+    - const: 11.0
+    - const: 12.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.681818181818182
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 8.0
+    - const: 10.0
+    - const: 10.0
+    - const: 12.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.75
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 8.0
+    - const: 11.0
+    - const: 9.0
+    - const: 12.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 1.0
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 8.0
+    - const: 8.0
+    - const: 12.0
+    - const: 12.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 1.0
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 8.0
+    - const: 12.0
+    - const: 8.0
+    - const: 12.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.985
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 0.0
+    - const: 1.0
+    - const: 3.0
+    - const: 200.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.135431073144995
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 10.0
+    - const: 70.0
+    - const: 300.0
+    - const: 2000.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.0941079938290508
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 20.0
+    - const: 200.0
+    - const: 2000.0
+    - const: 20000.0
+    - null
+    - null
+    - null
+    - const: 4.0
+  - cells:
+    - const: 0.75
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 8.5
+    - const: 9.5
+    - const: 11.5
+    - const: 12.5
     - null
     - null
     - null
@@ -6108,7 +6152,7 @@ sheets:
     - const: -1.0
     - const: 4.0
     - const: 3.0
-    - const: 7.0
+    - const: 20.0
     - null
     - null
     - null
@@ -6133,9 +6177,9 @@ sheets:
   - cells:
     - const: "!NUM:FE"
     - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 3.0
+    - const: 4.0
     - const: 5.0
-    - const: 2.0
+    - const: 3.0
     - const: 7.0
     - null
     - null
@@ -6147,10 +6191,10 @@ sheets:
   - cells:
     - const: "!NUM:FE"
     - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 1.0
-    - const: 6.0
-    - const: 1.0
-    - const: 5.0
+    - const: 7.0
+    - const: 10.0
+    - const: 10.0
+    - const: 12.0
     - null
     - null
     - null
@@ -6161,10 +6205,52 @@ sheets:
   - cells:
     - const: "!NUM:FE"
     - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
-    - const: 2.0
-    - const: 2.0
+    - const: 15.0
+    - const: 15.0
+    - const: 15.0
+    - const: 14.0
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - const: "#NUM!"
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
     - const: 8.0
-    - const: 7.0
+    - const: -1.0
+    - const: 11.0
+    - const: 12.0
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - const: "#NUM!"
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 8.0
+    - const: 9.0
+    - const: -1.0
+    - const: 12.0
+    - null
+    - null
+    - null
+    - const: 4.0
+    - null
+    - null
+    - const: "#NUM!"
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =HYPGEOMDIST( RC[1], RC[2], RC[3], RC[4] )
+    - const: 8.0
+    - const: 9.0
+    - const: 11.0
+    - const: -1.0
     - null
     - null
     - null
@@ -8698,10 +8784,10 @@ sheets:
     - const: "#N/A"
   - cells:
   - cells:
-    - const: 4.0
+    - const: 0.0
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
-    - const: 6.0
-    - const: 0.5
+    - const: 0.0
+    - const: 0.3
     - const: 0.75
     - null
     - null
@@ -8711,10 +8797,10 @@ sheets:
     - const: "CRITBINOM"
     - const: "CRITBINOM"
   - cells:
-    - const: 3.0
+    - const: 1.0
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
-    - const: 4.3
-    - const: 0.5
+    - const: 1.0
+    - const: 0.3
     - const: 0.75
     - null
     - null
@@ -8722,10 +8808,32 @@ sheets:
     - null
     - const: 3.0
   - cells:
+    - const: 1.0
+    - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
+    - const: 3.0
+    - const: 0.3
+    - const: 0.75
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 1.0
+    - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
+    - const: 3.9
+    - const: 0.3
+    - const: 0.75
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 2.0
+    - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
     - const: 4.0
-    - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
-    - const: 6.7
-    - const: 0.45
+    - const: 0.3
     - const: 0.75
     - null
     - null
@@ -8733,33 +8841,11 @@ sheets:
     - null
     - const: 3.0
   - cells:
-    - const: 5.0
+    - const: 310.0
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
-    - const: 6.7
-    - const: 0.82
-    - const: 0.45
-    - null
-    - null
-    - null
-    - null
-    - const: 3.0
-  - cells:
-    - const: 7.0
-    - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
-    - const: 7.0
-    - const: 0.999999
-    - const: 0.34
-    - null
-    - null
-    - null
-    - null
-    - const: 3.0
-  - cells:
-    - const: 7.0
-    - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
-    - const: 7.0
-    - const: 0.999999
-    - const: 0.999999
+    - const: 1000.0
+    - const: 0.3
+    - const: 0.75
     - null
     - null
     - null
@@ -8768,9 +8854,42 @@ sheets:
   - cells:
     - const: 0.0
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
-    - const: 6.0
-    - const: 1.0E-6
-    - const: 0.33
+    - const: 10.0
+    - const: 0.0010
+    - const: 0.75
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 10.0
+    - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
+    - const: 10.0
+    - const: 0.999
+    - const: 0.75
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 0.0
+    - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
+    - const: 10.0
+    - const: 0.3
+    - const: 0.0010
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+  - cells:
+    - const: 8.0
+    - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
+    - const: 10.0
+    - const: 0.3
+    - const: 0.999
     - null
     - null
     - null
@@ -8779,9 +8898,9 @@ sheets:
   - cells:
     - const: "!NUM:FE"
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
-    - const: -0.01
-    - const: 0.45
-    - const: 0.78
+    - const: 10.0
+    - const: 0.0
+    - const: 0.75
     - null
     - null
     - null
@@ -8793,8 +8912,36 @@ sheets:
   - cells:
     - const: "!NUM:FE"
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
-    - const: 6.0
-    - const: 0.45
+    - const: 10.0
+    - const: 1.0
+    - const: 0.75
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: "#NUM!"
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
+    - const: 10.0
+    - const: 0.3
+    - const: 0.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - const: "#NUM!"
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
+    - const: 10.0
+    - const: 0.3
     - const: 1.0
     - null
     - null
@@ -8807,9 +8954,9 @@ sheets:
   - cells:
     - const: "!NUM:FE"
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
-    - const: 6.0
-    - const: 0.45
-    - const: -0.01
+    - const: 10.0
+    - const: -0.0010
+    - const: 0.75
     - null
     - null
     - null
@@ -8821,22 +8968,8 @@ sheets:
   - cells:
     - const: "!NUM:FE"
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
-    - const: 6.0
-    - const: 1.0
-    - const: 0.45
-    - null
-    - null
-    - null
-    - null
-    - const: 3.0
-    - null
-    - null
-    - const: "#NUM!"
-  - cells:
-    - const: "!NUM:FE"
-    - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
-    - const: 6.0
-    - const: 0.0
+    - const: 10.0
+    - const: 1.001
     - const: 0.75
     - null
     - null
@@ -8850,7 +8983,7 @@ sheets:
     - const: "!NUM:FE"
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
     - const: -1.0
-    - const: 0.5
+    - const: 0.3
     - const: 0.75
     - null
     - null
@@ -8864,7 +8997,7 @@ sheets:
     - const: "!NUM:FE"
     - expr: =CRITBINOM( RC[1], RC[2], RC[3] )
     - const: 1.0E10
-    - const: 0.5
+    - const: 0.3
     - const: 0.75
     - null
     - null
