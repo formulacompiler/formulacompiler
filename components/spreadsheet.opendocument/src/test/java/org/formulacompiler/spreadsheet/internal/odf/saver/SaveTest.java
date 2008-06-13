@@ -24,7 +24,6 @@ package org.formulacompiler.spreadsheet.internal.odf.saver;
 
 import java.io.File;
 
-import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellWithConstant;
 import org.formulacompiler.spreadsheet.internal.RowImpl;

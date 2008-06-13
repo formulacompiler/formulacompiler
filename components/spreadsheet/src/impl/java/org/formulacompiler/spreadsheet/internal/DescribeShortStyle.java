@@ -28,6 +28,7 @@ public final class DescribeShortStyle
 
 	private DescribeShortStyle()
 	{
+		// Nothing to do here.
 	}
 
 	public static DescribeShortStyle getInstance()
