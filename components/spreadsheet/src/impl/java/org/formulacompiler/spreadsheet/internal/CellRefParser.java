@@ -127,6 +127,7 @@ public abstract class CellRefParser
 
 	private static class CellRefParserA1ODF extends CellRefParserA1
 	{
+		@SuppressWarnings("hiding")
 		private static final String SHEET_NAME_REGEXP = "(?:(\\w+|#REF!)|'((?:''|[^'])+)')";
 		private static final String A1_CELL_REGEXP = "(\\$?)([A-Z]+|#REF!)(\\$?)(\\d+|#REF!)";
 
