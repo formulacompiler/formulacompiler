@@ -22,8 +22,7 @@
 
 package org.formulacompiler.runtime.internal;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.util.Formatter;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -31,7 +30,7 @@ import org.formulacompiler.runtime.Computation;
 
 import junit.framework.TestCase;
 
-public class EnvironmentTest extends TestCase
+public class RuntimeTest extends TestCase
 {
 	private static final TimeZone STD = TimeZone.getDefault().getRawOffset() == 9 ? TimeZone.getTimeZone( "GMT-9:00" )
 			: TimeZone.getTimeZone( "GMT+9:00" );
@@ -40,21 +39,21 @@ public class EnvironmentTest extends TestCase
 	{
 		Environment env = Environment.getInstance( new Computation.Config( new Locale( "de", "CH" ), STD ) );
 
-		assertDateOrTime( env, 1930, 1, 1, "1.1.30" );
-		assertDateOrTime( env, 2029, 12, 31, "31.12.29" );
+		assertDate( env, 1930, 1, 1, "1.1.30" );
+		assertDate( env, 2029, 12, 31, "31.12.29" );
 
-		assertDateOrTime( env, 1970, 6, 13, "13. 6. 1970" );
-		assertDateOrTime( env, 1970, 6, 13, "13.6.1970" );
-		assertDateOrTime( env, 1970, 6, 13, "13.6.70" );
-		assertDateOrTime( env, 1970, 6, 3, "3.6.70" );
-		assertDateOrTime( env, 2007, 6, 3, "3.6.7" );
-		assertDateOrTime( env, 7, 6, 3, "3.6.0007" );
+		assertDate( env, 1970, 6, 13, "13. 6. 1970" );
+		assertDate( env, 1970, 6, 13, "13.6.1970" );
+		assertDate( env, 1970, 6, 13, "13.6.70" );
+		assertDate( env, 1970, 6, 3, "3.6.70" );
+		assertDate( env, 2007, 6, 3, "3.6.7" );
+		assertDate( env, 7, 6, 3, "3.6.0007" );
 
 		assertDateOrTime( env, 1970, 6, 13, 12, 15, 16, "13.6.70 12:15:16" );
 		assertDateOrTime( env, 1970, 6, 13, 12, 15, 0, "13.6.70 12:15" );
 
-		assertDateOrTime( env, 1899, 12, 31, 12, 15, 16, "12:15:16" );
-		assertDateOrTime( env, 1899, 12, 31, 12, 15, 0, "12:15" );
+		assertTime( env, 12, 15, 16, "12:15:16" );
+		assertTime( env, 12, 15, 0, "12:15" );
 
 		assertDateOrTime( env, 2000, 1, 1, 12, 15, 16, "1.1.00 12:15:16" );
 		assertDateOrTime( env, 2000, 1, 1, 12, 15, 0, "1.1.00 12:15" );
@@ -66,14 +65,14 @@ public class EnvironmentTest extends TestCase
 	{
 		Environment env = Environment.getInstance( new Computation.Config( new Locale( "en", "US" ), STD ) );
 
-		assertDateOrTime( env, 1930, 1, 1, "1/1/30" );
-		assertDateOrTime( env, 2029, 12, 31, "12/31/29" );
+		assertDate( env, 1930, 1, 1, "1/1/30" );
+		assertDate( env, 2029, 12, 31, "12/31/29" );
 
-		assertDateOrTime( env, 1970, 6, 13, "6/13/1970" );
-		assertDateOrTime( env, 1970, 6, 13, "6/13/70" );
-		assertDateOrTime( env, 1970, 6, 3, "6/3/70" );
-		assertDateOrTime( env, 2007, 6, 3, "6/3/7" );
-		assertDateOrTime( env, 7, 6, 3, "6/3/0007" );
+		assertDate( env, 1970, 6, 13, "6/13/1970" );
+		assertDate( env, 1970, 6, 13, "6/13/70" );
+		assertDate( env, 1970, 6, 3, "6/3/70" );
+		assertDate( env, 2007, 6, 3, "6/3/7" );
+		assertDate( env, 7, 6, 3, "6/3/0007" );
 
 		assertDateOrTime( env, 1970, 6, 13, 0, 15, 16, "6/13/70 12:15:16 am" );
 		assertDateOrTime( env, 1970, 6, 13, 0, 15, 0, "6/13/70 12:15 am" );
@@ -85,20 +84,20 @@ public class EnvironmentTest extends TestCase
 		assertDateOrTime( env, 1970, 6, 13, 12, 15, 16, "6/13/70 12:15:16" );
 		assertDateOrTime( env, 1970, 6, 13, 12, 15, 0, "6/13/70 12:15" );
 
-		assertDateOrTime( env, 1899, 12, 31, 0, 15, 16, "0:15:16 am" );
-		assertDateOrTime( env, 1899, 12, 31, 0, 15, 0, "0:15 am" );
-		assertDateOrTime( env, 1899, 12, 31, 0, 15, 16, "12:15:16 am" );
-		assertDateOrTime( env, 1899, 12, 31, 0, 15, 0, "12:15 am" );
+		assertTime( env, 0, 15, 16, "0:15:16 am" );
+		assertTime( env, 0, 15, 0, "0:15 am" );
+		assertTime( env, 0, 15, 16, "12:15:16 am" );
+		assertTime( env, 0, 15, 0, "12:15 am" );
 
-		assertDateOrTime( env, 1899, 12, 31, 12, 15, 16, "0:15:16 pm" );
-		assertDateOrTime( env, 1899, 12, 31, 12, 15, 0, "0:15 pm" );
-		assertDateOrTime( env, 1899, 12, 31, 12, 15, 16, "12:15:16 pm" );
-		assertDateOrTime( env, 1899, 12, 31, 12, 15, 0, "12:15 pm" );
+		assertTime( env, 12, 15, 16, "0:15:16 pm" );
+		assertTime( env, 12, 15, 0, "0:15 pm" );
+		assertTime( env, 12, 15, 16, "12:15:16 pm" );
+		assertTime( env, 12, 15, 0, "12:15 pm" );
 
-		assertDateOrTime( env, 1899, 12, 31, 0, 15, 16, "0:15:16" );
-		assertDateOrTime( env, 1899, 12, 31, 0, 15, 0, "0:15" );
-		assertDateOrTime( env, 1899, 12, 31, 12, 15, 16, "12:15:16" );
-		assertDateOrTime( env, 1899, 12, 31, 12, 15, 0, "12:15" );
+		assertTime( env, 0, 15, 16, "0:15:16" );
+		assertTime( env, 0, 15, 0, "0:15" );
+		assertTime( env, 12, 15, 16, "12:15:16" );
+		assertTime( env, 12, 15, 0, "12:15" );
 
 		assertDateOrTime( env, 2000, 1, 1, 0, 15, 16, "1/1/00 12:15:16 am" );
 		assertDateOrTime( env, 2000, 1, 1, 0, 15, 0, "1/1/00 12:15 am" );
@@ -110,16 +109,16 @@ public class EnvironmentTest extends TestCase
 	public void testParseDateAndOrTime_ru_RU() throws Exception
 	{
 		Environment env = Environment.getInstance( new Computation.Config( new Locale( "ru", "RU" ), STD ) );
-		assertDateOrTime( env, 1930, 2, 1, "1.2.30" );
-		assertDateOrTime( env, 1930, 2, 1, "1.02.30" );
-		assertDateOrTime( env, 2029, 12, 31, "31.12.29" );
-		assertDateOrTime( env, 1997, 12, 31, "31.12.1997" );
-		// LATER assertDateOrTime( env, 1997, 12, 31, "31/12/1997" );
-		assertDateOrTime( env, 1997, 12, 31, "1997-12-31" );
+		assertDate( env, 1930, 2, 1, "1.2.30" );
+		assertDate( env, 1930, 2, 1, "1.02.30" );
+		assertDate( env, 2029, 12, 31, "31.12.29" );
+		assertDate( env, 1997, 12, 31, "31.12.1997" );
+		// LATER assertDate( env, 1997, 12, 31, "31/12/1997" );
+		assertDate( env, 1997, 12, 31, "1997-12-31" );
 		assertDateOrTime( env, 1970, 11, 6, 12, 15, 16, "6.11.70 12:15:16" );
 		assertDateOrTime( env, 1970, 11, 6, 12, 15, 0, "6.11.70 12:15" );
-		assertDateOrTime( env, 1899, 12, 31, 12, 15, 16, "12:15:16" );
-		assertDateOrTime( env, 1899, 12, 31, 14, 15, 0, "14:15" );
+		assertTime( env, 12, 15, 16, "12:15:16" );
+		assertTime( env, 14, 15, 0, "14:15" );
 		assertISO( env );
 	}
 
@@ -149,7 +148,7 @@ public class EnvironmentTest extends TestCase
 	private void assertDateOrTime( Environment _env, int _year, int _month, int _day, String _toParse, char _dateSep )
 			throws Exception
 	{
-		assertDateOrTime( _env, _year, _month, _day, _toParse.replace( '-', _dateSep ) );
+		assertDate( _env, _year, _month, _day, _toParse.replace( '-', _dateSep ) );
 	}
 
 	private void assertDateOrTime( Environment _env, int _year, int _month, int _day, int _hours, int _minutes,
@@ -159,22 +158,39 @@ public class EnvironmentTest extends TestCase
 	}
 
 
-	private void assertDateOrTime( Environment _env, int _year, int _month, int _day, String _toParse ) throws Exception
+	private void assertDate( Environment _env, int _year, int _month, int _day, String _toParse ) throws Exception
 	{
-		assertDateOrTime( _env, _year, _month, _day, 0, 0, 0, _toParse );
+		assertEquals( "Parsing " + _toParse + " failed. Expected " + formatDate( _year, _month, _day ),
+				RuntimeDouble_v2.dateToNum( _year, _month, _day ),
+				Runtime_v2.parseDateAndOrTime( _toParse, _env ), 1e-9 );
 	}
 
 	private void assertDateOrTime( Environment _env, int _year, int _month, int _day, int _hours, int _minutes,
 			int _seconds, String _toParse ) throws Exception
 	{
-		Date parsed = _env.parseDateAndOrTime( _toParse );
-		Calendar cal = Calendar.getInstance( STD, _env.locale() );
-		cal.clear();
-		cal.set( _year, _month - 1, _day, _hours, _minutes, _seconds );
-		Date want = cal.getTime();
-		if (want.getTime() != parsed.getTime()) {
-			assertEquals( _toParse, want, parsed );
-		}
+		assertEquals( "Parsing " + _toParse + " failed. Expected " + formatDate( _year, _month, _day ) +
+				" " + formatTime( _hours, _minutes, _seconds ),
+				RuntimeDouble_v2.dateToNum( _year, _month, _day ) + RuntimeDouble_v2.fun_TIME( _hours, _minutes, _seconds ),
+				Runtime_v2.parseDateAndOrTime( _toParse, _env ), 1e-9 );
 	}
 
+	private void assertTime( Environment _env, int _hours, int _minutes, int _seconds, String _toParse ) throws Exception
+	{
+		assertEquals( "Parsing " + _toParse + " failed. Expected " + formatTime( _hours, _minutes, _seconds ),
+				RuntimeDouble_v2.fun_TIME( _hours, _minutes, _seconds ), Runtime_v2.parseDateAndOrTime( _toParse, _env ), 1e-9 );
+	}
+
+	private String formatDate( int _year, int _month, int _day )
+	{
+		Formatter formatter = new Formatter();
+		formatter.format( "%1$04d-%2$02d-%3$02d", _year, _month, _day );
+		return formatter.toString();
+	}
+
+	private String formatTime( int _hours, int _minutes, int _seconds )
+	{
+		Formatter formatter = new Formatter();
+		formatter.format( "%1$02d:%2$02d:%3$02d", _hours, _minutes, _seconds );
+		return formatter.toString();
+	}
 }
