@@ -214,7 +214,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return dateToNum( year, _month, _day );
 	}
 
-	private static double dateToNum( final int _year, final int _month, final int _day )
+	static double dateToNum( final int _year, final int _month, final int _day )
 	{
 		final Calendar calendar = new GregorianCalendar( TimeZone.getTimeZone( "GMT" ) );
 		calendar.clear();
@@ -1244,8 +1244,8 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	{
 		final String text = _text.trim();
 		try {
-			final Date date = _environment.parseDateAndOrTime( text );
-			return Math.floor( dateToDouble( date, _environment.timeZone() ) );
+			final double date = parseDateAndOrTime( text, _environment );
+			return Math.floor( date );
 		}
 		catch (ParseException e) {
 			throw new FormulaException( "#VALUE! because argument could not be interpreted properly in DATEVALUE" );
@@ -1256,8 +1256,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	{
 		final String text = _text.trim();
 		try {
-			final Date date = _environment.parseDateAndOrTime( text );
-			double dataTime = dateToDouble( date, _environment.timeZone() );
+			double dataTime = parseDateAndOrTime( text, _environment );
 			return dataTime - Math.floor( dataTime );
 		}
 		catch (ParseException e) {

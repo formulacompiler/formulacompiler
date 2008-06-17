@@ -27,11 +27,13 @@ import java.math.RoundingMode;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.text.Collator;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Currency;
@@ -170,7 +172,12 @@ public abstract class Runtime_v2
 			return result;
 		}
 
-		return parseDateAndOrTime( text, _environment );
+		try {
+			return parseDateAndOrTime( text, _environment );
+		}
+		catch (ParseException e) {
+			return null;
+		}
 	}
 
 	private static Number parseNumber( String _text, NumberFormat _numberFormat )
@@ -214,17 +221,6 @@ public abstract class Runtime_v2
 		if (_format instanceof DecimalFormat) {
 			final DecimalFormat decimalFormat = (DecimalFormat) _format;
 			decimalFormat.setParseBigDecimal( _parseBigDecimal );
-		}
-	}
-
-	private static Number parseDateAndOrTime( String _text, Environment _environment )
-	{
-		try {
-			final Date date = _environment.parseDateAndOrTime( _text );
-			return dateToDouble( date, _environment.timeZone() );
-		}
-		catch (ParseException e) {
-			return null;
 		}
 	}
 
@@ -876,4 +872,187 @@ public abstract class Runtime_v2
 	}
 
 
+	/**
+	 * Parses a string containing a date and/or time component. The reason for this routine is that
+	 * the standard Java date parsers are quite picky about input strings having <em>all</em>
+	 * components specified in the format. Handles century completion for 2-digit-years the way Excel
+	 * does. Handles ISO standard format as well as locale-specific format.
+	 *
+	 * @param _s   string to parse
+	 * @param _env environment
+	 * @return date in numeric representation
+	 * @throws java.text.ParseException if string cannot be parsed as date.
+	 */
+	public static double parseDateAndOrTime( String _s, final Environment _env ) throws ParseException
+	{
+		if (isISODate( _s, '-' )) {
+			final Date date = parseISODateAndOptionallyTime( _s, '-', _env );
+			return dateToDouble( date, _env.timeZone() );
+		}
+		if (isISODate( _s, '/' )) {
+			final Date date = parseISODateAndOptionallyTime( _s, '/', _env );
+			return dateToDouble( date, _env.timeZone() );
+		}
+
+		final TimeZone tz = _env.timeZone();
+		final Locale loc = _env.locale();
+
+		final SimpleDateFormat dateFormat = (SimpleDateFormat) DateFormat.getDateInstance( DateFormat.SHORT, loc );
+		final char dateSeparator = firstNonPatternCharIn( dateFormat.toPattern() );
+		final boolean hasDate = _s.indexOf( dateSeparator ) >= 0;
+
+		final SimpleDateFormat timeFormat = (SimpleDateFormat) DateFormat.getTimeInstance( DateFormat.SHORT, loc );
+		final char timeSeparator = firstNonPatternCharIn( timeFormat.toPattern() );
+		final int timeElements = countOccurrences( _s, timeSeparator ) + 1;
+		final boolean hasTime = timeElements > 1;
+		final String[] amPmStrings = timeFormat.getDateFormatSymbols().getAmPmStrings();
+		final boolean hasAmPm;
+		if (amPmStrings.length >= 2) {
+			final String u = _s.toUpperCase( loc );
+			hasAmPm = u.contains( amPmStrings[ 0 ].toUpperCase( loc ) )
+					|| u.contains( amPmStrings[ 1 ].toUpperCase( loc ) );
+		}
+		else hasAmPm = false;
+
+		final SimpleDateFormat format;
+		if (hasDate) {
+			if (hasTime) {
+				format = (SimpleDateFormat) DateFormat.getDateTimeInstance( DateFormat.SHORT, DateFormat.SHORT, loc );
+			}
+			else format = dateFormat;
+		}
+		else format = timeFormat;
+
+		format.setLenient( true );
+		format.setTimeZone( tz );
+
+		final String defaultPattern = format.toPattern();
+		String effectivePattern = defaultPattern;
+
+		/*
+		 * DateInstance(SHORT) returns something like M/d/yy. If it should contain yyyy, we simply
+		 * convert this to M/d/yy so we get proper century adjustment. We don't, however, use
+		 * DateInstance(MEDIUM/LONG) because for en_US, for instance, it returns MMM d, yy, which is
+		 * unusable.
+		 */
+		if (hasDate) {
+			Calendar cal = Calendar.getInstance( tz, loc );
+			cal.clear();
+			cal.set( 1930, 0, 1 );
+			format.set2DigitYearStart( cal.getTime() );
+			if (defaultPattern.contains( "yyyy" )) {
+				effectivePattern = effectivePattern.replace( "yyyy", "yy" );
+			}
+		}
+
+		if (hasTime) {
+
+			/*
+			 * TimeInstance(SHORT) returns something like h:mm a. We simply convert this to h:mm:ss a.
+			 * Again, we don't use MEDIUM/LONG to avoid problems with superfluous elements.
+			 */
+			if (timeElements > 2 && defaultPattern.indexOf( 's' ) < 0) {
+				final int i = effectivePattern.indexOf( 'm' );
+				if (i >= 0) {
+					int j = i + 1;
+					while (j < effectivePattern.length() && effectivePattern.charAt( j ) == 'm')
+						j++;
+					effectivePattern = effectivePattern.substring( 0, j )
+							+ timeSeparator + "ss" + effectivePattern.substring( j );
+				}
+			}
+
+			/*
+			 * TimeInstance(SHORT) may return am/pm, but if the input string does not specify either am
+			 * or pm, we parse as 24-hour time.
+			 */
+			if (!hasAmPm) {
+				final int i = effectivePattern.indexOf( 'a' );
+				if (i >= 0) {
+					effectivePattern = effectivePattern.substring( 0, i ) + effectivePattern.substring( i + 1 );
+					effectivePattern = effectivePattern.replace( 'h', 'H' );
+				}
+			}
+
+		}
+
+		if (!effectivePattern.equals( defaultPattern )) {
+			format.applyPattern( effectivePattern.trim() );
+		}
+		final Date parsed = format.parse( _s );
+
+		if (hasDate) {
+			// Java will parse 6/3/7 as 6/3/0007, but Excel as 6/3/2007
+			Calendar cal = Calendar.getInstance( tz, loc );
+			cal.setTime( parsed );
+			final int year = cal.get( Calendar.YEAR );
+			if (year < 10 && !_s.contains( "000" )) {
+				cal.set( Calendar.YEAR, year + 2000 );
+				final Date fixed = cal.getTime();
+				return dateToDouble( fixed, tz );
+			}
+			return dateToDouble( parsed, tz );
+		}
+		else {
+			return msToDouble( parsed.getTime() + tz.getRawOffset() );
+		}
+	}
+
+	private static boolean isISODate( String _s, char _dateSep )
+	{
+		return (_s.length() >= 5
+				&& Character.isDigit( _s.charAt( 0 ) ) && Character.isDigit( _s.charAt( 1 ) )
+				&& Character.isDigit( _s.charAt( 2 ) ) && Character.isDigit( _s.charAt( 3 ) ) && _s.charAt( 4 ) == _dateSep);
+	}
+
+	private static Date parseISODateAndOptionallyTime( String _s, char _dateSep, Environment _env ) throws ParseException
+	{
+		final int timeElements = countOccurrences( _s, ':' ) + 1;
+		final boolean hasTime = timeElements > 1;
+
+		String pattern = "yyyy-MM-dd";
+		if (_dateSep != '-') {
+			pattern = pattern.replace( '-', _dateSep );
+		}
+		if (hasTime) {
+			pattern = pattern + ((timeElements > 2) ? " HH:mm:ss" : " HH:mm");
+		}
+
+		final SimpleDateFormat format = new SimpleDateFormat( pattern, _env.locale() );
+		format.setTimeZone( _env.timeZone() );
+		format.setLenient( true );
+		final Date parsed = format.parse( _s );
+
+		return parsed;
+	}
+
+	private static char firstNonPatternCharIn( String _pattern )
+	{
+		for (int i = 0; i < _pattern.length(); i++) {
+			final char c = Character.toUpperCase( _pattern.charAt( i ) );
+			switch (c) {
+				case ' ':
+				case 'D':
+				case 'M':
+				case 'Y':
+				case 'H':
+				case 'S':
+				case 'A':
+				case 'P':
+				case 'N':
+					break;
+				default:
+					return c;
+			}
+		}
+		return 0;
+	}
+
+	private static int countOccurrences( String _s, char _c )
+	{
+		int r = 0;
+		for (int i = 0; i < _s.length(); i++)
+			if (_c == _s.charAt( i )) r++;
+		return r;
+	}
 }
