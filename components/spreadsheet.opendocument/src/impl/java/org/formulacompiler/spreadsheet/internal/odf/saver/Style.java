@@ -22,7 +22,7 @@
 
 package org.formulacompiler.spreadsheet.internal.odf.saver;
 
-public class Style
+public class Style implements Comparable<Style>
 {
 	private final String name;
 	private final String family;
@@ -65,5 +65,11 @@ public class Style
 	public String toString()
 	{
 		return "style[ name='" + this.name + "'; family='" + this.family + "' ]";
+	}
+
+	public int compareTo( final Style _style )
+	{
+		final int fc = this.family.compareTo( _style.family );
+		return fc != 0 ? fc : this.name.compareTo( _style.name );
 	}
 }

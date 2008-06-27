@@ -43,7 +43,7 @@ public class DocumentContentWriter extends DocumentWriter
 {
 	private final SpreadsheetImpl spreadsheet;
 	private final TimeZone timeZone;
-	private final Set<Style> styles = New.set();
+	private final Set<Style> styles = New.sortedSet();
 
 	public DocumentContentWriter( final SpreadsheetImpl _spreadsheet, final TimeZone _timeZone )
 	{
