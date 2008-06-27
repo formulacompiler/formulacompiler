@@ -64,6 +64,7 @@ class CellWriter extends ElementWriter
 	public void write( CellInstance _cell ) throws XMLStreamException, SpreadsheetException
 	{
 		final Map<QName, String> attributes = New.map();
+		String str = null;
 		if (_cell != null) {
 			String styleName = _cell.getStyleName();
 			if (styleName == null || "".equals( styleName )) {
@@ -108,12 +109,16 @@ class CellWriter extends ElementWriter
 					}
 					else if (constantValue instanceof String) {
 						attributes.put( XMLConstants.Office.VALUE_TYPE, ValueTypes.STRING );
-						attributes.put( XMLConstants.Office.STRING_VALUE, constantValue.toString() );
+						str = (String) constantValue;
 					}
 				}
 			}
 		}
 		startElement( attributes );
+		if (str != null) {
+			TextWriter textWriter = new TextWriter( getXmlEventFactory(), getXmlEventWriter() );
+			textWriter.write( str );
+		}
 		endElement();
 	}
 
