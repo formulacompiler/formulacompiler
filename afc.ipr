@@ -407,11 +407,11 @@
     </library>
     <library name="xmlunit">
       <CLASSES>
-        <root url="jar://$PROJECT_DIR$/lib/test/xmlunit-1.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/test/xmlunit-1.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$PROJECT_DIR$/lib/IDE/xmlunit-1.1-src.zip!/" />
+        <root url="jar://$PROJECT_DIR$/lib/IDE/xmlunit-1.2-src.zip!/" />
       </SOURCES>
     </library>
   </component>

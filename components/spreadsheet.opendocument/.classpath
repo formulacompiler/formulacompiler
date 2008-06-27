@@ -16,6 +16,6 @@
 	<classpathentry kind="lib" path="lib/test/msv.jar"/>
 	<classpathentry kind="lib" path="lib/test/relaxngDatatype.jar"/>
 	<classpathentry kind="lib" path="lib/test/xsdlib.jar"/>
-	<classpathentry kind="lib" path="/afc/lib/test/xmlunit-1.1.jar" sourcepath="/afc/lib/IDE/xmlunit-1.1-src.zip"/>
+	<classpathentry kind="lib" path="/afc/lib/test/xmlunit-1.2.jar" sourcepath="/afc/lib/IDE/xmlunit-1.2-src.zip"/>
 	<classpathentry kind="output" path="temp/eclipse"/>
 </classpath>
