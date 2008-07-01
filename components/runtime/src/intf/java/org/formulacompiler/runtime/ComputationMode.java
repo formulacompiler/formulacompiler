@@ -20,22 +20,19 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.compiler.internal.bytecode;
-
-import org.formulacompiler.runtime.ComputationMode;
+package org.formulacompiler.runtime;
 
 
-abstract class ExpressionCompilerForAll_Base extends ExpressionCompiler
+/**
+ * This enumeration is used to tell the compiler which spreadsheet application behavior to adhere to.
+ * Some formulas and expressions can give different results in different spreadsheet applications.
+ * This enumeration tells AFC to calculate expressions as for example Excel or OpenOffice.
+ * If a spreadsheet was loaded from a file, this mode is set automatically.
+ *
+ * @author Vladimir Korenev
+ */
+public enum ComputationMode
 {
-
-	public ExpressionCompilerForAll_Base( MethodCompiler _methodCompiler )
-	{
-		super( _methodCompiler );
-	}
-
-	public ComputationMode getComputationMode()
-	{
-		return method().section().model().getEngine().getComputationMode();
-	}
-
+	EXCEL,
+	OPEN_OFFICE_CALC
 }

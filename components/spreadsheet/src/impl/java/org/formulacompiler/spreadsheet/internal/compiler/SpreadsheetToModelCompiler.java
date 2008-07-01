@@ -29,9 +29,11 @@ import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.NumericType;
+import org.formulacompiler.compiler.internal.Util;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.SectionModel;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.spreadsheet.Spreadsheet;
@@ -51,23 +53,27 @@ public final class SpreadsheetToModelCompiler
 	private final Map<CellIndex, CellModel> cellModels = New.map();
 	private final Map<SectionBinding, SectionModelCompiler> sectionCompilers = New.map();
 	private final Map<SectionModel, SectionModelCompiler> sectionCompilersByModel = New.map();
+	private final ComputationMode computationMode;
 	private ComputationModel computationModel;
 
 
 	public SpreadsheetToModelCompiler( SpreadsheetBinding _binding, NumericType _numericType )
 	{
-		this( _binding, _numericType, false );
+		this( _binding, _numericType, ComputationMode.EXCEL, false );
+		Util.assertTesting();
 	}
 
-	public SpreadsheetToModelCompiler( SpreadsheetBinding _binding, NumericType _numericType, boolean _copyCellNames )
+	public SpreadsheetToModelCompiler( SpreadsheetBinding _binding, NumericType _numericType,
+			ComputationMode _computationMode, boolean _copyCellNames )
 	{
 		super();
 
-		assert _binding != null: "Binding must not be null";
-		assert _binding instanceof WorkbookBinding: "Binding must be a WorkbookBinding";
+		assert _binding != null : "Binding must not be null";
+		assert _binding instanceof WorkbookBinding : "Binding must be a WorkbookBinding";
 
 		this.binding = (WorkbookBinding) _binding;
 		this.numericType = _numericType;
+		this.computationMode = _computationMode;
 		this.copyCellNames = _copyCellNames;
 	}
 
@@ -96,7 +102,7 @@ public final class SpreadsheetToModelCompiler
 
 		final SectionBinding rootDef = this.binding.getRoot();
 		final Environment env = this.binding.getEnvironment();
-		this.computationModel = new ComputationModel( rootDef.getInputClass(), rootDef.getOutputClass(), env );
+		this.computationModel = new ComputationModel( rootDef.getInputClass(), rootDef.getOutputClass(), getComputationMode(), env );
 		new SectionModelCompiler( this, null, rootDef, this.computationModel.getRoot() );
 
 		buildModel();
@@ -106,6 +112,11 @@ public final class SpreadsheetToModelCompiler
 		}
 
 		return this.computationModel;
+	}
+
+
+	private ComputationMode getComputationMode() {
+		return this.computationMode != null ? this.computationMode : this.binding.getComputationMode();
 	}
 
 

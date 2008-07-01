@@ -93,6 +93,7 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 		cb.appendLine( "import org.objectweb.asm.Type;" );
 		cb.appendLine( "import org.objectweb.asm.commons.GeneratorAdapter;" );
 		cb.newLine();
+		cb.appendLine( "import org.formulacompiler.runtime.ComputationMode;" );
 		cb.appendLine( "import org.formulacompiler.compiler.CompilerException;" );
 		cb.appendLine( "import org.formulacompiler.compiler.Operator;" );
 		cb.appendLine( "import org.formulacompiler.compiler.NumericType;" );
@@ -685,7 +686,13 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 				db.pending = "   break;";
 			}
 			db.indent();
-			db.append( "if (" ).append( cardinality ).appendLine( " == c) {" );
+			db.append( "if (" ).append( cardinality ).append( " == c" );
+			if (this.computationMode != null) {
+				db.append( " && ComputationMode." );
+				db.append( this.computationMode );
+				db.append( " == getComputationMode()" );
+			}
+			db.appendLine( " ) {" );
 			db.indent();
 			db.genDispatchIf( ifCond );
 			db.append( "compile_" ).append( mtdNode.name );

@@ -34,6 +34,7 @@ import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.Computation;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.EngineException;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
@@ -51,6 +52,7 @@ public class EngineBuilderImpl implements EngineBuilder
 {
 	private Spreadsheet spreadsheet;
 	private NumericType numericType = SpreadsheetCompiler.DEFAULT_NUMERIC_TYPE;
+	private ComputationMode computationMode = null;
 	private Class inputClass;
 	private Class outputClass;
 	private Class factoryClass;
@@ -83,6 +85,20 @@ public class EngineBuilderImpl implements EngineBuilder
 	public void setNumericType( NumericType _type )
 	{
 		this.numericType = _type;
+	}
+
+
+	// ------------------------------------------------ Computation Mode
+
+
+	public ComputationMode getComputationMode()
+	{
+		return this.computationMode;
+	}
+
+	public void setComputationMode( final ComputationMode _computationMode )
+	{
+		this.computationMode = _computationMode;
 	}
 
 
@@ -422,6 +438,7 @@ public class EngineBuilderImpl implements EngineBuilder
 		final SpreadsheetToEngineCompiler.Config cfg = new SpreadsheetToEngineCompiler.Config();
 		cfg.binding = getBinder().getBinding();
 		cfg.numericType = this.numericType;
+		cfg.computationMode = this.computationMode;
 		cfg.factoryClass = this.factoryClass;
 		cfg.factoryMethod = this.factoryMethod;
 		cfg.fullCaching = this.fullCaching;

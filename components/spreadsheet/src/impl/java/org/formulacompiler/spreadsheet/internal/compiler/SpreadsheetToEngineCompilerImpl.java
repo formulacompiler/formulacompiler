@@ -30,6 +30,7 @@ import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.compiler.internal.engine.ModelToEngineCompiler;
 import org.formulacompiler.compiler.internal.engine.ModelToEngineCompilerImpl;
 import org.formulacompiler.compiler.internal.model.ComputationModel;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.EngineException;
 import org.formulacompiler.spreadsheet.SpreadsheetBinding;
 import org.formulacompiler.spreadsheet.SpreadsheetToEngineCompiler;
@@ -38,6 +39,7 @@ public final class SpreadsheetToEngineCompilerImpl implements SpreadsheetToEngin
 {
 	private final SpreadsheetBinding binding;
 	private final NumericType numericType;
+	private final ComputationMode computationMode;
 	private final Class factoryClass;
 	private final Method factoryMethod;
 	private boolean fullCaching;
@@ -53,6 +55,7 @@ public final class SpreadsheetToEngineCompilerImpl implements SpreadsheetToEngin
 
 		this.binding = _config.binding;
 		this.numericType = _config.numericType;
+		this.computationMode = _config.computationMode;
 		this.factoryClass = _config.factoryClass;
 		this.factoryMethod = _config.factoryMethod;
 		this.fullCaching = _config.fullCaching;
@@ -72,7 +75,7 @@ public final class SpreadsheetToEngineCompilerImpl implements SpreadsheetToEngin
 	public SaveableEngine compile() throws CompilerException, EngineException
 	{
 		final SpreadsheetToModelCompiler cc = new SpreadsheetToModelCompiler( this.binding, this.numericType,
-				this.compileToReadableCode );
+				this.computationMode, this.compileToReadableCode );
 		ComputationModel cm = cc.compile();
 
 		final ModelToEngineCompiler.Config ecc = new ModelToEngineCompiler.Config();

@@ -28,6 +28,7 @@ import java.util.Date;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.Duration;
 import org.formulacompiler.compiler.internal.LocalDate;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2;
 
@@ -35,9 +36,9 @@ import org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2;
 abstract class InterpretedBigDecimalType extends InterpretedNumericType
 {
 
-	protected InterpretedBigDecimalType( NumericType _type, Environment _env )
+	protected InterpretedBigDecimalType( NumericType _type, ComputationMode _mode, Environment _env )
 	{
-		super( _type, _env );
+		super( _type, _mode, _env );
 	}
 
 

@@ -64,6 +64,7 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 		cb.appendLine( " */" );
 		cb.appendLine( "package org.formulacompiler.compiler.internal.model.interpreter;" );
 		cb.newLine();
+		cb.appendLine( "import org.formulacompiler.runtime.ComputationMode;" );
 		cb.appendLine( "import org.formulacompiler.compiler.CompilerException;" );
 		cb.appendLine( "import org.formulacompiler.compiler.Function;" );
 		cb.appendLine( "import org.formulacompiler.compiler.NumericType;" );
@@ -220,7 +221,13 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 				db.pending = "   break;";
 			}
 			db.indent();
-			db.append( "if (" ).append( cardinality ).appendLine( " == c) {" );
+			db.append( "if (" ).append( cardinality ).append( " == c" );
+			if (this.computationMode != null) {
+				db.append( " && ComputationMode." );
+				db.append( this.computationMode );
+				db.append( " == getComputationMode()" );
+			}
+			db.appendLine( " ) {" );
 			db.indent();
 			db.genDispatchIf( ifCond );
 			db.append( "return " );
@@ -326,9 +333,9 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 			final DescriptionBuilder cb = _cb;
 			cb.append( "private final " ).append( _generator.clsName ).appendLine( " template;" );
 			cb.newLine();
-			cb.append( "public " ).append( _generator.typeName ).appendLine( "( NumericType _type, Environment _env ) {" );
+			cb.append( "public " ).append( _generator.typeName ).appendLine( "( NumericType _type, ComputationMode _mode, Environment _env ) {" );
 			cb.indent();
-			cb.appendLine( "super( _type, _env );" );
+			cb.appendLine( "super( _type, _mode, _env );" );
 			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine( "( _env );" );
 			cb.outdent();
 			cb.appendLine( "}" );

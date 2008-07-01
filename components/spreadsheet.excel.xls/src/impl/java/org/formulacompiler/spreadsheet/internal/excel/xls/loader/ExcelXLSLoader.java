@@ -30,6 +30,7 @@ import java.util.TimeZone;
 
 import org.formulacompiler.compiler.internal.Duration;
 import org.formulacompiler.compiler.internal.LocalDate;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
@@ -46,7 +47,6 @@ import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 import org.formulacompiler.spreadsheet.internal.loader.SpreadsheetLoaderDispatcher;
 import org.formulacompiler.spreadsheet.internal.parser.LazySpreadsheetExpressionParser;
-
 import jxl.BooleanFormulaCell;
 import jxl.Cell;
 import jxl.CellType;
@@ -107,7 +107,7 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 		xlsSettings.setSuppressWarnings( true );
 		try {
 			final jxl.Workbook xlsWorkbook = jxl.Workbook.getWorkbook( _stream, xlsSettings );
-			final SpreadsheetImpl workbook = new SpreadsheetImpl();
+			final SpreadsheetImpl workbook = new SpreadsheetImpl( ComputationMode.EXCEL );
 
 			loadConfig( xlsWorkbook );
 

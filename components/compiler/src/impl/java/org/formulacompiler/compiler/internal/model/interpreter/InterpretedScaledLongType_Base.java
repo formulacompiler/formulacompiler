@@ -25,6 +25,7 @@ package org.formulacompiler.compiler.internal.model.interpreter;
 import java.util.Date;
 
 import org.formulacompiler.compiler.internal.AbstractLongType;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeLong_v2;
 
@@ -35,9 +36,9 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 	private final RuntimeLong_v2.Context runtimeCx;
 
 
-	public InterpretedScaledLongType_Base( AbstractLongType _type, Environment _env )
+	public InterpretedScaledLongType_Base( AbstractLongType _type, ComputationMode _mode, Environment _env )
 	{
-		super( _type, _env );
+		super( _type, _mode, _env );
 		this.num = _type;
 		this.runtimeCx = new RuntimeLong_v2.Context( _type.scale() );
 	}

@@ -25,6 +25,7 @@ package org.formulacompiler.compiler.internal.model.interpreter;
 import java.math.BigDecimal;
 
 import org.formulacompiler.compiler.NumericType;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
 
@@ -35,9 +36,9 @@ abstract class InterpretedScaledBigDecimalType_Base extends InterpretedBigDecima
 	private final int roundingMode;
 
 
-	public InterpretedScaledBigDecimalType_Base( NumericType _type, Environment _env )
+	public InterpretedScaledBigDecimalType_Base( NumericType _type, ComputationMode _mode, Environment _env )
 	{
-		super( _type, _env );
+		super( _type, _mode, _env );
 		this.scale = _type.scale();
 		this.roundingMode = _type.roundingMode();
 	}

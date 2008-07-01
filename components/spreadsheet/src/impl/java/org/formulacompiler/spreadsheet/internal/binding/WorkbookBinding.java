@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.runtime.Computation;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.spreadsheet.Spreadsheet;
@@ -73,6 +74,11 @@ public class WorkbookBinding implements SpreadsheetBinding
 	public Class getOutputClass()
 	{
 		return this.root.getOutputClass();
+	}
+
+	public ComputationMode getComputationMode()
+	{
+		return this.workbook.getComputationMode();
 	}
 
 	public Environment getEnvironment()

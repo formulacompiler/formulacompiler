@@ -25,15 +25,16 @@ package org.formulacompiler.compiler.internal.model.interpreter;
 import java.util.Date;
 
 import org.formulacompiler.compiler.NumericType;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.Environment;
 
 
 abstract class InterpretedDoubleType_Base extends InterpretedNumericType
 {
 
-	public InterpretedDoubleType_Base( NumericType _type, Environment _env )
+	public InterpretedDoubleType_Base( NumericType _type, ComputationMode _mode, Environment _env )
 	{
-		super( _type, _env );
+		super( _type, _mode, _env );
 	}
 
 

@@ -23,15 +23,16 @@
 package org.formulacompiler.compiler.internal.model.interpreter;
 
 import org.formulacompiler.compiler.NumericType;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.Environment;
 
 
 final class InterpretedPrecisionBigDecimalType extends InterpretedPrecisionBigDecimalType_Generated
 {
 
-	public InterpretedPrecisionBigDecimalType( NumericType _type, Environment _env )
+	public InterpretedPrecisionBigDecimalType( NumericType _type, ComputationMode _mode, Environment _env )
 	{
-		super( _type, _env );
+		super( _type, _mode, _env );
 	}
 
 }
