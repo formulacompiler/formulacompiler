@@ -878,6 +878,11 @@ abstract class ExpressionCompiler
 		section().compileEnvironmentAccess( mv() );
 	}
 
+	protected void compile_computationMode()
+	{
+		method().section().compileComputationModeAccess( mv() );
+	}
+
 	protected void compile_computationTime()
 	{
 		method().section().compileComputationTimeAccess( mv() );

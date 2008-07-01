@@ -36,6 +36,7 @@ import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.ComputationFactory;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.runtime.EngineException;
 import org.formulacompiler.runtime.New;
@@ -73,6 +74,10 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 	static final Type ENV_CLASS = Type.getType( Environment.class );
 	static final String ENV_DESC = ENV_CLASS.getDescriptor();
 	static final String ENV_MEMBER_NAME = "$environment";
+
+	static final Type COMP_MODE_CLASS = Type.getType( ComputationMode.class );
+	static final String COMP_MODE_DESC = COMP_MODE_CLASS.getDescriptor();
+	static final String COMP_MODE_MEMBER_NAME = "$computationMode";
 
 	static final Type COMP_TIME_CLASS = Type.getType( ComputationTime.class );
 	static final String COMP_TIME_DESC = COMP_TIME_CLASS.getDescriptor();

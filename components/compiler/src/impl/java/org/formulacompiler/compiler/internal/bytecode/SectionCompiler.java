@@ -309,6 +309,7 @@ abstract class SectionCompiler extends ClassCompiler
 	}
 
 	protected abstract void compileEnvironmentAccess( GeneratorAdapter _mv );
+	protected abstract void compileComputationModeAccess( GeneratorAdapter _mv );
 	protected abstract void compileComputationTimeAccess( GeneratorAdapter _mv );
 
 

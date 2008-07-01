@@ -336,7 +336,7 @@ final class ConstantEvaluatorGenerator extends AbstractGenerator
 			cb.append( "public " ).append( _generator.typeName ).appendLine( "( NumericType _type, ComputationMode _mode, Environment _env ) {" );
 			cb.indent();
 			cb.appendLine( "super( _type, _mode, _env );" );
-			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine( "( _env );" );
+			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine( "( _mode, _env );" );
 			cb.outdent();
 			cb.appendLine( "}" );
 		}

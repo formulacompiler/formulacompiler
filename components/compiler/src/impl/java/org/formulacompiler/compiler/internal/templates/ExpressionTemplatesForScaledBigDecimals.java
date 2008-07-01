@@ -27,6 +27,7 @@ import static org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2.*;
 
 import java.math.BigDecimal;
 
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.FormulaRuntime;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
@@ -40,9 +41,9 @@ public final class ExpressionTemplatesForScaledBigDecimals extends AbstractExpre
 	final int roundingMode;
 
 
-	public ExpressionTemplatesForScaledBigDecimals( int _scale, int _roundingMode, Environment _env )
+	public ExpressionTemplatesForScaledBigDecimals( int _scale, int _roundingMode, ComputationMode _mode, Environment _env )
 	{
-		super( _env );
+		super( _mode, _env );
 		this.isScaled = (_scale != FormulaRuntime.UNDEFINED_SCALE);
 		this.fixedScale = _scale;
 		this.roundingMode = _roundingMode;

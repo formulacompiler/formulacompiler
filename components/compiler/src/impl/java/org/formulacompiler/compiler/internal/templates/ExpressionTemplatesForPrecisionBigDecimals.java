@@ -27,6 +27,7 @@ import static org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2.*;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
 import org.formulacompiler.runtime.internal.RuntimePrecisionBigDecimal_v2;
@@ -36,9 +37,9 @@ public final class ExpressionTemplatesForPrecisionBigDecimals extends AbstractEx
 {
 	final MathContext mathContext;
 
-	public ExpressionTemplatesForPrecisionBigDecimals( MathContext _mathContext, Environment _env )
+	public ExpressionTemplatesForPrecisionBigDecimals( MathContext _mathContext, ComputationMode _mode, Environment _env )
 	{
-		super( _env );
+		super( _mode, _env );
 		this.mathContext = _mathContext;
 	}
 

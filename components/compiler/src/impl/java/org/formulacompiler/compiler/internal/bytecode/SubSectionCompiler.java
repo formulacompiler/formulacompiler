@@ -203,6 +203,15 @@ final class SubSectionCompiler extends SectionCompiler
 	}
 
 	@Override
+	protected void compileComputationModeAccess( final GeneratorAdapter _mv )
+	{
+		final Type rootType = rootType();
+		_mv.loadThis();
+		_mv.getField( classType(), ROOT_MEMBER_NAME, rootType );
+		rootSectionCompiler().compileComputationModeAccessGivenThis( _mv );
+	}
+
+	@Override
 	protected void compileComputationTimeAccess( GeneratorAdapter _mv )
 	{
 		final Type rootType = rootType();
