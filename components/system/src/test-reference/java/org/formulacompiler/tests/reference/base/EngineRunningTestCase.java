@@ -30,8 +30,9 @@ import org.formulacompiler.runtime.ComputationException;
 
 public class EngineRunningTestCase extends AbstractContextTestCase
 {
-	static final double DBL_EPSILON = 0.0000001;
-	static final BigDecimal BIG_EPSILON = BigDecimal.valueOf( DBL_EPSILON );
+	private static final double DBL_EPSILON = 1e-7;
+	private static final BigDecimal BIG_EPSILON = new BigDecimal( DBL_EPSILON );
+	private static final BigDecimal BIG_EPSILON_SQ = BIG_EPSILON.multiply( BIG_EPSILON );
 
 	private final boolean setupInputs;
 
@@ -111,7 +112,8 @@ public class EngineRunningTestCase extends AbstractContextTestCase
 				double want = _exp.dbl( 0 );
 				if (Double.isNaN( want ) && Double.isNaN( have )) break;
 				if (Double.isInfinite( want ) && Double.isInfinite( have )) break;
-				assertEquals( want, have, DBL_EPSILON );
+				// sqrt(1 + min(a^2, b^2)) yields 1 for "small" numbers and min(|a|,|b|) for "big" numbers.
+				assertEquals( want, have, Math.sqrt( 1 + Math.min( want * want, have * have ) ) * DBL_EPSILON );
 				break;
 			}
 
@@ -120,8 +122,14 @@ public class EngineRunningTestCase extends AbstractContextTestCase
 				BigDecimal have = act.bdec();
 				assertNoException( _exp, have );
 				BigDecimal want = _exp.bdec( 0 );
-				if (want.subtract( have ).abs().compareTo( BIG_EPSILON ) > 0) {
-					assertEquals( want.toPlainString(), have.toPlainString() );
+				final BigDecimal w2 = want.multiply( want );
+				final BigDecimal h2 = have.multiply( have );
+				final double a = BigDecimal.ONE.add( w2.min( h2 ) ).multiply( BIG_EPSILON_SQ ).doubleValue();
+				final BigDecimal eps = Double.isInfinite( a ) ?
+						want.abs().min( have.abs() ).multiply( BIG_EPSILON ) :
+						new BigDecimal( Math.sqrt( a ) );
+				if (want.subtract( have ).abs().compareTo( eps ) > 0) {
+					assertEquals( want.stripTrailingZeros().toPlainString(), have.stripTrailingZeros().toPlainString() );
 				}
 				break;
 			}
