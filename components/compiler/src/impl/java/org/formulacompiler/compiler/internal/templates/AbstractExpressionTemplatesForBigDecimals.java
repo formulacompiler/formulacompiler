@@ -98,12 +98,12 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 
 	BigDecimal util_fromDate( Date a )
 	{
-		return RuntimeBigDecimal_v2.dateToNum( a, this.environment.timeZone() );
+		return RuntimeBigDecimal_v2.dateToNum( a, this.environment.timeZone(), this.computationMode );
 	}
 
 	BigDecimal util_fromMsSinceUTC1970( long a )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.msSinceUTC1970ToNum( a, this.environment.timeZone() ) );
+		return BigDecimal.valueOf( RuntimeDouble_v2.msSinceUTC1970ToNum( a, this.environment.timeZone(), this.computationMode ) );
 	}
 
 	BigDecimal util_fromMs( long a )
@@ -175,13 +175,13 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 	@ReturnsAdjustedValue
 	Date util_toDate( BigDecimal a )
 	{
-		return RuntimeBigDecimal_v2.dateFromNum( a, this.environment.timeZone() );
+		return RuntimeBigDecimal_v2.dateFromNum( a, this.environment.timeZone(), this.computationMode );
 	}
 
 	@ReturnsAdjustedValue
 	long util_toMsSinceUTC1970( BigDecimal a )
 	{
-		return RuntimeDouble_v2.msSinceUTC1970FromNum( a.doubleValue(), this.environment.timeZone() );
+		return RuntimeDouble_v2.msSinceUTC1970FromNum( a.doubleValue(), this.environment.timeZone(), this.computationMode );
 	}
 
 	@ReturnsAdjustedValue
@@ -497,7 +497,7 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 
 	public BigDecimal fun_DATE( BigDecimal _year, BigDecimal _month, BigDecimal _day )
 	{
-		return RuntimeBigDecimal_v2.fun_DATE( _year, _month, _day );
+		return RuntimeBigDecimal_v2.fun_DATE( _year, _month, _day, this.computationMode );
 	}
 
 	public BigDecimal fun_SECOND( BigDecimal _date )
@@ -523,42 +523,42 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 
 	public BigDecimal fun_WEEKDAY( BigDecimal _date, BigDecimal _type )
 	{
-		return RuntimeBigDecimal_v2.fun_WEEKDAY( _date, _type );
+		return RuntimeBigDecimal_v2.fun_WEEKDAY( _date, _type, this.computationMode );
 	}
 
 	public BigDecimal fun_WEEKDAY( BigDecimal _date )
 	{
-		return RuntimeBigDecimal_v2.fun_WEEKDAY( _date, RuntimeBigDecimal_v2.ONE );
+		return RuntimeBigDecimal_v2.fun_WEEKDAY( _date, RuntimeBigDecimal_v2.ONE, this.computationMode );
 	}
 
 	public BigDecimal fun_DAY( BigDecimal _date )
 	{
-		return RuntimeBigDecimal_v2.fun_DAY( _date );
+		return RuntimeBigDecimal_v2.fun_DAY( _date, this.computationMode );
 	}
 
 	public BigDecimal fun_DAYS360( BigDecimal _start_date, BigDecimal _end_date, BigDecimal _method )
 	{
-		return RuntimeBigDecimal_v2.fun_DAYS360( _start_date, _end_date, _method.signum() != 0 );
+		return RuntimeBigDecimal_v2.fun_DAYS360( _start_date, _end_date, _method.signum() != 0, this.computationMode );
 	}
 
 	public BigDecimal fun_MONTH( BigDecimal _date )
 	{
-		return RuntimeBigDecimal_v2.fun_MONTH( _date );
+		return RuntimeBigDecimal_v2.fun_MONTH( _date, this.computationMode );
 	}
 
 	public BigDecimal fun_YEAR( BigDecimal _date )
 	{
-		return RuntimeBigDecimal_v2.fun_YEAR( _date );
+		return RuntimeBigDecimal_v2.fun_YEAR( _date, this.computationMode );
 	}
 
 	public BigDecimal fun_NOW()
 	{
-		return RuntimeBigDecimal_v2.fun_NOW( this.environment, this.computationTime );
+		return RuntimeBigDecimal_v2.fun_NOW( this.environment, this.computationTime, this.computationMode );
 	}
 
 	public BigDecimal fun_TODAY()
 	{
-		return RuntimeBigDecimal_v2.fun_TODAY( this.environment, this.computationTime );
+		return RuntimeBigDecimal_v2.fun_TODAY( this.environment, this.computationTime, this.computationMode );
 	}
 
 
@@ -567,17 +567,17 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 
 	public BigDecimal fun_VALUE( String _text )
 	{
-		return RuntimeBigDecimal_v2.fun_VALUE( _text, this.environment );
+		return RuntimeBigDecimal_v2.fun_VALUE( _text, this.environment, this.computationMode );
 	}
 
 	public BigDecimal fun_DATEVALUE( String _text )
 	{
-		return RuntimeBigDecimal_v2.fun_DATEVALUE( _text, this.environment );
+		return RuntimeBigDecimal_v2.fun_DATEVALUE( _text, this.environment, this.computationMode );
 	}
 
 	public BigDecimal fun_TIMEVALUE( String _text )
 	{
-		return RuntimeBigDecimal_v2.fun_TIMEVALUE( _text, this.environment );
+		return RuntimeBigDecimal_v2.fun_TIMEVALUE( _text, this.environment, this.computationMode );
 	}
 
 }

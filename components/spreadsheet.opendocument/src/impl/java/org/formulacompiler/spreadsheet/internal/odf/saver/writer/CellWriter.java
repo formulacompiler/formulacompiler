@@ -34,8 +34,9 @@ import javax.xml.stream.XMLStreamException;
 import org.formulacompiler.compiler.internal.Duration;
 import org.formulacompiler.compiler.internal.LocalDate;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.New;
-import org.formulacompiler.runtime.internal.Runtime_v2;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.odf.StyleFamilies;
@@ -92,7 +93,7 @@ class CellWriter extends ElementWriter
 					else if (constantValue instanceof LocalDate) {
 						attributes.put( XMLConstants.Office.VALUE_TYPE, ValueTypes.DATE );
 						final LocalDate localDate = (LocalDate) constantValue;
-						final Date date = Runtime_v2.dateFromDouble( localDate.doubleValue(), DataTypeUtil.GMT_TIME_ZONE );
+						final Date date = RuntimeDouble_v2.dateFromNum( localDate.doubleValue(), DataTypeUtil.GMT_TIME_ZONE, ComputationMode.OPEN_OFFICE_CALC );
 						final String dateValue = DataTypeUtil.dateToXmlFormat( date, DataTypeUtil.GMT_TIME_ZONE );
 						attributes.put( XMLConstants.Office.DATE_VALUE, dateValue );
 					}

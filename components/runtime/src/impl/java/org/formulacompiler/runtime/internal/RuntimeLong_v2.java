@@ -26,9 +26,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.formulacompiler.runtime.ComputationMode;
+import org.formulacompiler.runtime.FormulaException;
 import org.formulacompiler.runtime.NotAvailableException;
 import org.formulacompiler.runtime.ScaledLongSupport;
-import org.formulacompiler.runtime.FormulaException;
 
 
 public final class RuntimeLong_v2 extends Runtime_v2
@@ -187,14 +188,30 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		}
 	}
 
+	/**
+	 * @deprecated replaced by {@link #dateFromNum(long,Context,TimeZone,ComputationMode)}
+	 */
 	public static Date dateFromNum( final long _val, Context _cx, final TimeZone _timeZone )
 	{
-		return RuntimeDouble_v2.dateFromNum( toDouble( _val, _cx ), _timeZone );
+		return dateFromNum( _val, _cx, _timeZone, ComputationMode.EXCEL );
 	}
 
+	public static Date dateFromNum( long _val, Context _cx, TimeZone _timeZone, ComputationMode _mode )
+	{
+		return RuntimeDouble_v2.dateFromNum( toDouble( _val, _cx ), _timeZone, _mode );
+	}
+
+	/**
+	 * @deprecated replaced by {@link #msSinceUTC1970FromNum(long,Context,TimeZone,ComputationMode)}
+	 */
 	public static long msSinceUTC1970FromNum( long _msSinceUTC1970, Context _cx, TimeZone _timeZone )
 	{
-		return msSinceUTC1970FromDouble( toDouble( _msSinceUTC1970, _cx ), _timeZone );
+		return msSinceUTC1970FromNum( _msSinceUTC1970, _cx, _timeZone, ComputationMode.EXCEL );
+	}
+
+	public static long msSinceUTC1970FromNum( long _msSinceUTC1970, Context _cx, TimeZone _timeZone, ComputationMode _mode )
+	{
+		return msSinceUTC1970FromDouble( toDouble( _msSinceUTC1970, _cx ), _timeZone, _mode == ComputationMode.EXCEL );
 	}
 
 	public static long msFromNum( long _msSinceUTC1970, Context _cx )
@@ -202,14 +219,30 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return msFromDouble( toDouble( _msSinceUTC1970, _cx ) );
 	}
 
+	/**
+	 * @deprecated replaced by {@link #dateToNum(Date,Context,TimeZone,ComputationMode)}
+	 */
 	public static long dateToNum( final Date _val, Context _cx, final TimeZone _timeZone )
 	{
-		return fromDouble( RuntimeDouble_v2.dateToNum( _val, _timeZone ), _cx );
+		return dateToNum( _val, _cx, _timeZone, ComputationMode.EXCEL );
 	}
 
+	public static long dateToNum( final Date _val, Context _cx, final TimeZone _timeZone, ComputationMode _mode )
+	{
+		return fromDouble( RuntimeDouble_v2.dateToNum( _val, _timeZone, _mode ), _cx );
+	}
+
+	/**
+	 * @deprecated replaced by {@link #msSinceUTC1970ToNum(long,Context,TimeZone,ComputationMode)}
+	 */
 	public static long msSinceUTC1970ToNum( long _msSinceUTC1970, Context _cx, TimeZone _timeZone )
 	{
-		return fromDouble( msSinceUTC1970ToDouble( _msSinceUTC1970, _timeZone ), _cx );
+		return msSinceUTC1970ToNum( _msSinceUTC1970, _cx, _timeZone, ComputationMode.EXCEL );
+	}
+
+	public static long msSinceUTC1970ToNum( long _msSinceUTC1970, Context _cx, TimeZone _timeZone, ComputationMode _mode )
+	{
+		return fromDouble( msSinceUTC1970ToDouble( _msSinceUTC1970, _timeZone, _mode == ComputationMode.EXCEL ), _cx );
 	}
 
 	public static long msToNum( long _msSinceUTC1970, Context _cx )
@@ -629,13 +662,21 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return _cx.fromDouble( RuntimeDouble_v2.fun_SQRT( _cx.toDouble( _n ) ) );
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_DATE(long,long,long,Context,ComputationMode)}
+	 */
 	public static long fun_DATE( final long _year, final long _month, final long _day, final Context _cx )
+	{
+		return fun_DATE( _year, _month, _day, _cx, ComputationMode.EXCEL );
+	}
+
+	public static long fun_DATE( long _year, long _month, long _day, Context _cx, ComputationMode _mode )
 	{
 		final long one = _cx.one();
 		final int year = (int) (_year / one);
 		final int month = (int) (_month / one);
 		final int day = (int) (_day / one);
-		return _cx.fromDouble( RuntimeDouble_v2.fun_DATE( year, month, day ) );
+		return _cx.fromDouble( RuntimeDouble_v2.fun_DATE( year, month, day, _mode ) );
 	}
 
 	public static long fun_TIME( long _hour, long _minute, long _second, Context _cx )
@@ -669,44 +710,92 @@ public final class RuntimeLong_v2 extends Runtime_v2
 				.toInt( _population_s ), _cx.toInt( _number_population ) ) );
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_WEEKDAY(long,long,Context,ComputationMode)}
+	 */
 	public static long fun_WEEKDAY( final long _date, final long _type, final Context _cx )
+	{
+		return fun_WEEKDAY( _date, _type, _cx, ComputationMode.EXCEL );
+	}
+
+	public static long fun_WEEKDAY( final long _date, final long _type, final Context _cx, ComputationMode _mode )
 	{
 		final double date = _cx.toDouble( _date );
 		final int type = (int) (_type / _cx.one());
-		final int result = RuntimeDouble_v2.fun_WEEKDAY( date, type );
+		final int result = RuntimeDouble_v2.fun_WEEKDAY( date, type, _mode );
 		return result * _cx.one();
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_DAY(long,Context,ComputationMode)}
+	 */
 	public static long fun_DAY( long _date, final Context _cx )
 	{
+		return fun_DAY( _date, _cx, ComputationMode.EXCEL );
+	}
+
+	public static long fun_DAY( long _date, final Context _cx, ComputationMode _mode )
+	{
 		final double date = _cx.toDouble( _date );
-		final int result = RuntimeDouble_v2.fun_DAY( date );
+		final int result = RuntimeDouble_v2.fun_DAY( date, _mode );
 		return result * _cx.one();
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_DAYS360(long,long,boolean,Context,ComputationMode)}
+	 */
 	public static long fun_DAYS360( long _date_start, long _end_start, boolean _method, final Context _cx )
 	{
-		return _cx.fromDouble( RuntimeDouble_v2.fun_DAYS360( _cx.toDouble( _date_start ), _cx.toDouble( _end_start ),
-				_method ) );
+		return fun_DAYS360( _date_start, _end_start, _method, _cx, ComputationMode.EXCEL );
 	}
 
+	public static long fun_DAYS360( long _date_start, long _end_start, boolean _method, final Context _cx, ComputationMode _mode )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_DAYS360( _cx.toDouble( _date_start ), _cx.toDouble( _end_start ),
+				_method, _mode ) );
+	}
+
+	/**
+	 * @deprecated replaced by {@link #fun_MONTH(long,Context,ComputationMode)}
+	 */
 	public static long fun_MONTH( long _date, final Context _cx )
 	{
+		return fun_MONTH( _date, _cx, ComputationMode.EXCEL );
+	}
+
+	public static long fun_MONTH( long _date, final Context _cx, ComputationMode _mode )
+	{
 		final double date = _cx.toDouble( _date );
-		final int result = RuntimeDouble_v2.fun_MONTH( date );
+		final int result = RuntimeDouble_v2.fun_MONTH( date, _mode );
 		return result * _cx.one();
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_YEAR(long,Context,ComputationMode)}
+	 */
 	public static long fun_YEAR( long _date, final Context _cx )
 	{
+		return fun_YEAR( _date, _cx, ComputationMode.EXCEL );
+	}
+
+	public static long fun_YEAR( long _date, final Context _cx, ComputationMode _mode )
+	{
 		final double date = _cx.toDouble( _date );
-		final int result = RuntimeDouble_v2.fun_YEAR( date );
+		final int result = RuntimeDouble_v2.fun_YEAR( date, _mode );
 		return result * _cx.one();
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_NOW(Context,Environment,ComputationTime,ComputationMode)}
+	 */
 	public static long fun_NOW( Context _cx, final Environment _environment, final ComputationTime _computationTime )
 	{
-		return dateToNum( now( _computationTime ), _cx, _environment.timeZone() );
+		return fun_NOW( _cx, _environment, _computationTime, ComputationMode.EXCEL );
+	}
+
+	public static long fun_NOW( Context _cx, final Environment _environment, final ComputationTime _computationTime, ComputationMode _mode )
+	{
+		return dateToNum( now( _computationTime ), _cx, _environment.timeZone(), _mode );
 	}
 
 	public static long fun_SIGN( long _a, Context _cx )
@@ -715,10 +804,18 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return _cx.fromDouble( Math.signum( a ) );
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_TODAY(Context,Environment,ComputationTime,ComputationMode)}
+	 */
 	public static long fun_TODAY( Context _cx, final Environment _environment, final ComputationTime _computationTime )
 	{
+		return fun_TODAY( _cx, _environment, _computationTime, ComputationMode.EXCEL );
+	}
+
+	public static long fun_TODAY( Context _cx, final Environment _environment, final ComputationTime _computationTime, ComputationMode _mode )
+	{
 		final TimeZone timeZone = _environment.timeZone();
-		return dateToNum( today( timeZone, _computationTime ), _cx, timeZone );
+		return dateToNum( today( timeZone, _computationTime ), _cx, timeZone, _mode );
 	}
 
 	public static long fun_FACT( long _a )
@@ -762,10 +859,18 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	}
 
 
+	/**
+	 * @deprecated replaced by {@link #fun_VALUE(String,Context,Environment,ComputationMode)}
+	 */
 	public static long fun_VALUE( String _text, Context _cx, final Environment _environment )
 	{
+		return fun_VALUE( _text, _cx, _environment, ComputationMode.EXCEL );
+	}
+
+	public static long fun_VALUE( String _text, Context _cx, Environment _environment, ComputationMode _mode )
+	{
 		final String text = _text.trim();
-		final Number number = parseNumber( text, false, _environment );
+		final Number number = parseNumber( text, false, _environment, _mode == ComputationMode.EXCEL );
 		if (number != null) {
 			if (number instanceof Long) {
 				return number.longValue() * _cx.one();
@@ -779,14 +884,30 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		}
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_DATEVALUE(String,Context,Environment,ComputationMode)}
+	 */
 	public static long fun_DATEVALUE( String _text, Context _cx, final Environment _environment )
 	{
-		return _cx.fromDouble( RuntimeDouble_v2.fun_DATEVALUE( _text, _environment ) );
+		return fun_DATEVALUE( _text, _cx, _environment, ComputationMode.EXCEL );
 	}
 
+	public static long fun_DATEVALUE( String _text, Context _cx, Environment _environment, ComputationMode _mode )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_DATEVALUE( _text, _environment, _mode ) );
+	}
+
+	/**
+	 * @deprecated replaced by {@link #fun_TIMEVALUE(String,Context,Environment,ComputationMode)}
+	 */
 	public static long fun_TIMEVALUE( String _text, Context _cx, final Environment _environment )
 	{
-		return _cx.fromDouble( RuntimeDouble_v2.fun_TIMEVALUE( _text, _environment ) );
+		return fun_TIMEVALUE( _text, _cx, _environment, ComputationMode.EXCEL );
+	}
+
+	public static long fun_TIMEVALUE( String _text, Context _cx, final Environment _environment, ComputationMode _mode )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_TIMEVALUE( _text, _environment, _mode ) );
 	}
 
 	public static int fun_MATCH_Exact( long _x, long[] _xs )

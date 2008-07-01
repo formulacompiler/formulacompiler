@@ -1081,7 +1081,7 @@ jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForDoubles
 __@@__
 public double fun_VALUE( String _text )
 	{
-		return RuntimeDouble_v2.fun_VALUE( _text, this.environment );
+		return RuntimeDouble_v2.fun_VALUE( _text, this.environment, this.computationMode );
 	}
 ___@_@___
 jc:org.formulacompiler.compiler.internal.templates.ExpressionTemplatesForPrecisionBigDecimals:---- op_PLUS

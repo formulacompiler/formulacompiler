@@ -37,11 +37,6 @@ public final class LocalDate extends Number
 		this.value = _value;
 	}
 
-	public LocalDate( Date _date, TimeZone _timeZone )
-	{
-		this( RuntimeDouble_v2.dateToNum( _date, _timeZone ) );
-	}
-
 	public double value()
 	{
 		return this.value;

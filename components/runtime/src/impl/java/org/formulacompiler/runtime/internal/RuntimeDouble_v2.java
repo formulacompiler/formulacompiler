@@ -23,15 +23,16 @@
 package org.formulacompiler.runtime.internal;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.TimeZone;
-import java.text.ParseException;
 
-import org.formulacompiler.runtime.NotAvailableException;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.FormulaException;
+import org.formulacompiler.runtime.NotAvailableException;
 import org.formulacompiler.runtime.internal.cern.jet.stat.Gamma;
 import org.formulacompiler.runtime.internal.cern.jet.stat.Probability;
 
@@ -175,17 +176,32 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return stringFromBigDecimal( BigDecimal.valueOf( _value ), _environment );
 	}
 
-
 	// ---- Excel date conversion; copied from JExcelAPI (DateRecord.java)
 
+	/**
+	 * @deprecated replaced by {@link #dateFromNum(double,TimeZone,ComputationMode)}
+	 */
 	public static Date dateFromNum( final double _excel, TimeZone _timeZone )
 	{
-		return dateFromDouble( _excel, _timeZone );
+		return dateFromNum( _excel, _timeZone, ComputationMode.EXCEL );
 	}
 
+	public static Date dateFromNum( final double _date, TimeZone _timeZone, ComputationMode _mode )
+	{
+		return dateFromDouble( _date, _timeZone, _mode == ComputationMode.EXCEL );
+	}
+
+	/**
+	 * @deprecated replaced by {@link #msSinceUTC1970FromNum(double,TimeZone,ComputationMode)}
+	 */
 	public static long msSinceUTC1970FromNum( double _msSinceUTC1970, TimeZone _timeZone )
 	{
-		return msSinceUTC1970FromDouble( _msSinceUTC1970, _timeZone );
+		return msSinceUTC1970FromNum( _msSinceUTC1970, _timeZone, ComputationMode.EXCEL );
+	}
+
+	public static long msSinceUTC1970FromNum( double _msSinceUTC1970, TimeZone _timeZone, ComputationMode _mode )
+	{
+		return msSinceUTC1970FromDouble( _msSinceUTC1970, _timeZone, _mode == ComputationMode.EXCEL );
 	}
 
 	public static long msFromNum( double _msSinceUTC1970 )
@@ -193,14 +209,30 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return msFromDouble( _msSinceUTC1970 );
 	}
 
+	/**
+	 * @deprecated replaced by {@link #dateToNum(Date,TimeZone,ComputationMode)}
+	 */
 	public static double dateToNum( final Date _date, TimeZone _timeZone )
 	{
-		return dateToDouble( _date, _timeZone );
+		return dateToNum( _date, _timeZone, ComputationMode.EXCEL );
 	}
 
+	public static double dateToNum( final Date _date, TimeZone _timeZone, ComputationMode _mode )
+	{
+		return dateToDouble( _date, _timeZone, _mode == ComputationMode.EXCEL );
+	}
+
+	/**
+	 * @deprecated replaced by {@link #msSinceUTC1970ToNum(long,TimeZone,ComputationMode)}
+	 */
 	public static double msSinceUTC1970ToNum( long _msSinceUTC1970, TimeZone _timeZone )
 	{
-		return msSinceUTC1970ToDouble( _msSinceUTC1970, _timeZone );
+		return msSinceUTC1970ToNum( _msSinceUTC1970, _timeZone, ComputationMode.EXCEL );
+	}
+
+	public static double msSinceUTC1970ToNum( long _msSinceUTC1970, TimeZone _timeZone, ComputationMode _mode )
+	{
+		return msSinceUTC1970ToDouble( _msSinceUTC1970, _timeZone, _mode == ComputationMode.EXCEL );
 	}
 
 	public static double msToNum( long _msSinceUTC1970 )
@@ -208,13 +240,28 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return msToDouble( _msSinceUTC1970 );
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_DATE(int,int,int,ComputationMode)}
+	 */
 	public static double fun_DATE( final int _year, final int _month, final int _day )
 	{
-		final int year = _year < 1899 ? _year + 1900 : _year;
-		return dateToNum( year, _month, _day );
+		return fun_DATE( _year, _month, _day, ComputationMode.EXCEL );
 	}
 
-	static double dateToNum( final int _year, final int _month, final int _day )
+	public static double fun_DATE( final int _year, final int _month, final int _day, ComputationMode _mode )
+	{
+		final int year;
+		switch (_mode) {
+			case EXCEL:
+				year = _year < 1899 ? _year + 1900 : _year;
+				break;
+			default:
+				year = _year >= 100 ? _year : _year >= 30 ? _year + 1900 : _year + 2000;
+		}
+		return dateToNum( year, _month, _day, false );
+	}
+
+	static double dateToNum( final int _year, final int _month, final int _day, boolean _excelCompatible )
 	{
 		final Calendar calendar = new GregorianCalendar( TimeZone.getTimeZone( "GMT" ) );
 		calendar.clear();
@@ -224,12 +271,20 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		calendar.set( Calendar.DAY_OF_MONTH, _day );
 		final Date date = calendar.getTime();
 		final TimeZone timeZone = calendar.getTimeZone();
-		return dateToNum( date, timeZone );
+		return dateToDouble( date, timeZone, _excelCompatible );
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_WEEKDAY(double,int,ComputationMode)}
+	 */
 	public static int fun_WEEKDAY( final double _date, int _type )
 	{
-		final int dayOfWeek = getCalendarValueFromNum( _date, Calendar.DAY_OF_WEEK );
+		return fun_WEEKDAY( _date, _type, ComputationMode.EXCEL );
+	}
+
+	public static int fun_WEEKDAY( final double _date, int _type, ComputationMode _mode )
+	{
+		final int dayOfWeek = getCalendarValueFromNum( _date, Calendar.DAY_OF_WEEK, _mode );
 		switch (_type) {
 			case 1:
 				return dayOfWeek;
@@ -248,12 +303,28 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return Math.round( time * SECS_PER_DAY );
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_DAY(double,ComputationMode)}
+	 */
 	public static int fun_DAY( final double _date )
 	{
-		return getCalendarValueFromNum( _date, Calendar.DAY_OF_MONTH );
+		return fun_DAY( _date, ComputationMode.EXCEL );
 	}
 
+	public static int fun_DAY( final double _date, ComputationMode _mode )
+	{
+		return getCalendarValueFromNum( _date, Calendar.DAY_OF_MONTH, _mode );
+	}
+
+	/**
+	 * @deprecated replaced by {@link #fun_DAYS360(double,double,boolean,ComputationMode)}
+	 */
 	public static double fun_DAYS360( double _start_date, double _end_date, boolean _method )
+	{
+		return fun_DAYS360(_start_date, _end_date, _method, ComputationMode.EXCEL );
+	}
+
+	public static double fun_DAYS360( double _start_date, double _end_date, boolean _method, ComputationMode _mode )
 	{
 		final int date_days1, date_days2, sign;
 		if (_start_date <= _end_date) {
@@ -266,8 +337,8 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			date_days2 = (int) _start_date;
 			sign = -1;
 		}
-		final GregorianCalendar date1 = getGregorianCalendarInstanceFromNum( date_days1 );
-		final GregorianCalendar date2 = getGregorianCalendarInstanceFromNum( date_days2 );
+		final GregorianCalendar date1 = getGregorianCalendarInstanceFromNum( date_days1, _mode );
+		final GregorianCalendar date2 = getGregorianCalendarInstanceFromNum( date_days2, _mode );
 		int day1 = date1.get( Calendar.DAY_OF_MONTH );
 		int day2 = date2.get( Calendar.DAY_OF_MONTH );
 		if (day1 == 31) {
@@ -293,40 +364,72 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 						* 360 + (date2.get( Calendar.MONTH ) - date1.get( Calendar.MONTH )) * 30 + day2 - day1);
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_MONTH(double,ComputationMode)}
+	 */
 	public static int fun_MONTH( final double _date )
 	{
-		return getCalendarValueFromNum( _date, Calendar.MONTH ) + 1;
+		return fun_MONTH( _date, ComputationMode.EXCEL );
 	}
 
+	public static int fun_MONTH( final double _date, ComputationMode _mode )
+	{
+		return getCalendarValueFromNum( _date, Calendar.MONTH, _mode ) + 1;
+	}
+
+	/**
+	 * @deprecated replaced by {@link #fun_YEAR(double,ComputationMode)}
+	 */
 	public static int fun_YEAR( final double _date )
 	{
-		return getCalendarValueFromNum( _date, Calendar.YEAR );
+		return fun_YEAR( _date, ComputationMode.EXCEL );
 	}
 
-	private static int getCalendarValueFromNum( double _date, int _field )
+	public static int fun_YEAR( final double _date, ComputationMode _mode )
 	{
-		final Calendar calendar = getGregorianCalendarInstanceFromNum( _date );
+		return getCalendarValueFromNum( _date, Calendar.YEAR, _mode );
+	}
+
+	private static int getCalendarValueFromNum( double _date, int _field, ComputationMode _mode )
+	{
+		final Calendar calendar = getGregorianCalendarInstanceFromNum( _date, _mode );
 		return calendar.get( _field );
 	}
 
-	private static GregorianCalendar getGregorianCalendarInstanceFromNum( double _date )
+	private static GregorianCalendar getGregorianCalendarInstanceFromNum( double _date, ComputationMode _mode )
 	{
 		final GregorianCalendar calendar = new GregorianCalendar( TimeZone.getTimeZone( "GMT" ) );
 		final TimeZone timeZone = calendar.getTimeZone();
-		final Date date = dateFromNum( _date, timeZone );
+		final Date date = dateFromNum( _date, timeZone, _mode );
 		calendar.setTime( date );
 		return calendar;
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_NOW(Environment,ComputationTime,ComputationMode)}
+	 */
 	public static double fun_NOW( final Environment _environment, final ComputationTime _computationTime )
 	{
-		return dateToNum( now( _computationTime ), _environment.timeZone() );
+		return fun_NOW( _environment, _computationTime, ComputationMode.EXCEL );
 	}
 
+	public static double fun_NOW( Environment _environment, ComputationTime _computationTime, ComputationMode _mode )
+	{
+		return dateToNum( now( _computationTime ), _environment.timeZone(), _mode );
+	}
+
+	/**
+	 * @deprecated replaced by {@link #fun_TODAY(Environment,ComputationTime,ComputationMode)}
+	 */
 	public static double fun_TODAY( final Environment _environment, final ComputationTime _computationTime )
 	{
+		return fun_TODAY( _environment, _computationTime, ComputationMode.EXCEL );
+	}
+
+	public static double fun_TODAY( Environment _environment, ComputationTime _computationTime, ComputationMode _mode )
+	{
 		final TimeZone timeZone = _environment.timeZone();
-		return dateToNum( today( timeZone, _computationTime ), timeZone );
+		return dateToNum( today( timeZone, _computationTime ), timeZone, _mode );
 	}
 
 	public static double fun_TIME( double _hour, double _minute, double _second )
@@ -1230,21 +1333,37 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return valVDB;
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_VALUE(String,Environment,ComputationMode)}
+	 */
 	public static double fun_VALUE( String _text, final Environment _environment )
 	{
+		return fun_VALUE( _text, _environment, ComputationMode.EXCEL );
+	}
+
+	public static double fun_VALUE( String _text, final Environment _environment, ComputationMode _mode )
+	{
 		final String text = _text.trim();
-		final Number number = parseNumber( text, false, _environment );
+		final Number number = parseNumber( text, false, _environment, _mode == ComputationMode.EXCEL );
 		if (number != null) {
 			return number.doubleValue();
 		}
 		throw new FormulaException( "#VALUE! because of argument of unsupported type in VALUE" );
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_DATEVALUE(String,Environment,ComputationMode)}
+	 */
 	public static double fun_DATEVALUE( String _text, final Environment _environment )
+	{
+		return fun_DATEVALUE( _text, _environment, ComputationMode.EXCEL );
+	}
+
+	public static double fun_DATEVALUE( String _text, final Environment _environment, ComputationMode _mode )
 	{
 		final String text = _text.trim();
 		try {
-			final double date = parseDateAndOrTime( text, _environment );
+			final double date = parseDateAndOrTime( text, _environment, _mode == ComputationMode.EXCEL );
 			return Math.floor( date );
 		}
 		catch (ParseException e) {
@@ -1252,11 +1371,19 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		}
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_TIMEVALUE(String,Environment,ComputationMode)}
+	 */
 	public static double fun_TIMEVALUE( String _text, final Environment _environment )
+	{
+		return fun_TIMEVALUE( _text, _environment, ComputationMode.EXCEL );
+	}
+
+	public static double fun_TIMEVALUE( String _text, final Environment _environment, ComputationMode _mode )
 	{
 		final String text = _text.trim();
 		try {
-			double dataTime = parseDateAndOrTime( text, _environment );
+			double dataTime = parseDateAndOrTime( text, _environment, _mode == ComputationMode.EXCEL );
 			return dataTime - Math.floor( dataTime );
 		}
 		catch (ParseException e) {
