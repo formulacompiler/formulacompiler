@@ -47,7 +47,7 @@ public class SelfTests extends SheetSuiteSetup
 
 	private static Test badResultSuite() throws Exception
 	{
-		final Context loaderCx = newSheetContext( "BadResult" );
+		final Context loaderCx = newXlsSheetContext( "BadResult" );
 		final TestSuite loader = newLoader( loaderCx );
 		final Context rowCx = new Context( loaderCx );
 		rowCx.setRow( 1 );
@@ -95,7 +95,7 @@ public class SelfTests extends SheetSuiteSetup
 
 	private static Test badAlternativeResultSuite() throws Exception
 	{
-		final Context loaderCx = newSheetContext( "BadAlternativeResult" );
+		final Context loaderCx = newXlsSheetContext( "BadAlternativeResult" );
 		final TestSuite loader = newLoader( loaderCx );
 		final Context rowCx = new Context( loaderCx );
 		rowCx.setRow( 1 );

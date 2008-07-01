@@ -20,35 +20,33 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.tests.reference;
+package org.formulacompiler.tests.reference.base;
 
-import java.io.File;
+import org.formulacompiler.spreadsheet.internal.CellInstance;
 
-import org.formulacompiler.tests.reference.base.SheetSuiteSetup;
-import org.formulacompiler.tests.utils.AbstractSpreadsheetDescriptionsTestSuite;
-
-import junit.framework.Test;
-
-public final class SpreadsheetDescriptions extends AbstractSpreadsheetDescriptionsTestSuite
+public class ValueVerificationTestCase extends AbstractContextTestCase
 {
+	private final int column;
+	private final Object expectedValue;
 
-	public static Test suite()
+	protected ValueVerificationTestCase( Context _cx, int _col, final Object _expectedValue )
 	{
-		return new SpreadsheetDescriptions().init();
+		super( _cx );
+		this.column = _col;
+		this.expectedValue = _expectedValue;
 	}
 
 	@Override
-	protected void addTestsFor( String _ext ) throws Exception
+	protected String getOwnName()
 	{
-		addTestsIn( "src/test-reference/data", _ext, true );
+		return "Check value in " + cx().getRowCellIndex( this.column );
 	}
 
 	@Override
-	protected void addImpliedTestsFor( File _path, String _baseName, String _ext )
+	protected void runTest() throws Throwable
 	{
-		if (SheetSuiteSetup.odsSpreadsheetExists( _baseName )) {
-			addTestFor( new File( _path, _baseName + ".ods" ), _baseName );
-		}
+		final CellInstance cell = cx().getRowCell( this.column );
+		assertEquals( this.expectedValue, cell.getValue() );
 	}
 
 }

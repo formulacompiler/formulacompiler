@@ -33,7 +33,7 @@ import junit.framework.TestSuite;
 
 /**
  * Base class for all standard reference test definitions.
- * 
+ *
  * @author peo
  */
 public abstract class SheetSuiteSetup extends AbstractSuiteSetup
@@ -41,7 +41,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 
 	/**
 	 * Returns a suite providing full test sheet coverage for a single spreadsheet file.
-	 * 
+	 *
 	 * @param _fileName is the base name of the file without path or extension.
 	 */
 	public static Test sheetSuite( String _fileName ) throws Exception
@@ -53,7 +53,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 	 * Returns a suite providing full test sheet coverage for a single spreadsheet file with a given
 	 * computation configuration. Documentation output is controlled by the system property
 	 * {@code org.formulacompiler.tests.reference.emit_documentation}.
-	 * 
+	 *
 	 * @param _fileName is the base name of the file without path or extension.
 	 * @param _config is how to configure the computation factory.
 	 */
@@ -65,23 +65,35 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 	/**
 	 * Returns a suite providing full test sheet coverage for a single spreadsheet file with a given
 	 * computation configuration.
-	 * 
+	 *
 	 * @param _fileName is the base name of the file without path or extension.
 	 * @param _config is how to configure the computation factory.
 	 */
 	public static Test sheetSuite( String _fileName, Computation.Config _config, boolean _documented ) throws Exception
 	{
-		Context loaderCx = newSheetContext( _fileName );
-		if (null != _config) {
-			loaderCx.setComputationConfig( _config );
+		final TestSuite testSuite = new TestSuite( _fileName );
+		final Context xlsLoaderCx = newXlsSheetContext( _fileName );
+		testSuite.addTest( setupContext( xlsLoaderCx, _config, _documented, new XlsRowVerificationsTestSetup() ) );
+		if (odsSpreadsheetExists( _fileName )) {
+			final Context odsLoaderCx = newOdsSheetContext( _fileName );
+			testSuite.addTest( setupContext( odsLoaderCx, _config, _documented, new OdsRowVerificationsTestSetup() ) );
 		}
-		TestSuite loader = newLoader( loaderCx );
+		return testSuite;
+	}
+
+	private static TestSuite setupContext( Context _loaderCx, Computation.Config _config, boolean _documented,
+			RowTestSetup _setup ) throws Exception
+	{
+		if (null != _config) {
+			_loaderCx.setComputationConfig( _config );
+		}
+		TestSuite loader = newLoader( _loaderCx );
 
 		// This is inverse notation as each setup step wraps its inner setup:
-		AbstractSetup setup = new SheetSetup();
+		AbstractSetup setup = new SheetSetup( _setup );
 		if (Settings.QUICK_RUN) {
 			if (_documented) {
-				loaderCx.setDocumenter( new HtmlDocumenter() );
+				_loaderCx.setDocumenter( new HtmlDocumenter() );
 			}
 			else {
 				// The documenter is not thread-safe, so only enable threading here.
@@ -104,14 +116,13 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 			}
 			setup = new AllCachingVariantsSetup( setup );
 		}
-		setup.setup( loader, loaderCx );
-
+		setup.setup( loader, _loaderCx );
 		return loader;
 	}
 
 	/**
 	 * Returns a suite providing full test sheet coverage for multiple spreadsheet files.
-	 * 
+	 *
 	 * @param _fileNames are the base name of the files without path or extension.
 	 */
 	public static Test sheetSuite( String... _fileNames ) throws Exception
@@ -138,17 +149,23 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 
 	protected static final class SheetSetup extends AbstractSetup
 	{
+		private final RowTestSetup rowTestSetup;
+
+		public SheetSetup( final RowTestSetup _setup )
+		{
+			this.rowTestSetup = _setup;
+		}
 
 		@Override
 		protected void setup( TestSuite _parent, Context _parentCx ) throws Exception
 		{
-			addSheetRowSequenceTo( _parentCx, _parent );
+			addSheetRowSequenceTo( _parentCx, _parent, rowTestSetup );
 		}
 
 	}
 
 
-	static void addSheetRowSequenceTo( Context _cx, TestSuite _suite ) throws Exception
+	static void addSheetRowSequenceTo( Context _cx, TestSuite _suite, final RowTestSetup _setup ) throws Exception
 	{
 		final List<RowImpl> rows = _cx.getSheetRows();
 		int iRow = _cx.getRowSetup().startingRow();
@@ -157,7 +174,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 			cx.setRow( iRow );
 			if (cx.getRowSetup().isTestRow()) {
 
-				final SameNameRowSequenceTestSuite seqTest = new SameNameRowSequenceTestSuite( cx );
+				final SameNameRowSequenceTestSuite seqTest = new SameNameRowSequenceTestSuite( cx, _setup );
 				_suite.addTest( seqTest.init() );
 
 				iRow = seqTest.getNextRowIndex();
@@ -169,7 +186,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 	}
 
 
-	public static Test newSameEngineRowSequence( final Context _cx, final int... _nextRowIndex )
+	public static Test newSameEngineRowSequence( final Context _cx, final RowTestSetup _rowTestSetup, final int... _nextRowIndex ) throws Exception
 	{
 		{ // Don't let the setup escape.
 			final RowSetup rowSetup = _cx.getRowSetup();
@@ -182,14 +199,25 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 		final int nBoundVariations = 1 << nInputs;
 		final boolean hasExpr = (_cx.getOutputExpr() != null);
 
-		return new SameExprRowSequenceTestSuite( _cx )
+		final TestSuite testSuite = new SameExprRowSequenceTestSuite( _cx )
 		{
 
 			@Override
 			protected void addTests() throws Exception
 			{
-				addRowVerifications( _cx, this );
-
+				// Only verify this once, not again for every type.
+				// LATER Might have to change when loaders use numeric type.
+				if (_cx.getNumberBindingType() == BindingType.DOUBLE && !_cx.getExplicitCaching()) {
+					final int checkingCol = _cx.getRowSetup().checkingCol();
+					if (checkingCol >= 0) {
+						if (_rowTestSetup != null) {
+							_rowTestSetup.setup( this, cx() );
+						}
+					}
+					for (Context variant : _cx.variants()) {
+						addTest( variant.getRowVerificationTestCaseFactory().newInstance( _cx, variant ) );
+					}
+				}
 				if (hasExpr) {
 					addTest( new ExpressionFormattingTestCase( new Context( _cx ) ) );
 				}
@@ -219,20 +247,41 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 			}
 
 		}.init();
+		return testSuite;
 	}
 
 
-	public static void addRowVerifications( Context _cx, TestSuite _addTo )
+	private static class XlsRowVerificationsTestSetup implements RowTestSetup
 	{
-		// Only verify this once, not again for every type.
-		// LATER Might have to change when loaders use numeric type.
-		if (_cx.getNumberBindingType() == BindingType.DOUBLE && !_cx.getExplicitCaching()) {
+		public void setup( final TestSuite _suite, final Context _cx ) throws Exception
+		{
 			final int checkingCol = _cx.getRowSetup().checkingCol();
 			if (checkingCol >= 0) {
-				_addTo.addTest( new RowCheckingColumnsVerificationTestCase( _cx, checkingCol ) );
+				_suite.addTest( new ExpressionVerificationTestCase( _cx, checkingCol,
+						"OR( ISBLANK( Bn ), IF( ISERROR( Bn ), (ERRORTYPE( Bn ) = IF( ISBLANK( Mn ), ERRORTYPE( An ), ERRORTYPE( Mn ) )), IF( ISBLANK( Mn ), AND( NOT( ISBLANK( An ) ), (An = Bn) ), (Bn = Mn) ) ) )" ) );
+				_suite.addTest( new ExpressionVerificationTestCase( _cx, checkingCol + 1,
+						"IF( ISBLANK( On ), IF( ISERROR( Pn ), false, Pn ), On )" ) );
+				if (!_cx.getSpreadsheetFileBaseName().startsWith( "Bad" )) {
+					_suite.addTest( new ValueVerificationTestCase( _cx, checkingCol + 1, Boolean.TRUE ) );
+				}
 			}
-			for (Context variant : _cx.variants()) {
-				_addTo.addTest( variant.getRowVerificationTestCaseFactory().newInstance( _cx, variant ) );
+		}
+	}
+
+
+	private static class OdsRowVerificationsTestSetup implements RowTestSetup
+	{
+		public void setup( final TestSuite _suite, final Context _cx ) throws Exception
+		{
+			final int checkingCol = _cx.getRowSetup().checkingCol();
+			if (checkingCol >= 0) {
+				_suite.addTest( new ExpressionVerificationTestCase( _cx, checkingCol,
+						"IF( ISBLANK( Mn ), An, Mn )" ) );
+				_suite.addTest( new ExpressionVerificationTestCase( _cx, checkingCol + 1,
+						"IF( ISBLANK( On ), IF( ISERROR( Bn ), ((\"Err:\" & ERRORTYPE( Bn )) = Mn), OR( (Pn = Bn), AND( ISNUMBER( Pn ), ISNUMBER( Bn ), OR( AND( (Pn = 0.0), (ABS( Bn ) < 1.0E-307) ), ((\"\" & Bn) = (\"\" & Pn)) ) ) ) ), On )" ) );
+				if (!_cx.getSpreadsheetFileBaseName().startsWith( "Bad" )) {
+					_suite.addTest( new ValueVerificationTestCase( _cx, checkingCol + 1, Boolean.TRUE ) );
+				}
 			}
 		}
 	}

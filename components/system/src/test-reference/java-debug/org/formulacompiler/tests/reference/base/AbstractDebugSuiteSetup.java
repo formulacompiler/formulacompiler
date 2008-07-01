@@ -156,7 +156,7 @@ public abstract class AbstractDebugSuiteSetup extends SheetSuiteSetup
 	 */
 	public static SheetSuiteBuilder dbgSuiteBuilder( String _fileName )
 	{
-		return new SheetSuiteBuilder( newSheetContext( _fileName ) );
+		return new SheetSuiteBuilder( newXlsSheetContext( _fileName ) );
 	}
 
 
@@ -366,7 +366,7 @@ public abstract class AbstractDebugSuiteSetup extends SheetSuiteSetup
 		void setupInto( TestSuite _parent ) throws Exception
 		{
 			if (null == this.rowCx.getRow()) {
-				addSheetRowSequenceTo( this.sheetCx, _parent );
+				addSheetRowSequenceTo( this.sheetCx, _parent, null );
 			}
 			else if (null != this.rowCx.getInputBindingBits()) {
 				_parent.addTest( new SameExprRowSequenceTestSuite( this.rowCx )
@@ -379,7 +379,7 @@ public abstract class AbstractDebugSuiteSetup extends SheetSuiteSetup
 				}.init() );
 			}
 			else {
-				_parent.addTest( newSameEngineRowSequence( this.rowCx ) );
+				_parent.addTest( newSameEngineRowSequence( this.rowCx, null ) );
 			}
 		}
 
@@ -397,7 +397,7 @@ public abstract class AbstractDebugSuiteSetup extends SheetSuiteSetup
 	 */
 	public static Test dbgSuite( AbstractSetup _setup ) throws Exception
 	{
-		Context loaderCx = newSheetContext( builderSetupFileName );
+		Context loaderCx = newXlsSheetContext( builderSetupFileName );
 		TestSuite loader = newLoader( loaderCx );
 		_setup.setup( loader, loaderCx );
 		return loader;

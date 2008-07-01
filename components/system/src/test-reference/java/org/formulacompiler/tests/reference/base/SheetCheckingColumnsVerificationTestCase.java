@@ -23,6 +23,7 @@
 package org.formulacompiler.tests.reference.base;
 
 import org.formulacompiler.spreadsheet.internal.CellInstance;
+import org.formulacompiler.spreadsheet.internal.CellIndex;
 
 public class SheetCheckingColumnsVerificationTestCase extends AbstractContextTestCase
 {
@@ -46,20 +47,23 @@ public class SheetCheckingColumnsVerificationTestCase extends AbstractContextTes
 		final Context cx = new Context( cx() );
 		final RowSetup rowSetup = cx.getRowSetup();
 		cx.setRow( rowSetup.startingRow() - 1 );
-		final CellInstance andingCell = cx.getRowCell( this.checkingCol + 1 );
-		final CellInstance indicatorCell = cx.getRowCell( rowSetup.expectedCol() );
+		final CellIndex andingCell = cx.getRowCellIndex( this.checkingCol + 1 );
+		final CellIndex indicatorCell = cx.getRowCellIndex( rowSetup.expectedCol() );
 
 		assertCheck( "AND( Q2:Q10000 )", andingCell );
 		assertCheck( "IF( Q1, \"Expected\", \"FAILED!\" )", indicatorCell );
 
 		if (!cx.getSpreadsheetFileBaseName().startsWith( "Bad" )) {
-			assertTrue( (Boolean) andingCell.getValue() );
+			assertTrue( "Sheet contains invalid data.", (Boolean) andingCell.getValue() );
 		}
 	}
 
-	private void assertCheck( String _wantExpr, CellInstance _cell ) throws Exception
+	private void assertCheck( String _wantExpr, CellIndex _cellIndex ) throws Exception
 	{
-		assertEquals( _wantExpr, _cell.getExpression().toString() );
+		final CellInstance cell = _cellIndex.getCell();
+		assertNotNull( _cellIndex + " is empty.", cell );
+		assertNotNull( _cellIndex + " does not contain expression.", cell.getExpression() );
+		assertEquals( "" + _cellIndex, _wantExpr, cell.getExpression().toString() );
 	}
 
 }

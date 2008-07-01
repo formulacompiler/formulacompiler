@@ -20,35 +20,11 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.tests.reference;
+package org.formulacompiler.tests.reference.base;
 
-import java.io.File;
+import junit.framework.TestSuite;
 
-import org.formulacompiler.tests.reference.base.SheetSuiteSetup;
-import org.formulacompiler.tests.utils.AbstractSpreadsheetDescriptionsTestSuite;
-
-import junit.framework.Test;
-
-public final class SpreadsheetDescriptions extends AbstractSpreadsheetDescriptionsTestSuite
+interface RowTestSetup
 {
-
-	public static Test suite()
-	{
-		return new SpreadsheetDescriptions().init();
-	}
-
-	@Override
-	protected void addTestsFor( String _ext ) throws Exception
-	{
-		addTestsIn( "src/test-reference/data", _ext, true );
-	}
-
-	@Override
-	protected void addImpliedTestsFor( File _path, String _baseName, String _ext )
-	{
-		if (SheetSuiteSetup.odsSpreadsheetExists( _baseName )) {
-			addTestFor( new File( _path, _baseName + ".ods" ), _baseName );
-		}
-	}
-
+	void setup( TestSuite _suite, Context _cx ) throws Exception;
 }

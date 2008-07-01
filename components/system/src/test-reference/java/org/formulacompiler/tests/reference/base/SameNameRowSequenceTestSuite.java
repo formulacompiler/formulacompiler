@@ -28,11 +28,13 @@ import org.formulacompiler.spreadsheet.internal.RowImpl;
 
 public class SameNameRowSequenceTestSuite extends AbstractContextTestSuite
 {
+	private final RowTestSetup rowTestSetup;
 	private int nextRowIndex;
 
-	public SameNameRowSequenceTestSuite( Context _cx )
+	public SameNameRowSequenceTestSuite( Context _cx, final RowTestSetup _setup )
 	{
 		super( _cx );
+		this.rowTestSetup = _setup;
 	}
 
 	@Override
@@ -64,7 +66,7 @@ public class SameNameRowSequenceTestSuite extends AbstractContextTestSuite
 	{
 		if (_cx.getRowSetup().isTestActive()) {
 			int[] nextIndex = new int[ 1 ];
-			addTest( SheetSuiteSetup.newSameEngineRowSequence( _cx, nextIndex ) );
+			addTest( SheetSuiteSetup.newSameEngineRowSequence( _cx, rowTestSetup, nextIndex ) );
 			return nextIndex[ 0 ];
 		}
 		else return _cx.getRowIndex() + 1;
