@@ -2757,6 +2757,86 @@ input.setSide( "1234567891234567891234567891234567891234567891234567891234567891
 		assertTrue( "Caching is at least half as fast again; caching is " + cachingTime + " vs. " + plainTime,
 				cachingTime * 3 / 2 < plainTime );
 ___@_@___
+jc:org.formulacompiler.tutorials.CompMode:---- assertExcelDates
+__@@__
+assertEquals( /**/1.0/**/, output.getNumberFromDate() );
+		assertEquals( /**/2.0/**/, output.getNumberFromMilliseconds() );
+		assertEquals( date( /**/1900, Calendar.JANUARY, 1/**/ ), output.getDateFromNumber() );
+		assertEquals( date( /**/1900, Calendar.JANUARY, 1/**/ ).getTime(), output.getMillisecondsFromNumber() );
+___@_@___
+jc:org.formulacompiler.tutorials.CompMode:---- assertOOoCalcDates
+__@@__
+assertEquals( /**/2.0/**/, output.getNumberFromDate() );
+		assertEquals( /**/3.0/**/, output.getNumberFromMilliseconds() );
+		assertEquals( date( /**/1899, Calendar.DECEMBER, 31/**/ ), output.getDateFromNumber() );
+		assertEquals( date( /**/1899, Calendar.DECEMBER, 31/**/ ).getTime(), output.getMillisecondsFromNumber() );
+___@_@___
+jc:org.formulacompiler.tutorials.CompMode:---- calcMode; omit -omit-
+__@@__
+EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
+		// -omit-
+		builder.setNumericType( getNumericType() );
+		// -omit-
+		builder.loadSpreadsheet( new File( PATH, /**/"DateConversion.ods"/**/ ) );
+		builder.setFactoryClass( Factory.class );
+		builder.createCellNamesFromRowTitles();
+		builder.bindAllByName();
+		Engine engine = builder.compile();
+		Factory factory = (Factory) engine.getComputationFactory();
+		Output output = factory.newInstance( new Input() );
+___@_@___
+jc:org.formulacompiler.tutorials.CompMode:---- excelMode; omit -omit-
+__@@__
+EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
+		// -omit-
+		builder.setNumericType( getNumericType() );
+		// -omit-
+		builder.loadSpreadsheet( new File( PATH, /**/"DateConversion.xls"/**/ ) );
+		builder.setFactoryClass( Factory.class );
+		builder.createCellNamesFromRowTitles();
+		builder.bindAllByName();
+		Engine engine = builder.compile();
+		Factory factory = (Factory) engine.getComputationFactory();
+		Output output = factory.newInstance( new Input() );
+___@_@___
+jc:org.formulacompiler.tutorials.CompMode:---- forcedCalcMode; omit -omit-
+__@@__
+EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
+		// -omit-
+		builder.setNumericType( getNumericType() );
+		// -omit-
+		SpreadsheetBuilder b = SpreadsheetCompiler./**/newSpreadsheetBuilder/**/();
+
+		// Input cells
+		b.newCell();
+		b.nameCell( "Number" );
+		SpreadsheetBuilder.CellRef numberCellRef = b.currentCell();
+		b.newCell();
+		b.nameCell( "Date" );
+		SpreadsheetBuilder.CellRef dateCellRef = b.currentCell();
+		b.newCell();
+		b.nameCell( "DateInMilliseconds" );
+		SpreadsheetBuilder.CellRef msCellRef = b.currentCell();
+
+		// Output cells
+		b.newCell( b.ref( dateCellRef ) );
+		b.nameCell( "NumberFromDate" );
+		b.newCell( b.ref( msCellRef ) );
+		b.nameCell( "NumberFromMilliseconds" );
+		b.newCell( b.ref( numberCellRef ) );
+		b.nameCell( "DateFromNumber" );
+		b.newCell( b.ref( numberCellRef ) );
+		b.nameCell( "MillisecondsFromNumber" );
+
+		builder.setSpreadsheet( b.getSpreadsheet() );
+		builder.setFactoryClass( Factory.class );
+		builder.createCellNamesFromRowTitles();
+		builder.bindAllByName();
+		/**/builder.setComputationMode( ComputationMode.OPEN_OFFICE_CALC );/**/
+		Engine engine = builder.compile();
+		Factory factory = (Factory) engine.getComputationFactory();
+		Output output = factory.newInstance( new Input() );
+___@_@___
 jc:org.formulacompiler.tutorials.CustomClassLoader:---- compile
 __@@__
 builder./**/setParentClassLoaderForEngine/**/( myClassLoader );

@@ -14,6 +14,7 @@ h5. New
 
 	* AFC can now "save spreadsheets":../doc/tutorial/generatesheet.htm in the OpenDocument @.ods@ format.
 	* Added new "@SpreadsheetCompiler.loadSpreadsheet(File, SpreadsheetLoader.Config)@":-loadspreadsheetwithconfig method.
+	* AFC now supports OpenOffice.org Calc "computation mode":../doc/tutorial/computation_mode.htm.
 
 [-loadspreadsheetwithconfig]../doc/javadoc/org/formulacompiler/spreadsheet/SpreadsheetCompiler.html#loadSpreadsheet(java.io.File,%20org.formulacompiler.spreadsheet.SpreadsheetLoader.Config)
 
