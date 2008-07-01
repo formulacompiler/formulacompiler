@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.ComputationTime;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
@@ -36,10 +37,12 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 {
 	private ComputationTime computationTime = null; // not supposed to be called at compile-time
 
+	protected final ComputationMode computationMode;
 	protected final Environment environment;
 
-	public AbstractExpressionTemplatesForBigDecimals( Environment _env )
+	public AbstractExpressionTemplatesForBigDecimals( ComputationMode _mode, Environment _env )
 	{
+		this.computationMode = _mode;
 		this.environment = _env;
 	}
 

@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.ComputationTime;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
@@ -36,10 +37,12 @@ public final class ExpressionTemplatesForDoubles
 {
 	private ComputationTime computationTime = null; // not supposed to be called at compile-time
 
+	private final ComputationMode computationMode;
 	private final Environment environment;
 
-	public ExpressionTemplatesForDoubles( Environment _env )
+	public ExpressionTemplatesForDoubles( ComputationMode _mode, Environment _env )
 	{
+		this.computationMode = _mode;
 		this.environment = _env;
 	}
 

@@ -28,6 +28,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.ComputationTime;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.RuntimeLong_v2;
@@ -41,18 +42,19 @@ public final class ExpressionTemplatesForScaledLongs
 	final RuntimeLong_v2.Context context;
 	final int scale;
 	final long one;
+	private final ComputationMode computationMode;
 	private final Environment environment;
 
 
-	public ExpressionTemplatesForScaledLongs( RuntimeLong_v2.Context _context, Environment _env )
+	public ExpressionTemplatesForScaledLongs( RuntimeLong_v2.Context _context, ComputationMode _mode, Environment _env )
 	{
 		super();
 		this.context = _context;
 		this.scale = _context.scale();
 		this.one = _context.one();
+		this.computationMode = _mode;
 		this.environment = _env;
 	}
-
 
 	// ------------------------------------------------ Utils
 

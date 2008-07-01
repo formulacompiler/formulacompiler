@@ -22,6 +22,7 @@
 
 package org.formulacompiler.compiler.internal.templates;
 
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.Runtime_v2;
 
@@ -29,11 +30,13 @@ import org.formulacompiler.runtime.internal.Runtime_v2;
 public final class ExpressionTemplatesForNumbers
 {
 
+	private final ComputationMode computationMode;
 	private final Environment environment;
 
-	public ExpressionTemplatesForNumbers( Environment _env )
+	public ExpressionTemplatesForNumbers( ComputationMode _mode, Environment _env )
 	{
 		super();
+		this.computationMode = _mode;
 		this.environment = _env;
 	}
 

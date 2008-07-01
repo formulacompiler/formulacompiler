@@ -26,6 +26,7 @@ import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompi
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.model.SectionModel;
+import org.formulacompiler.runtime.ComputationMode;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
@@ -116,6 +117,35 @@ final class RootSectionCompiler extends SectionCompiler
 	{
 		_mv.loadThis();
 		_mv.getField( classType(), ENV_MEMBER_NAME, ENV_CLASS );
+	}
+
+
+	private boolean computationModeCompiled = false;
+
+	private void compileComputationMode()
+	{
+		if (!this.computationModeCompiled) {
+			newField( Opcodes.ACC_FINAL, COMP_MODE_MEMBER_NAME, COMP_MODE_DESC );
+			final ComputationMode computationMode = model().getEngine().getComputationMode();
+			final GeneratorAdapter ga = this.constructor;
+			ga.loadThis();
+			ga.getStatic( COMP_MODE_CLASS, computationMode.name(), COMP_MODE_CLASS );
+			ga.putField( classType(), COMP_MODE_MEMBER_NAME, COMP_MODE_CLASS );
+			this.computationModeCompiled = true;
+		}
+	}
+
+	@Override
+	protected void compileComputationModeAccess( GeneratorAdapter _mv )
+	{
+		_mv.loadThis();
+		compileComputationModeAccessGivenThis( _mv );
+	}
+
+	void compileComputationModeAccessGivenThis( GeneratorAdapter _mv )
+	{
+		compileComputationMode();
+		_mv.getField( classType(), COMP_MODE_MEMBER_NAME, COMP_MODE_CLASS );
 	}
 
 

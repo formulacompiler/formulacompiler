@@ -22,16 +22,19 @@
 
 package org.formulacompiler.compiler.internal.templates;
 
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.Runtime_v2;
 
 
 public final class ExpressionTemplatesForStrings
 {
+	private final ComputationMode computationMode;
 	private final Environment environment;
 
-	public ExpressionTemplatesForStrings( Environment _env )
+	public ExpressionTemplatesForStrings( ComputationMode _mode, Environment _env )
 	{
+		this.computationMode = _mode;
 		this.environment = _env;
 	}
 
