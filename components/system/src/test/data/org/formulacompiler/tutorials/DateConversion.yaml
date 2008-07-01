@@ -1,0 +1,36 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "Inputs"
+  - cells:
+  - cells:
+    - const: "Date"
+    - const: 2.0
+  - cells:
+    - const: "Date in milliseconds"
+    - const: 3.0
+  - cells:
+    - const: "Number"
+    - const: 1.0
+  - cells:
+  - cells:
+    - const: "Outputs"
+  - cells:
+  - cells:
+    - const: "Number from date"
+    - expr: =R[-6]C
+  - cells:
+    - const: "Number from milliseconds"
+    - expr: =R[-6]C
+  - cells:
+    - const: "Date from number"
+    - expr: =R[-6]C
+  - cells:
+    - const: "Milliseconds from number"
+    - expr: =R[-7]C
