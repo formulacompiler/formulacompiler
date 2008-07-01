@@ -24,8 +24,11 @@ package org.formulacompiler.compiler.internal.build.bytecode;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
+import org.formulacompiler.runtime.ComputationMode;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -36,9 +39,6 @@ import org.objectweb.asm.tree.MethodNode;
 @SuppressWarnings( "unqualified-field-access" )
 abstract class AbstractGenerator
 {
-	static final String IF_CLAUSE = "__if_";
-	static final int IF_CLAUSE_LEN = IF_CLAUSE.length();
-
 	private static final int ACCEPT_FLAGS = ClassReader.SKIP_FRAMES | ClassReader.SKIP_DEBUG;
 
 	final DescriptionBuilder classBuilder = new DescriptionBuilder();
@@ -92,6 +92,8 @@ abstract class AbstractGenerator
 	protected abstract void genMethod( MethodNode _method );
 
 
+	private static final Pattern METHOD_NAME_PATTERN = Pattern.compile( "([^_]*)(?:_(.*?)(?:__if_(.*?))?(?:__for_(.*?))?)?" );
+
 	protected abstract class AbstractMethodTemplateGenerator
 	{
 		final MethodNode mtdNode;
@@ -100,6 +102,7 @@ abstract class AbstractGenerator
 		final int cardinality;
 		final String enumName;
 		final String ifCond;
+		final ComputationMode computationMode;
 
 		public AbstractMethodTemplateGenerator( MethodNode _mtdNode )
 		{
@@ -110,23 +113,12 @@ abstract class AbstractGenerator
 			this.cardinality = argTypes.length;
 			// split name
 			final String n = _mtdNode.name;
-			final int p = n.indexOf( '_' );
-			if (p < 0) {
-				this.enumName = "";
-				this.ifCond = "";
-			}
-			else {
-				final String s = n.substring( p + 1 );
-				final int pp = s.indexOf( IF_CLAUSE );
-				if (pp < 0) {
-					this.enumName = s;
-					this.ifCond = null;
-				}
-				else {
-					this.enumName = s.substring( 0, pp );
-					this.ifCond = s.substring( pp + IF_CLAUSE_LEN );
-				}
-			}
+			final Matcher matcher = METHOD_NAME_PATTERN.matcher( n );
+			matcher.matches();
+			this.enumName = matcher.group( 2 );
+			this.ifCond = matcher.group( 3 );
+			final String forMode = matcher.group( 4 );
+			this.computationMode = (forMode != null) ? ComputationMode.valueOf( forMode ) : null;
 		}
 
 	}

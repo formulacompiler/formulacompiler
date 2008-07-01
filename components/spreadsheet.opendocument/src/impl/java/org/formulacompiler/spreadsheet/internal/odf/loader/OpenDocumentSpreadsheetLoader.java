@@ -29,6 +29,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import javax.xml.stream.XMLStreamException;
 
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
@@ -83,7 +84,7 @@ public class OpenDocumentSpreadsheetLoader implements SpreadsheetLoader
 
 	private Spreadsheet readContent( InputStream _inputStream ) throws SpreadsheetException
 	{
-		final SpreadsheetImpl workbook = new SpreadsheetImpl();
+		final SpreadsheetImpl workbook = new SpreadsheetImpl( ComputationMode.OPEN_OFFICE_CALC );
 
 		try {
 			final SpreadsheetParser spreadsheetParser = new SpreadsheetParser( workbook, this.config );

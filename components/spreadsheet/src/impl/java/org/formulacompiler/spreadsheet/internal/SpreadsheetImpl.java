@@ -29,6 +29,7 @@ import java.util.Set;
 
 import org.formulacompiler.compiler.internal.AbstractYamlizable;
 import org.formulacompiler.compiler.internal.YamlBuilder;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
@@ -45,9 +46,22 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 	private final Map<String, CellRange> modelRangeNames = New.caseInsensitiveMap();
 	private final Map<String, CellRange> readOnlyModelRangeNames = Collections.unmodifiableMap( this.modelRangeNames );
 	private final Map<CellIndex, Set<String>> namedCells = New.map();
+	private final ComputationMode computationMode;
 	private Map<String, Range> userRangeNames = null;
 	private Map<String, Range> readOnlyRangeNames = Collections
 			.unmodifiableMap( (Map<String, ? extends Range>) this.modelRangeNames );
+
+
+	public SpreadsheetImpl( final ComputationMode _mode )
+	{
+		this.computationMode = _mode;
+	}
+
+
+	public SpreadsheetImpl()
+	{
+		this( ComputationMode.EXCEL );
+	}
 
 
 	public List<SheetImpl> getSheetList()
@@ -226,5 +240,12 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 		}
 
 	}
+
+
+	public ComputationMode getComputationMode()
+	{
+		return this.computationMode;
+	}
+
 
 }

@@ -25,15 +25,16 @@ package org.formulacompiler.compiler.internal.model.interpreter;
 import java.math.BigDecimal;
 
 import org.formulacompiler.compiler.NumericType;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.Environment;
 
 
 abstract class InterpretedPrecisionBigDecimalType_Base extends InterpretedBigDecimalType
 {
 
-	public InterpretedPrecisionBigDecimalType_Base( NumericType _type, Environment _env )
+	public InterpretedPrecisionBigDecimalType_Base( NumericType _type, ComputationMode _mode, Environment _env )
 	{
-		super( _type, _env );
+		super( _type, _mode, _env );
 	}
 
 

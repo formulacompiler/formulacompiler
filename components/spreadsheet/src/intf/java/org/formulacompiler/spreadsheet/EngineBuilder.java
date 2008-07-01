@@ -33,6 +33,7 @@ import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.Computation;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.EngineException;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 
@@ -64,6 +65,22 @@ public interface EngineBuilder
 	 * details.
 	 */
 	public void setNumericType( NumericType _type );
+
+
+	/**
+	 * Returns the computation mode to be used for compiled engines. If this method returns <code>null</code>
+	 * then a default computation mode for a spreadsheet source will be used.
+	 *
+	 * @return the computation mode if it was set or <code>null</code> otherwise.
+	 */
+	ComputationMode getComputationMode();
+
+	/**
+	 * Tells AFC to calculate expressions as for example Excel or OpenOffice does.
+	 *
+	 * @param _computationMode the computation mode to be used for compiled engines.
+	 */
+	void setComputationMode( ComputationMode _computationMode );
 
 
 	/**

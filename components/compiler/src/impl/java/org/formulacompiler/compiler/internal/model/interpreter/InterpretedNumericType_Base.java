@@ -33,6 +33,7 @@ import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.FormulaException;
 import org.formulacompiler.runtime.NotAvailableException;
 import org.formulacompiler.runtime.internal.Environment;
@@ -42,12 +43,14 @@ import org.formulacompiler.runtime.internal.Runtime_v2;
 abstract class InterpretedNumericType_Base
 {
 	private final NumericTypeImpl num;
+	private final ComputationMode computationMode;
 
 
-	InterpretedNumericType_Base( NumericType _type, Environment _env )
+	InterpretedNumericType_Base( NumericType _type, ComputationMode _mode, Environment _env )
 	{
 		super();
 		this.num = (NumericTypeImpl) _type;
+		this.computationMode = _mode;
 	}
 
 
@@ -393,6 +396,12 @@ abstract class InterpretedNumericType_Base
 			throw new IllegalArgumentException();
 		}
 
+	}
+
+
+	protected ComputationMode getComputationMode()
+	{
+		return this.computationMode;
 	}
 
 }

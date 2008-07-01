@@ -26,6 +26,7 @@ import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.AbstractYamlizable;
 import org.formulacompiler.compiler.internal.Util;
 import org.formulacompiler.compiler.internal.YamlBuilder;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.Environment;
 
 
@@ -35,12 +36,14 @@ public class ComputationModel extends AbstractYamlizable
 
 	private final SectionModel root;
 	private final Environment env;
+	private final ComputationMode computationMode;
 
 
-	public ComputationModel( Class _inputClass, Class _outputClass, Environment _env )
+	public ComputationModel( Class _inputClass, Class _outputClass, ComputationMode _mode, Environment _env )
 	{
 		if (null == _env) throw new IllegalArgumentException();
 		this.root = new SectionModel( this, ROOTNAME, _inputClass, _outputClass );
+		this.computationMode = _mode;
 		this.env = _env;
 	}
 
@@ -49,7 +52,7 @@ public class ComputationModel extends AbstractYamlizable
 	 */
 	public ComputationModel( Class _inputClass, Class _outputClass )
 	{
-		this( _inputClass, _outputClass, Environment.DEFAULT );
+		this( _inputClass, _outputClass, ComputationMode.EXCEL, Environment.DEFAULT );
 		Util.assertTesting();
 	}
 
@@ -72,6 +75,12 @@ public class ComputationModel extends AbstractYamlizable
 	}
 
 
+	public ComputationMode getComputationMode()
+	{
+		return this.computationMode;
+	}
+
+	
 	public Environment getEnvironment()
 	{
 		return this.env;

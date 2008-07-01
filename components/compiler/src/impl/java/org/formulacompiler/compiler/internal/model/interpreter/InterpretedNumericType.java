@@ -27,6 +27,7 @@ import java.math.BigDecimal;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.AbstractLongType;
 import org.formulacompiler.compiler.internal.Util;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.Environment;
 
 
@@ -34,21 +35,21 @@ public abstract class InterpretedNumericType extends InterpretedNumericType_Gene
 {
 
 
-	public static InterpretedNumericType typeFor( NumericType _type, Environment _env )
+	public static InterpretedNumericType typeFor( NumericType _type, ComputationMode _mode, Environment _env )
 	{
 		if (Double.TYPE == _type.valueType()) {
-			return new InterpretedDoubleType( _type, _env );
+			return new InterpretedDoubleType( _type, _mode, _env );
 		}
 		else if (BigDecimal.class == _type.valueType()) {
 			if (null != _type.mathContext()) {
-				return new InterpretedPrecisionBigDecimalType( _type, _env );
+				return new InterpretedPrecisionBigDecimalType( _type, _mode, _env );
 			}
 			else {
-				return new InterpretedScaledBigDecimalType( _type, _env );
+				return new InterpretedScaledBigDecimalType( _type, _mode, _env );
 			}
 		}
 		else if (Long.TYPE == _type.valueType()) {
-			return new InterpretedScaledLongType( (AbstractLongType) _type, _env );
+			return new InterpretedScaledLongType( (AbstractLongType) _type, _mode, _env );
 		}
 		else {
 			throw new IllegalArgumentException( "Unsupported numeric type for run-time interpretation." );
@@ -58,13 +59,13 @@ public abstract class InterpretedNumericType extends InterpretedNumericType_Gene
 	public static InterpretedNumericType typeFor( NumericType _type )
 	{
 		Util.assertTesting();
-		return typeFor( _type, Environment.DEFAULT );
+		return typeFor( _type, ComputationMode.EXCEL, Environment.DEFAULT );
 	}
 
 
-	InterpretedNumericType( NumericType _type, Environment _env )
+	InterpretedNumericType( NumericType _type, ComputationMode _mode, Environment _env )
 	{
-		super( _type, _env );
+		super( _type, _mode, _env );
 	}
 
 

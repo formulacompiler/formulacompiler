@@ -34,6 +34,7 @@ import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 import org.formulacompiler.compiler.internal.model.optimizer.consteval.ConstResult;
 import org.formulacompiler.compiler.internal.model.optimizer.consteval.EvalShadow;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.Environment;
 
 
@@ -48,14 +49,14 @@ final public class ConstantSubExpressionEliminator extends AbstractComputationMo
 		this.numericType = _type;
 	}
 
-	public ConstantSubExpressionEliminator( NumericType _type, Environment _env )
+	public ConstantSubExpressionEliminator( NumericType _type, ComputationMode _mode, Environment _env )
 	{
-		this( InterpretedNumericType.typeFor( _type, _env ) );
+		this( InterpretedNumericType.typeFor( _type, _mode, _env ) );
 	}
 
 	public ConstantSubExpressionEliminator( NumericType _type )
 	{
-		this( InterpretedNumericType.typeFor( _type, Environment.DEFAULT ) );
+		this( InterpretedNumericType.typeFor( _type, ComputationMode.EXCEL, Environment.DEFAULT ) );
 		Util.assertTesting();
 	}
 

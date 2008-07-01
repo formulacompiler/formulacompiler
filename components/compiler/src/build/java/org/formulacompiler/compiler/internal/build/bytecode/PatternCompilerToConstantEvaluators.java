@@ -71,9 +71,9 @@ class PatternCompilerToConstantEvaluators
 			cb.append( "private final " ).append( _generator.clsName ).appendLine( " template;" );
 
 			cb.newLine();
-			cb.append( "public " ).append( _generator.typeName ).appendLine( "( NumericType _type, Environment _env ) {" );
+			cb.append( "public " ).append( _generator.typeName ).appendLine( "( NumericType _type, ComputationMode _mode, Environment _env ) {" );
 			cb.indent();
-			cb.appendLine( "super( _type, _env );" );
+			cb.appendLine( "super( _type, _mode, _env );" );
 			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine( "( _type.mathContext(), _env );" );
 			cb.outdent();
 			cb.appendLine( "}" );
@@ -108,9 +108,9 @@ class PatternCompilerToConstantEvaluators
 			cb.append( "private final " ).append( _generator.clsName ).appendLine( " template;" );
 
 			cb.newLine();
-			cb.append( "public " ).append( _generator.typeName ).appendLine( "( NumericType _type, Environment _env ) {" );
+			cb.append( "public " ).append( _generator.typeName ).appendLine( "( NumericType _type, ComputationMode _mode, Environment _env ) {" );
 			cb.indent();
-			cb.appendLine( "super( _type, _env );" );
+			cb.appendLine( "super( _type, _mode, _env );" );
 			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine(
 					"( _type.scale(), _type.roundingMode(), _env );" );
 			cb.outdent();
@@ -147,9 +147,9 @@ class PatternCompilerToConstantEvaluators
 
 			cb.newLine();
 			cb.append( "public " ).append( _generator.typeName ).appendLine(
-					"( org.formulacompiler.compiler.internal.AbstractLongType _type, Environment _env ) {" );
+					"( org.formulacompiler.compiler.internal.AbstractLongType _type, ComputationMode _mode, Environment _env ) {" );
 			cb.indent();
-			cb.appendLine( "super( _type, _env );" );
+			cb.appendLine( "super( _type, _mode, _env );" );
 			cb.append( "this.template = new " ).append( _generator.clsName ).appendLine( "( getContext(), _env );" );
 			cb.outdent();
 			cb.appendLine( "}" );

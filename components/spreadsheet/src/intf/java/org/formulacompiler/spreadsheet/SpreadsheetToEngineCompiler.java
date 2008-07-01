@@ -25,10 +25,11 @@ package org.formulacompiler.spreadsheet;
 import java.lang.reflect.Method;
 
 import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.FormulaCompiler;
+import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.compiler.Validation;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.EngineException;
 
 
@@ -65,6 +66,12 @@ public interface SpreadsheetToEngineCompiler
 		 * The numeric type to use for all internal computations.
 		 */
 		public NumericType numericType = FormulaCompiler.DEFAULT_NUMERIC_TYPE;
+
+
+		/**
+		 * Tells AFC to calculate expressions as for example Excel or OpenOffice does.
+		 */
+		public ComputationMode computationMode = null;
 
 		/**
 		 * Specifies either a class from which to descend the generated computation factory, or an
