@@ -1,12 +1,12 @@
+Installation
 
-To install @refTestSheets.py@ for OpenOffice, run:
+	* Start OpenOffice.org and go to the "Tools > Extension Manger" menu item.
+	* Select "My Extensions" and click "Add". Select refTestSheets.oxt.
 
-	* @installOOoScript.sh@ on Unix, or
-	* @installOOoScript.bat@ on Windows.
 
-To run the macro:
+Usage
 
 	* Open a workbook with reference test data.
-	* Open Run Macro dialog (Tools -> Macros -> Run Macro).
-	* Run @forceAllFormatsAndColumns@ macro (My Macros -> refTestSheets).
-
+	* Go to the "Tools > Macros > Run Macro" menu item.
+	* Select the "My Macros > AFCDev > RefTestSheets" library.
+	* Select and run the "Main" macro.
