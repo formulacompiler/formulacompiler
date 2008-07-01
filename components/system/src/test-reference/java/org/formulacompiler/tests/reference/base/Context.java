@@ -25,6 +25,7 @@ package org.formulacompiler.tests.reference.base;
 import java.io.File;
 import java.util.Collection;
 import java.util.List;
+import java.util.Collections;
 
 import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.NumericType;
@@ -221,6 +222,9 @@ public final class Context
 	public void setRowSetupBuilder( RowSetup.Builder _value )
 	{
 		ss().rowSetupBuilder = _value;
+		for (Context variant : variants()) {
+			variant.setRowSetupBuilder( _value );
+		}
 	}
 
 	public RowSetup getRowSetup()
@@ -262,7 +266,8 @@ public final class Context
 
 	public Collection<Context> variants()
 	{
-		return ss().variants;
+		final Collection<Context> variants = ss().variants;
+		return variants != null ? variants : Collections.<Context>emptyList();
 	}
 
 	public void addVariant( Context _value )
@@ -318,6 +323,12 @@ public final class Context
 		List<CellInstance> cells = getRowCells();
 		if (_columnIndex < 0 || _columnIndex >= cells.size()) return null;
 		return cells.get( _columnIndex );
+	}
+
+
+	public CellIndex getRowCellIndex( int _columnIndex )
+	{
+		return new CellIndex(getSpreadsheet(), ss().sheet.getSheetIndex(), _columnIndex, getRowIndex() );
 	}
 
 

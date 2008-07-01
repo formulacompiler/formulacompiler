@@ -60,7 +60,7 @@ abstract class AbstractVariantRowVerificationTestCase extends AbstractContextTes
 	protected void assertInputsSame( Context _want, Context _have ) throws Exception
 	{
 		assertCellsSame( _want.getInputCells(), _have );
-		assertCellsSame( _want.getExpectedCell(), _have );
+//		assertCellsSame( _want.getExpectedCell(), _have );
 	}
 
 	protected void assertOutputSame( Context _want, Context _have ) throws Exception

@@ -25,45 +25,36 @@ package org.formulacompiler.tests.reference.base;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 
-public class RowCheckingColumnsVerificationTestCase extends AbstractContextTestCase
+public class ExpressionVerificationTestCase extends AbstractContextTestCase
 {
-	private final int checkingCol;
+	private final int column;
+	private final String wantExpr;
 
-	protected RowCheckingColumnsVerificationTestCase( Context _cx, int _checkingCol )
+	protected ExpressionVerificationTestCase( Context _cx, int _col, final String _expectedExpression )
 	{
 		super( _cx );
-		this.checkingCol = _checkingCol;
+		this.column = _col;
+		this.wantExpr = _expectedExpression;
 	}
 
 	@Override
 	protected String getOwnName()
 	{
-		return "Check setup of row " + (cx().getRowIndex() + 1);
+		return "Check expression in " + cx().getRowCellIndex( this.column );
 	}
 
 	@Override
 	protected void runTest() throws Throwable
 	{
-		final Context cx = cx();
-		final CellInstance check1 = cx.getRowCell( this.checkingCol );
-		final CellInstance check2 = cx.getRowCell( this.checkingCol + 1 );
-
-		assertCheck(
-				"OR( ISBLANK( Bn ), IF( ISERROR( Bn ), (ERRORTYPE( Bn ) = IF( ISBLANK( Mn ), ERRORTYPE( An ), ERRORTYPE( Mn ) )), IF( ISBLANK( Mn ), AND( NOT( ISBLANK( An ) ), (An = Bn) ), (Bn = Mn) ) ) )",
-				check1 );
-
-		assertCheck( "IF( ISBLANK( On ), IF( ISERROR( Pn ), false, Pn ), On )", check2 );
-
-		if (!cx.getSpreadsheetFileBaseName().startsWith( "Bad" )) {
-			assertTrue( (Boolean) check2.getValue() );
-		}
+		final CellInstance cell = cx().getRowCell( this.column );
+		assertCheck( this.wantExpr, cell );
 	}
 
 	private void assertCheck( String _wantExpr, CellInstance _cell ) throws Exception
 	{
 		final ExpressionNode expr = _cell.getExpression();
 		final String exprText = expr.toString();
-		final String normalizedText = exprText.replace( String.valueOf( cx().getRowIndex() + 1 ), "n" );
+		final String normalizedText = exprText.replaceAll( "\\b([A-Z])" + (String.valueOf( cx().getRowIndex() + 1 ) + "\\b"), "$1n" );
 		assertEquals( _wantExpr, normalizedText );
 	}
 

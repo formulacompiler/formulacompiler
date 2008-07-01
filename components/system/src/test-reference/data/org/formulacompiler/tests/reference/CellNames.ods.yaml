@@ -7,7 +7,7 @@ sheets:
 - name: MainSheet
   rows:
   - cells:
-    - const: "Expected"
+    - expr: =IF( RC[16], "Expected", "FAILED!" )
     - const: "Actual"
     - const: "Inputs"
     - null
@@ -19,6 +19,11 @@ sheets:
     - const: "# of Inputs"
     - const: "Name"
     - const: "Highlight"
+    - const: "OOo says"
+    - const: "Skip for"
+    - const: "Custom check"
+    - null
+    - expr: =AND( R[1]C:R[9999]C )
   - cells:
     - const: 1.0
     - expr: =RC[1]
@@ -31,6 +36,12 @@ sheets:
     - null
     - const: 1.0
     - const: "Relative reference"
+    - null
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: 6.0
     - expr: =((R3C3 + RC3) + R3C[1])
@@ -44,6 +55,11 @@ sheets:
     - const: 1.0
     - const: "Absolute references"
     - const: "$"
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: 3.0
     - expr: =MYCELL
@@ -58,6 +74,11 @@ sheets:
     - const: 1.0
     - const: "Simple name"
     - const: "xx"
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: 8.0
     - expr: =(_MY_CELL_ + _MY_CELL)
@@ -71,6 +92,12 @@ sheets:
     - null
     - const: 1.0
     - const: "Two names for same cell"
+    - null
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: 5.0
     - expr: =_MY.CELL.1X
@@ -84,6 +111,12 @@ sheets:
     - null
     - const: 1.0
     - const: "Unconventional names"
+    - null
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: 6.0
     - expr: =MY23.43CELL
@@ -96,6 +129,13 @@ sheets:
     - null
     - null
     - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: 7.0
     - expr: =_12345
@@ -108,6 +148,13 @@ sheets:
     - null
     - null
     - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: 400.0
     - expr: =((((A1B + A1_) + A1_1) + A_1) + A__1)
@@ -124,6 +171,13 @@ sheets:
     - null
     - null
     - const: 5.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
   - cells:
     - const: 6.0
@@ -137,6 +191,12 @@ sheets:
     - null
     - const: 3.0
     - const: "Range with cell references"
+    - null
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: 15.0
     - expr: =SUM( Range )
@@ -149,6 +209,12 @@ sheets:
     - null
     - const: 3.0
     - const: "Range name"
+    - null
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
   - cells:
     - const: 30.0
@@ -162,6 +228,12 @@ sheets:
     - null
     - const: 2.0
     - const: "References to other sheets"
+    - null
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
 
 - name: SecondSheet
   rows:

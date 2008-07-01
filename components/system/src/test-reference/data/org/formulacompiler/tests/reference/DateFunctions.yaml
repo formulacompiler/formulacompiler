@@ -153,6 +153,24 @@ sheets:
     - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
+    - const: 689706.0
+    - expr: =DATE( RC[1], RC[2], RC[3] )
+    - const: 1888.0
+    - const: 5.0
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
   - cells:
     - const: 2:03:04.000
     - expr: =TIME( RC[1], RC[2], RC[3] )
@@ -644,10 +662,10 @@ sheets:
     - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
-    - const: 0.0
+    - const: "!NUM:FE"
     - expr: =WEEKDAY( RC[1], RC[2] )
     - const: 39454.0
-    - const: 3.0
+    - const: 0.0
     - null
     - null
     - null
@@ -656,7 +674,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - null
+    - err: #NUM!
     - null
     - null
     - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
@@ -720,6 +738,24 @@ sheets:
     - const: 31.0
     - expr: =DAY( RC[1] )
     - const: 3653.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: 4.0
+    - expr: =DAY( RC[1] )
+    - const: 4.0
     - null
     - null
     - null

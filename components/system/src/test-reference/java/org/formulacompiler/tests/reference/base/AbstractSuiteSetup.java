@@ -30,10 +30,10 @@ import junit.framework.TestSuite;
 abstract class AbstractSuiteSetup
 {
 
-	protected static Context newSheetContext( String _fileBaseName )
+	protected static Context newXlsSheetContext( String _fileBaseName )
 	{
 		final Context cx = new Context( _fileBaseName, ".xls" );
-		{
+		if (odsSpreadsheetExists( _fileBaseName ) && !_fileBaseName.equals( "ErrorCells" )) {
 			final Context variant = new Context( _fileBaseName, ".ods" );
 			variant.setRowVerificationTestCaseFactory( ODSRowVerificationTestCase.Factory.INSTANCE );
 			cx.addVariant( variant );
@@ -47,11 +47,29 @@ abstract class AbstractSuiteSetup
 			setup = new RowSetupDefault.Builder();
 		}
 		cx.setRowSetupBuilder( setup );
-		for (Context variant : cx.variants()) {
-			variant.setRowSetupBuilder( setup );
-		}
 
 		return cx;
+	}
+
+	protected static Context newOdsSheetContext( String _fileBaseName )
+	{
+		final Context cx = new Context( _fileBaseName, ".ods" );
+
+		final RowSetup.Builder setup;
+		if (_fileBaseName.contains( "Database" )) {
+			setup = new RowSetupDbAgg.Builder();
+		}
+		else {
+			setup = new RowSetupDefault.Builder();
+		}
+		cx.setRowSetupBuilder( setup );
+
+		return cx;
+	}
+
+	public static boolean odsSpreadsheetExists( String _fileBaseName )
+	{
+		return !_fileBaseName.endsWith( "_CustomDecimalSymbols" );
 	}
 
 	protected static TestSuite newLoader( Context _cx )
