@@ -385,14 +385,28 @@ public final class RuntimeLong_v2 extends Runtime_v2
 
 	public static long fun_CEILING( final long _number, final long _significance, final Context _cx )
 	{
-		long a = _number / _significance;
+		final long a = _number / _significance;
 		if (a < 0) {
 			err_CEILING();
 		}
-		if (a * _significance != _number) {
-			a++;
+		long b = a * _significance;
+		if (b != _number) {
+			b += _significance;
 		}
-		return a * _significance;
+		return b;
+	}
+
+	public static long fun_CEILING_OOo( final long _number, final long _significance, final Context _cx )
+	{
+		final long a = _number / _significance;
+		if (a < 0) {
+			err_CEILING();
+		}
+		long b = a * _significance;
+		if (b != _number && _significance > 0) {
+			b += _significance;
+		}
+		return b;
 	}
 
 	public static long fun_FLOOR( final long _number, final long _significance, final Context _cx )
@@ -402,6 +416,19 @@ public final class RuntimeLong_v2 extends Runtime_v2
 			err_FLOOR();
 		}
 		return a * _significance;
+	}
+
+	public static long fun_FLOOR_OOo( final long _number, final long _significance, final Context _cx )
+	{
+		final long a = _number / _significance;
+		if (a < 0) {
+			err_FLOOR();
+		}
+		long b = a * _significance;
+		if (b != _number && _significance < 0) {
+			b += _significance;
+		}
+		return b;
 	}
 
 	public static long fun_ROUND( final long _val, final long _maxFrac, Context _cx )
@@ -682,6 +709,12 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	public static long fun_TIME( long _hour, long _minute, long _second, Context _cx )
 	{
 		final long seconds = (_hour * SECS_PER_HOUR + _minute * 60 + _second) % (SECS_PER_DAY * _cx.one());
+		return seconds / SECS_PER_DAY;
+	}
+
+	public static long fun_TIME_OOo( long _hour, long _minute, long _second, Context _cx )
+	{
+		final long seconds = _hour * SECS_PER_HOUR + _minute * 60 + _second;
 		return seconds / SECS_PER_DAY;
 	}
 

@@ -270,6 +270,15 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		return a.setScale( 0, RoundingMode.UP ).multiply( _significance, _cx );
 	}
 
+	public static BigDecimal fun_CEILING_OOo( BigDecimal _number, BigDecimal _significance, MathContext _cx )
+	{
+		if (_number.signum() * _significance.signum() < 0) {
+			err_CEILING();
+		}
+		final BigDecimal s = _significance.abs();
+		return _number.divide( s, _cx ).setScale( 0, RoundingMode.CEILING ).multiply( s, _cx );
+	}
+
 	public static BigDecimal fun_FLOOR( BigDecimal _number, BigDecimal _significance, MathContext _cx )
 	{
 		final BigDecimal a = _number.divide( _significance, _cx );
@@ -277,6 +286,15 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			err_FLOOR();
 		}
 		return a.setScale( 0, RoundingMode.DOWN ).multiply( _significance, _cx );
+	}
+
+	public static BigDecimal fun_FLOOR_OOo( BigDecimal _number, BigDecimal _significance, MathContext _cx )
+	{
+		if (_number.signum() * _significance.signum() < 0) {
+			err_CEILING();
+		}
+		final BigDecimal s = _significance.abs();
+		return _number.divide( s, _cx ).setScale( 0, RoundingMode.FLOOR ).multiply( s, _cx );
 	}
 
 	public static BigDecimal fun_RAND()
@@ -642,6 +660,13 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	{
 		final BigDecimal seconds = _hour.multiply( BIG_SECS_PER_HOUR ).add( _minute.multiply( BIG_SECS_PER_MINUTE ) )
 				.add( _second ).remainder( BIG_SECS_PER_DAY );
+		return seconds.divide( BIG_SECS_PER_DAY, _context );
+	}
+
+	public static BigDecimal fun_TIME_OOo( BigDecimal _hour, BigDecimal _minute, BigDecimal _second, MathContext _context )
+	{
+		final BigDecimal seconds = _hour.multiply( BIG_SECS_PER_HOUR ).add( _minute.multiply( BIG_SECS_PER_MINUTE ) )
+				.add( _second );
 		return seconds.divide( BIG_SECS_PER_DAY, _context );
 	}
 

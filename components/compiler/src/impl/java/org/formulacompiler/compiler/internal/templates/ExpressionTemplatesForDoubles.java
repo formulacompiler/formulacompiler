@@ -352,14 +352,24 @@ public final class ExpressionTemplatesForDoubles
 		return Math.PI;
 	}
 
-	public double fun_CEILING( double _number, double _significance )
+	public double fun_CEILING__for_EXCEL( double _number, double _significance )
 	{
 		return RuntimeDouble_v2.fun_CEILING( _number, _significance );
 	}
 
-	public double fun_FLOOR( double _number, double _significance )
+	public double fun_CEILING__for_OPEN_OFFICE_CALC( double _number, double _significance )
+	{
+		return RuntimeDouble_v2.fun_CEILING_OOo( _number, _significance );
+	}
+
+	public double fun_FLOOR__for_EXCEL( double _number, double _significance )
 	{
 		return RuntimeDouble_v2.fun_FLOOR( _number, _significance );
+	}
+
+	public double fun_FLOOR__for_OPEN_OFFICE_CALC( double _number, double _significance )
+	{
+		return RuntimeDouble_v2.fun_FLOOR_OOo( _number, _significance );
 	}
 
 	// Leave this comment in. It is used to cite the code into the documentation.
@@ -604,9 +614,14 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v2.fun_DATE( (int) _year, (int) _month, (int) _day, this.computationMode );
 	}
 
-	public double fun_TIME( double _hour, double _minute, double _second )
+	public double fun_TIME__for_EXCEL( double _hour, double _minute, double _second )
 	{
 		return RuntimeDouble_v2.fun_TIME( _hour, _minute, _second );
+	}
+
+	public double fun_TIME__for_OPEN_OFFICE_CALC( double _hour, double _minute, double _second )
+	{
+		return RuntimeDouble_v2.fun_TIME_OOo( _hour, _minute, _second );
 	}
 
 	public double fun_SECOND( double _date )

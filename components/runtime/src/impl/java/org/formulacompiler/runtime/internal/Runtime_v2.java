@@ -48,6 +48,11 @@ import org.formulacompiler.runtime.FormulaException;
 import org.formulacompiler.runtime.NotAvailableException;
 
 
+/**
+ * Each fun_XXX method corresponds to XXX spreadsheet function.
+ * If there are fun_XXX and fun_XXX_OOo methods, then they both correspond to XXX spreadsheet function,
+ * but fun_XXX is used for Excel computation mode, and fun_XXX_OOo is used for Open Office Calc one.
+ */
 public abstract class Runtime_v2
 {
 

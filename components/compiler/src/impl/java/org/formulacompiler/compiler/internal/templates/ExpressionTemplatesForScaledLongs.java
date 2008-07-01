@@ -404,14 +404,24 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_PI( this.context );
 	}
 
-	public long fun_CEILING( long _number, long _significance )
+	public long fun_CEILING__for_EXCEL( long _number, long _significance )
 	{
 		return RuntimeLong_v2.fun_CEILING( _number, _significance, this.context );
 	}
 
-	public long fun_FLOOR( long _number, long _significance )
+	public long fun_CEILING__for_OPEN_OFFICE_CALC( long _number, long _significance )
+	{
+		return RuntimeLong_v2.fun_CEILING_OOo( _number, _significance, this.context );
+	}
+
+	public long fun_FLOOR__for_EXCEL( long _number, long _significance )
 	{
 		return RuntimeLong_v2.fun_FLOOR( _number, _significance, this.context );
+	}
+
+	public long fun_FLOOR__for_OPEN_OFFICE_CALC( long _number, long _significance )
+	{
+		return RuntimeLong_v2.fun_FLOOR_OOo( _number, _significance, this.context );
 	}
 
 	public long fun_RAND()
@@ -527,8 +537,6 @@ public final class ExpressionTemplatesForScaledLongs
 	public long fun_CRITBINOM( long _n, long _p, long _alpha )
 	{
 		return RuntimeLong_v2.fun_CRITBINOM( _n, _p, _alpha, this.context );
-// final BigDecimal result = RuntimeScaledBigDecimal_v2.fun_RATE( nper, pmt, pv, fv, type, guess,
-// HIGHPREC );
 	}
 
 	public long fun_FINV( long _x, long _f1, long _f2 )
@@ -712,9 +720,14 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_DATE( _year, _month, _day, this.context, this.computationMode );
 	}
 
-	public long fun_TIME( long _hour, long _minute, long _second )
+	public long fun_TIME__for_EXCEL( long _hour, long _minute, long _second )
 	{
 		return RuntimeLong_v2.fun_TIME( _hour, _minute, _second, this.context );
+	}
+
+	public long fun_TIME__for_OPEN_OFFICE_CALC( long _hour, long _minute, long _second )
+	{
+		return RuntimeLong_v2.fun_TIME_OOo( _hour, _minute, _second, this.context );
 	}
 
 	public long fun_SECOND( long _date )
