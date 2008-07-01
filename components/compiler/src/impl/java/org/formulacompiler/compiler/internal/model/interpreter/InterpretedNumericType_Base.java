@@ -110,7 +110,7 @@ abstract class InterpretedNumericType_Base
 		catch (NumberFormatException e) {
 			// continue
 		}
-		return Runtime_v2.parseDateAndOrTime( _s, _env );
+		return Runtime_v2.parseDateAndOrTime( _s, _env, ComputationMode.EXCEL == getComputationMode() );
 	}
 
 

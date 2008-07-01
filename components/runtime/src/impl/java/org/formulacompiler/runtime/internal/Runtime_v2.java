@@ -57,12 +57,12 @@ public abstract class Runtime_v2
 	static final long SECS_PER_DAY = 24 * SECS_PER_HOUR;
 	static final long MS_PER_SEC = 1000;
 	static final long MS_PER_DAY = SECS_PER_DAY * MS_PER_SEC;
-	static final int NON_LEAP_DAY = 61; // LATER Do not use it for OpenDocument
 	static final int UTC_OFFSET_DAYS = 25569;
 	static final int UTC_OFFSET_DAYS_1904 = 24107;
 	static final boolean BASED_ON_1904 = false;
 	protected static Random generator = new Random();
 
+	private static final int NON_LEAP_DAY = 61;
 	private static final BigDecimal MAX_EXP_VALUE = BigDecimal.valueOf( 1, 4 ); // 1E-4
 
 
@@ -139,7 +139,7 @@ public abstract class Runtime_v2
 	}
 
 
-	static Number parseNumber( String _text, boolean _parseBigDecimal, Environment _environment )
+	static Number parseNumber( String _text, boolean _parseBigDecimal, Environment _environment, boolean _dateExcelCompatible )
 	{
 		final String text = _text.toUpperCase( _environment.locale() );
 
@@ -173,7 +173,7 @@ public abstract class Runtime_v2
 		}
 
 		try {
-			return parseDateAndOrTime( text, _environment );
+			return parseDateAndOrTime( text, _environment, _dateExcelCompatible );
 		}
 		catch (ParseException e) {
 			return null;
@@ -226,42 +226,42 @@ public abstract class Runtime_v2
 
 	// ---- Excel date conversion; copied from JExcelAPI (DateRecord.java)
 
-	public static Date dateFromDouble( double _excel, TimeZone _timeZone )
+	static Date dateFromDouble( double _dateAsNum, TimeZone _timeZone, boolean _excelCompatible )
 	{
-		return new Date( msSinceUTC1970FromDouble( _excel, _timeZone ) );
+		return new Date( msSinceUTC1970FromDouble( _dateAsNum, _timeZone, _excelCompatible ) );
 	}
 
-	public static long msSinceUTC1970FromDouble( double _excel, TimeZone _timeZone )
+	static long msSinceUTC1970FromDouble( double _dateAsNum, TimeZone _timeZone, boolean _excelCompatible )
 	{
-		final long msSinceLocal1970 = msSinceLocal1970FromExcelDate( _excel );
+		final long msSinceLocal1970 = msSinceLocal1970FromDate( _dateAsNum, _excelCompatible );
 		final int timeZoneOffset = _timeZone.getOffset( msSinceLocal1970 - _timeZone.getRawOffset() );
 		final long msSinceUTC1970 = msSinceLocal1970 - timeZoneOffset;
 		return msSinceUTC1970;
 	}
 
-	public static long msFromDouble( double _excel )
+	public static long msFromDouble( double _date )
 	{
-		final long ms = Math.round( _excel * SECS_PER_DAY ) * MS_PER_SEC;
+		final long ms = Math.round( _date * SECS_PER_DAY ) * MS_PER_SEC;
 		return ms;
 	}
 
-	public static double dateToDouble( Date _date, TimeZone _timeZone )
+	static double dateToDouble( Date _date, TimeZone _timeZone, boolean _excelCompatible )
 	{
 		if (_date == null) {
 			return 0;
 		}
 		else {
 			final long msSinceLocal1970 = dateToMsSinceLocal1970( _date, _timeZone );
-			final double excel = msSinceLocal1970ToExcelDate( msSinceLocal1970 );
+			final double excel = msSinceLocal1970ToDateNum( msSinceLocal1970, _excelCompatible );
 			return excel;
 		}
 	}
 
-	public static double msSinceUTC1970ToDouble( long _msSinceUTC1970, TimeZone _timeZone )
+	static double msSinceUTC1970ToDouble( long _msSinceUTC1970, TimeZone _timeZone, boolean _excelCompatible )
 	{
 		final int timeZoneOffset = _timeZone.getOffset( _msSinceUTC1970 );
 		final long msSinceLocal1970 = _msSinceUTC1970 + timeZoneOffset;
-		final double excel = msSinceLocal1970ToExcelDate( msSinceLocal1970 );
+		final double excel = msSinceLocal1970ToDateNum( msSinceLocal1970, _excelCompatible );
 		return excel;
 	}
 
@@ -271,16 +271,16 @@ public abstract class Runtime_v2
 		return excel;
 	}
 
-	private static long msSinceLocal1970FromExcelDate( double _excelDate )
+	private static long msSinceLocal1970FromDate( double _date, final boolean _excelCompatible )
 	{
-		final boolean time = (Math.abs( _excelDate ) < 1);
-		double numValue = checkDouble( _excelDate );
+		final boolean time = (Math.abs( _date ) < 1);
+		double numValue = checkDouble( _date );
 
 		// Work round a bug in excel. Excel seems to think there is a date
 		// called the 29th Feb, 1900 - but in actual fact this was not a leap year.
 		// Therefore for values less than 61 in the 1900 date system,
 		// add one to the numeric value
-		if (!BASED_ON_1904 && !time && numValue < NON_LEAP_DAY) {
+		if (_excelCompatible && !BASED_ON_1904 && !time && numValue < NON_LEAP_DAY) {
 			numValue += 1;
 		}
 
@@ -295,7 +295,7 @@ public abstract class Runtime_v2
 		return msSinceLocal1970;
 	}
 
-	private static double msSinceLocal1970ToExcelDate( final long _msSinceLocal1970 )
+	private static double msSinceLocal1970ToDateNum( final long _msSinceLocal1970, final boolean _excelCompatible )
 	{
 		// Convert this to the number of days, plus fractions of a day since
 		// 01 Jan 1970
@@ -308,7 +308,7 @@ public abstract class Runtime_v2
 		// called the 29th Feb, 1900 - but this was not a leap year.
 		// Therefore for values less than 61, we must subtract 1. Only do
 		// this for full dates, not times
-		if (value < NON_LEAP_DAY) {
+		if (_excelCompatible && value < NON_LEAP_DAY) {
 			value -= 1;
 		}
 
@@ -883,15 +883,15 @@ public abstract class Runtime_v2
 	 * @return date in numeric representation
 	 * @throws java.text.ParseException if string cannot be parsed as date.
 	 */
-	public static double parseDateAndOrTime( String _s, final Environment _env ) throws ParseException
+	public static double parseDateAndOrTime( String _s, final Environment _env, boolean _excelCompatible ) throws ParseException
 	{
 		if (isISODate( _s, '-' )) {
 			final Date date = parseISODateAndOptionallyTime( _s, '-', _env );
-			return dateToDouble( date, _env.timeZone() );
+			return dateToDouble( date, _env.timeZone(), _excelCompatible );
 		}
 		if (isISODate( _s, '/' )) {
 			final Date date = parseISODateAndOptionallyTime( _s, '/', _env );
-			return dateToDouble( date, _env.timeZone() );
+			return dateToDouble( date, _env.timeZone(), _excelCompatible );
 		}
 
 		final TimeZone tz = _env.timeZone();
@@ -989,9 +989,9 @@ public abstract class Runtime_v2
 			if (year < 10 && !_s.contains( "000" )) {
 				cal.set( Calendar.YEAR, year + 2000 );
 				final Date fixed = cal.getTime();
-				return dateToDouble( fixed, tz );
+				return dateToDouble( fixed, tz, _excelCompatible );
 			}
-			return dateToDouble( parsed, tz );
+			return dateToDouble( parsed, tz, _excelCompatible );
 		}
 		else {
 			return msToDouble( parsed.getTime() + tz.getRawOffset() );

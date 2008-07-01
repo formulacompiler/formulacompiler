@@ -104,7 +104,7 @@ sheets:
     - const: 0.0
   - cells:
     - const: "nulldate"
-    - const: -1.0
+    - const: 0.0
   - cells:
     - const: "nulltime"
     - const: 0:00:00.000

@@ -49,14 +49,14 @@ public class RuntimeTest extends TestCase
 		assertDate( env, 2007, 6, 3, "3.6.7" );
 		assertDate( env, 7, 6, 3, "3.6.0007" );
 
-		assertDateOrTime( env, 1970, 6, 13, 12, 15, 16, "13.6.70 12:15:16" );
-		assertDateOrTime( env, 1970, 6, 13, 12, 15, 0, "13.6.70 12:15" );
+		assertDateTime( env, 1970, 6, 13, 12, 15, 16, "13.6.70 12:15:16" );
+		assertDateTime( env, 1970, 6, 13, 12, 15, 0, "13.6.70 12:15" );
 
 		assertTime( env, 12, 15, 16, "12:15:16" );
 		assertTime( env, 12, 15, 0, "12:15" );
 
-		assertDateOrTime( env, 2000, 1, 1, 12, 15, 16, "1.1.00 12:15:16" );
-		assertDateOrTime( env, 2000, 1, 1, 12, 15, 0, "1.1.00 12:15" );
+		assertDateTime( env, 2000, 1, 1, 12, 15, 16, "1.1.00 12:15:16" );
+		assertDateTime( env, 2000, 1, 1, 12, 15, 0, "1.1.00 12:15" );
 
 		assertISO( env );
 	}
@@ -74,15 +74,15 @@ public class RuntimeTest extends TestCase
 		assertDate( env, 2007, 6, 3, "6/3/7" );
 		assertDate( env, 7, 6, 3, "6/3/0007" );
 
-		assertDateOrTime( env, 1970, 6, 13, 0, 15, 16, "6/13/70 12:15:16 am" );
-		assertDateOrTime( env, 1970, 6, 13, 0, 15, 0, "6/13/70 12:15 am" );
-		assertDateOrTime( env, 1970, 6, 13, 12, 15, 16, "6/13/70 12:15:16 pm" );
-		assertDateOrTime( env, 1970, 6, 13, 12, 15, 0, "6/13/70 12:15 pm" );
+		assertDateTime( env, 1970, 6, 13, 0, 15, 16, "6/13/70 12:15:16 am" );
+		assertDateTime( env, 1970, 6, 13, 0, 15, 0, "6/13/70 12:15 am" );
+		assertDateTime( env, 1970, 6, 13, 12, 15, 16, "6/13/70 12:15:16 pm" );
+		assertDateTime( env, 1970, 6, 13, 12, 15, 0, "6/13/70 12:15 pm" );
 
-		assertDateOrTime( env, 1970, 6, 13, 0, 15, 16, "6/13/70 0:15:16" );
-		assertDateOrTime( env, 1970, 6, 13, 0, 15, 0, "6/13/70 0:15" );
-		assertDateOrTime( env, 1970, 6, 13, 12, 15, 16, "6/13/70 12:15:16" );
-		assertDateOrTime( env, 1970, 6, 13, 12, 15, 0, "6/13/70 12:15" );
+		assertDateTime( env, 1970, 6, 13, 0, 15, 16, "6/13/70 0:15:16" );
+		assertDateTime( env, 1970, 6, 13, 0, 15, 0, "6/13/70 0:15" );
+		assertDateTime( env, 1970, 6, 13, 12, 15, 16, "6/13/70 12:15:16" );
+		assertDateTime( env, 1970, 6, 13, 12, 15, 0, "6/13/70 12:15" );
 
 		assertTime( env, 0, 15, 16, "0:15:16 am" );
 		assertTime( env, 0, 15, 0, "0:15 am" );
@@ -99,8 +99,8 @@ public class RuntimeTest extends TestCase
 		assertTime( env, 12, 15, 16, "12:15:16" );
 		assertTime( env, 12, 15, 0, "12:15" );
 
-		assertDateOrTime( env, 2000, 1, 1, 0, 15, 16, "1/1/00 12:15:16 am" );
-		assertDateOrTime( env, 2000, 1, 1, 0, 15, 0, "1/1/00 12:15 am" );
+		assertDateTime( env, 2000, 1, 1, 0, 15, 16, "1/1/00 12:15:16 am" );
+		assertDateTime( env, 2000, 1, 1, 0, 15, 0, "1/1/00 12:15 am" );
 
 		assertISO( env );
 	}
@@ -115,8 +115,8 @@ public class RuntimeTest extends TestCase
 		assertDate( env, 1997, 12, 31, "31.12.1997" );
 		// LATER assertDate( env, 1997, 12, 31, "31/12/1997" );
 		assertDate( env, 1997, 12, 31, "1997-12-31" );
-		assertDateOrTime( env, 1970, 11, 6, 12, 15, 16, "6.11.70 12:15:16" );
-		assertDateOrTime( env, 1970, 11, 6, 12, 15, 0, "6.11.70 12:15" );
+		assertDateTime( env, 1970, 11, 6, 12, 15, 16, "6.11.70 12:15:16" );
+		assertDateTime( env, 1970, 11, 6, 12, 15, 0, "6.11.70 12:15" );
 		assertTime( env, 12, 15, 16, "12:15:16" );
 		assertTime( env, 14, 15, 0, "14:15" );
 		assertISO( env );
@@ -154,30 +154,53 @@ public class RuntimeTest extends TestCase
 	private void assertDateOrTime( Environment _env, int _year, int _month, int _day, int _hours, int _minutes,
 			int _seconds, String _toParse, char _dateSep ) throws Exception
 	{
-		assertDateOrTime( _env, _year, _month, _day, _hours, _minutes, _seconds, _toParse.replace( '-', _dateSep ) );
+		assertDateTime( _env, _year, _month, _day, _hours, _minutes, _seconds, _toParse.replace( '-', _dateSep ) );
 	}
 
 
 	private void assertDate( Environment _env, int _year, int _month, int _day, String _toParse ) throws Exception
 	{
-		assertEquals( "Parsing " + _toParse + " failed. Expected " + formatDate( _year, _month, _day ),
-				RuntimeDouble_v2.dateToNum( _year, _month, _day ),
-				Runtime_v2.parseDateAndOrTime( _toParse, _env ), 1e-9 );
+		assertDate( _env, _year, _month, _day, _toParse, true );
+		assertDate( _env, _year, _month, _day, _toParse, false );
 	}
 
-	private void assertDateOrTime( Environment _env, int _year, int _month, int _day, int _hours, int _minutes,
+	private void assertDate( Environment _env, int _year, int _month, int _day, String _toParse,
+			boolean _excelCompatible ) throws Exception
+	{
+		assertEquals( "Parsing " + _toParse + " failed. Expected " + formatDate( _year, _month, _day ),
+				RuntimeDouble_v2.dateToNum( _year, _month, _day, _excelCompatible ),
+				Runtime_v2.parseDateAndOrTime( _toParse, _env, _excelCompatible ), 1e-9 );
+	}
+
+	private void assertDateTime( Environment _env, int _year, int _month, int _day, int _hours, int _minutes,
 			int _seconds, String _toParse ) throws Exception
+	{
+		assertDateTime( _env, _year, _month, _day, _hours, _minutes, _seconds, _toParse, true );
+		assertDateTime( _env, _year, _month, _day, _hours, _minutes, _seconds, _toParse, false );
+	}
+
+	private void assertDateTime( Environment _env, int _year, int _month, int _day,
+			int _hours, int _minutes, int _seconds, String _toParse, boolean _excelCompatible ) throws Exception
 	{
 		assertEquals( "Parsing " + _toParse + " failed. Expected " + formatDate( _year, _month, _day ) +
 				" " + formatTime( _hours, _minutes, _seconds ),
-				RuntimeDouble_v2.dateToNum( _year, _month, _day ) + RuntimeDouble_v2.fun_TIME( _hours, _minutes, _seconds ),
-				Runtime_v2.parseDateAndOrTime( _toParse, _env ), 1e-9 );
+				RuntimeDouble_v2.dateToNum( _year, _month, _day, _excelCompatible ) +
+						RuntimeDouble_v2.fun_TIME( _hours, _minutes, _seconds ),
+				Runtime_v2.parseDateAndOrTime( _toParse, _env, _excelCompatible ), 1e-9 );
 	}
 
 	private void assertTime( Environment _env, int _hours, int _minutes, int _seconds, String _toParse ) throws Exception
 	{
+		assertTime( _env, _hours, _minutes, _seconds, _toParse, true );
+		assertTime( _env, _hours, _minutes, _seconds, _toParse, false );
+	}
+
+	private void assertTime( Environment _env, int _hours, int _minutes, int _seconds, String _toParse,
+			boolean _excelCompatible ) throws Exception
+	{
 		assertEquals( "Parsing " + _toParse + " failed. Expected " + formatTime( _hours, _minutes, _seconds ),
-				RuntimeDouble_v2.fun_TIME( _hours, _minutes, _seconds ), Runtime_v2.parseDateAndOrTime( _toParse, _env ), 1e-9 );
+				RuntimeDouble_v2.fun_TIME( _hours, _minutes, _seconds ),
+				Runtime_v2.parseDateAndOrTime( _toParse, _env, _excelCompatible ), 1e-9 );
 	}
 
 	private String formatDate( int _year, int _month, int _day )

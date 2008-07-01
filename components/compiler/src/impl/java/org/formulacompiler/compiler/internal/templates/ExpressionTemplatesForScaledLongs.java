@@ -128,12 +128,12 @@ public final class ExpressionTemplatesForScaledLongs
 
 	long util_fromDate( Date a )
 	{
-		return RuntimeLong_v2.dateToNum( a, this.context, this.environment.timeZone() );
+		return RuntimeLong_v2.dateToNum( a, this.context, this.environment.timeZone(), this.computationMode );
 	}
 
 	long util_fromMsSinceUTC1970( long a )
 	{
-		return RuntimeLong_v2.msSinceUTC1970ToNum( a, this.context, this.environment.timeZone() );
+		return RuntimeLong_v2.msSinceUTC1970ToNum( a, this.context, this.environment.timeZone(), this.computationMode );
 	}
 
 	long util_fromMs( long a )
@@ -211,12 +211,12 @@ public final class ExpressionTemplatesForScaledLongs
 
 	Date util_toDate( long a )
 	{
-		return RuntimeLong_v2.dateFromNum( a, this.context, this.environment.timeZone() );
+		return RuntimeLong_v2.dateFromNum( a, this.context, this.environment.timeZone(), this.computationMode );
 	}
 
 	long util_toMsSinceUTC1970( long a )
 	{
-		return RuntimeLong_v2.msSinceUTC1970FromNum( a, this.context, this.environment.timeZone() );
+		return RuntimeLong_v2.msSinceUTC1970FromNum( a, this.context, this.environment.timeZone(), this.computationMode );
 	}
 
 	long util_toMs( long a )
@@ -709,7 +709,7 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long fun_DATE( long _year, long _month, long _day )
 	{
-		return RuntimeLong_v2.fun_DATE( _year, _month, _day, this.context );
+		return RuntimeLong_v2.fun_DATE( _year, _month, _day, this.context, this.computationMode );
 	}
 
 	public long fun_TIME( long _hour, long _minute, long _second )
@@ -739,42 +739,42 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long fun_WEEKDAY( long _date, long _type )
 	{
-		return RuntimeLong_v2.fun_WEEKDAY( _date, _type, this.context );
+		return RuntimeLong_v2.fun_WEEKDAY( _date, _type, this.context, this.computationMode );
 	}
 
 	public long fun_WEEKDAY( long _date )
 	{
-		return RuntimeLong_v2.fun_WEEKDAY( _date, this.context.one(), this.context );
+		return RuntimeLong_v2.fun_WEEKDAY( _date, this.context.one(), this.context, this.computationMode );
 	}
 
 	public long fun_DAY( long _date )
 	{
-		return RuntimeLong_v2.fun_DAY( _date, this.context );
+		return RuntimeLong_v2.fun_DAY( _date, this.context, this.computationMode );
 	}
 
 	public long fun_DAYS360( long _date_start, long _end_start, long _method )
 	{
-		return RuntimeLong_v2.fun_DAYS360( _date_start, _end_start, _method != 0, this.context );
+		return RuntimeLong_v2.fun_DAYS360( _date_start, _end_start, _method != 0, this.context, this.computationMode );
 	}
 
 	public long fun_MONTH( long _date )
 	{
-		return RuntimeLong_v2.fun_MONTH( _date, this.context );
+		return RuntimeLong_v2.fun_MONTH( _date, this.context, this.computationMode );
 	}
 
 	public long fun_YEAR( long _date )
 	{
-		return RuntimeLong_v2.fun_YEAR( _date, this.context );
+		return RuntimeLong_v2.fun_YEAR( _date, this.context, this.computationMode );
 	}
 
 	public long fun_NOW()
 	{
-		return RuntimeLong_v2.fun_NOW( this.context, this.environment, this.computationTime );
+		return RuntimeLong_v2.fun_NOW( this.context, this.environment, this.computationTime, this.computationMode );
 	}
 
 	public long fun_TODAY()
 	{
-		return RuntimeLong_v2.fun_TODAY( this.context, this.environment, this.computationTime );
+		return RuntimeLong_v2.fun_TODAY( this.context, this.environment, this.computationTime, this.computationMode );
 	}
 
 
@@ -783,17 +783,17 @@ public final class ExpressionTemplatesForScaledLongs
 
 	public long fun_VALUE( String _text )
 	{
-		return RuntimeLong_v2.fun_VALUE( _text, this.context, this.environment );
+		return RuntimeLong_v2.fun_VALUE( _text, this.context, this.environment, this.computationMode );
 	}
 
 	public long fun_DATEVALUE( String _text )
 	{
-		return RuntimeLong_v2.fun_DATEVALUE( _text, this.context, this.environment );
+		return RuntimeLong_v2.fun_DATEVALUE( _text, this.context, this.environment, this.computationMode );
 	}
 
 	public long fun_TIMEVALUE( String _text )
 	{
-		return RuntimeLong_v2.fun_TIMEVALUE( _text, this.context, this.environment );
+		return RuntimeLong_v2.fun_TIMEVALUE( _text, this.context, this.environment, this.computationMode );
 	}
 
 }

@@ -215,7 +215,7 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 			final Object value;
 			if (null != this.globalTimeFormat
 					&& this.globalTimeFormat.equals( xlsDateCell.getCellFormat().getFormat().getFormatString() )) {
-				value = RuntimeDouble_v2.dateFromNum( xlsDateCell.getValue(), this.globalTimeZone );
+				value = RuntimeDouble_v2.dateFromNum( xlsDateCell.getValue(), this.globalTimeZone, ComputationMode.EXCEL );
 			}
 			else if (xlsDateCell.isTime()) {
 				value = new Duration( xlsDateCell.getValue() );

@@ -29,8 +29,9 @@ import java.math.RoundingMode;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.formulacompiler.runtime.NotAvailableException;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.FormulaException;
+import org.formulacompiler.runtime.NotAvailableException;
 
 
 public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
@@ -114,14 +115,30 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	}
 
 
+	/**
+	 * @deprecated replaced by {@link #dateFromNum(BigDecimal,TimeZone,ComputationMode)}
+	 */
 	public static Date dateFromNum( final BigDecimal _excel, final TimeZone _timeZone )
 	{
-		return RuntimeDouble_v2.dateFromNum( _excel.doubleValue(), _timeZone );
+		return dateFromNum( _excel, _timeZone, ComputationMode.EXCEL );
 	}
 
+	public static Date dateFromNum( final BigDecimal _date, final TimeZone _timeZone, ComputationMode _mode )
+	{
+		return RuntimeDouble_v2.dateFromNum( _date.doubleValue(), _timeZone, _mode );
+	}
+
+	/**
+	 * @deprecated replaced by {@link #dateToNum(Date,TimeZone,ComputationMode)}
+	 */
 	public static BigDecimal dateToNum( final Date _date, final TimeZone _timeZone )
 	{
-		return valueOf( RuntimeDouble_v2.dateToNum( _date, _timeZone ) );
+		return dateToNum( _date, _timeZone, ComputationMode.EXCEL );
+	}
+
+	public static BigDecimal dateToNum( final Date _date, final TimeZone _timeZone, ComputationMode _mode )
+	{
+		return valueOf( RuntimeDouble_v2.dateToNum( _date, _timeZone, _mode ) );
 	}
 
 	public static BigDecimal valueOf( final double _value )
@@ -502,59 +519,123 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	}
 
 
+	/**
+	 * @deprecated replaced by {@link #fun_DATE(BigDecimal,BigDecimal,BigDecimal,ComputationMode)}
+	 */
 	public static BigDecimal fun_DATE( BigDecimal _year, BigDecimal _month, BigDecimal _day )
+	{
+		return fun_DATE( _year, _month, _day, ComputationMode.EXCEL );
+	}
+
+	public static BigDecimal fun_DATE( BigDecimal _year, BigDecimal _month, BigDecimal _day, ComputationMode _mode )
 	{
 		final int year = _year.intValue();
 		final int month = _month.intValue();
 		final int day = _day.intValue();
-		final double result = RuntimeDouble_v2.fun_DATE( year, month, day );
+		final double result = RuntimeDouble_v2.fun_DATE( year, month, day, _mode );
 		return valueOf( result );
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_WEEKDAY(BigDecimal,BigDecimal,ComputationMode)}
+	 */
 	public static BigDecimal fun_WEEKDAY( BigDecimal _date, BigDecimal _type )
+	{
+		return fun_WEEKDAY( _date, _type, ComputationMode.EXCEL );
+	}
+
+	public static BigDecimal fun_WEEKDAY( BigDecimal _date, BigDecimal _type, ComputationMode _mode )
 	{
 		final double date = _date.doubleValue();
 		final int type = _type.intValue();
-		final int result = RuntimeDouble_v2.fun_WEEKDAY( date, type );
+		final int result = RuntimeDouble_v2.fun_WEEKDAY( date, type, _mode );
 		return valueOf( result );
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_DAY(BigDecimal,ComputationMode)}
+	 */
 	public static BigDecimal fun_DAY( BigDecimal _date )
 	{
+		return fun_DAY( _date, ComputationMode.EXCEL );
+	}
+
+	public static BigDecimal fun_DAY( BigDecimal _date, ComputationMode _mode )
+	{
 		final double date = _date.doubleValue();
-		final int result = RuntimeDouble_v2.fun_DAY( date );
+		final int result = RuntimeDouble_v2.fun_DAY( date, _mode );
 		return valueOf( result );
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_DAYS360(BigDecimal,BigDecimal,boolean,ComputationMode)}
+	 */
 	public static BigDecimal fun_DAYS360( BigDecimal _start_date, BigDecimal _end_date, boolean _method )
 	{
-		return BigDecimal.valueOf( RuntimeDouble_v2.fun_DAYS360( _start_date.doubleValue(), _end_date.doubleValue(),
-				_method ) );
+		return fun_DAYS360( _start_date, _end_date, _method, ComputationMode.EXCEL );
 	}
 
+	public static BigDecimal fun_DAYS360( BigDecimal _start_date, BigDecimal _end_date, boolean _method, ComputationMode _mode )
+	{
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_DAYS360( _start_date.doubleValue(), _end_date.doubleValue(),
+				_method, _mode ) );
+	}
+
+	/**
+	 * @deprecated replaced by {@link #fun_MONTH(BigDecimal,ComputationMode)}
+	 */
 	public static BigDecimal fun_MONTH( BigDecimal _date )
 	{
+		return fun_MONTH( _date, ComputationMode.EXCEL );
+	}
+
+	public static BigDecimal fun_MONTH( BigDecimal _date, ComputationMode _mode )
+	{
 		final double date = _date.doubleValue();
-		final int result = RuntimeDouble_v2.fun_MONTH( date );
+		final int result = RuntimeDouble_v2.fun_MONTH( date, _mode );
 		return valueOf( result );
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_YEAR(BigDecimal,ComputationMode)}
+	 */
 	public static BigDecimal fun_YEAR( BigDecimal _date )
 	{
+		return fun_YEAR( _date, ComputationMode.EXCEL );
+	}
+
+	public static BigDecimal fun_YEAR( BigDecimal _date, ComputationMode _mode )
+	{
 		final double date = _date.doubleValue();
-		final int result = RuntimeDouble_v2.fun_YEAR( date );
+		final int result = RuntimeDouble_v2.fun_YEAR( date, _mode );
 		return valueOf( result );
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_NOW(Environment,ComputationTime,ComputationMode)}
+	 */
 	public static BigDecimal fun_NOW( final Environment _environment, final ComputationTime _computationTime )
 	{
-		return dateToNum( now( _computationTime ), _environment.timeZone() );
+		return fun_NOW( _environment, _computationTime, ComputationMode.EXCEL );
 	}
 
+	public static BigDecimal fun_NOW( final Environment _environment, final ComputationTime _computationTime, ComputationMode _mode )
+	{
+		return dateToNum( now( _computationTime ), _environment.timeZone(), _mode );
+	}
+
+	/**
+	 * @deprecated replaced by {@link #fun_TODAY(Environment,ComputationTime,ComputationMode)}
+	 */
 	public static BigDecimal fun_TODAY( final Environment _environment, final ComputationTime _computationTime )
 	{
+		return fun_TODAY( _environment, _computationTime, ComputationMode.EXCEL );
+	}
+
+	public static BigDecimal fun_TODAY( final Environment _environment, final ComputationTime _computationTime, ComputationMode _mode )
+	{
 		final TimeZone timeZone = _environment.timeZone();
-		return dateToNum( today( timeZone, _computationTime ), timeZone );
+		return dateToNum( today( timeZone, _computationTime ), timeZone, _mode );
 	}
 
 	public static BigDecimal fun_TIME( BigDecimal _hour, BigDecimal _minute, BigDecimal _second, MathContext _context )
@@ -808,10 +889,18 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	}
 
 
+	/**
+	 * @deprecated replaced by {@link #fun_VALUE(String,Environment,ComputationMode)}
+	 */
 	public static BigDecimal fun_VALUE( String _text, final Environment _environment )
 	{
+		return fun_VALUE( _text, _environment, ComputationMode.EXCEL );
+	}
+
+	public static BigDecimal fun_VALUE( String _text, final Environment _environment, ComputationMode _mode )
+	{
 		final String text = _text.trim();
-		final Number number = parseNumber( text, true, _environment );
+		final Number number = parseNumber( text, true, _environment, _mode == ComputationMode.EXCEL );
 		if (number != null) {
 			if (number instanceof BigDecimal) {
 				return (BigDecimal) number;
@@ -828,14 +917,30 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		}
 	}
 
+	/**
+	 * @deprecated replaced by {@link #fun_DATEVALUE(String,Environment,ComputationMode)}
+	 */
 	public static BigDecimal fun_DATEVALUE( String _text, final Environment _environment )
 	{
-		return valueOf( RuntimeDouble_v2.fun_DATEVALUE( _text, _environment ) );
+		return fun_DATEVALUE( _text, _environment, ComputationMode.EXCEL );
 	}
 
+	public static BigDecimal fun_DATEVALUE( String _text, final Environment _environment, ComputationMode _mode )
+	{
+		return valueOf( RuntimeDouble_v2.fun_DATEVALUE( _text, _environment, _mode ) );
+	}
+
+	/**
+	 * @deprecated replaced by {@link #fun_TIMEVALUE(String,Environment,ComputationMode)}
+	 */
 	public static BigDecimal fun_TIMEVALUE( String _text, final Environment _environment )
 	{
-		return valueOf( RuntimeDouble_v2.fun_TIMEVALUE( _text, _environment ) );
+		return fun_TIMEVALUE( _text, _environment, ComputationMode.EXCEL );
+	}
+
+	public static BigDecimal fun_TIMEVALUE( String _text, final Environment _environment, ComputationMode _mode )
+	{
+		return valueOf( RuntimeDouble_v2.fun_TIMEVALUE( _text, _environment, _mode ) );
 	}
 
 	public static int fun_MATCH_Exact( BigDecimal _x, BigDecimal[] _xs )

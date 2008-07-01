@@ -88,12 +88,12 @@ public final class ExpressionTemplatesForDoubles
 
 	double util_fromDate( Date a )
 	{
-		return RuntimeDouble_v2.dateToNum( a, this.environment.timeZone() );
+		return RuntimeDouble_v2.dateToNum( a, this.environment.timeZone(), this.computationMode );
 	}
 
 	double util_fromMsSinceUTC1970( long a )
 	{
-		return RuntimeDouble_v2.msSinceUTC1970ToNum( a, this.environment.timeZone() );
+		return RuntimeDouble_v2.msSinceUTC1970ToNum( a, this.environment.timeZone(), this.computationMode );
 	}
 
 	double util_fromMs( long a )
@@ -154,12 +154,12 @@ public final class ExpressionTemplatesForDoubles
 
 	Date util_toDate( double a )
 	{
-		return RuntimeDouble_v2.dateFromNum( a, this.environment.timeZone() );
+		return RuntimeDouble_v2.dateFromNum( a, this.environment.timeZone(), this.computationMode );
 	}
 
 	long util_toMsSinceUTC1970( double a )
 	{
-		return RuntimeDouble_v2.msSinceUTC1970FromNum( a, this.environment.timeZone() );
+		return RuntimeDouble_v2.msSinceUTC1970FromNum( a, this.environment.timeZone(), this.computationMode );
 	}
 
 	long util_toMs( double a )
@@ -601,7 +601,7 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_DATE( double _year, double _month, double _day )
 	{
-		return RuntimeDouble_v2.fun_DATE( (int) _year, (int) _month, (int) _day );
+		return RuntimeDouble_v2.fun_DATE( (int) _year, (int) _month, (int) _day, this.computationMode );
 	}
 
 	public double fun_TIME( double _hour, double _minute, double _second )
@@ -632,42 +632,42 @@ public final class ExpressionTemplatesForDoubles
 
 	public double fun_WEEKDAY( double _date, double _type )
 	{
-		return RuntimeDouble_v2.fun_WEEKDAY( _date, (int) Math.round( _type ) );
+		return RuntimeDouble_v2.fun_WEEKDAY( _date, (int) Math.round( _type ), this.computationMode );
 	}
 
 	public double fun_WEEKDAY( double _date )
 	{
-		return RuntimeDouble_v2.fun_WEEKDAY( _date, 1 );
+		return RuntimeDouble_v2.fun_WEEKDAY( _date, 1, this.computationMode );
 	}
 
 	public double fun_DAY( double _date )
 	{
-		return RuntimeDouble_v2.fun_DAY( _date );
+		return RuntimeDouble_v2.fun_DAY( _date, this.computationMode );
 	}
 
 	public double fun_DAYS360( double _start_date, double _end_date, double _method )
 	{
-		return RuntimeDouble_v2.fun_DAYS360( _start_date, _end_date, _method != 0 );
+		return RuntimeDouble_v2.fun_DAYS360( _start_date, _end_date, _method != 0, this.computationMode );
 	}
 
 	public double fun_MONTH( double _date )
 	{
-		return RuntimeDouble_v2.fun_MONTH( _date );
+		return RuntimeDouble_v2.fun_MONTH( _date, this.computationMode );
 	}
 
 	public double fun_YEAR( double _date )
 	{
-		return RuntimeDouble_v2.fun_YEAR( _date );
+		return RuntimeDouble_v2.fun_YEAR( _date, this.computationMode );
 	}
 
 	public double fun_NOW()
 	{
-		return RuntimeDouble_v2.fun_NOW( this.environment, this.computationTime );
+		return RuntimeDouble_v2.fun_NOW( this.environment, this.computationTime, this.computationMode );
 	}
 
 	public double fun_TODAY()
 	{
-		return RuntimeDouble_v2.fun_TODAY( this.environment, this.computationTime );
+		return RuntimeDouble_v2.fun_TODAY( this.environment, this.computationTime, this.computationMode );
 	}
 
 
@@ -678,18 +678,18 @@ public final class ExpressionTemplatesForDoubles
 	// ---- fun_VALUE
 	public double fun_VALUE( String _text )
 	{
-		return RuntimeDouble_v2.fun_VALUE( _text, this.environment );
+		return RuntimeDouble_v2.fun_VALUE( _text, this.environment, this.computationMode );
 	}
 	// ---- fun_VALUE
 
 	public double fun_DATEVALUE( String _text )
 	{
-		return RuntimeDouble_v2.fun_DATEVALUE( _text, this.environment );
+		return RuntimeDouble_v2.fun_DATEVALUE( _text, this.environment, this.computationMode );
 	}
 
 	public double fun_TIMEVALUE( String _text )
 	{
-		return RuntimeDouble_v2.fun_TIMEVALUE( _text, this.environment );
+		return RuntimeDouble_v2.fun_TIMEVALUE( _text, this.environment, this.computationMode );
 	}
 
 }

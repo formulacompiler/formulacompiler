@@ -35,6 +35,7 @@ import javax.xml.stream.events.XMLEvent;
 
 import org.formulacompiler.compiler.internal.Duration;
 import org.formulacompiler.compiler.internal.LocalDate;
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
 import org.formulacompiler.spreadsheet.internal.CellRefFormat;
@@ -189,7 +190,7 @@ class CellParser implements ElementListener
 		}
 		else if (ValueTypes.DATE.equals( cellValueType )) {
 			final Date date = DataTypeUtil.dateFromXmlFormat( this.tableCell.dateValue, DataTypeUtil.GMT_TIME_ZONE );
-			final double dateNum = RuntimeDouble_v2.dateToNum( date, DataTypeUtil.GMT_TIME_ZONE );
+			final double dateNum = RuntimeDouble_v2.dateToNum( date, DataTypeUtil.GMT_TIME_ZONE, ComputationMode.OPEN_OFFICE_CALC );
 			value = new LocalDate( dateNum );
 		}
 		else if (ValueTypes.TIME.equals( cellValueType )) {
