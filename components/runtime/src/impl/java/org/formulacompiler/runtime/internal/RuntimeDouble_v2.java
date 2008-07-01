@@ -63,6 +63,16 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return roundUp( a ) * _significance;
 	}
 
+	public static double fun_CEILING_OOo( final double _number, final double _significance )
+	{
+		if ((_number > 0 && _significance < 0) || (_number < 0 && _significance > 0)) {
+			err_CEILING();
+		}
+		final double s = Math.abs( _significance );
+		final double a = _number / s;
+		return Math.ceil( a ) * s;
+	}
+
 	public static double fun_FLOOR( final double _number, final double _significance )
 	{
 		final double a = _number / _significance;
@@ -70,6 +80,16 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			err_FLOOR();
 		}
 		return roundDown( a ) * _significance;
+	}
+
+	public static double fun_FLOOR_OOo( final double _number, final double _significance )
+	{
+		if ((_number > 0 && _significance < 0) || (_number < 0 && _significance > 0)) {
+			err_CEILING();
+		}
+		final double s = Math.abs( _significance );
+		final double a = _number / s;
+		return Math.floor( a ) * s;
 	}
 
 	public static double fun_RAND()
@@ -285,7 +305,8 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	public static int fun_WEEKDAY( final double _date, int _type, ComputationMode _mode )
 	{
 		final int dayOfWeek = getCalendarValueFromNum( _date, Calendar.DAY_OF_WEEK, _mode );
-		switch (_type) {
+		int type = (_type < 1 || _type > 3) && _mode == ComputationMode.OPEN_OFFICE_CALC ? 3 : _type;
+		switch (type) {
 			case 1:
 				return dayOfWeek;
 			case 2:
@@ -435,6 +456,12 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	public static double fun_TIME( double _hour, double _minute, double _second )
 	{
 		final long seconds = ((long) _hour * SECS_PER_HOUR + (long) _minute * 60 + (long) _second) % SECS_PER_DAY;
+		return (double) seconds / SECS_PER_DAY;
+	}
+
+	public static double fun_TIME_OOo( double _hour, double _minute, double _second )
+	{
+		final long seconds = ((long) _hour * SECS_PER_HOUR + (long) _minute * 60 + (long) _second);
 		return (double) seconds / SECS_PER_DAY;
 	}
 

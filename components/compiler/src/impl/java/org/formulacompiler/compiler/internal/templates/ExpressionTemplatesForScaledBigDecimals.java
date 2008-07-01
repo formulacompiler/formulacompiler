@@ -119,14 +119,24 @@ public final class ExpressionTemplatesForScaledBigDecimals extends AbstractExpre
 		return RuntimeScaledBigDecimal_v2.fun_RADIANS( a );
 	}
 
-	public BigDecimal fun_CEILING( BigDecimal _number, BigDecimal _significance )
+	public BigDecimal fun_CEILING__for_EXCEL( BigDecimal _number, BigDecimal _significance )
 	{
 		return RuntimeBigDecimal_v2.fun_CEILING( _number, _significance, HIGHPREC );
 	}
 
-	public BigDecimal fun_FLOOR( BigDecimal _number, BigDecimal _significance )
+	public BigDecimal fun_CEILING__for_OPEN_OFFICE_CALC( BigDecimal _number, BigDecimal _significance )
+	{
+		return RuntimeBigDecimal_v2.fun_CEILING_OOo( _number, _significance, HIGHPREC );
+	}
+
+	public BigDecimal fun_FLOOR__for_EXCEL( BigDecimal _number, BigDecimal _significance )
 	{
 		return RuntimeBigDecimal_v2.fun_FLOOR( _number, _significance, HIGHPREC );
+	}
+
+	public BigDecimal fun_FLOOR__for_OPEN_OFFICE_CALC( BigDecimal _number, BigDecimal _significance )
+	{
+		return RuntimeBigDecimal_v2.fun_FLOOR_OOo( _number, _significance, HIGHPREC );
 	}
 
 	public BigDecimal fun_POWER( BigDecimal n, BigDecimal p )
@@ -212,9 +222,14 @@ public final class ExpressionTemplatesForScaledBigDecimals extends AbstractExpre
 	// ------------------------------------------------ Date Functions
 
 
-	public BigDecimal fun_TIME( BigDecimal _hour, BigDecimal _minute, BigDecimal _second )
+	public BigDecimal fun_TIME__for_EXCEL( BigDecimal _hour, BigDecimal _minute, BigDecimal _second )
 	{
-		return RuntimeScaledBigDecimal_v2.fun_TIME( _hour, _minute, _second, HIGHPREC );
+		return RuntimeBigDecimal_v2.fun_TIME( _hour, _minute, _second, HIGHPREC );
+	}
+
+	public BigDecimal fun_TIME__for_OPEN_OFFICE_CALC( BigDecimal _hour, BigDecimal _minute, BigDecimal _second )
+	{
+		return RuntimeBigDecimal_v2.fun_TIME_OOo( _hour, _minute, _second, HIGHPREC );
 	}
 
 
