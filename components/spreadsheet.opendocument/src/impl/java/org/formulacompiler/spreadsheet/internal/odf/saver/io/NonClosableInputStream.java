@@ -22,69 +22,20 @@
 
 package org.formulacompiler.spreadsheet.internal.odf.saver.io;
 
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class NonClosableInputStream extends InputStream
+public class NonClosableInputStream extends FilterInputStream
 {
-	private final InputStream inputStream;
-
 	public NonClosableInputStream( final InputStream _inputStream )
 	{
-		this.inputStream = _inputStream;
-	}
-
-	@Override
-	public int read() throws IOException
-	{
-		return this.inputStream.read();
-	}
-
-	@Override
-	public int read( final byte[] b ) throws IOException
-	{
-		return this.inputStream.read( b );
-	}
-
-	@Override
-	public int read( final byte[] b, final int off, final int len ) throws IOException
-	{
-		return this.inputStream.read( b, off, len );
-	}
-
-	@Override
-	public long skip( final long n ) throws IOException
-	{
-		return this.inputStream.skip( n );
-	}
-
-	@Override
-	public int available() throws IOException
-	{
-		return this.inputStream.available();
+		super( _inputStream );
 	}
 
 	@Override
 	public void close() throws IOException
 	{
 		// Do not close.
-	}
-
-	@Override
-	public synchronized void mark( final int readlimit )
-	{
-		this.inputStream.mark( readlimit );
-	}
-
-	@Override
-	public synchronized void reset() throws IOException
-	{
-		this.inputStream.reset();
-	}
-
-	@Override
-	public boolean markSupported()
-	{
-		return this.inputStream.markSupported();
 	}
 }
