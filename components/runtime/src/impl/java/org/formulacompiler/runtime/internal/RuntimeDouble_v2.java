@@ -350,7 +350,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	@Deprecated
 	public static double fun_DAYS360( double _start_date, double _end_date, boolean _method )
 	{
-		return fun_DAYS360(_start_date, _end_date, _method, ComputationMode.EXCEL );
+		return fun_DAYS360( _start_date, _end_date, _method, ComputationMode.EXCEL );
 	}
 
 	public static double fun_DAYS360( double _start_date, double _end_date, boolean _method, ComputationMode _mode )
