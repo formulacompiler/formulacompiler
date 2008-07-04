@@ -22,11 +22,6 @@
 
 package org.formulacompiler.compiler.internal;
 
-import java.util.Date;
-import java.util.TimeZone;
-
-import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
-
 public final class LocalDate extends Number
 {
 	private final double value;
