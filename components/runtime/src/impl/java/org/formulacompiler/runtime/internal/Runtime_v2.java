@@ -65,6 +65,7 @@ public abstract class Runtime_v2
 	static final int UTC_OFFSET_DAYS = 25569;
 	static final int UTC_OFFSET_DAYS_1904 = 24107;
 	static final boolean BASED_ON_1904 = false;
+	static final TimeZone GMT_TIME_ZONE = TimeZone.getTimeZone( "GMT" );
 	protected static Random generator = new Random();
 
 	private static final int NON_LEAP_DAY = 61;
@@ -929,7 +930,6 @@ public abstract class Runtime_v2
 		else format = timeFormat;
 
 		format.setLenient( true );
-		format.setTimeZone( tz );
 
 		final String defaultPattern = format.toPattern();
 		String effectivePattern = defaultPattern;
@@ -984,9 +984,10 @@ public abstract class Runtime_v2
 		if (!effectivePattern.equals( defaultPattern )) {
 			format.applyPattern( effectivePattern.trim() );
 		}
-		final Date parsed = format.parse( _s );
 
 		if (hasDate) {
+			format.setTimeZone( tz );
+			final Date parsed = format.parse( _s );
 			// Java will parse 6/3/7 as 6/3/0007, but Excel as 6/3/2007
 			Calendar cal = Calendar.getInstance( tz, loc );
 			cal.setTime( parsed );
@@ -999,7 +1000,9 @@ public abstract class Runtime_v2
 			return dateToDouble( parsed, tz, _excelCompatible );
 		}
 		else {
-			return msToDouble( parsed.getTime() + tz.getRawOffset() );
+			format.setTimeZone( GMT_TIME_ZONE );
+			final Date parsed = format.parse( _s );
+			return msToDouble( parsed.getTime() );
 		}
 	}
 

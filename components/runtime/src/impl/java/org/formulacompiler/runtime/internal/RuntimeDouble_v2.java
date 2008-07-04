@@ -283,7 +283,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	static double dateToNum( final int _year, final int _month, final int _day, boolean _excelCompatible )
 	{
-		final Calendar calendar = new GregorianCalendar( TimeZone.getTimeZone( "GMT" ) );
+		final Calendar calendar = new GregorianCalendar( GMT_TIME_ZONE );
 		calendar.clear();
 		calendar.setLenient( true );
 		calendar.set( Calendar.YEAR, _year );
@@ -419,7 +419,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	private static GregorianCalendar getGregorianCalendarInstanceFromNum( double _date, ComputationMode _mode )
 	{
-		final GregorianCalendar calendar = new GregorianCalendar( TimeZone.getTimeZone( "GMT" ) );
+		final GregorianCalendar calendar = new GregorianCalendar( GMT_TIME_ZONE );
 		final TimeZone timeZone = calendar.getTimeZone();
 		final Date date = dateFromNum( _date, timeZone, _mode );
 		calendar.setTime( date );
