@@ -186,7 +186,6 @@ public class SectionOutputTest extends AbstractIOTestCase
 		dets.defineOutputCell( _sht.getCell( "SectionOutput" + _type ), call( DetailOutput.class, "output" ) );
 	}
 
-	@SuppressWarnings( "unchecked" )
 	private CallFrame call( Class _cls, String _mtd ) throws Exception
 	{
 		return FormulaCompiler.newCallFrame( _cls.getMethod( _mtd ) );
