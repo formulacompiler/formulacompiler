@@ -1,0 +1,34 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: test
+  rows:
+  - cells:
+    - const: "Anzahl"
+    - const: 10.0
+      names: [ Anzahl ]
+  - cells:
+    - const: "Einzelpreis"
+    - const: 100.0
+      names: [ Einzelpreis ]
+  - cells:
+    - const: "Total"
+    - expr: =(Anzahl * Einzelpreis)
+      names: [ Total ]
+  - cells:
+  - cells:
+  - cells:
+  - cells:
+    - const: "Rabatte"
+    - const: 0.1
+  - cells:
+    - null
+    - const: 0.15
+  - cells:
+    - null
+    - const: 0.05
+
+names:

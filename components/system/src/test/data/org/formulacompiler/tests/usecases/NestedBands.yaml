@@ -1,0 +1,111 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - null
+    - null
+    - const: "Menge"
+    - const: "Preis"
+    - const: "Total exkl."
+    - const: "MWSt-Satz"
+    - const: "Anteil"
+    - const: "Betrag"
+    - const: "MWSt-Satz"
+    - const: "Anteil"
+    - const: "Betrag"
+    - const: "Total inkl."
+  - cells:
+  - cells:
+    - null
+    - const: "Position 1"
+    - const: 3.0
+    - const: 3100.0
+    - expr: =(RC[-2] * RC[-1])
+    - const: 0.076
+    - const: 0.8
+    - expr: =((RC5 * RC[-1]) * RC[-2])
+    - const: 0.02
+    - const: 0.2
+    - expr: =((RC5 * RC[-1]) * RC[-2])
+    - expr: =(RC[-7] + SUM( RC[-4], RC[-1] ))
+  - cells:
+    - null
+    - const: "Position 2"
+    - const: 5.0
+    - const: 480.0
+    - expr: =(RC[-2] * RC[-1])
+    - const: 0.076
+    - const: 1.0
+    - expr: =((RC5 * RC[-1]) * RC[-2])
+    - null
+    - null
+    - expr: =((RC5 * RC[-1]) * RC[-2])
+    - expr: =(RC[-7] + SUM( RC[-4], RC[-1] ))
+  - cells:
+  - cells:
+    - null
+    - const: "TOTAL"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =SUM( R[-3]C:R[-2]C )
+  - cells:
+  - cells:
+    - null
+    - const: "MWSt"
+    - const: 0.076
+  - cells:
+    - null
+    - null
+    - const: 0.02
+
+- name: Sheet2
+  rows:
+  - cells:
+    - const: "Category"
+    - const: "Amount"
+    - const: "Totals"
+  - cells:
+  - cells:
+    - const: "One"
+    - null
+    - expr: =SUM( R[1]C[-1]:R[3]C[-1] )
+  - cells:
+    - null
+    - const: 100.0
+  - cells:
+    - null
+    - const: 200.0
+  - cells:
+    - null
+    - const: 300.0
+  - cells:
+  - cells:
+    - const: "Two"
+    - null
+    - expr: =SUM( R[1]C[-1]:R[3]C[-1] )
+  - cells:
+    - null
+    - const: 50.0
+  - cells:
+    - null
+    - const: 80.0
+  - cells:
+    - null
+    - const: 90.0
+  - cells:
+  - cells:
+    - null
+    - null
+    - expr: =SUM( R[-10]C:R[-2]C )

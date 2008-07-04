@@ -1,0 +1,263 @@
+
+h1. Spreadsheet Functions To Implement
+
+This document is based mainly on the requirements set forth in the "OpenDocument OpenFormula specification":-ofspec as of November 2007. The first goal is to achieve reasonable compatibility with the "Small" group of functionality, then "Medium". _Reasonable_ here means where other important goals of AFC do not conflict with the demands of the spec. An example is nulls, which conflict with AFC's goal to compile to primitive types.
+
+Another source is the set of functions implemented in "Jedox's Worksheet Server":-jedox (also  as of November 2007). It adds little to the "Medium" group, so I suggest we aim first for "Medium" and then for the Jedox set.
+
+Finally, we have for the moment decided to not support function from the Excel Analysis ToolPak (mainly because parsing them is also not supported by "JExcelAPI":-jxl).
+
+<%= toc 2, 4 %>
+
+
+h2. "Small" Group
+
+Here's what the "document":-ofspec says about the "Small" group:
+
+<blockquote>
+
+For an application to claim that it conforms to the "Small" group of functionality, it shall:
+
+	* Support at least the limits defined in the "Basic Limits" section.
+	
+	* Support the relevant syntax required in these sections on syntax: Criteria; Namespace Selection; Basic Expressions; Constant Numbers; Constant Strings; Operators; Functions and Function Parameters; Nonstandard Function Names; References; Simple Named Expressions; External Named Expressions; Sheet-local Named Expressions; Errors; Whitespace
+	
+	* Implement all implicit conversions for its applicable types: at least Text, Conversion to Number, Reference, Conversion to Logical, and Error
+	
+	* Implement the following operators (which are all the operators except reference union (@~@)):  Infix Operator Ordered Comparison (@<@, @<=@, @>@, @>=@);  Infix Operator @&@; Infix Operator @+@; Infix Operator @-@; Infix Operator @*@; Infix Operator @/@; Infix Operator @^@; Infix Operator @=@; Infix Operator @<>@; Postfix Operator @%@; Prefix Operator @+@; Prefix Operator @-@; Infix Operator Reference Intersection (@!@); Infix Operator Range (@:@)
+	
+	* Implement the following 109 functions as defined in this specification: ABS; ACOS; AND; ASIN; ATAN; ATAN2; AVERAGE; CHOOSE; COLUMNS; COS; COUNT; COUNTA; COUNTBLANK; COUNTIF; DATE; DAVERAGE; DAY; DCOUNT; DCOUNTA; DDB; DEGREES; DGET; DMAX; DMIN; DPRODUCT; DSTDEV; DSTDEVP; DSUM; DVAR; DVARP; EVEN; EXACT; EXP; FACT; FALSE; FIND; FV; HLOOKUP; HOUR; IF; INDEX; INT; IRR; ISBLANK; ISERR; ISERROR; ISLOGICAL; ISNA; ISNONTEXT; ISNUMBER; ISTEXT; LEFT; LEN; LN; LOG; LOG10; LOWER; MATCH; MAX; MID; MIN; MINUTE; MOD; MONTH; N; NA; NOT; NOW; NPER; NPV; ODD; OR; PI; PMT; POWER; PRODUCT; PROPER; PV; RADIANS; RATE; REPLACE; REPT; RIGHT; ROUND; ROWS; SECOND; SIN; SLN; SQRT; STDEV; STDEVP; SUBSTITUTE; SUM; SUMIF; SYD; T; TAN; TIME; TODAY; TRIM; TRUE; TRUNC; UPPER; VALUE; VAR; VARP; VLOOKUP; WEEKDAY; YEAR
+
+</blockquote>
+
+
+h3. What's missing?
+
+h4. Syntax
+
+	* Namespace selection.
+	* Forced recalc (second @=@).
+	* Intersection of row/col labels, @!!@.
+	* Exponential notation, eg. @1.0e-10@.
+	* Omitting the leading @0@ in decimals, as in @.54@.
+	* Duplicate double quote as escape for double quote in the string.
+
+h4. Conversions
+
+	* AFC currently does not filter out non-numeric cells from aggregators such as @SUM@. Nor does it filter booleans.
+	* AFC currently does not treat @'true@ as @TRUE@ and @'false@ as @FALSE@.
+	* AFC, since it does not differentiate boolean types, cannot convert @TRUE@ to @'true@ and @FALSE@ to @'false@.
+
+h4. Operators
+
+	* Not sure if @^@ is left associative. Not sure if unary @+@ and @-@ bind stronger than @^@.
+	* Infix Reference Intersection (@!@) is missing. Excel syntax is a space.
+	* Union (@~@) is not required for "Small", but implemented with Excel syntax (@,@).
+
+h4. Functions
+
+	* @TRUE; FALSE@ are implemented, but not yet parsed with trailing @()@.
+	* @<%= read_closest_file "nyi_small.inc" %>@ are not yet implemented.
+
+
+h3. Implementation Notes
+
+The function @COLUMNS; ROWS@ probably need to be implemented using direct bytecode generation.
+	
+
+
+h2. "Medium" Group
+
+This is what the "document":-ofspec says about the "Medium" group:
+
+<blockquote>
+
+Applications that conform to the "medium" group shall conform to the "small" group, and in addition, shall implement the following functions as defined in this specification:
+
+ACCRINT; ACCRINTM; ACOSH; ADDRESS; ASINH; ATANH; AVEDEV; BESSELI; BESSELJ; BESSELK; BESSELY; BETADIST; BETAINV; BINOMDIST; CEILING; CELL; CHAR; CHIDIST; CHIINV; CHITEST; CLEAN; CODE; COLUMN; COMBIN; CONCATENATE; CONFIDENCE; CONVERT; CORREL; COSH; COUPDAYBS; COUPDAYS; COUPDAYSNC; COUPNCD; COUPNUM; COUPPCD; COVAR; CRITBINOM; CUMIPMT; CUMPRINC; DATEDIF; DATEVALUE; DAYS360; DB; DEVSQ; DISC; DOLLAR; DOLLARDE; DOLLARFR; DURATION; EOMONTH; ERF; ERFC; EXPONDIST; FDIST; FINV; FISHER; FISHERINV; FIXED; FLOOR; FORECAST; FTEST; GAMMADIST; GAMMAINV; GAMMALN; GCD; GEOMEAN; HARMEAN; HYPGEOMDIST; INTERCEPT; INTRATE; ISEVEN; ISODD; KURT; LARGE; LCM; LINEST; LOGINV; LOGNORMDIST; LOOKUP; MDURATION; MEDIAN; MINVERSE; MIRR; MMULT; MODE; MROUND; MULTINOMIAL; NEGBINOMDIST; NETWORKDAYS; NOMINAL; NORMDIST; NORMINV; NORMSDIST; NORMSINV; ODDFPRICE; ODDFYIELD; ODDLPRICE; ODDLYIELD; OFFSET; PEARSON; PERCENTILE; PERCENTRANK; PERMUT; POISSON; PRICE; PRICEMAT; PROB; QUARTILE; QUOTIENT; RAND; RANDBETWEEN; RANK; RECEIVED; ROMAN; ROUNDDOWN; ROUNDUP; ROW; RSQ; SERIESSUM; SIGN; SINH; SKEW; SLOPE; SMALL; SQRTPI; STANDARDIZE; STDEVPA; STEYX; SUBTOTAL; SUMPRODUCT; SUMSQ; SUMX2MY2; SUMX2PY2; SUMXMY2; TANH; TBILLEQ; TBILLPRICE; TBILLYIELD; TDIST; TIMEVALUE; TINV; TRANSPOSE; TREND; TRIMMEAN; TTEST; TYPE; VARA; VDB; WEEKNUM; WEIBULL; WORKDAY; XIRR; XNPV; YEARFRAC; YIELD; YIELDDISC; YIELDMAT; ZTEST
+
+Applications that implement the medium group shall implement the "Infix Operator Reference Union (@~@)" and the ability to have references with more than one area.
+
+</blockquote>
+
+
+h3. What's missing?
+
+h4. Operators
+
+	* Union (@~@) is only implemented with Excel syntax (@,@).
+
+h4. Functions
+
+	* @<%= read_closest_file "nyi_medium.inc" %>@ are not yet implemented.
+	* @<%= read_closest_file "nyi_medium_toolpak.inc" %>@ from the Excel Analysis ToolPak are not yet implemented.
+
+
+h3. Implementation Notes
+
+	* @LCM@ probably needs additional compiler support.
+	* @OFFSET@ probably needs direct bytecode generation.
+	* @LINEST; MINVERSE; MMULT; TRANSPOSE; TREND@ are matrix or array returning functions (not yet supportable).
+	* @ADDRESS; CELL; COLUMN; CONVERT; ROW; SUBTOTAL; TYPE@ do not make much sense for AFC to support.
+	
+
+
+h2. "Large" Group
+
+This is what the "document":-ofspec says about the "Large" group:
+
+<blockquote>
+
+Applications that conform to the "large" group shall conform to the "medium" group, and shall also support the requirements given in these sections on syntax: "Inline Arrays"; "Automatic Intersection". Applications conforming to the large group shall implement the complex number type, as discussed in the section on "Complex Number", and "array formulas".
+
+In addition, applications that conform to the large group shall implement the following functions as defined in this specification:
+
+ACOT; ACOTH; AMORDEGRC; AMORLINC; ARABIC; AREAS; ASC; AVERAGEA; B; BAHTTEXT; BASE; BIN2DEC; BIN2HEX; BIN2OCT; BITAND; BITLSHIFT; BITOR; BITRSHIFT; BITXORCEILING; COMBINA; COMPLEX; COT; COTH; CURRENT; DAYS; DBSC; DDE; DEC2BIN; DEC2HEX; DEC2OCT; DECIMAL; DELTA; EDATE; EFFECT; EFFECTIVE; ERROR.TYPE; FACTDOUBLE; FINDB; FORMULA; FREQUENCY; FVSCHEDULE; GAMMA; GAUSS; GESTEP; GETPIVOTDATA; GROWTH; HEX2BIN; HEX2DEC; HEX2OCT; HYPERLINK; HYPGEOMVERT; IMABS; IMAGINARY; IMARGUMENT; IMCONJUGATE; IMCOS; IMDIV; IMEXP; IMLN; IMLOG10; IMLOG2; IMPOWER; IMPRODUCT; IMREAL; IMSIN; IMSQRT; IMSUB; IMSUM; INDIRECT; INFO; IPMT; ISFORMULA; ISPMT; ISREF; LEFTB; LENB; MAXA; MDETERM; MUNIT; MIDB; MINA; MNORMSINV; NUMBERSTRING; OCT2BIN; OCT2DEC; OCT2HEX; PERMUTATIONA; PHI; PHONETIC; PPMT; PRICEDISC; REPLACEB; RIGHTB; RRI; RTD; SEARCH; SEARCHB; SHEET; SHEETS; TEXT; USDOLLAR; VALUEL; VARPA; XOR
+
+</blockquote>
+
+h3. What's missing?
+
+h4. Syntax
+
+	* All except "Automatic Intersection".
+
+h4. Functions
+
+	* @<%= read_closest_file "nyi_large.inc" %>@ are not yet implemented.
+
+
+	
+h2. Jedox Functions
+
+Here's what "Jedox's Worksheet Server":-jedox currently implements:
+
+ABS; 
+ACOS; 
+AND; 
+ASIN; 
+ATAN; 
+AVERAGE; 
+CEILING; 
+CHAR; 
+CHECKBOX; 
+CODE; 
+CHOOSE; 
+COS; 
+COUNTIF; 
+COUNT; 
+COUNTA; 
+CONCATENATE; 
+DATE; 
+DATEVALUE; 
+DAY; 
+DB; 
+DDB; 
+EXACT; 
+EXP; 
+EOMONTH; 
+FIND; 
+FLOOR; 
+FIXED; 
+FLOOR; 
+FV; 
+HYPERLINK; 
+HOUR; 
+IF; 
+INDEX; 
+INT; 
+INTERCEPT; 
+IPMT; 
+IRR; 
+ISERR; 
+ISERROR; 
+ISNUMBER; 
+ISNUMERIC; 
+ISREF; 
+ISTEXT; 
+LARGE; 
+LEFT; 
+LEN; 
+LIN; 
+LOG; 
+LOOKUP; 
+LOWER; 
+MATCH; 
+MAX; 
+MEDIAN; 
+MIN; 
+MIRR; 
+MAX; 
+MOD; 
+MINUTE; 
+MONTH; 
+MROUND; 
+MOD; 
+MONTH; 
+NOT; 
+NOW; 
+NPER; 
+NPV; 
+OFFSET (Das erste Argument darf nicht eine einzelne Zelle sein, der maximale Bereich muss hier definiert);
+OR; 
+PI; 
+PMT; 
+POWER; 
+PPMT; 
+PRODUCT
+PROPER; 
+PV; 
+RANK; 
+RATE; 
+REPLACE; 
+REPT; 
+RIGHT; 
+RMZ; 
+ROUND; 
+ROUNDDOWN;
+ROUNDUP; 
+SEARCH; 
+SIGN; 
+SLN; 
+SLOPE; 
+SMALL; 
+SQRT; 
+SUBSTITUTE (the optional Parameter "Instance_Num" is not supported);
+SUM; 
+SUMIF; 
+SUMPRODUCT; 
+SUMSQ; 
+SYD; 
+TAN; 
+TIME; 
+TREND; 
+TRIM; 
+TEXT; 
+TODAY; 
+TRUNC; 
+UPPER; 
+VALUE; 
+VDB; 
+VLOOKUP; 
+WORKDAY; 
+YEAR
+
+
+h3. What does this add to OpenFormula?
+
+h4. "Small"
+
+CEILING; CHAR; CHECKBOX; CODE; CONCATENATE; DATEVALUE; DB; EOMONTH; FLOOR; FIXED; FLOOR; HYPERLINK; INTERCEPT; IPMT; ISNUMERIC; ISREF; LARGE; LIN; LOOKUP; MEDIAN; MIRR; MROUND; OFFSET; PPMT; RANK; RMZ; ROUNDDOWN; ROUNDUP; SEARCH; SIGN; SLOPE; SMALL; SUMPRODUCT; SUMSQ; TREND; TEXT; VDB; WORKDAY
+
+h4. "Medium"
+
+CHECKBOX; HYPERLINK; IPMT; ISNUMERIC; ISREF; LIN; PPMT; RMZ; SEARCH; TEXT
+
+
+h3. What's missing?
+
+h4. Functions
+
+	* @<%= read_closest_file "nyi_jedox.inc" %>@ are not yet implemented.
+	* @<%= read_closest_file "nyi_jedox_toolpak.inc" %>@ from the Excel Analysis ToolPak are not yet implemented.
+

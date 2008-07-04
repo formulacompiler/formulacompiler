@@ -1,0 +1,51 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+  - cells:
+    - const: "Inputs"
+  - cells:
+    - const: "I_One"
+    - const: 10.0
+      names: [ I_One ]
+  - cells:
+    - const: "I_Two"
+    - const: 20.0
+      names: [ I_Two ]
+  - cells:
+    - const: "I_Three"
+    - const: 30.0
+      names: [ I_Three ]
+  - cells:
+  - cells:
+    - const: "Intermediates"
+  - cells:
+    - const: "OneTwo"
+    - expr: =SUM( I_One, I_Two )
+      names: [ OneTwo ]
+  - cells:
+    - const: "TwoThree"
+    - expr: =SUM( I_Two, I_Three )
+      names: [ TwoThree ]
+  - cells:
+  - cells:
+    - const: "Outputs"
+  - cells:
+    - const: "O_OneTwoThree"
+    - expr: =SUM( R[-9]C:R[-7]C )
+      names: [ O_OneTwoThree ]
+  - cells:
+    - const: "O_SumInter"
+    - expr: =SUM( R[-5]C:R[-4]C )
+      names: [ O_SumInter ]
+  - cells:
+    - const: "Complex"
+    - expr: =(SUM( R[-11]C:R[-9]C ) - 1.0)
+      names: [ Complex ]
+
+names:

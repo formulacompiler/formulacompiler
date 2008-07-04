@@ -1,0 +1,46 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "Input Values"
+  - cells:
+    - const: "Article Price"
+    - const: 500.0
+  - cells:
+    - const: "Item Count"
+    - const: 5.0
+  - cells:
+    - const: "Customer Category"
+    - const: "C"
+  - cells:
+  - cells:
+    - const: "Intermediate Values"
+  - cells:
+    - const: "Categories"
+    - const: "A"
+    - const: "B"
+    - const: "C"
+    - const: "D"
+  - cells:
+    - const: "Rebates"
+    - const: 0.06
+    - const: 0.04
+    - const: 0.01
+    - const: 0.0
+  - cells:
+    - const: "Effective Rebate"
+    - expr: =HLOOKUP( R[-5]C, R[-2]C:R[-1]C[3], 2.0 )
+  - cells:
+    - const: "Base Price"
+    - expr: =(R[-8]C * R[-7]C)
+  - cells:
+  - cells:
+    - const: "Output Values"
+  - cells:
+    - const: "Price"
+    - expr: =(R[-3]C * (1.0 - R[-4]C))

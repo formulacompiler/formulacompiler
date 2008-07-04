@@ -1,0 +1,14 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "value"
+    - const: 3.0
+  - cells:
+    - const: "result"
+    - expr: =R[-1]C

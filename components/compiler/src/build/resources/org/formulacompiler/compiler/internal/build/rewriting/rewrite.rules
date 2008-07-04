@@ -1,0 +1,981 @@
+/*
+ * Copyright (c) 2006, 2008 by Abacus Research AG, Switzerland.
+ * All rights reserved.
+ *
+ * This file is part of the Abacus Formula Compiler (AFC).
+ *
+ * For commercial licensing, please contact sales(at)formulacompiler.com.
+ *
+ * AFC is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * AFC is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+ /**
+  * Rules to rewrite higher-level spreadsheet functions to lower-level functions and operators.
+  */
+rules {
+
+
+	// -------- Basic aggregators
+
+
+	/* The folds are not inlined here so they can be used to rewrite the database aggregators too.
+	 */
+
+	rewrite counta( xs* ) = COUNT( xs )
+
+	// citation: sum
+	def sum = fold/reduce with s = 0 each xi as s = s + xi end
+	rewrite sum( xs* ) = apply sum to list xs
+	// citation: sum
+
+	def product = fold/reduce with s = 1 each xi as s = s * xi when empty 0 end
+	rewrite product( xs* ) = apply product to list xs
+
+	def min = fold/reduce with m = _maxvalue each xi as m = m _min_ xi when empty 0 end
+	def max = fold/reduce with m = _minvalue each xi as m = m _max_ xi when empty 0 end
+	rewrite min( xs* ) = apply min to list xs
+	rewrite max( xs* ) = apply max to list xs
+
+	def average = fold/reduce with s = 0 each xi as s = s + xi with count n into s/n end
+	rewrite average( xs* ) = apply average to list xs
+
+	def varp = fold with s = 0, ss = 0
+		each xi as s = s + xi, ss = ss + xi * xi
+		with count n into (ss - s*s/n) / n
+		end
+	rewrite varp( xs* ) = apply varp to list xs
+
+	// citation: var
+	def var =
+		fold with
+			s = 0,
+			ss = 0
+		each xi as
+			s = s + xi,
+			ss = ss + xi * xi
+		with count n into
+			(ss - s*s/n) / (n - 1)
+		end
+	rewrite var( xs* ) = apply var to list xs
+	// citation: var
+
+    // input parameters are not checked
+	rewrite vara( xs* ) = VAR( xs )
+
+	rewrite stdevp( xs* ) = SQRT( VARP( xs ))
+	rewrite stdevpa( xs* ) = STDEVP( xs )
+	rewrite stdev( xs* ) = SQRT( VAR( xs ))
+
+	def get =
+		fold with
+			r = 0
+		each xi as
+			r = xi
+		with count n into
+			(if n = 0 then err( "#VALUE! because selection empty in DGET" )
+			else if n > 1 then err( "#NUM! because selection ambiguous in DGET" )
+			else r)
+		end
+
+
+	// -------- Mathematical functions
+
+
+	// citation: combin
+	rewrite combin( n, k ) =
+		if OR( n < 0, k < 0, n < k ) then err( "#NUM! because n < 0 or k < 0 or n < k in COMBIN" )
+		else if n = k then 1
+		else if k = 1 then n
+		else
+			FACT(n) / FACT(k) / FACT(n-k)
+	// citation: combin
+
+	rewrite permut( n, k ) =
+		let ni = INT(n)
+		let ki = INT(k)
+		in
+			if ni < 0 then err( "#NUM! because n < 0 in PERMUT" )
+			else if ki < 0 then err( "#NUM! because k < 0 in PERMUT" )
+			else if ni < ki then err( "#NUM! because n < k in PERMUT" )
+			else FACT( ni ) / FACT( ni - ki )
+
+	rewrite geomean( xs* ) =
+		apply
+			fold/reduce with
+				errFlag = 0,
+				p = 1
+			each xi as
+				errFlag = (if xi <= 0 then 1 else errFlag),
+				p = p * xi
+			with count n into
+				if errFlag <> 0 then err( "#NUM! because xi <= 0 in GEOMEAN" )
+				else p^(1 / n)
+			end
+		to list xs
+
+	rewrite harmean( xs* ) =
+		apply
+			fold with
+				errFlag = 0,
+				r = 0
+			each xi as
+				errFlag = (if xi <= 0 then 1 else errFlag),
+				r = if xi <> 0 then r + 1 / xi else r
+			with count n into
+				if errFlag <> 0 then err( "#NUM! because xi <= 0 in HARMEAN" )
+				else n / r
+			end
+		to list xs
+
+
+	// -------- Financial functions
+
+
+	// citation: npv
+	rewrite npv( rate, vs# ) =
+		let rate1 = rate + 1
+		in
+			apply
+				iterate with
+					r = 0
+				index i
+				each vi as
+					r = r + vi / rate1 ^ i
+				end
+			to vectors {vs}
+	// citation: npv
+
+	rewrite mirr( vs#, frate, rrate ) =
+		let n = COUNT( vs )
+		let rrate1 = rrate + 1
+		let frate1 = frate + 1
+		in
+			apply
+				iterate with r1 = 0, r2 = 0 index i each vi
+				as
+					r1 = r1 + (if vi > 0 then vi  * rrate1^(n-i) else 0),
+					r2 = r2 + (if vi < 0 then vi  / frate1^(i-1) else 0)
+				into
+					(-r1 / r2) ^ (1 / (n-1)) - 1
+				end
+			to vectors {vs}
+
+	rewrite sln( cost, salvage, life ) = (cost - salvage) / life
+	rewrite syd( cost, salvage, life, per ) = (cost - salvage) * (life - per + 1) * 2 / (life * (life + 1))
+
+	rewrite fv( rate, nper, pmt, pv, type ) =
+		if rate = 0 then -pv - pmt*nper
+		else
+			let p = (rate + 1)^nper
+			let k = IF( type > 0, rate + 1, 1 )
+			in -pv * p - pmt * (p - 1) * k / rate
+
+	rewrite fv( rate, nper, pmt, pv ) = FV( rate, nper, pmt, pv, 0 )
+	rewrite fv( rate, nper, pmt ) = FV( rate, nper, pmt, 0, 0 )
+
+	rewrite nper( rate, pmt, pv, fv, type ) =
+	if rate = 0 then -(pv + fv) / pmt
+	else
+		let a = (if type > 0 then pmt * (1 + rate) else pmt)
+		in LOG( -(rate * fv - a) / (rate * pv + a), 1 + rate )
+
+	rewrite nper( rate, pmt, pv, fv ) = NPER( rate, pmt, pv, fv, 0 )
+	rewrite nper( rate, pmt, pv ) = NPER( rate, pmt, pv, 0, 0 )
+
+	rewrite pv( rate, nper, pmt, fv, type ) =
+		if rate = 0 then -fv - pmt * nper
+		else
+			let a = 1 + rate
+			let b = -fv * ( a ^ -nper )
+			in
+				if type > 0
+				then b + (pmt * (( a ^ ( -nper + 1 )) - 1) / rate) - pmt
+				else b + (pmt * (( a ^ -nper ) - 1) / rate)
+
+	rewrite pv( rate, nper, pmt, fv ) = PV (rate, nper, pmt, fv, 0 )
+	rewrite pv( rate, nper, pmt ) = PV (rate, nper, pmt, 0, 0 )
+
+	rewrite pmt( rate, nper, pv, fv, type ) =
+		if rate = 0 then -(pv + fv) / nper
+		else
+			let a = (1 + rate) ^ nper
+			let b = pv / (1 - 1 / a)
+			let c =  fv / (a - 1)
+			let d = -(b + c) * rate
+			in if type > 0 then d / (1 + rate) else d
+
+	rewrite pmt( rate, nper, pv, fv ) = PMT (rate, nper, pv, fv, 0 )
+	rewrite pmt( rate, nper, pv ) = PMT (rate, nper, pv, 0, 0 )
+
+	rewrite vdb( cost, salvage, life, start_period, end_period, factor ) = VDB (cost, salvage, life, start_period, end_period, factor, FALSE )
+	rewrite vdb( cost, salvage, life, start_period, end_period ) = VDB( cost, salvage, life, start_period, end_period, 2, FALSE )
+
+	// -------- Probability functions
+
+
+	rewrite normsdist( a ) =
+		let sqrth = 7.07106781186547524401E-1
+		let x =  a * sqrth
+		let z = ABS( x )
+		in
+			if z < sqrth
+			then 0.5 + 0.5 * ERF( x )
+			else
+				let y1 = 0.5 * ERFC( z )
+				in if x > 0 then 1 - y1 else y1
+
+	rewrite normdist( x, mue, sigma, cumulative ) =
+		if sigma <= 0 then err( "#NUM! because sigma <= 0 in NORMDIST" )
+		else
+			if cumulative
+			then NORMSDIST( (x - mue) / sigma )
+			else
+				let x1 = x - mue
+				in EXP( (x1 * x1) / (-2 * sigma * sigma) ) / (SQRT( 2 * PI() ) * sigma)
+
+	rewrite lognormdist( x, mue, sigma ) =
+		if x <= 0 then err( "#NUM! because x <= 0 in LOGNORMDIST" )
+		else if sigma <= 0 then err( "#NUM! because sigma <= 0 in LOGNORMDIST" )
+		else NORMSDIST( (LN( x ) - mue) / sigma )
+
+	// Adopted from gaussinv() implementation for OpenOffice.org Calc by Martin Eitzenberger
+	rewrite normsinv( x ) =
+		if OR(x <= 0, x >= 1) then err( "#NUM! because not 0 < x < 1 in NORMSINV" )
+		else
+			let q = x - 0.5
+			in
+				if ABS( q ) <= 0.425
+				then
+					let t = 0.180625 - q * q
+					in
+						q *
+						(
+							(
+								(
+									(
+										(
+											(
+												(t * 2509.0809287301226727 + 33430.575583588128105)
+											* t + 67265.770927008700853)
+										* t + 45921.953931549871457)
+									* t + 13731.693765509461125)
+								* t + 1971.5909503065514427)
+							* t + 133.14166789178437745)
+						* t + 3.387132872796366608)
+						/
+						(
+							(
+								(
+									(
+										(
+											(
+												(t * 5226.495278852854561 + 28729.085735721942674)
+											* t + 39307.89580009271061)
+										* t + 21213.794301586595867)
+									* t + 5394.1960214247511077)
+								* t + 687.1870074920579083)
+							* t + 42.313330701600911252)
+						* t + 1)
+				else
+					let tt = SQRT( -LN( IF( q > 0, 1 - x, x ) ) )
+					let z =
+						(if tt <= 5
+						then
+							(let t = tt - 1.6 in
+								(
+									(
+										(
+											(
+												(
+													(
+														(t * 7.7454501427834140764e-4 + 0.0227238449892691845833)
+													* t + 0.24178072517745061177)
+												* t + 1.27045825245236838258)
+											* t + 3.64784832476320460504)
+										* t + 5.7694972214606914055)
+									* t + 4.6303378461565452959)
+								* t + 1.42343711074968357734)
+								/
+								(
+									(
+										(
+											(
+												(
+													(
+														(t * 1.05075007164441684324e-9 + 5.475938084995344946e-4)
+													* t + 0.0151986665636164571966)
+												* t + 0.14810397642748007459)
+											* t + 0.68976733498510000455)
+										* t + 1.6763848301838038494)
+									* t + 2.05319162663775882187)
+								* t + 1.0)
+							)
+						else
+							(let t = tt - 5 in
+								(
+									(
+										(
+											(
+												(
+													(
+														(t * 2.01033439929228813265e-7 + 2.71155556874348757815e-5)
+													* t + 0.0012426609473880784386)
+												* t + 0.026532189526576123093)
+											* t + 0.29656057182850489123)
+										* t + 1.7848265399172913358)
+									* t + 5.4637849111641143699)
+								* t + 6.6579046435011037772)
+								/
+								(
+									(
+										(
+											(
+												(
+													(
+														(t * 2.04426310338993978564e-15 + 1.4215117583164458887e-7)
+													* t + 1.8463183175100546818e-5)
+												* t + 7.868691311456132591e-4)
+											* t + 0.0148753612908506148525)
+										* t + 0.13692988092273580531)
+									* t + 0.59983220655588793769)
+								* t + 1.0)
+							)
+						)
+					in if q < 0 then -z else z
+
+	rewrite norminv( x, mue, sigma ) =
+		if OR(x <= 0, x >= 1) then err( "#NUM! because not 0 < x < 1 in NORMINV" )
+		else if sigma <= 0 then err( "#NUM! because sigma <= 0 in NORMINV" )
+		else NORMSINV( x ) * sigma + mue
+
+	rewrite loginv( x, mue, sigma ) =
+		if OR(x <= 0, x >= 1) then err( "#NUM! because not 0 < x < 1 in LOGINV" )
+		else if sigma <= 0 then err( "#NUM! because sigma <= 0 in LOGINV" )
+		else EXP( NORMSINV( x ) * sigma + mue )
+
+	rewrite confidence( alpha, sigma, n ) =
+		if OR(alpha <= 0, alpha >= 1) then err( "#NUM! because not 0 < alpha < 1 in CONFIDENCE" )
+		else if sigma <= 0 then err( "#NUM! because sigma <= 0 in CONFIDENCE" )
+		else if n < 1 then err( "#NUM! because n < 1 in CONFIDENCE" )
+		else NORMSINV( 1 - alpha / 2) * sigma / SQRT( INT( n ) )
+
+	rewrite betadist( x, alpha, beta, a, b ) =
+		if OR(x < a, x > b) then err( "#NUM! because not a <= x <= b in BETADIST" )
+		else if a = b then err( "#NUM! because a = b in BETADIST" )
+		else BETADIST( (x - a) / (b - a), alpha, beta )
+
+	rewrite betadist( x, alpha, beta, a ) = BETADIST( x, alpha, beta, a, 1 )
+
+	rewrite betainv( x, alpha, beta, a, b ) =
+		if a >= b then err( "#NUM! because a >= b in BETAINV" )
+		else BETAINV( x, alpha, beta ) * ( b  - a ) + a
+
+	rewrite betainv( x, alpha, beta, a ) = BETAINV( x, alpha, beta, a, 1 )
+
+	rewrite correl ( xs#, ys# ) =
+		let countX = COUNT(xs)
+		let countY = COUNT(ys)
+		in
+			if countY <> countX then NA()
+			else
+				apply
+					fold with
+						sumX = 0,
+						sumY = 0,
+						sumSqrX = 0,
+						sumSqrY = 0,
+						sumXY = 0
+					each xi, yi as
+						sumX = sumX + xi,
+						sumSqrX = sumSqrX + xi * xi,
+						sumY = sumY + yi,
+						sumSqrY = sumSqrY + yi * yi,
+						sumXY = sumXY + xi * yi
+					with count n into
+						(sumXY - sumX * sumY / n) /
+						SQRT((sumSqrX - sumX * sumX / n) * (sumSqrY - sumY * sumY / n))
+					end
+				to vectors {xs, ys}
+
+	rewrite expondist( x, lambda, kum ) =
+		if OR(lambda <= 0, x < 0) then err( "#NUM! because lambda <= 0 or x < 0 in EXPONDIST" )
+		else if kum = 0
+			then lambda * EXP(-lambda * x)
+			else 1 - EXP(-lambda * x)
+
+	rewrite intercept ( ys#, xs# ) =
+		let countX = COUNT(xs)
+		let countY = COUNT(ys)
+		in
+			if countY <> countX then NA()
+			else
+				apply
+					fold with
+						sumX = 0,
+						sumY = 0,
+						sumSqrX = 0,
+						sumXY = 0
+					each xi, yi as
+						sumX = sumX + xi,
+						sumSqrX = sumSqrX + xi * xi,
+						sumY = sumY + yi,
+						sumXY = sumXY + xi * yi
+					with count n into
+						(sumY - (n * sumXY - sumX * sumY) /
+						(n * sumSqrX - sumX * sumX) * sumX) / n
+					end
+				to vectors {xs, ys}
+
+	rewrite large( xs#, k ) = SMALL(xs, COUNT(xs) - k + 1)
+
+	rewrite median( xs* ) =
+		let countX = COUNT(xs)
+		let n = INT(countX / 2) in
+			if countX / 2 = n then (SMALL(xs, n) + SMALL(xs, n + 1)) / 2
+			else SMALL(xs, n + 1)
+
+	rewrite mode( xs* ) =
+		if COUNT(xs) < 2 then NA() else
+		apply
+			fold with
+				xMed = 0,
+                xCurr = 0,
+				countMed = 0,
+				countCurr = 0
+			each xi as
+				xMed = (if countCurr > countMed then xCurr else xMed),
+				countMed = (if countCurr > countMed then countCurr else countMed),
+				xCurr = xi,
+                countCurr =
+					(apply fold with
+						countX = 0
+					each yi as
+						countX = (if yi = xi then countX + 1 else countX)
+					into
+						if countX > countCurr then countX else countCurr
+					end to list xs)
+			into
+				if countMed <= 1 then NA()
+				else xMed
+			when empty NA()
+			end
+		to list xs
+
+	rewrite percentile( xs#, k ) =
+		let countX = COUNT(xs)
+		let n = INT(k * (countX - 1))
+		let diff = k * (countX - 1) - n
+		let val = SMALL(xs, n + 1) in
+			if diff = 0 then val
+				else val + diff * ( SMALL(xs, n + 2) - val)
+
+	rewrite percentrank( xs#, x, significance ) =
+		if significance < 1 then err( "#NUM! because significance < 1 in PERCENTRANK" )
+		else apply
+			fold with
+				countSmaller = 0,
+				largerX = _maxvalue,
+				smallerX = _minvalue,
+				minX = _maxvalue,
+				maxX = _minvalue
+			each xi as
+				countSmaller = (if xi < x then countSmaller + 1 else countSmaller),
+				largerX = (if xi >= x then xi _min_ largerX else largerX),
+				smallerX = (if xi <= x then xi _max_ smallerX else smallerX),
+				minX = minX _min_ xi,
+				maxX = maxX _max_ xi
+			with count n into
+				if largerX = x then
+				    if n = 1 then 1
+				    else TRUNC(countSmaller / (n-1), significance)
+			    else if OR( x < minX, x > maxX ) then NA()
+				else
+					let fract = (x - smallerX) / (largerX - smallerX) in
+						TRUNC((countSmaller - 1 + fract) / (n - 1), significance)
+			end
+		to vectors {xs}
+
+	rewrite percentrank( xs#, x ) = PERCENTRANK(xs, x, 3)
+
+	rewrite quartile( xs#, k ) =
+	    if OR(k < 0, k >= 5) then err( "#NUM! because not k < 0 or k >= 5 in QUARTILE" )
+	    else PERCENTILE(xs, 0.25 * INT(k))
+
+	rewrite small( xs#, k ) =
+		if OR(k > COUNT(xs), k < 1) then err( "#NUM! because not 1 <= k <= n in SMALL/LARGE" )
+		else
+			apply
+				fold with
+					x = -_maxvalue,
+					num = 1
+				each xi as
+					x = ( if num > k then x else
+						(apply fold with
+							el = _maxvalue,
+							i = 0
+						each xi as
+							i = (if xi <= x then i + 1 else i),
+							el = (if xi > x then xi _min_ el else el)
+						into
+							if i >= num then x else el
+						end to vectors {xs})),
+					num = num + 1
+				into x
+				when empty NA()
+				end
+			to vectors {xs}
+
+	rewrite trimmean( xs#, k ) =
+		if OR(k < 0, k >= 1) then err( "#NUM! because not 0 <= k < 1 in TRIMMEAN" )
+		else
+			let cut = INT(k * COUNT(xs) / 2) in
+			if cut = 0 then AVERAGE(xs)
+			else
+				let max_el = LARGE(xs, cut)
+				let min_el = SMALL(xs, cut) in
+					apply
+						fold with
+							sum = 0,
+							max_count = 0,
+							min_count = 0
+						each xi as
+							max_count = (if xi >= max_el then max_count + 1 else max_count),
+							min_count = (if xi <= min_el then min_count + 1 else min_count),
+							sum = (if AND(xi < max_el, xi > min_el) then sum + xi else sum)
+						with count n into
+							(sum + (max_count - cut) * max_el + (min_count - cut) * min_el) / (n - 2 * cut)
+						end
+					to vectors {xs}
+
+	rewrite prob( ws#, ps#, lo_limit, up_limit) =
+		if COUNT(ws) <> COUNT(ps) then NA() else
+		apply
+			fold with
+				res = 0,
+//				errVal = 0,
+				sum = 0
+			each wi, pi as
+				// described in excel documentation but not realized
+//				errVal = (if OR(pi < 0, pi > 1) then 1 else errVal),
+				res = res + (if AND(wi >= lo_limit , wi <= up_limit) then pi else 0),
+				sum = sum + pi
+			with count n into
+				// described in excel documentation but not realized
+//				if errVal <> 0 then err( "#NUM! because prob_range < 0 or prob_range > 1 in PROB" ) else 
+				if ABS(sum - 1) > 0.0000001 then err( "#NUM! because the sum of probabilities != 1 in PROB" )
+				else res
+			when empty err( "#DIV/0! because list doesn't contain numbers in PROB" )
+			end
+		to vectors {ws, ps}
+
+	rewrite prob( xs#, ys#, lo_limit ) = PROB (xs, ys, lo_limit, lo_limit)
+
+	rewrite slope ( ys#, xs# ) =
+		let countX = COUNT(xs)
+		let countY = COUNT(ys)
+		in
+			if countY <> countX then NA()
+			else
+				apply
+					fold with
+						sumX = 0,
+						sumY = 0,
+						sumSqrX = 0,
+						sumXY = 0
+					each xi, yi as
+						sumX = sumX + xi,
+						sumSqrX = sumSqrX + xi * xi,
+						sumY = sumY + yi,
+						sumXY = sumXY + xi * yi
+					with count n into
+						(n * sumXY - sumX * sumY) / (n * sumSqrX - sumX * sumX)
+					end
+				to vectors {xs, ys}
+
+	rewrite forecast ( x, ys#, xs# ) =
+		let countX = COUNT(xs)
+		let countY = COUNT(ys)
+		in
+			if countY <> countX then NA()
+			else
+				apply
+					fold with
+						sumX = 0,
+						sumY = 0,
+						sumSqrX = 0,
+						sumXY = 0
+					each xi, yi as
+						sumX = sumX + xi,
+						sumSqrX = sumSqrX + xi * xi,
+						sumY = sumY + yi,
+						sumXY = sumXY + xi * yi
+					with count n into
+						(sumY + (n * sumXY - sumX * sumY) /
+						(n * sumSqrX - sumX * sumX) * (n * x - sumX)) / n
+					end
+				to vectors {xs, ys}
+
+	rewrite negbinomdist( x, r, p ) =
+		if NOT( AND( 0 < p, p < 1, x >= 0, r >= 1 )) then
+			err( "#NUM! because not 0 < p < 1, x >= 0, r >= 1 in NEGBINOMDIST" )
+		else
+			let ix = INT( x )
+			let ir = INT( r )
+			in COMBIN( ix + ir - 1, ir - 1 ) * p^ir * (1-p)^ix
+
+	rewrite fdist( x, df1, df2 ) =
+		let idf1 = INT( df1 )
+		let idf2 = INT( df2 )
+		in
+			if OR( x < 0, idf1 < 1, idf2 < 1 ) then err( "#NUM! because x < 0 or df1 < 0 or df2 < 0 in FDIST" )
+			else BETADIST( idf2 / (idf2 + idf1 * x), idf2 / 2, idf1 / 2 )
+
+	rewrite fisher( x ) =
+		if ABS( x ) >= 1 then err( "#NUM! because not -1 < x < 1 in FISHER" )
+		else LN((1 + x) / (1 - x)) / 2
+
+	rewrite fisherinv( x ) =
+		(EXP(2 * x) - 1) / (EXP(2 * x) + 1)
+
+	rewrite standardize( x, mue, sigma ) =
+		if sigma <= 0 then err( "#NUM! because sigma <= 0 in STANDARDIZE" )
+		else (x - mue) / sigma
+
+	rewrite chitest( xs#, ys#, colsX, rowsX, colsY, rowsY ) =
+		// In excel documentation checking have to work so:
+//		if OR(colsX <> colsY, rowsX <> rowsY, colsX = 0, colsY = 0, rowsX = 0, rowsY = 0 ) then
+//			NA() // This is unusual, but it's how Excel does it.
+		// But really excel checks only lengths
+		if OR(COUNT(xs) <> COUNT(ys), COUNT(xs) <= 1) then
+			NA()
+		else
+			apply
+				fold with
+					chi = 0
+				each xi, yi as
+					chi = chi + (xi - yi) * (xi - yi) / yi
+				with count n into
+					if OR(colsX = 1, rowsX = 1) then
+						let df = (colsX  * rowsX - 1) in
+							CHIDIST(chi, df)
+					else
+						let df = (colsX - 1) * (rowsX - 1) in
+							CHIDIST(chi, df)
+				end
+			to vectors {xs, ys}
+
+	rewrite ftest( xs#, ys# ) =
+		let countX = COUNT(xs)
+		let countY = COUNT(ys)
+		let eps = 0.000001
+		in
+			if OR(countX < 2, countY < 2) then err( "#NUM! because vectors too short (<2) in FTEST" )
+			else
+				let sumX = SUM(xs)
+				let sumSqrX = SUMSQ(xs)
+				let sumY = SUM(ys)
+				let sumSqrY = SUMSQ(ys)
+				let sX = (sumSqrX - sumX * sumX / countX) / (countX - 1)
+				let sY = (sumSqrY - sumY * sumY / countY) / (countY - 1)
+				in
+					if OR(ABS(sX) < eps, ABS(sY) < eps) then err( "#DIV/0! in FTEST" )
+					else if sX > sY then
+						2 * FDIST(sX / sY, countX - 1, countY - 1)
+					else
+						2 * FDIST(sY / sX, countY - 1, countX - 1)
+
+	rewrite pearson( xs#, ys# ) =
+		let countX = COUNT(xs)
+		let countY = COUNT(ys)
+		in
+			if OR(countX = 0, countY <> countX) then NA()
+			else
+				apply
+					fold with
+						sumX = 0,
+						sumY = 0,
+						sumSqrX = 0,
+						sumSqrY = 0,
+						sumXY = 0
+					each xi, yi as
+						sumX = sumX + xi,
+						sumY = sumY + yi,
+						sumSqrX = sumSqrX + xi * xi,
+						sumSqrY = sumSqrY + yi * yi,
+						sumXY = sumXY + xi * yi
+					with count n into
+						let tmp_val = (n * sumSqrX - sumX * sumX) * (n * sumSqrY - sumY * sumY)
+						in
+							(n * sumXY - sumX * sumY) / SQRT(tmp_val)
+					end
+				to vectors {xs, ys}
+
+	rewrite sumx2my2( xs#, ys# ) =
+		if COUNT(xs) <> COUNT(ys) then NA()
+		else
+			apply
+				fold with
+					sxy = 0
+				each xi, yi as
+					sxy = sxy + xi * xi - yi * yi
+				into
+					sxy
+				end
+			to vectors {xs, ys}
+
+	rewrite sumx2py2( xs#, ys# ) =
+		if COUNT(xs) <> COUNT(ys) then NA()
+		else
+			apply
+				fold with
+					sxy = 0
+				each xi, yi as
+					sxy = sxy + xi * xi + yi * yi
+				into
+					sxy
+				end
+			to vectors {xs, ys}
+
+	rewrite sumxmy2( xs#, ys# ) =
+		if COUNT(xs) <> COUNT(ys) then NA()
+		else
+			apply
+				fold with
+					sxy = 0
+				each xi, yi as
+					sxy = sxy + (let xmy = xi - yi in xmy * xmy)
+				into
+					sxy
+				end
+			to vectors {xs, ys}
+
+	rewrite rsq( xs#, ys# ) =
+		let countX = COUNT(xs)
+		let countY = COUNT(ys)
+		in
+			if OR(countX = 0, countY <> countX) then NA()
+			else
+				apply
+					fold with
+						sumX = 0,
+						sumY = 0,
+						sumSqrX = 0,
+						sumSqrY = 0,
+						sumXY = 0
+					each xi, yi as
+						sumX = sumX + xi,
+						sumY = sumY + yi,
+						sumSqrX = sumSqrX + xi * xi,
+						sumSqrY = sumSqrY + yi * yi,
+						sumXY = sumXY + xi * yi
+					with count n into
+						let tmp_val1 = n * sumSqrX - sumX * sumX
+						let tmp_val2 = n * sumSqrY - sumY * sumY
+						in
+							(n * sumXY - sumX * sumY) * (n * sumXY - sumX * sumY) / tmp_val1 / tmp_val2
+					end
+				to vectors {xs, ys}
+
+	rewrite steyx ( ys#, xs# ) =
+		let countX = COUNT(xs)
+		let countY = COUNT(ys)
+		in
+			if countY <> countX then NA()
+			else if countX < 3 then err( "#DIV/0! because vectors too short (<3) in STEYX" )
+			else
+				apply
+					fold with
+						sumX = 0,
+						sumY = 0,
+						sumSqrX = 0,
+						sumSqrY = 0,
+						sumXY = 0
+					each xi, yi as
+						sumX = sumX + xi,
+						sumSqrX = sumSqrX + xi * xi,
+						sumY = sumY + yi,
+						sumSqrY = sumSqrY + yi * yi,
+						sumXY = sumXY + xi * yi
+					with count n into
+						let var1 = (n * sumSqrY - sumY * sumY -
+							(n * sumXY - sumX * sumY) * (n * sumXY - sumX * sumY)/
+							(n * sumSqrX - sumX * sumX) ) / n / (n - 2)
+						in
+							SQRT(var1)
+					end
+				to vectors {xs, ys}
+
+	rewrite ttest( xs#, ys#, tails, type ) =
+		if AND(tails <> 1, tails <> 2) then err( "#NUM! because not tails in {1,2} in TTEST" )
+		else
+			let countX = COUNT(xs)
+			let countY = COUNT(ys)
+			let sumX = SUM(xs)
+			let sumY = SUM(ys)
+			let sumSqrX = SUMSQ(xs)
+			let sumSqrY = SUMSQ(ys)
+			in
+				if type = 1 then
+					if OR(countX <> countY, countX < 1) then NA()
+					else
+						apply
+							fold with
+								sumSqrD = 0
+							each xi, yi as
+								sumSqrD = sumSqrD + (xi - yi) * (xi - yi)
+							into
+								let denom = countX * sumSqrD - (sumX - sumY) * (sumX - sumY)
+								in
+									if denom <= 0 then err( "#DIV/0! in TTEST" )
+									else
+										let t = SQRT(countX-1) * ABS(sumX - sumY) / SQRT(denom)
+										let f = countX - 1
+										in TDIST(t, f, tails)
+							end
+						to vectors {xs, ys}
+				else if type = 2 then
+				    if OR(countX <= 1, countY <= 1) then err( "#NUM! because vectors too short (<2)  in TTEST" )
+				    else
+						let sX = (sumSqrX - sumX * sumX / countX) / (countX - 1)
+						let sY = (sumSqrY - sumY * sumY / countY) / (countY - 1)
+						in
+							let tmp_val = (countX - 1) * sX + (countY - 1) * sY
+							in
+								let t = ABS(sumX / countX - sumY / countY) / SQRT(tmp_val) *
+									SQRT(countX * countY * (countX + countY - 2) / (countX + countY))
+								let f = countX + countY - 2
+								in TDIST(t, f, tails)
+				else if type = 3 then
+				    if OR(countX <= 1, countY <= 1) then err( "#NUM! because vectors too short (<2)  in TTEST" )
+				    else
+						let sX = (sumSqrX - sumX * sumX / countX) / (countX - 1) / countX
+						let sY = (sumSqrY - sumY * sumY / countY) / (countY - 1) / countY
+						in
+							let t = ABS(sumX / countX - sumY / countY) / SQRT(sX + sY)
+							in
+								let f = (sX + sY) * (sX + sY) / (sX * sX / (countX - 1) + sY * sY / (countY - 1))
+								// TDIST distribution without rounding of 'f' parameter
+								in TDIST(t, f, tails, 1)
+				else err( "#NUM! because not type in {1, 2, 3} in TTEST" )
+
+
+	rewrite ztest( xs#, mue, sigma ) =
+		// have to count only numeric values
+		let countXs = COUNT(xs)
+		in
+			if countXs < 1 then NA()
+			else if sigma <= 0 then err( "#NUM! because sigma <= 0 in ZTEST" )
+			else
+				let medXs = AVERAGE(xs)
+				in 1 - NORMSDIST((medXs - mue) / ( sigma / SQRT(countXs)))
+
+	rewrite ztest( xs#, x ) =
+		let sigma = STDEV(xs)
+    	in ZTEST( xs, x, sigma )
+
+	// -------- Statistical functions
+
+
+	// citation: covar
+	rewrite covar( xs#, ys# ) =
+		if COUNT( xs ) <> COUNT( ys ) then NA() else
+		apply
+			fold with
+				sx = 0,
+				sy = 0,
+				sxy = 0
+			each xi, yi as
+				sx = sx + xi,
+				sy = sy + yi,
+				sxy = sxy + xi * yi
+			with count n into
+				(sxy - sx*sy/n) / n
+			when empty err( "#DIV/0! because list doesn't contain numbers in COVAR" )                                 
+			end
+		to vectors {xs, ys}
+	// citation: covar
+
+	rewrite sumsq( xs* ) =
+		apply fold with s = 0 each xi as s = s + xi * xi end
+		to list xs
+
+	rewrite rank( number, xs#, order ) =
+		if order = 0
+		then
+			apply
+				fold with r = 1
+				each xi as r = r + (number < xi)
+				end
+			to vectors {xs}
+		else
+			apply
+				fold with r = 1
+				each xi as r = r + (number > xi)
+				end
+			to vectors {xs}
+	rewrite rank( number+, ref+ ) = RANK( number, ref, 0 )
+
+	rewrite kurt( xs* ) =
+		let n = COUNT(xs)
+		let a = n - 1
+		let b = (n - 2) * (n - 3)
+		let s = STDEV(xs)
+		let m = SUM(xs) / n
+		in
+			(	apply
+					fold with r = 0 each xi as
+						r = r +
+							(	let ei = (xi - m)/s
+								let ei2 = ei * ei
+								in ei2 * ei2
+							)
+					end
+				to list xs
+			) * n * (n + 1) / (a * b) - 3 * a * a / b
+
+	rewrite skew( xs* ) =
+		let n = COUNT(xs)
+		let s = STDEV(xs)
+		let s3 = s*s*s
+		let m = SUM(xs) / n
+		in
+			(	apply
+					fold with r = 0 each xi as
+						r = r + (let ei = xi - m in ei*ei*ei)
+					end
+				to list xs
+			) / s3 * n / ((n - 1) * (n - 2))
+
+	rewrite avedev( xs* ) =
+		let n = COUNT(xs)
+		let m = SUM(xs) / n
+		in
+			(	apply
+					fold with r = 0 each xi as r = r + ABS( m - xi ) end
+				to list xs
+			) / n
+
+	rewrite devsq( xs* ) =
+		let n = COUNT(xs)
+		let m = SUM(xs) / n
+		in
+			apply fold with r = 0 each xi as r = r + (let ei = xi - m in ei*ei) end
+			to list xs
+
+	// -------- Date/time functions
+
+	rewrite days360(start_date, end_date) = DAYS360(start_date, end_date, 0)
+
+}

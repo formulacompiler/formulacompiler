@@ -1,0 +1,162 @@
+
+h1. Quick Start
+
+<%= toc %>
+
+Have you "downloaded":download/index.htm? Good. Now let's get your first compiled spreadsheet up and running. I'll show you how to...
+
+	* create a spreadsheet defining a customized line item price computation,
+	* make AFC compile it to Java classes,
+	* use those classes in your application,
+	* look at the generated code, and
+	* save and reload the classes from a .jar file.
+
+
+h2. The Problem
+
+We will flesh out the blurb from the home page:
+
+	[jc:org.formulacompiler.tutorials.QuickStart:---- Blurb]
+
+This is a fictional example about finding the total price for a line item with
+
+	* a base article price, 
+	* a count of items, and
+	* the customer category (for automatic rebates).
+
+
+h2. The Spreadsheet
+
+Here's the spreadsheet-defined formula our user wants the application to use:
+
+	[xc:org/formulacompiler/tutorials/CustomPriceFormula.xls;formulas-only]
+
+Please create this spreadsheet now and save it somewhere under the name @CustomPriceFormula.xls@.
+
+
+h2. The Project
+
+Create a new Java project for this demo application now. Add to it references to the following libraries you obtained from the download:
+
+	build/formulacompiler-runtime.jar
+	build/formulacompiler-compiler.jar
+	build/formulacompiler-spreadsheet.jar
+	build/formulacompiler-spreadsheet-excel-xls.jar
+	build/formulacompiler-decompiler.jar
+	build/lib/asm-x.y.jar
+	build/lib/asm-commons-x.y.jar
+	build/lib/jxl.jar
+	build/lib/jode-decompiler.jar
+
+Then create a main class in it. Unless your IDE can find and organize imports automatically, you might also want to add these to your main class:
+
+	[jc:org.formulacompiler.tutorials.QuickStart:---- Imports]
+
+
+h2. The Interfaces
+
+In essence, what AFC compiles from the spreadsheet is a _computation strategy implementation_. So we need the customary factory and doer interfaces that go with a strategy:
+
+	[jc:org.formulacompiler.tutorials.QuickStart:---- PriceFinderIntf]
+
+Paste these directly into your main class (they are nested classes in this example, but AFC is just as happy with top-level classes).
+
+We'll also need the line item, which provides input data to the computation:
+
+	[jc:org.formulacompiler.tutorials.QuickStart:---- LineItemIntf]
+
+It's obviously a dummy. Paste it into the main class as well, together with the following dummy getter:
+
+	[jc:org.formulacompiler.tutorials.QuickStart:---- LineItemGetter]
+
+
+h2. The Compilation
+
+We're ready to compile now. Add the following two methods, that I'll explain shortly:
+
+	[jc:org.formulacompiler.tutorials.QuickStart:---- Compile]
+
+Also add a constant for the path where you saved the spreadsheet. In my code, it's:
+
+	[jc:org.formulacompiler.tutorials.QuickStart:---- Path]
+
+Let's go through this now:
+
+	* First, we get a new engine builder. It gives us a simplified API onto AFC.
+	
+	* We tell the builder to load the spreadsheet you created earlier on. AFC detects the appropriate loader to use by the file's extension. It currently supports Microsoft Excel (.xls) and OpenOffice Calc (.ods), and maybe others - check the "release notes":download/releasenotes.htm for details.
+
+	* We inform the builder of our factory class. It can usually infer from this the input interface, @LineItem@, and the output interface, @PriceFinder@, by itself (if not, you can given them explicitly; you can then also omit the factory interface altogether).
+
+	* We tell the builder to bind spreadsheet cells to our interface methods _by name_. In short, any cell named after a method on the input interface, @LineItem@, gets its value from that method in the compiled formula. A cell named after a method on the output interface, @PriceFinder@, is used to implement that method. (The binder is smart about dropping the @get@ prefix on method names and is not case sensitive.)
+
+	* But wait, we don't have any cell names in this spreadsheet. What's going on? AFC automatically creates cell names from row titles (string values in column A are applied as names for corresponding cells in column B) when a sheet has no cell names and you use @bindAllByName()@.
+	
+	* That's it. We tell the builder to compile the thing. It returns a so-called _engine_ (which we'll later use to save, reload, and decompile), but the most important method on the engine is the one we use on our second method: @getComputationFactory()@.
+
+
+h2. The Computation
+
+We now look at how the resulting price finder is used. Since AFC compiles spreadsheets to regular JVM classes, there's no magic at all when using a precompiled computation:
+
+	[jc:org.formulacompiler.tutorials.QuickStart:---- Compute]
+
+So let's make this runnable:
+
+	[jc:org.formulacompiler.tutorials.QuickStart:---- Main]
+
+Go ahead. Run it.
+
+
+h2. The Code
+
+Would you also like to know just what exactly the generated @PriceFinder@ implementation does? You can. AFC wraps a nifty external library, "Jode":-jode, to _decompile generated code_ to plain Java source again for just this purpose. Let's use this:
+
+	[jc:org.formulacompiler.tutorials.QuickStart:---- Decompile]
+
+You can change the output folder, of course. Now add the following at the end of the @main@ method:
+
+	[jc:org.formulacompiler.tutorials.QuickStart:---- Main-Decompile]
+
+Run it again. Then look into the output folder. You should find the following there. First, the generated computation:
+
+	[jc:quickstart/org.formulacompiler.gen.$Root]
+
+Second, it's corresponding factory:
+
+	[jc:quickstart/org.formulacompiler.gen.$Factory]
+
+
+h2. The Runtime
+
+Computations compiled by AFC are plain compiled Java classes. They rely only on a single small runtime library, @formulacompiler-runtime.jar@. So it's good practice to simply save them to a .jar file and reuse them from there across application starts (or to even split the compiling application from the using application). However, they do require a special classloader. AFC therefore provides special methods to save and load engines properly.
+
+First, let's save our engine:
+
+	[jc:org.formulacompiler.tutorials.QuickStart:---- Save]
+
+Loading it back is just as easy:
+
+	[jc:org.formulacompiler.tutorials.QuickStart:---- Load]
+
+Again, add the following to the main method to make it runnable:
+
+	[jc:org.formulacompiler.tutorials.QuickStart:---- Main-Save-Load]
+
+Alright. Run it.
+
+
+h2. Summary
+
+As promised, you just...
+
+	* created a spreadsheet defining a customized line item price computation,
+	* made AFC compile it to Java classes,
+	* used those classes in your application,
+	* looked at the generated code in Java source form, and
+	* saved and reloaded the classes from a .jar file.
+
+Hopefully, you also played around with the spreadsheet, compiling different formulas. You really should.
+
+Not bad. Now "learn more":doc/index.htm about the goals, the design, the API, and the supported functions of AFC.
+
