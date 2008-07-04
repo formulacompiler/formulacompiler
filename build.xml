@@ -629,11 +629,21 @@
 
 	<target name="@pack-tools" depends="@init">
 		<echo>Bundling tools: ${tools.version}</echo>
+		<delete dir="${dist.tmp.dir}" />
+		<mkdir dir="${dist.tmp.dir}/tools" />
+		<copy todir="${dist.tmp.dir}/tools">
+			<fileset dir="${tools.dir}">
+				<include name="**" />
+				<exclude name="**/.DS@Store" />
+				<exclude name="**/.svn" />
+			</fileset>
+		</copy>
 		<mkdir dir="${dist.dir}" />
 		<property name="tools.name" value="${basename}-${tools.version}-tools.zip" />
 		<property name="tools.file" value="${dist.dir}/${tools.name}" />
 		<delete file="${tools.file}" />
-		<zip basedir="${tools.dir}" destfile="${tools.file}" filesonly="no" />
+		<zip basedir="${dist.tmp.dir}" destfile="${tools.file}" filesonly="no"/>
+		<delete dir="${dist.tmp.dir}" />
 	</target>
 
 	<!-- clean -->
